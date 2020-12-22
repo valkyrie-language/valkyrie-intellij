@@ -1,16 +1,19 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
-# jss-intellij Changelog
+# Fluent Intellij Changelog
 
+## [0.2.2]
+### Change
+- Update to 2022 version (`221.*`)
 
-
-## [0.1.1]
-
+## [0.2.1]
 ### Fixed
-- Fix incompatibility issues
+- Fix syntax highlight of string escaping
 
+## [0.2.0]
+### Fixed
+- Fix syntax highlight of string escaping
 
 ## [0.1.0]
-
 ### Added
 - Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)

@@ -1,1 +1,1 @@
-rootProject.name = "awsl-intellij"
+rootProject.name = "Valkyrie Intellij"

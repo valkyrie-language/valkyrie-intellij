@@ -1,103 +1,98 @@
 <idea-plugin>
-	<id>com.github.voml.jss_intellij</id>
-	<name>JSS Support</name>
+	<id>Valkyrie</id>
+	<name>Valkyrie Language</name>
 	<vendor>voml</vendor>
-
-	<description><![CDATA[
-Intellij plugin for [VOML](https://github.com/voml), support all IDEs.
-
-## Features
-- Syntax Highlight
-- Braces Matcher
-    ]]></description>
-
 	<!-- Product and plugin compatibility requirements -->
 	<!-- https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
 	<depends>com.intellij.modules.platform</depends>
 	<!--    <depends optional="true" config-file="plugin-with-rust.xml">org.rust.lang</depends>-->
-	<resource-bundle>messages.JssBundle</resource-bundle>
+	<resource-bundle>messages.ValkyrieBundle</resource-bundle>
 	<extensions defaultExtensionNs="com.intellij">
 		<fileType
-			name="JSS"
-			language="JSS"
-			extensions="jss"
-			implementationClass="com.github.voml.jss_intellij.ide.file_view.JssFileType"
-			fieldName="INSTANCE"
+				name="Fluent"
+				language="Valkyrie"
+				extensions="ftl;"
+				implementationClass="com.github.valkyrie.ide.view.FluentFileType"
+				fieldName="INSTANCE"
 		/>
 		<lang.parserDefinition
-			language="JSS"
-			implementationClass="com.github.voml.jss_intellij.JssParserDefinition"
+				language="Valkyrie"
+				implementationClass="com.github.valkyrie.language.psi.FluentParserDefinition"
 		/>
-		<projectViewNestingRulesProvider implementation="com.github.voml.jss_intellij.ide.file_view.JssFileGroup"/>
+		<!-- StructureView -->
+		<!--iconProvider implementation="com.github.valkyrie.ide.view.FluentIconProvider"-->
+		<lang.psiStructureViewFactory language="Valkyrie"
+		                              implementationClass="com.github.valkyrie.ide.view.FluentStructureViewFactory"/>
+		<projectViewNestingRulesProvider implementation="com.github.valkyrie.ide.view.FluentFileGroup"/>
 		<!-- Highlight -->
-		<additionalTextAttributes scheme="Default" file="colors/JssDefault.xml"/>
-		<additionalTextAttributes scheme="Darcula" file="colors/JssDarcula.xml"/>
-		<colorSettingsPage implementation="com.github.voml.jss_intellij.ide.highlight.JssColorSettingsPage"/>
-		<highlightVisitor implementation="com.github.voml.jss_intellij.ide.highlight.JssHighlightVisitor"/>
+		<additionalTextAttributes scheme="Default" file="colors/ValkyrieDefault.xml"/>
+		<additionalTextAttributes scheme="Darcula" file="colors/ValkyrieDarcula.xml"/>
+		<colorSettingsPage implementation="com.github.valkyrie.ide.highlight.FluentHighlightSetting"/>
+		<highlightVisitor implementation="com.github.valkyrie.ide.highlight.FluentHighlightVisitor"/>
 		<lang.syntaxHighlighter
-			language="JSS"
-			implementationClass="com.github.voml.jss_intellij.ide.highlight.JssSyntaxHighlighter"
+				language="Valkyrie"
+				implementationClass="com.github.valkyrie.ide.highlight.FluentSyntaxHighlighter"
 		/>
 		<!-- Formatter -->
 		<lang.formatter
-			language="JSS"
-			implementationClass="com.github.voml.jss_intellij.ide.formatter.JssFormattingModelBuilder"
+				language="Valkyrie"
+				implementationClass="com.github.valkyrie.ide.formatter.FluentFormatBuilder"
 		/>
 		<lang.commenter
-			language="JSS"
-			implementationClass="com.github.voml.jss_intellij.ide.formatter.JssCommenter"
+				language="Valkyrie"
+				implementationClass="com.github.valkyrie.ide.formatter.JssCommenter"
 		/>
 		<lang.smartEnterProcessor
-			language="JSS"
-			implementationClass="com.github.voml.jss_intellij.ide.formatter.JssSmartEnter"
+				language="Valkyrie"
+				implementationClass="com.github.valkyrie.ide.formatter.JssSmartEnter"
 		/>
 		<!-- Document -->
-		<!--documentationProvider implementation="com.github.voml.jss_intellij.ide.doc.JssDocumentationExtender"-->
-		<lang.documentationProvider
-			language="JSS"
-			implementationClass="com.github.voml.jss_intellij.ide.doc.JssDocumentationProvider"
-		/>
-
+		<!--documentationProvider implementation="com.github.valkyrie.ide.doc.JssDocumentationExtender"-->
+<!--		<psi.referenceContributor implementation="com.github.valkyrie.ide.doc.JssUrlReferenceContributor"/>-->
+<!--		<lang.documentationProvider-->
+<!--				language="Valkyrie"-->
+<!--				implementationClass="com.github.valkyrie.ide.doc.JssDocumentationProvider"-->
+<!--		/>-->
 		<lang.braceMatcher
-			language="JSS"
-			implementationClass="com.github.voml.jss_intellij.ide.matcher.JssBraceMatcher"
+				language="Valkyrie"
+				implementationClass="com.github.valkyrie.ide.matcher.FluentBraceMatcher"
 		/>
-		<lang.quoteHandler
-			language="JSS"
-			implementationClass="com.github.voml.jss_intellij.ide.matcher.JssQuoteHandler"
-		/>
+<!--		<lang.quoteHandler-->
+<!--				language="Valkyrie"-->
+<!--				implementationClass="com.github.valkyrie.ide.matcher.JssQuoteHandler"-->
+<!--		/>-->
 		<lang.foldingBuilder
-			language="JSS"
-			implementationClass="com.github.voml.jss_intellij.ide.matcher.JssFoldingBuilder"
+				language="Valkyrie"
+				implementationClass="com.github.valkyrie.ide.matcher.FluentFoldingBuilder"
 		/>
-		<indexPatternBuilder
-			implementation="com.github.voml.jss_intellij.ide.todo.VomlTodoIndexPatternBuilder"
-		/>
-		<todoIndexer
-			filetype="JSS"
-			implementationClass="com.github.voml.jss_intellij.ide.todo.VomlTodoIndexer"
-		/>
-		<completion.contributor
-			language="JSS"
-			implementationClass="com.github.voml.jss_intellij.ide.completion.VomlOptionCompletionContributor"
-		/>
+<!--		<indexPatternBuilder-->
+<!--				implementation="com.github.valkyrie.ide.todo.VomlTodoIndexPatternBuilder"-->
+<!--		/>-->
+<!--		<todoIndexer-->
+<!--				filetype="Fluent"-->
+<!--				implementationClass="com.github.valkyrie.ide.todo.VomlTodoIndexer"-->
+<!--		/>-->
+<!--		<completion.contributor-->
+<!--				language="Valkyrie"-->
+<!--				implementationClass="com.github.valkyrie.ide.completion.VomlOptionCompletionContributor"-->
+<!--		/>-->
 
-		<annotator language="JSS" implementationClass="com.github.voml.jss_intellij.ide.annotator.LiteralChecker"/>
+		<annotator language="Valkyrie" implementationClass="com.github.valkyrie.ide.annotator.LiteralChecker"/>
 
 		<langCodeStyleSettingsProvider
-			implementation="com.github.voml.jss_intellij.ide.codeStyle.VomlLanguageCodeStyleSettingsProvider"
+				implementation="com.github.valkyrie.ide.codeStyle.VomlLanguageCodeStyleSettingsProvider"
 		/>
 
 	</extensions>
 	<actions>
-		<action id="NewJssFile"		        class="com.github.voml.jss_intellij.ide.actions.JssCreateFile">
+		<action id="NewFluentFile" class="com.github.valkyrie.ide.actions.FluentCreateFile">
 			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewHtmlFile"/>
 		</action>
 		<action id="jss.JssConvertJson"
-		        class="com.github.voml.jss_intellij.ide.actions.JssConvertJson"/>
+		        class="com.github.valkyrie.ide.actions.FluentConvertMo"/>
 		<group id="jss.JssGenerator" popup="true" text="JssGenerator">
-			<reference ref="NewJssFile"/>
-			<reference ref="jss.JssConvertJson"/>
+			<reference ref="NewFluentFile"/>
+<!--			<reference ref="jss.JssConvertJson"/>-->
 			<add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="Github.Create.Gist"/>
 			<add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="Github.Create.Gist"/>
 			<add-to-group group-id="EditorTabPopupMenu" anchor="after" relative-to-action="Github.Create.Gist"/>
