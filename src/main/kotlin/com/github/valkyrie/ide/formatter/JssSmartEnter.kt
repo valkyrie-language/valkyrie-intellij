@@ -1,6 +1,6 @@
 package com.github.valkyrie.ide.formatter
 
-import com.github.valkyrie.ide.view.FluentFile
+import com.github.valkyrie.ide.view.VkFile
 import com.intellij.lang.SmartEnterProcessorWithFixers
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
@@ -27,7 +27,7 @@ class JssSmartEnter : SmartEnterProcessorWithFixers() {
 
     private class PlainEnterProcessor : FixEnterProcessor() {
         override fun doEnter(atCaret: PsiElement, file: PsiFile, editor: Editor, modified: Boolean): Boolean {
-            if (file !is FluentFile) return false
+            if (file !is VkFile) return false
             plainEnter(editor)
             return true
         }

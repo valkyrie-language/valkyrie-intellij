@@ -11,8 +11,8 @@
 		<fileType
 				name="Fluent"
 				language="Valkyrie"
-				extensions="ftl;"
-				implementationClass="com.github.valkyrie.ide.view.FluentFileType"
+				extensions="vk;"
+				implementationClass="com.github.valkyrie.ide.view.VkFileType"
 				fieldName="INSTANCE"
 		/>
 		<lang.parserDefinition
@@ -23,7 +23,7 @@
 		<!--iconProvider implementation="com.github.valkyrie.ide.view.FluentIconProvider"-->
 		<lang.psiStructureViewFactory language="Valkyrie"
 		                              implementationClass="com.github.valkyrie.ide.view.FluentStructureViewFactory"/>
-		<projectViewNestingRulesProvider implementation="com.github.valkyrie.ide.view.FluentFileGroup"/>
+		<projectViewNestingRulesProvider implementation="com.github.valkyrie.ide.view.VkFileGroup"/>
 		<!-- Highlight -->
 		<additionalTextAttributes scheme="Default" file="colors/ValkyrieDefault.xml"/>
 		<additionalTextAttributes scheme="Darcula" file="colors/ValkyrieDarcula.xml"/>

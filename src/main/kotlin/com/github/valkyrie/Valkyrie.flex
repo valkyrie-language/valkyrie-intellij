@@ -41,7 +41,7 @@ public void match_indent() {
 %}
 
 %public
-%class _FluentLexer
+%class _ValkyrieLexer
 %implements FlexLexer
 %function advance
 %type IElementType
@@ -55,7 +55,7 @@ public void match_indent() {
 %state SelectionStart
 %state SelectionText
 
-WHITE_SPACE=[\s\t]
+WHITE_SPACE=[\s\t\r\n]+
 COMMENT_DOCUMENT=("///")[^\r\n]*
 COMMENT_LINE = #{1,3}[^\r\n]*
 COMMENT_BLOCK=[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]
@@ -65,27 +65,17 @@ BYTE=(0[bBoOxXfF][0-9A-Fa-f][0-9A-Fa-f_]*)
 INTEGER=(0|[1-9][0-9_]*)
 DECIMAL=([0-9]+\.[0-9]*([Ee][0-9]+)?)|(\.[0-9]+([Ee][0-9]+)?)
 
-TEXT_LINE_HEAD = [^\r\n\s\t{}][^\r\n{}]*
-TEXT_LINE = [^\r\n{}]+
-
 ESCAPE_SPECIAL= \\[^]
 ESCAPE_UNICODE= \\(u{HEX}{4}|U{HEX}{6})
 HEX = [0-9a-fA-F]
 
 %%
 
-<YYINITIAL, CodeContext> {
-    {WHITE_SPACE}+     { return WHITE_SPACE; }
-//	{COMMENT_DOCUMENT} { return COMMENT_DOCUMENT; }
+<YYINITIAL> {
+	{COMMENT_DOCUMENT} { return COMMENT_DOCUMENT; }
 	{COMMENT_LINE}     { return COMMENT_LINE; }
-//	{COMMENT_BLOCK}    { return COMMENT_BLOCK; }
+	{COMMENT_BLOCK}    { return COMMENT_BLOCK; }
 }
-
-//<YYINITIAL> {
-////	{TEXT_FIRST_LINE}      { return TEXT_FIRST_LINE; }
-////	{TEXT_INDENT_LINE} { return TEXT_INDENT_LINE; }
-//
-//}
 
 <YYINITIAL> {
 	"{" { return BRACE_L; }
@@ -100,109 +90,6 @@ HEX = [0-9a-fA-F]
 }
 <YYINITIAL> {
 	{SYMBOL} { return SYMBOL; }
-}
-
-// =====================================================================================================================
-<YYINITIAL> = {
-	yybegin(TextContextSpace);
-	return EQ;
-}
-// 如果首行无缩进, 直接结束
-<TextContext, TextContextSpace> {CRLF}[-#a-zA-Z] {
-	yypushback(1);
-	yybegin(YYINITIAL);
-	return WHITE_SPACE;
-}
-// 将 = 之后的符号都视为空格而非文本
-<TextContextSpace> [\s\t\n\r]+ {
-	count_indent();
-	return WHITE_SPACE;
-}
-<TextContextSpace> [^\s\t\n\r] {
-	yypushback(1);
-	yybegin(TextContext);
-}
-// 如果缩进开头是 .
-<TextContext> {CRLF}{WHITE_SPACE}+[.] {
-	yypushback(1);
-	yybegin(YYINITIAL);
-	return WHITE_SPACE;
-}
-// 剩下的情况去掉缩进, 至少还有一个空格, 所以返回 WS
-//<TextContext> {CRLF}{WHITE_SPACE}+[^.\n\r] {
-//	yypushback(1);
-//	match_indent();
-//	return WHITE_SPACE;
-//}
-<TextContext> {
-	{CRLF}         { return WHITE_SPACE; }
-	{TEXT_LINE}    { return TEXT_LINE; }
-//  {WHITE_SPACE}+ { return WHITE_SPACE; }
-}
-// =====================================================================================================================
-// 代码域 CodeContext , 从 `{` 开始, 到 `}` 结束
-<TextContext> \{ {
-	brace_block(TextContext);
-	return BRACE_L;
-}
-<CodeContext> } {
-	brace_recover();
-	return BRACE_R;
-}
-<CodeContext> {
-	\( { return PARENTHESIS_L; }
-	\) { return PARENTHESIS_R; }
-	\[ { return BRACKET_L; }
-	\] { return BRACKET_R; }
-	\$ { return DOLLAR; }
-	\* { return STAR; }
-	,  { return COMMA; }
-	:  { return COLON; }
-	-  { return HYPHEN; }
-}
-<CodeContext> {
-	{SYMBOL}  {return SYMBOL;}
-	[-]?{INTEGER} {return INTEGER;}
-	[-]?{DECIMAL} {return DECIMAL;}
-}
-// =====================================================================================================================
-// 选择域 SelectionStart
-<CodeContext> -> {
-	yybegin(SelectionStart);
-	return TO;
-}
-<SelectionStart> {
-    {WHITE_SPACE}+ { return WHITE_SPACE; }
-	{SYMBOL}       {return SYMBOL;}
-	[-]?{INTEGER}  {return INTEGER;}
-	[-]?{DECIMAL}  {return DECIMAL;}
-}
-<SelectionStart> \* {
-	return STAR;
-}
-<SelectionStart> \[ {
-	return BRACKET_L;
-}
-<SelectionStart> \] {
-	yybegin(SelectionText);
-	return BRACKET_R;
-}
-<SelectionText> {CRLF}{WHITE_SPACE}*[\[*] {
-	yypushback(1);
-    yybegin(SelectionStart);
-    return WHITE_SPACE;
-}
-<SelectionText> \{ {
-	brace_block(SelectionText);
-	return BRACE_L;
-}
-<SelectionText> \} {
-	brace_recover();
-	return BRACE_R;
-}
-<SelectionText> {
-	{CRLF}      { return WHITE_SPACE; }
-	{TEXT_LINE} { return SELECTION_LINE; }
 }
 // =====================================================================================================================
 // 文本域, 文本域只出现在代码中

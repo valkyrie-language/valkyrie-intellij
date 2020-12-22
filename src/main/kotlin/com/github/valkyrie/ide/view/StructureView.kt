@@ -72,7 +72,7 @@ class FluentStructureViewElement(private val myElement: NavigatablePsiElement) :
     }
 
     override fun getChildren(): Array<TreeElement> {
-        if (myElement is FluentFile) {
+        if (myElement is VkFile) {
             val properties: List<FluentMessage> = PsiTreeUtil.getChildrenOfTypeAsList(
                 myElement,
                 FluentMessage::class.java

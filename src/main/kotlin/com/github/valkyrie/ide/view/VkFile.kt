@@ -6,8 +6,8 @@ import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.psi.FileViewProvider
 
-class FluentFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, VkLanguage.INSTANCE) {
-    override fun getFileType(): FileType = FluentFileType.INSTANCE
+class VkFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, VkLanguage.INSTANCE) {
+    override fun getFileType(): FileType = VkFileType.INSTANCE
 
     override fun toString(): String = VkBundle.message("action.create_file")
 }

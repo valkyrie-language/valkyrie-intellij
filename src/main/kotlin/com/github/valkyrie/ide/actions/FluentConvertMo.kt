@@ -1,7 +1,7 @@
 package com.github.valkyrie.ide.actions
 
 import com.github.valkyrie.VkBundle
-import com.github.valkyrie.ide.view.FluentIconProvider.Companion.FluentFile
+import com.github.valkyrie.ide.view.VkIconProvider.Companion.FluentFile
 import com.intellij.ide.actions.CreateFileAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys

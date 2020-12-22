@@ -2,7 +2,7 @@ package com.github.valkyrie.language.psi
 
 
 import com.github.valkyrie.VkLanguage
-import com.github.valkyrie.ide.view.FluentFile
+import com.github.valkyrie.ide.view.VkFile
 import com.github.valkyrie.language.parser.FluentParser
 
 import com.intellij.lang.ASTNode
@@ -30,7 +30,7 @@ class FluentParserDefinition : ParserDefinition {
 
     override fun createElement(node: ASTNode): PsiElement = FluentTypes.Factory.createElement(node)
 
-    override fun createFile(viewProvider: FileViewProvider): PsiFile = FluentFile(viewProvider)
+    override fun createFile(viewProvider: FileViewProvider): PsiFile = VkFile(viewProvider)
 
     override fun spaceExistenceTypeBetweenTokens(left: ASTNode, right: ASTNode): ParserDefinition.SpaceRequirements {
         return ParserDefinition.SpaceRequirements.MAY

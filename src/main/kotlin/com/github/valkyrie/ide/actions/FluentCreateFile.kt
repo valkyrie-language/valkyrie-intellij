@@ -1,6 +1,6 @@
 package com.github.valkyrie.ide.actions
 
-import com.github.valkyrie.ide.view.FluentIconProvider.Companion.FluentFile
+import com.github.valkyrie.ide.view.VkIconProvider.Companion.FluentFile
 import com.intellij.ide.actions.CreateFileFromTemplateAction
 import com.intellij.ide.actions.CreateFileFromTemplateDialog.Builder
 import com.intellij.openapi.project.Project

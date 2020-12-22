@@ -1,7 +1,7 @@
 package com.github.valkyrie.ide.matcher
 
 import com.github.valkyrie.VkLanguage
-import com.github.valkyrie.ide.view.FluentFileType
+import com.github.valkyrie.ide.view.VkFileType
 
 import com.intellij.codeInsight.highlighting.PairedBraceMatcherAdapter
 import com.intellij.openapi.editor.highlighter.HighlighterIterator
@@ -22,7 +22,7 @@ class FluentBraceMatcher : PairedBraceMatcherAdapter(BaseBraceMatcher(), VkLangu
         fileType: FileType,
         left: Boolean
     ): Boolean {
-        if (fileType != FluentFileType.INSTANCE) return false
+        if (fileType != VkFileType.INSTANCE) return false
         val pair = findPair(left, iterator, fileText, fileType)
         return pair != null
     }

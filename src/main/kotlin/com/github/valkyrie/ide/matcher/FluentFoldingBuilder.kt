@@ -1,7 +1,7 @@
 package com.github.valkyrie.ide.matcher
 
 
-import com.github.valkyrie.ide.view.FluentFile
+import com.github.valkyrie.ide.view.VkFile
 import com.intellij.lang.ASTNode
 import com.intellij.lang.folding.CustomFoldingBuilder
 import com.intellij.lang.folding.FoldingDescriptor
@@ -18,7 +18,7 @@ class FluentFoldingBuilder : CustomFoldingBuilder(), DumbAware {
         document: Document,
         quick: Boolean
     ) {
-        if (root !is FluentFile) return
+        if (root !is VkFile) return
         val visitor = FluentFoldingVisitor(descriptors)
         PsiTreeUtil.processElements(root) {
             it.accept(visitor);

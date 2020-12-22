@@ -2,7 +2,7 @@ package com.github.valkyrie.ide.highlight
 
 
 import com.github.valkyrie.ide.highlight.FluentHighlightColor.*
-import com.github.valkyrie.ide.view.FluentFile
+import com.github.valkyrie.ide.view.VkFile
 import com.github.valkyrie.language.psi.*
 import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType
@@ -68,7 +68,7 @@ class FluentHighlightVisitor : FluentVisitor(), HighlightVisitor {
 
     override fun clone(): HighlightVisitor = FluentHighlightVisitor()
 
-    override fun suitableForFile(file: PsiFile): Boolean = file is FluentFile
+    override fun suitableForFile(file: PsiFile): Boolean = file is VkFile
 
     override fun visit(element: PsiElement) = element.accept(this)
 }
