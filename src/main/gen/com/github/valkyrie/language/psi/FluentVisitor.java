@@ -7,6 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public class FluentVisitor extends PsiElementVisitor {
 
+  public void visitAtoms(@NotNull FluentAtoms o) {
+    visitPsiElement(o);
+  }
+
   public void visitBlock(@NotNull FluentBlock o) {
     visitPsiElement(o);
   }

@@ -2,7 +2,6 @@ package com.github.valkyrie.ide.formatter
 
 import com.github.valkyrie.language.ast.computeSpacing
 import com.github.valkyrie.language.ast.isWhitespaceOrEmpty
-import com.github.valkyrie.language.psi.FluentMessage
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
@@ -66,10 +65,10 @@ class FluentFormatBlock(
         // val isCornerChild = node.firstChildNode == child || node.lastChildNode == child
         val firstLine = node.firstChildNode == child;
         return when (node.psi) {
-            is FluentMessage -> when {
-                firstLine -> Indent.getNoneIndent()
-                else -> Indent.getNormalIndent()
-            }
+//            is FluentMessage -> when {
+//                firstLine -> Indent.getNoneIndent()
+//                else -> Indent.getNormalIndent()
+//            }
 //        BRACE_BLOCK -> when {
 //            isCornerChild -> Indent.getNoneIndent()
 //            else -> Indent.getNormalIndent()

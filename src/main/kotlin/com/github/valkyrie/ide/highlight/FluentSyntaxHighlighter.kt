@@ -1,7 +1,7 @@
 package com.github.valkyrie.ide.highlight
 
 
-import com.github.valkyrie.language.psi.FluentLexerAdapter
+import com.github.valkyrie.language.psi.ValkyrieLexerAdapter
 import com.github.valkyrie.language.psi.FluentTypes.*
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.colors.TextAttributesKey
@@ -11,7 +11,7 @@ import com.intellij.psi.tree.IElementType
 
 class FluentSyntaxHighlighter : SyntaxHighlighterBase() {
     override fun getHighlightingLexer(): Lexer {
-        return FluentLexerAdapter()
+        return ValkyrieLexerAdapter()
     }
 
     override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> {
@@ -34,7 +34,6 @@ class FluentSyntaxHighlighter : SyntaxHighlighterBase() {
             INTEGER -> FluentHighlightColor.INTEGER
             DECIMAL -> FluentHighlightColor.DECIMAL
 
-            TEXT_LINE, SELECTION_LINE -> FluentHighlightColor.TEXT
             STRING_QUOTE, STRING_CHAR -> FluentHighlightColor.STRING
             STRING_ESCAPE -> FluentHighlightColor.STRING_ESCAPED
 //            STRING -> AwslColor.STRING

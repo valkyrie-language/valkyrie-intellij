@@ -8,15 +8,15 @@ import com.intellij.psi.PsiElement
 
 class FluentFoldingVisitor(private val descriptors: MutableList<FoldingDescriptor>) : FluentRecursiveVisitor() {
 
-    override fun visitInlinePlaceable(o: FluentInlinePlaceable) {
-        descriptors += FoldingDescriptor(o.node, TextRange(o.firstChild.endOffset, o.lastChild.startOffset))
-        super.visitInlinePlaceable(o)
-    }
-
-    override fun visitMessage(o: FluentMessage) {
-        //TODO: folding end of =
-        super.visitMessage(o)
-    }
+//    override fun visitInlinePlaceable(o: FluentInlinePlaceable) {
+//        descriptors += FoldingDescriptor(o.node, TextRange(o.firstChild.endOffset, o.lastChild.startOffset))
+//        super.visitInlinePlaceable(o)
+//    }
+//
+//    override fun visitMessage(o: FluentMessage) {
+//        //TODO: folding end of =
+//        super.visitMessage(o)
+//    }
 
 
 

@@ -1,7 +1,8 @@
 package com.github.valkyrie.language;
 
-import com.intellij.psi.tree.IElementType;import com.intellij.util.containers.IntStack;
-
+import com.intellij.psi.tree.IElementType;
+import com.intellij.util.containers.IntStack;
+import com.intellij.lexer.FlexLexer;
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
 import static com.github.valkyrie.language.psi.FluentTypes.*;
@@ -12,7 +13,7 @@ import static com.github.valkyrie.language.psi.FluentTypes.*;
 private static int indent_balance = 0;
 private static IntStack brace_stack = new IntStack(9);
 
-public _FluentLexer() {
+public _ValkyrieLexer() {
 	this((java.io.Reader)null);
 }
 

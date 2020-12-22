@@ -18,7 +18,7 @@ import com.intellij.psi.tree.TokenSet
 
 
 class FluentParserDefinition : ParserDefinition {
-    override fun createLexer(project: Project): Lexer = FluentLexerAdapter()
+    override fun createLexer(project: Project): Lexer = ValkyrieLexerAdapter()
 
     override fun createParser(project: Project): PsiParser = FluentParser()
 

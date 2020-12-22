@@ -1,6 +1,6 @@
 package com.github.valkyrie.ide.view
 
-import com.github.valkyrie.language.psi.FluentMessage
+
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.ide.structureView.*
 import com.intellij.ide.structureView.StructureViewModel.ElementInfoProvider
@@ -38,7 +38,8 @@ class FluentStructureViewModel(psiFile: PsiFile?) :
     }
 
     override fun isAlwaysLeaf(element: StructureViewTreeElement): Boolean {
-        return element.value is FluentMessage
+//        return element.value is FluentMessage
+        return false
     }
 }
 
@@ -72,17 +73,17 @@ class FluentStructureViewElement(private val myElement: NavigatablePsiElement) :
     }
 
     override fun getChildren(): Array<TreeElement> {
-        if (myElement is VkFile) {
-            val properties: List<FluentMessage> = PsiTreeUtil.getChildrenOfTypeAsList(
-                myElement,
-                FluentMessage::class.java
-            )
-            val treeElements: MutableList<TreeElement> = ArrayList(properties.size)
-            for (property in properties) {
-                treeElements.add(FluentStructureViewElement(property as NavigatablePsiElement))
-            }
-            return treeElements.toTypedArray()
-        }
+//        if (myElement is VkFile) {
+//            val properties: List<FluentMessage> = PsiTreeUtil.getChildrenOfTypeAsList(
+//                myElement,
+//                FluentMessage::class.java
+//            )
+//            val treeElements: MutableList<TreeElement> = ArrayList(properties.size)
+//            for (property in properties) {
+//                treeElements.add(FluentStructureViewElement(property as NavigatablePsiElement))
+//            }
+//            return treeElements.toTypedArray()
+//        }
         return TreeElement.EMPTY_ARRAY
     }
 }

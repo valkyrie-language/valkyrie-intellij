@@ -8,6 +8,7 @@ import com.github.valkyrie.language.psi_node.*;
 
 public interface FluentTypes {
 
+  IElementType ATOMS = new FluentElementType("ATOMS");
   IElementType BLOCK = new FluentElementType("BLOCK");
   IElementType CONDITION = new FluentElementType("CONDITION");
   IElementType FOR_STATEMENT = new FluentElementType("FOR_STATEMENT");
@@ -27,10 +28,13 @@ public interface FluentTypes {
   IElementType COMMENT = new FluentTokenType("Comment");
   IElementType COMMENT_BLOCK = new FluentTokenType("Comment Block");
   IElementType COMMENT_DOCUMENT = new FluentTokenType("Comment Document");
+  IElementType COMMENT_LINE = new FluentTokenType("Comment Line");
+  IElementType DECIMAL = new FluentTokenType("DECIMAL");
   IElementType DOLLAR = new FluentTokenType("$");
   IElementType DOT = new FluentTokenType(".");
   IElementType EQ = new FluentTokenType("=");
   IElementType HYPHEN = new FluentTokenType("-");
+  IElementType INTEGER = new FluentTokenType("INTEGER");
   IElementType PARENTHESIS_L = new FluentTokenType("(");
   IElementType PARENTHESIS_R = new FluentTokenType(")");
   IElementType SELECTION_LINE = new FluentTokenType("SELECTION_LINE");
@@ -38,6 +42,7 @@ public interface FluentTypes {
   IElementType STAR = new FluentTokenType("*");
   IElementType STRING_CHAR = new FluentTokenType("String Character");
   IElementType STRING_ESCAPE = new FluentTokenType("String Escaped");
+  IElementType STRING_LITERAL = new FluentTokenType("String Literal");
   IElementType STRING_QUOTE = new FluentTokenType("String Quote");
   IElementType SYMBOL = new FluentTokenType("Symbol");
   IElementType TO = new FluentTokenType("->");
@@ -46,7 +51,10 @@ public interface FluentTypes {
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == BLOCK) {
+      if (type == ATOMS) {
+        return new FluentAtomsNode(node);
+      }
+      else if (type == BLOCK) {
         return new FluentBlockNode(node);
       }
       else if (type == CONDITION) {

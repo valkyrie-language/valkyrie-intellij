@@ -14,25 +14,25 @@ import com.intellij.psi.PsiFile
 class FluentHighlightVisitor : FluentVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
 
-    override fun visitMessageID(o: FluentMessageID) {
-        highlight(o, SYM_MESSAGE)
-    }
-
-    override fun visitTermID(o: FluentTermID) {
-        highlight(o, SYM_TERM)
-    }
-
-    override fun visitAttributeID(o: FluentAttributeID) {
-        highlight(o, SYM_ATTRIBUTE)
-    }
-
-    override fun visitVariableID(o: FluentVariableID) {
-        highlight(o, SYM_VARIABLE)
-    }
-
-    override fun visitFunctionID(o: FluentFunctionID) {
-        highlight(o, SYM_FUNCTION)
-    }
+//    override fun visitMessageID(o: FluentMessageID) {
+//        highlight(o, SYM_MESSAGE)
+//    }
+//
+//    override fun visitTermID(o: FluentTermID) {
+//        highlight(o, SYM_TERM)
+//    }
+//
+//    override fun visitAttributeID(o: FluentAttributeID) {
+//        highlight(o, SYM_ATTRIBUTE)
+//    }
+//
+//    override fun visitVariableID(o: FluentVariableID) {
+//        highlight(o, SYM_VARIABLE)
+//    }
+//
+//    override fun visitFunctionID(o: FluentFunctionID) {
+//        highlight(o, SYM_FUNCTION)
+//    }
 
 //    override fun visitSchemaStatement(o: JssSchemaStatement) {
 //        //

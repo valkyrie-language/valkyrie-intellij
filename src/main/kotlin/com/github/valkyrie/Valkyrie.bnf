@@ -27,7 +27,9 @@
         STRING_QUOTE = "String Quote"
         STRING_CHAR = "String Character"
         STRING_ESCAPE = "String Escaped"
+        STRING_LITERAL = "String Literal"
         SELECTION_LINE = "SELECTION_LINE"
+        COMMENT_LINE = "Comment Line"
 
         PARENTHESIS_L = '('
         PARENTHESIS_R = ')'
@@ -48,6 +50,7 @@
         AT = '@'
         TO = "->"
         HYPHEN = "-"
+
 //      SPACE='regexp:\s+'
 //      ANY = 'regexp:.'
     ]
@@ -68,6 +71,8 @@ private ELSEIF ::= ELSE IF;
 // ---------------------------------------------------------------------------------------------------------------------
 for_statement ::= FOR
 private FOR ::= "for";
+
+atoms ::= INTEGER | DECIMAL;
 // ---------------------------------------------------------------------------------------------------------------------
 private expression ::= namespace;
 // ---------------------------------------------------------------------------------------------------------------------
