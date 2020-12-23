@@ -34,8 +34,10 @@ public interface FluentTypes {
   IElementType DOT = new FluentTokenType(".");
   IElementType ELSE = new FluentTokenType("else");
   IElementType EQ = new FluentTokenType("=");
+  IElementType FOR = new FluentTokenType("for");
   IElementType HYPHEN = new FluentTokenType("-");
   IElementType IF = new FluentTokenType("if");
+  IElementType IN = new FluentTokenType("in");
   IElementType INTEGER = new FluentTokenType("INTEGER");
   IElementType PARENTHESIS_L = new FluentTokenType("(");
   IElementType PARENTHESIS_R = new FluentTokenType(")");

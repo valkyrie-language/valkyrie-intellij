@@ -80,21 +80,23 @@ HEX = [0-9a-fA-F]
 }
 
 <YYINITIAL> {
-	"{" { return BRACE_L; }
-	"}" { return BRACE_R; }
-	"<" { return ANGLE_L; }
-	">" { return ANGLE_R; }
-	"^" { return ACCENT; }
-	";" { return SEMICOLON; }
-	"$" { return DOLLAR; }
-	"." { return DOT; }
-	"-" { return HYPHEN; }
+    "{" { return BRACE_L; }
+    "}" { return BRACE_R; }
+    "<" { return ANGLE_L; }
+    ">" { return ANGLE_R; }
+    "^" { return ACCENT; }
+    ";" { return SEMICOLON; }
+    "$" { return DOLLAR; }
+    "." { return DOT; }
+    "-" { return HYPHEN; }
 }
 // 顶级关键词
 <YYINITIAL> {
-	"if" { return IF; }
+    "if" { return IF; }
     "else" { return ELSE; }
-	{SYMBOL} { return SYMBOL; }
+    "for" { return ELSE; }
+    "in" { return ELSE; }
+    {SYMBOL} { return SYMBOL; }
 }
 // =====================================================================================================================
 // 文本域, 文本域只出现在代码中

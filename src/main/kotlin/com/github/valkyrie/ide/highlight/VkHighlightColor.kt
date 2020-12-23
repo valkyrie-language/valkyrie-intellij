@@ -10,7 +10,7 @@ import java.util.function.Supplier
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors as Default
 import com.github.valkyrie.VkBundle;
 
-enum class FluentHighlightColor(humanName: Supplier<@AttributeDescriptor String>, default: TextAttributesKey? = null) {
+enum class VkHighlightColor(humanName: Supplier<@AttributeDescriptor String>, default: TextAttributesKey? = null) {
     // 特殊关键词
     KEYWORD(OptionsBundle.messagePointer("options.language.defaults.keyword"), Default.KEYWORD),
     IDIOM_SYMBOL(VkBundle.messagePointer("color.token.symbol.idiom"), Default.METADATA),

@@ -1,7 +1,6 @@
 package com.github.valkyrie.ide.highlight
 
 
-import com.github.valkyrie.ide.highlight.FluentHighlightColor.*
 import com.github.valkyrie.ide.view.VkFile
 import com.github.valkyrie.language.psi.*
 import com.intellij.codeInsight.daemon.impl.HighlightInfo
@@ -46,7 +45,7 @@ class FluentHighlightVisitor : FluentVisitor(), HighlightVisitor {
 //    }
 
 
-    private fun highlight(element: PsiElement, color: FluentHighlightColor) {
+    private fun highlight(element: PsiElement, color: VkHighlightColor) {
         val builder = HighlightInfo.newHighlightInfo(HighlightInfoType.INFORMATION)
         builder.textAttributes(color.textAttributesKey)
         builder.range(element)

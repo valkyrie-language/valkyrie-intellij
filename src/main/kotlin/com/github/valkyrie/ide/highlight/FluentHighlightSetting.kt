@@ -7,11 +7,11 @@ import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
 
 class FluentHighlightSetting : ColorSettingsPage {
-    private val annotatorTags = FluentHighlightColor
+    private val annotatorTags = VkHighlightColor
         .values()
         .associateBy({ it.name }, { it.textAttributesKey })
 
-    override fun getAttributeDescriptors() = FluentHighlightColor
+    override fun getAttributeDescriptors() = VkHighlightColor
         .values()
         .map { it.attributesDescriptor }
         .toTypedArray()

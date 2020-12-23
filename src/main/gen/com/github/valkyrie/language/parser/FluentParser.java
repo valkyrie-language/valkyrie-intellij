@@ -38,7 +38,7 @@ public class FluentParser implements PsiParser, LightPsiParser {
   /* ********************************************************** */
   // "for"
   static boolean FOR(PsiBuilder b, int l) {
-    return consumeToken(b, "for");
+    return consumeToken(b, FOR);
   }
 
   /* ********************************************************** */
@@ -88,10 +88,11 @@ public class FluentParser implements PsiParser, LightPsiParser {
   // FOR
   public static boolean for_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "for_statement")) return false;
+    if (!nextTokenIs(b, FOR)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, FOR_STATEMENT, "<for statement>");
+    Marker m = enter_section_(b);
     r = FOR(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, FOR_STATEMENT, r);
     return r;
   }
 
@@ -189,6 +190,7 @@ public class FluentParser implements PsiParser, LightPsiParser {
   //   | for_statement
   static boolean statements(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "statements")) return false;
+    if (!nextTokenIs(b, "", FOR, IF)) return false;
     boolean r;
     r = if_statement(b, l + 1);
     if (!r) r = for_statement(b, l + 1);
