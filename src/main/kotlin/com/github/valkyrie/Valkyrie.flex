@@ -56,7 +56,7 @@ public void match_indent() {
 %state SelectionStart
 %state SelectionText
 
-WHITE_SPACE=[\s\t\r\n]+
+WHITE_SPACE=[\s\t\r\n]
 COMMENT_DOCUMENT=("///")[^\r\n]*
 COMMENT_LINE = #{1,3}[^\r\n]*
 COMMENT_BLOCK=[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]
@@ -76,6 +76,7 @@ HEX = [0-9a-fA-F]
 	{COMMENT_DOCUMENT} { return COMMENT_DOCUMENT; }
 	{COMMENT_LINE}     { return COMMENT_LINE; }
 	{COMMENT_BLOCK}    { return COMMENT_BLOCK; }
+    {WHITE_SPACE}+     { return WHITE_SPACE; }
 }
 
 <YYINITIAL> {
@@ -89,7 +90,10 @@ HEX = [0-9a-fA-F]
 	"." { return DOT; }
 	"-" { return HYPHEN; }
 }
+// 顶级关键词
 <YYINITIAL> {
+	"if" { return IF; }
+    "else" { return ELSE; }
 	{SYMBOL} { return SYMBOL; }
 }
 // =====================================================================================================================

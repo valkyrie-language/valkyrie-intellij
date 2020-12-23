@@ -32,8 +32,10 @@ public interface FluentTypes {
   IElementType DECIMAL = new FluentTokenType("DECIMAL");
   IElementType DOLLAR = new FluentTokenType("$");
   IElementType DOT = new FluentTokenType(".");
+  IElementType ELSE = new FluentTokenType("else");
   IElementType EQ = new FluentTokenType("=");
   IElementType HYPHEN = new FluentTokenType("-");
+  IElementType IF = new FluentTokenType("if");
   IElementType INTEGER = new FluentTokenType("INTEGER");
   IElementType PARENTHESIS_L = new FluentTokenType("(");
   IElementType PARENTHESIS_R = new FluentTokenType(")");

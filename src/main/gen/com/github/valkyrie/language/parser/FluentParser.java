@@ -36,33 +36,22 @@ public class FluentParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // "else"
-  static boolean ELSE(PsiBuilder b, int l) {
-    return consumeToken(b, "else");
-  }
-
-  /* ********************************************************** */
-  // ELSE IF
-  static boolean ELSEIF(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ELSEIF")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = ELSE(b, l + 1);
-    r = r && IF(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
   // "for"
   static boolean FOR(PsiBuilder b, int l) {
     return consumeToken(b, "for");
   }
 
   /* ********************************************************** */
-  // "if"
-  static boolean IF(PsiBuilder b, int l) {
-    return consumeToken(b, "if");
+  // INTEGER | DECIMAL
+  public static boolean atoms(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "atoms")) return false;
+    if (!nextTokenIs(b, "<atoms>", DECIMAL, INTEGER)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, ATOMS, "<atoms>");
+    r = consumeToken(b, INTEGER);
+    if (!r) r = consumeToken(b, DECIMAL);
+    exit_section_(b, l, m, r, false, null);
+    return r;
   }
 
   /* ********************************************************** */
@@ -107,14 +96,15 @@ public class FluentParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (IF condition block) [(ELSEIF condition block)* (ELSE block)]
+  // (IF condition block) [(ELSE IF condition block)* (ELSE block)]
   public static boolean if_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "if_statement")) return false;
+    if (!nextTokenIs(b, IF)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, IF_STATEMENT, "<if statement>");
+    Marker m = enter_section_(b);
     r = if_statement_0(b, l + 1);
     r = r && if_statement_1(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, IF_STATEMENT, r);
     return r;
   }
 
@@ -123,21 +113,21 @@ public class FluentParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "if_statement_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = IF(b, l + 1);
+    r = consumeToken(b, IF);
     r = r && condition(b, l + 1);
     r = r && block(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // [(ELSEIF condition block)* (ELSE block)]
+  // [(ELSE IF condition block)* (ELSE block)]
   private static boolean if_statement_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "if_statement_1")) return false;
     if_statement_1_0(b, l + 1);
     return true;
   }
 
-  // (ELSEIF condition block)* (ELSE block)
+  // (ELSE IF condition block)* (ELSE block)
   private static boolean if_statement_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "if_statement_1_0")) return false;
     boolean r;
@@ -148,7 +138,7 @@ public class FluentParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (ELSEIF condition block)*
+  // (ELSE IF condition block)*
   private static boolean if_statement_1_0_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "if_statement_1_0_0")) return false;
     while (true) {
@@ -159,12 +149,12 @@ public class FluentParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // ELSEIF condition block
+  // ELSE IF condition block
   private static boolean if_statement_1_0_0_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "if_statement_1_0_0_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = ELSEIF(b, l + 1);
+    r = consumeTokens(b, 0, ELSE, IF);
     r = r && condition(b, l + 1);
     r = r && block(b, l + 1);
     exit_section_(b, m, null, r);
@@ -176,7 +166,7 @@ public class FluentParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "if_statement_1_0_1")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = ELSE(b, l + 1);
+    r = consumeToken(b, ELSE);
     r = r && block(b, l + 1);
     exit_section_(b, m, null, r);
     return r;

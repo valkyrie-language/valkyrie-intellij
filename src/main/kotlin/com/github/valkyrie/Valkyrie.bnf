@@ -50,6 +50,8 @@
         AT = '@'
         TO = "->"
         HYPHEN = "-"
+        IF = "if"
+        ELSE = "else"
 
 //      SPACE='regexp:\s+'
 //      ANY = 'regexp:.'
@@ -62,12 +64,9 @@ private statements ::=
   | for_statement
   ;
 // ---------------------------------------------------------------------------------------------------------------------
-if_statement ::= (IF condition block) [(ELSEIF condition block)* (ELSE block)]
+if_statement ::= (IF condition block) [(ELSE IF condition block)* (ELSE block)]
 block ::= expression;
 condition ::= expression;
-private IF ::= "if"
-private ELSE ::= "else"
-private ELSEIF ::= ELSE IF;
 // ---------------------------------------------------------------------------------------------------------------------
 for_statement ::= FOR
 private FOR ::= "for";
