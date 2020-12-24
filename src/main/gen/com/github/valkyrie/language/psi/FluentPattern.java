@@ -5,15 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FluentForStatement extends PsiElement {
-
-  @NotNull
-  FluentBlock getBlock();
+public interface FluentPattern extends PsiElement {
 
   @NotNull
   FluentNamespace getNamespace();
-
-  @NotNull
-  FluentPattern getPattern();
 
 }

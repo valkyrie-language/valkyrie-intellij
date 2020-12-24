@@ -14,6 +14,7 @@ public interface FluentTypes {
   IElementType FOR_STATEMENT = new FluentElementType("FOR_STATEMENT");
   IElementType IF_STATEMENT = new FluentElementType("IF_STATEMENT");
   IElementType NAMESPACE = new FluentElementType("NAMESPACE");
+  IElementType PATTERN = new FluentElementType("PATTERN");
 
   IElementType ACCENT = new FluentTokenType("^");
   IElementType ANGLE_L = new FluentTokenType("<");
@@ -72,6 +73,9 @@ public interface FluentTypes {
       }
       else if (type == NAMESPACE) {
         return new FluentNamespaceNode(node);
+      }
+      else if (type == PATTERN) {
+        return new FluentPatternNode(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

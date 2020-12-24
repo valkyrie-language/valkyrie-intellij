@@ -8,6 +8,7 @@ import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
+import com.github.valkyrie.ide.highlight.VkHighlightColor as VColor
 
 class FluentSyntaxHighlighter : SyntaxHighlighterBase() {
     override fun getHighlightingLexer(): Lexer {
@@ -18,32 +19,32 @@ class FluentSyntaxHighlighter : SyntaxHighlighterBase() {
         return pack(getTokenColor(tokenType)?.textAttributesKey)
     }
 
-    private fun getTokenColor(tokenType: IElementType): VkHighlightColor? {
+    private fun getTokenColor(tokenType: IElementType): VColor? {
         return when (tokenType) {
             //
-            IF, ELSE -> VkHighlightColor.KEYWORD
+            IF, ELSE, FOR, IN -> VColor.KEYWORD
             // ANNOTATION -> JssColor.ANNOTATION
             //
-            PARENTHESIS_L, PARENTHESIS_R -> VkHighlightColor.PARENTHESES
-            BRACKET_L, BRACKET_R -> VkHighlightColor.BRACKETS
-            BRACE_L, BRACE_R -> VkHighlightColor.BRACES
-            COLON, EQ -> VkHighlightColor.SET
-            STAR -> VkHighlightColor.STAR
-            COMMA -> VkHighlightColor.COMMA
+            PARENTHESIS_L, PARENTHESIS_R -> VColor.PARENTHESES
+            BRACKET_L, BRACKET_R -> VColor.BRACKETS
+            BRACE_L, BRACE_R -> VColor.BRACES
+            COLON, EQ -> VColor.SET
+            STAR -> VColor.STAR
+            COMMA -> VColor.COMMA
             // atom
-            INTEGER -> VkHighlightColor.INTEGER
-            DECIMAL -> VkHighlightColor.DECIMAL
+            INTEGER -> VColor.INTEGER
+            DECIMAL -> VColor.DECIMAL
 
-            STRING_QUOTE, STRING_CHAR -> VkHighlightColor.STRING
-            STRING_ESCAPE -> VkHighlightColor.STRING_ESCAPED
+            STRING_QUOTE, STRING_CHAR -> VColor.STRING
+            STRING_ESCAPE -> VColor.STRING_ESCAPED
 //            STRING -> AwslColor.STRING
-            SYMBOL -> VkHighlightColor.IDENTIFIER
+            SYMBOL -> VColor.IDENTIFIER
             // 注释
-            COMMENT_LINE -> VkHighlightColor.LINE_COMMENT
+            COMMENT_LINE -> VColor.LINE_COMMENT
 //            COMMENT_BLOCK -> AwslColor.BLOCK_COMMENT
 //            COMMENT_DOCUMENT -> AwslColor.DOC_COMMENT
             // 错误
-            TokenType.BAD_CHARACTER -> VkHighlightColor.BAD_CHARACTER
+            TokenType.BAD_CHARACTER -> VColor.BAD_CHARACTER
             else -> null
         }
     }

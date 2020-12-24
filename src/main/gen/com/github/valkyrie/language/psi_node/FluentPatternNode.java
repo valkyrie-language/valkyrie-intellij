@@ -11,14 +11,14 @@ import static com.github.valkyrie.language.psi.FluentTypes.*;
 import com.github.valkyrie.language.psi.FluentElement;
 import com.github.valkyrie.language.psi.*;
 
-public class FluentForStatementNode extends FluentElement implements FluentForStatement {
+public class FluentPatternNode extends FluentElement implements FluentPattern {
 
-  public FluentForStatementNode(@NotNull ASTNode node) {
+  public FluentPatternNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull FluentVisitor visitor) {
-    visitor.visitForStatement(this);
+    visitor.visitPattern(this);
   }
 
   @Override
@@ -29,20 +29,8 @@ public class FluentForStatementNode extends FluentElement implements FluentForSt
 
   @Override
   @NotNull
-  public FluentBlock getBlock() {
-    return findNotNullChildByClass(FluentBlock.class);
-  }
-
-  @Override
-  @NotNull
   public FluentNamespace getNamespace() {
     return findNotNullChildByClass(FluentNamespace.class);
-  }
-
-  @Override
-  @NotNull
-  public FluentPattern getPattern() {
-    return findNotNullChildByClass(FluentPattern.class);
   }
 
 }

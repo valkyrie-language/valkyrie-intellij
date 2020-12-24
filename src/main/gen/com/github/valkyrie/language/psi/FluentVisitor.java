@@ -31,6 +31,10 @@ public class FluentVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitPattern(@NotNull FluentPattern o) {
+    visitPsiElement(o);
+  }
+
   public void visitPsiElement(@NotNull PsiElement o) {
     visitElement(o);
   }

@@ -36,12 +36,6 @@ public class FluentParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // "for"
-  static boolean FOR(PsiBuilder b, int l) {
-    return consumeToken(b, FOR);
-  }
-
-  /* ********************************************************** */
   // INTEGER | DECIMAL
   public static boolean atoms(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "atoms")) return false;
@@ -85,13 +79,17 @@ public class FluentParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // FOR
+  // FOR pattern IN expression block
   public static boolean for_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "for_statement")) return false;
     if (!nextTokenIs(b, FOR)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = FOR(b, l + 1);
+    r = consumeToken(b, FOR);
+    r = r && pattern(b, l + 1);
+    r = r && consumeToken(b, IN);
+    r = r && expression(b, l + 1);
+    r = r && block(b, l + 1);
     exit_section_(b, m, FOR_STATEMENT, r);
     return r;
   }
@@ -182,6 +180,18 @@ public class FluentParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = consumeToken(b, SYMBOL);
     exit_section_(b, m, NAMESPACE, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // namespace
+  public static boolean pattern(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "pattern")) return false;
+    if (!nextTokenIs(b, SYMBOL)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = namespace(b, l + 1);
+    exit_section_(b, m, PATTERN, r);
     return r;
   }
 
