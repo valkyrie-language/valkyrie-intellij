@@ -54,6 +54,7 @@
         ELSE = "else"
         FOR = "for"
         IN = "in"
+        WHILE = "while"
 //      SPACE='regexp:\s+'
 //      ANY = 'regexp:.'
     ]
@@ -63,6 +64,7 @@ valkyrie ::= statements*
 private statements ::=
     if_statement
   | for_statement
+  | while_statement
   ;
 // ---------------------------------------------------------------------------------------------------------------------
 if_statement ::= (IF condition block) [(ELSE IF condition block)* (ELSE block)]
@@ -73,6 +75,8 @@ for_statement ::= FOR pattern IN expression block;
 
 pattern ::= namespace;
 atoms ::= INTEGER | DECIMAL;
+// ---------------------------------------------------------------------------------------------------------------------
+while_statement ::= WHILE expression block;
 // ---------------------------------------------------------------------------------------------------------------------
 private expression ::= namespace;
 // ---------------------------------------------------------------------------------------------------------------------

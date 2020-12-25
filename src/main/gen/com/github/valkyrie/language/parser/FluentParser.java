@@ -198,12 +198,13 @@ public class FluentParser implements PsiParser, LightPsiParser {
   /* ********************************************************** */
   // if_statement
   //   | for_statement
+  //   | while_statement
   static boolean statements(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "statements")) return false;
-    if (!nextTokenIs(b, "", FOR, IF)) return false;
     boolean r;
     r = if_statement(b, l + 1);
     if (!r) r = for_statement(b, l + 1);
+    if (!r) r = while_statement(b, l + 1);
     return r;
   }
 
@@ -217,6 +218,20 @@ public class FluentParser implements PsiParser, LightPsiParser {
       if (!empty_element_parsed_guard_(b, "valkyrie", c)) break;
     }
     return true;
+  }
+
+  /* ********************************************************** */
+  // WHILE expression block
+  public static boolean while_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "while_statement")) return false;
+    if (!nextTokenIs(b, WHILE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, WHILE);
+    r = r && expression(b, l + 1);
+    r = r && block(b, l + 1);
+    exit_section_(b, m, WHILE_STATEMENT, r);
+    return r;
   }
 
 }

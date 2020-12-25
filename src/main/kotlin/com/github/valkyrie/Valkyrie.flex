@@ -94,8 +94,9 @@ HEX = [0-9a-fA-F]
 <YYINITIAL> {
     "if" { return IF; }
     "else" { return ELSE; }
-    "for" { return ELSE; }
-    "in" { return ELSE; }
+    "for" { return FOR; }
+    "in" { return IN; }
+    "while" { return WHILE; }
     {SYMBOL} { return SYMBOL; }
 }
 // =====================================================================================================================

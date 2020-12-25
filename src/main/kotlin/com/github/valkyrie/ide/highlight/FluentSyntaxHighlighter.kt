@@ -22,7 +22,7 @@ class FluentSyntaxHighlighter : SyntaxHighlighterBase() {
     private fun getTokenColor(tokenType: IElementType): VColor? {
         return when (tokenType) {
             //
-            IF, ELSE, FOR, IN -> VColor.KEYWORD
+            IF, ELSE, FOR, IN, WHILE -> VColor.KEYWORD
             // ANNOTATION -> JssColor.ANNOTATION
             //
             PARENTHESIS_L, PARENTHESIS_R -> VColor.PARENTHESES

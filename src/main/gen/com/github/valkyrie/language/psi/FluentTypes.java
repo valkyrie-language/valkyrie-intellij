@@ -15,6 +15,7 @@ public interface FluentTypes {
   IElementType IF_STATEMENT = new FluentElementType("IF_STATEMENT");
   IElementType NAMESPACE = new FluentElementType("NAMESPACE");
   IElementType PATTERN = new FluentElementType("PATTERN");
+  IElementType WHILE_STATEMENT = new FluentElementType("WHILE_STATEMENT");
 
   IElementType ACCENT = new FluentTokenType("^");
   IElementType ANGLE_L = new FluentTokenType("<");
@@ -52,6 +53,7 @@ public interface FluentTypes {
   IElementType SYMBOL = new FluentTokenType("Symbol");
   IElementType TO = new FluentTokenType("->");
   IElementType URL = new FluentTokenType("Url");
+  IElementType WHILE = new FluentTokenType("while");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {
@@ -76,6 +78,9 @@ public interface FluentTypes {
       }
       else if (type == PATTERN) {
         return new FluentPatternNode(node);
+      }
+      else if (type == WHILE_STATEMENT) {
+        return new FluentWhileStatementNode(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }
