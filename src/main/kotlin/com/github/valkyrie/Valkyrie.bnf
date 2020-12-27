@@ -55,8 +55,12 @@
         FOR = "for"
         IN = "in"
         WHILE = "while"
-//      SPACE='regexp:\s+'
-//      ANY = 'regexp:.'
+        MATCH = 'match'
+        CATCH = 'catch'
+        LET = "let"
+        DEF = "def"
+        CLASS = 'class'
+        TRAIT = 'trait'
     ]
 }
 
@@ -65,6 +69,11 @@ private statements ::=
     if_statement
   | for_statement
   | while_statement
+  | match_statement
+  | let_statement
+  | def_statement
+  | class_statement
+  | trait_statement
   ;
 // ---------------------------------------------------------------------------------------------------------------------
 if_statement ::= (IF condition block) [(ELSE IF condition block)* (ELSE block)]
@@ -74,10 +83,20 @@ condition ::= expression;
 for_statement ::= FOR pattern IN expression block;
 
 pattern ::= namespace;
-atoms ::= INTEGER | DECIMAL;
 // ---------------------------------------------------------------------------------------------------------------------
 while_statement ::= WHILE expression block;
+// ---------------------------------------------------------------------------------------------------------------------
+match_statement ::= MATCH expression block;
+// ---------------------------------------------------------------------------------------------------------------------
+let_statement ::= LET pattern "=" block;
+// ---------------------------------------------------------------------------------------------------------------------
+def_statement ::= DEF expression block;
+// ---------------------------------------------------------------------------------------------------------------------
+class_statement ::= CLASS expression block;
+// ---------------------------------------------------------------------------------------------------------------------
+trait_statement ::= TRAIT expression block;
 // ---------------------------------------------------------------------------------------------------------------------
 private expression ::= namespace;
 // ---------------------------------------------------------------------------------------------------------------------
 namespace           ::= SYMBOL;
+atoms ::= INTEGER | DECIMAL;

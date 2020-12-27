@@ -97,6 +97,11 @@ HEX = [0-9a-fA-F]
     "for" { return FOR; }
     "in" { return IN; }
     "while" { return WHILE; }
+    "match" { return MATCH; }
+    "let" { return LET; }
+    "def" { return DEF; }
+    "class" { return CLASS; }
+    "trait" { return TRAIT; }
     {SYMBOL} { return SYMBOL; }
 }
 // =====================================================================================================================

@@ -15,7 +15,15 @@ public class FluentVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitClassStatement(@NotNull FluentClassStatement o) {
+    visitPsiElement(o);
+  }
+
   public void visitCondition(@NotNull FluentCondition o) {
+    visitPsiElement(o);
+  }
+
+  public void visitDefStatement(@NotNull FluentDefStatement o) {
     visitPsiElement(o);
   }
 
@@ -27,11 +35,23 @@ public class FluentVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitLetStatement(@NotNull FluentLetStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitMatchStatement(@NotNull FluentMatchStatement o) {
+    visitPsiElement(o);
+  }
+
   public void visitNamespace(@NotNull FluentNamespace o) {
     visitPsiElement(o);
   }
 
   public void visitPattern(@NotNull FluentPattern o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTraitStatement(@NotNull FluentTraitStatement o) {
     visitPsiElement(o);
   }
 

@@ -1,3 +1,18 @@
 for i in s {
 
 }
+
+let a = [1,2,3]
+for i in s if x {
+
+}
+
+
+
+for i in s {
+
+}
+else {
+
+}
+
