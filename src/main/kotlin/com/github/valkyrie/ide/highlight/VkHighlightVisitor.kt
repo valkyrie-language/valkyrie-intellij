@@ -10,7 +10,7 @@ import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 
-class FluentHighlightVisitor : FluentVisitor(), HighlightVisitor {
+class VkHighlightVisitor : FluentVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
 
 //    override fun visitMessageID(o: FluentMessageID) {
@@ -65,7 +65,7 @@ class FluentHighlightVisitor : FluentVisitor(), HighlightVisitor {
         return true
     }
 
-    override fun clone(): HighlightVisitor = FluentHighlightVisitor()
+    override fun clone(): HighlightVisitor = VkHighlightVisitor()
 
     override fun suitableForFile(file: PsiFile): Boolean = file is VkFile
 

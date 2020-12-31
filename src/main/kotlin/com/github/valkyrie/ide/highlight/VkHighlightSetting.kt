@@ -6,7 +6,7 @@ import com.github.valkyrie.ide.view.VkIconProvider
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
 
-class FluentHighlightSetting : ColorSettingsPage {
+class VkHighlightSetting : ColorSettingsPage {
     private val annotatorTags = VkHighlightColor
         .values()
         .associateBy({ it.name }, { it.textAttributesKey })
@@ -22,7 +22,7 @@ class FluentHighlightSetting : ColorSettingsPage {
 
     override fun getIcon() = VkIconProvider.FluentFile
 
-    override fun getHighlighter() = FluentSyntaxHighlighter()
+    override fun getHighlighter() = VkSyntaxHighlighter()
 
     override fun getAdditionalHighlightingTagToDescriptorMap() = annotatorTags
 

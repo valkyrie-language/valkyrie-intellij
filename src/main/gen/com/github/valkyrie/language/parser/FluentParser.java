@@ -61,6 +61,20 @@ public class FluentParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // CLASS expression block
+  public static boolean class_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "class_statement")) return false;
+    if (!nextTokenIs(b, CLASS)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, CLASS);
+    r = r && expression(b, l + 1);
+    r = r && block(b, l + 1);
+    exit_section_(b, m, CLASS_STATEMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // expression
   public static boolean condition(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "condition")) return false;
@@ -69,6 +83,20 @@ public class FluentParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = expression(b, l + 1);
     exit_section_(b, m, CONDITION, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // DEF expression block
+  public static boolean def_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "def_statement")) return false;
+    if (!nextTokenIs(b, DEF)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, DEF);
+    r = r && expression(b, l + 1);
+    r = r && block(b, l + 1);
+    exit_section_(b, m, DEF_STATEMENT, r);
     return r;
   }
 
@@ -172,6 +200,35 @@ public class FluentParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // LET pattern "=" block
+  public static boolean let_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "let_statement")) return false;
+    if (!nextTokenIs(b, LET)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, LET);
+    r = r && pattern(b, l + 1);
+    r = r && consumeToken(b, EQ);
+    r = r && block(b, l + 1);
+    exit_section_(b, m, LET_STATEMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // MATCH expression block
+  public static boolean match_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "match_statement")) return false;
+    if (!nextTokenIs(b, MATCH)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, MATCH);
+    r = r && expression(b, l + 1);
+    r = r && block(b, l + 1);
+    exit_section_(b, m, MATCH_STATEMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // SYMBOL
   public static boolean namespace(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "namespace")) return false;
@@ -199,12 +256,36 @@ public class FluentParser implements PsiParser, LightPsiParser {
   // if_statement
   //   | for_statement
   //   | while_statement
+  //   | match_statement
+  //   | let_statement
+  //   | def_statement
+  //   | class_statement
+  //   | trait_statement
   static boolean statements(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "statements")) return false;
     boolean r;
     r = if_statement(b, l + 1);
     if (!r) r = for_statement(b, l + 1);
     if (!r) r = while_statement(b, l + 1);
+    if (!r) r = match_statement(b, l + 1);
+    if (!r) r = let_statement(b, l + 1);
+    if (!r) r = def_statement(b, l + 1);
+    if (!r) r = class_statement(b, l + 1);
+    if (!r) r = trait_statement(b, l + 1);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // TRAIT expression block
+  public static boolean trait_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "trait_statement")) return false;
+    if (!nextTokenIs(b, TRAIT)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, TRAIT);
+    r = r && expression(b, l + 1);
+    r = r && block(b, l + 1);
+    exit_section_(b, m, TRAIT_STATEMENT, r);
     return r;
   }
 
