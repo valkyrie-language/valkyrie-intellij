@@ -55,7 +55,7 @@
 <!--		/>-->
 		<lang.braceMatcher
 				language="Valkyrie"
-				implementationClass="com.github.valkyrie.ide.matcher.FluentBraceMatcher"
+				implementationClass="com.github.valkyrie.ide.matcher.VkBraceMatcher"
 		/>
 <!--		<lang.quoteHandler-->
 <!--				language="Valkyrie"-->
@@ -63,7 +63,7 @@
 <!--		/>-->
 		<lang.foldingBuilder
 				language="Valkyrie"
-				implementationClass="com.github.valkyrie.ide.matcher.FluentFoldingBuilder"
+				implementationClass="com.github.valkyrie.ide.matcher.VkFoldingBuilder"
 		/>
 <!--		<indexPatternBuilder-->
 <!--				implementation="com.github.valkyrie.ide.todo.VomlTodoIndexPatternBuilder"-->

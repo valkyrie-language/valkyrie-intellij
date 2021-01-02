@@ -33,6 +33,8 @@ enum class VkHighlightColor(humanName: Supplier<@AttributeDescriptor String>, de
     SYM_ATTRIBUTE(VkBundle.messagePointer("color.token.symbol.attribute"), Default.STATIC_METHOD),
     SYM_VARIABLE(VkBundle.messagePointer("color.token.symbol.variable"), Default.REASSIGNED_PARAMETER),
     SYM_FUNCTION(VkBundle.messagePointer("color.token.symbol.function"), Default.PREDEFINED_SYMBOL),
+    SYM_CLASS(VkBundle.messagePointer("color.token.symbol.class"), Default.CLASS_NAME),
+    SYM_TRAIT(VkBundle.messagePointer("color.token.symbol.trait"), Default.INTERFACE_NAME),
     //
     TYPE_HINT(VkBundle.messagePointer("color.token.symbol.type"), Default.CLASS_NAME),
 

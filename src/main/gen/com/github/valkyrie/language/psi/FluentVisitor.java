@@ -15,6 +15,14 @@ public class FluentVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitBraceBlock(@NotNull FluentBraceBlock o) {
+    visitPsiElement(o);
+  }
+
+  public void visitBracketBlock(@NotNull FluentBracketBlock o) {
+    visitPsiElement(o);
+  }
+
   public void visitClassStatement(@NotNull FluentClassStatement o) {
     visitPsiElement(o);
   }
@@ -44,6 +52,10 @@ public class FluentVisitor extends PsiElementVisitor {
   }
 
   public void visitNamespace(@NotNull FluentNamespace o) {
+    visitPsiElement(o);
+  }
+
+  public void visitParenthesis(@NotNull FluentParenthesis o) {
     visitPsiElement(o);
   }
 

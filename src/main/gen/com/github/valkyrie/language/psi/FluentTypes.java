@@ -10,6 +10,8 @@ public interface FluentTypes {
 
   IElementType ATOMS = new FluentElementType("ATOMS");
   IElementType BLOCK = new FluentElementType("BLOCK");
+  IElementType BRACE_BLOCK = new FluentElementType("BRACE_BLOCK");
+  IElementType BRACKET_BLOCK = new FluentElementType("BRACKET_BLOCK");
   IElementType CLASS_STATEMENT = new FluentElementType("CLASS_STATEMENT");
   IElementType CONDITION = new FluentElementType("CONDITION");
   IElementType DEF_STATEMENT = new FluentElementType("DEF_STATEMENT");
@@ -18,6 +20,7 @@ public interface FluentTypes {
   IElementType LET_STATEMENT = new FluentElementType("LET_STATEMENT");
   IElementType MATCH_STATEMENT = new FluentElementType("MATCH_STATEMENT");
   IElementType NAMESPACE = new FluentElementType("NAMESPACE");
+  IElementType PARENTHESIS = new FluentElementType("PARENTHESIS");
   IElementType PATTERN = new FluentElementType("PATTERN");
   IElementType TRAIT_STATEMENT = new FluentElementType("TRAIT_STATEMENT");
   IElementType WHILE_STATEMENT = new FluentElementType("WHILE_STATEMENT");
@@ -75,6 +78,12 @@ public interface FluentTypes {
       else if (type == BLOCK) {
         return new FluentBlockNode(node);
       }
+      else if (type == BRACE_BLOCK) {
+        return new FluentBraceBlockNode(node);
+      }
+      else if (type == BRACKET_BLOCK) {
+        return new FluentBracketBlockNode(node);
+      }
       else if (type == CLASS_STATEMENT) {
         return new FluentClassStatementNode(node);
       }
@@ -98,6 +107,9 @@ public interface FluentTypes {
       }
       else if (type == NAMESPACE) {
         return new FluentNamespaceNode(node);
+      }
+      else if (type == PARENTHESIS) {
+        return new FluentParenthesisNode(node);
       }
       else if (type == PATTERN) {
         return new FluentPatternNode(node);

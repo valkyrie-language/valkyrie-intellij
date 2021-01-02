@@ -77,7 +77,7 @@ private statements ::=
   ;
 // ---------------------------------------------------------------------------------------------------------------------
 if_statement ::= (IF condition block) [(ELSE IF condition block)* (ELSE block)]
-block ::= expression;
+block ::= <<brace_block expression COLON>>;
 condition ::= expression;
 // ---------------------------------------------------------------------------------------------------------------------
 for_statement ::= FOR pattern IN expression block;
@@ -100,3 +100,10 @@ private expression ::= namespace;
 // ---------------------------------------------------------------------------------------------------------------------
 namespace           ::= SYMBOL;
 atoms ::= INTEGER | DECIMAL;
+// ---------------------------------------------------------------------------------------------------------------------
+// parenthesis ( )
+meta parenthesis ::= PARENTHESIS_L <<param>> PARENTHESIS_R;
+// bracket [ ]
+meta bracket_block ::= BRACKET_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] BRACKET_R;
+// brace { }
+meta brace_block ::= BRACE_L (<<item>>|<<sp>>)* BRACE_R;

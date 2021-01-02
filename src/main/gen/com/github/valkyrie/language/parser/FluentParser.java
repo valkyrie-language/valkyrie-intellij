@@ -49,15 +49,113 @@ public class FluentParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // expression
+  // <<brace_block expression COLON>>
   public static boolean block(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "block")) return false;
-    if (!nextTokenIs(b, SYMBOL)) return false;
+    if (!nextTokenIs(b, BRACE_L)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = expression(b, l + 1);
+    r = brace_block(b, l + 1, FluentParser::expression, COLON_parser_);
     exit_section_(b, m, BLOCK, r);
     return r;
+  }
+
+  /* ********************************************************** */
+  // BRACE_L (<<item>>|<<sp>>)* BRACE_R
+  public static boolean brace_block(PsiBuilder b, int l, Parser _item, Parser _sp) {
+    if (!recursion_guard_(b, l, "brace_block")) return false;
+    if (!nextTokenIs(b, BRACE_L)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, BRACE_L);
+    r = r && brace_block_1(b, l + 1, _item, _sp);
+    r = r && consumeToken(b, BRACE_R);
+    exit_section_(b, m, BRACE_BLOCK, r);
+    return r;
+  }
+
+  // (<<item>>|<<sp>>)*
+  private static boolean brace_block_1(PsiBuilder b, int l, Parser _item, Parser _sp) {
+    if (!recursion_guard_(b, l, "brace_block_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!brace_block_1_0(b, l + 1, _item, _sp)) break;
+      if (!empty_element_parsed_guard_(b, "brace_block_1", c)) break;
+    }
+    return true;
+  }
+
+  // <<item>>|<<sp>>
+  private static boolean brace_block_1_0(PsiBuilder b, int l, Parser _item, Parser _sp) {
+    if (!recursion_guard_(b, l, "brace_block_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = _item.parse(b, l);
+    if (!r) r = _sp.parse(b, l);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // BRACKET_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] BRACKET_R
+  public static boolean bracket_block(PsiBuilder b, int l, Parser _item, Parser _sp) {
+    if (!recursion_guard_(b, l, "bracket_block")) return false;
+    if (!nextTokenIs(b, BRACKET_L)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, BRACKET_L);
+    r = r && bracket_block_1(b, l + 1, _item, _sp);
+    r = r && consumeToken(b, BRACKET_R);
+    exit_section_(b, m, BRACKET_BLOCK, r);
+    return r;
+  }
+
+  // [<<item>> (<<sp>> <<item>>)* [<<sp>>]]
+  private static boolean bracket_block_1(PsiBuilder b, int l, Parser _item, Parser _sp) {
+    if (!recursion_guard_(b, l, "bracket_block_1")) return false;
+    bracket_block_1_0(b, l + 1, _item, _sp);
+    return true;
+  }
+
+  // <<item>> (<<sp>> <<item>>)* [<<sp>>]
+  private static boolean bracket_block_1_0(PsiBuilder b, int l, Parser _item, Parser _sp) {
+    if (!recursion_guard_(b, l, "bracket_block_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = _item.parse(b, l);
+    r = r && bracket_block_1_0_1(b, l + 1, _sp, _item);
+    r = r && bracket_block_1_0_2(b, l + 1, _sp);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (<<sp>> <<item>>)*
+  private static boolean bracket_block_1_0_1(PsiBuilder b, int l, Parser _sp, Parser _item) {
+    if (!recursion_guard_(b, l, "bracket_block_1_0_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!bracket_block_1_0_1_0(b, l + 1, _sp, _item)) break;
+      if (!empty_element_parsed_guard_(b, "bracket_block_1_0_1", c)) break;
+    }
+    return true;
+  }
+
+  // <<sp>> <<item>>
+  private static boolean bracket_block_1_0_1_0(PsiBuilder b, int l, Parser _sp, Parser _item) {
+    if (!recursion_guard_(b, l, "bracket_block_1_0_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = _sp.parse(b, l);
+    r = r && _item.parse(b, l);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [<<sp>>]
+  private static boolean bracket_block_1_0_2(PsiBuilder b, int l, Parser _sp) {
+    if (!recursion_guard_(b, l, "bracket_block_1_0_2")) return false;
+    _sp.parse(b, l);
+    return true;
   }
 
   /* ********************************************************** */
@@ -241,6 +339,20 @@ public class FluentParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // PARENTHESIS_L <<param>> PARENTHESIS_R
+  public static boolean parenthesis(PsiBuilder b, int l, Parser _param) {
+    if (!recursion_guard_(b, l, "parenthesis")) return false;
+    if (!nextTokenIs(b, PARENTHESIS_L)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, PARENTHESIS_L);
+    r = r && _param.parse(b, l);
+    r = r && consumeToken(b, PARENTHESIS_R);
+    exit_section_(b, m, PARENTHESIS, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // namespace
   public static boolean pattern(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "pattern")) return false;
@@ -315,4 +427,5 @@ public class FluentParser implements PsiParser, LightPsiParser {
     return r;
   }
 
+  static final Parser COLON_parser_ = (b, l) -> consumeToken(b, COLON);
 }

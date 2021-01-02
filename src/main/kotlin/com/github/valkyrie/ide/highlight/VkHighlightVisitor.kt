@@ -9,9 +9,34 @@ import com.intellij.codeInsight.daemon.impl.HighlightVisitor
 import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import com.intellij.psi.util.nextLeaf
+import com.github.valkyrie.ide.highlight.VkHighlightColor as Color
 
 class VkHighlightVisitor : FluentVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
+
+
+    override fun visitTraitStatement(o: FluentTraitStatement) {
+        //
+        val head = o.firstChild;
+        highlight(head, Color.SYM_TRAIT)
+        //
+//        val prop = head.nextLeaf { it.elementType == JssTypes.SYMBOL }!!
+//        highlight(prop, FluentColor.SYM_SCHEMA)
+
+        super.visitTraitStatement(o)
+    }
+
+    override fun visitClassStatement(o: FluentClassStatement) {
+        //
+        val head = o.firstChild;
+        highlight(head, Color.SYM_CLASS)
+        //
+//        val prop = head.nextLeaf { it.elementType == JssTypes.SYMBOL }!!
+//        highlight(prop, FluentColor.SYM_SCHEMA)
+
+        super.visitClassStatement(o)
+    }
 
 //    override fun visitMessageID(o: FluentMessageID) {
 //        highlight(o, SYM_MESSAGE)
@@ -45,7 +70,7 @@ class VkHighlightVisitor : FluentVisitor(), HighlightVisitor {
 //    }
 
 
-    private fun highlight(element: PsiElement, color: VkHighlightColor) {
+    private fun highlight(element: PsiElement, color: Color) {
         val builder = HighlightInfo.newHighlightInfo(HighlightInfoType.INFORMATION)
         builder.textAttributes(color.textAttributesKey)
         builder.range(element)
@@ -57,7 +82,7 @@ class VkHighlightVisitor : FluentVisitor(), HighlightVisitor {
         file: PsiFile,
         updateWholeFile: Boolean,
         holder: HighlightInfoHolder,
-        action: Runnable
+        action: Runnable,
     ): Boolean {
         infoHolder = holder
         action.run()

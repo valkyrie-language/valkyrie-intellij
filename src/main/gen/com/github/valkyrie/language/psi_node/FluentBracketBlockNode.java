@@ -11,26 +11,20 @@ import static com.github.valkyrie.language.psi.FluentTypes.*;
 import com.github.valkyrie.language.psi.FluentElement;
 import com.github.valkyrie.language.psi.*;
 
-public class FluentBlockNode extends FluentElement implements FluentBlock {
+public class FluentBracketBlockNode extends FluentElement implements FluentBracketBlock {
 
-  public FluentBlockNode(@NotNull ASTNode node) {
+  public FluentBracketBlockNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull FluentVisitor visitor) {
-    visitor.visitBlock(this);
+    visitor.visitBracketBlock(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof FluentVisitor) accept((FluentVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public FluentBraceBlock getBraceBlock() {
-    return findNotNullChildByClass(FluentBraceBlock.class);
   }
 
 }
