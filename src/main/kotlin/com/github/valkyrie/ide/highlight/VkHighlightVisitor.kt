@@ -9,6 +9,8 @@ import com.intellij.codeInsight.daemon.impl.HighlightVisitor
 import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import com.intellij.psi.tree.IElementType
+import com.intellij.psi.util.elementType
 import com.intellij.psi.util.nextLeaf
 import com.github.valkyrie.ide.highlight.VkHighlightColor as Color
 
@@ -17,21 +19,15 @@ class VkHighlightVisitor : FluentVisitor(), HighlightVisitor {
 
 
     override fun visitTraitStatement(o: FluentTraitStatement) {
-        //
         val head = o.firstChild;
-        highlight(head, Color.SYM_TRAIT)
-        //
-//        val prop = head.nextLeaf { it.elementType == JssTypes.SYMBOL }!!
-//        highlight(prop, FluentColor.SYM_SCHEMA)
+        val prop = head.nextLeaf { it.elementType == TYPES }!!
+        highlight(prop, Color.SYM_TRAIT)
 
         super.visitTraitStatement(o)
     }
 
     override fun visitClassStatement(o: FluentClassStatement) {
-        //
         val head = o.firstChild;
-        highlight(head, Color.SYM_CLASS)
-        //
 //        val prop = head.nextLeaf { it.elementType == JssTypes.SYMBOL }!!
 //        highlight(prop, FluentColor.SYM_SCHEMA)
 

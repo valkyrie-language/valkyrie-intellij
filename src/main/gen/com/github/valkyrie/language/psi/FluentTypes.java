@@ -73,52 +73,52 @@ public interface FluentTypes {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
       if (type == ATOMS) {
-        return new FluentAtomsNode(node);
+        return new ValkyrieAtomsNode(node);
       }
       else if (type == BLOCK) {
-        return new FluentBlockNode(node);
+        return new ValkyrieBlockNode(node);
       }
       else if (type == BRACE_BLOCK) {
-        return new FluentBraceBlockNode(node);
+        return new ValkyrieBraceBlockNode(node);
       }
       else if (type == BRACKET_BLOCK) {
-        return new FluentBracketBlockNode(node);
+        return new ValkyrieBracketBlockNode(node);
       }
       else if (type == CLASS_STATEMENT) {
-        return new FluentClassStatementNode(node);
+        return new ValkyrieClassStatementNode(node);
       }
       else if (type == CONDITION) {
-        return new FluentConditionNode(node);
+        return new ValkyrieConditionNode(node);
       }
       else if (type == DEF_STATEMENT) {
-        return new FluentDefStatementNode(node);
+        return new ValkyrieDefStatementNode(node);
       }
       else if (type == FOR_STATEMENT) {
-        return new FluentForStatementNode(node);
+        return new ValkyrieForStatementNode(node);
       }
       else if (type == IF_STATEMENT) {
-        return new FluentIfStatementNode(node);
+        return new ValkyrieIfStatementNode(node);
       }
       else if (type == LET_STATEMENT) {
-        return new FluentLetStatementNode(node);
+        return new ValkyrieLetStatementNode(node);
       }
       else if (type == MATCH_STATEMENT) {
-        return new FluentMatchStatementNode(node);
+        return new ValkyrieMatchStatementNode(node);
       }
       else if (type == NAMESPACE) {
-        return new FluentNamespaceNode(node);
+        return new ValkyrieNamespaceNode(node);
       }
       else if (type == PARENTHESIS) {
-        return new FluentParenthesisNode(node);
+        return new ValkyrieParenthesisNode(node);
       }
       else if (type == PATTERN) {
-        return new FluentPatternNode(node);
+        return new ValkyriePatternNode(node);
       }
       else if (type == TRAIT_STATEMENT) {
-        return new FluentTraitStatementNode(node);
+        return new ValkyrieTraitStatementNode(node);
       }
       else if (type == WHILE_STATEMENT) {
-        return new FluentWhileStatementNode(node);
+        return new ValkyrieWhileStatementNode(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

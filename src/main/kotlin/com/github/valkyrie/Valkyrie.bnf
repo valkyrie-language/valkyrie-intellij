@@ -4,7 +4,7 @@
 
     extends = "com.github.valkyrie.language.psi.FluentElement"
 
-    psiClassPrefix = "Fluent"
+    psiClassPrefix = "Valkyrie"
     psiImplClassSuffix = "Node"
     psiPackage = "com.github.valkyrie.language.psi"
     psiImplPackage = "com.github.valkyrie.language.psi_node"
