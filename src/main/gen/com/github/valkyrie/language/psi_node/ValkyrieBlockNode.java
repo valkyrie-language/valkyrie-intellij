@@ -7,11 +7,11 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static com.github.valkyrie.language.psi.FluentTypes.*;
-import com.github.valkyrie.language.psi.FluentElement;
+import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
+import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieBlockNode extends FluentElement implements ValkyrieBlock {
+public class ValkyrieBlockNode extends ValkyrieElement implements ValkyrieBlock {
 
   public ValkyrieBlockNode(@NotNull ASTNode node) {
     super(node);

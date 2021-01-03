@@ -1,7 +1,7 @@
 package com.github.valkyrie.ide.formatter
 
 import com.github.valkyrie.VkLanguage
-import com.github.valkyrie.language.psi.FluentTypes.*
+import com.github.valkyrie.language.psi.ValkyrieTypes.*
 import com.intellij.formatting.SpacingBuilder
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings

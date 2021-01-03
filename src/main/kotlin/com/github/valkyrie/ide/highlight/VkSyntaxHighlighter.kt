@@ -2,7 +2,7 @@ package com.github.valkyrie.ide.highlight
 
 
 import com.github.valkyrie.language.psi.ValkyrieLexerAdapter
-import com.github.valkyrie.language.psi.FluentTypes.*
+import com.github.valkyrie.language.psi.ValkyrieTypes.*
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase

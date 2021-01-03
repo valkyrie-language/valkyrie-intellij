@@ -17,7 +17,7 @@
 		/>
 		<lang.parserDefinition
 				language="Valkyrie"
-				implementationClass="com.github.valkyrie.language.psi.FluentParserDefinition"
+				implementationClass="com.github.valkyrie.language.psi.ValkyrieParserDefinition"
 		/>
 		<!-- StructureView -->
 		<!--iconProvider implementation="com.github.valkyrie.ide.view.FluentIconProvider"-->

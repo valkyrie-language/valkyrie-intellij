@@ -7,11 +7,11 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static com.github.valkyrie.language.psi.FluentTypes.*;
-import com.github.valkyrie.language.psi.FluentElement;
+import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
+import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieWhileStatementNode extends FluentElement implements ValkyrieWhileStatement {
+public class ValkyrieWhileStatementNode extends ValkyrieElement implements ValkyrieWhileStatement {
 
   public ValkyrieWhileStatementNode(@NotNull ASTNode node) {
     super(node);
@@ -34,9 +34,9 @@ public class ValkyrieWhileStatementNode extends FluentElement implements Valkyri
   }
 
   @Override
-  @NotNull
+  @Nullable
   public ValkyrieNamespace getNamespace() {
-    return findNotNullChildByClass(ValkyrieNamespace.class);
+    return findChildByClass(ValkyrieNamespace.class);
   }
 
 }

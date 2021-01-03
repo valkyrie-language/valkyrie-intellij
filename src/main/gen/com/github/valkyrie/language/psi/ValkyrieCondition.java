@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieCondition extends PsiElement {
 
-  @NotNull
+  @Nullable
   ValkyrieNamespace getNamespace();
 
 }

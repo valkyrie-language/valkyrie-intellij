@@ -1,6 +1,5 @@
 package com.github.valkyrie.ide.formatter
 
-import com.github.valkyrie.language.psi.FluentTypes
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange

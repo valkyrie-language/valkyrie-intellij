@@ -10,7 +10,7 @@ public interface ValkyrieMatchStatement extends PsiElement {
   @NotNull
   ValkyrieBlock getBlock();
 
-  @NotNull
+  @Nullable
   ValkyrieNamespace getNamespace();
 
 }

@@ -1,8 +1,8 @@
 package com.github.valkyrie.ide.matcher
 
 
-import com.github.valkyrie.ide.view.VkFile
-import com.github.valkyrie.language.psi.FluentTypes.BRACE_BLOCK
+import com.github.valkyrie.ide.view.ValkyrieFile
+import com.github.valkyrie.language.psi.ValkyrieTypes.BRACE_BLOCK
 import com.intellij.lang.ASTNode
 import com.intellij.lang.folding.CustomFoldingBuilder
 import com.intellij.lang.folding.FoldingDescriptor
@@ -19,7 +19,7 @@ class VkFoldingBuilder : CustomFoldingBuilder(), DumbAware {
         document: Document,
         quick: Boolean
     ) {
-        if (root !is VkFile) return
+        if (root !is ValkyrieFile) return
         val visitor = VkFoldingVisitor(descriptors)
         PsiTreeUtil.processElements(root) {
             it.accept(visitor);

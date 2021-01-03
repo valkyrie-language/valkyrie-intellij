@@ -7,18 +7,18 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static com.github.valkyrie.language.psi.FluentTypes.*;
-import com.github.valkyrie.language.psi.FluentElement;
+import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
+import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieAtomsNode extends FluentElement implements ValkyrieAtoms {
+public class ValkyrieAngleBlockNode extends ValkyrieElement implements ValkyrieAngleBlock {
 
-  public ValkyrieAtomsNode(@NotNull ASTNode node) {
+  public ValkyrieAngleBlockNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitAtoms(this);
+    visitor.visitAngleBlock(this);
   }
 
   @Override

@@ -10,7 +10,7 @@ public interface ValkyrieForStatement extends PsiElement {
   @NotNull
   ValkyrieBlock getBlock();
 
-  @NotNull
+  @Nullable
   ValkyrieNamespace getNamespace();
 
   @NotNull

@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public class ValkyrieVisitor extends PsiElementVisitor {
 
-  public void visitAtoms(@NotNull ValkyrieAtoms o) {
+  public void visitAngleBlock(@NotNull ValkyrieAngleBlock o) {
     visitPsiElement(o);
   }
 

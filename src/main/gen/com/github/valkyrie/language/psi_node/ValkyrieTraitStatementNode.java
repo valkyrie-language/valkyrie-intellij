@@ -7,11 +7,11 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static com.github.valkyrie.language.psi.FluentTypes.*;
-import com.github.valkyrie.language.psi.FluentElement;
+import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
+import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieTraitStatementNode extends FluentElement implements ValkyrieTraitStatement {
+public class ValkyrieTraitStatementNode extends ValkyrieElement implements ValkyrieTraitStatement {
 
   public ValkyrieTraitStatementNode(@NotNull ASTNode node) {
     super(node);
@@ -31,12 +31,6 @@ public class ValkyrieTraitStatementNode extends FluentElement implements Valkyri
   @NotNull
   public ValkyrieBlock getBlock() {
     return findNotNullChildByClass(ValkyrieBlock.class);
-  }
-
-  @Override
-  @NotNull
-  public ValkyrieNamespace getNamespace() {
-    return findNotNullChildByClass(ValkyrieNamespace.class);
   }
 
 }

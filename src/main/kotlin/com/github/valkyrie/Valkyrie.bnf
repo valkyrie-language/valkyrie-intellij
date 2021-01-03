@@ -1,19 +1,19 @@
 {
-    parserClass = "com.github.valkyrie.language.parser.FluentParser"
-    parserUtilClass = "com.github.valkyrie.language.psi.FluentParserExtension"
+    parserClass = "com.github.valkyrie.language.parser.ValkyrieParser"
+    parserUtilClass = "com.github.valkyrie.language.psi.ValkyrieParserExtension"
 
-    extends = "com.github.valkyrie.language.psi.FluentElement"
+    extends = "com.github.valkyrie.language.psi.ValkyrieElement"
 
     psiClassPrefix = "Valkyrie"
     psiImplClassSuffix = "Node"
     psiPackage = "com.github.valkyrie.language.psi"
     psiImplPackage = "com.github.valkyrie.language.psi_node"
 
-    elementTypeHolderClass = "com.github.valkyrie.language.psi.FluentTypes"
-    elementTypeClass = "com.github.valkyrie.language.psi.FluentElementType"
-    tokenTypeClass = "com.github.valkyrie.language.psi.FluentTokenType"
+    elementTypeHolderClass = "com.github.valkyrie.language.psi.ValkyrieTypes"
+    elementTypeClass = "com.github.valkyrie.language.psi.ValkyrieElementType"
+    tokenTypeClass = "com.github.valkyrie.language.psi.ValkyrieTokenType"
 
-    psiImplUtilClass = "com.github.valkyrie.language.psi_node.FluentPsiExtension"
+    psiImplUtilClass = "com.github.valkyrie.language.psi_node.ValkyriePsiExtension"
 
     tokens = [
         // comment
@@ -94,12 +94,12 @@ def_statement ::= DEF expression block;
 // ---------------------------------------------------------------------------------------------------------------------
 class_statement ::= CLASS expression block;
 // ---------------------------------------------------------------------------------------------------------------------
-trait_statement ::= TRAIT expression block;
+trait_statement ::= TRAIT SYMBOL block;
 // ---------------------------------------------------------------------------------------------------------------------
-private expression ::= namespace;
+private expression ::= atoms;
 // ---------------------------------------------------------------------------------------------------------------------
-namespace           ::= SYMBOL;
-atoms ::= INTEGER | DECIMAL;
+namespace     ::= SYMBOL;
+private atoms ::= INTEGER | DECIMAL |namespace;
 // ---------------------------------------------------------------------------------------------------------------------
 // parenthesis ( )
 meta parenthesis ::= PARENTHESIS_L <<param>> PARENTHESIS_R;
@@ -107,3 +107,5 @@ meta parenthesis ::= PARENTHESIS_L <<param>> PARENTHESIS_R;
 meta bracket_block ::= BRACKET_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] BRACKET_R;
 // brace { }
 meta brace_block ::= BRACE_L (<<item>>|<<sp>>)* BRACE_R;
+// angle { }
+meta angle_block ::= ANGLE_L (<<item>>|<<sp>>)* ANGLE_R;

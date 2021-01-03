@@ -1,7 +1,7 @@
 package com.github.valkyrie.ide.highlight
 
 
-import com.github.valkyrie.ide.view.VkFile
+import com.github.valkyrie.ide.view.ValkyrieFile
 import com.github.valkyrie.language.psi.*
 import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType
@@ -9,24 +9,23 @@ import com.intellij.codeInsight.daemon.impl.HighlightVisitor
 import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.nextLeaf
 import com.github.valkyrie.ide.highlight.VkHighlightColor as Color
 
-class VkHighlightVisitor : FluentVisitor(), HighlightVisitor {
+class VkHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
 
 
-    override fun visitTraitStatement(o: FluentTraitStatement) {
+    override fun visitTraitStatement(o: ValkyrieTraitStatement) {
         val head = o.firstChild;
-        val prop = head.nextLeaf { it.elementType == TYPES }!!
+        val prop = head.nextLeaf { it.elementType == ValkyrieTypes.SYMBOL }!!
         highlight(prop, Color.SYM_TRAIT)
 
         super.visitTraitStatement(o)
     }
 
-    override fun visitClassStatement(o: FluentClassStatement) {
+    override fun visitClassStatement(o: ValkyrieClassStatement) {
         val head = o.firstChild;
 //        val prop = head.nextLeaf { it.elementType == JssTypes.SYMBOL }!!
 //        highlight(prop, FluentColor.SYM_SCHEMA)
@@ -88,7 +87,7 @@ class VkHighlightVisitor : FluentVisitor(), HighlightVisitor {
 
     override fun clone(): HighlightVisitor = VkHighlightVisitor()
 
-    override fun suitableForFile(file: PsiFile): Boolean = file is VkFile
+    override fun suitableForFile(file: PsiFile): Boolean = file is ValkyrieFile
 
     override fun visit(element: PsiElement) = element.accept(this)
 }

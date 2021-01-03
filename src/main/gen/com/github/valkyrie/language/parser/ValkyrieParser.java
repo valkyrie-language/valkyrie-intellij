@@ -3,8 +3,8 @@ package com.github.valkyrie.language.parser;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiBuilder.Marker;
-import static com.github.valkyrie.language.psi.FluentTypes.*;
-import static com.github.valkyrie.language.psi.FluentParserExtension.*;
+import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
+import static com.github.valkyrie.language.psi.ValkyrieParserExtension.*;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.tree.TokenSet;
@@ -12,7 +12,7 @@ import com.intellij.lang.PsiParser;
 import com.intellij.lang.LightPsiParser;
 
 @SuppressWarnings({"SimplifiableIfStatement", "UnusedAssignment"})
-public class FluentParser implements PsiParser, LightPsiParser {
+public class ValkyrieParser implements PsiParser, LightPsiParser {
 
   public ASTNode parse(IElementType t, PsiBuilder b) {
     parseLight(t, b);
@@ -55,7 +55,7 @@ public class FluentParser implements PsiParser, LightPsiParser {
     if (!nextTokenIs(b, BRACE_L)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = brace_block(b, l + 1, FluentParser::expression, COLON_parser_);
+    r = brace_block(b, l + 1, ValkyrieParser::expression, COLON_parser_);
     exit_section_(b, m, BLOCK, r);
     return r;
   }
