@@ -1,6 +1,6 @@
 package com.github.valkyrie.ide.highlight
 
-import com.github.valkyrie.VkBundle
+import com.github.valkyrie.ValkyrieBundle
 import com.github.valkyrie.ide.view.VkIconProvider
 
 import com.intellij.openapi.options.colors.ColorDescriptor
@@ -18,7 +18,7 @@ class VkHighlightSetting : ColorSettingsPage {
 
     override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
 
-    override fun getDisplayName() = VkBundle.message("filetype.name")
+    override fun getDisplayName() = ValkyrieBundle.message("filetype.name")
 
     override fun getIcon() = VkIconProvider.FluentFile
 

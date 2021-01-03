@@ -1,12 +1,12 @@
 package com.github.valkyrie
 
-import com.github.valkyrie.VkLanguage.Companion.Bundle
+import com.github.valkyrie.ValkyrieLanguage.Companion.Bundle
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.PropertyKey
 import java.util.function.Supplier
 
 
-object VkBundle : DynamicBundle(Bundle) {
+object ValkyrieBundle : DynamicBundle(Bundle) {
 
     @Suppress("SpreadOperator")
     @JvmStatic

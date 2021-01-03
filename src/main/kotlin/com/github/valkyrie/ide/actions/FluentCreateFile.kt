@@ -9,8 +9,8 @@ import com.intellij.psi.PsiDirectory
 class FluentCreateFile :
     CreateFileFromTemplateAction(name, description, FluentFile) {
     companion object {
-        private val name = com.github.valkyrie.VkBundle.message("action.create_file")
-        private val description = com.github.valkyrie.VkBundle.message("action.create_file.description")
+        private val name = com.github.valkyrie.ValkyrieBundle.message("action.create_file")
+        private val description = com.github.valkyrie.ValkyrieBundle.message("action.create_file.description")
         // See [resources/colors/fileTemplate]
         private const val templatePath = "Fluent File";
     }

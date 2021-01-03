@@ -5,7 +5,7 @@ import com.github.valkyrie.language.psi.*
 import com.intellij.lang.folding.FoldingDescriptor
 import com.intellij.psi.PsiElement
 
-class VkFoldingVisitor(private val descriptors: MutableList<FoldingDescriptor>) : FluentRecursiveVisitor() {
+class ValkyrieFoldingVisitor(private val descriptors: MutableList<FoldingDescriptor>) : ValkyrieRecursiveVisitor() {
 
 //    override fun visitInlinePlaceable(o: FluentInlinePlaceable) {
 //        descriptors += FoldingDescriptor(o.node, TextRange(o.firstChild.endOffset, o.lastChild.startOffset))

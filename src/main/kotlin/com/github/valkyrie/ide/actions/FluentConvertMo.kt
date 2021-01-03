@@ -1,6 +1,6 @@
 package com.github.valkyrie.ide.actions
 
-import com.github.valkyrie.VkBundle
+import com.github.valkyrie.ValkyrieBundle
 import com.github.valkyrie.ide.view.VkIconProvider.Companion.FluentFile
 import com.intellij.ide.actions.CreateFileAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -11,8 +11,8 @@ import com.intellij.psi.PsiFile
 
 class FluentConvertMo : CreateFileAction(name, description, FluentFile) {
     companion object {
-        private val name = VkBundle.message("action.convert_prop")
-        private val description = VkBundle.message("action.convert_prop.description")
+        private val name = ValkyrieBundle.message("action.convert_prop")
+        private val description = ValkyrieBundle.message("action.convert_prop.description")
 
     }
 

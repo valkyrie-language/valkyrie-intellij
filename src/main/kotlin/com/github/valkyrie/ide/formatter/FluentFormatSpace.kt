@@ -1,6 +1,6 @@
 package com.github.valkyrie.ide.formatter
 
-import com.github.valkyrie.VkLanguage
+import com.github.valkyrie.ValkyrieLanguage
 import com.github.valkyrie.language.psi.ValkyrieTypes.*
 import com.intellij.formatting.SpacingBuilder
 import com.intellij.psi.codeStyle.CodeStyleSettings
@@ -13,7 +13,7 @@ data class FluentFormatSpace(
 ) {
     companion object {
         fun create(settings: CodeStyleSettings): FluentFormatSpace {
-            val commonSettings = settings.getCommonSettings(VkLanguage.INSTANCE)
+            val commonSettings = settings.getCommonSettings(ValkyrieLanguage.INSTANCE)
             return FluentFormatSpace(commonSettings, createSpacingBuilder(commonSettings))
         }
 

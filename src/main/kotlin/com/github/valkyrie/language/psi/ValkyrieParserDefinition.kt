@@ -1,7 +1,7 @@
 package com.github.valkyrie.language.psi
 
 
-import com.github.valkyrie.VkLanguage
+import com.github.valkyrie.ValkyrieLanguage
 import com.github.valkyrie.ide.view.ValkyrieFile
 import com.github.valkyrie.language.parser.ValkyrieParser
 
@@ -39,6 +39,6 @@ class ValkyrieParserDefinition : ParserDefinition {
     companion object {
         val COMMENTS = TokenSet.create(ValkyrieTypes.COMMENT_LINE)
         val STRING_LITERALS = TokenSet.create(ValkyrieTypes.STRING_LITERAL)
-        val FILE = IFileElementType(VkLanguage.INSTANCE)
+        val FILE = IFileElementType(ValkyrieLanguage.INSTANCE)
     }
 }

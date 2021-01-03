@@ -6,13 +6,13 @@ import com.intellij.psi.codeStyle.CodeStyleSettings
 
 class VomlCodeStyleMainPanel(currentSettings: CodeStyleSettings?, settings: CodeStyleSettings?) :
     TabbedLanguageCodeStylePanel(
-        com.github.valkyrie.VkLanguage.INSTANCE,
+        com.github.valkyrie.ValkyrieLanguage.INSTANCE,
         currentSettings,
         settings
     ) {
     override fun initTabs(settings: CodeStyleSettings) {
         addIndentOptionsTab(settings)
         addWrappingAndBracesTab(settings)
-        addTab(GenerationCodeStylePanel(settings, com.github.valkyrie.VkLanguage.INSTANCE))
+        addTab(GenerationCodeStylePanel(settings, com.github.valkyrie.ValkyrieLanguage.INSTANCE))
     }
 }

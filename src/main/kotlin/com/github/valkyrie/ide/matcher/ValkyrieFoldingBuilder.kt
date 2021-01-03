@@ -12,7 +12,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 
-class VkFoldingBuilder : CustomFoldingBuilder(), DumbAware {
+class ValkyrieFoldingBuilder : CustomFoldingBuilder(), DumbAware {
     override fun buildLanguageFoldRegions(
         descriptors: MutableList<FoldingDescriptor>,
         root: PsiElement,
@@ -20,7 +20,7 @@ class VkFoldingBuilder : CustomFoldingBuilder(), DumbAware {
         quick: Boolean
     ) {
         if (root !is ValkyrieFile) return
-        val visitor = VkFoldingVisitor(descriptors)
+        val visitor = ValkyrieFoldingVisitor(descriptors)
         PsiTreeUtil.processElements(root) {
             it.accept(visitor);
             true
