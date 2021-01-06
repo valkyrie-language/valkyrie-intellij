@@ -98,10 +98,13 @@ HEX = [0-9a-fA-F]
     "in" { return IN; }
     "while" { return WHILE; }
     "match" { return MATCH; }
-    "let" { return LET; }
-    "def" { return DEF; }
-    "class" { return CLASS; }
+    "let" | "var" | "val" { return LET; }
+    "def" | "func" | "fn" { return DEF; }
+    "class" | "struct" { return CLASS; }
     "trait" { return TRAIT; }
+    "variant" | "tagged" | "enum" { return VARIANT; }
+    "bitflag" | "bitset" | "bitflags"{ return BITFLAG; }
+    "extends" | "impl" { return EXTENDS; }
     {SYMBOL} { return SYMBOL; }
 }
 // =====================================================================================================================

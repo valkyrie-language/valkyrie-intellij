@@ -1,3 +1,7 @@
-trait A {
+trait A<T>: Trait + Trait
+where
+    A: T
+{
 
 }
+

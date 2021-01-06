@@ -8,9 +8,9 @@ import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
-import com.github.valkyrie.ide.highlight.VkHighlightColor as Color
+import com.github.valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
-class VkSyntaxHighlighter : SyntaxHighlighterBase() {
+class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
     override fun getHighlightingLexer(): Lexer {
         return ValkyrieLexerAdapter()
     }
@@ -22,9 +22,9 @@ class VkSyntaxHighlighter : SyntaxHighlighterBase() {
     private fun getTokenColor(tokenType: IElementType): Color? {
         return when (tokenType) {
             // Keywords
-            MATCH, CATCH -> Color.KEYWORD
+            MATCH, CATCH, EXTENDS -> Color.KEYWORD
             IF, ELSE, FOR, IN, WHILE -> Color.KEYWORD
-            LET, DEF, CLASS, TRAIT -> Color.KEYWORD
+            LET, DEF, CLASS, TRAIT, VARIANT, BITFLAG -> Color.KEYWORD
             // ANNOTATION -> JssColor.ANNOTATION
             //
             PARENTHESIS_L, PARENTHESIS_R -> Color.PARENTHESES

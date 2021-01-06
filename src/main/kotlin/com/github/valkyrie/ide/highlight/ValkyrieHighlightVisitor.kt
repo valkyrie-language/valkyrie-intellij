@@ -11,9 +11,9 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.nextLeaf
-import com.github.valkyrie.ide.highlight.VkHighlightColor as Color
+import com.github.valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
-class VkHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
+class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
 
 
@@ -27,8 +27,8 @@ class VkHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
 
     override fun visitClassStatement(o: ValkyrieClassStatement) {
         val head = o.firstChild;
-//        val prop = head.nextLeaf { it.elementType == JssTypes.SYMBOL }!!
-//        highlight(prop, FluentColor.SYM_SCHEMA)
+        val prop = head.nextLeaf { it.elementType == ValkyrieTypes.SYMBOL }!!
+        highlight(prop, Color.SYM_CLASS)
 
         super.visitClassStatement(o)
     }
@@ -85,7 +85,7 @@ class VkHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
         return true
     }
 
-    override fun clone(): HighlightVisitor = VkHighlightVisitor()
+    override fun clone(): HighlightVisitor = ValkyrieHighlightVisitor()
 
     override fun suitableForFile(file: PsiFile): Boolean = file is ValkyrieFile
 

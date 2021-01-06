@@ -83,6 +83,19 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // BITFLAG SYMBOL block
+  public static boolean bitflag_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "bitflag_statement")) return false;
+    if (!nextTokenIs(b, BITFLAG)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, BITFLAG, SYMBOL);
+    r = r && block(b, l + 1);
+    exit_section_(b, m, BITFLAG_STATEMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // <<brace_block expression COLON>>
   public static boolean block(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "block")) return false;
@@ -235,6 +248,19 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   // atoms
   static boolean expression(PsiBuilder b, int l) {
     return atoms(b, l + 1);
+  }
+
+  /* ********************************************************** */
+  // EXTENDS SYMBOL block
+  public static boolean extends_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "extends_statement")) return false;
+    if (!nextTokenIs(b, EXTENDS)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, EXTENDS, SYMBOL);
+    r = r && block(b, l + 1);
+    exit_section_(b, m, EXTENDS_STATEMENT, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -406,6 +432,9 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   //   | def_statement
   //   | class_statement
   //   | trait_statement
+  //   | variant_statement
+  //   | bitflag_statement
+  //   | extends_statement
   static boolean statements(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "statements")) return false;
     boolean r;
@@ -417,6 +446,9 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     if (!r) r = def_statement(b, l + 1);
     if (!r) r = class_statement(b, l + 1);
     if (!r) r = trait_statement(b, l + 1);
+    if (!r) r = variant_statement(b, l + 1);
+    if (!r) r = bitflag_statement(b, l + 1);
+    if (!r) r = extends_statement(b, l + 1);
     return r;
   }
 
@@ -443,6 +475,20 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
       if (!empty_element_parsed_guard_(b, "valkyrie", c)) break;
     }
     return true;
+  }
+
+  /* ********************************************************** */
+  // VARIANT expression block
+  public static boolean variant_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "variant_statement")) return false;
+    if (!nextTokenIs(b, VARIANT)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, VARIANT);
+    r = r && expression(b, l + 1);
+    r = r && block(b, l + 1);
+    exit_section_(b, m, VARIANT_STATEMENT, r);
+    return r;
   }
 
   /* ********************************************************** */

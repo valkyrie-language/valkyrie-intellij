@@ -27,11 +27,11 @@
 		<!-- Highlight -->
 		<additionalTextAttributes scheme="Default" file="colors/ValkyrieDefault.xml"/>
 		<additionalTextAttributes scheme="Darcula" file="colors/ValkyrieDarcula.xml"/>
-		<colorSettingsPage implementation="com.github.valkyrie.ide.highlight.VkHighlightSetting"/>
-		<highlightVisitor implementation="com.github.valkyrie.ide.highlight.VkHighlightVisitor"/>
+		<colorSettingsPage implementation="com.github.valkyrie.ide.highlight.ValkyrieHighlightSetting"/>
+		<highlightVisitor implementation="com.github.valkyrie.ide.highlight.ValkyrieHighlightVisitor"/>
 		<lang.syntaxHighlighter
 				language="Valkyrie"
-				implementationClass="com.github.valkyrie.ide.highlight.VkSyntaxHighlighter"
+				implementationClass="com.github.valkyrie.ide.highlight.ValkyrieSyntaxHighlighter"
 		/>
 		<!-- Formatter -->
 		<lang.formatter

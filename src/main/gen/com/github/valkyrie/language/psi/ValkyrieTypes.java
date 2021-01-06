@@ -9,12 +9,14 @@ import com.github.valkyrie.language.psi_node.*;
 public interface ValkyrieTypes {
 
   IElementType ANGLE_BLOCK = new ValkyrieElementType("ANGLE_BLOCK");
+  IElementType BITFLAG_STATEMENT = new ValkyrieElementType("BITFLAG_STATEMENT");
   IElementType BLOCK = new ValkyrieElementType("BLOCK");
   IElementType BRACE_BLOCK = new ValkyrieElementType("BRACE_BLOCK");
   IElementType BRACKET_BLOCK = new ValkyrieElementType("BRACKET_BLOCK");
   IElementType CLASS_STATEMENT = new ValkyrieElementType("CLASS_STATEMENT");
   IElementType CONDITION = new ValkyrieElementType("CONDITION");
   IElementType DEF_STATEMENT = new ValkyrieElementType("DEF_STATEMENT");
+  IElementType EXTENDS_STATEMENT = new ValkyrieElementType("EXTENDS_STATEMENT");
   IElementType FOR_STATEMENT = new ValkyrieElementType("FOR_STATEMENT");
   IElementType IF_STATEMENT = new ValkyrieElementType("IF_STATEMENT");
   IElementType LET_STATEMENT = new ValkyrieElementType("LET_STATEMENT");
@@ -23,12 +25,14 @@ public interface ValkyrieTypes {
   IElementType PARENTHESIS = new ValkyrieElementType("PARENTHESIS");
   IElementType PATTERN = new ValkyrieElementType("PATTERN");
   IElementType TRAIT_STATEMENT = new ValkyrieElementType("TRAIT_STATEMENT");
+  IElementType VARIANT_STATEMENT = new ValkyrieElementType("VARIANT_STATEMENT");
   IElementType WHILE_STATEMENT = new ValkyrieElementType("WHILE_STATEMENT");
 
   IElementType ACCENT = new ValkyrieTokenType("^");
   IElementType ANGLE_L = new ValkyrieTokenType("<");
   IElementType ANGLE_R = new ValkyrieTokenType(">");
   IElementType AT = new ValkyrieTokenType("@");
+  IElementType BITFLAG = new ValkyrieTokenType("bitflag");
   IElementType BRACE_L = new ValkyrieTokenType("{");
   IElementType BRACE_R = new ValkyrieTokenType("}");
   IElementType BRACKET_L = new ValkyrieTokenType("[");
@@ -47,6 +51,7 @@ public interface ValkyrieTypes {
   IElementType DOT = new ValkyrieTokenType(".");
   IElementType ELSE = new ValkyrieTokenType("else");
   IElementType EQ = new ValkyrieTokenType("=");
+  IElementType EXTENDS = new ValkyrieTokenType("extends");
   IElementType FOR = new ValkyrieTokenType("for");
   IElementType HYPHEN = new ValkyrieTokenType("-");
   IElementType IF = new ValkyrieTokenType("if");
@@ -67,6 +72,7 @@ public interface ValkyrieTypes {
   IElementType TO = new ValkyrieTokenType("->");
   IElementType TRAIT = new ValkyrieTokenType("trait");
   IElementType URL = new ValkyrieTokenType("Url");
+  IElementType VARIANT = new ValkyrieTokenType("variant");
   IElementType WHILE = new ValkyrieTokenType("while");
 
   class Factory {
@@ -74,6 +80,9 @@ public interface ValkyrieTypes {
       IElementType type = node.getElementType();
       if (type == ANGLE_BLOCK) {
         return new ValkyrieAngleBlockNode(node);
+      }
+      else if (type == BITFLAG_STATEMENT) {
+        return new ValkyrieBitflagStatementNode(node);
       }
       else if (type == BLOCK) {
         return new ValkyrieBlockNode(node);
@@ -92,6 +101,9 @@ public interface ValkyrieTypes {
       }
       else if (type == DEF_STATEMENT) {
         return new ValkyrieDefStatementNode(node);
+      }
+      else if (type == EXTENDS_STATEMENT) {
+        return new ValkyrieExtendsStatementNode(node);
       }
       else if (type == FOR_STATEMENT) {
         return new ValkyrieForStatementNode(node);
@@ -116,6 +128,9 @@ public interface ValkyrieTypes {
       }
       else if (type == TRAIT_STATEMENT) {
         return new ValkyrieTraitStatementNode(node);
+      }
+      else if (type == VARIANT_STATEMENT) {
+        return new ValkyrieVariantStatementNode(node);
       }
       else if (type == WHILE_STATEMENT) {
         return new ValkyrieWhileStatementNode(node);
