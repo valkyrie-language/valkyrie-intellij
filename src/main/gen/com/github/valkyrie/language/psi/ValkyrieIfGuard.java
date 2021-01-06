@@ -5,18 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieIfStatement extends PsiElement {
-
-  @NotNull
-  ValkyrieBlock getBlock();
+public interface ValkyrieIfGuard extends PsiElement {
 
   @NotNull
   ValkyrieCondition getCondition();
-
-  @NotNull
-  List<ValkyrieElseIfStatement> getElseIfStatementList();
-
-  @Nullable
-  ValkyrieElseStatement getElseStatement();
 
 }

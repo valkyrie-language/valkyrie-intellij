@@ -11,14 +11,14 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieIfStatementNode extends ValkyrieElement implements ValkyrieIfStatement {
+public class ValkyrieIfGuardNode extends ValkyrieElement implements ValkyrieIfGuard {
 
-  public ValkyrieIfStatementNode(@NotNull ASTNode node) {
+  public ValkyrieIfGuardNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitIfStatement(this);
+    visitor.visitIfGuard(this);
   }
 
   @Override
@@ -29,26 +29,8 @@ public class ValkyrieIfStatementNode extends ValkyrieElement implements Valkyrie
 
   @Override
   @NotNull
-  public ValkyrieBlock getBlock() {
-    return findNotNullChildByClass(ValkyrieBlock.class);
-  }
-
-  @Override
-  @NotNull
   public ValkyrieCondition getCondition() {
     return findNotNullChildByClass(ValkyrieCondition.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieElseIfStatement> getElseIfStatementList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieElseIfStatement.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieElseStatement getElseStatement() {
-    return findChildByClass(ValkyrieElseStatement.class);
   }
 
 }

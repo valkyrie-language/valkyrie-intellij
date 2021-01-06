@@ -72,7 +72,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // INTEGER | DECIMAL |namespace
+  // INTEGER | DECIMAL | namespace
   static boolean atoms(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "atoms")) return false;
     boolean r;
@@ -245,6 +245,33 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // ELSE IF condition block
+  public static boolean else_if_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "else_if_statement")) return false;
+    if (!nextTokenIs(b, ELSE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, ELSE, IF);
+    r = r && condition(b, l + 1);
+    r = r && block(b, l + 1);
+    exit_section_(b, m, ELSE_IF_STATEMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // ELSE block
+  public static boolean else_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "else_statement")) return false;
+    if (!nextTokenIs(b, ELSE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ELSE);
+    r = r && block(b, l + 1);
+    exit_section_(b, m, ELSE_STATEMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // atoms
   static boolean expression(PsiBuilder b, int l) {
     return atoms(b, l + 1);
@@ -264,7 +291,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // FOR pattern IN expression block
+  // FOR pattern IN expression [if_guard] block [else_statement]
   public static boolean for_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "for_statement")) return false;
     if (!nextTokenIs(b, FOR)) return false;
@@ -274,13 +301,42 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     r = r && pattern(b, l + 1);
     r = r && consumeToken(b, IN);
     r = r && expression(b, l + 1);
+    r = r && for_statement_4(b, l + 1);
     r = r && block(b, l + 1);
+    r = r && for_statement_6(b, l + 1);
     exit_section_(b, m, FOR_STATEMENT, r);
     return r;
   }
 
+  // [if_guard]
+  private static boolean for_statement_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "for_statement_4")) return false;
+    if_guard(b, l + 1);
+    return true;
+  }
+
+  // [else_statement]
+  private static boolean for_statement_6(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "for_statement_6")) return false;
+    else_statement(b, l + 1);
+    return true;
+  }
+
   /* ********************************************************** */
-  // (IF condition block) [(ELSE IF condition block)* (ELSE block)]
+  // IF condition
+  public static boolean if_guard(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "if_guard")) return false;
+    if (!nextTokenIs(b, IF)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, IF);
+    r = r && condition(b, l + 1);
+    exit_section_(b, m, IF_GUARD, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // (IF condition block) [else_if_statement* [else_statement]]
   public static boolean if_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "if_statement")) return false;
     if (!nextTokenIs(b, IF)) return false;
@@ -304,14 +360,14 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // [(ELSE IF condition block)* (ELSE block)]
+  // [else_if_statement* [else_statement]]
   private static boolean if_statement_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "if_statement_1")) return false;
     if_statement_1_0(b, l + 1);
     return true;
   }
 
-  // (ELSE IF condition block)* (ELSE block)
+  // else_if_statement* [else_statement]
   private static boolean if_statement_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "if_statement_1_0")) return false;
     boolean r;
@@ -322,42 +378,26 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (ELSE IF condition block)*
+  // else_if_statement*
   private static boolean if_statement_1_0_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "if_statement_1_0_0")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!if_statement_1_0_0_0(b, l + 1)) break;
+      if (!else_if_statement(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "if_statement_1_0_0", c)) break;
     }
     return true;
   }
 
-  // ELSE IF condition block
-  private static boolean if_statement_1_0_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "if_statement_1_0_0_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, ELSE, IF);
-    r = r && condition(b, l + 1);
-    r = r && block(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // ELSE block
+  // [else_statement]
   private static boolean if_statement_1_0_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "if_statement_1_0_1")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, ELSE);
-    r = r && block(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
+    else_statement(b, l + 1);
+    return true;
   }
 
   /* ********************************************************** */
-  // LET pattern "=" block
+  // LET pattern EQ block
   public static boolean let_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "let_statement")) return false;
     if (!nextTokenIs(b, LET)) return false;
@@ -430,6 +470,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   //   | match_statement
   //   | let_statement
   //   | def_statement
+  //   | type_statement
   //   | class_statement
   //   | trait_statement
   //   | variant_statement
@@ -444,6 +485,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     if (!r) r = match_statement(b, l + 1);
     if (!r) r = let_statement(b, l + 1);
     if (!r) r = def_statement(b, l + 1);
+    if (!r) r = type_statement(b, l + 1);
     if (!r) r = class_statement(b, l + 1);
     if (!r) r = trait_statement(b, l + 1);
     if (!r) r = variant_statement(b, l + 1);
@@ -462,6 +504,19 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     r = consumeTokens(b, 0, TRAIT, SYMBOL);
     r = r && block(b, l + 1);
     exit_section_(b, m, TRAIT_STATEMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // TYPE SYMBOL EQ block
+  public static boolean type_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "type_statement")) return false;
+    if (!nextTokenIs(b, TYPE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, TYPE, SYMBOL, EQ);
+    r = r && block(b, l + 1);
+    exit_section_(b, m, TYPE_STATEMENT, r);
     return r;
   }
 

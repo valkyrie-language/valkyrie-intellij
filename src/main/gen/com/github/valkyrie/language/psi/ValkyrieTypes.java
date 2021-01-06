@@ -16,8 +16,11 @@ public interface ValkyrieTypes {
   IElementType CLASS_STATEMENT = new ValkyrieElementType("CLASS_STATEMENT");
   IElementType CONDITION = new ValkyrieElementType("CONDITION");
   IElementType DEF_STATEMENT = new ValkyrieElementType("DEF_STATEMENT");
+  IElementType ELSE_IF_STATEMENT = new ValkyrieElementType("ELSE_IF_STATEMENT");
+  IElementType ELSE_STATEMENT = new ValkyrieElementType("ELSE_STATEMENT");
   IElementType EXTENDS_STATEMENT = new ValkyrieElementType("EXTENDS_STATEMENT");
   IElementType FOR_STATEMENT = new ValkyrieElementType("FOR_STATEMENT");
+  IElementType IF_GUARD = new ValkyrieElementType("IF_GUARD");
   IElementType IF_STATEMENT = new ValkyrieElementType("IF_STATEMENT");
   IElementType LET_STATEMENT = new ValkyrieElementType("LET_STATEMENT");
   IElementType MATCH_STATEMENT = new ValkyrieElementType("MATCH_STATEMENT");
@@ -25,6 +28,7 @@ public interface ValkyrieTypes {
   IElementType PARENTHESIS = new ValkyrieElementType("PARENTHESIS");
   IElementType PATTERN = new ValkyrieElementType("PATTERN");
   IElementType TRAIT_STATEMENT = new ValkyrieElementType("TRAIT_STATEMENT");
+  IElementType TYPE_STATEMENT = new ValkyrieElementType("TYPE_STATEMENT");
   IElementType VARIANT_STATEMENT = new ValkyrieElementType("VARIANT_STATEMENT");
   IElementType WHILE_STATEMENT = new ValkyrieElementType("WHILE_STATEMENT");
 
@@ -71,6 +75,7 @@ public interface ValkyrieTypes {
   IElementType SYMBOL = new ValkyrieTokenType("Symbol");
   IElementType TO = new ValkyrieTokenType("->");
   IElementType TRAIT = new ValkyrieTokenType("trait");
+  IElementType TYPE = new ValkyrieTokenType("TYPE");
   IElementType URL = new ValkyrieTokenType("Url");
   IElementType VARIANT = new ValkyrieTokenType("variant");
   IElementType WHILE = new ValkyrieTokenType("while");
@@ -102,11 +107,20 @@ public interface ValkyrieTypes {
       else if (type == DEF_STATEMENT) {
         return new ValkyrieDefStatementNode(node);
       }
+      else if (type == ELSE_IF_STATEMENT) {
+        return new ValkyrieElseIfStatementNode(node);
+      }
+      else if (type == ELSE_STATEMENT) {
+        return new ValkyrieElseStatementNode(node);
+      }
       else if (type == EXTENDS_STATEMENT) {
         return new ValkyrieExtendsStatementNode(node);
       }
       else if (type == FOR_STATEMENT) {
         return new ValkyrieForStatementNode(node);
+      }
+      else if (type == IF_GUARD) {
+        return new ValkyrieIfGuardNode(node);
       }
       else if (type == IF_STATEMENT) {
         return new ValkyrieIfStatementNode(node);
@@ -128,6 +142,9 @@ public interface ValkyrieTypes {
       }
       else if (type == TRAIT_STATEMENT) {
         return new ValkyrieTraitStatementNode(node);
+      }
+      else if (type == TYPE_STATEMENT) {
+        return new ValkyrieTypeStatementNode(node);
       }
       else if (type == VARIANT_STATEMENT) {
         return new ValkyrieVariantStatementNode(node);

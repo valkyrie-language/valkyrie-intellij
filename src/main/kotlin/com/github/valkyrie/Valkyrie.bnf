@@ -75,6 +75,7 @@ private statements ::=
   | match_statement
   | let_statement
   | def_statement
+  | type_statement
   | class_statement
   | trait_statement
   | variant_statement
@@ -82,11 +83,15 @@ private statements ::=
   | extends_statement
   ;
 // ---------------------------------------------------------------------------------------------------------------------
-if_statement ::= (IF condition block) [(ELSE IF condition block)* (ELSE block)]
+if_statement ::= (IF condition block) [else_if_statement* [else_statement]]
+else_if_statement ::= ELSE IF condition block;
+else_statement ::= ELSE block;
+
 block ::= <<brace_block expression COLON>>;
 condition ::= expression;
 // ---------------------------------------------------------------------------------------------------------------------
-for_statement ::= FOR pattern IN expression block;
+for_statement ::= FOR pattern IN expression [if_guard] block [else_statement];
+if_guard ::= IF condition;
 
 pattern ::= namespace;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -94,9 +99,11 @@ while_statement ::= WHILE expression block;
 // ---------------------------------------------------------------------------------------------------------------------
 match_statement ::= MATCH expression block;
 // ---------------------------------------------------------------------------------------------------------------------
-let_statement ::= LET pattern "=" block;
+let_statement ::= LET pattern EQ block;
 // ---------------------------------------------------------------------------------------------------------------------
 def_statement ::= DEF expression block;
+// ---------------------------------------------------------------------------------------------------------------------
+type_statement ::= TYPE SYMBOL EQ block;
 // ---------------------------------------------------------------------------------------------------------------------
 class_statement ::= CLASS expression block;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -108,10 +115,12 @@ bitflag_statement ::= BITFLAG SYMBOL block;
 // ---------------------------------------------------------------------------------------------------------------------
 extends_statement ::= EXTENDS SYMBOL block;
 // ---------------------------------------------------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------------------------------------------------
 private expression ::= atoms;
 // ---------------------------------------------------------------------------------------------------------------------
 namespace     ::= SYMBOL;
-private atoms ::= INTEGER | DECIMAL |namespace;
+private atoms ::= INTEGER | DECIMAL | namespace;
 // ---------------------------------------------------------------------------------------------------------------------
 // parenthesis ( )
 meta parenthesis ::= PARENTHESIS_L <<param>> PARENTHESIS_R;
