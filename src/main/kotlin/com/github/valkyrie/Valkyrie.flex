@@ -85,6 +85,7 @@ HEX = [0-9a-fA-F]
     "<" { return ANGLE_L; }
     ">" { return ANGLE_R; }
     "^" { return ACCENT; }
+    ":" { return COLON; }
     ";" { return SEMICOLON; }
     "$" { return DOLLAR; }
     "." { return DOT; }
@@ -103,10 +104,15 @@ HEX = [0-9a-fA-F]
     "def" | "func" | "fn" { return DEF; }
     "type" { return TYPE; }
     "class" | "struct" { return CLASS; }
-    "trait" { return TRAIT; }
+    "trait" | "interface" { return TRAIT; }
     "variant" | "tagged" | "enum" { return VARIANT; }
-    "bitflag" | "bitset" | "bitflags"{ return BITFLAG; }
+    "bitflags" | "bitflag" | "bitset" { return BITFLAG; }
     "extends" | "impl" { return EXTENDS; }
+}
+
+<YYINITIAL> {
+    {BYTE} { return BYTE; }
+    {INTEGER} { return INTEGER; }
     {SYMBOL} { return SYMBOL; }
 }
 // =====================================================================================================================

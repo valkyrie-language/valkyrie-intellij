@@ -9,9 +9,10 @@ import com.github.valkyrie.language.psi_node.*;
 public interface ValkyrieTypes {
 
   IElementType ANGLE_BLOCK = new ValkyrieElementType("ANGLE_BLOCK");
+  IElementType BITFLAG_BLOCK = new ValkyrieElementType("BITFLAG_BLOCK");
+  IElementType BITFLAG_ITEM = new ValkyrieElementType("BITFLAG_ITEM");
   IElementType BITFLAG_STATEMENT = new ValkyrieElementType("BITFLAG_STATEMENT");
   IElementType BLOCK = new ValkyrieElementType("BLOCK");
-  IElementType BRACE_BLOCK = new ValkyrieElementType("BRACE_BLOCK");
   IElementType BRACKET_BLOCK = new ValkyrieElementType("BRACKET_BLOCK");
   IElementType CLASS_STATEMENT = new ValkyrieElementType("CLASS_STATEMENT");
   IElementType CONDITION = new ValkyrieElementType("CONDITION");
@@ -42,6 +43,7 @@ public interface ValkyrieTypes {
   IElementType BRACE_R = new ValkyrieTokenType("}");
   IElementType BRACKET_L = new ValkyrieTokenType("[");
   IElementType BRACKET_R = new ValkyrieTokenType("]");
+  IElementType BYTE = new ValkyrieTokenType("Byte");
   IElementType CATCH = new ValkyrieTokenType("catch");
   IElementType CLASS = new ValkyrieTokenType("class");
   IElementType COLON = new ValkyrieTokenType(":");
@@ -86,14 +88,17 @@ public interface ValkyrieTypes {
       if (type == ANGLE_BLOCK) {
         return new ValkyrieAngleBlockNode(node);
       }
+      else if (type == BITFLAG_BLOCK) {
+        return new ValkyrieBitflagBlockNode(node);
+      }
+      else if (type == BITFLAG_ITEM) {
+        return new ValkyrieBitflagItemNode(node);
+      }
       else if (type == BITFLAG_STATEMENT) {
         return new ValkyrieBitflagStatementNode(node);
       }
       else if (type == BLOCK) {
         return new ValkyrieBlockNode(node);
-      }
-      else if (type == BRACE_BLOCK) {
-        return new ValkyrieBraceBlockNode(node);
       }
       else if (type == BRACKET_BLOCK) {
         return new ValkyrieBracketBlockNode(node);

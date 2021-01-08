@@ -11,15 +11,19 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitBitflagBlock(@NotNull ValkyrieBitflagBlock o) {
+    visitPsiElement(o);
+  }
+
+  public void visitBitflagItem(@NotNull ValkyrieBitflagItem o) {
+    visitPsiElement(o);
+  }
+
   public void visitBitflagStatement(@NotNull ValkyrieBitflagStatement o) {
     visitPsiElement(o);
   }
 
   public void visitBlock(@NotNull ValkyrieBlock o) {
-    visitPsiElement(o);
-  }
-
-  public void visitBraceBlock(@NotNull ValkyrieBraceBlock o) {
     visitPsiElement(o);
   }
 

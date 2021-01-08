@@ -20,8 +20,9 @@ enum class ValkyrieHighlightColor(humanName: Supplier<@AttributeDescriptor Strin
     // 字面量
     NULL(ValkyrieBundle.messagePointer("color.token.null"), Default.KEYWORD),
     BOOLEAN(ValkyrieBundle.messagePointer("color.token.boolean"), Default.KEYWORD),
-    DECIMAL(ValkyrieBundle.messagePointer("color.token.decimal"), Default.NUMBER),
+    BYTE(ValkyrieBundle.messagePointer("color.token.byte"), Default.NUMBER),
     INTEGER(ValkyrieBundle.messagePointer("color.token.integer"), Default.NUMBER),
+    DECIMAL(ValkyrieBundle.messagePointer("color.token.decimal"), Default.NUMBER),
     STRING(ValkyrieBundle.messagePointer("color.token.string"), Default.STRING),
     TEXT(ValkyrieBundle.messagePointer("color.token.text"), STRING.textAttributesKey),
     STRING_ESCAPED(ValkyrieBundle.messagePointer("color.token.text"), Default.VALID_STRING_ESCAPE),

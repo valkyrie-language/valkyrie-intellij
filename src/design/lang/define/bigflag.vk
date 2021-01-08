@@ -1,7 +1,9 @@
-///
-bitflag Flags: u32 {
+bitflag Flags: [u8] {
     A = 0b00000001
     B = 0b00000010
     C = 0b00000100
     ABC = A | B | C
+    D = 0xFF;
+    @serde
+    E = 1 >> 8;
 }

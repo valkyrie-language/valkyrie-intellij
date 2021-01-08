@@ -4,6 +4,6 @@ import com.github.valkyrie.ValkyrieLanguage
 import com.intellij.psi.tree.IElementType
 
 class ValkyrieTokenType(debugName: String) : IElementType(debugName, ValkyrieLanguage.INSTANCE) {
-    override fun toString(): String = "ValkyrieTokenType.${super.toString()}"
+//    override fun toString(): String = "ValkyrieTokenType.${super.toString()}"
 }
 

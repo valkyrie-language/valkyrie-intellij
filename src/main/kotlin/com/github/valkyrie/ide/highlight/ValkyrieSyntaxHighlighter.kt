@@ -35,6 +35,7 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             COMMA -> Color.COMMA
             // 原子类型
             INTEGER -> Color.INTEGER
+            BYTE -> Color.INTEGER
             DECIMAL -> Color.DECIMAL
             STRING_CHAR -> Color.STRING
             STRING_QUOTE, STRING_CHAR -> Color.STRING

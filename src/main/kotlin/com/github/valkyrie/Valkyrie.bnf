@@ -24,6 +24,7 @@
         // literal
         URL = "Url"
         SYMBOL = "Symbol"
+        BYTE = "Byte"
         STRING_QUOTE = "String Quote"
         STRING_CHAR = "String Character"
         STRING_ESCAPE = "String Escaped"
@@ -87,7 +88,7 @@ if_statement ::= (IF condition block) [else_if_statement* [else_statement]]
 else_if_statement ::= ELSE IF condition block;
 else_statement ::= ELSE block;
 
-block ::= <<brace_block expression COLON>>;
+block ::= <<brace_block expression SEMICOLON>>;
 condition ::= expression;
 // ---------------------------------------------------------------------------------------------------------------------
 for_statement ::= FOR pattern IN expression [if_guard] block [else_statement];
@@ -111,23 +112,25 @@ trait_statement ::= TRAIT SYMBOL block;
 // ---------------------------------------------------------------------------------------------------------------------
 variant_statement ::= VARIANT expression block;
 // ---------------------------------------------------------------------------------------------------------------------
-bitflag_statement ::= BITFLAG SYMBOL block;
+bitflag_statement ::= BITFLAG SYMBOL [COLON type_expression] bitflag_block;
+bitflag_block ::= <<brace_block bitflag_item [SEMICOLON]>>;
+bitflag_item ::= SYMBOL EQ expression;
 // ---------------------------------------------------------------------------------------------------------------------
 extends_statement ::= EXTENDS SYMBOL block;
 // ---------------------------------------------------------------------------------------------------------------------
-
+private type_expression ::= list | atoms;
 // ---------------------------------------------------------------------------------------------------------------------
 private expression ::= list | atoms;
 // ---------------------------------------------------------------------------------------------------------------------
 namespace     ::= SYMBOL;
 list          ::= <<bracket_block expression COMMA>>
-private atoms ::= INTEGER | DECIMAL | namespace;
+private atoms ::= BYTE | INTEGER | DECIMAL | namespace;
 // ---------------------------------------------------------------------------------------------------------------------
 // parenthesis ( )
 meta parenthesis ::= PARENTHESIS_L <<param>> PARENTHESIS_R;
 // bracket [ ]
 meta bracket_block ::= BRACKET_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] BRACKET_R;
 // brace { }
-meta brace_block ::= BRACE_L (<<item>>|<<sp>>)* BRACE_R;
+private meta brace_block ::= BRACE_L (<<item>>|<<sp>>)* BRACE_R;
 // angle { }
-meta angle_block ::= ANGLE_L (<<item>>|<<sp>>)* ANGLE_R;
+meta angle_block ::= ANGLE_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] ANGLE_R;

@@ -72,44 +72,96 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // INTEGER | DECIMAL | namespace
+  // BYTE | INTEGER | DECIMAL | namespace
   static boolean atoms(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "atoms")) return false;
     boolean r;
-    r = consumeToken(b, INTEGER);
+    r = consumeToken(b, BYTE);
+    if (!r) r = consumeToken(b, INTEGER);
     if (!r) r = consumeToken(b, DECIMAL);
     if (!r) r = namespace(b, l + 1);
     return r;
   }
 
   /* ********************************************************** */
-  // BITFLAG SYMBOL block
+  // <<brace_block bitflag_item [SEMICOLON]>>
+  public static boolean bitflag_block(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "bitflag_block")) return false;
+    if (!nextTokenIs(b, BRACE_L)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = brace_block(b, l + 1, ValkyrieParser::bitflag_item, ValkyrieParser::bitflag_block_0_1);
+    exit_section_(b, m, BITFLAG_BLOCK, r);
+    return r;
+  }
+
+  // [SEMICOLON]
+  private static boolean bitflag_block_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "bitflag_block_0_1")) return false;
+    consumeToken(b, SEMICOLON);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // SYMBOL EQ expression
+  public static boolean bitflag_item(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "bitflag_item")) return false;
+    if (!nextTokenIs(b, SYMBOL)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, SYMBOL, EQ);
+    r = r && expression(b, l + 1);
+    exit_section_(b, m, BITFLAG_ITEM, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // BITFLAG SYMBOL [COLON type_expression] bitflag_block
   public static boolean bitflag_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "bitflag_statement")) return false;
     if (!nextTokenIs(b, BITFLAG)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokens(b, 0, BITFLAG, SYMBOL);
-    r = r && block(b, l + 1);
+    r = r && bitflag_statement_2(b, l + 1);
+    r = r && bitflag_block(b, l + 1);
     exit_section_(b, m, BITFLAG_STATEMENT, r);
     return r;
   }
 
+  // [COLON type_expression]
+  private static boolean bitflag_statement_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "bitflag_statement_2")) return false;
+    bitflag_statement_2_0(b, l + 1);
+    return true;
+  }
+
+  // COLON type_expression
+  private static boolean bitflag_statement_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "bitflag_statement_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COLON);
+    r = r && type_expression(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
   /* ********************************************************** */
-  // <<brace_block expression COLON>>
+  // <<brace_block expression SEMICOLON>>
   public static boolean block(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "block")) return false;
     if (!nextTokenIs(b, BRACE_L)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = brace_block(b, l + 1, ValkyrieParser::expression, COLON_parser_);
+    r = brace_block(b, l + 1, ValkyrieParser::expression, SEMICOLON_parser_);
     exit_section_(b, m, BLOCK, r);
     return r;
   }
 
   /* ********************************************************** */
   // BRACE_L (<<item>>|<<sp>>)* BRACE_R
-  public static boolean brace_block(PsiBuilder b, int l, Parser _item, Parser _sp) {
+  static boolean brace_block(PsiBuilder b, int l, Parser _item, Parser _sp) {
     if (!recursion_guard_(b, l, "brace_block")) return false;
     if (!nextTokenIs(b, BRACE_L)) return false;
     boolean r;
@@ -117,7 +169,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, BRACE_L);
     r = r && brace_block_1(b, l + 1, _item, _sp);
     r = r && consumeToken(b, BRACE_R);
-    exit_section_(b, m, BRACE_BLOCK, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -526,6 +578,16 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // list | atoms
+  static boolean type_expression(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "type_expression")) return false;
+    boolean r;
+    r = list(b, l + 1);
+    if (!r) r = atoms(b, l + 1);
+    return r;
+  }
+
+  /* ********************************************************** */
   // TYPE SYMBOL EQ block
   public static boolean type_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "type_statement")) return false;
@@ -596,6 +658,6 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  static final Parser COLON_parser_ = (b, l) -> consumeToken(b, COLON);
   static final Parser COMMA_parser_ = (b, l) -> consumeToken(b, COMMA);
+  static final Parser SEMICOLON_parser_ = (b, l) -> consumeToken(b, SEMICOLON);
 }

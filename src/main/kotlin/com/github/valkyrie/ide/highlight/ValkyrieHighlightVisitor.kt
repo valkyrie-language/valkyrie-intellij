@@ -33,6 +33,14 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
         super.visitClassStatement(o)
     }
 
+    override fun visitBitflagStatement(o: ValkyrieBitflagStatement) {
+        val head = o.firstChild;
+        val prop = head.nextLeaf { it.elementType == ValkyrieTypes.SYMBOL }!!
+        highlight(prop, Color.SYM_CLASS)
+
+        super.visitBitflagStatement(o)
+    }
+
 //    override fun visitMessageID(o: FluentMessageID) {
 //        highlight(o, SYM_MESSAGE)
 //    }

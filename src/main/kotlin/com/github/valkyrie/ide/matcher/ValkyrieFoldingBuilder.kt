@@ -2,7 +2,7 @@ package com.github.valkyrie.ide.matcher
 
 
 import com.github.valkyrie.ide.view.ValkyrieFile
-import com.github.valkyrie.language.psi.ValkyrieTypes.BRACE_BLOCK
+import com.github.valkyrie.language.psi.ValkyrieTypes.BLOCK
 import com.intellij.lang.ASTNode
 import com.intellij.lang.folding.CustomFoldingBuilder
 import com.intellij.lang.folding.FoldingDescriptor
@@ -30,7 +30,7 @@ class ValkyrieFoldingBuilder : CustomFoldingBuilder(), DumbAware {
     override fun getLanguagePlaceholderText(node: ASTNode, range: TextRange) =
         when (node.elementType) {
 //            BRACKET_BLOCK -> "[...]"
-            BRACE_BLOCK -> "{...}"
+            BLOCK -> "{...}"
             else -> "..."
         }
 

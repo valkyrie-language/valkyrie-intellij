@@ -29,8 +29,14 @@ public class ValkyrieBlockNode extends ValkyrieElement implements ValkyrieBlock 
 
   @Override
   @NotNull
-  public ValkyrieBraceBlock getBraceBlock() {
-    return findNotNullChildByClass(ValkyrieBraceBlock.class);
+  public List<ValkyrieList> getListList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieList.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ValkyrieNamespace> getNamespaceList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNamespace.class);
   }
 
 }

@@ -11,20 +11,26 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieBraceBlockNode extends ValkyrieElement implements ValkyrieBraceBlock {
+public class ValkyrieBitflagBlockNode extends ValkyrieElement implements ValkyrieBitflagBlock {
 
-  public ValkyrieBraceBlockNode(@NotNull ASTNode node) {
+  public ValkyrieBitflagBlockNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitBraceBlock(this);
+    visitor.visitBitflagBlock(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof ValkyrieVisitor) accept((ValkyrieVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  @NotNull
+  public List<ValkyrieBitflagItem> getBitflagItemList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieBitflagItem.class);
   }
 
 }
