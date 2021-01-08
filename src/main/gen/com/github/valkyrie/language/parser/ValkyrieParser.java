@@ -272,9 +272,13 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // atoms
+  // list | atoms
   static boolean expression(PsiBuilder b, int l) {
-    return atoms(b, l + 1);
+    if (!recursion_guard_(b, l, "expression")) return false;
+    boolean r;
+    r = list(b, l + 1);
+    if (!r) r = atoms(b, l + 1);
+    return r;
   }
 
   /* ********************************************************** */
@@ -397,7 +401,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LET pattern EQ block
+  // LET pattern EQ expression
   public static boolean let_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "let_statement")) return false;
     if (!nextTokenIs(b, LET)) return false;
@@ -406,8 +410,20 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, LET);
     r = r && pattern(b, l + 1);
     r = r && consumeToken(b, EQ);
-    r = r && block(b, l + 1);
+    r = r && expression(b, l + 1);
     exit_section_(b, m, LET_STATEMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // <<bracket_block expression COMMA>>
+  public static boolean list(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "list")) return false;
+    if (!nextTokenIs(b, BRACKET_L)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = bracket_block(b, l + 1, ValkyrieParser::expression, COMMA_parser_);
+    exit_section_(b, m, LIST, r);
     return r;
   }
 
@@ -476,6 +492,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   //   | variant_statement
   //   | bitflag_statement
   //   | extends_statement
+  //   | SEMICOLON
   static boolean statements(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "statements")) return false;
     boolean r;
@@ -491,6 +508,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     if (!r) r = variant_statement(b, l + 1);
     if (!r) r = bitflag_statement(b, l + 1);
     if (!r) r = extends_statement(b, l + 1);
+    if (!r) r = consumeToken(b, SEMICOLON);
     return r;
   }
 
@@ -521,14 +539,32 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // statements*
+  // (statements [SEMICOLON])*
   static boolean valkyrie(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "valkyrie")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!statements(b, l + 1)) break;
+      if (!valkyrie_0(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "valkyrie", c)) break;
     }
+    return true;
+  }
+
+  // statements [SEMICOLON]
+  private static boolean valkyrie_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "valkyrie_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = statements(b, l + 1);
+    r = r && valkyrie_0_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [SEMICOLON]
+  private static boolean valkyrie_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "valkyrie_0_1")) return false;
+    consumeToken(b, SEMICOLON);
     return true;
   }
 
@@ -561,4 +597,5 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   static final Parser COLON_parser_ = (b, l) -> consumeToken(b, COLON);
+  static final Parser COMMA_parser_ = (b, l) -> consumeToken(b, COMMA);
 }

@@ -23,6 +23,7 @@ public interface ValkyrieTypes {
   IElementType IF_GUARD = new ValkyrieElementType("IF_GUARD");
   IElementType IF_STATEMENT = new ValkyrieElementType("IF_STATEMENT");
   IElementType LET_STATEMENT = new ValkyrieElementType("LET_STATEMENT");
+  IElementType LIST = new ValkyrieElementType("LIST");
   IElementType MATCH_STATEMENT = new ValkyrieElementType("MATCH_STATEMENT");
   IElementType NAMESPACE = new ValkyrieElementType("NAMESPACE");
   IElementType PARENTHESIS = new ValkyrieElementType("PARENTHESIS");
@@ -65,7 +66,6 @@ public interface ValkyrieTypes {
   IElementType MATCH = new ValkyrieTokenType("match");
   IElementType PARENTHESIS_L = new ValkyrieTokenType("(");
   IElementType PARENTHESIS_R = new ValkyrieTokenType(")");
-  IElementType SELECTION_LINE = new ValkyrieTokenType("SELECTION_LINE");
   IElementType SEMICOLON = new ValkyrieTokenType(";");
   IElementType STAR = new ValkyrieTokenType("*");
   IElementType STRING_CHAR = new ValkyrieTokenType("String Character");
@@ -127,6 +127,9 @@ public interface ValkyrieTypes {
       }
       else if (type == LET_STATEMENT) {
         return new ValkyrieLetStatementNode(node);
+      }
+      else if (type == LIST) {
+        return new ValkyrieListNode(node);
       }
       else if (type == MATCH_STATEMENT) {
         return new ValkyrieMatchStatementNode(node);

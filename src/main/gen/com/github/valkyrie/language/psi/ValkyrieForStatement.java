@@ -17,6 +17,9 @@ public interface ValkyrieForStatement extends PsiElement {
   ValkyrieIfGuard getIfGuard();
 
   @Nullable
+  ValkyrieList getList();
+
+  @Nullable
   ValkyrieNamespace getNamespace();
 
   @NotNull

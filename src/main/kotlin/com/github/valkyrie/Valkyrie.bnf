@@ -28,7 +28,6 @@
         STRING_CHAR = "String Character"
         STRING_ESCAPE = "String Escaped"
         STRING_LITERAL = "String Literal"
-        SELECTION_LINE = "SELECTION_LINE"
         COMMENT_LINE = "Comment Line"
 
         PARENTHESIS_L = '('
@@ -67,7 +66,7 @@
     ]
 }
 
-valkyrie ::= statements*
+valkyrie ::= (statements [SEMICOLON])*
 private statements ::=
     if_statement
   | for_statement
@@ -81,6 +80,7 @@ private statements ::=
   | variant_statement
   | bitflag_statement
   | extends_statement
+  | SEMICOLON
   ;
 // ---------------------------------------------------------------------------------------------------------------------
 if_statement ::= (IF condition block) [else_if_statement* [else_statement]]
@@ -99,7 +99,7 @@ while_statement ::= WHILE expression block;
 // ---------------------------------------------------------------------------------------------------------------------
 match_statement ::= MATCH expression block;
 // ---------------------------------------------------------------------------------------------------------------------
-let_statement ::= LET pattern EQ block;
+let_statement ::= LET pattern EQ expression;
 // ---------------------------------------------------------------------------------------------------------------------
 def_statement ::= DEF expression block;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -117,9 +117,10 @@ extends_statement ::= EXTENDS SYMBOL block;
 // ---------------------------------------------------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------------------------------------------------
-private expression ::= atoms;
+private expression ::= list | atoms;
 // ---------------------------------------------------------------------------------------------------------------------
 namespace     ::= SYMBOL;
+list          ::= <<bracket_block expression COMMA>>
 private atoms ::= INTEGER | DECIMAL | namespace;
 // ---------------------------------------------------------------------------------------------------------------------
 // parenthesis ( )

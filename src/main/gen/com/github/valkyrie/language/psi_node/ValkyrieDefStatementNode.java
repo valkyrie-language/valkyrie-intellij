@@ -35,6 +35,12 @@ public class ValkyrieDefStatementNode extends ValkyrieElement implements Valkyri
 
   @Override
   @Nullable
+  public ValkyrieList getList() {
+    return findChildByClass(ValkyrieList.class);
+  }
+
+  @Override
+  @Nullable
   public ValkyrieNamespace getNamespace() {
     return findChildByClass(ValkyrieNamespace.class);
   }

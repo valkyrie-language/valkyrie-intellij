@@ -7,8 +7,11 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieLetStatement extends PsiElement {
 
-  @NotNull
-  ValkyrieBlock getBlock();
+  @Nullable
+  ValkyrieList getList();
+
+  @Nullable
+  ValkyrieNamespace getNamespace();
 
   @NotNull
   ValkyriePattern getPattern();

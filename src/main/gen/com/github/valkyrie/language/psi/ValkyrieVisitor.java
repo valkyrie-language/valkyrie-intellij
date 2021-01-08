@@ -67,6 +67,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitList(@NotNull ValkyrieList o) {
+    visitPsiElement(o);
+  }
+
   public void visitMatchStatement(@NotNull ValkyrieMatchStatement o) {
     visitPsiElement(o);
   }

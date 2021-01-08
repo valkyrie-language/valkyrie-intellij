@@ -5,15 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieVariantStatement extends PsiElement {
+public interface ValkyrieList extends PsiElement {
 
   @NotNull
-  ValkyrieBlock getBlock();
-
-  @Nullable
-  ValkyrieList getList();
-
-  @Nullable
-  ValkyrieNamespace getNamespace();
+  ValkyrieBracketBlock getBracketBlock();
 
 }

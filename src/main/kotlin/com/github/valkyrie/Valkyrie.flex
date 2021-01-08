@@ -89,6 +89,7 @@ HEX = [0-9a-fA-F]
     "$" { return DOLLAR; }
     "." { return DOT; }
     "-" { return HYPHEN; }
+    "=" { return HYPHEN; }
 }
 // 顶级关键词
 <YYINITIAL> {
@@ -100,6 +101,7 @@ HEX = [0-9a-fA-F]
     "match" { return MATCH; }
     "let" | "var" | "val" { return LET; }
     "def" | "func" | "fn" { return DEF; }
+    "type" { return TYPE; }
     "class" | "struct" { return CLASS; }
     "trait" { return TRAIT; }
     "variant" | "tagged" | "enum" { return VARIANT; }

@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieCondition extends PsiElement {
 
   @Nullable
+  ValkyrieList getList();
+
+  @Nullable
   ValkyrieNamespace getNamespace();
 
 }

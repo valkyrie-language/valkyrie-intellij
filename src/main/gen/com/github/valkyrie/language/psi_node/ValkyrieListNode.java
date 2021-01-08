@@ -11,14 +11,14 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieMatchStatementNode extends ValkyrieElement implements ValkyrieMatchStatement {
+public class ValkyrieListNode extends ValkyrieElement implements ValkyrieList {
 
-  public ValkyrieMatchStatementNode(@NotNull ASTNode node) {
+  public ValkyrieListNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitMatchStatement(this);
+    visitor.visitList(this);
   }
 
   @Override
@@ -29,20 +29,8 @@ public class ValkyrieMatchStatementNode extends ValkyrieElement implements Valky
 
   @Override
   @NotNull
-  public ValkyrieBlock getBlock() {
-    return findNotNullChildByClass(ValkyrieBlock.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieList getList() {
-    return findChildByClass(ValkyrieList.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieNamespace getNamespace() {
-    return findChildByClass(ValkyrieNamespace.class);
+  public ValkyrieBracketBlock getBracketBlock() {
+    return findNotNullChildByClass(ValkyrieBracketBlock.class);
   }
 
 }
