@@ -39,4 +39,10 @@ public class ValkyrieBlockNode extends ValkyrieElement implements ValkyrieBlock 
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNamespace.class);
   }
 
+  @Override
+  @NotNull
+  public List<ValkyrieTuple> getTupleList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTuple.class);
+  }
+
 }

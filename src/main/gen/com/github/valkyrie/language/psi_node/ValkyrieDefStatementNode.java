@@ -45,4 +45,10 @@ public class ValkyrieDefStatementNode extends ValkyrieElement implements Valkyri
     return findChildByClass(ValkyrieNamespace.class);
   }
 
+  @Override
+  @Nullable
+  public ValkyrieTuple getTuple() {
+    return findChildByClass(ValkyrieTuple.class);
+  }
+
 }

@@ -16,4 +16,7 @@ public interface ValkyrieMatchStatement extends PsiElement {
   @Nullable
   ValkyrieNamespace getNamespace();
 
+  @Nullable
+  ValkyrieTuple getTuple();
+
 }

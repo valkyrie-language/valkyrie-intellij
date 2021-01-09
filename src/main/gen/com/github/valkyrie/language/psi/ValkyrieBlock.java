@@ -13,4 +13,7 @@ public interface ValkyrieBlock extends PsiElement {
   @NotNull
   List<ValkyrieNamespace> getNamespaceList();
 
+  @NotNull
+  List<ValkyrieTuple> getTupleList();
+
 }

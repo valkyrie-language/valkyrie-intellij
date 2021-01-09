@@ -36,7 +36,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ANGLE_L (<<item>>|<<sp>>)* ANGLE_R
+  // ANGLE_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] ANGLE_R
   public static boolean angle_block(PsiBuilder b, int l, Parser _item, Parser _sp) {
     if (!recursion_guard_(b, l, "angle_block")) return false;
     if (!nextTokenIs(b, ANGLE_L)) return false;
@@ -49,26 +49,52 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (<<item>>|<<sp>>)*
+  // [<<item>> (<<sp>> <<item>>)* [<<sp>>]]
   private static boolean angle_block_1(PsiBuilder b, int l, Parser _item, Parser _sp) {
     if (!recursion_guard_(b, l, "angle_block_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!angle_block_1_0(b, l + 1, _item, _sp)) break;
-      if (!empty_element_parsed_guard_(b, "angle_block_1", c)) break;
-    }
+    angle_block_1_0(b, l + 1, _item, _sp);
     return true;
   }
 
-  // <<item>>|<<sp>>
+  // <<item>> (<<sp>> <<item>>)* [<<sp>>]
   private static boolean angle_block_1_0(PsiBuilder b, int l, Parser _item, Parser _sp) {
     if (!recursion_guard_(b, l, "angle_block_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = _item.parse(b, l);
-    if (!r) r = _sp.parse(b, l);
+    r = r && angle_block_1_0_1(b, l + 1, _sp, _item);
+    r = r && angle_block_1_0_2(b, l + 1, _sp);
     exit_section_(b, m, null, r);
     return r;
+  }
+
+  // (<<sp>> <<item>>)*
+  private static boolean angle_block_1_0_1(PsiBuilder b, int l, Parser _sp, Parser _item) {
+    if (!recursion_guard_(b, l, "angle_block_1_0_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!angle_block_1_0_1_0(b, l + 1, _sp, _item)) break;
+      if (!empty_element_parsed_guard_(b, "angle_block_1_0_1", c)) break;
+    }
+    return true;
+  }
+
+  // <<sp>> <<item>>
+  private static boolean angle_block_1_0_1_0(PsiBuilder b, int l, Parser _sp, Parser _item) {
+    if (!recursion_guard_(b, l, "angle_block_1_0_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = _sp.parse(b, l);
+    r = r && _item.parse(b, l);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [<<sp>>]
+  private static boolean angle_block_1_0_2(PsiBuilder b, int l, Parser _sp) {
+    if (!recursion_guard_(b, l, "angle_block_1_0_2")) return false;
+    _sp.parse(b, l);
+    return true;
   }
 
   /* ********************************************************** */
@@ -324,11 +350,12 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // list | atoms
+  // list | tuple | atoms
   static boolean expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expression")) return false;
     boolean r;
     r = list(b, l + 1);
+    if (!r) r = tuple(b, l + 1);
     if (!r) r = atoms(b, l + 1);
     return r;
   }
@@ -506,17 +533,65 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // PARENTHESIS_L <<param>> PARENTHESIS_R
-  public static boolean parenthesis(PsiBuilder b, int l, Parser _param) {
+  // PARENTHESIS_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] PARENTHESIS_R
+  public static boolean parenthesis(PsiBuilder b, int l, Parser _item, Parser _sp) {
     if (!recursion_guard_(b, l, "parenthesis")) return false;
     if (!nextTokenIs(b, PARENTHESIS_L)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, PARENTHESIS_L);
-    r = r && _param.parse(b, l);
+    r = r && parenthesis_1(b, l + 1, _item, _sp);
     r = r && consumeToken(b, PARENTHESIS_R);
     exit_section_(b, m, PARENTHESIS, r);
     return r;
+  }
+
+  // [<<item>> (<<sp>> <<item>>)* [<<sp>>]]
+  private static boolean parenthesis_1(PsiBuilder b, int l, Parser _item, Parser _sp) {
+    if (!recursion_guard_(b, l, "parenthesis_1")) return false;
+    parenthesis_1_0(b, l + 1, _item, _sp);
+    return true;
+  }
+
+  // <<item>> (<<sp>> <<item>>)* [<<sp>>]
+  private static boolean parenthesis_1_0(PsiBuilder b, int l, Parser _item, Parser _sp) {
+    if (!recursion_guard_(b, l, "parenthesis_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = _item.parse(b, l);
+    r = r && parenthesis_1_0_1(b, l + 1, _sp, _item);
+    r = r && parenthesis_1_0_2(b, l + 1, _sp);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (<<sp>> <<item>>)*
+  private static boolean parenthesis_1_0_1(PsiBuilder b, int l, Parser _sp, Parser _item) {
+    if (!recursion_guard_(b, l, "parenthesis_1_0_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!parenthesis_1_0_1_0(b, l + 1, _sp, _item)) break;
+      if (!empty_element_parsed_guard_(b, "parenthesis_1_0_1", c)) break;
+    }
+    return true;
+  }
+
+  // <<sp>> <<item>>
+  private static boolean parenthesis_1_0_1_0(PsiBuilder b, int l, Parser _sp, Parser _item) {
+    if (!recursion_guard_(b, l, "parenthesis_1_0_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = _sp.parse(b, l);
+    r = r && _item.parse(b, l);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [<<sp>>]
+  private static boolean parenthesis_1_0_2(PsiBuilder b, int l, Parser _sp) {
+    if (!recursion_guard_(b, l, "parenthesis_1_0_2")) return false;
+    _sp.parse(b, l);
+    return true;
   }
 
   /* ********************************************************** */
@@ -578,11 +653,24 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // list | atoms
+  // <<parenthesis expression COMMA>>
+  public static boolean tuple(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "tuple")) return false;
+    if (!nextTokenIs(b, PARENTHESIS_L)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = parenthesis(b, l + 1, ValkyrieParser::expression, COMMA_parser_);
+    exit_section_(b, m, TUPLE, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // list | tuple | atoms
   static boolean type_expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "type_expression")) return false;
     boolean r;
     r = list(b, l + 1);
+    if (!r) r = tuple(b, l + 1);
     if (!r) r = atoms(b, l + 1);
     return r;
   }

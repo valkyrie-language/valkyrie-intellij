@@ -45,4 +45,10 @@ public class ValkyrieBitflagStatementNode extends ValkyrieElement implements Val
     return findChildByClass(ValkyrieNamespace.class);
   }
 
+  @Override
+  @Nullable
+  public ValkyrieTuple getTuple() {
+    return findChildByClass(ValkyrieTuple.class);
+  }
+
 }

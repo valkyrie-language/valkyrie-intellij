@@ -16,4 +16,7 @@ public interface ValkyrieWhileStatement extends PsiElement {
   @Nullable
   ValkyrieNamespace getNamespace();
 
+  @Nullable
+  ValkyrieTuple getTuple();
+
 }

@@ -16,4 +16,7 @@ public interface ValkyrieVariantStatement extends PsiElement {
   @Nullable
   ValkyrieNamespace getNamespace();
 
+  @Nullable
+  ValkyrieTuple getTuple();
+
 }

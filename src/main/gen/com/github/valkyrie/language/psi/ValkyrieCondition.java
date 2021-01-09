@@ -13,4 +13,7 @@ public interface ValkyrieCondition extends PsiElement {
   @Nullable
   ValkyrieNamespace getNamespace();
 
+  @Nullable
+  ValkyrieTuple getTuple();
+
 }

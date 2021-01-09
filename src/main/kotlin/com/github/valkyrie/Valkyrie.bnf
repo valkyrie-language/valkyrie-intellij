@@ -118,19 +118,20 @@ bitflag_item ::= SYMBOL EQ expression;
 // ---------------------------------------------------------------------------------------------------------------------
 extends_statement ::= EXTENDS SYMBOL block;
 // ---------------------------------------------------------------------------------------------------------------------
-private type_expression ::= list | atoms;
+private type_expression ::= list | tuple | atoms;
 // ---------------------------------------------------------------------------------------------------------------------
-private expression ::= list | atoms;
+private expression ::= list | tuple | atoms;
 // ---------------------------------------------------------------------------------------------------------------------
 namespace     ::= SYMBOL;
 list          ::= <<bracket_block expression COMMA>>
+tuple         ::= <<parenthesis expression COMMA>>
 private atoms ::= BYTE | INTEGER | DECIMAL | namespace;
 // ---------------------------------------------------------------------------------------------------------------------
 // parenthesis ( )
-meta parenthesis ::= PARENTHESIS_L <<param>> PARENTHESIS_R;
+meta parenthesis ::= PARENTHESIS_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] PARENTHESIS_R;
 // bracket [ ]
 meta bracket_block ::= BRACKET_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] BRACKET_R;
 // brace { }
 private meta brace_block ::= BRACE_L (<<item>>|<<sp>>)* BRACE_R;
-// angle { }
+// angle < >
 meta angle_block ::= ANGLE_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] ANGLE_R;

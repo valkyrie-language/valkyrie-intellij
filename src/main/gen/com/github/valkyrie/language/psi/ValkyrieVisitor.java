@@ -95,6 +95,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitTuple(@NotNull ValkyrieTuple o) {
+    visitPsiElement(o);
+  }
+
   public void visitTypeStatement(@NotNull ValkyrieTypeStatement o) {
     visitPsiElement(o);
   }

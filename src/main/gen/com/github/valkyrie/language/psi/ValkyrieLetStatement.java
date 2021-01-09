@@ -16,4 +16,7 @@ public interface ValkyrieLetStatement extends PsiElement {
   @NotNull
   ValkyriePattern getPattern();
 
+  @Nullable
+  ValkyrieTuple getTuple();
+
 }

@@ -5,15 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieBitflagItem extends PsiElement {
+public interface ValkyrieTuple extends PsiElement {
 
-  @Nullable
-  ValkyrieList getList();
-
-  @Nullable
-  ValkyrieNamespace getNamespace();
-
-  @Nullable
-  ValkyrieTuple getTuple();
+  @NotNull
+  ValkyrieParenthesis getParenthesis();
 
 }

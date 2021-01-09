@@ -30,6 +30,7 @@ public interface ValkyrieTypes {
   IElementType PARENTHESIS = new ValkyrieElementType("PARENTHESIS");
   IElementType PATTERN = new ValkyrieElementType("PATTERN");
   IElementType TRAIT_STATEMENT = new ValkyrieElementType("TRAIT_STATEMENT");
+  IElementType TUPLE = new ValkyrieElementType("TUPLE");
   IElementType TYPE_STATEMENT = new ValkyrieElementType("TYPE_STATEMENT");
   IElementType VARIANT_STATEMENT = new ValkyrieElementType("VARIANT_STATEMENT");
   IElementType WHILE_STATEMENT = new ValkyrieElementType("WHILE_STATEMENT");
@@ -150,6 +151,9 @@ public interface ValkyrieTypes {
       }
       else if (type == TRAIT_STATEMENT) {
         return new ValkyrieTraitStatementNode(node);
+      }
+      else if (type == TUPLE) {
+        return new ValkyrieTupleNode(node);
       }
       else if (type == TYPE_STATEMENT) {
         return new ValkyrieTypeStatementNode(node);

@@ -49,7 +49,7 @@ public void match_indent() {
 %unicode
 
 %state StringQuote
-%state TextContext
+%state Bitflag
 %state TextContextSpace
 //%state TextContextIndent
 %state CodeContext
@@ -72,18 +72,23 @@ HEX = [0-9a-fA-F]
 
 %%
 
-<YYINITIAL> {
+<YYINITIAL, Bitflag> {
 	{COMMENT_DOCUMENT} { return COMMENT_DOCUMENT; }
 	{COMMENT_LINE}     { return COMMENT_LINE; }
 	{COMMENT_BLOCK}    { return COMMENT_BLOCK; }
     {WHITE_SPACE}+     { return WHITE_SPACE; }
 }
 
+
 <YYINITIAL> {
     "{" { return BRACE_L; }
     "}" { return BRACE_R; }
+}
+<YYINITIAL, Bitflag> {
     "<" { return ANGLE_L; }
     ">" { return ANGLE_R; }
+    "[" { return BRACKET_L; }
+    "]" { return BRACKET_R; }
     "^" { return ACCENT; }
     ":" { return COLON; }
     ";" { return SEMICOLON; }
@@ -106,11 +111,30 @@ HEX = [0-9a-fA-F]
     "class" | "struct" { return CLASS; }
     "trait" | "interface" { return TRAIT; }
     "variant" | "tagged" | "enum" { return VARIANT; }
-    "bitflags" | "bitflag" | "bitset" { return BITFLAG; }
     "extends" | "impl" { return EXTENDS; }
 }
 
-<YYINITIAL> {
+
+
+
+// =====================================================================================================================
+// 遇到了 bitflags 关键词
+<YYINITIAL> "bitflags" | "bitflag" | "bitset" {
+	yybegin(Bitflag);
+    return BITFLAG;
+}
+<Bitflag> {
+    "{" {
+          brace_block(Bitflag);
+          return BRACE_L;
+      }
+    "}" {
+          brace_recover();
+          return BRACE_R;
+      }
+}
+// =====================================================================================================================
+<YYINITIAL, Bitflag> {
     {BYTE} { return BYTE; }
     {INTEGER} { return INTEGER; }
     {SYMBOL} { return SYMBOL; }

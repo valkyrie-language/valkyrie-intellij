@@ -39,4 +39,10 @@ public class ValkyrieConditionNode extends ValkyrieElement implements ValkyrieCo
     return findChildByClass(ValkyrieNamespace.class);
   }
 
+  @Override
+  @Nullable
+  public ValkyrieTuple getTuple() {
+    return findChildByClass(ValkyrieTuple.class);
+  }
+
 }
