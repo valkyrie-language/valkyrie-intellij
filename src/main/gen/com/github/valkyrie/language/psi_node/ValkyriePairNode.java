@@ -28,15 +28,15 @@ public class ValkyriePairNode extends ValkyrieElement implements ValkyriePair {
   }
 
   @Override
-  @Nullable
-  public ValkyrieFunctionCall getFunctionCall() {
-    return findChildByClass(ValkyrieFunctionCall.class);
+  @NotNull
+  public List<ValkyrieFunctionCall> getFunctionCallList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieFunctionCall.class);
   }
 
   @Override
-  @Nullable
-  public ValkyrieList getList() {
-    return findChildByClass(ValkyrieList.class);
+  @NotNull
+  public List<ValkyrieList> getListList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieList.class);
   }
 
   @Override
@@ -46,9 +46,9 @@ public class ValkyriePairNode extends ValkyrieElement implements ValkyriePair {
   }
 
   @Override
-  @Nullable
-  public ValkyrieTuple getTuple() {
-    return findChildByClass(ValkyrieTuple.class);
+  @NotNull
+  public List<ValkyrieTuple> getTupleList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTuple.class);
   }
 
 }

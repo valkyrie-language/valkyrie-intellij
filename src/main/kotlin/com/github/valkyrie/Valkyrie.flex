@@ -85,8 +85,8 @@ HEX = [0-9a-fA-F]
     "}" { return BRACE_R; }
 }
 <YYINITIAL, Bitflag> {
-    "<<" { return EQ; }
-    ">>" { return EQ; }
+    "<<" | "≪" { return LESS; }
+    ">>" | "≫" { return GRATER; }
     "<" { return ANGLE_L; }
     ">" { return ANGLE_R; }
     "[" { return BRACKET_L; }

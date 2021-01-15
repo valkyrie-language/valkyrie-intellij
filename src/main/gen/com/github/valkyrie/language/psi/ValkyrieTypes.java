@@ -66,15 +66,17 @@ public interface ValkyrieTypes {
   IElementType EQ = new ValkyrieTokenType("=");
   IElementType EXTENDS = new ValkyrieTokenType("extends");
   IElementType FOR = new ValkyrieTokenType("for");
+  IElementType GREATER = new ValkyrieTokenType("≫");
   IElementType HYPHEN = new ValkyrieTokenType("-");
   IElementType IF = new ValkyrieTokenType("if");
   IElementType IN = new ValkyrieTokenType("in");
   IElementType INTEGER = new ValkyrieTokenType("INTEGER");
+  IElementType LESS = new ValkyrieTokenType("≪");
   IElementType LET = new ValkyrieTokenType("let");
   IElementType MATCH = new ValkyrieTokenType("match");
   IElementType PARENTHESIS_L = new ValkyrieTokenType("(");
   IElementType PARENTHESIS_R = new ValkyrieTokenType(")");
-  IElementType PROPORTION = new ValkyrieTokenType("PROPORTION");
+  IElementType PROPORTION = new ValkyrieTokenType("∷");
   IElementType SEMICOLON = new ValkyrieTokenType(";");
   IElementType STAR = new ValkyrieTokenType("*");
   IElementType STRING_CHAR = new ValkyrieTokenType("String Character");

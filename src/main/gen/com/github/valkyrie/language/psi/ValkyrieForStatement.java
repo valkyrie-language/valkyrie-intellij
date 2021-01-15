@@ -13,22 +13,22 @@ public interface ValkyrieForStatement extends PsiElement {
   @Nullable
   ValkyrieElseStatement getElseStatement();
 
-  @Nullable
-  ValkyrieFunctionCall getFunctionCall();
+  @NotNull
+  List<ValkyrieFunctionCall> getFunctionCallList();
 
   @Nullable
   ValkyrieIfGuard getIfGuard();
 
-  @Nullable
-  ValkyrieList getList();
+  @NotNull
+  List<ValkyrieList> getListList();
 
-  @Nullable
-  ValkyrieNamespace getNamespace();
+  @NotNull
+  List<ValkyrieNamespace> getNamespaceList();
 
   @NotNull
   ValkyriePattern getPattern();
 
-  @Nullable
-  ValkyrieTuple getTuple();
+  @NotNull
+  List<ValkyrieTuple> getTupleList();
 
 }

@@ -39,9 +39,12 @@
         BRACE_R = '}'
         ANGLE_L = '<'
         ANGLE_R = '>'
+        LESS = "≪"
+        GREATER = "≫"
         ACCENT = '^'
         EQ = '='
         COLON = ':'
+        PROPORTION = "∷"
         SEMICOLON = ';'
         COMMA = ','
         DOLLAR = '$'
@@ -121,7 +124,9 @@ extends_statement ::= EXTENDS SYMBOL block;
 // ---------------------------------------------------------------------------------------------------------------------
 private type_expression ::= list | tuple | atoms;
 // ---------------------------------------------------------------------------------------------------------------------
-private expression ::= function_call | list | tuple | atoms;
+private expression ::= term (binary_op term)*;
+private term ::= function_call | list | tuple | atoms;
+private binary_op ::= VERTICAL | LESS | GREATER;
 // ---------------------------------------------------------------------------------------------------------------------
 namespace     ::= [PROPORTION] SYMBOL (PROPORTION SYMBOL)*;
 modifiers     ::= namespace*;

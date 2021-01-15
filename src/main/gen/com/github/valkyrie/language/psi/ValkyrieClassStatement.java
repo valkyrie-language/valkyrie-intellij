@@ -10,16 +10,16 @@ public interface ValkyrieClassStatement extends PsiElement {
   @NotNull
   ValkyrieBlock getBlock();
 
-  @Nullable
-  ValkyrieFunctionCall getFunctionCall();
+  @NotNull
+  List<ValkyrieFunctionCall> getFunctionCallList();
 
-  @Nullable
-  ValkyrieList getList();
+  @NotNull
+  List<ValkyrieList> getListList();
 
-  @Nullable
-  ValkyrieNamespace getNamespace();
+  @NotNull
+  List<ValkyrieNamespace> getNamespaceList();
 
-  @Nullable
-  ValkyrieTuple getTuple();
+  @NotNull
+  List<ValkyrieTuple> getTupleList();
 
 }

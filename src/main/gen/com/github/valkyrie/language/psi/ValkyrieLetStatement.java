@@ -7,19 +7,19 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieLetStatement extends PsiElement {
 
-  @Nullable
-  ValkyrieFunctionCall getFunctionCall();
+  @NotNull
+  List<ValkyrieFunctionCall> getFunctionCallList();
 
-  @Nullable
-  ValkyrieList getList();
+  @NotNull
+  List<ValkyrieList> getListList();
 
-  @Nullable
-  ValkyrieNamespace getNamespace();
+  @NotNull
+  List<ValkyrieNamespace> getNamespaceList();
 
   @NotNull
   ValkyriePattern getPattern();
 
-  @Nullable
-  ValkyrieTuple getTuple();
+  @NotNull
+  List<ValkyrieTuple> getTupleList();
 
 }
