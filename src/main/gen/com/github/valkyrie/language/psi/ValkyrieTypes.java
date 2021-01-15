@@ -21,12 +21,17 @@ public interface ValkyrieTypes {
   IElementType ELSE_STATEMENT = new ValkyrieElementType("ELSE_STATEMENT");
   IElementType EXTENDS_STATEMENT = new ValkyrieElementType("EXTENDS_STATEMENT");
   IElementType FOR_STATEMENT = new ValkyrieElementType("FOR_STATEMENT");
+  IElementType FUNCTION_CALL = new ValkyrieElementType("FUNCTION_CALL");
   IElementType IF_GUARD = new ValkyrieElementType("IF_GUARD");
   IElementType IF_STATEMENT = new ValkyrieElementType("IF_STATEMENT");
   IElementType LET_STATEMENT = new ValkyrieElementType("LET_STATEMENT");
   IElementType LIST = new ValkyrieElementType("LIST");
+  IElementType MACRO = new ValkyrieElementType("MACRO");
+  IElementType MACRO_CALL = new ValkyrieElementType("MACRO_CALL");
   IElementType MATCH_STATEMENT = new ValkyrieElementType("MATCH_STATEMENT");
+  IElementType MODIFIERS = new ValkyrieElementType("MODIFIERS");
   IElementType NAMESPACE = new ValkyrieElementType("NAMESPACE");
+  IElementType PAIR = new ValkyrieElementType("PAIR");
   IElementType PARENTHESIS = new ValkyrieElementType("PARENTHESIS");
   IElementType PATTERN = new ValkyrieElementType("PATTERN");
   IElementType TRAIT_STATEMENT = new ValkyrieElementType("TRAIT_STATEMENT");
@@ -69,6 +74,7 @@ public interface ValkyrieTypes {
   IElementType MATCH = new ValkyrieTokenType("match");
   IElementType PARENTHESIS_L = new ValkyrieTokenType("(");
   IElementType PARENTHESIS_R = new ValkyrieTokenType(")");
+  IElementType PROPORTION = new ValkyrieTokenType("PROPORTION");
   IElementType SEMICOLON = new ValkyrieTokenType(";");
   IElementType STAR = new ValkyrieTokenType("*");
   IElementType STRING_CHAR = new ValkyrieTokenType("String Character");
@@ -81,6 +87,7 @@ public interface ValkyrieTypes {
   IElementType TYPE = new ValkyrieTokenType("TYPE");
   IElementType URL = new ValkyrieTokenType("Url");
   IElementType VARIANT = new ValkyrieTokenType("variant");
+  IElementType VERTICAL = new ValkyrieTokenType("|");
   IElementType WHILE = new ValkyrieTokenType("while");
 
   class Factory {
@@ -125,6 +132,9 @@ public interface ValkyrieTypes {
       else if (type == FOR_STATEMENT) {
         return new ValkyrieForStatementNode(node);
       }
+      else if (type == FUNCTION_CALL) {
+        return new ValkyrieFunctionCallNode(node);
+      }
       else if (type == IF_GUARD) {
         return new ValkyrieIfGuardNode(node);
       }
@@ -137,11 +147,23 @@ public interface ValkyrieTypes {
       else if (type == LIST) {
         return new ValkyrieListNode(node);
       }
+      else if (type == MACRO) {
+        return new ValkyrieMacroNode(node);
+      }
+      else if (type == MACRO_CALL) {
+        return new ValkyrieMacroCallNode(node);
+      }
       else if (type == MATCH_STATEMENT) {
         return new ValkyrieMatchStatementNode(node);
       }
+      else if (type == MODIFIERS) {
+        return new ValkyrieModifiersNode(node);
+      }
       else if (type == NAMESPACE) {
         return new ValkyrieNamespaceNode(node);
+      }
+      else if (type == PAIR) {
+        return new ValkyriePairNode(node);
       }
       else if (type == PARENTHESIS) {
         return new ValkyrieParenthesisNode(node);

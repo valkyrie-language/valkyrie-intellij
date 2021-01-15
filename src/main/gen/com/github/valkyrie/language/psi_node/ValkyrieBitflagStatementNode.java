@@ -40,6 +40,12 @@ public class ValkyrieBitflagStatementNode extends ValkyrieElement implements Val
   }
 
   @Override
+  @NotNull
+  public ValkyrieModifiers getModifiers() {
+    return findNotNullChildByClass(ValkyrieModifiers.class);
+  }
+
+  @Override
   @Nullable
   public ValkyrieNamespace getNamespace() {
     return findChildByClass(ValkyrieNamespace.class);

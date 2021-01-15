@@ -13,6 +13,9 @@ public interface ValkyrieBitflagStatement extends PsiElement {
   @Nullable
   ValkyrieList getList();
 
+  @NotNull
+  ValkyrieModifiers getModifiers();
+
   @Nullable
   ValkyrieNamespace getNamespace();
 

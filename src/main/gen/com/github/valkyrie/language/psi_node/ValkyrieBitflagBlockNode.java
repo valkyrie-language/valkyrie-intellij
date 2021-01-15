@@ -33,4 +33,10 @@ public class ValkyrieBitflagBlockNode extends ValkyrieElement implements Valkyri
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieBitflagItem.class);
   }
 
+  @Override
+  @NotNull
+  public List<ValkyrieMacroCall> getMacroCallList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieMacroCall.class);
+  }
+
 }

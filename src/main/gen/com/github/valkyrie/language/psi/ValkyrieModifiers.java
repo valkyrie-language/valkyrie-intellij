@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieBitflagBlock extends PsiElement {
+public interface ValkyrieModifiers extends PsiElement {
 
   @NotNull
-  List<ValkyrieBitflagItem> getBitflagItemList();
-
-  @NotNull
-  List<ValkyrieMacroCall> getMacroCallList();
+  List<ValkyrieNamespace> getNamespaceList();
 
 }

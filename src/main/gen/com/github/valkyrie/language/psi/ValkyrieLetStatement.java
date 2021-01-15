@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieLetStatement extends PsiElement {
 
   @Nullable
+  ValkyrieFunctionCall getFunctionCall();
+
+  @Nullable
   ValkyrieList getList();
 
   @Nullable

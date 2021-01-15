@@ -50,6 +50,7 @@
         AT = '@'
         TO = "->"
         HYPHEN = "-"
+        VERTICAL = "|"
         IF = "if"
         ELSE = "else"
         FOR = "for"
@@ -112,17 +113,29 @@ trait_statement ::= TRAIT SYMBOL block;
 // ---------------------------------------------------------------------------------------------------------------------
 variant_statement ::= VARIANT expression block;
 // ---------------------------------------------------------------------------------------------------------------------
-bitflag_statement ::= BITFLAG SYMBOL [COLON type_expression] bitflag_block;
-bitflag_block ::= <<brace_block bitflag_item [SEMICOLON]>>;
-bitflag_item ::= SYMBOL EQ expression;
+bitflag_statement ::= BITFLAG modifiers [COLON type_expression] bitflag_block;
+bitflag_block ::= <<brace_block (bitflag_item|macro_call) SEMICOLON>>;
+bitflag_item ::= SYMBOL EQ expression | macro;
 // ---------------------------------------------------------------------------------------------------------------------
 extends_statement ::= EXTENDS SYMBOL block;
 // ---------------------------------------------------------------------------------------------------------------------
 private type_expression ::= list | tuple | atoms;
 // ---------------------------------------------------------------------------------------------------------------------
-private expression ::= list | tuple | atoms;
+private expression ::= function_call | list | tuple | atoms;
 // ---------------------------------------------------------------------------------------------------------------------
-namespace     ::= SYMBOL;
+namespace     ::= [PROPORTION] SYMBOL (PROPORTION SYMBOL)*;
+modifiers     ::= namespace*;
+macro         ::= AT namespace;
+// ---------------------------------------------------------------------------------------------------------------------
+macro_call    ::= macro [
+    <<parenthesis expression COMMA>>
+  | <<brace_block pair COMMA>>
+  | <<brace_block expression SEMICOLON>>
+];
+// ---------------------------------------------------------------------------------------------------------------------
+function_call ::= namespace [<<parenthesis expression COMMA>>];
+// ---------------------------------------------------------------------------------------------------------------------
+pair          ::= atoms COLON expression;
 list          ::= <<bracket_block expression COMMA>>
 tuple         ::= <<parenthesis expression COMMA>>
 private atoms ::= BYTE | INTEGER | DECIMAL | namespace;

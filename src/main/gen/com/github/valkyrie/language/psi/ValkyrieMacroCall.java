@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieBlock extends PsiElement {
+public interface ValkyrieMacroCall extends PsiElement {
 
   @NotNull
   List<ValkyrieFunctionCall> getFunctionCallList();
@@ -14,7 +14,16 @@ public interface ValkyrieBlock extends PsiElement {
   List<ValkyrieList> getListList();
 
   @NotNull
+  ValkyrieMacro getMacro();
+
+  @NotNull
   List<ValkyrieNamespace> getNamespaceList();
+
+  @NotNull
+  List<ValkyriePair> getPairList();
+
+  @Nullable
+  ValkyrieParenthesis getParenthesis();
 
   @NotNull
   List<ValkyrieTuple> getTupleList();

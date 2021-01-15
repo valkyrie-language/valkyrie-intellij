@@ -29,6 +29,12 @@ public class ValkyrieLetStatementNode extends ValkyrieElement implements Valkyri
 
   @Override
   @Nullable
+  public ValkyrieFunctionCall getFunctionCall() {
+    return findChildByClass(ValkyrieFunctionCall.class);
+  }
+
+  @Override
+  @Nullable
   public ValkyrieList getList() {
     return findChildByClass(ValkyrieList.class);
   }

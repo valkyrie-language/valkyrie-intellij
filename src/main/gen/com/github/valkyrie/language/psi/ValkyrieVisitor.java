@@ -59,6 +59,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitFunctionCall(@NotNull ValkyrieFunctionCall o) {
+    visitPsiElement(o);
+  }
+
   public void visitIfGuard(@NotNull ValkyrieIfGuard o) {
     visitPsiElement(o);
   }
@@ -75,11 +79,27 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitMacro(@NotNull ValkyrieMacro o) {
+    visitPsiElement(o);
+  }
+
+  public void visitMacroCall(@NotNull ValkyrieMacroCall o) {
+    visitPsiElement(o);
+  }
+
   public void visitMatchStatement(@NotNull ValkyrieMatchStatement o) {
     visitPsiElement(o);
   }
 
+  public void visitModifiers(@NotNull ValkyrieModifiers o) {
+    visitPsiElement(o);
+  }
+
   public void visitNamespace(@NotNull ValkyrieNamespace o) {
+    visitPsiElement(o);
+  }
+
+  public void visitPair(@NotNull ValkyriePair o) {
     visitPsiElement(o);
   }
 

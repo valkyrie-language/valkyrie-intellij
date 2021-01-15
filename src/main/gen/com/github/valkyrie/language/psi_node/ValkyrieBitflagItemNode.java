@@ -29,8 +29,20 @@ public class ValkyrieBitflagItemNode extends ValkyrieElement implements Valkyrie
 
   @Override
   @Nullable
+  public ValkyrieFunctionCall getFunctionCall() {
+    return findChildByClass(ValkyrieFunctionCall.class);
+  }
+
+  @Override
+  @Nullable
   public ValkyrieList getList() {
     return findChildByClass(ValkyrieList.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieMacro getMacro() {
+    return findChildByClass(ValkyrieMacro.class);
   }
 
   @Override

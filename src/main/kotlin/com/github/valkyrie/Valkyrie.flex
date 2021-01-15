@@ -14,12 +14,12 @@ private static int indent_balance = 0;
 private static IntStack brace_stack = new IntStack(9);
 
 public _ValkyrieLexer() {
-	this((java.io.Reader)null);
+    this((java.io.Reader)null);
 }
 
 public void brace_block(int state) {
     brace_stack.push(state);
-    yybegin(CodeContext);
+    yybegin(state);
 }
 
 public void brace_recover() {
@@ -85,17 +85,21 @@ HEX = [0-9a-fA-F]
     "}" { return BRACE_R; }
 }
 <YYINITIAL, Bitflag> {
+    "<<" { return EQ; }
+    ">>" { return EQ; }
     "<" { return ANGLE_L; }
     ">" { return ANGLE_R; }
     "[" { return BRACKET_L; }
     "]" { return BRACKET_R; }
     "^" { return ACCENT; }
+    "∷" | "::" { return PROPORTION; }
     ":" { return COLON; }
     ";" { return SEMICOLON; }
+    "|" { return VERTICAL; }
     "$" { return DOLLAR; }
     "." { return DOT; }
     "-" { return HYPHEN; }
-    "=" { return HYPHEN; }
+    "=" { return EQ; }
 }
 // 顶级关键词
 <YYINITIAL> {
@@ -113,25 +117,19 @@ HEX = [0-9a-fA-F]
     "variant" | "tagged" | "enum" { return VARIANT; }
     "extends" | "impl" { return EXTENDS; }
 }
-
-
-
-
 // =====================================================================================================================
 // 遇到了 bitflags 关键词
 <YYINITIAL> "bitflags" | "bitflag" | "bitset" {
 	yybegin(Bitflag);
     return BITFLAG;
 }
-<Bitflag> {
-    "{" {
-          brace_block(Bitflag);
-          return BRACE_L;
-      }
-    "}" {
-          brace_recover();
-          return BRACE_R;
-      }
+<Bitflag> "{" {
+    brace_block(Bitflag);
+    return BRACE_L;
+}
+<Bitflag> "}" {
+    brace_recover();
+    return BRACE_R;
 }
 // =====================================================================================================================
 <YYINITIAL, Bitflag> {

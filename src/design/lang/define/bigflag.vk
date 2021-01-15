@@ -1,7 +1,15 @@
-bitflag Flags: [u8] {
+bitflag public Flags: [u8] {
     A = 0b00000001
     B = 0b00000010
     C = 0b00000100
+    D = 0xFF;
+    E = 65536;
+}
+
+bitflag public Flags: [u8] {
+    A = 2 >> 1;
+    B = 2 >> 2;
+    C = 2 >> 3;
     ABC = A | B | C
     D = 0xFF;
     @serde

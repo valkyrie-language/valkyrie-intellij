@@ -11,26 +11,20 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieDefStatementNode extends ValkyrieElement implements ValkyrieDefStatement {
+public class ValkyriePairNode extends ValkyrieElement implements ValkyriePair {
 
-  public ValkyrieDefStatementNode(@NotNull ASTNode node) {
+  public ValkyriePairNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitDefStatement(this);
+    visitor.visitPair(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof ValkyrieVisitor) accept((ValkyrieVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public ValkyrieBlock getBlock() {
-    return findNotNullChildByClass(ValkyrieBlock.class);
   }
 
   @Override
@@ -46,9 +40,9 @@ public class ValkyrieDefStatementNode extends ValkyrieElement implements Valkyri
   }
 
   @Override
-  @Nullable
-  public ValkyrieNamespace getNamespace() {
-    return findChildByClass(ValkyrieNamespace.class);
+  @NotNull
+  public List<ValkyrieNamespace> getNamespaceList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNamespace.class);
   }
 
   @Override
