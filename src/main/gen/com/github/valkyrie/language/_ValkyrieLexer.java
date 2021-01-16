@@ -509,6 +509,16 @@ public _ValkyrieLexer() {
     this((java.io.Reader)null);
 }
 
+public void brace_replace(int state) {
+    if (brace_stack.empty()) {
+    }
+    else {
+        brace_stack.pop();
+    }
+    brace_stack.push(state);
+    yybegin(state);
+}
+
 public void brace_block(int state) {
     brace_stack.push(state);
     yybegin(state);
@@ -833,7 +843,7 @@ public void match_indent() {
             // fall through
           case 56: break;
           case 12: 
-            { return GRATER;
+            { return GREATER;
             } 
             // fall through
           case 57: break;

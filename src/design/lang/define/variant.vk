@@ -1,4 +1,3 @@
-///
 variant Option<T> {
     /// No value.
     #[lang = "None"]

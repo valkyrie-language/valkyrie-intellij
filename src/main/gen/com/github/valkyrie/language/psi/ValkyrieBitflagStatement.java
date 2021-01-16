@@ -11,6 +11,9 @@ public interface ValkyrieBitflagStatement extends PsiElement {
   ValkyrieBitflagBlock getBitflagBlock();
 
   @Nullable
+  ValkyrieBitflagLayout getBitflagLayout();
+
+  @Nullable
   ValkyrieList getList();
 
   @NotNull

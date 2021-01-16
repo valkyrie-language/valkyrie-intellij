@@ -166,7 +166,19 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // BITFLAG modifiers [COLON type_expression] bitflag_block
+  // PARENTHESIS_L SYMBOL PARENTHESIS_R
+  public static boolean bitflag_layout(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "bitflag_layout")) return false;
+    if (!nextTokenIs(b, PARENTHESIS_L)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, PARENTHESIS_L, SYMBOL, PARENTHESIS_R);
+    exit_section_(b, m, BITFLAG_LAYOUT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // BITFLAG modifiers [bitflag_layout] [COLON type_expression] bitflag_block
   public static boolean bitflag_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "bitflag_statement")) return false;
     if (!nextTokenIs(b, BITFLAG)) return false;
@@ -175,21 +187,29 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, BITFLAG);
     r = r && modifiers(b, l + 1);
     r = r && bitflag_statement_2(b, l + 1);
+    r = r && bitflag_statement_3(b, l + 1);
     r = r && bitflag_block(b, l + 1);
     exit_section_(b, m, BITFLAG_STATEMENT, r);
     return r;
   }
 
-  // [COLON type_expression]
+  // [bitflag_layout]
   private static boolean bitflag_statement_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "bitflag_statement_2")) return false;
-    bitflag_statement_2_0(b, l + 1);
+    bitflag_layout(b, l + 1);
+    return true;
+  }
+
+  // [COLON type_expression]
+  private static boolean bitflag_statement_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "bitflag_statement_3")) return false;
+    bitflag_statement_3_0(b, l + 1);
     return true;
   }
 
   // COLON type_expression
-  private static boolean bitflag_statement_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "bitflag_statement_2_0")) return false;
+  private static boolean bitflag_statement_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "bitflag_statement_3_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, COLON);

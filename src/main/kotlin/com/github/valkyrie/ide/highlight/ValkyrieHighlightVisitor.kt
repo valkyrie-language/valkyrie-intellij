@@ -11,6 +11,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.nextLeaf
+import com.intellij.psi.util.prevLeaf
 import com.github.valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
 class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
@@ -34,34 +35,11 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitBitflagStatement(o: ValkyrieBitflagStatement) {
-        val head = o.firstChild;
-        val prop = head.nextLeaf { it.elementType == ValkyrieTypes.SYMBOL }!!
-        highlight(prop, Color.SYM_CLASS)
-
+        highlightModifiers(o.modifiers, Color.SYM_CLASS);
         super.visitBitflagStatement(o)
     }
 
-//    override fun visitMessageID(o: FluentMessageID) {
-//        highlight(o, SYM_MESSAGE)
-//    }
-//
-//    override fun visitTermID(o: FluentTermID) {
-//        highlight(o, SYM_TERM)
-//    }
-//
-//    override fun visitAttributeID(o: FluentAttributeID) {
-//        highlight(o, SYM_ATTRIBUTE)
-//    }
-//
-//    override fun visitVariableID(o: FluentVariableID) {
-//        highlight(o, SYM_VARIABLE)
-//    }
-//
-//    override fun visitFunctionID(o: FluentFunctionID) {
-//        highlight(o, SYM_FUNCTION)
-//    }
-
-//    override fun visitSchemaStatement(o: JssSchemaStatement) {
+    //    override fun visitSchemaStatement(o: JssSchemaStatement) {
 //        //
 //        val head = o.firstChild;
 //        highlight(head, FluentColor.KEYWORD)
@@ -71,7 +49,15 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
 //
 //        super.visitSchemaStatement(o)
 //    }
-
+    private fun highlightModifiers(o: ValkyrieModifiers, last: Color) {
+        val tail = o.lastChild;
+        highlight(tail, last);
+        var cur = tail.prevLeaf();
+        while (cur != null) {
+            highlight(cur, Color.KEYWORD);
+            cur = cur.prevLeaf();
+        }
+    }
 
     private fun highlight(element: PsiElement, color: Color) {
         val builder = HighlightInfo.newHighlightInfo(HighlightInfoType.INFORMATION)

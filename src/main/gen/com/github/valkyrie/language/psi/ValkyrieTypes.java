@@ -11,6 +11,7 @@ public interface ValkyrieTypes {
   IElementType ANGLE_BLOCK = new ValkyrieElementType("ANGLE_BLOCK");
   IElementType BITFLAG_BLOCK = new ValkyrieElementType("BITFLAG_BLOCK");
   IElementType BITFLAG_ITEM = new ValkyrieElementType("BITFLAG_ITEM");
+  IElementType BITFLAG_LAYOUT = new ValkyrieElementType("BITFLAG_LAYOUT");
   IElementType BITFLAG_STATEMENT = new ValkyrieElementType("BITFLAG_STATEMENT");
   IElementType BLOCK = new ValkyrieElementType("BLOCK");
   IElementType BRACKET_BLOCK = new ValkyrieElementType("BRACKET_BLOCK");
@@ -66,17 +67,17 @@ public interface ValkyrieTypes {
   IElementType EQ = new ValkyrieTokenType("=");
   IElementType EXTENDS = new ValkyrieTokenType("extends");
   IElementType FOR = new ValkyrieTokenType("for");
-  IElementType GREATER = new ValkyrieTokenType("≫");
+  IElementType GREATER = new ValkyrieTokenType(">>");
   IElementType HYPHEN = new ValkyrieTokenType("-");
   IElementType IF = new ValkyrieTokenType("if");
   IElementType IN = new ValkyrieTokenType("in");
   IElementType INTEGER = new ValkyrieTokenType("INTEGER");
-  IElementType LESS = new ValkyrieTokenType("≪");
+  IElementType LESS = new ValkyrieTokenType("<<");
   IElementType LET = new ValkyrieTokenType("let");
   IElementType MATCH = new ValkyrieTokenType("match");
   IElementType PARENTHESIS_L = new ValkyrieTokenType("(");
   IElementType PARENTHESIS_R = new ValkyrieTokenType(")");
-  IElementType PROPORTION = new ValkyrieTokenType("∷");
+  IElementType PROPORTION = new ValkyrieTokenType("::");
   IElementType SEMICOLON = new ValkyrieTokenType(";");
   IElementType STAR = new ValkyrieTokenType("*");
   IElementType STRING_CHAR = new ValkyrieTokenType("String Character");
@@ -103,6 +104,9 @@ public interface ValkyrieTypes {
       }
       else if (type == BITFLAG_ITEM) {
         return new ValkyrieBitflagItemNode(node);
+      }
+      else if (type == BITFLAG_LAYOUT) {
+        return new ValkyrieBitflagLayoutNode(node);
       }
       else if (type == BITFLAG_STATEMENT) {
         return new ValkyrieBitflagStatementNode(node);

@@ -1,4 +1,4 @@
-bitflag public Flags: [u8] {
+bitflag Flags(u8): Debug {
     A = 0b00000001
     B = 0b00000010
     C = 0b00000100

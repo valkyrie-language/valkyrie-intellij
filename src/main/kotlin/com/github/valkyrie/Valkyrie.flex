@@ -17,6 +17,16 @@ public _ValkyrieLexer() {
     this((java.io.Reader)null);
 }
 
+public void brace_replace(int state) {
+    if (brace_stack.empty()) {
+    }
+    else {
+        brace_stack.pop();
+    }
+    brace_stack.push(state);
+    yybegin(state);
+}
+
 public void brace_block(int state) {
     brace_stack.push(state);
     yybegin(state);
@@ -86,7 +96,7 @@ HEX = [0-9a-fA-F]
 }
 <YYINITIAL, Bitflag> {
     "<<" | "≪" { return LESS; }
-    ">>" | "≫" { return GRATER; }
+    ">>" | "≫" { return GREATER; }
     "<" { return ANGLE_L; }
     ">" { return ANGLE_R; }
     "[" { return BRACKET_L; }
