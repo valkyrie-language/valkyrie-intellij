@@ -7,10 +7,6 @@ import com.intellij.psi.PsiElement;
 
 public class ValkyrieVisitor extends PsiElementVisitor {
 
-  public void visitAngleBlock(@NotNull ValkyrieAngleBlock o) {
-    visitPsiElement(o);
-  }
-
   public void visitAutoDerive(@NotNull ValkyrieAutoDerive o) {
     visitPsiElement(o);
   }
@@ -35,7 +31,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitBracketBlock(@NotNull ValkyrieBracketBlock o) {
+  public void visitCasePattern(@NotNull ValkyrieCasePattern o) {
     visitPsiElement(o);
   }
 
@@ -108,10 +104,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitPair(@NotNull ValkyriePair o) {
-    visitPsiElement(o);
-  }
-
-  public void visitParenthesis(@NotNull ValkyrieParenthesis o) {
     visitPsiElement(o);
   }
 

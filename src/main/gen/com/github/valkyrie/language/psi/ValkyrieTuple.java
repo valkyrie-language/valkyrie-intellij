@@ -8,6 +8,15 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieTuple extends PsiElement {
 
   @NotNull
-  ValkyrieParenthesis getParenthesis();
+  List<ValkyrieFunctionCall> getFunctionCallList();
+
+  @NotNull
+  List<ValkyrieList> getListList();
+
+  @NotNull
+  List<ValkyrieNamespace> getNamespaceList();
+
+  @NotNull
+  List<ValkyrieTuple> getTupleList();
 
 }

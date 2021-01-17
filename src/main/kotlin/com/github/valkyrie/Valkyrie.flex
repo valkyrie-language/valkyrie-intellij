@@ -127,7 +127,7 @@ HEX = [0-9a-fA-F]
     "class" | "struct" { return CLASS; }
     "trait" | "interface" { return TRAIT; }
     "variant" | "tagged" | "enum" { return VARIANT; }
-    "extends" | "impl" { return EXTENDS; }
+    "extends"| "extend" | "impl" { return EXTENDS; }
 }
 // =====================================================================================================================
 // 遇到了 bitflags 关键词

@@ -8,14 +8,13 @@ import com.github.valkyrie.language.psi_node.*;
 
 public interface ValkyrieTypes {
 
-  IElementType ANGLE_BLOCK = new ValkyrieElementType("ANGLE_BLOCK");
   IElementType AUTO_DERIVE = new ValkyrieElementType("AUTO_DERIVE");
   IElementType BITFLAG_BLOCK = new ValkyrieElementType("BITFLAG_BLOCK");
   IElementType BITFLAG_ITEM = new ValkyrieElementType("BITFLAG_ITEM");
   IElementType BITFLAG_LAYOUT = new ValkyrieElementType("BITFLAG_LAYOUT");
   IElementType BITFLAG_STATEMENT = new ValkyrieElementType("BITFLAG_STATEMENT");
   IElementType BLOCK = new ValkyrieElementType("BLOCK");
-  IElementType BRACKET_BLOCK = new ValkyrieElementType("BRACKET_BLOCK");
+  IElementType CASE_PATTERN = new ValkyrieElementType("CASE_PATTERN");
   IElementType CLASS_STATEMENT = new ValkyrieElementType("CLASS_STATEMENT");
   IElementType CONDITION = new ValkyrieElementType("CONDITION");
   IElementType DEF_STATEMENT = new ValkyrieElementType("DEF_STATEMENT");
@@ -34,7 +33,6 @@ public interface ValkyrieTypes {
   IElementType MODIFIERS = new ValkyrieElementType("MODIFIERS");
   IElementType NAMESPACE = new ValkyrieElementType("NAMESPACE");
   IElementType PAIR = new ValkyrieElementType("PAIR");
-  IElementType PARENTHESIS = new ValkyrieElementType("PARENTHESIS");
   IElementType PATTERN = new ValkyrieElementType("PATTERN");
   IElementType TRAIT_STATEMENT = new ValkyrieElementType("TRAIT_STATEMENT");
   IElementType TUPLE = new ValkyrieElementType("TUPLE");
@@ -52,6 +50,7 @@ public interface ValkyrieTypes {
   IElementType BRACKET_L = new ValkyrieTokenType("[");
   IElementType BRACKET_R = new ValkyrieTokenType("]");
   IElementType BYTE = new ValkyrieTokenType("Byte");
+  IElementType CASE = new ValkyrieTokenType("CASE");
   IElementType CATCH = new ValkyrieTokenType("catch");
   IElementType CLASS = new ValkyrieTokenType("class");
   IElementType COLON = new ValkyrieTokenType(":");
@@ -98,10 +97,7 @@ public interface ValkyrieTypes {
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == ANGLE_BLOCK) {
-        return new ValkyrieAngleBlockNode(node);
-      }
-      else if (type == AUTO_DERIVE) {
+      if (type == AUTO_DERIVE) {
         return new ValkyrieAutoDeriveNode(node);
       }
       else if (type == BITFLAG_BLOCK) {
@@ -119,8 +115,8 @@ public interface ValkyrieTypes {
       else if (type == BLOCK) {
         return new ValkyrieBlockNode(node);
       }
-      else if (type == BRACKET_BLOCK) {
-        return new ValkyrieBracketBlockNode(node);
+      else if (type == CASE_PATTERN) {
+        return new ValkyrieCasePatternNode(node);
       }
       else if (type == CLASS_STATEMENT) {
         return new ValkyrieClassStatementNode(node);
@@ -175,9 +171,6 @@ public interface ValkyrieTypes {
       }
       else if (type == PAIR) {
         return new ValkyriePairNode(node);
-      }
-      else if (type == PARENTHESIS) {
-        return new ValkyrieParenthesisNode(node);
       }
       else if (type == PATTERN) {
         return new ValkyriePatternNode(node);

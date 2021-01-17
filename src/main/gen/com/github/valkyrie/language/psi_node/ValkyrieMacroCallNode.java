@@ -58,12 +58,6 @@ public class ValkyrieMacroCallNode extends ValkyrieElement implements ValkyrieMa
   }
 
   @Override
-  @Nullable
-  public ValkyrieParenthesis getParenthesis() {
-    return findChildByClass(ValkyrieParenthesis.class);
-  }
-
-  @Override
   @NotNull
   public List<ValkyrieTuple> getTupleList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTuple.class);

@@ -99,8 +99,12 @@ condition ::= expression;
 for_statement ::= FOR pattern IN expression [if_guard] block [else_statement];
 if_guard ::= IF condition;
 pattern ::=
-      PARENTHESIS_L modifiers (COMMA modifiers)* PARENTHESIS_R
-    | modifiers (COMMA modifiers)*;
+    [modifiers] case_pattern
+  | [modifiers] <<parenthesis modifiers COMMA>>
+  | [modifiers] <<bracket_block modifiers COMMA>>
+  | <<sequcence modifiers COMMA>>;
+case_pattern ::=
+      CASE function_call;
 // ---------------------------------------------------------------------------------------------------------------------
 while_statement ::= WHILE expression block;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -149,11 +153,12 @@ list          ::= <<bracket_block expression COMMA>>
 tuple         ::= <<parenthesis expression COMMA>>
 private atoms ::= BYTE | INTEGER | DECIMAL | namespace;
 // ---------------------------------------------------------------------------------------------------------------------
+private meta sequcence ::= <<item>> (<<sp>> <<item>>)* [<<sp>>];
 // parenthesis ( )
-meta parenthesis ::= PARENTHESIS_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] PARENTHESIS_R;
+private meta parenthesis ::= PARENTHESIS_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] PARENTHESIS_R;
 // bracket [ ]
-meta bracket_block ::= BRACKET_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] BRACKET_R;
+private meta bracket_block ::= BRACKET_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] BRACKET_R;
 // brace { }
 private meta brace_block ::= BRACE_L (<<item>>|<<sp>>)* BRACE_R;
 // angle < >
-meta angle_block ::= ANGLE_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] ANGLE_R;
+private meta angle_block ::= ANGLE_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] ANGLE_R;

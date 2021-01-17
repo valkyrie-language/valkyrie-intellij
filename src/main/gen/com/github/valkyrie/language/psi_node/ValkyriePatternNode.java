@@ -28,6 +28,12 @@ public class ValkyriePatternNode extends ValkyrieElement implements ValkyriePatt
   }
 
   @Override
+  @Nullable
+  public ValkyrieCasePattern getCasePattern() {
+    return findChildByClass(ValkyrieCasePattern.class);
+  }
+
+  @Override
   @NotNull
   public List<ValkyrieModifiers> getModifiersList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieModifiers.class);

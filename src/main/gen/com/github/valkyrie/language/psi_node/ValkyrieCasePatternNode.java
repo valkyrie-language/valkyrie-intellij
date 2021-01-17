@@ -11,20 +11,26 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieAngleBlockNode extends ValkyrieElement implements ValkyrieAngleBlock {
+public class ValkyrieCasePatternNode extends ValkyrieElement implements ValkyrieCasePattern {
 
-  public ValkyrieAngleBlockNode(@NotNull ASTNode node) {
+  public ValkyrieCasePatternNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitAngleBlock(this);
+    visitor.visitCasePattern(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof ValkyrieVisitor) accept((ValkyrieVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  @NotNull
+  public ValkyrieFunctionCall getFunctionCall() {
+    return findNotNullChildByClass(ValkyrieFunctionCall.class);
   }
 
 }
