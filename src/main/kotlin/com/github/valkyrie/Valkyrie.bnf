@@ -46,14 +46,15 @@
         COLON = ':'
         PROPORTION = "::"
         SEMICOLON = ';'
+        DOT = '.'
         COMMA = ','
         DOLLAR = '$'
-        DOT = '.'
         STAR = '*'
         AT = '@'
         TO = "->"
         HYPHEN = "-"
         VERTICAL = "|"
+        UNTIL = ".."
         IF = "if"
         ELSE = "else"
         FOR = "for"
@@ -97,8 +98,9 @@ condition ::= expression;
 // ---------------------------------------------------------------------------------------------------------------------
 for_statement ::= FOR pattern IN expression [if_guard] block [else_statement];
 if_guard ::= IF condition;
-
-pattern ::= namespace;
+pattern ::=
+      PARENTHESIS_L modifiers (COMMA modifiers)* PARENTHESIS_R
+    | modifiers (COMMA modifiers)*;
 // ---------------------------------------------------------------------------------------------------------------------
 while_statement ::= WHILE expression block;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -116,18 +118,19 @@ trait_statement ::= TRAIT SYMBOL block;
 // ---------------------------------------------------------------------------------------------------------------------
 variant_statement ::= VARIANT expression block;
 // ---------------------------------------------------------------------------------------------------------------------
-bitflag_statement ::= BITFLAG modifiers [bitflag_layout] [COLON type_expression] bitflag_block;
+bitflag_statement ::= BITFLAG modifiers [bitflag_layout] [auto_derive] bitflag_block;
 bitflag_block ::= <<brace_block (bitflag_item|macro_call) SEMICOLON>>;
-bitflag_layout ::= PARENTHESIS_L SYMBOL PARENTHESIS_R;
+bitflag_layout ::= PARENTHESIS_L type_expression PARENTHESIS_R;
+auto_derive ::= COLON type_expression;
 bitflag_item ::= SYMBOL EQ expression | macro;
 // ---------------------------------------------------------------------------------------------------------------------
-extends_statement ::= EXTENDS SYMBOL block;
+extends_statement ::= EXTENDS namespace block;
 // ---------------------------------------------------------------------------------------------------------------------
 private type_expression ::= list | tuple | atoms;
 // ---------------------------------------------------------------------------------------------------------------------
 private expression ::= term (binary_op term)*;
 private term ::= function_call | list | tuple | atoms;
-private binary_op ::= VERTICAL | LESS | GREATER;
+private binary_op ::= VERTICAL | LESS | GREATER | UNTIL;
 // ---------------------------------------------------------------------------------------------------------------------
 namespace     ::= [PROPORTION] SYMBOL (PROPORTION SYMBOL)*;
 modifiers     ::= namespace*;

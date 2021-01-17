@@ -9,6 +9,7 @@ import com.github.valkyrie.language.psi_node.*;
 public interface ValkyrieTypes {
 
   IElementType ANGLE_BLOCK = new ValkyrieElementType("ANGLE_BLOCK");
+  IElementType AUTO_DERIVE = new ValkyrieElementType("AUTO_DERIVE");
   IElementType BITFLAG_BLOCK = new ValkyrieElementType("BITFLAG_BLOCK");
   IElementType BITFLAG_ITEM = new ValkyrieElementType("BITFLAG_ITEM");
   IElementType BITFLAG_LAYOUT = new ValkyrieElementType("BITFLAG_LAYOUT");
@@ -88,6 +89,7 @@ public interface ValkyrieTypes {
   IElementType TO = new ValkyrieTokenType("->");
   IElementType TRAIT = new ValkyrieTokenType("trait");
   IElementType TYPE = new ValkyrieTokenType("TYPE");
+  IElementType UNTIL = new ValkyrieTokenType("..");
   IElementType URL = new ValkyrieTokenType("Url");
   IElementType VARIANT = new ValkyrieTokenType("variant");
   IElementType VERTICAL = new ValkyrieTokenType("|");
@@ -98,6 +100,9 @@ public interface ValkyrieTypes {
       IElementType type = node.getElementType();
       if (type == ANGLE_BLOCK) {
         return new ValkyrieAngleBlockNode(node);
+      }
+      else if (type == AUTO_DERIVE) {
+        return new ValkyrieAutoDeriveNode(node);
       }
       else if (type == BITFLAG_BLOCK) {
         return new ValkyrieBitflagBlockNode(node);

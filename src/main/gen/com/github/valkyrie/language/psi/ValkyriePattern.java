@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface ValkyriePattern extends PsiElement {
 
   @NotNull
-  ValkyrieNamespace getNamespace();
+  List<ValkyrieModifiers> getModifiersList();
 
 }

@@ -1,9 +1,9 @@
-for i in 0..>100 {
+for i in 0..<100 {
     print_line("{i}")
 }
 
 
-for i in 0..=100 if i > 50 {
+for mut i, j in 0..=100 if i > 50 {
 
 }
 

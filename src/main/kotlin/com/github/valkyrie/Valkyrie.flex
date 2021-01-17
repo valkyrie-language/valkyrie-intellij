@@ -107,7 +107,9 @@ HEX = [0-9a-fA-F]
     ";" { return SEMICOLON; }
     "|" { return VERTICAL; }
     "$" { return DOLLAR; }
+    "..=" |".." | "..<" { return UNTIL; }
     "." { return DOT; }
+    "," { return COMMA; }
     "-" { return HYPHEN; }
     "=" { return EQ; }
 }

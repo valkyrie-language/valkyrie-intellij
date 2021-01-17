@@ -33,4 +33,10 @@ public class ValkyrieExtendsStatementNode extends ValkyrieElement implements Val
     return findNotNullChildByClass(ValkyrieBlock.class);
   }
 
+  @Override
+  @NotNull
+  public ValkyrieNamespace getNamespace() {
+    return findNotNullChildByClass(ValkyrieNamespace.class);
+  }
+
 }

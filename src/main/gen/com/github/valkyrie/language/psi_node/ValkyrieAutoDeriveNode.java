@@ -11,14 +11,14 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyriePatternNode extends ValkyrieElement implements ValkyriePattern {
+public class ValkyrieAutoDeriveNode extends ValkyrieElement implements ValkyrieAutoDerive {
 
-  public ValkyriePatternNode(@NotNull ASTNode node) {
+  public ValkyrieAutoDeriveNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitPattern(this);
+    visitor.visitAutoDerive(this);
   }
 
   @Override
@@ -28,9 +28,21 @@ public class ValkyriePatternNode extends ValkyrieElement implements ValkyriePatt
   }
 
   @Override
-  @NotNull
-  public List<ValkyrieModifiers> getModifiersList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieModifiers.class);
+  @Nullable
+  public ValkyrieList getList() {
+    return findChildByClass(ValkyrieList.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieNamespace getNamespace() {
+    return findChildByClass(ValkyrieNamespace.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieTuple getTuple() {
+    return findChildByClass(ValkyrieTuple.class);
   }
 
 }

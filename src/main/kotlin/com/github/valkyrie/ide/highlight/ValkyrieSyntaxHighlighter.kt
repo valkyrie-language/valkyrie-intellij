@@ -31,7 +31,7 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             BRACKET_L, BRACKET_R -> Color.BRACKETS
             BRACE_L, BRACE_R -> Color.BRACES
             COLON, EQ -> Color.SET
-            VERTICAL, LESS, GREATER -> Color.INFIX
+            VERTICAL, LESS, GREATER, UNTIL -> Color.INFIX
             STAR -> Color.STAR
             COMMA -> Color.COMMA
             // 原子类型

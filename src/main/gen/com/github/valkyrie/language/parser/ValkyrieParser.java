@@ -110,13 +110,27 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // VERTICAL | LESS | GREATER
+  // COLON type_expression
+  public static boolean auto_derive(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "auto_derive")) return false;
+    if (!nextTokenIs(b, COLON)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COLON);
+    r = r && type_expression(b, l + 1);
+    exit_section_(b, m, AUTO_DERIVE, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // VERTICAL | LESS | GREATER | UNTIL
   static boolean binary_op(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "binary_op")) return false;
     boolean r;
     r = consumeToken(b, VERTICAL);
     if (!r) r = consumeToken(b, LESS);
     if (!r) r = consumeToken(b, GREATER);
+    if (!r) r = consumeToken(b, UNTIL);
     return r;
   }
 
@@ -166,19 +180,21 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // PARENTHESIS_L SYMBOL PARENTHESIS_R
+  // PARENTHESIS_L type_expression PARENTHESIS_R
   public static boolean bitflag_layout(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "bitflag_layout")) return false;
     if (!nextTokenIs(b, PARENTHESIS_L)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, PARENTHESIS_L, SYMBOL, PARENTHESIS_R);
+    r = consumeToken(b, PARENTHESIS_L);
+    r = r && type_expression(b, l + 1);
+    r = r && consumeToken(b, PARENTHESIS_R);
     exit_section_(b, m, BITFLAG_LAYOUT, r);
     return r;
   }
 
   /* ********************************************************** */
-  // BITFLAG modifiers [bitflag_layout] [COLON type_expression] bitflag_block
+  // BITFLAG modifiers [bitflag_layout] [auto_derive] bitflag_block
   public static boolean bitflag_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "bitflag_statement")) return false;
     if (!nextTokenIs(b, BITFLAG)) return false;
@@ -200,22 +216,11 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // [COLON type_expression]
+  // [auto_derive]
   private static boolean bitflag_statement_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "bitflag_statement_3")) return false;
-    bitflag_statement_3_0(b, l + 1);
+    auto_derive(b, l + 1);
     return true;
-  }
-
-  // COLON type_expression
-  private static boolean bitflag_statement_3_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "bitflag_statement_3_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, COLON);
-    r = r && type_expression(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
   }
 
   /* ********************************************************** */
@@ -429,13 +434,14 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // EXTENDS SYMBOL block
+  // EXTENDS namespace block
   public static boolean extends_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "extends_statement")) return false;
     if (!nextTokenIs(b, EXTENDS)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, EXTENDS, SYMBOL);
+    r = consumeToken(b, EXTENDS);
+    r = r && namespace(b, l + 1);
     r = r && block(b, l + 1);
     exit_section_(b, m, EXTENDS_STATEMENT, r);
     return r;
@@ -795,14 +801,83 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // namespace
+  // PARENTHESIS_L modifiers (COMMA modifiers)* PARENTHESIS_R
+  //     | modifiers (COMMA modifiers)*
   public static boolean pattern(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "pattern")) return false;
-    if (!nextTokenIs(b, "<pattern>", PROPORTION, SYMBOL)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, PATTERN, "<pattern>");
-    r = namespace(b, l + 1);
+    r = pattern_0(b, l + 1);
+    if (!r) r = pattern_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // PARENTHESIS_L modifiers (COMMA modifiers)* PARENTHESIS_R
+  private static boolean pattern_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "pattern_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, PARENTHESIS_L);
+    r = r && modifiers(b, l + 1);
+    r = r && pattern_0_2(b, l + 1);
+    r = r && consumeToken(b, PARENTHESIS_R);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (COMMA modifiers)*
+  private static boolean pattern_0_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "pattern_0_2")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!pattern_0_2_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "pattern_0_2", c)) break;
+    }
+    return true;
+  }
+
+  // COMMA modifiers
+  private static boolean pattern_0_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "pattern_0_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMA);
+    r = r && modifiers(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // modifiers (COMMA modifiers)*
+  private static boolean pattern_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "pattern_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = modifiers(b, l + 1);
+    r = r && pattern_1_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (COMMA modifiers)*
+  private static boolean pattern_1_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "pattern_1_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!pattern_1_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "pattern_1_1", c)) break;
+    }
+    return true;
+  }
+
+  // COMMA modifiers
+  private static boolean pattern_1_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "pattern_1_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMA);
+    r = r && modifiers(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
   }
 
