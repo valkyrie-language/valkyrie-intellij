@@ -16,28 +16,22 @@ private static IntStack brace_stack = new IntStack(9);
 public _ValkyrieLexer() {
     this((java.io.Reader)null);
 }
-
-public void brace_replace(int state) {
-    if (brace_stack.empty()) {
-    }
-    else {
-        brace_stack.pop();
-    }
-    brace_stack.push(state);
-    yybegin(state);
-}
-
 public void brace_block(int state) {
     brace_stack.push(state);
     yybegin(state);
 }
 
 public void brace_recover() {
-    if (brace_stack.empty()) {
+    if (brace_stack.size() == 0) {
+        yybegin(YYINITIAL);
+    }
+    else if (brace_stack.size() == 1) {
+        brace_stack.pop();
         yybegin(YYINITIAL);
     }
     else {
-        yybegin(brace_stack.pop());
+        brace_stack.pop();
+        yybegin(brace_stack.peek());
     }
 }
 
@@ -60,7 +54,6 @@ public void match_indent() {
 
 %state StringQuote
 %state Bitflag
-%state BitflagInner
 %state TextContextSpace
 //%state TextContextIndent
 %state CodeContext
@@ -83,7 +76,7 @@ HEX = [0-9a-fA-F]
 
 %%
 
-<YYINITIAL, Bitflag, BitflagInner> {
+<YYINITIAL, Bitflag> {
 	{COMMENT_DOCUMENT} { return COMMENT_DOCUMENT; }
 	{COMMENT_LINE}     { return COMMENT_LINE; }
 	{COMMENT_BLOCK}    { return COMMENT_BLOCK; }
@@ -95,7 +88,7 @@ HEX = [0-9a-fA-F]
     "{" { return BRACE_L; }
     "}" { return BRACE_R; }
 }
-<YYINITIAL, Bitflag, BitflagInner> {
+<YYINITIAL, Bitflag> {
     "<<" | "≪" { return LESS; }
     ">>" | "≫" { return GREATER; }
     "<" { return ANGLE_L; }
@@ -111,6 +104,7 @@ HEX = [0-9a-fA-F]
     "..=" |".." | "..<" { return UNTIL; }
     "." { return DOT; }
     "," { return COMMA; }
+    "+" { return PLUS; }
     "-" { return HYPHEN; }
     "=" { return EQ; }
 }
@@ -140,15 +134,12 @@ HEX = [0-9a-fA-F]
     brace_block(Bitflag);
     return BRACE_L;
 }
-<BitflagInner> "{" {
-    return BRACE_L;
-}
-<BitflagInner> "}" {
+<Bitflag> "}" {
     brace_recover();
     return BRACE_R;
 }
 // =====================================================================================================================
-<YYINITIAL, Bitflag, BitflagInner> {
+<YYINITIAL, Bitflag> {
     {BYTE} { return BYTE; }
     {INTEGER} { return INTEGER; }
     {SYMBOL_XID} { return SYMBOL_XID; }

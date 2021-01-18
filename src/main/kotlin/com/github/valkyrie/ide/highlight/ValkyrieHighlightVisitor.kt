@@ -11,7 +11,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.nextLeaf
-import com.intellij.psi.util.prevLeaf
 import com.github.valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
 class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
@@ -41,7 +40,15 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitBitflagItem(o: ValkyrieBitflagItem) {
+        highlight(o.symbol, Color.SYM_VARIANT);
         super.visitBitflagItem(o)
+    }
+
+    override fun visitAutoDerive(o: ValkyrieAutoDerive) {
+        o.symbolList.forEach {
+            highlight(it, Color.SYM_TRAIT)
+        }
+        super.visitAutoDerive(o)
     }
 
     //    override fun visitSchemaStatement(o: JssSchemaStatement) {
@@ -57,10 +64,15 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     private fun highlightModifiers(o: ValkyrieModifiers, last: Color) {
         val tail = o.lastChild;
         highlight(tail, last);
-        var cur = tail.prevLeaf();
-        while (cur != null) {
-            highlight(cur, Color.KEYWORD);
-            cur = cur.prevLeaf();
+        var node = tail.prevSibling;
+        while (node != null) {
+            when (node) {
+                is ValkyrieNamespace -> {
+                    highlight(node.lastChild, Color.KEYWORD);
+                }
+                else -> {}
+            }
+            node = node.prevSibling;
         }
     }
 

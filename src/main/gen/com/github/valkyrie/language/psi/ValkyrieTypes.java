@@ -78,6 +78,7 @@ public interface ValkyrieTypes {
   IElementType MATCH = new ValkyrieTokenType("match");
   IElementType PARENTHESIS_L = new ValkyrieTokenType("(");
   IElementType PARENTHESIS_R = new ValkyrieTokenType(")");
+  IElementType PLUS = new ValkyrieTokenType("+");
   IElementType PROPORTION = new ValkyrieTokenType("::");
   IElementType SEMICOLON = new ValkyrieTokenType(";");
   IElementType STAR = new ValkyrieTokenType("*");

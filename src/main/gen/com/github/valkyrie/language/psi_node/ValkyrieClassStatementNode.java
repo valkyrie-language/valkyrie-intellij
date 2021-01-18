@@ -28,6 +28,12 @@ public class ValkyrieClassStatementNode extends ValkyrieElement implements Valky
   }
 
   @Override
+  @Nullable
+  public ValkyrieAutoDerive getAutoDerive() {
+    return findChildByClass(ValkyrieAutoDerive.class);
+  }
+
+  @Override
   @NotNull
   public ValkyrieBlock getBlock() {
     return findNotNullChildByClass(ValkyrieBlock.class);
@@ -35,26 +41,8 @@ public class ValkyrieClassStatementNode extends ValkyrieElement implements Valky
 
   @Override
   @NotNull
-  public List<ValkyrieFunctionCall> getFunctionCallList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieFunctionCall.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieList> getListList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieList.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieNamespace> getNamespaceList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNamespace.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieTuple> getTupleList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTuple.class);
+  public ValkyrieSymbol getSymbol() {
+    return findNotNullChildByClass(ValkyrieSymbol.class);
   }
 
 }
