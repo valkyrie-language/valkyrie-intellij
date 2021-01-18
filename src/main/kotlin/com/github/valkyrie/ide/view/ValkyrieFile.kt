@@ -7,7 +7,7 @@ import com.intellij.openapi.fileTypes.FileType
 import com.intellij.psi.FileViewProvider
 
 class ValkyrieFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ValkyrieLanguage.INSTANCE) {
-    override fun getFileType(): FileType = VkFileType.INSTANCE
+    override fun getFileType(): FileType = ValkyrieFileType.INSTANCE
 
     override fun toString(): String = ValkyrieBundle.message("action.create_file")
 }

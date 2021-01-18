@@ -1,7 +1,7 @@
 package com.github.valkyrie.ide.highlight
 
 import com.github.valkyrie.ValkyrieBundle
-import com.github.valkyrie.ide.view.VkIconProvider
+import com.github.valkyrie.ide.view.ValkyrieIconProvider
 
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
@@ -20,7 +20,7 @@ class ValkyrieHighlightSetting : ColorSettingsPage {
 
     override fun getDisplayName() = ValkyrieBundle.message("filetype.name")
 
-    override fun getIcon() = VkIconProvider.FluentFile
+    override fun getIcon() = ValkyrieIconProvider.FluentFile
 
     override fun getHighlighter() = ValkyrieSyntaxHighlighter()
 

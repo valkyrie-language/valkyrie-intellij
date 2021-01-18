@@ -5,7 +5,7 @@ import com.intellij.openapi.util.IconLoader
 import com.intellij.psi.PsiElement
 import javax.swing.Icon
 
-class VkIconProvider : IconProvider() {
+class ValkyrieIconProvider : IconProvider() {
     override fun getIcon(psiElement: PsiElement, flags: Int): Icon? {
         val fileName = psiElement.containingFile.name
 
@@ -16,6 +16,6 @@ class VkIconProvider : IconProvider() {
     }
 
     companion object {
-        val FluentFile = IconLoader.getIcon("/icons/vk.svg", VkIconProvider::class.java)
+        val FluentFile = IconLoader.getIcon("/icons/vk.svg", ValkyrieIconProvider::class.java)
     }
 }

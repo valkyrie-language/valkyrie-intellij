@@ -15,6 +15,11 @@ private static IntStack brace_stack = new IntStack(9);
 
 public _ValkyrieLexer() {
     this((java.io.Reader)null);
+    init();
+}
+private static void init() {
+    indent_balance = 0;
+    brace_stack.clear();
 }
 public void brace_block(int state) {
     brace_stack.push(state);
@@ -51,6 +56,9 @@ public void match_indent() {
 %function advance
 %type IElementType
 %unicode
+%eof{
+    init();
+%eof}
 
 %state StringQuote
 %state Bitflag

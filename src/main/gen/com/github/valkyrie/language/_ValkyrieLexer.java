@@ -509,6 +509,11 @@ private static IntStack brace_stack = new IntStack(9);
 
 public _ValkyrieLexer() {
     this((java.io.Reader)null);
+    init();
+}
+private static void init() {
+    indent_balance = 0;
+    brace_stack.clear();
 }
 public void brace_block(int state) {
     brace_stack.push(state);
@@ -694,6 +699,19 @@ public void match_indent() {
 
 
   /**
+   * Contains user EOF-code, which will be executed exactly once,
+   * when the end of file is reached
+   */
+  private void zzDoEOF() {
+    if (!zzEOFDone) {
+      zzEOFDone = true;
+        init();
+
+    }
+  }
+
+
+  /**
    * Resumes scanning until the next regular expression is matched,
    * the end of input is encountered or an I/O-Error occurs.
    *
@@ -779,6 +797,7 @@ public void match_indent() {
 
       if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
         zzAtEOF = true;
+        zzDoEOF();
         return null;
       }
       else {

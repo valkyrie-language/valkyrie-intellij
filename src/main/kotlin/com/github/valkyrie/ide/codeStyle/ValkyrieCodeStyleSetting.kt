@@ -4,7 +4,7 @@ import com.intellij.application.options.CodeStyleAbstractConfigurable
 import com.intellij.application.options.SmartIndentOptionsEditor
 import com.intellij.psi.codeStyle.*
 
-class VomlLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider() {
+class ValkyrieCodeStyleSetting : LanguageCodeStyleSettingsProvider() {
     override fun getLanguage() = com.github.valkyrie.ValkyrieLanguage.INSTANCE
 
     override fun getIndentOptionsEditor() = SmartIndentOptionsEditor()
