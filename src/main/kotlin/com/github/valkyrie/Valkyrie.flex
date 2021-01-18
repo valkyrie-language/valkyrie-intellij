@@ -60,6 +60,7 @@ public void match_indent() {
 
 %state StringQuote
 %state Bitflag
+%state BitflagInner
 %state TextContextSpace
 //%state TextContextIndent
 %state CodeContext
@@ -70,7 +71,7 @@ WHITE_SPACE=[\s\t\r\n]
 COMMENT_DOCUMENT=("///")[^\r\n]*
 COMMENT_LINE = #{1,3}[^\r\n]*
 COMMENT_BLOCK=[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]
-SYMBOL=[\p{XID_Start}_][\p{XID_Continue}]*
+SYMBOL_XID=[\p{XID_Start}_][\p{XID_Continue}]*
 STRING=\"([^\"\\]|\\.)*\"
 BYTE=(0[bBoOxXfF][0-9A-Fa-f][0-9A-Fa-f_]*)
 INTEGER=(0|[1-9][0-9_]*)
@@ -82,7 +83,7 @@ HEX = [0-9a-fA-F]
 
 %%
 
-<YYINITIAL, Bitflag> {
+<YYINITIAL, Bitflag, BitflagInner> {
 	{COMMENT_DOCUMENT} { return COMMENT_DOCUMENT; }
 	{COMMENT_LINE}     { return COMMENT_LINE; }
 	{COMMENT_BLOCK}    { return COMMENT_BLOCK; }
@@ -94,7 +95,7 @@ HEX = [0-9a-fA-F]
     "{" { return BRACE_L; }
     "}" { return BRACE_R; }
 }
-<YYINITIAL, Bitflag> {
+<YYINITIAL, Bitflag, BitflagInner> {
     "<<" | "≪" { return LESS; }
     ">>" | "≫" { return GREATER; }
     "<" { return ANGLE_L; }
@@ -132,29 +133,27 @@ HEX = [0-9a-fA-F]
 // =====================================================================================================================
 // 遇到了 bitflags 关键词
 <YYINITIAL> "bitflags" | "bitflag" | "bitset" {
-	yybegin(Bitflag);
+    yybegin(Bitflag);
     return BITFLAG;
 }
 <Bitflag> "{" {
     brace_block(Bitflag);
     return BRACE_L;
 }
-<Bitflag> "}" {
+<BitflagInner> "{" {
+    return BRACE_L;
+}
+<BitflagInner> "}" {
     brace_recover();
     return BRACE_R;
 }
 // =====================================================================================================================
-<YYINITIAL, Bitflag> {
+<YYINITIAL, Bitflag, BitflagInner> {
     {BYTE} { return BYTE; }
     {INTEGER} { return INTEGER; }
-    {SYMBOL} { return SYMBOL; }
+    {SYMBOL_XID} { return SYMBOL_XID; }
 }
 // =====================================================================================================================
-// 文本域, 文本域只出现在代码中
-<CodeContext> \" {
-	yybegin(StringQuote);
-    return STRING_QUOTE;
-}
 // String escaped highlight
 <StringQuote> {
 	{ESCAPE_UNICODE} {return STRING_ESCAPE;}

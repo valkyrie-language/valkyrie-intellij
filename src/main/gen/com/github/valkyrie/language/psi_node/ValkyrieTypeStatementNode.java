@@ -33,4 +33,10 @@ public class ValkyrieTypeStatementNode extends ValkyrieElement implements Valkyr
     return findNotNullChildByClass(ValkyrieBlock.class);
   }
 
+  @Override
+  @NotNull
+  public ValkyrieSymbol getSymbol() {
+    return findNotNullChildByClass(ValkyrieSymbol.class);
+  }
+
 }

@@ -40,15 +40,15 @@ public class ValkyrieBitflagItemNode extends ValkyrieElement implements Valkyrie
   }
 
   @Override
-  @Nullable
-  public ValkyrieMacro getMacro() {
-    return findChildByClass(ValkyrieMacro.class);
+  @NotNull
+  public List<ValkyrieNamespace> getNamespaceList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNamespace.class);
   }
 
   @Override
   @NotNull
-  public List<ValkyrieNamespace> getNamespaceList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNamespace.class);
+  public ValkyrieSymbol getSymbol() {
+    return findNotNullChildByClass(ValkyrieSymbol.class);
   }
 
   @Override

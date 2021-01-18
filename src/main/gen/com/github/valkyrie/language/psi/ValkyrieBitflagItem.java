@@ -13,11 +13,11 @@ public interface ValkyrieBitflagItem extends PsiElement {
   @NotNull
   List<ValkyrieList> getListList();
 
-  @Nullable
-  ValkyrieMacro getMacro();
-
   @NotNull
   List<ValkyrieNamespace> getNamespaceList();
+
+  @NotNull
+  ValkyrieSymbol getSymbol();
 
   @NotNull
   List<ValkyrieTuple> getTupleList();

@@ -36,7 +36,12 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
 
     override fun visitBitflagStatement(o: ValkyrieBitflagStatement) {
         highlightModifiers(o.modifiers, Color.SYM_CLASS);
+
         super.visitBitflagStatement(o)
+    }
+
+    override fun visitBitflagItem(o: ValkyrieBitflagItem) {
+        super.visitBitflagItem(o)
     }
 
     //    override fun visitSchemaStatement(o: JssSchemaStatement) {

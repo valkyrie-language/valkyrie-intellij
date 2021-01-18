@@ -34,6 +34,7 @@ public interface ValkyrieTypes {
   IElementType NAMESPACE = new ValkyrieElementType("NAMESPACE");
   IElementType PAIR = new ValkyrieElementType("PAIR");
   IElementType PATTERN = new ValkyrieElementType("PATTERN");
+  IElementType SYMBOL = new ValkyrieElementType("SYMBOL");
   IElementType TRAIT_STATEMENT = new ValkyrieElementType("TRAIT_STATEMENT");
   IElementType TUPLE = new ValkyrieElementType("TUPLE");
   IElementType TYPE_STATEMENT = new ValkyrieElementType("TYPE_STATEMENT");
@@ -84,7 +85,8 @@ public interface ValkyrieTypes {
   IElementType STRING_ESCAPE = new ValkyrieTokenType("String Escaped");
   IElementType STRING_LITERAL = new ValkyrieTokenType("String Literal");
   IElementType STRING_QUOTE = new ValkyrieTokenType("String Quote");
-  IElementType SYMBOL = new ValkyrieTokenType("Symbol");
+  IElementType SYMBOL_RAW = new ValkyrieTokenType("Symbol");
+  IElementType SYMBOL_XID = new ValkyrieTokenType("SYMBOL_XID");
   IElementType TO = new ValkyrieTokenType("->");
   IElementType TRAIT = new ValkyrieTokenType("trait");
   IElementType TYPE = new ValkyrieTokenType("TYPE");
@@ -174,6 +176,9 @@ public interface ValkyrieTypes {
       }
       else if (type == PATTERN) {
         return new ValkyriePatternNode(node);
+      }
+      else if (type == SYMBOL) {
+        return new ValkyrieSymbolNode(node);
       }
       else if (type == TRAIT_STATEMENT) {
         return new ValkyrieTraitStatementNode(node);

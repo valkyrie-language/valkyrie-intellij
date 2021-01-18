@@ -10,4 +10,7 @@ public interface ValkyrieTypeStatement extends PsiElement {
   @NotNull
   ValkyrieBlock getBlock();
 
+  @NotNull
+  ValkyrieSymbol getSymbol();
+
 }

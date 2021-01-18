@@ -23,7 +23,8 @@
 
         // literal
         URL = "Url"
-        SYMBOL = "Symbol"
+        SYMBOL_XID = "Symbol"
+        SYMBOL_RAW = "Symbol"
         BYTE = "Byte"
         STRING_QUOTE = "String Quote"
         STRING_CHAR = "String Character"
@@ -114,11 +115,11 @@ let_statement ::= LET pattern EQ expression;
 // ---------------------------------------------------------------------------------------------------------------------
 def_statement ::= DEF expression block;
 // ---------------------------------------------------------------------------------------------------------------------
-type_statement ::= TYPE SYMBOL EQ block;
+type_statement ::= TYPE symbol EQ block;
 // ---------------------------------------------------------------------------------------------------------------------
 class_statement ::= CLASS expression block;
 // ---------------------------------------------------------------------------------------------------------------------
-trait_statement ::= TRAIT SYMBOL block;
+trait_statement ::= TRAIT symbol block;
 // ---------------------------------------------------------------------------------------------------------------------
 variant_statement ::= VARIANT expression block;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -126,7 +127,7 @@ bitflag_statement ::= BITFLAG modifiers [bitflag_layout] [auto_derive] bitflag_b
 bitflag_block ::= <<brace_block (bitflag_item|macro_call) SEMICOLON>>;
 bitflag_layout ::= PARENTHESIS_L type_expression PARENTHESIS_R;
 auto_derive ::= COLON type_expression;
-bitflag_item ::= SYMBOL EQ expression | macro;
+bitflag_item ::= symbol EQ expression;
 // ---------------------------------------------------------------------------------------------------------------------
 extends_statement ::= EXTENDS namespace block;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -136,9 +137,10 @@ private expression ::= term (binary_op term)*;
 private term ::= function_call | list | tuple | atoms;
 private binary_op ::= VERTICAL | LESS | GREATER | UNTIL;
 // ---------------------------------------------------------------------------------------------------------------------
-namespace     ::= [PROPORTION] SYMBOL (PROPORTION SYMBOL)*;
-modifiers     ::= namespace*;
-macro         ::= AT namespace;
+namespace ::= [PROPORTION] symbol (PROPORTION symbol)*;
+modifiers ::= namespace*;
+symbol    ::= SYMBOL_XID | SYMBOL_RAW;
+macro     ::= AT namespace;
 // ---------------------------------------------------------------------------------------------------------------------
 macro_call    ::= macro [
     <<parenthesis expression COMMA>>
