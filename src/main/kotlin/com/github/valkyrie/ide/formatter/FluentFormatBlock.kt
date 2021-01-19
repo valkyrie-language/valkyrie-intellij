@@ -2,6 +2,9 @@ package com.github.valkyrie.ide.formatter
 
 import com.github.valkyrie.language.ast.computeSpacing
 import com.github.valkyrie.language.ast.isWhitespaceOrEmpty
+import com.github.valkyrie.language.psi.ValkyrieBitflagBlock
+import com.github.valkyrie.language.psi.ValkyrieBitflagItem
+import com.github.valkyrie.language.psi.ValkyrieBlock
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
@@ -62,17 +65,14 @@ class FluentFormatBlock(
     }
 
     private fun computeIndent(child: ASTNode): Indent? {
-        // val isCornerChild = node.firstChildNode == child || node.lastChildNode == child
         val firstLine = node.firstChildNode == child;
+        val lastLine = node.lastChildNode == child;
+        val isCornerChild = firstLine || lastLine
         return when (node.psi) {
-//            is FluentMessage -> when {
-//                firstLine -> Indent.getNoneIndent()
-//                else -> Indent.getNormalIndent()
-//            }
-//        BRACE_BLOCK -> when {
-//            isCornerChild -> Indent.getNoneIndent()
-//            else -> Indent.getNormalIndent()
-//        }
+            is ValkyrieBlock, is ValkyrieBitflagBlock -> when {
+                isCornerChild -> Indent.getNoneIndent()
+                else -> Indent.getNormalIndent()
+            }
             else -> Indent.getNoneIndent()
         }
     }

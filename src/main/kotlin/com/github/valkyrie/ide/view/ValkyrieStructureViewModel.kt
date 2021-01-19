@@ -1,6 +1,7 @@
 package com.github.valkyrie.ide.view
 
 
+import com.github.valkyrie.language.psi.ValkyrieBitflagStatement
 import com.intellij.ide.structureView.StructureViewModel.ElementInfoProvider
 import com.intellij.ide.structureView.StructureViewModelBase
 import com.intellij.ide.structureView.StructureViewTreeElement
@@ -20,8 +21,7 @@ class ValkyrieStructureViewModel(psiFile: PsiFile?) :
     }
 
     override fun isAlwaysLeaf(element: StructureViewTreeElement): Boolean {
-//        return element.value is FluentMessage
-        return false
+        return element.value is ValkyrieBitflagStatement
     }
 }
 
