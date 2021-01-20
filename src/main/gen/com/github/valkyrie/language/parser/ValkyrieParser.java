@@ -110,7 +110,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // COLON <<sequence (BANG namespace) PLUS>>
+  // COLON <<sequence ([BANG] namespace) PLUS>>
   public static boolean auto_derive(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "auto_derive")) return false;
     if (!nextTokenIs(b, COLON)) return false;
@@ -122,15 +122,22 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // BANG namespace
+  // [BANG] namespace
   private static boolean auto_derive_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "auto_derive_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, BANG);
+    r = auto_derive_1_0_0(b, l + 1);
     r = r && namespace(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
+  }
+
+  // [BANG]
+  private static boolean auto_derive_1_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "auto_derive_1_0_0")) return false;
+    consumeToken(b, BANG);
+    return true;
   }
 
   /* ********************************************************** */

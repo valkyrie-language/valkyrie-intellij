@@ -41,6 +41,7 @@ enum class ValkyrieHighlightColor(humanName: Supplier<@AttributeDescriptor Strin
     TYPE_HINT(ValkyrieBundle.messagePointer("color.token.symbol.type"), Default.CLASS_NAME),
 
     // 标点符号
+    OPERATION_SIGN(OptionsBundle.messagePointer("options.language.defaults.operation"), Default.OPERATION_SIGN),
     PARENTHESES(OptionsBundle.messagePointer("options.language.defaults.parentheses"), Default.PARENTHESES),
     BRACKETS(OptionsBundle.messagePointer("options.language.defaults.brackets"), Default.BRACKETS),
     BRACES(OptionsBundle.messagePointer("options.language.defaults.braces"), Default.BRACES),
@@ -48,9 +49,6 @@ enum class ValkyrieHighlightColor(humanName: Supplier<@AttributeDescriptor Strin
     STAR(ValkyrieBundle.messagePointer("color.token.default"), Default.KEYWORD),
     COMMA(OptionsBundle.messagePointer("options.language.defaults.comma"), Default.COMMA),
     SET(ValkyrieBundle.messagePointer("color.token.set"), Default.OPERATION_SIGN),
-    PREFIX(ValkyrieBundle.messagePointer("color.token.prefix"), Default.OPERATION_SIGN),
-    INFIX(ValkyrieBundle.messagePointer("color.token.infix"), Default.OPERATION_SIGN),
-    SUFFIX(ValkyrieBundle.messagePointer("color.token.suffix"), Default.OPERATION_SIGN),
     SEMICOLON(OptionsBundle.messagePointer("options.language.defaults.semicolon"), Default.SEMICOLON),
 
     // 注释

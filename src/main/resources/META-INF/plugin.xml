@@ -36,7 +36,7 @@
 		/>
 		<lang.commenter
 				language="Valkyrie"
-				implementationClass="com.github.valkyrie.ide.formatter.JssCommenter"
+				implementationClass="com.github.valkyrie.ide.formatter.ValkyrieCommenter"
 		/>
 		<lang.smartEnterProcessor
 				language="Valkyrie"

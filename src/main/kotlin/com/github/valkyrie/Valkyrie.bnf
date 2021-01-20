@@ -120,7 +120,7 @@ def_statement ::= DEF expression block;
 type_statement ::= TYPE symbol EQ block;
 // ---------------------------------------------------------------------------------------------------------------------
 class_statement ::= CLASS symbol [auto_derive] block;
-auto_derive ::= COLON <<sequence (BANG namespace) PLUS>>;
+auto_derive ::= COLON <<sequence ([BANG] namespace) PLUS>>;
 // ---------------------------------------------------------------------------------------------------------------------
 trait_statement ::= TRAIT symbol block;
 // ---------------------------------------------------------------------------------------------------------------------

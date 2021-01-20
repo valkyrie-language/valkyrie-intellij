@@ -70,8 +70,8 @@ public void match_indent() {
 
 WHITE_SPACE=[\s\t\r\n]
 COMMENT_DOCUMENT=("///")[^\r\n]*
-COMMENT_LINE = #{1,3}[^\r\n]*
-COMMENT_BLOCK=[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]
+COMMENT_LINE = ("//")[^\r\n]*
+//COMMENT_BLOCK=[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]
 SYMBOL_XID=[\p{XID_Start}_][\p{XID_Continue}]*
 STRING=\"([^\"\\]|\\.)*\"
 BYTE=(0[bBoOxXfF][0-9A-Fa-f][0-9A-Fa-f_]*)
@@ -85,9 +85,9 @@ HEX = [0-9a-fA-F]
 %%
 
 <YYINITIAL, Bitflag> {
-	{COMMENT_DOCUMENT} { return COMMENT_DOCUMENT; }
-	{COMMENT_LINE}     { return COMMENT_LINE; }
-	{COMMENT_BLOCK}    { return COMMENT_BLOCK; }
+    {COMMENT_DOCUMENT} { return COMMENT_DOCUMENT; }
+    {COMMENT_LINE}     { return COMMENT_LINE; }
+//  {COMMENT_BLOCK}    { return COMMENT_BLOCK; }
     {WHITE_SPACE}+     { return WHITE_SPACE; }
 }
 

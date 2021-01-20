@@ -37,7 +37,11 @@ class ValkyrieParserDefinition : ParserDefinition {
     }
 
     companion object {
-        val COMMENTS = TokenSet.create(ValkyrieTypes.COMMENT_LINE)
+        val COMMENTS = TokenSet.create(
+            ValkyrieTypes.COMMENT_LINE,
+            ValkyrieTypes.COMMENT_BLOCK,
+            ValkyrieTypes.COMMENT_DOCUMENT
+        )
         val STRING_LITERALS = TokenSet.create(ValkyrieTypes.STRING_LITERAL)
         val FILE = IFileElementType(ValkyrieLanguage.INSTANCE)
     }
