@@ -110,15 +110,26 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // COLON <<sequence symbol PLUS>>
+  // COLON <<sequence (BANG namespace) PLUS>>
   public static boolean auto_derive(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "auto_derive")) return false;
     if (!nextTokenIs(b, COLON)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, COLON);
-    r = r && sequence(b, l + 1, ValkyrieParser::symbol, PLUS_parser_);
+    r = r && sequence(b, l + 1, ValkyrieParser::auto_derive_1_0, PLUS_parser_);
     exit_section_(b, m, AUTO_DERIVE, r);
+    return r;
+  }
+
+  // BANG namespace
+  private static boolean auto_derive_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "auto_derive_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, BANG);
+    r = r && namespace(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
   }
 

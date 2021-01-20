@@ -108,6 +108,7 @@ HEX = [0-9a-fA-F]
     ":" { return COLON; }
     ";" { return SEMICOLON; }
     "|" { return VERTICAL; }
+    "!" { return BANG; }
     "$" { return DOLLAR; }
     "..=" |".." | "..<" { return UNTIL; }
     "." { return DOT; }

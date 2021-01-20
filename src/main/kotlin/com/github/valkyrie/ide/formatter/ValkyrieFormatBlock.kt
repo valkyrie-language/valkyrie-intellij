@@ -11,12 +11,12 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.formatter.FormatterUtil
 
-class FluentFormatBlock(
+class ValkyrieFormatBlock(
     private val node: ASTNode,
     private val alignment: Alignment?,
     private val indent: Indent?,
     private val wrap: Wrap?,
-    private val space: FluentFormatSpace,
+    private val space: ValkyrieFormatSpace,
 ) : ASTBlock {
     private val myIsIncomplete: Boolean by lazy {
         node.getChildren(null).any { it.elementType is PsiErrorElement } || FormatterUtil.isIncomplete(node)
@@ -28,11 +28,11 @@ class FluentFormatBlock(
         return node.getChildren(null)
             .filter { !it.isWhitespaceOrEmpty() }
             .map { childNode ->
-                FluentFormatBlock(
+                ValkyrieFormatBlock(
                     node = childNode,
-                    alignment = null,
+                    alignment = computeAlignment(childNode),
                     indent = computeIndent(childNode),
-                    wrap = null,
+                    wrap = computeWrap(childNode),
                     space
                 )
             }
@@ -74,6 +74,17 @@ class FluentFormatBlock(
                 else -> Indent.getNormalIndent()
             }
             else -> Indent.getNoneIndent()
+        }
+    }
+    private fun computeAlignment(child: ASTNode): Alignment? {
+        return when (node.psi) {
+            is ValkyrieBitflagItem -> Alignment.createAlignment(true, Alignment.Anchor.LEFT)
+            else -> null
+        }
+    }
+    private fun computeWrap(child: ASTNode): Wrap? {
+        return when (node.psi) {
+            else -> null
         }
     }
 }

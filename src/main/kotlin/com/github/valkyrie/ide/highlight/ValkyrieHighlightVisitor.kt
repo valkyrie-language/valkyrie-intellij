@@ -45,8 +45,8 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitAutoDerive(o: ValkyrieAutoDerive) {
-        o.symbolList.forEach {
-            highlight(it, Color.SYM_TRAIT)
+        o.namespaceList.forEach {
+            highlight(it.lastChild, Color.SYM_TRAIT)
         }
         super.visitAutoDerive(o)
     }

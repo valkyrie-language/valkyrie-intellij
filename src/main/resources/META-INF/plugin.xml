@@ -32,7 +32,7 @@
 		<!-- Formatter -->
 		<lang.formatter
 				language="Valkyrie"
-				implementationClass="com.github.valkyrie.ide.formatter.FluentFormatBuilder"
+				implementationClass="com.github.valkyrie.ide.formatter.ValkyrieFormatBuilder"
 		/>
 		<lang.commenter
 				language="Valkyrie"

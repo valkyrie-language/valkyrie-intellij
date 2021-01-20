@@ -2,12 +2,10 @@
 package com.github.valkyrie.language.psi;
 
 import java.util.List;
-
-import com.intellij.psi.NavigatablePsiElement;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieBitflagStatement extends PsiElement, NavigatablePsiElement {
+public interface ValkyrieBitflagStatement extends PsiElement {
 
   @Nullable
   ValkyrieAutoDerive getAutoDerive();

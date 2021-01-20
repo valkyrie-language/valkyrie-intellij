@@ -45,6 +45,7 @@ public interface ValkyrieTypes {
   IElementType ANGLE_L = new ValkyrieTokenType("<");
   IElementType ANGLE_R = new ValkyrieTokenType(">");
   IElementType AT = new ValkyrieTokenType("@");
+  IElementType BANG = new ValkyrieTokenType("!");
   IElementType BITFLAG = new ValkyrieTokenType("bitflag");
   IElementType BRACE_L = new ValkyrieTokenType("{");
   IElementType BRACE_R = new ValkyrieTokenType("}");

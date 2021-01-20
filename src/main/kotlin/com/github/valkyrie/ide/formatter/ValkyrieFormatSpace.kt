@@ -7,14 +7,14 @@ import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import com.intellij.psi.tree.TokenSet
 
-data class FluentFormatSpace(
+data class ValkyrieFormatSpace(
     val commonSettings: CommonCodeStyleSettings,
-    val spacingBuilder: SpacingBuilder
+    val spacingBuilder: SpacingBuilder,
 ) {
     companion object {
-        fun create(settings: CodeStyleSettings): FluentFormatSpace {
+        fun create(settings: CodeStyleSettings): ValkyrieFormatSpace {
             val commonSettings = settings.getCommonSettings(ValkyrieLanguage.INSTANCE)
-            return FluentFormatSpace(commonSettings, createSpacingBuilder(commonSettings))
+            return ValkyrieFormatSpace(commonSettings, createSpacingBuilder(commonSettings))
         }
 
         private val remove_space_before = TokenSet.create(
@@ -33,10 +33,12 @@ data class FluentFormatSpace(
             DOT,
             DOLLAR,
             STAR,
-            HYPHEN
+            HYPHEN,
+            PROPORTION,
+            AT
         )
         private val remove_space_newline_before = TokenSet.create(
-            BRACKET_R
+            BRACKET_R,
         )
         private val newline_indent_after = TokenSet.create(TO)
 

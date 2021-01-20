@@ -29,8 +29,8 @@ public class ValkyrieAutoDeriveNode extends ValkyrieElement implements ValkyrieA
 
   @Override
   @NotNull
-  public List<ValkyrieSymbol> getSymbolList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSymbol.class);
+  public List<ValkyrieNamespace> getNamespaceList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNamespace.class);
   }
 
 }
