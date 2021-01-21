@@ -1,30 +1,61 @@
-can't use auto derive
 
 
-#derive(Copy, Debug)
+class A1(int, int)
+
+class A2<T>(T, T)
+
+class A3<T: Debug>(T, T)
+
+forall T {T: Debug}
+class A4<T>(T, T)
+
+#[Serialize, Deserialize]
+#Serialize
+#Deserialize
+#derive
+class B {
+    a: int,
+    b: int,
+}
+
+define type A {
+
+}
+
+
 forall T, U {T: Debug}
-define class A<T> (T, usize): Debug;
-
-
+define public static class A<T> (T, usize): Debug;
 class A: Clone + Debug {
-    item: String = "item"
+item: String = "item"
 }
 
 type alias null = Null;
-
 forall <T>
-    class: T;
+class: T;
 class A {
 
 }
-
+interface
+bitset
+tagged
 forall T {}
-extends Vec<T>: Iterable {
-    forall 'a { Self: 'a }
-    type Iter = <&'a [T] as IntoIterator>::IntoIter;
+extend Vec<T>: Iterable {
+forall 'a { Self: 'a }
+type Iter = <&'a [T] as IntoIterator>::IntoIter;
+fn iter(&self) -> Self::Iter<'_> {
+self.iter()
+}
+}
 
+def method(mut arg: int)
+{
+arg = arg + 44;
+}
 
-    fn iter(&self) -> Self::Iter<'_> {
-        self.iter()
-    }
+let a = {
+
+}
+
+class A {
+    i: &int
 }

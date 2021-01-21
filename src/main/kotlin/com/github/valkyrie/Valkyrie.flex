@@ -131,6 +131,7 @@ HEX = [0-9a-fA-F]
     "type" { return TYPE; }
     "class" | "struct" { return CLASS; }
     "trait" | "interface" { return TRAIT; }
+    "forall" { return FORALL; }
     "variant" | "tagged" | "enum" { return VARIANT; }
     "extends"| "extend" | "impl" { return EXTENDS; }
 }

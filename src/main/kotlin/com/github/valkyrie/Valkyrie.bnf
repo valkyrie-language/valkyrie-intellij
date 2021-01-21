@@ -61,6 +61,7 @@
         IF = "if"
         ELSE = "else"
         FOR = "for"
+        FORALL = "forall"
         IN = "in"
         WHILE = "while"
         MATCH = 'match'
