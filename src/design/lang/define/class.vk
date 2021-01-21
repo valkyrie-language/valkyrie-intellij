@@ -1,3 +1,30 @@
+can't use auto derive
+
+
+#derive(Copy, Debug)
+forall T, U {T: Debug}
+define class A<T> (T, usize): Debug;
+
+
 class A: Clone + Debug {
     item: String = "item"
+}
+
+type alias null = Null;
+
+forall <T>
+    class: T;
+class A {
+
+}
+
+forall T {}
+extends Vec<T>: Iterable {
+    forall 'a { Self: 'a }
+    type Iter = <&'a [T] as IntoIterator>::IntoIter;
+
+
+    fn iter(&self) -> Self::Iter<'_> {
+        self.iter()
+    }
 }
