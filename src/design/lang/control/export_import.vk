@@ -1,0 +1,15 @@
+export super {
+    external::*
+}
+export package::a, package::b {
+    // don't catch keywords
+    import, export
+}
+import package.name;
+import package_name.name;
+import std::{
+
+}
+import serde::{#Serialize, #Deserialize}
+import import
+import export

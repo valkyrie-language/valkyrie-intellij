@@ -62,9 +62,8 @@ public void match_indent() {
 
 %state StringQuote
 %state Bitflag
+%state ImportExport
 %state TextContextSpace
-//%state TextContextIndent
-%state CodeContext
 %state SelectionStart
 %state SelectionText
 
@@ -85,7 +84,7 @@ HEX = [0-9a-fA-F]
 
 %%
 
-<YYINITIAL, Bitflag> {
+<YYINITIAL, Bitflag, ImportExport> {
     {COMMENT_DOCUMENT} { return COMMENT_DOCUMENT; }
     {COMMENT_LINE}     { return COMMENT_LINE; }
 //  {COMMENT_BLOCK}    { return COMMENT_BLOCK; }
@@ -97,7 +96,7 @@ HEX = [0-9a-fA-F]
     "{" { return BRACE_L; }
     "}" { return BRACE_R; }
 }
-<YYINITIAL, Bitflag> {
+<YYINITIAL, Bitflag, ImportExport> {
     "<<" | "≪" { return LESS; }
     ">>" | "≫" { return GREATER; }
     "<" { return ANGLE_L; }
@@ -111,6 +110,8 @@ HEX = [0-9a-fA-F]
     "|" { return VERTICAL; }
     "!" { return BANG; }
     "$" { return DOLLAR; }
+    "@" { return AT; }
+    "#" { return HASH; }
     "..=" |".." | "..<" { return UNTIL; }
     "." { return DOT; }
     "," { return COMMA; }
@@ -120,6 +121,7 @@ HEX = [0-9a-fA-F]
 }
 // 顶级关键词
 <YYINITIAL> {
+    "forall" { return FORALL; }
     "if" { return IF; }
     "else" { return ELSE; }
     "for" { return FOR; }
@@ -131,9 +133,29 @@ HEX = [0-9a-fA-F]
     "type" { return TYPE; }
     "class" | "struct" { return CLASS; }
     "trait" | "interface" { return TRAIT; }
-    "forall" { return FORALL; }
     "variant" | "tagged" | "enum" { return VARIANT; }
     "extends"| "extend" | "impl" { return EXTENDS; }
+}
+// =====================================================================================================================
+<YYINITIAL> "import" {
+    yybegin(ImportExport);
+    return IMPORT;
+}
+<YYINITIAL> "export" {
+    yybegin(ImportExport);
+    return EXPORT;
+}
+<ImportExport> ";" {
+    yybegin(YYINITIAL);
+    return SEMICOLON;
+}
+<ImportExport> "{" {
+    brace_block(ImportExport);
+    return BRACE_L;
+}
+<ImportExport> "}" {
+    brace_recover();
+    return BRACE_R;
 }
 // =====================================================================================================================
 // 遇到了 bitflags 关键词
@@ -150,10 +172,11 @@ HEX = [0-9a-fA-F]
     return BRACE_R;
 }
 // =====================================================================================================================
-<YYINITIAL, Bitflag> {
+<YYINITIAL, Bitflag, ImportExport> {
     {BYTE} { return BYTE; }
     {INTEGER} { return INTEGER; }
     {SYMBOL_XID} { return SYMBOL_XID; }
+    {SYMBOL_RAW} { return SYMBOL_RAW; }
 }
 // =====================================================================================================================
 // String escaped highlight
@@ -164,7 +187,7 @@ HEX = [0-9a-fA-F]
 }
 
 <StringQuote> \" {
-	yybegin(CodeContext);
+	yybegin(YYINITIAL);
 	return STRING_QUOTE;
 }
 // =====================================================================================================================
