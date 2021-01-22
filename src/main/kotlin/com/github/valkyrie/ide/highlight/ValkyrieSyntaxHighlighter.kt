@@ -22,6 +22,7 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
     private fun getTokenColor(tokenType: IElementType): Color? {
         return when (tokenType) {
             // Keywords
+            IMPORT, EXPORT, MODULE -> Color.KEYWORD
             MATCH, CATCH, EXTENDS -> Color.KEYWORD
             IF, ELSE, FOR, IN, WHILE -> Color.KEYWORD
             LET, DEF, CLASS, TRAIT, VARIANT, BITFLAG -> Color.KEYWORD

@@ -1,9 +1,10 @@
-export super {
-    external::*
-}
-export package::a, package::b {
+// missing scope default as super
+export {
     // don't catch keywords
-    import, export
+    import, export, `import` as export, `export` as import
+}
+export super, package::a, package::b {
+
 }
 import package.name;
 import package_name.name;

@@ -20,20 +20,25 @@ public interface ValkyrieTypes {
   IElementType DEF_STATEMENT = new ValkyrieElementType("DEF_STATEMENT");
   IElementType ELSE_IF_STATEMENT = new ValkyrieElementType("ELSE_IF_STATEMENT");
   IElementType ELSE_STATEMENT = new ValkyrieElementType("ELSE_STATEMENT");
+  IElementType EXPORT_STATEMENT = new ValkyrieElementType("EXPORT_STATEMENT");
   IElementType EXTENDS_STATEMENT = new ValkyrieElementType("EXTENDS_STATEMENT");
   IElementType FOR_STATEMENT = new ValkyrieElementType("FOR_STATEMENT");
   IElementType FUNCTION_CALL = new ValkyrieElementType("FUNCTION_CALL");
   IElementType IF_GUARD = new ValkyrieElementType("IF_GUARD");
   IElementType IF_STATEMENT = new ValkyrieElementType("IF_STATEMENT");
+  IElementType IMPORT_STATEMENT = new ValkyrieElementType("IMPORT_STATEMENT");
   IElementType LET_STATEMENT = new ValkyrieElementType("LET_STATEMENT");
   IElementType LIST = new ValkyrieElementType("LIST");
   IElementType MACRO = new ValkyrieElementType("MACRO");
   IElementType MACRO_CALL = new ValkyrieElementType("MACRO_CALL");
   IElementType MATCH_STATEMENT = new ValkyrieElementType("MATCH_STATEMENT");
   IElementType MODIFIERS = new ValkyrieElementType("MODIFIERS");
+  IElementType MODULE_STATEMENT = new ValkyrieElementType("MODULE_STATEMENT");
   IElementType NAMESPACE = new ValkyrieElementType("NAMESPACE");
+  IElementType NAMES_RESOLVE = new ValkyrieElementType("NAMES_RESOLVE");
   IElementType PAIR = new ValkyrieElementType("PAIR");
   IElementType PATTERN = new ValkyrieElementType("PATTERN");
+  IElementType RENAME = new ValkyrieElementType("RENAME");
   IElementType SYMBOL = new ValkyrieElementType("SYMBOL");
   IElementType TRAIT_STATEMENT = new ValkyrieElementType("TRAIT_STATEMENT");
   IElementType TUPLE = new ValkyrieElementType("TUPLE");
@@ -44,6 +49,7 @@ public interface ValkyrieTypes {
   IElementType ACCENT = new ValkyrieTokenType("^");
   IElementType ANGLE_L = new ValkyrieTokenType("<");
   IElementType ANGLE_R = new ValkyrieTokenType(">");
+  IElementType AS = new ValkyrieTokenType("as");
   IElementType AT = new ValkyrieTokenType("@");
   IElementType BANG = new ValkyrieTokenType("!");
   IElementType BITFLAG = new ValkyrieTokenType("bitflag");
@@ -74,6 +80,7 @@ public interface ValkyrieTypes {
   IElementType GREATER = new ValkyrieTokenType(">>");
   IElementType HASH = new ValkyrieTokenType("#");
   IElementType HYPHEN = new ValkyrieTokenType("-");
+  IElementType IDENTIFIER = new ValkyrieTokenType("IDENTIFIER");
   IElementType IF = new ValkyrieTokenType("if");
   IElementType IMPORT = new ValkyrieTokenType("import");
   IElementType IN = new ValkyrieTokenType("in");
@@ -142,6 +149,9 @@ public interface ValkyrieTypes {
       else if (type == ELSE_STATEMENT) {
         return new ValkyrieElseStatementNode(node);
       }
+      else if (type == EXPORT_STATEMENT) {
+        return new ValkyrieExportStatementNode(node);
+      }
       else if (type == EXTENDS_STATEMENT) {
         return new ValkyrieExtendsStatementNode(node);
       }
@@ -156,6 +166,9 @@ public interface ValkyrieTypes {
       }
       else if (type == IF_STATEMENT) {
         return new ValkyrieIfStatementNode(node);
+      }
+      else if (type == IMPORT_STATEMENT) {
+        return new ValkyrieImportStatementNode(node);
       }
       else if (type == LET_STATEMENT) {
         return new ValkyrieLetStatementNode(node);
@@ -175,14 +188,23 @@ public interface ValkyrieTypes {
       else if (type == MODIFIERS) {
         return new ValkyrieModifiersNode(node);
       }
+      else if (type == MODULE_STATEMENT) {
+        return new ValkyrieModuleStatementNode(node);
+      }
       else if (type == NAMESPACE) {
         return new ValkyrieNamespaceNode(node);
+      }
+      else if (type == NAMES_RESOLVE) {
+        return new ValkyrieNamesResolveNode(node);
       }
       else if (type == PAIR) {
         return new ValkyriePairNode(node);
       }
       else if (type == PATTERN) {
         return new ValkyriePatternNode(node);
+      }
+      else if (type == RENAME) {
+        return new ValkyrieRenameNode(node);
       }
       else if (type == SYMBOL) {
         return new ValkyrieSymbolNode(node);

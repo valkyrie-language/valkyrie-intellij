@@ -82,7 +82,10 @@
 
 valkyrie ::= (statements [SEMICOLON])*
 private statements ::=
-    if_statement
+    module_statement
+  | import_statement
+  | export_statement
+  | if_statement
   | for_statement
   | while_statement
   | match_statement
@@ -96,6 +99,16 @@ private statements ::=
   | extends_statement
   | SEMICOLON
   ;
+// ---------------------------------------------------------------------------------------------------------------------
+module_statement ::= MODULE IDENTIFIER;
+// ---------------------------------------------------------------------------------------------------------------------
+export_statement ::=
+    EXPORT <<sequence namespace COMMA>> names_resolve
+  | EXPORT names_resolve;
+names_resolve ::= <<bracket_block (rename|names_resolve) COMMA>>;
+rename ::= namespace [as symbol];
+// ---------------------------------------------------------------------------------------------------------------------
+import_statement ::= IMPORT IDENTIFIER;
 // ---------------------------------------------------------------------------------------------------------------------
 if_statement ::= (IF condition block) [else_if_statement* [else_statement]]
 else_if_statement ::= ELSE IF condition block;

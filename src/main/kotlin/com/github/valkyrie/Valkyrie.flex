@@ -96,29 +96,6 @@ HEX = [0-9a-fA-F]
     "{" { return BRACE_L; }
     "}" { return BRACE_R; }
 }
-<YYINITIAL, Bitflag, ImportExport> {
-    "<<" | "≪" { return LESS; }
-    ">>" | "≫" { return GREATER; }
-    "<" { return ANGLE_L; }
-    ">" { return ANGLE_R; }
-    "[" { return BRACKET_L; }
-    "]" { return BRACKET_R; }
-    "^" { return ACCENT; }
-    "∷" | "::" { return PROPORTION; }
-    ":" { return COLON; }
-    ";" { return SEMICOLON; }
-    "|" { return VERTICAL; }
-    "!" { return BANG; }
-    "$" { return DOLLAR; }
-    "@" { return AT; }
-    "#" { return HASH; }
-    "..=" |".." | "..<" { return UNTIL; }
-    "." { return DOT; }
-    "," { return COMMA; }
-    "+" { return PLUS; }
-    "-" { return HYPHEN; }
-    "=" { return EQ; }
-}
 // 顶级关键词
 <YYINITIAL> {
     "forall" { return FORALL; }
@@ -144,6 +121,9 @@ HEX = [0-9a-fA-F]
 <YYINITIAL> "export" {
     yybegin(ImportExport);
     return EXPORT;
+}
+<ImportExport> "*" {
+    return SYMBOL_RAW;
 }
 <ImportExport> ";" {
     yybegin(YYINITIAL);
@@ -172,6 +152,29 @@ HEX = [0-9a-fA-F]
     return BRACE_R;
 }
 // =====================================================================================================================
+<YYINITIAL, Bitflag, ImportExport> {
+    "<<" | "≪" { return LESS; }
+    ">>" | "≫" { return GREATER; }
+    "<" { return ANGLE_L; }
+    ">" { return ANGLE_R; }
+    "[" { return BRACKET_L; }
+    "]" { return BRACKET_R; }
+    "^" { return ACCENT; }
+    "∷" | "::" { return PROPORTION; }
+    ":" { return COLON; }
+    ";" { return SEMICOLON; }
+    "|" { return VERTICAL; }
+    "!" { return BANG; }
+    "$" { return DOLLAR; }
+    "@" { return AT; }
+    "#" { return HASH; }
+    "..=" |".." | "..<" { return UNTIL; }
+    "." { return DOT; }
+    "," { return COMMA; }
+    "+" { return PLUS; }
+    "-" { return HYPHEN; }
+    "=" { return EQ; }
+}
 <YYINITIAL, Bitflag, ImportExport> {
     {BYTE} { return BYTE; }
     {INTEGER} { return INTEGER; }
