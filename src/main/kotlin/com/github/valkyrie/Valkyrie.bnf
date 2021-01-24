@@ -66,7 +66,6 @@
         ELSE = "else"
         FOR = "for"
         FORALL = "forall"
-        IN = "in"
         WHILE = "while"
         MATCH = 'match'
         CATCH = 'catch'
@@ -102,19 +101,15 @@ private statements ::=
 // ---------------------------------------------------------------------------------------------------------------------
 module_statement ::= MODULE IDENTIFIER;
 // ---------------------------------------------------------------------------------------------------------------------
-export_statement ::=
-    EXPORT <<sequence namespace COMMA>> import_block
-  | EXPORT import_block;
+export_statement ::= EXPORT [<<sequence namespace COMMA>>] import_block_out;
 // ---------------------------------------------------------------------------------------------------------------------
-import_statement ::=
-    IMPORT import_rename
-  | IMPORT [import_path import_dot] import_block;
-import_block ::= <<brace_block (import_rename|import_block) COMMA>>;
-import_rename ::= import_path [AS symbol];
-import_path  ::= import_name (import_dot import_name)*
-import_name ::= [AT|HASH] symbol;
-import_dot  ::= PROPORTION|DOT;
-AS ::= "as"
+import_statement ::=IMPORT import_block_in | IMPORT import_rename;
+import_block_out ::= <<brace_block (import_rename|import_block_in) COMMA>>;
+import_block_in  ::= (import_name import_dot)* import_block_out;
+import_rename    ::= import_name (import_dot import_name)* [AS import_name];
+import_name      ::= [AT|HASH] symbol;
+import_dot       ::= PROPORTION|DOT;
+AS               ::= "as"
 // ---------------------------------------------------------------------------------------------------------------------
 if_statement ::= (IF condition block) [else_if_statement* [else_statement]]
 else_if_statement ::= ELSE IF condition block;
@@ -132,6 +127,7 @@ pattern ::=
   | <<sequence modifiers COMMA>>;
 case_pattern ::=
       CASE function_call;
+IN = "in";
 // ---------------------------------------------------------------------------------------------------------------------
 while_statement ::= WHILE expression block;
 // ---------------------------------------------------------------------------------------------------------------------

@@ -1,16 +1,14 @@
 // missing scope default as super
 export {
     // don't catch keywords
-    import, export, `import` as export, `export` as import
+    import, export
 }
 export super, package::a, package::b {
-
+    nested::{`import` as export, `export` as import}
 }
 import package.name;
-import package_name.name;
+import `import` as @export;
 import std::{
-    import , export
+    import , export, @`import`, @`result`
 }
 import serde::{#Serialize, #Deserialize}
-import `import` as export;
-

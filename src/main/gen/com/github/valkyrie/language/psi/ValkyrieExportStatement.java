@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieExportStatement extends PsiElement {
 
   @NotNull
-  ValkyrieImportBlock getImportBlock();
+  ValkyrieImportBlockOut getImportBlockOut();
 
   @NotNull
   List<ValkyrieNamespace> getNamespaceList();

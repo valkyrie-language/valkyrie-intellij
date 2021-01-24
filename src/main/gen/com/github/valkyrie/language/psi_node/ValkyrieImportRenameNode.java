@@ -35,14 +35,14 @@ public class ValkyrieImportRenameNode extends ValkyrieElement implements Valkyri
 
   @Override
   @NotNull
-  public ValkyrieImportPath getImportPath() {
-    return findNotNullChildByClass(ValkyrieImportPath.class);
+  public List<ValkyrieImportDot> getImportDotList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieImportDot.class);
   }
 
   @Override
-  @Nullable
-  public ValkyrieSymbol getSymbol() {
-    return findChildByClass(ValkyrieSymbol.class);
+  @NotNull
+  public List<ValkyrieImportName> getImportNameList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieImportName.class);
   }
 
 }

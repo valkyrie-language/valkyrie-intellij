@@ -5,7 +5,10 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieImportPath extends PsiElement {
+public interface ValkyrieImportBlockIn extends PsiElement {
+
+  @NotNull
+  ValkyrieImportBlockOut getImportBlockOut();
 
   @NotNull
   List<ValkyrieImportDot> getImportDotList();

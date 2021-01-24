@@ -83,7 +83,11 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitImportBlock(@NotNull ValkyrieImportBlock o) {
+  public void visitImportBlockIn(@NotNull ValkyrieImportBlockIn o) {
+    visitPsiElement(o);
+  }
+
+  public void visitImportBlockOut(@NotNull ValkyrieImportBlockOut o) {
     visitPsiElement(o);
   }
 
@@ -92,10 +96,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitImportName(@NotNull ValkyrieImportName o) {
-    visitPsiElement(o);
-  }
-
-  public void visitImportPath(@NotNull ValkyrieImportPath o) {
     visitPsiElement(o);
   }
 

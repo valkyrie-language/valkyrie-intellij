@@ -27,10 +27,10 @@ public interface ValkyrieTypes {
   IElementType FUNCTION_CALL = new ValkyrieElementType("FUNCTION_CALL");
   IElementType IF_GUARD = new ValkyrieElementType("IF_GUARD");
   IElementType IF_STATEMENT = new ValkyrieElementType("IF_STATEMENT");
-  IElementType IMPORT_BLOCK = new ValkyrieElementType("IMPORT_BLOCK");
+  IElementType IMPORT_BLOCK_IN = new ValkyrieElementType("IMPORT_BLOCK_IN");
+  IElementType IMPORT_BLOCK_OUT = new ValkyrieElementType("IMPORT_BLOCK_OUT");
   IElementType IMPORT_DOT = new ValkyrieElementType("IMPORT_DOT");
   IElementType IMPORT_NAME = new ValkyrieElementType("IMPORT_NAME");
-  IElementType IMPORT_PATH = new ValkyrieElementType("IMPORT_PATH");
   IElementType IMPORT_RENAME = new ValkyrieElementType("IMPORT_RENAME");
   IElementType IMPORT_STATEMENT = new ValkyrieElementType("IMPORT_STATEMENT");
   IElementType LET_STATEMENT = new ValkyrieElementType("LET_STATEMENT");
@@ -86,7 +86,7 @@ public interface ValkyrieTypes {
   IElementType IDENTIFIER = new ValkyrieTokenType("IDENTIFIER");
   IElementType IF = new ValkyrieTokenType("if");
   IElementType IMPORT = new ValkyrieTokenType("import");
-  IElementType IN = new ValkyrieTokenType("in");
+  IElementType IN = new ValkyrieTokenType("IN");
   IElementType INTEGER = new ValkyrieTokenType("INTEGER");
   IElementType LESS = new ValkyrieTokenType("<<");
   IElementType LET = new ValkyrieTokenType("let");
@@ -173,17 +173,17 @@ public interface ValkyrieTypes {
       else if (type == IF_STATEMENT) {
         return new ValkyrieIfStatementNode(node);
       }
-      else if (type == IMPORT_BLOCK) {
-        return new ValkyrieImportBlockNode(node);
+      else if (type == IMPORT_BLOCK_IN) {
+        return new ValkyrieImportBlockInNode(node);
+      }
+      else if (type == IMPORT_BLOCK_OUT) {
+        return new ValkyrieImportBlockOutNode(node);
       }
       else if (type == IMPORT_DOT) {
         return new ValkyrieImportDotNode(node);
       }
       else if (type == IMPORT_NAME) {
         return new ValkyrieImportNameNode(node);
-      }
-      else if (type == IMPORT_PATH) {
-        return new ValkyrieImportPathNode(node);
       }
       else if (type == IMPORT_RENAME) {
         return new ValkyrieImportRenameNode(node);
