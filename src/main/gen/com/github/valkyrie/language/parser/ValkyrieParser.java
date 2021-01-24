@@ -36,6 +36,17 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // "as"
+  public static boolean AS(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AS")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, AS, "<as>");
+    r = consumeToken(b, "as");
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
   // ANGLE_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] ANGLE_R
   static boolean angle_block(PsiBuilder b, int l, Parser _item, Parser _sp) {
     if (!recursion_guard_(b, l, "angle_block")) return false;
@@ -429,6 +440,43 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // EXPORT <<sequence namespace COMMA>> import_block
+  //   | EXPORT import_block
+  public static boolean export_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "export_statement")) return false;
+    if (!nextTokenIs(b, EXPORT)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = export_statement_0(b, l + 1);
+    if (!r) r = export_statement_1(b, l + 1);
+    exit_section_(b, m, EXPORT_STATEMENT, r);
+    return r;
+  }
+
+  // EXPORT <<sequence namespace COMMA>> import_block
+  private static boolean export_statement_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "export_statement_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, EXPORT);
+    r = r && sequence(b, l + 1, ValkyrieParser::namespace, COMMA_parser_);
+    r = r && import_block(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // EXPORT import_block
+  private static boolean export_statement_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "export_statement_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, EXPORT);
+    r = r && import_block(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // term (binary_op term)*
   static boolean expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expression")) return false;
@@ -602,6 +650,187 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // <<brace_block (import_rename|import_block) COMMA>>
+  public static boolean import_block(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "import_block")) return false;
+    if (!nextTokenIs(b, BRACE_L)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = brace_block(b, l + 1, ValkyrieParser::import_block_0_0, COMMA_parser_);
+    exit_section_(b, m, IMPORT_BLOCK, r);
+    return r;
+  }
+
+  // import_rename|import_block
+  private static boolean import_block_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "import_block_0_0")) return false;
+    boolean r;
+    r = import_rename(b, l + 1);
+    if (!r) r = import_block(b, l + 1);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // PROPORTION|DOT
+  public static boolean import_dot(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "import_dot")) return false;
+    if (!nextTokenIs(b, "<import dot>", DOT, PROPORTION)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, IMPORT_DOT, "<import dot>");
+    r = consumeToken(b, PROPORTION);
+    if (!r) r = consumeToken(b, DOT);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // [AT|HASH] symbol
+  public static boolean import_name(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "import_name")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, IMPORT_NAME, "<import name>");
+    r = import_name_0(b, l + 1);
+    r = r && symbol(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // [AT|HASH]
+  private static boolean import_name_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "import_name_0")) return false;
+    import_name_0_0(b, l + 1);
+    return true;
+  }
+
+  // AT|HASH
+  private static boolean import_name_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "import_name_0_0")) return false;
+    boolean r;
+    r = consumeToken(b, AT);
+    if (!r) r = consumeToken(b, HASH);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // import_name (import_dot import_name)*
+  public static boolean import_path(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "import_path")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, IMPORT_PATH, "<import path>");
+    r = import_name(b, l + 1);
+    r = r && import_path_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // (import_dot import_name)*
+  private static boolean import_path_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "import_path_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!import_path_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "import_path_1", c)) break;
+    }
+    return true;
+  }
+
+  // import_dot import_name
+  private static boolean import_path_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "import_path_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = import_dot(b, l + 1);
+    r = r && import_name(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // import_path [AS symbol]
+  public static boolean import_rename(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "import_rename")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, IMPORT_RENAME, "<import rename>");
+    r = import_path(b, l + 1);
+    r = r && import_rename_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // [AS symbol]
+  private static boolean import_rename_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "import_rename_1")) return false;
+    import_rename_1_0(b, l + 1);
+    return true;
+  }
+
+  // AS symbol
+  private static boolean import_rename_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "import_rename_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = AS(b, l + 1);
+    r = r && symbol(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // IMPORT import_rename
+  //   | IMPORT [import_path import_dot] import_block
+  public static boolean import_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "import_statement")) return false;
+    if (!nextTokenIs(b, IMPORT)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = import_statement_0(b, l + 1);
+    if (!r) r = import_statement_1(b, l + 1);
+    exit_section_(b, m, IMPORT_STATEMENT, r);
+    return r;
+  }
+
+  // IMPORT import_rename
+  private static boolean import_statement_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "import_statement_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, IMPORT);
+    r = r && import_rename(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // IMPORT [import_path import_dot] import_block
+  private static boolean import_statement_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "import_statement_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, IMPORT);
+    r = r && import_statement_1_1(b, l + 1);
+    r = r && import_block(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [import_path import_dot]
+  private static boolean import_statement_1_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "import_statement_1_1")) return false;
+    import_statement_1_1_0(b, l + 1);
+    return true;
+  }
+
+  // import_path import_dot
+  private static boolean import_statement_1_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "import_statement_1_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = import_path(b, l + 1);
+    r = r && import_dot(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // LET pattern EQ expression
   public static boolean let_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "let_statement")) return false;
@@ -709,6 +938,18 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     }
     exit_section_(b, l, m, true, false, null);
     return true;
+  }
+
+  /* ********************************************************** */
+  // MODULE IDENTIFIER
+  public static boolean module_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "module_statement")) return false;
+    if (!nextTokenIs(b, MODULE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, MODULE, IDENTIFIER);
+    exit_section_(b, m, MODULE_STATEMENT, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -942,7 +1183,10 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // if_statement
+  // module_statement
+  //   | import_statement
+  //   | export_statement
+  //   | if_statement
   //   | for_statement
   //   | while_statement
   //   | match_statement
@@ -958,7 +1202,10 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   static boolean statements(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "statements")) return false;
     boolean r;
-    r = if_statement(b, l + 1);
+    r = module_statement(b, l + 1);
+    if (!r) r = import_statement(b, l + 1);
+    if (!r) r = export_statement(b, l + 1);
+    if (!r) r = if_statement(b, l + 1);
     if (!r) r = for_statement(b, l + 1);
     if (!r) r = while_statement(b, l + 1);
     if (!r) r = match_statement(b, l + 1);

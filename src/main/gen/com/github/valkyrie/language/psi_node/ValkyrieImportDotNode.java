@@ -11,32 +11,20 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieNamesResolveNode extends ValkyrieElement implements ValkyrieNamesResolve {
+public class ValkyrieImportDotNode extends ValkyrieElement implements ValkyrieImportDot {
 
-  public ValkyrieNamesResolveNode(@NotNull ASTNode node) {
+  public ValkyrieImportDotNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitNamesResolve(this);
+    visitor.visitImportDot(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof ValkyrieVisitor) accept((ValkyrieVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieNamesResolve> getNamesResolveList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNamesResolve.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieRename> getRenameList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieRename.class);
   }
 
 }

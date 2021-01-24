@@ -17,11 +17,20 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
 
 
+    override fun visitImportName(o: ValkyrieImportName) {
+        if (o.text.startsWith('@') || o.text.startsWith('#')) {
+            highlight(o, Color.PROP_MARK)
+        }
+    }
+
+    override fun visitAs(o: ValkyrieAs) {
+        highlight(o, Color.KEYWORD)
+    }
+
     override fun visitTraitStatement(o: ValkyrieTraitStatement) {
         val head = o.firstChild;
         val prop = head.nextLeaf { it.elementType == ValkyrieTypes.SYMBOL }!!
         highlight(prop, Color.SYM_TRAIT)
-
         super.visitTraitStatement(o)
     }
 
@@ -29,13 +38,11 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
         val head = o.firstChild;
         val prop = head.nextLeaf { it.elementType == ValkyrieTypes.SYMBOL }!!
         highlight(prop, Color.SYM_CLASS)
-
         super.visitClassStatement(o)
     }
 
     override fun visitBitflagStatement(o: ValkyrieBitflagStatement) {
         highlightModifiers(o.modifiers, Color.SYM_CLASS);
-
         super.visitBitflagStatement(o)
     }
 

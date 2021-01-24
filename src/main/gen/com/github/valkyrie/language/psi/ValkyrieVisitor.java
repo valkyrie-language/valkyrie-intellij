@@ -7,6 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public class ValkyrieVisitor extends PsiElementVisitor {
 
+  public void visitAs(@NotNull ValkyrieAs o) {
+    visitPsiElement(o);
+  }
+
   public void visitAutoDerive(@NotNull ValkyrieAutoDerive o) {
     visitPsiElement(o);
   }
@@ -79,6 +83,26 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitImportBlock(@NotNull ValkyrieImportBlock o) {
+    visitPsiElement(o);
+  }
+
+  public void visitImportDot(@NotNull ValkyrieImportDot o) {
+    visitPsiElement(o);
+  }
+
+  public void visitImportName(@NotNull ValkyrieImportName o) {
+    visitPsiElement(o);
+  }
+
+  public void visitImportPath(@NotNull ValkyrieImportPath o) {
+    visitPsiElement(o);
+  }
+
+  public void visitImportRename(@NotNull ValkyrieImportRename o) {
+    visitPsiElement(o);
+  }
+
   public void visitImportStatement(@NotNull ValkyrieImportStatement o) {
     visitPsiElement(o);
   }
@@ -111,10 +135,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitNamesResolve(@NotNull ValkyrieNamesResolve o) {
-    visitPsiElement(o);
-  }
-
   public void visitNamespace(@NotNull ValkyrieNamespace o) {
     visitPsiElement(o);
   }
@@ -124,10 +144,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitPattern(@NotNull ValkyriePattern o) {
-    visitPsiElement(o);
-  }
-
-  public void visitRename(@NotNull ValkyrieRename o) {
     visitPsiElement(o);
   }
 

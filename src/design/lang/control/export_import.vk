@@ -9,8 +9,8 @@ export super, package::a, package::b {
 import package.name;
 import package_name.name;
 import std::{
-
+    import , export
 }
 import serde::{#Serialize, #Deserialize}
-import import
-import export
+import `import` as export;
+

@@ -8,6 +8,7 @@ import com.github.valkyrie.language.psi_node.*;
 
 public interface ValkyrieTypes {
 
+  IElementType AS = new ValkyrieElementType("AS");
   IElementType AUTO_DERIVE = new ValkyrieElementType("AUTO_DERIVE");
   IElementType BITFLAG_BLOCK = new ValkyrieElementType("BITFLAG_BLOCK");
   IElementType BITFLAG_ITEM = new ValkyrieElementType("BITFLAG_ITEM");
@@ -26,6 +27,11 @@ public interface ValkyrieTypes {
   IElementType FUNCTION_CALL = new ValkyrieElementType("FUNCTION_CALL");
   IElementType IF_GUARD = new ValkyrieElementType("IF_GUARD");
   IElementType IF_STATEMENT = new ValkyrieElementType("IF_STATEMENT");
+  IElementType IMPORT_BLOCK = new ValkyrieElementType("IMPORT_BLOCK");
+  IElementType IMPORT_DOT = new ValkyrieElementType("IMPORT_DOT");
+  IElementType IMPORT_NAME = new ValkyrieElementType("IMPORT_NAME");
+  IElementType IMPORT_PATH = new ValkyrieElementType("IMPORT_PATH");
+  IElementType IMPORT_RENAME = new ValkyrieElementType("IMPORT_RENAME");
   IElementType IMPORT_STATEMENT = new ValkyrieElementType("IMPORT_STATEMENT");
   IElementType LET_STATEMENT = new ValkyrieElementType("LET_STATEMENT");
   IElementType LIST = new ValkyrieElementType("LIST");
@@ -35,10 +41,8 @@ public interface ValkyrieTypes {
   IElementType MODIFIERS = new ValkyrieElementType("MODIFIERS");
   IElementType MODULE_STATEMENT = new ValkyrieElementType("MODULE_STATEMENT");
   IElementType NAMESPACE = new ValkyrieElementType("NAMESPACE");
-  IElementType NAMES_RESOLVE = new ValkyrieElementType("NAMES_RESOLVE");
   IElementType PAIR = new ValkyrieElementType("PAIR");
   IElementType PATTERN = new ValkyrieElementType("PATTERN");
-  IElementType RENAME = new ValkyrieElementType("RENAME");
   IElementType SYMBOL = new ValkyrieElementType("SYMBOL");
   IElementType TRAIT_STATEMENT = new ValkyrieElementType("TRAIT_STATEMENT");
   IElementType TUPLE = new ValkyrieElementType("TUPLE");
@@ -49,7 +53,6 @@ public interface ValkyrieTypes {
   IElementType ACCENT = new ValkyrieTokenType("^");
   IElementType ANGLE_L = new ValkyrieTokenType("<");
   IElementType ANGLE_R = new ValkyrieTokenType(">");
-  IElementType AS = new ValkyrieTokenType("as");
   IElementType AT = new ValkyrieTokenType("@");
   IElementType BANG = new ValkyrieTokenType("!");
   IElementType BITFLAG = new ValkyrieTokenType("bitflag");
@@ -113,7 +116,10 @@ public interface ValkyrieTypes {
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == AUTO_DERIVE) {
+      if (type == AS) {
+        return new ValkyrieAsNode(node);
+      }
+      else if (type == AUTO_DERIVE) {
         return new ValkyrieAutoDeriveNode(node);
       }
       else if (type == BITFLAG_BLOCK) {
@@ -167,6 +173,21 @@ public interface ValkyrieTypes {
       else if (type == IF_STATEMENT) {
         return new ValkyrieIfStatementNode(node);
       }
+      else if (type == IMPORT_BLOCK) {
+        return new ValkyrieImportBlockNode(node);
+      }
+      else if (type == IMPORT_DOT) {
+        return new ValkyrieImportDotNode(node);
+      }
+      else if (type == IMPORT_NAME) {
+        return new ValkyrieImportNameNode(node);
+      }
+      else if (type == IMPORT_PATH) {
+        return new ValkyrieImportPathNode(node);
+      }
+      else if (type == IMPORT_RENAME) {
+        return new ValkyrieImportRenameNode(node);
+      }
       else if (type == IMPORT_STATEMENT) {
         return new ValkyrieImportStatementNode(node);
       }
@@ -194,17 +215,11 @@ public interface ValkyrieTypes {
       else if (type == NAMESPACE) {
         return new ValkyrieNamespaceNode(node);
       }
-      else if (type == NAMES_RESOLVE) {
-        return new ValkyrieNamesResolveNode(node);
-      }
       else if (type == PAIR) {
         return new ValkyriePairNode(node);
       }
       else if (type == PATTERN) {
         return new ValkyriePatternNode(node);
-      }
-      else if (type == RENAME) {
-        return new ValkyrieRenameNode(node);
       }
       else if (type == SYMBOL) {
         return new ValkyrieSymbolNode(node);

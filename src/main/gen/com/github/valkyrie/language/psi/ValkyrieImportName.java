@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieExportStatement extends PsiElement {
+public interface ValkyrieImportName extends PsiElement {
 
   @NotNull
-  ValkyrieImportBlock getImportBlock();
-
-  @NotNull
-  List<ValkyrieNamespace> getNamespaceList();
+  ValkyrieSymbol getSymbol();
 
 }

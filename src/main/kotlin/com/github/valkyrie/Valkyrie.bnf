@@ -103,12 +103,18 @@ private statements ::=
 module_statement ::= MODULE IDENTIFIER;
 // ---------------------------------------------------------------------------------------------------------------------
 export_statement ::=
-    EXPORT <<sequence namespace COMMA>> names_resolve
-  | EXPORT names_resolve;
-names_resolve ::= <<bracket_block (rename|names_resolve) COMMA>>;
-rename ::= namespace [as symbol];
+    EXPORT <<sequence namespace COMMA>> import_block
+  | EXPORT import_block;
 // ---------------------------------------------------------------------------------------------------------------------
-import_statement ::= IMPORT IDENTIFIER;
+import_statement ::=
+    IMPORT import_rename
+  | IMPORT [import_path import_dot] import_block;
+import_block ::= <<brace_block (import_rename|import_block) COMMA>>;
+import_rename ::= import_path [AS symbol];
+import_path  ::= import_name (import_dot import_name)*
+import_name ::= [AT|HASH] symbol;
+import_dot  ::= PROPORTION|DOT;
+AS ::= "as"
 // ---------------------------------------------------------------------------------------------------------------------
 if_statement ::= (IF condition block) [else_if_statement* [else_statement]]
 else_if_statement ::= ELSE IF condition block;

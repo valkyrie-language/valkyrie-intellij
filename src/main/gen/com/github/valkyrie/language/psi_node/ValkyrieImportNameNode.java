@@ -11,14 +11,14 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieImportStatementNode extends ValkyrieElement implements ValkyrieImportStatement {
+public class ValkyrieImportNameNode extends ValkyrieElement implements ValkyrieImportName {
 
-  public ValkyrieImportStatementNode(@NotNull ASTNode node) {
+  public ValkyrieImportNameNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitImportStatement(this);
+    visitor.visitImportName(this);
   }
 
   @Override
@@ -28,27 +28,9 @@ public class ValkyrieImportStatementNode extends ValkyrieElement implements Valk
   }
 
   @Override
-  @Nullable
-  public ValkyrieImportBlock getImportBlock() {
-    return findChildByClass(ValkyrieImportBlock.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieImportDot getImportDot() {
-    return findChildByClass(ValkyrieImportDot.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieImportPath getImportPath() {
-    return findChildByClass(ValkyrieImportPath.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieImportRename getImportRename() {
-    return findChildByClass(ValkyrieImportRename.class);
+  @NotNull
+  public ValkyrieSymbol getSymbol() {
+    return findNotNullChildByClass(ValkyrieSymbol.class);
   }
 
 }
