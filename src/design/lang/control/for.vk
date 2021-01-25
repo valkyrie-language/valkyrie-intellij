@@ -1,18 +1,18 @@
 for i in 0..<100 {
-    print_line("{i}")
-}
-
-
-for mut i, j in 0..=100 if i > 50 {
 
 }
 
 
+for mut i, j in 0..=100 if i != 50 {
 
-for c in s if c.is_ascii() {
-    print(c)
+}
+
+
+
+for c in s if c.is_ascii {
+
 }
 else {
-    print("no ascii")
+
 }
 

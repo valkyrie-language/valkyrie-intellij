@@ -11,14 +11,14 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieElseIfStatementNode extends ValkyrieElement implements ValkyrieElseIfStatement {
+public class ValkyrieExportNameNode extends ValkyrieElement implements ValkyrieExportName {
 
-  public ValkyrieElseIfStatementNode(@NotNull ASTNode node) {
+  public ValkyrieExportNameNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitElseIfStatement(this);
+    visitor.visitExportName(this);
   }
 
   @Override
@@ -29,14 +29,8 @@ public class ValkyrieElseIfStatementNode extends ValkyrieElement implements Valk
 
   @Override
   @NotNull
-  public ValkyrieBlock getBlock() {
-    return findNotNullChildByClass(ValkyrieBlock.class);
-  }
-
-  @Override
-  @NotNull
-  public ValkyrieCondition getCondition() {
-    return findNotNullChildByClass(ValkyrieCondition.class);
+  public ValkyrieSymbol getSymbol() {
+    return findNotNullChildByClass(ValkyrieSymbol.class);
   }
 
 }

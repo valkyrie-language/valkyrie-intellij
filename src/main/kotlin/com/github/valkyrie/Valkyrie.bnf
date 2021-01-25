@@ -43,7 +43,9 @@
         LESS = "<<"
         GREATER = ">>"
         ACCENT = '^'
-        EQ = '='
+        BIND = '='
+        EQ = '=='
+        NE = '!='
         COLON = ':'
         PROPORTION = "::"
         SEMICOLON = ';'
@@ -101,22 +103,21 @@ private statements ::=
 // ---------------------------------------------------------------------------------------------------------------------
 module_statement ::= MODULE IDENTIFIER;
 // ---------------------------------------------------------------------------------------------------------------------
-export_statement ::= EXPORT [<<sequence namespace COMMA>>] import_block_out;
-// ---------------------------------------------------------------------------------------------------------------------
-import_statement ::=IMPORT import_block_in | IMPORT import_rename;
-import_block_out ::= <<brace_block (import_rename|import_block_in) COMMA>>;
-import_block_in  ::= (import_name import_dot)* import_block_out;
-import_rename    ::= import_name (import_dot import_name)* [AS import_name];
-import_name      ::= [AT|HASH] symbol;
-import_dot       ::= PROPORTION|DOT;
+export_statement ::= EXPORT [<<sequence namespace COMMA>>] export_block;
+export_block     ::= <<brace_block import_block COMMA>>;
+export_rename    ::= export_name (export_dot export_name)* [AS export_name];
+export_name      ::= [AT|HASH] symbol;
+export_dot       ::= PROPORTION | DOT;
 AS               ::= "as"
 // ---------------------------------------------------------------------------------------------------------------------
-if_statement ::= (IF condition block) [else_if_statement* [else_statement]]
-else_if_statement ::= ELSE IF condition block;
-else_statement ::= ELSE block;
-
-block ::= <<brace_block expression SEMICOLON>>;
-condition ::= expression;
+import_statement ::= IMPORT import_block;
+import_block     ::= (export_name export_dot)* export_block | export_rename;
+// ---------------------------------------------------------------------------------------------------------------------
+if_statement     ::= (IF condition block) [ef_statement* [else_statement]]
+ef_statement     ::= ELSE IF condition block;
+else_statement   ::= ELSE block;
+block            ::= <<brace_block expression SEMICOLON>>;
+condition        ::= expression;
 // ---------------------------------------------------------------------------------------------------------------------
 for_statement ::= FOR pattern IN expression [if_guard] block [else_statement];
 if_guard ::= IF condition;
@@ -127,17 +128,16 @@ pattern ::=
   | <<sequence modifiers COMMA>>;
 case_pattern ::=
       CASE function_call;
-IN = "in";
 // ---------------------------------------------------------------------------------------------------------------------
 while_statement ::= WHILE expression block;
 // ---------------------------------------------------------------------------------------------------------------------
 match_statement ::= MATCH expression block;
 // ---------------------------------------------------------------------------------------------------------------------
-let_statement ::= LET pattern EQ expression;
+let_statement ::= LET pattern BIND expression;
 // ---------------------------------------------------------------------------------------------------------------------
 def_statement ::= DEF expression block;
 // ---------------------------------------------------------------------------------------------------------------------
-type_statement ::= TYPE symbol EQ block;
+type_statement ::= TYPE symbol BIND block;
 // ---------------------------------------------------------------------------------------------------------------------
 class_statement ::= CLASS symbol [auto_derive] block;
 auto_derive ::= COLON <<sequence ([BANG] namespace) PLUS>>;
@@ -149,7 +149,7 @@ variant_statement ::= VARIANT expression block;
 bitflag_statement ::= BITFLAG modifiers [bitflag_layout] [auto_derive] bitflag_block;
 bitflag_block ::= <<brace_block (bitflag_item|macro_call) SEMICOLON>>;
 bitflag_layout ::= PARENTHESIS_L type_expression PARENTHESIS_R;
-bitflag_item ::= symbol EQ expression;
+bitflag_item ::= symbol BIND expression;
 // ---------------------------------------------------------------------------------------------------------------------
 extends_statement ::= EXTENDS namespace block;
 // ---------------------------------------------------------------------------------------------------------------------

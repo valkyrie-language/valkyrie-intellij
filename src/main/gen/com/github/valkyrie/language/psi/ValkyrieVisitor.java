@@ -51,11 +51,27 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitElseIfStatement(@NotNull ValkyrieElseIfStatement o) {
+  public void visitEfStatement(@NotNull ValkyrieEfStatement o) {
     visitPsiElement(o);
   }
 
   public void visitElseStatement(@NotNull ValkyrieElseStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitExportBlock(@NotNull ValkyrieExportBlock o) {
+    visitPsiElement(o);
+  }
+
+  public void visitExportDot(@NotNull ValkyrieExportDot o) {
+    visitPsiElement(o);
+  }
+
+  public void visitExportName(@NotNull ValkyrieExportName o) {
+    visitPsiElement(o);
+  }
+
+  public void visitExportRename(@NotNull ValkyrieExportRename o) {
     visitPsiElement(o);
   }
 
@@ -83,23 +99,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitImportBlockIn(@NotNull ValkyrieImportBlockIn o) {
-    visitPsiElement(o);
-  }
-
-  public void visitImportBlockOut(@NotNull ValkyrieImportBlockOut o) {
-    visitPsiElement(o);
-  }
-
-  public void visitImportDot(@NotNull ValkyrieImportDot o) {
-    visitPsiElement(o);
-  }
-
-  public void visitImportName(@NotNull ValkyrieImportName o) {
-    visitPsiElement(o);
-  }
-
-  public void visitImportRename(@NotNull ValkyrieImportRename o) {
+  public void visitImportBlock(@NotNull ValkyrieImportBlock o) {
     visitPsiElement(o);
   }
 

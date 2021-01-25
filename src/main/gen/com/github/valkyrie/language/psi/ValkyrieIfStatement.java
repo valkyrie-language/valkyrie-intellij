@@ -14,7 +14,7 @@ public interface ValkyrieIfStatement extends PsiElement {
   ValkyrieCondition getCondition();
 
   @NotNull
-  List<ValkyrieElseIfStatement> getElseIfStatementList();
+  List<ValkyrieEfStatement> getEfStatementList();
 
   @Nullable
   ValkyrieElseStatement getElseStatement();

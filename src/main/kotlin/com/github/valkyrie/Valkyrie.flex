@@ -153,6 +153,15 @@ HEX = [0-9a-fA-F]
 }
 // =====================================================================================================================
 <YYINITIAL, Bitflag, ImportExport> {
+    {BYTE} { return BYTE; }
+    {INTEGER} { return INTEGER; }
+    {DECIMAL} { return DECIMAL; }
+    {SYMBOL_XID} { return SYMBOL_XID; }
+    {SYMBOL_RAW} { return SYMBOL_RAW; }
+}
+<YYINITIAL, Bitflag, ImportExport> {
+    "!=" { return NE; }
+    "!" { return BANG; }
     "<<" | "≪" { return LESS; }
     ">>" | "≫" { return GREATER; }
     "<" { return ANGLE_L; }
@@ -164,22 +173,16 @@ HEX = [0-9a-fA-F]
     ":" { return COLON; }
     ";" { return SEMICOLON; }
     "|" { return VERTICAL; }
-    "!" { return BANG; }
     "$" { return DOLLAR; }
     "@" { return AT; }
     "#" { return HASH; }
-    "..=" |".." | "..<" { return UNTIL; }
+    "..=" | "..<" | ".."  { return UNTIL; }
     "." { return DOT; }
     "," { return COMMA; }
     "+" { return PLUS; }
     "-" { return HYPHEN; }
-    "=" { return EQ; }
-}
-<YYINITIAL, Bitflag, ImportExport> {
-    {BYTE} { return BYTE; }
-    {INTEGER} { return INTEGER; }
-    {SYMBOL_XID} { return SYMBOL_XID; }
-    {SYMBOL_RAW} { return SYMBOL_RAW; }
+    "==" { return EQ; }
+    "=" { return BIND; }
 }
 // =====================================================================================================================
 // String escaped highlight

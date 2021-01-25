@@ -41,8 +41,8 @@ public class ValkyrieIfStatementNode extends ValkyrieElement implements Valkyrie
 
   @Override
   @NotNull
-  public List<ValkyrieElseIfStatement> getElseIfStatementList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieElseIfStatement.class);
+  public List<ValkyrieEfStatement> getEfStatementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieEfStatement.class);
   }
 
   @Override

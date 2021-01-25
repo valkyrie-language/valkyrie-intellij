@@ -19,19 +19,19 @@ public interface ValkyrieTypes {
   IElementType CLASS_STATEMENT = new ValkyrieElementType("CLASS_STATEMENT");
   IElementType CONDITION = new ValkyrieElementType("CONDITION");
   IElementType DEF_STATEMENT = new ValkyrieElementType("DEF_STATEMENT");
-  IElementType ELSE_IF_STATEMENT = new ValkyrieElementType("ELSE_IF_STATEMENT");
+  IElementType EF_STATEMENT = new ValkyrieElementType("EF_STATEMENT");
   IElementType ELSE_STATEMENT = new ValkyrieElementType("ELSE_STATEMENT");
+  IElementType EXPORT_BLOCK = new ValkyrieElementType("EXPORT_BLOCK");
+  IElementType EXPORT_DOT = new ValkyrieElementType("EXPORT_DOT");
+  IElementType EXPORT_NAME = new ValkyrieElementType("EXPORT_NAME");
+  IElementType EXPORT_RENAME = new ValkyrieElementType("EXPORT_RENAME");
   IElementType EXPORT_STATEMENT = new ValkyrieElementType("EXPORT_STATEMENT");
   IElementType EXTENDS_STATEMENT = new ValkyrieElementType("EXTENDS_STATEMENT");
   IElementType FOR_STATEMENT = new ValkyrieElementType("FOR_STATEMENT");
   IElementType FUNCTION_CALL = new ValkyrieElementType("FUNCTION_CALL");
   IElementType IF_GUARD = new ValkyrieElementType("IF_GUARD");
   IElementType IF_STATEMENT = new ValkyrieElementType("IF_STATEMENT");
-  IElementType IMPORT_BLOCK_IN = new ValkyrieElementType("IMPORT_BLOCK_IN");
-  IElementType IMPORT_BLOCK_OUT = new ValkyrieElementType("IMPORT_BLOCK_OUT");
-  IElementType IMPORT_DOT = new ValkyrieElementType("IMPORT_DOT");
-  IElementType IMPORT_NAME = new ValkyrieElementType("IMPORT_NAME");
-  IElementType IMPORT_RENAME = new ValkyrieElementType("IMPORT_RENAME");
+  IElementType IMPORT_BLOCK = new ValkyrieElementType("IMPORT_BLOCK");
   IElementType IMPORT_STATEMENT = new ValkyrieElementType("IMPORT_STATEMENT");
   IElementType LET_STATEMENT = new ValkyrieElementType("LET_STATEMENT");
   IElementType LIST = new ValkyrieElementType("LIST");
@@ -55,6 +55,7 @@ public interface ValkyrieTypes {
   IElementType ANGLE_R = new ValkyrieTokenType(">");
   IElementType AT = new ValkyrieTokenType("@");
   IElementType BANG = new ValkyrieTokenType("!");
+  IElementType BIND = new ValkyrieTokenType("=");
   IElementType BITFLAG = new ValkyrieTokenType("bitflag");
   IElementType BRACE_L = new ValkyrieTokenType("{");
   IElementType BRACE_R = new ValkyrieTokenType("}");
@@ -75,7 +76,7 @@ public interface ValkyrieTypes {
   IElementType DOLLAR = new ValkyrieTokenType("$");
   IElementType DOT = new ValkyrieTokenType(".");
   IElementType ELSE = new ValkyrieTokenType("else");
-  IElementType EQ = new ValkyrieTokenType("=");
+  IElementType EQ = new ValkyrieTokenType("==");
   IElementType EXPORT = new ValkyrieTokenType("export");
   IElementType EXTENDS = new ValkyrieTokenType("extends");
   IElementType FOR = new ValkyrieTokenType("for");
@@ -92,6 +93,7 @@ public interface ValkyrieTypes {
   IElementType LET = new ValkyrieTokenType("let");
   IElementType MATCH = new ValkyrieTokenType("match");
   IElementType MODULE = new ValkyrieTokenType("module");
+  IElementType NE = new ValkyrieTokenType("!=");
   IElementType PARENTHESIS_L = new ValkyrieTokenType("(");
   IElementType PARENTHESIS_R = new ValkyrieTokenType(")");
   IElementType PLUS = new ValkyrieTokenType("+");
@@ -149,11 +151,23 @@ public interface ValkyrieTypes {
       else if (type == DEF_STATEMENT) {
         return new ValkyrieDefStatementNode(node);
       }
-      else if (type == ELSE_IF_STATEMENT) {
-        return new ValkyrieElseIfStatementNode(node);
+      else if (type == EF_STATEMENT) {
+        return new ValkyrieEfStatementNode(node);
       }
       else if (type == ELSE_STATEMENT) {
         return new ValkyrieElseStatementNode(node);
+      }
+      else if (type == EXPORT_BLOCK) {
+        return new ValkyrieExportBlockNode(node);
+      }
+      else if (type == EXPORT_DOT) {
+        return new ValkyrieExportDotNode(node);
+      }
+      else if (type == EXPORT_NAME) {
+        return new ValkyrieExportNameNode(node);
+      }
+      else if (type == EXPORT_RENAME) {
+        return new ValkyrieExportRenameNode(node);
       }
       else if (type == EXPORT_STATEMENT) {
         return new ValkyrieExportStatementNode(node);
@@ -173,20 +187,8 @@ public interface ValkyrieTypes {
       else if (type == IF_STATEMENT) {
         return new ValkyrieIfStatementNode(node);
       }
-      else if (type == IMPORT_BLOCK_IN) {
-        return new ValkyrieImportBlockInNode(node);
-      }
-      else if (type == IMPORT_BLOCK_OUT) {
-        return new ValkyrieImportBlockOutNode(node);
-      }
-      else if (type == IMPORT_DOT) {
-        return new ValkyrieImportDotNode(node);
-      }
-      else if (type == IMPORT_NAME) {
-        return new ValkyrieImportNameNode(node);
-      }
-      else if (type == IMPORT_RENAME) {
-        return new ValkyrieImportRenameNode(node);
+      else if (type == IMPORT_BLOCK) {
+        return new ValkyrieImportBlockNode(node);
       }
       else if (type == IMPORT_STATEMENT) {
         return new ValkyrieImportStatementNode(node);

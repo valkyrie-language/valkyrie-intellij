@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieElseIfStatement extends PsiElement {
+public interface ValkyrieExportName extends PsiElement {
 
   @NotNull
-  ValkyrieBlock getBlock();
-
-  @NotNull
-  ValkyrieCondition getCondition();
+  ValkyrieSymbol getSymbol();
 
 }

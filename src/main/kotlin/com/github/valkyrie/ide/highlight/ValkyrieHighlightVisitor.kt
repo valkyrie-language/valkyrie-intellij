@@ -15,19 +15,16 @@ import com.github.valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
 class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
-
     override fun visitAs(o: ValkyrieAs) {
         highlight(o, Color.KEYWORD)
     }
 
 
-    override fun visitImportName(o: ValkyrieImportName) {
+    override fun visitExportName(o: ValkyrieExportName) {
         if (o.text.startsWith('@') || o.text.startsWith('#')) {
-            highlight(o, Color.PROP_MARK)
+            highlight(o, Color.SYM_MACRO)
         }
     }
-
-
 
     override fun visitTraitStatement(o: ValkyrieTraitStatement) {
         val head = o.firstChild;
