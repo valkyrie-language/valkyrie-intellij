@@ -20,6 +20,9 @@ public interface ValkyrieDefStatement extends PsiElement {
   List<ValkyrieNamespace> getNamespaceList();
 
   @NotNull
+  List<ValkyrieNumber> getNumberList();
+
+  @NotNull
   List<ValkyrieTuple> getTupleList();
 
 }

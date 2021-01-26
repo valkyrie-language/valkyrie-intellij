@@ -41,6 +41,7 @@ public interface ValkyrieTypes {
   IElementType MODIFIERS = new ValkyrieElementType("MODIFIERS");
   IElementType MODULE_STATEMENT = new ValkyrieElementType("MODULE_STATEMENT");
   IElementType NAMESPACE = new ValkyrieElementType("NAMESPACE");
+  IElementType NUMBER = new ValkyrieElementType("NUMBER");
   IElementType PAIR = new ValkyrieElementType("PAIR");
   IElementType PATTERN = new ValkyrieElementType("PATTERN");
   IElementType SYMBOL = new ValkyrieElementType("SYMBOL");
@@ -92,8 +93,10 @@ public interface ValkyrieTypes {
   IElementType LESS = new ValkyrieTokenType("<<");
   IElementType LET = new ValkyrieTokenType("let");
   IElementType MATCH = new ValkyrieTokenType("match");
+  IElementType MINUS = new ValkyrieTokenType("MINUS");
   IElementType MODULE = new ValkyrieTokenType("module");
   IElementType NE = new ValkyrieTokenType("!=");
+  IElementType NOT = new ValkyrieTokenType("NOT");
   IElementType PARENTHESIS_L = new ValkyrieTokenType("(");
   IElementType PARENTHESIS_R = new ValkyrieTokenType(")");
   IElementType PLUS = new ValkyrieTokenType("+");
@@ -216,6 +219,9 @@ public interface ValkyrieTypes {
       }
       else if (type == NAMESPACE) {
         return new ValkyrieNamespaceNode(node);
+      }
+      else if (type == NUMBER) {
+        return new ValkyrieNumberNode(node);
       }
       else if (type == PAIR) {
         return new ValkyriePairNode(node);

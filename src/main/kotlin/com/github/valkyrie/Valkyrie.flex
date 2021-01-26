@@ -75,8 +75,8 @@ SYMBOL_XID=[\p{XID_Start}_][\p{XID_Continue}]*
 SYMBOL_RAW=`([^`\\]|\\.)*`
 STRING=\"([^\"\\]|\\.)*\"
 BYTE=(0[bBoOxXfF][0-9A-Fa-f][0-9A-Fa-f_]*)
-INTEGER=(0|[1-9][0-9_]*)
-DECIMAL=([0-9]+\.[0-9]*([Ee][0-9]+)?)|(\.[0-9]+([Ee][0-9]+)?)
+INTEGER=0|[1-9][0-9_]*
+DECIMAL=[0-9]+\.[0-9]*
 
 ESCAPE_SPECIAL= \\[^]
 ESCAPE_UNICODE= \\(u{HEX}{4}|U{HEX}{6})
@@ -160,8 +160,10 @@ HEX = [0-9a-fA-F]
     {SYMBOL_RAW} { return SYMBOL_RAW; }
 }
 <YYINITIAL, Bitflag, ImportExport> {
+    // !
     "!=" { return NE; }
     "!" { return BANG; }
+    // < >
     "<<" | "≪" { return LESS; }
     ">>" | "≫" { return GREATER; }
     "<" { return ANGLE_L; }
@@ -169,6 +171,7 @@ HEX = [0-9a-fA-F]
     "[" { return BRACKET_L; }
     "]" { return BRACKET_R; }
     "^" { return ACCENT; }
+    // :
     "∷" | "::" { return PROPORTION; }
     ":" { return COLON; }
     ";" { return SEMICOLON; }
@@ -176,6 +179,7 @@ HEX = [0-9a-fA-F]
     "$" { return DOLLAR; }
     "@" { return AT; }
     "#" { return HASH; }
+    // .
     "..=" | "..<" | ".."  { return UNTIL; }
     "." { return DOT; }
     "," { return COMMA; }

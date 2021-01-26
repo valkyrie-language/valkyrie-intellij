@@ -34,7 +34,6 @@ enum class ValkyrieHighlightColor(humanName: Supplier<@AttributeDescriptor Strin
     SYM_VARIANT(ValkyrieBundle.messagePointer("color.token.symbol.variant"), Default.STATIC_FIELD),
     SYM_MACRO(ValkyrieBundle.messagePointer("color.token.symbol.message"), Default.METADATA),
 
-    SYM_TERM(ValkyrieBundle.messagePointer("color.token.symbol.term"), Default.CONSTANT),
     SYM_VARIABLE(ValkyrieBundle.messagePointer("color.token.symbol.variable"), Default.REASSIGNED_PARAMETER),
     SYM_FUNCTION(ValkyrieBundle.messagePointer("color.token.symbol.function"), Default.PREDEFINED_SYMBOL),
     //
@@ -50,6 +49,7 @@ enum class ValkyrieHighlightColor(humanName: Supplier<@AttributeDescriptor Strin
     COMMA(OptionsBundle.messagePointer("options.language.defaults.comma"), Default.COMMA),
     SET(ValkyrieBundle.messagePointer("color.token.set"), Default.OPERATION_SIGN),
     SEMICOLON(OptionsBundle.messagePointer("options.language.defaults.semicolon"), Default.SEMICOLON),
+    OP_NUMBER(ValkyrieBundle.messagePointer("color.token.suffix.number"), Default.METADATA),
 
     // 注释
     LINE_COMMENT(OptionsBundle.messagePointer("options.language.defaults.line.comment"), Default.LINE_COMMENT),

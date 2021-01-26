@@ -155,9 +155,11 @@ extends_statement ::= EXTENDS namespace block;
 // ---------------------------------------------------------------------------------------------------------------------
 private type_expression ::= list | tuple | atoms;
 // ---------------------------------------------------------------------------------------------------------------------
-private expression ::= term (binary_op term)*;
+private expression ::= op_prefix* term (op_binary term)* op_suffix*;
 private term ::= function_call | list | tuple | atoms;
-private binary_op ::= VERTICAL | LESS | GREATER | UNTIL;
+private op_binary ::= VERTICAL | LESS | GREATER | UNTIL;
+private op_prefix ::= PLUS | MINUS | NOT;
+private op_suffix ::= BANG;
 // ---------------------------------------------------------------------------------------------------------------------
 namespace ::= [PROPORTION] symbol (PROPORTION symbol)*;
 modifiers ::= namespace*;
@@ -175,7 +177,8 @@ function_call ::= namespace [<<parenthesis expression COMMA>>];
 pair          ::= atoms COLON expression;
 list          ::= <<bracket_block expression COMMA>>
 tuple         ::= <<parenthesis expression COMMA>>
-private atoms ::= BYTE | INTEGER | DECIMAL | namespace;
+private atoms ::= number | namespace;
+number        ::= (BYTE | INTEGER | DECIMAL) [symbol];
 // ---------------------------------------------------------------------------------------------------------------------
 private meta sequence ::= <<item>> (<<sp>> <<item>>)* [<<sp>>];
 // parenthesis ( )

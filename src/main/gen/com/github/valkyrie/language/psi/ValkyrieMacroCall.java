@@ -20,6 +20,9 @@ public interface ValkyrieMacroCall extends PsiElement {
   List<ValkyrieNamespace> getNamespaceList();
 
   @NotNull
+  List<ValkyrieNumber> getNumberList();
+
+  @NotNull
   List<ValkyriePair> getPairList();
 
   @NotNull

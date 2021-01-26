@@ -17,6 +17,9 @@ public interface ValkyrieFunctionCall extends PsiElement {
   List<ValkyrieNamespace> getNamespaceList();
 
   @NotNull
+  List<ValkyrieNumber> getNumberList();
+
+  @NotNull
   List<ValkyrieTuple> getTupleList();
 
 }

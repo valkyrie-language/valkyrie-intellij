@@ -26,6 +26,9 @@ public interface ValkyrieForStatement extends PsiElement {
   List<ValkyrieNamespace> getNamespaceList();
 
   @NotNull
+  List<ValkyrieNumber> getNumberList();
+
+  @NotNull
   ValkyriePattern getPattern();
 
   @NotNull

@@ -139,6 +139,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitNumber(@NotNull ValkyrieNumber o) {
+    visitPsiElement(o);
+  }
+
   public void visitPair(@NotNull ValkyriePair o) {
     visitPsiElement(o);
   }

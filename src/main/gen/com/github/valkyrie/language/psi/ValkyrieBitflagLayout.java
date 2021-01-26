@@ -14,6 +14,9 @@ public interface ValkyrieBitflagLayout extends PsiElement {
   ValkyrieNamespace getNamespace();
 
   @Nullable
+  ValkyrieNumber getNumber();
+
+  @Nullable
   ValkyrieTuple getTuple();
 
 }

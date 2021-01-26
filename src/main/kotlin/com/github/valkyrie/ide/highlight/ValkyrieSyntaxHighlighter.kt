@@ -31,9 +31,10 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             PARENTHESIS_L, PARENTHESIS_R -> Color.PARENTHESES
             BRACKET_L, BRACKET_R -> Color.BRACKETS
             BRACE_L, BRACE_R -> Color.BRACES
-            COLON, EQ -> Color.SET
-            VERTICAL, LESS, GREATER, UNTIL, PLUS -> Color.OPERATION_SIGN
-            BANG -> Color.OPERATION_SIGN
+            COLON, BIND -> Color.SET
+            VERTICAL, LESS, GREATER, UNTIL, PLUS, MINUS -> Color.OPERATION_SIGN
+            EQ, NE -> Color.OPERATION_SIGN
+            NOT, BANG -> Color.OPERATION_SIGN
             STAR -> Color.STAR
             COMMA -> Color.COMMA
             // 原子类型

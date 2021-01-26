@@ -7,6 +7,7 @@ import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType
 import com.intellij.codeInsight.daemon.impl.HighlightVisitor
 import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
+import com.intellij.psi.PsiBinaryFile
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.elementType
@@ -18,7 +19,6 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     override fun visitAs(o: ValkyrieAs) {
         highlight(o, Color.KEYWORD)
     }
-
 
     override fun visitExportName(o: ValkyrieExportName) {
         if (o.text.startsWith('@') || o.text.startsWith('#')) {
@@ -57,16 +57,16 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
         super.visitAutoDerive(o)
     }
 
-    //    override fun visitSchemaStatement(o: JssSchemaStatement) {
-//        //
-//        val head = o.firstChild;
-//        highlight(head, FluentColor.KEYWORD)
-//        //
-//        val prop = head.nextLeaf { it.elementType == JssTypes.SYMBOL }!!
-//        highlight(prop, FluentColor.SYM_SCHEMA)
-//
-//        super.visitSchemaStatement(o)
-//    }
+    override fun visitNumber(o: ValkyrieNumber) {
+        when (o.lastChild) {
+            is ValkyrieSymbol -> {
+                highlight(o.lastChild, Color.OP_NUMBER)
+            }
+            else -> {}
+        }
+    }
+
+    // =================================================================================================================
     private fun highlightModifiers(o: ValkyrieModifiers, last: Color) {
         val tail = o.lastChild;
         highlight(tail, last);
