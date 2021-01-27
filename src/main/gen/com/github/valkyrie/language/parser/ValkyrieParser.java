@@ -553,61 +553,72 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // op_prefix* term (op_binary term)* op_suffix*
-  static boolean expression(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "expression")) return false;
+  // op_prefix* term op_suffix*
+  static boolean expr(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "expr")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = expression_0(b, l + 1);
+    r = expr_0(b, l + 1);
     r = r && term(b, l + 1);
-    r = r && expression_2(b, l + 1);
-    r = r && expression_3(b, l + 1);
+    r = r && expr_2(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // op_prefix*
-  private static boolean expression_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "expression_0")) return false;
+  private static boolean expr_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "expr_0")) return false;
     while (true) {
       int c = current_position_(b);
       if (!op_prefix(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "expression_0", c)) break;
+      if (!empty_element_parsed_guard_(b, "expr_0", c)) break;
     }
     return true;
   }
 
-  // (op_binary term)*
-  private static boolean expression_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "expression_2")) return false;
+  // op_suffix*
+  private static boolean expr_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "expr_2")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!expression_2_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "expression_2", c)) break;
+      if (!op_suffix(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "expr_2", c)) break;
     }
     return true;
   }
 
-  // op_binary term
-  private static boolean expression_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "expression_2_0")) return false;
+  /* ********************************************************** */
+  // expr (op_binary expr)*
+  static boolean expression(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "expression")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = op_binary(b, l + 1);
-    r = r && term(b, l + 1);
+    r = expr(b, l + 1);
+    r = r && expression_1(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // op_suffix*
-  private static boolean expression_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "expression_3")) return false;
+  // (op_binary expr)*
+  private static boolean expression_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "expression_1")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!op_suffix(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "expression_3", c)) break;
+      if (!expression_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "expression_1", c)) break;
     }
     return true;
+  }
+
+  // op_binary expr
+  private static boolean expression_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "expression_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = op_binary(b, l + 1);
+    r = r && expr(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   /* ********************************************************** */

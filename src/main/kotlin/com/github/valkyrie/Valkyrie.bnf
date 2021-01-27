@@ -155,11 +155,12 @@ extends_statement ::= EXTENDS namespace block;
 // ---------------------------------------------------------------------------------------------------------------------
 private type_expression ::= list | tuple | atoms;
 // ---------------------------------------------------------------------------------------------------------------------
-private expression ::= op_prefix* term (op_binary term)* op_suffix*;
-private term ::= function_call | list | tuple | atoms;
-private op_binary ::= VERTICAL | LESS | GREATER | UNTIL;
-private op_prefix ::= PLUS | MINUS | NOT;
-private op_suffix ::= BANG;
+private expression ::= expr (op_binary expr)* ;
+private expr       ::= op_prefix* term op_suffix*;
+private term       ::= function_call | list | tuple | atoms;
+private op_binary  ::= VERTICAL | LESS | GREATER | UNTIL;
+private op_prefix  ::= PLUS | MINUS | NOT;
+private op_suffix  ::= BANG;
 // ---------------------------------------------------------------------------------------------------------------------
 namespace ::= [PROPORTION] symbol (PROPORTION symbol)*;
 modifiers ::= namespace*;

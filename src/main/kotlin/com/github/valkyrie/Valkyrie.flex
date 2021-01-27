@@ -76,7 +76,7 @@ SYMBOL_RAW=`([^`\\]|\\.)*`
 STRING=\"([^\"\\]|\\.)*\"
 BYTE=(0[bBoOxXfF][0-9A-Fa-f][0-9A-Fa-f_]*)
 INTEGER=0|[1-9][0-9_]*
-DECIMAL=[0-9]+\.[0-9]*
+DECIMAL=[0-9]+\.[0-9]+
 
 ESCAPE_SPECIAL= \\[^]
 ESCAPE_UNICODE= \\(u{HEX}{4}|U{HEX}{6})
@@ -184,7 +184,7 @@ HEX = [0-9a-fA-F]
     "." { return DOT; }
     "," { return COMMA; }
     "+" { return PLUS; }
-    "-" { return HYPHEN; }
+    "-" { return MINUS; }
     "==" { return EQ; }
     "=" { return BIND; }
 }
