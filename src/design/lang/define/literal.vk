@@ -1,3 +1,11 @@
 let num = [0, 1.0, 2.0];
 let unit = [1s, -1.0ms, 0x01 us, +1μs, 0x01`m/s`]
-let range = [-1..+1, -a..+a, "a".."z"]
+
+let empty = "";
+let char = 'a';
+let triple = '''a'''
+let raw = r''''a''''
+let template = `t`'a'
+let re = re"[^0-9]"
+
+let range = [-1..+1, -a..<+a, "a"..="z", 'A'..<'Z']

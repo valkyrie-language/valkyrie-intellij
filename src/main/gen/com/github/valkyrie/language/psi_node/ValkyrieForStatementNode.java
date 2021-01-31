@@ -34,6 +34,12 @@ public class ValkyrieForStatementNode extends ValkyrieElement implements Valkyri
   }
 
   @Override
+  @NotNull
+  public List<ValkyrieBoolean> getBooleanList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieBoolean.class);
+  }
+
+  @Override
   @Nullable
   public ValkyrieElseStatement getElseStatement() {
     return findChildByClass(ValkyrieElseStatement.class);

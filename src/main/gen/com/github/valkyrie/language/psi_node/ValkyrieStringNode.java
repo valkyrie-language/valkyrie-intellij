@@ -28,6 +28,12 @@ public class ValkyrieStringNode extends ValkyrieElement implements ValkyrieStrin
   }
 
   @Override
+  @NotNull
+  public ValkyrieStringLiteral getStringLiteral() {
+    return findNotNullChildByClass(ValkyrieStringLiteral.class);
+  }
+
+  @Override
   @Nullable
   public ValkyrieSymbol getSymbol() {
     return findChildByClass(ValkyrieSymbol.class);

@@ -5,12 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieString extends PsiElement {
-
-  @NotNull
-  ValkyrieStringLiteral getStringLiteral();
-
-  @Nullable
-  ValkyrieSymbol getSymbol();
+public interface ValkyrieBoolean extends PsiElement {
 
 }

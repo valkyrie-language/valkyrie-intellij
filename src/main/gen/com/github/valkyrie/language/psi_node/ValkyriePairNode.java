@@ -29,6 +29,12 @@ public class ValkyriePairNode extends ValkyrieElement implements ValkyriePair {
 
   @Override
   @NotNull
+  public List<ValkyrieBoolean> getBooleanList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieBoolean.class);
+  }
+
+  @Override
+  @NotNull
   public List<ValkyrieFunctionCall> getFunctionCallList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieFunctionCall.class);
   }

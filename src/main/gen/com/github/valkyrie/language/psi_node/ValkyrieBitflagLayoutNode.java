@@ -29,6 +29,12 @@ public class ValkyrieBitflagLayoutNode extends ValkyrieElement implements Valkyr
 
   @Override
   @Nullable
+  public ValkyrieBoolean getBoolean() {
+    return findChildByClass(ValkyrieBoolean.class);
+  }
+
+  @Override
+  @Nullable
   public ValkyrieList getList() {
     return findChildByClass(ValkyrieList.class);
   }

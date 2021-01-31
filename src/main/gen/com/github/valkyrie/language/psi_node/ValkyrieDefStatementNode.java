@@ -35,6 +35,12 @@ public class ValkyrieDefStatementNode extends ValkyrieElement implements Valkyri
 
   @Override
   @NotNull
+  public List<ValkyrieBoolean> getBooleanList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieBoolean.class);
+  }
+
+  @Override
+  @NotNull
   public List<ValkyrieFunctionCall> getFunctionCallList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieFunctionCall.class);
   }

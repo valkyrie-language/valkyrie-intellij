@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieCondition extends PsiElement {
 
   @NotNull
+  List<ValkyrieBoolean> getBooleanList();
+
+  @NotNull
   List<ValkyrieFunctionCall> getFunctionCallList();
 
   @NotNull

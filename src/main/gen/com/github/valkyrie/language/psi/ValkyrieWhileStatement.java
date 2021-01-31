@@ -11,6 +11,9 @@ public interface ValkyrieWhileStatement extends PsiElement {
   ValkyrieBlock getBlock();
 
   @NotNull
+  List<ValkyrieBoolean> getBooleanList();
+
+  @NotNull
   List<ValkyrieFunctionCall> getFunctionCallList();
 
   @NotNull

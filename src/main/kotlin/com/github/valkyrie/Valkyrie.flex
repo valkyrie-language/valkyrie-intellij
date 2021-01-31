@@ -192,12 +192,15 @@ HEX = [0-9a-fA-F]
 //[^\"]+ {return STRING_CHAR;}
 //}
 <YYINITIAL> \'+ | \"+ {
+    if (yylength()==2) {
+        return STRING_EMPTY;
+    }
     quote_balance = yytext().toString();
     yybegin(StringInside);
     return STRING_START;
 }
 <StringInside> \'+ | \"+ {
-    if(yytext().toString() == quote_balance) {
+    if(quote_balance.equals(yytext().toString())) {
         yybegin(YYINITIAL);
         return STRING_END;
     }

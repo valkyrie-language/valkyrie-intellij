@@ -11,32 +11,20 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieNumberNode extends ValkyrieElement implements ValkyrieNumber {
+public class ValkyrieStringLiteralNode extends ValkyrieElement implements ValkyrieStringLiteral {
 
-  public ValkyrieNumberNode(@NotNull ASTNode node) {
+  public ValkyrieStringLiteralNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitNumber(this);
+    visitor.visitStringLiteral(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof ValkyrieVisitor) accept((ValkyrieVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public ValkyrieNumberLiteral getNumberLiteral() {
-    return findNotNullChildByClass(ValkyrieNumberLiteral.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieSymbol getSymbol() {
-    return findChildByClass(ValkyrieSymbol.class);
   }
 
 }

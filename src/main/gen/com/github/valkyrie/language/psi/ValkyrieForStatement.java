@@ -10,6 +10,9 @@ public interface ValkyrieForStatement extends PsiElement {
   @NotNull
   ValkyrieBlock getBlock();
 
+  @NotNull
+  List<ValkyrieBoolean> getBooleanList();
+
   @Nullable
   ValkyrieElseStatement getElseStatement();
 

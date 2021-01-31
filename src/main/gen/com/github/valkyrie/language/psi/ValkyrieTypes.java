@@ -15,6 +15,7 @@ public interface ValkyrieTypes {
   IElementType BITFLAG_LAYOUT = new ValkyrieElementType("BITFLAG_LAYOUT");
   IElementType BITFLAG_STATEMENT = new ValkyrieElementType("BITFLAG_STATEMENT");
   IElementType BLOCK = new ValkyrieElementType("BLOCK");
+  IElementType BOOLEAN = new ValkyrieElementType("BOOLEAN");
   IElementType CASE_PATTERN = new ValkyrieElementType("CASE_PATTERN");
   IElementType CLASS_STATEMENT = new ValkyrieElementType("CLASS_STATEMENT");
   IElementType CONDITION = new ValkyrieElementType("CONDITION");
@@ -42,9 +43,11 @@ public interface ValkyrieTypes {
   IElementType MODULE_STATEMENT = new ValkyrieElementType("MODULE_STATEMENT");
   IElementType NAMESPACE = new ValkyrieElementType("NAMESPACE");
   IElementType NUMBER = new ValkyrieElementType("NUMBER");
+  IElementType NUMBER_LITERAL = new ValkyrieElementType("NUMBER_LITERAL");
   IElementType PAIR = new ValkyrieElementType("PAIR");
   IElementType PATTERN = new ValkyrieElementType("PATTERN");
   IElementType STRING = new ValkyrieElementType("STRING");
+  IElementType STRING_LITERAL = new ValkyrieElementType("STRING_LITERAL");
   IElementType SYMBOL = new ValkyrieElementType("SYMBOL");
   IElementType TRAIT_STATEMENT = new ValkyrieElementType("TRAIT_STATEMENT");
   IElementType TUPLE = new ValkyrieElementType("TUPLE");
@@ -105,9 +108,8 @@ public interface ValkyrieTypes {
   IElementType SEMICOLON = new ValkyrieTokenType(";");
   IElementType STAR = new ValkyrieTokenType("*");
   IElementType STRING_CHAR = new ValkyrieTokenType("String Character");
+  IElementType STRING_EMPTY = new ValkyrieTokenType("String Empty");
   IElementType STRING_END = new ValkyrieTokenType("'");
-  IElementType STRING_ESCAPE = new ValkyrieTokenType("String Escaped");
-  IElementType STRING_LITERAL = new ValkyrieTokenType("String Literal");
   IElementType STRING_START = new ValkyrieTokenType("STRING_START");
   IElementType SYMBOL_RAW = new ValkyrieTokenType("Symbol");
   IElementType SYMBOL_XID = new ValkyrieTokenType("SYMBOL_XID");
@@ -143,6 +145,9 @@ public interface ValkyrieTypes {
       }
       else if (type == BLOCK) {
         return new ValkyrieBlockNode(node);
+      }
+      else if (type == BOOLEAN) {
+        return new ValkyrieBooleanNode(node);
       }
       else if (type == CASE_PATTERN) {
         return new ValkyrieCasePatternNode(node);
@@ -225,6 +230,9 @@ public interface ValkyrieTypes {
       else if (type == NUMBER) {
         return new ValkyrieNumberNode(node);
       }
+      else if (type == NUMBER_LITERAL) {
+        return new ValkyrieNumberLiteralNode(node);
+      }
       else if (type == PAIR) {
         return new ValkyriePairNode(node);
       }
@@ -233,6 +241,9 @@ public interface ValkyrieTypes {
       }
       else if (type == STRING) {
         return new ValkyrieStringNode(node);
+      }
+      else if (type == STRING_LITERAL) {
+        return new ValkyrieStringLiteralNode(node);
       }
       else if (type == SYMBOL) {
         return new ValkyrieSymbolNode(node);

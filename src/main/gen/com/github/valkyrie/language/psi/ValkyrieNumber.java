@@ -7,6 +7,9 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieNumber extends PsiElement {
 
+  @NotNull
+  ValkyrieNumberLiteral getNumberLiteral();
+
   @Nullable
   ValkyrieSymbol getSymbol();
 

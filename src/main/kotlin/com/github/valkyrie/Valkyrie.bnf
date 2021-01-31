@@ -29,8 +29,7 @@
         STRING_START = "'"
         STRING_END = "'"
         STRING_CHAR = "String Character"
-        STRING_ESCAPE = "String Escaped"
-        STRING_LITERAL = "String Literal"
+        STRING_EMPTY = "String Empty"
         COMMENT_LINE = "Comment Line"
 
         PARENTHESIS_L = '('
@@ -165,7 +164,6 @@ private op_suffix  ::= BANG;
 // ---------------------------------------------------------------------------------------------------------------------
 namespace ::= [PROPORTION] symbol (PROPORTION symbol)*;
 modifiers ::= namespace*;
-symbol    ::= SYMBOL_XID | SYMBOL_RAW;
 macro     ::= AT namespace;
 // ---------------------------------------------------------------------------------------------------------------------
 macro_call    ::= macro [
@@ -174,14 +172,18 @@ macro_call    ::= macro [
   | <<brace_block expression SEMICOLON>>
 ];
 // ---------------------------------------------------------------------------------------------------------------------
-function_call ::= namespace [<<parenthesis expression COMMA>>];
+function_call  ::= namespace <<parenthesis expression COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
-pair          ::= atoms COLON expression;
-list          ::= <<bracket_block expression COMMA>>
-tuple         ::= <<parenthesis expression COMMA>>
-private atoms ::= number | string | namespace;
-number        ::= (BYTE | INTEGER | DECIMAL) [symbol];
-string        ::= [symbol] (STRING_START STRING_CHAR+ STRING_END)
+pair           ::= atoms COLON expression;
+list           ::= <<bracket_block expression COMMA>>
+tuple          ::= <<parenthesis expression COMMA>>
+private atoms  ::= number | string | boolean | namespace;
+boolean        ::= "true" | "false";
+number         ::= number_literal [symbol];
+string         ::= [symbol] string_literal
+symbol         ::= SYMBOL_XID | SYMBOL_RAW;
+number_literal ::= BYTE | INTEGER | DECIMAL;
+string_literal ::= STRING_EMPTY | STRING_START STRING_CHAR+ STRING_END;
 // ---------------------------------------------------------------------------------------------------------------------
 private meta sequence ::= <<item>> (<<sp>> <<item>>)* [<<sp>>];
 // parenthesis ( )

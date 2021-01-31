@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieMacroCall extends PsiElement {
 
   @NotNull
+  List<ValkyrieBoolean> getBooleanList();
+
+  @NotNull
   List<ValkyrieFunctionCall> getFunctionCallList();
 
   @NotNull

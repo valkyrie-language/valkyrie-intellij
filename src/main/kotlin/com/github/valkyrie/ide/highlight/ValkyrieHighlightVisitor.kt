@@ -66,6 +66,10 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
         }
     }
 
+    override fun visitBoolean(o: ValkyrieBoolean) {
+        highlight(o, Color.KEYWORD)
+    }
+
     // =================================================================================================================
     private fun highlightModifiers(o: ValkyrieModifiers, last: Color) {
         val tail = o.lastChild;
