@@ -53,6 +53,12 @@ public class ValkyrieListNode extends ValkyrieElement implements ValkyrieList {
 
   @Override
   @NotNull
+  public List<ValkyrieString> getStringList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieString.class);
+  }
+
+  @Override
+  @NotNull
   public List<ValkyrieTuple> getTupleList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTuple.class);
   }

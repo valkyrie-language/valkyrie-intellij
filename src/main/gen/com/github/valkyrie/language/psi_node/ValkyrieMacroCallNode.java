@@ -65,6 +65,12 @@ public class ValkyrieMacroCallNode extends ValkyrieElement implements ValkyrieMa
 
   @Override
   @NotNull
+  public List<ValkyrieString> getStringList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieString.class);
+  }
+
+  @Override
+  @NotNull
   public List<ValkyrieTuple> getTupleList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTuple.class);
   }

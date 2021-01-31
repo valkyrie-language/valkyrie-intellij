@@ -23,6 +23,9 @@ public interface ValkyrieMatchStatement extends PsiElement {
   List<ValkyrieNumber> getNumberList();
 
   @NotNull
+  List<ValkyrieString> getStringList();
+
+  @NotNull
   List<ValkyrieTuple> getTupleList();
 
 }

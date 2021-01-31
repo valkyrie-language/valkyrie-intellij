@@ -26,6 +26,9 @@ public interface ValkyrieMacroCall extends PsiElement {
   List<ValkyriePair> getPairList();
 
   @NotNull
+  List<ValkyrieString> getStringList();
+
+  @NotNull
   List<ValkyrieTuple> getTupleList();
 
 }

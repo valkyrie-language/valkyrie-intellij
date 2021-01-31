@@ -32,6 +32,9 @@ public interface ValkyrieForStatement extends PsiElement {
   ValkyriePattern getPattern();
 
   @NotNull
+  List<ValkyrieString> getStringList();
+
+  @NotNull
   List<ValkyrieTuple> getTupleList();
 
 }

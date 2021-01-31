@@ -26,7 +26,8 @@
         SYMBOL_XID = "Symbol"
         SYMBOL_RAW = "Symbol"
         BYTE = "Byte"
-        STRING_QUOTE = "String Quote"
+        STRING_START = "'"
+        STRING_END = "'"
         STRING_CHAR = "String Character"
         STRING_ESCAPE = "String Escaped"
         STRING_LITERAL = "String Literal"
@@ -178,8 +179,9 @@ function_call ::= namespace [<<parenthesis expression COMMA>>];
 pair          ::= atoms COLON expression;
 list          ::= <<bracket_block expression COMMA>>
 tuple         ::= <<parenthesis expression COMMA>>
-private atoms ::= number | namespace;
+private atoms ::= number | string | namespace;
 number        ::= (BYTE | INTEGER | DECIMAL) [symbol];
+string        ::= [symbol] (STRING_START STRING_CHAR+ STRING_END)
 // ---------------------------------------------------------------------------------------------------------------------
 private meta sequence ::= <<item>> (<<sp>> <<item>>)* [<<sp>>];
 // parenthesis ( )

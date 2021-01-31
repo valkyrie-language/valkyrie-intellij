@@ -11,14 +11,14 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieBitflagLayoutNode extends ValkyrieElement implements ValkyrieBitflagLayout {
+public class ValkyrieStringNode extends ValkyrieElement implements ValkyrieString {
 
-  public ValkyrieBitflagLayoutNode(@NotNull ASTNode node) {
+  public ValkyrieStringNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitBitflagLayout(this);
+    visitor.visitString(this);
   }
 
   @Override
@@ -29,32 +29,8 @@ public class ValkyrieBitflagLayoutNode extends ValkyrieElement implements Valkyr
 
   @Override
   @Nullable
-  public ValkyrieList getList() {
-    return findChildByClass(ValkyrieList.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieNamespace getNamespace() {
-    return findChildByClass(ValkyrieNamespace.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieNumber getNumber() {
-    return findChildByClass(ValkyrieNumber.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieString getString() {
-    return findChildByClass(ValkyrieString.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieTuple getTuple() {
-    return findChildByClass(ValkyrieTuple.class);
+  public ValkyrieSymbol getSymbol() {
+    return findChildByClass(ValkyrieSymbol.class);
   }
 
 }

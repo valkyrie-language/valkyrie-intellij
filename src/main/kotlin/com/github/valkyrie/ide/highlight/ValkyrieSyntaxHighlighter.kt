@@ -42,7 +42,7 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             BYTE -> Color.INTEGER
             DECIMAL -> Color.DECIMAL
             STRING_CHAR -> Color.STRING
-            STRING_QUOTE, STRING_CHAR -> Color.STRING
+            STRING_START, STRING_END, STRING_CHAR -> Color.STRING
             STRING_ESCAPE -> Color.STRING_ESCAPED
             SYMBOL_XID, SYMBOL_RAW -> Color.IDENTIFIER
             // 注释

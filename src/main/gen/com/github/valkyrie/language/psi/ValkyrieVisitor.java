@@ -151,6 +151,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitString(@NotNull ValkyrieString o) {
+    visitPsiElement(o);
+  }
+
   public void visitSymbol(@NotNull ValkyrieSymbol o) {
     visitPsiElement(o);
   }

@@ -10,7 +10,7 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 %%
 
 %{
-private static int indent_balance = 0;
+private static String quote_balance = "";
 private static IntStack brace_stack = new IntStack(9);
 
 public _ValkyrieLexer() {
@@ -18,7 +18,7 @@ public _ValkyrieLexer() {
     init();
 }
 private static void init() {
-    indent_balance = 0;
+    quote_balance = "";
     brace_stack.clear();
 }
 public void brace_block(int state) {
@@ -60,12 +60,9 @@ public void match_indent() {
     init();
 %eof}
 
-%state StringQuote
 %state Bitflag
 %state ImportExport
-%state TextContextSpace
-%state SelectionStart
-%state SelectionText
+%state StringInside
 
 WHITE_SPACE=[\s\t\r\n]
 COMMENT_DOCUMENT=("///")[^\r\n]*
@@ -73,12 +70,11 @@ COMMENT_LINE = ("//")[^\r\n]*
 //COMMENT_BLOCK=[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]
 SYMBOL_XID=[\p{XID_Start}_][\p{XID_Continue}]*
 SYMBOL_RAW=`([^`\\]|\\.)*`
-STRING=\"([^\"\\]|\\.)*\"
 BYTE=(0[bBoOxXfF][0-9A-Fa-f][0-9A-Fa-f_]*)
 INTEGER=0|[1-9][0-9_]*
 DECIMAL=[0-9]+\.[0-9]+
 
-ESCAPE_SPECIAL= \\[^]
+ESCAPE_SPECIAL= \\.
 ESCAPE_UNICODE= \\(u{HEX}{4}|U{HEX}{6})
 HEX = [0-9a-fA-F]
 
@@ -190,15 +186,25 @@ HEX = [0-9a-fA-F]
 }
 // =====================================================================================================================
 // String escaped highlight
-<StringQuote> {
-	{ESCAPE_UNICODE} {return STRING_ESCAPE;}
-	{ESCAPE_SPECIAL} {return STRING_ESCAPE;}
-	[^\"]+ {return STRING_CHAR;}
+//<StringQuote> {
+//{ESCAPE_UNICODE} {return STRING_ESCAPE;}
+//{ESCAPE_SPECIAL} {return STRING_ESCAPE;}
+//[^\"]+ {return STRING_CHAR;}
+//}
+<YYINITIAL> \'+ | \"+ {
+    quote_balance = yytext().toString();
+    yybegin(StringInside);
+    return STRING_START;
 }
-
-<StringQuote> \" {
-	yybegin(YYINITIAL);
-	return STRING_QUOTE;
+<StringInside> \'+ | \"+ {
+    if(yytext().toString() == quote_balance) {
+        yybegin(YYINITIAL);
+        return STRING_END;
+    }
+    return STRING_CHAR;
+}
+<StringInside> [^\'\"]+ {
+    return STRING_CHAR;
 }
 // =====================================================================================================================
 [^] { return BAD_CHARACTER; }

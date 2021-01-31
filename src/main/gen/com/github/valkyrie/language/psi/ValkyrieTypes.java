@@ -44,6 +44,7 @@ public interface ValkyrieTypes {
   IElementType NUMBER = new ValkyrieElementType("NUMBER");
   IElementType PAIR = new ValkyrieElementType("PAIR");
   IElementType PATTERN = new ValkyrieElementType("PATTERN");
+  IElementType STRING = new ValkyrieElementType("STRING");
   IElementType SYMBOL = new ValkyrieElementType("SYMBOL");
   IElementType TRAIT_STATEMENT = new ValkyrieElementType("TRAIT_STATEMENT");
   IElementType TUPLE = new ValkyrieElementType("TUPLE");
@@ -104,9 +105,10 @@ public interface ValkyrieTypes {
   IElementType SEMICOLON = new ValkyrieTokenType(";");
   IElementType STAR = new ValkyrieTokenType("*");
   IElementType STRING_CHAR = new ValkyrieTokenType("String Character");
+  IElementType STRING_END = new ValkyrieTokenType("'");
   IElementType STRING_ESCAPE = new ValkyrieTokenType("String Escaped");
   IElementType STRING_LITERAL = new ValkyrieTokenType("String Literal");
-  IElementType STRING_QUOTE = new ValkyrieTokenType("String Quote");
+  IElementType STRING_START = new ValkyrieTokenType("STRING_START");
   IElementType SYMBOL_RAW = new ValkyrieTokenType("Symbol");
   IElementType SYMBOL_XID = new ValkyrieTokenType("SYMBOL_XID");
   IElementType TO = new ValkyrieTokenType("->");
@@ -228,6 +230,9 @@ public interface ValkyrieTypes {
       }
       else if (type == PATTERN) {
         return new ValkyriePatternNode(node);
+      }
+      else if (type == STRING) {
+        return new ValkyrieStringNode(node);
       }
       else if (type == SYMBOL) {
         return new ValkyrieSymbolNode(node);

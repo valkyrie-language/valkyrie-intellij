@@ -53,6 +53,12 @@ public class ValkyrieBitflagItemNode extends ValkyrieElement implements Valkyrie
 
   @Override
   @NotNull
+  public List<ValkyrieString> getStringList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieString.class);
+  }
+
+  @Override
+  @NotNull
   public ValkyrieSymbol getSymbol() {
     return findNotNullChildByClass(ValkyrieSymbol.class);
   }
