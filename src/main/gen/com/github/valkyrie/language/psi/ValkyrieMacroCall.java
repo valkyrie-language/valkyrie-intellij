@@ -11,7 +11,7 @@ public interface ValkyrieMacroCall extends PsiElement {
   List<ValkyrieBoolean> getBooleanList();
 
   @NotNull
-  List<ValkyrieFunctionCall> getFunctionCallList();
+  List<ValkyrieCallSuffix> getCallSuffixList();
 
   @NotNull
   List<ValkyrieList> getListList();
@@ -29,9 +29,15 @@ public interface ValkyrieMacroCall extends PsiElement {
   List<ValkyriePair> getPairList();
 
   @NotNull
+  List<ValkyrieSliceSuffix> getSliceSuffixList();
+
+  @NotNull
   List<ValkyrieString> getStringList();
 
   @NotNull
   List<ValkyrieTuple> getTupleList();
+
+  @NotNull
+  List<ValkyrieTurboSuffix> getTurboSuffixList();
 
 }

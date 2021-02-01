@@ -11,14 +11,14 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyriePairNode extends ValkyrieElement implements ValkyriePair {
+public class ValkyrieTurboSuffixNode extends ValkyrieElement implements ValkyrieTurboSuffix {
 
-  public ValkyriePairNode(@NotNull ASTNode node) {
+  public ValkyrieTurboSuffixNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitPair(this);
+    visitor.visitTurboSuffix(this);
   }
 
   @Override

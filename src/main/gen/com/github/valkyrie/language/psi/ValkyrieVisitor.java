@@ -39,6 +39,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitCallSuffix(@NotNull ValkyrieCallSuffix o) {
+    visitPsiElement(o);
+  }
+
   public void visitCasePattern(@NotNull ValkyrieCasePattern o) {
     visitPsiElement(o);
   }
@@ -88,10 +92,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitForStatement(@NotNull ValkyrieForStatement o) {
-    visitPsiElement(o);
-  }
-
-  public void visitFunctionCall(@NotNull ValkyrieFunctionCall o) {
     visitPsiElement(o);
   }
 
@@ -159,6 +159,14 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitSliceExpression(@NotNull ValkyrieSliceExpression o) {
+    visitPsiElement(o);
+  }
+
+  public void visitSliceSuffix(@NotNull ValkyrieSliceSuffix o) {
+    visitPsiElement(o);
+  }
+
   public void visitString(@NotNull ValkyrieString o) {
     visitPsiElement(o);
   }
@@ -176,6 +184,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitTuple(@NotNull ValkyrieTuple o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTurboSuffix(@NotNull ValkyrieTurboSuffix o) {
     visitPsiElement(o);
   }
 

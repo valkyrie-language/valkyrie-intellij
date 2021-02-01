@@ -166,6 +166,8 @@ HEX = [0-9a-fA-F]
     ">" { return ANGLE_R; }
     "[" { return BRACKET_L; }
     "]" { return BRACKET_R; }
+    "(" { return PARENTHESIS_L; }
+    ")" { return PARENTHESIS_R; }
     "^" { return ACCENT; }
     // :
     "∷" | "::" { return PROPORTION; }

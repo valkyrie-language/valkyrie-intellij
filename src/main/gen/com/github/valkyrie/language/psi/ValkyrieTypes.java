@@ -16,6 +16,7 @@ public interface ValkyrieTypes {
   IElementType BITFLAG_STATEMENT = new ValkyrieElementType("BITFLAG_STATEMENT");
   IElementType BLOCK = new ValkyrieElementType("BLOCK");
   IElementType BOOLEAN = new ValkyrieElementType("BOOLEAN");
+  IElementType CALL_SUFFIX = new ValkyrieElementType("CALL_SUFFIX");
   IElementType CASE_PATTERN = new ValkyrieElementType("CASE_PATTERN");
   IElementType CLASS_STATEMENT = new ValkyrieElementType("CLASS_STATEMENT");
   IElementType CONDITION = new ValkyrieElementType("CONDITION");
@@ -29,7 +30,6 @@ public interface ValkyrieTypes {
   IElementType EXPORT_STATEMENT = new ValkyrieElementType("EXPORT_STATEMENT");
   IElementType EXTENDS_STATEMENT = new ValkyrieElementType("EXTENDS_STATEMENT");
   IElementType FOR_STATEMENT = new ValkyrieElementType("FOR_STATEMENT");
-  IElementType FUNCTION_CALL = new ValkyrieElementType("FUNCTION_CALL");
   IElementType IF_GUARD = new ValkyrieElementType("IF_GUARD");
   IElementType IF_STATEMENT = new ValkyrieElementType("IF_STATEMENT");
   IElementType IMPORT_BLOCK = new ValkyrieElementType("IMPORT_BLOCK");
@@ -46,11 +46,14 @@ public interface ValkyrieTypes {
   IElementType NUMBER_LITERAL = new ValkyrieElementType("NUMBER_LITERAL");
   IElementType PAIR = new ValkyrieElementType("PAIR");
   IElementType PATTERN = new ValkyrieElementType("PATTERN");
+  IElementType SLICE_EXPRESSION = new ValkyrieElementType("SLICE_EXPRESSION");
+  IElementType SLICE_SUFFIX = new ValkyrieElementType("SLICE_SUFFIX");
   IElementType STRING = new ValkyrieElementType("STRING");
   IElementType STRING_LITERAL = new ValkyrieElementType("STRING_LITERAL");
   IElementType SYMBOL = new ValkyrieElementType("SYMBOL");
   IElementType TRAIT_STATEMENT = new ValkyrieElementType("TRAIT_STATEMENT");
   IElementType TUPLE = new ValkyrieElementType("TUPLE");
+  IElementType TURBO_SUFFIX = new ValkyrieElementType("TURBO_SUFFIX");
   IElementType TYPE_STATEMENT = new ValkyrieElementType("TYPE_STATEMENT");
   IElementType VARIANT_STATEMENT = new ValkyrieElementType("VARIANT_STATEMENT");
   IElementType WHILE_STATEMENT = new ValkyrieElementType("WHILE_STATEMENT");
@@ -149,6 +152,9 @@ public interface ValkyrieTypes {
       else if (type == BOOLEAN) {
         return new ValkyrieBooleanNode(node);
       }
+      else if (type == CALL_SUFFIX) {
+        return new ValkyrieCallSuffixNode(node);
+      }
       else if (type == CASE_PATTERN) {
         return new ValkyrieCasePatternNode(node);
       }
@@ -187,9 +193,6 @@ public interface ValkyrieTypes {
       }
       else if (type == FOR_STATEMENT) {
         return new ValkyrieForStatementNode(node);
-      }
-      else if (type == FUNCTION_CALL) {
-        return new ValkyrieFunctionCallNode(node);
       }
       else if (type == IF_GUARD) {
         return new ValkyrieIfGuardNode(node);
@@ -239,6 +242,12 @@ public interface ValkyrieTypes {
       else if (type == PATTERN) {
         return new ValkyriePatternNode(node);
       }
+      else if (type == SLICE_EXPRESSION) {
+        return new ValkyrieSliceExpressionNode(node);
+      }
+      else if (type == SLICE_SUFFIX) {
+        return new ValkyrieSliceSuffixNode(node);
+      }
       else if (type == STRING) {
         return new ValkyrieStringNode(node);
       }
@@ -253,6 +262,9 @@ public interface ValkyrieTypes {
       }
       else if (type == TUPLE) {
         return new ValkyrieTupleNode(node);
+      }
+      else if (type == TURBO_SUFFIX) {
+        return new ValkyrieTurboSuffixNode(node);
       }
       else if (type == TYPE_STATEMENT) {
         return new ValkyrieTypeStatementNode(node);

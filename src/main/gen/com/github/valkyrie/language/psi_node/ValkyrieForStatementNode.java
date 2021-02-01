@@ -40,15 +40,15 @@ public class ValkyrieForStatementNode extends ValkyrieElement implements Valkyri
   }
 
   @Override
-  @Nullable
-  public ValkyrieElseStatement getElseStatement() {
-    return findChildByClass(ValkyrieElseStatement.class);
+  @NotNull
+  public List<ValkyrieCallSuffix> getCallSuffixList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieCallSuffix.class);
   }
 
   @Override
-  @NotNull
-  public List<ValkyrieFunctionCall> getFunctionCallList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieFunctionCall.class);
+  @Nullable
+  public ValkyrieElseStatement getElseStatement() {
+    return findChildByClass(ValkyrieElseStatement.class);
   }
 
   @Override
@@ -83,6 +83,12 @@ public class ValkyrieForStatementNode extends ValkyrieElement implements Valkyri
 
   @Override
   @NotNull
+  public List<ValkyrieSliceSuffix> getSliceSuffixList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSliceSuffix.class);
+  }
+
+  @Override
+  @NotNull
   public List<ValkyrieString> getStringList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieString.class);
   }
@@ -91,6 +97,12 @@ public class ValkyrieForStatementNode extends ValkyrieElement implements Valkyri
   @NotNull
   public List<ValkyrieTuple> getTupleList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTuple.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ValkyrieTurboSuffix> getTurboSuffixList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTurboSuffix.class);
   }
 
 }

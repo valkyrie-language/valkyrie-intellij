@@ -14,7 +14,7 @@ public interface ValkyrieVariantStatement extends PsiElement {
   List<ValkyrieBoolean> getBooleanList();
 
   @NotNull
-  List<ValkyrieFunctionCall> getFunctionCallList();
+  List<ValkyrieCallSuffix> getCallSuffixList();
 
   @NotNull
   List<ValkyrieList> getListList();
@@ -26,9 +26,15 @@ public interface ValkyrieVariantStatement extends PsiElement {
   List<ValkyrieNumber> getNumberList();
 
   @NotNull
+  List<ValkyrieSliceSuffix> getSliceSuffixList();
+
+  @NotNull
   List<ValkyrieString> getStringList();
 
   @NotNull
   List<ValkyrieTuple> getTupleList();
+
+  @NotNull
+  List<ValkyrieTurboSuffix> getTurboSuffixList();
 
 }

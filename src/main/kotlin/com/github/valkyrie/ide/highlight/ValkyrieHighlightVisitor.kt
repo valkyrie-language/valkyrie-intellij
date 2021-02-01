@@ -58,11 +58,14 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitNumber(o: ValkyrieNumber) {
-        when (o.lastChild) {
-            is ValkyrieSymbol -> {
-                highlight(o.lastChild, Color.OP_NUMBER)
-            }
-            else -> {}
+        o.symbol?.let {
+            highlight(it, Color.OP_NUMBER)
+        }
+    }
+
+    override fun visitString(o: ValkyrieString) {
+        o.symbol?.let {
+            highlight(it, Color.OP_STRING)
         }
     }
 

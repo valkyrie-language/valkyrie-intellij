@@ -127,7 +127,7 @@ pattern ::=
   | [modifiers] <<bracket_block modifiers COMMA>>
   | <<sequence modifiers COMMA>>;
 case_pattern ::=
-      CASE function_call;
+      CASE call_suffix;
 // ---------------------------------------------------------------------------------------------------------------------
 while_statement ::= WHILE expression block;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -156,11 +156,20 @@ extends_statement ::= EXTENDS namespace block;
 private type_expression ::= list | tuple | atoms;
 // ---------------------------------------------------------------------------------------------------------------------
 private expression ::= expr (op_binary expr)* ;
-private expr       ::= op_prefix* term op_suffix*;
-private term       ::= function_call | list | tuple | atoms;
-private op_binary  ::= VERTICAL | LESS | GREATER | UNTIL;
+private expr       ::= op_prefix* term (op_suffix|call_suffix|turbo_suffix|slice_suffix)*;
+private term       ::= list | tuple | atoms;
+private op_binary  ::= VERTICAL | LESS | GREATER | UNTIL | ANGLE_L | ANGLE_R;
 private op_prefix  ::= PLUS | MINUS | NOT;
 private op_suffix  ::= BANG;
+call_suffix        ::= <<parenthesis expression COMMA>>;
+turbo_suffix       ::= PROPORTION <<angle_block expression COMMA>>;
+// ---------------------------------------------------------------------------------------------------------------------
+slice_suffix       ::= <<bracket_block slice_expression COMMA>>;
+slice_expression   ::=
+    [expression] COLON [expression] COLON [expression]
+  | [expression] COLON [expression]
+  | [expression] PROPORTION [expression]
+  | expression;
 // ---------------------------------------------------------------------------------------------------------------------
 namespace ::= [PROPORTION] symbol (PROPORTION symbol)*;
 modifiers ::= namespace*;
@@ -171,8 +180,6 @@ macro_call    ::= macro [
   | <<brace_block pair COMMA>>
   | <<brace_block expression SEMICOLON>>
 ];
-// ---------------------------------------------------------------------------------------------------------------------
-function_call  ::= namespace <<parenthesis expression COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
 pair           ::= atoms COLON expression;
 list           ::= <<bracket_block expression COMMA>>

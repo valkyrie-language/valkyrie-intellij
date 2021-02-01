@@ -11,14 +11,14 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieFunctionCallNode extends ValkyrieElement implements ValkyrieFunctionCall {
+public class ValkyrieSliceExpressionNode extends ValkyrieElement implements ValkyrieSliceExpression {
 
-  public ValkyrieFunctionCallNode(@NotNull ASTNode node) {
+  public ValkyrieSliceExpressionNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitFunctionCall(this);
+    visitor.visitSliceExpression(this);
   }
 
   @Override
@@ -35,8 +35,8 @@ public class ValkyrieFunctionCallNode extends ValkyrieElement implements Valkyri
 
   @Override
   @NotNull
-  public List<ValkyrieFunctionCall> getFunctionCallList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieFunctionCall.class);
+  public List<ValkyrieCallSuffix> getCallSuffixList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieCallSuffix.class);
   }
 
   @Override
@@ -59,6 +59,12 @@ public class ValkyrieFunctionCallNode extends ValkyrieElement implements Valkyri
 
   @Override
   @NotNull
+  public List<ValkyrieSliceSuffix> getSliceSuffixList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSliceSuffix.class);
+  }
+
+  @Override
+  @NotNull
   public List<ValkyrieString> getStringList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieString.class);
   }
@@ -67,6 +73,12 @@ public class ValkyrieFunctionCallNode extends ValkyrieElement implements Valkyri
   @NotNull
   public List<ValkyrieTuple> getTupleList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTuple.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ValkyrieTurboSuffix> getTurboSuffixList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTurboSuffix.class);
   }
 
 }

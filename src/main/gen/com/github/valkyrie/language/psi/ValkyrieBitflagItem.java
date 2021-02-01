@@ -11,7 +11,7 @@ public interface ValkyrieBitflagItem extends PsiElement {
   List<ValkyrieBoolean> getBooleanList();
 
   @NotNull
-  List<ValkyrieFunctionCall> getFunctionCallList();
+  List<ValkyrieCallSuffix> getCallSuffixList();
 
   @NotNull
   List<ValkyrieList> getListList();
@@ -23,6 +23,9 @@ public interface ValkyrieBitflagItem extends PsiElement {
   List<ValkyrieNumber> getNumberList();
 
   @NotNull
+  List<ValkyrieSliceSuffix> getSliceSuffixList();
+
+  @NotNull
   List<ValkyrieString> getStringList();
 
   @NotNull
@@ -30,5 +33,8 @@ public interface ValkyrieBitflagItem extends PsiElement {
 
   @NotNull
   List<ValkyrieTuple> getTupleList();
+
+  @NotNull
+  List<ValkyrieTurboSuffix> getTurboSuffixList();
 
 }
