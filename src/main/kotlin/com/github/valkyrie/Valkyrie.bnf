@@ -47,6 +47,7 @@
         EQ = '=='
         NE = '!='
         COLON = ':'
+        TURBOFISH = "::<"
         PROPORTION = "::"
         SEMICOLON = ';'
         DOT = '.'
@@ -162,7 +163,7 @@ private op_binary  ::= VERTICAL | LESS | GREATER | UNTIL | ANGLE_L | ANGLE_R;
 private op_prefix  ::= PLUS | MINUS | NOT;
 private op_suffix  ::= BANG;
 call_suffix        ::= <<parenthesis expression COMMA>>;
-turbo_suffix       ::= PROPORTION <<angle_block expression COMMA>>;
+turbo_suffix       ::= TURBOFISH [expression (COMMA expression)* [COMMA]] ANGLE_R;
 // ---------------------------------------------------------------------------------------------------------------------
 slice_suffix       ::= <<bracket_block slice_expression COMMA>>;
 slice_expression   ::=

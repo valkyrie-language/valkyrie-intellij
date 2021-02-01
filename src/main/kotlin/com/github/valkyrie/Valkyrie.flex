@@ -170,6 +170,7 @@ HEX = [0-9a-fA-F]
     ")" { return PARENTHESIS_R; }
     "^" { return ACCENT; }
     // :
+    "∷<" | "::<" { return TURBOFISH; }
     "∷" | "::" { return PROPORTION; }
     ":" { return COLON; }
     ";" { return SEMICOLON; }
