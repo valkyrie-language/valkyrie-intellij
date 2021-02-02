@@ -5,7 +5,7 @@ let empty = "";
 let char = 'a';
 let triple = '''a'''
 let raw = r''''a''''
-let template = `t`'a'
+let template = `t`'a{0}'
 let re = re"[^0-9]"
 let json = json"""
 {
@@ -17,7 +17,7 @@ let range = [-1..+1, -a..<+a, "a"..="z", 'A'..<'Z']
 
 let symbol = b;
 let function = a()
-let generic = a ::< a >() > >2;
+let generic = a::<a>()[:, ::, 1::-1, : 0:];
 let a = a[a > 0]
 let a = f"{:?}"(t)
 let a = cf"%d"(t)

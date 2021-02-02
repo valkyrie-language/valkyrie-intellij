@@ -118,8 +118,8 @@ public interface ValkyrieTypes {
   IElementType SYMBOL_XID = new ValkyrieTokenType("SYMBOL_XID");
   IElementType TO = new ValkyrieTokenType("->");
   IElementType TRAIT = new ValkyrieTokenType("trait");
-  IElementType TURBOFISH = new ValkyrieTokenType("::<");
   IElementType TYPE = new ValkyrieTokenType("TYPE");
+  IElementType TYPE_EXPRESSION = new ValkyrieTokenType("type_expression");
   IElementType UNTIL = new ValkyrieTokenType("..");
   IElementType URL = new ValkyrieTokenType("Url");
   IElementType VARIANT = new ValkyrieTokenType("variant");

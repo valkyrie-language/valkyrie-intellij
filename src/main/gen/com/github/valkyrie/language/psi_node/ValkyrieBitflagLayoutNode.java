@@ -27,40 +27,4 @@ public class ValkyrieBitflagLayoutNode extends ValkyrieElement implements Valkyr
     else super.accept(visitor);
   }
 
-  @Override
-  @Nullable
-  public ValkyrieBoolean getBoolean() {
-    return findChildByClass(ValkyrieBoolean.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieList getList() {
-    return findChildByClass(ValkyrieList.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieNamespace getNamespace() {
-    return findChildByClass(ValkyrieNamespace.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieNumber getNumber() {
-    return findChildByClass(ValkyrieNumber.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieString getString() {
-    return findChildByClass(ValkyrieString.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieTuple getTuple() {
-    return findChildByClass(ValkyrieTuple.class);
-  }
-
 }

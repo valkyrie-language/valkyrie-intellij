@@ -47,7 +47,6 @@
         EQ = '=='
         NE = '!='
         COLON = ':'
-        TURBOFISH = "::<"
         PROPORTION = "::"
         SEMICOLON = ';'
         DOT = '.'
@@ -152,21 +151,22 @@ bitflag_block ::= <<brace_block (bitflag_item|macro_call) SEMICOLON>>;
 bitflag_layout ::= PARENTHESIS_L type_expression PARENTHESIS_R;
 bitflag_item ::= symbol BIND expression;
 // ---------------------------------------------------------------------------------------------------------------------
-extends_statement ::= EXTENDS namespace block;
+extends_statement   ::= EXTENDS namespace block;
 // ---------------------------------------------------------------------------------------------------------------------
-private type_expression ::= list | tuple | atoms;
+private expression  ::= expr (op_binary expr)* ;
+private expr        ::= op_prefix* term (op_suffix|call_suffix|turbo_suffix|slice_suffix)*;
+private term        ::= list | tuple | atoms;
+private op_binary   ::= type_binary | ANGLE_L | ANGLE_R;
+private op_prefix   ::= PLUS | MINUS | NOT;
+private op_suffix   ::= BANG;
+call_suffix         ::= <<parenthesis expression COMMA>>;
+turbo_suffix        ::= PROPORTION <<angle_block type_expr COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
-private expression ::= expr (op_binary expr)* ;
-private expr       ::= op_prefix* term (op_suffix|call_suffix|turbo_suffix|slice_suffix)*;
-private term       ::= list | tuple | atoms;
-private op_binary  ::= VERTICAL | LESS | GREATER | UNTIL | ANGLE_L | ANGLE_R;
-private op_prefix  ::= PLUS | MINUS | NOT;
-private op_suffix  ::= BANG;
-call_suffix        ::= <<parenthesis expression COMMA>>;
-turbo_suffix       ::= TURBOFISH [expression (COMMA expression)* [COMMA]] ANGLE_R;
+private type_expr   ::= expr (type_binary expr)*;
+private type_binary ::= VERTICAL | LESS | GREATER | UNTIL;
 // ---------------------------------------------------------------------------------------------------------------------
-slice_suffix       ::= <<bracket_block slice_expression COMMA>>;
-slice_expression   ::=
+slice_suffix        ::= <<bracket_block slice_expression COMMA>>;
+slice_expression    ::=
     [expression] COLON [expression] COLON [expression]
   | [expression] COLON [expression]
   | [expression] PROPORTION [expression]
