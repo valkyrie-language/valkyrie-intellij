@@ -124,24 +124,30 @@ if_statement     ::= (IF condition block) [ef_statement* [else_statement]]
 ef_statement     ::= ELSE IF condition block;
 else_statement   ::= ELSE block;
 block            ::= <<brace_block expression SEMICOLON>>;
-condition        ::= expression;
+condition        ::= case_pattern | expression;
 // ---------------------------------------------------------------------------------------------------------------------
 for_statement    ::= FOR pattern IN expression [if_guard] block [else_statement];
 if_guard         ::= IF condition;
 pattern          ::=
     [modifiers] case_pattern
-  | [modifiers] <<parenthesis modifiers COMMA>>
+  | [modifiers] pattern_tuple
   | [modifiers] <<bracket_block modifiers COMMA>>
   | [modifiers] <<brace_block modifiers COMMA>>
-  | <<sequence modifiers COMMA>>;
+  | pattern_sequence
+  ;
+pattern_tuple    ::= <<parenthesis modifiers COMMA>>;
+pattern_sequence ::= <<sequence modifiers COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
-while_statement ::= WHILE expression block;
+while_statement  ::= WHILE condition block;
 // ---------------------------------------------------------------------------------------------------------------------
-match_statement ::= MATCH expression block;
+match_statement  ::= MATCH expression block;
 // ---------------------------------------------------------------------------------------------------------------------
-let_statement   ::= LET pattern [let_type_hint] [BIND expression];
-let_type_hint   ::= COLON <<sequence type_expr COMMA>>;
-case_pattern    ::= CASE namespace call_suffix;
+let_statement    ::= LET pattern [let_type_hint] [BIND expression];
+let_type_hint    ::= COLON <<sequence type_expr COMMA>>;
+case_pattern     ::= CASE [namespace] (
+    pattern_tuple
+  | <<bracket_block modifiers COMMA>>
+);
 // ---------------------------------------------------------------------------------------------------------------------
 def_statement       ::= DEF expression block;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -181,7 +187,7 @@ slice_expression    ::=
   | expression;
 // ---------------------------------------------------------------------------------------------------------------------
 namespace ::= [PROPORTION] symbol (PROPORTION symbol)*;
-modifiers ::= namespace*;
+modifiers ::= symbol+;
 macro     ::= AT namespace;
 // ---------------------------------------------------------------------------------------------------------------------
 macro_call    ::= macro [

@@ -13,6 +13,9 @@ public interface ValkyrieCondition extends PsiElement {
   @NotNull
   List<ValkyrieCallSuffix> getCallSuffixList();
 
+  @Nullable
+  ValkyrieCasePattern getCasePattern();
+
   @NotNull
   List<ValkyrieList> getListList();
 

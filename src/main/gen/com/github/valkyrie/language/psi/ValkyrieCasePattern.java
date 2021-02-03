@@ -8,9 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieCasePattern extends PsiElement {
 
   @NotNull
-  ValkyrieCallSuffix getCallSuffix();
+  List<ValkyrieModifiers> getModifiersList();
 
-  @NotNull
+  @Nullable
   ValkyrieNamespace getNamespace();
+
+  @Nullable
+  ValkyriePatternTuple getPatternTuple();
 
 }

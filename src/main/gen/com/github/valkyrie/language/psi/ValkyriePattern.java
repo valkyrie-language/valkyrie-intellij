@@ -10,7 +10,13 @@ public interface ValkyriePattern extends PsiElement {
   @Nullable
   ValkyrieCasePattern getCasePattern();
 
-  @NotNull
-  List<ValkyrieModifiers> getModifiersList();
+  @Nullable
+  ValkyrieModifiers getModifiers();
+
+  @Nullable
+  ValkyriePatternSequence getPatternSequence();
+
+  @Nullable
+  ValkyriePatternTuple getPatternTuple();
 
 }

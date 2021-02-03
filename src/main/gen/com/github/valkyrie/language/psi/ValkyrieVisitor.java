@@ -163,6 +163,14 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitPatternSequence(@NotNull ValkyriePatternSequence o) {
+    visitPsiElement(o);
+  }
+
+  public void visitPatternTuple(@NotNull ValkyriePatternTuple o) {
+    visitPsiElement(o);
+  }
+
   public void visitSliceExpression(@NotNull ValkyrieSliceExpression o) {
     visitPsiElement(o);
   }

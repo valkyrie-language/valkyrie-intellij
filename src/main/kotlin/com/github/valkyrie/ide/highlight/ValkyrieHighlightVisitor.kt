@@ -27,9 +27,19 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
 
     override fun visitPattern(o: ValkyriePattern) {
         o.modifiersList.forEach {
-            highlightModifiers(it, Color.SYM_LOCAL)
+            highlightModifiers(it, Color.KEYWORD)
         }
         super.visitPattern(o)
+    }
+
+    override fun visitCasePattern(o: ValkyrieCasePattern) {
+        // TODO: maybe variant
+        o.namespace.let {
+            if (it != null) {
+                highlight(it.lastChild, Color.SYM_CLASS)
+            }
+        }
+        super.visitCasePattern(o)
     }
 
     override fun visitTraitStatement(o: ValkyrieTraitStatement) {
@@ -80,6 +90,8 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     }
 
     // =================================================================================================================
+
+
     private fun highlightModifiers(o: ValkyrieModifiers, last: Color) {
         val tail = o.lastChild;
         highlight(tail, last);

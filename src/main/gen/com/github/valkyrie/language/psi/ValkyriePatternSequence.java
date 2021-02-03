@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieWhileStatement extends PsiElement {
+public interface ValkyriePatternSequence extends PsiElement {
 
   @NotNull
-  ValkyrieBlock getBlock();
-
-  @NotNull
-  ValkyrieCondition getCondition();
+  List<ValkyrieModifiers> getModifiersList();
 
 }

@@ -40,6 +40,12 @@ public class ValkyrieConditionNode extends ValkyrieElement implements ValkyrieCo
   }
 
   @Override
+  @Nullable
+  public ValkyrieCasePattern getCasePattern() {
+    return findChildByClass(ValkyrieCasePattern.class);
+  }
+
+  @Override
   @NotNull
   public List<ValkyrieList> getListList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieList.class);
