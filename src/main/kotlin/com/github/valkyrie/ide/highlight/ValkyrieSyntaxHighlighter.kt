@@ -23,7 +23,7 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
         return when (tokenType) {
             // Keywords
             IMPORT, EXPORT, MODULE -> Color.KEYWORD
-            MATCH, CATCH, EXTENDS -> Color.KEYWORD
+            MATCH, CATCH, EXTENDS, CASE -> Color.KEYWORD
             IF, ELSE, FOR, IN, WHILE -> Color.KEYWORD
             LET, DEF, CLASS, TRAIT, VARIANT, BITFLAG -> Color.KEYWORD
             // ANNOTATION -> JssColor.ANNOTATION
@@ -32,11 +32,11 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             BRACKET_L, BRACKET_R -> Color.BRACKETS
             BRACE_L, BRACE_R -> Color.BRACES
             COLON, BIND -> Color.SET
-            VERTICAL, LESS, GREATER, UNTIL, PLUS, MINUS -> Color.OPERATION_SIGN
-            EQ, NE -> Color.OPERATION_SIGN
-            NOT, BANG -> Color.OPERATION_SIGN
             STAR -> Color.STAR
             COMMA -> Color.COMMA
+            VERTICAL, LESS, GREATER, UNTIL, PLUS, MINUS -> Color.OPERATION_SIGN
+            EQ, NE -> Color.OPERATION_SIGN
+            NOT, BANG,AMP, QUESTION -> Color.OPERATION_SIGN
             // 原子类型
             INTEGER -> Color.INTEGER
             BYTE -> Color.INTEGER

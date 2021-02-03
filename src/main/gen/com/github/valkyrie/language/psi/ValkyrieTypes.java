@@ -60,9 +60,11 @@ public interface ValkyrieTypes {
   IElementType WHILE_STATEMENT = new ValkyrieElementType("WHILE_STATEMENT");
 
   IElementType ACCENT = new ValkyrieTokenType("^");
+  IElementType AMP = new ValkyrieTokenType("&");
   IElementType ANGLE_L = new ValkyrieTokenType("<");
   IElementType ANGLE_R = new ValkyrieTokenType(">");
   IElementType AT = new ValkyrieTokenType("@");
+  IElementType BACKSLASH = new ValkyrieTokenType("\\\\");
   IElementType BANG = new ValkyrieTokenType("!");
   IElementType BIND = new ValkyrieTokenType("=");
   IElementType BITFLAG = new ValkyrieTokenType("bitflag");
@@ -107,9 +109,13 @@ public interface ValkyrieTypes {
   IElementType NOT = new ValkyrieTokenType("NOT");
   IElementType PARENTHESIS_L = new ValkyrieTokenType("(");
   IElementType PARENTHESIS_R = new ValkyrieTokenType(")");
+  IElementType PERCENT = new ValkyrieTokenType("%");
+  IElementType PIPE = new ValkyrieTokenType("|");
   IElementType PLUS = new ValkyrieTokenType("+");
   IElementType PROPORTION = new ValkyrieTokenType("::");
+  IElementType QUESTION = new ValkyrieTokenType("?");
   IElementType SEMICOLON = new ValkyrieTokenType(";");
+  IElementType SLASH = new ValkyrieTokenType("/");
   IElementType STAR = new ValkyrieTokenType("*");
   IElementType STRING_CHAR = new ValkyrieTokenType("String Character");
   IElementType STRING_EMPTY = new ValkyrieTokenType("String Empty");
@@ -117,13 +123,14 @@ public interface ValkyrieTypes {
   IElementType STRING_START = new ValkyrieTokenType("STRING_START");
   IElementType SYMBOL_RAW = new ValkyrieTokenType("Symbol");
   IElementType SYMBOL_XID = new ValkyrieTokenType("SYMBOL_XID");
+  IElementType TILDE = new ValkyrieTokenType("~");
   IElementType TO = new ValkyrieTokenType("->");
   IElementType TRAIT = new ValkyrieTokenType("trait");
   IElementType TYPE = new ValkyrieTokenType("TYPE");
   IElementType UNTIL = new ValkyrieTokenType("..");
   IElementType URL = new ValkyrieTokenType("Url");
   IElementType VARIANT = new ValkyrieTokenType("variant");
-  IElementType VERTICAL = new ValkyrieTokenType("|");
+  IElementType VERTICAL = new ValkyrieTokenType("VERTICAL");
   IElementType WHILE = new ValkyrieTokenType("while");
 
   class Factory {

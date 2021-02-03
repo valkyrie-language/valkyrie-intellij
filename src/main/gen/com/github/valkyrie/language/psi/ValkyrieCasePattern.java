@@ -10,4 +10,7 @@ public interface ValkyrieCasePattern extends PsiElement {
   @NotNull
   ValkyrieCallSuffix getCallSuffix();
 
+  @NotNull
+  ValkyrieNamespace getNamespace();
+
 }

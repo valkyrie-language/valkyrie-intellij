@@ -165,6 +165,10 @@ HEX = [0-9a-fA-F]
         return SYMBOL_XID;
     }
 }
+<Let> ";" {
+    brace_block(YYINITIAL);
+    return SEMICOLON;
+}
 // =====================================================================================================================
 // 遇到了 bitflags 关键词
 <YYINITIAL> "bitflags" | "bitflag" | "bitset" {
@@ -209,6 +213,8 @@ HEX = [0-9a-fA-F]
     "$" { return DOLLAR; }
     "@" { return AT; }
     "#" { return HASH; }
+    "&" { return AMP; }
+    "?" { return QUESTION ; }
     // .
     "..=" | "..<" | ".."  { return UNTIL; }
     "." { return DOT; }

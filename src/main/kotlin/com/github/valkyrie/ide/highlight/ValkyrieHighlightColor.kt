@@ -33,8 +33,15 @@ enum class ValkyrieHighlightColor(humanName: Supplier<@AttributeDescriptor Strin
     SYM_TRAIT(ValkyrieBundle.messagePointer("color.token.symbol.trait"), Default.INTERFACE_NAME),
     SYM_VARIANT(ValkyrieBundle.messagePointer("color.token.symbol.variant"), Default.STATIC_FIELD),
     SYM_MACRO(ValkyrieBundle.messagePointer("color.token.symbol.message"), Default.METADATA),
+    SYM_LOCAL(ValkyrieBundle.messagePointer("color.token.symbol.local"), Default.LOCAL_VARIABLE),
+    SYM_LOCAL_MUT(ValkyrieBundle.messagePointer("color.token.symbol.local.mutable"), Default.REASSIGNED_LOCAL_VARIABLE),
+    SYM_GLOBAL(ValkyrieBundle.messagePointer("color.token.symbol.global"), Default.GLOBAL_VARIABLE),
+    SYM_GLOBAL_MUT(ValkyrieBundle.messagePointer("color.token.symbol.global.mut"), Default.GLOBAL_VARIABLE),
+    SYM_ARG(ValkyrieBundle.messagePointer("color.token.symbol.parameter"), Default.PARAMETER),
+    SYM_ARG_MUT(ValkyrieBundle.messagePointer("color.token.symbol.parameter.mutable"), Default.REASSIGNED_PARAMETER),
+    SYM_ARG_SELF(ValkyrieBundle.messagePointer("color.token.symbol.self"), Default.KEYWORD),
+    SYM_ARG_SELF_MUT(ValkyrieBundle.messagePointer("color.token.symbol.self.mutable"), Default.KEYWORD),
 
-    SYM_VARIABLE(ValkyrieBundle.messagePointer("color.token.symbol.variable"), Default.REASSIGNED_PARAMETER),
     SYM_FUNCTION(ValkyrieBundle.messagePointer("color.token.symbol.function"), Default.PREDEFINED_SYMBOL),
     //
     TYPE_HINT(ValkyrieBundle.messagePointer("color.token.symbol.type"), Default.CLASS_NAME),

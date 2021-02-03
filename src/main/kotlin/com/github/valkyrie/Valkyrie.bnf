@@ -60,6 +60,13 @@
         PLUS = "+"
         VERTICAL = "|"
         BANG = "!"
+        AMP  = "&"
+        TILDE = "~"
+        QUESTION = "?"
+        SLASH = "/"
+        BACKSLASH = "\\"
+        PERCENT = "%"
+        PIPE = "|"
         UNTIL = ".."
         IMPORT = "import"
         EXPORT = "export"
@@ -119,38 +126,38 @@ else_statement   ::= ELSE block;
 block            ::= <<brace_block expression SEMICOLON>>;
 condition        ::= expression;
 // ---------------------------------------------------------------------------------------------------------------------
-for_statement ::= FOR pattern IN expression [if_guard] block [else_statement];
-if_guard ::= IF condition;
-pattern ::=
+for_statement    ::= FOR pattern IN expression [if_guard] block [else_statement];
+if_guard         ::= IF condition;
+pattern          ::=
     [modifiers] case_pattern
   | [modifiers] <<parenthesis modifiers COMMA>>
   | [modifiers] <<bracket_block modifiers COMMA>>
+  | [modifiers] <<brace_block modifiers COMMA>>
   | <<sequence modifiers COMMA>>;
-case_pattern ::=
-      CASE call_suffix;
 // ---------------------------------------------------------------------------------------------------------------------
 while_statement ::= WHILE expression block;
 // ---------------------------------------------------------------------------------------------------------------------
 match_statement ::= MATCH expression block;
 // ---------------------------------------------------------------------------------------------------------------------
-let_statement ::= LET pattern [let_type_hint] BIND expression;
-let_type_hint ::= COLON <<sequence type_expr COMMA>>;
+let_statement   ::= LET pattern [let_type_hint] [BIND expression];
+let_type_hint   ::= COLON <<sequence type_expr COMMA>>;
+case_pattern    ::= CASE namespace call_suffix;
 // ---------------------------------------------------------------------------------------------------------------------
-def_statement ::= DEF expression block;
+def_statement       ::= DEF expression block;
 // ---------------------------------------------------------------------------------------------------------------------
-type_statement ::= TYPE symbol BIND block;
+type_statement      ::= TYPE symbol BIND block;
 // ---------------------------------------------------------------------------------------------------------------------
-class_statement ::= CLASS symbol [auto_derive] block;
-auto_derive ::= COLON <<sequence ([BANG] namespace) PLUS>>;
+class_statement     ::= CLASS symbol [auto_derive] block;
+auto_derive         ::= COLON <<sequence ([BANG] namespace) PLUS>>;
 // ---------------------------------------------------------------------------------------------------------------------
-trait_statement ::= TRAIT symbol block;
+trait_statement     ::= TRAIT symbol block;
 // ---------------------------------------------------------------------------------------------------------------------
-variant_statement ::= VARIANT expression block;
+variant_statement   ::= VARIANT expression block;
 // ---------------------------------------------------------------------------------------------------------------------
-bitflag_statement ::= BITFLAG modifiers [bitflag_layout] [auto_derive] bitflag_block;
-bitflag_block ::= <<brace_block (bitflag_item|macro_call) SEMICOLON>>;
-bitflag_layout ::= PARENTHESIS_L type_expr PARENTHESIS_R;
-bitflag_item ::= symbol BIND expression;
+bitflag_statement   ::= BITFLAG modifiers [bitflag_layout] [auto_derive] bitflag_block;
+bitflag_block       ::= <<brace_block (bitflag_item|macro_call) SEMICOLON>>;
+bitflag_layout      ::= PARENTHESIS_L type_expr PARENTHESIS_R;
+bitflag_item        ::= symbol BIND expression;
 // ---------------------------------------------------------------------------------------------------------------------
 extends_statement   ::= EXTENDS namespace block;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -158,8 +165,8 @@ private expression  ::= expr (op_binary expr)* ;
 private expr        ::= op_prefix* term (op_suffix|call_suffix|turbo_suffix|slice_suffix)*;
 private term        ::= list | tuple | atoms;
 private op_binary   ::= type_binary | ANGLE_L | ANGLE_R | LESS | GREATER | UNTIL;
-private op_prefix   ::= PLUS | MINUS | NOT | BANG;
-private op_suffix   ::= BANG;
+private op_prefix   ::= PLUS | MINUS | NOT | BANG | AMP;
+private op_suffix   ::= BANG | QUESTION;
 call_suffix         ::= <<parenthesis expression COMMA>>;
 turbo_suffix        ::= PROPORTION <<angle_block type_expr COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------

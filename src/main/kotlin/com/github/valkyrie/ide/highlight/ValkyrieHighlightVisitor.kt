@@ -7,7 +7,6 @@ import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType
 import com.intellij.codeInsight.daemon.impl.HighlightVisitor
 import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
-import com.intellij.psi.PsiBinaryFile
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.elementType
@@ -24,6 +23,13 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
         if (o.text.startsWith('@') || o.text.startsWith('#')) {
             highlight(o, Color.SYM_MACRO)
         }
+    }
+
+    override fun visitPattern(o: ValkyriePattern) {
+        o.modifiersList.forEach {
+            highlightModifiers(it, Color.SYM_LOCAL)
+        }
+        super.visitPattern(o)
     }
 
     override fun visitTraitStatement(o: ValkyrieTraitStatement) {

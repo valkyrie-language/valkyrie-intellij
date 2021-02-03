@@ -33,4 +33,10 @@ public class ValkyrieCasePatternNode extends ValkyrieElement implements Valkyrie
     return findNotNullChildByClass(ValkyrieCallSuffix.class);
   }
 
+  @Override
+  @NotNull
+  public ValkyrieNamespace getNamespace() {
+    return findNotNullChildByClass(ValkyrieNamespace.class);
+  }
+
 }
