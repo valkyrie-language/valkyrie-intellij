@@ -40,6 +40,12 @@ public class ValkyrieLetStatementNode extends ValkyrieElement implements Valkyri
   }
 
   @Override
+  @Nullable
+  public ValkyrieLetTypeHint getLetTypeHint() {
+    return findChildByClass(ValkyrieLetTypeHint.class);
+  }
+
+  @Override
   @NotNull
   public List<ValkyrieList> getListList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieList.class);

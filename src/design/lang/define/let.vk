@@ -1,6 +1,6 @@
 let a = [1,2,3]
 
-let `let` a = 1
+let let a = 1
 
 let mut a, b: u32, u32 = [1,2]
 

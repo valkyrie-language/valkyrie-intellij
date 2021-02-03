@@ -115,6 +115,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitLetTypeHint(@NotNull ValkyrieLetTypeHint o) {
+    visitPsiElement(o);
+  }
+
   public void visitList(@NotNull ValkyrieList o) {
     visitPsiElement(o);
   }

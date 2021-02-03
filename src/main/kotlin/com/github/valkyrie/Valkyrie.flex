@@ -10,6 +10,8 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 %%
 
 %{
+private static int let_balance = 0;
+private static boolean case_appearence = false;
 private static String quote_balance = "";
 private static IntStack brace_stack = new IntStack(9);
 
@@ -18,6 +20,8 @@ public _ValkyrieLexer() {
     init();
 }
 private static void init() {
+    let_balance = 0;
+    case_appearence = false;
     quote_balance = "";
     brace_stack.clear();
 }
@@ -39,10 +43,6 @@ public void brace_recover() {
         yybegin(brace_stack.peek());
     }
 }
-
-public void count_indent() {
-    // yytext().last_line.count_indent
-}
 public void match_indent() {
     // length may < indent_balance
     // t = yytext().length() - indent_balance - Length of Newline
@@ -60,8 +60,9 @@ public void match_indent() {
     init();
 %eof}
 
-%state Bitflag
 %state ImportExport
+%state Let
+%state Bitflag
 %state StringInside
 
 WHITE_SPACE=[\s\t\r\n]
@@ -80,7 +81,7 @@ HEX = [0-9a-fA-F]
 
 %%
 
-<YYINITIAL, Bitflag, ImportExport> {
+<YYINITIAL, Bitflag, ImportExport, Let> {
     {COMMENT_DOCUMENT} { return COMMENT_DOCUMENT; }
     {COMMENT_LINE}     { return COMMENT_LINE; }
 //  {COMMENT_BLOCK}    { return COMMENT_BLOCK; }
@@ -101,7 +102,6 @@ HEX = [0-9a-fA-F]
     "in" { return IN; }
     "while" { return WHILE; }
     "match" { return MATCH; }
-    "let" | "var" | "val" { return LET; }
     "def" | "func" | "fn" { return DEF; }
     "type" { return TYPE; }
     "class" | "struct" { return CLASS; }
@@ -134,6 +134,38 @@ HEX = [0-9a-fA-F]
     return BRACE_R;
 }
 // =====================================================================================================================
+// 遇到了 let 关键词
+<YYINITIAL> "let" | "var" | "val" {
+    yybegin(Let);
+    case_appearence = false;
+    return LET;
+}
+<Let> {
+    "(" { let_balance += 1 ; return PARENTHESIS_L; }
+    ")" { let_balance -= 1 ; return PARENTHESIS_R; }
+    "[" { let_balance += 1 ; return BRACKET_L; }
+    "]" { let_balance -= 1 ; return BRACKET_R; }
+    "{" { let_balance += 1 ; return BRACE_L; }
+    "}" { let_balance -= 1 ; return BRACE_R; }
+}
+<Let> "=" {
+    if (let_balance == 0) {
+        yybegin(YYINITIAL);
+        return BIND;
+    }
+    else {
+        return BIND;
+    }
+}
+<Let> "case" {
+    if (case_appearence == false) {
+        return CASE;
+    }
+    else {
+        return SYMBOL_XID;
+    }
+}
+// =====================================================================================================================
 // 遇到了 bitflags 关键词
 <YYINITIAL> "bitflags" | "bitflag" | "bitset" {
     yybegin(Bitflag);
@@ -148,14 +180,14 @@ HEX = [0-9a-fA-F]
     return BRACE_R;
 }
 // =====================================================================================================================
-<YYINITIAL, Bitflag, ImportExport> {
+<YYINITIAL, Bitflag, ImportExport, Let> {
     {BYTE} { return BYTE; }
     {INTEGER} { return INTEGER; }
     {DECIMAL} { return DECIMAL; }
     {SYMBOL_XID} { return SYMBOL_XID; }
     {SYMBOL_RAW} { return SYMBOL_RAW; }
 }
-<YYINITIAL, Bitflag, ImportExport> {
+<YYINITIAL, Bitflag, ImportExport, Let> {
     // !
     "!=" { return NE; }
     "!" { return BANG; }

@@ -5,16 +5,13 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieLetStatement extends PsiElement {
+public interface ValkyrieLetTypeHint extends PsiElement {
 
   @NotNull
   List<ValkyrieBoolean> getBooleanList();
 
   @NotNull
   List<ValkyrieCallSuffix> getCallSuffixList();
-
-  @Nullable
-  ValkyrieLetTypeHint getLetTypeHint();
 
   @NotNull
   List<ValkyrieList> getListList();
@@ -24,9 +21,6 @@ public interface ValkyrieLetStatement extends PsiElement {
 
   @NotNull
   List<ValkyrieNumber> getNumberList();
-
-  @NotNull
-  ValkyriePattern getPattern();
 
   @NotNull
   List<ValkyrieSliceSuffix> getSliceSuffixList();

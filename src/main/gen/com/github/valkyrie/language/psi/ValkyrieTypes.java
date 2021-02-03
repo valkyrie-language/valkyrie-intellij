@@ -35,6 +35,7 @@ public interface ValkyrieTypes {
   IElementType IMPORT_BLOCK = new ValkyrieElementType("IMPORT_BLOCK");
   IElementType IMPORT_STATEMENT = new ValkyrieElementType("IMPORT_STATEMENT");
   IElementType LET_STATEMENT = new ValkyrieElementType("LET_STATEMENT");
+  IElementType LET_TYPE_HINT = new ValkyrieElementType("LET_TYPE_HINT");
   IElementType LIST = new ValkyrieElementType("LIST");
   IElementType MACRO = new ValkyrieElementType("MACRO");
   IElementType MACRO_CALL = new ValkyrieElementType("MACRO_CALL");
@@ -119,7 +120,6 @@ public interface ValkyrieTypes {
   IElementType TO = new ValkyrieTokenType("->");
   IElementType TRAIT = new ValkyrieTokenType("trait");
   IElementType TYPE = new ValkyrieTokenType("TYPE");
-  IElementType TYPE_EXPRESSION = new ValkyrieTokenType("type_expression");
   IElementType UNTIL = new ValkyrieTokenType("..");
   IElementType URL = new ValkyrieTokenType("Url");
   IElementType VARIANT = new ValkyrieTokenType("variant");
@@ -209,6 +209,9 @@ public interface ValkyrieTypes {
       }
       else if (type == LET_STATEMENT) {
         return new ValkyrieLetStatementNode(node);
+      }
+      else if (type == LET_TYPE_HINT) {
+        return new ValkyrieLetTypeHintNode(node);
       }
       else if (type == LIST) {
         return new ValkyrieListNode(node);

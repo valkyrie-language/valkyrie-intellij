@@ -187,14 +187,14 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // PARENTHESIS_L type_expression PARENTHESIS_R
+  // PARENTHESIS_L type_expr PARENTHESIS_R
   public static boolean bitflag_layout(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "bitflag_layout")) return false;
     if (!nextTokenIs(b, PARENTHESIS_L)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, PARENTHESIS_L);
-    r = r && type_expression(b, l + 1);
+    r = r && type_expr(b, l + 1);
     r = r && consumeToken(b, PARENTHESIS_R);
     exit_section_(b, m, BITFLAG_LAYOUT, r);
     return r;
@@ -837,7 +837,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LET pattern BIND expression
+  // LET pattern [let_type_hint] BIND expression
   public static boolean let_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "let_statement")) return false;
     if (!nextTokenIs(b, LET)) return false;
@@ -845,9 +845,30 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = consumeToken(b, LET);
     r = r && pattern(b, l + 1);
+    r = r && let_statement_2(b, l + 1);
     r = r && consumeToken(b, BIND);
     r = r && expression(b, l + 1);
     exit_section_(b, m, LET_STATEMENT, r);
+    return r;
+  }
+
+  // [let_type_hint]
+  private static boolean let_statement_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "let_statement_2")) return false;
+    let_type_hint(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // COLON <<sequence type_expr COMMA>>
+  public static boolean let_type_hint(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "let_type_hint")) return false;
+    if (!nextTokenIs(b, COLON)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COLON);
+    r = r && sequence(b, l + 1, ValkyrieParser::type_expr, COMMA_parser_);
+    exit_section_(b, m, LET_TYPE_HINT, r);
     return r;
   }
 
@@ -1033,27 +1054,28 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // VERTICAL | LESS | GREATER | UNTIL | ANGLE_L | ANGLE_R
+  // type_binary | ANGLE_L | ANGLE_R | LESS | GREATER | UNTIL
   static boolean op_binary(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "op_binary")) return false;
     boolean r;
-    r = consumeToken(b, VERTICAL);
+    r = type_binary(b, l + 1);
+    if (!r) r = consumeToken(b, ANGLE_L);
+    if (!r) r = consumeToken(b, ANGLE_R);
     if (!r) r = consumeToken(b, LESS);
     if (!r) r = consumeToken(b, GREATER);
     if (!r) r = consumeToken(b, UNTIL);
-    if (!r) r = consumeToken(b, ANGLE_L);
-    if (!r) r = consumeToken(b, ANGLE_R);
     return r;
   }
 
   /* ********************************************************** */
-  // PLUS | MINUS | NOT
+  // PLUS | MINUS | NOT | BANG
   static boolean op_prefix(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "op_prefix")) return false;
     boolean r;
     r = consumeToken(b, PLUS);
     if (!r) r = consumeToken(b, MINUS);
     if (!r) r = consumeToken(b, NOT);
+    if (!r) r = consumeToken(b, BANG);
     return r;
   }
 
@@ -1516,75 +1538,62 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // TURBOFISH [expression (COMMA expression)* [COMMA]] ANGLE_R
+  // PROPORTION <<angle_block type_expr COMMA>>
   public static boolean turbo_suffix(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "turbo_suffix")) return false;
-    if (!nextTokenIs(b, TURBOFISH)) return false;
+    if (!nextTokenIs(b, PROPORTION)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, TURBOFISH);
-    r = r && turbo_suffix_1(b, l + 1);
-    r = r && consumeToken(b, ANGLE_R);
+    r = consumeToken(b, PROPORTION);
+    r = r && angle_block(b, l + 1, ValkyrieParser::type_expr, COMMA_parser_);
     exit_section_(b, m, TURBO_SUFFIX, r);
     return r;
   }
 
-  // [expression (COMMA expression)* [COMMA]]
-  private static boolean turbo_suffix_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "turbo_suffix_1")) return false;
-    turbo_suffix_1_0(b, l + 1);
-    return true;
+  /* ********************************************************** */
+  // VERTICAL | EQ | NE | PLUS | MINUS
+  static boolean type_binary(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "type_binary")) return false;
+    boolean r;
+    r = consumeToken(b, VERTICAL);
+    if (!r) r = consumeToken(b, EQ);
+    if (!r) r = consumeToken(b, NE);
+    if (!r) r = consumeToken(b, PLUS);
+    if (!r) r = consumeToken(b, MINUS);
+    return r;
   }
 
-  // expression (COMMA expression)* [COMMA]
-  private static boolean turbo_suffix_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "turbo_suffix_1_0")) return false;
+  /* ********************************************************** */
+  // expr (type_binary expr)*
+  static boolean type_expr(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "type_expr")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = expression(b, l + 1);
-    r = r && turbo_suffix_1_0_1(b, l + 1);
-    r = r && turbo_suffix_1_0_2(b, l + 1);
+    r = expr(b, l + 1);
+    r = r && type_expr_1(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // (COMMA expression)*
-  private static boolean turbo_suffix_1_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "turbo_suffix_1_0_1")) return false;
+  // (type_binary expr)*
+  private static boolean type_expr_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "type_expr_1")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!turbo_suffix_1_0_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "turbo_suffix_1_0_1", c)) break;
+      if (!type_expr_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "type_expr_1", c)) break;
     }
     return true;
   }
 
-  // COMMA expression
-  private static boolean turbo_suffix_1_0_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "turbo_suffix_1_0_1_0")) return false;
+  // type_binary expr
+  private static boolean type_expr_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "type_expr_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, COMMA);
-    r = r && expression(b, l + 1);
+    r = type_binary(b, l + 1);
+    r = r && expr(b, l + 1);
     exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [COMMA]
-  private static boolean turbo_suffix_1_0_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "turbo_suffix_1_0_2")) return false;
-    consumeToken(b, COMMA);
-    return true;
-  }
-
-  /* ********************************************************** */
-  // list | tuple | atoms
-  static boolean type_expression(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "type_expression")) return false;
-    boolean r;
-    r = list(b, l + 1);
-    if (!r) r = tuple(b, l + 1);
-    if (!r) r = atoms(b, l + 1);
     return r;
   }
 

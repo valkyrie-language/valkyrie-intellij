@@ -11,14 +11,14 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieBitflagLayoutNode extends ValkyrieElement implements ValkyrieBitflagLayout {
+public class ValkyrieLetTypeHintNode extends ValkyrieElement implements ValkyrieLetTypeHint {
 
-  public ValkyrieBitflagLayoutNode(@NotNull ASTNode node) {
+  public ValkyrieLetTypeHintNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitBitflagLayout(this);
+    visitor.visitLetTypeHint(this);
   }
 
   @Override

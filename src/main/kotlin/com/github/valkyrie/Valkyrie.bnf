@@ -133,7 +133,8 @@ while_statement ::= WHILE expression block;
 // ---------------------------------------------------------------------------------------------------------------------
 match_statement ::= MATCH expression block;
 // ---------------------------------------------------------------------------------------------------------------------
-let_statement ::= LET pattern BIND expression;
+let_statement ::= LET pattern [let_type_hint] BIND expression;
+let_type_hint ::= COLON <<sequence type_expr COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
 def_statement ::= DEF expression block;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -148,7 +149,7 @@ variant_statement ::= VARIANT expression block;
 // ---------------------------------------------------------------------------------------------------------------------
 bitflag_statement ::= BITFLAG modifiers [bitflag_layout] [auto_derive] bitflag_block;
 bitflag_block ::= <<brace_block (bitflag_item|macro_call) SEMICOLON>>;
-bitflag_layout ::= PARENTHESIS_L type_expression PARENTHESIS_R;
+bitflag_layout ::= PARENTHESIS_L type_expr PARENTHESIS_R;
 bitflag_item ::= symbol BIND expression;
 // ---------------------------------------------------------------------------------------------------------------------
 extends_statement   ::= EXTENDS namespace block;
@@ -156,14 +157,14 @@ extends_statement   ::= EXTENDS namespace block;
 private expression  ::= expr (op_binary expr)* ;
 private expr        ::= op_prefix* term (op_suffix|call_suffix|turbo_suffix|slice_suffix)*;
 private term        ::= list | tuple | atoms;
-private op_binary   ::= type_binary | ANGLE_L | ANGLE_R;
-private op_prefix   ::= PLUS | MINUS | NOT;
+private op_binary   ::= type_binary | ANGLE_L | ANGLE_R | LESS | GREATER | UNTIL;
+private op_prefix   ::= PLUS | MINUS | NOT | BANG;
 private op_suffix   ::= BANG;
 call_suffix         ::= <<parenthesis expression COMMA>>;
 turbo_suffix        ::= PROPORTION <<angle_block type_expr COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
 private type_expr   ::= expr (type_binary expr)*;
-private type_binary ::= VERTICAL | LESS | GREATER | UNTIL;
+private type_binary ::= VERTICAL | EQ | NE | PLUS | MINUS;
 // ---------------------------------------------------------------------------------------------------------------------
 slice_suffix        ::= <<bracket_block slice_expression COMMA>>;
 slice_expression    ::=
