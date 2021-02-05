@@ -167,7 +167,7 @@ bitflag_item        ::= symbol BIND expression;
 // ---------------------------------------------------------------------------------------------------------------------
 extends_statement   ::= EXTENDS namespace block;
 // ---------------------------------------------------------------------------------------------------------------------
-private expression  ::= expr (op_binary expr)* ;
+private expression  ::= expr (op_binary expr)*;
 private expr        ::= op_prefix* term (op_suffix|call_suffix|turbo_suffix|slice_suffix)*;
 private term        ::= list | tuple | atoms;
 private op_binary   ::= type_binary | ANGLE_L | ANGLE_R | LESS | GREATER | UNTIL;

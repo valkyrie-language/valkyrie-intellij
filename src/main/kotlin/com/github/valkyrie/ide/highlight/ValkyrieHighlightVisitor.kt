@@ -25,12 +25,6 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
         }
     }
 
-    override fun visitPattern(o: ValkyriePattern) {
-        o.modifiersList.forEach {
-            highlightModifiers(it, Color.KEYWORD)
-        }
-        super.visitPattern(o)
-    }
 
     override fun visitCasePattern(o: ValkyrieCasePattern) {
         // TODO: maybe variant
@@ -41,6 +35,24 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
         }
         super.visitCasePattern(o)
     }
+
+    override fun visitPattern(o: ValkyriePattern) {
+        o.modifiers.let {
+            if (it != null) {
+                highlight(it, Color.KEYWORD)
+            }
+        }
+        super.visitPattern(o)
+    }
+
+    override fun visitPatternSequence(o: ValkyriePatternSequence) {
+        // TODO: maybe global
+        o.modifiersList.forEach {
+            highlightModifiersMutable(it, false)
+        }
+        super.visitPatternSequence(o)
+    }
+
 
     override fun visitTraitStatement(o: ValkyrieTraitStatement) {
         val head = o.firstChild;
@@ -92,18 +104,36 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     // =================================================================================================================
 
 
-    private fun highlightModifiers(o: ValkyrieModifiers, last: Color) {
+    private fun highlightModifiers(o: ValkyrieModifiers, last_color: Color) {
         val tail = o.lastChild;
-        highlight(tail, last);
+        highlight(tail, last_color);
         var node = tail.prevSibling;
         while (node != null) {
-            when (node) {
-                is ValkyrieNamespace -> {
-                    highlight(node.lastChild, Color.KEYWORD);
-                }
-                else -> {}
-            }
+            highlight(node.lastChild, Color.KEYWORD);
             node = node.prevSibling;
+        }
+    }
+
+    private fun highlightModifiersMutable(o: ValkyrieModifiers, global: Boolean = false) {
+        var mut = false;
+        val tail = o.lastChild;
+        var node = tail.prevSibling;
+        while (node != null) {
+            if (node.text == "mut") {
+                mut = true;
+            }
+            highlight(node, Color.KEYWORD);
+            node = node.prevSibling;
+        }
+        when (global) {
+            true -> when (mut) {
+                true -> highlight(tail, Color.SYM_GLOBAL_MUT);
+                false -> highlight(tail, Color.SYM_GLOBAL);
+            }
+            false -> when (mut) {
+                true -> highlight(tail, Color.SYM_LOCAL_MUT);
+                false -> highlight(tail, Color.SYM_LOCAL);
+            }
         }
     }
 
