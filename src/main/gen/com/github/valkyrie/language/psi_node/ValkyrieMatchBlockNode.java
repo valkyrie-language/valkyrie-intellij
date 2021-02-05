@@ -11,14 +11,14 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieNamespaceNode extends ValkyrieElement implements ValkyrieNamespace {
+public class ValkyrieMatchBlockNode extends ValkyrieElement implements ValkyrieMatchBlock {
 
-  public ValkyrieNamespaceNode(@NotNull ASTNode node) {
+  public ValkyrieMatchBlockNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitNamespace(this);
+    visitor.visitMatchBlock(this);
   }
 
   @Override
@@ -29,8 +29,8 @@ public class ValkyrieNamespaceNode extends ValkyrieElement implements ValkyrieNa
 
   @Override
   @NotNull
-  public List<ValkyrieSymbol> getSymbolList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSymbol.class);
+  public List<ValkyrieMatchExpression> getMatchExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieMatchExpression.class);
   }
 
 }

@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieMatchStatement extends PsiElement {
 
   @NotNull
-  ValkyrieBlock getBlock();
-
-  @NotNull
   List<ValkyrieBoolean> getBooleanList();
 
   @NotNull
@@ -18,6 +15,9 @@ public interface ValkyrieMatchStatement extends PsiElement {
 
   @NotNull
   List<ValkyrieList> getListList();
+
+  @NotNull
+  ValkyrieMatchBlock getMatchBlock();
 
   @NotNull
   List<ValkyrieNamespace> getNamespaceList();

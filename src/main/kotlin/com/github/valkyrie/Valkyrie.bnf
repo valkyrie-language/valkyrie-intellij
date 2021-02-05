@@ -88,24 +88,26 @@
     ]
 }
 
-valkyrie ::= (statements [SEMICOLON])*
-private statements ::=
+valkyrie ::= ((normal_statements|top_statements) [SEMICOLON])*
+private top_statements ::=
     module_statement
   | import_statement
   | export_statement
-  | if_statement
-  | for_statement
-  | while_statement
-  | match_statement
-  | let_statement
-  | def_statement
-  | type_statement
   | class_statement
   | trait_statement
   | variant_statement
   | bitflag_statement
   | extends_statement
   | SEMICOLON
+  ;
+private normal_statements ::=
+    if_statement
+  | for_statement
+  | while_statement
+  | match_statement
+  | let_statement
+  | def_statement
+  | type_statement
   ;
 // ---------------------------------------------------------------------------------------------------------------------
 module_statement ::= MODULE IDENTIFIER;
@@ -140,7 +142,9 @@ pattern_sequence ::= <<sequence modifiers COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
 while_statement  ::= WHILE condition block;
 // ---------------------------------------------------------------------------------------------------------------------
-match_statement  ::= MATCH expression block;
+match_statement  ::= MATCH expression match_block;
+match_block      ::= <<brace_block match_expression SEMICOLON>>;
+match_expression ::= case_pattern COLON (normal_statements [SEMICOLON])+
 // ---------------------------------------------------------------------------------------------------------------------
 let_statement    ::= LET pattern [let_type_hint] [BIND expression];
 let_type_hint    ::= COLON <<sequence type_expr COMMA>>;

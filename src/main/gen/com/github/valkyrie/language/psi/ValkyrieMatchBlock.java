@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieMacro extends PsiElement {
+public interface ValkyrieMatchBlock extends PsiElement {
 
   @NotNull
-  ValkyrieNamespace getNamespace();
+  List<ValkyrieMatchExpression> getMatchExpressionList();
 
 }

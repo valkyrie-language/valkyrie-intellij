@@ -131,6 +131,14 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitMatchBlock(@NotNull ValkyrieMatchBlock o) {
+    visitPsiElement(o);
+  }
+
+  public void visitMatchExpression(@NotNull ValkyrieMatchExpression o) {
+    visitPsiElement(o);
+  }
+
   public void visitMatchStatement(@NotNull ValkyrieMatchStatement o) {
     visitPsiElement(o);
   }

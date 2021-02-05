@@ -39,6 +39,8 @@ public interface ValkyrieTypes {
   IElementType LIST = new ValkyrieElementType("LIST");
   IElementType MACRO = new ValkyrieElementType("MACRO");
   IElementType MACRO_CALL = new ValkyrieElementType("MACRO_CALL");
+  IElementType MATCH_BLOCK = new ValkyrieElementType("MATCH_BLOCK");
+  IElementType MATCH_EXPRESSION = new ValkyrieElementType("MATCH_EXPRESSION");
   IElementType MATCH_STATEMENT = new ValkyrieElementType("MATCH_STATEMENT");
   IElementType MODIFIERS = new ValkyrieElementType("MODIFIERS");
   IElementType MODULE_STATEMENT = new ValkyrieElementType("MODULE_STATEMENT");
@@ -230,6 +232,12 @@ public interface ValkyrieTypes {
       }
       else if (type == MACRO_CALL) {
         return new ValkyrieMacroCallNode(node);
+      }
+      else if (type == MATCH_BLOCK) {
+        return new ValkyrieMatchBlockNode(node);
+      }
+      else if (type == MATCH_EXPRESSION) {
+        return new ValkyrieMatchExpressionNode(node);
       }
       else if (type == MATCH_STATEMENT) {
         return new ValkyrieMatchStatementNode(node);

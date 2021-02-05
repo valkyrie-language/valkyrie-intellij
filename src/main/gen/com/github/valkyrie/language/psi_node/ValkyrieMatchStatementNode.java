@@ -29,12 +29,6 @@ public class ValkyrieMatchStatementNode extends ValkyrieElement implements Valky
 
   @Override
   @NotNull
-  public ValkyrieBlock getBlock() {
-    return findNotNullChildByClass(ValkyrieBlock.class);
-  }
-
-  @Override
-  @NotNull
   public List<ValkyrieBoolean> getBooleanList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieBoolean.class);
   }
@@ -49,6 +43,12 @@ public class ValkyrieMatchStatementNode extends ValkyrieElement implements Valky
   @NotNull
   public List<ValkyrieList> getListList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieList.class);
+  }
+
+  @Override
+  @NotNull
+  public ValkyrieMatchBlock getMatchBlock() {
+    return findNotNullChildByClass(ValkyrieMatchBlock.class);
   }
 
   @Override
