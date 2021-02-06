@@ -12,7 +12,7 @@ class ValkyrieFileType private constructor() : LanguageFileType(ValkyrieLanguage
 
     override fun getDefaultExtension(): String = ValkyrieLanguage.Extensions
 
-    override fun getIcon(): Icon = ValkyrieIconProvider.FluentFile
+    override fun getIcon(): Icon = ValkyrieIconProvider.IconSVG
 
     companion object {
         @JvmStatic

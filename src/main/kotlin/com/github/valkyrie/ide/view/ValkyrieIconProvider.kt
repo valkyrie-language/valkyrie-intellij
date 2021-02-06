@@ -10,12 +10,12 @@ class ValkyrieIconProvider : IconProvider() {
         val fileName = psiElement.containingFile.name
 
         return when {
-            fileName.endsWith(".vk") -> FluentFile
+            fileName.endsWith(".vk") -> IconSVG
             else -> null
         }
     }
 
     companion object {
-        val FluentFile = IconLoader.getIcon("/icons/vk.svg", ValkyrieIconProvider::class.java)
+        val IconSVG = IconLoader.getIcon("/icons/vk.svg", ValkyrieIconProvider::class.java)
     }
 }

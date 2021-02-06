@@ -2,6 +2,7 @@ package com.github.valkyrie.ide.highlight
 
 
 import com.github.valkyrie.ide.view.ValkyrieFile
+import com.github.valkyrie.language.ast.hasModifier
 import com.github.valkyrie.language.psi.*
 import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType
@@ -15,6 +16,14 @@ import com.github.valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
 class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
+
+    enum class VariableMode {
+        Local,
+        Global,
+        Argument,
+        Self
+    }
+
     override fun visitAs(o: ValkyrieAs) {
         highlight(o, Color.KEYWORD)
     }
@@ -25,56 +34,72 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
         }
     }
 
-
-    override fun visitCasePattern(o: ValkyrieCasePattern) {
-        // TODO: maybe variant
-        o.namespace.let {
-            if (it != null) {
-                highlight(it.lastChild, Color.SYM_CLASS)
-            }
+    private fun visitCasePattern(o: ValkyrieCasePattern, mode: VariableMode, force_mut: Boolean) {
+        o.namespace?.let {
+            highlight(it.lastChild, Color.SYM_CLASS)
+        }
+        o.patternTuple?.let {
+            this.visitPatternTuple(it, mode, force_mut)
         }
         super.visitCasePattern(o)
     }
 
-    override fun visitPattern(o: ValkyriePattern) {
-        o.modifiers.let {
-            if (it != null) {
-                highlight(it, Color.KEYWORD)
-            }
-        }
-        super.visitPattern(o)
+    override fun visitCasePattern(o: ValkyrieCasePattern) {
+        visitCasePattern(o, VariableMode.Local, false)
     }
 
-    override fun visitPatternSequence(o: ValkyriePatternSequence) {
-        // TODO: maybe global
+    override fun visitPattern(o: ValkyriePattern) {
+        val forceMut = o.modifiers.hasModifier("mut")
+        o.modifiers?.let {
+            highlight(it, Color.KEYWORD)
+        }
+        o.patternSequence?.let {
+            this.visitPatternSequence(it, VariableMode.Local, forceMut)
+        }
+        o.patternTuple?.let {
+            this.visitPatternTuple(it, VariableMode.Local, forceMut)
+        }
+        o.casePattern?.let {
+            this.visitCasePattern(it, VariableMode.Local, forceMut)
+        }
+    }
+
+    private fun visitPatternSequence(o: ValkyriePatternSequence, mode: VariableMode, force_mut: Boolean) {
         o.modifiersList.forEach {
-            highlightModifiersMutable(it, false)
+            highlightVariableWithModifiers(it, mode, force_mut)
         }
         super.visitPatternSequence(o)
     }
 
+    private fun visitPatternTuple(o: ValkyriePatternTuple, mode: VariableMode, force_mut: Boolean) {
+        o.modifiersList.forEach {
+            highlightVariableWithModifiers(it, mode, force_mut)
+        }
+        super.visitPatternTuple(o)
+    }
+
 
     override fun visitTraitStatement(o: ValkyrieTraitStatement) {
-        val head = o.firstChild;
+        val head = o.firstChild
         val prop = head.nextLeaf { it.elementType == ValkyrieTypes.SYMBOL }!!
         highlight(prop, Color.SYM_TRAIT)
         super.visitTraitStatement(o)
     }
 
     override fun visitClassStatement(o: ValkyrieClassStatement) {
-        val head = o.firstChild;
+        val head = o.firstChild
         val prop = head.nextLeaf { it.elementType == ValkyrieTypes.SYMBOL }!!
         highlight(prop, Color.SYM_CLASS)
         super.visitClassStatement(o)
     }
 
     override fun visitBitflagStatement(o: ValkyrieBitflagStatement) {
-        highlightModifiers(o.modifiers, Color.SYM_CLASS);
+        highlightModifiers(o.modifiers, Color.SYM_CLASS)
         super.visitBitflagStatement(o)
     }
 
     override fun visitBitflagItem(o: ValkyrieBitflagItem) {
-        highlight(o.symbol, Color.SYM_VARIANT);
+        highlight(o.symbol, Color.SYM_VARIANT)
         super.visitBitflagItem(o)
     }
 
@@ -105,35 +130,31 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
 
 
     private fun highlightModifiers(o: ValkyrieModifiers, last_color: Color) {
-        val tail = o.lastChild;
-        highlight(tail, last_color);
-        var node = tail.prevSibling;
+        val tail = o.lastChild
+        highlight(tail, last_color)
+        var node = tail.prevSibling
         while (node != null) {
-            highlight(node.lastChild, Color.KEYWORD);
-            node = node.prevSibling;
+            highlight(node, Color.KEYWORD)
+            node = node.prevSibling
         }
     }
 
-    private fun highlightModifiersMutable(o: ValkyrieModifiers, global: Boolean = false) {
-        var mut = false;
-        val tail = o.lastChild;
-        var node = tail.prevSibling;
-        while (node != null) {
-            if (node.text == "mut") {
-                mut = true;
-            }
-            highlight(node, Color.KEYWORD);
-            node = node.prevSibling;
+    private fun highlightVariableWithModifiers(o: ValkyrieModifiers, mode: VariableMode, force_mut: Boolean = false) {
+        val mut = when (force_mut) {
+            true -> true
+            false -> o.hasModifier("mut")
         }
-        when (global) {
-            true -> when (mut) {
-                true -> highlight(tail, Color.SYM_GLOBAL_MUT);
-                false -> highlight(tail, Color.SYM_GLOBAL);
-            }
-            false -> when (mut) {
-                true -> highlight(tail, Color.SYM_LOCAL_MUT);
-                false -> highlight(tail, Color.SYM_LOCAL);
-            }
+        val tail = o.lastChild
+        var node = tail.prevSibling
+        while (node != null) {
+            highlight(node, Color.KEYWORD)
+            node = node.prevSibling
+        }
+        when (mode) {
+            VariableMode.Local -> highlight(tail, if (mut) Color.SYM_LOCAL_MUT else Color.SYM_LOCAL)
+            VariableMode.Global -> highlight(tail, if (mut) Color.SYM_GLOBAL_MUT else Color.SYM_GLOBAL)
+            VariableMode.Argument -> highlight(tail, if (mut) Color.SYM_ARG_MUT else Color.SYM_ARG)
+            VariableMode.Self -> highlight(tail, if (mut) Color.SYM_ARG_SELF_MUT else Color.SYM_ARG_SELF)
         }
     }
 

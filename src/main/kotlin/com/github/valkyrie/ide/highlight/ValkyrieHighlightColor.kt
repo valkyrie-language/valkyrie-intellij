@@ -13,9 +13,6 @@ import com.github.valkyrie.ValkyrieBundle;
 enum class ValkyrieHighlightColor(humanName: Supplier<@AttributeDescriptor String>, default: TextAttributesKey? = null) {
     // 特殊关键词
     KEYWORD(OptionsBundle.messagePointer("options.language.defaults.keyword"), Default.KEYWORD),
-    IDIOM_SYMBOL(ValkyrieBundle.messagePointer("color.token.symbol.idiom"), Default.METADATA),
-    IDIOM_MARK(ValkyrieBundle.messagePointer("color.token.idiom_mark"), IDIOM_SYMBOL.textAttributesKey),
-    PROP_MARK(ValkyrieBundle.messagePointer("color.token.properties_mark"), KEYWORD.textAttributesKey),
 
     // 字面量
     NULL(ValkyrieBundle.messagePointer("color.token.null"), Default.KEYWORD),
@@ -32,7 +29,7 @@ enum class ValkyrieHighlightColor(humanName: Supplier<@AttributeDescriptor Strin
     SYM_CLASS(ValkyrieBundle.messagePointer("color.token.symbol.class"), Default.CLASS_NAME),
     SYM_TRAIT(ValkyrieBundle.messagePointer("color.token.symbol.trait"), Default.INTERFACE_NAME),
     SYM_VARIANT(ValkyrieBundle.messagePointer("color.token.symbol.variant"), Default.STATIC_FIELD),
-    SYM_MACRO(ValkyrieBundle.messagePointer("color.token.symbol.message"), Default.METADATA),
+    SYM_MACRO(ValkyrieBundle.messagePointer("color.token.symbol.macro"), Default.METADATA),
     SYM_LOCAL(ValkyrieBundle.messagePointer("color.token.symbol.local"), Default.LOCAL_VARIABLE),
     SYM_LOCAL_MUT(ValkyrieBundle.messagePointer("color.token.symbol.local.mutable"), Default.REASSIGNED_LOCAL_VARIABLE),
     SYM_GLOBAL(ValkyrieBundle.messagePointer("color.token.symbol.global"), Default.GLOBAL_VARIABLE),
