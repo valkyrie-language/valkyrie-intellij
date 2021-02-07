@@ -233,10 +233,10 @@ HEX = [0-9a-fA-F]
     "&" { return AMP; }
     "?" { return QUESTION ; }
     // .
-    "..." { return UNTIL; }
-    "..=" { return UNTIL; }
-    "..<" { return UNTIL; }
-    ".."  { return UNTIL; }
+    "..." { return DOT3 ; }
+    "..=" { return DOT_EQ; }
+    "..<" { return DOT_LESS; }
+    ".."  { return DOT2; }
     "." { return DOT; }
     "," { return COMMA; }
     "+" { return PLUS; }

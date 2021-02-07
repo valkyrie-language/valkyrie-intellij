@@ -11,6 +11,9 @@ public interface ValkyriePattern extends PsiElement {
   ValkyrieModifiers getModifiers();
 
   @Nullable
+  ValkyriePatternBrace getPatternBrace();
+
+  @Nullable
   ValkyriePatternBracket getPatternBracket();
 
   @Nullable

@@ -49,7 +49,11 @@ public interface ValkyrieTypes {
   IElementType NUMBER_LITERAL = new ValkyrieElementType("NUMBER_LITERAL");
   IElementType PAIR = new ValkyrieElementType("PAIR");
   IElementType PATTERN = new ValkyrieElementType("PATTERN");
+  IElementType PATTERN_BRACE = new ValkyrieElementType("PATTERN_BRACE");
   IElementType PATTERN_BRACKET = new ValkyrieElementType("PATTERN_BRACKET");
+  IElementType PATTERN_ITEM = new ValkyrieElementType("PATTERN_ITEM");
+  IElementType PATTERN_PAIR = new ValkyrieElementType("PATTERN_PAIR");
+  IElementType PATTERN_REST = new ValkyrieElementType("PATTERN_REST");
   IElementType PATTERN_SEQUENCE = new ValkyrieElementType("PATTERN_SEQUENCE");
   IElementType PATTERN_TUPLE = new ValkyrieElementType("PATTERN_TUPLE");
   IElementType SLICE_EXPRESSION = new ValkyrieElementType("SLICE_EXPRESSION");
@@ -91,6 +95,10 @@ public interface ValkyrieTypes {
   IElementType DEF = new ValkyrieTokenType("def");
   IElementType DOLLAR = new ValkyrieTokenType("$");
   IElementType DOT = new ValkyrieTokenType(".");
+  IElementType DOT2 = new ValkyrieTokenType("..");
+  IElementType DOT3 = new ValkyrieTokenType("...");
+  IElementType DOT_EQ = new ValkyrieTokenType("..=");
+  IElementType DOT_LESS = new ValkyrieTokenType("..<");
   IElementType ELSE = new ValkyrieTokenType("else");
   IElementType EQ = new ValkyrieTokenType("==");
   IElementType EXPORT = new ValkyrieTokenType("export");
@@ -132,7 +140,6 @@ public interface ValkyrieTypes {
   IElementType TO = new ValkyrieTokenType("->");
   IElementType TRAIT = new ValkyrieTokenType("trait");
   IElementType TYPE = new ValkyrieTokenType("TYPE");
-  IElementType UNTIL = new ValkyrieTokenType("..");
   IElementType URL = new ValkyrieTokenType("Url");
   IElementType VARIANT = new ValkyrieTokenType("variant");
   IElementType VERTICAL = new ValkyrieTokenType("VERTICAL");
@@ -264,8 +271,20 @@ public interface ValkyrieTypes {
       else if (type == PATTERN) {
         return new ValkyriePatternNode(node);
       }
+      else if (type == PATTERN_BRACE) {
+        return new ValkyriePatternBraceNode(node);
+      }
       else if (type == PATTERN_BRACKET) {
         return new ValkyriePatternBracketNode(node);
+      }
+      else if (type == PATTERN_ITEM) {
+        return new ValkyriePatternItemNode(node);
+      }
+      else if (type == PATTERN_PAIR) {
+        return new ValkyriePatternPairNode(node);
+      }
+      else if (type == PATTERN_REST) {
+        return new ValkyriePatternRestNode(node);
       }
       else if (type == PATTERN_SEQUENCE) {
         return new ValkyriePatternSequenceNode(node);

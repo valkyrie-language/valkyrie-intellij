@@ -171,7 +171,23 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitPatternBrace(@NotNull ValkyriePatternBrace o) {
+    visitPsiElement(o);
+  }
+
   public void visitPatternBracket(@NotNull ValkyriePatternBracket o) {
+    visitPsiElement(o);
+  }
+
+  public void visitPatternItem(@NotNull ValkyriePatternItem o) {
+    visitPsiElement(o);
+  }
+
+  public void visitPatternPair(@NotNull ValkyriePatternPair o) {
+    visitPsiElement(o);
+  }
+
+  public void visitPatternRest(@NotNull ValkyriePatternRest o) {
     visitPsiElement(o);
   }
 

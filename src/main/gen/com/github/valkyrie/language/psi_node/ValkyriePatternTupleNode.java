@@ -29,8 +29,8 @@ public class ValkyriePatternTupleNode extends ValkyrieElement implements Valkyri
 
   @Override
   @NotNull
-  public List<ValkyrieModifiers> getModifiersList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieModifiers.class);
+  public List<ValkyriePatternItem> getPatternItemList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyriePatternItem.class);
   }
 
 }

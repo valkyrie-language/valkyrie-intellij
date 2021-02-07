@@ -3,10 +3,13 @@ package com.github.valkyrie.language.ast
 import com.github.valkyrie.ide.formatter.ValkyrieFormatSpace
 import com.github.valkyrie.ide.highlight.ValkyrieHighlightColor
 import com.github.valkyrie.language.psi.ValkyrieModifiers
+import com.github.valkyrie.language.psi.ValkyriePatternRest
+import com.github.valkyrie.language.psi.ValkyrieSymbol
 
 import com.intellij.formatting.Block
 import com.intellij.formatting.Spacing
 import com.intellij.lang.ASTNode
+import com.intellij.psi.PsiElement
 import com.intellij.psi.TokenType
 
 
@@ -18,13 +21,32 @@ fun Block.computeSpacing(child1: Block?, child2: Block, ctx: ValkyrieFormatSpace
     return ctx.spacingBuilder.getSpacing(this, child1, child2)
 }
 
-
-fun ValkyrieModifiers?.hasModifier(modifier: String): Boolean {
-    if (this == null) return false
-    this.symbolList.forEach {
-        if (it.text == modifier) {
-            return true
-        }
+private fun getModifier(node: PsiElement, modifier: String, skip_last: Boolean = true): Boolean {
+    var cur = node.lastChild;
+    if (skip_last) {
+        cur = cur.prevSibling;
+    }
+    while (cur != null) {
+        if (cur.text == modifier) return true;
+        cur = cur.prevSibling;
     }
     return false
 }
+fun ValkyrieModifiers?.hasModifier(modifier: String, skip_last: Boolean = true): Boolean {
+    return getModifier(this as PsiElement, modifier, skip_last)
+}
+
+fun ValkyriePatternRest?.hasModifier(modifier: String, skip_last: Boolean = true): Boolean {
+    return getModifier(this as PsiElement, modifier, skip_last)
+}
+
+fun ValkyrieModifiers?.isMutable(force_mut: Boolean, skip_last: Boolean = true): Boolean = when (force_mut) {
+    true -> true
+    false -> this?.hasModifier("mut", skip_last) ?: false
+}
+
+fun ValkyriePatternRest?.isMutable(force_mut: Boolean, skip_last: Boolean = true): Boolean = when (force_mut) {
+    true -> true
+    false -> this?.hasModifier("mut", skip_last) ?: false
+}
+

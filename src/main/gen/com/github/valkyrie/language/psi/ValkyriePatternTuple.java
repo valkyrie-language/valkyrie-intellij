@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface ValkyriePatternTuple extends PsiElement {
 
   @NotNull
-  List<ValkyrieModifiers> getModifiersList();
+  List<ValkyriePatternItem> getPatternItemList();
 
 }

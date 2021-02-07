@@ -3,6 +3,7 @@ package com.github.valkyrie.ide.highlight
 
 import com.github.valkyrie.ide.view.ValkyrieFile
 import com.github.valkyrie.language.ast.hasModifier
+import com.github.valkyrie.language.ast.isMutable
 import com.github.valkyrie.language.psi.*
 import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType
@@ -17,13 +18,6 @@ import com.github.valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
 
-    enum class VariableMode {
-        Local,
-        Global,
-        Argument,
-        Self
-    }
-
     override fun visitAs(o: ValkyrieAs) {
         highlight(o, Color.KEYWORD)
     }
@@ -34,7 +28,7 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
         }
     }
 
-    private fun visitCasePattern(o: ValkyrieCasePattern, mode: VariableMode, force_mut: Boolean) {
+    private fun visitCasePattern(o: ValkyrieCasePattern, mode: ValkyrieVariableHighlightMode, force_mut: Boolean) {
         o.namespace?.let {
             highlight(it.lastChild, Color.SYM_CLASS)
         }
@@ -45,7 +39,7 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitCasePattern(o: ValkyrieCasePattern) {
-        visitCasePattern(o, VariableMode.Local, false)
+        visitCasePattern(o, ValkyrieVariableHighlightMode.Local, false)
     }
 
     override fun visitPattern(o: ValkyriePattern) {
@@ -53,36 +47,37 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
         o.modifiers?.let {
             highlight(it, Color.KEYWORD)
         }
-        o.patternSequence?.let {
-            this.visitPatternSequence(it, VariableMode.Local, forceMut)
+        o.patternSequence?.let { out ->
+            out.patternItemList.forEach {
+                return this.visitPatternItem(it, ValkyrieVariableHighlightMode.Local, forceMut)
+            }
         }
-        o.patternTuple?.let {
-            this.visitPatternTuple(it, VariableMode.Local, forceMut)
+        o.patternTuple?.let { out ->
+            out.patternItemList.forEach {
+                return this.visitPatternItem(it, ValkyrieVariableHighlightMode.Local, forceMut)
+            }
         }
-        o.patternBracket?.let {
-            this.visitPatternBracket(it, VariableMode.Local, forceMut)
+        o.patternBracket?.let { out ->
+            out.patternItemList.forEach {
+                return this.visitPatternItem(it, ValkyrieVariableHighlightMode.Local, forceMut)
+            }
         }
     }
 
-    private fun visitPatternSequence(o: ValkyriePatternSequence, mode: VariableMode, force_mut: Boolean) {
-        o.modifiersList.forEach {
-            highlightVariableWithModifiers(it, mode, force_mut)
+    private fun visitPatternItem(o: ValkyriePatternItem, mode: ValkyrieVariableHighlightMode, force_mut: Boolean) {
+        o.modifiers?.let {
+            return highlightVariableWithModifiers(it, mode, force_mut)
         }
-        super.visitPatternSequence(o)
+        o.patternRest?.let {
+            return highlightPatternLastWithModifiers(it, mode, force_mut)
+        }
     }
 
-    private fun visitPatternTuple(o: ValkyriePatternTuple, mode: VariableMode, force_mut: Boolean) {
-        o.modifiersList.forEach {
-            highlightVariableWithModifiers(it, mode, force_mut)
-        }
+    private fun visitPatternTuple(o: ValkyriePatternTuple, mode: ValkyrieVariableHighlightMode, force_mut: Boolean) {
+//        o.modifiersList.forEach {
+//            highlightVariableWithModifiers(it, mode, force_mut)
+//        }
         super.visitPatternTuple(o)
-    }
-
-    private fun visitPatternBracket(o: ValkyriePatternBracket, mode: VariableMode, force_mut: Boolean) {
-        o.modifiersList.forEach {
-            highlightVariableWithModifiers(it, mode, force_mut)
-        }
-        super.visitPatternBracket(o)
     }
 
     override fun visitTraitStatement(o: ValkyrieTraitStatement) {
@@ -145,26 +140,40 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
         }
     }
 
-    private fun highlightVariableWithModifiers(o: ValkyrieModifiers, mode: VariableMode, force_mut: Boolean = false) {
-        val mut = when (force_mut) {
-            true -> true
-            false -> o.hasModifier("mut")
-        }
+    private fun highlightVariableWithModifiers(
+        o: ValkyrieModifiers,
+        mode: ValkyrieVariableHighlightMode,
+        force_mut: Boolean = false,
+    ) {
+        val mut = o.isMutable(force_mut)
         val tail = o.lastChild
         var node = tail.prevSibling
         while (node != null) {
             highlight(node, Color.KEYWORD)
             node = node.prevSibling
         }
-        when (mode) {
-            VariableMode.Local -> highlight(tail, if (mut) Color.SYM_LOCAL_MUT else Color.SYM_LOCAL)
-            VariableMode.Global -> highlight(tail, if (mut) Color.SYM_GLOBAL_MUT else Color.SYM_GLOBAL)
-            VariableMode.Argument -> highlight(tail, if (mut) Color.SYM_ARG_MUT else Color.SYM_ARG)
-            VariableMode.Self -> highlight(tail, if (mut) Color.SYM_ARG_SELF_MUT else Color.SYM_ARG_SELF)
-        }
+        mode.render(this, tail, mut)
     }
 
-    private fun highlight(element: PsiElement, color: Color) {
+    private fun highlightPatternLastWithModifiers(
+        o: ValkyriePatternRest,
+        mode: ValkyrieVariableHighlightMode,
+        force_mut: Boolean = false,
+    ) {
+        val mut = o.isMutable(force_mut)
+        val tail = o.lastChild
+        var node = tail.prevSibling
+        while (node != null) {
+            when (node.elementType) {
+                ValkyrieTypes.SYMBOL -> highlight(node, Color.KEYWORD)
+                else -> {}
+            }
+            node = node.prevSibling
+        }
+        mode.render(this, tail, mut)
+    }
+
+    fun highlight(element: PsiElement, color: Color) {
         val builder = HighlightInfo.newHighlightInfo(HighlightInfoType.INFORMATION)
         builder.textAttributes(color.textAttributesKey)
         builder.range(element)

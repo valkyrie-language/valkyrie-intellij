@@ -34,7 +34,7 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             COLON, BIND -> Color.SET
             STAR -> Color.STAR
             COMMA -> Color.COMMA
-            VERTICAL, LESS, GREATER, UNTIL, PLUS, MINUS -> Color.OPERATION_SIGN
+            VERTICAL, LESS, GREATER, DOT3, DOT2, PLUS, MINUS -> Color.OPERATION_SIGN
             EQ, NE -> Color.OPERATION_SIGN
             NOT, BANG,AMP, QUESTION -> Color.OPERATION_SIGN
             // 原子类型
