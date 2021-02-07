@@ -42,12 +42,10 @@ data class ValkyrieFormatSpace(
         )
         private val newline_indent_after = TokenSet.create(TO)
 
-        private val separators = TokenSet.create(COMMA, SEMICOLON)
-
         private fun createSpacingBuilder(commonSettings: CommonCodeStyleSettings): SpacingBuilder {
             val custom = SpacingBuilder(commonSettings)
                 // ,
-                .after(separators).spacing(1, 1, 0, commonSettings.KEEP_LINE_BREAKS, 0)
+                .after(COMMA).spacing(1, 1, 0, commonSettings.KEEP_LINE_BREAKS, 0)
                 // k: v
                 .after(COLON).spacing(1, 1, 0, false, 0)
                 // k = v

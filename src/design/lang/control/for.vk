@@ -3,11 +3,9 @@ for i in 0..<100 {
 }
 
 
-for mut i, j in 0..=100 if i != 50 {
+for i in 0..=100 if i != 50 {
 
 }
-
-
 
 for c in s if c.is_ascii {
 
@@ -16,3 +14,15 @@ else {
 
 }
 
+
+for mut i, j in 0..=100 {
+
+}
+
+for mut (i, j) in 0..=100 {
+
+}
+
+for mut case Fraction(for, in) in fs {
+
+}

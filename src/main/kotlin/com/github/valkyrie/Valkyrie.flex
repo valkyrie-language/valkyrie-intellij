@@ -62,6 +62,8 @@ public void match_indent() {
 
 %state ImportExport
 %state Let
+%state For
+%state If
 %state Bitflag
 %state StringInside
 
@@ -81,7 +83,7 @@ HEX = [0-9a-fA-F]
 
 %%
 
-<YYINITIAL, Bitflag, ImportExport, Let> {
+<YYINITIAL, Bitflag, ImportExport, Let, For> {
     {COMMENT_DOCUMENT} { return COMMENT_DOCUMENT; }
     {COMMENT_LINE}     { return COMMENT_LINE; }
 //  {COMMENT_BLOCK}    { return COMMENT_BLOCK; }
@@ -98,8 +100,6 @@ HEX = [0-9a-fA-F]
     "forall" { return FORALL; }
     "if" { return IF; }
     "else" { return ELSE; }
-    "for" { return FOR; }
-    "in" { return IN; }
     "while" { return WHILE; }
     "match" { return MATCH; }
     "def" | "func" | "fn" { return DEF; }
@@ -140,7 +140,7 @@ HEX = [0-9a-fA-F]
     case_appearence = false;
     return LET;
 }
-<Let> {
+<Let, For> {
     "(" { let_balance += 1 ; return PARENTHESIS_L; }
     ")" { let_balance -= 1 ; return PARENTHESIS_R; }
     "[" { let_balance += 1 ; return BRACKET_L; }
@@ -157,8 +157,9 @@ HEX = [0-9a-fA-F]
         return BIND;
     }
 }
-<Let> "case" {
+<Let, For> "case" {
     if (case_appearence == false) {
+        case_appearence = true;
         return CASE;
     }
     else {
@@ -168,6 +169,22 @@ HEX = [0-9a-fA-F]
 <Let> ";" {
     brace_block(YYINITIAL);
     return SEMICOLON;
+}
+// =====================================================================================================================
+// 遇到了 bitflags 关键词
+<YYINITIAL> "for" {
+    yybegin(For);
+    case_appearence = false;
+    return FOR;
+}
+<For> "in" {
+    if (let_balance == 0) {
+        yybegin(YYINITIAL);
+        return IN;
+    }
+    else {
+        return SYMBOL_XID;
+    }
 }
 // =====================================================================================================================
 // 遇到了 bitflags 关键词
@@ -184,14 +201,14 @@ HEX = [0-9a-fA-F]
     return BRACE_R;
 }
 // =====================================================================================================================
-<YYINITIAL, Bitflag, ImportExport, Let> {
+<YYINITIAL, Bitflag, ImportExport, Let, For> {
     {BYTE} { return BYTE; }
     {INTEGER} { return INTEGER; }
     {DECIMAL} { return DECIMAL; }
     {SYMBOL_XID} { return SYMBOL_XID; }
     {SYMBOL_RAW} { return SYMBOL_RAW; }
 }
-<YYINITIAL, Bitflag, ImportExport, Let> {
+<YYINITIAL, Bitflag, ImportExport, Let, For> {
     // !
     "!=" { return NE; }
     "!" { return BANG; }
@@ -221,6 +238,7 @@ HEX = [0-9a-fA-F]
     "," { return COMMA; }
     "+" { return PLUS; }
     "-" { return MINUS; }
+    // =
     "==" { return EQ; }
     "=" { return BIND; }
 }
