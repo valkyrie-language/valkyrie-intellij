@@ -126,19 +126,19 @@ if_statement     ::= (IF condition block) [ef_statement* [else_statement]]
 ef_statement     ::= ELSE IF condition block;
 else_statement   ::= ELSE block;
 block            ::= <<brace_block expression SEMICOLON>>;
-condition        ::= case_pattern | expression;
+condition        ::= case_pattern BIND expression | expression;
 // ---------------------------------------------------------------------------------------------------------------------
-for_statement    ::= FOR pattern IN expression [if_guard] block [else_statement];
+for_statement    ::= FOR (case_pattern|pattern) IN expression [if_guard] block [else_statement];
 if_guard         ::= IF condition;
 pattern          ::=
-    [modifiers] case_pattern
-  | [modifiers] pattern_tuple
-  | [modifiers] <<bracket_block modifiers COMMA>>
+    [modifiers] pattern_tuple
+  | [modifiers] pattern_bracket
   | [modifiers] <<brace_block modifiers COMMA>>
   | pattern_sequence
   ;
-pattern_tuple    ::= <<parenthesis modifiers COMMA>>;
 pattern_sequence ::= <<sequence modifiers COMMA>>;
+pattern_tuple    ::= <<parenthesis modifiers COMMA>>;
+pattern_bracket ::= <<bracket_block modifiers COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
 while_statement  ::= WHILE condition block;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -146,9 +146,11 @@ match_statement  ::= MATCH expression match_block;
 match_block      ::= <<brace_block match_expression SEMICOLON>>;
 match_expression ::= case_pattern COLON (normal_statements [SEMICOLON])+
 // ---------------------------------------------------------------------------------------------------------------------
-let_statement    ::= LET pattern [let_type_hint] [BIND expression];
+let_statement    ::=
+    LET pattern [let_type_hint] [BIND expression]
+  | LET case_pattern BIND expression;
 let_type_hint    ::= COLON <<sequence type_expr COMMA>>;
-case_pattern     ::= CASE [namespace] (
+case_pattern     ::= CASE [modifiers] [namespace] (
     pattern_tuple
   | <<bracket_block modifiers COMMA>>
 );

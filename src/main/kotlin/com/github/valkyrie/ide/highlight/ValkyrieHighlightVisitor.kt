@@ -59,8 +59,8 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
         o.patternTuple?.let {
             this.visitPatternTuple(it, VariableMode.Local, forceMut)
         }
-        o.casePattern?.let {
-            this.visitCasePattern(it, VariableMode.Local, forceMut)
+        o.patternBracket?.let {
+            this.visitPatternBracket(it, VariableMode.Local, forceMut)
         }
     }
 
@@ -78,6 +78,12 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
         super.visitPatternTuple(o)
     }
 
+    private fun visitPatternBracket(o: ValkyriePatternBracket, mode: VariableMode, force_mut: Boolean) {
+        o.modifiersList.forEach {
+            highlightVariableWithModifiers(it, mode, force_mut)
+        }
+        super.visitPatternBracket(o)
+    }
 
     override fun visitTraitStatement(o: ValkyrieTraitStatement) {
         val head = o.firstChild

@@ -14,6 +14,9 @@ public interface ValkyrieLetStatement extends PsiElement {
   List<ValkyrieCallSuffix> getCallSuffixList();
 
   @Nullable
+  ValkyrieCasePattern getCasePattern();
+
+  @Nullable
   ValkyrieLetTypeHint getLetTypeHint();
 
   @NotNull
@@ -25,7 +28,7 @@ public interface ValkyrieLetStatement extends PsiElement {
   @NotNull
   List<ValkyrieNumber> getNumberList();
 
-  @NotNull
+  @Nullable
   ValkyriePattern getPattern();
 
   @NotNull

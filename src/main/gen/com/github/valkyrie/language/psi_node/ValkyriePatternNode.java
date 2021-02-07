@@ -29,14 +29,14 @@ public class ValkyriePatternNode extends ValkyrieElement implements ValkyriePatt
 
   @Override
   @Nullable
-  public ValkyrieCasePattern getCasePattern() {
-    return findChildByClass(ValkyrieCasePattern.class);
+  public ValkyrieModifiers getModifiers() {
+    return findChildByClass(ValkyrieModifiers.class);
   }
 
   @Override
   @Nullable
-  public ValkyrieModifiers getModifiers() {
-    return findChildByClass(ValkyrieModifiers.class);
+  public ValkyriePatternBracket getPatternBracket() {
+    return findChildByClass(ValkyriePatternBracket.class);
   }
 
   @Override

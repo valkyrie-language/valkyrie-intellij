@@ -49,6 +49,7 @@ public interface ValkyrieTypes {
   IElementType NUMBER_LITERAL = new ValkyrieElementType("NUMBER_LITERAL");
   IElementType PAIR = new ValkyrieElementType("PAIR");
   IElementType PATTERN = new ValkyrieElementType("PATTERN");
+  IElementType PATTERN_BRACKET = new ValkyrieElementType("PATTERN_BRACKET");
   IElementType PATTERN_SEQUENCE = new ValkyrieElementType("PATTERN_SEQUENCE");
   IElementType PATTERN_TUPLE = new ValkyrieElementType("PATTERN_TUPLE");
   IElementType SLICE_EXPRESSION = new ValkyrieElementType("SLICE_EXPRESSION");
@@ -262,6 +263,9 @@ public interface ValkyrieTypes {
       }
       else if (type == PATTERN) {
         return new ValkyriePatternNode(node);
+      }
+      else if (type == PATTERN_BRACKET) {
+        return new ValkyriePatternBracketNode(node);
       }
       else if (type == PATTERN_SEQUENCE) {
         return new ValkyriePatternSequenceNode(node);

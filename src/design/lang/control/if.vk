@@ -22,3 +22,13 @@ else if c {
 else {
     print(4)
 }
+
+
+if case Fraction(if, mut mut) = a {
+
+}
+
+
+if case Fraction(for, in) = a {
+
+}

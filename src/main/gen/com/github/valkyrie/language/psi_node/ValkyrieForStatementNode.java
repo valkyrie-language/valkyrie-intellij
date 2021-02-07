@@ -47,6 +47,12 @@ public class ValkyrieForStatementNode extends ValkyrieElement implements Valkyri
 
   @Override
   @Nullable
+  public ValkyrieCasePattern getCasePattern() {
+    return findChildByClass(ValkyrieCasePattern.class);
+  }
+
+  @Override
+  @Nullable
   public ValkyrieElseStatement getElseStatement() {
     return findChildByClass(ValkyrieElseStatement.class);
   }
@@ -76,9 +82,9 @@ public class ValkyrieForStatementNode extends ValkyrieElement implements Valkyri
   }
 
   @Override
-  @NotNull
+  @Nullable
   public ValkyriePattern getPattern() {
-    return findNotNullChildByClass(ValkyriePattern.class);
+    return findChildByClass(ValkyriePattern.class);
   }
 
   @Override

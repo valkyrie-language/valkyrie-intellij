@@ -3,19 +3,31 @@ let a, b;
 let mut a, ref b;
 
 let mut a, ref b: i32, &i32;
+// test keywords
+let let let: let = 1
 
-let a = [1, 2, 3]
+let mut mut: mut = 1
+// test tuple
+let mut let, mut = (1, 2);
 
-let let a = 1
+let mut (let, mut) = (1, 2)
 
-let mut a, b: u32, u32 = [1, 2]
+let (mut let, mut) = (1, 2)
+// test slice
+let mut let, ..mut = [1, 2];
 
-let mut a, b = [1, 2];
+let mut [let, ..mut] = [1, 2]
 
-let mut (a, b) = (1, 2)
+let [mut let, ..mut] = [1, 2]
+// test dict
+let mut {let, ..mut} = {let:1, mut:2}
 
-let (mut a, b) = (1, 2)
+let mut {let: mut, ..mut} = {let:1, mut:2};
 
+let {mut: let, ..mut} = {let:1, mut:2}
+//
 let case Fraction(mut a, b) = Fraction(1, 2)
 
 let mut case Fraction(a, b) = Fraction(1, 2)
+
+
