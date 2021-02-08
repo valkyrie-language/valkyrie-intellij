@@ -11,14 +11,14 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieCasePatternNode extends ValkyrieElement implements ValkyrieCasePattern {
+public class ValkyrieNormalPatternNode extends ValkyrieElement implements ValkyrieNormalPattern {
 
-  public ValkyrieCasePatternNode(@NotNull ASTNode node) {
+  public ValkyrieNormalPatternNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitCasePattern(this);
+    visitor.visitNormalPattern(this);
   }
 
   @Override
@@ -35,12 +35,6 @@ public class ValkyrieCasePatternNode extends ValkyrieElement implements Valkyrie
 
   @Override
   @Nullable
-  public ValkyrieNamespace getNamespace() {
-    return findChildByClass(ValkyrieNamespace.class);
-  }
-
-  @Override
-  @Nullable
   public ValkyriePatternBrace getPatternBrace() {
     return findChildByClass(ValkyriePatternBrace.class);
   }
@@ -53,8 +47,20 @@ public class ValkyrieCasePatternNode extends ValkyrieElement implements Valkyrie
 
   @Override
   @Nullable
+  public ValkyriePatternSequence getPatternSequence() {
+    return findChildByClass(ValkyriePatternSequence.class);
+  }
+
+  @Override
+  @Nullable
   public ValkyriePatternTuple getPatternTuple() {
     return findChildByClass(ValkyriePatternTuple.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieSymbol getSymbol() {
+    return findChildByClass(ValkyrieSymbol.class);
   }
 
 }

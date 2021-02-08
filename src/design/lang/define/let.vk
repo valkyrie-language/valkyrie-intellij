@@ -1,4 +1,4 @@
-let mut, b;
+let mut, let;
 let mut a, ref b;
 let mut a, ref b: i32, &i32;
 // test keywords
@@ -13,9 +13,9 @@ let mut let, ..mut = [1, 2];
 let mut [let, ...mut] = [1, 2]
 let [mut let, ...mut] = [1, 2]
 // test dict
-let mut {let, ..mut} = {let:1, mut:2}
-let mut {let: mut, ..mut} = {let:1, mut:2};
-let {mut: let, ..mut} = {let:1, mut:2}
+let mut {let, ..mut} = 0;
+let mut {let: mut, ..mut} = 0;
+let {mut let: let, ..mut} = 0;
 //
 let case Fraction(mut a, b) = Fraction(1, 2)
 let mut case Fraction(a, b) = Fraction(1, 2)

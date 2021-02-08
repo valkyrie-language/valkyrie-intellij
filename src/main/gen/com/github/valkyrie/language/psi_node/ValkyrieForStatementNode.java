@@ -76,15 +76,15 @@ public class ValkyrieForStatementNode extends ValkyrieElement implements Valkyri
   }
 
   @Override
-  @NotNull
-  public List<ValkyrieNumber> getNumberList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNumber.class);
+  @Nullable
+  public ValkyrieNormalPattern getNormalPattern() {
+    return findChildByClass(ValkyrieNormalPattern.class);
   }
 
   @Override
-  @Nullable
-  public ValkyriePattern getPattern() {
-    return findChildByClass(ValkyriePattern.class);
+  @NotNull
+  public List<ValkyrieNumber> getNumberList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNumber.class);
   }
 
   @Override

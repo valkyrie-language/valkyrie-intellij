@@ -29,8 +29,8 @@ public class ValkyriePatternSequenceNode extends ValkyrieElement implements Valk
 
   @Override
   @NotNull
-  public List<ValkyriePatternItem> getPatternItemList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyriePatternItem.class);
+  public List<ValkyriePatternPair> getPatternPairList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyriePatternPair.class);
   }
 
 }

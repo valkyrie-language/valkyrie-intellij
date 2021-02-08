@@ -365,10 +365,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // CASE [modifiers] [namespace] (
-  //     pattern_tuple
-  //   | <<bracket_block modifiers COMMA>>
-  // )
+  // CASE [[modifiers] namespace] pattern
   public static boolean case_pattern(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "case_pattern")) return false;
     if (!nextTokenIs(b, CASE)) return false;
@@ -376,36 +373,34 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = consumeToken(b, CASE);
     r = r && case_pattern_1(b, l + 1);
-    r = r && case_pattern_2(b, l + 1);
-    r = r && case_pattern_3(b, l + 1);
+    r = r && pattern(b, l + 1);
     exit_section_(b, m, CASE_PATTERN, r);
     return r;
   }
 
-  // [modifiers]
+  // [[modifiers] namespace]
   private static boolean case_pattern_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "case_pattern_1")) return false;
-    modifiers(b, l + 1);
+    case_pattern_1_0(b, l + 1);
     return true;
   }
 
-  // [namespace]
-  private static boolean case_pattern_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "case_pattern_2")) return false;
-    namespace(b, l + 1);
-    return true;
-  }
-
-  // pattern_tuple
-  //   | <<bracket_block modifiers COMMA>>
-  private static boolean case_pattern_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "case_pattern_3")) return false;
+  // [modifiers] namespace
+  private static boolean case_pattern_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "case_pattern_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = pattern_tuple(b, l + 1);
-    if (!r) r = bracket_block(b, l + 1, ValkyrieParser::modifiers, COMMA_parser_);
+    r = case_pattern_1_0_0(b, l + 1);
+    r = r && namespace(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
+  }
+
+  // [modifiers]
+  private static boolean case_pattern_1_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "case_pattern_1_0_0")) return false;
+    modifiers(b, l + 1);
+    return true;
   }
 
   /* ********************************************************** */
@@ -717,7 +712,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // FOR (case_pattern|pattern) IN expression [if_guard] block [else_statement]
+  // FOR (case_pattern|normal_pattern) IN expression [if_guard] block [else_statement]
   public static boolean for_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "for_statement")) return false;
     if (!nextTokenIs(b, FOR)) return false;
@@ -734,12 +729,12 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // case_pattern|pattern
+  // case_pattern|normal_pattern
   private static boolean for_statement_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "for_statement_1")) return false;
     boolean r;
     r = case_pattern(b, l + 1);
-    if (!r) r = pattern(b, l + 1);
+    if (!r) r = normal_pattern(b, l + 1);
     return r;
   }
 
@@ -890,7 +885,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LET pattern [let_type_hint] [BIND expression]
+  // LET normal_pattern [let_type_hint] [BIND expression]
   //   | LET case_pattern BIND expression
   public static boolean let_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "let_statement")) return false;
@@ -903,13 +898,13 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // LET pattern [let_type_hint] [BIND expression]
+  // LET normal_pattern [let_type_hint] [BIND expression]
   private static boolean let_statement_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "let_statement_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, LET);
-    r = r && pattern(b, l + 1);
+    r = r && normal_pattern(b, l + 1);
     r = r && let_statement_0_2(b, l + 1);
     r = r && let_statement_0_3(b, l + 1);
     exit_section_(b, m, null, r);
@@ -1179,6 +1174,54 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // [[modifiers] symbol] pattern | pattern_sequence
+  public static boolean normal_pattern(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "normal_pattern")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, NORMAL_PATTERN, "<normal pattern>");
+    r = normal_pattern_0(b, l + 1);
+    if (!r) r = pattern_sequence(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // [[modifiers] symbol] pattern
+  private static boolean normal_pattern_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "normal_pattern_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = normal_pattern_0_0(b, l + 1);
+    r = r && pattern(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [[modifiers] symbol]
+  private static boolean normal_pattern_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "normal_pattern_0_0")) return false;
+    normal_pattern_0_0_0(b, l + 1);
+    return true;
+  }
+
+  // [modifiers] symbol
+  private static boolean normal_pattern_0_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "normal_pattern_0_0_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = normal_pattern_0_0_0_0(b, l + 1);
+    r = r && symbol(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [modifiers]
+  private static boolean normal_pattern_0_0_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "normal_pattern_0_0_0_0")) return false;
+    modifiers(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
   // if_statement
   //   | for_statement
   //   | while_statement
@@ -1232,7 +1275,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // type_binary | ANGLE_L | ANGLE_R | LESS | GREATER | UNTIL | DOT
+  // type_binary | ANGLE_L | ANGLE_R | LESS | GREATER | DOT_LESS | DOT_EQ | DOT2 | DOT
   static boolean op_binary(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "op_binary")) return false;
     boolean r;
@@ -1241,13 +1284,15 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, ANGLE_R);
     if (!r) r = consumeToken(b, LESS);
     if (!r) r = consumeToken(b, GREATER);
-    if (!r) r = consumeToken(b, UNTIL);
+    if (!r) r = consumeToken(b, DOT_LESS);
+    if (!r) r = consumeToken(b, DOT_EQ);
+    if (!r) r = consumeToken(b, DOT2);
     if (!r) r = consumeToken(b, DOT);
     return r;
   }
 
   /* ********************************************************** */
-  // PLUS | MINUS | NOT | BANG | AMP
+  // PLUS | MINUS | NOT | BANG | AMP | DOT3 | DOT2
   static boolean op_prefix(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "op_prefix")) return false;
     boolean r;
@@ -1256,6 +1301,8 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, NOT);
     if (!r) r = consumeToken(b, BANG);
     if (!r) r = consumeToken(b, AMP);
+    if (!r) r = consumeToken(b, DOT3);
+    if (!r) r = consumeToken(b, DOT2);
     return r;
   }
 
@@ -1346,108 +1393,104 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // [modifiers] pattern_tuple
-  //   | [modifiers] pattern_bracket
-  //   | [modifiers] <<brace_block modifiers COMMA>>
-  //   | pattern_sequence
-  public static boolean pattern(PsiBuilder b, int l) {
+  // pattern_tuple | pattern_bracket | pattern_brace
+  static boolean pattern(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "pattern")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, PATTERN, "<pattern>");
-    r = pattern_0(b, l + 1);
-    if (!r) r = pattern_1(b, l + 1);
-    if (!r) r = pattern_2(b, l + 1);
-    if (!r) r = pattern_sequence(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    r = pattern_tuple(b, l + 1);
+    if (!r) r = pattern_bracket(b, l + 1);
+    if (!r) r = pattern_brace(b, l + 1);
     return r;
-  }
-
-  // [modifiers] pattern_tuple
-  private static boolean pattern_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "pattern_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = pattern_0_0(b, l + 1);
-    r = r && pattern_tuple(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [modifiers]
-  private static boolean pattern_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "pattern_0_0")) return false;
-    modifiers(b, l + 1);
-    return true;
-  }
-
-  // [modifiers] pattern_bracket
-  private static boolean pattern_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "pattern_1")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = pattern_1_0(b, l + 1);
-    r = r && pattern_bracket(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [modifiers]
-  private static boolean pattern_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "pattern_1_0")) return false;
-    modifiers(b, l + 1);
-    return true;
-  }
-
-  // [modifiers] <<brace_block modifiers COMMA>>
-  private static boolean pattern_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "pattern_2")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = pattern_2_0(b, l + 1);
-    r = r && brace_block(b, l + 1, ValkyrieParser::modifiers, COMMA_parser_);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [modifiers]
-  private static boolean pattern_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "pattern_2_0")) return false;
-    modifiers(b, l + 1);
-    return true;
   }
 
   /* ********************************************************** */
-  // <<bracket_block modifiers COMMA>>
+  // <<brace_block pattern_pair COMMA>>
+  public static boolean pattern_brace(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "pattern_brace")) return false;
+    if (!nextTokenIs(b, BRACE_L)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = brace_block(b, l + 1, ValkyrieParser::pattern_pair, COMMA_parser_);
+    exit_section_(b, m, PATTERN_BRACE, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // <<bracket_block pattern_pair COMMA>>
   public static boolean pattern_bracket(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "pattern_bracket")) return false;
     if (!nextTokenIs(b, BRACKET_L)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = bracket_block(b, l + 1, ValkyrieParser::modifiers, COMMA_parser_);
+    r = bracket_block(b, l + 1, ValkyrieParser::pattern_pair, COMMA_parser_);
     exit_section_(b, m, PATTERN_BRACKET, r);
     return r;
   }
 
   /* ********************************************************** */
-  // <<sequence modifiers COMMA>>
-  public static boolean pattern_sequence(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "pattern_sequence")) return false;
-    if (!nextTokenIs(b, "<pattern sequence>", SYMBOL_RAW, SYMBOL_XID)) return false;
+  // pattern_rest | modifiers
+  public static boolean pattern_pair(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "pattern_pair")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, PATTERN_SEQUENCE, "<pattern sequence>");
-    r = sequence(b, l + 1, ValkyrieParser::modifiers, COMMA_parser_);
+    Marker m = enter_section_(b, l, _NONE_, PATTERN_PAIR, "<pattern pair>");
+    r = pattern_rest(b, l + 1);
+    if (!r) r = modifiers(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   /* ********************************************************** */
-  // <<parenthesis modifiers COMMA>>
+  // symbol* (DOT3|DOT2) symbol
+  public static boolean pattern_rest(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "pattern_rest")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, PATTERN_REST, "<pattern rest>");
+    r = pattern_rest_0(b, l + 1);
+    r = r && pattern_rest_1(b, l + 1);
+    r = r && symbol(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // symbol*
+  private static boolean pattern_rest_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "pattern_rest_0")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!symbol(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "pattern_rest_0", c)) break;
+    }
+    return true;
+  }
+
+  // DOT3|DOT2
+  private static boolean pattern_rest_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "pattern_rest_1")) return false;
+    boolean r;
+    r = consumeToken(b, DOT3);
+    if (!r) r = consumeToken(b, DOT2);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // <<sequence pattern_pair COMMA>>
+  public static boolean pattern_sequence(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "pattern_sequence")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, PATTERN_SEQUENCE, "<pattern sequence>");
+    r = sequence(b, l + 1, ValkyrieParser::pattern_pair, COMMA_parser_);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // <<parenthesis pattern_pair COMMA>>
   public static boolean pattern_tuple(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "pattern_tuple")) return false;
     if (!nextTokenIs(b, PARENTHESIS_L)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = parenthesis(b, l + 1, ValkyrieParser::modifiers, COMMA_parser_);
+    r = parenthesis(b, l + 1, ValkyrieParser::pattern_pair, COMMA_parser_);
     exit_section_(b, m, PATTERN_TUPLE, r);
     return r;
   }

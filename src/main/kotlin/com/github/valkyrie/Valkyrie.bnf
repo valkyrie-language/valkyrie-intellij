@@ -130,20 +130,17 @@ ef_statement     ::= ELSE IF condition block;
 else_statement   ::= ELSE block;
 block            ::= <<brace_block expression SEMICOLON>>;
 condition        ::= case_pattern BIND expression | expression;
+case_pattern     ::= CASE [[modifiers] namespace] pattern;
 // ---------------------------------------------------------------------------------------------------------------------
-for_statement    ::= FOR (case_pattern|pattern) IN expression [if_guard] block [else_statement];
+for_statement    ::= FOR (case_pattern|normal_pattern) IN expression [if_guard] block [else_statement];
 if_guard         ::= IF condition;
-pattern          ::=
-    [modifiers] pattern_tuple
-  | [modifiers] pattern_bracket
-  | [modifiers] pattern_brace
-  | pattern_sequence
-  ;
-pattern_sequence ::= <<sequence pattern_item COMMA>>;
-pattern_tuple    ::= <<parenthesis pattern_item COMMA>>;
-pattern_bracket  ::= <<bracket_block pattern_item COMMA>>;
+normal_pattern   ::= [[modifiers] symbol] pattern | pattern_sequence;
+// ---------------------------------------------------------------------------------------------------------------------
+pattern          ::= pattern_tuple | pattern_bracket | pattern_brace;
+pattern_sequence ::= <<sequence pattern_pair COMMA>>;
+pattern_tuple    ::= <<parenthesis pattern_pair COMMA>>;
+pattern_bracket  ::= <<bracket_block pattern_pair COMMA>>;
 pattern_brace    ::= <<brace_block pattern_pair COMMA>>;
-pattern_item     ::= pattern_rest | modifiers;
 pattern_pair     ::= pattern_rest | modifiers;
 pattern_rest     ::= symbol* (DOT3|DOT2) symbol;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -154,13 +151,9 @@ match_block      ::= <<brace_block match_expression SEMICOLON>>;
 match_expression ::= case_pattern COLON (normal_statements [SEMICOLON])+
 // ---------------------------------------------------------------------------------------------------------------------
 let_statement    ::=
-    LET pattern [let_type_hint] [BIND expression]
+    LET normal_pattern [let_type_hint] [BIND expression]
   | LET case_pattern BIND expression;
 let_type_hint    ::= COLON <<sequence type_expr COMMA>>;
-case_pattern     ::= CASE [modifiers] [namespace] (
-    pattern_tuple
-  | <<bracket_block modifiers COMMA>>
-);
 // ---------------------------------------------------------------------------------------------------------------------
 def_statement       ::= DEF expression block;
 // ---------------------------------------------------------------------------------------------------------------------

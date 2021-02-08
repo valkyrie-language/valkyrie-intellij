@@ -25,11 +25,11 @@ public interface ValkyrieLetStatement extends PsiElement {
   @NotNull
   List<ValkyrieNamespace> getNamespaceList();
 
+  @Nullable
+  ValkyrieNormalPattern getNormalPattern();
+
   @NotNull
   List<ValkyrieNumber> getNumberList();
-
-  @Nullable
-  ValkyriePattern getPattern();
 
   @NotNull
   List<ValkyrieSliceSuffix> getSliceSuffixList();

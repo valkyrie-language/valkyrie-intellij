@@ -5,13 +5,10 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieCasePattern extends PsiElement {
+public interface ValkyrieNormalPattern extends PsiElement {
 
   @Nullable
   ValkyrieModifiers getModifiers();
-
-  @Nullable
-  ValkyrieNamespace getNamespace();
 
   @Nullable
   ValkyriePatternBrace getPatternBrace();
@@ -20,6 +17,12 @@ public interface ValkyrieCasePattern extends PsiElement {
   ValkyriePatternBracket getPatternBracket();
 
   @Nullable
+  ValkyriePatternSequence getPatternSequence();
+
+  @Nullable
   ValkyriePatternTuple getPatternTuple();
+
+  @Nullable
+  ValkyrieSymbol getSymbol();
 
 }
