@@ -11,26 +11,20 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieVariantStatementNode extends ValkyrieElement implements ValkyrieVariantStatement {
+public class ValkyrieClassTupleItemNode extends ValkyrieElement implements ValkyrieClassTupleItem {
 
-  public ValkyrieVariantStatementNode(@NotNull ASTNode node) {
+  public ValkyrieClassTupleItemNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitVariantStatement(this);
+    visitor.visitClassTupleItem(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof ValkyrieVisitor) accept((ValkyrieVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public ValkyrieBlock getBlock() {
-    return findNotNullChildByClass(ValkyrieBlock.class);
   }
 
   @Override
@@ -83,8 +77,8 @@ public class ValkyrieVariantStatementNode extends ValkyrieElement implements Val
 
   @Override
   @NotNull
-  public List<ValkyrieTurboSuffix> getTurboSuffixList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTurboSuffix.class);
+  public List<ValkyrieTypeAngle> getTypeAngleList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeAngle.class);
   }
 
 }

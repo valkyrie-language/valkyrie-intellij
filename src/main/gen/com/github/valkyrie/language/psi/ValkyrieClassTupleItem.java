@@ -5,10 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieVariantStatement extends PsiElement {
-
-  @NotNull
-  ValkyrieBlock getBlock();
+public interface ValkyrieClassTupleItem extends PsiElement {
 
   @NotNull
   List<ValkyrieBoolean> getBooleanList();
@@ -35,6 +32,6 @@ public interface ValkyrieVariantStatement extends PsiElement {
   List<ValkyrieTuple> getTupleList();
 
   @NotNull
-  List<ValkyrieTurboSuffix> getTurboSuffixList();
+  List<ValkyrieTypeAngle> getTypeAngleList();
 
 }

@@ -64,7 +64,7 @@ public void match_indent() {
 %state Let
 %state For
 %state If
-%state Bitflag
+%state Class
 %state StringInside
 
 WHITE_SPACE=[\s\t\r\n]
@@ -83,7 +83,7 @@ HEX = [0-9a-fA-F]
 
 %%
 
-<YYINITIAL, Bitflag, ImportExport, Let, For> {
+<YYINITIAL, Class, ImportExport, Let, For> {
     {COMMENT_DOCUMENT} { return COMMENT_DOCUMENT; }
     {COMMENT_LINE}     { return COMMENT_LINE; }
 //  {COMMENT_BLOCK}    { return COMMENT_BLOCK; }
@@ -106,7 +106,7 @@ HEX = [0-9a-fA-F]
     "type" { return TYPE; }
     "class" | "struct" { return CLASS; }
     "trait" | "interface" { return TRAIT; }
-    "variant" | "tagged" | "enum" { return VARIANT; }
+
     "extends"| "extend" | "impl" { return EXTENDS; }
 }
 // =====================================================================================================================
@@ -189,26 +189,30 @@ HEX = [0-9a-fA-F]
 // =====================================================================================================================
 // 遇到了 bitflags 关键词
 <YYINITIAL> "bitflags" | "bitflag" | "bitset" {
-    yybegin(Bitflag);
+    yybegin(Class);
     return BITFLAG;
 }
-<Bitflag> "{" {
-    brace_block(Bitflag);
+<YYINITIAL> "variant" | "tagged" | "enum" {
+    yybegin(Class);
+    return TAGGED;
+}
+<Class> "{" {
+    brace_block(Class);
     return BRACE_L;
 }
-<Bitflag> "}" {
+<Class> "}" {
     brace_recover();
     return BRACE_R;
 }
 // =====================================================================================================================
-<YYINITIAL, Bitflag, ImportExport, Let, For> {
+<YYINITIAL, Class, ImportExport, Let, For> {
     {BYTE} { return BYTE; }
     {INTEGER} { return INTEGER; }
     {DECIMAL} { return DECIMAL; }
     {SYMBOL_XID} { return SYMBOL_XID; }
     {SYMBOL_RAW} { return SYMBOL_RAW; }
 }
-<YYINITIAL, Bitflag, ImportExport, Let, For> {
+<YYINITIAL, Class, ImportExport, Let, For> {
     // !
     "!=" { return NE; }
     "!" { return BANG; }

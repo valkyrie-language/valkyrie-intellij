@@ -11,14 +11,14 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieTurboSuffixNode extends ValkyrieElement implements ValkyrieTurboSuffix {
+public class ValkyrieTypeAngleNode extends ValkyrieElement implements ValkyrieTypeAngle {
 
-  public ValkyrieTurboSuffixNode(@NotNull ASTNode node) {
+  public ValkyrieTypeAngleNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitTurboSuffix(this);
+    visitor.visitTypeAngle(this);
   }
 
   @Override
@@ -77,8 +77,8 @@ public class ValkyrieTurboSuffixNode extends ValkyrieElement implements Valkyrie
 
   @Override
   @NotNull
-  public List<ValkyrieTurboSuffix> getTurboSuffixList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTurboSuffix.class);
+  public List<ValkyrieTypeAngle> getTypeAngleList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeAngle.class);
   }
 
 }

@@ -37,23 +37,6 @@ enum class ValkyrieVariableHighlightMode {
         visitor.visitPatternPair(o)
     }
 
-    fun highlightSymbolList(
-        visitor: ValkyrieHighlightVisitor,
-        symbols: List<ValkyrieSymbol>,
-        last: Color,
-        rest: Color = Color.KEYWORD,
-    ) {
-        var first = true;
-        for (symbol in symbols.reversed()) {
-            if (first) {
-                first = false
-                visitor.highlight(symbol, last)
-            } else {
-                visitor.highlight(symbol, rest)
-            }
-        }
-    }
-
     fun highlightMaybeMutable(
         visitor: ValkyrieHighlightVisitor,
         symbols: List<ValkyrieSymbol>,

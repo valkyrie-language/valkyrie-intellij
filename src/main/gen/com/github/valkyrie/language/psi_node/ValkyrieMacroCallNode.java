@@ -89,8 +89,8 @@ public class ValkyrieMacroCallNode extends ValkyrieElement implements ValkyrieMa
 
   @Override
   @NotNull
-  public List<ValkyrieTurboSuffix> getTurboSuffixList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTurboSuffix.class);
+  public List<ValkyrieTypeAngle> getTypeAngleList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeAngle.class);
   }
 
 }

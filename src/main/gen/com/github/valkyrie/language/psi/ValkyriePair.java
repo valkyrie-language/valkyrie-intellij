@@ -32,6 +32,6 @@ public interface ValkyriePair extends PsiElement {
   List<ValkyrieTuple> getTupleList();
 
   @NotNull
-  List<ValkyrieTurboSuffix> getTurboSuffixList();
+  List<ValkyrieTypeAngle> getTypeAngleList();
 
 }

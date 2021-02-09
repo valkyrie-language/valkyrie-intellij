@@ -38,6 +38,6 @@ public interface ValkyrieMacroCall extends PsiElement {
   List<ValkyrieTuple> getTupleList();
 
   @NotNull
-  List<ValkyrieTurboSuffix> getTurboSuffixList();
+  List<ValkyrieTypeAngle> getTypeAngleList();
 
 }

@@ -77,8 +77,8 @@ public class ValkyriePairNode extends ValkyrieElement implements ValkyriePair {
 
   @Override
   @NotNull
-  public List<ValkyrieTurboSuffix> getTurboSuffixList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTurboSuffix.class);
+  public List<ValkyrieTypeAngle> getTypeAngleList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeAngle.class);
   }
 
 }

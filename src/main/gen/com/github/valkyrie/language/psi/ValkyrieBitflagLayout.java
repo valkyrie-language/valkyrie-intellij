@@ -32,6 +32,6 @@ public interface ValkyrieBitflagLayout extends PsiElement {
   List<ValkyrieTuple> getTupleList();
 
   @NotNull
-  List<ValkyrieTurboSuffix> getTurboSuffixList();
+  List<ValkyrieTypeAngle> getTypeAngleList();
 
 }

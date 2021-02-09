@@ -11,14 +11,14 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieLetTypeHintNode extends ValkyrieElement implements ValkyrieLetTypeHint {
+public class ValkyrieClassBraceItemNode extends ValkyrieElement implements ValkyrieClassBraceItem {
 
-  public ValkyrieLetTypeHintNode(@NotNull ASTNode node) {
+  public ValkyrieClassBraceItemNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitLetTypeHint(this);
+    visitor.visitClassBraceItem(this);
   }
 
   @Override
@@ -67,6 +67,12 @@ public class ValkyrieLetTypeHintNode extends ValkyrieElement implements Valkyrie
   @NotNull
   public List<ValkyrieString> getStringList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieString.class);
+  }
+
+  @Override
+  @NotNull
+  public ValkyrieSymbol getSymbol() {
+    return findNotNullChildByClass(ValkyrieSymbol.class);
   }
 
   @Override
