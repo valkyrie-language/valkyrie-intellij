@@ -8,9 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface ValkyriePatternPair extends PsiElement {
 
   @Nullable
-  ValkyrieModifiers getModifiers();
+  ValkyriePatternValue getPatternValue();
 
-  @Nullable
-  ValkyriePatternRest getPatternRest();
+  @NotNull
+  List<ValkyrieSymbol> getSymbolList();
 
 }

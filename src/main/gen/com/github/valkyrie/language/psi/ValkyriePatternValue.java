@@ -5,9 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyriePatternSequence extends PsiElement {
+public interface ValkyriePatternValue extends PsiElement {
 
   @NotNull
   List<ValkyriePatternPair> getPatternPairList();
+
+  @Nullable
+  ValkyrieSymbol getSymbol();
 
 }

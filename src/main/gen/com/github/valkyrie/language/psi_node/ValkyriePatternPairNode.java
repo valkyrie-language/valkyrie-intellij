@@ -29,14 +29,14 @@ public class ValkyriePatternPairNode extends ValkyrieElement implements Valkyrie
 
   @Override
   @Nullable
-  public ValkyrieModifiers getModifiers() {
-    return findChildByClass(ValkyrieModifiers.class);
+  public ValkyriePatternValue getPatternValue() {
+    return findChildByClass(ValkyriePatternValue.class);
   }
 
   @Override
-  @Nullable
-  public ValkyriePatternRest getPatternRest() {
-    return findChildByClass(ValkyriePatternRest.class);
+  @NotNull
+  public List<ValkyrieSymbol> getSymbolList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSymbol.class);
   }
 
 }

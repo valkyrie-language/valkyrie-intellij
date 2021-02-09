@@ -7,22 +7,13 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieNormalPattern extends PsiElement {
 
-  @Nullable
-  ValkyrieModifiers getModifiers();
+  @NotNull
+  List<ValkyriePatternItem> getPatternItemList();
 
-  @Nullable
-  ValkyriePatternBrace getPatternBrace();
+  @NotNull
+  List<ValkyriePatternPair> getPatternPairList();
 
-  @Nullable
-  ValkyriePatternBracket getPatternBracket();
-
-  @Nullable
-  ValkyriePatternSequence getPatternSequence();
-
-  @Nullable
-  ValkyriePatternTuple getPatternTuple();
-
-  @Nullable
-  ValkyrieSymbol getSymbol();
+  @NotNull
+  List<ValkyrieSymbol> getSymbolList();
 
 }

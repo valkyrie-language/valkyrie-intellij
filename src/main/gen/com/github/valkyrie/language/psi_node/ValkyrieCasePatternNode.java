@@ -29,32 +29,20 @@ public class ValkyrieCasePatternNode extends ValkyrieElement implements Valkyrie
 
   @Override
   @Nullable
-  public ValkyrieModifiers getModifiers() {
-    return findChildByClass(ValkyrieModifiers.class);
-  }
-
-  @Override
-  @Nullable
   public ValkyrieNamespace getNamespace() {
     return findChildByClass(ValkyrieNamespace.class);
   }
 
   @Override
-  @Nullable
-  public ValkyriePatternBrace getPatternBrace() {
-    return findChildByClass(ValkyriePatternBrace.class);
+  @NotNull
+  public List<ValkyriePatternPair> getPatternPairList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyriePatternPair.class);
   }
 
   @Override
-  @Nullable
-  public ValkyriePatternBracket getPatternBracket() {
-    return findChildByClass(ValkyriePatternBracket.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyriePatternTuple getPatternTuple() {
-    return findChildByClass(ValkyriePatternTuple.class);
+  @NotNull
+  public List<ValkyrieSymbol> getSymbolList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSymbol.class);
   }
 
 }

@@ -171,11 +171,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitPatternBrace(@NotNull ValkyriePatternBrace o) {
-    visitPsiElement(o);
-  }
-
-  public void visitPatternBracket(@NotNull ValkyriePatternBracket o) {
+  public void visitPatternItem(@NotNull ValkyriePatternItem o) {
     visitPsiElement(o);
   }
 
@@ -183,15 +179,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitPatternRest(@NotNull ValkyriePatternRest o) {
-    visitPsiElement(o);
-  }
-
-  public void visitPatternSequence(@NotNull ValkyriePatternSequence o) {
-    visitPsiElement(o);
-  }
-
-  public void visitPatternTuple(@NotNull ValkyriePatternTuple o) {
+  public void visitPatternValue(@NotNull ValkyriePatternValue o) {
     visitPsiElement(o);
   }
 

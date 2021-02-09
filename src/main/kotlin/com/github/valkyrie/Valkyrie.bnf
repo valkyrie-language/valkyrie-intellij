@@ -130,19 +130,20 @@ ef_statement     ::= ELSE IF condition block;
 else_statement   ::= ELSE block;
 block            ::= <<brace_block expression SEMICOLON>>;
 condition        ::= case_pattern BIND expression | expression;
-case_pattern     ::= CASE [[modifiers] namespace] pattern;
+case_pattern     ::= CASE [symbol* namespace] pattern;
 // ---------------------------------------------------------------------------------------------------------------------
 for_statement    ::= FOR (case_pattern|normal_pattern) IN expression [if_guard] block [else_statement];
 if_guard         ::= IF condition;
-normal_pattern   ::= [[modifiers] symbol] pattern | pattern_sequence;
+normal_pattern   ::= symbol* pattern | <<sequence pattern_item COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
-pattern          ::= pattern_tuple | pattern_bracket | pattern_brace;
-pattern_sequence ::= <<sequence pattern_pair COMMA>>;
-pattern_tuple    ::= <<parenthesis pattern_pair COMMA>>;
-pattern_bracket  ::= <<bracket_block pattern_pair COMMA>>;
-pattern_brace    ::= <<brace_block pattern_pair COMMA>>;
-pattern_pair     ::= pattern_rest | modifiers;
-pattern_rest     ::= symbol* (DOT3|DOT2) symbol;
+private pattern  ::=
+    <<parenthesis   pattern_pair COMMA>>
+  | <<bracket_block pattern_pair COMMA>>
+  | <<brace_block   pattern_pair COMMA>>
+  ;
+pattern_pair     ::= symbol* COLON pattern_value | symbol* (DOT3|DOT2) symbol | symbol+;
+pattern_item     ::= symbol* (DOT3|DOT2) symbol | symbol+;
+pattern_value    ::= symbol | pattern;
 // ---------------------------------------------------------------------------------------------------------------------
 while_statement  ::= WHILE condition block;
 // ---------------------------------------------------------------------------------------------------------------------
