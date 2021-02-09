@@ -29,36 +29,20 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
 
     override fun visitNormalPattern(o: ValkyrieNormalPattern) {
         val mut = o.isMutable();
+        val mode = ValkyrieVariableHighlightMode.Local;
+        mode.highlightSymbolList(this, o.symbolList, Color.KEYWORD)
         o.patternItemList.forEach {
-            if (it.isMutable() != mut) {
-                highlight(it, Color.ERROR)
-            }
+            mode.highlightPatternItem(this, it, mut)
         }
-        o.patternPairList
-
-
-//        o.patternItemList.forEach {
-//            it.accept(this)
-//        }
-//
-//        o.pattern?.let {
-//            it.patternPairList.forEach {inner->
-//                highlightPatternPair(inner, inner.modifiers)
-//            }
-//        }
-    }
-
-    private fun highlightPatternItem(o: ValkyriePatternItem) {
-        super.visitPatternItem(o)
-    }
-
-    private fun highlightPatternPair(o: ValkyriePatternPair) {
-        super.visitPatternPair(o)
+        o.patternPairList.forEach {
+            mode.highlightPatternPair(this, it, mut)
+        }
     }
 
     override fun visitCasePattern(o: ValkyrieCasePattern) {
         visitCasePattern(o, ValkyrieVariableHighlightMode.Local, false)
     }
+
     private fun visitCasePattern(o: ValkyrieCasePattern, mode: ValkyrieVariableHighlightMode, force_mut: Boolean) {
         o.namespace?.let {
             highlight(it.lastChild, Color.SYM_CLASS)
@@ -84,7 +68,7 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitBitflagStatement(o: ValkyrieBitflagStatement) {
-        highlightSymbols(o.modifiers, Color.SYM_CLASS)
+//        highlightSymbols(o.modifiers, Color.SYM_CLASS)
         super.visitBitflagStatement(o)
     }
 
@@ -117,20 +101,6 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     }
 
     // =================================================================================================================
-
-
-    private fun highlightSymbols(o: PsiElement, last_color: Color) {
-        val tail = o.lastChild
-        highlight(tail, last_color)
-        var node = tail.prevSibling
-        while (node != null) {
-            when (node) {
-                is ValkyrieSymbol -> highlight(node, Color.KEYWORD)
-                else -> {}
-            }
-            node = node.prevSibling
-        }
-    }
 
     private fun highlightVariableWithModifiers(
         o: ValkyrieModifiers,

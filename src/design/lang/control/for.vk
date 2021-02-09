@@ -15,7 +15,7 @@ else {
 }
 
 
-for mut i, j in 0..=100 {
+for mut for, mut in 0..=100 {
 
 }
 

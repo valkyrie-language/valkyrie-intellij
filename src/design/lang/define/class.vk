@@ -1,5 +1,3 @@
-
-
 class A1(int, int)
 
 class A2<T>(T, T)

@@ -1,6 +1,9 @@
 package com.github.valkyrie.ide.highlight
 
-import com.intellij.psi.PsiElement
+import com.github.valkyrie.language.ast.hasModifier
+import com.github.valkyrie.language.psi.ValkyriePatternItem
+import com.github.valkyrie.language.psi.ValkyriePatternPair
+import com.github.valkyrie.language.psi.ValkyrieSymbol
 import com.github.valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
 enum class ValkyrieVariableHighlightMode {
@@ -9,11 +12,67 @@ enum class ValkyrieVariableHighlightMode {
     Argument,
     Self;
 
-    fun render(visitor: ValkyrieHighlightVisitor, tail: PsiElement, mut: Boolean) = when (this) {
-        Local -> visitor.highlight(tail, if (mut) Color.SYM_LOCAL_MUT else Color.SYM_LOCAL)
-        Global -> visitor.highlight(tail, if (mut) Color.SYM_GLOBAL_MUT else Color.SYM_GLOBAL)
-        Argument -> visitor.highlight(tail, if (mut) Color.SYM_ARG_MUT else Color.SYM_ARG)
-        Self -> visitor.highlight(tail, if (mut) Color.SYM_ARG_SELF_MUT else Color.SYM_ARG_SELF)
+    private fun render(mut: Boolean) = when (this) {
+        Local -> if (mut) Color.SYM_LOCAL_MUT else Color.SYM_LOCAL
+        Global -> if (mut) Color.SYM_GLOBAL_MUT else Color.SYM_GLOBAL
+        Argument -> if (mut) Color.SYM_ARG_MUT else Color.SYM_ARG
+        Self -> if (mut) Color.SYM_ARG_SELF_MUT else Color.SYM_ARG_SELF
+    }
+
+    fun highlightPatternItem(
+        visitor: ValkyrieHighlightVisitor,
+        o: ValkyriePatternItem,
+        force_mut: Boolean = false,
+    ) {
+        this.highlightMaybeMutable(visitor, o.symbolList, force_mut,true)
+        visitor.visitPatternItem(o)
+    }
+
+    fun highlightPatternPair(
+        visitor: ValkyrieHighlightVisitor,
+        o: ValkyriePatternPair,
+        force_mut: Boolean = false,
+    ) {
+        this.highlightMaybeMutable(visitor, o.symbolList, force_mut,true)
+        visitor.visitPatternPair(o)
+    }
+
+    fun highlightSymbolList(
+        visitor: ValkyrieHighlightVisitor,
+        symbols: List<ValkyrieSymbol>,
+        last: Color,
+        rest: Color = Color.KEYWORD,
+    ) {
+        var first = true;
+        for (symbol in symbols.reversed()) {
+            if (first) {
+                first = false
+                visitor.highlight(symbol, last)
+            } else {
+                visitor.highlight(symbol, rest)
+            }
+        }
+    }
+
+    fun highlightMaybeMutable(
+        visitor: ValkyrieHighlightVisitor,
+        symbols: List<ValkyrieSymbol>,
+        force_mut: Boolean,
+        skip_last: Boolean,
+    ) {
+        val mutable = when (force_mut) {
+            true -> true
+            false -> hasModifier(symbols, "mut", skip_last)
+        }
+        var first = true;
+        for (symbol in symbols.reversed()) {
+            if (first) {
+                first = false
+                visitor.highlight(symbol, this.render(mutable))
+            } else {
+                visitor.highlight(symbol, Color.KEYWORD)
+            }
+        }
     }
 }
 

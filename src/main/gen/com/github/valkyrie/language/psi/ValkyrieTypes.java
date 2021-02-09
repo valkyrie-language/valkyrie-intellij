@@ -44,6 +44,7 @@ public interface ValkyrieTypes {
   IElementType MATCH_STATEMENT = new ValkyrieElementType("MATCH_STATEMENT");
   IElementType MODIFIERS = new ValkyrieElementType("MODIFIERS");
   IElementType MODULE_STATEMENT = new ValkyrieElementType("MODULE_STATEMENT");
+  IElementType NAMEHEAD = new ValkyrieElementType("NAMEHEAD");
   IElementType NAMESPACE = new ValkyrieElementType("NAMESPACE");
   IElementType NORMAL_PATTERN = new ValkyrieElementType("NORMAL_PATTERN");
   IElementType NUMBER = new ValkyrieElementType("NUMBER");
@@ -251,6 +252,9 @@ public interface ValkyrieTypes {
       }
       else if (type == MODULE_STATEMENT) {
         return new ValkyrieModuleStatementNode(node);
+      }
+      else if (type == NAMEHEAD) {
+        return new ValkyrieNameheadNode(node);
       }
       else if (type == NAMESPACE) {
         return new ValkyrieNamespaceNode(node);

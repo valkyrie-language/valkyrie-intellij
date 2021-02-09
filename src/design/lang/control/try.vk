@@ -1,7 +1,12 @@
 let len = try Option<u32> {
-    _a = readline()!
-    _a.length()
+    let a = readline()!
+    a.length()
 }
+let len = try! Option<u32> {
+let a = readline()!
+a.length()
+}
+
 
 try _ {
 

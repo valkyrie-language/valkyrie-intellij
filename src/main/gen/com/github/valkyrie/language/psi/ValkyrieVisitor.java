@@ -151,6 +151,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitNamehead(@NotNull ValkyrieNamehead o) {
+    visitPsiElement(o);
+  }
+
   public void visitNamespace(@NotNull ValkyrieNamespace o) {
     visitPsiElement(o);
   }

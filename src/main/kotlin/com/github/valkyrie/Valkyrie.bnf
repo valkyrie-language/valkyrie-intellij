@@ -130,7 +130,7 @@ ef_statement     ::= ELSE IF condition block;
 else_statement   ::= ELSE block;
 block            ::= <<brace_block expression SEMICOLON>>;
 condition        ::= case_pattern BIND expression | expression;
-case_pattern     ::= CASE [symbol* namespace] pattern;
+case_pattern     ::= CASE [symbol* [namespace]] pattern;
 // ---------------------------------------------------------------------------------------------------------------------
 for_statement    ::= FOR (case_pattern|normal_pattern) IN expression [if_guard] block [else_statement];
 if_guard         ::= IF condition;
@@ -193,7 +193,8 @@ slice_expression    ::=
   | [expression] PROPORTION [expression]
   | expression;
 // ---------------------------------------------------------------------------------------------------------------------
-namespace ::= [PROPORTION] symbol (PROPORTION symbol)*;
+namehead  ::= PROPORTION namespace
+namespace ::= symbol (PROPORTION symbol)*;
 modifiers ::= symbol+;
 macro     ::= AT namespace;
 // ---------------------------------------------------------------------------------------------------------------------

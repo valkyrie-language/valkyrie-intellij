@@ -15,9 +15,11 @@ let [mut let, ...mut] = [1, 2]
 // test dict
 let mut {let, ..mut} = 0;
 let mut {let: mut, ..mut} = 0;
-let {mut let: let, ..mut} = 0;
-//
+let {mut let: let, mut ..mut} = 0;
+// test case match
+let case (mut a, b) = (1, 2)
+let case mut (a, b) = (1, 2)
 let case Fraction(mut a, b) = Fraction(1, 2)
-let mut case Fraction(a, b) = Fraction(1, 2)
+let case mut Fraction(a, b) = Fraction(1, 2)
 
 
