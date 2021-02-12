@@ -29,20 +29,26 @@ public class ValkyrieClassStatementNode extends ValkyrieElement implements Valky
 
   @Override
   @Nullable
-  public ValkyrieAutoDerive getAutoDerive() {
-    return findChildByClass(ValkyrieAutoDerive.class);
+  public ValkyrieClassBrace getClassBrace() {
+    return findChildByClass(ValkyrieClassBrace.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieClassTuple getClassTuple() {
+    return findChildByClass(ValkyrieClassTuple.class);
   }
 
   @Override
   @NotNull
-  public ValkyrieBlock getBlock() {
-    return findNotNullChildByClass(ValkyrieBlock.class);
+  public ValkyrieModifiers getModifiers() {
+    return findNotNullChildByClass(ValkyrieModifiers.class);
   }
 
   @Override
-  @NotNull
-  public ValkyrieSymbol getSymbol() {
-    return findNotNullChildByClass(ValkyrieSymbol.class);
+  @Nullable
+  public ValkyrieTypeAngle getTypeAngle() {
+    return findChildByClass(ValkyrieTypeAngle.class);
   }
 
 }

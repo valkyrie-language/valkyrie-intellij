@@ -61,15 +61,18 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitClassStatement(o: ValkyrieClassStatement) {
-        val head = o.firstChild
-        val prop = head.nextLeaf { it.elementType == ValkyrieTypes.SYMBOL }!!
-        highlight(prop, Color.SYM_CLASS)
+        highlightSymbolList(o.modifiers.symbolList, Color.SYM_CLASS)
         super.visitClassStatement(o)
     }
 
     override fun visitTaggedStatement(o: ValkyrieTaggedStatement) {
         highlightSymbolList(o.modifiers.symbolList, Color.SYM_CLASS)
         super.visitTaggedStatement(o)
+    }
+
+    override fun visitTaggedItem(o: ValkyrieTaggedItem) {
+        highlight(o.symbol, Color.SYM_VARIANT)
+        super.visitTaggedItem(o)
     }
 
     override fun visitBitflagStatement(o: ValkyrieBitflagStatement) {

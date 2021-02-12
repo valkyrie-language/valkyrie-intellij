@@ -8,12 +8,15 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieClassStatement extends PsiElement {
 
   @Nullable
-  ValkyrieAutoDerive getAutoDerive();
+  ValkyrieClassBrace getClassBrace();
+
+  @Nullable
+  ValkyrieClassTuple getClassTuple();
 
   @NotNull
-  ValkyrieBlock getBlock();
+  ValkyrieModifiers getModifiers();
 
-  @NotNull
-  ValkyrieSymbol getSymbol();
+  @Nullable
+  ValkyrieTypeAngle getTypeAngle();
 
 }

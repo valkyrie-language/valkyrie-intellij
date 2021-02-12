@@ -5,7 +5,10 @@ import com.github.valkyrie.language.ast.isWhitespaceOrEmpty
 import com.github.valkyrie.language.psi.ValkyrieBitflagBlock
 import com.github.valkyrie.language.psi.ValkyrieBitflagItem
 import com.github.valkyrie.language.psi.ValkyrieBlock
+import com.github.valkyrie.language.psi.ValkyrieClassBrace
+import com.github.valkyrie.language.psi.ValkyrieClassTuple
 import com.github.valkyrie.language.psi.ValkyrieExportBlock
+import com.github.valkyrie.language.psi.ValkyrieTaggedBlock
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
@@ -70,7 +73,10 @@ class ValkyrieFormatBlock(
         val lastLine = node.lastChildNode == child;
         val isCornerChild = firstLine || lastLine
         return when (node.psi) {
-            is ValkyrieBlock, is ValkyrieExportBlock, is ValkyrieBitflagBlock -> when {
+            is ValkyrieBlock, is ValkyrieExportBlock,
+            is ValkyrieTaggedBlock, is ValkyrieBitflagBlock,
+            is ValkyrieClassTuple, is ValkyrieClassBrace,
+            -> when {
                 isCornerChild -> Indent.getNoneIndent()
                 else -> Indent.getNormalIndent()
             }
