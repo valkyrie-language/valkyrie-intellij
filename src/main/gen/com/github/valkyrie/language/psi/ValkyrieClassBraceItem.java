@@ -16,6 +16,9 @@ public interface ValkyrieClassBraceItem extends PsiElement {
   @NotNull
   List<ValkyrieList> getListList();
 
+  @Nullable
+  ValkyrieModifiers getModifiers();
+
   @NotNull
   List<ValkyrieNamespace> getNamespaceList();
 
@@ -27,9 +30,6 @@ public interface ValkyrieClassBraceItem extends PsiElement {
 
   @NotNull
   List<ValkyrieString> getStringList();
-
-  @NotNull
-  ValkyrieSymbol getSymbol();
 
   @NotNull
   List<ValkyrieTuple> getTupleList();

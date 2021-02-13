@@ -16,7 +16,7 @@ enum class ValkyrieVariableHighlightMode {
         Local -> if (mut) Color.SYM_LOCAL_MUT else Color.SYM_LOCAL
         Global -> if (mut) Color.SYM_GLOBAL_MUT else Color.SYM_GLOBAL
         Argument -> if (mut) Color.SYM_ARG_MUT else Color.SYM_ARG
-        Self -> if (mut) Color.SYM_ARG_SELF_MUT else Color.SYM_ARG_SELF
+        Self -> if (mut) Color.SYM_FIELD else Color.SYM_ARG_SELF
     }
 
     fun highlightPatternItem(

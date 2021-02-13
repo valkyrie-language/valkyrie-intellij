@@ -46,6 +46,12 @@ public class ValkyrieClassBraceItemNode extends ValkyrieElement implements Valky
   }
 
   @Override
+  @Nullable
+  public ValkyrieModifiers getModifiers() {
+    return findChildByClass(ValkyrieModifiers.class);
+  }
+
+  @Override
   @NotNull
   public List<ValkyrieNamespace> getNamespaceList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNamespace.class);
@@ -67,12 +73,6 @@ public class ValkyrieClassBraceItemNode extends ValkyrieElement implements Valky
   @NotNull
   public List<ValkyrieString> getStringList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieString.class);
-  }
-
-  @Override
-  @NotNull
-  public ValkyrieSymbol getSymbol() {
-    return findNotNullChildByClass(ValkyrieSymbol.class);
   }
 
   @Override

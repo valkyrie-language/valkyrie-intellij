@@ -1,10 +1,19 @@
-class A1(int, int)
+class A(int, int)
 
-class A2<T>(T, T)
+class B{
+    0: int,
+    1: int
+}
+
+class Point<T>{
+    x: T = Default::default(),
+    y: T = Default::default(),
+    z: T = Default::default(),
+}
 
 class Complex<T> {
-    x: int = 0,
-    y: int = 0,
+ref x: &int = 0,
+ref y: &int = 0,
 }
 
 class A3<T: Debug>(T, T)
@@ -17,8 +26,8 @@ class A4<T>(T, T)
 #Deserialize
 #derive
 class B {
-    a: int,
-    b: int,
+a: int,
+b: int,
 }
 
 define type A {
@@ -60,5 +69,5 @@ let a = {
 }
 
 class A {
-    i: &int
+i: &int
 }

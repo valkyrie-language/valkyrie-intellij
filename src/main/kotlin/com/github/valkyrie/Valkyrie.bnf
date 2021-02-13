@@ -164,7 +164,7 @@ class_statement     ::= CLASS modifiers [[PROPORTION] type_angle] [class_tuple|c
 class_tuple         ::= <<parenthesis class_tuple_item COMMA>>;
 class_brace         ::= <<brace_block class_brace_item (COMMA|COLON)>>;
 class_tuple_item    ::= type_expr [BIND expression];
-class_brace_item    ::= symbol COLON type_expr [BIND expression];
+class_brace_item    ::= (modifiers|[modifiers] INTEGER) COLON type_expr [BIND expression];
 // ---------------------------------------------------------------------------------------------------------------------
 trait_statement     ::= TRAIT symbol block;
 // ---------------------------------------------------------------------------------------------------------------------
