@@ -71,6 +71,12 @@ public class ValkyrieTypeAngleNode extends ValkyrieElement implements ValkyrieTy
 
   @Override
   @NotNull
+  public List<ValkyrieSymbol> getSymbolList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSymbol.class);
+  }
+
+  @Override
+  @NotNull
   public List<ValkyrieTuple> getTupleList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTuple.class);
   }

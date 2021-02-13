@@ -2,6 +2,11 @@ class A1(int, int)
 
 class A2<T>(T, T)
 
+class Complex<T> {
+    x: int = 0,
+    y: int = 0,
+}
+
 class A3<T: Debug>(T, T)
 
 forall T {T: Debug}

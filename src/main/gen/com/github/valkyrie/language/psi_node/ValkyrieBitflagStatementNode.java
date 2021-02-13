@@ -28,12 +28,6 @@ public class ValkyrieBitflagStatementNode extends ValkyrieElement implements Val
   }
 
   @Override
-  @Nullable
-  public ValkyrieAutoDerive getAutoDerive() {
-    return findChildByClass(ValkyrieAutoDerive.class);
-  }
-
-  @Override
   @NotNull
   public ValkyrieBitflagBlock getBitflagBlock() {
     return findNotNullChildByClass(ValkyrieBitflagBlock.class);

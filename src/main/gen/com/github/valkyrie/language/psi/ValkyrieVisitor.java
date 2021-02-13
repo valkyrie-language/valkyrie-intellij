@@ -11,10 +11,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitAutoDerive(@NotNull ValkyrieAutoDerive o) {
-    visitPsiElement(o);
-  }
-
   public void visitBitflagBlock(@NotNull ValkyrieBitflagBlock o) {
     visitPsiElement(o);
   }

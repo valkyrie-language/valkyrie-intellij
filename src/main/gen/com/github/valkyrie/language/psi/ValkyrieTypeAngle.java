@@ -29,6 +29,9 @@ public interface ValkyrieTypeAngle extends PsiElement {
   List<ValkyrieString> getStringList();
 
   @NotNull
+  List<ValkyrieSymbol> getSymbolList();
+
+  @NotNull
   List<ValkyrieTuple> getTupleList();
 
   @NotNull

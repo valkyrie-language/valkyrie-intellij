@@ -7,9 +7,6 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieBitflagStatement extends PsiElement {
 
-  @Nullable
-  ValkyrieAutoDerive getAutoDerive();
-
   @NotNull
   ValkyrieBitflagBlock getBitflagBlock();
 

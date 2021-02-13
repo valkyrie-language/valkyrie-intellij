@@ -85,12 +85,6 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
         super.visitBitflagItem(o)
     }
 
-    override fun visitAutoDerive(o: ValkyrieAutoDerive) {
-        o.namespaceList.forEach {
-            highlight(it.lastChild, Color.SYM_TRAIT)
-        }
-        super.visitAutoDerive(o)
-    }
 
     override fun visitNumber(o: ValkyrieNumber) {
         o.symbol?.let {

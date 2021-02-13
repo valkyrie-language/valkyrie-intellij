@@ -162,7 +162,7 @@ type_statement      ::= TYPE symbol BIND block;
 // ---------------------------------------------------------------------------------------------------------------------
 class_statement     ::= CLASS modifiers [[PROPORTION] type_angle] [class_tuple|class_brace];
 class_tuple         ::= <<parenthesis class_tuple_item COMMA>>;
-class_brace         ::= <<brace_block class_brace_item COMMA>>;
+class_brace         ::= <<brace_block class_brace_item (COMMA|COLON)>>;
 class_tuple_item    ::= type_expr [BIND expression];
 class_brace_item    ::= symbol COLON type_expr [BIND expression];
 // ---------------------------------------------------------------------------------------------------------------------
@@ -189,7 +189,7 @@ call_suffix         ::= <<parenthesis expression COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
 private type_expr   ::= expr (type_binary expr)*;
 private type_binary ::= VERTICAL | EQ | NE | PLUS | MINUS;
-type_angle          ::= <<angle_block type_expr COMMA>>;
+type_angle          ::= <<angle_block ([symbol COLON] type_expr) COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
 slice_suffix        ::= <<bracket_block slice_expression COMMA>>;
 slice_expression    ::=
