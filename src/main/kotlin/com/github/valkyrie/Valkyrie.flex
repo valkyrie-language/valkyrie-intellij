@@ -97,16 +97,13 @@ HEX = [0-9a-fA-F]
 }
 // 顶级关键词
 <YYINITIAL> {
-    "forall" { return FORALL; }
     "if" { return IF; }
     "else" { return ELSE; }
     "while" { return WHILE; }
     "match" { return MATCH; }
     "def" | "func" | "fn" { return DEF; }
     "type" { return TYPE; }
-    "class" | "struct" { return CLASS; }
     "trait" | "interface" { return TRAIT; }
-
     "extends"| "extend" | "impl" { return EXTENDS; }
 }
 // =====================================================================================================================
@@ -188,6 +185,14 @@ HEX = [0-9a-fA-F]
 }
 // =====================================================================================================================
 // 遇到了 bitflags 关键词
+<YYINITIAL> "forall" {
+    yybegin(Class);
+    return FORALL;
+}
+<YYINITIAL> "class" | "struct" {
+    yybegin(Class);
+    return CLASS;
+}
 <YYINITIAL> "bitflags" | "bitflag" | "bitset" {
     yybegin(Class);
     return BITFLAG;
@@ -196,13 +201,11 @@ HEX = [0-9a-fA-F]
     yybegin(Class);
     return TAGGED;
 }
-<Class> "{" {
-    brace_block(Class);
-    return BRACE_L;
-}
-<Class> "}" {
-    brace_recover();
-    return BRACE_R;
+<Class> {
+    "{" {brace_block(Class); return BRACE_L;}
+    "}" {brace_recover();    return BRACE_R;}
+    "(" {brace_block(Class); return PARENTHESIS_L;}
+    ")" {brace_recover();    return PARENTHESIS_R;}
 }
 // =====================================================================================================================
 <YYINITIAL, Class, ImportExport, Let, For> {
@@ -219,6 +222,8 @@ HEX = [0-9a-fA-F]
     // < >
     "<<" | "≪" { return LESS; }
     ">>" | "≫" { return GREATER; }
+    "{" { return BRACE_L; }
+    "}" { return BRACE_R; }
     "<" { return ANGLE_L; }
     ">" { return ANGLE_R; }
     "[" { return BRACKET_L; }

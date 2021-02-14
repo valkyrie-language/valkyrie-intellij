@@ -11,14 +11,14 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieClassBraceItemNode extends ValkyrieElement implements ValkyrieClassBraceItem {
+public class ValkyrieForallBlockNode extends ValkyrieElement implements ValkyrieForallBlock {
 
-  public ValkyrieClassBraceItemNode(@NotNull ASTNode node) {
+  public ValkyrieForallBlockNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitClassBraceItem(this);
+    visitor.visitForallBlock(this);
   }
 
   @Override
@@ -40,21 +40,9 @@ public class ValkyrieClassBraceItemNode extends ValkyrieElement implements Valky
   }
 
   @Override
-  @Nullable
-  public ValkyrieClassNumericKey getClassNumericKey() {
-    return findChildByClass(ValkyrieClassNumericKey.class);
-  }
-
-  @Override
   @NotNull
   public List<ValkyrieList> getListList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieList.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieModifiers getModifiers() {
-    return findChildByClass(ValkyrieModifiers.class);
   }
 
   @Override

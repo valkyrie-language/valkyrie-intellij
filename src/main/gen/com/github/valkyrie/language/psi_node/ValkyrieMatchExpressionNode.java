@@ -47,6 +47,12 @@ public class ValkyrieMatchExpressionNode extends ValkyrieElement implements Valk
 
   @Override
   @NotNull
+  public List<ValkyrieForallStatement> getForallStatementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieForallStatement.class);
+  }
+
+  @Override
+  @NotNull
   public List<ValkyrieIfStatement> getIfStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIfStatement.class);
   }

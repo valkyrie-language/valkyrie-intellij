@@ -1,30 +1,36 @@
-class A(int, int)
+class A1(int)
 
-class B{
-    0: int,
-    1: int
+class serde A2 {
+    public readonly 0: int,
+    public readonly 1: int
 }
 
-class Point<T>{
+class class A3<T> {
     x: T = Default::default(),
     y: T = Default::default(),
     z: T = Default::default(),
 }
 
-class Complex<T> {
-ref x: &int = 0,
-ref y: &int = 0,
+class A4<T: Sized> {
+    ref x: &int = 0,
+    ref y: &int = 0,
 }
 
-class A3<T: Debug>(T, T)
-
 forall T {T: Debug}
-class A4<T>(T, T)
+class A5<T>(T)
+
+// https://crates.io/crates/custom_debug_derive
+#[Copy, Clone, Debug(rename=UpperCase)]
+class A3<T: Debug> {
+    #debug(rename="new_name")
+    name: u32,
+    #debug(skip)
+    skip: u32
+}
 
 #[Serialize, Deserialize]
 #Serialize
 #Deserialize
-#derive
 class B {
 a: int,
 b: int,

@@ -30,7 +30,7 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     override fun visitNormalPattern(o: ValkyrieNormalPattern) {
         val mut = o.isMutable();
         val mode = ValkyrieVariableHighlightMode.Local;
-        highlightSymbolList( o.symbolList, Color.KEYWORD)
+        highlightSymbolList(o.symbolList, Color.KEYWORD)
         o.patternItemList.forEach {
             mode.highlightPatternItem(this, it, mut)
         }
@@ -53,16 +53,26 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
         super.visitCasePattern(o)
     }
 
+
+    override fun visitClassStatement(o: ValkyrieClassStatement) {
+        highlightSymbolList(o.modifiers.symbolList, Color.SYM_CLASS)
+        super.visitClassStatement(o)
+    }
+
+    override fun visitClassBraceItem(o: ValkyrieClassBraceItem) {
+        o.modifiers?.let { highlightSymbolList(it.symbolList, Color.SYM_FIELD) }
+        super.visitClassBraceItem(o)
+    }
+
+    override fun visitClassNumericKey(o: ValkyrieClassNumericKey) {
+        o.modifiers?.let { highlightSymbolList(it.symbolList, Color.KEYWORD) }
+        super.visitClassNumericKey(o)
+    }
     override fun visitTraitStatement(o: ValkyrieTraitStatement) {
         val head = o.firstChild
         val prop = head.nextLeaf { it.elementType == ValkyrieTypes.SYMBOL }!!
         highlight(prop, Color.SYM_TRAIT)
         super.visitTraitStatement(o)
-    }
-
-    override fun visitClassStatement(o: ValkyrieClassStatement) {
-        highlightSymbolList(o.modifiers.symbolList, Color.SYM_CLASS)
-        super.visitClassStatement(o)
     }
 
     override fun visitTaggedStatement(o: ValkyrieTaggedStatement) {

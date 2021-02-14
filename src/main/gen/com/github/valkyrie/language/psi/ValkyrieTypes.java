@@ -19,6 +19,7 @@ public interface ValkyrieTypes {
   IElementType CASE_PATTERN = new ValkyrieElementType("CASE_PATTERN");
   IElementType CLASS_BRACE = new ValkyrieElementType("CLASS_BRACE");
   IElementType CLASS_BRACE_ITEM = new ValkyrieElementType("CLASS_BRACE_ITEM");
+  IElementType CLASS_NUMERIC_KEY = new ValkyrieElementType("CLASS_NUMERIC_KEY");
   IElementType CLASS_STATEMENT = new ValkyrieElementType("CLASS_STATEMENT");
   IElementType CLASS_TUPLE = new ValkyrieElementType("CLASS_TUPLE");
   IElementType CLASS_TUPLE_ITEM = new ValkyrieElementType("CLASS_TUPLE_ITEM");
@@ -32,6 +33,8 @@ public interface ValkyrieTypes {
   IElementType EXPORT_RENAME = new ValkyrieElementType("EXPORT_RENAME");
   IElementType EXPORT_STATEMENT = new ValkyrieElementType("EXPORT_STATEMENT");
   IElementType EXTENDS_STATEMENT = new ValkyrieElementType("EXTENDS_STATEMENT");
+  IElementType FORALL_BLOCK = new ValkyrieElementType("FORALL_BLOCK");
+  IElementType FORALL_STATEMENT = new ValkyrieElementType("FORALL_STATEMENT");
   IElementType FOR_STATEMENT = new ValkyrieElementType("FOR_STATEMENT");
   IElementType IF_GUARD = new ValkyrieElementType("IF_GUARD");
   IElementType IF_STATEMENT = new ValkyrieElementType("IF_STATEMENT");
@@ -183,6 +186,9 @@ public interface ValkyrieTypes {
       else if (type == CLASS_BRACE_ITEM) {
         return new ValkyrieClassBraceItemNode(node);
       }
+      else if (type == CLASS_NUMERIC_KEY) {
+        return new ValkyrieClassNumericKeyNode(node);
+      }
       else if (type == CLASS_STATEMENT) {
         return new ValkyrieClassStatementNode(node);
       }
@@ -221,6 +227,12 @@ public interface ValkyrieTypes {
       }
       else if (type == EXTENDS_STATEMENT) {
         return new ValkyrieExtendsStatementNode(node);
+      }
+      else if (type == FORALL_BLOCK) {
+        return new ValkyrieForallBlockNode(node);
+      }
+      else if (type == FORALL_STATEMENT) {
+        return new ValkyrieForallStatementNode(node);
       }
       else if (type == FOR_STATEMENT) {
         return new ValkyrieForStatementNode(node);

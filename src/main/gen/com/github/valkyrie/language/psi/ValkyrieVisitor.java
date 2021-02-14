@@ -51,6 +51,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitClassNumericKey(@NotNull ValkyrieClassNumericKey o) {
+    visitPsiElement(o);
+  }
+
   public void visitClassStatement(@NotNull ValkyrieClassStatement o) {
     visitPsiElement(o);
   }
@@ -104,6 +108,14 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitForStatement(@NotNull ValkyrieForStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitForallBlock(@NotNull ValkyrieForallBlock o) {
+    visitPsiElement(o);
+  }
+
+  public void visitForallStatement(@NotNull ValkyrieForallStatement o) {
     visitPsiElement(o);
   }
 
