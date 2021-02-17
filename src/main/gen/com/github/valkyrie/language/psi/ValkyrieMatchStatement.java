@@ -8,33 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieMatchStatement extends PsiElement {
 
   @NotNull
-  List<ValkyrieBoolean> getBooleanList();
-
-  @NotNull
-  List<ValkyrieCallSuffix> getCallSuffixList();
-
-  @NotNull
-  List<ValkyrieList> getListList();
+  List<ValkyrieExpr> getExprList();
 
   @NotNull
   ValkyrieMatchBlock getMatchBlock();
-
-  @NotNull
-  List<ValkyrieNamespace> getNamespaceList();
-
-  @NotNull
-  List<ValkyrieNumber> getNumberList();
-
-  @NotNull
-  List<ValkyrieSliceSuffix> getSliceSuffixList();
-
-  @NotNull
-  List<ValkyrieString> getStringList();
-
-  @NotNull
-  List<ValkyrieTuple> getTupleList();
-
-  @NotNull
-  List<ValkyrieTypeAngle> getTypeAngleList();
 
 }

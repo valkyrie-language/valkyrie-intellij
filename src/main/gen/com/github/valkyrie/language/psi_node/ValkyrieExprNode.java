@@ -11,14 +11,14 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyriePairNode extends ValkyrieElement implements ValkyriePair {
+public class ValkyrieExprNode extends ValkyrieElement implements ValkyrieExpr {
 
-  public ValkyriePairNode(@NotNull ASTNode node) {
+  public ValkyrieExprNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitPair(this);
+    visitor.visitExpr(this);
   }
 
   @Override
@@ -35,8 +35,14 @@ public class ValkyriePairNode extends ValkyrieElement implements ValkyriePair {
 
   @Override
   @NotNull
-  public List<ValkyrieExpr> getExprList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpr.class);
+  public List<ValkyrieCallSuffix> getCallSuffixList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieCallSuffix.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieList getList() {
+    return findChildByClass(ValkyrieList.class);
   }
 
   @Override
@@ -52,9 +58,27 @@ public class ValkyriePairNode extends ValkyrieElement implements ValkyriePair {
   }
 
   @Override
+  @NotNull
+  public List<ValkyrieSliceSuffix> getSliceSuffixList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSliceSuffix.class);
+  }
+
+  @Override
   @Nullable
   public ValkyrieString getString() {
     return findChildByClass(ValkyrieString.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieTuple getTuple() {
+    return findChildByClass(ValkyrieTuple.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ValkyrieTypeAngle> getTypeAngleList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeAngle.class);
   }
 
 }

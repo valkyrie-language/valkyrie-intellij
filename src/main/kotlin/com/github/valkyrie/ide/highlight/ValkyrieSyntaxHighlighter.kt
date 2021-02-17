@@ -25,7 +25,7 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             IMPORT, EXPORT, MODULE -> Color.KEYWORD
             MATCH, CATCH, EXTENDS, CASE -> Color.KEYWORD
             IF, ELSE, FOR, IN, WHILE -> Color.KEYWORD
-            LET, DEF, CLASS, TRAIT, TAGGED, BITFLAG -> Color.KEYWORD
+            LET, DEF, CLASS, TRAIT, TAGGED, BITFLAG, FORALL, TYPE -> Color.KEYWORD
             // ANNOTATION -> JssColor.ANNOTATION
             //
             PARENTHESIS_L, PARENTHESIS_R -> Color.PARENTHESES

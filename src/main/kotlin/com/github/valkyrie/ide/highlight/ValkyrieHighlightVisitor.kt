@@ -53,6 +53,13 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
         super.visitCasePattern(o)
     }
 
+    override fun visitForallStatement(o: ValkyrieForallStatement) {
+        o.symbolList.forEach {
+            highlight(it, Color.SYM_GENERIC)
+        }
+        super.visitForallStatement(o)
+    }
+
 
     override fun visitClassStatement(o: ValkyrieClassStatement) {
         highlightSymbolList(o.modifiers.symbolList, Color.SYM_CLASS)

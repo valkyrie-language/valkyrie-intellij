@@ -16,8 +16,9 @@ class A4<T: Sized> {
     ref y: &int = 0,
 }
 
-forall T {T: Debug}
-class A5<T>(T)
+#derive()
+∀ T, U iff {T: Debug} ==>
+class A5<T, U>(T, U)
 
 // https://crates.io/crates/custom_debug_derive
 #[Copy, Clone, Debug(rename=UpperCase)]

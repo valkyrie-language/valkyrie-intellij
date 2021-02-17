@@ -10,43 +10,19 @@ public interface ValkyrieForStatement extends PsiElement {
   @NotNull
   ValkyrieBlock getBlock();
 
-  @NotNull
-  List<ValkyrieBoolean> getBooleanList();
-
-  @NotNull
-  List<ValkyrieCallSuffix> getCallSuffixList();
-
   @Nullable
   ValkyrieCasePattern getCasePattern();
 
   @Nullable
   ValkyrieElseStatement getElseStatement();
 
+  @NotNull
+  List<ValkyrieExpr> getExprList();
+
   @Nullable
   ValkyrieIfGuard getIfGuard();
 
-  @NotNull
-  List<ValkyrieList> getListList();
-
-  @NotNull
-  List<ValkyrieNamespace> getNamespaceList();
-
   @Nullable
   ValkyrieNormalPattern getNormalPattern();
-
-  @NotNull
-  List<ValkyrieNumber> getNumberList();
-
-  @NotNull
-  List<ValkyrieSliceSuffix> getSliceSuffixList();
-
-  @NotNull
-  List<ValkyrieString> getStringList();
-
-  @NotNull
-  List<ValkyrieTuple> getTupleList();
-
-  @NotNull
-  List<ValkyrieTypeAngle> getTypeAngleList();
 
 }

@@ -78,6 +78,7 @@
         ELSE = "else"
         FOR = "for"
         FORALL = "forall"
+        EXISTS = "exists"
         WHILE = "while"
         MATCH = 'match'
         CATCH = 'catch'
@@ -185,7 +186,7 @@ bitflag_item        ::= symbol BIND expression;
 extends_statement   ::= EXTENDS namespace block;
 // ---------------------------------------------------------------------------------------------------------------------
 private expression  ::= expr (op_binary expr)*;
-private expr        ::= op_prefix* term (op_suffix|call_suffix|PROPORTION type_angle|slice_suffix)*;
+expr                ::= op_prefix* term (op_suffix|call_suffix|PROPORTION type_angle|slice_suffix)*;
 private term        ::= list | tuple | atoms;
 private op_binary   ::= type_binary | ANGLE_L | ANGLE_R | LESS | GREATER | DOT_LESS | DOT_EQ | DOT2 | DOT;
 private op_prefix   ::= PLUS | MINUS | NOT | BANG | AMP | DOT3 | DOT2;

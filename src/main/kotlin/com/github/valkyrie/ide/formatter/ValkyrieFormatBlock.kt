@@ -8,6 +8,7 @@ import com.github.valkyrie.language.psi.ValkyrieBlock
 import com.github.valkyrie.language.psi.ValkyrieClassBrace
 import com.github.valkyrie.language.psi.ValkyrieClassTuple
 import com.github.valkyrie.language.psi.ValkyrieExportBlock
+import com.github.valkyrie.language.psi.ValkyrieForallBlock
 import com.github.valkyrie.language.psi.ValkyrieTaggedBlock
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
@@ -76,6 +77,7 @@ class ValkyrieFormatBlock(
             is ValkyrieBlock, is ValkyrieExportBlock,
             is ValkyrieTaggedBlock, is ValkyrieBitflagBlock,
             is ValkyrieClassTuple, is ValkyrieClassBrace,
+            is ValkyrieForallBlock
             -> when {
                 isCornerChild -> Indent.getNoneIndent()
                 else -> Indent.getNormalIndent()

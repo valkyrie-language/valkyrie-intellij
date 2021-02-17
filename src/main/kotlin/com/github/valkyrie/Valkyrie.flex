@@ -63,6 +63,7 @@ public void match_indent() {
 %state ImportExport
 %state Let
 %state For
+%state Forall
 %state If
 %state Class
 %state StringInside
@@ -83,7 +84,7 @@ HEX = [0-9a-fA-F]
 
 %%
 
-<YYINITIAL, Class, ImportExport, Let, For> {
+<YYINITIAL, Class, ImportExport, Let, For, Forall> {
     {COMMENT_DOCUMENT} { return COMMENT_DOCUMENT; }
     {COMMENT_LINE}     { return COMMENT_LINE; }
 //  {COMMENT_BLOCK}    { return COMMENT_BLOCK; }
@@ -101,10 +102,9 @@ HEX = [0-9a-fA-F]
     "else" { return ELSE; }
     "while" { return WHILE; }
     "match" { return MATCH; }
-    "def" | "func" | "fn" { return DEF; }
+    "define" | "def" | "func" | "fn" { return DEF; }
     "type" { return TYPE; }
-    "trait" | "interface" { return TRAIT; }
-    "extends"| "extend" | "impl" { return EXTENDS; }
+    "extends" | "exists"| "∃" | "impl" | "proves" { return EXTENDS; }
 }
 // =====================================================================================================================
 <YYINITIAL> "import" {
@@ -184,11 +184,15 @@ HEX = [0-9a-fA-F]
     }
 }
 // =====================================================================================================================
-// 遇到了 bitflags 关键词
-<YYINITIAL> "forall" {
-    yybegin(Class);
+// 遇到了关键词, 解除关键词捕捉
+<YYINITIAL> "forall" | "∀" {
+    yybegin(Forall);
     return FORALL;
 }
+<Forall> {
+    "exists" | "∃" {return EXISTS;}
+}
+// =====================================================================================================================
 <YYINITIAL> "class" | "struct" {
     yybegin(Class);
     return CLASS;
@@ -208,14 +212,14 @@ HEX = [0-9a-fA-F]
     ")" {brace_recover();    return PARENTHESIS_R;}
 }
 // =====================================================================================================================
-<YYINITIAL, Class, ImportExport, Let, For> {
+<YYINITIAL, Class, ImportExport, Let, For, Forall> {
     {BYTE} { return BYTE; }
     {INTEGER} { return INTEGER; }
     {DECIMAL} { return DECIMAL; }
     {SYMBOL_XID} { return SYMBOL_XID; }
     {SYMBOL_RAW} { return SYMBOL_RAW; }
 }
-<YYINITIAL, Class, ImportExport, Let, For> {
+<YYINITIAL, Class, ImportExport, Let, For, Forall> {
     // !
     "!=" { return NE; }
     "!" { return BANG; }

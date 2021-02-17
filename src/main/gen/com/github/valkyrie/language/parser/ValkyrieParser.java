@@ -748,14 +748,14 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // op_prefix* term (op_suffix|call_suffix|PROPORTION type_angle|slice_suffix)*
-  static boolean expr(PsiBuilder b, int l) {
+  public static boolean expr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expr")) return false;
     boolean r;
-    Marker m = enter_section_(b);
+    Marker m = enter_section_(b, l, _NONE_, EXPR, "<expr>");
     r = expr_0(b, l + 1);
     r = r && term(b, l + 1);
     r = r && expr_2(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 

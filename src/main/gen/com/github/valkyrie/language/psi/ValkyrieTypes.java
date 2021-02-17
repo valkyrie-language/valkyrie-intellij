@@ -32,6 +32,7 @@ public interface ValkyrieTypes {
   IElementType EXPORT_NAME = new ValkyrieElementType("EXPORT_NAME");
   IElementType EXPORT_RENAME = new ValkyrieElementType("EXPORT_RENAME");
   IElementType EXPORT_STATEMENT = new ValkyrieElementType("EXPORT_STATEMENT");
+  IElementType EXPR = new ValkyrieElementType("EXPR");
   IElementType EXTENDS_STATEMENT = new ValkyrieElementType("EXTENDS_STATEMENT");
   IElementType FORALL_BLOCK = new ValkyrieElementType("FORALL_BLOCK");
   IElementType FORALL_STATEMENT = new ValkyrieElementType("FORALL_STATEMENT");
@@ -106,6 +107,7 @@ public interface ValkyrieTypes {
   IElementType DOT_LESS = new ValkyrieTokenType("..<");
   IElementType ELSE = new ValkyrieTokenType("else");
   IElementType EQ = new ValkyrieTokenType("==");
+  IElementType EXISTS = new ValkyrieTokenType("exists");
   IElementType EXPORT = new ValkyrieTokenType("export");
   IElementType EXTENDS = new ValkyrieTokenType("extends");
   IElementType FOR = new ValkyrieTokenType("for");
@@ -224,6 +226,9 @@ public interface ValkyrieTypes {
       }
       else if (type == EXPORT_STATEMENT) {
         return new ValkyrieExportStatementNode(node);
+      }
+      else if (type == EXPR) {
+        return new ValkyrieExprNode(node);
       }
       else if (type == EXTENDS_STATEMENT) {
         return new ValkyrieExtendsStatementNode(node);

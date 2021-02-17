@@ -103,6 +103,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitExpr(@NotNull ValkyrieExpr o) {
+    visitPsiElement(o);
+  }
+
   public void visitExtendsStatement(@NotNull ValkyrieExtendsStatement o) {
     visitPsiElement(o);
   }
