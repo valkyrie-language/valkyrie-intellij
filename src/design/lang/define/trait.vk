@@ -1,9 +1,9 @@
 trait SemiGroup {
-    def combine(self, rhs: Self): Self
+    def combine(self, rhs: Self): Self;
 }
 
 trait Monoid: SemiGroup {
-    def unit()
+    def unit();
 }
 
 forall T exists Option<T>: SemiGroup {

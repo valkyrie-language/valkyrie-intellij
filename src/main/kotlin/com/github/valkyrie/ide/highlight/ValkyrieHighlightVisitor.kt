@@ -76,9 +76,7 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
         super.visitClassNumericKey(o)
     }
     override fun visitTraitStatement(o: ValkyrieTraitStatement) {
-        val head = o.firstChild
-        val prop = head.nextLeaf { it.elementType == ValkyrieTypes.SYMBOL }!!
-        highlight(prop, Color.SYM_TRAIT)
+        highlightSymbolList(o.modifiers.symbolList, Color.SYM_TRAIT)
         super.visitTraitStatement(o)
     }
 

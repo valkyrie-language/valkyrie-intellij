@@ -29,14 +29,26 @@ public class ValkyrieExtendsStatementNode extends ValkyrieElement implements Val
 
   @Override
   @NotNull
-  public ValkyrieBlock getBlock() {
-    return findNotNullChildByClass(ValkyrieBlock.class);
+  public ValkyrieModifiers getModifiers() {
+    return findNotNullChildByClass(ValkyrieModifiers.class);
   }
 
   @Override
   @NotNull
-  public ValkyrieNamespace getNamespace() {
-    return findNotNullChildByClass(ValkyrieNamespace.class);
+  public ValkyrieTraitBlock getTraitBlock() {
+    return findNotNullChildByClass(ValkyrieTraitBlock.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieTypeAngle getTypeAngle() {
+    return findChildByClass(ValkyrieTypeAngle.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieTypeExpression getTypeExpression() {
+    return findChildByClass(ValkyrieTypeExpression.class);
   }
 
 }

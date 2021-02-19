@@ -7,40 +7,19 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieDefStatement extends PsiElement {
 
-  @NotNull
-  List<ValkyrieBoolean> getBooleanList();
-
-  @NotNull
-  List<ValkyrieCallSuffix> getCallSuffixList();
-
   @Nullable
   ValkyrieDefBlock getDefBlock();
 
   @NotNull
   ValkyrieDefTuple getDefTuple();
 
-  @NotNull
-  List<ValkyrieList> getListList();
+  @Nullable
+  ValkyrieExpression getExpression();
 
   @NotNull
   ValkyrieModifiers getModifiers();
 
-  @NotNull
-  List<ValkyrieNamespace> getNamespaceList();
-
-  @NotNull
-  List<ValkyrieNumber> getNumberList();
-
-  @NotNull
-  List<ValkyrieSliceSuffix> getSliceSuffixList();
-
-  @NotNull
-  List<ValkyrieString> getStringList();
-
-  @NotNull
-  List<ValkyrieTuple> getTupleList();
-
-  @NotNull
-  List<ValkyrieTypeAngle> getTypeAngleList();
+  @Nullable
+  ValkyrieTypeExpression getTypeExpression();
 
 }

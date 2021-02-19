@@ -84,6 +84,8 @@ ESCAPE_SPECIAL= \\.
 ESCAPE_UNICODE= \\(u{HEX}{4}|U{HEX}{6})
 HEX = [0-9a-fA-F]
 
+DEFINE = "define" | "def" | "func" | "fn";
+
 %%
 
 <YYINITIAL, Class, Trait, ImportExport, Let, For, Forall> {
@@ -163,8 +165,8 @@ HEX = [0-9a-fA-F]
 }
 // =====================================================================================================================
 // 遇到了 def 关键词
-<YYINITIAL> "define" | "def" | "func" | "fn" {
-    return DEF;
+<YYINITIAL> {DEFINE} {
+    return DEFINE;
 }
 // =====================================================================================================================
 // 遇到了 bitflags 关键词
@@ -190,11 +192,13 @@ HEX = [0-9a-fA-F]
 }
 <Forall> {
     "type" {yybegin(Class);return TYPE;}
-    "exists" | "∃" {yybegin(Class);return EXTENDS;}
-    "trait" | "interface" {yybegin(Class);return TRAIT;}
+    "extends" | "impl" {yybegin(Class);return EXTENDS;}
     "class" | "struct" {yybegin(Class);return CLASS;}
     "bitflags" | "bitflag" | "bitset" {yybegin(Class);return BITFLAG;}
     "variant" | "tagged" | "enum" {yybegin(Class);return TAGGED;}
+    {DEFINE} {yybegin(Class);return DEFINE;}
+    "exists" | "∃" {yybegin(Trait);return EXTENDS;}
+    "trait" | "interface" {yybegin(Trait);return TRAIT;}
 }
 // =====================================================================================================================
 <YYINITIAL> "class" | "struct" {
@@ -209,10 +213,6 @@ HEX = [0-9a-fA-F]
     yybegin(Class);
     return TAGGED;
 }
-<YYINITIAL> "extends" | "impl" {
-    yybegin(Class);
-    return EXTENDS;
-}
 <Class> {
     "{" {brace_block(Class); return BRACE_L;}
     "}" {brace_recover();    return BRACE_R;}
@@ -223,6 +223,14 @@ HEX = [0-9a-fA-F]
 <YYINITIAL> "trait" | "interface" {
     yybegin(Trait);
     return TRAIT;
+}
+<YYINITIAL> "extends" | "impl" {
+    yybegin(Trait);
+    return EXTENDS;
+}
+<YYINITIAL> "exists" | "∃" {
+    yybegin(Trait);
+    return EXTENDS;
 }
 <Trait> {
     "{" {brace_block(YYINITIAL); return BRACE_L;}
@@ -238,7 +246,7 @@ HEX = [0-9a-fA-F]
     {SYMBOL_XID} { return SYMBOL_XID; }
     {SYMBOL_RAW} { return SYMBOL_RAW; }
 }
-<YYINITIAL, Class, ImportExport, Let, For, Forall> {
+<YYINITIAL, Class,Trait, ImportExport, Let, For, Forall> {
     // !
     "!=" { return NE; }
     "!" { return BANG; }
@@ -272,6 +280,7 @@ HEX = [0-9a-fA-F]
     "." { return DOT; }
     "," { return COMMA; }
     "+" { return PLUS; }
+    "->" { return TO; }
     "-" { return MINUS; }
     // =
     "==" { return EQ; }

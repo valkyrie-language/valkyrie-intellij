@@ -35,6 +35,7 @@ public interface ValkyrieTypes {
   IElementType EXPORT_NAME = new ValkyrieElementType("EXPORT_NAME");
   IElementType EXPORT_RENAME = new ValkyrieElementType("EXPORT_RENAME");
   IElementType EXPORT_STATEMENT = new ValkyrieElementType("EXPORT_STATEMENT");
+  IElementType EXPRESSION = new ValkyrieElementType("EXPRESSION");
   IElementType EXTENDS_STATEMENT = new ValkyrieElementType("EXTENDS_STATEMENT");
   IElementType FORALL_BLOCK = new ValkyrieElementType("FORALL_BLOCK");
   IElementType FORALL_STATEMENT = new ValkyrieElementType("FORALL_STATEMENT");
@@ -75,6 +76,7 @@ public interface ValkyrieTypes {
   IElementType TRAIT_STATEMENT = new ValkyrieElementType("TRAIT_STATEMENT");
   IElementType TUPLE = new ValkyrieElementType("TUPLE");
   IElementType TYPE_ANGLE = new ValkyrieElementType("TYPE_ANGLE");
+  IElementType TYPE_EXPRESSION = new ValkyrieElementType("TYPE_EXPRESSION");
   IElementType TYPE_STATEMENT = new ValkyrieElementType("TYPE_STATEMENT");
   IElementType WHILE_STATEMENT = new ValkyrieElementType("WHILE_STATEMENT");
 
@@ -102,7 +104,7 @@ public interface ValkyrieTypes {
   IElementType COMMENT_DOCUMENT = new ValkyrieTokenType("Comment Document");
   IElementType COMMENT_LINE = new ValkyrieTokenType("Comment Line");
   IElementType DECIMAL = new ValkyrieTokenType("DECIMAL");
-  IElementType DEF = new ValkyrieTokenType("def");
+  IElementType DEFINE = new ValkyrieTokenType("def");
   IElementType DOLLAR = new ValkyrieTokenType("$");
   IElementType DOT = new ValkyrieTokenType(".");
   IElementType DOT2 = new ValkyrieTokenType("..");
@@ -111,7 +113,6 @@ public interface ValkyrieTypes {
   IElementType DOT_LESS = new ValkyrieTokenType("..<");
   IElementType ELSE = new ValkyrieTokenType("else");
   IElementType EQ = new ValkyrieTokenType("==");
-  IElementType EXISTS = new ValkyrieTokenType("exists");
   IElementType EXPORT = new ValkyrieTokenType("export");
   IElementType EXTENDS = new ValkyrieTokenType("extends");
   IElementType FOR = new ValkyrieTokenType("for");
@@ -240,6 +241,9 @@ public interface ValkyrieTypes {
       else if (type == EXPORT_STATEMENT) {
         return new ValkyrieExportStatementNode(node);
       }
+      else if (type == EXPRESSION) {
+        return new ValkyrieExpressionNode(node);
+      }
       else if (type == EXTENDS_STATEMENT) {
         return new ValkyrieExtendsStatementNode(node);
       }
@@ -359,6 +363,9 @@ public interface ValkyrieTypes {
       }
       else if (type == TYPE_ANGLE) {
         return new ValkyrieTypeAngleNode(node);
+      }
+      else if (type == TYPE_EXPRESSION) {
+        return new ValkyrieTypeExpressionNode(node);
       }
       else if (type == TYPE_STATEMENT) {
         return new ValkyrieTypeStatementNode(node);

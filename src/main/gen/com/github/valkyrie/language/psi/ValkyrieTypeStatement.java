@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieTypeStatement extends PsiElement {
 
-  @NotNull
+  @Nullable
   ValkyrieBlock getBlock();
 
   @NotNull

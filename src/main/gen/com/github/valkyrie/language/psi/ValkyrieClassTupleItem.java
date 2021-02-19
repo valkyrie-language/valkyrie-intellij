@@ -7,31 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieClassTupleItem extends PsiElement {
 
-  @NotNull
-  List<ValkyrieBoolean> getBooleanList();
+  @Nullable
+  ValkyrieExpression getExpression();
 
   @NotNull
-  List<ValkyrieCallSuffix> getCallSuffixList();
-
-  @NotNull
-  List<ValkyrieList> getListList();
-
-  @NotNull
-  List<ValkyrieNamespace> getNamespaceList();
-
-  @NotNull
-  List<ValkyrieNumber> getNumberList();
-
-  @NotNull
-  List<ValkyrieSliceSuffix> getSliceSuffixList();
-
-  @NotNull
-  List<ValkyrieString> getStringList();
-
-  @NotNull
-  List<ValkyrieTuple> getTupleList();
-
-  @NotNull
-  List<ValkyrieTypeAngle> getTypeAngleList();
+  ValkyrieTypeExpression getTypeExpression();
 
 }

@@ -28,9 +28,9 @@ public class ValkyrieTypeStatementNode extends ValkyrieElement implements Valkyr
   }
 
   @Override
-  @NotNull
+  @Nullable
   public ValkyrieBlock getBlock() {
-    return findNotNullChildByClass(ValkyrieBlock.class);
+    return findChildByClass(ValkyrieBlock.class);
   }
 
   @Override

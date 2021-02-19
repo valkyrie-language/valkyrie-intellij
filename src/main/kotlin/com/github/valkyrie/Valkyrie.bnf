@@ -78,12 +78,12 @@
         ELSE = "else"
         FOR = "for"
         FORALL = "forall"
-        EXISTS = "exists"
+//      EXISTS = "exists"
         WHILE = "while"
         MATCH = 'match'
         CATCH = 'catch'
         LET = "let"
-        DEF = "def"
+        DEFINE = "def"
         CLASS = 'class'
         TRAIT = 'trait'
         TAGGED = 'tagged'
@@ -156,28 +156,30 @@ match_expression ::= case_pattern COLON (normal_statements [SEMICOLON])+
 let_statement    ::=
     LET normal_pattern [let_type_hint] [BIND expression]
   | LET case_pattern BIND expression;
-let_type_hint    ::= COLON <<sequence type_expr COMMA>>;
+let_type_hint    ::= COLON <<sequence type_expression COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
-def_statement       ::= DEF modifiers def_tuple [COLON type_expr] [def_block| BIND expression];
-def_tuple           ::= <<sequence def_item COMMA>>;
-def_item            ::= modifiers [COLON type_expr] [BIND expression];
+def_statement       ::= DEFINE modifiers def_tuple [(COLON|TO) type_expression] [def_block| BIND expression];
+def_tuple           ::= <<parenthesis def_item COMMA>>;
+def_item            ::= modifiers [COLON type_expression] [BIND expression];
 def_block           ::= <<brace_block normal_statements SEMICOLON>>;
 // ---------------------------------------------------------------------------------------------------------------------
-type_statement      ::= TYPE symbol BIND block;
+type_statement      ::= TYPE symbol [BIND block];
 // ---------------------------------------------------------------------------------------------------------------------
 forall_statement    ::= FORALL <<sequence symbol COMMA>> [forall_block];
-forall_block        ::= <<brace_block (type_expr COLON type_expr) (COMMA|SEMICOLON)>>;
+forall_block        ::= <<brace_block (type_expression COLON type_expression) (COMMA|SEMICOLON)>>;
 // ---------------------------------------------------------------------------------------------------------------------
 class_statement     ::= CLASS modifiers [[PROPORTION] type_angle] [class_tuple|class_brace];
 class_tuple         ::= <<parenthesis class_tuple_item COMMA>>;
 class_brace         ::= <<brace_block class_brace_item (COMMA|SEMICOLON)>>;
-class_tuple_item    ::= type_expr [BIND expression];
-class_brace_item    ::= (class_numeric_key | modifiers) COLON type_expr [BIND expression];
+class_tuple_item    ::= type_expression [BIND expression];
+class_brace_item    ::= (class_numeric_key | modifiers) COLON type_expression [BIND expression];
 class_numeric_key   ::= [modifiers] INTEGER
 // ---------------------------------------------------------------------------------------------------------------------
-trait_statement     ::= TRAIT symbol trait_block;
+trait_statement     ::= TRAIT modifiers [[PROPORTION] type_angle] [COLON type_expression] trait_block;
 trait_block         ::= <<brace_block normal_statements SEMICOLON>>;
 trait_item          ::= normal_statements;
+// ---------------------------------------------------------------------------------------------------------------------
+extends_statement   ::= EXTENDS modifiers [[PROPORTION] type_angle] [COLON type_expression] trait_block;
 // ---------------------------------------------------------------------------------------------------------------------
 tagged_statement    ::= TAGGED modifiers [[PROPORTION] type_angle] tagged_block;
 tagged_block        ::= <<brace_block tagged_item (COMMA|SEMICOLON)>>;
@@ -185,12 +187,10 @@ tagged_item         ::= symbol [class_tuple|class_brace];
 // ---------------------------------------------------------------------------------------------------------------------
 bitflag_statement   ::= BITFLAG modifiers [bitflag_layout] bitflag_block;
 bitflag_block       ::= <<brace_block (bitflag_item|macro_call) SEMICOLON>>;
-bitflag_layout      ::= PARENTHESIS_L type_expr PARENTHESIS_R;
+bitflag_layout      ::= PARENTHESIS_L type_expression PARENTHESIS_R;
 bitflag_item        ::= symbol BIND expression;
 // ---------------------------------------------------------------------------------------------------------------------
-extends_statement   ::= EXTENDS namespace block;
-// ---------------------------------------------------------------------------------------------------------------------
-private expression  ::= expr (op_binary expr)*;
+expression          ::= expr (op_binary expr)*;
 private expr        ::= op_prefix* term (op_suffix|call_suffix|PROPORTION type_angle|slice_suffix)*;
 private term        ::= list | tuple | atoms;
 private op_binary   ::= type_binary | ANGLE_L | ANGLE_R | LESS | GREATER | DOT_LESS | DOT_EQ | DOT2 | DOT;
@@ -198,9 +198,10 @@ private op_prefix   ::= PLUS | MINUS | NOT | BANG | AMP | DOT3 | DOT2;
 private op_suffix   ::= BANG | QUESTION;
 call_suffix         ::= <<parenthesis expression COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
-private type_expr   ::= expr (type_binary expr)*;
-private type_binary ::= VERTICAL | EQ | NE | PLUS | MINUS;
-type_angle          ::= <<angle_block ([symbol COLON] type_expr) COMMA>>;
+type_expression     ::= type_expr (type_binary type_expr)*;
+private type_expr   ::= op_prefix* term (op_suffix|call_suffix|type_angle|slice_suffix)*;
+private type_binary ::= VERTICAL | EQ | NE | PLUS | MINUS | TO;
+type_angle          ::= <<angle_block ([symbol COLON] type_expression) COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
 slice_suffix        ::= <<bracket_block slice_expression COMMA>>;
 slice_expression    ::=

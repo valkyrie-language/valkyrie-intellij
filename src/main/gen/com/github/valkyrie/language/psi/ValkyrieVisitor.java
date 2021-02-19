@@ -115,6 +115,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitExpression(@NotNull ValkyrieExpression o) {
+    visitPsiElement(o);
+  }
+
   public void visitExtendsStatement(@NotNull ValkyrieExtendsStatement o) {
     visitPsiElement(o);
   }
@@ -272,6 +276,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitTypeAngle(@NotNull ValkyrieTypeAngle o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTypeExpression(@NotNull ValkyrieTypeExpression o) {
     visitPsiElement(o);
   }
 
