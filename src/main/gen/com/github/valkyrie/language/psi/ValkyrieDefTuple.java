@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieTraitStatement extends PsiElement {
+public interface ValkyrieDefTuple extends PsiElement {
 
   @NotNull
-  ValkyrieSymbol getSymbol();
-
-  @NotNull
-  ValkyrieTraitBlock getTraitBlock();
+  List<ValkyrieDefItem> getDefItemList();
 
 }

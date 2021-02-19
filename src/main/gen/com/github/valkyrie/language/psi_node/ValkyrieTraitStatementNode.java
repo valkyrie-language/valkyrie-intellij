@@ -29,14 +29,14 @@ public class ValkyrieTraitStatementNode extends ValkyrieElement implements Valky
 
   @Override
   @NotNull
-  public ValkyrieBlock getBlock() {
-    return findNotNullChildByClass(ValkyrieBlock.class);
+  public ValkyrieSymbol getSymbol() {
+    return findNotNullChildByClass(ValkyrieSymbol.class);
   }
 
   @Override
   @NotNull
-  public ValkyrieSymbol getSymbol() {
-    return findNotNullChildByClass(ValkyrieSymbol.class);
+  public ValkyrieTraitBlock getTraitBlock() {
+    return findNotNullChildByClass(ValkyrieTraitBlock.class);
   }
 
 }

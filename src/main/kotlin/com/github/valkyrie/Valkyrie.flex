@@ -66,6 +66,8 @@ public void match_indent() {
 %state Forall
 %state If
 %state Class
+%state Trait
+%state Define
 %state StringInside
 
 WHITE_SPACE=[\s\t\r\n]
@@ -84,17 +86,11 @@ HEX = [0-9a-fA-F]
 
 %%
 
-<YYINITIAL, Class, ImportExport, Let, For, Forall> {
+<YYINITIAL, Class, Trait, ImportExport, Let, For, Forall> {
     {COMMENT_DOCUMENT} { return COMMENT_DOCUMENT; }
     {COMMENT_LINE}     { return COMMENT_LINE; }
 //  {COMMENT_BLOCK}    { return COMMENT_BLOCK; }
     {WHITE_SPACE}+     { return WHITE_SPACE; }
-}
-
-
-<YYINITIAL> {
-    "{" { return BRACE_L; }
-    "}" { return BRACE_R; }
 }
 // 顶级关键词
 <YYINITIAL> {
@@ -102,9 +98,7 @@ HEX = [0-9a-fA-F]
     "else" { return ELSE; }
     "while" { return WHILE; }
     "match" { return MATCH; }
-    "define" | "def" | "func" | "fn" { return DEF; }
     "type" { return TYPE; }
-    "extends" | "exists"| "∃" | "impl" | "proves" { return EXTENDS; }
 }
 // =====================================================================================================================
 <YYINITIAL> "import" {
@@ -168,6 +162,11 @@ HEX = [0-9a-fA-F]
     return SEMICOLON;
 }
 // =====================================================================================================================
+// 遇到了 def 关键词
+<YYINITIAL> "define" | "def" | "func" | "fn" {
+    return DEF;
+}
+// =====================================================================================================================
 // 遇到了 bitflags 关键词
 <YYINITIAL> "for" {
     yybegin(For);
@@ -190,7 +189,12 @@ HEX = [0-9a-fA-F]
     return FORALL;
 }
 <Forall> {
-    "exists" | "∃" {return EXISTS;}
+    "type" {yybegin(Class);return TYPE;}
+    "exists" | "∃" {yybegin(Class);return EXTENDS;}
+    "trait" | "interface" {yybegin(Class);return TRAIT;}
+    "class" | "struct" {yybegin(Class);return CLASS;}
+    "bitflags" | "bitflag" | "bitset" {yybegin(Class);return BITFLAG;}
+    "variant" | "tagged" | "enum" {yybegin(Class);return TAGGED;}
 }
 // =====================================================================================================================
 <YYINITIAL> "class" | "struct" {
@@ -205,6 +209,10 @@ HEX = [0-9a-fA-F]
     yybegin(Class);
     return TAGGED;
 }
+<YYINITIAL> "extends" | "impl" {
+    yybegin(Class);
+    return EXTENDS;
+}
 <Class> {
     "{" {brace_block(Class); return BRACE_L;}
     "}" {brace_recover();    return BRACE_R;}
@@ -212,7 +220,18 @@ HEX = [0-9a-fA-F]
     ")" {brace_recover();    return PARENTHESIS_R;}
 }
 // =====================================================================================================================
-<YYINITIAL, Class, ImportExport, Let, For, Forall> {
+<YYINITIAL> "trait" | "interface" {
+    yybegin(Trait);
+    return TRAIT;
+}
+<Trait> {
+    "{" {brace_block(YYINITIAL); return BRACE_L;}
+    "}" {brace_recover();    return BRACE_R;}
+    "(" {brace_block(YYINITIAL); return PARENTHESIS_L;}
+    ")" {brace_recover();    return PARENTHESIS_R;}
+}
+// =====================================================================================================================
+<YYINITIAL, Class,Trait, ImportExport, Let, For, Forall> {
     {BYTE} { return BYTE; }
     {INTEGER} { return INTEGER; }
     {DECIMAL} { return DECIMAL; }

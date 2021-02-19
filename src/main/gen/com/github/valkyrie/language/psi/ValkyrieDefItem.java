@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieBlock extends PsiElement {
+public interface ValkyrieDefItem extends PsiElement {
 
   @NotNull
   List<ValkyrieBoolean> getBooleanList();
@@ -15,6 +15,9 @@ public interface ValkyrieBlock extends PsiElement {
 
   @NotNull
   List<ValkyrieList> getListList();
+
+  @NotNull
+  ValkyrieModifiers getModifiers();
 
   @NotNull
   List<ValkyrieNamespace> getNamespaceList();

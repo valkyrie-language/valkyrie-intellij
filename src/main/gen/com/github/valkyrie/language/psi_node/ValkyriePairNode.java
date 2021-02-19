@@ -28,33 +28,57 @@ public class ValkyriePairNode extends ValkyrieElement implements ValkyriePair {
   }
 
   @Override
-  @Nullable
-  public ValkyrieBoolean getBoolean() {
-    return findChildByClass(ValkyrieBoolean.class);
+  @NotNull
+  public List<ValkyrieBoolean> getBooleanList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieBoolean.class);
   }
 
   @Override
   @NotNull
-  public List<ValkyrieExpr> getExprList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpr.class);
+  public List<ValkyrieCallSuffix> getCallSuffixList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieCallSuffix.class);
   }
 
   @Override
-  @Nullable
-  public ValkyrieNamespace getNamespace() {
-    return findChildByClass(ValkyrieNamespace.class);
+  @NotNull
+  public List<ValkyrieList> getListList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieList.class);
   }
 
   @Override
-  @Nullable
-  public ValkyrieNumber getNumber() {
-    return findChildByClass(ValkyrieNumber.class);
+  @NotNull
+  public List<ValkyrieNamespace> getNamespaceList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNamespace.class);
   }
 
   @Override
-  @Nullable
-  public ValkyrieString getString() {
-    return findChildByClass(ValkyrieString.class);
+  @NotNull
+  public List<ValkyrieNumber> getNumberList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNumber.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ValkyrieSliceSuffix> getSliceSuffixList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSliceSuffix.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ValkyrieString> getStringList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieString.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ValkyrieTuple> getTupleList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTuple.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ValkyrieTypeAngle> getTypeAngleList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeAngle.class);
   }
 
 }

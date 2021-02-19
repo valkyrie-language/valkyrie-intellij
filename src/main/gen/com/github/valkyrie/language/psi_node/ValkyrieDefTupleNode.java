@@ -11,14 +11,14 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieForallStatementNode extends ValkyrieElement implements ValkyrieForallStatement {
+public class ValkyrieDefTupleNode extends ValkyrieElement implements ValkyrieDefTuple {
 
-  public ValkyrieForallStatementNode(@NotNull ASTNode node) {
+  public ValkyrieDefTupleNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitForallStatement(this);
+    visitor.visitDefTuple(this);
   }
 
   @Override
@@ -28,15 +28,9 @@ public class ValkyrieForallStatementNode extends ValkyrieElement implements Valk
   }
 
   @Override
-  @Nullable
-  public ValkyrieForallBlock getForallBlock() {
-    return findChildByClass(ValkyrieForallBlock.class);
-  }
-
-  @Override
   @NotNull
-  public List<ValkyrieSymbol> getSymbolList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSymbol.class);
+  public List<ValkyrieDefItem> getDefItemList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDefItem.class);
   }
 
 }

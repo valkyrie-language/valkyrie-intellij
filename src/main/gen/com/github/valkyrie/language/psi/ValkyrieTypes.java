@@ -24,7 +24,10 @@ public interface ValkyrieTypes {
   IElementType CLASS_TUPLE = new ValkyrieElementType("CLASS_TUPLE");
   IElementType CLASS_TUPLE_ITEM = new ValkyrieElementType("CLASS_TUPLE_ITEM");
   IElementType CONDITION = new ValkyrieElementType("CONDITION");
+  IElementType DEF_BLOCK = new ValkyrieElementType("DEF_BLOCK");
+  IElementType DEF_ITEM = new ValkyrieElementType("DEF_ITEM");
   IElementType DEF_STATEMENT = new ValkyrieElementType("DEF_STATEMENT");
+  IElementType DEF_TUPLE = new ValkyrieElementType("DEF_TUPLE");
   IElementType EF_STATEMENT = new ValkyrieElementType("EF_STATEMENT");
   IElementType ELSE_STATEMENT = new ValkyrieElementType("ELSE_STATEMENT");
   IElementType EXPORT_BLOCK = new ValkyrieElementType("EXPORT_BLOCK");
@@ -32,7 +35,6 @@ public interface ValkyrieTypes {
   IElementType EXPORT_NAME = new ValkyrieElementType("EXPORT_NAME");
   IElementType EXPORT_RENAME = new ValkyrieElementType("EXPORT_RENAME");
   IElementType EXPORT_STATEMENT = new ValkyrieElementType("EXPORT_STATEMENT");
-  IElementType EXPR = new ValkyrieElementType("EXPR");
   IElementType EXTENDS_STATEMENT = new ValkyrieElementType("EXTENDS_STATEMENT");
   IElementType FORALL_BLOCK = new ValkyrieElementType("FORALL_BLOCK");
   IElementType FORALL_STATEMENT = new ValkyrieElementType("FORALL_STATEMENT");
@@ -68,6 +70,8 @@ public interface ValkyrieTypes {
   IElementType TAGGED_BLOCK = new ValkyrieElementType("TAGGED_BLOCK");
   IElementType TAGGED_ITEM = new ValkyrieElementType("TAGGED_ITEM");
   IElementType TAGGED_STATEMENT = new ValkyrieElementType("TAGGED_STATEMENT");
+  IElementType TRAIT_BLOCK = new ValkyrieElementType("TRAIT_BLOCK");
+  IElementType TRAIT_ITEM = new ValkyrieElementType("TRAIT_ITEM");
   IElementType TRAIT_STATEMENT = new ValkyrieElementType("TRAIT_STATEMENT");
   IElementType TUPLE = new ValkyrieElementType("TUPLE");
   IElementType TYPE_ANGLE = new ValkyrieElementType("TYPE_ANGLE");
@@ -203,8 +207,17 @@ public interface ValkyrieTypes {
       else if (type == CONDITION) {
         return new ValkyrieConditionNode(node);
       }
+      else if (type == DEF_BLOCK) {
+        return new ValkyrieDefBlockNode(node);
+      }
+      else if (type == DEF_ITEM) {
+        return new ValkyrieDefItemNode(node);
+      }
       else if (type == DEF_STATEMENT) {
         return new ValkyrieDefStatementNode(node);
+      }
+      else if (type == DEF_TUPLE) {
+        return new ValkyrieDefTupleNode(node);
       }
       else if (type == EF_STATEMENT) {
         return new ValkyrieEfStatementNode(node);
@@ -226,9 +239,6 @@ public interface ValkyrieTypes {
       }
       else if (type == EXPORT_STATEMENT) {
         return new ValkyrieExportStatementNode(node);
-      }
-      else if (type == EXPR) {
-        return new ValkyrieExprNode(node);
       }
       else if (type == EXTENDS_STATEMENT) {
         return new ValkyrieExtendsStatementNode(node);
@@ -334,6 +344,12 @@ public interface ValkyrieTypes {
       }
       else if (type == TAGGED_STATEMENT) {
         return new ValkyrieTaggedStatementNode(node);
+      }
+      else if (type == TRAIT_BLOCK) {
+        return new ValkyrieTraitBlockNode(node);
+      }
+      else if (type == TRAIT_ITEM) {
+        return new ValkyrieTraitItemNode(node);
       }
       else if (type == TRAIT_STATEMENT) {
         return new ValkyrieTraitStatementNode(node);

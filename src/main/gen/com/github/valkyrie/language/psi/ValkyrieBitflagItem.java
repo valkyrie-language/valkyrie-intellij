@@ -8,9 +8,33 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieBitflagItem extends PsiElement {
 
   @NotNull
-  List<ValkyrieExpr> getExprList();
+  List<ValkyrieBoolean> getBooleanList();
+
+  @NotNull
+  List<ValkyrieCallSuffix> getCallSuffixList();
+
+  @NotNull
+  List<ValkyrieList> getListList();
+
+  @NotNull
+  List<ValkyrieNamespace> getNamespaceList();
+
+  @NotNull
+  List<ValkyrieNumber> getNumberList();
+
+  @NotNull
+  List<ValkyrieSliceSuffix> getSliceSuffixList();
+
+  @NotNull
+  List<ValkyrieString> getStringList();
 
   @NotNull
   ValkyrieSymbol getSymbol();
+
+  @NotNull
+  List<ValkyrieTuple> getTupleList();
+
+  @NotNull
+  List<ValkyrieTypeAngle> getTypeAngleList();
 
 }

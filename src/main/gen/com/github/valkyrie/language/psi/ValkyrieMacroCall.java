@@ -8,12 +8,36 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieMacroCall extends PsiElement {
 
   @NotNull
-  List<ValkyrieExpr> getExprList();
+  List<ValkyrieBoolean> getBooleanList();
+
+  @NotNull
+  List<ValkyrieCallSuffix> getCallSuffixList();
+
+  @NotNull
+  List<ValkyrieList> getListList();
 
   @NotNull
   ValkyrieMacro getMacro();
 
   @NotNull
+  List<ValkyrieNamespace> getNamespaceList();
+
+  @NotNull
+  List<ValkyrieNumber> getNumberList();
+
+  @NotNull
   List<ValkyriePair> getPairList();
+
+  @NotNull
+  List<ValkyrieSliceSuffix> getSliceSuffixList();
+
+  @NotNull
+  List<ValkyrieString> getStringList();
+
+  @NotNull
+  List<ValkyrieTuple> getTupleList();
+
+  @NotNull
+  List<ValkyrieTypeAngle> getTypeAngleList();
 
 }

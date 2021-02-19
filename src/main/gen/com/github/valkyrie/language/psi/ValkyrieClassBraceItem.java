@@ -7,13 +7,37 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieClassBraceItem extends PsiElement {
 
+  @NotNull
+  List<ValkyrieBoolean> getBooleanList();
+
+  @NotNull
+  List<ValkyrieCallSuffix> getCallSuffixList();
+
   @Nullable
   ValkyrieClassNumericKey getClassNumericKey();
 
   @NotNull
-  List<ValkyrieExpr> getExprList();
+  List<ValkyrieList> getListList();
 
   @Nullable
   ValkyrieModifiers getModifiers();
+
+  @NotNull
+  List<ValkyrieNamespace> getNamespaceList();
+
+  @NotNull
+  List<ValkyrieNumber> getNumberList();
+
+  @NotNull
+  List<ValkyrieSliceSuffix> getSliceSuffixList();
+
+  @NotNull
+  List<ValkyrieString> getStringList();
+
+  @NotNull
+  List<ValkyrieTuple> getTupleList();
+
+  @NotNull
+  List<ValkyrieTypeAngle> getTypeAngleList();
 
 }

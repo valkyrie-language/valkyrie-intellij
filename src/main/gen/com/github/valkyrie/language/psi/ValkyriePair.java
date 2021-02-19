@@ -7,19 +7,31 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyriePair extends PsiElement {
 
-  @Nullable
-  ValkyrieBoolean getBoolean();
+  @NotNull
+  List<ValkyrieBoolean> getBooleanList();
 
   @NotNull
-  List<ValkyrieExpr> getExprList();
+  List<ValkyrieCallSuffix> getCallSuffixList();
 
-  @Nullable
-  ValkyrieNamespace getNamespace();
+  @NotNull
+  List<ValkyrieList> getListList();
 
-  @Nullable
-  ValkyrieNumber getNumber();
+  @NotNull
+  List<ValkyrieNamespace> getNamespaceList();
 
-  @Nullable
-  ValkyrieString getString();
+  @NotNull
+  List<ValkyrieNumber> getNumberList();
+
+  @NotNull
+  List<ValkyrieSliceSuffix> getSliceSuffixList();
+
+  @NotNull
+  List<ValkyrieString> getStringList();
+
+  @NotNull
+  List<ValkyrieTuple> getTupleList();
+
+  @NotNull
+  List<ValkyrieTypeAngle> getTypeAngleList();
 
 }

@@ -11,14 +11,14 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieExprNode extends ValkyrieElement implements ValkyrieExpr {
+public class ValkyrieDefItemNode extends ValkyrieElement implements ValkyrieDefItem {
 
-  public ValkyrieExprNode(@NotNull ASTNode node) {
+  public ValkyrieDefItemNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitExpr(this);
+    visitor.visitDefItem(this);
   }
 
   @Override
@@ -28,9 +28,9 @@ public class ValkyrieExprNode extends ValkyrieElement implements ValkyrieExpr {
   }
 
   @Override
-  @Nullable
-  public ValkyrieBoolean getBoolean() {
-    return findChildByClass(ValkyrieBoolean.class);
+  @NotNull
+  public List<ValkyrieBoolean> getBooleanList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieBoolean.class);
   }
 
   @Override
@@ -40,21 +40,27 @@ public class ValkyrieExprNode extends ValkyrieElement implements ValkyrieExpr {
   }
 
   @Override
-  @Nullable
-  public ValkyrieList getList() {
-    return findChildByClass(ValkyrieList.class);
+  @NotNull
+  public List<ValkyrieList> getListList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieList.class);
   }
 
   @Override
-  @Nullable
-  public ValkyrieNamespace getNamespace() {
-    return findChildByClass(ValkyrieNamespace.class);
+  @NotNull
+  public ValkyrieModifiers getModifiers() {
+    return findNotNullChildByClass(ValkyrieModifiers.class);
   }
 
   @Override
-  @Nullable
-  public ValkyrieNumber getNumber() {
-    return findChildByClass(ValkyrieNumber.class);
+  @NotNull
+  public List<ValkyrieNamespace> getNamespaceList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNamespace.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ValkyrieNumber> getNumberList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNumber.class);
   }
 
   @Override
@@ -64,15 +70,15 @@ public class ValkyrieExprNode extends ValkyrieElement implements ValkyrieExpr {
   }
 
   @Override
-  @Nullable
-  public ValkyrieString getString() {
-    return findChildByClass(ValkyrieString.class);
+  @NotNull
+  public List<ValkyrieString> getStringList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieString.class);
   }
 
   @Override
-  @Nullable
-  public ValkyrieTuple getTuple() {
-    return findChildByClass(ValkyrieTuple.class);
+  @NotNull
+  public List<ValkyrieTuple> getTupleList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTuple.class);
   }
 
   @Override
