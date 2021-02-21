@@ -35,11 +35,3 @@ forall A, B exists Option<A>: Functor<B> {
         self.map(f)
     }
 }
-
-trait Functor {
-    type Unwrapped;
-    type Wrapped<B>: Functor;
-
-    forall F, B { F: Self::Unwrapped -> B }
-    define flat_map<F, B>(self, f: F) -> Self::Wrapped<B>
-}

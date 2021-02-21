@@ -35,12 +35,14 @@ data class ValkyrieFormatSpace(
             STAR,
             HYPHEN,
             PROPORTION,
-            AT
+            AT,
         )
         private val remove_space_newline_before = TokenSet.create(
             BRACKET_R,
         )
-        private val newline_indent_after = TokenSet.create(TO)
+        private val newline_indent_after = TokenSet.create()
+        private val binary_operator = TokenSet.create(EQ, TO)
+        private val left_bracket = TokenSet.create(PARENTHESIS_L, BRACKET_L)
 
         private fun createSpacingBuilder(commonSettings: CommonCodeStyleSettings): SpacingBuilder {
             val custom = SpacingBuilder(commonSettings)
@@ -49,9 +51,9 @@ data class ValkyrieFormatSpace(
                 // k: v
                 .after(COLON).spacing(1, 1, 0, false, 0)
                 // k = v
-                .around(EQ).spacing(1, 1, 0, commonSettings.KEEP_LINE_BREAKS, 0)
-            // SpacingBuilder { }
-            // .before(PROPERTIES_BLOCK).spacing(1, 1, 0, commonSettings.KEEP_LINE_BREAKS, 0)
+                .around(binary_operator).spacing(1, 1, 0, commonSettings.KEEP_LINE_BREAKS, 0)
+                .after(left_bracket).spacing(0, 0, 0, false, 0)
+                .before(left_bracket).spacing(1, 1, 0, false, 0)
 
             return custom
                 .before(remove_space_before).spaceIf(false)

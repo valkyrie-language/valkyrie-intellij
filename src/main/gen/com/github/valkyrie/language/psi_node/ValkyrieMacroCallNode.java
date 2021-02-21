@@ -28,21 +28,9 @@ public class ValkyrieMacroCallNode extends ValkyrieElement implements ValkyrieMa
   }
 
   @Override
-  @NotNull
-  public List<ValkyrieExpression> getExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpression.class);
-  }
-
-  @Override
-  @NotNull
-  public ValkyrieMacro getMacro() {
-    return findNotNullChildByClass(ValkyrieMacro.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyriePair> getPairList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyriePair.class);
+  @Nullable
+  public ValkyrieMacroItem getMacroItem() {
+    return findChildByClass(ValkyrieMacroItem.class);
   }
 
 }

@@ -21,11 +21,11 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
         highlight(o, Color.KEYWORD)
     }
 
-    override fun visitExportName(o: ValkyrieExportName) {
-        if (o.text.startsWith('@') || o.text.startsWith('#')) {
-            highlight(o, Color.SYM_MACRO)
-        }
-    }
+//    override fun visitExportName(o: ValkyrieExportName) {
+//        if (o.text.startsWith('@') || o.text.startsWith('#')) {
+//            highlight(o, Color.SYM_MACRO)
+//        }
+//    }
 
     override fun visitNormalPattern(o: ValkyrieNormalPattern) {
         val mut = o.isMutable();
@@ -53,6 +53,11 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
         super.visitCasePattern(o)
     }
 
+    override fun visitDefStatement(o: ValkyrieDefStatement) {
+        highlightSymbolList(o.modifiers.symbolList, Color.SYM_FUNCTION_FREE)
+        super.visitDefStatement(o)
+    }
+
     override fun visitForallStatement(o: ValkyrieForallStatement) {
         o.symbolList.forEach {
             highlight(it, Color.SYM_GENERIC)
@@ -75,6 +80,7 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
         o.modifiers?.let { highlightSymbolList(it.symbolList, Color.KEYWORD) }
         super.visitClassNumericKey(o)
     }
+
     override fun visitTraitStatement(o: ValkyrieTraitStatement) {
         highlightSymbolList(o.modifiers.symbolList, Color.SYM_TRAIT)
         super.visitTraitStatement(o)
@@ -98,6 +104,47 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     override fun visitBitflagItem(o: ValkyrieBitflagItem) {
         highlight(o.symbol, Color.SYM_VARIANT)
         super.visitBitflagItem(o)
+    }
+
+    // TODO: real syntax resolve
+    override fun visitSymbol(o: ValkyrieSymbol) {
+        // guess macro
+        if (o.text.startsWith('@') || o.text.startsWith('#')) {
+            return highlight(o, Color.SYM_MACRO)
+        }
+        when (o.text) {
+            "Default", "Debug", "Clone", "Copy", "Serialize", "Deserialize",
+            "SemiGroup", "Monoid", "HKT", "Functor",
+            -> {
+                highlight(o, Color.SYM_TRAIT)
+            }
+            "u8", "u16", "u32", "u64", "u128", "u256",
+            "i8", "i16", "i32", "i64", "i128", "i256",
+            "int", "bool", "str", "f32", "f64", "char", "byte", "void",
+            "self", "Self",
+            -> {
+                highlight(o, Color.KEYWORD)
+            }
+            "_", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" -> {
+                highlight(o, Color.SYM_GENERIC)
+            }
+            "rhs", "f" -> {
+                highlight(o, Color.SYM_ARG)
+            }
+            "map", "or" -> {
+                highlight(o, Color.SYM_FUNCTION_SELF)
+            }
+            "unit", "default" -> {
+                highlight(o, Color.SYM_FUNCTION_FREE)
+            }
+            "Option", "Result", "Current", "Target" -> {
+                highlight(o, Color.SYM_CLASS)
+            }
+            "None", "Some" -> {
+                highlight(o, Color.SYM_VARIANT)
+            }
+            else -> {}
+        }
     }
 
 

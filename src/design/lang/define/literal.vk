@@ -1,5 +1,5 @@
 let num = [0, 1.0, 2.0];
-let unit = [1s, -1.0ms, 0x01 us, +1μs, 0x01`m/s`]
+let si = [1s, -1.0ms, 0x01 us, +1μs, 0x01`m/s`]
 
 let empty = "";
 let char = 'a';

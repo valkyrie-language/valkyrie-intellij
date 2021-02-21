@@ -29,14 +29,62 @@ public class ValkyrieTypeStatementNode extends ValkyrieElement implements Valkyr
 
   @Override
   @Nullable
-  public ValkyrieBlock getBlock() {
-    return findChildByClass(ValkyrieBlock.class);
+  public ValkyrieBoolean getBoolean() {
+    return findChildByClass(ValkyrieBoolean.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ValkyrieCallSuffix> getCallSuffixList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieCallSuffix.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieList getList() {
+    return findChildByClass(ValkyrieList.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieNamespace getNamespace() {
+    return findChildByClass(ValkyrieNamespace.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieNumber getNumber() {
+    return findChildByClass(ValkyrieNumber.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ValkyrieSliceSuffix> getSliceSuffixList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSliceSuffix.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieString getString() {
+    return findChildByClass(ValkyrieString.class);
   }
 
   @Override
   @NotNull
   public ValkyrieSymbol getSymbol() {
     return findNotNullChildByClass(ValkyrieSymbol.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieTuple getTuple() {
+    return findChildByClass(ValkyrieTuple.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ValkyrieTypeAngle> getTypeAngleList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeAngle.class);
   }
 
 }

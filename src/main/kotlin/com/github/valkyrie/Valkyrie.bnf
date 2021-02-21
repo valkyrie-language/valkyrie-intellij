@@ -113,19 +113,21 @@ private normal_statements ::=
   | def_statement
   | type_statement
   | forall_statement
+//  | macro_list
+//  | macro_call
+  | expression
   ;
 // ---------------------------------------------------------------------------------------------------------------------
 module_statement ::= MODULE IDENTIFIER;
 // ---------------------------------------------------------------------------------------------------------------------
 export_statement ::= EXPORT [<<sequence namespace COMMA>>] export_block;
 export_block     ::= <<brace_block import_block COMMA>>;
-export_rename    ::= export_name (export_dot export_name)* [AS export_name];
-export_name      ::= [AT|HASH] symbol;
+export_rename    ::= symbol (export_dot symbol)* [AS symbol];
 export_dot       ::= PROPORTION | DOT;
 AS               ::= "as"
 // ---------------------------------------------------------------------------------------------------------------------
 import_statement ::= IMPORT import_block;
-import_block     ::= (export_name export_dot)* export_block | export_rename;
+import_block     ::= (symbol export_dot)* export_block | export_rename;
 // ---------------------------------------------------------------------------------------------------------------------
 if_statement     ::= (IF condition block) [ef_statement* [else_statement]]
 ef_statement     ::= ELSE IF condition block;
@@ -158,15 +160,15 @@ let_statement    ::=
   | LET case_pattern BIND expression;
 let_type_hint    ::= COLON <<sequence type_expression COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
-def_statement       ::= DEFINE modifiers def_tuple [(COLON|TO) type_expression] [def_block| BIND expression];
-def_tuple           ::= <<parenthesis def_item COMMA>>;
-def_item            ::= modifiers [COLON type_expression] [BIND expression];
-def_block           ::= <<brace_block normal_statements SEMICOLON>>;
+def_statement    ::= DEFINE modifiers [[PROPORTION] type_angle] def_tuple [(COLON|TO) type_expression] [def_block| BIND expression];
+def_tuple        ::= <<parenthesis def_item COMMA>>;
+def_item         ::= modifiers [COLON type_expression] [BIND expression];
+def_block        ::= <<brace_block normal_statements SEMICOLON>>;
 // ---------------------------------------------------------------------------------------------------------------------
-type_statement      ::= TYPE symbol [BIND block];
+type_statement   ::= TYPE symbol [[PROPORTION] type_angle] [BIND type_expr];
 // ---------------------------------------------------------------------------------------------------------------------
-forall_statement    ::= FORALL <<sequence symbol COMMA>> [forall_block];
-forall_block        ::= <<brace_block (type_expression COLON type_expression) (COMMA|SEMICOLON)>>;
+forall_statement ::= FORALL <<sequence symbol COMMA>> [forall_block];
+forall_block     ::= <<brace_block (type_expression COLON type_expression) (COMMA|SEMICOLON)>>;
 // ---------------------------------------------------------------------------------------------------------------------
 class_statement     ::= CLASS modifiers [[PROPORTION] type_angle] [class_tuple|class_brace];
 class_tuple         ::= <<parenthesis class_tuple_item COMMA>>;
@@ -177,7 +179,7 @@ class_numeric_key   ::= [modifiers] INTEGER
 // ---------------------------------------------------------------------------------------------------------------------
 trait_statement     ::= TRAIT modifiers [[PROPORTION] type_angle] [COLON type_expression] trait_block;
 trait_block         ::= <<brace_block normal_statements SEMICOLON>>;
-trait_item          ::= normal_statements;
+//trait_item        ::= normal_statements;
 // ---------------------------------------------------------------------------------------------------------------------
 extends_statement   ::= EXTENDS modifiers [[PROPORTION] type_angle] [COLON type_expression] trait_block;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -186,7 +188,7 @@ tagged_block        ::= <<brace_block tagged_item (COMMA|SEMICOLON)>>;
 tagged_item         ::= symbol [class_tuple|class_brace];
 // ---------------------------------------------------------------------------------------------------------------------
 bitflag_statement   ::= BITFLAG modifiers [bitflag_layout] bitflag_block;
-bitflag_block       ::= <<brace_block (bitflag_item|macro_call) SEMICOLON>>;
+bitflag_block       ::= <<brace_block (bitflag_item | macro_call) SEMICOLON>>;
 bitflag_layout      ::= PARENTHESIS_L type_expression PARENTHESIS_R;
 bitflag_item        ::= symbol BIND expression;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -210,16 +212,16 @@ slice_expression    ::=
   | [expression] PROPORTION [expression]
   | expression;
 // ---------------------------------------------------------------------------------------------------------------------
-namehead  ::= PROPORTION namespace
-namespace ::= symbol (PROPORTION symbol)*;
-modifiers ::= symbol+;
-macro     ::= AT namespace;
+//name     ::= PROPORTION namespace
+namespace  ::= symbol (PROPORTION symbol)*;
+modifiers  ::= symbol+;
 // ---------------------------------------------------------------------------------------------------------------------
-macro_call    ::= macro [
+macro_call ::= macro [macro_item];
+macro_item ::=
     <<parenthesis expression COMMA>>
   | <<brace_block pair COMMA>>
-  | <<brace_block expression SEMICOLON>>
-];
+  | <<brace_block expression SEMICOLON>>;
+macro_list ::= [AT|HASH] <<bracket_block (namespace macro_item) COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
 pair           ::= atoms COLON expression;
 list           ::= <<bracket_block expression COMMA>>
@@ -228,16 +230,16 @@ private atoms  ::= number | string | boolean | namespace;
 boolean        ::= "true" | "false";
 number         ::= number_literal [symbol];
 string         ::= [symbol] string_literal
-symbol         ::= SYMBOL_XID | SYMBOL_RAW;
+symbol         ::= [AT|HASH](SYMBOL_XID | SYMBOL_RAW);
 number_literal ::= BYTE | INTEGER | DECIMAL;
 string_literal ::= STRING_EMPTY | STRING_START STRING_CHAR+ STRING_END;
 // ---------------------------------------------------------------------------------------------------------------------
-private meta sequence ::= <<item>> (<<sp>> <<item>>)* [<<sp>>];
+private meta sequence      ::= <<item>> (<<sp>> <<item>>)* [<<sp>>];
 // parenthesis ( )
-private meta parenthesis ::= PARENTHESIS_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] PARENTHESIS_R;
+private meta parenthesis   ::= PARENTHESIS_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] PARENTHESIS_R;
 // bracket [ ]
 private meta bracket_block ::= BRACKET_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] BRACKET_R;
 // brace { }
-private meta brace_block ::= BRACE_L (<<item>>|<<sp>>)* BRACE_R;
+private meta brace_block   ::= BRACE_L (<<item>>|<<sp>>)* BRACE_R;
 // angle < >
-private meta angle_block ::= ANGLE_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] ANGLE_R;
+private meta angle_block   ::= ANGLE_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] ANGLE_R;

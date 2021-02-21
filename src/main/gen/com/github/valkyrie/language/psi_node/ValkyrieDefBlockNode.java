@@ -35,6 +35,12 @@ public class ValkyrieDefBlockNode extends ValkyrieElement implements ValkyrieDef
 
   @Override
   @NotNull
+  public List<ValkyrieExpression> getExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpression.class);
+  }
+
+  @Override
+  @NotNull
   public List<ValkyrieForStatement> getForStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieForStatement.class);
   }

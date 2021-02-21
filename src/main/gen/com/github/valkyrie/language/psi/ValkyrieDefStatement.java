@@ -20,6 +20,9 @@ public interface ValkyrieDefStatement extends PsiElement {
   ValkyrieModifiers getModifiers();
 
   @Nullable
+  ValkyrieTypeAngle getTypeAngle();
+
+  @Nullable
   ValkyrieTypeExpression getTypeExpression();
 
 }

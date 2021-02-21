@@ -5,9 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieMacro extends PsiElement {
+public interface ValkyrieMacroList extends PsiElement {
 
   @NotNull
-  ValkyrieNamespace getNamespace();
+  List<ValkyrieMacroItem> getMacroItemList();
+
+  @NotNull
+  List<ValkyrieNamespace> getNamespaceList();
 
 }

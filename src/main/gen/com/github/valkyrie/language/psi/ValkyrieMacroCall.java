@@ -7,13 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieMacroCall extends PsiElement {
 
-  @NotNull
-  List<ValkyrieExpression> getExpressionList();
-
-  @NotNull
-  ValkyrieMacro getMacro();
-
-  @NotNull
-  List<ValkyriePair> getPairList();
+  @Nullable
+  ValkyrieMacroItem getMacroItem();
 
 }

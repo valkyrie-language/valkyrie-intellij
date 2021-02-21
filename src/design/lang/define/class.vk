@@ -2,10 +2,10 @@ class A1(int)
 
 class serde A2 {
     public readonly 0: int,
-    public readonly 1: int
+    public readonly 1: int,
 }
 
-class class A3<T> {
+class class A3<T: Default> {
     x: T = Default::default(),
     y: T = Default::default(),
     z: T = Default::default(),
@@ -16,9 +16,7 @@ class A4<T: Sized> {
     ref y: &int = 0,
 }
 
-#derive()
-∀ T, U iff {T: Debug} ==>
-class A5<T, U>(T, U)
+∀ T, U {T: Debug, U: Debug} class A5<T, U>(T, U)
 
 // https://crates.io/crates/custom_debug_derive
 #[Copy, Clone, Debug(rename=UpperCase)]
@@ -39,42 +37,4 @@ b: int,
 
 define type A {
 
-}
-
-
-forall T, U {T: Debug}
-define public static class A<T> (T, usize): Debug;
-class A: Clone + Debug {
-item: String = "item"
-}
-
-type alias null = Null;
-forall <T>
-class: T;
-class A {
-
-}
-interface
-bitset
-tagged
-forall T {}
-extend Vec<T>: Iterable {
-forall 'a { Self: 'a }
-type Iter = <&'a [T] as IntoIterator>::IntoIter;
-fn iter(&self) -> Self::Iter<'_> {
-self.iter()
-}
-}
-
-def method(mut arg: int)
-{
-arg = arg + 44;
-}
-
-let a = {
-
-}
-
-class A {
-i: &int
 }

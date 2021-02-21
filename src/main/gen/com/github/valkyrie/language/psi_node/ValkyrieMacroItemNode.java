@@ -11,14 +11,14 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieMacroNode extends ValkyrieElement implements ValkyrieMacro {
+public class ValkyrieMacroItemNode extends ValkyrieElement implements ValkyrieMacroItem {
 
-  public ValkyrieMacroNode(@NotNull ASTNode node) {
+  public ValkyrieMacroItemNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitMacro(this);
+    visitor.visitMacroItem(this);
   }
 
   @Override
@@ -29,8 +29,14 @@ public class ValkyrieMacroNode extends ValkyrieElement implements ValkyrieMacro 
 
   @Override
   @NotNull
-  public ValkyrieNamespace getNamespace() {
-    return findNotNullChildByClass(ValkyrieNamespace.class);
+  public List<ValkyrieExpression> getExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpression.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ValkyriePair> getPairList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyriePair.class);
   }
 
 }

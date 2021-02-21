@@ -44,8 +44,6 @@ enum class ValkyrieHighlightColor(humanName: Supplier<@AttributeDescriptor Strin
     SYM_CONSTANT(ValkyrieBundle.messagePointer("color.token.symbol.constant"), Default.CONSTANT),
     SYM_FUNCTION_SELF(ValkyrieBundle.messagePointer("color.token.symbol.function.self"), Default.INSTANCE_METHOD),
     SYM_FUNCTION_FREE(ValkyrieBundle.messagePointer("color.token.symbol.function.free"), Default.STATIC_METHOD),
-
-    SYM_FUNCTION(ValkyrieBundle.messagePointer("color.token.symbol.function"), Default.PREDEFINED_SYMBOL),
     //
     TYPE_HINT(ValkyrieBundle.messagePointer("color.token.symbol.type"), Default.CLASS_NAME),
 

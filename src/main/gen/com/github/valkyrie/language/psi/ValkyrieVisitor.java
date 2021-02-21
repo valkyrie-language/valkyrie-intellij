@@ -163,11 +163,15 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitMacro(@NotNull ValkyrieMacro o) {
+  public void visitMacroCall(@NotNull ValkyrieMacroCall o) {
     visitPsiElement(o);
   }
 
-  public void visitMacroCall(@NotNull ValkyrieMacroCall o) {
+  public void visitMacroItem(@NotNull ValkyrieMacroItem o) {
+    visitPsiElement(o);
+  }
+
+  public void visitMacroList(@NotNull ValkyrieMacroList o) {
     visitPsiElement(o);
   }
 
@@ -188,10 +192,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitModuleStatement(@NotNull ValkyrieModuleStatement o) {
-    visitPsiElement(o);
-  }
-
-  public void visitNamehead(@NotNull ValkyrieNamehead o) {
     visitPsiElement(o);
   }
 
@@ -260,10 +260,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitTraitBlock(@NotNull ValkyrieTraitBlock o) {
-    visitPsiElement(o);
-  }
-
-  public void visitTraitItem(@NotNull ValkyrieTraitItem o) {
     visitPsiElement(o);
   }
 

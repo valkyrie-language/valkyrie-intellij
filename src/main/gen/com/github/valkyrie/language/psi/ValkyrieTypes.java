@@ -47,14 +47,14 @@ public interface ValkyrieTypes {
   IElementType LET_STATEMENT = new ValkyrieElementType("LET_STATEMENT");
   IElementType LET_TYPE_HINT = new ValkyrieElementType("LET_TYPE_HINT");
   IElementType LIST = new ValkyrieElementType("LIST");
-  IElementType MACRO = new ValkyrieElementType("MACRO");
   IElementType MACRO_CALL = new ValkyrieElementType("MACRO_CALL");
+  IElementType MACRO_ITEM = new ValkyrieElementType("MACRO_ITEM");
+  IElementType MACRO_LIST = new ValkyrieElementType("MACRO_LIST");
   IElementType MATCH_BLOCK = new ValkyrieElementType("MATCH_BLOCK");
   IElementType MATCH_EXPRESSION = new ValkyrieElementType("MATCH_EXPRESSION");
   IElementType MATCH_STATEMENT = new ValkyrieElementType("MATCH_STATEMENT");
   IElementType MODIFIERS = new ValkyrieElementType("MODIFIERS");
   IElementType MODULE_STATEMENT = new ValkyrieElementType("MODULE_STATEMENT");
-  IElementType NAMEHEAD = new ValkyrieElementType("NAMEHEAD");
   IElementType NAMESPACE = new ValkyrieElementType("NAMESPACE");
   IElementType NORMAL_PATTERN = new ValkyrieElementType("NORMAL_PATTERN");
   IElementType NUMBER = new ValkyrieElementType("NUMBER");
@@ -72,7 +72,6 @@ public interface ValkyrieTypes {
   IElementType TAGGED_ITEM = new ValkyrieElementType("TAGGED_ITEM");
   IElementType TAGGED_STATEMENT = new ValkyrieElementType("TAGGED_STATEMENT");
   IElementType TRAIT_BLOCK = new ValkyrieElementType("TRAIT_BLOCK");
-  IElementType TRAIT_ITEM = new ValkyrieElementType("TRAIT_ITEM");
   IElementType TRAIT_STATEMENT = new ValkyrieElementType("TRAIT_STATEMENT");
   IElementType TUPLE = new ValkyrieElementType("TUPLE");
   IElementType TYPE_ANGLE = new ValkyrieElementType("TYPE_ANGLE");
@@ -127,6 +126,7 @@ public interface ValkyrieTypes {
   IElementType INTEGER = new ValkyrieTokenType("INTEGER");
   IElementType LESS = new ValkyrieTokenType("<<");
   IElementType LET = new ValkyrieTokenType("let");
+  IElementType MACRO = new ValkyrieTokenType("macro");
   IElementType MATCH = new ValkyrieTokenType("match");
   IElementType MINUS = new ValkyrieTokenType("MINUS");
   IElementType MODULE = new ValkyrieTokenType("module");
@@ -277,11 +277,14 @@ public interface ValkyrieTypes {
       else if (type == LIST) {
         return new ValkyrieListNode(node);
       }
-      else if (type == MACRO) {
-        return new ValkyrieMacroNode(node);
-      }
       else if (type == MACRO_CALL) {
         return new ValkyrieMacroCallNode(node);
+      }
+      else if (type == MACRO_ITEM) {
+        return new ValkyrieMacroItemNode(node);
+      }
+      else if (type == MACRO_LIST) {
+        return new ValkyrieMacroListNode(node);
       }
       else if (type == MATCH_BLOCK) {
         return new ValkyrieMatchBlockNode(node);
@@ -297,9 +300,6 @@ public interface ValkyrieTypes {
       }
       else if (type == MODULE_STATEMENT) {
         return new ValkyrieModuleStatementNode(node);
-      }
-      else if (type == NAMEHEAD) {
-        return new ValkyrieNameheadNode(node);
       }
       else if (type == NAMESPACE) {
         return new ValkyrieNamespaceNode(node);
@@ -351,9 +351,6 @@ public interface ValkyrieTypes {
       }
       else if (type == TRAIT_BLOCK) {
         return new ValkyrieTraitBlockNode(node);
-      }
-      else if (type == TRAIT_ITEM) {
-        return new ValkyrieTraitItemNode(node);
       }
       else if (type == TRAIT_STATEMENT) {
         return new ValkyrieTraitStatementNode(node);

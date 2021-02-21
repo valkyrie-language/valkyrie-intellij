@@ -8,9 +8,33 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieTypeStatement extends PsiElement {
 
   @Nullable
-  ValkyrieBlock getBlock();
+  ValkyrieBoolean getBoolean();
+
+  @NotNull
+  List<ValkyrieCallSuffix> getCallSuffixList();
+
+  @Nullable
+  ValkyrieList getList();
+
+  @Nullable
+  ValkyrieNamespace getNamespace();
+
+  @Nullable
+  ValkyrieNumber getNumber();
+
+  @NotNull
+  List<ValkyrieSliceSuffix> getSliceSuffixList();
+
+  @Nullable
+  ValkyrieString getString();
 
   @NotNull
   ValkyrieSymbol getSymbol();
+
+  @Nullable
+  ValkyrieTuple getTuple();
+
+  @NotNull
+  List<ValkyrieTypeAngle> getTypeAngleList();
 
 }
