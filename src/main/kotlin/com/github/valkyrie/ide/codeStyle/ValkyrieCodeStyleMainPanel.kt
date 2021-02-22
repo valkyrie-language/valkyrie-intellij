@@ -4,7 +4,7 @@ import com.intellij.application.options.GenerationCodeStylePanel
 import com.intellij.application.options.TabbedLanguageCodeStylePanel
 import com.intellij.psi.codeStyle.CodeStyleSettings
 
-class VomlCodeStyleMainPanel(currentSettings: CodeStyleSettings?, settings: CodeStyleSettings?) :
+class ValkyrieCodeStyleMainPanel(currentSettings: CodeStyleSettings?, settings: CodeStyleSettings) :
     TabbedLanguageCodeStylePanel(
         com.github.valkyrie.ValkyrieLanguage.INSTANCE,
         currentSettings,

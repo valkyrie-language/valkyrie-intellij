@@ -20,8 +20,7 @@ extend<T> Option<T>: Biased {
     def biased(self) = @matches(self, Some(_))
 }
 
-extend<T> Result<T
-}>: Biased {
+extend<T> Result<T>: Biased {
     def biased(self) = @matches(self, Success(_))
 }
 

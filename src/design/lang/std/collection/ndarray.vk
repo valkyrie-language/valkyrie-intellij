@@ -1,0 +1,11 @@
+class native NDArray<T, D> {
+
+}
+
+class native Matrix<T> {
+    array: NDArray<T, [Ix, 1]>
+}
+
+class native Array<T> {
+    array: NDArray<T>
+}

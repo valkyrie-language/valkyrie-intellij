@@ -1,3 +1,7 @@
+using
+
+module A;
+
 // missing scope means public
 export { }
 export super, package::a, package::b {
@@ -15,3 +19,5 @@ import std::{
     }
 }
 import serde::{#Serialize, #Deserialize}
+
+require("../test")

@@ -11,14 +11,16 @@ class ValkyrieCodeStyleSetting : LanguageCodeStyleSettingsProvider() {
 
     override fun createConfigurable(
         settings: CodeStyleSettings,
-        modelSettings: CodeStyleSettings
+        modelSettings: CodeStyleSettings,
     ): CodeStyleConfigurable {
         return object : CodeStyleAbstractConfigurable(
             settings,
             modelSettings,
             configurableDisplayName
         ) {
-            override fun createPanel(settings: CodeStyleSettings?) = VomlCodeStyleMainPanel(currentSettings, settings)
+            override fun createPanel(settings: CodeStyleSettings?) = settings?.let {
+                ValkyrieCodeStyleMainPanel(currentSettings, it)
+            }
         }
     }
 
@@ -46,7 +48,7 @@ class ValkyrieCodeStyleSetting : LanguageCodeStyleSettingsProvider() {
 
     override fun customizeDefaults(
         commonSettings: CommonCodeStyleSettings,
-        indentOptions: CommonCodeStyleSettings.IndentOptions
+        indentOptions: CommonCodeStyleSettings.IndentOptions,
     ) {
         commonSettings.RIGHT_MARGIN = DEFAULT_RIGHT_MARGIN
 
