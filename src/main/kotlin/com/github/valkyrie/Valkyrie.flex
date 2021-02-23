@@ -96,6 +96,7 @@ DEFINE = "define" | "def" | "func" | "fn";
 }
 // 顶级关键词
 <YYINITIAL> {
+    "new" { return NEW; }
     "if" { return IF; }
     "else" { return ELSE; }
     "while" { return WHILE; }

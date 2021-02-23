@@ -1,5 +1,11 @@
 
 
-class native String {
+type UTF8;
 
+class native String<T: CharacterSet = UTF8>: PartialOrd + Eq+ Ord {
+    raw: Vector<u8>
+}
+
+class native StringView: PartialOrd + Eq+ Ord {
+    raw: Vector<u8>
 }

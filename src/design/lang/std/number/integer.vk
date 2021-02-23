@@ -1,5 +1,5 @@
 
 
-class native Character {
+#primitive class Integer {
 
 }

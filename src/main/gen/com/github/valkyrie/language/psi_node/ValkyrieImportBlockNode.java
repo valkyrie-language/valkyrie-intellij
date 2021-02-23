@@ -40,15 +40,15 @@ public class ValkyrieImportBlockNode extends ValkyrieElement implements Valkyrie
   }
 
   @Override
-  @NotNull
-  public List<ValkyrieExportName> getExportNameList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExportName.class);
-  }
-
-  @Override
   @Nullable
   public ValkyrieExportRename getExportRename() {
     return findChildByClass(ValkyrieExportRename.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ValkyrieSymbol> getSymbolList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSymbol.class);
   }
 
 }

@@ -13,10 +13,10 @@ public interface ValkyrieImportBlock extends PsiElement {
   @NotNull
   List<ValkyrieExportDot> getExportDotList();
 
-  @NotNull
-  List<ValkyrieExportName> getExportNameList();
-
   @Nullable
   ValkyrieExportRename getExportRename();
+
+  @NotNull
+  List<ValkyrieSymbol> getSymbolList();
 
 }

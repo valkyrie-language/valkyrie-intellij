@@ -41,8 +41,8 @@ public class ValkyrieExportRenameNode extends ValkyrieElement implements Valkyri
 
   @Override
   @NotNull
-  public List<ValkyrieExportName> getExportNameList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExportName.class);
+  public List<ValkyrieSymbol> getSymbolList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSymbol.class);
   }
 
 }

@@ -11,14 +11,14 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.psi.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieExportNameNode extends ValkyrieElement implements ValkyrieExportName {
+public class ValkyrieNewStatementNode extends ValkyrieElement implements ValkyrieNewStatement {
 
-  public ValkyrieExportNameNode(@NotNull ASTNode node) {
+  public ValkyrieNewStatementNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitExportName(this);
+    visitor.visitNewStatement(this);
   }
 
   @Override
@@ -29,8 +29,26 @@ public class ValkyrieExportNameNode extends ValkyrieElement implements ValkyrieE
 
   @Override
   @NotNull
-  public ValkyrieSymbol getSymbol() {
-    return findNotNullChildByClass(ValkyrieSymbol.class);
+  public ValkyrieModifiers getModifiers() {
+    return findNotNullChildByClass(ValkyrieModifiers.class);
+  }
+
+  @Override
+  @NotNull
+  public ValkyrieTraitBlock getTraitBlock() {
+    return findNotNullChildByClass(ValkyrieTraitBlock.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieTypeAngle getTypeAngle() {
+    return findChildByClass(ValkyrieTypeAngle.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieTypeExpression getTypeExpression() {
+    return findChildByClass(ValkyrieTypeExpression.class);
   }
 
 }

@@ -103,10 +103,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitExportName(@NotNull ValkyrieExportName o) {
-    visitPsiElement(o);
-  }
-
   public void visitExportRename(@NotNull ValkyrieExportRename o) {
     visitPsiElement(o);
   }
@@ -196,6 +192,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitNamespace(@NotNull ValkyrieNamespace o) {
+    visitPsiElement(o);
+  }
+
+  public void visitNewStatement(@NotNull ValkyrieNewStatement o) {
     visitPsiElement(o);
   }
 

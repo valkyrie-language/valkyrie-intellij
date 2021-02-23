@@ -14,6 +14,6 @@ public interface ValkyrieExportRename extends PsiElement {
   List<ValkyrieExportDot> getExportDotList();
 
   @NotNull
-  List<ValkyrieExportName> getExportNameList();
+  List<ValkyrieSymbol> getSymbolList();
 
 }

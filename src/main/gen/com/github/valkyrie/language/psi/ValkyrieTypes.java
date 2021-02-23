@@ -32,7 +32,6 @@ public interface ValkyrieTypes {
   IElementType ELSE_STATEMENT = new ValkyrieElementType("ELSE_STATEMENT");
   IElementType EXPORT_BLOCK = new ValkyrieElementType("EXPORT_BLOCK");
   IElementType EXPORT_DOT = new ValkyrieElementType("EXPORT_DOT");
-  IElementType EXPORT_NAME = new ValkyrieElementType("EXPORT_NAME");
   IElementType EXPORT_RENAME = new ValkyrieElementType("EXPORT_RENAME");
   IElementType EXPORT_STATEMENT = new ValkyrieElementType("EXPORT_STATEMENT");
   IElementType EXPRESSION = new ValkyrieElementType("EXPRESSION");
@@ -56,6 +55,7 @@ public interface ValkyrieTypes {
   IElementType MODIFIERS = new ValkyrieElementType("MODIFIERS");
   IElementType MODULE_STATEMENT = new ValkyrieElementType("MODULE_STATEMENT");
   IElementType NAMESPACE = new ValkyrieElementType("NAMESPACE");
+  IElementType NEW_STATEMENT = new ValkyrieElementType("NEW_STATEMENT");
   IElementType NORMAL_PATTERN = new ValkyrieElementType("NORMAL_PATTERN");
   IElementType NUMBER = new ValkyrieElementType("NUMBER");
   IElementType NUMBER_LITERAL = new ValkyrieElementType("NUMBER_LITERAL");
@@ -131,6 +131,7 @@ public interface ValkyrieTypes {
   IElementType MINUS = new ValkyrieTokenType("MINUS");
   IElementType MODULE = new ValkyrieTokenType("module");
   IElementType NE = new ValkyrieTokenType("!=");
+  IElementType NEW = new ValkyrieTokenType("new");
   IElementType NOT = new ValkyrieTokenType("NOT");
   IElementType PARENTHESIS_L = new ValkyrieTokenType("(");
   IElementType PARENTHESIS_R = new ValkyrieTokenType(")");
@@ -232,9 +233,6 @@ public interface ValkyrieTypes {
       else if (type == EXPORT_DOT) {
         return new ValkyrieExportDotNode(node);
       }
-      else if (type == EXPORT_NAME) {
-        return new ValkyrieExportNameNode(node);
-      }
       else if (type == EXPORT_RENAME) {
         return new ValkyrieExportRenameNode(node);
       }
@@ -303,6 +301,9 @@ public interface ValkyrieTypes {
       }
       else if (type == NAMESPACE) {
         return new ValkyrieNamespaceNode(node);
+      }
+      else if (type == NEW_STATEMENT) {
+        return new ValkyrieNewStatementNode(node);
       }
       else if (type == NORMAL_PATTERN) {
         return new ValkyrieNormalPatternNode(node);
