@@ -7,12 +7,16 @@ import javax.swing.Icon
 
 class ValkyrieIconProvider : IconProvider() {
     override fun getIcon(psiElement: PsiElement, flags: Int): Icon? {
-        val fileName = psiElement.containingFile.name
-
+        val file = psiElement.containingFile
         return when {
-            fileName.endsWith(".vk") -> IconSVG
-            else -> null
+            file != null && file.name.endsWith(".vk") -> {
+                IconSVG
+            }
+            else -> {
+                null
+            }
         }
+
     }
 
     companion object {

@@ -1,6 +1,7 @@
 package com.github.valkyrie.ide.view
 
-import com.github.valkyrie.language.psi.ValkyrieBitflagStatement
+import com.github.valkyrie.language.psi.ValkyrieTraitStatement
+import com.github.valkyrie.language.psi_node.ValkyrieTraitStatementNode
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.ide.structureView.StructureViewTreeElement
 import com.intellij.ide.util.treeView.smartTree.SortableTreeElement
@@ -12,43 +13,29 @@ import com.intellij.psi.util.PsiTreeUtil
 class ValkyrieStructureViewElement(private val self: NavigatablePsiElement) :
     StructureViewTreeElement,
     SortableTreeElement {
-    override fun getValue(): Any {
-        return self
-    }
+    override fun getValue(): Any = self
 
-    override fun navigate(requestFocus: Boolean) {
-        self.navigate(requestFocus)
-    }
+    override fun navigate(requestFocus: Boolean) = self.navigate(requestFocus)
 
-    override fun canNavigate(): Boolean {
-        return self.canNavigate()
-    }
+    override fun canNavigate(): Boolean = self.canNavigate()
 
-    override fun canNavigateToSource(): Boolean {
-        return self.canNavigateToSource()
-    }
+    override fun canNavigateToSource(): Boolean = self.canNavigateToSource()
 
-    override fun getAlphaSortKey(): String {
-        return self.name ?: ""
-    }
+    override fun getAlphaSortKey(): String = self.name ?: ""
 
-    override fun getPresentation(): ItemPresentation {
-        val presentation = self.presentation
-        return presentation ?: PresentationData()
-    }
+    override fun getPresentation(): ItemPresentation = self.presentation ?: PresentationData()
 
     override fun getChildren(): Array<TreeElement> {
+        val treeElements: MutableList<TreeElement> = ArrayList(1024)
         if (self is ValkyrieFile) {
-            val treeElements: MutableList<TreeElement> = ArrayList(1024)
-            val properties = PsiTreeUtil.getChildrenOfTypeAsList(
+            val properties: List<NavigatablePsiElement> = PsiTreeUtil.getChildrenOfTypeAsList(
                 self,
                 NavigatablePsiElement::class.java
             )
             for (property in properties) {
                 treeElements.add(ValkyrieStructureViewElement(property))
             }
-            return treeElements.toTypedArray()
         }
-        return TreeElement.EMPTY_ARRAY
+        return treeElements.toTypedArray()
     }
 }

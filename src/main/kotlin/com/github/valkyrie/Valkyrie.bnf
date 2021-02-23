@@ -2,7 +2,7 @@
     parserClass = "com.github.valkyrie.language.parser.ValkyrieParser"
     parserUtilClass = "com.github.valkyrie.language.psi.ValkyrieParserExtension"
 
-    extends = "com.github.valkyrie.language.psi.ValkyrieElement"
+    extends = "com.github.valkyrie.language.mixin.ValkyrieElement"
 
     psiClassPrefix = "Valkyrie"
     psiImplClassSuffix = "Node"
@@ -14,7 +14,7 @@
     tokenTypeClass = "com.github.valkyrie.language.psi.ValkyrieTokenType"
 
     psiImplUtilClass = "com.github.valkyrie.language.psi_node.ValkyriePsiExtension"
-
+    // mixin("trait_statement")="com.github.valkyrie.language.mixin.ValkyrieTraitMixin"
     tokens = [
         // comment
         COMMENT_DOCUMENT = "Comment Document"
@@ -172,14 +172,18 @@ type_statement   ::= TYPE symbol [[PROPORTION] type_angle] [BIND type_expr];
 forall_statement ::= FORALL <<sequence symbol COMMA>> [forall_block];
 forall_block     ::= <<brace_block (type_expression COLON type_expression) (COMMA|SEMICOLON)>>;
 // ---------------------------------------------------------------------------------------------------------------------
-class_statement     ::= CLASS modifiers [[PROPORTION] type_angle] [class_tuple|class_brace];
+class_statement     ::= CLASS modifiers [[PROPORTION] type_angle] [class_tuple|class_brace] {
+    mixin="com.github.valkyrie.language.mixin.ValkyrieClassMixin"
+};
 class_tuple         ::= <<parenthesis class_tuple_item COMMA>>;
 class_brace         ::= <<brace_block class_brace_item (COMMA|SEMICOLON)>>;
 class_tuple_item    ::= type_expression [BIND expression];
 class_brace_item    ::= (class_numeric_key | modifiers) COLON type_expression [BIND expression];
 class_numeric_key   ::= [modifiers] INTEGER
 // ---------------------------------------------------------------------------------------------------------------------
-trait_statement     ::= TRAIT modifiers [[PROPORTION] type_angle] [COLON type_expression] trait_block;
+trait_statement     ::= TRAIT modifiers [[PROPORTION] type_angle] [COLON type_expression] trait_block {
+    mixin="com.github.valkyrie.language.mixin.ValkyrieTraitMixin"
+};
 trait_block         ::= <<brace_block normal_statements SEMICOLON>>;
 //trait_item        ::= normal_statements;
 // ---------------------------------------------------------------------------------------------------------------------
