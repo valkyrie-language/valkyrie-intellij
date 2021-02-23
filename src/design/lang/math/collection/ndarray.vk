@@ -2,10 +2,12 @@ class native NDArray<T, D> {
 
 }
 
-class native Matrix<T> {
+class native Matrix<T, M, N> {
     array: NDArray<T, [Ix, 1]>
 }
 
-class native Array<T> {
+class native Array<T, N> {
     array: NDArray<T>
 }
+
+

@@ -1,0 +1,4 @@
+#native trait Iterator {
+    def next();
+    def has_next();
+}

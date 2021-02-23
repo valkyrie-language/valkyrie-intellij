@@ -1,0 +1,25 @@
+class Vector3<T> {
+    /// First component of the vector.
+    x: T,
+    /// Second component of the vector.
+    y: T,
+    /// First component of the vector.
+    z: T,
+}
+
+extends Vector3: Constructor {
+def overload Vector3 (v: Vector2<T>, z: T) -> Self {
+new Self {
+x: v.x,
+y: v.y,
+z: z
+}
+}
+def overload Vector3 (v: Vector4<T>) -> Self {
+new Self {
+x: v.x,
+y: v.y,
+z: v.z,
+}
+}
+}
