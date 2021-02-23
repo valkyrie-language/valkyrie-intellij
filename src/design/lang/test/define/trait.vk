@@ -35,3 +35,17 @@ forall A, B exists Option<A>: Functor<B> {
         self.map(f)
     }
 }
+
+/// 静态扩展
+trait extension Extension {
+    match A {
+
+    }
+};
+
+/// 可以违反的约定
+trait convention Extension {
+    match A {
+
+    }
+};
