@@ -38,4 +38,6 @@ class ValkyrieStructureViewElement(private val self: NavigatablePsiElement) :
         }
         return treeElements.toTypedArray()
     }
+    // TODO: return object
+    fun getVisibility(): Boolean = true
 }
