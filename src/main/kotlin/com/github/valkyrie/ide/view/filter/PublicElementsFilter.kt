@@ -8,17 +8,17 @@ import com.intellij.util.PlatformIcons
 
 
 object PublicElementsFilter : Filter {
+
+    override fun getName() = "KOTLIN_SHOW_NON_PUBLIC"
+
+    override fun isReverted() = true
+    override fun getPresentation(): ActionPresentation = ActionPresentationData(
+        ValkyrieBundle.message("view.PublicElementsFilter"),
+        "GGGGG",
+        PlatformIcons.PRIVATE_ICON
+    )
     override fun isVisible(treeNode: TreeElement): Boolean {
         return (treeNode as? ValkyrieStructureViewElement)?.getVisibility() ?: true
     }
 
-    override fun getPresentation(): ActionPresentation {
-        return ActionPresentationData(ValkyrieBundle.message("show.non.public"), null, PlatformIcons.PRIVATE_ICON)
-    }
-
-    override fun getName() = ID
-
-    override fun isReverted() = true
-
-    const val ID = "KOTLIN_SHOW_NON_PUBLIC"
 }

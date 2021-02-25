@@ -1,11 +1,10 @@
 package com.github.valkyrie.ide.view
 
-import com.github.valkyrie.language.psi.ValkyrieTraitStatement
-import com.github.valkyrie.language.psi_node.ValkyrieTraitStatementNode
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.ide.structureView.StructureViewTreeElement
 import com.intellij.ide.util.treeView.smartTree.SortableTreeElement
 import com.intellij.ide.util.treeView.smartTree.TreeElement
+import com.intellij.json.psi.JsonFile
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.util.PsiTreeUtil
@@ -27,17 +26,19 @@ class ValkyrieStructureViewElement(private val self: NavigatablePsiElement) :
 
     override fun getChildren(): Array<TreeElement> {
         val treeElements: MutableList<TreeElement> = ArrayList(1024)
-        if (self is ValkyrieFile) {
-            val properties: List<NavigatablePsiElement> = PsiTreeUtil.getChildrenOfTypeAsList(
-                self,
-                NavigatablePsiElement::class.java
-            )
-            for (property in properties) {
-                treeElements.add(ValkyrieStructureViewElement(property))
-            }
+//        if (myElement is JsonFile) {
+//            value = (myElement as JsonFile).topLevelValue!!
+//        }
+        val properties: List<NavigatablePsiElement> = PsiTreeUtil.getChildrenOfTypeAsList(
+            self,
+            NavigatablePsiElement::class.java
+        )
+        for (property in properties) {
+            treeElements.add(ValkyrieStructureViewElement(property))
         }
         return treeElements.toTypedArray()
     }
+
     // TODO: return object
     fun getVisibility(): Boolean = true
 }

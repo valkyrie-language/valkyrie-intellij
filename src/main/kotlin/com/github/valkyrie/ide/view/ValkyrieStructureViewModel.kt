@@ -2,6 +2,7 @@ package com.github.valkyrie.ide.view
 
 
 import com.github.valkyrie.ide.view.filter.PublicElementsFilter
+import com.github.valkyrie.ide.view.grouper.PropertiesGrouper
 import com.intellij.ide.structureView.StructureViewModel.ElementInfoProvider
 import com.intellij.ide.structureView.StructureViewModelBase
 import com.intellij.ide.structureView.StructureViewTreeElement
@@ -14,16 +15,11 @@ import com.intellij.psi.PsiFile
 class ValkyrieStructureViewModel(psiFile: PsiFile?) :
     StructureViewModelBase(psiFile!!, ValkyrieStructureViewElement(psiFile)),
     ElementInfoProvider {
-    override fun getSorters(): Array<Sorter> {
-        return arrayOf(Sorter.ALPHA_SORTER)
-    }
-    override fun getFilters(): Array<Filter> {
-        return arrayOf(PublicElementsFilter)
-    }
+    override fun getSorters() = arrayOf(Sorter.ALPHA_SORTER)
 
-    override fun getGroupers(): Array<Grouper> {
-        return Grouper.EMPTY_ARRAY
-    }
+    override fun getFilters() = arrayOf(PublicElementsFilter)
+
+    override fun getGroupers() = arrayOf(PropertiesGrouper)
 
     override fun isAlwaysShowsPlus(element: StructureViewTreeElement): Boolean {
         return false
@@ -33,7 +29,5 @@ class ValkyrieStructureViewModel(psiFile: PsiFile?) :
         // return element.value is ValkyrieBitflagStatement
         return false
     }
-
-
 }
 
