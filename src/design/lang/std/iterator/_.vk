@@ -6,3 +6,4 @@ trait Iterator {
 trait Iterable {
     def into_iterator(self) -> Iterator<T>;
 }
+

@@ -162,7 +162,9 @@ let_statement    ::=
   | LET case_pattern BIND expression;
 let_type_hint    ::= COLON <<sequence type_expression COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
-def_statement    ::= DEFINE modifiers [[PROPORTION] type_angle] def_tuple [(COLON|TO) type_expression] [def_block| BIND expression];
+def_statement    ::= DEFINE modifiers [[PROPORTION] type_angle] def_tuple [(COLON|TO) type_expression] [def_block| BIND expression] {
+    mixin="com.github.valkyrie.language.mixin.ValkyrieDefineMixin"
+};
 def_tuple        ::= <<parenthesis def_item COMMA>>;
 def_item         ::= modifiers [COLON type_expression] [BIND expression];
 def_block        ::= <<brace_block normal_statements SEMICOLON>>;
@@ -189,11 +191,15 @@ trait_block         ::= <<brace_block normal_statements SEMICOLON>>;
 // ---------------------------------------------------------------------------------------------------------------------
 extends_statement   ::= EXTENDS modifiers [[PROPORTION] type_angle] [COLON type_expression] trait_block;
 // ---------------------------------------------------------------------------------------------------------------------
-tagged_statement    ::= TAGGED modifiers [[PROPORTION] type_angle] tagged_block;
+tagged_statement    ::= TAGGED modifiers [[PROPORTION] type_angle] tagged_block {
+    mixin="com.github.valkyrie.language.mixin.ValkyrieTraitMixin"
+};
 tagged_block        ::= <<brace_block tagged_item (COMMA|SEMICOLON)>>;
 tagged_item         ::= symbol [class_tuple|class_brace];
 // ---------------------------------------------------------------------------------------------------------------------
-bitflag_statement   ::= BITFLAG modifiers [bitflag_layout] bitflag_block;
+bitflag_statement   ::= BITFLAG modifiers [bitflag_layout] bitflag_block {
+    mixin="com.github.valkyrie.language.mixin.ValkyrieTraitMixin"
+};
 bitflag_block       ::= <<brace_block (bitflag_item | macro_call) SEMICOLON>>;
 bitflag_layout      ::= PARENTHESIS_L type_expression PARENTHESIS_R;
 bitflag_item        ::= symbol BIND expression;
