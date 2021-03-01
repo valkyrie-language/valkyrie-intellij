@@ -8,10 +8,10 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
-import com.github.valkyrie.language.mixin.ValkyrieElement;
+import com.github.valkyrie.language.mixin.ValkyrieDefineMixin;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieDefStatementNode extends ValkyrieElement implements ValkyrieDefStatement {
+public class ValkyrieDefStatementNode extends ValkyrieDefineMixin implements ValkyrieDefStatement {
 
   public ValkyrieDefStatementNode(@NotNull ASTNode node) {
     super(node);

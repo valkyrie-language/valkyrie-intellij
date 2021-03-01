@@ -1,5 +1,5 @@
-/// Fast but not safe
-trait AbstructMap<K, V>: Iterable {
+/// General method of table-like structure
+trait AbstructMap<K, V> {
     def contains(self, key: K) -> bool;
 
     def get(self, key: K) -> bool;

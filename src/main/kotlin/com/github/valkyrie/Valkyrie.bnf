@@ -169,7 +169,9 @@ def_tuple        ::= <<parenthesis def_item COMMA>>;
 def_item         ::= modifiers [COLON type_expression] [BIND expression];
 def_block        ::= <<brace_block normal_statements SEMICOLON>>;
 // ---------------------------------------------------------------------------------------------------------------------
-type_statement   ::= TYPE symbol [[PROPORTION] type_angle] [BIND type_expr];
+type_statement   ::= TYPE symbol [[PROPORTION] type_angle] [BIND type_expr] {
+    mixin="com.github.valkyrie.language.mixin.ValkyrieTypeMixin"
+};
 // ---------------------------------------------------------------------------------------------------------------------
 forall_statement ::= FORALL <<sequence symbol COMMA>> [forall_block];
 forall_block     ::= <<brace_block (type_expression COLON type_expression) (COMMA|SEMICOLON)>>;
@@ -192,13 +194,13 @@ trait_block         ::= <<brace_block normal_statements SEMICOLON>>;
 extends_statement   ::= EXTENDS modifiers [[PROPORTION] type_angle] [COLON type_expression] trait_block;
 // ---------------------------------------------------------------------------------------------------------------------
 tagged_statement    ::= TAGGED modifiers [[PROPORTION] type_angle] tagged_block {
-    mixin="com.github.valkyrie.language.mixin.ValkyrieTraitMixin"
+    mixin="com.github.valkyrie.language.mixin.ValkyrieEnumMixin"
 };
 tagged_block        ::= <<brace_block tagged_item (COMMA|SEMICOLON)>>;
 tagged_item         ::= symbol [class_tuple|class_brace];
 // ---------------------------------------------------------------------------------------------------------------------
 bitflag_statement   ::= BITFLAG modifiers [bitflag_layout] bitflag_block {
-    mixin="com.github.valkyrie.language.mixin.ValkyrieTraitMixin"
+    mixin="com.github.valkyrie.language.mixin.ValkyrieBitFlagMixin"
 };
 bitflag_block       ::= <<brace_block (bitflag_item | macro_call) SEMICOLON>>;
 bitflag_layout      ::= PARENTHESIS_L type_expression PARENTHESIS_R;
