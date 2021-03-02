@@ -37,8 +37,6 @@ abstract class ValkyrieTraitMixin(node: ASTNode) : ValkyrieElement(node),
     }
 
     fun getChildrenView(): Array<TreeElement> {
-
-
         val properties: List<NavigatablePsiElement> = PsiTreeUtil.getChildrenOfTypeAsList(
             this.traitBlock, NavigatablePsiElement::class.java
         )

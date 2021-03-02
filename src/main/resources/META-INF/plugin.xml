@@ -43,7 +43,6 @@
 			implementationClass="com.github.valkyrie.ide.formatter.JssSmartEnter"
 		/>
 		<!-- Document -->
-		<!--		<documentationProvider implementation="com.github.valkyrie.ide.doc.JssDocumentationExtender"/>-->
 		<!--		<psi.referenceContributor implementation="com.github.valkyrie.ide.doc.JssUrlReferenceContributor"/>-->
 		<lang.documentationProvider
 			language="Valkyrie"

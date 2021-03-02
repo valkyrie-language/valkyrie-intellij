@@ -11,6 +11,7 @@ import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 
+// PsiReference
 abstract class ValkyrieClassMixin(node: ASTNode) : ValkyrieElement(node),
     PsiNameIdentifierOwner,
     PsiSymbolDeclarationProvider,
