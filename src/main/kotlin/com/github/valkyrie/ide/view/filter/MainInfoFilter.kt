@@ -10,17 +10,18 @@ import com.intellij.ide.util.treeView.smartTree.Filter
 import com.intellij.ide.util.treeView.smartTree.TreeElement
 
 
-object PublicElementsFilter : Filter {
+object MainInfoFilter : Filter {
 
-    override fun getName() = "view.PublicElementsFilter"
+    override fun getName() = "view.MainInfoFilter"
 
     override fun isReverted() = true
     override fun getPresentation(): ActionPresentation = ActionPresentationData(
-        ValkyrieBundle.message(name),
+        ValkyrieBundle.message(this.name),
         null,
-        AllIcons.Nodes.Public
+        AllIcons.Nodes.Favorite
     )
-    override fun isVisible(treeNode: TreeElement): Boolean {
-        return (treeNode as? ValkyrieStructureViewElement)?.getVisibility() ?: true
+
+    override fun isVisible(node: TreeElement): Boolean {
+        return (node as? ValkyrieStructureViewElement)?.getVisibility() ?: true
     }
 }

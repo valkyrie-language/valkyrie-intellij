@@ -14,7 +14,7 @@
     tokenTypeClass = "com.github.valkyrie.language.psi.ValkyrieTokenType"
 
     psiImplUtilClass = "com.github.valkyrie.language.psi_node.ValkyriePsiExtension"
-    // mixin("trait_statement")="com.github.valkyrie.language.mixin.ValkyrieTraitMixin"
+
     tokens = [
         // comment
         COMMENT_DOCUMENT = "Comment Document"

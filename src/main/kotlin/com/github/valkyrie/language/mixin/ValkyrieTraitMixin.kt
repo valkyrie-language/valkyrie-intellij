@@ -8,13 +8,21 @@ import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.lang.ASTNode
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.containers.map2Array
 
-abstract class ValkyrieTraitMixin(node: ASTNode) : ValkyrieElement(node), NavigatablePsiElement,
+abstract class ValkyrieTraitMixin(node: ASTNode) : ValkyrieElement(node),
+    PsiNameIdentifierOwner,
+    NavigatablePsiElement,
     ValkyrieTraitStatement {
-    override fun getNavigationElement(): PsiElement = this.modifiers.lastChild
+    override fun getName(): String = this.nameIdentifier.text
+    override fun setName(name: String): PsiElement {
+        TODO("Not yet implemented")
+    }
 
+    override fun getNameIdentifier(): PsiElement = this.modifiers.lastChild
+    override fun getNavigationElement(): PsiElement = this.nameIdentifier
     override fun getPresentation() = ValkyriePresentationItem(
         this.getDetailName(), AllIcons.Nodes.Interface
     )
