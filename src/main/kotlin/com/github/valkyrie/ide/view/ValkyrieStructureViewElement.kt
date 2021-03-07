@@ -1,5 +1,6 @@
 package com.github.valkyrie.ide.view
 
+import com.github.valkyrie.language.psi_node.ValkyrieClassStatementNode
 import com.github.valkyrie.language.psi_node.ValkyrieTraitStatementNode
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.ide.structureView.StructureViewTreeElement
@@ -26,19 +27,18 @@ class ValkyrieStructureViewElement(private val self: NavigatablePsiElement) :
     override fun getPresentation(): ItemPresentation = self.presentation ?: PresentationData()
 
     override fun getChildren(): Array<TreeElement> {
-//        return when (self) {
-//            is ValkyrieTraitStatementNode -> return self.getChildrenView()
-//            else -> TreeElement.EMPTY_ARRAY
-//        }
-        if (self is ValkyrieTraitStatementNode) {
-            return self.getChildrenView()
-        }
-        val properties: List<NavigatablePsiElement> = PsiTreeUtil.getChildrenOfTypeAsList(
-            self,
-            NavigatablePsiElement::class.java
-        )
-        return properties.map2Array {
-            ValkyrieStructureViewElement(it)
+        return when (self) {
+            is ValkyrieTraitStatementNode -> self.getChildrenView()
+            is ValkyrieClassStatementNode -> self.getChildrenView()
+            else -> {
+                val properties: List<NavigatablePsiElement> = PsiTreeUtil.getChildrenOfTypeAsList(
+                    self,
+                    NavigatablePsiElement::class.java
+                )
+                properties.map2Array {
+                    ValkyrieStructureViewElement(it)
+                }
+            }
         }
     }
 

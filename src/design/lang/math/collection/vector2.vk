@@ -2,3 +2,7 @@ class Vector2<T> {
     x: T,
     y: T,
 }
+
+def override a() {
+    @b + c
+}
