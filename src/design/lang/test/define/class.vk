@@ -19,22 +19,22 @@ class A4<T: Sized> {
 ∀ T, U {T: Debug, U: Debug} class A5<T, U>(T, U)
 
 // https://crates.io/crates/custom_debug_derive
-#[Copy, Clone, Debug(rename=UpperCase)]
-class A3<T: Debug> {
-    #debug(rename="new_name")
-    name: u32,
-    #debug(skip)
-    skip: u32
-}
-
-#[Serialize, Deserialize]
-#Serialize
-#Deserialize
-class B {
-a: int,
-b: int,
-}
-
-define type A {
-
-}
+// #[Copy, Clone, Debug(rename=UpperCase)]
+// class A3<T: Debug> {
+//     #debug(rename="new_name")
+//     name: u32,
+//     #debug(skip)
+//     skip: u32
+// }
+//
+// #[Serialize, Deserialize]
+// #Serialize
+// #Deserialize
+// class B {
+// a: int,
+// b: int,
+// }
+//
+// define type A {
+//
+// }

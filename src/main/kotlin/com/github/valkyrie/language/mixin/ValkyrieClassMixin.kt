@@ -1,8 +1,10 @@
 package com.github.valkyrie.language.mixin
 
 import com.github.valkyrie.ide.view.ValkyrieStructureViewElement
+import com.github.valkyrie.language.ast.ViewableNode
 import com.github.valkyrie.language.psi.ValkyrieClassStatement
 import com.github.valkyrie.language.psi.ValkyriePresentationItem
+import com.github.valkyrie.language.psi.ValkyrieTaggedItem
 import com.intellij.icons.AllIcons
 import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.lang.ASTNode
@@ -16,12 +18,12 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.containers.map2Array
+import javax.swing.Icon
 
 // PsiReference
-abstract class ValkyrieClassMixin(node: ASTNode) : ValkyrieElement(node),
+abstract class ValkyrieClassMixin(node: ASTNode) : ViewableNode(node),
     PsiNameIdentifierOwner,
     PsiSymbolDeclarationProvider,
-    NavigatablePsiElement,
     ValkyrieClassStatement {
     override fun getName(): String = this.nameIdentifier.text
     override fun setName(name: String): PsiElement {
@@ -31,32 +33,27 @@ abstract class ValkyrieClassMixin(node: ASTNode) : ValkyrieElement(node),
     override fun getNameIdentifier(): PsiElement = this.modifiers.lastChild
     override fun getNavigationElement(): PsiElement = this.nameIdentifier
 
-
-
-    override fun getPresentation(): ItemPresentation = ValkyriePresentationItem(
-        this.modifiers.lastChild.text,
-        AllIcons.Nodes.Class
-    )
-
-    fun getChildrenView(): Array<TreeElement> {
-        if (this.classBrace == null) {
-            val properties: List<NavigatablePsiElement> = PsiTreeUtil.getChildrenOfTypeAsList(
-                this.classBrace, NavigatablePsiElement::class.java
-            )
-            return properties.map2Array {
-                ValkyrieStructureViewElement(it)
+    override val viewName: String = this.nameIdentifier.text;
+    override val viewIcon: Icon = AllIcons.Nodes.Class;
+    override fun addChildrenView() {
+        PsiTreeUtil.getChildrenOfTypeAsList(
+            this.classTuple,
+            NavigatablePsiElement::class.java
+        ).forEach {
+            if (it is ValkyrieTaggedItem) {
+                val kind = ValkyriePresentationItem(it.symbol.text, AllIcons.Nodes.Variable)
+                this.childrenView.add(ValkyrieStructureViewElement(it, kind))
             }
         }
-        else {
-            val properties: List<NavigatablePsiElement> = PsiTreeUtil.getChildrenOfTypeAsList(
-                this.classTuple, NavigatablePsiElement::class.java
-            )
-            return properties.map2Array {
-                ValkyrieStructureViewElement(it)
+        PsiTreeUtil.getChildrenOfTypeAsList(
+            this.classBrace,
+            NavigatablePsiElement::class.java
+        ).forEach {
+            if (it is ValkyrieTaggedItem) {
+                val kind = ValkyriePresentationItem(it.symbol.text, AllIcons.Nodes.Variable)
+                this.childrenView.add(ValkyrieStructureViewElement(it, kind))
             }
         }
-
-
     }
 
     override fun getDeclarations(element: PsiElement, offsetInElement: Int):

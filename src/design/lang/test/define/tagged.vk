@@ -14,3 +14,8 @@ tagged Validation<T, E> {
     Fine(T, [E]),
     Fail(E, [E]),
 }
+
+#override
+def external test_function() {
+    @b + c
+}
