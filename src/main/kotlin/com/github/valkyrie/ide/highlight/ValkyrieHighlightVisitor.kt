@@ -54,7 +54,7 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitDefStatement(o: ValkyrieDefStatement) {
-        highlightSymbolList(o.modifiers.symbolList, Color.SYM_FUNCTION_FREE)
+        highlightSymbolList(o.modifierSymbols.symbolList, Color.SYM_FUNCTION_FREE)
         super.visitDefStatement(o)
     }
 
@@ -67,27 +67,27 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
 
 
     override fun visitClassStatement(o: ValkyrieClassStatement) {
-        highlightSymbolList(o.modifiers.symbolList, Color.SYM_CLASS)
+        highlightSymbolList(o.modifierSymbols.symbolList, Color.SYM_CLASS)
         super.visitClassStatement(o)
     }
 
     override fun visitClassBraceItem(o: ValkyrieClassBraceItem) {
-        o.modifiers?.let { highlightSymbolList(it.symbolList, Color.SYM_FIELD) }
+        o.modifierSymbols?.let { highlightSymbolList(it.symbolList, Color.SYM_FIELD) }
         super.visitClassBraceItem(o)
     }
 
     override fun visitClassNumericKey(o: ValkyrieClassNumericKey) {
-        o.modifiers?.let { highlightSymbolList(it.symbolList, Color.KEYWORD) }
+        o.modifierSymbols?.let { highlightSymbolList(it.symbolList, Color.KEYWORD) }
         super.visitClassNumericKey(o)
     }
 
     override fun visitTraitStatement(o: ValkyrieTraitStatement) {
-        highlightSymbolList(o.modifiers.symbolList, Color.SYM_TRAIT)
+        highlightSymbolList(o.modifierSymbols.symbolList, Color.SYM_TRAIT)
         super.visitTraitStatement(o)
     }
 
     override fun visitTaggedStatement(o: ValkyrieTaggedStatement) {
-        highlightSymbolList(o.modifiers.symbolList, Color.SYM_CLASS)
+        highlightSymbolList(o.modifierSymbols.symbolList, Color.SYM_CLASS)
         super.visitTaggedStatement(o)
     }
 
@@ -97,7 +97,7 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitBitflagStatement(o: ValkyrieBitflagStatement) {
-        highlightSymbolList(o.modifiers.symbolList, Color.SYM_CLASS)
+        highlightSymbolList(o.modifierSymbols.symbolList, Color.SYM_CLASS)
         super.visitBitflagStatement(o)
     }
 

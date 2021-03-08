@@ -1,14 +1,22 @@
-class A1(int = 1)
+class
+A1(int = 1
+)
 
-class serde A2 {
-    public readonly a: int,
-    public readonly 1: int,
+class
+serde
+A2 {
+    public
+    readonly
+    a: int,
+    public
+    readonly
+    1: int,
 }
 
 class class A3<T: Default> {
-    x: T = Default::default(),
-    y: T = Default::default(),
-    z: T = Default::default(),
+    ref x: T = Default::default(),
+    ref y: T = Default::default(),
+    ref z: T = Default::default(),
 }
 
 class A4<T: Sized> {

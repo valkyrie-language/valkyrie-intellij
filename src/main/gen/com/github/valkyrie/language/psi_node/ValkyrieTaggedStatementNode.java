@@ -29,8 +29,8 @@ public class ValkyrieTaggedStatementNode extends ValkyrieEnumMixin implements Va
 
   @Override
   @NotNull
-  public ValkyrieModifiers getModifiers() {
-    return findNotNullChildByClass(ValkyrieModifiers.class);
+  public ValkyrieModifierSymbols getModifierSymbols() {
+    return findNotNullChildByClass(ValkyrieModifierSymbols.class);
   }
 
   @Override

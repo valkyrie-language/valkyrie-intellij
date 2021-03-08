@@ -12,7 +12,7 @@ import com.intellij.psi.PsiFile
 
 
 class ValkyrieStructureViewModel(psiFile: PsiFile?) :
-    StructureViewModelBase(psiFile!!, ValkyrieStructureViewElement(psiFile)), ElementInfoProvider {
+    StructureViewModelBase(psiFile!!, ValkyrieViewElement(psiFile)), ElementInfoProvider {
     override fun getSorters() = arrayOf(Sorter.ALPHA_SORTER)
 
     override fun getFilters() = arrayOf(PublicElementsFilter, MainInfoFilter)

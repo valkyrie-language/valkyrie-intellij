@@ -29,8 +29,8 @@ public class ValkyrieNewStatementNode extends ValkyrieElement implements Valkyri
 
   @Override
   @NotNull
-  public ValkyrieModifiers getModifiers() {
-    return findNotNullChildByClass(ValkyrieModifiers.class);
+  public ValkyrieModifierSymbols getModifierSymbols() {
+    return findNotNullChildByClass(ValkyrieModifierSymbols.class);
   }
 
   @Override

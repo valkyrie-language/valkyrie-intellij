@@ -8,10 +8,10 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
-import com.github.valkyrie.language.mixin.ValkyrieElement;
+import com.github.valkyrie.language.mixin.ValkyrieClassBraceMixin;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieClassBraceItemNode extends ValkyrieElement implements ValkyrieClassBraceItem {
+public class ValkyrieClassBraceItemNode extends ValkyrieClassBraceMixin implements ValkyrieClassBraceItem {
 
   public ValkyrieClassBraceItemNode(@NotNull ASTNode node) {
     super(node);
@@ -41,8 +41,8 @@ public class ValkyrieClassBraceItemNode extends ValkyrieElement implements Valky
 
   @Override
   @Nullable
-  public ValkyrieModifiers getModifiers() {
-    return findChildByClass(ValkyrieModifiers.class);
+  public ValkyrieModifierSymbols getModifierSymbols() {
+    return findChildByClass(ValkyrieModifierSymbols.class);
   }
 
   @Override

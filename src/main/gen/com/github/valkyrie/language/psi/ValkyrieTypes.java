@@ -52,7 +52,7 @@ public interface ValkyrieTypes {
   IElementType MATCH_BLOCK = new ValkyrieElementType("MATCH_BLOCK");
   IElementType MATCH_EXPRESSION = new ValkyrieElementType("MATCH_EXPRESSION");
   IElementType MATCH_STATEMENT = new ValkyrieElementType("MATCH_STATEMENT");
-  IElementType MODIFIERS = new ValkyrieElementType("MODIFIERS");
+  IElementType MODIFIER_SYMBOLS = new ValkyrieElementType("MODIFIER_SYMBOLS");
   IElementType MODULE_STATEMENT = new ValkyrieElementType("MODULE_STATEMENT");
   IElementType NAMESPACE = new ValkyrieElementType("NAMESPACE");
   IElementType NEW_STATEMENT = new ValkyrieElementType("NEW_STATEMENT");
@@ -293,8 +293,8 @@ public interface ValkyrieTypes {
       else if (type == MATCH_STATEMENT) {
         return new ValkyrieMatchStatementNode(node);
       }
-      else if (type == MODIFIERS) {
-        return new ValkyrieModifiersNode(node);
+      else if (type == MODIFIER_SYMBOLS) {
+        return new ValkyrieModifierSymbolsNode(node);
       }
       else if (type == MODULE_STATEMENT) {
         return new ValkyrieModuleStatementNode(node);

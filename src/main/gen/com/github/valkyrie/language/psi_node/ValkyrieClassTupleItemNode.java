@@ -8,10 +8,10 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
-import com.github.valkyrie.language.mixin.ValkyrieElement;
+import com.github.valkyrie.language.mixin.ValkyrieClassTupleMixin;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieClassTupleItemNode extends ValkyrieElement implements ValkyrieClassTupleItem {
+public class ValkyrieClassTupleItemNode extends ValkyrieClassTupleMixin implements ValkyrieClassTupleItem {
 
   public ValkyrieClassTupleItemNode(@NotNull ASTNode node) {
     super(node);

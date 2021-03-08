@@ -13,11 +13,11 @@ import kotlin.random.Random
 abstract class ValkyrieDefineMixin(node: ASTNode) : ValkyrieElement(node),
     NavigatablePsiElement,
     ValkyrieDefStatement {
-    override fun getNavigationElement(): PsiElement = this.modifiers.lastChild
+    override fun getNavigationElement(): PsiElement = this.modifierSymbols.lastChild
 
     override fun getPresentation(): ItemPresentation {
         return ValkyriePresentationItem(
-            this.modifiers.lastChild.text,
+            this.modifierSymbols.lastChild.text,
             if (this.isMethod()) {
                 Method
             } else {

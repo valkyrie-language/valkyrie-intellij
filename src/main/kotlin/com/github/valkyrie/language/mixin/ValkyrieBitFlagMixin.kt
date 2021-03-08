@@ -9,10 +9,10 @@ import com.intellij.psi.PsiElement
 
 abstract class ValkyrieBitFlagMixin(node: ASTNode) : ValkyrieElement(node), NavigatablePsiElement,
     ValkyrieBitflagStatement {
-    override fun getNavigationElement(): PsiElement = this.modifiers.lastChild
+    override fun getNavigationElement(): PsiElement = this.modifierSymbols.lastChild
 
     override fun getPresentation() = ValkyriePresentationItem(
-        this.modifiers.lastChild.text, AllIcons.Nodes.Enum
+        this.modifierSymbols.lastChild.text, AllIcons.Nodes.Enum
     )
 
 

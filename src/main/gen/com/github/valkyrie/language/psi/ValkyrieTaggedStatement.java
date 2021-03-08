@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieTaggedStatement extends PsiElement {
 
   @NotNull
-  ValkyrieModifiers getModifiers();
+  ValkyrieModifierSymbols getModifierSymbols();
 
   @NotNull
   ValkyrieTaggedBlock getTaggedBlock();

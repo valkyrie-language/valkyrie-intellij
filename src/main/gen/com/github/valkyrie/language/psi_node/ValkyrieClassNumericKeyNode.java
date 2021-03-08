@@ -29,8 +29,8 @@ public class ValkyrieClassNumericKeyNode extends ValkyrieElement implements Valk
 
   @Override
   @Nullable
-  public ValkyrieModifiers getModifiers() {
-    return findChildByClass(ValkyrieModifiers.class);
+  public ValkyrieModifierSymbols getModifierSymbols() {
+    return findChildByClass(ValkyrieModifierSymbols.class);
   }
 
 }

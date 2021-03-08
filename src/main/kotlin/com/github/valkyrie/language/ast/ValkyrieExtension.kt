@@ -42,7 +42,7 @@ fun ValkyrieNormalPattern.isMutable(): Boolean {
 //
 //
 //fun ValkyriePatternItem.isMutable(force_mut: Boolean, skip_last: Boolean = true): Boolean {
-//    this.modifiers?.let {
+//    this.modifierSymbols?.let {
 //        return it.isMutable(force_mut, skip_last)
 //    }
 //    this.patternRest?.let {

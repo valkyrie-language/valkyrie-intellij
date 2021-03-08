@@ -1,6 +1,6 @@
 package com.github.valkyrie.language.mixin
 
-import com.github.valkyrie.ide.view.ValkyrieStructureViewElement
+import com.github.valkyrie.ide.view.ValkyrieViewElement
 import com.github.valkyrie.language.psi.ValkyriePresentationItem
 import com.github.valkyrie.language.psi.ValkyrieTraitStatement
 import com.intellij.icons.AllIcons
@@ -21,14 +21,14 @@ abstract class ValkyrieTraitMixin(node: ASTNode) : ValkyrieElement(node),
         TODO("Not yet implemented")
     }
 
-    override fun getNameIdentifier(): PsiElement = this.modifiers.lastChild
+    override fun getNameIdentifier(): PsiElement = this.modifierSymbols.lastChild
     override fun getNavigationElement(): PsiElement = this.nameIdentifier
     override fun getPresentation() = ValkyriePresentationItem(
         this.getDetailName(), AllIcons.Nodes.Interface
     )
 
     private fun getDetailName(): String {
-        val name = this.modifiers.lastChild.text;
+        val name = this.modifierSymbols.lastChild.text;
         val ty = this.typeExpression;
         return when {
             ty != null -> "${name}: ${ty.text}"
@@ -41,7 +41,7 @@ abstract class ValkyrieTraitMixin(node: ASTNode) : ValkyrieElement(node),
             this.traitBlock, NavigatablePsiElement::class.java
         )
         return properties.map2Array {
-            ValkyrieStructureViewElement(it)
+            ValkyrieViewElement(it)
         }
     }
 }

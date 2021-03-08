@@ -1,6 +1,6 @@
 package com.github.valkyrie.language.mixin
 
-import com.github.valkyrie.ide.view.ValkyrieStructureViewElement
+import com.github.valkyrie.ide.view.ValkyrieViewElement
 import com.github.valkyrie.language.ast.ViewableNode
 import com.github.valkyrie.language.psi.*
 import com.intellij.icons.AllIcons
@@ -25,55 +25,32 @@ abstract class ValkyrieClassMixin(node: ASTNode) : ViewableNode(node),
         TODO("Not yet implemented")
     }
 
-    override fun getNameIdentifier(): PsiElement = this.modifiers.lastChild
+    override fun getNameIdentifier(): PsiElement = this.modifierSymbols.lastChild
     override fun getNavigationElement(): PsiElement = this.nameIdentifier
 
     override val viewName: String = this.nameIdentifier.text;
     override val viewIcon: Icon = AllIcons.Nodes.Class;
     override fun addChildrenView() {
         when {
-            this.classBrace != null -> this.addChildrenViewBrace()
-            else -> this.addChildrenViewTuple()
-        }
-    }
+            this.classBrace != null -> {
+                PsiTreeUtil.getChildrenOfTypeAsList(this.classBrace, ValkyrieClassBraceItem::class.java)
+                    .forEach {
+                        val kind = ValkyriePresentationItem(it.toString(), AllIcons.Nodes.FinalMark)
+                        this.childrenView.add(ValkyrieViewElement(it as NavigatablePsiElement, kind))
+                    }
+            }
 
-    private fun addChildrenViewTuple() {
-        for (item in PsiTreeUtil.getChildrenOfTypeAsList(this.classTuple, NavigatablePsiElement::class.java)) {
-            if (item is ValkyrieClassTupleItem) {
-//                val index = item.classNumericKey;
-//                if (index != null) {
-//                    val kind = ValkyriePresentationItem(index.text, AllIcons.Nodes.Variable)
-//                    this.childrenView.add(ValkyrieStructureViewElement(item, kind))
-//                    continue
-//                }
-//                val mods = item.modifiers;
-//                if (mods != null) {
-//                    val kind = ValkyriePresentationItem(mods.lastChild.text, AllIcons.Nodes.Variable)
-//                    this.childrenView.add(ValkyrieStructureViewElement(item, kind))
-//                    continue
-//                }
+            else -> {
+                PsiTreeUtil.getChildrenOfTypeAsList(this.classTuple, NavigatablePsiElement::class.java)
+                    .forEach {
+                        val kind = ValkyriePresentationItem(it.toString(), AllIcons.Nodes.FinalMark)
+                        this.childrenView.add(ValkyrieViewElement(it, kind))
+                    }
+
             }
         }
     }
 
-    private fun addChildrenViewBrace() {
-        for (item in PsiTreeUtil.getChildrenOfTypeAsList(this.classBrace, NavigatablePsiElement::class.java)) {
-            if (item is ValkyrieClassBraceItem) {
-                val index = item.classNumericKey;
-                if (index != null) {
-                    val kind = ValkyriePresentationItem(index.text, AllIcons.Nodes.Variable)
-                    this.childrenView.add(ValkyrieStructureViewElement(item, kind))
-                    continue
-                }
-                val mods = item.modifiers;
-                if (mods != null) {
-                    val kind = ValkyriePresentationItem(mods.lastChild.text, AllIcons.Nodes.Variable)
-                    this.childrenView.add(ValkyrieStructureViewElement(item, kind))
-                    continue
-                }
-            }
-        }
-    }
 
     override fun getDeclarations(element: PsiElement, offsetInElement: Int):
             MutableCollection<out PsiSymbolDeclaration> = mutableSetOf(ClassDeclaration(this.nameIdentifier))

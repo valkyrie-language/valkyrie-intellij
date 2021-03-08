@@ -11,7 +11,7 @@ public interface ValkyrieDefItem extends PsiElement {
   ValkyrieExpression getExpression();
 
   @NotNull
-  ValkyrieModifiers getModifiers();
+  ValkyrieModifierSymbols getModifierSymbols();
 
   @Nullable
   ValkyrieTypeExpression getTypeExpression();

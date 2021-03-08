@@ -162,11 +162,11 @@ let_statement    ::=
   | LET case_pattern BIND expression;
 let_type_hint    ::= COLON <<sequence type_expression COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
-def_statement    ::= DEFINE modifiers [[PROPORTION] type_angle] def_tuple [(COLON|TO) type_expression] [def_block| BIND expression] {
+def_statement    ::= DEFINE modifier_symbols [[PROPORTION] type_angle] def_tuple [(COLON|TO) type_expression] [def_block| BIND expression] {
     mixin="com.github.valkyrie.language.mixin.ValkyrieDefineMixin"
 };
 def_tuple        ::= <<parenthesis def_item COMMA>>;
-def_item         ::= modifiers [COLON type_expression] [BIND expression];
+def_item         ::= modifier_symbols [COLON type_expression] [BIND expression];
 def_block        ::= <<brace_block normal_statements SEMICOLON>>;
 // ---------------------------------------------------------------------------------------------------------------------
 type_statement   ::= TYPE symbol [[PROPORTION] type_angle] [BIND type_expr] {
@@ -176,7 +176,7 @@ type_statement   ::= TYPE symbol [[PROPORTION] type_angle] [BIND type_expr] {
 forall_statement ::= FORALL <<sequence symbol COMMA>> [forall_block];
 forall_block     ::= <<brace_block (type_expression COLON type_expression) (COMMA|SEMICOLON)>>;
 // ---------------------------------------------------------------------------------------------------------------------
-class_statement     ::= CLASS modifiers [[PROPORTION] type_angle] [class_tuple|class_brace] {
+class_statement     ::= CLASS modifier_symbols [[PROPORTION] type_angle] [class_tuple|class_brace] {
     mixin="com.github.valkyrie.language.mixin.ValkyrieClassMixin"
 };
 class_tuple         ::= <<parenthesis class_tuple_item COMMA>>;
@@ -184,33 +184,33 @@ class_brace         ::= <<brace_block class_brace_item (COMMA|SEMICOLON)>>;
 class_tuple_item    ::= type_expression [BIND expression] {
     mixin="com.github.valkyrie.language.mixin.ValkyrieClassTupleMixin"
 };
-class_brace_item    ::= (class_numeric_key | modifiers) COLON type_expression [BIND expression] {
+class_brace_item    ::= (class_numeric_key | modifier_symbols) COLON type_expression [BIND expression] {
     mixin="com.github.valkyrie.language.mixin.ValkyrieClassBraceMixin"
 };
-class_numeric_key   ::= [modifiers] INTEGER
+class_numeric_key   ::= [modifier_symbols] INTEGER
 // ---------------------------------------------------------------------------------------------------------------------
-trait_statement     ::= TRAIT modifiers [[PROPORTION] type_angle] [COLON type_expression] trait_block {
+trait_statement     ::= TRAIT modifier_symbols [[PROPORTION] type_angle] [COLON type_expression] trait_block {
     mixin="com.github.valkyrie.language.mixin.ValkyrieTraitMixin"
 };
 trait_block         ::= <<brace_block normal_statements SEMICOLON>>;
 //trait_item        ::= normal_statements;
 // ---------------------------------------------------------------------------------------------------------------------
-extends_statement   ::= EXTENDS modifiers [[PROPORTION] type_angle] [COLON type_expression] trait_block;
+extends_statement   ::= EXTENDS modifier_symbols [[PROPORTION] type_angle] [COLON type_expression] trait_block;
 // ---------------------------------------------------------------------------------------------------------------------
-tagged_statement    ::= TAGGED modifiers [[PROPORTION] type_angle] tagged_block {
+tagged_statement    ::= TAGGED modifier_symbols [[PROPORTION] type_angle] tagged_block {
     mixin="com.github.valkyrie.language.mixin.ValkyrieEnumMixin"
 };
 tagged_block        ::= <<brace_block tagged_item (COMMA|SEMICOLON)>>;
 tagged_item         ::= symbol [class_tuple|class_brace];
 // ---------------------------------------------------------------------------------------------------------------------
-bitflag_statement   ::= BITFLAG modifiers [bitflag_layout] bitflag_block {
+bitflag_statement   ::= BITFLAG modifier_symbols [bitflag_layout] bitflag_block {
     mixin="com.github.valkyrie.language.mixin.ValkyrieBitFlagMixin"
 };
 bitflag_block       ::= <<brace_block (bitflag_item | macro_call) SEMICOLON>>;
 bitflag_layout      ::= PARENTHESIS_L type_expression PARENTHESIS_R;
 bitflag_item        ::= symbol BIND expression;
 // ---------------------------------------------------------------------------------------------------------------------
-new_statement       ::= NEW modifiers [[PROPORTION] type_angle] [COLON type_expression] trait_block;
+new_statement       ::= NEW modifier_symbols [[PROPORTION] type_angle] [COLON type_expression] trait_block;
 // ---------------------------------------------------------------------------------------------------------------------
 expression          ::= expr (op_binary expr)*;
 private expr        ::= op_prefix* term (op_suffix|call_suffix|PROPORTION type_angle|slice_suffix)*;
@@ -236,7 +236,7 @@ slice_expression    ::=
 namespace  ::= symbol (PROPORTION symbol)* {
     mixin="com.github.valkyrie.language.mixin.ValkyrieNamespaceMixin"
 };
-modifiers  ::= symbol+;
+modifier_symbols  ::= symbol+;
 // ---------------------------------------------------------------------------------------------------------------------
 macro_call ::= macro [macro_item];
 macro_item ::=

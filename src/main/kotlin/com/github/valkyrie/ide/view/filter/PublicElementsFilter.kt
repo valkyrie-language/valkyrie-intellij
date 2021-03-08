@@ -2,7 +2,7 @@ package com.github.valkyrie.ide.view.filter
 
 
 import com.github.valkyrie.ValkyrieBundle
-import com.github.valkyrie.ide.view.ValkyrieStructureViewElement
+import com.github.valkyrie.ide.view.ValkyrieViewElement
 import com.intellij.icons.AllIcons
 import com.intellij.ide.util.treeView.smartTree.ActionPresentation
 import com.intellij.ide.util.treeView.smartTree.ActionPresentationData
@@ -21,6 +21,6 @@ object PublicElementsFilter : Filter {
         AllIcons.Nodes.Public
     )
     override fun isVisible(treeNode: TreeElement): Boolean {
-        return (treeNode as? ValkyrieStructureViewElement)?.getVisibility() ?: true
+        return (treeNode as? ValkyrieViewElement)?.getVisibility() ?: true
     }
 }

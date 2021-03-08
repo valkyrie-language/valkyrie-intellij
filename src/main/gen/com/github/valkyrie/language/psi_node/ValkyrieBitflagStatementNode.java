@@ -41,8 +41,8 @@ public class ValkyrieBitflagStatementNode extends ValkyrieBitFlagMixin implement
 
   @Override
   @NotNull
-  public ValkyrieModifiers getModifiers() {
-    return findNotNullChildByClass(ValkyrieModifiers.class);
+  public ValkyrieModifierSymbols getModifierSymbols() {
+    return findNotNullChildByClass(ValkyrieModifierSymbols.class);
   }
 
 }

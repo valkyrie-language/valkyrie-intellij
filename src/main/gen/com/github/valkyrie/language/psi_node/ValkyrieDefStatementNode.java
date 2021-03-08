@@ -47,8 +47,8 @@ public class ValkyrieDefStatementNode extends ValkyrieDefineMixin implements Val
 
   @Override
   @NotNull
-  public ValkyrieModifiers getModifiers() {
-    return findNotNullChildByClass(ValkyrieModifiers.class);
+  public ValkyrieModifierSymbols getModifierSymbols() {
+    return findNotNullChildByClass(ValkyrieModifierSymbols.class);
   }
 
   @Override
