@@ -1,7 +1,7 @@
-class A1(int)
+class A1(int = 1)
 
 class serde A2 {
-    public readonly 0: int,
+    public readonly a: int,
     public readonly 1: int,
 }
 
