@@ -17,5 +17,5 @@ tagged Validation<T, E> {
 
 #override
 def external test_function() {
-    @b + c
+    Option::Some()
 }

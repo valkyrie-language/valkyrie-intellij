@@ -1,16 +1,8 @@
-class
-A1(int = 1
-)
+class A1(int = 1)
 
-class
-serde
-A2 {
-    public
-    readonly
-    a: int,
-    public
-    readonly
-    1: int,
+class serde A2 {
+    public readonly 0: int,
+    public readonly 1: int,
 }
 
 class class A3<T: Default> {

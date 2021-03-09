@@ -3,6 +3,8 @@ package com.github.valkyrie.language.mixin
 import com.github.valkyrie.ide.view.ValkyrieViewElement
 import com.github.valkyrie.language.ast.ViewableNode
 import com.github.valkyrie.language.psi.*
+import com.github.valkyrie.language.psi_node.ValkyrieClassBraceItemNode
+import com.github.valkyrie.language.psi_node.ValkyrieClassTupleNode
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.model.Symbol
@@ -22,7 +24,7 @@ abstract class ValkyrieClassMixin(node: ASTNode) : ViewableNode(node),
     ValkyrieClassStatement {
     override fun getName(): String = this.nameIdentifier.text
     override fun setName(name: String): PsiElement {
-        TODO("Not yet implemented")
+        return this.nameIdentifier
     }
 
     override fun getNameIdentifier(): PsiElement = this.modifierSymbols.lastChild
@@ -33,18 +35,15 @@ abstract class ValkyrieClassMixin(node: ASTNode) : ViewableNode(node),
     override fun addChildrenView() {
         when {
             this.classBrace != null -> {
-                PsiTreeUtil.getChildrenOfTypeAsList(this.classBrace, ValkyrieClassBraceItem::class.java)
+                PsiTreeUtil.getChildrenOfTypeAsList(this.classBrace, ValkyrieClassBraceItemNode::class.java)
                     .forEach {
-                        val kind = ValkyriePresentationItem(it.toString(), AllIcons.Nodes.FinalMark)
-                        this.childrenView.add(ValkyrieViewElement(it as NavigatablePsiElement, kind))
+                        this.childrenView.add(ValkyrieViewElement(it as NavigatablePsiElement))
                     }
             }
-
             else -> {
-                PsiTreeUtil.getChildrenOfTypeAsList(this.classTuple, NavigatablePsiElement::class.java)
+                PsiTreeUtil.getChildrenOfTypeAsList(this.classTuple, ValkyrieClassTupleNode::class.java)
                     .forEach {
-                        val kind = ValkyriePresentationItem(it.toString(), AllIcons.Nodes.FinalMark)
-                        this.childrenView.add(ValkyrieViewElement(it, kind))
+                        this.childrenView.add(ValkyrieViewElement(it as NavigatablePsiElement))
                     }
 
             }

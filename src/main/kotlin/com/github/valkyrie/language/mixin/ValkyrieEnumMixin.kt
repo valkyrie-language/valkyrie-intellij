@@ -1,10 +1,10 @@
 package com.github.valkyrie.language.mixin
 
 import com.github.valkyrie.ide.view.ValkyrieViewElement
-import com.github.valkyrie.language.psi.ValkyriePresentationItem
-import com.github.valkyrie.language.psi.ValkyrieTaggedStatement
 import com.github.valkyrie.language.ast.ViewableNode
+import com.github.valkyrie.language.psi.ValkyriePresentationItem
 import com.github.valkyrie.language.psi.ValkyrieTaggedItem
+import com.github.valkyrie.language.psi.ValkyrieTaggedStatement
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.psi.NavigatablePsiElement

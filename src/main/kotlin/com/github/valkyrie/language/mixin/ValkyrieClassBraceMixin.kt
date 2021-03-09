@@ -14,26 +14,18 @@ abstract class ValkyrieClassBraceMixin(node: ASTNode) : ViewableNode(node),
     override fun getNavigationElement(): PsiElement {
         val index = this.classNumericKey;
         return when {
-            index != null -> index
+            index != null -> {
+                index.lastChild
+            }
             else -> this.modifierSymbols?.lastChild ?: this.originalElement
         }
     }
 
-    override val viewName: String = "UNN";
+    override val viewName: String = this.navigationElement.text;
     override val viewIcon: Icon = AllIcons.Nodes.Field;
     override fun addChildrenView() {
-        val index = this.classNumericKey;
-        if (index != null) {
-            val kind = ValkyriePresentationItem(index.text, AllIcons.Nodes.Variable)
-            this.childrenView.add(ValkyrieViewElement(this, kind))
-            return
-        }
-        val mods = this.modifierSymbols;
-        if (mods != null) {
-            val kind = ValkyriePresentationItem(mods.lastChild.text, AllIcons.Nodes.Variable)
-            this.childrenView.add(ValkyrieViewElement(this, kind))
-            return
-        }
+//        val kind = ValkyriePresentationItem(this.navigationElement.text, AllIcons.Nodes.Variable)
+//        this.childrenView.add(ValkyrieViewElement(this, kind))
     }
 }
 
