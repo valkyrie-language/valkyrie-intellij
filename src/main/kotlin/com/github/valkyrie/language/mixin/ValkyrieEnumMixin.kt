@@ -1,6 +1,7 @@
 package com.github.valkyrie.language.mixin
 
 import com.github.valkyrie.ide.view.ValkyrieViewElement
+import com.github.valkyrie.language.ast.DeclareNode
 import com.github.valkyrie.language.ast.ViewableNode
 import com.github.valkyrie.language.psi.ValkyriePresentationItem
 import com.github.valkyrie.language.psi.ValkyrieTaggedItem
@@ -16,14 +17,8 @@ import javax.swing.Icon
 abstract class ValkyrieEnumMixin(node: ASTNode) : ViewableNode(node),
     PsiNameIdentifierOwner,
     ValkyrieTaggedStatement {
-    override val viewName: String = this.navigationElement.text;
-    override val viewIcon: Icon = AllIcons.Nodes.Enum;
-    override fun getNavigationElement(): PsiElement = this.modifierSymbols.lastChild
+    override fun getName(): String = this.nameIdentifier.text
 
-
-    override fun getName(): String {
-        return this.nameIdentifier.text
-    }
     override fun setName(name: String): PsiElement {
         TODO("Not yet implemented")
     }
@@ -31,7 +26,12 @@ abstract class ValkyrieEnumMixin(node: ASTNode) : ViewableNode(node),
     override fun getNameIdentifier(): PsiElement {
         return this.modifierSymbols.lastChild
     }
+    override fun getNavigationElement(): PsiElement = this.nameIdentifier
+    override fun getTextOffset(): Int = this.nameIdentifier.textOffset
 
+
+    override val viewName: String = this.navigationElement.text;
+    override val viewIcon: Icon = AllIcons.Nodes.Enum;
     override fun addChildrenView() {
         PsiTreeUtil.getChildrenOfTypeAsList(
             this.taggedBlock,
@@ -41,10 +41,6 @@ abstract class ValkyrieEnumMixin(node: ASTNode) : ViewableNode(node),
                 val kind = ValkyriePresentationItem(it.symbol.text, AllIcons.Nodes.Variable)
                 this.childrenView.add(ValkyrieViewElement(it, kind))
             }
-//            else {
-//                val kind = ValkyriePresentationItem("variant", AllIcons.Nodes.EntryPoints)
-//                this.childrenView.add(ValkyrieStructureViewElement(it, kind))
-//            }
         }
     }
 }

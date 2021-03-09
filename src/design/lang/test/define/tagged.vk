@@ -15,6 +15,15 @@ tagged Validation<T, E> {
     Fail(E, [E]),
 }
 
+tagged Validation<T, E> {
+    AA {
+        a: A
+    },
+    BB {
+        b: B
+    },
+}
+
 #override
 def external test_function() {
     Option::Some()

@@ -23,8 +23,8 @@ class ValkyrieUsagesProvider : FindUsagesProvider {
         return psiElement is PsiNamedElement
     }
 
-    override fun getHelpId(psiElement: PsiElement): String? {
-        return null
+    override fun getHelpId(psiElement: PsiElement): String {
+        return "getHelpId"
     }
 
     override fun getType(element: PsiElement): String {
