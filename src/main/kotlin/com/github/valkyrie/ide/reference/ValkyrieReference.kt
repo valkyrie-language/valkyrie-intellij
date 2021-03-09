@@ -1,27 +1,23 @@
-// Copyright 2000-2022 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 package com.github.valkyrie.ide.reference
 
-import com.intellij.codeInsight.lookup.LookupElement
-import com.intellij.codeInsight.lookup.LookupElementBuilder
+import com.github.valkyrie.ide.view.ValkyrieFile
+import com.github.valkyrie.ide.view.ValkyrieFileType
+import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.TextRange
+import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.*
+import com.intellij.psi.search.FileTypeIndex
+import com.intellij.psi.search.GlobalSearchScope
+import com.intellij.psi.util.PsiTreeUtil
+
 
 class ValkyrieReference(element: PsiElement, textRange: TextRange) :
-    PsiReferenceBase<PsiElement?>(element, textRange), PsiPolyVariantReference {
+    PsiReferenceBase<PsiElement?>(element, textRange),
+    PsiPolyVariantReference {
     private val key: String
 
     init {
         key = element.text.substring(textRange.startOffset, textRange.endOffset)
-    }
-
-    override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult> {
-        val project = myElement!!.project
-        val properties: List<SimpleProperty> = SimpleUtil.findProperties(project, key)
-        val results: MutableList<ResolveResult> = ArrayList()
-        for (property in properties) {
-            results.add(PsiElementResolveResult(property))
-        }
-        return results.toTypedArray()
     }
 
     override fun resolve(): PsiElement? {
@@ -29,19 +25,33 @@ class ValkyrieReference(element: PsiElement, textRange: TextRange) :
         return if (resolveResults.size == 1) resolveResults[0].element else null
     }
 
-    override fun getVariants(): Array<Any> {
+    override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult> {
         val project = myElement!!.project
-        val properties: List<SimpleProperty> = SimpleUtil.findProperties(project)
-        val variants: MutableList<LookupElement> = ArrayList()
+        val properties: List<PsiElement> = findProperties(project, key)
+        val results: MutableList<ResolveResult> = ArrayList()
         for (property in properties) {
-            if (property.getKey() != null && property.getKey().length() > 0) {
-                variants.add(
-                    LookupElementBuilder
-                        .create(property).withIcon(SimpleIcons.FILE)
-                        .withTypeText(property.getContainingFile().getName())
-                )
+            results.add(PsiElementResolveResult(property))
+        }
+        return results.toTypedArray()
+    }
+
+    fun findProperties(project: Project, key: String): List<PsiElement> {
+        val result = ArrayList<PsiElement>()
+        val virtualFiles: Collection<VirtualFile> = FileTypeIndex.getFiles(
+            ValkyrieFileType.INSTANCE,
+            GlobalSearchScope.allScope(project)
+        )
+        for (virtualFile in virtualFiles) {
+            val file: ValkyrieFile? = PsiManager.getInstance(project).findFile(virtualFile) as ValkyrieFile?
+            if (file != null) {
+                val properties: Array<out PsiElement>? = PsiTreeUtil.getChildrenOfType(file, PsiElement::class.java)
+                if (properties != null) {
+                    for (property in properties) {
+                        result.add(property)
+                    }
+                }
             }
         }
-        return variants.toTypedArray()
+        return result
     }
 }

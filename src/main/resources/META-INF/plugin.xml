@@ -44,6 +44,10 @@
 		/>
 		<!-- Document -->
 		<psi.referenceContributor implementation="com.github.valkyrie.ide.reference.ValkyrieReferenceContributor"/>
+		<lang.findUsagesProvider
+			language="Valkyrie"
+			implementationClass="com.github.valkyrie.ide.reference.ValkyrieUsagesProvider"
+		/>
 		<lang.documentationProvider
 			language="Valkyrie"
 			implementationClass="com.github.valkyrie.ide.doc.ValkyrieDocumentationProvider"
