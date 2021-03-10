@@ -104,13 +104,9 @@ DEFINE = "define" | "def" | "func" | "fn";
     "type" { return TYPE; }
 }
 // =====================================================================================================================
-<YYINITIAL> "import" {
+<YYINITIAL> "using" {
     yybegin(ImportExport);
     return IMPORT;
-}
-<YYINITIAL> "export" {
-    yybegin(ImportExport);
-    return EXPORT;
 }
 <ImportExport> "*" {
     return SYMBOL_RAW;

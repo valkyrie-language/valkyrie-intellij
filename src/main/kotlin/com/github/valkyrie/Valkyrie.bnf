@@ -71,7 +71,7 @@
         BACKSLASH = "\\"
         PERCENT = "%"
         PIPE = "|"
-        IMPORT = "import"
+        IMPORT = "using"
         EXPORT = "export"
         MODULE = "module"
         IF = "if"
@@ -122,14 +122,12 @@ private normal_statements ::=
 // ---------------------------------------------------------------------------------------------------------------------
 module_statement ::= MODULE IDENTIFIER;
 // ---------------------------------------------------------------------------------------------------------------------
-export_statement ::= EXPORT [<<sequence namespace COMMA>>] export_block;
-export_block     ::= <<brace_block import_block COMMA>>;
-export_rename    ::= symbol (export_dot symbol)* [AS symbol];
-export_dot       ::= PROPORTION | DOT;
-AS               ::= "as"
-// ---------------------------------------------------------------------------------------------------------------------
 import_statement ::= IMPORT import_block;
-import_block     ::= (symbol export_dot)* export_block | export_rename;
+import_block     ::= <<brace_block import_item COMMA>>;
+import_item      ::= (symbol import_dot)* import_block | import_rename;
+import_rename    ::= symbol (import_dot symbol)* [AS symbol];
+import_dot       ::= PROPORTION | DOT;
+AS               ::= "as"
 // ---------------------------------------------------------------------------------------------------------------------
 if_statement     ::= (IF condition block) [ef_statement* [else_statement]]
 ef_statement     ::= ELSE IF condition block;

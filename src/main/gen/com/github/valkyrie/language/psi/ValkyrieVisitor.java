@@ -95,22 +95,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitExportBlock(@NotNull ValkyrieExportBlock o) {
-    visitPsiElement(o);
-  }
-
-  public void visitExportDot(@NotNull ValkyrieExportDot o) {
-    visitPsiElement(o);
-  }
-
-  public void visitExportRename(@NotNull ValkyrieExportRename o) {
-    visitPsiElement(o);
-  }
-
-  public void visitExportStatement(@NotNull ValkyrieExportStatement o) {
-    visitPsiElement(o);
-  }
-
   public void visitExpression(@NotNull ValkyrieExpression o) {
     visitPsiElement(o);
   }
@@ -140,6 +124,18 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitImportBlock(@NotNull ValkyrieImportBlock o) {
+    visitPsiElement(o);
+  }
+
+  public void visitImportDot(@NotNull ValkyrieImportDot o) {
+    visitPsiElement(o);
+  }
+
+  public void visitImportItem(@NotNull ValkyrieImportItem o) {
+    visitPsiElement(o);
+  }
+
+  public void visitImportRename(@NotNull ValkyrieImportRename o) {
     visitPsiElement(o);
   }
 

@@ -11,14 +11,14 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.mixin.ValkyrieElement;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieExportStatementNode extends ValkyrieElement implements ValkyrieExportStatement {
+public class ValkyrieImportItemNode extends ValkyrieElement implements ValkyrieImportItem {
 
-  public ValkyrieExportStatementNode(@NotNull ASTNode node) {
+  public ValkyrieImportItemNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitExportStatement(this);
+    visitor.visitImportItem(this);
   }
 
   @Override
@@ -28,15 +28,27 @@ public class ValkyrieExportStatementNode extends ValkyrieElement implements Valk
   }
 
   @Override
-  @NotNull
-  public ValkyrieExportBlock getExportBlock() {
-    return findNotNullChildByClass(ValkyrieExportBlock.class);
+  @Nullable
+  public ValkyrieImportBlock getImportBlock() {
+    return findChildByClass(ValkyrieImportBlock.class);
   }
 
   @Override
   @NotNull
-  public List<ValkyrieNamespace> getNamespaceList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNamespace.class);
+  public List<ValkyrieImportDot> getImportDotList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieImportDot.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieImportRename getImportRename() {
+    return findChildByClass(ValkyrieImportRename.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ValkyrieSymbol> getSymbolList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSymbol.class);
   }
 
 }

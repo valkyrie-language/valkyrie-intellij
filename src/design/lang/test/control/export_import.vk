@@ -1,5 +1,3 @@
-using
-
 module A;
 
 // missing scope means public

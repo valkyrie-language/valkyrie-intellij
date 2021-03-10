@@ -7,16 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieImportBlock extends PsiElement {
 
-  @Nullable
-  ValkyrieExportBlock getExportBlock();
-
   @NotNull
-  List<ValkyrieExportDot> getExportDotList();
-
-  @Nullable
-  ValkyrieExportRename getExportRename();
-
-  @NotNull
-  List<ValkyrieSymbol> getSymbolList();
+  List<ValkyrieImportItem> getImportItemList();
 
 }

@@ -5,12 +5,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieExportStatement extends PsiElement {
+public interface ValkyrieImportRename extends PsiElement {
+
+  @Nullable
+  ValkyrieAs getAs();
 
   @NotNull
-  ValkyrieExportBlock getExportBlock();
+  List<ValkyrieImportDot> getImportDotList();
 
   @NotNull
-  List<ValkyrieNamespace> getNamespaceList();
+  List<ValkyrieSymbol> getSymbolList();
 
 }

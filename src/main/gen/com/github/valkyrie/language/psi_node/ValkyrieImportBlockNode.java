@@ -28,27 +28,9 @@ public class ValkyrieImportBlockNode extends ValkyrieElement implements Valkyrie
   }
 
   @Override
-  @Nullable
-  public ValkyrieExportBlock getExportBlock() {
-    return findChildByClass(ValkyrieExportBlock.class);
-  }
-
-  @Override
   @NotNull
-  public List<ValkyrieExportDot> getExportDotList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExportDot.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieExportRename getExportRename() {
-    return findChildByClass(ValkyrieExportRename.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieSymbol> getSymbolList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSymbol.class);
+  public List<ValkyrieImportItem> getImportItemList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieImportItem.class);
   }
 
 }
