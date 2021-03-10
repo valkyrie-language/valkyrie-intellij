@@ -7,21 +7,20 @@ import com.github.valkyrie.language.psi.ValkyriePresentationItem
 import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.lang.ASTNode
 import com.intellij.psi.NavigatablePsiElement
+import com.intellij.psi.PsiElement
 import javax.swing.Icon
 
 abstract class ViewableNode(node: ASTNode) : ValkyrieElement(node),
     NavigatablePsiElement {
-    var childrenView: MutableSet<ValkyrieViewElement> = mutableSetOf()
-    abstract val viewName: String?
     abstract val viewIcon: Icon?
-
-    override fun getPresentation() = ValkyriePresentationItem(viewName, viewIcon)
-
-    fun getChildrenView(): Array<TreeElement> {
-        childrenView.clear()
-        this.addChildrenView()
-        return childrenView.toTypedArray()
+    abstract override fun getNavigationElement(): PsiElement;
+    abstract fun addChildrenView(childrenView: MutableSet<ValkyrieViewElement>);
+    override fun getPresentation() = ValkyriePresentationItem(this.getViewName(), viewIcon)
+    open fun getViewName(): String = this.navigationElement.text
+    open fun getChildrenView(): Array<TreeElement> {
+        val children = mutableSetOf<ValkyrieViewElement>()
+        this.addChildrenView(children)
+        return children.toTypedArray()
     }
-    abstract fun addChildrenView();
 }
 
