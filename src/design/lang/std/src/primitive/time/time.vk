@@ -1,4 +1,4 @@
-#native class Duration {
+#external class Time {
     _secs: u64,
     _nanos: u32,
 }

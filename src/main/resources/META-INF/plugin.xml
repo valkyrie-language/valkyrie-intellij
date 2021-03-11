@@ -42,15 +42,12 @@
 			language="Valkyrie"
 			implementationClass="com.github.valkyrie.ide.formatter.JssSmartEnter"
 		/>
-		<!-- Document -->
+		<!-- Hint -->
+		<codeInsight.parameterNameHints implementation="com.github.valkyrie.ide.hint.ValkyrieInlayHintProvider"/>
 		<psi.referenceContributor implementation="com.github.valkyrie.ide.reference.ValkyrieReferenceContributor"/>
 		<lang.findUsagesProvider
 			language="Valkyrie"
 			implementationClass="com.github.valkyrie.ide.reference.ValkyrieUsagesProvider"
-		/>
-		<lang.documentationProvider
-			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.doc.ValkyrieDocumentationProvider"
 		/>
 		<lang.braceMatcher
 			language="Valkyrie"
@@ -64,6 +61,16 @@
 			language="Valkyrie"
 			implementationClass="com.github.valkyrie.ide.matcher.ValkyrieFoldingBuilder"
 		/>
+		<!-- Completion -->
+		<completion.contributor
+			language="Valkyrie"
+			implementationClass="com.github.valkyrie.ide.completion.ValkyrieCompletionContributor"
+		/>
+		<!-- Document -->
+		<lang.documentationProvider
+			language="Valkyrie"
+			implementationClass="com.github.valkyrie.ide.doc.ValkyrieDocumentationProvider"
+		/>
 		<!--		<indexPatternBuilder-->
 		<!--				implementation="com.github.valkyrie.ide.todo.VomlTodoIndexPatternBuilder"-->
 		<!--		/>-->
@@ -71,17 +78,10 @@
 		<!--				filetype="Fluent"-->
 		<!--				implementationClass="com.github.valkyrie.ide.todo.VomlTodoIndexer"-->
 		<!--		/>-->
-		<completion.contributor
-			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.completion.ValkyrieCompletionContributor"
-		/>
-
 		<annotator language="Valkyrie" implementationClass="com.github.valkyrie.ide.annotator.LiteralChecker"/>
-
 		<langCodeStyleSettingsProvider
 			implementation="com.github.valkyrie.ide.codeStyle.ValkyrieCodeStyleSetting"
 		/>
-
 	</extensions>
 	<actions>
 		<action id="NewFluentFile" class="com.github.valkyrie.ide.actions.ValkyrieCreateFile">

@@ -2,7 +2,9 @@
 charset = utf-8
 end_of_line = lf
 
-
+[*.{json, json5}]
+indent_style = space
+indent_size = 4
 
 [*.{bnf, flex, toml}]
 indent_style = space

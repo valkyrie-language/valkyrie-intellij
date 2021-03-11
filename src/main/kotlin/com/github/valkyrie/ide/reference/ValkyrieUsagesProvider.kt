@@ -14,13 +14,14 @@ class ValkyrieUsagesProvider : FindUsagesProvider {
         return DefaultWordsScanner(
             ValkyrieLexerAdapter(),
             TokenSet.create(ValkyrieTypes.SYMBOL_XID),
+            TokenSet.create(ValkyrieTypes.SYMBOL_RAW),
             TokenSet.create(ValkyrieTypes.COMMENT),
-            TokenSet.EMPTY
         )
     }
 
     override fun canFindUsagesFor(psiElement: PsiElement): Boolean {
-        return psiElement is PsiNamedElement
+       // return psiElement is PsiNamedElement
+        return true
     }
 
     override fun getHelpId(psiElement: PsiElement): String {

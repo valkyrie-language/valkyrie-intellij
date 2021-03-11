@@ -1,3 +1,4 @@
+/// Option
 tagged Option<T> {
     /// Some value of type `T`.
     Some(T),

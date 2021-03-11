@@ -1,0 +1,14 @@
+///
+#external
+#stable("1.0.0")
+tagged Option<T> {
+    ///
+    Some(T),
+    ///
+    None
+}
+
+
+extends Nullable: From<Optional> {
+
+}

@@ -1,6 +1,6 @@
 module default;
 
-using default;
+using {default};
 
 class Infallible {
 

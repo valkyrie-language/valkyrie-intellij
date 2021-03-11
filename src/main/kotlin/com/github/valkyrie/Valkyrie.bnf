@@ -97,7 +97,6 @@ valkyrie ::= ((normal_statements|top_statements) [SEMICOLON])*
 private top_statements ::=
     module_statement
   | import_statement
-  | export_statement
   | class_statement
   | trait_statement
   | tagged_statement

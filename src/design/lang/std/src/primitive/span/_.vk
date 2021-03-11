@@ -1,0 +1,5 @@
+#derive(Copy, Clone, Display)
+class Span<T> {
+    start: T,
+    end: T,
+}
