@@ -11,14 +11,14 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.mixin.ValkyrieModuleMixin;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieModuleStatementNode extends ValkyrieModuleMixin implements ValkyrieModuleStatement {
+public class ValkyrieExtensionStatementNode extends ValkyrieModuleMixin implements ValkyrieExtensionStatement {
 
-  public ValkyrieModuleStatementNode(@NotNull ASTNode node) {
+  public ValkyrieExtensionStatementNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitModuleStatement(this);
+    visitor.visitExtensionStatement(this);
   }
 
   @Override

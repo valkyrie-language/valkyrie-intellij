@@ -97,6 +97,8 @@ DEFINE = "define" | "def" | "func" | "fn";
 // 顶级关键词
 <YYINITIAL> {
     "new" { return NEW; }
+    "crate" { return MODULE; }
+    "extension" { return EXTENSION; }
     "if" { return IF; }
     "else" { return ELSE; }
     "while" { return WHILE; }

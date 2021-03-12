@@ -1,12 +1,14 @@
-using vector2;
-using vector3;
-using vector4;
-using matrix4;
+crate vector2;
+crate vector3;
+crate vector4;
+crate matrix4;
 
-using vector2.Vector2;
-using vector3.Vector3;
-using vector4.Vector4;
-using matrix4.Matrix4;
+using {
+    vector2.Vector2,
+    vector3.Vector3,
+    vector4.Vector4,
+    matrix4.Matrix4
+};
 
 type vec2 = Vector2<f32>;
 type vec3 = Vector3<f32>;

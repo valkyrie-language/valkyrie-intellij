@@ -32,6 +32,7 @@ public interface ValkyrieTypes {
   IElementType ELSE_STATEMENT = new ValkyrieElementType("ELSE_STATEMENT");
   IElementType EXPRESSION = new ValkyrieElementType("EXPRESSION");
   IElementType EXTENDS_STATEMENT = new ValkyrieElementType("EXTENDS_STATEMENT");
+  IElementType EXTENSION_STATEMENT = new ValkyrieElementType("EXTENSION_STATEMENT");
   IElementType FORALL_BLOCK = new ValkyrieElementType("FORALL_BLOCK");
   IElementType FORALL_STATEMENT = new ValkyrieElementType("FORALL_STATEMENT");
   IElementType FOR_STATEMENT = new ValkyrieElementType("FOR_STATEMENT");
@@ -112,14 +113,13 @@ public interface ValkyrieTypes {
   IElementType ELSE = new ValkyrieTokenType("else");
   IElementType EQ = new ValkyrieTokenType("==");
   IElementType EXPORT = new ValkyrieTokenType("export");
-  IElementType EXPORT_STATEMENT = new ValkyrieTokenType("export_statement");
   IElementType EXTENDS = new ValkyrieTokenType("extends");
+  IElementType EXTENSION = new ValkyrieTokenType("extension");
   IElementType FOR = new ValkyrieTokenType("for");
   IElementType FORALL = new ValkyrieTokenType("forall");
   IElementType GREATER = new ValkyrieTokenType(">>");
   IElementType HASH = new ValkyrieTokenType("#");
   IElementType HYPHEN = new ValkyrieTokenType("-");
-  IElementType IDENTIFIER = new ValkyrieTokenType("IDENTIFIER");
   IElementType IF = new ValkyrieTokenType("if");
   IElementType IMPORT = new ValkyrieTokenType("using");
   IElementType IN = new ValkyrieTokenType("IN");
@@ -129,7 +129,7 @@ public interface ValkyrieTypes {
   IElementType MACRO = new ValkyrieTokenType("macro");
   IElementType MATCH = new ValkyrieTokenType("match");
   IElementType MINUS = new ValkyrieTokenType("MINUS");
-  IElementType MODULE = new ValkyrieTokenType("module");
+  IElementType MODULE = new ValkyrieTokenType("crate");
   IElementType NE = new ValkyrieTokenType("!=");
   IElementType NEW = new ValkyrieTokenType("new");
   IElementType NOT = new ValkyrieTokenType("NOT");
@@ -232,6 +232,9 @@ public interface ValkyrieTypes {
       }
       else if (type == EXTENDS_STATEMENT) {
         return new ValkyrieExtendsStatementNode(node);
+      }
+      else if (type == EXTENSION_STATEMENT) {
+        return new ValkyrieExtensionStatementNode(node);
       }
       else if (type == FORALL_BLOCK) {
         return new ValkyrieForallBlockNode(node);

@@ -73,7 +73,8 @@
         PIPE = "|"
         IMPORT = "using"
         EXPORT = "export"
-        MODULE = "module"
+        MODULE = "crate"
+        EXTENSION = "extension"
         IF = "if"
         ELSE = "else"
         FOR = "for"
@@ -96,6 +97,7 @@
 valkyrie ::= ((normal_statements|top_statements) [SEMICOLON])*
 private top_statements ::=
     module_statement
+  | extension_statement
   | import_statement
   | class_statement
   | trait_statement
@@ -119,7 +121,12 @@ private normal_statements ::=
   | expression
   ;
 // ---------------------------------------------------------------------------------------------------------------------
-module_statement ::= MODULE IDENTIFIER;
+module_statement    ::= MODULE symbol {
+    mixin="com.github.valkyrie.language.mixin.ValkyrieModuleMixin"
+};
+extension_statement ::= EXTENSION symbol {
+    mixin="com.github.valkyrie.language.mixin.ValkyrieModuleMixin"
+};
 // ---------------------------------------------------------------------------------------------------------------------
 import_statement ::= IMPORT import_block;
 import_block     ::= <<brace_block import_item COMMA>>;
@@ -249,9 +256,7 @@ private atoms  ::= number | string | boolean | namespace;
 boolean        ::= "true" | "false";
 number         ::= number_literal [symbol];
 string         ::= [symbol] string_literal
-symbol         ::= [AT|HASH](SYMBOL_XID | SYMBOL_RAW) {
-    mixin="com.github.valkyrie.language.mixin.ValkyrieIdentifierMixin"
-};
+symbol         ::= [AT|HASH](SYMBOL_XID | SYMBOL_RAW) ;
 number_literal ::= BYTE | INTEGER | DECIMAL;
 string_literal ::= STRING_EMPTY | STRING_START STRING_CHAR+ STRING_END;
 // ---------------------------------------------------------------------------------------------------------------------

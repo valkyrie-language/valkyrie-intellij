@@ -43,12 +43,25 @@
 			implementationClass="com.github.valkyrie.ide.formatter.JssSmartEnter"
 		/>
 		<!-- Hint -->
-		<codeInsight.parameterNameHints implementation="com.github.valkyrie.ide.hint.ValkyrieInlayHintProvider"/>
+		<codeInsight.parameterNameHints
+			language="Valkyrie"
+			implementationClass="com.github.valkyrie.ide.hint.ValkyrieInlayHintProvider"
+		/>
 		<psi.referenceContributor implementation="com.github.valkyrie.ide.reference.ValkyrieReferenceContributor"/>
+		<!-- Declaration -->
+		<typeDeclarationProvider implementation="com.github.valkyrie.ide.reference.ValkyrieDeclarationTypeProvider"/>
+		<psi.declarationProvider implementation="com.github.valkyrie.ide.reference.ValkyrieDeclarationProvider"/>
+		<declarationRangeHandler
+			key="org.rust.lang.core.psi.ValkyrieClass"
+			implementationClass="com.github.valkyrie.ide.reference.declaration_range.ClassDeclarationRangeHandler"/>
+		<!--		<psi.declarationSearcher implementation="com.github.valkyrie.ide.reference.ValkyrieDeclarationProvider"/>-->
 		<lang.findUsagesProvider
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.reference.ValkyrieUsagesProvider"
-		/>
+			implementationClass="com.github.valkyrie.ide.reference.ValkyrieUsagesProvider"/>
+		<!-- Completion -->
+		<completion.contributor
+			language="Valkyrie"
+			implementationClass="com.github.valkyrie.ide.completion.ValkyrieCompletionContributor"/>
 		<lang.braceMatcher
 			language="Valkyrie"
 			implementationClass="com.github.valkyrie.ide.matcher.ValkyrieBraceMatcher"
@@ -60,11 +73,6 @@
 		<lang.foldingBuilder
 			language="Valkyrie"
 			implementationClass="com.github.valkyrie.ide.matcher.ValkyrieFoldingBuilder"
-		/>
-		<!-- Completion -->
-		<completion.contributor
-			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.completion.ValkyrieCompletionContributor"
 		/>
 		<!-- Document -->
 		<lang.documentationProvider

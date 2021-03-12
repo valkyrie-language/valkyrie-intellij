@@ -22,12 +22,15 @@ class ValkyrieReference(element: PsiElement, textRange: TextRange) :
 
     override fun resolve(): PsiElement? {
         val resolveResults = multiResolve(false)
-        return if (resolveResults.size == 1) resolveResults[0].element else null
+        return when (resolveResults.size) {
+            1 -> resolveResults[0].element
+            else -> null
+        }
     }
 
     override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult> {
         val project = myElement!!.project
-        val properties: List<PsiElement> = findProperties(project, key)
+        val properties = findProperties(project, key)
         val results: MutableList<ResolveResult> = ArrayList()
         for (property in properties) {
             results.add(PsiElementResolveResult(property))
