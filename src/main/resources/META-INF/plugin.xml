@@ -58,11 +58,11 @@
 		<psi.declarationProvider implementation="com.github.valkyrie.ide.reference.ValkyrieDeclarationProvider"/>
 		<declarationRangeHandler
 			key="org.rust.lang.core.psi.ValkyrieClass"
-			implementationClass="com.github.valkyrie.ide.reference.declaration_range.ClassDeclarationRangeHandler"/>
-		<!--		<psi.declarationSearcher implementation="com.github.valkyrie.ide.reference.ValkyrieDeclarationProvider"/>-->
+			implementationClass="com.github.valkyrie.ide.reference.declaration_range.ClassDeclarationHandler"/>
+		<findUsagesHandlerFactory implementation="com.github.valkyrie.ide.usages.ValkyrieUsagesFactory"/>
 		<lang.findUsagesProvider
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.reference.ValkyrieUsagesProvider"/>
+			implementationClass="com.github.valkyrie.ide.usages.ValkyrieUsagesProvider"/>
 		<!-- Completion -->
 		<completion.contributor
 			language="Valkyrie"

@@ -1,4 +1,4 @@
-package com.github.valkyrie.ide.reference
+package com.github.valkyrie.ide.usages
 
 import com.github.valkyrie.language.psi.ValkyrieLexerAdapter
 import com.github.valkyrie.language.psi.ValkyrieTypes
@@ -6,7 +6,6 @@ import com.intellij.lang.cacheBuilder.DefaultWordsScanner
 import com.intellij.lang.cacheBuilder.WordsScanner
 import com.intellij.lang.findUsages.FindUsagesProvider
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.tree.TokenSet
 
 class ValkyrieUsagesProvider : FindUsagesProvider {
@@ -16,6 +15,7 @@ class ValkyrieUsagesProvider : FindUsagesProvider {
             TokenSet.create(ValkyrieTypes.SYMBOL_XID),
             TokenSet.create(ValkyrieTypes.SYMBOL_RAW),
             TokenSet.create(ValkyrieTypes.COMMENT),
+            TokenSet.EMPTY
         )
     }
 

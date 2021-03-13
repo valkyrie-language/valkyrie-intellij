@@ -12,21 +12,6 @@ import com.intellij.psi.PsiElement
 @Suppress("UnstableApiUsage")
 class ValkyrieParameterHintProvider : InlayParameterHintsProvider {
     var context = ""
-    override fun getDefaultBlackList(): Set<String> =
-        setOf(
-            "*listOf", "*setOf", "*arrayOf",
-            /* Gradle DSL especially annoying hints */
-            "org.gradle.api.Project.hasProperty(propertyName)",
-            "org.gradle.api.Project.findProperty(propertyName)",
-            "org.gradle.api.Project.file(path)",
-            "org.gradle.api.Project.uri(path)",
-            "jvmArgs(arguments)",
-            "org.gradle.kotlin.dsl.DependencyHandlerScope.*(notation)",
-            "org.gradle.kotlin.dsl.*(dependencyNotation)",
-            "org.gradle.kotlin.dsl.kotlin(module)",
-            "org.gradle.kotlin.dsl.kotlin(module,version)",
-            "org.gradle.kotlin.dsl.project(path,configuration)"
-        )
 
     override fun getHintInfo(element: PsiElement): HintInfo? {
         return HintInfo.MethodInfo("aaa", listOf("bbb"))
@@ -49,13 +34,33 @@ class ValkyrieParameterHintProvider : InlayParameterHintsProvider {
         return "getMainCheckboxText"
     }
 
+    /// 显示在
+    /// Editor > Inlay Hints > Parameter Names
     override fun getDescription(): String {
-        return "getDescription"
+        return "Shows parameter names at function/macro call sites."
     }
-
+    /// 显示在
+    /// Editor > Inlay Hints > Parameter Names
+    override fun getDefaultBlackList(): Set<String> = setOf(
+        "derive", "*setOf", "*arrayOf",
+        /* Gradle DSL especially annoying hints */
+        "org.gradle.api.Project.hasProperty(propertyName)",
+        "org.gradle.api.Project.findProperty(propertyName)",
+        "org.gradle.api.Project.file(path)",
+        "org.gradle.api.Project.uri(path)",
+        "jvmArgs(arguments)",
+        "org.gradle.kotlin.dsl.DependencyHandlerScope.*(notation)",
+        "org.gradle.kotlin.dsl.*(dependencyNotation)",
+        "org.gradle.kotlin.dsl.kotlin(module)",
+        "org.gradle.kotlin.dsl.kotlin(module,version)",
+        "org.gradle.kotlin.dsl.project(path,configuration)"
+    )
+    /// 显示在
+    /// Editor > Inlay Hints > Parameter Names > Valkyrie
     override fun getSupportedOptions(): MutableList<Option> {
         return mutableListOf(
-            Option("getSupportedOptions", ValkyrieBundle.messagePointer("color.token.null"), true)
+            Option("getSupportedOptions1", ValkyrieBundle.messagePointer("color.token.null"), true),
+            Option("getSupportedOptions2", ValkyrieBundle.messagePointer("color.token.boolean"), true)
         )
     }
 

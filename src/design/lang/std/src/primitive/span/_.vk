@@ -3,3 +3,8 @@ class Span<T> {
     start: T,
     end: T,
 }
+
+
+def test() {
+    Span(0, 1)
+}
