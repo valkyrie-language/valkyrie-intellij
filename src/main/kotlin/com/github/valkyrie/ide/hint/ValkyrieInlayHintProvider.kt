@@ -1,54 +1,42 @@
 package com.github.valkyrie.ide.hint
 
 import com.github.valkyrie.ValkyrieBundle
-import com.intellij.codeInsight.hints.HintInfo
-import com.intellij.codeInsight.hints.InlayInfo
-import com.intellij.codeInsight.hints.InlayParameterHintsProvider
-import com.intellij.codeInsight.hints.Option
-import com.intellij.psi.PsiElement
+import com.intellij.codeInsight.hints.*
+import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiFile
 
 @Suppress("UnstableApiUsage")
-class ValkyrieInlayHintProvider : InlayParameterHintsProvider {
-    override fun getHintInfo(element: PsiElement): HintInfo? {
-        return HintInfo.MethodInfo("aaa", listOf("bbb"))
+class ValkyrieInlayHintProvider : InlayHintsProvider<ValkyrieInlayHintProvider.Settings> {
+    companion object {
+        private val KEY: SettingsKey<Settings> = SettingsKey("v.type.hints")
     }
 
-    override fun getParameterHints(element: PsiElement): MutableList<InlayInfo> {
-        return mutableListOf(InlayInfo("tt", 10))
+    data class Settings(
+        var showForVariables: Boolean = true,
+        var showForLambdas: Boolean = true,
+        var showForIterators: Boolean = true,
+        var showForPlaceholders: Boolean = true,
+        var showObviousTypes: Boolean = false,
+    )
+    override val key: SettingsKey<Settings> get() = KEY
+    override val name: String = ValkyrieBundle.message("settings.rust.inlay.hints.title.types")
+    override val group: InlayGroup = InlayGroup.TYPES_GROUP
+    override fun createSettings(): Settings = Settings()
+    override val previewText: String = """
+            struct Foo<T1, T2, T3> { x: T1, y: T2, z: T3 }
+            fn main() {
+                let foo = Foo { x: 1, y: "abc", z: true };
+            }
+            """.trimIndent()
+
+    override fun getCollectorFor(file: PsiFile, editor: Editor, settings: Settings, sink: InlayHintsSink): InlayHintsCollector? {
+        TODO("Not yet implemented")
     }
 
-    override fun getDefaultBlackList(): Set<String> =
-        setOf(
-            "*listOf", "*setOf", "*arrayOf",
-            /* Gradle DSL especially annoying hints */
-            "org.gradle.api.Project.hasProperty(propertyName)",
-            "org.gradle.api.Project.findProperty(propertyName)",
-            "org.gradle.api.Project.file(path)",
-            "org.gradle.api.Project.uri(path)",
-            "jvmArgs(arguments)",
-            "org.gradle.kotlin.dsl.DependencyHandlerScope.*(notation)",
-            "org.gradle.kotlin.dsl.*(dependencyNotation)",
-            "org.gradle.kotlin.dsl.kotlin(module)",
-            "org.gradle.kotlin.dsl.kotlin(module,version)",
-            "org.gradle.kotlin.dsl.project(path,configuration)"
-        )
-
-    override fun getInlayPresentation(inlayText: String): String {
-        return "getInlayPresentation"
+    override fun createConfigurable(settings: Settings): ImmediateConfigurable {
+        TODO("Not yet implemented")
     }
 
-    override fun getMainCheckboxText(): String {
-        return "getMainCheckboxText"
-    }
 
-    override fun getDescription(): String {
-        return "getDescription"
-    }
 
-    override fun getSupportedOptions(): MutableList<Option> {
-        return mutableListOf(
-            Option("getSupportedOptions", ValkyrieBundle.messagePointer("color.token.null"), true)
-        )
-    }
 }

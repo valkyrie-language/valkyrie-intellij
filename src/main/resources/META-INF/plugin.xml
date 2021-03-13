@@ -19,9 +19,11 @@
 		/>
 		<!-- StructureView -->
 		<iconProvider implementation="com.github.valkyrie.ide.view.ValkyrieIconProvider"/>
-		<lang.psiStructureViewFactory language="Valkyrie"
-		                              implementationClass="com.github.valkyrie.ide.view.ValkyrieStructureViewFactory"/>
 		<projectViewNestingRulesProvider implementation="com.github.valkyrie.ide.view.ValkyrieFileGroup"/>
+		<treeStructureProvider implementation="com.github.valkyrie.ide.view.ValkyrieStructureProvider"/>
+		<lang.psiStructureViewFactory
+			language="Valkyrie"
+			implementationClass="com.github.valkyrie.ide.view.ValkyrieStructureViewFactory"/>
 		<!-- Highlight -->
 		<colorSettingsPage implementation="com.github.valkyrie.ide.highlight.ValkyrieHighlightSetting"/>
 		<highlightVisitor implementation="com.github.valkyrie.ide.highlight.ValkyrieHighlightVisitor"/>
@@ -45,8 +47,11 @@
 		<!-- Hint -->
 		<codeInsight.parameterNameHints
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.hint.ValkyrieInlayHintProvider"
+			implementationClass="com.github.valkyrie.ide.hint.ValkyrieParameterHintProvider"
 		/>
+		<codeInsight.inlayProvider
+			language="Valkyrie"
+			implementationClass="com.github.valkyrie.ide.hint.ValkyrieInlayHintProvider"/>
 		<psi.referenceContributor implementation="com.github.valkyrie.ide.reference.ValkyrieReferenceContributor"/>
 		<!-- Declaration -->
 		<typeDeclarationProvider implementation="com.github.valkyrie.ide.reference.ValkyrieDeclarationTypeProvider"/>

@@ -928,6 +928,19 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // EXTENSION symbol
+  public static boolean extension_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "extension_statement")) return false;
+    if (!nextTokenIs(b, EXTENSION)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, EXTENSION);
+    r = r && symbol(b, l + 1);
+    exit_section_(b, m, EXTENSION_STATEMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // FOR (case_pattern|normal_pattern) IN expression [if_guard] block [else_statement]
   public static boolean for_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "for_statement")) return false;
@@ -1487,13 +1500,14 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // MODULE IDENTIFIER
+  // MODULE symbol
   public static boolean module_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "module_statement")) return false;
     if (!nextTokenIs(b, MODULE)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, MODULE, IDENTIFIER);
+    r = consumeToken(b, MODULE);
+    r = r && symbol(b, l + 1);
     exit_section_(b, m, MODULE_STATEMENT, r);
     return r;
   }
@@ -2327,8 +2341,8 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // module_statement
+  //   | extension_statement
   //   | import_statement
-  //   | export_statement
   //   | class_statement
   //   | trait_statement
   //   | tagged_statement
@@ -2340,8 +2354,8 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "top_statements")) return false;
     boolean r;
     r = module_statement(b, l + 1);
+    if (!r) r = extension_statement(b, l + 1);
     if (!r) r = import_statement(b, l + 1);
-    if (!r) r = consumeToken(b, EXPORT_STATEMENT);
     if (!r) r = class_statement(b, l + 1);
     if (!r) r = trait_statement(b, l + 1);
     if (!r) r = tagged_statement(b, l + 1);
