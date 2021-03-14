@@ -2,6 +2,7 @@ package com.github.valkyrie.language.mixin
 
 import com.github.valkyrie.ide.view.ValkyrieViewElement
 import com.github.valkyrie.language.ast.DeclareNode
+import com.github.valkyrie.language.ast.ViewableNode
 import com.github.valkyrie.language.psi.ValkyrieClassStatement
 import com.github.valkyrie.language.psi_node.ValkyrieClassBraceItemNode
 import com.github.valkyrie.language.psi_node.ValkyrieClassTupleNode
@@ -19,7 +20,6 @@ abstract class ValkyrieClassMixin(node: ASTNode) : DeclareNode(node),
     override fun setName(name: String): PsiElement {
         return this.nameIdentifier
     }
-
     override val viewIcon: Icon = AllIcons.Nodes.Class;
     override fun addChildrenView(childrenView: MutableSet<ValkyrieViewElement>) {
         when {

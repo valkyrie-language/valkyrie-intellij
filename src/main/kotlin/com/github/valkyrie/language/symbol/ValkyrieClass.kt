@@ -1,6 +1,7 @@
 package com.github.valkyrie.language.symbol
 
 import com.intellij.icons.AllIcons
+import com.intellij.lang.documentation.DocumentationTarget
 import com.intellij.model.presentation.SymbolPresentation
 import com.intellij.navigation.NavigationRequest
 import com.intellij.navigation.NavigationTarget
@@ -12,7 +13,9 @@ class ValkyrieClass(namespace: String) : ValkyrieSymbol() {
     init {
         this.fullName = namespace.split(".")
     }
-//    constructor(editor: Editor) : this(name) {
+    val presentation: TargetPresentation = TargetPresentation
+        .builder("aa").presentation()
+    //    constructor(editor: Editor) : this(name) {
 //
 //    }
     override fun isStructure(): Boolean = true
@@ -22,6 +25,10 @@ class ValkyrieClass(namespace: String) : ValkyrieSymbol() {
     }
 
     override fun getNavigationTargets(project: Project): Collection<NavigationTarget> = listOf(this)
+    override fun getDocumentationTarget(): DocumentationTarget {
+        TODO("Not yet implemented")
+    }
+
     override fun getTargetPresentation(): TargetPresentation = TODO(
         "In all known cases the symbol doesn't appear in the disambiguation popup, " +
             "because this symbol is usually alone, so no popup required. Implement this method when needed."

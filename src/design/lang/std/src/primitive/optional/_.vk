@@ -8,6 +8,8 @@ tagged Option<T> {
     None
 }
 
+@cosnt
+let null = Option::None;
 
 extends Nullable: From<Optional> {
 

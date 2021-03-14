@@ -65,7 +65,7 @@ class ValkyrieParameterHintProvider : InlayParameterHintsProvider {
     }
 
     private fun ValkyrieCallSuffixNode.resolveParameterName(): MutableList<InlayInfo> {
-        // TODO: Check if in call
+        // TODO: Check if in function call
         val out = mutableListOf<InlayInfo>();
         var id = 0;
         for (i in this.expressionList) {

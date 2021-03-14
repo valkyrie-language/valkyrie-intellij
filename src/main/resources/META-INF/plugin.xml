@@ -47,12 +47,21 @@
 		<!-- Hint -->
 		<codeInsight.parameterNameHints
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.hint.ValkyrieParameterHintProvider"
-		/>
+			implementationClass="com.github.valkyrie.ide.hint.ValkyrieParameterHintProvider"/>
 		<codeInsight.inlayProvider
 			language="Valkyrie"
 			implementationClass="com.github.valkyrie.ide.hint.ValkyrieInlayHintProvider"/>
+		<vcs.codeVisionLanguageContext
+			language="Valkyrie"
+			implementationClass="com.github.valkyrie.ide.hint.ValkyrieInlayVSCProvider"/>
+		<psi.fileReferenceHelper implementation="com.github.valkyrie.ide.reference.ValkyrieFileReference"/>
 		<psi.referenceContributor implementation="com.github.valkyrie.ide.reference.ValkyrieReferenceContributor"/>
+		<psi.symbolReferenceProvider
+			anyReferenceClass="true"
+			implementationClass="com.github.valkyrie.ide.reference.ValkyrieReferenceProvider"
+			hostLanguage="Valkyrie"
+			hostElementClass="com.intellij.psi.xml.XmlAttributeValue"
+			targetClass="com.github.valkyrie.language.symbol.ValkyrieSymbol"/>
 		<!-- Declaration -->
 		<typeDeclarationProvider implementation="com.github.valkyrie.ide.reference.ValkyrieDeclarationTypeProvider"/>
 		<psi.declarationProvider implementation="com.github.valkyrie.ide.reference.ValkyrieDeclarationProvider"/>

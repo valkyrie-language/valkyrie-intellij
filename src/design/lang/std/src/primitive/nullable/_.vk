@@ -1,9 +1,0 @@
-// ZST 不需要构造函数
-class Null {}
-
-type null = Null;
-
-type Nullable<T> = T + null;
-
-
-

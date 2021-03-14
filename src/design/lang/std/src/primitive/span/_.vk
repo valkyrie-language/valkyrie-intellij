@@ -5,6 +5,8 @@ class Span<T> {
 }
 
 
-def test() {
+#test
+def one test() {
     Span(0, 1)
+    @include("a/")
 }

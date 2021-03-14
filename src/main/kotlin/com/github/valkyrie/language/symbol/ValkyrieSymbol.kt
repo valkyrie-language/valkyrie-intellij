@@ -1,15 +1,15 @@
 package com.github.valkyrie.language.symbol
 
+import com.intellij.lang.documentation.symbol.DocumentationSymbol
 import com.intellij.model.Pointer
 import com.intellij.model.presentation.PresentableSymbol
 import com.intellij.navigation.NavigatableSymbol
 import com.intellij.navigation.NavigationTarget
 
 @Suppress("UnstableApiUsage")
-abstract class ValkyrieSymbol : Pointer<ValkyrieSymbol>,
-    PresentableSymbol,
-    NavigatableSymbol,
-    NavigationTarget {
+abstract class ValkyrieSymbol :
+    Pointer<ValkyrieSymbol>, NavigationTarget,
+    PresentableSymbol, NavigatableSymbol, DocumentationSymbol {
     override fun createPointer(): Pointer<out ValkyrieSymbol> = this;
     override fun dereference(): ValkyrieSymbol = this
 

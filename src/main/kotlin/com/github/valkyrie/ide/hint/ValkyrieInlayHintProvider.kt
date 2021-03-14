@@ -29,8 +29,8 @@ class ValkyrieInlayHintProvider : InlayHintsProvider<ValkyrieInlayHintProvider.S
     /// 显示在
     /// Editor > Inlay Hints > Types
     override val previewText: String = """
-        struct Foo<T1, T2, T3> { x: T1, y: T2, z: T3 }
-            fn main() {
+        class Foo<T1, T2, T3> { x: T1, y: T2, z: T3 }
+        def main() {
             let foo = Foo { x: 1, y: "abc", z: true };
         }
         """.trimIndent()
