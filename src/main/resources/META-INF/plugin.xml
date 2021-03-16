@@ -44,6 +44,11 @@
 			language="Valkyrie"
 			implementationClass="com.github.valkyrie.ide.formatter.JssSmartEnter"
 		/>
+		<!-- Goto -->
+		<codeInsight.gotoSuper
+			language="Valkyrie"
+			implementationClass="com.github.valkyrie.ide.goto.ValkyrieGotoSuperHandler"
+		/>
 		<!-- Hint -->
 		<codeInsight.parameterNameHints
 			language="Valkyrie"
