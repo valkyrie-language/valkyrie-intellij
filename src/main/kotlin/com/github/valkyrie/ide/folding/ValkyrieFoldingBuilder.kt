@@ -1,8 +1,7 @@
-package com.github.valkyrie.ide.matcher
-
+package com.github.valkyrie.ide.folding
 
 import com.github.valkyrie.ide.view.ValkyrieFile
-import com.github.valkyrie.language.psi.ValkyrieTypes.BLOCK
+import com.github.valkyrie.language.psi.ValkyrieTypes
 import com.intellij.lang.ASTNode
 import com.intellij.lang.folding.CustomFoldingBuilder
 import com.intellij.lang.folding.FoldingDescriptor
@@ -30,10 +29,9 @@ class ValkyrieFoldingBuilder : CustomFoldingBuilder(), DumbAware {
     override fun getLanguagePlaceholderText(node: ASTNode, range: TextRange) =
         when (node.elementType) {
 //            BRACKET_BLOCK -> "[...]"
-            BLOCK -> "{...}"
+            ValkyrieTypes.BLOCK -> "{...}"
             else -> "..."
         }
 
     override fun isRegionCollapsedByDefault(node: ASTNode) = false
 }
-
