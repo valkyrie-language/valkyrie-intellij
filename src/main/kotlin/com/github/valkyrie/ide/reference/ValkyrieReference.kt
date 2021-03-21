@@ -1,7 +1,7 @@
 package com.github.valkyrie.ide.reference
 
-import com.github.valkyrie.ide.view.ValkyrieFile
-import com.github.valkyrie.ide.view.ValkyrieFileType
+import com.github.valkyrie.ide.file.ValkyrieFile
+import com.github.valkyrie.ide.file.ValkyrieFileType
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.TextRange
 import com.intellij.openapi.vfs.VirtualFile

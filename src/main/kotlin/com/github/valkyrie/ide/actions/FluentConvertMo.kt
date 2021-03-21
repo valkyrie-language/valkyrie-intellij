@@ -1,7 +1,7 @@
 package com.github.valkyrie.ide.actions
 
 import com.github.valkyrie.ValkyrieBundle
-import com.github.valkyrie.ide.view.ValkyrieIconProvider.Companion.IconSVG
+import com.github.valkyrie.ide.file.ValkyrieIconProvider.Companion.IconSVG
 import com.intellij.ide.actions.CreateFileAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys

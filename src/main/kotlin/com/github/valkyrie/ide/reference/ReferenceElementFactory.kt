@@ -1,6 +1,6 @@
 package com.github.valkyrie.ide.reference
 
-import com.github.valkyrie.ide.view.ValkyrieFile
+import com.github.valkyrie.ide.file.ValkyrieFile
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFileFactory
 

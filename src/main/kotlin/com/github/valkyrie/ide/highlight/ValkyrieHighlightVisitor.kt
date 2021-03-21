@@ -1,7 +1,7 @@
 package com.github.valkyrie.ide.highlight
 
 
-import com.github.valkyrie.ide.view.ValkyrieFile
+import com.github.valkyrie.ide.file.ValkyrieFile
 import com.github.valkyrie.language.ast.isMutable
 import com.github.valkyrie.language.psi.*
 import com.intellij.codeInsight.daemon.impl.HighlightInfo

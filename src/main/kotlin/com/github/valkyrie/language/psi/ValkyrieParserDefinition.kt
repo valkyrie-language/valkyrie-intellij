@@ -2,7 +2,7 @@ package com.github.valkyrie.language.psi
 
 
 import com.github.valkyrie.ValkyrieLanguage
-import com.github.valkyrie.ide.view.ValkyrieFile
+import com.github.valkyrie.ide.file.ValkyrieFile
 import com.github.valkyrie.language.parser.ValkyrieParser
 
 import com.intellij.lang.ASTNode

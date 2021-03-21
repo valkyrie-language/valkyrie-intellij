@@ -1,7 +1,7 @@
 package com.github.valkyrie.ide.matcher
 
 import com.github.valkyrie.ValkyrieLanguage
-import com.github.valkyrie.ide.view.ValkyrieFileType
+import com.github.valkyrie.ide.file.ValkyrieFileType
 
 import com.intellij.codeInsight.highlighting.PairedBraceMatcherAdapter
 import com.intellij.openapi.editor.highlighter.HighlighterIterator

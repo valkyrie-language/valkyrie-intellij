@@ -1,11 +1,10 @@
-package com.github.valkyrie.ide.view
+package com.github.valkyrie.ide.file
 
 import com.intellij.ide.projectView.ProjectViewNestingRulesProvider
-import com.intellij.ide.projectView.ProjectViewNestingRulesProvider.Consumer
 import org.jetbrains.annotations.NotNull
 
 class ValkyrieFileGroup : ProjectViewNestingRulesProvider {
-    override fun addFileNestingRules(@NotNull consumer: Consumer) {
+    override fun addFileNestingRules(@NotNull consumer: ProjectViewNestingRulesProvider.Consumer) {
         consumer.addNestingRule(".vk", ".g.vk")
     }
 }

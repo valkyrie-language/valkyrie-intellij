@@ -1,7 +1,7 @@
 package com.github.valkyrie.ide.highlight
 
 import com.github.valkyrie.ValkyrieBundle
-import com.github.valkyrie.ide.view.ValkyrieIconProvider
+import com.github.valkyrie.ide.file.ValkyrieIconProvider
 
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage

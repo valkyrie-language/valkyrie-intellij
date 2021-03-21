@@ -10,7 +10,7 @@
 			name="Valkyrie"
 			language="Valkyrie"
 			extensions="vk;"
-			implementationClass="com.github.valkyrie.ide.view.ValkyrieFileType"
+			implementationClass="com.github.valkyrie.ide.file.ValkyrieFileType"
 			fieldName="INSTANCE"
 		/>
 		<lang.parserDefinition
@@ -18,12 +18,12 @@
 			implementationClass="com.github.valkyrie.language.psi.ValkyrieParserDefinition"
 		/>
 		<!-- StructureView -->
-		<iconProvider implementation="com.github.valkyrie.ide.view.ValkyrieIconProvider"/>
-		<projectViewNestingRulesProvider implementation="com.github.valkyrie.ide.view.ValkyrieFileGroup"/>
-		<treeStructureProvider implementation="com.github.valkyrie.ide.view.ValkyrieStructureProvider"/>
+		<iconProvider implementation="com.github.valkyrie.ide.file.ValkyrieIconProvider"/>
+		<projectViewNestingRulesProvider implementation="com.github.valkyrie.ide.file.ValkyrieFileGroup"/>
+		<treeStructureProvider implementation="com.github.valkyrie.ide.view.VStructureProvider"/>
 		<lang.psiStructureViewFactory
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.view.ValkyrieStructureViewFactory"/>
+			implementationClass="com.github.valkyrie.ide.view.VStructureViewFactory"/>
 		<!-- Highlight -->
 		<colorSettingsPage implementation="com.github.valkyrie.ide.highlight.ValkyrieHighlightSetting"/>
 		<highlightVisitor implementation="com.github.valkyrie.ide.highlight.ValkyrieHighlightVisitor"/>

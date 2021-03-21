@@ -1,5 +1,6 @@
 package com.github.valkyrie.ide.view
 
+import com.github.valkyrie.ide.file.ValkyrieFile
 import com.github.valkyrie.language.ast.ViewableNode
 import com.github.valkyrie.language.psi.ValkyriePresentationItem
 import com.intellij.ide.projectView.PresentationData
@@ -9,10 +10,9 @@ import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 
-class ValkyrieViewElement(
-    private val self: NavigatablePsiElement,
-    var view: ValkyriePresentationItem? = null,
-) : StructureViewTreeElement, SortableTreeElement {
+class ValkyrieViewElement(private val self: NavigatablePsiElement, var view: ValkyriePresentationItem? = null) :
+    StructureViewTreeElement,
+    SortableTreeElement {
     override fun getValue(): Any = self
 
     override fun navigate(requestFocus: Boolean) = self.navigate(requestFocus)

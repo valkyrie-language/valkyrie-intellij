@@ -1,4 +1,4 @@
-package com.github.valkyrie.ide.view
+package com.github.valkyrie.ide.file
 
 import com.intellij.internal.statistic.collectors.fus.fileTypes.FileTypeUsageSchemaDescriptor
 

@@ -1,4 +1,4 @@
-package com.github.valkyrie.ide.view
+package com.github.valkyrie.ide.file
 
 import com.github.valkyrie.ValkyrieBundle
 import com.github.valkyrie.ValkyrieLanguage

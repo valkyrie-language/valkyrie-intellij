@@ -1,4 +1,4 @@
-package com.github.valkyrie.ide.view
+package com.github.valkyrie.ide.file
 
 import com.intellij.ide.IconProvider
 import com.intellij.openapi.util.IconLoader
