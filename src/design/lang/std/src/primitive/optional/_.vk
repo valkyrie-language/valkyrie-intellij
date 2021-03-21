@@ -1,7 +1,6 @@
 ///
 #external
 #stable("1.0.0")
-#serde(Flatten)
 tagged Option<T> {
     ///
     Some(T),

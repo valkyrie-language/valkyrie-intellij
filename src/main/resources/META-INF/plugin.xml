@@ -47,9 +47,12 @@
 		<!-- Goto -->
 		<codeInsight.gotoSuper
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.goto.ValkyrieGotoSuperHandler"
+			implementationClass="com.github.valkyrie.ide.goto.VGotoSuperHandler"
 		/>
-		<lang.directNavigationProvider implementation="com.github.valkyrie.ide.goto.ValkyrieNavigationProvider"/>
+		<lang.directNavigationProvider implementation="com.github.valkyrie.ide.goto.VDirectNavigationProvider"/>
+		<symbolNavigation
+			forClass="com.github.valkyrie.language.symbol.ValkyrieSymbol"
+			implementationClass="com.github.valkyrie.ide.goto.VSymbolNavigationProvider"/>
 		<!-- Hint -->
 		<codeInsight.parameterNameHints
 			language="Valkyrie"
@@ -94,6 +97,7 @@
 			language="Valkyrie"
 			implementationClass="com.github.valkyrie.ide.folding.ValkyrieFoldingBuilder"
 		/>
+		<codeFoldingOptionsProvider instance="com.github.valkyrie.ide.folding.ValkyrieFoldingOptions"/>
 		<!-- Document -->
 		<lang.documentationProvider
 			language="Valkyrie"

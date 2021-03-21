@@ -1,10 +1,10 @@
-package com.github.valkyrie.ide.goto
+package com.github.valkyrie.ide.view
 
 import com.intellij.psi.ElementDescriptionLocation
 import com.intellij.psi.ElementDescriptionProvider
 import com.intellij.psi.PsiElement
 
-class DescriptionProvider : ElementDescriptionProvider {
+class VDescriptionProvider : ElementDescriptionProvider {
     override fun getElementDescription(element: PsiElement, location: ElementDescriptionLocation): String? {
         TODO("Not yet implemented")
     }
