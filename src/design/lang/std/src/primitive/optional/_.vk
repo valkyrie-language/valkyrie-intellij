@@ -1,16 +1,26 @@
-///
-#external
+#include_doc("readme.md")
+
+/// The `Option` type. See [the module level documentation](self) for more.
 #stable("1.0.0")
 tagged Option<T> {
-    ///
+    /// Some value of type `T`.
     Some(T),
-    ///
+    /// No value.
     None
 }
 
 @cosnt
 let null = Option::None;
 
-extends Nullable: From<Optional> {
-
+extends Option {
+    /// # Examples
+    /// ```
+    ///
+    /// ```
+    def is_some(self) {
+        @matches(self, Some(_))
+    }
+    def is_none() {
+        @matches(self, None)
+    }
 }

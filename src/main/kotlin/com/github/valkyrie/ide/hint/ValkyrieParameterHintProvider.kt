@@ -20,14 +20,14 @@ class ValkyrieParameterHintProvider : InlayParameterHintsProvider {
     /// 函数里面的东西
     override fun getParameterHints(element: PsiElement): MutableList<InlayInfo> {
         return when (element) {
-            is ValkyrieCallSuffixNode -> element.resolveParameterName()
+            is ValkyrieCallSuffixNode -> element.resolveParameterName(element)
             else -> mutableListOf()
         }
     }
 
-    /// 强制复写 getParameterHints
+    /// getParameterHints 的后处理
     override fun getInlayPresentation(inlayText: String): String {
-        return super.getInlayPresentation(inlayText)
+        return "$inlayText:"
     }
 
     override fun getMainCheckboxText(): String {
@@ -42,18 +42,10 @@ class ValkyrieParameterHintProvider : InlayParameterHintsProvider {
     /// 显示在
     /// Editor > Inlay Hints > Parameter Names
     override fun getDefaultBlackList(): Set<String> = setOf(
-        "derive", "*setOf", "*arrayOf",
+        "derive", "matches", "Some",
         /* Gradle DSL especially annoying hints */
         "org.gradle.api.Project.hasProperty(propertyName)",
         "org.gradle.api.Project.findProperty(propertyName)",
-        "org.gradle.api.Project.file(path)",
-        "org.gradle.api.Project.uri(path)",
-        "jvmArgs(arguments)",
-        "org.gradle.kotlin.dsl.DependencyHandlerScope.*(notation)",
-        "org.gradle.kotlin.dsl.*(dependencyNotation)",
-        "org.gradle.kotlin.dsl.kotlin(module)",
-        "org.gradle.kotlin.dsl.kotlin(module,version)",
-        "org.gradle.kotlin.dsl.project(path,configuration)"
     )
     /// 显示在
     /// Editor > Inlay Hints > Parameter Names > Valkyrie
@@ -64,8 +56,7 @@ class ValkyrieParameterHintProvider : InlayParameterHintsProvider {
         )
     }
 
-    private fun ValkyrieCallSuffixNode.resolveParameterName(): MutableList<InlayInfo> {
-        // TODO: Check if in function call
+    private fun ValkyrieCallSuffixNode.resolveParameterName(caller: PsiElement): MutableList<InlayInfo> {
         val out = mutableListOf<InlayInfo>();
         var id = 0;
         for (i in this.expressionList) {
@@ -74,5 +65,4 @@ class ValkyrieParameterHintProvider : InlayParameterHintsProvider {
         }
         return out
     }
-
 }

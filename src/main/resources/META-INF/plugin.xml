@@ -45,14 +45,14 @@
 			implementationClass="com.github.valkyrie.ide.formatter.JssSmartEnter"
 		/>
 		<!-- Goto -->
-		<codeInsight.gotoSuper
-			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.goto.VGotoSuperHandler"
-		/>
+		<navbar implementation="com.github.valkyrie.ide.goto.VNavigationBarExtension"/>
 		<lang.directNavigationProvider implementation="com.github.valkyrie.ide.goto.VDirectNavigationProvider"/>
 		<symbolNavigation
 			forClass="com.github.valkyrie.language.symbol.ValkyrieSymbol"
 			implementationClass="com.github.valkyrie.ide.goto.VSymbolNavigationProvider"/>
+		<codeInsight.gotoSuper
+			language="Valkyrie"
+			implementationClass="com.github.valkyrie.ide.goto.VGotoSuperHandler"/>
 		<!-- Hint -->
 		<codeInsight.parameterNameHints
 			language="Valkyrie"
