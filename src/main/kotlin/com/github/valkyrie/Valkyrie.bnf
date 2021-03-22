@@ -2,7 +2,7 @@
     parserClass = "com.github.valkyrie.language.parser.ValkyrieParser"
     parserUtilClass = "com.github.valkyrie.language.psi.ValkyrieParserExtension"
 
-    extends = "com.github.valkyrie.language.mixin.ValkyrieElement"
+    extends = "com.github.valkyrie.language.ast.ValkyrieElement"
 
     psiClassPrefix = "Valkyrie"
     psiImplClassSuffix = "Node"

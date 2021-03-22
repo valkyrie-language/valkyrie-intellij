@@ -2,7 +2,6 @@ package com.github.valkyrie.language.ast
 
 
 import com.github.valkyrie.ide.view.ValkyrieViewElement
-import com.github.valkyrie.language.mixin.ValkyrieElement
 import com.github.valkyrie.language.psi.ValkyriePresentationItem
 import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.lang.ASTNode

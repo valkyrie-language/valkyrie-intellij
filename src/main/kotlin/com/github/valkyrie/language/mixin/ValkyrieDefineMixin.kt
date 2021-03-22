@@ -1,5 +1,6 @@
 package com.github.valkyrie.language.mixin
 
+import com.github.valkyrie.language.ast.ValkyrieElement
 import com.github.valkyrie.language.psi.ValkyrieDefStatement
 import com.github.valkyrie.language.psi.ValkyriePresentationItem
 import com.intellij.icons.AllIcons.Nodes.Function

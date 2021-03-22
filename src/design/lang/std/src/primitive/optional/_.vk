@@ -1,5 +1,4 @@
 #include_doc("readme.md")
-
 /// The `Option` type. See [the module level documentation](self) for more.
 #stable("1.0.0")
 tagged Option<T> {

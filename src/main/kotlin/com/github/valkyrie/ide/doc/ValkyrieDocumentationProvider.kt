@@ -27,7 +27,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
     }
 
     override fun generateRenderedDoc(comment: PsiDocCommentBase): String? {
-        return "generateRenderedDoc"
+        return "generateRenderedDoc: ${comment.owner}"
     }
 
     // 按住 Ctrl 后悬浮

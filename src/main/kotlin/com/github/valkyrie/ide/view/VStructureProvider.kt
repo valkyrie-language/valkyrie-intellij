@@ -10,6 +10,9 @@ import com.intellij.ide.projectView.impl.nodes.PsiFileNode
 import com.intellij.ide.util.treeView.AbstractTreeNode
 import com.intellij.openapi.project.DumbAware
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiWhiteSpace
+import com.intellij.psi.impl.source.tree.LeafPsiElement
+import com.intellij.psi.impl.source.tree.PsiWhiteSpaceImpl
 
 
 class VStructureProvider : SelectableTreeStructureProvider, DumbAware {
@@ -27,10 +30,18 @@ class VStructureProvider : SelectableTreeStructureProvider, DumbAware {
         }
     }
 
-    override fun getTopLevelElement(element: PsiElement?): PsiElement? {
-        TODO("Not yet implemented")
+    override fun getTopLevelElement(element: PsiElement?): PsiElement? = when (element) {
+        is PsiWhiteSpaceImpl, is PsiWhiteSpace, is LeafPsiElement -> {
+            null
+        }
+        is ValkyrieFile -> {
+            null
+        }
+        else -> TODO("Not yet implemented")
     }
 
+
+    /// 自选 ValkyrieFile 的排序方式
     private class CustomFileNode(original: PsiFileNode, viewSettings: ViewSettings?) :
         PsiFileNode(original.project, original.value, viewSettings) {
         override fun getSortKey(): Int = when {

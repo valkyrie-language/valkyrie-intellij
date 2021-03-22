@@ -6,7 +6,7 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.util.ProcessingContext
 
-class ValkyrieCompletionContributor : CompletionContributor() {
+class VCompletionContributor : CompletionContributor() {
     init {
         extend(
             CompletionType.BASIC,

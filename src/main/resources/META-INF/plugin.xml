@@ -21,6 +21,7 @@
 		<iconProvider implementation="com.github.valkyrie.ide.file.ValkyrieIconProvider"/>
 		<projectViewNestingRulesProvider implementation="com.github.valkyrie.ide.file.ValkyrieFileGroup"/>
 		<treeStructureProvider implementation="com.github.valkyrie.ide.view.VStructureProvider"/>
+		<lang.structureViewExtension implementation="com.github.valkyrie.ide.view.VStructureViewExtension"/>
 		<lang.psiStructureViewFactory
 			language="Valkyrie"
 			implementationClass="com.github.valkyrie.ide.view.VStructureViewFactory"/>
@@ -84,7 +85,7 @@
 		<!-- Completion -->
 		<completion.contributor
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.completion.ValkyrieCompletionContributor"/>
+			implementationClass="com.github.valkyrie.ide.completion.VCompletionContributor"/>
 		<lang.braceMatcher
 			language="Valkyrie"
 			implementationClass="com.github.valkyrie.ide.matcher.ValkyrieBraceMatcher"
