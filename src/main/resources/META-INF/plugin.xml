@@ -83,13 +83,13 @@
 			language="Valkyrie"
 			implementationClass="com.github.valkyrie.ide.usages.ValkyrieUsagesProvider"/>
 		<!-- Completion -->
+		<codeCompletionConfigurable instance="com.github.valkyrie.ide.completion.VCompletionConfigurable"/>
 		<completion.contributor
 			language="Valkyrie"
 			implementationClass="com.github.valkyrie.ide.completion.VCompletionContributor"/>
 		<lang.braceMatcher
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.matcher.ValkyrieBraceMatcher"
-		/>
+			implementationClass="com.github.valkyrie.ide.matcher.ValkyrieBraceMatcher"/>
 		<!--		<lang.quoteHandler-->
 		<!--				language="Valkyrie"-->
 		<!--				implementationClass="com.github.valkyrie.ide.matcher.JssQuoteHandler"-->

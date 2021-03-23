@@ -58,6 +58,7 @@ class ValkyrieParameterHintProvider : InlayParameterHintsProvider {
 
     private fun ValkyrieCallSuffixNode.resolveParameterName(caller: PsiElement): MutableList<InlayInfo> {
         val out = mutableListOf<InlayInfo>();
+        return out
         var id = 0;
         for (i in this.expressionList) {
             out.add(InlayInfo("$id", i.startOffset))

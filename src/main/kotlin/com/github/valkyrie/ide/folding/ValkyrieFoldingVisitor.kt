@@ -8,17 +8,16 @@ import com.intellij.psi.PsiElement
 
 class ValkyrieFoldingVisitor(private val descriptors: MutableList<FoldingDescriptor>) : ValkyrieRecursiveVisitor() {
     override fun visitClassStatement(o: ValkyrieClassStatement) {
-        when {
-            o.classBrace != null -> {
-                val block = o.classBrace!!
-                fold(block.node, block.firstChild.endOffset, block.lastChild.startOffset)
-            }
-            o.classTuple != null -> {
-                val block = o.classTuple!!
-                fold(block.node, block.firstChild.endOffset, block.lastChild.startOffset)
-            }
+        val brace = o.classBrace;
+        if (brace != null) {
+            fold(brace.node, brace.firstChild.endOffset, brace.lastChild.startOffset)
+            return
         }
-        super.visitClassStatement(o)
+        val tuple = o.classTuple;
+        if (tuple != null) {
+            fold(tuple.node, tuple.firstChild.endOffset, tuple.lastChild.startOffset)
+            return
+        }
     }
 
     override fun visitTaggedStatement(o: ValkyrieTaggedStatement) {
@@ -30,7 +29,7 @@ class ValkyrieFoldingVisitor(private val descriptors: MutableList<FoldingDescrip
     override fun visitExtendsStatement(o: ValkyrieExtendsStatement) {
         val block = o.traitBlock
         fold(block.node, block.firstChild.endOffset, block.lastChild.startOffset)
-        super.visitExtendsStatement(o)
+        // super.visitExtendsStatement(o)
     }
 
     override fun visitTraitStatement(o: ValkyrieTraitStatement) {
@@ -45,14 +44,34 @@ class ValkyrieFoldingVisitor(private val descriptors: MutableList<FoldingDescrip
         super.visitBitflagStatement(o)
     }
 
+
+    override fun visitMatchStatement(o: ValkyrieMatchStatement) {
+        val block = o.matchBlock
+        fold(block.node, block.firstChild.endOffset, block.lastChild.startOffset)
+        super.visitMatchStatement(o)
+    }
+
+    override fun visitDefStatement(o: ValkyrieDefStatement) {
+        val block = o.defBlock
+        if (block != null) {
+            fold(block.node, block.firstChild.endOffset, block.lastChild.startOffset)
+        }
+        super.visitDefStatement(o)
+    }
+
     private fun fold(element: PsiElement) {
         descriptors += FoldingDescriptor(element.node, element.textRange)
     }
+
     private fun fold(node: ASTNode, range: TextRange) {
         descriptors += FoldingDescriptor(node, range)
     }
-    private fun fold(node: ASTNode, start: Int, end: Int) {
-        descriptors += FoldingDescriptor(node, TextRange(start, end))
+
+    private fun fold(node: ASTNode, start: Int, end: Int) = when {
+        end > start -> {
+            descriptors += FoldingDescriptor(node, TextRange(start, end))
+        }
+        else -> {}
     }
 }
 

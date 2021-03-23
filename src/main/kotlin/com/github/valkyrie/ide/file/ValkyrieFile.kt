@@ -24,4 +24,8 @@ class ValkyrieFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, V
         }
         return childrenView.toTypedArray()
     }
+
+    fun isIndexFile(): Boolean {
+        return this.name == "index.vk"
+    }
 }

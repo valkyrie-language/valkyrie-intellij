@@ -2,6 +2,7 @@ package com.github.valkyrie.ide.view
 
 
 import com.github.valkyrie.ide.file.ValkyrieFile
+import com.intellij.ide.projectView.PresentationData
 import com.intellij.ide.projectView.SelectableTreeStructureProvider
 import com.intellij.ide.projectView.ViewSettings
 import com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode
@@ -21,11 +22,10 @@ class VStructureProvider : SelectableTreeStructureProvider, DumbAware {
         children: MutableCollection<AbstractTreeNode<*>>,
         settings: ViewSettings?,
     ): List<AbstractTreeNode<out Any>> = children.map {
-        when {
-            it is PsiFileNode && it.value is ValkyrieFile -> CustomFileNode(it, settings)
-            it is PsiFileNode -> it
-            it is PsiDirectoryNode -> it
-            it is ExternalLibrariesNode -> it
+        when (it) {
+            is PsiFileNode -> CustomFileWrapper(it, settings)
+            is PsiDirectoryNode -> it
+            is ExternalLibrariesNode -> it
             else -> it
         }
     }
@@ -37,17 +37,22 @@ class VStructureProvider : SelectableTreeStructureProvider, DumbAware {
         is ValkyrieFile -> {
             null
         }
-        else -> TODO("Not yet implemented")
+        else -> null
     }
 
-
-    /// 自选 ValkyrieFile 的排序方式
-    private class CustomFileNode(original: PsiFileNode, viewSettings: ViewSettings?) :
+    private class CustomFileWrapper(var original: PsiFileNode, viewSettings: ViewSettings?) :
         PsiFileNode(original.project, original.value, viewSettings) {
-        override fun getSortKey(): Int = when {
-//            value.name == RsConstants.MOD_RS_FILE -> -2
-//            (value as? RsFile)?.isCrateRoot == true -> -1
-            else -> 0
+        override fun getSortKey(): Int {
+            val file = original.value;
+            return when {
+                file.name == "readme.md" -> {
+                    -9
+                }
+                file is ValkyrieFile && file.isIndexFile() -> {
+                    -8
+                }
+                else -> 0;
+            }
         }
     }
 }

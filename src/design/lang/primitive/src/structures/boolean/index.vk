@@ -22,9 +22,9 @@ type false = Boolean::False;
 
 #external extends bool: Neg {
     def neg(mut self) {
-        // match self {
-        //     case True: False,
-        //     case False: True
-        // }
+    // match self {
+    //     case true: false,
+    //     case false: true
+    // }
     }
 }

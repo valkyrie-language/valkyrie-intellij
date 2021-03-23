@@ -6,5 +6,6 @@ import org.jetbrains.annotations.NotNull
 class ValkyrieFileGroup : ProjectViewNestingRulesProvider {
     override fun addFileNestingRules(@NotNull consumer: ProjectViewNestingRulesProvider.Consumer) {
         consumer.addNestingRule(".vk", ".g.vk")
+        consumer.addNestingRule(".vk", ".md")
     }
 }
