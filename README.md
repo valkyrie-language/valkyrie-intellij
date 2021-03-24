@@ -1,10 +1,13 @@
-# Fluent Intellij
+# Valkyrie Intellij
 
 ![](./src/main/design/SVG/title.svg)
 
 <!-- Plugin description -->
-### [Fluent Language](https://github.com/projectfluent) Support
+### [Valkyrie Language](https://github.com/nyar-vm/valkyrie-language) Support
 
-- Syntax highlighting & Semantic highlighting
+- Syntax highlighting
+- Semantic highlighting
+- Code Format
+- Code Folding
 
 <!-- Plugin description end -->

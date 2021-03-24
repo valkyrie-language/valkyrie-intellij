@@ -11,6 +11,7 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 
 %{
 private static int let_balance = 0;
+private static int comment_balance = 0;
 private static boolean case_appearence = false;
 private static String quote_balance = "";
 private static IntStack brace_stack = new IntStack(9);
@@ -21,16 +22,19 @@ public _ValkyrieLexer() {
 }
 private static void init() {
     let_balance = 0;
+    comment_balance = 0;
     case_appearence = false;
     quote_balance = "";
     brace_stack.clear();
 }
-public void brace_block(int state) {
+public void state_begin(int state) {
     brace_stack.push(state);
     yybegin(state);
 }
-
-public void brace_recover() {
+public void state_hold() {
+    brace_stack.push(yystate());
+}
+public void state_end() {
     if (brace_stack.size() == 0) {
         yybegin(YYINITIAL);
     }
@@ -61,6 +65,7 @@ public void match_indent() {
 %eof}
 
 %state ImportExport
+%state CommentBlock
 %state Let
 %state For
 %state Forall
@@ -71,9 +76,9 @@ public void match_indent() {
 %state StringInside
 
 WHITE_SPACE=[\s\t\r\n]
-COMMENT_DOCUMENT=("///")[^\r\n]*
 COMMENT_LINE = ("//")[^\r\n]*
-//COMMENT_BLOCK=[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]
+COMMENT_INC = "//+"
+COMMENT_DEC = "//-"
 SYMBOL_XID=[\p{XID_Start}_][\p{XID_Continue}]*
 SYMBOL_RAW=`([^`\\]|\\.)*`
 BYTE=(0[bBoOxXfF][0-9A-Fa-f][0-9A-Fa-f_]*)
@@ -89,10 +94,14 @@ DEFINE = "define" | "def" | "func" | "fn";
 %%
 
 <YYINITIAL, Class, Trait, ImportExport, Let, For, Forall> {
-    {COMMENT_DOCUMENT} { return COMMENT_DOCUMENT; }
-    {COMMENT_LINE}     { return COMMENT_LINE; }
-//  {COMMENT_BLOCK}    { return COMMENT_BLOCK; }
-    {WHITE_SPACE}+     { return WHITE_SPACE; }
+    {COMMENT_INC}   {
+        state_hold();
+        comment_balance++;
+        yybegin(CommentBlock);
+        return COMMENT_LINE;
+    }
+    {COMMENT_LINE}  { return COMMENT_LINE; }
+    {WHITE_SPACE}+  { return WHITE_SPACE; }
 }
 // 顶级关键词
 <YYINITIAL> {
@@ -104,6 +113,25 @@ DEFINE = "define" | "def" | "func" | "fn";
     "while" { return WHILE; }
     "match" { return MATCH; }
     "type" { return TYPE; }
+}
+// =====================================================================================================================
+<CommentBlock> {COMMENT_INC} {
+    comment_balance++;
+    return COMMENT_LINE;
+}
+<CommentBlock> {COMMENT_DEC} {
+    if (comment_balance == 1) {
+        state_end();
+        comment_balance--;
+    }
+    else {
+        comment_balance--;
+    }
+    return COMMENT_LINE;
+}
+<CommentBlock> {
+    [^/]+ {return COMMENT_LINE;}
+    {WHITE_SPACE}+  { return COMMENT_LINE; }
 }
 // =====================================================================================================================
 <YYINITIAL> "using" {
@@ -118,11 +146,11 @@ DEFINE = "define" | "def" | "func" | "fn";
     return SEMICOLON;
 }
 <ImportExport> "{" {
-    brace_block(ImportExport);
+    state_begin(ImportExport);
     return BRACE_L;
 }
 <ImportExport> "}" {
-    brace_recover();
+    state_end();
     return BRACE_R;
 }
 // =====================================================================================================================
@@ -159,7 +187,7 @@ DEFINE = "define" | "def" | "func" | "fn";
     }
 }
 <Let> ";" {
-    brace_block(YYINITIAL);
+    state_begin(YYINITIAL);
     return SEMICOLON;
 }
 // =====================================================================================================================
@@ -213,10 +241,10 @@ DEFINE = "define" | "def" | "func" | "fn";
     return TAGGED;
 }
 <Class> {
-    "{" {brace_block(Class); return BRACE_L;}
-    "}" {brace_recover();    return BRACE_R;}
-    "(" {brace_block(Class); return PARENTHESIS_L;}
-    ")" {brace_recover();    return PARENTHESIS_R;}
+    "{" {state_begin(Class); return BRACE_L;}
+    "}" {state_end();    return BRACE_R;}
+    "(" {state_begin(Class); return PARENTHESIS_L;}
+    ")" {state_end();    return PARENTHESIS_R;}
 }
 // =====================================================================================================================
 <YYINITIAL> "trait" | "interface" {
@@ -232,10 +260,10 @@ DEFINE = "define" | "def" | "func" | "fn";
     return EXTENDS;
 }
 <Trait> {
-    "{" {brace_block(YYINITIAL); return BRACE_L;}
-    "}" {brace_recover();    return BRACE_R;}
-    "(" {brace_block(YYINITIAL); return PARENTHESIS_L;}
-    ")" {brace_recover();    return PARENTHESIS_R;}
+    "{" {state_begin(YYINITIAL); return BRACE_L;}
+    "}" {state_end();    return BRACE_R;}
+    "(" {state_begin(YYINITIAL); return PARENTHESIS_L;}
+    ")" {state_end();    return PARENTHESIS_R;}
 }
 // =====================================================================================================================
 <YYINITIAL, Class,Trait, ImportExport, Let, For, Forall> {
