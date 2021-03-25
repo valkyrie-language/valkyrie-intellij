@@ -219,7 +219,7 @@ DEFINE = "define" | "def" | "func" | "fn";
 }
 <Forall> {
     "type" {yybegin(Class);return TYPE;}
-    "extends" | "impl" {yybegin(Class);return EXTENDS;}
+    "extends" | "impl" | "constructor" {yybegin(Class); return EXTENDS;}
     "class" | "struct" {yybegin(Class);return CLASS;}
     "bitflags" | "bitflag" | "bitset" {yybegin(Class);return BITFLAG;}
     "variant" | "tagged" | "enum" {yybegin(Class);return TAGGED;}
@@ -251,7 +251,7 @@ DEFINE = "define" | "def" | "func" | "fn";
     yybegin(Trait);
     return TRAIT;
 }
-<YYINITIAL> "extends" | "impl" {
+<YYINITIAL> "extends" | "impl" | "constructor" {
     yybegin(Trait);
     return EXTENDS;
 }

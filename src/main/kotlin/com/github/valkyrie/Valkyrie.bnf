@@ -170,7 +170,7 @@ def_statement    ::= DEFINE modifier_symbols [[PROPORTION] type_angle] def_tuple
     mixin="com.github.valkyrie.language.mixin.ValkyrieDefineMixin"
 };
 def_tuple        ::= <<parenthesis def_item COMMA>>;
-def_item         ::= modifier_symbols [COLON type_expression] [BIND expression];
+def_item         ::= ANGLE_L | ANGLE_R | modifier_symbols [(DOT2|DOT3) symbol] [COLON type_expression] [BIND expression];
 def_block        ::= <<brace_block normal_statements SEMICOLON>>;
 // ---------------------------------------------------------------------------------------------------------------------
 type_statement   ::= TYPE symbol [[PROPORTION] type_angle] [BIND type_expr] {

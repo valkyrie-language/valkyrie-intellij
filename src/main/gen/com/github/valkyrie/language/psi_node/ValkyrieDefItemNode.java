@@ -34,9 +34,15 @@ public class ValkyrieDefItemNode extends ValkyrieElement implements ValkyrieDefI
   }
 
   @Override
-  @NotNull
+  @Nullable
   public ValkyrieModifierSymbols getModifierSymbols() {
-    return findNotNullChildByClass(ValkyrieModifierSymbols.class);
+    return findChildByClass(ValkyrieModifierSymbols.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieSymbol getSymbol() {
+    return findChildByClass(ValkyrieSymbol.class);
   }
 
   @Override
