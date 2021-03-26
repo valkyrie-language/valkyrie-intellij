@@ -3,9 +3,9 @@ package com.github.valkyrie.language.ast
 
 import com.github.valkyrie.language.psi.startOffset
 import com.intellij.lang.ASTNode
-import com.intellij.model.psi.PsiSymbolDeclaration
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
+import com.intellij.psi.PsiPolyVariantReference
 
 /// 一定是可以 view 的节点
 /// PsiSymbolDeclarationProvider,

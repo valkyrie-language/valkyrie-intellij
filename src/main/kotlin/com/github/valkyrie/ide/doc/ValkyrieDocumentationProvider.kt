@@ -1,9 +1,9 @@
 package com.github.valkyrie.ide.doc
 
-import com.github.valkyrie.language.psi.ValkyrieSymbol
-import com.github.valkyrie.language.psi.ValkyrieTypes
-import com.github.valkyrie.language.psi.ValkyrieTypes.*
+import com.github.valkyrie.language.psi.ValkyrieTypes.CLASS
+import com.github.valkyrie.language.psi.ValkyrieTypes.DOT
 import com.intellij.lang.documentation.AbstractDocumentationProvider
+import com.intellij.lang.documentation.DocumentationMarkup
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiDocCommentBase
 import com.intellij.psi.PsiElement
@@ -16,18 +16,12 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
     private var metaInfo: String = ""
     private var tokenType: IElementType = DOT;
 
-    // originalElement 基本没用, 和 element 一模一样
     override fun generateDoc(element: PsiElement?, originalElement: PsiElement?): String? {
-        return when (tokenType) {
-            CLASS -> {
-                "TODO: Introduce class keyword"
-            }
-            else -> "generateDoc: $element, $originalElement $metaInfo"
-        }
+        return element?.let { DocumentationRender(it).onHover() }
     }
 
     override fun generateRenderedDoc(comment: PsiDocCommentBase): String? {
-        return "generateRenderedDoc: ${comment.owner}"
+        return DocumentationRender(comment).onHover()
     }
 
     // 按住 Ctrl 后悬浮
@@ -36,13 +30,8 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
     }
 
     // 悬浮
-    override fun generateHoverDoc(element: PsiElement, originalElement: PsiElement?): String? {
-        return when (tokenType) {
-            CLASS -> {
-                "TODO: Introduce class keyword"
-            }
-            else -> "generateHoverDoc $element, $originalElement"
-        }
+    override fun generateHoverDoc(element: PsiElement, originalElement: PsiElement?): String {
+        return DocumentationRender(element).onHover()
     }
 
     // 避免实现 PsiReference
@@ -58,16 +47,8 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
     ): PsiElement? {
         this.tokenType = contextElement.elementType ?: return null;
         return when (this.tokenType) {
-            CLASS, TRAIT, ValkyrieTypes.DEFINE -> contextElement
-            SYMBOL_XID -> {
-                val parent = contextElement?.parent
-                if (parent is ValkyrieSymbol) {
-                    metaInfo = "Symbol: $parent"
-                    contextElement
-                } else {
-                    metaInfo = "Unknown: $parent"
-                    contextElement
-                }
+            CLASS -> {
+               return contextElement
             }
             else -> null
         }

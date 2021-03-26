@@ -256,7 +256,9 @@ private atoms  ::= number | string | boolean | namespace;
 boolean        ::= "true" | "false";
 number         ::= number_literal [symbol];
 string         ::= [symbol] string_literal
-symbol         ::= [AT|HASH](SYMBOL_XID | SYMBOL_RAW) ;
+symbol         ::= [AT|HASH](SYMBOL_XID | SYMBOL_RAW) {
+    mixin="com.github.valkyrie.language.mixin.ValkyrieIdentifierMixin"
+}
 number_literal ::= BYTE | INTEGER | DECIMAL;
 string_literal ::= STRING_EMPTY | STRING_START STRING_CHAR+ STRING_END;
 // ---------------------------------------------------------------------------------------------------------------------

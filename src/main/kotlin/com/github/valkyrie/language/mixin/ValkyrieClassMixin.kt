@@ -8,8 +8,11 @@ import com.github.valkyrie.language.psi_node.ValkyrieClassBraceItemNode
 import com.github.valkyrie.language.psi_node.ValkyrieClassTupleNode
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
+import com.intellij.openapi.util.TextRange
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiPolyVariantReference
+import com.intellij.psi.ResolveResult
 import com.intellij.psi.util.PsiTreeUtil
 import javax.swing.Icon
 
