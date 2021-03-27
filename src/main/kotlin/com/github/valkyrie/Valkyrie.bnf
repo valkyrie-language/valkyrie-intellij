@@ -176,7 +176,7 @@ def_item         ::= ANGLE_L | ANGLE_R | modifier_symbols [(DOT2|DOT3) identifie
 def_block        ::= <<brace_block normal_statements SEMICOLON>>;
 // ---------------------------------------------------------------------------------------------------------------------
 type_statement   ::= TYPE identifier [[PROPORTION] type_angle] [BIND type_expr] {
-    mixin="com.github.valkyrie.language.mixin.ValkyrieTypeMixin"
+    mixin="com.github.valkyrie.language.mixin.MixinType"
 };
 // ---------------------------------------------------------------------------------------------------------------------
 forall_statement ::= FORALL <<sequence identifier COMMA>> [forall_block];
@@ -259,7 +259,7 @@ boolean        ::= "true" | "false";
 number         ::= number_literal [identifier];
 string         ::= [identifier] string_literal
 identifier     ::= [AT|HASH](SYMBOL_XID | SYMBOL_RAW) {
-    mixin="com.github.valkyrie.language.mixin.ValkyrieIdentifierMixin"
+    mixin="com.github.valkyrie.language.mixin.MixinIdentifier"
 }
 number_literal ::= BYTE | INTEGER | DECIMAL;
 string_literal ::= STRING_EMPTY | STRING_START STRING_CHAR+ STRING_END;

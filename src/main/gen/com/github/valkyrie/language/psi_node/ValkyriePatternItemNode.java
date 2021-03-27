@@ -29,8 +29,8 @@ public class ValkyriePatternItemNode extends ValkyrieElement implements Valkyrie
 
   @Override
   @NotNull
-  public List<ValkyrieSymbol> getSymbolList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSymbol.class);
+  public List<ValkyrieIdentifier> getIdentifierList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifier.class);
   }
 
 }

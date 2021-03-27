@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieTypeAngle extends PsiElement {
 
   @NotNull
-  List<ValkyrieSymbol> getSymbolList();
+  List<ValkyrieIdentifier> getIdentifierList();
 
   @NotNull
   List<ValkyrieTypeExpression> getTypeExpressionList();

@@ -8,11 +8,11 @@ import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 
-abstract class ValkyrieTypeMixin(node: ASTNode) : ValkyrieElement(node),
+abstract class MixinType(node: ASTNode) : ValkyrieElement(node),
     NavigatablePsiElement,
     ValkyrieTypeStatement {
     override fun getPresentation(): ItemPresentation = ValkyriePresentationItem(
-        this.symbol.text,
+        this.identifier.text,
         AllIcons.Nodes.Type
     )
 }

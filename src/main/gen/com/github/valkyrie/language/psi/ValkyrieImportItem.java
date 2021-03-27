@@ -7,6 +7,9 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieImportItem extends PsiElement {
 
+  @NotNull
+  List<ValkyrieIdentifier> getIdentifierList();
+
   @Nullable
   ValkyrieImportBlock getImportBlock();
 
@@ -15,8 +18,5 @@ public interface ValkyrieImportItem extends PsiElement {
 
   @Nullable
   ValkyrieImportRename getImportRename();
-
-  @NotNull
-  List<ValkyrieSymbol> getSymbolList();
 
 }

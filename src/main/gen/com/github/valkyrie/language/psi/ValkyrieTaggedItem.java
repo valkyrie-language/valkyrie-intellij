@@ -14,6 +14,6 @@ public interface ValkyrieTaggedItem extends PsiElement {
   ValkyrieClassTuple getClassTuple();
 
   @NotNull
-  ValkyrieSymbol getSymbol();
+  ValkyrieIdentifier getIdentifier();
 
 }

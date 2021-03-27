@@ -30,7 +30,7 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     override fun visitNormalPattern(o: ValkyrieNormalPattern) {
         val mut = o.isMutable();
         val mode = ValkyrieVariableHighlightMode.Local;
-        highlightSymbolList(o.symbolList, Color.KEYWORD)
+        highlightSymbolList(o.identifierList, Color.KEYWORD)
         o.patternItemList.forEach {
             mode.highlightPatternItem(this, it, mut)
         }
@@ -54,12 +54,12 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitDefStatement(o: ValkyrieDefStatement) {
-        highlightSymbolList(o.modifierSymbols.symbolList, Color.SYM_FUNCTION_FREE)
+        highlightSymbolList(o.modifierSymbols.identifierList, Color.SYM_FUNCTION_FREE)
         super.visitDefStatement(o)
     }
 
     override fun visitForallStatement(o: ValkyrieForallStatement) {
-        o.symbolList.forEach {
+        o.identifierList.forEach {
             highlight(it, Color.SYM_GENERIC)
         }
         super.visitForallStatement(o)
@@ -67,47 +67,47 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
 
 
     override fun visitClassStatement(o: ValkyrieClassStatement) {
-        highlightSymbolList(o.modifierSymbols.symbolList, Color.SYM_CLASS)
+        highlightSymbolList(o.modifierSymbols.identifierList, Color.SYM_CLASS)
         super.visitClassStatement(o)
     }
 
     override fun visitClassBraceItem(o: ValkyrieClassBraceItem) {
-        o.modifierSymbols?.let { highlightSymbolList(it.symbolList, Color.SYM_FIELD) }
+        o.modifierSymbols?.let { highlightSymbolList(it.identifierList, Color.SYM_FIELD) }
         super.visitClassBraceItem(o)
     }
 
     override fun visitClassNumericKey(o: ValkyrieClassNumericKey) {
-        o.modifierSymbols?.let { highlightSymbolList(it.symbolList, Color.KEYWORD) }
+        o.modifierSymbols?.let { highlightSymbolList(it.identifierList, Color.KEYWORD) }
         super.visitClassNumericKey(o)
     }
 
     override fun visitTraitStatement(o: ValkyrieTraitStatement) {
-        highlightSymbolList(o.modifierSymbols.symbolList, Color.SYM_TRAIT)
+        highlightSymbolList(o.modifierSymbols.identifierList, Color.SYM_TRAIT)
         super.visitTraitStatement(o)
     }
 
     override fun visitTaggedStatement(o: ValkyrieTaggedStatement) {
-        highlightSymbolList(o.modifierSymbols.symbolList, Color.SYM_CLASS)
+        highlightSymbolList(o.modifierSymbols.identifierList, Color.SYM_CLASS)
         super.visitTaggedStatement(o)
     }
 
     override fun visitTaggedItem(o: ValkyrieTaggedItem) {
-        highlight(o.symbol, Color.SYM_VARIANT)
+        highlight(o.identifier, Color.SYM_VARIANT)
         super.visitTaggedItem(o)
     }
 
     override fun visitBitflagStatement(o: ValkyrieBitflagStatement) {
-        highlightSymbolList(o.modifierSymbols.symbolList, Color.SYM_CLASS)
+        highlightSymbolList(o.modifierSymbols.identifierList, Color.SYM_CLASS)
         super.visitBitflagStatement(o)
     }
 
     override fun visitBitflagItem(o: ValkyrieBitflagItem) {
-        highlight(o.symbol, Color.SYM_VARIANT)
+        highlight(o.identifier, Color.SYM_VARIANT)
         super.visitBitflagItem(o)
     }
 
     // TODO: real syntax resolve
-    override fun visitSymbol(o: ValkyrieSymbol) {
+    override fun visitIdentifier(o: ValkyrieIdentifier) {
         // guess macro
         if (o.text.startsWith('@') || o.text.startsWith('#')) {
             return highlight(o, Color.SYM_MACRO)
@@ -149,13 +149,13 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
 
 
     override fun visitNumber(o: ValkyrieNumber) {
-        o.symbol?.let {
+        o.identifier?.let {
             highlight(it, Color.OP_NUMBER)
         }
     }
 
     override fun visitString(o: ValkyrieString) {
-        o.symbol?.let {
+        o.identifier?.let {
             highlight(it, Color.OP_STRING)
         }
     }
@@ -167,7 +167,7 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     // =================================================================================================================
 
     fun highlightSymbolList(
-        symbols: List<ValkyrieSymbol>,
+        symbols: List<ValkyrieIdentifier>,
         last: Color,
         rest: Color = Color.KEYWORD,
     ) {

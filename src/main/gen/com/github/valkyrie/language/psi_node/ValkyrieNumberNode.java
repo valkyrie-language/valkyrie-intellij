@@ -28,15 +28,15 @@ public class ValkyrieNumberNode extends ValkyrieElement implements ValkyrieNumbe
   }
 
   @Override
-  @NotNull
-  public ValkyrieNumberLiteral getNumberLiteral() {
-    return findNotNullChildByClass(ValkyrieNumberLiteral.class);
+  @Nullable
+  public ValkyrieIdentifier getIdentifier() {
+    return findChildByClass(ValkyrieIdentifier.class);
   }
 
   @Override
-  @Nullable
-  public ValkyrieSymbol getSymbol() {
-    return findChildByClass(ValkyrieSymbol.class);
+  @NotNull
+  public ValkyrieNumberLiteral getNumberLiteral() {
+    return findNotNullChildByClass(ValkyrieNumberLiteral.class);
   }
 
 }

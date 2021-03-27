@@ -2,8 +2,7 @@ package com.github.valkyrie.language.ast
 
 import com.github.valkyrie.ide.formatter.ValkyrieFormatSpace
 import com.github.valkyrie.language.psi.ValkyrieNormalPattern
-import com.github.valkyrie.language.psi.ValkyrieSymbol
-
+import com.github.valkyrie.language.psi.ValkyrieIdentifier
 import com.intellij.formatting.Block
 import com.intellij.formatting.Spacing
 import com.intellij.lang.ASTNode
@@ -18,7 +17,7 @@ fun Block.computeSpacing(child1: Block?, child2: Block, ctx: ValkyrieFormatSpace
     return ctx.spacingBuilder.getSpacing(this, child1, child2)
 }
 
-fun hasModifier(node: List<ValkyrieSymbol>, modifier: String, skip_last: Boolean = true): Boolean {
+fun hasModifier(node: List<ValkyrieIdentifier>, modifier: String, skip_last: Boolean = true): Boolean {
     val size = node.size - if (skip_last) {
         1
     } else {
@@ -33,7 +32,7 @@ fun hasModifier(node: List<ValkyrieSymbol>, modifier: String, skip_last: Boolean
 }
 
 fun ValkyrieNormalPattern.isMutable(): Boolean {
-    return hasModifier(this.symbolList, "mut", false)
+    return hasModifier(this.identifierList, "mut", false)
 }
 
 //fun ValkyriePatternRest?.hasModifier(modifier: String, skip_last: Boolean = true): Boolean {

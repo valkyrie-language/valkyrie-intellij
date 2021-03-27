@@ -35,8 +35,8 @@ public class ValkyrieBitflagItemNode extends ValkyrieElement implements Valkyrie
 
   @Override
   @NotNull
-  public ValkyrieSymbol getSymbol() {
-    return findNotNullChildByClass(ValkyrieSymbol.class);
+  public ValkyrieIdentifier getIdentifier() {
+    return findNotNullChildByClass(ValkyrieIdentifier.class);
   }
 
 }

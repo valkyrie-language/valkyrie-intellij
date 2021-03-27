@@ -3,7 +3,7 @@ package com.github.valkyrie.ide.highlight
 import com.github.valkyrie.language.ast.hasModifier
 import com.github.valkyrie.language.psi.ValkyriePatternItem
 import com.github.valkyrie.language.psi.ValkyriePatternPair
-import com.github.valkyrie.language.psi.ValkyrieSymbol
+import com.github.valkyrie.language.psi.ValkyrieIdentifier
 import com.github.valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
 enum class ValkyrieVariableHighlightMode {
@@ -24,7 +24,7 @@ enum class ValkyrieVariableHighlightMode {
         o: ValkyriePatternItem,
         force_mut: Boolean = false,
     ) {
-        this.highlightMaybeMutable(visitor, o.symbolList, force_mut,true)
+        this.highlightMaybeMutable(visitor, o.identifierList, force_mut,true)
         visitor.visitPatternItem(o)
     }
 
@@ -33,13 +33,13 @@ enum class ValkyrieVariableHighlightMode {
         o: ValkyriePatternPair,
         force_mut: Boolean = false,
     ) {
-        this.highlightMaybeMutable(visitor, o.symbolList, force_mut,true)
+        this.highlightMaybeMutable(visitor, o.identifierList, force_mut,true)
         visitor.visitPatternPair(o)
     }
 
     fun highlightMaybeMutable(
         visitor: ValkyrieHighlightVisitor,
-        symbols: List<ValkyrieSymbol>,
+        symbols: List<ValkyrieIdentifier>,
         force_mut: Boolean,
         skip_last: Boolean,
     ) {

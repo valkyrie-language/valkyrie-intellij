@@ -36,6 +36,7 @@ public interface ValkyrieTypes {
   IElementType FORALL_BLOCK = new ValkyrieElementType("FORALL_BLOCK");
   IElementType FORALL_STATEMENT = new ValkyrieElementType("FORALL_STATEMENT");
   IElementType FOR_STATEMENT = new ValkyrieElementType("FOR_STATEMENT");
+  IElementType IDENTIFIER = new ValkyrieElementType("IDENTIFIER");
   IElementType IF_GUARD = new ValkyrieElementType("IF_GUARD");
   IElementType IF_STATEMENT = new ValkyrieElementType("IF_STATEMENT");
   IElementType IMPORT_BLOCK = new ValkyrieElementType("IMPORT_BLOCK");
@@ -67,7 +68,6 @@ public interface ValkyrieTypes {
   IElementType SLICE_SUFFIX = new ValkyrieElementType("SLICE_SUFFIX");
   IElementType STRING = new ValkyrieElementType("STRING");
   IElementType STRING_LITERAL = new ValkyrieElementType("STRING_LITERAL");
-  IElementType SYMBOL = new ValkyrieElementType("SYMBOL");
   IElementType TAGGED_BLOCK = new ValkyrieElementType("TAGGED_BLOCK");
   IElementType TAGGED_ITEM = new ValkyrieElementType("TAGGED_ITEM");
   IElementType TAGGED_STATEMENT = new ValkyrieElementType("TAGGED_STATEMENT");
@@ -245,6 +245,9 @@ public interface ValkyrieTypes {
       else if (type == FOR_STATEMENT) {
         return new ValkyrieForStatementNode(node);
       }
+      else if (type == IDENTIFIER) {
+        return new ValkyrieIdentifierNode(node);
+      }
       else if (type == IF_GUARD) {
         return new ValkyrieIfGuardNode(node);
       }
@@ -337,9 +340,6 @@ public interface ValkyrieTypes {
       }
       else if (type == STRING_LITERAL) {
         return new ValkyrieStringLiteralNode(node);
-      }
-      else if (type == SYMBOL) {
-        return new ValkyrieSymbolNode(node);
       }
       else if (type == TAGGED_BLOCK) {
         return new ValkyrieTaggedBlockNode(node);

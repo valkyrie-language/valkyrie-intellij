@@ -13,6 +13,9 @@ public interface ValkyrieTypeStatement extends PsiElement {
   @NotNull
   List<ValkyrieCallSuffix> getCallSuffixList();
 
+  @NotNull
+  ValkyrieIdentifier getIdentifier();
+
   @Nullable
   ValkyrieList getList();
 
@@ -27,9 +30,6 @@ public interface ValkyrieTypeStatement extends PsiElement {
 
   @Nullable
   ValkyrieString getString();
-
-  @NotNull
-  ValkyrieSymbol getSymbol();
 
   @Nullable
   ValkyrieTuple getTuple();

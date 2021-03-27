@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieModuleStatement extends PsiElement {
 
   @NotNull
-  ValkyrieSymbol getSymbol();
+  ValkyrieIdentifier getIdentifier();
 
 }

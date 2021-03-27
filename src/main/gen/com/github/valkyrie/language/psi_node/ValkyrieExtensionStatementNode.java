@@ -29,8 +29,8 @@ public class ValkyrieExtensionStatementNode extends ValkyrieModuleMixin implemen
 
   @Override
   @NotNull
-  public ValkyrieSymbol getSymbol() {
-    return findNotNullChildByClass(ValkyrieSymbol.class);
+  public ValkyrieIdentifier getIdentifier() {
+    return findNotNullChildByClass(ValkyrieIdentifier.class);
   }
 
 }

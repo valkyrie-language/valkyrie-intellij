@@ -28,15 +28,15 @@ public class ValkyriePatternPairNode extends ValkyrieElement implements Valkyrie
   }
 
   @Override
-  @Nullable
-  public ValkyriePatternValue getPatternValue() {
-    return findChildByClass(ValkyriePatternValue.class);
+  @NotNull
+  public List<ValkyrieIdentifier> getIdentifierList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifier.class);
   }
 
   @Override
-  @NotNull
-  public List<ValkyrieSymbol> getSymbolList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSymbol.class);
+  @Nullable
+  public ValkyriePatternValue getPatternValue() {
+    return findChildByClass(ValkyriePatternValue.class);
   }
 
 }

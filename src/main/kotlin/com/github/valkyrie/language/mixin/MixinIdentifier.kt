@@ -1,20 +1,16 @@
 package com.github.valkyrie.language.mixin
 
-import com.github.valkyrie.ide.view.ValkyrieViewElement
 import com.github.valkyrie.language.ast.ValkyrieElement
-import com.github.valkyrie.language.ast.ViewableNode
-import com.github.valkyrie.language.psi.ValkyrieSymbol
-import com.intellij.icons.AllIcons
+import com.github.valkyrie.language.psi.ValkyrieIdentifier
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiPolyVariantReference
 import com.intellij.psi.ResolveResult
-import javax.swing.Icon
 
-abstract class ValkyrieIdentifierMixin(node: ASTNode) : ValkyrieElement(node),
+abstract class MixinIdentifier(node: ASTNode) : ValkyrieElement(node),
     PsiPolyVariantReference,
-    ValkyrieSymbol {
+    ValkyrieIdentifier {
     override fun getElement(): PsiElement {
         return node.psi
     }

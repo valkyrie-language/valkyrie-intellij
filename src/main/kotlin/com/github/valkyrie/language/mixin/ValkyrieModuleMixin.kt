@@ -14,7 +14,7 @@ import javax.swing.Icon
 abstract class ValkyrieModuleMixin(node: ASTNode) : DeclareNode(node),
     ValkyrieModuleStatement {
     override fun getNameIdentifier(): PsiElement? {
-        return this.symbol
+        return this.identifier
     }
 
     override fun setName(name: String): PsiElement {

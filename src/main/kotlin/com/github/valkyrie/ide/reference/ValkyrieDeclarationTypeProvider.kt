@@ -11,7 +11,7 @@ import com.intellij.psi.PsiElement
 class ValkyrieDeclarationTypeProvider : TypeDeclarationProvider {
     override fun getSymbolTypeDeclarations(element: PsiElement): Array<PsiElement>? {
         val type = when (element) {
-            is ValkyrieTypeStatementNode -> element.symbol
+            is ValkyrieTypeStatementNode -> element.identifier
             else -> null
         } ?: return null
 

@@ -41,8 +41,8 @@ public class ValkyrieTaggedItemNode extends ValkyrieElement implements ValkyrieT
 
   @Override
   @NotNull
-  public ValkyrieSymbol getSymbol() {
-    return findNotNullChildByClass(ValkyrieSymbol.class);
+  public ValkyrieIdentifier getIdentifier() {
+    return findNotNullChildByClass(ValkyrieIdentifier.class);
   }
 
 }

@@ -119,6 +119,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitIdentifier(@NotNull ValkyrieIdentifier o) {
+    visitPsiElement(o);
+  }
+
   public void visitIfGuard(@NotNull ValkyrieIfGuard o) {
     visitPsiElement(o);
   }
@@ -240,10 +244,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitStringLiteral(@NotNull ValkyrieStringLiteral o) {
-    visitPsiElement(o);
-  }
-
-  public void visitSymbol(@NotNull ValkyrieSymbol o) {
     visitPsiElement(o);
   }
 

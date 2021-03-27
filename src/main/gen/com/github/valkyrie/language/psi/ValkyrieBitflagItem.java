@@ -11,6 +11,6 @@ public interface ValkyrieBitflagItem extends PsiElement {
   ValkyrieExpression getExpression();
 
   @NotNull
-  ValkyrieSymbol getSymbol();
+  ValkyrieIdentifier getIdentifier();
 
 }

@@ -4,14 +4,12 @@ package com.github.valkyrie.language.psi_node;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
-import com.github.valkyrie.language.mixin.ValkyrieTypeMixin;
+import com.github.valkyrie.language.mixin.MixinType;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieTypeStatementNode extends ValkyrieTypeMixin implements ValkyrieTypeStatement {
+public class ValkyrieTypeStatementNode extends MixinType implements ValkyrieTypeStatement {
 
   public ValkyrieTypeStatementNode(@NotNull ASTNode node) {
     super(node);
@@ -37,6 +35,12 @@ public class ValkyrieTypeStatementNode extends ValkyrieTypeMixin implements Valk
   @NotNull
   public List<ValkyrieCallSuffix> getCallSuffixList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieCallSuffix.class);
+  }
+
+  @Override
+  @NotNull
+  public ValkyrieIdentifier getIdentifier() {
+    return findNotNullChildByClass(ValkyrieIdentifier.class);
   }
 
   @Override
@@ -67,12 +71,6 @@ public class ValkyrieTypeStatementNode extends ValkyrieTypeMixin implements Valk
   @Nullable
   public ValkyrieString getString() {
     return findChildByClass(ValkyrieString.class);
-  }
-
-  @Override
-  @NotNull
-  public ValkyrieSymbol getSymbol() {
-    return findNotNullChildByClass(ValkyrieSymbol.class);
   }
 
   @Override

@@ -8,10 +8,10 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
-import com.github.valkyrie.language.ast.ValkyrieElement;
+import com.github.valkyrie.language.mixin.MixinNormalPattern;
 import com.github.valkyrie.language.psi.*;
 
-public class ValkyrieNormalPatternNode extends ValkyrieElement implements ValkyrieNormalPattern {
+public class ValkyrieNormalPatternNode extends MixinNormalPattern implements ValkyrieNormalPattern {
 
   public ValkyrieNormalPatternNode(@NotNull ASTNode node) {
     super(node);
@@ -29,6 +29,12 @@ public class ValkyrieNormalPatternNode extends ValkyrieElement implements Valkyr
 
   @Override
   @NotNull
+  public List<ValkyrieIdentifier> getIdentifierList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifier.class);
+  }
+
+  @Override
+  @NotNull
   public List<ValkyriePatternItem> getPatternItemList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyriePatternItem.class);
   }
@@ -37,12 +43,6 @@ public class ValkyrieNormalPatternNode extends ValkyrieElement implements Valkyr
   @NotNull
   public List<ValkyriePatternPair> getPatternPairList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyriePatternPair.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieSymbol> getSymbolList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSymbol.class);
   }
 
 }

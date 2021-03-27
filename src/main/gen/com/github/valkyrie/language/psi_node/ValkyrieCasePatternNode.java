@@ -28,6 +28,12 @@ public class ValkyrieCasePatternNode extends ValkyrieElement implements Valkyrie
   }
 
   @Override
+  @NotNull
+  public List<ValkyrieIdentifier> getIdentifierList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifier.class);
+  }
+
+  @Override
   @Nullable
   public ValkyrieNamespace getNamespace() {
     return findChildByClass(ValkyrieNamespace.class);
@@ -37,12 +43,6 @@ public class ValkyrieCasePatternNode extends ValkyrieElement implements Valkyrie
   @NotNull
   public List<ValkyriePatternPair> getPatternPairList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyriePatternPair.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieSymbol> getSymbolList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSymbol.class);
   }
 
 }

@@ -10,7 +10,7 @@ class VCompletionContributor : CompletionContributor() {
     init {
         extend(
             CompletionType.BASIC,
-            PlatformPatterns.psiElement(ValkyrieTypes.SYMBOL),
+            PlatformPatterns.psiElement(ValkyrieTypes.IDENTIFIER),
             SymbolCompletionProvider()
         )
 //        extend(

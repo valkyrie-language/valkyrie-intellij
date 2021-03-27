@@ -28,7 +28,7 @@ abstract class ValkyrieEnumMixin(node: ASTNode) : DeclareNode(node),
             NavigatablePsiElement::class.java
         ).forEach {
             if (it is ValkyrieTaggedItem) {
-                val kind = ValkyriePresentationItem(it.symbol.text, AllIcons.Nodes.Variable)
+                val kind = ValkyriePresentationItem(it.identifier.text, AllIcons.Nodes.Variable)
                 childrenView.add(ValkyrieViewElement(it, kind))
             }
         }

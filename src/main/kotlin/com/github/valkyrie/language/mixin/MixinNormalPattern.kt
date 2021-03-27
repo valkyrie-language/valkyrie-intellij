@@ -1,9 +1,9 @@
 package com.github.valkyrie.language.mixin
 
 import com.github.valkyrie.language.ast.ValkyrieElement
+import com.github.valkyrie.language.psi.ValkyrieIdentifier
 import com.github.valkyrie.language.psi.ValkyrieNormalPattern
 import com.github.valkyrie.language.psi.ValkyriePatternPair
-import com.github.valkyrie.language.psi.ValkyrieSymbol
 import com.intellij.lang.ASTNode
 import com.intellij.model.Symbol
 import com.intellij.model.psi.PsiSymbolDeclaration
@@ -19,8 +19,8 @@ abstract class MixinNormalPattern(node: ASTNode) : ValkyrieElement(node),
     ValkyrieNormalPattern {
     override fun getOwnReferences(): MutableCollection<out PsiSymbolReference> {
         val out = mutableListOf<PsiSymbolReference>()
-        for (child in symbolList) {
-            if (child is PsiElement) {
+        for (child in identifierList) {
+            if (child is ValkyrieIdentifier) {
                 out.add(Modifier(child))
             }
         }
@@ -37,7 +37,7 @@ abstract class MixinNormalPattern(node: ASTNode) : ValkyrieElement(node),
         return out
     }
 
-    class Modifier(private var target: ValkyrieSymbol) : PsiSymbolReference {
+    class Modifier(private var target: ValkyrieIdentifier) : PsiSymbolReference {
         override fun getElement(): PsiElement {
             return target
         }
