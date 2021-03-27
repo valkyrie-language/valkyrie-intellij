@@ -1,33 +1,31 @@
 package com.github.valkyrie.language.mixin
 
-import com.github.valkyrie.language.ast.ValkyrieElement
+import com.github.valkyrie.language.ast.DeclareNode
 import com.github.valkyrie.language.psi.ValkyrieDefStatement
-import com.github.valkyrie.language.psi.ValkyriePresentationItem
 import com.intellij.icons.AllIcons.Nodes.Function
 import com.intellij.icons.AllIcons.Nodes.Method
 import com.intellij.lang.ASTNode
-import com.intellij.navigation.ItemPresentation
-import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
+import javax.swing.Icon
 import kotlin.random.Random
 
-abstract class ValkyrieDefineMixin(node: ASTNode) : ValkyrieElement(node),
-    NavigatablePsiElement,
+abstract class ValkyrieDefineMixin(node: ASTNode) : DeclareNode(node),
     ValkyrieDefStatement {
-    override fun getNavigationElement(): PsiElement = this.modifierSymbols.lastChild
-
-    override fun getPresentation(): ItemPresentation {
-        return ValkyriePresentationItem(
-            this.modifierSymbols.lastChild.text,
-            if (this.isMethod()) {
-                Method
-            } else {
-                Function
-            }
-        )
+    override val viewIcon: Icon? = if (this.isMethod()) {
+        Method
+    } else {
+        Function
     }
 
-    fun isMethod(): Boolean {
+    override fun getNameIdentifier(): PsiElement? {
+        return this.modifierSymbols.lastChild
+    }
+
+    override fun setName(name: String): PsiElement {
+        TODO("Not yet implemented")
+    }
+
+    private fun isMethod(): Boolean {
         return Random.nextBoolean()
     }
 }

@@ -13,7 +13,7 @@ abstract class ViewableNode(node: ASTNode) : ValkyrieElement(node),
     NavigatablePsiElement {
     abstract val viewIcon: Icon?
     abstract override fun getNavigationElement(): PsiElement;
-    abstract fun addChildrenView(childrenView: MutableSet<ValkyrieViewElement>);
+
     override fun getPresentation() = ValkyriePresentationItem(this.getViewName(), viewIcon)
     open fun getViewName(): String = this.navigationElement.text
     open fun getChildrenView(): Array<TreeElement> {
@@ -21,5 +21,6 @@ abstract class ViewableNode(node: ASTNode) : ValkyrieElement(node),
         this.addChildrenView(children)
         return children.toTypedArray()
     }
+    open fun addChildrenView(childrenView: MutableSet<ValkyrieViewElement>) {}
 }
 

@@ -7,8 +7,11 @@ import com.github.valkyrie.language.psi.ValkyrieTaggedItem
 import com.github.valkyrie.language.psi.ValkyrieTraitStatement
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
+import com.intellij.model.psi.PsiSymbolDeclaration
+import com.intellij.model.psi.PsiSymbolReference
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiReference
 import com.intellij.psi.util.PsiTreeUtil
 import javax.swing.Icon
 

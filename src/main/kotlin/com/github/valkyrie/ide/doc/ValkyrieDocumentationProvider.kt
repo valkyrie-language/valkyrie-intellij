@@ -2,6 +2,7 @@ package com.github.valkyrie.ide.doc
 
 import com.github.valkyrie.language.psi.ValkyrieTypes.CLASS
 import com.github.valkyrie.language.psi.ValkyrieTypes.DOT
+import com.github.valkyrie.language.psi_node.ValkyrieTraitStatementNode
 import com.intellij.lang.documentation.AbstractDocumentationProvider
 import com.intellij.lang.documentation.DocumentationMarkup
 import com.intellij.openapi.editor.Editor
@@ -13,15 +14,12 @@ import com.intellij.psi.util.elementType
 
 
 class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
-    private var metaInfo: String = ""
-    private var tokenType: IElementType = DOT;
-
     override fun generateDoc(element: PsiElement?, originalElement: PsiElement?): String? {
-        return element?.let { DocumentationRender(it).onHover() }
+        return element?.let { DocumentationRender(it, originalElement).onDetail() }
     }
 
     override fun generateRenderedDoc(comment: PsiDocCommentBase): String? {
-        return DocumentationRender(comment).onHover()
+        TODO("generateRenderedDoc: $comment")
     }
 
     // 按住 Ctrl 后悬浮
@@ -31,7 +29,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
 
     // 悬浮
     override fun generateHoverDoc(element: PsiElement, originalElement: PsiElement?): String {
-        return DocumentationRender(element).onHover()
+        return DocumentationRender(element, originalElement).onHover()
     }
 
     // 避免实现 PsiReference
@@ -45,12 +43,12 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
         // 没啥用
         targetOffset: Int,
     ): PsiElement? {
-        this.tokenType = contextElement.elementType ?: return null;
-        return when (this.tokenType) {
-            CLASS -> {
-               return contextElement
+        when (contextElement) {
+            is ValkyrieTraitStatementNode -> {
+                contextElement.modifierSymbols.textRange.contains(targetOffset)
+                return contextElement.modifierSymbols
             }
-            else -> null
         }
+        return contextElement
     }
 }

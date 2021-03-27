@@ -3,6 +3,7 @@ package com.github.valkyrie.language.ast
 
 import com.github.valkyrie.language.psi.startOffset
 import com.intellij.lang.ASTNode
+import com.intellij.model.psi.PsiSymbolDeclarationProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.PsiPolyVariantReference
