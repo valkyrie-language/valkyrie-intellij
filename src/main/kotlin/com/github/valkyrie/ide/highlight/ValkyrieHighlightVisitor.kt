@@ -10,8 +10,6 @@ import com.intellij.codeInsight.daemon.impl.HighlightVisitor
 import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import com.intellij.psi.util.elementType
-import com.intellij.psi.util.nextLeaf
 import com.github.valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
 class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
@@ -82,13 +80,13 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitTraitStatement(o: ValkyrieTraitStatement) {
-        highlightSymbolList(o.modifierSymbols.identifierList, Color.SYM_TRAIT)
-        super.visitTraitStatement(o)
+        highlight(o.symbol, Color.SYM_TRAIT)
+        highlightModifiers(o.modifiers)
     }
 
     override fun visitTaggedStatement(o: ValkyrieTaggedStatement) {
-        highlightSymbolList(o.modifierSymbols.identifierList, Color.SYM_CLASS)
-        super.visitTaggedStatement(o)
+        highlight(o.symbol, Color.SYM_CLASS)
+        highlightModifiers(o.modifiers)
     }
 
     override fun visitTaggedItem(o: ValkyrieTaggedItem) {
@@ -166,7 +164,7 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
 
     // =================================================================================================================
 
-    fun highlightSymbolList(
+    private fun highlightSymbolList(
         symbols: List<ValkyrieIdentifier>,
         last: Color,
         rest: Color = Color.KEYWORD,
@@ -182,6 +180,12 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
         }
     }
 
+    private fun highlightModifiers(element: Array<ValkyrieIdentifier>?) {
+        for (modifier in element ?: emptyArray()) {
+            highlight(modifier, Color.KEYWORD)
+        }
+    }
+
     fun highlight(element: PsiElement, color: Color) {
         val builder = HighlightInfo.newHighlightInfo(HighlightInfoType.INFORMATION)
         builder.textAttributes(color.textAttributesKey)
@@ -189,6 +193,7 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
 
         infoHolder?.add(builder.create())
     }
+
 
     override fun analyze(
         file: PsiFile,

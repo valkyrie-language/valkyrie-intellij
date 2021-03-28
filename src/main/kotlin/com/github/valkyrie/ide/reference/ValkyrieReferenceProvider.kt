@@ -12,7 +12,7 @@ import com.intellij.openapi.project.Project
 @Suppress("UnstableApiUsage")
 class ValkyrieReferenceProvider : PsiSymbolReferenceProvider {
     override fun getReferences(element: PsiExternalReferenceHost, hints: PsiSymbolReferenceHints): MutableCollection<out PsiSymbolReference> {
-        TODO("Not yet implemented")
+        return element.ownReferences
     }
 
     override fun getSearchRequests(project: Project, target: Symbol): MutableCollection<out SearchRequest> {

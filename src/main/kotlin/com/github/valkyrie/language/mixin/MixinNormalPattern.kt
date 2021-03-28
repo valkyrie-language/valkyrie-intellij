@@ -1,5 +1,6 @@
 package com.github.valkyrie.language.mixin
 
+import com.github.valkyrie.ide.reference.ValkyrieReference
 import com.github.valkyrie.language.ast.ValkyrieElement
 import com.github.valkyrie.language.psi.ValkyrieIdentifier
 import com.github.valkyrie.language.psi.ValkyrieNormalPattern
@@ -11,12 +12,26 @@ import com.intellij.model.psi.PsiSymbolReference
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiReference
-import com.intellij.psi.ResolveState
-import com.intellij.psi.scope.PsiScopeProcessor
+
 
 @Suppress("UnstableApiUsage")
 abstract class MixinNormalPattern(node: ASTNode) : ValkyrieElement(node),
     ValkyrieNormalPattern {
+
+    override fun getReference(): PsiReference? {
+        return ValkyrieReference(node.psi.parent)
+    }
+
+    override fun getReferences(): Array<PsiReference> {
+        val out = mutableListOf<PsiReference>()
+        for (child in identifierList) {
+            if (child is ValkyrieIdentifier) {
+                out.add(ValkyrieReference(child))
+            }
+        }
+        return out.toTypedArray()
+    }
+
     override fun getOwnReferences(): MutableCollection<out PsiSymbolReference> {
         val out = mutableListOf<PsiSymbolReference>()
         for (child in identifierList) {

@@ -16,4 +16,10 @@ public interface ValkyrieTaggedStatement extends PsiElement {
   @Nullable
   ValkyrieTypeAngle getTypeAngle();
 
+  @NotNull
+  ValkyrieIdentifier getSymbol();
+
+  @NotNull
+  ValkyrieIdentifier[] getModifiers();
+
 }

@@ -10,6 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.mixin.ValkyrieClassTupleMixin;
 import com.github.valkyrie.language.psi.*;
+import com.github.valkyrie.language.ast.ASTMethods;
 
 public class ValkyrieClassTupleItemNode extends ValkyrieClassTupleMixin implements ValkyrieClassTupleItem {
 

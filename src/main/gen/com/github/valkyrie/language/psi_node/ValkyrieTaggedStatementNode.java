@@ -10,6 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.mixin.ValkyrieEnumMixin;
 import com.github.valkyrie.language.psi.*;
+import com.github.valkyrie.language.ast.ASTMethods;
 
 public class ValkyrieTaggedStatementNode extends ValkyrieEnumMixin implements ValkyrieTaggedStatement {
 
@@ -43,6 +44,18 @@ public class ValkyrieTaggedStatementNode extends ValkyrieEnumMixin implements Va
   @Nullable
   public ValkyrieTypeAngle getTypeAngle() {
     return findChildByClass(ValkyrieTypeAngle.class);
+  }
+
+  @Override
+  @NotNull
+  public ValkyrieIdentifier getSymbol() {
+    return ASTMethods.getSymbol(this);
+  }
+
+  @Override
+  @NotNull
+  public ValkyrieIdentifier[] getModifiers() {
+    return ASTMethods.getModifiers(this);
   }
 
 }

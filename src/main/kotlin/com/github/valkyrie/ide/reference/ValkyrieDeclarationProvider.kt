@@ -11,16 +11,7 @@ import com.intellij.psi.PsiElement
 @Suppress("UnstableApiUsage")
 class ValkyrieDeclarationProvider : PsiSymbolDeclarationProvider {
     override fun getDeclarations(element: PsiElement, offsetInElement: Int): MutableCollection<out PsiSymbolDeclaration> {
-        return when (element) {
-            is ValkyrieClassStatementNode -> mutableSetOf(object : PsiSymbolDeclaration {
-                override fun getDeclaringElement(): PsiElement = element.modifierSymbols.lastChild
-                override fun getRangeInDeclaringElement(): TextRange = this.declaringElement.textRange
-                override fun getSymbol(): Symbol = ValkyrieClass(this.declaringElement.text)
-            })
-            else -> {
-                mutableListOf()
-            }
-        }
+        return element.ownDeclarations
     }
 }
 

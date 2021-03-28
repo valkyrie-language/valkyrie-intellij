@@ -13,7 +13,7 @@
     elementTypeClass = "com.github.valkyrie.language.psi.ValkyrieElementType"
     tokenTypeClass = "com.github.valkyrie.language.psi.ValkyrieTokenType"
 
-    psiImplUtilClass = "com.github.valkyrie.language.psi_node.ValkyriePsiExtension"
+    psiImplUtilClass = "com.github.valkyrie.language.ast.ASTMethods"
 
     tokens = [
         // comment
@@ -183,7 +183,7 @@ forall_statement ::= FORALL <<sequence identifier COMMA>> [forall_block];
 forall_block     ::= <<brace_block (type_expression COLON type_expression) (COMMA|SEMICOLON)>>;
 // ---------------------------------------------------------------------------------------------------------------------
 class_statement     ::= CLASS modifier_symbols [[PROPORTION] type_angle] [class_tuple|class_brace] {
-    mixin="com.github.valkyrie.language.mixin.ValkyrieClassMixin"
+    mixin="com.github.valkyrie.language.mixin.MixinClass"
 };
 class_tuple         ::= <<parenthesis class_tuple_item COMMA>>;
 class_brace         ::= <<brace_block class_brace_item (COMMA|SEMICOLON)>>;
@@ -196,7 +196,8 @@ class_brace_item    ::= (class_numeric_key | modifier_symbols) COLON type_expres
 class_numeric_key   ::= [modifier_symbols] INTEGER
 // ---------------------------------------------------------------------------------------------------------------------
 trait_statement     ::= TRAIT modifier_symbols [[PROPORTION] type_angle] [COLON type_expression] trait_block {
-    mixin="com.github.valkyrie.language.mixin.ValkyrieTraitMixin"
+    extends="com.github.valkyrie.language.mixin.MixinTrait"
+    methods=[getSymbol getModifiers]
 };
 trait_block         ::= <<brace_block normal_statements SEMICOLON>>;
 //trait_item        ::= normal_statements;
@@ -205,6 +206,7 @@ extends_statement   ::= EXTENDS modifier_symbols [[PROPORTION] type_angle] [COLO
 // ---------------------------------------------------------------------------------------------------------------------
 tagged_statement    ::= TAGGED modifier_symbols [[PROPORTION] type_angle] tagged_block {
     mixin="com.github.valkyrie.language.mixin.ValkyrieEnumMixin"
+    methods=[getSymbol getModifiers]
 };
 tagged_block        ::= <<brace_block tagged_item (COMMA|SEMICOLON)>>;
 tagged_item         ::= identifier [class_tuple|class_brace];
@@ -240,7 +242,7 @@ slice_expression    ::=
 // ---------------------------------------------------------------------------------------------------------------------
 //name     ::= PROPORTION namespace
 namespace  ::= identifier (PROPORTION identifier)* {
-    mixin="com.github.valkyrie.language.mixin.ValkyrieNamespaceMixin"
+    mixin="com.github.valkyrie.language.mixin.MixinNamespace"
 };
 modifier_symbols  ::= identifier+;
 // ---------------------------------------------------------------------------------------------------------------------

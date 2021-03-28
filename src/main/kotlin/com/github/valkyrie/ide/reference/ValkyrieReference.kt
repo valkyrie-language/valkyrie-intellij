@@ -1,60 +1,41 @@
 package com.github.valkyrie.ide.reference
 
-import com.github.valkyrie.ide.file.ValkyrieFile
-import com.github.valkyrie.ide.file.ValkyrieFileType
-import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.TextRange
-import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.psi.*
-import com.intellij.psi.search.FileTypeIndex
-import com.intellij.psi.search.GlobalSearchScope
-import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiReference
 
 
-class ValkyrieReference(element: PsiElement, textRange: TextRange) :
-    PsiReferenceBase<PsiElement?>(element, textRange),
-    PsiPolyVariantReference {
-    private val key: String
+class ValkyrieReference(private val target: PsiElement) : PsiReference {
+    override fun getElement(): PsiElement {
+        return target
+    }
 
-    init {
-        key = element.text.substring(textRange.startOffset, textRange.endOffset)
+    override fun getRangeInElement(): TextRange {
+        return element.textRange
     }
 
     override fun resolve(): PsiElement? {
-        val resolveResults = multiResolve(false)
-        return when (resolveResults.size) {
-            1 -> resolveResults[0].element
-            else -> null
-        }
+        return element
     }
 
-    override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult> {
-        val project = myElement!!.project
-        val properties = findProperties(project, key)
-        val results: MutableList<ResolveResult> = ArrayList()
-        for (property in properties) {
-            results.add(PsiElementResolveResult(property))
-        }
-        return results.toTypedArray()
+    override fun getCanonicalText(): String {
+        TODO("Not yet implemented")
     }
 
-    fun findProperties(project: Project, key: String): List<PsiElement> {
-        val result = ArrayList<PsiElement>()
-        val virtualFiles: Collection<VirtualFile> = FileTypeIndex.getFiles(
-            ValkyrieFileType.INSTANCE,
-            GlobalSearchScope.allScope(project)
-        )
-        for (virtualFile in virtualFiles) {
-            val file: ValkyrieFile? = PsiManager.getInstance(project).findFile(virtualFile) as ValkyrieFile?
-            if (file != null) {
-                val properties: Array<out PsiElement>? = PsiTreeUtil.getChildrenOfType(file, PsiElement::class.java)
-                if (properties != null) {
-                    for (property in properties) {
-                        result.add(property)
-                    }
-                }
-            }
-        }
-        return result
+    override fun handleElementRename(newElementName: String): PsiElement {
+        TODO("Not yet implemented")
+    }
+
+    override fun bindToElement(element: PsiElement): PsiElement {
+        TODO("Not yet implemented")
+    }
+
+    override fun isReferenceTo(element: PsiElement): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun isSoft(): Boolean {
+        return false
     }
 }
+

@@ -8,10 +8,11 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
-import com.github.valkyrie.language.mixin.ValkyrieTraitMixin;
+import com.github.valkyrie.language.mixin.MixinTrait;
 import com.github.valkyrie.language.psi.*;
+import com.github.valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieTraitStatementNode extends ValkyrieTraitMixin implements ValkyrieTraitStatement {
+public class ValkyrieTraitStatementNode extends MixinTrait implements ValkyrieTraitStatement {
 
   public ValkyrieTraitStatementNode(@NotNull ASTNode node) {
     super(node);
@@ -49,6 +50,18 @@ public class ValkyrieTraitStatementNode extends ValkyrieTraitMixin implements Va
   @Nullable
   public ValkyrieTypeExpression getTypeExpression() {
     return findChildByClass(ValkyrieTypeExpression.class);
+  }
+
+  @Override
+  @NotNull
+  public ValkyrieIdentifier getSymbol() {
+    return ASTMethods.getSymbol(this);
+  }
+
+  @Override
+  @NotNull
+  public ValkyrieIdentifier[] getModifiers() {
+    return ASTMethods.getModifiers(this);
   }
 
 }
