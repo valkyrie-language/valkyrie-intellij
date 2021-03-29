@@ -1,8 +1,0 @@
-class native SortedMap<K, V> {
-
-}
-
-
-class native SortedSet<T> {
-    map: SortedMap<T, ()>
-}

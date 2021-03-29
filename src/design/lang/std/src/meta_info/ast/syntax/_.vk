@@ -1,4 +1,0 @@
-trait Iterator {
-    define next();
-    define has_next();
-}

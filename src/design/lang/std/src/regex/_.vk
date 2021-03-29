@@ -1,5 +1,0 @@
-import prelude;
-
-/// re"(.*) are (.*?) .*"
-/// re'"'
-

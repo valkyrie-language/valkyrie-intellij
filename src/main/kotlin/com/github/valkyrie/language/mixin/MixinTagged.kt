@@ -12,7 +12,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import javax.swing.Icon
 
-abstract class ValkyrieEnumMixin(node: ASTNode) : DeclareNode(node),
+abstract class MixinTagged(node: ASTNode) : DeclareNode(node),
     ValkyrieTaggedStatement {
     override fun getNameIdentifier(): PsiElement {
         return this.modifierSymbols.lastChild

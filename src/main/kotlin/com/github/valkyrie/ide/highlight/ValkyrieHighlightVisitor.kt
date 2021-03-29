@@ -95,8 +95,8 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitBitflagStatement(o: ValkyrieBitflagStatement) {
-        highlightSymbolList(o.modifierSymbols.identifierList, Color.SYM_CLASS)
-        super.visitBitflagStatement(o)
+        highlight(o.symbol, Color.SYM_CLASS)
+        highlightModifiers(o.modifiers)
     }
 
     override fun visitBitflagItem(o: ValkyrieBitflagItem) {

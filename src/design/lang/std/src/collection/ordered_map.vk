@@ -1,5 +1,0 @@
-class native OrderedMap<K, V> {
-
-}
-
-

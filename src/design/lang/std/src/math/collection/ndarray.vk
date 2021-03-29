@@ -1,8 +1,0 @@
-class native NDArray<T, D> {
-
-}
-
-class native Matrix<T, M, N> {
-    array: NDArray<T, [Ix, 1]>
-}
-

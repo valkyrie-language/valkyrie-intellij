@@ -8,7 +8,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 
-abstract class ValkyrieBitFlagMixin(node: ASTNode) : ValkyrieElement(node), NavigatablePsiElement,
+abstract class MixinBitflag(node: ASTNode) : ValkyrieElement(node), NavigatablePsiElement,
     ValkyrieBitflagStatement {
     override fun getNavigationElement(): PsiElement = this.modifierSymbols.lastChild
 

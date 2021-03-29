@@ -205,14 +205,15 @@ trait_block         ::= <<brace_block normal_statements SEMICOLON>>;
 extends_statement   ::= EXTENDS modifier_symbols [[PROPORTION] type_angle] [COLON type_expression] trait_block;
 // ---------------------------------------------------------------------------------------------------------------------
 tagged_statement    ::= TAGGED modifier_symbols [[PROPORTION] type_angle] tagged_block {
-    mixin="com.github.valkyrie.language.mixin.ValkyrieEnumMixin"
+    mixin="com.github.valkyrie.language.mixin.MixinTagged"
     methods=[getSymbol getModifiers]
 };
 tagged_block        ::= <<brace_block tagged_item (COMMA|SEMICOLON)>>;
 tagged_item         ::= identifier [class_tuple|class_brace];
 // ---------------------------------------------------------------------------------------------------------------------
 bitflag_statement   ::= BITFLAG modifier_symbols [bitflag_layout] bitflag_block {
-    mixin="com.github.valkyrie.language.mixin.ValkyrieBitFlagMixin"
+    mixin="com.github.valkyrie.language.mixin.MixinBitflag"
+    methods=[getSymbol getModifiers]
 };
 bitflag_block       ::= <<brace_block (bitflag_item | macro_call) SEMICOLON>>;
 bitflag_layout      ::= PARENTHESIS_L type_expression PARENTHESIS_R;
