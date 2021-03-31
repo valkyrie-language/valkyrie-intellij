@@ -65,8 +65,8 @@ class ValkyrieHighlightVisitor : ValkyrieVisitor(), HighlightVisitor {
 
 
     override fun visitClassStatement(o: ValkyrieClassStatement) {
-        highlightSymbolList(o.modifierSymbols.identifierList, Color.SYM_CLASS)
-        super.visitClassStatement(o)
+        highlight(o.symbol, Color.SYM_CLASS)
+        highlightModifiers(o.modifiers)
     }
 
     override fun visitClassBraceItem(o: ValkyrieClassBraceItem) {

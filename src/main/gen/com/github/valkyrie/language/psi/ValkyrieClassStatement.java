@@ -19,4 +19,18 @@ public interface ValkyrieClassStatement extends PsiElement {
   @Nullable
   ValkyrieTypeAngle getTypeAngle();
 
+  @NotNull
+  ValkyrieIdentifier getSymbol();
+
+  @NotNull
+  ValkyrieIdentifier[] getModifiers();
+
+  @NotNull
+  ValkyrieClassBraceItem[] getBraceItemList();
+
+  @NotNull
+  ValkyrieClassTupleItem[] getTupleItemList();
+
+  boolean isEmpty();
+
 }

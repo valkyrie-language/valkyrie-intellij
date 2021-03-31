@@ -2,16 +2,7 @@ package com.github.valkyrie.ide.formatter
 
 import com.github.valkyrie.language.ast.computeSpacing
 import com.github.valkyrie.language.ast.isWhitespaceOrEmpty
-import com.github.valkyrie.language.psi.ValkyrieBitflagBlock
-import com.github.valkyrie.language.psi.ValkyrieBitflagItem
-import com.github.valkyrie.language.psi.ValkyrieBlock
-import com.github.valkyrie.language.psi.ValkyrieClassBrace
-import com.github.valkyrie.language.psi.ValkyrieClassTuple
-import com.github.valkyrie.language.psi.ValkyrieDefBlock
-import com.github.valkyrie.language.psi.ValkyrieForallBlock
-import com.github.valkyrie.language.psi.ValkyrieImportBlock
-import com.github.valkyrie.language.psi.ValkyrieTaggedBlock
-import com.github.valkyrie.language.psi.ValkyrieTraitBlock
+import com.github.valkyrie.language.psi.*
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange

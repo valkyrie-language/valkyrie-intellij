@@ -184,6 +184,7 @@ forall_block     ::= <<brace_block (type_expression COLON type_expression) (COMM
 // ---------------------------------------------------------------------------------------------------------------------
 class_statement     ::= CLASS modifier_symbols [[PROPORTION] type_angle] [class_tuple|class_brace] {
     mixin="com.github.valkyrie.language.mixin.MixinClass"
+    methods=[getSymbol getModifiers getBraceItemList getTupleItemList isEmpty]
 };
 class_tuple         ::= <<parenthesis class_tuple_item COMMA>>;
 class_brace         ::= <<brace_block class_brace_item (COMMA|SEMICOLON)>>;
@@ -192,6 +193,7 @@ class_tuple_item    ::= type_expression [BIND expression] {
 };
 class_brace_item    ::= (class_numeric_key | modifier_symbols) COLON type_expression [BIND expression] {
     mixin="com.github.valkyrie.language.mixin.ValkyrieClassBraceMixin"
+    methods=[getSymbol getModifiers]
 };
 class_numeric_key   ::= [modifier_symbols] INTEGER
 // ---------------------------------------------------------------------------------------------------------------------

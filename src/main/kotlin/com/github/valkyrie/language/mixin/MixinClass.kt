@@ -21,20 +21,11 @@ abstract class MixinClass(node: ASTNode) : DeclareNode(node),
     }
     override val viewIcon: Icon = AllIcons.Nodes.Class;
     override fun addChildrenView(childrenView: MutableSet<ValkyrieViewElement>) {
-        when {
-            this.classBrace != null -> {
-                PsiTreeUtil.getChildrenOfTypeAsList(this.classBrace, ValkyrieClassBraceItemNode::class.java)
-                    .forEach {
-                        childrenView.add(ValkyrieViewElement(it as NavigatablePsiElement))
-                    }
-            }
-            else -> {
-                PsiTreeUtil.getChildrenOfTypeAsList(this.classTuple, ValkyrieClassTupleNode::class.java)
-                    .forEach {
-                        childrenView.add(ValkyrieViewElement(it as NavigatablePsiElement))
-                    }
-
-            }
+        for (it in this.braceItemList) {
+            childrenView.add(ValkyrieViewElement(it as NavigatablePsiElement))
+        }
+        for (it in this.tupleItemList) {
+            childrenView.add(ValkyrieViewElement(it as NavigatablePsiElement))
         }
     }
 }
