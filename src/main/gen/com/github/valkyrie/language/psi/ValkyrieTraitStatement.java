@@ -4,14 +4,15 @@ package com.github.valkyrie.language.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
+import com.github.valkyrie.language.psi_node.ValkyrieIdentifierNode;
 
 public interface ValkyrieTraitStatement extends PsiElement {
 
   @NotNull
   ValkyrieIdentifier getIdentifier();
 
-  @NotNull
-  ValkyrieModifiers getModifiers();
+  @Nullable
+  ValkyrieMaybeModifier getMaybeModifier();
 
   @NotNull
   ValkyrieTraitBlock getTraitBlock();
@@ -21,5 +22,11 @@ public interface ValkyrieTraitStatement extends PsiElement {
 
   @Nullable
   ValkyrieTypeGeneric getTypeGeneric();
+
+  @NotNull
+  ValkyrieIdentifierNode getKeyword();
+
+  @NotNull
+  ValkyrieIdentifierNode[] getModifiers();
 
 }

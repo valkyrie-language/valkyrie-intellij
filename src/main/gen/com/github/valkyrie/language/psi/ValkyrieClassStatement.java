@@ -23,6 +23,6 @@ public interface ValkyrieClassStatement extends PsiElement {
   ValkyrieIdentifier getIdentifier();
 
   @Nullable
-  ValkyrieModifiers getModifiers();
+  ValkyrieMaybeModifier getMaybeModifier();
 
 }

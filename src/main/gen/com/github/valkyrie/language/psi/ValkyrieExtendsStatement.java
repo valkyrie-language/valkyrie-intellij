@@ -11,7 +11,7 @@ public interface ValkyrieExtendsStatement extends PsiElement {
   ValkyrieIdentifier getIdentifier();
 
   @Nullable
-  ValkyrieModifiers getModifiers();
+  ValkyrieMaybeModifier getMaybeModifier();
 
   @NotNull
   ValkyrieTraitBlock getTraitBlock();

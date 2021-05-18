@@ -8,18 +8,18 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
-import com.github.valkyrie.language.mixin.MixinBitflag;
+import com.github.valkyrie.language.mixin.MixinModifier;
 import com.github.valkyrie.language.psi.*;
 import com.github.valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieBitflagStatementNode extends MixinBitflag implements ValkyrieBitflagStatement {
+public class ValkyrieMaybeModifierNode extends MixinModifier implements ValkyrieMaybeModifier {
 
-  public ValkyrieBitflagStatementNode(@NotNull ASTNode node) {
+  public ValkyrieMaybeModifierNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitBitflagStatement(this);
+    visitor.visitMaybeModifier(this);
   }
 
   @Override
@@ -30,20 +30,8 @@ public class ValkyrieBitflagStatementNode extends MixinBitflag implements Valkyr
 
   @Override
   @NotNull
-  public ValkyrieBitflagBlock getBitflagBlock() {
-    return findNotNullChildByClass(ValkyrieBitflagBlock.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieBitflagLayout getBitflagLayout() {
-    return findChildByClass(ValkyrieBitflagLayout.class);
-  }
-
-  @Override
-  @NotNull
-  public ValkyrieMaybeModifier getMaybeModifier() {
-    return findNotNullChildByClass(ValkyrieMaybeModifier.class);
+  public List<ValkyrieIdentifier> getIdentifierList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifier.class);
   }
 
 }

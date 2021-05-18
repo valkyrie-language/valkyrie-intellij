@@ -28,6 +28,14 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         //TODO: get real symbol color
     }
 
+    override fun visitClassStatement(o: ValkyrieClassStatement) {
+        highlight(o.identifier, Color.SYM_CLASS)
+    }
+
+    override fun visitTraitStatement(o: ValkyrieTraitStatement) {
+        highlight(o.identifier, Color.SYM_TRAIT)
+    }
+
     override fun visitNormalPattern(o: ValkyrieNormalPattern) {
         val mut = o.isMutable();
         val mode = ValkyrieVariableHighlightMode.Local;
@@ -55,9 +63,8 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitDefineStatement(o: ValkyrieDefineStatement) {
-        val node = o as ValkyrieDefineStatementNode;
-        highlight(o.kwDefine, Color.KEYWORD)
-        highlight(node.nameIdentifier, node.kind.color)
+        o as ValkyrieDefineStatementNode;
+        highlight(o.nameIdentifier, o.kind.color)
     }
 
     override fun visitDefineItem(o: ValkyrieDefineItem) {
@@ -73,24 +80,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 //        super.visitForallStatement(o)
     }
 
-    override fun visitClassStatement(o: ValkyrieClassStatement) {
-        highlight(o.identifier, Color.SYM_CLASS)
-    }
 
-//    override fun visitClassBraceItem(o: ValkyrieClassBraceItem) {
-//        o.modifierSymbols?.let { highlightSymbolList(it.identifierList, Color.SYM_FIELD) }
-//        super.visitClassBraceItem(o)
-//    }
-//
-//    override fun visitClassNumericKey(o: ValkyrieClassNumericKey) {
-//        o.modifierSymbols?.let { highlightSymbolList(it.identifierList, Color.KEYWORD) }
-//        super.visitClassNumericKey(o)
-//    }
-
-    override fun visitTraitStatement(o: ValkyrieTraitStatement) {
-//        highlight(o.symbol, Color.SYM_TRAIT)
-//        highlightModifiers(o.modifiers)
-    }
 
     override fun visitExtendsStatement(o: ValkyrieExtendsStatement) {
 
@@ -121,7 +111,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         }
     }
 
-    override fun visitModifiers(o: ValkyrieModifiers) {
+    override fun visitMaybeModifier(o: ValkyrieMaybeModifier) {
         o.identifierList.forEach {
             highlight(it, Color.MODIFIER)
         }

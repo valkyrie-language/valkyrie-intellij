@@ -5,15 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieTaggedStatement extends PsiElement {
+public interface ValkyrieModifierNode extends PsiElement {
 
   @NotNull
-  ValkyrieMaybeModifier getMaybeModifier();
-
-  @NotNull
-  ValkyrieTaggedBlock getTaggedBlock();
-
-  @Nullable
-  ValkyrieTypeGeneric getTypeGeneric();
+  List<ValkyrieIdentifier> getIdentifierList();
 
 }

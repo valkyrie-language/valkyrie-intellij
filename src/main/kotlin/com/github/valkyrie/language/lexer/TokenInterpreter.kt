@@ -177,6 +177,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             "class", "structure", "struct" -> pushToken(ValkyrieTypes.KW_CLASS, r)
             "trait", "interface", "convention", "protocol" -> pushToken(ValkyrieTypes.KW_TRAIT, r)
             "tagged", "enum" -> pushToken(ValkyrieTypes.KW_TAGGED, r)
+            "def", "fun", "fn", "function" -> pushToken(ValkyrieTypes.KW_DEFINE, r)
             else -> pushToken(BAD_CHARACTER, r)
         }
         return true

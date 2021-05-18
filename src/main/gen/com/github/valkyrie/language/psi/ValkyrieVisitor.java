@@ -143,10 +143,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitKwDefine(@NotNull ValkyrieKwDefine o) {
-    visitPsiElement(o);
-  }
-
   public void visitKwElseIf(@NotNull ValkyrieKwElseIf o) {
     visitPsiElement(o);
   }
@@ -203,7 +199,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitModifiers(@NotNull ValkyrieModifiers o) {
+  public void visitMaybeModifier(@NotNull ValkyrieMaybeModifier o) {
     visitPsiElement(o);
   }
 

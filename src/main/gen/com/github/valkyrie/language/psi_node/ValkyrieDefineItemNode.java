@@ -48,8 +48,8 @@ public class ValkyrieDefineItemNode extends MixinDefineItem implements ValkyrieD
 
   @Override
   @Nullable
-  public ValkyrieModifiers getModifiers() {
-    return findChildByClass(ValkyrieModifiers.class);
+  public ValkyrieMaybeModifier getMaybeModifier() {
+    return findChildByClass(ValkyrieMaybeModifier.class);
   }
 
   @Override

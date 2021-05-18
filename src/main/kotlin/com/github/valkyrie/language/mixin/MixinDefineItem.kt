@@ -4,7 +4,6 @@ import com.github.valkyrie.ide.view.ValkyrieViewElement
 import com.github.valkyrie.language.ast.ValkyrieASTBase
 import com.github.valkyrie.language.ast.addChildrenView
 import com.github.valkyrie.language.psi_node.ValkyrieDefineItemNode
-import com.github.valkyrie.language.psi_node.ValkyrieModifiersNode
 import com.intellij.icons.AllIcons
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.lang.ASTNode
@@ -47,8 +46,7 @@ open class MixinDefineItem(node: ASTNode) : ValkyrieASTBase(node), PsiNameIdenti
     }
 
     fun hasMutable(): Boolean {
-        val mod = originalElement.modifiers ?: return false
-        return (mod as ValkyrieModifiersNode).hasMutable()
+        return false
     }
 
     override fun getPresentation(): ItemPresentation? {
@@ -57,7 +55,7 @@ open class MixinDefineItem(node: ASTNode) : ValkyrieASTBase(node), PsiNameIdenti
 
     override fun getChildrenView(): Array<ValkyrieViewElement> {
         val views: MutableList<ValkyrieViewElement> = mutableListOf()
-        originalElement.modifiers.addChildrenView(views)
+        // originalElement.modifiers.addChildrenView(views)
         return views.toTypedArray()
     }
 }

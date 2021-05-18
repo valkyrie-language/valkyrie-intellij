@@ -199,15 +199,12 @@ match_statement   ::= MATCH identifier* match_block;
 match_block       ::= <<brace_block match_expression SEMICOLON>>;
 match_expression  ::= case_pattern COLON (normal_statements [SEMICOLON])+
 // ---------------------------------------------------------------------------------------------------------------------
-define_statement  ::= kw_define [modifiers] namepath_free [generic_define] define_tuple [(COLON|OP_ARROW) type_expression] [define_block| OP_EQ expression] {
+define_statement  ::= KW_DEFINE [maybe_modifier] namepath_free [generic_define] define_tuple [(COLON|OP_ARROW) type_expression] [define_block| OP_EQ expression] {
     mixin="com.github.valkyrie.language.mixin.MixinDefine"
 };
-kw_define         ::= "def" {
-    mixin="com.github.valkyrie.language.mixin.MixinKeyword"
-}
 define_tuple      ::= <<parenthesis define_item COMMA>>;
 define_item       ::= OP_POW | OP_LT | OP_GT
-  | macro_call* [modifiers] [DOT2|DOT3] identifier [COLON type_expression] [OP_EQ expression] {
+  | macro_call* [maybe_modifier] [DOT2|DOT3] identifier [COLON type_expression] [OP_EQ expression] {
     mixin="com.github.valkyrie.language.mixin.MixinDefineItem"
 }
 define_block      ::= <<brace_block normal_statements SEMICOLON>>;
@@ -230,7 +227,7 @@ generic_call      ::=
 forall_statement  ::= FORALL <<sequence identifier COMMA>> [forall_block];
 forall_block      ::= <<brace_block (type_expression COLON type_expression) (COMMA|SEMICOLON)>>;
 // ---------------------------------------------------------------------------------------------------------------------
-class_statement   ::= KW_CLASS [modifiers] identifier [generic_define] [class_inherit] [class_tuple|class_block] {
+class_statement   ::= KW_CLASS [maybe_modifier] identifier [generic_define] [class_inherit] [class_tuple|class_block] {
     mixin="com.github.valkyrie.language.mixin.MixinClass"
 };
 class_inherit     ::= COLON identifier [type_generic] (OP_ADD identifier)*;
@@ -239,7 +236,7 @@ class_tuple       ::= <<parenthesis class_item COMMA>> {
 }
 class_block       ::= <<brace_free (class_define|class_item) (COMMA|SEMICOLON)>>
 class_define      ::= identifier tuple [(COLON|OP_ARROW) type_expression] [object_block]
-class_item        ::= [modifiers] object_key [COLON type_expression] [OP_SET expression] {
+class_item        ::= [maybe_modifier] object_key [COLON type_expression] [OP_SET expression] {
 
 };
 // ---------------------------------------------------------------------------------------------------------------------
@@ -254,30 +251,31 @@ object_key        ::= SYMBOL_XID | SYMBOL_RAW | INTEGER | KW_IF | KW_CLASS {
     mixin="com.github.valkyrie.language.mixin.MixinIdentifier"
 }
 // ---------------------------------------------------------------------------------------------------------------------
-trait_statement   ::= KW_TRAIT modifiers identifier [type_generic] [COLON type_expression] trait_block {
+trait_statement   ::= KW_TRAIT [maybe_modifier] identifier [type_generic] [COLON type_expression] trait_block {
     extends="com.github.valkyrie.language.mixin.MixinTrait"
+    methods=[getKeyword getModifiers]
 };
 trait_block       ::= <<brace_free top_statements SEMICOLON>>;
 //trait_item        ::= normal_statements;
 // ---------------------------------------------------------------------------------------------------------------------
-extends_statement ::= KW_EXTENDS [type_generic] [modifiers] identifier [type_generic] [COLON type_expression] trait_block {
+extends_statement ::= KW_EXTENDS [type_generic] [maybe_modifier] identifier [type_generic] [COLON type_expression] trait_block {
     extends="com.github.valkyrie.language.mixin.MixinExtends"
 }
 // ---------------------------------------------------------------------------------------------------------------------
-tagged_statement  ::= KW_TAGGED modifiers [[OP_PROPORTION] type_generic] tagged_block {
+tagged_statement  ::= KW_TAGGED maybe_modifier [[OP_PROPORTION] type_generic] tagged_block {
     mixin="com.github.valkyrie.language.mixin.MixinTagged"
 };
 tagged_block      ::= <<brace_block tagged_item (COMMA|SEMICOLON)>>;
 tagged_item       ::= identifier [class_block];
 // ---------------------------------------------------------------------------------------------------------------------
-bitflag_statement ::= KW_BITFLAG modifiers [bitflag_layout] bitflag_block {
+bitflag_statement ::= KW_BITFLAG maybe_modifier [bitflag_layout] bitflag_block {
     mixin="com.github.valkyrie.language.mixin.MixinBitflag"
 };
 bitflag_block     ::= <<brace_block (bitflag_item | macro_call) SEMICOLON>>;
 bitflag_layout    ::= PARENTHESIS_L type_expression PARENTHESIS_R;
 bitflag_item      ::= identifier OP_SET expression;
 // -------------- -------------------------------------------------------------------------------------------------------
-new_statement     ::= NEW modifiers [type_generic] [COLON type_expression] trait_block;
+new_statement     ::= NEW maybe_modifier [type_generic] [COLON type_expression] trait_block;
 // ---------------------------------------------------------------------------------------------------------------------
 expression        ::= expr (op_binary expr)*;
 private expr      ::= op_prefix* term (op_suffix|call_suffix|type_generic|slice)*;
@@ -341,15 +339,15 @@ namepath_free  ::= identifier ((DOT|OP_PROPORTION) identifier)* {
 namepath       ::= identifier (OP_PROPORTION identifier)* {
     mixin="com.github.valkyrie.language.mixin.MixinNamepath"
 }
-identifier     ::= SYMBOL_XID | SYMBOL_RAW | KW_CLASS | KW_TRAIT {
+identifier     ::= SYMBOL_XID | SYMBOL_RAW {
     mixin="com.github.valkyrie.language.mixin.MixinIdentifier"
 }
-modifiers      ::= (identifier !end_m1)+ {
+maybe_modifier ::= (identifier !end_m1)+ {
     mixin="com.github.valkyrie.language.mixin.MixinModifier"
 };
 private end_m1 ::= (
     COLON|OP_PROPORTION|SEMICOLON|
-    BRACKET_L|BRACKET_R|PARENTHESIS_L|PARENTHESIS_R|
+    BRACKET_L|BRACKET_R|PARENTHESIS_L|PARENTHESIS_R|BRACE_L|BRACE_R
     COMMA|OP_EQ|DOT
 );
 // ---------------------------------------------------------------------------------------------------------------------

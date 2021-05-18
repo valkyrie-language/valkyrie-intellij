@@ -30,8 +30,8 @@ public class ValkyrieTaggedStatementNode extends MixinTagged implements Valkyrie
 
   @Override
   @NotNull
-  public ValkyrieModifiers getModifiers() {
-    return findNotNullChildByClass(ValkyrieModifiers.class);
+  public ValkyrieMaybeModifier getMaybeModifier() {
+    return findNotNullChildByClass(ValkyrieMaybeModifier.class);
   }
 
   @Override

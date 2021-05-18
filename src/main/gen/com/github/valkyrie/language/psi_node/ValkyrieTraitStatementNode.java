@@ -35,9 +35,9 @@ public class ValkyrieTraitStatementNode extends MixinTrait implements ValkyrieTr
   }
 
   @Override
-  @NotNull
-  public ValkyrieModifiers getModifiers() {
-    return findNotNullChildByClass(ValkyrieModifiers.class);
+  @Nullable
+  public ValkyrieMaybeModifier getMaybeModifier() {
+    return findChildByClass(ValkyrieMaybeModifier.class);
   }
 
   @Override
@@ -56,6 +56,18 @@ public class ValkyrieTraitStatementNode extends MixinTrait implements ValkyrieTr
   @Nullable
   public ValkyrieTypeGeneric getTypeGeneric() {
     return findChildByClass(ValkyrieTypeGeneric.class);
+  }
+
+  @Override
+  @NotNull
+  public ValkyrieIdentifierNode getKeyword() {
+    return ASTMethods.getKeyword(this);
+  }
+
+  @Override
+  @NotNull
+  public ValkyrieIdentifierNode[] getModifiers() {
+    return ASTMethods.getModifiers(this);
   }
 
 }

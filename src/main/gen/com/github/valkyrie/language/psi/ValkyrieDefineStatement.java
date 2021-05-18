@@ -19,11 +19,8 @@ public interface ValkyrieDefineStatement extends PsiElement {
   @Nullable
   ValkyrieGenericDefine getGenericDefine();
 
-  @NotNull
-  ValkyrieKwDefine getKwDefine();
-
   @Nullable
-  ValkyrieModifiers getModifiers();
+  ValkyrieMaybeModifier getMaybeModifier();
 
   @NotNull
   ValkyrieNamepathFree getNamepathFree();

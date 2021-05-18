@@ -42,7 +42,6 @@ public interface ValkyrieTypes {
   IElementType IMPORT_BLOCK = new ValkyrieTokenType("IMPORT_BLOCK");
   IElementType IMPORT_ITEM = new ValkyrieTokenType("IMPORT_ITEM");
   IElementType IMPORT_STATEMENT = new ValkyrieTokenType("IMPORT_STATEMENT");
-  IElementType KW_DEFINE = new ValkyrieTokenType("KW_DEFINE");
   IElementType KW_ELSE_IF = new ValkyrieTokenType("KW_ELSE_IF");
   IElementType KW_EXTENSION = new ValkyrieTokenType("KW_EXTENSION");
   IElementType KW_IMPORT = new ValkyrieTokenType("KW_IMPORT");
@@ -57,7 +56,7 @@ public interface ValkyrieTypes {
   IElementType MATCH_BLOCK = new ValkyrieTokenType("MATCH_BLOCK");
   IElementType MATCH_EXPRESSION = new ValkyrieTokenType("MATCH_EXPRESSION");
   IElementType MATCH_STATEMENT = new ValkyrieTokenType("MATCH_STATEMENT");
-  IElementType MODIFIERS = new ValkyrieTokenType("MODIFIERS");
+  IElementType MAYBE_MODIFIER = new ValkyrieTokenType("MAYBE_MODIFIER");
   IElementType NAMEPATH = new ValkyrieTokenType("NAMEPATH");
   IElementType NAMEPATH_FREE = new ValkyrieTokenType("NAMEPATH_FREE");
   IElementType NAMESPACE_STATEMENT = new ValkyrieTokenType("NAMESPACE_STATEMENT");
@@ -112,6 +111,7 @@ public interface ValkyrieTypes {
   IElementType INTEGER = new ValkyrieTokenType("INTEGER");
   IElementType KW_BITFLAG = new ValkyrieTokenType("KW_BITFLAG");
   IElementType KW_CLASS = new ValkyrieTokenType("KW_CLASS");
+  IElementType KW_DEFINE = new ValkyrieTokenType("KW_DEFINE");
   IElementType KW_EXTENDS = new ValkyrieTokenType("KW_EXTENDS");
   IElementType KW_FOR = new ValkyrieTokenType("KW_FOR");
   IElementType KW_IF = new ValkyrieTokenType("KW_IF");
@@ -291,9 +291,6 @@ public interface ValkyrieTypes {
       else if (type == IMPORT_STATEMENT) {
         return new ValkyrieImportStatementNode(node);
       }
-      else if (type == KW_DEFINE) {
-        return new ValkyrieKwDefineNode(node);
-      }
       else if (type == KW_ELSE_IF) {
         return new ValkyrieKwElseIfNode(node);
       }
@@ -336,8 +333,8 @@ public interface ValkyrieTypes {
       else if (type == MATCH_STATEMENT) {
         return new ValkyrieMatchStatementNode(node);
       }
-      else if (type == MODIFIERS) {
-        return new ValkyrieModifiersNode(node);
+      else if (type == MAYBE_MODIFIER) {
+        return new ValkyrieMaybeModifierNode(node);
       }
       else if (type == NAMEPATH) {
         return new ValkyrieNamepathNode(node);
