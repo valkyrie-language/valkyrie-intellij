@@ -8,10 +8,26 @@ import com.intellij.ide.util.treeView.smartTree.SortableTreeElement
 import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
+import javax.swing.Icon
 
-class ValkyrieViewElement(private val self: NavigatablePsiElement, var view: ItemPresentation? = null) :
-    StructureViewTreeElement,
-    SortableTreeElement {
+class ValkyrieViewElement : StructureViewTreeElement, SortableTreeElement {
+    private val self: NavigatablePsiElement
+    var view: ItemPresentation? = null
+
+    constructor(self: NavigatablePsiElement) {
+        this.self = self
+    }
+
+    constructor(self: NavigatablePsiElement, view: ItemPresentation) {
+        this.self = self
+        this.view = view
+    }
+
+    constructor(self: NavigatablePsiElement, name: String, icon: Icon) {
+        this.self = self
+        this.view = PresentationData(name, "", icon, null)
+    }
+
     override fun getValue(): Any = self
 
     override fun navigate(requestFocus: Boolean) = self.navigate(requestFocus)

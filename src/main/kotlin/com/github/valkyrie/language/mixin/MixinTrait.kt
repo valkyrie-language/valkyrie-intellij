@@ -4,6 +4,7 @@ import com.github.valkyrie.ide.file.ValkyrieIconProvider
 import com.github.valkyrie.ide.view.ValkyrieViewElement
 import com.github.valkyrie.language.ast.DeclareNode
 import com.github.valkyrie.language.psi_node.ValkyrieIdentifierNode
+import com.github.valkyrie.language.psi_node.ValkyrieMaybeModifierNode
 import com.github.valkyrie.language.psi_node.ValkyrieTraitStatementNode
 import com.intellij.icons.AllIcons
 import com.intellij.ide.projectView.PresentationData
@@ -11,6 +12,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
+import com.intellij.psi.StubBasedPsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import javax.swing.Icon
 
@@ -31,6 +33,8 @@ open class MixinTrait(node: ASTNode) : DeclareNode(node) {
 
     override fun getChildrenView(): Array<ValkyrieViewElement> {
         val childrenView: MutableList<ValkyrieViewElement> = mutableListOf()
+        childrenView.add(ValkyrieViewElement(originalElement.keyword as NavigatablePsiElement))
+        childrenView.addAll((originalElement.maybeModifier as ValkyrieMaybeModifierNode).getChildrenView())
         for (item in PsiTreeUtil.getChildrenOfTypeAsList(originalElement.traitBlock, NavigatablePsiElement::class.java)) {
             childrenView.add(ValkyrieViewElement(item))
         }

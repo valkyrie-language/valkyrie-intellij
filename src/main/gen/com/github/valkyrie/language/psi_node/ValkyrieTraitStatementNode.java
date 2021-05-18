@@ -60,7 +60,7 @@ public class ValkyrieTraitStatementNode extends MixinTrait implements ValkyrieTr
 
   @Override
   @NotNull
-  public ValkyrieIdentifierNode getKeyword() {
+  public PsiElement getKeyword() {
     return ASTMethods.getKeyword(this);
   }
 

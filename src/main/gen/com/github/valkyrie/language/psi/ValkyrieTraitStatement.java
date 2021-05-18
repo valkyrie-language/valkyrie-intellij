@@ -24,7 +24,7 @@ public interface ValkyrieTraitStatement extends PsiElement {
   ValkyrieTypeGeneric getTypeGeneric();
 
   @NotNull
-  ValkyrieIdentifierNode getKeyword();
+  PsiElement getKeyword();
 
   @NotNull
   ValkyrieIdentifierNode[] getModifiers();
