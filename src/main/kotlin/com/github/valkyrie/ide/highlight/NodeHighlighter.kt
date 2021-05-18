@@ -74,7 +74,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitClassStatement(o: ValkyrieClassStatement) {
-        highlight(o.kwClass, Color.KEYWORD)
         highlight(o.identifier, Color.SYM_CLASS)
     }
 
@@ -94,7 +93,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitExtendsStatement(o: ValkyrieExtendsStatement) {
-        highlight(o.kwExtends, Color.KEYWORD)
+
     }
 
     override fun visitTaggedStatement(o: ValkyrieTaggedStatement) {

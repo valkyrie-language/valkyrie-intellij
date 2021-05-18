@@ -23,11 +23,12 @@ class TokenHighlight : SyntaxHighlighterBase() {
         return when (tokenType) {
             // Keywords
             KW_NAMESPACE, KW_EXTENSION, KW_IMPORT, OP_AS -> Color.KEYWORD
+            KW_CLASS, KW_TRAIT, KW_TAGGED, KW_BITFLAG -> Color.KEYWORD
             KW_DEFINE -> Color.KEYWORD
             KW_TYPE -> Color.KEYWORD
             MATCH, CASE -> Color.KEYWORD
             KW_IF, KW_FOR, WHILE -> Color.KEYWORD
-            LET, KW_DEFINE, KW_CLASS, KW_TRAIT, TAGGED, BITFLAG, FORALL -> Color.KEYWORD
+            LET, KW_DEFINE, FORALL -> Color.KEYWORD
             // ANNOTATION -> JssColor.ANNOTATION
             //
             PARENTHESIS_L, PARENTHESIS_R -> Color.PARENTHESES

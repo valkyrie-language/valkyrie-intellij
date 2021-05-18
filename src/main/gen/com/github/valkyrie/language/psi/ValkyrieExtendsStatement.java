@@ -10,9 +10,6 @@ public interface ValkyrieExtendsStatement extends PsiElement {
   @NotNull
   ValkyrieIdentifier getIdentifier();
 
-  @NotNull
-  ValkyrieKwExtends getKwExtends();
-
   @Nullable
   ValkyrieModifiers getModifiers();
 

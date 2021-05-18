@@ -30,6 +30,12 @@ public class ValkyrieTraitStatementNode extends MixinTrait implements ValkyrieTr
 
   @Override
   @NotNull
+  public ValkyrieIdentifier getIdentifier() {
+    return findNotNullChildByClass(ValkyrieIdentifier.class);
+  }
+
+  @Override
+  @NotNull
   public ValkyrieModifiers getModifiers() {
     return findNotNullChildByClass(ValkyrieModifiers.class);
   }

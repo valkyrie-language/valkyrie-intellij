@@ -59,12 +59,6 @@ public class ValkyrieClassStatementNode extends MixinClass implements ValkyrieCl
   }
 
   @Override
-  @NotNull
-  public ValkyrieKwClass getKwClass() {
-    return findNotNullChildByClass(ValkyrieKwClass.class);
-  }
-
-  @Override
   @Nullable
   public ValkyrieModifiers getModifiers() {
     return findChildByClass(ValkyrieModifiers.class);

@@ -42,10 +42,8 @@ public interface ValkyrieTypes {
   IElementType IMPORT_BLOCK = new ValkyrieTokenType("IMPORT_BLOCK");
   IElementType IMPORT_ITEM = new ValkyrieTokenType("IMPORT_ITEM");
   IElementType IMPORT_STATEMENT = new ValkyrieTokenType("IMPORT_STATEMENT");
-  IElementType KW_CLASS = new ValkyrieTokenType("KW_CLASS");
   IElementType KW_DEFINE = new ValkyrieTokenType("KW_DEFINE");
   IElementType KW_ELSE_IF = new ValkyrieTokenType("KW_ELSE_IF");
-  IElementType KW_EXTENDS = new ValkyrieTokenType("KW_EXTENDS");
   IElementType KW_EXTENSION = new ValkyrieTokenType("KW_EXTENSION");
   IElementType KW_IMPORT = new ValkyrieTokenType("KW_IMPORT");
   IElementType KW_NAMESPACE = new ValkyrieTokenType("KW_NAMESPACE");
@@ -94,14 +92,12 @@ public interface ValkyrieTypes {
   IElementType AMP = new ValkyrieTokenType("AMP");
   IElementType AT = new ValkyrieTokenType("AT");
   IElementType BANG = new ValkyrieTokenType("BANG");
-  IElementType BITFLAG = new ValkyrieTokenType("BITFLAG");
   IElementType BRACE_L = new ValkyrieTokenType("{");
   IElementType BRACE_R = new ValkyrieTokenType("}");
   IElementType BRACKET_L = new ValkyrieTokenType("[");
   IElementType BRACKET_R = new ValkyrieTokenType("]");
   IElementType BYTE = new ValkyrieTokenType("Byte");
   IElementType CASE = new ValkyrieTokenType("CASE");
-  IElementType CLASS_BRACE = new ValkyrieTokenType("class_brace");
   IElementType COLON = new ValkyrieTokenType(":");
   IElementType COMMA = new ValkyrieTokenType("COMMA");
   IElementType COMMENT = new ValkyrieTokenType("Comment");
@@ -114,8 +110,12 @@ public interface ValkyrieTypes {
   IElementType FORALL = new ValkyrieTokenType("FORALL");
   IElementType HASH = new ValkyrieTokenType("HASH");
   IElementType INTEGER = new ValkyrieTokenType("INTEGER");
+  IElementType KW_BITFLAG = new ValkyrieTokenType("KW_BITFLAG");
+  IElementType KW_CLASS = new ValkyrieTokenType("KW_CLASS");
+  IElementType KW_EXTENDS = new ValkyrieTokenType("KW_EXTENDS");
   IElementType KW_FOR = new ValkyrieTokenType("KW_FOR");
   IElementType KW_IF = new ValkyrieTokenType("KW_IF");
+  IElementType KW_TAGGED = new ValkyrieTokenType("KW_TAGGED");
   IElementType KW_TRAIT = new ValkyrieTokenType("KW_TRAIT");
   IElementType KW_TYPE = new ValkyrieTokenType("KW_TYPE");
   IElementType LET = new ValkyrieTokenType("LET");
@@ -184,7 +184,6 @@ public interface ValkyrieTypes {
   IElementType STRING_TEXT = new ValkyrieTokenType("StringText");
   IElementType SYMBOL_RAW = new ValkyrieTokenType("Symbol");
   IElementType SYMBOL_XID = new ValkyrieTokenType("SYMBOL_XID");
-  IElementType TAGGED = new ValkyrieTokenType("TAGGED");
   IElementType WHILE = new ValkyrieTokenType("WHILE");
 
   class Factory {
@@ -292,17 +291,11 @@ public interface ValkyrieTypes {
       else if (type == IMPORT_STATEMENT) {
         return new ValkyrieImportStatementNode(node);
       }
-      else if (type == KW_CLASS) {
-        return new ValkyrieKwClassNode(node);
-      }
       else if (type == KW_DEFINE) {
         return new ValkyrieKwDefineNode(node);
       }
       else if (type == KW_ELSE_IF) {
         return new ValkyrieKwElseIfNode(node);
-      }
-      else if (type == KW_EXTENDS) {
-        return new ValkyrieKwExtendsNode(node);
       }
       else if (type == KW_EXTENSION) {
         return new ValkyrieKwExtensionNode(node);
