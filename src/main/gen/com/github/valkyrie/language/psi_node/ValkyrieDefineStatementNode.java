@@ -42,12 +42,6 @@ public class ValkyrieDefineStatementNode extends MixinDefine implements Valkyrie
 
   @Override
   @Nullable
-  public ValkyrieExpression getExpression() {
-    return findChildByClass(ValkyrieExpression.class);
-  }
-
-  @Override
-  @Nullable
   public ValkyrieGenericDefine getGenericDefine() {
     return findChildByClass(ValkyrieGenericDefine.class);
   }
@@ -68,6 +62,12 @@ public class ValkyrieDefineStatementNode extends MixinDefine implements Valkyrie
   @Nullable
   public ValkyrieTypeExpression getTypeExpression() {
     return findChildByClass(ValkyrieTypeExpression.class);
+  }
+
+  @Override
+  @NotNull
+  public ValkyrieIdentifierNode[] getModifiers() {
+    return ASTMethods.getModifiers(this);
   }
 
 }

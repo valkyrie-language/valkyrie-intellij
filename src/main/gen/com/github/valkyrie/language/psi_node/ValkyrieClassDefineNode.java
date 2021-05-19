@@ -29,6 +29,12 @@ public class ValkyrieClassDefineNode extends ValkyrieASTBase implements Valkyrie
   }
 
   @Override
+  @Nullable
+  public ValkyrieDefineBlock getDefineBlock() {
+    return findChildByClass(ValkyrieDefineBlock.class);
+  }
+
+  @Override
   @NotNull
   public ValkyrieIdentifier getIdentifier() {
     return findNotNullChildByClass(ValkyrieIdentifier.class);
@@ -36,8 +42,8 @@ public class ValkyrieClassDefineNode extends ValkyrieASTBase implements Valkyrie
 
   @Override
   @Nullable
-  public ValkyrieObjectBlock getObjectBlock() {
-    return findChildByClass(ValkyrieObjectBlock.class);
+  public ValkyrieMaybeModifier getMaybeModifier() {
+    return findChildByClass(ValkyrieMaybeModifier.class);
   }
 
   @Override

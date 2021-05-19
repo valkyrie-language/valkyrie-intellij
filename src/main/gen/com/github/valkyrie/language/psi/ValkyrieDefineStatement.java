@@ -4,6 +4,7 @@ package com.github.valkyrie.language.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
+import com.github.valkyrie.language.psi_node.ValkyrieIdentifierNode;
 
 public interface ValkyrieDefineStatement extends PsiElement {
 
@@ -12,9 +13,6 @@ public interface ValkyrieDefineStatement extends PsiElement {
 
   @NotNull
   ValkyrieDefineTuple getDefineTuple();
-
-  @Nullable
-  ValkyrieExpression getExpression();
 
   @Nullable
   ValkyrieGenericDefine getGenericDefine();
@@ -27,5 +25,8 @@ public interface ValkyrieDefineStatement extends PsiElement {
 
   @Nullable
   ValkyrieTypeExpression getTypeExpression();
+
+  @NotNull
+  ValkyrieIdentifierNode[] getModifiers();
 
 }

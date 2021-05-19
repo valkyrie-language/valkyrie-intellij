@@ -12,16 +12,16 @@ import com.intellij.psi.tree.IElementType
  * keywords in any case, except for macros
  */
 private val KEYWORDS_SP = """(?x)
-      namespace[*!?]?
-    | using[*!?]?
-    | \bas[*!?]?\b
+      \b((namespace|using|as)[*!?]?)\b
     | \b(if)\b
     | \b(for|in)\b | \b(while)\b | \b(loop)\b
     | \b(catch)\b
     | \b(is|not)\b
-    | \b(class|struct|structure)\b
+    | \b(class|structure|struct)\b
     | \b(trait|interface|convention|protocol)\b
-    | \b(extend|extends|implements)\b
+    | \b(extend|extends|implements|impl)\b
+    | \b(enum|enumeration)\b
+    | \b(def|function|fn|fun)\b
     """.toRegex()
 private val PUNCTUATIONS = """(?x)
       [.]{1,3}
@@ -166,7 +166,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
     private fun codeKeywords(): Boolean {
         val r = tryMatch(KEYWORDS_SP) ?: return false
         when (r.value) {
-            "namespace", "namespace!", "namespace*", "namespace?" -> pushToken(ValkyrieTypes.OP_NAMESAPCE, r)
+            "namespace", "namespace!", "namespace*", "namespace?" -> pushToken(ValkyrieTypes.KW_NAMESPACE, r)
             "using", "using!", "using*", "using?" -> pushToken(ValkyrieTypes.OP_IMPORT, r)
             "as", "as?", "as!", "as*" -> pushToken(ValkyrieTypes.OP_AS, r)
             "is" -> pushToken(ValkyrieTypes.OP_IS_A, r)
@@ -177,7 +177,8 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             "class", "structure", "struct" -> pushToken(ValkyrieTypes.KW_CLASS, r)
             "trait", "interface", "convention", "protocol" -> pushToken(ValkyrieTypes.KW_TRAIT, r)
             "tagged", "enum" -> pushToken(ValkyrieTypes.KW_TAGGED, r)
-            "def", "fun", "fn", "function" -> pushToken(ValkyrieTypes.KW_DEFINE, r)
+            "extend", "extends", "impl", "implements" -> pushToken(ValkyrieTypes.KW_EXTENDS, r)
+            "def", "fun", "fn", "function" -> pushToken(ValkyrieTypes.KW_DEF, r)
             else -> pushToken(BAD_CHARACTER, r)
         }
         return true

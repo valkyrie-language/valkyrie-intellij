@@ -45,7 +45,6 @@ public interface ValkyrieTypes {
   IElementType KW_ELSE_IF = new ValkyrieTokenType("KW_ELSE_IF");
   IElementType KW_EXTENSION = new ValkyrieTokenType("KW_EXTENSION");
   IElementType KW_IMPORT = new ValkyrieTokenType("KW_IMPORT");
-  IElementType KW_NAMESPACE = new ValkyrieTokenType("KW_NAMESPACE");
   IElementType LET_STATEMENT = new ValkyrieTokenType("LET_STATEMENT");
   IElementType LET_TYPE_HINT = new ValkyrieTokenType("LET_TYPE_HINT");
   IElementType LIST = new ValkyrieTokenType("LIST");
@@ -63,9 +62,6 @@ public interface ValkyrieTypes {
   IElementType NEW_STATEMENT = new ValkyrieTokenType("NEW_STATEMENT");
   IElementType NORMAL_PATTERN = new ValkyrieTokenType("NORMAL_PATTERN");
   IElementType NUMBER = new ValkyrieTokenType("NUMBER");
-  IElementType OBJECT_BLOCK = new ValkyrieTokenType("OBJECT_BLOCK");
-  IElementType OBJECT_DEFINE = new ValkyrieTokenType("OBJECT_DEFINE");
-  IElementType OBJECT_ITEM = new ValkyrieTokenType("OBJECT_ITEM");
   IElementType OBJECT_KEY = new ValkyrieTokenType("OBJECT_KEY");
   IElementType PAIR = new ValkyrieTokenType("PAIR");
   IElementType PATTERN_ITEM = new ValkyrieTokenType("PATTERN_ITEM");
@@ -79,7 +75,6 @@ public interface ValkyrieTypes {
   IElementType TAGGED_ITEM = new ValkyrieTokenType("TAGGED_ITEM");
   IElementType TAGGED_STATEMENT = new ValkyrieTokenType("TAGGED_STATEMENT");
   IElementType TOP_BLOCK = new ValkyrieTokenType("TOP_BLOCK");
-  IElementType TRAIT_BLOCK = new ValkyrieTokenType("TRAIT_BLOCK");
   IElementType TRAIT_STATEMENT = new ValkyrieTokenType("TRAIT_STATEMENT");
   IElementType TUPLE = new ValkyrieTokenType("TUPLE");
   IElementType TYPE_EXPRESSION = new ValkyrieTokenType("TYPE_EXPRESSION");
@@ -111,10 +106,12 @@ public interface ValkyrieTypes {
   IElementType INTEGER = new ValkyrieTokenType("INTEGER");
   IElementType KW_BITFLAG = new ValkyrieTokenType("KW_BITFLAG");
   IElementType KW_CLASS = new ValkyrieTokenType("KW_CLASS");
-  IElementType KW_DEFINE = new ValkyrieTokenType("KW_DEFINE");
+  IElementType KW_DEF = new ValkyrieTokenType("KW_DEF");
   IElementType KW_EXTENDS = new ValkyrieTokenType("KW_EXTENDS");
   IElementType KW_FOR = new ValkyrieTokenType("KW_FOR");
   IElementType KW_IF = new ValkyrieTokenType("KW_IF");
+  IElementType KW_LET = new ValkyrieTokenType("KW_LET");
+  IElementType KW_NAMESPACE = new ValkyrieTokenType("KW_NAMESPACE");
   IElementType KW_TAGGED = new ValkyrieTokenType("KW_TAGGED");
   IElementType KW_TRAIT = new ValkyrieTokenType("KW_TRAIT");
   IElementType KW_TYPE = new ValkyrieTokenType("KW_TYPE");
@@ -184,6 +181,7 @@ public interface ValkyrieTypes {
   IElementType STRING_TEXT = new ValkyrieTokenType("StringText");
   IElementType SYMBOL_RAW = new ValkyrieTokenType("Symbol");
   IElementType SYMBOL_XID = new ValkyrieTokenType("SYMBOL_XID");
+  IElementType TRAIT_BLOCK = new ValkyrieTokenType("trait_block");
   IElementType WHILE = new ValkyrieTokenType("WHILE");
 
   class Factory {
@@ -300,9 +298,6 @@ public interface ValkyrieTypes {
       else if (type == KW_IMPORT) {
         return new ValkyrieKwImportNode(node);
       }
-      else if (type == KW_NAMESPACE) {
-        return new ValkyrieKwNamespaceNode(node);
-      }
       else if (type == LET_STATEMENT) {
         return new ValkyrieLetStatementNode(node);
       }
@@ -354,15 +349,6 @@ public interface ValkyrieTypes {
       else if (type == NUMBER) {
         return new ValkyrieNumberNode(node);
       }
-      else if (type == OBJECT_BLOCK) {
-        return new ValkyrieObjectBlockNode(node);
-      }
-      else if (type == OBJECT_DEFINE) {
-        return new ValkyrieObjectDefineNode(node);
-      }
-      else if (type == OBJECT_ITEM) {
-        return new ValkyrieObjectItemNode(node);
-      }
       else if (type == OBJECT_KEY) {
         return new ValkyrieObjectKeyNode(node);
       }
@@ -401,9 +387,6 @@ public interface ValkyrieTypes {
       }
       else if (type == TOP_BLOCK) {
         return new ValkyrieTopBlockNode(node);
-      }
-      else if (type == TRAIT_BLOCK) {
-        return new ValkyrieTraitBlockNode(node);
       }
       else if (type == TRAIT_STATEMENT) {
         return new ValkyrieTraitStatementNode(node);

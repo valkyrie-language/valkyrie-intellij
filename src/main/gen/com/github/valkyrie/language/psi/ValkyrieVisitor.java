@@ -155,10 +155,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitKwNamespace(@NotNull ValkyrieKwNamespace o) {
-    visitPsiElement(o);
-  }
-
   public void visitLetStatement(@NotNull ValkyrieLetStatement o) {
     visitPsiElement(o);
   }
@@ -227,18 +223,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitObjectBlock(@NotNull ValkyrieObjectBlock o) {
-    visitPsiElement(o);
-  }
-
-  public void visitObjectDefine(@NotNull ValkyrieObjectDefine o) {
-    visitPsiElement(o);
-  }
-
-  public void visitObjectItem(@NotNull ValkyrieObjectItem o) {
-    visitPsiElement(o);
-  }
-
   public void visitObjectKey(@NotNull ValkyrieObjectKey o) {
     visitPsiElement(o);
   }
@@ -288,10 +272,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitTopBlock(@NotNull ValkyrieTopBlock o) {
-    visitPsiElement(o);
-  }
-
-  public void visitTraitBlock(@NotNull ValkyrieTraitBlock o) {
     visitPsiElement(o);
   }
 

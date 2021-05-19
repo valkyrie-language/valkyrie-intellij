@@ -74,7 +74,7 @@ open class MixinNamespace(node: ASTNode) : ViewableNode(node), PsiNameIdentifier
     }
 
     fun isDeclaration(): Boolean {
-        return originalElement.kwNamespace.text.endsWith("!")
+        return this.firstChild.text.endsWith("!")
     }
 }
 

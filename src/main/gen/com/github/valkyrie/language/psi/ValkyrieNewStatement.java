@@ -10,9 +10,6 @@ public interface ValkyrieNewStatement extends PsiElement {
   @NotNull
   ValkyrieMaybeModifier getMaybeModifier();
 
-  @NotNull
-  ValkyrieTraitBlock getTraitBlock();
-
   @Nullable
   ValkyrieTypeExpression getTypeExpression();
 

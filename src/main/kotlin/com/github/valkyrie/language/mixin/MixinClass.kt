@@ -2,7 +2,9 @@ package com.github.valkyrie.language.mixin
 
 import com.github.valkyrie.ide.view.ValkyrieViewElement
 import com.github.valkyrie.language.ast.DeclareNode
+import com.github.valkyrie.language.ast.ValkyrieASTBase
 import com.github.valkyrie.language.psi_node.ValkyrieClassStatementNode
+import com.github.valkyrie.language.psi_node.ValkyrieIdentifierNode
 import com.intellij.icons.AllIcons
 import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.lang.ASTNode
@@ -16,7 +18,9 @@ open class MixinClass(node: ASTNode) : DeclareNode(node) {
         return this as ValkyrieClassStatementNode
     }
 
-    override fun getNameIdentifier(): PsiElement = originalElement.identifier
+    override fun getNameIdentifier(): ValkyrieIdentifierNode {
+        return originalElement.identifier as ValkyrieIdentifierNode
+    }
     override fun getIcon(flags: Int): Icon = AllIcons.Nodes.Class
 
     override fun setName(name: String): PsiElement {

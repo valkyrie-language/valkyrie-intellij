@@ -7,11 +7,14 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieClassDefine extends PsiElement {
 
+  @Nullable
+  ValkyrieDefineBlock getDefineBlock();
+
   @NotNull
   ValkyrieIdentifier getIdentifier();
 
   @Nullable
-  ValkyrieObjectBlock getObjectBlock();
+  ValkyrieMaybeModifier getMaybeModifier();
 
   @NotNull
   ValkyrieTuple getTuple();

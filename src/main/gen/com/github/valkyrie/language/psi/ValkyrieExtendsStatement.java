@@ -8,13 +8,13 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieExtendsStatement extends PsiElement {
 
   @NotNull
+  ValkyrieClassBlock getClassBlock();
+
+  @NotNull
   ValkyrieIdentifier getIdentifier();
 
   @Nullable
   ValkyrieMaybeModifier getMaybeModifier();
-
-  @NotNull
-  ValkyrieTraitBlock getTraitBlock();
 
   @Nullable
   ValkyrieTypeExpression getTypeExpression();

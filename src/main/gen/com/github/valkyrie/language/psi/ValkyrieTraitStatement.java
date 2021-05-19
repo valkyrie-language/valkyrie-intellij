@@ -9,13 +9,13 @@ import com.github.valkyrie.language.psi_node.ValkyrieIdentifierNode;
 public interface ValkyrieTraitStatement extends PsiElement {
 
   @NotNull
+  ValkyrieClassBlock getClassBlock();
+
+  @NotNull
   ValkyrieIdentifier getIdentifier();
 
   @Nullable
   ValkyrieMaybeModifier getMaybeModifier();
-
-  @NotNull
-  ValkyrieTraitBlock getTraitBlock();
 
   @Nullable
   ValkyrieTypeExpression getTypeExpression();

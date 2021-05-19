@@ -1,5 +1,6 @@
 package com.github.valkyrie.language.mixin
 
+import com.github.valkyrie.ide.file.ValkyrieIconProvider
 import com.github.valkyrie.ide.view.ValkyrieViewElement
 import com.github.valkyrie.language.ast.DeclareNode
 import com.github.valkyrie.language.ast.FunctionKind
@@ -15,6 +16,7 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.github.valkyrie.language.ast.addChildrenView
+import com.intellij.psi.util.PsiTreeUtil
 import javax.swing.Icon
 
 open class MixinDefine(node: ASTNode) : DeclareNode(node) {
@@ -35,11 +37,15 @@ open class MixinDefine(node: ASTNode) : DeclareNode(node) {
     override fun setName(name: String): PsiElement {
         TODO("Not yet implemented")
     }
-
     override fun getChildrenView(): Array<ValkyrieViewElement> {
         val childrenView: MutableList<ValkyrieViewElement> = mutableListOf()
-        // originalElement.modifiers.addChildrenView(childrenView)
+        originalElement.modifiers.forEach {
+            childrenView.add(ValkyrieViewElement(it, it.text, ValkyrieIconProvider.MODIFIER))
+        }
         originalElement.defineTuple.addChildrenView(childrenView)
+        PsiTreeUtil.getChildrenOfTypeAsList(originalElement.defineBlock, NavigatablePsiElement::class.java).forEach {
+            childrenView.add(ValkyrieViewElement(it))
+        }
         return childrenView.toTypedArray()
     }
 

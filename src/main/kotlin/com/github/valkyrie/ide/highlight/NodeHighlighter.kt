@@ -17,7 +17,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
 
     override fun visitNamespaceStatement(o: ValkyrieNamespaceStatement) {
-        highlight(o.kwNamespace, Color.KEYWORD)
+
     }
 
     override fun visitImportStatement(o: ValkyrieImportStatement) {
@@ -79,7 +79,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 //        }
 //        super.visitForallStatement(o)
     }
-
 
 
     override fun visitExtendsStatement(o: ValkyrieExtendsStatement) {
@@ -223,40 +222,51 @@ private fun NodeHighlighter.highlightWithText(o: PsiElement) {
         -> {
             highlight(o, Color.SYM_TRAIT)
         }
+
         "u8", "u16", "u32", "u64", "u128", "u256",
         "i8", "i16", "i32", "i64", "i128", "i256",
         "int", "bool", "str", "string", "f32", "f64", "char", "byte", "void"
         -> {
             highlight(o, Color.KEYWORD)
         }
+
         "get", "set", "value", "extends", "self"
         -> {
             highlight(o, Color.KEYWORD)
         }
+
         "_" -> {
             highlight(o, Color.SYM_GENERIC)
         }
-        "map", "or" -> {
+
+        "map", "or", "test_field", "print" -> {
             highlight(o, Color.SYM_FUNCTION_SELF)
         }
+
         "unit", "default" -> {
             highlight(o, Color.SYM_FUNCTION_FREE)
         }
-        "Point", "Ellipse", "Circle" -> {
+
+        "Point", "Ellipse", "Circle", "Test" -> {
             highlight(o, Color.SYM_CLASS)
         }
+
         "center", "minor_axis", "major_axis", "radius" -> {
             highlight(o, Color.SYM_FUNCTION_SELF)
         }
+
         "x", "y", "v" -> {
             highlight(o, Color.SYM_FIELD)
         }
+
         "Option", "Result", "Current", "Target" -> {
             highlight(o, Color.SYM_CLASS)
         }
+
         "None", "Some", "Success", "Failure" -> {
             highlight(o, Color.SYM_VARIANT)
         }
+
         else -> {}
     }
 }

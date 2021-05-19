@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieNamespaceStatement extends PsiElement {
 
   @NotNull
-  ValkyrieKwNamespace getKwNamespace();
-
-  @NotNull
   ValkyrieNamepathFree getNamepathFree();
 
 }

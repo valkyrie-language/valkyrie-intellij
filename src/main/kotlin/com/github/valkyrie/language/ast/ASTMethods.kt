@@ -17,5 +17,11 @@ class ASTMethods {
             val mods = node.maybeModifier ?: return arrayOf();
             return mods.identifierList.map { it as ValkyrieIdentifierNode }.toTypedArray()
         }
+
+        @JvmStatic
+        fun getModifiers(node: ValkyrieDefineStatement): Array<ValkyrieIdentifierNode> {
+            val mods = node.maybeModifier ?: return arrayOf();
+            return mods.identifierList.map { it as ValkyrieIdentifierNode }.toTypedArray()
+        }
     }
 }

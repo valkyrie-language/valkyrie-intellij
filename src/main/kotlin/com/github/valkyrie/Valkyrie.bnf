@@ -100,7 +100,7 @@
 //        KW_AS = "as"
 //
 //        KW_LET = "let"
-//        KW_DEFINE = "def"
+//        KW_DEF = "def"
 //        KW_NEW = 'new'
 //
 //        KW_IF = "if"
@@ -144,12 +144,9 @@ private normal_statements ::=
   | expression
   ;
 // ---------------------------------------------------------------------------------------------------------------------
-namespace_statement ::= kw_namespace namepath_free {
+namespace_statement ::= KW_NAMESPACE namepath_free {
     mixin="com.github.valkyrie.language.mixin.MixinNamespace"
 };
-kw_namespace     ::= "namespace" | OP_NAMESAPCE {
-    mixin="com.github.valkyrie.language.mixin.MixinKeyword"
-}
 // ---------------------------------------------------------------------------------------------------------------------
 import_statement ::= kw_import (import_block|import_item) {
     mixin="com.github.valkyrie.language.mixin.MixinImport"
@@ -199,8 +196,9 @@ match_statement   ::= MATCH identifier* match_block;
 match_block       ::= <<brace_block match_expression SEMICOLON>>;
 match_expression  ::= case_pattern COLON (normal_statements [SEMICOLON])+
 // ---------------------------------------------------------------------------------------------------------------------
-define_statement  ::= KW_DEFINE [maybe_modifier] namepath_free [generic_define] define_tuple [(COLON|OP_ARROW) type_expression] [define_block| OP_EQ expression] {
+define_statement  ::= KW_DEF [maybe_modifier] namepath_free [generic_define] define_tuple [(COLON|OP_ARROW) type_expression] [define_block] {
     mixin="com.github.valkyrie.language.mixin.MixinDefine"
+    methods=[getModifiers]
 };
 define_tuple      ::= <<parenthesis define_item COMMA>>;
 define_item       ::= OP_POW | OP_LT | OP_GT
@@ -235,30 +233,21 @@ class_tuple       ::= <<parenthesis class_item COMMA>> {
     mixin="com.github.valkyrie.language.mixin.MixinClassTuple"
 }
 class_block       ::= <<brace_free (class_define|class_item) (COMMA|SEMICOLON)>>
-class_define      ::= identifier tuple [(COLON|OP_ARROW) type_expression] [object_block]
-class_item        ::= [maybe_modifier] object_key [COLON type_expression] [OP_SET expression] {
+class_define      ::= KW_DEF? [maybe_modifier] identifier tuple [(COLON|OP_ARROW) type_expression] [define_block]
+class_item        ::= KW_LET? [maybe_modifier] object_key [COLON type_expression] [OP_SET expression] {
 
 };
 // ---------------------------------------------------------------------------------------------------------------------
-object_block      ::= <<brace_free (object_define|object_item) (COMMA|SEMICOLON)>>
-object_define     ::= identifier define_tuple [(COLON|OP_ARROW) type_expression] block {
-
-};
-object_item       ::= object_key COLON expression {
-
-}
 object_key        ::= SYMBOL_XID | SYMBOL_RAW | INTEGER | KW_IF | KW_CLASS {
     mixin="com.github.valkyrie.language.mixin.MixinIdentifier"
 }
 // ---------------------------------------------------------------------------------------------------------------------
-trait_statement   ::= KW_TRAIT [maybe_modifier] identifier [type_generic] [COLON type_expression] trait_block {
+trait_statement   ::= KW_TRAIT [maybe_modifier] identifier [type_generic] [COLON type_expression] class_block {
     extends="com.github.valkyrie.language.mixin.MixinTrait"
     methods=[getKeyword getModifiers]
 };
-trait_block       ::= <<brace_free top_statements SEMICOLON>>;
-//trait_item        ::= normal_statements;
 // ---------------------------------------------------------------------------------------------------------------------
-extends_statement ::= KW_EXTENDS [type_generic] [maybe_modifier] identifier [type_generic] [COLON type_expression] trait_block {
+extends_statement ::= KW_EXTENDS [type_generic] [maybe_modifier] identifier [type_generic] [COLON type_expression] class_block {
     extends="com.github.valkyrie.language.mixin.MixinExtends"
 }
 // ---------------------------------------------------------------------------------------------------------------------
@@ -339,7 +328,7 @@ namepath_free  ::= identifier ((DOT|OP_PROPORTION) identifier)* {
 namepath       ::= identifier (OP_PROPORTION identifier)* {
     mixin="com.github.valkyrie.language.mixin.MixinNamepath"
 }
-identifier     ::= SYMBOL_XID | SYMBOL_RAW {
+identifier     ::= SYMBOL_XID | SYMBOL_RAW | KW_NAMESPACE | KW_CLASS {
     mixin="com.github.valkyrie.language.mixin.MixinIdentifier"
 }
 maybe_modifier ::= (identifier !end_m1)+ {

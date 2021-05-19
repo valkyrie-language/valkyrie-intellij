@@ -35,12 +35,6 @@ public class ValkyrieNewStatementNode extends ValkyrieASTBase implements Valkyri
   }
 
   @Override
-  @NotNull
-  public ValkyrieTraitBlock getTraitBlock() {
-    return findNotNullChildByClass(ValkyrieTraitBlock.class);
-  }
-
-  @Override
   @Nullable
   public ValkyrieTypeExpression getTypeExpression() {
     return findChildByClass(ValkyrieTypeExpression.class);
