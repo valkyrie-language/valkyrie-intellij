@@ -5,7 +5,6 @@ import com.github.valkyrie.ide.view.ValkyrieViewElement
 import com.github.valkyrie.language.ast.DeclareNode
 import com.github.valkyrie.language.ast.FunctionKind
 import com.github.valkyrie.language.psi.ValkyrieDefineTuple
-import com.github.valkyrie.language.psi.ValkyrieModifiers
 import com.github.valkyrie.language.psi_node.*
 import com.intellij.icons.AllIcons.Nodes.Function
 import com.intellij.icons.AllIcons.Nodes.Method
@@ -39,13 +38,9 @@ open class MixinDefine(node: ASTNode) : DeclareNode(node) {
     }
     override fun getChildrenView(): Array<ValkyrieViewElement> {
         val childrenView: MutableList<ValkyrieViewElement> = mutableListOf()
-        originalElement.modifiers.forEach {
-            childrenView.add(ValkyrieViewElement(it, it.text, ValkyrieIconProvider.MODIFIER))
-        }
+        originalElement.maybeModifier.addChildrenView(childrenView)
         originalElement.defineTuple.addChildrenView(childrenView)
-        PsiTreeUtil.getChildrenOfTypeAsList(originalElement.defineBlock, NavigatablePsiElement::class.java).forEach {
-            childrenView.add(ValkyrieViewElement(it))
-        }
+        originalElement.defineBlock.addChildrenView(childrenView)
         return childrenView.toTypedArray()
     }
 

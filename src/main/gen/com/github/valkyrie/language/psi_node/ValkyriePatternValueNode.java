@@ -31,7 +31,7 @@ public class ValkyriePatternValueNode extends ValkyrieASTBase implements Valkyri
   @Override
   @Nullable
   public ValkyrieIdentifier getIdentifier() {
-    return findChildByClass(ValkyrieIdentifier.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieIdentifier.class);
   }
 
   @Override

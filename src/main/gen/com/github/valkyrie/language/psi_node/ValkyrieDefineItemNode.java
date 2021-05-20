@@ -31,13 +31,13 @@ public class ValkyrieDefineItemNode extends MixinDefineItem implements ValkyrieD
   @Override
   @Nullable
   public ValkyrieExpression getExpression() {
-    return findChildByClass(ValkyrieExpression.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieExpression.class);
   }
 
   @Override
   @Nullable
   public ValkyrieIdentifier getIdentifier() {
-    return findChildByClass(ValkyrieIdentifier.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieIdentifier.class);
   }
 
   @Override
@@ -49,13 +49,13 @@ public class ValkyrieDefineItemNode extends MixinDefineItem implements ValkyrieD
   @Override
   @Nullable
   public ValkyrieMaybeModifier getMaybeModifier() {
-    return findChildByClass(ValkyrieMaybeModifier.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieMaybeModifier.class);
   }
 
   @Override
   @Nullable
   public ValkyrieTypeExpression getTypeExpression() {
-    return findChildByClass(ValkyrieTypeExpression.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieTypeExpression.class);
   }
 
 }

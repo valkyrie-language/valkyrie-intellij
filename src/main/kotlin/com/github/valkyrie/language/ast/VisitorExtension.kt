@@ -57,13 +57,20 @@ fun ValkyrieDefineTuple?.addChildrenView(list: MutableList<ValkyrieViewElement>)
         }
 }
 
-fun ValkyrieModifiers?.addChildrenView(list: MutableList<ValkyrieViewElement>) {
+fun ValkyrieMaybeModifier?.addChildrenView(list: MutableList<ValkyrieViewElement>) {
     if (this == null) return
     PsiTreeUtil
         .getChildrenOfTypeAsList(this, NavigatablePsiElement::class.java)
         .forEach {
-            // PresentationData(it.text, "std::modifiers", this.getIcon(0), null)
-            val view = PresentationData(it.text, "", this.getIcon(0), null)
-            list.add(ValkyrieViewElement(it, view))
+            list.add(ValkyrieViewElement(it, it.text, ValkyrieIconProvider.MODIFIER))
+        }
+}
+
+fun ValkyrieDefineBlock?.addChildrenView(list: MutableList<ValkyrieViewElement>) {
+    if (this == null) return
+    PsiTreeUtil
+        .getChildrenOfTypeAsList(this, NavigatablePsiElement::class.java)
+        .forEach {
+            list.add(ValkyrieViewElement(it))
         }
 }

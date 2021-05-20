@@ -31,31 +31,31 @@ public class ValkyriePairNode extends ValkyrieASTBase implements ValkyriePair {
   @Override
   @Nullable
   public ValkyrieBoolean getBoolean() {
-    return findChildByClass(ValkyrieBoolean.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieBoolean.class);
   }
 
   @Override
   @NotNull
   public ValkyrieExpression getExpression() {
-    return findNotNullChildByClass(ValkyrieExpression.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieExpression.class));
   }
 
   @Override
   @Nullable
   public ValkyrieNamepath getNamepath() {
-    return findChildByClass(ValkyrieNamepath.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieNamepath.class);
   }
 
   @Override
   @Nullable
   public ValkyrieNumber getNumber() {
-    return findChildByClass(ValkyrieNumber.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieNumber.class);
   }
 
   @Override
   @Nullable
   public ValkyrieString getString() {
-    return findChildByClass(ValkyrieString.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieString.class);
   }
 
 }

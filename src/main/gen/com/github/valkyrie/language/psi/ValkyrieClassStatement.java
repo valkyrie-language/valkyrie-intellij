@@ -4,8 +4,10 @@ package com.github.valkyrie.language.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.StubBasedPsiElement;
+import com.github.valkyrie.language.mixin.MixinClass.ClassStub;
 
-public interface ValkyrieClassStatement extends PsiElement {
+public interface ValkyrieClassStatement extends PsiElement, StubBasedPsiElement<ClassStub> {
 
   @Nullable
   ValkyrieClassBlock getClassBlock();

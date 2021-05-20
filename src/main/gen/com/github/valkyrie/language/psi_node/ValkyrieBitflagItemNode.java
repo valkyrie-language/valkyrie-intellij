@@ -31,13 +31,13 @@ public class ValkyrieBitflagItemNode extends ValkyrieASTBase implements Valkyrie
   @Override
   @NotNull
   public ValkyrieExpression getExpression() {
-    return findNotNullChildByClass(ValkyrieExpression.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieExpression.class));
   }
 
   @Override
   @NotNull
   public ValkyrieIdentifier getIdentifier() {
-    return findNotNullChildByClass(ValkyrieIdentifier.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieIdentifier.class));
   }
 
 }

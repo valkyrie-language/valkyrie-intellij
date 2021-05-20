@@ -31,25 +31,25 @@ public class ValkyrieExtensionStatementNode extends MixinExtension implements Va
   @Override
   @NotNull
   public ValkyrieIdentifier getIdentifier() {
-    return findNotNullChildByClass(ValkyrieIdentifier.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieIdentifier.class));
   }
 
   @Override
   @NotNull
   public ValkyrieKwExtension getKwExtension() {
-    return findNotNullChildByClass(ValkyrieKwExtension.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieKwExtension.class));
   }
 
   @Override
   @NotNull
   public ValkyrieNamepathFree getNamepathFree() {
-    return findNotNullChildByClass(ValkyrieNamepathFree.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieNamepathFree.class));
   }
 
   @Override
   @NotNull
   public ValkyrieTopBlock getTopBlock() {
-    return findNotNullChildByClass(ValkyrieTopBlock.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieTopBlock.class));
   }
 
 }

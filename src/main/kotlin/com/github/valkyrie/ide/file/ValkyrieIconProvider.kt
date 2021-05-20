@@ -28,5 +28,7 @@ class ValkyrieIconProvider : IconProvider() {
         val MODIFIER = AllIcons.Nodes.MethodReference
         val CLASS = AllIcons.Nodes.Class
         val TRAIT = AllIcons.Nodes.Interface
+
+        val FUNCTION = AllIcons.Nodes.Method
     }
 }

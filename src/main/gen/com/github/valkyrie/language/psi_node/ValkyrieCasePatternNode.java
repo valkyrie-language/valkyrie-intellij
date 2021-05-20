@@ -37,7 +37,7 @@ public class ValkyrieCasePatternNode extends ValkyrieASTBase implements Valkyrie
   @Override
   @Nullable
   public ValkyrieNamepath getNamepath() {
-    return findChildByClass(ValkyrieNamepath.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieNamepath.class);
   }
 
   @Override

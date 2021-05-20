@@ -31,13 +31,13 @@ public class ValkyrieTaggedItemNode extends ValkyrieASTBase implements ValkyrieT
   @Override
   @Nullable
   public ValkyrieClassBlock getClassBlock() {
-    return findChildByClass(ValkyrieClassBlock.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieClassBlock.class);
   }
 
   @Override
   @NotNull
   public ValkyrieIdentifier getIdentifier() {
-    return findNotNullChildByClass(ValkyrieIdentifier.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieIdentifier.class));
   }
 
 }

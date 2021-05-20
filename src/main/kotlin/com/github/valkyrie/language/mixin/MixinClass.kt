@@ -1,15 +1,22 @@
 package com.github.valkyrie.language.mixin
 
-import com.github.valkyrie.ide.view.ValkyrieViewElement
+import com.github.valkyrie.ValkyrieLanguage
 import com.github.valkyrie.language.ast.DeclareNode
-import com.github.valkyrie.language.ast.ValkyrieASTBase
+import com.github.valkyrie.language.psi.ValkyrieElementType
+import com.github.valkyrie.language.psi.ValkyrieStub
 import com.github.valkyrie.language.psi_node.ValkyrieClassStatementNode
 import com.github.valkyrie.language.psi_node.ValkyrieIdentifierNode
 import com.intellij.icons.AllIcons
-import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.lang.ASTNode
-import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
+import com.intellij.psi.StubBasedPsiElement
+import com.intellij.psi.search.GlobalSearchScope
+import com.intellij.psi.search.SearchScope
+import com.intellij.psi.stubs.IStubElementType
+import com.intellij.psi.stubs.StubElement
+import com.intellij.psi.tree.IElementType
+import com.intellij.psi.tree.TokenSet
+import com.intellij.util.ArrayFactory
 import javax.swing.Icon
 
 // PsiReference
@@ -27,7 +34,12 @@ open class MixinClass(node: ASTNode) : DeclareNode(node) {
         return this.nameIdentifier
     }
 
+    override fun getResolveScope(): GlobalSearchScope {
+        return super.getResolveScope()
+    }
 
-
+    override fun getUseScope(): SearchScope {
+        return super.getUseScope()
+    }
 }
 

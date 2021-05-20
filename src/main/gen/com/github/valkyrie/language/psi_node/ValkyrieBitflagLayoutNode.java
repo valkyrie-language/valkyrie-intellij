@@ -31,7 +31,7 @@ public class ValkyrieBitflagLayoutNode extends ValkyrieASTBase implements Valkyr
   @Override
   @NotNull
   public ValkyrieTypeExpression getTypeExpression() {
-    return findNotNullChildByClass(ValkyrieTypeExpression.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieTypeExpression.class));
   }
 
 }

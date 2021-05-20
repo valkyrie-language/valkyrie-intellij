@@ -70,7 +70,7 @@ class FormatBlock(
             is ValkyrieImportBlock,
             is ValkyrieTaggedBlock, is ValkyrieBitflagBlock,
             is ValkyrieClassBlock,
-            is ValkyrieForallBlock, is ValkyrieTraitBlock,
+            is ValkyrieForallBlock,
             is ValkyrieDefineBlock,
             -> when {
                 isCornerChild -> Indent.getNoneIndent()

@@ -31,25 +31,25 @@ public class ValkyrieLetStatementNode extends ValkyrieASTBase implements Valkyri
   @Override
   @Nullable
   public ValkyrieCasePattern getCasePattern() {
-    return findChildByClass(ValkyrieCasePattern.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieCasePattern.class);
   }
 
   @Override
   @Nullable
   public ValkyrieExpression getExpression() {
-    return findChildByClass(ValkyrieExpression.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieExpression.class);
   }
 
   @Override
   @Nullable
   public ValkyrieLetTypeHint getLetTypeHint() {
-    return findChildByClass(ValkyrieLetTypeHint.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieLetTypeHint.class);
   }
 
   @Override
   @Nullable
   public ValkyrieNormalPattern getNormalPattern() {
-    return findChildByClass(ValkyrieNormalPattern.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieNormalPattern.class);
   }
 
 }

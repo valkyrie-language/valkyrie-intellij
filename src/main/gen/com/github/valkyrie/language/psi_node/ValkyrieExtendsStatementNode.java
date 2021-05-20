@@ -31,25 +31,25 @@ public class ValkyrieExtendsStatementNode extends MixinExtends implements Valkyr
   @Override
   @NotNull
   public ValkyrieClassBlock getClassBlock() {
-    return findNotNullChildByClass(ValkyrieClassBlock.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieClassBlock.class));
   }
 
   @Override
   @NotNull
   public ValkyrieIdentifier getIdentifier() {
-    return findNotNullChildByClass(ValkyrieIdentifier.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieIdentifier.class));
   }
 
   @Override
   @Nullable
   public ValkyrieMaybeModifier getMaybeModifier() {
-    return findChildByClass(ValkyrieMaybeModifier.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieMaybeModifier.class);
   }
 
   @Override
   @Nullable
   public ValkyrieTypeExpression getTypeExpression() {
-    return findChildByClass(ValkyrieTypeExpression.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieTypeExpression.class);
   }
 
   @Override

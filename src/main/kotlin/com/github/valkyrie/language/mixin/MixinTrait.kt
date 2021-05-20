@@ -27,7 +27,7 @@ open class MixinTrait(node: ASTNode) : DeclareNode(node) {
     }
 
     override fun getIcon(flags: Int): Icon = ValkyrieIconProvider.TRAIT
-    
+
     override fun setName(name: String): PsiElement {
         TODO("Not yet implemented")
     }
@@ -37,7 +37,7 @@ open class MixinTrait(node: ASTNode) : DeclareNode(node) {
         originalElement.modifiers.forEach {
             childrenView.add(ValkyrieViewElement(it, it.text, ValkyrieIconProvider.MODIFIER))
         }
-        PsiTreeUtil.getChildrenOfTypeAsList(originalElement.traitBlock, NavigatablePsiElement::class.java).forEach {
+        PsiTreeUtil.getChildrenOfTypeAsList(originalElement.classBlock, NavigatablePsiElement::class.java).forEach {
             childrenView.add(ValkyrieViewElement(it))
         }
         return childrenView.toTypedArray()

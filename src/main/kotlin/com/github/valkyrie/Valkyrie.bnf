@@ -227,13 +227,14 @@ forall_block      ::= <<brace_block (type_expression COLON type_expression) (COM
 // ---------------------------------------------------------------------------------------------------------------------
 class_statement   ::= KW_CLASS [maybe_modifier] identifier [generic_define] [class_inherit] [class_tuple|class_block] {
     mixin="com.github.valkyrie.language.mixin.MixinClass"
+    stubClass="com.github.valkyrie.language.mixin.MixinClass.ClassStub"
 };
 class_inherit     ::= COLON identifier [type_generic] (OP_ADD identifier)*;
-class_tuple       ::= <<parenthesis class_item COMMA>> {
-    mixin="com.github.valkyrie.language.mixin.MixinClassTuple"
-}
+class_tuple       ::= <<parenthesis class_item COMMA>>;
 class_block       ::= <<brace_free (class_define|class_item) (COMMA|SEMICOLON)>>
-class_define      ::= KW_DEF? [maybe_modifier] identifier tuple [(COLON|OP_ARROW) type_expression] [define_block]
+class_define      ::= KW_DEF? [maybe_modifier] identifier define_tuple [(COLON|OP_ARROW) type_expression] [define_block] {
+    mixin="com.github.valkyrie.language.mixin.MixinClassDefine"
+}
 class_item        ::= KW_LET? [maybe_modifier] object_key [COLON type_expression] [OP_SET expression] {
 
 };
@@ -337,7 +338,7 @@ maybe_modifier ::= (identifier !end_m1)+ {
 private end_m1 ::= (
     COLON|OP_PROPORTION|SEMICOLON|
     BRACKET_L|BRACKET_R|PARENTHESIS_L|PARENTHESIS_R|BRACE_L|BRACE_R
-    COMMA|OP_EQ|DOT
+    COMMA|OP_EQ|DOT|COMMA
 );
 // ---------------------------------------------------------------------------------------------------------------------
 private meta sequence      ::= <<item>> (<<sp>> <<item>>)* [<<sp>>];

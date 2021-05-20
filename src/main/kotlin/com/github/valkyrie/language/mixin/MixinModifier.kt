@@ -3,7 +3,6 @@ package com.github.valkyrie.language.mixin
 import com.github.valkyrie.ide.file.ValkyrieIconProvider
 import com.github.valkyrie.ide.view.ValkyrieViewElement
 import com.github.valkyrie.language.ast.ViewableNode
-import com.github.valkyrie.language.psi.ValkyrieModifiers
 import com.github.valkyrie.language.psi_node.ValkyrieMaybeModifierNode
 import com.intellij.icons.AllIcons
 import com.intellij.ide.projectView.PresentationData

@@ -31,37 +31,37 @@ public class ValkyrieDefineStatementNode extends MixinDefine implements Valkyrie
   @Override
   @Nullable
   public ValkyrieDefineBlock getDefineBlock() {
-    return findChildByClass(ValkyrieDefineBlock.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieDefineBlock.class);
   }
 
   @Override
   @NotNull
   public ValkyrieDefineTuple getDefineTuple() {
-    return findNotNullChildByClass(ValkyrieDefineTuple.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieDefineTuple.class));
   }
 
   @Override
   @Nullable
   public ValkyrieGenericDefine getGenericDefine() {
-    return findChildByClass(ValkyrieGenericDefine.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieGenericDefine.class);
   }
 
   @Override
   @Nullable
   public ValkyrieMaybeModifier getMaybeModifier() {
-    return findChildByClass(ValkyrieMaybeModifier.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieMaybeModifier.class);
   }
 
   @Override
   @NotNull
   public ValkyrieNamepathFree getNamepathFree() {
-    return findNotNullChildByClass(ValkyrieNamepathFree.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieNamepathFree.class));
   }
 
   @Override
   @Nullable
   public ValkyrieTypeExpression getTypeExpression() {
-    return findChildByClass(ValkyrieTypeExpression.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieTypeExpression.class);
   }
 
   @Override

@@ -8,11 +8,11 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
-import com.github.valkyrie.language.ast.ValkyrieASTBase;
+import com.github.valkyrie.language.mixin.MixinClassDefine;
 import com.github.valkyrie.language.psi.*;
 import com.github.valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieClassDefineNode extends ValkyrieASTBase implements ValkyrieClassDefine {
+public class ValkyrieClassDefineNode extends MixinClassDefine implements ValkyrieClassDefine {
 
   public ValkyrieClassDefineNode(@NotNull ASTNode node) {
     super(node);
@@ -31,31 +31,31 @@ public class ValkyrieClassDefineNode extends ValkyrieASTBase implements Valkyrie
   @Override
   @Nullable
   public ValkyrieDefineBlock getDefineBlock() {
-    return findChildByClass(ValkyrieDefineBlock.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieDefineBlock.class);
+  }
+
+  @Override
+  @NotNull
+  public ValkyrieDefineTuple getDefineTuple() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieDefineTuple.class));
   }
 
   @Override
   @NotNull
   public ValkyrieIdentifier getIdentifier() {
-    return findNotNullChildByClass(ValkyrieIdentifier.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieIdentifier.class));
   }
 
   @Override
   @Nullable
   public ValkyrieMaybeModifier getMaybeModifier() {
-    return findChildByClass(ValkyrieMaybeModifier.class);
-  }
-
-  @Override
-  @NotNull
-  public ValkyrieTuple getTuple() {
-    return findNotNullChildByClass(ValkyrieTuple.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieMaybeModifier.class);
   }
 
   @Override
   @Nullable
   public ValkyrieTypeExpression getTypeExpression() {
-    return findChildByClass(ValkyrieTypeExpression.class);
+    return PsiTreeUtil.getChildOfType(this, ValkyrieTypeExpression.class);
   }
 
 }

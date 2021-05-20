@@ -12,12 +12,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 
 class ValkyrieFoldingBuilder : CustomFoldingBuilder(), DumbAware {
-    override fun buildLanguageFoldRegions(
-        descriptors: MutableList<FoldingDescriptor>,
-        root: PsiElement,
-        document: Document,
-        quick: Boolean
-    ) {
+    override fun buildLanguageFoldRegions(descriptors: MutableList<FoldingDescriptor>, root: PsiElement, document: Document, quick: Boolean) {
         if (root !is ValkyrieFileNode) return
         val visitor = ValkyrieFoldingVisitor(descriptors)
         PsiTreeUtil.processElements(root) {
@@ -26,11 +21,7 @@ class ValkyrieFoldingBuilder : CustomFoldingBuilder(), DumbAware {
         }
     }
 
-    override fun getLanguagePlaceholderText(node: ASTNode, range: TextRange) =
-        when (node.elementType) {
-//            BRACKET_BLOCK -> "[...]"
-            else -> "..."
-        }
+    override fun getLanguagePlaceholderText(node: ASTNode, range: TextRange) = "..."
 
     override fun isRegionCollapsedByDefault(node: ASTNode) = false
 }
