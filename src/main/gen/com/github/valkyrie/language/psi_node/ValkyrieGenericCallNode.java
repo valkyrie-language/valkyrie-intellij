@@ -30,14 +30,14 @@ public class ValkyrieGenericCallNode extends ValkyrieASTBase implements Valkyrie
 
   @Override
   @NotNull
-  public List<ValkyrieIdentifier> getIdentifierList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifier.class);
+  public List<ValkyrieExpression> getExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpression.class);
   }
 
   @Override
   @NotNull
-  public List<ValkyrieTypeExpression> getTypeExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeExpression.class);
+  public List<ValkyrieIdentifier> getIdentifierList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifier.class);
   }
 
 }

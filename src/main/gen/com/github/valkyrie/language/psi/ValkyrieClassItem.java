@@ -7,16 +7,13 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieClassItem extends PsiElement {
 
-  @Nullable
-  ValkyrieExpression getExpression();
+  @NotNull
+  List<ValkyrieExpression> getExpressionList();
 
   @Nullable
   ValkyrieMaybeModifier getMaybeModifier();
 
   @NotNull
   ValkyrieObjectKey getObjectKey();
-
-  @Nullable
-  ValkyrieTypeExpression getTypeExpression();
 
 }

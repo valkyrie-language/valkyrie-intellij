@@ -6,6 +6,7 @@ import com.github.valkyrie.language.psi.*
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.formatter.FormatterUtil
 
@@ -66,19 +67,16 @@ class FormatBlock(
         val firstLine = node.firstChildNode == child;
         val lastLine = node.lastChildNode == child;
         val isCornerChild = firstLine || lastLine
-        return when (node.psi) {
-            is ValkyrieImportBlock,
-            is ValkyrieTaggedBlock, is ValkyrieBitflagBlock,
-            is ValkyrieClassBlock,
-            is ValkyrieForallBlock,
-            is ValkyrieDefineBlock,
-            -> when {
+        return when (isValkyrieBlock(node)) {
+            true -> when {
                 isCornerChild -> Indent.getNoneIndent()
                 else -> Indent.getNormalIndent()
             }
-            else -> Indent.getNoneIndent()
+
+            false -> Indent.getNoneIndent()
         }
     }
+
 
     private fun computeAlignment(child: ASTNode): Alignment? {
         return when (node.psi) {
@@ -92,4 +90,16 @@ class FormatBlock(
             else -> null
         }
     }
+}
+
+private fun isValkyrieBlock(node: ASTNode): Boolean = isValkyrieBlock(node.psi)
+private fun isValkyrieBlock(psi: PsiElement): Boolean = when (psi) {
+    is ValkyrieImportBlock,
+    is ValkyrieForallBlock,
+    is ValkyrieClassBlock, is ValkyrieTaggedBlock, is ValkyrieBitflagBlock,
+    is ValkyrieDefineBlock,
+    is ValkyrieList, is ValkyrieObject,
+    -> true
+
+    else -> false
 }

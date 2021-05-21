@@ -35,6 +35,12 @@ public class ValkyrieTraitStatementNode extends MixinTrait implements ValkyrieTr
   }
 
   @Override
+  @Nullable
+  public ValkyrieExpression getExpression() {
+    return findChildByClass(ValkyrieExpression.class);
+  }
+
+  @Override
   @NotNull
   public ValkyrieIdentifier getIdentifier() {
     return findNotNullChildByClass(ValkyrieIdentifier.class);
@@ -44,12 +50,6 @@ public class ValkyrieTraitStatementNode extends MixinTrait implements ValkyrieTr
   @Nullable
   public ValkyrieMaybeModifier getMaybeModifier() {
     return findChildByClass(ValkyrieMaybeModifier.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieTypeExpression getTypeExpression() {
-    return findChildByClass(ValkyrieTypeExpression.class);
   }
 
   @Override

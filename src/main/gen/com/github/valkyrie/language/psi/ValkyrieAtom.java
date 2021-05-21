@@ -20,6 +20,9 @@ public interface ValkyrieAtom extends PsiElement {
   ValkyrieNumber getNumber();
 
   @Nullable
+  ValkyrieObject getObject();
+
+  @Nullable
   ValkyrieRange getRange();
 
   @Nullable

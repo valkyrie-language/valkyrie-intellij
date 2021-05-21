@@ -7,19 +7,13 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieTypeStatement extends PsiElement {
 
-  @Nullable
-  ValkyrieAtom getAtom();
-
-  @NotNull
-  List<ValkyrieCallSuffix> getCallSuffixList();
-
   @NotNull
   ValkyrieIdentifier getIdentifier();
 
-  @NotNull
-  List<ValkyrieSlice> getSliceList();
+  @Nullable
+  ValkyrieTerm getTerm();
 
-  @NotNull
-  List<ValkyrieTypeGeneric> getTypeGenericList();
+  @Nullable
+  ValkyrieTypeGeneric getTypeGeneric();
 
 }

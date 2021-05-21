@@ -45,7 +45,7 @@ open class MixinTrait(node: ASTNode) : DeclareNode(node) {
 
     fun getViewName(): String {
         val name = originalElement
-        val ty = originalElement.typeExpression;
+        val ty = originalElement.expression;
         return when {
             ty != null -> "${name}: ${ty.text}"
             else -> name.text

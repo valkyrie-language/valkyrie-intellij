@@ -16,7 +16,7 @@ open class MixinExtends(node: ASTNode) : ViewableNode(node) {
     }
     override fun getIcon(flags: Int): Icon = AllIcons.Nodes.EntryPoints
     override fun getNavigationElement(): PsiElement {
-        TODO("Not yet implemented")
+        return this.originalElement
     }
 }
 

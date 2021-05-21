@@ -30,33 +30,3 @@ fun hasModifier(node: List<ValkyrieIdentifier>, modifier: String, skip_last: Boo
     }
     return false
 }
-
-fun ValkyrieNormalPattern.isMutable(): Boolean {
-    return hasModifier(this.identifierList, "mut", false)
-}
-
-//fun ValkyriePatternRest?.hasModifier(modifier: String, skip_last: Boolean = true): Boolean {
-//    return getModifier(this as PsiElement, modifier, skip_last)
-//}
-//
-//
-//fun ValkyriePatternItem.isMutable(force_mut: Boolean, skip_last: Boolean = true): Boolean {
-//    this.modifierSymbols?.let {
-//        return it.isMutable(force_mut, skip_last)
-//    }
-//    this.patternRest?.let {
-//        return it.isMutable(force_mut, skip_last)
-//    }
-//    return false
-//}
-//
-//fun ValkyrieModifiers?.isMutable(force_mut: Boolean, skip_last: Boolean = true): Boolean = when (force_mut) {
-//    true -> true
-//    false -> this?.hasModifier("mut", skip_last) ?: false
-//}
-//
-//fun ValkyriePatternRest?.isMutable(force_mut: Boolean, skip_last: Boolean = true): Boolean = when (force_mut) {
-//    true -> true
-//    false -> this?.hasModifier("mut", skip_last) ?: false
-//}
-//

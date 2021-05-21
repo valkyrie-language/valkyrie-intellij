@@ -29,33 +29,21 @@ public class ValkyrieTypeStatementNode extends MixinType implements ValkyrieType
   }
 
   @Override
-  @Nullable
-  public ValkyrieAtom getAtom() {
-    return findChildByClass(ValkyrieAtom.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieCallSuffix> getCallSuffixList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieCallSuffix.class);
-  }
-
-  @Override
   @NotNull
   public ValkyrieIdentifier getIdentifier() {
     return findNotNullChildByClass(ValkyrieIdentifier.class);
   }
 
   @Override
-  @NotNull
-  public List<ValkyrieSlice> getSliceList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSlice.class);
+  @Nullable
+  public ValkyrieTerm getTerm() {
+    return findChildByClass(ValkyrieTerm.class);
   }
 
   @Override
-  @NotNull
-  public List<ValkyrieTypeGeneric> getTypeGenericList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeGeneric.class);
+  @Nullable
+  public ValkyrieTypeGeneric getTypeGeneric() {
+    return findChildByClass(ValkyrieTypeGeneric.class);
   }
 
 }

@@ -13,13 +13,13 @@ public interface ValkyrieClassDefine extends PsiElement {
   @NotNull
   ValkyrieDefineTuple getDefineTuple();
 
+  @Nullable
+  ValkyrieExpression getExpression();
+
   @NotNull
   ValkyrieIdentifier getIdentifier();
 
   @Nullable
   ValkyrieMaybeModifier getMaybeModifier();
-
-  @Nullable
-  ValkyrieTypeExpression getTypeExpression();
 
 }

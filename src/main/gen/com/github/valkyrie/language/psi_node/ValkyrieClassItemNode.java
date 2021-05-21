@@ -29,9 +29,9 @@ public class ValkyrieClassItemNode extends ValkyrieASTBase implements ValkyrieCl
   }
 
   @Override
-  @Nullable
-  public ValkyrieExpression getExpression() {
-    return findChildByClass(ValkyrieExpression.class);
+  @NotNull
+  public List<ValkyrieExpression> getExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpression.class);
   }
 
   @Override
@@ -44,12 +44,6 @@ public class ValkyrieClassItemNode extends ValkyrieASTBase implements ValkyrieCl
   @NotNull
   public ValkyrieObjectKey getObjectKey() {
     return findNotNullChildByClass(ValkyrieObjectKey.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieTypeExpression getTypeExpression() {
-    return findChildByClass(ValkyrieTypeExpression.class);
   }
 
 }

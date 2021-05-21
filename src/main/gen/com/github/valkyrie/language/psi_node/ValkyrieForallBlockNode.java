@@ -30,8 +30,8 @@ public class ValkyrieForallBlockNode extends ValkyrieASTBase implements Valkyrie
 
   @Override
   @NotNull
-  public List<ValkyrieTypeExpression> getTypeExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeExpression.class);
+  public List<ValkyrieExpression> getExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpression.class);
   }
 
 }

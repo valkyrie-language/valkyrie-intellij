@@ -2,7 +2,6 @@ package com.github.valkyrie.ide.highlight
 
 
 import com.github.valkyrie.ide.file.ValkyrieFileNode
-import com.github.valkyrie.language.ast.isMutable
 import com.github.valkyrie.language.psi.*
 import com.github.valkyrie.language.psi_node.ValkyrieClassDefineNode
 import com.github.valkyrie.language.psi_node.ValkyrieDefineStatementNode
@@ -38,15 +37,8 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitNormalPattern(o: ValkyrieNormalPattern) {
-        val mut = o.isMutable();
-        val mode = ValkyrieVariableHighlightMode.Local;
-        highlightSymbolList(o.identifierList, Color.KEYWORD)
-//        o.patternItemList.forEach {
-//            mode.highlightPatternItem(this, it, mut)
-//        }
-//        o.patternPairList.forEach {
-//            mode.highlightPatternPair(this, it, mut)
-//        }
+
+
     }
 
     override fun visitCasePattern(o: ValkyrieCasePattern) {

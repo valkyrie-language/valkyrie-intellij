@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieBitflagLayout extends PsiElement {
 
   @NotNull
-  ValkyrieTypeExpression getTypeExpression();
+  ValkyrieExpression getExpression();
 
 }

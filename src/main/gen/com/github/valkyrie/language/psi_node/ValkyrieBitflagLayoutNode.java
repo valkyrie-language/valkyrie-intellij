@@ -30,8 +30,8 @@ public class ValkyrieBitflagLayoutNode extends ValkyrieASTBase implements Valkyr
 
   @Override
   @NotNull
-  public ValkyrieTypeExpression getTypeExpression() {
-    return findNotNullChildByClass(ValkyrieTypeExpression.class);
+  public ValkyrieExpression getExpression() {
+    return findNotNullChildByClass(ValkyrieExpression.class);
   }
 
 }

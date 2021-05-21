@@ -21,7 +21,7 @@ private val KEYWORDS_SP = """(?x)
     | \b(trait|interface|convention|protocol)\b
     | \b(extend|extends|implements|impl)\b
     | \b(enum|enumeration)\b
-    | \b(def|function|fn|fun)\b
+    | \b(let|def|function|fn|fun)\b
     """.toRegex()
 private val PUNCTUATIONS = """(?x)
       [.]{1,3}
@@ -178,6 +178,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             "trait", "interface", "convention", "protocol" -> pushToken(ValkyrieTypes.KW_TRAIT, r)
             "tagged", "enum" -> pushToken(ValkyrieTypes.KW_TAGGED, r)
             "extend", "extends", "impl", "implements" -> pushToken(ValkyrieTypes.KW_EXTENDS, r)
+            "let" -> pushToken(ValkyrieTypes.KW_LET, r)
             "def", "fun", "fn", "function" -> pushToken(ValkyrieTypes.KW_DEF, r)
             else -> pushToken(BAD_CHARACTER, r)
         }

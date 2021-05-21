@@ -35,15 +35,15 @@ public class ValkyrieNewStatementNode extends ValkyrieASTBase implements Valkyri
   }
 
   @Override
-  @NotNull
-  public ValkyrieMaybeModifier getMaybeModifier() {
-    return findNotNullChildByClass(ValkyrieMaybeModifier.class);
+  @Nullable
+  public ValkyrieExpression getExpression() {
+    return findChildByClass(ValkyrieExpression.class);
   }
 
   @Override
-  @Nullable
-  public ValkyrieTypeExpression getTypeExpression() {
-    return findChildByClass(ValkyrieTypeExpression.class);
+  @NotNull
+  public ValkyrieMaybeModifier getMaybeModifier() {
+    return findNotNullChildByClass(ValkyrieMaybeModifier.class);
   }
 
   @Override

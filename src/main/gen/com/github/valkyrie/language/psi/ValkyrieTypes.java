@@ -63,8 +63,9 @@ public interface ValkyrieTypes {
   IElementType NEW_STATEMENT = new ValkyrieTokenType("NEW_STATEMENT");
   IElementType NORMAL_PATTERN = new ValkyrieTokenType("NORMAL_PATTERN");
   IElementType NUMBER = new ValkyrieTokenType("NUMBER");
+  IElementType OBJECT = new ValkyrieTokenType("OBJECT");
   IElementType OBJECT_KEY = new ValkyrieTokenType("OBJECT_KEY");
-  IElementType PAIR = new ValkyrieTokenType("PAIR");
+  IElementType OBJECT_PAIR = new ValkyrieTokenType("OBJECT_PAIR");
   IElementType PATTERN_ITEM = new ValkyrieTokenType("PATTERN_ITEM");
   IElementType PATTERN_PAIR = new ValkyrieTokenType("PATTERN_PAIR");
   IElementType PATTERN_VALUE = new ValkyrieTokenType("PATTERN_VALUE");
@@ -79,15 +80,12 @@ public interface ValkyrieTypes {
   IElementType TOP_BLOCK = new ValkyrieTokenType("TOP_BLOCK");
   IElementType TRAIT_STATEMENT = new ValkyrieTokenType("TRAIT_STATEMENT");
   IElementType TUPLE = new ValkyrieTokenType("TUPLE");
-  IElementType TYPE_EXPRESSION = new ValkyrieTokenType("TYPE_EXPRESSION");
   IElementType TYPE_GENERIC = new ValkyrieTokenType("TYPE_GENERIC");
-  IElementType TYPE_INSTANCE = new ValkyrieTokenType("TYPE_INSTANCE");
   IElementType TYPE_STATEMENT = new ValkyrieTokenType("TYPE_STATEMENT");
   IElementType WHILE_STATEMENT = new ValkyrieTokenType("WHILE_STATEMENT");
 
   IElementType AMP = new ValkyrieTokenType("AMP");
   IElementType AT = new ValkyrieTokenType("AT");
-  IElementType ATOMS = new ValkyrieTokenType("atoms");
   IElementType BANG = new ValkyrieTokenType("BANG");
   IElementType BRACE_L = new ValkyrieTokenType("{");
   IElementType BRACE_R = new ValkyrieTokenType("}");
@@ -118,7 +116,6 @@ public interface ValkyrieTypes {
   IElementType KW_TAGGED = new ValkyrieTokenType("KW_TAGGED");
   IElementType KW_TRAIT = new ValkyrieTokenType("KW_TRAIT");
   IElementType KW_TYPE = new ValkyrieTokenType("KW_TYPE");
-  IElementType LET = new ValkyrieTokenType("LET");
   IElementType MATCH = new ValkyrieTokenType("MATCH");
   IElementType NEW = new ValkyrieTokenType("NEW");
   IElementType OP_ADD = new ValkyrieTokenType("+");
@@ -354,11 +351,14 @@ public interface ValkyrieTypes {
       else if (type == NUMBER) {
         return new ValkyrieNumberNode(node);
       }
+      else if (type == OBJECT) {
+        return new ValkyrieObjectNode(node);
+      }
       else if (type == OBJECT_KEY) {
         return new ValkyrieObjectKeyNode(node);
       }
-      else if (type == PAIR) {
-        return new ValkyriePairNode(node);
+      else if (type == OBJECT_PAIR) {
+        return new ValkyrieObjectPairNode(node);
       }
       else if (type == PATTERN_ITEM) {
         return new ValkyriePatternItemNode(node);
@@ -402,14 +402,8 @@ public interface ValkyrieTypes {
       else if (type == TUPLE) {
         return new ValkyrieTupleNode(node);
       }
-      else if (type == TYPE_EXPRESSION) {
-        return new ValkyrieTypeExpressionNode(node);
-      }
       else if (type == TYPE_GENERIC) {
         return new ValkyrieTypeGenericNode(node);
-      }
-      else if (type == TYPE_INSTANCE) {
-        return new ValkyrieTypeInstanceNode(node);
       }
       else if (type == TYPE_STATEMENT) {
         return new ValkyrieTypeStatementNode(node);

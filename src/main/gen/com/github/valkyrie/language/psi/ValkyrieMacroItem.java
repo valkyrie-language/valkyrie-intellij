@@ -11,6 +11,6 @@ public interface ValkyrieMacroItem extends PsiElement {
   List<ValkyrieExpression> getExpressionList();
 
   @NotNull
-  List<ValkyriePair> getPairList();
+  List<ValkyrieObjectPair> getObjectPairList();
 
 }

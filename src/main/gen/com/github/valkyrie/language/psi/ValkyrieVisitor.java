@@ -227,11 +227,15 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitObject(@NotNull ValkyrieObject o) {
+    visitPsiElement(o);
+  }
+
   public void visitObjectKey(@NotNull ValkyrieObjectKey o) {
     visitPsiElement(o);
   }
 
-  public void visitPair(@NotNull ValkyriePair o) {
+  public void visitObjectPair(@NotNull ValkyrieObjectPair o) {
     visitPsiElement(o);
   }
 
@@ -291,15 +295,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitTypeExpression(@NotNull ValkyrieTypeExpression o) {
-    visitPsiElement(o);
-  }
-
   public void visitTypeGeneric(@NotNull ValkyrieTypeGeneric o) {
-    visitPsiElement(o);
-  }
-
-  public void visitTypeInstance(@NotNull ValkyrieTypeInstance o) {
     visitPsiElement(o);
   }
 

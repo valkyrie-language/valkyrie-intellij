@@ -42,6 +42,12 @@ public class ValkyrieDefineStatementNode extends MixinDefine implements Valkyrie
 
   @Override
   @Nullable
+  public ValkyrieExpression getExpression() {
+    return findChildByClass(ValkyrieExpression.class);
+  }
+
+  @Override
+  @Nullable
   public ValkyrieGenericDefine getGenericDefine() {
     return findChildByClass(ValkyrieGenericDefine.class);
   }
@@ -56,12 +62,6 @@ public class ValkyrieDefineStatementNode extends MixinDefine implements Valkyrie
   @NotNull
   public ValkyrieNamepathFree getNamepathFree() {
     return findNotNullChildByClass(ValkyrieNamepathFree.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieTypeExpression getTypeExpression() {
-    return findChildByClass(ValkyrieTypeExpression.class);
   }
 
   @Override

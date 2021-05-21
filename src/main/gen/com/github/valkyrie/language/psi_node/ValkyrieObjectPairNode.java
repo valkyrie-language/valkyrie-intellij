@@ -12,14 +12,14 @@ import com.github.valkyrie.language.ast.ValkyrieASTBase;
 import com.github.valkyrie.language.psi.*;
 import com.github.valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieGenericDefineNode extends ValkyrieASTBase implements ValkyrieGenericDefine {
+public class ValkyrieObjectPairNode extends ValkyrieASTBase implements ValkyrieObjectPair {
 
-  public ValkyrieGenericDefineNode(@NotNull ASTNode node) {
+  public ValkyrieObjectPairNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitGenericDefine(this);
+    visitor.visitObjectPair(this);
   }
 
   @Override
@@ -30,14 +30,14 @@ public class ValkyrieGenericDefineNode extends ValkyrieASTBase implements Valkyr
 
   @Override
   @NotNull
-  public List<ValkyrieExpression> getExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpression.class);
+  public ValkyrieExpression getExpression() {
+    return findNotNullChildByClass(ValkyrieExpression.class);
   }
 
   @Override
   @NotNull
-  public List<ValkyrieIdentifier> getIdentifierList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifier.class);
+  public ValkyrieObjectKey getObjectKey() {
+    return findNotNullChildByClass(ValkyrieObjectKey.class);
   }
 
 }
