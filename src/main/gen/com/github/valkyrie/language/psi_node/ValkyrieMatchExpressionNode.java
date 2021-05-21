@@ -31,7 +31,7 @@ public class ValkyrieMatchExpressionNode extends ValkyrieASTBase implements Valk
   @Override
   @NotNull
   public ValkyrieCasePattern getCasePattern() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieCasePattern.class));
+    return findNotNullChildByClass(ValkyrieCasePattern.class);
   }
 
   @Override

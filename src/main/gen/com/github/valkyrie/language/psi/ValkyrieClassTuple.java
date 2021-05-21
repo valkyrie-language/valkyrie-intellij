@@ -10,4 +10,7 @@ public interface ValkyrieClassTuple extends PsiElement {
   @NotNull
   List<ValkyrieClassItem> getClassItemList();
 
+  @NotNull
+  List<ValkyrieMacroCall> getMacroCallList();
+
 }

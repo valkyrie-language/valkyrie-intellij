@@ -3,6 +3,7 @@
 package com.github.valkyrie.language.mixin
 
 import com.github.valkyrie.ide.file.ValkyrieIconProvider
+import com.github.valkyrie.ide.reference.ValkyrieReference
 import com.github.valkyrie.ide.view.ValkyrieViewElement
 import com.github.valkyrie.language.ast.ValkyrieASTBase
 import com.github.valkyrie.language.psi_node.ValkyrieImportStatementNode
@@ -36,25 +37,6 @@ open class MixinImport(node: ASTNode) : ValkyrieASTBase(node) {
 
     fun resolveImports() {
 
-    }
-
-    override fun getReference(): PsiReference? {
-        return when {
-            references.count() != 1 -> null
-            else -> references.first()
-        }
-    }
-
-    override fun getReferences(): Array<PsiReference> {
-        return  ownReferences.map { it as PsiReference }.toTypedArray()
-    }
-
-    override fun getOwnDeclarations(): MutableCollection<out ImportData> {
-        return mutableListOf()
-    }
-
-    override fun getOwnReferences(): MutableCollection<out PsiCompletableReference> {
-        return mutableListOf()
     }
 }
 

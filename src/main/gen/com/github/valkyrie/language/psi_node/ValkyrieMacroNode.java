@@ -31,7 +31,7 @@ public class ValkyrieMacroNode extends ValkyrieASTBase implements ValkyrieMacro 
   @Override
   @NotNull
   public ValkyrieNamepathFree getNamepathFree() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieNamepathFree.class));
+    return findNotNullChildByClass(ValkyrieNamepathFree.class);
   }
 
 }

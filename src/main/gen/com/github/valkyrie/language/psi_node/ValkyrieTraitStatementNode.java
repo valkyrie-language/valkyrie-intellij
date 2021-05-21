@@ -31,31 +31,31 @@ public class ValkyrieTraitStatementNode extends MixinTrait implements ValkyrieTr
   @Override
   @NotNull
   public ValkyrieClassBlock getClassBlock() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieClassBlock.class));
+    return findNotNullChildByClass(ValkyrieClassBlock.class);
   }
 
   @Override
   @NotNull
   public ValkyrieIdentifier getIdentifier() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieIdentifier.class));
+    return findNotNullChildByClass(ValkyrieIdentifier.class);
   }
 
   @Override
   @Nullable
   public ValkyrieMaybeModifier getMaybeModifier() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieMaybeModifier.class);
+    return findChildByClass(ValkyrieMaybeModifier.class);
   }
 
   @Override
   @Nullable
   public ValkyrieTypeExpression getTypeExpression() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieTypeExpression.class);
+    return findChildByClass(ValkyrieTypeExpression.class);
   }
 
   @Override
   @Nullable
   public ValkyrieTypeGeneric getTypeGeneric() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieTypeGeneric.class);
+    return findChildByClass(ValkyrieTypeGeneric.class);
   }
 
   @Override

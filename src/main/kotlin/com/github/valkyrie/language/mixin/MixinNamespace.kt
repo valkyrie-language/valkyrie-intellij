@@ -22,12 +22,21 @@ open class MixinNamespace(node: ASTNode) : ViewableNode(node), PsiNameIdentifier
         return this as ValkyrieNamespaceStatementNode
     }
 
+    override fun getName(): String {
+        return originalElement.namepathFree.lastChild.text
+    }
+
+    fun getNamespace(): Array<String> {
+        return originalElement.namepathFree.identifierList.map { it.text }.toTypedArray()
+    }
+
+
     override fun setName(name: String): PsiElement {
         TODO("Not yet implemented")
     }
 
     override fun getNameIdentifier(): PsiElement? {
-        return when (originalElement.isDeclaration()){
+        return when (originalElement.isDeclaration()) {
             true -> originalElement.namepathFree.lastChild
             else -> null
         }
@@ -47,14 +56,14 @@ open class MixinNamespace(node: ASTNode) : ViewableNode(node), PsiNameIdentifier
     }
 
     override fun getOwnDeclarations(): MutableCollection<out NamespaceData> {
-        return when (originalElement.isDeclaration()){
+        return when (originalElement.isDeclaration()) {
             true -> mutableListOf(NamespaceData(this.originalElement))
             else -> mutableListOf()
         }
     }
 
     override fun getOwnReferences(): MutableCollection<out PsiSymbolReference> {
-        return when (originalElement.isDeclaration()){
+        return when (originalElement.isDeclaration()) {
             true -> mutableListOf()
             else -> mutableListOf()
         }

@@ -31,13 +31,13 @@ public class ValkyrieForStatementNode extends ValkyrieASTBase implements Valkyri
   @Override
   @Nullable
   public ValkyrieCasePattern getCasePattern() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieCasePattern.class);
+    return findChildByClass(ValkyrieCasePattern.class);
   }
 
   @Override
   @Nullable
   public ValkyrieElseStatement getElseStatement() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieElseStatement.class);
+    return findChildByClass(ValkyrieElseStatement.class);
   }
 
   @Override
@@ -49,13 +49,13 @@ public class ValkyrieForStatementNode extends ValkyrieASTBase implements Valkyri
   @Override
   @Nullable
   public ValkyrieIfGuard getIfGuard() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieIfGuard.class);
+    return findChildByClass(ValkyrieIfGuard.class);
   }
 
   @Override
   @Nullable
   public ValkyrieNormalPattern getNormalPattern() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieNormalPattern.class);
+    return findChildByClass(ValkyrieNormalPattern.class);
   }
 
 }

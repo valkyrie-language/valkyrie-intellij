@@ -31,13 +31,13 @@ public class ValkyrieMacroCallNode extends ValkyrieASTBase implements ValkyrieMa
   @Override
   @NotNull
   public ValkyrieMacro getMacro() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieMacro.class));
+    return findNotNullChildByClass(ValkyrieMacro.class);
   }
 
   @Override
   @Nullable
   public ValkyrieMacroItem getMacroItem() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieMacroItem.class);
+    return findChildByClass(ValkyrieMacroItem.class);
   }
 
 }

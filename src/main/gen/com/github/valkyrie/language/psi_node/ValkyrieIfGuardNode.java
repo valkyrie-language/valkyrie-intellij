@@ -31,7 +31,7 @@ public class ValkyrieIfGuardNode extends ValkyrieASTBase implements ValkyrieIfGu
   @Override
   @NotNull
   public ValkyrieCondition getCondition() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieCondition.class));
+    return findNotNullChildByClass(ValkyrieCondition.class);
   }
 
 }

@@ -31,7 +31,7 @@ public class ValkyrieNumberNode extends MixinNumber implements ValkyrieNumber {
   @Override
   @Nullable
   public ValkyrieIdentifier getIdentifier() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieIdentifier.class);
+    return findChildByClass(ValkyrieIdentifier.class);
   }
 
 }

@@ -7,19 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyriePair extends PsiElement {
 
-  @Nullable
-  ValkyrieBoolean getBoolean();
-
   @NotNull
   ValkyrieExpression getExpression();
-
-  @Nullable
-  ValkyrieNamepath getNamepath();
-
-  @Nullable
-  ValkyrieNumber getNumber();
-
-  @Nullable
-  ValkyrieString getString();
 
 }

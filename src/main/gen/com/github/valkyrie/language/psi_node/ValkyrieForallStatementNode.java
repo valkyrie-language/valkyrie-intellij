@@ -31,7 +31,7 @@ public class ValkyrieForallStatementNode extends ValkyrieASTBase implements Valk
   @Override
   @Nullable
   public ValkyrieForallBlock getForallBlock() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieForallBlock.class);
+    return findChildByClass(ValkyrieForallBlock.class);
   }
 
   @Override

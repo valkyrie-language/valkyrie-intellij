@@ -31,7 +31,7 @@ public class ValkyrieIfStatementNode extends ValkyrieASTBase implements Valkyrie
   @Override
   @NotNull
   public ValkyrieCondition getCondition() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieCondition.class));
+    return findNotNullChildByClass(ValkyrieCondition.class);
   }
 
   @Override
@@ -43,7 +43,7 @@ public class ValkyrieIfStatementNode extends ValkyrieASTBase implements Valkyrie
   @Override
   @Nullable
   public ValkyrieElseStatement getElseStatement() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieElseStatement.class);
+    return findChildByClass(ValkyrieElseStatement.class);
   }
 
   @Override

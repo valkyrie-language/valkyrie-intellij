@@ -31,13 +31,13 @@ public class ValkyrieConditionNode extends ValkyrieASTBase implements ValkyrieCo
   @Override
   @Nullable
   public ValkyrieCasePattern getCasePattern() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieCasePattern.class);
+    return findChildByClass(ValkyrieCasePattern.class);
   }
 
   @Override
   @NotNull
   public ValkyrieExpression getExpression() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieExpression.class));
+    return findNotNullChildByClass(ValkyrieExpression.class);
   }
 
 }

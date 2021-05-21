@@ -31,7 +31,7 @@ public class ValkyrieStringNode extends MixinString implements ValkyrieString {
   @Override
   @Nullable
   public ValkyrieIdentifier getIdentifier() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieIdentifier.class);
+    return findChildByClass(ValkyrieIdentifier.class);
   }
 
 }

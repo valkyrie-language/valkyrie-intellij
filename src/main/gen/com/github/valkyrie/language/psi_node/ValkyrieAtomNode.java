@@ -12,14 +12,14 @@ import com.github.valkyrie.language.ast.ValkyrieASTBase;
 import com.github.valkyrie.language.psi.*;
 import com.github.valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieClassItemNode extends ValkyrieASTBase implements ValkyrieClassItem {
+public class ValkyrieAtomNode extends ValkyrieASTBase implements ValkyrieAtom {
 
-  public ValkyrieClassItemNode(@NotNull ASTNode node) {
+  public ValkyrieAtomNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitClassItem(this);
+    visitor.visitAtom(this);
   }
 
   @Override
@@ -30,26 +30,44 @@ public class ValkyrieClassItemNode extends ValkyrieASTBase implements ValkyrieCl
 
   @Override
   @Nullable
-  public ValkyrieExpression getExpression() {
-    return findChildByClass(ValkyrieExpression.class);
+  public ValkyrieBoolean getBoolean() {
+    return findChildByClass(ValkyrieBoolean.class);
   }
 
   @Override
   @Nullable
-  public ValkyrieMaybeModifier getMaybeModifier() {
-    return findChildByClass(ValkyrieMaybeModifier.class);
-  }
-
-  @Override
-  @NotNull
-  public ValkyrieObjectKey getObjectKey() {
-    return findNotNullChildByClass(ValkyrieObjectKey.class);
+  public ValkyrieList getList() {
+    return findChildByClass(ValkyrieList.class);
   }
 
   @Override
   @Nullable
-  public ValkyrieTypeExpression getTypeExpression() {
-    return findChildByClass(ValkyrieTypeExpression.class);
+  public ValkyrieNamepath getNamepath() {
+    return findChildByClass(ValkyrieNamepath.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieNumber getNumber() {
+    return findChildByClass(ValkyrieNumber.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieRange getRange() {
+    return findChildByClass(ValkyrieRange.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieString getString() {
+    return findChildByClass(ValkyrieString.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieTuple getTuple() {
+    return findChildByClass(ValkyrieTuple.class);
   }
 
 }

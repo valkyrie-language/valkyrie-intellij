@@ -8,6 +8,7 @@ import com.github.valkyrie.language.psi_node.*;
 
 public interface ValkyrieTypes {
 
+  IElementType ATOM = new ValkyrieTokenType("ATOM");
   IElementType BITFLAG_BLOCK = new ValkyrieTokenType("BITFLAG_BLOCK");
   IElementType BITFLAG_ITEM = new ValkyrieTokenType("BITFLAG_ITEM");
   IElementType BITFLAG_LAYOUT = new ValkyrieTokenType("BITFLAG_LAYOUT");
@@ -74,6 +75,7 @@ public interface ValkyrieTypes {
   IElementType TAGGED_BLOCK = new ValkyrieTokenType("TAGGED_BLOCK");
   IElementType TAGGED_ITEM = new ValkyrieTokenType("TAGGED_ITEM");
   IElementType TAGGED_STATEMENT = new ValkyrieTokenType("TAGGED_STATEMENT");
+  IElementType TERM = new ValkyrieTokenType("TERM");
   IElementType TOP_BLOCK = new ValkyrieTokenType("TOP_BLOCK");
   IElementType TRAIT_STATEMENT = new ValkyrieTokenType("TRAIT_STATEMENT");
   IElementType TUPLE = new ValkyrieTokenType("TUPLE");
@@ -85,6 +87,7 @@ public interface ValkyrieTypes {
 
   IElementType AMP = new ValkyrieTokenType("AMP");
   IElementType AT = new ValkyrieTokenType("AT");
+  IElementType ATOMS = new ValkyrieTokenType("atoms");
   IElementType BANG = new ValkyrieTokenType("BANG");
   IElementType BRACE_L = new ValkyrieTokenType("{");
   IElementType BRACE_R = new ValkyrieTokenType("}");
@@ -181,13 +184,15 @@ public interface ValkyrieTypes {
   IElementType STRING_TEXT = new ValkyrieTokenType("StringText");
   IElementType SYMBOL_RAW = new ValkyrieTokenType("Symbol");
   IElementType SYMBOL_XID = new ValkyrieTokenType("SYMBOL_XID");
-  IElementType TRAIT_BLOCK = new ValkyrieTokenType("trait_block");
   IElementType WHILE = new ValkyrieTokenType("WHILE");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == BITFLAG_BLOCK) {
+      if (type == ATOM) {
+        return new ValkyrieAtomNode(node);
+      }
+      else if (type == BITFLAG_BLOCK) {
         return new ValkyrieBitflagBlockNode(node);
       }
       else if (type == BITFLAG_ITEM) {
@@ -384,6 +389,9 @@ public interface ValkyrieTypes {
       }
       else if (type == TAGGED_STATEMENT) {
         return new ValkyrieTaggedStatementNode(node);
+      }
+      else if (type == TERM) {
+        return new ValkyrieTermNode(node);
       }
       else if (type == TOP_BLOCK) {
         return new ValkyrieTopBlockNode(node);

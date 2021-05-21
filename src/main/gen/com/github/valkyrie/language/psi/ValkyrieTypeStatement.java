@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieTypeStatement extends PsiElement {
 
   @Nullable
-  ValkyrieBoolean getBoolean();
+  ValkyrieAtom getAtom();
 
   @NotNull
   List<ValkyrieCallSuffix> getCallSuffixList();
@@ -16,26 +16,8 @@ public interface ValkyrieTypeStatement extends PsiElement {
   @NotNull
   ValkyrieIdentifier getIdentifier();
 
-  @Nullable
-  ValkyrieList getList();
-
-  @Nullable
-  ValkyrieNamepath getNamepath();
-
-  @Nullable
-  ValkyrieNumber getNumber();
-
-  @Nullable
-  ValkyrieRange getRange();
-
   @NotNull
   List<ValkyrieSlice> getSliceList();
-
-  @Nullable
-  ValkyrieString getString();
-
-  @Nullable
-  ValkyrieTuple getTuple();
 
   @NotNull
   List<ValkyrieTypeGeneric> getTypeGenericList();

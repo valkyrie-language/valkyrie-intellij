@@ -19,30 +19,17 @@ enum class ValkyrieVariableHighlightMode {
         Self -> if (mut) Color.SYM_FIELD else Color.SYM_ARG_SELF
     }
 
-    fun highlightPatternItem(
-        visitor: NodeHighlighter,
-        o: ValkyriePatternItem,
-        force_mut: Boolean = false,
-    ) {
-        this.highlightMaybeMutable(visitor, o.identifierList, force_mut,true)
+    fun highlightPatternItem(visitor: NodeHighlighter, o: ValkyriePatternItem, force_mut: Boolean = false) {
+        this.highlightMaybeMutable(visitor, o.identifierList, force_mut, true)
         visitor.visitPatternItem(o)
     }
 
-    fun highlightPatternPair(
-        visitor: NodeHighlighter,
-        o: ValkyriePatternPair,
-        force_mut: Boolean = false,
-    ) {
-        this.highlightMaybeMutable(visitor, o.identifierList, force_mut,true)
+    fun highlightPatternPair(visitor: NodeHighlighter, o: ValkyriePatternPair, force_mut: Boolean = false) {
+        this.highlightMaybeMutable(visitor, o.identifierList, force_mut, true)
         visitor.visitPatternPair(o)
     }
 
-    fun highlightMaybeMutable(
-        visitor: NodeHighlighter,
-        symbols: List<ValkyrieIdentifier>,
-        force_mut: Boolean,
-        skip_last: Boolean,
-    ) {
+    fun highlightMaybeMutable(visitor: NodeHighlighter, symbols: List<ValkyrieIdentifier>, force_mut: Boolean, skip_last: Boolean) {
         val mutable = when (force_mut) {
             true -> true
             false -> hasModifier(symbols, "mut", skip_last)
@@ -52,7 +39,8 @@ enum class ValkyrieVariableHighlightMode {
             if (first) {
                 first = false
                 visitor.highlight(symbol, this.render(mutable))
-            } else {
+            }
+            else {
                 visitor.highlight(symbol, Color.KEYWORD)
             }
         }

@@ -31,19 +31,19 @@ public class ValkyrieImportItemNode extends MixinImportItem implements ValkyrieI
   @Override
   @Nullable
   public ValkyrieIdentifier getIdentifier() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieIdentifier.class);
+    return findChildByClass(ValkyrieIdentifier.class);
   }
 
   @Override
   @Nullable
   public ValkyrieImportBlock getImportBlock() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieImportBlock.class);
+    return findChildByClass(ValkyrieImportBlock.class);
   }
 
   @Override
   @NotNull
   public ValkyrieNamepathFree getNamepathFree() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieNamepathFree.class));
+    return findNotNullChildByClass(ValkyrieNamepathFree.class);
   }
 
 }

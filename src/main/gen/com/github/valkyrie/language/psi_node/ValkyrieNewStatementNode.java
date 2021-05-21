@@ -30,20 +30,26 @@ public class ValkyrieNewStatementNode extends ValkyrieASTBase implements Valkyri
 
   @Override
   @NotNull
+  public ValkyrieClassBlock getClassBlock() {
+    return findNotNullChildByClass(ValkyrieClassBlock.class);
+  }
+
+  @Override
+  @NotNull
   public ValkyrieMaybeModifier getMaybeModifier() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieMaybeModifier.class));
+    return findNotNullChildByClass(ValkyrieMaybeModifier.class);
   }
 
   @Override
   @Nullable
   public ValkyrieTypeExpression getTypeExpression() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieTypeExpression.class);
+    return findChildByClass(ValkyrieTypeExpression.class);
   }
 
   @Override
   @Nullable
   public ValkyrieTypeGeneric getTypeGeneric() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieTypeGeneric.class);
+    return findChildByClass(ValkyrieTypeGeneric.class);
   }
 
 }

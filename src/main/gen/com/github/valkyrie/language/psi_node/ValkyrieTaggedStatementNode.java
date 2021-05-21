@@ -31,19 +31,19 @@ public class ValkyrieTaggedStatementNode extends MixinTagged implements Valkyrie
   @Override
   @NotNull
   public ValkyrieMaybeModifier getMaybeModifier() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieMaybeModifier.class));
+    return findNotNullChildByClass(ValkyrieMaybeModifier.class);
   }
 
   @Override
   @NotNull
   public ValkyrieTaggedBlock getTaggedBlock() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieTaggedBlock.class));
+    return findNotNullChildByClass(ValkyrieTaggedBlock.class);
   }
 
   @Override
   @Nullable
   public ValkyrieTypeGeneric getTypeGeneric() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieTypeGeneric.class);
+    return findChildByClass(ValkyrieTypeGeneric.class);
   }
 
 }

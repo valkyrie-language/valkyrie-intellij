@@ -31,13 +31,13 @@ public class ValkyrieTypeInstanceNode extends ValkyrieASTBase implements Valkyri
   @Override
   @NotNull
   public ValkyrieIdentifier getIdentifier() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieIdentifier.class));
+    return findNotNullChildByClass(ValkyrieIdentifier.class);
   }
 
   @Override
   @Nullable
   public ValkyrieTypeGeneric getTypeGeneric() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieTypeGeneric.class);
+    return findChildByClass(ValkyrieTypeGeneric.class);
   }
 
 }

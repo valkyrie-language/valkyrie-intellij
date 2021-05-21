@@ -11,7 +11,6 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.mixin.MixinClass;
 import com.github.valkyrie.language.psi.*;
 import com.github.valkyrie.language.ast.ASTMethods;
-import com.github.valkyrie.language.mixin.MixinClass.ClassStub;
 
 public class ValkyrieClassStatementNode extends MixinClass implements ValkyrieClassStatement {
 
@@ -32,37 +31,37 @@ public class ValkyrieClassStatementNode extends MixinClass implements ValkyrieCl
   @Override
   @Nullable
   public ValkyrieClassBlock getClassBlock() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieClassBlock.class);
+    return findChildByClass(ValkyrieClassBlock.class);
   }
 
   @Override
   @Nullable
   public ValkyrieClassInherit getClassInherit() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieClassInherit.class);
+    return findChildByClass(ValkyrieClassInherit.class);
   }
 
   @Override
   @Nullable
   public ValkyrieClassTuple getClassTuple() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieClassTuple.class);
+    return findChildByClass(ValkyrieClassTuple.class);
   }
 
   @Override
   @Nullable
   public ValkyrieGenericDefine getGenericDefine() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieGenericDefine.class);
+    return findChildByClass(ValkyrieGenericDefine.class);
   }
 
   @Override
   @NotNull
   public ValkyrieIdentifier getIdentifier() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieIdentifier.class));
+    return findNotNullChildByClass(ValkyrieIdentifier.class);
   }
 
   @Override
   @Nullable
   public ValkyrieMaybeModifier getMaybeModifier() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieMaybeModifier.class);
+    return findChildByClass(ValkyrieMaybeModifier.class);
   }
 
 }

@@ -30,8 +30,8 @@ public class ValkyrieTypeExpressionNode extends ValkyrieASTBase implements Valky
 
   @Override
   @NotNull
-  public List<ValkyrieBoolean> getBooleanList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieBoolean.class);
+  public List<ValkyrieAtom> getAtomList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieAtom.class);
   }
 
   @Override
@@ -42,44 +42,8 @@ public class ValkyrieTypeExpressionNode extends ValkyrieASTBase implements Valky
 
   @Override
   @NotNull
-  public List<ValkyrieList> getListList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieList.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieNamepath> getNamepathList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNamepath.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieNumber> getNumberList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNumber.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieRange> getRangeList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieRange.class);
-  }
-
-  @Override
-  @NotNull
   public List<ValkyrieSlice> getSliceList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSlice.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieString> getStringList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieString.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieTuple> getTupleList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTuple.class);
   }
 
   @Override

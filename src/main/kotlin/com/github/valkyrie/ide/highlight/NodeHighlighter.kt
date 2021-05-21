@@ -4,6 +4,7 @@ package com.github.valkyrie.ide.highlight
 import com.github.valkyrie.ide.file.ValkyrieFileNode
 import com.github.valkyrie.language.ast.isMutable
 import com.github.valkyrie.language.psi.*
+import com.github.valkyrie.language.psi_node.ValkyrieClassDefineNode
 import com.github.valkyrie.language.psi_node.ValkyrieDefineStatementNode
 import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType
@@ -65,6 +66,11 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     override fun visitDefineStatement(o: ValkyrieDefineStatement) {
         o as ValkyrieDefineStatementNode;
         highlight(o.nameIdentifier, o.kind.color)
+    }
+
+    override fun visitClassDefine(o: ValkyrieClassDefine) {
+        o as ValkyrieClassDefineNode;
+        highlight(o.nameIdentifier, Color.SYM_FUNCTION_SELF)
     }
 
     override fun visitDefineItem(o: ValkyrieDefineItem) {

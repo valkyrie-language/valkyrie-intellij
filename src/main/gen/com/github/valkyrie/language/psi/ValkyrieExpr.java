@@ -5,16 +5,34 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieTypeExpression extends PsiElement {
+public interface ValkyrieExpr extends PsiElement {
 
-  @NotNull
-  List<ValkyrieAtom> getAtomList();
+  @Nullable
+  ValkyrieBoolean getBoolean();
 
   @NotNull
   List<ValkyrieCallSuffix> getCallSuffixList();
 
+  @Nullable
+  ValkyrieList getList();
+
+  @Nullable
+  ValkyrieNamepath getNamepath();
+
+  @Nullable
+  ValkyrieNumber getNumber();
+
+  @Nullable
+  ValkyrieRange getRange();
+
   @NotNull
   List<ValkyrieSlice> getSliceList();
+
+  @Nullable
+  ValkyrieString getString();
+
+  @Nullable
+  ValkyrieTuple getTuple();
 
   @NotNull
   List<ValkyrieTypeGeneric> getTypeGenericList();

@@ -31,7 +31,7 @@ public class ValkyrieWhileStatementNode extends ValkyrieASTBase implements Valky
   @Override
   @NotNull
   public ValkyrieCondition getCondition() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieCondition.class));
+    return findNotNullChildByClass(ValkyrieCondition.class);
   }
 
   @Override

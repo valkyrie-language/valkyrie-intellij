@@ -30,8 +30,8 @@ public class ValkyrieTypeStatementNode extends MixinType implements ValkyrieType
 
   @Override
   @Nullable
-  public ValkyrieBoolean getBoolean() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieBoolean.class);
+  public ValkyrieAtom getAtom() {
+    return findChildByClass(ValkyrieAtom.class);
   }
 
   @Override
@@ -43,49 +43,13 @@ public class ValkyrieTypeStatementNode extends MixinType implements ValkyrieType
   @Override
   @NotNull
   public ValkyrieIdentifier getIdentifier() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, ValkyrieIdentifier.class));
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieList getList() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieList.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieNamepath getNamepath() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieNamepath.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieNumber getNumber() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieNumber.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieRange getRange() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieRange.class);
+    return findNotNullChildByClass(ValkyrieIdentifier.class);
   }
 
   @Override
   @NotNull
   public List<ValkyrieSlice> getSliceList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSlice.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieString getString() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieString.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieTuple getTuple() {
-    return PsiTreeUtil.getChildOfType(this, ValkyrieTuple.class);
   }
 
   @Override

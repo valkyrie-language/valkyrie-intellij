@@ -1,21 +1,22 @@
 package com.github.valkyrie.language.mixin
 
-import com.github.valkyrie.ValkyrieLanguage
+import com.github.valkyrie.ide.reference.ValkyrieReference
 import com.github.valkyrie.language.ast.DeclareNode
-import com.github.valkyrie.language.psi.ValkyrieElementType
-import com.github.valkyrie.language.psi.ValkyrieStub
+import com.github.valkyrie.language.ast.ValkyrieASTBase
+import com.github.valkyrie.language.psi_node.ValkyrieClassDefineNode
+import com.github.valkyrie.language.psi_node.ValkyrieClassItemNode
 import com.github.valkyrie.language.psi_node.ValkyrieClassStatementNode
 import com.github.valkyrie.language.psi_node.ValkyrieIdentifierNode
+import com.github.valkyrie.language.psi_node.ValkyrieTraitStatementNode
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
-import com.intellij.psi.StubBasedPsiElement
+import com.intellij.psi.PsiReference
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.SearchScope
-import com.intellij.psi.stubs.IStubElementType
-import com.intellij.psi.stubs.StubElement
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
+import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.ArrayFactory
 import javax.swing.Icon
 
@@ -28,6 +29,7 @@ open class MixinClass(node: ASTNode) : DeclareNode(node) {
     override fun getNameIdentifier(): ValkyrieIdentifierNode {
         return originalElement.identifier as ValkyrieIdentifierNode
     }
+
     override fun getIcon(flags: Int): Icon = AllIcons.Nodes.Class
 
     override fun setName(name: String): PsiElement {
@@ -40,6 +42,17 @@ open class MixinClass(node: ASTNode) : DeclareNode(node) {
 
     override fun getUseScope(): SearchScope {
         return super.getUseScope()
+    }
+    override fun getChildrenSymbol(name: List<String>): ValkyrieASTBase? {
+        if (name.isEmpty()) return this
+        return PsiTreeUtil
+            .getChildrenOfAnyType(
+                this,
+                ValkyrieClassItemNode::class.java,
+                ValkyrieClassDefineNode::class.java,
+            )
+            .filter { it.name == name.first() }
+            .firstNotNullOfOrNull { it.getChildrenSymbol(name.drop(1)) }
     }
 }
 

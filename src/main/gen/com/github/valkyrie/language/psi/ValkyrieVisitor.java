@@ -7,6 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public class ValkyrieVisitor extends PsiElementVisitor {
 
+  public void visitAtom(@NotNull ValkyrieAtom o) {
+    visitPsiElement(o);
+  }
+
   public void visitBitflagBlock(@NotNull ValkyrieBitflagBlock o) {
     visitPsiElement(o);
   }
@@ -268,6 +272,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitTaggedStatement(@NotNull ValkyrieTaggedStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTerm(@NotNull ValkyrieTerm o) {
     visitPsiElement(o);
   }
 
