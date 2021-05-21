@@ -11,12 +11,13 @@
 			language="Valkyrie"
 			extensions="vk;"
 			implementationClass="com.github.valkyrie.ide.file.ValkyrieFileType"
-			fieldName="INSTANCE"
-		/>
+			fieldName="INSTANCE"/>
 		<lang.parserDefinition
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.language.lexer.ValkyrieParserDefinition"
-		/>
+			implementationClass="com.github.valkyrie.language.lexer.ValkyrieParserDefinition"/>
+		<languageInjectionContributor
+			language="Valkyrie"
+			implementationClass="com.github.valkyrie.ide.matcher.ValkyrieInjectionContributor"/>
 		<!-- Project -->
 		<indexedRootsProvider implementation="com.github.valkyrie.ide.project.ExtraIndexContributor"/>
 		<additionalLibraryRootsProvider implementation="com.github.valkyrie.ide.project.LibraryRootsProvider"/>
