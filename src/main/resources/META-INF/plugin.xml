@@ -15,9 +15,7 @@
 		<lang.parserDefinition
 			language="Valkyrie"
 			implementationClass="com.github.valkyrie.language.lexer.ValkyrieParserDefinition"/>
-		<languageInjectionContributor
-			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.matcher.ValkyrieInjectionContributor"/>
+		<multiHostInjector implementation="com.github.valkyrie.ide.matcher.LanguageInjector"/>
 		<!-- Project -->
 		<indexedRootsProvider implementation="com.github.valkyrie.ide.project.ExtraIndexContributor"/>
 		<additionalLibraryRootsProvider implementation="com.github.valkyrie.ide.project.LibraryRootsProvider"/>

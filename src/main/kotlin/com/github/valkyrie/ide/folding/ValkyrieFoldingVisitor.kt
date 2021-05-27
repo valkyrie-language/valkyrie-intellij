@@ -1,6 +1,7 @@
 package com.github.valkyrie.ide.folding
 
 import com.github.valkyrie.language.psi.*
+import com.github.valkyrie.language.psi_node.ValkyrieStringNode
 import com.intellij.lang.ASTNode
 import com.intellij.lang.folding.FoldingDescriptor
 import com.intellij.openapi.util.TextRange
@@ -43,14 +44,8 @@ class ValkyrieFoldingVisitor(private val descriptors: MutableList<FoldingDescrip
         fold(o.node, o.firstChild.endOffset, o.lastChild.startOffset)
     }
     override fun visitString(o: ValkyrieString) {
-        var start = o.firstChild.endOffset
-        for (node in o.childrenWithLeaves) {
-            if (node.elementType == ValkyrieTypes.STRING_START) {
-                start = node.endOffset
-                break
-            }
-        }
-        fold(o.node, start, o.lastChild.startOffset)
+        o as ValkyrieStringNode;
+        fold(o.node, o.stringStartOffset(), o.stringEndOffset())
     }
 
     private fun fold(element: PsiElement) {
