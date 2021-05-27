@@ -151,10 +151,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitKwImport(@NotNull ValkyrieKwImport o) {
-    visitPsiElement(o);
-  }
-
   public void visitLetStatement(@NotNull ValkyrieLetStatement o) {
     visitPsiElement(o);
   }

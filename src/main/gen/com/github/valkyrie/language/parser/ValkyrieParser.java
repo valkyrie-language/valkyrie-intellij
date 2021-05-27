@@ -1511,14 +1511,15 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // kw_import (import_block|import_item)
+  // KW_IMPORT (import_block|import_item)
   public static boolean import_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "import_statement")) return false;
+    if (!nextTokenIs(b, KW_IMPORT)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, IMPORT_STATEMENT, "<import statement>");
-    r = kw_import(b, l + 1);
+    Marker m = enter_section_(b);
+    r = consumeToken(b, KW_IMPORT);
     r = r && import_statement_1(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, IMPORT_STATEMENT, r);
     return r;
   }
 
@@ -1551,18 +1552,6 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, "else");
     r = r && consumeToken(b, KW_IF);
     exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // "using" | OP_IMPORT
-  public static boolean kw_import(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "kw_import")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, KW_IMPORT, "<kw import>");
-    r = consumeToken(b, "using");
-    if (!r) r = consumeToken(b, OP_IMPORT);
-    exit_section_(b, l, m, r, false, null);
     return r;
   }
 

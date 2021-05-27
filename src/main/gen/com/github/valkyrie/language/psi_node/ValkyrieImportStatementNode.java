@@ -40,10 +40,4 @@ public class ValkyrieImportStatementNode extends MixinImport implements Valkyrie
     return findChildByClass(ValkyrieImportItem.class);
   }
 
-  @Override
-  @NotNull
-  public ValkyrieKwImport getKwImport() {
-    return findNotNullChildByClass(ValkyrieKwImport.class);
-  }
-
 }

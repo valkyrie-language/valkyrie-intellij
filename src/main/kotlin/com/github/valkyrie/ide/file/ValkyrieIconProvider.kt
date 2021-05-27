@@ -22,7 +22,7 @@ class ValkyrieIconProvider : IconProvider() {
     companion object {
         val FILE = IconLoader.getIcon("/icons/vk.svg", ValkyrieIconProvider::class.java)
         val NAMESPACE = AllIcons.Nodes.Artifact
-
+        val KEYWORDS = AllIcons.Nodes.MultipleTypeDefinitions
         // val IMPORT = AllIcons.Welcome.Import
         val IMPORT = AllIcons.Nodes.EntryPoints
         val MODIFIER = AllIcons.Nodes.MethodReference

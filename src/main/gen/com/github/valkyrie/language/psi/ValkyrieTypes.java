@@ -44,7 +44,6 @@ public interface ValkyrieTypes {
   IElementType IMPORT_ITEM = new ValkyrieTokenType("IMPORT_ITEM");
   IElementType IMPORT_STATEMENT = new ValkyrieTokenType("IMPORT_STATEMENT");
   IElementType KW_ELSE_IF = new ValkyrieTokenType("KW_ELSE_IF");
-  IElementType KW_IMPORT = new ValkyrieTokenType("KW_IMPORT");
   IElementType LET_STATEMENT = new ValkyrieTokenType("LET_STATEMENT");
   IElementType LET_TYPE_HINT = new ValkyrieTokenType("LET_TYPE_HINT");
   IElementType LIST = new ValkyrieTokenType("LIST");
@@ -107,11 +106,12 @@ public interface ValkyrieTypes {
   IElementType KW_BITFLAG = new ValkyrieTokenType("KW_BITFLAG");
   IElementType KW_CLASS = new ValkyrieTokenType("KW_CLASS");
   IElementType KW_DEF = new ValkyrieTokenType("KW_DEF");
-  IElementType KW_ESCAPING = new ValkyrieTokenType("\\\\input");
+  IElementType KW_ESCAPING = new ValkyrieTokenType("KW_WAITING_INPUT");
   IElementType KW_EXTENDS = new ValkyrieTokenType("KW_EXTENDS");
   IElementType KW_EXTENSION = new ValkyrieTokenType("KW_EXTENSION");
   IElementType KW_FOR = new ValkyrieTokenType("KW_FOR");
   IElementType KW_IF = new ValkyrieTokenType("KW_IF");
+  IElementType KW_IMPORT = new ValkyrieTokenType("KW_IMPORT");
   IElementType KW_LET = new ValkyrieTokenType("KW_LET");
   IElementType KW_NAMESPACE = new ValkyrieTokenType("KW_NAMESPACE");
   IElementType KW_NEW = new ValkyrieTokenType("KW_NEW");
@@ -140,7 +140,6 @@ public interface ValkyrieTypes {
   IElementType OP_GGG = new ValkyrieTokenType(">>>");
   IElementType OP_GS = new ValkyrieTokenType("/>");
   IElementType OP_GT = new ValkyrieTokenType(">");
-  IElementType OP_IMPORT = new ValkyrieTokenType("OP_IMPORT");
   IElementType OP_IN = new ValkyrieTokenType("in");
   IElementType OP_INC = new ValkyrieTokenType("++");
   IElementType OP_IS_A = new ValkyrieTokenType("is");
@@ -292,9 +291,6 @@ public interface ValkyrieTypes {
       }
       else if (type == KW_ELSE_IF) {
         return new ValkyrieKwElseIfNode(node);
-      }
-      else if (type == KW_IMPORT) {
-        return new ValkyrieKwImportNode(node);
       }
       else if (type == LET_STATEMENT) {
         return new ValkyrieLetStatementNode(node);
