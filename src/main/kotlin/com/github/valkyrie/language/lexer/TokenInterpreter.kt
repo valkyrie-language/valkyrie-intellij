@@ -12,7 +12,7 @@ import com.intellij.psi.tree.IElementType
  * keywords in any case, except for macros
  */
 private val KEYWORDS_SP = """(?x)
-      \b((namespace|using|as)[*!?]?)\b
+      \b(namespace|using|as)\b[*!?]?
     | \b(if)\b
     | \b(for|in)\b | \b(while)\b | \b(loop)\b
     | \b(catch)\b
@@ -21,10 +21,11 @@ private val KEYWORDS_SP = """(?x)
     | \b(trait|interface|convention|protocol)\b
     | \b(extend|extends|implements|impl)\b
     | \b(enum|enumeration)\b
-    | \b(let|def|function|fn|fun)\b
+    | \b(let|val|var|def|function|fn|fun)\b
+    | \b(new|object)\b
     """.toRegex()
-private val PUNCTUATIONS = """(?x)
-      [.]{1,3}
+private val PUNCTUATIONS = """(?x)\\
+    | [.]{1,3}
     | [{}\[\]()]
     | [,;$^]
     | @[*!?@]?
@@ -167,7 +168,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
         val r = tryMatch(KEYWORDS_SP) ?: return false
         when (r.value) {
             "namespace", "namespace!", "namespace*", "namespace?" -> pushToken(ValkyrieTypes.KW_NAMESPACE, r)
-            "using", "using!", "using*", "using?" -> pushToken(ValkyrieTypes.OP_IMPORT, r)
+            "using", "using!", "using*", "using?" -> pushToken(ValkyrieTypes.KW_IMPORT, r)
             "as", "as?", "as!", "as*" -> pushToken(ValkyrieTypes.OP_AS, r)
             "is" -> pushToken(ValkyrieTypes.OP_IS_A, r)
             "in" -> pushToken(ValkyrieTypes.OP_IN, r)
@@ -178,8 +179,9 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             "trait", "interface", "convention", "protocol" -> pushToken(ValkyrieTypes.KW_TRAIT, r)
             "tagged", "enum" -> pushToken(ValkyrieTypes.KW_TAGGED, r)
             "extend", "extends", "impl", "implements" -> pushToken(ValkyrieTypes.KW_EXTENDS, r)
-            "let" -> pushToken(ValkyrieTypes.KW_LET, r)
+            "let", "val", "var" -> pushToken(ValkyrieTypes.KW_LET, r)
             "def", "fun", "fn", "function" -> pushToken(ValkyrieTypes.KW_DEF, r)
+            "new", "object" -> pushToken(ValkyrieTypes.KW_NEW, r)
             else -> pushToken(BAD_CHARACTER, r)
         }
         return true
@@ -205,6 +207,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
     private fun codePunctuations(): Boolean {
         val r = tryMatch(PUNCTUATIONS) ?: return false
         when (r.value) {
+            "\\" -> pushToken(ValkyrieTypes.KW_ESCAPING, r)
             // DOT
             ":=", "≔" -> pushToken(ValkyrieTypes.OP_BIND, r)
             "->", "⟶" -> pushToken(ValkyrieTypes.OP_ARROW, r)
@@ -341,23 +344,6 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
         }
         return true
     }
-
-    private fun matchesK(): Boolean {
-
-        val patterns = """(?x)
-            | 
-            | ;
-        """.toRegex()
-        val r = patterns.matchAt(buffer, startOffset) ?: return false
-        when (r.value) {
-            "extension" -> pushToken(ValkyrieTypes.KW_EXTENSION, r)
-            "namespace*", "namespace" -> pushToken(ValkyrieTypes.KW_NAMESPACE, r)
-            "using!" -> pushToken(ValkyrieTypes.KW_IMPORT, r)
-            else -> TODO("unreachable ${r.value}")
-        }
-        return true
-    }
-
 
     private fun checkRest() {
         if (startOffset < endOffset) {

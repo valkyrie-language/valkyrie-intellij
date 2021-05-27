@@ -11,9 +11,9 @@ public interface ValkyrieNewStatement extends PsiElement {
   ValkyrieClassBlock getClassBlock();
 
   @Nullable
-  ValkyrieExpression getExpression();
+  ValkyrieIdentifier getIdentifier();
 
-  @NotNull
+  @Nullable
   ValkyrieMaybeModifier getMaybeModifier();
 
   @Nullable

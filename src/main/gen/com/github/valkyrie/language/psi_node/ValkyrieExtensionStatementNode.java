@@ -36,12 +36,6 @@ public class ValkyrieExtensionStatementNode extends MixinExtension implements Va
 
   @Override
   @NotNull
-  public ValkyrieKwExtension getKwExtension() {
-    return findNotNullChildByClass(ValkyrieKwExtension.class);
-  }
-
-  @Override
-  @NotNull
   public ValkyrieNamepathFree getNamepathFree() {
     return findNotNullChildByClass(ValkyrieNamepathFree.class);
   }

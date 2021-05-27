@@ -241,10 +241,6 @@ private fun NodeHighlighter.highlightWithText(o: PsiElement) {
             highlight(o, Color.SYM_FUNCTION_SELF)
         }
 
-        "unit", "default" -> {
-            highlight(o, Color.SYM_FUNCTION_FREE)
-        }
-
         "Point", "Ellipse", "Circle", "Test", "Regex" -> {
             highlight(o, Color.SYM_CLASS)
         }

@@ -44,7 +44,6 @@ public interface ValkyrieTypes {
   IElementType IMPORT_ITEM = new ValkyrieTokenType("IMPORT_ITEM");
   IElementType IMPORT_STATEMENT = new ValkyrieTokenType("IMPORT_STATEMENT");
   IElementType KW_ELSE_IF = new ValkyrieTokenType("KW_ELSE_IF");
-  IElementType KW_EXTENSION = new ValkyrieTokenType("KW_EXTENSION");
   IElementType KW_IMPORT = new ValkyrieTokenType("KW_IMPORT");
   IElementType LET_STATEMENT = new ValkyrieTokenType("LET_STATEMENT");
   IElementType LET_TYPE_HINT = new ValkyrieTokenType("LET_TYPE_HINT");
@@ -108,16 +107,18 @@ public interface ValkyrieTypes {
   IElementType KW_BITFLAG = new ValkyrieTokenType("KW_BITFLAG");
   IElementType KW_CLASS = new ValkyrieTokenType("KW_CLASS");
   IElementType KW_DEF = new ValkyrieTokenType("KW_DEF");
+  IElementType KW_ESCAPING = new ValkyrieTokenType("\\\\input");
   IElementType KW_EXTENDS = new ValkyrieTokenType("KW_EXTENDS");
+  IElementType KW_EXTENSION = new ValkyrieTokenType("KW_EXTENSION");
   IElementType KW_FOR = new ValkyrieTokenType("KW_FOR");
   IElementType KW_IF = new ValkyrieTokenType("KW_IF");
   IElementType KW_LET = new ValkyrieTokenType("KW_LET");
   IElementType KW_NAMESPACE = new ValkyrieTokenType("KW_NAMESPACE");
+  IElementType KW_NEW = new ValkyrieTokenType("KW_NEW");
   IElementType KW_TAGGED = new ValkyrieTokenType("KW_TAGGED");
   IElementType KW_TRAIT = new ValkyrieTokenType("KW_TRAIT");
   IElementType KW_TYPE = new ValkyrieTokenType("KW_TYPE");
   IElementType MATCH = new ValkyrieTokenType("MATCH");
-  IElementType NEW = new ValkyrieTokenType("NEW");
   IElementType OP_ADD = new ValkyrieTokenType("+");
   IElementType OP_ADD_ASSIGN = new ValkyrieTokenType("+=");
   IElementType OP_AND = new ValkyrieTokenType("&");
@@ -133,8 +134,6 @@ public interface ValkyrieTypes {
   IElementType OP_DIV_ASSIGN = new ValkyrieTokenType("/=");
   IElementType OP_EMPTY = new ValkyrieTokenType("(!)");
   IElementType OP_EQ = new ValkyrieTokenType("=");
-  IElementType OP_EXISTS = new ValkyrieTokenType("exists");
-  IElementType OP_EXTENSION = new ValkyrieTokenType("OP_EXTENSION");
   IElementType OP_FORALL = new ValkyrieTokenType("forall");
   IElementType OP_GEQ = new ValkyrieTokenType(">=");
   IElementType OP_GG = new ValkyrieTokenType(">>");
@@ -293,9 +292,6 @@ public interface ValkyrieTypes {
       }
       else if (type == KW_ELSE_IF) {
         return new ValkyrieKwElseIfNode(node);
-      }
-      else if (type == KW_EXTENSION) {
-        return new ValkyrieKwExtensionNode(node);
       }
       else if (type == KW_IMPORT) {
         return new ValkyrieKwImportNode(node);

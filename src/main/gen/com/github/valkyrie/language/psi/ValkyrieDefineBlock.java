@@ -23,6 +23,9 @@ public interface ValkyrieDefineBlock extends PsiElement {
   List<ValkyrieLetStatement> getLetStatementList();
 
   @NotNull
+  List<ValkyrieMacroCall> getMacroCallList();
+
+  @NotNull
   List<ValkyrieMatchStatement> getMatchStatementList();
 
   @NotNull

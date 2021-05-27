@@ -97,7 +97,7 @@
 		<codeCompletionConfigurable instance="com.github.valkyrie.ide.completion.VCompletionConfigurable"/>
 		<completion.contributor
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.completion.VCompletionContributor"/>
+			implementationClass="com.github.valkyrie.ide.completion.CompletionRegistrar"/>
 		<lang.braceMatcher
 			language="Valkyrie"
 			implementationClass="com.github.valkyrie.ide.matcher.BraceMatchAdapter"/>

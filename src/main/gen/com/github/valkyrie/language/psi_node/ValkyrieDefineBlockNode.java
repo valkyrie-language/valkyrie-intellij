@@ -60,6 +60,12 @@ public class ValkyrieDefineBlockNode extends ValkyrieASTBase implements Valkyrie
 
   @Override
   @NotNull
+  public List<ValkyrieMacroCall> getMacroCallList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieMacroCall.class);
+  }
+
+  @Override
+  @NotNull
   public List<ValkyrieMatchStatement> getMatchStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieMatchStatement.class);
   }

@@ -42,14 +42,68 @@ public class ValkyrieLetStatementNode extends ValkyrieASTBase implements Valkyri
 
   @Override
   @Nullable
+  public ValkyrieForStatement getForStatement() {
+    return findChildByClass(ValkyrieForStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieForallStatement getForallStatement() {
+    return findChildByClass(ValkyrieForallStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieIfStatement getIfStatement() {
+    return findChildByClass(ValkyrieIfStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieLetStatement getLetStatement() {
+    return findChildByClass(ValkyrieLetStatement.class);
+  }
+
+  @Override
+  @Nullable
   public ValkyrieLetTypeHint getLetTypeHint() {
     return findChildByClass(ValkyrieLetTypeHint.class);
   }
 
   @Override
   @Nullable
+  public ValkyrieMacroCall getMacroCall() {
+    return findChildByClass(ValkyrieMacroCall.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieMatchStatement getMatchStatement() {
+    return findChildByClass(ValkyrieMatchStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieNewStatement getNewStatement() {
+    return findChildByClass(ValkyrieNewStatement.class);
+  }
+
+  @Override
+  @Nullable
   public ValkyrieNormalPattern getNormalPattern() {
     return findChildByClass(ValkyrieNormalPattern.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieTypeStatement getTypeStatement() {
+    return findChildByClass(ValkyrieTypeStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieWhileStatement getWhileStatement() {
+    return findChildByClass(ValkyrieWhileStatement.class);
   }
 
 }
