@@ -26,6 +26,7 @@ class ValkyrieIconProvider : IconProvider() {
         // val IMPORT = AllIcons.Welcome.Import
         val IMPORT = AllIcons.Nodes.EntryPoints
         val MODIFIER = AllIcons.Nodes.MethodReference
+        val OPERATOR = AllIcons.Actions.RegexSelected
         val CLASS = AllIcons.Nodes.Class
         val TRAIT = AllIcons.Nodes.Interface
 

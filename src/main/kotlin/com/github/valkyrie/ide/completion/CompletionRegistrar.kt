@@ -1,12 +1,14 @@
 package com.github.valkyrie.ide.completion
 
+import com.github.valkyrie.ide.file.ValkyrieFileNode
 import com.github.valkyrie.language.psi.ValkyrieTypes
+import com.github.valkyrie.language.psi_node.ValkyrieClassBlockNode
+import com.github.valkyrie.language.psi_node.ValkyrieTopBlockNode
 import com.intellij.codeInsight.completion.CompletionContributor
 import com.intellij.codeInsight.completion.CompletionInitializationContext
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.openapi.progress.ProgressManager
-import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.util.elementType
 import com.intellij.util.ProcessingContext
 
@@ -17,8 +19,20 @@ class CompletionRegistrar : CompletionContributor() {
         val context = ProcessingContext()
         val element = parameters.originalPosition ?: return
         when (element.elementType) {
-            ValkyrieTypes.SYMBOL_XID, ValkyrieTypes.SYMBOL_RAW -> {
-                CompleteSymbol(element).addCompletionVariants(parameters, context, result)
+            ValkyrieTypes.SYMBOL_XID, ValkyrieTypes.SYMBOL_RAW,
+            ValkyrieTypes.KW_DEF, ValkyrieTypes.KW_LET,
+            ValkyrieTypes.OP_IN -> {
+                when (element.parent) {
+                    is ValkyrieFileNode, is ValkyrieTopBlockNode -> {
+                        CompleteSymbol(element).inTopStatement(parameters, context, result)
+                    }
+                    is ValkyrieClassBlockNode -> {
+                        CompleteSymbol(element.parent).inClassDeclare(parameters, context, result)
+                    }
+                    else -> {
+                        CompleteSymbol(element).inNormalTest(parameters, context, result)
+                    }
+                }
             }
 
             ValkyrieTypes.KW_ESCAPING, ValkyrieTypes.AT -> {
@@ -47,14 +61,5 @@ class CompletionRegistrar : CompletionContributor() {
         super.duringCompletion(context)
     }
 
-
-    companion object {
-        val Escaping = PlatformPatterns.psiElement(ValkyrieTypes.KW_ESCAPING)!!
-
-        // PlatformPatterns.psiElement(ValkyrieIdentifierNode::class.java)
-        val Identifier = PlatformPatterns.psiElement(ValkyrieTypes.SYMBOL_XID)!!
-//            .andOr(PlatformPatterns.psiElement(ValkyrieTypes.SYMBOL_XID))
-//            .andOr(PlatformPatterns.psiElement(ValkyrieTypes.SYMBOL_RAW))
-    }
 }
 

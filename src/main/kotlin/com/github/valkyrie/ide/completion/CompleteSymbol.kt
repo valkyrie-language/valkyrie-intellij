@@ -1,5 +1,9 @@
 package com.github.valkyrie.ide.completion
 
+import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.classDeclare
+import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.defDeclare
+import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.infixDeclare
+import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.letDeclare
 import com.github.valkyrie.ide.file.ValkyrieIconProvider
 import com.intellij.codeInsight.completion.*
 import com.intellij.codeInsight.lookup.LookupElementBuilder
@@ -7,11 +11,19 @@ import com.intellij.psi.PsiElement
 import com.intellij.util.ProcessingContext
 
 class CompleteSymbol(val element: PsiElement) : CompletionProvider<CompletionParameters>() {
-    override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+    override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {}
+    fun inTopStatement(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
         result.addDeclarationStatement()
+    }
 
+    fun inClassDeclare(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+        result.addOperationDeclare()
         result.addLinkedTraitMethod("constructor", "Constructor")
         result.addLinkedTraitMethod("from", "From[T]")
+    }
+
+    fun inNormalTest(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+        result.addOperationDeclare()
     }
 
     companion object {
@@ -40,6 +52,28 @@ class CompleteSymbol(val element: PsiElement) : CompletionProvider<CompletionPar
                     context.editor.caretModel.moveToOffset(context.tailOffset - offset)
                 }
         }
+
+        fun defDeclare(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
+            return LookupElementBuilder.create(show).bold()
+                .withLookupStrings(lookup)
+                .withIcon(ValkyrieIconProvider.KEYWORDS)
+                .withInsertHandler { context, _ ->
+                    val document = context.document
+                    document.replaceString(context.startOffset, context.tailOffset, replace)
+                    context.editor.caretModel.moveToOffset(context.tailOffset - offset)
+                }
+        }
+
+        fun infixDeclare(show: String, lookup: Set<String> = setOf()): LookupElementBuilder {
+            return LookupElementBuilder.create("infix $show")
+                .withLookupStrings(lookup)
+                .withIcon(ValkyrieIconProvider.OPERATOR)
+                .withInsertHandler { context, _ ->
+                    val document = context.document
+                    document.replaceString(context.startOffset, context.tailOffset, "infix `$show`(rhs: Self) {}")
+                    context.editor.caretModel.moveToOffset(context.tailOffset - 1)
+                }
+        }
     }
 }
 
@@ -50,12 +84,25 @@ private fun CompletionResultSet.addLinkedTraitMethod(kind: String, trait: String
     this.addElement(element)
 }
 
+private fun CompletionResultSet.addOperationDeclare() {
+    addElement(infixDeclare("+", setOf("infixadd", "infixplus")))
+    addElement(infixDeclare("+=", setOf("infixaddassign", "infixplusassign")))
+    addElement(infixDeclare("-", setOf("infixsub", "infixminus")))
+    addElement(infixDeclare("-=", setOf("infixsubassign", "infixminusassign")))
+    addElement(infixDeclare("*", setOf("infixmul", "infixtimes")))
+    addElement(infixDeclare("*=", setOf("infixmulassign", "infixmulassign")))
+}
+
 private fun CompletionResultSet.addDeclarationStatement() {
-    addElement(CompleteSymbol.letDeclare("val", null))
-    addElement(CompleteSymbol.classDeclare("var", null))
-    addElement(CompleteSymbol.classDeclare("class", null))
-    addElement(CompleteSymbol.classDeclare("native class", "@native class", lookup = setOf("valueclass")))
-    addElement(CompleteSymbol.classDeclare("trait", null, lookup = setOf("abstractclass")))
-    addElement(CompleteSymbol.classDeclare("interface", null))
-    addElement(CompleteSymbol.classDeclare("protocol", null))
+    addElement(letDeclare("let", "let  =", 2, setOf("val")))
+    addElement(letDeclare("let mut", "let mut  =", 2, setOf("mut", "var")))
+    addElement(defDeclare("def", "def  () {}", 6, setOf("fn", "fun", "function")))
+    addElement(letDeclare("type", "type  =", 2))
+    addElement(classDeclare("class", null, setOf("cass", "struct")))
+    addElement(classDeclare("native class", "@native class", setOf("valueclass")))
+    addElement(classDeclare("trait", null, setOf("abstractclass")))
+    addElement(classDeclare("interface", null))
+    addElement(classDeclare("protocol", null))
+    addElement(classDeclare("tagged", null, setOf("enum")))
+    addElement(classDeclare("bitset", null, setOf("bitflag")))
 }

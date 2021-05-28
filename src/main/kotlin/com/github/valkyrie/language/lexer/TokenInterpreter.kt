@@ -20,8 +20,8 @@ private val KEYWORDS_SP = """(?x)
     | \b(class|structure|struct)\b
     | \b(trait|interface|convention|protocol)\b
     | \b(extend|extends|implements|impl)\b
-    | \b(enum|enumeration)\b
-    | \b(let|val|var|def|function|fn|fun)\b
+    | \b(tagged)\b
+    | \b(let|def)\b
     | \b(new|object)\b
     """.toRegex()
 private val PUNCTUATIONS = """(?x)\\
