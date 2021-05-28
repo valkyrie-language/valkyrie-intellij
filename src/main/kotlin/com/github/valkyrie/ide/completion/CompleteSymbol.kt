@@ -1,12 +1,14 @@
 package com.github.valkyrie.ide.completion
 
+import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.buildWithReplace
 import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.classDeclare
 import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.defDeclare
 import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.infixDeclare
 import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.letDeclare
 import com.github.valkyrie.ide.file.ValkyrieIconProvider
-import com.github.valkyrie.language.psi_node.ValkyrieClassBlockNode
-import com.intellij.codeInsight.completion.*
+import com.intellij.codeInsight.completion.CompletionParameters
+import com.intellij.codeInsight.completion.CompletionProvider
+import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.psi.PsiElement
 import com.intellij.util.ProcessingContext
@@ -31,41 +33,31 @@ class CompleteSymbol(val element: PsiElement) : CompletionProvider<CompletionPar
     }
 
     companion object {
-        fun classDeclare(show: String, text: String? = null, lookup: Set<String> = setOf()): LookupElementBuilder {
-            val replace = when (text) {
-                null -> "$show  {}"
-                else -> "$text  {}"
-            }
+        private fun buildWithReplace(show: String, replace: String, offset: Int, lookup: Set<String>): LookupElementBuilder {
             return LookupElementBuilder.create(show).bold()
                 .withLookupStrings(lookup)
                 .withIcon(ValkyrieIconProvider.KEYWORDS)
                 .withInsertHandler { context, _ ->
                     val document = context.document
                     document.replaceString(context.startOffset, context.tailOffset, replace)
-                    context.editor.caretModel.moveToOffset(context.tailOffset - 3)
+                    context.editor.caretModel.moveToOffset(context.tailOffset - offset)
                 }
+        }
+
+        fun classSimple(show: String, lookup: Set<String> = setOf()): LookupElementBuilder {
+            return buildWithReplace(show, "$show  {}", 3, lookup)
+        }
+
+        fun classComplex(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
+            return buildWithReplace(show, replace, offset, lookup)
         }
 
         fun letDeclare(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
-            return LookupElementBuilder.create(show).bold()
-                .withLookupStrings(lookup)
-                .withIcon(ValkyrieIconProvider.KEYWORDS)
-                .withInsertHandler { context, _ ->
-                    val document = context.document
-                    document.replaceString(context.startOffset, context.tailOffset, replace)
-                    context.editor.caretModel.moveToOffset(context.tailOffset - offset)
-                }
+            return buildWithReplace(show, replace, offset, lookup)
         }
 
         fun defDeclare(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
-            return LookupElementBuilder.create(show).bold()
-                .withLookupStrings(lookup)
-                .withIcon(ValkyrieIconProvider.KEYWORDS)
-                .withInsertHandler { context, _ ->
-                    val document = context.document
-                    document.replaceString(context.startOffset, context.tailOffset, replace)
-                    context.editor.caretModel.moveToOffset(context.tailOffset - offset)
-                }
+            return buildWithReplace(show, replace, offset, lookup)
         }
 
         fun infixDeclare(show: String, lookup: Set<String> = setOf()): LookupElementBuilder {
@@ -80,6 +72,7 @@ class CompleteSymbol(val element: PsiElement) : CompletionProvider<CompletionPar
         }
     }
 }
+
 
 private fun CompletionResultSet.addLinkedTraitMethod(kind: String, trait: String, args: String = "") {
     val element = LookupElementBuilder.create(kind)
@@ -105,10 +98,13 @@ private fun CompletionResultSet.addOperationDeclare() {
 private fun CompletionResultSet.addDeclarationStatement() {
     addElement(letDeclare("let", "let  =", 2, setOf("val")))
     addElement(letDeclare("let mut", "let mut  =", 2, setOf("mut", "var")))
-    addElement(defDeclare("def", "def  () {}", 6, setOf("fn", "fun", "function")))
     addElement(letDeclare("type", "type  =", 2))
-    addElement(classDeclare("class", null, setOf("cass", "struct")))
-    addElement(classDeclare("native class", "@native class", setOf("valueclass")))
+    addElement(defDeclare("def", "def  () {}", 6, setOf("fn", "fun", "function")))
+
+    addElement(classDeclare("class", null,3, setOf("cass", "struct")))
+    addElement(classDeclare("class simple", "class ()",2, setOf("tupleclass")))
+    addElement(classDeclare("class native", "class native  {}", 3, setOf("valueclass")))
+
     addElement(classDeclare("trait", null, setOf("abstractclass")))
     addElement(classDeclare("interface", null))
     addElement(classDeclare("protocol", null))

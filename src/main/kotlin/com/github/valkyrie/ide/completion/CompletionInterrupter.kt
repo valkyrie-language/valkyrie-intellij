@@ -7,12 +7,6 @@ import com.intellij.codeInsight.lookup.CharFilter
 import com.intellij.codeInsight.lookup.Lookup
 
 class CompletionInterrupter : CharFilter() {
-//    override fun acceptChar(c: Char, prefixLength: Int, lookup: Lookup?): Result? {
-
-//        println("$c $prefixLength")
-//        return Result.SELECT_ITEM_AND_FINISH_LOOKUP
-//    }
-
     override fun acceptChar(c: Char, prefixLength: Int, lookup: Lookup?): Result? {
         val element = lookup?.psiElement ?: return null
         if (element.language != ValkyrieLanguage) {

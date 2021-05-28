@@ -2,7 +2,6 @@ package com.github.valkyrie.ide.completion
 
 import com.github.valkyrie.ide.file.ValkyrieFileNode
 import com.github.valkyrie.language.psi.ValkyrieTypes
-import com.github.valkyrie.language.psi.ancestors
 import com.github.valkyrie.language.psi_node.ValkyrieClassBlockNode
 import com.github.valkyrie.language.psi_node.ValkyrieDefineBlockNode
 import com.github.valkyrie.language.psi_node.ValkyrieTopBlockNode
@@ -31,16 +30,19 @@ class CompletionRegistrar : CompletionContributor() {
                             CompleteSymbol(node).inTopStatement(parameters, context, result)
                             return
                         }
+
                         is ValkyrieClassBlockNode -> {
                             CompleteSymbol(node).inClassDeclare(parameters, context, result)
                             return
                         }
+
                         is ValkyrieDefineBlockNode -> {
                             return
                         }
                     }
                 }
             }
+
             ValkyrieTypes.KW_ESCAPING, ValkyrieTypes.AT -> {
                 CompleteOperator(element).addCompletionVariants(parameters, context, result)
             }
@@ -62,10 +64,6 @@ class CompletionRegistrar : CompletionContributor() {
 //            }
 //        }
 //    }
-
-    override fun duringCompletion(context: CompletionInitializationContext) {
-        super.duringCompletion(context)
-    }
 
 }
 
