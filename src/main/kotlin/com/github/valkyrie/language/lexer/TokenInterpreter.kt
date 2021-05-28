@@ -181,7 +181,6 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             "extend", "extends", "impl", "implements" -> pushToken(ValkyrieTypes.KW_EXTENDS, r)
             "let", "val", "var" -> pushToken(ValkyrieTypes.KW_LET, r)
             "def", "fun", "fn", "function" -> pushToken(ValkyrieTypes.KW_DEF, r)
-            "new", "object" -> pushToken(ValkyrieTypes.KW_NEW, r)
             else -> pushToken(BAD_CHARACTER, r)
         }
         return true

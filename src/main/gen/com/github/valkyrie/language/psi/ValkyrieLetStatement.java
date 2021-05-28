@@ -35,9 +35,6 @@ public interface ValkyrieLetStatement extends PsiElement {
   ValkyrieMatchStatement getMatchStatement();
 
   @Nullable
-  ValkyrieNewStatement getNewStatement();
-
-  @Nullable
   ValkyrieNormalPattern getNormalPattern();
 
   @Nullable

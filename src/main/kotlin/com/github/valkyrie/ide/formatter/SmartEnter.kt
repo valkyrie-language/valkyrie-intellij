@@ -31,6 +31,10 @@ class SmartEnter : SmartEnterProcessorWithFixers() {
             plainEnter(editor)
             return true
         }
+
+        override fun plainEnter(editor: Editor) {
+            super.plainEnter(editor)
+        }
     }
 }
 

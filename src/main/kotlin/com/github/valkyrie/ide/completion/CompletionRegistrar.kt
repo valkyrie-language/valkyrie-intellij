@@ -2,7 +2,9 @@ package com.github.valkyrie.ide.completion
 
 import com.github.valkyrie.ide.file.ValkyrieFileNode
 import com.github.valkyrie.language.psi.ValkyrieTypes
+import com.github.valkyrie.language.psi.ancestors
 import com.github.valkyrie.language.psi_node.ValkyrieClassBlockNode
+import com.github.valkyrie.language.psi_node.ValkyrieDefineBlockNode
 import com.github.valkyrie.language.psi_node.ValkyrieTopBlockNode
 import com.intellij.codeInsight.completion.CompletionContributor
 import com.intellij.codeInsight.completion.CompletionInitializationContext
@@ -10,6 +12,7 @@ import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.psi.util.elementType
+import com.intellij.psi.util.parents
 import com.intellij.util.ProcessingContext
 
 
@@ -22,24 +25,27 @@ class CompletionRegistrar : CompletionContributor() {
             ValkyrieTypes.SYMBOL_XID, ValkyrieTypes.SYMBOL_RAW,
             ValkyrieTypes.KW_DEF, ValkyrieTypes.KW_LET,
             ValkyrieTypes.OP_IN -> {
-                when (element.parent) {
-                    is ValkyrieFileNode, is ValkyrieTopBlockNode -> {
-                        CompleteSymbol(element).inTopStatement(parameters, context, result)
-                    }
-                    is ValkyrieClassBlockNode -> {
-                        CompleteSymbol(element.parent).inClassDeclare(parameters, context, result)
-                    }
-                    else -> {
-                        CompleteSymbol(element).inNormalTest(parameters, context, result)
+                for (node in element.parents(false)) {
+                    when (node) {
+                        is ValkyrieFileNode, is ValkyrieTopBlockNode -> {
+                            CompleteSymbol(node).inTopStatement(parameters, context, result)
+                            return
+                        }
+                        is ValkyrieClassBlockNode -> {
+                            CompleteSymbol(node).inClassDeclare(parameters, context, result)
+                            return
+                        }
+                        is ValkyrieDefineBlockNode -> {
+                            return
+                        }
                     }
                 }
             }
-
             ValkyrieTypes.KW_ESCAPING, ValkyrieTypes.AT -> {
                 CompleteOperator(element).addCompletionVariants(parameters, context, result)
             }
         }
-        print(result)
+
     }
 
 //    override fun beforeCompletion(context: CompletionInitializationContext) {

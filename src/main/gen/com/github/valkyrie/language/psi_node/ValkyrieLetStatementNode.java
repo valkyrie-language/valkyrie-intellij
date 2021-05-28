@@ -84,12 +84,6 @@ public class ValkyrieLetStatementNode extends ValkyrieASTBase implements Valkyri
 
   @Override
   @Nullable
-  public ValkyrieNewStatement getNewStatement() {
-    return findChildByClass(ValkyrieNewStatement.class);
-  }
-
-  @Override
-  @Nullable
   public ValkyrieNormalPattern getNormalPattern() {
     return findChildByClass(ValkyrieNormalPattern.class);
   }

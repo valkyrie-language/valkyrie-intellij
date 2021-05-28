@@ -78,12 +78,6 @@ public class ValkyrieMatchExpressionNode extends ValkyrieASTBase implements Valk
 
   @Override
   @NotNull
-  public List<ValkyrieNewStatement> getNewStatementList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNewStatement.class);
-  }
-
-  @Override
-  @NotNull
   public List<ValkyrieTypeStatement> getTypeStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeStatement.class);
   }

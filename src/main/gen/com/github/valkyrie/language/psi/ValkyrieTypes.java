@@ -58,7 +58,6 @@ public interface ValkyrieTypes {
   IElementType NAMEPATH = new ValkyrieTokenType("NAMEPATH");
   IElementType NAMEPATH_FREE = new ValkyrieTokenType("NAMEPATH_FREE");
   IElementType NAMESPACE_STATEMENT = new ValkyrieTokenType("NAMESPACE_STATEMENT");
-  IElementType NEW_STATEMENT = new ValkyrieTokenType("NEW_STATEMENT");
   IElementType NORMAL_PATTERN = new ValkyrieTokenType("NORMAL_PATTERN");
   IElementType NUMBER = new ValkyrieTokenType("NUMBER");
   IElementType OBJECT = new ValkyrieTokenType("OBJECT");
@@ -114,7 +113,6 @@ public interface ValkyrieTypes {
   IElementType KW_IMPORT = new ValkyrieTokenType("KW_IMPORT");
   IElementType KW_LET = new ValkyrieTokenType("KW_LET");
   IElementType KW_NAMESPACE = new ValkyrieTokenType("KW_NAMESPACE");
-  IElementType KW_NEW = new ValkyrieTokenType("KW_NEW");
   IElementType KW_TAGGED = new ValkyrieTokenType("KW_TAGGED");
   IElementType KW_TRAIT = new ValkyrieTokenType("KW_TRAIT");
   IElementType KW_TYPE = new ValkyrieTokenType("KW_TYPE");
@@ -333,9 +331,6 @@ public interface ValkyrieTypes {
       }
       else if (type == NAMESPACE_STATEMENT) {
         return new ValkyrieNamespaceStatementNode(node);
-      }
-      else if (type == NEW_STATEMENT) {
-        return new ValkyrieNewStatementNode(node);
       }
       else if (type == NORMAL_PATTERN) {
         return new ValkyrieNormalPatternNode(node);

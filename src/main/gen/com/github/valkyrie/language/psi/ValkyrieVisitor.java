@@ -207,10 +207,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitNewStatement(@NotNull ValkyrieNewStatement o) {
-    visitPsiElement(o);
-  }
-
   public void visitNormalPattern(@NotNull ValkyrieNormalPattern o) {
     visitPsiElement(o);
   }

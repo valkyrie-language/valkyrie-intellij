@@ -5,6 +5,7 @@ import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.defDeclare
 import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.infixDeclare
 import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.letDeclare
 import com.github.valkyrie.ide.file.ValkyrieIconProvider
+import com.github.valkyrie.language.psi_node.ValkyrieClassBlockNode
 import com.intellij.codeInsight.completion.*
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.psi.PsiElement
@@ -19,7 +20,10 @@ class CompleteSymbol(val element: PsiElement) : CompletionProvider<CompletionPar
     fun inClassDeclare(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
         result.addOperationDeclare()
         result.addLinkedTraitMethod("constructor", "Constructor")
-        result.addLinkedTraitMethod("from", "From[T]")
+        result.addLinkedTraitMethod("hash", "Hash")
+        result.addLinkedTraitMethod("from", "From[T]", "value: T")
+        result.addLinkedTraitMethod("apply", "Caller")
+        result.addLinkedTraitMethod("unapply", "Extractor")
     }
 
     fun inNormalTest(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
@@ -77,10 +81,15 @@ class CompleteSymbol(val element: PsiElement) : CompletionProvider<CompletionPar
     }
 }
 
-private fun CompletionResultSet.addLinkedTraitMethod(kind: String, trait: String) {
+private fun CompletionResultSet.addLinkedTraitMethod(kind: String, trait: String, args: String = "") {
     val element = LookupElementBuilder.create(kind)
         .withIcon(ValkyrieIconProvider.FUNCTION)
         .withTypeText(trait, ValkyrieIconProvider.TRAIT, false)
+        .withInsertHandler { context, _ ->
+            val document = context.document
+            document.replaceString(context.startOffset, context.tailOffset, "$kind($args) {}")
+            context.editor.caretModel.moveToOffset(context.tailOffset - 1)
+        }
     this.addElement(element)
 }
 

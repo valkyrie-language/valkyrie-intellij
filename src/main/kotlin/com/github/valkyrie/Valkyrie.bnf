@@ -96,7 +96,7 @@
     ]
 }
 
-valkyrie ::= ((top_statements|normal_statements) [SEMICOLON])*
+valkyrie ::= (top_statements [SEMICOLON] | normal_statements [SEMICOLON])*
 private top_statements ::=
     namespace_statement
   | import_statement
@@ -114,7 +114,6 @@ private normal_statements ::=
   | while_statement
   | match_statement
   | let_statement
-  | new_statement
   | type_statement
   | forall_statement
   | macro_call
@@ -176,7 +175,9 @@ define_item       ::= OP_POW | OP_LT | OP_GT
     | macro_call* [maybe_modifier] [DOT2|DOT3] identifier [COLON expression] [OP_EQ expression] {
     mixin="com.github.valkyrie.language.mixin.MixinDefineItem"
 }
-define_block      ::= <<brace_block normal_statements SEMICOLON>>;
+define_block      ::= <<brace_block normal_statements SEMICOLON>> {
+    pin = 1
+}
 type_generic      ::= <<bracket_block ([identifier COLON] expression) COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
 let_statement     ::=
@@ -197,17 +198,21 @@ generic_call      ::=
 forall_statement  ::= FORALL <<sequence identifier COMMA>> [forall_block];
 forall_block      ::= <<brace_block (expression COLON expression) (COMMA|SEMICOLON)>>;
 // ---------------------------------------------------------------------------------------------------------------------
-class_statement   ::= KW_CLASS [maybe_modifier] identifier [generic_define] [class_inherit] [class_tuple|class_block] {
-    mixin="com.github.valkyrie.language.mixin.MixinClass"
+class_statement   ::= KW_CLASS [maybe_modifier] identifier [generic_define] [class_inherit] (class_tuple|class_block|COLON) {
+    pin = identifier
+    mixin = "com.github.valkyrie.language.mixin.MixinClass"
 };
 class_inherit     ::= COLON identifier [type_generic] (OP_ADD identifier)*;
 class_tuple       ::= <<parenthesis (macro_call|class_item) COMMA>>;
-class_block       ::= <<brace_free (macro_call|class_define|class_item) (COMMA|SEMICOLON)>>
+class_block       ::= <<brace_free (macro_call|class_define|class_item) (COMMA|SEMICOLON)>> {
+    pin = 1
+}
 class_define      ::= KW_DEF? [maybe_modifier] identifier define_tuple [(COLON|OP_ARROW) expression] [define_block] {
+    pin = object_key
     mixin="com.github.valkyrie.language.mixin.MixinClassDefine"
 }
-class_item        ::= KW_LET? [maybe_modifier] object_key [COLON expression] [OP_SET expression] {
-
+class_item        ::= KW_LET? [maybe_modifier] object_key [COLON expression] [OP_SET expression] | object_key {
+    pin = object_key
 };
 // ---------------------------------------------------------------------------------------------------------------------
 object            ::= <<bracket_block object_pair COMMA>>
@@ -237,8 +242,6 @@ bitflag_statement ::= KW_BITFLAG maybe_modifier [bitflag_layout] bitflag_block {
 bitflag_block     ::= <<brace_block (bitflag_item | macro_call) SEMICOLON>>;
 bitflag_layout    ::= PARENTHESIS_L expression PARENTHESIS_R;
 bitflag_item      ::= identifier OP_SET expression;
-// -------------- -------------------------------------------------------------------------------------------------------
-new_statement     ::= KW_NEW [maybe_modifier] [identifier type_generic] class_block;
 // ---------------------------------------------------------------------------------------------------------------------
 expression        ::= term (op_binary term)*;
 term              ::= op_prefix* atom (op_suffix|call_suffix|type_generic|slice)* {

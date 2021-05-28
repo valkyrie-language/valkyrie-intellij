@@ -94,8 +94,8 @@
 			language="Valkyrie"
 			implementationClass="com.github.valkyrie.ide.usages.ValkyrieUsagesProvider"/>
 		<!-- Completion -->
-		<lookup.charFilter implementation="com.github.valkyrie.ide.completion.CompletionInterrupter"/>
-		<codeCompletionConfigurable instance="com.github.valkyrie.ide.completion.VCompletionConfigurable"/>
+<!--		<lookup.charFilter implementation="com.github.valkyrie.ide.completion.CompletionInterrupter"/>-->
+		<codeCompletionConfigurable instance="com.github.valkyrie.ide.completion.CompletionConfig"/>
 		<completion.contributor
 			language="Valkyrie"
 			implementationClass="com.github.valkyrie.ide.completion.CompletionRegistrar"/>
