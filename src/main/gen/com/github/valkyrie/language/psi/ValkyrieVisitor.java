@@ -215,6 +215,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitNormalBlock(@NotNull ValkyrieNormalBlock o) {
+    visitPsiElement(o);
+  }
+
   public void visitNormalPattern(@NotNull ValkyrieNormalPattern o) {
     visitPsiElement(o);
   }

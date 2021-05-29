@@ -76,7 +76,6 @@
         OP_IS_A = "is"
         OP_NOT_A = "is not"
 
-        OP_IN = "in"
         OP_NOT_IN = "not_in"
         OP_AND_THEN = "and_then"
         OP_OR_ELSE = "or_else"
@@ -138,14 +137,14 @@ extension_statement ::= KW_EXTENSION identifier COLON namepath_free top_block {
 };
 top_block         ::= <<brace_block top_statements SEMICOLON>>
 // ---------------------------------------------------------------------------------------------------------------------
-if_statement      ::= (KW_IF condition block) [ef_statement* [else_statement]]
-ef_statement      ::= kw_else_if condition block;
+if_statement      ::= (KW_IF condition normal_block) [ef_statement* [else_statement]]
+ef_statement      ::= kw_else_if condition normal_block;
 kw_else_if        ::= "else" KW_IF | "ef"
-else_statement    ::= "else" block;
+else_statement    ::= "else" normal_block;
 condition         ::= case_pattern OP_SET expression | expression;
-private block     ::= <<brace_block expression SEMICOLON>>;
+normal_block      ::= <<brace_block normal_statements SEMICOLON>>;
 // ---------------------------------------------------------------------------------------------------------------------
-for_statement     ::= KW_FOR (case_pattern|normal_pattern) OP_IN expression [if_guard] block [else_statement];
+for_statement     ::= KW_FOR (case_pattern|normal_pattern) OP_IN expression [if_guard] normal_block [else_statement];
 if_guard          ::= KW_IF condition;
 case_pattern      ::= KW_CASE [identifier* [namepath]] pattern;
 normal_pattern    ::= [maybe_modifier] pattern | <<sequence pattern_item COMMA>> {
@@ -161,7 +160,7 @@ pattern_pair      ::= identifier* COLON pattern_value | identifier* (DOT3|DOT2) 
 pattern_item      ::= identifier* (DOT3|DOT2) identifier | identifier+;
 pattern_value     ::= identifier | pattern;
 // ---------------------------------------------------------------------------------------------------------------------
-loop_statement    ::= (KW_LOOP | KW_WHILE condition) block;
+loop_statement    ::= (KW_LOOP | KW_WHILE condition) normal_block;
 // ---------------------------------------------------------------------------------------------------------------------
 match_statement   ::= KW_MATCH identifier* match_block;
 catch_statement   ::= KW_CATCH identifier* match_block;

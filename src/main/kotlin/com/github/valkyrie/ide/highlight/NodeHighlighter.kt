@@ -117,6 +117,15 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         }
     }
 
+    override fun visitKwElseIf(o: ValkyrieKwElseIf) {
+        highlight(o, Color.KEYWORD)
+    }
+
+    override fun visitElseStatement(o: ValkyrieElseStatement) {
+        highlight(o.firstChild, Color.KEYWORD)
+    }
+
+
     // TODO: real syntax resolve
     override fun visitIdentifier(o: ValkyrieIdentifier) {
         highlightWithText(o)

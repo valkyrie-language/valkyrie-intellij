@@ -98,8 +98,8 @@ private fun isValkyrieBlock(psi: PsiElement): Boolean = when (psi) {
     is ValkyrieForallBlock,
     is ValkyrieClassBlock, is ValkyrieTaggedBlock, is ValkyrieBitflagBlock,
     is ValkyrieDefineBlock,
-    is ValkyrieList, is ValkyrieObject,
-    -> true
+    is ValkyrieNormalBlock,
+    is ValkyrieList, is ValkyrieObject -> true
 
     else -> false
 }

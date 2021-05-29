@@ -60,6 +60,7 @@ public interface ValkyrieTypes {
   IElementType NAMEPATH = new ValkyrieTokenType("NAMEPATH");
   IElementType NAMEPATH_FREE = new ValkyrieTokenType("NAMEPATH_FREE");
   IElementType NAMESPACE_STATEMENT = new ValkyrieTokenType("NAMESPACE_STATEMENT");
+  IElementType NORMAL_BLOCK = new ValkyrieTokenType("NORMAL_BLOCK");
   IElementType NORMAL_PATTERN = new ValkyrieTokenType("NORMAL_PATTERN");
   IElementType NUMBER = new ValkyrieTokenType("NUMBER");
   IElementType OBJECT = new ValkyrieTokenType("OBJECT");
@@ -340,6 +341,9 @@ public interface ValkyrieTypes {
       }
       else if (type == NAMESPACE_STATEMENT) {
         return new ValkyrieNamespaceStatementNode(node);
+      }
+      else if (type == NORMAL_BLOCK) {
+        return new ValkyrieNormalBlockNode(node);
       }
       else if (type == NORMAL_PATTERN) {
         return new ValkyrieNormalPatternNode(node);

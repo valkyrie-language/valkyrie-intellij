@@ -186,12 +186,6 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // <<brace_block expression SEMICOLON>>
-  static boolean block(PsiBuilder b, int l) {
-    return brace_block(b, l + 1, ValkyrieParser::expression, SEMICOLON_parser_);
-  }
-
-  /* ********************************************************** */
   // "true" | "false"
   public static boolean boolean_$(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "boolean_$")) return false;
@@ -963,26 +957,26 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // kw_else_if condition block
+  // kw_else_if condition normal_block
   public static boolean ef_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ef_statement")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, EF_STATEMENT, "<ef statement>");
     r = kw_else_if(b, l + 1);
     r = r && condition(b, l + 1);
-    r = r && block(b, l + 1);
+    r = r && normal_block(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   /* ********************************************************** */
-  // "else" block
+  // "else" normal_block
   public static boolean else_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "else_statement")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, ELSE_STATEMENT, "<else statement>");
     r = consumeToken(b, "else");
-    r = r && block(b, l + 1);
+    r = r && normal_block(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -1119,7 +1113,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_FOR (case_pattern|normal_pattern) OP_IN expression [if_guard] block [else_statement]
+  // KW_FOR (case_pattern|normal_pattern) OP_IN expression [if_guard] normal_block [else_statement]
   public static boolean for_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "for_statement")) return false;
     if (!nextTokenIs(b, KW_FOR)) return false;
@@ -1130,7 +1124,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     r = r && consumeToken(b, OP_IN);
     r = r && expression(b, l + 1);
     r = r && for_statement_4(b, l + 1);
-    r = r && block(b, l + 1);
+    r = r && normal_block(b, l + 1);
     r = r && for_statement_6(b, l + 1);
     exit_section_(b, m, FOR_STATEMENT, r);
     return r;
@@ -1314,7 +1308,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (KW_IF condition block) [ef_statement* [else_statement]]
+  // (KW_IF condition normal_block) [ef_statement* [else_statement]]
   public static boolean if_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "if_statement")) return false;
     if (!nextTokenIs(b, KW_IF)) return false;
@@ -1326,14 +1320,14 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // KW_IF condition block
+  // KW_IF condition normal_block
   private static boolean if_statement_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "if_statement_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, KW_IF);
     r = r && condition(b, l + 1);
-    r = r && block(b, l + 1);
+    r = r && normal_block(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -1583,14 +1577,14 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (KW_LOOP | KW_WHILE condition) block
+  // (KW_LOOP | KW_WHILE condition) normal_block
   public static boolean loop_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "loop_statement")) return false;
     if (!nextTokenIs(b, "<loop statement>", KW_LOOP, KW_WHILE)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, LOOP_STATEMENT, "<loop statement>");
     r = loop_statement_0(b, l + 1);
-    r = r && block(b, l + 1);
+    r = r && normal_block(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -1893,6 +1887,18 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, KW_NAMESPACE);
     r = r && namepath_free(b, l + 1);
     exit_section_(b, m, NAMESPACE_STATEMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // <<brace_block normal_statements SEMICOLON>>
+  public static boolean normal_block(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "normal_block")) return false;
+    if (!nextTokenIs(b, BRACE_L)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = brace_block(b, l + 1, ValkyrieParser::normal_statements, SEMICOLON_parser_);
+    exit_section_(b, m, NORMAL_BLOCK, r);
     return r;
   }
 

@@ -14,10 +14,13 @@ public interface ValkyrieForStatement extends PsiElement {
   ValkyrieElseStatement getElseStatement();
 
   @NotNull
-  List<ValkyrieExpression> getExpressionList();
+  ValkyrieExpression getExpression();
 
   @Nullable
   ValkyrieIfGuard getIfGuard();
+
+  @NotNull
+  ValkyrieNormalBlock getNormalBlock();
 
   @Nullable
   ValkyrieNormalPattern getNormalPattern();

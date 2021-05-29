@@ -11,6 +11,6 @@ public interface ValkyrieLoopStatement extends PsiElement {
   ValkyrieCondition getCondition();
 
   @NotNull
-  List<ValkyrieExpression> getExpressionList();
+  ValkyrieNormalBlock getNormalBlock();
 
 }

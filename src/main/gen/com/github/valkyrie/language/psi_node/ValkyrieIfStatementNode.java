@@ -48,8 +48,8 @@ public class ValkyrieIfStatementNode extends ValkyrieASTBase implements Valkyrie
 
   @Override
   @NotNull
-  public List<ValkyrieExpression> getExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpression.class);
+  public ValkyrieNormalBlock getNormalBlock() {
+    return findNotNullChildByClass(ValkyrieNormalBlock.class);
   }
 
 }
