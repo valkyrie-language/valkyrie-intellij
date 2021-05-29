@@ -29,15 +29,15 @@ public class ValkyrieMacroCallNode extends ValkyrieASTBase implements ValkyrieMa
   }
 
   @Override
-  @NotNull
-  public ValkyrieMacro getMacro() {
-    return findNotNullChildByClass(ValkyrieMacro.class);
+  @Nullable
+  public ValkyrieMacroBlock getMacroBlock() {
+    return findChildByClass(ValkyrieMacroBlock.class);
   }
 
   @Override
-  @Nullable
-  public ValkyrieMacroItem getMacroItem() {
-    return findChildByClass(ValkyrieMacroItem.class);
+  @NotNull
+  public ValkyrieNamepathFree getNamepathFree() {
+    return findNotNullChildByClass(ValkyrieNamepathFree.class);
   }
 
 }

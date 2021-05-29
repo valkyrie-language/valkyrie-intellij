@@ -60,8 +60,20 @@ public class ValkyrieDefineBlockNode extends ValkyrieASTBase implements Valkyrie
 
   @Override
   @NotNull
+  public List<ValkyrieLoopStatement> getLoopStatementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieLoopStatement.class);
+  }
+
+  @Override
+  @NotNull
   public List<ValkyrieMacroCall> getMacroCallList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieMacroCall.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ValkyrieMacroList> getMacroListList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieMacroList.class);
   }
 
   @Override
@@ -74,12 +86,6 @@ public class ValkyrieDefineBlockNode extends ValkyrieASTBase implements Valkyrie
   @NotNull
   public List<ValkyrieTypeStatement> getTypeStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeStatement.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieWhileStatement> getWhileStatementList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieWhileStatement.class);
   }
 
 }

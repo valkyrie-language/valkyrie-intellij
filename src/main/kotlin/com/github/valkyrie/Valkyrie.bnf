@@ -111,12 +111,13 @@ private top_statements ::=
 private normal_statements ::=
     if_statement
   | for_statement
-  | while_statement
+  | loop_statement
   | match_statement
   | let_statement
   | type_statement
   | forall_statement
   | macro_call
+  | macro_list
   | expression
   ;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -142,11 +143,11 @@ ef_statement      ::= kw_else_if condition block;
 kw_else_if        ::= "else" KW_IF | "ef"
 else_statement    ::= "else" block;
 condition         ::= case_pattern OP_SET expression | expression;
-case_pattern      ::= CASE [identifier* [namepath]] pattern;
 private block     ::= <<brace_block expression SEMICOLON>>;
 // ---------------------------------------------------------------------------------------------------------------------
-for_statement     ::= KW_FOR (case_pattern|normal_pattern) KW_IF expression [if_guard] block [else_statement];
+for_statement     ::= KW_FOR (case_pattern|normal_pattern) OP_IN expression [if_guard] block [else_statement];
 if_guard          ::= KW_IF condition;
+case_pattern      ::= KW_CASE [identifier* [namepath]] pattern;
 normal_pattern    ::= [maybe_modifier] pattern | <<sequence pattern_item COMMA>> {
     mixin="com.github.valkyrie.language.mixin.MixinNormalPattern"
 };
@@ -160,9 +161,10 @@ pattern_pair      ::= identifier* COLON pattern_value | identifier* (DOT3|DOT2) 
 pattern_item      ::= identifier* (DOT3|DOT2) identifier | identifier+;
 pattern_value     ::= identifier | pattern;
 // ---------------------------------------------------------------------------------------------------------------------
-while_statement   ::= WHILE condition block;
+loop_statement    ::= (KW_LOOP | KW_WHILE condition) block;
 // ---------------------------------------------------------------------------------------------------------------------
-match_statement   ::= MATCH identifier* match_block;
+match_statement   ::= KW_MATCH identifier* match_block;
+catch_statement   ::= KW_CATCH identifier* match_block;
 match_block       ::= <<brace_block match_expression SEMICOLON>>;
 match_expression  ::= case_pattern COLON (normal_statements [SEMICOLON])+
 // ---------------------------------------------------------------------------------------------------------------------
@@ -189,11 +191,10 @@ type_statement    ::= KW_TYPE identifier [[OP_PROPORTION] type_generic] [OP_SET 
     mixin="com.github.valkyrie.language.mixin.MixinType"
 };
 generic_define    ::=
-    <<bracket_block ([identifier COLON] expression) COMMA>>
-  | OP_PROPORTION? <<angle_block ([identifier COLON] expression) COMMA>>
-generic_call      ::=
-    <<bracket_block ([identifier COLON] expression) COMMA>>
-  | OP_PROPORTION <<angle_block ([identifier COLON] expression) COMMA>>
+      <<bracket_block generic_type COMMA>>
+    | OP_PROPORTION? <<angle_block generic_type COMMA>>
+generic_call      ::= <<bracket_block generic_type COMMA>>
+generic_type      ::= [identifier COLON] expression
 // ---------------------------------------------------------------------------------------------------------------------
 forall_statement  ::= FORALL <<sequence identifier COMMA>> [forall_block];
 forall_block      ::= <<brace_block (expression COLON expression) (COMMA|SEMICOLON)>>;
@@ -203,7 +204,7 @@ class_statement   ::= KW_CLASS [maybe_modifier] identifier [generic_define] [cla
     mixin = "com.github.valkyrie.language.mixin.MixinClass"
 };
 class_inherit     ::= COLON identifier [type_generic] (OP_ADD identifier)*;
-class_tuple       ::= <<parenthesis (macro_call|class_item) COMMA>>;
+class_tuple       ::= <<parenthesis (macro_call* class_item) COMMA>>;
 class_block       ::= <<brace_free (macro_call|class_define|class_item) (COMMA|SEMICOLON)>> {
     pin = 1
 }
@@ -262,17 +263,17 @@ private op_binary ::=
     | OP_AS
     // in | not in
     | OP_IN | OP_NOT_IN | OP_NOT OP_IN
+    | OP_UNTIL
 private op_prefix ::= OP_ADD | OP_SUB | OP_NOT | BANG | AMP | DOT3 | DOT2;
 private op_suffix ::= BANG | QUESTION;
 call_suffix       ::= <<parenthesis expression COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
-macro_call        ::= macro [macro_item];
-macro_item        ::=
+macro_call        ::= KW_MACRO namepath_free [macro_block];
+macro_block       ::=
     <<parenthesis expression COMMA>>
   | <<brace_block object_pair COMMA>>
   | <<brace_block expression SEMICOLON>>;
-macro             ::= AT namepath_free;
-macro_list ::= [AT|HASH] <<bracket_block (namepath macro_item) COMMA>>;
+macro_list        ::= KW_MACRO <<bracket_block (namepath_free [macro_block]) COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
 atom           ::= range | list | object | tuple | number | string | boolean | namepath;
 tuple          ::= <<parenthesis expression COMMA>>

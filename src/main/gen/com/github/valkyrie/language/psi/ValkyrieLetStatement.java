@@ -29,7 +29,13 @@ public interface ValkyrieLetStatement extends PsiElement {
   ValkyrieLetTypeHint getLetTypeHint();
 
   @Nullable
+  ValkyrieLoopStatement getLoopStatement();
+
+  @Nullable
   ValkyrieMacroCall getMacroCall();
+
+  @Nullable
+  ValkyrieMacroList getMacroList();
 
   @Nullable
   ValkyrieMatchStatement getMatchStatement();
@@ -39,8 +45,5 @@ public interface ValkyrieLetStatement extends PsiElement {
 
   @Nullable
   ValkyrieTypeStatement getTypeStatement();
-
-  @Nullable
-  ValkyrieWhileStatement getWhileStatement();
 
 }

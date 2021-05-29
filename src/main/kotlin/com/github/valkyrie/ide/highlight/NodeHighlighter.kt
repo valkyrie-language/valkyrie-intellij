@@ -97,10 +97,17 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifier, Color.SYM_VARIANT)
     }
 
-    override fun visitMacro(o: ValkyrieMacro) {
-        highlight(o.firstChild, Color.SYM_MACRO)
+    override fun visitMacroCall(o: ValkyrieMacroCall) {
         for (i in o.namepathFree.identifierList) {
             highlight(i, Color.SYM_MACRO)
+        }
+    }
+
+    override fun visitMacroList(o: ValkyrieMacroList) {
+        for (i in o.namepathFreeList) {
+            for (j in i.identifierList) {
+                highlight(j, Color.SYM_MACRO)
+            }
         }
     }
 

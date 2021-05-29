@@ -72,8 +72,20 @@ public class ValkyrieLetStatementNode extends ValkyrieASTBase implements Valkyri
 
   @Override
   @Nullable
+  public ValkyrieLoopStatement getLoopStatement() {
+    return findChildByClass(ValkyrieLoopStatement.class);
+  }
+
+  @Override
+  @Nullable
   public ValkyrieMacroCall getMacroCall() {
     return findChildByClass(ValkyrieMacroCall.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieMacroList getMacroList() {
+    return findChildByClass(ValkyrieMacroList.class);
   }
 
   @Override
@@ -92,12 +104,6 @@ public class ValkyrieLetStatementNode extends ValkyrieASTBase implements Valkyri
   @Nullable
   public ValkyrieTypeStatement getTypeStatement() {
     return findChildByClass(ValkyrieTypeStatement.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieWhileStatement getWhileStatement() {
-    return findChildByClass(ValkyrieWhileStatement.class);
   }
 
 }

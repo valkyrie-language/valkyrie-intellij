@@ -26,15 +26,18 @@ public interface ValkyrieMatchExpression extends PsiElement {
   List<ValkyrieLetStatement> getLetStatementList();
 
   @NotNull
+  List<ValkyrieLoopStatement> getLoopStatementList();
+
+  @NotNull
   List<ValkyrieMacroCall> getMacroCallList();
+
+  @NotNull
+  List<ValkyrieMacroList> getMacroListList();
 
   @NotNull
   List<ValkyrieMatchStatement> getMatchStatementList();
 
   @NotNull
   List<ValkyrieTypeStatement> getTypeStatementList();
-
-  @NotNull
-  List<ValkyrieWhileStatement> getWhileStatementList();
 
 }

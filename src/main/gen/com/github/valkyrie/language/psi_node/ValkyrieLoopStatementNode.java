@@ -12,14 +12,14 @@ import com.github.valkyrie.language.ast.ValkyrieASTBase;
 import com.github.valkyrie.language.psi.*;
 import com.github.valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieMacroListNode extends ValkyrieASTBase implements ValkyrieMacroList {
+public class ValkyrieLoopStatementNode extends ValkyrieASTBase implements ValkyrieLoopStatement {
 
-  public ValkyrieMacroListNode(@NotNull ASTNode node) {
+  public ValkyrieLoopStatementNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitMacroList(this);
+    visitor.visitLoopStatement(this);
   }
 
   @Override
@@ -29,15 +29,15 @@ public class ValkyrieMacroListNode extends ValkyrieASTBase implements ValkyrieMa
   }
 
   @Override
-  @NotNull
-  public List<ValkyrieMacroBlock> getMacroBlockList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieMacroBlock.class);
+  @Nullable
+  public ValkyrieCondition getCondition() {
+    return findChildByClass(ValkyrieCondition.class);
   }
 
   @Override
   @NotNull
-  public List<ValkyrieNamepathFree> getNamepathFreeList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNamepathFree.class);
+  public List<ValkyrieExpression> getExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpression.class);
   }
 
 }

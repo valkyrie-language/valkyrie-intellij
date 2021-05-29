@@ -25,6 +25,7 @@ private val KEYWORDS_SP = """(?x)
     | \b(new|object)\b
     """.toRegex()
 private val PUNCTUATIONS = """(?x)\\
+    | [.]{2}[<|=]
     | [.]{1,3}
     | [{}\[\]()]
     | [,;$^]
@@ -226,13 +227,14 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
 
             }
 
-            ".." -> pushToken(ValkyrieTypes.DOT, r)
-            "..." -> pushToken(ValkyrieTypes.DOT, r)
+            "..<", "..=" -> pushToken(ValkyrieTypes.OP_UNTIL, r)
+            "...", ".." -> pushToken(ValkyrieTypes.DOT2, r)
+
             ";" -> {
                 pushToken(ValkyrieTypes.SEMICOLON, r)
             }
 
-            "@", "@@", "@!", "@?" -> pushToken(ValkyrieTypes.AT, r)
+            "@", "@@", "@!", "@?" -> pushToken(ValkyrieTypes.KW_MACRO, r)
             "," -> pushToken(ValkyrieTypes.COMMA, r)
             // start with +
             "++" -> pushToken(ValkyrieTypes.OP_INC, r)

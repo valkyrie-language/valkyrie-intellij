@@ -26,12 +26,14 @@ data class FormatSpace(val commonSettings: CommonCodeStyleSettings, val spacingB
             BRACKET_L,
         )
         private val remove_space_newline_before = TokenSet.create(
+            OP_UNTIL,
             COLON,
         )
         private val remove_space_newline_after = TokenSet.create(
+            OP_UNTIL,
             DOT,
             OP_PROPORTION,
-            AT,
+            KW_MACRO,
         )
         private val newline_indent_after = TokenSet.create()
         private val binary_operator = TokenSet.create(OP_EQ, OP_TO)

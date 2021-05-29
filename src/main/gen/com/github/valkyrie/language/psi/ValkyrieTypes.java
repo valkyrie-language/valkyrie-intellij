@@ -16,6 +16,7 @@ public interface ValkyrieTypes {
   IElementType BOOLEAN = new ValkyrieTokenType("BOOLEAN");
   IElementType CALL_SUFFIX = new ValkyrieTokenType("CALL_SUFFIX");
   IElementType CASE_PATTERN = new ValkyrieTokenType("CASE_PATTERN");
+  IElementType CATCH_STATEMENT = new ValkyrieTokenType("CATCH_STATEMENT");
   IElementType CLASS_BLOCK = new ValkyrieTokenType("CLASS_BLOCK");
   IElementType CLASS_DEFINE = new ValkyrieTokenType("CLASS_DEFINE");
   IElementType CLASS_INHERIT = new ValkyrieTokenType("CLASS_INHERIT");
@@ -37,6 +38,7 @@ public interface ValkyrieTypes {
   IElementType FOR_STATEMENT = new ValkyrieTokenType("FOR_STATEMENT");
   IElementType GENERIC_CALL = new ValkyrieTokenType("GENERIC_CALL");
   IElementType GENERIC_DEFINE = new ValkyrieTokenType("GENERIC_DEFINE");
+  IElementType GENERIC_TYPE = new ValkyrieTokenType("GENERIC_TYPE");
   IElementType IDENTIFIER = new ValkyrieTokenType("IDENTIFIER");
   IElementType IF_GUARD = new ValkyrieTokenType("IF_GUARD");
   IElementType IF_STATEMENT = new ValkyrieTokenType("IF_STATEMENT");
@@ -47,9 +49,9 @@ public interface ValkyrieTypes {
   IElementType LET_STATEMENT = new ValkyrieTokenType("LET_STATEMENT");
   IElementType LET_TYPE_HINT = new ValkyrieTokenType("LET_TYPE_HINT");
   IElementType LIST = new ValkyrieTokenType("LIST");
-  IElementType MACRO = new ValkyrieTokenType("MACRO");
+  IElementType LOOP_STATEMENT = new ValkyrieTokenType("LOOP_STATEMENT");
+  IElementType MACRO_BLOCK = new ValkyrieTokenType("MACRO_BLOCK");
   IElementType MACRO_CALL = new ValkyrieTokenType("MACRO_CALL");
-  IElementType MACRO_ITEM = new ValkyrieTokenType("MACRO_ITEM");
   IElementType MACRO_LIST = new ValkyrieTokenType("MACRO_LIST");
   IElementType MATCH_BLOCK = new ValkyrieTokenType("MATCH_BLOCK");
   IElementType MATCH_EXPRESSION = new ValkyrieTokenType("MATCH_EXPRESSION");
@@ -79,17 +81,14 @@ public interface ValkyrieTypes {
   IElementType TUPLE = new ValkyrieTokenType("TUPLE");
   IElementType TYPE_GENERIC = new ValkyrieTokenType("TYPE_GENERIC");
   IElementType TYPE_STATEMENT = new ValkyrieTokenType("TYPE_STATEMENT");
-  IElementType WHILE_STATEMENT = new ValkyrieTokenType("WHILE_STATEMENT");
 
   IElementType AMP = new ValkyrieTokenType("AMP");
-  IElementType AT = new ValkyrieTokenType("AT");
   IElementType BANG = new ValkyrieTokenType("BANG");
   IElementType BRACE_L = new ValkyrieTokenType("{");
   IElementType BRACE_R = new ValkyrieTokenType("}");
   IElementType BRACKET_L = new ValkyrieTokenType("[");
   IElementType BRACKET_R = new ValkyrieTokenType("]");
   IElementType BYTE = new ValkyrieTokenType("Byte");
-  IElementType CASE = new ValkyrieTokenType("CASE");
   IElementType COLON = new ValkyrieTokenType(":");
   IElementType COMMA = new ValkyrieTokenType("COMMA");
   IElementType COMMENT = new ValkyrieTokenType("Comment");
@@ -100,9 +99,10 @@ public interface ValkyrieTypes {
   IElementType DOT_EQ = new ValkyrieTokenType("DOT_EQ");
   IElementType DOT_LESS = new ValkyrieTokenType("DOT_LESS");
   IElementType FORALL = new ValkyrieTokenType("FORALL");
-  IElementType HASH = new ValkyrieTokenType("HASH");
   IElementType INTEGER = new ValkyrieTokenType("INTEGER");
   IElementType KW_BITFLAG = new ValkyrieTokenType("KW_BITFLAG");
+  IElementType KW_CASE = new ValkyrieTokenType("KW_CASE");
+  IElementType KW_CATCH = new ValkyrieTokenType("KW_CATCH");
   IElementType KW_CLASS = new ValkyrieTokenType("KW_CLASS");
   IElementType KW_DEF = new ValkyrieTokenType("KW_DEF");
   IElementType KW_ESCAPING = new ValkyrieTokenType("KW_WAITING_INPUT");
@@ -112,11 +112,14 @@ public interface ValkyrieTypes {
   IElementType KW_IF = new ValkyrieTokenType("KW_IF");
   IElementType KW_IMPORT = new ValkyrieTokenType("KW_IMPORT");
   IElementType KW_LET = new ValkyrieTokenType("KW_LET");
+  IElementType KW_LOOP = new ValkyrieTokenType("KW_LOOP");
+  IElementType KW_MACRO = new ValkyrieTokenType("KW_MACRO");
+  IElementType KW_MATCH = new ValkyrieTokenType("KW_MATCH");
   IElementType KW_NAMESPACE = new ValkyrieTokenType("KW_NAMESPACE");
   IElementType KW_TAGGED = new ValkyrieTokenType("KW_TAGGED");
   IElementType KW_TRAIT = new ValkyrieTokenType("KW_TRAIT");
   IElementType KW_TYPE = new ValkyrieTokenType("KW_TYPE");
-  IElementType MATCH = new ValkyrieTokenType("MATCH");
+  IElementType KW_WHILE = new ValkyrieTokenType("KW_WHILE");
   IElementType OP_ADD = new ValkyrieTokenType("+");
   IElementType OP_ADD_ASSIGN = new ValkyrieTokenType("+=");
   IElementType OP_AND = new ValkyrieTokenType("&");
@@ -166,6 +169,7 @@ public interface ValkyrieTypes {
   IElementType OP_SUB = new ValkyrieTokenType("-");
   IElementType OP_SUB_ASSIGN = new ValkyrieTokenType("-=");
   IElementType OP_TO = new ValkyrieTokenType("OP_TO");
+  IElementType OP_UNTIL = new ValkyrieTokenType("OP_UNTIL");
   IElementType PARENTHESIS_L = new ValkyrieTokenType("(");
   IElementType PARENTHESIS_R = new ValkyrieTokenType(")");
   IElementType QUESTION = new ValkyrieTokenType("QUESTION");
@@ -177,7 +181,6 @@ public interface ValkyrieTypes {
   IElementType STRING_TEXT = new ValkyrieTokenType("StringText");
   IElementType SYMBOL_RAW = new ValkyrieTokenType("Symbol");
   IElementType SYMBOL_XID = new ValkyrieTokenType("SYMBOL_XID");
-  IElementType WHILE = new ValkyrieTokenType("WHILE");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {
@@ -205,6 +208,9 @@ public interface ValkyrieTypes {
       }
       else if (type == CASE_PATTERN) {
         return new ValkyrieCasePatternNode(node);
+      }
+      else if (type == CATCH_STATEMENT) {
+        return new ValkyrieCatchStatementNode(node);
       }
       else if (type == CLASS_BLOCK) {
         return new ValkyrieClassBlockNode(node);
@@ -269,6 +275,9 @@ public interface ValkyrieTypes {
       else if (type == GENERIC_DEFINE) {
         return new ValkyrieGenericDefineNode(node);
       }
+      else if (type == GENERIC_TYPE) {
+        return new ValkyrieGenericTypeNode(node);
+      }
       else if (type == IDENTIFIER) {
         return new ValkyrieIdentifierNode(node);
       }
@@ -299,14 +308,14 @@ public interface ValkyrieTypes {
       else if (type == LIST) {
         return new ValkyrieListNode(node);
       }
-      else if (type == MACRO) {
-        return new ValkyrieMacroNode(node);
+      else if (type == LOOP_STATEMENT) {
+        return new ValkyrieLoopStatementNode(node);
+      }
+      else if (type == MACRO_BLOCK) {
+        return new ValkyrieMacroBlockNode(node);
       }
       else if (type == MACRO_CALL) {
         return new ValkyrieMacroCallNode(node);
-      }
-      else if (type == MACRO_ITEM) {
-        return new ValkyrieMacroItemNode(node);
       }
       else if (type == MACRO_LIST) {
         return new ValkyrieMacroListNode(node);
@@ -394,9 +403,6 @@ public interface ValkyrieTypes {
       }
       else if (type == TYPE_STATEMENT) {
         return new ValkyrieTypeStatementNode(node);
-      }
-      else if (type == WHILE_STATEMENT) {
-        return new ValkyrieWhileStatementNode(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

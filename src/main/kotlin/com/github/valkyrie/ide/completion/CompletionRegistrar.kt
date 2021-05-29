@@ -1,12 +1,14 @@
 package com.github.valkyrie.ide.completion
 
 import com.github.valkyrie.ide.file.ValkyrieFileNode
+import com.github.valkyrie.language.psi.ValkyrieClassTuple
 import com.github.valkyrie.language.psi.ValkyrieTypes
 import com.github.valkyrie.language.psi_node.ValkyrieClassBlockNode
+import com.github.valkyrie.language.psi_node.ValkyrieClassTupleNode
 import com.github.valkyrie.language.psi_node.ValkyrieDefineBlockNode
+import com.github.valkyrie.language.psi_node.ValkyrieMacroBlockNode
 import com.github.valkyrie.language.psi_node.ValkyrieTopBlockNode
 import com.intellij.codeInsight.completion.CompletionContributor
-import com.intellij.codeInsight.completion.CompletionInitializationContext
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.openapi.progress.ProgressManager
@@ -30,20 +32,25 @@ class CompletionRegistrar : CompletionContributor() {
                             CompleteSymbol(node).inTopStatement(parameters, context, result)
                             return
                         }
-
                         is ValkyrieClassBlockNode -> {
-                            CompleteSymbol(node).inClassDeclare(parameters, context, result)
+                            CompleteSymbol(node).inClassBlock(parameters, context, result)
                             return
                         }
-
+                        is ValkyrieClassTupleNode -> {
+                            CompleteSymbol(node).inClassTuple(parameters, context, result)
+                            return
+                        }
+                        is ValkyrieMacroBlockNode -> {
+                            CompleteSymbol(node).inMacroBlock(parameters, context, result)
+                            return
+                        }
                         is ValkyrieDefineBlockNode -> {
                             return
                         }
                     }
                 }
             }
-
-            ValkyrieTypes.KW_ESCAPING, ValkyrieTypes.AT -> {
+            ValkyrieTypes.KW_ESCAPING, ValkyrieTypes.KW_MACRO -> {
                 CompleteOperator(element).addCompletionVariants(parameters, context, result)
             }
         }

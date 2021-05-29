@@ -5,12 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieMacroCall extends PsiElement {
+public interface ValkyrieLoopStatement extends PsiElement {
 
   @Nullable
-  ValkyrieMacroBlock getMacroBlock();
+  ValkyrieCondition getCondition();
 
   @NotNull
-  ValkyrieNamepathFree getNamepathFree();
+  List<ValkyrieExpression> getExpressionList();
 
 }

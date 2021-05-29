@@ -1,10 +1,12 @@
 package com.github.valkyrie.ide.completion
 
-import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.buildWithReplace
-import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.classDeclare
+import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.annotationCall
+import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.classComplex
+import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.classSimple
 import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.defDeclare
 import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.infixDeclare
 import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.letDeclare
+import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.macroCall
 import com.github.valkyrie.ide.file.ValkyrieIconProvider
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionProvider
@@ -12,14 +14,17 @@ import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.psi.PsiElement
 import com.intellij.util.ProcessingContext
+import javax.swing.Icon
 
 class CompleteSymbol(val element: PsiElement) : CompletionProvider<CompletionParameters>() {
     override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {}
     fun inTopStatement(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+        result.addTopMacros()
         result.addDeclarationStatement()
     }
 
-    fun inClassDeclare(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+    fun inClassBlock(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+        result.addTopMacros()
         result.addOperationDeclare()
         result.addLinkedTraitMethod("constructor", "Constructor")
         result.addLinkedTraitMethod("hash", "Hash")
@@ -28,15 +33,19 @@ class CompleteSymbol(val element: PsiElement) : CompletionProvider<CompletionPar
         result.addLinkedTraitMethod("unapply", "Extractor")
     }
 
-    fun inNormalTest(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
-        result.addOperationDeclare()
+    fun inClassTuple(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+        result.addTopMacros()
+    }
+
+    fun inMacroBlock(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+
     }
 
     companion object {
-        private fun buildWithReplace(show: String, replace: String, offset: Int, lookup: Set<String>): LookupElementBuilder {
+        private fun buildWithReplace(show: String, replace: String, offset: Int, lookup: Set<String>, icon: Icon): LookupElementBuilder {
             return LookupElementBuilder.create(show).bold()
                 .withLookupStrings(lookup)
-                .withIcon(ValkyrieIconProvider.KEYWORDS)
+                .withIcon(icon)
                 .withInsertHandler { context, _ ->
                     val document = context.document
                     document.replaceString(context.startOffset, context.tailOffset, replace)
@@ -45,30 +54,31 @@ class CompleteSymbol(val element: PsiElement) : CompletionProvider<CompletionPar
         }
 
         fun classSimple(show: String, lookup: Set<String> = setOf()): LookupElementBuilder {
-            return buildWithReplace(show, "$show  {}", 3, lookup)
+            return buildWithReplace(show, "$show  {}", 3, lookup, ValkyrieIconProvider.KEYWORDS)
         }
 
         fun classComplex(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
-            return buildWithReplace(show, replace, offset, lookup)
+            return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.KEYWORDS)
         }
 
         fun letDeclare(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
-            return buildWithReplace(show, replace, offset, lookup)
+            return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.KEYWORDS)
         }
 
         fun defDeclare(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
-            return buildWithReplace(show, replace, offset, lookup)
+            return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.KEYWORDS)
         }
 
         fun infixDeclare(show: String, lookup: Set<String> = setOf()): LookupElementBuilder {
-            return LookupElementBuilder.create("infix $show")
-                .withLookupStrings(lookup)
-                .withIcon(ValkyrieIconProvider.OPERATOR)
-                .withInsertHandler { context, _ ->
-                    val document = context.document
-                    document.replaceString(context.startOffset, context.tailOffset, "infix `$show`(rhs: Self) {}")
-                    context.editor.caretModel.moveToOffset(context.tailOffset - 1)
-                }
+            return buildWithReplace("infix $show", "infix `$show`(rhs: Self) {}", 1, lookup, ValkyrieIconProvider.OPERATOR)
+        }
+
+        fun macroCall(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
+            return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.MACRO)
+        }
+
+        fun annotationCall(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
+            return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.ANNOTATION)
         }
     }
 }
@@ -86,6 +96,13 @@ private fun CompletionResultSet.addLinkedTraitMethod(kind: String, trait: String
     this.addElement(element)
 }
 
+private fun CompletionResultSet.addTopMacros() {
+    addElement(annotationCall("@derive", "@derive()", 1))
+    addElement(macroCall("@type_of", "@type_of[]", 1))
+    addElement(macroCall("@name_of", "@name_of[]", 1))
+    addElement(macroCall("@name_path_of", "@name_path_of[]", 1))
+}
+
 private fun CompletionResultSet.addOperationDeclare() {
     addElement(infixDeclare("+", setOf("infixadd", "infixplus")))
     addElement(infixDeclare("+=", setOf("infixaddassign", "infixplusassign")))
@@ -101,13 +118,13 @@ private fun CompletionResultSet.addDeclarationStatement() {
     addElement(letDeclare("type", "type  =", 2))
     addElement(defDeclare("def", "def  () {}", 6, setOf("fn", "fun", "function")))
 
-    addElement(classDeclare("class", null,3, setOf("cass", "struct")))
-    addElement(classDeclare("class simple", "class ()",2, setOf("tupleclass")))
-    addElement(classDeclare("class native", "class native  {}", 3, setOf("valueclass")))
+    addElement(classComplex("class", "class  {}", 3, setOf("cass", "struct")))
+    addElement(classComplex("class simple", "class ()", 2, setOf("tupleclass")))
+    addElement(classComplex("class native", "class native  {}", 3, setOf("valueclass")))
 
-    addElement(classDeclare("trait", null, setOf("abstractclass")))
-    addElement(classDeclare("interface", null))
-    addElement(classDeclare("protocol", null))
-    addElement(classDeclare("tagged", null, setOf("enum")))
-    addElement(classDeclare("bitset", null, setOf("bitflag")))
+    addElement(classSimple("trait", setOf("abstractclass")))
+    addElement(classSimple("interface"))
+    addElement(classSimple("protocol"))
+    addElement(classSimple("tagged", setOf("enum")))
+    addElement(classSimple("bitset", setOf("bitflag")))
 }
