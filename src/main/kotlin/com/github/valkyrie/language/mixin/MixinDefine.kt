@@ -25,7 +25,7 @@ open class MixinDefine(node: ASTNode) : DeclareNode(node) {
     }
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode {
-        return originalElement.namepathFree.identifierList.last() as ValkyrieIdentifierNode
+        return originalElement.namepath.identifierList().last()
     }
 
     override fun getIcon(flags: Int): Icon = when {
@@ -38,7 +38,7 @@ open class MixinDefine(node: ASTNode) : DeclareNode(node) {
     }
     override fun getChildrenView(): Array<ValkyrieViewElement> {
         val childrenView: MutableList<ValkyrieViewElement> = mutableListOf()
-        originalElement.maybeModifier.addChildrenView(childrenView)
+        originalElement.modified.addChildrenView(childrenView)
         originalElement.defineTuple.addChildrenView(childrenView)
         originalElement.defineBlock.addChildrenView(childrenView)
         return childrenView.toTypedArray()
@@ -46,7 +46,7 @@ open class MixinDefine(node: ASTNode) : DeclareNode(node) {
 
     val kind: FunctionKind
         get() {
-            val namespace = originalElement.namepathFree as ValkyrieNamepathFreeNode;
+            val namespace = originalElement.namepath;
             val lastDot = namespace.delimiterList().lastOrNull();
             val firstArg = originalElement.defineTuple.defineItemList.firstOrNull()
             return when {

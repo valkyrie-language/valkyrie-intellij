@@ -31,7 +31,7 @@ open class MixinClassDefine(node: ASTNode) : DeclareNode(node) {
 
     override fun getChildrenView(): Array<ValkyrieViewElement> {
         val childrenView: MutableList<ValkyrieViewElement> = mutableListOf()
-        originalElement.maybeModifier.addChildrenView(childrenView)
+        originalElement.modified.addChildrenView(childrenView)
         originalElement.defineTuple.addChildrenView(childrenView)
         originalElement.defineBlock.addChildrenView(childrenView)
         return childrenView.toTypedArray()

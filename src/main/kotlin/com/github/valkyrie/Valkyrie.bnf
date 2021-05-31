@@ -213,7 +213,9 @@ class_block       ::= <<brace_free (macro_call|class_define|class_item) (COMMA|S
     pin = 1
 }
 class_define      ::= KW_DEF? <<modified identifier>> define_tuple [(COLON|OP_ARROW) expression] [define_block] {
+    pin = 3
     mixin="com.github.valkyrie.language.mixin.MixinClassDefine"
+    methods = [getIdentifier getModifiers]
 }
 class_item        ::= KW_LET? [modifiers] object_key [COLON expression] [OP_SET expression] | object_key {
     pin = object_key
@@ -222,12 +224,13 @@ class_item        ::= KW_LET? [modifiers] object_key [COLON expression] [OP_SET 
 object            ::= <<bracket_block object_pair COMMA>>
 object_pair       ::= object_key COLON expression;
 object_key        ::= SYMBOL_XID | SYMBOL_RAW | INTEGER | KW_IF | KW_CLASS {
-    mixin="com.github.valkyrie.language.mixin.MixinIdentifier"
+    mixin="com.github.valkyrie.language.mixin.MixinObjectKey"
 }
 // ---------------------------------------------------------------------------------------------------------------------
 trait_statement   ::= KW_TRAIT <<modified identifier>> [type_generic] [COLON expression] class_block {
+    pin = 2
     extends="com.github.valkyrie.language.mixin.MixinTrait"
-    methods=[getKeyword getModifiers]
+    methods=[getIdentifier getModifiers]
 };
 // ---------------------------------------------------------------------------------------------------------------------
 extends_statement ::= KW_EXTENDS [type_generic] [modifiers] identifier [type_generic] [COLON expression] class_block {
@@ -315,7 +318,9 @@ private end_m1 ::= (
     COMMA|OP_EQ|DOT|COMMA
 );
 // ---------------------------------------------------------------------------------------------------------------------
-meta modified              ::= [modifiers] <<item>>;
+meta modified              ::= [modifiers] <<item>> {
+    methods=[addChildrenView]
+}
 private meta sequence      ::= <<item>> (<<sp>> <<item>>)* [<<sp>>];
 // parenthesis ( )
 private meta parenthesis   ::= PARENTHESIS_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] PARENTHESIS_R;

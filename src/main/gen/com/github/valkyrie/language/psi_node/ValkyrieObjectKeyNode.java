@@ -8,11 +8,11 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
-import com.github.valkyrie.language.mixin.MixinIdentifier;
+import com.github.valkyrie.language.mixin.MixinObjectKey;
 import com.github.valkyrie.language.psi.*;
 import com.github.valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieObjectKeyNode extends MixinIdentifier implements ValkyrieObjectKey {
+public class ValkyrieObjectKeyNode extends MixinObjectKey implements ValkyrieObjectKey {
 
   public ValkyrieObjectKeyNode(@NotNull ASTNode node) {
     super(node);

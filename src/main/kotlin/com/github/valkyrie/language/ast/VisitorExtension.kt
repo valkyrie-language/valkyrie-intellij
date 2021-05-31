@@ -57,15 +57,6 @@ fun ValkyrieDefineTuple?.addChildrenView(list: MutableList<ValkyrieViewElement>)
         }
 }
 
-fun ValkyrieMaybeModifier?.addChildrenView(list: MutableList<ValkyrieViewElement>) {
-    if (this == null) return
-    PsiTreeUtil
-        .getChildrenOfTypeAsList(this, NavigatablePsiElement::class.java)
-        .forEach {
-            list.add(ValkyrieViewElement(it, it.text, ValkyrieIconProvider.MODIFIER))
-        }
-}
-
 fun ValkyrieDefineBlock?.addChildrenView(list: MutableList<ValkyrieViewElement>) {
     if (this == null) return
     PsiTreeUtil

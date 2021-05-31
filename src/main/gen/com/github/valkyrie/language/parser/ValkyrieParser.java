@@ -479,15 +479,16 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   // KW_DEF? <<modified identifier>> define_tuple [(COLON|OP_ARROW) expression] [define_block]
   public static boolean class_define(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "class_define")) return false;
-    boolean r;
+    boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, CLASS_DEFINE, "<class define>");
     r = class_define_0(b, l + 1);
     r = r && modified(b, l + 1, ValkyrieParser::identifier);
     r = r && define_tuple(b, l + 1);
-    r = r && class_define_3(b, l + 1);
-    r = r && class_define_4(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
+    p = r; // pin = 3
+    r = r && report_error_(b, class_define_3(b, l + 1));
+    r = p && class_define_4(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   // KW_DEF?
@@ -2738,15 +2739,16 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   public static boolean trait_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "trait_statement")) return false;
     if (!nextTokenIs(b, KW_TRAIT)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, TRAIT_STATEMENT, null);
     r = consumeToken(b, KW_TRAIT);
     r = r && modified(b, l + 1, ValkyrieParser::identifier);
-    r = r && trait_statement_2(b, l + 1);
-    r = r && trait_statement_3(b, l + 1);
-    r = r && class_block(b, l + 1);
-    exit_section_(b, m, TRAIT_STATEMENT, r);
-    return r;
+    p = r; // pin = 2
+    r = r && report_error_(b, trait_statement_2(b, l + 1));
+    r = p && report_error_(b, trait_statement_3(b, l + 1)) && r;
+    r = p && class_block(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   // [type_generic]

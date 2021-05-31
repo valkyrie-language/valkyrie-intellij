@@ -23,6 +23,7 @@ open class MixinNamepath(node: ASTNode) : ValkyrieASTBase(node) {
             .joinToString("∷") { it.name }
     }
 
+    fun identifierList(): List<ValkyrieIdentifierNode> = children.filterIsInstance<ValkyrieIdentifierNode>()
 
     fun delimiterList(): List<PsiElement> {
         return this.children.filter {

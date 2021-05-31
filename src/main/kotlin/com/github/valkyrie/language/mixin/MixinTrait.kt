@@ -4,7 +4,6 @@ import com.github.valkyrie.ide.file.ValkyrieIconProvider
 import com.github.valkyrie.ide.view.ValkyrieViewElement
 import com.github.valkyrie.language.ast.DeclareNode
 import com.github.valkyrie.language.psi_node.ValkyrieIdentifierNode
-import com.github.valkyrie.language.psi_node.ValkyrieMaybeModifierNode
 import com.github.valkyrie.language.psi_node.ValkyrieTraitStatementNode
 import com.intellij.icons.AllIcons
 import com.intellij.ide.projectView.PresentationData

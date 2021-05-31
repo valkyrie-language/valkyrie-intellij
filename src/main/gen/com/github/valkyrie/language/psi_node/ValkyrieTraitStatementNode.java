@@ -29,9 +29,9 @@ public class ValkyrieTraitStatementNode extends MixinTrait implements ValkyrieTr
   }
 
   @Override
-  @NotNull
+  @Nullable
   public ValkyrieClassBlock getClassBlock() {
-    return findNotNullChildByClass(ValkyrieClassBlock.class);
+    return findChildByClass(ValkyrieClassBlock.class);
   }
 
   @Override
@@ -54,8 +54,8 @@ public class ValkyrieTraitStatementNode extends MixinTrait implements ValkyrieTr
 
   @Override
   @NotNull
-  public PsiElement getKeyword() {
-    return ASTMethods.getKeyword(this);
+  public ValkyrieIdentifierNode getIdentifier() {
+    return ASTMethods.getIdentifier(this);
   }
 
   @Override

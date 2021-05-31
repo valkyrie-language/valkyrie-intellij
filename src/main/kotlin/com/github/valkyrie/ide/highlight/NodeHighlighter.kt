@@ -111,7 +111,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         }
     }
 
-    override fun visitMaybeModifier(o: ValkyrieMaybeModifier) {
+    override fun visitModifiers(o: ValkyrieModifiers) {
         o.identifierList.forEach {
             highlight(it, Color.MODIFIER)
         }
