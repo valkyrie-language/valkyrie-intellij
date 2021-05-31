@@ -14,14 +14,28 @@ class ASTMethods {
 
         @JvmStatic
         fun getModifiers(node: ValkyrieTraitStatement): Array<ValkyrieIdentifierNode> {
-            val mods = node.maybeModifier ?: return arrayOf();
-            return mods.identifierList.map { it as ValkyrieIdentifierNode }.toTypedArray()
+            return node.modified.modifiers.getModifiers()
         }
 
         @JvmStatic
         fun getModifiers(node: ValkyrieDefineStatement): Array<ValkyrieIdentifierNode> {
-            val mods = node.maybeModifier ?: return arrayOf();
-            return mods.identifierList.map { it as ValkyrieIdentifierNode }.toTypedArray()
+            return node.modified.modifiers.getModifiers()
+        }
+
+
+        @JvmStatic
+        fun getIdentifier(node: ValkyrieClassStatement): ValkyrieIdentifierNode {
+            return node.modified.lastChild as ValkyrieIdentifierNode
+        }
+
+        @JvmStatic
+        fun getModifiers(node: ValkyrieClassStatement): Array<ValkyrieIdentifierNode> {
+            return node.modified.modifiers.getModifiers()
         }
     }
+}
+
+private fun ValkyrieModifiers?.getModifiers(): Array<ValkyrieIdentifierNode> {
+    this ?: return arrayOf();
+    return this.identifierList.map { it as ValkyrieIdentifierNode }.toTypedArray()
 }

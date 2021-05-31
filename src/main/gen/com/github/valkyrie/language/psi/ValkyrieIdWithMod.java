@@ -5,12 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieNormalPattern extends PsiElement {
-
-  @Nullable
-  ValkyrieModified getModified();
+public interface ValkyrieIdWithMod extends PsiElement {
 
   @NotNull
-  List<ValkyriePatternItem> getPatternItemList();
+  ValkyrieIdentifier getIdentifier();
+
+  @Nullable
+  ValkyrieModifiers getModifiers();
 
 }

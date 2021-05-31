@@ -199,7 +199,11 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitMaybeModifier(@NotNull ValkyrieMaybeModifier o) {
+  public void visitModified(@NotNull ValkyrieModified o) {
+    visitPsiElement(o);
+  }
+
+  public void visitModifiers(@NotNull ValkyrieModifiers o) {
     visitPsiElement(o);
   }
 

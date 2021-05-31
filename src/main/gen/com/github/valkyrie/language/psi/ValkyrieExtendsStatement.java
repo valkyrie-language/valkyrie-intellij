@@ -17,7 +17,7 @@ public interface ValkyrieExtendsStatement extends PsiElement {
   ValkyrieIdentifier getIdentifier();
 
   @Nullable
-  ValkyrieMaybeModifier getMaybeModifier();
+  ValkyrieModifiers getModifiers();
 
   @NotNull
   List<ValkyrieTypeGeneric> getTypeGenericList();

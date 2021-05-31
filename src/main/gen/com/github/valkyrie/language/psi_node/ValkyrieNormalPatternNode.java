@@ -30,20 +30,14 @@ public class ValkyrieNormalPatternNode extends MixinNormalPattern implements Val
 
   @Override
   @Nullable
-  public ValkyrieMaybeModifier getMaybeModifier() {
-    return findChildByClass(ValkyrieMaybeModifier.class);
+  public ValkyrieModified getModified() {
+    return findChildByClass(ValkyrieModified.class);
   }
 
   @Override
   @NotNull
   public List<ValkyriePatternItem> getPatternItemList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyriePatternItem.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyriePatternPair> getPatternPairList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyriePatternPair.class);
   }
 
 }

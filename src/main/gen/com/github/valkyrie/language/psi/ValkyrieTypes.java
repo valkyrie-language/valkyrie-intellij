@@ -56,7 +56,8 @@ public interface ValkyrieTypes {
   IElementType MATCH_BLOCK = new ValkyrieTokenType("MATCH_BLOCK");
   IElementType MATCH_EXPRESSION = new ValkyrieTokenType("MATCH_EXPRESSION");
   IElementType MATCH_STATEMENT = new ValkyrieTokenType("MATCH_STATEMENT");
-  IElementType MAYBE_MODIFIER = new ValkyrieTokenType("MAYBE_MODIFIER");
+  IElementType MODIFIED = new ValkyrieTokenType("MODIFIED");
+  IElementType MODIFIERS = new ValkyrieTokenType("MODIFIERS");
   IElementType NAMEPATH = new ValkyrieTokenType("NAMEPATH");
   IElementType NAMEPATH_FREE = new ValkyrieTokenType("NAMEPATH_FREE");
   IElementType NAMESPACE_STATEMENT = new ValkyrieTokenType("NAMESPACE_STATEMENT");
@@ -100,6 +101,7 @@ public interface ValkyrieTypes {
   IElementType DOT_EQ = new ValkyrieTokenType("DOT_EQ");
   IElementType DOT_LESS = new ValkyrieTokenType("DOT_LESS");
   IElementType FORALL = new ValkyrieTokenType("FORALL");
+  IElementType ID_WITH_MOD = new ValkyrieTokenType("id_with_mod");
   IElementType INTEGER = new ValkyrieTokenType("INTEGER");
   IElementType KW_BITFLAG = new ValkyrieTokenType("KW_BITFLAG");
   IElementType KW_CASE = new ValkyrieTokenType("KW_CASE");
@@ -142,7 +144,7 @@ public interface ValkyrieTypes {
   IElementType OP_GGG = new ValkyrieTokenType(">>>");
   IElementType OP_GS = new ValkyrieTokenType("/>");
   IElementType OP_GT = new ValkyrieTokenType(">");
-  IElementType OP_IN = new ValkyrieTokenType("in");
+  IElementType OP_IN = new ValkyrieTokenType("OP_IN");
   IElementType OP_INC = new ValkyrieTokenType("++");
   IElementType OP_IS_A = new ValkyrieTokenType("is");
   IElementType OP_LEQ = new ValkyrieTokenType("<=");
@@ -330,8 +332,11 @@ public interface ValkyrieTypes {
       else if (type == MATCH_STATEMENT) {
         return new ValkyrieMatchStatementNode(node);
       }
-      else if (type == MAYBE_MODIFIER) {
-        return new ValkyrieMaybeModifierNode(node);
+      else if (type == MODIFIED) {
+        return new ValkyrieModifiedNode(node);
+      }
+      else if (type == MODIFIERS) {
+        return new ValkyrieModifiersNode(node);
       }
       else if (type == NAMEPATH) {
         return new ValkyrieNamepathNode(node);

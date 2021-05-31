@@ -36,8 +36,8 @@ public class ValkyrieClassItemNode extends ValkyrieASTBase implements ValkyrieCl
 
   @Override
   @Nullable
-  public ValkyrieMaybeModifier getMaybeModifier() {
-    return findChildByClass(ValkyrieMaybeModifier.class);
+  public ValkyrieModifiers getModifiers() {
+    return findChildByClass(ValkyrieModifiers.class);
   }
 
   @Override

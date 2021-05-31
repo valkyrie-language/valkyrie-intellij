@@ -14,7 +14,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiReference
 
 
-open class MixinNormalPattern(node: ASTNode) : ValkyrieASTBase(node) {
+open class MixinCasePattern(node: ASTNode) : ValkyrieASTBase(node) {
 
 }
 

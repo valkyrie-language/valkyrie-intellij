@@ -48,8 +48,8 @@ public class ValkyrieExtendsStatementNode extends MixinExtends implements Valkyr
 
   @Override
   @Nullable
-  public ValkyrieMaybeModifier getMaybeModifier() {
-    return findChildByClass(ValkyrieMaybeModifier.class);
+  public ValkyrieModifiers getModifiers() {
+    return findChildByClass(ValkyrieModifiers.class);
   }
 
   @Override

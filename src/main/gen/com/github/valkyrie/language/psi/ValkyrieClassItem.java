@@ -11,7 +11,7 @@ public interface ValkyrieClassItem extends PsiElement {
   List<ValkyrieExpression> getExpressionList();
 
   @Nullable
-  ValkyrieMaybeModifier getMaybeModifier();
+  ValkyrieModifiers getModifiers();
 
   @NotNull
   ValkyrieObjectKey getObjectKey();

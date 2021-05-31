@@ -17,6 +17,6 @@ public interface ValkyrieDefineItem extends PsiElement {
   List<ValkyrieMacroCall> getMacroCallList();
 
   @Nullable
-  ValkyrieMaybeModifier getMaybeModifier();
+  ValkyrieModifiers getModifiers();
 
 }

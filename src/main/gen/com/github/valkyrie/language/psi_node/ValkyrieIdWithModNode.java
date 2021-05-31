@@ -8,18 +8,18 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
-import com.github.valkyrie.language.mixin.MixinBitflag;
+import com.github.valkyrie.language.ast.ValkyrieASTBase;
 import com.github.valkyrie.language.psi.*;
 import com.github.valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieBitflagStatementNode extends MixinBitflag implements ValkyrieBitflagStatement {
+public class ValkyrieIdWithModNode extends ValkyrieASTBase implements ValkyrieIdWithMod {
 
-  public ValkyrieBitflagStatementNode(@NotNull ASTNode node) {
+  public ValkyrieIdWithModNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitBitflagStatement(this);
+    visitor.visitIdWithMod(this);
   }
 
   @Override
@@ -30,20 +30,14 @@ public class ValkyrieBitflagStatementNode extends MixinBitflag implements Valkyr
 
   @Override
   @NotNull
-  public ValkyrieBitflagBlock getBitflagBlock() {
-    return findNotNullChildByClass(ValkyrieBitflagBlock.class);
+  public ValkyrieIdentifier getIdentifier() {
+    return findNotNullChildByClass(ValkyrieIdentifier.class);
   }
 
   @Override
   @Nullable
-  public ValkyrieBitflagLayout getBitflagLayout() {
-    return findChildByClass(ValkyrieBitflagLayout.class);
-  }
-
-  @Override
-  @NotNull
   public ValkyrieModifiers getModifiers() {
-    return findNotNullChildByClass(ValkyrieModifiers.class);
+    return findChildByClass(ValkyrieModifiers.class);
   }
 
 }

@@ -20,11 +20,12 @@ public interface ValkyrieDefineStatement extends PsiElement {
   @Nullable
   ValkyrieGenericDefine getGenericDefine();
 
-  @Nullable
-  ValkyrieMaybeModifier getMaybeModifier();
-
   @NotNull
-  ValkyrieNamepathFree getNamepathFree();
+  ValkyrieModified getModified();
+
+  //WARNING: getNamepath(...) is skipped
+  //matching getNamepath(ValkyrieDefineStatement, ...)
+  //methods are not found in ASTMethods
 
   @NotNull
   ValkyrieIdentifierNode[] getModifiers();

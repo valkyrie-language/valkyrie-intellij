@@ -15,10 +15,7 @@ public interface ValkyrieTraitStatement extends PsiElement {
   ValkyrieExpression getExpression();
 
   @NotNull
-  ValkyrieIdentifier getIdentifier();
-
-  @Nullable
-  ValkyrieMaybeModifier getMaybeModifier();
+  ValkyrieModified getModified();
 
   @Nullable
   ValkyrieTypeGeneric getTypeGeneric();
