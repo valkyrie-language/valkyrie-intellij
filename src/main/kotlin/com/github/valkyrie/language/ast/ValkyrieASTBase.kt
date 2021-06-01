@@ -2,22 +2,29 @@ package com.github.valkyrie.language.ast
 
 import com.github.valkyrie.ide.reference.ValkyrieReference
 import com.github.valkyrie.ide.view.ValkyrieViewElement
-import com.github.valkyrie.language.psi_node.ValkyrieClassStatementNode
-import com.github.valkyrie.language.psi_node.ValkyrieTraitStatementNode
+import com.github.valkyrie.language.psi_node.ValkyrieMacroCallNode
+import com.github.valkyrie.language.psi_node.ValkyrieMacroListNode
 import com.intellij.extapi.psi.ASTWrapperPsiElement
-import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.lang.ASTNode
-import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.*
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.util.prevLeafs
+import com.intellij.psi.util.siblings
 
 open class ValkyrieASTBase(node: ASTNode) : ASTWrapperPsiElement(node) {
     fun collectDocuments(): List<PsiElement> {
         return listOf()
     }
 
-    fun collectAnnotations(): List<PsiElement> {
-        return listOf()
+    fun addAnnotationView(list: MutableList<ValkyrieViewElement>) {
+        for (node in this.siblings(forward = true, withSelf = false)) {
+           when (node ) {
+               is ValkyrieMacroListNode -> list.add(ValkyrieViewElement(node))
+               is ValkyrieMacroCallNode -> list.add(ValkyrieViewElement(node))
+               is PsiWhiteSpace, is PsiComment -> continue
+               else -> break
+           }
+        }
     }
 
     open fun getChildrenView(): Array<ValkyrieViewElement> {

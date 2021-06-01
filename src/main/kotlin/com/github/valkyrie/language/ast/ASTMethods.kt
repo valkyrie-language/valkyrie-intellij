@@ -6,6 +6,7 @@ import com.github.valkyrie.ide.view.ValkyrieViewElement
 import com.github.valkyrie.language.mixin.MixinNamepath
 import com.github.valkyrie.language.psi.*
 import com.github.valkyrie.language.psi_node.ValkyrieIdentifierNode
+import com.intellij.openapi.fileEditor.PsiElementNavigatable
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.util.PsiTreeUtil
 
@@ -14,10 +15,26 @@ class ASTMethods {
         @JvmStatic
         fun addChildrenView(node: ValkyrieModified?, list: MutableList<ValkyrieViewElement>) {
             if (node == null) return
+            node.modifiers?.identifierList?.forEach {
+                list.add(ValkyrieViewElement(it as ValkyrieIdentifierNode, it.name, ValkyrieIconProvider.MODIFIER))
+            }
+        }
+        @JvmStatic
+        fun addChildrenView(node: ValkyrieClassTuple?, list: MutableList<ValkyrieViewElement>) {
+            if (node == null) return
             PsiTreeUtil
                 .getChildrenOfTypeAsList(node, NavigatablePsiElement::class.java)
                 .forEach {
-                    list.add(ValkyrieViewElement(it, it.text, ValkyrieIconProvider.MODIFIER))
+                    list.add(ValkyrieViewElement(it))
+                }
+        }
+        @JvmStatic
+        fun addChildrenView(node: ValkyrieClassBlock?, list: MutableList<ValkyrieViewElement>) {
+            if (node == null) return
+            PsiTreeUtil
+                .getChildrenOfTypeAsList(node, NavigatablePsiElement::class.java)
+                .forEach {
+                    list.add(ValkyrieViewElement(it))
                 }
         }
 

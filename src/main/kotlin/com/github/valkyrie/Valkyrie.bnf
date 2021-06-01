@@ -208,17 +208,22 @@ class_statement   ::= KW_CLASS <<modified identifier>> [generic_define] [class_i
     methods = [getIdentifier getModifiers]
 };
 class_inherit     ::= COLON identifier [type_generic] (OP_ADD identifier)*;
-class_tuple       ::= <<parenthesis (macro_call* class_item) COMMA>>;
+class_tuple       ::= <<parenthesis (macro_call* class_item) COMMA>> {
+    pin = 1
+    methods=[addChildrenView]
+}
 class_block       ::= <<brace_free (macro_call|class_define|class_item) (COMMA|SEMICOLON)>> {
     pin = 1
+    methods=[addChildrenView]
 }
 class_define      ::= KW_DEF? <<modified identifier>> define_tuple [(COLON|OP_ARROW) expression] [define_block] {
     pin = 3
-    mixin="com.github.valkyrie.language.mixin.MixinClassDefine"
+    mixin="com.github.valkyrie.language.mixin.MixinClassMethod"
     methods = [getIdentifier getModifiers]
 }
 class_item        ::= KW_LET? [modifiers] object_key [COLON expression] [OP_SET expression] | object_key {
     pin = object_key
+    mixin="com.github.valkyrie.language.mixin.MixinClassField"
 };
 // ---------------------------------------------------------------------------------------------------------------------
 object            ::= <<bracket_block object_pair COMMA>>

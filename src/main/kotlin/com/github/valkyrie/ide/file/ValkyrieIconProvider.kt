@@ -33,5 +33,6 @@ class ValkyrieIconProvider : IconProvider() {
         val TRAIT = AllIcons.Nodes.Interface
 
         val FUNCTION = AllIcons.Nodes.Method
+        val FIELD = AllIcons.Nodes.Field
     }
 }

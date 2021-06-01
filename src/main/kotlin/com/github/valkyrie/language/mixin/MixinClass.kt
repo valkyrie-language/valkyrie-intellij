@@ -1,8 +1,10 @@
 package com.github.valkyrie.language.mixin
 
 import com.github.valkyrie.ide.reference.ValkyrieReference
+import com.github.valkyrie.ide.view.ValkyrieViewElement
 import com.github.valkyrie.language.ast.DeclareNode
 import com.github.valkyrie.language.ast.ValkyrieASTBase
+import com.github.valkyrie.language.ast.addChildrenView
 import com.github.valkyrie.language.psi_node.ValkyrieClassDefineNode
 import com.github.valkyrie.language.psi_node.ValkyrieClassItemNode
 import com.github.valkyrie.language.psi_node.ValkyrieClassStatementNode
@@ -53,6 +55,15 @@ open class MixinClass(node: ASTNode) : DeclareNode(node) {
             )
             .filter { it.name == name.first() }
             .firstNotNullOfOrNull { it.getChildrenSymbol(name.drop(1)) }
+    }
+
+    override fun getChildrenView(): Array<ValkyrieViewElement> {
+        val childrenView: MutableList<ValkyrieViewElement> = mutableListOf()
+        originalElement.addAnnotationView(childrenView)
+        originalElement.modified.addChildrenView(childrenView)
+        originalElement.classTuple?.addChildrenView(childrenView)
+        originalElement.classBlock?.addChildrenView(childrenView)
+        return childrenView.toTypedArray()
     }
 }
 
