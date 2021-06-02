@@ -8,11 +8,11 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
-import com.github.valkyrie.language.ast.ValkyrieASTBase;
+import com.github.valkyrie.language.mixin.MixinMacroCall;
 import com.github.valkyrie.language.psi.*;
 import com.github.valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieMacroCallNode extends ValkyrieASTBase implements ValkyrieMacroCall {
+public class ValkyrieMacroCallNode extends MixinMacroCall implements ValkyrieMacroCall {
 
   public ValkyrieMacroCallNode(@NotNull ASTNode node) {
     super(node);

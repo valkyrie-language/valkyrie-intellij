@@ -279,12 +279,16 @@ private op_prefix ::= OP_ADD | OP_SUB | OP_NOT | BANG | AMP | DOT3 | DOT2;
 private op_suffix ::= BANG | QUESTION;
 call_suffix       ::= <<parenthesis expression COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
-macro_call        ::= KW_MACRO namepath_free [macro_block];
+macro_call        ::= KW_MACRO namepath_free [macro_block] {
+    mixin="com.github.valkyrie.language.mixin.MixinMacroCall"
+}
+macro_list        ::= KW_MACRO <<bracket_block (namepath_free [macro_block]) COMMA>> {
+    mixin="com.github.valkyrie.language.mixin.MixinMacroList"
+}
 macro_block       ::=
     <<parenthesis expression COMMA>>
   | <<brace_block object_pair COMMA>>
   | <<brace_block expression SEMICOLON>>;
-macro_list        ::= KW_MACRO <<bracket_block (namepath_free [macro_block]) COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
 atom           ::= range | list | object | tuple | number | string | boolean | namepath;
 tuple          ::= <<parenthesis expression COMMA>>

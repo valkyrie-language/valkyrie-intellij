@@ -12,10 +12,11 @@ import javax.swing.Icon
 
 class ValkyrieViewElement : StructureViewTreeElement, SortableTreeElement {
     private val self: NavigatablePsiElement
-    var view: ItemPresentation? = null
+    val view: ItemPresentation;
 
     constructor(self: NavigatablePsiElement) {
         this.self = self
+        this.view = self.presentation ?: PresentationData(self.name, "", self.getIcon(0), null)
     }
 
     constructor(self: NavigatablePsiElement, view: ItemPresentation) {
@@ -38,11 +39,7 @@ class ValkyrieViewElement : StructureViewTreeElement, SortableTreeElement {
 
     override fun getAlphaSortKey(): String = self.name ?: ""
 
-    override fun getPresentation(): ItemPresentation = when {
-        view != null -> view!!
-        self.presentation != null -> self.presentation!!
-        else -> PresentationData()
-    }
+    override fun getPresentation(): ItemPresentation = view
 
     override fun getChildren(): Array<out TreeElement> = when (self) {
         is ValkyrieFileNode -> self.getChildrenView()
