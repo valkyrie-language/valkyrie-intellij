@@ -45,6 +45,7 @@ class CompletionRegistrar : CompletionContributor() {
                             return
                         }
                         is ValkyrieDefineBlockNode -> {
+                            CompleteSymbol(node).inDefineBlock(parameters, context, result)
                             return
                         }
                     }

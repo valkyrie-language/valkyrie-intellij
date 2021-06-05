@@ -1589,18 +1589,44 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // <<parenthesis expression COMMA>>
-  //   | <<brace_block object_pair COMMA>>
-  //   | <<brace_block expression SEMICOLON>>
+  // <<parenthesis expression (COMMA|SEMICOLON)>>
+  //   | <<bracket_block expression (COMMA|SEMICOLON)>>
+  //   | <<brace_block expression (COMMA|SEMICOLON)>>
   public static boolean macro_block(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "macro_block")) return false;
-    if (!nextTokenIs(b, "<macro block>", BRACE_L, PARENTHESIS_L)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, MACRO_BLOCK, "<macro block>");
-    r = parenthesis(b, l + 1, ValkyrieParser::expression, COMMA_parser_);
-    if (!r) r = brace_block(b, l + 1, ValkyrieParser::object_pair, COMMA_parser_);
-    if (!r) r = brace_block(b, l + 1, ValkyrieParser::expression, SEMICOLON_parser_);
+    r = parenthesis(b, l + 1, ValkyrieParser::expression, ValkyrieParser::macro_block_0_1);
+    if (!r) r = bracket_block(b, l + 1, ValkyrieParser::expression, ValkyrieParser::macro_block_1_1);
+    if (!r) r = brace_block(b, l + 1, ValkyrieParser::expression, ValkyrieParser::macro_block_2_1);
     exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // COMMA|SEMICOLON
+  private static boolean macro_block_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "macro_block_0_1")) return false;
+    boolean r;
+    r = consumeToken(b, COMMA);
+    if (!r) r = consumeToken(b, SEMICOLON);
+    return r;
+  }
+
+  // COMMA|SEMICOLON
+  private static boolean macro_block_1_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "macro_block_1_1")) return false;
+    boolean r;
+    r = consumeToken(b, COMMA);
+    if (!r) r = consumeToken(b, SEMICOLON);
+    return r;
+  }
+
+  // COMMA|SEMICOLON
+  private static boolean macro_block_2_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "macro_block_2_1")) return false;
+    boolean r;
+    r = consumeToken(b, COMMA);
+    if (!r) r = consumeToken(b, SEMICOLON);
     return r;
   }
 

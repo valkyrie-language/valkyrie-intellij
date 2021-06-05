@@ -10,7 +10,4 @@ public interface ValkyrieMacroBlock extends PsiElement {
   @NotNull
   List<ValkyrieExpression> getExpressionList();
 
-  @NotNull
-  List<ValkyrieObjectPair> getObjectPairList();
-
 }

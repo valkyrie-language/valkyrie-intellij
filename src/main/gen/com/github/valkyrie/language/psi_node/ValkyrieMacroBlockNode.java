@@ -34,10 +34,4 @@ public class ValkyrieMacroBlockNode extends ValkyrieASTBase implements ValkyrieM
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpression.class);
   }
 
-  @Override
-  @NotNull
-  public List<ValkyrieObjectPair> getObjectPairList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieObjectPair.class);
-  }
-
 }

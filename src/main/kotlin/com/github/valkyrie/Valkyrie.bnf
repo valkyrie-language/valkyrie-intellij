@@ -286,9 +286,9 @@ macro_list        ::= KW_MACRO <<bracket_block (namepath_free [macro_block]) COM
     mixin="com.github.valkyrie.language.mixin.MixinMacroList"
 }
 macro_block       ::=
-    <<parenthesis expression COMMA>>
-  | <<brace_block object_pair COMMA>>
-  | <<brace_block expression SEMICOLON>>;
+    <<parenthesis expression (COMMA|SEMICOLON)>>
+  | <<bracket_block expression (COMMA|SEMICOLON)>>
+  | <<brace_block expression (COMMA|SEMICOLON)>>;
 // ---------------------------------------------------------------------------------------------------------------------
 atom           ::= range | list | object | tuple | number | string | boolean | namepath;
 tuple          ::= <<parenthesis expression COMMA>>

@@ -21,6 +21,7 @@ class CompleteSymbol(val element: PsiElement) : CompletionProvider<CompletionPar
     fun inTopStatement(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
         result.addTopMacros()
         result.addDeclarationStatement()
+        result.addControlFlow()
     }
 
     fun inClassBlock(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
@@ -41,6 +42,10 @@ class CompleteSymbol(val element: PsiElement) : CompletionProvider<CompletionPar
 
     }
 
+    fun inDefineBlock(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+        result.addControlFlow()
+    }
+
     companion object {
         private fun buildWithReplace(show: String, replace: String, offset: Int, lookup: Set<String>, icon: Icon): LookupElementBuilder {
             return LookupElementBuilder.create(show).bold()
@@ -54,19 +59,19 @@ class CompleteSymbol(val element: PsiElement) : CompletionProvider<CompletionPar
         }
 
         fun classSimple(show: String, lookup: Set<String> = setOf()): LookupElementBuilder {
-            return buildWithReplace(show, "$show  {}", 3, lookup, ValkyrieIconProvider.KEYWORDS)
+            return buildWithReplace(show, "$show  {}", 3, lookup, ValkyrieIconProvider.SNIPPET)
         }
 
         fun classComplex(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
-            return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.KEYWORDS)
+            return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.SNIPPET)
         }
 
         fun letDeclare(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
-            return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.KEYWORDS)
+            return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.SNIPPET)
         }
 
         fun defDeclare(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
-            return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.KEYWORDS)
+            return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.SNIPPET)
         }
 
         fun infixDeclare(show: String, lookup: Set<String> = setOf()): LookupElementBuilder {
@@ -79,6 +84,17 @@ class CompleteSymbol(val element: PsiElement) : CompletionProvider<CompletionPar
 
         fun annotationCall(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
             return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.ANNOTATION)
+        }
+
+
+        fun ifStatement(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
+            return LookupElementBuilder.create(show).bold()
+                .withLookupStrings(lookup)
+                .withIcon(ValkyrieIconProvider.SNIPPET)
+                .withInsertHandler { context, item ->
+                    val element = item.psiElement ?: return@withInsertHandler
+                    TemplateBuilder(element, context.editor).runTemplate(show, "aa")
+                }
         }
     }
 }
@@ -127,4 +143,14 @@ private fun CompletionResultSet.addDeclarationStatement() {
     addElement(classSimple("protocol"))
     addElement(classSimple("tagged", setOf("enum")))
     addElement(classSimple("bitset", setOf("bitflag")))
+}
+
+
+private fun CompletionResultSet.addControlFlow() {
+    addElement(letDeclare("if", "if cond {}", 3))
+    addElement(letDeclare("else if", "else if  {}", 3, setOf("ef", "elseif")))
+    addElement(letDeclare("else", "else {}", 2, setOf("es")))
+    addElement(letDeclare("for in", "for i in  {}", 3, setOf("for i in {}")))
+    addElement(letDeclare("for range", "for i in range  {}", 3, setOf("infixtimes")))
+    addElement(letDeclare("for kv", "for key, value in  {}", 3, setOf("fordict")))
 }
