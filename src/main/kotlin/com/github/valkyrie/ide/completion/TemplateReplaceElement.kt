@@ -6,16 +6,14 @@ import com.intellij.codeInsight.completion.InsertionContext
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.psi.PsiElement
+import javax.swing.Icon
 
 
-class TemplateReplaceElement(val element: PsiElement, val id: String, val text: String) : InsertHandler<LookupElement> {
-    var multipleLines = true;
+class TemplateReplaceElement(val element: PsiElement, val id: String, val text: String, val discard: Map<String, String>) :
+    InsertHandler<LookupElement> {
     override fun handleInsert(context: InsertionContext, item: LookupElement) {
         context.document.replaceString(context.startOffset, context.tailOffset, "")
-        TemplateBuilder(element, context.editor).runFromText(id, text)
-        if (multipleLines) {
-            context.document.insertString(context.tailOffset, "\n")
-        }
+        TemplateBuilder(element, context.editor).runFromText(id, text, discard)
     }
 
     companion object {
@@ -23,17 +21,12 @@ class TemplateReplaceElement(val element: PsiElement, val id: String, val text: 
             element: PsiElement,
             id: String,
             file: String,
-            lookup: Set<String> = setOf(),
-            multipleLines: Boolean = true
+            discard: Map<String, String> = mapOf(),
         ): LookupElementBuilder {
             val path = "/templates/liveTemplate/$file";
             val text = object {}.javaClass.getResourceAsStream(path)?.use { it.reader(Charsets.UTF_8).readText() } ?: path
-            val insert = TemplateReplaceElement(element, id, text);
-            insert.multipleLines = multipleLines;
-            return LookupElementBuilder.create(id).bold()
-                .withLookupStrings(lookup)
-                .withIcon(ValkyrieIconProvider.SNIPPET)
-                .withInsertHandler(insert)
+            val insert = TemplateReplaceElement(element, id, text, discard);
+            return LookupElementBuilder.create(id).withInsertHandler(insert)
         }
     }
 }

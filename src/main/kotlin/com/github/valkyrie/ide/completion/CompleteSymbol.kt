@@ -1,7 +1,6 @@
 package com.github.valkyrie.ide.completion
 
 import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.annotationCall
-import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.infixDeclare
 import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.macroCall
 import com.github.valkyrie.ide.completion.TemplateReplaceElement.Companion.snippetFromPath
 import com.github.valkyrie.ide.file.ValkyrieIconProvider
@@ -13,17 +12,18 @@ import com.intellij.psi.PsiElement
 import com.intellij.util.ProcessingContext
 import javax.swing.Icon
 
-class CompleteSymbol(val element: PsiElement) : CompletionProvider<CompletionParameters>() {
+@Suppress("UNUSED_PARAMETER")
+class CompleteSymbol(val context: PsiElement) : CompletionProvider<CompletionParameters>() {
     override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {}
     fun inTopStatement(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
         result.addTopMacros()
-        result.addDeclarationStatement(parameters.position)
-        result.addControlFlow(parameters.position)
+        keywordSnippet(result)
+        addControlFlow(result)
     }
 
     fun inClassBlock(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
         result.addTopMacros()
-        result.addOperationDeclare()
+        addOperationDeclare(result)
         result.addLinkedTraitMethod("constructor", "Constructor")
         result.addLinkedTraitMethod("hash", "Hash")
         result.addLinkedTraitMethod("from", "From[T]", "value: T")
@@ -40,7 +40,71 @@ class CompleteSymbol(val element: PsiElement) : CompletionProvider<CompletionPar
     }
 
     fun inDefineBlock(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
-        result.addControlFlow(parameters.position)
+        addControlFlow(result)
+    }
+
+    private fun addOperationDeclare(result: CompletionResultSet) {
+        result.addInfix("+", setOf("infix add", "infix plus"))
+        result.addInfix("+=", setOf("infix add assign", "infix plus assign"))
+        result.addInfix("-", setOf("infix sub", "infix minus"))
+        result.addInfix("-=", setOf("infix sub assign", "infix minus assign"))
+        result.addInfix("*", setOf("infix mul", "infix times"))
+        result.addInfix("*=", setOf("infix mul assign", "infix mul assign"))
+    }
+
+    private fun CompletionResultSet.addInfix(show: String, lookup: Set<String> = setOf()) {
+        val item = snippetFromPath(
+            context,
+            "infix $show",
+            "def_operator.ft",
+            mapOf(
+                "KIND" to "infix",
+                "OPERATOR" to show
+            )
+        )
+            .withIcon(ValkyrieIconProvider.OPERATOR)
+            .withLookupStrings(lookup)
+        addElement(item)
+    }
+
+    private fun keywordSnippet(result: CompletionResultSet) {
+        result.addKeywordSnippet("let", "let.ft", setOf("val"))
+        result.addKeywordSnippet("let mut", "let_mut.ft", setOf("var", "mut"))
+
+        result.addKeywordSnippet("def", "def.ft", setOf("fn", "fun", "function"))
+        result.addKeywordSnippet("method", "method.ft", setOf("def"))
+        result.addKeywordSnippet("mutable method", "method_mut.ft", setOf("def", "mutmethod"))
+        result.addKeywordSnippet("lambda", "lambda.ft")
+
+        result.addKeywordSnippet("type", "type.ft")
+
+        result.addKeywordSnippet("class", "class.ft", setOf("cass", "struct"))
+        result.addKeywordSnippet("tuple class", "class_tuple.ft", setOf("class tuple"))
+        result.addKeywordSnippet("generic class", "class_generic.ft", setOf("class generic"))
+
+        result.addKeywordSnippet("tagged", "tagged.ft")
+        result.addKeywordSnippet("bitset", "bitset.ft")
+
+        result.addKeywordSnippet("trait", "trait.ft")
+        result.addKeywordSnippet("interface", "interface.ft")
+        result.addKeywordSnippet("protocol", "protocol.ft")
+    }
+
+    private fun addControlFlow(result: CompletionResultSet) {
+        result.addKeywordSnippet( "if", "if.ft")
+        result.addKeywordSnippet( "else if", "else_if.ft", setOf("ef"))
+        result.addKeywordSnippet( "else", "else.ft")
+        result.addKeywordSnippet( "for in", "for_in.ft")
+        result.addKeywordSnippet( "for range", "for_range.ft")
+        result.addKeywordSnippet( "for kv", "for_kv.ft")
+    }
+
+    private fun CompletionResultSet.addKeywordSnippet(id: String, file: String, lookup: Set<String> = setOf()) {
+        val item = snippetFromPath(context, "let", "let.ft")
+            .bold()
+            .withLookupStrings(lookup)
+            .withIcon(ValkyrieIconProvider.SNIPPET);
+        addElement(item)
     }
 
     companion object {
@@ -53,10 +117,6 @@ class CompleteSymbol(val element: PsiElement) : CompletionProvider<CompletionPar
                     document.replaceString(context.startOffset, context.tailOffset, replace)
                     context.editor.caretModel.moveToOffset(context.tailOffset - offset)
                 }
-        }
-
-        fun infixDeclare(show: String, lookup: Set<String> = setOf()): LookupElementBuilder {
-            return buildWithReplace("infix $show", "infix `$show`(rhs: Self) {}", 1, lookup, ValkyrieIconProvider.OPERATOR)
         }
 
         fun macroCall(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
@@ -86,44 +146,4 @@ private fun CompletionResultSet.addTopMacros() {
     addElement(macroCall("@type_of", "@type_of[]", 1))
     addElement(macroCall("@name_of", "@name_of[]", 1))
     addElement(macroCall("@name_path_of", "@name_path_of[]", 1))
-}
-
-private fun CompletionResultSet.addOperationDeclare() {
-    addElement(infixDeclare("+", setOf("infixadd", "infixplus")))
-    addElement(infixDeclare("+=", setOf("infixaddassign", "infixplusassign")))
-    addElement(infixDeclare("-", setOf("infixsub", "infixminus")))
-    addElement(infixDeclare("-=", setOf("infixsubassign", "infixminusassign")))
-    addElement(infixDeclare("*", setOf("infixmul", "infixtimes")))
-    addElement(infixDeclare("*=", setOf("infixmulassign", "infixmulassign")))
-}
-
-private fun CompletionResultSet.addDeclarationStatement(element: PsiElement) {
-    addElement(snippetFromPath(element, "let", "let.ft", setOf("val")))
-    addElement(snippetFromPath(element, "let mut", "let_mut.ft", setOf("var", "mut")))
-
-    addElement(snippetFromPath(element, "def", "def.ft", setOf("fn", "fun", "function")))
-
-    addElement(snippetFromPath(element, "type", "type.ft"))
-    addElement(snippetFromPath(element, "association type", "type_association.ft"))
-    addElement(snippetFromPath(element, "result type", "type_result.ft"))
-
-    addElement(snippetFromPath(element, "class", "class.ft", setOf("cass", "struct")))
-    addElement(snippetFromPath(element, "tuple class", "class_tuple.ft"))
-    addElement(snippetFromPath(element, "generic class", "class_generic.ft"))
-
-    addElement(snippetFromPath(element, "trait", "trait.ft"))
-    addElement(snippetFromPath(element, "interface", "interface.ft"))
-    addElement(snippetFromPath(element, "protocol", "protocol.ft"))
-    addElement(snippetFromPath(element, "tagged", "tagged.ft"))
-    addElement(snippetFromPath(element, "bitset", "bitset.ft"))
-}
-
-
-private fun CompletionResultSet.addControlFlow(element: PsiElement) {
-    addElement(snippetFromPath(element, "if", "if.ft"))
-    addElement(snippetFromPath(element, "else if", "else_if.ft", setOf("ef")))
-    addElement(snippetFromPath(element, "else", "else.ft"))
-    addElement(snippetFromPath(element, "for", "for_in.ft", setOf("forin")))
-    addElement(snippetFromPath(element, "for range", "for_range.ft"))
-    addElement(snippetFromPath(element, "for kv", "for_kv.ft"))
 }
