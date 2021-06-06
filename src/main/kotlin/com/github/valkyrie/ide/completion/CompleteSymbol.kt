@@ -7,6 +7,7 @@ import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.defDeclare
 import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.infixDeclare
 import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.letDeclare
 import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.macroCall
+import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.withTemplate
 import com.github.valkyrie.ide.file.ValkyrieIconProvider
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionProvider
@@ -21,7 +22,7 @@ class CompleteSymbol(val element: PsiElement) : CompletionProvider<CompletionPar
     fun inTopStatement(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
         result.addTopMacros()
         result.addDeclarationStatement()
-        result.addControlFlow()
+        result.addControlFlow(parameters.position)
     }
 
     fun inClassBlock(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
@@ -43,7 +44,7 @@ class CompleteSymbol(val element: PsiElement) : CompletionProvider<CompletionPar
     }
 
     fun inDefineBlock(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
-        result.addControlFlow()
+        result.addControlFlow(parameters.position)
     }
 
     companion object {
@@ -87,13 +88,13 @@ class CompleteSymbol(val element: PsiElement) : CompletionProvider<CompletionPar
         }
 
 
-        fun ifStatement(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
-            return LookupElementBuilder.create(show).bold()
+        fun withTemplate(element: PsiElement, id: String, path: String, lookup: Set<String> = setOf()): LookupElementBuilder {
+            return LookupElementBuilder.create(id).bold()
                 .withLookupStrings(lookup)
                 .withIcon(ValkyrieIconProvider.SNIPPET)
-                .withInsertHandler { context, item ->
-                    val element = item.psiElement ?: return@withInsertHandler
-                    TemplateBuilder(element, context.editor).runTemplate(show, "aa")
+                .withInsertHandler { context, _ ->
+                    context.document.replaceString(context.startOffset, context.tailOffset, "")
+                    TemplateBuilder(element, context.editor).runTemplate(id, "/templates/liveTemplate/$path")
                 }
         }
     }
@@ -128,9 +129,9 @@ private fun CompletionResultSet.addOperationDeclare() {
     addElement(infixDeclare("*=", setOf("infixmulassign", "infixmulassign")))
 }
 
-private fun CompletionResultSet.addDeclarationStatement() {
-    addElement(letDeclare("let", "let  =", 2, setOf("val")))
-    addElement(letDeclare("let mut", "let mut  =", 2, setOf("mut", "var")))
+private fun CompletionResultSet.addDeclarationStatement(element: PsiElement) {
+    addElement(withTemplate(element, "let", "let.ft", setOf("val")))
+    addElement(withTemplate(element, "let mut", "let_mut.ft", setOf("var", "mut")))
     addElement(letDeclare("type", "type  =", 2))
     addElement(defDeclare("def", "def  () {}", 6, setOf("fn", "fun", "function")))
 
@@ -146,11 +147,11 @@ private fun CompletionResultSet.addDeclarationStatement() {
 }
 
 
-private fun CompletionResultSet.addControlFlow() {
-    addElement(letDeclare("if", "if cond {}", 3))
-    addElement(letDeclare("else if", "else if  {}", 3, setOf("ef", "elseif")))
-    addElement(letDeclare("else", "else {}", 2, setOf("es")))
-    addElement(letDeclare("for in", "for i in  {}", 3, setOf("for i in {}")))
-    addElement(letDeclare("for range", "for i in range  {}", 3, setOf("infixtimes")))
-    addElement(letDeclare("for kv", "for key, value in  {}", 3, setOf("fordict")))
+private fun CompletionResultSet.addControlFlow(element: PsiElement) {
+    addElement(withTemplate(element, "if", "if.ft"))
+    addElement(withTemplate(element, "else if", "else_if.ft", setOf("ef")))
+    addElement(withTemplate(element, "else", "else.ft"))
+    addElement(withTemplate(element, "for", "for_in.ft", setOf("forin")))
+    addElement(withTemplate(element, "for range", "for_range.ft"))
+    addElement(withTemplate(element, "for kv", "for_kv.ft"))
 }
