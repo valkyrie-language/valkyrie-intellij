@@ -1,13 +1,9 @@
 package com.github.valkyrie.ide.completion
 
 import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.annotationCall
-import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.classComplex
-import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.classSimple
-import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.defDeclare
 import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.infixDeclare
-import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.letDeclare
 import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.macroCall
-import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.withTemplate
+import com.github.valkyrie.ide.completion.TemplateReplaceElement.Companion.snippetFromPath
 import com.github.valkyrie.ide.file.ValkyrieIconProvider
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionProvider
@@ -21,7 +17,7 @@ class CompleteSymbol(val element: PsiElement) : CompletionProvider<CompletionPar
     override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {}
     fun inTopStatement(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
         result.addTopMacros()
-        result.addDeclarationStatement()
+        result.addDeclarationStatement(parameters.position)
         result.addControlFlow(parameters.position)
     }
 
@@ -59,22 +55,6 @@ class CompleteSymbol(val element: PsiElement) : CompletionProvider<CompletionPar
                 }
         }
 
-        fun classSimple(show: String, lookup: Set<String> = setOf()): LookupElementBuilder {
-            return buildWithReplace(show, "$show  {}", 3, lookup, ValkyrieIconProvider.SNIPPET)
-        }
-
-        fun classComplex(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
-            return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.SNIPPET)
-        }
-
-        fun letDeclare(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
-            return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.SNIPPET)
-        }
-
-        fun defDeclare(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
-            return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.SNIPPET)
-        }
-
         fun infixDeclare(show: String, lookup: Set<String> = setOf()): LookupElementBuilder {
             return buildWithReplace("infix $show", "infix `$show`(rhs: Self) {}", 1, lookup, ValkyrieIconProvider.OPERATOR)
         }
@@ -86,20 +66,8 @@ class CompleteSymbol(val element: PsiElement) : CompletionProvider<CompletionPar
         fun annotationCall(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
             return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.ANNOTATION)
         }
-
-
-        fun withTemplate(element: PsiElement, id: String, path: String, lookup: Set<String> = setOf()): LookupElementBuilder {
-            return LookupElementBuilder.create(id).bold()
-                .withLookupStrings(lookup)
-                .withIcon(ValkyrieIconProvider.SNIPPET)
-                .withInsertHandler { context, _ ->
-                    context.document.replaceString(context.startOffset, context.tailOffset, "")
-                    TemplateBuilder(element, context.editor).runTemplate(id, "/templates/liveTemplate/$path")
-                }
-        }
     }
 }
-
 
 private fun CompletionResultSet.addLinkedTraitMethod(kind: String, trait: String, args: String = "") {
     val element = LookupElementBuilder.create(kind)
@@ -130,28 +98,32 @@ private fun CompletionResultSet.addOperationDeclare() {
 }
 
 private fun CompletionResultSet.addDeclarationStatement(element: PsiElement) {
-    addElement(withTemplate(element, "let", "let.ft", setOf("val")))
-    addElement(withTemplate(element, "let mut", "let_mut.ft", setOf("var", "mut")))
-    addElement(letDeclare("type", "type  =", 2))
-    addElement(defDeclare("def", "def  () {}", 6, setOf("fn", "fun", "function")))
+    addElement(snippetFromPath(element, "let", "let.ft", setOf("val")))
+    addElement(snippetFromPath(element, "let mut", "let_mut.ft", setOf("var", "mut")))
 
-    addElement(classComplex("class", "class  {}", 3, setOf("cass", "struct")))
-    addElement(classComplex("class simple", "class ()", 2, setOf("tupleclass")))
-    addElement(classComplex("class native", "class native  {}", 3, setOf("valueclass")))
+    addElement(snippetFromPath(element, "def", "def.ft", setOf("fn", "fun", "function")))
 
-    addElement(classSimple("trait", setOf("abstractclass")))
-    addElement(classSimple("interface"))
-    addElement(classSimple("protocol"))
-    addElement(classSimple("tagged", setOf("enum")))
-    addElement(classSimple("bitset", setOf("bitflag")))
+    addElement(snippetFromPath(element, "type", "type.ft"))
+    addElement(snippetFromPath(element, "association type", "type_association.ft"))
+    addElement(snippetFromPath(element, "result type", "type_result.ft"))
+
+    addElement(snippetFromPath(element, "class", "class.ft", setOf("cass", "struct")))
+    addElement(snippetFromPath(element, "tuple class", "class_tuple.ft"))
+    addElement(snippetFromPath(element, "generic class", "class_generic.ft"))
+
+    addElement(snippetFromPath(element, "trait", "trait.ft"))
+    addElement(snippetFromPath(element, "interface", "interface.ft"))
+    addElement(snippetFromPath(element, "protocol", "protocol.ft"))
+    addElement(snippetFromPath(element, "tagged", "tagged.ft"))
+    addElement(snippetFromPath(element, "bitset", "bitset.ft"))
 }
 
 
 private fun CompletionResultSet.addControlFlow(element: PsiElement) {
-    addElement(withTemplate(element, "if", "if.ft"))
-    addElement(withTemplate(element, "else if", "else_if.ft", setOf("ef")))
-    addElement(withTemplate(element, "else", "else.ft"))
-    addElement(withTemplate(element, "for", "for_in.ft", setOf("forin")))
-    addElement(withTemplate(element, "for range", "for_range.ft"))
-    addElement(withTemplate(element, "for kv", "for_kv.ft"))
+    addElement(snippetFromPath(element, "if", "if.ft"))
+    addElement(snippetFromPath(element, "else if", "else_if.ft", setOf("ef")))
+    addElement(snippetFromPath(element, "else", "else.ft"))
+    addElement(snippetFromPath(element, "for", "for_in.ft", setOf("forin")))
+    addElement(snippetFromPath(element, "for range", "for_range.ft"))
+    addElement(snippetFromPath(element, "for kv", "for_kv.ft"))
 }

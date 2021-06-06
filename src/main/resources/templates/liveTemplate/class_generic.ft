@@ -1,0 +1,7 @@
+class $Class$[$Generic$] {
+    $fields$
+}
+
+extend[$Generic$] $Class$ {
+    $block$
+}

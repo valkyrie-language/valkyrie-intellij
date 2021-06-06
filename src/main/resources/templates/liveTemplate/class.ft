@@ -1,0 +1,7 @@
+class $Class$ {
+    $fields$
+}
+
+extends $Class$ {
+    $block$
+}
