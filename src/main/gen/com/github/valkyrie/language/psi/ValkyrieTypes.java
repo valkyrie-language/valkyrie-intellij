@@ -28,6 +28,7 @@ public interface ValkyrieTypes {
   IElementType DEFINE_ITEM = new ValkyrieTokenType("DEFINE_ITEM");
   IElementType DEFINE_STATEMENT = new ValkyrieTokenType("DEFINE_STATEMENT");
   IElementType DEFINE_TUPLE = new ValkyrieTokenType("DEFINE_TUPLE");
+  IElementType EFFECT_EXPRESSION = new ValkyrieTokenType("EFFECT_EXPRESSION");
   IElementType EF_STATEMENT = new ValkyrieTokenType("EF_STATEMENT");
   IElementType ELSE_STATEMENT = new ValkyrieTokenType("ELSE_STATEMENT");
   IElementType EXPRESSION = new ValkyrieTokenType("EXPRESSION");
@@ -47,7 +48,6 @@ public interface ValkyrieTypes {
   IElementType IMPORT_STATEMENT = new ValkyrieTokenType("IMPORT_STATEMENT");
   IElementType KW_ELSE_IF = new ValkyrieTokenType("KW_ELSE_IF");
   IElementType LET_STATEMENT = new ValkyrieTokenType("LET_STATEMENT");
-  IElementType LET_TYPE_HINT = new ValkyrieTokenType("LET_TYPE_HINT");
   IElementType LIST = new ValkyrieTokenType("LIST");
   IElementType LOOP_STATEMENT = new ValkyrieTokenType("LOOP_STATEMENT");
   IElementType MACRO_BLOCK = new ValkyrieTokenType("MACRO_BLOCK");
@@ -81,8 +81,11 @@ public interface ValkyrieTypes {
   IElementType TOP_BLOCK = new ValkyrieTokenType("TOP_BLOCK");
   IElementType TRAIT_STATEMENT = new ValkyrieTokenType("TRAIT_STATEMENT");
   IElementType TUPLE = new ValkyrieTokenType("TUPLE");
+  IElementType TYPE_BINARY = new ValkyrieTokenType("TYPE_BINARY");
+  IElementType TYPE_EXPRESSION = new ValkyrieTokenType("TYPE_EXPRESSION");
   IElementType TYPE_GENERIC = new ValkyrieTokenType("TYPE_GENERIC");
   IElementType TYPE_STATEMENT = new ValkyrieTokenType("TYPE_STATEMENT");
+  IElementType TYPE_TERM = new ValkyrieTokenType("TYPE_TERM");
 
   IElementType AMP = new ValkyrieTokenType("AMP");
   IElementType BANG = new ValkyrieTokenType("BANG");
@@ -100,7 +103,6 @@ public interface ValkyrieTypes {
   IElementType DOT3 = new ValkyrieTokenType("DOT3");
   IElementType DOT_EQ = new ValkyrieTokenType("DOT_EQ");
   IElementType DOT_LESS = new ValkyrieTokenType("DOT_LESS");
-  IElementType FORALL = new ValkyrieTokenType("FORALL");
   IElementType ID_WITH_MOD = new ValkyrieTokenType("id_with_mod");
   IElementType INTEGER = new ValkyrieTokenType("INTEGER");
   IElementType KW_BITFLAG = new ValkyrieTokenType("KW_BITFLAG");
@@ -248,6 +250,9 @@ public interface ValkyrieTypes {
       else if (type == DEFINE_TUPLE) {
         return new ValkyrieDefineTupleNode(node);
       }
+      else if (type == EFFECT_EXPRESSION) {
+        return new ValkyrieEffectExpressionNode(node);
+      }
       else if (type == EF_STATEMENT) {
         return new ValkyrieEfStatementNode(node);
       }
@@ -304,9 +309,6 @@ public interface ValkyrieTypes {
       }
       else if (type == LET_STATEMENT) {
         return new ValkyrieLetStatementNode(node);
-      }
-      else if (type == LET_TYPE_HINT) {
-        return new ValkyrieLetTypeHintNode(node);
       }
       else if (type == LIST) {
         return new ValkyrieListNode(node);
@@ -407,11 +409,20 @@ public interface ValkyrieTypes {
       else if (type == TUPLE) {
         return new ValkyrieTupleNode(node);
       }
+      else if (type == TYPE_BINARY) {
+        return new ValkyrieTypeBinaryNode(node);
+      }
+      else if (type == TYPE_EXPRESSION) {
+        return new ValkyrieTypeExpressionNode(node);
+      }
       else if (type == TYPE_GENERIC) {
         return new ValkyrieTypeGenericNode(node);
       }
       else if (type == TYPE_STATEMENT) {
         return new ValkyrieTypeStatementNode(node);
+      }
+      else if (type == TYPE_TERM) {
+        return new ValkyrieTypeTermNode(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

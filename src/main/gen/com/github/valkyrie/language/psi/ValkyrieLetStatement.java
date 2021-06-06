@@ -26,9 +26,6 @@ public interface ValkyrieLetStatement extends PsiElement {
   ValkyrieLetStatement getLetStatement();
 
   @Nullable
-  ValkyrieLetTypeHint getLetTypeHint();
-
-  @Nullable
   ValkyrieLoopStatement getLoopStatement();
 
   @Nullable
@@ -42,6 +39,9 @@ public interface ValkyrieLetStatement extends PsiElement {
 
   @Nullable
   ValkyrieNormalPattern getNormalPattern();
+
+  @NotNull
+  List<ValkyrieTypeExpression> getTypeExpressionList();
 
   @Nullable
   ValkyrieTypeStatement getTypeStatement();

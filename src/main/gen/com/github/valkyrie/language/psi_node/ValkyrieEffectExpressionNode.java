@@ -8,18 +8,18 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
-import com.github.valkyrie.language.ast.ValkyrieASTBase;
+import com.github.valkyrie.language.mixin.MixinEffect;
 import com.github.valkyrie.language.psi.*;
 import com.github.valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieTypeExpressionNode extends ValkyrieASTBase implements ValkyrieTypeExpression {
+public class ValkyrieEffectExpressionNode extends MixinEffect implements ValkyrieEffectExpression {
 
-  public ValkyrieTypeExpressionNode(@NotNull ASTNode node) {
+  public ValkyrieEffectExpressionNode(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitTypeExpression(this);
+    visitor.visitEffectExpression(this);
   }
 
   @Override
@@ -30,14 +30,8 @@ public class ValkyrieTypeExpressionNode extends ValkyrieASTBase implements Valky
 
   @Override
   @NotNull
-  public List<ValkyrieTypeBinary> getTypeBinaryList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeBinary.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieTypeTerm> getTypeTermList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeTerm.class);
+  public List<ValkyrieNamepathFree> getNamepathFreeList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNamepathFree.class);
   }
 
 }

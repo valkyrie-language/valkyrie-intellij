@@ -171,7 +171,13 @@ catch_statement   ::= KW_CATCH identifier* match_block;
 match_block       ::= <<brace_block match_expression SEMICOLON>>;
 match_expression  ::= case_pattern COLON (normal_statements [SEMICOLON])+
 // ---------------------------------------------------------------------------------------------------------------------
-define_statement  ::= KW_DEF <<modified namepath_free>> [generic_define] define_tuple [(COLON|OP_ARROW) expression] [define_block] {
+let_statement     ::=
+      KW_LET normal_pattern [let_type] [OP_SET normal_statements]
+    | KW_LET case_pattern OP_SET normal_statements;
+private let_type  ::= COLON <<sequence type_expression COMMA>>;
+// ---------------------------------------------------------------------------------------------------------------------
+define_statement  ::= KW_DEF <<modified namepath_free>> [generic_define] define_tuple def_type [define_block] {
+    pin=2
     mixin="com.github.valkyrie.language.mixin.MixinDefine"
     methods=[getNamepath getModifiers]
 };
@@ -183,12 +189,9 @@ define_item       ::= OP_POW | OP_LT | OP_GT
 define_block      ::= <<brace_block normal_statements SEMICOLON>> {
     pin = 1
 }
-type_generic      ::= <<bracket_block ([identifier COLON] expression) COMMA>>;
+private def_type  ::= [(COLON|OP_ARROW) type_expression]
 // ---------------------------------------------------------------------------------------------------------------------
-let_statement     ::=
-      KW_LET normal_pattern [let_type_hint] [OP_SET normal_statements]
-    | KW_LET case_pattern OP_SET normal_statements;
-let_type_hint     ::= COLON <<sequence expression COMMA>>;
+type_generic      ::= <<bracket_block ([identifier COLON] expression) COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
 type_statement    ::= KW_TYPE identifier [[OP_PROPORTION] type_generic] [OP_SET term] {
     mixin="com.github.valkyrie.language.mixin.MixinType"
@@ -198,8 +201,17 @@ generic_define    ::=
     | OP_PROPORTION? <<angle_block generic_type COMMA>>
 generic_call      ::= <<bracket_block generic_type COMMA>>
 generic_type      ::= [identifier COLON] expression
+type_expression   ::= type_term (type_binary type_term)*;
+type_term         ::= op_prefix* atom (op_suffix|call_suffix|type_generic|slice)* {
+    mixin="com.github.valkyrie.language.mixin.MixinTerm"
+};
+type_binary       ::= OP_AND | OP_OR | OP_ADD;
 // ---------------------------------------------------------------------------------------------------------------------
-forall_statement  ::= FORALL <<sequence identifier COMMA>> [forall_block];
+effect_expression ::= namepath_free | <<bracket_block namepath_free (COMMA|SEMICOLON)>> {
+    mixin="com.github.valkyrie.language.mixin.MixinEffect"
+};
+// ---------------------------------------------------------------------------------------------------------------------
+forall_statement  ::= OP_FORALL <<sequence identifier COMMA>> [forall_block];
 forall_block      ::= <<brace_block (expression COLON expression) (COMMA|SEMICOLON)>>;
 // ---------------------------------------------------------------------------------------------------------------------
 class_statement   ::= KW_CLASS <<modified identifier>> [generic_define] [class_inherit] (class_tuple|class_block|COLON) {

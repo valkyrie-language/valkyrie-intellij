@@ -66,12 +66,6 @@ public class ValkyrieLetStatementNode extends ValkyrieASTBase implements Valkyri
 
   @Override
   @Nullable
-  public ValkyrieLetTypeHint getLetTypeHint() {
-    return findChildByClass(ValkyrieLetTypeHint.class);
-  }
-
-  @Override
-  @Nullable
   public ValkyrieLoopStatement getLoopStatement() {
     return findChildByClass(ValkyrieLoopStatement.class);
   }
@@ -98,6 +92,12 @@ public class ValkyrieLetStatementNode extends ValkyrieASTBase implements Valkyri
   @Nullable
   public ValkyrieNormalPattern getNormalPattern() {
     return findChildByClass(ValkyrieNormalPattern.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ValkyrieTypeExpression> getTypeExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeExpression.class);
   }
 
   @Override

@@ -8,10 +8,7 @@ import com.intellij.lang.Language.getRegisteredLanguages
 import com.intellij.lang.html.HTMLLanguage
 import com.intellij.lang.injection.MultiHostInjector
 import com.intellij.lang.injection.MultiHostRegistrar
-import com.intellij.lang.injection.general.Injection
-import com.intellij.lang.injection.general.SimpleInjection
 import com.intellij.lang.xml.XMLLanguage
-import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import org.intellij.lang.regexp.RegExpLanguage
 
@@ -25,6 +22,7 @@ class LanguageInjector : MultiHostInjector {
             else -> return
         }
     }
+
     override fun elementsToInjectIn(): MutableList<out Class<out PsiElement>> {
         return mutableListOf(ValkyrieStringNode::class.java)
     }
@@ -47,12 +45,10 @@ private fun ValkyrieStringNode.injectPerform(registrar: MultiHostRegistrar) {
         "json" -> registrar.fastRegister(Json5Language.INSTANCE, this)
         "xml" -> registrar.fastRegister(XMLLanguage.INSTANCE, this)
         "html" -> registrar.fastRegister(HTMLLanguage.INSTANCE, this)
-        else -> {
-            getRegisteredLanguages()
-                .filter { it != ANY }
-                .firstOrNull { it.id == injectLanguage }
-                ?.let { registrar.fastRegister(it, this) }
-        }
+        else -> getRegisteredLanguages()
+            .filter { it != ANY }
+            .firstOrNull { it.id == injectLanguage }
+            ?.let { registrar.fastRegister(it, this) }
     }
 }
 

@@ -1,7 +1,5 @@
 package com.github.valkyrie.ide.completion
 
-import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.annotationCall
-import com.github.valkyrie.ide.completion.CompleteSymbol.Companion.macroCall
 import com.github.valkyrie.ide.completion.TemplateReplaceElement.Companion.snippetFromPath
 import com.github.valkyrie.ide.file.ValkyrieIconProvider
 import com.intellij.codeInsight.completion.CompletionParameters
@@ -14,14 +12,17 @@ import javax.swing.Icon
 
 @Suppress("UNUSED_PARAMETER")
 class CompleteSymbol(val context: PsiElement) : CompletionProvider<CompletionParameters>() {
+    var element: PsiElement = context
     override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {}
     fun inTopStatement(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+        element = parameters.position
         result.addTopMacros()
         keywordSnippet(result)
         addControlFlow(result)
     }
 
     fun inClassBlock(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+        element = parameters.position
         result.addTopMacros()
         addOperationDeclare(result)
         result.addLinkedTraitMethod("constructor", "Constructor")
@@ -32,15 +33,32 @@ class CompleteSymbol(val context: PsiElement) : CompletionProvider<CompletionPar
     }
 
     fun inClassTuple(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+        element = parameters.position
         result.addTopMacros()
     }
 
     fun inMacroBlock(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
-
+        element = parameters.position
     }
 
     fun inDefineBlock(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+        element = parameters.position
         addControlFlow(result)
+    }
+
+    private fun CompletionResultSet.addTopMacros() {
+        addElement(annotationCall("@derive", "@derive()", 1))
+        addElement(macroCall("@type_of", "@type_of[]", 1))
+        addElement(macroCall("@name_of", "@name_of[]", 1))
+        addElement(macroCall("@name_path_of", "@name_path_of[]", 1))
+    }
+
+    private fun macroCall(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
+        return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.MACRO)
+    }
+
+    private fun annotationCall(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
+        return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.ANNOTATION)
     }
 
     private fun addOperationDeclare(result: CompletionResultSet) {
@@ -54,7 +72,7 @@ class CompleteSymbol(val context: PsiElement) : CompletionProvider<CompletionPar
 
     private fun CompletionResultSet.addInfix(show: String, lookup: Set<String> = setOf()) {
         val item = snippetFromPath(
-            context,
+            element,
             "infix $show",
             "def_operator.ft",
             mapOf(
@@ -91,21 +109,33 @@ class CompleteSymbol(val context: PsiElement) : CompletionProvider<CompletionPar
     }
 
     private fun addControlFlow(result: CompletionResultSet) {
-        result.addKeywordSnippet( "if", "if.ft")
-        result.addKeywordSnippet( "else if", "else_if.ft", setOf("ef"))
-        result.addKeywordSnippet( "else", "else.ft")
-        result.addKeywordSnippet( "for in", "for_in.ft")
-        result.addKeywordSnippet( "for range", "for_range.ft")
-        result.addKeywordSnippet( "for kv", "for_kv.ft")
+        result.addKeywordSnippet("if", "if.ft")
+        result.addKeywordSnippet("else if", "else_if.ft", setOf("ef"))
+        result.addKeywordSnippet("else", "else.ft")
+        result.addKeywordSnippet("for in", "for_in.ft")
+        result.addKeywordSnippet("for range", "for_range.ft")
+        result.addKeywordSnippet("for kv", "for_kv.ft")
     }
 
     private fun CompletionResultSet.addKeywordSnippet(id: String, file: String, lookup: Set<String> = setOf()) {
-        val item = snippetFromPath(context, "let", "let.ft")
+        val item = snippetFromPath(element, id, file)
             .bold()
             .withLookupStrings(lookup)
-            .withIcon(ValkyrieIconProvider.SNIPPET);
+            .withIcon(ValkyrieIconProvider.SNIPPET)
         addElement(item)
     }
+    private fun CompletionResultSet.addLinkedTraitMethod(kind: String, trait: String, args: String = "") {
+        val element = LookupElementBuilder.create(kind)
+            .withIcon(ValkyrieIconProvider.FUNCTION)
+            .withTypeText(trait, ValkyrieIconProvider.TRAIT, false)
+            .withInsertHandler { context, _ ->
+                val document = context.document
+                document.replaceString(context.startOffset, context.tailOffset, "$kind($args) {}")
+                context.editor.caretModel.moveToOffset(context.tailOffset - 1)
+            }
+        this.addElement(element)
+    }
+
 
     companion object {
         private fun buildWithReplace(show: String, replace: String, offset: Int, lookup: Set<String>, icon: Icon): LookupElementBuilder {
@@ -119,31 +149,17 @@ class CompleteSymbol(val context: PsiElement) : CompletionProvider<CompletionPar
                 }
         }
 
-        fun macroCall(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
-            return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.MACRO)
-        }
-
-        fun annotationCall(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
-            return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.ANNOTATION)
+        private fun CompletionResultSet.addLinkedTraitMethod(kind: String, trait: String, args: String = "") {
+            val element = LookupElementBuilder.create(kind)
+                .withIcon(ValkyrieIconProvider.FUNCTION)
+                .withTypeText(trait, ValkyrieIconProvider.TRAIT, false)
+                .withInsertHandler { context, _ ->
+                    val document = context.document
+                    document.replaceString(context.startOffset, context.tailOffset, "$kind($args) {}")
+                    context.editor.caretModel.moveToOffset(context.tailOffset - 1)
+                }
+            this.addElement(element)
         }
     }
 }
 
-private fun CompletionResultSet.addLinkedTraitMethod(kind: String, trait: String, args: String = "") {
-    val element = LookupElementBuilder.create(kind)
-        .withIcon(ValkyrieIconProvider.FUNCTION)
-        .withTypeText(trait, ValkyrieIconProvider.TRAIT, false)
-        .withInsertHandler { context, _ ->
-            val document = context.document
-            document.replaceString(context.startOffset, context.tailOffset, "$kind($args) {}")
-            context.editor.caretModel.moveToOffset(context.tailOffset - 1)
-        }
-    this.addElement(element)
-}
-
-private fun CompletionResultSet.addTopMacros() {
-    addElement(annotationCall("@derive", "@derive()", 1))
-    addElement(macroCall("@type_of", "@type_of[]", 1))
-    addElement(macroCall("@name_of", "@name_of[]", 1))
-    addElement(macroCall("@name_path_of", "@name_path_of[]", 1))
-}

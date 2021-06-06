@@ -12,17 +12,17 @@ public interface ValkyrieDefineStatement extends PsiElement {
   @Nullable
   ValkyrieDefineBlock getDefineBlock();
 
-  @NotNull
-  ValkyrieDefineTuple getDefineTuple();
-
   @Nullable
-  ValkyrieExpression getExpression();
+  ValkyrieDefineTuple getDefineTuple();
 
   @Nullable
   ValkyrieGenericDefine getGenericDefine();
 
   @NotNull
   ValkyrieModified getModified();
+
+  @Nullable
+  ValkyrieTypeExpression getTypeExpression();
 
   @NotNull
   MixinNamepath getNamepath();

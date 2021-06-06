@@ -36,15 +36,9 @@ public class ValkyrieDefineStatementNode extends MixinDefine implements Valkyrie
   }
 
   @Override
-  @NotNull
-  public ValkyrieDefineTuple getDefineTuple() {
-    return findNotNullChildByClass(ValkyrieDefineTuple.class);
-  }
-
-  @Override
   @Nullable
-  public ValkyrieExpression getExpression() {
-    return findChildByClass(ValkyrieExpression.class);
+  public ValkyrieDefineTuple getDefineTuple() {
+    return findChildByClass(ValkyrieDefineTuple.class);
   }
 
   @Override
@@ -57,6 +51,12 @@ public class ValkyrieDefineStatementNode extends MixinDefine implements Valkyrie
   @NotNull
   public ValkyrieModified getModified() {
     return findNotNullChildByClass(ValkyrieModified.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieTypeExpression getTypeExpression() {
+    return findChildByClass(ValkyrieTypeExpression.class);
   }
 
   @Override
