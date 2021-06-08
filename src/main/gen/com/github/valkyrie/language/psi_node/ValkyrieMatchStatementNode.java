@@ -30,12 +30,6 @@ public class ValkyrieMatchStatementNode extends ValkyrieASTBase implements Valky
 
   @Override
   @NotNull
-  public List<ValkyrieIdentifier> getIdentifierList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifier.class);
-  }
-
-  @Override
-  @NotNull
   public ValkyrieMatchBlock getMatchBlock() {
     return findNotNullChildByClass(ValkyrieMatchBlock.class);
   }

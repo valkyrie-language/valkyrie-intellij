@@ -80,8 +80,8 @@ public interface ValkyrieTypes {
   IElementType TERM = new ValkyrieTokenType("TERM");
   IElementType TOP_BLOCK = new ValkyrieTokenType("TOP_BLOCK");
   IElementType TRAIT_STATEMENT = new ValkyrieTokenType("TRAIT_STATEMENT");
+  IElementType TRY_STATEMENT = new ValkyrieTokenType("TRY_STATEMENT");
   IElementType TUPLE = new ValkyrieTokenType("TUPLE");
-  IElementType TYPE_BINARY = new ValkyrieTokenType("TYPE_BINARY");
   IElementType TYPE_EXPRESSION = new ValkyrieTokenType("TYPE_EXPRESSION");
   IElementType TYPE_GENERIC = new ValkyrieTokenType("TYPE_GENERIC");
   IElementType TYPE_STATEMENT = new ValkyrieTokenType("TYPE_STATEMENT");
@@ -123,6 +123,7 @@ public interface ValkyrieTypes {
   IElementType KW_NAMESPACE = new ValkyrieTokenType("KW_NAMESPACE");
   IElementType KW_TAGGED = new ValkyrieTokenType("KW_TAGGED");
   IElementType KW_TRAIT = new ValkyrieTokenType("KW_TRAIT");
+  IElementType KW_TRY = new ValkyrieTokenType("KW_TRY");
   IElementType KW_TYPE = new ValkyrieTokenType("KW_TYPE");
   IElementType KW_WHILE = new ValkyrieTokenType("KW_WHILE");
   IElementType OP_ADD = new ValkyrieTokenType("+");
@@ -158,7 +159,6 @@ public interface ValkyrieTypes {
   IElementType OP_MOD_ASSIGN = new ValkyrieTokenType("%=");
   IElementType OP_MUL = new ValkyrieTokenType("*");
   IElementType OP_MUL_ASSIGN = new ValkyrieTokenType("*=");
-  IElementType OP_NAMESAPCE = new ValkyrieTokenType("namespace");
   IElementType OP_NE = new ValkyrieTokenType("!=");
   IElementType OP_NOT = new ValkyrieTokenType("!");
   IElementType OP_NOT_A = new ValkyrieTokenType("is not");
@@ -406,11 +406,11 @@ public interface ValkyrieTypes {
       else if (type == TRAIT_STATEMENT) {
         return new ValkyrieTraitStatementNode(node);
       }
+      else if (type == TRY_STATEMENT) {
+        return new ValkyrieTryStatementNode(node);
+      }
       else if (type == TUPLE) {
         return new ValkyrieTupleNode(node);
-      }
-      else if (type == TYPE_BINARY) {
-        return new ValkyrieTypeBinaryNode(node);
       }
       else if (type == TYPE_EXPRESSION) {
         return new ValkyrieTypeExpressionNode(node);

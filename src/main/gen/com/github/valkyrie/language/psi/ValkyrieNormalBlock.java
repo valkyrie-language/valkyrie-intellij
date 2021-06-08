@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieNormalBlock extends PsiElement {
 
   @NotNull
+  List<ValkyrieCatchStatement> getCatchStatementList();
+
+  @NotNull
   List<ValkyrieExpression> getExpressionList();
 
   @NotNull
@@ -33,6 +36,9 @@ public interface ValkyrieNormalBlock extends PsiElement {
 
   @NotNull
   List<ValkyrieMatchStatement> getMatchStatementList();
+
+  @NotNull
+  List<ValkyrieTryStatement> getTryStatementList();
 
   @NotNull
   List<ValkyrieTypeStatement> getTypeStatementList();

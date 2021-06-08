@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieMatchStatement extends PsiElement {
 
   @NotNull
-  List<ValkyrieIdentifier> getIdentifierList();
-
-  @NotNull
   ValkyrieMatchBlock getMatchBlock();
 
 }

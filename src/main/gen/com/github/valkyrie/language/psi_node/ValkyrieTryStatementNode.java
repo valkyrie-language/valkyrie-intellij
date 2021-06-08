@@ -12,14 +12,14 @@ import com.github.valkyrie.language.ast.ValkyrieASTBase;
 import com.github.valkyrie.language.psi.*;
 import com.github.valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieEffectExpressionNode extends ValkyrieASTBase implements ValkyrieEffectExpression {
+public class ValkyrieTryStatementNode extends ValkyrieASTBase implements ValkyrieTryStatement {
 
-  public ValkyrieEffectExpressionNode(@NotNull ASTNode node) {
+  public ValkyrieTryStatementNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitEffectExpression(this);
+    visitor.visitTryStatement(this);
   }
 
   @Override
@@ -30,8 +30,14 @@ public class ValkyrieEffectExpressionNode extends ValkyrieASTBase implements Val
 
   @Override
   @NotNull
-  public List<ValkyrieNamepathFree> getNamepathFreeList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNamepathFree.class);
+  public ValkyrieNormalBlock getNormalBlock() {
+    return findNotNullChildByClass(ValkyrieNormalBlock.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ValkyrieTypeExpression> getTypeExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeExpression.class);
   }
 
 }

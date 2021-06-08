@@ -30,12 +30,6 @@ public class ValkyrieTypeExpressionNode extends ValkyrieASTBase implements Valky
 
   @Override
   @NotNull
-  public List<ValkyrieTypeBinary> getTypeBinaryList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeBinary.class);
-  }
-
-  @Override
-  @NotNull
   public List<ValkyrieTypeTerm> getTypeTermList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeTerm.class);
   }

@@ -8,11 +8,11 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
-import com.github.valkyrie.language.mixin.MixinTerm;
+import com.github.valkyrie.language.ast.ValkyrieASTBase;
 import com.github.valkyrie.language.psi.*;
 import com.github.valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieTypeTermNode extends MixinTerm implements ValkyrieTypeTerm {
+public class ValkyrieTypeTermNode extends ValkyrieASTBase implements ValkyrieTypeTerm {
 
   public ValkyrieTypeTermNode(@NotNull ASTNode node) {
     super(node);
@@ -32,18 +32,6 @@ public class ValkyrieTypeTermNode extends MixinTerm implements ValkyrieTypeTerm 
   @NotNull
   public ValkyrieAtom getAtom() {
     return findNotNullChildByClass(ValkyrieAtom.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieCallSuffix> getCallSuffixList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieCallSuffix.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieSlice> getSliceList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSlice.class);
   }
 
   @Override

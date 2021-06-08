@@ -48,7 +48,7 @@ open class MixinDefine(node: ASTNode) : DeclareNode(node) {
         get() {
             val namespace = originalElement.namepath;
             val lastDot = namespace.delimiterList().lastOrNull();
-            val firstArg = originalElement.defineTuple.defineItemList.firstOrNull()
+            val firstArg = originalElement.defineTuple?.defineItemList?.firstOrNull()
             return when {
                 lastDot?.text == "::" -> FunctionKind.STATIC_METHOD
                 lastDot?.text == "." -> FunctionKind.METHOD
@@ -59,11 +59,5 @@ open class MixinDefine(node: ASTNode) : DeclareNode(node) {
 
     fun isMethod(): Boolean = kind.isMethod
     fun isStatic(): Boolean = kind.isStatic
-
-    fun hasMutableArgument(): Boolean {
-        return originalElement.defineTuple.defineItemList.any {
-            (it as ValkyrieDefineItemNode).hasMutable()
-        }
-    }
 }
 

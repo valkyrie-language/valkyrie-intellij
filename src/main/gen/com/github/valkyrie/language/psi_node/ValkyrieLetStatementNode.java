@@ -36,6 +36,12 @@ public class ValkyrieLetStatementNode extends ValkyrieASTBase implements Valkyri
 
   @Override
   @Nullable
+  public ValkyrieCatchStatement getCatchStatement() {
+    return findChildByClass(ValkyrieCatchStatement.class);
+  }
+
+  @Override
+  @Nullable
   public ValkyrieExpression getExpression() {
     return findChildByClass(ValkyrieExpression.class);
   }
@@ -92,6 +98,12 @@ public class ValkyrieLetStatementNode extends ValkyrieASTBase implements Valkyri
   @Nullable
   public ValkyrieNormalPattern getNormalPattern() {
     return findChildByClass(ValkyrieNormalPattern.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieTryStatement getTryStatement() {
+    return findChildByClass(ValkyrieTryStatement.class);
   }
 
   @Override

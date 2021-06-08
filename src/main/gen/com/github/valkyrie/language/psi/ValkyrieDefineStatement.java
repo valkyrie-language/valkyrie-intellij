@@ -16,6 +16,9 @@ public interface ValkyrieDefineStatement extends PsiElement {
   ValkyrieDefineTuple getDefineTuple();
 
   @Nullable
+  ValkyrieEffectExpression getEffectExpression();
+
+  @Nullable
   ValkyrieGenericDefine getGenericDefine();
 
   @NotNull

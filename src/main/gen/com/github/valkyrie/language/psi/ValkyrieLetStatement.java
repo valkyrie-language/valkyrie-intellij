@@ -11,6 +11,9 @@ public interface ValkyrieLetStatement extends PsiElement {
   ValkyrieCasePattern getCasePattern();
 
   @Nullable
+  ValkyrieCatchStatement getCatchStatement();
+
+  @Nullable
   ValkyrieExpression getExpression();
 
   @Nullable
@@ -39,6 +42,9 @@ public interface ValkyrieLetStatement extends PsiElement {
 
   @Nullable
   ValkyrieNormalPattern getNormalPattern();
+
+  @Nullable
+  ValkyrieTryStatement getTryStatement();
 
   @NotNull
   List<ValkyrieTypeExpression> getTypeExpressionList();

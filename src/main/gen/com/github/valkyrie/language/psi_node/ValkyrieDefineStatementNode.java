@@ -43,6 +43,12 @@ public class ValkyrieDefineStatementNode extends MixinDefine implements Valkyrie
 
   @Override
   @Nullable
+  public ValkyrieEffectExpression getEffectExpression() {
+    return findChildByClass(ValkyrieEffectExpression.class);
+  }
+
+  @Override
+  @Nullable
   public ValkyrieGenericDefine getGenericDefine() {
     return findChildByClass(ValkyrieGenericDefine.class);
   }

@@ -295,11 +295,11 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitTuple(@NotNull ValkyrieTuple o) {
+  public void visitTryStatement(@NotNull ValkyrieTryStatement o) {
     visitPsiElement(o);
   }
 
-  public void visitTypeBinary(@NotNull ValkyrieTypeBinary o) {
+  public void visitTuple(@NotNull ValkyrieTuple o) {
     visitPsiElement(o);
   }
 
