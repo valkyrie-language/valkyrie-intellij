@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieTerm extends PsiElement {
+public interface ValkyrieInlineTerm extends PsiElement {
 
   @NotNull
   ValkyrieAtom getAtom();
@@ -14,16 +14,7 @@ public interface ValkyrieTerm extends PsiElement {
   List<ValkyrieCallSuffix> getCallSuffixList();
 
   @NotNull
-  List<ValkyrieCatchStatement> getCatchStatementList();
-
-  @NotNull
   List<ValkyrieDotCall> getDotCallList();
-
-  @NotNull
-  List<ValkyrieMatchStatement> getMatchStatementList();
-
-  @NotNull
-  List<ValkyrieNormalBlock> getNormalBlockList();
 
   @NotNull
   List<ValkyrieSlice> getSliceList();

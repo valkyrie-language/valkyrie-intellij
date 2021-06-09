@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieMatchStatement extends PsiElement {
 
-  @NotNull
+  @Nullable
   ValkyrieMatchBlock getMatchBlock();
 
 }

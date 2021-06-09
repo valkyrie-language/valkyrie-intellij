@@ -11,6 +11,9 @@ public interface ValkyrieAtom extends PsiElement {
   ValkyrieBoolean getBoolean();
 
   @Nullable
+  ValkyrieIfStatement getIfStatement();
+
+  @Nullable
   ValkyrieList getList();
 
   @Nullable
@@ -27,6 +30,9 @@ public interface ValkyrieAtom extends PsiElement {
 
   @Nullable
   ValkyrieString getString();
+
+  @Nullable
+  ValkyrieTryStatement getTryStatement();
 
   @Nullable
   ValkyrieTuple getTuple();

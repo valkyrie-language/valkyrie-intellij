@@ -12,14 +12,14 @@ import com.github.valkyrie.language.ast.ValkyrieASTBase;
 import com.github.valkyrie.language.psi.*;
 import com.github.valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieIfStatementNode extends ValkyrieASTBase implements ValkyrieIfStatement {
+public class ValkyrieInlineExpressionNode extends ValkyrieASTBase implements ValkyrieInlineExpression {
 
-  public ValkyrieIfStatementNode(@NotNull ASTNode node) {
+  public ValkyrieInlineExpressionNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitIfStatement(this);
+    visitor.visitInlineExpression(this);
   }
 
   @Override
@@ -30,26 +30,8 @@ public class ValkyrieIfStatementNode extends ValkyrieASTBase implements Valkyrie
 
   @Override
   @NotNull
-  public ValkyrieCondition getCondition() {
-    return findNotNullChildByClass(ValkyrieCondition.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieEfStatement> getEfStatementList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieEfStatement.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieElseStatement getElseStatement() {
-    return findChildByClass(ValkyrieElseStatement.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieNormalBlock getNormalBlock() {
-    return findChildByClass(ValkyrieNormalBlock.class);
+  public List<ValkyrieInlineTerm> getInlineTermList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieInlineTerm.class);
   }
 
 }

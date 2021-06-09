@@ -108,12 +108,12 @@ private top_statements ::=
 private normal_statements ::=
     if_statement
   | for_statement
+  | let_statement
+  | type_statement
   | loop_statement
   | match_statement
   | try_statement
   | catch_statement
-  | let_statement
-  | type_statement
   | forall_statement
   | macro_call
   | macro_list
@@ -135,14 +135,17 @@ import_block     ::= <<brace_block import_item COMMA>>;
 extension_statement ::= KW_EXTENSION identifier COLON namepath_free top_block {
     mixin="com.github.valkyrie.language.mixin.MixinExtension"
 };
-top_block         ::= <<brace_block top_statements SEMICOLON>>
+top_block         ::= <<brace_free top_statements SEMICOLON>>
 // ---------------------------------------------------------------------------------------------------------------------
-if_statement      ::= (KW_IF condition normal_block) [ef_statement* [else_statement]]
+if_statement      ::= KW_IF condition normal_block [ef_statement* else_statement] {
+    pin=2
+    // mixin="com.github.valkyrie.language.mixin.MixinIf"
+}
 ef_statement      ::= kw_else_if condition normal_block;
 kw_else_if        ::= "else" KW_IF | "ef"
 else_statement    ::= "else" normal_block;
-condition         ::= case_pattern OP_SET expression | expression;
-normal_block      ::= <<brace_block normal_statements SEMICOLON>>;
+condition         ::= (case_pattern OP_SET inline_expression | inline_expression);
+normal_block      ::= <<brace_free normal_statements SEMICOLON>>;
 // ---------------------------------------------------------------------------------------------------------------------
 for_statement     ::= KW_FOR (case_pattern|normal_pattern) OP_IN expression [if_guard] normal_block [else_statement] {
     mixin="com.github.valkyrie.language.mixin.MixinFor"
@@ -166,14 +169,22 @@ pattern_value     ::= identifier | pattern;
 // ---------------------------------------------------------------------------------------------------------------------
 loop_statement    ::= (KW_LOOP | KW_WHILE condition) normal_block;
 // ---------------------------------------------------------------------------------------------------------------------
-match_statement   ::= KW_MATCH match_block;
-match_block       ::= <<brace_block match_expression SEMICOLON>>;
+match_statement   ::= [DOT] KW_MATCH match_block {
+    pin=2
+    // mixin="com.github.valkyrie.language.mixin.MixinMatch"
+}
+match_block       ::= <<brace_free match_expression SEMICOLON>>;
 match_expression  ::= case_pattern COLON (normal_statements [SEMICOLON])+
 // ---------------------------------------------------------------------------------------------------------------------
-try_statement     ::= KW_TRY [type_expression|<<bracket_block type_expression (COMMA|SEMICOLON)>>] normal_block {
+// [type_expression|<<bracket_block type_expression separator>>]
+try_statement     ::= KW_TRY normal_block {
+    pin=1
     // mixin="com.github.valkyrie.language.mixin.MixinTry"
 }
-catch_statement   ::= KW_CATCH match_block;
+catch_statement   ::= [DOT] KW_CATCH match_block {
+    pin=2
+    // mixin="com.github.valkyrie.language.mixin.MixinCatch"
+}
 // ---------------------------------------------------------------------------------------------------------------------
 let_statement     ::=
       KW_LET normal_pattern [let_type] [OP_SET normal_statements]
@@ -199,7 +210,7 @@ generic_define    ::=
 generic_call      ::= <<bracket_block generic_type COMMA>>
 private def_type  ::= [(COLON|OP_ARROW) type_expression] [OP_DIV effect_expression]
 // ---------------------------------------------------------------------------------------------------------------------
-type_statement    ::= KW_TYPE identifier [[OP_PROPORTION] type_generic] [OP_SET term] {
+type_statement    ::= KW_TYPE identifier [[OP_PROPORTION] type_generic] [OP_SET type_term] {
     mixin="com.github.valkyrie.language.mixin.MixinType"
 };
 generic_type      ::= [identifier COLON] type_expression
@@ -208,12 +219,12 @@ type_term         ::= atom (type_generic)*;
 type_generic      ::= <<bracket_block ([identifier COLON] type_expression) COMMA>>;
 private type_binary ::= OP_AND | OP_OR | OP_ADD;
 // ---------------------------------------------------------------------------------------------------------------------
-effect_expression ::= namepath_free | <<bracket_block namepath_free (COMMA|SEMICOLON)>> {
+effect_expression ::= namepath_free | <<bracket_block namepath_free separator>> {
     // mixin="com.github.valkyrie.language.mixin.MixinEffect"
 };
 // ---------------------------------------------------------------------------------------------------------------------
 forall_statement  ::= OP_FORALL <<sequence identifier COMMA>> [forall_block];
-forall_block      ::= <<brace_block (expression COLON expression) (COMMA|SEMICOLON)>>;
+forall_block      ::= <<brace_block (expression COLON expression) separator>>;
 // ---------------------------------------------------------------------------------------------------------------------
 class_statement   ::= KW_CLASS <<modified identifier>> [generic_define] [class_inherit] (class_tuple|class_block|COLON) {
     pin = 2
@@ -225,7 +236,7 @@ class_tuple       ::= <<parenthesis (macro_call* class_item) COMMA>> {
     pin = 1
     methods=[addChildrenView]
 }
-class_block       ::= <<brace_free (macro_call|class_define|class_item) (COMMA|SEMICOLON)>> {
+class_block       ::= <<brace_free (macro_call|class_define|class_item) separator>> {
     pin = 1
     methods=[addChildrenView]
 }
@@ -258,7 +269,7 @@ extends_statement ::= KW_EXTENDS [type_generic] [modifiers] identifier [type_gen
 tagged_statement  ::= KW_TAGGED modifiers [[OP_PROPORTION] type_generic] tagged_block {
     mixin="com.github.valkyrie.language.mixin.MixinTagged"
 };
-tagged_block      ::= <<brace_block tagged_item (COMMA|SEMICOLON)>>;
+tagged_block      ::= <<brace_block tagged_item separator>>;
 tagged_item       ::= identifier [class_block];
 // ---------------------------------------------------------------------------------------------------------------------
 bitflag_statement ::= KW_BITFLAG modifiers [bitflag_layout] bitflag_block {
@@ -269,9 +280,17 @@ bitflag_layout    ::= PARENTHESIS_L expression PARENTHESIS_R;
 bitflag_item      ::= identifier OP_SET expression;
 // ---------------------------------------------------------------------------------------------------------------------
 expression        ::= term (op_binary term)*;
-term              ::= op_prefix* atom (op_suffix|call_suffix|type_generic|slice)* {
+inline_expression ::= inline_term (op_binary inline_term)*;
+term              ::= op_prefix* atom term_sfx* {
     mixin="com.github.valkyrie.language.mixin.MixinTerm"
 };
+inline_term       ::= op_prefix* atom line_sfx* {
+    mixin="com.github.valkyrie.language.mixin.MixinTerm"
+};
+dot_call          ::= DOT namepath;
+// a::b().c::d[T, U]()?!⟦i:j:k⟧ {}.match {...}.catch {...}
+private line_sfx  ::= op_suffix|call_suffix|type_generic|slice|dot_call
+private term_sfx  ::= line_sfx|normal_block|catch_statement|match_statement
 private op_binary ::=
       OP_SET | OP_EQ | OP_NE
     | OP_ADD | OP_ADD_ASSIGN
@@ -299,11 +318,11 @@ macro_list        ::= KW_MACRO <<bracket_block (namepath_free [macro_block]) COM
     mixin="com.github.valkyrie.language.mixin.MixinMacroList"
 }
 macro_block       ::=
-    <<parenthesis expression (COMMA|SEMICOLON)>>
-  | <<bracket_block expression (COMMA|SEMICOLON)>>
-  | <<brace_block expression (COMMA|SEMICOLON)>>;
+    <<parenthesis expression separator>>
+  | <<bracket_block expression separator>>
+  | <<brace_block expression separator>>;
 // ---------------------------------------------------------------------------------------------------------------------
-atom           ::= range | list | object | tuple | number | string | boolean | namepath;
+atom           ::= range | list | object | tuple | number | string | boolean | namepath | if_statement | try_statement;
 tuple          ::= <<parenthesis expression COMMA>>
 list           ::= <<bracket_block expression COMMA>>
 range          ::= <<slice_block slice_item COMMA>>;
@@ -340,6 +359,7 @@ private end_m1 ::= (
     COMMA|OP_EQ|DOT|COMMA
 );
 // ---------------------------------------------------------------------------------------------------------------------
+private separator          ::= COMMA | SEMICOLON;
 meta modified              ::= [modifiers] <<item>> {
     methods=[addChildrenView]
 }

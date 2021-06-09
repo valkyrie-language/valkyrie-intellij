@@ -7,10 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieTryStatement extends PsiElement {
 
-  @NotNull
+  @Nullable
   ValkyrieNormalBlock getNormalBlock();
-
-  @NotNull
-  List<ValkyrieTypeExpression> getTypeExpressionList();
 
 }

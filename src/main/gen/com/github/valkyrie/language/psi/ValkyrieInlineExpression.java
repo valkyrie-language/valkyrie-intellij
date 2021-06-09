@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieCatchStatement extends PsiElement {
+public interface ValkyrieInlineExpression extends PsiElement {
 
-  @Nullable
-  ValkyrieMatchBlock getMatchBlock();
+  @NotNull
+  List<ValkyrieInlineTerm> getInlineTermList();
 
 }

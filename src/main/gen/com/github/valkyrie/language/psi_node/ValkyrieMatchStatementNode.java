@@ -29,9 +29,9 @@ public class ValkyrieMatchStatementNode extends ValkyrieASTBase implements Valky
   }
 
   @Override
-  @NotNull
+  @Nullable
   public ValkyrieMatchBlock getMatchBlock() {
-    return findNotNullChildByClass(ValkyrieMatchBlock.class);
+    return findChildByClass(ValkyrieMatchBlock.class);
   }
 
 }

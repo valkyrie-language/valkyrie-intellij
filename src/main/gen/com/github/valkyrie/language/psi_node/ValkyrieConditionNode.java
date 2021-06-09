@@ -36,8 +36,8 @@ public class ValkyrieConditionNode extends ValkyrieASTBase implements ValkyrieCo
 
   @Override
   @NotNull
-  public ValkyrieExpression getExpression() {
-    return findNotNullChildByClass(ValkyrieExpression.class);
+  public ValkyrieInlineExpression getInlineExpression() {
+    return findNotNullChildByClass(ValkyrieInlineExpression.class);
   }
 
 }

@@ -28,6 +28,7 @@ public interface ValkyrieTypes {
   IElementType DEFINE_ITEM = new ValkyrieTokenType("DEFINE_ITEM");
   IElementType DEFINE_STATEMENT = new ValkyrieTokenType("DEFINE_STATEMENT");
   IElementType DEFINE_TUPLE = new ValkyrieTokenType("DEFINE_TUPLE");
+  IElementType DOT_CALL = new ValkyrieTokenType("DOT_CALL");
   IElementType EFFECT_EXPRESSION = new ValkyrieTokenType("EFFECT_EXPRESSION");
   IElementType EF_STATEMENT = new ValkyrieTokenType("EF_STATEMENT");
   IElementType ELSE_STATEMENT = new ValkyrieTokenType("ELSE_STATEMENT");
@@ -46,6 +47,8 @@ public interface ValkyrieTypes {
   IElementType IMPORT_BLOCK = new ValkyrieTokenType("IMPORT_BLOCK");
   IElementType IMPORT_ITEM = new ValkyrieTokenType("IMPORT_ITEM");
   IElementType IMPORT_STATEMENT = new ValkyrieTokenType("IMPORT_STATEMENT");
+  IElementType INLINE_EXPRESSION = new ValkyrieTokenType("INLINE_EXPRESSION");
+  IElementType INLINE_TERM = new ValkyrieTokenType("INLINE_TERM");
   IElementType KW_ELSE_IF = new ValkyrieTokenType("KW_ELSE_IF");
   IElementType LET_STATEMENT = new ValkyrieTokenType("LET_STATEMENT");
   IElementType LIST = new ValkyrieTokenType("LIST");
@@ -250,6 +253,9 @@ public interface ValkyrieTypes {
       else if (type == DEFINE_TUPLE) {
         return new ValkyrieDefineTupleNode(node);
       }
+      else if (type == DOT_CALL) {
+        return new ValkyrieDotCallNode(node);
+      }
       else if (type == EFFECT_EXPRESSION) {
         return new ValkyrieEffectExpressionNode(node);
       }
@@ -303,6 +309,12 @@ public interface ValkyrieTypes {
       }
       else if (type == IMPORT_STATEMENT) {
         return new ValkyrieImportStatementNode(node);
+      }
+      else if (type == INLINE_EXPRESSION) {
+        return new ValkyrieInlineExpressionNode(node);
+      }
+      else if (type == INLINE_TERM) {
+        return new ValkyrieInlineTermNode(node);
       }
       else if (type == KW_ELSE_IF) {
         return new ValkyrieKwElseIfNode(node);

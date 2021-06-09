@@ -11,9 +11,9 @@ public interface ValkyrieTypeStatement extends PsiElement {
   ValkyrieIdentifier getIdentifier();
 
   @Nullable
-  ValkyrieTerm getTerm();
+  ValkyrieTypeGeneric getTypeGeneric();
 
   @Nullable
-  ValkyrieTypeGeneric getTypeGeneric();
+  ValkyrieTypeTerm getTypeTerm();
 
 }

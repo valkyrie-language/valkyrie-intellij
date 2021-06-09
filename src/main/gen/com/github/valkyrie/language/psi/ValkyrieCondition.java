@@ -11,6 +11,6 @@ public interface ValkyrieCondition extends PsiElement {
   ValkyrieCasePattern getCasePattern();
 
   @NotNull
-  ValkyrieExpression getExpression();
+  ValkyrieInlineExpression getInlineExpression();
 
 }

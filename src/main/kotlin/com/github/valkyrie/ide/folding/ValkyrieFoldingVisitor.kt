@@ -28,10 +28,8 @@ class ValkyrieFoldingVisitor(private val descriptors: MutableList<FoldingDescrip
         super.visitBitflagStatement(o)
     }
 
-    override fun visitMatchStatement(o: ValkyrieMatchStatement) {
-        val block = o.matchBlock
-        fold(block.node, block.firstChild.endOffset, block.lastChild.startOffset)
-        super.visitMatchStatement(o)
+    override fun visitMatchBlock(o: ValkyrieMatchBlock) {
+        fold(o.node, o.firstChild.endOffset, o.lastChild.startOffset)
     }
 
     override fun visitDefineBlock(o: ValkyrieDefineBlock) {

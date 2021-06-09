@@ -87,6 +87,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitDotCall(@NotNull ValkyrieDotCall o) {
+    visitPsiElement(o);
+  }
+
   public void visitEfStatement(@NotNull ValkyrieEfStatement o) {
     visitPsiElement(o);
   }
@@ -156,6 +160,14 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitImportStatement(@NotNull ValkyrieImportStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitInlineExpression(@NotNull ValkyrieInlineExpression o) {
+    visitPsiElement(o);
+  }
+
+  public void visitInlineTerm(@NotNull ValkyrieInlineTerm o) {
     visitPsiElement(o);
   }
 

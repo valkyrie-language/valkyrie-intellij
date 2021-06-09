@@ -36,14 +36,14 @@ public class ValkyrieTypeStatementNode extends MixinType implements ValkyrieType
 
   @Override
   @Nullable
-  public ValkyrieTerm getTerm() {
-    return findChildByClass(ValkyrieTerm.class);
+  public ValkyrieTypeGeneric getTypeGeneric() {
+    return findChildByClass(ValkyrieTypeGeneric.class);
   }
 
   @Override
   @Nullable
-  public ValkyrieTypeGeneric getTypeGeneric() {
-    return findChildByClass(ValkyrieTypeGeneric.class);
+  public ValkyrieTypeTerm getTypeTerm() {
+    return findChildByClass(ValkyrieTypeTerm.class);
   }
 
 }

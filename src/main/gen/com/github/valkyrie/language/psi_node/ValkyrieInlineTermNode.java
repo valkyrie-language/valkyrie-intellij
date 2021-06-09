@@ -12,14 +12,14 @@ import com.github.valkyrie.language.mixin.MixinTerm;
 import com.github.valkyrie.language.psi.*;
 import com.github.valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieTermNode extends MixinTerm implements ValkyrieTerm {
+public class ValkyrieInlineTermNode extends MixinTerm implements ValkyrieInlineTerm {
 
-  public ValkyrieTermNode(@NotNull ASTNode node) {
+  public ValkyrieInlineTermNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitTerm(this);
+    visitor.visitInlineTerm(this);
   }
 
   @Override
@@ -42,26 +42,8 @@ public class ValkyrieTermNode extends MixinTerm implements ValkyrieTerm {
 
   @Override
   @NotNull
-  public List<ValkyrieCatchStatement> getCatchStatementList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieCatchStatement.class);
-  }
-
-  @Override
-  @NotNull
   public List<ValkyrieDotCall> getDotCallList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDotCall.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieMatchStatement> getMatchStatementList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieMatchStatement.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieNormalBlock> getNormalBlockList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNormalBlock.class);
   }
 
   @Override
