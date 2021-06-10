@@ -24,6 +24,7 @@ public interface ValkyrieTypes {
   IElementType CLASS_STATEMENT = new ValkyrieTokenType("CLASS_STATEMENT");
   IElementType CLASS_TUPLE = new ValkyrieTokenType("CLASS_TUPLE");
   IElementType CONDITION = new ValkyrieTokenType("CONDITION");
+  IElementType CONTROL = new ValkyrieTokenType("CONTROL");
   IElementType DEFINE_BLOCK = new ValkyrieTokenType("DEFINE_BLOCK");
   IElementType DEFINE_ITEM = new ValkyrieTokenType("DEFINE_ITEM");
   IElementType DEFINE_STATEMENT = new ValkyrieTokenType("DEFINE_STATEMENT");
@@ -112,6 +113,7 @@ public interface ValkyrieTypes {
   IElementType KW_CASE = new ValkyrieTokenType("KW_CASE");
   IElementType KW_CATCH = new ValkyrieTokenType("KW_CATCH");
   IElementType KW_CLASS = new ValkyrieTokenType("KW_CLASS");
+  IElementType KW_CONTROL = new ValkyrieTokenType("KW_CONTROL");
   IElementType KW_DEF = new ValkyrieTokenType("KW_DEF");
   IElementType KW_DOTS = new ValkyrieTokenType("KW_DOTS");
   IElementType KW_ESCAPING = new ValkyrieTokenType("KW_WAITING_INPUT");
@@ -135,7 +137,7 @@ public interface ValkyrieTypes {
   IElementType OP_AND = new ValkyrieTokenType("&");
   IElementType OP_AND2 = new ValkyrieTokenType("&&");
   IElementType OP_AND_ASSIGN = new ValkyrieTokenType("&=");
-  IElementType OP_AND_THEN = new ValkyrieTokenType("and_then");
+  IElementType OP_AND_THEN = new ValkyrieTokenType("OP_AND_THEN");
   IElementType OP_ARROW = new ValkyrieTokenType("->");
   IElementType OP_ARROW2 = new ValkyrieTokenType("=>");
   IElementType OP_AS = new ValkyrieTokenType("OP_AS");
@@ -170,7 +172,7 @@ public interface ValkyrieTypes {
   IElementType OP_OR = new ValkyrieTokenType("|");
   IElementType OP_OR2 = new ValkyrieTokenType("||");
   IElementType OP_OR_ASSIGN = new ValkyrieTokenType("|=");
-  IElementType OP_OR_ELSE = new ValkyrieTokenType("or_else");
+  IElementType OP_OR_ELSE = new ValkyrieTokenType("OP_OR_ELSE");
   IElementType OP_POW = new ValkyrieTokenType("^");
   IElementType OP_POW_ASSIGN = new ValkyrieTokenType("OP_POW_ASSIGN");
   IElementType OP_PROPORTION = new ValkyrieTokenType("::");
@@ -241,6 +243,9 @@ public interface ValkyrieTypes {
       }
       else if (type == CONDITION) {
         return new ValkyrieConditionNode(node);
+      }
+      else if (type == CONTROL) {
+        return new ValkyrieControlNode(node);
       }
       else if (type == DEFINE_BLOCK) {
         return new ValkyrieDefineBlockNode(node);

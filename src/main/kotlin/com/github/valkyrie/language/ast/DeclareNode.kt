@@ -1,16 +1,11 @@
 package com.github.valkyrie.language.ast
 
 
-import com.github.valkyrie.ide.view.ValkyrieViewElement
 import com.intellij.ide.projectView.PresentationData
-import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
-import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import com.intellij.psi.PsiReference
-import com.intellij.psi.util.PsiTreeUtil
 import javax.swing.Icon
 
 /// 一定是可以 view 的节点
@@ -28,4 +23,5 @@ abstract class DeclareNode(node: ASTNode) : ValkyrieASTBase(node),
         return PresentationData(this.name, "", this.getIcon(0), null)
     }
 }
+
 

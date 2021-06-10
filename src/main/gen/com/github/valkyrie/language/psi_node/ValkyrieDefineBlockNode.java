@@ -36,6 +36,12 @@ public class ValkyrieDefineBlockNode extends ValkyrieASTBase implements Valkyrie
 
   @Override
   @NotNull
+  public List<ValkyrieControl> getControlList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieControl.class);
+  }
+
+  @Override
+  @NotNull
   public List<ValkyrieExpression> getExpressionList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpression.class);
   }
@@ -50,12 +56,6 @@ public class ValkyrieDefineBlockNode extends ValkyrieASTBase implements Valkyrie
   @NotNull
   public List<ValkyrieForallStatement> getForallStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieForallStatement.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieIfStatement> getIfStatementList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIfStatement.class);
   }
 
   @Override
@@ -86,12 +86,6 @@ public class ValkyrieDefineBlockNode extends ValkyrieASTBase implements Valkyrie
   @NotNull
   public List<ValkyrieMatchStatement> getMatchStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieMatchStatement.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieTryStatement> getTryStatementList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTryStatement.class);
   }
 
   @Override

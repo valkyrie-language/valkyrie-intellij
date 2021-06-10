@@ -1,23 +1,18 @@
 package com.github.valkyrie.language.mixin
 
-import com.github.valkyrie.ide.file.ValkyrieIconProvider
 import com.github.valkyrie.ide.view.ValkyrieViewElement
 import com.github.valkyrie.language.ast.DeclareNode
 import com.github.valkyrie.language.ast.FunctionKind
-import com.github.valkyrie.language.psi.ValkyrieDefineTuple
 import com.github.valkyrie.language.psi_node.*
 import com.intellij.icons.AllIcons.Nodes.Function
 import com.intellij.icons.AllIcons.Nodes.Method
-import com.intellij.ide.projectView.PresentationData
-import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.lang.ASTNode
-import com.intellij.navigation.ItemPresentation
-import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.github.valkyrie.language.ast.addChildrenView
-import com.intellij.psi.util.PsiTreeUtil
+import com.github.valkyrie.language.symbol.VsDefineItem
 import javax.swing.Icon
 
+@Suppress("UnstableApiUsage")
 open class MixinDefine(node: ASTNode) : DeclareNode(node) {
 
     override fun getOriginalElement(): ValkyrieDefineStatementNode {
@@ -59,5 +54,15 @@ open class MixinDefine(node: ASTNode) : DeclareNode(node) {
 
     fun isMethod(): Boolean = kind.isMethod
     fun isStatic(): Boolean = kind.isStatic
+
+    override fun getOwnDeclarations(): MutableCollection<out VsDefineItem> {
+        val out = mutableListOf<VsDefineItem>();
+        val defines = originalElement.defineTuple ?: return out
+        for (item in defines.defineItemList) {
+            val id = item.identifier ?: continue;
+            out.add(VsDefineItem(id))
+        }
+        return out
+    }
 }
 

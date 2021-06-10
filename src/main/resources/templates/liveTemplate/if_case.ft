@@ -1,0 +1,7 @@
+if $expression$.as_union {
+    with []
+    case true: $block$
+    case false: $block$
+    else: $block$
+}
+

@@ -3,8 +3,10 @@ package com.github.valkyrie.language.mixin
 import com.github.valkyrie.ide.reference.ValkyrieReference
 import com.github.valkyrie.language.ast.ValkyrieASTBase
 import com.github.valkyrie.language.psi_node.ValkyrieClassStatementNode
+import com.intellij.codeInsight.controlflow.ControlFlowProvider
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiReference
+import org.apache.velocity.util.ContextAware
 
 open class MixinObjectKey(node: ASTNode) : ValkyrieASTBase(node) {
     override fun getName(): String {

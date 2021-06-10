@@ -1,7 +1,8 @@
+@derive(Default, Debug, Serde)]
 class $Class$[$Generic$] {
     $fields$
 }
 
 extend[$Generic$] $Class$ {
-    $block$
+    $functions$
 }

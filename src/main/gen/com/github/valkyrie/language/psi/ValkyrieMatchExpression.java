@@ -14,6 +14,9 @@ public interface ValkyrieMatchExpression extends PsiElement {
   List<ValkyrieCatchStatement> getCatchStatementList();
 
   @NotNull
+  List<ValkyrieControl> getControlList();
+
+  @NotNull
   List<ValkyrieExpression> getExpressionList();
 
   @NotNull
@@ -21,9 +24,6 @@ public interface ValkyrieMatchExpression extends PsiElement {
 
   @NotNull
   List<ValkyrieForallStatement> getForallStatementList();
-
-  @NotNull
-  List<ValkyrieIfStatement> getIfStatementList();
 
   @NotNull
   List<ValkyrieLetStatement> getLetStatementList();
@@ -39,9 +39,6 @@ public interface ValkyrieMatchExpression extends PsiElement {
 
   @NotNull
   List<ValkyrieMatchStatement> getMatchStatementList();
-
-  @NotNull
-  List<ValkyrieTryStatement> getTryStatementList();
 
   @NotNull
   List<ValkyrieTypeStatement> getTypeStatementList();

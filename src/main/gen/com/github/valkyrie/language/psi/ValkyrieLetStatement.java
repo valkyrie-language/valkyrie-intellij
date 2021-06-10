@@ -14,6 +14,9 @@ public interface ValkyrieLetStatement extends PsiElement {
   ValkyrieCatchStatement getCatchStatement();
 
   @Nullable
+  ValkyrieControl getControl();
+
+  @Nullable
   ValkyrieExpression getExpression();
 
   @Nullable
@@ -21,9 +24,6 @@ public interface ValkyrieLetStatement extends PsiElement {
 
   @Nullable
   ValkyrieForallStatement getForallStatement();
-
-  @Nullable
-  ValkyrieIfStatement getIfStatement();
 
   @Nullable
   ValkyrieLetStatement getLetStatement();
@@ -42,9 +42,6 @@ public interface ValkyrieLetStatement extends PsiElement {
 
   @Nullable
   ValkyrieNormalPattern getNormalPattern();
-
-  @Nullable
-  ValkyrieTryStatement getTryStatement();
 
   @NotNull
   List<ValkyrieTypeExpression> getTypeExpressionList();

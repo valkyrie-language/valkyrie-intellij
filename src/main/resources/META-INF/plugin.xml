@@ -86,6 +86,7 @@
 		<!-- Declaration -->
 		<typeDeclarationProvider implementation="com.github.valkyrie.ide.reference.DeclarationProvider"/>
 		<psi.declarationProvider implementation="com.github.valkyrie.ide.reference.ValkyrieDeclarationProvider"/>
+
 		<declarationRangeHandler
 			key="org.rust.lang.core.psi.ValkyrieClass"
 			implementationClass="com.github.valkyrie.ide.reference.declaration_range.ClassDeclarationHandler"/>

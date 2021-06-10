@@ -1,24 +1,16 @@
 package com.github.valkyrie.language.symbol
 
-import com.intellij.lang.documentation.symbol.DocumentationSymbol
 import com.intellij.model.Pointer
-import com.intellij.model.presentation.PresentableSymbol
-import com.intellij.navigation.NavigatableSymbol
-import com.intellij.navigation.NavigationTarget
+import com.intellij.model.Symbol
+import com.intellij.model.psi.PsiSymbolDeclaration
+import com.intellij.openapi.util.TextRange
+import com.intellij.psi.PsiElement
 
 @Suppress("UnstableApiUsage")
-abstract class ValkyrieSymbol :
-    Pointer<ValkyrieSymbol>, NavigationTarget,
-    PresentableSymbol, NavigatableSymbol, DocumentationSymbol {
-    override fun createPointer(): Pointer<out ValkyrieSymbol> = this;
+open class ValkyrieSymbol(open val target: PsiElement) : Pointer<ValkyrieSymbol>, Symbol, PsiSymbolDeclaration {
+    override fun createPointer(): Pointer<out ValkyrieSymbol> = this
     override fun dereference(): ValkyrieSymbol = this
-
-    open var fullName: List<String> = listOf("anonymous", "UNKNOWN");
-    open fun getNamespace(): List<String> = fullName.subList(0, fullName.count() - 1)
-    open fun getName(): String = fullName.last()
-
-    open fun isModule(): Boolean = false
-    open fun isStructure(): Boolean = false
-    open fun isInterface(): Boolean = false
+    override fun getSymbol(): ValkyrieSymbol = this
+    override fun getDeclaringElement(): PsiElement = target
+    override fun getRangeInDeclaringElement(): TextRange = target.textRange
 }
-
