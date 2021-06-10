@@ -41,27 +41,15 @@ public class ValkyrieTraitStatementNode extends MixinTrait implements ValkyrieTr
   }
 
   @Override
+  @Nullable
+  public ValkyrieGenericType getGenericType() {
+    return findChildByClass(ValkyrieGenericType.class);
+  }
+
+  @Override
   @NotNull
   public ValkyrieModified getModified() {
     return findNotNullChildByClass(ValkyrieModified.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieTypeGeneric getTypeGeneric() {
-    return findChildByClass(ValkyrieTypeGeneric.class);
-  }
-
-  @Override
-  @NotNull
-  public ValkyrieIdentifierNode getIdentifier() {
-    return ASTMethods.getIdentifier(this);
-  }
-
-  @Override
-  @NotNull
-  public ValkyrieIdentifierNode[] getModifiers() {
-    return ASTMethods.getModifiers(this);
   }
 
 }

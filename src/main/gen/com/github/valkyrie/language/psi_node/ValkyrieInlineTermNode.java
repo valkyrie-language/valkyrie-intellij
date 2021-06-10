@@ -48,14 +48,14 @@ public class ValkyrieInlineTermNode extends MixinTerm implements ValkyrieInlineT
 
   @Override
   @NotNull
-  public List<ValkyrieSlice> getSliceList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSlice.class);
+  public List<ValkyrieGenericType> getGenericTypeList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieGenericType.class);
   }
 
   @Override
   @NotNull
-  public List<ValkyrieTypeGeneric> getTypeGenericList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeGeneric.class);
+  public List<ValkyrieSlice> getSliceList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSlice.class);
   }
 
 }

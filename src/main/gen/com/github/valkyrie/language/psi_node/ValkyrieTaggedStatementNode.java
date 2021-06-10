@@ -29,6 +29,12 @@ public class ValkyrieTaggedStatementNode extends MixinTagged implements Valkyrie
   }
 
   @Override
+  @Nullable
+  public ValkyrieGenericType getGenericType() {
+    return findChildByClass(ValkyrieGenericType.class);
+  }
+
+  @Override
   @NotNull
   public ValkyrieModifiers getModifiers() {
     return findNotNullChildByClass(ValkyrieModifiers.class);
@@ -38,12 +44,6 @@ public class ValkyrieTaggedStatementNode extends MixinTagged implements Valkyrie
   @NotNull
   public ValkyrieTaggedBlock getTaggedBlock() {
     return findNotNullChildByClass(ValkyrieTaggedBlock.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieTypeGeneric getTypeGeneric() {
-    return findChildByClass(ValkyrieTypeGeneric.class);
   }
 
 }

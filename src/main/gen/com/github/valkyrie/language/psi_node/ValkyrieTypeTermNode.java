@@ -36,8 +36,8 @@ public class ValkyrieTypeTermNode extends ValkyrieASTBase implements ValkyrieTyp
 
   @Override
   @NotNull
-  public List<ValkyrieTypeGeneric> getTypeGenericList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeGeneric.class);
+  public List<ValkyrieGenericType> getGenericTypeList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieGenericType.class);
   }
 
 }

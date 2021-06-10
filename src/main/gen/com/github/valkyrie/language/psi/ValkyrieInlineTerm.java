@@ -17,9 +17,9 @@ public interface ValkyrieInlineTerm extends PsiElement {
   List<ValkyrieDotCall> getDotCallList();
 
   @NotNull
-  List<ValkyrieSlice> getSliceList();
+  List<ValkyrieGenericType> getGenericTypeList();
 
   @NotNull
-  List<ValkyrieTypeGeneric> getTypeGenericList();
+  List<ValkyrieSlice> getSliceList();
 
 }

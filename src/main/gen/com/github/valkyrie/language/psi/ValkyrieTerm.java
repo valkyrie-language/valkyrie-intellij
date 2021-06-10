@@ -20,6 +20,9 @@ public interface ValkyrieTerm extends PsiElement {
   List<ValkyrieDotCall> getDotCallList();
 
   @NotNull
+  List<ValkyrieGenericType> getGenericTypeList();
+
+  @NotNull
   List<ValkyrieMatchStatement> getMatchStatementList();
 
   @NotNull
@@ -27,8 +30,5 @@ public interface ValkyrieTerm extends PsiElement {
 
   @NotNull
   List<ValkyrieSlice> getSliceList();
-
-  @NotNull
-  List<ValkyrieTypeGeneric> getTypeGenericList();
 
 }

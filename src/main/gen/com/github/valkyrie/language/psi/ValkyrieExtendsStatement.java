@@ -14,12 +14,12 @@ public interface ValkyrieExtendsStatement extends PsiElement {
   ValkyrieExpression getExpression();
 
   @NotNull
+  List<ValkyrieGenericType> getGenericTypeList();
+
+  @NotNull
   ValkyrieIdentifier getIdentifier();
 
   @Nullable
   ValkyrieModifiers getModifiers();
-
-  @NotNull
-  List<ValkyrieTypeGeneric> getTypeGenericList();
 
 }

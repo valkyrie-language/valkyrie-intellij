@@ -29,15 +29,15 @@ public class ValkyrieGenericTypeNode extends ValkyrieASTBase implements Valkyrie
   }
 
   @Override
-  @Nullable
-  public ValkyrieIdentifier getIdentifier() {
-    return findChildByClass(ValkyrieIdentifier.class);
+  @NotNull
+  public List<ValkyrieIdentifier> getIdentifierList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifier.class);
   }
 
   @Override
   @NotNull
-  public ValkyrieTypeExpression getTypeExpression() {
-    return findNotNullChildByClass(ValkyrieTypeExpression.class);
+  public List<ValkyrieTypeExpression> getTypeExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeExpression.class);
   }
 
 }

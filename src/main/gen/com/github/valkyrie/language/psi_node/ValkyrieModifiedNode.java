@@ -11,7 +11,6 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.ast.ValkyrieASTBase;
 import com.github.valkyrie.language.psi.*;
 import com.github.valkyrie.language.ast.ASTMethods;
-import com.github.valkyrie.ide.view.ValkyrieViewElement;
 
 public class ValkyrieModifiedNode extends ValkyrieASTBase implements ValkyrieModified {
 
@@ -33,11 +32,6 @@ public class ValkyrieModifiedNode extends ValkyrieASTBase implements ValkyrieMod
   @Nullable
   public ValkyrieModifiers getModifiers() {
     return findChildByClass(ValkyrieModifiers.class);
-  }
-
-  @Override
-  public void addChildrenView(@NotNull List<ValkyrieViewElement> list) {
-    ASTMethods.addChildrenView(this, list);
   }
 
 }

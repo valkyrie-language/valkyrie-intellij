@@ -4,7 +4,6 @@ package com.github.valkyrie.language.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import com.github.valkyrie.language.psi_node.ValkyrieIdentifierNode;
 
 public interface ValkyrieTraitStatement extends PsiElement {
 
@@ -14,16 +13,18 @@ public interface ValkyrieTraitStatement extends PsiElement {
   @Nullable
   ValkyrieExpression getExpression();
 
+  @Nullable
+  ValkyrieGenericType getGenericType();
+
   @NotNull
   ValkyrieModified getModified();
 
-  @Nullable
-  ValkyrieTypeGeneric getTypeGeneric();
+  //WARNING: getIdentifier(...) is skipped
+  //matching getIdentifier(ValkyrieTraitStatement, ...)
+  //methods are not found in ASTMethods
 
-  @NotNull
-  ValkyrieIdentifierNode getIdentifier();
-
-  @NotNull
-  ValkyrieIdentifierNode[] getModifiers();
+  //WARNING: getModifiers(...) is skipped
+  //matching getModifiers(ValkyrieTraitStatement, ...)
+  //methods are not found in ASTMethods
 
 }

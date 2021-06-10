@@ -11,7 +11,6 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.ast.ValkyrieASTBase;
 import com.github.valkyrie.language.psi.*;
 import com.github.valkyrie.language.ast.ASTMethods;
-import com.github.valkyrie.ide.view.ValkyrieViewElement;
 
 public class ValkyrieClassBlockNode extends ValkyrieASTBase implements ValkyrieClassBlock {
 
@@ -45,11 +44,6 @@ public class ValkyrieClassBlockNode extends ValkyrieASTBase implements ValkyrieC
   @NotNull
   public List<ValkyrieMacroCall> getMacroCallList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieMacroCall.class);
-  }
-
-  @Override
-  public void addChildrenView(@NotNull List<ValkyrieViewElement> list) {
-    ASTMethods.addChildrenView(this, list);
   }
 
 }

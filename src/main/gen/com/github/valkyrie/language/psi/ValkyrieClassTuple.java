@@ -4,7 +4,6 @@ package com.github.valkyrie.language.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import com.github.valkyrie.ide.view.ValkyrieViewElement;
 
 public interface ValkyrieClassTuple extends PsiElement {
 
@@ -14,6 +13,8 @@ public interface ValkyrieClassTuple extends PsiElement {
   @NotNull
   List<ValkyrieMacroCall> getMacroCallList();
 
-  void addChildrenView(@NotNull List<ValkyrieViewElement> list);
+  //WARNING: addChildrenView(...) is skipped
+  //matching addChildrenView(ValkyrieClassTuple, ...)
+  //methods are not found in ASTMethods
 
 }

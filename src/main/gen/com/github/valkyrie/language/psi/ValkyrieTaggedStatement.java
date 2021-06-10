@@ -7,13 +7,13 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieTaggedStatement extends PsiElement {
 
+  @Nullable
+  ValkyrieGenericType getGenericType();
+
   @NotNull
   ValkyrieModifiers getModifiers();
 
   @NotNull
   ValkyrieTaggedBlock getTaggedBlock();
-
-  @Nullable
-  ValkyrieTypeGeneric getTypeGeneric();
 
 }
