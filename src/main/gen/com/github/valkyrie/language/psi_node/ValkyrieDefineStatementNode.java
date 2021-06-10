@@ -11,6 +11,7 @@ import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
 import com.github.valkyrie.language.mixin.MixinDefine;
 import com.github.valkyrie.language.psi.*;
 import com.github.valkyrie.language.ast.ASTMethods;
+import com.github.valkyrie.language.mixin.MixinNamepath;
 
 public class ValkyrieDefineStatementNode extends MixinDefine implements ValkyrieDefineStatement {
 
@@ -62,6 +63,18 @@ public class ValkyrieDefineStatementNode extends MixinDefine implements Valkyrie
   @Nullable
   public ValkyrieTypeExpression getTypeExpression() {
     return findChildByClass(ValkyrieTypeExpression.class);
+  }
+
+  @Override
+  @NotNull
+  public MixinNamepath getNamepath() {
+    return ASTMethods.getNamepath(this);
+  }
+
+  @Override
+  @NotNull
+  public ValkyrieIdentifierNode[] getModifiers() {
+    return ASTMethods.getModifiers(this);
   }
 
 }

@@ -4,6 +4,8 @@ package com.github.valkyrie.language.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
+import com.github.valkyrie.language.mixin.MixinNamepath;
+import com.github.valkyrie.language.psi_node.ValkyrieIdentifierNode;
 
 public interface ValkyrieDefineStatement extends PsiElement {
 
@@ -25,12 +27,10 @@ public interface ValkyrieDefineStatement extends PsiElement {
   @Nullable
   ValkyrieTypeExpression getTypeExpression();
 
-  //WARNING: getNamepath(...) is skipped
-  //matching getNamepath(ValkyrieDefineStatement, ...)
-  //methods are not found in ASTMethods
+  @NotNull
+  MixinNamepath getNamepath();
 
-  //WARNING: getModifiers(...) is skipped
-  //matching getModifiers(ValkyrieDefineStatement, ...)
-  //methods are not found in ASTMethods
+  @NotNull
+  ValkyrieIdentifierNode[] getModifiers();
 
 }

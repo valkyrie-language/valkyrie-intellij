@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieGenericDefine extends PsiElement {
 
   @NotNull
-  List<ValkyrieGenericType> getGenericTypeList();
+  List<ValkyrieTypeArgument> getTypeArgumentList();
 
 }

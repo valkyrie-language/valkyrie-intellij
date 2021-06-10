@@ -29,6 +29,8 @@ class ValkyrieIconProvider : IconProvider() {
         val MACRO = AllIcons.Gutter.ExtAnnotation
         val ANNOTATION = AllIcons.Nodes.Annotationtype
         val OPERATOR = AllIcons.Actions.RegexSelected
+        //
+        val TYPE = AllIcons.Nodes.Type
         val CLASS = AllIcons.Nodes.Class
         val TRAIT = AllIcons.Nodes.Interface
 

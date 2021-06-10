@@ -4,6 +4,7 @@ package com.github.valkyrie.language.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
+import com.github.valkyrie.language.psi_node.ValkyrieIdentifierNode;
 
 public interface ValkyrieClassStatement extends PsiElement {
 
@@ -22,12 +23,10 @@ public interface ValkyrieClassStatement extends PsiElement {
   @NotNull
   ValkyrieModified getModified();
 
-  //WARNING: getIdentifier(...) is skipped
-  //matching getIdentifier(ValkyrieClassStatement, ...)
-  //methods are not found in ASTMethods
+  @NotNull
+  ValkyrieIdentifierNode getIdentifier();
 
-  //WARNING: getModifiers(...) is skipped
-  //matching getModifiers(ValkyrieClassStatement, ...)
-  //methods are not found in ASTMethods
+  @NotNull
+  ValkyrieIdentifierNode[] getModifiers();
 
 }

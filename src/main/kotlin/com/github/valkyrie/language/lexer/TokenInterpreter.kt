@@ -17,12 +17,12 @@ private val KEYWORDS_SP = """(?x)
     | \b(for|in)\b | \b(while)\b | \b(loop)\b
     | \b(catch)\b
     | \b(is|not)\b
-    | \b(class|structure|struct)\b
+    | \b(type|class)\b
+    | \b(variant|bitflag)\b
     | \b(trait|interface|convention|protocol)\b
     | \b(extend|extends|implements|impl)\b
-    | \b(tagged)\b
     | \b(let|def)\b
-    | \b(new|object)\b
+    # | \b(new|object)\b
     | \b(try|catch)\b
     | \b(raise|break|return|resume|yield)\b
     """.toRegex()
@@ -178,15 +178,17 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             "not" -> pushToken(ValkyrieTypes.OP_NOT, r)
             "if" -> pushToken(ValkyrieTypes.KW_IF, r)
             "for" -> pushToken(ValkyrieTypes.KW_FOR, r)
-            "class", "structure", "struct" -> pushToken(ValkyrieTypes.KW_CLASS, r)
-            "trait", "interface", "convention", "protocol" -> pushToken(ValkyrieTypes.KW_TRAIT, r)
-            "tagged", "enum" -> pushToken(ValkyrieTypes.KW_TAGGED, r)
-            "extend", "extends", "impl", "implements" -> pushToken(ValkyrieTypes.KW_EXTENDS, r)
             "let" -> pushToken(ValkyrieTypes.KW_LET, r)
             "def" -> pushToken(ValkyrieTypes.KW_DEF, r)
             "try" -> pushToken(ValkyrieTypes.KW_TRY, r)
             "catch" -> pushToken(ValkyrieTypes.KW_CATCH, r)
             "break", "continue", "yield", "return", "resume", "raise" -> pushToken(ValkyrieTypes.KW_CONTROL, r)
+            "type", -> pushToken(ValkyrieTypes.KW_TYPE, r)
+            "class", "structure", "struct" -> pushToken(ValkyrieTypes.KW_CLASS, r)
+            "trait", "interface", "convention", "protocol" -> pushToken(ValkyrieTypes.KW_TRAIT, r)
+            "tagged", "enum", "variant" -> pushToken(ValkyrieTypes.KW_TAGGED, r)
+            "bitset", "bitflag" -> pushToken(ValkyrieTypes.KW_BITFLAG, r)
+            "extend", "extends", "impl", "implements" -> pushToken(ValkyrieTypes.KW_EXTENDS, r)
             else -> pushToken(BAD_CHARACTER, r)
         }
         return true

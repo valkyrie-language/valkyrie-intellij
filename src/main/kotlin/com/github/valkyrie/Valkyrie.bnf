@@ -204,16 +204,19 @@ define_item       ::= OP_POW | OP_LT | OP_GT |
 define_block      ::= <<brace_block normal_statements SEMICOLON>> {
     pin = 1
 }
-generic_define    ::= <<bracket_block generic_type COMMA>>
+generic_define    ::= <<bracket_block type_argument COMMA>>
 private def_type  ::= [(COLON|OP_ARROW) type_expression] [OP_DIV effect_expression]
 // ---------------------------------------------------------------------------------------------------------------------
-type_statement    ::= KW_TYPE identifier [generic_type] [OP_SET type_term] {
+// type Result[T: A + B] = std::result::Result[T];
+type_statement    ::= KW_TYPE generic_type [OP_SET type_term] {
+    pin=2
     mixin="com.github.valkyrie.language.mixin.MixinType"
 };
 type_expression   ::= type_term (type_binary type_term)*;
-type_term         ::= atom (generic_type)*;
-generic_call      ::= <<bracket_block generic_type COMMA>>
-generic_type      ::= <<bracket_block ([identifier COLON] type_expression) COMMA>>;
+type_term         ::= atom (generic_call)*;
+type_argument     ::= identifier [COLON type_expression];
+generic_call      ::= <<bracket_block type_expression COMMA>>
+generic_type      ::= identifier [generic_call];
 private type_binary ::= OP_AND | OP_OR | OP_ADD;
 // ---------------------------------------------------------------------------------------------------------------------
 effect_expression ::= namepath_free | <<bracket_block namepath_free separator>> {
@@ -259,8 +262,10 @@ trait_statement   ::= KW_TRAIT <<modified identifier>> [generic_type] [COLON exp
     methods=[getIdentifier getModifiers]
 };
 // ---------------------------------------------------------------------------------------------------------------------
-extends_statement ::= KW_EXTENDS [generic_type] [modifiers] identifier [generic_type] [COLON expression] class_block {
+extends_statement ::= KW_EXTENDS [generic_call] <<modified identifier>> [generic_call] [COLON expression] class_block {
+    pin = 3
     extends="com.github.valkyrie.language.mixin.MixinExtends"
+    methods=[getIdentifier getModifiers]
 }
 // ---------------------------------------------------------------------------------------------------------------------
 tagged_statement  ::= KW_TAGGED modifiers [[OP_PROPORTION] generic_type] tagged_block {

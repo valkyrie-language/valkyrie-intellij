@@ -4,22 +4,26 @@ package com.github.valkyrie.language.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
+import com.github.valkyrie.language.psi_node.ValkyrieIdentifierNode;
 
 public interface ValkyrieExtendsStatement extends PsiElement {
 
-  @NotNull
+  @Nullable
   ValkyrieClassBlock getClassBlock();
 
   @Nullable
   ValkyrieExpression getExpression();
 
   @NotNull
-  List<ValkyrieGenericType> getGenericTypeList();
+  List<ValkyrieGenericCall> getGenericCallList();
 
   @NotNull
-  ValkyrieIdentifier getIdentifier();
+  ValkyrieModified getModified();
 
-  @Nullable
-  ValkyrieModifiers getModifiers();
+  @NotNull
+  ValkyrieIdentifierNode getIdentifier();
+
+  @NotNull
+  ValkyrieIdentifierNode[] getModifiers();
 
 }

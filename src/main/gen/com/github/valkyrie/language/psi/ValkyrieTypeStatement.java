@@ -7,11 +7,8 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieTypeStatement extends PsiElement {
 
-  @Nullable
-  ValkyrieGenericType getGenericType();
-
   @NotNull
-  ValkyrieIdentifier getIdentifier();
+  ValkyrieGenericType getGenericType();
 
   @Nullable
   ValkyrieTypeTerm getTypeTerm();

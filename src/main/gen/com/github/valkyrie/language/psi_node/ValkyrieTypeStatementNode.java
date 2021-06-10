@@ -29,15 +29,9 @@ public class ValkyrieTypeStatementNode extends MixinType implements ValkyrieType
   }
 
   @Override
-  @Nullable
-  public ValkyrieGenericType getGenericType() {
-    return findChildByClass(ValkyrieGenericType.class);
-  }
-
-  @Override
   @NotNull
-  public ValkyrieIdentifier getIdentifier() {
-    return findNotNullChildByClass(ValkyrieIdentifier.class);
+  public ValkyrieGenericType getGenericType() {
+    return findNotNullChildByClass(ValkyrieGenericType.class);
   }
 
   @Override

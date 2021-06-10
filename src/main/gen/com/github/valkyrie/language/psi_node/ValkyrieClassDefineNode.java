@@ -52,4 +52,16 @@ public class ValkyrieClassDefineNode extends MixinClassMethod implements Valkyri
     return findNotNullChildByClass(ValkyrieModified.class);
   }
 
+  @Override
+  @NotNull
+  public ValkyrieIdentifierNode getIdentifier() {
+    return ASTMethods.getIdentifier(this);
+  }
+
+  @Override
+  @NotNull
+  public ValkyrieIdentifierNode[] getModifiers() {
+    return ASTMethods.getModifiers(this);
+  }
+
 }

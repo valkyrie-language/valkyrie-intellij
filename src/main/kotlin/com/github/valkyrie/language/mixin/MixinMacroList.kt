@@ -21,7 +21,7 @@ open class MixinMacroList(node: ASTNode) : ViewableNode(node) {
     }
 
     override fun getNavigationElement(): PsiElement {
-        TODO("Not yet implemented")
+        return this.firstChild
     }
 
     override fun addAnnotationView(list: MutableList<ValkyrieViewElement>) {

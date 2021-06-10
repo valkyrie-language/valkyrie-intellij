@@ -29,9 +29,9 @@ public class ValkyrieExtendsStatementNode extends MixinExtends implements Valkyr
   }
 
   @Override
-  @NotNull
+  @Nullable
   public ValkyrieClassBlock getClassBlock() {
-    return findNotNullChildByClass(ValkyrieClassBlock.class);
+    return findChildByClass(ValkyrieClassBlock.class);
   }
 
   @Override
@@ -42,20 +42,26 @@ public class ValkyrieExtendsStatementNode extends MixinExtends implements Valkyr
 
   @Override
   @NotNull
-  public List<ValkyrieGenericType> getGenericTypeList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieGenericType.class);
+  public List<ValkyrieGenericCall> getGenericCallList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieGenericCall.class);
   }
 
   @Override
   @NotNull
-  public ValkyrieIdentifier getIdentifier() {
-    return findNotNullChildByClass(ValkyrieIdentifier.class);
+  public ValkyrieModified getModified() {
+    return findNotNullChildByClass(ValkyrieModified.class);
   }
 
   @Override
-  @Nullable
-  public ValkyrieModifiers getModifiers() {
-    return findChildByClass(ValkyrieModifiers.class);
+  @NotNull
+  public ValkyrieIdentifierNode getIdentifier() {
+    return ASTMethods.getIdentifier(this);
+  }
+
+  @Override
+  @NotNull
+  public ValkyrieIdentifierNode[] getModifiers() {
+    return ASTMethods.getModifiers(this);
   }
 
 }

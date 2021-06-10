@@ -5,9 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieGenericCall extends PsiElement {
+public interface ValkyrieTypeArgument extends PsiElement {
 
   @NotNull
-  List<ValkyrieTypeExpression> getTypeExpressionList();
+  ValkyrieIdentifier getIdentifier();
+
+  @Nullable
+  ValkyrieTypeExpression getTypeExpression();
 
 }

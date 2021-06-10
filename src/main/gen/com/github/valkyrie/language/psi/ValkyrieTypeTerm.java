@@ -11,6 +11,6 @@ public interface ValkyrieTypeTerm extends PsiElement {
   ValkyrieAtom getAtom();
 
   @NotNull
-  List<ValkyrieGenericType> getGenericTypeList();
+  List<ValkyrieGenericCall> getGenericCallList();
 
 }

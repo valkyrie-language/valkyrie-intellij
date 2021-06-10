@@ -2,6 +2,7 @@ package com.github.valkyrie.ide.matcher
 
 import com.github.valkyrie.language.psi_node.ValkyrieStringNode
 import com.intellij.json.json5.Json5Language
+import com.intellij.jsonpath.JsonPathLanguage
 import com.intellij.lang.Language
 import com.intellij.lang.Language.ANY
 import com.intellij.lang.Language.getRegisteredLanguages
@@ -29,20 +30,14 @@ class LanguageInjector : MultiHostInjector {
 }
 
 private fun ValkyrieStringNode.injectPerform(registrar: MultiHostRegistrar) {
-    val remap = when (injectLanguage) {
-        "js" -> "javascript"
-        "kt" -> "kotlin"
-        "json5", "jsonp" -> "json"
-        else -> injectLanguage
-    }
-
-    when (remap) {
+    when (injectLanguage.lowercase()) {
         "re" -> registrar.fastRegister(RegExpLanguage.INSTANCE, this)
         "re_x" -> registrar.startInjecting(RegExpLanguage.INSTANCE)
             .addPlace("(?x)", null, this, injectRange)
             .doneInjecting()
-
-        "json" -> registrar.fastRegister(Json5Language.INSTANCE, this)
+        "json5", "jsonp", "json" -> registrar.fastRegister(Json5Language.INSTANCE, this)
+        "jp", "json_path" -> registrar.fastRegister(JsonPathLanguage.INSTANCE, this)
+        "xp", "xpath" -> registrar.fastRegister(XMLLanguage.INSTANCE, this)
         "xml" -> registrar.fastRegister(XMLLanguage.INSTANCE, this)
         "html" -> registrar.fastRegister(HTMLLanguage.INSTANCE, this)
         else -> getRegisteredLanguages()

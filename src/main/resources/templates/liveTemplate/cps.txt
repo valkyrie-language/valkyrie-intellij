@@ -41,7 +41,16 @@ cps do_loop[k@continue, k@break, k@test.return](i) {
 ```
 
 catch {
-
+    for i in iter {
+        if i == null {
+            break()
+        } else if i > 0 {
+            return i
+        } else {
+            continue()
+        }
+    }
+    return -1
 }
 match {
     case Break():

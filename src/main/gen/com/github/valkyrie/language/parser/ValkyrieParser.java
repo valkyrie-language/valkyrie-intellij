@@ -522,7 +522,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // COLON identifier [type_generic] (OP_ADD identifier)*
+  // COLON identifier [generic_type] (OP_ADD identifier)*
   public static boolean class_inherit(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "class_inherit")) return false;
     if (!nextTokenIs(b, COLON)) return false;
@@ -536,10 +536,10 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // [type_generic]
+  // [generic_type]
   private static boolean class_inherit_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "class_inherit_2")) return false;
-    type_generic(b, l + 1);
+    generic_type(b, l + 1);
     return true;
   }
 
@@ -1100,54 +1100,47 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_EXTENDS [type_generic] [modifiers] identifier [type_generic] [COLON expression] class_block
+  // KW_EXTENDS [generic_call] <<modified identifier>> [generic_call] [COLON expression] class_block
   public static boolean extends_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "extends_statement")) return false;
     if (!nextTokenIs(b, KW_EXTENDS)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, EXTENDS_STATEMENT, null);
     r = consumeToken(b, KW_EXTENDS);
     r = r && extends_statement_1(b, l + 1);
-    r = r && extends_statement_2(b, l + 1);
-    r = r && identifier(b, l + 1);
-    r = r && extends_statement_4(b, l + 1);
-    r = r && extends_statement_5(b, l + 1);
-    r = r && class_block(b, l + 1);
-    exit_section_(b, m, EXTENDS_STATEMENT, r);
-    return r;
+    r = r && modified(b, l + 1, ValkyrieParser::identifier);
+    p = r; // pin = 3
+    r = r && report_error_(b, extends_statement_3(b, l + 1));
+    r = p && report_error_(b, extends_statement_4(b, l + 1)) && r;
+    r = p && class_block(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
-  // [type_generic]
+  // [generic_call]
   private static boolean extends_statement_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "extends_statement_1")) return false;
-    type_generic(b, l + 1);
+    generic_call(b, l + 1);
     return true;
   }
 
-  // [modifiers]
-  private static boolean extends_statement_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "extends_statement_2")) return false;
-    modifiers(b, l + 1);
-    return true;
-  }
-
-  // [type_generic]
-  private static boolean extends_statement_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "extends_statement_4")) return false;
-    type_generic(b, l + 1);
+  // [generic_call]
+  private static boolean extends_statement_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "extends_statement_3")) return false;
+    generic_call(b, l + 1);
     return true;
   }
 
   // [COLON expression]
-  private static boolean extends_statement_5(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "extends_statement_5")) return false;
-    extends_statement_5_0(b, l + 1);
+  private static boolean extends_statement_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "extends_statement_4")) return false;
+    extends_statement_4_0(b, l + 1);
     return true;
   }
 
   // COLON expression
-  private static boolean extends_statement_5_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "extends_statement_5_0")) return false;
+  private static boolean extends_statement_4_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "extends_statement_4_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, COLON);
@@ -1259,76 +1252,46 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // <<bracket_block generic_type COMMA>>
+  // <<bracket_block type_expression COMMA>>
   public static boolean generic_call(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "generic_call")) return false;
     if (!nextTokenIs(b, BRACKET_L)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = bracket_block(b, l + 1, ValkyrieParser::generic_type, COMMA_parser_);
+    r = bracket_block(b, l + 1, ValkyrieParser::type_expression, COMMA_parser_);
     exit_section_(b, m, GENERIC_CALL, r);
     return r;
   }
 
   /* ********************************************************** */
-  // <<bracket_block generic_type COMMA>>
-  //     | OP_PROPORTION? <<angle_block generic_type COMMA>>
+  // <<bracket_block type_argument COMMA>>
   public static boolean generic_define(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "generic_define")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, GENERIC_DEFINE, "<generic define>");
-    r = bracket_block(b, l + 1, ValkyrieParser::generic_type, COMMA_parser_);
-    if (!r) r = generic_define_1(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // OP_PROPORTION? <<angle_block generic_type COMMA>>
-  private static boolean generic_define_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "generic_define_1")) return false;
+    if (!nextTokenIs(b, BRACKET_L)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = generic_define_1_0(b, l + 1);
-    r = r && angle_block(b, l + 1, ValkyrieParser::generic_type, COMMA_parser_);
-    exit_section_(b, m, null, r);
+    r = bracket_block(b, l + 1, ValkyrieParser::type_argument, COMMA_parser_);
+    exit_section_(b, m, GENERIC_DEFINE, r);
     return r;
-  }
-
-  // OP_PROPORTION?
-  private static boolean generic_define_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "generic_define_1_0")) return false;
-    consumeToken(b, OP_PROPORTION);
-    return true;
   }
 
   /* ********************************************************** */
-  // [identifier COLON] type_expression
+  // identifier [generic_call]
   public static boolean generic_type(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "generic_type")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, GENERIC_TYPE, "<generic type>");
-    r = generic_type_0(b, l + 1);
-    r = r && type_expression(b, l + 1);
+    r = identifier(b, l + 1);
+    r = r && generic_type_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // [identifier COLON]
-  private static boolean generic_type_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "generic_type_0")) return false;
-    generic_type_0_0(b, l + 1);
+  // [generic_call]
+  private static boolean generic_type_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "generic_type_1")) return false;
+    generic_call(b, l + 1);
     return true;
-  }
-
-  // identifier COLON
-  private static boolean generic_type_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "generic_type_0_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = identifier(b, l + 1);
-    r = r && consumeToken(b, COLON);
-    exit_section_(b, m, null, r);
-    return r;
   }
 
   /* ********************************************************** */
@@ -1669,13 +1632,13 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // op_suffix|call_suffix|type_generic|slice|dot_call
+  // op_suffix|call_suffix|generic_type|slice|dot_call
   static boolean line_sfx(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "line_sfx")) return false;
     boolean r;
     r = op_suffix(b, l + 1);
     if (!r) r = call_suffix(b, l + 1);
-    if (!r) r = type_generic(b, l + 1);
+    if (!r) r = generic_type(b, l + 1);
     if (!r) r = slice(b, l + 1);
     if (!r) r = dot_call(b, l + 1);
     return r;
@@ -2752,7 +2715,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_TAGGED modifiers [[OP_PROPORTION] type_generic] tagged_block
+  // KW_TAGGED modifiers [[OP_PROPORTION] generic_type] tagged_block
   public static boolean tagged_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "tagged_statement")) return false;
     if (!nextTokenIs(b, KW_TAGGED)) return false;
@@ -2766,20 +2729,20 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // [[OP_PROPORTION] type_generic]
+  // [[OP_PROPORTION] generic_type]
   private static boolean tagged_statement_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "tagged_statement_2")) return false;
     tagged_statement_2_0(b, l + 1);
     return true;
   }
 
-  // [OP_PROPORTION] type_generic
+  // [OP_PROPORTION] generic_type
   private static boolean tagged_statement_2_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "tagged_statement_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = tagged_statement_2_0_0(b, l + 1);
-    r = r && type_generic(b, l + 1);
+    r = r && generic_type(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -2876,7 +2839,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_TRAIT <<modified identifier>> [type_generic] [COLON expression] class_block
+  // KW_TRAIT <<modified identifier>> [generic_type] [COLON expression] class_block
   public static boolean trait_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "trait_statement")) return false;
     if (!nextTokenIs(b, KW_TRAIT)) return false;
@@ -2892,10 +2855,10 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return r || p;
   }
 
-  // [type_generic]
+  // [generic_type]
   private static boolean trait_statement_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "trait_statement_2")) return false;
-    type_generic(b, l + 1);
+    generic_type(b, l + 1);
     return true;
   }
 
@@ -2940,6 +2903,36 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = parenthesis(b, l + 1, ValkyrieParser::expression, COMMA_parser_);
     exit_section_(b, m, TUPLE, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // identifier [COLON type_expression]
+  public static boolean type_argument(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "type_argument")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, TYPE_ARGUMENT, "<type argument>");
+    r = identifier(b, l + 1);
+    r = r && type_argument_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // [COLON type_expression]
+  private static boolean type_argument_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "type_argument_1")) return false;
+    type_argument_1_0(b, l + 1);
+    return true;
+  }
+
+  // COLON type_expression
+  private static boolean type_argument_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "type_argument_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COLON);
+    r = r && type_expression(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -2989,96 +2982,30 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // <<bracket_block ([identifier COLON] type_expression) COMMA>>
-  public static boolean type_generic(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "type_generic")) return false;
-    if (!nextTokenIs(b, BRACKET_L)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = bracket_block(b, l + 1, ValkyrieParser::type_generic_0_0, COMMA_parser_);
-    exit_section_(b, m, TYPE_GENERIC, r);
-    return r;
-  }
-
-  // [identifier COLON] type_expression
-  private static boolean type_generic_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "type_generic_0_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = type_generic_0_0_0(b, l + 1);
-    r = r && type_expression(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [identifier COLON]
-  private static boolean type_generic_0_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "type_generic_0_0_0")) return false;
-    type_generic_0_0_0_0(b, l + 1);
-    return true;
-  }
-
-  // identifier COLON
-  private static boolean type_generic_0_0_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "type_generic_0_0_0_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = identifier(b, l + 1);
-    r = r && consumeToken(b, COLON);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // KW_TYPE identifier [[OP_PROPORTION] type_generic] [OP_SET type_term]
+  // KW_TYPE generic_type [OP_SET type_term]
   public static boolean type_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "type_statement")) return false;
     if (!nextTokenIs(b, KW_TYPE)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, TYPE_STATEMENT, null);
     r = consumeToken(b, KW_TYPE);
-    r = r && identifier(b, l + 1);
+    r = r && generic_type(b, l + 1);
+    p = r; // pin = 2
     r = r && type_statement_2(b, l + 1);
-    r = r && type_statement_3(b, l + 1);
-    exit_section_(b, m, TYPE_STATEMENT, r);
-    return r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
-  // [[OP_PROPORTION] type_generic]
+  // [OP_SET type_term]
   private static boolean type_statement_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "type_statement_2")) return false;
     type_statement_2_0(b, l + 1);
     return true;
   }
 
-  // [OP_PROPORTION] type_generic
+  // OP_SET type_term
   private static boolean type_statement_2_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "type_statement_2_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = type_statement_2_0_0(b, l + 1);
-    r = r && type_generic(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [OP_PROPORTION]
-  private static boolean type_statement_2_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "type_statement_2_0_0")) return false;
-    consumeToken(b, OP_PROPORTION);
-    return true;
-  }
-
-  // [OP_SET type_term]
-  private static boolean type_statement_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "type_statement_3")) return false;
-    type_statement_3_0(b, l + 1);
-    return true;
-  }
-
-  // OP_SET type_term
-  private static boolean type_statement_3_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "type_statement_3_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, OP_SET);
@@ -3088,7 +3015,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // atom (type_generic)*
+  // atom (generic_call)*
   public static boolean type_term(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "type_term")) return false;
     boolean r;
@@ -3099,7 +3026,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (type_generic)*
+  // (generic_call)*
   private static boolean type_term_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "type_term_1")) return false;
     while (true) {
@@ -3110,12 +3037,12 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // (type_generic)
+  // (generic_call)
   private static boolean type_term_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "type_term_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = type_generic(b, l + 1);
+    r = generic_call(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
