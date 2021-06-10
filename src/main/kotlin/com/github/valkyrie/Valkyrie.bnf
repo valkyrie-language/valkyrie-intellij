@@ -197,8 +197,8 @@ define_statement  ::= KW_DEF <<modified namepath_free>> [generic_define] define_
     methods=[getNamepath getModifiers]
 };
 define_tuple      ::= <<parenthesis define_item COMMA>>;
-define_item       ::= OP_POW | OP_LT | OP_GT
-    | macro_call* [modifiers] [DOT2|DOT3] identifier [COLON expression] [OP_EQ expression] {
+define_item       ::= OP_POW | OP_LT | OP_GT |
+    macro_call* [modifiers] [KW_DOTS] identifier [COLON expression] [OP_EQ expression] {
     mixin="com.github.valkyrie.language.mixin.MixinDefineItem"
 }
 define_block      ::= <<brace_block normal_statements SEMICOLON>> {

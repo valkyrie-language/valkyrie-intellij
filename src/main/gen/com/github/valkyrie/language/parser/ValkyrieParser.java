@@ -811,8 +811,8 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // OP_POW | OP_LT | OP_GT
-  //     | macro_call* [modifiers] [DOT2|DOT3] identifier [COLON expression] [OP_EQ expression]
+  // OP_POW | OP_LT | OP_GT |
+  //     macro_call* [modifiers] [KW_DOTS] identifier [COLON expression] [OP_EQ expression]
   public static boolean define_item(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "define_item")) return false;
     boolean r;
@@ -825,7 +825,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // macro_call* [modifiers] [DOT2|DOT3] identifier [COLON expression] [OP_EQ expression]
+  // macro_call* [modifiers] [KW_DOTS] identifier [COLON expression] [OP_EQ expression]
   private static boolean define_item_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "define_item_3")) return false;
     boolean r;
@@ -858,20 +858,11 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // [DOT2|DOT3]
+  // [KW_DOTS]
   private static boolean define_item_3_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "define_item_3_2")) return false;
-    define_item_3_2_0(b, l + 1);
+    consumeToken(b, KW_DOTS);
     return true;
-  }
-
-  // DOT2|DOT3
-  private static boolean define_item_3_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "define_item_3_2_0")) return false;
-    boolean r;
-    r = consumeToken(b, DOT2);
-    if (!r) r = consumeToken(b, DOT3);
-    return r;
   }
 
   // [COLON expression]

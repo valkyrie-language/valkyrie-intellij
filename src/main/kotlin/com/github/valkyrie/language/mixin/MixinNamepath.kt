@@ -8,14 +8,9 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
 
 open class MixinNamepath(node: ASTNode) : ValkyrieASTBase(node) {
-//    override fun getOriginalElement(): PsiElement = this
-//    override fun getIcon(flags: Int): Icon {
-//        TODO("Not yet implemented")
-//    }
-//
-//    override fun getNavigationElement(): PsiElement {
-//        TODO("Not yet implemented")
-//    }
+    override fun getNavigationElement(): ValkyrieIdentifierNode {
+        return identifierList().last()
+    }
 
     override fun getName(): String? {
         return children

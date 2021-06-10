@@ -231,7 +231,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             }
 
             "..<", "..=" -> pushToken(ValkyrieTypes.OP_UNTIL, r)
-            "...", ".." -> pushToken(ValkyrieTypes.DOT2, r)
+            "...", ".." -> pushToken(ValkyrieTypes.KW_DOTS, r)
 
             ";" -> {
                 pushToken(ValkyrieTypes.SEMICOLON, r)
@@ -272,14 +272,6 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
 
             "∉" -> {
                 pushToken(ValkyrieTypes.OP_NOT_IN, r)
-            }
-
-            "≻", "&>" -> {
-                pushToken(ValkyrieTypes.OP_AND_THEN, r)
-            }
-
-            "⊁", "|>" -> {
-                pushToken(ValkyrieTypes.OP_OR_ELSE, r)
             }
 
             "⟦" -> {

@@ -113,6 +113,7 @@ public interface ValkyrieTypes {
   IElementType KW_CATCH = new ValkyrieTokenType("KW_CATCH");
   IElementType KW_CLASS = new ValkyrieTokenType("KW_CLASS");
   IElementType KW_DEF = new ValkyrieTokenType("KW_DEF");
+  IElementType KW_DOTS = new ValkyrieTokenType("KW_DOTS");
   IElementType KW_ESCAPING = new ValkyrieTokenType("KW_WAITING_INPUT");
   IElementType KW_EXTENDS = new ValkyrieTokenType("KW_EXTENDS");
   IElementType KW_EXTENSION = new ValkyrieTokenType("KW_EXTENSION");
