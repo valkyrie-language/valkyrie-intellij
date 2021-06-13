@@ -1,28 +1,24 @@
 package com.github.valkyrie.language.mixin
 
-import com.github.valkyrie.ide.reference.ValkyrieReference
 import com.github.valkyrie.ide.view.ValkyrieViewElement
 import com.github.valkyrie.language.ast.DeclareNode
 import com.github.valkyrie.language.ast.ValkyrieASTBase
-import com.github.valkyrie.language.ast.addChildrenView
 import com.github.valkyrie.language.psi_node.ValkyrieClassDefineNode
 import com.github.valkyrie.language.psi_node.ValkyrieClassItemNode
 import com.github.valkyrie.language.psi_node.ValkyrieClassStatementNode
 import com.github.valkyrie.language.psi_node.ValkyrieIdentifierNode
-import com.github.valkyrie.language.psi_node.ValkyrieTraitStatementNode
+import com.github.valkyrie.language.symbol.ValkyrieSymbol
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
+import com.intellij.model.psi.PsiSymbolDeclaration
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiReference
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.SearchScope
-import com.intellij.psi.tree.IElementType
-import com.intellij.psi.tree.TokenSet
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.util.ArrayFactory
 import javax.swing.Icon
 
 // PsiReference
+@Suppress("UnstableApiUsage")
 open class MixinClass(node: ASTNode) : DeclareNode(node) {
     override fun getOriginalElement(): ValkyrieClassStatementNode {
         return this as ValkyrieClassStatementNode
@@ -45,7 +41,7 @@ open class MixinClass(node: ASTNode) : DeclareNode(node) {
     override fun getUseScope(): SearchScope {
         return super.getUseScope()
     }
-    override fun getChildrenSymbol(name: List<String>): ValkyrieASTBase? {
+    override fun resolveNamespace(name: List<String>): ValkyrieASTBase? {
         if (name.isEmpty()) return this
         return PsiTreeUtil
             .getChildrenOfAnyType(
@@ -54,7 +50,7 @@ open class MixinClass(node: ASTNode) : DeclareNode(node) {
                 ValkyrieClassDefineNode::class.java,
             )
             .filter { it.name == name.first() }
-            .firstNotNullOfOrNull { it.getChildrenSymbol(name.drop(1)) }
+            .firstNotNullOfOrNull { it.resolveNamespace(name.drop(1)) }
     }
 
     override fun getChildrenView(): Array<ValkyrieViewElement> {
@@ -64,6 +60,10 @@ open class MixinClass(node: ASTNode) : DeclareNode(node) {
         originalElement.classTuple?.addChildrenView(childrenView)
         originalElement.classBlock?.addChildrenView(childrenView)
         return childrenView.toTypedArray()
+    }
+
+    override fun getOwnDeclarations(): MutableCollection<out ValkyrieSymbol> {
+        return super<DeclareNode>.getOwnDeclarations()
     }
 }
 

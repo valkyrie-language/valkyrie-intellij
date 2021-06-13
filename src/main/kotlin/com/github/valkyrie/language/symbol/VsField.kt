@@ -4,7 +4,7 @@ import com.github.valkyrie.language.psi.ValkyrieIdentifier
 import com.github.valkyrie.language.psi_node.ValkyrieIdentifierNode
 import com.intellij.psi.PsiElement
 
-class VsDefineItem(override val target: ValkyrieIdentifierNode) : ValkyrieSymbol(target) {
+class VsField(override val target: ValkyrieIdentifierNode) : ValkyrieSymbol(target) {
     constructor(target: ValkyrieIdentifier) : this(target as ValkyrieIdentifierNode) {
 
     }

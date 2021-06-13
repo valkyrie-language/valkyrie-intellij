@@ -1,4 +1,4 @@
-package com.github.valkyrie.ide.reference
+package com.github.valkyrie.ide.reference.declaration
 
 import com.intellij.model.psi.PsiSymbolDeclaration
 import com.intellij.model.psi.PsiSymbolDeclarationProvider

@@ -1,13 +1,20 @@
 package com.github.valkyrie.language.ast
 
 import com.github.valkyrie.language.psi.ValkyrieTypes.COMMENT
+import com.intellij.markdown.utils.MarkdownToHtmlConverter
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiDocCommentBase
 import com.intellij.psi.PsiElement
 import com.intellij.psi.tree.IElementType
+import org.intellij.markdown.flavours.MarkdownFlavourDescriptor
+import org.intellij.markdown.html.GeneratingProvider
+import org.intellij.markdown.html.URI
+import org.intellij.markdown.lexer.MarkdownLexer
+import org.intellij.markdown.parser.LinkMap
+import org.intellij.markdown.parser.MarkerProcessorFactory
+import org.intellij.markdown.parser.sequentialparsers.SequentialParserManager
 
-class DocumentNode(comment: PsiComment, rawText: String? = null) : ValkyrieASTBase(comment.node),
-    PsiDocCommentBase {
+class DocumentNode(comment: PsiComment, rawText: String? = null) : ValkyrieASTBase(comment.node), PsiDocCommentBase {
 
     private val documentText: String
 

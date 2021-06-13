@@ -8,10 +8,8 @@ import com.github.valkyrie.language.ast.ViewableNode
 import com.github.valkyrie.language.ast.addChildrenView
 import com.github.valkyrie.language.psi_node.ValkyrieImportStatementNode
 import com.github.valkyrie.language.psi_node.ValkyrieNamespaceStatementNode
-import com.github.valkyrie.language.symbol.NamespaceData
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.lang.ASTNode
-import com.intellij.model.psi.*
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.util.PsiTreeUtil
@@ -53,20 +51,6 @@ open class MixinNamespace(node: ASTNode) : ViewableNode(node), PsiNameIdentifier
 
     override fun getTextOffset(): Int {
         return navigationElement.textOffset
-    }
-
-    override fun getOwnDeclarations(): MutableCollection<out NamespaceData> {
-        return when (originalElement.isDeclaration()) {
-            true -> mutableListOf(NamespaceData(this.originalElement))
-            else -> mutableListOf()
-        }
-    }
-
-    override fun getOwnReferences(): MutableCollection<out PsiSymbolReference> {
-        return when (originalElement.isDeclaration()) {
-            true -> mutableListOf()
-            else -> mutableListOf()
-        }
     }
 
     override fun getPresentation(): PresentationData {

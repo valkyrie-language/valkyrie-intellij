@@ -1,4 +1,4 @@
-package com.github.valkyrie.ide.reference.declaration_range
+package com.github.valkyrie.ide.reference.declaration
 
 import com.github.valkyrie.language.psi.endOffset
 import com.github.valkyrie.language.psi.startOffset

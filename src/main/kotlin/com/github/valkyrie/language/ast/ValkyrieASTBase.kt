@@ -2,18 +2,23 @@ package com.github.valkyrie.language.ast
 
 import com.github.valkyrie.ide.reference.ValkyrieReference
 import com.github.valkyrie.ide.view.ValkyrieViewElement
+import com.github.valkyrie.language.psi.ancestors
 import com.github.valkyrie.language.psi_node.ValkyrieMacroCallNode
 import com.github.valkyrie.language.psi_node.ValkyrieMacroListNode
+import com.github.valkyrie.language.symbol.ValkyrieSymbol
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.lang.ASTNode
+import com.intellij.model.psi.PsiSymbolDeclaration
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiComment
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.siblings
 
+@Suppress("UnstableApiUsage")
 open class ValkyrieASTBase(node: ASTNode) : ASTWrapperPsiElement(node) {
     fun collectDocuments(list: MutableList<PsiComment>) {
         for (node in this.siblings(forward = false, withSelf = false)) {
@@ -51,11 +56,25 @@ open class ValkyrieASTBase(node: ASTNode) : ASTWrapperPsiElement(node) {
         return childrenView.toTypedArray()
     }
 
-    open fun getChildrenSymbol(name: List<String>): ValkyrieASTBase? {
+    open fun resolveNamespace(name: List<String>): ValkyrieASTBase? {
         return when (name.count()) {
             0 -> this
             else -> null
         }
+    }
+
+    override fun getContext(): PsiElement? {
+        for (node in ancestors) {
+            when (node) {
+                is ValkyrieASTBase -> return node
+                else -> continue
+            }
+        }
+        return null
+    }
+
+    override fun getOwnDeclarations(): MutableCollection<out ValkyrieSymbol> {
+        return mutableListOf()
     }
 
     override fun getReference(): ValkyrieReference? = this.references.firstOrNull()

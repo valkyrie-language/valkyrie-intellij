@@ -33,7 +33,7 @@ class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvide
                 ValkyrieTraitStatementNode::class.java,
             )
             .filter { it.name == name.first() }
-            .firstNotNullOfOrNull { it.getChildrenSymbol(name.drop(1)) }
+            .firstNotNullOfOrNull { it.resolveNamespace(name.drop(1)) }
     }
 
     fun isIndexFile(): Boolean {
