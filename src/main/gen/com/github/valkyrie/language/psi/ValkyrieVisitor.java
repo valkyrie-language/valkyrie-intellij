@@ -1,5 +1,5 @@
 // This is a generated file. Not intended for manual editing.
-package com.github.valkyrie.language.psi;
+package valkyrie.language.psi;
 
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElementVisitor;
@@ -96,10 +96,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitEfStatement(@NotNull ValkyrieEfStatement o) {
-    visitPsiElement(o);
-  }
-
-  public void visitEffectExpression(@NotNull ValkyrieEffectExpression o) {
     visitPsiElement(o);
   }
 

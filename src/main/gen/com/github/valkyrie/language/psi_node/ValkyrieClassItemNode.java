@@ -1,5 +1,5 @@
 // This is a generated file. Not intended for manual editing.
-package com.github.valkyrie.language.psi_node;
+package valkyrie.language.psi_node;
 
 import java.util.List;
 import org.jetbrains.annotations.*;
@@ -7,10 +7,10 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
-import com.github.valkyrie.language.mixin.MixinClassField;
-import com.github.valkyrie.language.psi.*;
-import com.github.valkyrie.language.ast.ASTMethods;
+import static valkyrie.language.psi.ValkyrieTypes.*;
+import valkyrie.language.mixin.MixinClassField;
+import valkyrie.language.psi.*;
+import valkyrie.language.ast.ASTMethods;
 
 public class ValkyrieClassItemNode extends MixinClassField implements ValkyrieClassItem {
 
@@ -29,9 +29,9 @@ public class ValkyrieClassItemNode extends MixinClassField implements ValkyrieCl
   }
 
   @Override
-  @NotNull
-  public List<ValkyrieExpression> getExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpression.class);
+  @Nullable
+  public ValkyrieExpression getExpression() {
+    return findChildByClass(ValkyrieExpression.class);
   }
 
   @Override
@@ -44,6 +44,12 @@ public class ValkyrieClassItemNode extends MixinClassField implements ValkyrieCl
   @NotNull
   public ValkyrieObjectKey getObjectKey() {
     return findNotNullChildByClass(ValkyrieObjectKey.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieTypeExpression getTypeExpression() {
+    return findChildByClass(ValkyrieTypeExpression.class);
   }
 
 }

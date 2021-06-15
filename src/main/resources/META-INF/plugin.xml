@@ -10,129 +10,129 @@
 			name="Valkyrie"
 			language="Valkyrie"
 			extensions="vk;"
-			implementationClass="com.github.valkyrie.ide.file.ValkyrieFileType"
+			implementationClass="valkyrie.ide.file.ValkyrieFileType"
 			fieldName="INSTANCE"/>
 		<lang.parserDefinition
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.language.lexer.ValkyrieParserDefinition"/>
-		<multiHostInjector implementation="com.github.valkyrie.ide.matcher.LanguageInjector"/>
+			implementationClass="valkyrie.language.lexer.ValkyrieParserDefinition"/>
+		<multiHostInjector implementation="valkyrie.ide.matcher.LanguageInjector"/>
 		<!-- Project -->
-		<indexedRootsProvider implementation="com.github.valkyrie.ide.project.ExtraIndexContributor"/>
-		<additionalLibraryRootsProvider implementation="com.github.valkyrie.ide.project.LibraryRootsProvider"/>
+		<indexedRootsProvider implementation="valkyrie.ide.project.ExtraIndexContributor"/>
+		<additionalLibraryRootsProvider implementation="valkyrie.ide.project.LibraryRootsProvider"/>
 		<!-- StructureView -->
-		<iconProvider implementation="com.github.valkyrie.ide.file.ValkyrieIconProvider"/>
-		<projectViewNestingRulesProvider implementation="com.github.valkyrie.ide.file.ValkyrieFileGroup"/>
-		<treeStructureProvider implementation="com.github.valkyrie.ide.view.VStructureProvider"/>
-		<lang.structureViewExtension implementation="com.github.valkyrie.ide.view.VStructureViewExtension"/>
+		<iconProvider implementation="valkyrie.ide.file.ValkyrieIconProvider"/>
+		<projectViewNestingRulesProvider implementation="valkyrie.ide.file.ValkyrieFileGroup"/>
+		<treeStructureProvider implementation="valkyrie.ide.view.VStructureProvider"/>
+		<lang.structureViewExtension implementation="valkyrie.ide.view.VStructureViewExtension"/>
 		<lang.psiStructureViewFactory
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.view.StructureViewFactory"/>
+			implementationClass="valkyrie.ide.view.StructureViewFactory"/>
 		<typeHierarchyProvider
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.reference.hierarchy.TypeHierarchyProvider"/>
+			implementationClass="valkyrie.ide.reference.hierarchy.TypeHierarchyProvider"/>
 		<methodHierarchyProvider
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.reference.hierarchy.MethodHierarchyProvider"/>
+			implementationClass="valkyrie.ide.reference.hierarchy.MethodHierarchyProvider"/>
 		<callHierarchyProvider
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.reference.hierarchy.CallHierarchyProvider"/>
+			implementationClass="valkyrie.ide.reference.hierarchy.CallHierarchyProvider"/>
 		<!-- Highlight -->
-		<colorSettingsPage implementation="com.github.valkyrie.settings.VHighlightSetting"/>
-		<highlightVisitor implementation="com.github.valkyrie.ide.highlight.NodeHighlighter"/>
+		<colorSettingsPage implementation="valkyrie.settings.VHighlightSetting"/>
+		<highlightVisitor implementation="valkyrie.ide.highlight.NodeHighlighter"/>
 		<lang.syntaxHighlighter
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.highlight.TokenHighlight"
+			implementationClass="valkyrie.ide.highlight.TokenHighlight"
 		/>
 		<!-- Formatter -->
 		<lang.formatter
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.formatter.FormatBuilder"
+			implementationClass="valkyrie.ide.formatter.FormatBuilder"
 		/>
 		<lang.commenter
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.formatter.Commenter"
+			implementationClass="valkyrie.ide.formatter.Commenter"
 		/>
 		<lang.smartEnterProcessor
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.formatter.SmartEnter"
+			implementationClass="valkyrie.ide.formatter.SmartEnter"
 		/>
 		<!-- Goto -->
-		<navbar implementation="com.github.valkyrie.ide.goto.VNavigationBarExtension"/>
-		<lang.directNavigationProvider implementation="com.github.valkyrie.ide.goto.VDirectNavigationProvider"/>
+		<navbar implementation="valkyrie.ide.goto.VNavigationBarExtension"/>
+		<lang.directNavigationProvider implementation="valkyrie.ide.goto.VDirectNavigationProvider"/>
 		<symbolNavigation
-			forClass="com.github.valkyrie.language.symbol.ValkyrieSymbol"
-			implementationClass="com.github.valkyrie.ide.goto.VSymbolNavigationProvider"/>
+			forClass="valkyrie.language.symbol.ValkyrieSymbol"
+			implementationClass="valkyrie.ide.goto.VSymbolNavigationProvider"/>
 		<codeInsight.gotoSuper
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.goto.VGotoSuperHandler"/>
+			implementationClass="valkyrie.ide.goto.VGotoSuperHandler"/>
 		<!-- Hint -->
 		<codeInsight.parameterNameHints
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.hint.ValkyrieParameterHintProvider"/>
+			implementationClass="valkyrie.ide.hint.ValkyrieParameterHintProvider"/>
 		<codeInsight.inlayProvider
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.hint.InlayHintProvider"/>
+			implementationClass="valkyrie.ide.hint.InlayHintProvider"/>
 		<vcs.codeVisionLanguageContext
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.hint.ValkyrieInlayVSCProvider"/>
-		<!--		<psi.fileReferenceHelper implementation="com.github.valkyrie.ide.reference.ValkyrieFileReference"/>-->
-		<psi.referenceContributor implementation="com.github.valkyrie.ide.reference.ValkyrieReferenceContributor"/>
+			implementationClass="valkyrie.ide.hint.ValkyrieInlayVSCProvider"/>
+		<!--		<psi.fileReferenceHelper implementation="valkyrie.ide.reference.ValkyrieFileReference"/>-->
+		<psi.referenceContributor implementation="valkyrie.ide.reference.ValkyrieReferenceContributor"/>
 		<psi.symbolReferenceProvider
 			anyReferenceClass="true"
-			implementationClass="com.github.valkyrie.ide.reference.ValkyrieReferenceProvider"
+			implementationClass="valkyrie.ide.reference.ValkyrieReferenceProvider"
 			hostLanguage="Valkyrie"
 			hostElementClass="com.intellij.psi.xml.XmlAttributeValue"
-			targetClass="com.github.valkyrie.language.symbol.ValkyrieSymbol"/>
+			targetClass="valkyrie.language.symbol.ValkyrieSymbol"/>
 		<!-- Declaration -->
-		<typeDeclarationProvider implementation="com.github.valkyrie.ide.reference.declaration.TypeDeclarationProvider"/>
-		<psi.declarationProvider implementation="com.github.valkyrie.ide.reference.declaration.SymbolDeclarationProvider"/>
+		<typeDeclarationProvider implementation="valkyrie.ide.reference.declaration.TypeDeclarationProvider"/>
+		<psi.declarationProvider implementation="valkyrie.ide.reference.declaration.SymbolDeclarationProvider"/>
 
 <!--		<declarationRangeHandler-->
 <!--			key="org.rust.lang.core.psi.ValkyrieClass"-->
-<!--			implementationClass="com.github.valkyrie.ide.reference.declaration.ClassDeclarationHandler"/>-->
-		<findUsagesHandlerFactory implementation="com.github.valkyrie.ide.usages.ValkyrieUsagesFactory"/>
+<!--			implementationClass="valkyrie.ide.reference.declaration.ClassDeclarationHandler"/>-->
+		<findUsagesHandlerFactory implementation="valkyrie.ide.usages.ValkyrieUsagesFactory"/>
 		<lang.findUsagesProvider
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.usages.ValkyrieUsagesProvider"/>
+			implementationClass="valkyrie.ide.usages.ValkyrieUsagesProvider"/>
 		<!-- Completion -->
-<!--		<lookup.charFilter implementation="com.github.valkyrie.ide.completion.CompletionInterrupter"/>-->
-		<codeCompletionConfigurable instance="com.github.valkyrie.ide.completion.CompletionConfig"/>
+<!--		<lookup.charFilter implementation="valkyrie.ide.completion.CompletionInterrupter"/>-->
+		<codeCompletionConfigurable instance="valkyrie.ide.completion.CompletionConfig"/>
 		<completion.contributor
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.completion.CompletionRegistrar"/>
-		<nameSuggestionProvider implementation="com.github.valkyrie.ide.completion.CompletionSuggestion"/>
+			implementationClass="valkyrie.ide.completion.CompletionRegistrar"/>
+		<nameSuggestionProvider implementation="valkyrie.ide.completion.CompletionSuggestion"/>
 		<lang.braceMatcher
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.matcher.BraceMatchAdapter"/>
+			implementationClass="valkyrie.ide.matcher.BraceMatchAdapter"/>
 		<lang.quoteHandler
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.matcher.QuoteHandler"/>
+			implementationClass="valkyrie.ide.matcher.QuoteHandler"/>
 		<lang.foldingBuilder
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.folding.ValkyrieFoldingBuilder"/>
-		<codeFoldingOptionsProvider instance="com.github.valkyrie.ide.folding.ValkyrieFoldingOptions"/>
+			implementationClass="valkyrie.ide.folding.ValkyrieFoldingBuilder"/>
+		<codeFoldingOptionsProvider instance="valkyrie.ide.folding.ValkyrieFoldingOptions"/>
 		<!-- Document -->
 		<lang.documentationProvider
 			language="Valkyrie"
-			implementationClass="com.github.valkyrie.ide.doc.DocumentationProvider"
+			implementationClass="valkyrie.ide.doc.DocumentationProvider"
 		/>
 		<!--		<indexPatternBuilder-->
-		<!--				implementation="com.github.valkyrie.ide.todo.VomlTodoIndexPatternBuilder"-->
+		<!--				implementation="valkyrie.ide.todo.VomlTodoIndexPatternBuilder"-->
 		<!--		/>-->
 		<!--		<todoIndexer-->
 		<!--				filetype="Fluent"-->
-		<!--				implementationClass="com.github.valkyrie.ide.todo.VomlTodoIndexer"-->
+		<!--				implementationClass="valkyrie.ide.todo.VomlTodoIndexer"-->
 		<!--		/>-->
-		<annotator language="Valkyrie" implementationClass="com.github.valkyrie.ide.annotator.LiteralChecker"/>
+		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.LiteralChecker"/>
 		<langCodeStyleSettingsProvider
-			implementation="com.github.valkyrie.ide.codeStyle.ValkyrieCodeStyleSetting"
+			implementation="valkyrie.ide.codeStyle.ValkyrieCodeStyleSetting"
 		/>
 	</extensions>
 	<actions>
-		<action id="NewFluentFile" class="com.github.valkyrie.ide.actions.ValkyrieCreateFile">
+		<action id="NewFluentFile" class="valkyrie.ide.actions.ValkyrieCreateFile">
 			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewHtmlFile"/>
 		</action>
-		<!--		<action id="jss.JssConvertJson" class="com.github.valkyrie.ide.actions.FluentConvertMo"/>-->
+		<!--		<action id="jss.JssConvertJson" class="valkyrie.ide.actions.FluentConvertMo"/>-->
 		<!--		<group id="jss.JssGenerator" popup="true" text="JssGenerator">-->
 		<!--			<reference ref="NewFluentFile"/>-->
 		<!--			<reference ref="jss.JssConvertJson"/>-->

@@ -1,10 +1,10 @@
 // This is a generated file. Not intended for manual editing.
-package com.github.valkyrie.language.parser;
+package valkyrie.language.parser;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiBuilder.Marker;
-import static com.github.valkyrie.language.psi.ValkyrieTypes.*;
-import static com.github.valkyrie.language.psi.ValkyrieParserExtension.*;
+import static valkyrie.language.psi.ValkyrieTypes.*;
+import static valkyrie.language.psi.ValkyrieParserExtension.*;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.tree.TokenSet;
@@ -457,7 +457,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_DEF? <<modified identifier>> define_tuple [(COLON|OP_ARROW) expression] [define_block]
+  // KW_DEF? <<modified identifier>> define_tuple [(COLON|OP_ARROW) type_expression] [define_block]
   public static boolean class_define(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "class_define")) return false;
     boolean r, p;
@@ -479,20 +479,20 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // [(COLON|OP_ARROW) expression]
+  // [(COLON|OP_ARROW) type_expression]
   private static boolean class_define_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "class_define_3")) return false;
     class_define_3_0(b, l + 1);
     return true;
   }
 
-  // (COLON|OP_ARROW) expression
+  // (COLON|OP_ARROW) type_expression
   private static boolean class_define_3_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "class_define_3_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = class_define_3_0_0(b, l + 1);
-    r = r && expression(b, l + 1);
+    r = r && type_expression(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -514,51 +514,20 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // COLON identifier [generic_type] (OP_ADD identifier)*
+  // COLON type_expression
   public static boolean class_inherit(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "class_inherit")) return false;
     if (!nextTokenIs(b, COLON)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, COLON);
-    r = r && identifier(b, l + 1);
-    r = r && class_inherit_2(b, l + 1);
-    r = r && class_inherit_3(b, l + 1);
+    r = r && type_expression(b, l + 1);
     exit_section_(b, m, CLASS_INHERIT, r);
     return r;
   }
 
-  // [generic_type]
-  private static boolean class_inherit_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "class_inherit_2")) return false;
-    generic_type(b, l + 1);
-    return true;
-  }
-
-  // (OP_ADD identifier)*
-  private static boolean class_inherit_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "class_inherit_3")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!class_inherit_3_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "class_inherit_3", c)) break;
-    }
-    return true;
-  }
-
-  // OP_ADD identifier
-  private static boolean class_inherit_3_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "class_inherit_3_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, OP_ADD);
-    r = r && identifier(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
   /* ********************************************************** */
-  // KW_LET? [modifiers] object_key [COLON expression] [OP_SET expression] | object_key
+  // KW_LET? [modifiers] object_key [COLON expression] [OP_SET type_expression] | object_key
   public static boolean class_item(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "class_item")) return false;
     boolean r;
@@ -569,7 +538,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // KW_LET? [modifiers] object_key [COLON expression] [OP_SET expression]
+  // KW_LET? [modifiers] object_key [COLON expression] [OP_SET type_expression]
   private static boolean class_item_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "class_item_0")) return false;
     boolean r;
@@ -615,26 +584,26 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // [OP_SET expression]
+  // [OP_SET type_expression]
   private static boolean class_item_0_4(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "class_item_0_4")) return false;
     class_item_0_4_0(b, l + 1);
     return true;
   }
 
-  // OP_SET expression
+  // OP_SET type_expression
   private static boolean class_item_0_4_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "class_item_0_4_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, OP_SET);
-    r = r && expression(b, l + 1);
+    r = r && type_expression(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
-  // KW_CLASS <<modified identifier>> [generic_define] [class_inherit] (class_tuple|class_block|COLON)
+  // KW_CLASS <<modified identifier>> [generic_define] [class_inherit] [class_tuple|class_block]
   public static boolean class_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "class_statement")) return false;
     if (!nextTokenIs(b, KW_CLASS)) return false;
@@ -664,13 +633,19 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // class_tuple|class_block|COLON
+  // [class_tuple|class_block]
   private static boolean class_statement_4(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "class_statement_4")) return false;
+    class_statement_4_0(b, l + 1);
+    return true;
+  }
+
+  // class_tuple|class_block
+  private static boolean class_statement_4_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "class_statement_4_0")) return false;
     boolean r;
     r = class_tuple(b, l + 1);
     if (!r) r = class_block(b, l + 1);
-    if (!r) r = consumeToken(b, COLON);
     return r;
   }
 
@@ -746,59 +721,30 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // [(COLON|OP_ARROW) type_expression] [OP_DIV effect_expression]
+  // [(COLON|OP_ARROW) type_expression]
   static boolean def_type(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "def_type")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = def_type_0(b, l + 1);
-    r = r && def_type_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [(COLON|OP_ARROW) type_expression]
-  private static boolean def_type_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "def_type_0")) return false;
-    def_type_0_0(b, l + 1);
+    def_type_0(b, l + 1);
     return true;
   }
 
   // (COLON|OP_ARROW) type_expression
-  private static boolean def_type_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "def_type_0_0")) return false;
+  private static boolean def_type_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "def_type_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = def_type_0_0_0(b, l + 1);
+    r = def_type_0_0(b, l + 1);
     r = r && type_expression(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // COLON|OP_ARROW
-  private static boolean def_type_0_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "def_type_0_0_0")) return false;
+  private static boolean def_type_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "def_type_0_0")) return false;
     boolean r;
     r = consumeToken(b, COLON);
     if (!r) r = consumeToken(b, OP_ARROW);
-    return r;
-  }
-
-  // [OP_DIV effect_expression]
-  private static boolean def_type_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "def_type_1")) return false;
-    def_type_1_0(b, l + 1);
-    return true;
-  }
-
-  // OP_DIV effect_expression
-  private static boolean def_type_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "def_type_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, OP_DIV);
-    r = r && effect_expression(b, l + 1);
-    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -973,40 +919,6 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     r = r && normal_block(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
-  }
-
-  /* ********************************************************** */
-  // namepath_free | <<bracket_block namepath_free separator>> {
-  //     // mixin="com.github.valkyrie.language.mixin.MixinEffect"
-  // }
-  public static boolean effect_expression(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "effect_expression")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, EFFECT_EXPRESSION, "<effect expression>");
-    r = namepath_free(b, l + 1);
-    if (!r) r = effect_expression_1(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // <<bracket_block namepath_free separator>> {
-  //     // mixin="com.github.valkyrie.language.mixin.MixinEffect"
-  // }
-  private static boolean effect_expression_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "effect_expression_1")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = bracket_block(b, l + 1, ValkyrieParser::namepath_free, ValkyrieParser::separator);
-    r = r && effect_expression_1_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // {
-  //     // mixin="com.github.valkyrie.language.mixin.MixinEffect"
-  // }
-  private static boolean effect_expression_1_1(PsiBuilder b, int l) {
-    return true;
   }
 
   /* ********************************************************** */
@@ -2949,24 +2861,26 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifier
+  // namepath_free | <<bracket_block namepath_free separator>>
   public static boolean type_atom(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "type_atom")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, TYPE_ATOM, "<type atom>");
-    r = identifier(b, l + 1);
+    r = namepath_free(b, l + 1);
+    if (!r) r = bracket_block(b, l + 1, ValkyrieParser::namepath_free, ValkyrieParser::separator);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   /* ********************************************************** */
-  // OP_AND | OP_OR | OP_ADD
+  // OP_AND | OP_OR | OP_ADD | OP_DIV
   static boolean type_binary(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "type_binary")) return false;
     boolean r;
     r = consumeToken(b, OP_AND);
     if (!r) r = consumeToken(b, OP_OR);
     if (!r) r = consumeToken(b, OP_ADD);
+    if (!r) r = consumeToken(b, OP_DIV);
     return r;
   }
 

@@ -1,11 +1,11 @@
 // This is a generated file. Not intended for manual editing.
-package com.github.valkyrie.language.psi;
+package valkyrie.language.psi;
 
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import com.github.valkyrie.language.mixin.MixinNamepath;
-import com.github.valkyrie.language.psi_node.ValkyrieIdentifierNode;
+import valkyrie.language.mixin.MixinNamepath;
+import valkyrie.language.psi_node.ValkyrieIdentifierNode;
 
 public interface ValkyrieDefineStatement extends PsiElement {
 
@@ -14,9 +14,6 @@ public interface ValkyrieDefineStatement extends PsiElement {
 
   @Nullable
   ValkyrieDefineTuple getDefineTuple();
-
-  @Nullable
-  ValkyrieEffectExpression getEffectExpression();
 
   @Nullable
   ValkyrieGenericDefine getGenericDefine();

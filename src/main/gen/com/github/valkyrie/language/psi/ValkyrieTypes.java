@@ -1,10 +1,10 @@
 // This is a generated file. Not intended for manual editing.
-package com.github.valkyrie.language.psi;
+package valkyrie.language.psi;
 
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.PsiElement;
 import com.intellij.lang.ASTNode;
-import com.github.valkyrie.language.psi_node.*;
+import valkyrie.language.psi_node.*;
 
 public interface ValkyrieTypes {
 
@@ -30,7 +30,6 @@ public interface ValkyrieTypes {
   IElementType DEFINE_STATEMENT = new ValkyrieTokenType("DEFINE_STATEMENT");
   IElementType DEFINE_TUPLE = new ValkyrieTokenType("DEFINE_TUPLE");
   IElementType DOT_CALL = new ValkyrieTokenType("DOT_CALL");
-  IElementType EFFECT_EXPRESSION = new ValkyrieTokenType("EFFECT_EXPRESSION");
   IElementType EF_STATEMENT = new ValkyrieTokenType("EF_STATEMENT");
   IElementType ELSE_STATEMENT = new ValkyrieTokenType("ELSE_STATEMENT");
   IElementType EXPRESSION = new ValkyrieTokenType("EXPRESSION");
@@ -262,9 +261,6 @@ public interface ValkyrieTypes {
       }
       else if (type == DOT_CALL) {
         return new ValkyrieDotCallNode(node);
-      }
-      else if (type == EFFECT_EXPRESSION) {
-        return new ValkyrieEffectExpressionNode(node);
       }
       else if (type == EF_STATEMENT) {
         return new ValkyrieEfStatementNode(node);
