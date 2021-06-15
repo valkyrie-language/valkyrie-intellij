@@ -169,8 +169,8 @@ pattern_value     ::= identifier | pattern;
 // ---------------------------------------------------------------------------------------------------------------------
 loop_statement    ::= (KW_LOOP | KW_WHILE condition) normal_block;
 // ---------------------------------------------------------------------------------------------------------------------
-match_statement   ::= [DOT] KW_MATCH match_block {
-    pin=2
+match_statement   ::= KW_MATCH match_block {
+    pin=1
     // mixin="com.github.valkyrie.language.mixin.MixinMatch"
 }
 match_block       ::= <<brace_free match_expression SEMICOLON>>;
@@ -181,8 +181,8 @@ try_statement     ::= KW_TRY normal_block {
     pin=1
     // mixin="com.github.valkyrie.language.mixin.MixinTry"
 }
-catch_statement   ::= [DOT] KW_CATCH match_block {
-    pin=2
+catch_statement   ::= KW_CATCH match_block {
+    pin=1
     // mixin="com.github.valkyrie.language.mixin.MixinCatch"
 }
 // ---------------------------------------------------------------------------------------------------------------------
@@ -213,7 +213,8 @@ type_statement    ::= KW_TYPE generic_type [OP_SET type_term] {
     mixin="com.github.valkyrie.language.mixin.MixinType"
 };
 type_expression   ::= type_term (type_binary type_term)*;
-type_term         ::= atom (generic_call)*;
+type_term         ::= type_atom generic_call?;
+type_atom         ::= identifier;
 type_argument     ::= identifier [COLON type_expression];
 generic_call      ::= <<bracket_block type_expression COMMA>>
 generic_type      ::= identifier [generic_call];
@@ -256,13 +257,13 @@ object_key        ::= SYMBOL_XID | SYMBOL_RAW | INTEGER | KW_IF | KW_CLASS {
     mixin="com.github.valkyrie.language.mixin.MixinObjectKey"
 }
 // ---------------------------------------------------------------------------------------------------------------------
-trait_statement   ::= KW_TRAIT <<modified identifier>> [generic_type] [COLON expression] class_block {
+trait_statement   ::= KW_TRAIT <<modified identifier>> [generic_type] [COLON type_expression] class_block {
     pin = 2
     extends="com.github.valkyrie.language.mixin.MixinTrait"
     methods=[getIdentifier getModifiers]
 };
 // ---------------------------------------------------------------------------------------------------------------------
-extends_statement ::= KW_EXTENDS [generic_call] <<modified identifier>> [generic_call] [COLON expression] class_block {
+extends_statement ::= KW_EXTENDS [generic_call] <<modified identifier>> [generic_call] [COLON type_expression] class_block {
     pin = 3
     extends="com.github.valkyrie.language.mixin.MixinExtends"
     methods=[getIdentifier getModifiers]
@@ -290,9 +291,10 @@ inline_term       ::= op_prefix* atom line_sfx* {
     mixin="com.github.valkyrie.language.mixin.MixinTerm"
 };
 dot_call          ::= DOT namepath;
-// a::b().c::d[T, U]()?!⟦i:j:k⟧ {}.match {...}.catch {...}
+// a::b().c::d[T, U]()?!⟦i:j:k⟧
 private line_sfx  ::= op_suffix|call_suffix|generic_type|slice|dot_call
-private term_sfx  ::= line_sfx|normal_block|catch_statement|match_statement
+// line_sfx {}.match {...}.catch {...}
+private term_sfx  ::= line_sfx|normal_block|[DOT] (catch_statement|match_statement)
 private op_binary ::=
       OP_SET | OP_EQ | OP_NE
     | OP_ADD | OP_ADD_ASSIGN

@@ -11,14 +11,14 @@ public interface ValkyrieExtendsStatement extends PsiElement {
   @Nullable
   ValkyrieClassBlock getClassBlock();
 
-  @Nullable
-  ValkyrieExpression getExpression();
-
   @NotNull
   List<ValkyrieGenericCall> getGenericCallList();
 
   @NotNull
   ValkyrieModified getModified();
+
+  @Nullable
+  ValkyrieTypeExpression getTypeExpression();
 
   @NotNull
   ValkyrieIdentifierNode getIdentifier();

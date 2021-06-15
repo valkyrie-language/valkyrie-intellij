@@ -37,19 +37,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     }
 
-    override fun visitCasePattern(o: ValkyrieCasePattern) {
-        visitCasePattern(o, ValkyrieVariableHighlightMode.Local, false)
-    }
-
-    private fun visitCasePattern(o: ValkyrieCasePattern, mode: ValkyrieVariableHighlightMode, force_mut: Boolean) {
-        o.namepath?.let {
-            highlight(it.lastChild, Color.SYM_CLASS)
-        }
-//        o.patternTuple?.let {
-//            this.visitPatternTuple(it, mode, force_mut)
-//        }
-        super.visitCasePattern(o)
-    }
 
     override fun visitDefineStatement(o: ValkyrieDefineStatement) {
         o as ValkyrieDefineStatementNode;

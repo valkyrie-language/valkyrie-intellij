@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieTypeTerm extends PsiElement {
-
-  @Nullable
-  ValkyrieGenericCall getGenericCall();
+public interface ValkyrieTypeAtom extends PsiElement {
 
   @NotNull
-  ValkyrieTypeAtom getTypeAtom();
+  ValkyrieIdentifier getIdentifier();
 
 }

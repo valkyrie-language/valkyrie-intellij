@@ -87,6 +87,7 @@ public interface ValkyrieTypes {
   IElementType TRY_STATEMENT = new ValkyrieTokenType("TRY_STATEMENT");
   IElementType TUPLE = new ValkyrieTokenType("TUPLE");
   IElementType TYPE_ARGUMENT = new ValkyrieTokenType("TYPE_ARGUMENT");
+  IElementType TYPE_ATOM = new ValkyrieTokenType("TYPE_ATOM");
   IElementType TYPE_EXPRESSION = new ValkyrieTokenType("TYPE_EXPRESSION");
   IElementType TYPE_STATEMENT = new ValkyrieTokenType("TYPE_STATEMENT");
   IElementType TYPE_TERM = new ValkyrieTokenType("TYPE_TERM");
@@ -432,6 +433,9 @@ public interface ValkyrieTypes {
       }
       else if (type == TYPE_ARGUMENT) {
         return new ValkyrieTypeArgumentNode(node);
+      }
+      else if (type == TYPE_ATOM) {
+        return new ValkyrieTypeAtomNode(node);
       }
       else if (type == TYPE_EXPRESSION) {
         return new ValkyrieTypeExpressionNode(node);

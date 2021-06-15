@@ -35,12 +35,6 @@ public class ValkyrieExtendsStatementNode extends MixinExtends implements Valkyr
   }
 
   @Override
-  @Nullable
-  public ValkyrieExpression getExpression() {
-    return findChildByClass(ValkyrieExpression.class);
-  }
-
-  @Override
   @NotNull
   public List<ValkyrieGenericCall> getGenericCallList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieGenericCall.class);
@@ -50,6 +44,12 @@ public class ValkyrieExtendsStatementNode extends MixinExtends implements Valkyr
   @NotNull
   public ValkyrieModified getModified() {
     return findNotNullChildByClass(ValkyrieModified.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieTypeExpression getTypeExpression() {
+    return findChildByClass(ValkyrieTypeExpression.class);
   }
 
   @Override

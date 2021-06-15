@@ -12,14 +12,14 @@ import com.github.valkyrie.language.ast.ValkyrieASTBase;
 import com.github.valkyrie.language.psi.*;
 import com.github.valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieTypeTermNode extends ValkyrieASTBase implements ValkyrieTypeTerm {
+public class ValkyrieTypeAtomNode extends ValkyrieASTBase implements ValkyrieTypeAtom {
 
-  public ValkyrieTypeTermNode(@NotNull ASTNode node) {
+  public ValkyrieTypeAtomNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitTypeTerm(this);
+    visitor.visitTypeAtom(this);
   }
 
   @Override
@@ -29,15 +29,9 @@ public class ValkyrieTypeTermNode extends ValkyrieASTBase implements ValkyrieTyp
   }
 
   @Override
-  @Nullable
-  public ValkyrieGenericCall getGenericCall() {
-    return findChildByClass(ValkyrieGenericCall.class);
-  }
-
-  @Override
   @NotNull
-  public ValkyrieTypeAtom getTypeAtom() {
-    return findNotNullChildByClass(ValkyrieTypeAtom.class);
+  public ValkyrieIdentifier getIdentifier() {
+    return findNotNullChildByClass(ValkyrieIdentifier.class);
   }
 
 }

@@ -6,11 +6,9 @@ import com.github.valkyrie.language.ast.ValkyrieASTBase
 import com.github.valkyrie.language.psi_node.ValkyrieClassDefineNode
 import com.github.valkyrie.language.psi_node.ValkyrieClassItemNode
 import com.github.valkyrie.language.psi_node.ValkyrieClassStatementNode
-import com.github.valkyrie.language.psi_node.ValkyrieIdentifierNode
 import com.github.valkyrie.language.symbol.ValkyrieSymbol
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
-import com.intellij.model.psi.PsiSymbolDeclaration
 import com.intellij.psi.PsiElement
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.SearchScope
@@ -23,13 +21,8 @@ open class MixinClass(node: ASTNode) : DeclareNode(node) {
     override fun getOriginalElement(): ValkyrieClassStatementNode {
         return this as ValkyrieClassStatementNode
     }
-
-    override fun getNameIdentifier(): ValkyrieIdentifierNode {
-        return originalElement.identifier as ValkyrieIdentifierNode
-    }
-
+    override fun getNameIdentifier() = originalElement.identifier
     override fun getIcon(flags: Int): Icon = AllIcons.Nodes.Class
-
     override fun setName(name: String): PsiElement {
         return this.nameIdentifier
     }
@@ -41,6 +34,7 @@ open class MixinClass(node: ASTNode) : DeclareNode(node) {
     override fun getUseScope(): SearchScope {
         return super.getUseScope()
     }
+
     override fun resolveNamespace(name: List<String>): ValkyrieASTBase? {
         if (name.isEmpty()) return this
         return PsiTreeUtil
