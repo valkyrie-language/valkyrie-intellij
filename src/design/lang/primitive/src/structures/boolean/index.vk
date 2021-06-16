@@ -1,4 +1,5 @@
-#external tagged Boolean {
+#external
+tagged Boolean {
     True,
     False
 }

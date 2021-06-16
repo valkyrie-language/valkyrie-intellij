@@ -141,6 +141,7 @@ public interface ValkyrieTypes {
   IElementType OP_ARROW = new ValkyrieTokenType("->");
   IElementType OP_ARROW2 = new ValkyrieTokenType("=>");
   IElementType OP_AS = new ValkyrieTokenType("OP_AS");
+  IElementType OP_AT = new ValkyrieTokenType("@");
   IElementType OP_BIND = new ValkyrieTokenType(":=");
   IElementType OP_DEC = new ValkyrieTokenType("--");
   IElementType OP_DIV = new ValkyrieTokenType("/");
@@ -153,6 +154,7 @@ public interface ValkyrieTypes {
   IElementType OP_GGG = new ValkyrieTokenType(">>>");
   IElementType OP_GS = new ValkyrieTokenType("/>");
   IElementType OP_GT = new ValkyrieTokenType(">");
+  IElementType OP_HASH = new ValkyrieTokenType("#");
   IElementType OP_IN = new ValkyrieTokenType("OP_IN");
   IElementType OP_INC = new ValkyrieTokenType("++");
   IElementType OP_IS_A = new ValkyrieTokenType("is");

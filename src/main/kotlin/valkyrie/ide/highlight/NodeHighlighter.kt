@@ -25,11 +25,11 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitClassStatement(o: ValkyrieClassStatement) {
-        highlight(o.identifier, Color.SYM_CLASS)
+        highlight(o.modified.lastChild, Color.SYM_CLASS)
     }
 
     override fun visitTraitStatement(o: ValkyrieTraitStatement) {
-        highlight(o.identifier, Color.SYM_TRAIT)
+        highlight(o.modified.lastChild, Color.SYM_TRAIT)
     }
 
     override fun visitNormalPattern(o: ValkyrieNormalPattern) {

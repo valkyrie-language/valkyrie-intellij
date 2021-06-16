@@ -32,6 +32,7 @@ private val PUNCTUATIONS = """(?x)\\
     | [{}\[\]()]
     | [,;$^]
     | @[*!?@]?
+    | \#[!]?
     # start with < >
     | >= | /> | ≥ | ⩾ | >{1,3}
     | <= | </ | ≤ | ⩽ | <: | <! | <{1,3}
@@ -66,8 +67,7 @@ private val PUNCTUATIONS = """(?x)\\
     #
     """.toRegex()
 private val COMMENTS = """(?x)
-      (?<s1>\#{3,})(?<t1>[^\00]*?)(?<e1>\k<s1>)
-    | (?<s2>\#)(?<t2>[^\n\r]*)
+      (?<s2>//)(?<t2>[^\n\r]*)
     """.toRegex()
 private val STRINGS = """(?x)
       (?<s1>"{3,}|'{3,})(?<t1>[^\00]*?)(?<e1>\k<s1>)
@@ -200,13 +200,12 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
         | (`)((?:[^`\\]|\\.)*)(\1)
         """.toRegex()
         val r = tryMatch(xid) ?: return false
-        when {
-            r.value == "not" && lastIs() -> {
-
-
-            }
-        }
-
+//        when {
+//            r.value == "not" && lastIs() -> {
+//
+//
+//            }
+//        }f
         pushToken(ValkyrieTypes.SYMBOL_XID, r)
         return true
     }
@@ -241,7 +240,8 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
                 pushToken(ValkyrieTypes.SEMICOLON, r)
             }
 
-            "@", "@@", "@!", "@?" -> pushToken(ValkyrieTypes.KW_MACRO, r)
+            "@", -> pushToken(ValkyrieTypes.OP_AT, r)
+            "#", -> pushToken(ValkyrieTypes.OP_HASH, r)
             "," -> pushToken(ValkyrieTypes.COMMA, r)
             // start with +
             "++" -> pushToken(ValkyrieTypes.OP_INC, r)

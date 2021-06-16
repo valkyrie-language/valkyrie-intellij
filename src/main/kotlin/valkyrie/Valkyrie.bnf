@@ -31,6 +31,9 @@
         COLON = ':'
         OP_PROPORTION = "::"
 
+        OP_AT = "@"
+        OP_HASH = "#"
+
         OP_INC = "++"
         OP_ADD_ASSIGN = "+="
         OP_ADD = "+"
@@ -310,7 +313,7 @@ private op_prefix ::= OP_ADD | OP_SUB | OP_NOT | BANG | AMP | DOT3 | DOT2;
 private op_suffix ::= BANG | QUESTION;
 call_suffix       ::= <<parenthesis expression COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
-macro_call        ::= KW_MACRO namepath_free [macro_block] {
+macro_call        ::= (OP_AT|OP_HASH) namepath_free [macro_block] {
     mixin="valkyrie.language.mixin.MixinMacroCall"
 }
 macro_list        ::= KW_MACRO <<bracket_block (namepath_free [macro_block]) COMMA>> {

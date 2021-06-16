@@ -17,7 +17,7 @@ open class MixinClassMethod(node: ASTNode) : DeclareNode(node) {
     }
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode {
-        return originalElement.identifier as ValkyrieIdentifierNode
+        return originalElement.modified.lastChild as ValkyrieIdentifierNode
     }
 
     override fun getIcon(flags: Int): Icon = ValkyrieIconProvider.FUNCTION

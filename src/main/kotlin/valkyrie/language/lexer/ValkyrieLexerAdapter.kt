@@ -11,17 +11,23 @@ class ValkyrieLexerAdapter : LexerBase() {
     private var stack: Array<StackItem> = arrayOf()
     private var index: Int = 0
     override fun start(buffer: CharSequence, startOffset: Int, endOffset: Int, initialState: Int) {
-        if (this.buffer == buffer && this.startOffset == startOffset && this.endOffset == endOffset) {
-            this.index = 0
-        }
-        else {
-            this.buffer = buffer
-            this.startOffset = startOffset
-            this.endOffset = endOffset
-            // val context = LexerContext.fromID(initialState);
-            this.stack = TokenInterpreter(buffer, startOffset, endOffset).interpreter()
-            this.index = 0
-        }
+//        if (this.buffer == buffer && this.startOffset == startOffset && this.endOffset == endOffset) {
+//            this.index = 0
+//        }
+//        else {
+//            this.buffer = buffer
+//            this.startOffset = startOffset
+//            this.endOffset = endOffset
+//            // val context = LexerContext.fromID(initialState);
+//            this.stack = TokenInterpreter(buffer, startOffset, endOffset).interpreter()
+//            this.index = 0
+//        }
+        this.buffer = buffer
+        this.startOffset = startOffset
+        this.endOffset = endOffset
+//         val context = LexerContext.fromID(initialState);
+        this.stack = TokenInterpreter(buffer, startOffset, endOffset).interpreter()
+        this.index = 0
     }
 
     override fun getState(): Int = stack.getOrNull(index)?.getState() ?: 0

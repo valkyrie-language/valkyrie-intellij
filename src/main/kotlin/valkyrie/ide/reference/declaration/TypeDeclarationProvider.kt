@@ -17,7 +17,7 @@ class TypeDeclarationProvider : TypeDeclarationProvider {
         }
     }
     private fun findDeclarations(element: ValkyrieClassStatementNode): Array<PsiElement> {
-        return arrayOf(element.identifier)
+        return arrayOf(element.modified.lastChild)
     }
 }
 

@@ -1,7 +1,7 @@
 #prelude_module
-#packages [
-    math, std, re, serde
-]
+#packages {
+math, std, re, serde
+}
 using {
     std,
     math,
@@ -14,7 +14,7 @@ using {
 type string = std::charset::UTF8String;
 type char = std::charset::UTF8;
 
-type int = math::number::Integer;
+type int = std::number::Integer;
 type i8 = std::number::Integer8;
 type i16 = std::number::Integer16;
 type i32 = std::number::Integer32;

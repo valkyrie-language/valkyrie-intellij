@@ -13,6 +13,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.SearchScope
 import com.intellij.psi.util.PsiTreeUtil
+import valkyrie.language.psi_node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
 // PsiReference
@@ -21,7 +22,7 @@ open class MixinClass(node: ASTNode) : DeclareNode(node) {
     override fun getOriginalElement(): ValkyrieClassStatementNode {
         return this as ValkyrieClassStatementNode
     }
-    override fun getNameIdentifier() = originalElement.identifier
+    override fun getNameIdentifier() = originalElement.modified.lastChild as ValkyrieIdentifierNode
     override fun getIcon(flags: Int): Icon = AllIcons.Nodes.Class
     override fun setName(name: String): PsiElement {
         return this.nameIdentifier

@@ -1611,16 +1611,25 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_MACRO namepath_free [macro_block]
+  // (OP_AT|OP_HASH) namepath_free [macro_block]
   public static boolean macro_call(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "macro_call")) return false;
-    if (!nextTokenIs(b, KW_MACRO)) return false;
+    if (!nextTokenIs(b, "<macro call>", OP_AT, OP_HASH)) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, KW_MACRO);
+    Marker m = enter_section_(b, l, _NONE_, MACRO_CALL, "<macro call>");
+    r = macro_call_0(b, l + 1);
     r = r && namepath_free(b, l + 1);
     r = r && macro_call_2(b, l + 1);
-    exit_section_(b, m, MACRO_CALL, r);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // OP_AT|OP_HASH
+  private static boolean macro_call_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "macro_call_0")) return false;
+    boolean r;
+    r = consumeToken(b, OP_AT);
+    if (!r) r = consumeToken(b, OP_HASH);
     return r;
   }
 

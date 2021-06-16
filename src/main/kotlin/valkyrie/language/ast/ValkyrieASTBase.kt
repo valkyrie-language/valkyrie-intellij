@@ -64,12 +64,12 @@ open class ValkyrieASTBase(node: ASTNode) : ASTWrapperPsiElement(node) {
     }
 
     override fun getContext(): PsiElement? {
-        for (node in ancestors) {
-            when (node) {
-                is ValkyrieASTBase -> return node
-                else -> continue
-            }
-        }
+//        for (node in ancestors) {
+//            when (node) {
+//                is ValkyrieASTBase -> return node
+//                else -> continue
+//            }
+//        }
         return null
     }
 
