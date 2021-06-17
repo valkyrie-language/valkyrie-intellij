@@ -42,12 +42,6 @@ public class ValkyrieClassStatementNode extends MixinClass implements ValkyrieCl
 
   @Override
   @Nullable
-  public ValkyrieClassTuple getClassTuple() {
-    return findChildByClass(ValkyrieClassTuple.class);
-  }
-
-  @Override
-  @Nullable
   public ValkyrieGenericDefine getGenericDefine() {
     return findChildByClass(ValkyrieGenericDefine.class);
   }

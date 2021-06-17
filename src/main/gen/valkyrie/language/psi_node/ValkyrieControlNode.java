@@ -29,9 +29,9 @@ public class ValkyrieControlNode extends ValkyrieASTBase implements ValkyrieCont
   }
 
   @Override
-  @NotNull
+  @Nullable
   public ValkyrieExpression getExpression() {
-    return findNotNullChildByClass(ValkyrieExpression.class);
+    return findChildByClass(ValkyrieExpression.class);
   }
 
 }

@@ -22,7 +22,6 @@ public interface ValkyrieTypes {
   IElementType CLASS_INHERIT = new ValkyrieTokenType("CLASS_INHERIT");
   IElementType CLASS_ITEM = new ValkyrieTokenType("CLASS_ITEM");
   IElementType CLASS_STATEMENT = new ValkyrieTokenType("CLASS_STATEMENT");
-  IElementType CLASS_TUPLE = new ValkyrieTokenType("CLASS_TUPLE");
   IElementType CONDITION = new ValkyrieTokenType("CONDITION");
   IElementType CONTROL = new ValkyrieTokenType("CONTROL");
   IElementType DEFINE_BLOCK = new ValkyrieTokenType("DEFINE_BLOCK");
@@ -63,6 +62,7 @@ public interface ValkyrieTypes {
   IElementType MODIFIERS = new ValkyrieTokenType("MODIFIERS");
   IElementType NAMEPATH = new ValkyrieTokenType("NAMEPATH");
   IElementType NAMEPATH_FREE = new ValkyrieTokenType("NAMEPATH_FREE");
+  IElementType NAMEPATH_STAR = new ValkyrieTokenType("NAMEPATH_STAR");
   IElementType NAMESPACE_STATEMENT = new ValkyrieTokenType("NAMESPACE_STATEMENT");
   IElementType NORMAL_BLOCK = new ValkyrieTokenType("NORMAL_BLOCK");
   IElementType NORMAL_PATTERN = new ValkyrieTokenType("NORMAL_PATTERN");
@@ -116,6 +116,7 @@ public interface ValkyrieTypes {
   IElementType KW_CONTROL = new ValkyrieTokenType("KW_CONTROL");
   IElementType KW_DEF = new ValkyrieTokenType("KW_DEF");
   IElementType KW_DOTS = new ValkyrieTokenType("KW_DOTS");
+  IElementType KW_ELSE = new ValkyrieTokenType("KW_ELSE");
   IElementType KW_ESCAPING = new ValkyrieTokenType("KW_WAITING_INPUT");
   IElementType KW_EXTENDS = new ValkyrieTokenType("KW_EXTENDS");
   IElementType KW_EXTENSION = new ValkyrieTokenType("KW_EXTENSION");
@@ -240,9 +241,6 @@ public interface ValkyrieTypes {
       else if (type == CLASS_STATEMENT) {
         return new ValkyrieClassStatementNode(node);
       }
-      else if (type == CLASS_TUPLE) {
-        return new ValkyrieClassTupleNode(node);
-      }
       else if (type == CONDITION) {
         return new ValkyrieConditionNode(node);
       }
@@ -362,6 +360,9 @@ public interface ValkyrieTypes {
       }
       else if (type == NAMEPATH_FREE) {
         return new ValkyrieNamepathFreeNode(node);
+      }
+      else if (type == NAMEPATH_STAR) {
+        return new ValkyrieNamepathStarNode(node);
       }
       else if (type == NAMESPACE_STATEMENT) {
         return new ValkyrieNamespaceStatementNode(node);

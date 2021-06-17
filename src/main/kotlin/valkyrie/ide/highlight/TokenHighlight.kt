@@ -1,13 +1,13 @@
 package valkyrie.ide.highlight
 
 
-import valkyrie.language.lexer.ValkyrieLexerAdapter
-import valkyrie.language.psi.ValkyrieTypes.*
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
+import valkyrie.language.lexer.ValkyrieLexerAdapter
+import valkyrie.language.psi.ValkyrieTypes.*
 import valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
 class TokenHighlight : SyntaxHighlighterBase() {
@@ -24,6 +24,7 @@ class TokenHighlight : SyntaxHighlighterBase() {
             // Keywords
             KW_NAMESPACE, KW_EXTENSION, KW_IMPORT, OP_AS -> Color.KEYWORD
             KW_CLASS, KW_TRAIT, KW_TAGGED, KW_BITFLAG, KW_EXTENDS -> Color.KEYWORD
+            KW_CONTROL -> Color.KEYWORD
             KW_LET, KW_DEF -> Color.KEYWORD
             KW_TYPE -> Color.KEYWORD
             KW_MATCH, KW_CATCH, KW_CASE -> Color.KEYWORD

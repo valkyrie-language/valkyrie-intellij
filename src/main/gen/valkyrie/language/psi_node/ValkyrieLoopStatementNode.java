@@ -35,6 +35,12 @@ public class ValkyrieLoopStatementNode extends ValkyrieASTBase implements Valkyr
   }
 
   @Override
+  @Nullable
+  public ValkyrieElseStatement getElseStatement() {
+    return findChildByClass(ValkyrieElseStatement.class);
+  }
+
+  @Override
   @NotNull
   public ValkyrieNormalBlock getNormalBlock() {
     return findNotNullChildByClass(ValkyrieNormalBlock.class);

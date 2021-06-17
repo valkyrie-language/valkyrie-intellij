@@ -13,7 +13,7 @@ import com.intellij.psi.tree.IElementType
  */
 private val KEYWORDS_SP = """(?x)
       \b(namespace|using|as)\b[*!?]?
-    | \b(if)\b
+    | \b(if|else)\b
     | \b(for|in)\b | \b(while)\b | \b(loop)\b
     | \b(catch)\b
     | \b(is|not)\b
@@ -24,7 +24,7 @@ private val KEYWORDS_SP = """(?x)
     | \b(let|def)\b
     # | \b(new|object)\b
     | \b(try|catch)\b
-    | \b(raise|break|return|resume|yield)\b
+    | \b(raise|continue|break|return|resume|yield)\b
     """.toRegex()
 private val PUNCTUATIONS = """(?x)\\
     | [.]{2}[<|=]
@@ -177,7 +177,12 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             "in" -> pushToken(ValkyrieTypes.OP_IN, r)
             "not" -> pushToken(ValkyrieTypes.OP_NOT, r)
             "if" -> pushToken(ValkyrieTypes.KW_IF, r)
+            "else" -> pushToken(ValkyrieTypes.KW_ELSE, r)
+
+            "loop" -> pushToken(ValkyrieTypes.KW_LOOP, r)
+            "while" -> pushToken(ValkyrieTypes.KW_WHILE, r)
             "for" -> pushToken(ValkyrieTypes.KW_FOR, r)
+
             "let" -> pushToken(ValkyrieTypes.KW_LET, r)
             "def" -> pushToken(ValkyrieTypes.KW_DEF, r)
             "try" -> pushToken(ValkyrieTypes.KW_TRY, r)

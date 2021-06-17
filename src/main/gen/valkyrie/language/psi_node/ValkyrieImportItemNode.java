@@ -42,8 +42,8 @@ public class ValkyrieImportItemNode extends MixinImportItem implements ValkyrieI
 
   @Override
   @NotNull
-  public ValkyrieNamepathFree getNamepathFree() {
-    return findNotNullChildByClass(ValkyrieNamepathFree.class);
+  public ValkyrieNamepathStar getNamepathStar() {
+    return findNotNullChildByClass(ValkyrieNamepathStar.class);
   }
 
 }

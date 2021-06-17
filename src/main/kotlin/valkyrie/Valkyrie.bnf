@@ -93,7 +93,7 @@
     ]
 }
 
-valkyrie ::= (top_statements [SEMICOLON] | normal_statements [SEMICOLON])*
+valkyrie ::= (top_statements | normal_statements  | SEMICOLON)*
 private top_statements ::=
     namespace_statement
   | import_statement
@@ -129,10 +129,13 @@ namespace_statement ::= KW_NAMESPACE namepath_free {
 import_statement ::= KW_IMPORT (import_block|import_item) {
     mixin="valkyrie.language.mixin.MixinImport"
 }
-import_item      ::= namepath_free [OP_AS identifier|(DOT|OP_PROPORTION) import_block] {
+import_item      ::= namepath_star [OP_AS identifier|(DOT|OP_PROPORTION) import_block] {
     mixin="valkyrie.language.mixin.MixinImportItem"
 }
 import_block     ::= <<brace_block import_item COMMA>>;
+namepath_star    ::= identifier ((DOT|OP_PROPORTION) (OP_MUL|identifier))* {
+    mixin="valkyrie.language.mixin.MixinNamepath"
+}
 // ---------------------------------------------------------------------------------------------------------------------
 extension_statement ::= KW_EXTENSION identifier COLON namepath_free top_block {
     mixin="valkyrie.language.mixin.MixinExtension"
@@ -144,10 +147,12 @@ if_statement      ::= KW_IF condition normal_block [ef_statement* else_statement
     // mixin="valkyrie.language.mixin.MixinIf"
 }
 ef_statement      ::= kw_else_if condition normal_block;
-kw_else_if        ::= "else" KW_IF | "ef"
-else_statement    ::= "else" normal_block;
+kw_else_if        ::= KW_ELSE KW_IF | "ef"
+else_statement    ::= KW_ELSE normal_block;
 condition         ::= (case_pattern OP_SET inline_expression | inline_expression);
 normal_block      ::= <<brace_free normal_statements SEMICOLON>>;
+// ---------------------------------------------------------------------------------------------------------------------
+loop_statement    ::= (KW_LOOP | KW_WHILE condition) normal_block [else_statement];
 // ---------------------------------------------------------------------------------------------------------------------
 for_statement     ::= KW_FOR (case_pattern|normal_pattern) OP_IN expression [if_guard] normal_block [else_statement] {
     mixin="valkyrie.language.mixin.MixinFor"
@@ -159,7 +164,7 @@ case_pattern      ::= KW_CASE [identifier* [namepath]] pattern {
 normal_pattern    ::= <<modified identifier>> | <<sequence pattern_item COMMA>> {
     mixin="valkyrie.language.mixin.MixinNormalPattern"
 };
-control           ::= KW_CONTROL expression;
+control           ::= KW_CONTROL [expression];
 // ---------------------------------------------------------------------------------------------------------------------
 private pattern   ::=
     <<parenthesis   id_with_mod COMMA>>
@@ -169,8 +174,6 @@ private pattern   ::=
 pattern_pair      ::= identifier* COLON pattern_value | identifier* (DOT3|DOT2) identifier | identifier+;
 pattern_item      ::= identifier* (DOT3|DOT2) identifier | identifier+;
 pattern_value     ::= identifier | pattern;
-// ---------------------------------------------------------------------------------------------------------------------
-loop_statement    ::= (KW_LOOP | KW_WHILE condition) normal_block;
 // ---------------------------------------------------------------------------------------------------------------------
 match_statement   ::= KW_MATCH match_block {
     pin=1
@@ -226,16 +229,12 @@ private type_binary ::= OP_AND | OP_OR | OP_ADD | OP_DIV;
 forall_statement  ::= OP_FORALL <<sequence identifier COMMA>> [forall_block];
 forall_block      ::= <<brace_block (expression COLON expression) separator>>;
 // ---------------------------------------------------------------------------------------------------------------------
-class_statement   ::= KW_CLASS <<modified identifier>> [generic_define] [class_inherit] [class_tuple|class_block] {
+class_statement   ::= KW_CLASS <<modified identifier>> [generic_define] [class_inherit] class_block {
     pin = 2
     mixin = "valkyrie.language.mixin.MixinClass"
     methods = [getIdentifier getModifiers]
 };
 class_inherit     ::= COLON type_expression;
-class_tuple       ::= <<parenthesis (macro_call* class_item) COMMA>> {
-    pin = 1
-    methods=[addChildrenView]
-}
 class_block       ::= <<brace_free (macro_call|class_define|class_item) separator>> {
     pin = 1
     methods=[addChildrenView]

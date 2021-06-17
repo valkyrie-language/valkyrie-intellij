@@ -603,7 +603,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_CLASS <<modified identifier>> [generic_define] [class_inherit] [class_tuple|class_block]
+  // KW_CLASS <<modified identifier>> [generic_define] [class_inherit] class_block
   public static boolean class_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "class_statement")) return false;
     if (!nextTokenIs(b, KW_CLASS)) return false;
@@ -614,7 +614,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     p = r; // pin = 2
     r = r && report_error_(b, class_statement_2(b, l + 1));
     r = p && report_error_(b, class_statement_3(b, l + 1)) && r;
-    r = p && class_statement_4(b, l + 1) && r;
+    r = p && class_block(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
@@ -630,56 +630,6 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   private static boolean class_statement_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "class_statement_3")) return false;
     class_inherit(b, l + 1);
-    return true;
-  }
-
-  // [class_tuple|class_block]
-  private static boolean class_statement_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "class_statement_4")) return false;
-    class_statement_4_0(b, l + 1);
-    return true;
-  }
-
-  // class_tuple|class_block
-  private static boolean class_statement_4_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "class_statement_4_0")) return false;
-    boolean r;
-    r = class_tuple(b, l + 1);
-    if (!r) r = class_block(b, l + 1);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // <<parenthesis (macro_call* class_item) COMMA>>
-  public static boolean class_tuple(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "class_tuple")) return false;
-    if (!nextTokenIs(b, PARENTHESIS_L)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = parenthesis(b, l + 1, ValkyrieParser::class_tuple_0_0, COMMA_parser_);
-    exit_section_(b, m, CLASS_TUPLE, r);
-    return r;
-  }
-
-  // macro_call* class_item
-  private static boolean class_tuple_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "class_tuple_0_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = class_tuple_0_0_0(b, l + 1);
-    r = r && class_item(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // macro_call*
-  private static boolean class_tuple_0_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "class_tuple_0_0_0")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!macro_call(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "class_tuple_0_0_0", c)) break;
-    }
     return true;
   }
 
@@ -708,16 +658,23 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_CONTROL expression
+  // KW_CONTROL [expression]
   public static boolean control(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "control")) return false;
     if (!nextTokenIs(b, KW_CONTROL)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, KW_CONTROL);
-    r = r && expression(b, l + 1);
+    r = r && control_1(b, l + 1);
     exit_section_(b, m, CONTROL, r);
     return r;
+  }
+
+  // [expression]
+  private static boolean control_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "control_1")) return false;
+    expression(b, l + 1);
+    return true;
   }
 
   /* ********************************************************** */
@@ -922,14 +879,15 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // "else" normal_block
+  // KW_ELSE normal_block
   public static boolean else_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "else_statement")) return false;
+    if (!nextTokenIs(b, KW_ELSE)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, ELSE_STATEMENT, "<else statement>");
-    r = consumeToken(b, "else");
+    Marker m = enter_section_(b);
+    r = consumeToken(b, KW_ELSE);
     r = r && normal_block(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, ELSE_STATEMENT, r);
     return r;
   }
 
@@ -1283,12 +1241,12 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // namepath_free [OP_AS identifier|(DOT|OP_PROPORTION) import_block]
+  // namepath_star [OP_AS identifier|(DOT|OP_PROPORTION) import_block]
   public static boolean import_item(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "import_item")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, IMPORT_ITEM, "<import item>");
-    r = namepath_free(b, l + 1);
+    r = namepath_star(b, l + 1);
     r = r && import_item_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -1435,25 +1393,14 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // "else" KW_IF | "ef"
+  // KW_ELSE KW_IF | "ef"
   public static boolean kw_else_if(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "kw_else_if")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, KW_ELSE_IF, "<kw else if>");
-    r = kw_else_if_0(b, l + 1);
+    r = parseTokens(b, 0, KW_ELSE, KW_IF);
     if (!r) r = consumeToken(b, "ef");
     exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // "else" KW_IF
-  private static boolean kw_else_if_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "kw_else_if_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, "else");
-    r = r && consumeToken(b, KW_IF);
-    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -1561,7 +1508,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (KW_LOOP | KW_WHILE condition) normal_block
+  // (KW_LOOP | KW_WHILE condition) normal_block [else_statement]
   public static boolean loop_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "loop_statement")) return false;
     if (!nextTokenIs(b, "<loop statement>", KW_LOOP, KW_WHILE)) return false;
@@ -1569,6 +1516,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, LOOP_STATEMENT, "<loop statement>");
     r = loop_statement_0(b, l + 1);
     r = r && normal_block(b, l + 1);
+    r = r && loop_statement_2(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -1593,6 +1541,13 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     r = r && condition(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
+  }
+
+  // [else_statement]
+  private static boolean loop_statement_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "loop_statement_2")) return false;
+    else_statement(b, l + 1);
+    return true;
   }
 
   /* ********************************************************** */
@@ -1874,6 +1829,58 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     boolean r;
     r = consumeToken(b, DOT);
     if (!r) r = consumeToken(b, OP_PROPORTION);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // identifier ((DOT|OP_PROPORTION) (OP_MUL|identifier))*
+  public static boolean namepath_star(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "namepath_star")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, NAMEPATH_STAR, "<namepath star>");
+    r = identifier(b, l + 1);
+    r = r && namepath_star_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // ((DOT|OP_PROPORTION) (OP_MUL|identifier))*
+  private static boolean namepath_star_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "namepath_star_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!namepath_star_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "namepath_star_1", c)) break;
+    }
+    return true;
+  }
+
+  // (DOT|OP_PROPORTION) (OP_MUL|identifier)
+  private static boolean namepath_star_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "namepath_star_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = namepath_star_1_0_0(b, l + 1);
+    r = r && namepath_star_1_0_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // DOT|OP_PROPORTION
+  private static boolean namepath_star_1_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "namepath_star_1_0_0")) return false;
+    boolean r;
+    r = consumeToken(b, DOT);
+    if (!r) r = consumeToken(b, OP_PROPORTION);
+    return r;
+  }
+
+  // OP_MUL|identifier
+  private static boolean namepath_star_1_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "namepath_star_1_0_1")) return false;
+    boolean r;
+    r = consumeToken(b, OP_MUL);
+    if (!r) r = identifier(b, l + 1);
     return r;
   }
 
@@ -2980,7 +2987,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (top_statements [SEMICOLON] | normal_statements [SEMICOLON])*
+  // (top_statements | normal_statements  | SEMICOLON)*
   static boolean valkyrie(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "valkyrie")) return false;
     while (true) {
@@ -2991,51 +2998,14 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // top_statements [SEMICOLON] | normal_statements [SEMICOLON]
+  // top_statements | normal_statements  | SEMICOLON
   private static boolean valkyrie_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "valkyrie_0")) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = valkyrie_0_0(b, l + 1);
-    if (!r) r = valkyrie_0_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // top_statements [SEMICOLON]
-  private static boolean valkyrie_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "valkyrie_0_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
     r = top_statements(b, l + 1);
-    r = r && valkyrie_0_0_1(b, l + 1);
-    exit_section_(b, m, null, r);
+    if (!r) r = normal_statements(b, l + 1);
+    if (!r) r = consumeToken(b, SEMICOLON);
     return r;
-  }
-
-  // [SEMICOLON]
-  private static boolean valkyrie_0_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "valkyrie_0_0_1")) return false;
-    consumeToken(b, SEMICOLON);
-    return true;
-  }
-
-  // normal_statements [SEMICOLON]
-  private static boolean valkyrie_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "valkyrie_0_1")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = normal_statements(b, l + 1);
-    r = r && valkyrie_0_1_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [SEMICOLON]
-  private static boolean valkyrie_0_1_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "valkyrie_0_1_1")) return false;
-    consumeToken(b, SEMICOLON);
-    return true;
   }
 
   static final Parser COMMA_parser_ = (b, l) -> consumeToken(b, COMMA);

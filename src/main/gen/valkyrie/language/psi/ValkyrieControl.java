@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieControl extends PsiElement {
 
-  @NotNull
+  @Nullable
   ValkyrieExpression getExpression();
 
 }

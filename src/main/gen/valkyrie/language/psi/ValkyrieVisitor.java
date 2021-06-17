@@ -63,10 +63,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitClassTuple(@NotNull ValkyrieClassTuple o) {
-    visitPsiElement(o);
-  }
-
   public void visitCondition(@NotNull ValkyrieCondition o) {
     visitPsiElement(o);
   }
@@ -224,6 +220,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitNamepathFree(@NotNull ValkyrieNamepathFree o) {
+    visitPsiElement(o);
+  }
+
+  public void visitNamepathStar(@NotNull ValkyrieNamepathStar o) {
     visitPsiElement(o);
   }
 

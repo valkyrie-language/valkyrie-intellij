@@ -15,9 +15,6 @@ public interface ValkyrieClassStatement extends PsiElement {
   ValkyrieClassInherit getClassInherit();
 
   @Nullable
-  ValkyrieClassTuple getClassTuple();
-
-  @Nullable
   ValkyrieGenericDefine getGenericDefine();
 
   @NotNull

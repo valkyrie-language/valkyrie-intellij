@@ -52,7 +52,7 @@ open class MixinClass(node: ASTNode) : DeclareNode(node) {
         val childrenView: MutableList<ValkyrieViewElement> = mutableListOf()
         originalElement.addAnnotationView(childrenView)
         originalElement.modified.addChildrenView(childrenView)
-        originalElement.classTuple?.addChildrenView(childrenView)
+//        originalElement.classTuple?.addChildrenView(childrenView)
         originalElement.classBlock?.addChildrenView(childrenView)
         return childrenView.toTypedArray()
     }
