@@ -1,0 +1,17 @@
+
+class RandInt -> int {
+}
+
+
+
+extends {
+	RandInt()
+}
+
+class ParseEffect {
+	resume: "Expected a number"
+}
+
+catch parse_int() {
+	case
+}

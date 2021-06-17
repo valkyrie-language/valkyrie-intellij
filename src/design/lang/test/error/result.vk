@@ -1,0 +1,4 @@
+union Result[T, E] -> T {
+	Success(T),
+	Failure(E),
+}

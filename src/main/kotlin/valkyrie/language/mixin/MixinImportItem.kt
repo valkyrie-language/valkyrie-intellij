@@ -39,7 +39,8 @@ open class MixinImportItem(node: ASTNode) : ValkyrieASTBase(node), PsiNameIdenti
 
 
     fun getNamepath(): Array<ValkyrieIdentifierNode> {
-        return originalElement.namepathFree.identifierList.map { it as ValkyrieIdentifierNode }.toTypedArray()
+        // return originalElement.namepathFree.identifierList.map { it as ValkyrieIdentifierNode }.toTypedArray()
+        throw NotImplementedError()
     }
 
     fun isAlias(): Boolean {

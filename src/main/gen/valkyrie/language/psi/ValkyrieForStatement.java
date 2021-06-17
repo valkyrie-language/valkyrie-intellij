@@ -13,13 +13,13 @@ public interface ValkyrieForStatement extends PsiElement {
   @Nullable
   ValkyrieElseStatement getElseStatement();
 
-  @NotNull
-  ValkyrieExpression getExpression();
-
   @Nullable
   ValkyrieIfGuard getIfGuard();
 
-  @NotNull
+  @Nullable
+  ValkyrieInlineExpression getInlineExpression();
+
+  @Nullable
   ValkyrieNormalBlock getNormalBlock();
 
   @Nullable

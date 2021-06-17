@@ -124,7 +124,6 @@ public interface ValkyrieTypes {
   IElementType KW_IF = new ValkyrieTokenType("KW_IF");
   IElementType KW_IMPORT = new ValkyrieTokenType("KW_IMPORT");
   IElementType KW_LET = new ValkyrieTokenType("KW_LET");
-  IElementType KW_LOOP = new ValkyrieTokenType("KW_LOOP");
   IElementType KW_MACRO = new ValkyrieTokenType("KW_MACRO");
   IElementType KW_MATCH = new ValkyrieTokenType("KW_MATCH");
   IElementType KW_NAMESPACE = new ValkyrieTokenType("KW_NAMESPACE");

@@ -41,21 +41,21 @@ public class ValkyrieForStatementNode extends MixinFor implements ValkyrieForSta
   }
 
   @Override
-  @NotNull
-  public ValkyrieExpression getExpression() {
-    return findNotNullChildByClass(ValkyrieExpression.class);
-  }
-
-  @Override
   @Nullable
   public ValkyrieIfGuard getIfGuard() {
     return findChildByClass(ValkyrieIfGuard.class);
   }
 
   @Override
-  @NotNull
+  @Nullable
+  public ValkyrieInlineExpression getInlineExpression() {
+    return findChildByClass(ValkyrieInlineExpression.class);
+  }
+
+  @Override
+  @Nullable
   public ValkyrieNormalBlock getNormalBlock() {
-    return findNotNullChildByClass(ValkyrieNormalBlock.class);
+    return findChildByClass(ValkyrieNormalBlock.class);
   }
 
   @Override

@@ -22,7 +22,8 @@ private val KEYWORDS_SP = """(?x)
     | \b(trait|interface|convention|protocol)\b
     | \b(extend|extends|implements|impl)\b
     | \b(let|def)\b
-    # | \b(new|object)\b
+    | \b(new|object)\b
+    | \b(match|case)\b
     | \b(try|catch)\b
     | \b(raise|continue|break|return|resume|yield)\b
     """.toRegex()
@@ -68,6 +69,7 @@ private val PUNCTUATIONS = """(?x)\\
     """.toRegex()
 private val COMMENTS = """(?x)
       (?<s2>//)(?<t2>[^\n\r]*)
+    | (?<s3>/[*])(?<t3>.*?)(?<e3>[*]/)
     """.toRegex()
 private val STRINGS = """(?x)
       (?<s1>"{3,}|'{3,})(?<t1>[^\00]*?)(?<e1>\k<s1>)
@@ -179,9 +181,12 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             "if" -> pushToken(ValkyrieTypes.KW_IF, r)
             "else" -> pushToken(ValkyrieTypes.KW_ELSE, r)
 
-            "loop" -> pushToken(ValkyrieTypes.KW_LOOP, r)
             "while" -> pushToken(ValkyrieTypes.KW_WHILE, r)
             "for" -> pushToken(ValkyrieTypes.KW_FOR, r)
+
+            "match" -> pushToken(ValkyrieTypes.KW_MATCH, r)
+            "case" -> pushToken(ValkyrieTypes.KW_CASE, r)
+            "with" -> pushToken(ValkyrieTypes.KW_WITH, r)
 
             "let" -> pushToken(ValkyrieTypes.KW_LET, r)
             "def" -> pushToken(ValkyrieTypes.KW_DEF, r)

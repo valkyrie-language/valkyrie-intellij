@@ -30,8 +30,8 @@ public class ValkyrieNormalPatternNode extends MixinNormalPattern implements Val
 
   @Override
   @Nullable
-  public ValkyrieModified getModified() {
-    return findChildByClass(ValkyrieModified.class);
+  public ValkyrieModifiers getModifiers() {
+    return findChildByClass(ValkyrieModifiers.class);
   }
 
   @Override
