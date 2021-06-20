@@ -1,5 +1,7 @@
 variant Option[T] -> T {
-	Some(T),
+	Some {
+		value: T
+	},
 	None,
 }
 
@@ -8,8 +10,8 @@ def div42(f) {
 		f()
 	}
 	.catch {
-		case Some(x): resume x,
-		case None: resume 42,
+		case Some { x }: resume x,
+		case None:    resume 42,
 	}
 }
 
