@@ -1,3 +1,8 @@
+#allow()
+#warn
+#deny
+namespace! std.trace;
+
 using std.trace.Tracing.{self, debug, print, alert, error};
 
 
