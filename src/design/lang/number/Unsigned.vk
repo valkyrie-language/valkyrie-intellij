@@ -2,7 +2,7 @@ namespace std.number;
 
 #native(Serialize, Deserialize)
 class Unsigned {
-
+	bytes: [u8]
 }
 
 #native
