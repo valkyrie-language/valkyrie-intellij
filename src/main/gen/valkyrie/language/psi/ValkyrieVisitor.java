@@ -95,6 +95,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitElseCase(@NotNull ValkyrieElseCase o) {
+    visitPsiElement(o);
+  }
+
   public void visitElseStatement(@NotNull ValkyrieElseStatement o) {
     visitPsiElement(o);
   }
@@ -332,6 +336,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitTypeTerm(@NotNull ValkyrieTypeTerm o) {
+    visitPsiElement(o);
+  }
+
+  public void visitWithCase(@NotNull ValkyrieWithCase o) {
     visitPsiElement(o);
   }
 

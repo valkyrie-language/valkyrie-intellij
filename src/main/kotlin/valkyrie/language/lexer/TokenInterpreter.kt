@@ -13,14 +13,15 @@ import com.intellij.psi.tree.IElementType
  */
 private val KEYWORDS_SP = """(?x)
       \b(namespace|using|as)\b[*!?]?
+    | \b(extension)\b
     | \b(if|else)\b
-    | \b(for|in)\b | \b(while)\b | \b(loop)\b
+    | \b(for|in)\b | \b(while|loop)\b
     | \b(catch)\b
     | \b(is|not)\b
     | \b(type|class)\b
     | \b(variant|bitflag)\b
     | \b(trait|interface|convention|protocol)\b
-    | \b(extend|extends|implements|impl)\b
+    | \b(extend|extends)\b
     | \b(let|def)\b
     | \b(new|object)\b
     | \b(match|case)\b
@@ -181,6 +182,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             "if" -> pushToken(ValkyrieTypes.KW_IF, r)
             "else" -> pushToken(ValkyrieTypes.KW_ELSE, r)
 
+            "loop" -> pushToken(ValkyrieTypes.KW_LOOP, r)
             "while" -> pushToken(ValkyrieTypes.KW_WHILE, r)
             "for" -> pushToken(ValkyrieTypes.KW_FOR, r)
 

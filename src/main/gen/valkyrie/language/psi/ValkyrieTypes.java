@@ -30,6 +30,7 @@ public interface ValkyrieTypes {
   IElementType DEFINE_TUPLE = new ValkyrieTokenType("DEFINE_TUPLE");
   IElementType DOT_CALL = new ValkyrieTokenType("DOT_CALL");
   IElementType EF_STATEMENT = new ValkyrieTokenType("EF_STATEMENT");
+  IElementType ELSE_CASE = new ValkyrieTokenType("ELSE_CASE");
   IElementType ELSE_STATEMENT = new ValkyrieTokenType("ELSE_STATEMENT");
   IElementType EXPRESSION = new ValkyrieTokenType("EXPRESSION");
   IElementType EXTENDS_STATEMENT = new ValkyrieTokenType("EXTENDS_STATEMENT");
@@ -90,6 +91,7 @@ public interface ValkyrieTypes {
   IElementType TYPE_EXPRESSION = new ValkyrieTokenType("TYPE_EXPRESSION");
   IElementType TYPE_STATEMENT = new ValkyrieTokenType("TYPE_STATEMENT");
   IElementType TYPE_TERM = new ValkyrieTokenType("TYPE_TERM");
+  IElementType WITH_CASE = new ValkyrieTokenType("WITH_CASE");
 
   IElementType AMP = new ValkyrieTokenType("AMP");
   IElementType BANG = new ValkyrieTokenType("BANG");
@@ -124,6 +126,7 @@ public interface ValkyrieTypes {
   IElementType KW_IF = new ValkyrieTokenType("KW_IF");
   IElementType KW_IMPORT = new ValkyrieTokenType("KW_IMPORT");
   IElementType KW_LET = new ValkyrieTokenType("KW_LET");
+  IElementType KW_LOOP = new ValkyrieTokenType("KW_LOOP");
   IElementType KW_MACRO = new ValkyrieTokenType("KW_MACRO");
   IElementType KW_MATCH = new ValkyrieTokenType("KW_MATCH");
   IElementType KW_NAMESPACE = new ValkyrieTokenType("KW_NAMESPACE");
@@ -132,6 +135,7 @@ public interface ValkyrieTypes {
   IElementType KW_TRY = new ValkyrieTokenType("KW_TRY");
   IElementType KW_TYPE = new ValkyrieTokenType("KW_TYPE");
   IElementType KW_WHILE = new ValkyrieTokenType("KW_WHILE");
+  IElementType KW_WITH = new ValkyrieTokenType("KW_WITH");
   IElementType OP_ADD = new ValkyrieTokenType("+");
   IElementType OP_ADD_ASSIGN = new ValkyrieTokenType("+=");
   IElementType OP_AND = new ValkyrieTokenType("&");
@@ -263,6 +267,9 @@ public interface ValkyrieTypes {
       }
       else if (type == EF_STATEMENT) {
         return new ValkyrieEfStatementNode(node);
+      }
+      else if (type == ELSE_CASE) {
+        return new ValkyrieElseCaseNode(node);
       }
       else if (type == ELSE_STATEMENT) {
         return new ValkyrieElseStatementNode(node);
@@ -443,6 +450,9 @@ public interface ValkyrieTypes {
       }
       else if (type == TYPE_TERM) {
         return new ValkyrieTypeTermNode(node);
+      }
+      else if (type == WITH_CASE) {
+        return new ValkyrieWithCaseNode(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

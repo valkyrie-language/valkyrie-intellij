@@ -147,12 +147,12 @@ if_statement      ::= KW_IF condition normal_block [ef_statement* else_statement
     // mixin="valkyrie.language.mixin.MixinIf"
 }
 ef_statement      ::= kw_else_if condition normal_block;
-kw_else_if        ::= KW_ELSE KW_IF | "ef"
+kw_else_if        ::= KW_ELSE KW_IF;
 else_statement    ::= KW_ELSE normal_block;
 condition         ::= (case_pattern OP_SET inline_expression | inline_expression);
 normal_block      ::= <<brace_free normal_statements SEMICOLON>>;
 // ---------------------------------------------------------------------------------------------------------------------
-loop_statement    ::= KW_WHILE [condition] normal_block [else_statement] {
+loop_statement    ::= (KW_LOOP | KW_WHILE condition) normal_block [else_statement] {
     pin=1
 }
 // ---------------------------------------------------------------------------------------------------------------------
@@ -197,7 +197,8 @@ catch_statement   ::= KW_CATCH match_block {
     pin=1
     // mixin="valkyrie.language.mixin.MixinCatch"
 }
-KW_WITH
+with_case         ::= KW_WITH;
+else_case         ::= KW_ELSE;
 // ---------------------------------------------------------------------------------------------------------------------
 let_statement     ::=
       KW_LET normal_pattern [let_type] [OP_SET normal_statements]
@@ -313,7 +314,7 @@ private op_binary ::=
     | OP_NOT_A | OP_IS_A OP_NOT | OP_IS_A | OP_NOT OP_IS_A
     | OP_AS
     // in | not in
-    | OP_IN | OP_NOT_IN | OP_NOT OP_IN
+//    | OP_IN | OP_NOT_IN | OP_NOT OP_IN
     | OP_UNTIL
 private op_prefix ::= OP_ADD | OP_SUB | OP_NOT | BANG | AMP | DOT3 | DOT2;
 private op_suffix ::= BANG | QUESTION;

@@ -869,12 +869,25 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   // kw_else_if condition normal_block
   public static boolean ef_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ef_statement")) return false;
+    if (!nextTokenIs(b, KW_ELSE)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, EF_STATEMENT, "<ef statement>");
+    Marker m = enter_section_(b);
     r = kw_else_if(b, l + 1);
     r = r && condition(b, l + 1);
     r = r && normal_block(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, EF_STATEMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // KW_ELSE
+  public static boolean else_case(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "else_case")) return false;
+    if (!nextTokenIs(b, KW_ELSE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, KW_ELSE);
+    exit_section_(b, m, ELSE_CASE, r);
     return r;
   }
 
@@ -1403,14 +1416,14 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_ELSE KW_IF | "ef"
+  // KW_ELSE KW_IF
   public static boolean kw_else_if(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "kw_else_if")) return false;
+    if (!nextTokenIs(b, KW_ELSE)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, KW_ELSE_IF, "<kw else if>");
-    r = parseTokens(b, 0, KW_ELSE, KW_IF);
-    if (!r) r = consumeToken(b, "ef");
-    exit_section_(b, l, m, r, false, null);
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, KW_ELSE, KW_IF);
+    exit_section_(b, m, KW_ELSE_IF, r);
     return r;
   }
 
@@ -1518,31 +1531,45 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_WHILE [condition] normal_block [else_statement]
+  // (KW_LOOP | KW_WHILE condition) normal_block [else_statement]
   public static boolean loop_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "loop_statement")) return false;
-    if (!nextTokenIs(b, KW_WHILE)) return false;
+    if (!nextTokenIs(b, "<loop statement>", KW_LOOP, KW_WHILE)) return false;
     boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, LOOP_STATEMENT, null);
-    r = consumeToken(b, KW_WHILE);
+    Marker m = enter_section_(b, l, _NONE_, LOOP_STATEMENT, "<loop statement>");
+    r = loop_statement_0(b, l + 1);
     p = r; // pin = 1
-    r = r && report_error_(b, loop_statement_1(b, l + 1));
-    r = p && report_error_(b, normal_block(b, l + 1)) && r;
-    r = p && loop_statement_3(b, l + 1) && r;
+    r = r && report_error_(b, normal_block(b, l + 1));
+    r = p && loop_statement_2(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
-  // [condition]
-  private static boolean loop_statement_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "loop_statement_1")) return false;
-    condition(b, l + 1);
-    return true;
+  // KW_LOOP | KW_WHILE condition
+  private static boolean loop_statement_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "loop_statement_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, KW_LOOP);
+    if (!r) r = loop_statement_0_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // KW_WHILE condition
+  private static boolean loop_statement_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "loop_statement_0_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, KW_WHILE);
+    r = r && condition(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   // [else_statement]
-  private static boolean loop_statement_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "loop_statement_3")) return false;
+  private static boolean loop_statement_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "loop_statement_2")) return false;
     else_statement(b, l + 1);
     return true;
   }
@@ -2123,7 +2150,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   //     | OP_NOT_A | OP_IS_A OP_NOT | OP_IS_A | OP_NOT OP_IS_A
   //     | OP_AS
   //     // in | not in
-  //     | OP_NOT_IN | OP_NOT OP_IN
+  // //    | OP_IN | OP_NOT_IN | OP_NOT OP_IN
   //     | OP_UNTIL
   static boolean op_binary(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "op_binary")) return false;
@@ -2158,8 +2185,6 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, OP_IS_A);
     if (!r) r = parseTokens(b, 0, OP_NOT, OP_IS_A);
     if (!r) r = consumeToken(b, OP_AS);
-    if (!r) r = consumeToken(b, OP_NOT_IN);
-    if (!r) r = parseTokens(b, 0, OP_NOT, OP_IN);
     if (!r) r = consumeToken(b, OP_UNTIL);
     exit_section_(b, m, null, r);
     return r;
@@ -3046,6 +3071,18 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     r = top_statements(b, l + 1);
     if (!r) r = normal_statements(b, l + 1);
     if (!r) r = consumeToken(b, SEMICOLON);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // KW_WITH
+  public static boolean with_case(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "with_case")) return false;
+    if (!nextTokenIs(b, KW_WITH)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, KW_WITH);
+    exit_section_(b, m, WITH_CASE, r);
     return r;
   }
 

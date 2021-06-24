@@ -1,4 +1,4 @@
-namespace std.Vector2;
+namespace std.numeric;
 
 class Vector2 {
 	x: f32,

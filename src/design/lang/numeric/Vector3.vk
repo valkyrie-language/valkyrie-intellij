@@ -1,4 +1,4 @@
-namespace std.Vector3;
+namespace std.numeric;
 
 class Vector3 {
 	x: f32,
