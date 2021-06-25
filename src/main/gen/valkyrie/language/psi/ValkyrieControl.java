@@ -10,4 +10,7 @@ public interface ValkyrieControl extends PsiElement {
   @Nullable
   ValkyrieExpression getExpression();
 
+  @Nullable
+  ValkyrieIdentifier getIdentifier();
+
 }

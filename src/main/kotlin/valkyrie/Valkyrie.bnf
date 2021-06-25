@@ -106,7 +106,7 @@ private top_statements ::=
   | define_statement
   ;
 private normal_statements ::=
-    control
+    control_statement
   | macro_call
   | macro_list
   | for_statement
@@ -171,7 +171,15 @@ normal_pattern    ::=
     mixin="valkyrie.language.mixin.MixinNormalPattern"
 };
 pattern_item      ::= <<modified identifier>>;
-control           ::= KW_CONTROL [expression];
+control_statement ::=
+    KW_CONTINUE
+    | KW_RETURN [expression]
+    | KW_RESUME [expression]
+    | KW_RAISE expression
+    | KW_YIELD [KW_FROM] expression
+    | KW_YIELD KW_BREAK
+    | KW_BREAK [PARENTHESIS_L identifier PARENTHESIS_R]
+    ;
 // ---------------------------------------------------------------------------------------------------------------------
 private pattern   ::=
     <<parenthesis   id_with_mod COMMA>>
@@ -314,8 +322,8 @@ private op_binary ::=
     | OP_NOT_A | OP_IS_A OP_NOT | OP_IS_A | OP_NOT OP_IS_A
     | OP_AS
     // in | not in
-//    | OP_IN | OP_NOT_IN | OP_NOT OP_IN
-    | OP_UNTIL
+    // | OP_IN | OP_NOT_IN | OP_NOT OP_IN
+    | OP_UNTIL;
 private op_prefix ::= OP_ADD | OP_SUB | OP_NOT | BANG | AMP | DOT3 | DOT2;
 private op_suffix ::= BANG | QUESTION;
 call_suffix       ::= <<parenthesis expression COMMA>>;
@@ -365,7 +373,7 @@ modifiers      ::= (identifier !end_m1)+ {
 private end_m1 ::= (
     COLON|OP_PROPORTION|SEMICOLON|
     BRACKET_L|BRACKET_R|PARENTHESIS_L|PARENTHESIS_R|BRACE_L|BRACE_R
-    COMMA|OP_EQ|DOT|COMMA
+    COMMA|OP_SET|OP_EQ|DOT|COMMA
 );
 // ---------------------------------------------------------------------------------------------------------------------
 private separator          ::= COMMA | SEMICOLON;

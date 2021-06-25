@@ -24,11 +24,13 @@ class TokenHighlight : SyntaxHighlighterBase() {
             // Keywords
             KW_NAMESPACE, KW_EXTENSION, KW_IMPORT, OP_AS -> Color.KEYWORD
             KW_CLASS, KW_TRAIT, KW_TAGGED, KW_BITFLAG, KW_EXTENDS -> Color.KEYWORD
-            KW_CONTROL -> Color.KEYWORD
+            KW_CONTINUE, KW_RETURN, KW_RESUME -> Color.KEYWORD
+            KW_YIELD, KW_BREAK, KW_FROM -> Color.KEYWORD
             KW_LET, KW_DEF -> Color.KEYWORD
             KW_TYPE -> Color.KEYWORD
             KW_MATCH, KW_CATCH, KW_CASE -> Color.KEYWORD
-            KW_IF, KW_FOR, KW_WHILE,  -> Color.KEYWORD
+            KW_IF, KW_ELSE -> Color.KEYWORD
+            KW_LOOP, KW_WHILE -> Color.KEYWORD
             OP_NOT, OP_IN, OP_NOT_IN, OP_IS_A, OP_NOT_A -> Color.KEYWORD
             KW_MACRO -> Color.SYM_MACRO
             //

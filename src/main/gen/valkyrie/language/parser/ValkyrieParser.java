@@ -658,23 +658,122 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_CONTROL [expression]
+  // KW_CONTINUE
+  //     | KW_RETURN [expression]
+  //     | KW_RESUME [expression]
+  //     | KW_RAISE expression
+  //     | KW_YIELD [KW_FROM] expression
+  //     | KW_YIELD KW_BREAK
+  //     | KW_BREAK [PARENTHESIS_L identifier PARENTHESIS_R]
   public static boolean control(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "control")) return false;
-    if (!nextTokenIs(b, KW_CONTROL)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, CONTROL, "<control>");
+    r = consumeToken(b, KW_CONTINUE);
+    if (!r) r = control_1(b, l + 1);
+    if (!r) r = control_2(b, l + 1);
+    if (!r) r = control_3(b, l + 1);
+    if (!r) r = control_4(b, l + 1);
+    if (!r) r = parseTokens(b, 0, KW_YIELD, KW_BREAK);
+    if (!r) r = control_6(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // KW_RETURN [expression]
+  private static boolean control_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "control_1")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, KW_CONTROL);
-    r = r && control_1(b, l + 1);
-    exit_section_(b, m, CONTROL, r);
+    r = consumeToken(b, KW_RETURN);
+    r = r && control_1_1(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   // [expression]
-  private static boolean control_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "control_1")) return false;
+  private static boolean control_1_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "control_1_1")) return false;
     expression(b, l + 1);
     return true;
+  }
+
+  // KW_RESUME [expression]
+  private static boolean control_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "control_2")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, KW_RESUME);
+    r = r && control_2_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [expression]
+  private static boolean control_2_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "control_2_1")) return false;
+    expression(b, l + 1);
+    return true;
+  }
+
+  // KW_RAISE expression
+  private static boolean control_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "control_3")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, KW_RAISE);
+    r = r && expression(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // KW_YIELD [KW_FROM] expression
+  private static boolean control_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "control_4")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, KW_YIELD);
+    r = r && control_4_1(b, l + 1);
+    r = r && expression(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [KW_FROM]
+  private static boolean control_4_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "control_4_1")) return false;
+    consumeToken(b, KW_FROM);
+    return true;
+  }
+
+  // KW_BREAK [PARENTHESIS_L identifier PARENTHESIS_R]
+  private static boolean control_6(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "control_6")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, KW_BREAK);
+    r = r && control_6_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [PARENTHESIS_L identifier PARENTHESIS_R]
+  private static boolean control_6_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "control_6_1")) return false;
+    control_6_1_0(b, l + 1);
+    return true;
+  }
+
+  // PARENTHESIS_L identifier PARENTHESIS_R
+  private static boolean control_6_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "control_6_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, PARENTHESIS_L);
+    r = r && identifier(b, l + 1);
+    r = r && consumeToken(b, PARENTHESIS_R);
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -907,7 +1006,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   /* ********************************************************** */
   // COLON|OP_PROPORTION|SEMICOLON|
   //     BRACKET_L|BRACKET_R|PARENTHESIS_L|PARENTHESIS_R|BRACE_L|BRACE_R
-  //     COMMA|OP_EQ|DOT|COMMA
+  //     COMMA|OP_SET|OP_EQ|DOT|COMMA
   static boolean end_m1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "end_m1")) return false;
     boolean r;
@@ -921,6 +1020,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, PARENTHESIS_R);
     if (!r) r = consumeToken(b, BRACE_L);
     if (!r) r = parseTokens(b, 0, BRACE_R, COMMA);
+    if (!r) r = consumeToken(b, OP_SET);
     if (!r) r = consumeToken(b, OP_EQ);
     if (!r) r = consumeToken(b, DOT);
     if (!r) r = consumeToken(b, COMMA);
@@ -2150,7 +2250,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   //     | OP_NOT_A | OP_IS_A OP_NOT | OP_IS_A | OP_NOT OP_IS_A
   //     | OP_AS
   //     // in | not in
-  // //    | OP_IN | OP_NOT_IN | OP_NOT OP_IN
+  //     // | OP_IN | OP_NOT_IN | OP_NOT OP_IN
   //     | OP_UNTIL
   static boolean op_binary(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "op_binary")) return false;

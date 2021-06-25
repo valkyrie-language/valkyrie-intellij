@@ -112,10 +112,11 @@ public interface ValkyrieTypes {
   IElementType ID_WITH_MOD = new ValkyrieTokenType("id_with_mod");
   IElementType INTEGER = new ValkyrieTokenType("INTEGER");
   IElementType KW_BITFLAG = new ValkyrieTokenType("KW_BITFLAG");
+  IElementType KW_BREAK = new ValkyrieTokenType("KW_BREAK");
   IElementType KW_CASE = new ValkyrieTokenType("KW_CASE");
   IElementType KW_CATCH = new ValkyrieTokenType("KW_CATCH");
   IElementType KW_CLASS = new ValkyrieTokenType("KW_CLASS");
-  IElementType KW_CONTROL = new ValkyrieTokenType("KW_CONTROL");
+  IElementType KW_CONTINUE = new ValkyrieTokenType("KW_CONTINUE");
   IElementType KW_DEF = new ValkyrieTokenType("KW_DEF");
   IElementType KW_DOTS = new ValkyrieTokenType("KW_DOTS");
   IElementType KW_ELSE = new ValkyrieTokenType("KW_ELSE");
@@ -123,6 +124,7 @@ public interface ValkyrieTypes {
   IElementType KW_EXTENDS = new ValkyrieTokenType("KW_EXTENDS");
   IElementType KW_EXTENSION = new ValkyrieTokenType("KW_EXTENSION");
   IElementType KW_FOR = new ValkyrieTokenType("KW_FOR");
+  IElementType KW_FROM = new ValkyrieTokenType("KW_FROM");
   IElementType KW_IF = new ValkyrieTokenType("KW_IF");
   IElementType KW_IMPORT = new ValkyrieTokenType("KW_IMPORT");
   IElementType KW_LET = new ValkyrieTokenType("KW_LET");
@@ -130,12 +132,16 @@ public interface ValkyrieTypes {
   IElementType KW_MACRO = new ValkyrieTokenType("KW_MACRO");
   IElementType KW_MATCH = new ValkyrieTokenType("KW_MATCH");
   IElementType KW_NAMESPACE = new ValkyrieTokenType("KW_NAMESPACE");
+  IElementType KW_RAISE = new ValkyrieTokenType("KW_RAISE");
+  IElementType KW_RESUME = new ValkyrieTokenType("KW_RESUME");
+  IElementType KW_RETURN = new ValkyrieTokenType("KW_RETURN");
   IElementType KW_TAGGED = new ValkyrieTokenType("KW_TAGGED");
   IElementType KW_TRAIT = new ValkyrieTokenType("KW_TRAIT");
   IElementType KW_TRY = new ValkyrieTokenType("KW_TRY");
   IElementType KW_TYPE = new ValkyrieTokenType("KW_TYPE");
   IElementType KW_WHILE = new ValkyrieTokenType("KW_WHILE");
   IElementType KW_WITH = new ValkyrieTokenType("KW_WITH");
+  IElementType KW_YIELD = new ValkyrieTokenType("KW_YIELD");
   IElementType OP_ADD = new ValkyrieTokenType("+");
   IElementType OP_ADD_ASSIGN = new ValkyrieTokenType("+=");
   IElementType OP_AND = new ValkyrieTokenType("&");

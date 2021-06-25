@@ -34,4 +34,10 @@ public class ValkyrieControlNode extends ValkyrieASTBase implements ValkyrieCont
     return findChildByClass(ValkyrieExpression.class);
   }
 
+  @Override
+  @Nullable
+  public ValkyrieIdentifier getIdentifier() {
+    return findChildByClass(ValkyrieIdentifier.class);
+  }
+
 }

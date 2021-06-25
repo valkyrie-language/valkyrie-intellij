@@ -2,11 +2,11 @@
 
 package valkyrie.language.lexer
 
-import valkyrie.language.lexer.LexerContext.Coding
-import valkyrie.language.psi.ValkyrieTypes
 import com.intellij.psi.TokenType.BAD_CHARACTER
 import com.intellij.psi.TokenType.WHITE_SPACE
 import com.intellij.psi.tree.IElementType
+import valkyrie.language.lexer.LexerContext.Coding
+import valkyrie.language.psi.ValkyrieTypes
 
 /**
  * keywords in any case, except for macros
@@ -16,7 +16,6 @@ private val KEYWORDS_SP = """(?x)
     | \b(extension)\b
     | \b(if|else)\b
     | \b(for|in)\b | \b(while|loop)\b
-    | \b(catch)\b
     | \b(is|not)\b
     | \b(type|class)\b
     | \b(variant|bitflag)\b
@@ -26,7 +25,8 @@ private val KEYWORDS_SP = """(?x)
     | \b(new|object)\b
     | \b(match|case)\b
     | \b(try|catch)\b
-    | \b(raise|continue|break|return|resume|yield)\b
+    | \b(raise|continue|return|resume)\b
+    | \b(yield|from|break)\b
     """.toRegex()
 private val PUNCTUATIONS = """(?x)\\
     | [.]{2}[<|=]
@@ -194,8 +194,14 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             "def" -> pushToken(ValkyrieTypes.KW_DEF, r)
             "try" -> pushToken(ValkyrieTypes.KW_TRY, r)
             "catch" -> pushToken(ValkyrieTypes.KW_CATCH, r)
-            "break", "continue", "yield", "return", "resume", "raise" -> pushToken(ValkyrieTypes.KW_CONTROL, r)
-            "type", -> pushToken(ValkyrieTypes.KW_TYPE, r)
+            "continue" -> pushToken(ValkyrieTypes.KW_CONTINUE, r)
+            "return" -> pushToken(ValkyrieTypes.KW_RETURN, r)
+            "resume" -> pushToken(ValkyrieTypes.KW_RESUME, r)
+            "raise" -> pushToken(ValkyrieTypes.KW_RAISE, r)
+            "yield" -> pushToken(ValkyrieTypes.KW_YIELD, r)
+            "break" -> pushToken(ValkyrieTypes.KW_BREAK, r)
+            "from" -> pushToken(ValkyrieTypes.KW_FROM, r)
+            "type" -> pushToken(ValkyrieTypes.KW_TYPE, r)
             "class", "structure", "struct" -> pushToken(ValkyrieTypes.KW_CLASS, r)
             "trait", "interface", "convention", "protocol" -> pushToken(ValkyrieTypes.KW_TRAIT, r)
             "tagged", "enum", "variant" -> pushToken(ValkyrieTypes.KW_TAGGED, r)
@@ -252,8 +258,8 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
                 pushToken(ValkyrieTypes.SEMICOLON, r)
             }
 
-            "@", -> pushToken(ValkyrieTypes.OP_AT, r)
-            "#", -> pushToken(ValkyrieTypes.OP_HASH, r)
+            "@" -> pushToken(ValkyrieTypes.OP_AT, r)
+            "#" -> pushToken(ValkyrieTypes.OP_HASH, r)
             "," -> pushToken(ValkyrieTypes.COMMA, r)
             // start with +
             "++" -> pushToken(ValkyrieTypes.OP_INC, r)
