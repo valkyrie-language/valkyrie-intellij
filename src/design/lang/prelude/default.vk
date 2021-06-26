@@ -1,6 +1,6 @@
 #prelude_module
 #packages {
-math, std, re, serde
+    math, std, re, serde
 }
 using {
     std,

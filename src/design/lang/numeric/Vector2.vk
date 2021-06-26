@@ -5,7 +5,7 @@ class Vector2 {
 	y: f32,
 }
 
-extends Vector3: From[f32], From[Vector2], From[Vector4] {
+extends Vector3: From[f32]+ From[Vector2]+ From[Vector4] {
 	from(v: f32) {
 		return Vector3 {
 			x: v,

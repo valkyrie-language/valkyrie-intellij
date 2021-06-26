@@ -66,12 +66,14 @@ public interface ValkyrieTypes {
   IElementType NAMEPATH_FREE = new ValkyrieTokenType("NAMEPATH_FREE");
   IElementType NAMEPATH_STAR = new ValkyrieTokenType("NAMEPATH_STAR");
   IElementType NAMESPACE_STATEMENT = new ValkyrieTokenType("NAMESPACE_STATEMENT");
+  IElementType NEW_STATEMENT = new ValkyrieTokenType("NEW_STATEMENT");
   IElementType NORMAL_BLOCK = new ValkyrieTokenType("NORMAL_BLOCK");
   IElementType NORMAL_PATTERN = new ValkyrieTokenType("NORMAL_PATTERN");
   IElementType NUMBER = new ValkyrieTokenType("NUMBER");
   IElementType OBJECT = new ValkyrieTokenType("OBJECT");
   IElementType OBJECT_KEY = new ValkyrieTokenType("OBJECT_KEY");
   IElementType OBJECT_PAIR = new ValkyrieTokenType("OBJECT_PAIR");
+  IElementType OBJECT_STATEMENT = new ValkyrieTokenType("OBJECT_STATEMENT");
   IElementType PATTERN_ITEM = new ValkyrieTokenType("PATTERN_ITEM");
   IElementType PATTERN_PAIR = new ValkyrieTokenType("PATTERN_PAIR");
   IElementType PATTERN_VALUE = new ValkyrieTokenType("PATTERN_VALUE");
@@ -125,7 +127,6 @@ public interface ValkyrieTypes {
   IElementType KW_EXTENDS = new ValkyrieTokenType("KW_EXTENDS");
   IElementType KW_EXTENSION = new ValkyrieTokenType("KW_EXTENSION");
   IElementType KW_FOR = new ValkyrieTokenType("KW_FOR");
-  IElementType KW_FROM = new ValkyrieTokenType("KW_FROM");
   IElementType KW_IF = new ValkyrieTokenType("KW_IF");
   IElementType KW_IMPORT = new ValkyrieTokenType("KW_IMPORT");
   IElementType KW_LET = new ValkyrieTokenType("KW_LET");
@@ -133,6 +134,8 @@ public interface ValkyrieTypes {
   IElementType KW_MACRO = new ValkyrieTokenType("KW_MACRO");
   IElementType KW_MATCH = new ValkyrieTokenType("KW_MATCH");
   IElementType KW_NAMESPACE = new ValkyrieTokenType("KW_NAMESPACE");
+  IElementType KW_NEW = new ValkyrieTokenType("KW_NEW");
+  IElementType KW_OBJECT = new ValkyrieTokenType("KW_OBJECT");
   IElementType KW_RAISE = new ValkyrieTokenType("KW_RAISE");
   IElementType KW_RESUME = new ValkyrieTokenType("KW_RESUME");
   IElementType KW_RETURN = new ValkyrieTokenType("KW_RETURN");
@@ -383,6 +386,9 @@ public interface ValkyrieTypes {
       else if (type == NAMESPACE_STATEMENT) {
         return new ValkyrieNamespaceStatementNode(node);
       }
+      else if (type == NEW_STATEMENT) {
+        return new ValkyrieNewStatementNode(node);
+      }
       else if (type == NORMAL_BLOCK) {
         return new ValkyrieNormalBlockNode(node);
       }
@@ -400,6 +406,9 @@ public interface ValkyrieTypes {
       }
       else if (type == OBJECT_PAIR) {
         return new ValkyrieObjectPairNode(node);
+      }
+      else if (type == OBJECT_STATEMENT) {
+        return new ValkyrieObjectStatementNode(node);
       }
       else if (type == PATTERN_ITEM) {
         return new ValkyriePatternItemNode(node);

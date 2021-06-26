@@ -1,12 +1,5 @@
 package valkyrie.ide.completion
 
-import valkyrie.ide.file.ValkyrieFileNode
-import valkyrie.language.psi.ValkyrieClassTuple
-import valkyrie.language.psi.ValkyrieTypes
-import valkyrie.language.psi_node.ValkyrieClassBlockNode
-import valkyrie.language.psi_node.ValkyrieDefineBlockNode
-import valkyrie.language.psi_node.ValkyrieMacroBlockNode
-import valkyrie.language.psi_node.ValkyrieTopBlockNode
 import com.intellij.codeInsight.completion.CompletionContributor
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionResultSet
@@ -14,6 +7,12 @@ import com.intellij.openapi.progress.ProgressManager
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.parents
 import com.intellij.util.ProcessingContext
+import valkyrie.ide.file.ValkyrieFileNode
+import valkyrie.language.psi.ValkyrieTypes
+import valkyrie.language.psi_node.ValkyrieClassBlockNode
+import valkyrie.language.psi_node.ValkyrieDefineBlockNode
+import valkyrie.language.psi_node.ValkyrieMacroBlockNode
+import valkyrie.language.psi_node.ValkyrieTopBlockNode
 
 
 class CompletionRegistrar : CompletionContributor() {

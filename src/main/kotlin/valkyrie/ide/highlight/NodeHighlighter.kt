@@ -1,16 +1,16 @@
 package valkyrie.ide.highlight
 
 
-import valkyrie.ide.file.ValkyrieFileNode
-import valkyrie.language.psi.*
-import valkyrie.language.psi_node.ValkyrieClassDefineNode
-import valkyrie.language.psi_node.ValkyrieDefineStatementNode
 import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType
 import com.intellij.codeInsight.daemon.impl.HighlightVisitor
 import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import valkyrie.ide.file.ValkyrieFileNode
+import valkyrie.language.psi.*
+import valkyrie.language.psi_node.ValkyrieClassDefineNode
+import valkyrie.language.psi_node.ValkyrieDefineStatementNode
 import valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
 class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
@@ -85,10 +85,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitMacroCall(o: ValkyrieMacroCall) {
-//        highlight(o.firstChild, Color.SYM_MACRO)
-        for (i in o.namepathFree.identifierList) {
-            highlight(i, Color.SYM_MACRO)
-        }
+        highlight(o.namepathFree, Color.SYM_MACRO)
     }
 
     override fun visitMacroList(o: ValkyrieMacroList) {
@@ -165,8 +162,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
             if (first) {
                 first = false
                 highlight(symbol, last)
-            }
-            else {
+            } else {
                 highlight(symbol, rest)
             }
         }
@@ -206,12 +202,10 @@ private fun NodeHighlighter.highlightWithText(o: PsiElement) {
     if (o.text.startsWith("_")) {
         highlight(o, Color.SYM_FIELD)
         return
-    }
-    else if (o.text.uppercase() == o.text) {
+    } else if (o.text.uppercase() == o.text) {
         if (o.text.length == 1) {
             highlight(o, Color.SYM_GENERIC)
-        }
-        else {
+        } else {
             highlight(o, Color.SYM_CONSTANT)
         }
         return
@@ -219,19 +213,19 @@ private fun NodeHighlighter.highlightWithText(o: PsiElement) {
 
     when (o.text) {
         "Default", "Debug", "Clone", "Copy", "Serialize", "Deserialize",
-        "SemiGroup", "Monoid", "HKT", "Functor", "Shape"
+        "SemiGroup", "Monoid", "HKT", "Functor", "Shape",
         -> {
             highlight(o, Color.SYM_TRAIT)
         }
 
         "u8", "u16", "u32", "u64", "u128", "u256",
         "i8", "i16", "i32", "i64", "i128", "i256",
-        "int", "bool", "str", "string", "f32", "f64", "char", "byte", "void"
+        "int", "bool", "str", "string", "f32", "f64", "char", "byte", "void",
         -> {
             highlight(o, Color.KEYWORD)
         }
 
-        "get", "set", "value", "extends", "self", "Self"
+        "get", "set", "value", "extends", "self", "Self",
         -> {
             highlight(o, Color.KEYWORD)
         }

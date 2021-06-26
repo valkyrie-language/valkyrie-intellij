@@ -98,7 +98,9 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // range | list | object | tuple | number | string | boolean | namepath | expression_statement
+  // range
+  //     | list | object | tuple | number | string | boolean | namepath | expression_statement
+  //     | new_statement | object_statement
   public static boolean atom(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "atom")) return false;
     boolean r;
@@ -112,6 +114,8 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     if (!r) r = boolean_$(b, l + 1);
     if (!r) r = namepath(b, l + 1);
     if (!r) r = expression_statement(b, l + 1);
+    if (!r) r = new_statement(b, l + 1);
+    if (!r) r = object_statement(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -662,7 +666,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   //     | KW_RETURN [expression]
   //     | KW_RESUME [expression]
   //     | KW_CONTINUE [jump_label]
-  //     | KW_YIELD [KW_FROM] expression
+  //     | KW_YIELD ["from"] expression
   //     | KW_YIELD KW_BREAK [jump_label]
   //     | KW_BREAK [jump_label]
   public static boolean control_statement(PsiBuilder b, int l) {
@@ -745,7 +749,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // KW_YIELD [KW_FROM] expression
+  // KW_YIELD ["from"] expression
   private static boolean control_statement_4(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "control_statement_4")) return false;
     boolean r;
@@ -757,10 +761,10 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // [KW_FROM]
+  // ["from"]
   private static boolean control_statement_4_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "control_statement_4_1")) return false;
-    consumeToken(b, KW_FROM);
+    consumeToken(b, "from");
     return true;
   }
 
@@ -2070,6 +2074,28 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // KW_NEW <<modified type_expression>> [<<brace_block expression COMMA>>]
+  public static boolean new_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "new_statement")) return false;
+    if (!nextTokenIs(b, KW_NEW)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, NEW_STATEMENT, null);
+    r = consumeToken(b, KW_NEW);
+    p = r; // pin = 1
+    r = r && report_error_(b, modified(b, l + 1, ValkyrieParser::type_expression));
+    r = p && new_statement_2(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // [<<brace_block expression COMMA>>]
+  private static boolean new_statement_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "new_statement_2")) return false;
+    brace_block(b, l + 1, ValkyrieParser::expression, COMMA_parser_);
+    return true;
+  }
+
+  /* ********************************************************** */
   // <<brace_free normal_statements SEMICOLON>>
   public static boolean normal_block(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "normal_block")) return false;
@@ -2282,6 +2308,28 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     r = r && expression(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
+  }
+
+  /* ********************************************************** */
+  // KW_OBJECT <<modified type_expression>> [<<brace_block expression COMMA>>]
+  public static boolean object_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "object_statement")) return false;
+    if (!nextTokenIs(b, KW_OBJECT)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, OBJECT_STATEMENT, null);
+    r = consumeToken(b, KW_OBJECT);
+    p = r; // pin = 1
+    r = r && report_error_(b, modified(b, l + 1, ValkyrieParser::type_expression));
+    r = p && object_statement_2(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // [<<brace_block expression COMMA>>]
+  private static boolean object_statement_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "object_statement_2")) return false;
+    brace_block(b, l + 1, ValkyrieParser::expression, COMMA_parser_);
+    return true;
   }
 
   /* ********************************************************** */

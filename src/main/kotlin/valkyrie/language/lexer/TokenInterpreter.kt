@@ -11,7 +11,7 @@ import valkyrie.language.psi.ValkyrieTypes
 /**
  * keywords in any case, except for macros
  */
-private val KEYWORDS_SP = """(?x)
+private val keywordSP = """(?x)
       \b(namespace|using|as)\b[*!?]?
     | \b(extension)\b
     | \b(if|else)\b
@@ -26,9 +26,9 @@ private val KEYWORDS_SP = """(?x)
     | \b(match|case)\b
     | \b(try|catch)\b
     | \b(raise|continue|return|resume)\b
-    | \b(yield|from|break)\b
+    | \b(yield|break)\b
     """.toRegex()
-private val PUNCTUATIONS = """(?x)\\
+private val punctuations = """(?x)\\
     | [.]{2}[<|=]
     | [.]{1,3}
     | [{}\[\]()]
@@ -171,7 +171,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
     }
 
     private fun codeKeywords(): Boolean {
-        val r = tryMatch(KEYWORDS_SP) ?: return false
+        val r = tryMatch(keywordSP) ?: return false
         when (r.value) {
             "namespace", "namespace!", "namespace*", "namespace?" -> pushToken(ValkyrieTypes.KW_NAMESPACE, r)
             "using", "using!", "using*", "using?" -> pushToken(ValkyrieTypes.KW_IMPORT, r)
@@ -200,13 +200,16 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             "raise" -> pushToken(ValkyrieTypes.KW_RAISE, r)
             "yield" -> pushToken(ValkyrieTypes.KW_YIELD, r)
             "break" -> pushToken(ValkyrieTypes.KW_BREAK, r)
-            "from" -> pushToken(ValkyrieTypes.KW_FROM, r)
             "type" -> pushToken(ValkyrieTypes.KW_TYPE, r)
             "class", "structure", "struct" -> pushToken(ValkyrieTypes.KW_CLASS, r)
             "trait", "interface", "convention", "protocol" -> pushToken(ValkyrieTypes.KW_TRAIT, r)
             "tagged", "enum", "variant" -> pushToken(ValkyrieTypes.KW_TAGGED, r)
             "bitset", "bitflag" -> pushToken(ValkyrieTypes.KW_BITFLAG, r)
             "extend", "extends", "impl", "implements" -> pushToken(ValkyrieTypes.KW_EXTENDS, r)
+
+            "new" -> pushToken(ValkyrieTypes.KW_NEW, r)
+            "object" -> pushToken(ValkyrieTypes.KW_OBJECT, r)
+
             else -> pushToken(BAD_CHARACTER, r)
         }
         return true
@@ -229,7 +232,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
     }
 
     private fun codePunctuations(): Boolean {
-        val r = tryMatch(PUNCTUATIONS) ?: return false
+        val r = tryMatch(punctuations) ?: return false
         when (r.value) {
             "\\" -> pushToken(ValkyrieTypes.KW_ESCAPING, r)
             // DOT

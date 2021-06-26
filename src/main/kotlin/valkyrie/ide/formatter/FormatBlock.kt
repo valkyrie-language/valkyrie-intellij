@@ -1,14 +1,14 @@
 package valkyrie.ide.formatter
 
-import valkyrie.language.ast.computeSpacing
-import valkyrie.language.ast.isWhitespaceOrEmpty
-import valkyrie.language.psi.*
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.formatter.FormatterUtil
+import valkyrie.language.ast.computeSpacing
+import valkyrie.language.ast.isWhitespaceOrEmpty
+import valkyrie.language.psi.*
 
 class FormatBlock(
     private val node: ASTNode,
@@ -99,7 +99,9 @@ private fun isValkyrieBlock(psi: PsiElement): Boolean = when (psi) {
     is ValkyrieClassBlock, is ValkyrieTaggedBlock, is ValkyrieBitflagBlock,
     is ValkyrieDefineBlock,
     is ValkyrieNormalBlock,
-    is ValkyrieList, is ValkyrieObject -> true
+    is ValkyrieMacroBlock,
+    is ValkyrieList, is ValkyrieObject,
+    -> true
 
     else -> false
 }

@@ -9,6 +9,11 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
 
 class ValkyrieFoldingVisitor(private val descriptors: MutableList<FoldingDescriptor>) : ValkyrieRecursiveVisitor() {
+
+    override fun visitImportBlock(o: ValkyrieImportBlock) {
+        fold(o.node, o.firstChild.endOffset, o.lastChild.startOffset)
+    }
+
     /**
      * For class, trait, and extends
      */
