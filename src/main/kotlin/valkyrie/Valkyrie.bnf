@@ -172,14 +172,15 @@ normal_pattern    ::=
 };
 pattern_item      ::= <<modified identifier>>;
 control_statement ::=
-    KW_CONTINUE
+    KW_RAISE expression
     | KW_RETURN [expression]
     | KW_RESUME [expression]
-    | KW_RAISE expression
+    | KW_CONTINUE [jump_label]
     | KW_YIELD [KW_FROM] expression
-    | KW_YIELD KW_BREAK
-    | KW_BREAK [PARENTHESIS_L identifier PARENTHESIS_R]
+    | KW_YIELD KW_BREAK [jump_label]
+    | KW_BREAK [jump_label]
     ;
+jump_label        ::= PARENTHESIS_L identifier PARENTHESIS_R | identifier;
 // ---------------------------------------------------------------------------------------------------------------------
 private pattern   ::=
     <<parenthesis   id_with_mod COMMA>>

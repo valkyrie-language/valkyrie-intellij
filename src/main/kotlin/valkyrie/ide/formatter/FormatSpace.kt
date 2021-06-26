@@ -25,7 +25,8 @@ private val removeSpaceNewlineAfter = TokenSet.create(
     OP_UNTIL,
     DOT,
     OP_PROPORTION,
-    KW_MACRO,
+    OP_AT,
+    OP_HASH,
 )
 
 data class FormatSpace(val commonSettings: CommonCodeStyleSettings, val spacingBuilder: SpacingBuilder) {

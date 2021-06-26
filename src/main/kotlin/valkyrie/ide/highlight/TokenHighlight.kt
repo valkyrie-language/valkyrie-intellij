@@ -31,8 +31,9 @@ class TokenHighlight : SyntaxHighlighterBase() {
             KW_MATCH, KW_CATCH, KW_CASE -> Color.KEYWORD
             KW_IF, KW_ELSE -> Color.KEYWORD
             KW_LOOP, KW_WHILE -> Color.KEYWORD
-            OP_NOT, OP_IN, OP_NOT_IN, OP_IS_A, OP_NOT_A -> Color.KEYWORD
-            KW_MACRO -> Color.SYM_MACRO
+            KW_FOR, OP_IN -> Color.KEYWORD
+            OP_NOT, OP_IS_A, OP_NOT_A -> Color.KEYWORD
+            OP_AT, OP_HASH -> Color.SYM_MACRO
             //
             PARENTHESIS_L, PARENTHESIS_R -> Color.PARENTHESES
             BRACKET_L, BRACKET_R -> Color.BRACKETS

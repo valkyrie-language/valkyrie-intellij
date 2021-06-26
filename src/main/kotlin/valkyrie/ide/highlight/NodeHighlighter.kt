@@ -85,6 +85,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitMacroCall(o: ValkyrieMacroCall) {
+//        highlight(o.firstChild, Color.SYM_MACRO)
         for (i in o.namepathFree.identifierList) {
             highlight(i, Color.SYM_MACRO)
         }
@@ -112,6 +113,9 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.firstChild, Color.KEYWORD)
     }
 
+    override fun visitJumpLabel(o: ValkyrieJumpLabel) {
+        highlight(o.identifier, Color.SYM_MACRO)
+    }
 
     // TODO: real syntax resolve
     override fun visitIdentifier(o: ValkyrieIdentifier) {

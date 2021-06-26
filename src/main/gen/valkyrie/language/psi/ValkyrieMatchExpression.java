@@ -14,7 +14,7 @@ public interface ValkyrieMatchExpression extends PsiElement {
   List<ValkyrieCatchStatement> getCatchStatementList();
 
   @NotNull
-  List<ValkyrieControl> getControlList();
+  List<ValkyrieControlStatement> getControlStatementList();
 
   @NotNull
   List<ValkyrieExpression> getExpressionList();

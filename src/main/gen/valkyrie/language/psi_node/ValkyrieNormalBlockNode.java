@@ -36,8 +36,8 @@ public class ValkyrieNormalBlockNode extends ValkyrieASTBase implements Valkyrie
 
   @Override
   @NotNull
-  public List<ValkyrieControl> getControlList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieControl.class);
+  public List<ValkyrieControlStatement> getControlStatementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieControlStatement.class);
   }
 
   @Override

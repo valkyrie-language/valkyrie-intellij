@@ -23,7 +23,7 @@ public interface ValkyrieTypes {
   IElementType CLASS_ITEM = new ValkyrieTokenType("CLASS_ITEM");
   IElementType CLASS_STATEMENT = new ValkyrieTokenType("CLASS_STATEMENT");
   IElementType CONDITION = new ValkyrieTokenType("CONDITION");
-  IElementType CONTROL = new ValkyrieTokenType("CONTROL");
+  IElementType CONTROL_STATEMENT = new ValkyrieTokenType("CONTROL_STATEMENT");
   IElementType DEFINE_BLOCK = new ValkyrieTokenType("DEFINE_BLOCK");
   IElementType DEFINE_ITEM = new ValkyrieTokenType("DEFINE_ITEM");
   IElementType DEFINE_STATEMENT = new ValkyrieTokenType("DEFINE_STATEMENT");
@@ -49,6 +49,7 @@ public interface ValkyrieTypes {
   IElementType IMPORT_STATEMENT = new ValkyrieTokenType("IMPORT_STATEMENT");
   IElementType INLINE_EXPRESSION = new ValkyrieTokenType("INLINE_EXPRESSION");
   IElementType INLINE_TERM = new ValkyrieTokenType("INLINE_TERM");
+  IElementType JUMP_LABEL = new ValkyrieTokenType("JUMP_LABEL");
   IElementType KW_ELSE_IF = new ValkyrieTokenType("KW_ELSE_IF");
   IElementType LET_STATEMENT = new ValkyrieTokenType("LET_STATEMENT");
   IElementType LIST = new ValkyrieTokenType("LIST");
@@ -253,8 +254,8 @@ public interface ValkyrieTypes {
       else if (type == CONDITION) {
         return new ValkyrieConditionNode(node);
       }
-      else if (type == CONTROL) {
-        return new ValkyrieControlNode(node);
+      else if (type == CONTROL_STATEMENT) {
+        return new ValkyrieControlStatementNode(node);
       }
       else if (type == DEFINE_BLOCK) {
         return new ValkyrieDefineBlockNode(node);
@@ -330,6 +331,9 @@ public interface ValkyrieTypes {
       }
       else if (type == INLINE_TERM) {
         return new ValkyrieInlineTermNode(node);
+      }
+      else if (type == JUMP_LABEL) {
+        return new ValkyrieJumpLabelNode(node);
       }
       else if (type == KW_ELSE_IF) {
         return new ValkyrieKwElseIfNode(node);

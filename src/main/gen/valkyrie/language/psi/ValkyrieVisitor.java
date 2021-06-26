@@ -67,7 +67,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitControl(@NotNull ValkyrieControl o) {
+  public void visitControlStatement(@NotNull ValkyrieControlStatement o) {
     visitPsiElement(o);
   }
 
@@ -168,6 +168,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitInlineTerm(@NotNull ValkyrieInlineTerm o) {
+    visitPsiElement(o);
+  }
+
+  public void visitJumpLabel(@NotNull ValkyrieJumpLabel o) {
     visitPsiElement(o);
   }
 

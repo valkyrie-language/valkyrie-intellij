@@ -4,7 +4,6 @@ import valkyrie.ide.file.ValkyrieFileNode
 import valkyrie.language.psi.ValkyrieClassTuple
 import valkyrie.language.psi.ValkyrieTypes
 import valkyrie.language.psi_node.ValkyrieClassBlockNode
-import valkyrie.language.psi_node.ValkyrieClassTupleNode
 import valkyrie.language.psi_node.ValkyrieDefineBlockNode
 import valkyrie.language.psi_node.ValkyrieMacroBlockNode
 import valkyrie.language.psi_node.ValkyrieTopBlockNode
@@ -34,10 +33,6 @@ class CompletionRegistrar : CompletionContributor() {
                         }
                         is ValkyrieClassBlockNode -> {
                             CompleteSymbol(node).inClassBlock(parameters, context, result)
-                            return
-                        }
-                        is ValkyrieClassTupleNode -> {
-                            CompleteSymbol(node).inClassTuple(parameters, context, result)
                             return
                         }
                         is ValkyrieMacroBlockNode -> {

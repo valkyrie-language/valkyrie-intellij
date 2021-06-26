@@ -42,8 +42,8 @@ public class ValkyrieLetStatementNode extends ValkyrieASTBase implements Valkyri
 
   @Override
   @Nullable
-  public ValkyrieControl getControl() {
-    return findChildByClass(ValkyrieControl.class);
+  public ValkyrieControlStatement getControlStatement() {
+    return findChildByClass(ValkyrieControlStatement.class);
   }
 
   @Override

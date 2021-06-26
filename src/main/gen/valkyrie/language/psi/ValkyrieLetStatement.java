@@ -14,7 +14,7 @@ public interface ValkyrieLetStatement extends PsiElement {
   ValkyrieCatchStatement getCatchStatement();
 
   @Nullable
-  ValkyrieControl getControl();
+  ValkyrieControlStatement getControlStatement();
 
   @Nullable
   ValkyrieExpression getExpression();
