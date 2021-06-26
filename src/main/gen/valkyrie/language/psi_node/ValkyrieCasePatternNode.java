@@ -29,9 +29,9 @@ public class ValkyrieCasePatternNode extends MixinCasePattern implements Valkyri
   }
 
   @Override
-  @NotNull
-  public List<ValkyrieIdentifier> getIdentifierList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifier.class);
+  @Nullable
+  public ValkyrieModifiers getModifiers() {
+    return findChildByClass(ValkyrieModifiers.class);
   }
 
   @Override

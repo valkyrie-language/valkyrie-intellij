@@ -156,22 +156,31 @@ loop_statement    ::= (KW_LOOP | KW_WHILE condition) normal_block [else_statemen
     pin=1
 }
 // ---------------------------------------------------------------------------------------------------------------------
-for_statement     ::= KW_FOR (case_pattern|normal_pattern) OP_IN inline_expression [if_guard] normal_block [else_statement] {
+for_statement       ::= KW_FOR any_pattern OP_IN inline_expression [if_guard] normal_block [else_statement] {
     pin=1
     mixin="valkyrie.language.mixin.MixinFor"
 }
-if_guard          ::= KW_IF condition;
-case_pattern      ::= KW_CASE [identifier* [namepath]] pattern {
+if_guard            ::= KW_IF condition;
+private any_pattern ::= case_pattern | normal_pattern;
+case_pattern        ::= KW_CASE [[modifiers] namepath] pattern {
     mixin="valkyrie.language.mixin.MixinCasePattern"
 };
-normal_pattern    ::=
-    [modifiers] '(' pattern_item (COMMA pattern_item)* [COMMA] ')' |
-                    pattern_item (COMMA pattern_item)* [COMMA]
+normal_pattern      ::=
+    '(' pattern_item (COMMA pattern_item)* [COMMA] ')' |
+        pattern_item (COMMA pattern_item)* [COMMA]
 {
     mixin="valkyrie.language.mixin.MixinNormalPattern"
 };
-pattern_item      ::= <<modified identifier>>;
-control_statement ::=
+pattern_item        ::= <<modified identifier>>;
+private pattern     ::=
+    <<parenthesis   id_with_mod COMMA>>
+  | <<bracket_block id_with_mod COMMA>>
+  | <<brace_block   pattern_pair COMMA>>
+  ;
+pattern_pair        ::= identifier* COLON pattern_value | identifier* (DOT3|DOT2) identifier | identifier+;
+pattern_value       ::= identifier | pattern;
+// ---------------------------------------------------------------------------------------------------------------------
+control_statement   ::=
     KW_RAISE expression
     | KW_RETURN [expression]
     | KW_RESUME [expression]
@@ -180,15 +189,7 @@ control_statement ::=
     | KW_YIELD KW_BREAK [jump_label]
     | KW_BREAK [jump_label]
     ;
-jump_label        ::= PARENTHESIS_L identifier PARENTHESIS_R | identifier;
-// ---------------------------------------------------------------------------------------------------------------------
-private pattern   ::=
-    <<parenthesis   id_with_mod COMMA>>
-  | <<bracket_block id_with_mod COMMA>>
-  | <<brace_block   pattern_pair COMMA>>
-  ;
-pattern_pair      ::= identifier* COLON pattern_value | identifier* (DOT3|DOT2) identifier | identifier+;
-pattern_value     ::= identifier | pattern;
+jump_label          ::= PARENTHESIS_L identifier PARENTHESIS_R | identifier;
 // ---------------------------------------------------------------------------------------------------------------------
 match_statement   ::= KW_MATCH match_block {
     pin=1
@@ -384,7 +385,7 @@ modifiers      ::= (identifier !end_m1)+ {
 private end_m1 ::= (
     COLON|OP_PROPORTION|SEMICOLON|
     BRACKET_L|BRACKET_R|PARENTHESIS_L|PARENTHESIS_R|BRACE_L|BRACE_R
-    COMMA|OP_SET|OP_EQ|DOT|COMMA
+    COMMA|OP_SET|OP_EQ|DOT|COMMA|OP_IN
 );
 // ---------------------------------------------------------------------------------------------------------------------
 private separator          ::= COMMA | SEMICOLON;

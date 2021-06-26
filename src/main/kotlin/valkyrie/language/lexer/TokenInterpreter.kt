@@ -68,11 +68,11 @@ private val punctuations = """(?x)\\
     | [⟦⟧⁅⁆⟬⟭]
     #
     """.toRegex()
-private val COMMENTS = """(?x)
-      (?<s2>//)(?<t2>[^\n\r]*)
-    | (?<s3>/[*])(?<t3>.*?)(?<e3>[*]/)
+private val comments = """(?x)
+      (?<s2>⍝)(?<t2>[^\n\r]*)
+    | (?<s3>\([*])(?<t3>[^\00]*?)(?<e3>[*]\))
     """.toRegex()
-private val STRINGS = """(?x)
+private val strings = """(?x)
       (?<s1>"{3,}|'{3,})(?<t1>[^\00]*?)(?<e1>\k<s1>)
     | (?<s2>')(?<t2>[^']*)(?<e2>')
     | (?<s3>")(?<t3>[^"]*)(?<e3>")
@@ -80,7 +80,7 @@ private val STRINGS = """(?x)
     | (?<s5>‘)(?<t5>[^’]*)(?<e5>’)
     | (?<s6>“)(?<t6>[^”]*)(?<e6>”)
     """.toRegex()
-private val NUMBERS = """(?x)
+private val numbers = """(?x)
       (?<s1>[1-9]\d*[.]\d+)
     | (?<s2>0[.]\d+)
     | (?<s3>0|[1-9]\d*)
@@ -118,13 +118,13 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
     }
 
     private fun codeComment(): Boolean {
-        val r = tryMatch(COMMENTS) ?: return false
+        val r = tryMatch(comments) ?: return false
         pushToken(ValkyrieTypes.COMMENT, r)
         return true
     }
 
     private fun codeString(): Boolean {
-        val r = tryMatch(STRINGS) ?: return false
+        val r = tryMatch(strings) ?: return false
         val slots = arrayOf(
             arrayOf("s1", "t1", "e1"),
             arrayOf("s2", "t2", "e2"),
@@ -149,7 +149,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
     }
 
     private fun codeNumber(): Boolean {
-        val r = tryMatch(NUMBERS) ?: return false
+        val r = tryMatch(numbers) ?: return false
         when {
             r.groups["s1"] != null -> {
                 pushToken(ValkyrieTypes.DECIMAL, r)

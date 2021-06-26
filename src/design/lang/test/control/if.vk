@@ -24,11 +24,11 @@ else {
 }
 
 
-if case Fraction(if, mut mut) = a {
+if case Fraction(lazy lazy, mut mut) = a {
 
 }
 
 
-if case Fraction(for, in) = a {
+if case Fraction(forf, inf) = a {
 
 }
