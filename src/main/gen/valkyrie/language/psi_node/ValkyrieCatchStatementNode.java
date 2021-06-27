@@ -30,6 +30,12 @@ public class ValkyrieCatchStatementNode extends ValkyrieASTBase implements Valky
 
   @Override
   @Nullable
+  public ValkyrieInlineExpression getInlineExpression() {
+    return findChildByClass(ValkyrieInlineExpression.class);
+  }
+
+  @Override
+  @Nullable
   public ValkyrieMatchBlock getMatchBlock() {
     return findChildByClass(ValkyrieMatchBlock.class);
   }

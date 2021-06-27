@@ -191,23 +191,22 @@ control_statement   ::=
     ;
 jump_label          ::= PARENTHESIS_L identifier PARENTHESIS_R | identifier;
 // ---------------------------------------------------------------------------------------------------------------------
-match_statement   ::= KW_MATCH match_block {
-    pin=1
-    // mixin="valkyrie.language.mixin.MixinMatch"
-}
-match_block       ::= <<brace_free match_expression SEMICOLON>>;
-match_expression  ::= case_pattern COLON (normal_statements [SEMICOLON])+
-// ---------------------------------------------------------------------------------------------------------------------
 // [type_expression|<<bracket_block type_expression separator>>]
 try_statement     ::= KW_TRY normal_block {
     pin=1
     // mixin="valkyrie.language.mixin.MixinTry"
 }
-catch_statement   ::= KW_CATCH match_block {
+// ---------------------------------------------------------------------------------------------------------------------
+catch_statement   ::= KW_CATCH inline_expression match_block {
     pin=1
     // mixin="valkyrie.language.mixin.MixinCatch"
 }
-
+match_statement   ::= KW_MATCH inline_expression match_block {
+    pin=1
+    // mixin="valkyrie.language.mixin.MixinMatch"
+}
+match_block       ::= <<brace_free match_expression SEMICOLON>>;
+match_expression  ::= (case_pattern|with_case|else_case) COLON (normal_statements [SEMICOLON])+;
 with_case         ::= KW_WITH;
 else_case         ::= KW_ELSE;
 // ---------------------------------------------------------------------------------------------------------------------

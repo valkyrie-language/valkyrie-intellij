@@ -424,7 +424,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_CATCH match_block
+  // KW_CATCH inline_expression match_block
   public static boolean catch_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "catch_statement")) return false;
     if (!nextTokenIs(b, KW_CATCH)) return false;
@@ -432,7 +432,8 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, CATCH_STATEMENT, null);
     r = consumeToken(b, KW_CATCH);
     p = r; // pin = 1
-    r = r && match_block(b, l + 1);
+    r = r && report_error_(b, inline_expression(b, l + 1));
+    r = p && match_block(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
@@ -1806,16 +1807,25 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // case_pattern COLON (normal_statements [SEMICOLON])+
+  // (case_pattern|with_case|else_case) COLON (normal_statements [SEMICOLON])+
   public static boolean match_expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "match_expression")) return false;
-    if (!nextTokenIs(b, KW_CASE)) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = case_pattern(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, MATCH_EXPRESSION, "<match expression>");
+    r = match_expression_0(b, l + 1);
     r = r && consumeToken(b, COLON);
     r = r && match_expression_2(b, l + 1);
-    exit_section_(b, m, MATCH_EXPRESSION, r);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // case_pattern|with_case|else_case
+  private static boolean match_expression_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "match_expression_0")) return false;
+    boolean r;
+    r = case_pattern(b, l + 1);
+    if (!r) r = with_case(b, l + 1);
+    if (!r) r = else_case(b, l + 1);
     return r;
   }
 
@@ -1853,7 +1863,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_MATCH match_block
+  // KW_MATCH inline_expression match_block
   public static boolean match_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "match_statement")) return false;
     if (!nextTokenIs(b, KW_MATCH)) return false;
@@ -1861,7 +1871,8 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, MATCH_STATEMENT, null);
     r = consumeToken(b, KW_MATCH);
     p = r; // pin = 1
-    r = r && match_block(b, l + 1);
+    r = r && report_error_(b, inline_expression(b, l + 1));
+    r = p && match_block(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }

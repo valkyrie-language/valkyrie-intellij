@@ -29,9 +29,9 @@ public class ValkyrieMatchExpressionNode extends ValkyrieASTBase implements Valk
   }
 
   @Override
-  @NotNull
+  @Nullable
   public ValkyrieCasePattern getCasePattern() {
-    return findNotNullChildByClass(ValkyrieCasePattern.class);
+    return findChildByClass(ValkyrieCasePattern.class);
   }
 
   @Override
@@ -44,6 +44,12 @@ public class ValkyrieMatchExpressionNode extends ValkyrieASTBase implements Valk
   @NotNull
   public List<ValkyrieControlStatement> getControlStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieControlStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieElseCase getElseCase() {
+    return findChildByClass(ValkyrieElseCase.class);
   }
 
   @Override
@@ -98,6 +104,12 @@ public class ValkyrieMatchExpressionNode extends ValkyrieASTBase implements Valk
   @NotNull
   public List<ValkyrieTypeStatement> getTypeStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieWithCase getWithCase() {
+    return findChildByClass(ValkyrieWithCase.class);
   }
 
 }
