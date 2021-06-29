@@ -8,16 +8,19 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieMatchExpression extends PsiElement {
 
   @Nullable
+  ValkyrieCaseElse getCaseElse();
+
+  @Nullable
   ValkyrieCasePattern getCasePattern();
+
+  @Nullable
+  ValkyrieCaseWith getCaseWith();
 
   @NotNull
   List<ValkyrieCatchStatement> getCatchStatementList();
 
   @NotNull
   List<ValkyrieControlStatement> getControlStatementList();
-
-  @Nullable
-  ValkyrieElseCase getElseCase();
 
   @NotNull
   List<ValkyrieExpression> getExpressionList();
@@ -45,8 +48,5 @@ public interface ValkyrieMatchExpression extends PsiElement {
 
   @NotNull
   List<ValkyrieTypeStatement> getTypeStatementList();
-
-  @Nullable
-  ValkyrieWithCase getWithCase();
 
 }

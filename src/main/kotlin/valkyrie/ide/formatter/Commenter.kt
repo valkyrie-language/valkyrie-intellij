@@ -1,7 +1,6 @@
 package valkyrie.ide.formatter
 
 import com.intellij.lang.CodeDocumentationAwareCommenter
-import com.intellij.lang.Commenter
 import com.intellij.psi.PsiComment
 import com.intellij.psi.tree.IElementType
 import valkyrie.language.psi.ValkyrieTypes
@@ -15,6 +14,7 @@ class Commenter : CodeDocumentationAwareCommenter {
     override fun getLineCommentPrefixes(): MutableList<String> {
         return super.getLineCommentPrefixes()
     }
+
     override fun blockCommentRequiresFullLineSelection(): Boolean {
         return false
     }
@@ -25,9 +25,7 @@ class Commenter : CodeDocumentationAwareCommenter {
 
     override fun getDocumentationCommentTokenType(): IElementType? = null
 
-    override fun getDocumentationCommentPrefix(): String? {
-        TODO("Not yet implemented")
-    }
+    override fun getDocumentationCommentPrefix() = "⍝:"
 
     override fun getDocumentationCommentLinePrefix() = "⍝:"
 

@@ -6,7 +6,6 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.formatter.FormatterUtil
-import valkyrie.language.ast.computeSpacing
 import valkyrie.language.ast.isWhitespaceOrEmpty
 import valkyrie.language.psi.*
 
@@ -24,17 +23,15 @@ class FormatBlock(
     private val mySubBlocks: List<Block> by lazy { buildChildren() }
 
     private fun buildChildren(): List<Block> {
-        return node.getChildren(null)
-            .filter { !it.isWhitespaceOrEmpty() }
-            .map { childNode ->
-                FormatBlock(
-                    node = childNode,
-                    alignment = computeAlignment(childNode),
-                    indent = computeIndent(childNode),
-                    wrap = computeWrap(childNode),
-                    space
-                )
-            }
+        return node.getChildren(null).filter { !it.isWhitespaceOrEmpty() }.map { childNode ->
+            FormatBlock(
+                node = childNode,
+                alignment = computeAlignment(childNode),
+                indent = computeIndent(childNode),
+                wrap = computeWrap(childNode),
+                space
+            )
+        }
     }
 
     override fun isLeaf(): Boolean = node.firstChildNode == null
@@ -49,7 +46,7 @@ class FormatBlock(
 
     override fun getAlignment() = alignment
 
-    override fun getSpacing(child1: Block?, child2: Block) = computeSpacing(child1, child2, space)
+    override fun getSpacing(child1: Block?, child2: Block) = space.spacingBuilder.getSpacing(this, child1, child2)
 
     override fun getSubBlocks(): List<Block> = mySubBlocks
 
@@ -100,6 +97,7 @@ private fun isValkyrieBlock(psi: PsiElement): Boolean = when (psi) {
     is ValkyrieDefineBlock,
     is ValkyrieNormalBlock,
     is ValkyrieMacroBlock,
+    is ValkyrieMatchBlock,
     is ValkyrieList, is ValkyrieObject,
     -> true
 

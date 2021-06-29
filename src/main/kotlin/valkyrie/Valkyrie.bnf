@@ -162,9 +162,6 @@ for_statement       ::= KW_FOR any_pattern OP_IN inline_expression [if_guard] no
 }
 if_guard            ::= KW_IF condition;
 private any_pattern ::= case_pattern | normal_pattern;
-case_pattern        ::= KW_CASE [[modifiers] namepath] pattern {
-    mixin="valkyrie.language.mixin.MixinCasePattern"
-};
 normal_pattern      ::=
     '(' pattern_item (COMMA pattern_item)* [COMMA] ')' |
         pattern_item (COMMA pattern_item)* [COMMA]
@@ -178,7 +175,6 @@ private pattern     ::=
   | <<brace_block   pattern_pair COMMA>>
   ;
 pattern_pair        ::= identifier* COLON pattern_value | identifier* (DOT3|DOT2) identifier | identifier+;
-pattern_value       ::= identifier | pattern;
 // ---------------------------------------------------------------------------------------------------------------------
 control_statement   ::=
     KW_RAISE expression
@@ -206,9 +202,13 @@ match_statement   ::= KW_MATCH inline_expression match_block {
     // mixin="valkyrie.language.mixin.MixinMatch"
 }
 match_block       ::= <<brace_free match_expression SEMICOLON>>;
-match_expression  ::= (case_pattern|with_case|else_case) COLON (normal_statements [SEMICOLON])+;
-with_case         ::= KW_WITH;
-else_case         ::= KW_ELSE;
+match_expression  ::= (case_pattern|case_with|case_else) COLON (normal_statements [SEMICOLON])+;
+case_pattern      ::= KW_CASE pattern_value {
+    mixin="valkyrie.language.mixin.MixinCasePattern"
+};
+pattern_value     ::= number | string | identifier | <<bracket_block pattern_value COMMA>> | <<brace_block pattern_pair COMMA>>;
+case_with         ::= KW_WITH;
+case_else         ::= KW_ELSE;
 // ---------------------------------------------------------------------------------------------------------------------
 new_statement    ::= KW_NEW <<modified type_expression>> [<<brace_block expression COMMA>>] {
     pin=1

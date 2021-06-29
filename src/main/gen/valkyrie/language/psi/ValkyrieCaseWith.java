@@ -5,9 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieCasePattern extends PsiElement {
-
-  @NotNull
-  ValkyriePatternValue getPatternValue();
+public interface ValkyrieCaseWith extends PsiElement {
 
 }

@@ -35,7 +35,15 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitCaseElse(@NotNull ValkyrieCaseElse o) {
+    visitPsiElement(o);
+  }
+
   public void visitCasePattern(@NotNull ValkyrieCasePattern o) {
+    visitPsiElement(o);
+  }
+
+  public void visitCaseWith(@NotNull ValkyrieCaseWith o) {
     visitPsiElement(o);
   }
 
@@ -92,10 +100,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitEfStatement(@NotNull ValkyrieEfStatement o) {
-    visitPsiElement(o);
-  }
-
-  public void visitElseCase(@NotNull ValkyrieElseCase o) {
     visitPsiElement(o);
   }
 
@@ -348,10 +352,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitTypeTerm(@NotNull ValkyrieTypeTerm o) {
-    visitPsiElement(o);
-  }
-
-  public void visitWithCase(@NotNull ValkyrieWithCase o) {
     visitPsiElement(o);
   }
 

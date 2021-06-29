@@ -8,30 +8,24 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.language.psi.ValkyrieTypes.*;
-import valkyrie.language.mixin.MixinCasePattern;
+import valkyrie.language.ast.ValkyrieASTBase;
 import valkyrie.language.psi.*;
 import valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieCasePatternNode extends MixinCasePattern implements ValkyrieCasePattern {
+public class ValkyrieCaseWithNode extends ValkyrieASTBase implements ValkyrieCaseWith {
 
-  public ValkyrieCasePatternNode(@NotNull ASTNode node) {
+  public ValkyrieCaseWithNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitCasePattern(this);
+    visitor.visitCaseWith(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof ValkyrieVisitor) accept((ValkyrieVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public ValkyriePatternValue getPatternValue() {
-    return findNotNullChildByClass(ValkyriePatternValue.class);
   }
 
 }

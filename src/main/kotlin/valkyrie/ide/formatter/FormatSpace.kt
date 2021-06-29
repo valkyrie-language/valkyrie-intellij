@@ -11,6 +11,7 @@ private val removeSpaceBefore = TokenSet.create(
     PARENTHESIS_R,
     BRACKET_R,
     COMMA,
+    COLON,
     SEMICOLON,
     DOT
 )
@@ -53,7 +54,6 @@ data class FormatSpace(val commonSettings: CommonCodeStyleSettings, val spacingB
                 // ,
                 .after(COMMA).spacing(1, 1, 0, commonSettings.KEEP_LINE_BREAKS, 0)
                 // k: v
-                .after(COLON).spacing(1, 1, 0, false, 0)
                 // k = v
                 .around(binaryOperator).spacing(1, 1, 0, commonSettings.KEEP_LINE_BREAKS, 0)
                 .before(removeSpaceBefore).spaceIf(false)

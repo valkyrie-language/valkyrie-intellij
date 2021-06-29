@@ -1,13 +1,11 @@
 match cond {
-    case A:
-        print("a")
-    case B:
-        print("b")
-    case _:
-        print("other")
+case 0:
+print("a")
+case "B":
+print("b")
+case _:
+print("other")
+else:
+print("other")
 }
 
-
-match n? {
-
-}

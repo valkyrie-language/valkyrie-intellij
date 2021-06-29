@@ -10,7 +10,16 @@ public interface ValkyriePatternValue extends PsiElement {
   @Nullable
   ValkyrieIdentifier getIdentifier();
 
+  @Nullable
+  ValkyrieNumber getNumber();
+
   @NotNull
   List<ValkyriePatternPair> getPatternPairList();
+
+  @NotNull
+  List<ValkyriePatternValue> getPatternValueList();
+
+  @Nullable
+  ValkyrieString getString();
 
 }
