@@ -12,6 +12,9 @@ public interface ValkyrieClassStatement extends PsiElement {
   ValkyrieClassBlock getClassBlock();
 
   @Nullable
+  ValkyrieClassEffect getClassEffect();
+
+  @Nullable
   ValkyrieClassInherit getClassInherit();
 
   @Nullable

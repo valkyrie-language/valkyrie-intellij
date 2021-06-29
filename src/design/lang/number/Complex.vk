@@ -1,4 +1,4 @@
-namespace std    .number;
+namespace std.number;
 
 #native(Serialize, Deserialize)
 class Complex[Re, Im] {
@@ -7,7 +7,7 @@ class Complex[Re, Im] {
 }
 
 #native
-extends Unsigned: Zero {
+extends Complex: Zero {
     zero() -> Self {
         return 0 + 0i;
     }

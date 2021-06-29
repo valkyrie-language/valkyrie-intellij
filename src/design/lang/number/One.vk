@@ -1,3 +1,4 @@
+namespace std.number;
 trait One {
-	def one() -> Self;
+    one() -> Self;
 }

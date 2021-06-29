@@ -21,6 +21,7 @@ public interface ValkyrieTypes {
   IElementType CATCH_STATEMENT = new ValkyrieTokenType("CATCH_STATEMENT");
   IElementType CLASS_BLOCK = new ValkyrieTokenType("CLASS_BLOCK");
   IElementType CLASS_DEFINE = new ValkyrieTokenType("CLASS_DEFINE");
+  IElementType CLASS_EFFECT = new ValkyrieTokenType("CLASS_EFFECT");
   IElementType CLASS_INHERIT = new ValkyrieTokenType("CLASS_INHERIT");
   IElementType CLASS_ITEM = new ValkyrieTokenType("CLASS_ITEM");
   IElementType CLASS_STATEMENT = new ValkyrieTokenType("CLASS_STATEMENT");
@@ -250,6 +251,9 @@ public interface ValkyrieTypes {
       }
       else if (type == CLASS_DEFINE) {
         return new ValkyrieClassDefineNode(node);
+      }
+      else if (type == CLASS_EFFECT) {
+        return new ValkyrieClassEffectNode(node);
       }
       else if (type == CLASS_INHERIT) {
         return new ValkyrieClassInheritNode(node);

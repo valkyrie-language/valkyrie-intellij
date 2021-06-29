@@ -6,8 +6,3 @@ class Vector3 {
 	z: f32,
 }
 
-class EulerAngle {
-	x: f32,
-	y: f32,
-	z: f32,
-};

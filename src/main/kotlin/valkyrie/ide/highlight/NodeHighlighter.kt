@@ -10,6 +10,7 @@ import com.intellij.psi.PsiFile
 import valkyrie.ide.file.ValkyrieFileNode
 import valkyrie.language.psi.*
 import valkyrie.language.psi_node.ValkyrieClassDefineNode
+import valkyrie.language.psi_node.ValkyrieClassStatementNode
 import valkyrie.language.psi_node.ValkyrieDefineStatementNode
 import valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
@@ -24,9 +25,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         //TODO: get real symbol color
     }
 
-    override fun visitClassStatement(o: ValkyrieClassStatement) {
-        highlight(o.modified.lastChild, Color.SYM_CLASS)
-    }
+
 
     override fun visitTraitStatement(o: ValkyrieTraitStatement) {
         highlight(o.modified.lastChild, Color.SYM_TRAIT)
@@ -37,10 +36,17 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     }
 
-
     override fun visitDefineStatement(o: ValkyrieDefineStatement) {
         o as ValkyrieDefineStatementNode;
         highlight(o.nameIdentifier, o.kind.color)
+    }
+
+    override fun visitClassStatement(o: ValkyrieClassStatement) {
+        o as ValkyrieClassStatementNode
+        highlight(o.modified?.lastChild, Color.SYM_CLASS)
+        o.collectGenerics().forEach {
+            highlight(it, Color.SYM_GENERIC)
+        }
     }
 
     override fun visitClassDefine(o: ValkyrieClassDefine) {

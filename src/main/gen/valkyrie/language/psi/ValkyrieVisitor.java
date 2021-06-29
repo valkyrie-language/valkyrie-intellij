@@ -59,6 +59,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitClassEffect(@NotNull ValkyrieClassEffect o) {
+    visitPsiElement(o);
+  }
+
   public void visitClassInherit(@NotNull ValkyrieClassInherit o) {
     visitPsiElement(o);
   }

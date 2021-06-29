@@ -202,7 +202,7 @@ match_statement   ::= KW_MATCH inline_expression match_block {
     // mixin="valkyrie.language.mixin.MixinMatch"
 }
 match_block       ::= <<brace_free match_expression SEMICOLON>>;
-match_expression  ::= (case_pattern|case_with|case_else) COLON (normal_statements [SEMICOLON])+;
+match_expression  ::= (case_pattern|case_else) COLON (normal_statements [SEMICOLON])+ | case_with;
 case_pattern      ::= KW_CASE pattern_value {
     mixin="valkyrie.language.mixin.MixinCasePattern"
 };
@@ -246,7 +246,9 @@ type_statement    ::= KW_TYPE generic_type [OP_SET type_term] {
 type_expression   ::= type_term (type_binary type_term)*;
 type_term         ::= type_atom generic_call?;
 type_atom         ::= namepath_free | <<bracket_block namepath_free separator>>;
-type_argument     ::= identifier [COLON type_expression];
+type_argument     ::= identifier [COLON type_expression] {
+//    mixin="valkyrie.language.mixin.MixinTypeArgument"
+}
 generic_call      ::= <<bracket_block type_expression COMMA>>
 generic_type      ::= identifier [generic_call];
 private type_binary ::= OP_AND | OP_OR | OP_ADD | OP_DIV;
@@ -254,12 +256,13 @@ private type_binary ::= OP_AND | OP_OR | OP_ADD | OP_DIV;
 forall_statement  ::= OP_FORALL <<sequence identifier COMMA>> [forall_block];
 forall_block      ::= <<brace_block (expression COLON expression) separator>>;
 // ---------------------------------------------------------------------------------------------------------------------
-class_statement   ::= KW_CLASS <<modified identifier>> [generic_define] [class_inherit] class_block {
+class_statement   ::= KW_CLASS <<modified identifier>> [generic_define] [class_inherit] [class_effect] class_block {
     pin = 2
     mixin = "valkyrie.language.mixin.MixinClass"
     methods = [getIdentifier getModifiers]
 };
 class_inherit     ::= COLON type_expression;
+class_effect      ::= OP_TO type_expression;
 class_block       ::= <<brace_free (macro_call|class_define|class_item) separator>> {
     pin = 1
     methods=[addChildrenView]

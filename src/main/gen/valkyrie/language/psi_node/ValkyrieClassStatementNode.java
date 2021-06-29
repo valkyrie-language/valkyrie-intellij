@@ -36,6 +36,12 @@ public class ValkyrieClassStatementNode extends MixinClass implements ValkyrieCl
 
   @Override
   @Nullable
+  public ValkyrieClassEffect getClassEffect() {
+    return findChildByClass(ValkyrieClassEffect.class);
+  }
+
+  @Override
+  @Nullable
   public ValkyrieClassInherit getClassInherit() {
     return findChildByClass(ValkyrieClassInherit.class);
   }
