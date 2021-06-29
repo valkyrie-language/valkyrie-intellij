@@ -2564,14 +2564,14 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // number | string | identifier | <<bracket_block pattern_value COMMA>> | <<brace_block pattern_pair COMMA>>
+  // number | string | namepath | <<bracket_block pattern_value COMMA>> | <<brace_block pattern_pair COMMA>>
   public static boolean pattern_value(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "pattern_value")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, PATTERN_VALUE, "<pattern value>");
     r = number(b, l + 1);
     if (!r) r = string(b, l + 1);
-    if (!r) r = identifier(b, l + 1);
+    if (!r) r = namepath(b, l + 1);
     if (!r) r = bracket_block(b, l + 1, ValkyrieParser::pattern_value, COMMA_parser_);
     if (!r) r = brace_block(b, l + 1, ValkyrieParser::pattern_pair, COMMA_parser_);
     exit_section_(b, l, m, r, false, null);

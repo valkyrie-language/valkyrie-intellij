@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface ValkyriePatternValue extends PsiElement {
 
   @Nullable
-  ValkyrieIdentifier getIdentifier();
+  ValkyrieNamepath getNamepath();
 
   @Nullable
   ValkyrieNumber getNumber();

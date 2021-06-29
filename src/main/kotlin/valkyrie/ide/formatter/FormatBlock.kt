@@ -61,16 +61,27 @@ class FormatBlock(
     }
 
     private fun computeIndent(child: ASTNode): Indent? {
-        val firstLine = node.firstChildNode == child;
-        val lastLine = node.lastChildNode == child;
-        val isCornerChild = firstLine || lastLine
-        return when (isValkyrieBlock(node)) {
-            true -> when {
-                isCornerChild -> Indent.getNoneIndent()
-                else -> Indent.getNormalIndent()
+        return when {
+            node.psi is ValkyrieMatchExpression -> {
+                when (child.psi) {
+                    is ValkyrieCasePattern, is ValkyrieCaseElse, is ValkyrieCaseWith -> Indent.getNoneIndent()
+                    else -> Indent.getNormalIndent()
+                }
             }
 
-            false -> Indent.getNoneIndent()
+            node.psi.isValkyrieBlock() -> {
+                val firstLine = node.firstChildNode == child;
+                val lastLine = node.lastChildNode == child;
+                val isCornerChild = firstLine || lastLine
+                when {
+                    isCornerChild -> Indent.getNoneIndent()
+                    else -> Indent.getNormalIndent()
+                }
+            }
+
+            else -> {
+                Indent.getNoneIndent()
+            }
         }
     }
 
@@ -89,8 +100,7 @@ class FormatBlock(
     }
 }
 
-private fun isValkyrieBlock(node: ASTNode): Boolean = isValkyrieBlock(node.psi)
-private fun isValkyrieBlock(psi: PsiElement): Boolean = when (psi) {
+private fun PsiElement.isValkyrieBlock(): Boolean = when (this) {
     is ValkyrieImportBlock,
     is ValkyrieForallBlock,
     is ValkyrieClassBlock, is ValkyrieTaggedBlock, is ValkyrieBitflagBlock,

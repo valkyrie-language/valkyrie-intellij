@@ -203,11 +203,7 @@ private fun NodeHighlighter.highlightWithText(o: PsiElement) {
         highlight(o, Color.SYM_FIELD)
         return
     } else if (o.text.uppercase() == o.text) {
-        if (o.text.length == 1) {
-            highlight(o, Color.SYM_GENERIC)
-        } else {
-            highlight(o, Color.SYM_CONSTANT)
-        }
+        highlight(o, Color.SYM_CONSTANT)
         return
     }
 
@@ -228,10 +224,6 @@ private fun NodeHighlighter.highlightWithText(o: PsiElement) {
         "get", "set", "value", "extends", "self", "Self",
         -> {
             highlight(o, Color.KEYWORD)
-        }
-
-        "_" -> {
-            highlight(o, Color.SYM_GENERIC)
         }
 
         "map", "or", "test_field", "print" -> {
