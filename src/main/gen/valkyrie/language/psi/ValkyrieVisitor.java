@@ -307,18 +307,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitTaggedBlock(@NotNull ValkyrieTaggedBlock o) {
-    visitPsiElement(o);
-  }
-
-  public void visitTaggedItem(@NotNull ValkyrieTaggedItem o) {
-    visitPsiElement(o);
-  }
-
-  public void visitTaggedStatement(@NotNull ValkyrieTaggedStatement o) {
-    visitPsiElement(o);
-  }
-
   public void visitTerm(@NotNull ValkyrieTerm o) {
     visitPsiElement(o);
   }
@@ -356,6 +344,18 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitTypeTerm(@NotNull ValkyrieTypeTerm o) {
+    visitPsiElement(o);
+  }
+
+  public void visitUnionBlock(@NotNull ValkyrieUnionBlock o) {
+    visitPsiElement(o);
+  }
+
+  public void visitUnionItem(@NotNull ValkyrieUnionItem o) {
+    visitPsiElement(o);
+  }
+
+  public void visitUnionStatement(@NotNull ValkyrieUnionStatement o) {
     visitPsiElement(o);
   }
 

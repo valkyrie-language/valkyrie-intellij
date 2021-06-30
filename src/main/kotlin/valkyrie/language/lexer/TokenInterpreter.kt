@@ -17,9 +17,9 @@ private val keywordSP = """(?x)
     | \b(if|else)\b
     | \b(for|in)\b | \b(while|loop)\b
     | \b(is|not)\b
-    | \b(type|class)\b
-    | \b(variant|bitflag)\b
-    | \b(trait|interface|convention|protocol)\b
+    | \b(type|class|union)\b
+    | \b(bitflag)\b
+    | \b(trait)\b
     | \b(extend|extends)\b
     | \b(let|def)\b
     | \b(new|object)\b
@@ -201,9 +201,10 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             "yield" -> pushToken(ValkyrieTypes.KW_YIELD, r)
             "break" -> pushToken(ValkyrieTypes.KW_BREAK, r)
             "type" -> pushToken(ValkyrieTypes.KW_TYPE, r)
+
             "class", "structure", "struct" -> pushToken(ValkyrieTypes.KW_CLASS, r)
+            "union", "tagged", "enum", "variant" -> pushToken(ValkyrieTypes.KW_TAGGED, r)
             "trait", "interface", "convention", "protocol" -> pushToken(ValkyrieTypes.KW_TRAIT, r)
-            "tagged", "enum", "variant" -> pushToken(ValkyrieTypes.KW_TAGGED, r)
             "bitset", "bitflag" -> pushToken(ValkyrieTypes.KW_BITFLAG, r)
             "extend", "extends", "impl", "implements" -> pushToken(ValkyrieTypes.KW_EXTENDS, r)
 

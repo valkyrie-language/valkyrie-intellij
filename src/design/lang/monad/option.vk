@@ -1,6 +1,6 @@
 namespace std.monad;
 
-variant Option[T] -> T {
+union Option[T] -> T {
 	Some {
 		value: T
 	},

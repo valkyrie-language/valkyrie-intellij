@@ -83,9 +83,6 @@ public interface ValkyrieTypes {
   IElementType SLICE = new ValkyrieTokenType("SLICE");
   IElementType SLICE_ITEM = new ValkyrieTokenType("SLICE_ITEM");
   IElementType STRING = new ValkyrieTokenType("STRING");
-  IElementType TAGGED_BLOCK = new ValkyrieTokenType("TAGGED_BLOCK");
-  IElementType TAGGED_ITEM = new ValkyrieTokenType("TAGGED_ITEM");
-  IElementType TAGGED_STATEMENT = new ValkyrieTokenType("TAGGED_STATEMENT");
   IElementType TERM = new ValkyrieTokenType("TERM");
   IElementType TOP_BLOCK = new ValkyrieTokenType("TOP_BLOCK");
   IElementType TRAIT_STATEMENT = new ValkyrieTokenType("TRAIT_STATEMENT");
@@ -96,6 +93,9 @@ public interface ValkyrieTypes {
   IElementType TYPE_EXPRESSION = new ValkyrieTokenType("TYPE_EXPRESSION");
   IElementType TYPE_STATEMENT = new ValkyrieTokenType("TYPE_STATEMENT");
   IElementType TYPE_TERM = new ValkyrieTokenType("TYPE_TERM");
+  IElementType UNION_BLOCK = new ValkyrieTokenType("UNION_BLOCK");
+  IElementType UNION_ITEM = new ValkyrieTokenType("UNION_ITEM");
+  IElementType UNION_STATEMENT = new ValkyrieTokenType("UNION_STATEMENT");
 
   IElementType AMP = new ValkyrieTokenType("AMP");
   IElementType BANG = new ValkyrieTokenType("BANG");
@@ -438,15 +438,6 @@ public interface ValkyrieTypes {
       else if (type == STRING) {
         return new ValkyrieStringNode(node);
       }
-      else if (type == TAGGED_BLOCK) {
-        return new ValkyrieTaggedBlockNode(node);
-      }
-      else if (type == TAGGED_ITEM) {
-        return new ValkyrieTaggedItemNode(node);
-      }
-      else if (type == TAGGED_STATEMENT) {
-        return new ValkyrieTaggedStatementNode(node);
-      }
       else if (type == TERM) {
         return new ValkyrieTermNode(node);
       }
@@ -476,6 +467,15 @@ public interface ValkyrieTypes {
       }
       else if (type == TYPE_TERM) {
         return new ValkyrieTypeTermNode(node);
+      }
+      else if (type == UNION_BLOCK) {
+        return new ValkyrieUnionBlockNode(node);
+      }
+      else if (type == UNION_ITEM) {
+        return new ValkyrieUnionItemNode(node);
+      }
+      else if (type == UNION_STATEMENT) {
+        return new ValkyrieUnionStatementNode(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

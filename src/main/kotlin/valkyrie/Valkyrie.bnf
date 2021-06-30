@@ -100,7 +100,7 @@ private top_statements ::=
   | extension_statement
   | class_statement
   | trait_statement
-  | tagged_statement
+  | union_statement
   | bitflag_statement
   | extends_statement
   | define_statement
@@ -276,6 +276,13 @@ class_item        ::= KW_LET? [modifiers] object_key [COLON expression] [OP_SET 
     mixin="valkyrie.language.mixin.MixinClassField"
 };
 // ---------------------------------------------------------------------------------------------------------------------
+union_statement  ::= KW_TAGGED <<modified identifier>> [[OP_PROPORTION] generic_define] union_block {
+    pin = 2
+    mixin="valkyrie.language.mixin.MixinUnion"
+};
+union_block      ::= <<brace_block union_item separator>>;
+union_item       ::= identifier [class_block];
+// ---------------------------------------------------------------------------------------------------------------------
 object            ::= <<bracket_block object_pair COMMA>>
 object_pair       ::= object_key COLON expression;
 object_key        ::= SYMBOL_XID | SYMBOL_RAW | INTEGER | KW_IF | KW_CLASS {
@@ -293,12 +300,6 @@ extends_statement ::= KW_EXTENDS [generic_call] <<modified identifier>> [generic
     extends="valkyrie.language.mixin.MixinExtends"
     methods=[getIdentifier getModifiers]
 }
-// ---------------------------------------------------------------------------------------------------------------------
-tagged_statement  ::= KW_TAGGED modifiers [[OP_PROPORTION] generic_type] tagged_block {
-    mixin="valkyrie.language.mixin.MixinTagged"
-};
-tagged_block      ::= <<brace_block tagged_item separator>>;
-tagged_item       ::= identifier [class_block];
 // ---------------------------------------------------------------------------------------------------------------------
 bitflag_statement ::= KW_BITFLAG modifiers [bitflag_layout] bitflag_block {
     mixin="valkyrie.language.mixin.MixinBitflag"

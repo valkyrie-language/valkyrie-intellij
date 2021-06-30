@@ -14,6 +14,8 @@ class ValkyrieFoldingVisitor(private val descriptors: MutableList<FoldingDescrip
         fold(o.node, o.firstChild.endOffset, o.lastChild.startOffset)
     }
 
+
+
     /**
      * For class, trait, and extends
      */
@@ -21,10 +23,8 @@ class ValkyrieFoldingVisitor(private val descriptors: MutableList<FoldingDescrip
         fold(o.node, o.firstChild.endOffset, o.lastChild.startOffset)
     }
 
-    override fun visitTaggedStatement(o: ValkyrieTaggedStatement) {
-        val block = o.taggedBlock
-        fold(block.node, block.firstChild.endOffset, block.lastChild.startOffset)
-        super.visitTaggedStatement(o)
+    override fun visitUnionBlock(o: ValkyrieUnionBlock) {
+        fold(o.node, o.firstChild.endOffset, o.lastChild.startOffset)
     }
 
     override fun visitBitflagStatement(o: ValkyrieBitflagStatement) {

@@ -72,14 +72,14 @@ public class ValkyrieTopBlockNode extends ValkyrieASTBase implements ValkyrieTop
 
   @Override
   @NotNull
-  public List<ValkyrieTaggedStatement> getTaggedStatementList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTaggedStatement.class);
+  public List<ValkyrieTraitStatement> getTraitStatementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTraitStatement.class);
   }
 
   @Override
   @NotNull
-  public List<ValkyrieTraitStatement> getTraitStatementList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTraitStatement.class);
+  public List<ValkyrieUnionStatement> getUnionStatementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieUnionStatement.class);
   }
 
 }

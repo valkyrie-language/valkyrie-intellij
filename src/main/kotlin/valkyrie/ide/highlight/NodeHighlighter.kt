@@ -12,6 +12,7 @@ import valkyrie.language.psi.*
 import valkyrie.language.psi_node.ValkyrieClassDefineNode
 import valkyrie.language.psi_node.ValkyrieClassStatementNode
 import valkyrie.language.psi_node.ValkyrieDefineStatementNode
+import valkyrie.language.psi_node.ValkyrieUnionStatementNode
 import valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
 class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
@@ -26,7 +27,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
 
-
     override fun visitTraitStatement(o: ValkyrieTraitStatement) {
         highlight(o.modified.lastChild, Color.SYM_TRAIT)
     }
@@ -36,22 +36,36 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     }
 
+    override fun visitGenericDefine(o: ValkyrieGenericDefine) {
+        o.typeArgumentList.forEach {
+            highlight(it.identifier, Color.SYM_GENERIC)
+        }
+    }
+
     override fun visitDefineStatement(o: ValkyrieDefineStatement) {
         o as ValkyrieDefineStatementNode;
         highlight(o.nameIdentifier, o.kind.color)
     }
 
+
     override fun visitClassStatement(o: ValkyrieClassStatement) {
         o as ValkyrieClassStatementNode
-        highlight(o.modified?.lastChild, Color.SYM_CLASS)
-        o.collectGenerics().forEach {
-            highlight(it, Color.SYM_GENERIC)
-        }
+        highlight(o.modified.lastChild, Color.SYM_CLASS)
     }
 
     override fun visitClassDefine(o: ValkyrieClassDefine) {
         o as ValkyrieClassDefineNode;
         highlight(o.nameIdentifier, Color.SYM_FUNCTION_SELF)
+    }
+
+
+    override fun visitUnionStatement(o: ValkyrieUnionStatement) {
+        o as ValkyrieUnionStatementNode
+        highlight(o.modified.lastChild, Color.SYM_CLASS)
+    }
+
+    override fun visitUnionItem(o: ValkyrieUnionItem) {
+        highlight(o.identifier, Color.SYM_VARIANT)
     }
 
     override fun visitDefineItem(o: ValkyrieDefineItem) {
@@ -72,14 +86,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     }
 
-    override fun visitTaggedStatement(o: ValkyrieTaggedStatement) {
-//        highlight(o.symbol, Color.SYM_CLASS)
-//        highlightModifiers(o.modifiers)
-    }
-
-    override fun visitTaggedItem(o: ValkyrieTaggedItem) {
-        highlight(o.identifier, Color.SYM_VARIANT)
-    }
 
     override fun visitBitflagStatement(o: ValkyrieBitflagStatement) {
 //        highlight(o.symbol, Color.SYM_CLASS)

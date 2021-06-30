@@ -2872,77 +2872,6 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // <<brace_block tagged_item separator>>
-  public static boolean tagged_block(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "tagged_block")) return false;
-    if (!nextTokenIs(b, BRACE_L)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = brace_block(b, l + 1, ValkyrieParser::tagged_item, ValkyrieParser::separator);
-    exit_section_(b, m, TAGGED_BLOCK, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // identifier [class_block]
-  public static boolean tagged_item(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "tagged_item")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, TAGGED_ITEM, "<tagged item>");
-    r = identifier(b, l + 1);
-    r = r && tagged_item_1(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // [class_block]
-  private static boolean tagged_item_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "tagged_item_1")) return false;
-    class_block(b, l + 1);
-    return true;
-  }
-
-  /* ********************************************************** */
-  // KW_TAGGED modifiers [[OP_PROPORTION] generic_type] tagged_block
-  public static boolean tagged_statement(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "tagged_statement")) return false;
-    if (!nextTokenIs(b, KW_TAGGED)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, KW_TAGGED);
-    r = r && modifiers(b, l + 1);
-    r = r && tagged_statement_2(b, l + 1);
-    r = r && tagged_block(b, l + 1);
-    exit_section_(b, m, TAGGED_STATEMENT, r);
-    return r;
-  }
-
-  // [[OP_PROPORTION] generic_type]
-  private static boolean tagged_statement_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "tagged_statement_2")) return false;
-    tagged_statement_2_0(b, l + 1);
-    return true;
-  }
-
-  // [OP_PROPORTION] generic_type
-  private static boolean tagged_statement_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "tagged_statement_2_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = tagged_statement_2_0_0(b, l + 1);
-    r = r && generic_type(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [OP_PROPORTION]
-  private static boolean tagged_statement_2_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "tagged_statement_2_0_0")) return false;
-    consumeToken(b, OP_PROPORTION);
-    return true;
-  }
-
-  /* ********************************************************** */
   // op_prefix* atom term_sfx*
   public static boolean term(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "term")) return false;
@@ -3035,7 +2964,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   //   | extension_statement
   //   | class_statement
   //   | trait_statement
-  //   | tagged_statement
+  //   | union_statement
   //   | bitflag_statement
   //   | extends_statement
   //   | define_statement
@@ -3047,7 +2976,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     if (!r) r = extension_statement(b, l + 1);
     if (!r) r = class_statement(b, l + 1);
     if (!r) r = trait_statement(b, l + 1);
-    if (!r) r = tagged_statement(b, l + 1);
+    if (!r) r = union_statement(b, l + 1);
     if (!r) r = bitflag_statement(b, l + 1);
     if (!r) r = extends_statement(b, l + 1);
     if (!r) r = define_statement(b, l + 1);
@@ -3269,6 +3198,78 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   private static boolean type_term_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "type_term_1")) return false;
     generic_call(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // <<brace_block union_item separator>>
+  public static boolean union_block(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "union_block")) return false;
+    if (!nextTokenIs(b, BRACE_L)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = brace_block(b, l + 1, ValkyrieParser::union_item, ValkyrieParser::separator);
+    exit_section_(b, m, UNION_BLOCK, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // identifier [class_block]
+  public static boolean union_item(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "union_item")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, UNION_ITEM, "<union item>");
+    r = identifier(b, l + 1);
+    r = r && union_item_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // [class_block]
+  private static boolean union_item_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "union_item_1")) return false;
+    class_block(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // KW_TAGGED <<modified identifier>> [[OP_PROPORTION] generic_define] union_block
+  public static boolean union_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "union_statement")) return false;
+    if (!nextTokenIs(b, KW_TAGGED)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, UNION_STATEMENT, null);
+    r = consumeToken(b, KW_TAGGED);
+    r = r && modified(b, l + 1, ValkyrieParser::identifier);
+    p = r; // pin = 2
+    r = r && report_error_(b, union_statement_2(b, l + 1));
+    r = p && union_block(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // [[OP_PROPORTION] generic_define]
+  private static boolean union_statement_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "union_statement_2")) return false;
+    union_statement_2_0(b, l + 1);
+    return true;
+  }
+
+  // [OP_PROPORTION] generic_define
+  private static boolean union_statement_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "union_statement_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = union_statement_2_0_0(b, l + 1);
+    r = r && generic_define(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [OP_PROPORTION]
+  private static boolean union_statement_2_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "union_statement_2_0_0")) return false;
+    consumeToken(b, OP_PROPORTION);
     return true;
   }
 

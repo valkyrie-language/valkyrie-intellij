@@ -16,7 +16,7 @@ class ValkyrieInlayVSCProvider : VcsCodeVisionLanguageContext {
 
     override fun isAccepted(element: PsiElement): Boolean = when (element) {
         //  is ValkyrieLetStatementNode,
-        is ValkyrieTaggedStatementNode,
+        is ValkyrieUnionStatementNode,
         is ValkyrieClassStatementNode,
         is ValkyrieTraitStatementNode,
         is ValkyrieExtendsStatementNode,
