@@ -1,9 +1,9 @@
 package valkyrie.ide.hint
 
-import valkyrie.language.psi_node.*
 import com.intellij.codeInsight.hints.VcsCodeVisionLanguageContext
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
+import valkyrie.language.psi_node.*
 import java.awt.event.MouseEvent
 
 @Suppress("UnstableApiUsage")
@@ -14,13 +14,13 @@ class ValkyrieInlayVSCProvider : VcsCodeVisionLanguageContext {
 
     }
 
-    override fun isAccepted(element: PsiElement): Boolean = when (element) {
-        //  is ValkyrieLetStatementNode,
+    override fun isAccepted(element: PsiElement) = when (element) {
         is ValkyrieUnionStatementNode,
         is ValkyrieClassStatementNode,
         is ValkyrieTraitStatementNode,
         is ValkyrieExtendsStatementNode,
         -> true
+
         else -> false
     }
 }

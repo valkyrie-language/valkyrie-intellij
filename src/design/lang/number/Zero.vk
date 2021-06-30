@@ -1,4 +1,5 @@
 namespace std.number;
+
 trait Zero {
     zero() -> Self;
 }

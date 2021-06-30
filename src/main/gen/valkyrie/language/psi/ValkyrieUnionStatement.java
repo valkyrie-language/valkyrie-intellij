@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieUnionStatement extends PsiElement {
 
   @Nullable
+  ValkyrieClassEffect getClassEffect();
+
+  @Nullable
   ValkyrieGenericDefine getGenericDefine();
 
   @NotNull

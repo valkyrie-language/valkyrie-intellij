@@ -516,13 +516,13 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // OP_TO type_expression
+  // OP_ARROW type_expression
   public static boolean class_effect(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "class_effect")) return false;
-    if (!nextTokenIs(b, OP_TO)) return false;
+    if (!nextTokenIs(b, OP_ARROW)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, OP_TO);
+    r = consumeToken(b, OP_ARROW);
     r = r && type_expression(b, l + 1);
     exit_section_(b, m, CLASS_EFFECT, r);
     return r;
@@ -3233,7 +3233,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_TAGGED <<modified identifier>> [[OP_PROPORTION] generic_define] union_block
+  // KW_TAGGED <<modified identifier>> [generic_define] [class_effect] union_block
   public static boolean union_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "union_statement")) return false;
     if (!nextTokenIs(b, KW_TAGGED)) return false;
@@ -3243,33 +3243,23 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     r = r && modified(b, l + 1, ValkyrieParser::identifier);
     p = r; // pin = 2
     r = r && report_error_(b, union_statement_2(b, l + 1));
+    r = p && report_error_(b, union_statement_3(b, l + 1)) && r;
     r = p && union_block(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
-  // [[OP_PROPORTION] generic_define]
+  // [generic_define]
   private static boolean union_statement_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "union_statement_2")) return false;
-    union_statement_2_0(b, l + 1);
+    generic_define(b, l + 1);
     return true;
   }
 
-  // [OP_PROPORTION] generic_define
-  private static boolean union_statement_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "union_statement_2_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = union_statement_2_0_0(b, l + 1);
-    r = r && generic_define(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [OP_PROPORTION]
-  private static boolean union_statement_2_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "union_statement_2_0_0")) return false;
-    consumeToken(b, OP_PROPORTION);
+  // [class_effect]
+  private static boolean union_statement_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "union_statement_3")) return false;
+    class_effect(b, l + 1);
     return true;
   }
 

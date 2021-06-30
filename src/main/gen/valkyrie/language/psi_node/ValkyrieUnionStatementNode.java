@@ -30,6 +30,12 @@ public class ValkyrieUnionStatementNode extends MixinUnion implements ValkyrieUn
 
   @Override
   @Nullable
+  public ValkyrieClassEffect getClassEffect() {
+    return findChildByClass(ValkyrieClassEffect.class);
+  }
+
+  @Override
+  @Nullable
   public ValkyrieGenericDefine getGenericDefine() {
     return findChildByClass(ValkyrieGenericDefine.class);
   }

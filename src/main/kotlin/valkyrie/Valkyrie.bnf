@@ -262,7 +262,7 @@ class_statement   ::= KW_CLASS <<modified identifier>> [generic_define] [class_i
     methods = [getIdentifier getModifiers]
 };
 class_inherit     ::= COLON type_expression;
-class_effect      ::= OP_TO type_expression;
+class_effect      ::= OP_ARROW type_expression;
 class_block       ::= <<brace_free (macro_call|class_define|class_item) separator>> {
     pin = 1
     methods=[addChildrenView]
@@ -276,7 +276,7 @@ class_item        ::= KW_LET? [modifiers] object_key [COLON expression] [OP_SET 
     mixin="valkyrie.language.mixin.MixinClassField"
 };
 // ---------------------------------------------------------------------------------------------------------------------
-union_statement  ::= KW_TAGGED <<modified identifier>> [[OP_PROPORTION] generic_define] union_block {
+union_statement  ::= KW_TAGGED <<modified identifier>> [generic_define] [class_effect] union_block {
     pin = 2
     mixin="valkyrie.language.mixin.MixinUnion"
 };
