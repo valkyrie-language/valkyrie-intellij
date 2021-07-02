@@ -36,8 +36,8 @@ public class ValkyrieTraitStatementNode extends MixinTrait implements ValkyrieTr
 
   @Override
   @Nullable
-  public ValkyrieGenericType getGenericType() {
-    return findChildByClass(ValkyrieGenericType.class);
+  public ValkyrieGenericDefine getGenericDefine() {
+    return findChildByClass(ValkyrieGenericDefine.class);
   }
 
   @Override

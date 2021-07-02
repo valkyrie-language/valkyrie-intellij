@@ -1,6 +1,4 @@
-namespace std.monad;
-
-
+namespace std.cats;
 
 union Either[L, R] -> R {
 	Lyft { l: L },

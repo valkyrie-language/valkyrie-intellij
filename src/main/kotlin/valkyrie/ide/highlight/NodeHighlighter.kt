@@ -211,14 +211,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
 
 private fun NodeHighlighter.highlightWithText(o: PsiElement) {
-    if (o.text.startsWith("_")) {
-        highlight(o, Color.SYM_FIELD)
-        return
-    } else if (o.text.uppercase() == o.text) {
-        highlight(o, Color.SYM_CONSTANT)
-        return
-    }
-
     when (o.text) {
         "Default", "Debug", "Clone", "Copy", "Serialize", "Deserialize",
         "SemiGroup", "Monoid", "HKT", "Functor", "Shape",

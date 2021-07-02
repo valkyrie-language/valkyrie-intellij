@@ -1,0 +1,6 @@
+namespace std.monad;
+
+union Result[T, E] -> T {
+    Success { value: T },
+    Failure { error: E },
+}

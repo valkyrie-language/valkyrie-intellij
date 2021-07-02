@@ -99,9 +99,9 @@ private top_statements ::=
   | import_statement
   | extension_statement
   | class_statement
-  | trait_statement
   | union_statement
   | bitflag_statement
+  | trait_statement
   | extends_statement
   | define_statement
   ;
@@ -206,7 +206,7 @@ match_expression  ::= (case_pattern|case_else) COLON (normal_statements [SEMICOL
 case_pattern      ::= KW_CASE pattern_value {
     mixin="valkyrie.language.mixin.MixinCasePattern"
 };
-pattern_value     ::= number | string | namepath | <<bracket_block pattern_value COMMA>> | <<brace_block pattern_pair COMMA>>;
+pattern_value     ::= number | string | [namepath] <<parenthesis pattern_value COMMA>> | [namepath] <<brace_block pattern_pair COMMA>> | namepath;
 case_with         ::= KW_WITH;
 case_else         ::= KW_ELSE;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -289,7 +289,7 @@ object_key        ::= SYMBOL_XID | SYMBOL_RAW | INTEGER | KW_IF | KW_CLASS {
     mixin="valkyrie.language.mixin.MixinObjectKey"
 }
 // ---------------------------------------------------------------------------------------------------------------------
-trait_statement   ::= KW_TRAIT <<modified identifier>> [generic_type] [COLON type_expression] class_block {
+trait_statement   ::= KW_TRAIT <<modified identifier>> [generic_define] [COLON type_expression] class_block {
     pin = 2
     extends="valkyrie.language.mixin.MixinTrait"
     methods=[getIdentifier getModifiers]
@@ -318,9 +318,17 @@ inline_term       ::= op_prefix* atom line_sfx* {
 };
 dot_call          ::= DOT namepath;
 // a::b().c::d::[T, U]()?!⟦i:j:k⟧
-private line_sfx  ::= op_suffix|call_suffix|generic_type|slice|dot_call
+private line_sfx  ::= op_suffix | call_suffix | generic_type | slice | dot_call {
+
+}
 // line_sfx {}.match {...}.catch {...}
-private term_sfx  ::= line_sfx|normal_block|[DOT] (catch_statement|match_statement)
+private term_sfx  ::= line_sfx
+    | normal_block
+    | DOT KW_CATCH match_block
+    | DOT KW_MATCH match_block
+    | DOT KW_FOR any_pattern {
+
+}
 private op_binary ::=
       OP_SET | OP_EQ | OP_NE
     | OP_ADD | OP_ADD_ASSIGN

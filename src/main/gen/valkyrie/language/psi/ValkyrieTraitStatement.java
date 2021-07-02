@@ -12,7 +12,7 @@ public interface ValkyrieTraitStatement extends PsiElement {
   ValkyrieClassBlock getClassBlock();
 
   @Nullable
-  ValkyrieGenericType getGenericType();
+  ValkyrieGenericDefine getGenericDefine();
 
   @NotNull
   ValkyrieModified getModified();
