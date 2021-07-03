@@ -529,15 +529,24 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // COLON type_expression
+  // (COLON|KW_EXTENDS) type_expression
   public static boolean class_inherit(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "class_inherit")) return false;
-    if (!nextTokenIs(b, COLON)) return false;
+    if (!nextTokenIs(b, "<class inherit>", COLON, KW_EXTENDS)) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, COLON);
+    Marker m = enter_section_(b, l, _NONE_, CLASS_INHERIT, "<class inherit>");
+    r = class_inherit_0(b, l + 1);
     r = r && type_expression(b, l + 1);
-    exit_section_(b, m, CLASS_INHERIT, r);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // COLON|KW_EXTENDS
+  private static boolean class_inherit_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "class_inherit_0")) return false;
+    boolean r;
+    r = consumeToken(b, COLON);
+    if (!r) r = consumeToken(b, KW_EXTENDS);
     return r;
   }
 

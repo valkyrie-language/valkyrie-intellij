@@ -1,0 +1,5 @@
+namespace std.primitive;
+
+#primitive(2byte)
+#derive(Copy, Clone)
+class f16 {}

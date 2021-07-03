@@ -1,0 +1,5 @@
+namespace std.primitive;
+
+#primitive(4byte)
+#derive(Copy, Clone)
+class f32 {}

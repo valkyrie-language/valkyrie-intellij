@@ -212,8 +212,12 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
 private fun NodeHighlighter.highlightWithText(o: PsiElement) {
     when (o.text) {
+        "Point", "Ellipse", "Circle", "Test", "Regex" -> {
+            highlight(o, Color.SYM_CLASS)
+        }
+
         "Default", "Debug", "Clone", "Copy", "Serialize", "Deserialize",
-        "SemiGroup", "Monoid", "HKT", "Functor", "Shape",
+        "SemiGroup", "Monoid", "HKT", "Functor", "Shape", "Display"
         -> {
             highlight(o, Color.SYM_TRAIT)
         }
@@ -225,7 +229,7 @@ private fun NodeHighlighter.highlightWithText(o: PsiElement) {
             highlight(o, Color.KEYWORD)
         }
 
-        "get", "set", "value", "extends", "self", "Self",
+        "value", "self", "Self", "crate", "true", "false", "null",
         -> {
             highlight(o, Color.KEYWORD)
         }
@@ -234,9 +238,6 @@ private fun NodeHighlighter.highlightWithText(o: PsiElement) {
             highlight(o, Color.SYM_FUNCTION_SELF)
         }
 
-        "Point", "Ellipse", "Circle", "Test", "Regex" -> {
-            highlight(o, Color.SYM_CLASS)
-        }
 
         "center", "minor_axis", "major_axis", "radius" -> {
             highlight(o, Color.SYM_FUNCTION_SELF)

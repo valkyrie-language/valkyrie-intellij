@@ -1,0 +1,5 @@
+namespace std.primitive;
+
+#primitive
+#derive(Copy, Clone)
+class i8 {}

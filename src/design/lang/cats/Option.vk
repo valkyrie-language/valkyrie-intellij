@@ -1,8 +1,26 @@
 namespace std.monad;
 
+let null = Option::[Any]::None;
+
 union Option[T] -> T {
     Some {
         value: T
     },
     None,
+}
+
+
+
+
+extends Option {
+    ⍝: # Examples
+    ⍝: ```
+    ⍝:
+    ⍝: ```
+    def is_some(self) {
+        @matches(self, Some(_))
+    }
+    def is_none() {
+        @matches(self, None)
+    }
 }

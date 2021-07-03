@@ -1,0 +1,6 @@
+namespace std.primitive;
+
+#allow(non_camel_case_types)
+#native(primitive)
+#derive(Copy, Clone)
+class i64 {}

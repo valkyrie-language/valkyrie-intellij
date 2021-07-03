@@ -2,11 +2,14 @@
 #packages {
     math, std, re, serde
 }
-using {
+using crate.{
     std,
     math,
     re,
-    serde.{json, toml}
+    serde.{json, toml},
+    primitive.{
+        bool, true, false
+    }
 };
 
 
