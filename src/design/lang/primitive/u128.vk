@@ -1,6 +1,5 @@
-namespace std.primitive;
+namespace std.native;
 
-#allow(non_camel_case_types)
-#native(primitive)
+#native(16byte)
 #derive(Copy, Clone)
-class i128 {}
+class u128 {}

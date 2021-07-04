@@ -1,5 +1,5 @@
-namespace std.primitive;
+namespace std.native;
 
-#primitive
+#native(1byte)
 #derive(Copy, Clone)
-class i8 {}
+class u8 {}

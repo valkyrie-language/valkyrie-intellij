@@ -1,5 +1,5 @@
-namespace std.primitive;
+namespace std.native;
 
-#primitive(8byte)
+#native(8byte)
 #derive(Copy, Clone)
 class f64 {}

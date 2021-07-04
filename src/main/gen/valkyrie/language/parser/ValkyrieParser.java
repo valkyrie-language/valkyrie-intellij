@@ -108,14 +108,15 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // range
-  //     | list | object | tuple | number | string | boolean | namepath | expression_statement
+  // OP_UNIMPLEMENTED
+  //     | range | list | object | tuple | number | string | boolean | namepath | expression_statement
   //     | new_statement | object_statement
   public static boolean atom(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "atom")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, ATOM, "<atom>");
-    r = range(b, l + 1);
+    r = consumeToken(b, OP_UNIMPLEMENTED);
+    if (!r) r = range(b, l + 1);
     if (!r) r = list(b, l + 1);
     if (!r) r = object(b, l + 1);
     if (!r) r = tuple(b, l + 1);
@@ -2443,13 +2444,13 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // BANG | QUESTION
+  // BANG | OP_QUESTION
   static boolean op_suffix(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "op_suffix")) return false;
-    if (!nextTokenIs(b, "", BANG, QUESTION)) return false;
+    if (!nextTokenIs(b, "", BANG, OP_QUESTION)) return false;
     boolean r;
     r = consumeToken(b, BANG);
-    if (!r) r = consumeToken(b, QUESTION);
+    if (!r) r = consumeToken(b, OP_QUESTION);
     return r;
   }
 

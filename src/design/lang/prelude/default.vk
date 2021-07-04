@@ -7,7 +7,7 @@ using crate.{
     math,
     re,
     serde.{json, toml},
-    primitive.{
+    native.{
         bool, true, false
     }
 };

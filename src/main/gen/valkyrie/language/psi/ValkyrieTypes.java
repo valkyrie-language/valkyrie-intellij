@@ -193,14 +193,15 @@ public interface ValkyrieTypes {
   IElementType OP_POW = new ValkyrieTokenType("^");
   IElementType OP_POW_ASSIGN = new ValkyrieTokenType("OP_POW_ASSIGN");
   IElementType OP_PROPORTION = new ValkyrieTokenType("::");
+  IElementType OP_QUESTION = new ValkyrieTokenType("?");
   IElementType OP_SET = new ValkyrieTokenType("OP_SET");
   IElementType OP_SUB = new ValkyrieTokenType("-");
   IElementType OP_SUB_ASSIGN = new ValkyrieTokenType("-=");
   IElementType OP_TO = new ValkyrieTokenType("OP_TO");
+  IElementType OP_UNIMPLEMENTED = new ValkyrieTokenType("???");
   IElementType OP_UNTIL = new ValkyrieTokenType("OP_UNTIL");
   IElementType PARENTHESIS_L = new ValkyrieTokenType("(");
   IElementType PARENTHESIS_R = new ValkyrieTokenType(")");
-  IElementType QUESTION = new ValkyrieTokenType("QUESTION");
   IElementType SEMICOLON = new ValkyrieTokenType(";");
   IElementType SLICE_L = new ValkyrieTokenType("[[");
   IElementType SLICE_R = new ValkyrieTokenType("]]");

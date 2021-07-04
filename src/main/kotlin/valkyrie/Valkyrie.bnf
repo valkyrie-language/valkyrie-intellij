@@ -63,6 +63,9 @@
         OP_BIND = ":="
         OP_NOT = "!"
         //
+        OP_QUESTION = "?"
+        OP_UNIMPLEMENTED = "???"
+        //
         OP_GT = ">"
         OP_GS = "/>"
         OP_GG = ">>"
@@ -346,7 +349,7 @@ private op_binary ::=
     // | OP_IN | OP_NOT_IN | OP_NOT OP_IN
     | OP_UNTIL;
 private op_prefix ::= OP_ADD | OP_SUB | OP_NOT | BANG | AMP | DOT3 | DOT2;
-private op_suffix ::= BANG | QUESTION;
+private op_suffix ::= BANG | OP_QUESTION;
 call_suffix       ::= <<parenthesis expression COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
 macro_call        ::= (OP_AT|OP_HASH) namepath_free [macro_block] {
@@ -360,8 +363,8 @@ macro_block       ::=
   | <<bracket_block expression separator>>
   | <<brace_block expression separator>>;
 // ---------------------------------------------------------------------------------------------------------------------
-atom           ::= range
-    | list | object | tuple | number | string | boolean | namepath | expression_statement
+atom           ::= OP_UNIMPLEMENTED
+    | range | list | object | tuple | number | string | boolean | namepath | expression_statement
     | new_statement | object_statement;
 tuple          ::= <<parenthesis expression COMMA>>
 list           ::= <<bracket_block expression COMMA>>

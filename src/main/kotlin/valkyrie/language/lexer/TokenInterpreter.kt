@@ -59,7 +59,7 @@ private val punctuations = """(?x)\\
     # start with !
     | != | ≠ | !
     # start with ?
-    | [?]
+    | [?]{3} | [?]
     # start with =
     | => | ⇒
     | === | == | =
@@ -290,6 +290,10 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             "!=" -> pushToken(ValkyrieTypes.OP_NE, r)
             "!" -> pushToken(ValkyrieTypes.OP_NOT, r)
             "|" -> pushToken(ValkyrieTypes.OP_OR, r)
+            // start with ?
+            "???" -> pushToken(ValkyrieTypes.OP_UNIMPLEMENTED, r)
+            "?" -> pushToken(ValkyrieTypes.OP_QUESTION, r)
+            // start with ^
             "^" -> pushToken(ValkyrieTypes.OP_POW, r)
             // start with =
             "∈", "∊" -> {
