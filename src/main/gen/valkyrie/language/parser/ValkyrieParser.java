@@ -1277,13 +1277,13 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // <<bracket_block type_argument COMMA>>
+  // <<bracket_block type_term COMMA>>
   public static boolean generic_define(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "generic_define")) return false;
     if (!nextTokenIs(b, BRACKET_L)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = bracket_block(b, l + 1, ValkyrieParser::type_argument, COMMA_parser_);
+    r = bracket_block(b, l + 1, ValkyrieParser::type_term, COMMA_parser_);
     exit_section_(b, m, GENERIC_DEFINE, r);
     return r;
   }
@@ -3137,46 +3137,6 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     r = parenthesis(b, l + 1, ValkyrieParser::expression, COMMA_parser_);
     exit_section_(b, m, TUPLE, r);
     return r;
-  }
-
-  /* ********************************************************** */
-  // identifier [COLON type_expression] {
-  // //    mixin="valkyrie.language.mixin.MixinTypeArgument"
-  // }
-  public static boolean type_argument(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "type_argument")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, TYPE_ARGUMENT, "<type argument>");
-    r = identifier(b, l + 1);
-    r = r && type_argument_1(b, l + 1);
-    r = r && type_argument_2(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // [COLON type_expression]
-  private static boolean type_argument_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "type_argument_1")) return false;
-    type_argument_1_0(b, l + 1);
-    return true;
-  }
-
-  // COLON type_expression
-  private static boolean type_argument_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "type_argument_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, COLON);
-    r = r && type_expression(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // {
-  // //    mixin="valkyrie.language.mixin.MixinTypeArgument"
-  // }
-  private static boolean type_argument_2(PsiBuilder b, int l) {
-    return true;
   }
 
   /* ********************************************************** */

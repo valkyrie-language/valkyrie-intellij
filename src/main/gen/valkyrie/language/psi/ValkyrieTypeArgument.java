@@ -7,10 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieTypeArgument extends PsiElement {
 
-  @NotNull
-  ValkyrieIdentifier getIdentifier();
-
   @Nullable
   ValkyrieTypeExpression getTypeExpression();
+
+  @NotNull
+  ValkyrieTypeTerm getTypeTerm();
 
 }

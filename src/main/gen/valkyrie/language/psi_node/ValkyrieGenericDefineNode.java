@@ -30,8 +30,8 @@ public class ValkyrieGenericDefineNode extends ValkyrieASTBase implements Valkyr
 
   @Override
   @NotNull
-  public List<ValkyrieTypeArgument> getTypeArgumentList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeArgument.class);
+  public List<ValkyrieTypeTerm> getTypeTermList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeTerm.class);
   }
 
 }

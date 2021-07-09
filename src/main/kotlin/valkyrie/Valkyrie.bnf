@@ -238,7 +238,6 @@ define_item       ::= OP_POW | OP_LT | OP_GT |
 define_block      ::= <<brace_block normal_statements SEMICOLON>> {
     pin = 1
 }
-generic_define    ::= <<bracket_block type_argument COMMA>>
 private def_type  ::= [(COLON|OP_ARROW) type_expression]
 // ---------------------------------------------------------------------------------------------------------------------
 // type Result[T: Debug, E: Error + Debug = Error] = std::result::Result[T];
@@ -249,9 +248,7 @@ type_statement    ::= KW_TYPE generic_type [OP_SET type_term] {
 type_expression   ::= type_term (type_binary type_term)*;
 type_term         ::= type_atom generic_call?;
 type_atom         ::= namepath_free | <<bracket_block namepath_free separator>>;
-type_argument     ::= identifier [COLON type_expression] {
-//    mixin="valkyrie.language.mixin.MixinTypeArgument"
-}
+generic_define    ::= <<bracket_block type_term COMMA>>
 generic_call      ::= <<bracket_block type_expression COMMA>>
 generic_type      ::= identifier [generic_call];
 private type_binary ::= OP_AND | OP_OR | OP_ADD | OP_DIV;

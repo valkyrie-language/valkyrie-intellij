@@ -327,10 +327,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitTypeArgument(@NotNull ValkyrieTypeArgument o) {
-    visitPsiElement(o);
-  }
-
   public void visitTypeAtom(@NotNull ValkyrieTypeAtom o) {
     visitPsiElement(o);
   }

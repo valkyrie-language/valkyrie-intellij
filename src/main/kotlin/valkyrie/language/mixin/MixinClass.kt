@@ -87,10 +87,8 @@ open class MixinClass(node: ASTNode) : DeclareNode(node) {
 
     fun collectGenerics(): List<ValkyrieIdentifierNode> {
         val generic = mutableListOf<ValkyrieIdentifierNode>()
-        originalElement.genericDefine?.let { def ->
-            def.typeArgumentList.map {
-                generic.add(it.identifier as ValkyrieIdentifierNode)
-            }
+        originalElement.genericDefine?.let {
+
         }
         return generic
     }

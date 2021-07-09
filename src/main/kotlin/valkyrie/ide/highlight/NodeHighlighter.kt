@@ -37,9 +37,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitGenericDefine(o: ValkyrieGenericDefine) {
-        o.typeArgumentList.forEach {
-            highlight(it.identifier, Color.SYM_GENERIC)
-        }
+
     }
 
     override fun visitDefineStatement(o: ValkyrieDefineStatement) {
