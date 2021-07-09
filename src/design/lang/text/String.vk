@@ -1,0 +1,27 @@
+namespace std.text;
+
+using crate.bytes.{Endianess, LE};
+
+#transparent type String = Utf8Buffer;
+
+#native
+#derive(Clone)
+class Utf8Buffer {
+    bytes: Vector8
+}
+
+#native
+extends Utf8Buffer: Constructor + TryFrom[Bytes] {
+    Utf8Buffer(iter: iterator8) {
+        Vector::from_iterator();
+        new Self {
+
+        }
+    }
+
+    unsafe from_bytes(bytes: U8, order: Endianess = LE) {
+        new Self {
+
+        }
+    }
+}

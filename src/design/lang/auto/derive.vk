@@ -1,0 +1,5 @@
+namespace std.auto;
+
+macro derive {
+
+}

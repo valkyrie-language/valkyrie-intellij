@@ -1,18 +1,28 @@
 namespace std.native;
 
-#transparent type char = Character;
+#transparent type char = Unicode;
 
-
+#native(4byte)
+#derive(Copy, Clone, Display)
+class Unicode {
+    codepoint: u32
+}
 
 #native
 extends char {
-    def is_whitespace(self) -> bool {
+    as_ascii(self) -> Ascii {
+
+    }
+    is_ascii(self) -> bool {
+        ???
+    }
+    is_whitespace(self) -> bool {
         @matches(self, true)
     }
-    def is_false(self) -> bool {
+    is_number(self) -> bool {
         @matches(self, false)
     }
-    def then(self) -> bool {
+    is_a(self) -> bool {
 
     }
 }

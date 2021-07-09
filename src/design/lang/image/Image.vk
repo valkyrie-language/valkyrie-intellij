@@ -1,0 +1,13 @@
+class Image {
+
+}
+
+
+extends Image {
+    as_array() -> NDArray {
+
+    }
+    as_bytes() -> Bytes {
+
+    }
+}

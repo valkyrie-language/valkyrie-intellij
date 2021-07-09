@@ -1,0 +1,8 @@
+
+
+
+#native(4byte)
+#derive(Copy, Clone, Display)
+class Ascii {
+    codepoint: u32
+}
