@@ -10,8 +10,8 @@ import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.view.ValkyrieViewElement
 import valkyrie.language.ast.DeclareNode
 import valkyrie.language.ast.ValkyrieASTBase
-import valkyrie.language.psi_node.ValkyrieClassDefineNode
-import valkyrie.language.psi_node.ValkyrieClassItemNode
+import valkyrie.language.psi_node.ValkyrieClassFieldNode
+import valkyrie.language.psi_node.ValkyrieClassMethodNode
 import valkyrie.language.psi_node.ValkyrieClassStatementNode
 import valkyrie.language.psi_node.ValkyrieIdentifierNode
 import valkyrie.language.symbol.ValkyrieSymbol
@@ -24,7 +24,7 @@ open class MixinClass(node: ASTNode) : DeclareNode(node) {
         return this as ValkyrieClassStatementNode
     }
 
-    override fun getNameIdentifier() = originalElement.modified?.lastChild as ValkyrieIdentifierNode
+    override fun getNameIdentifier() = originalElement.modified.lastChild as ValkyrieIdentifierNode
     override fun getIcon(flags: Int): Icon = AllIcons.Nodes.Class
     override fun setName(name: String): PsiElement {
         return this.nameIdentifier
@@ -43,8 +43,8 @@ open class MixinClass(node: ASTNode) : DeclareNode(node) {
         return PsiTreeUtil
             .getChildrenOfAnyType(
                 this,
-                ValkyrieClassItemNode::class.java,
-                ValkyrieClassDefineNode::class.java,
+                ValkyrieClassFieldNode::class.java,
+                ValkyrieClassMethodNode::class.java,
             )
             .filter { it.name == name.first() }
             .firstNotNullOfOrNull { it.resolveNamespace(name.drop(1)) }
@@ -53,8 +53,7 @@ open class MixinClass(node: ASTNode) : DeclareNode(node) {
     override fun getChildrenView(): Array<ValkyrieViewElement> {
         val childrenView: MutableList<ValkyrieViewElement> = mutableListOf()
         originalElement.addAnnotationView(childrenView)
-        originalElement.modified?.addChildrenView(childrenView)
-//        originalElement.classTuple?.addChildrenView(childrenView)
+        originalElement.modified.addChildrenView(childrenView)
         originalElement.classBlock?.addChildrenView(childrenView)
         return childrenView.toTypedArray()
     }

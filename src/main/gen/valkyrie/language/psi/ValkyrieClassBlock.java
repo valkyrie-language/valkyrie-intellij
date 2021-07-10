@@ -9,10 +9,10 @@ import valkyrie.ide.view.ValkyrieViewElement;
 public interface ValkyrieClassBlock extends PsiElement {
 
   @NotNull
-  List<ValkyrieClassDefine> getClassDefineList();
+  List<ValkyrieClassField> getClassFieldList();
 
   @NotNull
-  List<ValkyrieClassItem> getClassItemList();
+  List<ValkyrieClassMethod> getClassMethodList();
 
   @NotNull
   List<ValkyrieMacroCall> getMacroCallList();

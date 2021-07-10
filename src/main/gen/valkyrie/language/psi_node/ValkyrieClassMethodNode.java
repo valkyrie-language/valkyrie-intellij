@@ -8,18 +8,18 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.language.psi.ValkyrieTypes.*;
-import valkyrie.language.mixin.MixinExtends;
+import valkyrie.language.mixin.MixinClassMethod;
 import valkyrie.language.psi.*;
 import valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieExtendsStatementNode extends MixinExtends implements ValkyrieExtendsStatement {
+public class ValkyrieClassMethodNode extends MixinClassMethod implements ValkyrieClassMethod {
 
-  public ValkyrieExtendsStatementNode(@NotNull ASTNode node) {
+  public ValkyrieClassMethodNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitExtendsStatement(this);
+    visitor.visitClassMethod(this);
   }
 
   @Override
@@ -30,26 +30,32 @@ public class ValkyrieExtendsStatementNode extends MixinExtends implements Valkyr
 
   @Override
   @Nullable
-  public ValkyrieClassBlock getClassBlock() {
-    return findChildByClass(ValkyrieClassBlock.class);
+  public ValkyrieDefineBlock getDefineBlock() {
+    return findChildByClass(ValkyrieDefineBlock.class);
   }
 
   @Override
   @NotNull
-  public List<ValkyrieGenericCall> getGenericCallList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieGenericCall.class);
+  public ValkyrieDefineTuple getDefineTuple() {
+    return findNotNullChildByClass(ValkyrieDefineTuple.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieGenericDefine getGenericDefine() {
+    return findChildByClass(ValkyrieGenericDefine.class);
+  }
+
+  @Override
+  @NotNull
+  public ValkyrieIdentifier getIdentifier() {
+    return findNotNullChildByClass(ValkyrieIdentifier.class);
   }
 
   @Override
   @Nullable
   public ValkyrieModifiers getModifiers() {
     return findChildByClass(ValkyrieModifiers.class);
-  }
-
-  @Override
-  @NotNull
-  public ValkyrieNamepath getNamepath() {
-    return findNotNullChildByClass(ValkyrieNamepath.class);
   }
 
   @Override

@@ -47,7 +47,6 @@ class DocumentationProvider : DocumentationProvider {
 
     // 按住 Ctrl 后悬浮
     override fun getQuickNavigateInfo(element: PsiElement?, originalElement: PsiElement?): String? {
-        print("getQuickNavigateInfo: $element, $originalElement")
         return originalElement?.let { this.generateHoverDoc(it, originalElement) }
     }
 

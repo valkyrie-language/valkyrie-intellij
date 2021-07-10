@@ -31,14 +31,14 @@ public class ValkyrieClassBlockNode extends ValkyrieASTBase implements ValkyrieC
 
   @Override
   @NotNull
-  public List<ValkyrieClassDefine> getClassDefineList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieClassDefine.class);
+  public List<ValkyrieClassField> getClassFieldList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieClassField.class);
   }
 
   @Override
   @NotNull
-  public List<ValkyrieClassItem> getClassItemList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieClassItem.class);
+  public List<ValkyrieClassMethod> getClassMethodList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieClassMethod.class);
   }
 
   @Override

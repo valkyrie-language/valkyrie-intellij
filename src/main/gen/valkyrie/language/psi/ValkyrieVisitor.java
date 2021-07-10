@@ -55,11 +55,11 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitClassDefine(@NotNull ValkyrieClassDefine o) {
+  public void visitClassEffect(@NotNull ValkyrieClassEffect o) {
     visitPsiElement(o);
   }
 
-  public void visitClassEffect(@NotNull ValkyrieClassEffect o) {
+  public void visitClassField(@NotNull ValkyrieClassField o) {
     visitPsiElement(o);
   }
 
@@ -67,7 +67,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitClassItem(@NotNull ValkyrieClassItem o) {
+  public void visitClassMethod(@NotNull ValkyrieClassMethod o) {
     visitPsiElement(o);
   }
 
@@ -180,10 +180,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitJumpLabel(@NotNull ValkyrieJumpLabel o) {
-    visitPsiElement(o);
-  }
-
-  public void visitKwElseIf(@NotNull ValkyrieKwElseIf o) {
     visitPsiElement(o);
   }
 

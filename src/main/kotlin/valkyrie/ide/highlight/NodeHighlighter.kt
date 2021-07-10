@@ -9,7 +9,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import valkyrie.ide.file.ValkyrieFileNode
 import valkyrie.language.psi.*
-import valkyrie.language.psi_node.ValkyrieClassDefineNode
+import valkyrie.language.psi_node.ValkyrieClassMethodNode
 import valkyrie.language.psi_node.ValkyrieClassStatementNode
 import valkyrie.language.psi_node.ValkyrieDefineStatementNode
 import valkyrie.language.psi_node.ValkyrieUnionStatementNode
@@ -51,8 +51,8 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.modified.lastChild, Color.SYM_CLASS)
     }
 
-    override fun visitClassDefine(o: ValkyrieClassDefine) {
-        o as ValkyrieClassDefineNode;
+    override fun visitClassMethod(o: ValkyrieClassMethod) {
+        o as ValkyrieClassMethodNode;
         highlight(o.nameIdentifier, Color.SYM_FUNCTION_SELF)
     }
 
@@ -112,9 +112,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         }
     }
 
-    override fun visitKwElseIf(o: ValkyrieKwElseIf) {
-        highlight(o, Color.KEYWORD)
-    }
 
     override fun visitElseStatement(o: ValkyrieElseStatement) {
         highlight(o.firstChild, Color.KEYWORD)
@@ -215,7 +212,7 @@ private fun NodeHighlighter.highlightWithText(o: PsiElement) {
         }
 
         "Default", "Debug", "Clone", "Copy", "Serialize", "Deserialize",
-        "SemiGroup", "Monoid", "HKT", "Functor", "Shape", "Display"
+        "SemiGroup", "Monoid", "HKT", "Functor", "Shape", "Display",
         -> {
             highlight(o, Color.SYM_TRAIT)
         }
@@ -227,22 +224,9 @@ private fun NodeHighlighter.highlightWithText(o: PsiElement) {
             highlight(o, Color.KEYWORD)
         }
 
-        "value", "self", "Self", "crate", "true", "false", "null",
+        "self", "Self", "crate", "true", "false", "null",
         -> {
             highlight(o, Color.KEYWORD)
-        }
-
-        "map", "or", "test_field", "print" -> {
-            highlight(o, Color.SYM_FUNCTION_SELF)
-        }
-
-
-        "center", "minor_axis", "major_axis", "radius" -> {
-            highlight(o, Color.SYM_FUNCTION_SELF)
-        }
-
-        "x", "y", "v" -> {
-            highlight(o, Color.SYM_FIELD)
         }
 
         "Option", "Result", "Current", "Target" -> {

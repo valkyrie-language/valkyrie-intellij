@@ -49,16 +49,6 @@ class ASTMethods {
         }
 
         @JvmStatic
-        fun getIdentifier(node: ValkyrieExtendsStatement): ValkyrieIdentifierNode {
-            return node.modified.lastChild as ValkyrieIdentifierNode
-        }
-
-        @JvmStatic
-        fun getModifiers(node: ValkyrieExtendsStatement): Array<ValkyrieIdentifierNode> {
-            return node.modified.modifiers.getModifiers()
-        }
-
-        @JvmStatic
         fun getModifiers(node: ValkyrieDefineStatement): Array<ValkyrieIdentifierNode> {
             return node.modified.modifiers.getModifiers()
         }

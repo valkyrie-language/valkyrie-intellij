@@ -1,22 +1,15 @@
 package valkyrie.language.mixin
 
-import valkyrie.ide.file.ValkyrieIconProvider
-import valkyrie.ide.view.ValkyrieViewElement
-import valkyrie.language.ast.DeclareNode
-import valkyrie.language.ast.addChildrenView
-import valkyrie.language.psi_node.ValkyrieClassDefineNode
-import valkyrie.language.psi_node.ValkyrieClassItemNode
-import valkyrie.language.psi_node.ValkyrieIdentifierNode
-import valkyrie.language.psi_node.ValkyrieObjectKeyNode
-
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
+import valkyrie.ide.file.ValkyrieIconProvider
+import valkyrie.language.ast.DeclareNode
+import valkyrie.language.psi_node.ValkyrieClassFieldNode
+import valkyrie.language.psi_node.ValkyrieObjectKeyNode
 import javax.swing.Icon
 
 open class MixinClassField(node: ASTNode) : DeclareNode(node) {
-    override fun getOriginalElement(): ValkyrieClassItemNode {
-        return this as ValkyrieClassItemNode
-    }
+    override fun getOriginalElement() = this as ValkyrieClassFieldNode
 
     override fun getNameIdentifier(): ValkyrieObjectKeyNode {
         return originalElement.objectKey as ValkyrieObjectKeyNode

@@ -20,10 +20,10 @@ public interface ValkyrieTypes {
   IElementType CASE_WITH = new ValkyrieTokenType("CASE_WITH");
   IElementType CATCH_STATEMENT = new ValkyrieTokenType("CATCH_STATEMENT");
   IElementType CLASS_BLOCK = new ValkyrieTokenType("CLASS_BLOCK");
-  IElementType CLASS_DEFINE = new ValkyrieTokenType("CLASS_DEFINE");
   IElementType CLASS_EFFECT = new ValkyrieTokenType("CLASS_EFFECT");
+  IElementType CLASS_FIELD = new ValkyrieTokenType("CLASS_FIELD");
   IElementType CLASS_INHERIT = new ValkyrieTokenType("CLASS_INHERIT");
-  IElementType CLASS_ITEM = new ValkyrieTokenType("CLASS_ITEM");
+  IElementType CLASS_METHOD = new ValkyrieTokenType("CLASS_METHOD");
   IElementType CLASS_STATEMENT = new ValkyrieTokenType("CLASS_STATEMENT");
   IElementType CONDITION = new ValkyrieTokenType("CONDITION");
   IElementType CONTROL_STATEMENT = new ValkyrieTokenType("CONTROL_STATEMENT");
@@ -52,7 +52,6 @@ public interface ValkyrieTypes {
   IElementType INLINE_EXPRESSION = new ValkyrieTokenType("INLINE_EXPRESSION");
   IElementType INLINE_TERM = new ValkyrieTokenType("INLINE_TERM");
   IElementType JUMP_LABEL = new ValkyrieTokenType("JUMP_LABEL");
-  IElementType KW_ELSE_IF = new ValkyrieTokenType("KW_ELSE_IF");
   IElementType LET_STATEMENT = new ValkyrieTokenType("LET_STATEMENT");
   IElementType LIST = new ValkyrieTokenType("LIST");
   IElementType LOOP_STATEMENT = new ValkyrieTokenType("LOOP_STATEMENT");
@@ -249,17 +248,17 @@ public interface ValkyrieTypes {
       else if (type == CLASS_BLOCK) {
         return new ValkyrieClassBlockNode(node);
       }
-      else if (type == CLASS_DEFINE) {
-        return new ValkyrieClassDefineNode(node);
-      }
       else if (type == CLASS_EFFECT) {
         return new ValkyrieClassEffectNode(node);
+      }
+      else if (type == CLASS_FIELD) {
+        return new ValkyrieClassFieldNode(node);
       }
       else if (type == CLASS_INHERIT) {
         return new ValkyrieClassInheritNode(node);
       }
-      else if (type == CLASS_ITEM) {
-        return new ValkyrieClassItemNode(node);
+      else if (type == CLASS_METHOD) {
+        return new ValkyrieClassMethodNode(node);
       }
       else if (type == CLASS_STATEMENT) {
         return new ValkyrieClassStatementNode(node);
@@ -344,9 +343,6 @@ public interface ValkyrieTypes {
       }
       else if (type == JUMP_LABEL) {
         return new ValkyrieJumpLabelNode(node);
-      }
-      else if (type == KW_ELSE_IF) {
-        return new ValkyrieKwElseIfNode(node);
       }
       else if (type == LET_STATEMENT) {
         return new ValkyrieLetStatementNode(node);

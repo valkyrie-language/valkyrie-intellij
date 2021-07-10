@@ -8,18 +8,18 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.language.psi.ValkyrieTypes.*;
-import valkyrie.language.mixin.MixinExtends;
+import valkyrie.language.mixin.MixinClassField;
 import valkyrie.language.psi.*;
 import valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieExtendsStatementNode extends MixinExtends implements ValkyrieExtendsStatement {
+public class ValkyrieClassFieldNode extends MixinClassField implements ValkyrieClassField {
 
-  public ValkyrieExtendsStatementNode(@NotNull ASTNode node) {
+  public ValkyrieClassFieldNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitExtendsStatement(this);
+    visitor.visitClassField(this);
   }
 
   @Override
@@ -30,14 +30,8 @@ public class ValkyrieExtendsStatementNode extends MixinExtends implements Valkyr
 
   @Override
   @Nullable
-  public ValkyrieClassBlock getClassBlock() {
-    return findChildByClass(ValkyrieClassBlock.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ValkyrieGenericCall> getGenericCallList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieGenericCall.class);
+  public ValkyrieExpression getExpression() {
+    return findChildByClass(ValkyrieExpression.class);
   }
 
   @Override
@@ -48,8 +42,8 @@ public class ValkyrieExtendsStatementNode extends MixinExtends implements Valkyr
 
   @Override
   @NotNull
-  public ValkyrieNamepath getNamepath() {
-    return findNotNullChildByClass(ValkyrieNamepath.class);
+  public ValkyrieObjectKey getObjectKey() {
+    return findNotNullChildByClass(ValkyrieObjectKey.class);
   }
 
   @Override

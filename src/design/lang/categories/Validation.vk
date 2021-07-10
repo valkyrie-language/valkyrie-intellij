@@ -1,4 +1,4 @@
-namespace std.monad;
+namespace std.categories;
 
 union Validation[T, E] -> T {
     Fine {
