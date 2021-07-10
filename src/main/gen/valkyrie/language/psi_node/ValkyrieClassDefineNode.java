@@ -35,9 +35,15 @@ public class ValkyrieClassDefineNode extends MixinClassMethod implements Valkyri
   }
 
   @Override
-  @NotNull
+  @Nullable
   public ValkyrieDefineTuple getDefineTuple() {
-    return findNotNullChildByClass(ValkyrieDefineTuple.class);
+    return findChildByClass(ValkyrieDefineTuple.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieGenericDefine getGenericDefine() {
+    return findChildByClass(ValkyrieGenericDefine.class);
   }
 
   @Override

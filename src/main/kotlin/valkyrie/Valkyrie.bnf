@@ -232,11 +232,16 @@ define_statement  ::= KW_DEF <<modified namepath_free>> [generic_define] define_
 };
 define_tuple      ::= <<parenthesis define_item COMMA>>;
 define_item       ::= OP_POW | OP_LT | OP_GT |
-    macro_call* [modifiers] [KW_DOTS] identifier [COLON expression] [OP_EQ expression] {
+    macro_call* [modifiers] [KW_DOTS] identifier [COLON type_expression] [OP_EQ expression] {
     mixin="valkyrie.language.mixin.MixinDefineItem"
 }
 define_block      ::= <<brace_block normal_statements SEMICOLON>> {
     pin = 1
+}
+class_define      ::= KW_DEF? <<modified identifier>> [generic_define] define_tuple def_type [define_block] {
+    pin = 2
+    mixin="valkyrie.language.mixin.MixinClassMethod"
+    methods = [getIdentifier getModifiers]
 }
 private def_type  ::= [(COLON|OP_ARROW) type_expression]
 // ---------------------------------------------------------------------------------------------------------------------
@@ -251,7 +256,7 @@ type_atom         ::= namepath_free | <<bracket_block namepath_free separator>>;
 generic_define    ::= <<bracket_block type_term COMMA>>
 generic_call      ::= <<bracket_block type_expression COMMA>>
 generic_type      ::= identifier [generic_call];
-private type_binary ::= OP_AND | OP_OR | OP_ADD | OP_DIV;
+private type_binary ::= OP_AND | OP_OR | OP_ADD | OP_DIV | OP_ARROW;
 // ---------------------------------------------------------------------------------------------------------------------
 forall_statement  ::= OP_FORALL <<sequence identifier COMMA>> [forall_block];
 forall_block      ::= <<brace_block (expression COLON expression) separator>>;
@@ -267,11 +272,7 @@ class_block       ::= <<brace_free (macro_call|class_define|class_item) separato
     pin = 1
     methods=[addChildrenView]
 }
-class_define      ::= KW_DEF? <<modified identifier>> define_tuple [(COLON|OP_ARROW) type_expression] [define_block] {
-    pin = 3
-    mixin="valkyrie.language.mixin.MixinClassMethod"
-    methods = [getIdentifier getModifiers]
-}
+
 class_item        ::= KW_LET? [modifiers] object_key [COLON expression] [OP_SET type_expression] | object_key {
     mixin="valkyrie.language.mixin.MixinClassField"
 };

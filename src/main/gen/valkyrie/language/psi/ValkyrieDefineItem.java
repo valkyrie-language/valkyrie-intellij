@@ -7,8 +7,8 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieDefineItem extends PsiElement {
 
-  @NotNull
-  List<ValkyrieExpression> getExpressionList();
+  @Nullable
+  ValkyrieExpression getExpression();
 
   @Nullable
   ValkyrieIdentifier getIdentifier();
@@ -18,5 +18,8 @@ public interface ValkyrieDefineItem extends PsiElement {
 
   @Nullable
   ValkyrieModifiers getModifiers();
+
+  @Nullable
+  ValkyrieTypeExpression getTypeExpression();
 
 }

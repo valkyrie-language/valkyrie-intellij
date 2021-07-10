@@ -1,0 +1,6 @@
+namespace std.cats;
+
+trait Monad[M[_]] {
+    unit[A](a: A) -> M[A];
+    bind[A, B](m: M[A], f: A -> M[B]) -> M[B];
+}

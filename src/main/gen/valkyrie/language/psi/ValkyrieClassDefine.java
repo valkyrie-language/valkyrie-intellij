@@ -11,8 +11,11 @@ public interface ValkyrieClassDefine extends PsiElement {
   @Nullable
   ValkyrieDefineBlock getDefineBlock();
 
-  @NotNull
+  @Nullable
   ValkyrieDefineTuple getDefineTuple();
+
+  @Nullable
+  ValkyrieGenericDefine getGenericDefine();
 
   @NotNull
   ValkyrieModified getModified();

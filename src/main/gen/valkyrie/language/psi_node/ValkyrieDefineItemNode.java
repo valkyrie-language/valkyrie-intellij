@@ -29,9 +29,9 @@ public class ValkyrieDefineItemNode extends MixinDefineItem implements ValkyrieD
   }
 
   @Override
-  @NotNull
-  public List<ValkyrieExpression> getExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpression.class);
+  @Nullable
+  public ValkyrieExpression getExpression() {
+    return findChildByClass(ValkyrieExpression.class);
   }
 
   @Override
@@ -50,6 +50,12 @@ public class ValkyrieDefineItemNode extends MixinDefineItem implements ValkyrieD
   @Nullable
   public ValkyrieModifiers getModifiers() {
     return findChildByClass(ValkyrieModifiers.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieTypeExpression getTypeExpression() {
+    return findChildByClass(ValkyrieTypeExpression.class);
   }
 
 }
