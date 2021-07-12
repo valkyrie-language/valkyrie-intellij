@@ -2,9 +2,8 @@ namespace std.macroes;
 
 ⍝: Mark the implementation as native
 ⍝: The following part uses pseudo-code, and does not represent actual implementation.
-#native
 #token::navigation(jump = false)
-macro derive native(
+macro native derive native(
     ⍝:
     receptor: AnyNode,
     ⍝:
@@ -14,9 +13,8 @@ macro derive native(
 )
 
 ⍝:
-#native
 #token::navigation(jump = false)
-macro derive navigation(
+macro native derive navigation(
     ⍝:
     namepath: LiteralNode,
     color: LiteralNode,
@@ -24,10 +22,11 @@ macro derive navigation(
     value jump: bool
 )
 
-#native
-macro derive derive(
+macro native derive derive(
 
 )
-{
+
+⍝: Ensure the function returns a [`Future`]
+macro native derive async() {
 
 }

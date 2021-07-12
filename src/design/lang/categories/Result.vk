@@ -1,25 +1,24 @@
-namespace std.monad;
+namespace std.categories;
 
 #token_navigation(Option::Some, color = Variant)
 macro Success(e: Expression) {
     quote {
         new Result::Success {
-        value
+            value
         }
     }
 }
 
 #token_navigation(Option::None, color = Variant)
 macro Failure(e: Expression) {
-    quote {
+    ¶ {
         new Result::Failure {
-        error
+            error
         }
     }
 }
 
-⍝:
-⍝: # Examples
+#documentation(include="Result.vnote")
 union Result[T, E] -> T {
     ⍝:
     Success {
@@ -32,3 +31,10 @@ union Result[T, E] -> T {
         error: E
     },
 }
+
+let yin, yang  = (
+    callcc { c }.tap { print('@') },
+    callcc { c }.tap { print('*') },
+)
+
+yin(yang)

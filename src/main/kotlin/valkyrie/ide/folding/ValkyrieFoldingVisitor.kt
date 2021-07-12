@@ -1,19 +1,17 @@
 package valkyrie.ide.folding
 
-import valkyrie.language.psi.*
-import valkyrie.language.psi_node.ValkyrieStringNode
 import com.intellij.lang.ASTNode
 import com.intellij.lang.folding.FoldingDescriptor
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import com.intellij.psi.util.elementType
+import valkyrie.language.psi.*
+import valkyrie.language.psi_node.ValkyrieStringNode
 
 class ValkyrieFoldingVisitor(private val descriptors: MutableList<FoldingDescriptor>) : ValkyrieRecursiveVisitor() {
 
     override fun visitImportBlock(o: ValkyrieImportBlock) {
         fold(o.node, o.firstChild.endOffset, o.lastChild.startOffset)
     }
-
 
 
     /**
@@ -37,18 +35,34 @@ class ValkyrieFoldingVisitor(private val descriptors: MutableList<FoldingDescrip
         fold(o.node, o.firstChild.endOffset, o.lastChild.startOffset)
     }
 
+    override fun visitNormalBlock(o: ValkyrieNormalBlock) {
+        fold(o.node, o.firstChild.endOffset, o.lastChild.startOffset)
+    }
+
+    override fun visitNewBlock(o: ValkyrieNewBlock) {
+        fold(o.node, o.firstChild.endOffset, o.lastChild.startOffset)
+    }
+
     override fun visitDefineBlock(o: ValkyrieDefineBlock) {
         fold(o.node, o.firstChild.endOffset, o.lastChild.startOffset)
     }
+
     override fun visitDefineTuple(o: ValkyrieDefineTuple) {
         fold(o.node, o.firstChild.endOffset, o.lastChild.startOffset)
     }
+
+    override fun visitTuple(o: ValkyrieTuple) {
+        fold(o.node, o.firstChild.endOffset, o.lastChild.startOffset)
+    }
+
     override fun visitList(o: ValkyrieList) {
         fold(o.node, o.firstChild.endOffset, o.lastChild.startOffset)
     }
+
     override fun visitObject(o: ValkyrieObject) {
         fold(o.node, o.firstChild.endOffset, o.lastChild.startOffset)
     }
+
     override fun visitString(o: ValkyrieString) {
         o as ValkyrieStringNode;
         fold(o.node, o.stringStartOffset(), o.stringEndOffset())

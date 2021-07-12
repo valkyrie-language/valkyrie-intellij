@@ -32,7 +32,7 @@ private val punctuations = """(?x)\\
     | [.]{2}[<|=]
     | [.]{1,3}
     | [{}\[\]()]
-    | [,;$^]
+    | [,;$§¶^]
     | @[*!?@]?
     | \#[!]?
     # start with < >
@@ -264,6 +264,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
                 pushToken(ValkyrieTypes.SEMICOLON, r)
             }
 
+
             "@" -> pushToken(ValkyrieTypes.OP_AT, r)
             "#" -> pushToken(ValkyrieTypes.OP_HASH, r)
             "," -> pushToken(ValkyrieTypes.COMMA, r)
@@ -305,7 +306,10 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             "∉" -> {
                 pushToken(ValkyrieTypes.OP_NOT_IN, r)
             }
-
+            // slots
+            "$" -> pushToken(ValkyrieTypes.SLOT_LAMBDA, r)
+            "§" -> pushToken(ValkyrieTypes.SLOT_MACRO, r)
+            "¶" -> pushToken(ValkyrieTypes.OP_QUOTE, r)
             "⟦" -> {
                 pushToken(ValkyrieTypes.SLICE_L, r)
             }

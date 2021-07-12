@@ -194,6 +194,7 @@ public interface ValkyrieTypes {
   IElementType OP_POW_ASSIGN = new ValkyrieTokenType("OP_POW_ASSIGN");
   IElementType OP_PROPORTION = new ValkyrieTokenType("::");
   IElementType OP_QUESTION = new ValkyrieTokenType("?");
+  IElementType OP_QUOTE = new ValkyrieTokenType("quote");
   IElementType OP_SET = new ValkyrieTokenType("OP_SET");
   IElementType OP_SUB = new ValkyrieTokenType("-");
   IElementType OP_SUB_ASSIGN = new ValkyrieTokenType("-=");
@@ -205,6 +206,8 @@ public interface ValkyrieTypes {
   IElementType SEMICOLON = new ValkyrieTokenType(";");
   IElementType SLICE_L = new ValkyrieTokenType("[[");
   IElementType SLICE_R = new ValkyrieTokenType("]]");
+  IElementType SLOT_LAMBDA = new ValkyrieTokenType("$");
+  IElementType SLOT_MACRO = new ValkyrieTokenType("unquote");
   IElementType STRING_END = new ValkyrieTokenType("StringEnd");
   IElementType STRING_START = new ValkyrieTokenType("StringStart");
   IElementType STRING_TEXT = new ValkyrieTokenType("StringText");

@@ -108,7 +108,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // OP_UNIMPLEMENTED
+  // OP_UNIMPLEMENTED | OP_QUOTE
   //     | range | list | object | tuple | number | string | boolean | namepath | expression_statement
   //     | new_statement | object_statement
   public static boolean atom(PsiBuilder b, int l) {
@@ -116,6 +116,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, ATOM, "<atom>");
     r = consumeToken(b, OP_UNIMPLEMENTED);
+    if (!r) r = consumeToken(b, OP_QUOTE);
     if (!r) r = range(b, l + 1);
     if (!r) r = list(b, l + 1);
     if (!r) r = object(b, l + 1);

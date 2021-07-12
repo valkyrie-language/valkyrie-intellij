@@ -23,7 +23,7 @@ class TokenHighlight : SyntaxHighlighterBase() {
         return when (tokenType) {
             // Keywords
             KW_NAMESPACE, KW_EXTENSION, KW_IMPORT, OP_AS -> Color.KEYWORD
-            KW_CLASS, KW_TRAIT, KW_TAGGED, KW_BITFLAG, KW_EXTENDS -> Color.KEYWORD
+            KW_MACRO, KW_CLASS, KW_TRAIT, KW_TAGGED, KW_BITFLAG, KW_EXTENDS -> Color.KEYWORD
             KW_CONTINUE, KW_RETURN, KW_RESUME -> Color.KEYWORD
             KW_YIELD, KW_BREAK -> Color.KEYWORD
             KW_LET, KW_DEF -> Color.KEYWORD
@@ -47,8 +47,9 @@ class TokenHighlight : SyntaxHighlighterBase() {
             OP_GT, OP_GEQ, OP_GG, OP_GGG -> Color.OPERATION_SIGN
             DOT3, DOT2, OP_SUB, OP_ADD, DOT_LESS, DOT_EQ -> Color.OPERATION_SIGN
             OP_EQ, OP_NE -> Color.OPERATION_SIGN
-            OP_NOT, BANG, AMP, OP_QUESTION, OP_UNIMPLEMENTED -> Color.OPERATION_SIGN
+            OP_NOT, BANG, AMP, OP_QUESTION -> Color.OPERATION_SIGN
             OP_ARROW, OP_ARROW2 -> Color.OPERATION_SIGN
+            OP_UNIMPLEMENTED, OP_QUOTE -> Color.KEYWORD
             // 原子类型
             INTEGER -> Color.INTEGER
             BYTE -> Color.INTEGER

@@ -79,6 +79,10 @@
         OP_LLL = "<<<"
         OP_EMPTY = "(!)"
 
+        SLOT_LAMBDA = "$"
+        SLOT_MACRO = "unquote"
+        OP_QUOTE = "quote"
+
         OP_IS_A = "is"
         OP_NOT_A = "is not"
         OP_NOT_IN = "not_in"
@@ -366,7 +370,7 @@ macro_block       ::=
   | <<bracket_block expression separator>>
   | <<brace_block expression separator>>;
 // ---------------------------------------------------------------------------------------------------------------------
-atom           ::= OP_UNIMPLEMENTED
+atom           ::= OP_UNIMPLEMENTED | OP_QUOTE
     | range | list | object | tuple | number | string | boolean | namepath | expression_statement
     | new_statement | object_statement;
 tuple          ::= <<parenthesis expression COMMA>>
