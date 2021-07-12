@@ -104,7 +104,7 @@ private fun PsiElement.isValkyrieBlock(): Boolean = when (this) {
     is ValkyrieImportBlock,
     is ValkyrieForallBlock,
     is ValkyrieClassBlock, is ValkyrieUnionBlock, is ValkyrieBitflagBlock,
-    is ValkyrieDefineBlock,
+    is ValkyrieDefineBlock, is ValkyrieDefineTuple,
     is ValkyrieNormalBlock,
     is ValkyrieMacroBlock,
     is ValkyrieMatchBlock,

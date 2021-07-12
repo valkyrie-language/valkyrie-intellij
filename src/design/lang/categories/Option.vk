@@ -1,5 +1,19 @@
 namespace std.categories;
 
+#token_navigation(Option::Some, color = Variant)
+macro Some(e: Expression) {
+    quote {
+        new Option::Some {
+        value
+        }
+    }
+}
+
+#token_navigation(Option::None, color = Variant)
+macro None() {
+    Option::None
+}
+
 union Option[T] -> T {
     Some {
         value: T
@@ -7,22 +21,10 @@ union Option[T] -> T {
     None,
 }
 
-#token_type(Variant)
-#transparent(Option::Some)
-def Some(value: T) -> Option[T] {
-    new Option::Some {
-    value
-    }
-}
 
-#token_type(Variant)
-#transparent
-let None = Option::None;
 
 extends Option[T]: Constructor {
-    constructor(value: T) {
 
-    }
 }
 
 extends Option {

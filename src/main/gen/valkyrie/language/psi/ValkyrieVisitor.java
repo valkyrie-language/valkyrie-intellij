@@ -207,6 +207,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitMacroStatement(@NotNull ValkyrieMacroStatement o) {
+    visitPsiElement(o);
+  }
+
   public void visitMatchBlock(@NotNull ValkyrieMatchBlock o) {
     visitPsiElement(o);
   }
@@ -240,6 +244,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitNamespaceStatement(@NotNull ValkyrieNamespaceStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitNewBlock(@NotNull ValkyrieNewBlock o) {
     visitPsiElement(o);
   }
 

@@ -58,6 +58,7 @@ public interface ValkyrieTypes {
   IElementType MACRO_BLOCK = new ValkyrieTokenType("MACRO_BLOCK");
   IElementType MACRO_CALL = new ValkyrieTokenType("MACRO_CALL");
   IElementType MACRO_LIST = new ValkyrieTokenType("MACRO_LIST");
+  IElementType MACRO_STATEMENT = new ValkyrieTokenType("MACRO_STATEMENT");
   IElementType MATCH_BLOCK = new ValkyrieTokenType("MATCH_BLOCK");
   IElementType MATCH_EXPRESSION = new ValkyrieTokenType("MATCH_EXPRESSION");
   IElementType MATCH_STATEMENT = new ValkyrieTokenType("MATCH_STATEMENT");
@@ -67,6 +68,7 @@ public interface ValkyrieTypes {
   IElementType NAMEPATH_FREE = new ValkyrieTokenType("NAMEPATH_FREE");
   IElementType NAMEPATH_STAR = new ValkyrieTokenType("NAMEPATH_STAR");
   IElementType NAMESPACE_STATEMENT = new ValkyrieTokenType("NAMESPACE_STATEMENT");
+  IElementType NEW_BLOCK = new ValkyrieTokenType("NEW_BLOCK");
   IElementType NEW_STATEMENT = new ValkyrieTokenType("NEW_STATEMENT");
   IElementType NORMAL_BLOCK = new ValkyrieTokenType("NORMAL_BLOCK");
   IElementType NORMAL_PATTERN = new ValkyrieTokenType("NORMAL_PATTERN");
@@ -362,6 +364,9 @@ public interface ValkyrieTypes {
       else if (type == MACRO_LIST) {
         return new ValkyrieMacroListNode(node);
       }
+      else if (type == MACRO_STATEMENT) {
+        return new ValkyrieMacroStatementNode(node);
+      }
       else if (type == MATCH_BLOCK) {
         return new ValkyrieMatchBlockNode(node);
       }
@@ -388,6 +393,9 @@ public interface ValkyrieTypes {
       }
       else if (type == NAMESPACE_STATEMENT) {
         return new ValkyrieNamespaceStatementNode(node);
+      }
+      else if (type == NEW_BLOCK) {
+        return new ValkyrieNewBlockNode(node);
       }
       else if (type == NEW_STATEMENT) {
         return new ValkyrieNewStatementNode(node);

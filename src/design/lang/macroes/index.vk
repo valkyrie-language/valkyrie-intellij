@@ -1,2 +1,33 @@
-macro @matches;
+namespace std.macroes;
 
+⍝: Mark the implementation as native
+⍝: The following part uses pseudo-code, and does not represent actual implementation.
+#native
+#token::navigation(jump = false)
+macro derive native(
+    ⍝:
+    receptor: AnyNode,
+    ⍝:
+    direct_size: LiteralNode,
+    ⍝:
+    total_size: LiteralNode,
+)
+
+⍝:
+#native
+#token::navigation(jump = false)
+macro derive navigation(
+    ⍝:
+    namepath: LiteralNode,
+    color: LiteralNode,
+    ⍝:
+    value jump: bool
+)
+
+#native
+macro derive derive(
+
+)
+{
+
+}

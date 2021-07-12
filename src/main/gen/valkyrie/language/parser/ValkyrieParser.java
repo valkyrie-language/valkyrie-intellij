@@ -1819,6 +1819,37 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // KW_MACRO [modifiers] identifier define_tuple [define_block]
+  public static boolean macro_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "macro_statement")) return false;
+    if (!nextTokenIs(b, KW_MACRO)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, MACRO_STATEMENT, null);
+    r = consumeToken(b, KW_MACRO);
+    p = r; // pin = 1
+    r = r && report_error_(b, macro_statement_1(b, l + 1));
+    r = p && report_error_(b, identifier(b, l + 1)) && r;
+    r = p && report_error_(b, define_tuple(b, l + 1)) && r;
+    r = p && macro_statement_4(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // [modifiers]
+  private static boolean macro_statement_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "macro_statement_1")) return false;
+    modifiers(b, l + 1);
+    return true;
+  }
+
+  // [define_block]
+  private static boolean macro_statement_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "macro_statement_4")) return false;
+    define_block(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
   // <<brace_free match_expression SEMICOLON>>
   public static boolean match_block(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "match_block")) return false;
@@ -2110,7 +2141,19 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_NEW <<modified type_expression>> [<<brace_block expression COMMA>>]
+  // <<brace_block expression COMMA>>
+  public static boolean new_block(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "new_block")) return false;
+    if (!nextTokenIs(b, BRACE_L)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = brace_block(b, l + 1, ValkyrieParser::expression, COMMA_parser_);
+    exit_section_(b, m, NEW_BLOCK, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // KW_NEW <<modified type_expression>> new_block
   public static boolean new_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "new_statement")) return false;
     if (!nextTokenIs(b, KW_NEW)) return false;
@@ -2119,16 +2162,9 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, KW_NEW);
     p = r; // pin = 1
     r = r && report_error_(b, modified(b, l + 1, ValkyrieParser::type_expression));
-    r = p && new_statement_2(b, l + 1) && r;
+    r = p && new_block(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
-  }
-
-  // [<<brace_block expression COMMA>>]
-  private static boolean new_statement_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "new_statement_2")) return false;
-    brace_block(b, l + 1, ValkyrieParser::expression, COMMA_parser_);
-    return true;
   }
 
   /* ********************************************************** */
@@ -3042,6 +3078,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   //   | trait_statement
   //   | extends_statement
   //   | define_statement
+  //   | macro_statement
   static boolean top_statements(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "top_statements")) return false;
     boolean r;
@@ -3054,6 +3091,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     if (!r) r = trait_statement(b, l + 1);
     if (!r) r = extends_statement(b, l + 1);
     if (!r) r = define_statement(b, l + 1);
+    if (!r) r = macro_statement(b, l + 1);
     return r;
   }
 

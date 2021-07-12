@@ -1,6 +1,34 @@
 namespace std.monad;
 
+#token_navigation(Option::Some, color = Variant)
+macro Success(e: Expression) {
+    quote {
+        new Result::Success {
+        value
+        }
+    }
+}
+
+#token_navigation(Option::None, color = Variant)
+macro Failure(e: Expression) {
+    quote {
+        new Result::Failure {
+        error
+        }
+    }
+}
+
+⍝:
+⍝: # Examples
 union Result[T, E] -> T {
-    Success { value: T },
-    Failure { error: E },
+    ⍝:
+    Success {
+        ⍝:
+        value: T
+    },
+    ⍝:
+    Failure {
+        ⍝:
+        error: E
+    },
 }

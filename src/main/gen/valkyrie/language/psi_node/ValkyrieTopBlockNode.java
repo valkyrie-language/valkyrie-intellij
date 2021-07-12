@@ -66,6 +66,12 @@ public class ValkyrieTopBlockNode extends ValkyrieASTBase implements ValkyrieTop
 
   @Override
   @NotNull
+  public List<ValkyrieMacroStatement> getMacroStatementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieMacroStatement.class);
+  }
+
+  @Override
+  @NotNull
   public List<ValkyrieNamespaceStatement> getNamespaceStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNamespaceStatement.class);
   }

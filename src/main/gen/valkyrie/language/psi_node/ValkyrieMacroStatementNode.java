@@ -12,14 +12,14 @@ import valkyrie.language.ast.ValkyrieASTBase;
 import valkyrie.language.psi.*;
 import valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieNewStatementNode extends ValkyrieASTBase implements ValkyrieNewStatement {
+public class ValkyrieMacroStatementNode extends ValkyrieASTBase implements ValkyrieMacroStatement {
 
-  public ValkyrieNewStatementNode(@NotNull ASTNode node) {
+  public ValkyrieMacroStatementNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitNewStatement(this);
+    visitor.visitMacroStatement(this);
   }
 
   @Override
@@ -30,14 +30,26 @@ public class ValkyrieNewStatementNode extends ValkyrieASTBase implements Valkyri
 
   @Override
   @Nullable
-  public ValkyrieModified getModified() {
-    return findChildByClass(ValkyrieModified.class);
+  public ValkyrieDefineBlock getDefineBlock() {
+    return findChildByClass(ValkyrieDefineBlock.class);
   }
 
   @Override
   @Nullable
-  public ValkyrieNewBlock getNewBlock() {
-    return findChildByClass(ValkyrieNewBlock.class);
+  public ValkyrieDefineTuple getDefineTuple() {
+    return findChildByClass(ValkyrieDefineTuple.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieIdentifier getIdentifier() {
+    return findChildByClass(ValkyrieIdentifier.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieModifiers getModifiers() {
+    return findChildByClass(ValkyrieModifiers.class);
   }
 
 }

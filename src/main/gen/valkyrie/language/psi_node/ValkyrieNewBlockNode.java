@@ -12,14 +12,14 @@ import valkyrie.language.ast.ValkyrieASTBase;
 import valkyrie.language.psi.*;
 import valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieNewStatementNode extends ValkyrieASTBase implements ValkyrieNewStatement {
+public class ValkyrieNewBlockNode extends ValkyrieASTBase implements ValkyrieNewBlock {
 
-  public ValkyrieNewStatementNode(@NotNull ASTNode node) {
+  public ValkyrieNewBlockNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitNewStatement(this);
+    visitor.visitNewBlock(this);
   }
 
   @Override
@@ -29,15 +29,9 @@ public class ValkyrieNewStatementNode extends ValkyrieASTBase implements Valkyri
   }
 
   @Override
-  @Nullable
-  public ValkyrieModified getModified() {
-    return findChildByClass(ValkyrieModified.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieNewBlock getNewBlock() {
-    return findChildByClass(ValkyrieNewBlock.class);
+  @NotNull
+  public List<ValkyrieExpression> getExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpression.class);
   }
 
 }

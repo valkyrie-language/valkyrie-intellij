@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieNewStatement extends PsiElement {
+public interface ValkyrieNewBlock extends PsiElement {
 
-  @Nullable
-  ValkyrieModified getModified();
-
-  @Nullable
-  ValkyrieNewBlock getNewBlock();
+  @NotNull
+  List<ValkyrieExpression> getExpressionList();
 
 }
