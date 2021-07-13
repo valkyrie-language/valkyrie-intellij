@@ -686,7 +686,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   //     | KW_RETURN [expression]
   //     | KW_RESUME [expression]
   //     | KW_CONTINUE [jump_label]
-  //     | KW_YIELD ["from"] expression
+  //     | KW_YIELD [KW_WITH] expression
   //     | KW_YIELD KW_BREAK [jump_label]
   //     | KW_BREAK [jump_label]
   public static boolean control_statement(PsiBuilder b, int l) {
@@ -769,7 +769,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // KW_YIELD ["from"] expression
+  // KW_YIELD [KW_WITH] expression
   private static boolean control_statement_4(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "control_statement_4")) return false;
     boolean r;
@@ -781,10 +781,10 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // ["from"]
+  // [KW_WITH]
   private static boolean control_statement_4_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "control_statement_4_1")) return false;
-    consumeToken(b, "from");
+    consumeToken(b, KW_WITH);
     return true;
   }
 

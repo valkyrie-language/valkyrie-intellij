@@ -28,7 +28,7 @@ class TokenHighlight : SyntaxHighlighterBase() {
             KW_YIELD, KW_BREAK -> Color.KEYWORD
             KW_LET, KW_DEF -> Color.KEYWORD
             KW_TYPE -> Color.KEYWORD
-            KW_MATCH, KW_CATCH, KW_CASE -> Color.KEYWORD
+            KW_MATCH, KW_CATCH, KW_CASE, KW_WITH -> Color.KEYWORD
             KW_IF, KW_ELSE -> Color.KEYWORD
             KW_LOOP, KW_WHILE -> Color.KEYWORD
             KW_FOR, OP_IN -> Color.KEYWORD

@@ -187,7 +187,7 @@ control_statement   ::=
     | KW_RETURN [expression]
     | KW_RESUME [expression]
     | KW_CONTINUE [jump_label]
-    | KW_YIELD ["from"] expression
+    | KW_YIELD [KW_WITH] expression
     | KW_YIELD KW_BREAK [jump_label]
     | KW_BREAK [jump_label]
     ;

@@ -15,6 +15,7 @@ macro Failure(e: Expression) {
         new Result::Failure {
             error
         }
+
     }
 }
 
@@ -33,8 +34,8 @@ union Result[T, E] -> T {
 }
 
 let yin, yang  = (
-    callcc { c }.tap { print('@') },
-    callcc { c }.tap { print('*') },
+    callcc { c }.then { print('@') },
+    callcc { c }.then { print('*') },
 )
 
 yin(yang)

@@ -23,7 +23,7 @@ private val keywordSP = """(?x)
     | \b(extend|extends)\b
     | \b(let|def|macro)\b
     | \b(new|object)\b
-    | \b(match|case)\b
+    | \b(match|with|case)\b
     | \b(try|catch)\b
     | \b(raise|continue|return|resume)\b
     | \b(yield|break)\b
