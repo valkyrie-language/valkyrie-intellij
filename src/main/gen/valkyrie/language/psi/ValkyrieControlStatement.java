@@ -13,4 +13,7 @@ public interface ValkyrieControlStatement extends PsiElement {
   @Nullable
   ValkyrieJumpLabel getJumpLabel();
 
+  @Nullable
+  ValkyrieNormalBlock getNormalBlock();
+
 }

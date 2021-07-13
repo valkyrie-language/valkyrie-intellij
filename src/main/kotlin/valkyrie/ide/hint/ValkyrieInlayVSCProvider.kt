@@ -15,10 +15,12 @@ class ValkyrieInlayVSCProvider : VcsCodeVisionLanguageContext {
     }
 
     override fun isAccepted(element: PsiElement) = when (element) {
-        is ValkyrieUnionStatementNode,
         is ValkyrieClassStatementNode,
+        is ValkyrieUnionStatementNode,
         is ValkyrieTraitStatementNode,
         is ValkyrieExtendsStatementNode,
+        is ValkyrieMacroStatementNode,
+        is ValkyrieDefineStatementNode,
         -> true
 
         else -> false

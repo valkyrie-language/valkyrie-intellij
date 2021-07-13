@@ -108,7 +108,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // OP_UNIMPLEMENTED | OP_QUOTE
+  // OP_UNIMPLEMENTED
   //     | range | list | object | tuple | number | string | boolean | namepath | expression_statement
   //     | new_statement | object_statement
   public static boolean atom(PsiBuilder b, int l) {
@@ -116,7 +116,6 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, ATOM, "<atom>");
     r = consumeToken(b, OP_UNIMPLEMENTED);
-    if (!r) r = consumeToken(b, OP_QUOTE);
     if (!r) r = range(b, l + 1);
     if (!r) r = list(b, l + 1);
     if (!r) r = object(b, l + 1);
@@ -686,9 +685,10 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   //     | KW_RETURN [expression]
   //     | KW_RESUME [expression]
   //     | KW_CONTINUE [jump_label]
+  //     | KW_BREAK [jump_label]
   //     | KW_YIELD [KW_WITH] expression
   //     | KW_YIELD KW_BREAK [jump_label]
-  //     | KW_BREAK [jump_label]
+  //     | OP_QUOTE (expression | normal_block)
   public static boolean control_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "control_statement")) return false;
     boolean r;
@@ -700,6 +700,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     if (!r) r = control_statement_4(b, l + 1);
     if (!r) r = control_statement_5(b, l + 1);
     if (!r) r = control_statement_6(b, l + 1);
+    if (!r) r = control_statement_7(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -769,59 +770,79 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // KW_YIELD [KW_WITH] expression
+  // KW_BREAK [jump_label]
   private static boolean control_statement_4(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "control_statement_4")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, KW_YIELD);
+    r = consumeToken(b, KW_BREAK);
     r = r && control_statement_4_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [jump_label]
+  private static boolean control_statement_4_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "control_statement_4_1")) return false;
+    jump_label(b, l + 1);
+    return true;
+  }
+
+  // KW_YIELD [KW_WITH] expression
+  private static boolean control_statement_5(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "control_statement_5")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, KW_YIELD);
+    r = r && control_statement_5_1(b, l + 1);
     r = r && expression(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // [KW_WITH]
-  private static boolean control_statement_4_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "control_statement_4_1")) return false;
+  private static boolean control_statement_5_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "control_statement_5_1")) return false;
     consumeToken(b, KW_WITH);
     return true;
   }
 
   // KW_YIELD KW_BREAK [jump_label]
-  private static boolean control_statement_5(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "control_statement_5")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, KW_YIELD, KW_BREAK);
-    r = r && control_statement_5_2(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [jump_label]
-  private static boolean control_statement_5_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "control_statement_5_2")) return false;
-    jump_label(b, l + 1);
-    return true;
-  }
-
-  // KW_BREAK [jump_label]
   private static boolean control_statement_6(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "control_statement_6")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, KW_BREAK);
-    r = r && control_statement_6_1(b, l + 1);
+    r = consumeTokens(b, 0, KW_YIELD, KW_BREAK);
+    r = r && control_statement_6_2(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // [jump_label]
-  private static boolean control_statement_6_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "control_statement_6_1")) return false;
+  private static boolean control_statement_6_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "control_statement_6_2")) return false;
     jump_label(b, l + 1);
     return true;
+  }
+
+  // OP_QUOTE (expression | normal_block)
+  private static boolean control_statement_7(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "control_statement_7")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, OP_QUOTE);
+    r = r && control_statement_7_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // expression | normal_block
+  private static boolean control_statement_7_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "control_statement_7_1")) return false;
+    boolean r;
+    r = expression(b, l + 1);
+    if (!r) r = normal_block(b, l + 1);
+    return r;
   }
 
   /* ********************************************************** */
@@ -1307,16 +1328,41 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // SYMBOL_XID | SYMBOL_RAW | KW_NAMESPACE | KW_CLASS
+  // [SLOT_LAMBDA|SLOT_MACRO] (SYMBOL_XID | SYMBOL_RAW | KW_NAMESPACE | KW_CLASS)
   public static boolean identifier(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "identifier")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, IDENTIFIER, "<identifier>");
+    r = identifier_0(b, l + 1);
+    r = r && identifier_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // [SLOT_LAMBDA|SLOT_MACRO]
+  private static boolean identifier_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "identifier_0")) return false;
+    identifier_0_0(b, l + 1);
+    return true;
+  }
+
+  // SLOT_LAMBDA|SLOT_MACRO
+  private static boolean identifier_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "identifier_0_0")) return false;
+    boolean r;
+    r = consumeToken(b, SLOT_LAMBDA);
+    if (!r) r = consumeToken(b, SLOT_MACRO);
+    return r;
+  }
+
+  // SYMBOL_XID | SYMBOL_RAW | KW_NAMESPACE | KW_CLASS
+  private static boolean identifier_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "identifier_1")) return false;
+    boolean r;
     r = consumeToken(b, SYMBOL_XID);
     if (!r) r = consumeToken(b, SYMBOL_RAW);
     if (!r) r = consumeToken(b, KW_NAMESPACE);
     if (!r) r = consumeToken(b, KW_CLASS);
-    exit_section_(b, l, m, r, false, null);
     return r;
   }
 

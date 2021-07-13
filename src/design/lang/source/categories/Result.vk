@@ -13,9 +13,8 @@ macro Success(e: Expression) {
 macro Failure(e: Expression) {
     ¶ {
         new Result::Failure {
-            error
+            §error
         }
-
     }
 }
 

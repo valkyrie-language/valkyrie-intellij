@@ -187,9 +187,10 @@ control_statement   ::=
     | KW_RETURN [expression]
     | KW_RESUME [expression]
     | KW_CONTINUE [jump_label]
+    | KW_BREAK [jump_label]
     | KW_YIELD [KW_WITH] expression
     | KW_YIELD KW_BREAK [jump_label]
-    | KW_BREAK [jump_label]
+    | OP_QUOTE (expression | normal_block)
     ;
 jump_label          ::= PARENTHESIS_L identifier PARENTHESIS_R | identifier;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -370,7 +371,7 @@ macro_block       ::=
   | <<bracket_block expression separator>>
   | <<brace_block expression separator>>;
 // ---------------------------------------------------------------------------------------------------------------------
-atom           ::= OP_UNIMPLEMENTED | OP_QUOTE
+atom           ::= OP_UNIMPLEMENTED
     | range | list | object | tuple | number | string | boolean | namepath | expression_statement
     | new_statement | object_statement;
 tuple          ::= <<parenthesis expression COMMA>>
@@ -397,7 +398,7 @@ namepath_free  ::= identifier ((DOT|OP_PROPORTION) identifier)* {
 namepath       ::= identifier (OP_PROPORTION identifier)* {
     mixin="valkyrie.language.mixin.MixinNamepath"
 }
-identifier     ::= SYMBOL_XID | SYMBOL_RAW | KW_NAMESPACE | KW_CLASS {
+identifier     ::= [SLOT_LAMBDA|SLOT_MACRO] (SYMBOL_XID | SYMBOL_RAW | KW_NAMESPACE | KW_CLASS) {
     mixin="valkyrie.language.mixin.MixinIdentifier"
 }
 modifiers      ::= (identifier !end_m1)+ {

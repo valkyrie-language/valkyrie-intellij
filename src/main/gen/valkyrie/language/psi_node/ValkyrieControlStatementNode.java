@@ -40,4 +40,10 @@ public class ValkyrieControlStatementNode extends ValkyrieASTBase implements Val
     return findChildByClass(ValkyrieJumpLabel.class);
   }
 
+  @Override
+  @Nullable
+  public ValkyrieNormalBlock getNormalBlock() {
+    return findChildByClass(ValkyrieNormalBlock.class);
+  }
+
 }
