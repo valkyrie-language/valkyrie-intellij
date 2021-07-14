@@ -5,12 +5,15 @@ fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
     idea
-    kotlin("jvm") version "1.8.0-Beta"
+    kotlin("jvm") version "1.8.0"
+    kotlin("plugin.serialization") version "1.8.0"
     id("org.jetbrains.intellij") version "1.11.0"
     id("org.jetbrains.changelog") version "1.3.1"
     id("org.jetbrains.qodana") version "0.1.13"
 }
-
+dependencies {
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+}
 
 group = properties("pluginGroup")
 version = properties("pluginVersion")

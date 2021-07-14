@@ -19,7 +19,7 @@ import java.util.function.Consumer
 
 class DocumentationProvider : DocumentationProvider {
     override fun generateDoc(element: PsiElement?, originalElement: PsiElement?): String? {
-        return element?.let { DocumentationRenderer(it, originalElement).onDetail() }
+        return element?.let { DocumentationRenderer(it, originalElement).onHover() }
     }
 
     override fun findDocComment(file: PsiFile, range: TextRange): PsiDocCommentBase? {
@@ -57,18 +57,10 @@ class DocumentationProvider : DocumentationProvider {
 
     override fun getCustomDocumentationElement(editor: Editor, file: PsiFile, contextElement: PsiElement?, targetOffset: Int): PsiElement? {
         return when (contextElement.elementType) {
-            KW_CLASS, KW_DEF -> {
-                contextElement
-            }
-            OP_ADD, OP_ADD_ASSIGN, OP_ARROW, OP_ARROW2 -> {
-                contextElement
-            }
-            TokenType.WHITE_SPACE, ValkyrieTypes.COMMENT -> {
-                null
-            }
-            else -> {
-                null
-            }
+            KW_CLASS, KW_DEF -> contextElement
+            OP_ADD, OP_ADD_ASSIGN, OP_ARROW, OP_ARROW2 -> contextElement
+            TokenType.WHITE_SPACE, COMMENT -> null
+            else -> null
         }
     }
 }
