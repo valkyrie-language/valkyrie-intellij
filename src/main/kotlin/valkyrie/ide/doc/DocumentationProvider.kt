@@ -1,26 +1,27 @@
 package valkyrie.ide.doc
 
-import valkyrie.ide.file.ValkyrieFileNode
-import valkyrie.language.ast.DocumentNode
-import valkyrie.language.psi.ValkyrieTypes
-import valkyrie.language.psi.ValkyrieTypes.*
 import com.intellij.lang.documentation.DocumentationProvider
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange
-import com.intellij.psi.PsiComment
-import com.intellij.psi.PsiDocCommentBase
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiFile
-import com.intellij.psi.TokenType
+import com.intellij.psi.*
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
+import valkyrie.ide.file.ValkyrieFileNode
+import valkyrie.language.ast.DocumentNode
+import valkyrie.language.psi.ValkyrieTokenType
+import valkyrie.language.psi.ValkyrieTypes.COMMENT
 import java.util.function.Consumer
 
 
 class DocumentationProvider : DocumentationProvider {
     override fun generateDoc(element: PsiElement?, originalElement: PsiElement?): String? {
-        return element?.let { DocumentationRenderer(it, originalElement).onHover() }
+        return try {
+            element?.let { DocumentationRenderer(it, originalElement).onHover() }
+        } catch (e: java.net.ConnectException) {
+            null
+        }
     }
+
 
     override fun findDocComment(file: PsiFile, range: TextRange): PsiDocCommentBase? {
         println("findDocComment $file $range")
@@ -56,10 +57,11 @@ class DocumentationProvider : DocumentationProvider {
     }
 
     override fun getCustomDocumentationElement(editor: Editor, file: PsiFile, contextElement: PsiElement?, targetOffset: Int): PsiElement? {
-        return when (contextElement.elementType) {
-            KW_CLASS, KW_DEF -> contextElement
-            OP_ADD, OP_ADD_ASSIGN, OP_ARROW, OP_ARROW2 -> contextElement
-            TokenType.WHITE_SPACE, COMMENT -> null
+        return when {
+            ValkyrieTokenType.isKeyword(contextElement) -> contextElement
+            ValkyrieTokenType.isOperator(contextElement) -> contextElement
+            contextElement.elementType == TokenType.WHITE_SPACE -> null
+            contextElement.elementType == COMMENT -> null
             else -> null
         }
     }

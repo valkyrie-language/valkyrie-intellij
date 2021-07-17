@@ -37,7 +37,7 @@
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.reference.hierarchy.CallHierarchyProvider"/>
 		<!-- Highlight -->
-		<colorSettingsPage implementation="valkyrie.settings.VHighlightSetting"/>
+		<colorSettingsPage implementation="valkyrie.ide.highlight.HighlightSetting"/>
 		<highlightVisitor implementation="valkyrie.ide.highlight.NodeHighlighter"/>
 		<lang.syntaxHighlighter
 			language="Valkyrie"

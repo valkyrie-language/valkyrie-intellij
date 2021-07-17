@@ -3,12 +3,11 @@ package valkyrie.ide.doc
 import com.intellij.openapi.editor.colors.EditorColorsManager
 import com.intellij.openapi.editor.richcopy.HtmlSyntaxInfoUtil
 import com.intellij.psi.PsiElement
-import com.intellij.psi.util.elementType
 import com.intellij.ui.ColorUtil
 import valkyrie.ValkyrieLanguage
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.highlight.ValkyrieHighlightColor.*
-import valkyrie.language.psi.ValkyrieTypes.*
+import valkyrie.language.psi.ValkyrieTokenType
 import valkyrie.language.psi_node.ValkyrieClassStatementNode
 import valkyrie.language.psi_node.ValkyrieTraitStatementNode
 import valkyrie.language.symbol.KeywordData
@@ -19,11 +18,8 @@ import valkyrie.lsp.RequestDocument.Companion.keywords
 class DocumentationRenderer(var element: PsiElement, private var original: PsiElement?) {
     private val doc = StringBuilder()
     fun onHover(): String {
-        return when (element.elementType) {
-            KW_NAMESPACE -> keywords("namespace").send()
-            KW_CLASS -> keywords("class").send()
-            KW_TAGGED -> keywords("union").send()
-            KW_TRAIT -> keywords("trait").send()
+        return when {
+            ValkyrieTokenType.isKeyword(element) -> keywords(element.text).send()
             else -> ""
         }
     }

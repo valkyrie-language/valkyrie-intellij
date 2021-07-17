@@ -1,37 +1,7 @@
-package valkyrie.settings
+<KEYWORD>namespace</KEYWORD> module_path.module_name;
 
-import valkyrie.ValkyrieBundle
-import valkyrie.ide.file.ValkyrieIconProvider
-import valkyrie.ide.highlight.ValkyrieHighlightColor
-import valkyrie.ide.highlight.TokenHighlight
-
-import com.intellij.openapi.options.colors.ColorDescriptor
-import com.intellij.openapi.options.colors.ColorSettingsPage
-
-class VHighlightSetting : ColorSettingsPage {
-    private val annotatorTags = ValkyrieHighlightColor
-        .values()
-        .associateBy({ it.name }, { it.textAttributesKey })
-
-    override fun getAttributeDescriptors() = ValkyrieHighlightColor
-        .values()
-        .map { it.attributesDescriptor }
-        .toTypedArray()
-
-    override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
-
-    override fun getDisplayName() = ValkyrieBundle.message("filetype.name")
-
-    override fun getIcon() = ValkyrieIconProvider.FILE
-
-    override fun getHighlighter() = TokenHighlight()
-
-    override fun getAdditionalHighlightingTagToDescriptorMap() = annotatorTags
-
-    override fun getDemoText() = """crate module_name;
-
-using std.traits.<SYM_TRAIT>PartialEq</SYM_TRAIT>;
-using <KEYWORD>depot</KEYWORD>.{<SYM_CLASS>ExternalClass</SYM_CLASS> <KEYWORD>as</KEYWORD> <SYM_CLASS>Ec</SYM_CLASS>, <SYM_TRAIT>ExternalTrait</SYM_TRAIT> <KEYWORD>as</KEYWORD> <SYM_TRAIT>Et</SYM_TRAIT>};
+<KEYWORD>using</KEYWORD> std.traits.<SYM_TRAIT>PartialEq</SYM_TRAIT>;
+<KEYWORD>using</KEYWORD> <KEYWORD>crate</KEYWORD>.{<SYM_CLASS>ExternalClass</SYM_CLASS> <KEYWORD>as</KEYWORD> <SYM_CLASS>Ec</SYM_CLASS>, <SYM_TRAIT>ExternalTrait</SYM_TRAIT> <KEYWORD>as</KEYWORD> <SYM_TRAIT>Et</SYM_TRAIT>};
 
 trait <SYM_TRAIT>TraitName</SYM_TRAIT> {
     def <SYM_FUNCTION_SELF>trait_method</SYM_FUNCTION_SELF>(<SYM_ARG_SELF>self</SYM_ARG_SELF>) -> <KEYWORD>Self</KEYWORD>;
@@ -68,6 +38,4 @@ def <SYM_FUNCTION_FREE>is_some</SYM_FUNCTION_FREE>(<SYM_ARG>maybe</SYM_ARG>: <SY
         <KEYWORD>case</KEYWORD> <SYM_VARIANT>Some</SYM_VARIANT>(<SYM_LOCAL>s</SYM_LOCAL>): <KEYWORD>true</KEYWORD>
         <KEYWORD>case</KEYWORD> <SYM_VARIANT>None</SYM_VARIANT>: <KEYWORD>false</KEYWORD>
     }
-}
-"""
 }

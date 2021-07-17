@@ -18,11 +18,12 @@ data class RequestDocument(
 ) {
     companion object {
         fun keywords(name: String): RequestDocument {
-            return RequestDocument("keywords", listOf(name), LanguageClient.language)
+            return RequestDocument("keyword", listOf(name), LanguageClient.language)
         }
     }
 
     fun send(): String {
+        println("send: ${Json.encodeToString(this)}")
         val httpRequest = HttpRequest.newBuilder()
             .uri(LanguageClient.host.addPathSuffix("document"))
             .header("Content-Type", "application/json")
