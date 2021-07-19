@@ -17,8 +17,11 @@ data class RequestDocument(
     val format: String = "jetbrain",
 ) {
     companion object {
-        fun keywords(name: String): RequestDocument {
+        fun keyword(name: String): RequestDocument {
             return RequestDocument("keyword", listOf(name), LanguageClient.language)
+        }
+        fun operator(name: String): RequestDocument {
+            return RequestDocument("operator", listOf(name), LanguageClient.language)
         }
     }
 

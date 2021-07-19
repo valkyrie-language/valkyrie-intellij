@@ -13,13 +13,14 @@ import valkyrie.language.psi_node.ValkyrieTraitStatementNode
 import valkyrie.language.symbol.KeywordData
 import valkyrie.language.symbol.ModifierData
 import valkyrie.language.symbol.OperatorData
-import valkyrie.lsp.RequestDocument.Companion.keywords
+import valkyrie.lsp.RequestDocument
 
 class DocumentationRenderer(var element: PsiElement, private var original: PsiElement?) {
     private val doc = StringBuilder()
     fun onHover(): String {
         return when {
-            ValkyrieTokenType.isKeyword(element) -> keywords(element.text).send()
+            ValkyrieTokenType.isKeyword(element) -> RequestDocument.keyword(element.text).send()
+            ValkyrieTokenType.isOperator(element) -> RequestDocument.operator(element.text).send()
             else -> ""
         }
     }
