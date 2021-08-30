@@ -28,10 +28,10 @@ extends Option[T]: Constructor {
 }
 
 extends Option {
-    ⍝: # Examples
-    ⍝: ```
-    ⍝:
-    ⍝: ```
+    /// # Examples
+    /// ```
+    ///
+    /// ```
     def is_some(self) {
         @matches(self, Some(_))
     }

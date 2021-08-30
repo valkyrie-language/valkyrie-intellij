@@ -18,20 +18,20 @@ extends Utf8Buffer: Constructor + TryFrom[Bytes] {
 
         }
     }
-    ⍝ unsafe from_bytes(bytes: U8, order: Endianess = LE) {
-    ⍝     new Self {
-    ⍝
-    ⍝     }
-    ⍝ }
+    // unsafe from_bytes(bytes: U8, order: Endianess = LE) {
+    //     new Self {
+    //
+    //     }
+    // }
 
-    ⍝ LE
+    // LE
     (*: Endianess= Le *)
     try_from(bytes: Bytes) {
 
     }
 }
 
-⍝ iterators
+// iterators
 #native
 extends Utf8Buffer {
     bytes() -> UTF8Bytes {

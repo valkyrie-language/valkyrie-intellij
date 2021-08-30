@@ -2,8 +2,7 @@
 
 package valkyrie.language.lexer
 
-import com.intellij.psi.TokenType.BAD_CHARACTER
-import com.intellij.psi.TokenType.WHITE_SPACE
+import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import valkyrie.language.lexer.LexerContext.Coding
 import valkyrie.language.psi.ValkyrieTypes
@@ -69,8 +68,8 @@ private val punctuations = """(?x)\\
     #
     """.toRegex()
 private val comments = """(?x)
-      (?<s2>⍝)(?<t2>[^\n\r]*)
-    | (?<s3>\([*])(?<t3>[^\00]*?)(?<e3>[*]\))
+      (?<s2>//)(?<t2>[^\n\r]*)  
+    | (?<s3>/[*])(?<t3>[^\00]*?)(?<e3>/[*])
     """.toRegex()
 private val strings = """(?x)
       (?<s1>"{3,}|'{3,})(?<t1>[^\00]*?)(?<e1>\k<s1>)
@@ -113,7 +112,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
 
     private fun matchesWhitespace(): Boolean {
         val r = tryMatch("\\s+".toRegex()) ?: return false
-        pushToken(WHITE_SPACE, r)
+        pushToken(TokenType.WHITE_SPACE, r)
         return true
     }
 
@@ -213,7 +212,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             "new" -> pushToken(ValkyrieTypes.KW_NEW, r)
             "object" -> pushToken(ValkyrieTypes.KW_OBJECT, r)
 
-            else -> pushToken(BAD_CHARACTER, r)
+            else -> pushToken(TokenType.BAD_CHARACTER, r)
         }
         return true
     }
@@ -372,7 +371,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
                 pushToken(ValkyrieTypes.OP_EMPTY, r)
             }
 
-            else -> pushToken(BAD_CHARACTER, r)
+            else -> pushToken(TokenType.BAD_CHARACTER, r)
         }
         return true
     }
@@ -461,7 +460,7 @@ private fun TokenInterpreter.lastIs(vararg token: IElementType, skipWS: Boolean 
 
 private fun TokenInterpreter.lastNot(vararg token: IElementType, skipWS: Boolean = true): Boolean {
     for (item in stack.reversed()) {
-        if (item.tokenIs(WHITE_SPACE, ValkyrieTypes.COMMENT)) {
+        if (item.tokenIs(TokenType.WHITE_SPACE, ValkyrieTypes.COMMENT)) {
             when {
                 skipWS -> continue
                 else -> return false

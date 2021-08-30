@@ -24,6 +24,6 @@ for (`for`, mut mut) in 0..=100 {
     eventA
 }
 
-⍝ for case mut Fraction(`for`, `in`) in fs {
-⍝ eventA
-⍝ }
+// for case mut Fraction(`for`, `in`) in fs {
+// eventA
+// }

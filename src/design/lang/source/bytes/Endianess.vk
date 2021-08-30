@@ -5,8 +5,8 @@ namespace std.bytes;
 
 type Bytes = Array[u8]
 
-⍝ https://docs.rs/byteorder/
-⍝ https://docs.rs/bytestream/
+// https://docs.rs/byteorder/
+// https://docs.rs/bytestream/
 #native
 #derive(Debug)
 union Endianess {

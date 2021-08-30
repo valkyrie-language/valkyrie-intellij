@@ -20,13 +20,17 @@ data class RequestDocument(
         fun keyword(name: String): RequestDocument {
             return RequestDocument("keyword", listOf(name), LanguageClient.language)
         }
+
         fun operator(name: String): RequestDocument {
             return RequestDocument("operator", listOf(name), LanguageClient.language)
+        }
+
+        fun modifier(name: String): RequestDocument {
+            return RequestDocument("modifier", listOf(name), LanguageClient.language)
         }
     }
 
     fun send(): String {
-        println("send: ${Json.encodeToString(this)}")
         val httpRequest = HttpRequest.newBuilder()
             .uri(LanguageClient.host.addPathSuffix("document"))
             .header("Content-Type", "application/json")

@@ -18,11 +18,23 @@ import valkyrie.lsp.RequestDocument
 class DocumentationRenderer(var element: PsiElement, private var original: PsiElement?) {
     private val doc = StringBuilder()
     fun onHover(): String {
-        return when {
-            ValkyrieTokenType.isKeyword(element) -> RequestDocument.keyword(element.text).send()
-            ValkyrieTokenType.isOperator(element) -> RequestDocument.operator(element.text).send()
-            else -> ""
+         when {
+            ValkyrieTokenType.isKeyword(element) -> return RequestDocument.keyword(element.text).send()
+            ValkyrieTokenType.isOperator(element) -> return RequestDocument.operator(element.text).send()
+            else -> {}
         }
+        when (element) {
+            is ValkyrieTraitStatementNode -> buildDetail(element as ValkyrieTraitStatementNode)
+            is ValkyrieClassStatementNode -> buildShort(element as ValkyrieClassStatementNode)
+            else -> {
+                doc.append(element)
+                doc.append("<br/>")
+                doc.append(original)
+                doc.append("<br/>")
+                doc.append("onDetail: ${element.text}")
+            }
+        }
+        return doc.toString()
     }
 
     fun onDetail(): String {
