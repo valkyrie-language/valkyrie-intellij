@@ -37,6 +37,9 @@ data class RequestDocument(
             .POST(HttpRequest.BodyPublishers.ofString(Json.encodeToString(this)))
             .build()
         val response = LanguageClient.client.send(httpRequest, HttpResponse.BodyHandlers.ofString())
+        if (response.body().isEmpty()) {
+            return "Document not found"
+        }
         val body = Json.decodeFromString<ResponseDocument>(response.body());
         return body.content
     }

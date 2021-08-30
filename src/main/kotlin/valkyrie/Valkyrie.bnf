@@ -293,7 +293,9 @@ union_statement     ::= KW_TAGGED <<modified identifier>> [generic_define] [clas
     mixin="valkyrie.language.mixin.MixinUnion"
 };
 union_block         ::= <<brace_block union_item separator>>;
-union_item          ::= identifier [class_block];
+union_item          ::= identifier [class_block] {
+    mixin="valkyrie.language.mixin.MixinUnionItem"
+};
 // ---------------------------------------------------------------------------------------------------------------------
 object              ::= <<bracket_block object_pair COMMA>>
 object_pair         ::= object_key COLON expression;

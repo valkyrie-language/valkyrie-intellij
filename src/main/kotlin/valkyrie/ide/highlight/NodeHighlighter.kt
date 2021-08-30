@@ -9,10 +9,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import valkyrie.ide.file.ValkyrieFileNode
 import valkyrie.language.psi.*
-import valkyrie.language.psi_node.ValkyrieClassMethodNode
-import valkyrie.language.psi_node.ValkyrieClassStatementNode
-import valkyrie.language.psi_node.ValkyrieDefineStatementNode
-import valkyrie.language.psi_node.ValkyrieUnionStatementNode
+import valkyrie.language.psi_node.*
 import valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
 class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
@@ -81,7 +78,8 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
 
     override fun visitExtendsStatement(o: ValkyrieExtendsStatement) {
-
+        o as ValkyrieExtendsStatementNode
+        highlight(o.identifier, Color.SYM_CLASS)
     }
 
 

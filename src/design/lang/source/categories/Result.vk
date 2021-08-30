@@ -32,7 +32,7 @@ union Result[T, E] -> T {
     },
 }
 
-let yin, yang  = (
+let yin, yang = (
     callcc { c }.then { print('@') },
     callcc { c }.then { print('*') },
 )

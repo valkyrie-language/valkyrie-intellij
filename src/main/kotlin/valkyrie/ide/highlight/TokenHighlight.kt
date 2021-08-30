@@ -32,6 +32,7 @@ class TokenHighlight : SyntaxHighlighterBase() {
                     BRACKET_L, BRACKET_R -> Color.BRACKETS
                     BRACE_L, BRACE_R -> Color.BRACES
                     COLON, OP_SET -> Color.SET
+                    OP_AT, OP_HASH -> Color.SYM_MACRO
                     // STAR -> Color.STAR
                     COMMA -> Color.COMMA
                     // 原子类型

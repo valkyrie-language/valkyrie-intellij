@@ -12,10 +12,9 @@ class UTF8Buffer {
 
 #native
 extends Utf8Buffer: Constructor + TryFrom[Bytes] {
-    Self(iter: iterator8) {
-        Vector::from_iterator();
+    Self(iter: Iterator[u8]) {
         new Self {
-
+            // pointer: Vector::from_iterator(iter)
         }
     }
     // unsafe from_bytes(bytes: U8, order: Endianess = LE) {
@@ -25,7 +24,6 @@ extends Utf8Buffer: Constructor + TryFrom[Bytes] {
     // }
 
     // LE
-    (*: Endianess= Le *)
     try_from(bytes: Bytes) {
 
     }

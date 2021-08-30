@@ -9,6 +9,7 @@ import com.intellij.psi.util.elementType
 import valkyrie.ide.file.ValkyrieFileNode
 import valkyrie.language.ast.DocumentNode
 import valkyrie.language.psi.ValkyrieTokenType
+import valkyrie.language.psi.ValkyrieTypes
 import valkyrie.language.psi.ValkyrieTypes.COMMENT
 import java.util.function.Consumer
 
@@ -60,6 +61,9 @@ class DocumentationProvider : DocumentationProvider {
         return when {
             ValkyrieTokenType.isKeyword(contextElement) -> contextElement
             ValkyrieTokenType.isOperator(contextElement) -> contextElement
+//            contextElement.elementType == ValkyrieTypes.OP_AT -> null
+            contextElement.elementType == ValkyrieTypes.OP_AT -> null
+            contextElement.elementType == ValkyrieTypes.OP_HASH -> null
             contextElement.elementType == TokenType.WHITE_SPACE -> null
             contextElement.elementType == COMMENT -> null
             else -> null

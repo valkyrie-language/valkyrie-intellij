@@ -23,7 +23,7 @@ val keywords: TokenSet = TokenSet.create(
     OP_UNIMPLEMENTED, OP_QUOTE
 )
 val prefix: TokenSet = TokenSet.create(
-    OP_AT, OP_HASH,
+//    OP_AT, OP_HASH,
 )
 
 val infix: TokenSet = TokenSet.create(

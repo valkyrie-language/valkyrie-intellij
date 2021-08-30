@@ -4,13 +4,13 @@ namespace std.categories;
 macro Some(e: Expression) {
     quote {
         new Option::Some {
-        value
+            value
         }
     }
 }
 
 #token_navigation(Option::None, color = Variant)
-macro None() {
+def micro None() {
     Option::None
 }
 

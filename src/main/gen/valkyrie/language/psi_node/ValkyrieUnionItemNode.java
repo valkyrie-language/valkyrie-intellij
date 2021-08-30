@@ -8,11 +8,11 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.language.psi.ValkyrieTypes.*;
-import valkyrie.language.ast.ValkyrieASTBase;
+import valkyrie.language.mixin.MixinUnionItem;
 import valkyrie.language.psi.*;
 import valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieUnionItemNode extends ValkyrieASTBase implements ValkyrieUnionItem {
+public class ValkyrieUnionItemNode extends MixinUnionItem implements ValkyrieUnionItem {
 
   public ValkyrieUnionItemNode(@NotNull ASTNode node) {
     super(node);
