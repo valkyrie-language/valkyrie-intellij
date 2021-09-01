@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieNewBlock extends PsiElement {
 
   @NotNull
-  List<ValkyrieExpression> getExpressionList();
+  List<ValkyrieIdentifier> getIdentifierList();
+
+  @NotNull
+  List<ValkyrieObjectPair> getObjectPairList();
 
 }

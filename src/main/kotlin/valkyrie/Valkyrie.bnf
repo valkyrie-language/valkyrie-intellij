@@ -58,7 +58,7 @@
         OP_ARROW = "->"
         OP_ARROW2 = "=>"
         //
-        OP_EQ = "="
+        OP_EQ = "=="
         OP_NE = "!="
         OP_BIND = ":="
         OP_NOT = "!"
@@ -220,7 +220,8 @@ case_else           ::= KW_ELSE;
 new_statement       ::= KW_NEW <<modified type_expression>> new_block {
     pin=1
 }
-new_block           ::= <<brace_block expression COMMA>>;
+new_block           ::= <<brace_block new_item COMMA>>;
+private new_item    ::= object_pair | (DOT2|DOT3) identifier;
 object_statement    ::= KW_OBJECT <<modified type_expression>> [<<brace_block expression COMMA>>] {
     pin=1
 }
@@ -237,7 +238,7 @@ define_statement    ::= KW_DEF <<modified namepath_free>> [generic_define] defin
 };
 define_tuple        ::= <<parenthesis define_item COMMA>>;
 define_item         ::= OP_POW | OP_LT | OP_GT |
-    macro_call* [modifiers] [KW_DOTS] identifier [COLON type_expression] [OP_EQ expression] {
+    macro_call* [modifiers] [KW_DOTS] identifier [COLON type_expression] [OP_SET expression] {
     mixin="valkyrie.language.mixin.MixinDefineItem"
 }
 define_block        ::= <<brace_block normal_statements SEMICOLON>> {
@@ -278,7 +279,7 @@ class_block         ::= <<brace_free class_item separator>> {
     pin = 1
     methods=[addChildrenView]
 }
-private class_item  ::= macro_call | class_method | class_field;
+private class_item  ::= macro_call | type_statement | class_method | class_field;
 class_field         ::= KW_LET? [modifiers] object_key [COLON type_expression] [OP_SET expression] | object_key {
     mixin="valkyrie.language.mixin.MixinClassField"
 };

@@ -17,6 +17,9 @@ public interface ValkyrieClassBlock extends PsiElement {
   @NotNull
   List<ValkyrieMacroCall> getMacroCallList();
 
+  @NotNull
+  List<ValkyrieTypeStatement> getTypeStatementList();
+
   void addChildrenView(@NotNull List<ValkyrieViewElement> list);
 
 }

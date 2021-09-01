@@ -30,8 +30,14 @@ public class ValkyrieNewBlockNode extends ValkyrieASTBase implements ValkyrieNew
 
   @Override
   @NotNull
-  public List<ValkyrieExpression> getExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpression.class);
+  public List<ValkyrieIdentifier> getIdentifierList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifier.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ValkyrieObjectPair> getObjectPairList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieObjectPair.class);
   }
 
 }

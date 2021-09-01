@@ -162,7 +162,7 @@ public interface ValkyrieTypes {
   IElementType OP_DIV = new ValkyrieTokenType("/");
   IElementType OP_DIV_ASSIGN = new ValkyrieTokenType("/=");
   IElementType OP_EMPTY = new ValkyrieTokenType("(!)");
-  IElementType OP_EQ = new ValkyrieTokenType("=");
+  IElementType OP_EQ = new ValkyrieTokenType("==");
   IElementType OP_FORALL = new ValkyrieTokenType("forall");
   IElementType OP_GEQ = new ValkyrieTokenType(">=");
   IElementType OP_GG = new ValkyrieTokenType(">>");

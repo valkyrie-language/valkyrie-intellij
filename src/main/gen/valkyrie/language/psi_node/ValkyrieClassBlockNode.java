@@ -48,6 +48,12 @@ public class ValkyrieClassBlockNode extends ValkyrieASTBase implements ValkyrieC
   }
 
   @Override
+  @NotNull
+  public List<ValkyrieTypeStatement> getTypeStatementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeStatement.class);
+  }
+
+  @Override
   public void addChildrenView(@NotNull List<ValkyrieViewElement> list) {
     ASTMethods.addChildrenView(this, list);
   }

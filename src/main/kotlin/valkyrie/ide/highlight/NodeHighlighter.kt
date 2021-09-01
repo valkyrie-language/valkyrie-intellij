@@ -42,7 +42,9 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.nameIdentifier, o.kind.color)
     }
 
-
+    override fun visitTypeStatement(o: ValkyrieTypeStatement) {
+        highlight(o.genericType.identifier, Color.SYM_CLASS)
+    }
     override fun visitClassStatement(o: ValkyrieClassStatement) {
         o as ValkyrieClassStatementNode
         highlight(o.modified.lastChild, Color.SYM_CLASS)
@@ -64,8 +66,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitDefineItem(o: ValkyrieDefineItem) {
-//        highlight(o.symbol, o.symbolColor)
-//        highlightModifiers(o.modifiers)
+        highlight(o.identifier, Color.SYM_FIELD)
     }
 
 
@@ -81,6 +82,8 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         o as ValkyrieExtendsStatementNode
         highlight(o.identifier, Color.SYM_CLASS)
     }
+
+
 
 
     override fun visitBitflagStatement(o: ValkyrieBitflagStatement) {
