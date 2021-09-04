@@ -5,6 +5,7 @@ namespace std.native;
 #native(4byte)
 #derive(Copy, Clone, Display)
 class Unicode {
+    #range(1, 0x10FFFF)
     codepoint: u32
 }
 
