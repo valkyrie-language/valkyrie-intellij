@@ -61,7 +61,7 @@ class RGB {
 }
 
 #native(32bit)
-class RGB888 {
+class Rgb888 {
 
 }
 
