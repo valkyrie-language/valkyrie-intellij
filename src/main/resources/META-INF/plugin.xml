@@ -17,6 +17,13 @@
 			implementationClass="valkyrie.language.lexer.ValkyrieParserDefinition"/>
 		<multiHostInjector implementation="valkyrie.ide.matcher.LanguageInjector"/>
 		<!-- Project -->
+		<moduleType
+			implementationClass="valkyrie.ide.project.ValkyrieModuleType"
+			id="VALKYRIE_MODULE_TYPE"/>
+		<moduleBuilder
+			builderClass="valkyrie.ide.project.ValkyrieModuleBuilder"
+			id="VALKYRIE_MODULE_TYPE"
+			order="first"/>
 		<indexedRootsProvider implementation="valkyrie.ide.project.ExtraIndexContributor"/>
 		<additionalLibraryRootsProvider implementation="valkyrie.ide.project.LibraryRootsProvider"/>
 		<!-- StructureView -->
