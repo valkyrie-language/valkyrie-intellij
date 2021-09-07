@@ -87,7 +87,7 @@ class sRGBA {
 }
 
 class RGBA8 {
-    r: u8,
+    r: u8 = 0x11,
     g: u8,
     b: u8,
     a: u8
@@ -98,3 +98,5 @@ extends RGBA {
 
     }
 }
+
+let a = 123.4
