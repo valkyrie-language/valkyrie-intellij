@@ -13,7 +13,7 @@ class ValkyrieModuleType() : ModuleType<ValkyrieModuleBuilder>(ID) {
     }
 
     override fun getName(): String {
-        return "ValkyrieModuleType getName";
+        return "Valkyrie";
     }
 
     override fun getDescription(): String {
@@ -21,8 +21,6 @@ class ValkyrieModuleType() : ModuleType<ValkyrieModuleBuilder>(ID) {
     }
 
     override fun getNodeIcon(isOpened: Boolean): Icon {
-        return ValkyrieIconProvider.NAMESPACE
+        return ValkyrieIconProvider.FILE
     }
-
-
 }
