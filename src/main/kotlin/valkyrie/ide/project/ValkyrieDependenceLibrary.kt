@@ -3,6 +3,9 @@ package valkyrie.ide.project
 import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.roots.SyntheticLibrary
 import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.util.containers.toMutableSmartList
+import valkyrie.lsp.LanguageClient
+import java.io.File
 
 
 // ImmutableSyntheticLibrary
@@ -10,9 +13,10 @@ class ValkyrieDependenceLibrary(val id: String = "") : SyntheticLibrary(), ItemP
     var version: String = "";
     var path: VirtualFile? = null;
     var kind: ValkyrieLibraryType = ValkyrieLibraryType.LIBRARY;
-
+    override fun isShowInExternalLibrariesNode() = true;
     override fun getSourceRoots(): MutableCollection<VirtualFile> {
-        return mutableListOf()
+        val iter = File(LanguageClient.libraryPath).listFiles(ValkyrieModuleFilter()) ?: return mutableListOf();
+        return iter.map { ValkyrieModuleTree(it.name) }.toMutableSmartList()
     }
 
     override fun getBinaryRoots(): MutableCollection<VirtualFile> {
@@ -23,7 +27,6 @@ class ValkyrieDependenceLibrary(val id: String = "") : SyntheticLibrary(), ItemP
         return mutableSetOf()
     }
 
-    override fun isShowInExternalLibrariesNode() = true;
     override fun getIcon(unused: Boolean) = kind.getIcon()
     override fun getPresentableText() = id;
     override fun getLocationString(): String? = when {
@@ -37,3 +40,4 @@ class ValkyrieDependenceLibrary(val id: String = "") : SyntheticLibrary(), ItemP
         else -> false
     }
 }
+

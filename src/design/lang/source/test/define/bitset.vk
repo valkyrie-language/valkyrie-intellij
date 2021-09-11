@@ -1,4 +1,4 @@
-num::#derive(Debug, Copy, !Default)
+#num::derive(Debug, Copy, !Default)
 bitflag Bitflags {
     A = 0b01
     B = 0o02
