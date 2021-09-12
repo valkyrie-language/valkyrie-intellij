@@ -5,14 +5,28 @@ import com.intellij.openapi.roots.SyntheticLibrary
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.util.containers.toMutableSmartList
 import valkyrie.lsp.LanguageClient
+import valkyrie.lsp.RequestDependencies
 import java.io.File
 
 
 // ImmutableSyntheticLibrary
-class ValkyrieDependenceLibrary(val id: String = "") : SyntheticLibrary(), ItemPresentation {
+class ValkyrieDependenceLibrary : SyntheticLibrary, ItemPresentation {
+    val id: String;
     var version: String = "";
-    var path: VirtualFile? = null;
+    var path: String = "";
     var kind: ValkyrieLibraryType = ValkyrieLibraryType.LIBRARY;
+
+    constructor(id: String = "") : super() {
+        this.id = id
+    }
+
+
+    constructor(info: RequestDependencies.DependenciesInfo) {
+        id = info.name;
+        version = info.version;
+//        path = File(info.path).toVirtualFileUrl();
+    }
+
     override fun isShowInExternalLibrariesNode() = true;
     override fun getSourceRoots(): MutableCollection<VirtualFile> {
         val iter = File(LanguageClient.libraryPath).listFiles(ValkyrieModuleFilter()) ?: return mutableListOf();
@@ -38,6 +52,10 @@ class ValkyrieDependenceLibrary(val id: String = "") : SyntheticLibrary(), ItemP
     override fun equals(other: Any?) = when (other) {
         is ValkyrieDependenceLibrary -> this.hashCode() == other.hashCode()
         else -> false
+    }
+
+    override fun toString(): String {
+        return super.toString()
     }
 }
 

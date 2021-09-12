@@ -4,31 +4,25 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.AdditionalLibraryRootsProvider
 import com.intellij.openapi.roots.SyntheticLibrary
 import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.util.containers.toMutableSmartList
-import valkyrie.lsp.LanguageClient
-import java.io.File
+import valkyrie.lsp.RequestDependencies
+import java.net.ConnectException
 
 class LibraryRootsProvider : AdditionalLibraryRootsProvider() {
-    var dependences = mutableListOf<ValkyrieDependenceLibrary>()
-    override fun getAdditionalProjectLibraries(project: Project): MutableCollection<SyntheticLibrary> {
-        println(project.basePath)
-        // TODO: std must at top
-        dependences.clear()
-        val iter = File(LanguageClient.libraryPath).listFiles(ValkyrieModuleFilter()) ?: return mutableListOf();
-        return iter.map { ValkyrieModuleTree(it.name) }.toMutableSmartList()
-
-        var std = ValkyrieDependenceLibrary("std");
-        std.version = "0.0.1";
-        dependences.add(std);
-        dependences.add(ValkyrieDependenceLibrary("core"));
-        dependences.add(ValkyrieDependenceLibrary("io"));
-        dependences.add(ValkyrieDependenceLibrary("math"));
-        dependences.add(ValkyrieDependenceLibrary("net"));
-        return dependences.toMutableList();
+    private var dependences = mutableListOf<SyntheticLibrary>()
+    override fun getAdditionalProjectLibraries(project: Project): MutableList<SyntheticLibrary> {
+        try {
+            dependences = RequestDependencies.request(project.basePath)
+        } catch (e: ConnectException) {
+            // do nothing
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return mutableListOf()
+        }
+        return dependences;
     }
 
     override fun getRootsToWatch(project: Project): MutableCollection<VirtualFile> {
-        return dependences.filter { it.path != null }.map { it.path!! }.toMutableList();
+        return dependences.map { it.sourceRoots }.flatten().toMutableList()
     }
 }
 
