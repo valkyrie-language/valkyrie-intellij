@@ -100,3 +100,4 @@ extends RGBA {
 }
 
 let a = 123.4
+let b: b | b = 123.4

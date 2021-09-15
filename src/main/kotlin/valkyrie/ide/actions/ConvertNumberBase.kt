@@ -7,9 +7,9 @@ import com.intellij.psi.PsiFile
 import valkyrie.ide.formatter.ValkyrieNumberConverter
 import valkyrie.language.psi.ValkyrieFactory
 
-class ConvertNumberBase(private val display: String, private val base: Int) : AbstractNumberConversionIntention() {
+class ConvertNumberBase(private val base: Int) : AbstractNumberConversionIntention() {
     override fun getActionName(converter: NumberConverter?, convertedText: String?): String {
-        return display
+        return "Convert to Base $base"
     }
 
     override fun extract(element: PsiElement): NumberConversionContext? {

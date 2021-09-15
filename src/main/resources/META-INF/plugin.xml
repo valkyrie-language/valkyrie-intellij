@@ -78,7 +78,7 @@
 			implementationClass="valkyrie.ide.hint.ValkyrieParameterHintProvider"/>
 		<codeInsight.inlayProvider
 			language="Valkyrie"
-			implementationClass="valkyrie.ide.hint.InlayHintProvider"/>
+			implementationClass="valkyrie.ide.hint.ValkyrieLetTypeInlay"/>
 		<vcs.codeVisionLanguageContext
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.hint.ValkyrieInlayVSCProvider"/>
@@ -132,6 +132,7 @@
 		<!--		/>-->
 		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.StringChecker"/>
 		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.NumberChecker"/>
+		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.MarkTypeInfer"/>
 		<langCodeStyleSettingsProvider
 			implementation="valkyrie.ide.codeStyle.ValkyrieCodeStyleSetting"
 		/>

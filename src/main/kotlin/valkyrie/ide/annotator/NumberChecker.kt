@@ -16,20 +16,15 @@ class NumberChecker : Annotator {
             null -> ""
             else -> id.text
         }
-        if (unit.isEmpty()) {
-            annotateSimple(element.firstChild, holder)
-        } else {
-            annotateUnit(element.firstChild, unit, holder, element.textRange)
-        }
+        annotateSimple(element.firstChild, holder)
     }
 
     private fun annotateSimple(number: PsiElement, holder: AnnotationHolder) {
-        holder.newAnnotation(HighlightSeverity.INFORMATION, "Simple number")
+        holder.newAnnotation(HighlightSeverity.INFORMATION, "Base 10 Integer")
             .range(number.textRange)
-            .withFix(ConvertNumberBase("Convert to Hex (Base16)", 16))
-            .withFix(ConvertNumberBase("Convert to Dec (Base10)", 10))
-            .withFix(ConvertNumberBase("Convert to Oct (Base8)", 8))
-            .withFix(ConvertNumberBase("Convert to Bin (Base2)", 2))
+            .withFix(ConvertNumberBase(16))
+            .withFix(ConvertNumberBase(8))
+            .withFix(ConvertNumberBase(2))
             .create()
     }
 
