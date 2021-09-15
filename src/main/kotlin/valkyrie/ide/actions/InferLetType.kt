@@ -50,7 +50,6 @@ class InferLetType(private val element: ValkyrieLetStatementNode, private val ac
                 if (shouldDelete) {
                     element.delete()
                 }
-
             }
         }
     }
