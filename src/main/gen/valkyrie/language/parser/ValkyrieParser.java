@@ -561,12 +561,12 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // type_statement | macro_call | class_method | class_field
+  // macro_call | type_statement | class_method | class_field
   static boolean class_item(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "class_item")) return false;
     boolean r;
-    r = type_statement(b, l + 1);
-    if (!r) r = macro_call(b, l + 1);
+    r = macro_call(b, l + 1);
+    if (!r) r = type_statement(b, l + 1);
     if (!r) r = class_method(b, l + 1);
     if (!r) r = class_field(b, l + 1);
     return r;
@@ -2634,14 +2634,22 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // <<modified identifier>>
+  // [modifiers] identifier
   public static boolean pattern_item(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "pattern_item")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, PATTERN_ITEM, "<pattern item>");
-    r = modified(b, l + 1, ValkyrieParser::identifier);
+    r = pattern_item_0(b, l + 1);
+    r = r && identifier(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
+  }
+
+  // [modifiers]
+  private static boolean pattern_item_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "pattern_item_0")) return false;
+    modifiers(b, l + 1);
+    return true;
   }
 
   /* ********************************************************** */

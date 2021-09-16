@@ -30,8 +30,14 @@ public class ValkyriePatternItemNode extends ValkyrieASTBase implements Valkyrie
 
   @Override
   @NotNull
-  public ValkyrieModified getModified() {
-    return findNotNullChildByClass(ValkyrieModified.class);
+  public ValkyrieIdentifier getIdentifier() {
+    return findNotNullChildByClass(ValkyrieIdentifier.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieModifiers getModifiers() {
+    return findChildByClass(ValkyrieModifiers.class);
   }
 
 }

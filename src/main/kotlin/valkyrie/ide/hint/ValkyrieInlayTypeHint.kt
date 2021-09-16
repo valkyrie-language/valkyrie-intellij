@@ -1,16 +1,19 @@
 package valkyrie.ide.hint
 
 import com.intellij.codeInsight.hints.*
+import com.intellij.codeInsight.hints.presentation.PresentationFactory
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.ui.dsl.builder.panel
 import valkyrie.ValkyrieBundle
+import valkyrie.language.psi_node.ValkyrieDefineStatementNode
+import valkyrie.language.psi_node.ValkyriePatternItemNode
 import javax.swing.JComponent
 
 
 @Suppress("UnstableApiUsage")
-class ValkyrieLetTypeInlay : InlayHintsProvider<ValkyrieInlaySettings> {
+class ValkyrieInlayTypeHint : InlayHintsProvider<ValkyrieInlaySettings> {
     private val rootKey = "v.type.hints";
 
     override val name: String = ValkyrieBundle.message("view.PropertiesGrouper")
@@ -45,16 +48,10 @@ class ValkyrieLetTypeInlay : InlayHintsProvider<ValkyrieInlaySettings> {
             override val cases: List<ImmediateConfigurable.Case>
                 get() = listOf(
                     ImmediateConfigurable.Case(
-                        "let type",
-                        "hints.type.let",
-                        settings::showForLambdas,
-                        ValkyrieBundle.message("view.PropertiesGrouper")
+                        "let type", "hints.type.let", settings::showForLambdas, ValkyrieBundle.message("view.PropertiesGrouper")
                     ),
                     ImmediateConfigurable.Case(
-                        "def type",
-                        "hints.type.def",
-                        settings::showForLambdas,
-                        ValkyrieBundle.message("view.PropertiesGrouper")
+                        "def type", "hints.type.def", settings::showForLambdas, ValkyrieBundle.message("view.PropertiesGrouper")
                     ),
                 )
 
@@ -84,16 +81,43 @@ class ValkyrieLetTypeInlay : InlayHintsProvider<ValkyrieInlaySettings> {
     }
 
     override fun getCollectorFor(file: PsiFile, editor: Editor, settings: ValkyrieInlaySettings, sink: InlayHintsSink): InlayHintsCollector? {
-        return object : InlayHintsCollector {
-            override fun collect(element: PsiElement, editor: Editor, sink: InlayHintsSink): Boolean {
-                return true
-            }
-        }
+        return InlayTypeHint(settings)
     }
 
 //    override fun getProperty(key: String): String? {
 //        return "ValkyrieInlayProvider.getProperty"
 //    }
+
+
+}
+
+@Suppress("UnstableApiUsage")
+private class InlayTypeHint(private val settings: ValkyrieInlaySettings) : InlayHintsCollector {
+    override fun collect(element: PsiElement, editor: Editor, sink: InlayHintsSink): Boolean {
+        val inlay = PresentationFactory(editor);
+        fun inline(start: Int, text: String) {
+            sink.addInlineElement(
+                start,
+                true,
+                inlay.roundWithBackgroundAndSmallInset(inlay.smallTextWithoutBackground(": $text")),
+                false
+            )
+        }
+        when (element) {
+            is ValkyriePatternItemNode -> {
+                inline(element.identifier.textRange.endOffset, "Unknown")
+            }
+
+            is ValkyrieDefineStatementNode -> {
+                if (element.typeExpression == null) {
+                    element.defineTuple?.textRange?.let {
+                        inline(it.endOffset, "Unknown")
+                    }
+                }
+            }
+        }
+        return true
+    }
 
 
 }

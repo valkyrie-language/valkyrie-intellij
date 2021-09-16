@@ -174,7 +174,7 @@ normal_pattern      ::=
 {
     mixin="valkyrie.language.mixin.MixinNormalPattern"
 };
-pattern_item        ::= <<modified identifier>>;
+pattern_item        ::= [modifiers] identifier;
 private pattern     ::=
     <<parenthesis   id_with_mod COMMA>>
   | <<bracket_block id_with_mod COMMA>>

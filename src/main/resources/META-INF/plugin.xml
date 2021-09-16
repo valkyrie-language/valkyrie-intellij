@@ -78,7 +78,7 @@
 			implementationClass="valkyrie.ide.hint.ValkyrieParameterHintProvider"/>
 		<codeInsight.inlayProvider
 			language="Valkyrie"
-			implementationClass="valkyrie.ide.hint.ValkyrieLetTypeInlay"/>
+			implementationClass="valkyrie.ide.hint.ValkyrieInlayTypeHint"/>
 		<vcs.codeVisionLanguageContext
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.hint.ValkyrieInlayVSCProvider"/>
