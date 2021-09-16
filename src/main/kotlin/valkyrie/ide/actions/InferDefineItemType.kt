@@ -1,35 +1,39 @@
 package valkyrie.ide.actions
 
-import com.intellij.codeInspection.HintAction
+import com.intellij.codeInsight.intention.PriorityAction
+import com.intellij.codeInspection.LocalQuickFixAndIntentionActionOnPsiElement
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.Iconable
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import valkyrie.language.psi_node.ValkyrieClassFieldNode
+import valkyrie.ide.file.ValkyrieIconProvider
 import valkyrie.language.psi_node.ValkyrieDefineItemNode
+import javax.swing.Icon
 
-class InferDefineItemType(private val element: ValkyrieDefineItemNode) : HintAction {
+class InferDefineItemType(element: ValkyrieDefineItemNode) : LocalQuickFixAndIntentionActionOnPsiElement(element), PriorityAction, Iconable {
     override fun startInWriteAction(): Boolean {
         return true
-    }
-
-    override fun getText(): String {
-        return "Infer define parameter's type"
     }
 
     override fun getFamilyName(): String {
         return "getFamilyName"
     }
 
-    override fun isAvailable(project: Project, editor: Editor?, file: PsiFile?): Boolean {
-        return true
+    override fun getText(): String {
+        return "Infer define parameter's type"
     }
 
-    override fun invoke(project: Project, editor: Editor?, file: PsiFile?) {
+    override fun invoke(project: Project, file: PsiFile, editor: Editor?, startElement: PsiElement, endElement: PsiElement) {
 
     }
 
-    override fun showHint(editor: Editor): Boolean {
-        return true
+    override fun getIcon(flags: Int): Icon {
+        return ValkyrieIconProvider.TYPE
+    }
+
+    override fun getPriority(): PriorityAction.Priority {
+        return PriorityAction.Priority.LOW
     }
 }
 

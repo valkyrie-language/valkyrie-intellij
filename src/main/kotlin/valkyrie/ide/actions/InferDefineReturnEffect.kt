@@ -3,11 +3,14 @@ package valkyrie.ide.actions
 import com.intellij.codeInspection.HintAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiFile
+import valkyrie.ide.file.ValkyrieIconProvider
 import valkyrie.language.psi_node.ValkyrieClassFieldNode
 import valkyrie.language.psi_node.ValkyrieDefineItemNode
+import javax.swing.Icon
 
-class InferDefineReturnEffect(private val element: ValkyrieDefineItemNode) : HintAction {
+class InferDefineReturnEffect(private val element: ValkyrieDefineItemNode) : HintAction, Iconable {
     override fun startInWriteAction(): Boolean {
         return true
     }
@@ -30,6 +33,8 @@ class InferDefineReturnEffect(private val element: ValkyrieDefineItemNode) : Hin
 
     override fun showHint(editor: Editor): Boolean {
         return true
+    }    override fun getIcon(flags: Int): Icon {
+        return ValkyrieIconProvider.IMPORT
     }
 }
 

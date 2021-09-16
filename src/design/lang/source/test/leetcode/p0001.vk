@@ -1,0 +1,12 @@
+def two_sum(nums: [u32], target: u32): [u32] {
+    let map: HashMap[u32, u32] = [];
+    for index, num in nums.enumerate() {
+        let r = target - num;
+        let s = map.get_or_default(r, - 1);
+        if s != - 1 {
+            return [index, s]
+        }
+        map.put(num, index)
+    };
+    return [0, 0]
+}
