@@ -35,15 +35,21 @@ public class ValkyrieBitflagStatementNode extends MixinBitflag implements Valkyr
   }
 
   @Override
-  @Nullable
-  public ValkyrieBitflagLayout getBitflagLayout() {
-    return findChildByClass(ValkyrieBitflagLayout.class);
+  @NotNull
+  public ValkyrieIdentifier getIdentifier() {
+    return findNotNullChildByClass(ValkyrieIdentifier.class);
   }
 
   @Override
-  @NotNull
+  @Nullable
   public ValkyrieModifiers getModifiers() {
-    return findNotNullChildByClass(ValkyrieModifiers.class);
+    return findChildByClass(ValkyrieModifiers.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieTypeExpression getTypeExpression() {
+    return findChildByClass(ValkyrieTypeExpression.class);
   }
 
 }

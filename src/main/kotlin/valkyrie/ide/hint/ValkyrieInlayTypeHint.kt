@@ -7,18 +7,19 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.ui.dsl.builder.panel
 import valkyrie.ValkyrieBundle
+import valkyrie.language.psi_node.ValkyrieBitflagStatementNode
 import valkyrie.language.psi_node.ValkyrieDefineStatementNode
 import valkyrie.language.psi_node.ValkyriePatternItemNode
 import javax.swing.JComponent
 
 
 @Suppress("UnstableApiUsage")
-class ValkyrieInlayTypeHint : InlayHintsProvider<ValkyrieInlaySettings> {
+class ValkyrieInlayTypeHint : InlayHintsProvider<InlayTypeSetting> {
     private val rootKey = "v.type.hints";
 
     override val name: String = ValkyrieBundle.message("view.PropertiesGrouper")
     override val group: InlayGroup = InlayGroup.TYPES_GROUP
-    override val key: SettingsKey<ValkyrieInlaySettings>
+    override val key: SettingsKey<InlayTypeSetting>
         get() {
             return SettingsKey(rootKey)
         }
@@ -27,7 +28,7 @@ class ValkyrieInlayTypeHint : InlayHintsProvider<ValkyrieInlaySettings> {
             return super.description
         }
 
-    override fun createSettings(): ValkyrieInlaySettings = ValkyrieInlaySettings()
+    override fun createSettings(): InlayTypeSetting = InlayTypeSetting()
 
     /// 显示在
     /// Editor > Inlay Hints > Types
@@ -41,7 +42,7 @@ class ValkyrieInlayTypeHint : InlayHintsProvider<ValkyrieInlaySettings> {
 
     /// 不知道干嘛的 显示在
     /// Editor > Inlay Hints > Types
-    override fun createConfigurable(settings: ValkyrieInlaySettings): ImmediateConfigurable {
+    override fun createConfigurable(settings: InlayTypeSetting): ImmediateConfigurable {
         return object : ImmediateConfigurable {
             override val mainCheckboxText: String
                 get() = super.mainCheckboxText
@@ -75,44 +76,58 @@ class ValkyrieInlayTypeHint : InlayHintsProvider<ValkyrieInlaySettings> {
         }
     }
 
+    override fun getCollectorFor(file: PsiFile, editor: Editor, settings: InlayTypeSetting, sink: InlayHintsSink): InlayHintsCollector? {
+        return InlayTypeHint(settings)
+    }
+
     // todo: getCasePreview
     override fun getCaseDescription(case: ImmediateConfigurable.Case): String? {
         return "getCaseDescription"
     }
 
-    override fun getCollectorFor(file: PsiFile, editor: Editor, settings: ValkyrieInlaySettings, sink: InlayHintsSink): InlayHintsCollector? {
-        return InlayTypeHint(settings)
+    override fun getProperty(key: String): String? {
+        return "ValkyrieInlayProvider.getProperty"
     }
-
-//    override fun getProperty(key: String): String? {
-//        return "ValkyrieInlayProvider.getProperty"
-//    }
-
-
 }
 
+data class InlayTypeSetting(
+    var showBitFlagType: Boolean = true,
+    var showForVariables: Boolean = true,
+    var showForLambdas: Boolean = true,
+    var showForIterators: Boolean = true,
+    var showPatternItemType: Boolean = true,
+    var showObviousTypes: Boolean = false,
+)
+
 @Suppress("UnstableApiUsage")
-private class InlayTypeHint(private val settings: ValkyrieInlaySettings) : InlayHintsCollector {
+private class InlayTypeHint(private val settings: InlayTypeSetting) : InlayHintsCollector {
     override fun collect(element: PsiElement, editor: Editor, sink: InlayHintsSink): Boolean {
         val inlay = PresentationFactory(editor);
         fun inline(start: Int, text: String) {
             sink.addInlineElement(
                 start,
                 true,
+                // click then replace
                 inlay.roundWithBackgroundAndSmallInset(inlay.smallTextWithoutBackground(": $text")),
                 false
             )
         }
-        when (element) {
-            is ValkyriePatternItemNode -> {
+        when {
+            settings.showPatternItemType && element is ValkyriePatternItemNode -> {
                 inline(element.identifier.textRange.endOffset, "Unknown")
             }
 
-            is ValkyrieDefineStatementNode -> {
+            element is ValkyrieDefineStatementNode -> {
                 if (element.typeExpression == null) {
                     element.defineTuple?.textRange?.let {
                         inline(it.endOffset, "Unknown")
                     }
+                }
+            }
+
+            element is ValkyrieBitflagStatementNode -> {
+                if (element.typeExpression == null) {
+                    inline(element.identifier.textRange.endOffset, "u32")
                 }
             }
         }

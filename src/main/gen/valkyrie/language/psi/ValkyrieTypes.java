@@ -11,7 +11,6 @@ public interface ValkyrieTypes {
   IElementType ATOM = new ValkyrieTokenType("ATOM");
   IElementType BITFLAG_BLOCK = new ValkyrieTokenType("BITFLAG_BLOCK");
   IElementType BITFLAG_ITEM = new ValkyrieTokenType("BITFLAG_ITEM");
-  IElementType BITFLAG_LAYOUT = new ValkyrieTokenType("BITFLAG_LAYOUT");
   IElementType BITFLAG_STATEMENT = new ValkyrieTokenType("BITFLAG_STATEMENT");
   IElementType BOOLEAN = new ValkyrieTokenType("BOOLEAN");
   IElementType CALL_SUFFIX = new ValkyrieTokenType("CALL_SUFFIX");
@@ -225,9 +224,6 @@ public interface ValkyrieTypes {
       }
       else if (type == BITFLAG_ITEM) {
         return new ValkyrieBitflagItemNode(node);
-      }
-      else if (type == BITFLAG_LAYOUT) {
-        return new ValkyrieBitflagLayoutNode(node);
       }
       else if (type == BITFLAG_STATEMENT) {
         return new ValkyrieBitflagStatementNode(node);

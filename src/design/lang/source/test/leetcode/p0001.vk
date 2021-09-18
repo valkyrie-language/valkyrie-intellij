@@ -1,4 +1,4 @@
-def two_sum(nums: [u32], target: u32) {
+def two_sum(nums: [u32], target: u32): [u32] {
     let map: HashMap[u32, u32] = [];
     for index, mut num in nums.enumerate() {
         let r = target - num;
@@ -10,3 +10,7 @@ def two_sum(nums: [u32], target: u32) {
     };
     return [0, 0]
 }
+
+bitflag A {
+
+};
