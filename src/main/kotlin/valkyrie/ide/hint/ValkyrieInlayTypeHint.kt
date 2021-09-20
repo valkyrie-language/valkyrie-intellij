@@ -7,23 +7,21 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.ui.dsl.builder.panel
 import valkyrie.ValkyrieBundle
-import valkyrie.language.psi_node.ValkyrieBitflagStatementNode
-import valkyrie.language.psi_node.ValkyrieDefineItemNode
-import valkyrie.language.psi_node.ValkyrieDefineStatementNode
-import valkyrie.language.psi_node.ValkyriePatternItemNode
+import valkyrie.language.psi_node.*
 import javax.swing.JComponent
 
-data class InlayTypeSetting(
-    var showObviousType: Boolean = false,
-    var showForLoopType: Boolean = true,
-    var showDefineParameterType: Boolean = true,
-    var showDefineReturnType: Boolean = true,
-    var showDefineEffectType: Boolean = true,
-    var showBitFlagType: Boolean = true,
-)
-
 @Suppress("UnstableApiUsage")
-class ValkyrieInlayTypeHint : InlayHintsProvider<InlayTypeSetting> {
+class ValkyrieInlayTypeHint : InlayHintsProvider<ValkyrieInlayTypeHint.InlayTypeSetting> {
+    data class InlayTypeSetting(
+        var showObviousType: Boolean = false,
+        var showForLoopType: Boolean = true,
+        var showDefineParameterType: Boolean = true,
+        var showDefineReturnType: Boolean = true,
+        var showDefineEffectType: Boolean = true,
+        var showClassFieldType: Boolean = true,
+        var showBitFlagType: Boolean = true,
+    )
+
     private val rootKey = "v.type.hints";
 
     override val name: String = ValkyrieBundle.message("inlay.type.group.name")
@@ -119,7 +117,7 @@ class ValkyrieInlayTypeHint : InlayHintsProvider<InlayTypeSetting> {
 
 
 @Suppress("UnstableApiUsage")
-private class InlayTypeHint(private val settings: InlayTypeSetting) : InlayHintsCollector {
+private class InlayTypeHint(private val settings: ValkyrieInlayTypeHint.InlayTypeSetting) : InlayHintsCollector {
     override fun collect(element: PsiElement, editor: Editor, sink: InlayHintsSink): Boolean {
         val inlay = PresentationFactory(editor);
         fun inline(start: Int, text: String, split: String = ":") {
@@ -150,6 +148,12 @@ private class InlayTypeHint(private val settings: InlayTypeSetting) : InlayHints
                     element.defineTuple?.textRange?.let {
                         inline(it.endOffset, "Unknown", split = "⟶")
                     }
+                }
+            }
+
+            settings.showClassFieldType && element is ValkyrieClassFieldNode -> {
+                if (element.typeExpression == null) {
+                    inline(element.nameIdentifier.textRange.endOffset, "Unknown", split = ":")
                 }
             }
 

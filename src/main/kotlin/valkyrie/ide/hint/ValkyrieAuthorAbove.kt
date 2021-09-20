@@ -7,7 +7,7 @@ import valkyrie.language.psi_node.*
 import java.awt.event.MouseEvent
 
 @Suppress("UnstableApiUsage")
-class ValkyrieInlayVSCProvider : VcsCodeVisionLanguageContext {
+class ValkyrieAuthorAbove : VcsCodeVisionLanguageContext {
     /// 额外的点击事件
     /// 本身会打开 Git Blame
     override fun handleClick(mouseEvent: MouseEvent, editor: Editor, element: PsiElement) {

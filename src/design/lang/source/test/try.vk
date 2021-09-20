@@ -16,11 +16,11 @@ trait Biased {
     def biased(self): bool;
 }
 
-extend<T> Option<T>: Biased {
+extend[T] Option[T]: Biased {
     def biased(self) = @matches(self, Some(_))
 }
 
-extend<T> Result<T>: Biased {
+extend[T] Result[T]: Biased {
     def biased(self) = @matches(self, Success(_))
 }
 

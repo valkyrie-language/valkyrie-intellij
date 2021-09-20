@@ -75,13 +75,22 @@
 		<!-- Hint -->
 		<codeInsight.parameterNameHints
 			language="Valkyrie"
-			implementationClass="valkyrie.ide.hint.ValkyrieParameterHintProvider"/>
+			implementationClass="valkyrie.ide.hint.ValkyrieArgumentNameHint"/>
 		<codeInsight.inlayProvider
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.hint.ValkyrieInlayTypeHint"/>
+		<codeInsight.lineMarkerProvider
+			language="Valkyrie"
+			implementationClass="valkyrie.ide.hint.ValkyrieSuperMark"/>
+		<codeInsight.overrideMethod
+			language="Valkyrie"
+			implementationClass="valkyrie.ide.hint.ValkyrieOverrideMark"/>
+		<codeInsight.implementMethod
+			language="Valkyrie"
+			implementationClass="valkyrie.ide.hint.ValkyrieImplementMark"/>
 		<vcs.codeVisionLanguageContext
 			language="Valkyrie"
-			implementationClass="valkyrie.ide.hint.ValkyrieInlayVSCProvider"/>
+			implementationClass="valkyrie.ide.hint.ValkyrieAuthorAbove"/>
 		<!--		<psi.fileReferenceHelper implementation="valkyrie.ide.reference.ValkyrieFileReference"/>-->
 		<psi.referenceContributor implementation="valkyrie.ide.reference.ValkyrieReferenceContributor"/>
 		<psi.symbolReferenceProvider
