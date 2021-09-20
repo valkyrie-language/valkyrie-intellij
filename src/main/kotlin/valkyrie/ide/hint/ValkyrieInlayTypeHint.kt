@@ -8,16 +8,25 @@ import com.intellij.psi.PsiFile
 import com.intellij.ui.dsl.builder.panel
 import valkyrie.ValkyrieBundle
 import valkyrie.language.psi_node.ValkyrieBitflagStatementNode
+import valkyrie.language.psi_node.ValkyrieDefineItemNode
 import valkyrie.language.psi_node.ValkyrieDefineStatementNode
 import valkyrie.language.psi_node.ValkyriePatternItemNode
 import javax.swing.JComponent
 
+data class InlayTypeSetting(
+    var showObviousType: Boolean = false,
+    var showForLoopType: Boolean = true,
+    var showDefineParameterType: Boolean = true,
+    var showDefineReturnType: Boolean = true,
+    var showDefineEffectType: Boolean = true,
+    var showBitFlagType: Boolean = true,
+)
 
 @Suppress("UnstableApiUsage")
 class ValkyrieInlayTypeHint : InlayHintsProvider<InlayTypeSetting> {
     private val rootKey = "v.type.hints";
 
-    override val name: String = ValkyrieBundle.message("view.PropertiesGrouper")
+    override val name: String = ValkyrieBundle.message("inlay.type.group.name")
     override val group: InlayGroup = InlayGroup.TYPES_GROUP
     override val key: SettingsKey<InlayTypeSetting>
         get() {
@@ -49,10 +58,27 @@ class ValkyrieInlayTypeHint : InlayHintsProvider<InlayTypeSetting> {
             override val cases: List<ImmediateConfigurable.Case>
                 get() = listOf(
                     ImmediateConfigurable.Case(
-                        "let type", "hints.type.let", settings::showForLambdas, ValkyrieBundle.message("view.PropertiesGrouper")
+                        "Obvious types",
+                        "hints.type.obvious",
+                        settings::showObviousType, ValkyrieBundle.message("view.PropertiesGrouper")
                     ),
                     ImmediateConfigurable.Case(
-                        "def type", "hints.type.def", settings::showForLambdas, ValkyrieBundle.message("view.PropertiesGrouper")
+                        "For loop types",
+                        "hints.type.for",
+                        settings::showForLoopType,
+                        ValkyrieBundle.message("view.PropertiesGrouper")
+                    ),
+                    ImmediateConfigurable.Case(
+                        "Define return types",
+                        "hints.type.define",
+                        settings::showDefineReturnType,
+                        ValkyrieBundle.message("view.PropertiesGrouper")
+                    ),
+                    ImmediateConfigurable.Case(
+                        "Bitflag types",
+                        "hints.type.bitflag",
+                        settings::showBitFlagType,
+                        ValkyrieBundle.message("view.PropertiesGrouper")
                     ),
                 )
 
@@ -63,10 +89,10 @@ class ValkyrieInlayTypeHint : InlayHintsProvider<InlayTypeSetting> {
             override fun createComponent(listener: ChangeListener): JComponent {
                 return panel {
                     row {
-                        checkBox("Show bit flag type").applyToComponent {
-                            isSelected = settings.showBitFlagType
+                        checkBox("Show obvious type").applyToComponent {
+                            isSelected = settings.showObviousType
                             addActionListener {
-                                settings.showBitFlagType = isSelected
+                                settings.showObviousType = isSelected
                                 listener.settingsChanged()
                             }
                         }
@@ -76,56 +102,58 @@ class ValkyrieInlayTypeHint : InlayHintsProvider<InlayTypeSetting> {
         }
     }
 
-    override fun getCollectorFor(file: PsiFile, editor: Editor, settings: InlayTypeSetting, sink: InlayHintsSink): InlayHintsCollector? {
+    override fun getCollectorFor(file: PsiFile, editor: Editor, settings: InlayTypeSetting, sink: InlayHintsSink): InlayHintsCollector {
         return InlayTypeHint(settings)
     }
 
     // todo: getCasePreview
-    override fun getCaseDescription(case: ImmediateConfigurable.Case): String? {
-        return "getCaseDescription"
+    override fun getCaseDescription(case: ImmediateConfigurable.Case): String {
+        //return ValkyrieBundle.message(case.id)
+        return case.id
     }
 
-    override fun getProperty(key: String): String? {
+    override fun getProperty(key: String): String {
         return "ValkyrieInlayProvider.getProperty"
     }
 }
 
-data class InlayTypeSetting(
-    var showBitFlagType: Boolean = true,
-    var showForVariables: Boolean = true,
-    var showForLambdas: Boolean = true,
-    var showForIterators: Boolean = true,
-    var showPatternItemType: Boolean = true,
-    var showObviousTypes: Boolean = false,
-)
 
 @Suppress("UnstableApiUsage")
 private class InlayTypeHint(private val settings: InlayTypeSetting) : InlayHintsCollector {
     override fun collect(element: PsiElement, editor: Editor, sink: InlayHintsSink): Boolean {
         val inlay = PresentationFactory(editor);
-        fun inline(start: Int, text: String) {
+        fun inline(start: Int, text: String, split: String = ":") {
             sink.addInlineElement(
-                start,
-                true,
+                start, true,
                 // click then replace
-                inlay.roundWithBackgroundAndSmallInset(inlay.smallTextWithoutBackground(": $text")),
-                false
+                inlay.roundWithBackgroundAndSmallInset(inlay.smallTextWithoutBackground("$split $text")), false
             )
         }
         when {
-            settings.showPatternItemType && element is ValkyriePatternItemNode -> {
+            settings.showForLoopType && element is ValkyriePatternItemNode -> {
                 inline(element.identifier.textRange.endOffset, "Unknown")
             }
 
-            element is ValkyrieDefineStatementNode -> {
-                if (element.typeExpression == null) {
-                    element.defineTuple?.textRange?.let {
+            settings.showDefineParameterType && element is ValkyrieDefineItemNode -> {
+                val id = element.identifier ?: return true;
+                if (id.text == "self") {
+                    // skip
+                } else if (element.typeExpression == null) {
+                    id.textRange?.let {
                         inline(it.endOffset, "Unknown")
                     }
                 }
             }
 
-            element is ValkyrieBitflagStatementNode -> {
+            settings.showDefineReturnType && element is ValkyrieDefineStatementNode -> {
+                if (element.typeExpression == null) {
+                    element.defineTuple?.textRange?.let {
+                        inline(it.endOffset, "Unknown", split = "⟶")
+                    }
+                }
+            }
+
+            settings.showBitFlagType && element is ValkyrieBitflagStatementNode -> {
                 if (element.typeExpression == null) {
                     inline(element.identifier.textRange.endOffset, "u32")
                 }
