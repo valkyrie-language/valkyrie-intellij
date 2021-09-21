@@ -1,6 +1,6 @@
 package valkyrie.ide.completion
 
-import valkyrie.ValkyrieBundle
+import valkyrie.language.ValkyrieBundle
 import valkyrie.settings.CodeInsightSettings
 import com.intellij.application.options.CodeCompletionOptionsCustomSection
 import com.intellij.openapi.options.ConfigurableBuilder

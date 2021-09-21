@@ -1,6 +1,6 @@
 namespace std.cats;
 
-union Either[L, R] -> R {
+variant Either[L, R] -> R {
 	Lyft { l: L },
 	Riht { r: R },
 }

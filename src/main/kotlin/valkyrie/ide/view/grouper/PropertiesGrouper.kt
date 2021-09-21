@@ -1,12 +1,10 @@
 // Copyright 2000-2020 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 package valkyrie.ide.view.grouper
 
-import valkyrie.ValkyrieBundle
+import valkyrie.language.ValkyrieBundle
 import com.intellij.ide.util.treeView.AbstractTreeNode
 import com.intellij.ide.util.treeView.smartTree.*
-import com.intellij.psi.PsiElement
 import com.intellij.util.PlatformIcons
-import org.jetbrains.annotations.NonNls
 
 object PropertiesGrouper : Grouper {
     override fun getPresentation(): ActionPresentation = ActionPresentationData(

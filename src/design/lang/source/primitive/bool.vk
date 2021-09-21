@@ -6,7 +6,7 @@ namespace std.native;
 
 #native(1byte)
 #derive(Copy, Clone, Display)
-union Boolean {
+variant Boolean {
     True,
     False
 }

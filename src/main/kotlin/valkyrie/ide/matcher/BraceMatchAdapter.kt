@@ -1,6 +1,6 @@
 package valkyrie.ide.matcher
 
-import valkyrie.ValkyrieLanguage
+import valkyrie.language.ValkyrieLanguage
 import valkyrie.ide.file.ValkyrieFileType
 
 import com.intellij.codeInsight.highlighting.PairedBraceMatcherAdapter

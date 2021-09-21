@@ -8,7 +8,7 @@ import com.intellij.openapi.options.colors.AttributesDescriptor
 import com.intellij.openapi.util.NlsContexts.AttributeDescriptor
 import java.util.function.Supplier
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors as Default
-import valkyrie.ValkyrieBundle;
+import valkyrie.language.ValkyrieBundle;
 
 @Suppress("UnstableApiUsage")
 enum class ValkyrieHighlightColor(humanName: Supplier<@AttributeDescriptor String>, default: TextAttributesKey? = null) {

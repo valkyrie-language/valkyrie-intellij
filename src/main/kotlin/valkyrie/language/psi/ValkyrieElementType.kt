@@ -1,8 +1,6 @@
 package valkyrie.language.psi
 
-import valkyrie.ValkyrieLanguage
-import com.intellij.psi.PsiElement
-import com.intellij.psi.stubs.*
+import valkyrie.language.ValkyrieLanguage
 import com.intellij.psi.tree.IElementType
 
 class ValkyrieElementType(debugName: String) : IElementType(debugName, ValkyrieLanguage) {

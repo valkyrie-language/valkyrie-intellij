@@ -4,7 +4,7 @@ import com.intellij.openapi.editor.colors.EditorColorsManager
 import com.intellij.openapi.editor.richcopy.HtmlSyntaxInfoUtil
 import com.intellij.psi.PsiElement
 import com.intellij.ui.ColorUtil
-import valkyrie.ValkyrieLanguage
+import valkyrie.language.ValkyrieLanguage
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.highlight.ValkyrieHighlightColor.*
 import valkyrie.language.psi.ValkyrieTokenType

@@ -1,7 +1,7 @@
 package valkyrie.ide.view.filter
 
 
-import valkyrie.ValkyrieBundle
+import valkyrie.language.ValkyrieBundle
 import valkyrie.ide.view.ValkyrieViewElement
 import com.intellij.icons.AllIcons
 import com.intellij.ide.util.treeView.smartTree.ActionPresentation

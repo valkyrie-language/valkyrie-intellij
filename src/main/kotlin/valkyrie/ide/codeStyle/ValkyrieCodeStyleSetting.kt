@@ -3,7 +3,7 @@ package valkyrie.ide.codeStyle
 import com.intellij.application.options.CodeStyleAbstractConfigurable
 import com.intellij.application.options.SmartIndentOptionsEditor
 import com.intellij.psi.codeStyle.*
-import valkyrie.ValkyrieLanguage
+import valkyrie.language.ValkyrieLanguage
 
 class ValkyrieCodeStyleSetting : LanguageCodeStyleSettingsProvider() {
     override fun getLanguage() = ValkyrieLanguage

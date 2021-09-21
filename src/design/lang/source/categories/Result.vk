@@ -19,7 +19,7 @@ macro Failure(e: Expression) {
 }
 
 #documentation(include="Result.vnote")
-union Result[T, E] -> T {
+variant Result[T, E] -> T {
     ///
     Success {
         ///

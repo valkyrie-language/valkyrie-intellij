@@ -1,6 +1,6 @@
 package valkyrie.ide.actions
 
-import valkyrie.ValkyrieBundle
+import valkyrie.language.ValkyrieBundle
 import valkyrie.ide.file.ValkyrieIconProvider.Companion.FILE
 import com.intellij.ide.actions.CreateFileAction
 import com.intellij.openapi.actionSystem.AnActionEvent

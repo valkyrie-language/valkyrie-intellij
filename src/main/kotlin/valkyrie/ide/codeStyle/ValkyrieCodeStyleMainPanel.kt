@@ -1,6 +1,6 @@
 package valkyrie.ide.codeStyle
 
-import valkyrie.ValkyrieLanguage
+import valkyrie.language.ValkyrieLanguage
 import com.intellij.application.options.GenerationCodeStylePanel
 import com.intellij.application.options.TabbedLanguageCodeStylePanel
 import com.intellij.psi.codeStyle.CodeStyleSettings

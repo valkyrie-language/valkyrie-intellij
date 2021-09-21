@@ -4,7 +4,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import com.intellij.psi.util.elementType
-import valkyrie.ValkyrieLanguage
+import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.psi.ValkyrieTypes.*
 
 val keywords: TokenSet = TokenSet.create(

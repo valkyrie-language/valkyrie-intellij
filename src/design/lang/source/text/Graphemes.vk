@@ -11,6 +11,8 @@ class Graphemes {
 
 #native
 extends char {
+    get ascii = 2;
+
     as_ascii(self) -> Ascii {
 
     }

@@ -42,7 +42,7 @@ class C {
 let val = @type_of[a];
 let bbb = f(x).m(y)
 
-//
-// define type A {
-//
-// }
+
+class LevelManager(Singleton) {
+
+}

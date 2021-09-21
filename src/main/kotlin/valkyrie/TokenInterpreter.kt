@@ -1,10 +1,12 @@
 @file:OptIn(ExperimentalStdlibApi::class)
 
-package valkyrie.language.lexer
+package valkyrie
 
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
+import valkyrie.language.lexer.LexerContext
 import valkyrie.language.lexer.LexerContext.Coding
+import valkyrie.language.lexer.StackItem
 import valkyrie.language.psi.ValkyrieTypes
 
 /**
@@ -16,8 +18,8 @@ private val keywordSP = """(?x)
     | \b(if|else)\b
     | \b(for|in)\b | \b(while|loop)\b
     | \b(is|not)\b
-    | \b(type|class|union)\b
-    | \b(bitflag)\b
+    | \b(type|class)\b
+    | \b(variant|bitflag)\b
     | \b(trait)\b
     | \b(extend|extends)\b
     | \b(let|def|macro)\b

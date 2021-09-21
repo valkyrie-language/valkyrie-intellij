@@ -1,7 +1,7 @@
 package valkyrie.ide.file
 
-import valkyrie.ValkyrieBundle
-import valkyrie.ValkyrieLanguage
+import valkyrie.language.ValkyrieBundle
+import valkyrie.language.ValkyrieLanguage
 import com.intellij.openapi.fileTypes.LanguageFileType
 import javax.swing.Icon
 

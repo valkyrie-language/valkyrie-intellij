@@ -1,8 +1,9 @@
-package valkyrie
+package valkyrie.language
 
 import com.intellij.lang.Language
 
 private const val LANGUAGE_ID = "Valkyrie"
+
 
 object ValkyrieLanguage: Language(LANGUAGE_ID) {
     override fun getDisplayName(): String {

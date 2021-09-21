@@ -9,7 +9,7 @@ type Bytes = Array[u8]
 // https://docs.rs/bytestream/
 #native
 #derive(Debug)
-union Endianess {
+variant Endianess {
     LittleEndian,
     BigEndian,
 }

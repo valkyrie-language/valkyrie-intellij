@@ -14,7 +14,7 @@ def micro None() {
     Option::None
 }
 
-union Option[T] -> T {
+variant Option[T] -> T {
     Some {
         value: T
     },

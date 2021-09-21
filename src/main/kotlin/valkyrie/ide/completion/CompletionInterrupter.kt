@@ -1,6 +1,6 @@
 package valkyrie.ide.completion
 
-import valkyrie.ValkyrieLanguage
+import valkyrie.language.ValkyrieLanguage
 import com.intellij.codeInsight.completion.XmlCharFilter
 import com.intellij.codeInsight.editorActions.XmlAutoPopupHandler
 import com.intellij.codeInsight.lookup.CharFilter

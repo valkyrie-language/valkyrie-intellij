@@ -4,7 +4,7 @@ import com.intellij.formatting.SpacingBuilder
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import com.intellij.psi.tree.TokenSet
-import valkyrie.ValkyrieLanguage
+import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.psi.ValkyrieTypes.*
 
 private val removeSpaceBefore = TokenSet.create(

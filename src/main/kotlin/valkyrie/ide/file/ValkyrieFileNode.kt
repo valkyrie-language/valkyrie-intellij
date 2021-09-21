@@ -1,7 +1,7 @@
 package valkyrie.ide.file
 
-import valkyrie.ValkyrieBundle
-import valkyrie.ValkyrieLanguage
+import valkyrie.language.ValkyrieBundle
+import valkyrie.language.ValkyrieLanguage
 import valkyrie.ide.view.ValkyrieViewElement
 import valkyrie.language.ast.ValkyrieASTBase
 import valkyrie.language.psi_node.ValkyrieClassStatementNode

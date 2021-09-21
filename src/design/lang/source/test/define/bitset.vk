@@ -6,7 +6,8 @@ bitflag Bitflags {
     D = 8
 }
 
-bitflag public Flags {
+
+bitflag Flags {
     A = 1 << 0
     B = 1 << 1
     C = 1 << 2
@@ -17,7 +18,7 @@ bitflag public Flags {
 def test test() {
     let e1 = Flags::A | Flags::C;
     let e2 = Flags::B | Flags::C;
-    // union
+    // variant
     assert_eq!((e1 | e2), Flags::ABC);
     // intersection
     assert_eq!((e1 & e2), Flags::C);

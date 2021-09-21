@@ -6,7 +6,7 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.ui.dsl.builder.panel
-import valkyrie.ValkyrieBundle
+import valkyrie.language.ValkyrieBundle
 import valkyrie.language.psi_node.*
 import javax.swing.JComponent
 

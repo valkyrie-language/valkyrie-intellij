@@ -69,28 +69,25 @@
 		<symbolNavigation
 			forClass="valkyrie.language.symbol.ValkyrieSymbol"
 			implementationClass="valkyrie.ide.goto.VSymbolNavigationProvider"/>
-		<codeInsight.gotoSuper
-			language="Valkyrie"
-			implementationClass="valkyrie.ide.goto.VGotoSuperHandler"/>
+		<codeInsight.gotoSuper language="Valkyrie" implementationClass="valkyrie.ide.goto.VGotoSuperHandler"/>
 		<!-- Hint -->
-		<codeInsight.parameterNameHints
-			language="Valkyrie"
-			implementationClass="valkyrie.ide.hint.ValkyrieArgumentNameHint"/>
 		<codeInsight.inlayProvider
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.hint.ValkyrieInlayTypeHint"/>
+		<codeInsight.typeInfo language="Valkyrie" implementationClass="valkyrie.ide.hint.TypeInfoHint"/>
+		<codeInsight.parameterInfo language="Valkyrie" implementationClass="valkyrie.ide.hint.ParameterInfoHint"/>
+		<codeInsight.parameterNameHints language="Valkyrie" implementationClass="valkyrie.ide.hint.ParameterNameHint"/>
+		<codeInsight.overrideMethod language="Valkyrie" implementationClass="valkyrie.ide.hint.ValkyrieOverrideMark"/>
+		<codeInsight.implementMethod language="Valkyrie" implementationClass="valkyrie.ide.hint.ValkyrieImplementMark"/>
 		<codeInsight.lineMarkerProvider
 			language="Valkyrie"
-			implementationClass="valkyrie.ide.hint.ValkyrieSuperMark"/>
-		<codeInsight.overrideMethod
+			implementationClass="valkyrie.ide.hint.ValkyrieClassElementMark"/>
+		<codeInsight.lineMarkerProvider
 			language="Valkyrie"
-			implementationClass="valkyrie.ide.hint.ValkyrieOverrideMark"/>
-		<codeInsight.implementMethod
-			language="Valkyrie"
-			implementationClass="valkyrie.ide.hint.ValkyrieImplementMark"/>
+			implementationClass="valkyrie.ide.hint.ValkyrieRunTestMark"/>
 		<vcs.codeVisionLanguageContext
 			language="Valkyrie"
-			implementationClass="valkyrie.ide.hint.ValkyrieAuthorAbove"/>
+			implementationClass="valkyrie.ide.hint.AuthorAbove"/>
 		<!--		<psi.fileReferenceHelper implementation="valkyrie.ide.reference.ValkyrieFileReference"/>-->
 		<psi.referenceContributor implementation="valkyrie.ide.reference.ValkyrieReferenceContributor"/>
 		<psi.symbolReferenceProvider

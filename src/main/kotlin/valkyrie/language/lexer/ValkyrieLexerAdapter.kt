@@ -3,6 +3,7 @@ package valkyrie.language.lexer
 
 import com.intellij.lexer.LexerBase
 import com.intellij.psi.tree.IElementType
+import valkyrie.TokenInterpreter
 
 class ValkyrieLexerAdapter : LexerBase() {
     private var buffer: CharSequence = ""

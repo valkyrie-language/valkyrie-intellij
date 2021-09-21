@@ -1,6 +1,6 @@
 namespace std.categories;
 
-union Validation[T, E] -> T {
+variant Validation[T, E] -> T {
     Fine {
         value: T,
         error: [E]
