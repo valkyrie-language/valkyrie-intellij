@@ -349,9 +349,11 @@ private op_binary ::=
     | OP_MUL | OP_MUL_ASSIGN
     | OP_DIV | OP_DIV_ASSIGN | OP_MOD | OP_MOD_ASSIGN
     | OP_POW | OP_POW_ASSIGN
-    | OP_GT | OP_LT | DOT_LESS | DOT_EQ | DOT2 | DOT
-    | OP_TO
+    | OP_GT | OP_LT | OP_LL | OP_LLL | OP_GG | OP_GGG
+    | DOT_LESS | DOT_EQ | DOT2 | DOT
+    | OP_TO | OP_OR | OP_OR2
     | OP_AND_THEN | OP_OR_ELSE
+    | OP_AND | OP_AND2
     // is | is not
     | OP_NOT_A | OP_IS_A OP_NOT | OP_IS_A | OP_NOT OP_IS_A
     | OP_AS

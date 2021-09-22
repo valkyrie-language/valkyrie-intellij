@@ -21,6 +21,7 @@ class ValkyrieDependenceLibrary : SyntheticLibrary, ItemPresentation {
     }
 
 
+
     constructor(info: RequestDependencies.DependenciesInfo) {
         id = info.name;
         version = info.version;

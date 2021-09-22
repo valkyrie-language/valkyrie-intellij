@@ -43,6 +43,6 @@ let val = @type_of[a];
 let bbb = f(x).m(y)
 
 
-class LevelManager(Singleton) {
+class LevelManager {
 
 }

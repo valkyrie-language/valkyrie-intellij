@@ -24,7 +24,7 @@
 			builderClass="valkyrie.ide.project.ValkyrieModuleBuilder"
 			id="VALKYRIE_MODULE_TYPE"
 			order="first"/>
-		<fileBasedIndex implementation="valkyrie.ide.project.ValkyrieFileIndex" />
+		<fileBasedIndex implementation="valkyrie.ide.project.ValkyrieFileIndex"/>
 		<indexedRootsProvider implementation="valkyrie.ide.project.ExtraIndexContributor"/>
 		<additionalLibraryRootsProvider implementation="valkyrie.ide.project.LibraryRootsProvider"/>
 		<!-- StructureView -->
@@ -71,8 +71,8 @@
 			forClass="valkyrie.language.symbol.ValkyrieSymbol"
 			implementationClass="valkyrie.ide.goto.VSymbolNavigationProvider"/>
 		<codeInsight.gotoSuper language="Valkyrie" implementationClass="valkyrie.ide.goto.VGotoSuperHandler"/>
-<!--		<bookmarkProvider implementation="valkyrie.ide.goto.ValkyrieBookmark"/>-->
-<!--		<bookmarksListProvider implementation="valkyrie.ide.goto.ValkyrieBookmarkList"/>-->
+		<!--		<bookmarkProvider implementation="valkyrie.ide.goto.ValkyrieBookmark"/>-->
+		<!--		<bookmarksListProvider implementation="valkyrie.ide.goto.ValkyrieBookmarkList"/>-->
 		<!-- Hint -->
 		<codeInsight.inlayProvider
 			language="Valkyrie"

@@ -30,15 +30,15 @@ private val keywordSP = """(?x)
     | \b(yield|break)\b
     """.toRegex()
 private val punctuations = """(?x)\\
-    | [.]{2}[<|=]
+    | [.]{2}[=<]
     | [.]{1,3}
     | [{}\[\]()]
     | [,;$§¶^]
     | @[*!?@]?
     | \#[!]?
-    # start with < >
-    | >= | /> | ≥ | ⩾ | >{1,3}
-    | <= | </ | ≤ | ⩽ | <: | <! | <{1,3}
+    # start with <, >
+    | >{1,3} | >= | /> | ≥ | ⩾ | ≫
+    | <{1,3} | <= | </ | ≤ | ⩽ | <: | <! 
     # start with :
     | ∷ | :: | :> | :
     # start with -
@@ -285,7 +285,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             "/" -> pushToken(ValkyrieTypes.OP_DIV, r)
             // start with &
             "&&=" -> pushToken(ValkyrieTypes.OP_AND_ASSIGN, r)
-            "&&" -> pushToken(ValkyrieTypes.OP_AND, r)
+            "&&" -> pushToken(ValkyrieTypes.OP_AND2, r)
             "&=" -> pushToken(ValkyrieTypes.OP_AND_ASSIGN, r)
             "&" -> pushToken(ValkyrieTypes.OP_AND, r)
             //

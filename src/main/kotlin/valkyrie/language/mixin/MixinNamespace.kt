@@ -24,9 +24,10 @@ open class MixinNamespace(node: ASTNode) : ViewableNode(node), PsiNameIdentifier
         return originalElement.namepathFree.lastChild.text
     }
 
-    fun getNamespace(): Array<String> {
-        return originalElement.namepathFree.identifierList.map { it.text }.toTypedArray()
-    }
+    val namespace: Array<String>
+        get() {
+            return originalElement.namepathFree.identifierList.map { it.text }.toTypedArray()
+        }
 
 
     override fun setName(name: String): PsiElement {

@@ -45,6 +45,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     override fun visitTypeStatement(o: ValkyrieTypeStatement) {
         highlight(o.genericType.identifier, Color.SYM_CLASS)
     }
+
     override fun visitClassStatement(o: ValkyrieClassStatement) {
         o as ValkyrieClassStatementNode
         highlight(o.modified.lastChild, Color.SYM_CLASS)
@@ -84,11 +85,8 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
 
-
-
     override fun visitBitflagStatement(o: ValkyrieBitflagStatement) {
-//        highlight(o.symbol, Color.SYM_CLASS)
-//        highlightModifiers(o.modifiers)
+        highlight(o.identifier, Color.SYM_CLASS)
     }
 
     override fun visitBitflagItem(o: ValkyrieBitflagItem) {
@@ -122,9 +120,9 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifier, Color.SYM_MACRO)
     }
 
-    // TODO: real syntax resolve
+
     override fun visitIdentifier(o: ValkyrieIdentifier) {
-        highlightWithText(o)
+        // TODO: real syntax resolve
     }
 
     override fun visitObjectKey(o: ValkyrieObjectKey) {
@@ -138,7 +136,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         if (!o.text.first().isDigit()) {
             highlight(o, Color.SYM_FIELD)
         }
-
     }
 
 
@@ -194,7 +191,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     ): Boolean {
         infoHolder = holder
         action.run()
-
         return true
     }
 
@@ -203,41 +199,4 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     override fun suitableForFile(file: PsiFile): Boolean = file is ValkyrieFileNode
 
     override fun visit(element: PsiElement) = element.accept(this)
-}
-
-
-private fun NodeHighlighter.highlightWithText(o: PsiElement) {
-    when (o.text) {
-        "Point", "Ellipse", "Circle", "Test", "Regex" -> {
-            highlight(o, Color.SYM_CLASS)
-        }
-
-        "Default", "Debug", "Clone", "Copy", "Serialize", "Deserialize",
-        "SemiGroup", "Monoid", "HKT", "Functor", "Shape", "Display",
-        -> {
-            highlight(o, Color.SYM_TRAIT)
-        }
-
-        "u8", "u16", "u32", "u64", "u128", "u256",
-        "i8", "i16", "i32", "i64", "i128", "i256",
-        "int", "bool", "str", "string", "f32", "f64", "char", "byte", "void",
-        -> {
-            highlight(o, Color.KEYWORD)
-        }
-
-        "self", "Self", "crate", "true", "false", "null",
-        -> {
-            highlight(o, Color.KEYWORD)
-        }
-
-        "Option", "Result", "Current", "Target" -> {
-            highlight(o, Color.SYM_CLASS)
-        }
-
-        "None", "Some", "Success", "Failure" -> {
-            highlight(o, Color.SYM_VARIANT)
-        }
-
-        else -> {}
-    }
 }

@@ -1,66 +1,61 @@
 package valkyrie.ide.project
 
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.psi.search.ProjectAndLibrariesScope
 import com.intellij.util.indexing.*
 import com.intellij.util.io.DataExternalizer
-import com.intellij.util.io.KeyDescriptor
-import valkyrie.ide.file.ValkyrieFileType
+import valkyrie.ide.file.ValkyrieFileNode
 import java.io.DataInput
 import java.io.DataOutput
 
-class ValkyrieFileIndex : FileBasedIndexExtension<String, String>() {
-    override fun getName(): ID<String, String> {
-        return ID.create("valkyrie.file.index")
-    }
-
-    override fun getIndexer(): DataIndexer<String, String, FileContent> {
-        return DataIndexer {
-            val map = mutableMapOf<String, String>()
-            map["key"] = "value"
-            map
+class ValkyrieFileIndex : SingleEntryFileBasedIndexExtension<ValkyrieFileData>() {
+    companion object {
+        val id = ID.create<Int, ValkyrieFileData>("valkyrie.file.index")
+        fun getFileData(project: Project, file: VirtualFile): List<ValkyrieFileData> {
+            val output = mutableListOf<ValkyrieFileData>()
+            val keys = FileBasedIndex.getInstance().getAllKeys(id, project);
+            for (key in keys) {
+                val values = FileBasedIndex.getInstance().getValues(id, key, ProjectAndLibrariesScope(project));
+                for (value in values) {
+                    if (value.path == file.path) {
+                        output.add(value)
+                    }
+                }
+            }
+            return output
         }
     }
 
-    override fun getKeyDescriptor(): KeyDescriptor<String> {
-        return object : KeyDescriptor<String> {
-            override fun getHashCode(value: String): Int {
-                return value.hashCode()
-            }
+    override fun getName(): ID<Int, ValkyrieFileData> {
+        return id
+    }
 
-            override fun isEqual(val1: String, val2: String): Boolean {
-                return val1 == val2
-            }
-
-            override fun save(out: DataOutput, value: String) {
-                out.writeUTF(value)
-            }
-
-            override fun read(`in`: DataInput): String {
-                return `in`.readUTF()
+    override fun getIndexer(): SingleEntryIndexer<ValkyrieFileData> {
+        return object : SingleEntryIndexer<ValkyrieFileData>(false) {
+            override fun computeValue(inputData: FileContent): ValkyrieFileData {
+                return ValkyrieFileData(inputData.psiFile as ValkyrieFileNode)
             }
         }
     }
 
-    override fun getValueExternalizer(): DataExternalizer<String> {
-        return object : DataExternalizer<String> {
-            override fun save(out: DataOutput, value: String) {
-                out.writeUTF(value)
+    override fun getValueExternalizer(): DataExternalizer<ValkyrieFileData> {
+        return object : DataExternalizer<ValkyrieFileData> {
+            override fun save(out: DataOutput, value: ValkyrieFileData) {
+                value.save(out)
             }
 
-            override fun read(`in`: DataInput): String {
-                return `in`.readUTF()
+            override fun read(`in`: DataInput): ValkyrieFileData {
+                return ValkyrieFileData(`in`)
             }
         }
     }
 
     override fun getVersion(): Int {
-        return 0
+        return 1
     }
 
     override fun getInputFilter(): FileBasedIndex.InputFilter {
-        return DefaultFileTypeSpecificInputFilter(ValkyrieFileType)
-    }
-
-    override fun dependsOnFileContent(): Boolean {
-        return true
+        return FileBasedIndex.InputFilter { file -> file.extension == "vk" }
     }
 }

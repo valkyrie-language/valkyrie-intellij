@@ -2488,9 +2488,11 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   //     | OP_MUL | OP_MUL_ASSIGN
   //     | OP_DIV | OP_DIV_ASSIGN | OP_MOD | OP_MOD_ASSIGN
   //     | OP_POW | OP_POW_ASSIGN
-  //     | OP_GT | OP_LT | DOT_LESS | DOT_EQ | DOT2 | DOT
-  //     | OP_TO
+  //     | OP_GT | OP_LT | OP_LL | OP_LLL | OP_GG | OP_GGG
+  //     | DOT_LESS | DOT_EQ | DOT2 | DOT
+  //     | OP_TO | OP_OR | OP_OR2
   //     | OP_AND_THEN | OP_OR_ELSE
+  //     | OP_AND | OP_AND2
   //     // is | is not
   //     | OP_NOT_A | OP_IS_A OP_NOT | OP_IS_A | OP_NOT OP_IS_A
   //     | OP_AS
@@ -2518,13 +2520,21 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, OP_POW_ASSIGN);
     if (!r) r = consumeToken(b, OP_GT);
     if (!r) r = consumeToken(b, OP_LT);
+    if (!r) r = consumeToken(b, OP_LL);
+    if (!r) r = consumeToken(b, OP_LLL);
+    if (!r) r = consumeToken(b, OP_GG);
+    if (!r) r = consumeToken(b, OP_GGG);
     if (!r) r = consumeToken(b, DOT_LESS);
     if (!r) r = consumeToken(b, DOT_EQ);
     if (!r) r = consumeToken(b, DOT2);
     if (!r) r = consumeToken(b, DOT);
     if (!r) r = consumeToken(b, OP_TO);
+    if (!r) r = consumeToken(b, OP_OR);
+    if (!r) r = consumeToken(b, OP_OR2);
     if (!r) r = consumeToken(b, OP_AND_THEN);
     if (!r) r = consumeToken(b, OP_OR_ELSE);
+    if (!r) r = consumeToken(b, OP_AND);
+    if (!r) r = consumeToken(b, OP_AND2);
     if (!r) r = consumeToken(b, OP_NOT_A);
     if (!r) r = parseTokens(b, 0, OP_IS_A, OP_NOT);
     if (!r) r = consumeToken(b, OP_IS_A);

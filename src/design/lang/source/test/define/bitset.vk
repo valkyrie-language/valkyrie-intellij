@@ -6,26 +6,25 @@ bitflag Bitflags {
     D = 8
 }
 
-
 bitflag Flags {
     A = 1 << 0
     B = 1 << 1
     C = 1 << 2
-    bitflag = A | B | C
-    class = 1 >> 8
+    ABC = A | B | C
+    ALL = 1 >> 8
 }
 
 def test test() {
     let e1 = Flags::A | Flags::C;
     let e2 = Flags::B | Flags::C;
     // variant
-    assert_eq!((e1 | e2), Flags::ABC);
+    assert_eq((e1 | e2), Flags::ABC);
     // intersection
-    assert_eq!((e1 & e2), Flags::C);
+    assert_eq((e1 & e2), Flags::C);
     // set difference
-    assert_eq!((e1 - e2), Flags::A);
+    assert_eq((e1 - e2), Flags::A);
     // set complement
-    assert_eq!(!e2, Flags::A);
+    assert_eq(!e2, Flags::A);
     // set all bits to 1
     e1.all();
     // set all bits to 0
