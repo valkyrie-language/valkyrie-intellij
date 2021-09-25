@@ -5,6 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieNumber extends PsiElement {
+public interface ValkyrieGeneric2 extends PsiElement {
+
+  @NotNull
+  ValkyrieGenericType getGenericType();
 
 }

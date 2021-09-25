@@ -8,24 +8,30 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.language.psi.ValkyrieTypes.*;
-import valkyrie.language.mixin.MixinNumber;
+import valkyrie.language.ast.ValkyrieASTBase;
 import valkyrie.language.psi.*;
 import valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieNumberNode extends MixinNumber implements ValkyrieNumber {
+public class ValkyrieGeneric2Node extends ValkyrieASTBase implements ValkyrieGeneric2 {
 
-  public ValkyrieNumberNode(@NotNull ASTNode node) {
+  public ValkyrieGeneric2Node(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitNumber(this);
+    visitor.visitGeneric2(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof ValkyrieVisitor) accept((ValkyrieVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  @NotNull
+  public ValkyrieGenericType getGenericType() {
+    return findNotNullChildByClass(ValkyrieGenericType.class);
   }
 
 }

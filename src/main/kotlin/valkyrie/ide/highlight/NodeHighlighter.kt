@@ -140,9 +140,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
 
     override fun visitNumber(o: ValkyrieNumber) {
-        o.identifier?.let {
-            highlight(it, Color.OP_NUMBER)
-        }
+        // lexer color
     }
 
     override fun visitString(o: ValkyrieString) {

@@ -1,12 +1,29 @@
 package valkyrie.language.mixin
 
-import valkyrie.language.ast.ValkyrieASTBase
 import com.intellij.lang.ASTNode
+import com.intellij.psi.PsiElement
+import com.intellij.psi.util.elementType
+import valkyrie.language.ast.ValkyrieASTBase
+import valkyrie.language.psi.ValkyrieTypes
 
 // PsiReference
 open class MixinNumber(node: ASTNode) : ValkyrieASTBase(node) {
-    fun getStringText(): String {
-        return this.children.reversed()[2].text
-    }
+    val number: PsiElement
+        get() {
+            return this.firstChild
+        }
+    val unit: PsiElement?
+        get() {
+            val last = this.lastChild;
+            return when (last.elementType) {
+                ValkyrieTypes.NUMBER_SUFFIX -> {
+                    last
+                }
+                else -> {
+                    null
+                }
+            }
+        }
+
 }
 

@@ -54,8 +54,8 @@ public class ValkyrieTermNode extends MixinTerm implements ValkyrieTerm {
 
   @Override
   @NotNull
-  public List<ValkyrieGenericType> getGenericTypeList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieGenericType.class);
+  public List<ValkyrieGeneric2> getGeneric2List() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieGeneric2.class);
   }
 
   @Override

@@ -12,10 +12,7 @@ import valkyrie.language.psi_node.ValkyrieNumberNode
 class NumberChecker : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         if (element !is ValkyrieNumberNode) return
-        val unit = when (val id = element.identifier) {
-            null -> ""
-            else -> id.text
-        }
+        val unit = ""
         annotateSimple(element.firstChild, holder)
     }
 

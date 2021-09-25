@@ -225,13 +225,15 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
         | (`)((?:[^`\\]|\\.)*)(\1)
         """.toRegex()
         val r = tryMatch(xid) ?: return false
-//        when {
-//            r.value == "not" && lastIs() -> {
-//
-//
-//            }
-//        }f
-        pushToken(ValkyrieTypes.SYMBOL_XID, r)
+        when {
+            lastIs(ValkyrieTypes.INTEGER, ValkyrieTypes.DECIMAL, skipWS = false) -> {
+                pushToken(ValkyrieTypes.NUMBER_SUFFIX, r)
+            }
+            else -> {
+                pushToken(ValkyrieTypes.SYMBOL_XID, r)
+            }
+        }
+
         return true
     }
 

@@ -11,7 +11,7 @@ bitflag Flags {
     B = 1 << 1
     C = 1 << 2
     ABC = A | B | C
-    ALL = 1 >> 8
+    中文 = 1 >> 8
 }
 
 def test test() {

@@ -318,7 +318,7 @@ extends_statement   ::= KW_EXTENDS [generic_call] [modifiers] namepath [generic_
 bitflag_statement   ::= KW_BITFLAG [modifiers] identifier [COLON type_expression] bitflag_block {
     mixin="valkyrie.language.mixin.MixinBitflag"
 };
-bitflag_block       ::= <<brace_block (bitflag_item | macro_call) SEMICOLON>>;
+bitflag_block       ::= <<brace_free (bitflag_item | macro_call) SEMICOLON>>;
 bitflag_item        ::= identifier OP_SET expression;
 // ---------------------------------------------------------------------------------------------------------------------
 expression          ::= term (op_binary term)*;
@@ -331,9 +331,10 @@ inline_term         ::= op_prefix* atom line_sfx* {
 };
 dot_call            ::= DOT namepath;
 // a::b().c::d::[T, U]()?!⟦i:j:k⟧
-private line_sfx ::= op_suffix | call_suffix | generic_type | slice | dot_call {
+private line_sfx ::= op_suffix | call_suffix | generic_2 | slice | dot_call {
 
 }
+generic_2 ::= COLON{2} generic_type;
 // line_sfx {}.match {...}.catch {...}
 private term_sfx ::= line_sfx
     | normal_block
@@ -389,7 +390,7 @@ slice_item     ::=
   | expression;
 // ---------------------------------------------------------------------------------------------------------------------
 boolean        ::= "true" | "false";
-number         ::= (BYTE | INTEGER | DECIMAL) [identifier] {
+number         ::= (BYTE | INTEGER | DECIMAL) [NUMBER_SUFFIX] {
     mixin="valkyrie.language.mixin.MixinNumber"
 }
 string         ::= [identifier] STRING_START STRING_TEXT STRING_END {

@@ -39,6 +39,7 @@ public interface ValkyrieTypes {
   IElementType FORALL_BLOCK = new ValkyrieTokenType("FORALL_BLOCK");
   IElementType FORALL_STATEMENT = new ValkyrieTokenType("FORALL_STATEMENT");
   IElementType FOR_STATEMENT = new ValkyrieTokenType("FOR_STATEMENT");
+  IElementType GENERIC_2 = new ValkyrieTokenType("GENERIC_2");
   IElementType GENERIC_CALL = new ValkyrieTokenType("GENERIC_CALL");
   IElementType GENERIC_DEFINE = new ValkyrieTokenType("GENERIC_DEFINE");
   IElementType GENERIC_TYPE = new ValkyrieTokenType("GENERIC_TYPE");
@@ -146,6 +147,7 @@ public interface ValkyrieTypes {
   IElementType KW_WHILE = new ValkyrieTokenType("KW_WHILE");
   IElementType KW_WITH = new ValkyrieTokenType("KW_WITH");
   IElementType KW_YIELD = new ValkyrieTokenType("KW_YIELD");
+  IElementType NUMBER_SUFFIX = new ValkyrieTokenType("NUMBER_SUFFIX");
   IElementType OP_ADD = new ValkyrieTokenType("+");
   IElementType OP_ADD_ASSIGN = new ValkyrieTokenType("+=");
   IElementType OP_AND = new ValkyrieTokenType("&");
@@ -308,6 +310,9 @@ public interface ValkyrieTypes {
       }
       else if (type == FOR_STATEMENT) {
         return new ValkyrieForStatementNode(node);
+      }
+      else if (type == GENERIC_2) {
+        return new ValkyrieGeneric2Node(node);
       }
       else if (type == GENERIC_CALL) {
         return new ValkyrieGenericCallNode(node);
