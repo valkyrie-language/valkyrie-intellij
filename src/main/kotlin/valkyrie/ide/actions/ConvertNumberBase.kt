@@ -6,6 +6,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import valkyrie.ide.formatter.ValkyrieNumberConverter
 import valkyrie.language.psi.ValkyrieFactory
+import valkyrie.language.psi_node.ValkyrieNumberNode
 
 class ConvertNumberBase(private val base: Int) : AbstractNumberConversionIntention() {
     override fun getActionName(converter: NumberConverter?, convertedText: String?): String {
@@ -13,7 +14,17 @@ class ConvertNumberBase(private val base: Int) : AbstractNumberConversionIntenti
     }
 
     override fun extract(element: PsiElement): NumberConversionContext? {
-        return NumberConversionContext(element, 0, element.text, true)
+        if (element is ValkyrieNumberNode) {
+            element.integer?.let {
+                return NumberConversionContext(element, it, element.text, false)
+            }
+            element.decimal?.let {
+                return NumberConversionContext(element, it, element.text, false)
+            }
+        }
+        return null
+
+
     }
 
     override fun getConverters(file: PsiFile): MutableList<NumberConverter> {

@@ -130,8 +130,7 @@
 		<!-- Document -->
 		<lang.documentationProvider
 			language="Valkyrie"
-			implementationClass="valkyrie.ide.doc.DocumentationProvider"
-		/>
+			implementationClass="valkyrie.ide.doc.DocumentationProvider"/>
 		<!--		<indexPatternBuilder-->
 		<!--				implementation="valkyrie.ide.todo.VomlTodoIndexPatternBuilder"-->
 		<!--		/>-->
@@ -150,8 +149,6 @@
 		<action id="NewFluentFile" class="valkyrie.ide.actions.ValkyrieCreateFile">
 			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewHtmlFile"/>
 		</action>
-
-
 		<action id="jss.JssConvertJson" class="valkyrie.ide.actions.FluentConvertMo"/>
 		<group id="jss.JssGenerator" popup="true" text="JssGenerator">
 			<reference ref="NewFluentFile"/>

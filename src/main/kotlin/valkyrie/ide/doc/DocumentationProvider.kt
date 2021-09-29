@@ -11,6 +11,7 @@ import valkyrie.language.ast.DocumentNode
 import valkyrie.language.psi.ValkyrieTokenType
 import valkyrie.language.psi.ValkyrieTypes
 import valkyrie.language.psi.ValkyrieTypes.COMMENT
+import java.net.ConnectException
 import java.util.function.Consumer
 
 
@@ -53,8 +54,14 @@ class DocumentationProvider : DocumentationProvider {
     }
 
     // 悬浮
-    override fun generateHoverDoc(element: PsiElement, originalElement: PsiElement?): String {
-        return DocumentationRenderer(element, originalElement).onHover()
+    override fun generateHoverDoc(element: PsiElement, originalElement: PsiElement?): String? {
+        try {
+            return DocumentationRenderer(element, originalElement).onHover()
+        }
+        catch (_: ConnectException) {
+            // skip
+        }
+        return null
     }
 
     override fun getCustomDocumentationElement(editor: Editor, file: PsiFile, contextElement: PsiElement?, targetOffset: Int): PsiElement? {

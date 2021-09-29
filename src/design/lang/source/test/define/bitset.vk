@@ -32,17 +32,17 @@ def test test() {
 }
 
 extends Bitflags {
-    def get_bits(self) {
+    get_bits(self) {
 
     }
-    def as_bools(self) {
+    as_bools(self) -> [bool] {
 
     }
+    // always public
+    override logic_or(self, rhs: Self) -> Self {
+        Self::from(self.bits | rhs.bits)
+    }
 }
-// always public
-@infix('|')
-def oppo logic_or(self, rhs: Self) -> Self {
-    Self::from(self.bits | rhs.bits)
-}
+
 
 unlimited

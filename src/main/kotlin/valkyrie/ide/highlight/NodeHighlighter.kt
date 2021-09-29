@@ -67,7 +67,12 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitDefineItem(o: ValkyrieDefineItem) {
-        highlight(o.identifier, Color.SYM_FIELD)
+        val id = o.identifier;
+        when {
+            id == null -> return
+            id.text == "self" -> highlight(id, Color.KEYWORD)
+            else -> highlight(o.identifier, Color.SYM_FIELD)
+        }
     }
 
 

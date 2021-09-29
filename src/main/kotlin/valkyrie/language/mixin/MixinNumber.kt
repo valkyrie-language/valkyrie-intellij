@@ -8,7 +8,7 @@ import valkyrie.language.psi.ValkyrieTypes
 import java.math.BigDecimal
 import java.math.BigInteger
 
-// PsiReference
+
 open class MixinNumber(node: ASTNode) : ValkyrieASTBase(node) {
     val number: PsiElement
         get() {
