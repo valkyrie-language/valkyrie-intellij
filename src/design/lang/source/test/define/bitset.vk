@@ -32,15 +32,12 @@ def test test() {
 }
 
 extends Bitflags {
-    get_bits(self) {
-
-    }
     as_bools(self) -> [bool] {
 
     }
     // always public
     override logic_or(self, rhs: Self) -> Self {
-        Self::from(self.bits | rhs.bits)
+        Self::from(self.bits | rhs.bits(a))
     }
 }
 

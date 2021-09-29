@@ -125,9 +125,18 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifier, Color.SYM_MACRO)
     }
 
+    override fun visitForStatement(o: ValkyrieForStatement) {
+        o as ValkyrieForStatementNode;
+        for (v in o.getVariables().getLocal()) {
+            highlight(v.identifier, v.color)
+        }
+    }
 
-    override fun visitIdentifier(o: ValkyrieIdentifier) {
-        // TODO: real syntax resolve
+    override fun visitDotCall(o: ValkyrieDotCall) {
+        when (o.nextSibling) {
+            is ValkyrieCallSuffixNode -> highlight(o.namepath.lastChild, Color.SYM_FUNCTION_FREE)
+            else -> highlight(o.namepath.lastChild, Color.SYM_FIELD)
+        }
     }
 
     override fun visitObjectKey(o: ValkyrieObjectKey) {
@@ -143,9 +152,12 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         }
     }
 
+    override fun visitIdentifier(o: ValkyrieIdentifier) {
+        // TODO: real syntax resolve
+    }
 
     override fun visitNumber(o: ValkyrieNumber) {
-        // lexer color
+        // just lexer color
     }
 
     override fun visitString(o: ValkyrieString) {
@@ -159,22 +171,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     // =================================================================================================================
-
-    private fun highlightSymbolList(
-        symbols: List<ValkyrieIdentifier>,
-        last: Color,
-        rest: Color = Color.KEYWORD,
-    ) {
-        var first = true;
-        for (symbol in symbols.reversed()) {
-            if (first) {
-                first = false
-                highlight(symbol, last)
-            } else {
-                highlight(symbol, rest)
-            }
-        }
-    }
 
     fun highlight(element: PsiElement?, color: Color) {
         if (element == null) return

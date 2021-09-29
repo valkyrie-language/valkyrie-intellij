@@ -127,6 +127,11 @@
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.folding.ValkyrieFoldingBuilder"/>
 		<codeFoldingOptionsProvider instance="valkyrie.ide.folding.ValkyrieFoldingOptions"/>
+		<referenceImporter implementation="valkyrie.ide.completion.ValkyrieImportInsert"/>
+		<lang.importOptimizer
+			language="Valkyrie"
+			implementationClass="valkyrie.ide.completion.ValkyrieImportOptimizer"/>
+		<importFilteringRule implementation="valkyrie.ide.completion.ValkyrieImportFilter"/>
 		<!-- Document -->
 		<lang.documentationProvider
 			language="Valkyrie"

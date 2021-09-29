@@ -1,20 +1,20 @@
 package valkyrie.language.mixin
 
-import valkyrie.ide.reference.ValkyrieReference
-import valkyrie.language.ast.ValkyrieASTBase
-import valkyrie.language.psi.ValkyrieIdentifier
-import valkyrie.language.psi.ValkyrieNormalPattern
-import valkyrie.language.psi.ValkyriePatternPair
 import com.intellij.lang.ASTNode
-import com.intellij.model.Symbol
-import com.intellij.model.psi.PsiSymbolDeclaration
-import com.intellij.model.psi.PsiSymbolReference
-import com.intellij.openapi.util.TextRange
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiReference
+import valkyrie.ide.highlight.ValkyrieHighlightColor
+import valkyrie.language.ast.ValkyrieASTBase
+import valkyrie.language.psi_node.ValkyrieNormalPatternNode
+import valkyrie.language.symbol.ValkyrieVariables
 
 
 open class MixinNormalPattern(node: ASTNode) : ValkyrieASTBase(node) {
-
+    override fun getOriginalElement() = this as ValkyrieNormalPatternNode;
+    fun getVariables(): ValkyrieVariables {
+        val out = ValkyrieVariables()
+        for (item in originalElement.patternItemList) {
+            out.insert(item.identifier, ValkyrieHighlightColor.SYM_LOCAL)
+        }
+        return out
+    }
 }
 
