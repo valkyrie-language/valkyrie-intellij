@@ -58,7 +58,6 @@ public interface ValkyrieTypes {
   IElementType MACRO_BLOCK = new ValkyrieTokenType("MACRO_BLOCK");
   IElementType MACRO_CALL = new ValkyrieTokenType("MACRO_CALL");
   IElementType MACRO_LIST = new ValkyrieTokenType("MACRO_LIST");
-  IElementType MACRO_STATEMENT = new ValkyrieTokenType("MACRO_STATEMENT");
   IElementType MATCH_BLOCK = new ValkyrieTokenType("MATCH_BLOCK");
   IElementType MATCH_EXPRESSION = new ValkyrieTokenType("MATCH_EXPRESSION");
   IElementType MATCH_STATEMENT = new ValkyrieTokenType("MATCH_STATEMENT");
@@ -147,6 +146,7 @@ public interface ValkyrieTypes {
   IElementType KW_WHILE = new ValkyrieTokenType("KW_WHILE");
   IElementType KW_WITH = new ValkyrieTokenType("KW_WITH");
   IElementType KW_YIELD = new ValkyrieTokenType("KW_YIELD");
+  IElementType MACRO_STATEMENT = new ValkyrieTokenType("macro_statement");
   IElementType NUMBER_SUFFIX = new ValkyrieTokenType("NUMBER_SUFFIX");
   IElementType OP_ADD = new ValkyrieTokenType("+");
   IElementType OP_ADD_ASSIGN = new ValkyrieTokenType("+=");
@@ -367,9 +367,6 @@ public interface ValkyrieTypes {
       }
       else if (type == MACRO_LIST) {
         return new ValkyrieMacroListNode(node);
-      }
-      else if (type == MACRO_STATEMENT) {
-        return new ValkyrieMacroStatementNode(node);
       }
       else if (type == MATCH_BLOCK) {
         return new ValkyrieMatchBlockNode(node);

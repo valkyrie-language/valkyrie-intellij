@@ -3,16 +3,17 @@ package valkyrie.ide.folding
 import com.intellij.application.options.editor.CodeFoldingOptionsProvider
 import javax.swing.JComponent
 
+/// 显示在 Editor > General > Code Folding 中
 class ValkyrieFoldingOptions : CodeFoldingOptionsProvider {
     override fun createComponent(): JComponent? {
-        TODO("Not yet implemented")
+        return null
     }
 
     override fun isModified(): Boolean {
-        TODO("Not yet implemented")
+        return false;
     }
 
     override fun apply() {
-        TODO("Not yet implemented")
+
     }
 }

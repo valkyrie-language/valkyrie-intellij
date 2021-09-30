@@ -26,9 +26,6 @@ public interface ValkyrieTopBlock extends PsiElement {
   List<ValkyrieImportStatement> getImportStatementList();
 
   @NotNull
-  List<ValkyrieMacroStatement> getMacroStatementList();
-
-  @NotNull
   List<ValkyrieNamespaceStatement> getNamespaceStatementList();
 
   @NotNull

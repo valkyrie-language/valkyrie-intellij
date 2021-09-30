@@ -10,7 +10,7 @@ import java.io.File
 
 
 // ImmutableSyntheticLibrary
-class ValkyrieDependenceLibrary : SyntheticLibrary, ItemPresentation {
+class DependenceLibrary : SyntheticLibrary, ItemPresentation {
     val id: String;
     var version: String = "";
     var path: String = "";
@@ -51,7 +51,7 @@ class ValkyrieDependenceLibrary : SyntheticLibrary, ItemPresentation {
 
     override fun hashCode() = "$id-$version".hashCode()
     override fun equals(other: Any?) = when (other) {
-        is ValkyrieDependenceLibrary -> this.hashCode() == other.hashCode()
+        is DependenceLibrary -> this.hashCode() == other.hashCode()
         else -> false
     }
 

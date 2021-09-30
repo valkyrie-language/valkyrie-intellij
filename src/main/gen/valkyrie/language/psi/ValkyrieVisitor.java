@@ -207,10 +207,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitMacroStatement(@NotNull ValkyrieMacroStatement o) {
-    visitPsiElement(o);
-  }
-
   public void visitMatchBlock(@NotNull ValkyrieMatchBlock o) {
     visitPsiElement(o);
   }

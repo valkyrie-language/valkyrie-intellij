@@ -28,7 +28,7 @@ class A3[T] {
 
 #Serialize
 #Deserialize
-class B: Serialize -> C {
+class B: Serialize raise C {
     a: int,
     b: int,
 }
@@ -43,6 +43,10 @@ let val = @type_of[a];
 let bbb = f(x).m(y)
 
 
-class LevelManager {
+trait Foo {
+    foo()
+}
 
+extends LevelManager {
+    foo()
 }

@@ -3,7 +3,7 @@ package valkyrie.lsp
 import com.intellij.openapi.roots.SyntheticLibrary
 import com.intellij.util.containers.toMutableSmartList
 import kotlinx.serialization.Serializable
-import valkyrie.ide.project.ValkyrieDependenceLibrary
+import valkyrie.ide.project.DependenceLibrary
 
 @Serializable
 data class RequestDependencies(val workspace: String) {
@@ -18,7 +18,7 @@ data class RequestDependencies(val workspace: String) {
     companion object {
         fun request(workspace: String?): MutableList<SyntheticLibrary> {
             val out = LanguageClient.send<RequestDependencies, List<DependenciesInfo>>("workspace/dependencies", RequestDependencies(workspace ?: ""))
-            return out.map { ValkyrieDependenceLibrary(it) }.toMutableSmartList()
+            return out.map { DependenceLibrary(it) }.toMutableSmartList()
         }
     }
 }

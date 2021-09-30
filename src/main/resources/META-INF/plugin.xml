@@ -27,6 +27,9 @@
 		<fileBasedIndex implementation="valkyrie.ide.project.ValkyrieFileIndex"/>
 		<indexedRootsProvider implementation="valkyrie.ide.project.ExtraIndexContributor"/>
 		<additionalLibraryRootsProvider implementation="valkyrie.ide.project.LibraryRootsProvider"/>
+		<packageDependencies.visitor
+			language="Valkyrie"
+			implementationClass="valkyrie.ide.project.DependencyVisitor"/>
 		<!-- StructureView -->
 		<iconProvider implementation="valkyrie.ide.file.ValkyrieIconProvider"/>
 		<projectViewNestingRulesProvider implementation="valkyrie.ide.file.ValkyrieFileGroup"/>
@@ -70,7 +73,8 @@
 		<symbolNavigation
 			forClass="valkyrie.language.symbol.ValkyrieSymbol"
 			implementationClass="valkyrie.ide.goto.VSymbolNavigationProvider"/>
-		<codeInsight.gotoSuper language="Valkyrie" implementationClass="valkyrie.ide.goto.VGotoSuperHandler"/>
+		<codeInsight.gotoSuper language="Valkyrie" implementationClass="valkyrie.ide.goto.GotoSuper"/>
+		<codeInsight.implementMethod language="Valkyrie" implementationClass="valkyrie.ide.hint.ValkyrieImplementMark"/>
 		<!--		<bookmarkProvider implementation="valkyrie.ide.goto.ValkyrieBookmark"/>-->
 		<!--		<bookmarksListProvider implementation="valkyrie.ide.goto.ValkyrieBookmarkList"/>-->
 		<!-- Hint -->
@@ -81,7 +85,7 @@
 		<codeInsight.parameterInfo language="Valkyrie" implementationClass="valkyrie.ide.hint.ParameterInfoHint"/>
 		<codeInsight.parameterNameHints language="Valkyrie" implementationClass="valkyrie.ide.hint.ParameterNameHint"/>
 		<codeInsight.overrideMethod language="Valkyrie" implementationClass="valkyrie.ide.hint.ValkyrieOverrideMark"/>
-		<codeInsight.implementMethod language="Valkyrie" implementationClass="valkyrie.ide.hint.ValkyrieImplementMark"/>
+
 		<codeInsight.lineMarkerProvider
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.hint.ValkyrieClassElementMark"/>
@@ -99,6 +103,8 @@
 			hostLanguage="Valkyrie"
 			hostElementClass="com.intellij.psi.xml.XmlAttributeValue"
 			targetClass="valkyrie.language.symbol.ValkyrieSymbol"/>
+		<!-- Lint -->
+		<lang.namesValidator language="Valkyrie" implementationClass="valkyrie.ide.lint.ValkyrieNameValidator"/>
 		<!-- Declaration -->
 		<typeDeclarationProvider implementation="valkyrie.ide.reference.declaration.TypeDeclarationProvider"/>
 		<psi.declarationProvider implementation="valkyrie.ide.reference.declaration.SymbolDeclarationProvider"/>
@@ -137,11 +143,11 @@
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.doc.DocumentationProvider"/>
 		<!--		<indexPatternBuilder-->
-		<!--				implementation="valkyrie.ide.todo.VomlTodoIndexPatternBuilder"-->
+		<!--				implementation="valkyrie.ide.lint.VomlTodoIndexPatternBuilder"-->
 		<!--		/>-->
 		<!--		<todoIndexer-->
 		<!--				filetype="Fluent"-->
-		<!--				implementationClass="valkyrie.ide.todo.VomlTodoIndexer"-->
+		<!--				implementationClass="valkyrie.ide.lint.VomlTodoIndexer"-->
 		<!--		/>-->
 		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.StringChecker"/>
 		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.NumberChecker"/>

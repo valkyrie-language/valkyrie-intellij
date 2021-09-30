@@ -111,7 +111,6 @@ private top_statements ::=
   | trait_statement
   | extends_statement
   | define_statement
-  | macro_statement
   ;
 private normal_statements ::=
     control_statement
@@ -246,12 +245,6 @@ define_block        ::= <<brace_block normal_statements SEMICOLON>> {
 }
 private def_type    ::= [(COLON|OP_ARROW) type_expression]
 // ---------------------------------------------------------------------------------------------------------------------
-macro_statement    ::= KW_MACRO [modifiers] identifier define_tuple [define_block] {
-    pin=1
-//    mixin="valkyrie.language.mixin.MixinDefine"
-//    methods=[getNamepath getModifiers]
-};
-// ---------------------------------------------------------------------------------------------------------------------
 // type Result[T: Debug, E: Error + Debug = Error] = std::result::Result[T];
 type_statement      ::= KW_TYPE generic_type [OP_SET type_term] {
     pin=2
@@ -274,7 +267,7 @@ class_statement     ::= KW_CLASS <<modified identifier>> [generic_define] [class
     methods = [getIdentifier getModifiers]
 };
 class_inherit       ::= (COLON|KW_EXTENDS) type_expression;
-class_effect        ::= OP_ARROW type_expression;
+class_effect        ::= (OP_DIV|KW_RAISE) type_expression;
 class_block         ::= <<brace_free class_item separator>> {
     pin = 1
     methods=[addChildrenView]
