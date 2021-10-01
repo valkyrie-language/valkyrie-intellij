@@ -1,8 +1,8 @@
 class ClassEmpty {}
 
 class ClassPoint {
-    public readonly x: int,
-    public readonly y: int,
+    public readonly x: Integer,
+    public readonly y: Integer,
 }
 
 /// 测试
@@ -13,8 +13,8 @@ class class A3[T] {
 }
 
 class A4[T] {
-    ref x: int = 0,
-    ref y: int = 0,
+    ref x: Integer = 0,
+    ref y: Integer = 0,
 }
 
 // https://crates.io/crates/custom_debug_derive
@@ -28,9 +28,9 @@ class A3[T] {
 
 #Serialize
 #Deserialize
-class B: Serialize raise C {
-    a: int,
-    b: int,
+class B: Serialize + Deserialize raise C {
+    a: Integer,
+    b: Integer,
 }
 
 class C {

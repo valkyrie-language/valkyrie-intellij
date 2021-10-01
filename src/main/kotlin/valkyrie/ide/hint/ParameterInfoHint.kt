@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement
 
 class ParameterInfoHint : ParameterInfoHandler<PsiElement, PsiElement> {
     override fun findElementForParameterInfo(context: CreateParameterInfoContext): PsiElement? {
-        TODO("Not yet implemented")
+        return context.highlightedElement
     }
 
     override fun findElementForUpdatingParameterInfo(context: UpdateParameterInfoContext): PsiElement? {

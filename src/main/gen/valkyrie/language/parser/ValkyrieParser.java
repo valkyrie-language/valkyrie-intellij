@@ -3183,7 +3183,6 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   //   | trait_statement
   //   | extends_statement
   //   | define_statement
-  //   | macro_statement
   static boolean top_statements(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "top_statements")) return false;
     boolean r;
@@ -3196,7 +3195,6 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     if (!r) r = trait_statement(b, l + 1);
     if (!r) r = extends_statement(b, l + 1);
     if (!r) r = define_statement(b, l + 1);
-    if (!r) r = consumeToken(b, MACRO_STATEMENT);
     return r;
   }
 
@@ -3442,7 +3440,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (top_statements | normal_statements  | SEMICOLON)*
+  // (top_statements | normal_statements | SEMICOLON)*
   static boolean valkyrie(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "valkyrie")) return false;
     while (true) {
@@ -3453,7 +3451,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // top_statements | normal_statements  | SEMICOLON
+  // top_statements | normal_statements | SEMICOLON
   private static boolean valkyrie_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "valkyrie_0")) return false;
     boolean r;

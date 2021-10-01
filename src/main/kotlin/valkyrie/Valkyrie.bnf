@@ -100,7 +100,7 @@
     ]
 }
 
-valkyrie ::= (top_statements | normal_statements  | SEMICOLON)*
+valkyrie ::= (top_statements | normal_statements | SEMICOLON)*
 private top_statements ::=
     namespace_statement
   | import_statement

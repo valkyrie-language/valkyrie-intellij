@@ -22,7 +22,7 @@ private val keywordSP = """(?x)
     | \b(variant|bitflag)\b
     | \b(trait)\b
     | \b(extend|extends)\b
-    | \b(let|def|macro)\b
+    | \b(let|def)\b
     | \b(new|object)\b
     | \b(match|with|case)\b
     | \b(try|catch)\b

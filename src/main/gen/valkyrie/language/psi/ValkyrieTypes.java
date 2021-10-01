@@ -146,7 +146,6 @@ public interface ValkyrieTypes {
   IElementType KW_WHILE = new ValkyrieTokenType("KW_WHILE");
   IElementType KW_WITH = new ValkyrieTokenType("KW_WITH");
   IElementType KW_YIELD = new ValkyrieTokenType("KW_YIELD");
-  IElementType MACRO_STATEMENT = new ValkyrieTokenType("macro_statement");
   IElementType NUMBER_SUFFIX = new ValkyrieTokenType("NUMBER_SUFFIX");
   IElementType OP_ADD = new ValkyrieTokenType("+");
   IElementType OP_ADD_ASSIGN = new ValkyrieTokenType("+=");

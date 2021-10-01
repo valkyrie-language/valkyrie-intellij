@@ -6,6 +6,7 @@ import com.intellij.codeInsight.hints.InlayParameterHintsProvider
 import com.intellij.codeInsight.hints.Option
 import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieBundle
+import valkyrie.language.psi.startOffset
 import valkyrie.language.psi_node.ValkyrieCallSuffixNode
 
 
@@ -39,6 +40,7 @@ class ParameterNameHint : InlayParameterHintsProvider {
     override fun getDescription(): String {
         return "Shows parameter names at function/macro call sites."
     }
+
     /// 显示在
     /// Editor > Inlay Hints > Parameter Names
     override fun getDefaultBlackList(): Set<String> = setOf(
@@ -47,6 +49,7 @@ class ParameterNameHint : InlayParameterHintsProvider {
         "org.gradle.api.Project.hasProperty(propertyName)",
         "org.gradle.api.Project.findProperty(propertyName)",
     )
+
     /// 显示在
     /// Editor > Inlay Hints > Parameter Names > Valkyrie
     override fun getSupportedOptions(): MutableList<Option> {
@@ -58,12 +61,11 @@ class ParameterNameHint : InlayParameterHintsProvider {
 
     private fun ValkyrieCallSuffixNode.resolveParameterName(caller: PsiElement): MutableList<InlayInfo> {
         val out = mutableListOf<InlayInfo>();
+        var id = 0;
+        for (i in this.expressionList) {
+            out.add(InlayInfo("${'a' + id}", i.startOffset))
+            id += 1
+        }
         return out
-//        var id = 0;
-//        for (i in this.expressionList) {
-//            out.add(InlayInfo("$id", i.startOffset))
-//            id += 1
-//        }
-//        return out
     }
 }

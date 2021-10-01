@@ -1,16 +1,19 @@
 package valkyrie.ide.highlight
 
 
+import ai.grazie.utils.isUppercase
 import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType
 import com.intellij.codeInsight.daemon.impl.HighlightVisitor
 import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.ide.file.ValkyrieFileNode
 import valkyrie.language.psi.*
 import valkyrie.language.psi_node.*
 import valkyrie.ide.highlight.ValkyrieHighlightColor as Color
+
 
 class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
@@ -28,10 +31,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.modified.lastChild, Color.SYM_TRAIT)
     }
 
-    override fun visitNormalPattern(o: ValkyrieNormalPattern) {
-
-
-    }
 
     override fun visitGenericDefine(o: ValkyrieGenericDefine) {
 
@@ -132,6 +131,22 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         }
     }
 
+    override fun visitNormalPattern(o: ValkyrieNormalPattern) {
+
+    }
+
+    override fun visitTypeExpression(o: ValkyrieTypeExpression) {
+        for (node in PsiTreeUtil.findChildrenOfType(o, ValkyrieIdentifierNode::class.java)) {
+            val name = node.name
+            when {
+                name.isUppercase() -> highlight(node, Color.SYM_GENERIC)
+                name.first().isUpperCase() -> highlight(node, Color.SYM_CLASS)
+                keywords.contains(name) -> highlight(node, Color.KEYWORD)
+                traits.contains(name) -> highlight(node, Color.SYM_TRAIT)
+            }
+        }
+    }
+
     override fun visitDotCall(o: ValkyrieDotCall) {
         when (o.nextSibling) {
             is ValkyrieCallSuffixNode -> highlight(o.namepath.lastChild, Color.SYM_FUNCTION_FREE)
@@ -199,3 +214,15 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     override fun visit(element: PsiElement) = element.accept(this)
 }
+
+private val keywords = setOf(
+    "u8", "u16", "u32", "u64",
+    "i8", "i16", "i32", "i64",
+    "f32", "f64",
+    "bool", "char", "string",
+    "unit"
+)
+
+private val traits = setOf("Iterator")
+
+private val variants = setOf("Some", "None", "Success", "Failure", "Left", "Riht")

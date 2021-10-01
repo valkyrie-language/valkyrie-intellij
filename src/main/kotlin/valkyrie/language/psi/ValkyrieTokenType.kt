@@ -10,7 +10,8 @@ import valkyrie.language.psi.ValkyrieTypes.*
 val keywords: TokenSet = TokenSet.create(
     KW_NAMESPACE, KW_EXTENSION, KW_IMPORT, OP_AS,
     KW_MACRO, KW_CLASS, KW_TRAIT, KW_TAGGED, KW_BITFLAG, KW_EXTENDS,
-    KW_CONTINUE, KW_RETURN, KW_RESUME,
+    KW_CONTINUE, KW_RETURN,
+    KW_RAISE, KW_RESUME,
     KW_YIELD, KW_BREAK,
     KW_LET, KW_DEF,
     KW_TYPE,
@@ -20,7 +21,7 @@ val keywords: TokenSet = TokenSet.create(
     KW_FOR, OP_IN,
     OP_NOT, OP_IS_A, OP_NOT_A,
     KW_NEW, KW_OBJECT,
-    OP_UNIMPLEMENTED, OP_QUOTE
+    OP_UNIMPLEMENTED, OP_QUOTE,
 )
 val prefix: TokenSet = TokenSet.create(
 //    OP_AT, OP_HASH,
