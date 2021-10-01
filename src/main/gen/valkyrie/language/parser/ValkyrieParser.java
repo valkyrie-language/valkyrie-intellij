@@ -110,7 +110,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   /* ********************************************************** */
   // OP_UNIMPLEMENTED
   //     | range | list | object | tuple | number | string | boolean | namepath | expression_statement
-  //     | new_statement | object_statement
+  //     | new_statement
   public static boolean atom(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "atom")) return false;
     boolean r;
@@ -126,7 +126,6 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     if (!r) r = namepath(b, l + 1);
     if (!r) r = expression_statement(b, l + 1);
     if (!r) r = new_statement(b, l + 1);
-    if (!r) r = object_statement(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -2459,28 +2458,6 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     r = r && expression(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
-  }
-
-  /* ********************************************************** */
-  // KW_OBJECT <<modified type_expression>> [<<brace_block expression COMMA>>]
-  public static boolean object_statement(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "object_statement")) return false;
-    if (!nextTokenIs(b, KW_OBJECT)) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, OBJECT_STATEMENT, null);
-    r = consumeToken(b, KW_OBJECT);
-    p = r; // pin = 1
-    r = r && report_error_(b, modified(b, l + 1, ValkyrieParser::type_expression));
-    r = p && object_statement_2(b, l + 1) && r;
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
-  }
-
-  // [<<brace_block expression COMMA>>]
-  private static boolean object_statement_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "object_statement_2")) return false;
-    brace_block(b, l + 1, ValkyrieParser::expression, COMMA_parser_);
-    return true;
   }
 
   /* ********************************************************** */

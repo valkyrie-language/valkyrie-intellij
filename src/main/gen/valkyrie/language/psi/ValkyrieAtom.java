@@ -29,9 +29,6 @@ public interface ValkyrieAtom extends PsiElement {
   ValkyrieObject getObject();
 
   @Nullable
-  ValkyrieObjectStatement getObjectStatement();
-
-  @Nullable
   ValkyrieRange getRange();
 
   @Nullable

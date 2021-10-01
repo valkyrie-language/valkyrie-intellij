@@ -89,9 +89,9 @@
 		<codeInsight.lineMarkerProvider
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.hint.ValkyrieClassElementMark"/>
-		<codeInsight.lineMarkerProvider
+		<runLineMarkerContributor
 			language="Valkyrie"
-			implementationClass="valkyrie.ide.hint.ValkyrieRunTestMark"/>
+			implementationClass="valkyrie.ide.runner.ValkyrieRunner"/>
 		<vcs.codeVisionLanguageContext
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.hint.AuthorAbove"/>

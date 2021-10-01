@@ -75,7 +75,6 @@ public interface ValkyrieTypes {
   IElementType OBJECT = new ValkyrieTokenType("OBJECT");
   IElementType OBJECT_KEY = new ValkyrieTokenType("OBJECT_KEY");
   IElementType OBJECT_PAIR = new ValkyrieTokenType("OBJECT_PAIR");
-  IElementType OBJECT_STATEMENT = new ValkyrieTokenType("OBJECT_STATEMENT");
   IElementType PATTERN_ITEM = new ValkyrieTokenType("PATTERN_ITEM");
   IElementType PATTERN_PAIR = new ValkyrieTokenType("PATTERN_PAIR");
   IElementType PATTERN_VALUE = new ValkyrieTokenType("PATTERN_VALUE");
@@ -135,7 +134,6 @@ public interface ValkyrieTypes {
   IElementType KW_MATCH = new ValkyrieTokenType("KW_MATCH");
   IElementType KW_NAMESPACE = new ValkyrieTokenType("KW_NAMESPACE");
   IElementType KW_NEW = new ValkyrieTokenType("KW_NEW");
-  IElementType KW_OBJECT = new ValkyrieTokenType("KW_OBJECT");
   IElementType KW_RAISE = new ValkyrieTokenType("KW_RAISE");
   IElementType KW_RESUME = new ValkyrieTokenType("KW_RESUME");
   IElementType KW_RETURN = new ValkyrieTokenType("KW_RETURN");
@@ -417,9 +415,6 @@ public interface ValkyrieTypes {
       }
       else if (type == OBJECT_PAIR) {
         return new ValkyrieObjectPairNode(node);
-      }
-      else if (type == OBJECT_STATEMENT) {
-        return new ValkyrieObjectStatementNode(node);
       }
       else if (type == PATTERN_ITEM) {
         return new ValkyriePatternItemNode(node);

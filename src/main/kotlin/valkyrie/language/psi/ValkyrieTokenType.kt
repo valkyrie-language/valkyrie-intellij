@@ -20,7 +20,7 @@ val keywords: TokenSet = TokenSet.create(
     KW_LOOP, KW_WHILE,
     KW_FOR, OP_IN,
     OP_NOT, OP_IS_A, OP_NOT_A,
-    KW_NEW, KW_OBJECT,
+    KW_NEW,
     OP_UNIMPLEMENTED, OP_QUOTE,
 )
 val prefix: TokenSet = TokenSet.create(

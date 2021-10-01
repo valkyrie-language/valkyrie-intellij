@@ -221,9 +221,6 @@ new_statement       ::= KW_NEW <<modified type_expression>> new_block {
 }
 new_block           ::= <<brace_block new_item COMMA>>;
 private new_item    ::= object_pair | (DOT2|DOT3) identifier;
-object_statement    ::= KW_OBJECT <<modified type_expression>> [<<brace_block expression COMMA>>] {
-    pin=1
-}
 // ---------------------------------------------------------------------------------------------------------------------
 let_statement       ::=
       KW_LET normal_pattern [let_type] [OP_SET normal_statements]
@@ -371,7 +368,7 @@ macro_block       ::=
 // ---------------------------------------------------------------------------------------------------------------------
 atom           ::= OP_UNIMPLEMENTED
     | range | list | object | tuple | number | string | boolean | namepath | expression_statement
-    | new_statement | object_statement;
+    | new_statement;
 tuple          ::= <<parenthesis expression COMMA>>
 list           ::= <<bracket_block expression COMMA>>
 range          ::= <<slice_block slice_item COMMA>>;

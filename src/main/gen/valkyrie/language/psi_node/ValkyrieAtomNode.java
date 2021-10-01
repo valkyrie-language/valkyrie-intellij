@@ -72,12 +72,6 @@ public class ValkyrieAtomNode extends ValkyrieASTBase implements ValkyrieAtom {
 
   @Override
   @Nullable
-  public ValkyrieObjectStatement getObjectStatement() {
-    return findChildByClass(ValkyrieObjectStatement.class);
-  }
-
-  @Override
-  @Nullable
   public ValkyrieRange getRange() {
     return findChildByClass(ValkyrieRange.class);
   }

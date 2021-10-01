@@ -23,7 +23,7 @@ private val keywordSP = """(?x)
     | \b(trait)\b
     | \b(extend|extends)\b
     | \b(let|def)\b
-    | \b(new|object)\b
+    | \b(object)\b
     | \b(match|with|case)\b
     | \b(try|catch)\b
     | \b(raise|continue|return|resume)\b
@@ -211,8 +211,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             "bitset", "bitflag" -> pushToken(ValkyrieTypes.KW_BITFLAG, r)
             "extend", "extends", "impl", "implements" -> pushToken(ValkyrieTypes.KW_EXTENDS, r)
 
-            "new" -> pushToken(ValkyrieTypes.KW_NEW, r)
-            "object" -> pushToken(ValkyrieTypes.KW_OBJECT, r)
+            "new", "object" -> pushToken(ValkyrieTypes.KW_NEW, r)
 
             else -> pushToken(TokenType.BAD_CHARACTER, r)
         }
