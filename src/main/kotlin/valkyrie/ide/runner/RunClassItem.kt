@@ -1,9 +1,10 @@
 package valkyrie.ide.runner
 
-import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.AnActionEvent
 
-class RunFile : AnAction() {
+
+class RunClassItem(id: String) : ValkyrieAction(id, AllIcons.RunConfigurations.TestState.Run) {
     override fun actionPerformed(e: AnActionEvent) {
 
     }

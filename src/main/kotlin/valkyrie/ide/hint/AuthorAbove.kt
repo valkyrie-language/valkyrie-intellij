@@ -21,7 +21,6 @@ class AuthorAbove : VcsCodeVisionLanguageContext {
         is ValkyrieUnionStatementNode,
         is ValkyrieTraitStatementNode,
         is ValkyrieExtendsStatementNode,
-        is ValkyrieMacroStatementNode,
         is ValkyrieDefineStatementNode,
         -> true
 

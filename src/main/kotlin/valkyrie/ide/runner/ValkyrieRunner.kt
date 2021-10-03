@@ -8,30 +8,31 @@ import com.intellij.psi.util.elementType
 import valkyrie.language.psi.ValkyrieTypes
 import valkyrie.language.psi_node.ValkyrieClassMethodNode
 import valkyrie.language.psi_node.ValkyrieDefineStatementNode
+import valkyrie.language.psi_node.ValkyrieIdentifierNode
 
 class ValkyrieRunner : RunLineMarkerContributor() {
     override fun getInfo(element: PsiElement): Info? {
+        // simple resolve
         if (element.elementType == ValkyrieTypes.KW_NAMESPACE) {
-            return Info(
-                AllIcons.RunConfigurations.TestState.Run,
-                { "Run Test" },
-                RunFile(),
-                RunNamespace(),
-            )
+            return Info(RunNamespaceGroup(element.parent))
         }
         if (element.elementType == ValkyrieTypes.KW_CLASS) {
-            return Info(RunClass())
+            return Info(RunClassGroup(AllIcons.RunConfigurations.TestState.Run_run))
         }
-        // FIXME: performance warning
-        if (element is ValkyrieDefineStatementNode) {
+        // complex resolve
+        val id = element.parent;
+        if (id !is ValkyrieIdentifierNode) {
+            return null
+        }
+        if (id.parent.parent is ValkyrieDefineStatementNode) {
+            // TODO: check main function
             return Info(
                 AllIcons.RunConfigurations.TestState.Run,
                 { "Run Test" },
                 RunFunction(),
             )
         }
-        // FIXME: performance warning
-        if (element is ValkyrieClassMethodNode) {
+        if (id.parent is ValkyrieClassMethodNode) {
             return Info(
                 AllIcons.RunConfigurations.TestState.Run,
                 { "Run Test" },
@@ -40,7 +41,6 @@ class ValkyrieRunner : RunLineMarkerContributor() {
         }
         return null
     }
-
 
     override fun producesAllPossibleConfigurations(file: PsiFile): Boolean {
         return super.producesAllPossibleConfigurations(file)
