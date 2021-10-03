@@ -11,7 +11,6 @@ import static valkyrie.language.psi.ValkyrieTypes.*;
 import valkyrie.language.mixin.MixinDefine;
 import valkyrie.language.psi.*;
 import valkyrie.language.ast.ASTMethods;
-import valkyrie.language.mixin.MixinNamepath;
 
 public class ValkyrieDefineStatementNode extends MixinDefine implements ValkyrieDefineStatement {
 
@@ -48,27 +47,21 @@ public class ValkyrieDefineStatementNode extends MixinDefine implements Valkyrie
   }
 
   @Override
+  @Nullable
+  public ValkyrieModifiers getModifiers() {
+    return findChildByClass(ValkyrieModifiers.class);
+  }
+
+  @Override
   @NotNull
-  public ValkyrieModified getModified() {
-    return findNotNullChildByClass(ValkyrieModified.class);
+  public ValkyrieNamepathFree getNamepathFree() {
+    return findNotNullChildByClass(ValkyrieNamepathFree.class);
   }
 
   @Override
   @Nullable
   public ValkyrieTypeExpression getTypeExpression() {
     return findChildByClass(ValkyrieTypeExpression.class);
-  }
-
-  @Override
-  @NotNull
-  public MixinNamepath getNamepath() {
-    return ASTMethods.getNamepath(this);
-  }
-
-  @Override
-  @NotNull
-  public ValkyrieIdentifierNode[] getModifiers() {
-    return ASTMethods.getModifiers(this);
   }
 
 }

@@ -991,33 +991,41 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_DEF <<modified namepath_free>> [generic_define] define_tuple def_type [define_block]
+  // KW_DEF [modifiers] namepath_free [generic_define] define_tuple def_type [define_block]
   public static boolean define_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "define_statement")) return false;
     if (!nextTokenIs(b, KW_DEF)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, DEFINE_STATEMENT, null);
     r = consumeToken(b, KW_DEF);
-    r = r && modified(b, l + 1, ValkyrieParser::namepath_free);
-    p = r; // pin = 2
-    r = r && report_error_(b, define_statement_2(b, l + 1));
+    r = r && define_statement_1(b, l + 1);
+    r = r && namepath_free(b, l + 1);
+    p = r; // pin = namepath_free
+    r = r && report_error_(b, define_statement_3(b, l + 1));
     r = p && report_error_(b, define_tuple(b, l + 1)) && r;
     r = p && report_error_(b, def_type(b, l + 1)) && r;
-    r = p && define_statement_5(b, l + 1) && r;
+    r = p && define_statement_6(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
+  // [modifiers]
+  private static boolean define_statement_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "define_statement_1")) return false;
+    modifiers(b, l + 1);
+    return true;
+  }
+
   // [generic_define]
-  private static boolean define_statement_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "define_statement_2")) return false;
+  private static boolean define_statement_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "define_statement_3")) return false;
     generic_define(b, l + 1);
     return true;
   }
 
   // [define_block]
-  private static boolean define_statement_5(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "define_statement_5")) return false;
+  private static boolean define_statement_6(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "define_statement_6")) return false;
     define_block(b, l + 1);
     return true;
   }

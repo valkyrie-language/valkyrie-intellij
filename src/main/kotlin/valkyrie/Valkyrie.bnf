@@ -227,10 +227,9 @@ let_statement       ::=
     | KW_LET case_pattern OP_SET normal_statements;
 private let_type    ::= COLON <<sequence type_expression COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
-define_statement    ::= KW_DEF <<modified namepath_free>> [generic_define] define_tuple def_type [define_block] {
-    pin=2
+define_statement    ::= KW_DEF [modifiers] namepath_free [generic_define] define_tuple def_type [define_block] {
+    pin=namepath_free
     mixin="valkyrie.language.mixin.MixinDefine"
-    methods=[getNamepath getModifiers]
 };
 define_tuple        ::= <<parenthesis define_item COMMA>>;
 define_item         ::= OP_POW | OP_LT | OP_GT |

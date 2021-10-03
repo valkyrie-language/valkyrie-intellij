@@ -4,8 +4,6 @@ package valkyrie.language.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import valkyrie.language.mixin.MixinNamepath;
-import valkyrie.language.psi_node.ValkyrieIdentifierNode;
 
 public interface ValkyrieDefineStatement extends PsiElement {
 
@@ -18,16 +16,13 @@ public interface ValkyrieDefineStatement extends PsiElement {
   @Nullable
   ValkyrieGenericDefine getGenericDefine();
 
+  @Nullable
+  ValkyrieModifiers getModifiers();
+
   @NotNull
-  ValkyrieModified getModified();
+  ValkyrieNamepathFree getNamepathFree();
 
   @Nullable
   ValkyrieTypeExpression getTypeExpression();
-
-  @NotNull
-  MixinNamepath getNamepath();
-
-  @NotNull
-  ValkyrieIdentifierNode[] getModifiers();
 
 }
