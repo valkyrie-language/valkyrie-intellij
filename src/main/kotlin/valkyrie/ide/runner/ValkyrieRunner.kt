@@ -17,7 +17,7 @@ class ValkyrieRunner : RunLineMarkerContributor() {
             return Info(RunNamespaceGroup(element.parent))
         }
         if (element.elementType == ValkyrieTypes.KW_CLASS) {
-            return Info(RunClassGroup(AllIcons.RunConfigurations.TestState.Run_run))
+            return Info(RunClassGroup(element.parent))
         }
         // complex resolve
         val id = element.parent;

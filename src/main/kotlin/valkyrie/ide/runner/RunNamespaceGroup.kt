@@ -24,7 +24,7 @@ class RunNamespaceGroup(element: PsiElement) : ActionGroup() {
     }
 
     override fun getChildren(e: AnActionEvent?): Array<AnAction> {
-        return arrayOf(RunClassItem("action.run.class.part"), RunClassItem("action.run.class.full"))
+        return arrayOf()
     }
 
     override fun getActionUpdateThread(): ActionUpdateThread {

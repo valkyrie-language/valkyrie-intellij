@@ -20,6 +20,8 @@ import javax.swing.Icon
 // PsiReference
 @Suppress("UnstableApiUsage")
 open class MixinClass(node: ASTNode) : DeclareNode(node) {
+    val fullNamepath: List<String> = listOf("test", "ClassName")
+
     override fun getOriginalElement(): ValkyrieClassStatementNode {
         return this as ValkyrieClassStatementNode
     }

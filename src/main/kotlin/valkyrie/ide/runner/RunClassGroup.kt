@@ -1,22 +1,27 @@
 package valkyrie.ide.runner
 
 import com.intellij.icons.AllIcons
+import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.DefaultActionGroup
 import valkyrie.language.ValkyrieBundle
-import javax.swing.Icon
+import valkyrie.language.psi_node.ValkyrieClassStatementNode
 
-private val name = ValkyrieBundle.message("action.run.class.group.name");
-private val help = ValkyrieBundle.message("action.run.class.group.help");
 
-class RunClassGroup(icon: Icon) : DefaultActionGroup(name, help, icon) {
+class RunClassGroup(val element: ValkyrieClassStatementNode) : ActionGroup() {
+    init {
+        templatePresentation.icon = AllIcons.RunConfigurations.TestState.Run_run
+        templatePresentation.text = ValkyrieBundle.message("action.run.class.group.name")
+        templatePresentation.description = ValkyrieBundle.message("action.run.class.group.help")
+    }
+
     override fun actionPerformed(event: AnActionEvent) {
 
     }
+
     override fun getChildren(e: AnActionEvent?): Array<AnAction> {
-        return arrayOf(RunClassItem("action.run.class.part"), RunClassItem("action.run.class.full"))
+        return arrayOf(RunClass(element.fullNamepath, true), RunClass(element.fullNamepath, false))
     }
 
     override fun getActionUpdateThread(): ActionUpdateThread {
