@@ -1,4 +1,4 @@
-package valkyrie.ide.file
+package valkyrie.language.file
 
 import com.intellij.icons.AllIcons
 import com.intellij.ide.IconProvider

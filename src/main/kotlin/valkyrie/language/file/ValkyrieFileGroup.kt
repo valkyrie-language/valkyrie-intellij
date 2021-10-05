@@ -1,4 +1,4 @@
-package valkyrie.ide.file
+package valkyrie.language.file
 
 import com.intellij.ide.projectView.ProjectViewNestingRulesProvider
 import com.intellij.ide.projectView.ProjectViewNestingRulesProvider.Consumer

@@ -2,7 +2,7 @@
 
 package valkyrie.language.mixin
 
-import valkyrie.ide.file.ValkyrieIconProvider
+import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.ide.reference.ValkyrieReference
 import valkyrie.ide.view.ValkyrieViewElement
 import valkyrie.language.ast.ValkyrieASTBase

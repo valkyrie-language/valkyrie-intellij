@@ -2,7 +2,7 @@ package valkyrie.language.lexer
 
 
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.ide.file.ValkyrieFileNode
+import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.parser.ValkyrieParser
 import valkyrie.language.psi.ValkyrieTypes
 

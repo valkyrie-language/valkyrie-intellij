@@ -1,7 +1,7 @@
 package valkyrie.language.ast
 
 
-import valkyrie.ide.file.ValkyrieIconProvider
+import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.ide.view.ValkyrieViewElement
 import valkyrie.language.mixin.MixinNamepath
 import valkyrie.language.psi.*

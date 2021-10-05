@@ -7,7 +7,7 @@ import com.intellij.openapi.progress.ProgressManager
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.parents
 import com.intellij.util.ProcessingContext
-import valkyrie.ide.file.ValkyrieFileNode
+import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.psi.ValkyrieTypes
 import valkyrie.language.psi_node.ValkyrieClassBlockNode
 import valkyrie.language.psi_node.ValkyrieDefineBlockNode

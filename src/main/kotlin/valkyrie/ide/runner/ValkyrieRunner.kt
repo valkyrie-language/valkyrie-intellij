@@ -1,7 +1,6 @@
 package valkyrie.ide.runner
 
 import com.intellij.execution.lineMarker.RunLineMarkerContributor
-import com.intellij.icons.AllIcons
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.elementType
@@ -12,32 +11,35 @@ import valkyrie.language.psi_node.ValkyrieIdentifierNode
 
 class ValkyrieRunner : RunLineMarkerContributor() {
     override fun getInfo(element: PsiElement): Info? {
-        // simple resolve
-        if (element.elementType == ValkyrieTypes.KW_NAMESPACE) {
-            return Info(RunNamespaceGroup(element.parent))
+        val node = element.parent;
+        return when (element.elementType) {
+            ValkyrieTypes.KW_NAMESPACE -> Info(RunNamespaceGroup(element.parent))
+            ValkyrieTypes.KW_CLASS -> RunClassGroup.markClass(node)
+            ValkyrieTypes.KW_EXTENDS -> RunClassGroup.markExtends(node)
+            else -> null
         }
-        if (element.elementType == ValkyrieTypes.KW_CLASS) {
-            return Info(RunClassGroup(element.parent))
-        }
-        // complex resolve
-        val id = element.parent;
-        if (id !is ValkyrieIdentifierNode) {
+    }
+
+    override fun getSlowInfo(element: PsiElement): Info? {
+        var node = element.parent;
+        if (node !is ValkyrieIdentifierNode) {
             return null
         }
-        if (id.parent.parent is ValkyrieDefineStatementNode) {
-            // TODO: check main function
-            return Info(
-                AllIcons.RunConfigurations.TestState.Run,
-                { "Run Test" },
-                RunFunction(),
-            )
+        node = node.parent;
+        when (node) {
+            is ValkyrieClassMethodNode -> {
+                return RunFunction.markTest(node)
+            }
+
+            else -> {}
         }
-        if (id.parent is ValkyrieClassMethodNode) {
-            return Info(
-                AllIcons.RunConfigurations.TestState.Run,
-                { "Run Test" },
-                RunFunction(),
-            )
+        node = node.parent;
+        when (node) {
+            is ValkyrieDefineStatementNode -> {
+                return RunFunction.markTest(node)
+            }
+
+            else -> {}
         }
         return null
     }

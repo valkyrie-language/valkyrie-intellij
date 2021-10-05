@@ -1,4 +1,4 @@
-package valkyrie.ide.file
+package valkyrie.language.file
 
 import com.intellij.internal.statistic.collectors.fus.fileTypes.FileTypeUsageSchemaDescriptor
 

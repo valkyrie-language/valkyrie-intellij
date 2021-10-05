@@ -3,7 +3,7 @@ package valkyrie.ide.project
 import com.intellij.util.indexing.FileBasedIndex
 import kotlinx.serialization.BinaryFormat
 import kotlinx.serialization.Serializable
-import valkyrie.ide.file.ValkyrieFileNode
+import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.psi_node.ValkyrieNamespaceStatementNode
 import java.io.DataInput
 import java.io.DataOutput

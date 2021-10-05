@@ -5,7 +5,7 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.search.ProjectAndLibrariesScope
 import com.intellij.util.indexing.*
 import com.intellij.util.io.DataExternalizer
-import valkyrie.ide.file.ValkyrieFileNode
+import valkyrie.language.file.ValkyrieFileNode
 import java.io.DataInput
 import java.io.DataOutput
 

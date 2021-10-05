@@ -1,6 +1,6 @@
 package valkyrie.language.ast
 
-import valkyrie.ide.file.ValkyrieIconProvider
+import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.view.ValkyrieViewElement
 import valkyrie.language.psi.*

@@ -1,6 +1,6 @@
 package valkyrie.ide.formatter
 
-import valkyrie.ide.file.ValkyrieFileNode
+import valkyrie.language.file.ValkyrieFileNode
 import com.intellij.lang.SmartEnterProcessorWithFixers
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project

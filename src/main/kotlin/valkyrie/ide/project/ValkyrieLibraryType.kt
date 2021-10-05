@@ -1,6 +1,6 @@
 package valkyrie.ide.project
 
-import valkyrie.ide.file.ValkyrieIconProvider
+import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
 enum class ValkyrieLibraryType {

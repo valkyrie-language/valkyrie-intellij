@@ -127,6 +127,7 @@ private normal_statements ::=
   ;
 private expression_statement ::=
     if_statement
+  | iff_statement
   | try_statement
 namespace_statement ::= KW_NAMESPACE namepath_free {
     mixin="valkyrie.language.mixin.MixinNamespace"
@@ -156,6 +157,13 @@ ef_statement        ::= KW_ELSE KW_IF condition normal_block;
 else_statement      ::= KW_ELSE normal_block;
 condition           ::= (case_pattern OP_SET inline_expression | inline_expression);
 normal_block        ::= <<brace_free normal_statements SEMICOLON>>;
+// ---------------------------------------------------------------------------------------------------------------------
+iff_statement        ::= KW_IF iff_block {
+    pin=2
+    // mixin="valkyrie.language.mixin.MixinIf"
+}
+iff_block           ::= <<brace_free iff_expression SEMICOLON>>;
+iff_expression      ::= (case_expression | case_else) COLON (normal_statements [SEMICOLON])+;
 // ---------------------------------------------------------------------------------------------------------------------
 loop_statement      ::= (KW_LOOP | KW_WHILE condition) normal_block [else_statement] {
     pin=1
@@ -210,6 +218,9 @@ match_statement     ::= KW_MATCH inline_expression match_block {
 match_block         ::= <<brace_free match_expression SEMICOLON>>;
 match_expression    ::= (case_pattern|case_else) COLON (normal_statements [SEMICOLON])+ | case_with;
 case_pattern        ::= KW_CASE pattern_value {
+    mixin="valkyrie.language.mixin.MixinCasePattern"
+};
+case_expression     ::= KW_CASE expression {
     mixin="valkyrie.language.mixin.MixinCasePattern"
 };
 pattern_value       ::= number | string | [namepath] <<parenthesis pattern_value COMMA>> | [namepath] <<brace_block pattern_pair COMMA>> | namepath;

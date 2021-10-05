@@ -1,19 +1,29 @@
-
-class RandInt -> int {
+class RandInt raise int {
 
 }
 
 
 
-extends {
-	RandInt()
+extends A {
+    RandInt()
 }
 
 class ParseEffect {
-	resume: "Expected a number"
+
 }
 
 catch parse_int() {
-	case
+
 }
 
+if {
+case a == 2: if a {1}
+else: c
+}
+
+if a == 2 {
+    if a { 1 }
+}
+else {
+    c
+}

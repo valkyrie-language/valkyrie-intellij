@@ -3,6 +3,8 @@ package valkyrie.ide.runner
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.CommonDataKeys
+import com.intellij.openapi.ui.Messages
 import valkyrie.language.ValkyrieBundle
 
 
@@ -18,8 +20,18 @@ class RunClass(val classPath: List<String>, private val full: Boolean) : AnActio
         templatePresentation.icon = AllIcons.RunConfigurations.TestState.Run_run
     }
 
-    override fun actionPerformed(e: AnActionEvent) {
-
+    override fun actionPerformed(event: AnActionEvent) {
+        val message = StringBuilder(event.presentation.text + " Selected!")
+        val selectedElement = event.getData(CommonDataKeys.NAVIGATABLE)
+        if (selectedElement != null) {
+            message.append("\nSelected Element: ").append(selectedElement)
+        }
+        Messages.showMessageDialog(
+            event.project,
+            message.toString(),
+            event.presentation.description,
+            Messages.getInformationIcon()
+        )
     }
 
     override fun displayTextInToolbar(): Boolean {

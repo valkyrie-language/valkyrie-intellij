@@ -2,7 +2,7 @@ package valkyrie.language.mixin
 
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
-import valkyrie.ide.file.ValkyrieIconProvider
+import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.ide.view.ValkyrieViewElement
 import valkyrie.language.ast.DeclareNode
 import valkyrie.language.ast.addChildrenView

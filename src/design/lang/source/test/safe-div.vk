@@ -3,7 +3,7 @@ def div42(f) {
         f()
     }
     .catch {
-        case Some { value }:
+        case Some(value):
             resume x
         case None:
             resume 42
@@ -23,15 +23,10 @@ class DivideZeroError {
 
 
 def safe_div(numerator: int, denominator: int) -> int / DivideZeroError {
-if denominator == 0 {
-raise new Failure[int, DivZeroError] {
-error: DivZeroError {
-numerator
+    if denominator == 0 {
+        let a = raise Failure(DivZeroError(numerator))
+    }
+    else {
+        numerator.div_ceil(denominator)
+    }
 }
-}
-}
-else {
-numerator.div_ceil(denominator)
-}
-}
-

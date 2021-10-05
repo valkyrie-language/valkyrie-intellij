@@ -4,7 +4,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.ide.file.ValkyrieFileNode
+import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.psi_node.ValkyrieLetStatementNode
 import valkyrie.language.psi_node.ValkyrieNumberNode
 

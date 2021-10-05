@@ -9,7 +9,7 @@ import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.ide.file.ValkyrieFileNode
+import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.psi.*
 import valkyrie.language.psi_node.*
 import valkyrie.ide.highlight.ValkyrieHighlightColor as Color

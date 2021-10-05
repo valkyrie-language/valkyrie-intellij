@@ -1,6 +1,6 @@
 package valkyrie.ide.reference
 
-import valkyrie.ide.file.ValkyrieFileNode
+import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.ast.ValkyrieASTBase
 import valkyrie.language.mixin.MixinIdentifier
 import valkyrie.language.psi.ValkyrieIdentifier

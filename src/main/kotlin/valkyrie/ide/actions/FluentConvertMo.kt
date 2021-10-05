@@ -1,7 +1,7 @@
 package valkyrie.ide.actions
 
 import valkyrie.language.ValkyrieBundle
-import valkyrie.ide.file.ValkyrieIconProvider.Companion.FILE
+import valkyrie.language.file.ValkyrieIconProvider.Companion.FILE
 import com.intellij.ide.actions.CreateFileAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys

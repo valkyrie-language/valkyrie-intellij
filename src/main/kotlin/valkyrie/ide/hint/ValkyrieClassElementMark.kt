@@ -6,7 +6,7 @@ import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
 import com.intellij.navigation.GotoRelatedItem
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
-import valkyrie.ide.file.ValkyrieIconProvider
+import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.psi_node.ValkyrieClassFieldNode
 import valkyrie.language.psi_node.ValkyrieClassMethodNode
 
@@ -20,7 +20,7 @@ class ValkyrieClassElementMark : LineMarkerProvider {
                 ValkyrieIconProvider.FUNCTION,
                 null,
                 null,
-                GutterIconRenderer.Alignment.LINE_NUMBERS
+                GutterIconRenderer.Alignment.RIGHT // 上
             ) { mutableListOf(GotoRelatedItem(element)) }
         }
         if (element is ValkyrieClassFieldNode) {
@@ -30,7 +30,7 @@ class ValkyrieClassElementMark : LineMarkerProvider {
                 ValkyrieIconProvider.FIELD,
                 null,
                 null,
-                GutterIconRenderer.Alignment.LINE_NUMBERS
+                GutterIconRenderer.Alignment.RIGHT // 下
             ) { mutableListOf(GotoRelatedItem(element)) }
         }
         return null

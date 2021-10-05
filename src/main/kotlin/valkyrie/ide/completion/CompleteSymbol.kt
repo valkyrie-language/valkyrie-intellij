@@ -1,7 +1,7 @@
 package valkyrie.ide.completion
 
 import valkyrie.ide.completion.TemplateReplaceElement.Companion.snippetFromPath
-import valkyrie.ide.file.ValkyrieIconProvider
+import valkyrie.language.file.ValkyrieIconProvider
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionProvider
 import com.intellij.codeInsight.completion.CompletionResultSet

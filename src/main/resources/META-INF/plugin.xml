@@ -10,7 +10,7 @@
 			name="Valkyrie"
 			language="Valkyrie"
 			extensions="vk;"
-			implementationClass="valkyrie.ide.file.ValkyrieFileType"
+			implementationClass="valkyrie.language.file.ValkyrieFileType"
 			fieldName="INSTANCE"/>
 		<lang.parserDefinition
 			language="Valkyrie"
@@ -31,8 +31,8 @@
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.project.DependencyVisitor"/>
 		<!-- StructureView -->
-		<iconProvider implementation="valkyrie.ide.file.ValkyrieIconProvider"/>
-		<projectViewNestingRulesProvider implementation="valkyrie.ide.file.ValkyrieFileGroup"/>
+		<iconProvider implementation="valkyrie.language.file.ValkyrieIconProvider"/>
+		<projectViewNestingRulesProvider implementation="valkyrie.language.file.ValkyrieFileGroup"/>
 		<treeStructureProvider implementation="valkyrie.ide.view.VStructureProvider"/>
 		<lang.structureViewExtension implementation="valkyrie.ide.view.VStructureViewExtension"/>
 		<lang.psiStructureViewFactory
@@ -105,6 +105,7 @@
 			targetClass="valkyrie.language.symbol.ValkyrieSymbol"/>
 		<!-- Lint -->
 		<lang.namesValidator language="Valkyrie" implementationClass="valkyrie.ide.lint.ValkyrieNameValidator"/>
+		<qualifiedNameProvider implementation="valkyrie.ide.lint.ValkyrieNameQualifier"/>
 		<!-- Declaration -->
 		<typeDeclarationProvider implementation="valkyrie.ide.reference.declaration.TypeDeclarationProvider"/>
 		<psi.declarationProvider implementation="valkyrie.ide.reference.declaration.SymbolDeclarationProvider"/>

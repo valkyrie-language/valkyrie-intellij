@@ -1,6 +1,6 @@
 package valkyrie.ide.actions
 
-import valkyrie.ide.file.ValkyrieIconProvider.Companion.FILE
+import valkyrie.language.file.ValkyrieIconProvider.Companion.FILE
 import com.intellij.ide.actions.CreateFileFromTemplateAction
 import com.intellij.ide.actions.CreateFileFromTemplateDialog.Builder
 import com.intellij.openapi.project.Project

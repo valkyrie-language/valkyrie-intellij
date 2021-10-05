@@ -14,6 +14,9 @@ public interface ValkyrieAtom extends PsiElement {
   ValkyrieIfStatement getIfStatement();
 
   @Nullable
+  ValkyrieIffStatement getIffStatement();
+
+  @Nullable
   ValkyrieList getList();
 
   @Nullable

@@ -1,6 +1,6 @@
 package valkyrie.language.mixin
 
-import valkyrie.ide.file.ValkyrieIconProvider
+import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.ide.view.ValkyrieViewElement
 import valkyrie.language.ast.DeclareNode
 import valkyrie.language.psi_node.ValkyrieIdentifierNode

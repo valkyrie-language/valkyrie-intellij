@@ -15,6 +15,7 @@ public interface ValkyrieTypes {
   IElementType BOOLEAN = new ValkyrieTokenType("BOOLEAN");
   IElementType CALL_SUFFIX = new ValkyrieTokenType("CALL_SUFFIX");
   IElementType CASE_ELSE = new ValkyrieTokenType("CASE_ELSE");
+  IElementType CASE_EXPRESSION = new ValkyrieTokenType("CASE_EXPRESSION");
   IElementType CASE_PATTERN = new ValkyrieTokenType("CASE_PATTERN");
   IElementType CASE_WITH = new ValkyrieTokenType("CASE_WITH");
   IElementType CATCH_STATEMENT = new ValkyrieTokenType("CATCH_STATEMENT");
@@ -44,6 +45,9 @@ public interface ValkyrieTypes {
   IElementType GENERIC_DEFINE = new ValkyrieTokenType("GENERIC_DEFINE");
   IElementType GENERIC_TYPE = new ValkyrieTokenType("GENERIC_TYPE");
   IElementType IDENTIFIER = new ValkyrieTokenType("IDENTIFIER");
+  IElementType IFF_BLOCK = new ValkyrieTokenType("IFF_BLOCK");
+  IElementType IFF_EXPRESSION = new ValkyrieTokenType("IFF_EXPRESSION");
+  IElementType IFF_STATEMENT = new ValkyrieTokenType("IFF_STATEMENT");
   IElementType IF_GUARD = new ValkyrieTokenType("IF_GUARD");
   IElementType IF_STATEMENT = new ValkyrieTokenType("IF_STATEMENT");
   IElementType IMPORT_BLOCK = new ValkyrieTokenType("IMPORT_BLOCK");
@@ -236,6 +240,9 @@ public interface ValkyrieTypes {
       else if (type == CASE_ELSE) {
         return new ValkyrieCaseElseNode(node);
       }
+      else if (type == CASE_EXPRESSION) {
+        return new ValkyrieCaseExpressionNode(node);
+      }
       else if (type == CASE_PATTERN) {
         return new ValkyrieCasePatternNode(node);
       }
@@ -322,6 +329,15 @@ public interface ValkyrieTypes {
       }
       else if (type == IDENTIFIER) {
         return new ValkyrieIdentifierNode(node);
+      }
+      else if (type == IFF_BLOCK) {
+        return new ValkyrieIffBlockNode(node);
+      }
+      else if (type == IFF_EXPRESSION) {
+        return new ValkyrieIffExpressionNode(node);
+      }
+      else if (type == IFF_STATEMENT) {
+        return new ValkyrieIffStatementNode(node);
       }
       else if (type == IF_GUARD) {
         return new ValkyrieIfGuardNode(node);

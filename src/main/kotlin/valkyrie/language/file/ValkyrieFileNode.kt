@@ -1,4 +1,4 @@
-package valkyrie.ide.file
+package valkyrie.language.file
 
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.ValkyrieLanguage
