@@ -153,6 +153,7 @@
 		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.StringChecker"/>
 		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.NumberChecker"/>
 		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.MarkImplicitTypes"/>
+		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.MarkLegacyExpression"/>
 		<langCodeStyleSettingsProvider
 			implementation="valkyrie.ide.codeStyle.ValkyrieCodeStyleSetting"
 		/>

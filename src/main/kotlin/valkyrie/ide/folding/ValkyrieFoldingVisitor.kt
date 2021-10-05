@@ -43,6 +43,10 @@ class ValkyrieFoldingVisitor(private val descriptors: MutableList<FoldingDescrip
         fold(o.node, o.firstChild.endOffset, o.lastChild.startOffset)
     }
 
+    override fun visitIffBlock(o: ValkyrieIffBlock) {
+        fold(o.node, o.firstChild.endOffset, o.lastChild.startOffset)
+    }
+
     override fun visitDefineBlock(o: ValkyrieDefineBlock) {
         fold(o.node, o.firstChild.endOffset, o.lastChild.startOffset)
     }

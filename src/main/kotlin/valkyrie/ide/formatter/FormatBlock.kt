@@ -103,6 +103,7 @@ class FormatBlock(
 private fun PsiElement.isValkyrieBlock(): Boolean = when (this) {
     is ValkyrieImportBlock,
     is ValkyrieForallBlock,
+    is ValkyrieIffBlock,
     is ValkyrieClassBlock, is ValkyrieUnionBlock, is ValkyrieBitflagBlock,
     is ValkyrieDefineBlock, is ValkyrieDefineTuple,
     is ValkyrieNormalBlock, is ValkyrieNewBlock, is ValkyrieTuple,
@@ -110,6 +111,5 @@ private fun PsiElement.isValkyrieBlock(): Boolean = when (this) {
     is ValkyrieMatchBlock,
     is ValkyrieList, is ValkyrieObject,
     -> true
-
     else -> false
 }
