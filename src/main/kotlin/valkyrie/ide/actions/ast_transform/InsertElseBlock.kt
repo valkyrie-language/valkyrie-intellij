@@ -2,6 +2,7 @@ package valkyrie.ide.actions.ast_transform
 
 import com.intellij.codeInsight.intention.PriorityAction
 import com.intellij.codeInspection.LocalQuickFixAndIntentionActionOnPsiElement
+import com.intellij.icons.AllIcons
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Iconable
@@ -9,10 +10,9 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.language.psi_node.ValkyrieIffStatementNode
 import javax.swing.Icon
 
-class InsertElse(element: PsiElement) : LocalQuickFixAndIntentionActionOnPsiElement(element), PriorityAction, Iconable {
+class InsertElseBlock(element: PsiElement) : LocalQuickFixAndIntentionActionOnPsiElement(element), PriorityAction, Iconable {
     override fun startInWriteAction(): Boolean {
         return true
     }
@@ -22,10 +22,10 @@ class InsertElse(element: PsiElement) : LocalQuickFixAndIntentionActionOnPsiElem
     }
 
     override fun getText(): String {
-        return ValkyrieBundle.message("action.convert.legacy_if.name")
+        return ValkyrieBundle.message("action.insert.else.name")
     }
     fun getDescription(): String {
-        return ValkyrieBundle.message("action.convert.legacy_if.help")
+        return ValkyrieBundle.message("action.insert.else.help")
     }
 
     override fun invoke(project: Project, file: PsiFile, editor: Editor?, startElement: PsiElement, endElement: PsiElement) {
@@ -33,7 +33,7 @@ class InsertElse(element: PsiElement) : LocalQuickFixAndIntentionActionOnPsiElem
     }
 
     override fun getIcon(flags: Int): Icon {
-        return ValkyrieIconProvider.TYPE
+        return AllIcons.Nodes.EntryPoints
     }
 
     override fun getPriority(): PriorityAction.Priority {

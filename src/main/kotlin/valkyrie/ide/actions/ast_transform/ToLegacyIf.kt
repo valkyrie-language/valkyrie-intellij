@@ -2,6 +2,7 @@ package valkyrie.ide.actions.ast_transform
 
 import com.intellij.codeInsight.intention.PriorityAction
 import com.intellij.codeInspection.LocalQuickFixAndIntentionActionOnPsiElement
+import com.intellij.icons.AllIcons
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Iconable
@@ -33,7 +34,7 @@ class ToLegacyIf(element: ValkyrieIffStatementNode) : LocalQuickFixAndIntentionA
     }
 
     override fun getIcon(flags: Int): Icon {
-        return ValkyrieIconProvider.TYPE
+        return AllIcons.Nodes.Deploy
     }
 
     override fun getPriority(): PriorityAction.Priority {

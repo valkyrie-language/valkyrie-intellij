@@ -2,17 +2,16 @@ package valkyrie.ide.actions.ast_transform
 
 import com.intellij.codeInsight.intention.PriorityAction
 import com.intellij.codeInspection.LocalQuickFixAndIntentionActionOnPsiElement
+import com.intellij.icons.AllIcons
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import valkyrie.language.ValkyrieBundle
-import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.language.psi_node.ValkyrieIffStatementNode
 import javax.swing.Icon
 
-class InsertElseIf(element: PsiElement) : LocalQuickFixAndIntentionActionOnPsiElement(element), PriorityAction, Iconable {
+class InsertElseIf(element: PsiElement, private val above: Boolean) : LocalQuickFixAndIntentionActionOnPsiElement(element), PriorityAction, Iconable {
     override fun startInWriteAction(): Boolean {
         return true
     }
@@ -22,10 +21,10 @@ class InsertElseIf(element: PsiElement) : LocalQuickFixAndIntentionActionOnPsiEl
     }
 
     override fun getText(): String {
-        return ValkyrieBundle.message("action.convert.legacy_if.name")
+        return if (above) ValkyrieBundle.message("action.insert.else_if_above.name") else ValkyrieBundle.message("action.insert.else_if_above.help")
     }
     fun getDescription(): String {
-        return ValkyrieBundle.message("action.convert.legacy_if.help")
+        return if (above) ValkyrieBundle.message("action.insert.else_if_above.help") else ValkyrieBundle.message("action.insert.else_if_above.help")
     }
 
     override fun invoke(project: Project, file: PsiFile, editor: Editor?, startElement: PsiElement, endElement: PsiElement) {
@@ -33,7 +32,7 @@ class InsertElseIf(element: PsiElement) : LocalQuickFixAndIntentionActionOnPsiEl
     }
 
     override fun getIcon(flags: Int): Icon {
-        return ValkyrieIconProvider.TYPE
+        return AllIcons.Nodes.EntryPoints
     }
 
     override fun getPriority(): PriorityAction.Priority {
