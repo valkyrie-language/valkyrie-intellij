@@ -5,10 +5,7 @@ import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.editor.colors.CodeInsightColors
 import com.intellij.psi.PsiElement
-import valkyrie.ide.actions.ast_transform.InsertElseBlock
-import valkyrie.ide.actions.ast_transform.InsertElseIf
-import valkyrie.ide.actions.ast_transform.ToLegacyIf
-import valkyrie.ide.actions.ast_transform.ToModernIf
+import valkyrie.ide.actions.ast_transform.*
 import valkyrie.language.psi_node.ValkyrieForStatementNode
 import valkyrie.language.psi_node.ValkyrieIfStatementNode
 import valkyrie.language.psi_node.ValkyrieIffStatementNode
@@ -20,15 +17,20 @@ class MarkLegacyExpression : HyperlinkAnnotator() {
                 if (element.elseStatement == null) {
                     insertElseBlock(element, holder)
                 } else {
+                    switchBranch(element.firstChild, holder, true)
+                    switchBranch(element.elseStatement!!.firstChild, holder, true)
                     insertElseIf(element.elseStatement!!, holder, true)
                 }
                 for (item in element.efStatementList) {
                     insertElseIf(item.firstChild, holder, true)
                     insertElseIf(item.firstChild, holder, false)
+                    switchBranch(element, holder, true)
+                    switchBranch(element, holder, false)
                 }
                 insertElseIf(element.firstChild!!, holder, false)
                 val warn = element.elseStatement != null || element.efStatementList.isNotEmpty()
                 toModernIf(element, holder, warn)
+
             }
 
             is ValkyrieIffStatementNode -> {
@@ -69,6 +71,14 @@ class MarkLegacyExpression : HyperlinkAnnotator() {
 
     private fun insertElseIf(element: PsiElement, holder: AnnotationHolder, above: Boolean) {
         val fixer = InsertElseIf(element, above);
+        holder.newAnnotation(HighlightSeverity.INFORMATION, fixer.getDescription())
+            .range(element.textRange)
+            .withFix(fixer)
+            .create()
+    }
+
+    private fun switchBranch(element: PsiElement, holder: AnnotationHolder, above: Boolean) {
+        val fixer = SwapIfBranch(element, above);
         holder.newAnnotation(HighlightSeverity.INFORMATION, fixer.getDescription())
             .range(element.textRange)
             .withFix(fixer)

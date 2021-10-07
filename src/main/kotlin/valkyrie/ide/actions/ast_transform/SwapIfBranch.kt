@@ -11,7 +11,7 @@ import com.intellij.psi.PsiFile
 import valkyrie.language.ValkyrieBundle
 import javax.swing.Icon
 
-class InsertElseIf(element: PsiElement, private val above: Boolean) : LocalQuickFixAndIntentionActionOnPsiElement(element), PriorityAction, Iconable {
+class SwapIfBranch(element: PsiElement, private val above: Boolean) : LocalQuickFixAndIntentionActionOnPsiElement(element), PriorityAction, Iconable {
     override fun startInWriteAction(): Boolean {
         return true
     }
@@ -21,7 +21,7 @@ class InsertElseIf(element: PsiElement, private val above: Boolean) : LocalQuick
     }
 
     override fun getText(): String {
-        return if (above) ValkyrieBundle.message("action.insert.else_if.above") else ValkyrieBundle.message("action.insert.else_if.below")
+        return if (above) ValkyrieBundle.message("action.switch.branch.above") else ValkyrieBundle.message("action.switch.branch.below")
     }
     fun getDescription(): String {
         return ""
@@ -32,7 +32,7 @@ class InsertElseIf(element: PsiElement, private val above: Boolean) : LocalQuick
     }
 
     override fun getIcon(flags: Int): Icon {
-        return AllIcons.Nodes.EntryPoints
+        return AllIcons.Nodes.Deploy
     }
 
     override fun getPriority(): PriorityAction.Priority {
