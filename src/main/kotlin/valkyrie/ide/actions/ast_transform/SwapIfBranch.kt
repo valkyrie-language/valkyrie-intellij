@@ -21,10 +21,10 @@ class SwapIfBranch(element: PsiElement, private val above: Boolean) : LocalQuick
     }
 
     override fun getText(): String {
-        return if (above) ValkyrieBundle.message("action.switch.branch.above") else ValkyrieBundle.message("action.switch.branch.below")
+        return ValkyrieBundle.message("action.if_swap_branch.name")
     }
     fun getDescription(): String {
-        return ""
+        return ValkyrieBundle.message("action.if_swap_branch.help")
     }
 
     override fun invoke(project: Project, file: PsiFile, editor: Editor?, startElement: PsiElement, endElement: PsiElement) {

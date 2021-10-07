@@ -21,10 +21,10 @@ class InsertElseIf(element: PsiElement, private val above: Boolean) : LocalQuick
     }
 
     override fun getText(): String {
-        return if (above) ValkyrieBundle.message("action.insert.else_if.above") else ValkyrieBundle.message("action.insert.else_if.below")
+        return if (above) ValkyrieBundle.message("action.insert.else_if.above.name") else ValkyrieBundle.message("action.insert.else_if.below.name")
     }
     fun getDescription(): String {
-        return ""
+        return if (above) ValkyrieBundle.message("action.insert.else_if.above.help") else ValkyrieBundle.message("action.insert.else_if.below.help")
     }
 
     override fun invoke(project: Project, file: PsiFile, editor: Editor?, startElement: PsiElement, endElement: PsiElement) {
