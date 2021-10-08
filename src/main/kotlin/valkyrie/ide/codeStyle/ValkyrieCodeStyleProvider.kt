@@ -5,7 +5,7 @@ import com.intellij.application.options.SmartIndentOptionsEditor
 import com.intellij.psi.codeStyle.*
 import valkyrie.language.ValkyrieLanguage
 
-class ValkyrieCodeStyleSetting : LanguageCodeStyleSettingsProvider() {
+class ValkyrieCodeStyleProvider : LanguageCodeStyleSettingsProvider() {
     override fun getLanguage() = ValkyrieLanguage
     override fun getIndentOptionsEditor() = SmartIndentOptionsEditor()
     override fun createConfigurable(
@@ -59,3 +59,4 @@ class ValkyrieCodeStyleSetting : LanguageCodeStyleSettingsProvider() {
 
     override fun getCodeSample(settingsType: SettingsType) = javaClass.getResource("/templates/code-style.vk")!!.readText()
 }
+

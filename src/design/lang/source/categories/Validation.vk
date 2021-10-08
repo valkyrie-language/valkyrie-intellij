@@ -1,6 +1,6 @@
 namespace std.categories;
 
-variant Validation[T, E] -> T {
+variant tuple Validation[T, E] / T {
     Fine {
         value: T,
         error: [E]

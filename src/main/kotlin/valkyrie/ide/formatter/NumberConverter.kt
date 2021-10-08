@@ -1,5 +1,6 @@
 package valkyrie.ide.formatter
 
+import com.intellij.codeInsight.actions.ReformatCodeProcessor
 import com.intellij.codeInsight.intention.numeric.NumberConverter
 
 class ValkyrieNumberConverter : NumberConverter {
@@ -7,3 +8,4 @@ class ValkyrieNumberConverter : NumberConverter {
         return "$number$text"
     }
 }
+

@@ -67,6 +67,7 @@
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.formatter.SmartEnter"
 		/>
+		<preFormatProcessor implementation="valkyrie.ide.formatter.ValkyrieBeforeFormat"/>
 		<!-- Goto -->
 		<navbar implementation="valkyrie.ide.goto.VNavigationBarExtension"/>
 		<lang.directNavigationProvider implementation="valkyrie.ide.goto.VDirectNavigationProvider"/>
@@ -155,7 +156,7 @@
 		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.MarkImplicitTypes"/>
 		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.MarkLegacyExpression"/>
 		<langCodeStyleSettingsProvider
-			implementation="valkyrie.ide.codeStyle.ValkyrieCodeStyleSetting"
+			implementation="valkyrie.ide.codeStyle.ValkyrieCodeStyleProvider"
 		/>
 	</extensions>
 	<actions>
