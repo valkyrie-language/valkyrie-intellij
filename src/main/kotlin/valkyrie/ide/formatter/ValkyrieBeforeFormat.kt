@@ -5,9 +5,12 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiDocumentManager
+import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.codeStyle.PreFormatProcessor
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.nextLeaf
+import com.intellij.refactoring.suggested.endOffset
+import com.intellij.refactoring.suggested.startOffset
 import com.intellij.util.DocumentUtil
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
 import valkyrie.language.ValkyrieLanguage
@@ -37,20 +40,42 @@ class ValkyrieBeforeFormat : PreFormatProcessor {
     }
 }
 
-private class RewriteVisitor(private val text: Document, settings: ValkyrieCodeStyleSettings) : ValkyrieRecursiveVisitor() {
+private class RewriteVisitor(private val text: Document, val settings: ValkyrieCodeStyleSettings) : ValkyrieRecursiveVisitor() {
     override fun visitClassField(o: ValkyrieClassField) {
-        o.nextLeaf(false)?.let {
-            println(it)
-            if (it.elementType == ValkyrieTypes.SEMICOLON) {
-                it.delete()
+        val delimiter = o.nextLeaf(true) ?: return;
+        when (settings.class_field_trailing) {
+            ValkyrieCodeStyleSettings.ClassFieldTrailing.IGNORE -> {
+                // do nothing
+            }
+            ValkyrieCodeStyleSettings.ClassFieldTrailing.NEVER -> {
+                if (delimiter.elementType == ValkyrieTypes.SEMICOLON || delimiter.elementType == ValkyrieTypes.COMMA) {
+                    text.deleteString(delimiter.startOffset, delimiter.endOffset)
+                }
+            }
+
+            ValkyrieCodeStyleSettings.ClassFieldTrailing.COMMA -> {
+                if (delimiter.elementType == ValkyrieTypes.SEMICOLON) {
+                    deleteNode(delimiter)
+                }
+                if (delimiter.elementType != ValkyrieTypes.COMMA) {
+                    text.insertString(o.endOffset, ",")
+                }
+            }
+
+            ValkyrieCodeStyleSettings.ClassFieldTrailing.SEMICOLON -> {
+                if (delimiter.elementType == ValkyrieTypes.COMMA) {
+                    deleteNode(delimiter)
+                }
+                if (delimiter.elementType != ValkyrieTypes.SEMICOLON) {
+                    text.insertString(o.endOffset, ";")
+                }
             }
         }
     }
 
-    private fun deleteNode(node: ASTNode) {
-//        val length = node.textLength
-//        myDocument.deleteString(node.startOffset + myOffsetDelta, node.startOffset + length + myOffsetDelta)
-//        myOffsetDelta -= length
+    fun deleteNode(node: PsiElement) {
+        text.deleteString(node.startOffset, node.endOffset)
     }
 }
+
 

@@ -20,7 +20,7 @@ class A4[T] {
 // https://crates.io/crates/custom_debug_derive
 class A3[T] {
     #debug(rename="new_name")
-    name: u32,
+    name: u32
     #debug(skip)
     skip: u32
 }

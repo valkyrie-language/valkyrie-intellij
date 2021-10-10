@@ -5,8 +5,8 @@ import com.intellij.codeInsight.hints.InlayInfo
 import com.intellij.codeInsight.hints.InlayParameterHintsProvider
 import com.intellij.codeInsight.hints.Option
 import com.intellij.psi.PsiElement
+import com.intellij.refactoring.suggested.startOffset
 import valkyrie.language.ValkyrieBundle
-import valkyrie.language.psi.startOffset
 import valkyrie.language.psi_node.ValkyrieCallSuffixNode
 
 

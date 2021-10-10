@@ -1,6 +1,5 @@
 package valkyrie.ide.codeStyle
 
-import com.intellij.application.options.CodeStyleAbstractConfigurable
 import com.intellij.application.options.SmartIndentOptionsEditor
 import com.intellij.psi.codeStyle.*
 import valkyrie.language.ValkyrieLanguage
@@ -12,11 +11,13 @@ class ValkyrieCodeStyleProvider : LanguageCodeStyleSettingsProvider() {
         settings: CodeStyleSettings,
         modelSettings: CodeStyleSettings,
     ): CodeStyleConfigurable {
-        return object : CodeStyleAbstractConfigurable(
-            settings, modelSettings, configurableDisplayName
-        ) {
-            override fun createPanel(settings: CodeStyleSettings) = ValkyrieCodeStyleMainPanel(currentSettings, settings)
-        }
+
+
+        return ValkyrieCodeStyleConfigurable(settings, modelSettings)
+    }
+
+    override fun createCustomSettings(settings: CodeStyleSettings): CustomCodeStyleSettings {
+        return ValkyrieCodeStyleSettings(settings)
     }
 
     override fun customizeSettings(consumer: CodeStyleSettingsCustomizable, settingsType: SettingsType) {
@@ -58,7 +59,6 @@ class ValkyrieCodeStyleProvider : LanguageCodeStyleSettingsProvider() {
 
         indentOptions.CONTINUATION_INDENT_SIZE = indentOptions.INDENT_SIZE
     }
-
 
 
     override fun getCodeSample(settingsType: SettingsType) = javaClass.getResource("/templates/code-style.vk")!!.readText()

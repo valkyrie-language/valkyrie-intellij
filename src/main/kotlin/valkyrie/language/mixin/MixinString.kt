@@ -4,8 +4,6 @@ import valkyrie.ide.matcher.escaper.LiteralNoEscape
 import valkyrie.language.ast.ValkyrieASTBase
 import valkyrie.language.psi.ValkyrieTypes
 import valkyrie.language.psi.childrenWithLeaves
-import valkyrie.language.psi.endOffset
-import valkyrie.language.psi.startOffset
 import valkyrie.language.psi_node.ValkyrieIdentifierNode
 import valkyrie.language.psi_node.ValkyrieStringNode
 import com.intellij.json.json5.Json5Language
@@ -17,6 +15,8 @@ import com.intellij.psi.LiteralTextEscaper
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiLanguageInjectionHost
 import com.intellij.psi.util.elementType
+import com.intellij.refactoring.suggested.endOffset
+import com.intellij.refactoring.suggested.startOffset
 import org.intellij.lang.regexp.RegExpLanguage
 
 // PsiReference

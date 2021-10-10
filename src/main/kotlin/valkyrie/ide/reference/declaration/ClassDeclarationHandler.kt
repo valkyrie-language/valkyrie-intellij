@@ -1,10 +1,11 @@
 package valkyrie.ide.reference.declaration
 
-import valkyrie.language.psi.endOffset
-import valkyrie.language.psi.startOffset
+
 import valkyrie.language.psi_node.ValkyrieClassStatementNode
 import com.intellij.codeInsight.hint.DeclarationRangeHandler
 import com.intellij.openapi.util.TextRange
+import com.intellij.refactoring.suggested.endOffset
+import com.intellij.refactoring.suggested.startOffset
 
 @Suppress("UnstableApiUsage")
 class ClassDeclarationHandler : DeclarationRangeHandler<ValkyrieClassStatementNode> {
