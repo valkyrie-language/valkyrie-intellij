@@ -37,7 +37,9 @@ class ValkyrieCodeStyleProvider : LanguageCodeStyleSettingsProvider() {
             }
 
             SettingsType.LANGUAGE_SPECIFIC -> {
-                consumer.showStandardOptions()
+                consumer.showStandardOptions(
+
+                )
             }
 
             else -> {}
@@ -56,6 +58,8 @@ class ValkyrieCodeStyleProvider : LanguageCodeStyleSettingsProvider() {
 
         indentOptions.CONTINUATION_INDENT_SIZE = indentOptions.INDENT_SIZE
     }
+
+
 
     override fun getCodeSample(settingsType: SettingsType) = javaClass.getResource("/templates/code-style.vk")!!.readText()
 }

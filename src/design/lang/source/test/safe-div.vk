@@ -17,7 +17,7 @@ def main() {
 }
 
 class DivideZeroError {
-    numerator: int
+    numerator: int = 1 + 1
 }
 
 

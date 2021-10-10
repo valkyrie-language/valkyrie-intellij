@@ -55,10 +55,12 @@
 			implementationClass="valkyrie.ide.highlight.TokenHighlight"
 		/>
 		<!-- Formatter -->
+		<preFormatProcessor implementation="valkyrie.ide.formatter.ValkyrieBeforeFormat"/>
 		<lang.formatter
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.formatter.FormatBuilder"
 		/>
+		<formattingService implementation="valkyrie.ide.formatter.ValkyrieNativeFormat"/>
 		<lang.commenter
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.formatter.Commenter"
@@ -67,7 +69,7 @@
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.formatter.SmartEnter"
 		/>
-		<preFormatProcessor implementation="valkyrie.ide.formatter.ValkyrieBeforeFormat"/>
+
 		<!-- Goto -->
 		<navbar implementation="valkyrie.ide.goto.VNavigationBarExtension"/>
 		<lang.directNavigationProvider implementation="valkyrie.ide.goto.VDirectNavigationProvider"/>
