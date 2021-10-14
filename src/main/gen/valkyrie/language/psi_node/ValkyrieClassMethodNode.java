@@ -60,8 +60,8 @@ public class ValkyrieClassMethodNode extends MixinClassMethod implements Valkyri
 
   @Override
   @Nullable
-  public ValkyrieTypeExpression getTypeExpression() {
-    return findChildByClass(ValkyrieTypeExpression.class);
+  public ValkyrieReturnType getReturnType() {
+    return findChildByClass(ValkyrieReturnType.class);
   }
 
 }

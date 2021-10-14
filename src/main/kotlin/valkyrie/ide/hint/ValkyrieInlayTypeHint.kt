@@ -144,7 +144,7 @@ private class InlayTypeHint(private val settings: ValkyrieInlayTypeHint.InlayTyp
             }
 
             settings.showDefineReturnType && element is ValkyrieDefineStatementNode -> {
-                if (element.typeExpression == null) {
+                if (element.returnType == null) {
                     element.defineTuple?.textRange?.let {
                         inline(it.endOffset, "Unknown", split = "⟶")
                     }

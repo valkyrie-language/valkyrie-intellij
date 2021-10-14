@@ -7,18 +7,32 @@ import valkyrie.language.ValkyrieLanguage
 @Suppress("PropertyName")
 class ValkyrieCodeStyleSettings(container: CodeStyleSettings) : CustomCodeStyleSettings(ValkyrieLanguage.id, container) {
     val TRAILING_COMMA: TrailingComma = TrailingComma.ALWAYS
-    val class_field_trailing: ClassFieldTrailing = ClassFieldTrailing.SEMICOLON
+    val class_field_trailing: ClassFieldTrailing = ClassFieldTrailing.Semicolon
+    val return_type: ReturnType = ReturnType.Arrow
+    val namespace_delimiter: NamespaceDelimiter = NamespaceDelimiter.Colon
 
     enum class TrailingComma {
-        ALWAYS,
-        NEVER,
-        WHEN_MULTILINE
+        ALWAYS, NEVER, WHEN_MULTILINE
     }
 
     enum class ClassFieldTrailing {
-        IGNORE,    // 别动
-        NEVER,     // 去掉
-        COMMA,     // 逗号
-        SEMICOLON, // 分号
+        Ignore,    // 别动
+        Never,     // 去掉
+        Comma,     // `,`
+        Semicolon, // `;`
+    }
+
+    enum class ReturnType {
+        Ignore,       // 别动
+        Colon,        // `:`
+        Arrow,        // `->`
+        UnicodeArrow, // `⟶`
+    }
+
+    enum class NamespaceDelimiter {
+        Ignore, // 别动
+        Dot,    // `.`
+        Colon,  // `::`
+        UnicodeColon, // `∷`
     }
 }

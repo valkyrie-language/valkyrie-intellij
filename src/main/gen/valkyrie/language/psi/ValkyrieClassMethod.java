@@ -23,7 +23,7 @@ public interface ValkyrieClassMethod extends PsiElement {
   ValkyrieModifiers getModifiers();
 
   @Nullable
-  ValkyrieTypeExpression getTypeExpression();
+  ValkyrieReturnType getReturnType();
 
   //WARNING: getIdentifier(...) is skipped
   //matching getIdentifier(ValkyrieClassMethod, ...)

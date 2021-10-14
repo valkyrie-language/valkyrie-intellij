@@ -238,7 +238,7 @@ let_statement       ::=
     | KW_LET case_pattern OP_SET normal_statements;
 private let_type    ::= COLON <<sequence type_expression COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
-define_statement    ::= KW_DEF [modifiers] namepath_free [generic_define] define_tuple def_type [define_block] {
+define_statement    ::= KW_DEF [modifiers] namepath_free [generic_define] define_tuple return_type [define_block] {
     pin=namepath_free
     mixin="valkyrie.language.mixin.MixinDefine"
 };
@@ -250,7 +250,7 @@ define_item         ::= OP_POW | OP_LT | OP_GT |
 define_block        ::= <<brace_block normal_statements SEMICOLON>> {
     pin = 1
 }
-private def_type    ::= [(COLON|OP_ARROW) type_expression]
+return_type    ::= [(COLON|OP_ARROW) type_expression]
 // ---------------------------------------------------------------------------------------------------------------------
 // type Result[T: Debug, E: Error + Debug = Error] = std::result::Result[T];
 type_statement      ::= KW_TYPE generic_type [OP_SET type_term] {
@@ -283,7 +283,7 @@ private class_item  ::= macro_call | type_statement | class_method | class_field
 class_field         ::= KW_LET? [modifiers] object_key [COLON type_expression] [OP_SET expression] | object_key {
     mixin="valkyrie.language.mixin.MixinClassField"
 };
-class_method        ::= KW_DEF? [modifiers] identifier [generic_define] define_tuple def_type [define_block] {
+class_method        ::= KW_DEF? [modifiers] identifier [generic_define] define_tuple return_type [define_block] {
     pin = define_tuple
     mixin="valkyrie.language.mixin.MixinClassMethod"
     methods = [getIdentifier getModifiers]

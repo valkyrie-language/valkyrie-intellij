@@ -23,6 +23,6 @@ public interface ValkyrieDefineStatement extends PsiElement {
   ValkyrieNamepathFree getNamepathFree();
 
   @Nullable
-  ValkyrieTypeExpression getTypeExpression();
+  ValkyrieReturnType getReturnType();
 
 }

@@ -1,0 +1,18 @@
+namespace leetcode::A::b::F;
+
+class ClassEmpty {
+    x;
+}
+
+class ClassPoint {
+    x;
+    y;
+    z;
+    w;
+}
+
+
+def a()-> B {
+    let a = 11;
+    let b = 22
+}

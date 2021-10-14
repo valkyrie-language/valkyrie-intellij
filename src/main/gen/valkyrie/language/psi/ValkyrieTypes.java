@@ -83,6 +83,7 @@ public interface ValkyrieTypes {
   IElementType PATTERN_PAIR = new ValkyrieTokenType("PATTERN_PAIR");
   IElementType PATTERN_VALUE = new ValkyrieTokenType("PATTERN_VALUE");
   IElementType RANGE = new ValkyrieTokenType("RANGE");
+  IElementType RETURN_TYPE = new ValkyrieTokenType("RETURN_TYPE");
   IElementType SLICE = new ValkyrieTokenType("SLICE");
   IElementType SLICE_ITEM = new ValkyrieTokenType("SLICE_ITEM");
   IElementType STRING = new ValkyrieTokenType("STRING");
@@ -443,6 +444,9 @@ public interface ValkyrieTypes {
       }
       else if (type == RANGE) {
         return new ValkyrieRangeNode(node);
+      }
+      else if (type == RETURN_TYPE) {
+        return new ValkyrieReturnTypeNode(node);
       }
       else if (type == SLICE) {
         return new ValkyrieSliceNode(node);
