@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieReturnType extends PsiElement {
 
-  @Nullable
+  @NotNull
   ValkyrieTypeExpression getTypeExpression();
 
 }

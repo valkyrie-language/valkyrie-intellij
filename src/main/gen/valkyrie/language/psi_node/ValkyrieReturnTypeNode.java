@@ -29,9 +29,9 @@ public class ValkyrieReturnTypeNode extends ValkyrieASTBase implements ValkyrieR
   }
 
   @Override
-  @Nullable
+  @NotNull
   public ValkyrieTypeExpression getTypeExpression() {
-    return findChildByClass(ValkyrieTypeExpression.class);
+    return findNotNullChildByClass(ValkyrieTypeExpression.class);
   }
 
 }

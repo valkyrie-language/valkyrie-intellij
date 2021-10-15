@@ -19,10 +19,6 @@ import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.psi.*
 
 
-
-
-
-
 class ValkyrieBeforeFormat : PreFormatProcessor {
     override fun process(element: ASTNode, range: TextRange): TextRange {
         val psiRoot = element.psi
@@ -50,11 +46,22 @@ private class RewriteVisitor(private val text: Document, val settings: ValkyrieC
         for (leaf in o.namepathFree.childrenWithLeaves) {
             if (leaf.elementType == ValkyrieTypes.DOT || leaf.elementType == ValkyrieTypes.OP_PROPORTION) {
                 when (settings.namespace_delimiter) {
-                    NamespaceDelimiter.Ignore -> return
+                    NamespaceDelimiter.Ignore -> break
                     NamespaceDelimiter.Dot -> replaceNode(leaf, ".")
                     NamespaceDelimiter.Colon -> replaceNode(leaf, "::")
                     NamespaceDelimiter.UnicodeColon -> replaceNode(leaf, "∷")
                 }
+            }
+        }
+        val next = PsiTreeUtil.skipWhitespacesForward(o);
+        when (settings.namespace_colon) {
+            Triplet.Ignore -> {}
+            Triplet.Always -> if (next.elementType != ValkyrieTypes.SEMICOLON) {
+                insertAfter(o, ";")
+            }
+
+            Triplet.Never -> if (next.elementType == ValkyrieTypes.SEMICOLON) {
+                deleteNode(next)
             }
         }
     }
@@ -107,13 +114,15 @@ private class RewriteVisitor(private val text: Document, val settings: ValkyrieC
         }
     }
 
-    fun deleteNode(node: PsiElement) {
+    fun deleteNode(node: PsiElement?) {
+        if (node == null) return
         val delta = node.textLength
         text.deleteString(node.startOffset + offsetDelta, node.endOffset + offsetDelta)
         offsetDelta -= delta
     }
 
-    fun replaceNode(node: PsiElement, replace: String) {
+    fun replaceNode(node: PsiElement?, replace: String) {
+        if (node == null) return
         val delta = replace.length - node.textLength
         text.replaceString(node.startOffset + offsetDelta, node.endOffset + offsetDelta, replace)
         offsetDelta += delta

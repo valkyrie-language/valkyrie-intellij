@@ -6,13 +6,15 @@ import valkyrie.language.ValkyrieLanguage
 
 @Suppress("PropertyName")
 class ValkyrieCodeStyleSettings(container: CodeStyleSettings) : CustomCodeStyleSettings(ValkyrieLanguage.id, container) {
-    val TRAILING_COMMA: TrailingComma = TrailingComma.ALWAYS
     val class_field_trailing: ClassFieldTrailing = ClassFieldTrailing.Semicolon
     val return_type: ReturnType = ReturnType.Arrow
-    val namespace_delimiter: NamespaceDelimiter = NamespaceDelimiter.Colon
+    val namespace_delimiter: NamespaceDelimiter = NamespaceDelimiter.Dot
+    val namespace_colon: Triplet = Triplet.Always
 
-    enum class TrailingComma {
-        ALWAYS, NEVER, WHEN_MULTILINE
+    enum class Triplet {
+        Ignore,
+        Always,
+        Never
     }
 
     enum class ClassFieldTrailing {
