@@ -10,10 +10,10 @@ import valkyrie.language.ValkyrieBundle
 import valkyrie.language.psi_node.*
 import javax.swing.JComponent
 
-@Suppress("UnstableApiUsage")
+@Suppress("UnstableApiUsage", "PropertyName")
 class ValkyrieInlayTypeHint : InlayHintsProvider<ValkyrieInlayTypeHint.InlayTypeSetting> {
     data class InlayTypeSetting(
-        var showObviousType: Boolean = false,
+        var show_obvious_type: Boolean = false,
         var showForLoopType: Boolean = true,
         var showDefineParameterType: Boolean = true,
         var showDefineReturnType: Boolean = true,
@@ -58,7 +58,8 @@ class ValkyrieInlayTypeHint : InlayHintsProvider<ValkyrieInlayTypeHint.InlayType
                     ImmediateConfigurable.Case(
                         "Obvious types",
                         "hints.type.obvious",
-                        settings::showObviousType, ValkyrieBundle.message("view.PropertiesGrouper")
+                        settings::show_obvious_type,
+                        ValkyrieBundle.message("view.PropertiesGrouper")
                     ),
                     ImmediateConfigurable.Case(
                         "For loop types",
@@ -88,9 +89,9 @@ class ValkyrieInlayTypeHint : InlayHintsProvider<ValkyrieInlayTypeHint.InlayType
                 return panel {
                     row {
                         checkBox("Show obvious type").applyToComponent {
-                            isSelected = settings.showObviousType
+                            isSelected = settings.show_obvious_type
                             addActionListener {
-                                settings.showObviousType = isSelected
+                                settings.show_obvious_type = isSelected
                                 listener.settingsChanged()
                             }
                         }

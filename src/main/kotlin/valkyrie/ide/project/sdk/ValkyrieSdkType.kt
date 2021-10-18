@@ -1,31 +1,50 @@
 package valkyrie.ide.project.sdk
 
 import com.intellij.openapi.projectRoots.*
+import com.intellij.openapi.roots.OrderRootType
 import com.intellij.ui.dsl.builder.panel
 import org.jdom.Element
 import valkyrie.language.file.ValkyrieIconProvider
 import java.io.File
 import javax.swing.JComponent
 
-class ValkyrieSdkType : SdkType("sdk.valkyrie") {
+class ValkyrieSdkType : SdkType(ID) {
+    companion object {
+        const val ID = "sdk.valkyrie"
+    }
+
     override fun getIcon() = ValkyrieIconProvider.FILE
     override fun getPresentableName() = "Valkyrie SDK"
 
     override fun saveAdditionalData(additionalData: SdkAdditionalData, additional: Element) {
-        TODO("Not yet implemented")
-    }
 
-    override fun suggestHomePath(): String? {
-        return suggestHomePaths().firstOrNull()
     }
 
     override fun suggestHomePaths(): MutableCollection<String> {
         return mutableListOf("C:\\Users\\Default")
     }
 
+    override fun suggestHomePath(): String? {
+        return suggestHomePaths().firstOrNull()
+    }
+
+    override fun setupSdkPaths(sdk: Sdk) {
+        sdk.sdkModificator.addRoot("file://f/Rust", OrderRootType.CLASSES)
+        sdk.sdkModificator.commitChanges()
+    }
+
+    override fun setupSdkPaths(sdk: Sdk, sdkModel: SdkModel): Boolean {
+        setupSdkPaths(sdk)
+        return true
+    }
+
     override fun isValidSdkHome(path: String): Boolean {
         println(path)
         return true
+    }
+
+    override fun getHelpTopic(): String {
+        return super.getHelpTopic()
     }
 
     override fun adjustSelectedSdkHome(homePath: String): String {
@@ -41,19 +60,9 @@ class ValkyrieSdkType : SdkType("sdk.valkyrie") {
         }
     }
 
-    override fun sdkHasValidPath(sdk: Sdk): Boolean {
-        println("sdkHasValidPath: ${sdk.homePath} ${sdk.homeDirectory}")
-        return super.sdkHasValidPath(sdk)
-    }
-
-    override fun getVersionString(sdk: Sdk): String? {
-        return super.getVersionString(sdk)
-    }
-
-    override fun getVersionString(sdkHome: String): String {
-        return "0.0.0"
-    }
-
+    override fun sdkHasValidPath(sdk: Sdk) = ValkyrieSdk(sdk).isValid()
+    override fun getVersionString(sdkHome: String) = ValkyrieSdk(sdkHome).version
+    override fun getVersionString(sdk: Sdk) = ValkyrieSdk(sdk).version
     override fun createAdditionalDataConfigurable(sdkModel: SdkModel, sdkModificator: SdkModificator): AdditionalDataConfigurable? {
         return DataConfigurable(sdkModel, sdkModificator)
     }
@@ -73,8 +82,6 @@ class ValkyrieSdkType : SdkType("sdk.valkyrie") {
     override fun getInvalidHomeMessage(path: String): String {
         return super.getInvalidHomeMessage(path)
     }
-
-
 }
 
 private class DataConfigurable(var model: SdkModel, var modificator: SdkModificator) : AdditionalDataConfigurable {

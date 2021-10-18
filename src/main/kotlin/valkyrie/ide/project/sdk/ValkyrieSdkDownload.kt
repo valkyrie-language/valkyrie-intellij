@@ -16,10 +16,9 @@ class ValkyrieSdkDownload : SdkDownload {
     }
 
     override fun supportsDownload(sdkTypeId: SdkTypeId): Boolean {
-        if (sdkTypeId.name != "sdk.valkyrie") {
+        if (sdkTypeId.name != ValkyrieSdkType.ID) {
             return false
         }
-        println("supportsDownload($sdkTypeId)")
         return true
     }
 
@@ -30,5 +29,6 @@ class ValkyrieSdkDownload : SdkDownload {
         selectedSdk: Sdk?,
         sdkCreatedCallback: Consumer<in SdkDownloadTask?>,
     ) {
+
     }
 }

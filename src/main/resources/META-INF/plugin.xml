@@ -18,7 +18,17 @@
 			language="Valkyrie"
 			implementationClass="valkyrie.language.lexer.ValkyrieParserDefinition"/>
 		<multiHostInjector implementation="valkyrie.ide.matcher.LanguageInjector"/>
-		<!-- Project -->
+		<!-- Project SDK -->
+		<sdkType implementation="valkyrie.ide.project.sdk.ValkyrieSdkType"/>
+		<sdkFinder implementation="valkyrie.ide.project.sdk.ValkyrieSdkFinder"/>
+		<projectSdkSetupValidator implementation="valkyrie.ide.project.sdk.ValkyrieSdkValidator"/>
+		<sdkDownload implementation="valkyrie.ide.project.sdk.ValkyrieSdkDownload"/>
+		<!-- Project Library -->
+<!--		<customLibraryTable implementation="valkyrie.ide.project.library.ValkyrieCustomTable"/>-->
+<!--		<library.type implementation="valkyrie.ide.project.library.ValkyrieLibraryType"/>-->
+<!--		<librarySettingsProvider implementation="valkyrie.ide.project.library.ValkyrieLibrarySettingsProvider"/>-->
+		<additionalLibraryRootsProvider implementation="valkyrie.ide.project.LibraryRootsProvider"/>
+		<!-- Project Module -->
 		<moduleType
 			implementationClass="valkyrie.ide.project.ValkyrieModuleType"
 			id="VALKYRIE_MODULE_TYPE"/>
@@ -26,13 +36,9 @@
 			builderClass="valkyrie.ide.project.ValkyrieModuleBuilder"
 			id="VALKYRIE_MODULE_TYPE"
 			order="first"/>
-		<sdkType implementation="valkyrie.ide.project.sdk.ValkyrieSdkType"/>
-		<sdkFinder implementation="valkyrie.ide.project.sdk.ValkyrieSdkFinder"/>
-		<sdkDownload implementation="valkyrie.ide.project.sdk.ValkyrieSdkDownload"/>
-<!--		<projectOpenProcessor implementation="valkyrie.ide.project.ValkyrieProjectOpen"/>-->
+		<!--		<projectOpenProcessor implementation="valkyrie.ide.project.ValkyrieProjectOpen"/>-->
 		<fileBasedIndex implementation="valkyrie.ide.project.ValkyrieFileIndex"/>
 		<indexedRootsProvider implementation="valkyrie.ide.project.ExtraIndexContributor"/>
-		<additionalLibraryRootsProvider implementation="valkyrie.ide.project.LibraryRootsProvider"/>
 		<packageDependencies.visitor
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.project.DependencyVisitor"/>
@@ -84,6 +90,7 @@
 			implementationClass="valkyrie.ide.hint.ValkyrieInlayTypeHint"/>
 		<codeInsight.typeInfo language="Valkyrie" implementationClass="valkyrie.ide.hint.TypeInfoHint"/>
 		<codeInsight.parameterInfo language="Valkyrie" implementationClass="valkyrie.ide.hint.ParameterInfoHint"/>
+		<codeInsight.parameterInfo.listener implementation="valkyrie.ide.hint.ParameterInfoListener"/>
 		<codeInsight.parameterNameHints language="Valkyrie" implementationClass="valkyrie.ide.hint.ParameterNameHint"/>
 		<codeInsight.overrideMethod language="Valkyrie" implementationClass="valkyrie.ide.hint.ValkyrieOverrideMark"/>
 
@@ -110,7 +117,6 @@
 		<!-- Declaration -->
 		<typeDeclarationProvider implementation="valkyrie.ide.reference.declaration.TypeDeclarationProvider"/>
 		<psi.declarationProvider implementation="valkyrie.ide.reference.declaration.SymbolDeclarationProvider"/>
-
 		<!--		<declarationRangeHandler-->
 		<!--			key="org.rust.lang.core.psi.ValkyrieClass"-->
 		<!--			implementationClass="valkyrie.ide.reference.declaration.ClassDeclarationHandler"/>-->
@@ -135,6 +141,7 @@
 		<lang.foldingBuilder
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.folding.ValkyrieFoldingBuilder"/>
+		<codeBlockProvider language="Valkyrie" implementationClass="valkyrie.ide.matcher.CodeBlockProvider"/>
 		<codeFoldingOptionsProvider instance="valkyrie.ide.folding.ValkyrieFoldingOptions"/>
 		<referenceImporter implementation="valkyrie.ide.completion.ValkyrieImportInsert"/>
 		<lang.importOptimizer
