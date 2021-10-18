@@ -18,7 +18,7 @@ import valkyrie.language.symbol.ValkyrieSymbol
 import javax.swing.Icon
 
 // PsiReference
-@Suppress("UnstableApiUsage")
+@Suppress("UnstableApiUsage", "PropertyName")
 open class MixinClass(node: ASTNode) : DeclareNode(node) {
     val fullNamepath: List<String> = listOf("test", "ClassName")
 
@@ -67,24 +67,21 @@ open class MixinClass(node: ASTNode) : DeclareNode(node) {
     fun collectSymbols(): MutableMap<String, ValkyrieHighlightColor> {
         val symbols = mutableMapOf<String, ValkyrieHighlightColor>()
         collectGenerics().forEach { symbols[it.text] = ValkyrieHighlightColor.SYM_GENERIC }
-        collectFields().forEach { symbols[it] = ValkyrieHighlightColor.SYM_FIELD }
-        collectMethods().forEach { symbols[it] = ValkyrieHighlightColor.SYM_FUNCTION_FREE }
+        class_fields.forEach { symbols[it.name] = ValkyrieHighlightColor.SYM_FIELD }
+        class_methods.forEach { symbols[it.name] = ValkyrieHighlightColor.SYM_FUNCTION_FREE }
         return symbols
     }
-    fun collectFields(): List<String> {
-        val fields = mutableListOf<String>()
-        originalElement.classBlock?.let {
 
+    val class_fields: List<ValkyrieClassFieldNode>
+        get() {
+            if (originalElement.classBlock == null) return listOf()
+            return PsiTreeUtil.getChildrenOfTypeAsList(originalElement.classBlock!!, ValkyrieClassFieldNode::class.java)
         }
-        return fields
-    }
-    fun collectMethods(): List<String> {
-        val methods = mutableListOf<String>()
-        originalElement.classBlock?.let {
-
+    val class_methods: List<ValkyrieClassMethodNode>
+        get() {
+            if (originalElement.classBlock == null) return listOf()
+            return PsiTreeUtil.getChildrenOfTypeAsList(originalElement.classBlock!!, ValkyrieClassMethodNode::class.java)
         }
-        return methods
-    }
 
     fun collectGenerics(): List<ValkyrieIdentifierNode> {
         val generic = mutableListOf<ValkyrieIdentifierNode>()

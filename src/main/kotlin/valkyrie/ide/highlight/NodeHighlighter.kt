@@ -32,10 +32,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
 
-    override fun visitGenericDefine(o: ValkyrieGenericDefine) {
-
-    }
-
     override fun visitDefineStatement(o: ValkyrieDefineStatement) {
         o as ValkyrieDefineStatementNode;
         highlight(o.nameIdentifier, o.kind.color)
@@ -44,6 +40,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     override fun visitTypeStatement(o: ValkyrieTypeStatement) {
         highlight(o.genericType.identifier, Color.SYM_CLASS)
     }
+
 
     override fun visitClassStatement(o: ValkyrieClassStatement) {
         o as ValkyrieClassStatementNode
@@ -136,15 +133,11 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitTypeExpression(o: ValkyrieTypeExpression) {
-        for (node in PsiTreeUtil.findChildrenOfType(o, ValkyrieIdentifierNode::class.java)) {
-            val name = node.name
-            when {
-                name.isUppercase() -> highlight(node, Color.SYM_GENERIC)
-                name.first().isUpperCase() -> highlight(node, Color.SYM_CLASS)
-                keywords.contains(name) -> highlight(node, Color.KEYWORD)
-                traits.contains(name) -> highlight(node, Color.SYM_TRAIT)
-            }
-        }
+        fakeTypeColor(o)
+    }
+
+    override fun visitGenericDefine(o: ValkyrieGenericDefine) {
+        fakeTypeColor(o)
     }
 
     override fun visitDotCall(o: ValkyrieDotCall) {
@@ -213,6 +206,18 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     override fun suitableForFile(file: PsiFile): Boolean = file is ValkyrieFileNode
 
     override fun visit(element: PsiElement) = element.accept(this)
+}
+
+private fun NodeHighlighter.fakeTypeColor(psi: PsiElement) {
+    for (node in PsiTreeUtil.findChildrenOfType(psi, ValkyrieIdentifierNode::class.java)) {
+        val name = node.name
+        when {
+            name.isUppercase() -> highlight(node, Color.SYM_GENERIC)
+            name.first().isUpperCase() -> highlight(node, Color.SYM_CLASS)
+            keywords.contains(name) -> highlight(node, Color.KEYWORD)
+            traits.contains(name) -> highlight(node, Color.SYM_TRAIT)
+        }
+    }
 }
 
 private val keywords = setOf(

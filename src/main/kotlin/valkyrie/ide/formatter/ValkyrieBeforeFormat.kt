@@ -17,6 +17,8 @@ import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings.*
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.psi.*
+import valkyrie.language.psi_node.ValkyrieClassStatementNode
+import valkyrie.language.psi_node.ValkyrieUnionItemNode
 
 
 class ValkyrieBeforeFormat : PreFormatProcessor {
@@ -60,7 +62,7 @@ private class RewriteVisitor(private val text: Document, val settings: ValkyrieC
                 insertAfter(o, ";")
             }
 
-            Triplet.Never -> if (next.elementType == ValkyrieTypes.SEMICOLON) {
+            Triplet.Nothing -> if (next.elementType == ValkyrieTypes.SEMICOLON) {
                 deleteNode(next)
             }
         }
@@ -76,27 +78,19 @@ private class RewriteVisitor(private val text: Document, val settings: ValkyrieC
         }
     }
 
-    override fun visitClassField(o: ValkyrieClassField) {
-        val delimiter = o.nextLeaf(true) ?: return;
-        when (settings.class_field_trailing) {
-            ClassFieldTrailing.Ignore -> return
-            ClassFieldTrailing.Never -> {
-                if (delimiter.elementType == ValkyrieTypes.SEMICOLON || delimiter.elementType == ValkyrieTypes.COMMA) {
-                    deleteNode(delimiter)
-                }
-            }
-
-            ClassFieldTrailing.Comma -> when {
-                delimiter.elementType == ValkyrieTypes.SEMICOLON -> replaceNode(delimiter, ",")
-                delimiter.elementType != ValkyrieTypes.COMMA -> insertAfter(o, ",")
-            }
-
-            ClassFieldTrailing.Semicolon -> when {
-                delimiter.elementType == ValkyrieTypes.COMMA -> replaceNode(delimiter, ";")
-                delimiter.elementType != ValkyrieTypes.SEMICOLON -> insertAfter(o, ";")
-            }
+    override fun visitClassStatement(o: ValkyrieClassStatement) {
+        o as ValkyrieClassStatementNode;
+        for (field in o.class_fields) {
+            fixDelimiter(field, settings.class_field_trailing)
         }
-        deleteDelimiterAfter(delimiter)
+    }
+
+    override fun visitUnionItem(o: ValkyrieUnionItem) {
+        o as ValkyrieUnionItemNode;
+        fixDelimiter(o, settings.union_trailing)
+        for (field in o.union_fields) {
+            fixDelimiter(field, settings.union_item_field_trailing)
+        }
     }
 
     fun deleteDelimiterAfter(node: PsiElement) {
@@ -139,6 +133,29 @@ private class RewriteVisitor(private val text: Document, val settings: ValkyrieC
         text.insertString(node.endOffset + offsetDelta, insert)
         offsetDelta += delta
     }
+}
+
+private fun RewriteVisitor.fixDelimiter(element: PsiElement, config: CommaOrSemicolon) {
+    val delimiter = element.nextLeaf(true) ?: return;
+    when (config) {
+        CommaOrSemicolon.Ignore -> return
+        CommaOrSemicolon.Nothing -> {
+            if (delimiter.elementType == ValkyrieTypes.SEMICOLON || delimiter.elementType == ValkyrieTypes.COMMA) {
+                deleteNode(delimiter)
+            }
+        }
+
+        CommaOrSemicolon.Comma -> when {
+            delimiter.elementType == ValkyrieTypes.SEMICOLON -> replaceNode(delimiter, ",")
+            delimiter.elementType != ValkyrieTypes.COMMA -> insertAfter(element, ",")
+        }
+
+        CommaOrSemicolon.Semicolon -> when {
+            delimiter.elementType == ValkyrieTypes.COMMA -> replaceNode(delimiter, ";")
+            delimiter.elementType != ValkyrieTypes.SEMICOLON -> insertAfter(element, ";")
+        }
+    }
+    deleteDelimiterAfter(delimiter)
 }
 
 

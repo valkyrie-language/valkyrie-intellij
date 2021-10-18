@@ -880,15 +880,23 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // <<brace_block normal_statements SEMICOLON>>
+  // <<brace_free normal_statements SEMICOLON>> {
+  // }
   public static boolean define_block(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "define_block")) return false;
     if (!nextTokenIs(b, BRACE_L)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = brace_block(b, l + 1, ValkyrieParser::normal_statements, SEMICOLON_parser_);
+    r = brace_free(b, l + 1, ValkyrieParser::normal_statements, SEMICOLON_parser_);
+    r = r && define_block_1(b, l + 1);
     exit_section_(b, m, DEFINE_BLOCK, r);
     return r;
+  }
+
+  // {
+  // }
+  private static boolean define_block_1(PsiBuilder b, int l) {
+    return true;
   }
 
   /* ********************************************************** */

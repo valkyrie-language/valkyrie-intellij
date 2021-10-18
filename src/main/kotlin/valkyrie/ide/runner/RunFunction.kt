@@ -19,6 +19,7 @@ class RunFunction : AnAction() {
     }
     companion object {
         fun markTest(element: ValkyrieClassMethodNode): Info? {
+            return null;
             val runner = RunFunction()
             runner.path = element.nameIdentifier.name;
             runner.templatePresentation.icon = AllIcons.RunConfigurations.TestState.Red2

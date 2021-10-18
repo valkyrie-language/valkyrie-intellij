@@ -1,22 +1,9 @@
 namespace std.categories;
 
-#token_navigation(Option::Some, color = Variant)
-macro Some(e: Expression) {
-    quote {
-        new Option::Some {
-            value
-        }
-    }
-}
 
-#token_navigation(Option::None, color = Variant)
-def micro None() {
-    Option::None
-}
-
-variant Option[T] -> T {
+variant tuple Option[T] / T {
     Some {
-        value: T
+        value: T,
     },
     None,
 }
@@ -24,6 +11,9 @@ variant Option[T] -> T {
 
 
 extends Option[T]: Constructor {
+    constructor() {}
+
+    tor
 
 }
 
@@ -39,3 +29,18 @@ extends Option {
         @matches(self, None)
     }
 }
+
+
+
+extends Vector2D {
+    constructor() {
+        for item in iterable {
+            block
+        }
+        @type_of(A)
+        return object Self {
+        
+        }
+    }
+}
+

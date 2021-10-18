@@ -1,13 +1,13 @@
 package valkyrie.ide.completion
 
-import valkyrie.ide.completion.TemplateReplaceElement.Companion.snippetFromPath
-import valkyrie.language.file.ValkyrieIconProvider
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionProvider
 import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.psi.PsiElement
 import com.intellij.util.ProcessingContext
+import valkyrie.ide.completion.TemplateReplaceElement.Companion.snippetFromPath
+import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
 @Suppress("UNUSED_PARAMETER")
@@ -26,6 +26,8 @@ class CompleteSymbol(val context: PsiElement) : CompletionProvider<CompletionPar
         result.addTopMacros()
         addOperationDeclare(result)
         result.addLinkedTraitMethod("constructor", "Constructor")
+        result.addLinkedTraitMethod("extractor", "Extractor")
+        result.addLinkedTraitMethod("destructor", "Destructor")
         result.addLinkedTraitMethod("hash", "Hash")
         result.addLinkedTraitMethod("from", "From[T]", "value: T")
         result.addLinkedTraitMethod("apply", "Caller")
@@ -124,6 +126,7 @@ class CompleteSymbol(val context: PsiElement) : CompletionProvider<CompletionPar
             .withIcon(ValkyrieIconProvider.SNIPPET)
         addElement(item)
     }
+
     private fun CompletionResultSet.addLinkedTraitMethod(kind: String, trait: String, args: String = "") {
         val element = LookupElementBuilder.create(kind)
             .withIcon(ValkyrieIconProvider.FUNCTION)

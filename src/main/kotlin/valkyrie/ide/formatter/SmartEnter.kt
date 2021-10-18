@@ -1,19 +1,21 @@
 package valkyrie.ide.formatter
 
-import valkyrie.language.file.ValkyrieFileNode
 import com.intellij.lang.SmartEnterProcessorWithFixers
 import com.intellij.openapi.editor.Editor
+import com.intellij.openapi.editor.actionSystem.EditorActionHandler
+import com.intellij.openapi.editor.ex.util.EditorUtil
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import valkyrie.language.file.ValkyrieFileNode
 
 class SmartEnter : SmartEnterProcessorWithFixers() {
     init {
-        addFixers(
-            CommaFixer()
-        )
+      addFixers(
+          CommaFixer()
+      )
         addEnterProcessors(
-            PlainEnterProcessor()
+            PlainEnterProcessor(getEnterHandler())
         )
     }
 
@@ -24,17 +26,16 @@ class SmartEnter : SmartEnterProcessorWithFixers() {
     override fun processDefaultEnter(project: Project, editor: Editor, file: PsiFile) {
         plainEnter(editor)
     }
-
-    private class PlainEnterProcessor : FixEnterProcessor() {
-        override fun doEnter(atCaret: PsiElement, file: PsiFile, editor: Editor, modified: Boolean): Boolean {
-            if (file !is ValkyrieFileNode) return false
-            plainEnter(editor)
-            return true
-        }
-
-        override fun plainEnter(editor: Editor) {
-            super.plainEnter(editor)
-        }
-    }
 }
 
+private class PlainEnterProcessor(val handler: EditorActionHandler) : SmartEnterProcessorWithFixers.FixEnterProcessor() {
+    override fun doEnter(atCaret: PsiElement, file: PsiFile, editor: Editor, modified: Boolean): Boolean {
+//        if (file !is ValkyrieFileNode) return false
+        plainEnter(editor)
+        return true
+    }
+
+//    override fun plainEnter(editor: Editor) {
+//        handler.execute(editor, editor.caretModel.currentCaret, EditorUtil.getEditorDataContext(editor));
+//    }
+}

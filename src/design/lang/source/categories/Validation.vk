@@ -3,10 +3,10 @@ namespace std.categories;
 variant tuple Validation[T, E] / T {
     Fine {
         value: T,
-        error: [E]
+        error: [E],
     },
     Fail {
         fatal: E,
-        error: [E]
+        error: [E],
     },
 }

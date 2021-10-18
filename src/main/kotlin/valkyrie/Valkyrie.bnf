@@ -247,8 +247,8 @@ define_item         ::= OP_POW | OP_LT | OP_GT |
     macro_call* [modifiers] [KW_DOTS] identifier [COLON type_expression] [OP_SET expression] {
     mixin="valkyrie.language.mixin.MixinDefineItem"
 }
-define_block        ::= <<brace_block normal_statements SEMICOLON>> {
-    pin = 1
+define_block        ::= <<brace_free normal_statements SEMICOLON>> {
+
 }
 return_type         ::= (COLON|OP_ARROW) type_expression
 // ---------------------------------------------------------------------------------------------------------------------
