@@ -1,13 +1,16 @@
-package valkyrie.ide.project
+package valkyrie.ide.project.sdk
 
 import com.intellij.openapi.projectRoots.*
 import com.intellij.ui.dsl.builder.panel
 import org.jdom.Element
 import valkyrie.language.file.ValkyrieIconProvider
-import javax.swing.Icon
+import java.io.File
 import javax.swing.JComponent
 
-class ValkyrieSdkType() : SdkType("ValkyrieSdkType") {
+class ValkyrieSdkType : SdkType("sdk.valkyrie") {
+    override fun getIcon() = ValkyrieIconProvider.FILE
+    override fun getPresentableName() = "Valkyrie SDK"
+
     override fun saveAdditionalData(additionalData: SdkAdditionalData, additional: Element) {
         TODO("Not yet implemented")
     }
@@ -30,19 +33,29 @@ class ValkyrieSdkType() : SdkType("ValkyrieSdkType") {
     }
 
     override fun suggestSdkName(currentSdkName: String?, sdkHome: String): String {
-        return "Saber $sdkHome $currentSdkName"
+        val file = File(sdkHome);
+        if (file.exists()) {
+            return "Saber ${file.name}"
+        } else {
+            return "Invalid SDK"
+        }
+    }
+
+    override fun sdkHasValidPath(sdk: Sdk): Boolean {
+        println("sdkHasValidPath: ${sdk.homePath} ${sdk.homeDirectory}")
+        return super.sdkHasValidPath(sdk)
+    }
+
+    override fun getVersionString(sdk: Sdk): String? {
+        return super.getVersionString(sdk)
+    }
+
+    override fun getVersionString(sdkHome: String): String {
+        return "0.0.0"
     }
 
     override fun createAdditionalDataConfigurable(sdkModel: SdkModel, sdkModificator: SdkModificator): AdditionalDataConfigurable? {
         return DataConfigurable(sdkModel, sdkModificator)
-    }
-
-    override fun getPresentableName(): String {
-        return "Valkyrie SDK"
-    }
-
-    override fun getIcon(): Icon {
-        return ValkyrieIconProvider.FILE
     }
 
     override fun getDownloadSdkUrl(): String? {
@@ -64,7 +77,7 @@ class ValkyrieSdkType() : SdkType("ValkyrieSdkType") {
 
 }
 
-private class DataConfigurable(var sdkModel: SdkModel, var sdkModificator: SdkModificator) : AdditionalDataConfigurable {
+private class DataConfigurable(var model: SdkModel, var modificator: SdkModificator) : AdditionalDataConfigurable {
     override fun getTabName(): String? {
         return "getTabName"
     }
@@ -105,5 +118,4 @@ private class DataConfigurable(var sdkModel: SdkModel, var sdkModificator: SdkMo
     override fun setSdk(sdk: Sdk?) {
 
     }
-
 }

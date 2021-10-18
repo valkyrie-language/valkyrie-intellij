@@ -26,7 +26,9 @@
 			builderClass="valkyrie.ide.project.ValkyrieModuleBuilder"
 			id="VALKYRIE_MODULE_TYPE"
 			order="first"/>
-		<sdkType implementation="valkyrie.ide.project.ValkyrieSdkType"/>
+		<sdkType implementation="valkyrie.ide.project.sdk.ValkyrieSdkType"/>
+		<sdkFinder implementation="valkyrie.ide.project.sdk.ValkyrieSdkFinder"/>
+		<sdkDownload implementation="valkyrie.ide.project.sdk.ValkyrieSdkDownload"/>
 <!--		<projectOpenProcessor implementation="valkyrie.ide.project.ValkyrieProjectOpen"/>-->
 		<fileBasedIndex implementation="valkyrie.ide.project.ValkyrieFileIndex"/>
 		<indexedRootsProvider implementation="valkyrie.ide.project.ExtraIndexContributor"/>
