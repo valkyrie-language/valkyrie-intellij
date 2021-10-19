@@ -1,32 +1,30 @@
-//package valkyrie.ide.project.library
-//
-//import com.intellij.openapi.project.Project
-//import com.intellij.openapi.roots.libraries.LibraryKind
-//import com.intellij.openapi.roots.libraries.LibraryType
-//import com.intellij.openapi.roots.libraries.NewLibraryConfiguration
-//import com.intellij.openapi.roots.libraries.PersistentLibraryKind
-//import com.intellij.openapi.roots.libraries.ui.LibraryEditorComponent
-//import com.intellij.openapi.roots.libraries.ui.LibraryPropertiesEditor
-//import com.intellij.openapi.vfs.VirtualFile
-//import javax.swing.JComponent
-//
-//
-//class ValkyrieLibraryType() : LibraryType<ValkyrieLibraryProperty>() {
-//    companion object {
-//        const val ID = "library.valkyrie"
-//        val kind: LibraryKind = LibraryKind.create(ID)
-//    }
-//
-//    override fun getCreateActionName(): String? {
-//        return "getCreateActionName"
-//    }
-//
-//    override fun createNewLibrary(parentComponent: JComponent, contextDirectory: VirtualFile?, project: Project): NewLibraryConfiguration? {
-//        return null;
-//    }
-//
-//    override fun createPropertiesEditor(editorComponent: LibraryEditorComponent<ValkyrieLibraryProperty>): LibraryPropertiesEditor? {
-//        return null
-//    }
-//
-//}
+package valkyrie.ide.project.library
+
+import com.intellij.openapi.roots.libraries.LibraryKind
+import com.intellij.openapi.roots.libraries.LibraryPresentationProvider
+import com.intellij.openapi.vfs.VirtualFile
+import valkyrie.language.file.ValkyrieIconProvider
+import javax.swing.Icon
+
+class ValkyrieLibraryType : LibraryPresentationProvider<ValkyrieLibraryProperty>(kind) {
+    companion object {
+        const val ID = "library.valkyrie"
+        val kind: LibraryKind = LibraryKind.create(ID)
+    }
+
+    override fun getDescription(properties: ValkyrieLibraryProperty): String? {
+        return "ValkyrieLibraryType.getDescription"
+    }
+
+    override fun getIcon(properties: ValkyrieLibraryProperty?): Icon? {
+        return ValkyrieIconProvider.FILE
+    }
+
+    override fun detect(classesRoots: MutableList<VirtualFile>): ValkyrieLibraryProperty? {
+        for (root in classesRoots) {
+            println("ValkyrieLibraryType.detect: $root")
+        }
+        return ValkyrieLibraryProperty()
+    }
+
+}
