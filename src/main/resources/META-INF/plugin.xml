@@ -18,6 +18,8 @@
 			language="Valkyrie"
 			implementationClass="valkyrie.language.lexer.ValkyrieParserDefinition"/>
 		<multiHostInjector implementation="valkyrie.ide.matcher.LanguageInjector"/>
+		<!-- Project -->
+		<projectNameProvider implementation="valkyrie.ide.project.ValkyrieProjectName"/>
 		<!-- Project SDK -->
 		<sdkType implementation="valkyrie.ide.project.package.sdk.ValkyrieSdkType"/>
 		<sdkFinder implementation="valkyrie.ide.project.package.sdk.ValkyrieSdkFinder"/>
@@ -25,9 +27,8 @@
 		<sdkDownload implementation="valkyrie.ide.project.package.sdk.ValkyrieSdkDownload"/>
 <!--		<projectOpenProcessor implementation="valkyrie.ide.project.OpenProject"/>-->
 		<!-- Project Library -->
-<!--		<customLibraryTable implementation="valkyrie.ide.project.library.ValkyrieCustomTable"/>-->
-<!--		<library.type implementation="valkyrie.ide.project.library.ValkyrieLibraryType"/>-->
-<!--		<librarySettingsProvider implementation="valkyrie.ide.project.library.ValkyrieLibrarySettingsProvider"/>-->
+		<library.presentationProvider implementation="valkyrie.ide.project.library.ValkyrieLibraryPresentation"/>
+		<librarySettingsProvider implementation="valkyrie.ide.project.library.ValkyrieLibrarySettings"/>
 		<packageDependencies.visitor
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.project.package.ValkyrieDependencyResolver"/>
@@ -39,8 +40,8 @@
 		<moduleBuilder
 			builderClass="valkyrie.ide.project.package.ValkyriePackageCreator"
 			id="VALKYRIE_MODULE_TYPE"/>
-		<module.workingDirectoryProvider implementation="valkyrie.ide.project.package.ValkyrieWorkingDirectory"/>
-		<!--		<projectOpenProcessor implementation="valkyrie.ide.project.ValkyrieProjectOpen"/>-->
+		<module.workingDirectoryProvider implementation="valkyrie.ide.project.ValkyrieWorkingDirectory"/>
+		<!-- Project Namespace -->
 		<fileBasedIndex implementation="valkyrie.ide.project.package.ValkyrieFileIndex"/>
 		<indexedRootsProvider implementation="valkyrie.ide.project.package.ExtraIndexContributor"/>
 		<!-- StructureView -->
@@ -74,7 +75,8 @@
 		<lang.formatter language="Valkyrie" implementationClass="valkyrie.ide.formatter.FormatBuilder"/>
 		<postFormatProcessor implementation="valkyrie.ide.formatter.ValkyrieAfterFormat"/>
 		<lang.smartEnterProcessor language="Valkyrie" implementationClass="valkyrie.ide.formatter.SmartEnter"/>
-
+		<!-- Tests -->
+		<!--		<testFinder implementation="valkyrie.ide.runner.FindTests"/>-->
 		<!-- Goto -->
 		<navbar implementation="valkyrie.ide.goto.VNavigationBarExtension"/>
 		<lang.directNavigationProvider implementation="valkyrie.ide.goto.VDirectNavigationProvider"/>
