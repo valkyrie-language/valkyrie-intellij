@@ -39,7 +39,7 @@ extends Vector2D {
         }
         @type_of(A)
         return object Self {
-        
+
         }
     }
 }

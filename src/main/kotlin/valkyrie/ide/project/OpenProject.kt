@@ -4,8 +4,9 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.projectImport.ProjectOpenProcessor
 
-class ValkyrieProjectOpen : ProjectOpenProcessor() {
-    override val name: String get() = TODO("Not yet implemented")
+class OpenProject : ProjectOpenProcessor() {
+    override val name: String
+        get() = "OpenProject.name"
 
     override fun canOpenProject(file: VirtualFile): Boolean {
         TODO("Not yet implemented")

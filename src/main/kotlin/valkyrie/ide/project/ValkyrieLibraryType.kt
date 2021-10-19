@@ -1,4 +1,4 @@
-package valkyrie.ide.project
+package valkyrie.ide.project.`package`
 
 import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon

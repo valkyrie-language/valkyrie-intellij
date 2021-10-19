@@ -1,4 +1,4 @@
-package valkyrie.ide.project.sdk
+package valkyrie.ide.project.`package`.sdk
 
 import com.intellij.openapi.projectRoots.*
 import com.intellij.openapi.roots.OrderRootType
@@ -29,13 +29,13 @@ class ValkyrieSdkType : SdkType(ID) {
     }
 
     override fun setupSdkPaths(sdk: Sdk) {
-        sdk.sdkModificator.addRoot("file://f/Rust", OrderRootType.CLASSES)
-        sdk.sdkModificator.commitChanges()
-    }
-
-    override fun setupSdkPaths(sdk: Sdk, sdkModel: SdkModel): Boolean {
-        setupSdkPaths(sdk)
-        return true
+        val dir = sdk.homeDirectory ?: return
+        val data = sdk.sdkModificator
+        data.versionString = "0.1.0"
+        for (file in dir.children) {
+            data.addRoot(file, OrderRootType.CLASSES)
+        }
+        data.commitChanges()
     }
 
     override fun isValidSdkHome(path: String): Boolean {
@@ -53,10 +53,10 @@ class ValkyrieSdkType : SdkType(ID) {
 
     override fun suggestSdkName(currentSdkName: String?, sdkHome: String): String {
         val file = File(sdkHome);
-        if (file.exists()) {
-            return "Saber ${file.name}"
+        return if (file.exists()) {
+            "saber ${file.name}"
         } else {
-            return "Invalid SDK"
+            "Invalid SDK"
         }
     }
 

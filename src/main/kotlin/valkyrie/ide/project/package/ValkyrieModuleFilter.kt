@@ -1,4 +1,4 @@
-package valkyrie.ide.project
+package valkyrie.ide.project.`package`
 
 import kotlinx.serialization.Serializable
 import java.io.File

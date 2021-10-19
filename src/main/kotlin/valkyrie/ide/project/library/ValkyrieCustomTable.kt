@@ -1,4 +1,4 @@
-package valkyrie.ide.project.library
+package valkyrie.ide.project.`package`.library
 
 import com.intellij.openapi.roots.libraries.CustomLibraryTableDescription
 import com.intellij.openapi.roots.libraries.LibraryTablePresentation

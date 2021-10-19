@@ -3,7 +3,7 @@ package valkyrie.lsp
 import com.intellij.openapi.roots.SyntheticLibrary
 import com.intellij.util.containers.toMutableSmartList
 import kotlinx.serialization.Serializable
-import valkyrie.ide.project.DependenceLibrary
+import valkyrie.ide.project.`package`.DependenceLibrary
 
 @Serializable
 data class RequestDependencies(val workspace: String) {

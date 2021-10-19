@@ -1,19 +1,16 @@
-package valkyrie.ide.project
+package valkyrie.ide.project.`package`
 
 import com.intellij.ide.util.projectWizard.ModuleBuilder
 import com.intellij.ide.util.projectWizard.ModuleWizardStep
 import com.intellij.ide.util.projectWizard.WizardContext
-import com.intellij.openapi.module.GeneralModuleType
-import com.intellij.openapi.module.ModuleType
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.ModifiableRootModel
-import com.intellij.openapi.roots.libraries.LibraryKindRegistry
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider
 import javax.swing.JComponent
 import javax.swing.JLabel
 
 // TODO: https://plugins.jetbrains.com/docs/intellij/framework.html#registering-framework
-class ValkyrieModuleBuilder : ModuleBuilder() {
+class ValkyriePackageCreator : ModuleBuilder() {
     override fun getModuleType(): ValkyrieModuleType {
         return ValkyrieModuleType()
     }

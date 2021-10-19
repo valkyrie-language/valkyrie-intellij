@@ -1,4 +1,4 @@
-package valkyrie.ide.project
+package valkyrie.ide.project.`package`
 
 import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.roots.SyntheticLibrary

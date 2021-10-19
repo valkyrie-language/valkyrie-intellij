@@ -1,4 +1,4 @@
-package valkyrie.ide.project
+package valkyrie.ide.project.`package`
 
 import com.intellij.openapi.vcs.vfs.VcsFileSystem
 import com.intellij.openapi.vfs.VirtualFile

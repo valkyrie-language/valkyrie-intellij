@@ -19,29 +19,30 @@
 			implementationClass="valkyrie.language.lexer.ValkyrieParserDefinition"/>
 		<multiHostInjector implementation="valkyrie.ide.matcher.LanguageInjector"/>
 		<!-- Project SDK -->
-		<sdkType implementation="valkyrie.ide.project.sdk.ValkyrieSdkType"/>
-		<sdkFinder implementation="valkyrie.ide.project.sdk.ValkyrieSdkFinder"/>
-		<projectSdkSetupValidator implementation="valkyrie.ide.project.sdk.ValkyrieSdkValidator"/>
-		<sdkDownload implementation="valkyrie.ide.project.sdk.ValkyrieSdkDownload"/>
+		<sdkType implementation="valkyrie.ide.project.package.sdk.ValkyrieSdkType"/>
+		<sdkFinder implementation="valkyrie.ide.project.package.sdk.ValkyrieSdkFinder"/>
+		<projectSdkSetupValidator implementation="valkyrie.ide.project.package.sdk.ValkyrieSdkValidator"/>
+		<sdkDownload implementation="valkyrie.ide.project.package.sdk.ValkyrieSdkDownload"/>
+<!--		<projectOpenProcessor implementation="valkyrie.ide.project.OpenProject"/>-->
 		<!-- Project Library -->
 <!--		<customLibraryTable implementation="valkyrie.ide.project.library.ValkyrieCustomTable"/>-->
 <!--		<library.type implementation="valkyrie.ide.project.library.ValkyrieLibraryType"/>-->
 <!--		<librarySettingsProvider implementation="valkyrie.ide.project.library.ValkyrieLibrarySettingsProvider"/>-->
-		<additionalLibraryRootsProvider implementation="valkyrie.ide.project.LibraryRootsProvider"/>
-		<!-- Project Module -->
-		<moduleType
-			implementationClass="valkyrie.ide.project.ValkyrieModuleType"
-			id="VALKYRIE_MODULE_TYPE"/>
-		<moduleBuilder
-			builderClass="valkyrie.ide.project.ValkyrieModuleBuilder"
-			id="VALKYRIE_MODULE_TYPE"
-			order="first"/>
-		<!--		<projectOpenProcessor implementation="valkyrie.ide.project.ValkyrieProjectOpen"/>-->
-		<fileBasedIndex implementation="valkyrie.ide.project.ValkyrieFileIndex"/>
-		<indexedRootsProvider implementation="valkyrie.ide.project.ExtraIndexContributor"/>
 		<packageDependencies.visitor
 			language="Valkyrie"
-			implementationClass="valkyrie.ide.project.DependencyVisitor"/>
+			implementationClass="valkyrie.ide.project.package.ValkyrieDependencyResolver"/>
+		<additionalLibraryRootsProvider implementation="valkyrie.ide.project.package.LibraryRootsProvider"/>
+		<!-- Project Package, aka. Module in JetBrain's SDK -->
+		<moduleType
+			implementationClass="valkyrie.ide.project.package.ValkyrieModuleType"
+			id="VALKYRIE_MODULE_TYPE"/>
+		<moduleBuilder
+			builderClass="valkyrie.ide.project.package.ValkyriePackageCreator"
+			id="VALKYRIE_MODULE_TYPE"/>
+		<module.workingDirectoryProvider implementation="valkyrie.ide.project.package.ValkyrieWorkingDirectory"/>
+		<!--		<projectOpenProcessor implementation="valkyrie.ide.project.ValkyrieProjectOpen"/>-->
+		<fileBasedIndex implementation="valkyrie.ide.project.package.ValkyrieFileIndex"/>
+		<indexedRootsProvider implementation="valkyrie.ide.project.package.ExtraIndexContributor"/>
 		<!-- StructureView -->
 		<iconProvider implementation="valkyrie.language.file.ValkyrieIconProvider"/>
 		<projectViewNestingRulesProvider implementation="valkyrie.language.file.ValkyrieFileGroup"/>

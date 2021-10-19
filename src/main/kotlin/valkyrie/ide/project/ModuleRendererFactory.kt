@@ -1,4 +1,4 @@
-package valkyrie.ide.project
+package valkyrie.ide.project.`package`
 
 import com.intellij.ide.util.DefaultModuleRendererFactory
 import com.intellij.openapi.roots.OrderEntry

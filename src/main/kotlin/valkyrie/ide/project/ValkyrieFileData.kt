@@ -1,4 +1,4 @@
-package valkyrie.ide.project
+package valkyrie.ide.project.`package`
 
 import com.intellij.util.indexing.FileBasedIndex
 import kotlinx.serialization.BinaryFormat

@@ -1,4 +1,4 @@
-package valkyrie.ide.project.sdk
+package valkyrie.ide.project.`package`.sdk
 
 import com.intellij.openapi.projectRoots.Sdk
 import java.io.File
