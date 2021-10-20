@@ -27,7 +27,7 @@
 		<sdkDownload implementation="valkyrie.ide.project.package.sdk.ValkyrieSdkDownload"/>
 <!--		<projectOpenProcessor implementation="valkyrie.ide.project.OpenProject"/>-->
 		<!-- Project Library -->
-		<library.presentationProvider implementation="valkyrie.ide.project.library.ValkyrieLibraryType"/>
+		<library.type implementation="valkyrie.ide.project.library.ValkyrieLibraryType"/>
 		<librarySettingsProvider implementation="valkyrie.ide.project.library.ValkyrieLibrarySettings"/>
 		<packageDependencies.visitor
 			language="Valkyrie"
