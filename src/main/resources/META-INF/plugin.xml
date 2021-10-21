@@ -20,10 +20,11 @@
 		<multiHostInjector implementation="valkyrie.ide.matcher.LanguageInjector"/>
 		<!-- Project -->
 		<projectNameProvider implementation="valkyrie.ide.project.ValkyrieProjectName"/>
+		<primaryModuleManager implementation="valkyrie.ide.project.ValkyriePrimaryPackage"/>
 		<!-- Project SDK -->
 		<sdkType implementation="valkyrie.ide.project.package.sdk.ValkyrieSdkType"/>
 		<sdkFinder implementation="valkyrie.ide.project.package.sdk.ValkyrieSdkFinder"/>
-		<projectSdkSetupValidator implementation="valkyrie.ide.project.package.sdk.ValkyrieSdkValidator"/>
+		<projectSdkSetupValidator implementation="valkyrie.ide.project.sdk.ValkyrieSdkValidator"/>
 		<sdkDownload implementation="valkyrie.ide.project.package.sdk.ValkyrieSdkDownload"/>
 <!--		<projectOpenProcessor implementation="valkyrie.ide.project.OpenProject"/>-->
 		<!-- Project Library -->
@@ -41,6 +42,7 @@
 			builderClass="valkyrie.ide.project.package.ValkyriePackageCreator"
 			id="VALKYRIE_MODULE_TYPE"/>
 		<module.workingDirectoryProvider implementation="valkyrie.ide.project.ValkyrieWorkingDirectory"/>
+		<moduleContextProvider implementation="valkyrie.ide.project.ValkyriePackageContext"/>
 		<!-- Project Namespace -->
 		<fileBasedIndex implementation="valkyrie.ide.project.package.ValkyrieFileIndex"/>
 		<indexedRootsProvider implementation="valkyrie.ide.project.package.ExtraIndexContributor"/>

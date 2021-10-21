@@ -1,4 +1,4 @@
-package valkyrie.ide.project.`package`.sdk
+package valkyrie.ide.project.sdk
 
 import com.intellij.codeInsight.daemon.ProjectSdkSetupValidator
 import com.intellij.openapi.editor.Editor

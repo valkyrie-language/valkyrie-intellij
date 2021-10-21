@@ -9,7 +9,6 @@ import javax.swing.JComponent
 
 class ValkyrieLibrarySettings : LibrarySettingsProvider() {
     override fun getLibraryKind(): LibraryKind = ValkyrieLibraryType.kind
-
     override fun getAdditionalSettingsConfigurable(project: Project?): Configurable {
         return LibrarySettingConfigurable()
     }

@@ -54,7 +54,7 @@ class ValkyrieSdkType : SdkType(ID) {
     override fun suggestSdkName(currentSdkName: String?, sdkHome: String): String {
         val file = File(sdkHome);
         return if (file.exists()) {
-            "saber ${file.name}"
+            "brunhilde ${file.name}"
         } else {
             "Invalid SDK"
         }

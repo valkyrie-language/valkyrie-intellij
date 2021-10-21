@@ -1,17 +1,18 @@
-package valkyrie.ide.project.`package`
+package valkyrie.ide.project
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.projectImport.ProjectOpenProcessor
 
-class ValkyrieProjectOpen : ProjectOpenProcessor() {
-    override val name: String get() = TODO("Not yet implemented")
+class ValkyrieOpenProject : ProjectOpenProcessor() {
+    override val name: String
+        get() = "Open Valkyrie Project"
 
     override fun canOpenProject(file: VirtualFile): Boolean {
-        TODO("Not yet implemented")
+        return true
     }
 
     override fun doOpenProject(virtualFile: VirtualFile, projectToClose: Project?, forceOpenInNewFrame: Boolean): Project? {
-        TODO("Not yet implemented")
+        return projectToClose
     }
 }
