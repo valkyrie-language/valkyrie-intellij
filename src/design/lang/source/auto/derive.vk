@@ -3,3 +3,8 @@ namespace std.auto;
 macro derive {
 
 }
+
+
+trait Auto {
+    auto()
+}

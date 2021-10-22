@@ -26,7 +26,7 @@
 		<sdkFinder implementation="valkyrie.ide.project.package.sdk.ValkyrieSdkFinder"/>
 		<projectSdkSetupValidator implementation="valkyrie.ide.project.sdk.ValkyrieSdkValidator"/>
 		<sdkDownload implementation="valkyrie.ide.project.package.sdk.ValkyrieSdkDownload"/>
-<!--		<projectOpenProcessor implementation="valkyrie.ide.project.OpenProject"/>-->
+		<!--		<projectOpenProcessor implementation="valkyrie.ide.project.OpenProject"/>-->
 		<!-- Project Library -->
 		<library.type implementation="valkyrie.ide.project.library.ValkyrieLibraryType"/>
 		<librarySettingsProvider implementation="valkyrie.ide.project.library.ValkyrieLibrarySettings"/>
@@ -46,6 +46,8 @@
 		<!-- Project Namespace -->
 		<fileBasedIndex implementation="valkyrie.ide.project.package.ValkyrieFileIndex"/>
 		<indexedRootsProvider implementation="valkyrie.ide.project.package.ExtraIndexContributor"/>
+		<!--		<generatedSourcesFilter implementation="valkyrie.ide.project.package.ValkyrieGeneratedSource"/>-->
+
 		<!-- StructureView -->
 		<iconProvider implementation="valkyrie.language.file.ValkyrieIconProvider"/>
 		<projectViewNestingRulesProvider implementation="valkyrie.language.file.ValkyrieFileGroup"/>
@@ -174,6 +176,9 @@
 			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewHtmlFile"/>
 		</action>
 		<action id="jss.JssConvertJson" class="valkyrie.ide.actions.FluentConvertMo"/>
+		<action id="valkyrie.macro.expand" class="valkyrie.ide.actions.ExpandMacroToFile">
+			<add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="GenerateXmlTag"/>
+		</action>
 		<group id="jss.JssGenerator" popup="true" text="JssGenerator">
 			<reference ref="NewFluentFile"/>
 			<reference ref="jss.JssConvertJson"/>
