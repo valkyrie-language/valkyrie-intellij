@@ -176,8 +176,8 @@
 			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewHtmlFile"/>
 		</action>
 		<action id="jss.JssConvertJson" class="valkyrie.ide.actions.FluentConvertMo"/>
-		<action id="valkyrie.macro.expand" class="valkyrie.ide.actions.ExpandMacroToFile">
-			<add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="GenerateXmlTag"/>
+		<action id="valkyrie.macro.expand_to_file" class="valkyrie.ide.actions.ExpandMacroToFile">
+			<add-to-group group-id="GenerateGroup" anchor="last"/>
 		</action>
 		<group id="jss.JssGenerator" popup="true" text="JssGenerator">
 			<reference ref="NewFluentFile"/>
