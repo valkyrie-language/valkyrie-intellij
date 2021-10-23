@@ -161,6 +161,10 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitIdentifier(o: ValkyrieIdentifier) {
+        if (forceKeywords.contains(o.text)) {
+            highlight(o, Color.KEYWORD)
+            return
+        }
         // TODO: real syntax resolve
     }
 
@@ -219,6 +223,8 @@ private fun NodeHighlighter.fakeTypeColor(psi: PsiElement) {
         }
     }
 }
+
+private val forceKeywords = setOf("await", "async", "quote")
 
 private val keywords = setOf(
     "u8", "u16", "u32", "u64",

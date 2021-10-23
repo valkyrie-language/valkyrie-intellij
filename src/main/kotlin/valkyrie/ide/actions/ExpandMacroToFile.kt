@@ -6,10 +6,11 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.openapi.application.WriteAction
+import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFile
+import com.intellij.psi.PsiFileFactory
 import valkyrie.language.ValkyrieBundle
-import java.nio.file.Files
-import java.nio.file.Paths
+import valkyrie.language.ValkyrieLanguage
 
 private val name = ValkyrieBundle.message("action.macro.expand_file")
 private val description = ValkyrieBundle.message("action.convert_prop.description")
@@ -17,19 +18,31 @@ private val description = ValkyrieBundle.message("action.convert_prop.descriptio
 class ExpandMacroToFile : AnAction(name, description, AllIcons.Actions.Preview) {
     override fun actionPerformed(e: AnActionEvent) {
         val src = LangDataKeys.PSI_FILE.getData(e.dataContext) ?: return
-        val dir = src.containingDirectory;
-        val name = src.virtualFile.nameWithoutExtension;
-        val filePath = dir.virtualFile.path + "/" + name + ".g.vk"
-        print("${src.virtualFile}: ${src.virtualFile.extension},  $name")
-        if (src.virtualFile.extension == "g.vk") return
-//        val mkdirs = MkDirs(name, src.containingDirectory)
-        val file = WriteAction.compute<PsiFile, RuntimeException> {
-            Files.deleteIfExists(Paths.get(filePath))
-            src.containingDirectory.createFile("$name.g.vk")
+        if (isValidFile(src)) {
+            val file = WriteAction.compute<PsiFile, RuntimeException> {
+                createFile(src.containingDirectory, "${src.virtualFile.nameWithoutExtension}.g.vk", src.text)
+            }
+            FileTypeUsageCounterCollector.triggerCreate(file.project, file.virtualFile)
         }
-
-
-        FileTypeUsageCounterCollector.triggerCreate(file.project, file.virtualFile)
 //        return arrayOf<PsiElement>(file)
+    }
+
+    private fun isValidFile(file: PsiFile): Boolean {
+        if (file.isDirectory) return false
+        if (file.virtualFile.name.endsWith(".g.vk")) return false
+        return true
+    }
+
+    private fun createFile(dir: PsiDirectory, fileName: String, text: String): PsiFile? {
+        val builder = PsiFileFactory.getInstance(dir.project);
+        for (child in dir.files) {
+            if (child.name == fileName) {
+                child.delete()
+                break
+            }
+        }
+        val file = builder.createFileFromText(fileName, ValkyrieLanguage, text)
+        dir.add(file)
+        return file;
     }
 }

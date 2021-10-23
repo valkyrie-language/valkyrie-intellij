@@ -178,6 +178,7 @@
 		<action id="jss.JssConvertJson" class="valkyrie.ide.actions.FluentConvertMo"/>
 		<action id="valkyrie.macro.expand_to_file" class="valkyrie.ide.actions.ExpandMacroToFile">
 			<add-to-group group-id="GenerateGroup" anchor="last"/>
+			<keyboard-shortcut keymap="$default" first-keystroke="control shift G"/>
 		</action>
 		<group id="jss.JssGenerator" popup="true" text="JssGenerator">
 			<reference ref="NewFluentFile"/>
