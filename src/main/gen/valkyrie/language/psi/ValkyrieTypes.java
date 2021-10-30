@@ -201,6 +201,7 @@ public interface ValkyrieTypes {
   IElementType OP_SET = new ValkyrieTokenType("OP_SET");
   IElementType OP_SUB = new ValkyrieTokenType("-");
   IElementType OP_SUB_ASSIGN = new ValkyrieTokenType("-=");
+  IElementType OP_TEMPERATURE = new ValkyrieTokenType("OP_TEMPERATURE");
   IElementType OP_TO = new ValkyrieTokenType("OP_TO");
   IElementType OP_UNIMPLEMENTED = new ValkyrieTokenType("???");
   IElementType OP_UNTIL = new ValkyrieTokenType("OP_UNTIL");

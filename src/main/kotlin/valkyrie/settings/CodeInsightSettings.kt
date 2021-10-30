@@ -8,7 +8,6 @@ import com.intellij.util.xmlb.XmlSerializerUtil
 
 @State(name = "ValkyrieCodeInsightSettings", storages = [Storage("valkyrie.xml")])
 class CodeInsightSettings : PersistentStateComponent<CodeInsightSettings> {
-
     var showImportPopup: Boolean = false
     var importOutOfScopeItems: Boolean = true
     var suggestOutOfScopeItems: Boolean = true

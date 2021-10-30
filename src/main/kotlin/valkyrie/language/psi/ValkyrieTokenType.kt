@@ -37,7 +37,7 @@ val infix: TokenSet = TokenSet.create(
     OP_ARROW, OP_ARROW2
 )
 val suffix: TokenSet = TokenSet.create(
-    OP_NOT, OP_QUESTION
+    OP_NOT, OP_QUESTION, OP_TEMPERATURE
 )
 val operators: TokenSet = TokenSet.orSet(prefix, infix, suffix)
 

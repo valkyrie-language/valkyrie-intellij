@@ -2638,13 +2638,13 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // BANG | OP_QUESTION
+  // BANG | OP_QUESTION | OP_TEMPERATURE
   static boolean op_suffix(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "op_suffix")) return false;
-    if (!nextTokenIs(b, "", BANG, OP_QUESTION)) return false;
     boolean r;
     r = consumeToken(b, BANG);
     if (!r) r = consumeToken(b, OP_QUESTION);
+    if (!r) r = consumeToken(b, OP_TEMPERATURE);
     return r;
   }
 

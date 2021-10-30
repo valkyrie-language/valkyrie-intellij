@@ -362,7 +362,7 @@ private op_binary ::=
     // | OP_IN | OP_NOT_IN | OP_NOT OP_IN
     | OP_UNTIL;
 private op_prefix ::= OP_ADD | OP_SUB | OP_NOT | BANG | AMP | DOT3 | DOT2;
-private op_suffix ::= BANG | OP_QUESTION;
+private op_suffix ::= BANG | OP_QUESTION | OP_TEMPERATURE;
 call_suffix       ::= <<parenthesis expression COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
 macro_call        ::= (OP_AT|OP_HASH) namepath_free [macro_block] {

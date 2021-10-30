@@ -31,6 +31,7 @@ class ParameterNameHint : InlayParameterHintsProvider {
         return "$inlayText:"
     }
 
+
     override fun getMainCheckboxText(): String {
         return "getMainCheckboxText"
     }
@@ -63,7 +64,14 @@ class ParameterNameHint : InlayParameterHintsProvider {
         val out = mutableListOf<InlayInfo>();
         var id = 0;
         for (i in this.expressionList) {
-            out.add(InlayInfo("${'a' + id}", i.startOffset))
+            val namepath = i.termList.first().atom.namepath;
+            if (namepath != null) {
+                out.add(InlayInfo(namepath.lastChild.text, i.startOffset))
+            }
+            else {
+                out.add(InlayInfo("${'a' + id}", i.startOffset))
+            }
+
             id += 1
         }
         return out

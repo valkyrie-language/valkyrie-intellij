@@ -67,6 +67,7 @@ private val punctuations = """(?x)\\
     # unicode
     | [∈∊∉⊑⋢⨳∀∁∂∃∄¬±√∛∜⊹⋗]
     | [⟦⟧⁅⁆⟬⟭]
+    | [℃℉]
     #
     """.toRegex()
 private val comments = """(?x)
@@ -372,6 +373,9 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
 
             "∅", "⤇", "|=>", "⤃", "!=>" -> {
                 pushToken(ValkyrieTypes.OP_EMPTY, r)
+            }
+            "℃", "℉" -> {
+                pushToken(ValkyrieTypes.OP_TEMPERATURE, r)
             }
 
             else -> pushToken(TokenType.BAD_CHARACTER, r)
