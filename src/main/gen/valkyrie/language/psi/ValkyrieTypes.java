@@ -108,6 +108,7 @@ public interface ValkyrieTypes {
   IElementType BRACKET_R = new ValkyrieTokenType("]");
   IElementType BYTE = new ValkyrieTokenType("Byte");
   IElementType COLON = new ValkyrieTokenType(":");
+  IElementType COLOUR = new ValkyrieTokenType("COLOUR");
   IElementType COMMA = new ValkyrieTokenType("COMMA");
   IElementType COMMENT = new ValkyrieTokenType("Comment");
   IElementType DECIMAL = new ValkyrieTokenType("DECIMAL");

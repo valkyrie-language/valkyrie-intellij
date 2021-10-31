@@ -1,1 +1,1 @@
-protoc --java_out=../main --kotlin_out=./main main.proto
+protoc --java_out=../main/gen --kotlin_out=../main/kotlin main.proto

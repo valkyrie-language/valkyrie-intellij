@@ -377,8 +377,8 @@ macro_block       ::=
   | <<brace_block expression separator>>;
 // ---------------------------------------------------------------------------------------------------------------------
 atom           ::= OP_UNIMPLEMENTED
-    | range | list | object | tuple | number | string | boolean | namepath | expression_statement
-    | new_statement;
+    | range | list | object | tuple | BYTE | number | string | boolean | namepath | expression_statement
+    | new_statement | COLOUR;
 tuple          ::= <<parenthesis expression COMMA>>
 list           ::= <<bracket_block expression COMMA>>
 range          ::= <<slice_block slice_item COMMA>>;
@@ -390,7 +390,7 @@ slice_item     ::=
   | expression;
 // ---------------------------------------------------------------------------------------------------------------------
 boolean        ::= "true" | "false";
-number         ::= (BYTE | INTEGER | DECIMAL) [NUMBER_SUFFIX] {
+number         ::= (INTEGER | DECIMAL) [NUMBER_SUFFIX] {
     mixin="valkyrie.language.mixin.MixinNumber"
 }
 string         ::= [identifier] STRING_START STRING_TEXT STRING_END {

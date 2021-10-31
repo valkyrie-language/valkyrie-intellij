@@ -109,8 +109,8 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // OP_UNIMPLEMENTED
-  //     | range | list | object | tuple | number | string | boolean | namepath | expression_statement
-  //     | new_statement
+  //     | range | list | object | tuple | BYTE | number | string | boolean | namepath | expression_statement
+  //     | new_statement | COLOUR
   public static boolean atom(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "atom")) return false;
     boolean r;
@@ -120,12 +120,14 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     if (!r) r = list(b, l + 1);
     if (!r) r = object(b, l + 1);
     if (!r) r = tuple(b, l + 1);
+    if (!r) r = consumeToken(b, BYTE);
     if (!r) r = number(b, l + 1);
     if (!r) r = string(b, l + 1);
     if (!r) r = boolean_$(b, l + 1);
     if (!r) r = namepath(b, l + 1);
     if (!r) r = expression_statement(b, l + 1);
     if (!r) r = new_statement(b, l + 1);
+    if (!r) r = consumeToken(b, COLOUR);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -2490,9 +2492,10 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (BYTE | INTEGER | DECIMAL) [NUMBER_SUFFIX]
+  // (INTEGER | DECIMAL) [NUMBER_SUFFIX]
   public static boolean number(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "number")) return false;
+    if (!nextTokenIs(b, "<number>", DECIMAL, INTEGER)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, NUMBER, "<number>");
     r = number_0(b, l + 1);
@@ -2501,12 +2504,11 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // BYTE | INTEGER | DECIMAL
+  // INTEGER | DECIMAL
   private static boolean number_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "number_0")) return false;
     boolean r;
-    r = consumeToken(b, BYTE);
-    if (!r) r = consumeToken(b, INTEGER);
+    r = consumeToken(b, INTEGER);
     if (!r) r = consumeToken(b, DECIMAL);
     return r;
   }

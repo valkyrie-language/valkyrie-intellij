@@ -72,6 +72,7 @@
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.highlight.TokenHighlight"
 		/>
+		<colorProvider implementation="valkyrie.ide.highlight.ValkyrieColorProvider"/>
 		<!-- Formatter -->
 		<langCodeStyleSettingsProvider implementation="valkyrie.ide.codeStyle.ValkyrieCodeStyleProvider"/>
 		<formattingService implementation="valkyrie.ide.formatter.ValkyrieNativeFormat"/>

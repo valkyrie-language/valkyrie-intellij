@@ -68,6 +68,7 @@ private val punctuations = """(?x)\\
     | [∈∊∉⊑⋢⨳∀∁∂∃∄¬±√∛∜⊹⋗]
     | [⟦⟧⁅⁆⟬⟭]
     | [℃℉]
+    | [↻↺⇆↹⇄⇋⇌⇅]
     #
     """.toRegex()
 private val comments = """(?x)
@@ -78,15 +79,13 @@ private val strings = """(?x)
       (?<s1>"{3,}|'{3,})(?<t1>[^\00]*?)(?<e1>\k<s1>)
     | (?<s2>')(?<t2>[^']*)(?<e2>')
     | (?<s3>")(?<t3>[^"]*)(?<e3>")
-    | (?<s4>«)(?<t4>[^»]*)(?<e4>»)
-    | (?<s5>‘)(?<t5>[^’]*)(?<e5>’)
-    | (?<s6>“)(?<t6>[^”]*)(?<e6>”)
     """.toRegex()
 private val numbers = """(?x)
       (?<s1>[_1-9][_\d]*[.][_\d]+)
     | (?<s2>0[.][_\d]+)
     | (?<s4>0[a-zA-Z][_\da-zA-Z]+)
     | (?<s3>0|[1-9][_\d]*)
+    | (?<s5>©[1-9a-fA-F]{1,8})
 """.toRegex()
 
 @Suppress("MemberVisibilityCanBePrivate")
@@ -131,9 +130,6 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             arrayOf("s1", "t1", "e1"),
             arrayOf("s2", "t2", "e2"),
             arrayOf("s3", "t3", "e3"),
-            arrayOf("s4", "t4", "e4"),
-            arrayOf("s5", "t5", "e5"),
-            arrayOf("s6", "t6", "e6")
         )
         for (slot in slots) {
             val start = r.groups[slot[0]]
@@ -156,17 +152,17 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             r.groups["s1"] != null -> {
                 pushToken(ValkyrieTypes.DECIMAL, r)
             }
-
             r.groups["s2"] != null -> {
                 pushToken(ValkyrieTypes.DECIMAL, r)
             }
-
             r.groups["s3"] != null -> {
                 pushToken(ValkyrieTypes.INTEGER, r)
             }
-
             r.groups["s4"] != null -> {
                 pushToken(ValkyrieTypes.BYTE, r)
+            }
+            r.groups["s5"] != null -> {
+                pushToken(ValkyrieTypes.COLOUR, r)
             }
         }
         return true

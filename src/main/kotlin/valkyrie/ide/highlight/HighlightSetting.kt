@@ -1,10 +1,9 @@
 package valkyrie.ide.highlight
 
-import valkyrie.language.ValkyrieBundle
-import valkyrie.language.file.ValkyrieIconProvider
-
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
+import valkyrie.language.ValkyrieBundle
+import valkyrie.language.file.ValkyrieIconProvider
 
 class HighlightSetting : ColorSettingsPage {
     private val annotatorTags = ValkyrieHighlightColor
@@ -28,3 +27,4 @@ class HighlightSetting : ColorSettingsPage {
 
     override fun getDemoText() = javaClass.getResource("/templates/code-highlight.vk")!!.readText()
 }
+
