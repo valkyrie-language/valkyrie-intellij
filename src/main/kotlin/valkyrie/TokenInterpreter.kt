@@ -85,7 +85,7 @@ private val numbers = """(?x)
     | (?<s2>0[.][_\d]+)
     | (?<s4>0[a-zA-Z][_\da-zA-Z]+)
     | (?<s3>0|[1-9][_\d]*)
-    | (?<s5>©[1-9a-fA-F]{1,8})
+    | (?<s5>[©®][0-9a-zA-Z]*)
 """.toRegex()
 
 @Suppress("MemberVisibilityCanBePrivate")
@@ -152,15 +152,19 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             r.groups["s1"] != null -> {
                 pushToken(ValkyrieTypes.DECIMAL, r)
             }
+
             r.groups["s2"] != null -> {
                 pushToken(ValkyrieTypes.DECIMAL, r)
             }
+
             r.groups["s3"] != null -> {
                 pushToken(ValkyrieTypes.INTEGER, r)
             }
+
             r.groups["s4"] != null -> {
                 pushToken(ValkyrieTypes.BYTE, r)
             }
+
             r.groups["s5"] != null -> {
                 pushToken(ValkyrieTypes.COLOUR, r)
             }
@@ -225,6 +229,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             lastIs(ValkyrieTypes.INTEGER, ValkyrieTypes.DECIMAL, skipWS = false) -> {
                 pushToken(ValkyrieTypes.NUMBER_SUFFIX, r)
             }
+
             else -> {
                 pushToken(ValkyrieTypes.SYMBOL_XID, r)
             }
@@ -370,6 +375,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             "∅", "⤇", "|=>", "⤃", "!=>" -> {
                 pushToken(ValkyrieTypes.OP_EMPTY, r)
             }
+
             "℃", "℉" -> {
                 pushToken(ValkyrieTypes.OP_TEMPERATURE, r)
             }

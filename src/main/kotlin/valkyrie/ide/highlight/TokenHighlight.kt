@@ -39,6 +39,7 @@ class TokenHighlight : SyntaxHighlighterBase() {
                     INTEGER -> Color.INTEGER
                     BYTE -> Color.INTEGER
                     DECIMAL -> Color.DECIMAL
+                    COLOUR -> Color.INTEGER
                     NUMBER_SUFFIX -> Color.OP_NUMBER
                     STRING_START, STRING_TEXT, STRING_END -> Color.STRING
                     SYMBOL_XID, SYMBOL_RAW -> Color.IDENTIFIER
