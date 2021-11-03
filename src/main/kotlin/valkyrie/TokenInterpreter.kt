@@ -194,7 +194,6 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
 
             "let" -> pushToken(ValkyrieTypes.KW_LET, r)
             "def" -> pushToken(ValkyrieTypes.KW_DEF, r)
-            "macro" -> pushToken(ValkyrieTypes.KW_MACRO, r)
 
             "try" -> pushToken(ValkyrieTypes.KW_TRY, r)
             "catch" -> pushToken(ValkyrieTypes.KW_CATCH, r)

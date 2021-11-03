@@ -1,5 +1,0 @@
-namespace std.native;
-
-#native(4byte)
-#derive(Copy, Clone)
-class u32 {}

@@ -20,6 +20,11 @@ class CompleteSymbol(val context: PsiElement) : CompletionProvider<CompletionPar
         keywordSnippet(result)
         addControlFlow(result)
     }
+    fun keywordFor(result: CompletionResultSet) {
+        result.addKeywordSnippet("for in", "for_in.ft")
+        result.addKeywordSnippet("for range", "for_range.ft")
+        result.addKeywordSnippet("for kv", "for_kv.ft")
+    }
 
     fun inClassBlock(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
         element = parameters.position
@@ -118,6 +123,8 @@ class CompleteSymbol(val context: PsiElement) : CompletionProvider<CompletionPar
         result.addKeywordSnippet("for range", "for_range.ft")
         result.addKeywordSnippet("for kv", "for_kv.ft")
     }
+
+
 
     private fun CompletionResultSet.addKeywordSnippet(id: String, file: String, lookup: Set<String> = setOf()) {
         val item = snippetFromPath(element, id, file)

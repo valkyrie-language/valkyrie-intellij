@@ -22,7 +22,7 @@ class CompletionRegistrar : CompletionContributor() {
         val element = parameters.originalPosition ?: return
         when (element.elementType) {
             ValkyrieTypes.SYMBOL_XID, ValkyrieTypes.SYMBOL_RAW,
-            ValkyrieTypes.KW_DEF, ValkyrieTypes.KW_LET,
+            ValkyrieTypes.KW_DEF, ValkyrieTypes.KW_LET,  ValkyrieTypes.KW_FOR,
             ValkyrieTypes.OP_IN -> {
                 for (node in element.parents(false)) {
                     when (node) {
@@ -45,7 +45,8 @@ class CompletionRegistrar : CompletionContributor() {
                     }
                 }
             }
-            ValkyrieTypes.KW_ESCAPING, ValkyrieTypes.KW_MACRO -> {
+
+            ValkyrieTypes.KW_ESCAPING, ValkyrieTypes.OP_HASH, ValkyrieTypes.OP_AT -> {
                 CompleteOperator(element).addCompletionVariants(parameters, context, result)
             }
         }

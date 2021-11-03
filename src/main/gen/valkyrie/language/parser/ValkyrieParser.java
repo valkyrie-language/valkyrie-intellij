@@ -1973,15 +1973,24 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_MACRO <<bracket_block (namepath_free [macro_block]) COMMA>>
+  // (OP_AT|OP_HASH) <<bracket_block (namepath_free [macro_block]) COMMA>>
   public static boolean macro_list(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "macro_list")) return false;
-    if (!nextTokenIs(b, KW_MACRO)) return false;
+    if (!nextTokenIs(b, "<macro list>", OP_AT, OP_HASH)) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, KW_MACRO);
+    Marker m = enter_section_(b, l, _NONE_, MACRO_LIST, "<macro list>");
+    r = macro_list_0(b, l + 1);
     r = r && bracket_block(b, l + 1, ValkyrieParser::macro_list_1_0, COMMA_parser_);
-    exit_section_(b, m, MACRO_LIST, r);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // OP_AT|OP_HASH
+  private static boolean macro_list_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "macro_list_0")) return false;
+    boolean r;
+    r = consumeToken(b, OP_AT);
+    if (!r) r = consumeToken(b, OP_HASH);
     return r;
   }
 
@@ -2464,8 +2473,8 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // control_statement
-  //   | macro_call
   //   | macro_list
+  //   | macro_call
   //   | for_statement
   //   | let_statement
   //   | type_statement
@@ -2478,8 +2487,8 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "normal_statements")) return false;
     boolean r;
     r = control_statement(b, l + 1);
-    if (!r) r = macro_call(b, l + 1);
     if (!r) r = macro_list(b, l + 1);
+    if (!r) r = macro_call(b, l + 1);
     if (!r) r = for_statement(b, l + 1);
     if (!r) r = let_statement(b, l + 1);
     if (!r) r = type_statement(b, l + 1);

@@ -9,7 +9,7 @@ import valkyrie.language.psi.ValkyrieTypes.*
 
 val keywords: TokenSet = TokenSet.create(
     KW_NAMESPACE, KW_EXTENSION, KW_IMPORT, OP_AS,
-    KW_MACRO, KW_CLASS, KW_TRAIT, KW_TAGGED, KW_BITFLAG, KW_EXTENDS,
+    KW_CLASS, KW_TRAIT, KW_TAGGED, KW_BITFLAG, KW_EXTENDS,
     KW_CONTINUE, KW_RETURN,
     KW_RAISE, KW_RESUME,
     KW_YIELD, KW_BREAK,

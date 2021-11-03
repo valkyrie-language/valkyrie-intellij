@@ -114,8 +114,8 @@ private top_statements ::=
   ;
 private normal_statements ::=
     control_statement
-  | macro_call
   | macro_list
+  | macro_call
   | for_statement
   | let_statement
   | type_statement
@@ -368,7 +368,7 @@ call_suffix       ::= <<parenthesis expression COMMA>>;
 macro_call        ::= (OP_AT|OP_HASH) namepath_free [macro_block] {
     mixin="valkyrie.language.mixin.MixinMacroCall"
 }
-macro_list        ::= KW_MACRO <<bracket_block (namepath_free [macro_block]) COMMA>> {
+macro_list        ::= (OP_AT|OP_HASH) <<bracket_block (namepath_free [macro_block]) COMMA>> {
     mixin="valkyrie.language.mixin.MixinMacroList"
 }
 macro_block       ::=

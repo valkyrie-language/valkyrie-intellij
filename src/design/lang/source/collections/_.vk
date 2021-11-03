@@ -1,5 +1,0 @@
-namespace! std.collections;
-
-using! std.collections.{
-    hashmap.HashMap
-}

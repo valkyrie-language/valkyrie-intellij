@@ -1,5 +1,0 @@
-namespace std.number;
-
-trait One {
-    one() -> Self;
-}
