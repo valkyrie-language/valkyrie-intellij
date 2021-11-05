@@ -11,9 +11,9 @@ import valkyrie.language.psi_node.ValkyrieNamespaceStatementNode
 
 class RunNamespaceGroup(element: PsiElement) : ActionGroup() {
     init {
-        if (element !is ValkyrieNamespaceStatementNode) {
-            throw IllegalArgumentException("element must be a ValkyrieNamespaceStatementNode")
-        }
+//        if (element !is ValkyrieNamespaceStatementNode) {
+//            throw IllegalArgumentException("element must be a ValkyrieNamespaceStatementNode")
+//        }
         templatePresentation.icon = AllIcons.RunConfigurations.TestState.Run_run
         templatePresentation.text = ValkyrieBundle.message("action.run.namespace.group.name")
         templatePresentation.description = ValkyrieBundle.message("action.run.namespace.group.help")

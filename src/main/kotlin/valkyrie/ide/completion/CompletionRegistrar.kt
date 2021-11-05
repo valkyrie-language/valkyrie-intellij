@@ -22,22 +22,26 @@ class CompletionRegistrar : CompletionContributor() {
         val element = parameters.originalPosition ?: return
         when (element.elementType) {
             ValkyrieTypes.SYMBOL_XID, ValkyrieTypes.SYMBOL_RAW,
-            ValkyrieTypes.KW_DEF, ValkyrieTypes.KW_LET,  ValkyrieTypes.KW_FOR,
-            ValkyrieTypes.OP_IN -> {
+            ValkyrieTypes.KW_DEF, ValkyrieTypes.KW_LET, ValkyrieTypes.KW_IF,
+            ValkyrieTypes.KW_FOR, ValkyrieTypes.OP_IN,
+            -> {
                 for (node in element.parents(false)) {
                     when (node) {
                         is ValkyrieFileNode, is ValkyrieTopBlockNode -> {
                             CompleteSymbol(node).inTopStatement(parameters, context, result)
                             return
                         }
+
                         is ValkyrieClassBlockNode -> {
                             CompleteSymbol(node).inClassBlock(parameters, context, result)
                             return
                         }
+
                         is ValkyrieMacroBlockNode -> {
                             CompleteSymbol(node).inMacroBlock(parameters, context, result)
                             return
                         }
+
                         is ValkyrieDefineBlockNode -> {
                             CompleteSymbol(node).inDefineBlock(parameters, context, result)
                             return

@@ -10,6 +10,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.language.file.ValkyrieFileNode
+import valkyrie.language.mixin.MixinNamepath
 import valkyrie.language.psi.*
 import valkyrie.language.psi_node.*
 import valkyrie.ide.highlight.ValkyrieHighlightColor as Color
@@ -18,8 +19,18 @@ import valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
 
-    override fun visitNamespaceStatement(o: ValkyrieNamespaceStatement) {
+    override fun visitNamepathFree(o: ValkyrieNamepathFree) {
+        o as MixinNamepath
+        o.highlightHead()?.let {
+            highlight(it, Color.KEYWORD)
+        }
+    }
 
+    override fun visitNamepath(o: ValkyrieNamepath) {
+        o as MixinNamepath
+        o.highlightHead()?.let {
+            highlight(it, Color.KEYWORD)
+        }
     }
 
     override fun visitImportItem(o: ValkyrieImportItem) {
@@ -182,7 +193,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o, Color.KEYWORD)
     }
 
-    // =================================================================================================================
+// =================================================================================================================
 
     fun highlight(element: PsiElement?, color: Color) {
         if (element == null) return

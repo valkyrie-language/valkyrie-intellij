@@ -17,6 +17,7 @@ public interface ValkyrieTypes {
   IElementType CASE_ELSE = new ValkyrieTokenType("CASE_ELSE");
   IElementType CASE_EXPRESSION = new ValkyrieTokenType("CASE_EXPRESSION");
   IElementType CASE_PATTERN = new ValkyrieTokenType("CASE_PATTERN");
+  IElementType CASE_WHEN = new ValkyrieTokenType("CASE_WHEN");
   IElementType CASE_WITH = new ValkyrieTokenType("CASE_WITH");
   IElementType CATCH_STATEMENT = new ValkyrieTokenType("CATCH_STATEMENT");
   IElementType CLASS_BLOCK = new ValkyrieTokenType("CLASS_BLOCK");
@@ -146,6 +147,7 @@ public interface ValkyrieTypes {
   IElementType KW_TRAIT = new ValkyrieTokenType("KW_TRAIT");
   IElementType KW_TRY = new ValkyrieTokenType("KW_TRY");
   IElementType KW_TYPE = new ValkyrieTokenType("KW_TYPE");
+  IElementType KW_WHEN = new ValkyrieTokenType("KW_WHEN");
   IElementType KW_WHILE = new ValkyrieTokenType("KW_WHILE");
   IElementType KW_WITH = new ValkyrieTokenType("KW_WITH");
   IElementType KW_YIELD = new ValkyrieTokenType("KW_YIELD");
@@ -247,6 +249,9 @@ public interface ValkyrieTypes {
       }
       else if (type == CASE_PATTERN) {
         return new ValkyrieCasePatternNode(node);
+      }
+      else if (type == CASE_WHEN) {
+        return new ValkyrieCaseWhenNode(node);
       }
       else if (type == CASE_WITH) {
         return new ValkyrieCaseWithNode(node);

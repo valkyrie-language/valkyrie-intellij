@@ -43,6 +43,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitCaseWhen(@NotNull ValkyrieCaseWhen o) {
+    visitPsiElement(o);
+  }
+
   public void visitCaseWith(@NotNull ValkyrieCaseWith o) {
     visitPsiElement(o);
   }

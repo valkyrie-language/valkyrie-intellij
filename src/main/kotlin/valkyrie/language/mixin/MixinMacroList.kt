@@ -9,6 +9,7 @@ import valkyrie.language.psi_node.ValkyrieMacroListNode
 import valkyrie.language.psi_node.ValkyrieTermNode
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
+import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
 open class MixinMacroList(node: ASTNode) : ViewableNode(node) {
@@ -16,9 +17,7 @@ open class MixinMacroList(node: ASTNode) : ViewableNode(node) {
         return this as ValkyrieMacroListNode
     }
 
-    override fun getIcon(flags: Int): Icon {
-        TODO("Not yet implemented")
-    }
+    override fun getIcon(flags: Int) = ValkyrieIconProvider.MACRO
 
     override fun getNavigationElement(): PsiElement {
         return this.firstChild

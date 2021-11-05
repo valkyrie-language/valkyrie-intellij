@@ -24,7 +24,7 @@ private val keywordSP = """(?x)
     | \b(extend|extends)\b
     | \b(let|def)\b
     | \b(object)\b
-    | \b(match|with|case)\b
+    | \b(match|with|case|when)\b
     | \b(try|catch)\b
     | \b(raise|continue|return|resume)\b
     | \b(yield|break)\b
@@ -189,6 +189,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             "for" -> pushToken(ValkyrieTypes.KW_FOR, r)
 
             "match" -> pushToken(ValkyrieTypes.KW_MATCH, r)
+            "when" -> pushToken(ValkyrieTypes.KW_WHEN, r)
             "case" -> pushToken(ValkyrieTypes.KW_CASE, r)
             "with" -> pushToken(ValkyrieTypes.KW_WITH, r)
 

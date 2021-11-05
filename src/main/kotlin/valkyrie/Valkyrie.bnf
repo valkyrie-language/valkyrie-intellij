@@ -217,7 +217,7 @@ match_statement     ::= KW_MATCH inline_expression match_block {
 }
 match_block         ::= <<brace_free match_expression SEMICOLON>>;
 match_expression    ::= (case_pattern|case_else) COLON (normal_statements [SEMICOLON])+ | case_with;
-case_pattern        ::= KW_CASE pattern_value {
+case_pattern        ::= (KW_CASE|KW_WHEN) pattern_value {
     mixin="valkyrie.language.mixin.MixinCasePattern"
 };
 case_expression     ::= KW_CASE expression {
@@ -226,6 +226,7 @@ case_expression     ::= KW_CASE expression {
 pattern_value       ::= number | string | [namepath] <<parenthesis pattern_value COMMA>> | [namepath] <<brace_block pattern_pair COMMA>> | namepath;
 case_with           ::= KW_WITH;
 case_else           ::= KW_ELSE;
+case_when           ::= KW_WHEN;
 // ---------------------------------------------------------------------------------------------------------------------
 new_statement       ::= KW_NEW <<modified type_expression>> new_block {
     pin=1

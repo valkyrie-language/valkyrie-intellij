@@ -37,43 +37,6 @@ class DocumentationRenderer(var element: PsiElement, private var original: PsiEl
         return doc.toString()
     }
 
-    fun onDetail(): String {
-        when (val tokens = KeywordData.builtinData(element)) {
-            null -> {}
-            else -> {
-                tokens.documentation(this)
-                return doc.toString()
-            }
-        }
-        when (val tokens = OperatorData.builtinData(element)) {
-            null -> {}
-            else -> {
-                tokens.documentation(this)
-                return doc.toString()
-            }
-        }
-        when (val tokens = ModifierData.builtinData(element)) {
-            null -> {}
-            else -> {
-                tokens.documentation(this)
-                return doc.toString()
-            }
-        }
-
-        when (element) {
-            is ValkyrieTraitStatementNode -> buildDetail(element as ValkyrieTraitStatementNode)
-            is ValkyrieClassStatementNode -> buildShort(element as ValkyrieClassStatementNode)
-            else -> {
-                doc.append(element)
-                doc.append("<br/>")
-                doc.append(original)
-                doc.append("<br/>")
-                doc.append("onDetail: ${element.text}")
-            }
-        }
-        return doc.toString()
-    }
-
     private fun buildShort(element: ValkyrieTraitStatementNode) {
         append(KEYWORD, "crate ")
         appendNamespace()

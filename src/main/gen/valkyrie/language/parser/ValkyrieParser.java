@@ -417,15 +417,36 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_CASE pattern_value
+  // (KW_CASE|KW_WHEN) pattern_value
   public static boolean case_pattern(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "case_pattern")) return false;
-    if (!nextTokenIs(b, KW_CASE)) return false;
+    if (!nextTokenIs(b, "<case pattern>", KW_CASE, KW_WHEN)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, CASE_PATTERN, "<case pattern>");
+    r = case_pattern_0(b, l + 1);
+    r = r && pattern_value(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // KW_CASE|KW_WHEN
+  private static boolean case_pattern_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "case_pattern_0")) return false;
+    boolean r;
+    r = consumeToken(b, KW_CASE);
+    if (!r) r = consumeToken(b, KW_WHEN);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // KW_WHEN
+  public static boolean case_when(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "case_when")) return false;
+    if (!nextTokenIs(b, KW_WHEN)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, KW_CASE);
-    r = r && pattern_value(b, l + 1);
-    exit_section_(b, m, CASE_PATTERN, r);
+    r = consumeToken(b, KW_WHEN);
+    exit_section_(b, m, CASE_WHEN, r);
     return r;
   }
 
