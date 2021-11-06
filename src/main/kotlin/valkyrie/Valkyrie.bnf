@@ -127,7 +127,7 @@ private normal_statements ::=
   ;
 private expression_statement ::=
     if_statement
-  | iff_statement
+  | which_statement
   | try_statement
 namespace_statement ::= KW_NAMESPACE namepath_free {
     mixin="valkyrie.language.mixin.MixinNamespace"
@@ -158,12 +158,12 @@ else_statement      ::= KW_ELSE normal_block;
 condition           ::= (case_pattern OP_SET inline_expression | inline_expression);
 normal_block        ::= <<brace_free normal_statements SEMICOLON>>;
 // ---------------------------------------------------------------------------------------------------------------------
-iff_statement        ::= KW_IF iff_block {
+which_statement     ::= KW_WHICH which_block {
     pin=2
     // mixin="valkyrie.language.mixin.MixinIf"
 }
-iff_block           ::= <<brace_free iff_expression SEMICOLON>>;
-iff_expression      ::= (case_expression | case_else) COLON (normal_statements [SEMICOLON])+;
+which_block         ::= <<brace_free which_expression SEMICOLON>>;
+which_expression    ::= inline_expression normal_block;
 // ---------------------------------------------------------------------------------------------------------------------
 loop_statement      ::= (KW_LOOP | KW_WHILE condition) normal_block [else_statement] {
     pin=1

@@ -42,12 +42,6 @@ public class ValkyrieAtomNode extends ValkyrieASTBase implements ValkyrieAtom {
 
   @Override
   @Nullable
-  public ValkyrieIffStatement getIffStatement() {
-    return findChildByClass(ValkyrieIffStatement.class);
-  }
-
-  @Override
-  @Nullable
   public ValkyrieList getList() {
     return findChildByClass(ValkyrieList.class);
   }
@@ -98,6 +92,12 @@ public class ValkyrieAtomNode extends ValkyrieASTBase implements ValkyrieAtom {
   @Nullable
   public ValkyrieTuple getTuple() {
     return findChildByClass(ValkyrieTuple.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieWhichStatement getWhichStatement() {
+    return findChildByClass(ValkyrieWhichStatement.class);
   }
 
 }

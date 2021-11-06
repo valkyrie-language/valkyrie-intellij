@@ -15,7 +15,7 @@ import valkyrie.language.psi.ValkyrieTypes
 private val keywordSP = """(?x)
       \b(namespace|using|as)\b[*!?]?
     | \b(extension)\b
-    | \b(if|else)\b
+    | \b(if|else|which)\b
     | \b(for|in)\b | \b(while|loop)\b
     | \b(is|not)\b
     | \b(type|class)\b
@@ -181,6 +181,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             "is" -> pushToken(ValkyrieTypes.OP_IS_A, r)
             "in" -> pushToken(ValkyrieTypes.OP_IN, r)
             "not" -> pushToken(ValkyrieTypes.OP_NOT, r)
+            "which" -> pushToken(ValkyrieTypes.KW_WHICH, r)
             "if" -> pushToken(ValkyrieTypes.KW_IF, r)
             "else" -> pushToken(ValkyrieTypes.KW_ELSE, r)
 

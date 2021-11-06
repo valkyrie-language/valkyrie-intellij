@@ -10,10 +10,10 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.language.psi_node.ValkyrieIffStatementNode
+import valkyrie.language.psi_node.ValkyrieWhichStatementNode
 import javax.swing.Icon
 
-class ToLegacyIf(element: ValkyrieIffStatementNode) : LocalQuickFixAndIntentionActionOnPsiElement(element), PriorityAction, Iconable {
+class ToLegacyIf(element: ValkyrieWhichStatementNode) : LocalQuickFixAndIntentionActionOnPsiElement(element), PriorityAction, Iconable {
     override fun startInWriteAction(): Boolean {
         return true
     }

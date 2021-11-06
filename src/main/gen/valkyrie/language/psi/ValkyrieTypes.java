@@ -46,9 +46,6 @@ public interface ValkyrieTypes {
   IElementType GENERIC_DEFINE = new ValkyrieTokenType("GENERIC_DEFINE");
   IElementType GENERIC_TYPE = new ValkyrieTokenType("GENERIC_TYPE");
   IElementType IDENTIFIER = new ValkyrieTokenType("IDENTIFIER");
-  IElementType IFF_BLOCK = new ValkyrieTokenType("IFF_BLOCK");
-  IElementType IFF_EXPRESSION = new ValkyrieTokenType("IFF_EXPRESSION");
-  IElementType IFF_STATEMENT = new ValkyrieTokenType("IFF_STATEMENT");
   IElementType IF_GUARD = new ValkyrieTokenType("IF_GUARD");
   IElementType IF_STATEMENT = new ValkyrieTokenType("IF_STATEMENT");
   IElementType IMPORT_BLOCK = new ValkyrieTokenType("IMPORT_BLOCK");
@@ -100,6 +97,9 @@ public interface ValkyrieTypes {
   IElementType UNION_BLOCK = new ValkyrieTokenType("UNION_BLOCK");
   IElementType UNION_ITEM = new ValkyrieTokenType("UNION_ITEM");
   IElementType UNION_STATEMENT = new ValkyrieTokenType("UNION_STATEMENT");
+  IElementType WHICH_BLOCK = new ValkyrieTokenType("WHICH_BLOCK");
+  IElementType WHICH_EXPRESSION = new ValkyrieTokenType("WHICH_EXPRESSION");
+  IElementType WHICH_STATEMENT = new ValkyrieTokenType("WHICH_STATEMENT");
 
   IElementType AMP = new ValkyrieTokenType("AMP");
   IElementType BANG = new ValkyrieTokenType("BANG");
@@ -148,6 +148,7 @@ public interface ValkyrieTypes {
   IElementType KW_TRY = new ValkyrieTokenType("KW_TRY");
   IElementType KW_TYPE = new ValkyrieTokenType("KW_TYPE");
   IElementType KW_WHEN = new ValkyrieTokenType("KW_WHEN");
+  IElementType KW_WHICH = new ValkyrieTokenType("KW_WHICH");
   IElementType KW_WHILE = new ValkyrieTokenType("KW_WHILE");
   IElementType KW_WITH = new ValkyrieTokenType("KW_WITH");
   IElementType KW_YIELD = new ValkyrieTokenType("KW_YIELD");
@@ -337,15 +338,6 @@ public interface ValkyrieTypes {
       else if (type == IDENTIFIER) {
         return new ValkyrieIdentifierNode(node);
       }
-      else if (type == IFF_BLOCK) {
-        return new ValkyrieIffBlockNode(node);
-      }
-      else if (type == IFF_EXPRESSION) {
-        return new ValkyrieIffExpressionNode(node);
-      }
-      else if (type == IFF_STATEMENT) {
-        return new ValkyrieIffStatementNode(node);
-      }
       else if (type == IF_GUARD) {
         return new ValkyrieIfGuardNode(node);
       }
@@ -498,6 +490,15 @@ public interface ValkyrieTypes {
       }
       else if (type == UNION_STATEMENT) {
         return new ValkyrieUnionStatementNode(node);
+      }
+      else if (type == WHICH_BLOCK) {
+        return new ValkyrieWhichBlockNode(node);
+      }
+      else if (type == WHICH_EXPRESSION) {
+        return new ValkyrieWhichExpressionNode(node);
+      }
+      else if (type == WHICH_STATEMENT) {
+        return new ValkyrieWhichStatementNode(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

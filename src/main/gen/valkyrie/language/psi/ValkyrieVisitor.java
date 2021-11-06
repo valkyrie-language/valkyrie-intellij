@@ -167,18 +167,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitIffBlock(@NotNull ValkyrieIffBlock o) {
-    visitPsiElement(o);
-  }
-
-  public void visitIffExpression(@NotNull ValkyrieIffExpression o) {
-    visitPsiElement(o);
-  }
-
-  public void visitIffStatement(@NotNull ValkyrieIffStatement o) {
-    visitPsiElement(o);
-  }
-
   public void visitImportBlock(@NotNull ValkyrieImportBlock o) {
     visitPsiElement(o);
   }
@@ -372,6 +360,18 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitUnionStatement(@NotNull ValkyrieUnionStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitWhichBlock(@NotNull ValkyrieWhichBlock o) {
+    visitPsiElement(o);
+  }
+
+  public void visitWhichExpression(@NotNull ValkyrieWhichExpression o) {
+    visitPsiElement(o);
+  }
+
+  public void visitWhichStatement(@NotNull ValkyrieWhichStatement o) {
     visitPsiElement(o);
   }
 

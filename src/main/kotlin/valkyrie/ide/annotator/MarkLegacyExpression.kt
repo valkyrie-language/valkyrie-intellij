@@ -8,7 +8,8 @@ import com.intellij.psi.PsiElement
 import valkyrie.ide.actions.ast_transform.*
 import valkyrie.language.psi_node.ValkyrieForStatementNode
 import valkyrie.language.psi_node.ValkyrieIfStatementNode
-import valkyrie.language.psi_node.ValkyrieIffStatementNode
+import valkyrie.language.psi_node.ValkyrieWhichStatementNode
+
 
 class MarkLegacyExpression : HyperlinkAnnotator() {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
@@ -33,7 +34,7 @@ class MarkLegacyExpression : HyperlinkAnnotator() {
 
             }
 
-            is ValkyrieIffStatementNode -> {
+            is ValkyrieWhichStatementNode -> {
                 toLegacyIf(element, holder)
             }
 
@@ -61,7 +62,7 @@ class MarkLegacyExpression : HyperlinkAnnotator() {
         }
     }
 
-    private fun toLegacyIf(element: ValkyrieIffStatementNode, holder: AnnotationHolder) {
+    private fun toLegacyIf(element: ValkyrieWhichStatementNode, holder: AnnotationHolder) {
         val fixer = ToLegacyIf(element);
         holder.newAnnotation(HighlightSeverity.INFORMATION, fixer.getDescription())
             .range(element.firstChild.textRange)

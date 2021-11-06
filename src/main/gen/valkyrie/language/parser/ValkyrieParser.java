@@ -1174,14 +1174,13 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // if_statement
-  //   | iff_statement
+  //   | which_statement
   //   | try_statement
   static boolean expression_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expression_statement")) return false;
-    if (!nextTokenIs(b, "", KW_IF, KW_TRY)) return false;
     boolean r;
     r = if_statement(b, l + 1);
-    if (!r) r = iff_statement(b, l + 1);
+    if (!r) r = which_statement(b, l + 1);
     if (!r) r = try_statement(b, l + 1);
     return r;
   }
@@ -1500,87 +1499,6 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
       if (!empty_element_parsed_guard_(b, "if_statement_3_0_0", c)) break;
     }
     return true;
-  }
-
-  /* ********************************************************** */
-  // <<brace_free iff_expression SEMICOLON>>
-  public static boolean iff_block(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "iff_block")) return false;
-    if (!nextTokenIs(b, BRACE_L)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = brace_free(b, l + 1, ValkyrieParser::iff_expression, SEMICOLON_parser_);
-    exit_section_(b, m, IFF_BLOCK, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // (case_expression | case_else) COLON (normal_statements [SEMICOLON])+
-  public static boolean iff_expression(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "iff_expression")) return false;
-    if (!nextTokenIs(b, "<iff expression>", KW_CASE, KW_ELSE)) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, IFF_EXPRESSION, "<iff expression>");
-    r = iff_expression_0(b, l + 1);
-    r = r && consumeToken(b, COLON);
-    r = r && iff_expression_2(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // case_expression | case_else
-  private static boolean iff_expression_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "iff_expression_0")) return false;
-    boolean r;
-    r = case_expression(b, l + 1);
-    if (!r) r = case_else(b, l + 1);
-    return r;
-  }
-
-  // (normal_statements [SEMICOLON])+
-  private static boolean iff_expression_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "iff_expression_2")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = iff_expression_2_0(b, l + 1);
-    while (r) {
-      int c = current_position_(b);
-      if (!iff_expression_2_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "iff_expression_2", c)) break;
-    }
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // normal_statements [SEMICOLON]
-  private static boolean iff_expression_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "iff_expression_2_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = normal_statements(b, l + 1);
-    r = r && iff_expression_2_0_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [SEMICOLON]
-  private static boolean iff_expression_2_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "iff_expression_2_0_1")) return false;
-    consumeToken(b, SEMICOLON);
-    return true;
-  }
-
-  /* ********************************************************** */
-  // KW_IF iff_block
-  public static boolean iff_statement(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "iff_statement")) return false;
-    if (!nextTokenIs(b, KW_IF)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, KW_IF);
-    r = r && iff_block(b, l + 1);
-    exit_section_(b, m, IFF_STATEMENT, r);
-    return r;
   }
 
   /* ********************************************************** */
@@ -3587,6 +3505,43 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     r = top_statements(b, l + 1);
     if (!r) r = normal_statements(b, l + 1);
     if (!r) r = consumeToken(b, SEMICOLON);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // <<brace_free which_expression SEMICOLON>>
+  public static boolean which_block(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "which_block")) return false;
+    if (!nextTokenIs(b, BRACE_L)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = brace_free(b, l + 1, ValkyrieParser::which_expression, SEMICOLON_parser_);
+    exit_section_(b, m, WHICH_BLOCK, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // inline_expression normal_block
+  public static boolean which_expression(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "which_expression")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, WHICH_EXPRESSION, "<which expression>");
+    r = inline_expression(b, l + 1);
+    r = r && normal_block(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // KW_WHICH which_block
+  public static boolean which_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "which_statement")) return false;
+    if (!nextTokenIs(b, KW_WHICH)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, KW_WHICH);
+    r = r && which_block(b, l + 1);
+    exit_section_(b, m, WHICH_STATEMENT, r);
     return r;
   }
 
