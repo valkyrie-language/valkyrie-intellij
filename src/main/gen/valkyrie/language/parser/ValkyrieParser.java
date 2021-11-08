@@ -1405,7 +1405,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // [SLOT_LAMBDA|SLOT_MACRO] (SYMBOL_XID | SYMBOL_RAW | KW_NAMESPACE | KW_CLASS)
+  // [SLOT_LAMBDA|SLOT_MACRO] (SYMBOL_XID | SYMBOL_RAW | KW_CLASS)
   public static boolean identifier(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "identifier")) return false;
     boolean r;
@@ -1432,13 +1432,12 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // SYMBOL_XID | SYMBOL_RAW | KW_NAMESPACE | KW_CLASS
+  // SYMBOL_XID | SYMBOL_RAW | KW_CLASS
   private static boolean identifier_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "identifier_1")) return false;
     boolean r;
     r = consumeToken(b, SYMBOL_XID);
     if (!r) r = consumeToken(b, SYMBOL_RAW);
-    if (!r) r = consumeToken(b, KW_NAMESPACE);
     if (!r) r = consumeToken(b, KW_CLASS);
     return r;
   }

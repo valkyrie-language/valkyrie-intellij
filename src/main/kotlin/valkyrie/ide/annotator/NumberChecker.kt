@@ -16,7 +16,7 @@ import valkyrie.language.psi_node.ValkyrieNumberNode
 class NumberChecker : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         if (element.elementType == ValkyrieTypes.COLOUR) {
-            annotateColor(element, holder)
+            annotateLiteralColor(element, holder)
             return
         }
         if (element !is ValkyrieNumberNode) return
@@ -24,17 +24,16 @@ class NumberChecker : Annotator {
         annotateSimple(element.firstChild, holder)
     }
 
-    private fun annotateColor(number: PsiElement, holder: AnnotationHolder) {
+    private fun annotateLiteralColor(number: PsiElement, holder: AnnotationHolder) {
         if (ValkyrieColorParser().getColorFrom(number) == null) {
-            if (number.text.startsWith('®')) {
-                holder.newAnnotation(HighlightSeverity.WEAK_WARNING, ValkyrieBundle.message("annotator.color.rgb"))
-                    .range(number.textRange)
-                    .create()
-            } else if (number.text.startsWith('©')) {
-                holder.newAnnotation(HighlightSeverity.WARNING, ValkyrieBundle.message("annotator.color.cmyk"))
-                    .range(number.textRange)
-                    .create()
+            val info = when {
+                number.text.startsWith('®') -> ValkyrieBundle.message("annotator.color.rgb")
+                number.text.startsWith('©') -> ValkyrieBundle.message("annotator.color.cmyk")
+                else -> ""
             }
+            holder.newAnnotation(HighlightSeverity.ERROR, info)
+                .range(number.textRange)
+                .create()
         }
     }
 

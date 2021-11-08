@@ -404,7 +404,7 @@ namepath_free  ::= identifier ((DOT|OP_PROPORTION) identifier)* {
 namepath       ::= identifier (OP_PROPORTION identifier)* {
     mixin="valkyrie.language.mixin.MixinNamepath"
 }
-identifier     ::= [SLOT_LAMBDA|SLOT_MACRO] (SYMBOL_XID | SYMBOL_RAW | KW_NAMESPACE | KW_CLASS) {
+identifier     ::= [SLOT_LAMBDA|SLOT_MACRO] (SYMBOL_XID | SYMBOL_RAW | KW_CLASS) {
     mixin="valkyrie.language.mixin.MixinIdentifier"
 }
 modifiers      ::= (identifier !end_m1)+ {

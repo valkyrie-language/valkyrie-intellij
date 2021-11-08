@@ -167,6 +167,7 @@
 		<!--				filetype="Fluent"-->
 		<!--				implementationClass="valkyrie.ide.lint.VomlTodoIndexer"-->
 		<!--		/>-->
+		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.CheckNamespace"/>
 		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.StringChecker"/>
 		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.NumberChecker"/>
 		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.MarkImplicitTypes"/>
