@@ -15,6 +15,9 @@ class ValkyrieModuleFilter : FileFilter {
             if (file.name == "$configFie.json") {
                 return true;
             }
+            if (file.name == "$configFie.toml") {
+                return true;
+            }
         }
         return true
     }

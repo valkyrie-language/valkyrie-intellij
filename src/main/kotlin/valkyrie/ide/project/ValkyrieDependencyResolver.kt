@@ -1,4 +1,4 @@
-package valkyrie.ide.project.`package`
+package valkyrie.ide.project
 
 import com.intellij.packageDependencies.DependenciesBuilder.DependencyProcessor
 import com.intellij.packageDependencies.DependencyVisitorFactory

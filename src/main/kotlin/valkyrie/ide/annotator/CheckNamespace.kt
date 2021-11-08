@@ -7,11 +7,11 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.ide.actions.ast_transform.CreateNamespace
+import valkyrie.ide.actions.ast_transform.DeleteThis
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.psi.childrenOfType
-import valkyrie.language.psi.getNextNonCommentSibling
-import valkyrie.language.psi.getPrevNonWhitespaceSibling
+import valkyrie.language.psi.endSemicolon
 import valkyrie.language.psi_node.ValkyrieNamespaceStatementNode
 
 class CheckNamespace : HyperlinkAnnotator() {
@@ -33,8 +33,10 @@ class CheckNamespace : HyperlinkAnnotator() {
         }
         if (child.count() > 1) {
             for (item in child) {
+                val fixer = DeleteThis(item, item.endSemicolon())
                 holder.newAnnotation(HighlightSeverity.ERROR, ValkyrieBundle.message("annotator.namespace.duplicated"))
                     .range(item.textRange)
+                    .withFix(fixer)
                     .create()
             }
         }

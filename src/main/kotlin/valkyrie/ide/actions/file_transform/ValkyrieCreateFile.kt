@@ -1,4 +1,4 @@
-package valkyrie.ide.actions
+package valkyrie.ide.actions.file_transform
 
 import valkyrie.language.file.ValkyrieIconProvider.Companion.FILE
 import com.intellij.ide.actions.CreateFileFromTemplateAction

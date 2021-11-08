@@ -9,6 +9,7 @@ import com.intellij.psi.*
 import com.intellij.psi.impl.source.PsiFileImpl
 import com.intellij.psi.stubs.StubElement
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.util.elementType
 import com.intellij.psi.util.prevLeaf
 
 val PsiElement.ancestors: Sequence<PsiElement>
@@ -59,6 +60,23 @@ fun PsiElement?.getPrevNonCommentSibling(): PsiElement? =
 /** Finds first sibling that is neither comment, nor whitespace after given element */
 fun PsiElement?.getNextNonCommentSibling(): PsiElement? =
     PsiTreeUtil.skipWhitespacesAndCommentsForward(this)
+
+
+fun PsiElement?.endSemicolon(): PsiElement? {
+    val next = this.getNextNonCommentSibling()
+    return when (next.elementType) {
+        ValkyrieTypes.SEMICOLON -> next
+        else -> null
+    }
+}
+fun PsiElement?.endComma(): PsiElement? {
+    val next = this.getNextNonCommentSibling()
+    return when (next.elementType) {
+        ValkyrieTypes.COMMA -> next
+        else -> null
+    }
+}
+
 
 /** Finds first sibling that is not whitespace before given element */
 fun PsiElement?.getPrevNonWhitespaceSibling(): PsiElement? =

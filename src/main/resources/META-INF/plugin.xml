@@ -32,7 +32,7 @@
 		<librarySettingsProvider implementation="valkyrie.ide.project.library.ValkyrieLibrarySettings"/>
 		<packageDependencies.visitor
 			language="Valkyrie"
-			implementationClass="valkyrie.ide.project.package.ValkyrieDependencyResolver"/>
+			implementationClass="valkyrie.ide.project.ValkyrieDependencyResolver"/>
 		<additionalLibraryRootsProvider implementation="valkyrie.ide.project.package.LibraryRootsProvider"/>
 		<!-- Project Package, aka. Module in JetBrain's SDK -->
 		<moduleType
@@ -174,7 +174,7 @@
 		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.MarkLegacyExpression"/>
 	</extensions>
 	<actions>
-		<action id="NewFluentFile" class="valkyrie.ide.actions.ValkyrieCreateFile">
+		<action id="NewFluentFile" class="valkyrie.ide.actions.file_transform.ValkyrieCreateFile">
 			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewHtmlFile"/>
 		</action>
 		<action id="jss.JssConvertJson" class="valkyrie.ide.actions.FluentConvertMo"/>

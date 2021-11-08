@@ -11,7 +11,18 @@ import com.intellij.psi.PsiFile
 import valkyrie.language.ValkyrieBundle
 import javax.swing.Icon
 
-class DeleteThis(element: PsiElement) : LocalQuickFixAndIntentionActionOnPsiElement(element), PriorityAction, Iconable {
+class DeleteThis(element: PsiElement, vararg rest: PsiElement?) : LocalQuickFixAndIntentionActionOnPsiElement(element), PriorityAction, Iconable {
+    val todo = mutableListOf<PsiElement>()
+
+    init {
+        this.todo.add(element)
+        for (item in rest) {
+            if (item != null) {
+                this.todo.add(item)
+            }
+        }
+    }
+
     override fun startInWriteAction(): Boolean {
         return true
     }
@@ -21,7 +32,7 @@ class DeleteThis(element: PsiElement) : LocalQuickFixAndIntentionActionOnPsiElem
     }
 
     override fun getText(): String {
-        return ValkyrieBundle.message("action.insert.else.name")
+        return ValkyrieBundle.message("action.delete.node.name")
     }
 
     fun getDescription(): String {
@@ -29,11 +40,13 @@ class DeleteThis(element: PsiElement) : LocalQuickFixAndIntentionActionOnPsiElem
     }
 
     override fun invoke(project: Project, file: PsiFile, editor: Editor?, startElement: PsiElement, endElement: PsiElement) {
-
+        for (item in todo) {
+            item.delete()
+        }
     }
 
     override fun getIcon(flags: Int): Icon {
-        return AllIcons.Nodes.EntryPoints
+        return AllIcons.CodeWithMe.CwmTerminate
     }
 
     override fun getPriority(): PriorityAction.Priority {
