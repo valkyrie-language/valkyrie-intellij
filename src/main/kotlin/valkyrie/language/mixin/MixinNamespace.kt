@@ -13,6 +13,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.util.PsiTreeUtil
+import valkyrie.language.psi.ValkyrieNamespaceStatement
 import javax.swing.Icon
 
 open class MixinNamespace(node: ASTNode) : ViewableNode(node), PsiNameIdentifierOwner {
@@ -70,5 +71,6 @@ open class MixinNamespace(node: ASTNode) : ViewableNode(node), PsiNameIdentifier
     fun isDeclaration(): Boolean {
         return this.firstChild.text.endsWith("!")
     }
+
 }
 

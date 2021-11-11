@@ -86,7 +86,10 @@
 		<testFinder implementation="valkyrie.ide.runner.FindTests"/>
 		<testActionProvider implementation="valkyrie.ide.runner.VTestActionProvider"/>
 		<testStatusListener implementation="valkyrie.ide.runner.VTestStatusListener"/>
-		<testDiffProvider language="Valkyrie" implementationClass="valkyrie.ide.runner.VTestDiffProvider" />
+		<testDiffProvider language="Valkyrie" implementationClass="valkyrie.ide.runner.VTestDiffProvider"/>
+		<xdebugger.attachDebuggerProvider implementation="valkyrie.ide.runner.attachDebuggerProvider"/>
+		<xdebugger.attachHostProvider implementation="valkyrie.ide.runner.attachHostProvider"/>
+		<xdebugger.attachHostSettingsProvider implementation="valkyrie.ide.runner.attachHostSettingsProvider"/>
 		<testSourcesFilter implementation="valkyrie.ide.runner.ValkyrieTestSource"/>
 		<!-- Goto -->
 		<navbar implementation="valkyrie.ide.goto.VNavigationBarExtension"/>
