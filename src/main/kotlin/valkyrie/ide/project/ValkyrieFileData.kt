@@ -1,7 +1,5 @@
-package valkyrie.ide.project.`package`
+package valkyrie.ide.project
 
-import com.intellij.util.indexing.FileBasedIndex
-import kotlinx.serialization.BinaryFormat
 import kotlinx.serialization.Serializable
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.psi_node.ValkyrieNamespaceStatementNode

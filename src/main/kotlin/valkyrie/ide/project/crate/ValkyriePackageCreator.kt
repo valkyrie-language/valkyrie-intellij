@@ -1,4 +1,4 @@
-package valkyrie.ide.project.`package`
+package valkyrie.ide.project.crate
 
 import com.intellij.ide.util.projectWizard.ModuleBuilder
 import com.intellij.ide.util.projectWizard.ModuleWizardStep
@@ -6,6 +6,7 @@ import com.intellij.ide.util.projectWizard.WizardContext
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.ModifiableRootModel
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider
+import valkyrie.ide.project.crate.ValkyrieModuleType
 import javax.swing.JComponent
 import javax.swing.JLabel
 

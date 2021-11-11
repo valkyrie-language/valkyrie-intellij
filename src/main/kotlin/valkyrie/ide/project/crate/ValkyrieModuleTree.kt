@@ -1,28 +1,22 @@
-package valkyrie.ide.project.`package`
+package valkyrie.ide.project.crate
 
 import com.intellij.openapi.vcs.vfs.VcsFileSystem
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.VirtualFileSystem
-import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
 
 
-class ValkyrieModuleFile(private val file: File) : VirtualFile() {
-    override fun isDirectory(): Boolean {
-        return false
-    }
 
-    override fun getName(): String {
-        return file.name
-    }
+class ValkyrieModuleTree(private val display: String) : VirtualFile() {
+    override fun getName() = display
 
     override fun getFileSystem(): VirtualFileSystem {
         return VcsFileSystem.getInstance()
     }
 
     override fun getPath(): String {
-        return file.absolutePath
+        return "F:\\Python\\vk-intellij\\src\\design\\lang"
     }
 
     override fun isWritable(): Boolean {
@@ -33,6 +27,9 @@ class ValkyrieModuleFile(private val file: File) : VirtualFile() {
         return super.isInLocalFileSystem()
     }
 
+    override fun isDirectory(): Boolean {
+        return true
+    }
 
     override fun isValid(): Boolean {
         return true
@@ -43,39 +40,31 @@ class ValkyrieModuleFile(private val file: File) : VirtualFile() {
     }
 
     override fun getChildren(): Array<VirtualFile> {
-        return arrayOf()
+        return arrayOf(ValkyrieModuleTree("child2"))
     }
 
     override fun getOutputStream(requestor: Any?, newModificationStamp: Long, newTimeStamp: Long): OutputStream {
-        return file.outputStream()
+        TODO("Not yet implemented")
     }
 
     override fun contentsToByteArray(): ByteArray {
-        return file.readBytes()
-    }
-
-    override fun getModificationStamp(): Long {
-        return file.lastModified()
+        TODO("Not yet implemented")
     }
 
     override fun getTimeStamp(): Long {
-        return file.lastModified()
+        return 0
     }
 
     override fun getLength(): Long {
-        return file.length()
+        return 0
     }
 
     override fun refresh(asynchronous: Boolean, recursive: Boolean, postRunnable: Runnable?) {
-        if (asynchronous) {
-            postRunnable?.run()
-        } else {
-            postRunnable?.run()
-        }
+        TODO("Not yet implemented")
     }
 
     override fun getInputStream(): InputStream {
-        return file.inputStream()
+        TODO("Not yet implemented")
     }
 
     override fun getPresentableName(): String {

@@ -36,15 +36,15 @@
 		<additionalLibraryRootsProvider implementation="valkyrie.ide.project.package.LibraryRootsProvider"/>
 		<!-- Project Package, aka. Module in JetBrain's SDK -->
 		<moduleType
-			implementationClass="valkyrie.ide.project.package.ValkyrieModuleType"
+			implementationClass="valkyrie.ide.project.crate.ValkyrieModuleType"
 			id="VALKYRIE_MODULE_TYPE"/>
 		<moduleBuilder
-			builderClass="valkyrie.ide.project.package.ValkyriePackageCreator"
+			builderClass="valkyrie.ide.project.crate.ValkyriePackageCreator"
 			id="VALKYRIE_MODULE_TYPE"/>
 		<module.workingDirectoryProvider implementation="valkyrie.ide.project.ValkyrieWorkingDirectory"/>
 		<moduleContextProvider implementation="valkyrie.ide.project.ValkyriePackageContext"/>
 		<!-- Project Namespace -->
-		<fileBasedIndex implementation="valkyrie.ide.project.package.ValkyrieFileIndex"/>
+		<fileBasedIndex implementation="valkyrie.ide.project.ValkyrieFileIndex"/>
 		<indexedRootsProvider implementation="valkyrie.ide.project.package.ExtraIndexContributor"/>
 		<!--		<generatedSourcesFilter implementation="valkyrie.ide.project.package.ValkyrieGeneratedSource"/>-->
 

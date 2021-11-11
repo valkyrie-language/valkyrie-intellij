@@ -5,8 +5,8 @@ import com.intellij.openapi.roots.SyntheticLibrary
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.util.containers.toMutableSmartList
 import valkyrie.ide.project.`package`.ValkyrieLibraryType
-import valkyrie.ide.project.`package`.ValkyrieModuleFilter
-import valkyrie.ide.project.`package`.ValkyrieModuleTree
+import valkyrie.ide.project.crate.ValkyrieModuleFilter
+import valkyrie.ide.project.crate.ValkyrieModuleTree
 import valkyrie.lsp.LanguageClient
 import valkyrie.lsp.RequestDependencies
 import java.io.File

@@ -1,11 +1,10 @@
-package valkyrie.ide.project
+package valkyrie.ide.project.crate
 
 import com.intellij.diagnostic.ActivityCategory
 import com.intellij.openapi.extensions.ExtensionsArea
 import com.intellij.openapi.extensions.PluginDescriptor
 import com.intellij.openapi.extensions.PluginId
 import com.intellij.openapi.module.Module
-import com.intellij.openapi.module.impl.ModuleImpl
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Condition
 import com.intellij.openapi.util.Key
@@ -15,7 +14,13 @@ import com.intellij.util.messages.MessageBus
 import org.picocontainer.PicoContainer
 import java.nio.file.Path
 
-class ValkyriePackage(val project: Project) : ModuleImpl(project, "Valkyrie"){
+class ValkyriePackage(project: Project) : Module {
+    private val myProject: Project;
+
+    init {
+        this.myProject = project
+    }
+
     override fun <T : Any?> getUserData(key: Key<T>): T? {
         TODO("Not yet implemented")
     }
@@ -106,7 +111,7 @@ class ValkyriePackage(val project: Project) : ModuleImpl(project, "Valkyrie"){
     }
 
     override fun getProject(): Project {
-        return project
+        return myProject
     }
 
     override fun getName(): String {

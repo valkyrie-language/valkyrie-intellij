@@ -1,4 +1,4 @@
-package valkyrie.ide.project.`package`
+package valkyrie.ide.project.crate
 
 import com.intellij.openapi.module.ModuleType
 import valkyrie.language.file.ValkyrieIconProvider
