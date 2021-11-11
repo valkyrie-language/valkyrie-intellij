@@ -39,7 +39,7 @@ class ValkyrieSdkType : SdkType(ID) {
     }
 
     override fun isValidSdkHome(path: String): Boolean {
-        println(path)
+        println("isValidSdkHome($path)")
         return true
     }
 

@@ -1,4 +1,4 @@
-package valkyrie.ide.project.`package`
+package valkyrie.ide.project
 
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.util.indexing.IndexableSetContributor

@@ -1,4 +1,4 @@
-package valkyrie.ide.project
+package valkyrie.ide.project.crate
 
 import com.intellij.openapi.module.Module
 import com.intellij.psi.PsiFile
@@ -10,3 +10,4 @@ class ValkyriePackageContext : ModuleContextProvider() {
         return arrayOf()
     }
 }
+

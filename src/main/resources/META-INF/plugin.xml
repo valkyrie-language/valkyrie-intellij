@@ -23,30 +23,30 @@
 		<primaryModuleManager implementation="valkyrie.ide.project.ValkyriePrimaryPackage"/>
 		<!-- Project SDK -->
 		<sdkType implementation="valkyrie.ide.project.package.sdk.ValkyrieSdkType"/>
-		<sdkFinder implementation="valkyrie.ide.project.package.sdk.ValkyrieSdkFinder"/>
+		<sdkFinder implementation="valkyrie.ide.project.sdk.ValkyrieSdkFinder"/>
 		<projectSdkSetupValidator implementation="valkyrie.ide.project.sdk.ValkyrieSdkValidator"/>
 		<sdkDownload implementation="valkyrie.ide.project.package.sdk.ValkyrieSdkDownload"/>
-		<!--		<projectOpenProcessor implementation="valkyrie.ide.project.OpenProject"/>-->
+		<!--		<projectOpenProcessor implementation="valkyrie.ide.project.ValkyrieOpenProject"/>-->
 		<!-- Project Library -->
 		<library.type implementation="valkyrie.ide.project.library.ValkyrieLibraryType"/>
 		<librarySettingsProvider implementation="valkyrie.ide.project.library.ValkyrieLibrarySettings"/>
 		<packageDependencies.visitor
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.project.ValkyrieDependencyResolver"/>
-		<additionalLibraryRootsProvider implementation="valkyrie.ide.project.package.LibraryRootsProvider"/>
+		<additionalLibraryRootsProvider implementation="valkyrie.ide.project.library.LibraryRootsProvider"/>
 		<!-- Project Package, aka. Module in JetBrain's SDK -->
 		<moduleType
 			implementationClass="valkyrie.ide.project.crate.ValkyrieModuleType"
 			id="VALKYRIE_MODULE_TYPE"/>
 		<moduleBuilder
-			builderClass="valkyrie.ide.project.crate.ValkyriePackageCreator"
+			builderClass="valkyrie.ide.project.ValkyrieCreatePackage"
 			id="VALKYRIE_MODULE_TYPE"/>
-		<module.workingDirectoryProvider implementation="valkyrie.ide.project.ValkyrieWorkingDirectory"/>
-		<moduleContextProvider implementation="valkyrie.ide.project.ValkyriePackageContext"/>
+		<module.workingDirectoryProvider implementation="valkyrie.ide.project.crate.ValkyrieWorkingDirectory"/>
+		<moduleContextProvider implementation="valkyrie.ide.project.crate.ValkyriePackageContext"/>
 		<!-- Project Namespace -->
 		<fileBasedIndex implementation="valkyrie.ide.project.ValkyrieFileIndex"/>
-		<indexedRootsProvider implementation="valkyrie.ide.project.package.ExtraIndexContributor"/>
-		<!--		<generatedSourcesFilter implementation="valkyrie.ide.project.package.ValkyrieGeneratedSource"/>-->
+		<indexedRootsProvider implementation="valkyrie.ide.project.ExtraIndexContributor"/>
+		<!--				<generatedSourcesFilter implementation="valkyrie.ide.project.package.ValkyrieGeneratedSource"/>-->
 
 		<!-- StructureView -->
 		<iconProvider implementation="valkyrie.language.file.ValkyrieIconProvider"/>
@@ -81,7 +81,13 @@
 		<postFormatProcessor implementation="valkyrie.ide.formatter.ValkyrieAfterFormat"/>
 		<lang.smartEnterProcessor language="Valkyrie" implementationClass="valkyrie.ide.formatter.SmartEnter"/>
 		<!-- Tests -->
-		<!--		<testFinder implementation="valkyrie.ide.runner.FindTests"/>-->
+		<importTestOutput implementation="valkyrie.ide.runner.TestOutput"/>
+		<testCreator language="Valkyrie" implementationClass="valkyrie.ide.runner.CreateTests"/>
+		<testFinder implementation="valkyrie.ide.runner.FindTests"/>
+		<testActionProvider implementation="valkyrie.ide.runner.VTestActionProvider"/>
+		<testStatusListener implementation="valkyrie.ide.runner.VTestStatusListener"/>
+		<testDiffProvider language="Valkyrie" implementationClass="valkyrie.ide.runner.VTestDiffProvider" />
+		<testSourcesFilter implementation="valkyrie.ide.runner.ValkyrieTestSource"/>
 		<!-- Goto -->
 		<navbar implementation="valkyrie.ide.goto.VNavigationBarExtension"/>
 		<lang.directNavigationProvider implementation="valkyrie.ide.goto.VDirectNavigationProvider"/>

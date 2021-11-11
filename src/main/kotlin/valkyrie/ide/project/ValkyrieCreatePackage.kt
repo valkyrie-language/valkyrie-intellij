@@ -1,4 +1,4 @@
-package valkyrie.ide.project.crate
+package valkyrie.ide.project
 
 import com.intellij.ide.util.projectWizard.ModuleBuilder
 import com.intellij.ide.util.projectWizard.ModuleWizardStep
@@ -11,7 +11,7 @@ import javax.swing.JComponent
 import javax.swing.JLabel
 
 // TODO: https://plugins.jetbrains.com/docs/intellij/framework.html#registering-framework
-class ValkyriePackageCreator : ModuleBuilder() {
+class ValkyrieCreatePackage : ModuleBuilder() {
     override fun getModuleType(): ValkyrieModuleType {
         return ValkyrieModuleType()
     }
@@ -25,17 +25,17 @@ class ValkyriePackageCreator : ModuleBuilder() {
     }
 
     override fun createWizardSteps(wizardContext: WizardContext, modulesProvider: ModulesProvider): Array<ModuleWizardStep> {
-        return arrayOf(object : ModuleWizardStep() {
-            override fun getComponent(): JComponent {
-                return JLabel("Put your content here")
-            }
+        return arrayOf(ValkyrieModuleWizardSteps())
+    }
+}
 
-            override fun updateDataModel() {
 
-            }
-
-        })
+private class ValkyrieModuleWizardSteps : ModuleWizardStep() {
+    override fun getComponent(): JComponent {
+        return JLabel("Put your content here")
     }
 
+    override fun updateDataModel() {
 
+    }
 }

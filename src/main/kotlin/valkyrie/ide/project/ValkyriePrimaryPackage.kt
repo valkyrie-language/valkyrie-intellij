@@ -14,6 +14,7 @@ import com.intellij.openapi.project.Project
  */
 class ValkyriePrimaryPackage : PrimaryModuleManager() {
     override fun getPrimaryModule(project: Project): Module? {
+        println("getPrimaryModule(${project})")
         return null
     }
 }
