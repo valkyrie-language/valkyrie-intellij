@@ -81,14 +81,20 @@
 		<postFormatProcessor implementation="valkyrie.ide.formatter.ValkyrieAfterFormat"/>
 		<lang.smartEnterProcessor language="Valkyrie" implementationClass="valkyrie.ide.formatter.SmartEnter"/>
 		<!-- Tests -->
+		<runConfigurationsSettings implementation="valkyrie.ide.runner.ValkyrieRunnerSettings"/>
+		<runConfigurationProducer implementation="valkyrie.ide.runner.runConfigurationProducer"/>
+<!--		<runConfigurationTemplateProvider implementation="valkyrie.ide.runner.runConfigurationTemplateProvider"/>-->
 		<importTestOutput implementation="valkyrie.ide.runner.TestOutput"/>
 		<testCreator language="Valkyrie" implementationClass="valkyrie.ide.runner.CreateTests"/>
 		<testFinder implementation="valkyrie.ide.runner.FindTests"/>
 		<testActionProvider implementation="valkyrie.ide.runner.VTestActionProvider"/>
 		<testStatusListener implementation="valkyrie.ide.runner.VTestStatusListener"/>
 		<testDiffProvider language="Valkyrie" implementationClass="valkyrie.ide.runner.VTestDiffProvider"/>
+		<!-- Debugger -->
+<!--		<xdebugger.breakpointType implementation="valkyrie.ide.runner.breakpointType"/>-->
+<!--		<xdebugger.breakpointGroupingRule implementation="valkyrie.ide.runner.breakpointGroupingRule"/>-->
 		<xdebugger.attachDebuggerProvider implementation="valkyrie.ide.runner.attachDebuggerProvider"/>
-		<xdebugger.attachHostProvider implementation="valkyrie.ide.runner.attachHostProvider"/>
+		<xdebugger.attachHostProvider implementation="valkyrie.ide.runner.ValkyrieAttachProvider"/>
 		<xdebugger.attachHostSettingsProvider implementation="valkyrie.ide.runner.attachHostSettingsProvider"/>
 		<testSourcesFilter implementation="valkyrie.ide.runner.ValkyrieTestSource"/>
 		<!-- Goto -->
