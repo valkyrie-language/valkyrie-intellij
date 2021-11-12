@@ -5,20 +5,18 @@ import com.intellij.execution.actions.RunConfigurationProducer
 import com.intellij.openapi.util.Ref
 import com.intellij.psi.PsiElement
 
-class runConfigurationProducer : RunConfigurationProducer<ValkyrieRunningConfig>(false) {
+class runConfigurationProducer : RunConfigurationProducer<ValkyrieRunConfiguration>(false) {
     override fun setupConfigurationFromContext(
-        configuration: ValkyrieRunningConfig,
+        configuration: ValkyrieRunConfiguration,
         context: ConfigurationContext,
         sourceElement: Ref<PsiElement>,
     ): Boolean {
         TODO("Not yet implemented")
     }
 
-    override fun isConfigurationFromContext(configuration: ValkyrieRunningConfig, context: ConfigurationContext): Boolean {
+    override fun isConfigurationFromContext(configuration: ValkyrieRunConfiguration, context: ConfigurationContext): Boolean {
         TODO("Not yet implemented")
     }
-
-
 }
 
 
