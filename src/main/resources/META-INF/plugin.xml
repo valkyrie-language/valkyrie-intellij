@@ -83,7 +83,7 @@
 		<!-- Tests -->
 		<configurationType implementation="valkyrie.ide.runner.ValkyrieConfigurationType"/>
 		<runConfigurationsSettings implementation="valkyrie.ide.runner.ValkyrieRunnerSettings"/>
-		<runConfigurationProducer implementation="valkyrie.ide.runner.runConfigurationProducer"/>
+		<runConfigurationProducer implementation="valkyrie.ide.runner.ValkyrieRunConfigurationProducer"/>
 		<runConfigurationTemplateProvider implementation="valkyrie.ide.runner.ValkyrieRunningTemplateProvider"/>
 		<importTestOutput implementation="valkyrie.ide.runner.TestOutput"/>
 		<testCreator language="Valkyrie" implementationClass="valkyrie.ide.runner.CreateTests"/>

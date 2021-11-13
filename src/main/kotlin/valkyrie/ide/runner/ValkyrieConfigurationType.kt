@@ -20,7 +20,7 @@ class ValkyrieConfigurationType : ConfigurationType {
     }
 
     override fun getId(): String {
-        return "ValkyrieRunningConfigType.getId"
+        return "running.valkyrie"
     }
 
     override fun getConfigurationFactories(): Array<ConfigurationFactory> {

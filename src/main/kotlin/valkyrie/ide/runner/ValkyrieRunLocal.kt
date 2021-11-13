@@ -17,11 +17,11 @@ import java.net.InetSocketAddress
 import javax.swing.Icon
 import javax.swing.JComponent
 
-class ValkyrieRunConfiguration(project: Project, factory: ValkyrieConfigurationFactory) : DebuggableRunConfiguration {
+class ValkyrieRunLocal(project: Project, factory: ValkyrieConfigurationFactory) : DebuggableRunConfiguration {
     private val myProject: Project = project
     private val myFactory: ValkyrieConfigurationFactory = factory
     override fun getState(executor: Executor, environment: ExecutionEnvironment): RunProfileState? {
-        TODO("Not yet implemented")
+        return ValkyrieRunningState(environment)
     }
 
     override fun getName(): String {
@@ -57,17 +57,17 @@ class ValkyrieRunConfiguration(project: Project, factory: ValkyrieConfigurationF
         return myFactory
     }
 
-    override fun getConfigurationEditor(): SettingsEditor<out ValkyrieRunConfiguration> {
+    override fun getConfigurationEditor(): SettingsEditor<out ValkyrieRunLocal> {
         return RunningConfigEditor()
     }
 }
 
-private class RunningConfigEditor() : SettingsEditor<ValkyrieRunConfiguration>() {
-    override fun resetEditorFrom(s: ValkyrieRunConfiguration) {
+private class RunningConfigEditor() : SettingsEditor<ValkyrieRunLocal>() {
+    override fun resetEditorFrom(s: ValkyrieRunLocal) {
 
     }
 
-    override fun applyEditorTo(s: ValkyrieRunConfiguration) {
+    override fun applyEditorTo(s: ValkyrieRunLocal) {
 
     }
 
