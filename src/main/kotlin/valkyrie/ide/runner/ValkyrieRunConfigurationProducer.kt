@@ -1,13 +1,11 @@
 package valkyrie.ide.runner
 
-import com.intellij.execution.RunManager
-import com.intellij.execution.RunnerAndConfigurationSettings
 import com.intellij.execution.actions.ConfigurationContext
 import com.intellij.execution.actions.LazyRunConfigurationProducer
 import com.intellij.openapi.util.Ref
 import com.intellij.psi.PsiElement
 
-class ValkyrieRunConfigurationProducer : LazyRunConfigurationProducer<ValkyrieRunLocal>() {
+class ValkyrieRunConfigurationProducer : LazyRunConfigurationProducer<ValkyrieRunningTask>() {
     override fun getConfigurationFactory(): ValkyrieConfigurationFactory {
         return ValkyrieConfigurationFactory(ValkyrieConfigurationType())
     }
@@ -16,7 +14,7 @@ class ValkyrieRunConfigurationProducer : LazyRunConfigurationProducer<ValkyrieRu
      * @return 点击运行按钮之后的效果
      */
     override fun setupConfigurationFromContext(
-        configuration: ValkyrieRunLocal,
+        configuration: ValkyrieRunningTask,
         context: ConfigurationContext,
         sourceElement: Ref<PsiElement>,
     ): Boolean {
@@ -25,7 +23,7 @@ class ValkyrieRunConfigurationProducer : LazyRunConfigurationProducer<ValkyrieRu
     }
 
 
-    override fun isConfigurationFromContext(configuration: ValkyrieRunLocal, context: ConfigurationContext): Boolean {
+    override fun isConfigurationFromContext(configuration: ValkyrieRunningTask, context: ConfigurationContext): Boolean {
         TODO("Not yet implemented")
     }
 

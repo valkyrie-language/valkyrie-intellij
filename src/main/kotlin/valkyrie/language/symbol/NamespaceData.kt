@@ -3,8 +3,6 @@
 package valkyrie.language.symbol
 
 import valkyrie.language.psi_node.ValkyrieNamespaceStatementNode
-import com.intellij.codeInsight.lookup.LookupElement
-import com.intellij.lang.documentation.DocumentationTarget
 import com.intellij.model.Pointer
 import com.intellij.model.Symbol
 import com.intellij.model.psi.PsiCompletableReference

@@ -17,8 +17,8 @@ import java.util.*
 @Suppress("UnstableApiUsage")
 class ValkyrieProjectName : ProjectNameProvider {
     override fun getDefaultName(project: Project): String? {
-//        val config = getNameFile(project) ?: return null;
-        return "ValkyrieProjectName.getDefaultName"
+        val config = getNameFile(project) ?: return null;
+        return config.fileName.toString()
     }
 
     override fun getNameFile(project: Project): Path? {

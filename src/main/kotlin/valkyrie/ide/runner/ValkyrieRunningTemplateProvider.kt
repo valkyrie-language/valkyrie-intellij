@@ -11,9 +11,9 @@ class ValkyrieRunningTemplateProvider : RunConfigurationTemplateProvider {
        if (factory !is ValkyrieConfigurationFactory) return null
         return RunnerAndConfigurationSettingsImpl(
             runManager,
-            ValkyrieRunLocal(runManager.project, factory),
+            ValkyrieRunningTask(runManager.project, factory),
             false,
-            RunConfigurationLevel.TEMPORARY
+            RunConfigurationLevel.PROJECT
         )
     }
 }

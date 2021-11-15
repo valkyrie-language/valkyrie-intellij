@@ -8,7 +8,7 @@ import javax.swing.Icon
 
 private const val ID = "VALKYRIE_MODULE_TYPE"
 
-class ValkyrieModuleType() : ModuleType<ValkyrieCreatePackage>(ID) {
+class ValkyrieModuleType : ModuleType<ValkyrieCreatePackage>(ID) {
     override fun createModuleBuilder(): ValkyrieCreatePackage {
         return ValkyrieCreatePackage()
     }

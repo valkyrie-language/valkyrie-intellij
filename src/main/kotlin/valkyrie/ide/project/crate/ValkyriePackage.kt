@@ -1,6 +1,7 @@
 package valkyrie.ide.project.crate
 
 import com.intellij.diagnostic.ActivityCategory
+import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.extensions.ExtensionsArea
 import com.intellij.openapi.extensions.PluginDescriptor
 import com.intellij.openapi.extensions.PluginId
@@ -13,6 +14,7 @@ import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.messages.MessageBus
 import org.picocontainer.PicoContainer
 import java.nio.file.Path
+
 
 class ValkyriePackage(project: Project) : Module {
     private val myProject: Project;
