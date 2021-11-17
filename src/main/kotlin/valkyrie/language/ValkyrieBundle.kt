@@ -15,6 +15,10 @@ object ValkyrieBundle : DynamicBundle(Bundle) {
         return getMessage(key, *params)
     }
 
+    fun format(@PropertyKey(resourceBundle = Bundle) key: String, vararg params: Any): String {
+        return String.format(message(key), *params)
+    }
+
     @Suppress("SpreadOperator", "unused")
     @JvmStatic
     fun messagePointer(@PropertyKey(resourceBundle = Bundle) key: String, vararg params: Any): Supplier<String> {

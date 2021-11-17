@@ -25,22 +25,12 @@ class NamepathChecker : Annotator {
     // element.text can't start with lowercase
     private fun checkValidClassName(element: ValkyrieClassStatementNode, holder: AnnotationHolder) {
         checkNeedEscape(element.nameIdentifier, holder)
-        val name = element.nameIdentifier.name;
-        if (name[0].isLowerCase()) {
-            holder.newAnnotation(HighlightSeverity.WEAK_WARNING, "Class name must start with uppercase")
-                .range(element.nameIdentifier.textRange)
-                .create()
-        }
+        checkCamelCase(element.nameIdentifier, holder)
     }
 
     private fun checkValidUnionName(element: ValkyrieUnionStatementNode, holder: AnnotationHolder) {
         checkNeedEscape(element.nameIdentifier, holder)
-        val name = element.nameIdentifier.name;
-        if (name[0].isLowerCase()) {
-            holder.newAnnotation(HighlightSeverity.WEAK_WARNING, "Union name must start with uppercase")
-                .range(element.nameIdentifier.textRange)
-                .create()
-        }
+        checkCamelCase(element.nameIdentifier, holder)
     }
 
     private fun checkCamelCase(element: ValkyrieIdentifierNode, holder: AnnotationHolder) {

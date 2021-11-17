@@ -25,7 +25,7 @@ class ValkyrieRunningTask(project: Project, factory: ValkyrieConfigurationFactor
     private var myModule: String = "Unnamed"
 
     override fun getState(executor: Executor, environment: ExecutionEnvironment): RunProfileState? {
-        return ValkyrieRunningState(environment)
+        return ValkyrieRunningState(executor,environment)
     }
 
     override fun getName(): String {
@@ -71,8 +71,8 @@ class ValkyrieRunningTask(project: Project, factory: ValkyrieConfigurationFactor
     override fun readPersistent(element: Element) {
         myName = element.getAttributeValue("name")
         parallel = element.getAttributeValue("parallel").toBoolean()
-        myPackage = element.getAttributeValue("package")
-        myModule = element.getAttributeValue("module")
+//        myPackage = element.getAttributeValue("package")
+//        myModule = element.getAttributeValue("module")
     }
 
     override fun writePersistent(element: Element) {

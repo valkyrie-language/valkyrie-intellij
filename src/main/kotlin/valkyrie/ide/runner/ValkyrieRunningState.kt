@@ -6,38 +6,18 @@ import com.intellij.build.DefaultBuildDescriptor
 import com.intellij.execution.DefaultExecutionResult
 import com.intellij.execution.ExecutionResult
 import com.intellij.execution.Executor
+import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.execution.configurations.RunProfileState
+import com.intellij.execution.process.KillableProcessHandler
 import com.intellij.execution.process.ProcessHandler
 import com.intellij.execution.runners.ExecutionEnvironment
 import com.intellij.execution.runners.ProgramRunner
 import java.io.OutputStream
 
-class ValkyrieRunningState(val environment: ExecutionEnvironment) : RunProfileState {
+class ValkyrieRunningState(executor: Executor, private val environment: ExecutionEnvironment) : RunProfileState {
     override fun execute(executor: Executor?, runner: ProgramRunner<*>): ExecutionResult {
         val line = BuildTextConsoleView(environment.project, true, listOf())
         val console = BuildTreeConsoleView(environment.project, DefaultBuildDescriptor("Valkyrie", "Valkyrie", "Valkyrie", System.currentTimeMillis()), line)
-        return DefaultExecutionResult(console, FakeProcess());
-    }
-}
-
-class FakeProcess : ProcessHandler() {
-    override fun destroyProcessImpl() {
-
-    }
-
-    override fun detachProcessImpl() {
-
-    }
-
-    override fun detachIsDefault(): Boolean {
-        return true
-    }
-
-    override fun getProcessInput(): OutputStream? {
-        return null
-    }
-
-    override fun getExitCode(): Int? {
-        return 200
+        return DefaultExecutionResult(console, KillableProcessHandler(GeneralCommandLine("cmd", "/c", "dir")));
     }
 }

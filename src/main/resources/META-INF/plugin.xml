@@ -89,7 +89,7 @@
 		<runConfigurationTemplateProvider implementation="valkyrie.ide.runner.ValkyrieRunningTemplateProvider"/>
 		<importTestOutput implementation="valkyrie.ide.runner.TestOutput"/>
 		<testCreator language="Valkyrie" implementationClass="valkyrie.ide.runner.CreateTests"/>
-		<testFinder implementation="valkyrie.ide.runner.FindTests"/>
+		<testFinder implementation="valkyrie.ide.runner.ValkyrieFindTests"/>
 		<testActionProvider implementation="valkyrie.ide.runner.VTestActionProvider"/>
 		<testStatusListener implementation="valkyrie.ide.runner.VTestStatusListener"/>
 		<testDiffProvider language="Valkyrie" implementationClass="valkyrie.ide.runner.VTestDiffProvider"/>
@@ -150,6 +150,13 @@
 		<lang.findUsagesProvider
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.usages.ValkyrieUsagesProvider"/>
+		<!-- Rename -->
+		<renameHandler implementation="valkyrie.ide.refactor.ValkyrieRenameHandler"/>
+<!--		<rename.inplace.resolveSnapshotProvider-->
+<!--			language="Valkyrie"-->
+<!--			implementationClass="valkyrie.ide.refactor.ValkyrieRenameInplace"/>-->
+		<renameInputValidator implementation="valkyrie.ide.refactor.renameInputValidator"/>
+		<renameRefactoringDialogProvider implementation="valkyrie.ide.refactor.ValkyrieRenameDialog"/>
 		<!-- Completion -->
 		<!--		<lookup.charFilter implementation="valkyrie.ide.completion.CompletionInterrupter"/>-->
 		<lang.commenter language="Valkyrie" implementationClass="valkyrie.ide.formatter.Commenter"/>
