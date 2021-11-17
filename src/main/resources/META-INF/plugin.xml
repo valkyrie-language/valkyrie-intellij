@@ -60,13 +60,13 @@
 			implementationClass="valkyrie.ide.view.StructureViewFactory"/>
 		<typeHierarchyProvider
 			language="Valkyrie"
-			implementationClass="valkyrie.ide.reference.hierarchy.TypeHierarchyProvider"/>
+			implementationClass="valkyrie.ide.view.hierarchy.TypeHierarchyProvider"/>
 		<methodHierarchyProvider
 			language="Valkyrie"
-			implementationClass="valkyrie.ide.reference.hierarchy.MethodHierarchyProvider"/>
+			implementationClass="valkyrie.ide.view.hierarchy.MethodHierarchyProvider"/>
 		<callHierarchyProvider
 			language="Valkyrie"
-			implementationClass="valkyrie.ide.reference.hierarchy.CallHierarchyProvider"/>
+			implementationClass="valkyrie.ide.view.hierarchy.CallHierarchyProvider"/>
 		<!-- Highlight -->
 		<colorSettingsPage implementation="valkyrie.ide.highlight.HighlightSetting"/>
 		<highlightVisitor implementation="valkyrie.ide.highlight.NodeHighlighter"/>

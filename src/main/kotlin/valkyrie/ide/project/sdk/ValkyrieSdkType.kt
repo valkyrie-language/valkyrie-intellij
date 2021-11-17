@@ -85,12 +85,12 @@ class ValkyrieSdkType : SdkType(ID) {
 }
 
 private class DataConfigurable(var model: SdkModel, var modificator: SdkModificator) : AdditionalDataConfigurable {
-    override fun getTabName(): String? {
+    override fun getTabName(): String {
         return "getTabName"
     }
 
     override fun disposeUIResources() {
-        super.disposeUIResources()
+
     }
 
     override fun getPreferredFocusedComponent(): JComponent? {
@@ -115,11 +115,11 @@ private class DataConfigurable(var model: SdkModel, var modificator: SdkModifica
     }
 
     override fun cancel() {
-        super.cancel()
+
     }
 
     override fun reset() {
-        super.reset()
+
     }
 
     override fun setSdk(sdk: Sdk?) {

@@ -1,4 +1,4 @@
-package valkyrie.ide.reference.hierarchy
+package valkyrie.ide.view.hierarchy
 
 import com.intellij.ide.hierarchy.HierarchyBrowser
 import com.intellij.ide.hierarchy.HierarchyProvider

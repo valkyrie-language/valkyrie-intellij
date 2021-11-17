@@ -1,6 +1,5 @@
 package valkyrie.ide.refactor
 
-import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.ScrollType
@@ -28,9 +27,10 @@ class ValkyrieRenameHandler : RenameHandler {
             }
 
             ValkyrieTypes.KW_TRAIT, ValkyrieTypes.KW_CLASS, ValkyrieTypes.KW_TYPE -> {
-                val message = String.format(ValkyrieBundle.message("rename.invalid.keyword"), element.elementType)
+                val message = ValkyrieBundle.message("rename.invalid.keyword", element.elementType!!)
                 CommonRefactoringUtil.showErrorHint(project, editor, message, "getTitle", "getHelpId")
             }
+
             else -> {
 
             }
@@ -47,6 +47,7 @@ class ValkyrieRenameHandler : RenameHandler {
     override fun isAvailableOnDataContext(dataContext: DataContext): Boolean {
         return true
     }
+
     override fun isRenaming(dataContext: DataContext): Boolean {
         return super.isRenaming(dataContext)
     }
