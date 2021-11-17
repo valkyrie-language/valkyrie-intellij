@@ -186,8 +186,8 @@
 		<!--				implementationClass="valkyrie.ide.lint.VomlTodoIndexer"-->
 		<!--		/>-->
 		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.CheckNamespace"/>
-		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.StringChecker"/>
-		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.NumberChecker"/>
+		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.NamepathChecker"/>
+		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.LiteralChecker"/>
 		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.MarkImplicitTypes"/>
 		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.MarkLegacyExpression"/>
 	</extensions>

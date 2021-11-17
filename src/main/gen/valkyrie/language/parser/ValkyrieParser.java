@@ -3455,7 +3455,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_TAGGED <<modified identifier>> [generic_define] [class_effect] union_block
+  // KW_TAGGED <<modified identifier>> [generic_define] [class_inherit] [class_effect] union_block
   public static boolean union_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "union_statement")) return false;
     if (!nextTokenIs(b, KW_TAGGED)) return false;
@@ -3466,6 +3466,7 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     p = r; // pin = 2
     r = r && report_error_(b, union_statement_2(b, l + 1));
     r = p && report_error_(b, union_statement_3(b, l + 1)) && r;
+    r = p && report_error_(b, union_statement_4(b, l + 1)) && r;
     r = p && union_block(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
@@ -3478,9 +3479,16 @@ public class ValkyrieParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // [class_effect]
+  // [class_inherit]
   private static boolean union_statement_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "union_statement_3")) return false;
+    class_inherit(b, l + 1);
+    return true;
+  }
+
+  // [class_effect]
+  private static boolean union_statement_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "union_statement_4")) return false;
     class_effect(b, l + 1);
     return true;
   }

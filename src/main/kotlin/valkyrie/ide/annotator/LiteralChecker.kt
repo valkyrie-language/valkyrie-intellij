@@ -4,6 +4,7 @@ package valkyrie.ide.annotator
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
+import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
@@ -14,7 +15,7 @@ import valkyrie.language.ValkyrieBundle
 import valkyrie.language.psi.ValkyrieTypes
 import valkyrie.language.psi_node.ValkyrieNumberNode
 
-class NumberChecker : Annotator {
+class LiteralChecker : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         if (element.elementType == ValkyrieTypes.COLOUR) {
             annotateLiteralColor(element, holder)
@@ -52,6 +53,27 @@ class NumberChecker : Annotator {
     private fun annotateUnit(number: PsiElement, unit: String, holder: AnnotationHolder, range: TextRange) {
         holder.newAnnotation(HighlightSeverity.WARNING, "Out of range")
             .range(range)
+            .create()
+    }
+    private fun validEscape(offset: Int, length: Int, holder: AnnotationHolder) {
+        holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
+            .range(TextRange.from(offset, length))
+            .textAttributes(DefaultLanguageHighlighterColors.VALID_STRING_ESCAPE)
+            .create()
+    }
+
+    private fun uselessEscape(offset: Int, length: Int, holder: AnnotationHolder) {
+        holder.newSilentAnnotation(HighlightSeverity.WEAK_WARNING)
+            .range(TextRange.from(offset, length))
+            .textAttributes(DefaultLanguageHighlighterColors.VALID_STRING_ESCAPE)
+            .create()
+    }
+
+    private fun invalidEscape(offset: Int, length: Int, holder: AnnotationHolder) {
+        holder
+            .newSilentAnnotation(HighlightSeverity.ERROR)
+            .range(TextRange.from(offset, length))
+            .textAttributes(DefaultLanguageHighlighterColors.INVALID_STRING_ESCAPE)
             .create()
     }
 }

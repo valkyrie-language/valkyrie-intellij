@@ -11,6 +11,9 @@ public interface ValkyrieUnionStatement extends PsiElement {
   ValkyrieClassEffect getClassEffect();
 
   @Nullable
+  ValkyrieClassInherit getClassInherit();
+
+  @Nullable
   ValkyrieGenericDefine getGenericDefine();
 
   @NotNull

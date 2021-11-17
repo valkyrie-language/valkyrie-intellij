@@ -290,7 +290,7 @@ class_method        ::= KW_DEF? [modifiers] identifier [generic_define] define_t
     methods = [getIdentifier getModifiers]
 }
 // ---------------------------------------------------------------------------------------------------------------------
-union_statement     ::= KW_TAGGED <<modified identifier>> [generic_define] [class_effect] union_block {
+union_statement     ::= KW_TAGGED <<modified identifier>> [generic_define] [class_inherit] [class_effect] union_block {
     pin = 2
     mixin="valkyrie.language.mixin.MixinUnion"
 };
