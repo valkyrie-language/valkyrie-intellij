@@ -108,6 +108,8 @@
 			implementationClass="valkyrie.ide.goto.VSymbolNavigationProvider"/>
 		<codeInsight.gotoSuper language="Valkyrie" implementationClass="valkyrie.ide.goto.GotoSuper"/>
 		<codeInsight.implementMethod language="Valkyrie" implementationClass="valkyrie.ide.hint.ValkyrieImplementMark"/>
+		<importFilteringRule implementation="valkyrie.ide.navigation.ValkyrieImportFilter"/>
+		<usageFilteringRuleProvider implementation="valkyrie.ide.navigation.usageFiltering"/>
 		<!--		<bookmarkProvider implementation="valkyrie.ide.goto.ValkyrieBookmark"/>-->
 		<!--		<bookmarksListProvider implementation="valkyrie.ide.goto.ValkyrieBookmarkList"/>-->
 		<!-- Hint -->
@@ -180,7 +182,7 @@
 		<lang.importOptimizer
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.completion.ValkyrieImportOptimizer"/>
-		<importFilteringRule implementation="valkyrie.ide.completion.ValkyrieImportFilter"/>
+
 		<!-- Document -->
 		<lang.documentationProvider
 			language="Valkyrie"
