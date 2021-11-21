@@ -1,6 +1,5 @@
 package valkyrie.ide.navigation
 
-import com.intellij.psi.PsiElement
 import com.intellij.usages.Usage
 import com.intellij.usages.UsageTarget
 import com.intellij.usages.rules.ImportFilteringRule
@@ -9,8 +8,10 @@ import valkyrie.language.psi.ancestors
 import valkyrie.language.psi_node.ValkyrieIdentifierNode
 import valkyrie.language.psi_node.ValkyrieImportStatementNode
 
+/**
+ * 跳转结果里去掉 `using` 语句内的部分
+ */
 class ValkyrieImportFilter : ImportFilteringRule() {
-
     override fun isVisible(usage: Usage, targets: Array<out UsageTarget>): Boolean {
         for (target in targets) {
             println("isVisible3(${target})")
@@ -25,6 +26,7 @@ class ValkyrieImportFilter : ImportFilteringRule() {
                 is ValkyrieIdentifierNode -> {
                     return !inImport(element)
                 }
+
                 else -> println("isVisible4(${element})")
             }
         }

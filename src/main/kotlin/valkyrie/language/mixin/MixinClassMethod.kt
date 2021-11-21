@@ -6,11 +6,12 @@ import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.ide.view.ValkyrieViewElement
 import valkyrie.language.ast.DeclareNode
 import valkyrie.language.ast.addChildrenView
+import valkyrie.language.psi.ValkyrieContext
 import valkyrie.language.psi_node.ValkyrieClassMethodNode
 import valkyrie.language.psi_node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
-open class MixinClassMethod(node: ASTNode) : DeclareNode(node) {
+open class MixinClassMethod(node: ASTNode) : DeclareNode(node), ValkyrieContext {
     override fun getOriginalElement() = this as ValkyrieClassMethodNode
 
     override fun getNameIdentifier() = originalElement.identifier as ValkyrieIdentifierNode

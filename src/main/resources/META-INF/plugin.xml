@@ -106,8 +106,10 @@
 		<symbolNavigation
 			forClass="valkyrie.language.symbol.ValkyrieSymbol"
 			implementationClass="valkyrie.ide.goto.VSymbolNavigationProvider"/>
-		<codeInsight.gotoSuper language="Valkyrie" implementationClass="valkyrie.ide.goto.GotoSuper"/>
+		<codeInsight.gotoSuper language="Valkyrie" implementationClass="valkyrie.ide.navigation.GotoSuper"/>
 		<codeInsight.implementMethod language="Valkyrie" implementationClass="valkyrie.ide.hint.ValkyrieImplementMark"/>
+		<codeInsight.overrideMethod language="Valkyrie" implementationClass="valkyrie.ide.hint.GenerateOverrides"/>
+		<codeInsight.delegateMethods language="Valkyrie" implementationClass="valkyrie.ide.hint.ValkyrieDelegateMethods"/>
 		<importFilteringRule implementation="valkyrie.ide.navigation.ValkyrieImportFilter"/>
 		<usageFilteringRuleProvider implementation="valkyrie.ide.navigation.usageFiltering"/>
 		<!--		<bookmarkProvider implementation="valkyrie.ide.goto.ValkyrieBookmark"/>-->
@@ -120,8 +122,6 @@
 		<codeInsight.parameterInfo language="Valkyrie" implementationClass="valkyrie.ide.hint.ParameterInfoHint"/>
 		<codeInsight.parameterInfo.listener implementation="valkyrie.ide.hint.ParameterInfoListener"/>
 		<codeInsight.parameterNameHints language="Valkyrie" implementationClass="valkyrie.ide.hint.ParameterNameHint"/>
-		<codeInsight.overrideMethod language="Valkyrie" implementationClass="valkyrie.ide.hint.ValkyrieOverrideMark"/>
-
 		<codeInsight.lineMarkerProvider
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.hint.ValkyrieClassElementMark"/>

@@ -1,4 +1,4 @@
-package valkyrie.ide.goto
+package valkyrie.ide.navigation
 
 import com.intellij.codeInsight.navigation.GotoTargetHandler
 import com.intellij.codeInsight.navigation.actions.GotoSuperAction
@@ -17,6 +17,7 @@ class GotoSuper : GotoTargetHandler() {
         val targets = findTargets(source)
         return GotoData(source, targets.toTypedArray(), emptyList())
     }
+
     override fun getChooserTitle(sourceElement: PsiElement, name: String?, length: Int, finished: Boolean) = when (sourceElement) {
         is ValkyrieClassStatementNode -> "ValkyrieClassStatementNode"
         is ValkyrieTraitStatementNode -> "ValkyrieTraitStatementNode"

@@ -29,7 +29,7 @@ class RunClass(val classPath: List<String>, private val full: Boolean) : AnActio
         Messages.showMessageDialog(
             event.project,
             message.toString(),
-            event.presentation.description,
+            "RunClass.actionPerformed",
             Messages.getInformationIcon()
         )
     }

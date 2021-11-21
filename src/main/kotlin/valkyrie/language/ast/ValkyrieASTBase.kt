@@ -3,8 +3,6 @@ package valkyrie.language.ast
 import valkyrie.ide.reference.ValkyrieReference
 import valkyrie.ide.view.ValkyrieViewElement
 import valkyrie.language.psi.ancestors
-import valkyrie.language.psi_node.ValkyrieMacroCallNode
-import valkyrie.language.psi_node.ValkyrieMacroListNode
 import valkyrie.language.symbol.ValkyrieSymbol
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.ide.projectView.PresentationData
@@ -17,6 +15,8 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.siblings
+import valkyrie.language.psi.ValkyrieContext
+import valkyrie.language.psi_node.*
 
 @Suppress("UnstableApiUsage")
 open class ValkyrieASTBase(node: ASTNode) : ASTWrapperPsiElement(node) {
@@ -63,14 +63,13 @@ open class ValkyrieASTBase(node: ASTNode) : ASTWrapperPsiElement(node) {
         }
     }
 
-    override fun getContext(): PsiElement? {
-//        for (node in ancestors) {
-//            when (node) {
-//                is ValkyrieASTBase -> return node
-//                else -> continue
-//            }
-//        }
-        return null
+    override fun getContext(): ValkyrieContext? {
+        for (node in ancestors) {
+            if (node is ValkyrieContext) {
+                return node
+            }
+        }
+        return null;
     }
 
     override fun getOwnDeclarations(): MutableCollection<out ValkyrieSymbol> {

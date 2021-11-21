@@ -6,20 +6,26 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import valkyrie.language.file.ValkyrieFileNode
+import valkyrie.language.ast.ValkyrieASTBase
+import valkyrie.language.psi.caretElement
 
 
-class ValkyrieOverrideMark : PresentableLanguageCodeInsightActionHandler {
+class GenerateOverrides : PresentableLanguageCodeInsightActionHandler {
     override fun isValidFor(editor: Editor?, file: PsiFile?): Boolean {
-        return file is ValkyrieFileNode
+        val psi = file.caretElement(editor)
+        if (psi is ValkyrieASTBase) {
+            println("ValkyrieOverrideMark.isValidFor($psi)")
+            return true
+        }
+        return false
     }
 
     override fun invoke(project: Project, editor: Editor, file: PsiFile) {
-
+        println("ValkyrieOverrideMark.invoke($editor, $file)")
     }
 
     override fun update(editor: Editor, file: PsiFile, presentation: Presentation?) {
-
+        println("ValkyrieOverrideMark.invoke($editor, $file, $presentation)")
     }
 
     override fun getElementToMakeWritable(currentFile: PsiFile): PsiElement? {

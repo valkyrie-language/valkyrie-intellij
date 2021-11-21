@@ -88,7 +88,7 @@ class ValkyrieRunningTask(project: Project, factory: ValkyrieConfigurationFactor
 
     override fun needsToBeMigrated(): Boolean {
         println("ValkyrieRunningConfig.needsToBeMigrated")
-        return false
+        return true
     }
 
     override fun checkConfiguration() {

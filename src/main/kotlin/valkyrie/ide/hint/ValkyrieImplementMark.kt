@@ -7,18 +7,19 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import valkyrie.language.file.ValkyrieFileNode
 
 class ValkyrieImplementMark : PresentableLanguageCodeInsightActionHandler {
     override fun invoke(project: Project, editor: Editor, file: PsiFile) {
-
+        println("ValkyrieImplementMark.invoke($editor, $file)")
     }
 
     override fun update(editor: Editor, file: PsiFile, presentation: Presentation?) {
-
+        println("ValkyrieImplementMark.update($editor, $file, $presentation)")
     }
 
     override fun isValidFor(editor: Editor?, file: PsiFile?): Boolean {
-        return true
+        return file is ValkyrieFileNode
     }
 
     override fun startInWriteAction(): Boolean {

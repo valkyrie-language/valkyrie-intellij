@@ -10,6 +10,7 @@ import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.view.ValkyrieViewElement
 import valkyrie.language.ast.DeclareNode
 import valkyrie.language.ast.ValkyrieASTBase
+import valkyrie.language.psi.ValkyrieContext
 import valkyrie.language.psi_node.ValkyrieClassFieldNode
 import valkyrie.language.psi_node.ValkyrieClassMethodNode
 import valkyrie.language.psi_node.ValkyrieClassStatementNode
@@ -19,7 +20,7 @@ import javax.swing.Icon
 
 // PsiReference
 @Suppress("UnstableApiUsage", "PropertyName")
-open class MixinClass(node: ASTNode) : DeclareNode(node) {
+open class MixinClass(node: ASTNode) : DeclareNode(node), ValkyrieContext {
     val fullNamepath: List<String> = listOf("test", "ClassName")
 
     override fun getOriginalElement(): ValkyrieClassStatementNode {

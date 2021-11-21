@@ -8,12 +8,13 @@ import valkyrie.ide.view.ValkyrieViewElement
 import valkyrie.language.ast.DeclareNode
 import valkyrie.language.ast.FunctionKind
 import valkyrie.language.ast.addChildrenView
+import valkyrie.language.psi.ValkyrieContext
 import valkyrie.language.psi_node.*
 import valkyrie.language.symbol.VsDefineItem
 import javax.swing.Icon
 
 @Suppress("UnstableApiUsage")
-open class MixinDefine(node: ASTNode) : DeclareNode(node) {
+open class MixinDefine(node: ASTNode) : DeclareNode(node), ValkyrieContext {
 
     override fun getOriginalElement() = this as ValkyrieDefineStatementNode
 

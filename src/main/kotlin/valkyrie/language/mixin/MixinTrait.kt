@@ -13,10 +13,11 @@ import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.StubBasedPsiElement
 import com.intellij.psi.util.PsiTreeUtil
+import valkyrie.language.psi.ValkyrieContext
 import javax.swing.Icon
 
 
-open class MixinTrait(node: ASTNode) : DeclareNode(node) {
+open class MixinTrait(node: ASTNode) : DeclareNode(node), ValkyrieContext {
     override fun getOriginalElement(): ValkyrieTraitStatementNode {
         return this as ValkyrieTraitStatementNode
     }
