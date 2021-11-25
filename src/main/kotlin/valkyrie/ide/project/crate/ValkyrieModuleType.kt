@@ -22,6 +22,6 @@ class ValkyrieModuleType : ModuleType<ValkyrieCreatePackage>(ID) {
     }
 
     override fun getNodeIcon(isOpened: Boolean): Icon {
-        return ValkyrieIconProvider.FILE
+        return ValkyrieIconProvider.Valkyrie
     }
 }

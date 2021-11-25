@@ -19,7 +19,7 @@ class HighlightSetting : ColorSettingsPage {
 
     override fun getDisplayName() = ValkyrieBundle.message("filetype.name")
 
-    override fun getIcon() = ValkyrieIconProvider.FILE
+    override fun getIcon() = ValkyrieIconProvider.Valkyrie
 
     override fun getHighlighter() = TokenHighlight()
 

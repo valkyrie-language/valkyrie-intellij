@@ -4,11 +4,12 @@ import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import valkyrie.language.ast.ViewableNode
+import valkyrie.language.psi.ValkyrieContext
 import valkyrie.language.psi_node.ValkyrieExtendsStatementNode
 import valkyrie.language.psi_node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
-open class MixinExtends(node: ASTNode) : ViewableNode(node) {
+open class MixinExtends(node: ASTNode) : ViewableNode(node), ValkyrieContext {
     override fun getOriginalElement() = this as ValkyrieExtendsStatementNode
 
     val identifier: ValkyrieIdentifierNode

@@ -16,6 +16,7 @@ import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.siblings
 import valkyrie.language.psi.ValkyrieContext
+import valkyrie.language.psi.valkyrieContext
 import valkyrie.language.psi_node.*
 
 @Suppress("UnstableApiUsage")
@@ -64,12 +65,7 @@ open class ValkyrieASTBase(node: ASTNode) : ASTWrapperPsiElement(node) {
     }
 
     override fun getContext(): ValkyrieContext? {
-        for (node in ancestors) {
-            if (node is ValkyrieContext) {
-                return node
-            }
-        }
-        return null;
+        return this.valkyrieContext()
     }
 
     override fun getOwnDeclarations(): MutableCollection<out ValkyrieSymbol> {

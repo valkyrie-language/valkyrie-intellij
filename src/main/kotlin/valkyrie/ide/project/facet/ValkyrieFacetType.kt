@@ -26,7 +26,7 @@ class ValkyrieFacetType : FacetType<ValkyrieFacetInfo, ValkyrieFacet>(Facet_ID, 
     }
 
     override fun getIcon(): Icon {
-        return ValkyrieIconProvider.FILE
+        return ValkyrieIconProvider.Valkyrie
     }
 
     override fun getDefaultFacetName(): String {

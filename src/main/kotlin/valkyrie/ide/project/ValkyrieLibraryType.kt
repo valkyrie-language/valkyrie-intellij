@@ -8,7 +8,7 @@ enum class ValkyrieLibraryType {
 
     fun getIcon(): Icon {
         return when (this) {
-            Core -> ValkyrieIconProvider.FILE
+            Core -> ValkyrieIconProvider.Valkyrie
             LIBRARY -> ValkyrieIconProvider.NAMESPACE
             NAMESPACE -> ValkyrieIconProvider.NAMESPACE
         }

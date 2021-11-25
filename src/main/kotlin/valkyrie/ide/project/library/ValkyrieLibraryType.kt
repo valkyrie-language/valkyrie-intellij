@@ -25,7 +25,7 @@ class ValkyrieLibraryType : LibraryType<ValkyrieLibraryProperty>(ValkyrieLibrary
     }
 
     override fun getIcon(properties: ValkyrieLibraryProperty?): Icon? {
-        return ValkyrieIconProvider.FILE
+        return ValkyrieIconProvider.Valkyrie
     }
 
     override fun getCreateActionName() = ValkyrieBundle.message("library.create")

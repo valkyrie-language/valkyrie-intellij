@@ -12,6 +12,6 @@ object ValkyrieFileType : LanguageFileType(ValkyrieLanguage) {
 
     override fun getDefaultExtension(): String = "vk;valkyrie;"
 
-    override fun getIcon(): Icon = ValkyrieIconProvider.FILE
+    override fun getIcon(): Icon = ValkyrieIconProvider.Valkyrie
 
 }

@@ -8,9 +8,7 @@ import com.intellij.execution.configurations.RunProfileState
 import com.intellij.execution.runners.ExecutionEnvironment
 import com.intellij.openapi.options.SettingsEditor
 import com.intellij.openapi.project.Project
-import com.intellij.ui.dsl.builder.MutableProperty
 import com.intellij.ui.dsl.builder.panel
-import com.intellij.ui.layout.PropertyBinding
 import org.jdom.Element
 import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
@@ -39,7 +37,7 @@ class ValkyrieRunningTask(project: Project, factory: ValkyrieConfigurationFactor
     }
 
     override fun getIcon(): Icon {
-        return ValkyrieIconProvider.FILE
+        return ValkyrieIconProvider.Valkyrie
     }
 
     override fun clone(): RunConfiguration {

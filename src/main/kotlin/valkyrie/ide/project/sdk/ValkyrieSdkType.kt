@@ -13,7 +13,7 @@ class ValkyrieSdkType : SdkType(ID) {
         const val ID = "sdk.valkyrie"
     }
 
-    override fun getIcon() = ValkyrieIconProvider.FILE
+    override fun getIcon() = ValkyrieIconProvider.Valkyrie
     override fun getPresentableName() = "Valkyrie SDK"
 
     override fun saveAdditionalData(additionalData: SdkAdditionalData, additional: Element) {

@@ -103,13 +103,11 @@
 		<!-- Goto -->
 		<navbar implementation="valkyrie.ide.goto.VNavigationBarExtension"/>
 		<lang.directNavigationProvider implementation="valkyrie.ide.goto.VDirectNavigationProvider"/>
+		<breadcrumbsInfoProvider implementation="valkyrie.ide.navigation.breadcrumbsInfoProvider"/>
 		<symbolNavigation
 			forClass="valkyrie.language.symbol.ValkyrieSymbol"
 			implementationClass="valkyrie.ide.goto.VSymbolNavigationProvider"/>
 		<codeInsight.gotoSuper language="Valkyrie" implementationClass="valkyrie.ide.navigation.GotoSuper"/>
-		<codeInsight.implementMethod language="Valkyrie" implementationClass="valkyrie.ide.hint.ValkyrieImplementMark"/>
-		<codeInsight.overrideMethod language="Valkyrie" implementationClass="valkyrie.ide.hint.GenerateOverrides"/>
-		<codeInsight.delegateMethods language="Valkyrie" implementationClass="valkyrie.ide.hint.ValkyrieDelegateMethods"/>
 		<importFilteringRule implementation="valkyrie.ide.navigation.ValkyrieImportFilter"/>
 		<usageFilteringRuleProvider implementation="valkyrie.ide.navigation.usageFiltering"/>
 		<!--		<bookmarkProvider implementation="valkyrie.ide.goto.ValkyrieBookmark"/>-->
@@ -142,6 +140,11 @@
 		<!-- Lint -->
 		<lang.namesValidator language="Valkyrie" implementationClass="valkyrie.ide.lint.ValkyrieNameValidator"/>
 		<qualifiedNameProvider implementation="valkyrie.ide.lint.ValkyrieNameQualifier"/>
+		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.CheckNamespace"/>
+		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.NamepathChecker"/>
+		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.LiteralChecker"/>
+		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.MarkImplicitTypes"/>
+		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.MarkLegacyExpression"/>
 		<!-- Declaration -->
 		<typeDeclarationProvider implementation="valkyrie.ide.reference.declaration.TypeDeclarationProvider"/>
 		<psi.declarationProvider implementation="valkyrie.ide.reference.declaration.SymbolDeclarationProvider"/>
@@ -183,6 +186,10 @@
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.completion.ValkyrieImportOptimizer"/>
 
+		<!-- Codegen -->
+		<codeInsight.implementMethod language="Valkyrie" implementationClass="valkyrie.ide.hint.GenerateImplements"/>
+		<codeInsight.overrideMethod language="Valkyrie" implementationClass="valkyrie.ide.hint.GenerateOverrides"/>
+		<codeInsight.delegateMethods language="Valkyrie" implementationClass="valkyrie.ide.hint.GenerateDelegates"/>
 		<!-- Document -->
 		<lang.documentationProvider
 			language="Valkyrie"
@@ -194,11 +201,6 @@
 		<!--				filetype="Fluent"-->
 		<!--				implementationClass="valkyrie.ide.lint.VomlTodoIndexer"-->
 		<!--		/>-->
-		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.CheckNamespace"/>
-		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.NamepathChecker"/>
-		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.LiteralChecker"/>
-		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.MarkImplicitTypes"/>
-		<annotator language="Valkyrie" implementationClass="valkyrie.ide.annotator.MarkLegacyExpression"/>
 	</extensions>
 	<actions>
 		<action id="valkyrie.create.file" class="valkyrie.ide.actions.file_transform.ValkyrieCreateFile">
