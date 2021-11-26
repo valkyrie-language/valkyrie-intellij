@@ -88,7 +88,7 @@
 		<runConfigurationProducer implementation="valkyrie.ide.runner.ValkyrieRunConfigurationProducer"/>
 		<runConfigurationTemplateProvider implementation="valkyrie.ide.runner.ValkyrieRunningTemplateProvider"/>
 		<importTestOutput implementation="valkyrie.ide.runner.TestOutput"/>
-		<testCreator language="Valkyrie" implementationClass="valkyrie.ide.runner.CreateTests"/>
+		<testCreator language="Valkyrie" implementationClass="valkyrie.ide.codegen.GenerateTests"/>
 		<testFinder implementation="valkyrie.ide.runner.ValkyrieFindTests"/>
 		<testActionProvider implementation="valkyrie.ide.runner.VTestActionProvider"/>
 		<testStatusListener implementation="valkyrie.ide.runner.VTestStatusListener"/>
@@ -188,9 +188,9 @@
 			implementationClass="valkyrie.ide.completion.ValkyrieImportOptimizer"/>
 
 		<!-- Codegen -->
-		<codeInsight.implementMethod language="Valkyrie" implementationClass="valkyrie.ide.hint.GenerateImplements"/>
-		<codeInsight.overrideMethod language="Valkyrie" implementationClass="valkyrie.ide.hint.GenerateOverrides"/>
-		<codeInsight.delegateMethods language="Valkyrie" implementationClass="valkyrie.ide.hint.GenerateDelegates"/>
+		<codeInsight.implementMethod language="Valkyrie" implementationClass="valkyrie.ide.codegen.GenerateImplements"/>
+		<codeInsight.overrideMethod language="Valkyrie" implementationClass="valkyrie.ide.codegen.GenerateOverrides"/>
+		<codeInsight.delegateMethods language="Valkyrie" implementationClass="valkyrie.ide.codegen.GenerateDelegates"/>
 		<!-- Document -->
 		<lang.documentationProvider
 			language="Valkyrie"

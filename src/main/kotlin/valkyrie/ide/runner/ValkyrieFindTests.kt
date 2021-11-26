@@ -12,7 +12,7 @@ class ValkyrieFindTests : TestFinder {
     override fun findSourceElement(from: PsiElement): PsiElement? {
         val ctx = from.valkyrieContext() ?: return null;
         println("findSourceElement($from, $ctx)")
-        TODO("Not yet implemented")
+        return ctx
     }
 
     override fun isTest(element: PsiElement): Boolean {
