@@ -1,19 +1,18 @@
 package valkyrie.ide.actions
 
 import valkyrie.language.ValkyrieBundle
-import valkyrie.language.file.ValkyrieIconProvider.Companion.FILE
 import com.intellij.ide.actions.CreateFileAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import valkyrie.language.file.ValkyrieIconProvider
 
-class FluentConvertMo : CreateFileAction(name, description, FILE) {
+class FluentConvertMo : CreateFileAction(name, description, ValkyrieIconProvider.Valkyrie) {
     companion object {
         private val name = ValkyrieBundle.message("action.convert_prop")
         private val description = ValkyrieBundle.message("action.convert_prop.description")
-
     }
 
     private var sourceFile: PsiFile? = null;

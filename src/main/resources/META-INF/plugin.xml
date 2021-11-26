@@ -103,7 +103,8 @@
 		<!-- Goto -->
 		<navbar implementation="valkyrie.ide.goto.VNavigationBarExtension"/>
 		<lang.directNavigationProvider implementation="valkyrie.ide.goto.VDirectNavigationProvider"/>
-		<breadcrumbsInfoProvider implementation="valkyrie.ide.navigation.breadcrumbsInfoProvider"/>
+		<breadcrumbsInfoProvider implementation="valkyrie.ide.navigation.ValkyrieBreadcrumbsProvider"/>
+		<breadcrumbsPresentationProvider implementation="valkyrie.ide.navigation.ValkyrieBreadcrumbsPresentation"/>
 		<symbolNavigation
 			forClass="valkyrie.language.symbol.ValkyrieSymbol"
 			implementationClass="valkyrie.ide.goto.VSymbolNavigationProvider"/>

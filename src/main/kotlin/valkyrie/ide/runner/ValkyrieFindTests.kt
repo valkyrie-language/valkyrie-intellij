@@ -1,9 +1,8 @@
 package valkyrie.ide.runner
 
 import com.intellij.psi.PsiElement
-import com.intellij.psi.util.elementType
 import com.intellij.testIntegration.TestFinder
-import valkyrie.language.psi.ValkyrieTypes
+import valkyrie.language.psi.valkyrieContext
 import valkyrie.language.psi_node.ValkyrieClassStatementNode
 import valkyrie.language.psi_node.ValkyrieExtendsStatementNode
 import valkyrie.language.psi_node.ValkyrieIdentifierNode
@@ -11,11 +10,17 @@ import valkyrie.language.psi_node.ValkyrieTraitStatementNode
 
 class ValkyrieFindTests : TestFinder {
     override fun findSourceElement(from: PsiElement): PsiElement? {
-        if (from.elementType == ValkyrieTypes.SYMBOL_XID) {
-            return from
-        }
-        println("findSourceElement($from)")
+        val ctx = from.valkyrieContext() ?: return null;
+        println("findSourceElement($from, $ctx)")
         TODO("Not yet implemented")
+    }
+
+    override fun isTest(element: PsiElement): Boolean {
+        val ctx = element.parent.context;
+        if (ctx is ValkyrieTraitStatementNode) {
+            return true
+        }
+        return true
     }
 
     override fun findTestsForClass(element: PsiElement): MutableCollection<PsiElement> {
@@ -41,11 +46,5 @@ class ValkyrieFindTests : TestFinder {
         }
     }
 
-    override fun isTest(element: PsiElement): Boolean {
-        val ctx = element.parent.context;
-        if (ctx is ValkyrieTraitStatementNode) {
-            return true
-        }
-        return true
-    }
+
 }

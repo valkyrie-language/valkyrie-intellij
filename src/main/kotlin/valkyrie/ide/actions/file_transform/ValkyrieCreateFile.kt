@@ -1,6 +1,6 @@
 package valkyrie.ide.actions.file_transform
 
-import valkyrie.language.file.ValkyrieIconProvider.Companion.FILE
+import valkyrie.language.file.ValkyrieIconProvider
 import com.intellij.ide.actions.CreateFileFromTemplateAction
 import com.intellij.ide.actions.CreateFileFromTemplateDialog.Builder
 import com.intellij.openapi.project.Project
@@ -8,7 +8,7 @@ import com.intellij.psi.PsiDirectory
 import valkyrie.language.ValkyrieBundle
 
 class ValkyrieCreateFile :
-    CreateFileFromTemplateAction(name, description, FILE) {
+    CreateFileFromTemplateAction(name, description, ValkyrieIconProvider.Valkyrie) {
     companion object {
         private val name = ValkyrieBundle.message("action.create_file")
         private val description = ValkyrieBundle.message("action.create_file.description")
@@ -17,7 +17,7 @@ class ValkyrieCreateFile :
     }
 
     override fun buildDialog(project: Project, directory: PsiDirectory, builder: Builder) {
-        builder.setTitle(name).addKind("Empty file", FILE, templatePath)
+        builder.setTitle(name).addKind("Empty file", ValkyrieIconProvider.Valkyrie, templatePath)
     }
 
     override fun getActionName(directory: PsiDirectory, newName: String, templateName: String): String = name
