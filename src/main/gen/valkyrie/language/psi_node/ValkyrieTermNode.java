@@ -42,8 +42,8 @@ public class ValkyrieTermNode extends MixinTerm implements ValkyrieTerm {
 
   @Override
   @NotNull
-  public List<ValkyrieCasePattern> getCasePatternList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieCasePattern.class);
+  public List<ValkyrieCaseBranch> getCaseBranchList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieCaseBranch.class);
   }
 
   @Override

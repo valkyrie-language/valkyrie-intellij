@@ -17,7 +17,7 @@ private val keywordSP = """(?x)
     | \b(extension)\b
     | \b(if|else|which)\b
     | \b(for|in)\b | \b(while|loop)\b
-    | \b(is|not)\b
+    | \b(is|not|and|or)\b
     | \b(type|class)\b
     | \b(variant|bitflag)\b
     | \b(trait)\b
@@ -56,7 +56,7 @@ private val punctuations = """(?x)\\
     # start with &
     | &> | &{1,2} | ≻
     | [|]> | [|]{1,2} | ⊁
-    | ⊻=? | ⊼=? | ⊽=?
+    | ⊻=? | ⊼=? | ⊽=? | [⩕⩖]
     # start with !
     | != | ≠ | !
     # start with ?
@@ -181,6 +181,10 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             "is" -> pushToken(ValkyrieTypes.OP_IS_A, r)
             "in" -> pushToken(ValkyrieTypes.OP_IN, r)
             "not" -> pushToken(ValkyrieTypes.OP_NOT, r)
+            "and" -> pushToken(ValkyrieTypes.PATTERN_AND, r)
+            "or" -> pushToken(ValkyrieTypes.PATTERN_OR, r)
+
+
             "which" -> pushToken(ValkyrieTypes.KW_WHICH, r)
             "if" -> pushToken(ValkyrieTypes.KW_IF, r)
             "else" -> pushToken(ValkyrieTypes.KW_ELSE, r)
@@ -244,7 +248,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
         when (r.value) {
             "\\" -> pushToken(ValkyrieTypes.KW_ESCAPING, r)
             // DOT
-            ":=", "≔" -> pushToken(ValkyrieTypes.OP_BIND, r)
+            ":=", "≔" -> pushToken(ValkyrieTypes.PATTERN_SET, r)
             "->", "⟶" -> pushToken(ValkyrieTypes.OP_ARROW, r)
             "=>", "⇒" -> pushToken(ValkyrieTypes.OP_ARROW2, r)
             "==", "≡" -> pushToken(ValkyrieTypes.OP_EQ, r)
@@ -259,7 +263,6 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
 
             "::", "∷" -> {
                 pushToken(ValkyrieTypes.OP_PROPORTION, r)
-
             }
 
             "..<", "..=" -> pushToken(ValkyrieTypes.OP_UNTIL, r)
@@ -338,6 +341,13 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
             "</" -> {
                 pushToken(ValkyrieTypes.OP_LS, r)
             }
+            "⩕" -> {
+                pushToken(ValkyrieTypes.PATTERN_AND, r)
+            }
+            "⩖" -> {
+                pushToken(ValkyrieTypes.PATTERN_OR, r)
+            }
+
 
             "<:", "⊑" -> {
                 pushToken(ValkyrieTypes.OP_IS_A, r)

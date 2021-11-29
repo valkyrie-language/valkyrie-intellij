@@ -60,7 +60,7 @@
         //
         OP_EQ = "=="
         OP_NE = "!="
-        OP_BIND = ":="
+        PATTERN_SET = ":="
         OP_NOT = "!"
         //
         OP_QUESTION = "?"
@@ -155,7 +155,7 @@ if_statement        ::= KW_IF condition normal_block [ef_statement* else_stateme
 }
 ef_statement        ::= KW_ELSE KW_IF condition normal_block;
 else_statement      ::= KW_ELSE normal_block;
-condition           ::= (case_pattern OP_SET inline_expression | inline_expression);
+condition           ::= (case_branch OP_SET inline_expression | inline_expression);
 normal_block        ::= <<brace_free normal_statements SEMICOLON>>;
 // ---------------------------------------------------------------------------------------------------------------------
 which_statement     ::= KW_WHICH which_block {
@@ -174,7 +174,7 @@ for_statement       ::= KW_FOR any_pattern OP_IN inline_expression [if_guard] no
     mixin="valkyrie.language.mixin.MixinFor"
 }
 if_guard            ::= KW_IF condition;
-private any_pattern ::= case_pattern | normal_pattern;
+private any_pattern ::= case_branch | normal_pattern;
 normal_pattern      ::=
     '(' pattern_item (COMMA pattern_item)* [COMMA] ')' |
         pattern_item (COMMA pattern_item)* [COMMA]
@@ -216,9 +216,12 @@ match_statement     ::= KW_MATCH inline_expression match_block {
     // mixin="valkyrie.language.mixin.MixinMatch"
 }
 match_block         ::= <<brace_free match_expression SEMICOLON>>;
-match_expression    ::= (case_pattern|case_else) COLON (normal_statements [SEMICOLON])+ | case_with;
-case_pattern        ::= (KW_CASE|KW_WHEN) pattern_value {
+match_expression    ::= (case_branch|case_else) COLON (normal_statements [SEMICOLON])+ | case_with;
+case_branch        ::= (KW_CASE|KW_WHEN) pattern_value {
     mixin="valkyrie.language.mixin.MixinCasePattern"
+};
+extractor        ::= namepath <<parenthesis pattern_value COMMA>> | namepath <<brace_block pattern_pair COMMA>> {
+//    mixin="valkyrie.language.mixin.MixinCasePattern"
 };
 case_expression     ::= KW_CASE expression {
     mixin="valkyrie.language.mixin.MixinCasePattern"
@@ -236,7 +239,7 @@ private new_item    ::= object_pair | (DOT2|DOT3) identifier;
 // ---------------------------------------------------------------------------------------------------------------------
 let_statement       ::=
       KW_LET normal_pattern [let_type] [OP_SET normal_statements]
-    | KW_LET case_pattern OP_SET normal_statements;
+    | KW_LET extractor PATTERN_SET normal_statements;
 private let_type    ::= COLON <<sequence type_expression COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
 define_statement    ::= KW_DEF [modifiers] namepath_free [generic_define] define_tuple [return_type] [define_block] {
@@ -356,6 +359,7 @@ private op_binary ::=
     | OP_TO | OP_OR | OP_OR2
     | OP_AND_THEN | OP_OR_ELSE
     | OP_AND | OP_AND2
+    | PATTERN_AND | PATTERN_OR | PATTERN_SET
     // is | is not
     | OP_NOT_A | OP_IS_A OP_NOT | OP_IS_A | OP_NOT OP_IS_A
     | OP_AS

@@ -30,14 +30,14 @@ public class ValkyrieMatchExpressionNode extends ValkyrieASTBase implements Valk
 
   @Override
   @Nullable
-  public ValkyrieCaseElse getCaseElse() {
-    return findChildByClass(ValkyrieCaseElse.class);
+  public ValkyrieCaseBranch getCaseBranch() {
+    return findChildByClass(ValkyrieCaseBranch.class);
   }
 
   @Override
   @Nullable
-  public ValkyrieCasePattern getCasePattern() {
-    return findChildByClass(ValkyrieCasePattern.class);
+  public ValkyrieCaseElse getCaseElse() {
+    return findChildByClass(ValkyrieCaseElse.class);
   }
 
   @Override

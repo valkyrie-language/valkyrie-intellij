@@ -30,12 +30,6 @@ public class ValkyrieLetStatementNode extends ValkyrieASTBase implements Valkyri
 
   @Override
   @Nullable
-  public ValkyrieCasePattern getCasePattern() {
-    return findChildByClass(ValkyrieCasePattern.class);
-  }
-
-  @Override
-  @Nullable
   public ValkyrieCatchStatement getCatchStatement() {
     return findChildByClass(ValkyrieCatchStatement.class);
   }
@@ -50,6 +44,12 @@ public class ValkyrieLetStatementNode extends ValkyrieASTBase implements Valkyri
   @Nullable
   public ValkyrieExpression getExpression() {
     return findChildByClass(ValkyrieExpression.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieExtractor getExtractor() {
+    return findChildByClass(ValkyrieExtractor.class);
   }
 
   @Override

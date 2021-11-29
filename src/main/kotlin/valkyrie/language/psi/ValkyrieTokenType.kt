@@ -15,7 +15,9 @@ val keywords: TokenSet = TokenSet.create(
     KW_YIELD, KW_BREAK,
     KW_LET, KW_DEF,
     KW_TYPE,
-    KW_MATCH, KW_CATCH, KW_CASE, KW_WITH,
+    KW_MATCH, KW_CATCH,
+    PATTERN_AND, PATTERN_OR,
+    KW_WITH, KW_CASE, KW_WHEN,
     KW_IF, KW_ELSE,
     KW_LOOP, KW_WHILE,
     KW_FOR, OP_IN,
@@ -34,7 +36,7 @@ val infix: TokenSet = TokenSet.create(
     DOT3, DOT2, OP_SUB, OP_ADD, DOT_LESS, DOT_EQ,
     OP_EQ, OP_NE,
     OP_NOT, BANG, AMP, OP_QUESTION,
-    OP_ARROW, OP_ARROW2
+    OP_ARROW, OP_ARROW2,
 )
 val suffix: TokenSet = TokenSet.create(
     OP_NOT, OP_QUESTION, OP_TEMPERATURE

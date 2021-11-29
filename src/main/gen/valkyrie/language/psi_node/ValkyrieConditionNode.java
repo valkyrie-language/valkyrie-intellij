@@ -30,8 +30,8 @@ public class ValkyrieConditionNode extends ValkyrieASTBase implements ValkyrieCo
 
   @Override
   @Nullable
-  public ValkyrieCasePattern getCasePattern() {
-    return findChildByClass(ValkyrieCasePattern.class);
+  public ValkyrieCaseBranch getCaseBranch() {
+    return findChildByClass(ValkyrieCaseBranch.class);
   }
 
   @Override

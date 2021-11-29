@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieForStatement extends PsiElement {
 
   @Nullable
-  ValkyrieCasePattern getCasePattern();
+  ValkyrieCaseBranch getCaseBranch();
 
   @Nullable
   ValkyrieElseStatement getElseStatement();

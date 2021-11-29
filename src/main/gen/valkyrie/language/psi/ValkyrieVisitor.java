@@ -31,15 +31,15 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitCaseBranch(@NotNull ValkyrieCaseBranch o) {
+    visitPsiElement(o);
+  }
+
   public void visitCaseElse(@NotNull ValkyrieCaseElse o) {
     visitPsiElement(o);
   }
 
   public void visitCaseExpression(@NotNull ValkyrieCaseExpression o) {
-    visitPsiElement(o);
-  }
-
-  public void visitCasePattern(@NotNull ValkyrieCasePattern o) {
     visitPsiElement(o);
   }
 
@@ -124,6 +124,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitExtensionStatement(@NotNull ValkyrieExtensionStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitExtractor(@NotNull ValkyrieExtractor o) {
     visitPsiElement(o);
   }
 
