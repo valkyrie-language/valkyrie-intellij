@@ -11,13 +11,13 @@ object ValkyrieIconProvider : IconProvider() {
     //
     val NAMESPACE = AllIcons.Nodes.Artifact
     val SNIPPET = AllIcons.Actions.MoreHorizontal
+    val Operator = IconLoader.getIcon("/icons/operator.svg", ValkyrieIconProvider::class.java)
 
     // val IMPORT = AllIcons.Welcome.Import
     val IMPORT = AllIcons.Nodes.EntryPoints
     val MODIFIER = AllIcons.Nodes.MethodReference
     val MACRO = AllIcons.Gutter.ExtAnnotation
     val ANNOTATION = AllIcons.Nodes.Annotationtype
-    val OPERATOR = AllIcons.Actions.RegexSelected
 
     //
     val TYPE = AllIcons.Nodes.Type

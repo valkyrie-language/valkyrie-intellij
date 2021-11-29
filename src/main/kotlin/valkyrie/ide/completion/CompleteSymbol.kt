@@ -87,7 +87,7 @@ class CompleteSymbol(val context: PsiElement) : CompletionProvider<CompletionPar
                 "OPERATOR" to show
             )
         )
-            .withIcon(ValkyrieIconProvider.OPERATOR)
+            .withIcon(ValkyrieIconProvider.Operator)
             .withLookupStrings(lookup)
         addElement(item)
     }

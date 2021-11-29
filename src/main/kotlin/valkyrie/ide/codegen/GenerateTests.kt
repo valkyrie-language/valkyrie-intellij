@@ -24,13 +24,14 @@ class GenerateTests : TestCreator, ItemPresentation {
     }
 
 
+    override fun getIcon(unused: Boolean): Icon {
+        return ValkyrieIconProvider.IMPORT
+    }
 
-    override fun getIcon(unused: Boolean): Icon? {
-       return  ValkyrieIconProvider.IMPORT
-    }
     override fun getPresentableText(): String? {
-        return "CreateTests.getPresentableText"
+        return "Coverage Methods..."
     }
+
     override fun getLocationString(): String? {
         return "CreateTests.getLocationString"
     }

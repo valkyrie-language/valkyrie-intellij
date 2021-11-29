@@ -88,7 +88,7 @@
 		<runConfigurationProducer implementation="valkyrie.ide.runner.ValkyrieRunConfigurationProducer"/>
 		<runConfigurationTemplateProvider implementation="valkyrie.ide.runner.ValkyrieRunningTemplateProvider"/>
 		<importTestOutput implementation="valkyrie.ide.runner.TestOutput"/>
-		<testCreator language="Valkyrie" implementationClass="valkyrie.ide.codegen.GenerateTests"/>
+
 		<testFinder implementation="valkyrie.ide.runner.ValkyrieFindTests"/>
 		<testActionProvider implementation="valkyrie.ide.runner.VTestActionProvider"/>
 		<testStatusListener implementation="valkyrie.ide.runner.VTestStatusListener"/>
@@ -158,9 +158,9 @@
 			implementationClass="valkyrie.ide.usages.ValkyrieUsagesProvider"/>
 		<!-- Rename -->
 		<renameHandler implementation="valkyrie.ide.refactor.ValkyrieRenameHandler"/>
-<!--		<rename.inplace.resolveSnapshotProvider-->
-<!--			language="Valkyrie"-->
-<!--			implementationClass="valkyrie.ide.refactor.ValkyrieRenameInplace"/>-->
+		<!--		<rename.inplace.resolveSnapshotProvider-->
+		<!--			language="Valkyrie"-->
+		<!--			implementationClass="valkyrie.ide.refactor.ValkyrieRenameInplace"/>-->
 		<renameInputValidator implementation="valkyrie.ide.refactor.renameInputValidator"/>
 		<renameRefactoringDialogProvider implementation="valkyrie.ide.refactor.ValkyrieRenameDialog"/>
 		<!-- Completion -->
@@ -191,6 +191,7 @@
 		<codeInsight.implementMethod language="Valkyrie" implementationClass="valkyrie.ide.codegen.GenerateImplements"/>
 		<codeInsight.overrideMethod language="Valkyrie" implementationClass="valkyrie.ide.codegen.GenerateOverrides"/>
 		<codeInsight.delegateMethods language="Valkyrie" implementationClass="valkyrie.ide.codegen.GenerateDelegates"/>
+		<testCreator language="Valkyrie" implementationClass="valkyrie.ide.codegen.GenerateTests"/>
 		<!-- Document -->
 		<lang.documentationProvider
 			language="Valkyrie"
@@ -208,9 +209,17 @@
 			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewHtmlFile"/>
 		</action>
 		<action id="jss.JssConvertJson" class="valkyrie.ide.actions.FluentConvertMo"/>
-		<action id="valkyrie.macro.expand_to_file" class="valkyrie.ide.actions.ExpandMacroToFile">
-			<add-to-group group-id="GenerateGroup" anchor="last"/>
+		<action id="valkyrie.macro.expand-to-file" class="valkyrie.ide.actions.ExpandMacroToFile">
 			<keyboard-shortcut keymap="$default" first-keystroke="control shift G"/>
 		</action>
+		<!-- Generated	-->
+		<action id="valkyrie.generate.operators" class="valkyrie.ide.codegen.GenerateOperators">
+			<add-to-group group-id="GenerateGroup" anchor="first"/>
+		</action>
+		<action id="valkyrie.macro.expand" class="valkyrie.ide.codegen.ExpandMacro">
+			<add-to-group group-id="GenerateGroup" anchor="last"/>
+		</action>
+
+
 	</actions>
 </idea-plugin>
