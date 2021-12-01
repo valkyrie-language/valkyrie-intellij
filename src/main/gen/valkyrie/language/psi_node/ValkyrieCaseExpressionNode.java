@@ -8,11 +8,11 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.language.psi.ValkyrieTypes.*;
-import valkyrie.language.mixin.MixinCasePattern;
+import valkyrie.language.ast.ValkyrieASTBase;
 import valkyrie.language.psi.*;
 import valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieCaseExpressionNode extends MixinCasePattern implements ValkyrieCaseExpression {
+public class ValkyrieCaseExpressionNode extends ValkyrieASTBase implements ValkyrieCaseExpression {
 
   public ValkyrieCaseExpressionNode(@NotNull ASTNode node) {
     super(node);
@@ -29,9 +29,15 @@ public class ValkyrieCaseExpressionNode extends MixinCasePattern implements Valk
   }
 
   @Override
-  @NotNull
-  public ValkyrieExpression getExpression() {
-    return findNotNullChildByClass(ValkyrieExpression.class);
+  @Nullable
+  public ValkyrieExtractor getExtractor() {
+    return findChildByClass(ValkyrieExtractor.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieInlineExpression getInlineExpression() {
+    return findChildByClass(ValkyrieInlineExpression.class);
   }
 
 }

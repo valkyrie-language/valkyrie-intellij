@@ -8,7 +8,7 @@ plugins {
     java
     kotlin("jvm") version "1.8.0"
     kotlin("plugin.serialization") version "1.8.0"
-    id("org.jetbrains.intellij") version "1.12.0"
+    id("org.jetbrains.intellij") version "1.13.0"
     id("org.jetbrains.changelog") version "1.3.1"
     id("org.jetbrains.qodana") version "0.1.13"
 }

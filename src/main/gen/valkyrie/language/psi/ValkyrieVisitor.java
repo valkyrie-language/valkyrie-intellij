@@ -31,6 +31,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitCaseAnd(@NotNull ValkyrieCaseAnd o) {
+    visitPsiElement(o);
+  }
+
   public void visitCaseBranch(@NotNull ValkyrieCaseBranch o) {
     visitPsiElement(o);
   }
@@ -43,7 +47,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitCaseWhen(@NotNull ValkyrieCaseWhen o) {
+  public void visitCaseOr(@NotNull ValkyrieCaseOr o) {
     visitPsiElement(o);
   }
 

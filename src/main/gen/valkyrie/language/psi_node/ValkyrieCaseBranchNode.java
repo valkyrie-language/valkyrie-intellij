@@ -30,8 +30,8 @@ public class ValkyrieCaseBranchNode extends MixinCasePattern implements Valkyrie
 
   @Override
   @NotNull
-  public ValkyriePatternValue getPatternValue() {
-    return findNotNullChildByClass(ValkyriePatternValue.class);
+  public ValkyrieCaseOr getCaseOr() {
+    return findNotNullChildByClass(ValkyrieCaseOr.class);
   }
 
 }

@@ -7,7 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieCaseExpression extends PsiElement {
 
-  @NotNull
-  ValkyrieExpression getExpression();
+  @Nullable
+  ValkyrieExtractor getExtractor();
+
+  @Nullable
+  ValkyrieInlineExpression getInlineExpression();
 
 }

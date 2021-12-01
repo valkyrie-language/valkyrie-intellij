@@ -14,10 +14,11 @@ public interface ValkyrieTypes {
   IElementType BITFLAG_STATEMENT = new ValkyrieTokenType("BITFLAG_STATEMENT");
   IElementType BOOLEAN = new ValkyrieTokenType("BOOLEAN");
   IElementType CALL_SUFFIX = new ValkyrieTokenType("CALL_SUFFIX");
+  IElementType CASE_AND = new ValkyrieTokenType("CASE_AND");
   IElementType CASE_BRANCH = new ValkyrieTokenType("CASE_BRANCH");
   IElementType CASE_ELSE = new ValkyrieTokenType("CASE_ELSE");
   IElementType CASE_EXPRESSION = new ValkyrieTokenType("CASE_EXPRESSION");
-  IElementType CASE_WHEN = new ValkyrieTokenType("CASE_WHEN");
+  IElementType CASE_OR = new ValkyrieTokenType("CASE_OR");
   IElementType CASE_WITH = new ValkyrieTokenType("CASE_WITH");
   IElementType CATCH_STATEMENT = new ValkyrieTokenType("CATCH_STATEMENT");
   IElementType CLASS_BLOCK = new ValkyrieTokenType("CLASS_BLOCK");
@@ -245,6 +246,9 @@ public interface ValkyrieTypes {
       else if (type == CALL_SUFFIX) {
         return new ValkyrieCallSuffixNode(node);
       }
+      else if (type == CASE_AND) {
+        return new ValkyrieCaseAndNode(node);
+      }
       else if (type == CASE_BRANCH) {
         return new ValkyrieCaseBranchNode(node);
       }
@@ -254,8 +258,8 @@ public interface ValkyrieTypes {
       else if (type == CASE_EXPRESSION) {
         return new ValkyrieCaseExpressionNode(node);
       }
-      else if (type == CASE_WHEN) {
-        return new ValkyrieCaseWhenNode(node);
+      else if (type == CASE_OR) {
+        return new ValkyrieCaseOrNode(node);
       }
       else if (type == CASE_WITH) {
         return new ValkyrieCaseWithNode(node);
