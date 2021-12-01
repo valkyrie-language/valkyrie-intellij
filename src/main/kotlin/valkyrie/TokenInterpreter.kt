@@ -2,6 +2,7 @@
 
 package valkyrie
 
+import com.intellij.psi.PsiComment
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import valkyrie.language.lexer.LexerContext
@@ -73,7 +74,7 @@ private val punctuations = """(?x)\\
     """.toRegex()
 private val comments = """(?x)
       (?<s2>//)(?<t2>[^\n\r]*)  
-    | (?<s3>/[*])(?<t3>[^\00]*?)(?<e3>/[*])
+    | (?<s3>/[*])(?<t3>[^\00]*?)(?<e3>[*]/)
     """.toRegex()
 private val strings = """(?x)
       (?<s1>"{3,}|'{3,})(?<t1>[^\00]*?)(?<e1>\k<s1>)
@@ -120,8 +121,15 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
 
     private fun codeComment(): Boolean {
         val r = tryMatch(comments) ?: return false
-        pushToken(ValkyrieTypes.COMMENT, r)
-        return true
+        r.groups["s2"]?.let {
+            pushToken(ValkyrieTypes.COMMENT_LINE, r)
+            return true
+        }
+        r.groups["s3"]?.let {
+            pushToken(ValkyrieTypes.COMMENT_BLOCK, r)
+            return true
+        }
+        return false
     }
 
     private fun codeString(): Boolean {
@@ -398,7 +406,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
 
     private fun checkRest() {
         if (startOffset < endOffset) {
-            pushToken(ValkyrieTypes.COMMENT, startOffset, endOffset)
+            pushToken(ValkyrieTypes.COMMENT_BLOCK, startOffset, endOffset)
         }
     }
 
@@ -480,7 +488,7 @@ private fun TokenInterpreter.lastIs(vararg token: IElementType, skipWS: Boolean 
 
 private fun TokenInterpreter.lastNot(vararg token: IElementType, skipWS: Boolean = true): Boolean {
     for (item in stack.reversed()) {
-        if (item.tokenIs(TokenType.WHITE_SPACE, ValkyrieTypes.COMMENT)) {
+        if (item.tokenIs(TokenType.WHITE_SPACE, ValkyrieTypes.COMMENT_LINE, ValkyrieTypes.COMMENT_BLOCK)) {
             when {
                 skipWS -> continue
                 else -> return false

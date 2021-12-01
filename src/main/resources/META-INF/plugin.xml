@@ -165,7 +165,7 @@
 		<renameRefactoringDialogProvider implementation="valkyrie.ide.refactor.ValkyrieRenameDialog"/>
 		<!-- Completion -->
 		<!--		<lookup.charFilter implementation="valkyrie.ide.completion.CompletionInterrupter"/>-->
-		<lang.commenter language="Valkyrie" implementationClass="valkyrie.ide.formatter.Commenter"/>
+		<lang.commenter language="Valkyrie" implementationClass="valkyrie.ide.formatter.ValkyrieCommenter"/>
 		<lang.braceMatcher
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.matcher.BraceMatchAdapter"/>

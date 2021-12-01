@@ -8,45 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieMatchExpression extends PsiElement {
 
   @Nullable
-  ValkyrieCaseBranch getCaseBranch();
+  ValkyrieMatchCase getMatchCase();
 
   @Nullable
-  ValkyrieCaseElse getCaseElse();
+  ValkyrieMatchElse getMatchElse();
 
   @Nullable
-  ValkyrieCaseWith getCaseWith();
-
-  @NotNull
-  List<ValkyrieCatchStatement> getCatchStatementList();
-
-  @NotNull
-  List<ValkyrieControlStatement> getControlStatementList();
-
-  @NotNull
-  List<ValkyrieExpression> getExpressionList();
-
-  @NotNull
-  List<ValkyrieForStatement> getForStatementList();
-
-  @NotNull
-  List<ValkyrieForallStatement> getForallStatementList();
-
-  @NotNull
-  List<ValkyrieLetStatement> getLetStatementList();
-
-  @NotNull
-  List<ValkyrieLoopStatement> getLoopStatementList();
-
-  @NotNull
-  List<ValkyrieMacroCall> getMacroCallList();
-
-  @NotNull
-  List<ValkyrieMacroList> getMacroListList();
-
-  @NotNull
-  List<ValkyrieMatchStatement> getMatchStatementList();
-
-  @NotNull
-  List<ValkyrieTypeStatement> getTypeStatementList();
+  ValkyrieMatchWith getMatchWith();
 
 }

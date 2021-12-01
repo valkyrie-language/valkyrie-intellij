@@ -51,7 +51,7 @@ class StackItem {
      * @return true if this token is whitespace, newline or comment
      */
     fun canSkip(): Boolean {
-        return tokenIs(TokenType.WHITE_SPACE, ValkyrieTypes.COMMENT)
+        return tokenIs(TokenType.WHITE_SPACE, ValkyrieTypes.COMMENT_LINE, ValkyrieTypes.COMMENT_BLOCK)
     }
 
     companion object {

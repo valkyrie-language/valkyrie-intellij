@@ -3,11 +3,13 @@ package valkyrie.ide.formatter
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
-import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.formatter.FormatterUtil
 import valkyrie.language.ast.isWhitespaceOrEmpty
-import valkyrie.language.psi.*
+import valkyrie.language.psi.ValkyrieBitflagItem
+import valkyrie.language.psi.ValkyrieCaseBlock
+import valkyrie.language.psi.ValkyrieExpression
+import valkyrie.language.psi.ValkyrieTokenType
 
 class FormatBlock(
     private val node: ASTNode,
@@ -62,14 +64,18 @@ class FormatBlock(
 
     private fun computeIndent(child: ASTNode): Indent? {
         return when {
-            node.psi is ValkyrieMatchExpression -> {
-                when (child.psi) {
-                    is ValkyrieCasePattern, is ValkyrieCaseElse, is ValkyrieCaseWith -> Indent.getNoneIndent()
-                    else -> Indent.getNormalIndent()
-                }
+//            node.psi is ValkyrieMatchExpression -> {
+//                when (child.psi) {
+//                    is ValkyrieMatchCase, is ValkyrieMatchElse, is ValkyrieMatchWith -> Indent.getNoneIndent()
+//                    else -> Indent.getNormalIndent()
+//                }
+//            }
+            node.psi is ValkyrieCaseBlock -> when (child.psi) {
+                is ValkyrieExpression -> Indent.getNormalIndent()
+                else -> Indent.getNoneIndent()
             }
 
-            node.psi.isValkyrieBlock() -> {
+            ValkyrieTokenType.isValkyrieBlock(node.psi) -> {
                 val firstLine = node.firstChildNode == child;
                 val lastLine = node.lastChildNode == child;
                 val isCornerChild = firstLine || lastLine
@@ -79,9 +85,7 @@ class FormatBlock(
                 }
             }
 
-            else -> {
-                Indent.getNoneIndent()
-            }
+            else -> Indent.getNoneIndent()
         }
     }
 
@@ -98,18 +102,4 @@ class FormatBlock(
             else -> null
         }
     }
-}
-
-private fun PsiElement.isValkyrieBlock(): Boolean = when (this) {
-    is ValkyrieImportBlock,
-    is ValkyrieForallBlock,
-    is ValkyrieIffBlock,
-    is ValkyrieClassBlock, is ValkyrieUnionBlock, is ValkyrieBitflagBlock,
-    is ValkyrieDefineBlock, is ValkyrieDefineTuple,
-    is ValkyrieNormalBlock, is ValkyrieNewBlock, is ValkyrieTuple,
-    is ValkyrieMacroBlock,
-    is ValkyrieMatchBlock,
-    is ValkyrieList, is ValkyrieObject,
-    -> true
-    else -> false
 }

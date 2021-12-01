@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieWhichExpression extends PsiElement {
 
   @NotNull
-  ValkyrieInlineExpression getInlineExpression();
+  ValkyrieCaseOr getCaseOr();
 
   @NotNull
   ValkyrieNormalBlock getNormalBlock();

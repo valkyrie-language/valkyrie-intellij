@@ -3,9 +3,10 @@ package valkyrie.ide.formatter
 import com.intellij.lang.CodeDocumentationAwareCommenter
 import com.intellij.psi.PsiComment
 import com.intellij.psi.tree.IElementType
+import com.intellij.psi.util.elementType
 import valkyrie.language.psi.ValkyrieTypes
 
-class Commenter : CodeDocumentationAwareCommenter {
+object ValkyrieCommenter : CodeDocumentationAwareCommenter {
     override fun getLineCommentPrefix() = "//"
     override fun getBlockCommentPrefix() = "/*"
     override fun getBlockCommentSuffix() = "*/"
@@ -19,16 +20,16 @@ class Commenter : CodeDocumentationAwareCommenter {
         return false
     }
 
-    override fun getLineCommentTokenType(): IElementType? = ValkyrieTypes.COMMENT
-    override fun getBlockCommentTokenType(): IElementType? = ValkyrieTypes.COMMENT
+    override fun getLineCommentTokenType(): IElementType? = ValkyrieTypes.COMMENT_LINE
+    override fun getBlockCommentTokenType(): IElementType? = ValkyrieTypes.COMMENT_BLOCK
     override fun getDocumentationCommentTokenType(): IElementType? = null
-    override fun getDocumentationCommentPrefix() = "///"
-    override fun getDocumentationCommentLinePrefix() = "///"
-    override fun getDocumentationCommentSuffix() = null
+    override fun getDocumentationCommentPrefix() = "/*?"
+    override fun getDocumentationCommentSuffix() = "*/"
+    override fun getDocumentationCommentLinePrefix() = null
     override fun isDocumentationComment(element: PsiComment?): Boolean {
-        return when (element) {
-            is PsiComment -> true
-            else -> false
+        if (element == null || element.elementType != ValkyrieTypes.COMMENT_BLOCK) {
+            return false
         }
+        return element.text.startsWith(documentationCommentPrefix)
     }
 }

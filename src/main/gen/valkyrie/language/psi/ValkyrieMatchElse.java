@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieCaseWith extends PsiElement {
+public interface ValkyrieMatchElse extends PsiElement {
 
-  @NotNull
-  List<ValkyrieIdentifier> getIdentifierList();
+  @Nullable
+  ValkyrieCaseBlock getCaseBlock();
 
 }

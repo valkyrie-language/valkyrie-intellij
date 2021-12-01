@@ -6,11 +6,10 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
-import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.ast.DocumentNode
+import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.psi.ValkyrieTokenType
 import valkyrie.language.psi.ValkyrieTypes
-import valkyrie.language.psi.ValkyrieTypes.COMMENT
 import java.net.ConnectException
 import java.util.function.Consumer
 
@@ -31,6 +30,7 @@ class DocumentationProvider : DocumentationProvider {
     }
 
     override fun collectDocComments(file: PsiFile, sink: Consumer<in PsiDocCommentBase>) {
+        println("collectDocComments $file")
         if (file !is ValkyrieFileNode) return
         for (leaf in PsiTreeUtil.findChildrenOfType(file, PsiComment::class.java)) {
             DocumentNode.tryBuild(leaf).let {
@@ -42,6 +42,7 @@ class DocumentationProvider : DocumentationProvider {
     }
 
     override fun generateRenderedDoc(comment: PsiDocCommentBase): String? {
+        println("generateRenderedDoc $comment")
         return when (comment) {
             is DocumentNode -> comment.render()
             else -> super.generateRenderedDoc(comment)
@@ -57,8 +58,7 @@ class DocumentationProvider : DocumentationProvider {
     override fun generateHoverDoc(element: PsiElement, originalElement: PsiElement?): String? {
         try {
             return DocumentationRenderer(element, originalElement).onHover()
-        }
-        catch (_: ConnectException) {
+        } catch (_: ConnectException) {
             // skip
         }
         return null
@@ -72,7 +72,8 @@ class DocumentationProvider : DocumentationProvider {
             contextElement.elementType == ValkyrieTypes.OP_AT -> null
             contextElement.elementType == ValkyrieTypes.OP_HASH -> null
             contextElement.elementType == TokenType.WHITE_SPACE -> null
-            contextElement.elementType == COMMENT -> null
+            contextElement.elementType == ValkyrieTypes.COMMENT_LINE -> null
+            contextElement.elementType == ValkyrieTypes.COMMENT_BLOCK -> null
             else -> null
         }
     }

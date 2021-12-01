@@ -14,9 +14,6 @@ public interface ValkyrieTerm extends PsiElement {
   List<ValkyrieCallSuffix> getCallSuffixList();
 
   @NotNull
-  List<ValkyrieCaseBranch> getCaseBranchList();
-
-  @NotNull
   List<ValkyrieDotCall> getDotCallList();
 
   @NotNull
@@ -24,6 +21,9 @@ public interface ValkyrieTerm extends PsiElement {
 
   @NotNull
   List<ValkyrieMatchBlock> getMatchBlockList();
+
+  @NotNull
+  List<ValkyrieMatchCase> getMatchCaseList();
 
   @NotNull
   List<ValkyrieNormalBlock> getNormalBlockList();

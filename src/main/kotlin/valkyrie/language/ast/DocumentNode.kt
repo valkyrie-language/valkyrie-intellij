@@ -1,6 +1,6 @@
 package valkyrie.language.ast
 
-import valkyrie.language.psi.ValkyrieTypes.COMMENT
+
 import com.intellij.markdown.utils.MarkdownToHtmlConverter
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiDocCommentBase
@@ -13,6 +13,7 @@ import org.intellij.markdown.lexer.MarkdownLexer
 import org.intellij.markdown.parser.LinkMap
 import org.intellij.markdown.parser.MarkerProcessorFactory
 import org.intellij.markdown.parser.sequentialparsers.SequentialParserManager
+import valkyrie.language.psi.ValkyrieTypes
 
 class DocumentNode(comment: PsiComment, rawText: String? = null) : ValkyrieASTBase(comment.node), PsiDocCommentBase {
 
@@ -22,7 +23,7 @@ class DocumentNode(comment: PsiComment, rawText: String? = null) : ValkyrieASTBa
         this.documentText = rawText?.trimIndent() ?: "[PARSE_FAILED]: ${comment.text}"
     }
 
-    override fun getTokenType(): IElementType = COMMENT
+    override fun getTokenType(): IElementType = ValkyrieTypes.COMMENT_BLOCK
     override fun getOwner(): PsiElement? {
         TODO("Not yet implemented")
     }
@@ -37,7 +38,7 @@ class DocumentNode(comment: PsiComment, rawText: String? = null) : ValkyrieASTBa
             else -> null
         }
         fun tryBuild(node: PsiComment): DocumentNode? {
-            if (node.text.startsWith("#^")) {
+            if (node.text.startsWith("/*?")) {
                 return DocumentNode(node, node.text.substring(2))
             }
             val comment = """(#{3,})(\^)([^\00]*?)(\1)""".toRegex()

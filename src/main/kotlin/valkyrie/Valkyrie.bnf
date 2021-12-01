@@ -17,7 +17,8 @@
     generateTokenAccessors = false
 
     tokens = [
-        COMMENT = "Comment"
+        COMMENT_LINE = "Comment Line"
+        COMMENT_BLOCK = "Comment Block"
         // literal
         SYMBOL_XID = "Symbol"
         SYMBOL_RAW = "Symbol"
@@ -155,15 +156,8 @@ if_statement        ::= KW_IF condition normal_block [ef_statement* else_stateme
 }
 ef_statement        ::= KW_ELSE KW_IF condition normal_block;
 else_statement      ::= KW_ELSE normal_block;
-condition           ::= (case_branch OP_SET inline_expression | inline_expression);
+condition           ::= (match_case OP_SET inline_expression | inline_expression);
 normal_block        ::= <<brace_free normal_statements SEMICOLON>>;
-// ---------------------------------------------------------------------------------------------------------------------
-which_statement     ::= KW_WHICH which_block {
-    pin=2
-    // mixin="valkyrie.language.mixin.MixinIf"
-}
-which_block         ::= <<brace_free which_expression SEMICOLON>>;
-which_expression    ::= inline_expression normal_block;
 // ---------------------------------------------------------------------------------------------------------------------
 loop_statement      ::= (KW_LOOP | KW_WHILE condition) normal_block [else_statement] {
     pin=1
@@ -174,7 +168,7 @@ for_statement       ::= KW_FOR any_pattern OP_IN inline_expression [if_guard] no
     mixin="valkyrie.language.mixin.MixinFor"
 }
 if_guard            ::= KW_IF condition;
-private any_pattern ::= case_branch | normal_pattern;
+private any_pattern ::= match_case | normal_pattern;
 normal_pattern      ::=
     '(' pattern_item (COMMA pattern_item)* [COMMA] ')' |
         pattern_item (COMMA pattern_item)* [COMMA]
@@ -188,6 +182,7 @@ private pattern     ::=
   | <<brace_block   pattern_pair COMMA>>
   ;
 pattern_pair        ::= identifier* COLON pattern_value | identifier* (DOT3|DOT2) identifier | identifier+;
+pattern_value       ::= number | string | [namepath] <<parenthesis pattern_value COMMA>> | [namepath] <<brace_block pattern_pair COMMA>> | namepath;
 // ---------------------------------------------------------------------------------------------------------------------
 control_statement   ::=
     KW_RAISE expression
@@ -216,19 +211,26 @@ match_statement     ::= KW_MATCH inline_expression match_block {
     // mixin="valkyrie.language.mixin.MixinMatch"
 }
 match_block         ::= <<brace_free match_expression SEMICOLON>>;
-match_expression    ::= (case_branch|case_else) COLON (normal_statements [SEMICOLON])+ | case_with;
-case_branch         ::= (KW_CASE|KW_WHEN) case_or {
+match_expression    ::= match_case | match_else | match_with;
+match_case          ::= (KW_CASE|KW_WHEN) case_or [case_block] {
     mixin="valkyrie.language.mixin.MixinCasePattern"
 };
-extractor           ::= namepath <<parenthesis pattern_value COMMA>> | namepath <<brace_block pattern_pair COMMA>> {
+case_or              ::= case_and (PATTERN_OR case_and)*;
+case_and             ::= case_expression (PATTERN_AND case_expression)*;
+case_expression      ::= inline_expression | extractor;
+extractor            ::= namepath <<parenthesis pattern_value COMMA>> | namepath <<brace_block pattern_pair COMMA>> {
 //    mixin="valkyrie.language.mixin.MixinCasePattern"
 };
-case_or             ::= case_and (PATTERN_OR case_and)*;
-case_and            ::= case_expression (PATTERN_AND case_expression)*;
-case_expression     ::= inline_expression | extractor;
-pattern_value       ::= number | string | [namepath] <<parenthesis pattern_value COMMA>> | [namepath] <<brace_block pattern_pair COMMA>> | namepath;
-case_with           ::= KW_WITH;
-case_else           ::= KW_ELSE;
+match_with           ::= KW_WITH identifier (COMMA identifier)*;
+match_else           ::= KW_ELSE [case_block];
+case_block           ::= COLON (normal_statements [SEMICOLON])*;
+// ---------------------------------------------------------------------------------------------------------------------
+which_statement     ::= KW_WHICH which_block {
+    pin=2
+    // mixin="valkyrie.language.mixin.MixinIf"
+}
+which_block         ::= <<brace_free which_expression SEMICOLON>>;
+which_expression    ::= case_or normal_block;
 // ---------------------------------------------------------------------------------------------------------------------
 new_statement       ::= KW_NEW <<modified type_expression>> new_block {
     pin=1

@@ -12,14 +12,14 @@ import valkyrie.language.ast.ValkyrieASTBase;
 import valkyrie.language.psi.*;
 import valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieMatchExpressionNode extends ValkyrieASTBase implements ValkyrieMatchExpression {
+public class ValkyrieCaseAndNode extends ValkyrieASTBase implements ValkyrieCaseAnd {
 
-  public ValkyrieMatchExpressionNode(@NotNull ASTNode node) {
+  public ValkyrieCaseAndNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitMatchExpression(this);
+    visitor.visitCaseAnd(this);
   }
 
   @Override
@@ -29,21 +29,9 @@ public class ValkyrieMatchExpressionNode extends ValkyrieASTBase implements Valk
   }
 
   @Override
-  @Nullable
-  public ValkyrieMatchCase getMatchCase() {
-    return findChildByClass(ValkyrieMatchCase.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieMatchElse getMatchElse() {
-    return findChildByClass(ValkyrieMatchElse.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieMatchWith getMatchWith() {
-    return findChildByClass(ValkyrieMatchWith.class);
+  @NotNull
+  public List<ValkyrieCaseExpression> getCaseExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieCaseExpression.class);
   }
 
 }

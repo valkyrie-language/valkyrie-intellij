@@ -1,11 +1,6 @@
 package valkyrie.language.lexer
 
 
-import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.file.ValkyrieFileNode
-import valkyrie.language.parser.ValkyrieParser
-import valkyrie.language.psi.ValkyrieTypes
-
 import com.intellij.lang.ASTNode
 import com.intellij.lang.ParserDefinition
 import com.intellij.lang.ParserDefinition.SpaceRequirements
@@ -17,6 +12,10 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
+import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.file.ValkyrieFileNode
+import valkyrie.language.parser.ValkyrieParser
+import valkyrie.language.psi.ValkyrieTypes
 
 
 object ValkyrieParserDefinition : ParserDefinition {
@@ -30,7 +29,7 @@ object ValkyrieParserDefinition : ParserDefinition {
         return super.getWhitespaceTokens()
     }
 
-    override fun getCommentTokens(): TokenSet = TokenSet.create(ValkyrieTypes.COMMENT)
+    override fun getCommentTokens(): TokenSet = TokenSet.create(ValkyrieTypes.COMMENT_LINE, ValkyrieTypes.COMMENT_BLOCK)
 
     override fun getStringLiteralElements(): TokenSet {
         return TokenSet.create(ValkyrieTypes.STRING_START, ValkyrieTypes.STRING_TEXT, ValkyrieTypes.STRING_END)

@@ -14,7 +14,8 @@ class ValkyrieUsagesProvider : FindUsagesProvider {
             ValkyrieLexerAdapter(),
             TokenSet.create(ValkyrieTypes.SYMBOL_XID),
             TokenSet.create(ValkyrieTypes.SYMBOL_RAW),
-            TokenSet.create(ValkyrieTypes.COMMENT),
+            TokenSet.create(ValkyrieTypes.COMMENT_LINE),
+            TokenSet.create(ValkyrieTypes.COMMENT_BLOCK),
             TokenSet.EMPTY
         )
     }

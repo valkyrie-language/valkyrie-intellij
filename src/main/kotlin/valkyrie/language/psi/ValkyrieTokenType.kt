@@ -49,6 +49,23 @@ class ValkyrieTokenType(debugName: String) : IElementType(debugName, ValkyrieLan
         fun isKeyword(type: IElementType?): Boolean = keywords.contains(type)
         fun isOperator(type: PsiElement?): Boolean = operators.contains(type.elementType)
         fun isOperator(type: IElementType?): Boolean = operators.contains(type)
+        fun isValkyrieBlock(type: PsiElement?): Boolean {
+            if (type == null) return false
+            return when (type) {
+                is ValkyrieImportBlock,
+                is ValkyrieForallBlock,
+                is ValkyrieIffBlock,
+                is ValkyrieClassBlock, is ValkyrieUnionBlock, is ValkyrieBitflagBlock,
+                is ValkyrieDefineBlock, is ValkyrieDefineTuple,
+                is ValkyrieNormalBlock, is ValkyrieNewBlock, is ValkyrieTuple,
+                is ValkyrieMacroBlock,
+                is ValkyrieMatchBlock,
+                is ValkyrieCaseBlock,
+                is ValkyrieList, is ValkyrieObject,
+                -> true
+                else -> false
+            }
+        }
     }
-//    override fun toString(): String = "ValkyrieTokenType.${super.toString()}"
+    override fun toString(): String = "ValkyrieTokenType.${super.toString()}"
 }

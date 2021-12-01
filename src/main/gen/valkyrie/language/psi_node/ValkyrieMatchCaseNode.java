@@ -8,18 +8,18 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.language.psi.ValkyrieTypes.*;
-import valkyrie.language.ast.ValkyrieASTBase;
+import valkyrie.language.mixin.MixinCasePattern;
 import valkyrie.language.psi.*;
 import valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieMatchExpressionNode extends ValkyrieASTBase implements ValkyrieMatchExpression {
+public class ValkyrieMatchCaseNode extends MixinCasePattern implements ValkyrieMatchCase {
 
-  public ValkyrieMatchExpressionNode(@NotNull ASTNode node) {
+  public ValkyrieMatchCaseNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitMatchExpression(this);
+    visitor.visitMatchCase(this);
   }
 
   @Override
@@ -30,20 +30,14 @@ public class ValkyrieMatchExpressionNode extends ValkyrieASTBase implements Valk
 
   @Override
   @Nullable
-  public ValkyrieMatchCase getMatchCase() {
-    return findChildByClass(ValkyrieMatchCase.class);
+  public ValkyrieCaseBlock getCaseBlock() {
+    return findChildByClass(ValkyrieCaseBlock.class);
   }
 
   @Override
-  @Nullable
-  public ValkyrieMatchElse getMatchElse() {
-    return findChildByClass(ValkyrieMatchElse.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieMatchWith getMatchWith() {
-    return findChildByClass(ValkyrieMatchWith.class);
+  @NotNull
+  public ValkyrieCaseOr getCaseOr() {
+    return findNotNullChildByClass(ValkyrieCaseOr.class);
   }
 
 }

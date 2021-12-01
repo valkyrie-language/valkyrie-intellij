@@ -15,11 +15,9 @@ public interface ValkyrieTypes {
   IElementType BOOLEAN = new ValkyrieTokenType("BOOLEAN");
   IElementType CALL_SUFFIX = new ValkyrieTokenType("CALL_SUFFIX");
   IElementType CASE_AND = new ValkyrieTokenType("CASE_AND");
-  IElementType CASE_BRANCH = new ValkyrieTokenType("CASE_BRANCH");
-  IElementType CASE_ELSE = new ValkyrieTokenType("CASE_ELSE");
+  IElementType CASE_BLOCK = new ValkyrieTokenType("CASE_BLOCK");
   IElementType CASE_EXPRESSION = new ValkyrieTokenType("CASE_EXPRESSION");
   IElementType CASE_OR = new ValkyrieTokenType("CASE_OR");
-  IElementType CASE_WITH = new ValkyrieTokenType("CASE_WITH");
   IElementType CATCH_STATEMENT = new ValkyrieTokenType("CATCH_STATEMENT");
   IElementType CLASS_BLOCK = new ValkyrieTokenType("CLASS_BLOCK");
   IElementType CLASS_EFFECT = new ValkyrieTokenType("CLASS_EFFECT");
@@ -63,8 +61,11 @@ public interface ValkyrieTypes {
   IElementType MACRO_CALL = new ValkyrieTokenType("MACRO_CALL");
   IElementType MACRO_LIST = new ValkyrieTokenType("MACRO_LIST");
   IElementType MATCH_BLOCK = new ValkyrieTokenType("MATCH_BLOCK");
+  IElementType MATCH_CASE = new ValkyrieTokenType("MATCH_CASE");
+  IElementType MATCH_ELSE = new ValkyrieTokenType("MATCH_ELSE");
   IElementType MATCH_EXPRESSION = new ValkyrieTokenType("MATCH_EXPRESSION");
   IElementType MATCH_STATEMENT = new ValkyrieTokenType("MATCH_STATEMENT");
+  IElementType MATCH_WITH = new ValkyrieTokenType("MATCH_WITH");
   IElementType MODIFIED = new ValkyrieTokenType("MODIFIED");
   IElementType MODIFIERS = new ValkyrieTokenType("MODIFIERS");
   IElementType NAMEPATH = new ValkyrieTokenType("NAMEPATH");
@@ -113,7 +114,8 @@ public interface ValkyrieTypes {
   IElementType COLON = new ValkyrieTokenType(":");
   IElementType COLOUR = new ValkyrieTokenType("COLOUR");
   IElementType COMMA = new ValkyrieTokenType("COMMA");
-  IElementType COMMENT = new ValkyrieTokenType("Comment");
+  IElementType COMMENT_BLOCK = new ValkyrieTokenType("Comment Block");
+  IElementType COMMENT_LINE = new ValkyrieTokenType("Comment Line");
   IElementType DECIMAL = new ValkyrieTokenType("DECIMAL");
   IElementType DOT = new ValkyrieTokenType(".");
   IElementType DOT2 = new ValkyrieTokenType("DOT2");
@@ -249,20 +251,14 @@ public interface ValkyrieTypes {
       else if (type == CASE_AND) {
         return new ValkyrieCaseAndNode(node);
       }
-      else if (type == CASE_BRANCH) {
-        return new ValkyrieCaseBranchNode(node);
-      }
-      else if (type == CASE_ELSE) {
-        return new ValkyrieCaseElseNode(node);
+      else if (type == CASE_BLOCK) {
+        return new ValkyrieCaseBlockNode(node);
       }
       else if (type == CASE_EXPRESSION) {
         return new ValkyrieCaseExpressionNode(node);
       }
       else if (type == CASE_OR) {
         return new ValkyrieCaseOrNode(node);
-      }
-      else if (type == CASE_WITH) {
-        return new ValkyrieCaseWithNode(node);
       }
       else if (type == CATCH_STATEMENT) {
         return new ValkyrieCatchStatementNode(node);
@@ -393,11 +389,20 @@ public interface ValkyrieTypes {
       else if (type == MATCH_BLOCK) {
         return new ValkyrieMatchBlockNode(node);
       }
+      else if (type == MATCH_CASE) {
+        return new ValkyrieMatchCaseNode(node);
+      }
+      else if (type == MATCH_ELSE) {
+        return new ValkyrieMatchElseNode(node);
+      }
       else if (type == MATCH_EXPRESSION) {
         return new ValkyrieMatchExpressionNode(node);
       }
       else if (type == MATCH_STATEMENT) {
         return new ValkyrieMatchStatementNode(node);
+      }
+      else if (type == MATCH_WITH) {
+        return new ValkyrieMatchWithNode(node);
       }
       else if (type == MODIFIED) {
         return new ValkyrieModifiedNode(node);

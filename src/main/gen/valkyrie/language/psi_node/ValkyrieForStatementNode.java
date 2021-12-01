@@ -30,12 +30,6 @@ public class ValkyrieForStatementNode extends MixinFor implements ValkyrieForSta
 
   @Override
   @Nullable
-  public ValkyrieCaseBranch getCaseBranch() {
-    return findChildByClass(ValkyrieCaseBranch.class);
-  }
-
-  @Override
-  @Nullable
   public ValkyrieElseStatement getElseStatement() {
     return findChildByClass(ValkyrieElseStatement.class);
   }
@@ -50,6 +44,12 @@ public class ValkyrieForStatementNode extends MixinFor implements ValkyrieForSta
   @Nullable
   public ValkyrieInlineExpression getInlineExpression() {
     return findChildByClass(ValkyrieInlineExpression.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieMatchCase getMatchCase() {
+    return findChildByClass(ValkyrieMatchCase.class);
   }
 
   @Override

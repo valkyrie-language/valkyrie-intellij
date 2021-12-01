@@ -12,14 +12,14 @@ import valkyrie.language.ast.ValkyrieASTBase;
 import valkyrie.language.psi.*;
 import valkyrie.language.ast.ASTMethods;
 
-public class ValkyrieMatchExpressionNode extends ValkyrieASTBase implements ValkyrieMatchExpression {
+public class ValkyrieMatchElseNode extends ValkyrieASTBase implements ValkyrieMatchElse {
 
-  public ValkyrieMatchExpressionNode(@NotNull ASTNode node) {
+  public ValkyrieMatchElseNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ValkyrieVisitor visitor) {
-    visitor.visitMatchExpression(this);
+    visitor.visitMatchElse(this);
   }
 
   @Override
@@ -30,20 +30,8 @@ public class ValkyrieMatchExpressionNode extends ValkyrieASTBase implements Valk
 
   @Override
   @Nullable
-  public ValkyrieMatchCase getMatchCase() {
-    return findChildByClass(ValkyrieMatchCase.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieMatchElse getMatchElse() {
-    return findChildByClass(ValkyrieMatchElse.class);
-  }
-
-  @Override
-  @Nullable
-  public ValkyrieMatchWith getMatchWith() {
-    return findChildByClass(ValkyrieMatchWith.class);
+  public ValkyrieCaseBlock getCaseBlock() {
+    return findChildByClass(ValkyrieCaseBlock.class);
   }
 
 }

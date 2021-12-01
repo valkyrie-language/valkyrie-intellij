@@ -35,11 +35,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitCaseBranch(@NotNull ValkyrieCaseBranch o) {
-    visitPsiElement(o);
-  }
-
-  public void visitCaseElse(@NotNull ValkyrieCaseElse o) {
+  public void visitCaseBlock(@NotNull ValkyrieCaseBlock o) {
     visitPsiElement(o);
   }
 
@@ -48,10 +44,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
   }
 
   public void visitCaseOr(@NotNull ValkyrieCaseOr o) {
-    visitPsiElement(o);
-  }
-
-  public void visitCaseWith(@NotNull ValkyrieCaseWith o) {
     visitPsiElement(o);
   }
 
@@ -227,11 +219,23 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitMatchCase(@NotNull ValkyrieMatchCase o) {
+    visitPsiElement(o);
+  }
+
+  public void visitMatchElse(@NotNull ValkyrieMatchElse o) {
+    visitPsiElement(o);
+  }
+
   public void visitMatchExpression(@NotNull ValkyrieMatchExpression o) {
     visitPsiElement(o);
   }
 
   public void visitMatchStatement(@NotNull ValkyrieMatchStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitMatchWith(@NotNull ValkyrieMatchWith o) {
     visitPsiElement(o);
   }
 

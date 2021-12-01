@@ -7,10 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieCondition extends PsiElement {
 
-  @Nullable
-  ValkyrieCaseBranch getCaseBranch();
-
   @NotNull
   ValkyrieInlineExpression getInlineExpression();
+
+  @Nullable
+  ValkyrieMatchCase getMatchCase();
 
 }

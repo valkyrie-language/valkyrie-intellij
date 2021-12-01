@@ -29,15 +29,15 @@ public class ValkyrieConditionNode extends ValkyrieASTBase implements ValkyrieCo
   }
 
   @Override
-  @Nullable
-  public ValkyrieCaseBranch getCaseBranch() {
-    return findChildByClass(ValkyrieCaseBranch.class);
-  }
-
-  @Override
   @NotNull
   public ValkyrieInlineExpression getInlineExpression() {
     return findNotNullChildByClass(ValkyrieInlineExpression.class);
+  }
+
+  @Override
+  @Nullable
+  public ValkyrieMatchCase getMatchCase() {
+    return findChildByClass(ValkyrieMatchCase.class);
   }
 
 }

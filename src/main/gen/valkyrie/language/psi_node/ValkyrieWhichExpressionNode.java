@@ -30,8 +30,8 @@ public class ValkyrieWhichExpressionNode extends ValkyrieASTBase implements Valk
 
   @Override
   @NotNull
-  public ValkyrieInlineExpression getInlineExpression() {
-    return findNotNullChildByClass(ValkyrieInlineExpression.class);
+  public ValkyrieCaseOr getCaseOr() {
+    return findNotNullChildByClass(ValkyrieCaseOr.class);
   }
 
   @Override
