@@ -6,6 +6,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
+import valkyrie.ide.formatter.ValkyrieCommenter
 import valkyrie.language.ast.DocumentNode
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.psi.ValkyrieTokenType
@@ -16,11 +17,13 @@ import java.util.function.Consumer
 
 class DocumentationProvider : DocumentationProvider {
     override fun generateDoc(element: PsiElement?, originalElement: PsiElement?): String? {
-        return try {
-            element?.let { DocumentationRenderer(it, originalElement).onHover() }
-        } catch (e: java.net.ConnectException) {
-            null
+        if (element == null) return null
+        try {
+            return DocumentationRenderer(element, originalElement).onHover()
+        } catch (e: ConnectException) {
+            // do nothing
         }
+        return null
     }
 
 
@@ -30,23 +33,20 @@ class DocumentationProvider : DocumentationProvider {
     }
 
     override fun collectDocComments(file: PsiFile, sink: Consumer<in PsiDocCommentBase>) {
-        println("collectDocComments $file")
-        if (file !is ValkyrieFileNode) return
+//        if (file !is ValkyrieFileNode) return
         for (leaf in PsiTreeUtil.findChildrenOfType(file, PsiComment::class.java)) {
-            DocumentNode.tryBuild(leaf).let {
-                if (it != null) {
-                    sink.accept(it)
-                }
+            val text = ValkyrieCommenter.extractDocumentText(leaf)
+            if (text != null) {
+                sink.accept(DocumentNode(leaf, text))
             }
         }
     }
 
     override fun generateRenderedDoc(comment: PsiDocCommentBase): String? {
-        println("generateRenderedDoc $comment")
-        return when (comment) {
-            is DocumentNode -> comment.render()
-            else -> super.generateRenderedDoc(comment)
+        if (comment is DocumentNode) {
+            return comment.render()
         }
+        return null
     }
 
     // 按住 Ctrl 后悬浮
@@ -76,5 +76,17 @@ class DocumentationProvider : DocumentationProvider {
             contextElement.elementType == ValkyrieTypes.COMMENT_BLOCK -> null
             else -> null
         }
+    }
+
+    override fun getDocumentationElementForLink(psiManager: PsiManager?, link: String?, context: PsiElement?): PsiElement? {
+        return super.getDocumentationElementForLink(psiManager, link, context)
+    }
+
+    override fun getDocumentationElementForLookupItem(psiManager: PsiManager?, `object`: Any?, element: PsiElement?): PsiElement? {
+        return super.getDocumentationElementForLookupItem(psiManager, `object`, element)
+    }
+
+    override fun getUrlFor(element: PsiElement?, originalElement: PsiElement?): MutableList<String>? {
+        return super.getUrlFor(element, originalElement)
     }
 }

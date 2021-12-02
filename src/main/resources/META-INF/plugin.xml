@@ -180,7 +180,7 @@
 		<lang.foldingBuilder
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.folding.ValkyrieFoldingBuilder"/>
-		<codeBlockProvider language="Valkyrie" implementationClass="valkyrie.ide.matcher.CodeBlockProvider"/>
+		<codeBlockProvider language="Valkyrie" implementationClass="valkyrie.ide.matcher.ValkyrieCodeBlockProvider"/>
 		<codeFoldingOptionsProvider instance="valkyrie.ide.folding.ValkyrieFoldingOptions"/>
 		<referenceImporter implementation="valkyrie.ide.completion.ValkyrieImportInsert"/>
 		<lang.importOptimizer

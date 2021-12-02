@@ -6,8 +6,12 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiFile
 
 
-class CodeBlockProvider: CodeBlockProvider {
+/**
+ * Alt + Up/Down
+ */
+class ValkyrieCodeBlockProvider : CodeBlockProvider {
     override fun getCodeBlockRange(editor: Editor?, psiFile: PsiFile?): TextRange? {
+        print("getCodeBlockRange $editor $psiFile")
         return null
     }
 }

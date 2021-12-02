@@ -12,15 +12,4 @@ open class MixinObjectKey(node: ASTNode) : ValkyrieASTBase(node) {
     override fun getName(): String {
         return this.text.trim('`')
     }
-
-    override fun getReferences(): Array<ValkyrieReference> {
-        return when (this.parent) {
-            is ValkyrieClassStatementNode -> {
-                emptyArray()
-            }
-            else -> {
-                arrayOf(ValkyrieReference(this))
-            }
-        }
-    }
 }

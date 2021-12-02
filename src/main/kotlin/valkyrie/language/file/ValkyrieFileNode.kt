@@ -8,10 +8,14 @@ import valkyrie.language.psi_node.ValkyrieClassStatementNode
 import valkyrie.language.psi_node.ValkyrieTraitStatementNode
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.ide.util.treeView.smartTree.TreeElement
+import com.intellij.model.psi.PsiSymbolDeclaration
+import com.intellij.model.psi.PsiSymbolReference
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.psi.FileViewProvider
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.util.PsiTreeUtil
+import valkyrie.ide.reference.ValkyrieReference
+import valkyrie.ide.reference.ValkyrieReferenceProvider
 
 /// ValkyrieFile 是个 PsiElement
 class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ValkyrieLanguage) {
@@ -34,6 +38,14 @@ class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvide
             )
             .filter { it.name == name.first() }
             .firstNotNullOfOrNull { it.resolveNamespace(name.drop(1)) }
+    }
+
+    override fun getOwnDeclarations(): MutableCollection<out PsiSymbolDeclaration> {
+        return super.getOwnDeclarations()
+    }
+
+    override fun getOwnReferences(): MutableCollection<out PsiSymbolReference> {
+        return super.getOwnReferences()
     }
 
     fun isIndexFile(): Boolean {

@@ -71,7 +71,4 @@ open class ValkyrieASTBase(node: ASTNode) : ASTWrapperPsiElement(node) {
     override fun getOwnDeclarations(): MutableCollection<out ValkyrieSymbol> {
         return mutableListOf()
     }
-
-    override fun getReference(): ValkyrieReference? = this.references.firstOrNull()
-    override fun getReferences(): Array<ValkyrieReference> = emptyArray()
 }

@@ -11,14 +11,6 @@ open class MixinTerm(node: ASTNode) : ValkyrieASTBase(node) {
         return this as ValkyrieTermNode
     }
 
-    override fun getReference(): ValkyrieReference? {
-        val namepath = originalElement.namepath
-        return when (namepath.count()) {
-            1 -> ValkyrieReference(namepath.first())
-            else -> null
-        }
-    }
-
     val namepath: List<ValkyrieIdentifier>
         get() {
             val namepath = originalElement.atom.namepath ?: return listOf();

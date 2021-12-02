@@ -23,7 +23,7 @@ object ValkyrieCommenter : CodeDocumentationAwareCommenter {
     override fun getLineCommentTokenType(): IElementType? = ValkyrieTypes.COMMENT_LINE
     override fun getBlockCommentTokenType(): IElementType? = ValkyrieTypes.COMMENT_BLOCK
     override fun getDocumentationCommentTokenType(): IElementType? = null
-    override fun getDocumentationCommentPrefix() = "/*?"
+    override fun getDocumentationCommentPrefix() = "/**"
     override fun getDocumentationCommentSuffix() = "*/"
     override fun getDocumentationCommentLinePrefix() = null
     override fun isDocumentationComment(element: PsiComment?): Boolean {
@@ -31,5 +31,15 @@ object ValkyrieCommenter : CodeDocumentationAwareCommenter {
             return false
         }
         return element.text.startsWith(documentationCommentPrefix)
+    }
+
+    fun extractDocumentText(element: PsiComment): String? {
+//        if (element.elementType == ValkyrieTypes.COMMENT_LINE && element.text.startsWith(documentationCommentLinePrefix)) {
+//            return element.text.substring(documentationCommentLinePrefix.length).trim()
+//        }
+        if (element.elementType == ValkyrieTypes.COMMENT_BLOCK && element.text.startsWith(documentationCommentPrefix)) {
+            return element.text.substring(documentationCommentPrefix.length, element.text.length - documentationCommentSuffix.length).trim()
+        }
+        return null
     }
 }

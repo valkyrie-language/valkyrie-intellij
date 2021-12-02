@@ -19,14 +19,12 @@ import valkyrie.language.psi.ValkyrieTypes
 
 
 object ValkyrieParserDefinition : ParserDefinition {
-    override fun createLexer(project: Project): Lexer = ValkyrieLexerAdapter()
-
-    override fun createParser(project: Project): PsiParser = ValkyrieParser()
-
-    override fun getFileNodeType(): IFileElementType = IFileElementType(ValkyrieLanguage)
-
     override fun getWhitespaceTokens(): TokenSet {
-        return super.getWhitespaceTokens()
+        return TokenSet.WHITE_SPACE
+    }
+
+    override fun spaceExistenceTypeBetweenTokens(left: ASTNode, right: ASTNode): SpaceRequirements {
+        return SpaceRequirements.MAY
     }
 
     override fun getCommentTokens(): TokenSet = TokenSet.create(ValkyrieTypes.COMMENT_LINE, ValkyrieTypes.COMMENT_BLOCK)
@@ -36,10 +34,8 @@ object ValkyrieParserDefinition : ParserDefinition {
     }
 
     override fun createElement(node: ASTNode): PsiElement = ValkyrieTypes.Factory.createElement(node)
-
+    override fun getFileNodeType(): IFileElementType = IFileElementType(ValkyrieLanguage)
     override fun createFile(viewProvider: FileViewProvider): PsiFile = ValkyrieFileNode(viewProvider)
-
-    override fun spaceExistenceTypeBetweenTokens(left: ASTNode, right: ASTNode): SpaceRequirements {
-        return SpaceRequirements.MAY
-    }
+    override fun createLexer(project: Project): Lexer = ValkyrieLexerAdapter()
+    override fun createParser(project: Project): PsiParser = ValkyrieParser()
 }
