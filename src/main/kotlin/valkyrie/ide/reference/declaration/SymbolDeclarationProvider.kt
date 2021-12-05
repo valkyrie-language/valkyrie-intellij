@@ -9,13 +9,6 @@ import valkyrie.language.psi_node.ValkyrieDefineStatementNode
 @Suppress("UnstableApiUsage")
 object SymbolDeclarationProvider : PsiSymbolDeclarationProvider {
     override fun getDeclarations(element: PsiElement, offsetInElement: Int): MutableCollection<out PsiSymbolDeclaration> {
-        return when (element) {
-            is ValkyrieDefineStatementNode -> {
-                element.ownDeclarations
-            }
-            else -> {
-                element.ownDeclarations
-            }
-        }
+        return mutableListOf()
     }
 }

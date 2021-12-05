@@ -7,10 +7,10 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 
 @Suppress("UnstableApiUsage")
-open class ValkyrieSymbol(open val target: PsiElement) : Pointer<ValkyrieSymbol>, Symbol, PsiSymbolDeclaration {
-    override fun createPointer(): Pointer<out ValkyrieSymbol> = this
-    override fun dereference(): ValkyrieSymbol = this
-    override fun getSymbol(): ValkyrieSymbol = this
+open class ValkyrieDeclaration(open val target: PsiElement) : Pointer<ValkyrieDeclaration>, Symbol, PsiSymbolDeclaration {
+    override fun createPointer(): Pointer<out ValkyrieDeclaration> = this
+    override fun dereference(): ValkyrieDeclaration = this
+    override fun getSymbol(): ValkyrieDeclaration = this
     override fun getDeclaringElement(): PsiElement = target
     override fun getRangeInDeclaringElement(): TextRange = target.textRange
 }

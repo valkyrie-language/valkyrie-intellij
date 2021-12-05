@@ -15,7 +15,7 @@ import valkyrie.language.psi_node.ValkyrieClassFieldNode
 import valkyrie.language.psi_node.ValkyrieClassMethodNode
 import valkyrie.language.psi_node.ValkyrieClassStatementNode
 import valkyrie.language.psi_node.ValkyrieIdentifierNode
-import valkyrie.language.symbol.ValkyrieSymbol
+import valkyrie.language.symbol.ValkyrieDeclaration
 import javax.swing.Icon
 
 // PsiReference
@@ -61,7 +61,7 @@ open class MixinClass(node: ASTNode) : DeclareNode(node), ValkyrieContext {
         return childrenView.toTypedArray()
     }
 
-    override fun getOwnDeclarations(): MutableCollection<out ValkyrieSymbol> {
+    override fun getOwnDeclarations(): MutableCollection<out ValkyrieDeclaration> {
         return super<DeclareNode>.getOwnDeclarations()
     }
 

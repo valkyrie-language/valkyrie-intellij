@@ -106,7 +106,7 @@
 		<breadcrumbsInfoProvider implementation="valkyrie.ide.navigation.ValkyrieBreadcrumbsProvider"/>
 		<breadcrumbsPresentationProvider implementation="valkyrie.ide.navigation.ValkyrieBreadcrumbsPresentation"/>
 		<symbolNavigation
-			forClass="valkyrie.language.symbol.ValkyrieSymbol"
+			forClass="valkyrie.language.symbol.ValkyrieDeclaration"
 			implementationClass="valkyrie.ide.goto.VSymbolNavigationProvider"/>
 		<codeInsight.gotoSuper language="Valkyrie" implementationClass="valkyrie.ide.navigation.GotoSuper"/>
 		<importFilteringRule implementation="valkyrie.ide.navigation.ValkyrieImportFilter"/>
@@ -137,7 +137,7 @@
 			implementationClass="valkyrie.ide.reference.ValkyrieReferenceProvider"
 			hostLanguage="Valkyrie"
 			hostElementClass="com.intellij.psi.xml.XmlAttributeValue"
-			targetClass="valkyrie.language.symbol.ValkyrieSymbol"/>
+			targetClass="valkyrie.language.symbol.ValkyrieDeclaration"/>
 		<!-- Lint -->
 		<lang.namesValidator language="Valkyrie" implementationClass="valkyrie.ide.lint.ValkyrieNameValidator"/>
 		<qualifiedNameProvider implementation="valkyrie.ide.lint.ValkyrieNameQualifier"/>

@@ -4,7 +4,7 @@ import valkyrie.language.psi.ValkyrieIdentifier
 import valkyrie.language.psi_node.ValkyrieIdentifierNode
 import com.intellij.psi.PsiElement
 
-class VsMethod(override val target: ValkyrieIdentifierNode) : ValkyrieSymbol(target) {
+class VsMethod(override val target: ValkyrieIdentifierNode) : ValkyrieDeclaration(target) {
     constructor(target: ValkyrieIdentifier) : this(target as ValkyrieIdentifierNode) {
 
     }

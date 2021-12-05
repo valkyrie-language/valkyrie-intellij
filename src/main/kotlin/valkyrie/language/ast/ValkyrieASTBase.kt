@@ -1,17 +1,13 @@
 package valkyrie.language.ast
 
-import valkyrie.ide.reference.ValkyrieReference
 import valkyrie.ide.view.ValkyrieViewElement
-import valkyrie.language.psi.ancestors
-import valkyrie.language.symbol.ValkyrieSymbol
+import valkyrie.language.symbol.ValkyrieDeclaration
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.lang.ASTNode
-import com.intellij.model.psi.PsiSymbolDeclaration
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiComment
-import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.siblings
@@ -68,7 +64,7 @@ open class ValkyrieASTBase(node: ASTNode) : ASTWrapperPsiElement(node) {
         return this.valkyrieContext()
     }
 
-    override fun getOwnDeclarations(): MutableCollection<out ValkyrieSymbol> {
+    override fun getOwnDeclarations(): MutableCollection<out ValkyrieDeclaration> {
         return mutableListOf()
     }
 }
