@@ -1,7 +1,7 @@
 package valkyrie.language.ast
 
 import valkyrie.ide.view.ValkyrieViewElement
-import valkyrie.language.symbol.ValkyrieDeclaration
+import valkyrie.language.symbol.ValkyrieSymbolTemplate
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.lang.ASTNode
@@ -62,9 +62,5 @@ open class ValkyrieASTBase(node: ASTNode) : ASTWrapperPsiElement(node) {
 
     override fun getContext(): ValkyrieContext? {
         return this.valkyrieContext()
-    }
-
-    override fun getOwnDeclarations(): MutableCollection<out ValkyrieDeclaration> {
-        return mutableListOf()
     }
 }

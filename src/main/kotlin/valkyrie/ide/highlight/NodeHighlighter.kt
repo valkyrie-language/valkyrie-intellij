@@ -144,11 +144,11 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitTypeExpression(o: ValkyrieTypeExpression) {
-        fakeTypeColor(o)
+//        fakeTypeColor(o)
     }
 
     override fun visitGenericDefine(o: ValkyrieGenericDefine) {
-        fakeTypeColor(o)
+//        fakeTypeColor(o)
     }
 
     override fun visitDotCall(o: ValkyrieDotCall) {
@@ -172,9 +172,8 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitIdentifier(o: ValkyrieIdentifier) {
-        if (forceKeywords.contains(o.text)) {
-            highlight(o, Color.KEYWORD)
-            return
+        IdentifierKind.resolve(o)?.let {
+            highlight(o, it.color)
         }
         // TODO: real syntax resolve
     }
@@ -248,3 +247,4 @@ private val keywords = setOf(
 private val traits = setOf("Iterator")
 
 private val variants = setOf("Some", "None", "Success", "Failure", "Left", "Riht")
+

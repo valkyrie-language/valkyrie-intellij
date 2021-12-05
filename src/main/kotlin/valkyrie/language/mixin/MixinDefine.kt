@@ -55,14 +55,5 @@ open class MixinDefine(node: ASTNode) : DeclareNode(node), ValkyrieContext {
     fun isMethod(): Boolean = kind.isMethod
     fun isStatic(): Boolean = kind.isStatic
 
-    override fun getOwnDeclarations(): MutableCollection<out VsDefineItem> {
-        val out = mutableListOf<VsDefineItem>();
-        val defines = originalElement.defineTuple ?: return out
-        for (item in defines.defineItemList) {
-            val id = item.identifier ?: continue;
-            out.add(VsDefineItem(id))
-        }
-        return out
-    }
 }
 

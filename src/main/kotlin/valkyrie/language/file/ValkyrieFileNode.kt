@@ -7,6 +7,8 @@ import com.intellij.model.psi.PsiSymbolReference
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.psi.FileViewProvider
 import com.intellij.psi.NavigatablePsiElement
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiReference
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.SearchScope
 import com.intellij.psi.util.PsiTreeUtil
@@ -33,9 +35,9 @@ class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvide
             .toTypedArray()
     }
 
-    val definitions: MutableMap<String, ValkyrieASTBase>
+    val definitions: MutableMap<String, PsiElement>
         get() {
-            val map = mutableMapOf<String, ValkyrieASTBase>()
+            val map = mutableMapOf<String, PsiElement>()
             for (child in this.children) {
                 when (child) {
                     is ValkyrieClassStatementNode -> map[child.name] = child
@@ -47,7 +49,11 @@ class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvide
         }
 
     override fun getOwnDeclarations(): MutableCollection<out PsiSymbolDeclaration> {
-        return super.getOwnDeclarations()
+        val output = mutableListOf<PsiSymbolDeclaration>()
+        for (child in this.children) {
+            output.addAll(child.ownDeclarations)
+        }
+        return output
     }
 
     override fun getOwnReferences(): MutableCollection<out PsiSymbolReference> {

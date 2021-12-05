@@ -3,6 +3,7 @@ package valkyrie.language.mixin
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiReference
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.SearchScope
 import com.intellij.psi.util.PsiTreeUtil
@@ -15,14 +16,12 @@ import valkyrie.language.psi_node.ValkyrieClassFieldNode
 import valkyrie.language.psi_node.ValkyrieClassMethodNode
 import valkyrie.language.psi_node.ValkyrieClassStatementNode
 import valkyrie.language.psi_node.ValkyrieIdentifierNode
-import valkyrie.language.symbol.ValkyrieDeclaration
+import valkyrie.language.symbol.ValkyrieDeclared
 import javax.swing.Icon
 
 // PsiReference
 @Suppress("UnstableApiUsage", "PropertyName")
 open class MixinClass(node: ASTNode) : DeclareNode(node), ValkyrieContext {
-    val fullNamepath: List<String> = listOf("test", "ClassName")
-
     override fun getOriginalElement(): ValkyrieClassStatementNode {
         return this as ValkyrieClassStatementNode
     }
@@ -61,18 +60,6 @@ open class MixinClass(node: ASTNode) : DeclareNode(node), ValkyrieContext {
         return childrenView.toTypedArray()
     }
 
-    override fun getOwnDeclarations(): MutableCollection<out ValkyrieDeclaration> {
-        return super<DeclareNode>.getOwnDeclarations()
-    }
-
-    fun collectSymbols(): MutableMap<String, ValkyrieHighlightColor> {
-        val symbols = mutableMapOf<String, ValkyrieHighlightColor>()
-        collectGenerics().forEach { symbols[it.text] = ValkyrieHighlightColor.SYM_GENERIC }
-        class_fields.forEach { symbols[it.name] = ValkyrieHighlightColor.SYM_FIELD }
-        class_methods.forEach { symbols[it.name] = ValkyrieHighlightColor.SYM_FUNCTION_FREE }
-        return symbols
-    }
-
     val class_fields: List<ValkyrieClassFieldNode>
         get() {
             if (originalElement.classBlock == null) return listOf()
@@ -91,7 +78,5 @@ open class MixinClass(node: ASTNode) : DeclareNode(node), ValkyrieContext {
         }
         return generic
     }
-
-
 }
 
