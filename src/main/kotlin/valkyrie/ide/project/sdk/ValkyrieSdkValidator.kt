@@ -18,10 +18,10 @@ class ValkyrieSdkValidator : ProjectSdkSetupValidator {
 
     override fun getErrorMessage(project: Project, file: VirtualFile): String? {
         val sdk = ProjectRootManager.getInstance(project).projectSdk;
-        if (sdk != null) {
-            return "Missing Valkyrie SDK"
+        if (sdk == null) {
+            return null
         }
-        return "Invalid Valkyrie SDK"
+        return "Invalid standard library"
     }
 
     override fun getFixHandler(project: Project, file: VirtualFile): ActionHandler {
@@ -31,7 +31,7 @@ class ValkyrieSdkValidator : ProjectSdkSetupValidator {
 
 private class SdkFixer(val project: Project, val file: VirtualFile) : ActionHandler {
     override fun handlePanelActionClick(panel: EditorNotificationPanel, event: HyperlinkEvent) {
-
+       event.url
     }
 
     override fun handleQuickFixClick(editor: Editor, psiFile: PsiFile) {

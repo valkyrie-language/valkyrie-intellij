@@ -2,21 +2,22 @@ package valkyrie.language.mixin
 
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
+import com.intellij.model.psi.PsiSymbolDeclaration
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiReference
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.SearchScope
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.view.ValkyrieViewElement
 import valkyrie.language.ast.DeclareNode
 import valkyrie.language.ast.ValkyrieASTBase
+import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.psi.ValkyrieContext
 import valkyrie.language.psi_node.ValkyrieClassFieldNode
 import valkyrie.language.psi_node.ValkyrieClassMethodNode
 import valkyrie.language.psi_node.ValkyrieClassStatementNode
 import valkyrie.language.psi_node.ValkyrieIdentifierNode
-import valkyrie.language.symbol.ValkyrieDeclared
+import valkyrie.language.symbol.ValkyrieClassDeclare
+import valkyrie.language.symbol.WorkspaceManager
 import javax.swing.Icon
 
 // PsiReference
@@ -65,18 +66,11 @@ open class MixinClass(node: ASTNode) : DeclareNode(node), ValkyrieContext {
             if (originalElement.classBlock == null) return listOf()
             return PsiTreeUtil.getChildrenOfTypeAsList(originalElement.classBlock!!, ValkyrieClassFieldNode::class.java)
         }
-    val class_methods: List<ValkyrieClassMethodNode>
-        get() {
-            if (originalElement.classBlock == null) return listOf()
-            return PsiTreeUtil.getChildrenOfTypeAsList(originalElement.classBlock!!, ValkyrieClassMethodNode::class.java)
-        }
 
-    fun collectGenerics(): List<ValkyrieIdentifierNode> {
-        val generic = mutableListOf<ValkyrieIdentifierNode>()
-        originalElement.genericDefine?.let {
-
-        }
-        return generic
+    override fun getOwnDeclarations(): MutableCollection<out PsiSymbolDeclaration> {
+        val file = this.containingFile as ValkyrieFileNode;
+        WorkspaceManager.defineClass(originalElement, file.packageName, file.namespace)
+        return mutableListOf()
     }
 }
 

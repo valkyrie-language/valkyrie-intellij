@@ -17,6 +17,10 @@ open class MixinExtends(node: ASTNode) : ViewableNode(node), ValkyrieContext {
             return originalElement.namepath.identifierList.last() as ValkyrieIdentifierNode
         }
 
+    override fun getName(): String {
+        return identifier.name
+    }
+
 
     override fun getIcon(flags: Int): Icon = AllIcons.Nodes.EntryPoints
     override fun getNavigationElement(): PsiElement {

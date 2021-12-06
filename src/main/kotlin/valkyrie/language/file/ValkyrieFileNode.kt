@@ -7,18 +7,13 @@ import com.intellij.model.psi.PsiSymbolReference
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.psi.FileViewProvider
 import com.intellij.psi.NavigatablePsiElement
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiReference
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.SearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.ide.view.ValkyrieViewElement
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.ast.ValkyrieASTBase
-import valkyrie.language.psi_node.ValkyrieClassStatementNode
-import valkyrie.language.psi_node.ValkyrieDefineStatementNode
-import valkyrie.language.psi_node.ValkyrieTraitStatementNode
+import valkyrie.language.psi_node.ValkyrieNamespaceStatementNode
 
 /**
 ValkyrieFile 是个 PsiElement
@@ -35,17 +30,24 @@ class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvide
             .toTypedArray()
     }
 
-    val definitions: MutableMap<String, PsiElement>
+    val packageName: String
         get() {
-            val map = mutableMapOf<String, PsiElement>()
             for (child in this.children) {
-                when (child) {
-                    is ValkyrieClassStatementNode -> map[child.name] = child
-                    is ValkyrieTraitStatementNode -> map[child.name] = child
-                    is ValkyrieDefineStatementNode -> map[child.name] = child
+                if (child is ValkyrieNamespaceStatementNode) {
+                    return child.name
                 }
             }
-            return map
+            return ""
+        }
+
+    val namespace: String
+        get() {
+            for (child in this.children) {
+                if (child is ValkyrieNamespaceStatementNode) {
+                    return ""
+                }
+            }
+            return ""
         }
 
     override fun getOwnDeclarations(): MutableCollection<out PsiSymbolDeclaration> {
@@ -57,7 +59,11 @@ class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvide
     }
 
     override fun getOwnReferences(): MutableCollection<out PsiSymbolReference> {
-        return super.getOwnReferences()
+        val output = mutableListOf<PsiSymbolReference>()
+        for (child in this.children) {
+            output.addAll(child.ownReferences)
+        }
+        return output
     }
 
     override fun getResolveScope(): GlobalSearchScope {

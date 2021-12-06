@@ -131,13 +131,16 @@
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.hint.AuthorAbove"/>
 		<!--		<psi.fileReferenceHelper implementation="valkyrie.ide.reference.ValkyrieFileReference"/>-->
-		<psi.referenceContributor implementation="valkyrie.ide.reference.ValkyrieReferenceContributor"/>
-		<psi.symbolReferenceProvider
-			anyReferenceClass="true"
-			implementationClass="valkyrie.ide.reference.ValkyrieReferenceProvider"
-			hostLanguage="Valkyrie"
-			hostElementClass="com.intellij.psi.xml.XmlAttributeValue"
-			targetClass="valkyrie.language.symbol.ValkyrieSymbolTemplate"/>
+		<psi.referenceContributor
+			language="Valkyrie"
+			implementation="valkyrie.ide.reference.ValkyrieReferenceContributor"/>
+		<psi.referenceProvider language="Valkyrie" providerClass="valkyrie.ide.reference.ValkyrieReferenceProvider"/>
+		<!--		<psi.symbolReferenceProvider-->
+		<!--			anyReferenceClass="true"-->
+		<!--			implementationClass="valkyrie.ide.reference.ValkyrieReferenceProvider"-->
+		<!--			hostLanguage="Valkyrie"-->
+		<!--			hostElementClass="com.intellij.psi.xml.XmlAttributeValue"-->
+		<!--			targetClass="valkyrie.language.symbol.ValkyrieSymbolTemplate"/>-->
 		<!-- Lint -->
 		<lang.namesValidator language="Valkyrie" implementationClass="valkyrie.ide.lint.ValkyrieNameValidator"/>
 		<qualifiedNameProvider implementation="valkyrie.ide.lint.ValkyrieNameQualifier"/>

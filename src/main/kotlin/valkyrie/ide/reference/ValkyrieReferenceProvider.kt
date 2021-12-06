@@ -1,20 +1,14 @@
 package valkyrie.ide.reference
 
-import com.intellij.model.Symbol
-import com.intellij.model.psi.PsiExternalReferenceHost
-import com.intellij.model.psi.PsiSymbolReference
-import com.intellij.model.psi.PsiSymbolReferenceHints
-import com.intellij.model.psi.PsiSymbolReferenceProvider
-import com.intellij.model.search.SearchRequest
-import com.intellij.openapi.project.Project
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiReference
+import com.intellij.psi.PsiReferenceProvider
+import com.intellij.util.ProcessingContext
 
 @Suppress("UnstableApiUsage")
-class ValkyrieReferenceProvider : PsiSymbolReferenceProvider {
-    override fun getReferences(element: PsiExternalReferenceHost, hints: PsiSymbolReferenceHints): MutableCollection<out PsiSymbolReference> {
-        return element.ownReferences
-    }
-
-    override fun getSearchRequests(project: Project, target: Symbol): MutableCollection<out SearchRequest> {
-        TODO("Not yet implemented")
+class ValkyrieReferenceProvider : PsiReferenceProvider() {
+    override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<PsiReference> {
+        println("getReferencesByElement(${element}, ${context})")
+        return arrayOf()
     }
 }

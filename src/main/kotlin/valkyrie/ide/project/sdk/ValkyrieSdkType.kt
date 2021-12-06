@@ -4,6 +4,7 @@ import com.intellij.openapi.projectRoots.*
 import com.intellij.openapi.roots.OrderRootType
 import com.intellij.ui.dsl.builder.panel
 import org.jdom.Element
+import valkyrie.ide.project.sdk.ValkyrieSdk
 import valkyrie.language.file.ValkyrieIconProvider
 import java.io.File
 import javax.swing.JComponent
@@ -54,9 +55,9 @@ class ValkyrieSdkType : SdkType(ID) {
     override fun suggestSdkName(currentSdkName: String?, sdkHome: String): String {
         val file = File(sdkHome);
         return if (file.exists()) {
-            "brunhilde ${file.name}"
+            "std ${file.name}"
         } else {
-            "Invalid SDK"
+            "Invalid standard library"
         }
     }
 

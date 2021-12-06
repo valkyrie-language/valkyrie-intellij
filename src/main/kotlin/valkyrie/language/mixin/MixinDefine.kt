@@ -10,7 +10,6 @@ import valkyrie.language.ast.FunctionKind
 import valkyrie.language.ast.addChildrenView
 import valkyrie.language.psi.ValkyrieContext
 import valkyrie.language.psi_node.*
-import valkyrie.language.symbol.VsDefineItem
 import javax.swing.Icon
 
 @Suppress("UnstableApiUsage")

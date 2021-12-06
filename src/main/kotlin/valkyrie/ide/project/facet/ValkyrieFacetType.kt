@@ -9,6 +9,7 @@ import com.intellij.facet.ui.FacetEditorTab
 import com.intellij.facet.ui.FacetValidatorsManager
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.module.ModuleType
+import valkyrie.ide.project.crate.ValkyrieModuleType
 import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
@@ -22,7 +23,7 @@ class ValkyrieFacetType : FacetType<ValkyrieFacetInfo, ValkyrieFacet>(Facet_ID, 
     }
 
     override fun isSuitableModuleType(moduleType: ModuleType<*>?): Boolean {
-        TODO("Not yet implemented")
+        return moduleType is ValkyrieModuleType
     }
 
     override fun getIcon(): Icon {
@@ -50,7 +51,9 @@ class ValkyrieFacetType : FacetType<ValkyrieFacetInfo, ValkyrieFacet>(Facet_ID, 
 
 class ValkyrieFacet : FacetConfiguration {
     override fun createEditorTabs(editorContext: FacetEditorContext?, validatorsManager: FacetValidatorsManager?): Array<FacetEditorTab> {
-        TODO("Not yet implemented")
+        return arrayOf(
+
+        )
     }
 }
 

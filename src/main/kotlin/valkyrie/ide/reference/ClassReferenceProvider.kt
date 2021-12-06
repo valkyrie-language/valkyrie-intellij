@@ -8,7 +8,10 @@ import com.intellij.util.ProcessingContext
 
 class ClassReferenceProvider : PsiReferenceProvider() {
     override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<PsiReference> {
-        PsiReferenceService.getService().getReferences(element, PsiReferenceService.Hints.NO_HINTS)
+        println("getReferencesByElement($element, $context)")
+
+
+//        PsiReferenceService.getService().getReferences(element, PsiReferenceService.Hints.NO_HINTS)
         TODO("Not yet implemented $element $context")
     }
 
