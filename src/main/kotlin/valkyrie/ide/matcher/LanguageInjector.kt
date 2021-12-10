@@ -2,7 +2,7 @@ package valkyrie.ide.matcher
 
 import valkyrie.language.psi_node.ValkyrieStringNode
 import com.intellij.json.json5.Json5Language
-import com.intellij.jsonpath.JsonPathLanguage
+//import com.intellij.jsonpath.JsonPathLanguage
 import com.intellij.lang.Language
 import com.intellij.lang.Language.ANY
 import com.intellij.lang.Language.getRegisteredLanguages
@@ -36,7 +36,7 @@ private fun ValkyrieStringNode.injectPerform(registrar: MultiHostRegistrar) {
             .addPlace("(?x)", null, this, injectRange)
             .doneInjecting()
         "json5", "jsonp", "json" -> registrar.fastRegister(Json5Language.INSTANCE, this)
-        "jp", "json_path" -> registrar.fastRegister(JsonPathLanguage.INSTANCE, this)
+//        "jp", "json_path" -> registrar.fastRegister(JsonPathLanguage.INSTANCE, this)
         "xp", "xpath" -> registrar.fastRegister(XMLLanguage.INSTANCE, this)
         "xml" -> registrar.fastRegister(XMLLanguage.INSTANCE, this)
         "html" -> registrar.fastRegister(HTMLLanguage.INSTANCE, this)

@@ -1,7 +1,6 @@
 grammar Valkyrie;
 options {
 	language = Java;
-	outputDirectory = 'valkyrie.language.antlr';
 }
 
 top_statement: define_function;

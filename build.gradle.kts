@@ -14,8 +14,11 @@ plugins {
     id("org.jetbrains.changelog") version "1.3.1"
     id("org.jetbrains.qodana") version "0.1.13"
 }
+
 dependencies {
-    antlr("org.antlr:antlr4-runtime:4.13.1")
+    implementation(kotlin("stdlib-jdk8"))
+    antlr("org.antlr:antlr:${properties("antlrVersion")}")
+//    antlr("org.antlr:antlr4-runtime:4.12.0")
     antlr("org.antlr:antlr4-intellij-adaptor:0.1")
 }
 
@@ -93,7 +96,17 @@ tasks {
             }.toHTML()
         })
     }
-
+    generateGrammarSource {
+        maxHeapSize = "64m"
+        arguments = arguments + listOf(
+            "-listener",
+            "-visitor",
+            "-long-messages",
+            "-Dlanguage=Java",
+            "-encoding", "utf8",
+            "-package", "valkyrie.language.antlr"
+        )
+    }
     // Configure UI tests plugin
     // Read more: https://github.com/JetBrains/intellij-ui-test-robot
     runIdeForUiTests {
@@ -118,9 +131,7 @@ tasks {
         channels.set(listOf(properties("pluginVersion").split('-').getOrElse(1) { "default" }.split('.').first()))
     }
 }
-dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-}
+
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     jvmTarget = "17"
