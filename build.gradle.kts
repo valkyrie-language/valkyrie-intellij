@@ -1,20 +1,23 @@
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.ir.backend.js.compile
 
 fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
     idea
     java
+    antlr
     kotlin("jvm") version "1.8.21"
     kotlin("plugin.serialization") version "1.8.21"
-    id("org.jetbrains.intellij") version "1.13.3"
+    id("org.jetbrains.intellij") version "1.15.0"
     id("org.jetbrains.changelog") version "1.3.1"
     id("org.jetbrains.qodana") version "0.1.13"
 }
-//dependencies {
-//    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
-//}
+dependencies {
+    antlr("org.antlr:antlr4-runtime:4.13.1")
+    antlr("org.antlr:antlr4-intellij-adaptor:0.1")
+}
 
 group = properties("pluginGroup")
 version = properties("pluginVersion")
@@ -73,17 +76,15 @@ tasks {
         untilBuild.set(properties("pluginUntilBuild"))
 
         // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest
-        pluginDescription.set(
-            projectDir.resolve("README.md").readText().lines().run {
-                val start = "<!-- Plugin description -->"
-                val end = "<!-- Plugin description end -->"
+        pluginDescription.set(projectDir.resolve("README.md").readText().lines().run {
+            val start = "<!-- Plugin description -->"
+            val end = "<!-- Plugin description end -->"
 
-                if (!containsAll(listOf(start, end))) {
-                    throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
-                }
-                subList(indexOf(start) + 1, indexOf(end))
-            }.joinToString("\n").run { markdownToHTML(this) }
-        )
+            if (!containsAll(listOf(start, end))) {
+                throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
+            }
+            subList(indexOf(start) + 1, indexOf(end))
+        }.joinToString("\n").run { markdownToHTML(this) })
 
         // Get the latest available change notes from the changelog file
         changeNotes.set(provider {
