@@ -5,9 +5,9 @@ import com.intellij.util.containers.toMutableSmartList
 import kotlinx.serialization.Serializable
 import valkyrie.ide.project.library.DependenceLibrary
 
-@Serializable
+//@Serializable
 data class RequestDependencies(val workspace: String) {
-    @Serializable
+//    @Serializable
     data class DependenciesInfo(
         val name: String,
         val version: String,

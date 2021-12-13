@@ -9,7 +9,7 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
 
-@Serializable
+//@Serializable
 data class RequestDocument(
     val kind: String,
     val namepath: List<String>,
@@ -45,7 +45,7 @@ data class RequestDocument(
     }
 }
 
-@Serializable
+//@Serializable
 private data class ResponseDocument(val content: String) {
 
 }

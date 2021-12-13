@@ -24,5 +24,5 @@ class ValkyrieModuleFilter : FileFilter {
 }
 
 //     val jsonData = Json.decodeFromString<ModuleInfo>(string)
-@Serializable
+//@Serializable
 private data class ModuleInfo(val a: Int, val b: String = "42")

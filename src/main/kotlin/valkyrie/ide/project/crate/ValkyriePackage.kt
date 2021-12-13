@@ -47,9 +47,6 @@ class ValkyriePackage(project: Project) : Module {
         TODO("Not yet implemented")
     }
 
-    override fun getPicoContainer(): PicoContainer {
-        TODO("Not yet implemented")
-    }
 
     override fun isInjectionForExtensionSupported(): Boolean {
         TODO("Not yet implemented")
@@ -71,7 +68,11 @@ class ValkyriePackage(project: Project) : Module {
         TODO("Not yet implemented")
     }
 
-    override fun <T : Any?> instantiateClass(className: String, pluginDescriptor: PluginDescriptor): T & Any {
+    override fun <T : Any?> instantiateClass(aClass: Class<T>, pluginId: PluginId): T {
+        TODO("Not yet implemented")
+    }
+
+    override fun <T : Any?> instantiateClass(className: String, pluginDescriptor: PluginDescriptor): T {
         TODO("Not yet implemented")
     }
 
@@ -79,13 +80,14 @@ class ValkyriePackage(project: Project) : Module {
         TODO("Not yet implemented")
     }
 
-    override fun createError(error: Throwable, pluginId: PluginId): RuntimeException {
+    override fun createError(error: Throwable, pluginId: PluginId): java.lang.RuntimeException {
         TODO("Not yet implemented")
     }
 
-    override fun createError(message: String, pluginId: PluginId): RuntimeException {
+    override fun createError(message: String, pluginId: PluginId): java.lang.RuntimeException {
         TODO("Not yet implemented")
     }
+
 
     override fun createError(
         message: String,

@@ -7,7 +7,7 @@ import java.io.DataInput
 import java.io.DataOutput
 
 
-@Serializable
+//@Serializable
 class ValkyrieFileData {
     var path = "";
     var namespace: Array<String> = arrayOf();

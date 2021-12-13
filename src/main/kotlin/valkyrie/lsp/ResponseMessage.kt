@@ -2,7 +2,7 @@ package valkyrie.lsp
 
 import kotlinx.serialization.Serializable
 
-@Serializable
+//@Serializable
 data class ResponseMessage<T>(
     val code: Int,
     val message: String,

@@ -7,7 +7,7 @@ fun properties(key: String) = project.findProperty(key).toString()
 plugins {
     idea
     java
-    antlr
+//    antlr
     kotlin("jvm") version "1.8.21"
     kotlin("plugin.serialization") version "1.8.21"
     id("org.jetbrains.intellij") version "1.15.0"
@@ -17,9 +17,9 @@ plugins {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    antlr("org.antlr:antlr:${properties("antlrVersion")}")
-//    antlr("org.antlr:antlr4-runtime:4.12.0")
-    antlr("org.antlr:antlr4-intellij-adaptor:0.1")
+//    implementation("org.antlr:antlr4:${properties("antlrVersion")}")
+    implementation("org.antlr:antlr4-runtime:${properties("antlrVersion")}")
+    implementation("org.antlr:antlr4-intellij-adaptor:0.1")
 }
 
 group = properties("pluginGroup")
@@ -96,17 +96,7 @@ tasks {
             }.toHTML()
         })
     }
-    generateGrammarSource {
-        maxHeapSize = "64m"
-        arguments = arguments + listOf(
-            "-listener",
-            "-visitor",
-            "-long-messages",
-            "-Dlanguage=Java",
-            "-encoding", "utf8",
-            "-package", "valkyrie.language.antlr"
-        )
-    }
+
     // Configure UI tests plugin
     // Read more: https://github.com/JetBrains/intellij-ui-test-robot
     runIdeForUiTests {
@@ -131,6 +121,18 @@ tasks {
         channels.set(listOf(properties("pluginVersion").split('-').getOrElse(1) { "default" }.split('.').first()))
     }
 }
+
+//tasks.generateGrammarSource {
+//    maxHeapSize = "64m"
+//    arguments = arguments + listOf(
+//        "-listener",
+//        "-visitor",
+//        "-long-messages",
+//        "-Dlanguage=Java",
+//        "-encoding", "utf8",
+//        "-package", "valkyrie.language.antlr"
+//    )
+//}
 
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
