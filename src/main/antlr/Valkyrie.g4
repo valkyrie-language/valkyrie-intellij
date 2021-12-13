@@ -1,4 +1,5 @@
 grammar Valkyrie;
+import XID;
 options {
 	language = Java;
 }
