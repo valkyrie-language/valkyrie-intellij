@@ -2,6 +2,7 @@ package valkyrie.language.mixin
 
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiNamedElement
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.ast.DeclareNode
 import valkyrie.language.psi.ValkyrieContext
@@ -12,8 +13,8 @@ import javax.swing.Icon
 open class MixinClassField(node: ASTNode) : DeclareNode(node) , ValkyrieContext {
     override fun getOriginalElement() = this as ValkyrieClassFieldNode
 
-    override fun getNameIdentifier(): ValkyrieObjectKeyNode {
-        return originalElement.objectKey as ValkyrieObjectKeyNode
+    override fun getNameIdentifier(): PsiElement {
+        return originalElement.objectKey
     }
 
     override fun getIcon(flags: Int): Icon = ValkyrieIconProvider.FIELD

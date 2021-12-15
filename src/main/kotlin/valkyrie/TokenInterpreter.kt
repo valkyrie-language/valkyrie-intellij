@@ -183,49 +183,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
     private fun codeKeywords(): Boolean {
         val r = tryMatch(keywordSP) ?: return false
         when (r.value) {
-            "namespace", "namespace!", "namespace*", "namespace?" -> pushToken(ValkyrieTypes.KW_NAMESPACE, r)
-            "using", "using!", "using*", "using?" -> pushToken(ValkyrieTypes.KW_IMPORT, r)
-            "as", "as?", "as!", "as*" -> pushToken(ValkyrieTypes.OP_AS, r)
-            "is" -> pushToken(ValkyrieTypes.OP_IS_A, r)
-            "in" -> pushToken(ValkyrieTypes.OP_IN, r)
-            "not" -> pushToken(ValkyrieTypes.OP_NOT, r)
-            "and" -> pushToken(ValkyrieTypes.PATTERN_AND, r)
-            "or" -> pushToken(ValkyrieTypes.PATTERN_OR, r)
 
-
-            "which" -> pushToken(ValkyrieTypes.KW_WHICH, r)
-            "if" -> pushToken(ValkyrieTypes.KW_IF, r)
-            "else" -> pushToken(ValkyrieTypes.KW_ELSE, r)
-
-            "loop" -> pushToken(ValkyrieTypes.KW_LOOP, r)
-            "while" -> pushToken(ValkyrieTypes.KW_WHILE, r)
-            "for" -> pushToken(ValkyrieTypes.KW_FOR, r)
-
-            "match" -> pushToken(ValkyrieTypes.KW_MATCH, r)
-            "when" -> pushToken(ValkyrieTypes.KW_WHEN, r)
-            "case" -> pushToken(ValkyrieTypes.KW_CASE, r)
-            "with" -> pushToken(ValkyrieTypes.KW_WITH, r)
-
-            "let" -> pushToken(ValkyrieTypes.KW_LET, r)
-            "def" -> pushToken(ValkyrieTypes.KW_DEF, r)
-
-            "try" -> pushToken(ValkyrieTypes.KW_TRY, r)
-            "catch" -> pushToken(ValkyrieTypes.KW_CATCH, r)
-            "continue" -> pushToken(ValkyrieTypes.KW_CONTINUE, r)
-            "return" -> pushToken(ValkyrieTypes.KW_RETURN, r)
-            "resume" -> pushToken(ValkyrieTypes.KW_RESUME, r)
-            "raise" -> pushToken(ValkyrieTypes.KW_RAISE, r)
-            "yield" -> pushToken(ValkyrieTypes.KW_YIELD, r)
-            "break" -> pushToken(ValkyrieTypes.KW_BREAK, r)
-            "type" -> pushToken(ValkyrieTypes.KW_TYPE, r)
-
-            "class", "structure", "struct" -> pushToken(ValkyrieTypes.KW_CLASS, r)
-            "union", "tagged", "enum", "variant" -> pushToken(ValkyrieTypes.KW_TAGGED, r)
-            "trait", "interface", "convention", "protocol" -> pushToken(ValkyrieTypes.KW_TRAIT, r)
-            "bitset", "bitflag" -> pushToken(ValkyrieTypes.KW_BITFLAG, r)
-            "extend", "extends", "impl", "implements" -> pushToken(ValkyrieTypes.KW_EXTENDS, r)
-
-            "new", "object" -> pushToken(ValkyrieTypes.KW_NEW, r)
 
             else -> pushToken(TokenType.BAD_CHARACTER, r)
         }
@@ -438,39 +396,7 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
     }
 }
 
-private fun TokenInterpreter.resetToken(token: IElementType) {
-    for (item in stack.asReversed()) {
-        when {
-            item.canSkip() -> continue
-            else -> {
-                item.token = token
-                break
-            }
-        }
-    }
-}
 
-private fun TokenInterpreter.resetContext(context: LexerContext) {
-    contextStack.removeLastOrNull()
-    contextStack.add(context)
-}
-
-private fun TokenInterpreter.enterContext(context: LexerContext) {
-    contextStack.add(context)
-}
-
-private fun TokenInterpreter.endContext() {
-    contextStack.removeLastOrNull()
-}
-
-private fun TokenInterpreter.contextIs(vararg check: LexerContext): Boolean {
-    for (c in check) {
-        if (context == c) {
-            return true
-        }
-    }
-    return false
-}
 
 
 private fun TokenInterpreter.lastIs(vararg token: IElementType, skipWS: Boolean = true): Boolean {
@@ -486,15 +412,3 @@ private fun TokenInterpreter.lastIs(vararg token: IElementType, skipWS: Boolean 
     return false
 }
 
-private fun TokenInterpreter.lastNot(vararg token: IElementType, skipWS: Boolean = true): Boolean {
-    for (item in stack.reversed()) {
-        if (item.tokenIs(TokenType.WHITE_SPACE, ValkyrieTypes.COMMENT_LINE, ValkyrieTypes.COMMENT_BLOCK)) {
-            when {
-                skipWS -> continue
-                else -> return false
-            }
-        }
-        if (item.tokenIs(*token)) return false
-    }
-    return true
-}

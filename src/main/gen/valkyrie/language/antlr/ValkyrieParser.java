@@ -17,46 +17,50 @@ public class ValkyrieParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, LPAREN=3, RPAREN=4, COLON=5, COMMA=6, LBRACK=7, RBRACK=8, 
-		LBRACE=9, RBRACE=10, IF=11, ELSE=12, WHILE=13, VAR=14, EQUAL=15, RETURN=16, 
-		YIELD=17, BREAK=18, CONTINUE=19, NULL=20, TRUE=21, FALSE=22, TYPEINT=23, 
-		TYPEFLOAT=24, TYPESTRING=25, TYPEBOOLEAN=26, SUB=27, BANG=28, MUL=29, 
-		DIV=30, ADD=31, LT=32, LE=33, EQUAL_EQUAL=34, NOT_EQUAL=35, GT=36, GE=37, 
-		OR=38, AND=39, DOT=40, LINE_COMMENT=41, COMMENT=42, INTEGER=43, DECIMAL=44, 
-		STRING=45, WS=46, ERRCHAR=47, UNICODE_ID=48;
+		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, EOS=8, KW_CLASS=9, 
+		LPAREN=10, RPAREN=11, COLON=12, COMMA=13, LBRACK=14, RBRACK=15, LBRACE=16, 
+		RBRACE=17, KW_NAMESPACE=18, IF=19, ELSE=20, WHILE=21, VAR=22, EQUAL=23, 
+		RETURN=24, RESUME=25, YIELD=26, BREAK=27, CONTINUE=28, RAISE=29, CATCH=30, 
+		NULL=31, TRUE=32, FALSE=33, SUB=34, BANG=35, MUL=36, DIV=37, ADD=38, LT=39, 
+		LE=40, EQUAL_EQUAL=41, NOT_EQUAL=42, GT=43, GE=44, OR=45, AND=46, DOT=47, 
+		LINE_COMMENT=48, COMMENT=49, INTEGER=50, DECIMAL=51, STRING=52, WS=53, 
+		ERRCHAR=54, UNICODE_ID=55;
 	public static final int
-		RULE_top_statement = 0, RULE_define_function = 1, RULE_function = 2, RULE_formal_args = 3, 
-		RULE_formal_arg = 4, RULE_type = 5, RULE_block = 6, RULE_statement = 7, 
-		RULE_vardef = 8, RULE_expr = 9, RULE_operator = 10, RULE_call_expr = 11, 
-		RULE_expr_list = 12, RULE_primary = 13;
+		RULE_program = 0, RULE_top_statement = 1, RULE_define_class = 2, RULE_class_statements = 3, 
+		RULE_define_variale = 4, RULE_define_function = 5, RULE_formal_args = 6, 
+		RULE_formal_arg = 7, RULE_type = 8, RULE_block = 9, RULE_statement = 10, 
+		RULE_expr = 11, RULE_operator = 12, RULE_call_expr = 13, RULE_expr_list = 14, 
+		RULE_primary = 15;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"top_statement", "define_function", "function", "formal_args", "formal_arg", 
-			"type", "block", "statement", "vardef", "expr", "operator", "call_expr", 
-			"expr_list", "primary"
+			"program", "top_statement", "define_class", "class_statements", "define_variale", 
+			"define_function", "formal_args", "formal_arg", "type", "block", "statement", 
+			"expr", "operator", "call_expr", "expr_list", "primary"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'def'", "'print'", "'('", "')'", "':'", "','", "'['", "']'", "'{'", 
-			"'}'", "'if'", "'else'", "'while'", "'var'", "'='", "'return'", "'yield'", 
-			"'break'", "'continue'", "'\\u03B1\\u03BB\\u03C6\\u03B1\\u03B2\\u03B7\\u03C4\\u03BF\\u03BD'", 
-			"'true'", "'false'", "'int'", "'float'", "'string'", "'boolean'", "'-'", 
-			"'!'", "'*'", "'/'", "'+'", "'<'", "'<='", "'=='", "'!='", "'>'", "'>='", 
-			"'||'", "'&&'", "' . '"
+			null, "'let'", "'def'", "'int'", "'float'", "'string'", "'boolean'", 
+			"'print'", "';'", "'class'", "'('", "')'", "':'", "','", "'['", "']'", 
+			"'{'", "'}'", null, "'if'", "'else'", "'while'", "'var'", "'='", "'return'", 
+			"'resume'", "'yield'", "'break'", "'continue'", "'raise'", "'catch'", 
+			"'\\u03B1\\u03BB\\u03C6\\u03B1\\u03B2\\u03B7\\u03C4\\u03BF\\u03BD'", 
+			"'true'", "'false'", "'-'", "'!'", "'*'", "'/'", "'+'", "'<'", "'<='", 
+			"'=='", "'!='", "'>'", "'>='", "'||'", "'&&'", "' . '"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, "LPAREN", "RPAREN", "COLON", "COMMA", "LBRACK", "RBRACK", 
-			"LBRACE", "RBRACE", "IF", "ELSE", "WHILE", "VAR", "EQUAL", "RETURN", 
-			"YIELD", "BREAK", "CONTINUE", "NULL", "TRUE", "FALSE", "TYPEINT", "TYPEFLOAT", 
-			"TYPESTRING", "TYPEBOOLEAN", "SUB", "BANG", "MUL", "DIV", "ADD", "LT", 
-			"LE", "EQUAL_EQUAL", "NOT_EQUAL", "GT", "GE", "OR", "AND", "DOT", "LINE_COMMENT", 
-			"COMMENT", "INTEGER", "DECIMAL", "STRING", "WS", "ERRCHAR", "UNICODE_ID"
+			null, null, null, null, null, null, null, null, "EOS", "KW_CLASS", "LPAREN", 
+			"RPAREN", "COLON", "COMMA", "LBRACK", "RBRACK", "LBRACE", "RBRACE", "KW_NAMESPACE", 
+			"IF", "ELSE", "WHILE", "VAR", "EQUAL", "RETURN", "RESUME", "YIELD", "BREAK", 
+			"CONTINUE", "RAISE", "CATCH", "NULL", "TRUE", "FALSE", "SUB", "BANG", 
+			"MUL", "DIV", "ADD", "LT", "LE", "EQUAL_EQUAL", "NOT_EQUAL", "GT", "GE", 
+			"OR", "AND", "DOT", "LINE_COMMENT", "COMMENT", "INTEGER", "DECIMAL", 
+			"STRING", "WS", "ERRCHAR", "UNICODE_ID"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -111,7 +115,78 @@ public class ValkyrieParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
+	public static class ProgramContext extends ParserRuleContext {
+		public TerminalNode EOF() { return getToken(ValkyrieParser.EOF, 0); }
+		public List<Top_statementContext> top_statement() {
+			return getRuleContexts(Top_statementContext.class);
+		}
+		public Top_statementContext top_statement(int i) {
+			return getRuleContext(Top_statementContext.class,i);
+		}
+		public ProgramContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_program; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterProgram(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitProgram(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitProgram(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ProgramContext program() throws RecognitionException {
+		ProgramContext _localctx = new ProgramContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_program);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(35);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 518L) != 0)) {
+				{
+				{
+				setState(32);
+				top_statement();
+				}
+				}
+				setState(37);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(38);
+			match(EOF);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
 	public static class Top_statementContext extends ParserRuleContext {
+		public Define_classContext define_class() {
+			return getRuleContext(Define_classContext.class,0);
+		}
+		public TerminalNode EOS() { return getToken(ValkyrieParser.EOS, 0); }
+		public Define_varialeContext define_variale() {
+			return getRuleContext(Define_varialeContext.class,0);
+		}
 		public Define_functionContext define_function() {
 			return getRuleContext(Define_functionContext.class,0);
 		}
@@ -136,12 +211,250 @@ public class ValkyrieParser extends Parser {
 
 	public final Top_statementContext top_statement() throws RecognitionException {
 		Top_statementContext _localctx = new Top_statementContext(_ctx, getState());
-		enterRule(_localctx, 0, RULE_top_statement);
+		enterRule(_localctx, 2, RULE_top_statement);
+		int _la;
+		try {
+			setState(52);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case KW_CLASS:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(40);
+				define_class();
+				setState(42);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==EOS) {
+					{
+					setState(41);
+					match(EOS);
+					}
+				}
+
+				}
+				break;
+			case T__0:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(44);
+				define_variale();
+				setState(46);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==EOS) {
+					{
+					setState(45);
+					match(EOS);
+					}
+				}
+
+				}
+				break;
+			case T__1:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(48);
+				define_function();
+				setState(50);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==EOS) {
+					{
+					setState(49);
+					match(EOS);
+					}
+				}
+
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class Define_classContext extends ParserRuleContext {
+		public Token name;
+		public TerminalNode KW_CLASS() { return getToken(ValkyrieParser.KW_CLASS, 0); }
+		public TerminalNode LBRACE() { return getToken(ValkyrieParser.LBRACE, 0); }
+		public TerminalNode RBRACE() { return getToken(ValkyrieParser.RBRACE, 0); }
+		public TerminalNode UNICODE_ID() { return getToken(ValkyrieParser.UNICODE_ID, 0); }
+		public List<Class_statementsContext> class_statements() {
+			return getRuleContexts(Class_statementsContext.class);
+		}
+		public Class_statementsContext class_statements(int i) {
+			return getRuleContext(Class_statementsContext.class,i);
+		}
+		public Define_classContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_define_class; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterDefine_class(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitDefine_class(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitDefine_class(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final Define_classContext define_class() throws RecognitionException {
+		Define_classContext _localctx = new Define_classContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_define_class);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(28);
+			setState(54);
+			match(KW_CLASS);
+			setState(55);
+			((Define_classContext)_localctx).name = match(UNICODE_ID);
+			setState(56);
+			match(LBRACE);
+			setState(60);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==T__1) {
+				{
+				{
+				setState(57);
+				class_statements();
+				}
+				}
+				setState(62);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(63);
+			match(RBRACE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class Class_statementsContext extends ParserRuleContext {
+		public Define_functionContext define_function() {
+			return getRuleContext(Define_functionContext.class,0);
+		}
+		public TerminalNode EOS() { return getToken(ValkyrieParser.EOS, 0); }
+		public Class_statementsContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_class_statements; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterClass_statements(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitClass_statements(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitClass_statements(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final Class_statementsContext class_statements() throws RecognitionException {
+		Class_statementsContext _localctx = new Class_statementsContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_class_statements);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(65);
 			define_function();
+			setState(67);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==EOS) {
+				{
+				setState(66);
+				match(EOS);
+				}
+			}
+
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class Define_varialeContext extends ParserRuleContext {
+		public Token name;
+		public TerminalNode EQUAL() { return getToken(ValkyrieParser.EQUAL, 0); }
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public TerminalNode UNICODE_ID() { return getToken(ValkyrieParser.UNICODE_ID, 0); }
+		public Define_varialeContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_define_variale; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterDefine_variale(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitDefine_variale(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitDefine_variale(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final Define_varialeContext define_variale() throws RecognitionException {
+		Define_varialeContext _localctx = new Define_varialeContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_define_variale);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(69);
+			match(T__0);
+			setState(70);
+			((Define_varialeContext)_localctx).name = match(UNICODE_ID);
+			setState(71);
+			match(EQUAL);
+			setState(72);
+			expr(0);
 			}
 		}
 		catch (RecognitionException re) {
@@ -157,23 +470,18 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Define_functionContext extends ParserRuleContext {
-		public List<VardefContext> vardef() {
-			return getRuleContexts(VardefContext.class);
+		public TerminalNode UNICODE_ID() { return getToken(ValkyrieParser.UNICODE_ID, 0); }
+		public TerminalNode LPAREN() { return getToken(ValkyrieParser.LPAREN, 0); }
+		public TerminalNode RPAREN() { return getToken(ValkyrieParser.RPAREN, 0); }
+		public BlockContext block() {
+			return getRuleContext(BlockContext.class,0);
 		}
-		public VardefContext vardef(int i) {
-			return getRuleContext(VardefContext.class,i);
+		public Formal_argsContext formal_args() {
+			return getRuleContext(Formal_argsContext.class,0);
 		}
-		public List<FunctionContext> function() {
-			return getRuleContexts(FunctionContext.class);
-		}
-		public FunctionContext function(int i) {
-			return getRuleContext(FunctionContext.class,i);
-		}
-		public List<StatementContext> statement() {
-			return getRuleContexts(StatementContext.class);
-		}
-		public StatementContext statement(int i) {
-			return getRuleContext(StatementContext.class,i);
+		public TerminalNode COLON() { return getToken(ValkyrieParser.COLON, 0); }
+		public TypeContext type() {
+			return getRuleContext(TypeContext.class,0);
 		}
 		public Define_functionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -196,138 +504,42 @@ public class ValkyrieParser extends Parser {
 
 	public final Define_functionContext define_function() throws RecognitionException {
 		Define_functionContext _localctx = new Define_functionContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_define_function);
+		enterRule(_localctx, 10, RULE_define_function);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(33);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==VAR) {
-				{
-				{
-				setState(30);
-				vardef();
-				}
-				}
-				setState(35);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			setState(39);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==T__0) {
-				{
-				{
-				setState(36);
-				function();
-				}
-				}
-				setState(41);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			setState(45);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 281474976786948L) != 0)) {
-				{
-				{
-				setState(42);
-				statement();
-				}
-				}
-				setState(47);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class FunctionContext extends ParserRuleContext {
-		public TerminalNode UNICODE_ID() { return getToken(ValkyrieParser.UNICODE_ID, 0); }
-		public TerminalNode LPAREN() { return getToken(ValkyrieParser.LPAREN, 0); }
-		public TerminalNode RPAREN() { return getToken(ValkyrieParser.RPAREN, 0); }
-		public BlockContext block() {
-			return getRuleContext(BlockContext.class,0);
-		}
-		public Formal_argsContext formal_args() {
-			return getRuleContext(Formal_argsContext.class,0);
-		}
-		public TerminalNode COLON() { return getToken(ValkyrieParser.COLON, 0); }
-		public TypeContext type() {
-			return getRuleContext(TypeContext.class,0);
-		}
-		public FunctionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_function; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterFunction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitFunction(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitFunction(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final FunctionContext function() throws RecognitionException {
-		FunctionContext _localctx = new FunctionContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_function);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(48);
-			match(T__0);
-			setState(49);
+			setState(74);
+			match(T__1);
+			setState(75);
 			match(UNICODE_ID);
-			setState(50);
+			setState(76);
 			match(LPAREN);
-			setState(52);
+			setState(78);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==UNICODE_ID) {
 				{
-				setState(51);
+				setState(77);
 				formal_args();
 				}
 			}
 
-			setState(54);
+			setState(80);
 			match(RPAREN);
-			setState(57);
+			setState(83);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==COLON) {
 				{
-				setState(55);
+				setState(81);
 				match(COLON);
-				setState(56);
+				setState(82);
 				type();
 				}
 			}
 
-			setState(59);
+			setState(85);
 			block();
 			}
 		}
@@ -375,26 +587,26 @@ public class ValkyrieParser extends Parser {
 
 	public final Formal_argsContext formal_args() throws RecognitionException {
 		Formal_argsContext _localctx = new Formal_argsContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_formal_args);
+		enterRule(_localctx, 12, RULE_formal_args);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(61);
+			setState(87);
 			formal_arg();
-			setState(66);
+			setState(92);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==COMMA) {
 				{
 				{
-				setState(62);
+				setState(88);
 				match(COMMA);
-				setState(63);
+				setState(89);
 				formal_arg();
 				}
 				}
-				setState(68);
+				setState(94);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -439,15 +651,15 @@ public class ValkyrieParser extends Parser {
 
 	public final Formal_argContext formal_arg() throws RecognitionException {
 		Formal_argContext _localctx = new Formal_argContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_formal_arg);
+		enterRule(_localctx, 14, RULE_formal_arg);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(69);
+			setState(95);
 			match(UNICODE_ID);
-			setState(70);
+			setState(96);
 			match(COLON);
-			setState(71);
+			setState(97);
 			type();
 			}
 		}
@@ -476,7 +688,6 @@ public class ValkyrieParser extends Parser {
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class BooleanTypeSpecContext extends TypeContext {
-		public TerminalNode TYPEBOOLEAN() { return getToken(ValkyrieParser.TYPEBOOLEAN, 0); }
 		public BooleanTypeSpecContext(TypeContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -494,7 +705,6 @@ public class ValkyrieParser extends Parser {
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class IntTypeSpecContext extends TypeContext {
-		public TerminalNode TYPEINT() { return getToken(ValkyrieParser.TYPEINT, 0); }
 		public IntTypeSpecContext(TypeContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -512,7 +722,6 @@ public class ValkyrieParser extends Parser {
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class StringTypeSpecContext extends TypeContext {
-		public TerminalNode TYPESTRING() { return getToken(ValkyrieParser.TYPESTRING, 0); }
 		public StringTypeSpecContext(TypeContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -549,7 +758,6 @@ public class ValkyrieParser extends Parser {
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class FloatTypeSpecContext extends TypeContext {
-		public TerminalNode TYPEFLOAT() { return getToken(ValkyrieParser.TYPEFLOAT, 0); }
 		public FloatTypeSpecContext(TypeContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -568,50 +776,50 @@ public class ValkyrieParser extends Parser {
 
 	public final TypeContext type() throws RecognitionException {
 		TypeContext _localctx = new TypeContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_type);
+		enterRule(_localctx, 16, RULE_type);
 		try {
-			setState(79);
+			setState(105);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case TYPEINT:
+			case T__2:
 				_localctx = new IntTypeSpecContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(73);
-				match(TYPEINT);
+				setState(99);
+				match(T__2);
 				}
 				break;
-			case TYPEFLOAT:
+			case T__3:
 				_localctx = new FloatTypeSpecContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(74);
-				match(TYPEFLOAT);
+				setState(100);
+				match(T__3);
 				}
 				break;
-			case TYPESTRING:
+			case T__4:
 				_localctx = new StringTypeSpecContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(75);
-				match(TYPESTRING);
+				setState(101);
+				match(T__4);
 				}
 				break;
-			case TYPEBOOLEAN:
+			case T__5:
 				_localctx = new BooleanTypeSpecContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(76);
-				match(TYPEBOOLEAN);
+				setState(102);
+				match(T__5);
 				}
 				break;
 			case LBRACK:
 				_localctx = new VectorTypeSpecContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(77);
+				setState(103);
 				match(LBRACK);
-				setState(78);
+				setState(104);
 				match(RBRACK);
 				}
 				break;
@@ -640,11 +848,11 @@ public class ValkyrieParser extends Parser {
 		public StatementContext statement(int i) {
 			return getRuleContext(StatementContext.class,i);
 		}
-		public List<VardefContext> vardef() {
-			return getRuleContexts(VardefContext.class);
+		public List<Define_varialeContext> define_variale() {
+			return getRuleContexts(Define_varialeContext.class);
 		}
-		public VardefContext vardef(int i) {
-			return getRuleContext(VardefContext.class,i);
+		public Define_varialeContext define_variale(int i) {
+			return getRuleContext(Define_varialeContext.class,i);
 		}
 		public BlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -667,47 +875,47 @@ public class ValkyrieParser extends Parser {
 
 	public final BlockContext block() throws RecognitionException {
 		BlockContext _localctx = new BlockContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_block);
+		enterRule(_localctx, 18, RULE_block);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(81);
+			setState(107);
 			match(LBRACE);
-			setState(86);
+			setState(112);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 281474976803332L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 36028797038428290L) != 0)) {
 				{
-				setState(84);
+				setState(110);
 				_errHandler.sync(this);
 				switch (_input.LA(1)) {
-				case T__1:
+				case T__6:
 				case LBRACE:
 				case IF:
 				case WHILE:
 				case RETURN:
 				case UNICODE_ID:
 					{
-					setState(82);
+					setState(108);
 					statement();
 					}
 					break;
-				case VAR:
+				case T__0:
 					{
-					setState(83);
-					vardef();
+					setState(109);
+					define_variale();
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
 				}
-				setState(88);
+				setState(114);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(89);
+			setState(115);
 			match(RBRACE);
 			}
 		}
@@ -925,34 +1133,34 @@ public class ValkyrieParser extends Parser {
 
 	public final StatementContext statement() throws RecognitionException {
 		StatementContext _localctx = new StatementContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_statement);
+		enterRule(_localctx, 20, RULE_statement);
 		int _la;
 		try {
-			setState(126);
+			setState(152);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,11,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,15,_ctx) ) {
 			case 1:
 				_localctx = new IfContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(91);
+				setState(117);
 				match(IF);
-				setState(92);
+				setState(118);
 				match(LPAREN);
-				setState(93);
+				setState(119);
 				expr(0);
-				setState(94);
+				setState(120);
 				match(RPAREN);
-				setState(95);
+				setState(121);
 				statement();
-				setState(98);
+				setState(124);
 				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
+				switch ( getInterpreter().adaptivePredict(_input,13,_ctx) ) {
 				case 1:
 					{
-					setState(96);
+					setState(122);
 					match(ELSE);
-					setState(97);
+					setState(123);
 					statement();
 					}
 					break;
@@ -963,15 +1171,15 @@ public class ValkyrieParser extends Parser {
 				_localctx = new WhileContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(100);
+				setState(126);
 				match(WHILE);
-				setState(101);
+				setState(127);
 				match(LPAREN);
-				setState(102);
+				setState(128);
 				expr(0);
-				setState(103);
+				setState(129);
 				match(RPAREN);
-				setState(104);
+				setState(130);
 				statement();
 				}
 				break;
@@ -979,11 +1187,11 @@ public class ValkyrieParser extends Parser {
 				_localctx = new AssignContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(106);
+				setState(132);
 				match(UNICODE_ID);
-				setState(107);
+				setState(133);
 				match(EQUAL);
-				setState(108);
+				setState(134);
 				expr(0);
 				}
 				break;
@@ -991,17 +1199,17 @@ public class ValkyrieParser extends Parser {
 				_localctx = new ElementAssignContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(109);
+				setState(135);
 				match(UNICODE_ID);
-				setState(110);
+				setState(136);
 				match(LBRACK);
-				setState(111);
+				setState(137);
 				expr(0);
-				setState(112);
+				setState(138);
 				match(RBRACK);
-				setState(113);
+				setState(139);
 				match(EQUAL);
-				setState(114);
+				setState(140);
 				expr(0);
 				}
 				break;
@@ -1009,7 +1217,7 @@ public class ValkyrieParser extends Parser {
 				_localctx = new CallStatementContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(116);
+				setState(142);
 				call_expr();
 				}
 				break;
@@ -1017,21 +1225,21 @@ public class ValkyrieParser extends Parser {
 				_localctx = new PrintContext(_localctx);
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(117);
-				match(T__1);
-				setState(118);
+				setState(143);
+				match(T__6);
+				setState(144);
 				match(LPAREN);
-				setState(120);
+				setState(146);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 343048036810888L) != 0)) {
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 43910160791389184L) != 0)) {
 					{
-					setState(119);
+					setState(145);
 					expr(0);
 					}
 				}
 
-				setState(122);
+				setState(148);
 				match(RPAREN);
 				}
 				break;
@@ -1039,9 +1247,9 @@ public class ValkyrieParser extends Parser {
 				_localctx = new ReturnContext(_localctx);
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(123);
+				setState(149);
 				match(RETURN);
-				setState(124);
+				setState(150);
 				expr(0);
 				}
 				break;
@@ -1049,64 +1257,10 @@ public class ValkyrieParser extends Parser {
 				_localctx = new BlockStatementContext(_localctx);
 				enterOuterAlt(_localctx, 8);
 				{
-				setState(125);
+				setState(151);
 				block();
 				}
 				break;
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class VardefContext extends ParserRuleContext {
-		public TerminalNode VAR() { return getToken(ValkyrieParser.VAR, 0); }
-		public TerminalNode UNICODE_ID() { return getToken(ValkyrieParser.UNICODE_ID, 0); }
-		public TerminalNode EQUAL() { return getToken(ValkyrieParser.EQUAL, 0); }
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
-		}
-		public VardefContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_vardef; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterVardef(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitVardef(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitVardef(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final VardefContext vardef() throws RecognitionException {
-		VardefContext _localctx = new VardefContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_vardef);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(128);
-			match(VAR);
-			setState(129);
-			match(UNICODE_ID);
-			setState(130);
-			match(EQUAL);
-			setState(131);
-			expr(0);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1295,24 +1449,24 @@ public class ValkyrieParser extends Parser {
 		int _parentState = getState();
 		ExprContext _localctx = new ExprContext(_ctx, _parentState);
 		ExprContext _prevctx = _localctx;
-		int _startState = 18;
-		enterRecursionRule(_localctx, 18, RULE_expr, _p);
+		int _startState = 22;
+		enterRecursionRule(_localctx, 22, RULE_expr, _p);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(149);
+			setState(170);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,12,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,16,_ctx) ) {
 			case 1:
 				{
 				_localctx = new NegateContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(134);
+				setState(155);
 				match(SUB);
-				setState(135);
+				setState(156);
 				expr(6);
 				}
 				break;
@@ -1321,9 +1475,9 @@ public class ValkyrieParser extends Parser {
 				_localctx = new NotContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(136);
+				setState(157);
 				match(BANG);
-				setState(137);
+				setState(158);
 				expr(5);
 				}
 				break;
@@ -1332,7 +1486,7 @@ public class ValkyrieParser extends Parser {
 				_localctx = new CallContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(138);
+				setState(159);
 				call_expr();
 				}
 				break;
@@ -1341,13 +1495,13 @@ public class ValkyrieParser extends Parser {
 				_localctx = new IndexContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(139);
+				setState(160);
 				match(UNICODE_ID);
-				setState(140);
+				setState(161);
 				match(LBRACK);
-				setState(141);
+				setState(162);
 				expr(0);
-				setState(142);
+				setState(163);
 				match(RBRACK);
 				}
 				break;
@@ -1356,11 +1510,11 @@ public class ValkyrieParser extends Parser {
 				_localctx = new ParensContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(144);
+				setState(165);
 				match(LPAREN);
-				setState(145);
+				setState(166);
 				expr(0);
-				setState(146);
+				setState(167);
 				match(RPAREN);
 				}
 				break;
@@ -1369,15 +1523,15 @@ public class ValkyrieParser extends Parser {
 				_localctx = new AtomContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(148);
+				setState(169);
 				primary();
 				}
 				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(157);
+			setState(178);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,13,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,17,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
@@ -1386,18 +1540,18 @@ public class ValkyrieParser extends Parser {
 					{
 					_localctx = new OpContext(new ExprContext(_parentctx, _parentState));
 					pushNewRecursionContext(_localctx, _startState, RULE_expr);
-					setState(151);
+					setState(172);
 					if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
-					setState(152);
+					setState(173);
 					operator();
-					setState(153);
+					setState(174);
 					expr(8);
 					}
 					} 
 				}
-				setState(159);
+				setState(180);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,13,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,17,_ctx);
 			}
 			}
 		}
@@ -1448,14 +1602,14 @@ public class ValkyrieParser extends Parser {
 
 	public final OperatorContext operator() throws RecognitionException {
 		OperatorContext _localctx = new OperatorContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_operator);
+		enterRule(_localctx, 24, RULE_operator);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(160);
+			setState(181);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 2198620602368L) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 281423437103104L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -1505,26 +1659,26 @@ public class ValkyrieParser extends Parser {
 
 	public final Call_exprContext call_expr() throws RecognitionException {
 		Call_exprContext _localctx = new Call_exprContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_call_expr);
+		enterRule(_localctx, 26, RULE_call_expr);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(162);
+			setState(183);
 			match(UNICODE_ID);
-			setState(163);
+			setState(184);
 			match(LPAREN);
-			setState(165);
+			setState(186);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 343048036810888L) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 43910160791389184L) != 0)) {
 				{
-				setState(164);
+				setState(185);
 				expr_list();
 				}
 			}
 
-			setState(167);
+			setState(188);
 			match(RPAREN);
 			}
 		}
@@ -1572,26 +1726,26 @@ public class ValkyrieParser extends Parser {
 
 	public final Expr_listContext expr_list() throws RecognitionException {
 		Expr_listContext _localctx = new Expr_listContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_expr_list);
+		enterRule(_localctx, 28, RULE_expr_list);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(169);
+			setState(190);
 			expr(0);
-			setState(174);
+			setState(195);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==COMMA) {
 				{
 				{
-				setState(170);
+				setState(191);
 				match(COMMA);
-				setState(171);
+				setState(192);
 				expr(0);
 				}
 				}
-				setState(176);
+				setState(197);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -1753,16 +1907,16 @@ public class ValkyrieParser extends Parser {
 
 	public final PrimaryContext primary() throws RecognitionException {
 		PrimaryContext _localctx = new PrimaryContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_primary);
+		enterRule(_localctx, 30, RULE_primary);
 		try {
-			setState(187);
+			setState(208);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case UNICODE_ID:
 				_localctx = new IdentifierContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(177);
+				setState(198);
 				match(UNICODE_ID);
 				}
 				break;
@@ -1770,7 +1924,7 @@ public class ValkyrieParser extends Parser {
 				_localctx = new IntegerContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(178);
+				setState(199);
 				match(INTEGER);
 				}
 				break;
@@ -1778,7 +1932,7 @@ public class ValkyrieParser extends Parser {
 				_localctx = new FloatContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(179);
+				setState(200);
 				match(DECIMAL);
 				}
 				break;
@@ -1786,7 +1940,7 @@ public class ValkyrieParser extends Parser {
 				_localctx = new StringContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(180);
+				setState(201);
 				match(STRING);
 				}
 				break;
@@ -1794,11 +1948,11 @@ public class ValkyrieParser extends Parser {
 				_localctx = new VectorContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(181);
+				setState(202);
 				match(LBRACK);
-				setState(182);
+				setState(203);
 				expr_list();
-				setState(183);
+				setState(204);
 				match(RBRACK);
 				}
 				break;
@@ -1806,7 +1960,7 @@ public class ValkyrieParser extends Parser {
 				_localctx = new TrueLiteralContext(_localctx);
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(185);
+				setState(206);
 				match(TRUE);
 				}
 				break;
@@ -1814,7 +1968,7 @@ public class ValkyrieParser extends Parser {
 				_localctx = new FalseLiteralContext(_localctx);
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(186);
+				setState(207);
 				match(FALSE);
 				}
 				break;
@@ -1835,7 +1989,7 @@ public class ValkyrieParser extends Parser {
 
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 9:
+		case 11:
 			return expr_sempred((ExprContext)_localctx, predIndex);
 		}
 		return true;
@@ -1849,123 +2003,138 @@ public class ValkyrieParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u00010\u00be\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u00017\u00d3\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
 		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b\u0002"+
-		"\f\u0007\f\u0002\r\u0007\r\u0001\u0000\u0001\u0000\u0001\u0001\u0005\u0001"+
-		" \b\u0001\n\u0001\f\u0001#\t\u0001\u0001\u0001\u0005\u0001&\b\u0001\n"+
-		"\u0001\f\u0001)\t\u0001\u0001\u0001\u0005\u0001,\b\u0001\n\u0001\f\u0001"+
-		"/\t\u0001\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0003\u0002"+
-		"5\b\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0003\u0002:\b\u0002\u0001"+
-		"\u0002\u0001\u0002\u0001\u0003\u0001\u0003\u0001\u0003\u0005\u0003A\b"+
-		"\u0003\n\u0003\f\u0003D\t\u0003\u0001\u0004\u0001\u0004\u0001\u0004\u0001"+
-		"\u0004\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001"+
-		"\u0005\u0003\u0005P\b\u0005\u0001\u0006\u0001\u0006\u0001\u0006\u0005"+
-		"\u0006U\b\u0006\n\u0006\f\u0006X\t\u0006\u0001\u0006\u0001\u0006\u0001"+
-		"\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001"+
-		"\u0007\u0003\u0007c\b\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001"+
-		"\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001"+
-		"\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001"+
-		"\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0003\u0007y\b"+
-		"\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0003\u0007\u007f"+
-		"\b\u0007\u0001\b\u0001\b\u0001\b\u0001\b\u0001\b\u0001\t\u0001\t\u0001"+
-		"\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001"+
-		"\t\u0001\t\u0001\t\u0001\t\u0001\t\u0003\t\u0096\b\t\u0001\t\u0001\t\u0001"+
-		"\t\u0001\t\u0005\t\u009c\b\t\n\t\f\t\u009f\t\t\u0001\n\u0001\n\u0001\u000b"+
-		"\u0001\u000b\u0001\u000b\u0003\u000b\u00a6\b\u000b\u0001\u000b\u0001\u000b"+
-		"\u0001\f\u0001\f\u0001\f\u0005\f\u00ad\b\f\n\f\f\f\u00b0\t\f\u0001\r\u0001"+
-		"\r\u0001\r\u0001\r\u0001\r\u0001\r\u0001\r\u0001\r\u0001\r\u0001\r\u0003"+
-		"\r\u00bc\b\r\u0001\r\u0000\u0001\u0012\u000e\u0000\u0002\u0004\u0006\b"+
-		"\n\f\u000e\u0010\u0012\u0014\u0016\u0018\u001a\u0000\u0001\u0002\u0000"+
-		"\u001b\u001b\u001d(\u00d2\u0000\u001c\u0001\u0000\u0000\u0000\u0002!\u0001"+
-		"\u0000\u0000\u0000\u00040\u0001\u0000\u0000\u0000\u0006=\u0001\u0000\u0000"+
-		"\u0000\bE\u0001\u0000\u0000\u0000\nO\u0001\u0000\u0000\u0000\fQ\u0001"+
-		"\u0000\u0000\u0000\u000e~\u0001\u0000\u0000\u0000\u0010\u0080\u0001\u0000"+
-		"\u0000\u0000\u0012\u0095\u0001\u0000\u0000\u0000\u0014\u00a0\u0001\u0000"+
-		"\u0000\u0000\u0016\u00a2\u0001\u0000\u0000\u0000\u0018\u00a9\u0001\u0000"+
-		"\u0000\u0000\u001a\u00bb\u0001\u0000\u0000\u0000\u001c\u001d\u0003\u0002"+
-		"\u0001\u0000\u001d\u0001\u0001\u0000\u0000\u0000\u001e \u0003\u0010\b"+
-		"\u0000\u001f\u001e\u0001\u0000\u0000\u0000 #\u0001\u0000\u0000\u0000!"+
-		"\u001f\u0001\u0000\u0000\u0000!\"\u0001\u0000\u0000\u0000\"\'\u0001\u0000"+
-		"\u0000\u0000#!\u0001\u0000\u0000\u0000$&\u0003\u0004\u0002\u0000%$\u0001"+
-		"\u0000\u0000\u0000&)\u0001\u0000\u0000\u0000\'%\u0001\u0000\u0000\u0000"+
-		"\'(\u0001\u0000\u0000\u0000(-\u0001\u0000\u0000\u0000)\'\u0001\u0000\u0000"+
-		"\u0000*,\u0003\u000e\u0007\u0000+*\u0001\u0000\u0000\u0000,/\u0001\u0000"+
-		"\u0000\u0000-+\u0001\u0000\u0000\u0000-.\u0001\u0000\u0000\u0000.\u0003"+
-		"\u0001\u0000\u0000\u0000/-\u0001\u0000\u0000\u000001\u0005\u0001\u0000"+
-		"\u000012\u00050\u0000\u000024\u0005\u0003\u0000\u000035\u0003\u0006\u0003"+
-		"\u000043\u0001\u0000\u0000\u000045\u0001\u0000\u0000\u000056\u0001\u0000"+
-		"\u0000\u000069\u0005\u0004\u0000\u000078\u0005\u0005\u0000\u00008:\u0003"+
-		"\n\u0005\u000097\u0001\u0000\u0000\u00009:\u0001\u0000\u0000\u0000:;\u0001"+
-		"\u0000\u0000\u0000;<\u0003\f\u0006\u0000<\u0005\u0001\u0000\u0000\u0000"+
-		"=B\u0003\b\u0004\u0000>?\u0005\u0006\u0000\u0000?A\u0003\b\u0004\u0000"+
-		"@>\u0001\u0000\u0000\u0000AD\u0001\u0000\u0000\u0000B@\u0001\u0000\u0000"+
-		"\u0000BC\u0001\u0000\u0000\u0000C\u0007\u0001\u0000\u0000\u0000DB\u0001"+
-		"\u0000\u0000\u0000EF\u00050\u0000\u0000FG\u0005\u0005\u0000\u0000GH\u0003"+
-		"\n\u0005\u0000H\t\u0001\u0000\u0000\u0000IP\u0005\u0017\u0000\u0000JP"+
-		"\u0005\u0018\u0000\u0000KP\u0005\u0019\u0000\u0000LP\u0005\u001a\u0000"+
-		"\u0000MN\u0005\u0007\u0000\u0000NP\u0005\b\u0000\u0000OI\u0001\u0000\u0000"+
-		"\u0000OJ\u0001\u0000\u0000\u0000OK\u0001\u0000\u0000\u0000OL\u0001\u0000"+
-		"\u0000\u0000OM\u0001\u0000\u0000\u0000P\u000b\u0001\u0000\u0000\u0000"+
-		"QV\u0005\t\u0000\u0000RU\u0003\u000e\u0007\u0000SU\u0003\u0010\b\u0000"+
-		"TR\u0001\u0000\u0000\u0000TS\u0001\u0000\u0000\u0000UX\u0001\u0000\u0000"+
-		"\u0000VT\u0001\u0000\u0000\u0000VW\u0001\u0000\u0000\u0000WY\u0001\u0000"+
-		"\u0000\u0000XV\u0001\u0000\u0000\u0000YZ\u0005\n\u0000\u0000Z\r\u0001"+
-		"\u0000\u0000\u0000[\\\u0005\u000b\u0000\u0000\\]\u0005\u0003\u0000\u0000"+
-		"]^\u0003\u0012\t\u0000^_\u0005\u0004\u0000\u0000_b\u0003\u000e\u0007\u0000"+
-		"`a\u0005\f\u0000\u0000ac\u0003\u000e\u0007\u0000b`\u0001\u0000\u0000\u0000"+
-		"bc\u0001\u0000\u0000\u0000c\u007f\u0001\u0000\u0000\u0000de\u0005\r\u0000"+
-		"\u0000ef\u0005\u0003\u0000\u0000fg\u0003\u0012\t\u0000gh\u0005\u0004\u0000"+
-		"\u0000hi\u0003\u000e\u0007\u0000i\u007f\u0001\u0000\u0000\u0000jk\u0005"+
-		"0\u0000\u0000kl\u0005\u000f\u0000\u0000l\u007f\u0003\u0012\t\u0000mn\u0005"+
-		"0\u0000\u0000no\u0005\u0007\u0000\u0000op\u0003\u0012\t\u0000pq\u0005"+
-		"\b\u0000\u0000qr\u0005\u000f\u0000\u0000rs\u0003\u0012\t\u0000s\u007f"+
-		"\u0001\u0000\u0000\u0000t\u007f\u0003\u0016\u000b\u0000uv\u0005\u0002"+
-		"\u0000\u0000vx\u0005\u0003\u0000\u0000wy\u0003\u0012\t\u0000xw\u0001\u0000"+
-		"\u0000\u0000xy\u0001\u0000\u0000\u0000yz\u0001\u0000\u0000\u0000z\u007f"+
-		"\u0005\u0004\u0000\u0000{|\u0005\u0010\u0000\u0000|\u007f\u0003\u0012"+
-		"\t\u0000}\u007f\u0003\f\u0006\u0000~[\u0001\u0000\u0000\u0000~d\u0001"+
-		"\u0000\u0000\u0000~j\u0001\u0000\u0000\u0000~m\u0001\u0000\u0000\u0000"+
-		"~t\u0001\u0000\u0000\u0000~u\u0001\u0000\u0000\u0000~{\u0001\u0000\u0000"+
-		"\u0000~}\u0001\u0000\u0000\u0000\u007f\u000f\u0001\u0000\u0000\u0000\u0080"+
-		"\u0081\u0005\u000e\u0000\u0000\u0081\u0082\u00050\u0000\u0000\u0082\u0083"+
-		"\u0005\u000f\u0000\u0000\u0083\u0084\u0003\u0012\t\u0000\u0084\u0011\u0001"+
-		"\u0000\u0000\u0000\u0085\u0086\u0006\t\uffff\uffff\u0000\u0086\u0087\u0005"+
-		"\u001b\u0000\u0000\u0087\u0096\u0003\u0012\t\u0006\u0088\u0089\u0005\u001c"+
-		"\u0000\u0000\u0089\u0096\u0003\u0012\t\u0005\u008a\u0096\u0003\u0016\u000b"+
-		"\u0000\u008b\u008c\u00050\u0000\u0000\u008c\u008d\u0005\u0007\u0000\u0000"+
-		"\u008d\u008e\u0003\u0012\t\u0000\u008e\u008f\u0005\b\u0000\u0000\u008f"+
-		"\u0096\u0001\u0000\u0000\u0000\u0090\u0091\u0005\u0003\u0000\u0000\u0091"+
-		"\u0092\u0003\u0012\t\u0000\u0092\u0093\u0005\u0004\u0000\u0000\u0093\u0096"+
-		"\u0001\u0000\u0000\u0000\u0094\u0096\u0003\u001a\r\u0000\u0095\u0085\u0001"+
-		"\u0000\u0000\u0000\u0095\u0088\u0001\u0000\u0000\u0000\u0095\u008a\u0001"+
-		"\u0000\u0000\u0000\u0095\u008b\u0001\u0000\u0000\u0000\u0095\u0090\u0001"+
-		"\u0000\u0000\u0000\u0095\u0094\u0001\u0000\u0000\u0000\u0096\u009d\u0001"+
-		"\u0000\u0000\u0000\u0097\u0098\n\u0007\u0000\u0000\u0098\u0099\u0003\u0014"+
-		"\n\u0000\u0099\u009a\u0003\u0012\t\b\u009a\u009c\u0001\u0000\u0000\u0000"+
-		"\u009b\u0097\u0001\u0000\u0000\u0000\u009c\u009f\u0001\u0000\u0000\u0000"+
-		"\u009d\u009b\u0001\u0000\u0000\u0000\u009d\u009e\u0001\u0000\u0000\u0000"+
-		"\u009e\u0013\u0001\u0000\u0000\u0000\u009f\u009d\u0001\u0000\u0000\u0000"+
-		"\u00a0\u00a1\u0007\u0000\u0000\u0000\u00a1\u0015\u0001\u0000\u0000\u0000"+
-		"\u00a2\u00a3\u00050\u0000\u0000\u00a3\u00a5\u0005\u0003\u0000\u0000\u00a4"+
-		"\u00a6\u0003\u0018\f\u0000\u00a5\u00a4\u0001\u0000\u0000\u0000\u00a5\u00a6"+
-		"\u0001\u0000\u0000\u0000\u00a6\u00a7\u0001\u0000\u0000\u0000\u00a7\u00a8"+
-		"\u0005\u0004\u0000\u0000\u00a8\u0017\u0001\u0000\u0000\u0000\u00a9\u00ae"+
-		"\u0003\u0012\t\u0000\u00aa\u00ab\u0005\u0006\u0000\u0000\u00ab\u00ad\u0003"+
-		"\u0012\t\u0000\u00ac\u00aa\u0001\u0000\u0000\u0000\u00ad\u00b0\u0001\u0000"+
-		"\u0000\u0000\u00ae\u00ac\u0001\u0000\u0000\u0000\u00ae\u00af\u0001\u0000"+
-		"\u0000\u0000\u00af\u0019\u0001\u0000\u0000\u0000\u00b0\u00ae\u0001\u0000"+
-		"\u0000\u0000\u00b1\u00bc\u00050\u0000\u0000\u00b2\u00bc\u0005+\u0000\u0000"+
-		"\u00b3\u00bc\u0005,\u0000\u0000\u00b4\u00bc\u0005-\u0000\u0000\u00b5\u00b6"+
-		"\u0005\u0007\u0000\u0000\u00b6\u00b7\u0003\u0018\f\u0000\u00b7\u00b8\u0005"+
-		"\b\u0000\u0000\u00b8\u00bc\u0001\u0000\u0000\u0000\u00b9\u00bc\u0005\u0015"+
-		"\u0000\u0000\u00ba\u00bc\u0005\u0016\u0000\u0000\u00bb\u00b1\u0001\u0000"+
-		"\u0000\u0000\u00bb\u00b2\u0001\u0000\u0000\u0000\u00bb\u00b3\u0001\u0000"+
-		"\u0000\u0000\u00bb\u00b4\u0001\u0000\u0000\u0000\u00bb\u00b5\u0001\u0000"+
-		"\u0000\u0000\u00bb\u00b9\u0001\u0000\u0000\u0000\u00bb\u00ba\u0001\u0000"+
-		"\u0000\u0000\u00bc\u001b\u0001\u0000\u0000\u0000\u0011!\'-49BOTVbx~\u0095"+
-		"\u009d\u00a5\u00ae\u00bb";
+		"\f\u0007\f\u0002\r\u0007\r\u0002\u000e\u0007\u000e\u0002\u000f\u0007\u000f"+
+		"\u0001\u0000\u0005\u0000\"\b\u0000\n\u0000\f\u0000%\t\u0000\u0001\u0000"+
+		"\u0001\u0000\u0001\u0001\u0001\u0001\u0003\u0001+\b\u0001\u0001\u0001"+
+		"\u0001\u0001\u0003\u0001/\b\u0001\u0001\u0001\u0001\u0001\u0003\u0001"+
+		"3\b\u0001\u0003\u00015\b\u0001\u0001\u0002\u0001\u0002\u0001\u0002\u0001"+
+		"\u0002\u0005\u0002;\b\u0002\n\u0002\f\u0002>\t\u0002\u0001\u0002\u0001"+
+		"\u0002\u0001\u0003\u0001\u0003\u0003\u0003D\b\u0003\u0001\u0004\u0001"+
+		"\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0005\u0001\u0005\u0001"+
+		"\u0005\u0001\u0005\u0003\u0005O\b\u0005\u0001\u0005\u0001\u0005\u0001"+
+		"\u0005\u0003\u0005T\b\u0005\u0001\u0005\u0001\u0005\u0001\u0006\u0001"+
+		"\u0006\u0001\u0006\u0005\u0006[\b\u0006\n\u0006\f\u0006^\t\u0006\u0001"+
+		"\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\b\u0001\b\u0001\b\u0001"+
+		"\b\u0001\b\u0001\b\u0003\bj\b\b\u0001\t\u0001\t\u0001\t\u0005\to\b\t\n"+
+		"\t\f\tr\t\t\u0001\t\u0001\t\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001"+
+		"\n\u0001\n\u0003\n}\b\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001"+
+		"\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001"+
+		"\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0003\n\u0093\b\n\u0001\n\u0001"+
+		"\n\u0001\n\u0001\n\u0003\n\u0099\b\n\u0001\u000b\u0001\u000b\u0001\u000b"+
+		"\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b"+
+		"\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b"+
+		"\u0001\u000b\u0003\u000b\u00ab\b\u000b\u0001\u000b\u0001\u000b\u0001\u000b"+
+		"\u0001\u000b\u0005\u000b\u00b1\b\u000b\n\u000b\f\u000b\u00b4\t\u000b\u0001"+
+		"\f\u0001\f\u0001\r\u0001\r\u0001\r\u0003\r\u00bb\b\r\u0001\r\u0001\r\u0001"+
+		"\u000e\u0001\u000e\u0001\u000e\u0005\u000e\u00c2\b\u000e\n\u000e\f\u000e"+
+		"\u00c5\t\u000e\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u000f"+
+		"\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u000f\u0003\u000f"+
+		"\u00d1\b\u000f\u0001\u000f\u0000\u0001\u0016\u0010\u0000\u0002\u0004\u0006"+
+		"\b\n\f\u000e\u0010\u0012\u0014\u0016\u0018\u001a\u001c\u001e\u0000\u0001"+
+		"\u0002\u0000\"\"$/\u00ea\u0000#\u0001\u0000\u0000\u0000\u00024\u0001\u0000"+
+		"\u0000\u0000\u00046\u0001\u0000\u0000\u0000\u0006A\u0001\u0000\u0000\u0000"+
+		"\bE\u0001\u0000\u0000\u0000\nJ\u0001\u0000\u0000\u0000\fW\u0001\u0000"+
+		"\u0000\u0000\u000e_\u0001\u0000\u0000\u0000\u0010i\u0001\u0000\u0000\u0000"+
+		"\u0012k\u0001\u0000\u0000\u0000\u0014\u0098\u0001\u0000\u0000\u0000\u0016"+
+		"\u00aa\u0001\u0000\u0000\u0000\u0018\u00b5\u0001\u0000\u0000\u0000\u001a"+
+		"\u00b7\u0001\u0000\u0000\u0000\u001c\u00be\u0001\u0000\u0000\u0000\u001e"+
+		"\u00d0\u0001\u0000\u0000\u0000 \"\u0003\u0002\u0001\u0000! \u0001\u0000"+
+		"\u0000\u0000\"%\u0001\u0000\u0000\u0000#!\u0001\u0000\u0000\u0000#$\u0001"+
+		"\u0000\u0000\u0000$&\u0001\u0000\u0000\u0000%#\u0001\u0000\u0000\u0000"+
+		"&\'\u0005\u0000\u0000\u0001\'\u0001\u0001\u0000\u0000\u0000(*\u0003\u0004"+
+		"\u0002\u0000)+\u0005\b\u0000\u0000*)\u0001\u0000\u0000\u0000*+\u0001\u0000"+
+		"\u0000\u0000+5\u0001\u0000\u0000\u0000,.\u0003\b\u0004\u0000-/\u0005\b"+
+		"\u0000\u0000.-\u0001\u0000\u0000\u0000./\u0001\u0000\u0000\u0000/5\u0001"+
+		"\u0000\u0000\u000002\u0003\n\u0005\u000013\u0005\b\u0000\u000021\u0001"+
+		"\u0000\u0000\u000023\u0001\u0000\u0000\u000035\u0001\u0000\u0000\u0000"+
+		"4(\u0001\u0000\u0000\u00004,\u0001\u0000\u0000\u000040\u0001\u0000\u0000"+
+		"\u00005\u0003\u0001\u0000\u0000\u000067\u0005\t\u0000\u000078\u00057\u0000"+
+		"\u00008<\u0005\u0010\u0000\u00009;\u0003\u0006\u0003\u0000:9\u0001\u0000"+
+		"\u0000\u0000;>\u0001\u0000\u0000\u0000<:\u0001\u0000\u0000\u0000<=\u0001"+
+		"\u0000\u0000\u0000=?\u0001\u0000\u0000\u0000><\u0001\u0000\u0000\u0000"+
+		"?@\u0005\u0011\u0000\u0000@\u0005\u0001\u0000\u0000\u0000AC\u0003\n\u0005"+
+		"\u0000BD\u0005\b\u0000\u0000CB\u0001\u0000\u0000\u0000CD\u0001\u0000\u0000"+
+		"\u0000D\u0007\u0001\u0000\u0000\u0000EF\u0005\u0001\u0000\u0000FG\u0005"+
+		"7\u0000\u0000GH\u0005\u0017\u0000\u0000HI\u0003\u0016\u000b\u0000I\t\u0001"+
+		"\u0000\u0000\u0000JK\u0005\u0002\u0000\u0000KL\u00057\u0000\u0000LN\u0005"+
+		"\n\u0000\u0000MO\u0003\f\u0006\u0000NM\u0001\u0000\u0000\u0000NO\u0001"+
+		"\u0000\u0000\u0000OP\u0001\u0000\u0000\u0000PS\u0005\u000b\u0000\u0000"+
+		"QR\u0005\f\u0000\u0000RT\u0003\u0010\b\u0000SQ\u0001\u0000\u0000\u0000"+
+		"ST\u0001\u0000\u0000\u0000TU\u0001\u0000\u0000\u0000UV\u0003\u0012\t\u0000"+
+		"V\u000b\u0001\u0000\u0000\u0000W\\\u0003\u000e\u0007\u0000XY\u0005\r\u0000"+
+		"\u0000Y[\u0003\u000e\u0007\u0000ZX\u0001\u0000\u0000\u0000[^\u0001\u0000"+
+		"\u0000\u0000\\Z\u0001\u0000\u0000\u0000\\]\u0001\u0000\u0000\u0000]\r"+
+		"\u0001\u0000\u0000\u0000^\\\u0001\u0000\u0000\u0000_`\u00057\u0000\u0000"+
+		"`a\u0005\f\u0000\u0000ab\u0003\u0010\b\u0000b\u000f\u0001\u0000\u0000"+
+		"\u0000cj\u0005\u0003\u0000\u0000dj\u0005\u0004\u0000\u0000ej\u0005\u0005"+
+		"\u0000\u0000fj\u0005\u0006\u0000\u0000gh\u0005\u000e\u0000\u0000hj\u0005"+
+		"\u000f\u0000\u0000ic\u0001\u0000\u0000\u0000id\u0001\u0000\u0000\u0000"+
+		"ie\u0001\u0000\u0000\u0000if\u0001\u0000\u0000\u0000ig\u0001\u0000\u0000"+
+		"\u0000j\u0011\u0001\u0000\u0000\u0000kp\u0005\u0010\u0000\u0000lo\u0003"+
+		"\u0014\n\u0000mo\u0003\b\u0004\u0000nl\u0001\u0000\u0000\u0000nm\u0001"+
+		"\u0000\u0000\u0000or\u0001\u0000\u0000\u0000pn\u0001\u0000\u0000\u0000"+
+		"pq\u0001\u0000\u0000\u0000qs\u0001\u0000\u0000\u0000rp\u0001\u0000\u0000"+
+		"\u0000st\u0005\u0011\u0000\u0000t\u0013\u0001\u0000\u0000\u0000uv\u0005"+
+		"\u0013\u0000\u0000vw\u0005\n\u0000\u0000wx\u0003\u0016\u000b\u0000xy\u0005"+
+		"\u000b\u0000\u0000y|\u0003\u0014\n\u0000z{\u0005\u0014\u0000\u0000{}\u0003"+
+		"\u0014\n\u0000|z\u0001\u0000\u0000\u0000|}\u0001\u0000\u0000\u0000}\u0099"+
+		"\u0001\u0000\u0000\u0000~\u007f\u0005\u0015\u0000\u0000\u007f\u0080\u0005"+
+		"\n\u0000\u0000\u0080\u0081\u0003\u0016\u000b\u0000\u0081\u0082\u0005\u000b"+
+		"\u0000\u0000\u0082\u0083\u0003\u0014\n\u0000\u0083\u0099\u0001\u0000\u0000"+
+		"\u0000\u0084\u0085\u00057\u0000\u0000\u0085\u0086\u0005\u0017\u0000\u0000"+
+		"\u0086\u0099\u0003\u0016\u000b\u0000\u0087\u0088\u00057\u0000\u0000\u0088"+
+		"\u0089\u0005\u000e\u0000\u0000\u0089\u008a\u0003\u0016\u000b\u0000\u008a"+
+		"\u008b\u0005\u000f\u0000\u0000\u008b\u008c\u0005\u0017\u0000\u0000\u008c"+
+		"\u008d\u0003\u0016\u000b\u0000\u008d\u0099\u0001\u0000\u0000\u0000\u008e"+
+		"\u0099\u0003\u001a\r\u0000\u008f\u0090\u0005\u0007\u0000\u0000\u0090\u0092"+
+		"\u0005\n\u0000\u0000\u0091\u0093\u0003\u0016\u000b\u0000\u0092\u0091\u0001"+
+		"\u0000\u0000\u0000\u0092\u0093\u0001\u0000\u0000\u0000\u0093\u0094\u0001"+
+		"\u0000\u0000\u0000\u0094\u0099\u0005\u000b\u0000\u0000\u0095\u0096\u0005"+
+		"\u0018\u0000\u0000\u0096\u0099\u0003\u0016\u000b\u0000\u0097\u0099\u0003"+
+		"\u0012\t\u0000\u0098u\u0001\u0000\u0000\u0000\u0098~\u0001\u0000\u0000"+
+		"\u0000\u0098\u0084\u0001\u0000\u0000\u0000\u0098\u0087\u0001\u0000\u0000"+
+		"\u0000\u0098\u008e\u0001\u0000\u0000\u0000\u0098\u008f\u0001\u0000\u0000"+
+		"\u0000\u0098\u0095\u0001\u0000\u0000\u0000\u0098\u0097\u0001\u0000\u0000"+
+		"\u0000\u0099\u0015\u0001\u0000\u0000\u0000\u009a\u009b\u0006\u000b\uffff"+
+		"\uffff\u0000\u009b\u009c\u0005\"\u0000\u0000\u009c\u00ab\u0003\u0016\u000b"+
+		"\u0006\u009d\u009e\u0005#\u0000\u0000\u009e\u00ab\u0003\u0016\u000b\u0005"+
+		"\u009f\u00ab\u0003\u001a\r\u0000\u00a0\u00a1\u00057\u0000\u0000\u00a1"+
+		"\u00a2\u0005\u000e\u0000\u0000\u00a2\u00a3\u0003\u0016\u000b\u0000\u00a3"+
+		"\u00a4\u0005\u000f\u0000\u0000\u00a4\u00ab\u0001\u0000\u0000\u0000\u00a5"+
+		"\u00a6\u0005\n\u0000\u0000\u00a6\u00a7\u0003\u0016\u000b\u0000\u00a7\u00a8"+
+		"\u0005\u000b\u0000\u0000\u00a8\u00ab\u0001\u0000\u0000\u0000\u00a9\u00ab"+
+		"\u0003\u001e\u000f\u0000\u00aa\u009a\u0001\u0000\u0000\u0000\u00aa\u009d"+
+		"\u0001\u0000\u0000\u0000\u00aa\u009f\u0001\u0000\u0000\u0000\u00aa\u00a0"+
+		"\u0001\u0000\u0000\u0000\u00aa\u00a5\u0001\u0000\u0000\u0000\u00aa\u00a9"+
+		"\u0001\u0000\u0000\u0000\u00ab\u00b2\u0001\u0000\u0000\u0000\u00ac\u00ad"+
+		"\n\u0007\u0000\u0000\u00ad\u00ae\u0003\u0018\f\u0000\u00ae\u00af\u0003"+
+		"\u0016\u000b\b\u00af\u00b1\u0001\u0000\u0000\u0000\u00b0\u00ac\u0001\u0000"+
+		"\u0000\u0000\u00b1\u00b4\u0001\u0000\u0000\u0000\u00b2\u00b0\u0001\u0000"+
+		"\u0000\u0000\u00b2\u00b3\u0001\u0000\u0000\u0000\u00b3\u0017\u0001\u0000"+
+		"\u0000\u0000\u00b4\u00b2\u0001\u0000\u0000\u0000\u00b5\u00b6\u0007\u0000"+
+		"\u0000\u0000\u00b6\u0019\u0001\u0000\u0000\u0000\u00b7\u00b8\u00057\u0000"+
+		"\u0000\u00b8\u00ba\u0005\n\u0000\u0000\u00b9\u00bb\u0003\u001c\u000e\u0000"+
+		"\u00ba\u00b9\u0001\u0000\u0000\u0000\u00ba\u00bb\u0001\u0000\u0000\u0000"+
+		"\u00bb\u00bc\u0001\u0000\u0000\u0000\u00bc\u00bd\u0005\u000b\u0000\u0000"+
+		"\u00bd\u001b\u0001\u0000\u0000\u0000\u00be\u00c3\u0003\u0016\u000b\u0000"+
+		"\u00bf\u00c0\u0005\r\u0000\u0000\u00c0\u00c2\u0003\u0016\u000b\u0000\u00c1"+
+		"\u00bf\u0001\u0000\u0000\u0000\u00c2\u00c5\u0001\u0000\u0000\u0000\u00c3"+
+		"\u00c1\u0001\u0000\u0000\u0000\u00c3\u00c4\u0001\u0000\u0000\u0000\u00c4"+
+		"\u001d\u0001\u0000\u0000\u0000\u00c5\u00c3\u0001\u0000\u0000\u0000\u00c6"+
+		"\u00d1\u00057\u0000\u0000\u00c7\u00d1\u00052\u0000\u0000\u00c8\u00d1\u0005"+
+		"3\u0000\u0000\u00c9\u00d1\u00054\u0000\u0000\u00ca\u00cb\u0005\u000e\u0000"+
+		"\u0000\u00cb\u00cc\u0003\u001c\u000e\u0000\u00cc\u00cd\u0005\u000f\u0000"+
+		"\u0000\u00cd\u00d1\u0001\u0000\u0000\u0000\u00ce\u00d1\u0005 \u0000\u0000"+
+		"\u00cf\u00d1\u0005!\u0000\u0000\u00d0\u00c6\u0001\u0000\u0000\u0000\u00d0"+
+		"\u00c7\u0001\u0000\u0000\u0000\u00d0\u00c8\u0001\u0000\u0000\u0000\u00d0"+
+		"\u00c9\u0001\u0000\u0000\u0000\u00d0\u00ca\u0001\u0000\u0000\u0000\u00d0"+
+		"\u00ce\u0001\u0000\u0000\u0000\u00d0\u00cf\u0001\u0000\u0000\u0000\u00d1"+
+		"\u001f\u0001\u0000\u0000\u0000\u0015#*.24<CNS\\inp|\u0092\u0098\u00aa"+
+		"\u00b2\u00ba\u00c3\u00d0";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

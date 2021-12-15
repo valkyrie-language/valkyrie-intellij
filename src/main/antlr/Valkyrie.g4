@@ -6,17 +6,26 @@ options {
 // $antlr-format useTab false, alignColons hanging, alignSemicolons hanging
 // $antlr-format alignFirstTokens true
 
-top_statement: define_class | define_function;
+program: top_statement* EOF;
+top_statement
+    : define_class EOS?
+    | define_variale EOS?
+    | define_function EOS?
+    ;
+EOS: ';';
 // ===========================================================================
-define_function: vardef* function* statement*;
+define_class
+    : KW_CLASS name = UNICODE_ID '{' class_statements* '}'
+    ;
+class_statements: define_function EOS?;
+KW_CLASS: 'class';
 // ===========================================================================
-define_class: 'class' UNICODE_ID;
-
+define_variale: 'let' name = UNICODE_ID '=' expr;
 // ===========================================================================
-function
+define_function
     : 'def' UNICODE_ID '(' formal_args? ')' (':' type)? block
     ;
-
+// ===========================================================================
 formal_args: formal_arg (',' formal_arg)*;
 
 formal_arg: UNICODE_ID ':' type;
@@ -29,7 +38,7 @@ type
     | '[' ']'   # VectorTypeSpec
     ;
 
-block: '{' (statement | vardef)* '}';
+block: '{' (statement | define_variale)* '}';
 
 statement
     : 'if' '(' expr ')' statement ('else' statement)? # If
@@ -41,8 +50,6 @@ statement
     | 'return' expr                                   # Return
     | block                                           # BlockStatement
     ;
-
-vardef: 'var' UNICODE_ID '=' expr;
 
 expr
     : expr operator expr      # Op
@@ -92,26 +99,50 @@ LBRACK: '[';
 RBRACK: ']';
 LBRACE: '{';
 RBRACE: '}';
-IF:     'if';
-ELSE:   'else';
-WHILE:  'while';
-VAR:    'var';
-EQUAL:  '=';
+
+KW_NAMESPACE
+    : 'namespace'
+    | 'namespace!'
+    | 'namespace*'
+    | 'namespace?'
+    ;
+
+// "using", "using!", "using*", "using?" -> pushToken(ValkyrieTypes.KW_IMPORT, r) "as", "as?",
+// "as!", "as*" -> pushToken(ValkyrieTypes.OP_AS, r) "is" -> pushToken(ValkyrieTypes.OP_IS_A, r)
+// "in" -> pushToken(ValkyrieTypes.OP_IN, r) "not" -> pushToken(ValkyrieTypes.OP_NOT, r) "and" ->
+// pushToken(ValkyrieTypes.PATTERN_AND, r) "or" -> pushToken(ValkyrieTypes.PATTERN_OR, r) "which" ->
+// pushToken(ValkyrieTypes.KW_WHICH, r) "if" -> pushToken(ValkyrieTypes.KW_IF, r) "else" ->
+// pushToken(ValkyrieTypes.KW_ELSE, r) "loop" -> pushToken(ValkyrieTypes.KW_LOOP, r) "while" ->
+// pushToken(ValkyrieTypes.KW_WHILE, r) "for" -> pushToken(ValkyrieTypes.KW_FOR, r) "match" ->
+// pushToken(ValkyrieTypes.KW_MATCH, r) "when" -> pushToken(ValkyrieTypes.KW_WHEN, r) "case" ->
+// pushToken(ValkyrieTypes.KW_CASE, r) "with" -> pushToken(ValkyrieTypes.KW_WITH, r) "let" ->
+// pushToken(ValkyrieTypes.KW_LET, r) "def" -> pushToken(ValkyrieTypes.KW_DEF, r) ->
+// pushToken(ValkyrieTypes.KW_BREAK, r) "type" -> pushToken(ValkyrieTypes.KW_TYPE, r)
+// 
+// "class", "structure", "struct" -> pushToken(ValkyrieTypes.KW_CLASS, r) "union", "tagged", "enum",
+// "variant" -> pushToken(ValkyrieTypes.KW_TAGGED, r) "trait", "interface", "convention", "protocol"
+// -> pushToken(ValkyrieTypes.KW_TRAIT, r) "bitset", "bitflag" ->
+// pushToken(ValkyrieTypes.KW_BITFLAG, r) "extend", "extends", "impl", "implements" ->
+// pushToken(ValkyrieTypes.KW_EXTENDS, r) "new", "object" -> pushToken(ValkyrieTypes.KW_NEW, r)
+IF:    'if';
+ELSE:  'else';
+WHILE: 'while';
+VAR:   'var';
+//
+EQUAL: '=';
 // controls
 RETURN:   'return';
+RESUME:   'resume';
 YIELD:    'yield';
 BREAK:    'break';
 CONTINUE: 'continue';
+RAISE:    'raise';
+CATCH:    'catch';
 // atom
 NULL:  'αλφαβητον';
 TRUE:  'true';
 FALSE: 'false';
-
-TYPEINT:     'int';
-TYPEFLOAT:   'float';
-TYPESTRING:  'string';
-TYPEBOOLEAN: 'boolean';
-
+// infix
 SUB:         '-';
 BANG:        '!';
 MUL:         '*';
@@ -126,7 +157,7 @@ GE:          '>=';
 OR:          '||';
 AND:         '&&';
 DOT:         ' . ';
-
+// comment
 LINE_COMMENT: '//' .*? ('\n' | EOF) -> channel(HIDDEN);
 COMMENT:      '/*' .*? '*/' -> channel(HIDDEN);
 // identifier

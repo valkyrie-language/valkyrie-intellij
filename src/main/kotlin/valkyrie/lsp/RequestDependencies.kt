@@ -17,8 +17,9 @@ data class RequestDependencies(val workspace: String) {
 
     companion object {
         fun request(workspace: String?): MutableList<SyntheticLibrary> {
-            val out = LanguageClient.send<RequestDependencies, List<DependenciesInfo>>("workspace/dependencies", RequestDependencies(workspace ?: ""))
-            return out.map { DependenceLibrary(it) }.toMutableSmartList()
+//            val out = LanguageClient.send<RequestDependencies, List<DependenciesInfo>>("workspace/dependencies", RequestDependencies(workspace ?: ""))
+//            return out.map { DependenceLibrary(it) }.toMutableSmartList()
+            return mutableListOf()
         }
     }
 }

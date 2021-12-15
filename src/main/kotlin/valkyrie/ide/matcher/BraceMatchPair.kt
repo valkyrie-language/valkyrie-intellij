@@ -26,7 +26,7 @@ class BraceMatchPair : PairedBraceMatcher {
 
     companion object {
         private val InsertPairBraceBefore = TokenSet.orSet(
-            ValkyrieParserDefinition.commentTokens,
+            ValkyrieParserDefinition().commentTokens,
             TokenSet.create(
                 TokenType.WHITE_SPACE,
                 COMMA,

@@ -11,23 +11,41 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#program}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitProgram(ValkyrieParser.ProgramContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#top_statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitTop_statement(ValkyrieParser.Top_statementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#define_class}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefine_class(ValkyrieParser.Define_classContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#class_statements}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClass_statements(ValkyrieParser.Class_statementsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#define_variale}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefine_variale(ValkyrieParser.Define_varialeContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#define_function}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitDefine_function(ValkyrieParser.Define_functionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ValkyrieParser#function}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFunction(ValkyrieParser.FunctionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#formal_args}.
 	 * @param ctx the parse tree
@@ -137,12 +155,6 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitBlockStatement(ValkyrieParser.BlockStatementContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ValkyrieParser#vardef}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVardef(ValkyrieParser.VardefContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Call}
 	 * labeled alternative in {@link ValkyrieParser#expr}.
