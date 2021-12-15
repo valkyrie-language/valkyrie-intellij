@@ -22,8 +22,8 @@ public class ValkyrieParser extends Parser {
 		YIELD=17, BREAK=18, CONTINUE=19, NULL=20, TRUE=21, FALSE=22, TYPEINT=23, 
 		TYPEFLOAT=24, TYPESTRING=25, TYPEBOOLEAN=26, SUB=27, BANG=28, MUL=29, 
 		DIV=30, ADD=31, LT=32, LE=33, EQUAL_EQUAL=34, NOT_EQUAL=35, GT=36, GE=37, 
-		OR=38, AND=39, DOT=40, LINE_COMMENT=41, COMMENT=42, ID=43, INT=44, FLOAT=45, 
-		STRING=46, WS=47, ERRCHAR=48;
+		OR=38, AND=39, DOT=40, LINE_COMMENT=41, COMMENT=42, INTEGER=43, DECIMAL=44, 
+		STRING=45, WS=46, ERRCHAR=47, UNICODE_ID=48;
 	public static final int
 		RULE_top_statement = 0, RULE_define_function = 1, RULE_function = 2, RULE_formal_args = 3, 
 		RULE_formal_arg = 4, RULE_type = 5, RULE_block = 6, RULE_statement = 7, 
@@ -40,9 +40,9 @@ public class ValkyrieParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'func'", "'print'", "'('", "')'", "':'", "','", "'['", "']'", 
-			"'{'", "'}'", "'if'", "'else'", "'while'", "'var'", "'='", "'return'", 
-			"'yield'", "'break'", "'continue'", "'\\u03B1\\u03BB\\u03C6\\u03B1\\u03B2\\u03B7\\u03C4\\u03BF\\u03BD'", 
+			null, "'def'", "'print'", "'('", "')'", "':'", "','", "'['", "']'", "'{'", 
+			"'}'", "'if'", "'else'", "'while'", "'var'", "'='", "'return'", "'yield'", 
+			"'break'", "'continue'", "'\\u03B1\\u03BB\\u03C6\\u03B1\\u03B2\\u03B7\\u03C4\\u03BF\\u03BD'", 
 			"'true'", "'false'", "'int'", "'float'", "'string'", "'boolean'", "'-'", 
 			"'!'", "'*'", "'/'", "'+'", "'<'", "'<='", "'=='", "'!='", "'>'", "'>='", 
 			"'||'", "'&&'", "' . '"
@@ -56,7 +56,7 @@ public class ValkyrieParser extends Parser {
 			"YIELD", "BREAK", "CONTINUE", "NULL", "TRUE", "FALSE", "TYPEINT", "TYPEFLOAT", 
 			"TYPESTRING", "TYPEBOOLEAN", "SUB", "BANG", "MUL", "DIV", "ADD", "LT", 
 			"LE", "EQUAL_EQUAL", "NOT_EQUAL", "GT", "GE", "OR", "AND", "DOT", "LINE_COMMENT", 
-			"COMMENT", "ID", "INT", "FLOAT", "STRING", "WS", "ERRCHAR"
+			"COMMENT", "INTEGER", "DECIMAL", "STRING", "WS", "ERRCHAR", "UNICODE_ID"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -232,7 +232,7 @@ public class ValkyrieParser extends Parser {
 			setState(45);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 8796093098500L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 281474976786948L) != 0)) {
 				{
 				{
 				setState(42);
@@ -258,7 +258,7 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class FunctionContext extends ParserRuleContext {
-		public TerminalNode ID() { return getToken(ValkyrieParser.ID, 0); }
+		public TerminalNode UNICODE_ID() { return getToken(ValkyrieParser.UNICODE_ID, 0); }
 		public TerminalNode LPAREN() { return getToken(ValkyrieParser.LPAREN, 0); }
 		public TerminalNode RPAREN() { return getToken(ValkyrieParser.RPAREN, 0); }
 		public BlockContext block() {
@@ -300,13 +300,13 @@ public class ValkyrieParser extends Parser {
 			setState(48);
 			match(T__0);
 			setState(49);
-			match(ID);
+			match(UNICODE_ID);
 			setState(50);
 			match(LPAREN);
 			setState(52);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==ID) {
+			if (_la==UNICODE_ID) {
 				{
 				setState(51);
 				formal_args();
@@ -413,7 +413,7 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Formal_argContext extends ParserRuleContext {
-		public TerminalNode ID() { return getToken(ValkyrieParser.ID, 0); }
+		public TerminalNode UNICODE_ID() { return getToken(ValkyrieParser.UNICODE_ID, 0); }
 		public TerminalNode COLON() { return getToken(ValkyrieParser.COLON, 0); }
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
@@ -444,7 +444,7 @@ public class ValkyrieParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(69);
-			match(ID);
+			match(UNICODE_ID);
 			setState(70);
 			match(COLON);
 			setState(71);
@@ -677,7 +677,7 @@ public class ValkyrieParser extends Parser {
 			setState(86);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 8796093114884L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 281474976803332L) != 0)) {
 				{
 				setState(84);
 				_errHandler.sync(this);
@@ -687,7 +687,7 @@ public class ValkyrieParser extends Parser {
 				case IF:
 				case WHILE:
 				case RETURN:
-				case ID:
+				case UNICODE_ID:
 					{
 					setState(82);
 					statement();
@@ -736,7 +736,7 @@ public class ValkyrieParser extends Parser {
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class ElementAssignContext extends StatementContext {
-		public TerminalNode ID() { return getToken(ValkyrieParser.ID, 0); }
+		public TerminalNode UNICODE_ID() { return getToken(ValkyrieParser.UNICODE_ID, 0); }
 		public TerminalNode LBRACK() { return getToken(ValkyrieParser.LBRACK, 0); }
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
@@ -806,7 +806,7 @@ public class ValkyrieParser extends Parser {
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class AssignContext extends StatementContext {
-		public TerminalNode ID() { return getToken(ValkyrieParser.ID, 0); }
+		public TerminalNode UNICODE_ID() { return getToken(ValkyrieParser.UNICODE_ID, 0); }
 		public TerminalNode EQUAL() { return getToken(ValkyrieParser.EQUAL, 0); }
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
@@ -980,7 +980,7 @@ public class ValkyrieParser extends Parser {
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(106);
-				match(ID);
+				match(UNICODE_ID);
 				setState(107);
 				match(EQUAL);
 				setState(108);
@@ -992,7 +992,7 @@ public class ValkyrieParser extends Parser {
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(109);
-				match(ID);
+				match(UNICODE_ID);
 				setState(110);
 				match(LBRACK);
 				setState(111);
@@ -1024,7 +1024,7 @@ public class ValkyrieParser extends Parser {
 				setState(120);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 131941804277896L) != 0)) {
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 343048036810888L) != 0)) {
 					{
 					setState(119);
 					expr(0);
@@ -1069,7 +1069,7 @@ public class ValkyrieParser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class VardefContext extends ParserRuleContext {
 		public TerminalNode VAR() { return getToken(ValkyrieParser.VAR, 0); }
-		public TerminalNode ID() { return getToken(ValkyrieParser.ID, 0); }
+		public TerminalNode UNICODE_ID() { return getToken(ValkyrieParser.UNICODE_ID, 0); }
 		public TerminalNode EQUAL() { return getToken(ValkyrieParser.EQUAL, 0); }
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
@@ -1102,7 +1102,7 @@ public class ValkyrieParser extends Parser {
 			setState(128);
 			match(VAR);
 			setState(129);
-			match(ID);
+			match(UNICODE_ID);
 			setState(130);
 			match(EQUAL);
 			setState(131);
@@ -1223,7 +1223,7 @@ public class ValkyrieParser extends Parser {
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class IndexContext extends ExprContext {
-		public TerminalNode ID() { return getToken(ValkyrieParser.ID, 0); }
+		public TerminalNode UNICODE_ID() { return getToken(ValkyrieParser.UNICODE_ID, 0); }
 		public TerminalNode LBRACK() { return getToken(ValkyrieParser.LBRACK, 0); }
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
@@ -1342,7 +1342,7 @@ public class ValkyrieParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(139);
-				match(ID);
+				match(UNICODE_ID);
 				setState(140);
 				match(LBRACK);
 				setState(141);
@@ -1478,7 +1478,7 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Call_exprContext extends ParserRuleContext {
-		public TerminalNode ID() { return getToken(ValkyrieParser.ID, 0); }
+		public TerminalNode UNICODE_ID() { return getToken(ValkyrieParser.UNICODE_ID, 0); }
 		public TerminalNode LPAREN() { return getToken(ValkyrieParser.LPAREN, 0); }
 		public TerminalNode RPAREN() { return getToken(ValkyrieParser.RPAREN, 0); }
 		public Expr_listContext expr_list() {
@@ -1511,13 +1511,13 @@ public class ValkyrieParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(162);
-			match(ID);
+			match(UNICODE_ID);
 			setState(163);
 			match(LPAREN);
 			setState(165);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 131941804277896L) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 343048036810888L) != 0)) {
 				{
 				setState(164);
 				expr_list();
@@ -1622,7 +1622,7 @@ public class ValkyrieParser extends Parser {
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class IntegerContext extends PrimaryContext {
-		public TerminalNode INT() { return getToken(ValkyrieParser.INT, 0); }
+		public TerminalNode INTEGER() { return getToken(ValkyrieParser.INTEGER, 0); }
 		public IntegerContext(PrimaryContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -1640,7 +1640,7 @@ public class ValkyrieParser extends Parser {
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class FloatContext extends PrimaryContext {
-		public TerminalNode FLOAT() { return getToken(ValkyrieParser.FLOAT, 0); }
+		public TerminalNode DECIMAL() { return getToken(ValkyrieParser.DECIMAL, 0); }
 		public FloatContext(PrimaryContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -1658,7 +1658,7 @@ public class ValkyrieParser extends Parser {
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class IdentifierContext extends PrimaryContext {
-		public TerminalNode ID() { return getToken(ValkyrieParser.ID, 0); }
+		public TerminalNode UNICODE_ID() { return getToken(ValkyrieParser.UNICODE_ID, 0); }
 		public IdentifierContext(PrimaryContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -1758,28 +1758,28 @@ public class ValkyrieParser extends Parser {
 			setState(187);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case ID:
+			case UNICODE_ID:
 				_localctx = new IdentifierContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(177);
-				match(ID);
+				match(UNICODE_ID);
 				}
 				break;
-			case INT:
+			case INTEGER:
 				_localctx = new IntegerContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(178);
-				match(INT);
+				match(INTEGER);
 				}
 				break;
-			case FLOAT:
+			case DECIMAL:
 				_localctx = new FloatContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(179);
-				match(FLOAT);
+				match(DECIMAL);
 				}
 				break;
 			case STRING:
@@ -1894,7 +1894,7 @@ public class ValkyrieParser extends Parser {
 		"\u0000*,\u0003\u000e\u0007\u0000+*\u0001\u0000\u0000\u0000,/\u0001\u0000"+
 		"\u0000\u0000-+\u0001\u0000\u0000\u0000-.\u0001\u0000\u0000\u0000.\u0003"+
 		"\u0001\u0000\u0000\u0000/-\u0001\u0000\u0000\u000001\u0005\u0001\u0000"+
-		"\u000012\u0005+\u0000\u000024\u0005\u0003\u0000\u000035\u0003\u0006\u0003"+
+		"\u000012\u00050\u0000\u000024\u0005\u0003\u0000\u000035\u0003\u0006\u0003"+
 		"\u000043\u0001\u0000\u0000\u000045\u0001\u0000\u0000\u000056\u0001\u0000"+
 		"\u0000\u000069\u0005\u0004\u0000\u000078\u0005\u0005\u0000\u00008:\u0003"+
 		"\n\u0005\u000097\u0001\u0000\u0000\u00009:\u0001\u0000\u0000\u0000:;\u0001"+
@@ -1902,7 +1902,7 @@ public class ValkyrieParser extends Parser {
 		"=B\u0003\b\u0004\u0000>?\u0005\u0006\u0000\u0000?A\u0003\b\u0004\u0000"+
 		"@>\u0001\u0000\u0000\u0000AD\u0001\u0000\u0000\u0000B@\u0001\u0000\u0000"+
 		"\u0000BC\u0001\u0000\u0000\u0000C\u0007\u0001\u0000\u0000\u0000DB\u0001"+
-		"\u0000\u0000\u0000EF\u0005+\u0000\u0000FG\u0005\u0005\u0000\u0000GH\u0003"+
+		"\u0000\u0000\u0000EF\u00050\u0000\u0000FG\u0005\u0005\u0000\u0000GH\u0003"+
 		"\n\u0005\u0000H\t\u0001\u0000\u0000\u0000IP\u0005\u0017\u0000\u0000JP"+
 		"\u0005\u0018\u0000\u0000KP\u0005\u0019\u0000\u0000LP\u0005\u001a\u0000"+
 		"\u0000MN\u0005\u0007\u0000\u0000NP\u0005\b\u0000\u0000OI\u0001\u0000\u0000"+
@@ -1918,8 +1918,8 @@ public class ValkyrieParser extends Parser {
 		"bc\u0001\u0000\u0000\u0000c\u007f\u0001\u0000\u0000\u0000de\u0005\r\u0000"+
 		"\u0000ef\u0005\u0003\u0000\u0000fg\u0003\u0012\t\u0000gh\u0005\u0004\u0000"+
 		"\u0000hi\u0003\u000e\u0007\u0000i\u007f\u0001\u0000\u0000\u0000jk\u0005"+
-		"+\u0000\u0000kl\u0005\u000f\u0000\u0000l\u007f\u0003\u0012\t\u0000mn\u0005"+
-		"+\u0000\u0000no\u0005\u0007\u0000\u0000op\u0003\u0012\t\u0000pq\u0005"+
+		"0\u0000\u0000kl\u0005\u000f\u0000\u0000l\u007f\u0003\u0012\t\u0000mn\u0005"+
+		"0\u0000\u0000no\u0005\u0007\u0000\u0000op\u0003\u0012\t\u0000pq\u0005"+
 		"\b\u0000\u0000qr\u0005\u000f\u0000\u0000rs\u0003\u0012\t\u0000s\u007f"+
 		"\u0001\u0000\u0000\u0000t\u007f\u0003\u0016\u000b\u0000uv\u0005\u0002"+
 		"\u0000\u0000vx\u0005\u0003\u0000\u0000wy\u0003\u0012\t\u0000xw\u0001\u0000"+
@@ -1929,12 +1929,12 @@ public class ValkyrieParser extends Parser {
 		"\u0000\u0000\u0000~j\u0001\u0000\u0000\u0000~m\u0001\u0000\u0000\u0000"+
 		"~t\u0001\u0000\u0000\u0000~u\u0001\u0000\u0000\u0000~{\u0001\u0000\u0000"+
 		"\u0000~}\u0001\u0000\u0000\u0000\u007f\u000f\u0001\u0000\u0000\u0000\u0080"+
-		"\u0081\u0005\u000e\u0000\u0000\u0081\u0082\u0005+\u0000\u0000\u0082\u0083"+
+		"\u0081\u0005\u000e\u0000\u0000\u0081\u0082\u00050\u0000\u0000\u0082\u0083"+
 		"\u0005\u000f\u0000\u0000\u0083\u0084\u0003\u0012\t\u0000\u0084\u0011\u0001"+
 		"\u0000\u0000\u0000\u0085\u0086\u0006\t\uffff\uffff\u0000\u0086\u0087\u0005"+
 		"\u001b\u0000\u0000\u0087\u0096\u0003\u0012\t\u0006\u0088\u0089\u0005\u001c"+
 		"\u0000\u0000\u0089\u0096\u0003\u0012\t\u0005\u008a\u0096\u0003\u0016\u000b"+
-		"\u0000\u008b\u008c\u0005+\u0000\u0000\u008c\u008d\u0005\u0007\u0000\u0000"+
+		"\u0000\u008b\u008c\u00050\u0000\u0000\u008c\u008d\u0005\u0007\u0000\u0000"+
 		"\u008d\u008e\u0003\u0012\t\u0000\u008e\u008f\u0005\b\u0000\u0000\u008f"+
 		"\u0096\u0001\u0000\u0000\u0000\u0090\u0091\u0005\u0003\u0000\u0000\u0091"+
 		"\u0092\u0003\u0012\t\u0000\u0092\u0093\u0005\u0004\u0000\u0000\u0093\u0096"+
@@ -1948,7 +1948,7 @@ public class ValkyrieParser extends Parser {
 		"\u009d\u009b\u0001\u0000\u0000\u0000\u009d\u009e\u0001\u0000\u0000\u0000"+
 		"\u009e\u0013\u0001\u0000\u0000\u0000\u009f\u009d\u0001\u0000\u0000\u0000"+
 		"\u00a0\u00a1\u0007\u0000\u0000\u0000\u00a1\u0015\u0001\u0000\u0000\u0000"+
-		"\u00a2\u00a3\u0005+\u0000\u0000\u00a3\u00a5\u0005\u0003\u0000\u0000\u00a4"+
+		"\u00a2\u00a3\u00050\u0000\u0000\u00a3\u00a5\u0005\u0003\u0000\u0000\u00a4"+
 		"\u00a6\u0003\u0018\f\u0000\u00a5\u00a4\u0001\u0000\u0000\u0000\u00a5\u00a6"+
 		"\u0001\u0000\u0000\u0000\u00a6\u00a7\u0001\u0000\u0000\u0000\u00a7\u00a8"+
 		"\u0005\u0004\u0000\u0000\u00a8\u0017\u0001\u0000\u0000\u0000\u00a9\u00ae"+
@@ -1956,8 +1956,8 @@ public class ValkyrieParser extends Parser {
 		"\u0012\t\u0000\u00ac\u00aa\u0001\u0000\u0000\u0000\u00ad\u00b0\u0001\u0000"+
 		"\u0000\u0000\u00ae\u00ac\u0001\u0000\u0000\u0000\u00ae\u00af\u0001\u0000"+
 		"\u0000\u0000\u00af\u0019\u0001\u0000\u0000\u0000\u00b0\u00ae\u0001\u0000"+
-		"\u0000\u0000\u00b1\u00bc\u0005+\u0000\u0000\u00b2\u00bc\u0005,\u0000\u0000"+
-		"\u00b3\u00bc\u0005-\u0000\u0000\u00b4\u00bc\u0005.\u0000\u0000\u00b5\u00b6"+
+		"\u0000\u0000\u00b1\u00bc\u00050\u0000\u0000\u00b2\u00bc\u0005+\u0000\u0000"+
+		"\u00b3\u00bc\u0005,\u0000\u0000\u00b4\u00bc\u0005-\u0000\u0000\u00b5\u00b6"+
 		"\u0005\u0007\u0000\u0000\u00b6\u00b7\u0003\u0018\f\u0000\u00b7\u00b8\u0005"+
 		"\b\u0000\u0000\u00b8\u00bc\u0001\u0000\u0000\u0000\u00b9\u00bc\u0005\u0015"+
 		"\u0000\u0000\u00ba\u00bc\u0005\u0016\u0000\u0000\u00bb\u00b1\u0001\u0000"+

@@ -1,123 +1,92 @@
-package valkyrie.language.lexer;
+package valkyrie.language.lexer
 
-import com.intellij.lang.ASTNode;
-import com.intellij.lang.ParserDefinition;
-import com.intellij.lang.PsiBuilder;
-import com.intellij.lang.PsiParser;
-import com.intellij.lexer.Lexer;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.FileViewProvider;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.IFileElementType;
-import com.intellij.psi.tree.TokenSet;
-import org.antlr.intellij.adaptor.lexer.ANTLRLexerAdaptor;
-import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory;
-import org.antlr.intellij.adaptor.lexer.RuleIElementType;
-import org.antlr.intellij.adaptor.lexer.TokenIElementType;
-import org.antlr.intellij.adaptor.parser.ANTLRParserAdaptor;
-import org.antlr.intellij.adaptor.psi.ANTLRPsiNode;
-import org.antlr.jetbrains.sample.parser.SampleLanguageLexer;
-import org.antlr.jetbrains.sample.parser.SampleLanguageParser;
-import org.antlr.jetbrains.sample.psi.ArgdefSubtree;
-import org.antlr.jetbrains.sample.psi.BlockSubtree;
-import org.antlr.jetbrains.sample.psi.CallSubtree;
-import org.antlr.jetbrains.sample.psi.FunctionSubtree;
-import org.antlr.jetbrains.sample.psi.SamplePSIFileRoot;
-import org.antlr.jetbrains.sample.psi.VardefSubtree;
-import org.antlr.v4.runtime.Parser;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.lang.ASTNode
+import com.intellij.lang.ParserDefinition
+import com.intellij.lang.PsiParser
+import com.intellij.lexer.Lexer
+import com.intellij.openapi.project.Project
+import com.intellij.psi.FileViewProvider
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFile
+import com.intellij.psi.tree.IElementType
+import com.intellij.psi.tree.IFileElementType
+import com.intellij.psi.tree.TokenSet
+import org.antlr.intellij.adaptor.lexer.ANTLRLexerAdaptor
+import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory
+import org.antlr.intellij.adaptor.lexer.RuleIElementType
+import org.antlr.intellij.adaptor.lexer.TokenIElementType
+import org.antlr.intellij.adaptor.parser.ANTLRParserAdaptor
+import org.antlr.intellij.adaptor.psi.ANTLRPsiNode
+import org.antlr.v4.runtime.Parser
+import org.antlr.v4.runtime.tree.ParseTree
+import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.antlr.ValkyrieLexer
+import valkyrie.language.antlr.ValkyrieParser
+import valkyrie.language.file.ValkyrieFileNode
 
-import java.util.List;
-
-public class SampleParserDefinition implements ParserDefinition {
-    public static final IFileElementType FILE = new IFileElementType(SampleLanguage.INSTANCE);
-
-    public static TokenIElementType ID;
-
-    static {
-        PSIElementTypeFactory.defineLanguageIElementTypes(SampleLanguage.INSTANCE, SampleLanguageParser.tokenNames, SampleLanguageParser.ruleNames);
-        List<TokenIElementType> tokenIElementTypes = PSIElementTypeFactory.getTokenIElementTypes(SampleLanguage.INSTANCE);
-        ID = tokenIElementTypes.get(SampleLanguageLexer.ID);
+class SampleParserDefinition : ParserDefinition {
+    override fun createLexer(project: Project): Lexer {
+        val lexer = ValkyrieLexer(null)
+        return ANTLRLexerAdaptor(ValkyrieLanguage, lexer)
     }
 
-    public static final TokenSet COMMENTS = PSIElementTypeFactory.createTokenSet(SampleLanguage.INSTANCE, SampleLanguageLexer.COMMENT, SampleLanguageLexer.LINE_COMMENT);
-
-    public static final TokenSet WHITESPACE = PSIElementTypeFactory.createTokenSet(SampleLanguage.INSTANCE, SampleLanguageLexer.WS);
-
-    public static final TokenSet STRING = PSIElementTypeFactory.createTokenSet(SampleLanguage.INSTANCE, SampleLanguageLexer.STRING);
-
-    @NotNull
-    @Override
-    public Lexer createLexer(Project project) {
-        SampleLanguageLexer lexer = new SampleLanguageLexer(null);
-        return new ANTLRLexerAdaptor(SampleLanguage.INSTANCE, lexer);
-    }
-
-    @NotNull
-    public PsiParser createParser(final Project project) {
-        final SampleLanguageParser parser = new SampleLanguageParser(null);
-        return new ANTLRParserAdaptor(SampleLanguage.INSTANCE, parser) {
-            @Override
-            protected ParseTree parse(Parser parser, IElementType root) {
+    override fun createParser(project: Project): PsiParser {
+        val parser = ValkyrieParser(null)
+        return object : ANTLRParserAdaptor(ValkyrieLanguage, parser) {
+            override fun parse(parser: Parser, root: IElementType): ParseTree {
                 // start rule depends on root passed in; sometimes we want to create an ID node etc...
-                if (root instanceof IFileElementType) {
-                    return ((SampleLanguageParser) parser).script();
-                }
+//                if (root instanceof IFileElementType) {
+//                    return ((ValkyrieParser) parser).script();
+//                }
                 // let's hope it's an ID as needed by "rename function"
-                return ((SampleLanguageParser) parser).primary();
+                return (parser as ValkyrieParser).primary()
             }
-        };
+        }
     }
 
     /**
      * "Tokens of those types are automatically skipped by PsiBuilder."
      */
-    @NotNull
-    public TokenSet getWhitespaceTokens() {
-        return WHITESPACE;
+    override fun getWhitespaceTokens(): TokenSet {
+        return WHITESPACE
     }
 
-    @NotNull
-    public TokenSet getCommentTokens() {
-        return COMMENTS;
+    override fun getCommentTokens(): TokenSet {
+        return COMMENTS
     }
 
-    @NotNull
-    public TokenSet getStringLiteralElements() {
-        return STRING;
+    override fun getStringLiteralElements(): TokenSet {
+        return STRING
     }
 
-    public SpaceRequirements spaceExistanceTypeBetweenTokens(ASTNode left, ASTNode right) {
-        return SpaceRequirements.MAY;
+    override fun spaceExistanceTypeBetweenTokens(left: ASTNode, right: ASTNode): ParserDefinition.SpaceRequirements {
+        return ParserDefinition.SpaceRequirements.MAY
     }
 
     /**
      * What is the IFileElementType of the root parse tree node? It
-     * is called from {@link #createFile(FileViewProvider)} at least.
+     * is called from [.createFile] at least.
      */
-    @Override
-    public IFileElementType getFileNodeType() {
-        return FILE;
+    override fun getFileNodeType(): IFileElementType {
+        return FILE
     }
 
     /**
      * Create the root of your PSI tree (a PsiFile).
-     * <p>
+     *
+     *
      * From IntelliJ IDEA Architectural Overview:
      * "A PSI (Program Structure Interface) file is the root of a structure
      * representing the contents of a file as a hierarchy of elements
      * in a particular programming language."
-     * <p>
+     *
+     *
      * PsiFile is to be distinguished from a FileASTNode, which is a parse
      * tree node that eventually becomes a PsiFile. From PsiFile, we can get
-     * it back via: {@link PsiFile#getNode}.
+     * it back via: [PsiFile.getNode].
      */
-    @Override
-    public PsiFile createFile(FileViewProvider viewProvider) {
-        return new SamplePSIFileRoot(viewProvider);
+    override fun createFile(viewProvider: FileViewProvider): PsiFile {
+        return ValkyrieFileNode(viewProvider)
     }
 
     /**
@@ -128,42 +97,50 @@ public class SampleParserDefinition implements ParserDefinition {
      * In that case, this method is called to create the root node
      * but with ID type. Kind of strange, but we can simply create a
      * ASTWrapperPsiElement to make everything work correctly.
-     * <p>
+     *
+     *
      * RuleIElementType.  Ah! It's that ID is the root
      * IElementType requested to parse, which means that the root
      * node returned from parsetree->PSI conversion.  But, it
      * must be a CompositeElement! The adaptor calls
      * rootMarker.done(root) to finish off the PSI conversion.
-     * See {@link ANTLRParserAdaptor#parse(IElementType root,
-     * PsiBuilder)}
-     * <p>
+     * See [ANTLRParserAdaptor.parse]
+     *
+     *
      * If you don't care to distinguish PSI nodes by type, it is
-     * sufficient to create a {@link ANTLRPsiNode} around
+     * sufficient to create a [ANTLRPsiNode] around
      * the parse tree node
      */
-    @NotNull
-    public PsiElement createElement(ASTNode node) {
-        IElementType elType = node.getElementType();
-        if (elType instanceof TokenIElementType) {
-            return new ANTLRPsiNode(node);
+    override fun createElement(node: ASTNode): PsiElement {
+        val elType = node.elementType
+        if (elType is TokenIElementType) {
+            return ANTLRPsiNode(node)
         }
-        if (!(elType instanceof RuleIElementType)) {
-            return new ANTLRPsiNode(node);
+        if (elType !is RuleIElementType) {
+            return ANTLRPsiNode(node)
         }
-        RuleIElementType ruleElType = (RuleIElementType) elType;
-        switch (ruleElType.getRuleIndex()) {
-            case SampleLanguageParser.RULE_function:
-                return new FunctionSubtree(node, elType);
-            case SampleLanguageParser.RULE_vardef:
-                return new VardefSubtree(node, elType);
-            case SampleLanguageParser.RULE_formal_arg:
-                return new ArgdefSubtree(node, elType);
-            case SampleLanguageParser.RULE_block:
-                return new BlockSubtree(node);
-            case SampleLanguageParser.RULE_call_expr:
-                return new CallSubtree(node);
-            default:
-                return new ANTLRPsiNode(node);
+        return when (elType.ruleIndex) {
+            else -> ANTLRPsiNode(node)
         }
+    }
+
+    companion object {
+        val FILE = IFileElementType(ValkyrieLanguage)
+        var ID: TokenIElementType? = null
+
+        init {
+            PSIElementTypeFactory.defineLanguageIElementTypes(
+                ValkyrieLanguage,
+                ValkyrieParser.tokenNames,
+                ValkyrieParser.ruleNames
+            )
+            val tokenIElementTypes = PSIElementTypeFactory.getTokenIElementTypes(ValkyrieLanguage)
+            ID = tokenIElementTypes[ValkyrieLexer.UNICODE_ID]
+        }
+
+        val COMMENTS =
+            PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieLexer.COMMENT, ValkyrieLexer.LINE_COMMENT)
+        val WHITESPACE = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieLexer.WS)
+        val STRING = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieLexer.STRING)
     }
 }

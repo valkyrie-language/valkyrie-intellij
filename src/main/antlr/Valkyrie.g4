@@ -6,15 +6,20 @@ options {
 // $antlr-format useTab false, alignColons hanging, alignSemicolons hanging
 // $antlr-format alignFirstTokens true
 
-top_statement: define_function;
-
+top_statement: define_class | define_function;
+// ===========================================================================
 define_function: vardef* function* statement*;
+// ===========================================================================
+define_class: 'class' UNICODE_ID;
 
-function: 'func' ID '(' formal_args? ')' (':' type)? block;
+// ===========================================================================
+function
+    : 'def' UNICODE_ID '(' formal_args? ')' (':' type)? block
+    ;
 
 formal_args: formal_arg (',' formal_arg)*;
 
-formal_arg: ID ':' type;
+formal_arg: UNICODE_ID ':' type;
 
 type
     : 'int'     # IntTypeSpec
@@ -29,24 +34,24 @@ block: '{' (statement | vardef)* '}';
 statement
     : 'if' '(' expr ')' statement ('else' statement)? # If
     | 'while' '(' expr ')' statement                  # While
-    | ID '=' expr                                     # Assign
-    | ID '[' expr ']' '=' expr                        # ElementAssign
+    | UNICODE_ID '=' expr                             # Assign
+    | UNICODE_ID '[' expr ']' '=' expr                # ElementAssign
     | call_expr                                       # CallStatement
     | 'print' '(' expr? ')'                           # Print
     | 'return' expr                                   # Return
     | block                                           # BlockStatement
     ;
 
-vardef: 'var' ID '=' expr;
+vardef: 'var' UNICODE_ID '=' expr;
 
 expr
-    : expr operator expr # Op
-    | '-' expr           # Negate
-    | '!' expr           # Not
-    | call_expr          # Call
-    | ID '[' expr ']'    # Index
-    | '(' expr ')'       # Parens
-    | primary            # Atom
+    : expr operator expr      # Op
+    | '-' expr                # Negate
+    | '!' expr                # Not
+    | call_expr               # Call
+    | UNICODE_ID '[' expr ']' # Index
+    | '(' expr ')'            # Parens
+    | primary                 # Atom
     ;
 
 operator
@@ -65,14 +70,14 @@ operator
     | DOT
     ;
 
-call_expr: ID '(' expr_list? ')';
+call_expr: UNICODE_ID '(' expr_list? ')';
 
 expr_list: expr (',' expr)*;
 
 primary
-    : ID                # Identifier
-    | INT               # Integer
-    | FLOAT             # Float
+    : UNICODE_ID        # Identifier
+    | INTEGER           # Integer
+    | DECIMAL           # Float
     | STRING            # String
     | '[' expr_list ']' # Vector
     | 'true'            # TrueLiteral
@@ -124,14 +129,14 @@ DOT:         ' . ';
 
 LINE_COMMENT: '//' .*? ('\n' | EOF) -> channel(HIDDEN);
 COMMENT:      '/*' .*? '*/' -> channel(HIDDEN);
+// identifier
 
-ID:  [a-zA-Z_] [a-zA-Z0-9_]*;
-INT: [0-9]+;
-FLOAT
-    : '-'? INT '.' INT EXP? // 1.35, 1.35E-9, 0.3, -4.5
-    | '-'? INT EXP
+INTEGER: [0-9]+;
+DECIMAL
+    : INTEGER '.' INTEGER EXP? // 1.35, 1.35E-9, 0.3, -4.5
+    | INTEGER EXP
     ;
-fragment EXP: [Ee] [+\-]? INT;
+fragment EXP: [Ee] [+\-]? INTEGER;
 
 STRING:       '"' (ESC | ~["\\])* '"';
 fragment ESC: '\\' ["\bfnrt];
