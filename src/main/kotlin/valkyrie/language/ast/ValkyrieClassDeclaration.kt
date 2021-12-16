@@ -11,16 +11,18 @@ import org.antlr.intellij.adaptor.psi.IdentifierDefSubtree
 import org.antlr.intellij.adaptor.psi.ScopeNode
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.language.mixin.MixinNamepath
 import valkyrie.language.psi.ValkyrieGenericDefine
 import javax.swing.Icon
 
 class ValkyrieClassDeclaration(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ScopeNode {
+    private val _identifier: ValkyrieNamepathNode = findChildByClass(ValkyrieNamepathNode::class.java)!!;
+
     override fun getName(): String {
-        return "class A"
+        return _identifier.text
     }
-    override fun getNameIdentifier(): PsiElement? {
-        return findChildByClass(ValkyrieGenericDefine::class.java)
+
+    override fun getNameIdentifier(): ValkyrieNamepathNode {
+        return _identifier;
     }
 
     override fun getIcon(flags: Int): Icon {

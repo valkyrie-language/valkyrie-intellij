@@ -19,7 +19,7 @@ top_statement
     ;
 EOS: ';';
 // ===========================================================================
-define_namespace: KW_NAMESPACE;
+define_namespace: KW_NAMESPACE namepath_free;
 KW_NAMESPACE
     : 'namespace'
     | 'namespace!'
@@ -27,7 +27,7 @@ KW_NAMESPACE
     | 'namespace?'
     ;
 // ===========================================================================
-import_statement: KW_IMPORT;
+import_statement: KW_IMPORT namepath_free;
 
 KW_IMPORT: 'using' | 'using!' | 'using*' | 'using?';
 // ===========================================================================
@@ -36,21 +36,21 @@ define_extension: KW_EXTENSION;
 KW_EXTENSION: 'extension';
 // ===========================================================================
 define_class
-    : KW_CLASS name = UNICODE_ID '{' class_statements* '}'
+    : KW_CLASS name = namepath '{' class_statements* '}'
     ;
 class_statements: define_function EOS?;
 
 KW_CLASS: 'class' | 'structure';
 // ===========================================================================
 define_trait
-    : KW_TRAIT name = UNICODE_ID '{' trait_statements* '}'
+    : KW_TRAIT name = namepath '{' trait_statements* '}'
     ;
 trait_statements: define_function EOS?;
 
 KW_TRAIT: 'trait' | 'interface';
 // ===========================================================================
 define_union
-    : KW_UNION name = UNICODE_ID '{' union_statements* '}'
+    : KW_UNION name = namepath '{' union_statements* '}'
     ;
 union_statements: define_function EOS?;
 
@@ -130,7 +130,7 @@ call_expr: UNICODE_ID '(' expr_list? ')';
 expr_list: expr (',' expr)*;
 
 primary
-    : UNICODE_ID        # Identifier
+    : UNICODE_ID        # PIdentifier
     | INTEGER           # Integer
     | DECIMAL           # Float
     | STRING            # String
@@ -199,8 +199,13 @@ DOT:         ' . ';
 // comment
 LINE_COMMENT: '//' .*? ('\n' | EOF) -> channel(HIDDEN);
 COMMENT:      '/*' .*? '*/' -> channel(HIDDEN);
+// namepath
+namepath_free: identifier (('∷' | '::' | '.') identifier)*;
+namepath: identifier (('∷' | '::') identifier)*;
 // identifier
+identifier: UNICODE_ID;
 UNICODE_ID: XID_Start XID_Continue*;
+// numbewr
 INTEGER:    [0] | [1-9][0-9]+;
 DECIMAL
     : INTEGER '.' INTEGER EXP? // 1.35, 1.35E-9, 0.3, -4.5

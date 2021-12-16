@@ -438,17 +438,17 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitExpr_list(ValkyrieParser.Expr_listContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Identifier}
+	 * Enter a parse tree produced by the {@code PIdentifier}
 	 * labeled alternative in {@link ValkyrieParser#primary}.
 	 * @param ctx the parse tree
 	 */
-	void enterIdentifier(ValkyrieParser.IdentifierContext ctx);
+	void enterPIdentifier(ValkyrieParser.PIdentifierContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Identifier}
+	 * Exit a parse tree produced by the {@code PIdentifier}
 	 * labeled alternative in {@link ValkyrieParser#primary}.
 	 * @param ctx the parse tree
 	 */
-	void exitIdentifier(ValkyrieParser.IdentifierContext ctx);
+	void exitPIdentifier(ValkyrieParser.PIdentifierContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code Integer}
 	 * labeled alternative in {@link ValkyrieParser#primary}.
@@ -521,4 +521,34 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFalseLiteral(ValkyrieParser.FalseLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#namepath_free}.
+	 * @param ctx the parse tree
+	 */
+	void enterNamepath_free(ValkyrieParser.Namepath_freeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#namepath_free}.
+	 * @param ctx the parse tree
+	 */
+	void exitNamepath_free(ValkyrieParser.Namepath_freeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#namepath}.
+	 * @param ctx the parse tree
+	 */
+	void enterNamepath(ValkyrieParser.NamepathContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#namepath}.
+	 * @param ctx the parse tree
+	 */
+	void exitNamepath(ValkyrieParser.NamepathContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#identifier}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdentifier(ValkyrieParser.IdentifierContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#identifier}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdentifier(ValkyrieParser.IdentifierContext ctx);
 }

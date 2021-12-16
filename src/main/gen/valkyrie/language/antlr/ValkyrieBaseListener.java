@@ -485,13 +485,13 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIdentifier(ValkyrieParser.IdentifierContext ctx) { }
+	@Override public void enterPIdentifier(ValkyrieParser.PIdentifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIdentifier(ValkyrieParser.IdentifierContext ctx) { }
+	@Override public void exitPIdentifier(ValkyrieParser.PIdentifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -564,6 +564,42 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFalseLiteral(ValkyrieParser.FalseLiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNamepath_free(ValkyrieParser.Namepath_freeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNamepath_free(ValkyrieParser.Namepath_freeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNamepath(ValkyrieParser.NamepathContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNamepath(ValkyrieParser.NamepathContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIdentifier(ValkyrieParser.IdentifierContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIdentifier(ValkyrieParser.IdentifierContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

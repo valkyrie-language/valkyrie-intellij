@@ -1,18 +1,18 @@
 namespace;
 
 class Aa {
-    def Ac() {}
+def Ac() {}
 };
 
 
 
 
 trait Bb {
-    def Ac() {}
+def Ac() {}
 };
 
 
 
 trait Bb {
-
+def As() {}
 };

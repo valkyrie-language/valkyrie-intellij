@@ -265,12 +265,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpr_list(ValkyrieParser.Expr_listContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Identifier}
+	 * Visit a parse tree produced by the {@code PIdentifier}
 	 * labeled alternative in {@link ValkyrieParser#primary}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIdentifier(ValkyrieParser.IdentifierContext ctx);
+	T visitPIdentifier(ValkyrieParser.PIdentifierContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Integer}
 	 * labeled alternative in {@link ValkyrieParser#primary}.
@@ -313,4 +313,22 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFalseLiteral(ValkyrieParser.FalseLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#namepath_free}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNamepath_free(ValkyrieParser.Namepath_freeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#namepath}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNamepath(ValkyrieParser.NamepathContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#identifier}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIdentifier(ValkyrieParser.IdentifierContext ctx);
 }

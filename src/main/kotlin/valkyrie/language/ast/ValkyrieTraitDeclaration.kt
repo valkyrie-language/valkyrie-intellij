@@ -15,11 +15,12 @@ import valkyrie.language.psi.ValkyrieGenericDefine
 import javax.swing.Icon
 
 class ValkyrieTraitDeclaration(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ScopeNode {
+    private val _identifier: ValkyrieNamepathNode = findChildByClass(ValkyrieNamepathNode::class.java)!!;
     override fun getName(): String {
-        return "trait B"
+        return _identifier.text
     }
-    override fun getNameIdentifier(): PsiElement? {
-        return findChildByClass(ValkyrieGenericDefine::class.java)
+    override fun getNameIdentifier(): ValkyrieNamepathNode {
+        return _identifier
     }
 
     override fun getIcon(flags: Int): Icon {
