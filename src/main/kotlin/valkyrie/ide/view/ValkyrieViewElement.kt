@@ -1,13 +1,13 @@
 package valkyrie.ide.view
 
-import valkyrie.language.file.ValkyrieFileNode
-import valkyrie.language.ast.ValkyrieASTBase
+import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.ide.structureView.StructureViewTreeElement
 import com.intellij.ide.util.treeView.smartTree.SortableTreeElement
-import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
+import com.intellij.psi.PsiElement
+import org.antlr.intellij.adaptor.psi.ANTLRPsiNode
 import javax.swing.Icon
 
 class ValkyrieViewElement : StructureViewTreeElement, SortableTreeElement {
@@ -16,12 +16,7 @@ class ValkyrieViewElement : StructureViewTreeElement, SortableTreeElement {
 
     constructor(self: NavigatablePsiElement) {
         this.self = self
-        this.view = self.presentation ?: PresentationData(self.name, "", self.getIcon(0), null)
-    }
-
-    constructor(self: NavigatablePsiElement, view: ItemPresentation) {
-        this.self = self
-        this.view = view
+        this.view = self.presentation!!
     }
 
     constructor(self: NavigatablePsiElement, name: String, icon: Icon) {
@@ -41,12 +36,31 @@ class ValkyrieViewElement : StructureViewTreeElement, SortableTreeElement {
 
     override fun getPresentation(): ItemPresentation = view
 
-    override fun getChildren(): Array<out TreeElement> = when (self) {
-        is ValkyrieFileNode -> self.getChildrenView()
-        is ValkyrieASTBase -> self.getChildrenView()
-        else -> arrayOf()
+    override fun getChildren(): Array<out ValkyrieViewElement> {
+        return findChildrenView(self)
     }
 
     // TODO: return object
     fun getVisibility(): Boolean = true
+
+    companion object {
+        fun findChildrenView(root: PsiElement): Array<ValkyrieViewElement> {
+            val output = mutableListOf<ValkyrieViewElement>();
+            var needSearch = root.children.toList();
+            while (needSearch.isNotEmpty()) {
+                val nextSearch = mutableListOf<PsiElement>();
+                for (node in needSearch) {
+                    if (node is NavigatablePsiElement) {
+                        if (node.presentation != null) {
+                            output.add(ValkyrieViewElement(node))
+                        }
+                    } else {
+                        nextSearch.addAll(node.children);
+                    }
+                }
+                needSearch = nextSearch
+            }
+            return output.toTypedArray()
+        }
+    }
 }

@@ -7,15 +7,13 @@ import com.intellij.lang.cacheBuilder.WordsScanner
 import com.intellij.lang.findUsages.FindUsagesProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.tree.TokenSet
-import org.antlr.intellij.adaptor.lexer.ANTLRLexerAdaptor
-import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.antlr.ValkyrieLexer
+import valkyrie.language.lexer.ValkyrieProgramLexer
 
 class ValkyrieUsagesProvider : FindUsagesProvider {
     override fun getWordsScanner(): WordsScanner {
-        val lexer = ValkyrieLexer(null)
+
         return DefaultWordsScanner(
-            ANTLRLexerAdaptor(ValkyrieLanguage, lexer),
+            ValkyrieProgramLexer(),
             TokenSet.create(ValkyrieTypes.SYMBOL_XID),
             TokenSet.create(ValkyrieTypes.SYMBOL_RAW),
             TokenSet.create(ValkyrieTypes.COMMENT_LINE),

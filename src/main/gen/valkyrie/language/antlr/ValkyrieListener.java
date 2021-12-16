@@ -28,6 +28,16 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitTop_statement(ValkyrieParser.Top_statementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#define_namespace}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefine_namespace(ValkyrieParser.Define_namespaceContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#define_namespace}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefine_namespace(ValkyrieParser.Define_namespaceContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#define_class}.
 	 * @param ctx the parse tree
 	 */
@@ -47,6 +57,46 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitClass_statements(ValkyrieParser.Class_statementsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#define_trait}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefine_trait(ValkyrieParser.Define_traitContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#define_trait}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefine_trait(ValkyrieParser.Define_traitContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#trait_statements}.
+	 * @param ctx the parse tree
+	 */
+	void enterTrait_statements(ValkyrieParser.Trait_statementsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#trait_statements}.
+	 * @param ctx the parse tree
+	 */
+	void exitTrait_statements(ValkyrieParser.Trait_statementsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#define_union}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefine_union(ValkyrieParser.Define_unionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#define_union}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefine_union(ValkyrieParser.Define_unionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#union_statements}.
+	 * @param ctx the parse tree
+	 */
+	void enterUnion_statements(ValkyrieParser.Union_statementsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#union_statements}.
+	 * @param ctx the parse tree
+	 */
+	void exitUnion_statements(ValkyrieParser.Union_statementsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#define_variale}.
 	 * @param ctx the parse tree

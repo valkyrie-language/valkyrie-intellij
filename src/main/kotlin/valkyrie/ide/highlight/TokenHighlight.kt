@@ -6,18 +6,15 @@ import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
-import org.antlr.intellij.adaptor.lexer.ANTLRLexerAdaptor
 import valkyrie.ide.highlight.ValkyrieHighlightColor
-import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.antlr.ValkyrieLexer
+import valkyrie.language.lexer.ValkyrieProgramLexer
 import valkyrie.language.psi.ValkyrieTokenType
 import valkyrie.language.psi.ValkyrieTypes.*
 import valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
 class TokenHighlight : SyntaxHighlighterBase() {
     override fun getHighlightingLexer(): Lexer {
-        val lexer = ValkyrieLexer(null)
-        return ANTLRLexerAdaptor(ValkyrieLanguage, lexer)
+        return ValkyrieProgramLexer()
     }
 
     override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> {

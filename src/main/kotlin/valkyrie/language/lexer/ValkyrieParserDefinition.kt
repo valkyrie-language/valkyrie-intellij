@@ -8,9 +8,9 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.FileViewProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
-import org.antlr.intellij.adaptor.lexer.ANTLRLexerAdaptor
 import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory
 import org.antlr.intellij.adaptor.lexer.RuleIElementType
 import org.antlr.intellij.adaptor.lexer.TokenIElementType
@@ -19,12 +19,15 @@ import org.antlr.intellij.adaptor.psi.ANTLRPsiNode
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.antlr.ValkyrieLexer
 import valkyrie.language.antlr.ValkyrieParser
+import valkyrie.language.ast.ValkyrieClassDeclaration
+import valkyrie.language.ast.ValkyrieNamespaceDeclaration
+import valkyrie.language.ast.ValkyrieProgramNode
+import valkyrie.language.ast.ValkyrieTraitDeclaration
 import valkyrie.language.file.ValkyrieFileNode
 
 class ValkyrieParserDefinition : ParserDefinition {
     override fun createLexer(project: Project): Lexer {
-        val lexer = ValkyrieLexer(null)
-        return ANTLRLexerAdaptor(ValkyrieLanguage, lexer)
+        return ValkyrieProgramLexer()
     }
 
     override fun createParser(project: Project): PsiParser {
@@ -96,20 +99,31 @@ class ValkyrieParserDefinition : ParserDefinition {
      * the parse tree node
      */
     override fun createElement(node: ASTNode): PsiElement {
-        val elType = node.elementType
-        if (elType is TokenIElementType) {
-            return ANTLRPsiNode(node)
+        return if (node is CompositeElement) {
+            val type: RuleIElementType = node.elementType as RuleIElementType;
+            when (type.ruleIndex) {
+                ValkyrieParser.RULE_program -> ValkyrieProgramNode(node, type)
+                ValkyrieParser.RULE_define_namespace -> ValkyrieNamespaceDeclaration(node, type)
+                ValkyrieParser.RULE_define_class -> ValkyrieClassDeclaration(node, type)
+                ValkyrieParser.RULE_define_trait -> ValkyrieTraitDeclaration(node, type)
+                else -> {
+                    println("create element of ${node.javaClass.name}: ${node.elementType}")
+                    ANTLRPsiNode(node)
+                }
+            }
+        } else {
+            println("create element of ${node.javaClass.name}: ${node.elementType}(${node.text})")
+            ANTLRPsiNode(node)
         }
-        if (elType !is RuleIElementType) {
-            return ANTLRPsiNode(node)
-        }
-        return when (elType.ruleIndex) {
-            else -> ANTLRPsiNode(node)
-        }
+    }
+
+    override fun spaceExistenceTypeBetweenTokens(left: ASTNode?, right: ASTNode?): ParserDefinition.SpaceRequirements {
+        return super.spaceExistenceTypeBetweenTokens(left, right)
     }
 
     companion object {
         var ID: TokenIElementType? = null
+
 
         init {
             PSIElementTypeFactory.defineLanguageIElementTypes(
@@ -119,8 +133,9 @@ class ValkyrieParserDefinition : ParserDefinition {
             )
             val tokenIElementTypes = PSIElementTypeFactory.getTokenIElementTypes(ValkyrieLanguage)
             ID = tokenIElementTypes[ValkyrieLexer.UNICODE_ID]
-        }
 
+        }
     }
 }
+
 

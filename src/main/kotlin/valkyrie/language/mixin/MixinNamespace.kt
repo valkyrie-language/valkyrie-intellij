@@ -60,14 +60,6 @@ open class MixinNamespace(node: ASTNode) : ViewableNode(node), PsiNameIdentifier
         return PresentationData(namepath.name, "", this.getIcon(0), null)
     }
 
-    override fun getChildrenView(): Array<ValkyrieViewElement> {
-        val views: MutableList<ValkyrieViewElement> = mutableListOf()
-        for (item in PsiTreeUtil.getChildrenOfTypeAsList(containingFile, ValkyrieImportStatementNode::class.java)) {
-            item.addChildrenView(views)
-        }
-        return views.toTypedArray()
-    }
-
     fun isDeclaration(): Boolean {
         return this.firstChild.text.endsWith("!")
     }

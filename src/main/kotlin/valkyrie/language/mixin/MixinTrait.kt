@@ -28,17 +28,6 @@ open class MixinTrait(node: ASTNode) : DeclareNode(node), ValkyrieContext {
         TODO("Not yet implemented")
     }
 
-    override fun getChildrenView(): Array<ValkyrieViewElement> {
-        val childrenView: MutableList<ValkyrieViewElement> = mutableListOf()
-        originalElement.modifiers.forEach {
-            childrenView.add(ValkyrieViewElement(it, it.text, ValkyrieIconProvider.MODIFIER))
-        }
-        PsiTreeUtil.getChildrenOfTypeAsList(originalElement.classBlock, NavigatablePsiElement::class.java).forEach {
-            childrenView.add(ValkyrieViewElement(it))
-        }
-        return childrenView.toTypedArray()
-    }
-
     fun getViewName(): String {
         val name = originalElement
         val ty = originalElement.typeExpression;

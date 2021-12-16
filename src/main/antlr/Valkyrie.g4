@@ -8,17 +8,40 @@ options {
 
 program: top_statement* EOF;
 top_statement
-    : define_class EOS?
+    : define_namespace EOS?
+    | define_class EOS?
+    | define_union EOS?
+    | define_trait EOS?
     | define_variale EOS?
     | define_function EOS?
     ;
 EOS: ';';
 // ===========================================================================
+define_namespace: KW_NAMESPACE;
+KW_NAMESPACE
+    : 'namespace'
+    | 'namespace!'
+    | 'namespace*'
+    | 'namespace?'
+    ;
+// ===========================================================================
 define_class
     : KW_CLASS name = UNICODE_ID '{' class_statements* '}'
     ;
 class_statements: define_function EOS?;
-KW_CLASS: 'class';
+KW_CLASS:         'class' | 'structure';
+// ===========================================================================
+define_trait
+    : KW_TRAIT name = UNICODE_ID '{' trait_statements* '}'
+    ;
+trait_statements: define_function EOS?;
+KW_TRAIT:         'trait' | 'interface';
+// ===========================================================================
+define_union
+    : KW_UNION name = UNICODE_ID '{' union_statements* '}'
+    ;
+union_statements: define_function EOS?;
+KW_UNION:         'union';
 // ===========================================================================
 define_variale: 'let' name = UNICODE_ID '=' expr;
 // ===========================================================================
@@ -99,13 +122,6 @@ LBRACK: '[';
 RBRACK: ']';
 LBRACE: '{';
 RBRACE: '}';
-
-KW_NAMESPACE
-    : 'namespace'
-    | 'namespace!'
-    | 'namespace*'
-    | 'namespace?'
-    ;
 
 // "using", "using!", "using*", "using?" -> pushToken(ValkyrieTypes.KW_IMPORT, r) "as", "as?",
 // "as!", "as*" -> pushToken(ValkyrieTypes.OP_AS, r) "is" -> pushToken(ValkyrieTypes.OP_IS_A, r)

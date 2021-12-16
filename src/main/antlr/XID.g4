@@ -1,7 +1,7 @@
 lexer grammar XID;
 // $antlr-format useTab false, alignColons hanging, alignSemicolons hanging
 // $antlr-format alignFirstTokens true
-UNICODE_ID: XID_Start XID_Continue*;
+UNICODE_ID: XID_Start | XID_Start XID_Continue+;
 fragment XID_Start
     : '\u0041' .. '\u005a'
     | '_'

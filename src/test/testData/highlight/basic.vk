@@ -1,5 +1,18 @@
-class Aa { };
+namespace*;
+
+class Aa {
+
+};
 
 
-class Aa { };
 
+
+trait Bb {
+
+};
+
+
+
+trait Bb {
+
+};

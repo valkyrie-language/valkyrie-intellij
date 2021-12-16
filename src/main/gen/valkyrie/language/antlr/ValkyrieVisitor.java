@@ -23,6 +23,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTop_statement(ValkyrieParser.Top_statementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#define_namespace}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefine_namespace(ValkyrieParser.Define_namespaceContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#define_class}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -34,6 +40,30 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitClass_statements(ValkyrieParser.Class_statementsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#define_trait}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefine_trait(ValkyrieParser.Define_traitContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#trait_statements}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTrait_statements(ValkyrieParser.Trait_statementsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#define_union}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefine_union(ValkyrieParser.Define_unionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#union_statements}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnion_statements(ValkyrieParser.Union_statementsContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#define_variale}.
 	 * @param ctx the parse tree

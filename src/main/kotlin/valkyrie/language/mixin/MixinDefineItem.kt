@@ -53,10 +53,5 @@ open class MixinDefineItem(node: ASTNode) : ValkyrieASTBase(node), PsiNameIdenti
         return PresentationData(name, null, getIcon(0), null)
     }
 
-    override fun getChildrenView(): Array<ValkyrieViewElement> {
-        val views: MutableList<ValkyrieViewElement> = mutableListOf()
-        // originalElement.modifiers.addChildrenView(views)
-        return views.toTypedArray()
-    }
 }
 

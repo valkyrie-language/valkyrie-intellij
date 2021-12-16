@@ -31,17 +31,18 @@ data class RequestDocument(
     }
 
     fun send(): String {
-        val httpRequest = HttpRequest.newBuilder()
-            .uri(LanguageClient.host.addPathSuffix("document"))
-            .header("Content-Type", "application/json")
-            .POST(HttpRequest.BodyPublishers.ofString(Json.encodeToString(this)))
-            .build()
-        val response = LanguageClient.client.send(httpRequest, HttpResponse.BodyHandlers.ofString())
-        if (response.body().isEmpty()) {
-            return "Document not found"
-        }
-        val body = Json.decodeFromString<ResponseDocument>(response.body());
-        return body.content
+//        val httpRequest = HttpRequest.newBuilder()
+//            .uri(LanguageClient.host.addPathSuffix("document"))
+//            .header("Content-Type", "application/json")
+//            .POST(HttpRequest.BodyPublishers.ofString(Json.encodeToString(this)))
+//            .build()
+//        val response = LanguageClient.client.send(httpRequest, HttpResponse.BodyHandlers.ofString())
+//        if (response.body().isEmpty()) {
+//            return "Document not found"
+//        }
+//        val body = Json.decodeFromString<ResponseDocument>(response.body());
+//        return body.content
+        return "";
     }
 }
 

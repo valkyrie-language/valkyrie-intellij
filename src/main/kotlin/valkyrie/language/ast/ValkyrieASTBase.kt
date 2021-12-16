@@ -42,17 +42,6 @@ open class ValkyrieASTBase(node: ASTNode) : ASTWrapperPsiElement(node) {
         return PresentationData("[UNDEFINED]", this.text, getIcon(0), null)
     }
 
-    open fun getChildrenView(): Array<ValkyrieViewElement> {
-        val childrenView: MutableList<ValkyrieViewElement> = mutableListOf()
-        for (item in PsiTreeUtil.getChildrenOfTypeAsList(this, NavigatablePsiElement::class.java)) {
-            when (val view = item.presentation) {
-                null -> continue
-                else -> childrenView.add(ValkyrieViewElement(item, view))
-            }
-        }
-        return childrenView.toTypedArray()
-    }
-
     open fun resolveNamespace(name: List<String>): ValkyrieASTBase? {
         return when (name.count()) {
             0 -> this

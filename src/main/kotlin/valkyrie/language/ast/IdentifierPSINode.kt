@@ -13,7 +13,6 @@ import org.jetbrains.annotations.NonNls
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.lexer.ValkyrieParserDefinition.Companion.ID
 
-
 class ValkyrieIdentifierAstNode(type: IElementType?, text: CharSequence?) : ANTLRPsiLeafNode(type, text), PsiNamedElement,
     NavigatablePsiElement {
     override fun getName(): String {

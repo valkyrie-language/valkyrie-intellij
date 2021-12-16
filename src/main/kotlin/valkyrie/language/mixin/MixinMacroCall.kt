@@ -36,20 +36,6 @@ open class MixinMacroCall(node: ASTNode) : ValkyrieASTBase(node) {
         return PresentationData(this.name, "", ValkyrieIconProvider.MACRO, null)
     }
 
-    override fun addAnnotationView(list: MutableList<ValkyrieViewElement>) {
-        if (isAnnotation()) {
-            val view = PresentationData(this.name, "", ValkyrieIconProvider.ANNOTATION, null)
-            list.add(ValkyrieViewElement(this, view))
-        }
-    }
-
-    override fun getChildrenView(): Array<ValkyrieViewElement> {
-        val childrenView: MutableList<ValkyrieViewElement> = mutableListOf()
-        for (item in PsiTreeUtil.getChildrenOfTypeAsList(originalElement.macroBlock, NavigatablePsiElement::class.java)) {
-            childrenView.add(ValkyrieViewElement(item))
-        }
-        return childrenView.toTypedArray()
-    }
 }
 
 

@@ -25,10 +25,6 @@ open class MixinImport(node: ASTNode) : ValkyrieASTBase(node) {
         return null
     }
 
-    override fun getChildrenView(): Array<ValkyrieViewElement> {
-        return arrayOf()
-    }
-
     fun expandImports(): Map<String, Array<String>> {
         val imports = mutableMapOf<String, Array<String>>()
         val importStatement = this.originalElement.importItem

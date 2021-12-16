@@ -32,8 +32,5 @@ open class MixinModifier(node: ASTNode) : ViewableNode(node) {
         return PresentationData("[MODIFIERS]", "", this.getIcon(0), null)
     }
 
-    override fun getChildrenView(): Array<ValkyrieViewElement> {
-        return arrayOf()
-    }
 }
 

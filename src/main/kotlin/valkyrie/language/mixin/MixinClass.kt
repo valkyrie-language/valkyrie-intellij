@@ -53,14 +53,6 @@ open class MixinClass(node: ASTNode) : DeclareNode(node), ValkyrieContext {
             .firstNotNullOfOrNull { it.resolveNamespace(name.drop(1)) }
     }
 
-    override fun getChildrenView(): Array<ValkyrieViewElement> {
-        val childrenView: MutableList<ValkyrieViewElement> = mutableListOf()
-        originalElement.addAnnotationView(childrenView)
-        originalElement.modified.addChildrenView(childrenView)
-        originalElement.classBlock?.addChildrenView(childrenView)
-        return childrenView.toTypedArray()
-    }
-
     val class_fields: List<ValkyrieClassFieldNode>
         get() {
             if (originalElement.classBlock == null) return listOf()

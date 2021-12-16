@@ -30,14 +30,6 @@ open class MixinDefine(node: ASTNode) : DeclareNode(node), ValkyrieContext {
         TODO("Not yet implemented")
     }
 
-    override fun getChildrenView(): Array<ValkyrieViewElement> {
-        val childrenView: MutableList<ValkyrieViewElement> = mutableListOf()
-//        originalElement.modifiers.addChildrenView(childrenView)
-        originalElement.defineTuple.addChildrenView(childrenView)
-        originalElement.defineBlock.addChildrenView(childrenView)
-        return childrenView.toTypedArray()
-    }
-
     val kind: FunctionKind
         get() {
             val namespace = originalElement.namepathFree;

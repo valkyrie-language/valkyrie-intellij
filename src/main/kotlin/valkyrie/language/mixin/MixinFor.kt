@@ -18,12 +18,6 @@ open class MixinFor(node: ASTNode) : ValkyrieASTBase(node) {
         return PresentationData(name, null, getIcon(0), null)
     }
 
-    override fun getChildrenView(): Array<ValkyrieViewElement> {
-        val views: MutableList<ValkyrieViewElement> = mutableListOf()
-        // originalElement.modifiers.addChildrenView(views)
-        return views.toTypedArray()
-    }
-
     fun getVariables(): ValkyrieVariables {
         val out = ValkyrieVariables()
         val normal = originalElement.normalPattern
