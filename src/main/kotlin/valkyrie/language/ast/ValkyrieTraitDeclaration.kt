@@ -1,5 +1,6 @@
 package valkyrie.language.ast
 
+import com.intellij.ide.projectView.PresentationData
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
@@ -14,6 +15,9 @@ import valkyrie.language.psi.ValkyrieGenericDefine
 import javax.swing.Icon
 
 class ValkyrieTraitDeclaration(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ScopeNode {
+    override fun getName(): String {
+        return "trait B"
+    }
     override fun getNameIdentifier(): PsiElement? {
         return findChildByClass(ValkyrieGenericDefine::class.java)
     }
@@ -23,24 +27,11 @@ class ValkyrieTraitDeclaration(node: ASTNode, type: IElementType) : IdentifierDe
     }
 
     override fun getPresentation(): ItemPresentation {
-        return object : ItemPresentation {
-            override fun getPresentableText(): String {
-                return "trait getPresentableText"
-            }
-
-            override fun getLocationString(): String {
-                return "trait getLocationString"
-            }
-
-            override fun getIcon(unused: Boolean): Icon {
-                return getIcon(0)
-            }
-        }
+        return PresentationData(name, name, this.getIcon(0), null)
     }
 
     override fun resolve(element: PsiNamedElement?): PsiElement? {
         return SymtabUtils.resolve(this, ValkyrieLanguage, element, "/script/trait/ID");
     }
 }
-
 

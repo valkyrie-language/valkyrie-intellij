@@ -26,9 +26,6 @@ private val keywordSP = """(?x)
     | \b(let|def)\b
     | \b(object)\b
     | \b(match|with|case|when)\b
-    | \b(try|catch)\b
-    | \b(raise|continue|return|resume)\b
-    | \b(yield|break)\b
     """.toRegex()
 private val punctuations = """(?x)\\
     | [.]{2}[=<]
@@ -98,116 +95,6 @@ class TokenInterpreter(val buffer: CharSequence, var startOffset: Int, val endOf
     val context: LexerContext
         get() = contextStack.lastOrNull() ?: Coding
 
-    fun interpreter(): Array<StackItem> {
-        while (startOffset < endOffset) {
-            if (matchesWhitespace()) continue
-            if (codeComment()) continue
-            if (codeString()) continue
-            if (codeNumber()) continue
-            if (codePunctuations()) continue
-            if (codeKeywords()) continue
-            if (codeIdentifier()) continue
-            break
-        }
-        checkRest()
-        return stack.toTypedArray()
-    }
-
-    private fun matchesWhitespace(): Boolean {
-        val r = tryMatch("\\s+".toRegex()) ?: return false
-        pushToken(TokenType.WHITE_SPACE, r)
-        return true
-    }
-
-    private fun codeComment(): Boolean {
-        val r = tryMatch(comments) ?: return false
-        r.groups["s2"]?.let {
-            pushToken(ValkyrieTypes.COMMENT_LINE, r)
-            return true
-        }
-        r.groups["s3"]?.let {
-            pushToken(ValkyrieTypes.COMMENT_BLOCK, r)
-            return true
-        }
-        return false
-    }
-
-    private fun codeString(): Boolean {
-        val r = tryMatch(strings) ?: return false
-        val slots = arrayOf(
-            arrayOf("s1", "t1", "e1"),
-            arrayOf("s2", "t2", "e2"),
-            arrayOf("s3", "t3", "e3"),
-        )
-        for (slot in slots) {
-            val start = r.groups[slot[0]]
-            val text = r.groups[slot[1]]
-            val end = r.groups[slot[2]]
-            if (text != null) {
-                pushToken(ValkyrieTypes.STRING_START, start!!)
-                pushToken(ValkyrieTypes.STRING_TEXT, text)
-                pushToken(ValkyrieTypes.STRING_END, end!!)
-                break
-            }
-
-        }
-        return true
-    }
-
-    private fun codeNumber(): Boolean {
-        val r = tryMatch(numbers) ?: return false
-        when {
-            r.groups["s1"] != null -> {
-                pushToken(ValkyrieTypes.DECIMAL, r)
-            }
-
-            r.groups["s2"] != null -> {
-                pushToken(ValkyrieTypes.DECIMAL, r)
-            }
-
-            r.groups["s3"] != null -> {
-                pushToken(ValkyrieTypes.INTEGER, r)
-            }
-
-            r.groups["s4"] != null -> {
-                pushToken(ValkyrieTypes.BYTE, r)
-            }
-
-            r.groups["s5"] != null -> {
-                pushToken(ValkyrieTypes.COLOUR, r)
-            }
-        }
-        return true
-    }
-
-    private fun codeKeywords(): Boolean {
-        val r = tryMatch(keywordSP) ?: return false
-        when (r.value) {
-
-
-            else -> pushToken(TokenType.BAD_CHARACTER, r)
-        }
-        return true
-    }
-
-    private fun codeIdentifier(): Boolean {
-        val xid = """(?x)
-        [\p{L}_][\p{L}_\d]*
-        | (`)((?:[^`\\]|\\.)*)(\1)
-        """.toRegex()
-        val r = tryMatch(xid) ?: return false
-        when {
-            lastIs(ValkyrieTypes.INTEGER, ValkyrieTypes.DECIMAL, skipWS = false) -> {
-                pushToken(ValkyrieTypes.NUMBER_SUFFIX, r)
-            }
-
-            else -> {
-                pushToken(ValkyrieTypes.SYMBOL_XID, r)
-            }
-        }
-
-        return true
-    }
 
     private fun codePunctuations(): Boolean {
         val r = tryMatch(punctuations) ?: return false

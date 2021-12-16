@@ -19,10 +19,7 @@ import org.antlr.intellij.adaptor.psi.ANTLRPsiNode
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.antlr.ValkyrieLexer
 import valkyrie.language.antlr.ValkyrieParser
-import valkyrie.language.ast.ValkyrieClassDeclaration
-import valkyrie.language.ast.ValkyrieNamespaceDeclaration
-import valkyrie.language.ast.ValkyrieProgramNode
-import valkyrie.language.ast.ValkyrieTraitDeclaration
+import valkyrie.language.ast.*
 import valkyrie.language.file.ValkyrieFileNode
 
 class ValkyrieParserDefinition : ParserDefinition {
@@ -106,6 +103,7 @@ class ValkyrieParserDefinition : ParserDefinition {
                 ValkyrieParser.RULE_define_namespace -> ValkyrieNamespaceDeclaration(node, type)
                 ValkyrieParser.RULE_define_class -> ValkyrieClassDeclaration(node, type)
                 ValkyrieParser.RULE_define_trait -> ValkyrieTraitDeclaration(node, type)
+                ValkyrieParser.RULE_define_function -> ValkyrieFunctionDeclaration(node, type)
                 else -> {
                     println("create element of ${node.javaClass.name}: ${node.elementType}")
                     ANTLRPsiNode(node)
@@ -123,8 +121,6 @@ class ValkyrieParserDefinition : ParserDefinition {
 
     companion object {
         var ID: TokenIElementType? = null
-
-
         init {
             PSIElementTypeFactory.defineLanguageIElementTypes(
                 ValkyrieLanguage,
@@ -133,7 +129,6 @@ class ValkyrieParserDefinition : ParserDefinition {
             )
             val tokenIElementTypes = PSIElementTypeFactory.getTokenIElementTypes(ValkyrieLanguage)
             ID = tokenIElementTypes[ValkyrieLexer.UNICODE_ID]
-
         }
     }
 }

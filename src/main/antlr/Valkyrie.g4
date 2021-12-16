@@ -9,6 +9,8 @@ options {
 program: top_statement* EOF;
 top_statement
     : define_namespace EOS?
+	| import_statement EOS?
+	| define_extension EOS?
     | define_class EOS?
     | define_union EOS?
     | define_trait EOS?
@@ -25,29 +27,44 @@ KW_NAMESPACE
     | 'namespace?'
     ;
 // ===========================================================================
+import_statement: KW_IMPORT;
+
+KW_IMPORT: 'using' | 'using!' | 'using*' | 'using?';
+// ===========================================================================
+define_extension: KW_EXTENSION;
+
+KW_EXTENSION: 'extension';
+// ===========================================================================
 define_class
     : KW_CLASS name = UNICODE_ID '{' class_statements* '}'
     ;
 class_statements: define_function EOS?;
-KW_CLASS:         'class' | 'structure';
+
+KW_CLASS: 'class' | 'structure';
 // ===========================================================================
 define_trait
     : KW_TRAIT name = UNICODE_ID '{' trait_statements* '}'
     ;
 trait_statements: define_function EOS?;
-KW_TRAIT:         'trait' | 'interface';
+
+KW_TRAIT: 'trait' | 'interface';
 // ===========================================================================
 define_union
     : KW_UNION name = UNICODE_ID '{' union_statements* '}'
     ;
 union_statements: define_function EOS?;
-KW_UNION:         'union';
+
+KW_UNION: 'union';
 // ===========================================================================
-define_variale: 'let' name = UNICODE_ID '=' expr;
+define_variale: KW_LET name = UNICODE_ID '=' expr;
+
+KW_LET: 'let';
 // ===========================================================================
 define_function
-    : 'def' UNICODE_ID '(' formal_args? ')' (':' type)? block
+    : KW_FUNCTION UNICODE_ID '(' formal_args? ')' (':' type)? block
     ;
+
+KW_FUNCTION: 'def';
 // ===========================================================================
 formal_args: formal_arg (',' formal_arg)*;
 
@@ -98,7 +115,15 @@ operator
     | OR
     | AND
     | DOT
+	| IS
+	| IS NOT
     ;
+
+AS: 'as' | 'as!' | 'as*';
+IS: 'is';
+IN: 'in';
+NOT: 'not';
+
 
 call_expr: UNICODE_ID '(' expr_list? ')';
 
@@ -123,16 +148,15 @@ RBRACK: ']';
 LBRACE: '{';
 RBRACE: '}';
 
-// "using", "using!", "using*", "using?" -> pushToken(ValkyrieTypes.KW_IMPORT, r) "as", "as?",
-// "as!", "as*" -> pushToken(ValkyrieTypes.OP_AS, r) "is" -> pushToken(ValkyrieTypes.OP_IS_A, r)
-// "in" -> pushToken(ValkyrieTypes.OP_IN, r) "not" -> pushToken(ValkyrieTypes.OP_NOT, r) "and" ->
+
+
+
 // pushToken(ValkyrieTypes.PATTERN_AND, r) "or" -> pushToken(ValkyrieTypes.PATTERN_OR, r) "which" ->
 // pushToken(ValkyrieTypes.KW_WHICH, r) "if" -> pushToken(ValkyrieTypes.KW_IF, r) "else" ->
 // pushToken(ValkyrieTypes.KW_ELSE, r) "loop" -> pushToken(ValkyrieTypes.KW_LOOP, r) "while" ->
 // pushToken(ValkyrieTypes.KW_WHILE, r) "for" -> pushToken(ValkyrieTypes.KW_FOR, r) "match" ->
 // pushToken(ValkyrieTypes.KW_MATCH, r) "when" -> pushToken(ValkyrieTypes.KW_WHEN, r) "case" ->
 // pushToken(ValkyrieTypes.KW_CASE, r) "with" -> pushToken(ValkyrieTypes.KW_WITH, r) "let" ->
-// pushToken(ValkyrieTypes.KW_LET, r) "def" -> pushToken(ValkyrieTypes.KW_DEF, r) ->
 // pushToken(ValkyrieTypes.KW_BREAK, r) "type" -> pushToken(ValkyrieTypes.KW_TYPE, r)
 // 
 // "class", "structure", "struct" -> pushToken(ValkyrieTypes.KW_CLASS, r) "union", "tagged", "enum",
@@ -143,7 +167,6 @@ RBRACE: '}';
 IF:    'if';
 ELSE:  'else';
 WHILE: 'while';
-VAR:   'var';
 //
 EQUAL: '=';
 // controls
@@ -155,7 +178,7 @@ CONTINUE: 'continue';
 RAISE:    'raise';
 CATCH:    'catch';
 // atom
-NULL:  'αλφαβητον';
+NULL:  'null';
 TRUE:  'true';
 FALSE: 'false';
 // infix
@@ -177,8 +200,8 @@ DOT:         ' . ';
 LINE_COMMENT: '//' .*? ('\n' | EOF) -> channel(HIDDEN);
 COMMENT:      '/*' .*? '*/' -> channel(HIDDEN);
 // identifier
-
-INTEGER: [0-9]+;
+UNICODE_ID: XID_Start XID_Continue*;
+INTEGER:    [0] | [1-9][0-9]+;
 DECIMAL
     : INTEGER '.' INTEGER EXP? // 1.35, 1.35E-9, 0.3, -4.5
     | INTEGER EXP

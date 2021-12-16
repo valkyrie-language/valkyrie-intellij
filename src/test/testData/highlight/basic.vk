@@ -1,14 +1,14 @@
-namespace*;
+namespace;
 
 class Aa {
-
+    def Ac() {}
 };
 
 
 
 
 trait Bb {
-
+    def Ac() {}
 };
 
 

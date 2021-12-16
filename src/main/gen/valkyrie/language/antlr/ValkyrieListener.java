@@ -38,6 +38,26 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitDefine_namespace(ValkyrieParser.Define_namespaceContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#import_statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterImport_statement(ValkyrieParser.Import_statementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#import_statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitImport_statement(ValkyrieParser.Import_statementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#define_extension}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefine_extension(ValkyrieParser.Define_extensionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#define_extension}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefine_extension(ValkyrieParser.Define_extensionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#define_class}.
 	 * @param ctx the parse tree
 	 */

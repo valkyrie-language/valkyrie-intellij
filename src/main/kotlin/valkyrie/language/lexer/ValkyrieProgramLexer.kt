@@ -67,8 +67,20 @@ class ValkyrieProgramLexer : Lexer() {
 private fun getKeywords(): TokenSet {
     return PSIElementTypeFactory.createTokenSet(
         ValkyrieLanguage,
+        // declare keywords
         ValkyrieLexer.KW_NAMESPACE,
         ValkyrieLexer.KW_CLASS,
-        ValkyrieLexer.KW_TRAIT
+        ValkyrieLexer.KW_TRAIT,
+        ValkyrieLexer.KW_FUNCTION,
+        ValkyrieLexer.KW_LET,
+        // control keywords
+        ValkyrieLexer.RETURN,
+        ValkyrieLexer.RESUME,
+        ValkyrieLexer.YIELD,
+        ValkyrieLexer.BREAK,
+        ValkyrieLexer.CONTINUE,
+        ValkyrieLexer.RAISE,
+        ValkyrieLexer.CATCH,
+        //
     )
 }

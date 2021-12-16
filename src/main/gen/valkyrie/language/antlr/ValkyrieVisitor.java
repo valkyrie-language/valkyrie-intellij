@@ -29,6 +29,18 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDefine_namespace(ValkyrieParser.Define_namespaceContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#import_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitImport_statement(ValkyrieParser.Import_statementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#define_extension}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefine_extension(ValkyrieParser.Define_extensionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#define_class}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

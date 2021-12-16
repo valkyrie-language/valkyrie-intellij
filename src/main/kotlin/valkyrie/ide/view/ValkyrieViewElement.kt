@@ -4,10 +4,13 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.ide.structureView.StructureViewTreeElement
 import com.intellij.ide.util.treeView.smartTree.SortableTreeElement
+import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import org.antlr.intellij.adaptor.psi.ANTLRPsiNode
+import valkyrie.language.ast.ValkyrieASTBase
+import valkyrie.language.file.ValkyrieFileNode
 import javax.swing.Icon
 
 class ValkyrieViewElement : StructureViewTreeElement, SortableTreeElement {
@@ -36,9 +39,7 @@ class ValkyrieViewElement : StructureViewTreeElement, SortableTreeElement {
 
     override fun getPresentation(): ItemPresentation = view
 
-    override fun getChildren(): Array<out ValkyrieViewElement> {
-        return findChildrenView(self)
-    }
+    override fun getChildren(): Array<out ValkyrieViewElement> = findChildrenView(self)
 
     // TODO: return object
     fun getVisibility(): Boolean = true
@@ -53,6 +54,8 @@ class ValkyrieViewElement : StructureViewTreeElement, SortableTreeElement {
                     if (node is NavigatablePsiElement) {
                         if (node.presentation != null) {
                             output.add(ValkyrieViewElement(node))
+                        } else {
+                            nextSearch.addAll(node.children);
                         }
                     } else {
                         nextSearch.addAll(node.children);
