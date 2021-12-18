@@ -59,11 +59,13 @@ class ValkyrieProgramLexer : Lexer() {
 
     companion object {
         val Keywords: TokenSet = getKeywords();
-
+        val Integers: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieLexer.INTEGER);
+        val Decimals: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieLexer.DECIMAL);
+        val CommentLine: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieLexer.LINE_COMMENT);
+        val CommentBlock: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieLexer.COMMENT);
     }
-
 }
-
+// PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieLexer.COMMENT, ValkyrieLexer.LINE_COMMENT)
 private fun getKeywords(): TokenSet {
     return PSIElementTypeFactory.createTokenSet(
         ValkyrieLanguage,

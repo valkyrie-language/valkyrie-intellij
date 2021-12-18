@@ -72,6 +72,7 @@ class ValkyrieParserDefinition : ParserDefinition {
     override fun createFile(viewProvider: FileViewProvider): PsiFile {
         return ValkyrieFileNode(viewProvider)
     }
+
     /**
      * Convert from *NON-LEAF* parse node (AST they call it)
      * to PSI node. Leaves are created in the AST factory.
@@ -103,6 +104,7 @@ class ValkyrieParserDefinition : ParserDefinition {
                 ValkyrieParser.RULE_define_class -> ValkyrieClassDeclaration(node, type)
                 ValkyrieParser.RULE_define_trait -> ValkyrieTraitDeclaration(node, type)
                 ValkyrieParser.RULE_define_function -> ValkyrieFunctionDeclaration(node, type)
+                ValkyrieParser.RULE_namepath_free -> ValkyrieNamepathNode(node, type, true)
                 ValkyrieParser.RULE_namepath -> ValkyrieNamepathNode(node, type)
                 ValkyrieParser.RULE_identifier -> ValkyrieIdentifierNode(node, type)
                 else -> {

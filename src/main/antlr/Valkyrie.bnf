@@ -17,9 +17,6 @@
     generateTokenAccessors = false
 
     tokens = [
-        COMMENT_LINE = "Comment Line"
-        COMMENT_BLOCK = "Comment Block"
-        // literal
         SYMBOL_XID = "Symbol"
         SYMBOL_RAW = "Symbol"
         STRING_START = "StringStart"

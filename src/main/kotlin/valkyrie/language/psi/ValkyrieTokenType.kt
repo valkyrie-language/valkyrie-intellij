@@ -29,10 +29,10 @@ val operators: TokenSet = TokenSet.orSet(prefix, infix, suffix)
 
 class ValkyrieTokenType(debugName: String) : IElementType(debugName, ValkyrieLanguage) {
     companion object {
-        fun isKeyword(type: PsiElement?): Boolean = ValkyrieProgramLexer.Keywords.contains(type.elementType)
         fun isKeyword(type: IElementType?): Boolean = ValkyrieProgramLexer.Keywords.contains(type)
         fun isOperator(type: PsiElement?): Boolean = operators.contains(type.elementType)
         fun isOperator(type: IElementType?): Boolean = operators.contains(type)
+
         fun isValkyrieBlock(type: PsiElement?): Boolean {
             if (type == null) return false
             return when (type) {

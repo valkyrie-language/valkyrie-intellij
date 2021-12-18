@@ -57,7 +57,7 @@ enum class ValkyrieHighlightColor(humanName: Supplier<@AttributeDescriptor Strin
     DOT(OptionsBundle.messagePointer("options.language.defaults.dot"), Default.DOT),
     STAR(ValkyrieBundle.messagePointer("color.token.default"), Default.KEYWORD),
     COMMA(OptionsBundle.messagePointer("options.language.defaults.comma"), Default.COMMA),
-    SET(ValkyrieBundle.messagePointer("color.token.set"), Default.OPERATION_SIGN),
+    ASSIGN(ValkyrieBundle.messagePointer("color.token.set"), Default.OPERATION_SIGN),
     SEMICOLON(OptionsBundle.messagePointer("options.language.defaults.semicolon"), Default.SEMICOLON),
     OP_NUMBER(ValkyrieBundle.messagePointer("color.token.number.suffix"), Default.METADATA),
     OP_STRING(ValkyrieBundle.messagePointer("color.token.string.prefix"), Default.KEYWORD),

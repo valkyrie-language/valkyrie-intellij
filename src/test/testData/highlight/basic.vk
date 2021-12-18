@@ -1,11 +1,12 @@
-namespace;
+namespace a::b.c;
 
-class Aa {
-def Ac() {}
+class Aa::c {
+def Ac() {
+
+}
 };
-
-
-
+// 2
+let a = 11;
 
 trait Bb {
 def Ac() {}

@@ -3,6 +3,7 @@ package valkyrie.ide.doc
 import com.intellij.openapi.editor.colors.EditorColorsManager
 import com.intellij.openapi.editor.richcopy.HtmlSyntaxInfoUtil
 import com.intellij.psi.PsiElement
+import com.intellij.psi.util.elementType
 import com.intellij.ui.ColorUtil
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.ide.highlight.ValkyrieHighlightColor
@@ -19,7 +20,7 @@ class DocumentationRenderer(var element: PsiElement, private var original: PsiEl
     private val doc = StringBuilder()
     fun onHover(): String {
          when {
-            ValkyrieTokenType.isKeyword(element) -> return RequestDocument.keyword(element.text).send()
+            ValkyrieTokenType.isKeyword(element.elementType) -> return RequestDocument.keyword(element.text).send()
             ValkyrieTokenType.isOperator(element) -> return RequestDocument.operator(element.text).send()
             else -> {}
         }

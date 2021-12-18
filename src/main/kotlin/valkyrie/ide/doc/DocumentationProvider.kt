@@ -66,7 +66,7 @@ class DocumentationProvider : DocumentationProvider {
 
     override fun getCustomDocumentationElement(editor: Editor, file: PsiFile, contextElement: PsiElement?, targetOffset: Int): PsiElement? {
         return when {
-            ValkyrieTokenType.isKeyword(contextElement) -> contextElement
+            ValkyrieTokenType.isKeyword(contextElement.elementType) -> contextElement
             ValkyrieTokenType.isOperator(contextElement) -> contextElement
 //            contextElement.elementType == ValkyrieTypes.OP_AT -> null
             contextElement.elementType == ValkyrieTypes.OP_AT -> null
