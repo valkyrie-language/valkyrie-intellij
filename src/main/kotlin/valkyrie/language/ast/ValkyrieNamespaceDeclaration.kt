@@ -9,13 +9,25 @@ import org.antlr.intellij.adaptor.psi.IdentifierDefSubtree
 import org.antlr.intellij.adaptor.psi.ScopeNode
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.language.psi.ValkyrieGenericDefine
 import javax.swing.Icon
 
 class ValkyrieNamespaceDeclaration(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ScopeNode {
-    override fun getNameIdentifier(): PsiElement? {
-        return findChildByClass(ValkyrieGenericDefine::class.java)
+    private val _identifier: ValkyrieNamepathNode = findChildByClass(ValkyrieNamepathNode::class.java)!!;
+
+    override fun getName(): String {
+        return _identifier.identifiers.joinToString(".") { it.text }
     }
+
+    val namespace: Array<String>
+        get() {
+            return arrayOf()
+        }
+
+    fun isTestFile(): Boolean {
+        return false;
+    }
+
+    override fun getNameIdentifier(): ValkyrieNamepathNode = _identifier
 
     override fun getIcon(flags: Int): Icon {
         return ValkyrieIconProvider.TRAIT

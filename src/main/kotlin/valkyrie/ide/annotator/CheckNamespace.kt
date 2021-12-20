@@ -9,21 +9,21 @@ import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.ide.actions.ast_transform.CreateNamespace
 import valkyrie.ide.actions.ast_transform.DeleteThis
 import valkyrie.language.ValkyrieBundle
+import valkyrie.language.ast.ValkyrieNamespaceDeclaration
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.psi.childrenOfType
 import valkyrie.language.psi.endSemicolon
-import valkyrie.language.psi_node.ValkyrieNamespaceStatementNode
 
 class CheckNamespace : HyperlinkAnnotator() {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         when (element) {
             is ValkyrieFileNode -> annotateFile(element, holder)
-            is ValkyrieNamespaceStatementNode -> annotateNamespace(element, holder)
+            is ValkyrieNamespaceDeclaration -> annotateNamespace(element, holder)
         }
     }
 
     private fun annotateFile(element: ValkyrieFileNode, holder: AnnotationHolder) {
-        val child = element.childrenOfType<ValkyrieNamespaceStatementNode>()
+        val child = element.childrenOfType<ValkyrieNamespaceDeclaration>()
         if (child.isEmpty()) {
             val fixer = CreateNamespace(element)
             holder.newAnnotation(HighlightSeverity.WEAK_WARNING, fixer.getDescription())
@@ -42,7 +42,7 @@ class CheckNamespace : HyperlinkAnnotator() {
         }
     }
 
-    private fun annotateNamespace(element: ValkyrieNamespaceStatementNode, holder: AnnotationHolder) {
+    private fun annotateNamespace(element: ValkyrieNamespaceDeclaration, holder: AnnotationHolder) {
         if (element.parent !is ValkyrieFileNode) {
             holder.newAnnotation(HighlightSeverity.ERROR, ValkyrieBundle.message("annotator.namespace.non-top"))
                 .range(element.textRange)

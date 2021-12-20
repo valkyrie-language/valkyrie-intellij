@@ -1,8 +1,7 @@
 package valkyrie.ide.project
 
-import kotlinx.serialization.Serializable
+import valkyrie.language.ast.ValkyrieNamespaceDeclaration
 import valkyrie.language.file.ValkyrieFileNode
-import valkyrie.language.psi_node.ValkyrieNamespaceStatementNode
 import java.io.DataInput
 import java.io.DataOutput
 
@@ -17,7 +16,7 @@ class ValkyrieFileData {
     constructor(file: ValkyrieFileNode) {
         path = file.virtualFile.path;
         for (child in file.children) {
-            if (child is ValkyrieNamespaceStatementNode) {
+            if (child is ValkyrieNamespaceDeclaration) {
                 if (namespace.isEmpty()) {
                     namespace = child.namespace;
                 } else {

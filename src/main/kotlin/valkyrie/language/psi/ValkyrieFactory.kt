@@ -4,9 +4,9 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.ast.ValkyrieNamespaceDeclaration
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.psi_node.ValkyrieLetStatementNode
-import valkyrie.language.psi_node.ValkyrieNamespaceStatementNode
 import valkyrie.language.psi_node.ValkyrieNumberNode
 
 class ValkyrieFactory {
@@ -26,10 +26,10 @@ class ValkyrieFactory {
         return factory.createFileFromText("factory.vk", ValkyrieLanguage, text) as ValkyrieFileNode
     }
 
-    fun createNamespace(text: String, kind: String = ""): ValkyrieNamespaceStatementNode {
+    fun createNamespace(text: String, kind: String = ""): ValkyrieNamespaceDeclaration {
         val file = createFile("namespace${kind} $text;");
         for (child in file.children) {
-            if (child is ValkyrieNamespaceStatementNode) {
+            if (child is ValkyrieNamespaceDeclaration) {
                 return child
             }
         }

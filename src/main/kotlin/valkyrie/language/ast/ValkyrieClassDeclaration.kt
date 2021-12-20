@@ -34,7 +34,7 @@ class ValkyrieClassDeclaration(node: ASTNode, type: IElementType) : IdentifierDe
     }
 
     override fun getPresentation(): ItemPresentation {
-        return PresentationData(name, name, this.getIcon(0), null)
+        return PresentationData(_identifier.name, _identifier.namespace, this.getIcon(0), null)
     }
 }
 

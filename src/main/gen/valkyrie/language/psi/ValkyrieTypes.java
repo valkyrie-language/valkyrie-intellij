@@ -419,9 +419,6 @@ public interface ValkyrieTypes {
       else if (type == NAMEPATH_STAR) {
         return new ValkyrieNamepathStarNode(node);
       }
-      else if (type == NAMESPACE_STATEMENT) {
-        return new ValkyrieNamespaceStatementNode(node);
-      }
       else if (type == NEW_BLOCK) {
         return new ValkyrieNewBlockNode(node);
       }

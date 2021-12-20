@@ -1,6 +1,6 @@
 namespace a::b.c;
 
-class Aa::c {
+class A::c::d {
 def Ac() {
 
 }

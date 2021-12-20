@@ -16,6 +16,7 @@ import javax.swing.Icon
 
 class ValkyrieTraitDeclaration(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ScopeNode {
     private val _identifier: ValkyrieNamepathNode = findChildByClass(ValkyrieNamepathNode::class.java)!!;
+
     override fun getName(): String {
         return _identifier.text
     }
@@ -28,7 +29,7 @@ class ValkyrieTraitDeclaration(node: ASTNode, type: IElementType) : IdentifierDe
     }
 
     override fun getPresentation(): ItemPresentation {
-        return PresentationData(name, name, this.getIcon(0), null)
+        return PresentationData(_identifier.name, _identifier.namespace, this.getIcon(0), null)
     }
 
     override fun resolve(element: PsiNamedElement?): PsiElement? {

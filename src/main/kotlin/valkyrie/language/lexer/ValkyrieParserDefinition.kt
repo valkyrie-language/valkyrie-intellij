@@ -108,7 +108,6 @@ class ValkyrieParserDefinition : ParserDefinition {
                 ValkyrieParser.RULE_namepath -> ValkyrieNamepathNode(node, type)
                 ValkyrieParser.RULE_identifier -> ValkyrieIdentifierNode(node, type)
                 else -> {
-                    println("create element of ${node.javaClass.name}: ${node.elementType}")
                     ANTLRPsiNode(node)
                 }
             }

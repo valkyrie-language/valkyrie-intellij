@@ -7,7 +7,6 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieBundle
-import valkyrie.language.psi_node.ValkyrieNamespaceStatementNode
 
 class RunNamespaceGroup(element: PsiElement) : ActionGroup() {
     init {

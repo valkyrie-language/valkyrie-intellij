@@ -1,21 +1,15 @@
 package valkyrie.language.file
 
 import com.intellij.extapi.psi.PsiFileBase
-import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.model.psi.PsiSymbolDeclaration
 import com.intellij.model.psi.PsiSymbolReference
-import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.psi.FileViewProvider
-import com.intellij.psi.PsiElement
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.SearchScope
-import valkyrie.ide.view.ValkyrieViewElement
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.ast.ValkyrieClassDeclaration
-import valkyrie.language.ast.ValkyrieTraitDeclaration
-import valkyrie.language.psi_node.ValkyrieNamespaceStatementNode
+import valkyrie.language.ast.ValkyrieNamespaceDeclaration
 
 
 /**
@@ -32,7 +26,7 @@ class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvide
     val packageName: String
         get() {
             for (child in this.children) {
-                if (child is ValkyrieNamespaceStatementNode) {
+                if (child is ValkyrieNamespaceDeclaration) {
                     return child.name
                 }
             }
@@ -42,7 +36,7 @@ class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvide
     val namespace: String
         get() {
             for (child in this.children) {
-                if (child is ValkyrieNamespaceStatementNode) {
+                if (child is ValkyrieNamespaceDeclaration) {
                     return ""
                 }
             }
