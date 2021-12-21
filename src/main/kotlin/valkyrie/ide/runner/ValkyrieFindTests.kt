@@ -2,8 +2,9 @@ package valkyrie.ide.runner
 
 import com.intellij.psi.PsiElement
 import com.intellij.testIntegration.TestFinder
+import valkyrie.language.ast.ValkyrieClassDeclaration
 import valkyrie.language.psi.valkyrieContext
-import valkyrie.language.psi_node.ValkyrieClassStatementNode
+//import valkyrie.language.psi_node.ValkyrieClassStatementNode
 import valkyrie.language.psi_node.ValkyrieExtendsStatementNode
 import valkyrie.language.psi_node.ValkyrieIdentifierNode
 import valkyrie.language.psi_node.ValkyrieTraitStatementNode
@@ -34,7 +35,7 @@ class ValkyrieFindTests : TestFinder {
                 findClassesForTest(ctx)
             }
 
-            is ValkyrieClassStatementNode -> {
+            is ValkyrieClassDeclaration -> {
                 mutableListOf(ctx)
             }
 

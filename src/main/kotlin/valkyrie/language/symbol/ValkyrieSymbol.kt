@@ -10,8 +10,9 @@ import com.intellij.psi.search.FileTypeIndex
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.indexing.FileBasedIndex
 import io.ktor.util.reflect.*
+import valkyrie.language.ast.ValkyrieClassDeclaration
 import valkyrie.language.file.ValkyrieFileType
-import valkyrie.language.psi_node.ValkyrieClassStatementNode
+//import valkyrie.language.psi_node.ValkyrieClassStatementNode
 import valkyrie.language.psi_node.ValkyrieExtendsStatementNode
 import valkyrie.language.psi_node.ValkyrieTraitStatementNode
 
@@ -34,7 +35,7 @@ object WorkspaceManager {
         return packageManager?.findDefinition(symbol)
     }
 
-    fun defineClass(target: ValkyrieClassStatementNode, packageName: String, namespace: String) {
+    fun defineClass(target: ValkyrieClassDeclaration, packageName: String, namespace: String) {
         val packageManager = packages.getOrPut(packageName) { PackageManager() }
         val namespaceManager = packageManager.namespace.getOrPut(namespace) { NamespaceManager() }
         val define = namespaceManager.classes[target.name];
@@ -78,7 +79,7 @@ class ValkyrieClassDeclare : PsiSymbolDeclaration {
     var myDefine: PsiElement;
     var myExtends: MutableList<ValkyrieExtendsStatementNode>;
 
-    constructor(classNode: ValkyrieClassStatementNode, packageName: String, namespace: String) {
+    constructor(classNode: ValkyrieClassDeclaration, packageName: String, namespace: String) {
         mySymbol = ValkyrieSymbol(packageName, namespace, classNode.name)
         myDefine = classNode
         myExtends = mutableListOf()
@@ -90,8 +91,8 @@ class ValkyrieClassDeclare : PsiSymbolDeclaration {
         myExtends = mutableListOf(extendNode)
     }
 
-    override fun getDeclaringElement(): ValkyrieClassStatementNode {
-        return myDefine as ValkyrieClassStatementNode
+    override fun getDeclaringElement(): ValkyrieClassDeclaration {
+        return myDefine as ValkyrieClassDeclaration
     }
 
     override fun getRangeInDeclaringElement(): TextRange {

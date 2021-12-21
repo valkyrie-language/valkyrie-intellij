@@ -7,7 +7,8 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieBundle
-import valkyrie.language.psi_node.ValkyrieClassStatementNode
+import valkyrie.language.ast.ValkyrieClassDeclaration
+//import valkyrie.language.psi_node.ValkyrieClassStatementNode
 import valkyrie.language.psi_node.ValkyrieExtendsStatementNode
 
 
@@ -23,7 +24,7 @@ class RunClassGroup : ActionGroup() {
 
     companion object {
         fun markClass(element: PsiElement): Info? {
-            if (element !is ValkyrieClassStatementNode) return null;
+            if (element !is ValkyrieClassDeclaration) return null;
             return Info(RunClass(listOf("element"), false))
         }
 

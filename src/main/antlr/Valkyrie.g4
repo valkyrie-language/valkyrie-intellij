@@ -9,8 +9,8 @@ options {
 program: top_statement* EOF;
 top_statement
     : define_namespace EOS?
-	| import_statement EOS?
-	| define_extension EOS?
+    | import_statement EOS?
+    | define_extension EOS?
     | define_class EOS?
     | define_union EOS?
     | define_trait EOS?
@@ -36,11 +36,13 @@ define_extension: KW_EXTENSION;
 KW_EXTENSION: 'extension';
 // ===========================================================================
 define_class
-    : KW_CLASS name = namepath '{' class_statements* '}'
+    : KW_CLASS name = namepath inherit = class_inherit '{' class_statements* '}'
     ;
 class_statements: define_function EOS?;
+class_inherit:    (COLON | KW_EXTENDS) type_expression;
 
-KW_CLASS: 'class' | 'structure';
+KW_EXTENDS: 'extend' | 'extends';
+KW_CLASS:   'class' | 'structure';
 // ===========================================================================
 define_trait
     : KW_TRAIT name = namepath '{' trait_statements* '}'
@@ -91,6 +93,8 @@ statement
     | block                                           # BlockStatement
     ;
 
+type_expression: expr;
+
 expr
     : expr operator expr      # Op
     | '-' expr                # Negate
@@ -115,15 +119,14 @@ operator
     | OR
     | AND
     | DOT
-	| IS
-	| IS NOT
+    | IS
+    | IS NOT
     ;
 
-AS: 'as' | 'as!' | 'as*';
-IS: 'is';
-IN: 'in';
+AS:  'as' | 'as!' | 'as*';
+IS:  'is';
+IN:  'in';
 NOT: 'not';
-
 
 call_expr: UNICODE_ID '(' expr_list? ')';
 
@@ -147,9 +150,6 @@ LBRACK: '[';
 RBRACK: ']';
 LBRACE: '{';
 RBRACE: '}';
-
-
-
 
 // pushToken(ValkyrieTypes.PATTERN_AND, r) "or" -> pushToken(ValkyrieTypes.PATTERN_OR, r) "which" ->
 // pushToken(ValkyrieTypes.KW_WHICH, r) "if" -> pushToken(ValkyrieTypes.KW_IF, r) "else" ->
@@ -201,12 +201,12 @@ LINE_COMMENT: '//' .*? ('\n' | EOF) -> channel(HIDDEN);
 COMMENT:      '/*' .*? '*/' -> channel(HIDDEN);
 // namepath
 namepath_free: identifier (('∷' | '::' | '.') identifier)*;
-namepath: identifier (('∷' | '::') identifier)*;
+namepath:      identifier (('∷' | '::') identifier)*;
 // identifier
 identifier: UNICODE_ID;
 UNICODE_ID: XID_Start XID_Continue*;
 // numbewr
-INTEGER:    [0] | [1-9][0-9]+;
+INTEGER: [0] | [1-9][0-9]+;
 DECIMAL
     : INTEGER '.' INTEGER EXP? // 1.35, 1.35E-9, 0.3, -4.5
     | INTEGER EXP

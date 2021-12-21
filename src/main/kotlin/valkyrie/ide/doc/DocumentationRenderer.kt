@@ -8,8 +8,9 @@ import com.intellij.ui.ColorUtil
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.highlight.ValkyrieHighlightColor.*
+import valkyrie.language.ast.ValkyrieClassDeclaration
 import valkyrie.language.psi.ValkyrieTokenType
-import valkyrie.language.psi_node.ValkyrieClassStatementNode
+//import valkyrie.language.psi_node.ValkyrieClassStatementNode
 import valkyrie.language.psi_node.ValkyrieTraitStatementNode
 import valkyrie.language.symbol.KeywordData
 import valkyrie.language.symbol.ModifierData
@@ -26,7 +27,7 @@ class DocumentationRenderer(var element: PsiElement, private var original: PsiEl
         }
         when (element) {
             is ValkyrieTraitStatementNode -> buildDetail(element as ValkyrieTraitStatementNode)
-            is ValkyrieClassStatementNode -> buildShort(element as ValkyrieClassStatementNode)
+            is ValkyrieClassDeclaration -> buildShort(element as ValkyrieClassDeclaration)
             else -> {
                 doc.append(element)
                 doc.append("<br/>")
@@ -52,7 +53,7 @@ class DocumentationRenderer(var element: PsiElement, private var original: PsiEl
         this.buildShort(element)
     }
 
-    private fun buildShort(element: ValkyrieClassStatementNode) {
+    private fun buildShort(element: ValkyrieClassDeclaration) {
         append(KEYWORD, "crate ")
         appendNamespace()
         doc.append("<br/>")

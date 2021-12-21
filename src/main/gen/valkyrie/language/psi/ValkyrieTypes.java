@@ -278,9 +278,6 @@ public interface ValkyrieTypes {
       else if (type == CLASS_METHOD) {
         return new ValkyrieClassMethodNode(node);
       }
-      else if (type == CLASS_STATEMENT) {
-        return new ValkyrieClassStatementNode(node);
-      }
       else if (type == CONDITION) {
         return new ValkyrieConditionNode(node);
       }

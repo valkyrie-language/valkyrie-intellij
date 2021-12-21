@@ -5,14 +5,15 @@ import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.psi.PsiElement
-import valkyrie.language.psi_node.ValkyrieClassStatementNode
+import valkyrie.language.ast.ValkyrieClassDeclaration
+
 import valkyrie.language.psi_node.ValkyrieIdentifierNode
 import valkyrie.language.psi_node.ValkyrieUnionStatementNode
 
 class NamepathChecker : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         when (element) {
-            is ValkyrieClassStatementNode -> {
+            is ValkyrieClassDeclaration -> {
                 checkValidClassName(element, holder)
             }
 
@@ -23,17 +24,17 @@ class NamepathChecker : Annotator {
     }
 
     // element.text can't start with lowercase
-    private fun checkValidClassName(element: ValkyrieClassStatementNode, holder: AnnotationHolder) {
-        checkNeedEscape(element.nameIdentifier, holder)
-        checkCamelCase(element.nameIdentifier, holder)
+    private fun checkValidClassName(element: ValkyrieClassDeclaration, holder: AnnotationHolder) {
+//        checkNeedEscape(element.nameIdentifier, holder)
+//        checkCamelCase(element.nameIdentifier, holder)
     }
 
     private fun checkValidUnionName(element: ValkyrieUnionStatementNode, holder: AnnotationHolder) {
-        checkNeedEscape(element.nameIdentifier, holder)
-        checkCamelCase(element.nameIdentifier, holder)
+//        checkNeedEscape(element.nameIdentifier, holder)
+//        checkCamelCase(element.nameIdentifier, holder)
     }
 
-    private fun checkCamelCase(element: ValkyrieIdentifierNode, holder: AnnotationHolder) {
+    private fun checkCamelCase(element: valkyrie.language.ast.ValkyrieIdentifierNode, holder: AnnotationHolder) {
         val name = element.name;
 //        val fixer = CamelCaseFixer();
         if (name[0].isLowerCase()) {
@@ -43,7 +44,7 @@ class NamepathChecker : Annotator {
         }
     }
 
-    private fun checkNeedEscape(element: ValkyrieIdentifierNode, holder: AnnotationHolder) {
+    private fun checkNeedEscape(element: valkyrie.language.ast.ValkyrieIdentifierNode, holder: AnnotationHolder) {
         val rawName = element.text;
         if (!rawName.startsWith('`')) return
         // if raw name contains non xid_continue, then need escape

@@ -7,7 +7,8 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.language.psi_node.ValkyrieClassStatementNode
+import valkyrie.language.ast.ValkyrieClassDeclaration
+//import valkyrie.language.psi_node.ValkyrieClassStatementNode
 import valkyrie.language.psi_node.ValkyrieTraitStatementNode
 
 class GotoSuper : GotoTargetHandler() {
@@ -19,13 +20,13 @@ class GotoSuper : GotoTargetHandler() {
     }
 
     override fun getChooserTitle(sourceElement: PsiElement, name: String?, length: Int, finished: Boolean) = when (sourceElement) {
-        is ValkyrieClassStatementNode -> "ValkyrieClassStatementNode"
+        is ValkyrieClassDeclaration -> "ValkyrieClassStatementNode"
         is ValkyrieTraitStatementNode -> "ValkyrieTraitStatementNode"
         else -> "???????"
         // EditorConfigBundle.get("goto.super.select.parent")
     }
     override fun getNotFoundMessage(project: Project, editor: Editor, file: PsiFile) = when (findSource(editor, file)) {
-        is ValkyrieClassStatementNode -> "ValkyrieClassStatementNode not found"
+        is ValkyrieClassDeclaration -> "ValkyrieClassStatementNode not found"
         is ValkyrieTraitStatementNode -> "ValkyrieTraitStatementNode not found"
         else -> "???? not found"
     }
@@ -34,7 +35,7 @@ class GotoSuper : GotoTargetHandler() {
             val element = file.findElementAt(editor.caretModel.offset) ?: return null
             return PsiTreeUtil.getParentOfType(
                 element,
-                ValkyrieClassStatementNode::class.java,
+                ValkyrieClassDeclaration::class.java,
                 ValkyrieTraitStatementNode::class.java
             )
         }
@@ -42,7 +43,7 @@ class GotoSuper : GotoTargetHandler() {
         private fun findTargets(element: PsiElement): List<PsiElement?> = listOf(
             PsiTreeUtil.getParentOfType(
                 element,
-                ValkyrieClassStatementNode::class.java,
+                ValkyrieClassDeclaration::class.java,
                 ValkyrieTraitStatementNode::class.java
             )
         )

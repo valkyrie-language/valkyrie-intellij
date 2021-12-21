@@ -16,8 +16,9 @@ import com.intellij.util.DocumentUtil
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings.*
 import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.ast.ValkyrieClassDeclaration
 import valkyrie.language.psi.*
-import valkyrie.language.psi_node.ValkyrieClassStatementNode
+//import valkyrie.language.psi_node.ValkyrieClassStatementNode
 import valkyrie.language.psi_node.ValkyrieUnionItemNode
 
 
@@ -79,10 +80,10 @@ private class RewriteVisitor(private val text: Document, val settings: ValkyrieC
     }
 
     override fun visitClassStatement(o: ValkyrieClassStatement) {
-        o as ValkyrieClassStatementNode;
-        for (field in o.class_fields) {
-            fixDelimiter(field, settings.class_field_trailing)
-        }
+//        o as ValkyrieClassDeclaration;
+//        for (field in o.class_fields) {
+//            fixDelimiter(field, settings.class_field_trailing)
+//        }
     }
 
     override fun visitUnionItem(o: ValkyrieUnionItem) {

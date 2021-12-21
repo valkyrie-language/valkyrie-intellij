@@ -9,6 +9,7 @@ import com.intellij.psi.tree.IElementType
 import org.antlr.intellij.adaptor.SymtabUtils
 import org.antlr.intellij.adaptor.psi.IdentifierDefSubtree
 import org.antlr.intellij.adaptor.psi.ScopeNode
+import valkyrie.ide.view.NamepathPresentation
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.psi.ValkyrieGenericDefine
@@ -29,12 +30,12 @@ class ValkyrieClassDeclaration(node: ASTNode, type: IElementType) : IdentifierDe
         return ValkyrieIconProvider.CLASS
     }
 
-    override fun resolve(element: PsiNamedElement?): PsiElement? {
-        return SymtabUtils.resolve(this, ValkyrieLanguage, element, "/script/class/ID");
+    override fun getPresentation(): ItemPresentation {
+        return NamepathPresentation(_identifier, this.getIcon(0))
     }
 
-    override fun getPresentation(): ItemPresentation {
-        return PresentationData(_identifier.name, _identifier.namespace, this.getIcon(0), null)
+    override fun resolve(element: PsiNamedElement?): PsiElement? {
+        return SymtabUtils.resolve(this, ValkyrieLanguage, element, "/script/class/ID");
     }
 }
 

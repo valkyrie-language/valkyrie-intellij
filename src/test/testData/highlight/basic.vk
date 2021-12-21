@@ -1,6 +1,6 @@
-namespace a::b.c;
+namespace ad::bd.cd;
 
-class A::c::d {
+class std::dcd::e {
 def Ac() {
 
 }
@@ -8,12 +8,12 @@ def Ac() {
 // 2
 let a = 11;
 
-trait Bb {
+trait Bc::ss::ccc {
 def Ac() {}
 };
 
 
 
-trait Bb {
+trait Bb::c {
 def As() {}
 };

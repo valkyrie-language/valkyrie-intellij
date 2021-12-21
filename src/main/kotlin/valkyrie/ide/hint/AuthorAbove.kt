@@ -5,6 +5,7 @@ import com.intellij.codeInsight.hints.VcsCodeVisionLanguageContext
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import valkyrie.language.ast.ValkyrieClassDeclaration
 import valkyrie.language.psi_node.*
 import java.awt.event.MouseEvent
 
@@ -17,7 +18,7 @@ class AuthorAbove : VcsCodeVisionLanguageContext {
     }
 
     override fun isAccepted(element: PsiElement) = when (element) {
-        is ValkyrieClassStatementNode,
+        is ValkyrieClassDeclaration,
         is ValkyrieUnionStatementNode,
         is ValkyrieTraitStatementNode,
         is ValkyrieExtendsStatementNode,

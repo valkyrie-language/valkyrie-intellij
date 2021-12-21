@@ -100,8 +100,7 @@
 
 valkyrie ::= (top_statements | normal_statements | SEMICOLON)*
 private top_statements ::=
-    namespace_statement
-  | import_statement
+    import_statement
   | extension_statement
   | class_statement
   | union_statement
@@ -127,9 +126,7 @@ private expression_statement ::=
     if_statement
   | which_statement
   | try_statement
-namespace_statement ::= KW_NAMESPACE namepath_free {
-    mixin="valkyrie.language.mixin.MixinNamespace"
-};
+
 // ---------------------------------------------------------------------------------------------------------------------
 import_statement   ::= KW_IMPORT (import_block|import_item) {
     mixin="valkyrie.language.mixin.MixinImport"
@@ -275,7 +272,6 @@ class_statement     ::= KW_CLASS <<modified identifier>> [generic_define] [class
     mixin = "valkyrie.language.mixin.MixinClass"
     methods = [getIdentifier getModifiers]
 };
-class_inherit       ::= (COLON|KW_EXTENDS) type_expression;
 class_effect        ::= (OP_DIV|KW_RAISE) type_expression;
 class_block         ::= <<brace_free class_item separator>> {
     pin = 1

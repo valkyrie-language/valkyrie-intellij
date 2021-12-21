@@ -9,6 +9,7 @@ import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
+import valkyrie.language.ast.ValkyrieClassDeclaration
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.mixin.MixinNamepath
 import valkyrie.language.psi.*
@@ -54,8 +55,8 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
 
     override fun visitClassStatement(o: ValkyrieClassStatement) {
-        o as ValkyrieClassStatementNode
-        highlight(o.modified.lastChild, Color.SYM_CLASS)
+//        o as ValkyrieClassDeclaration
+//        highlight(o.modified.lastChild, Color.SYM_CLASS)
     }
 
     override fun visitClassMethod(o: ValkyrieClassMethod) {
