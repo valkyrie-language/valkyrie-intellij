@@ -78,6 +78,16 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitClass_statements(ValkyrieParser.Class_statementsContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#class_inherit}.
+	 * @param ctx the parse tree
+	 */
+	void enterClass_inherit(ValkyrieParser.Class_inheritContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#class_inherit}.
+	 * @param ctx the parse tree
+	 */
+	void exitClass_inherit(ValkyrieParser.Class_inheritContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#define_trait}.
 	 * @param ctx the parse tree
 	 */
@@ -323,6 +333,16 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBlockStatement(ValkyrieParser.BlockStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#type_expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterType_expression(ValkyrieParser.Type_expressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#type_expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitType_expression(ValkyrieParser.Type_expressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code Call}
 	 * labeled alternative in {@link ValkyrieParser#expr}.

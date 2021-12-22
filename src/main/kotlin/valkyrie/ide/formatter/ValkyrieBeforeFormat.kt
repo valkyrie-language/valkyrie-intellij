@@ -16,10 +16,8 @@ import com.intellij.util.DocumentUtil
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings.*
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.ast.ValkyrieClassDeclaration
 import valkyrie.language.psi.*
 //import valkyrie.language.psi_node.ValkyrieClassStatementNode
-import valkyrie.language.psi_node.ValkyrieUnionItemNode
 
 
 class ValkyrieBeforeFormat : PreFormatProcessor {
@@ -42,57 +40,57 @@ class ValkyrieBeforeFormat : PreFormatProcessor {
     }
 }
 
-private class RewriteVisitor(private val text: Document, val settings: ValkyrieCodeStyleSettings) : ValkyrieRecursiveVisitor() {
+private class RewriteVisitor(private val text: Document, val settings: ValkyrieCodeStyleSettings) : ValkyrieVisitor() {
     var offsetDelta: Int = 0
 
-    override fun visitNamespaceStatement(o: ValkyrieNamespaceStatement) {
-        for (leaf in o.namepathFree.childrenWithLeaves) {
-            if (leaf.elementType == ValkyrieTypes.DOT || leaf.elementType == ValkyrieTypes.OP_PROPORTION) {
-                when (settings.namespace_delimiter) {
-                    NamespaceDelimiter.Ignore -> break
-                    NamespaceDelimiter.Dot -> replaceNode(leaf, ".")
-                    NamespaceDelimiter.Colon -> replaceNode(leaf, "::")
-                    NamespaceDelimiter.UnicodeColon -> replaceNode(leaf, "∷")
-                }
-            }
-        }
-        val next = PsiTreeUtil.skipWhitespacesForward(o);
-        when (settings.namespace_colon) {
-            Triplet.Ignore -> {}
-            Triplet.Always -> if (next.elementType != ValkyrieTypes.SEMICOLON) {
-                insertAfter(o, ";")
-            }
+//    override fun visitNamespaceStatement(o: ValkyrieNamespaceStatement) {
+//        for (leaf in o.namepathFree.childrenWithLeaves) {
+//            if (leaf.elementType == ValkyrieTypes.DOT || leaf.elementType == ValkyrieTypes.OP_PROPORTION) {
+//                when (settings.namespace_delimiter) {
+//                    NamespaceDelimiter.Ignore -> break
+//                    NamespaceDelimiter.Dot -> replaceNode(leaf, ".")
+//                    NamespaceDelimiter.Colon -> replaceNode(leaf, "::")
+//                    NamespaceDelimiter.UnicodeColon -> replaceNode(leaf, "∷")
+//                }
+//            }
+//        }
+//        val next = PsiTreeUtil.skipWhitespacesForward(o);
+//        when (settings.namespace_colon) {
+//            Triplet.Ignore -> {}
+//            Triplet.Always -> if (next.elementType != ValkyrieTypes.SEMICOLON) {
+//                insertAfter(o, ";")
+//            }
+//
+//            Triplet.Nothing -> if (next.elementType == ValkyrieTypes.SEMICOLON) {
+//                deleteNode(next)
+//            }
+//        }
+//    }
 
-            Triplet.Nothing -> if (next.elementType == ValkyrieTypes.SEMICOLON) {
-                deleteNode(next)
-            }
-        }
-    }
+//    override fun visitReturnType(o: ValkyrieReturnType) {
+//        val delimiter = o.firstChild;
+//        when (settings.return_type) {
+//            ReturnType.Ignore -> return
+//            ReturnType.Colon -> replaceNode(delimiter, ":")
+//            ReturnType.Arrow -> replaceNode(delimiter, "->")
+//            ReturnType.UnicodeArrow -> replaceNode(delimiter, "⟶")
+//        }
+//    }
 
-    override fun visitReturnType(o: ValkyrieReturnType) {
-        val delimiter = o.firstChild;
-        when (settings.return_type) {
-            ReturnType.Ignore -> return
-            ReturnType.Colon -> replaceNode(delimiter, ":")
-            ReturnType.Arrow -> replaceNode(delimiter, "->")
-            ReturnType.UnicodeArrow -> replaceNode(delimiter, "⟶")
-        }
-    }
-
-    override fun visitClassStatement(o: ValkyrieClassStatement) {
+//    override fun visitClassStatement(o: ValkyrieClassStatement) {
 //        o as ValkyrieClassDeclaration;
 //        for (field in o.class_fields) {
 //            fixDelimiter(field, settings.class_field_trailing)
 //        }
-    }
+//    }
 
-    override fun visitUnionItem(o: ValkyrieUnionItem) {
-        o as ValkyrieUnionItemNode;
-        fixDelimiter(o, settings.union_trailing)
-        for (field in o.union_fields) {
-            fixDelimiter(field, settings.union_item_field_trailing)
-        }
-    }
+//    override fun visitUnionItem(o: ValkyrieUnionItem) {
+//        o as ValkyrieUnionItemNode;
+//        fixDelimiter(o, settings.union_trailing)
+//        for (field in o.union_fields) {
+//            fixDelimiter(field, settings.union_item_field_trailing)
+//        }
+//    }
 
     fun deleteDelimiterAfter(node: PsiElement) {
         var leaf = PsiTreeUtil.skipWhitespacesForward(node)

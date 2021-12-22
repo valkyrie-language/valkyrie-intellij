@@ -53,6 +53,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitClass_statements(ValkyrieParser.Class_statementsContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#class_inherit}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClass_inherit(ValkyrieParser.Class_inheritContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#define_trait}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -197,6 +203,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitBlockStatement(ValkyrieParser.BlockStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#type_expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitType_expression(ValkyrieParser.Type_expressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Call}
 	 * labeled alternative in {@link ValkyrieParser#expr}.
