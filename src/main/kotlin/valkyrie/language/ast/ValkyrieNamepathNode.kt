@@ -1,11 +1,8 @@
 package valkyrie.language.ast
 
 import com.intellij.lang.ASTNode
-import com.intellij.psi.PsiElement
 import com.intellij.psi.tree.IElementType
-import com.jetbrains.rd.generator.nova.PredefinedType
 import org.antlr.intellij.adaptor.psi.IdentifierDefSubtree
-import valkyrie.language.psi.ValkyrieIdentifier
 
 class ValkyrieNamepathNode(node: ASTNode, type: IElementType, val free: Boolean = false) : IdentifierDefSubtree(node, type) {
     val identifiers = findChildrenByClass(ValkyrieIdentifierNode::class.java)

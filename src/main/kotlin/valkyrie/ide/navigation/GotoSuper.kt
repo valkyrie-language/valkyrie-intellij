@@ -8,8 +8,10 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.language.ast.ValkyrieClassDeclaration
+import valkyrie.language.ast.ValkyrieTraitDeclaration
+
 //import valkyrie.language.psi_node.ValkyrieClassStatementNode
-import valkyrie.language.psi_node.ValkyrieTraitStatementNode
+//import valkyrie.language.psi_node.ValkyrieTraitStatementNode
 
 class GotoSuper : GotoTargetHandler() {
     override fun getFeatureUsedKey() = GotoSuperAction.FEATURE_ID
@@ -21,13 +23,13 @@ class GotoSuper : GotoTargetHandler() {
 
     override fun getChooserTitle(sourceElement: PsiElement, name: String?, length: Int, finished: Boolean) = when (sourceElement) {
         is ValkyrieClassDeclaration -> "ValkyrieClassStatementNode"
-        is ValkyrieTraitStatementNode -> "ValkyrieTraitStatementNode"
+        is ValkyrieTraitDeclaration -> "ValkyrieTraitStatementNode"
         else -> "???????"
         // EditorConfigBundle.get("goto.super.select.parent")
     }
     override fun getNotFoundMessage(project: Project, editor: Editor, file: PsiFile) = when (findSource(editor, file)) {
         is ValkyrieClassDeclaration -> "ValkyrieClassStatementNode not found"
-        is ValkyrieTraitStatementNode -> "ValkyrieTraitStatementNode not found"
+        is ValkyrieTraitDeclaration -> "ValkyrieTraitStatementNode not found"
         else -> "???? not found"
     }
     private companion object {
@@ -36,7 +38,7 @@ class GotoSuper : GotoTargetHandler() {
             return PsiTreeUtil.getParentOfType(
                 element,
                 ValkyrieClassDeclaration::class.java,
-                ValkyrieTraitStatementNode::class.java
+                ValkyrieTraitDeclaration::class.java
             )
         }
 
@@ -44,7 +46,7 @@ class GotoSuper : GotoTargetHandler() {
             PsiTreeUtil.getParentOfType(
                 element,
                 ValkyrieClassDeclaration::class.java,
-                ValkyrieTraitStatementNode::class.java
+                ValkyrieTraitDeclaration::class.java
             )
         )
     }

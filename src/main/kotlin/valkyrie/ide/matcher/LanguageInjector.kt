@@ -1,8 +1,7 @@
 package valkyrie.ide.matcher
 
-import valkyrie.language.psi_node.ValkyrieStringNode
-import com.intellij.json.json5.Json5Language
 //import com.intellij.jsonpath.JsonPathLanguage
+import com.intellij.json.json5.Json5Language
 import com.intellij.lang.Language
 import com.intellij.lang.Language.ANY
 import com.intellij.lang.Language.getRegisteredLanguages
@@ -12,6 +11,7 @@ import com.intellij.lang.injection.MultiHostRegistrar
 import com.intellij.lang.xml.XMLLanguage
 import com.intellij.psi.PsiElement
 import org.intellij.lang.regexp.RegExpLanguage
+import valkyrie.language.psi_node.ValkyrieStringNode
 
 class LanguageInjector : MultiHostInjector {
     override fun getLanguagesToInject(registrar: MultiHostRegistrar, context: PsiElement) {

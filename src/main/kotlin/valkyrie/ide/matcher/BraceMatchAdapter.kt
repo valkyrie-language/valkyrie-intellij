@@ -1,11 +1,10 @@
 package valkyrie.ide.matcher
 
-import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.file.ValkyrieFileType
-
 import com.intellij.codeInsight.highlighting.PairedBraceMatcherAdapter
 import com.intellij.openapi.editor.highlighter.HighlighterIterator
 import com.intellij.openapi.fileTypes.FileType
+import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.file.ValkyrieFileType
 
 class BraceMatchAdapter : PairedBraceMatcherAdapter(BraceMatchPair(), ValkyrieLanguage) {
     override fun isLBraceToken(iterator: HighlighterIterator, fileText: CharSequence, fileType: FileType): Boolean {

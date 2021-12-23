@@ -1,20 +1,18 @@
 package valkyrie.ide.doc
 
+//import valkyrie.language.psi_node.ValkyrieClassStatementNode
+//import valkyrie.language.psi_node.ValkyrieTraitStatementNode
 import com.intellij.openapi.editor.colors.EditorColorsManager
 import com.intellij.openapi.editor.richcopy.HtmlSyntaxInfoUtil
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
 import com.intellij.ui.ColorUtil
-import valkyrie.language.ValkyrieLanguage
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.highlight.ValkyrieHighlightColor.*
+import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.ast.ValkyrieClassDeclaration
+import valkyrie.language.ast.ValkyrieTraitDeclaration
 import valkyrie.language.psi.ValkyrieTokenType
-//import valkyrie.language.psi_node.ValkyrieClassStatementNode
-import valkyrie.language.psi_node.ValkyrieTraitStatementNode
-import valkyrie.language.symbol.KeywordData
-import valkyrie.language.symbol.ModifierData
-import valkyrie.language.symbol.OperatorData
 import valkyrie.lsp.RequestDocument
 
 class DocumentationRenderer(var element: PsiElement, private var original: PsiElement?) {
@@ -26,7 +24,7 @@ class DocumentationRenderer(var element: PsiElement, private var original: PsiEl
             else -> {}
         }
         when (element) {
-            is ValkyrieTraitStatementNode -> buildDetail(element as ValkyrieTraitStatementNode)
+            is ValkyrieTraitDeclaration -> buildDetail(element as ValkyrieTraitDeclaration)
             is ValkyrieClassDeclaration -> buildShort(element as ValkyrieClassDeclaration)
             else -> {
                 doc.append(element)
@@ -39,7 +37,7 @@ class DocumentationRenderer(var element: PsiElement, private var original: PsiEl
         return doc.toString()
     }
 
-    private fun buildShort(element: ValkyrieTraitStatementNode) {
+    private fun buildShort(element: ValkyrieTraitDeclaration) {
         append(KEYWORD, "crate ")
         appendNamespace()
         doc.append("<br/>")
@@ -49,7 +47,7 @@ class DocumentationRenderer(var element: PsiElement, private var original: PsiEl
         append(SYM_TRAIT, element.name)
     }
 
-    private fun buildDetail(element: ValkyrieTraitStatementNode) {
+    private fun buildDetail(element: ValkyrieTraitDeclaration) {
         this.buildShort(element)
     }
 

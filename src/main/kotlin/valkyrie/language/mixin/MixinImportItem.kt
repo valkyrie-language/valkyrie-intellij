@@ -1,13 +1,13 @@
 package valkyrie.language.mixin
 
-import valkyrie.language.ast.ValkyrieASTBase
-import valkyrie.language.psi.ValkyrieIdentifier
-import valkyrie.language.psi_node.ValkyrieIdentifierNode
-import valkyrie.language.psi_node.ValkyrieImportItemNode
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
+import valkyrie.language.ast.ValkyrieASTBase
+import valkyrie.language.psi.ValkyrieIdentifier
+import valkyrie.language.psi_node.ValkyrieIdentifierNode
+import valkyrie.language.psi_node.ValkyrieImportItemNode
 import javax.swing.Icon
 
 open class MixinImportItem(node: ASTNode) : ValkyrieASTBase(node), PsiNameIdentifierOwner {

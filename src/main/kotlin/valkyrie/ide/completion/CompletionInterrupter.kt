@@ -1,10 +1,10 @@
 package valkyrie.ide.completion
 
-import valkyrie.language.ValkyrieLanguage
 import com.intellij.codeInsight.completion.XmlCharFilter
 import com.intellij.codeInsight.editorActions.XmlAutoPopupHandler
 import com.intellij.codeInsight.lookup.CharFilter
 import com.intellij.codeInsight.lookup.Lookup
+import valkyrie.language.ValkyrieLanguage
 
 class CompletionInterrupter : CharFilter() {
     override fun acceptChar(c: Char, prefixLength: Int, lookup: Lookup?): Result? {

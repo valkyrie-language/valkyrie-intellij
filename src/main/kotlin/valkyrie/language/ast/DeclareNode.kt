@@ -6,9 +6,6 @@ import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import com.intellij.psi.PsiNamedElement
-import com.intellij.psi.ResolveState
-import com.intellij.psi.scope.PsiScopeProcessor
 import javax.swing.Icon
 
 /// 一定是可以 view 的节点

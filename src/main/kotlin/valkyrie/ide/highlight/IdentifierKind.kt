@@ -1,11 +1,12 @@
 package valkyrie.ide.highlight
 
 import valkyrie.language.ast.ValkyrieClassDeclaration
+import valkyrie.language.ast.ValkyrieTraitDeclaration
 import valkyrie.language.psi.ValkyrieIdentifier
 import valkyrie.language.psi_node.ValkyrieClassFieldNode
 import valkyrie.language.psi_node.ValkyrieClassMethodNode
 //import valkyrie.language.psi_node.ValkyrieClassStatementNode
-import valkyrie.language.psi_node.ValkyrieTraitStatementNode
+//import valkyrie.language.psi_node.ValkyrieTraitStatementNode
 
 enum class IdentifierKind {
     Trait,
@@ -28,7 +29,7 @@ enum class IdentifierKind {
     companion object {
         fun resolve(o: ValkyrieIdentifier): IdentifierKind? {
             return when (o.reference?.resolve()) {
-                is ValkyrieTraitStatementNode -> Trait
+                is ValkyrieTraitDeclaration -> Trait
                 is ValkyrieClassDeclaration -> Class
                 is ValkyrieClassFieldNode -> ClassField
                 is ValkyrieClassMethodNode -> ClassMethod

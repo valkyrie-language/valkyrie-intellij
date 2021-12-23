@@ -1,12 +1,10 @@
 package valkyrie.ide.completion
 
-import valkyrie.language.file.ValkyrieIconProvider
 import com.intellij.codeInsight.completion.InsertHandler
 import com.intellij.codeInsight.completion.InsertionContext
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.psi.PsiElement
-import javax.swing.Icon
 
 
 class TemplateReplaceElement(val element: PsiElement, val id: String, val text: String, val discard: Map<String, String>) :

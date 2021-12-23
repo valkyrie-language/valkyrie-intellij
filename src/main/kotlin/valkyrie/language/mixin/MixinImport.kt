@@ -2,17 +2,11 @@
 
 package valkyrie.language.mixin
 
-import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.ide.reference.ValkyrieReference
-import valkyrie.ide.view.ValkyrieViewElement
-import valkyrie.language.ast.ValkyrieASTBase
-import valkyrie.language.psi_node.ValkyrieImportStatementNode
-import valkyrie.language.symbol.ImportData
 import com.intellij.lang.ASTNode
-import com.intellij.model.psi.PsiCompletableReference
 import com.intellij.navigation.ItemPresentation
-import com.intellij.psi.PsiReference
-import com.intellij.psi.search.GlobalSearchScope
+import valkyrie.language.ast.ValkyrieASTBase
+import valkyrie.language.file.ValkyrieIconProvider
+import valkyrie.language.psi_node.ValkyrieImportStatementNode
 import javax.swing.Icon
 
 open class MixinImport(node: ASTNode) : ValkyrieASTBase(node) {

@@ -4,12 +4,11 @@ import com.intellij.icons.AllIcons.Nodes.Function
 import com.intellij.icons.AllIcons.Nodes.Method
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
-import valkyrie.ide.view.ValkyrieViewElement
 import valkyrie.language.ast.DeclareNode
 import valkyrie.language.ast.FunctionKind
-import valkyrie.language.ast.addChildrenView
 import valkyrie.language.psi.ValkyrieContext
-import valkyrie.language.psi_node.*
+import valkyrie.language.psi_node.ValkyrieDefineStatementNode
+import valkyrie.language.psi_node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
 @Suppress("UnstableApiUsage")

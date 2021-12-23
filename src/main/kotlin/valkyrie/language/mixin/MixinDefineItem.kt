@@ -1,17 +1,13 @@
 package valkyrie.language.mixin
 
-import valkyrie.ide.view.ValkyrieViewElement
-import valkyrie.language.ast.ValkyrieASTBase
-import valkyrie.language.ast.addChildrenView
-import valkyrie.language.psi_node.ValkyrieDefineItemNode
 import com.intellij.icons.AllIcons
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
-import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import com.intellij.psi.util.PsiTreeUtil
+import valkyrie.language.ast.ValkyrieASTBase
+import valkyrie.language.psi_node.ValkyrieDefineItemNode
 import javax.swing.Icon
 
 open class MixinDefineItem(node: ASTNode) : ValkyrieASTBase(node), PsiNameIdentifierOwner {

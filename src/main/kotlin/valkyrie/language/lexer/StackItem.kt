@@ -1,8 +1,8 @@
 package valkyrie.language.lexer
 
-import valkyrie.language.psi.ValkyrieTypes
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
+import valkyrie.language.psi.ValkyrieTypes
 
 @Suppress("MemberVisibilityCanBePrivate")
 class StackItem {

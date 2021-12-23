@@ -1,13 +1,13 @@
 package valkyrie.ide.matcher
 
-import valkyrie.language.lexer.ValkyrieParserDefinition
-import valkyrie.language.psi.ValkyrieTypes.*
 import com.intellij.lang.BracePair
 import com.intellij.lang.PairedBraceMatcher
 import com.intellij.psi.PsiFile
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
+import valkyrie.language.lexer.ValkyrieParserDefinition
+import valkyrie.language.psi.ValkyrieTypes.*
 
 class BraceMatchPair : PairedBraceMatcher {
     override fun getPairs(): Array<BracePair> = arrayOf(

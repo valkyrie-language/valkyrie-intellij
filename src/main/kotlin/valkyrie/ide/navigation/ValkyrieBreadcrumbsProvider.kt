@@ -1,5 +1,7 @@
 package valkyrie.ide.navigation
 
+//import valkyrie.language.psi_node.ValkyrieClassStatementNode
+//import valkyrie.language.psi_node.ValkyrieTraitStatementNode
 import com.intellij.lang.Language
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
@@ -8,11 +10,7 @@ import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.ast.DeclareNode
 import valkyrie.language.ast.ValkyrieASTBase
 import valkyrie.language.psi.ValkyrieContext
-//import valkyrie.language.psi_node.ValkyrieClassStatementNode
-import valkyrie.language.psi_node.ValkyrieDefineStatementNode
 import valkyrie.language.psi_node.ValkyrieExtendsStatementNode
-import valkyrie.language.psi_node.ValkyrieTraitStatementNode
-import valkyrie.language.psi_node.ValkyrieUnionStatementNode
 import javax.swing.Action
 import javax.swing.Icon
 

@@ -1,13 +1,5 @@
 package valkyrie.lsp
 
-import com.intellij.remoteDev.util.addPathSuffix
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import java.net.http.HttpRequest
-import java.net.http.HttpResponse
-
 
 //@Serializable
 data class RequestDocument(

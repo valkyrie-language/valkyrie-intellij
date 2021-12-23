@@ -3,7 +3,6 @@ package valkyrie.language.mixin
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
-import valkyrie.ide.view.ValkyrieViewElement
 import valkyrie.language.ast.ValkyrieASTBase
 import valkyrie.language.psi_node.ValkyrieForStatementNode
 import valkyrie.language.psi_node.ValkyrieNormalPatternNode

@@ -470,9 +470,6 @@ public interface ValkyrieTypes {
       else if (type == TOP_BLOCK) {
         return new ValkyrieTopBlockNode(node);
       }
-      else if (type == TRAIT_STATEMENT) {
-        return new ValkyrieTraitStatementNode(node);
-      }
       else if (type == TRY_STATEMENT) {
         return new ValkyrieTryStatementNode(node);
       }

@@ -1,13 +1,13 @@
 package valkyrie.language.mixin
 
-import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.language.ast.DeclareNode
-import valkyrie.language.psi_node.ValkyrieIdentifierNode
-import valkyrie.language.psi_node.ValkyrieTypeStatementNode
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
+import valkyrie.language.ast.DeclareNode
+import valkyrie.language.file.ValkyrieIconProvider
+import valkyrie.language.psi_node.ValkyrieIdentifierNode
+import valkyrie.language.psi_node.ValkyrieTypeStatementNode
 import javax.swing.Icon
 
 open class MixinType(node: ASTNode) : DeclareNode(node) {

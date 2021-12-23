@@ -1,7 +1,6 @@
 package valkyrie.ide.view
 
 
-import valkyrie.language.file.ValkyrieFileNode
 import com.intellij.ide.projectView.SelectableTreeStructureProvider
 import com.intellij.ide.projectView.ViewSettings
 import com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode
@@ -13,6 +12,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.impl.source.tree.PsiWhiteSpaceImpl
+import valkyrie.language.file.ValkyrieFileNode
 
 
 class VStructureProvider : SelectableTreeStructureProvider, DumbAware {

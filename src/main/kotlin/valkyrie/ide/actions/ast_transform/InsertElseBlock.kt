@@ -9,7 +9,6 @@ import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import valkyrie.language.ValkyrieBundle
-import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
 class InsertElseBlock(element: PsiElement) : LocalQuickFixAndIntentionActionOnPsiElement(element), PriorityAction, Iconable {

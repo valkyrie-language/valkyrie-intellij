@@ -1,8 +1,5 @@
 package valkyrie.language.symbol
 
-import com.intellij.model.Pointer
-import com.intellij.model.Symbol
-
 enum class ValkyrieSymbolKind {
     ValkyrieClass {
 

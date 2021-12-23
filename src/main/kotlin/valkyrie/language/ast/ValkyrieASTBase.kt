@@ -1,19 +1,17 @@
 package valkyrie.language.ast
 
-import valkyrie.ide.view.ValkyrieViewElement
-import valkyrie.language.symbol.ValkyrieSymbolTemplate
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
-import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiWhiteSpace
-import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.siblings
+import valkyrie.ide.view.ValkyrieViewElement
 import valkyrie.language.psi.ValkyrieContext
 import valkyrie.language.psi.valkyrieContext
-import valkyrie.language.psi_node.*
+import valkyrie.language.psi_node.ValkyrieMacroCallNode
+import valkyrie.language.psi_node.ValkyrieMacroListNode
 
 @Suppress("UnstableApiUsage")
 open class ValkyrieASTBase(node: ASTNode) : ASTWrapperPsiElement(node) {

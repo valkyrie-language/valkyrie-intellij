@@ -1,11 +1,11 @@
 package valkyrie.language.mixin
 
-import valkyrie.language.ast.DeclareNode
-import valkyrie.language.ast.ValkyrieASTBase
-import valkyrie.language.psi_node.ValkyrieExtensionStatementNode
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
+import valkyrie.language.ast.DeclareNode
+import valkyrie.language.ast.ValkyrieASTBase
+import valkyrie.language.psi_node.ValkyrieExtensionStatementNode
 import javax.swing.Icon
 
 open class MixinExtension(node: ASTNode) : DeclareNode(node) {

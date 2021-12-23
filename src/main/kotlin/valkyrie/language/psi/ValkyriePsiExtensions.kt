@@ -2,15 +2,12 @@ package valkyrie.language.psi
 
 
 import com.intellij.extapi.psi.StubBasedPsiElementBase
-import com.intellij.openapi.roots.ProjectRootManager
 import com.intellij.openapi.util.TextRange
-import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.PsiFileImpl
 import com.intellij.psi.stubs.StubElement
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
-import com.intellij.psi.util.prevLeaf
 
 val PsiElement.ancestors: Sequence<PsiElement>
     get() = generateSequence(this) {

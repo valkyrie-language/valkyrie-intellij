@@ -1,6 +1,5 @@
 package valkyrie.ide.project.crate
 
-import kotlinx.serialization.Serializable
 import java.io.File
 import java.io.FileFilter
 

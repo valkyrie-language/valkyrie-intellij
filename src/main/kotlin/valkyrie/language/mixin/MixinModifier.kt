@@ -1,16 +1,11 @@
 package valkyrie.language.mixin
 
-import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.ide.view.ValkyrieViewElement
-import valkyrie.language.ast.ViewableNode
-import valkyrie.language.psi_node.ValkyrieModifiersNode
-import com.intellij.icons.AllIcons
 import com.intellij.ide.projectView.PresentationData
-import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.lang.ASTNode
-import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
-import com.intellij.psi.util.PsiTreeUtil
+import valkyrie.language.ast.ViewableNode
+import valkyrie.language.file.ValkyrieIconProvider
+import valkyrie.language.psi_node.ValkyrieModifiersNode
 import javax.swing.Icon
 
 open class MixinModifier(node: ASTNode) : ViewableNode(node) {

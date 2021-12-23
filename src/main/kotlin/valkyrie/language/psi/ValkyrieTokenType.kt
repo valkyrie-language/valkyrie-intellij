@@ -5,7 +5,6 @@ import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import com.intellij.psi.util.elementType
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.lexer.ValkyrieParserDefinition
 import valkyrie.language.lexer.ValkyrieProgramLexer
 import valkyrie.language.psi.ValkyrieTypes.*
 

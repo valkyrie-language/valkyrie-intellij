@@ -1,6 +1,6 @@
 package valkyrie.ide.runner
 
-import com.intellij.execution.lineMarker.RunLineMarkerContributor.*
+import com.intellij.execution.lineMarker.RunLineMarkerContributor.Info
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent

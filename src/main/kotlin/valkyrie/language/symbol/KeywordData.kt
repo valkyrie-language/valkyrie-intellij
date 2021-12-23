@@ -2,14 +2,12 @@
 
 package valkyrie.language.symbol
 
-import valkyrie.ide.doc.DocumentationRenderer
-import valkyrie.ide.highlight.ValkyrieHighlightColor
-import valkyrie.language.psi.ValkyrieTypes
 import com.intellij.model.Pointer
 import com.intellij.model.Symbol
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
-import valkyrie.lsp.LanguageClient
+import valkyrie.ide.doc.DocumentationRenderer
+import valkyrie.language.psi.ValkyrieTypes
 
 class KeywordData : Symbol, Pointer<KeywordData> {
     val name: String

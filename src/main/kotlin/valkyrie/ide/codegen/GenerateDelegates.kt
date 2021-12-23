@@ -2,15 +2,12 @@ package valkyrie.ide.codegen
 
 import com.intellij.lang.LanguageCodeInsightActionHandler
 import com.intellij.navigation.ItemPresentation
-import com.intellij.openapi.actionSystem.Presentation
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFile
-import valkyrie.language.ast.ValkyrieClassDeclaration
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.psi.caretElement
 import valkyrie.language.psi.valkyrieContext
-
 import valkyrie.language.psi_node.ValkyrieExtendsStatementNode
 import valkyrie.language.psi_node.ValkyrieUnionStatementNode
 import javax.swing.Icon

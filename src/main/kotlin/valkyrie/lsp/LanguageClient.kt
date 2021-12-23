@@ -1,7 +1,6 @@
 package valkyrie.lsp
 
 import com.intellij.remoteDev.util.addPathSuffix
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.junit.Test

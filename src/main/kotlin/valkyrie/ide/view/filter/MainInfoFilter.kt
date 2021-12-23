@@ -1,13 +1,13 @@
 package valkyrie.ide.view.filter
 
 
-import valkyrie.language.ValkyrieBundle
-import valkyrie.ide.view.ValkyrieViewElement
 import com.intellij.icons.AllIcons
 import com.intellij.ide.util.treeView.smartTree.ActionPresentation
 import com.intellij.ide.util.treeView.smartTree.ActionPresentationData
 import com.intellij.ide.util.treeView.smartTree.Filter
 import com.intellij.ide.util.treeView.smartTree.TreeElement
+import valkyrie.ide.view.ValkyrieViewElement
+import valkyrie.language.ValkyrieBundle
 
 
 object MainInfoFilter : Filter {

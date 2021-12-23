@@ -1,14 +1,14 @@
 package valkyrie.ide.view
 
 
-import valkyrie.ide.view.filter.MainInfoFilter
-import valkyrie.ide.view.filter.PublicElementsFilter
-import valkyrie.ide.view.grouper.PropertiesGrouper
 import com.intellij.ide.structureView.StructureViewModel.ElementInfoProvider
 import com.intellij.ide.structureView.StructureViewModelBase
 import com.intellij.ide.structureView.StructureViewTreeElement
 import com.intellij.ide.util.treeView.smartTree.Sorter
 import com.intellij.psi.PsiFile
+import valkyrie.ide.view.filter.MainInfoFilter
+import valkyrie.ide.view.filter.PublicElementsFilter
+import valkyrie.ide.view.grouper.PropertiesGrouper
 
 
 class StructureViewModel(psiFile: PsiFile?) : StructureViewModelBase(psiFile!!, ValkyrieViewElement(psiFile)),

@@ -1,7 +1,6 @@
 package valkyrie.ide.project
 
 import com.intellij.ide.util.DefaultModuleRendererFactory
-import com.intellij.ide.util.projectWizard.ModuleWizardStep
 import com.intellij.openapi.roots.OrderEntry
 import com.intellij.openapi.vfs.VirtualFile
 

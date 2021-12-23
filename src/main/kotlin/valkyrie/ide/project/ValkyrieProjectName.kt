@@ -2,9 +2,7 @@ package valkyrie.ide.project
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ex.ProjectNameProvider
-import java.io.File
 import java.nio.file.Path
-import java.util.*
 
 /**
  * A group of *members*.

@@ -1,9 +1,9 @@
 package valkyrie.language.ast
 
 
-import valkyrie.language.psi.ValkyrieIdentifier
 import com.intellij.lang.ASTNode
 import com.intellij.psi.TokenType
+import valkyrie.language.psi.ValkyrieIdentifier
 
 
 fun ASTNode?.isWhitespaceOrEmpty(): Boolean {

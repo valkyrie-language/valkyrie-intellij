@@ -3,11 +3,12 @@ package valkyrie.ide.runner
 import com.intellij.psi.PsiElement
 import com.intellij.testIntegration.TestFinder
 import valkyrie.language.ast.ValkyrieClassDeclaration
+import valkyrie.language.ast.ValkyrieTraitDeclaration
 import valkyrie.language.psi.valkyrieContext
 //import valkyrie.language.psi_node.ValkyrieClassStatementNode
 import valkyrie.language.psi_node.ValkyrieExtendsStatementNode
 import valkyrie.language.psi_node.ValkyrieIdentifierNode
-import valkyrie.language.psi_node.ValkyrieTraitStatementNode
+//import valkyrie.language.psi_node.ValkyrieTraitStatementNode
 
 class ValkyrieFindTests : TestFinder {
     override fun findSourceElement(from: PsiElement): PsiElement? {
@@ -18,7 +19,7 @@ class ValkyrieFindTests : TestFinder {
 
     override fun isTest(element: PsiElement): Boolean {
         val ctx = element.parent.context;
-        if (ctx is ValkyrieTraitStatementNode) {
+        if (ctx is ValkyrieTraitDeclaration) {
             return true
         }
         return true

@@ -11,8 +11,8 @@ import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.language.ast.ValkyrieClassDeclaration
 import valkyrie.language.ast.ValkyrieTraitDeclaration
 import valkyrie.language.file.ValkyrieFileNode
-import valkyrie.language.psi.*
-import valkyrie.language.psi_node.*
+import valkyrie.language.psi.ValkyrieRecursiveVisitor
+import valkyrie.language.psi_node.ValkyrieIdentifierNode
 import valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
 class NodeHighlightVisitor : ValkyrieRecursiveVisitor(), HighlightVisitor {

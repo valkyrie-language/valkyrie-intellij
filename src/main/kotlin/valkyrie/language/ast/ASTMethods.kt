@@ -1,14 +1,12 @@
 package valkyrie.language.ast
 
 
-import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.ide.view.ValkyrieViewElement
-import valkyrie.language.mixin.MixinNamepath
-import valkyrie.language.psi.*
-import valkyrie.language.psi_node.ValkyrieIdentifierNode
-import com.intellij.openapi.fileEditor.PsiElementNavigatable
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.util.PsiTreeUtil
+import valkyrie.ide.view.ValkyrieViewElement
+import valkyrie.language.file.ValkyrieIconProvider
+import valkyrie.language.psi.*
+import valkyrie.language.psi_node.ValkyrieIdentifierNode
 
 class ASTMethods {
     companion object {

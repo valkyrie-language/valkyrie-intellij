@@ -1,11 +1,11 @@
 package valkyrie.ide.goto
 
-import valkyrie.language.symbol.ValkyrieSymbolTemplate
-import com.intellij.model.Symbol
 //import com.intellij.navigation.NavigationTarget
+import com.intellij.model.Symbol
 import com.intellij.navigation.SymbolNavigationProvider
 import com.intellij.openapi.project.Project
 import com.intellij.platform.backend.navigation.NavigationTarget
+import valkyrie.language.symbol.ValkyrieSymbolTemplate
 
 @Suppress("UnstableApiUsage")
 class VSymbolNavigationProvider : SymbolNavigationProvider {

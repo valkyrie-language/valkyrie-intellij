@@ -14,9 +14,11 @@ import com.intellij.refactoring.suggested.endOffset
 import com.intellij.refactoring.suggested.startOffset
 import com.intellij.util.DocumentUtil
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
-import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings.*
+import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings.CommaOrSemicolon
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.psi.*
+import valkyrie.language.psi.ValkyrieTypes
+import valkyrie.language.psi.ValkyrieVisitor
+
 //import valkyrie.language.psi_node.ValkyrieClassStatementNode
 
 

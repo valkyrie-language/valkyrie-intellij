@@ -2,7 +2,6 @@
 
 package valkyrie
 
-import com.intellij.psi.PsiComment
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import valkyrie.language.lexer.LexerContext

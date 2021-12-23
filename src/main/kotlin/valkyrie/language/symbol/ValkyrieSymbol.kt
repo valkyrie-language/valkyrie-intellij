@@ -1,20 +1,16 @@
 package valkyrie.language.symbol
 
+//import valkyrie.language.psi_node.ValkyrieClassStatementNode
 import com.intellij.model.Pointer
 import com.intellij.model.Symbol
 import com.intellij.model.psi.PsiSymbolDeclaration
-import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import com.intellij.psi.search.FileTypeIndex
-import com.intellij.psi.search.GlobalSearchScope
-import com.intellij.util.indexing.FileBasedIndex
-import io.ktor.util.reflect.*
 import valkyrie.language.ast.ValkyrieClassDeclaration
-import valkyrie.language.file.ValkyrieFileType
-//import valkyrie.language.psi_node.ValkyrieClassStatementNode
+import valkyrie.language.ast.ValkyrieTraitDeclaration
 import valkyrie.language.psi_node.ValkyrieExtendsStatementNode
-import valkyrie.language.psi_node.ValkyrieTraitStatementNode
+
+//import valkyrie.language.psi_node.ValkyrieTraitStatementNode
 
 @Suppress("UnstableApiUsage")
 class ValkyrieSymbol(val packageName: String = "", val namespace: String = "", val name: String = "") : Pointer<ValkyrieSymbol>, Symbol {
@@ -58,7 +54,7 @@ class PackageManager {
 
 class NamespaceManager {
     val classes = mutableMapOf<String, ValkyrieClassDeclare>()
-    val traits = mutableMapOf<String, ValkyrieTraitStatementNode>()
+    val traits = mutableMapOf<String, ValkyrieTraitDeclaration>()
 
     fun findDefinition(symbol: ValkyrieSymbol): PsiElement? {
         val findClass = classes[symbol.name];

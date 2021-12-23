@@ -1,11 +1,11 @@
 package valkyrie.ide.actions.file_transform
 
-import valkyrie.language.file.ValkyrieIconProvider
 import com.intellij.ide.actions.CreateFileFromTemplateAction
 import com.intellij.ide.actions.CreateFileFromTemplateDialog.Builder
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDirectory
 import valkyrie.language.ValkyrieBundle
+import valkyrie.language.file.ValkyrieIconProvider
 
 class ValkyrieCreateFile :
     CreateFileFromTemplateAction(name, description, ValkyrieIconProvider.Valkyrie) {

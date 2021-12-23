@@ -1,6 +1,5 @@
 package valkyrie.ide.codegen
 
-import com.intellij.icons.AllIcons
 import com.intellij.internal.statistic.collectors.fus.fileTypes.FileTypeUsageCounterCollector
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent

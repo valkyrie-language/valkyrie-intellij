@@ -1,10 +1,10 @@
 package valkyrie.language.symbol
 
+import com.intellij.psi.PsiElement
+import com.intellij.psi.util.elementType
 import valkyrie.ide.doc.DocumentationRenderer
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.language.psi.ValkyrieTypes
-import com.intellij.psi.PsiElement
-import com.intellij.psi.util.elementType
 
 @Suppress("MemberVisibilityCanBePrivate")
 class OperatorData(

@@ -5,7 +5,6 @@ import com.intellij.openapi.roots.TestSourcesFilter
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.findPsiFile
 import valkyrie.language.ast.ValkyrieNamespaceDeclaration
-import valkyrie.language.ast.isTestFile
 import valkyrie.language.file.ValkyrieFileType
 import valkyrie.language.psi.childOfType
 

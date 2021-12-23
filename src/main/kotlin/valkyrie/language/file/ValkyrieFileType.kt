@@ -1,8 +1,8 @@
 package valkyrie.language.file
 
+import com.intellij.openapi.fileTypes.LanguageFileType
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.ValkyrieLanguage
-import com.intellij.openapi.fileTypes.LanguageFileType
 import javax.swing.Icon
 
 object ValkyrieFileType : LanguageFileType(ValkyrieLanguage) {

@@ -3,7 +3,6 @@ package valkyrie.language.psi
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import valkyrie.language.ast.ValkyrieASTBase
 
 interface ValkyrieContext : PsiElement {
 }

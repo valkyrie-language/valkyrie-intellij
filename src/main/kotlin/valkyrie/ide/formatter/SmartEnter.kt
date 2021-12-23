@@ -3,11 +3,9 @@ package valkyrie.ide.formatter
 import com.intellij.lang.SmartEnterProcessorWithFixers
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler
-import com.intellij.openapi.editor.ex.util.EditorUtil
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import valkyrie.language.file.ValkyrieFileNode
 
 class SmartEnter : SmartEnterProcessorWithFixers() {
     init {

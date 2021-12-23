@@ -1,6 +1,5 @@
 package valkyrie.ide.project
 
-import com.intellij.openapi.roots.OrderEntry
 import com.intellij.openapi.roots.ui.configuration.ProjectSettingsService
 
 

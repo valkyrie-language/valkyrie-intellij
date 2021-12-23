@@ -2,7 +2,6 @@
 
 package valkyrie.language.symbol
 
-import valkyrie.language.psi_node.ValkyrieIdentifierNode
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.model.Pointer
 import com.intellij.model.Symbol
@@ -10,6 +9,7 @@ import com.intellij.model.psi.PsiCompletableReference
 import com.intellij.model.psi.PsiSymbolDeclaration
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
+import valkyrie.language.psi_node.ValkyrieIdentifierNode
 
 
 class ImportData : Symbol, Pointer<ImportData>, PsiSymbolDeclaration, PsiCompletableReference {

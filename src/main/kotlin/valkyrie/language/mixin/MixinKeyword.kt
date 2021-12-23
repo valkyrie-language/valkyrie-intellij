@@ -1,10 +1,7 @@
 package valkyrie.language.mixin
 
-import valkyrie.language.ast.ValkyrieASTBase
 import com.intellij.lang.ASTNode
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiNamedElement
-import com.intellij.psi.PsiQualifiedNamedElement
+import valkyrie.language.ast.ValkyrieASTBase
 
 // PsiReference
 open class MixinKeyword(node: ASTNode) : ValkyrieASTBase(node) {

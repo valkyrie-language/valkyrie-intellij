@@ -1,10 +1,9 @@
 package valkyrie.language.mixin
 
-import valkyrie.language.ast.DeclareNode
-import valkyrie.language.ast.ValkyrieASTBase
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
+import valkyrie.language.ast.DeclareNode
 import valkyrie.language.psi.ValkyrieContext
 import valkyrie.language.psi_node.ValkyrieIdentifierNode
 import valkyrie.language.psi_node.ValkyrieUnionStatementNode

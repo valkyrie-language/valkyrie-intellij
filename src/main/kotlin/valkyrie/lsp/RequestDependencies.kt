@@ -1,9 +1,6 @@
 package valkyrie.lsp
 
 import com.intellij.openapi.roots.SyntheticLibrary
-import com.intellij.util.containers.toMutableSmartList
-import kotlinx.serialization.Serializable
-import valkyrie.ide.project.library.DependenceLibrary
 
 //@Serializable
 data class RequestDependencies(val workspace: String) {

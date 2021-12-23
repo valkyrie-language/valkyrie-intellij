@@ -8,7 +8,6 @@ import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
 import valkyrie.ide.formatter.ValkyrieCommenter
 import valkyrie.language.ast.DocumentNode
-import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.psi.ValkyrieTokenType
 import valkyrie.language.psi.ValkyrieTypes
 import java.net.ConnectException

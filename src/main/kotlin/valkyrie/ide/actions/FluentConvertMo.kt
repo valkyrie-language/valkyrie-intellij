@@ -1,12 +1,12 @@
 package valkyrie.ide.actions
 
-import valkyrie.language.ValkyrieBundle
 import com.intellij.ide.actions.CreateFileAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieIconProvider
 
 class FluentConvertMo : CreateFileAction(name, description, ValkyrieIconProvider.Valkyrie) {

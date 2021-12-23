@@ -1,10 +1,10 @@
 package valkyrie.ide.reference.declaration
 
 //import valkyrie.language.psi_node.ValkyrieClassStatementNode
-import valkyrie.language.psi_node.ValkyrieTypeStatementNode
 import com.intellij.codeInsight.navigation.actions.TypeDeclarationProvider
 import com.intellij.psi.PsiElement
 import valkyrie.language.ast.ValkyrieClassDeclaration
+import valkyrie.language.psi_node.ValkyrieTypeStatementNode
 
 /// 带类型的声明右边的东西
 /// a: T

@@ -3,10 +3,9 @@
 package valkyrie.language.symbol
 
 
+import com.intellij.psi.PsiElement
 import valkyrie.ide.doc.DocumentationRenderer
 import valkyrie.ide.highlight.ValkyrieHighlightColor
-import com.intellij.psi.PsiElement
-
 
 
 class ModifierData(

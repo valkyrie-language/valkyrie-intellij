@@ -4,7 +4,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.folding.FoldingDescriptor
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import valkyrie.language.psi.*
+import valkyrie.language.psi.ValkyrieVisitor
 
 class ValkyrieFoldingVisitor(private val descriptors: MutableList<FoldingDescriptor>) : ValkyrieVisitor() {
 
