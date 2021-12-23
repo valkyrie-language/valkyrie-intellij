@@ -9,7 +9,8 @@ import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import valkyrie.language.ValkyrieBundle
-import valkyrie.language.psi_node.ValkyrieIfStatementNode
+import valkyrie.language.ast.ValkyrieIfStatementNode
+//import valkyrie.language.psi_node.ValkyrieIfStatementNode
 import javax.swing.Icon
 
 class ToModernIf(element: ValkyrieIfStatementNode) : LocalQuickFixAndIntentionActionOnPsiElement(element), PriorityAction, Iconable {

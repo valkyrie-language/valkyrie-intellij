@@ -58,31 +58,32 @@ class ValkyrieProgramLexer : Lexer() {
     }
 
     companion object {
-        val Keywords: TokenSet = getKeywords();
+        val Keywords: TokenSet = PSIElementTypeFactory.createTokenSet(
+            ValkyrieLanguage,
+            // declare keywords
+            ValkyrieLexer.KW_NAMESPACE,
+            ValkyrieLexer.KW_CLASS,
+            ValkyrieLexer.KW_TRAIT,
+            ValkyrieLexer.KW_FUNCTION,
+            ValkyrieLexer.KW_LET,
+            // control keywords
+            ValkyrieLexer.RETURN,
+            ValkyrieLexer.RESUME,
+            ValkyrieLexer.YIELD,
+            ValkyrieLexer.BREAK,
+            ValkyrieLexer.CONTINUE,
+            ValkyrieLexer.RAISE,
+            ValkyrieLexer.CATCH,
+            //
+        )
         val Integers: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieLexer.INTEGER);
         val Decimals: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieLexer.DECIMAL);
         val CommentLine: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieLexer.LINE_COMMENT);
         val CommentBlock: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieLexer.COMMENT);
+        val CompletionWords: TokenSet = PSIElementTypeFactory.createTokenSet(
+            ValkyrieLanguage,
+            ValkyrieLexer.IF,
+            ValkyrieLexer.WHILE,
+        )
     }
-}
-// PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieLexer.COMMENT, ValkyrieLexer.LINE_COMMENT)
-private fun getKeywords(): TokenSet {
-    return PSIElementTypeFactory.createTokenSet(
-        ValkyrieLanguage,
-        // declare keywords
-        ValkyrieLexer.KW_NAMESPACE,
-        ValkyrieLexer.KW_CLASS,
-        ValkyrieLexer.KW_TRAIT,
-        ValkyrieLexer.KW_FUNCTION,
-        ValkyrieLexer.KW_LET,
-        // control keywords
-        ValkyrieLexer.RETURN,
-        ValkyrieLexer.RESUME,
-        ValkyrieLexer.YIELD,
-        ValkyrieLexer.BREAK,
-        ValkyrieLexer.CONTINUE,
-        ValkyrieLexer.RAISE,
-        ValkyrieLexer.CATCH,
-        //
-    )
 }

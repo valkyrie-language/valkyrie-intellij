@@ -5,8 +5,9 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiFile
+import valkyrie.language.ast.ValkyrieDefineItemNode
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.language.psi_node.ValkyrieDefineItemNode
+//import valkyrie.language.psi_node.ValkyrieDefineItemNode
 import javax.swing.Icon
 
 class InferDefineAllType(private val element: ValkyrieDefineItemNode) : HintAction, Iconable {

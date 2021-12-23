@@ -5,7 +5,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.PsiReference
 import com.intellij.psi.tree.IElementType
-import com.intellij.util.IncorrectOperationException
 import org.antlr.intellij.adaptor.lexer.RuleIElementType
 import org.antlr.intellij.adaptor.psi.ANTLRPsiLeafNode
 import org.antlr.intellij.adaptor.psi.Trees
@@ -23,7 +22,6 @@ class ValkyrieIdentifierAstNode(type: IElementType?, text: CharSequence?) : ANTL
      * creating a new node through parsing of an ID and then doing a
      * replace.
      */
-    @Throws(IncorrectOperationException::class)
     override fun setName(name: @NonNls String): PsiElement {
         if (parent == null) return this // weird but it happened once
         /*

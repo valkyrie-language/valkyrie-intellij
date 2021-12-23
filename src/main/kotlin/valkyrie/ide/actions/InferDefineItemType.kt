@@ -7,8 +7,9 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import valkyrie.language.ast.ValkyrieDefineItemNode
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.language.psi_node.ValkyrieDefineItemNode
+//import valkyrie.language.psi_node.ValkyrieDefineItemNode
 import javax.swing.Icon
 
 class InferDefineItemType(element: ValkyrieDefineItemNode) : LocalQuickFixAndIntentionActionOnPsiElement(element), PriorityAction, Iconable {

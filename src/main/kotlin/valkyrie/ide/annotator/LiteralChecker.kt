@@ -7,20 +7,21 @@ import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import com.intellij.psi.util.elementType
 import valkyrie.ide.actions.ConvertNumberBase
 import valkyrie.ide.actions.ast_transform.DeleteThis
 import valkyrie.ide.highlight.ValkyrieColorParser
 import valkyrie.language.ValkyrieBundle
-import valkyrie.language.psi.ValkyrieTypes
-import valkyrie.language.psi_node.ValkyrieNumberNode
+import valkyrie.language.ast.ValkyrieNumberNode
+
+//import valkyrie.language.psi.ValkyrieTypes
+//import valkyrie.language.psi_node.ValkyrieNumberNode
 
 class LiteralChecker : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
-        if (element.elementType == ValkyrieTypes.COLOUR) {
-            annotateLiteralColor(element, holder)
-            return
-        }
+//        if (element.elementType == ValkyrieTypes.COLOUR) {
+//            annotateLiteralColor(element, holder)
+//            return
+//        }
         if (element !is ValkyrieNumberNode) return
         val unit = ""
         annotateSimple(element.firstChild, holder)

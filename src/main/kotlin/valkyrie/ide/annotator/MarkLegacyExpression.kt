@@ -6,31 +6,34 @@ import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.editor.colors.CodeInsightColors
 import com.intellij.psi.PsiElement
 import valkyrie.ide.actions.ast_transform.*
-import valkyrie.language.psi_node.ValkyrieForStatementNode
-import valkyrie.language.psi_node.ValkyrieIfStatementNode
-import valkyrie.language.psi_node.ValkyrieWhichStatementNode
+import valkyrie.language.ast.ValkyrieIfStatementNode
+import valkyrie.language.ast.ValkyrieWhichStatementNode
+
+//import valkyrie.language.psi_node.ValkyrieForStatementNode
+//import valkyrie.language.psi_node.ValkyrieIfStatementNode
+//import valkyrie.language.psi_node.ValkyrieWhichStatementNode
 
 
 class MarkLegacyExpression : HyperlinkAnnotator() {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         when (element) {
             is ValkyrieIfStatementNode -> {
-                if (element.elseStatement == null) {
-                    insertElseBlock(element, holder)
-                } else {
-                    switchBranch(element.firstChild, holder, true)
-                    switchBranch(element.elseStatement!!.firstChild, holder, true)
-                    insertElseIf(element.elseStatement!!, holder, true)
-                }
-                for (item in element.efStatementList) {
-                    insertElseIf(item.firstChild, holder, true)
-                    insertElseIf(item.firstChild, holder, false)
-                    switchBranch(element, holder, true)
-                    switchBranch(element, holder, false)
-                }
-                insertElseIf(element.firstChild!!, holder, false)
-                val warn = element.elseStatement != null || element.efStatementList.isNotEmpty()
-                toModernIf(element, holder, warn)
+//                if (element.elseStatement == null) {
+//                    insertElseBlock(element, holder)
+//                } else {
+//                    switchBranch(element.firstChild, holder, true)
+//                    switchBranch(element.elseStatement!!.firstChild, holder, true)
+//                    insertElseIf(element.elseStatement!!, holder, true)
+//                }
+//                for (item in element.efStatementList) {
+//                    insertElseIf(item.firstChild, holder, true)
+//                    insertElseIf(item.firstChild, holder, false)
+//                    switchBranch(element, holder, true)
+//                    switchBranch(element, holder, false)
+//                }
+//                insertElseIf(element.firstChild!!, holder, false)
+//                val warn = element.elseStatement != null || element.efStatementList.isNotEmpty()
+//                toModernIf(element, holder, warn)
 
             }
 
@@ -38,11 +41,11 @@ class MarkLegacyExpression : HyperlinkAnnotator() {
                 toLegacyIf(element, holder)
             }
 
-            is ValkyrieForStatementNode -> {
-                if (element.elseStatement == null) {
-                    insertElseBlock(element, holder)
-                }
-            }
+//            is ValkyrieForStatementNode -> {
+//                if (element.elseStatement == null) {
+//                    insertElseBlock(element, holder)
+//                }
+//            }
         }
     }
 
@@ -95,12 +98,12 @@ class MarkLegacyExpression : HyperlinkAnnotator() {
             .create()
     }
 
-    private fun insertElseBlock(element: ValkyrieForStatementNode, holder: AnnotationHolder) {
-        val fixer = InsertElseBlock(element);
-        holder.newAnnotation(HighlightSeverity.INFORMATION, fixer.getDescription())
-            .range(element.firstChild.textRange)
-            .withFix(fixer)
-            .create()
-    }
+//    private fun insertElseBlock(element: ValkyrieForStatementNode, holder: AnnotationHolder) {
+//        val fixer = InsertElseBlock(element);
+//        holder.newAnnotation(HighlightSeverity.INFORMATION, fixer.getDescription())
+//            .range(element.firstChild.textRange)
+//            .withFix(fixer)
+//            .create()
+//    }
 }
 

@@ -5,9 +5,10 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.elementType
-import valkyrie.language.psi.ValkyrieTypes
+import valkyrie.language.ast.ValkyrieLetStatementNode
+//import valkyrie.language.psi.ValkyrieTypes
 import valkyrie.language.psi.childrenWithLeaves
-import valkyrie.language.psi_node.ValkyrieLetStatementNode
+//import valkyrie.language.psi_node.ValkyrieLetStatementNode
 
 class InferLetType(private val element: ValkyrieLetStatementNode, private val action: Boolean) : HintAction {
     override fun startInWriteAction(): Boolean {
@@ -37,15 +38,15 @@ class InferLetType(private val element: ValkyrieLetStatementNode, private val ac
             var shouldDelete = false;
             for (element in element.childrenWithLeaves) {
                 when (element.elementType) {
-                    ValkyrieTypes.COLON -> {
-                        shouldDelete = true
-                    }
-                    ValkyrieTypes.OP_SET -> {
-                        shouldDelete = false
-                    }
-                    ValkyrieTypes.SEMICOLON -> {
-                        shouldDelete = false
-                    }
+//                    ValkyrieTypes.COLON -> {
+//                        shouldDelete = true
+//                    }
+//                    ValkyrieTypes.OP_SET -> {
+//                        shouldDelete = false
+//                    }
+//                    ValkyrieTypes.SEMICOLON -> {
+//                        shouldDelete = false
+//                    }
                 }
                 if (shouldDelete) {
                     element.delete()
