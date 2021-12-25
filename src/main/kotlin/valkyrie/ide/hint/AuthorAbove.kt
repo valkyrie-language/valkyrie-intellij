@@ -4,11 +4,10 @@ import com.intellij.codeInsight.hints.VcsCodeVisionLanguageContext
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import valkyrie.language.ast.ValkyrieClassDeclaration
-import valkyrie.language.ast.ValkyrieTraitDeclaration
-import valkyrie.language.psi_node.ValkyrieDefineStatementNode
-import valkyrie.language.psi_node.ValkyrieExtendsStatementNode
-import valkyrie.language.psi_node.ValkyrieUnionStatementNode
+import valkyrie.language.ast.*
+//import valkyrie.language.psi_node.ValkyrieDefineStatementNode
+//import valkyrie.language.psi_node.ValkyrieExtendsStatementNode
+//import valkyrie.language.psi_node.ValkyrieUnionStatementNode
 import java.awt.event.MouseEvent
 
 @Suppress("UnstableApiUsage")
@@ -24,7 +23,7 @@ class AuthorAbove : VcsCodeVisionLanguageContext {
         is ValkyrieUnionStatementNode,
         is ValkyrieTraitDeclaration,
         is ValkyrieExtendsStatementNode,
-        is ValkyrieDefineStatementNode,
+        is ValkyrieFunctionDeclaration,
         -> true
 
         else -> false

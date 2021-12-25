@@ -5,9 +5,7 @@ import com.intellij.codeInsight.hints.InlayInfo
 import com.intellij.codeInsight.hints.InlayParameterHintsProvider
 import com.intellij.codeInsight.hints.Option
 import com.intellij.psi.PsiElement
-import com.intellij.refactoring.suggested.startOffset
 import valkyrie.language.ValkyrieBundle
-import valkyrie.language.psi_node.ValkyrieCallSuffixNode
 
 
 @Suppress("UnstableApiUsage")
@@ -21,7 +19,7 @@ class ParameterNameHint : InlayParameterHintsProvider {
     /// 函数里面的东西
     override fun getParameterHints(element: PsiElement): MutableList<InlayInfo> {
         return when (element) {
-            is ValkyrieCallSuffixNode -> element.resolveParameterName(element)
+//            is ValkyrieCallSuffixNode -> element.resolveParameterName(element)
             else -> mutableListOf()
         }
     }
@@ -60,20 +58,20 @@ class ParameterNameHint : InlayParameterHintsProvider {
         )
     }
 
-    private fun ValkyrieCallSuffixNode.resolveParameterName(caller: PsiElement): MutableList<InlayInfo> {
-        val out = mutableListOf<InlayInfo>();
-        var id = 0;
-        for (i in this.expressionList) {
-            val namepath = i.termList.first().atom.namepath;
-            if (namepath != null) {
-                out.add(InlayInfo(namepath.lastChild.text, i.startOffset))
-            }
-            else {
-                out.add(InlayInfo("${'a' + id}", i.startOffset))
-            }
-
-            id += 1
-        }
-        return out
-    }
+//    private fun ValkyrieCallSuffixNode.resolveParameterName(caller: PsiElement): MutableList<InlayInfo> {
+//        val out = mutableListOf<InlayInfo>();
+//        var id = 0;
+//        for (i in this.expressionList) {
+//            val namepath = i.termList.first().atom.namepath;
+//            if (namepath != null) {
+//                out.add(InlayInfo(namepath.lastChild.text, i.startOffset))
+//            }
+//            else {
+//                out.add(InlayInfo("${'a' + id}", i.startOffset))
+//            }
+//
+//            id += 1
+//        }
+//        return out
+//    }
 }

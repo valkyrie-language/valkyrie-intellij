@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.ui.dsl.builder.panel
 import valkyrie.language.ValkyrieBundle
-import valkyrie.language.psi_node.*
+//import valkyrie.language.psi_node.*
 import javax.swing.JComponent
 
 @Suppress("UnstableApiUsage", "PropertyName")
@@ -129,40 +129,40 @@ private class InlayTypeHint(private val settings: ValkyrieInlayTypeHint.InlayTyp
             )
         }
         when {
-            settings.showForLoopType && element is ValkyriePatternItemNode -> {
-                inline(element.identifier.textRange.endOffset, "Unknown")
-            }
+//            settings.showForLoopType && element is ValkyriePatternItemNode -> {
+//                inline(element.identifier.textRange.endOffset, "Unknown")
+//            }
 
-            settings.showDefineParameterType && element is ValkyrieDefineItemNode -> {
-                val id = element.identifier ?: return true;
-                if (id.text == "self") {
-                    // skip
-                } else if (element.typeExpression == null) {
-                    id.textRange?.let {
-                        inline(it.endOffset, "Unknown")
-                    }
-                }
-            }
+//            settings.showDefineParameterType && element is ValkyrieDefineItemNode -> {
+//                val id = element.identifier ?: return true;
+//                if (id.text == "self") {
+//                    // skip
+//                } else if (element.typeExpression == null) {
+//                    id.textRange?.let {
+//                        inline(it.endOffset, "Unknown")
+//                    }
+//                }
+//            }
 
-            settings.showDefineReturnType && element is ValkyrieDefineStatementNode -> {
-                if (element.returnType == null) {
-                    element.defineTuple?.textRange?.let {
-                        inline(it.endOffset, "Unknown", split = "⟶")
-                    }
-                }
-            }
-
-            settings.showClassFieldType && element is ValkyrieClassFieldNode -> {
-                if (element.typeExpression == null) {
-                    inline(element.nameIdentifier.textRange.endOffset, "Unknown", split = ":")
-                }
-            }
-
-            settings.showBitFlagType && element is ValkyrieBitflagStatementNode -> {
-                if (element.typeExpression == null) {
-                    inline(element.identifier.textRange.endOffset, "u32")
-                }
-            }
+//            settings.showDefineReturnType && element is ValkyrieDefineStatementNode -> {
+//                if (element.returnType == null) {
+//                    element.defineTuple?.textRange?.let {
+//                        inline(it.endOffset, "Unknown", split = "⟶")
+//                    }
+//                }
+//            }
+//
+//            settings.showClassFieldType && element is ValkyrieClassFieldNode -> {
+//                if (element.typeExpression == null) {
+//                    inline(element.nameIdentifier.textRange.endOffset, "Unknown", split = ":")
+//                }
+//            }
+//
+//            settings.showBitFlagType && element is ValkyrieBitflagStatementNode -> {
+//                if (element.typeExpression == null) {
+//                    inline(element.identifier.textRange.endOffset, "u32")
+//                }
+//            }
         }
         return true
     }

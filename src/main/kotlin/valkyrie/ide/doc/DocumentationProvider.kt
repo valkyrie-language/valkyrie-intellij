@@ -9,7 +9,6 @@ import com.intellij.psi.util.elementType
 import valkyrie.ide.formatter.ValkyrieCommenter
 import valkyrie.language.ast.DocumentNode
 import valkyrie.language.psi.ValkyrieTokenType
-import valkyrie.language.psi.ValkyrieTypes
 import java.net.ConnectException
 import java.util.function.Consumer
 
@@ -67,12 +66,7 @@ class DocumentationProvider : DocumentationProvider {
         return when {
             ValkyrieTokenType.isKeyword(contextElement.elementType) -> contextElement
             ValkyrieTokenType.isOperator(contextElement) -> contextElement
-//            contextElement.elementType == ValkyrieTypes.OP_AT -> null
-            contextElement.elementType == ValkyrieTypes.OP_AT -> null
-            contextElement.elementType == ValkyrieTypes.OP_HASH -> null
             contextElement.elementType == TokenType.WHITE_SPACE -> null
-            contextElement.elementType == ValkyrieTypes.COMMENT_LINE -> null
-            contextElement.elementType == ValkyrieTypes.COMMENT_BLOCK -> null
             else -> null
         }
     }

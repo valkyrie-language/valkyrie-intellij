@@ -11,7 +11,9 @@ import com.intellij.lang.injection.MultiHostRegistrar
 import com.intellij.lang.xml.XMLLanguage
 import com.intellij.psi.PsiElement
 import org.intellij.lang.regexp.RegExpLanguage
-import valkyrie.language.psi_node.ValkyrieStringNode
+import valkyrie.language.ast.ValkyrieStringNode
+
+//import valkyrie.language.psi_node.ValkyrieStringNode
 
 class LanguageInjector : MultiHostInjector {
     override fun getLanguagesToInject(registrar: MultiHostRegistrar, context: PsiElement) {

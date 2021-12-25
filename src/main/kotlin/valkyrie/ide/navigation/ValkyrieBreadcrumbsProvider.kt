@@ -9,8 +9,8 @@ import com.intellij.ui.breadcrumbs.BreadcrumbsProvider
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.ast.DeclareNode
 import valkyrie.language.ast.ValkyrieASTBase
+import valkyrie.language.ast.ValkyrieExtendsStatementNode
 import valkyrie.language.psi.ValkyrieContext
-import valkyrie.language.psi_node.ValkyrieExtendsStatementNode
 import javax.swing.Action
 import javax.swing.Icon
 

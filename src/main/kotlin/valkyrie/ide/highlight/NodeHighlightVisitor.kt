@@ -1,6 +1,7 @@
 package valkyrie.ide.highlight
 
 
+import ai.grazie.utils.isUppercase
 import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType
 import com.intellij.codeInsight.daemon.impl.HighlightVisitor
@@ -9,10 +10,11 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.language.ast.ValkyrieClassDeclaration
+import valkyrie.language.ast.ValkyrieIdentifierNode
 import valkyrie.language.ast.ValkyrieTraitDeclaration
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.psi.ValkyrieRecursiveVisitor
-import valkyrie.language.psi_node.ValkyrieIdentifierNode
+//import valkyrie.language.psi_node.ValkyrieIdentifierNode
 import valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
 class NodeHighlightVisitor : ValkyrieRecursiveVisitor(), HighlightVisitor {
@@ -62,10 +64,10 @@ private fun NodeHighlightVisitor.fakeTypeColor(psi: PsiElement) {
     for (node in PsiTreeUtil.findChildrenOfType(psi, ValkyrieIdentifierNode::class.java)) {
         val name = node.name
         when {
-//            name.isUppercase() -> highlight(node, Color.SYM_GENERIC)
-//            name.first().isUpperCase() -> highlight(node, Color.SYM_CLASS)
-//            keywords.contains(name) -> highlight(node, Color.KEYWORD)
-//            traits.contains(name) -> highlight(node, Color.SYM_TRAIT)
+            name.isUppercase() -> highlight(node, Color.SYM_GENERIC)
+            name.first().isUpperCase() -> highlight(node, Color.SYM_CLASS)
+            keywords.contains(name) -> highlight(node, Color.KEYWORD)
+            traits.contains(name) -> highlight(node, Color.SYM_TRAIT)
         }
     }
 }

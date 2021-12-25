@@ -6,7 +6,9 @@ import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.psi.PsiElement
 import valkyrie.language.ast.ValkyrieClassDeclaration
-import valkyrie.language.psi_node.ValkyrieUnionStatementNode
+import valkyrie.language.ast.ValkyrieUnionStatementNode
+
+//import valkyrie.language.psi_node.ValkyrieUnionStatementNode
 
 class NamepathChecker : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {

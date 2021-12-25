@@ -8,7 +8,6 @@ import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.codeStyle.PreFormatProcessor
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.psi.util.elementType
 import com.intellij.psi.util.nextLeaf
 import com.intellij.refactoring.suggested.endOffset
 import com.intellij.refactoring.suggested.startOffset
@@ -16,8 +15,7 @@ import com.intellij.util.DocumentUtil
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings.CommaOrSemicolon
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.psi.ValkyrieTypes
-import valkyrie.language.psi.ValkyrieVisitor
+import valkyrie.language.psi.ValkyrieRecursiveVisitor
 
 //import valkyrie.language.psi_node.ValkyrieClassStatementNode
 
@@ -42,7 +40,7 @@ class ValkyrieBeforeFormat : PreFormatProcessor {
     }
 }
 
-private class RewriteVisitor(private val text: Document, val settings: ValkyrieCodeStyleSettings) : ValkyrieVisitor() {
+private class RewriteVisitor(private val text: Document, val settings: ValkyrieCodeStyleSettings) : ValkyrieRecursiveVisitor() {
     var offsetDelta: Int = 0
 
 //    override fun visitNamespaceStatement(o: ValkyrieNamespaceStatement) {
@@ -99,10 +97,10 @@ private class RewriteVisitor(private val text: Document, val settings: ValkyrieC
         while (true) {
             when {
                 leaf == null -> break
-                leaf.elementType == ValkyrieTypes.SEMICOLON || leaf.elementType == ValkyrieTypes.COMMA -> {
-                    deleteNode(leaf)
-                    leaf = PsiTreeUtil.skipWhitespacesForward(leaf)
-                }
+//                leaf.elementType == ValkyrieTypes.SEMICOLON || leaf.elementType == ValkyrieTypes.COMMA -> {
+//                    deleteNode(leaf)
+//                    leaf = PsiTreeUtil.skipWhitespacesForward(leaf)
+//                }
 
                 else -> break
             }
@@ -141,19 +139,19 @@ private fun RewriteVisitor.fixDelimiter(element: PsiElement, config: CommaOrSemi
     when (config) {
         CommaOrSemicolon.Ignore -> return
         CommaOrSemicolon.Nothing -> {
-            if (delimiter.elementType == ValkyrieTypes.SEMICOLON || delimiter.elementType == ValkyrieTypes.COMMA) {
-                deleteNode(delimiter)
-            }
+//            if (delimiter.elementType == ValkyrieTypes.SEMICOLON || delimiter.elementType == ValkyrieTypes.COMMA) {
+//                deleteNode(delimiter)
+//            }
         }
 
         CommaOrSemicolon.Comma -> when {
-            delimiter.elementType == ValkyrieTypes.SEMICOLON -> replaceNode(delimiter, ",")
-            delimiter.elementType != ValkyrieTypes.COMMA -> insertAfter(element, ",")
+//            delimiter.elementType == ValkyrieTypes.SEMICOLON -> replaceNode(delimiter, ",")
+//            delimiter.elementType != ValkyrieTypes.COMMA -> insertAfter(element, ",")
         }
 
         CommaOrSemicolon.Semicolon -> when {
-            delimiter.elementType == ValkyrieTypes.COMMA -> replaceNode(delimiter, ";")
-            delimiter.elementType != ValkyrieTypes.SEMICOLON -> insertAfter(element, ";")
+//            delimiter.elementType == ValkyrieTypes.COMMA -> replaceNode(delimiter, ";")
+//            delimiter.elementType != ValkyrieTypes.SEMICOLON -> insertAfter(element, ";")
         }
     }
     deleteDelimiterAfter(delimiter)

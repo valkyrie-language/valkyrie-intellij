@@ -7,15 +7,15 @@ import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import valkyrie.language.lexer.ValkyrieParserDefinition
-import valkyrie.language.psi.ValkyrieTypes.*
+//import valkyrie.language.psi.ValkyrieTypes.*
 
 class BraceMatchPair : PairedBraceMatcher {
     override fun getPairs(): Array<BracePair> = arrayOf(
-        BracePair(BRACE_L, BRACE_R, true),
-        BracePair(BRACKET_L, BRACKET_R, true),
-        BracePair(PARENTHESIS_L, PARENTHESIS_R, true),
-        BracePair(OP_LT, OP_GT, true),
-        BracePair(STRING_START, STRING_END, true),
+//        BracePair(BRACE_L, BRACE_R, true),
+//        BracePair(BRACKET_L, BRACKET_R, true),
+//        BracePair(PARENTHESIS_L, PARENTHESIS_R, true),
+//        BracePair(OP_LT, OP_GT, true),
+//        BracePair(STRING_START, STRING_END, true),
     )
 
     override fun isPairedBracesAllowedBeforeType(lbraceType: IElementType, next: IElementType?): Boolean {
@@ -29,10 +29,10 @@ class BraceMatchPair : PairedBraceMatcher {
             ValkyrieParserDefinition().commentTokens,
             TokenSet.create(
                 TokenType.WHITE_SPACE,
-                COMMA,
-                PARENTHESIS_R,
-                BRACKET_R,
-                BRACE_R,
+//                COMMA,
+//                PARENTHESIS_R,
+//                BRACKET_R,
+//                BRACE_R,
             )
         )
     }

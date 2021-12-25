@@ -6,9 +6,6 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.formatter.FormatterUtil
 import valkyrie.language.ast.isWhitespaceOrEmpty
-import valkyrie.language.psi.ValkyrieBitflagItem
-import valkyrie.language.psi.ValkyrieCaseBlock
-import valkyrie.language.psi.ValkyrieExpression
 import valkyrie.language.psi.ValkyrieTokenType
 
 class FormatBlock(
@@ -70,10 +67,10 @@ class FormatBlock(
 //                    else -> Indent.getNormalIndent()
 //                }
 //            }
-            node.psi is ValkyrieCaseBlock -> when (child.psi) {
-                is ValkyrieExpression -> Indent.getNormalIndent()
-                else -> Indent.getNoneIndent()
-            }
+//            node.psi is ValkyrieCaseBlock -> when (child.psi) {
+//                is ValkyrieExpression -> Indent.getNormalIndent()
+//                else -> Indent.getNoneIndent()
+//            }
 
             ValkyrieTokenType.isValkyrieBlock(node.psi) -> {
                 val firstLine = node.firstChildNode == child;
@@ -92,7 +89,7 @@ class FormatBlock(
 
     private fun computeAlignment(child: ASTNode): Alignment? {
         return when (node.psi) {
-            is ValkyrieBitflagItem -> Alignment.createAlignment(true, Alignment.Anchor.LEFT)
+//            is ValkyrieBitflagItem -> Alignment.createAlignment(true, Alignment.Anchor.LEFT)
             else -> null
         }
     }

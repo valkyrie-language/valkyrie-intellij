@@ -2,14 +2,12 @@ package valkyrie.ide.highlight
 
 import com.intellij.openapi.editor.ElementColorProvider
 import com.intellij.psi.PsiElement
-import com.intellij.psi.util.elementType
 import com.intellij.ui.JBColor
-import valkyrie.language.psi.ValkyrieTypes
 import java.awt.Color
 
 class ValkyrieColorParser : ElementColorProvider {
     override fun getColorFrom(element: PsiElement): Color? {
-        if (element.elementType != ValkyrieTypes.COLOUR) return null;
+//        if (element.elementType != ValkyrieTypes.COLOUR) return null;
         val rest = element.text.substring(1);
         return when {
             element.text.startsWith('®') -> rgb(rest)
