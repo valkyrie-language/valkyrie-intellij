@@ -1,16 +1,9 @@
 package valkyrie.ide.matcher
 
 //import com.intellij.jsonpath.JsonPathLanguage
-import com.intellij.json.json5.Json5Language
-import com.intellij.lang.Language
-import com.intellij.lang.Language.ANY
-import com.intellij.lang.Language.getRegisteredLanguages
-import com.intellij.lang.html.HTMLLanguage
 import com.intellij.lang.injection.MultiHostInjector
 import com.intellij.lang.injection.MultiHostRegistrar
-import com.intellij.lang.xml.XMLLanguage
 import com.intellij.psi.PsiElement
-import org.intellij.lang.regexp.RegExpLanguage
 import valkyrie.language.ast.ValkyrieStringNode
 
 //import valkyrie.language.psi_node.ValkyrieStringNode
@@ -31,26 +24,3 @@ class LanguageInjector : MultiHostInjector {
     }
 }
 
-private fun ValkyrieStringNode.injectPerform(registrar: MultiHostRegistrar) {
-    when (injectLanguage.lowercase()) {
-        "re" -> registrar.fastRegister(RegExpLanguage.INSTANCE, this)
-        "re_x" -> registrar.startInjecting(RegExpLanguage.INSTANCE)
-            .addPlace("(?x)", null, this, injectRange)
-            .doneInjecting()
-        "json5", "jsonp", "json" -> registrar.fastRegister(Json5Language.INSTANCE, this)
-//        "jp", "json_path" -> registrar.fastRegister(JsonPathLanguage.INSTANCE, this)
-        "xp", "xpath" -> registrar.fastRegister(XMLLanguage.INSTANCE, this)
-        "xml" -> registrar.fastRegister(XMLLanguage.INSTANCE, this)
-        "html" -> registrar.fastRegister(HTMLLanguage.INSTANCE, this)
-        else -> getRegisteredLanguages()
-            .filter { it != ANY }
-            .firstOrNull { it.id == injectLanguage }
-            ?.let { registrar.fastRegister(it, this) }
-    }
-}
-
-private fun MultiHostRegistrar.fastRegister(language: Language, node: ValkyrieStringNode) {
-    this.startInjecting(language)
-        .addPlace(null, null, node, node.injectRange)
-        .doneInjecting()
-}

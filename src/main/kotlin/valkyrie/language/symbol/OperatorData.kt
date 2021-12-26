@@ -4,7 +4,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
 import valkyrie.ide.doc.DocumentationRenderer
 import valkyrie.ide.highlight.ValkyrieHighlightColor
-import valkyrie.language.psi.ValkyrieTypes
+//import valkyrie.language.psi.ValkyrieTypes
 
 @Suppress("MemberVisibilityCanBePrivate")
 class OperatorData(
@@ -31,21 +31,21 @@ class OperatorData(
 
     companion object {
         fun builtinData(name: PsiElement): OperatorData? = when (name.elementType) {
-            ValkyrieTypes.OP_ADD -> OperatorData(
-                "add",
-                "+",
-                """
-                a + b
-                """.trimIndent()
-            )
-            ValkyrieTypes.OP_INC -> OperatorData(
-                "++",
-                "increase",
-                """
-                a ++ b
-                ++a
-                """.trimIndent()
-            )
+//            ValkyrieTypes.OP_ADD -> OperatorData(
+//                "add",
+//                "+",
+//                """
+//                a + b
+//                """.trimIndent()
+//            )
+//            ValkyrieTypes.OP_INC -> OperatorData(
+//                "++",
+//                "increase",
+//                """
+//                a ++ b
+//                ++a
+//                """.trimIndent()
+//            )
             else -> null
         }
     }

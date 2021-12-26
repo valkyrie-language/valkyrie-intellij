@@ -6,8 +6,6 @@ import com.intellij.psi.PsiFileFactory
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.ast.ValkyrieNamespaceDeclaration
 import valkyrie.language.file.ValkyrieFileNode
-import valkyrie.language.psi_node.ValkyrieLetStatementNode
-import valkyrie.language.psi_node.ValkyrieNumberNode
 
 class ValkyrieFactory {
     private val project: Project
@@ -35,17 +33,17 @@ class ValkyrieFactory {
         }
         throw Exception("unreachable: ValkyrieFactory::createNamespace")
     }
-    fun createNumberLiteral(number: String, unit: String?): ValkyrieNumberNode {
-        return letDefineAtom(number)!!.number as ValkyrieNumberNode
-    }
-
-    private fun letDefineAtom(atom: String): ValkyrieAtom? {
-        val file = createFile("let target = $atom;");
-        for (child in file.children) {
-            if (child is ValkyrieLetStatementNode) {
-                return child.expression!!.termList.first().atom
-            }
-        }
-        return null
-    }
+//    fun createNumberLiteral(number: String, unit: String?): ValkyrieNumberNode {
+//        return letDefineAtom(number)!!.number as ValkyrieNumberNode
+//    }
+//
+//    private fun letDefineAtom(atom: String): ValkyrieAtom? {
+//        val file = createFile("let target = $atom;");
+//        for (child in file.children) {
+//            if (child is ValkyrieLetStatementNode) {
+//                return child.expression!!.termList.first().atom
+//            }
+//        }
+//        return null
+//    }
 }

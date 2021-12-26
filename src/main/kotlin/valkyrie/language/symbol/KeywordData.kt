@@ -7,7 +7,6 @@ import com.intellij.model.Symbol
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
 import valkyrie.ide.doc.DocumentationRenderer
-import valkyrie.language.psi.ValkyrieTypes
 
 class KeywordData : Symbol, Pointer<KeywordData> {
     val name: String
@@ -30,18 +29,18 @@ class KeywordData : Symbol, Pointer<KeywordData> {
 
     companion object {
         fun builtinData(name: PsiElement): KeywordData? = when (name.elementType) {
-            ValkyrieTypes.KW_CLASS -> KeywordData(
-                "class",
-                """
-                class A()
-                """.trimIndent()
-            )
-            ValkyrieTypes.KW_TRAIT -> KeywordData(
-                "trait",
-                """
-                trait A()
-                """.trimIndent()
-            )
+//            ValkyrieTypes.KW_CLASS -> KeywordData(
+//                "class",
+//                """
+//                class A()
+//                """.trimIndent()
+//            )
+//            ValkyrieTypes.KW_TRAIT -> KeywordData(
+//                "trait",
+//                """
+//                trait A()
+//                """.trimIndent()
+//            )
             else -> null
         }
     }

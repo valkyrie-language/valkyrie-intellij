@@ -6,9 +6,11 @@ import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
 import com.intellij.navigation.GotoRelatedItem
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
+import valkyrie.language.ast.ValkyrieClassFieldNode
+import valkyrie.language.ast.ValkyrieClassMethodNode
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.language.psi_node.ValkyrieClassFieldNode
-import valkyrie.language.psi_node.ValkyrieClassMethodNode
+//import valkyrie.language.psi_node.ValkyrieClassFieldNode
+//import valkyrie.language.psi_node.ValkyrieClassMethodNode
 
 @Suppress("UnstableApiUsage")
 class ValkyrieClassElementMark : LineMarkerProvider {

@@ -9,7 +9,7 @@ import com.intellij.model.psi.PsiCompletableReference
 import com.intellij.model.psi.PsiSymbolDeclaration
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import valkyrie.language.psi_node.ValkyrieIdentifierNode
+import valkyrie.language.ast.ValkyrieIdentifierNode
 
 
 class ImportData : Symbol, Pointer<ImportData>, PsiSymbolDeclaration, PsiCompletableReference {

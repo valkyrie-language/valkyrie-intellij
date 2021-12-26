@@ -62,14 +62,14 @@ fun PsiElement?.getNextNonCommentSibling(): PsiElement? =
 fun PsiElement?.endSemicolon(): PsiElement? {
     val next = this.getNextNonCommentSibling()
     return when (next.elementType) {
-        ValkyrieTypes.SEMICOLON -> next
+//        ValkyrieTypes.SEMICOLON -> next
         else -> null
     }
 }
 fun PsiElement?.endComma(): PsiElement? {
     val next = this.getNextNonCommentSibling()
     return when (next.elementType) {
-        ValkyrieTypes.COMMA -> next
+//        ValkyrieTypes.COMMA -> next
         else -> null
     }
 }

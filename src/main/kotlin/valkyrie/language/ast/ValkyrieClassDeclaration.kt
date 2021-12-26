@@ -45,9 +45,3 @@ class ValkyrieUnionStatementNode(node: ASTNode, type: IElementType) : Identifier
 
 }
 
-class ValkyrieExtendsStatementNode(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ScopeNode {
-    override fun resolve(element: PsiNamedElement?): PsiElement? {
-        TODO("Not yet implemented")
-    }
-
-}
