@@ -9,7 +9,7 @@ import com.intellij.psi.PsiElement
 import valkyrie.language.ast.ValkyrieClassDeclaration
 import valkyrie.language.ast.ValkyrieExtendsStatementNode
 import valkyrie.language.ast.ValkyrieTraitDeclaration
-import valkyrie.language.psi_node.ValkyrieExtendsStatementNode
+//import valkyrie.language.psi_node.ValkyrieExtendsStatementNode
 
 //import valkyrie.language.psi_node.ValkyrieTraitStatementNode
 

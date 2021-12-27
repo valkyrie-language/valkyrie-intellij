@@ -7,17 +7,15 @@ import com.intellij.lang.findUsages.FindUsagesProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.tree.TokenSet
 import valkyrie.language.lexer.ValkyrieProgramLexer
-import valkyrie.language.psi.ValkyrieTypes
 
 class ValkyrieUsagesProvider : FindUsagesProvider {
     override fun getWordsScanner(): WordsScanner {
 
         return DefaultWordsScanner(
             ValkyrieProgramLexer(),
-            TokenSet.create(ValkyrieTypes.SYMBOL_XID),
-            TokenSet.create(ValkyrieTypes.SYMBOL_RAW),
-            TokenSet.create(ValkyrieTypes.COMMENT_LINE),
-            TokenSet.create(ValkyrieTypes.COMMENT_BLOCK),
+            ValkyrieProgramLexer.Id,
+            ValkyrieProgramLexer.Id,
+            TokenSet.create(ValkyrieProgramLexer.CommentLine, ValkyrieProgramLexer.CommentBlock),
             TokenSet.EMPTY
         )
     }

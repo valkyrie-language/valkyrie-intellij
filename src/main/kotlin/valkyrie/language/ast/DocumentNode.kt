@@ -6,7 +6,8 @@ import com.intellij.psi.PsiDocCommentBase
 import com.intellij.psi.PsiElement
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.language.psi.ValkyrieTypes
+import valkyrie.language.lexer.ValkyrieProgramLexer
+
 
 class DocumentNode(comment: PsiComment, rawText: String? = null) : ValkyrieASTBase(comment.node), PsiDocCommentBase {
     private val documentText: String
@@ -15,7 +16,7 @@ class DocumentNode(comment: PsiComment, rawText: String? = null) : ValkyrieASTBa
         this.documentText = rawText?.trimIndent() ?: "[PARSE_FAILED]: ${comment.text}"
     }
 
-    override fun getTokenType(): IElementType = ValkyrieTypes.COMMENT_BLOCK
+    override fun getTokenType(): IElementType = ValkyrieProgramLexer.CommentBlock
     override fun getOwner(): PsiElement? {
         return PsiTreeUtil.skipWhitespacesAndCommentsForward(this)
     }

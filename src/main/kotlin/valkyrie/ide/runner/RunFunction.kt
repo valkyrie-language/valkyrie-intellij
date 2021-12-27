@@ -1,16 +1,10 @@
 package valkyrie.ide.runner
 
-import com.intellij.execution.lineMarker.RunLineMarkerContributor.Info
-import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
-import com.intellij.openapi.module.ModuleManager
-import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.ui.Messages
 import valkyrie.language.ValkyrieBundle
-import valkyrie.language.psi_node.ValkyrieClassMethodNode
-import valkyrie.language.psi_node.ValkyrieDefineStatementNode
 
 
 class RunFunction : AnAction() {
@@ -20,27 +14,27 @@ class RunFunction : AnAction() {
         templatePresentation.description = ValkyrieBundle.message("action.run.class.full.help")
     }
     companion object {
-        fun markTest(element: ValkyrieClassMethodNode): Info? {
-            ModuleManager.getInstance(element.project).modules.forEach {
-                ModuleRootManager.getInstance(it).contentRoots.forEach {
-                    println(it.path)
-                }
-            }
-
-            return null;
-            val runner = RunFunction()
-            runner.path = element.nameIdentifier.name;
-            runner.templatePresentation.icon = AllIcons.RunConfigurations.TestState.Red2
-            return Info(runner)
-        }
-
-        fun markTest(element: ValkyrieDefineStatementNode): Info? {
-            return null
-            val runner = RunFunction()
-            runner.path = element.nameIdentifier.name;
-            runner.templatePresentation.icon = AllIcons.RunConfigurations.TestState.Yellow2
-            return Info(runner)
-        }
+//        fun markTest(element: ValkyrieClassMethodNode): Info? {
+//            ModuleManager.getInstance(element.project).modules.forEach {
+//                ModuleRootManager.getInstance(it).contentRoots.forEach {
+//                    println(it.path)
+//                }
+//            }
+//
+//            return null;
+//            val runner = RunFunction()
+//            runner.path = element.nameIdentifier.name;
+//            runner.templatePresentation.icon = AllIcons.RunConfigurations.TestState.Red2
+//            return Info(runner)
+//        }
+//
+//        fun markTest(element: ValkyrieDefineStatementNode): Info? {
+//            return null
+//            val runner = RunFunction()
+//            runner.path = element.nameIdentifier.name;
+//            runner.templatePresentation.icon = AllIcons.RunConfigurations.TestState.Yellow2
+//            return Info(runner)
+//        }
     }
 
     override fun actionPerformed(event: AnActionEvent) {

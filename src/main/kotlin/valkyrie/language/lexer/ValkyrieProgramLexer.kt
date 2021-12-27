@@ -86,5 +86,6 @@ class ValkyrieProgramLexer : Lexer() {
             ValkyrieLexer.IF,
             ValkyrieLexer.WHILE,
         )
+        val Id: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieLexer.UNICODE_ID);
     }
 }

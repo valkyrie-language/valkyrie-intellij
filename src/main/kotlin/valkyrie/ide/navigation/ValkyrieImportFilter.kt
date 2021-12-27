@@ -4,9 +4,10 @@ import com.intellij.usages.Usage
 import com.intellij.usages.UsageTarget
 import com.intellij.usages.rules.ImportFilteringRule
 import com.intellij.usages.rules.PsiElementUsage
+import valkyrie.language.ast.ValkyrieIdentifierNode
 import valkyrie.language.psi.ancestors
-import valkyrie.language.psi_node.ValkyrieIdentifierNode
-import valkyrie.language.psi_node.ValkyrieImportStatementNode
+//import valkyrie.language.psi_node.ValkyrieIdentifierNode
+//import valkyrie.language.psi_node.ValkyrieImportStatementNode
 
 /**
  * 跳转结果里去掉 `using` 语句内的部分
@@ -35,9 +36,9 @@ class ValkyrieImportFilter : ImportFilteringRule() {
 
     private fun inImport(id: ValkyrieIdentifierNode): Boolean {
         for (node in id.ancestors) {
-            if (node is ValkyrieImportStatementNode) {
-                return true
-            }
+//            if (node is ValkyrieImportStatementNode) {
+//                return true
+//            }
         }
         return false
     }

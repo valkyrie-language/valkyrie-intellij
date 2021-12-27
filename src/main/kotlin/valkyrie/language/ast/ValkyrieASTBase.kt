@@ -8,10 +8,10 @@ import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.util.siblings
 import valkyrie.ide.view.ValkyrieViewElement
-import valkyrie.language.psi.ValkyrieContext
-import valkyrie.language.psi.valkyrieContext
-import valkyrie.language.psi_node.ValkyrieMacroCallNode
-import valkyrie.language.psi_node.ValkyrieMacroListNode
+
+//import valkyrie.language.psi.valkyrieContext
+//import valkyrie.language.psi_node.ValkyrieMacroCallNode
+//import valkyrie.language.psi_node.ValkyrieMacroListNode
 
 @Suppress("UnstableApiUsage")
 open class ValkyrieASTBase(node: ASTNode) : ASTWrapperPsiElement(node) {
@@ -28,8 +28,8 @@ open class ValkyrieASTBase(node: ASTNode) : ASTWrapperPsiElement(node) {
     open fun addAnnotationView(list: MutableList<ValkyrieViewElement>) {
         for (node in this.siblings(forward = false, withSelf = false)) {
             when (node) {
-                is ValkyrieMacroListNode -> node.addAnnotationView(list)
-                is ValkyrieMacroCallNode -> node.addAnnotationView(list)
+//                is ValkyrieMacroListNode -> node.addAnnotationView(list)
+//                is ValkyrieMacroCallNode -> node.addAnnotationView(list)
                 is PsiWhiteSpace, is PsiComment -> continue
                 else -> break
             }
@@ -45,9 +45,5 @@ open class ValkyrieASTBase(node: ASTNode) : ASTWrapperPsiElement(node) {
             0 -> this
             else -> null
         }
-    }
-
-    override fun getContext(): ValkyrieContext? {
-        return this.valkyrieContext()
     }
 }

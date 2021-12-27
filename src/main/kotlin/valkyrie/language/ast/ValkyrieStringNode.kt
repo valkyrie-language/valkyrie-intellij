@@ -6,6 +6,7 @@ import com.intellij.lang.Language
 import com.intellij.lang.html.HTMLLanguage
 import com.intellij.lang.injection.MultiHostRegistrar
 import com.intellij.lang.xml.XMLLanguage
+import com.intellij.openapi.util.TextRange
 import com.intellij.psi.LiteralTextEscaper
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiLanguageInjectionHost
@@ -14,10 +15,11 @@ import com.intellij.psi.tree.IElementType
 import org.antlr.intellij.adaptor.psi.IdentifierDefSubtree
 import org.antlr.intellij.adaptor.psi.ScopeNode
 import org.intellij.lang.regexp.RegExpLanguage
-import valkyrie.ide.matcher.fastRegister
 
-class ValkyrieStringNode(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ScopeNode,
-    PsiLanguageInjectionHost {
+class ValkyrieStringNode(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type),
+    ScopeNode, PsiLanguageInjectionHost {
+        private val injectLanguage = "js";
+    public val injectRange = TextRange(0, 0)
     override fun resolve(element: PsiNamedElement?): PsiElement? {
         TODO("Not yet implemented")
     }
@@ -40,6 +42,7 @@ class ValkyrieStringNode(node: ASTNode, type: IElementType) : IdentifierDefSubtr
             "re_x" -> registrar.startInjecting(RegExpLanguage.INSTANCE)
                 .addPlace("(?x)", null, this, injectRange)
                 .doneInjecting()
+
             "json5", "jsonp", "json" -> registrar.fastRegister(Json5Language.INSTANCE, this)
 //        "jp", "json_path" -> registrar.fastRegister(JsonPathLanguage.INSTANCE, this)
             "xp", "xpath" -> registrar.fastRegister(XMLLanguage.INSTANCE, this)
