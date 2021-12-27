@@ -1,19 +1,15 @@
 namespace ad::bd.cd;
 
-class std::dcd::e {
-def Ac() {
+class TestClass(ss) {
 
-}
 };
 // 2
-let a = 11;
+// let aa = 11;
 
-trait Bc::ss::ccc {
-def Ac() {}
-};
+// trait Bc::ss::ccc {
+// def Ac() {}
+// };
 
-
-
-trait Bb::c {
-def As() {}
-};
+// def As() {
+//
+// }

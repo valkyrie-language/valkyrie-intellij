@@ -1,5 +1,5 @@
 grammar Valkyrie;
-import XID;
+import XID, ValkyrieOperators;
 options {
 	language = Java;
 }
@@ -8,16 +8,16 @@ options {
 
 program: top_statement* EOF;
 top_statement
-    : define_namespace EOS?
-    | import_statement EOS?
-    | define_extension EOS?
-    | define_class EOS?
-    | define_union EOS?
-    | define_trait EOS?
-    | define_variale EOS?
-    | define_function EOS?
+    : define_namespace eos?
+    | import_statement eos?
+    | define_extension eos?
+    | define_class eos?
+    | define_union eos?
+    | define_trait eos?
+    | define_function eos?
+    | define_variale eos?
     ;
-EOS: ';';
+eos: SEMICOLON;
 // ===========================================================================
 define_namespace: KW_NAMESPACE namepath_free;
 KW_NAMESPACE
@@ -36,42 +36,42 @@ define_extension: KW_EXTENSION;
 KW_EXTENSION: 'extension';
 // ===========================================================================
 define_class
-    : KW_CLASS name = namepath inherit = class_inherit '{' class_statements* '}'
+    : KW_CLASS namepath class_inherit? BRACE_L class_statements* BRACE_R
     ;
-class_statements: define_function EOS?;
-class_inherit:    (COLON | KW_EXTENDS) type_expression;
+class_statements: define_method eos?;
+class_inherit:    PARENTHESES_L namepath? PARENTHESES_R;
 
 KW_EXTENDS: 'extend' | 'extends';
 KW_CLASS:   'class' | 'structure';
 // ===========================================================================
-define_trait
-    : KW_TRAIT name = namepath '{' trait_statements* '}'
-    ;
-trait_statements: define_function EOS?;
+define_trait:     KW_TRAIT namepath '{' trait_statements* '}';
+trait_statements: define_method eos?;
 
 KW_TRAIT: 'trait' | 'interface';
 // ===========================================================================
-define_union
-    : KW_UNION name = namepath '{' union_statements* '}'
-    ;
-union_statements: define_function EOS?;
+define_union:     KW_UNION namepath '{' union_statements* '}';
+union_statements: define_function eos?;
 
 KW_UNION: 'union';
 // ===========================================================================
-define_variale: KW_LET name = UNICODE_ID '=' expr;
+define_variale: KW_LET namepath '=' expr;
 
 KW_LET: 'let';
 // ===========================================================================
 define_function
-    : KW_FUNCTION UNICODE_ID '(' formal_args? ')' (':' type)? block
+    : KW_FUNCTION namepath '(' formal_args? ')' type_hint? function_block
     ;
 
 KW_FUNCTION: 'def';
+// ===========================================================================
+define_method: identifier '(' ')';
+
 // ===========================================================================
 formal_args: formal_arg (',' formal_arg)*;
 
 formal_arg: UNICODE_ID ':' type;
 
+type_hint: (':' | '->') type;
 type
     : 'int'     # IntTypeSpec
     | 'float'   # FloatTypeSpec
@@ -80,17 +80,17 @@ type
     | '[' ']'   # VectorTypeSpec
     ;
 
-block: '{' (statement | define_variale)* '}';
+function_block: '{' (statement | define_variale)* '}';
 
 statement
     : 'if' '(' expr ')' statement ('else' statement)? # If
     | 'while' '(' expr ')' statement                  # While
-    | UNICODE_ID '=' expr                             # Assign
-    | UNICODE_ID '[' expr ']' '=' expr                # ElementAssign
+    | identifier '=' expr                             # Assign
+    | identifier '[' expr ']' '=' expr                # ElementAssign
     | call_expr                                       # CallStatement
     | 'print' '(' expr? ')'                           # Print
     | 'return' expr                                   # Return
-    | block                                           # BlockStatement
+    | function_block                                  # BlockStatement
     ;
 
 type_expression: expr;
@@ -100,7 +100,7 @@ expr
     | '-' expr                # Negate
     | '!' expr                # Not
     | call_expr               # Call
-    | UNICODE_ID '[' expr ']' # Index
+    | identifier '[' expr ']' # Index
     | '(' expr ')'            # Parens
     | primary                 # Atom
     ;
@@ -115,7 +115,7 @@ operator
     | LT
     | LE
     | EQUAL_EQUAL
-    | NOT_EQUAL
+    | OP_NE
     | OR
     | AND
     | DOT
@@ -142,15 +142,6 @@ primary
     | 'false'           # FalseLiteral
     ;
 
-LPAREN: '(';
-RPAREN: ')';
-COLON:  ':';
-COMMA:  ',';
-LBRACK: '[';
-RBRACK: ']';
-LBRACE: '{';
-RBRACE: '}';
-
 // pushToken(ValkyrieTypes.PATTERN_AND, r) "or" -> pushToken(ValkyrieTypes.PATTERN_OR, r) "which" ->
 // pushToken(ValkyrieTypes.KW_WHICH, r) "if" -> pushToken(ValkyrieTypes.KW_IF, r) "else" ->
 // pushToken(ValkyrieTypes.KW_ELSE, r) "loop" -> pushToken(ValkyrieTypes.KW_LOOP, r) "while" ->
@@ -167,8 +158,7 @@ RBRACE: '}';
 IF:    'if';
 ELSE:  'else';
 WHILE: 'while';
-//
-EQUAL: '=';
+
 // controls
 RETURN:   'return';
 RESUME:   'resume';
@@ -181,30 +171,14 @@ CATCH:    'catch';
 NULL:  'null';
 TRUE:  'true';
 FALSE: 'false';
-// infix
-SUB:         '-';
-BANG:        '!';
-MUL:         '*';
-DIV:         '/';
-ADD:         '+';
-LT:          '<';
-LE:          '<=';
-EQUAL_EQUAL: '==';
-NOT_EQUAL:   '!=';
-GT:          '>';
-GE:          '>=';
-OR:          '||';
-AND:         '&&';
-DOT:         ' . ';
 // comment
 LINE_COMMENT: '//' .*? ('\n' | EOF) -> channel(HIDDEN);
 COMMENT:      '/*' .*? '*/' -> channel(HIDDEN);
 // namepath
-namepath_free: identifier (('∷' | '::' | '.') identifier)*;
+namepath_free: identifier (('∷' | '::' | DOT) identifier)*;
 namepath:      identifier (('∷' | '::') identifier)*;
 // identifier
 identifier: UNICODE_ID;
-UNICODE_ID: XID_Start XID_Continue*;
 // numbewr
 INTEGER: [0] | [1-9][0-9]+;
 DECIMAL

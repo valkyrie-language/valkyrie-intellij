@@ -2,7 +2,7 @@ package valkyrie.ide.runner
 
 import com.intellij.psi.PsiElement
 import com.intellij.testIntegration.TestFinder
-import valkyrie.language.ast.ValkyrieTraitDeclaration
+import valkyrie.language.ast.ValkyrieTraitStatement
 
 //import valkyrie.language.psi.valkyrieContext
 //import valkyrie.language.psi_node.ValkyrieClassStatementNode
@@ -19,7 +19,7 @@ class ValkyrieFindTests : TestFinder {
 
     override fun isTest(element: PsiElement): Boolean {
         val ctx = element.parent.context;
-        if (ctx is ValkyrieTraitDeclaration) {
+        if (ctx is ValkyrieTraitStatement) {
             return true
         }
         return true

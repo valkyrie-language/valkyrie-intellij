@@ -41,6 +41,18 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterEos(ValkyrieParser.EosContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEos(ValkyrieParser.EosContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterDefine_namespace(ValkyrieParser.Define_namespaceContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -185,6 +197,18 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDefine_method(ValkyrieParser.Define_methodContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDefine_method(ValkyrieParser.Define_methodContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterFormal_args(ValkyrieParser.Formal_argsContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -204,6 +228,18 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFormal_arg(ValkyrieParser.Formal_argContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterType_hint(ValkyrieParser.Type_hintContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitType_hint(ValkyrieParser.Type_hintContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -269,13 +305,13 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBlock(ValkyrieParser.BlockContext ctx) { }
+	@Override public void enterFunction_block(ValkyrieParser.Function_blockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBlock(ValkyrieParser.BlockContext ctx) { }
+	@Override public void exitFunction_block(ValkyrieParser.Function_blockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

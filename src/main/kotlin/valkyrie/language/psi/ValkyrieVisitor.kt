@@ -3,9 +3,9 @@ package valkyrie.language.psi
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiRecursiveVisitor
-import valkyrie.language.ast.ValkyrieClassDeclaration
+import valkyrie.language.ast.ValkyrieClassStatement
 import valkyrie.language.ast.ValkyrieProgramNode
-import valkyrie.language.ast.ValkyrieTraitDeclaration
+import valkyrie.language.ast.ValkyrieTraitStatement
 
 open class ValkyrieRecursiveVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveVisitor {
 
@@ -13,8 +13,8 @@ open class ValkyrieRecursiveVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveV
         ProgressManager.checkCanceled()
         when (element) {
             is ValkyrieProgramNode -> visitProgram(element)
-            is ValkyrieClassDeclaration -> visitClassDeclaration(element)
-            is ValkyrieTraitDeclaration -> visitTraitDeclaration(element)
+            is ValkyrieClassStatement -> visitClassDeclaration(element)
+            is ValkyrieTraitStatement -> visitTraitDeclaration(element)
             else -> {
                 visitOther(element)
             }
@@ -26,11 +26,11 @@ open class ValkyrieRecursiveVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveV
 
     }
 
-    open fun visitClassDeclaration(node: ValkyrieClassDeclaration) {
+    open fun visitClassDeclaration(node: ValkyrieClassStatement) {
 
     }
 
-    open fun visitTraitDeclaration(node: ValkyrieTraitDeclaration) {
+    open fun visitTraitDeclaration(node: ValkyrieTraitStatement) {
 
     }
     open fun visitOther(node: PsiElement) {

@@ -13,7 +13,7 @@ import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
-class ValkyrieTraitDeclaration(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ScopeNode {
+class ValkyrieTraitStatement(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ScopeNode {
     private val _identifier: ValkyrieNamepathNode = findChildByClass(ValkyrieNamepathNode::class.java)!!;
 
     override fun getName(): String {

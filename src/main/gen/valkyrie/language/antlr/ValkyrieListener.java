@@ -28,6 +28,16 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitTop_statement(ValkyrieParser.Top_statementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#eos}.
+	 * @param ctx the parse tree
+	 */
+	void enterEos(ValkyrieParser.EosContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#eos}.
+	 * @param ctx the parse tree
+	 */
+	void exitEos(ValkyrieParser.EosContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#define_namespace}.
 	 * @param ctx the parse tree
 	 */
@@ -148,6 +158,16 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitDefine_function(ValkyrieParser.Define_functionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#define_method}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefine_method(ValkyrieParser.Define_methodContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#define_method}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefine_method(ValkyrieParser.Define_methodContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#formal_args}.
 	 * @param ctx the parse tree
 	 */
@@ -167,6 +187,16 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFormal_arg(ValkyrieParser.Formal_argContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#type_hint}.
+	 * @param ctx the parse tree
+	 */
+	void enterType_hint(ValkyrieParser.Type_hintContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#type_hint}.
+	 * @param ctx the parse tree
+	 */
+	void exitType_hint(ValkyrieParser.Type_hintContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code IntTypeSpec}
 	 * labeled alternative in {@link ValkyrieParser#type}.
@@ -228,15 +258,15 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitVectorTypeSpec(ValkyrieParser.VectorTypeSpecContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ValkyrieParser#block}.
+	 * Enter a parse tree produced by {@link ValkyrieParser#function_block}.
 	 * @param ctx the parse tree
 	 */
-	void enterBlock(ValkyrieParser.BlockContext ctx);
+	void enterFunction_block(ValkyrieParser.Function_blockContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ValkyrieParser#block}.
+	 * Exit a parse tree produced by {@link ValkyrieParser#function_block}.
 	 * @param ctx the parse tree
 	 */
-	void exitBlock(ValkyrieParser.BlockContext ctx);
+	void exitFunction_block(ValkyrieParser.Function_blockContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code If}
 	 * labeled alternative in {@link ValkyrieParser#statement}.

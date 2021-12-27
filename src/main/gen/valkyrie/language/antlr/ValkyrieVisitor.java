@@ -23,6 +23,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTop_statement(ValkyrieParser.Top_statementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#eos}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEos(ValkyrieParser.EosContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#define_namespace}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -95,6 +101,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDefine_function(ValkyrieParser.Define_functionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#define_method}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefine_method(ValkyrieParser.Define_methodContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#formal_args}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -106,6 +118,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFormal_arg(ValkyrieParser.Formal_argContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#type_hint}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitType_hint(ValkyrieParser.Type_hintContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code IntTypeSpec}
 	 * labeled alternative in {@link ValkyrieParser#type}.
@@ -142,11 +160,11 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVectorTypeSpec(ValkyrieParser.VectorTypeSpecContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ValkyrieParser#block}.
+	 * Visit a parse tree produced by {@link ValkyrieParser#function_block}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitBlock(ValkyrieParser.BlockContext ctx);
+	T visitFunction_block(ValkyrieParser.Function_blockContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code If}
 	 * labeled alternative in {@link ValkyrieParser#statement}.

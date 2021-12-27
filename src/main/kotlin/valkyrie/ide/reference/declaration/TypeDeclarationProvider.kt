@@ -3,7 +3,7 @@ package valkyrie.ide.reference.declaration
 //import valkyrie.language.psi_node.ValkyrieClassStatementNode
 import com.intellij.codeInsight.navigation.actions.TypeDeclarationProvider
 import com.intellij.psi.PsiElement
-import valkyrie.language.ast.ValkyrieClassDeclaration
+import valkyrie.language.ast.ValkyrieClassStatement
 
 /// 带类型的声明右边的东西
 /// a: T
@@ -12,11 +12,11 @@ class TypeDeclarationProvider : TypeDeclarationProvider {
     override fun getSymbolTypeDeclarations(element: PsiElement): Array<PsiElement>? {
         return when (element) {
 //            is ValkyrieTypeStatementNode -> arrayOf(element.nameIdentifier)
-            is ValkyrieClassDeclaration -> findDeclarations(element)
+            is ValkyrieClassStatement -> findDeclarations(element)
             else -> null
         }
     }
-    private fun findDeclarations(element: ValkyrieClassDeclaration): Array<PsiElement> {
+    private fun findDeclarations(element: ValkyrieClassStatement): Array<PsiElement> {
         return arrayOf()
     }
 }

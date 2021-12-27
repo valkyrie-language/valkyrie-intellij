@@ -101,9 +101,9 @@ class ValkyrieParserDefinition : ParserDefinition {
             when (type.ruleIndex) {
                 ValkyrieParser.RULE_program -> ValkyrieProgramNode(node, type)
                 ValkyrieParser.RULE_define_namespace -> ValkyrieNamespaceDeclaration(node, type)
-                ValkyrieParser.RULE_define_class -> ValkyrieClassDeclaration(node, type)
-                ValkyrieParser.RULE_define_trait -> ValkyrieTraitDeclaration(node, type)
-                ValkyrieParser.RULE_define_function -> ValkyrieFunctionDeclaration(node, type)
+                ValkyrieParser.RULE_define_class -> ValkyrieClassStatement(node, type)
+                ValkyrieParser.RULE_define_trait -> ValkyrieTraitStatement(node, type)
+                ValkyrieParser.RULE_define_function -> ValkyrieFunctionStatement(node, type)
                 ValkyrieParser.RULE_namepath_free -> ValkyrieNamepathNode(node, type, true)
                 ValkyrieParser.RULE_namepath -> ValkyrieNamepathNode(node, type)
                 ValkyrieParser.RULE_identifier -> ValkyrieIdentifierNode(node, type)

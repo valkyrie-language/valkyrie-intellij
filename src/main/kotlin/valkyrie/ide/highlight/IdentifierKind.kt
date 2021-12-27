@@ -26,8 +26,8 @@ enum class IdentifierKind {
     companion object {
         fun resolve(o: ValkyrieIdentifierNode): IdentifierKind? {
             return when (o.reference?.resolve()) {
-                is ValkyrieTraitDeclaration -> Trait
-                is ValkyrieClassDeclaration -> Class
+                is ValkyrieTraitStatement -> Trait
+                is ValkyrieClassStatement -> Class
                 is ValkyrieClassFieldNode -> ClassField
                 is ValkyrieClassMethodNode -> ClassMethod
                 else -> null

@@ -6,9 +6,9 @@ import com.intellij.model.Symbol
 import com.intellij.model.psi.PsiSymbolDeclaration
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import valkyrie.language.ast.ValkyrieClassDeclaration
+import valkyrie.language.ast.ValkyrieClassStatement
 import valkyrie.language.ast.ValkyrieExtendsStatementNode
-import valkyrie.language.ast.ValkyrieTraitDeclaration
+import valkyrie.language.ast.ValkyrieTraitStatement
 //import valkyrie.language.psi_node.ValkyrieExtendsStatementNode
 
 //import valkyrie.language.psi_node.ValkyrieTraitStatementNode
@@ -32,7 +32,7 @@ object WorkspaceManager {
         return packageManager?.findDefinition(symbol)
     }
 
-    fun defineClass(target: ValkyrieClassDeclaration, packageName: String, namespace: String) {
+    fun defineClass(target: ValkyrieClassStatement, packageName: String, namespace: String) {
         val packageManager = packages.getOrPut(packageName) { PackageManager() }
         val namespaceManager = packageManager.namespace.getOrPut(namespace) { NamespaceManager() }
         val define = namespaceManager.classes[target.name];
@@ -55,7 +55,7 @@ class PackageManager {
 
 class NamespaceManager {
     val classes = mutableMapOf<String, ValkyrieClassDeclare>()
-    val traits = mutableMapOf<String, ValkyrieTraitDeclaration>()
+    val traits = mutableMapOf<String, ValkyrieTraitStatement>()
 
     fun findDefinition(symbol: ValkyrieSymbol): PsiElement? {
         val findClass = classes[symbol.name];
@@ -76,7 +76,7 @@ class ValkyrieClassDeclare : PsiSymbolDeclaration {
     var myDefine: PsiElement;
     var myExtends: MutableList<ValkyrieExtendsStatementNode>;
 
-    constructor(classNode: ValkyrieClassDeclaration, packageName: String, namespace: String) {
+    constructor(classNode: ValkyrieClassStatement, packageName: String, namespace: String) {
         mySymbol = ValkyrieSymbol(packageName, namespace, classNode.name)
         myDefine = classNode
         myExtends = mutableListOf()
@@ -88,8 +88,8 @@ class ValkyrieClassDeclare : PsiSymbolDeclaration {
         myExtends = mutableListOf(extendNode)
     }
 
-    override fun getDeclaringElement(): ValkyrieClassDeclaration {
-        return myDefine as ValkyrieClassDeclaration
+    override fun getDeclaringElement(): ValkyrieClassStatement {
+        return myDefine as ValkyrieClassStatement
     }
 
     override fun getRangeInDeclaringElement(): TextRange {

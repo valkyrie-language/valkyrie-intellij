@@ -7,13 +7,13 @@ import java.awt.Color
 
 class ValkyrieColorParser : ElementColorProvider {
     override fun getColorFrom(element: PsiElement): Color? {
-//        if (element.elementType != ValkyrieTypes.COLOUR) return null;
-        val rest = element.text.substring(1);
-        return when {
-            element.text.startsWith('®') -> rgb(rest)
-            element.text.startsWith('©') -> cmyk(rest)
-            else -> null
-        }
+        return null;
+//        val rest = element.text.substring(1);
+//        return when {
+//            element.text.startsWith('®') -> rgb(rest)
+//            element.text.startsWith('©') -> cmyk(rest)
+//            else -> null
+//        }
     }
 
     private fun rgb(text: String): Color? {

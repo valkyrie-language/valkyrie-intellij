@@ -5,7 +5,7 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFile
-import valkyrie.language.ast.ValkyrieClassDeclaration
+import valkyrie.language.ast.ValkyrieClassStatement
 import valkyrie.language.ast.ValkyrieExtendsStatementNode
 import valkyrie.language.ast.ValkyrieUnionStatementNode
 import valkyrie.language.file.ValkyrieIconProvider
@@ -15,7 +15,7 @@ import javax.swing.Icon
 
 class GenerateDelegates : LanguageCodeInsightActionHandler, ItemPresentation {
     override fun isValidFor(editor: Editor?, file: PsiFile?) = when (file.caretElement(editor)?.context) {
-        is ValkyrieClassDeclaration -> true
+        is ValkyrieClassStatement -> true
         is ValkyrieUnionStatementNode -> true
         is ValkyrieExtendsStatementNode -> true
         else -> false
