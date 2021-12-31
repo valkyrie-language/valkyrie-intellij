@@ -1,8 +1,9 @@
 grammar Valkyrie;
-import XID, ValkyrieOperators;
+import ValkyrieOperators, XID;
 options {
 	language = Java;
 }
+
 // $antlr-format useTab false, alignColons hanging, alignSemicolons hanging
 // $antlr-format alignFirstTokens true
 
@@ -16,6 +17,7 @@ top_statement
     | define_trait eos?
     | define_function eos?
     | define_variale eos?
+    | expression eos?
     ;
 eos: SEMICOLON;
 // ===========================================================================
@@ -44,34 +46,34 @@ class_inherit:    PARENTHESES_L namepath? PARENTHESES_R;
 KW_EXTENDS: 'extend' | 'extends';
 KW_CLASS:   'class' | 'structure';
 // ===========================================================================
-define_trait:     KW_TRAIT namepath '{' trait_statements* '}';
+define_trait:     KW_TRAIT namepath BRACE_L trait_statements* BRACE_R;
 trait_statements: define_method eos?;
 
 KW_TRAIT: 'trait' | 'interface';
 // ===========================================================================
-define_union:     KW_UNION namepath '{' union_statements* '}';
+define_union:     KW_UNION namepath BRACE_L union_statements* BRACE_R;
 union_statements: define_function eos?;
 
 KW_UNION: 'union';
 // ===========================================================================
-define_variale: KW_LET namepath '=' expr;
+define_variale: KW_LET namepath '=' expression;
 
 KW_LET: 'let';
 // ===========================================================================
 define_function
-    : KW_FUNCTION namepath '(' formal_args? ')' type_hint? function_block
+    : KW_FUNCTION namepath PARENTHESES_L formal_args? PARENTHESES_R type_hint? function_block
     ;
 
 KW_FUNCTION: 'def';
 // ===========================================================================
-define_method: identifier '(' ')';
+define_method: identifier PARENTHESES_L PARENTHESES_R;
 
 // ===========================================================================
-formal_args: formal_arg (',' formal_arg)*;
+formal_args: formal_arg (COMMA formal_arg)*;
 
-formal_arg: UNICODE_ID ':' type;
+formal_arg: UNICODE_ID COLON type;
 
-type_hint: (':' | '->') type;
+type_hint: (COLON | '->') type;
 type
     : 'int'     # IntTypeSpec
     | 'float'   # FloatTypeSpec
@@ -83,29 +85,41 @@ type
 function_block: '{' (statement | define_variale)* '}';
 
 statement
-    : 'if' '(' expr ')' statement ('else' statement)? # If
-    | 'while' '(' expr ')' statement                  # While
-    | identifier '=' expr                             # Assign
-    | identifier '[' expr ']' '=' expr                # ElementAssign
+    : 'if' '(' expression ')' statement ('else' statement)? # If
+    | 'while' '(' expression ')' statement                  # While
+    | identifier '=' expression                             # Assign
+    | identifier '[' expression ']' '=' expression                # ElementAssign
     | call_expr                                       # CallStatement
-    | 'print' '(' expr? ')'                           # Print
-    | 'return' expr                                   # Return
+    | 'print' '(' expression? ')'                           # Print
+    | 'return' expression                                   # Return
     | function_block                                  # BlockStatement
     ;
 
-type_expression: expr;
-
-expr
-    : expr operator expr      # Op
-    | '-' expr                # Negate
-    | '!' expr                # Not
-    | call_expr               # Call
-    | identifier '[' expr ']' # Index
-    | '(' expr ')'            # Parens
-    | primary                 # Atom
+type_expression
+    : type_expression infix type_expression      # TOp
+    | '(' type_expression ')'            # TParens
+    | identifier        # TIdentifier
+    | number            # TNumber
+    | STRING            # String
+    | '[' expr_list ']' # Vector
+    | SPECIAL            # SpeicalLiteral
     ;
 
-operator
+expression
+    : expression infix expression      # Op
+    | '-' expression                # Negate
+    | '!' expression                # Not
+    | call_expr               # Call
+    | identifier '[' expression ']' # Index
+    | '(' expression ')'            # Parens
+    | identifier        # EIdentifier
+    | number            # ENumber
+    | STRING            # EString
+    | '[' expr_list ']' # EVector
+    | SPECIAL            # ESpeicalLiteral
+    ;
+
+infix
     : MUL
     | DIV
     | ADD
@@ -119,28 +133,18 @@ operator
     | OR
     | AND
     | DOT
-    | IS
-    | IS NOT
+    | KW_IS
+    | KW_IS KW_NOT
     ;
 
-AS:  'as' | 'as!' | 'as*';
-IS:  'is';
-IN:  'in';
-NOT: 'not';
+KW_AS:  'as' | 'as!' | 'as*';
+KW_IS:  'is';
+KW_IN:  'in';
+KW_NOT: 'not';
 
-call_expr: UNICODE_ID '(' expr_list? ')';
+call_expr: namepath '(' expr_list? ')';
 
-expr_list: expr (',' expr)*;
-
-primary
-    : UNICODE_ID        # PIdentifier
-    | INTEGER           # Integer
-    | DECIMAL           # Float
-    | STRING            # String
-    | '[' expr_list ']' # Vector
-    | 'true'            # TrueLiteral
-    | 'false'           # FalseLiteral
-    ;
+expr_list: expression (COMMA expression)*;
 
 // pushToken(ValkyrieTypes.PATTERN_AND, r) "or" -> pushToken(ValkyrieTypes.PATTERN_OR, r) "which" ->
 // pushToken(ValkyrieTypes.KW_WHICH, r) "if" -> pushToken(ValkyrieTypes.KW_IF, r) "else" ->
@@ -167,19 +171,20 @@ BREAK:    'break';
 CONTINUE: 'continue';
 RAISE:    'raise';
 CATCH:    'catch';
-// atom
-NULL:  'null';
-TRUE:  'true';
-FALSE: 'false';
-// comment
-LINE_COMMENT: '//' .*? ('\n' | EOF) -> channel(HIDDEN);
-COMMENT:      '/*' .*? '*/' -> channel(HIDDEN);
+
 // namepath
-namepath_free: identifier (('∷' | '::' | DOT) identifier)*;
-namepath:      identifier (('∷' | '::') identifier)*;
+namepath_free: identifier ((OP_PROPORTION|DOT) identifier)*;
+namepath:      identifier (OP_PROPORTION identifier)*;
 // identifier
 identifier: UNICODE_ID;
 // numbewr
+number: INTEGER number_suffix?;
+number_suffix: UNICODE_ID;
+
+
+
+
+
 INTEGER: [0] | [1-9][0-9]+;
 DECIMAL
     : INTEGER '.' INTEGER EXP? // 1.35, 1.35E-9, 0.3, -4.5

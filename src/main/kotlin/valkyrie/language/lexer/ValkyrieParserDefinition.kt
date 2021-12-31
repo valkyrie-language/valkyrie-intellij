@@ -39,7 +39,7 @@ class ValkyrieParserDefinition : ParserDefinition {
     }
 
     override fun getCommentTokens(): TokenSet {
-        return PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieLexer.COMMENT, ValkyrieLexer.LINE_COMMENT)
+        return ValkyrieProgramLexer.Comments
     }
 
     override fun getStringLiteralElements(): TokenSet {
@@ -126,9 +126,7 @@ class ValkyrieParserDefinition : ParserDefinition {
 
         init {
             PSIElementTypeFactory.defineLanguageIElementTypes(
-                ValkyrieLanguage,
-                ValkyrieParser.tokenNames,
-                ValkyrieParser.ruleNames
+                ValkyrieLanguage, ValkyrieParser.tokenNames, ValkyrieParser.ruleNames
             )
             val tokenIElementTypes = PSIElementTypeFactory.getTokenIElementTypes(ValkyrieLanguage)
             ID = tokenIElementTypes[ValkyrieLexer.UNICODE_ID]

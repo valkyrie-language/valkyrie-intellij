@@ -222,66 +222,137 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBlockStatement(ValkyrieParser.BlockStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ValkyrieParser#type_expression}.
+	 * Visit a parse tree produced by the {@code TNumber}
+	 * labeled alternative in {@link ValkyrieParser#type_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitType_expression(ValkyrieParser.Type_expressionContext ctx);
+	T visitTNumber(ValkyrieParser.TNumberContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TOp}
+	 * labeled alternative in {@link ValkyrieParser#type_expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTOp(ValkyrieParser.TOpContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TParens}
+	 * labeled alternative in {@link ValkyrieParser#type_expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTParens(ValkyrieParser.TParensContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TIdentifier}
+	 * labeled alternative in {@link ValkyrieParser#type_expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTIdentifier(ValkyrieParser.TIdentifierContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code SpeicalLiteral}
+	 * labeled alternative in {@link ValkyrieParser#type_expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSpeicalLiteral(ValkyrieParser.SpeicalLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code String}
+	 * labeled alternative in {@link ValkyrieParser#type_expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitString(ValkyrieParser.StringContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Vector}
+	 * labeled alternative in {@link ValkyrieParser#type_expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVector(ValkyrieParser.VectorContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code EIdentifier}
+	 * labeled alternative in {@link ValkyrieParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEIdentifier(ValkyrieParser.EIdentifierContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Call}
-	 * labeled alternative in {@link ValkyrieParser#expr}.
+	 * labeled alternative in {@link ValkyrieParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitCall(ValkyrieParser.CallContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Op}
-	 * labeled alternative in {@link ValkyrieParser#expr}.
+	 * labeled alternative in {@link ValkyrieParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitOp(ValkyrieParser.OpContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Not}
-	 * labeled alternative in {@link ValkyrieParser#expr}.
+	 * labeled alternative in {@link ValkyrieParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitNot(ValkyrieParser.NotContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code EVector}
+	 * labeled alternative in {@link ValkyrieParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEVector(ValkyrieParser.EVectorContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ENumber}
+	 * labeled alternative in {@link ValkyrieParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitENumber(ValkyrieParser.ENumberContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code Parens}
-	 * labeled alternative in {@link ValkyrieParser#expr}.
+	 * labeled alternative in {@link ValkyrieParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitParens(ValkyrieParser.ParensContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code ESpeicalLiteral}
+	 * labeled alternative in {@link ValkyrieParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitESpeicalLiteral(ValkyrieParser.ESpeicalLiteralContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code Index}
-	 * labeled alternative in {@link ValkyrieParser#expr}.
+	 * labeled alternative in {@link ValkyrieParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitIndex(ValkyrieParser.IndexContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Negate}
-	 * labeled alternative in {@link ValkyrieParser#expr}.
+	 * labeled alternative in {@link ValkyrieParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitNegate(ValkyrieParser.NegateContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Atom}
-	 * labeled alternative in {@link ValkyrieParser#expr}.
+	 * Visit a parse tree produced by the {@code EString}
+	 * labeled alternative in {@link ValkyrieParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAtom(ValkyrieParser.AtomContext ctx);
+	T visitEString(ValkyrieParser.EStringContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ValkyrieParser#operator}.
+	 * Visit a parse tree produced by {@link ValkyrieParser#infix}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitOperator(ValkyrieParser.OperatorContext ctx);
+	T visitInfix(ValkyrieParser.InfixContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#call_expr}.
 	 * @param ctx the parse tree
@@ -294,55 +365,6 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExpr_list(ValkyrieParser.Expr_listContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code PIdentifier}
-	 * labeled alternative in {@link ValkyrieParser#primary}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPIdentifier(ValkyrieParser.PIdentifierContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Integer}
-	 * labeled alternative in {@link ValkyrieParser#primary}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitInteger(ValkyrieParser.IntegerContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Float}
-	 * labeled alternative in {@link ValkyrieParser#primary}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFloat(ValkyrieParser.FloatContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code String}
-	 * labeled alternative in {@link ValkyrieParser#primary}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitString(ValkyrieParser.StringContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Vector}
-	 * labeled alternative in {@link ValkyrieParser#primary}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVector(ValkyrieParser.VectorContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code TrueLiteral}
-	 * labeled alternative in {@link ValkyrieParser#primary}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTrueLiteral(ValkyrieParser.TrueLiteralContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code FalseLiteral}
-	 * labeled alternative in {@link ValkyrieParser#primary}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFalseLiteral(ValkyrieParser.FalseLiteralContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#namepath_free}.
 	 * @param ctx the parse tree
@@ -361,4 +383,16 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitIdentifier(ValkyrieParser.IdentifierContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#number}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumber(ValkyrieParser.NumberContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#number_suffix}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumber_suffix(ValkyrieParser.Number_suffixContext ctx);
 }

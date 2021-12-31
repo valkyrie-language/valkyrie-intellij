@@ -80,12 +80,21 @@ class ValkyrieProgramLexer : Lexer() {
         val Integers: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieLexer.INTEGER);
         val Decimals: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieLexer.DECIMAL);
         val CommentLine: TokenIElementType = TokenIElementType(ValkyrieLexer.LINE_COMMENT, "CommentLine", ValkyrieLanguage);
-        val CommentBlock: TokenIElementType = TokenIElementType(ValkyrieLexer.COMMENT, "CommentBlock", ValkyrieLanguage);
+        val CommentBlock: TokenIElementType = TokenIElementType(ValkyrieLexer.BLOCK_COMMENT, "CommentBlock", ValkyrieLanguage);
+        val Comments = TokenSet.create(CommentBlock, CommentLine);
         val CompletionWords: TokenSet = PSIElementTypeFactory.createTokenSet(
             ValkyrieLanguage,
             ValkyrieLexer.IF,
             ValkyrieLexer.WHILE,
         )
         val Id: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieLexer.UNICODE_ID);
+
+
+        val BraceL: TokenIElementType = TokenIElementType(ValkyrieLexer.BRACE_L, "{", ValkyrieLanguage);
+        val BraceR: TokenIElementType = TokenIElementType(ValkyrieLexer.BRACE_R, "}", ValkyrieLanguage);
+        val BracketL: TokenIElementType = TokenIElementType(ValkyrieLexer.BRACKET_L, "[", ValkyrieLanguage);
+        val BracketR: TokenIElementType = TokenIElementType(ValkyrieLexer.BRACKET_R, "]", ValkyrieLanguage);
+        val ParenthesisL: TokenIElementType = TokenIElementType(ValkyrieLexer.PARENTHESES_L, ")", ValkyrieLanguage);
+        val ParenthesisR: TokenIElementType = TokenIElementType(ValkyrieLexer.PARENTHESES_R, "(", ValkyrieLanguage);
     }
 }
