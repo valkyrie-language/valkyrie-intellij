@@ -8,7 +8,7 @@ import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
 import valkyrie.ide.formatter.ValkyrieCommenter
 import valkyrie.language.ast.DocumentNode
-import valkyrie.language.psi.ValkyrieTokenType
+import valkyrie.language.lexer.ValkyrieProgramLexer
 import java.net.ConnectException
 import java.util.function.Consumer
 
@@ -64,8 +64,8 @@ class DocumentationProvider : DocumentationProvider {
 
     override fun getCustomDocumentationElement(editor: Editor, file: PsiFile, contextElement: PsiElement?, targetOffset: Int): PsiElement? {
         return when {
-            ValkyrieTokenType.isKeyword(contextElement.elementType) -> contextElement
-            ValkyrieTokenType.isOperator(contextElement) -> contextElement
+            ValkyrieProgramLexer.Keywords.contains(contextElement.elementType) -> contextElement
+            ValkyrieProgramLexer.Operators.contains(contextElement.elementType) -> contextElement
             contextElement.elementType == TokenType.WHITE_SPACE -> null
             else -> null
         }

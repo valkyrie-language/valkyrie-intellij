@@ -77,6 +77,13 @@ class ValkyrieProgramLexer : Lexer() {
             ValkyrieLexer.CATCH,
             //
         )
+        val OperatorInfix: TokenSet = PSIElementTypeFactory.createTokenSet(
+            ValkyrieLanguage,
+            ValkyrieLexer.OP_EQ,
+            ValkyrieLexer.OP_NE
+        )
+        val Operators = TokenSet.orSet(OperatorInfix);
+
         val Integers: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieLexer.INTEGER);
         val Decimals: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieLexer.DECIMAL);
         val CommentLine: TokenIElementType = TokenIElementType(ValkyrieLexer.LINE_COMMENT, "CommentLine", ValkyrieLanguage);

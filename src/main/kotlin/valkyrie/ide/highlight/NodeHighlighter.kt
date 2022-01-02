@@ -17,7 +17,7 @@ import valkyrie.language.psi.ValkyrieRecursiveVisitor
 //import valkyrie.language.psi_node.ValkyrieIdentifierNode
 import valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
-class NodeHighlightVisitor : ValkyrieRecursiveVisitor(), HighlightVisitor {
+class NodeHighlighter : ValkyrieRecursiveVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
 
 
@@ -53,14 +53,14 @@ class NodeHighlightVisitor : ValkyrieRecursiveVisitor(), HighlightVisitor {
         return true
     }
 
-    override fun clone(): HighlightVisitor = NodeHighlightVisitor()
+    override fun clone(): HighlightVisitor = NodeHighlighter()
 
     override fun suitableForFile(file: PsiFile): Boolean = file is ValkyrieFileNode
 
     override fun visit(element: PsiElement) = element.accept(this)
 }
 
-private fun NodeHighlightVisitor.fakeTypeColor(psi: PsiElement) {
+private fun NodeHighlighter.fakeTypeColor(psi: PsiElement) {
     for (node in PsiTreeUtil.findChildrenOfType(psi, ValkyrieIdentifierNode::class.java)) {
         val name = node.name
         when {

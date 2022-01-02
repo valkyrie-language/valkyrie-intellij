@@ -8,10 +8,9 @@ import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.language.lexer.ValkyrieProgramLexer
-import valkyrie.language.psi.ValkyrieTokenType
 import valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
-class TokenHighlight : SyntaxHighlighterBase() {
+class TokenHighlighter : SyntaxHighlighterBase() {
     override fun getHighlightingLexer(): Lexer {
         return ValkyrieProgramLexer()
     }
@@ -22,18 +21,18 @@ class TokenHighlight : SyntaxHighlighterBase() {
 
     private fun getTokenColor(tokenType: IElementType): ValkyrieHighlightColor? {
         return when {
-            ValkyrieTokenType.isKeyword(tokenType) -> Color.KEYWORD
-            ValkyrieTokenType.isOperator(tokenType) -> Color.OPERATION_SIGN
+            ValkyrieProgramLexer.Keywords.contains(tokenType) -> Color.KEYWORD
+            ValkyrieProgramLexer.Operators.contains(tokenType) -> Color.OPERATION_SIGN
             ValkyrieProgramLexer.Integers.contains(tokenType) -> Color.INTEGER
             ValkyrieProgramLexer.Decimals.contains(tokenType) -> Color.DECIMAL
             else -> {
                 when (tokenType) {
                     ValkyrieProgramLexer.CommentLine-> Color.LINE_COMMENT
                     ValkyrieProgramLexer.CommentBlock -> Color.BLOCK_COMMENT
+                    ValkyrieProgramLexer.ParenthesisL, ValkyrieProgramLexer.ParenthesisR -> Color.PARENTHESES
+                    ValkyrieProgramLexer.BracketL, ValkyrieProgramLexer.BracketR -> Color.BRACKETS
+                    ValkyrieProgramLexer.BraceL, ValkyrieProgramLexer.BraceR -> Color.BRACES
                     //
-//                    PARENTHESIS_L, PARENTHESIS_R -> Color.PARENTHESES
-//                    BRACKET_L, BRACKET_R -> Color.BRACKETS
-//                    BRACE_L, BRACE_R -> Color.BRACES
 //                    COLON, OP_SET -> Color.ASSIGN
 //                    OP_AT, OP_HASH -> Color.SYM_MACRO
                     // STAR -> Color.STAR

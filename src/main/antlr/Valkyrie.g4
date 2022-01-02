@@ -46,17 +46,21 @@ class_inherit:    PARENTHESES_L namepath? PARENTHESES_R;
 KW_EXTENDS: 'extend' | 'extends';
 KW_CLASS:   'class' | 'structure';
 // ===========================================================================
-define_trait:     KW_TRAIT namepath BRACE_L trait_statements* BRACE_R;
+define_trait
+    : KW_TRAIT namepath BRACE_L trait_statements* BRACE_R
+    ;
 trait_statements: define_method eos?;
 
 KW_TRAIT: 'trait' | 'interface';
 // ===========================================================================
-define_union:     KW_UNION namepath BRACE_L union_statements* BRACE_R;
+define_union
+    : KW_UNION namepath BRACE_L union_statements* BRACE_R
+    ;
 union_statements: define_function eos?;
 
 KW_UNION: 'union';
 // ===========================================================================
-define_variale: KW_LET namepath '=' expression;
+define_variale: KW_LET identifier OP_EQ expression;
 
 KW_LET: 'let';
 // ===========================================================================
@@ -87,36 +91,36 @@ function_block: '{' (statement | define_variale)* '}';
 statement
     : 'if' '(' expression ')' statement ('else' statement)? # If
     | 'while' '(' expression ')' statement                  # While
-    | identifier '=' expression                             # Assign
-    | identifier '[' expression ']' '=' expression                # ElementAssign
-    | call_expr                                       # CallStatement
+    | identifier OP_EQ expression                           # Assign
+    | identifier '[' expression ']' OP_EQ expression        # ElementAssign
+    | call_expr                                             # CallStatement
     | 'print' '(' expression? ')'                           # Print
     | 'return' expression                                   # Return
-    | function_block                                  # BlockStatement
+    | function_block                                        # BlockStatement
     ;
 
 type_expression
-    : type_expression infix type_expression      # TOp
-    | '(' type_expression ')'            # TParens
-    | identifier        # TIdentifier
-    | number            # TNumber
-    | STRING            # String
-    | '[' expr_list ']' # Vector
-    | SPECIAL            # SpeicalLiteral
+    : type_expression infix type_expression # TOp
+    | '(' type_expression ')'               # TParens
+    | term                                  # TTerm
     ;
 
 expression
-    : expression infix expression      # Op
+    : expression infix expression   # Op
     | '-' expression                # Negate
     | '!' expression                # Not
-    | call_expr               # Call
+    | call_expr                     # Call
     | identifier '[' expression ']' # Index
     | '(' expression ')'            # Parens
-    | identifier        # EIdentifier
+    | term                          # ETerm
+    ;
+
+term
+    : identifier        # EIdentifier
     | number            # ENumber
     | STRING            # EString
     | '[' expr_list ']' # EVector
-    | SPECIAL            # ESpeicalLiteral
+    | SPECIAL           # ESpeicalLiteral
     ;
 
 infix
@@ -128,7 +132,7 @@ infix
     | GE
     | LT
     | LE
-    | EQUAL_EQUAL
+    | OP_EE
     | OP_NE
     | OR
     | AND
@@ -173,17 +177,13 @@ RAISE:    'raise';
 CATCH:    'catch';
 
 // namepath
-namepath_free: identifier ((OP_PROPORTION|DOT) identifier)*;
+namepath_free: identifier ((OP_PROPORTION | DOT) identifier)*;
 namepath:      identifier (OP_PROPORTION identifier)*;
 // identifier
 identifier: UNICODE_ID;
 // numbewr
-number: INTEGER number_suffix?;
+number:        INTEGER number_suffix?;
 number_suffix: UNICODE_ID;
-
-
-
-
 
 INTEGER: [0] | [1-9][0-9]+;
 DECIMAL

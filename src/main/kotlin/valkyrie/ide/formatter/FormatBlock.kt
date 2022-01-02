@@ -6,7 +6,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.formatter.FormatterUtil
 import valkyrie.language.ast.isWhitespaceOrEmpty
-import valkyrie.language.psi.ValkyrieTokenType
+//import valkyrie.language.psi.ValkyrieTokenType
 
 class FormatBlock(
     private val node: ASTNode,
@@ -72,15 +72,15 @@ class FormatBlock(
 //                else -> Indent.getNoneIndent()
 //            }
 
-            ValkyrieTokenType.isValkyrieBlock(node.psi) -> {
-                val firstLine = node.firstChildNode == child;
-                val lastLine = node.lastChildNode == child;
-                val isCornerChild = firstLine || lastLine
-                when {
-                    isCornerChild -> Indent.getNoneIndent()
-                    else -> Indent.getNormalIndent()
-                }
-            }
+//            ValkyrieTokenType.isValkyrieBlock(node.psi) -> {
+//                val firstLine = node.firstChildNode == child;
+//                val lastLine = node.lastChildNode == child;
+//                val isCornerChild = firstLine || lastLine
+//                when {
+//                    isCornerChild -> Indent.getNoneIndent()
+//                    else -> Indent.getNormalIndent()
+//                }
+//            }
 
             else -> Indent.getNoneIndent()
         }

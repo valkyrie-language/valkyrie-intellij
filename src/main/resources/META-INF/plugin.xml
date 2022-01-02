@@ -69,10 +69,10 @@
 			implementationClass="valkyrie.ide.view.hierarchy.CallHierarchyProvider"/>
 		<!-- Highlight -->
 		<colorSettingsPage implementation="valkyrie.ide.highlight.HighlightSetting"/>
-		<highlightVisitor implementation="valkyrie.ide.highlight.NodeHighlightVisitor"/>
+		<highlightVisitor implementation="valkyrie.ide.highlight.NodeHighlighter"/>
 		<lang.syntaxHighlighter
 			language="Valkyrie"
-			implementationClass="valkyrie.ide.highlight.TokenHighlight"
+			implementationClass="valkyrie.ide.highlight.TokenHighlighter"
 		/>
 		<colorProvider implementation="valkyrie.ide.highlight.ValkyrieColorParser"/>
 		<!-- Formatter -->

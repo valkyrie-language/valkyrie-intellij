@@ -21,7 +21,7 @@ class HighlightSetting : ColorSettingsPage {
 
     override fun getIcon() = ValkyrieIconProvider.Valkyrie
 
-    override fun getHighlighter() = TokenHighlight()
+    override fun getHighlighter() = TokenHighlighter()
 
     override fun getAdditionalHighlightingTagToDescriptorMap() = annotatorTags
 

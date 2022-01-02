@@ -364,18 +364,6 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitBlockStatement(ValkyrieParser.BlockStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code TNumber}
-	 * labeled alternative in {@link ValkyrieParser#type_expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterTNumber(ValkyrieParser.TNumberContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code TNumber}
-	 * labeled alternative in {@link ValkyrieParser#type_expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitTNumber(ValkyrieParser.TNumberContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code TOp}
 	 * labeled alternative in {@link ValkyrieParser#type_expression}.
 	 * @param ctx the parse tree
@@ -400,65 +388,17 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitTParens(ValkyrieParser.TParensContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code TIdentifier}
+	 * Enter a parse tree produced by the {@code TTerm}
 	 * labeled alternative in {@link ValkyrieParser#type_expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterTIdentifier(ValkyrieParser.TIdentifierContext ctx);
+	void enterTTerm(ValkyrieParser.TTermContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code TIdentifier}
+	 * Exit a parse tree produced by the {@code TTerm}
 	 * labeled alternative in {@link ValkyrieParser#type_expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitTIdentifier(ValkyrieParser.TIdentifierContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code SpeicalLiteral}
-	 * labeled alternative in {@link ValkyrieParser#type_expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterSpeicalLiteral(ValkyrieParser.SpeicalLiteralContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code SpeicalLiteral}
-	 * labeled alternative in {@link ValkyrieParser#type_expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitSpeicalLiteral(ValkyrieParser.SpeicalLiteralContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code String}
-	 * labeled alternative in {@link ValkyrieParser#type_expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterString(ValkyrieParser.StringContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code String}
-	 * labeled alternative in {@link ValkyrieParser#type_expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitString(ValkyrieParser.StringContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code Vector}
-	 * labeled alternative in {@link ValkyrieParser#type_expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterVector(ValkyrieParser.VectorContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code Vector}
-	 * labeled alternative in {@link ValkyrieParser#type_expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitVector(ValkyrieParser.VectorContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code EIdentifier}
-	 * labeled alternative in {@link ValkyrieParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterEIdentifier(ValkyrieParser.EIdentifierContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code EIdentifier}
-	 * labeled alternative in {@link ValkyrieParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitEIdentifier(ValkyrieParser.EIdentifierContext ctx);
+	void exitTTerm(ValkyrieParser.TTermContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code Call}
 	 * labeled alternative in {@link ValkyrieParser#expression}.
@@ -496,29 +436,17 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitNot(ValkyrieParser.NotContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code EVector}
+	 * Enter a parse tree produced by the {@code ETerm}
 	 * labeled alternative in {@link ValkyrieParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterEVector(ValkyrieParser.EVectorContext ctx);
+	void enterETerm(ValkyrieParser.ETermContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code EVector}
+	 * Exit a parse tree produced by the {@code ETerm}
 	 * labeled alternative in {@link ValkyrieParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitEVector(ValkyrieParser.EVectorContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code ENumber}
-	 * labeled alternative in {@link ValkyrieParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterENumber(ValkyrieParser.ENumberContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ENumber}
-	 * labeled alternative in {@link ValkyrieParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitENumber(ValkyrieParser.ENumberContext ctx);
+	void exitETerm(ValkyrieParser.ETermContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code Parens}
 	 * labeled alternative in {@link ValkyrieParser#expression}.
@@ -531,18 +459,6 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParens(ValkyrieParser.ParensContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code ESpeicalLiteral}
-	 * labeled alternative in {@link ValkyrieParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterESpeicalLiteral(ValkyrieParser.ESpeicalLiteralContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ESpeicalLiteral}
-	 * labeled alternative in {@link ValkyrieParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitESpeicalLiteral(ValkyrieParser.ESpeicalLiteralContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code Index}
 	 * labeled alternative in {@link ValkyrieParser#expression}.
@@ -568,17 +484,65 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitNegate(ValkyrieParser.NegateContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code EIdentifier}
+	 * labeled alternative in {@link ValkyrieParser#term}.
+	 * @param ctx the parse tree
+	 */
+	void enterEIdentifier(ValkyrieParser.EIdentifierContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code EIdentifier}
+	 * labeled alternative in {@link ValkyrieParser#term}.
+	 * @param ctx the parse tree
+	 */
+	void exitEIdentifier(ValkyrieParser.EIdentifierContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ENumber}
+	 * labeled alternative in {@link ValkyrieParser#term}.
+	 * @param ctx the parse tree
+	 */
+	void enterENumber(ValkyrieParser.ENumberContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ENumber}
+	 * labeled alternative in {@link ValkyrieParser#term}.
+	 * @param ctx the parse tree
+	 */
+	void exitENumber(ValkyrieParser.ENumberContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code EString}
-	 * labeled alternative in {@link ValkyrieParser#expression}.
+	 * labeled alternative in {@link ValkyrieParser#term}.
 	 * @param ctx the parse tree
 	 */
 	void enterEString(ValkyrieParser.EStringContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code EString}
-	 * labeled alternative in {@link ValkyrieParser#expression}.
+	 * labeled alternative in {@link ValkyrieParser#term}.
 	 * @param ctx the parse tree
 	 */
 	void exitEString(ValkyrieParser.EStringContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code EVector}
+	 * labeled alternative in {@link ValkyrieParser#term}.
+	 * @param ctx the parse tree
+	 */
+	void enterEVector(ValkyrieParser.EVectorContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code EVector}
+	 * labeled alternative in {@link ValkyrieParser#term}.
+	 * @param ctx the parse tree
+	 */
+	void exitEVector(ValkyrieParser.EVectorContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ESpeicalLiteral}
+	 * labeled alternative in {@link ValkyrieParser#term}.
+	 * @param ctx the parse tree
+	 */
+	void enterESpeicalLiteral(ValkyrieParser.ESpeicalLiteralContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ESpeicalLiteral}
+	 * labeled alternative in {@link ValkyrieParser#term}.
+	 * @param ctx the parse tree
+	 */
+	void exitESpeicalLiteral(ValkyrieParser.ESpeicalLiteralContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#infix}.
 	 * @param ctx the parse tree
