@@ -76,6 +76,7 @@ class ValkyrieProgramLexer : Lexer() {
             ValkyrieLexer.RAISE,
             ValkyrieLexer.CATCH,
             //
+            ValkyrieLexer.SPECIAL
         )
         val OperatorInfix: TokenSet = PSIElementTypeFactory.createTokenSet(
             ValkyrieLanguage,

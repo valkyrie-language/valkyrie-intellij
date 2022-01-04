@@ -17,6 +17,8 @@ top_statement
     | define_trait eos?
     | define_function eos?
     | define_variale eos?
+    | if_statement eos?
+    | while_statement eos?
     | expression eos?
     ;
 eos: SEMICOLON;
@@ -65,19 +67,25 @@ define_variale: KW_LET identifier OP_EQ expression;
 KW_LET: 'let';
 // ===========================================================================
 define_function
-    : KW_FUNCTION namepath PARENTHESES_L formal_args? PARENTHESES_R type_hint? function_block
+    : KW_FUNCTION namepath function_parameters type_hint? BRACE_L function_statements* BRACE_R
     ;
+function_parameters
+    : PARENTHESES_L function_parameter_item (
+        COMMA function_parameter_item
+    )* PARENTHESES_R
+    | PARENTHESES_L PARENTHESES_R
+    ;
+function_parameter_item: identifier type_hint?;
+
+function_statements: top_statement | define_variale;
 
 KW_FUNCTION: 'def';
 // ===========================================================================
 define_method: identifier PARENTHESES_L PARENTHESES_R;
 
 // ===========================================================================
-formal_args: formal_arg (COMMA formal_arg)*;
 
-formal_arg: UNICODE_ID COLON type;
-
-type_hint: (COLON | '->') type;
+type_hint: (COLON | OP_ARROW) type;
 type
     : 'int'     # IntTypeSpec
     | 'float'   # FloatTypeSpec
@@ -86,17 +94,14 @@ type
     | '[' ']'   # VectorTypeSpec
     ;
 
-function_block: '{' (statement | define_variale)* '}';
+if_statement
+    : 'if' '(' expression ')' '{' top_statement '}' (
+        'else' '{' top_statement '}'
+    )?
+    ;
 
-statement
-    : 'if' '(' expression ')' statement ('else' statement)? # If
-    | 'while' '(' expression ')' statement                  # While
-    | identifier OP_EQ expression                           # Assign
-    | identifier '[' expression ']' OP_EQ expression        # ElementAssign
-    | call_expr                                             # CallStatement
-    | 'print' '(' expression? ')'                           # Print
-    | 'return' expression                                   # Return
-    | function_block                                        # BlockStatement
+while_statement
+    : 'while' '(' expression ')' '{' top_statement '}'
     ;
 
 type_expression
@@ -108,10 +113,10 @@ type_expression
 expression
     : expression infix expression   # Op
     | '-' expression                # Negate
-    | '!' expression                # Not
     | call_expr                     # Call
     | identifier '[' expression ']' # Index
     | '(' expression ')'            # Parens
+    | control_expression            # Control
     | term                          # ETerm
     ;
 
@@ -132,8 +137,7 @@ infix
     | GE
     | LT
     | LE
-    | OP_EE
-    | OP_NE
+    // | OP_EE | OP_NE
     | OR
     | AND
     | DOT
@@ -168,6 +172,18 @@ ELSE:  'else';
 WHILE: 'while';
 
 // controls
+control_expression
+    : RETURN expression
+    | RESUME expression
+    | BREAK
+    | CONTINUE
+    | RAISE expression
+    | YIELD RETURN? expression
+    | YIELD BREAK expression
+    | YIELD FROM expression
+    ;
+
+FROM:     'from';
 RETURN:   'return';
 RESUME:   'resume';
 YIELD:    'yield';
@@ -187,7 +203,7 @@ number_suffix: UNICODE_ID;
 
 INTEGER: [0] | [1-9][0-9]+;
 DECIMAL
-    : INTEGER '.' INTEGER EXP? // 1.35, 1.35E-9, 0.3, -4.5
+    : INTEGER DOT INTEGER EXP? // 1.35, 1.35E-9, 0.3, -4.5
     | INTEGER EXP
     ;
 fragment EXP: [Ee] [+\-]? INTEGER;
@@ -195,6 +211,5 @@ fragment EXP: [Ee] [+\-]? INTEGER;
 STRING:       '"' (ESC | ~["\\])* '"';
 fragment ESC: '\\' ["\bfnrt];
 
-WS: [ \t\n\r]+ -> channel(HIDDEN);
 
-ERRCHAR: . -> channel(HIDDEN);
+

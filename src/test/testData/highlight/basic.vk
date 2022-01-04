@@ -1,3 +1,20 @@
 namespace ad::bd::cd
 
 let ak = true;
+
+
+
+class TestClass {
+
+
+}
+
+
+trait TestTrait {
+
+
+}
+
+def function() -> int {
+    let ak = false;
+}

@@ -101,23 +101,29 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDefine_function(ValkyrieParser.Define_functionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#function_parameters}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunction_parameters(ValkyrieParser.Function_parametersContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#function_parameter_item}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunction_parameter_item(ValkyrieParser.Function_parameter_itemContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#function_statements}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunction_statements(ValkyrieParser.Function_statementsContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#define_method}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitDefine_method(ValkyrieParser.Define_methodContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ValkyrieParser#formal_args}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFormal_args(ValkyrieParser.Formal_argsContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ValkyrieParser#formal_arg}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFormal_arg(ValkyrieParser.Formal_argContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#type_hint}.
 	 * @param ctx the parse tree
@@ -160,67 +166,17 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVectorTypeSpec(ValkyrieParser.VectorTypeSpecContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ValkyrieParser#function_block}.
+	 * Visit a parse tree produced by {@link ValkyrieParser#if_statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitFunction_block(ValkyrieParser.Function_blockContext ctx);
+	T visitIf_statement(ValkyrieParser.If_statementContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code If}
-	 * labeled alternative in {@link ValkyrieParser#statement}.
+	 * Visit a parse tree produced by {@link ValkyrieParser#while_statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIf(ValkyrieParser.IfContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code While}
-	 * labeled alternative in {@link ValkyrieParser#statement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitWhile(ValkyrieParser.WhileContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Assign}
-	 * labeled alternative in {@link ValkyrieParser#statement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAssign(ValkyrieParser.AssignContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code ElementAssign}
-	 * labeled alternative in {@link ValkyrieParser#statement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitElementAssign(ValkyrieParser.ElementAssignContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code CallStatement}
-	 * labeled alternative in {@link ValkyrieParser#statement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitCallStatement(ValkyrieParser.CallStatementContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Print}
-	 * labeled alternative in {@link ValkyrieParser#statement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPrint(ValkyrieParser.PrintContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Return}
-	 * labeled alternative in {@link ValkyrieParser#statement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitReturn(ValkyrieParser.ReturnContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code BlockStatement}
-	 * labeled alternative in {@link ValkyrieParser#statement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBlockStatement(ValkyrieParser.BlockStatementContext ctx);
+	T visitWhile_statement(ValkyrieParser.While_statementContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code TOp}
 	 * labeled alternative in {@link ValkyrieParser#type_expression}.
@@ -257,12 +213,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitOp(ValkyrieParser.OpContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Not}
+	 * Visit a parse tree produced by the {@code Control}
 	 * labeled alternative in {@link ValkyrieParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNot(ValkyrieParser.NotContext ctx);
+	T visitControl(ValkyrieParser.ControlContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ETerm}
 	 * labeled alternative in {@link ValkyrieParser#expression}.
@@ -344,6 +300,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExpr_list(ValkyrieParser.Expr_listContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#control_expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitControl_expression(ValkyrieParser.Control_expressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#namepath_free}.
 	 * @param ctx the parse tree

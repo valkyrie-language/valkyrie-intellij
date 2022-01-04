@@ -6,14 +6,21 @@ lexer grammar ValkyrieOperators;
 }
 
 DOT:       '.';
-COMMA:     ',';
+COMMA:     ','; 
 SEMICOLON: ';';
 
 // colon
 OP_PROPORTION: '∷' | '::';
-COLON:         ':' | '∶';
+COLON:     ':' | '∶';
+
 // arrow
+OP_ARROW: '⟶' | '->';
 OP_ARROW2: '⇒' | '=>';
+// equal
+OP_EE: '==';
+OP_NE: '!=';
+OP_EQ: '=';
+
 // brackets
 PARENTHESES_L: '(';
 PARENTHESES_R: ')';
@@ -39,9 +46,7 @@ AND: '&&';
 AT:   '@';
 HASH: '#';
 
-OP_EQ: '=';
-OP_EE: '==';
-OP_NE: '!=';
+
 
 OP_NOT_IN: '∉';
 
@@ -55,22 +60,20 @@ OP_TEMPERATURE: '℃' | '℉';
 OP_EMPTY: '∅';
 
 // "\\" -> pushToken(ValkyrieTypes.KW_ESCAPING, r) // DOT ":=", "≔" ->
-// pushToken(ValkyrieTypes.PATTERN_SET, r) "->", "⟶" -> pushToken(ValkyrieTypes.OP_ARROW, r) "==",
-// "≡" -> pushToken(ValkyrieTypes.OP_EQ, r) "=" -> pushToken(ValkyrieTypes.OP_SET, r)
+// pushToken(ValkyrieTypes.PATTERN_SET, r) "->", "==", "≡" -> pushToken(ValkyrieTypes.OP_EQ, r)
 // 
-// "..<", "..=" -> pushToken(ValkyrieTypes.OP_UNTIL, r) "...", ".." ->
-// pushToken(ValkyrieTypes.KW_DOTS, r) start with + "++" -> pushToken(ValkyrieTypes.OP_INC, r) "+="
-// -> pushToken(ValkyrieTypes.OP_ADD_ASSIGN, r) "+" -> pushToken(ValkyrieTypes.OP_ADD, r) // start
-// with - "--" -> pushToken(ValkyrieTypes.OP_DEC, r) "-=" -> pushToken(ValkyrieTypes.OP_SUB_ASSIGN,
-// r) "-" -> pushToken(ValkyrieTypes.OP_SUB, r) // start with * "*=" ->
-// pushToken(ValkyrieTypes.OP_MUL_ASSIGN, r) "*" -> pushToken(ValkyrieTypes.OP_MUL, r) // start with
-// / "/=" -> pushToken(ValkyrieTypes.OP_DIV_ASSIGN, r) "/" -> pushToken(ValkyrieTypes.OP_DIV, r) //
-// start with & "&&=" -> pushToken(ValkyrieTypes.OP_AND_ASSIGN, r) "&&" ->
-// pushToken(ValkyrieTypes.OP_AND2, r) "&=" -> pushToken(ValkyrieTypes.OP_AND_ASSIGN, r) "&" ->
-// pushToken(ValkyrieTypes.OP_AND, r) // // start with ! "!!" -> pushToken(ValkyrieTypes.OP_NE, r)
-// "!=" -> pushToken(ValkyrieTypes.OP_NE, r) "!" -> pushToken(ValkyrieTypes.OP_NOT, r) "|" ->
-// pushToken(ValkyrieTypes.OP_OR, r) // start with ? "???" ->
-// pushToken(ValkyrieTypes.OP_UNIMPLEMENTED, r) "?" -> pushToken(ValkyrieTypes.OP_QUESTION, r) //
+// "...", ".." -> pushToken(ValkyrieTypes.KW_DOTS, r) start with + "++" ->
+// pushToken(ValkyrieTypes.OP_INC, r) "+=" -> pushToken(ValkyrieTypes.OP_ADD_ASSIGN, r) "+" ->
+// pushToken(ValkyrieTypes.OP_ADD, r) // start with - "--" -> pushToken(ValkyrieTypes.OP_DEC, r)
+// "-=" -> pushToken(ValkyrieTypes.OP_SUB_ASSIGN, r) "-" -> pushToken(ValkyrieTypes.OP_SUB, r) //
+// start with * "*=" -> pushToken(ValkyrieTypes.OP_MUL_ASSIGN, r) "*" ->
+// pushToken(ValkyrieTypes.OP_MUL, r) // start with / "/=" -> pushToken(ValkyrieTypes.OP_DIV_ASSIGN,
+// r) "/" -> pushToken(ValkyrieTypes.OP_DIV, r) // start with & "&&=" ->
+// pushToken(ValkyrieTypes.OP_AND_ASSIGN, r) "&&" -> pushToken(ValkyrieTypes.OP_AND2, r) "&=" ->
+// pushToken(ValkyrieTypes.OP_AND_ASSIGN, r) "&" -> pushToken(ValkyrieTypes.OP_AND, r) // // start
+// with ! "!!" -> pushToken(ValkyrieTypes.OP_NE, r) "!=" -> pushToken(ValkyrieTypes.OP_NE, r) "!" ->
+// pushToken(ValkyrieTypes.OP_NOT, r) "|" -> pushToken(ValkyrieTypes.OP_OR, r) // start with ? "???"
+// -> pushToken(ValkyrieTypes.OP_UNIMPLEMENTED, r) "?" -> pushToken(ValkyrieTypes.OP_QUESTION, r) //
 // start with ^ "^" -> pushToken(ValkyrieTypes.OP_POW, r) // start with = "∈", "∊" -> {
 // pushToken(ValkyrieTypes.OP_IN, r) }
 // 
@@ -104,3 +107,6 @@ SPECIAL:        NULL | TRUE | FALSE;
 // comment
 LINE_COMMENT:  '//' .*? ('\n' | EOF) -> channel(HIDDEN);
 BLOCK_COMMENT: '/*' .*? '*/' -> channel(HIDDEN);
+
+WHITE_SPACE: [ \t\n\r]+ -> channel(HIDDEN);
+ERROR_CHARACTAR: . -> channel(HIDDEN);
