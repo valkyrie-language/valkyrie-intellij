@@ -122,6 +122,8 @@ KW_TYPE: 'type';
 KW_LET: 'let';
 KW_FUNCTION: 'def';
 KW_WITCH: 'which';
+
+KW_WHILE: 'while';
 KW_FOR: 'for';
 
 // pushToken(ValkyrieTypes.PATTERN_AND, r) "or" -> pushToken(ValkyrieTypes.PATTERN_OR, r) "which" ->
@@ -151,11 +153,10 @@ fragment ESC: '\\' ["\bfnrt];
 
 
 
-
-// control flow
-IF:    'if';
-ELSE:  'else';
-WHILE: 'while';
+// conditional
+KW_IF: 'if';
+KW_ELSE:  'else';
+KW_OTHERWISE:  'otherwise';
 // control goto
 FROM:     'from';
 RETURN:   'return';

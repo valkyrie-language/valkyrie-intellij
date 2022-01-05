@@ -6,7 +6,6 @@ let ak = true;
 
 class TestClass {
 
-
 }
 
 union TestUnion {
@@ -22,4 +21,12 @@ trait TestTrait {
 
 def function() -> intt {
     let ak = false;
+}
+
+
+if a > 0 {
+    let ak = b;
+}
+else {
+    let ak = c;
 }

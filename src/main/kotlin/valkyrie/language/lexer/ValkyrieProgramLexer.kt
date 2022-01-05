@@ -67,6 +67,13 @@ class ValkyrieProgramLexer : Lexer() {
             ValkyrieLexer.KW_TRAIT,
             ValkyrieLexer.KW_FUNCTION,
             ValkyrieLexer.KW_LET,
+            // conditional
+            ValkyrieLexer.KW_IF,
+            ValkyrieLexer.KW_ELSE,
+            // control flow
+            ValkyrieLexer.KW_FOR,
+            // pattern match
+            ValkyrieLexer.KW_WITCH,
             // control keywords
             ValkyrieLexer.RETURN,
             ValkyrieLexer.RESUME,
@@ -92,8 +99,8 @@ class ValkyrieProgramLexer : Lexer() {
         val Comments = TokenSet.create(CommentBlock, CommentLine);
         val CompletionWords: TokenSet = PSIElementTypeFactory.createTokenSet(
             ValkyrieLanguage,
-            ValkyrieLexer.IF,
-            ValkyrieLexer.WHILE,
+            ValkyrieLexer.KW_IF,
+            ValkyrieLexer.KW_ELSE,
         )
         val Id: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieLexer.UNICODE_ID);
 

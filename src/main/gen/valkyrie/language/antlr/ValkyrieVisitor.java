@@ -149,6 +149,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitWhile_statement(ValkyrieParser.While_statementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#for_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFor_statement(ValkyrieParser.For_statementContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code Call}
 	 * labeled alternative in {@link ValkyrieParser#expression}.
 	 * @param ctx the parse tree
@@ -197,6 +203,20 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitNegate(ValkyrieParser.NegateContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ITerm}
+	 * labeled alternative in {@link ValkyrieParser#inline_expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitITerm(ValkyrieParser.ITermContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code IOP}
+	 * labeled alternative in {@link ValkyrieParser#inline_expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIOP(ValkyrieParser.IOPContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code EIdentifier}
 	 * labeled alternative in {@link ValkyrieParser#term}.

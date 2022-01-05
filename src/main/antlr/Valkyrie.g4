@@ -20,6 +20,7 @@ top_statement
     | define_variale eos?
     | if_statement eos?
     | while_statement eos?
+    | for_statement eos?
     | expression eos?
     ;
 eos: SEMICOLON;
@@ -66,14 +67,17 @@ define_type: KW_TYPE identifier OP_EQ identifier;
 type_hint:   (COLON | OP_ARROW) type_expression;
 // ===========================================================================
 if_statement
-    : 'if' '(' expression ')' '{' top_statement '}' (
-        'else' '{' top_statement '}'
+    : KW_IF expression '{' top_statement '}' (
+        KW_ELSE '{' top_statement '}'
     )?
     ;
 // ===========================================================================
 while_statement
-    : 'while' '(' expression ')' '{' top_statement '}'
+    : KW_WHILE '(' expression ')' '{' top_statement '}'
     ;
+// ===========================================================================
+for_statement
+	: KW_FOR identifier (KW_IN|OP_IN) inline_expression BRACE_L function_statements* BRACE_R;
 // ===========================================================================
 expression
     : expression infix expression   # Op
@@ -84,6 +88,9 @@ expression
     | control_expression            # Control
     | term                          # ETerm
     ;
+inline_expression
+	: inline_expression infix inline_expression # IOP | term                          # ITerm;
+
 term
     : identifier        # EIdentifier
     | number            # ENumber

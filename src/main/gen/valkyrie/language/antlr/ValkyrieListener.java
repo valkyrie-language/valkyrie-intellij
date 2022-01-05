@@ -238,6 +238,16 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitWhile_statement(ValkyrieParser.While_statementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#for_statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterFor_statement(ValkyrieParser.For_statementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#for_statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitFor_statement(ValkyrieParser.For_statementContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code Call}
 	 * labeled alternative in {@link ValkyrieParser#expression}.
 	 * @param ctx the parse tree
@@ -321,6 +331,30 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitNegate(ValkyrieParser.NegateContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ITerm}
+	 * labeled alternative in {@link ValkyrieParser#inline_expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterITerm(ValkyrieParser.ITermContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ITerm}
+	 * labeled alternative in {@link ValkyrieParser#inline_expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitITerm(ValkyrieParser.ITermContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code IOP}
+	 * labeled alternative in {@link ValkyrieParser#inline_expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterIOP(ValkyrieParser.IOPContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code IOP}
+	 * labeled alternative in {@link ValkyrieParser#inline_expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitIOP(ValkyrieParser.IOPContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code EIdentifier}
 	 * labeled alternative in {@link ValkyrieParser#term}.
