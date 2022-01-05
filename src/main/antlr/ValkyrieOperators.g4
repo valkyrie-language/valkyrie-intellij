@@ -31,7 +31,6 @@ BRACE_R:       '}';
 
 // infix
 SUB:  '-';
-BANG: '!';
 MUL:  '*';
 DIV:  '/';
 ADD:  '+';
@@ -46,19 +45,26 @@ AND: '&&';
 AT:   '@';
 HASH: '#';
 
-
-
+// not
+OP_NOT: '!';
+KW_NOT: 'not';
+// in
+OP_IN: '∈';
+KW_IN:  'in';
 OP_NOT_IN: '∉';
 
-OP_IS_A:  '⊑' | '<:';
-OP_NOT_A: '⋢' | '<!';
-
+// is
+KW_IS:  'is';
+OP_IS:  '⊑' | '<:';
+OP_IS_NOT: '⋢' | '<!';
+// as
+KW_AS:  'as' | 'as!' | 'as*';
+// until
 OP_UNTIL: '..<' | '..=';
 // suffix
 OP_TEMPERATURE: '℃' | '℉';
 // standalone
 OP_EMPTY: '∅';
-
 // "\\" -> pushToken(ValkyrieTypes.KW_ESCAPING, r) // DOT ":=", "≔" ->
 // pushToken(ValkyrieTypes.PATTERN_SET, r) "->", "==", "≡" -> pushToken(ValkyrieTypes.OP_EQ, r)
 // 
@@ -98,7 +104,67 @@ OP_EMPTY: '∅';
 // "}" -> { pushToken(ValkyrieTypes.BRACE_R, r) }
 // 
 // "⤇", "|=>", "⤃", "!=>" -> { pushToken(ValkyrieTypes.OP_EMPTY, r) }
-// 
+
+// keywords
+KW_NAMESPACE
+    : 'namespace'
+    | 'namespace!'
+    | 'namespace*'
+    | 'namespace?'
+    ;
+KW_IMPORT: 'using' | 'using!' | 'using*' | 'using?';
+KW_EXTENSION: 'extension';
+KW_EXTENDS: 'extend' | 'extends';
+KW_CLASS:   'class' | 'structure';
+KW_TRAIT: 'trait' | 'interface';
+KW_UNION: 'union';
+KW_TYPE: 'type';
+KW_LET: 'let';
+KW_FUNCTION: 'def';
+KW_WITCH: 'which';
+KW_FOR: 'for';
+
+// pushToken(ValkyrieTypes.PATTERN_AND, r) "or" -> pushToken(ValkyrieTypes.PATTERN_OR, r) "which" ->
+// pushToken(ValkyrieTypes.KW_WHICH, r) "if" -> pushToken(ValkyrieTypes.KW_IF, r) "else" ->
+// pushToken(ValkyrieTypes.KW_ELSE, r) "loop" -> pushToken(ValkyrieTypes.KW_LOOP, r) "while" ->
+// pushToken(ValkyrieTypes.KW_WHILE, r) "for" -> pushToken(ValkyrieTypes.KW_FOR, r) "match" ->
+// pushToken(ValkyrieTypes.KW_MATCH, r) "when" -> pushToken(ValkyrieTypes.KW_WHEN, r) "case" ->
+// pushToken(ValkyrieTypes.KW_CASE, r) "with" -> pushToken(ValkyrieTypes.KW_WITH, r) "let" ->
+// pushToken(ValkyrieTypes.KW_BREAK, r) "type" -> pushToken(ValkyrieTypes.KW_TYPE, r)
+//
+// "class", "structure", "struct" -> pushToken(ValkyrieTypes.KW_CLASS, r) "union", "tagged", "enum",
+// "variant" -> pushToken(ValkyrieTypes.KW_TAGGED, r) "trait", "interface", "convention", "protocol"
+// -> pushToken(ValkyrieTypes.KW_TRAIT, r) "bitset", "bitflag" ->
+// pushToken(ValkyrieTypes.KW_BITFLAG, r) "extend", "extends", "impl", "implements" ->
+// pushToken(ValkyrieTypes.KW_EXTENDS, r) "new", "object" -> pushToken(ValkyrieTypes.KW_NEW, r)
+
+
+INTEGER: [0] | [1-9][0-9]+;
+DECIMAL
+    : INTEGER DOT INTEGER EXP? // 1.35, 1.35E-9, 0.3, -4.5
+    | INTEGER EXP
+    ;
+fragment EXP: [Ee] [+\-]? INTEGER;
+
+STRING:       '"' (ESC | ~["\\])* '"';
+fragment ESC: '\\' ["\bfnrt];
+
+
+
+
+// control flow
+IF:    'if';
+ELSE:  'else';
+WHILE: 'while';
+// control goto
+FROM:     'from';
+RETURN:   'return';
+RESUME:   'resume';
+YIELD:    'yield';
+BREAK:    'break';
+CONTINUE: 'continue';
+RAISE:    'raise';
+CATCH:    'catch';
 // atom
 fragment NULL:  'null';
 fragment TRUE:  'true';

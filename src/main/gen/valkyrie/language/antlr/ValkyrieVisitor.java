@@ -125,46 +125,17 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDefine_method(ValkyrieParser.Define_methodContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#define_type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefine_type(ValkyrieParser.Define_typeContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#type_hint}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitType_hint(ValkyrieParser.Type_hintContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code IntTypeSpec}
-	 * labeled alternative in {@link ValkyrieParser#type}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIntTypeSpec(ValkyrieParser.IntTypeSpecContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code FloatTypeSpec}
-	 * labeled alternative in {@link ValkyrieParser#type}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFloatTypeSpec(ValkyrieParser.FloatTypeSpecContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code StringTypeSpec}
-	 * labeled alternative in {@link ValkyrieParser#type}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitStringTypeSpec(ValkyrieParser.StringTypeSpecContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code BooleanTypeSpec}
-	 * labeled alternative in {@link ValkyrieParser#type}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBooleanTypeSpec(ValkyrieParser.BooleanTypeSpecContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code VectorTypeSpec}
-	 * labeled alternative in {@link ValkyrieParser#type}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVectorTypeSpec(ValkyrieParser.VectorTypeSpecContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#if_statement}.
 	 * @param ctx the parse tree
@@ -177,27 +148,6 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitWhile_statement(ValkyrieParser.While_statementContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code TOp}
-	 * labeled alternative in {@link ValkyrieParser#type_expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTOp(ValkyrieParser.TOpContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code TParens}
-	 * labeled alternative in {@link ValkyrieParser#type_expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTParens(ValkyrieParser.TParensContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code TTerm}
-	 * labeled alternative in {@link ValkyrieParser#type_expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTTerm(ValkyrieParser.TTermContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Call}
 	 * labeled alternative in {@link ValkyrieParser#expression}.
@@ -288,6 +238,27 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitInfix(ValkyrieParser.InfixContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TOp}
+	 * labeled alternative in {@link ValkyrieParser#type_expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTOp(ValkyrieParser.TOpContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TParens}
+	 * labeled alternative in {@link ValkyrieParser#type_expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTParens(ValkyrieParser.TParensContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TTerm}
+	 * labeled alternative in {@link ValkyrieParser#type_expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTTerm(ValkyrieParser.TTermContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#call_expr}.
 	 * @param ctx the parse tree
