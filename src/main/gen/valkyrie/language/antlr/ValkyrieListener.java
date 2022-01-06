@@ -260,18 +260,6 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitCall(ValkyrieParser.CallContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Op}
-	 * labeled alternative in {@link ValkyrieParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterOp(ValkyrieParser.OpContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code Op}
-	 * labeled alternative in {@link ValkyrieParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitOp(ValkyrieParser.OpContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code Control}
 	 * labeled alternative in {@link ValkyrieParser#expression}.
 	 * @param ctx the parse tree
@@ -331,6 +319,30 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitNegate(ValkyrieParser.NegateContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code EAdd}
+	 * labeled alternative in {@link ValkyrieParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterEAdd(ValkyrieParser.EAddContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code EAdd}
+	 * labeled alternative in {@link ValkyrieParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitEAdd(ValkyrieParser.EAddContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code EMul}
+	 * labeled alternative in {@link ValkyrieParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterEMul(ValkyrieParser.EMulContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code EMul}
+	 * labeled alternative in {@link ValkyrieParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitEMul(ValkyrieParser.EMulContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ITerm}
 	 * labeled alternative in {@link ValkyrieParser#inline_expression}.
@@ -415,6 +427,16 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitESpeicalLiteral(ValkyrieParser.ESpeicalLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#op_plus}.
+	 * @param ctx the parse tree
+	 */
+	void enterOp_plus(ValkyrieParser.Op_plusContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#op_plus}.
+	 * @param ctx the parse tree
+	 */
+	void exitOp_plus(ValkyrieParser.Op_plusContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#infix}.
 	 * @param ctx the parse tree

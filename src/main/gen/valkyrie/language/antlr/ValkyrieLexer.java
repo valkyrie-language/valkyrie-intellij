@@ -19,10 +19,10 @@ public class ValkyrieLexer extends Lexer {
 	public static final int
 		DOT=1, COMMA=2, SEMICOLON=3, OP_PROPORTION=4, COLON=5, OP_ARROW=6, OP_ARROW2=7, 
 		OP_EE=8, OP_NE=9, OP_EQ=10, PARENTHESES_L=11, PARENTHESES_R=12, BRACKET_L=13, 
-		BRACKET_R=14, BRACE_L=15, BRACE_R=16, SUB=17, MUL=18, DIV=19, ADD=20, 
-		LT=21, LE=22, GT=23, GE=24, OR=25, AND=26, AT=27, HASH=28, OP_NOT=29, 
-		KW_NOT=30, OP_IN=31, KW_IN=32, OP_NOT_IN=33, KW_IS=34, OP_IS=35, OP_IS_NOT=36, 
-		KW_AS=37, OP_UNTIL=38, OP_TEMPERATURE=39, OP_EMPTY=40, KW_NAMESPACE=41, 
+		BRACKET_R=14, BRACE_L=15, BRACE_R=16, OP_ADD=17, OP_SUB=18, OP_MUL=19, 
+		OP_DIV=20, LT=21, LE=22, GT=23, GE=24, OR=25, AND=26, AT=27, HASH=28, 
+		OP_NOT=29, KW_NOT=30, OP_IN=31, KW_IN=32, OP_NOT_IN=33, KW_IS=34, OP_IS=35, 
+		OP_IS_NOT=36, KW_AS=37, OP_UNTIL=38, OP_TEMPERATURE=39, OP_EMPTY=40, KW_NAMESPACE=41, 
 		KW_IMPORT=42, KW_EXTENSION=43, KW_EXTENDS=44, KW_CLASS=45, KW_TRAIT=46, 
 		KW_UNION=47, KW_TYPE=48, KW_LET=49, KW_FUNCTION=50, KW_WITCH=51, KW_WHILE=52, 
 		KW_FOR=53, INTEGER=54, DECIMAL=55, STRING=56, KW_IF=57, KW_ELSE=58, KW_OTHERWISE=59, 
@@ -41,16 +41,16 @@ public class ValkyrieLexer extends Lexer {
 		return new String[] {
 			"DOT", "COMMA", "SEMICOLON", "OP_PROPORTION", "COLON", "OP_ARROW", "OP_ARROW2", 
 			"OP_EE", "OP_NE", "OP_EQ", "PARENTHESES_L", "PARENTHESES_R", "BRACKET_L", 
-			"BRACKET_R", "BRACE_L", "BRACE_R", "SUB", "MUL", "DIV", "ADD", "LT", 
-			"LE", "GT", "GE", "OR", "AND", "AT", "HASH", "OP_NOT", "KW_NOT", "OP_IN", 
-			"KW_IN", "OP_NOT_IN", "KW_IS", "OP_IS", "OP_IS_NOT", "KW_AS", "OP_UNTIL", 
-			"OP_TEMPERATURE", "OP_EMPTY", "KW_NAMESPACE", "KW_IMPORT", "KW_EXTENSION", 
-			"KW_EXTENDS", "KW_CLASS", "KW_TRAIT", "KW_UNION", "KW_TYPE", "KW_LET", 
-			"KW_FUNCTION", "KW_WITCH", "KW_WHILE", "KW_FOR", "INTEGER", "DECIMAL", 
-			"EXP", "STRING", "ESC", "KW_IF", "KW_ELSE", "KW_OTHERWISE", "FROM", "RETURN", 
-			"RESUME", "YIELD", "BREAK", "CONTINUE", "RAISE", "CATCH", "NULL", "TRUE", 
-			"FALSE", "SPECIAL", "LINE_COMMENT", "BLOCK_COMMENT", "WHITE_SPACE", "ERROR_CHARACTAR", 
-			"UNICODE_ID", "XID_Start", "XID_Continue"
+			"BRACKET_R", "BRACE_L", "BRACE_R", "OP_ADD", "OP_SUB", "OP_MUL", "OP_DIV", 
+			"LT", "LE", "GT", "GE", "OR", "AND", "AT", "HASH", "OP_NOT", "KW_NOT", 
+			"OP_IN", "KW_IN", "OP_NOT_IN", "KW_IS", "OP_IS", "OP_IS_NOT", "KW_AS", 
+			"OP_UNTIL", "OP_TEMPERATURE", "OP_EMPTY", "KW_NAMESPACE", "KW_IMPORT", 
+			"KW_EXTENSION", "KW_EXTENDS", "KW_CLASS", "KW_TRAIT", "KW_UNION", "KW_TYPE", 
+			"KW_LET", "KW_FUNCTION", "KW_WITCH", "KW_WHILE", "KW_FOR", "INTEGER", 
+			"DECIMAL", "EXP", "STRING", "ESC", "KW_IF", "KW_ELSE", "KW_OTHERWISE", 
+			"FROM", "RETURN", "RESUME", "YIELD", "BREAK", "CONTINUE", "RAISE", "CATCH", 
+			"NULL", "TRUE", "FALSE", "SPECIAL", "LINE_COMMENT", "BLOCK_COMMENT", 
+			"WHITE_SPACE", "ERROR_CHARACTAR", "UNICODE_ID", "XID_Start", "XID_Continue"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -58,7 +58,7 @@ public class ValkyrieLexer extends Lexer {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "'.'", "','", "';'", null, null, null, null, "'=='", "'!='", "'='", 
-			"'('", "')'", "'['", "']'", "'{'", "'}'", "'-'", "'*'", "'/'", "'+'", 
+			"'('", "')'", "'['", "']'", "'{'", "'}'", "'+'", "'-'", "'*'", "'/'", 
 			"'<'", "'<='", "'>'", "'>='", "'||'", "'&&'", "'@'", "'#'", "'!'", "'not'", 
 			"'\\u2208'", "'in'", "'\\u2209'", "'is'", null, null, null, null, null, 
 			"'\\u2205'", null, null, "'extension'", null, null, null, "'union'", 
@@ -72,10 +72,10 @@ public class ValkyrieLexer extends Lexer {
 		return new String[] {
 			null, "DOT", "COMMA", "SEMICOLON", "OP_PROPORTION", "COLON", "OP_ARROW", 
 			"OP_ARROW2", "OP_EE", "OP_NE", "OP_EQ", "PARENTHESES_L", "PARENTHESES_R", 
-			"BRACKET_L", "BRACKET_R", "BRACE_L", "BRACE_R", "SUB", "MUL", "DIV", 
-			"ADD", "LT", "LE", "GT", "GE", "OR", "AND", "AT", "HASH", "OP_NOT", "KW_NOT", 
-			"OP_IN", "KW_IN", "OP_NOT_IN", "KW_IS", "OP_IS", "OP_IS_NOT", "KW_AS", 
-			"OP_UNTIL", "OP_TEMPERATURE", "OP_EMPTY", "KW_NAMESPACE", "KW_IMPORT", 
+			"BRACKET_L", "BRACKET_R", "BRACE_L", "BRACE_R", "OP_ADD", "OP_SUB", "OP_MUL", 
+			"OP_DIV", "LT", "LE", "GT", "GE", "OR", "AND", "AT", "HASH", "OP_NOT", 
+			"KW_NOT", "OP_IN", "KW_IN", "OP_NOT_IN", "KW_IS", "OP_IS", "OP_IS_NOT", 
+			"KW_AS", "OP_UNTIL", "OP_TEMPERATURE", "OP_EMPTY", "KW_NAMESPACE", "KW_IMPORT", 
 			"KW_EXTENSION", "KW_EXTENDS", "KW_CLASS", "KW_TRAIT", "KW_UNION", "KW_TYPE", 
 			"KW_LET", "KW_FUNCTION", "KW_WITCH", "KW_WHILE", "KW_FOR", "INTEGER", 
 			"DECIMAL", "STRING", "KW_IF", "KW_ELSE", "KW_OTHERWISE", "FROM", "RETURN", 
@@ -476,9 +476,9 @@ public class ValkyrieLexer extends Lexer {
 		"\u0000\u0000\u0000\u00c6\u00c7\u0005]\u0000\u0000\u00c7\u001c\u0001\u0000"+
 		"\u0000\u0000\u00c8\u00c9\u0005{\u0000\u0000\u00c9\u001e\u0001\u0000\u0000"+
 		"\u0000\u00ca\u00cb\u0005}\u0000\u0000\u00cb \u0001\u0000\u0000\u0000\u00cc"+
-		"\u00cd\u0005-\u0000\u0000\u00cd\"\u0001\u0000\u0000\u0000\u00ce\u00cf"+
-		"\u0005*\u0000\u0000\u00cf$\u0001\u0000\u0000\u0000\u00d0\u00d1\u0005/"+
-		"\u0000\u0000\u00d1&\u0001\u0000\u0000\u0000\u00d2\u00d3\u0005+\u0000\u0000"+
+		"\u00cd\u0005+\u0000\u0000\u00cd\"\u0001\u0000\u0000\u0000\u00ce\u00cf"+
+		"\u0005-\u0000\u0000\u00cf$\u0001\u0000\u0000\u0000\u00d0\u00d1\u0005*"+
+		"\u0000\u0000\u00d1&\u0001\u0000\u0000\u0000\u00d2\u00d3\u0005/\u0000\u0000"+
 		"\u00d3(\u0001\u0000\u0000\u0000\u00d4\u00d5\u0005<\u0000\u0000\u00d5*"+
 		"\u0001\u0000\u0000\u0000\u00d6\u00d7\u0005<\u0000\u0000\u00d7\u00d8\u0005"+
 		"=\u0000\u0000\u00d8,\u0001\u0000\u0000\u0000\u00d9\u00da\u0005>\u0000"+

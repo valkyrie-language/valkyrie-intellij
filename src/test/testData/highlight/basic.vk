@@ -19,14 +19,11 @@ trait TestTrait {
 
 
 
-def function() -> intt {
+def function(aa: TT) -> intt {
     let ak = false;
 }
 
 
-if a > 0 {
-    let ak = b;
-}
-else {
-    let ak = c;
+for ii in ee {
+    aa + (bb / ee - cc) * dd
 }

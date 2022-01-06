@@ -68,10 +68,9 @@ class ValkyrieProgramLexer : Lexer() {
             ValkyrieLexer.KW_FUNCTION,
             ValkyrieLexer.KW_LET,
             // conditional
-            ValkyrieLexer.KW_IF,
-            ValkyrieLexer.KW_ELSE,
+            ValkyrieLexer.KW_IF, ValkyrieLexer.KW_ELSE,
             // control flow
-            ValkyrieLexer.KW_FOR,
+            ValkyrieLexer.KW_FOR, ValkyrieLexer.KW_IN,
             // pattern match
             ValkyrieLexer.KW_WITCH,
             // control keywords
@@ -87,8 +86,9 @@ class ValkyrieProgramLexer : Lexer() {
         )
         val OperatorInfix: TokenSet = PSIElementTypeFactory.createTokenSet(
             ValkyrieLanguage,
-            ValkyrieLexer.OP_EQ,
-            ValkyrieLexer.OP_NE
+            ValkyrieLexer.OP_EQ, ValkyrieLexer.OP_NE,
+            ValkyrieLexer.OP_ADD, ValkyrieLexer.OP_SUB,
+            ValkyrieLexer.OP_MUL, ValkyrieLexer.OP_DIV,
         )
         val Operators = TokenSet.orSet(OperatorInfix);
 

@@ -59,7 +59,7 @@ function_parameters
     | PARENTHESES_L PARENTHESES_R
     ;
 function_parameter_item: identifier type_hint?;
-function_statements: top_statement | define_variale;
+function_statements:     top_statement | define_variale;
 // ===========================================================================
 define_method: identifier PARENTHESES_L PARENTHESES_R;
 // ===========================================================================
@@ -77,10 +77,13 @@ while_statement
     ;
 // ===========================================================================
 for_statement
-	: KW_FOR identifier (KW_IN|OP_IN) inline_expression BRACE_L function_statements* BRACE_R;
+    : KW_FOR identifier (KW_IN | OP_IN) inline_expression BRACE_L function_statements* BRACE_R
+    ;
 // ===========================================================================
 expression
-    : expression infix expression   # Op
+    :
+    expression op=(OP_MUL|OP_DIV) expression   # EMul
+    | expression op_plus expression   # EAdd
     | '-' expression                # Negate
     | call_expr                     # Call
     | identifier '[' expression ']' # Index
@@ -89,7 +92,9 @@ expression
     | term                          # ETerm
     ;
 inline_expression
-	: inline_expression infix inline_expression # IOP | term                          # ITerm;
+    : inline_expression infix inline_expression # IOP
+    | term                                      # ITerm
+    ;
 
 term
     : identifier        # EIdentifier
@@ -98,11 +103,13 @@ term
     | '[' expr_list ']' # EVector
     | SPECIAL           # ESpeicalLiteral
     ;
+
+op_plus: OP_ADD|OP_SUB;
 infix
-    : MUL
-    | DIV
-    | ADD
-    | SUB
+    : OP_MUL
+    | OP_DIV
+    | OP_ADD
+    | OP_SUB
     | GT
     | GE
     | LT
@@ -120,9 +127,6 @@ type_expression
     | '(' type_expression ')'               # TParens
     | term                                  # TTerm
     ;
-
-
-
 
 call_expr: namepath '(' expr_list? ')';
 

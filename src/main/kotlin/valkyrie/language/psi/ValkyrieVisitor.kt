@@ -4,6 +4,7 @@ import com.intellij.openapi.progress.ProgressManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiRecursiveVisitor
 import valkyrie.language.ast.ValkyrieClassStatement
+import valkyrie.language.ast.ValkyrieFunctionItem
 import valkyrie.language.ast.ValkyrieProgramNode
 import valkyrie.language.ast.ValkyrieTraitStatement
 
@@ -15,12 +16,16 @@ open class ValkyrieRecursiveVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveV
             is ValkyrieProgramNode -> visitProgram(element)
             is ValkyrieClassStatement -> visitClassDeclaration(element)
             is ValkyrieTraitStatement -> visitTraitDeclaration(element)
+            is ValkyrieFunctionItem -> visitFunctionItem(element)
+
+
             else -> {
                 visitOther(element)
             }
         }
         element.acceptChildren(this)
     }
+
 
     open fun visitProgram(node: ValkyrieProgramNode) {
 
@@ -33,6 +38,11 @@ open class ValkyrieRecursiveVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveV
     open fun visitTraitDeclaration(node: ValkyrieTraitStatement) {
 
     }
+
+    open fun visitFunctionItem(node: ValkyrieFunctionItem) {
+
+    }
+
     open fun visitOther(node: PsiElement) {
 
     }

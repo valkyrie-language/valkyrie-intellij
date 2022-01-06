@@ -12,14 +12,12 @@ import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory
-import org.antlr.intellij.adaptor.lexer.RuleIElementType
 import org.antlr.intellij.adaptor.lexer.TokenIElementType
 import org.antlr.intellij.adaptor.parser.ANTLRParserAdaptor
 import org.antlr.intellij.adaptor.psi.ANTLRPsiNode
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.antlr.ValkyrieLexer
 import valkyrie.language.antlr.ValkyrieParser
-import valkyrie.language.ast.*
 import valkyrie.language.file.ValkyrieFileNode
 
 class ValkyrieParserDefinition : ParserDefinition {
@@ -97,20 +95,7 @@ class ValkyrieParserDefinition : ParserDefinition {
      */
     override fun createElement(node: ASTNode): PsiElement {
         return if (node is CompositeElement) {
-            val type: RuleIElementType = node.elementType as RuleIElementType;
-            when (type.ruleIndex) {
-                ValkyrieParser.RULE_program -> ValkyrieProgramNode(node, type)
-                ValkyrieParser.RULE_define_namespace -> ValkyrieNamespaceDeclaration(node, type)
-                ValkyrieParser.RULE_define_class -> ValkyrieClassStatement(node, type)
-                ValkyrieParser.RULE_define_trait -> ValkyrieTraitStatement(node, type)
-                ValkyrieParser.RULE_define_function -> ValkyrieFunctionStatement(node, type)
-                ValkyrieParser.RULE_namepath_free -> ValkyrieNamepathNode(node, type, true)
-                ValkyrieParser.RULE_namepath -> ValkyrieNamepathNode(node, type)
-                ValkyrieParser.RULE_identifier -> ValkyrieIdentifierNode(node, type)
-                else -> {
-                    ANTLRPsiNode(node)
-                }
-            }
+            ValkyrieProgramParser.extractCompositeNode(node)
         } else {
             println("create element of ${node.javaClass.name}: ${node.elementType}(${node.text})")
             ANTLRPsiNode(node)

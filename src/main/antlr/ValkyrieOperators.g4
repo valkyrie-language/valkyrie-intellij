@@ -30,10 +30,10 @@ BRACE_L:       '{';
 BRACE_R:       '}';
 
 // infix
-SUB:  '-';
-MUL:  '*';
-DIV:  '/';
-ADD:  '+';
+OP_ADD:  '+';
+OP_SUB:  '-';
+OP_MUL:  '*';
+OP_DIV:  '/';
 LT:   '<';
 LE:   '<=';
 

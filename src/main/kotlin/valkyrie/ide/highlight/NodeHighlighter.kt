@@ -10,6 +10,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.language.ast.ValkyrieClassStatement
+import valkyrie.language.ast.ValkyrieFunctionItem
 import valkyrie.language.ast.ValkyrieIdentifierNode
 import valkyrie.language.ast.ValkyrieTraitStatement
 import valkyrie.language.file.ValkyrieFileNode
@@ -29,6 +30,9 @@ class NodeHighlighter : ValkyrieRecursiveVisitor(), HighlightVisitor {
         highlight(node.nameIdentifier, Color.SYM_TRAIT)
     }
 
+    override fun visitFunctionItem(node: ValkyrieFunctionItem) {
+        highlight(node.nameIdentifier, Color.SYM_ARG)
+    }
 
 // =================================================================================================================
 

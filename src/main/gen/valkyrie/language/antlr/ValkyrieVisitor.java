@@ -162,13 +162,6 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCall(ValkyrieParser.CallContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Op}
-	 * labeled alternative in {@link ValkyrieParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitOp(ValkyrieParser.OpContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code Control}
 	 * labeled alternative in {@link ValkyrieParser#expression}.
 	 * @param ctx the parse tree
@@ -203,6 +196,20 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitNegate(ValkyrieParser.NegateContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code EAdd}
+	 * labeled alternative in {@link ValkyrieParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEAdd(ValkyrieParser.EAddContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code EMul}
+	 * labeled alternative in {@link ValkyrieParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEMul(ValkyrieParser.EMulContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ITerm}
 	 * labeled alternative in {@link ValkyrieParser#inline_expression}.
@@ -252,6 +259,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitESpeicalLiteral(ValkyrieParser.ESpeicalLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#op_plus}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOp_plus(ValkyrieParser.Op_plusContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#infix}.
 	 * @param ctx the parse tree
