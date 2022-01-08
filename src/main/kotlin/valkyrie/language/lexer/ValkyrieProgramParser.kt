@@ -24,7 +24,9 @@ class ValkyrieProgramParser(parser: ValkyrieParser) : ANTLRParserAdaptor(Valkyri
             return when (type.ruleIndex) {
                 ValkyrieParser.RULE_program -> ValkyrieProgramNode(node, type)
                 ValkyrieParser.RULE_define_namespace -> ValkyrieNamespaceDeclaration(node, type)
+                // class
                 ValkyrieParser.RULE_define_class -> ValkyrieClassStatement(node, type)
+                ValkyrieParser.RULE_class_field -> ValkyrieClassFieldNode(node, type)
                 ValkyrieParser.RULE_define_trait -> ValkyrieTraitStatement(node, type)
                 ValkyrieParser.RULE_define_function -> ValkyrieFunctionStatement(node, type)
                 ValkyrieParser.RULE_parameter_item -> ValkyrieFunctionItem(node, type)

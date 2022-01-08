@@ -7,21 +7,22 @@ import valkyrie.language.ast.*
 
 open class ValkyrieRecursiveVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveVisitor {
 
-    override fun visitElement(element: PsiElement) {
+    override fun visitElement(node: PsiElement) {
         ProgressManager.checkCanceled()
-        when (element) {
-            is ValkyrieProgramNode -> visitProgram(element)
-            is ValkyrieClassStatement -> visitClassDeclaration(element)
-            is ValkyrieTraitStatement -> visitTraitDeclaration(element)
-            is ValkyrieFunctionStatement -> visitFunctionDeclaration(element)
-            is ValkyrieFunctionItem -> visitFunctionItem(element)
+        when (node) {
+            is ValkyrieProgramNode -> visitProgram(node)
+            is ValkyrieClassStatement -> visitClassDeclaration(node)
+            is ValkyrieClassFieldNode -> visitClassField(node)
+            is ValkyrieTraitStatement -> visitTraitDeclaration(node)
+            is ValkyrieFunctionStatement -> visitFunctionDeclaration(node)
+            is ValkyrieFunctionItem -> visitFunctionItem(node)
 
 
             else -> {
-                visitOther(element)
+                visitOther(node)
             }
         }
-        element.acceptChildren(this)
+        node.acceptChildren(this)
     }
 
 
@@ -33,9 +34,14 @@ open class ValkyrieRecursiveVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveV
 
     }
 
+    open fun visitClassField(node: ValkyrieClassFieldNode) {
+
+    }
+
     open fun visitTraitDeclaration(node: ValkyrieTraitStatement) {
 
     }
+
     open fun visitFunctionDeclaration(node: ValkyrieFunctionStatement) {
 
     }

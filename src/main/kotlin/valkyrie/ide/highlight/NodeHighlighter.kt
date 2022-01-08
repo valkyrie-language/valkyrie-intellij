@@ -21,6 +21,13 @@ class NodeHighlighter : ValkyrieRecursiveVisitor(), HighlightVisitor {
     override fun visitClassDeclaration(node: ValkyrieClassStatement) {
         highlight(node.nameIdentifier, Color.SYM_CLASS)
     }
+
+    override fun visitClassField(node: ValkyrieClassFieldNode) {
+        highlight(node.nameIdentifier, Color.SYM_FIELD)
+        for (mod in node.modifiers) {
+            highlight(mod, Color.MODIFIER)
+        }
+    }
     override fun visitTraitDeclaration(node: ValkyrieTraitStatement) {
         highlight(node.nameIdentifier, Color.SYM_TRAIT)
     }

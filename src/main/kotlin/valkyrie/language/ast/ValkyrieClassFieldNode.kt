@@ -8,17 +8,25 @@ import org.antlr.intellij.adaptor.psi.IdentifierDefSubtree
 import org.antlr.intellij.adaptor.psi.ScopeNode
 
 class ValkyrieClassFieldNode(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ScopeNode {
-    override fun getName(): String {
-        return super.getName()!!
+    val field: ValkyrieIdentifierNode;
+    val modifiers: Array<ValkyrieIdentifierNode>;
+
+    init {
+        val fields = findChildrenByClass(ValkyrieIdentifierNode::class.java);
+        field = fields.last()
+        modifiers = fields.dropLast(1).toTypedArray()
     }
 
-    override fun getNameIdentifier(): PsiElement {
-        return super.getNameIdentifier()!!
+    override fun getName(): String {
+        return field.name
+    }
+
+    override fun getNameIdentifier(): ValkyrieIdentifierNode {
+        return field
     }
 
     override fun resolve(element: PsiNamedElement?): PsiElement? {
         TODO("Not yet implemented")
     }
-
 }
 

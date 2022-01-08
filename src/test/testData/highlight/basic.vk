@@ -5,7 +5,8 @@ let ak = true;
 
 
 class TestClass {
-
+readonly field: u32,
+readonly field: f64;
 }
 
 union TestUnion {
