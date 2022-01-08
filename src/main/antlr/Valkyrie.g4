@@ -53,12 +53,13 @@ define_function
     : KW_FUNCTION namepath function_parameters type_hint? BRACE_L function_statements* BRACE_R
     ;
 function_parameters
-    : PARENTHESES_L function_parameter_item (
-        COMMA function_parameter_item
+    : PARENTHESES_L parameter_item (
+        COMMA parameter_item
     )* PARENTHESES_R
     | PARENTHESES_L PARENTHESES_R
     ;
-function_parameter_item: identifier type_hint?;
+parameter_item: identifier type_hint? parameter_default?;
+parameter_default: OP_EQ inline_expression;
 function_statements:     top_statement | define_variale;
 // ===========================================================================
 define_method: identifier PARENTHESES_L PARENTHESES_R;
@@ -84,6 +85,7 @@ expression
     :
     expression op=(OP_MUL|OP_DIV) expression   # EMul
     | expression op_plus expression   # EAdd
+    | expression op_logic expression   # ELogic
     | '-' expression                # Negate
     | call_expr                     # Call
     | identifier '[' expression ']' # Index
@@ -105,6 +107,8 @@ term
     ;
 
 op_plus: OP_ADD|OP_SUB;
+op_logic: LOGIC_OR| LOGIC_AND;
+
 infix
     : OP_MUL
     | OP_DIV
@@ -115,8 +119,8 @@ infix
     | LT
     | LE
     // | OP_EE | OP_NE
-    | OR
-    | AND
+    | LOGIC_OR
+    | LOGIC_AND
     | DOT
     | KW_IS
     | KW_IS KW_NOT

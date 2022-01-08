@@ -9,10 +9,7 @@ import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.language.ast.ValkyrieClassStatement
-import valkyrie.language.ast.ValkyrieFunctionItem
-import valkyrie.language.ast.ValkyrieIdentifierNode
-import valkyrie.language.ast.ValkyrieTraitStatement
+import valkyrie.language.ast.*
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.psi.ValkyrieRecursiveVisitor
 //import valkyrie.language.psi_node.ValkyrieIdentifierNode
@@ -21,19 +18,18 @@ import valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 class NodeHighlighter : ValkyrieRecursiveVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
 
-
     override fun visitClassDeclaration(node: ValkyrieClassStatement) {
         highlight(node.nameIdentifier, Color.SYM_CLASS)
     }
-
     override fun visitTraitDeclaration(node: ValkyrieTraitStatement) {
         highlight(node.nameIdentifier, Color.SYM_TRAIT)
     }
-
+    override fun visitFunctionDeclaration(node: ValkyrieFunctionStatement) {
+        highlight(node.nameIdentifier, Color.SYM_FUNCTION_FREE)
+    }
     override fun visitFunctionItem(node: ValkyrieFunctionItem) {
         highlight(node.nameIdentifier, Color.SYM_ARG)
     }
-
 // =================================================================================================================
 
     fun highlight(element: PsiElement?, color: Color) {

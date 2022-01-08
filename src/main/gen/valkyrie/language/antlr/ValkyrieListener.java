@@ -168,15 +168,25 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitFunction_parameters(ValkyrieParser.Function_parametersContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ValkyrieParser#function_parameter_item}.
+	 * Enter a parse tree produced by {@link ValkyrieParser#parameter_item}.
 	 * @param ctx the parse tree
 	 */
-	void enterFunction_parameter_item(ValkyrieParser.Function_parameter_itemContext ctx);
+	void enterParameter_item(ValkyrieParser.Parameter_itemContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ValkyrieParser#function_parameter_item}.
+	 * Exit a parse tree produced by {@link ValkyrieParser#parameter_item}.
 	 * @param ctx the parse tree
 	 */
-	void exitFunction_parameter_item(ValkyrieParser.Function_parameter_itemContext ctx);
+	void exitParameter_item(ValkyrieParser.Parameter_itemContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#parameter_default}.
+	 * @param ctx the parse tree
+	 */
+	void enterParameter_default(ValkyrieParser.Parameter_defaultContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#parameter_default}.
+	 * @param ctx the parse tree
+	 */
+	void exitParameter_default(ValkyrieParser.Parameter_defaultContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#function_statements}.
 	 * @param ctx the parse tree
@@ -295,6 +305,18 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParens(ValkyrieParser.ParensContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ELogic}
+	 * labeled alternative in {@link ValkyrieParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterELogic(ValkyrieParser.ELogicContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ELogic}
+	 * labeled alternative in {@link ValkyrieParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitELogic(ValkyrieParser.ELogicContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code Index}
 	 * labeled alternative in {@link ValkyrieParser#expression}.
@@ -437,6 +459,16 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitOp_plus(ValkyrieParser.Op_plusContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#op_logic}.
+	 * @param ctx the parse tree
+	 */
+	void enterOp_logic(ValkyrieParser.Op_logicContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#op_logic}.
+	 * @param ctx the parse tree
+	 */
+	void exitOp_logic(ValkyrieParser.Op_logicContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#infix}.
 	 * @param ctx the parse tree

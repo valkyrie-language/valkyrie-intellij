@@ -209,13 +209,25 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunction_parameter_item(ValkyrieParser.Function_parameter_itemContext ctx) { }
+	@Override public void enterParameter_item(ValkyrieParser.Parameter_itemContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFunction_parameter_item(ValkyrieParser.Function_parameter_itemContext ctx) { }
+	@Override public void exitParameter_item(ValkyrieParser.Parameter_itemContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterParameter_default(ValkyrieParser.Parameter_defaultContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParameter_default(ValkyrieParser.Parameter_defaultContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -348,6 +360,18 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitParens(ValkyrieParser.ParensContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterELogic(ValkyrieParser.ELogicContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitELogic(ValkyrieParser.ELogicContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -492,6 +516,18 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitOp_plus(ValkyrieParser.Op_plusContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOp_logic(ValkyrieParser.Op_logicContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOp_logic(ValkyrieParser.Op_logicContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

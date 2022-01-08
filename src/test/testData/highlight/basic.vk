@@ -19,11 +19,11 @@ trait TestTrait {
 
 
 
-def function(aa: TT) -> intt {
-    let ak = false;
+def function(aa: AType = 22) -> ReturnType {
+let ak = true || false && null;
 }
 
 
 for ii in ee {
-    aa + (bb / ee - cc) * dd
+aa + (bb / ee - cc) * dd
 }

@@ -89,6 +89,7 @@ class ValkyrieProgramLexer : Lexer() {
             ValkyrieLexer.OP_EQ, ValkyrieLexer.OP_NE,
             ValkyrieLexer.OP_ADD, ValkyrieLexer.OP_SUB,
             ValkyrieLexer.OP_MUL, ValkyrieLexer.OP_DIV,
+            ValkyrieLexer.LOGIC_OR, ValkyrieLexer.LOGIC_AND
         )
         val Operators = TokenSet.orSet(OperatorInfix);
 

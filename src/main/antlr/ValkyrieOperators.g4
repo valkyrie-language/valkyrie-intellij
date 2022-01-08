@@ -39,8 +39,9 @@ LE:   '<=';
 
 GT:  '>';
 GE:  '>=';
-OR:  '||';
-AND: '&&';
+
+LOGIC_OR:  '||';
+LOGIC_AND: '&&';
 
 AT:   '@';
 HASH: '#';
@@ -49,7 +50,7 @@ HASH: '#';
 OP_NOT: '!';
 KW_NOT: 'not';
 // in
-OP_IN: '∈';
+OP_IN: '∈' | '∊';
 KW_IN:  'in';
 OP_NOT_IN: '∉';
 
@@ -80,8 +81,7 @@ OP_EMPTY: '∅';
 // with ! "!!" -> pushToken(ValkyrieTypes.OP_NE, r) "!=" -> pushToken(ValkyrieTypes.OP_NE, r) "!" ->
 // pushToken(ValkyrieTypes.OP_NOT, r) "|" -> pushToken(ValkyrieTypes.OP_OR, r) // start with ? "???"
 // -> pushToken(ValkyrieTypes.OP_UNIMPLEMENTED, r) "?" -> pushToken(ValkyrieTypes.OP_QUESTION, r) //
-// start with ^ "^" -> pushToken(ValkyrieTypes.OP_POW, r) // start with = "∈", "∊" -> {
-// pushToken(ValkyrieTypes.OP_IN, r) }
+// start with ^ "^" -> pushToken(ValkyrieTypes.OP_POW, r)
 // 
 // slots "$" -> pushToken(ValkyrieTypes.SLOT_LAMBDA, r) "§" -> pushToken(ValkyrieTypes.SLOT_MACRO,
 // r) "¶" -> pushToken(ValkyrieTypes.OP_QUOTE, r) "⟦" -> { pushToken(ValkyrieTypes.SLICE_L, r) }

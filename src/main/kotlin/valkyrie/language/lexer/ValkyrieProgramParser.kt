@@ -27,15 +27,14 @@ class ValkyrieProgramParser(parser: ValkyrieParser) : ANTLRParserAdaptor(Valkyri
                 ValkyrieParser.RULE_define_class -> ValkyrieClassStatement(node, type)
                 ValkyrieParser.RULE_define_trait -> ValkyrieTraitStatement(node, type)
                 ValkyrieParser.RULE_define_function -> ValkyrieFunctionStatement(node, type)
-                ValkyrieParser.RULE_function_parameter_item -> ValkyrieFunctionItem(node, type)
-
+                ValkyrieParser.RULE_parameter_item -> ValkyrieFunctionItem(node, type)
                 ValkyrieParser.RULE_expression -> extractExpression(node)
+                // atomic
                 ValkyrieParser.RULE_namepath_free -> ValkyrieNamepathNode(node, type, true)
                 ValkyrieParser.RULE_namepath -> ValkyrieNamepathNode(node, type)
                 ValkyrieParser.RULE_identifier -> ValkyrieIdentifierNode(node, type)
-                else -> {
-                    ANTLRPsiNode(node)
-                }
+                ValkyrieParser.RULE_number -> ValkyrieNumberNode(node)
+                else -> ANTLRPsiNode(node)
             }
         }
     }
@@ -44,7 +43,7 @@ class ValkyrieProgramParser(parser: ValkyrieParser) : ANTLRParserAdaptor(Valkyri
 private fun extractExpression(node: CompositeElement): ANTLRPsiNode {
     val infix = node.findPsiChildByType(ValkyrieProgramLexer.OperatorInfix);
     return if (infix == null) {
-        println("extractExpression: ${node.elementType} ${node.text}")
+//        println("extractExpression: ${node.elementType} ${node.text}")
         ANTLRPsiNode(node)
     } else {
         ValkyrieBinaryExpression(node, infix)

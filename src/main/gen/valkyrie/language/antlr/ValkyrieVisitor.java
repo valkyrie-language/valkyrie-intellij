@@ -107,11 +107,17 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunction_parameters(ValkyrieParser.Function_parametersContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ValkyrieParser#function_parameter_item}.
+	 * Visit a parse tree produced by {@link ValkyrieParser#parameter_item}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitFunction_parameter_item(ValkyrieParser.Function_parameter_itemContext ctx);
+	T visitParameter_item(ValkyrieParser.Parameter_itemContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#parameter_default}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParameter_default(ValkyrieParser.Parameter_defaultContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#function_statements}.
 	 * @param ctx the parse tree
@@ -182,6 +188,13 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitParens(ValkyrieParser.ParensContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ELogic}
+	 * labeled alternative in {@link ValkyrieParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitELogic(ValkyrieParser.ELogicContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Index}
 	 * labeled alternative in {@link ValkyrieParser#expression}.
@@ -265,6 +278,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitOp_plus(ValkyrieParser.Op_plusContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#op_logic}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOp_logic(ValkyrieParser.Op_logicContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#infix}.
 	 * @param ctx the parse tree
