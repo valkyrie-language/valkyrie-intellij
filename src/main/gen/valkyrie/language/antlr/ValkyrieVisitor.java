@@ -354,6 +354,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitControl_expression(ValkyrieParser.Control_expressionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#macro_call}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMacro_call(ValkyrieParser.Macro_callContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#namepath_free}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

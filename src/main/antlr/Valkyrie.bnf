@@ -269,8 +269,6 @@ forall_block        ::= <<brace_block (expression COLON expression) separator>>;
 // ---------------------------------------------------------------------------------------------------------------------
 class_statement     ::= KW_CLASS <<modified identifier>> [generic_define] [class_inherit] [class_effect] class_block {
     pin = 2
-    mixin = "valkyrie.language.mixin.MixinClass"
-    methods = [getIdentifier getModifiers]
 };
 class_effect        ::= (OP_DIV|KW_RAISE) type_expression;
 class_block         ::= <<brace_free class_item separator>> {
@@ -364,7 +362,7 @@ private op_prefix ::= OP_ADD | OP_SUB | OP_NOT | BANG | AMP | DOT3 | DOT2;
 private op_suffix ::= BANG | OP_QUESTION | OP_TEMPERATURE;
 call_suffix       ::= <<parenthesis expression COMMA>>;
 // ---------------------------------------------------------------------------------------------------------------------
-macro_call        ::= (OP_AT|OP_HASH) namepath_free [macro_block] {
+macro_call        ::= OP_HASH namepath_free [macro_block] {
     mixin="valkyrie.language.mixin.MixinMacroCall"
 }
 macro_list        ::= (OP_AT|OP_HASH) <<bracket_block (namepath_free [macro_block]) COMMA>> {
@@ -388,7 +386,6 @@ slice_item     ::=
   | [expression] OP_PROPORTION [expression]
   | expression;
 // ---------------------------------------------------------------------------------------------------------------------
-boolean        ::= "true" | "false";
 number         ::= (INTEGER | DECIMAL) [NUMBER_SUFFIX] {
     mixin="valkyrie.language.mixin.MixinNumber"
 }
@@ -396,23 +393,9 @@ string         ::= [identifier] STRING_START STRING_TEXT STRING_END {
     mixin="valkyrie.language.mixin.MixinString"
 }
 // ---------------------------------------------------------------------------------------------------------------------
-namepath_free  ::= identifier ((DOT|OP_PROPORTION) identifier)* {
-    mixin="valkyrie.language.mixin.MixinNamepath"
-}
-namepath       ::= identifier (OP_PROPORTION identifier)* {
-    mixin="valkyrie.language.mixin.MixinNamepath"
-}
 identifier     ::= [SLOT_LAMBDA|SLOT_MACRO] (SYMBOL_XID | SYMBOL_RAW | KW_CLASS) {
     mixin="valkyrie.language.mixin.MixinIdentifier"
 }
-modifiers      ::= (identifier !end_m1)+ {
-    mixin="valkyrie.language.mixin.MixinModifier"
-};
-private end_m1 ::= (
-    COLON|OP_PROPORTION|SEMICOLON|
-    BRACKET_L|BRACKET_R|PARENTHESIS_L|PARENTHESIS_R|BRACE_L|BRACE_R
-    COMMA|OP_SET|OP_EQ|DOT|COMMA|OP_IN
-);
 // ---------------------------------------------------------------------------------------------------------------------
 private separator          ::= COMMA | SEMICOLON;
 meta modified              ::= [modifiers] <<item>> {

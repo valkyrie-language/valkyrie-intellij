@@ -44,7 +44,7 @@ LOGIC_OR:  '||';
 LOGIC_AND: '&&';
 
 AT:   '@';
-HASH: '#';
+HASH: '#' | '##' | '#!';
 
 // not
 OP_NOT: '!';

@@ -32,11 +32,11 @@ import_statement: KW_IMPORT namepath_free;
 define_extension: KW_EXTENSION;
 // ===========================================================================
 define_class
-    : KW_CLASS namepath class_inherit? BRACE_L class_statements* BRACE_R
+    : macro_call* KW_CLASS namepath class_inherit? BRACE_L class_statements* BRACE_R
     ;
 class_statements: define_method | class_field | class_eos;
 class_inherit:    PARENTHESES_L namepath? PARENTHESES_R;
-class_field: identifier+ type_hint? parameter_default?;
+class_field: macro_call* identifier+ type_hint? parameter_default?;
 class_eos: COMMA | SEMICOLON;
 // ===========================================================================
 define_trait
@@ -133,6 +133,8 @@ control_expression
     | YIELD BREAK expression
     | YIELD FROM expression
     ;
+// ===========================================================================
+macro_call: HASH namepath;
 
 // namepath
 namepath_free: identifier ((OP_PROPORTION | DOT) identifier)*;

@@ -3,11 +3,13 @@ namespace ad::bd::cd
 let ak = true;
 
 
-
+#call
 class TestClass {
-readonly field: u32,
-readonly field: f64;
+#call
+readonly field1: u32,
+readonly field2: f64;
 }
+
 
 union TestUnion {
 
@@ -20,7 +22,7 @@ trait TestTrait {
 
 
 
-def function(aa: AType = 22) -> ReturnType {
+def function(aa: AType = 22, bb: AType = null) -> ReturnType {
 let ak = true || false && null;
 }
 
