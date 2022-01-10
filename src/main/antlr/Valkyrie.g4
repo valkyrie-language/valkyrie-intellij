@@ -14,7 +14,9 @@ top_statement
     | define_extension eos?
     | define_class eos?
     | define_union eos?
+    | define_bitflags eos?
     | define_trait eos?
+    | define_extends eos?
     | define_function eos?
     | define_type eos?
     | define_variale eos?
@@ -24,6 +26,7 @@ top_statement
     | expression eos?
     ;
 eos: SEMICOLON;
+eos_free: COMMA | SEMICOLON;
 // ===========================================================================
 define_namespace: KW_NAMESPACE namepath_free;
 // ===========================================================================
@@ -34,20 +37,34 @@ define_extension: KW_EXTENSION;
 define_class
     : macro_call* KW_CLASS namepath class_inherit? BRACE_L class_statements* BRACE_R
     ;
-class_statements: define_method | class_field | class_eos;
+class_statements: class_method | class_field | eos_free;
 class_inherit:    PARENTHESES_L namepath? PARENTHESES_R;
-class_field: macro_call* identifier+ type_hint? parameter_default?;
-class_eos: COMMA | SEMICOLON;
+class_field
+    : macro_call* identifier+ type_hint? parameter_default?
+    ;
+class_method:
+    macro_call* identifier+ function_parameters type_hint? effect_hint?;
+
+
 // ===========================================================================
 define_trait
-    : KW_TRAIT namepath BRACE_L trait_statements* BRACE_R
+    : KW_TRAIT namepath BRACE_L class_statements* BRACE_R
     ;
-trait_statements: define_method eos?;
+// ===========================================================================
+define_extends
+    : KW_EXTENDS namepath BRACE_L class_statements* BRACE_R
+    ;
 // ===========================================================================
 define_union
     : KW_UNION namepath BRACE_L union_statements* BRACE_R
     ;
 union_statements: define_function eos?;
+// ===========================================================================
+define_bitflags
+	: KW_BITFLAGS namepath BRACE_L bitflags_statements* BRACE_R;
+bitflags_statements:
+	bitflags_item | eos_free;
+bitflags_item: identifier (OP_EQ expression)?;
 // ===========================================================================
 define_variale: KW_LET identifier OP_EQ expression;
 // ===========================================================================
@@ -62,8 +79,6 @@ function_parameters
 parameter_item:      identifier type_hint? parameter_default?;
 parameter_default:   OP_EQ inline_expression;
 function_statements: top_statement | define_variale;
-// ===========================================================================
-define_method: identifier PARENTHESES_L PARENTHESES_R;
 // ===========================================================================
 define_type: KW_TYPE identifier OP_EQ identifier;
 type_hint:   (COLON | OP_ARROW) type_expression;
@@ -80,7 +95,7 @@ while_statement
     ;
 // ===========================================================================
 for_statement
-    : KW_FOR identifier (KW_IN | OP_IN) inline_expression BRACE_L function_statements* BRACE_R
+    : KW_FOR identifier infix_in inline_expression BRACE_L function_statements* BRACE_R
     ;
 // ===========================================================================
 expression
@@ -88,29 +103,39 @@ expression
     | expression op_plus expression       # EAdd
     | expression op_logic expression      # ELogic
     | expression infix_is type_expression # EIs
-    | namepath '(' expr_list? ')'         # ECall
-    | identifier '[' expression ']'       # EIndex
-    | '(' expression ')'                  # EParens
     | control_expression                  # EControl
+    | namepath '(' expr_list? ')'         # ECall
+    | namepath '[' expression ']'         # EIndex
     | term                                # ETerm
     ;
-inline_expression
-    : inline_expression infix inline_expression # IOP
-    | term                                      # ITerm
+control_expression
+    : RETURN expression
+    | RESUME expression
+    | BREAK
+    | CONTINUE
+    | RAISE expression
+    | YIELD RETURN? expression
+    | YIELD BREAK expression
+    | YIELD FROM expression
     ;
-
+inline_expression
+    : inline_expression op_multiple inline_expression # IMul
+    | term                                            # ITerm
+    ;
 term
-    : identifier        # EIdentifier
-    | number            # ENumber
-    | STRING            # EString
-    | '[' expr_list ']' # EVector
-    | SPECIAL           # ESpeicalLiteral
+    : identifier         # EIdentifier
+    | number             # ENumber
+    | STRING             # EString
+    | '(' expression ')' # EParens
+    | '[' expr_list ']'  # EVector
+    | SPECIAL            # ESpeicalLiteral
     ;
 
 op_multiple: OP_MUL | OP_DIV;
 op_plus:     OP_ADD | OP_SUB;
 op_logic:    LOGIC_OR | LOGIC_AND;
 infix_is:    KW_IS | KW_IS KW_NOT;
+infix_in:    KW_IN | OP_IN;
 
 infix: GT | GE | LT | LE | OP_EE | OP_NE;
 // ===========================================================================
@@ -122,17 +147,6 @@ type_expression
 
 expr_list: expression (COMMA expression)*;
 
-// controls
-control_expression
-    : RETURN expression
-    | RESUME expression
-    | BREAK
-    | CONTINUE
-    | RAISE expression
-    | YIELD RETURN? expression
-    | YIELD BREAK expression
-    | YIELD FROM expression
-    ;
 // ===========================================================================
 macro_call: HASH namepath;
 

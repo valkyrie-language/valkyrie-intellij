@@ -11,6 +11,7 @@ import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
+
 class ValkyrieClassFieldNode(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ScopeNode {
     val field: ValkyrieIdentifierNode;
     val modifiers: Array<ValkyrieIdentifierNode>;

@@ -27,7 +27,7 @@ class ValkyrieRenameHandler : RenameHandler {
             val message = ValkyrieBundle.message("rename.invalid.keyword", element.elementType!!)
             CommonRefactoringUtil.showErrorHint(project, editor, message, "getTitle", "getHelpId")
         }
-        else if (ValkyrieProgramLexer.Id.contains(element.elementType) ) {
+        else if (ValkyrieProgramLexer.Identifiers.contains(element.elementType) ) {
             invoke(project, arrayOf(element), dataContext)
         }
         else {

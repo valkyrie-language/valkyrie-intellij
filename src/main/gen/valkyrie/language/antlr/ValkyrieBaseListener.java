@@ -53,6 +53,18 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterEos_free(ValkyrieParser.Eos_freeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEos_free(ValkyrieParser.Eos_freeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterDefine_namespace(ValkyrieParser.Define_namespaceContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -137,13 +149,13 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterClass_eos(ValkyrieParser.Class_eosContext ctx) { }
+	@Override public void enterClass_method(ValkyrieParser.Class_methodContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitClass_eos(ValkyrieParser.Class_eosContext ctx) { }
+	@Override public void exitClass_method(ValkyrieParser.Class_methodContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -161,13 +173,13 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTrait_statements(ValkyrieParser.Trait_statementsContext ctx) { }
+	@Override public void enterDefine_extends(ValkyrieParser.Define_extendsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTrait_statements(ValkyrieParser.Trait_statementsContext ctx) { }
+	@Override public void exitDefine_extends(ValkyrieParser.Define_extendsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -192,6 +204,42 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitUnion_statements(ValkyrieParser.Union_statementsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDefine_bitflags(ValkyrieParser.Define_bitflagsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDefine_bitflags(ValkyrieParser.Define_bitflagsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBitflags_statements(ValkyrieParser.Bitflags_statementsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBitflags_statements(ValkyrieParser.Bitflags_statementsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBitflags_item(ValkyrieParser.Bitflags_itemContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBitflags_item(ValkyrieParser.Bitflags_itemContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -269,18 +317,6 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDefine_method(ValkyrieParser.Define_methodContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDefine_method(ValkyrieParser.Define_methodContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterDefine_type(ValkyrieParser.Define_typeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -348,18 +384,6 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFor_statement(ValkyrieParser.For_statementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterEParens(ValkyrieParser.EParensContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEParens(ValkyrieParser.EParensContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -461,6 +485,18 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterControl_expression(ValkyrieParser.Control_expressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitControl_expression(ValkyrieParser.Control_expressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterITerm(ValkyrieParser.ITermContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -473,13 +509,13 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIOP(ValkyrieParser.IOPContext ctx) { }
+	@Override public void enterIMul(ValkyrieParser.IMulContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIOP(ValkyrieParser.IOPContext ctx) { }
+	@Override public void exitIMul(ValkyrieParser.IMulContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -516,6 +552,18 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitEString(ValkyrieParser.EStringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEParens(ValkyrieParser.EParensContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEParens(ValkyrieParser.EParensContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -593,6 +641,18 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterInfix_in(ValkyrieParser.Infix_inContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInfix_in(ValkyrieParser.Infix_inContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterInfix(ValkyrieParser.InfixContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -648,18 +708,6 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExpr_list(ValkyrieParser.Expr_listContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterControl_expression(ValkyrieParser.Control_expressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitControl_expression(ValkyrieParser.Control_expressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

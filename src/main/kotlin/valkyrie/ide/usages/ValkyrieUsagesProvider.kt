@@ -13,8 +13,8 @@ class ValkyrieUsagesProvider : FindUsagesProvider {
 
         return DefaultWordsScanner(
             ValkyrieProgramLexer(),
-            ValkyrieProgramLexer.Id,
-            ValkyrieProgramLexer.Id,
+            ValkyrieProgramLexer.Identifiers,
+            ValkyrieProgramLexer.Identifiers,
             TokenSet.create(ValkyrieProgramLexer.CommentLine, ValkyrieProgramLexer.CommentBlock),
             TokenSet.EMPTY
         )

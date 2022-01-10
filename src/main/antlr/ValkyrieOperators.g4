@@ -118,6 +118,7 @@ KW_EXTENDS: 'extend' | 'extends';
 KW_CLASS:   'class' | 'structure';
 KW_TRAIT: 'trait' | 'interface';
 KW_UNION: 'union';
+KW_BITFLAGS: 'flags';
 KW_TYPE: 'type';
 KW_LET: 'let';
 KW_FUNCTION: 'def';
