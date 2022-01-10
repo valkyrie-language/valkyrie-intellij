@@ -30,10 +30,8 @@ class ValkyrieFlagsStatement(node: ASTNode, type: IElementType) : IdentifierDefS
         return NamepathPresentation(_identifier, this.getIcon(0))
     }
 
-
     override fun resolve(element: PsiNamedElement?): PsiElement? {
         TODO("Not yet implemented")
     }
-
 }
 

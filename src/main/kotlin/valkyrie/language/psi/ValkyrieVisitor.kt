@@ -7,63 +7,63 @@ import valkyrie.language.ast.*
 
 open class ValkyrieRecursiveVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveVisitor {
 
-    override fun visitElement(node: PsiElement) {
+    override fun visitElement(element: PsiElement) {
         ProgressManager.checkCanceled()
-        when (node) {
-            is ValkyrieProgramNode -> visitProgram(node)
-            is ValkyrieClassStatement -> visitClassDeclaration(node)
-            is ValkyrieClassFieldNode -> visitClassField(node)
+        when (element) {
+            is ValkyrieProgramNode -> visitProgram(element)
+            is ValkyrieClassStatement -> visitClassDeclaration(element)
+            is ValkyrieClassFieldNode -> visitClassField(element)
 
-            is ValkyrieFlagsStatement -> visitFlagsDeclaration(node)
-            is ValkyrieFlagsItemNode -> visitFlagsField(node)
+            is ValkyrieFlagsStatement -> visitFlagsDeclaration(element)
+            is ValkyrieFlagsItemNode -> visitFlagsField(element)
 
-            is ValkyrieTraitStatement -> visitTraitDeclaration(node)
-            is ValkyrieFunctionStatement -> visitFunctionDeclaration(node)
-            is ValkyrieFunctionItem -> visitFunctionItem(node)
+            is ValkyrieTraitStatement -> visitTraitDeclaration(element)
+            is ValkyrieFunctionStatement -> visitFunctionDeclaration(element)
+            is ValkyrieFunctionItem -> visitFunctionItem(element)
 
 
             else -> {
-                visitOther(node)
+                visitOther(element)
             }
         }
-        node.acceptChildren(this)
+        element.acceptChildren(this)
     }
 
 
 
 
 
-    open fun visitProgram(node: ValkyrieProgramNode) {
+    open fun visitProgram(o: ValkyrieProgramNode) {
 
     }
 
-    open fun visitClassDeclaration(node: ValkyrieClassStatement) {
+    open fun visitClassDeclaration(o: ValkyrieClassStatement) {
 
     }
 
-    open fun visitClassField(node: ValkyrieClassFieldNode) {
+    open fun visitClassField(o: ValkyrieClassFieldNode) {
 
     }
-    open fun visitFlagsDeclaration(node: ValkyrieFlagsStatement) {
+    open fun visitFlagsDeclaration(o: ValkyrieFlagsStatement) {
 
     }
-    open fun visitFlagsField(node: ValkyrieFlagsItemNode) {
+    open fun visitFlagsField(o: ValkyrieFlagsItemNode) {
 
     }
-    open fun visitTraitDeclaration(node: ValkyrieTraitStatement) {
-
-    }
-
-    open fun visitFunctionDeclaration(node: ValkyrieFunctionStatement) {
+    open fun visitTraitDeclaration(o: ValkyrieTraitStatement) {
 
     }
 
-
-    open fun visitFunctionItem(node: ValkyrieFunctionItem) {
+    open fun visitFunctionDeclaration(o: ValkyrieFunctionStatement) {
 
     }
 
-    open fun visitOther(node: PsiElement) {
+
+    open fun visitFunctionItem(o: ValkyrieFunctionItem) {
+
+    }
+
+    open fun visitOther(o: PsiElement) {
 
     }
 }

@@ -18,35 +18,35 @@ import valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 class NodeHighlighter : ValkyrieRecursiveVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
 
-    override fun visitClassDeclaration(node: ValkyrieClassStatement) {
-        highlight(node.nameIdentifier, Color.SYM_CLASS)
+    override fun visitClassDeclaration(o: ValkyrieClassStatement) {
+        highlight(o.nameIdentifier, Color.SYM_CLASS)
     }
 
-    override fun visitClassField(node: ValkyrieClassFieldNode) {
-        highlight(node.nameIdentifier, Color.SYM_FIELD)
-        for (mod in node.modifiers) {
+    override fun visitClassField(o: ValkyrieClassFieldNode) {
+        highlight(o.nameIdentifier, Color.SYM_FIELD)
+        for (mod in o.modifiers) {
             highlight(mod, Color.MODIFIER)
         }
     }
 
-    override fun visitFlagsDeclaration(node: ValkyrieFlagsStatement) {
-        highlight(node.nameIdentifier, Color.SYM_CLASS)
+    override fun visitFlagsDeclaration(o: ValkyrieFlagsStatement) {
+        highlight(o.nameIdentifier, Color.SYM_CLASS)
     }
 
-    override fun visitFlagsField(node: ValkyrieFlagsItemNode) {
-        highlight(node.nameIdentifier, Color.SYM_FIELD)
+    override fun visitFlagsField(o: ValkyrieFlagsItemNode) {
+        highlight(o.nameIdentifier, Color.SYM_FIELD)
     }
 
-    override fun visitTraitDeclaration(node: ValkyrieTraitStatement) {
-        highlight(node.nameIdentifier, Color.SYM_TRAIT)
+    override fun visitTraitDeclaration(o: ValkyrieTraitStatement) {
+        highlight(o.nameIdentifier, Color.SYM_TRAIT)
     }
 
-    override fun visitFunctionDeclaration(node: ValkyrieFunctionStatement) {
-        highlight(node.nameIdentifier, Color.SYM_FUNCTION_FREE)
+    override fun visitFunctionDeclaration(o: ValkyrieFunctionStatement) {
+        highlight(o.nameIdentifier, Color.SYM_FUNCTION_FREE)
     }
 
-    override fun visitFunctionItem(node: ValkyrieFunctionItem) {
-        highlight(node.nameIdentifier, Color.SYM_ARG)
+    override fun visitFunctionItem(o: ValkyrieFunctionItem) {
+        highlight(o.nameIdentifier, Color.SYM_ARG)
     }
 // =================================================================================================================
 

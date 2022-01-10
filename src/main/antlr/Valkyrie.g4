@@ -25,7 +25,7 @@ top_statement
     | for_statement eos?
     | expression eos?
     ;
-eos: SEMICOLON;
+eos:      SEMICOLON;
 eos_free: COMMA | SEMICOLON;
 // ===========================================================================
 define_namespace: KW_NAMESPACE namepath_free;
@@ -42,9 +42,9 @@ class_inherit:    PARENTHESES_L namepath? PARENTHESES_R;
 class_field
     : macro_call* identifier+ type_hint? parameter_default?
     ;
-class_method:
-    macro_call* identifier+ function_parameters type_hint? effect_hint?;
-
+class_method
+    : macro_call* identifier+ function_parameters type_hint? effect_hint?
+    ;
 
 // ===========================================================================
 define_trait
@@ -60,11 +60,9 @@ define_union
     ;
 union_statements: define_function eos?;
 // ===========================================================================
-define_bitflags
-	: KW_BITFLAGS namepath BRACE_L bitflags_statements* BRACE_R;
-bitflags_statements:
-	bitflags_item | eos_free;
-bitflags_item: identifier (OP_EQ expression)?;
+define_bitflags:     KW_BITFLAGS namepath BRACE_L bitflags_statements* BRACE_R;
+bitflags_statements: bitflags_item | eos_free;
+bitflags_item:       identifier (OP_EQ expression)?;
 // ===========================================================================
 define_variale: KW_LET identifier OP_EQ expression;
 // ===========================================================================
