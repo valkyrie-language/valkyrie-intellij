@@ -13,6 +13,10 @@ open class ValkyrieRecursiveVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveV
             is ValkyrieProgramNode -> visitProgram(node)
             is ValkyrieClassStatement -> visitClassDeclaration(node)
             is ValkyrieClassFieldNode -> visitClassField(node)
+
+            is ValkyrieFlagsStatement -> visitFlagsDeclaration(node)
+            is ValkyrieFlagsItemNode -> visitFlagsField(node)
+
             is ValkyrieTraitStatement -> visitTraitDeclaration(node)
             is ValkyrieFunctionStatement -> visitFunctionDeclaration(node)
             is ValkyrieFunctionItem -> visitFunctionItem(node)
@@ -26,6 +30,9 @@ open class ValkyrieRecursiveVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveV
     }
 
 
+
+
+
     open fun visitProgram(node: ValkyrieProgramNode) {
 
     }
@@ -37,7 +44,12 @@ open class ValkyrieRecursiveVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveV
     open fun visitClassField(node: ValkyrieClassFieldNode) {
 
     }
+    open fun visitFlagsDeclaration(node: ValkyrieFlagsStatement) {
 
+    }
+    open fun visitFlagsField(node: ValkyrieFlagsItemNode) {
+
+    }
     open fun visitTraitDeclaration(node: ValkyrieTraitStatement) {
 
     }
