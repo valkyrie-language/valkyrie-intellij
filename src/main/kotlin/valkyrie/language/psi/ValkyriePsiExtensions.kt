@@ -66,6 +66,7 @@ fun PsiElement?.endSemicolon(): PsiElement? {
         else -> null
     }
 }
+
 fun PsiElement?.endComma(): PsiElement? {
     val next = this.getNextNonCommentSibling()
     return when (next.elementType) {
@@ -128,3 +129,16 @@ fun PsiWhiteSpace.isMultiLine(): Boolean = getLineCount() > 1
 @Suppress("UNCHECKED_CAST")
 inline val <T : StubElement<*>> StubBasedPsiElement<T>.greenStub: T?
     get() = (this as? StubBasedPsiElementBase<T>)?.greenStub
+
+fun PsiElement.recursiveSearch(filter: (PsiElement) -> Boolean) {
+    var needSearch = children.toList();
+    while (needSearch.isNotEmpty()) {
+        val nextSearch = mutableListOf<PsiElement>();
+        for (node in needSearch) {
+            if (filter(node)) {
+                nextSearch.addAll(node.children);
+            }
+        }
+        needSearch = nextSearch
+    }
+}

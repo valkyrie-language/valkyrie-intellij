@@ -11,6 +11,7 @@ import org.antlr.intellij.adaptor.psi.ScopeNode
 import valkyrie.ide.view.NamepathPresentation
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.file.ValkyrieIconProvider
+import valkyrie.language.psi.recursiveSearch
 import javax.swing.Icon
 
 class ValkyrieClassStatement(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ScopeNode {
@@ -35,6 +36,18 @@ class ValkyrieClassStatement(node: ASTNode, type: IElementType) : IdentifierDefS
     override fun resolve(element: PsiNamedElement?): PsiElement? {
         return SymtabUtils.resolve(this, ValkyrieLanguage, element, "/script/class/ID");
     }
-}
 
+    fun getFields(): Array<ValkyrieClassFieldNode> {
+        val output = mutableListOf<ValkyrieClassFieldNode>();
+        this.recursiveSearch {
+            if (it is ValkyrieClassFieldNode) {
+                output.add(it);
+                false
+            } else {
+                true
+            }
+        }
+        return output.toTypedArray()
+    }
+}
 

@@ -15,6 +15,7 @@ import com.intellij.util.DocumentUtil
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings.CommaOrSemicolon
 import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.ast.ValkyrieClassStatement
 import valkyrie.language.psi.ValkyrieRecursiveVisitor
 
 //import valkyrie.language.psi_node.ValkyrieClassStatementNode
@@ -77,12 +78,11 @@ private class RewriteVisitor(private val text: Document, val settings: ValkyrieC
 //        }
 //    }
 
-//    override fun visitClassStatement(o: ValkyrieClassStatement) {
-//        o as ValkyrieClassDeclaration;
-//        for (field in o.class_fields) {
-//            fixDelimiter(field, settings.class_field_trailing)
-//        }
-//    }
+    override fun visitClassDeclaration(o: ValkyrieClassStatement) {
+        for (field in o.getFields()) {
+            fixDelimiter(field, settings.class_field_trailing)
+        }
+    }
 
 //    override fun visitUnionItem(o: ValkyrieUnionItem) {
 //        o as ValkyrieUnionItemNode;

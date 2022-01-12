@@ -89,7 +89,7 @@ if_statement
     ;
 // ===========================================================================
 while_statement
-    : KW_WHILE '(' expression ')' '{' top_statement '}'
+    : KW_WHILE  inline_expression  BRACE_L top_statement BRACE_R
     ;
 // ===========================================================================
 for_statement
@@ -100,6 +100,7 @@ expression
     : expression op_multiple expression   # EMul
     | expression op_plus expression       # EAdd
     | expression op_logic expression      # ELogic
+    | expression op_compare expression # ECompare
     | expression infix_is type_expression # EIs
     | control_expression                  # EControl
     | namepath '(' expr_list? ')'         # ECall
@@ -129,16 +130,16 @@ term
     | SPECIAL            # ESpeicalLiteral
     ;
 
+op_compare: OP_LE|OP_LEQ|OP_GE|OP_GEQ;
+op_pattern: OP_AND| OP_OR;
 op_multiple: OP_MUL | OP_DIV;
 op_plus:     OP_ADD | OP_SUB;
 op_logic:    LOGIC_OR | LOGIC_AND;
 infix_is:    KW_IS | KW_IS KW_NOT;
 infix_in:    KW_IN | OP_IN;
-
-infix: GT | GE | LT | LE | OP_EE | OP_NE;
 // ===========================================================================
 type_expression
-    : type_expression infix type_expression # TOp
+    : type_expression op_pattern type_expression # TPattern
     | '(' type_expression ')'               # TParens
     | term                                  # TTerm
     ;

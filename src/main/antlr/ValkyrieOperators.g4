@@ -6,15 +6,15 @@ lexer grammar ValkyrieOperators;
 }
 
 DOT:       '.';
-COMMA:     ','; 
+COMMA:     ',';
 SEMICOLON: ';';
 
 // colon
 OP_PROPORTION: '∷' | '::';
-COLON:     ':' | '∶';
+COLON:         ':' | '∶';
 
 // arrow
-OP_ARROW: '⟶' | '->';
+OP_ARROW:  '⟶' | '->';
 OP_ARROW2: '⇒' | '=>';
 // equal
 OP_EE: '==';
@@ -30,18 +30,31 @@ BRACE_L:       '{';
 BRACE_R:       '}';
 
 // infix
-OP_ADD:  '+';
-OP_SUB:  '-';
-OP_MUL:  '*';
-OP_DIV:  '/';
-LT:   '<';
-LE:   '<=';
+OP_ADD: '+';
+OP_SUB: '-';
+OP_MUL: '*';
+OP_DIV: '/';
+// compare
+OP_LE:  '<';
+OP_LL:  '≪' | '<<';
+OP_LLL: '⋘' | '<<<';
+OP_LEQ: '⩽' | '≤' | '<=';
+OP_GE:  '>';
+OP_GG:  '≫' | '>>';
+OP_GGG: '⋙' | '>>>';
+OP_GEQ: '⩾' | '≥' | '>=';
 
-GT:  '>';
-GE:  '>=';
+// "⟧" -> { pushToken(ValkyrieTypes.SLICE_R, r) } -> pushToken(ValkyrieTypes.OP_GEQ, r) "/>" -> {
+// pushToken(ValkyrieTypes.OP_GS, r) }
+// 
+// ">" -> pushToken(ValkyrieTypes.OP_GT, r) -> pushToken(ValkyrieTypes.OP_LEQ, r) "</" -> {
+// pushToken(ValkyrieTypes.OP_LS, r) } "⩕" -> { pushToken(ValkyrieTypes.PATTERN_AND, r) } "⩖" -> {
+// pushToken(ValkyrieTypes.PATTERN_OR, r) }
 
 LOGIC_OR:  '||';
+OP_OR:     '|';
 LOGIC_AND: '&&';
+OP_AND:    '&';
 
 AT:   '@';
 HASH: '#' | '##' | '#!';
@@ -50,16 +63,16 @@ HASH: '#' | '##' | '#!';
 OP_NOT: '!';
 KW_NOT: 'not';
 // in
-OP_IN: '∈' | '∊';
-KW_IN:  'in';
+OP_IN:     '∈' | '∊';
+KW_IN:     'in';
 OP_NOT_IN: '∉';
 
 // is
-KW_IS:  'is';
-OP_IS:  '⊑' | '<:';
+KW_IS:     'is';
+OP_IS:     '⊑' | '<:';
 OP_IS_NOT: '⋢' | '<!';
 // as
-KW_AS:  'as' | 'as!' | 'as*';
+KW_AS: 'as' | 'as!' | 'as*';
 // until
 OP_UNTIL: '..<' | '..=';
 // suffix
@@ -69,6 +82,9 @@ OP_EMPTY: '∅';
 // "\\" -> pushToken(ValkyrieTypes.KW_ESCAPING, r) // DOT ":=", "≔" ->
 // pushToken(ValkyrieTypes.PATTERN_SET, r) "->", "==", "≡" -> pushToken(ValkyrieTypes.OP_EQ, r)
 // 
+//
+// 
+//
 // "...", ".." -> pushToken(ValkyrieTypes.KW_DOTS, r) start with + "++" ->
 // pushToken(ValkyrieTypes.OP_INC, r) "+=" -> pushToken(ValkyrieTypes.OP_ADD_ASSIGN, r) "+" ->
 // pushToken(ValkyrieTypes.OP_ADD, r) // start with - "--" -> pushToken(ValkyrieTypes.OP_DEC, r)
@@ -86,23 +102,13 @@ OP_EMPTY: '∅';
 // slots "$" -> pushToken(ValkyrieTypes.SLOT_LAMBDA, r) "§" -> pushToken(ValkyrieTypes.SLOT_MACRO,
 // r) "¶" -> pushToken(ValkyrieTypes.OP_QUOTE, r) "⟦" -> { pushToken(ValkyrieTypes.SLICE_L, r) }
 // 
-// "⟧" -> { pushToken(ValkyrieTypes.SLICE_R, r) } // start with > ">>>", "⋙" ->
-// pushToken(ValkyrieTypes.OP_GGG, r) ">>", "≫" -> pushToken(ValkyrieTypes.OP_GG, r) ">=", "≥", "⩾"
-// -> pushToken(ValkyrieTypes.OP_GEQ, r) "/>" -> { pushToken(ValkyrieTypes.OP_GS, r) }
+//
 // 
-// ">" -> pushToken(ValkyrieTypes.OP_GT, r) // start with < "<<<", "⋘" ->
-// pushToken(ValkyrieTypes.OP_LLL, r) "<<", "≪" -> pushToken(ValkyrieTypes.OP_LL, r) "<=", "≤", "⩽"
-// -> pushToken(ValkyrieTypes.OP_LEQ, r) "</" -> { pushToken(ValkyrieTypes.OP_LS, r) } "⩕" -> {
-// pushToken(ValkyrieTypes.PATTERN_AND, r) } "⩖" -> { pushToken(ValkyrieTypes.PATTERN_OR, r) } "<"
-// -> pushToken(ValkyrieTypes.OP_LT, r) // surround with ( ) "(" -> {
-// pushToken(ValkyrieTypes.PARENTHESIS_L, r) }
+//
 // 
-// ")" -> { pushToken(ValkyrieTypes.PARENTHESIS_R, r) }
+//
 // 
-// "{" -> { pushToken(ValkyrieTypes.BRACE_L, r) }
-// 
-// "}" -> { pushToken(ValkyrieTypes.BRACE_R, r) }
-// 
+//
 // "⤇", "|=>", "⤃", "!=>" -> { pushToken(ValkyrieTypes.OP_EMPTY, r) }
 
 // keywords
@@ -112,20 +118,20 @@ KW_NAMESPACE
     | 'namespace*'
     | 'namespace?'
     ;
-KW_IMPORT: 'using' | 'using!' | 'using*' | 'using?';
+KW_IMPORT:    'using' | 'using!' | 'using*' | 'using?';
 KW_EXTENSION: 'extension';
-KW_EXTENDS: 'extend' | 'extends';
-KW_CLASS:   'class' | 'structure';
-KW_TRAIT: 'trait' | 'interface';
-KW_UNION: 'union';
-KW_BITFLAGS: 'flags';
-KW_TYPE: 'type';
-KW_LET: 'let';
-KW_FUNCTION: 'def';
-KW_WITCH: 'which';
+KW_EXTENDS:   'extend' | 'extends';
+KW_CLASS:     'class' | 'structure';
+KW_TRAIT:     'trait' | 'interface';
+KW_UNION:     'union';
+KW_BITFLAGS:  'flags';
+KW_TYPE:      'type';
+KW_LET:       'let';
+KW_FUNCTION:  'def';
+KW_WITCH:     'which';
 
 KW_WHILE: 'while';
-KW_FOR: 'for';
+KW_FOR:   'for';
 
 // pushToken(ValkyrieTypes.PATTERN_AND, r) "or" -> pushToken(ValkyrieTypes.PATTERN_OR, r) "which" ->
 // pushToken(ValkyrieTypes.KW_WHICH, r) "if" -> pushToken(ValkyrieTypes.KW_IF, r) "else" ->
@@ -134,13 +140,12 @@ KW_FOR: 'for';
 // pushToken(ValkyrieTypes.KW_MATCH, r) "when" -> pushToken(ValkyrieTypes.KW_WHEN, r) "case" ->
 // pushToken(ValkyrieTypes.KW_CASE, r) "with" -> pushToken(ValkyrieTypes.KW_WITH, r) "let" ->
 // pushToken(ValkyrieTypes.KW_BREAK, r) "type" -> pushToken(ValkyrieTypes.KW_TYPE, r)
-//
+// 
 // "class", "structure", "struct" -> pushToken(ValkyrieTypes.KW_CLASS, r) "union", "tagged", "enum",
 // "variant" -> pushToken(ValkyrieTypes.KW_TAGGED, r) "trait", "interface", "convention", "protocol"
 // -> pushToken(ValkyrieTypes.KW_TRAIT, r) "bitset", "bitflag" ->
 // pushToken(ValkyrieTypes.KW_BITFLAG, r) "extend", "extends", "impl", "implements" ->
 // pushToken(ValkyrieTypes.KW_EXTENDS, r) "new", "object" -> pushToken(ValkyrieTypes.KW_NEW, r)
-
 
 INTEGER: [0] | [1-9][0-9]+;
 DECIMAL
@@ -152,12 +157,10 @@ fragment EXP: [Ee] [+\-]? INTEGER;
 STRING:       '"' (ESC | ~["\\])* '"';
 fragment ESC: '\\' ["\bfnrt];
 
-
-
 // conditional
-KW_IF: 'if';
-KW_ELSE:  'else';
-KW_OTHERWISE:  'otherwise';
+KW_IF:        'if';
+KW_ELSE:      'else';
+KW_OTHERWISE: 'otherwise';
 // control goto
 FROM:     'from';
 RETURN:   'return';
@@ -176,5 +179,5 @@ SPECIAL:        NULL | TRUE | FALSE;
 LINE_COMMENT:  '//' .*? ('\n' | EOF) -> channel(HIDDEN);
 BLOCK_COMMENT: '/*' .*? '*/' -> channel(HIDDEN);
 
-WHITE_SPACE: [ \t\n\r]+ -> channel(HIDDEN);
+WHITE_SPACE:     [ \t\n\r]+ -> channel(HIDDEN);
 ERROR_CHARACTAR: . -> channel(HIDDEN);
