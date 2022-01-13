@@ -70,9 +70,10 @@ class ValkyriePackage(project: Project) : Module {
         TODO("Not yet implemented")
     }
 
-    override fun <T : Any?> instantiateClass(className: String, pluginDescriptor: PluginDescriptor): T {
+    override fun <T : Any?> instantiateClass(className: String, pluginDescriptor: PluginDescriptor): T & Any {
         TODO("Not yet implemented")
     }
+
 
     override fun <T : Any?> instantiateClassWithConstructorInjection(aClass: Class<T>, key: Any, pluginId: PluginId): T {
         TODO("Not yet implemented")

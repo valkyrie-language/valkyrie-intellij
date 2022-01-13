@@ -3,8 +3,12 @@ class TestClass {
     #call
     readonly field1: u32,
     readonly field2: f64;
+
+    public static void main;
 }
 
 extends TestClass {
 
 }
+
+

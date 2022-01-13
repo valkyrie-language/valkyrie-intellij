@@ -111,6 +111,8 @@ class ValkyrieProgramLexer : Lexer() {
             ValkyrieLanguage,
             KW_IF,
             KW_ELSE,
+            KW_TRAIT,
+            UNICODE_ID,
         )
     }
 }

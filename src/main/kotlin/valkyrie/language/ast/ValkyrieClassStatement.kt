@@ -10,6 +10,7 @@ import org.antlr.intellij.adaptor.psi.IdentifierDefSubtree
 import org.antlr.intellij.adaptor.psi.ScopeNode
 import valkyrie.ide.view.NamepathPresentation
 import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.psi.recursiveSearch
 import javax.swing.Icon
@@ -19,6 +20,10 @@ class ValkyrieClassStatement(node: ASTNode, type: IElementType) : IdentifierDefS
 
     override fun getName(): String {
         return _identifier.text
+    }
+
+    override fun getContainingFile(): ValkyrieFileNode {
+        return super.getContainingFile() as ValkyrieFileNode
     }
 
     override fun getNameIdentifier(): ValkyrieNamepathNode {

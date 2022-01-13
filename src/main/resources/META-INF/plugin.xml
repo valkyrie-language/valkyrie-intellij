@@ -21,6 +21,7 @@
 		<!-- Project -->
 		<projectNameProvider implementation="valkyrie.ide.project.ValkyrieProjectName"/>
 		<primaryModuleManager implementation="valkyrie.ide.project.ValkyriePrimaryPackage"/>
+		<vfs.asyncListener implementation="valkyrie.ide.project.crate.CrateUpdateListener"/>
 		<!-- Project SDK -->
 		<sdkType implementation="valkyrie.ide.project.package.sdk.ValkyrieSdkType"/>
 		<sdkFinder implementation="valkyrie.ide.project.sdk.ValkyrieSdkFinder"/>
@@ -127,7 +128,9 @@
 		<vcs.codeVisionLanguageContext
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.hint.AuthorAbove"/>
+
 		<!--		<psi.fileReferenceHelper implementation="valkyrie.ide.reference.ValkyrieFileReference"/>-->
+		<psi.treeChangeListener implementation="valkyrie.ide.project.crate.ValkyrieFileListener"/>
 		<psi.referenceContributor
 			language="Valkyrie"
 			implementation="valkyrie.ide.reference.ValkyrieReferenceContributor"/>
@@ -203,6 +206,7 @@
 		<!--				filetype="Fluent"-->
 		<!--				implementationClass="valkyrie.ide.lint.VomlTodoIndexer"-->
 		<!--		/>-->
+
 	</extensions>
 	<actions>
 		<action id="valkyrie.create.file" class="valkyrie.ide.actions.file_transform.ValkyrieCreateFile">

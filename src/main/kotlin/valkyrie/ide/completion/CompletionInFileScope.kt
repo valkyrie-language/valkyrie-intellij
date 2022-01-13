@@ -4,22 +4,24 @@ import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionProvider
 import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.lookup.LookupElementBuilder
+import com.intellij.patterns.PlatformPatterns
+import com.intellij.patterns.PsiElementPattern
 import com.intellij.psi.PsiElement
+import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.util.ProcessingContext
-import valkyrie.ide.completion.TemplateReplaceElement.Companion.snippetFromPath
 import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
-@Suppress("UNUSED_PARAMETER")
-class CompleteSymbol(val context: PsiElement) : CompletionProvider<CompletionParameters>() {
-    var element: PsiElement = context
-    override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {}
-    fun inTopStatement(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+class CompletionInFileScope : CompletionProvider<CompletionParameters>() {
+    var element: PsiElement? = null;
+    override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
         element = parameters.position
         result.addTopMacros()
         keywordSnippet(result)
         addControlFlow(result)
+        println("已触发: ${parameters.position.text}")
     }
+
     fun keywordFor(result: CompletionResultSet) {
         result.addKeywordSnippet("for in", "for_in.ft")
         result.addKeywordSnippet("for range", "for_range.ft")
@@ -27,29 +29,20 @@ class CompleteSymbol(val context: PsiElement) : CompletionProvider<CompletionPar
     }
 
     fun inClassBlock(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
-        element = parameters.position
-        result.addTopMacros()
-        addOperationDeclare(result)
-        result.addLinkedTraitMethod("constructor", "Constructor")
-        result.addLinkedTraitMethod("extractor", "Extractor")
-        result.addLinkedTraitMethod("destructor", "Destructor")
-        result.addLinkedTraitMethod("hash", "Hash")
-        result.addLinkedTraitMethod("from", "From[T]", "value: T")
-        result.addLinkedTraitMethod("apply", "Caller")
-        result.addLinkedTraitMethod("unapply", "Extractor")
+
     }
 
     fun inClassTuple(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
-        element = parameters.position
+//        element = parameters.position
         result.addTopMacros()
     }
 
     fun inMacroBlock(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
-        element = parameters.position
+//        element = parameters.position
     }
 
     fun inDefineBlock(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
-        element = parameters.position
+//        element = parameters.position
         addControlFlow(result)
     }
 
@@ -68,29 +61,6 @@ class CompleteSymbol(val context: PsiElement) : CompletionProvider<CompletionPar
         return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.Instance.ANNOTATION)
     }
 
-    private fun addOperationDeclare(result: CompletionResultSet) {
-        result.addInfix("+", setOf("infix add", "infix plus"))
-        result.addInfix("+=", setOf("infix add assign", "infix plus assign"))
-        result.addInfix("-", setOf("infix sub", "infix minus"))
-        result.addInfix("-=", setOf("infix sub assign", "infix minus assign"))
-        result.addInfix("*", setOf("infix mul", "infix times"))
-        result.addInfix("*=", setOf("infix mul assign", "infix mul assign"))
-    }
-
-    private fun CompletionResultSet.addInfix(show: String, lookup: Set<String> = setOf()) {
-        val item = snippetFromPath(
-            element,
-            "infix $show",
-            "def_operator.ft",
-            mapOf(
-                "KIND" to "infix",
-                "OPERATOR" to show
-            )
-        )
-            .withIcon(ValkyrieIconProvider.Instance.Operator)
-            .withLookupStrings(lookup)
-        addElement(item)
-    }
 
     private fun keywordSnippet(result: CompletionResultSet) {
         result.addKeywordSnippet("let", "let.ft", setOf("val"))
@@ -125,29 +95,20 @@ class CompleteSymbol(val context: PsiElement) : CompletionProvider<CompletionPar
     }
 
 
-
     private fun CompletionResultSet.addKeywordSnippet(id: String, file: String, lookup: Set<String> = setOf()) {
-        val item = snippetFromPath(element, id, file)
+        if (element == null) {
+            return
+        }
+        val item = TemplateReplaceElement.snippetFromPath(element!!, id, file)
             .bold()
             .withLookupStrings(lookup)
             .withIcon(ValkyrieIconProvider.Instance.SNIPPET)
         addElement(item)
     }
 
-    private fun CompletionResultSet.addLinkedTraitMethod(kind: String, trait: String, args: String = "") {
-        val element = LookupElementBuilder.create(kind)
-            .withIcon(ValkyrieIconProvider.Instance.FUNCTION)
-            .withTypeText(trait, ValkyrieIconProvider.Instance.TRAIT, false)
-            .withInsertHandler { context, _ ->
-                val document = context.document
-                document.replaceString(context.startOffset, context.tailOffset, "$kind($args) {}")
-                context.editor.caretModel.moveToOffset(context.tailOffset - 1)
-            }
-        this.addElement(element)
-    }
-
 
     companion object {
+        val Condition: PsiElementPattern.Capture<LeafPsiElement> = PlatformPatterns.psiElement(LeafPsiElement::class.java);
         private fun buildWithReplace(show: String, replace: String, offset: Int, lookup: Set<String>, icon: Icon): LookupElementBuilder {
             return LookupElementBuilder.create(show).bold()
                 .withLookupStrings(lookup)
@@ -172,4 +133,3 @@ class CompleteSymbol(val context: PsiElement) : CompletionProvider<CompletionPar
         }
     }
 }
-

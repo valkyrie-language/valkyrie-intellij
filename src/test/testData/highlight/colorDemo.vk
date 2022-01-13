@@ -1,3 +1,11 @@
-class A {
+class As {
 
+}
+
+
+if condition {
+block
+}
+else {
+block
 }

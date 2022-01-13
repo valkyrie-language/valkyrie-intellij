@@ -7,9 +7,12 @@ import com.intellij.openapi.fileTypes.FileType
 import com.intellij.psi.FileViewProvider
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.SearchScope
+import valkyrie.ide.project.crate.NamespaceMapping
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.ast.ValkyrieClassStatement
 import valkyrie.language.ast.ValkyrieNamespaceDeclaration
+import valkyrie.language.psi.recursiveSearch
 
 
 /**
@@ -42,6 +45,17 @@ class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvide
             }
             return ""
         }
+
+    fun updateCache() {
+        this.recursiveSearch {
+            if (it is ValkyrieClassStatement) {
+                NamespaceMapping.Instance.ClassCache.getOrPut(it.name) { mutableSetOf() }.add(namespace)
+                false
+            } else {
+                true
+            }
+        }
+    }
 
     override fun getOwnDeclarations(): MutableCollection<out PsiSymbolDeclaration> {
 //        val output = mutableListOf<PsiSymbolDeclaration>()

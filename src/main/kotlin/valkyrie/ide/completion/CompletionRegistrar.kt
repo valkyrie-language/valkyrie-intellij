@@ -3,65 +3,71 @@ package valkyrie.ide.completion
 import com.intellij.codeInsight.completion.CompletionContributor
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionResultSet
+import com.intellij.codeInsight.completion.CompletionType
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.parents
 import com.intellij.util.ProcessingContext
+import valkyrie.language.ast.ValkyrieClassStatement
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.lexer.ValkyrieProgramLexer
 
 
 class CompletionRegistrar : CompletionContributor() {
+    init {
+        extend(CompletionType.BASIC, CompletionInFileScope.Condition, CompletionInFileScope())
+        extend(CompletionType.BASIC, CompletionInClassScope.Condition, CompletionInClassScope())
+    }
+
     override fun fillCompletionVariants(parameters: CompletionParameters, result: CompletionResultSet) {
+        super.fillCompletionVariants(parameters, result)
+//        myFill(parameters, result)
+    }
+
+    private fun myFill(parameters: CompletionParameters, result: CompletionResultSet) {
         ProgressManager.checkCanceled()
         val context = ProcessingContext()
         val element = parameters.originalPosition ?: return
+        println("CompletionRegistrar: ${element.elementType}")
         if (ValkyrieProgramLexer.CompletionWords.contains(element.elementType)) {
             for (node in element.parents(false)) {
+                if (result.isStopped) {
+                    return
+                }
                 when (node) {
                     is ValkyrieFileNode -> {
-                        CompleteSymbol(node).inTopStatement(parameters, context, result)
+                        println("ValkyrieFileNode: ${result.hashCode()}")
+                        CompletionInFileScope().addCompletionVariants(parameters, context, result)
                         return
                     }
 
-//                    is ValkyrieClassBlockNode -> {
-//                        CompleteSymbol(node).inClassBlock(parameters, context, result)
-//                        return
-//                    }
-//
-//                    is ValkyrieMacroBlockNode -> {
-//                        CompleteSymbol(node).inMacroBlock(parameters, context, result)
-//                        return
-//                    }
-//
-//                    is ValkyrieDefineBlockNode -> {
-//                        CompleteSymbol(node).inDefineBlock(parameters, context, result)
-//                        return
-//                    }
+                    is ValkyrieClassStatement -> {
+                        println("ValkyrieClassStatement: ${result.hashCode()}")
+                        CompletionInClassScope().addCompletionVariants(parameters, context, result)
+                        return
+                    }
                 }
             }
+        } else if (ValkyrieProgramLexer.Operators.contains(element.elementType)) {
+            println("Operators: ${result.hashCode()}")
+            CompletionInOperators(element).addCompletionVariants(parameters, context, result)
         }
-
-//        ValkyrieTypes.KW_ESCAPING, ValkyrieTypes.OP_HASH, ValkyrieTypes.OP_AT -> {
-//            CompleteOperator(element).addCompletionVariants(parameters, context, result)
-//        }
-
     }
 
+
 //    override fun beforeCompletion(context: CompletionInitializationContext) {
-//        ActionManager.getInstance().getAction(IdeActions.ACTION_CODE_COMPLETION).actionPerformed()
+////        ActionManager.getInstance().getAction(IdeActions.ACTION_CODE_COMPLETION).actionPerformed()
 //        when (context.file.findElementAt(context.startOffset)) {
-//            ValkyrieTypes.KW_ESCAPING -> {
-//                context.dummyIdentifier = "\\"
-//                context.replacementOffset = context.startOffset
-//            }
+////            ValkyrieTypes.KW_ESCAPING -> {
+////                context.dummyIdentifier = "\\"
+////                context.replacementOffset = context.startOffset
+////            }
 //
-//            ValkyrieTypes.AT -> {
-//                context.dummyIdentifier = "@"
-//                context.replacementOffset = context.startOffset
-//            }
+////            ValkyrieTypes.AT -> {
+////                context.dummyIdentifier = "@"
+////                context.replacementOffset = context.startOffset
+////            }
 //        }
 //    }
 
 }
-
