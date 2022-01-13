@@ -36,7 +36,7 @@ class CreateNamespace(private val element: ValkyrieFileNode) : LocalQuickFixAndI
     }
 
     override fun getIcon(flags: Int): Icon {
-        return ValkyrieIconProvider.NAMESPACE
+        return ValkyrieIconProvider.Instance.NAMESPACE
     }
 
     override fun getPriority(): PriorityAction.Priority {

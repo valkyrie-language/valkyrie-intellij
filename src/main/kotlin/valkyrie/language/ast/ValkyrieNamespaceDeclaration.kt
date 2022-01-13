@@ -30,7 +30,7 @@ class ValkyrieNamespaceDeclaration(node: ASTNode, type: IElementType) : Identifi
     override fun getNameIdentifier(): ValkyrieNamepathNode = _identifier
 
     override fun getIcon(flags: Int): Icon {
-        return ValkyrieIconProvider.TRAIT
+        return ValkyrieIconProvider.Instance.TRAIT
     }
 
     override fun resolve(element: PsiNamedElement?): PsiElement? {

@@ -25,7 +25,7 @@ class GenerateTests : TestCreator, ItemPresentation {
 
 
     override fun getIcon(unused: Boolean): Icon {
-        return ValkyrieIconProvider.IMPORT
+        return ValkyrieIconProvider.Instance.IMPORT
     }
 
     override fun getPresentableText(): String? {

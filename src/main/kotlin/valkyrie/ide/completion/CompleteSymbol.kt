@@ -61,11 +61,11 @@ class CompleteSymbol(val context: PsiElement) : CompletionProvider<CompletionPar
     }
 
     private fun macroCall(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
-        return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.MACRO)
+        return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.Instance.MACRO)
     }
 
     private fun annotationCall(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
-        return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.ANNOTATION)
+        return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.Instance.ANNOTATION)
     }
 
     private fun addOperationDeclare(result: CompletionResultSet) {
@@ -87,7 +87,7 @@ class CompleteSymbol(val context: PsiElement) : CompletionProvider<CompletionPar
                 "OPERATOR" to show
             )
         )
-            .withIcon(ValkyrieIconProvider.Operator)
+            .withIcon(ValkyrieIconProvider.Instance.Operator)
             .withLookupStrings(lookup)
         addElement(item)
     }
@@ -130,14 +130,14 @@ class CompleteSymbol(val context: PsiElement) : CompletionProvider<CompletionPar
         val item = snippetFromPath(element, id, file)
             .bold()
             .withLookupStrings(lookup)
-            .withIcon(ValkyrieIconProvider.SNIPPET)
+            .withIcon(ValkyrieIconProvider.Instance.SNIPPET)
         addElement(item)
     }
 
     private fun CompletionResultSet.addLinkedTraitMethod(kind: String, trait: String, args: String = "") {
         val element = LookupElementBuilder.create(kind)
-            .withIcon(ValkyrieIconProvider.FUNCTION)
-            .withTypeText(trait, ValkyrieIconProvider.TRAIT, false)
+            .withIcon(ValkyrieIconProvider.Instance.FUNCTION)
+            .withTypeText(trait, ValkyrieIconProvider.Instance.TRAIT, false)
             .withInsertHandler { context, _ ->
                 val document = context.document
                 document.replaceString(context.startOffset, context.tailOffset, "$kind($args) {}")
@@ -161,8 +161,8 @@ class CompleteSymbol(val context: PsiElement) : CompletionProvider<CompletionPar
 
         private fun CompletionResultSet.addLinkedTraitMethod(kind: String, trait: String, args: String = "") {
             val element = LookupElementBuilder.create(kind)
-                .withIcon(ValkyrieIconProvider.FUNCTION)
-                .withTypeText(trait, ValkyrieIconProvider.TRAIT, false)
+                .withIcon(ValkyrieIconProvider.Instance.FUNCTION)
+                .withTypeText(trait, ValkyrieIconProvider.Instance.TRAIT, false)
                 .withInsertHandler { context, _ ->
                     val document = context.document
                     document.replaceString(context.startOffset, context.tailOffset, "$kind($args) {}")

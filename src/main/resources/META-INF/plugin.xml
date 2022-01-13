@@ -35,9 +35,6 @@
 			implementationClass="valkyrie.ide.project.ValkyrieDependencyResolver"/>
 		<additionalLibraryRootsProvider implementation="valkyrie.ide.project.library.LibraryRootsProvider"/>
 		<!-- Project Package, aka. Module in JetBrain's SDK -->
-		<moduleType
-			implementationClass="valkyrie.ide.project.crate.ValkyrieModuleType"
-			id="VALKYRIE_MODULE_TYPE"/>
 		<moduleBuilder
 			builderClass="valkyrie.ide.project.ValkyrieCreatePackage"
 			id="VALKYRIE_MODULE_TYPE"/>
@@ -54,7 +51,7 @@
 		<iconProvider implementation="valkyrie.language.file.ValkyrieIconProvider"/>
 		<projectViewNestingRulesProvider implementation="valkyrie.language.file.ValkyrieFileGroup"/>
 		<treeStructureProvider implementation="valkyrie.ide.view.VStructureProvider"/>
-		<lang.structureViewExtension implementation="valkyrie.ide.view.VStructureViewExtension"/>
+<!--		<lang.structureViewExtension implementation="valkyrie.ide.view.VStructureViewExtension"/>-->
 		<lang.psiStructureViewFactory
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.view.StructureViewFactory"/>
@@ -102,7 +99,7 @@
 		<testSourcesFilter implementation="valkyrie.ide.runner.ValkyrieTestSource"/>
 		<!-- Goto -->
 		<navbar implementation="valkyrie.ide.goto.VNavigationBarExtension"/>
-		<lang.directNavigationProvider implementation="valkyrie.ide.goto.VDirectNavigationProvider"/>
+		<lang.directNavigationProvider implementation="valkyrie.ide.navigation.VDirectNavigationProvider"/>
 		<breadcrumbsInfoProvider implementation="valkyrie.ide.navigation.ValkyrieBreadcrumbsProvider"/>
 		<breadcrumbsPresentationProvider implementation="valkyrie.ide.navigation.ValkyrieBreadcrumbsPresentation"/>
 		<symbolNavigation

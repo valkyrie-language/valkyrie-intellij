@@ -24,7 +24,7 @@ class ValkyrieFunctionStatement(node: ASTNode, type: IElementType) : IdentifierD
     }
 
     override fun getIcon(flags: Int): Icon {
-        return ValkyrieIconProvider.FUNCTION
+        return ValkyrieIconProvider.Instance.FUNCTION
     }
 
     override fun getPresentation(): ItemPresentation {

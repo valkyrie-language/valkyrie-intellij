@@ -25,7 +25,7 @@ class ValkyrieTraitStatement(node: ASTNode, type: IElementType) : IdentifierDefS
     }
 
     override fun getIcon(flags: Int): Icon {
-        return ValkyrieIconProvider.TRAIT
+        return ValkyrieIconProvider.Instance.TRAIT
     }
 
     override fun getPresentation(): ItemPresentation {

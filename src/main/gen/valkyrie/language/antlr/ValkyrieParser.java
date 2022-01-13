@@ -3312,6 +3312,8 @@ public class ValkyrieParser extends Parser {
 		public TerminalNode OP_LEQ() { return getToken(ValkyrieParser.OP_LEQ, 0); }
 		public TerminalNode OP_GE() { return getToken(ValkyrieParser.OP_GE, 0); }
 		public TerminalNode OP_GEQ() { return getToken(ValkyrieParser.OP_GEQ, 0); }
+		public TerminalNode OP_EQ() { return getToken(ValkyrieParser.OP_EQ, 0); }
+		public TerminalNode OP_NE() { return getToken(ValkyrieParser.OP_NE, 0); }
 		public Op_compareContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -3340,7 +3342,7 @@ public class ValkyrieParser extends Parser {
 			{
 			setState(509);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 40108032L) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 40304640L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -4389,7 +4391,7 @@ public class ValkyrieParser extends Parser {
 		"\u00010\u00010\u00030\u023f\b0\u00011\u00011\u00011\u0000\u0003>BT2\u0000"+
 		"\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0016\u0018\u001a\u001c"+
 		"\u001e \"$&(*,.02468:<>@BDFHJLNPRTVXZ\\^`b\u0000\t\u0001\u0000\u0002\u0003"+
-		"\u0002\u0000\u0005\u0005\u001a\u001a\u0003\u0000\u0012\u0012\u0015\u0016"+
+		"\u0002\u0000\u0005\u0005\u001a\u001a\u0003\u0000\u0010\u0012\u0015\u0016"+
 		"\u0019\u0019\u0002\u0000\u001e\u001e  \u0001\u0000\u000e\u000f\u0001\u0000"+
 		"\f\r\u0002\u0000\u001d\u001d\u001f\u001f\u0001\u0000%&\u0002\u0000\u0001"+
 		"\u0001\u0004\u0004\u0270\u0000g\u0001\u0000\u0000\u0000\u0002\u00a8\u0001"+

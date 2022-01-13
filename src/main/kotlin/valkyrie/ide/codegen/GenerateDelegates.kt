@@ -30,7 +30,7 @@ class GenerateDelegates : LanguageCodeInsightActionHandler, ItemPresentation {
     }
 
     override fun getIcon(unused: Boolean): Icon? {
-        return ValkyrieIconProvider.FIELD
+        return ValkyrieIconProvider.Instance.FIELD
     }
 
 

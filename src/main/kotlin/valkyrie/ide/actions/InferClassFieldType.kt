@@ -36,7 +36,7 @@ class InferClassFieldType(private val element: ValkyrieClassFieldNode) : HintAct
     }
 
     override fun getIcon(flags: Int): Icon {
-        return ValkyrieIconProvider.TYPE
+        return ValkyrieIconProvider.Instance.TYPE
     }
 }
 

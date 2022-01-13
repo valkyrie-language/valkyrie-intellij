@@ -15,7 +15,7 @@ import valkyrie.language.file.ValkyrieIconProvider
 private val name = ValkyrieBundle.message("action.generate.operators.name")
 private val description = ValkyrieBundle.message("action.generate.operators.help")
 
-class GenerateOperators : AnAction(name, description, ValkyrieIconProvider.Operator) {
+class GenerateOperators : AnAction(name, description, ValkyrieIconProvider.Instance.Operator) {
     override fun actionPerformed(e: AnActionEvent) {
         val src = LangDataKeys.PSI_FILE.getData(e.dataContext) ?: return
         if (isValidFile(src)) {

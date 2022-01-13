@@ -1,6 +1,8 @@
+while aa > 0 {
+
+}
 
 
-
-while aa > 23 {
+while (bb!=0) {
 
 }

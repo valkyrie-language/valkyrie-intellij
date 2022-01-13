@@ -1,4 +1,4 @@
-package valkyrie.ide.goto
+package valkyrie.ide.navigation
 
 import com.intellij.navigation.DirectNavigationProvider
 import com.intellij.psi.PsiElement

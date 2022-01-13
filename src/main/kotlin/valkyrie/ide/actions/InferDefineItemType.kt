@@ -30,7 +30,7 @@ class InferDefineItemType(element: ValkyrieFunctionItem) : LocalQuickFixAndInten
     }
 
     override fun getIcon(flags: Int): Icon {
-        return ValkyrieIconProvider.TYPE
+        return ValkyrieIconProvider.Instance.TYPE
     }
 
     override fun getPriority(): PriorityAction.Priority {

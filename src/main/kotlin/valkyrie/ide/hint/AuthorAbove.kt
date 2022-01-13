@@ -19,6 +19,7 @@ class AuthorAbove : VcsCodeVisionLanguageContext {
     }
 
     override fun isAccepted(element: PsiElement) = when (element) {
+        is ValkyrieFlagsStatement,
         is ValkyrieClassStatement,
         is ValkyrieUnionStatementNode,
         is ValkyrieTraitStatement,

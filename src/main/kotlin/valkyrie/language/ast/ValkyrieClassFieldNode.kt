@@ -31,7 +31,7 @@ class ValkyrieClassFieldNode(node: ASTNode, type: IElementType) : IdentifierDefS
     }
 
     override fun getIcon(flags: Int): Icon {
-        return ValkyrieIconProvider.FIELD
+        return ValkyrieIconProvider.Instance.FIELD
     }
 
 

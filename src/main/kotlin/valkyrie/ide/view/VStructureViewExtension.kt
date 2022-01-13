@@ -11,10 +11,10 @@ class VStructureViewExtension : StructureViewExtension {
     }
 
     override fun getChildren(parent: PsiElement?): Array<StructureViewTreeElement> {
-        TODO("Not yet implemented")
+        return arrayOf()
     }
 
     override fun getCurrentEditorElement(editor: Editor?, parent: PsiElement?): Any? {
-        TODO("Not yet implemented")
+        return null
     }
 }

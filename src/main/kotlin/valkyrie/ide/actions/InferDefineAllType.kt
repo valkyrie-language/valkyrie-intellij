@@ -36,7 +36,7 @@ class InferDefineAllType(private val element: ValkyrieFunctionItem) : HintAction
     }
 
     override fun getIcon(flags: Int): Icon {
-        return ValkyrieIconProvider.IMPORT
+        return ValkyrieIconProvider.Instance.IMPORT
     }
 }
 

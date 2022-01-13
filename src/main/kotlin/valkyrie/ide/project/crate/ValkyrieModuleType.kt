@@ -31,7 +31,7 @@ class ValkyrieModuleType : ModuleType<ValkyrieCreatePackage>(ID) {
     }
 
     override fun getNodeIcon(isOpened: Boolean): Icon {
-        return ValkyrieIconProvider.Valkyrie
+        return ValkyrieIconProvider.Instance.Valkyrie
     }
 
     override fun getDefaultAcceptableRole(): FrameworkRole {

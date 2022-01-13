@@ -38,7 +38,7 @@ private class TypeHierarchyBrowser(element: PsiElement) : TypeHierarchyBrowserBa
         println("createTrees($trees)")
     }
 
-    override fun createLegendPanel(): JPanel? {
+    override fun createLegendPanel(): JPanel {
         return panel {
             row {
                 label("Panel below")

@@ -16,7 +16,7 @@ class ValkyrieConfigurationType : ConfigurationType {
     }
 
     override fun getIcon(): Icon {
-        return ValkyrieIconProvider.Valkyrie
+        return ValkyrieIconProvider.Instance.Valkyrie
     }
 
     override fun getId(): String {

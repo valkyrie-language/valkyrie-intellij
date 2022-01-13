@@ -147,7 +147,7 @@ KW_FOR:   'for';
 // pushToken(ValkyrieTypes.KW_BITFLAG, r) "extend", "extends", "impl", "implements" ->
 // pushToken(ValkyrieTypes.KW_EXTENDS, r) "new", "object" -> pushToken(ValkyrieTypes.KW_NEW, r)
 
-INTEGER: [0] | [1-9][0-9]+;
+INTEGER: [0] | [1-9][0-9]*;
 DECIMAL
     : INTEGER DOT INTEGER EXP? // 1.35, 1.35E-9, 0.3, -4.5
     | INTEGER EXP

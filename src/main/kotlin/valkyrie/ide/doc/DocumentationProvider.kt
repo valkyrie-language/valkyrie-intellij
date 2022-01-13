@@ -6,7 +6,6 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
-import valkyrie.ide.formatter.ValkyrieCommenter
 import valkyrie.language.ast.DocumentNode
 import valkyrie.language.lexer.ValkyrieProgramLexer
 import java.net.ConnectException
@@ -33,10 +32,10 @@ class DocumentationProvider : DocumentationProvider {
     override fun collectDocComments(file: PsiFile, sink: Consumer<in PsiDocCommentBase>) {
 //        if (file !is ValkyrieFileNode) return
         for (leaf in PsiTreeUtil.findChildrenOfType(file, PsiComment::class.java)) {
-            val text = ValkyrieCommenter.extractDocumentText(leaf)
-            if (text != null) {
-                sink.accept(DocumentNode(leaf, text))
-            }
+//            val text = ValkyrieCommenter.extractDocumentText(leaf)
+//            if (text != null) {
+//                sink.accept(DocumentNode(leaf, text))
+//            }
         }
     }
 

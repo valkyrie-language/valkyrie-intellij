@@ -34,7 +34,7 @@ class InferDefineReturnEffect(private val element: ValkyrieFunctionItem) : HintA
     override fun showHint(editor: Editor): Boolean {
         return true
     }    override fun getIcon(flags: Int): Icon {
-        return ValkyrieIconProvider.IMPORT
+        return ValkyrieIconProvider.Instance.IMPORT
     }
 }
 

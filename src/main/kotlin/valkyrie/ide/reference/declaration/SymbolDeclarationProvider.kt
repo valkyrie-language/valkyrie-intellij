@@ -5,7 +5,7 @@ import com.intellij.model.psi.PsiSymbolDeclarationProvider
 import com.intellij.psi.PsiElement
 
 @Suppress("UnstableApiUsage")
-object SymbolDeclarationProvider : PsiSymbolDeclarationProvider {
+class SymbolDeclarationProvider : PsiSymbolDeclarationProvider {
     override fun getDeclarations(element: PsiElement, offsetInElement: Int): MutableCollection<out PsiSymbolDeclaration> {
         return mutableListOf()
     }
