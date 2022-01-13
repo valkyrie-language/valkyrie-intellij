@@ -60,11 +60,13 @@ define_union
     ;
 union_statements: define_function eos?;
 // ===========================================================================
-define_bitflags:     KW_BITFLAGS namepath BRACE_L bitflags_statements* BRACE_R;
+define_bitflags
+    : KW_BITFLAGS namepath BRACE_L bitflags_statements* BRACE_R
+    ;
 bitflags_statements: bitflags_item | eos_free;
-bitflags_item:       identifier (OP_EQ expression)?;
+bitflags_item:       identifier (OP_ASSIGN expression)?;
 // ===========================================================================
-define_variale: KW_LET identifier OP_EQ expression;
+define_variale: KW_LET identifier OP_ASSIGN expression;
 // ===========================================================================
 define_function
     : KW_FUNCTION namepath function_parameters type_hint? effect_hint? BRACE_L function_statements*
@@ -75,10 +77,10 @@ function_parameters
     | PARENTHESES_L PARENTHESES_R
     ;
 parameter_item:      identifier type_hint? parameter_default?;
-parameter_default:   OP_EQ inline_expression;
+parameter_default:   OP_ASSIGN inline_expression;
 function_statements: top_statement | define_variale;
 // ===========================================================================
-define_type: KW_TYPE identifier OP_EQ identifier;
+define_type: KW_TYPE identifier OP_ASSIGN identifier;
 type_hint:   (COLON | OP_ARROW) type_expression;
 effect_hint: OP_DIV type_expression;
 // ===========================================================================
@@ -89,7 +91,7 @@ if_statement
     ;
 // ===========================================================================
 while_statement
-    : KW_WHILE  inline_expression  BRACE_L top_statement BRACE_R
+    : KW_WHILE inline_expression BRACE_L top_statement* BRACE_R
     ;
 // ===========================================================================
 for_statement
@@ -97,15 +99,15 @@ for_statement
     ;
 // ===========================================================================
 expression
-    : expression op_multiple expression   # EMul
-    | expression op_plus expression       # EAdd
-    | expression op_logic expression      # ELogic
-    | expression op_compare expression # ECompare
-    | expression infix_is type_expression # EIs
-    | control_expression                  # EControl
-    | namepath '(' expr_list? ')'         # ECall
-    | namepath '[' expression ']'         # EIndex
-    | term                                # ETerm
+    : expression op_multiple expression
+    | expression op_plus expression
+    | expression op_logic expression
+    | expression op_compare expression
+    | expression infix_is type_expression
+    | control_expression
+    | namepath '(' expr_list? ')'
+    | namepath '[' expression ']'
+    | term
     ;
 control_expression
     : RETURN expression
@@ -118,8 +120,12 @@ control_expression
     | YIELD FROM expression
     ;
 inline_expression
-    : inline_expression op_multiple inline_expression # IMul
-    | term                                            # ITerm
+    : inline_expression op_multiple inline_expression
+    | inline_expression op_multiple inline_expression
+    | inline_expression op_multiple inline_expression
+    | inline_expression op_compare inline_expression
+    | inline_expression infix_is inline_expression
+    | term
     ;
 term
     : identifier         # EIdentifier
@@ -130,8 +136,8 @@ term
     | SPECIAL            # ESpeicalLiteral
     ;
 
-op_compare: OP_LE|OP_LEQ|OP_GE|OP_GEQ;
-op_pattern: OP_AND| OP_OR;
+op_compare:  OP_LE | OP_LEQ | OP_GE | OP_GEQ | OP_EQ | OP_NE;
+op_pattern:  OP_AND | OP_OR;
 op_multiple: OP_MUL | OP_DIV;
 op_plus:     OP_ADD | OP_SUB;
 op_logic:    LOGIC_OR | LOGIC_AND;
@@ -140,8 +146,8 @@ infix_in:    KW_IN | OP_IN;
 // ===========================================================================
 type_expression
     : type_expression op_pattern type_expression # TPattern
-    | '(' type_expression ')'               # TParens
-    | term                                  # TTerm
+    | '(' type_expression ')'                    # TParens
+    | term                                       # TTerm
     ;
 
 expr_list: expression (COMMA expression)*;

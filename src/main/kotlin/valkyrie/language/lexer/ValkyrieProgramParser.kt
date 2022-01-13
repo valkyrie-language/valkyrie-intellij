@@ -10,6 +10,7 @@ import org.antlr.v4.runtime.Parser
 import org.antlr.v4.runtime.tree.ParseTree
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.antlr.ValkyrieParser
+import valkyrie.language.antlr.ValkyrieParser.*
 import valkyrie.language.ast.*
 
 class ValkyrieProgramParser(parser: ValkyrieParser) : ANTLRParserAdaptor(ValkyrieLanguage, parser) {
@@ -22,23 +23,27 @@ class ValkyrieProgramParser(parser: ValkyrieParser) : ANTLRParserAdaptor(Valkyri
         fun extractCompositeNode(node: CompositeElement): PsiElement {
             val type: RuleIElementType = node.elementType as RuleIElementType;
             return when (type.ruleIndex) {
-                ValkyrieParser.RULE_program -> ValkyrieProgramNode(node, type)
-                ValkyrieParser.RULE_define_namespace -> ValkyrieNamespaceDeclaration(node, type)
+                RULE_program -> ValkyrieProgramNode(node, type)
+                RULE_define_namespace -> ValkyrieNamespaceDeclaration(node, type)
                 // class
-                ValkyrieParser.RULE_define_class -> ValkyrieClassStatement(node, type)
-                ValkyrieParser.RULE_class_field -> ValkyrieClassFieldNode(node, type)
+                RULE_define_class -> ValkyrieClassStatement(node, type)
+                RULE_class_field -> ValkyrieClassFieldNode(node, type)
                 //
-                ValkyrieParser.RULE_define_bitflags -> ValkyrieFlagsStatement(node, type)
-                ValkyrieParser.RULE_bitflags_item -> ValkyrieFlagsItemNode(node, type)
-                ValkyrieParser.RULE_define_trait -> ValkyrieTraitStatement(node, type)
-                ValkyrieParser.RULE_define_function -> ValkyrieFunctionStatement(node, type)
-                ValkyrieParser.RULE_parameter_item -> ValkyrieFunctionItem(node, type)
-                ValkyrieParser.RULE_expression -> extractExpression(node)
+                RULE_define_bitflags -> ValkyrieFlagsStatement(node, type)
+                RULE_bitflags_item -> ValkyrieFlagsItemNode(node, type)
+                RULE_define_trait -> ValkyrieTraitStatement(node, type)
+                //
+                RULE_define_function -> ValkyrieFunctionStatement(node, type)
+                RULE_parameter_item -> ValkyrieFunctionItem(node, type)
+                //
+                RULE_define_variale -> ValkyrieAssignStatement(node, type)
+                //
+                RULE_expression -> extractExpression(node)
                 // atomic
-                ValkyrieParser.RULE_namepath_free -> ValkyrieNamepathNode(node, type, true)
-                ValkyrieParser.RULE_namepath -> ValkyrieNamepathNode(node, type)
-                ValkyrieParser.RULE_identifier -> ValkyrieIdentifierNode(node, type)
-                ValkyrieParser.RULE_number -> ValkyrieNumberNode(node)
+                RULE_namepath_free -> ValkyrieNamepathNode(node, type, true)
+                RULE_namepath -> ValkyrieNamepathNode(node, type)
+                RULE_identifier -> ValkyrieIdentifierNode(node, type)
+                RULE_number -> ValkyrieNumberNode(node)
                 else -> ANTLRPsiNode(node)
             }
         }

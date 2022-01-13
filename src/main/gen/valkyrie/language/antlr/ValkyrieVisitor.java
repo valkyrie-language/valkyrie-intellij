@@ -197,68 +197,11 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFor_statement(ValkyrieParser.For_statementContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ECompare}
-	 * labeled alternative in {@link ValkyrieParser#expression}.
+	 * Visit a parse tree produced by {@link ValkyrieParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitECompare(ValkyrieParser.ECompareContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code ETerm}
-	 * labeled alternative in {@link ValkyrieParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitETerm(ValkyrieParser.ETermContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code ELogic}
-	 * labeled alternative in {@link ValkyrieParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitELogic(ValkyrieParser.ELogicContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code EControl}
-	 * labeled alternative in {@link ValkyrieParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEControl(ValkyrieParser.EControlContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code EIndex}
-	 * labeled alternative in {@link ValkyrieParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEIndex(ValkyrieParser.EIndexContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code EAdd}
-	 * labeled alternative in {@link ValkyrieParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEAdd(ValkyrieParser.EAddContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code EIs}
-	 * labeled alternative in {@link ValkyrieParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEIs(ValkyrieParser.EIsContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code ECall}
-	 * labeled alternative in {@link ValkyrieParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitECall(ValkyrieParser.ECallContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code EMul}
-	 * labeled alternative in {@link ValkyrieParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEMul(ValkyrieParser.EMulContext ctx);
+	T visitExpression(ValkyrieParser.ExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#control_expression}.
 	 * @param ctx the parse tree
@@ -266,19 +209,11 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitControl_expression(ValkyrieParser.Control_expressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ITerm}
-	 * labeled alternative in {@link ValkyrieParser#inline_expression}.
+	 * Visit a parse tree produced by {@link ValkyrieParser#inline_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitITerm(ValkyrieParser.ITermContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code IMul}
-	 * labeled alternative in {@link ValkyrieParser#inline_expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIMul(ValkyrieParser.IMulContext ctx);
+	T visitInline_expression(ValkyrieParser.Inline_expressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code EIdentifier}
 	 * labeled alternative in {@link ValkyrieParser#term}.

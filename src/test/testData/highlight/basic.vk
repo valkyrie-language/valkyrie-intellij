@@ -17,7 +17,3 @@ let ak = true || false && null;
 TestClass();
 }
 
-
-for ii in ee {
-aa + (bb / ee - cc) * dd
-}

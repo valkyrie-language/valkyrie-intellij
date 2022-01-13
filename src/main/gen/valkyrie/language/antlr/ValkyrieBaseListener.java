@@ -389,109 +389,13 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterECompare(ValkyrieParser.ECompareContext ctx) { }
+	@Override public void enterExpression(ValkyrieParser.ExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitECompare(ValkyrieParser.ECompareContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterETerm(ValkyrieParser.ETermContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitETerm(ValkyrieParser.ETermContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterELogic(ValkyrieParser.ELogicContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitELogic(ValkyrieParser.ELogicContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterEControl(ValkyrieParser.EControlContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEControl(ValkyrieParser.EControlContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterEIndex(ValkyrieParser.EIndexContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEIndex(ValkyrieParser.EIndexContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterEAdd(ValkyrieParser.EAddContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEAdd(ValkyrieParser.EAddContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterEIs(ValkyrieParser.EIsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEIs(ValkyrieParser.EIsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterECall(ValkyrieParser.ECallContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitECall(ValkyrieParser.ECallContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterEMul(ValkyrieParser.EMulContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEMul(ValkyrieParser.EMulContext ctx) { }
+	@Override public void exitExpression(ValkyrieParser.ExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -509,25 +413,13 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterITerm(ValkyrieParser.ITermContext ctx) { }
+	@Override public void enterInline_expression(ValkyrieParser.Inline_expressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitITerm(ValkyrieParser.ITermContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterIMul(ValkyrieParser.IMulContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitIMul(ValkyrieParser.IMulContext ctx) { }
+	@Override public void exitInline_expression(ValkyrieParser.Inline_expressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

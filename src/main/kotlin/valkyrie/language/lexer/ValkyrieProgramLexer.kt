@@ -72,6 +72,7 @@ class ValkyrieProgramLexer : Lexer() {
             // conditional
             KW_IF, KW_ELSE,
             // control flow
+            KW_WHILE,
             KW_FOR, KW_IN,
             // pattern match
             KW_WITCH,

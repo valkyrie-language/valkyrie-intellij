@@ -13,14 +13,6 @@ SEMICOLON: ';';
 OP_PROPORTION: '∷' | '::';
 COLON:         ':' | '∶';
 
-// arrow
-OP_ARROW:  '⟶' | '->';
-OP_ARROW2: '⇒' | '=>';
-// equal
-OP_EE: '==';
-OP_NE: '!=';
-OP_EQ: '=';
-
 // brackets
 PARENTHESES_L: '(';
 PARENTHESES_R: ')';
@@ -34,6 +26,9 @@ OP_ADD: '+';
 OP_SUB: '-';
 OP_MUL: '*';
 OP_DIV: '/';
+// equal
+OP_EQ: '==';
+OP_NE: '!=';
 // compare
 OP_LE:  '<';
 OP_LL:  '≪' | '<<';
@@ -43,6 +38,11 @@ OP_GE:  '>';
 OP_GG:  '≫' | '>>';
 OP_GGG: '⋙' | '>>>';
 OP_GEQ: '⩾' | '≥' | '>=';
+// arrow
+OP_ARROW:  '⟶' | '->';
+OP_ARROW2: '⇒' | '=>';
+OP_ASSIGN: '=';
+
 
 // "⟧" -> { pushToken(ValkyrieTypes.SLICE_R, r) } -> pushToken(ValkyrieTypes.OP_GEQ, r) "/>" -> {
 // pushToken(ValkyrieTypes.OP_GS, r) }

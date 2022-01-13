@@ -1,0 +1,10 @@
+#call
+class TestClass {
+    #call
+    readonly field1: u32,
+    readonly field2: f64;
+}
+
+extends TestClass {
+
+}

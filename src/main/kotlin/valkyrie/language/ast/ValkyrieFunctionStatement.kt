@@ -35,3 +35,4 @@ class ValkyrieFunctionStatement(node: ASTNode, type: IElementType) : IdentifierD
         return SymtabUtils.resolve(this, ValkyrieLanguage, element, "/script/function/ID");
     }
 }
+
