@@ -32,20 +32,14 @@ class ValkyrieFoldingVisitor(private val descriptors: MutableList<FoldingDescrip
         fold(o.node, findBrace(o))
     }
 
-    private fun fold(element: PsiElement) {
-        descriptors += FoldingDescriptor(element.node, element.textRange)
-    }
-
     private fun fold(node: ASTNode, range: TextRange) {
-        descriptors += FoldingDescriptor(node, range)
+        fold(node, range.startOffset, range.endOffset)
     }
 
-    private fun fold(node: ASTNode, start: Int, end: Int) = when {
-        end > start -> {
+    private fun fold(node: ASTNode, start: Int, end: Int) {
+        if (end > start) {
             descriptors += FoldingDescriptor(node, TextRange(start, end))
         }
-
-        else -> {}
     }
 }
 

@@ -17,6 +17,7 @@ class CompletionRegistrar : CompletionContributor() {
     init {
         extend(CompletionType.BASIC, CompletionInFileScope.Condition, CompletionInFileScope())
         extend(CompletionType.BASIC, CompletionInClassScope.Condition, CompletionInClassScope())
+        extend(CompletionType.BASIC, CompletionInOperators.Condition, CompletionInClassScope())
     }
 
     override fun fillCompletionVariants(parameters: CompletionParameters, result: CompletionResultSet) {
@@ -50,7 +51,7 @@ class CompletionRegistrar : CompletionContributor() {
             }
         } else if (ValkyrieProgramLexer.Operators.contains(element.elementType)) {
             println("Operators: ${result.hashCode()}")
-            CompletionInOperators(element).addCompletionVariants(parameters, context, result)
+            CompletionInOperators().addCompletionVariants(parameters, context, result)
         }
     }
 

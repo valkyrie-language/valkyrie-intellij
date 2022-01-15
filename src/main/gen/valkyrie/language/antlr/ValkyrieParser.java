@@ -29,8 +29,7 @@ public class ValkyrieParser extends Parser {
 		KW_FUNCTION=57, KW_WITCH=58, KW_WHILE=59, KW_FOR=60, INTEGER=61, DECIMAL=62, 
 		STRING=63, KW_IF=64, KW_ELSE=65, KW_OTHERWISE=66, FROM=67, RETURN=68, 
 		RESUME=69, YIELD=70, BREAK=71, CONTINUE=72, RAISE=73, CATCH=74, SPECIAL=75, 
-		LINE_COMMENT=76, BLOCK_COMMENT=77, WHITE_SPACE=78, ERROR_CHARACTAR=79, 
-		UNICODE_ID=80;
+		UNICODE_ID=76, LINE_COMMENT=77, BLOCK_COMMENT=78, WHITE_SPACE=79, ERROR_CHARACTAR=80;
 	public static final int
 		RULE_program = 0, RULE_top_statement = 1, RULE_eos = 2, RULE_eos_free = 3, 
 		RULE_define_namespace = 4, RULE_import_statement = 5, RULE_define_extension = 6, 
@@ -91,8 +90,8 @@ public class ValkyrieParser extends Parser {
 			"KW_BITFLAGS", "KW_TYPE", "KW_LET", "KW_FUNCTION", "KW_WITCH", "KW_WHILE", 
 			"KW_FOR", "INTEGER", "DECIMAL", "STRING", "KW_IF", "KW_ELSE", "KW_OTHERWISE", 
 			"FROM", "RETURN", "RESUME", "YIELD", "BREAK", "CONTINUE", "RAISE", "CATCH", 
-			"SPECIAL", "LINE_COMMENT", "BLOCK_COMMENT", "WHITE_SPACE", "ERROR_CHARACTAR", 
-			"UNICODE_ID"
+			"SPECIAL", "UNICODE_ID", "LINE_COMMENT", "BLOCK_COMMENT", "WHITE_SPACE", 
+			"ERROR_CHARACTAR"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -184,7 +183,7 @@ public class ValkyrieParser extends Parser {
 			setState(103);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & -4900057114887585472L) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & 68593L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & -4900057114887585472L) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & 7153L) != 0)) {
 				{
 				{
 				setState(100);
@@ -1890,7 +1889,7 @@ public class ValkyrieParser extends Parser {
 			setState(323);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & -4900057114887585472L) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & 68593L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & -4900057114887585472L) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & 7153L) != 0)) {
 				{
 				{
 				setState(320);
@@ -2484,7 +2483,7 @@ public class ValkyrieParser extends Parser {
 			setState(386);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & -4900057114887585472L) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & 68593L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & -4900057114887585472L) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & 7153L) != 0)) {
 				{
 				{
 				setState(383);
@@ -2569,7 +2568,7 @@ public class ValkyrieParser extends Parser {
 			setState(399);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & -4900057114887585472L) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & 68593L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & -4900057114887585472L) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & 7153L) != 0)) {
 				{
 				{
 				setState(396);
@@ -2690,7 +2689,7 @@ public class ValkyrieParser extends Parser {
 				setState(409);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & -6917529027641081536L) != 0) || ((((_la - 68)) & ~0x3f) == 0 && ((1L << (_la - 68)) & 4287L) != 0)) {
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & -6917529027641081536L) != 0) || ((((_la - 68)) & ~0x3f) == 0 && ((1L << (_la - 68)) & 447L) != 0)) {
 					{
 					setState(408);
 					expr_list();
@@ -4677,10 +4676,10 @@ public class ValkyrieParser extends Parser {
 		"\u0001\u0000\u0000\u0000\u0236\u0239\u0001\u0000\u0000\u0000\u0237\u0235"+
 		"\u0001\u0000\u0000\u0000\u0237\u0238\u0001\u0000\u0000\u0000\u0238]\u0001"+
 		"\u0000\u0000\u0000\u0239\u0237\u0001\u0000\u0000\u0000\u023a\u023b\u0005"+
-		"P\u0000\u0000\u023b_\u0001\u0000\u0000\u0000\u023c\u023e\u0005=\u0000"+
+		"L\u0000\u0000\u023b_\u0001\u0000\u0000\u0000\u023c\u023e\u0005=\u0000"+
 		"\u0000\u023d\u023f\u0003b1\u0000\u023e\u023d\u0001\u0000\u0000\u0000\u023e"+
 		"\u023f\u0001\u0000\u0000\u0000\u023fa\u0001\u0000\u0000\u0000\u0240\u0241"+
-		"\u0005P\u0000\u0000\u0241c\u0001\u0000\u0000\u0000@gnrvz~\u0082\u0086"+
+		"\u0005L\u0000\u0000\u0241c\u0001\u0000\u0000\u0000@gnrvz~\u0082\u0086"+
 		"\u008a\u008e\u0092\u0096\u009a\u009e\u00a2\u00a6\u00a8\u00b9\u00bf\u00c5"+
 		"\u00cd\u00d1\u00d8\u00de\u00e1\u00e4\u00e9\u00ef\u00f3\u00f6\u00fe\u0109"+
 		"\u0114\u011b\u0123\u012a\u012f\u013a\u013d\u0143\u014e\u0155\u0159\u015c"+

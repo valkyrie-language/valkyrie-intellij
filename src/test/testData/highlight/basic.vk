@@ -1,6 +1,6 @@
 namespace ad::bd::cd
 
-let ak = true;
+let a = true;
 
 
 
@@ -12,7 +12,7 @@ trait TestTrait {
 
 
 
-def function(aa: AType = 22, bb: AType = null) -> ReturnType {
+def function(a: A = 2, bb: AType = null) -> ReturnType {
 let ak = true || false && null;
 TestClass();
 }

@@ -1,3 +1,4 @@
+namespace std::ac::cb;
 class As {
 
 }
@@ -9,3 +10,19 @@ block
 else {
 block
 }
+
+
+#derive
+class Class {
+    fields;
+}
+
+extends Class {
+
+}
+
+class A {
+
+
+}
+

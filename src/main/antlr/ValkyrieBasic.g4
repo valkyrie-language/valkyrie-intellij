@@ -175,9 +175,16 @@ fragment NULL:  'null';
 fragment TRUE:  'true';
 fragment FALSE: 'false';
 SPECIAL:        NULL | TRUE | FALSE;
+// atom
+UNICODE_ID: [\p{XID_start}] [\p{XID_continue}]*;
+
 // comment
 LINE_COMMENT:  '//' .*? ('\n' | EOF) -> channel(HIDDEN);
 BLOCK_COMMENT: '/*' .*? '*/' -> channel(HIDDEN);
 
+
+
+
 WHITE_SPACE:     [ \t\n\r]+ -> channel(HIDDEN);
 ERROR_CHARACTAR: . -> channel(HIDDEN);
+

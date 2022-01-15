@@ -10,6 +10,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.util.ProcessingContext
 import valkyrie.ide.completion.TemplateReplaceElement.Companion.snippetFromPath
+import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.file.ValkyrieIconProvider
 
 
@@ -70,7 +71,10 @@ class CompletionInClassScope : CompletionProvider<CompletionParameters>() {
 
 
     companion object {
-        val Condition: PsiElementPattern.Capture<LeafPsiElement> = PlatformPatterns.psiElement(LeafPsiElement::class.java);
+        val Condition = triggerCondition();
     }
 }
 
+private fun triggerCondition(): PsiElementPattern.Capture<LeafPsiElement> {
+    return PlatformPatterns.psiElement(LeafPsiElement::class.java).withLanguage(ValkyrieLanguage);
+}

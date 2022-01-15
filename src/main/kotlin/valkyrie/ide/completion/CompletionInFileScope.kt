@@ -9,6 +9,8 @@ import com.intellij.patterns.PsiElementPattern
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.util.ProcessingContext
+import valkyrie.ide.project.crate.NamespaceMapping
+import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
@@ -19,7 +21,23 @@ class CompletionInFileScope : CompletionProvider<CompletionParameters>() {
         result.addTopMacros()
         keywordSnippet(result)
         addControlFlow(result)
-        println("已触发: ${parameters.position.text}")
+
+        for (classes in NamespaceMapping.Instance.ClassCache) {
+
+            for (path in classes.value) {
+                result.addElement(
+                    LookupElementBuilder.create(path)
+                        .withIcon(ValkyrieIconProvider.Instance.CLASS)
+                        .withLookupString(classes.key)
+                )
+
+
+            }
+
+
+        }
+
+//        println("已触发: ${parameters.position.text}")
     }
 
     fun keywordFor(result: CompletionResultSet) {
@@ -108,7 +126,7 @@ class CompletionInFileScope : CompletionProvider<CompletionParameters>() {
 
 
     companion object {
-        val Condition: PsiElementPattern.Capture<LeafPsiElement> = PlatformPatterns.psiElement(LeafPsiElement::class.java);
+        val Condition = triggerCondition();
         private fun buildWithReplace(show: String, replace: String, offset: Int, lookup: Set<String>, icon: Icon): LookupElementBuilder {
             return LookupElementBuilder.create(show).bold()
                 .withLookupStrings(lookup)
@@ -132,4 +150,9 @@ class CompletionInFileScope : CompletionProvider<CompletionParameters>() {
             this.addElement(element)
         }
     }
+}
+
+
+private fun triggerCondition(): PsiElementPattern.Capture<LeafPsiElement> {
+    return PlatformPatterns.psiElement(LeafPsiElement::class.java).withLanguage(ValkyrieLanguage);
 }
