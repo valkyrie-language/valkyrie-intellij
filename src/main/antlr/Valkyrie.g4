@@ -76,8 +76,10 @@ function_parameters
     : PARENTHESES_L parameter_item (COMMA parameter_item)* PARENTHESES_R
     | PARENTHESES_L PARENTHESES_R
     ;
-parameter_item:      identifier type_hint? parameter_default?;
-parameter_default:   OP_ASSIGN inline_expression;
+parameter_item
+    : macro_call* identifier* type_hint? parameter_default?
+    ;
+parameter_default:   OP_ASSIGN expression;
 function_statements: top_statement | define_variale;
 // ===========================================================================
 define_type: KW_TYPE identifier OP_ASSIGN identifier;
@@ -153,7 +155,11 @@ type_expression
 expr_list: expression (COMMA expression)*;
 
 // ===========================================================================
-macro_call: HASH namepath;
+macro_call
+    : HASH macro_call_item
+    | HASH BRACKET_L macro_call_item (COMMA macro_call_item)* BRACKET_R
+    ;
+macro_call_item: namepath function_parameters?;
 
 // namepath
 namepath_free: identifier ((OP_PROPORTION | DOT) identifier)*;

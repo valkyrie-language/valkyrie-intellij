@@ -11,7 +11,7 @@ import valkyrie.ide.project.crate.NamespaceMapping
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.ast.ValkyrieClassStatement
-import valkyrie.language.ast.ValkyrieNamespaceDeclaration
+import valkyrie.language.ast.ValkyrieNamespaceStatement
 import valkyrie.language.psi.recursiveSearch
 
 
@@ -29,7 +29,7 @@ class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvide
     val packageName: String
         get() {
             for (child in this.children) {
-                if (child is ValkyrieNamespaceDeclaration) {
+                if (child is ValkyrieNamespaceStatement) {
                     return child.name
                 }
             }
@@ -39,7 +39,7 @@ class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvide
     val namespace: String
         get() {
             for (child in this.children) {
-                if (child is ValkyrieNamespaceDeclaration) {
+                if (child is ValkyrieNamespaceStatement) {
                     return ""
                 }
             }

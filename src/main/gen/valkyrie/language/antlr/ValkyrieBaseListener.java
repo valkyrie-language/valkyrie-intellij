@@ -641,6 +641,18 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterMacro_call_item(ValkyrieParser.Macro_call_itemContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMacro_call_item(ValkyrieParser.Macro_call_itemContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterNamepath_free(ValkyrieParser.Namepath_freeContext ctx) { }
 	/**
 	 * {@inheritDoc}

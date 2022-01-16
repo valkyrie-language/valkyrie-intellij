@@ -24,10 +24,10 @@ class ValkyrieProgramParser(parser: ValkyrieParser) : ANTLRParserAdaptor(Valkyri
             val type: RuleIElementType = node.elementType as RuleIElementType;
             return when (type.ruleIndex) {
                 RULE_program -> ValkyrieProgramNode(node, type)
-                RULE_define_namespace -> ValkyrieNamespaceDeclaration(node, type)
+                RULE_define_namespace -> ValkyrieNamespaceStatement(node, type)
                 // class
                 RULE_define_class -> {
-                    ValkyrieClassStatement(node, type)
+                    ValkyrieClassStatement(node)
                 }
                 RULE_class_field -> ValkyrieClassFieldNode(node, type)
                 //

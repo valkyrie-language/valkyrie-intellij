@@ -34,7 +34,7 @@ class ValkyrieUsagesProvider : FindUsagesProvider {
     }
 
     override fun getDescriptiveName(element: PsiElement): String {
-        return "getDescriptiveName"
+        return "getDescriptiveName23"
     }
 
     override fun getNodeText(element: PsiElement, useFullName: Boolean): String {

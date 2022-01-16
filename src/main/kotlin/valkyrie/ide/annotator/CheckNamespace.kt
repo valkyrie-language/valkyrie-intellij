@@ -6,10 +6,11 @@ import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.util.parents
 import valkyrie.ide.actions.ast_transform.CreateNamespace
 import valkyrie.ide.actions.ast_transform.DeleteThis
 import valkyrie.language.ValkyrieBundle
-import valkyrie.language.ast.ValkyrieNamespaceDeclaration
+import valkyrie.language.ast.ValkyrieNamespaceStatement
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.psi.childrenOfType
 import valkyrie.language.psi.endSemicolon
@@ -18,12 +19,12 @@ class CheckNamespace : HyperlinkAnnotator() {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         when (element) {
             is ValkyrieFileNode -> annotateFile(element, holder)
-            is ValkyrieNamespaceDeclaration -> annotateNamespace(element, holder)
+            is ValkyrieNamespaceStatement -> annotateNamespace(element, holder)
         }
     }
 
     private fun annotateFile(element: ValkyrieFileNode, holder: AnnotationHolder) {
-        val child = element.childrenOfType<ValkyrieNamespaceDeclaration>()
+        val child = element.childrenOfType<ValkyrieNamespaceStatement>()
         if (child.isEmpty()) {
             val fixer = CreateNamespace(element)
             holder.newAnnotation(HighlightSeverity.WEAK_WARNING, fixer.getDescription())
@@ -42,12 +43,18 @@ class CheckNamespace : HyperlinkAnnotator() {
         }
     }
 
-    private fun annotateNamespace(element: ValkyrieNamespaceDeclaration, holder: AnnotationHolder) {
-        if (element.parent !is ValkyrieFileNode) {
-            holder.newAnnotation(HighlightSeverity.ERROR, ValkyrieBundle.message("annotator.namespace.non-top"))
-                .range(element.textRange)
+    private fun annotateNamespace(element: ValkyrieNamespaceStatement, holder: AnnotationHolder) {
+        for (parent in element.parents(false)) {
+            if (parent is ValkyrieFileNode) {
+                break;
+            }
+            else {
+//                holder.newAnnotation(HighlightSeverity.ERROR, ValkyrieBundle.message("annotator.namespace.non-top"))
+//                    .range(element.textRange)
 //                .withFix(fixer)
-                .create()
+//                    .create()
+//                break;
+            }
         }
 
         if (PsiTreeUtil.skipWhitespacesAndCommentsBackward(element) != null) {

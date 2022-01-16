@@ -1,0 +1,20 @@
+namespace test::macroes;
+
+
+
+
+
+#derive(Default, Debug, Serde)
+class TClass {
+    fields
+}
+
+extends TClass {
+    functions
+}
+
+
+#[derive]
+def function(args) {
+    block
+}

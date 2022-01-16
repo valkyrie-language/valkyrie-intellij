@@ -52,7 +52,7 @@
 		<iconProvider implementation="valkyrie.language.file.ValkyrieIconProvider"/>
 		<projectViewNestingRulesProvider implementation="valkyrie.language.file.ValkyrieFileGroup"/>
 		<treeStructureProvider implementation="valkyrie.ide.view.VStructureProvider"/>
-<!--		<lang.structureViewExtension implementation="valkyrie.ide.view.VStructureViewExtension"/>-->
+		<!--		<lang.structureViewExtension implementation="valkyrie.ide.view.VStructureViewExtension"/>-->
 		<lang.psiStructureViewFactory
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.view.StructureViewFactory"/>
@@ -160,12 +160,12 @@
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.usages.ValkyrieUsagesProvider"/>
 		<!-- Rename -->
-		<renameHandler implementation="valkyrie.ide.refactor.ValkyrieRenameHandler"/>
+		<!--		<renameHandler implementation="valkyrie.ide.refactor.ValkyrieRenameHandler"/>-->
 		<!--		<rename.inplace.resolveSnapshotProvider-->
 		<!--			language="Valkyrie"-->
 		<!--			implementationClass="valkyrie.ide.refactor.ValkyrieRenameInplace"/>-->
-		<renameInputValidator implementation="valkyrie.ide.refactor.renameInputValidator"/>
-		<renameRefactoringDialogProvider implementation="valkyrie.ide.refactor.ValkyrieRenameDialog"/>
+		<renameInputValidator implementation="valkyrie.ide.refactor.ValkyrieRenameInputValidator"/>
+		<!--		<renameRefactoringDialogProvider implementation="valkyrie.ide.refactor.ValkyrieRenameDialog"/>-->
 		<!-- Completion -->
 		<!--		<lookup.charFilter implementation="valkyrie.ide.completion.CompletionInterrupter"/>-->
 		<lang.commenter language="Valkyrie" implementationClass="valkyrie.ide.formatter.ValkyrieCommenter"/>
