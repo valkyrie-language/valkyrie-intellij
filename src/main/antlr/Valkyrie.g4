@@ -40,10 +40,10 @@ define_class
 class_statements: class_method | class_field | eos_free;
 class_inherit:    PARENTHESES_L namepath? PARENTHESES_R;
 class_field
-    : macro_call* identifier+ type_hint? parameter_default?
+    : macro_call* modified_identifier type_hint? parameter_default?
     ;
 class_method
-    : macro_call* identifier+ function_parameters type_hint? effect_hint? function_block?
+    : macro_call* modified_namepath function_parameters type_hint? effect_hint? function_block?
     ;
 // ===========================================================================
 define_trait
@@ -103,7 +103,9 @@ while_statement: KW_WHILE inline_expression function_block;
 for_statement
     : KW_FOR for_pattern infix_in inline_expression function_block
     ;
-for_pattern: identifier;
+for_pattern: modified_identifier+ (COMMA modified_identifier+)*;
+
+
 // ===========================================================================
 expression
     : expression op_multiple expression
@@ -165,7 +167,9 @@ macro_call
     | HASH BRACKET_L macro_call_item (COMMA macro_call_item)* BRACKET_R
     ;
 macro_call_item: namepath function_parameters?;
-
+// ===========================================================================
+modified_identifier: identifier+;
+modified_namepath: identifier+ (OP_PROPORTION identifier)*;
 // namepath
 namepath_free: identifier ((OP_PROPORTION | DOT) identifier)*;
 namepath:      identifier (OP_PROPORTION identifier)*;

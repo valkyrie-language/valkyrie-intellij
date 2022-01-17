@@ -576,6 +576,26 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitMacro_call_item(ValkyrieParser.Macro_call_itemContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#modified_identifier}.
+	 * @param ctx the parse tree
+	 */
+	void enterModified_identifier(ValkyrieParser.Modified_identifierContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#modified_identifier}.
+	 * @param ctx the parse tree
+	 */
+	void exitModified_identifier(ValkyrieParser.Modified_identifierContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#modified_namepath}.
+	 * @param ctx the parse tree
+	 */
+	void enterModified_namepath(ValkyrieParser.Modified_namepathContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#modified_namepath}.
+	 * @param ctx the parse tree
+	 */
+	void exitModified_namepath(ValkyrieParser.Modified_namepathContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#namepath_free}.
 	 * @param ctx the parse tree
 	 */

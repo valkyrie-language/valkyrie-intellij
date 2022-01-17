@@ -30,6 +30,7 @@ class ValkyrieProgramParser(parser: ValkyrieParser) : ANTLRParserAdaptor(Valkyri
                     ValkyrieClassStatement(node)
                 }
                 RULE_class_field -> ValkyrieClassFieldNode(node, type)
+                RULE_modified_identifier -> ModifiedIdentifier(node)
                 //
                 RULE_define_bitflags -> ValkyrieFlagsStatement(node, type)
                 RULE_bitflags_item -> ValkyrieFlagsItemNode(node, type)

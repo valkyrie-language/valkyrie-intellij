@@ -21,7 +21,7 @@ extends TestClass {
 
 #derive(Default, Debug, Serde)
 class Class {
-    fields
+    mut fields: u32
 }
 
 extends Class {
