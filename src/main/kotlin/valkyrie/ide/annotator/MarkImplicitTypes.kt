@@ -4,7 +4,7 @@ import com.intellij.codeInsight.highlighting.HyperlinkAnnotator
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.psi.PsiElement
 import valkyrie.language.ast.ValkyrieClassFieldNode
-import valkyrie.language.ast.ValkyrieFunctionItem
+import valkyrie.language.ast.ValkyrieFunctionParameterItem
 import valkyrie.language.ast.ValkyrieLetStatementNode
 
 //import valkyrie.language.psi_node.ValkyrieClassFieldNode
@@ -37,7 +37,7 @@ class MarkImplicitTypes : HyperlinkAnnotator() {
 //                }
             }
 
-            is ValkyrieFunctionItem -> {
+            is ValkyrieFunctionParameterItem -> {
 //                if (element.typeExpression == null) {
 //                    holder.newAnnotation(HighlightSeverity.INFORMATION, "Infer type")
 //                        .range(element.firstChild.textRange)

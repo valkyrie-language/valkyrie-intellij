@@ -37,7 +37,7 @@ class ValkyrieClassStatement(node: CompositeElement) : ASTWrapperPsiElement(node
     }
 
     override fun getContext(): ScopeNode? {
-        return findScopeContext()
+        return parentScope
     }
 
     override fun getPresentation(): ItemPresentation {

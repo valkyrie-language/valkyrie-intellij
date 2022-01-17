@@ -5,13 +5,13 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiFile
-import valkyrie.language.ast.ValkyrieFunctionItem
+import valkyrie.language.ast.ValkyrieFunctionParameterItem
 import valkyrie.language.file.ValkyrieIconProvider
 //import valkyrie.language.psi_node.ValkyrieDefineItemNode
 import javax.swing.Icon
 
 /// Add or fix return type
-class InferDefineReturnType(private val element: ValkyrieFunctionItem) : HintAction, Iconable {
+class InferDefineReturnType(private val element: ValkyrieFunctionParameterItem) : HintAction, Iconable {
     override fun startInWriteAction(): Boolean {
         return true
     }

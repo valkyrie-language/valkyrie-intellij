@@ -1,15 +1,14 @@
 package valkyrie.language.ast
 
-
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.util.PsiTreeUtil
 
-class ModifiedIdentifier(node: CompositeElement) : ASTWrapperPsiElement(node) {
+class ModifiedNamepath(node: CompositeElement) : ASTWrapperPsiElement(node) {
     companion object {
         private fun findItems(node: PsiElement): Array<ValkyrieIdentifierNode> {
-            val proxy = PsiTreeUtil.findChildOfType(node, ModifiedIdentifier::class.java);
+            val proxy = PsiTreeUtil.findChildOfType(node, ModifiedNamepath::class.java);
             val items = PsiTreeUtil.findChildrenOfType(proxy, ValkyrieIdentifierNode::class.java);
             return items.toTypedArray()
         }
@@ -25,5 +24,3 @@ class ModifiedIdentifier(node: CompositeElement) : ASTWrapperPsiElement(node) {
         }
     }
 }
-
-

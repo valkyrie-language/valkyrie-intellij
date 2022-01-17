@@ -29,15 +29,18 @@ class ValkyrieProgramParser(parser: ValkyrieParser) : ANTLRParserAdaptor(Valkyri
                 RULE_define_class -> {
                     ValkyrieClassStatement(node)
                 }
+
                 RULE_class_field -> ValkyrieClassFieldNode(node, type)
+                RULE_class_method -> ValkyrieClassMethodNode(node, type)
                 RULE_modified_identifier -> ModifiedIdentifier(node)
+                RULE_modified_namepath -> ModifiedNamepath(node)
                 //
                 RULE_define_bitflags -> ValkyrieFlagsStatement(node, type)
                 RULE_bitflags_item -> ValkyrieFlagsItemNode(node, type)
                 RULE_define_trait -> ValkyrieTraitStatement(node, type)
                 //
                 RULE_define_function -> ValkyrieFunctionStatement(node, type)
-                RULE_parameter_item -> ValkyrieFunctionItem(node, type)
+                RULE_parameter_item -> ValkyrieFunctionParameterItem(node, type)
                 //
                 RULE_define_variale -> ValkyrieAssignStatement(node, type)
                 //

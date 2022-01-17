@@ -15,7 +15,7 @@ class ValkyrieExtendsStatementNode(node: CompositeElement) : ASTWrapperPsiElemen
 
 
     override fun getContext(): ScopeNode? {
-        return findScopeContext();
+        return parentScope;
     }
 
     override fun resolve(element: PsiNamedElement?): PsiElement? {

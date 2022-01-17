@@ -1,6 +1,7 @@
 package valkyrie.language.ast
 
 
+import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiDocCommentBase
 import com.intellij.psi.PsiElement
@@ -9,7 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.language.lexer.ValkyrieProgramLexer
 
 
-class DocumentNode(comment: PsiComment, rawText: String? = null) : ValkyrieASTBase(comment.node), PsiDocCommentBase {
+class DocumentNode(comment: PsiComment, rawText: String? = null) : ASTWrapperPsiElement(comment.node), PsiDocCommentBase {
     private val documentText: String
 
     init {

@@ -13,16 +13,8 @@ import javax.swing.Icon
 
 
 class ValkyrieClassFieldNode(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ScopeNode {
-    val field: ValkyrieIdentifierNode
-        get() {
-            val proxy = findChildByClass(ModifiedIdentifier::class.java);
-            return proxy?.identifier!!;
-        }
-    val modifiers: Array<ValkyrieIdentifierNode>
-        get() {
-            val proxy = findChildByClass(ModifiedIdentifier::class.java);
-            return proxy?.modifiers?.toTypedArray() ?: arrayOf();
-        }
+    val field by lazy { ModifiedIdentifier.findIdentifier(this) }
+    val modifiers by lazy { ModifiedIdentifier.findModifiers(this) };
 
     override fun getName(): String {
         return field.name

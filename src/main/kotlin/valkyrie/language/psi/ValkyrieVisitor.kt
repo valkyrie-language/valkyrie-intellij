@@ -19,7 +19,7 @@ open class ValkyrieRecursiveVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveV
 
             is ValkyrieTraitStatement -> visitTraitDeclaration(element)
             is ValkyrieFunctionStatement -> visitFunctionDeclaration(element)
-            is ValkyrieFunctionItem -> visitFunctionItem(element)
+            is ValkyrieFunctionParameterItem -> visitFunctionItem(element)
 
 
             else -> {
@@ -59,7 +59,7 @@ open class ValkyrieRecursiveVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveV
     }
 
 
-    open fun visitFunctionItem(o: ValkyrieFunctionItem) {
+    open fun visitFunctionItem(o: ValkyrieFunctionParameterItem) {
 
     }
 
