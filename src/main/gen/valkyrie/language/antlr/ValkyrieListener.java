@@ -248,6 +248,16 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitParameter_default(ValkyrieParser.Parameter_defaultContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#function_block}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunction_block(ValkyrieParser.Function_blockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#function_block}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunction_block(ValkyrieParser.Function_blockContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#function_statements}.
 	 * @param ctx the parse tree
 	 */
@@ -317,6 +327,16 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFor_statement(ValkyrieParser.For_statementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#for_pattern}.
+	 * @param ctx the parse tree
+	 */
+	void enterFor_pattern(ValkyrieParser.For_patternContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#for_pattern}.
+	 * @param ctx the parse tree
+	 */
+	void exitFor_pattern(ValkyrieParser.For_patternContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#expression}.
 	 * @param ctx the parse tree

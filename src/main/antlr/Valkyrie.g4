@@ -43,9 +43,8 @@ class_field
     : macro_call* identifier+ type_hint? parameter_default?
     ;
 class_method
-    : macro_call* identifier+ function_parameters type_hint? effect_hint?
+    : macro_call* identifier+ function_parameters type_hint? effect_hint? function_block?
     ;
-
 // ===========================================================================
 define_trait
     : KW_TRAIT namepath BRACE_L class_statements* BRACE_R
@@ -69,8 +68,7 @@ bitflags_item:       identifier (OP_ASSIGN expression)?;
 define_variale: KW_LET identifier OP_ASSIGN expression;
 // ===========================================================================
 define_function
-    : KW_FUNCTION namepath function_parameters type_hint? effect_hint? BRACE_L function_statements*
-        BRACE_R
+    : KW_FUNCTION namepath function_parameters type_hint? effect_hint? function_block
     ;
 function_parameters
     : PARENTHESES_L parameter_item (COMMA parameter_item)* PARENTHESES_R
@@ -79,8 +77,16 @@ function_parameters
 parameter_item
     : macro_call* identifier* type_hint? parameter_default?
     ;
-parameter_default:   OP_ASSIGN expression;
-function_statements: top_statement | define_variale;
+parameter_default: OP_ASSIGN expression;
+// ===========================================================================
+function_block: BRACE_L function_statements* BRACE_R;
+
+function_statements
+    : if_statement eos?
+    | while_statement eos?
+    | for_statement eos?
+    | expression eos?
+    ;
 // ===========================================================================
 define_type: KW_TYPE identifier OP_ASSIGN identifier;
 type_hint:   (COLON | OP_ARROW) type_expression;
@@ -92,13 +98,12 @@ if_statement
     )?
     ;
 // ===========================================================================
-while_statement
-    : KW_WHILE inline_expression BRACE_L top_statement* BRACE_R
-    ;
+while_statement: KW_WHILE inline_expression function_block;
 // ===========================================================================
 for_statement
-    : KW_FOR identifier infix_in inline_expression BRACE_L function_statements* BRACE_R
+    : KW_FOR for_pattern infix_in inline_expression function_block
     ;
+for_pattern: identifier;
 // ===========================================================================
 expression
     : expression op_multiple expression
@@ -123,8 +128,8 @@ control_expression
     ;
 inline_expression
     : inline_expression op_multiple inline_expression
-    | inline_expression op_multiple inline_expression
-    | inline_expression op_multiple inline_expression
+    | inline_expression op_plus inline_expression
+    | inline_expression op_logic inline_expression
     | inline_expression op_compare inline_expression
     | inline_expression infix_is inline_expression
     | term

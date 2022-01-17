@@ -24,20 +24,20 @@ class ValkyrieClassStatement(node: CompositeElement) : ASTWrapperPsiElement(node
         TODO("Not yet implemented")
     }
 
-    override fun getContainingFile(): ValkyrieFileNode {
-        return super.getContainingFile() as ValkyrieFileNode
-    }
-
-    override fun getContext(): ScopeNode? {
-        return null;
-    }
-
     override fun getNameIdentifier(): ValkyrieNamepathNode {
         return findChildByClass(ValkyrieNamepathNode::class.java)!!;
     }
 
     override fun getIcon(flags: Int): Icon {
         return ValkyrieIconProvider.Instance.CLASS
+    }
+
+    override fun getContainingFile(): ValkyrieFileNode {
+        return super.getContainingFile() as ValkyrieFileNode
+    }
+
+    override fun getContext(): ScopeNode? {
+        return findScopeContext()
     }
 
     override fun getPresentation(): ItemPresentation {

@@ -6,6 +6,10 @@ class TestClass {
     readonly field2: f64;
 
     public static void main;
+
+    try_add(mut self, args) {
+        block
+    }
 }
 
 extends TestClass {
@@ -13,9 +17,7 @@ extends TestClass {
 }
 
 
-def method(mut self, args) {
-    block
-}
+
 
 #derive(Default, Debug, Serde)
 class Class {

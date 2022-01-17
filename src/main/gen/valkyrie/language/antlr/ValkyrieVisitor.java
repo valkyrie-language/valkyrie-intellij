@@ -155,6 +155,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParameter_default(ValkyrieParser.Parameter_defaultContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#function_block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunction_block(ValkyrieParser.Function_blockContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#function_statements}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -196,6 +202,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFor_statement(ValkyrieParser.For_statementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#for_pattern}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFor_pattern(ValkyrieParser.For_patternContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#expression}.
 	 * @param ctx the parse tree
