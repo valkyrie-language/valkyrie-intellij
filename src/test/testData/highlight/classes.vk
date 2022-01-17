@@ -1,4 +1,3 @@
-
 #call
 class TestClass {
     #call
@@ -10,6 +9,7 @@ class TestClass {
     try_add(mut self, args) {
         block
     }
+    display(n) {}
 }
 
 extends TestClass {

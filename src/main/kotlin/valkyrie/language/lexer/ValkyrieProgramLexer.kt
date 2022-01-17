@@ -98,14 +98,14 @@ class ValkyrieProgramLexer : Lexer() {
         val Integers: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, INTEGER);
         val Decimals: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, DECIMAL);
         val Identifiers: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, UNICODE_ID);
-        val BraceL: TokenIElementType = TokenIElementType(BRACE_L, "{", ValkyrieLanguage);
-        val BraceR: TokenIElementType = TokenIElementType(BRACE_R, "}", ValkyrieLanguage);
-        val BracketL: TokenIElementType = TokenIElementType(BRACKET_L, "[", ValkyrieLanguage);
-        val BracketR: TokenIElementType = TokenIElementType(BRACKET_R, "]", ValkyrieLanguage);
-        val ParenthesisL: TokenIElementType = TokenIElementType(PARENTHESES_L, ")", ValkyrieLanguage);
-        val ParenthesisR: TokenIElementType = TokenIElementType(PARENTHESES_R, "(", ValkyrieLanguage);
-        val CommentLine: TokenIElementType = TokenIElementType(LINE_COMMENT, "CommentLine", ValkyrieLanguage);
-        val CommentBlock: TokenIElementType = TokenIElementType(BLOCK_COMMENT, "CommentBlock", ValkyrieLanguage);
+        val BraceL = TokenIElementType(BRACE_L, "{", ValkyrieLanguage);
+        val BraceR = TokenIElementType(BRACE_R, "}", ValkyrieLanguage);
+        val BracketL = TokenIElementType(BRACKET_L, "[", ValkyrieLanguage);
+        val BracketR = TokenIElementType(BRACKET_R, "]", ValkyrieLanguage);
+        val ParenthesisL = TokenIElementType(PARENTHESES_L, ")", ValkyrieLanguage);
+        val ParenthesisR = TokenIElementType(PARENTHESES_R, "(", ValkyrieLanguage);
+        val CommentLine = TokenIElementType(LINE_COMMENT, "CommentLine", ValkyrieLanguage);
+        val CommentBlock = TokenIElementType(BLOCK_COMMENT, "CommentBlock", ValkyrieLanguage);
         val Comments = TokenSet.create(CommentBlock, CommentLine);
         val CompletionWords: TokenSet = PSIElementTypeFactory.createTokenSet(
             ValkyrieLanguage,
@@ -114,5 +114,6 @@ class ValkyrieProgramLexer : Lexer() {
             KW_TRAIT,
             UNICODE_ID,
         )
+
     }
 }

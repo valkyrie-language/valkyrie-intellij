@@ -1,21 +1,29 @@
 package valkyrie.language.ast
 
+import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.PsiNamedElement
-import com.intellij.psi.tree.IElementType
-import org.antlr.intellij.adaptor.psi.IdentifierDefSubtree
 import org.antlr.intellij.adaptor.psi.ScopeNode
 
-class ValkyrieClassMethodNode(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ScopeNode {
-    val field by lazy { ModifiedNamepath.findIdentifier(this) }
+class ValkyrieClassMethodNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ScopeNode {
+    val method by lazy { ModifiedNamepath.findIdentifier(this) }
     val modifiers by lazy { ModifiedNamepath.findModifiers(this) };
     override fun getName(): String {
-        return super.getName()!!
+        return method.name
+    }
+
+    override fun setName(name: String): PsiElement {
+        TODO("Not yet implemented")
     }
 
     override fun getNameIdentifier(): PsiElement {
-        return super.getNameIdentifier()!!
+        return method
+    }
+
+    override fun getContext(): ScopeNode? {
+        return parentScope
     }
 
 

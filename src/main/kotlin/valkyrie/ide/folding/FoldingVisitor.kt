@@ -13,8 +13,7 @@ import valkyrie.language.ast.ValkyrieTraitStatement
 import valkyrie.language.psi.ValkyrieRecursiveVisitor
 import valkyrie.language.psi.childrenWithLeaves
 
-class ValkyrieFoldingVisitor(private val descriptors: MutableList<FoldingDescriptor>) : ValkyrieRecursiveVisitor() {
-
+class FoldingVisitor(private val descriptors: MutableList<FoldingDescriptor>) : ValkyrieRecursiveVisitor() {
 
     override fun visitClassDeclaration(o: ValkyrieClassStatement) {
         fold(o.node, findBrace(o))

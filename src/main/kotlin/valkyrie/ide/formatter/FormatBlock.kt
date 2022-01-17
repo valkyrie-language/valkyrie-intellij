@@ -5,9 +5,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.formatter.FormatterUtil
-import valkyrie.language.ast.ValkyrieClassFieldNode
-import valkyrie.language.ast.ValkyrieFlagsItemNode
-import valkyrie.language.ast.isWhitespaceOrEmpty
+import valkyrie.language.ast.*
 
 //import valkyrie.language.psi.ValkyrieTokenType
 
@@ -63,6 +61,16 @@ class FormatBlock(
     }
 
     private fun computeIndent(child: ASTNode): Indent? {
+        if (node.psi is ValkyrieBlockNode) {
+            val firstLine = node.firstChildNode == child;
+            val lastLine = node.lastChildNode == child;
+            val isCornerChild = firstLine || lastLine
+            return when {
+                isCornerChild -> Indent.getNoneIndent()
+                else -> Indent.getNormalIndent()
+            }
+        }
+
         return when (child.psi) {
 //            node.psi is ValkyrieMatchExpression -> {
 //                when (child.psi) {
@@ -75,26 +83,18 @@ class FormatBlock(
 //                else -> Indent.getNoneIndent()
 //            }
 
-            is ValkyrieClassFieldNode -> {
-                return Indent.getNormalIndent()
+            is ValkyrieClassFieldNode, is ValkyrieClassMethodNode -> {
+                Indent.getNormalIndent()
             }
 
             is ValkyrieFlagsItemNode -> {
-                return Indent.getNormalIndent()
+                Indent.getNormalIndent()
             }
 
-//            ValkyrieTokenType.isValkyrieBlock(node.psi) -> {
-//                val firstLine = node.firstChildNode == child;
-//                val lastLine = node.lastChildNode == child;
-//                val isCornerChild = firstLine || lastLine
-//                when {
-//                    isCornerChild -> Indent.getNoneIndent()
-//                    else -> Indent.getNormalIndent()
-//                }
-//            }
 
             else -> Indent.getNoneIndent()
         }
+
     }
 
 

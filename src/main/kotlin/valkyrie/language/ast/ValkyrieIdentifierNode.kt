@@ -1,15 +1,20 @@
 package valkyrie.language.ast
 
+import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.PsiReference
-import com.intellij.psi.tree.IElementType
-import org.antlr.intellij.adaptor.psi.IdentifierDefSubtree
 import valkyrie.ide.reference.declaration.ValkyrieClassReference
 import valkyrie.ide.reference.declaration.ValkyrieTraitReference
 
-class ValkyrieIdentifierNode(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type) {
+class ValkyrieIdentifierNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNamedElement {
     override fun getName(): String {
         return text
+    }
+
+    override fun setName(name: String): PsiElement {
+        TODO("Not yet implemented")
     }
 
 

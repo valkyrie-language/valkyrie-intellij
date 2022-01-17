@@ -13,7 +13,7 @@ import valkyrie.language.file.ValkyrieFileNode
 class ValkyrieFoldingBuilder : CustomFoldingBuilder(), DumbAware {
     override fun buildLanguageFoldRegions(descriptors: MutableList<FoldingDescriptor>, root: PsiElement, document: Document, quick: Boolean) {
         if (root !is ValkyrieFileNode) return
-        val visitor = ValkyrieFoldingVisitor(descriptors)
+        val visitor = FoldingVisitor(descriptors)
         PsiTreeUtil.processElements(root) {
             it.accept(visitor);
             true

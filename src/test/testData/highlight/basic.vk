@@ -13,8 +13,8 @@ trait TestTrait {
 
 
 def function(a: A = 2, bb: AType = null) -> ReturnType {
-let ak = true || false && null;
-TestClass();
+    let ak = true || false && null;
+    TestClass();
 }
 
 
