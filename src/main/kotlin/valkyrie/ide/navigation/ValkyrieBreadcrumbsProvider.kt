@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
 import com.intellij.ui.breadcrumbs.BreadcrumbsProvider
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.ast.ValkyrieExtendsStatementNode
+import valkyrie.language.ast.ValkyrieExtendsStatement
 import valkyrie.language.psi.ValkyrieContext
 import javax.swing.Action
 import javax.swing.Icon
@@ -24,7 +24,7 @@ class ValkyrieBreadcrumbsProvider : BreadcrumbsProvider {
     override fun getElementInfo(element: PsiElement): String {
         return when (element) {
 //            is DeclareNode -> element.name
-            is ValkyrieExtendsStatementNode -> "${element.name}"
+            is ValkyrieExtendsStatement -> "${element.name}"
             else -> "unknown ${element.elementType}"
         }
     }

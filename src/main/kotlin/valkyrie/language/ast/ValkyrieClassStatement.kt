@@ -16,6 +16,8 @@ import valkyrie.language.psi.recursiveSearch
 import javax.swing.Icon
 
 class ValkyrieClassStatement(node: CompositeElement) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ScopeNode {
+    private val _identifier by lazy { ValkyrieNamepathNode.find(this)!! }
+
     override fun getName(): String {
         return nameIdentifier.text
     }
@@ -24,8 +26,8 @@ class ValkyrieClassStatement(node: CompositeElement) : ASTWrapperPsiElement(node
         TODO("Not yet implemented")
     }
 
-    override fun getNameIdentifier(): ValkyrieNamepathNode {
-        return findChildByClass(ValkyrieNamepathNode::class.java)!!;
+    override fun getNameIdentifier(): ValkyrieIdentifierNode {
+        return _identifier.nameIdentifier;
     }
 
     override fun getIcon(flags: Int): Icon {
@@ -41,7 +43,7 @@ class ValkyrieClassStatement(node: CompositeElement) : ASTWrapperPsiElement(node
     }
 
     override fun getPresentation(): ItemPresentation {
-        return NamepathPresentation(nameIdentifier, this.getIcon(0))
+        return NamepathPresentation(_identifier, this.getIcon(0))
     }
 
     override fun resolve(element: PsiNamedElement?): PsiElement? {

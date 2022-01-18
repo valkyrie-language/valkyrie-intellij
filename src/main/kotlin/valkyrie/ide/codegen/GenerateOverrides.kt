@@ -7,16 +7,16 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import valkyrie.language.ast.ValkyrieClassStatement
-import valkyrie.language.ast.ValkyrieExtendsStatementNode
-import valkyrie.language.ast.ValkyrieUnionStatementNode
+import valkyrie.language.ast.ValkyrieExtendsStatement
+import valkyrie.language.ast.ValkyrieUnionStatement
 import valkyrie.language.psi.caretElement
 
 
 class GenerateOverrides : LanguageCodeInsightActionHandler {
     override fun isValidFor(editor: Editor?, file: PsiFile?) = when (file.caretElement(editor)?.context) {
         is ValkyrieClassStatement -> true
-        is ValkyrieUnionStatementNode -> true
-        is ValkyrieExtendsStatementNode -> true
+        is ValkyrieUnionStatement -> true
+        is ValkyrieExtendsStatement -> true
         else -> false
     }
 

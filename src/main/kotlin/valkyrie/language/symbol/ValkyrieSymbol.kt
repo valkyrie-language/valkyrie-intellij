@@ -7,7 +7,7 @@ import com.intellij.model.psi.PsiSymbolDeclaration
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import valkyrie.language.ast.ValkyrieClassStatement
-import valkyrie.language.ast.ValkyrieExtendsStatementNode
+import valkyrie.language.ast.ValkyrieExtendsStatement
 import valkyrie.language.ast.ValkyrieTraitStatement
 //import valkyrie.language.psi_node.ValkyrieExtendsStatementNode
 
@@ -74,7 +74,7 @@ class NamespaceManager {
 class ValkyrieClassDeclare : PsiSymbolDeclaration {
     var mySymbol: ValkyrieSymbol;
     var myDefine: PsiElement;
-    var myExtends: MutableList<ValkyrieExtendsStatementNode>;
+    var myExtends: MutableList<ValkyrieExtendsStatement>;
 
     constructor(classNode: ValkyrieClassStatement, packageName: String, namespace: String) {
         mySymbol = ValkyrieSymbol(packageName, namespace, classNode.name)
@@ -82,7 +82,7 @@ class ValkyrieClassDeclare : PsiSymbolDeclaration {
         myExtends = mutableListOf()
     }
 
-    constructor(extendNode: ValkyrieExtendsStatementNode, packageName: String, namespace: String) {
+    constructor(extendNode: ValkyrieExtendsStatement, packageName: String, namespace: String) {
         mySymbol = ValkyrieSymbol(packageName, namespace, extendNode.name)
         myDefine = extendNode
         myExtends = mutableListOf(extendNode)

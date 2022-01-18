@@ -5,12 +5,12 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.elementType
-import valkyrie.language.ast.ValkyrieLetStatementNode
+import valkyrie.language.ast.ValkyrieLetStatement
 //import valkyrie.language.psi.ValkyrieTypes
 import valkyrie.language.psi.childrenWithLeaves
 //import valkyrie.language.psi_node.ValkyrieLetStatementNode
 
-class InferLetType(private val element: ValkyrieLetStatementNode, private val action: Boolean) : HintAction {
+class InferLetType(private val element: ValkyrieLetStatement, private val action: Boolean) : HintAction {
     override fun startInWriteAction(): Boolean {
         return true
     }

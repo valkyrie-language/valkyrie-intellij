@@ -6,7 +6,7 @@ import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.impl.source.tree.CompositeElement
 import org.antlr.intellij.adaptor.psi.ScopeNode
 
-class ValkyrieExtendsStatementNode(node: CompositeElement) : ASTWrapperPsiElement(node), ScopeNode {
+class ValkyrieExtendsStatement(node: CompositeElement) : ASTWrapperPsiElement(node), ScopeNode {
 
 
     override fun getName(): String {

@@ -7,9 +7,11 @@ import com.intellij.psi.tree.IElementType
 import org.antlr.intellij.adaptor.psi.IdentifierDefSubtree
 import org.antlr.intellij.adaptor.psi.ScopeNode
 
-class ValkyrieWhichStatementNode(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ScopeNode {
+class ValkyrieLetStatement(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ScopeNode {
     override fun resolve(element: PsiNamedElement?): PsiElement? {
         TODO("Not yet implemented")
     }
 
 }
+
+

@@ -7,7 +7,7 @@ import com.intellij.openapi.editor.colors.CodeInsightColors
 import com.intellij.psi.PsiElement
 import valkyrie.ide.actions.ast_transform.*
 import valkyrie.language.ast.ValkyrieIfStatementNode
-import valkyrie.language.ast.ValkyrieWhichStatementNode
+import valkyrie.language.ast.ValkyrieWhichStatement
 
 //import valkyrie.language.psi_node.ValkyrieForStatementNode
 //import valkyrie.language.psi_node.ValkyrieIfStatementNode
@@ -37,7 +37,7 @@ class MarkLegacyExpression : HyperlinkAnnotator() {
 
             }
 
-            is ValkyrieWhichStatementNode -> {
+            is ValkyrieWhichStatement -> {
                 toLegacyIf(element, holder)
             }
 
@@ -65,7 +65,7 @@ class MarkLegacyExpression : HyperlinkAnnotator() {
         }
     }
 
-    private fun toLegacyIf(element: ValkyrieWhichStatementNode, holder: AnnotationHolder) {
+    private fun toLegacyIf(element: ValkyrieWhichStatement, holder: AnnotationHolder) {
         val fixer = ToLegacyIf(element);
         holder.newAnnotation(HighlightSeverity.INFORMATION, fixer.getDescription())
             .range(element.firstChild.textRange)

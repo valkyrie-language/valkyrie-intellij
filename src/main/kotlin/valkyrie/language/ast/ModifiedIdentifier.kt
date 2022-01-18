@@ -4,14 +4,15 @@ package valkyrie.language.ast
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.CompositeElement
-import com.intellij.psi.util.PsiTreeUtil
+import valkyrie.language.psi.childOfType
+import valkyrie.language.psi.childrenOfType
 
 class ModifiedIdentifier(node: CompositeElement) : ASTWrapperPsiElement(node) {
     companion object {
         private fun findItems(node: PsiElement): Array<ValkyrieIdentifierNode> {
-            val proxy = PsiTreeUtil.findChildOfType(node, ModifiedIdentifier::class.java);
-            val items = PsiTreeUtil.findChildrenOfType(proxy, ValkyrieIdentifierNode::class.java);
-            return items.toTypedArray()
+            val proxy = node.childOfType<ModifiedIdentifier>();
+            val items = proxy?.childrenOfType<ValkyrieIdentifierNode>();
+            return items?.toTypedArray() ?: arrayOf()
         }
 
         // Need to be lazy, otherwise it will be an infinite loop
