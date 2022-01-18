@@ -5,7 +5,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.formatter.FormatterUtil
-import valkyrie.language.ast.ValkyrieBlockNode
+import valkyrie.language.ast.ValkyrieBraceBlockNode
 import valkyrie.language.ast.isWhitespaceOrEmpty
 
 //import valkyrie.language.psi.ValkyrieTokenType
@@ -62,7 +62,7 @@ class FormatBlock(
     }
 
     private fun computeIndent(child: ASTNode): Indent? {
-        return if (node.psi is ValkyrieBlockNode) {
+        return if (node.psi is ValkyrieBraceBlockNode) {
             val firstLine = node.firstChildNode == child;
             val lastLine = node.lastChildNode == child;
             val isCornerChild = firstLine || lastLine

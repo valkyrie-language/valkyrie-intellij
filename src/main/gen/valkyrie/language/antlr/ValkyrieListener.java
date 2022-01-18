@@ -168,6 +168,16 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitDefine_union(ValkyrieParser.Define_unionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#union_block}.
+	 * @param ctx the parse tree
+	 */
+	void enterUnion_block(ValkyrieParser.Union_blockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#union_block}.
+	 * @param ctx the parse tree
+	 */
+	void exitUnion_block(ValkyrieParser.Union_blockContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#union_statements}.
 	 * @param ctx the parse tree
 	 */
@@ -177,6 +187,26 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitUnion_statements(ValkyrieParser.Union_statementsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#variant_block}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariant_block(ValkyrieParser.Variant_blockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#variant_block}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariant_block(ValkyrieParser.Variant_blockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#variant_statements}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariant_statements(ValkyrieParser.Variant_statementsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#variant_statements}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariant_statements(ValkyrieParser.Variant_statementsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#define_bitflags}.
 	 * @param ctx the parse tree
@@ -218,15 +248,35 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitBitflags_item(ValkyrieParser.Bitflags_itemContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ValkyrieParser#define_variale}.
+	 * Enter a parse tree produced by {@link ValkyrieParser#define_type}.
 	 * @param ctx the parse tree
 	 */
-	void enterDefine_variale(ValkyrieParser.Define_varialeContext ctx);
+	void enterDefine_type(ValkyrieParser.Define_typeContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ValkyrieParser#define_variale}.
+	 * Exit a parse tree produced by {@link ValkyrieParser#define_type}.
 	 * @param ctx the parse tree
 	 */
-	void exitDefine_variale(ValkyrieParser.Define_varialeContext ctx);
+	void exitDefine_type(ValkyrieParser.Define_typeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#type_hint}.
+	 * @param ctx the parse tree
+	 */
+	void enterType_hint(ValkyrieParser.Type_hintContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#type_hint}.
+	 * @param ctx the parse tree
+	 */
+	void exitType_hint(ValkyrieParser.Type_hintContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#effect_hint}.
+	 * @param ctx the parse tree
+	 */
+	void enterEffect_hint(ValkyrieParser.Effect_hintContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#effect_hint}.
+	 * @param ctx the parse tree
+	 */
+	void exitEffect_hint(ValkyrieParser.Effect_hintContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#define_function}.
 	 * @param ctx the parse tree
@@ -288,35 +338,15 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitFunction_statements(ValkyrieParser.Function_statementsContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ValkyrieParser#define_type}.
+	 * Enter a parse tree produced by {@link ValkyrieParser#define_variale}.
 	 * @param ctx the parse tree
 	 */
-	void enterDefine_type(ValkyrieParser.Define_typeContext ctx);
+	void enterDefine_variale(ValkyrieParser.Define_varialeContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ValkyrieParser#define_type}.
+	 * Exit a parse tree produced by {@link ValkyrieParser#define_variale}.
 	 * @param ctx the parse tree
 	 */
-	void exitDefine_type(ValkyrieParser.Define_typeContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ValkyrieParser#type_hint}.
-	 * @param ctx the parse tree
-	 */
-	void enterType_hint(ValkyrieParser.Type_hintContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ValkyrieParser#type_hint}.
-	 * @param ctx the parse tree
-	 */
-	void exitType_hint(ValkyrieParser.Type_hintContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ValkyrieParser#effect_hint}.
-	 * @param ctx the parse tree
-	 */
-	void enterEffect_hint(ValkyrieParser.Effect_hintContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ValkyrieParser#effect_hint}.
-	 * @param ctx the parse tree
-	 */
-	void exitEffect_hint(ValkyrieParser.Effect_hintContext ctx);
+	void exitDefine_variale(ValkyrieParser.Define_varialeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#if_statement}.
 	 * @param ctx the parse tree

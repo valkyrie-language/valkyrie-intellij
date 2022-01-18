@@ -107,11 +107,29 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDefine_union(ValkyrieParser.Define_unionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#union_block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnion_block(ValkyrieParser.Union_blockContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#union_statements}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitUnion_statements(ValkyrieParser.Union_statementsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#variant_block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariant_block(ValkyrieParser.Variant_blockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#variant_statements}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariant_statements(ValkyrieParser.Variant_statementsContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#define_bitflags}.
 	 * @param ctx the parse tree
@@ -137,11 +155,23 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBitflags_item(ValkyrieParser.Bitflags_itemContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ValkyrieParser#define_variale}.
+	 * Visit a parse tree produced by {@link ValkyrieParser#define_type}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDefine_variale(ValkyrieParser.Define_varialeContext ctx);
+	T visitDefine_type(ValkyrieParser.Define_typeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#type_hint}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitType_hint(ValkyrieParser.Type_hintContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#effect_hint}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEffect_hint(ValkyrieParser.Effect_hintContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#define_function}.
 	 * @param ctx the parse tree
@@ -179,23 +209,11 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunction_statements(ValkyrieParser.Function_statementsContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ValkyrieParser#define_type}.
+	 * Visit a parse tree produced by {@link ValkyrieParser#define_variale}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDefine_type(ValkyrieParser.Define_typeContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ValkyrieParser#type_hint}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitType_hint(ValkyrieParser.Type_hintContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ValkyrieParser#effect_hint}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEffect_hint(ValkyrieParser.Effect_hintContext ctx);
+	T visitDefine_variale(ValkyrieParser.Define_varialeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#if_statement}.
 	 * @param ctx the parse tree

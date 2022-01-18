@@ -27,23 +27,27 @@ class ValkyrieProgramParser(parser: ValkyrieParser) : ANTLRParserAdaptor(Valkyri
                 RULE_define_namespace -> ValkyrieNamespaceStatement(node, type)
                 // class
                 RULE_define_class -> ValkyrieClassStatement(node)
-                RULE_class_block -> ValkyrieBlockNode(node)
+                RULE_class_block -> ValkyrieBraceBlockNode(node)
                 RULE_class_field -> ValkyrieClassFieldNode(node)
                 RULE_class_method -> ValkyrieClassMethodNode(node)
                 RULE_modified_identifier -> ModifiedIdentifier(node)
                 RULE_modified_namepath -> ModifiedNamepath(node)
                 // flags
                 RULE_define_bitflags -> ValkyrieFlagsStatement(node, type)
-                RULE_bitflags_block -> ValkyrieBlockNode(node)
+                RULE_bitflags_block -> ValkyrieBraceBlockNode(node)
                 RULE_bitflags_item -> ValkyrieFlagsItemNode(node, type)
                 RULE_define_trait -> ValkyrieTraitStatement(node, type)
-                //
+                // union
+                RULE_define_union -> ValkyrieUnionStatement(node)
+                RULE_union_block -> ValkyrieBraceBlockNode(node)
+                RULE_variant_block -> ValkyrieBraceBlockNode(node)
+                // function
                 RULE_define_function -> ValkyrieFunctionStatement(node, type)
                 RULE_parameter_item -> ValkyrieFunctionParameterItem(node, type)
-                //
+                RULE_function_block -> ValkyrieBraceBlockNode(node)
+                // variable
                 RULE_define_variale -> ValkyrieAssignStatement(node, type)
-                //
-                RULE_function_block -> ValkyrieBlockNode(node)
+                // expression
                 RULE_expression -> extractExpression(node)
                 // atomic
                 RULE_namepath_free -> ValkyrieNamepathNode(node, type, true)

@@ -285,15 +285,6 @@ class_method        ::= KW_DEF? [modifiers] identifier [generic_define] define_t
     methods = [getIdentifier getModifiers]
 }
 // ---------------------------------------------------------------------------------------------------------------------
-union_statement     ::= KW_TAGGED <<modified identifier>> [generic_define] [class_inherit] [class_effect] union_block {
-    pin = 2
-    mixin="valkyrie.language.mixin.MixinUnion"
-};
-union_block         ::= <<brace_block union_item separator>>;
-union_item          ::= identifier [class_block] {
-    mixin="valkyrie.language.mixin.MixinUnionItem"
-};
-// ---------------------------------------------------------------------------------------------------------------------
 object              ::= <<bracket_block object_pair COMMA>>
 object_pair         ::= object_key COLON expression;
 object_key          ::= SYMBOL_XID | SYMBOL_RAW | INTEGER | KW_IF | KW_CLASS {
@@ -310,12 +301,6 @@ extends_statement   ::= KW_EXTENDS [generic_call] [modifiers] namepath [generic_
     pin = namepath
     extends="valkyrie.language.mixin.MixinExtends"
 }
-// ---------------------------------------------------------------------------------------------------------------------
-bitflag_statement   ::= KW_BITFLAG [modifiers] identifier [COLON type_expression] bitflag_block {
-    mixin="valkyrie.language.mixin.MixinBitflag"
-};
-bitflag_block       ::= <<brace_free (bitflag_item | macro_call) SEMICOLON>>;
-bitflag_item        ::= identifier OP_SET expression;
 // ---------------------------------------------------------------------------------------------------------------------
 expression          ::= term (op_binary term)*;
 inline_expression   ::= inline_term (op_binary inline_term)*;

@@ -51,17 +51,24 @@ define_trait: KW_TRAIT namepath class_block;
 // ===========================================================================
 define_extends: KW_EXTENDS namepath class_block;
 // ===========================================================================
-define_union
-    : KW_UNION namepath BRACE_L union_statements* BRACE_R
+define_union: KW_UNION namepath union_block;
+union_block:  BRACE_L union_statements* BRACE_R;
+union_statements
+    : class_method
+    | identifier variant_block?
+    | eos_free
     ;
-union_statements: define_function eos?;
+variant_block:      BRACE_L variant_statements* BRACE_R;
+variant_statements: class_field | eos_free;
 // ===========================================================================
 define_bitflags:     KW_BITFLAGS namepath bitflags_block;
 bitflags_block:      BRACE_L bitflags_statements* BRACE_R;
 bitflags_statements: bitflags_item | eos_free;
 bitflags_item:       identifier (OP_ASSIGN expression)?;
 // ===========================================================================
-define_variale: KW_LET identifier OP_ASSIGN expression;
+define_type: KW_TYPE identifier OP_ASSIGN identifier;
+type_hint:   (COLON | OP_ARROW) type_expression;
+effect_hint: OP_DIV type_expression;
 // ===========================================================================
 define_function
     : KW_FUNCTION namepath function_parameters type_hint? effect_hint? function_block
@@ -84,9 +91,7 @@ function_statements
     | expression eos?
     ;
 // ===========================================================================
-define_type: KW_TYPE identifier OP_ASSIGN identifier;
-type_hint:   (COLON | OP_ARROW) type_expression;
-effect_hint: OP_DIV type_expression;
+define_variale: KW_LET identifier OP_ASSIGN expression;
 // ===========================================================================
 if_statement
     : KW_IF expression function_block (KW_ELSE function_block)?

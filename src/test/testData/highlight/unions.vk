@@ -1,6 +1,19 @@
-
-
-
 union TestUnion {
+
+}
+
+
+union Test2{
+    Test
+    Nothing,
+    Test{};
+    Field {
+        public static field_a,
+        mut field_b
+    }
+
+    nice(){
+        field
+    }
 
 }

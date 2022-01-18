@@ -209,6 +209,18 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterUnion_block(ValkyrieParser.Union_blockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitUnion_block(ValkyrieParser.Union_blockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterUnion_statements(ValkyrieParser.Union_statementsContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -216,6 +228,30 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitUnion_statements(ValkyrieParser.Union_statementsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVariant_block(ValkyrieParser.Variant_blockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVariant_block(ValkyrieParser.Variant_blockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVariant_statements(ValkyrieParser.Variant_statementsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVariant_statements(ValkyrieParser.Variant_statementsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -269,13 +305,37 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDefine_variale(ValkyrieParser.Define_varialeContext ctx) { }
+	@Override public void enterDefine_type(ValkyrieParser.Define_typeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDefine_variale(ValkyrieParser.Define_varialeContext ctx) { }
+	@Override public void exitDefine_type(ValkyrieParser.Define_typeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterType_hint(ValkyrieParser.Type_hintContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitType_hint(ValkyrieParser.Type_hintContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEffect_hint(ValkyrieParser.Effect_hintContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEffect_hint(ValkyrieParser.Effect_hintContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -353,37 +413,13 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDefine_type(ValkyrieParser.Define_typeContext ctx) { }
+	@Override public void enterDefine_variale(ValkyrieParser.Define_varialeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDefine_type(ValkyrieParser.Define_typeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterType_hint(ValkyrieParser.Type_hintContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitType_hint(ValkyrieParser.Type_hintContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterEffect_hint(ValkyrieParser.Effect_hintContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEffect_hint(ValkyrieParser.Effect_hintContext ctx) { }
+	@Override public void exitDefine_variale(ValkyrieParser.Define_varialeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
