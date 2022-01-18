@@ -59,6 +59,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDefine_class(ValkyrieParser.Define_classContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#class_block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClass_block(ValkyrieParser.Class_blockContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#class_statements}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -112,6 +118,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitDefine_bitflags(ValkyrieParser.Define_bitflagsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#bitflags_block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBitflags_block(ValkyrieParser.Bitflags_blockContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#bitflags_statements}.
 	 * @param ctx the parse tree

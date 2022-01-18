@@ -88,6 +88,16 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitDefine_class(ValkyrieParser.Define_classContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#class_block}.
+	 * @param ctx the parse tree
+	 */
+	void enterClass_block(ValkyrieParser.Class_blockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#class_block}.
+	 * @param ctx the parse tree
+	 */
+	void exitClass_block(ValkyrieParser.Class_blockContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#class_statements}.
 	 * @param ctx the parse tree
 	 */
@@ -177,6 +187,16 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDefine_bitflags(ValkyrieParser.Define_bitflagsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#bitflags_block}.
+	 * @param ctx the parse tree
+	 */
+	void enterBitflags_block(ValkyrieParser.Bitflags_blockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#bitflags_block}.
+	 * @param ctx the parse tree
+	 */
+	void exitBitflags_block(ValkyrieParser.Bitflags_blockContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#bitflags_statements}.
 	 * @param ctx the parse tree

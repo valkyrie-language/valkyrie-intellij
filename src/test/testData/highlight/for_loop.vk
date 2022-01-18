@@ -1,14 +1,14 @@
 for ii in ee {
-aa + (bb / ee - cc) * dd
+    aa + (bb / ee - cc) * dd
 }
 
 
 
 for i in dim1 {
-for i, mut j in dim2 {
-for i, mut j, ref k in dim3 {
+    for i, mut j in dim2 {
+        for i, mut j, ref k in dim3 {
 
-}
-}
+        }
+    }
 }
 

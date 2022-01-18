@@ -113,6 +113,18 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterClass_block(ValkyrieParser.Class_blockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitClass_block(ValkyrieParser.Class_blockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterClass_statements(ValkyrieParser.Class_statementsContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -216,6 +228,18 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitDefine_bitflags(ValkyrieParser.Define_bitflagsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBitflags_block(ValkyrieParser.Bitflags_blockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBitflags_block(ValkyrieParser.Bitflags_blockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

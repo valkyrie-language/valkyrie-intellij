@@ -5,10 +5,10 @@ class As {
 
 
 if condition {
-block
+    block
 }
 else {
-block
+    block
 }
 
 

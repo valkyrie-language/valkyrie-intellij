@@ -35,8 +35,9 @@ import_statement: KW_IMPORT namepath_free;
 define_extension: KW_EXTENSION;
 // ===========================================================================
 define_class
-    : macro_call* KW_CLASS namepath class_inherit? BRACE_L class_statements* BRACE_R
+    : macro_call* KW_CLASS namepath class_inherit? class_block
     ;
+class_block:      BRACE_L class_statements* BRACE_R;
 class_statements: class_method | class_field | eos_free;
 class_inherit:    PARENTHESES_L namepath? PARENTHESES_R;
 class_field
@@ -46,22 +47,17 @@ class_method
     : macro_call* modified_namepath function_parameters type_hint? effect_hint? function_block?
     ;
 // ===========================================================================
-define_trait
-    : KW_TRAIT namepath BRACE_L class_statements* BRACE_R
-    ;
+define_trait: KW_TRAIT namepath class_block;
 // ===========================================================================
-define_extends
-    : KW_EXTENDS namepath BRACE_L class_statements* BRACE_R
-    ;
+define_extends: KW_EXTENDS namepath class_block;
 // ===========================================================================
 define_union
     : KW_UNION namepath BRACE_L union_statements* BRACE_R
     ;
 union_statements: define_function eos?;
 // ===========================================================================
-define_bitflags
-    : KW_BITFLAGS namepath BRACE_L bitflags_statements* BRACE_R
-    ;
+define_bitflags:     KW_BITFLAGS namepath bitflags_block;
+bitflags_block:      BRACE_L bitflags_statements* BRACE_R;
 bitflags_statements: bitflags_item | eos_free;
 bitflags_item:       identifier (OP_ASSIGN expression)?;
 // ===========================================================================
@@ -93,9 +89,7 @@ type_hint:   (COLON | OP_ARROW) type_expression;
 effect_hint: OP_DIV type_expression;
 // ===========================================================================
 if_statement
-    : KW_IF expression '{' top_statement '}' (
-        KW_ELSE '{' top_statement '}'
-    )?
+    : KW_IF expression function_block (KW_ELSE function_block)?
     ;
 // ===========================================================================
 while_statement: KW_WHILE inline_expression function_block;

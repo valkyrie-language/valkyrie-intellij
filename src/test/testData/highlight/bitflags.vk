@@ -1,6 +1,7 @@
 namespace std.create.test;
 
 flags TestFlags {
-    Aa = 12
-    Bb = 12
+    A = 12 + 1;
+    Bb = 12 + 2;
+    Ccc = 3
 }

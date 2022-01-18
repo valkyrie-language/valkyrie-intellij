@@ -27,12 +27,14 @@ class ValkyrieProgramParser(parser: ValkyrieParser) : ANTLRParserAdaptor(Valkyri
                 RULE_define_namespace -> ValkyrieNamespaceStatement(node, type)
                 // class
                 RULE_define_class -> ValkyrieClassStatement(node)
+                RULE_class_block -> ValkyrieBlockNode(node)
                 RULE_class_field -> ValkyrieClassFieldNode(node)
                 RULE_class_method -> ValkyrieClassMethodNode(node)
                 RULE_modified_identifier -> ModifiedIdentifier(node)
                 RULE_modified_namepath -> ModifiedNamepath(node)
-                //
+                // flags
                 RULE_define_bitflags -> ValkyrieFlagsStatement(node, type)
+                RULE_bitflags_block -> ValkyrieBlockNode(node)
                 RULE_bitflags_item -> ValkyrieFlagsItemNode(node, type)
                 RULE_define_trait -> ValkyrieTraitStatement(node, type)
                 //
