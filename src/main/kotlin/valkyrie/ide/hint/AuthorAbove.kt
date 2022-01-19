@@ -18,16 +18,14 @@ class AuthorAbove : VcsCodeVisionLanguageContext {
 
     }
 
-    override fun isAccepted(element: PsiElement) = when (element) {
-        is ValkyrieFlagsStatement,
-        is ValkyrieClassStatement,
-        is ValkyrieUnionStatement,
-        is ValkyrieTraitStatement,
-        is ValkyrieExtendsStatement,
-        is ValkyrieFunctionStatement,
-        -> true
-
-        else -> false
+    override fun isAccepted(element: PsiElement): Boolean {
+        return element is ValkyrieFlagsStatement
+            || element is ValkyrieClassStatement
+            || element is ValkyrieUnionStatement
+            || element is ValkyrieTraitStatement
+            || element is ValkyrieExtendsStatement
+            || element is ValkyrieFunctionStatement
+            || element is ValkyrieClassMethodNode
     }
 
     override fun isCustomFileAccepted(file: PsiFile): Boolean {

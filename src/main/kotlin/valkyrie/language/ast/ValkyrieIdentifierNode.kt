@@ -7,6 +7,7 @@ import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.PsiReference
 import valkyrie.ide.reference.declaration.ValkyrieClassReference
 import valkyrie.ide.reference.declaration.ValkyrieTraitReference
+import valkyrie.language.psi.childOfType
 
 class ValkyrieIdentifierNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNamedElement {
     override fun getName(): String {
@@ -47,6 +48,12 @@ class ValkyrieIdentifierNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNam
             }
         }
         return null;
+    }
+
+    companion object {
+        fun find(node: PsiElement): ValkyrieIdentifierNode? {
+            return node.childOfType<ValkyrieIdentifierNode>()
+        }
     }
 }
 

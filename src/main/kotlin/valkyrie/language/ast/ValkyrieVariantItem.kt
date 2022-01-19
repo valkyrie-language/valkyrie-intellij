@@ -11,9 +11,8 @@ import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
-class ValkyrieUnionStatement(node: CompositeElement) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ScopeNode {
+class ValkyrieVariantItem(node: CompositeElement) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ScopeNode {
     private val _identifier by lazy { ValkyrieIdentifierNode.find(this)!! }
-
     override fun getName(): String {
         return _identifier.name
     }
@@ -27,20 +26,20 @@ class ValkyrieUnionStatement(node: CompositeElement) : ASTWrapperPsiElement(node
     }
 
     override fun getIcon(flags: Int): Icon {
-        return ValkyrieIconProvider.Instance.UNION
+        return ValkyrieIconProvider.Instance.VARIANT
     }
 
     override fun getPresentation(): ItemPresentation {
         return IdentifierPresentation(_identifier, this.getIcon(0))
     }
 
-
     override fun getContext(): ScopeNode? {
-        return parentScope
+        TODO("Not yet implemented")
     }
 
     override fun resolve(element: PsiNamedElement?): PsiElement? {
         TODO("Not yet implemented")
     }
-}
 
+
+}

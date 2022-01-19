@@ -51,7 +51,7 @@ define_trait: KW_TRAIT namepath class_block;
 // ===========================================================================
 define_extends: KW_EXTENDS namepath class_block;
 // ===========================================================================
-define_union: KW_UNION namepath union_block;
+define_union: KW_UNION identifier union_block;
 union_block:  BRACE_L union_statements* BRACE_R;
 union_statements
     : class_method

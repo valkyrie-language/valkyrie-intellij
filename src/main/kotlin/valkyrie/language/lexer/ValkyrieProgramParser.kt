@@ -40,6 +40,7 @@ class ValkyrieProgramParser(parser: ValkyrieParser) : ANTLRParserAdaptor(Valkyri
                 // union
                 RULE_define_union -> ValkyrieUnionStatement(node)
                 RULE_union_block -> ValkyrieBraceBlockNode(node)
+                RULE_variant_statements -> ValkyrieVariantItem(node)
                 RULE_variant_block -> ValkyrieBraceBlockNode(node)
                 // function
                 RULE_define_function -> ValkyrieFunctionStatement(node, type)

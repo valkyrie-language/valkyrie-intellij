@@ -37,6 +37,8 @@ class ValkyrieIconProvider : IconProvider() {
         //
         val TYPE = AllIcons.Nodes.Type
         val CLASS = AllIcons.Nodes.Class
+        val UNION = AllIcons.Nodes.Enum
+        val VARIANT = AllIcons.Nodes.AnonymousClass
         val TRAIT = AllIcons.Nodes.Interface
         val FUNCTION = AllIcons.Nodes.Method
         val FIELD = AllIcons.Nodes.Field
