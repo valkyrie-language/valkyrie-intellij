@@ -16,4 +16,6 @@ union Test2{
         field
     }
 
+    display() {}
+
 }

@@ -55,9 +55,10 @@ define_union: KW_UNION identifier union_block;
 union_block:  BRACE_L union_statements* BRACE_R;
 union_statements
     : class_method
-    | identifier variant_block?
+    | define_variant
     | eos_free
     ;
+define_variant: identifier variant_block?;
 variant_block:      BRACE_L variant_statements* BRACE_R;
 variant_statements: class_field | eos_free;
 // ===========================================================================

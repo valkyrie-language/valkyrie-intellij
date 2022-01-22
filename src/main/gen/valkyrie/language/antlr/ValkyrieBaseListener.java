@@ -233,6 +233,18 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDefine_variant(ValkyrieParser.Define_variantContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDefine_variant(ValkyrieParser.Define_variantContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterVariant_block(ValkyrieParser.Variant_blockContext ctx) { }
 	/**
 	 * {@inheritDoc}

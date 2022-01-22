@@ -41,6 +41,14 @@ class NodeHighlighter : ValkyrieRecursiveVisitor(), HighlightVisitor {
         highlight(o.nameIdentifier, Color.SYM_FIELD)
     }
 
+    override fun visitUnionDeclaration(o: ValkyrieUnionStatement) {
+        highlight(o.nameIdentifier, Color.SYM_CLASS)
+    }
+
+    override fun visitVariantDeclaration(o: ValkyrieVariantItem) {
+        highlight(o.nameIdentifier, Color.SYM_VARIANT)
+    }
+
     override fun visitTraitDeclaration(o: ValkyrieTraitStatement) {
         highlight(o.nameIdentifier, Color.SYM_TRAIT)
     }

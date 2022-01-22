@@ -119,6 +119,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitUnion_statements(ValkyrieParser.Union_statementsContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#define_variant}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefine_variant(ValkyrieParser.Define_variantContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#variant_block}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

@@ -188,6 +188,16 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitUnion_statements(ValkyrieParser.Union_statementsContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#define_variant}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefine_variant(ValkyrieParser.Define_variantContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#define_variant}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefine_variant(ValkyrieParser.Define_variantContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#variant_block}.
 	 * @param ctx the parse tree
 	 */

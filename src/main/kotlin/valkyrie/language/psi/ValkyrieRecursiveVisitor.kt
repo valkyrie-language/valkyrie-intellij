@@ -6,7 +6,6 @@ import com.intellij.psi.PsiRecursiveVisitor
 import valkyrie.language.ast.*
 
 open class ValkyrieRecursiveVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveVisitor {
-
     override fun visitElement(element: PsiElement) {
         ProgressManager.checkCanceled()
         when (element) {
@@ -15,10 +14,12 @@ open class ValkyrieRecursiveVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveV
             is ValkyrieClassStatement -> visitClassDeclaration(element)
             is ValkyrieClassFieldNode -> visitClassField(element)
             is ValkyrieClassMethodNode -> visitClassMethod(element)
-
+            //
             is ValkyrieFlagsStatement -> visitFlagsDeclaration(element)
             is ValkyrieFlagsItemNode -> visitFlagsField(element)
-
+            is ValkyrieUnionStatement -> visitUnionDeclaration(element)
+            is ValkyrieVariantItem -> visitVariantDeclaration(element)
+            //
             is ValkyrieTraitStatement -> visitTraitDeclaration(element)
             is ValkyrieFunctionStatement -> visitFunctionDeclaration(element)
             is ValkyrieFunctionParameterItem -> visitFunctionItem(element)
@@ -51,9 +52,20 @@ open class ValkyrieRecursiveVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveV
     open fun visitFlagsDeclaration(o: ValkyrieFlagsStatement) {
 
     }
+
     open fun visitFlagsField(o: ValkyrieFlagsItemNode) {
 
     }
+
+    open fun visitUnionDeclaration(o: ValkyrieUnionStatement) {
+
+    }
+
+    open fun visitVariantDeclaration(o: ValkyrieVariantItem) {
+
+    }
+
+
     open fun visitTraitDeclaration(o: ValkyrieTraitStatement) {
 
     }
