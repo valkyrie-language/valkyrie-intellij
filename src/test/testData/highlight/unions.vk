@@ -17,5 +17,5 @@ union Test2{
     }
 
     display() {}
-
 }
+

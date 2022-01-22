@@ -8,7 +8,7 @@ import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.impl.source.tree.CompositeElement
 import org.antlr.intellij.adaptor.SymtabUtils
 import org.antlr.intellij.adaptor.psi.ScopeNode
-import valkyrie.ide.view.NamepathPresentation
+import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.file.ValkyrieIconProvider
@@ -16,10 +16,10 @@ import valkyrie.language.psi.recursiveSearch
 import javax.swing.Icon
 
 class ValkyrieClassStatement(node: CompositeElement) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ScopeNode {
-    private val _identifier by lazy { ValkyrieNamepathNode.find(this)!! }
+    private val _identifier by lazy { ValkyrieIdentifierNode.find(this)!! }
 
     override fun getName(): String {
-        return nameIdentifier.text
+        return _identifier.text
     }
 
     override fun setName(name: String): PsiElement {
@@ -27,7 +27,7 @@ class ValkyrieClassStatement(node: CompositeElement) : ASTWrapperPsiElement(node
     }
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode {
-        return _identifier.nameIdentifier;
+        return _identifier;
     }
 
     override fun getIcon(flags: Int): Icon {
@@ -43,7 +43,7 @@ class ValkyrieClassStatement(node: CompositeElement) : ASTWrapperPsiElement(node
     }
 
     override fun getPresentation(): ItemPresentation {
-        return NamepathPresentation(_identifier, this.getIcon(0))
+        return IdentifierPresentation(_identifier, this.getIcon(0))
     }
 
     override fun resolve(element: PsiNamedElement?): PsiElement? {

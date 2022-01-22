@@ -157,6 +157,8 @@ fragment EXP: [Ee] [+\-]? INTEGER;
 STRING:       '"' (ESC | ~["\\])* '"';
 fragment ESC: '\\' ["\bfnrt];
 
+
+
 // conditional
 KW_IF:        'if';
 KW_ELSE:      'else';
@@ -176,6 +178,7 @@ fragment TRUE:  'true';
 fragment FALSE: 'false';
 SPECIAL:        NULL | TRUE | FALSE;
 // atom
+RAW_ID:       '`' (~[`])+ '`';
 UNICODE_ID: [\p{XID_start}] [\p{XID_continue}]*;
 
 // comment

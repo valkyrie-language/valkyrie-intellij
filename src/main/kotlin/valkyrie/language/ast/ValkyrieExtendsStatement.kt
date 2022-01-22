@@ -7,10 +7,10 @@ import com.intellij.psi.impl.source.tree.CompositeElement
 import org.antlr.intellij.adaptor.psi.ScopeNode
 
 class ValkyrieExtendsStatement(node: CompositeElement) : ASTWrapperPsiElement(node), ScopeNode {
-
+    private val _identifier by lazy { ValkyrieNamepathNode.find(this)!! }
 
     override fun getName(): String {
-        return findChildByClass(ValkyrieNamepathNode::class.java)!!.name
+        return _identifier.name
     }
 
 

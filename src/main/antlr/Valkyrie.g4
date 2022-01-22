@@ -25,6 +25,12 @@ top_statement
     | for_statement eos?
     | expression eos?
     ;
+function_statements
+    : if_statement eos?
+    | while_statement eos?
+    | for_statement eos?
+    | expression eos?
+    ;
 eos:      SEMICOLON;
 eos_free: COMMA | SEMICOLON;
 // ===========================================================================
@@ -35,7 +41,7 @@ import_statement: KW_IMPORT namepath_free;
 define_extension: KW_EXTENSION;
 // ===========================================================================
 define_class
-    : macro_call* KW_CLASS namepath class_inherit? class_block
+    : macro_call* KW_CLASS identifier class_inherit? class_block
     ;
 class_block:      BRACE_L class_statements* BRACE_R;
 class_statements: class_method | class_field | eos_free;
@@ -47,18 +53,14 @@ class_method
     : macro_call* modified_namepath function_parameters type_hint? effect_hint? function_block?
     ;
 // ===========================================================================
-define_trait: KW_TRAIT namepath class_block;
+define_trait: KW_TRAIT identifier class_block;
 // ===========================================================================
 define_extends: KW_EXTENDS namepath class_block;
 // ===========================================================================
-define_union: KW_UNION identifier union_block;
-union_block:  BRACE_L union_statements* BRACE_R;
-union_statements
-    : class_method
-    | define_variant
-    | eos_free
-    ;
-define_variant: identifier variant_block?;
+define_union:       KW_UNION identifier union_block;
+union_block:        BRACE_L union_statements* BRACE_R;
+union_statements:   class_method | define_variant | eos_free;
+define_variant:     identifier variant_block?;
 variant_block:      BRACE_L variant_statements* BRACE_R;
 variant_statements: class_field | eos_free;
 // ===========================================================================
@@ -84,13 +86,6 @@ parameter_item
 parameter_default: OP_ASSIGN expression;
 // ===========================================================================
 function_block: BRACE_L function_statements* BRACE_R;
-
-function_statements
-    : if_statement eos?
-    | while_statement eos?
-    | for_statement eos?
-    | expression eos?
-    ;
 // ===========================================================================
 define_variale: KW_LET identifier OP_ASSIGN expression;
 // ===========================================================================
@@ -103,8 +98,11 @@ while_statement: KW_WHILE inline_expression function_block;
 for_statement
     : KW_FOR for_pattern infix_in inline_expression function_block
     ;
-for_pattern: modified_identifier+ (COMMA modified_identifier+)*;
-
+for_pattern
+    : for_parameter (COMMA for_parameter)*
+    | PARENTHESES_L for_parameter (COMMA for_parameter)* PARENTHESES_R
+    ;
+for_parameter: identifier+;
 // ===========================================================================
 expression
     : expression op_multiple expression
@@ -113,8 +111,17 @@ expression
     | expression op_compare expression
     | expression infix_is type_expression
     | control_expression
-    | namepath '(' expr_list? ')'
-    | namepath '[' expression ']'
+    | expression '(' call_arguments? ')'
+    | expression '[' expression ']'
+    | expression function_block
+    | term
+    ;
+inline_expression
+    : inline_expression op_multiple inline_expression
+    | inline_expression op_plus inline_expression
+    | inline_expression op_logic inline_expression
+    | inline_expression op_compare inline_expression
+    | inline_expression infix_is inline_expression
     | term
     ;
 control_expression
@@ -127,20 +134,12 @@ control_expression
     | YIELD BREAK expression
     | YIELD FROM expression
     ;
-inline_expression
-    : inline_expression op_multiple inline_expression
-    | inline_expression op_plus inline_expression
-    | inline_expression op_logic inline_expression
-    | inline_expression op_compare inline_expression
-    | inline_expression infix_is inline_expression
-    | term
-    ;
 term
     : identifier         # EIdentifier
     | number             # ENumber
     | STRING             # EString
     | '(' expression ')' # EParens
-    | '[' expr_list ']'  # EVector
+    | '[' expression ']' # EVector
     | SPECIAL            # ESpeicalLiteral
     ;
 
@@ -157,8 +156,7 @@ type_expression
     | '(' type_expression ')'                    # TParens
     | term                                       # TTerm
     ;
-
-expr_list: expression (COMMA expression)*;
+call_arguments: expression (COMMA expression)*;
 
 // ===========================================================================
 macro_call
@@ -173,7 +171,7 @@ modified_namepath:   identifier+ (OP_PROPORTION identifier)*;
 namepath_free: identifier ((OP_PROPORTION | DOT) identifier)*;
 namepath:      identifier (OP_PROPORTION identifier)*;
 // identifier
-identifier: UNICODE_ID;
+identifier: UNICODE_ID | RAW_ID;
 // numbewr
 number:        INTEGER number_suffix?;
 number_suffix: UNICODE_ID;

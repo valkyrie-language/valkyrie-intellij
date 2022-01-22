@@ -2,8 +2,8 @@
 class TestClass {
     #call
     readonly field1: u32,
-    readonly field2: f64;
-    public static void main;
+    readonly `field 2`: f64;
+    `class` static void main;
 
     #call
     try_add(mut self, args) {

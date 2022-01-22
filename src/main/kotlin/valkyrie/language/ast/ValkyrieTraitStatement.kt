@@ -8,19 +8,19 @@ import com.intellij.psi.tree.IElementType
 import org.antlr.intellij.adaptor.SymtabUtils
 import org.antlr.intellij.adaptor.psi.IdentifierDefSubtree
 import org.antlr.intellij.adaptor.psi.ScopeNode
-import valkyrie.ide.view.NamepathPresentation
+import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
 class ValkyrieTraitStatement(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ScopeNode {
-    private val _identifier: ValkyrieNamepathNode = findChildByClass(ValkyrieNamepathNode::class.java)!!;
+    private val _identifier by lazy { ValkyrieIdentifierNode.find(this)!! }
 
     override fun getName(): String {
         return _identifier.text
     }
 
-    override fun getNameIdentifier(): ValkyrieNamepathNode {
+    override fun getNameIdentifier(): ValkyrieIdentifierNode {
         return _identifier
     }
 
@@ -29,7 +29,7 @@ class ValkyrieTraitStatement(node: ASTNode, type: IElementType) : IdentifierDefS
     }
 
     override fun getPresentation(): ItemPresentation {
-        return NamepathPresentation(_identifier, this.getIcon(0))
+        return IdentifierPresentation(_identifier, this.getIcon(0))
     }
 
     override fun resolve(element: PsiNamedElement?): PsiElement? {

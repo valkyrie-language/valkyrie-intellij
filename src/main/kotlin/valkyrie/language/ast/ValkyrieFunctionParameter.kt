@@ -4,11 +4,10 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.tree.IElementType
 import org.antlr.intellij.adaptor.psi.ScopeNode
 
-class ValkyrieFunctionParameterItem(node: ASTNode, type: IElementType) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ScopeNode {
+class ValkyrieFunctionParameter(node: ASTNode, type: IElementType) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner {
     val parameter by lazy { ModifiedIdentifier.findIdentifier(this) }
     val modifiers by lazy { ModifiedIdentifier.findModifiers(this) };
 
@@ -26,10 +25,6 @@ class ValkyrieFunctionParameterItem(node: ASTNode, type: IElementType) : ASTWrap
 
     override fun getContext(): ScopeNode? {
         return parentScope
-    }
-
-    override fun resolve(element: PsiNamedElement?): PsiElement? {
-        TODO("Not yet implemented")
     }
 }
 
