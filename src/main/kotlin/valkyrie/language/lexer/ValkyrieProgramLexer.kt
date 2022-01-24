@@ -67,7 +67,7 @@ class ValkyrieProgramLexer : Lexer() {
             KW_CLASS, KW_TYPE,
             KW_UNION, KW_BITFLAGS,
             KW_TRAIT, KW_EXTENDS,
-            KW_FUNCTION,
+            KW_FUNCTION, KW_LAMBDA,
             KW_LET,
             // conditional
             KW_IF, KW_ELSE,
@@ -90,8 +90,8 @@ class ValkyrieProgramLexer : Lexer() {
             OP_ADD, OP_SUB,
             OP_MUL, OP_DIV,
             LOGIC_OR, LOGIC_AND,
-            OP_LE, OP_LEQ, OP_LL, OP_LLL,
-            OP_GE, OP_GEQ, OP_GG, OP_GGG,
+            OP_LT, OP_LEQ, OP_LL, OP_LLL,
+            OP_GT, OP_GEQ, OP_GG, OP_GGG,
         )
         val Operators = TokenSet.orSet(OperatorInfix);
 

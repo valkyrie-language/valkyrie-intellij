@@ -42,7 +42,7 @@ import_statement: KW_IMPORT namepath_free;
 define_extension: KW_EXTENSION;
 // ===========================================================================
 define_class
-    : macro_call* modifiers KW_CLASS identifier class_inherit? class_block
+    : macro_call* modifiers KW_CLASS identifier define_generic? class_inherit? class_block
     ;
 class_block:      BRACE_L class_statements* BRACE_R;
 class_statements: class_method | class_field | eos_free;
@@ -77,9 +77,6 @@ effect_hint: OP_DIV type_expression;
 define_function
     : macro_call* KW_FUNCTION namepath function_parameters type_hint? effect_hint? function_block
     ;
-define_lambda
-    : macro_call* KW_LAMBDA function_parameters type_hint? effect_hint? function_block
-    ;
 function_parameters
     : PARENTHESES_L parameter_item (COMMA parameter_item)* PARENTHESES_R
     | PARENTHESES_L PARENTHESES_R
@@ -88,23 +85,27 @@ parameter_item
     : macro_call* modified_identifier type_hint? parameter_default?
     ;
 parameter_default: OP_ASSIGN expression;
+function_call:     OP_THROW? '(' call_arguments? ')';
+// ===========================================================================
+define_lambda
+    : macro_call* KW_LAMBDA function_parameters type_hint? effect_hint? function_block
+    ;
+lambda_call: OP_THROW? function_block;
 // ===========================================================================
 function_block: BRACE_L function_statements* BRACE_R;
 // ===========================================================================
 define_variale: KW_LET identifier OP_ASSIGN expression;
 // ===========================================================================
 if_statement
-    : KW_IF inline_expression function_block else_if_statement* else_statement?
+    : KW_IF expression function_block else_if_statement* else_statement?
     ;
-else_if_statement
-    : KW_ELSE KW_IF inline_expression function_block
-    ;
-else_statement: KW_ELSE function_block;
+else_if_statement: KW_ELSE KW_IF expression function_block;
+else_statement:    KW_ELSE function_block;
 // ===========================================================================
-while_statement: KW_WHILE inline_expression function_block;
+while_statement: KW_WHILE expression function_block;
 // ===========================================================================
 for_statement
-    : KW_FOR for_pattern infix_in inline_expression function_block
+    : KW_FOR for_pattern infix_in expression function_block
     ;
 for_pattern
     : for_parameter (COMMA for_parameter)*
@@ -113,24 +114,26 @@ for_pattern
 for_parameter: identifier+;
 // ===========================================================================
 expression
-    : expression op_multiple expression
+    : expression suffix_call
+    | expression op_multiple expression
     | expression op_plus expression
     | expression op_logic expression
     | expression op_compare expression
     | expression infix_is type_expression
     | control_expression
-    | expression '(' call_arguments? ')'
-    | expression '[' expression ']'
-    | expression function_block
+    | prefix_call expression
     | term
     ;
-inline_expression
-    : inline_expression op_multiple inline_expression
-    | inline_expression op_plus inline_expression
-    | inline_expression op_logic inline_expression
-    | inline_expression op_compare inline_expression
-    | inline_expression infix_is inline_expression
-    | term
+prefix_call: OP_ADD | OP_SUB;
+suffix_call
+    : OP_NOT
+    | OP_TEMPERATURE
+    | slice_call
+    | offset_call
+    | generic_call
+    | lambda_call
+    | dot_call
+    | function_call
     ;
 control_expression
     : RETURN expression
@@ -143,7 +146,7 @@ control_expression
     | YIELD FROM expression
     ;
 term
-    : identifier         # EIdentifier
+    : namepath           # EIdentifier
     | number             # ENumber
     | STRING             # EString
     | '(' expression ')' # EParens
@@ -151,7 +154,7 @@ term
     | SPECIAL            # ESpeicalLiteral
     ;
 
-op_compare:  OP_LE | OP_LEQ | OP_GE | OP_GEQ | OP_EQ | OP_NE;
+op_compare:  OP_LT | OP_LEQ | OP_GT | OP_GEQ | OP_EQ | OP_NE;
 op_pattern:  OP_AND | OP_OR;
 op_multiple: OP_MUL | OP_DIV;
 op_plus:     OP_ADD | OP_SUB;
@@ -165,7 +168,22 @@ type_expression
     | term                                       # TTerm
     ;
 call_arguments: expression (COMMA expression)*;
-
+define_generic
+    : OP_PROPORTION? OP_LT identifier OP_GT
+    | GENERIC_L identifier GENERIC_R
+    ;
+generic_call
+    : OP_PROPORTION OP_LT identifier OP_GT
+    | GENERIC_L identifier GENERIC_R
+    ;
+// ===========================================================================
+dot_call: OP_THROW? DOT identifier;
+// ===========================================================================
+slice_call: BRACKET_L expression BRACKET_R;
+offset_call
+    : OP_PROPORTION BRACKET_L expression BRACKET_R
+    | OFFSET_L expression OFFSET_R
+    ;
 // ===========================================================================
 macro_call
     : HASH macro_call_item

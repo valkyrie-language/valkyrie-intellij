@@ -1,0 +1,26 @@
+namespace std::ac::cb;
+class As {
+
+}
+
+
+if condition {
+    block
+}
+else {
+    block
+}
+
+
+#derive
+
+
+extends aa::Class {
+
+}
+
+class A {
+
+
+}
+

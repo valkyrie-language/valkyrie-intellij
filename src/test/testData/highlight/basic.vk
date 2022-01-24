@@ -13,11 +13,19 @@ trait TestTrait {
 
 
 function test(a: A = 2, bb: AType = null) -> ReturnType {
+    lambda ();
     true || false && null;
     TestClass();
 }
 
 
-while true {
-    lambda ();
-}
+std::test::<T>(arg)[index];
+std::test⦓T⦔(arg)⁅index⁆;
+
+
+a?.like
+
+a?()
+
+
+30℃ == 60℉;

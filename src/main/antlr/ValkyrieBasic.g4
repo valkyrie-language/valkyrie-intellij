@@ -20,21 +20,26 @@ BRACKET_L:     '[';
 BRACKET_R:     ']';
 BRACE_L:       '{';
 BRACE_R:       '}';
-
+GENERIC_L:    '⦓';
+GENERIC_R:    '⦔';
+OFFSET_L:     '⁅';
+OFFSET_R:    '⁆';
 // infix
 OP_ADD: '+';
+OP_INC: '++';
 OP_SUB: '-';
+OP_DEC: '--';
 OP_MUL: '*';
 OP_DIV: '/';
 // equal
 OP_EQ: '==';
 OP_NE: '!=';
 // compare
-OP_LE:  '<';
+OP_LT:  '<';
 OP_LL:  '≪' | '<<';
 OP_LLL: '⋘' | '<<<';
 OP_LEQ: '⩽' | '≤' | '<=';
-OP_GE:  '>';
+OP_GT:  '>';
 OP_GG:  '≫' | '>>';
 OP_GGG: '⋙' | '>>>';
 OP_GEQ: '⩾' | '≥' | '>=';
@@ -55,9 +60,15 @@ OP_OR:     '|';
 LOGIC_AND: '&&';
 OP_AND:    '&';
 
+// macro call
 AT:   '@';
 HASH: '#' | '##' | '#!';
-
+// macro slot
+LAMBDA_SLOT: '$' | '$$';
+MACRO_SLOT: '§' | '§§';
+// monadic
+OP_OR_ELSE: '??';
+OP_THROW: '?';
 // not
 OP_NOT: '!';
 KW_NOT: 'not';
@@ -74,10 +85,13 @@ OP_IS_NOT: '⋢' | '<!';
 KW_AS: 'as' | 'as!' | 'as*';
 // until
 OP_UNTIL: '..<' | '..=';
+OP_POW:  '^';
 // suffix
 OP_TEMPERATURE: '℃' | '℉';
 // standalone
 OP_EMPTY: '∅';
+
+
 // "\\" -> pushToken(ValkyrieTypes.KW_ESCAPING, r) // DOT ":=", "≔" ->
 // pushToken(ValkyrieTypes.PATTERN_SET, r) "->", "==", "≡" -> pushToken(ValkyrieTypes.OP_EQ, r)
 // 
@@ -91,34 +105,7 @@ OP_EMPTY: '∅';
 // "...", ".." -> pushToken(ValkyrieTypes.KW_DOTS, r) start with + "++" ->
 // pushToken(ValkyrieTypes.OP_INC, r) "+=" -> pushToken(ValkyrieTypes.OP_ADD_ASSIGN, r) "+" ->
 // pushToken(ValkyrieTypes.OP_ADD, r) // start with - "--" -> pushToken(ValkyrieTypes.OP_DEC, r)
-// "-=" -> pushToken(ValkyrieTypes.OP_SUB_ASSIGN, r) "-" -> pushToken(ValkyrieTypes.OP_SUB, r) //
-// start with * "*=" -> pushToken(ValkyrieTypes.OP_MUL_ASSIGN, r) "*" ->
-// pushToken(ValkyrieTypes.OP_MUL, r) // start with / "/=" -> pushToken(ValkyrieTypes.OP_DIV_ASSIGN,
-// r) "/" -> pushToken(ValkyrieTypes.OP_DIV, r) // start with & "&&=" ->
-// pushToken(ValkyrieTypes.OP_AND_ASSIGN, r) "&&" -> pushToken(ValkyrieTypes.OP_AND2, r) "&=" ->
-// pushToken(ValkyrieTypes.OP_AND_ASSIGN, r) "&" -> pushToken(ValkyrieTypes.OP_AND, r) // // start
-// with ! "!!" -> pushToken(ValkyrieTypes.OP_NE, r) "!=" -> pushToken(ValkyrieTypes.OP_NE, r) "!" ->
-// pushToken(ValkyrieTypes.OP_NOT, r) "|" -> pushToken(ValkyrieTypes.OP_OR, r) // start with ? "???"
-// -> pushToken(ValkyrieTypes.OP_UNIMPLEMENTED, r) "?" -> pushToken(ValkyrieTypes.OP_QUESTION, r) //
-// start with ^ "^" -> pushToken(ValkyrieTypes.OP_POW, r)
-// 
-// slots "$" -> pushToken(ValkyrieTypes.SLOT_LAMBDA, r) "§" -> pushToken(ValkyrieTypes.SLOT_MACRO,
 // r) "¶" -> pushToken(ValkyrieTypes.OP_QUOTE, r) "⟦" -> { pushToken(ValkyrieTypes.SLICE_L, r) }
-// 
-//
-// 
-//
-// 
-//
-// 
-//
-// 
-//
-// 
-//
-// 
-//
-// 
 //
 // "⤇", "|=>", "⤃", "!=>" -> { pushToken(ValkyrieTypes.OP_EMPTY, r) }
 
@@ -141,24 +128,13 @@ KW_LET:       'let';
 KW_FUNCTION:  'function' | 'micro' | 'macro';
 KW_LAMBDA:    'lambda';
 KW_WITCH:     'which';
-
 KW_WHILE: 'while';
 KW_FOR:   'for';
-
-// pushToken(ValkyrieTypes.PATTERN_AND, r) "or" -> pushToken(ValkyrieTypes.PATTERN_OR, r) "which" ->
-// pushToken(ValkyrieTypes.KW_WHICH, r) "if" -> pushToken(ValkyrieTypes.KW_IF, r) "else" ->
-// pushToken(ValkyrieTypes.KW_ELSE, r) "loop" -> pushToken(ValkyrieTypes.KW_LOOP, r) "while" ->
-// pushToken(ValkyrieTypes.KW_WHILE, r) "for" -> pushToken(ValkyrieTypes.KW_FOR, r) "match" ->
-// pushToken(ValkyrieTypes.KW_MATCH, r) "when" -> pushToken(ValkyrieTypes.KW_WHEN, r) "case" ->
-// pushToken(ValkyrieTypes.KW_CASE, r) "with" -> pushToken(ValkyrieTypes.KW_WITH, r) "let" ->
-// pushToken(ValkyrieTypes.KW_BREAK, r) "type" -> pushToken(ValkyrieTypes.KW_TYPE, r)
-// 
-// "class", "structure", "struct" -> pushToken(ValkyrieTypes.KW_CLASS, r) "union", "tagged", "enum",
-// "variant" -> pushToken(ValkyrieTypes.KW_TAGGED, r) "trait", "interface", "convention", "protocol"
-// -> pushToken(ValkyrieTypes.KW_TRAIT, r) "bitset", "bitflag" ->
-// pushToken(ValkyrieTypes.KW_BITFLAG, r) "extend", "extends", "impl", "implements" ->
-// pushToken(ValkyrieTypes.KW_EXTENDS, r) "new", "object" -> pushToken(ValkyrieTypes.KW_NEW, r)
-
+KW_NEW: 'new' | 'object';
+KOW_WITH: 'with';
+KW_WHEN: 'when';
+KW_MATCH: 'match';
+// number
 INTEGER: [0] | [1-9][0-9]*;
 DECIMAL
     : INTEGER DOT INTEGER EXP? // 1.35, 1.35E-9, 0.3, -4.5

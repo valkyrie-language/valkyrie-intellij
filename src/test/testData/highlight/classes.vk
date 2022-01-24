@@ -17,14 +17,13 @@ extends TestClass {
 
 }
 
-
-
-
 #derive(Default, Debug, Serde)
-class Class {
-    mut fields: u32
+class Class::<T> {
+    mut fields: T
 }
 
 extends Class {
-    functions
+    functions() {
+
+    }
 }

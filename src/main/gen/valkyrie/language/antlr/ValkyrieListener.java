@@ -308,16 +308,6 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitDefine_function(ValkyrieParser.Define_functionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ValkyrieParser#define_lambda}.
-	 * @param ctx the parse tree
-	 */
-	void enterDefine_lambda(ValkyrieParser.Define_lambdaContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ValkyrieParser#define_lambda}.
-	 * @param ctx the parse tree
-	 */
-	void exitDefine_lambda(ValkyrieParser.Define_lambdaContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#function_parameters}.
 	 * @param ctx the parse tree
 	 */
@@ -347,6 +337,36 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParameter_default(ValkyrieParser.Parameter_defaultContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#function_call}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunction_call(ValkyrieParser.Function_callContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#function_call}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunction_call(ValkyrieParser.Function_callContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#define_lambda}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefine_lambda(ValkyrieParser.Define_lambdaContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#define_lambda}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefine_lambda(ValkyrieParser.Define_lambdaContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#lambda_call}.
+	 * @param ctx the parse tree
+	 */
+	void enterLambda_call(ValkyrieParser.Lambda_callContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#lambda_call}.
+	 * @param ctx the parse tree
+	 */
+	void exitLambda_call(ValkyrieParser.Lambda_callContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#function_block}.
 	 * @param ctx the parse tree
@@ -448,15 +468,25 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitExpression(ValkyrieParser.ExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ValkyrieParser#inline_expression}.
+	 * Enter a parse tree produced by {@link ValkyrieParser#prefix_call}.
 	 * @param ctx the parse tree
 	 */
-	void enterInline_expression(ValkyrieParser.Inline_expressionContext ctx);
+	void enterPrefix_call(ValkyrieParser.Prefix_callContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ValkyrieParser#inline_expression}.
+	 * Exit a parse tree produced by {@link ValkyrieParser#prefix_call}.
 	 * @param ctx the parse tree
 	 */
-	void exitInline_expression(ValkyrieParser.Inline_expressionContext ctx);
+	void exitPrefix_call(ValkyrieParser.Prefix_callContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#suffix_call}.
+	 * @param ctx the parse tree
+	 */
+	void enterSuffix_call(ValkyrieParser.Suffix_callContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#suffix_call}.
+	 * @param ctx the parse tree
+	 */
+	void exitSuffix_call(ValkyrieParser.Suffix_callContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#control_expression}.
 	 * @param ctx the parse tree
@@ -655,6 +685,56 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCall_arguments(ValkyrieParser.Call_argumentsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#define_generic}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefine_generic(ValkyrieParser.Define_genericContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#define_generic}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefine_generic(ValkyrieParser.Define_genericContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#generic_call}.
+	 * @param ctx the parse tree
+	 */
+	void enterGeneric_call(ValkyrieParser.Generic_callContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#generic_call}.
+	 * @param ctx the parse tree
+	 */
+	void exitGeneric_call(ValkyrieParser.Generic_callContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#dot_call}.
+	 * @param ctx the parse tree
+	 */
+	void enterDot_call(ValkyrieParser.Dot_callContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#dot_call}.
+	 * @param ctx the parse tree
+	 */
+	void exitDot_call(ValkyrieParser.Dot_callContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#slice_call}.
+	 * @param ctx the parse tree
+	 */
+	void enterSlice_call(ValkyrieParser.Slice_callContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#slice_call}.
+	 * @param ctx the parse tree
+	 */
+	void exitSlice_call(ValkyrieParser.Slice_callContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#offset_call}.
+	 * @param ctx the parse tree
+	 */
+	void enterOffset_call(ValkyrieParser.Offset_callContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#offset_call}.
+	 * @param ctx the parse tree
+	 */
+	void exitOffset_call(ValkyrieParser.Offset_callContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#macro_call}.
 	 * @param ctx the parse tree

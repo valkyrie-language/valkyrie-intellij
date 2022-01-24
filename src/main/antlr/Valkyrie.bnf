@@ -267,39 +267,10 @@ private type_binary ::= OP_AND | OP_OR | OP_ADD | OP_DIV | OP_ARROW;
 forall_statement    ::= OP_FORALL <<sequence identifier COMMA>> [forall_block];
 forall_block        ::= <<brace_block (expression COLON expression) separator>>;
 // ---------------------------------------------------------------------------------------------------------------------
-class_statement     ::= KW_CLASS <<modified identifier>> [generic_define] [class_inherit] [class_effect] class_block {
-    pin = 2
-};
-class_effect        ::= (OP_DIV|KW_RAISE) type_expression;
-class_block         ::= <<brace_free class_item separator>> {
-    pin = 1
-    methods=[addChildrenView]
-}
-private class_item  ::= macro_call | type_statement | class_method | class_field;
-class_field         ::= KW_LET? [modifiers] object_key [COLON type_expression] [OP_SET expression] | object_key {
-    mixin="valkyrie.language.mixin.MixinClassField"
-};
-class_method        ::= KW_DEF? [modifiers] identifier [generic_define] define_tuple [return_type] [define_block] {
-    pin = define_tuple
-    mixin="valkyrie.language.mixin.MixinClassMethod"
-    methods = [getIdentifier getModifiers]
-}
-// ---------------------------------------------------------------------------------------------------------------------
 object              ::= <<bracket_block object_pair COMMA>>
 object_pair         ::= object_key COLON expression;
 object_key          ::= SYMBOL_XID | SYMBOL_RAW | INTEGER | KW_IF | KW_CLASS {
     mixin="valkyrie.language.mixin.MixinObjectKey"
-}
-// ---------------------------------------------------------------------------------------------------------------------
-trait_statement     ::= KW_TRAIT <<modified identifier>> [generic_define] [COLON type_expression] class_block {
-    pin = 2
-    extends="valkyrie.language.mixin.MixinTrait"
-    methods=[getIdentifier getModifiers]
-};
-// ---------------------------------------------------------------------------------------------------------------------
-extends_statement   ::= KW_EXTENDS [generic_call] [modifiers] namepath [generic_call] [COLON type_expression] class_block {
-    pin = namepath
-    extends="valkyrie.language.mixin.MixinExtends"
 }
 // ---------------------------------------------------------------------------------------------------------------------
 expression          ::= term (op_binary term)*;
