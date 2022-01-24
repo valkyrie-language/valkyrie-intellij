@@ -58,7 +58,7 @@ class DocumentationRenderer(var element: PsiElement, private var original: PsiEl
         append(KEYWORD, "public ")
         append(KEYWORD, "native ")
         append(KEYWORD, "class ")
-        append(SYM_CLASS, element.name)
+        append(SYM_CLASS, element.name ?: "[Unknown]")
 //        appendNewline()
 //        append(KEYWORD, "implements ")
 //        append(SYM_TRAIT, "Eq")

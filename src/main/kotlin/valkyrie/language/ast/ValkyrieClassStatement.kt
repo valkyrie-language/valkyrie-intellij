@@ -17,16 +17,16 @@ import javax.swing.Icon
 
 class ValkyrieClassStatement(node: CompositeElement) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ScopeNode {
     private val _identifier by lazy { ValkyrieIdentifierNode.find(this)!! }
-
+    val modifiers by lazy { ModifiedIdentifier.findItems(this) };
     override fun getName(): String {
-        return _identifier.text
+        return _identifier.text;
     }
 
     override fun setName(name: String): PsiElement {
         TODO("Not yet implemented")
     }
 
-    override fun getNameIdentifier(): ValkyrieIdentifierNode {
+    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
         return _identifier;
     }
 

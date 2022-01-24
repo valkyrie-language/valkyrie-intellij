@@ -43,7 +43,6 @@ OP_ARROW:  '⟶' | '->';
 OP_ARROW2: '⇒' | '=>';
 OP_ASSIGN: '=';
 
-
 // "⟧" -> { pushToken(ValkyrieTypes.SLICE_R, r) } -> pushToken(ValkyrieTypes.OP_GEQ, r) "/>" -> {
 // pushToken(ValkyrieTypes.OP_GS, r) }
 // 
@@ -85,6 +84,10 @@ OP_EMPTY: '∅';
 //
 // 
 //
+// 
+//
+// 
+//
 // "...", ".." -> pushToken(ValkyrieTypes.KW_DOTS, r) start with + "++" ->
 // pushToken(ValkyrieTypes.OP_INC, r) "+=" -> pushToken(ValkyrieTypes.OP_ADD_ASSIGN, r) "+" ->
 // pushToken(ValkyrieTypes.OP_ADD, r) // start with - "--" -> pushToken(ValkyrieTypes.OP_DEC, r)
@@ -101,6 +104,14 @@ OP_EMPTY: '∅';
 // 
 // slots "$" -> pushToken(ValkyrieTypes.SLOT_LAMBDA, r) "§" -> pushToken(ValkyrieTypes.SLOT_MACRO,
 // r) "¶" -> pushToken(ValkyrieTypes.OP_QUOTE, r) "⟦" -> { pushToken(ValkyrieTypes.SLICE_L, r) }
+// 
+//
+// 
+//
+// 
+//
+// 
+//
 // 
 //
 // 
@@ -127,7 +138,8 @@ KW_UNION:     'union';
 KW_BITFLAGS:  'flags';
 KW_TYPE:      'type';
 KW_LET:       'let';
-KW_FUNCTION:  'def';
+KW_FUNCTION:  'function' | 'micro' | 'macro';
+KW_LAMBDA:    'lambda';
 KW_WITCH:     'which';
 
 KW_WHILE: 'while';
@@ -157,8 +169,6 @@ fragment EXP: [Ee] [+\-]? INTEGER;
 STRING:       '"' (ESC | ~["\\])* '"';
 fragment ESC: '\\' ["\bfnrt];
 
-
-
 // conditional
 KW_IF:        'if';
 KW_ELSE:      'else';
@@ -178,15 +188,12 @@ fragment TRUE:  'true';
 fragment FALSE: 'false';
 SPECIAL:        NULL | TRUE | FALSE;
 // atom
-RAW_ID:       '`' (~[`])+ '`';
+RAW_ID:     '`' ~[`]+ '`';
 UNICODE_ID: [\p{XID_start}] [\p{XID_continue}]*;
 
 // comment
 LINE_COMMENT:  '//' .*? ('\n' | EOF) -> channel(HIDDEN);
 BLOCK_COMMENT: '/*' .*? '*/' -> channel(HIDDEN);
-
-
-
 
 WHITE_SPACE:     [ \t\n\r]+ -> channel(HIDDEN);
 ERROR_CHARACTAR: . -> channel(HIDDEN);

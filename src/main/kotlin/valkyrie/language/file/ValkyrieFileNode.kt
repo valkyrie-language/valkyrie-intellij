@@ -35,21 +35,22 @@ class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvide
             }
             return ""
         }
-
-    val namespace: String
+    val namespace: ValkyrieNamespaceStatement?
         get() {
             for (child in this.children) {
                 if (child is ValkyrieNamespaceStatement) {
-                    return ""
+                    return child
                 }
             }
-            return ""
+            return null
         }
+
+    val namepath: String = namespace?.name ?: ""
 
     fun updateCache() {
         this.recursiveSearch {
             if (it is ValkyrieClassStatement) {
-                NamespaceMapping.Instance.ClassCache.getOrPut(it.name) { mutableSetOf() }.add(namespace)
+                NamespaceMapping.Instance.ClassCache.getOrPut(it.name ?: "") { mutableSetOf() }.add(namepath)
                 false
             } else {
                 true

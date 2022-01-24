@@ -12,12 +12,12 @@ trait TestTrait {
 
 
 
-def function(a: A = 2, bb: AType = null) -> ReturnType {
+function test(a: A = 2, bb: AType = null) -> ReturnType {
     true || false && null;
     TestClass();
 }
 
 
 while true {
-
+    lambda ();
 }

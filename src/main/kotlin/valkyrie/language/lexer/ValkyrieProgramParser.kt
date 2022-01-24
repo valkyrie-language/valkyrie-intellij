@@ -30,29 +30,32 @@ class ValkyrieProgramParser(parser: ValkyrieParser) : ANTLRParserAdaptor(Valkyri
                 RULE_class_block -> ValkyrieBraceBlockNode(node)
                 RULE_class_field -> ValkyrieClassFieldNode(node)
                 RULE_class_method -> ValkyrieClassMethodNode(node)
+                RULE_modifiers-> ModifiedIdentifier(node)
                 RULE_modified_identifier -> ModifiedIdentifier(node)
                 RULE_modified_namepath -> ModifiedNamepath(node)
                 // flags
                 RULE_define_bitflags -> ValkyrieFlagsStatement(node, type)
                 RULE_bitflags_block -> ValkyrieBraceBlockNode(node)
                 RULE_bitflags_item -> ValkyrieFlagsItemNode(node, type)
-                RULE_define_trait -> ValkyrieTraitStatement(node, type)
                 // union
                 RULE_define_union -> ValkyrieUnionStatement(node)
                 RULE_union_block -> ValkyrieBraceBlockNode(node)
                 RULE_define_variant -> ValkyrieVariantItem(node)
                 RULE_variant_block -> ValkyrieBraceBlockNode(node)
+                // trait
+                RULE_define_trait -> ValkyrieTraitStatement(node, type)
+                RULE_define_extends -> ValkyrieExtendsStatement(node)
                 // function
                 RULE_define_function -> ValkyrieFunctionStatement(node, type)
                 RULE_parameter_item -> ValkyrieFunctionParameter(node, type)
                 RULE_function_block -> ValkyrieBraceBlockNode(node)
                 // variable
                 RULE_define_variale -> ValkyrieAssignStatement(node, type)
-
                 // control
                 RULE_for_statement -> ValkyrieForStatement(node)
                 RULE_while_statement -> ValkyrieWhileStatement(node)
                 // expression
+                RULE_macro_call -> ValkyrieMacroCall(node)
                 RULE_expression -> extractExpression(node)
                 // atomic
                 RULE_namepath_free -> ValkyrieNamepathNode(node, type, true)

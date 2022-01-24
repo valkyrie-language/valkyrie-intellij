@@ -308,6 +308,16 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitDefine_function(ValkyrieParser.Define_functionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#define_lambda}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefine_lambda(ValkyrieParser.Define_lambdaContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#define_lambda}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefine_lambda(ValkyrieParser.Define_lambdaContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#function_parameters}.
 	 * @param ctx the parse tree
 	 */
@@ -367,6 +377,26 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitIf_statement(ValkyrieParser.If_statementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#else_if_statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterElse_if_statement(ValkyrieParser.Else_if_statementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#else_if_statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitElse_if_statement(ValkyrieParser.Else_if_statementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#else_statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterElse_statement(ValkyrieParser.Else_statementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#else_statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitElse_statement(ValkyrieParser.Else_statementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#while_statement}.
 	 * @param ctx the parse tree
@@ -646,6 +676,16 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitMacro_call_item(ValkyrieParser.Macro_call_itemContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#modifiers}.
+	 * @param ctx the parse tree
+	 */
+	void enterModifiers(ValkyrieParser.ModifiersContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#modifiers}.
+	 * @param ctx the parse tree
+	 */
+	void exitModifiers(ValkyrieParser.ModifiersContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#modified_identifier}.
 	 * @param ctx the parse tree
 	 */
@@ -705,14 +745,4 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitNumber(ValkyrieParser.NumberContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ValkyrieParser#number_suffix}.
-	 * @param ctx the parse tree
-	 */
-	void enterNumber_suffix(ValkyrieParser.Number_suffixContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ValkyrieParser#number_suffix}.
-	 * @param ctx the parse tree
-	 */
-	void exitNumber_suffix(ValkyrieParser.Number_suffixContext ctx);
 }

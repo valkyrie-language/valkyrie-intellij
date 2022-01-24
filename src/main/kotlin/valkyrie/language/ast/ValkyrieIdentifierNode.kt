@@ -5,9 +5,9 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.PsiReference
+import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.ide.reference.declaration.ValkyrieClassReference
 import valkyrie.ide.reference.declaration.ValkyrieTraitReference
-import valkyrie.language.psi.childOfType
 
 class ValkyrieIdentifierNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNamedElement {
     override fun getName(): String {
@@ -39,9 +39,11 @@ class ValkyrieIdentifierNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNam
                 is ValkyrieTraitStatement -> {
                     return ValkyrieTraitReference(parent, this)
                 }
+
                 is ValkyrieClassStatement -> {
                     return ValkyrieClassReference(parent, this)
                 }
+
                 else -> {
                     parent = parent.parent
                 }
@@ -52,7 +54,13 @@ class ValkyrieIdentifierNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNam
 
     companion object {
         fun find(node: PsiElement): ValkyrieIdentifierNode? {
-            return node.childOfType<ValkyrieIdentifierNode>()
+            for (child in node.children) {
+                if (child is ValkyrieIdentifierNode) {
+                    return child
+                }
+            }
+            return null
+            return PsiTreeUtil.getChildOfType(node, ValkyrieIdentifierNode::class.java)
         }
     }
 }

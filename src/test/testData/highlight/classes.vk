@@ -1,4 +1,4 @@
-#call
+#derive(Default, Debug, Encode, Decode)
 class TestClass {
     #call
     readonly field1: u32,

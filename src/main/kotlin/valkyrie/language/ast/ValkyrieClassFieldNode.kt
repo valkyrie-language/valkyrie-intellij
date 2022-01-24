@@ -13,7 +13,7 @@ import javax.swing.Icon
 
 
 class ValkyrieClassFieldNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ScopeNode {
-    val field by lazy { ModifiedIdentifier.findIdentifier(this) }
+    val field by lazy { ModifiedIdentifier.findIdentifier(this)!! }
     val modifiers by lazy { ModifiedIdentifier.findModifiers(this) };
 
     override fun getName(): String {

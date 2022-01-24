@@ -6,6 +6,7 @@ import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.psi.PsiElement
 import valkyrie.language.ast.ValkyrieClassStatement
+import valkyrie.language.ast.ValkyrieIdentifierNode
 import valkyrie.language.ast.ValkyrieUnionStatement
 
 //import valkyrie.language.psi_node.ValkyrieUnionStatementNode
@@ -25,8 +26,9 @@ class NamepathChecker : Annotator {
 
     // element.text can't start with lowercase
     private fun checkValidClassName(element: ValkyrieClassStatement, holder: AnnotationHolder) {
-        checkNeedEscape(element.nameIdentifier, holder)
-        checkCamelCase(element.nameIdentifier, holder)
+        val id = element.nameIdentifier ?: return;
+        checkNeedEscape(id, holder)
+        checkCamelCase(id, holder)
     }
 
     private fun checkValidUnionName(element: ValkyrieUnionStatement, holder: AnnotationHolder) {
@@ -34,7 +36,8 @@ class NamepathChecker : Annotator {
 //        checkCamelCase(element.nameIdentifier, holder)
     }
 
-    private fun checkCamelCase(element: valkyrie.language.ast.ValkyrieIdentifierNode, holder: AnnotationHolder) {
+    private fun checkCamelCase(element: ValkyrieIdentifierNode, holder: AnnotationHolder) {
+
         val name = element.name;
 //        val fixer = CamelCaseFixer();
         if (name[0].isLowerCase()) {
@@ -44,7 +47,7 @@ class NamepathChecker : Annotator {
         }
     }
 
-    private fun checkNeedEscape(element: valkyrie.language.ast.ValkyrieIdentifierNode, holder: AnnotationHolder) {
+    private fun checkNeedEscape(element: ValkyrieIdentifierNode, holder: AnnotationHolder) {
         val rawName = element.text;
         if (!rawName.startsWith('`')) return
         // if raw name contains non xid_continue, then need escape

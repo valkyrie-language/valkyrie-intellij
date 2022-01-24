@@ -40,7 +40,7 @@ object WorkspaceManager {
         if (define != null) {
             insert.myExtends.addAll(define.myExtends)
         }
-        namespaceManager.classes[target.name] = insert
+//        namespaceManager.classes[target.name] = insert
     }
 
 }
@@ -77,7 +77,7 @@ class ValkyrieClassDeclare : PsiSymbolDeclaration {
     var myExtends: MutableList<ValkyrieExtendsStatement>;
 
     constructor(classNode: ValkyrieClassStatement, packageName: String, namespace: String) {
-        mySymbol = ValkyrieSymbol(packageName, namespace, classNode.name)
+        mySymbol = ValkyrieSymbol(packageName, namespace, classNode.name ?: "[Missing]")
         myDefine = classNode
         myExtends = mutableListOf()
     }
@@ -93,7 +93,7 @@ class ValkyrieClassDeclare : PsiSymbolDeclaration {
     }
 
     override fun getRangeInDeclaringElement(): TextRange {
-        return declaringElement.nameIdentifier.textRange
+        return declaringElement.nameIdentifier?.textRange ?: declaringElement.textRange
     }
 
     override fun getSymbol(): ValkyrieSymbol {

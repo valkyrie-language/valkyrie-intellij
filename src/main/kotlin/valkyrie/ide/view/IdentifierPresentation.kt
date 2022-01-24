@@ -6,9 +6,9 @@ import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.language.ast.ValkyrieIdentifierNode
 import javax.swing.Icon
 
-class IdentifierPresentation(val name: ValkyrieIdentifierNode, private val icon: Icon) : ColoredItemPresentation {
+class IdentifierPresentation(val name: ValkyrieIdentifierNode?, private val icon: Icon) : ColoredItemPresentation {
     override fun getPresentableText(): String {
-        return name.name
+        return name?.name ?: "[Missing]"
     }
 
     override fun getIcon(unused: Boolean): Icon {

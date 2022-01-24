@@ -15,6 +15,6 @@ extends TClass {
 
 
 #[derive]
-def function(args) {
+function name(args) {
     block
 }

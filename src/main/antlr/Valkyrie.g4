@@ -26,7 +26,8 @@ top_statement
     | expression eos?
     ;
 function_statements
-    : if_statement eos?
+    : define_lambda eos?
+    | if_statement eos?
     | while_statement eos?
     | for_statement eos?
     | expression eos?
@@ -41,7 +42,7 @@ import_statement: KW_IMPORT namepath_free;
 define_extension: KW_EXTENSION;
 // ===========================================================================
 define_class
-    : macro_call* KW_CLASS identifier class_inherit? class_block
+    : macro_call* modifiers KW_CLASS identifier class_inherit? class_block
     ;
 class_block:      BRACE_L class_statements* BRACE_R;
 class_statements: class_method | class_field | eos_free;
@@ -74,7 +75,10 @@ type_hint:   (COLON | OP_ARROW) type_expression;
 effect_hint: OP_DIV type_expression;
 // ===========================================================================
 define_function
-    : KW_FUNCTION namepath function_parameters type_hint? effect_hint? function_block
+    : macro_call* KW_FUNCTION namepath function_parameters type_hint? effect_hint? function_block
+    ;
+define_lambda
+    : macro_call* KW_LAMBDA function_parameters type_hint? effect_hint? function_block
     ;
 function_parameters
     : PARENTHESES_L parameter_item (COMMA parameter_item)* PARENTHESES_R
@@ -90,8 +94,12 @@ function_block: BRACE_L function_statements* BRACE_R;
 define_variale: KW_LET identifier OP_ASSIGN expression;
 // ===========================================================================
 if_statement
-    : KW_IF expression function_block (KW_ELSE function_block)?
+    : KW_IF inline_expression function_block else_if_statement* else_statement?
     ;
+else_if_statement
+    : KW_ELSE KW_IF inline_expression function_block
+    ;
+else_statement: KW_ELSE function_block;
 // ===========================================================================
 while_statement: KW_WHILE inline_expression function_block;
 // ===========================================================================
@@ -165,6 +173,7 @@ macro_call
     ;
 macro_call_item: namepath function_parameters?;
 // ===========================================================================
+modifiers:           identifier*;
 modified_identifier: identifier+;
 modified_namepath:   identifier+ (OP_PROPORTION identifier)*;
 // namepath
@@ -173,6 +182,4 @@ namepath:      identifier (OP_PROPORTION identifier)*;
 // identifier
 identifier: UNICODE_ID | RAW_ID;
 // numbewr
-number:        INTEGER number_suffix?;
-number_suffix: UNICODE_ID;
-
+number: DECIMAL identifier? | INTEGER identifier?;

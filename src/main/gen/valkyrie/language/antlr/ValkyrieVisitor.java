@@ -191,6 +191,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDefine_function(ValkyrieParser.Define_functionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#define_lambda}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefine_lambda(ValkyrieParser.Define_lambdaContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#function_parameters}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -226,6 +232,18 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitIf_statement(ValkyrieParser.If_statementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#else_if_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElse_if_statement(ValkyrieParser.Else_if_statementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#else_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElse_statement(ValkyrieParser.Else_statementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#while_statement}.
 	 * @param ctx the parse tree
@@ -392,6 +410,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMacro_call_item(ValkyrieParser.Macro_call_itemContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#modifiers}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitModifiers(ValkyrieParser.ModifiersContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#modified_identifier}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -427,10 +451,4 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitNumber(ValkyrieParser.NumberContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ValkyrieParser#number_suffix}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNumber_suffix(ValkyrieParser.Number_suffixContext ctx);
 }

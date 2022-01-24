@@ -8,7 +8,7 @@ import com.intellij.psi.tree.IElementType
 import org.antlr.intellij.adaptor.psi.ScopeNode
 
 class ValkyrieFunctionParameter(node: ASTNode, type: IElementType) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner {
-    val parameter by lazy { ModifiedIdentifier.findIdentifier(this) }
+    val parameter by lazy { ModifiedIdentifier.findIdentifier(this)!! }
     val modifiers by lazy { ModifiedIdentifier.findModifiers(this) };
 
     override fun getName(): String {
