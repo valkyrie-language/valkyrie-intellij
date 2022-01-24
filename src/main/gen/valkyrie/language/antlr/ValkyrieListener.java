@@ -468,6 +468,16 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitExpression(ValkyrieParser.ExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#inline_expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterInline_expression(ValkyrieParser.Inline_expressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#inline_expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitInline_expression(ValkyrieParser.Inline_expressionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#prefix_call}.
 	 * @param ctx the parse tree
 	 */

@@ -97,15 +97,17 @@ function_block: BRACE_L function_statements* BRACE_R;
 define_variale: KW_LET identifier OP_ASSIGN expression;
 // ===========================================================================
 if_statement
-    : KW_IF expression function_block else_if_statement* else_statement?
+    : KW_IF inline_expression function_block else_if_statement* else_statement?
     ;
-else_if_statement: KW_ELSE KW_IF expression function_block;
-else_statement:    KW_ELSE function_block;
+else_if_statement
+    : KW_ELSE KW_IF inline_expression function_block
+    ;
+else_statement: KW_ELSE function_block;
 // ===========================================================================
-while_statement: KW_WHILE expression function_block;
+while_statement: KW_WHILE inline_expression function_block;
 // ===========================================================================
 for_statement
-    : KW_FOR for_pattern infix_in expression function_block
+    : KW_FOR for_pattern infix_in inline_expression function_block
     ;
 for_pattern
     : for_parameter (COMMA for_parameter)*
@@ -124,7 +126,16 @@ expression
     | prefix_call expression
     | term
     ;
-prefix_call: OP_ADD | OP_SUB;
+inline_expression
+    : inline_expression op_multiple inline_expression
+    | inline_expression op_plus inline_expression
+    | inline_expression op_logic inline_expression
+    | inline_expression op_compare inline_expression
+    | inline_expression infix_is inline_expression
+    | prefix_call inline_expression
+    | term
+    ;
+prefix_call: OP_NOT | OP_ADD | OP_SUB;
 suffix_call
     : OP_NOT
     | OP_TEMPERATURE

@@ -287,6 +287,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpression(ValkyrieParser.ExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#inline_expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInline_expression(ValkyrieParser.Inline_expressionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#prefix_call}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
