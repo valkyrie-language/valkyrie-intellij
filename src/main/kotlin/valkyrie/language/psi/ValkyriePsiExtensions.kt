@@ -2,12 +2,11 @@ package valkyrie.language.psi
 
 
 import com.intellij.extapi.psi.StubBasedPsiElementBase
+import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
-import com.intellij.psi.impl.source.PsiFileImpl
 import com.intellij.psi.stubs.StubElement
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.psi.util.elementType
 
 val PsiElement.ancestors: Sequence<PsiElement>
     get() = generateSequence(this) {
@@ -36,43 +35,9 @@ inline fun <reified T : PsiElement> PsiElement.contextOrSelf(): T? =
     PsiTreeUtil.getContextOfType(this, T::class.java, /* strict */ false)
 
 
-
-
-inline fun <reified T : PsiElement> PsiElement.childrenOfType(): List<T> =
-    PsiTreeUtil.getChildrenOfTypeAsList(this, T::class.java)
-
-inline fun <reified T : PsiElement> PsiElement.stubChildrenOfType(): List<T> {
-    return if (this is PsiFileImpl) {
-        stub?.childrenStubs?.mapNotNull { it.psi as? T } ?: return childrenOfType()
-    } else {
-        PsiTreeUtil.getStubChildrenOfTypeAsList(this, T::class.java)
-    }
-}
-
 /** Finds first sibling that is neither comment, nor whitespace before given element */
 fun PsiElement?.getPrevNonCommentSibling(): PsiElement? =
     PsiTreeUtil.skipWhitespacesAndCommentsBackward(this)
-
-/** Finds first sibling that is neither comment, nor whitespace after given element */
-fun PsiElement?.getNextNonCommentSibling(): PsiElement? =
-    PsiTreeUtil.skipWhitespacesAndCommentsForward(this)
-
-
-fun PsiElement?.endSemicolon(): PsiElement? {
-    val next = this.getNextNonCommentSibling()
-    return when (next.elementType) {
-//        ValkyrieTypes.SEMICOLON -> next
-        else -> null
-    }
-}
-
-fun PsiElement?.endComma(): PsiElement? {
-    val next = this.getNextNonCommentSibling()
-    return when (next.elementType) {
-//        ValkyrieTypes.COMMA -> next
-        else -> null
-    }
-}
 
 
 /** Finds first sibling that is not whitespace before given element */
@@ -140,4 +105,9 @@ fun PsiElement.recursiveSearch(filter: (PsiElement) -> Boolean) {
         }
         needSearch = nextSearch
     }
+}
+
+fun PsiFile?.caretElement(editor: Editor?): PsiElement? {
+    val offset = editor?.caretModel?.offset ?: return null
+    return this?.findElementAt(offset)
 }

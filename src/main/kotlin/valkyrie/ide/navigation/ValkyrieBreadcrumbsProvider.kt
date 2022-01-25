@@ -6,9 +6,9 @@ import com.intellij.lang.Language
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
 import com.intellij.ui.breadcrumbs.BreadcrumbsProvider
+import org.antlr.intellij.adaptor.psi.ScopeNode
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.ast.ValkyrieExtendsStatement
-import valkyrie.language.psi.ValkyrieContext
 import javax.swing.Action
 import javax.swing.Icon
 
@@ -18,7 +18,7 @@ class ValkyrieBreadcrumbsProvider : BreadcrumbsProvider {
     }
 
     override fun acceptElement(element: PsiElement): Boolean {
-        return element is ValkyrieContext
+        return element is ScopeNode
     }
 
     override fun getElementInfo(element: PsiElement): String {
