@@ -3,12 +3,11 @@ package valkyrie.ide.navigation
 //import valkyrie.language.psi_node.ValkyrieClassStatementNode
 //import valkyrie.language.psi_node.ValkyrieTraitStatementNode
 import com.intellij.lang.Language
+import com.intellij.navigation.NavigationItem
 import com.intellij.psi.PsiElement
-import com.intellij.psi.util.elementType
 import com.intellij.ui.breadcrumbs.BreadcrumbsProvider
 import org.antlr.intellij.adaptor.psi.ScopeNode
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.ast.ValkyrieExtendsStatement
 import javax.swing.Action
 import javax.swing.Icon
 
@@ -22,10 +21,11 @@ class ValkyrieBreadcrumbsProvider : BreadcrumbsProvider {
     }
 
     override fun getElementInfo(element: PsiElement): String {
-        return when (element) {
-//            is DeclareNode -> element.name
-            is ValkyrieExtendsStatement -> "${element.name}"
-            else -> "unknown ${element.elementType}"
+        if (element is NavigationItem) {
+            return element.name ?: "[Missing]"
+        }
+        else {
+            return "[Unknown]"
         }
     }
 
@@ -38,10 +38,7 @@ class ValkyrieBreadcrumbsProvider : BreadcrumbsProvider {
     }
 
     override fun getElementIcon(element: PsiElement): Icon? {
-        return when (element) {
-//            is ValkyrieASTBase -> element.getIcon(0)
-            else -> null
-        }
+        return element.getIcon(0)
     }
 
     override fun getContextActions(element: PsiElement): MutableList<out Action> {

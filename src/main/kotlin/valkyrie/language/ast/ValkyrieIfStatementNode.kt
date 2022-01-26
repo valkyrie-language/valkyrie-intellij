@@ -11,5 +11,4 @@ class ValkyrieIfStatementNode(node: ASTNode, type: IElementType) : IdentifierDef
     override fun resolve(element: PsiNamedElement?): PsiElement? {
         TODO("Not yet implemented")
     }
-
 }

@@ -11,6 +11,7 @@ import javax.swing.Icon
 class ValkyrieViewElement : StructureViewTreeElement, SortableTreeElement {
     private val self: NavigatablePsiElement
     val view: ItemPresentation;
+    var visibility: ValkyrieVisibility = ValkyrieVisibility.Public
 
     constructor(self: NavigatablePsiElement) {
         this.self = self
@@ -35,9 +36,6 @@ class ValkyrieViewElement : StructureViewTreeElement, SortableTreeElement {
     override fun getPresentation(): ItemPresentation = view
 
     override fun getChildren(): Array<out ValkyrieViewElement> = findChildrenView(self)
-
-    // TODO: return object
-    fun getVisibility(): Boolean = true
 
     companion object {
         fun findChildrenView(root: PsiElement): Array<ValkyrieViewElement> {

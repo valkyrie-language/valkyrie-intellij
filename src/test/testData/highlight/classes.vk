@@ -22,8 +22,11 @@ class Class::<T> {
     mut fields: T
 }
 
-extends Class {
+extends std::Class {
     functions() {
+        for i, j, k in {
+        
+        }
 
     }
 }

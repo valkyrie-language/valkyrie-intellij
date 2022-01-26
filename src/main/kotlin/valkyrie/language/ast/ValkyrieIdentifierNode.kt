@@ -11,13 +11,12 @@ import valkyrie.ide.reference.declaration.ValkyrieTraitReference
 
 class ValkyrieIdentifierNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNamedElement {
     override fun getName(): String {
-        return text
+        return text.trim('`')
     }
 
     override fun setName(name: String): PsiElement {
         TODO("Not yet implemented")
     }
-
 
     /** Create and return a PsiReference object associated with this ID
      * node. The reference object will be asked to resolve this ref
@@ -33,33 +32,21 @@ class ValkyrieIdentifierNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNam
      * as we have parent (context) information.
      */
     override fun getReference(): PsiReference? {
-        var parent = parent
-        while (parent != null) {
-            when (parent) {
-                is ValkyrieTraitStatement -> {
-                    return ValkyrieTraitReference(parent, this)
-                }
-
-                is ValkyrieClassStatement -> {
-                    return ValkyrieClassReference(parent, this)
-                }
-
-                else -> {
-                    parent = parent.parent
-                }
+        return when (val parent = parent.parentScope) {
+            is ValkyrieTraitStatement -> {
+                ValkyrieTraitReference(parent, this)
+            }
+            is ValkyrieClassStatement -> {
+                ValkyrieClassReference(parent, this)
+            }
+            else -> {
+                null;
             }
         }
-        return null;
     }
 
     companion object {
         fun find(node: PsiElement): ValkyrieIdentifierNode? {
-            for (child in node.children) {
-                if (child is ValkyrieIdentifierNode) {
-                    return child
-                }
-            }
-            return null
             return PsiTreeUtil.getChildOfType(node, ValkyrieIdentifierNode::class.java)
         }
     }
