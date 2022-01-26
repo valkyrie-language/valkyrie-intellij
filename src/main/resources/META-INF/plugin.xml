@@ -55,7 +55,7 @@
 		<!--		<lang.structureViewExtension implementation="valkyrie.ide.view.VStructureViewExtension"/>-->
 		<lang.psiStructureViewFactory
 			language="Valkyrie"
-			implementationClass="valkyrie.ide.view.StructureViewFactory"/>
+			implementationClass="valkyrie.ide.view.ValkyrieStructureView"/>
 		<typeHierarchyProvider
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.view.hierarchy.TypeHierarchyProvider"/>

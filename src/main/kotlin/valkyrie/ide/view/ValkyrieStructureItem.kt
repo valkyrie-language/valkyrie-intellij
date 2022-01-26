@@ -8,7 +8,7 @@ import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import javax.swing.Icon
 
-class ValkyrieViewElement : StructureViewTreeElement, SortableTreeElement {
+class ValkyrieStructureItem : StructureViewTreeElement, SortableTreeElement {
     private val self: NavigatablePsiElement
     val view: ItemPresentation;
     var visibility: ValkyrieVisibility = ValkyrieVisibility.Public
@@ -35,18 +35,18 @@ class ValkyrieViewElement : StructureViewTreeElement, SortableTreeElement {
 
     override fun getPresentation(): ItemPresentation = view
 
-    override fun getChildren(): Array<out ValkyrieViewElement> = findChildrenView(self)
+    override fun getChildren(): Array<out ValkyrieStructureItem> = findChildrenView(self)
 
     companion object {
-        fun findChildrenView(root: PsiElement): Array<ValkyrieViewElement> {
-            val output = mutableListOf<ValkyrieViewElement>();
+        fun findChildrenView(root: PsiElement): Array<ValkyrieStructureItem> {
+            val output = mutableListOf<ValkyrieStructureItem>();
             var needSearch = root.children.toList();
             while (needSearch.isNotEmpty()) {
                 val nextSearch = mutableListOf<PsiElement>();
                 for (node in needSearch) {
                     if (node is NavigatablePsiElement) {
                         if (node.presentation != null) {
-                            output.add(ValkyrieViewElement(node))
+                            output.add(ValkyrieStructureItem(node))
                         } else {
                             nextSearch.addAll(node.children);
                         }
