@@ -12,10 +12,10 @@ import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
 class ValkyrieNamespaceStatement(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ScopeNode {
-    private val _identifier: ValkyrieNamepathNode = findChildByClass(ValkyrieNamepathNode::class.java)!!;
+    val namepath by lazy { ValkyrieNamepathNode.find(this)!! }
 
     override fun getName(): String {
-        return _identifier.identifiers.joinToString(".") { it.text }
+        return namepath.identifiers.joinToString(".") { it.text }
     }
 
     val namespace: Array<String>
@@ -23,11 +23,10 @@ class ValkyrieNamespaceStatement(node: ASTNode, type: IElementType) : Identifier
             return arrayOf()
         }
 
-    fun isTestFile(): Boolean {
-        return false;
-    }
 
-    override fun getNameIdentifier(): ValkyrieNamepathNode = _identifier
+    override fun getNameIdentifier(): ValkyrieIdentifierNode {
+        return namepath.nameIdentifier
+    }
 
     override fun getIcon(flags: Int): Icon {
         return ValkyrieIconProvider.Instance.TRAIT
@@ -35,5 +34,9 @@ class ValkyrieNamespaceStatement(node: ASTNode, type: IElementType) : Identifier
 
     override fun resolve(element: PsiNamedElement?): PsiElement? {
         return SymtabUtils.resolve(this, ValkyrieLanguage, element, "/script/trait/ID");
+    }
+
+    fun isTestFile(): Boolean {
+        return false;
     }
 }

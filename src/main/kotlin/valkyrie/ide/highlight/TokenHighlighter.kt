@@ -7,7 +7,7 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import valkyrie.ide.highlight.ValkyrieHighlightColor
-import valkyrie.ide.matcher.BraceMatchPair
+import valkyrie.ide.matcher.ValkyrieBracketMatch
 import valkyrie.language.lexer.ValkyrieProgramLexer
 import valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
@@ -30,9 +30,9 @@ class TokenHighlighter : SyntaxHighlighterBase() {
                 when (tokenType) {
                     ValkyrieProgramLexer.CommentLine-> Color.LINE_COMMENT
                     ValkyrieProgramLexer.CommentBlock -> Color.BLOCK_COMMENT
-                    BraceMatchPair.Instance.ParenthesisL, BraceMatchPair.Instance.ParenthesisR -> Color.PARENTHESES
-                    BraceMatchPair.Instance.BracketL, BraceMatchPair.Instance.BracketR -> Color.BRACKETS
-                    BraceMatchPair.Instance.BraceL, BraceMatchPair.Instance.BraceR -> Color.BRACES
+                    ValkyrieBracketMatch.Instance.ParenthesisL, ValkyrieBracketMatch.Instance.ParenthesisR -> Color.PARENTHESES
+                    ValkyrieBracketMatch.Instance.BracketL, ValkyrieBracketMatch.Instance.BracketR -> Color.BRACKETS
+                    ValkyrieBracketMatch.Instance.BraceL, ValkyrieBracketMatch.Instance.BraceR -> Color.BRACES
                     //
 //                    COLON, OP_SET -> Color.ASSIGN
 //                    OP_AT, OP_HASH -> Color.SYM_MACRO

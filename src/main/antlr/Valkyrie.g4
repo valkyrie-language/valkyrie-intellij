@@ -9,7 +9,7 @@ options {
 
 program: top_statement* EOF;
 top_statement
-    : define_namespace eos?
+    : define_namespace
     | import_statement eos?
     | define_extension eos?
     | define_class eos?
@@ -35,7 +35,7 @@ function_statements
 eos:      SEMICOLON;
 eos_free: COMMA | SEMICOLON;
 // ===========================================================================
-define_namespace: KW_NAMESPACE namepath_free;
+define_namespace: KW_NAMESPACE namepath_free eos?;
 // ===========================================================================
 import_statement: KW_IMPORT namepath_free;
 // ===========================================================================
@@ -143,6 +143,7 @@ suffix_call
     | offset_call
     | generic_call
     | lambda_call
+    | match_call
     | dot_call
     | function_call
     ;
@@ -201,6 +202,14 @@ macro_call
     | HASH BRACKET_L macro_call_item (COMMA macro_call_item)* BRACKET_R
     ;
 macro_call_item: namepath function_parameters?;
+// ===========================================================================
+match_call: OP_THROW? DOT KW_MATCH match_block;
+match_block:  BRACE_L match_statement* BRACE_R;
+match_statement:
+	with_block
+	| when_block|eos_free;
+with_block: KW_WITH identifier COLON expression*;
+when_block: KW_WHEN inline_expression COLON expression*;
 // ===========================================================================
 modifiers:           identifier*;
 modified_identifier: identifier+;

@@ -2,19 +2,16 @@ package valkyrie.ide.view.hierarchy
 
 import com.intellij.ide.hierarchy.HierarchyNodeDescriptor
 import com.intellij.ide.hierarchy.HierarchyTreeStructure
-import com.intellij.openapi.project.Project
 
 class TypeHierarchyTree : HierarchyTreeStructure {
-    constructor(project: Project, descriptor: HierarchyNodeDescriptor) : super(project, descriptor) {
+    constructor(descriptor: HierarchyNodeDescriptor) : super(descriptor.project, descriptor) {
 
     }
 
     override fun buildChildren(parent: HierarchyNodeDescriptor): Array<Any> {
-        if (parent is HierarchyNode) {
-            return arrayOf(HierarchyLeaf(parent), parent)
-        } else {
-            return arrayOf()
-        }
+        println("buildChildren ${parent.toString()}")
+        println("buildChildren: ${parent.highlightedText}")
+        return parent.cachedChildren
     }
 
     override fun isAlwaysShowPlus(): Boolean {
@@ -26,7 +23,10 @@ class TypeHierarchyTree : HierarchyTreeStructure {
     }
 
     override fun formatBaseElementText(): String {
-        return super.formatBaseElementText()
+        return "super.formatBaseElementText()"
     }
 
+    override fun toString(): String {
+        return "super.toString()"
+    }
 }

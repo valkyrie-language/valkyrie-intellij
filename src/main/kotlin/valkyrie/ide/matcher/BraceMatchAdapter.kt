@@ -6,7 +6,7 @@ import com.intellij.openapi.fileTypes.FileType
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.file.ValkyrieFileType
 
-class BraceMatchAdapter : PairedBraceMatcherAdapter(BraceMatchPair(), ValkyrieLanguage) {
+class BraceMatchAdapter : PairedBraceMatcherAdapter(ValkyrieBracketMatch(), ValkyrieLanguage) {
     override fun isLBraceToken(iterator: HighlighterIterator, fileText: CharSequence, fileType: FileType): Boolean {
         return isBrace(iterator, fileText, fileType, true)
     }

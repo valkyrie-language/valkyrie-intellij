@@ -7,6 +7,8 @@ import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.parents
 import valkyrie.language.ast.ValkyrieClassStatement
+import valkyrie.language.ast.ValkyrieTraitStatement
+import java.text.MessageFormat
 import java.util.*
 import javax.swing.JPanel
 import javax.swing.JTree
@@ -29,10 +31,10 @@ class TypeHierarchyProvider : HierarchyProvider {
 
 private class TypeHierarchyBrowser : TypeHierarchyBrowserBase {
     private var _descriptor: HierarchyNodeDescriptor? = null;
-    private val _element: PsiElement
+    private val _target: PsiElement
 
-    constructor(element: PsiElement) : super(element.project, element) {
-        this._element = element
+    constructor(target: PsiElement) : super(target.project, target) {
+        this._target = target
     }
 
     override fun createLegendPanel(): JPanel? {
@@ -45,13 +47,13 @@ private class TypeHierarchyBrowser : TypeHierarchyBrowserBase {
     }
 
     override fun createTrees(trees: MutableMap<in String, in JTree>) {
-        trees["Class {0}"] = createTree(true)
+        trees["Class {0}"] = createTree(false)
         trees["Supertypes of {0}"] = createTree(false)
-        trees["Subtypes of {0}"] = com.intellij.ui.treeStructure.Tree()
+        trees["Subtypes of {0}"] = createTree(false)
     }
 
     override fun changeView(typeName: String, requestFocus: Boolean) {
-        println("changeView:$typeName")
+//        println("changeView:$typeName")
         super.changeView(typeName, requestFocus)
     }
 
@@ -64,16 +66,45 @@ private class TypeHierarchyBrowser : TypeHierarchyBrowserBase {
         return _descriptor?.psiElement;
     }
 
-    override fun createHierarchyTreeStructure(type: String, psiElement: PsiElement): HierarchyTreeStructure? {
-        println("createHierarchyTreeStructure ${_element.text}|${psiElement.text}")
+    override fun createHierarchyTreeStructure(type: String, pointer: PsiElement): HierarchyTreeStructure? {
+        for (node in pointer.parents(true)) {
+            when (node) {
+                is ValkyrieClassStatement -> {
+                    return TypeHierarchyTree(HierarchyClassNode(node))
+                }
 
-        for (node in psiElement.parents(true)) {
-            if (node is ValkyrieClassStatement) {
-                val descriptor = HierarchyNode(myProject, node);
-                return TypeHierarchyTree(psiElement.project, descriptor)
+                is ValkyrieTraitStatement -> {
+                    return TypeHierarchyTree(HierarchyTraitNode(node))
+                }
             }
         }
         return null
+    }
+
+    override fun getContentDisplayName(typeName: String, element: PsiElement): String {
+        for (node in element.parents(true)) {
+            when (node) {
+                is ValkyrieClassStatement -> {
+                    return MessageFormat.format(typeName, node.name)
+                }
+
+                is ValkyrieTraitStatement -> {
+                    return MessageFormat.format(typeName, node.name)
+                }
+            }
+        }
+        return "[Nothing]"
+    }
+
+    override fun getName(): String {
+        return "super.getName()"
+    }
+
+    override fun getQualifiedName(psiElement: PsiElement?): String {
+        if (psiElement != null) {
+            return psiElement.text
+        }
+        return "getQualifiedName"
     }
 
     override fun getComparator(): Comparator<NodeDescriptor<*>>? {
@@ -88,11 +119,6 @@ private class TypeHierarchyBrowser : TypeHierarchyBrowserBase {
         return false;
     }
 
-    override fun getQualifiedName(psiElement: PsiElement?): String {
-        if (psiElement != null) {
-            return psiElement.text
-        }
-        return "getQualifiedName"
-    }
+
 }
 

@@ -11,8 +11,6 @@ class ValkyrieCodeStyleProvider : LanguageCodeStyleSettingsProvider() {
         settings: CodeStyleSettings,
         modelSettings: CodeStyleSettings,
     ): CodeStyleConfigurable {
-
-
         return ValkyrieCodeStyleConfigurable(settings, modelSettings)
     }
 

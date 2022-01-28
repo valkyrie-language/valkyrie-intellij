@@ -8,15 +8,21 @@ import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.codeStyle.PreFormatProcessor
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.util.elementType
 import com.intellij.psi.util.nextLeaf
 import com.intellij.refactoring.suggested.endOffset
 import com.intellij.refactoring.suggested.startOffset
 import com.intellij.util.DocumentUtil
+import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory
+import org.antlr.intellij.adaptor.psi.ANTLRPsiNode
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
-import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings.CommaOrSemicolon
+import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings.*
 import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.antlr.ValkyrieParser
 import valkyrie.language.ast.ValkyrieClassStatement
+import valkyrie.language.ast.ValkyrieNamespaceStatement
 import valkyrie.language.psi.ValkyrieRecursiveVisitor
+import valkyrie.language.psi.childrenWithLeaves
 
 //import valkyrie.language.psi_node.ValkyrieClassStatementNode
 
@@ -44,29 +50,32 @@ class ValkyrieBeforeFormat : PreFormatProcessor {
 private class RewriteVisitor(private val text: Document, val settings: ValkyrieCodeStyleSettings) : ValkyrieRecursiveVisitor() {
     var offsetDelta: Int = 0
 
-//    override fun visitNamespaceStatement(o: ValkyrieNamespaceStatement) {
-//        for (leaf in o.namepathFree.childrenWithLeaves) {
-//            if (leaf.elementType == ValkyrieTypes.DOT || leaf.elementType == ValkyrieTypes.OP_PROPORTION) {
-//                when (settings.namespace_delimiter) {
-//                    NamespaceDelimiter.Ignore -> break
-//                    NamespaceDelimiter.Dot -> replaceNode(leaf, ".")
-//                    NamespaceDelimiter.Colon -> replaceNode(leaf, "::")
-//                    NamespaceDelimiter.UnicodeColon -> replaceNode(leaf, "∷")
-//                }
-//            }
-//        }
-//        val next = PsiTreeUtil.skipWhitespacesForward(o);
-//        when (settings.namespace_colon) {
-//            Triplet.Ignore -> {}
-//            Triplet.Always -> if (next.elementType != ValkyrieTypes.SEMICOLON) {
-//                insertAfter(o, ";")
-//            }
-//
-//            Triplet.Nothing -> if (next.elementType == ValkyrieTypes.SEMICOLON) {
-//                deleteNode(next)
-//            }
-//        }
-//    }
+    override fun visitNamespace(o: ValkyrieNamespaceStatement) {
+        val split = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieParser.DOT, ValkyrieParser.OP_PROPORTION);
+        for (leaf in o.namepath.childrenWithLeaves) {
+            if (split.contains(leaf.elementType)) {
+                when (settings.namespace_delimiter) {
+                    NamespaceDelimiter.Ignore -> break
+                    NamespaceDelimiter.Dot -> replaceNode(leaf, ".")
+                    NamespaceDelimiter.Colon -> replaceNode(leaf, "::")
+                    NamespaceDelimiter.UnicodeColon -> replaceNode(leaf, "∷")
+                }
+            }
+        }
+
+        val last = o.lastChild;
+        when (settings.namespace_colon) {
+            Triplet.Ignore -> {}
+            Triplet.Always -> if (last !is ANTLRPsiNode) {
+                insertAfter(o, ";")
+            }
+
+            Triplet.Nothing -> if (last is ANTLRPsiNode) {
+                deleteNode(last)
+            }
+        }
+    }
+
 
 //    override fun visitReturnType(o: ValkyrieReturnType) {
 //        val delimiter = o.firstChild;

@@ -1,4 +1,4 @@
-namespace ad::bd::cd
+namespace ad.bd.cd
 
 let a = true;
 
@@ -32,4 +32,16 @@ a?()
 
 for i in tes {
     +retst
+}
+test.call(test) {
+
+}?
+.match {
+with id:
+yyy
+when a>0:
+xxx
+}?
+.catch {
+
 }

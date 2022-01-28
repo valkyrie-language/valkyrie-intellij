@@ -75,14 +75,20 @@ class ValkyrieProgramLexer : Lexer() {
             KW_WHILE,
             KW_FOR, KW_IN,
             // pattern match
+            KW_MATCH,
             KW_WITCH,
             // control keywords
             RETURN, RESUME,
             YIELD,
             BREAK, CONTINUE,
-            RAISE, CATCH,
+            RAISE,
             //
-            SPECIAL
+            SPECIAL,
+            OP_THROW
+        )
+        val OperatorPrefix: TokenSet = PSIElementTypeFactory.createTokenSet(
+            ValkyrieLanguage,
+            OP_NOT,
         )
         val OperatorInfix: TokenSet = PSIElementTypeFactory.createTokenSet(
             ValkyrieLanguage,
@@ -90,11 +96,19 @@ class ValkyrieProgramLexer : Lexer() {
             OP_ADD, OP_SUB,
             OP_MUL, OP_DIV,
             LOGIC_OR, LOGIC_AND,
-            OP_LT, OP_LEQ, OP_LL, OP_LLL,
-            OP_GT, OP_GEQ, OP_GG, OP_GGG,
+            OP_LEQ, OP_LL, OP_LLL,
+            OP_GEQ, OP_GG, OP_GGG,
         )
-        val Operators = TokenSet.orSet(OperatorInfix);
+        val OperatorSuffix: TokenSet = PSIElementTypeFactory.createTokenSet(
+            ValkyrieLanguage,
+            OP_TEMPERATURE,
+        )
+        val Operators = TokenSet.orSet(OperatorPrefix, OperatorInfix, OperatorSuffix);
 
+        val Comma = TokenIElementType(COMMA, ",", ValkyrieLanguage);
+        val Semicolon = TokenIElementType(SEMICOLON, ",", ValkyrieLanguage);
+        val Dot = TokenIElementType(DOT, ".", ValkyrieLanguage);
+        val Proportion = TokenIElementType(OP_PROPORTION, ".", ValkyrieLanguage);
         val Integers: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, INTEGER);
         val Decimals: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, DECIMAL);
         val Identifiers: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, UNICODE_ID);

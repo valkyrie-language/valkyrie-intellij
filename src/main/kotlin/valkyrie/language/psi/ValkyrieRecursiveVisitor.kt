@@ -10,6 +10,7 @@ open class ValkyrieRecursiveVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveV
         ProgressManager.checkCanceled()
         when (element) {
             is ValkyrieProgramNode -> visitProgram(element)
+            is ValkyrieNamespaceStatement -> visitNamespace(element)
             // class
             is ValkyrieClassStatement -> visitClassDeclaration(element)
             is ValkyrieClassFieldNode -> visitClassField(element)
@@ -33,10 +34,14 @@ open class ValkyrieRecursiveVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveV
     }
 
 
+
+
     open fun visitProgram(o: ValkyrieProgramNode) {
 
     }
+    open fun visitNamespace(o: ValkyrieNamespaceStatement) {
 
+    }
     open fun visitClassDeclaration(o: ValkyrieClassStatement) {
 
     }

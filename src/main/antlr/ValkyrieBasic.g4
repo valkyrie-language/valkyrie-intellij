@@ -131,9 +131,9 @@ KW_WITCH:     'which';
 KW_WHILE: 'while';
 KW_FOR:   'for';
 KW_NEW: 'new' | 'object';
-KOW_WITH: 'with';
+KW_WITH: 'with';
 KW_WHEN: 'when';
-KW_MATCH: 'match';
+KW_MATCH: 'match' | 'catch';
 // number
 INTEGER: [0] | [1-9][0-9]*;
 DECIMAL
@@ -157,7 +157,6 @@ YIELD:    'yield';
 BREAK:    'break';
 CONTINUE: 'continue';
 RAISE:    'raise';
-CATCH:    'catch';
 // atom
 fragment NULL:  'null';
 fragment TRUE:  'true';

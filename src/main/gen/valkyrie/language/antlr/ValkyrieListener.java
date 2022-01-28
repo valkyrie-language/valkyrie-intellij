@@ -766,6 +766,56 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitMacro_call_item(ValkyrieParser.Macro_call_itemContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#match_call}.
+	 * @param ctx the parse tree
+	 */
+	void enterMatch_call(ValkyrieParser.Match_callContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#match_call}.
+	 * @param ctx the parse tree
+	 */
+	void exitMatch_call(ValkyrieParser.Match_callContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#match_block}.
+	 * @param ctx the parse tree
+	 */
+	void enterMatch_block(ValkyrieParser.Match_blockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#match_block}.
+	 * @param ctx the parse tree
+	 */
+	void exitMatch_block(ValkyrieParser.Match_blockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#match_statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterMatch_statement(ValkyrieParser.Match_statementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#match_statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitMatch_statement(ValkyrieParser.Match_statementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#with_block}.
+	 * @param ctx the parse tree
+	 */
+	void enterWith_block(ValkyrieParser.With_blockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#with_block}.
+	 * @param ctx the parse tree
+	 */
+	void exitWith_block(ValkyrieParser.With_blockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#when_block}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhen_block(ValkyrieParser.When_blockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#when_block}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhen_block(ValkyrieParser.When_blockContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#modifiers}.
 	 * @param ctx the parse tree
 	 */

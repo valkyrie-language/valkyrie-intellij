@@ -11,21 +11,19 @@ import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.antlr.ValkyrieLexer
 import valkyrie.language.lexer.ValkyrieProgramLexer
 
-//import valkyrie.language.psi.ValkyrieTypes.*
 
-class BraceMatchPair : PairedBraceMatcher {
+class ValkyrieBracketMatch : PairedBraceMatcher {
     override fun getPairs(): Array<BracePair> = arrayOf(
         BracePair(Instance.BraceL, Instance.BraceR, true),
         BracePair(Instance.BracketL, Instance.BracketR, true),
         BracePair(Instance.ParenthesisL, Instance.ParenthesisR, true),
-//        BracePair(OP_LT, OP_GT, true),
+        BracePair(Instance.GenericL, Instance.GenericR, true),
 //        BracePair(STRING_START, STRING_END, true),
     )
 
     override fun isPairedBracesAllowedBeforeType(lbraceType: IElementType, next: IElementType?): Boolean {
         val insertPairBraceBefore = TokenSet.orSet(
-            ValkyrieProgramLexer.Comments,
-            TokenSet.orSet(
+            ValkyrieProgramLexer.Comments, TokenSet.orSet(
                 TokenSet.create(TokenType.WHITE_SPACE),
 //                COMMA,
                 Instance.Right
@@ -44,11 +42,15 @@ class BraceMatchPair : PairedBraceMatcher {
         val BraceL = TokenIElementType(ValkyrieLexer.BRACE_L, "{", ValkyrieLanguage);
         val BraceR = TokenIElementType(ValkyrieLexer.BRACE_R, "}", ValkyrieLanguage);
 
+        val GenericL = TokenIElementType(ValkyrieLexer.GENERIC_L, "<", ValkyrieLanguage);
+        val GenericR = TokenIElementType(ValkyrieLexer.GENERIC_R, ">", ValkyrieLanguage);
+
+
         val Left = TokenSet.create(
-            BraceL, BracketL, ParenthesisL
+            ParenthesisL, BracketL, BraceL, GenericL
         )
         val Right = TokenSet.create(
-            BraceR, BracketR, ParenthesisR
+            ParenthesisR, BracketR, BraceR, GenericR
         )
     }
 }

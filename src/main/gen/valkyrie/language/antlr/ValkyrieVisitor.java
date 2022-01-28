@@ -464,6 +464,36 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMacro_call_item(ValkyrieParser.Macro_call_itemContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#match_call}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMatch_call(ValkyrieParser.Match_callContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#match_block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMatch_block(ValkyrieParser.Match_blockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#match_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMatch_statement(ValkyrieParser.Match_statementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#with_block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWith_block(ValkyrieParser.With_blockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#when_block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhen_block(ValkyrieParser.When_blockContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#modifiers}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
