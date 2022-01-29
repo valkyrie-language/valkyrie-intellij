@@ -6,7 +6,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
-import valkyrie.language.ast.DocumentNode
+import valkyrie.language.ast.ValkyrieCommentDocument
 import valkyrie.language.lexer.ValkyrieProgramLexer
 import java.net.ConnectException
 import java.util.function.Consumer
@@ -40,7 +40,7 @@ class DocumentationProvider : DocumentationProvider {
     }
 
     override fun generateRenderedDoc(comment: PsiDocCommentBase): String? {
-        if (comment is DocumentNode) {
+        if (comment is ValkyrieCommentDocument) {
             return comment.render()
         }
         return null

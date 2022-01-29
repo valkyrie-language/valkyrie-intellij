@@ -293,6 +293,27 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInline_expression(ValkyrieParser.Inline_expressionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code TParens}
+	 * labeled alternative in {@link ValkyrieParser#type_expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTParens(ValkyrieParser.TParensContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TTerm}
+	 * labeled alternative in {@link ValkyrieParser#type_expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTTerm(ValkyrieParser.TTermContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TPattern}
+	 * labeled alternative in {@link ValkyrieParser#type_expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTPattern(ValkyrieParser.TPatternContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#prefix_call}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -311,47 +332,11 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitControl_expression(ValkyrieParser.Control_expressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code EIdentifier}
-	 * labeled alternative in {@link ValkyrieParser#term}.
+	 * Visit a parse tree produced by {@link ValkyrieParser#term}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitEIdentifier(ValkyrieParser.EIdentifierContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code ENumber}
-	 * labeled alternative in {@link ValkyrieParser#term}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitENumber(ValkyrieParser.ENumberContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code EString}
-	 * labeled alternative in {@link ValkyrieParser#term}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEString(ValkyrieParser.EStringContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code EParens}
-	 * labeled alternative in {@link ValkyrieParser#term}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEParens(ValkyrieParser.EParensContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code EVector}
-	 * labeled alternative in {@link ValkyrieParser#term}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEVector(ValkyrieParser.EVectorContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code ESpeicalLiteral}
-	 * labeled alternative in {@link ValkyrieParser#term}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitESpeicalLiteral(ValkyrieParser.ESpeicalLiteralContext ctx);
+	T visitTerm(ValkyrieParser.TermContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#op_compare}.
 	 * @param ctx the parse tree
@@ -395,27 +380,6 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInfix_in(ValkyrieParser.Infix_inContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code TParens}
-	 * labeled alternative in {@link ValkyrieParser#type_expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTParens(ValkyrieParser.TParensContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code TTerm}
-	 * labeled alternative in {@link ValkyrieParser#type_expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTTerm(ValkyrieParser.TTermContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code TPattern}
-	 * labeled alternative in {@link ValkyrieParser#type_expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTPattern(ValkyrieParser.TPatternContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#call_arguments}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -427,6 +391,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitDefine_generic(ValkyrieParser.Define_genericContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#generic_call_type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGeneric_call_type(ValkyrieParser.Generic_call_typeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#generic_call}.
 	 * @param ctx the parse tree
@@ -464,11 +434,23 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMacro_call_item(ValkyrieParser.Macro_call_itemContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#try_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTry_statement(ValkyrieParser.Try_statementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#match_call}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitMatch_call(ValkyrieParser.Match_callContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#catch_call}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCatch_call(ValkyrieParser.Catch_callContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#match_block}.
 	 * @param ctx the parse tree
@@ -493,6 +475,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitWhen_block(ValkyrieParser.When_blockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#else_pattern}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElse_pattern(ValkyrieParser.Else_patternContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#modifiers}.
 	 * @param ctx the parse tree

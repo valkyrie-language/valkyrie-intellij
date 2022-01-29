@@ -131,9 +131,12 @@ KW_WITCH:     'which';
 KW_WHILE: 'while';
 KW_FOR:   'for';
 KW_NEW: 'new' | 'object';
+// pattern match
+KW_TRY: 'try';
+KW_MATCH: 'match';
+KW_CATCH: 'catch';
 KW_WITH: 'with';
 KW_WHEN: 'when';
-KW_MATCH: 'match' | 'catch';
 // number
 INTEGER: [0] | [1-9][0-9]*;
 DECIMAL

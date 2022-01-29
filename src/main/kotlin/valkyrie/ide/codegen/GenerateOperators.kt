@@ -1,10 +1,7 @@
 package valkyrie.ide.codegen
 
-import com.intellij.internal.statistic.collectors.fus.fileTypes.FileTypeUsageCounterCollector
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.LangDataKeys
-import com.intellij.openapi.application.WriteAction
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
@@ -17,13 +14,13 @@ private val description = ValkyrieBundle.message("action.generate.operators.help
 
 class GenerateOperators : AnAction(name, description, ValkyrieIconProvider.Instance.Operator) {
     override fun actionPerformed(e: AnActionEvent) {
-        val src = LangDataKeys.PSI_FILE.getData(e.dataContext) ?: return
-        if (isValidFile(src)) {
-            val file = WriteAction.compute<PsiFile, RuntimeException> {
-                createFile(src.containingDirectory, "${src.virtualFile.nameWithoutExtension}.g.vk", src.text)
-            }
-            FileTypeUsageCounterCollector.triggerCreate(file.project, file.virtualFile)
-        }
+//        val src = LangDataKeys.PSI_FILE.getData(e.dataContext) ?: return
+//        if (isValidFile(src)) {
+//            val file = WriteAction.compute<PsiFile, RuntimeException> {
+//                createFile(src.containingDirectory, "${src.virtualFile.nameWithoutExtension}.g.vk", src.text)
+//            }
+//            FileTypeUsageCounterCollector.triggerCreate(file.project, file.virtualFile)
+//        }
 //        return arrayOf<PsiElement>(file)
     }
 

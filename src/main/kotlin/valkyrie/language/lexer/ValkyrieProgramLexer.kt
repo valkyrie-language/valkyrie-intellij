@@ -75,8 +75,8 @@ class ValkyrieProgramLexer : Lexer() {
             KW_WHILE,
             KW_FOR, KW_IN,
             // pattern match
-            KW_MATCH,
-            KW_WITCH,
+            KW_MATCH, KW_WITCH,
+            KW_WITH, KW_WHEN,
             // control keywords
             RETURN, RESUME,
             YIELD,

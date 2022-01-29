@@ -6,3 +6,4 @@ import com.intellij.lang.ASTNode
 class ValkyrieBraceBlockNode(node: ASTNode) : ASTWrapperPsiElement(node) {
 
 }
+

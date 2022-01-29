@@ -27,7 +27,6 @@ top_statement
     ;
 function_statements
     : define_lambda eos?
-    | if_statement eos?
     | while_statement eos?
     | for_statement eos?
     | expression eos?
@@ -135,6 +134,12 @@ inline_expression
     | prefix_call inline_expression
     | term
     ;
+type_expression
+    : type_expression op_pattern type_expression # TPattern
+    | type_expression generic_call_type          # TParens
+    | term                                       # TTerm
+    ;
+// ===========================================================================
 prefix_call: OP_NOT | OP_ADD | OP_SUB;
 suffix_call
     : OP_NOT
@@ -144,6 +149,7 @@ suffix_call
     | generic_call
     | lambda_call
     | match_call
+    | catch_call
     | dot_call
     | function_call
     ;
@@ -157,13 +163,16 @@ control_expression
     | YIELD BREAK expression
     | YIELD FROM expression
     ;
+// 带返回值的表达式
 term
-    : namepath           # EIdentifier
-    | number             # ENumber
-    | STRING             # EString
-    | '(' expression ')' # EParens
-    | '[' expression ']' # EVector
-    | SPECIAL            # ESpeicalLiteral
+    : try_statement
+    | if_statement
+    | namepath
+    | number
+    | STRING
+    | '(' expression ')'
+    | '[' expression ']'
+    | SPECIAL
     ;
 
 op_compare:  OP_LT | OP_LEQ | OP_GT | OP_GEQ | OP_EQ | OP_NE;
@@ -174,13 +183,12 @@ op_logic:    LOGIC_OR | LOGIC_AND;
 infix_is:    KW_IS | KW_IS KW_NOT;
 infix_in:    KW_IN | OP_IN;
 // ===========================================================================
-type_expression
-    : type_expression op_pattern type_expression # TPattern
-    | '(' type_expression ')'                    # TParens
-    | term                                       # TTerm
-    ;
 call_arguments: expression (COMMA expression)*;
 define_generic
+    : OP_PROPORTION? OP_LT identifier OP_GT
+    | GENERIC_L identifier GENERIC_R
+    ;
+generic_call_type
     : OP_PROPORTION? OP_LT identifier OP_GT
     | GENERIC_L identifier GENERIC_R
     ;
@@ -203,13 +211,21 @@ macro_call
     ;
 macro_call_item: namepath function_parameters?;
 // ===========================================================================
-match_call: OP_THROW? DOT KW_MATCH match_block;
-match_block:  BRACE_L match_statement* BRACE_R;
-match_statement:
-	with_block
-	| when_block|eos_free;
-with_block: KW_WITH identifier COLON expression*;
-when_block: KW_WHEN inline_expression COLON expression*;
+try_statement: KW_TRY type_expression function_block;
+
+// ===========================================================================
+match_call:  OP_THROW? DOT KW_MATCH match_block;
+catch_call:  OP_THROW? DOT KW_CATCH match_block;
+match_block: BRACE_L match_statement* BRACE_R;
+match_statement
+    : with_block
+    | when_block
+    | else_pattern
+    | eos_free
+    ;
+with_block:   KW_WITH identifier COLON expression*;
+when_block:   KW_WHEN inline_expression COLON expression*;
+else_pattern: KW_ELSE COLON expression*;
 // ===========================================================================
 modifiers:           identifier*;
 modified_identifier: identifier+;

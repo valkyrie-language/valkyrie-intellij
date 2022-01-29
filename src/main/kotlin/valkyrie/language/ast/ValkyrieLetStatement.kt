@@ -1,17 +1,20 @@
 package valkyrie.language.ast
 
+import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
-import com.intellij.psi.tree.IElementType
-import org.antlr.intellij.adaptor.psi.IdentifierDefSubtree
 import org.antlr.intellij.adaptor.psi.ScopeNode
 
-class ValkyrieLetStatement(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ScopeNode {
+class ValkyrieLetStatement(node: ASTNode) : ASTWrapperPsiElement(node), ScopeNode {
+
+    override fun getContext(): ScopeNode? {
+        return parentScope
+    }
+
     override fun resolve(element: PsiNamedElement?): PsiElement? {
         TODO("Not yet implemented")
     }
-
 }
 
 

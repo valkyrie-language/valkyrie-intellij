@@ -12,6 +12,10 @@ import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.antlr.ValkyrieParser
 import valkyrie.language.antlr.ValkyrieParser.*
 import valkyrie.language.ast.*
+import valkyrie.language.ast.pattern_match.ValkyrieCatchBlockNode
+import valkyrie.language.ast.pattern_match.ValkyrieMatchBlockNode
+import valkyrie.language.ast.pattern_match.ValkyrieWhenBlockNode
+import valkyrie.language.ast.pattern_match.ValkyrieWithBlockNode
 
 class ValkyrieProgramParser(parser: ValkyrieParser) : ANTLRParserAdaptor(ValkyrieLanguage, parser) {
     override fun parse(parser: Parser, root: IElementType): ParseTree {
@@ -30,7 +34,7 @@ class ValkyrieProgramParser(parser: ValkyrieParser) : ANTLRParserAdaptor(Valkyri
                 RULE_class_block -> ValkyrieBraceBlockNode(node)
                 RULE_class_field -> ValkyrieClassFieldNode(node)
                 RULE_class_method -> ValkyrieClassMethodNode(node)
-                RULE_modifiers-> ModifiedIdentifier(node)
+                RULE_modifiers -> ModifiedIdentifier(node)
                 RULE_modified_identifier -> ModifiedIdentifier(node)
                 RULE_modified_namepath -> ModifiedNamepath(node)
                 // flags
@@ -54,6 +58,12 @@ class ValkyrieProgramParser(parser: ValkyrieParser) : ANTLRParserAdaptor(Valkyri
                 // control
                 RULE_for_statement -> ValkyrieForStatement(node)
                 RULE_while_statement -> ValkyrieWhileStatement(node)
+                // pattern match
+                RULE_match_call -> ValkyrieMatchBlockNode(node)
+                RULE_catch_call -> ValkyrieCatchBlockNode(node)
+                RULE_match_block -> ValkyrieBraceBlockNode(node)
+                RULE_with_block -> ValkyrieWithBlockNode(node)
+                RULE_when_block -> ValkyrieWhenBlockNode(node)
                 // expression
                 RULE_macro_call -> ValkyrieMacroCall(node)
                 RULE_expression -> extractExpression(node)
@@ -62,6 +72,9 @@ class ValkyrieProgramParser(parser: ValkyrieParser) : ANTLRParserAdaptor(Valkyri
                 RULE_namepath -> ValkyrieNamepathNode(node, type)
                 RULE_identifier -> ValkyrieIdentifierNode(node)
                 RULE_number -> ValkyrieNumberNode(node)
+                // comment
+
+
                 else -> ANTLRPsiNode(node)
             }
         }

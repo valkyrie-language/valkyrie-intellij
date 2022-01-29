@@ -14,11 +14,6 @@ import java.nio.file.Path
  */
 @Suppress("UnstableApiUsage")
 class ValkyrieProjectName : ProjectNameProvider {
-    override fun getDefaultName(project: Project): String? {
-        val config = getNameFile(project) ?: return null;
-        return config.fileName.toString()
-    }
-
     override fun getNameFile(project: Project): Path? {
 //        val dir = project.basePath ?: return null;
 //        for (file in File(dir).listFiles()!!) {

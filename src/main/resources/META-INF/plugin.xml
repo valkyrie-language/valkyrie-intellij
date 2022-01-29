@@ -3,7 +3,6 @@
 	<name>Valkyrie Language</name>
 	<vendor>voml</vendor>
 	<depends>com.intellij.modules.platform</depends>
-	<depends optional="true" config-file="plugin-for-idea.xml">com.intellij.module.java</depends>
 	<depends optional="true" config-file="plugin-with-rust.xml">com.jetbrains.rust</depends>
 	<depends optional="true" config-file="plugin-with-markdown.xml">org.intellij.plugins.markdown</depends>
 	<resource-bundle>messages.ValkyrieBundle</resource-bundle>
