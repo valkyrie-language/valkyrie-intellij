@@ -74,9 +74,10 @@ class ValkyrieProgramLexer : Lexer() {
             // control flow
             KW_WHILE,
             KW_FOR, KW_IN,
-            // pattern match
-            KW_MATCH, KW_WITCH,
-            KW_WITH, KW_WHEN,
+            // which/match/catch
+            KW_WITCH, KW_MATCH, KW_CATCH,
+            KW_WITH, KW_WHEN, KW_CASE,
+            KW_TRY,
             // control keywords
             RETURN, RESUME,
             YIELD,

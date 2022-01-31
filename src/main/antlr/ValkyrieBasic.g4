@@ -136,6 +136,7 @@ KW_TRY: 'try';
 KW_MATCH: 'match';
 KW_CATCH: 'catch';
 KW_WITH: 'with';
+KW_CASE: 'case';
 KW_WHEN: 'when';
 // number
 INTEGER: [0] | [1-9][0-9]*;

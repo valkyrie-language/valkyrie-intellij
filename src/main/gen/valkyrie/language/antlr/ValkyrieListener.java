@@ -794,6 +794,16 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitElse_pattern(ValkyrieParser.Else_patternContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#case_pattern}.
+	 * @param ctx the parse tree
+	 */
+	void enterCase_pattern(ValkyrieParser.Case_patternContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#case_pattern}.
+	 * @param ctx the parse tree
+	 */
+	void exitCase_pattern(ValkyrieParser.Case_patternContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#modifiers}.
 	 * @param ctx the parse tree
 	 */

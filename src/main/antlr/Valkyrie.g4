@@ -221,11 +221,13 @@ match_statement
     : with_block
     | when_block
     | else_pattern
+    | case_pattern
     | eos_free
     ;
-with_block:   KW_WITH identifier COLON expression*;
+with_block:   KW_WITH identifier | KW_WITH '[' identifier? ']';
 when_block:   KW_WHEN inline_expression COLON expression*;
 else_pattern: KW_ELSE COLON expression*;
+case_pattern: identifier '(' identifier? ')' COLON expression*;
 // ===========================================================================
 modifiers:           identifier*;
 modified_identifier: identifier+;
