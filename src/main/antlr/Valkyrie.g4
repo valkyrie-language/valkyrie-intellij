@@ -214,20 +214,27 @@ macro_call_item: namepath function_parameters?;
 try_statement: KW_TRY type_expression function_block;
 
 // ===========================================================================
-match_call:  OP_THROW? DOT KW_MATCH match_block;
-catch_call:  OP_THROW? DOT KW_CATCH match_block;
+match_call:  OP_THROW? DOT KW_MATCH type_expression match_block;
+catch_call:  OP_THROW? DOT KW_CATCH type_expression match_block;
 match_block: BRACE_L match_statement* BRACE_R;
 match_statement
-    : with_block
-    | when_block
+    : when_block
     | else_pattern
     | case_pattern
     | eos_free
     ;
-with_block:   KW_WITH identifier | KW_WITH '[' identifier? ']';
-when_block:   KW_WHEN inline_expression COLON expression*;
-else_pattern: KW_ELSE COLON expression*;
-case_pattern: identifier '(' identifier? ')' COLON expression*;
+with_block
+    : macro_call* KW_WITH identifier
+    | KW_WITH '[' identifier? ']'
+    ;
+when_block
+    : macro_call* KW_WHEN inline_expression COLON expression*
+    ;
+else_pattern: macro_call* KW_ELSE COLON expression*;
+case_pattern
+    : macro_call* KW_CASE identifier '(' identifier? ')' if_guard? COLON expression*
+    ;
+if_guard: KW_IF inline_expression;
 // ===========================================================================
 modifiers:           identifier*;
 modified_identifier: identifier+;

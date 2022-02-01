@@ -1,0 +1,33 @@
+try Option<u64> {
+    std::TestClass.call::<T>(test) {
+
+    }
+}
+.match {
+    #[cfg(test)]
+    when null || A:
+    print("Caught null")
+    resume a
+    when a < 0 || c!=0:
+    print("a < 0")
+    when a:
+    print("a == 0")
+    else:
+    fine
+}
+.match {
+    case Some(a):
+    print("Caught some")
+    case Some(a) if a > 0 && b>0:
+    print("a > 0")
+}
+.match {
+    when a>0:
+    yyy
+    else:
+    zzz
+}?
+.catch {
+
+}
+.await
