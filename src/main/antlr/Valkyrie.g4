@@ -106,13 +106,14 @@ else_statement: KW_ELSE function_block;
 while_statement: KW_WHILE inline_expression function_block;
 // ===========================================================================
 for_statement
-    : KW_FOR for_pattern infix_in inline_expression function_block
+    : KW_FOR for_pattern infix_in inline_expression if_guard? function_block
     ;
 for_pattern
     : for_parameter (COMMA for_parameter)*
     | PARENTHESES_L for_parameter (COMMA for_parameter)* PARENTHESES_R
     ;
 for_parameter: identifier+;
+if_guard:      KW_IF inline_expression;
 // ===========================================================================
 expression
     : expression suffix_call
@@ -126,7 +127,8 @@ expression
     | term
     ;
 inline_expression
-    : inline_expression op_multiple inline_expression
+    : inline_expression dot_call
+    | inline_expression op_multiple inline_expression
     | inline_expression op_plus inline_expression
     | inline_expression op_logic inline_expression
     | inline_expression op_compare inline_expression
@@ -234,7 +236,7 @@ else_pattern: macro_call* KW_ELSE COLON expression*;
 case_pattern
     : macro_call* KW_CASE identifier '(' identifier? ')' if_guard? COLON expression*
     ;
-if_guard: KW_IF inline_expression;
+
 // ===========================================================================
 modifiers:           identifier*;
 modified_identifier: identifier+;

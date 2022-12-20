@@ -1,14 +1,37 @@
-for a in iter {
-
-}
-for a, b in iter {
-
-}
-
-for ii in ee {
-    aa + (bb / ee - cc) * dd
+class Range {
+    from: Integer,
+    till: Integer,
+    step: Integer,
+    _current: Integer,
 }
 
+function range(max: int): Range {
+
+}
+
+function range(min: int, max: int): Range {
+
+}
+function range(min: int, max: int, step: int): Range {
+
+}
+
+
+for a in range(1, 9, 2) {
+
+}
+for a, b in xrange(2, 2, start: 0) {
+
+}
+
+for index, item in list.enumerate {
+    print("{index}")
+}
+
+
+for loop, item in list.looper {
+    print("{loop.index}")
+}
 
 
 for i in dim1 {

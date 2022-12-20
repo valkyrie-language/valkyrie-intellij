@@ -154,7 +154,7 @@ KW_IF:        'if';
 KW_ELSE:      'else';
 KW_OTHERWISE: 'otherwise';
 // control goto
-FROM:     'from';
+//FROM:     'from';
 RETURN:   'return';
 RESUME:   'resume';
 YIELD:    'yield';
@@ -168,7 +168,7 @@ fragment FALSE: 'false';
 SPECIAL:        NULL | TRUE | FALSE;
 // atom
 RAW_ID:     '`' ~[`]+ '`';
-UNICODE_ID: [\p{XID_start}] [\p{XID_continue}]*;
+UNICODE_ID: [_\p{XID_start}] [\p{XID_continue}]*;
 
 // comment
 LINE_COMMENT:  '//' .*? ('\n' | EOF) -> channel(HIDDEN);

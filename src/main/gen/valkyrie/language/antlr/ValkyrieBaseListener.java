@@ -557,6 +557,18 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterIf_guard(ValkyrieParser.If_guardContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIf_guard(ValkyrieParser.If_guardContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExpression(ValkyrieParser.ExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -960,18 +972,6 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCase_pattern(ValkyrieParser.Case_patternContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterIf_guard(ValkyrieParser.If_guardContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitIf_guard(ValkyrieParser.If_guardContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
