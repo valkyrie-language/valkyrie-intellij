@@ -8,11 +8,12 @@ import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.PsiNamedElement
 import org.antlr.intellij.adaptor.psi.ScopeNode
 import valkyrie.ide.view.IdentifierPresentation
+import valkyrie.language.antlr.parentScope
 import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
 class ValkyrieClassMethodNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ScopeNode {
-    val method by lazy { ModifiedNamepath.findIdentifier(this) }
+    val method by lazy { ModifiedNamepath.findIdentifier(this)!! }
     val modifiers by lazy { ModifiedNamepath.findModifiers(this) };
     override fun getName(): String {
         return method.name

@@ -761,13 +761,13 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCall_arguments(ValkyrieParser.Call_argumentsContext ctx) { }
+	@Override public void enterFunction_call_terms(ValkyrieParser.Function_call_termsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCall_arguments(ValkyrieParser.Call_argumentsContext ctx) { }
+	@Override public void exitFunction_call_terms(ValkyrieParser.Function_call_termsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -785,18 +785,6 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterGeneric_call_type(ValkyrieParser.Generic_call_typeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitGeneric_call_type(ValkyrieParser.Generic_call_typeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterGeneric_call(ValkyrieParser.Generic_callContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -804,6 +792,18 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitGeneric_call(ValkyrieParser.Generic_callContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGeneric_call_in_type(ValkyrieParser.Generic_call_in_typeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGeneric_call_in_type(ValkyrieParser.Generic_call_in_typeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -984,6 +984,18 @@ public class ValkyrieBaseListener implements ValkyrieListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitNew_call(ValkyrieParser.New_callContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNew_body(ValkyrieParser.New_bodyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNew_body(ValkyrieParser.New_bodyContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

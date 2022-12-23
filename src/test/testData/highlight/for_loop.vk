@@ -1,13 +1,3 @@
-class Range {
-    from: Integer,
-    till: Integer,
-    step: Integer,
-    _current: Integer,
-}
-
-function range(min: int, max: int, step: int): Range {
-    new lazy path::Range::<T>() {from: min, till: max, step, _current: min}
-}
 
 
 for a in range(1, 9, 2) {
@@ -16,6 +6,7 @@ for a in range(1, 9, 2) {
 for a, b in xrange(2, 2, start: 0) {
 
 }
+
 
 for index, item in list.enumerate {
     print("{index}")

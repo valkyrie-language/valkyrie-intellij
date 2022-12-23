@@ -386,11 +386,11 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInfix_in(ValkyrieParser.Infix_inContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ValkyrieParser#call_arguments}.
+	 * Visit a parse tree produced by {@link ValkyrieParser#function_call_terms}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCall_arguments(ValkyrieParser.Call_argumentsContext ctx);
+	T visitFunction_call_terms(ValkyrieParser.Function_call_termsContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#define_generic}.
 	 * @param ctx the parse tree
@@ -398,17 +398,17 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDefine_generic(ValkyrieParser.Define_genericContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ValkyrieParser#generic_call_type}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitGeneric_call_type(ValkyrieParser.Generic_call_typeContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#generic_call}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitGeneric_call(ValkyrieParser.Generic_callContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#generic_call_in_type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGeneric_call_in_type(ValkyrieParser.Generic_call_in_typeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#dot_call}.
 	 * @param ctx the parse tree
@@ -499,6 +499,12 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitNew_call(ValkyrieParser.New_callContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#new_body}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNew_body(ValkyrieParser.New_bodyContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#new_block}.
 	 * @param ctx the parse tree

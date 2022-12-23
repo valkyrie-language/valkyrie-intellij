@@ -8,6 +8,7 @@ import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.PsiNamedElement
 import org.antlr.intellij.adaptor.psi.ScopeNode
 import valkyrie.ide.view.IdentifierPresentation
+import valkyrie.language.antlr.parentScope
 import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 

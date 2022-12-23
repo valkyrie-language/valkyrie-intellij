@@ -10,6 +10,7 @@ import org.antlr.intellij.adaptor.SymtabUtils
 import org.antlr.intellij.adaptor.psi.ScopeNode
 import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.antlr.parentScope
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.psi.recursiveSearch

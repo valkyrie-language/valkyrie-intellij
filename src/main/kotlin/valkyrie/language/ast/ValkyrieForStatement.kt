@@ -7,6 +7,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.impl.source.tree.CompositeElement
 import org.antlr.intellij.adaptor.psi.ScopeNode
+import valkyrie.language.antlr.parentScope
 import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 

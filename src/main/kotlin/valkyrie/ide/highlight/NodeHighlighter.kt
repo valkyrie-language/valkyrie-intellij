@@ -58,6 +58,9 @@ class NodeHighlighter : ValkyrieRecursiveVisitor(), HighlightVisitor {
 
     override fun visitFunctionDeclaration(o: ValkyrieFunctionStatement) {
         highlight(o.nameIdentifier, Color.SYM_FUNCTION_FREE)
+        for (mod in o.modifiers) {
+            highlight(mod, Color.MODIFIER)
+        }
     }
 
     override fun visitFunctionItem(o: ValkyrieFunctionParameter) {

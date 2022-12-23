@@ -5,6 +5,7 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.util.PsiTreeUtil
+import valkyrie.language.antlr.ValkyrieParser
 
 
 class ModifiedIdentifier(node: CompositeElement) : ASTWrapperPsiElement(node) {
@@ -23,7 +24,11 @@ class ModifiedIdentifier(node: CompositeElement) : ASTWrapperPsiElement(node) {
         fun findModifiers(node: PsiElement): List<ValkyrieIdentifierNode> {
             return findItems(node).dropLast(1)
         }
+
+        fun extractModifiers(node: PsiElement): List<ValkyrieIdentifierNode> {
+            val modifiers = ValkyrieParser.getChildOfType(node, ValkyrieParser.RULE_modifiers);
+            return emptyList()
+        }
     }
 }
-
 

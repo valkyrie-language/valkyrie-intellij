@@ -8,6 +8,7 @@ import com.intellij.psi.PsiReference
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.ide.reference.declaration.ValkyrieClassReference
 import valkyrie.ide.reference.declaration.ValkyrieTraitReference
+import valkyrie.language.antlr.parentScope
 
 class ValkyrieIdentifierNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNamedElement {
     override fun getName(): String {

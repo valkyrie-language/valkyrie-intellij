@@ -6,7 +6,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.formatter.FormatterUtil
 import valkyrie.language.ast.ValkyrieBraceBlockNode
-import valkyrie.language.ast.isWhitespaceOrEmpty
+import valkyrie.language.antlr.isWhitespaceOrEmpty
 
 //import valkyrie.language.psi.ValkyrieTokenType
 

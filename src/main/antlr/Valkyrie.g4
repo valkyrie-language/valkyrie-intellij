@@ -55,7 +55,9 @@ class_method
 // ===========================================================================
 define_trait: KW_TRAIT identifier class_block;
 // ===========================================================================
-define_extends: KW_EXTENDS namepath (COLON type_expression) class_block;
+define_extends
+    : KW_EXTENDS namepath (COLON type_expression) class_block
+    ;
 // ===========================================================================
 define_union:       KW_UNION identifier union_block;
 union_block:        BRACE_L union_statements* BRACE_R;
@@ -74,7 +76,7 @@ type_hint:   (COLON | OP_ARROW) type_expression;
 effect_hint: OP_DIV type_expression;
 // ===========================================================================
 define_function
-    : macro_call* KW_FUNCTION namepath function_parameters type_hint? effect_hint? function_block
+    : macro_call* modifiers KW_FUNCTION namepath function_parameters type_hint? effect_hint? function_block
     ;
 function_parameters
     : PARENTHESES_L parameter_item (COMMA parameter_item)* PARENTHESES_R
@@ -84,7 +86,7 @@ parameter_item
     : macro_call* modified_identifier type_hint? parameter_default?
     ;
 parameter_default: OP_ASSIGN expression;
-function_call:     OP_THROW? '(' call_arguments? ')';
+function_call:     OP_THROW? '(' function_call_terms? ')';
 // ===========================================================================
 define_lambda
     : macro_call* KW_LAMBDA function_parameters type_hint? effect_hint? function_block
@@ -138,7 +140,7 @@ inline_expression
     ;
 type_expression
     : type_expression op_pattern type_expression # TPattern
-    | type_expression generic_call_type          # TParens
+    | type_expression generic_call_in_type       # TParens
     | term                                       # TTerm
     ;
 // ===========================================================================
@@ -186,17 +188,18 @@ op_logic:    LOGIC_OR | LOGIC_AND;
 infix_is:    KW_IS | KW_IS KW_NOT;
 infix_in:    KW_IN | OP_IN;
 // ===========================================================================
-call_arguments: expression (COMMA expression)*;
+function_call_terms: expression (COMMA expression)*;
 define_generic
     : OP_PROPORTION? OP_LT identifier OP_GT
     | GENERIC_L identifier GENERIC_R
     ;
-generic_call_type
-    : OP_PROPORTION? OP_LT identifier OP_GT
-    | GENERIC_L identifier GENERIC_R
-    ;
+
 generic_call
     : OP_PROPORTION OP_LT identifier OP_GT
+    | GENERIC_L identifier GENERIC_R
+    ;
+generic_call_in_type
+    : OP_PROPORTION? OP_LT identifier OP_GT
     | GENERIC_L identifier GENERIC_R
     ;
 // ===========================================================================
@@ -239,12 +242,16 @@ case_pattern
     ;
 // ===========================================================================
 new_call
-    : macro_call* KW_NEW namepath_free ('(' call_arguments? ')')
-    | macro_call* KW_NEW namepath_free new_block
+    : macro_call* KW_NEW modified_namepath generic_call_in_type? new_body
+    ;
+new_body
+    : '(' function_call_terms? ')' new_block
+    | '(' function_call_terms? ')'
+    | new_block
     ;
 new_block:     BRACE_L new_statement* BRACE_R;
-new_statement: new_kv|eos_free;
-new_kv: identifier (COLON expression)?;
+new_statement: new_kv | eos_free;
+new_kv:        identifier (COLON expression)?;
 // ===========================================================================
 modifiers:           identifier*;
 modified_identifier: identifier+;
