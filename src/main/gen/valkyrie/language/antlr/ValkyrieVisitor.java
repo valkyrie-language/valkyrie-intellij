@@ -494,6 +494,30 @@ public interface ValkyrieVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCase_pattern(ValkyrieParser.Case_patternContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#new_call}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNew_call(ValkyrieParser.New_callContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#new_block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNew_block(ValkyrieParser.New_blockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#new_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNew_statement(ValkyrieParser.New_statementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieParser#new_kv}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNew_kv(ValkyrieParser.New_kvContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieParser#modifiers}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

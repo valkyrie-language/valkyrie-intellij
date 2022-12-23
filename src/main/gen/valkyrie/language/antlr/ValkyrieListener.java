@@ -814,6 +814,46 @@ public interface ValkyrieListener extends ParseTreeListener {
 	 */
 	void exitCase_pattern(ValkyrieParser.Case_patternContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#new_call}.
+	 * @param ctx the parse tree
+	 */
+	void enterNew_call(ValkyrieParser.New_callContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#new_call}.
+	 * @param ctx the parse tree
+	 */
+	void exitNew_call(ValkyrieParser.New_callContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#new_block}.
+	 * @param ctx the parse tree
+	 */
+	void enterNew_block(ValkyrieParser.New_blockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#new_block}.
+	 * @param ctx the parse tree
+	 */
+	void exitNew_block(ValkyrieParser.New_blockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#new_statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterNew_statement(ValkyrieParser.New_statementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#new_statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitNew_statement(ValkyrieParser.New_statementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieParser#new_kv}.
+	 * @param ctx the parse tree
+	 */
+	void enterNew_kv(ValkyrieParser.New_kvContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieParser#new_kv}.
+	 * @param ctx the parse tree
+	 */
+	void exitNew_kv(ValkyrieParser.New_kvContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieParser#modifiers}.
 	 * @param ctx the parse tree
 	 */

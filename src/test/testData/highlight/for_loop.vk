@@ -5,15 +5,8 @@ class Range {
     _current: Integer,
 }
 
-function range(max: int): Range {
-
-}
-
-function range(min: int, max: int): Range {
-
-}
 function range(min: int, max: int, step: int): Range {
-
+    new lazy path::Range::<T>() {from: min, till: max, step, _current: min}
 }
 
 

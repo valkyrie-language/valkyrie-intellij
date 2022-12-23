@@ -55,7 +55,7 @@ class_method
 // ===========================================================================
 define_trait: KW_TRAIT identifier class_block;
 // ===========================================================================
-define_extends: KW_EXTENDS namepath class_block;
+define_extends: KW_EXTENDS namepath (COLON type_expression) class_block;
 // ===========================================================================
 define_union:       KW_UNION identifier union_block;
 union_block:        BRACE_L union_statements* BRACE_R;
@@ -163,12 +163,13 @@ control_expression
     | RAISE expression
     | YIELD RETURN? expression
     | YIELD BREAK expression
-    | YIELD FROM expression
+    | YIELD KW_WITH expression
     ;
 // 带返回值的表达式
 term
     : try_statement
     | if_statement
+    | new_call
     | namepath
     | number
     | STRING
@@ -236,7 +237,14 @@ else_pattern: macro_call* KW_ELSE COLON expression*;
 case_pattern
     : macro_call* KW_CASE identifier '(' identifier? ')' if_guard? COLON expression*
     ;
-
+// ===========================================================================
+new_call
+    : macro_call* KW_NEW namepath_free ('(' call_arguments? ')')
+    | macro_call* KW_NEW namepath_free new_block
+    ;
+new_block:     BRACE_L new_statement* BRACE_R;
+new_statement: new_kv|eos_free;
+new_kv: identifier (COLON expression)?;
 // ===========================================================================
 modifiers:           identifier*;
 modified_identifier: identifier+;
