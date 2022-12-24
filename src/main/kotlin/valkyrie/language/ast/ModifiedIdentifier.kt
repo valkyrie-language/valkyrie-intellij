@@ -1,11 +1,12 @@
 package valkyrie.language.ast
 
 
+import ValkyrieAntlrParser
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.language.antlr.ValkyrieParser
+import valkyrie.language.lexer.ValkyrieParser
 
 
 class ModifiedIdentifier(node: CompositeElement) : ASTWrapperPsiElement(node) {
@@ -26,7 +27,7 @@ class ModifiedIdentifier(node: CompositeElement) : ASTWrapperPsiElement(node) {
         }
 
         fun extractModifiers(node: PsiElement): List<ValkyrieIdentifierNode> {
-            val modifiers = ValkyrieParser.getChildOfType(node, ValkyrieParser.RULE_modifiers);
+            val modifiers = ValkyrieParser.getChildOfType(node, ValkyrieAntlrParser.RULE_modifiers);
             return emptyList()
         }
     }

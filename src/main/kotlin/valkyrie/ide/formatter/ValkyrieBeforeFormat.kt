@@ -1,5 +1,6 @@
 package valkyrie.ide.formatter
 
+import ValkyrieAntlrParser
 import com.intellij.application.options.CodeStyle
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.editor.Document
@@ -18,7 +19,6 @@ import org.antlr.intellij.adaptor.psi.ANTLRPsiNode
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings.*
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.antlr.ValkyrieParser
 import valkyrie.language.ast.ValkyrieClassStatement
 import valkyrie.language.ast.ValkyrieNamespaceStatement
 import valkyrie.language.psi.ValkyrieRecursiveVisitor
@@ -51,7 +51,7 @@ private class RewriteVisitor(private val text: Document, val settings: ValkyrieC
     var offsetDelta: Int = 0
 
     override fun visitNamespace(o: ValkyrieNamespaceStatement) {
-        val split = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieParser.DOT, ValkyrieParser.OP_PROPORTION);
+        val split = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieAntlrParser.DOT, ValkyrieAntlrParser.OP_PROPORTION);
         for (leaf in o.namepath.childrenWithLeaves) {
             if (split.contains(leaf.elementType)) {
                 when (settings.namespace_delimiter) {

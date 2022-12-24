@@ -10,7 +10,7 @@ import com.intellij.psi.util.parents
 import com.intellij.util.ProcessingContext
 import valkyrie.language.ast.ValkyrieClassStatement
 import valkyrie.language.file.ValkyrieFileNode
-import valkyrie.language.lexer.ValkyrieProgramLexer
+import valkyrie.language.lexer.ValkyrieLexer
 
 
 class CompletionRegistrar : CompletionContributor() {
@@ -30,7 +30,7 @@ class CompletionRegistrar : CompletionContributor() {
         val context = ProcessingContext()
         val element = parameters.originalPosition ?: return
         println("CompletionRegistrar: ${element.elementType}")
-        if (ValkyrieProgramLexer.CompletionWords.contains(element.elementType)) {
+        if (ValkyrieLexer.CompletionWords.contains(element.elementType)) {
             for (node in element.parents(false)) {
                 if (result.isStopped) {
                     return
@@ -49,7 +49,7 @@ class CompletionRegistrar : CompletionContributor() {
                     }
                 }
             }
-        } else if (ValkyrieProgramLexer.Operators.contains(element.elementType)) {
+        } else if (ValkyrieLexer.Operators.contains(element.elementType)) {
             println("Operators: ${result.hashCode()}")
             CompletionInOperators().addCompletionVariants(parameters, context, result)
         }

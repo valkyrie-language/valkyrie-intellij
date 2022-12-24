@@ -1,5 +1,6 @@
 package valkyrie.ide.formatter
 
+import ValkyrieAntlrLexer.*
 import com.intellij.formatting.SpacingBuilder
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
@@ -7,8 +8,7 @@ import com.intellij.psi.tree.TokenSet
 import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory.createTokenSet
 import valkyrie.ide.matcher.ValkyrieBracketMatch
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.antlr.ValkyrieParser.*
-import valkyrie.language.lexer.ValkyrieProgramLexer
+import valkyrie.language.lexer.ValkyrieLexer
 
 private val removeSpaceBefore = TokenSet.orSet(
     createTokenSet(ValkyrieLanguage, DOT, OP_PROPORTION, COLON),
@@ -31,7 +31,7 @@ private val removeSpaceNewlineAfter = TokenSet.orSet(
 // 左右插入一个空格
 private val spaceAroundOperator = TokenSet.orSet(
     createTokenSet(ValkyrieLanguage, KW_IN),
-    ValkyrieProgramLexer.OperatorInfix
+    ValkyrieLexer.OperatorInfix
 )
 
 private val spaceAfter = TokenSet.orSet(

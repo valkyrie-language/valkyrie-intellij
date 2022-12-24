@@ -1,9 +1,9 @@
-// Generated from C:/Users/Dell/IdeaProjects/valkyrie-intellij/src/main/antlr\Valkyrie.g4 by ANTLR 4.12.0
+// Generated from C:/Users/Dell/IdeaProjects/valkyrie-intellij/src/main/antlr\ValkyrieAntlr.g4 by ANTLR 4.12.0
 package valkyrie.language.antlr;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
- * This class provides an empty implementation of {@link ValkyrieVisitor},
+ * This class provides an empty implementation of {@link ValkyrieAntlrVisitor},
  * which can be extended to create a visitor which only needs to handle a subset
  * of the available methods.
  *
@@ -11,649 +11,649 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
  * operations with no return type.
  */
 @SuppressWarnings("CheckReturnValue")
-public class ValkyrieBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements ValkyrieVisitor<T> {
+public class ValkyrieAntlrBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements ValkyrieAntlrVisitor<T> {
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitProgram(ValkyrieParser.ProgramContext ctx) { return visitChildren(ctx); }
+	@Override public T visitProgram(ValkyrieAntlrParser.ProgramContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTop_statement(ValkyrieParser.Top_statementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTop_statement(ValkyrieAntlrParser.Top_statementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFunction_statements(ValkyrieParser.Function_statementsContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFunction_statements(ValkyrieAntlrParser.Function_statementsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitEos(ValkyrieParser.EosContext ctx) { return visitChildren(ctx); }
+	@Override public T visitEos(ValkyrieAntlrParser.EosContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitEos_free(ValkyrieParser.Eos_freeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitEos_free(ValkyrieAntlrParser.Eos_freeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDefine_namespace(ValkyrieParser.Define_namespaceContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDefine_namespace(ValkyrieAntlrParser.Define_namespaceContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitImport_statement(ValkyrieParser.Import_statementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitImport_statement(ValkyrieAntlrParser.Import_statementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDefine_extension(ValkyrieParser.Define_extensionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDefine_extension(ValkyrieAntlrParser.Define_extensionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDefine_class(ValkyrieParser.Define_classContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDefine_class(ValkyrieAntlrParser.Define_classContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitClass_block(ValkyrieParser.Class_blockContext ctx) { return visitChildren(ctx); }
+	@Override public T visitClass_block(ValkyrieAntlrParser.Class_blockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitClass_statements(ValkyrieParser.Class_statementsContext ctx) { return visitChildren(ctx); }
+	@Override public T visitClass_statements(ValkyrieAntlrParser.Class_statementsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitClass_inherit(ValkyrieParser.Class_inheritContext ctx) { return visitChildren(ctx); }
+	@Override public T visitClass_inherit(ValkyrieAntlrParser.Class_inheritContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitClass_field(ValkyrieParser.Class_fieldContext ctx) { return visitChildren(ctx); }
+	@Override public T visitClass_field(ValkyrieAntlrParser.Class_fieldContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitClass_method(ValkyrieParser.Class_methodContext ctx) { return visitChildren(ctx); }
+	@Override public T visitClass_method(ValkyrieAntlrParser.Class_methodContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDefine_trait(ValkyrieParser.Define_traitContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDefine_trait(ValkyrieAntlrParser.Define_traitContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDefine_extends(ValkyrieParser.Define_extendsContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDefine_extends(ValkyrieAntlrParser.Define_extendsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDefine_union(ValkyrieParser.Define_unionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDefine_union(ValkyrieAntlrParser.Define_unionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUnion_block(ValkyrieParser.Union_blockContext ctx) { return visitChildren(ctx); }
+	@Override public T visitUnion_block(ValkyrieAntlrParser.Union_blockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUnion_statements(ValkyrieParser.Union_statementsContext ctx) { return visitChildren(ctx); }
+	@Override public T visitUnion_statements(ValkyrieAntlrParser.Union_statementsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDefine_variant(ValkyrieParser.Define_variantContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDefine_variant(ValkyrieAntlrParser.Define_variantContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitVariant_block(ValkyrieParser.Variant_blockContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVariant_block(ValkyrieAntlrParser.Variant_blockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitVariant_statements(ValkyrieParser.Variant_statementsContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVariant_statements(ValkyrieAntlrParser.Variant_statementsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDefine_bitflags(ValkyrieParser.Define_bitflagsContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDefine_bitflags(ValkyrieAntlrParser.Define_bitflagsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBitflags_block(ValkyrieParser.Bitflags_blockContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBitflags_block(ValkyrieAntlrParser.Bitflags_blockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBitflags_statements(ValkyrieParser.Bitflags_statementsContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBitflags_statements(ValkyrieAntlrParser.Bitflags_statementsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBitflags_item(ValkyrieParser.Bitflags_itemContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBitflags_item(ValkyrieAntlrParser.Bitflags_itemContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDefine_type(ValkyrieParser.Define_typeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDefine_type(ValkyrieAntlrParser.Define_typeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitType_hint(ValkyrieParser.Type_hintContext ctx) { return visitChildren(ctx); }
+	@Override public T visitType_hint(ValkyrieAntlrParser.Type_hintContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitEffect_hint(ValkyrieParser.Effect_hintContext ctx) { return visitChildren(ctx); }
+	@Override public T visitEffect_hint(ValkyrieAntlrParser.Effect_hintContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDefine_function(ValkyrieParser.Define_functionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDefine_function(ValkyrieAntlrParser.Define_functionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFunction_parameters(ValkyrieParser.Function_parametersContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFunction_parameters(ValkyrieAntlrParser.Function_parametersContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitParameter_item(ValkyrieParser.Parameter_itemContext ctx) { return visitChildren(ctx); }
+	@Override public T visitParameter_item(ValkyrieAntlrParser.Parameter_itemContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitParameter_default(ValkyrieParser.Parameter_defaultContext ctx) { return visitChildren(ctx); }
+	@Override public T visitParameter_default(ValkyrieAntlrParser.Parameter_defaultContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFunction_call(ValkyrieParser.Function_callContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFunction_call(ValkyrieAntlrParser.Function_callContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDefine_lambda(ValkyrieParser.Define_lambdaContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDefine_lambda(ValkyrieAntlrParser.Define_lambdaContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLambda_call(ValkyrieParser.Lambda_callContext ctx) { return visitChildren(ctx); }
+	@Override public T visitLambda_call(ValkyrieAntlrParser.Lambda_callContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFunction_block(ValkyrieParser.Function_blockContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFunction_block(ValkyrieAntlrParser.Function_blockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDefine_variale(ValkyrieParser.Define_varialeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDefine_variale(ValkyrieAntlrParser.Define_varialeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIf_statement(ValkyrieParser.If_statementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIf_statement(ValkyrieAntlrParser.If_statementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitElse_if_statement(ValkyrieParser.Else_if_statementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitElse_if_statement(ValkyrieAntlrParser.Else_if_statementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitElse_statement(ValkyrieParser.Else_statementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitElse_statement(ValkyrieAntlrParser.Else_statementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitWhile_statement(ValkyrieParser.While_statementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitWhile_statement(ValkyrieAntlrParser.While_statementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFor_statement(ValkyrieParser.For_statementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFor_statement(ValkyrieAntlrParser.For_statementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFor_pattern(ValkyrieParser.For_patternContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFor_pattern(ValkyrieAntlrParser.For_patternContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFor_parameter(ValkyrieParser.For_parameterContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFor_parameter(ValkyrieAntlrParser.For_parameterContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIf_guard(ValkyrieParser.If_guardContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIf_guard(ValkyrieAntlrParser.If_guardContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpression(ValkyrieParser.ExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExpression(ValkyrieAntlrParser.ExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitInline_expression(ValkyrieParser.Inline_expressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitInline_expression(ValkyrieAntlrParser.Inline_expressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTParens(ValkyrieParser.TParensContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTParens(ValkyrieAntlrParser.TParensContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTTerm(ValkyrieParser.TTermContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTTerm(ValkyrieAntlrParser.TTermContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTPattern(ValkyrieParser.TPatternContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTPattern(ValkyrieAntlrParser.TPatternContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPrefix_call(ValkyrieParser.Prefix_callContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPrefix_call(ValkyrieAntlrParser.Prefix_callContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSuffix_call(ValkyrieParser.Suffix_callContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSuffix_call(ValkyrieAntlrParser.Suffix_callContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitControl_expression(ValkyrieParser.Control_expressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitControl_expression(ValkyrieAntlrParser.Control_expressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTerm(ValkyrieParser.TermContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTerm(ValkyrieAntlrParser.TermContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitOp_compare(ValkyrieParser.Op_compareContext ctx) { return visitChildren(ctx); }
+	@Override public T visitOp_compare(ValkyrieAntlrParser.Op_compareContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitOp_pattern(ValkyrieParser.Op_patternContext ctx) { return visitChildren(ctx); }
+	@Override public T visitOp_pattern(ValkyrieAntlrParser.Op_patternContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitOp_multiple(ValkyrieParser.Op_multipleContext ctx) { return visitChildren(ctx); }
+	@Override public T visitOp_multiple(ValkyrieAntlrParser.Op_multipleContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitOp_plus(ValkyrieParser.Op_plusContext ctx) { return visitChildren(ctx); }
+	@Override public T visitOp_plus(ValkyrieAntlrParser.Op_plusContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitOp_logic(ValkyrieParser.Op_logicContext ctx) { return visitChildren(ctx); }
+	@Override public T visitOp_logic(ValkyrieAntlrParser.Op_logicContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitInfix_is(ValkyrieParser.Infix_isContext ctx) { return visitChildren(ctx); }
+	@Override public T visitInfix_is(ValkyrieAntlrParser.Infix_isContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitInfix_in(ValkyrieParser.Infix_inContext ctx) { return visitChildren(ctx); }
+	@Override public T visitInfix_in(ValkyrieAntlrParser.Infix_inContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFunction_call_terms(ValkyrieParser.Function_call_termsContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFunction_call_terms(ValkyrieAntlrParser.Function_call_termsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDefine_generic(ValkyrieParser.Define_genericContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDefine_generic(ValkyrieAntlrParser.Define_genericContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitGeneric_call(ValkyrieParser.Generic_callContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGeneric_call(ValkyrieAntlrParser.Generic_callContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitGeneric_call_in_type(ValkyrieParser.Generic_call_in_typeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGeneric_call_in_type(ValkyrieAntlrParser.Generic_call_in_typeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDot_call(ValkyrieParser.Dot_callContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDot_call(ValkyrieAntlrParser.Dot_callContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSlice_call(ValkyrieParser.Slice_callContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSlice_call(ValkyrieAntlrParser.Slice_callContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitOffset_call(ValkyrieParser.Offset_callContext ctx) { return visitChildren(ctx); }
+	@Override public T visitOffset_call(ValkyrieAntlrParser.Offset_callContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMacro_call(ValkyrieParser.Macro_callContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMacro_call(ValkyrieAntlrParser.Macro_callContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMacro_call_item(ValkyrieParser.Macro_call_itemContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMacro_call_item(ValkyrieAntlrParser.Macro_call_itemContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTry_statement(ValkyrieParser.Try_statementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTry_statement(ValkyrieAntlrParser.Try_statementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMatch_call(ValkyrieParser.Match_callContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMatch_call(ValkyrieAntlrParser.Match_callContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitCatch_call(ValkyrieParser.Catch_callContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCatch_call(ValkyrieAntlrParser.Catch_callContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMatch_block(ValkyrieParser.Match_blockContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMatch_block(ValkyrieAntlrParser.Match_blockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMatch_statement(ValkyrieParser.Match_statementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMatch_statement(ValkyrieAntlrParser.Match_statementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitWith_block(ValkyrieParser.With_blockContext ctx) { return visitChildren(ctx); }
+	@Override public T visitWith_block(ValkyrieAntlrParser.With_blockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitWhen_block(ValkyrieParser.When_blockContext ctx) { return visitChildren(ctx); }
+	@Override public T visitWhen_block(ValkyrieAntlrParser.When_blockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitElse_pattern(ValkyrieParser.Else_patternContext ctx) { return visitChildren(ctx); }
+	@Override public T visitElse_pattern(ValkyrieAntlrParser.Else_patternContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitCase_pattern(ValkyrieParser.Case_patternContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCase_pattern(ValkyrieAntlrParser.Case_patternContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNew_call(ValkyrieParser.New_callContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNew_call(ValkyrieAntlrParser.New_callContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNew_body(ValkyrieParser.New_bodyContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNew_body(ValkyrieAntlrParser.New_bodyContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNew_block(ValkyrieParser.New_blockContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNew_block(ValkyrieAntlrParser.New_blockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNew_statement(ValkyrieParser.New_statementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNew_statement(ValkyrieAntlrParser.New_statementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNew_kv(ValkyrieParser.New_kvContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNew_kv(ValkyrieAntlrParser.New_kvContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitModifiers(ValkyrieParser.ModifiersContext ctx) { return visitChildren(ctx); }
+	@Override public T visitModifiers(ValkyrieAntlrParser.ModifiersContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitModified_identifier(ValkyrieParser.Modified_identifierContext ctx) { return visitChildren(ctx); }
+	@Override public T visitModified_identifier(ValkyrieAntlrParser.Modified_identifierContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitModified_namepath(ValkyrieParser.Modified_namepathContext ctx) { return visitChildren(ctx); }
+	@Override public T visitModified_namepath(ValkyrieAntlrParser.Modified_namepathContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNamepath_free(ValkyrieParser.Namepath_freeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNamepath_free(ValkyrieAntlrParser.Namepath_freeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNamepath(ValkyrieParser.NamepathContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNamepath(ValkyrieAntlrParser.NamepathContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIdentifier(ValkyrieParser.IdentifierContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIdentifier(ValkyrieAntlrParser.IdentifierContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNumber(ValkyrieParser.NumberContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNumber(ValkyrieAntlrParser.NumberContext ctx) { return visitChildren(ctx); }
 }

@@ -1,5 +1,7 @@
 package valkyrie.language.lexer
 
+import ValkyrieAntlrLexer
+import ValkyrieAntlrLexer.*
 import com.intellij.lexer.Lexer
 import com.intellij.lexer.LexerPosition
 import com.intellij.psi.tree.IElementType
@@ -8,14 +10,12 @@ import org.antlr.intellij.adaptor.lexer.ANTLRLexerAdaptor
 import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory
 import org.antlr.intellij.adaptor.lexer.TokenIElementType
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.antlr.ValkyrieLexer
-import valkyrie.language.antlr.ValkyrieLexer.*
 
-class ValkyrieProgramLexer : Lexer() {
+class ValkyrieLexer : Lexer() {
     private var adaptor: ANTLRLexerAdaptor
 
     init {
-        val lexer = ValkyrieLexer(null)
+        val lexer = ValkyrieAntlrLexer(null)
         this.adaptor = ANTLRLexerAdaptor(ValkyrieLanguage, lexer)
     }
 

@@ -12,15 +12,15 @@ import valkyrie.ide.highlight.ValkyrieHighlightColor.*
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.ast.ValkyrieClassStatement
 import valkyrie.language.ast.ValkyrieTraitStatement
-import valkyrie.language.lexer.ValkyrieProgramLexer
+import valkyrie.language.lexer.ValkyrieLexer
 import valkyrie.lsp.RequestDocument
 
 class DocumentationRenderer(var element: PsiElement, private var original: PsiElement?) {
     private val doc = StringBuilder()
     fun onHover(): String {
          when {
-            ValkyrieProgramLexer.Keywords.contains(element.elementType) -> return RequestDocument.keyword(element.text).send()
-             ValkyrieProgramLexer.Operators.contains(element.elementType) -> return RequestDocument.operator(element.text).send()
+            ValkyrieLexer.Keywords.contains(element.elementType) -> return RequestDocument.keyword(element.text).send()
+             ValkyrieLexer.Operators.contains(element.elementType) -> return RequestDocument.operator(element.text).send()
             else -> {}
         }
         when (element) {

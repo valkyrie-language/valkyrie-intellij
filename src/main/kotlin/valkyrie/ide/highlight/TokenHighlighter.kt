@@ -8,12 +8,12 @@ import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.matcher.ValkyrieBracketMatch
-import valkyrie.language.lexer.ValkyrieProgramLexer
+import valkyrie.language.lexer.ValkyrieLexer
 import valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
 class TokenHighlighter : SyntaxHighlighterBase() {
     override fun getHighlightingLexer(): Lexer {
-        return ValkyrieProgramLexer()
+        return ValkyrieLexer()
     }
 
     override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> {
@@ -22,14 +22,14 @@ class TokenHighlighter : SyntaxHighlighterBase() {
 
     private fun getTokenColor(tokenType: IElementType): ValkyrieHighlightColor? {
         return when {
-            ValkyrieProgramLexer.Keywords.contains(tokenType) -> Color.KEYWORD
-            ValkyrieProgramLexer.Operators.contains(tokenType) -> Color.OPERATION_SIGN
-            ValkyrieProgramLexer.Integers.contains(tokenType) -> Color.INTEGER
-            ValkyrieProgramLexer.Decimals.contains(tokenType) -> Color.DECIMAL
+            ValkyrieLexer.Keywords.contains(tokenType) -> Color.KEYWORD
+            ValkyrieLexer.Operators.contains(tokenType) -> Color.OPERATION_SIGN
+            ValkyrieLexer.Integers.contains(tokenType) -> Color.INTEGER
+            ValkyrieLexer.Decimals.contains(tokenType) -> Color.DECIMAL
             else -> {
                 when (tokenType) {
-                    ValkyrieProgramLexer.CommentLine-> Color.LINE_COMMENT
-                    ValkyrieProgramLexer.CommentBlock -> Color.BLOCK_COMMENT
+                    ValkyrieLexer.CommentLine-> Color.LINE_COMMENT
+                    ValkyrieLexer.CommentBlock -> Color.BLOCK_COMMENT
                     ValkyrieBracketMatch.Instance.ParenthesisL, ValkyrieBracketMatch.Instance.ParenthesisR -> Color.PARENTHESES
                     ValkyrieBracketMatch.Instance.BracketL, ValkyrieBracketMatch.Instance.BracketR -> Color.BRACKETS
                     ValkyrieBracketMatch.Instance.BraceL, ValkyrieBracketMatch.Instance.BraceR -> Color.BRACES

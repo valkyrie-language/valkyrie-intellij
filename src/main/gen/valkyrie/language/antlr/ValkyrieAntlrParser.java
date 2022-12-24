@@ -1,13 +1,16 @@
-// Generated from C:/Users/Dell/IdeaProjects/valkyrie-intellij/src/main/antlr\Valkyrie.g4 by ANTLR 4.12.0
+// Generated from C:/Users/Dell/IdeaProjects/valkyrie-intellij/src/main/antlr\ValkyrieAntlr.g4 by ANTLR 4.12.0
 package valkyrie.language.antlr;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue"})
-public class ValkyrieParser extends Parser {
+public class ValkyrieAntlrParser extends Parser {
 	static { RuntimeMetaData.checkVersion("4.12.0", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -154,7 +157,7 @@ public class ValkyrieParser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "Valkyrie.g4"; }
+	public String getGrammarFileName() { return "ValkyrieAntlr.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -165,14 +168,14 @@ public class ValkyrieParser extends Parser {
 	@Override
 	public ATN getATN() { return _ATN; }
 
-	public ValkyrieParser(TokenStream input) {
+	public ValkyrieAntlrParser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ProgramContext extends ParserRuleContext {
-		public TerminalNode EOF() { return getToken(ValkyrieParser.EOF, 0); }
+		public TerminalNode EOF() { return getToken(ValkyrieAntlrParser.EOF, 0); }
 		public List<Top_statementContext> top_statement() {
 			return getRuleContexts(Top_statementContext.class);
 		}
@@ -185,15 +188,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_program; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterProgram(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterProgram(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitProgram(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitProgram(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitProgram(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitProgram(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -290,15 +293,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_top_statement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterTop_statement(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterTop_statement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitTop_statement(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitTop_statement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitTop_statement(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitTop_statement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -592,15 +595,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_function_statements; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterFunction_statements(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterFunction_statements(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitFunction_statements(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitFunction_statements(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitFunction_statements(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitFunction_statements(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -696,22 +699,22 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class EosContext extends ParserRuleContext {
-		public TerminalNode SEMICOLON() { return getToken(ValkyrieParser.SEMICOLON, 0); }
+		public TerminalNode SEMICOLON() { return getToken(ValkyrieAntlrParser.SEMICOLON, 0); }
 		public EosContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_eos; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterEos(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterEos(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitEos(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitEos(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitEos(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitEos(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -739,23 +742,23 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Eos_freeContext extends ParserRuleContext {
-		public TerminalNode COMMA() { return getToken(ValkyrieParser.COMMA, 0); }
-		public TerminalNode SEMICOLON() { return getToken(ValkyrieParser.SEMICOLON, 0); }
+		public TerminalNode COMMA() { return getToken(ValkyrieAntlrParser.COMMA, 0); }
+		public TerminalNode SEMICOLON() { return getToken(ValkyrieAntlrParser.SEMICOLON, 0); }
 		public Eos_freeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_eos_free; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterEos_free(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterEos_free(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitEos_free(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitEos_free(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitEos_free(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitEos_free(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -792,7 +795,7 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Define_namespaceContext extends ParserRuleContext {
-		public TerminalNode KW_NAMESPACE() { return getToken(ValkyrieParser.KW_NAMESPACE, 0); }
+		public TerminalNode KW_NAMESPACE() { return getToken(ValkyrieAntlrParser.KW_NAMESPACE, 0); }
 		public Namepath_freeContext namepath_free() {
 			return getRuleContext(Namepath_freeContext.class,0);
 		}
@@ -805,15 +808,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_define_namespace; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterDefine_namespace(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterDefine_namespace(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitDefine_namespace(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitDefine_namespace(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitDefine_namespace(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitDefine_namespace(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -854,7 +857,7 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Import_statementContext extends ParserRuleContext {
-		public TerminalNode KW_IMPORT() { return getToken(ValkyrieParser.KW_IMPORT, 0); }
+		public TerminalNode KW_IMPORT() { return getToken(ValkyrieAntlrParser.KW_IMPORT, 0); }
 		public Namepath_freeContext namepath_free() {
 			return getRuleContext(Namepath_freeContext.class,0);
 		}
@@ -864,15 +867,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_import_statement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterImport_statement(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterImport_statement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitImport_statement(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitImport_statement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitImport_statement(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitImport_statement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -902,22 +905,22 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Define_extensionContext extends ParserRuleContext {
-		public TerminalNode KW_EXTENSION() { return getToken(ValkyrieParser.KW_EXTENSION, 0); }
+		public TerminalNode KW_EXTENSION() { return getToken(ValkyrieAntlrParser.KW_EXTENSION, 0); }
 		public Define_extensionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_define_extension; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterDefine_extension(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterDefine_extension(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitDefine_extension(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitDefine_extension(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitDefine_extension(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitDefine_extension(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -948,7 +951,7 @@ public class ValkyrieParser extends Parser {
 		public ModifiersContext modifiers() {
 			return getRuleContext(ModifiersContext.class,0);
 		}
-		public TerminalNode KW_CLASS() { return getToken(ValkyrieParser.KW_CLASS, 0); }
+		public TerminalNode KW_CLASS() { return getToken(ValkyrieAntlrParser.KW_CLASS, 0); }
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
@@ -973,15 +976,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_define_class; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterDefine_class(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterDefine_class(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitDefine_class(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitDefine_class(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitDefine_class(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitDefine_class(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1050,8 +1053,8 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Class_blockContext extends ParserRuleContext {
-		public TerminalNode BRACE_L() { return getToken(ValkyrieParser.BRACE_L, 0); }
-		public TerminalNode BRACE_R() { return getToken(ValkyrieParser.BRACE_R, 0); }
+		public TerminalNode BRACE_L() { return getToken(ValkyrieAntlrParser.BRACE_L, 0); }
+		public TerminalNode BRACE_R() { return getToken(ValkyrieAntlrParser.BRACE_R, 0); }
 		public List<Class_statementsContext> class_statements() {
 			return getRuleContexts(Class_statementsContext.class);
 		}
@@ -1064,15 +1067,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_class_block; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterClass_block(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterClass_block(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitClass_block(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitClass_block(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitClass_block(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitClass_block(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1132,15 +1135,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_class_statements; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterClass_statements(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterClass_statements(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitClass_statements(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitClass_statements(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitClass_statements(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitClass_statements(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1188,8 +1191,8 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Class_inheritContext extends ParserRuleContext {
-		public TerminalNode PARENTHESES_L() { return getToken(ValkyrieParser.PARENTHESES_L, 0); }
-		public TerminalNode PARENTHESES_R() { return getToken(ValkyrieParser.PARENTHESES_R, 0); }
+		public TerminalNode PARENTHESES_L() { return getToken(ValkyrieAntlrParser.PARENTHESES_L, 0); }
+		public TerminalNode PARENTHESES_R() { return getToken(ValkyrieAntlrParser.PARENTHESES_R, 0); }
 		public NamepathContext namepath() {
 			return getRuleContext(NamepathContext.class,0);
 		}
@@ -1199,15 +1202,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_class_inherit; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterClass_inherit(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterClass_inherit(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitClass_inherit(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitClass_inherit(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitClass_inherit(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitClass_inherit(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1269,15 +1272,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_class_field; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterClass_field(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterClass_field(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitClass_field(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitClass_field(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitClass_field(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitClass_field(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1367,15 +1370,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_class_method; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterClass_method(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterClass_method(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitClass_method(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitClass_method(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitClass_method(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitClass_method(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1450,7 +1453,7 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Define_traitContext extends ParserRuleContext {
-		public TerminalNode KW_TRAIT() { return getToken(ValkyrieParser.KW_TRAIT, 0); }
+		public TerminalNode KW_TRAIT() { return getToken(ValkyrieAntlrParser.KW_TRAIT, 0); }
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
@@ -1463,15 +1466,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_define_trait; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterDefine_trait(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterDefine_trait(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitDefine_trait(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitDefine_trait(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitDefine_trait(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitDefine_trait(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1503,14 +1506,14 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Define_extendsContext extends ParserRuleContext {
-		public TerminalNode KW_EXTENDS() { return getToken(ValkyrieParser.KW_EXTENDS, 0); }
+		public TerminalNode KW_EXTENDS() { return getToken(ValkyrieAntlrParser.KW_EXTENDS, 0); }
 		public NamepathContext namepath() {
 			return getRuleContext(NamepathContext.class,0);
 		}
 		public Class_blockContext class_block() {
 			return getRuleContext(Class_blockContext.class,0);
 		}
-		public TerminalNode COLON() { return getToken(ValkyrieParser.COLON, 0); }
+		public TerminalNode COLON() { return getToken(ValkyrieAntlrParser.COLON, 0); }
 		public Type_expressionContext type_expression() {
 			return getRuleContext(Type_expressionContext.class,0);
 		}
@@ -1520,15 +1523,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_define_extends; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterDefine_extends(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterDefine_extends(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitDefine_extends(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitDefine_extends(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitDefine_extends(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitDefine_extends(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1566,7 +1569,7 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Define_unionContext extends ParserRuleContext {
-		public TerminalNode KW_UNION() { return getToken(ValkyrieParser.KW_UNION, 0); }
+		public TerminalNode KW_UNION() { return getToken(ValkyrieAntlrParser.KW_UNION, 0); }
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
@@ -1579,15 +1582,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_define_union; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterDefine_union(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterDefine_union(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitDefine_union(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitDefine_union(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitDefine_union(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitDefine_union(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1619,8 +1622,8 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Union_blockContext extends ParserRuleContext {
-		public TerminalNode BRACE_L() { return getToken(ValkyrieParser.BRACE_L, 0); }
-		public TerminalNode BRACE_R() { return getToken(ValkyrieParser.BRACE_R, 0); }
+		public TerminalNode BRACE_L() { return getToken(ValkyrieAntlrParser.BRACE_L, 0); }
+		public TerminalNode BRACE_R() { return getToken(ValkyrieAntlrParser.BRACE_R, 0); }
 		public List<Union_statementsContext> union_statements() {
 			return getRuleContexts(Union_statementsContext.class);
 		}
@@ -1633,15 +1636,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_union_block; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterUnion_block(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterUnion_block(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitUnion_block(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitUnion_block(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitUnion_block(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitUnion_block(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1701,15 +1704,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_union_statements; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterUnion_statements(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterUnion_statements(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitUnion_statements(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitUnion_statements(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitUnion_statements(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitUnion_statements(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1769,15 +1772,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_define_variant; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterDefine_variant(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterDefine_variant(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitDefine_variant(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitDefine_variant(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitDefine_variant(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitDefine_variant(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1816,8 +1819,8 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Variant_blockContext extends ParserRuleContext {
-		public TerminalNode BRACE_L() { return getToken(ValkyrieParser.BRACE_L, 0); }
-		public TerminalNode BRACE_R() { return getToken(ValkyrieParser.BRACE_R, 0); }
+		public TerminalNode BRACE_L() { return getToken(ValkyrieAntlrParser.BRACE_L, 0); }
+		public TerminalNode BRACE_R() { return getToken(ValkyrieAntlrParser.BRACE_R, 0); }
 		public List<Variant_statementsContext> variant_statements() {
 			return getRuleContexts(Variant_statementsContext.class);
 		}
@@ -1830,15 +1833,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_variant_block; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterVariant_block(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterVariant_block(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitVariant_block(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitVariant_block(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitVariant_block(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitVariant_block(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1895,15 +1898,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_variant_statements; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterVariant_statements(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterVariant_statements(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitVariant_statements(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitVariant_statements(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitVariant_statements(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitVariant_statements(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1949,7 +1952,7 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Define_bitflagsContext extends ParserRuleContext {
-		public TerminalNode KW_BITFLAGS() { return getToken(ValkyrieParser.KW_BITFLAGS, 0); }
+		public TerminalNode KW_BITFLAGS() { return getToken(ValkyrieAntlrParser.KW_BITFLAGS, 0); }
 		public NamepathContext namepath() {
 			return getRuleContext(NamepathContext.class,0);
 		}
@@ -1962,15 +1965,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_define_bitflags; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterDefine_bitflags(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterDefine_bitflags(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitDefine_bitflags(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitDefine_bitflags(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitDefine_bitflags(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitDefine_bitflags(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2002,8 +2005,8 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Bitflags_blockContext extends ParserRuleContext {
-		public TerminalNode BRACE_L() { return getToken(ValkyrieParser.BRACE_L, 0); }
-		public TerminalNode BRACE_R() { return getToken(ValkyrieParser.BRACE_R, 0); }
+		public TerminalNode BRACE_L() { return getToken(ValkyrieAntlrParser.BRACE_L, 0); }
+		public TerminalNode BRACE_R() { return getToken(ValkyrieAntlrParser.BRACE_R, 0); }
 		public List<Bitflags_statementsContext> bitflags_statements() {
 			return getRuleContexts(Bitflags_statementsContext.class);
 		}
@@ -2016,15 +2019,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_bitflags_block; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterBitflags_block(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterBitflags_block(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitBitflags_block(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitBitflags_block(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitBitflags_block(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitBitflags_block(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2081,15 +2084,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_bitflags_statements; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterBitflags_statements(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterBitflags_statements(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitBitflags_statements(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitBitflags_statements(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitBitflags_statements(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitBitflags_statements(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2137,7 +2140,7 @@ public class ValkyrieParser extends Parser {
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
-		public TerminalNode OP_ASSIGN() { return getToken(ValkyrieParser.OP_ASSIGN, 0); }
+		public TerminalNode OP_ASSIGN() { return getToken(ValkyrieAntlrParser.OP_ASSIGN, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
@@ -2147,15 +2150,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_bitflags_item; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterBitflags_item(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterBitflags_item(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitBitflags_item(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitBitflags_item(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitBitflags_item(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitBitflags_item(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2196,29 +2199,29 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Define_typeContext extends ParserRuleContext {
-		public TerminalNode KW_TYPE() { return getToken(ValkyrieParser.KW_TYPE, 0); }
+		public TerminalNode KW_TYPE() { return getToken(ValkyrieAntlrParser.KW_TYPE, 0); }
 		public List<IdentifierContext> identifier() {
 			return getRuleContexts(IdentifierContext.class);
 		}
 		public IdentifierContext identifier(int i) {
 			return getRuleContext(IdentifierContext.class,i);
 		}
-		public TerminalNode OP_ASSIGN() { return getToken(ValkyrieParser.OP_ASSIGN, 0); }
+		public TerminalNode OP_ASSIGN() { return getToken(ValkyrieAntlrParser.OP_ASSIGN, 0); }
 		public Define_typeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_define_type; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterDefine_type(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterDefine_type(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitDefine_type(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitDefine_type(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitDefine_type(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitDefine_type(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2255,23 +2258,23 @@ public class ValkyrieParser extends Parser {
 		public Type_expressionContext type_expression() {
 			return getRuleContext(Type_expressionContext.class,0);
 		}
-		public TerminalNode COLON() { return getToken(ValkyrieParser.COLON, 0); }
-		public TerminalNode OP_ARROW() { return getToken(ValkyrieParser.OP_ARROW, 0); }
+		public TerminalNode COLON() { return getToken(ValkyrieAntlrParser.COLON, 0); }
+		public TerminalNode OP_ARROW() { return getToken(ValkyrieAntlrParser.OP_ARROW, 0); }
 		public Type_hintContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_type_hint; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterType_hint(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterType_hint(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitType_hint(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitType_hint(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitType_hint(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitType_hint(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2310,7 +2313,7 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Effect_hintContext extends ParserRuleContext {
-		public TerminalNode OP_DIV() { return getToken(ValkyrieParser.OP_DIV, 0); }
+		public TerminalNode OP_DIV() { return getToken(ValkyrieAntlrParser.OP_DIV, 0); }
 		public Type_expressionContext type_expression() {
 			return getRuleContext(Type_expressionContext.class,0);
 		}
@@ -2320,15 +2323,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_effect_hint; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterEffect_hint(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterEffect_hint(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitEffect_hint(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitEffect_hint(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitEffect_hint(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitEffect_hint(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2361,7 +2364,7 @@ public class ValkyrieParser extends Parser {
 		public ModifiersContext modifiers() {
 			return getRuleContext(ModifiersContext.class,0);
 		}
-		public TerminalNode KW_FUNCTION() { return getToken(ValkyrieParser.KW_FUNCTION, 0); }
+		public TerminalNode KW_FUNCTION() { return getToken(ValkyrieAntlrParser.KW_FUNCTION, 0); }
 		public NamepathContext namepath() {
 			return getRuleContext(NamepathContext.class,0);
 		}
@@ -2389,15 +2392,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_define_function; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterDefine_function(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterDefine_function(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitDefine_function(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitDefine_function(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitDefine_function(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitDefine_function(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2468,17 +2471,17 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Function_parametersContext extends ParserRuleContext {
-		public TerminalNode PARENTHESES_L() { return getToken(ValkyrieParser.PARENTHESES_L, 0); }
+		public TerminalNode PARENTHESES_L() { return getToken(ValkyrieAntlrParser.PARENTHESES_L, 0); }
 		public List<Parameter_itemContext> parameter_item() {
 			return getRuleContexts(Parameter_itemContext.class);
 		}
 		public Parameter_itemContext parameter_item(int i) {
 			return getRuleContext(Parameter_itemContext.class,i);
 		}
-		public TerminalNode PARENTHESES_R() { return getToken(ValkyrieParser.PARENTHESES_R, 0); }
-		public List<TerminalNode> COMMA() { return getTokens(ValkyrieParser.COMMA); }
+		public TerminalNode PARENTHESES_R() { return getToken(ValkyrieAntlrParser.PARENTHESES_R, 0); }
+		public List<TerminalNode> COMMA() { return getTokens(ValkyrieAntlrParser.COMMA); }
 		public TerminalNode COMMA(int i) {
-			return getToken(ValkyrieParser.COMMA, i);
+			return getToken(ValkyrieAntlrParser.COMMA, i);
 		}
 		public Function_parametersContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -2486,15 +2489,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_function_parameters; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterFunction_parameters(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterFunction_parameters(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitFunction_parameters(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitFunction_parameters(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitFunction_parameters(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitFunction_parameters(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2579,15 +2582,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_parameter_item; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterParameter_item(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterParameter_item(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitParameter_item(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitParameter_item(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitParameter_item(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitParameter_item(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2650,7 +2653,7 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Parameter_defaultContext extends ParserRuleContext {
-		public TerminalNode OP_ASSIGN() { return getToken(ValkyrieParser.OP_ASSIGN, 0); }
+		public TerminalNode OP_ASSIGN() { return getToken(ValkyrieAntlrParser.OP_ASSIGN, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
@@ -2660,15 +2663,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_parameter_default; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterParameter_default(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterParameter_default(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitParameter_default(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitParameter_default(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitParameter_default(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitParameter_default(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2698,9 +2701,9 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Function_callContext extends ParserRuleContext {
-		public TerminalNode PARENTHESES_L() { return getToken(ValkyrieParser.PARENTHESES_L, 0); }
-		public TerminalNode PARENTHESES_R() { return getToken(ValkyrieParser.PARENTHESES_R, 0); }
-		public TerminalNode OP_THROW() { return getToken(ValkyrieParser.OP_THROW, 0); }
+		public TerminalNode PARENTHESES_L() { return getToken(ValkyrieAntlrParser.PARENTHESES_L, 0); }
+		public TerminalNode PARENTHESES_R() { return getToken(ValkyrieAntlrParser.PARENTHESES_R, 0); }
+		public TerminalNode OP_THROW() { return getToken(ValkyrieAntlrParser.OP_THROW, 0); }
 		public Function_call_termsContext function_call_terms() {
 			return getRuleContext(Function_call_termsContext.class,0);
 		}
@@ -2710,15 +2713,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_function_call; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterFunction_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterFunction_call(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitFunction_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitFunction_call(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitFunction_call(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitFunction_call(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2769,7 +2772,7 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Define_lambdaContext extends ParserRuleContext {
-		public TerminalNode KW_LAMBDA() { return getToken(ValkyrieParser.KW_LAMBDA, 0); }
+		public TerminalNode KW_LAMBDA() { return getToken(ValkyrieAntlrParser.KW_LAMBDA, 0); }
 		public Function_parametersContext function_parameters() {
 			return getRuleContext(Function_parametersContext.class,0);
 		}
@@ -2794,15 +2797,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_define_lambda; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterDefine_lambda(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterDefine_lambda(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitDefine_lambda(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitDefine_lambda(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitDefine_lambda(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitDefine_lambda(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2872,22 +2875,22 @@ public class ValkyrieParser extends Parser {
 		public Function_blockContext function_block() {
 			return getRuleContext(Function_blockContext.class,0);
 		}
-		public TerminalNode OP_THROW() { return getToken(ValkyrieParser.OP_THROW, 0); }
+		public TerminalNode OP_THROW() { return getToken(ValkyrieAntlrParser.OP_THROW, 0); }
 		public Lambda_callContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_lambda_call; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterLambda_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterLambda_call(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitLambda_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitLambda_call(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitLambda_call(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitLambda_call(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2926,8 +2929,8 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Function_blockContext extends ParserRuleContext {
-		public TerminalNode BRACE_L() { return getToken(ValkyrieParser.BRACE_L, 0); }
-		public TerminalNode BRACE_R() { return getToken(ValkyrieParser.BRACE_R, 0); }
+		public TerminalNode BRACE_L() { return getToken(ValkyrieAntlrParser.BRACE_L, 0); }
+		public TerminalNode BRACE_R() { return getToken(ValkyrieAntlrParser.BRACE_R, 0); }
 		public List<Function_statementsContext> function_statements() {
 			return getRuleContexts(Function_statementsContext.class);
 		}
@@ -2940,15 +2943,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_function_block; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterFunction_block(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterFunction_block(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitFunction_block(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitFunction_block(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitFunction_block(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitFunction_block(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2993,11 +2996,11 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Define_varialeContext extends ParserRuleContext {
-		public TerminalNode KW_LET() { return getToken(ValkyrieParser.KW_LET, 0); }
+		public TerminalNode KW_LET() { return getToken(ValkyrieAntlrParser.KW_LET, 0); }
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
-		public TerminalNode OP_ASSIGN() { return getToken(ValkyrieParser.OP_ASSIGN, 0); }
+		public TerminalNode OP_ASSIGN() { return getToken(ValkyrieAntlrParser.OP_ASSIGN, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
@@ -3007,15 +3010,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_define_variale; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterDefine_variale(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterDefine_variale(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitDefine_variale(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitDefine_variale(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitDefine_variale(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitDefine_variale(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3049,7 +3052,7 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class If_statementContext extends ParserRuleContext {
-		public TerminalNode KW_IF() { return getToken(ValkyrieParser.KW_IF, 0); }
+		public TerminalNode KW_IF() { return getToken(ValkyrieAntlrParser.KW_IF, 0); }
 		public Inline_expressionContext inline_expression() {
 			return getRuleContext(Inline_expressionContext.class,0);
 		}
@@ -3071,15 +3074,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_if_statement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterIf_statement(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterIf_statement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitIf_statement(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitIf_statement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitIf_statement(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitIf_statement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3138,8 +3141,8 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Else_if_statementContext extends ParserRuleContext {
-		public TerminalNode KW_ELSE() { return getToken(ValkyrieParser.KW_ELSE, 0); }
-		public TerminalNode KW_IF() { return getToken(ValkyrieParser.KW_IF, 0); }
+		public TerminalNode KW_ELSE() { return getToken(ValkyrieAntlrParser.KW_ELSE, 0); }
+		public TerminalNode KW_IF() { return getToken(ValkyrieAntlrParser.KW_IF, 0); }
 		public Inline_expressionContext inline_expression() {
 			return getRuleContext(Inline_expressionContext.class,0);
 		}
@@ -3152,15 +3155,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_else_if_statement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterElse_if_statement(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterElse_if_statement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitElse_if_statement(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitElse_if_statement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitElse_if_statement(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitElse_if_statement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3194,7 +3197,7 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Else_statementContext extends ParserRuleContext {
-		public TerminalNode KW_ELSE() { return getToken(ValkyrieParser.KW_ELSE, 0); }
+		public TerminalNode KW_ELSE() { return getToken(ValkyrieAntlrParser.KW_ELSE, 0); }
 		public Function_blockContext function_block() {
 			return getRuleContext(Function_blockContext.class,0);
 		}
@@ -3204,15 +3207,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_else_statement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterElse_statement(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterElse_statement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitElse_statement(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitElse_statement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitElse_statement(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitElse_statement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3242,7 +3245,7 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class While_statementContext extends ParserRuleContext {
-		public TerminalNode KW_WHILE() { return getToken(ValkyrieParser.KW_WHILE, 0); }
+		public TerminalNode KW_WHILE() { return getToken(ValkyrieAntlrParser.KW_WHILE, 0); }
 		public Inline_expressionContext inline_expression() {
 			return getRuleContext(Inline_expressionContext.class,0);
 		}
@@ -3255,15 +3258,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_while_statement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterWhile_statement(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterWhile_statement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitWhile_statement(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitWhile_statement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitWhile_statement(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitWhile_statement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3295,7 +3298,7 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class For_statementContext extends ParserRuleContext {
-		public TerminalNode KW_FOR() { return getToken(ValkyrieParser.KW_FOR, 0); }
+		public TerminalNode KW_FOR() { return getToken(ValkyrieAntlrParser.KW_FOR, 0); }
 		public For_patternContext for_pattern() {
 			return getRuleContext(For_patternContext.class,0);
 		}
@@ -3317,15 +3320,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_for_statement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterFor_statement(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterFor_statement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitFor_statement(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitFor_statement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitFor_statement(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitFor_statement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3378,27 +3381,27 @@ public class ValkyrieParser extends Parser {
 		public For_parameterContext for_parameter(int i) {
 			return getRuleContext(For_parameterContext.class,i);
 		}
-		public List<TerminalNode> COMMA() { return getTokens(ValkyrieParser.COMMA); }
+		public List<TerminalNode> COMMA() { return getTokens(ValkyrieAntlrParser.COMMA); }
 		public TerminalNode COMMA(int i) {
-			return getToken(ValkyrieParser.COMMA, i);
+			return getToken(ValkyrieAntlrParser.COMMA, i);
 		}
-		public TerminalNode PARENTHESES_L() { return getToken(ValkyrieParser.PARENTHESES_L, 0); }
-		public TerminalNode PARENTHESES_R() { return getToken(ValkyrieParser.PARENTHESES_R, 0); }
+		public TerminalNode PARENTHESES_L() { return getToken(ValkyrieAntlrParser.PARENTHESES_L, 0); }
+		public TerminalNode PARENTHESES_R() { return getToken(ValkyrieAntlrParser.PARENTHESES_R, 0); }
 		public For_patternContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_for_pattern; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterFor_pattern(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterFor_pattern(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitFor_pattern(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitFor_pattern(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitFor_pattern(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitFor_pattern(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3491,15 +3494,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_for_parameter; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterFor_parameter(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterFor_parameter(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitFor_parameter(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitFor_parameter(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitFor_parameter(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitFor_parameter(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3540,7 +3543,7 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class If_guardContext extends ParserRuleContext {
-		public TerminalNode KW_IF() { return getToken(ValkyrieParser.KW_IF, 0); }
+		public TerminalNode KW_IF() { return getToken(ValkyrieAntlrParser.KW_IF, 0); }
 		public Inline_expressionContext inline_expression() {
 			return getRuleContext(Inline_expressionContext.class,0);
 		}
@@ -3550,15 +3553,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_if_guard; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterIf_guard(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterIf_guard(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitIf_guard(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitIf_guard(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitIf_guard(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitIf_guard(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3630,15 +3633,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_expression; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterExpression(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitExpression(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitExpression(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3842,15 +3845,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_inline_expression; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterInline_expression(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterInline_expression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitInline_expression(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitInline_expression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitInline_expression(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitInline_expression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4028,15 +4031,15 @@ public class ValkyrieParser extends Parser {
 		public TParensContext(Type_expressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterTParens(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterTParens(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitTParens(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitTParens(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitTParens(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitTParens(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4048,15 +4051,15 @@ public class ValkyrieParser extends Parser {
 		public TTermContext(Type_expressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterTTerm(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterTTerm(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitTTerm(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitTTerm(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitTTerm(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitTTerm(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4074,15 +4077,15 @@ public class ValkyrieParser extends Parser {
 		public TPatternContext(Type_expressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterTPattern(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterTPattern(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitTPattern(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitTPattern(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitTPattern(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitTPattern(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4166,24 +4169,24 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Prefix_callContext extends ParserRuleContext {
-		public TerminalNode OP_NOT() { return getToken(ValkyrieParser.OP_NOT, 0); }
-		public TerminalNode OP_ADD() { return getToken(ValkyrieParser.OP_ADD, 0); }
-		public TerminalNode OP_SUB() { return getToken(ValkyrieParser.OP_SUB, 0); }
+		public TerminalNode OP_NOT() { return getToken(ValkyrieAntlrParser.OP_NOT, 0); }
+		public TerminalNode OP_ADD() { return getToken(ValkyrieAntlrParser.OP_ADD, 0); }
+		public TerminalNode OP_SUB() { return getToken(ValkyrieAntlrParser.OP_SUB, 0); }
 		public Prefix_callContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_prefix_call; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterPrefix_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterPrefix_call(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitPrefix_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitPrefix_call(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitPrefix_call(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitPrefix_call(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4220,8 +4223,8 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Suffix_callContext extends ParserRuleContext {
-		public TerminalNode OP_NOT() { return getToken(ValkyrieParser.OP_NOT, 0); }
-		public TerminalNode OP_TEMPERATURE() { return getToken(ValkyrieParser.OP_TEMPERATURE, 0); }
+		public TerminalNode OP_NOT() { return getToken(ValkyrieAntlrParser.OP_NOT, 0); }
+		public TerminalNode OP_TEMPERATURE() { return getToken(ValkyrieAntlrParser.OP_TEMPERATURE, 0); }
 		public Slice_callContext slice_call() {
 			return getRuleContext(Slice_callContext.class,0);
 		}
@@ -4252,15 +4255,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_suffix_call; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterSuffix_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterSuffix_call(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitSuffix_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitSuffix_call(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitSuffix_call(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitSuffix_call(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4357,31 +4360,31 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Control_expressionContext extends ParserRuleContext {
-		public TerminalNode RETURN() { return getToken(ValkyrieParser.RETURN, 0); }
+		public TerminalNode RETURN() { return getToken(ValkyrieAntlrParser.RETURN, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode RESUME() { return getToken(ValkyrieParser.RESUME, 0); }
-		public TerminalNode BREAK() { return getToken(ValkyrieParser.BREAK, 0); }
-		public TerminalNode CONTINUE() { return getToken(ValkyrieParser.CONTINUE, 0); }
-		public TerminalNode RAISE() { return getToken(ValkyrieParser.RAISE, 0); }
-		public TerminalNode YIELD() { return getToken(ValkyrieParser.YIELD, 0); }
-		public TerminalNode KW_WITH() { return getToken(ValkyrieParser.KW_WITH, 0); }
+		public TerminalNode RESUME() { return getToken(ValkyrieAntlrParser.RESUME, 0); }
+		public TerminalNode BREAK() { return getToken(ValkyrieAntlrParser.BREAK, 0); }
+		public TerminalNode CONTINUE() { return getToken(ValkyrieAntlrParser.CONTINUE, 0); }
+		public TerminalNode RAISE() { return getToken(ValkyrieAntlrParser.RAISE, 0); }
+		public TerminalNode YIELD() { return getToken(ValkyrieAntlrParser.YIELD, 0); }
+		public TerminalNode KW_WITH() { return getToken(ValkyrieAntlrParser.KW_WITH, 0); }
 		public Control_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_control_expression; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterControl_expression(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterControl_expression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitControl_expression(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitControl_expression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitControl_expression(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitControl_expression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4505,30 +4508,30 @@ public class ValkyrieParser extends Parser {
 		public NumberContext number() {
 			return getRuleContext(NumberContext.class,0);
 		}
-		public TerminalNode STRING() { return getToken(ValkyrieParser.STRING, 0); }
-		public TerminalNode PARENTHESES_L() { return getToken(ValkyrieParser.PARENTHESES_L, 0); }
+		public TerminalNode STRING() { return getToken(ValkyrieAntlrParser.STRING, 0); }
+		public TerminalNode PARENTHESES_L() { return getToken(ValkyrieAntlrParser.PARENTHESES_L, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode PARENTHESES_R() { return getToken(ValkyrieParser.PARENTHESES_R, 0); }
-		public TerminalNode BRACKET_L() { return getToken(ValkyrieParser.BRACKET_L, 0); }
-		public TerminalNode BRACKET_R() { return getToken(ValkyrieParser.BRACKET_R, 0); }
-		public TerminalNode SPECIAL() { return getToken(ValkyrieParser.SPECIAL, 0); }
+		public TerminalNode PARENTHESES_R() { return getToken(ValkyrieAntlrParser.PARENTHESES_R, 0); }
+		public TerminalNode BRACKET_L() { return getToken(ValkyrieAntlrParser.BRACKET_L, 0); }
+		public TerminalNode BRACKET_R() { return getToken(ValkyrieAntlrParser.BRACKET_R, 0); }
+		public TerminalNode SPECIAL() { return getToken(ValkyrieAntlrParser.SPECIAL, 0); }
 		public TermContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_term; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterTerm(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterTerm(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitTerm(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitTerm(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitTerm(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitTerm(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4631,27 +4634,27 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Op_compareContext extends ParserRuleContext {
-		public TerminalNode OP_LT() { return getToken(ValkyrieParser.OP_LT, 0); }
-		public TerminalNode OP_LEQ() { return getToken(ValkyrieParser.OP_LEQ, 0); }
-		public TerminalNode OP_GT() { return getToken(ValkyrieParser.OP_GT, 0); }
-		public TerminalNode OP_GEQ() { return getToken(ValkyrieParser.OP_GEQ, 0); }
-		public TerminalNode OP_EQ() { return getToken(ValkyrieParser.OP_EQ, 0); }
-		public TerminalNode OP_NE() { return getToken(ValkyrieParser.OP_NE, 0); }
+		public TerminalNode OP_LT() { return getToken(ValkyrieAntlrParser.OP_LT, 0); }
+		public TerminalNode OP_LEQ() { return getToken(ValkyrieAntlrParser.OP_LEQ, 0); }
+		public TerminalNode OP_GT() { return getToken(ValkyrieAntlrParser.OP_GT, 0); }
+		public TerminalNode OP_GEQ() { return getToken(ValkyrieAntlrParser.OP_GEQ, 0); }
+		public TerminalNode OP_EQ() { return getToken(ValkyrieAntlrParser.OP_EQ, 0); }
+		public TerminalNode OP_NE() { return getToken(ValkyrieAntlrParser.OP_NE, 0); }
 		public Op_compareContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_op_compare; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterOp_compare(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterOp_compare(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitOp_compare(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitOp_compare(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitOp_compare(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitOp_compare(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4688,23 +4691,23 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Op_patternContext extends ParserRuleContext {
-		public TerminalNode OP_AND() { return getToken(ValkyrieParser.OP_AND, 0); }
-		public TerminalNode OP_OR() { return getToken(ValkyrieParser.OP_OR, 0); }
+		public TerminalNode OP_AND() { return getToken(ValkyrieAntlrParser.OP_AND, 0); }
+		public TerminalNode OP_OR() { return getToken(ValkyrieAntlrParser.OP_OR, 0); }
 		public Op_patternContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_op_pattern; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterOp_pattern(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterOp_pattern(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitOp_pattern(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitOp_pattern(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitOp_pattern(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitOp_pattern(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4741,23 +4744,23 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Op_multipleContext extends ParserRuleContext {
-		public TerminalNode OP_MUL() { return getToken(ValkyrieParser.OP_MUL, 0); }
-		public TerminalNode OP_DIV() { return getToken(ValkyrieParser.OP_DIV, 0); }
+		public TerminalNode OP_MUL() { return getToken(ValkyrieAntlrParser.OP_MUL, 0); }
+		public TerminalNode OP_DIV() { return getToken(ValkyrieAntlrParser.OP_DIV, 0); }
 		public Op_multipleContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_op_multiple; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterOp_multiple(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterOp_multiple(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitOp_multiple(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitOp_multiple(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitOp_multiple(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitOp_multiple(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4794,23 +4797,23 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Op_plusContext extends ParserRuleContext {
-		public TerminalNode OP_ADD() { return getToken(ValkyrieParser.OP_ADD, 0); }
-		public TerminalNode OP_SUB() { return getToken(ValkyrieParser.OP_SUB, 0); }
+		public TerminalNode OP_ADD() { return getToken(ValkyrieAntlrParser.OP_ADD, 0); }
+		public TerminalNode OP_SUB() { return getToken(ValkyrieAntlrParser.OP_SUB, 0); }
 		public Op_plusContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_op_plus; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterOp_plus(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterOp_plus(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitOp_plus(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitOp_plus(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitOp_plus(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitOp_plus(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4847,23 +4850,23 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Op_logicContext extends ParserRuleContext {
-		public TerminalNode LOGIC_OR() { return getToken(ValkyrieParser.LOGIC_OR, 0); }
-		public TerminalNode LOGIC_AND() { return getToken(ValkyrieParser.LOGIC_AND, 0); }
+		public TerminalNode LOGIC_OR() { return getToken(ValkyrieAntlrParser.LOGIC_OR, 0); }
+		public TerminalNode LOGIC_AND() { return getToken(ValkyrieAntlrParser.LOGIC_AND, 0); }
 		public Op_logicContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_op_logic; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterOp_logic(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterOp_logic(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitOp_logic(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitOp_logic(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitOp_logic(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitOp_logic(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4900,23 +4903,23 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Infix_isContext extends ParserRuleContext {
-		public TerminalNode KW_IS() { return getToken(ValkyrieParser.KW_IS, 0); }
-		public TerminalNode KW_NOT() { return getToken(ValkyrieParser.KW_NOT, 0); }
+		public TerminalNode KW_IS() { return getToken(ValkyrieAntlrParser.KW_IS, 0); }
+		public TerminalNode KW_NOT() { return getToken(ValkyrieAntlrParser.KW_NOT, 0); }
 		public Infix_isContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_infix_is; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterInfix_is(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterInfix_is(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitInfix_is(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitInfix_is(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitInfix_is(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitInfix_is(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4959,23 +4962,23 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Infix_inContext extends ParserRuleContext {
-		public TerminalNode KW_IN() { return getToken(ValkyrieParser.KW_IN, 0); }
-		public TerminalNode OP_IN() { return getToken(ValkyrieParser.OP_IN, 0); }
+		public TerminalNode KW_IN() { return getToken(ValkyrieAntlrParser.KW_IN, 0); }
+		public TerminalNode OP_IN() { return getToken(ValkyrieAntlrParser.OP_IN, 0); }
 		public Infix_inContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_infix_in; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterInfix_in(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterInfix_in(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitInfix_in(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitInfix_in(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitInfix_in(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitInfix_in(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5018,9 +5021,9 @@ public class ValkyrieParser extends Parser {
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
-		public List<TerminalNode> COMMA() { return getTokens(ValkyrieParser.COMMA); }
+		public List<TerminalNode> COMMA() { return getTokens(ValkyrieAntlrParser.COMMA); }
 		public TerminalNode COMMA(int i) {
-			return getToken(ValkyrieParser.COMMA, i);
+			return getToken(ValkyrieAntlrParser.COMMA, i);
 		}
 		public Function_call_termsContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -5028,15 +5031,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_function_call_terms; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterFunction_call_terms(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterFunction_call_terms(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitFunction_call_terms(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitFunction_call_terms(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitFunction_call_terms(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitFunction_call_terms(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5081,29 +5084,29 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Define_genericContext extends ParserRuleContext {
-		public TerminalNode OP_LT() { return getToken(ValkyrieParser.OP_LT, 0); }
+		public TerminalNode OP_LT() { return getToken(ValkyrieAntlrParser.OP_LT, 0); }
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
-		public TerminalNode OP_GT() { return getToken(ValkyrieParser.OP_GT, 0); }
-		public TerminalNode OP_PROPORTION() { return getToken(ValkyrieParser.OP_PROPORTION, 0); }
-		public TerminalNode GENERIC_L() { return getToken(ValkyrieParser.GENERIC_L, 0); }
-		public TerminalNode GENERIC_R() { return getToken(ValkyrieParser.GENERIC_R, 0); }
+		public TerminalNode OP_GT() { return getToken(ValkyrieAntlrParser.OP_GT, 0); }
+		public TerminalNode OP_PROPORTION() { return getToken(ValkyrieAntlrParser.OP_PROPORTION, 0); }
+		public TerminalNode GENERIC_L() { return getToken(ValkyrieAntlrParser.GENERIC_L, 0); }
+		public TerminalNode GENERIC_R() { return getToken(ValkyrieAntlrParser.GENERIC_R, 0); }
 		public Define_genericContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_define_generic; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterDefine_generic(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterDefine_generic(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitDefine_generic(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitDefine_generic(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitDefine_generic(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitDefine_generic(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5166,29 +5169,29 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Generic_callContext extends ParserRuleContext {
-		public TerminalNode OP_PROPORTION() { return getToken(ValkyrieParser.OP_PROPORTION, 0); }
-		public TerminalNode OP_LT() { return getToken(ValkyrieParser.OP_LT, 0); }
+		public TerminalNode OP_PROPORTION() { return getToken(ValkyrieAntlrParser.OP_PROPORTION, 0); }
+		public TerminalNode OP_LT() { return getToken(ValkyrieAntlrParser.OP_LT, 0); }
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
-		public TerminalNode OP_GT() { return getToken(ValkyrieParser.OP_GT, 0); }
-		public TerminalNode GENERIC_L() { return getToken(ValkyrieParser.GENERIC_L, 0); }
-		public TerminalNode GENERIC_R() { return getToken(ValkyrieParser.GENERIC_R, 0); }
+		public TerminalNode OP_GT() { return getToken(ValkyrieAntlrParser.OP_GT, 0); }
+		public TerminalNode GENERIC_L() { return getToken(ValkyrieAntlrParser.GENERIC_L, 0); }
+		public TerminalNode GENERIC_R() { return getToken(ValkyrieAntlrParser.GENERIC_R, 0); }
 		public Generic_callContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_generic_call; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterGeneric_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterGeneric_call(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitGeneric_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitGeneric_call(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitGeneric_call(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitGeneric_call(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5241,29 +5244,29 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Generic_call_in_typeContext extends ParserRuleContext {
-		public TerminalNode OP_LT() { return getToken(ValkyrieParser.OP_LT, 0); }
+		public TerminalNode OP_LT() { return getToken(ValkyrieAntlrParser.OP_LT, 0); }
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
-		public TerminalNode OP_GT() { return getToken(ValkyrieParser.OP_GT, 0); }
-		public TerminalNode OP_PROPORTION() { return getToken(ValkyrieParser.OP_PROPORTION, 0); }
-		public TerminalNode GENERIC_L() { return getToken(ValkyrieParser.GENERIC_L, 0); }
-		public TerminalNode GENERIC_R() { return getToken(ValkyrieParser.GENERIC_R, 0); }
+		public TerminalNode OP_GT() { return getToken(ValkyrieAntlrParser.OP_GT, 0); }
+		public TerminalNode OP_PROPORTION() { return getToken(ValkyrieAntlrParser.OP_PROPORTION, 0); }
+		public TerminalNode GENERIC_L() { return getToken(ValkyrieAntlrParser.GENERIC_L, 0); }
+		public TerminalNode GENERIC_R() { return getToken(ValkyrieAntlrParser.GENERIC_R, 0); }
 		public Generic_call_in_typeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_generic_call_in_type; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterGeneric_call_in_type(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterGeneric_call_in_type(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitGeneric_call_in_type(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitGeneric_call_in_type(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitGeneric_call_in_type(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitGeneric_call_in_type(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5326,26 +5329,26 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Dot_callContext extends ParserRuleContext {
-		public TerminalNode DOT() { return getToken(ValkyrieParser.DOT, 0); }
+		public TerminalNode DOT() { return getToken(ValkyrieAntlrParser.DOT, 0); }
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
-		public TerminalNode OP_THROW() { return getToken(ValkyrieParser.OP_THROW, 0); }
+		public TerminalNode OP_THROW() { return getToken(ValkyrieAntlrParser.OP_THROW, 0); }
 		public Dot_callContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_dot_call; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterDot_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterDot_call(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitDot_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitDot_call(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitDot_call(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitDot_call(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5386,26 +5389,26 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Slice_callContext extends ParserRuleContext {
-		public TerminalNode BRACKET_L() { return getToken(ValkyrieParser.BRACKET_L, 0); }
+		public TerminalNode BRACKET_L() { return getToken(ValkyrieAntlrParser.BRACKET_L, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode BRACKET_R() { return getToken(ValkyrieParser.BRACKET_R, 0); }
+		public TerminalNode BRACKET_R() { return getToken(ValkyrieAntlrParser.BRACKET_R, 0); }
 		public Slice_callContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_slice_call; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterSlice_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterSlice_call(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitSlice_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitSlice_call(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitSlice_call(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitSlice_call(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5437,29 +5440,29 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Offset_callContext extends ParserRuleContext {
-		public TerminalNode OP_PROPORTION() { return getToken(ValkyrieParser.OP_PROPORTION, 0); }
-		public TerminalNode BRACKET_L() { return getToken(ValkyrieParser.BRACKET_L, 0); }
+		public TerminalNode OP_PROPORTION() { return getToken(ValkyrieAntlrParser.OP_PROPORTION, 0); }
+		public TerminalNode BRACKET_L() { return getToken(ValkyrieAntlrParser.BRACKET_L, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode BRACKET_R() { return getToken(ValkyrieParser.BRACKET_R, 0); }
-		public TerminalNode OFFSET_L() { return getToken(ValkyrieParser.OFFSET_L, 0); }
-		public TerminalNode OFFSET_R() { return getToken(ValkyrieParser.OFFSET_R, 0); }
+		public TerminalNode BRACKET_R() { return getToken(ValkyrieAntlrParser.BRACKET_R, 0); }
+		public TerminalNode OFFSET_L() { return getToken(ValkyrieAntlrParser.OFFSET_L, 0); }
+		public TerminalNode OFFSET_R() { return getToken(ValkyrieAntlrParser.OFFSET_R, 0); }
 		public Offset_callContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_offset_call; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterOffset_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterOffset_call(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitOffset_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitOffset_call(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitOffset_call(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitOffset_call(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5512,18 +5515,18 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Macro_callContext extends ParserRuleContext {
-		public TerminalNode HASH() { return getToken(ValkyrieParser.HASH, 0); }
+		public TerminalNode HASH() { return getToken(ValkyrieAntlrParser.HASH, 0); }
 		public List<Macro_call_itemContext> macro_call_item() {
 			return getRuleContexts(Macro_call_itemContext.class);
 		}
 		public Macro_call_itemContext macro_call_item(int i) {
 			return getRuleContext(Macro_call_itemContext.class,i);
 		}
-		public TerminalNode BRACKET_L() { return getToken(ValkyrieParser.BRACKET_L, 0); }
-		public TerminalNode BRACKET_R() { return getToken(ValkyrieParser.BRACKET_R, 0); }
-		public List<TerminalNode> COMMA() { return getTokens(ValkyrieParser.COMMA); }
+		public TerminalNode BRACKET_L() { return getToken(ValkyrieAntlrParser.BRACKET_L, 0); }
+		public TerminalNode BRACKET_R() { return getToken(ValkyrieAntlrParser.BRACKET_R, 0); }
+		public List<TerminalNode> COMMA() { return getTokens(ValkyrieAntlrParser.COMMA); }
 		public TerminalNode COMMA(int i) {
-			return getToken(ValkyrieParser.COMMA, i);
+			return getToken(ValkyrieAntlrParser.COMMA, i);
 		}
 		public Macro_callContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -5531,15 +5534,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_macro_call; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterMacro_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterMacro_call(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitMacro_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitMacro_call(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitMacro_call(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitMacro_call(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5617,15 +5620,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_macro_call_item; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterMacro_call_item(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterMacro_call_item(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitMacro_call_item(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitMacro_call_item(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitMacro_call_item(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitMacro_call_item(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5664,7 +5667,7 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Try_statementContext extends ParserRuleContext {
-		public TerminalNode KW_TRY() { return getToken(ValkyrieParser.KW_TRY, 0); }
+		public TerminalNode KW_TRY() { return getToken(ValkyrieAntlrParser.KW_TRY, 0); }
 		public Type_expressionContext type_expression() {
 			return getRuleContext(Type_expressionContext.class,0);
 		}
@@ -5677,15 +5680,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_try_statement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterTry_statement(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterTry_statement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitTry_statement(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitTry_statement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitTry_statement(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitTry_statement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5717,30 +5720,30 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Match_callContext extends ParserRuleContext {
-		public TerminalNode DOT() { return getToken(ValkyrieParser.DOT, 0); }
-		public TerminalNode KW_MATCH() { return getToken(ValkyrieParser.KW_MATCH, 0); }
+		public TerminalNode DOT() { return getToken(ValkyrieAntlrParser.DOT, 0); }
+		public TerminalNode KW_MATCH() { return getToken(ValkyrieAntlrParser.KW_MATCH, 0); }
 		public Type_expressionContext type_expression() {
 			return getRuleContext(Type_expressionContext.class,0);
 		}
 		public Match_blockContext match_block() {
 			return getRuleContext(Match_blockContext.class,0);
 		}
-		public TerminalNode OP_THROW() { return getToken(ValkyrieParser.OP_THROW, 0); }
+		public TerminalNode OP_THROW() { return getToken(ValkyrieAntlrParser.OP_THROW, 0); }
 		public Match_callContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_match_call; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterMatch_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterMatch_call(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitMatch_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitMatch_call(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitMatch_call(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitMatch_call(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5785,30 +5788,30 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Catch_callContext extends ParserRuleContext {
-		public TerminalNode DOT() { return getToken(ValkyrieParser.DOT, 0); }
-		public TerminalNode KW_CATCH() { return getToken(ValkyrieParser.KW_CATCH, 0); }
+		public TerminalNode DOT() { return getToken(ValkyrieAntlrParser.DOT, 0); }
+		public TerminalNode KW_CATCH() { return getToken(ValkyrieAntlrParser.KW_CATCH, 0); }
 		public Type_expressionContext type_expression() {
 			return getRuleContext(Type_expressionContext.class,0);
 		}
 		public Match_blockContext match_block() {
 			return getRuleContext(Match_blockContext.class,0);
 		}
-		public TerminalNode OP_THROW() { return getToken(ValkyrieParser.OP_THROW, 0); }
+		public TerminalNode OP_THROW() { return getToken(ValkyrieAntlrParser.OP_THROW, 0); }
 		public Catch_callContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_catch_call; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterCatch_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterCatch_call(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitCatch_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitCatch_call(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitCatch_call(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitCatch_call(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5853,8 +5856,8 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Match_blockContext extends ParserRuleContext {
-		public TerminalNode BRACE_L() { return getToken(ValkyrieParser.BRACE_L, 0); }
-		public TerminalNode BRACE_R() { return getToken(ValkyrieParser.BRACE_R, 0); }
+		public TerminalNode BRACE_L() { return getToken(ValkyrieAntlrParser.BRACE_L, 0); }
+		public TerminalNode BRACE_R() { return getToken(ValkyrieAntlrParser.BRACE_R, 0); }
 		public List<Match_statementContext> match_statement() {
 			return getRuleContexts(Match_statementContext.class);
 		}
@@ -5867,15 +5870,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_match_block; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterMatch_block(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterMatch_block(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitMatch_block(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitMatch_block(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitMatch_block(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitMatch_block(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5938,15 +5941,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_match_statement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterMatch_statement(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterMatch_statement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitMatch_statement(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitMatch_statement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitMatch_statement(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitMatch_statement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6001,7 +6004,7 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class With_blockContext extends ParserRuleContext {
-		public TerminalNode KW_WITH() { return getToken(ValkyrieParser.KW_WITH, 0); }
+		public TerminalNode KW_WITH() { return getToken(ValkyrieAntlrParser.KW_WITH, 0); }
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
@@ -6011,23 +6014,23 @@ public class ValkyrieParser extends Parser {
 		public Macro_callContext macro_call(int i) {
 			return getRuleContext(Macro_callContext.class,i);
 		}
-		public TerminalNode BRACKET_L() { return getToken(ValkyrieParser.BRACKET_L, 0); }
-		public TerminalNode BRACKET_R() { return getToken(ValkyrieParser.BRACKET_R, 0); }
+		public TerminalNode BRACKET_L() { return getToken(ValkyrieAntlrParser.BRACKET_L, 0); }
+		public TerminalNode BRACKET_R() { return getToken(ValkyrieAntlrParser.BRACKET_R, 0); }
 		public With_blockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_with_block; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterWith_block(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterWith_block(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitWith_block(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitWith_block(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitWith_block(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitWith_block(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6099,11 +6102,11 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class When_blockContext extends ParserRuleContext {
-		public TerminalNode KW_WHEN() { return getToken(ValkyrieParser.KW_WHEN, 0); }
+		public TerminalNode KW_WHEN() { return getToken(ValkyrieAntlrParser.KW_WHEN, 0); }
 		public Inline_expressionContext inline_expression() {
 			return getRuleContext(Inline_expressionContext.class,0);
 		}
-		public TerminalNode COLON() { return getToken(ValkyrieParser.COLON, 0); }
+		public TerminalNode COLON() { return getToken(ValkyrieAntlrParser.COLON, 0); }
 		public List<Macro_callContext> macro_call() {
 			return getRuleContexts(Macro_callContext.class);
 		}
@@ -6122,15 +6125,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_when_block; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterWhen_block(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterWhen_block(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitWhen_block(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitWhen_block(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitWhen_block(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitWhen_block(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6194,8 +6197,8 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Else_patternContext extends ParserRuleContext {
-		public TerminalNode KW_ELSE() { return getToken(ValkyrieParser.KW_ELSE, 0); }
-		public TerminalNode COLON() { return getToken(ValkyrieParser.COLON, 0); }
+		public TerminalNode KW_ELSE() { return getToken(ValkyrieAntlrParser.KW_ELSE, 0); }
+		public TerminalNode COLON() { return getToken(ValkyrieAntlrParser.COLON, 0); }
 		public List<Macro_callContext> macro_call() {
 			return getRuleContexts(Macro_callContext.class);
 		}
@@ -6214,15 +6217,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_else_pattern; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterElse_pattern(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterElse_pattern(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitElse_pattern(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitElse_pattern(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitElse_pattern(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitElse_pattern(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6284,16 +6287,16 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Case_patternContext extends ParserRuleContext {
-		public TerminalNode KW_CASE() { return getToken(ValkyrieParser.KW_CASE, 0); }
+		public TerminalNode KW_CASE() { return getToken(ValkyrieAntlrParser.KW_CASE, 0); }
 		public List<IdentifierContext> identifier() {
 			return getRuleContexts(IdentifierContext.class);
 		}
 		public IdentifierContext identifier(int i) {
 			return getRuleContext(IdentifierContext.class,i);
 		}
-		public TerminalNode PARENTHESES_L() { return getToken(ValkyrieParser.PARENTHESES_L, 0); }
-		public TerminalNode PARENTHESES_R() { return getToken(ValkyrieParser.PARENTHESES_R, 0); }
-		public TerminalNode COLON() { return getToken(ValkyrieParser.COLON, 0); }
+		public TerminalNode PARENTHESES_L() { return getToken(ValkyrieAntlrParser.PARENTHESES_L, 0); }
+		public TerminalNode PARENTHESES_R() { return getToken(ValkyrieAntlrParser.PARENTHESES_R, 0); }
+		public TerminalNode COLON() { return getToken(ValkyrieAntlrParser.COLON, 0); }
 		public List<Macro_callContext> macro_call() {
 			return getRuleContexts(Macro_callContext.class);
 		}
@@ -6315,15 +6318,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_case_pattern; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterCase_pattern(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterCase_pattern(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitCase_pattern(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitCase_pattern(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitCase_pattern(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitCase_pattern(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6411,7 +6414,7 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class New_callContext extends ParserRuleContext {
-		public TerminalNode KW_NEW() { return getToken(ValkyrieParser.KW_NEW, 0); }
+		public TerminalNode KW_NEW() { return getToken(ValkyrieAntlrParser.KW_NEW, 0); }
 		public Modified_namepathContext modified_namepath() {
 			return getRuleContext(Modified_namepathContext.class,0);
 		}
@@ -6433,15 +6436,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_new_call; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterNew_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterNew_call(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitNew_call(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitNew_call(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitNew_call(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitNew_call(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6498,8 +6501,8 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class New_bodyContext extends ParserRuleContext {
-		public TerminalNode PARENTHESES_L() { return getToken(ValkyrieParser.PARENTHESES_L, 0); }
-		public TerminalNode PARENTHESES_R() { return getToken(ValkyrieParser.PARENTHESES_R, 0); }
+		public TerminalNode PARENTHESES_L() { return getToken(ValkyrieAntlrParser.PARENTHESES_L, 0); }
+		public TerminalNode PARENTHESES_R() { return getToken(ValkyrieAntlrParser.PARENTHESES_R, 0); }
 		public New_blockContext new_block() {
 			return getRuleContext(New_blockContext.class,0);
 		}
@@ -6512,15 +6515,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_new_body; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterNew_body(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterNew_body(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitNew_body(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitNew_body(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitNew_body(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitNew_body(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6595,8 +6598,8 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class New_blockContext extends ParserRuleContext {
-		public TerminalNode BRACE_L() { return getToken(ValkyrieParser.BRACE_L, 0); }
-		public TerminalNode BRACE_R() { return getToken(ValkyrieParser.BRACE_R, 0); }
+		public TerminalNode BRACE_L() { return getToken(ValkyrieAntlrParser.BRACE_L, 0); }
+		public TerminalNode BRACE_R() { return getToken(ValkyrieAntlrParser.BRACE_R, 0); }
 		public List<New_statementContext> new_statement() {
 			return getRuleContexts(New_statementContext.class);
 		}
@@ -6609,15 +6612,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_new_block; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterNew_block(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterNew_block(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitNew_block(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitNew_block(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitNew_block(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitNew_block(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6674,15 +6677,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_new_statement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterNew_statement(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterNew_statement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitNew_statement(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitNew_statement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitNew_statement(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitNew_statement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6730,7 +6733,7 @@ public class ValkyrieParser extends Parser {
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
-		public TerminalNode COLON() { return getToken(ValkyrieParser.COLON, 0); }
+		public TerminalNode COLON() { return getToken(ValkyrieAntlrParser.COLON, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
@@ -6740,15 +6743,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_new_kv; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterNew_kv(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterNew_kv(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitNew_kv(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitNew_kv(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitNew_kv(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitNew_kv(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6801,15 +6804,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_modifiers; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterModifiers(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterModifiers(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitModifiers(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitModifiers(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitModifiers(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitModifiers(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6862,15 +6865,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_modified_identifier; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterModified_identifier(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterModified_identifier(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitModified_identifier(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitModified_identifier(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitModified_identifier(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitModified_identifier(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6923,9 +6926,9 @@ public class ValkyrieParser extends Parser {
 		public IdentifierContext identifier(int i) {
 			return getRuleContext(IdentifierContext.class,i);
 		}
-		public List<TerminalNode> OP_PROPORTION() { return getTokens(ValkyrieParser.OP_PROPORTION); }
+		public List<TerminalNode> OP_PROPORTION() { return getTokens(ValkyrieAntlrParser.OP_PROPORTION); }
 		public TerminalNode OP_PROPORTION(int i) {
-			return getToken(ValkyrieParser.OP_PROPORTION, i);
+			return getToken(ValkyrieAntlrParser.OP_PROPORTION, i);
 		}
 		public Modified_namepathContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -6933,15 +6936,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_modified_namepath; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterModified_namepath(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterModified_namepath(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitModified_namepath(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitModified_namepath(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitModified_namepath(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitModified_namepath(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -7007,13 +7010,13 @@ public class ValkyrieParser extends Parser {
 		public IdentifierContext identifier(int i) {
 			return getRuleContext(IdentifierContext.class,i);
 		}
-		public List<TerminalNode> OP_PROPORTION() { return getTokens(ValkyrieParser.OP_PROPORTION); }
+		public List<TerminalNode> OP_PROPORTION() { return getTokens(ValkyrieAntlrParser.OP_PROPORTION); }
 		public TerminalNode OP_PROPORTION(int i) {
-			return getToken(ValkyrieParser.OP_PROPORTION, i);
+			return getToken(ValkyrieAntlrParser.OP_PROPORTION, i);
 		}
-		public List<TerminalNode> DOT() { return getTokens(ValkyrieParser.DOT); }
+		public List<TerminalNode> DOT() { return getTokens(ValkyrieAntlrParser.DOT); }
 		public TerminalNode DOT(int i) {
-			return getToken(ValkyrieParser.DOT, i);
+			return getToken(ValkyrieAntlrParser.DOT, i);
 		}
 		public Namepath_freeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -7021,15 +7024,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_namepath_free; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterNamepath_free(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterNamepath_free(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitNamepath_free(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitNamepath_free(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitNamepath_free(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitNamepath_free(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -7088,9 +7091,9 @@ public class ValkyrieParser extends Parser {
 		public IdentifierContext identifier(int i) {
 			return getRuleContext(IdentifierContext.class,i);
 		}
-		public List<TerminalNode> OP_PROPORTION() { return getTokens(ValkyrieParser.OP_PROPORTION); }
+		public List<TerminalNode> OP_PROPORTION() { return getTokens(ValkyrieAntlrParser.OP_PROPORTION); }
 		public TerminalNode OP_PROPORTION(int i) {
-			return getToken(ValkyrieParser.OP_PROPORTION, i);
+			return getToken(ValkyrieAntlrParser.OP_PROPORTION, i);
 		}
 		public NamepathContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -7098,15 +7101,15 @@ public class ValkyrieParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_namepath; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterNamepath(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterNamepath(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitNamepath(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitNamepath(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitNamepath(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitNamepath(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -7153,23 +7156,23 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class IdentifierContext extends ParserRuleContext {
-		public TerminalNode UNICODE_ID() { return getToken(ValkyrieParser.UNICODE_ID, 0); }
-		public TerminalNode RAW_ID() { return getToken(ValkyrieParser.RAW_ID, 0); }
+		public TerminalNode UNICODE_ID() { return getToken(ValkyrieAntlrParser.UNICODE_ID, 0); }
+		public TerminalNode RAW_ID() { return getToken(ValkyrieAntlrParser.RAW_ID, 0); }
 		public IdentifierContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_identifier; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterIdentifier(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterIdentifier(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitIdentifier(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitIdentifier(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitIdentifier(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitIdentifier(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -7206,26 +7209,26 @@ public class ValkyrieParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class NumberContext extends ParserRuleContext {
-		public TerminalNode DECIMAL() { return getToken(ValkyrieParser.DECIMAL, 0); }
+		public TerminalNode DECIMAL() { return getToken(ValkyrieAntlrParser.DECIMAL, 0); }
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
-		public TerminalNode INTEGER() { return getToken(ValkyrieParser.INTEGER, 0); }
+		public TerminalNode INTEGER() { return getToken(ValkyrieAntlrParser.INTEGER, 0); }
 		public NumberContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_number; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).enterNumber(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).enterNumber(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValkyrieListener ) ((ValkyrieListener)listener).exitNumber(this);
+			if ( listener instanceof ValkyrieAntlrListener ) ((ValkyrieAntlrListener)listener).exitNumber(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValkyrieVisitor ) return ((ValkyrieVisitor<? extends T>)visitor).visitNumber(this);
+			if ( visitor instanceof ValkyrieAntlrVisitor ) return ((ValkyrieAntlrVisitor<? extends T>)visitor).visitNumber(this);
 			else return visitor.visitChildren(this);
 		}
 	}

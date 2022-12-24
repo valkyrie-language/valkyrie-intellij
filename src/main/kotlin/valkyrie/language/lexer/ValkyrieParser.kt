@@ -1,5 +1,7 @@
 package valkyrie.language.lexer
 
+import ValkyrieAntlrParser
+import ValkyrieAntlrParser.*
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.tree.IElementType
@@ -9,17 +11,15 @@ import org.antlr.intellij.adaptor.psi.ANTLRPsiNode
 import org.antlr.v4.runtime.Parser
 import org.antlr.v4.runtime.tree.ParseTree
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.antlr.ValkyrieParser
-import valkyrie.language.antlr.ValkyrieParser.*
 import valkyrie.language.ast.*
 import valkyrie.language.ast.pattern_match.ValkyrieCatchBlockNode
 import valkyrie.language.ast.pattern_match.ValkyrieMatchBlockNode
 import valkyrie.language.ast.pattern_match.ValkyrieWhenBlockNode
 import valkyrie.language.ast.pattern_match.ValkyrieWithBlockNode
 
-class ValkyrieProgramParser(parser: ValkyrieParser) : ANTLRParserAdaptor(ValkyrieLanguage, parser) {
+class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieLanguage, parser) {
     override fun parse(parser: Parser, root: IElementType): ParseTree {
-        return (parser as ValkyrieParser).program()
+        return (parser as ValkyrieAntlrParser).program()
     }
 
 
@@ -78,11 +78,21 @@ class ValkyrieProgramParser(parser: ValkyrieParser) : ANTLRParserAdaptor(Valkyri
                 else -> ANTLRPsiNode(node)
             }
         }
+
+        fun getChildOfType(psi: PsiElement, parserRule: Int): PsiElement? {
+            for (child in psi.children) {
+                val type = child.node.elementType as RuleIElementType;
+                if (type.ruleIndex == parserRule) {
+                    return child;
+                }
+            }
+            return null;
+        }
     }
 }
 
 private fun extractExpression(node: CompositeElement): ANTLRPsiNode {
-    val infix = node.findPsiChildByType(ValkyrieProgramLexer.OperatorInfix);
+    val infix = node.findPsiChildByType(ValkyrieLexer.OperatorInfix);
     return if (infix == null) {
 //        println("extractExpression: ${node.elementType} ${node.text}")
         ANTLRPsiNode(node)

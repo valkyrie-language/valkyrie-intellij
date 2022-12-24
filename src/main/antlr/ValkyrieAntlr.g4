@@ -1,4 +1,4 @@
-grammar Valkyrie;
+grammar ValkyrieAntlr;
 import ValkyrieBasic;
 options {
 	language = Java;

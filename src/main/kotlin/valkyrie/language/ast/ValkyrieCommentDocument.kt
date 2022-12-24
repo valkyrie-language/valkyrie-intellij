@@ -7,13 +7,13 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.language.lexer.ValkyrieProgramLexer
+import valkyrie.language.lexer.ValkyrieLexer
 
 
 class ValkyrieCommentDocument(node: CompositeElement) : ASTWrapperPsiElement(node), PsiDocCommentBase {
     private val documentText: String = node.text;
 
-    override fun getTokenType(): IElementType = ValkyrieProgramLexer.CommentBlock
+    override fun getTokenType(): IElementType = ValkyrieLexer.CommentBlock
     override fun getOwner(): PsiElement? {
         return PsiTreeUtil.skipWhitespacesAndCommentsForward(this)
     }

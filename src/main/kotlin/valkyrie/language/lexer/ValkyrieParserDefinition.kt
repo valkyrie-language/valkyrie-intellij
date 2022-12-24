@@ -1,5 +1,7 @@
 package valkyrie.language.lexer
 
+import ValkyrieAntlrLexer
+import ValkyrieAntlrParser
 import com.intellij.lang.ASTNode
 import com.intellij.lang.ParserDefinition
 import com.intellij.lang.PsiParser
@@ -16,32 +18,30 @@ import org.antlr.intellij.adaptor.lexer.TokenIElementType
 import org.antlr.intellij.adaptor.parser.ANTLRParserAdaptor
 import org.antlr.intellij.adaptor.psi.ANTLRPsiNode
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.antlr.ValkyrieLexer
-import valkyrie.language.antlr.ValkyrieParser
 import valkyrie.language.file.ValkyrieFileNode
 
 class ValkyrieParserDefinition : ParserDefinition {
     override fun createLexer(project: Project): Lexer {
-        return ValkyrieProgramLexer()
+        return ValkyrieLexer()
     }
 
     override fun createParser(project: Project): PsiParser {
-        return ValkyrieProgramParser(ValkyrieParser(null))
+        return ValkyrieParser(ValkyrieAntlrParser(null))
     }
 
     /**
      * "Tokens of those types are automatically skipped by PsiBuilder."
      */
     override fun getWhitespaceTokens(): TokenSet {
-        return PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieLexer.WHITE_SPACE)
+        return PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieAntlrLexer.WHITE_SPACE)
     }
 
     override fun getCommentTokens(): TokenSet {
-        return ValkyrieProgramLexer.Comments
+        return ValkyrieLexer.Comments
     }
 
     override fun getStringLiteralElements(): TokenSet {
-        return PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieLexer.STRING)
+        return PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieAntlrLexer.STRING)
     }
 
 
@@ -95,7 +95,7 @@ class ValkyrieParserDefinition : ParserDefinition {
      */
     override fun createElement(node: ASTNode): PsiElement {
         return if (node is CompositeElement) {
-            ValkyrieProgramParser.extractCompositeNode(node)
+            ValkyrieParser.extractCompositeNode(node)
         } else {
             println("create element of ${node.javaClass.name}: ${node.elementType}(${node.text})")
             ANTLRPsiNode(node)
@@ -111,10 +111,10 @@ class ValkyrieParserDefinition : ParserDefinition {
 
         init {
             PSIElementTypeFactory.defineLanguageIElementTypes(
-                ValkyrieLanguage, ValkyrieParser.tokenNames, ValkyrieParser.ruleNames
+                ValkyrieLanguage, ValkyrieAntlrParser.tokenNames, ValkyrieAntlrParser.ruleNames
             )
             val tokenIElementTypes = PSIElementTypeFactory.getTokenIElementTypes(ValkyrieLanguage)
-            ID = tokenIElementTypes[ValkyrieLexer.UNICODE_ID]
+            ID = tokenIElementTypes[ValkyrieAntlrLexer.UNICODE_ID]
         }
     }
 }

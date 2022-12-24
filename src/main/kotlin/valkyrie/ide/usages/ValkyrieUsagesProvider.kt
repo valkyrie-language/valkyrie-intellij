@@ -6,16 +6,16 @@ import com.intellij.lang.cacheBuilder.WordsScanner
 import com.intellij.lang.findUsages.FindUsagesProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.tree.TokenSet
-import valkyrie.language.lexer.ValkyrieProgramLexer
+import valkyrie.language.lexer.ValkyrieLexer
 
 class ValkyrieUsagesProvider : FindUsagesProvider {
     override fun getWordsScanner(): WordsScanner {
 
         return DefaultWordsScanner(
-            ValkyrieProgramLexer(),
-            ValkyrieProgramLexer.Identifiers,
-            ValkyrieProgramLexer.Identifiers,
-            TokenSet.create(ValkyrieProgramLexer.CommentLine, ValkyrieProgramLexer.CommentBlock),
+            ValkyrieLexer(),
+            ValkyrieLexer.Identifiers,
+            ValkyrieLexer.Identifiers,
+            TokenSet.create(ValkyrieLexer.CommentLine, ValkyrieLexer.CommentBlock),
             TokenSet.EMPTY
         )
     }
