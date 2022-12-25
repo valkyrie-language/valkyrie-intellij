@@ -15,7 +15,7 @@
 			fieldName="INSTANCE"/>
 		<lang.parserDefinition
 			language="Valkyrie"
-			implementationClass="valkyrie.language.lexer.ValkyrieParserDefinition"/>
+			implementationClass="valkyrie.language.antlr.ValkyrieParserDefinition"/>
 		<multiHostInjector implementation="valkyrie.ide.matcher.LanguageInjector"/>
 		<!-- Project -->
 		<projectNameProvider implementation="valkyrie.ide.project.ValkyrieProjectName"/>

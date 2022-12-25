@@ -9,7 +9,7 @@ import com.intellij.psi.PsiFile
 import valkyrie.language.ast.ValkyrieClassStatement
 import valkyrie.language.ast.ValkyrieExtendsStatement
 import valkyrie.language.ast.ValkyrieUnionStatement
-import valkyrie.language.psi.caretElement
+import valkyrie.language.antlr.caretElement
 
 
 class GenerateOverrides : LanguageCodeInsightActionHandler {

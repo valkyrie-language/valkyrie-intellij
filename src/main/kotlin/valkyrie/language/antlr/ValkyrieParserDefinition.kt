@@ -1,7 +1,5 @@
-package valkyrie.language.lexer
+package valkyrie.language.antlr
 
-import ValkyrieAntlrLexer
-import ValkyrieAntlrParser
 import com.intellij.lang.ASTNode
 import com.intellij.lang.ParserDefinition
 import com.intellij.lang.PsiParser

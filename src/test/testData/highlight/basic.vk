@@ -3,7 +3,7 @@ namespace ad.bd.cd
 let a = true;
 
 
-value function  mod::range(min: int, max: int, step: int): Range {
+value function package::path::range(min: int, max: int, step: int): Range {
     new lazy path::Range::<T>() {from: min, till: max, step, _current: min}
 }
 

@@ -4,7 +4,7 @@ import com.intellij.lang.CodeDocumentationAwareCommenter
 import com.intellij.psi.PsiComment
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.elementType
-import valkyrie.language.lexer.ValkyrieLexer
+import valkyrie.language.antlr.ValkyrieLexer
 
 //import valkyrie.language.psi.ValkyrieTypes
 

@@ -1,6 +1,6 @@
 package valkyrie.ide.formatter
 
-import ValkyrieAntlrParser
+import valkyrie.language.antlr.ValkyrieAntlrParser
 import com.intellij.application.options.CodeStyle
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.editor.Document
@@ -21,8 +21,8 @@ import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings.*
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.ast.ValkyrieClassStatement
 import valkyrie.language.ast.ValkyrieNamespaceStatement
-import valkyrie.language.psi.ValkyrieRecursiveVisitor
-import valkyrie.language.psi.childrenWithLeaves
+import valkyrie.language.psi.ValkyrieVisitor
+import valkyrie.language.antlr.childrenWithLeaves
 
 //import valkyrie.language.psi_node.ValkyrieClassStatementNode
 
@@ -47,7 +47,7 @@ class ValkyrieBeforeFormat : PreFormatProcessor {
     }
 }
 
-private class RewriteVisitor(private val text: Document, val settings: ValkyrieCodeStyleSettings) : ValkyrieRecursiveVisitor() {
+private class RewriteVisitor(private val text: Document, val settings: ValkyrieCodeStyleSettings) : ValkyrieVisitor() {
     var offsetDelta: Int = 0
 
     override fun visitNamespace(o: ValkyrieNamespaceStatement) {

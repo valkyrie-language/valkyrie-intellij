@@ -7,7 +7,7 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.util.elementType
 import valkyrie.language.ast.ValkyrieLetStatement
 //import valkyrie.language.psi.ValkyrieTypes
-import valkyrie.language.psi.childrenWithLeaves
+import valkyrie.language.antlr.childrenWithLeaves
 //import valkyrie.language.psi_node.ValkyrieLetStatementNode
 
 class InferLetType(private val element: ValkyrieLetStatement, private val action: Boolean) : HintAction {

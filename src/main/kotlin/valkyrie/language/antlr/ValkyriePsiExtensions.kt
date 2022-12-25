@@ -1,4 +1,4 @@
-package valkyrie.language.psi
+package valkyrie.language.antlr
 
 
 import com.intellij.extapi.psi.StubBasedPsiElementBase

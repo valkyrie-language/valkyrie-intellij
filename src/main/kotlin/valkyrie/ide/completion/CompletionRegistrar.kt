@@ -10,7 +10,7 @@ import com.intellij.psi.util.parents
 import com.intellij.util.ProcessingContext
 import valkyrie.language.ast.ValkyrieClassStatement
 import valkyrie.language.file.ValkyrieFileNode
-import valkyrie.language.lexer.ValkyrieLexer
+import valkyrie.language.antlr.ValkyrieLexer
 
 
 class CompletionRegistrar : CompletionContributor() {

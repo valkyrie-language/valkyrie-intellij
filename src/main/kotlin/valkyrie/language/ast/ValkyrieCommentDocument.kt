@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.language.lexer.ValkyrieLexer
+import valkyrie.language.antlr.ValkyrieLexer
 
 
 class ValkyrieCommentDocument(node: CompositeElement) : ASTWrapperPsiElement(node), PsiDocCommentBase {
@@ -22,3 +22,4 @@ class ValkyrieCommentDocument(node: CompositeElement) : ASTWrapperPsiElement(nod
         return "<div>$documentText<div>"
     }
 }
+

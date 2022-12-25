@@ -7,7 +7,7 @@ import com.intellij.psi.*
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
 import valkyrie.language.ast.ValkyrieCommentDocument
-import valkyrie.language.lexer.ValkyrieLexer
+import valkyrie.language.antlr.ValkyrieLexer
 import java.net.ConnectException
 import java.util.function.Consumer
 

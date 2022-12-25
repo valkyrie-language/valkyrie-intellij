@@ -8,7 +8,7 @@ import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.matcher.ValkyrieBracketMatch
-import valkyrie.language.lexer.ValkyrieLexer
+import valkyrie.language.antlr.ValkyrieLexer
 import valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
 class TokenHighlighter : SyntaxHighlighterBase() {

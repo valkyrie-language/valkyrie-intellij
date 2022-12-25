@@ -16,7 +16,7 @@ import javax.swing.Icon
 
 class ValkyrieFunctionStatement(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ScopeNode {
     val namepath by lazy { ValkyrieNamepathNode.find(this)!! }
-    val modifiers by lazy { ModifiedIdentifier.extractModifiers(this) };
+    val modifiers by lazy { ValkyrieModifiedNode.extractModifiers(this) };
     override fun getName(): String {
         return namepath.nameIdentifier.name
     }

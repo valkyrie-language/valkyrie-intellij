@@ -10,9 +10,9 @@ import com.intellij.psi.search.SearchScope
 import valkyrie.ide.project.crate.NamespaceMapping
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.antlr.recursiveSearch
 import valkyrie.language.ast.ValkyrieClassStatement
 import valkyrie.language.ast.ValkyrieNamespaceStatement
-import valkyrie.language.psi.recursiveSearch
 
 
 /**

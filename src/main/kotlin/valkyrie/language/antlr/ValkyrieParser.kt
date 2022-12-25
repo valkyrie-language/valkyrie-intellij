@@ -1,7 +1,5 @@
-package valkyrie.language.lexer
+package valkyrie.language.antlr
 
-import ValkyrieAntlrParser
-import ValkyrieAntlrParser.*
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.tree.IElementType
@@ -11,6 +9,7 @@ import org.antlr.intellij.adaptor.psi.ANTLRPsiNode
 import org.antlr.v4.runtime.Parser
 import org.antlr.v4.runtime.tree.ParseTree
 import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.antlr.ValkyrieAntlrParser.*
 import valkyrie.language.ast.*
 import valkyrie.language.ast.pattern_match.ValkyrieCatchBlockNode
 import valkyrie.language.ast.pattern_match.ValkyrieMatchBlockNode
@@ -34,8 +33,8 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_class_block -> ValkyrieBraceBlockNode(node)
                 RULE_class_field -> ValkyrieClassFieldNode(node)
                 RULE_class_method -> ValkyrieClassMethodNode(node)
-                RULE_modifiers -> ModifiedIdentifier(node)
-                RULE_modified_identifier -> ModifiedIdentifier(node)
+                RULE_modifiers -> ValkyrieModifiedNode(node)
+                RULE_modified_identifier -> ValkyrieModifiedNode(node)
                 RULE_modified_namepath -> ModifiedNamepath(node)
                 // flags
                 RULE_define_bitflags -> ValkyrieFlagsStatement(node, type)
@@ -68,6 +67,7 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_macro_call -> ValkyrieMacroCall(node)
                 RULE_expression -> extractExpression(node)
                 // atomic
+                RULE_new_call -> ValkyrieNewStatement(node)
                 RULE_namepath_free -> ValkyrieNamepathNode(node, type, true)
                 RULE_namepath -> ValkyrieNamepathNode(node, type)
                 RULE_identifier -> ValkyrieIdentifierNode(node)
@@ -79,25 +79,30 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
             }
         }
 
-        fun getChildOfType(psi: PsiElement, parserRule: Int): PsiElement? {
-            for (child in psi.children) {
-                val type = child.node.elementType as RuleIElementType;
-                if (type.ruleIndex == parserRule) {
-                    return child;
+        fun getChildOfType(psi: PsiElement?, parserRule: Int): PsiElement? {
+            if (psi != null) {
+                for (child in psi.children) {
+                    val type = child.node.elementType as RuleIElementType;
+                    if (type.ruleIndex == parserRule) {
+                        return child;
+                    }
                 }
             }
             return null;
         }
-    }
-}
 
-private fun extractExpression(node: CompositeElement): ANTLRPsiNode {
-    val infix = node.findPsiChildByType(ValkyrieLexer.OperatorInfix);
-    return if (infix == null) {
-//        println("extractExpression: ${node.elementType} ${node.text}")
-        ANTLRPsiNode(node)
-    } else {
-        ValkyrieBinaryExpression(node, infix)
+        fun getChildrenOfTypeAsList(psi: PsiElement?, parserRule: Int): List<PsiElement> {
+            val output = mutableListOf<PsiElement>();
+            if (psi != null) {
+                for (child in psi.children) {
+                    val type = child.node.elementType as RuleIElementType;
+                    if (type.ruleIndex == parserRule) {
+                        output.add(child)
+                    }
+                }
+            }
+            return output;
+        }
     }
 }
 

@@ -11,7 +11,7 @@ import com.intellij.refactoring.rename.RenameHandler
 import com.intellij.refactoring.util.CommonRefactoringUtil
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieFileNode
-import valkyrie.language.lexer.ValkyrieLexer
+import valkyrie.language.antlr.ValkyrieLexer
 
 //import valkyrie.language.psi.ValkyrieTypes
 

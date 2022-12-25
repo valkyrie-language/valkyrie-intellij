@@ -10,10 +10,10 @@ import valkyrie.language.ast.ValkyrieClassStatement
 import valkyrie.language.ast.ValkyrieFlagsStatement
 import valkyrie.language.ast.ValkyrieFunctionStatement
 import valkyrie.language.ast.ValkyrieTraitStatement
-import valkyrie.language.psi.ValkyrieRecursiveVisitor
-import valkyrie.language.psi.childrenWithLeaves
+import valkyrie.language.psi.ValkyrieVisitor
+import valkyrie.language.antlr.childrenWithLeaves
 
-class FoldingVisitor(private val descriptors: MutableList<FoldingDescriptor>) : ValkyrieRecursiveVisitor() {
+class FoldingVisitor(private val descriptors: MutableList<FoldingDescriptor>) : ValkyrieVisitor() {
 
     override fun visitClassDeclaration(o: ValkyrieClassStatement) {
         fold(o.node, findBrace(o))

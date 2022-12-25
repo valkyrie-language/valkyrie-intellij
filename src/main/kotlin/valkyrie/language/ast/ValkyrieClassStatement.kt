@@ -13,12 +13,12 @@ import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.antlr.parentScope
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.language.psi.recursiveSearch
+import valkyrie.language.antlr.recursiveSearch
 import javax.swing.Icon
 
 class ValkyrieClassStatement(node: CompositeElement) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ScopeNode {
     private val _identifier by lazy { ValkyrieIdentifierNode.find(this)!! }
-    val modifiers by lazy { ModifiedIdentifier.findItems(this) };
+    val modifiers by lazy { ValkyrieModifiedNode.findItems(this) };
     override fun getName(): String {
         return _identifier.text;
     }

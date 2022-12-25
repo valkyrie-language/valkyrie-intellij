@@ -12,7 +12,7 @@ import valkyrie.ide.highlight.ValkyrieHighlightColor.*
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.ast.ValkyrieClassStatement
 import valkyrie.language.ast.ValkyrieTraitStatement
-import valkyrie.language.lexer.ValkyrieLexer
+import valkyrie.language.antlr.ValkyrieLexer
 import valkyrie.lsp.RequestDocument
 
 class DocumentationRenderer(var element: PsiElement, private var original: PsiElement?) {

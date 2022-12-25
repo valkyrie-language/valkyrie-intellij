@@ -1,4 +1,4 @@
-package valkyrie.language.ast
+package valkyrie.language.antlr
 
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 

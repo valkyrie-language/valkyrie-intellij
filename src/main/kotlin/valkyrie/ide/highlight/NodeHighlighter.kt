@@ -11,11 +11,11 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.language.ast.*
 import valkyrie.language.file.ValkyrieFileNode
-import valkyrie.language.psi.ValkyrieRecursiveVisitor
+import valkyrie.language.psi.ValkyrieVisitor
 //import valkyrie.language.psi_node.ValkyrieIdentifierNode
 import valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
-class NodeHighlighter : ValkyrieRecursiveVisitor(), HighlightVisitor {
+class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
 
     override fun visitClassDeclaration(o: ValkyrieClassStatement) {

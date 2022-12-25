@@ -1,6 +1,6 @@
 package valkyrie.ide.matcher
 
-import ValkyrieAntlrLexer
+import valkyrie.language.antlr.ValkyrieAntlrLexer
 import com.intellij.lang.BracePair
 import com.intellij.lang.PairedBraceMatcher
 import com.intellij.psi.PsiFile
@@ -9,7 +9,7 @@ import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import org.antlr.intellij.adaptor.lexer.TokenIElementType
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.lexer.ValkyrieLexer
+import valkyrie.language.antlr.ValkyrieLexer
 
 
 class ValkyrieBracketMatch : PairedBraceMatcher {

@@ -1,6 +1,6 @@
 package valkyrie.ide.formatter
 
-import ValkyrieAntlrLexer.*
+import valkyrie.language.antlr.ValkyrieAntlrLexer.*
 import com.intellij.formatting.SpacingBuilder
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
@@ -8,7 +8,7 @@ import com.intellij.psi.tree.TokenSet
 import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory.createTokenSet
 import valkyrie.ide.matcher.ValkyrieBracketMatch
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.lexer.ValkyrieLexer
+import valkyrie.language.antlr.ValkyrieLexer
 
 private val removeSpaceBefore = TokenSet.orSet(
     createTokenSet(ValkyrieLanguage, DOT, OP_PROPORTION, COLON),
