@@ -112,6 +112,7 @@ class ValkyrieLexer : Lexer() {
         val Proportion = TokenIElementType(OP_PROPORTION, ".", ValkyrieLanguage);
         val Integers: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, INTEGER);
         val Decimals: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, DECIMAL);
+        val Strings: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, STRING_SINGLE, STRING_DOUBLE);
         val Identifiers: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, UNICODE_ID);
 
         val CommentLine = TokenIElementType(LINE_COMMENT, "CommentLine", ValkyrieLanguage);

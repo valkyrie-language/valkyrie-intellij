@@ -69,6 +69,12 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
             highlight(mod, Color.MODIFIER)
         }
     }
+
+    override fun visitNewObject(o: ValkyrieNewStatement) {
+        for (mod in o.modifiers) {
+            highlight(mod, Color.MODIFIER)
+        }
+    }
 // =================================================================================================================
 
     fun highlight(element: PsiElement?, color: Color) {

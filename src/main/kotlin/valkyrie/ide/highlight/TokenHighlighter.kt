@@ -26,9 +26,10 @@ class TokenHighlighter : SyntaxHighlighterBase() {
             ValkyrieLexer.Operators.contains(tokenType) -> Color.OPERATION_SIGN
             ValkyrieLexer.Integers.contains(tokenType) -> Color.INTEGER
             ValkyrieLexer.Decimals.contains(tokenType) -> Color.DECIMAL
+            ValkyrieLexer.Strings.contains(tokenType) -> Color.STRING
             else -> {
                 when (tokenType) {
-                    ValkyrieLexer.CommentLine-> Color.LINE_COMMENT
+                    ValkyrieLexer.CommentLine -> Color.LINE_COMMENT
                     ValkyrieLexer.CommentBlock -> Color.BLOCK_COMMENT
                     ValkyrieBracketMatch.Instance.ParenthesisL, ValkyrieBracketMatch.Instance.ParenthesisR -> Color.PARENTHESES
                     ValkyrieBracketMatch.Instance.BracketL, ValkyrieBracketMatch.Instance.BracketR -> Color.BRACKETS
@@ -36,14 +37,12 @@ class TokenHighlighter : SyntaxHighlighterBase() {
                     //
 //                    COLON, OP_SET -> Color.ASSIGN
 //                    OP_AT, OP_HASH -> Color.SYM_MACRO
-                    // STAR -> Color.STAR
-//                    COMMA -> Color.COMMA
+                    ValkyrieLexer.Comma -> Color.COMMA
+                    ValkyrieLexer.Semicolon -> Color.SEMICOLON
                     // 原子类型
 //                    BYTE -> Color.INTEGER
 //                    COLOUR -> Color.INTEGER
 //                    NUMBER_SUFFIX -> Color.OP_NUMBER
-//                    STRING_START, STRING_TEXT, STRING_END -> Color.STRING
-//                    SYMBOL_XID, SYMBOL_RAW -> Color.IDENTIFIER
                     // 错误
                     TokenType.BAD_CHARACTER -> Color.BAD_CHARACTER
                     else -> null

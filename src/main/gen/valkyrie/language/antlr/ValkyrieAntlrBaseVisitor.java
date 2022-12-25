@@ -256,6 +256,27 @@ public class ValkyrieAntlrBaseVisitor<T> extends AbstractParseTreeVisitor<T> imp
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitDot_call(ValkyrieAntlrParser.Dot_callContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitTuple_call_body(ValkyrieAntlrParser.Tuple_call_bodyContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitTuple_call_item(ValkyrieAntlrParser.Tuple_call_itemContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitDefine_lambda(ValkyrieAntlrParser.Define_lambdaContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -452,13 +473,6 @@ public class ValkyrieAntlrBaseVisitor<T> extends AbstractParseTreeVisitor<T> imp
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFunction_call_terms(ValkyrieAntlrParser.Function_call_termsContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitDefine_generic(ValkyrieAntlrParser.Define_genericContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -474,13 +488,6 @@ public class ValkyrieAntlrBaseVisitor<T> extends AbstractParseTreeVisitor<T> imp
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitGeneric_call_in_type(ValkyrieAntlrParser.Generic_call_in_typeContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitDot_call(ValkyrieAntlrParser.Dot_callContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -606,13 +613,6 @@ public class ValkyrieAntlrBaseVisitor<T> extends AbstractParseTreeVisitor<T> imp
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNew_kv(ValkyrieAntlrParser.New_kvContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitModifiers(ValkyrieAntlrParser.ModifiersContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -656,4 +656,11 @@ public class ValkyrieAntlrBaseVisitor<T> extends AbstractParseTreeVisitor<T> imp
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitNumber(ValkyrieAntlrParser.NumberContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitString(ValkyrieAntlrParser.StringContext ctx) { return visitChildren(ctx); }
 }

@@ -13,8 +13,8 @@ import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
 class ValkyrieClassMethodNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ScopeNode {
-    val method by lazy { ModifiedNamepath.findIdentifier(this)!! }
-    val modifiers by lazy { ModifiedNamepath.findModifiers(this) };
+    val method by lazy { ValkyrieModifiedNode.findIdentifier(this)!! }
+    val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
     override fun getName(): String {
         return method.name
     }

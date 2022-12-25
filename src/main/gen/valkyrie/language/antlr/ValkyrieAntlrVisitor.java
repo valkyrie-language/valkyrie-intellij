@@ -215,6 +215,24 @@ public interface ValkyrieAntlrVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunction_call(ValkyrieAntlrParser.Function_callContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#dot_call}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDot_call(ValkyrieAntlrParser.Dot_callContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#tuple_call_body}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTuple_call_body(ValkyrieAntlrParser.Tuple_call_bodyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#tuple_call_item}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTuple_call_item(ValkyrieAntlrParser.Tuple_call_itemContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#define_lambda}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -386,12 +404,6 @@ public interface ValkyrieAntlrVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInfix_in(ValkyrieAntlrParser.Infix_inContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#function_call_terms}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFunction_call_terms(ValkyrieAntlrParser.Function_call_termsContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#define_generic}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -409,12 +421,6 @@ public interface ValkyrieAntlrVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitGeneric_call_in_type(ValkyrieAntlrParser.Generic_call_in_typeContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#dot_call}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDot_call(ValkyrieAntlrParser.Dot_callContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#slice_call}.
 	 * @param ctx the parse tree
@@ -518,12 +524,6 @@ public interface ValkyrieAntlrVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitNew_statement(ValkyrieAntlrParser.New_statementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#new_kv}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNew_kv(ValkyrieAntlrParser.New_kvContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#modifiers}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -565,4 +565,10 @@ public interface ValkyrieAntlrVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitNumber(ValkyrieAntlrParser.NumberContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#string}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitString(ValkyrieAntlrParser.StringContext ctx);
 }

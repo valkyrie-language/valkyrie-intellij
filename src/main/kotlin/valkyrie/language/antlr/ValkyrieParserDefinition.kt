@@ -12,7 +12,6 @@ import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory
-import org.antlr.intellij.adaptor.lexer.TokenIElementType
 import org.antlr.intellij.adaptor.parser.ANTLRParserAdaptor
 import org.antlr.intellij.adaptor.psi.ANTLRPsiNode
 import valkyrie.language.ValkyrieLanguage
@@ -22,6 +21,7 @@ class ValkyrieParserDefinition : ParserDefinition {
     override fun createLexer(project: Project): Lexer {
         return ValkyrieLexer()
     }
+
 
     override fun createParser(project: Project): PsiParser {
         return ValkyrieParser(ValkyrieAntlrParser(null))
@@ -39,7 +39,7 @@ class ValkyrieParserDefinition : ParserDefinition {
     }
 
     override fun getStringLiteralElements(): TokenSet {
-        return PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieAntlrLexer.STRING)
+        return ValkyrieLexer.Strings
     }
 
 
@@ -104,15 +104,12 @@ class ValkyrieParserDefinition : ParserDefinition {
         return super.spaceExistenceTypeBetweenTokens(left, right)
     }
 
+    @Suppress("CompanionObjectInExtension", "DEPRECATION")
     companion object {
-        var ID: TokenIElementType? = null
-
         init {
             PSIElementTypeFactory.defineLanguageIElementTypes(
                 ValkyrieLanguage, ValkyrieAntlrParser.tokenNames, ValkyrieAntlrParser.ruleNames
             )
-            val tokenIElementTypes = PSIElementTypeFactory.getTokenIElementTypes(ValkyrieLanguage)
-            ID = tokenIElementTypes[ValkyrieAntlrLexer.UNICODE_ID]
         }
     }
 }

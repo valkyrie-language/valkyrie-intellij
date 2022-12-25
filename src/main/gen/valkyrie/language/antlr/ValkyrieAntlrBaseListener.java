@@ -425,6 +425,42 @@ public class ValkyrieAntlrBaseListener implements ValkyrieAntlrListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDot_call(ValkyrieAntlrParser.Dot_callContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDot_call(ValkyrieAntlrParser.Dot_callContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTuple_call_body(ValkyrieAntlrParser.Tuple_call_bodyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTuple_call_body(ValkyrieAntlrParser.Tuple_call_bodyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTuple_call_item(ValkyrieAntlrParser.Tuple_call_itemContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTuple_call_item(ValkyrieAntlrParser.Tuple_call_itemContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterDefine_lambda(ValkyrieAntlrParser.Define_lambdaContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -761,18 +797,6 @@ public class ValkyrieAntlrBaseListener implements ValkyrieAntlrListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunction_call_terms(ValkyrieAntlrParser.Function_call_termsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFunction_call_terms(ValkyrieAntlrParser.Function_call_termsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterDefine_generic(ValkyrieAntlrParser.Define_genericContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -804,18 +828,6 @@ public class ValkyrieAntlrBaseListener implements ValkyrieAntlrListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitGeneric_call_in_type(ValkyrieAntlrParser.Generic_call_in_typeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDot_call(ValkyrieAntlrParser.Dot_callContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDot_call(ValkyrieAntlrParser.Dot_callContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1025,18 +1037,6 @@ public class ValkyrieAntlrBaseListener implements ValkyrieAntlrListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNew_kv(ValkyrieAntlrParser.New_kvContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNew_kv(ValkyrieAntlrParser.New_kvContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterModifiers(ValkyrieAntlrParser.ModifiersContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1116,6 +1116,18 @@ public class ValkyrieAntlrBaseListener implements ValkyrieAntlrListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitNumber(ValkyrieAntlrParser.NumberContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterString(ValkyrieAntlrParser.StringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitString(ValkyrieAntlrParser.StringContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

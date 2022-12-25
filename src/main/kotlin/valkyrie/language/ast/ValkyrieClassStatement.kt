@@ -11,14 +11,14 @@ import org.antlr.intellij.adaptor.psi.ScopeNode
 import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.antlr.parentScope
+import valkyrie.language.antlr.recursiveSearch
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.language.antlr.recursiveSearch
 import javax.swing.Icon
 
 class ValkyrieClassStatement(node: CompositeElement) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ScopeNode {
     private val _identifier by lazy { ValkyrieIdentifierNode.find(this)!! }
-    val modifiers by lazy { ValkyrieModifiedNode.findItems(this) };
+    val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
     override fun getName(): String {
         return _identifier.text;
     }

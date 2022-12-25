@@ -20,10 +20,10 @@ BRACKET_L:     '[';
 BRACKET_R:     ']';
 BRACE_L:       '{';
 BRACE_R:       '}';
-GENERIC_L:    '⦓';
-GENERIC_R:    '⦔';
-OFFSET_L:     '⁅';
-OFFSET_R:    '⁆';
+GENERIC_L:     '⦓';
+GENERIC_R:     '⦔';
+OFFSET_L:      '⁅';
+OFFSET_R:      '⁆';
 // infix
 OP_ADD: '+';
 OP_INC: '++';
@@ -65,10 +65,10 @@ AT:   '@';
 HASH: '#' | '##' | '#!';
 // macro slot
 LAMBDA_SLOT: '$' | '$$';
-MACRO_SLOT: '§' | '§§';
+MACRO_SLOT:  '§' | '§§';
 // monadic
 OP_OR_ELSE: '??';
-OP_THROW: '?';
+OP_THROW:   '?';
 // not
 OP_NOT: '!';
 KW_NOT: 'not';
@@ -85,28 +85,18 @@ OP_IS_NOT: '⋢' | '<!';
 KW_AS: 'as' | 'as!' | 'as*';
 // until
 OP_UNTIL: '..<' | '..=';
-OP_POW:  '^';
+OP_POW:   '^';
 // suffix
 OP_TEMPERATURE: '℃' | '℉';
 // standalone
 OP_EMPTY: '∅';
 
-
-// "\\" -> pushToken(ValkyrieTypes.KW_ESCAPING, r) // DOT ":=", "≔" ->
+// DOT ":=", "≔" ->
 // pushToken(ValkyrieTypes.PATTERN_SET, r) "->", "==", "≡" -> pushToken(ValkyrieTypes.OP_EQ, r)
-// 
-//
-// 
-//
-// 
-//
-// 
-//
 // "...", ".." -> pushToken(ValkyrieTypes.KW_DOTS, r) start with + "++" ->
 // pushToken(ValkyrieTypes.OP_INC, r) "+=" -> pushToken(ValkyrieTypes.OP_ADD_ASSIGN, r) "+" ->
-// pushToken(ValkyrieTypes.OP_ADD, r) // start with - "--" -> pushToken(ValkyrieTypes.OP_DEC, r)
-// r) "¶" -> pushToken(ValkyrieTypes.OP_QUOTE, r) "⟦" -> { pushToken(ValkyrieTypes.SLICE_L, r) }
-//
+// pushToken(ValkyrieTypes.OP_ADD, r) // start with - "--" -> pushToken(ValkyrieTypes.OP_DEC, r) r)
+// "¶" -> pushToken(ValkyrieTypes.OP_QUOTE, r) "⟦" -> { pushToken(ValkyrieTypes.SLICE_L, r) }
 // "⤇", "|=>", "⤃", "!=>" -> { pushToken(ValkyrieTypes.OP_EMPTY, r) }
 
 // keywords
@@ -128,16 +118,16 @@ KW_LET:       'let';
 KW_FUNCTION:  'function' | 'micro' | 'macro';
 KW_LAMBDA:    'lambda';
 KW_WITCH:     'which';
-KW_WHILE: 'while';
-KW_FOR:   'for';
-KW_NEW: 'new' | 'object';
+KW_WHILE:     'while';
+KW_FOR:       'for';
+KW_NEW:       'new' | 'object';
 // pattern match
-KW_TRY: 'try';
+KW_TRY:   'try';
 KW_MATCH: 'match';
 KW_CATCH: 'catch';
-KW_WITH: 'with';
-KW_CASE: 'case';
-KW_WHEN: 'when';
+KW_WITH:  'with';
+KW_CASE:  'case';
+KW_WHEN:  'when';
 // number
 INTEGER: [0] | [1-9][0-9]*;
 DECIMAL
@@ -146,15 +136,15 @@ DECIMAL
     ;
 fragment EXP: [Ee] [+\-]? INTEGER;
 
-STRING:       '"' (ESC | ~["\\])* '"';
-fragment ESC: '\\' ["\bfnrt];
+STRING_SINGLE:  '\'' ~[']* '\'';
+STRING_DOUBLE:  '"' ~["]* '"';
+
 
 // conditional
 KW_IF:        'if';
 KW_ELSE:      'else';
 KW_OTHERWISE: 'otherwise';
-// control goto
-//FROM:     'from';
+// control goto FROM: 'from';
 RETURN:   'return';
 RESUME:   'resume';
 YIELD:    'yield';
@@ -176,4 +166,3 @@ BLOCK_COMMENT: '/*' .*? '*/' -> channel(HIDDEN);
 
 WHITE_SPACE:     [ \t\n\r]+ -> channel(HIDDEN);
 ERROR_CHARACTAR: . -> channel(HIDDEN);
-

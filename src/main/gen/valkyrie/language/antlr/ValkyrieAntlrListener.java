@@ -348,6 +348,36 @@ public interface ValkyrieAntlrListener extends ParseTreeListener {
 	 */
 	void exitFunction_call(ValkyrieAntlrParser.Function_callContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#dot_call}.
+	 * @param ctx the parse tree
+	 */
+	void enterDot_call(ValkyrieAntlrParser.Dot_callContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#dot_call}.
+	 * @param ctx the parse tree
+	 */
+	void exitDot_call(ValkyrieAntlrParser.Dot_callContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#tuple_call_body}.
+	 * @param ctx the parse tree
+	 */
+	void enterTuple_call_body(ValkyrieAntlrParser.Tuple_call_bodyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#tuple_call_body}.
+	 * @param ctx the parse tree
+	 */
+	void exitTuple_call_body(ValkyrieAntlrParser.Tuple_call_bodyContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#tuple_call_item}.
+	 * @param ctx the parse tree
+	 */
+	void enterTuple_call_item(ValkyrieAntlrParser.Tuple_call_itemContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#tuple_call_item}.
+	 * @param ctx the parse tree
+	 */
+	void exitTuple_call_item(ValkyrieAntlrParser.Tuple_call_itemContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#define_lambda}.
 	 * @param ctx the parse tree
 	 */
@@ -634,16 +664,6 @@ public interface ValkyrieAntlrListener extends ParseTreeListener {
 	 */
 	void exitInfix_in(ValkyrieAntlrParser.Infix_inContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#function_call_terms}.
-	 * @param ctx the parse tree
-	 */
-	void enterFunction_call_terms(ValkyrieAntlrParser.Function_call_termsContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#function_call_terms}.
-	 * @param ctx the parse tree
-	 */
-	void exitFunction_call_terms(ValkyrieAntlrParser.Function_call_termsContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#define_generic}.
 	 * @param ctx the parse tree
 	 */
@@ -673,16 +693,6 @@ public interface ValkyrieAntlrListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitGeneric_call_in_type(ValkyrieAntlrParser.Generic_call_in_typeContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#dot_call}.
-	 * @param ctx the parse tree
-	 */
-	void enterDot_call(ValkyrieAntlrParser.Dot_callContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#dot_call}.
-	 * @param ctx the parse tree
-	 */
-	void exitDot_call(ValkyrieAntlrParser.Dot_callContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#slice_call}.
 	 * @param ctx the parse tree
@@ -854,16 +864,6 @@ public interface ValkyrieAntlrListener extends ParseTreeListener {
 	 */
 	void exitNew_statement(ValkyrieAntlrParser.New_statementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#new_kv}.
-	 * @param ctx the parse tree
-	 */
-	void enterNew_kv(ValkyrieAntlrParser.New_kvContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#new_kv}.
-	 * @param ctx the parse tree
-	 */
-	void exitNew_kv(ValkyrieAntlrParser.New_kvContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#modifiers}.
 	 * @param ctx the parse tree
 	 */
@@ -933,4 +933,14 @@ public interface ValkyrieAntlrListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitNumber(ValkyrieAntlrParser.NumberContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#string}.
+	 * @param ctx the parse tree
+	 */
+	void enterString(ValkyrieAntlrParser.StringContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#string}.
+	 * @param ctx the parse tree
+	 */
+	void exitString(ValkyrieAntlrParser.StringContext ctx);
 }

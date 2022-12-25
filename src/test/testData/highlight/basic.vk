@@ -3,8 +3,14 @@ namespace ad.bd.cd
 let a = true;
 
 
-value function package::path::range(min: int, max: int, step: int): Range {
-    new lazy path::Range::<T>() {from: min, till: max, step, _current: min}
+inline function package::path::range(min: int, max: int, step: int): Range {
+    lambda () { };
+    new lazy std::iterator::Range::<T>() {
+        from: min,
+        till: max,
+        step: step,
+        _current: min,
+    }
 }
 
 trait TestTrait {
@@ -13,12 +19,11 @@ trait TestTrait {
 
 
 
-function test(a: A = 2, bb: AType = null) -> ReturnType {
-    lambda ();
-    true || false && null;
-    TestClass();
+function test(a: A = "", `b`: `B` = null) -> ReturnType {
+
 }
 
+"{123}"
 
 std::test::<T>(arg)[index];
 std::test⦓T⦔(arg)⁅index⁆;
@@ -26,7 +31,7 @@ std::test⦓T⦔(arg)⁅index⁆;
 
 a?.like
 
-a?()
+a()
 
 
 30℃ == 60℉;

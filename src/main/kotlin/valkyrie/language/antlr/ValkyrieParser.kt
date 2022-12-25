@@ -30,28 +30,28 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_define_namespace -> ValkyrieNamespaceStatement(node, type)
                 // class
                 RULE_define_class -> ValkyrieClassStatement(node)
-                RULE_class_block -> ValkyrieBraceBlockNode(node)
+                RULE_class_block -> ValkyrieBlockNode(node)
                 RULE_class_field -> ValkyrieClassFieldNode(node)
                 RULE_class_method -> ValkyrieClassMethodNode(node)
-                RULE_modifiers -> ValkyrieModifiedNode(node)
-                RULE_modified_identifier -> ValkyrieModifiedNode(node)
-                RULE_modified_namepath -> ModifiedNamepath(node)
+                RULE_modifiers -> ValkyrieModifiedNode(node, ValkyrieModifiedKind.Pure)
+                RULE_modified_identifier -> ValkyrieModifiedNode(node, ValkyrieModifiedKind.ModifiedIdentifier)
+                RULE_modified_namepath -> ValkyrieModifiedNode(node, ValkyrieModifiedKind.ModifiedNamepath)
                 // flags
                 RULE_define_bitflags -> ValkyrieFlagsStatement(node, type)
-                RULE_bitflags_block -> ValkyrieBraceBlockNode(node)
+                RULE_bitflags_block -> ValkyrieBlockNode(node)
                 RULE_bitflags_item -> ValkyrieFlagsItemNode(node, type)
                 // union
                 RULE_define_union -> ValkyrieUnionStatement(node)
-                RULE_union_block -> ValkyrieBraceBlockNode(node)
+                RULE_union_block -> ValkyrieBlockNode(node)
                 RULE_define_variant -> ValkyrieVariantItem(node)
-                RULE_variant_block -> ValkyrieBraceBlockNode(node)
+                RULE_variant_block -> ValkyrieBlockNode(node)
                 // trait
                 RULE_define_trait -> ValkyrieTraitStatement(node, type)
                 RULE_define_extends -> ValkyrieExtendsStatement(node)
                 // function
                 RULE_define_function -> ValkyrieFunctionStatement(node, type)
                 RULE_parameter_item -> ValkyrieFunctionParameter(node, type)
-                RULE_function_block -> ValkyrieBraceBlockNode(node)
+                RULE_function_block -> ValkyrieBlockNode(node)
                 // variable
                 RULE_define_variale -> ValkyrieAssignStatement(node, type)
                 // control
@@ -60,14 +60,16 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 // pattern match
                 RULE_match_call -> ValkyrieMatchBlockNode(node)
                 RULE_catch_call -> ValkyrieCatchBlockNode(node)
-                RULE_match_block -> ValkyrieBraceBlockNode(node)
+                RULE_match_block -> ValkyrieBlockNode(node)
                 RULE_with_block -> ValkyrieWithBlockNode(node)
                 RULE_when_block -> ValkyrieWhenBlockNode(node)
                 // expression
                 RULE_macro_call -> ValkyrieMacroCall(node)
                 RULE_expression -> extractExpression(node)
-                // atomic
+                // new
                 RULE_new_call -> ValkyrieNewStatement(node)
+                RULE_new_block -> ValkyrieBlockNode(node)
+                // atomic
                 RULE_namepath_free -> ValkyrieNamepathNode(node, type, true)
                 RULE_namepath -> ValkyrieNamepathNode(node, type)
                 RULE_identifier -> ValkyrieIdentifierNode(node)
