@@ -23,7 +23,15 @@ function test(a: A = "", `b`: `B` = null) -> ReturnType {
 
 }
 
-"{123}"
+"{text}"
+
+json'{
+    "nice": 123,
+    poe: 123
+}'
+
+re'ab[cd]'
+
 
 std::test::<T>(arg)[index];
 std::test⦓T⦔(arg)⁅index⁆;

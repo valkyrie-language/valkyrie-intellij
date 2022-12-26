@@ -13,8 +13,12 @@ class StringEscape(private val host: ValkyrieStringNode) : LiteralTextEscaper<Ps
 
     override fun getOffsetInHost(offsetInDecoded: Int, rangeInsideHost: TextRange): Int {
         var offset = offsetInDecoded + rangeInsideHost.startOffset
-        if (offset < rangeInsideHost.startOffset) offset = rangeInsideHost.startOffset
-        if (offset > rangeInsideHost.endOffset) offset = rangeInsideHost.endOffset
+        if (offset < rangeInsideHost.startOffset) {
+            offset = rangeInsideHost.startOffset
+        }
+        if (offset > rangeInsideHost.endOffset) {
+            offset = rangeInsideHost.endOffset
+        }
         return offset
     }
 

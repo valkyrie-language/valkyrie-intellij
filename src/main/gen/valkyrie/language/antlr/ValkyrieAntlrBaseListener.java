@@ -1128,6 +1128,18 @@ public class ValkyrieAntlrBaseListener implements ValkyrieAntlrListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitString(ValkyrieAntlrParser.StringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterString_literal(ValkyrieAntlrParser.String_literalContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitString_literal(ValkyrieAntlrParser.String_literalContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

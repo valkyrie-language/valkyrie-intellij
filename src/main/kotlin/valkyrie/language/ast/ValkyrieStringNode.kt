@@ -1,5 +1,6 @@
 package valkyrie.language.ast
 
+import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.json.json5.Json5Language
 import com.intellij.lang.ASTNode
 import com.intellij.lang.Language
@@ -8,24 +9,24 @@ import com.intellij.lang.injection.MultiHostRegistrar
 import com.intellij.lang.xml.XMLLanguage
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.LiteralTextEscaper
-import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiLanguageInjectionHost
-import com.intellij.psi.PsiNamedElement
-import com.intellij.psi.tree.IElementType
-import org.antlr.intellij.adaptor.psi.IdentifierDefSubtree
-import org.antlr.intellij.adaptor.psi.ScopeNode
+import com.intellij.psi.util.PsiTreeUtil
 import org.intellij.lang.regexp.RegExpLanguage
+import valkyrie.ide.matcher.escaper.StringEscape
+import valkyrie.language.antlr.ValkyrieAntlrParser
+import valkyrie.language.antlr.ValkyrieParser
 
-class ValkyrieStringNode(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type),
-    ScopeNode, PsiLanguageInjectionHost {
-        private val injectLanguage = "js";
-    public val injectRange = TextRange(0, 0)
-    override fun resolve(element: PsiNamedElement?): PsiElement? {
-        TODO("Not yet implemented")
+class ValkyrieStringNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiLanguageInjectionHost {
+    private val _handler by lazy {
+        PsiTreeUtil.getChildOfType(this, ValkyrieIdentifierNode::class.java)
     }
+    private val _text by lazy {
+        ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_string)!!
+    }
+    private val injectLanguage = _handler?.name?.lowercase();
 
     override fun isValidHost(): Boolean {
-        TODO("Not yet implemented")
+        return _handler != null
     }
 
     override fun updateText(text: String): PsiLanguageInjectionHost {
@@ -33,31 +34,40 @@ class ValkyrieStringNode(node: ASTNode, type: IElementType) : IdentifierDefSubtr
     }
 
     override fun createLiteralTextEscaper(): LiteralTextEscaper<out PsiLanguageInjectionHost> {
-        TODO("Not yet implemented")
+        return StringEscape(this)
     }
 
-    fun injectPerform(registrar: MultiHostRegistrar) {
-        when (injectLanguage.lowercase()) {
-            "re" -> registrar.fastRegister(RegExpLanguage.INSTANCE, this)
-            "re_x" -> registrar.startInjecting(RegExpLanguage.INSTANCE)
-                .addPlace("(?x)", null, this, injectRange)
-                .doneInjecting()
-
-            "json5", "jsonp", "json" -> registrar.fastRegister(Json5Language.INSTANCE, this)
-//        "jp", "json_path" -> registrar.fastRegister(JsonPathLanguage.INSTANCE, this)
-            "xp", "xpath" -> registrar.fastRegister(XMLLanguage.INSTANCE, this)
-            "xml" -> registrar.fastRegister(XMLLanguage.INSTANCE, this)
-            "html" -> registrar.fastRegister(HTMLLanguage.INSTANCE, this)
+    fun injectPerform(r: MultiHostRegistrar) {
+        when (injectLanguage) {
+            "re" -> injectRegex(r)
+            "json5", "jsonp", "json" -> inject(r, Json5Language.INSTANCE)
+            "xp", "xpath" -> inject(r, XMLLanguage.INSTANCE)
+            "xml" -> inject(r, XMLLanguage.INSTANCE)
+            "html" -> inject(r, HTMLLanguage.INSTANCE)
+            null -> {}
             else -> Language.getRegisteredLanguages()
                 .filter { it != Language.ANY }
                 .firstOrNull { it.id == injectLanguage }
-                ?.let { registrar.fastRegister(it, this) }
+                ?.let { inject(r, it) }
         }
     }
-}
 
-private fun MultiHostRegistrar.fastRegister(language: Language, node: ValkyrieStringNode) {
-    this.startInjecting(language)
-        .addPlace(null, null, node, node.injectRange)
-        .doneInjecting()
+    private fun inject(registrar: MultiHostRegistrar, language: Language) {
+        registrar.startInjecting(language)
+            .addPlace(null, null, this, innerRange())
+            .doneInjecting()
+    }
+
+    private fun injectRegex(registrar: MultiHostRegistrar) {
+        registrar.startInjecting(RegExpLanguage.INSTANCE)
+            .addPlace("(?x)", null, this, innerRange())
+            .doneInjecting()
+    }
+
+
+    private fun innerRange(): TextRange {
+        val start = _text.textRange.startOffset - textRange.startOffset + 1;
+        val end = _text.textRange.endOffset - textRange.startOffset - 1;
+        return TextRange(start, end)
+    }
 }

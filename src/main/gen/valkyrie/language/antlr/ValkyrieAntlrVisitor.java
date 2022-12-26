@@ -571,4 +571,10 @@ public interface ValkyrieAntlrVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitString(ValkyrieAntlrParser.StringContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#string_literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitString_literal(ValkyrieAntlrParser.String_literalContext ctx);
 }

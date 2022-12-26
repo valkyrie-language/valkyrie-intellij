@@ -943,4 +943,14 @@ public interface ValkyrieAntlrListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitString(ValkyrieAntlrParser.StringContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#string_literal}.
+	 * @param ctx the parse tree
+	 */
+	void enterString_literal(ValkyrieAntlrParser.String_literalContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#string_literal}.
+	 * @param ctx the parse tree
+	 */
+	void exitString_literal(ValkyrieAntlrParser.String_literalContext ctx);
 }

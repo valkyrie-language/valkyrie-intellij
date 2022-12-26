@@ -73,6 +73,7 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_namepath_free -> ValkyrieNamepathNode(node, type, true)
                 RULE_namepath -> ValkyrieNamepathNode(node, type)
                 RULE_identifier -> ValkyrieIdentifierNode(node)
+                RULE_string_literal -> ValkyrieStringNode(node)
                 RULE_number -> ValkyrieNumberNode(node)
                 // comment
 

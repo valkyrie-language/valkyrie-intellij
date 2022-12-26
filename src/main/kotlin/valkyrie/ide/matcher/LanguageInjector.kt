@@ -11,11 +11,7 @@ import valkyrie.language.ast.ValkyrieStringNode
 class LanguageInjector : MultiHostInjector {
     override fun getLanguagesToInject(registrar: MultiHostRegistrar, context: PsiElement) {
         when (context) {
-            is ValkyrieStringNode -> {
-                context.injectPerform(registrar)
-            }
-
-            else -> return
+            is ValkyrieStringNode -> context.injectPerform(registrar)
         }
     }
 

@@ -167,10 +167,10 @@ term
     : try_statement
     | if_statement
     | new_call
-    | namepath
-    | number
-    | string
     | function_call
+    | string_literal
+    | number
+    | namepath
     | '(' expression ')'
     | '[' expression ']'
     | SPECIAL
@@ -227,3 +227,4 @@ identifier: UNICODE_ID | RAW_ID;
 // numbewr
 number: DECIMAL identifier? | INTEGER identifier?;
 string: STRING_SINGLE | STRING_DOUBLE;
+string_literal: identifier? string;
