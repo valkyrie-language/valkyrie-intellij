@@ -82,7 +82,7 @@ parameter_item:    macro_call* modified_identifier type_hint? parameter_default?
 parameter_default: OP_ASSIGN expression;
 // ===========================================================================
 function_call: OP_THROW? tuple_call_body;
-dot_call: OP_THROW? DOT identifier tuple_call_body?;
+dot_call:      OP_THROW? DOT identifier tuple_call_body?;
 tuple_call_body
     : PARENTHESES_L PARENTHESES_R
     | PARENTHESES_L tuple_call_item (COMMA tuple_call_item)* COMMA? PARENTHESES_R
@@ -169,7 +169,7 @@ term
     | new_call
     | function_call
     | string_literal
-    | number
+    | number_literal
     | namepath
     | '(' expression ')'
     | '[' expression ']'
@@ -184,7 +184,7 @@ op_logic:    LOGIC_OR | LOGIC_AND;
 infix_is:    KW_IS | KW_IS KW_NOT;
 infix_in:    KW_IN | OP_IN;
 // ===========================================================================
-define_generic: OP_PROPORTION? OP_LT identifier OP_GT | GENERIC_L identifier GENERIC_R;
+define_generic:       OP_PROPORTION? OP_LT identifier OP_GT | GENERIC_L identifier GENERIC_R;
 generic_call:         OP_PROPORTION OP_LT identifier OP_GT | GENERIC_L identifier GENERIC_R;
 generic_call_in_type: OP_PROPORTION? OP_LT identifier OP_GT | GENERIC_L identifier GENERIC_R;
 // ===========================================================================
@@ -225,6 +225,8 @@ namepath:      identifier (OP_PROPORTION identifier)*;
 // identifier
 identifier: UNICODE_ID | RAW_ID;
 // numbewr
-number: DECIMAL identifier? | INTEGER identifier?;
-string: STRING_SINGLE | STRING_DOUBLE;
+number:         DECIMAL | INTEGER;
+number_literal: number identifier?;
+// string
+string:         STRING_SINGLE | STRING_DOUBLE;
 string_literal: identifier? string;

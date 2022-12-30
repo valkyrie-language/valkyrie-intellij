@@ -164,5 +164,5 @@ UNICODE_ID: [_\p{XID_start}] [\p{XID_continue}]*;
 LINE_COMMENT:  '//' .*? ('\n' | EOF) -> channel(HIDDEN);
 BLOCK_COMMENT: '/*' .*? '*/' -> channel(HIDDEN);
 
-WHITE_SPACE:     [ \t\n\r]+ -> channel(HIDDEN);
+WHITE_SPACE:     [\p{White_Space}]+ -> channel(HIDDEN);
 ERROR_CHARACTAR: . -> channel(HIDDEN);

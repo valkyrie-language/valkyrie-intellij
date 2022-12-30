@@ -19,7 +19,10 @@ trait TestTrait {
 
 
 
-function test(a: A = "", `b`: `B` = null) -> ReturnType {
+function test(
+    #[nice(#a b)] mut a: A = "",
+    `b`: `B` = null
+) -> ReturnType {
 
 }
 
@@ -39,7 +42,7 @@ std::test⦓T⦔(arg)⁅index⁆;
 
 a?.like
 
-a()
+a?()
 
 
 30℃ == 60℉;
