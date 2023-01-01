@@ -20,7 +20,9 @@ trait TestTrait {
 
 
 function test(
-    #[nice(#a b)] mut a: A = "",
+    // 2
+    #[nice(#a b)]
+    mut a: A = "",
     `b`: `B` = null
 ) -> ReturnType {
 

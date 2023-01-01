@@ -161,8 +161,8 @@ RAW_ID:     '`' ~[`]+ '`';
 UNICODE_ID: [_\p{XID_start}] [\p{XID_continue}]*;
 
 // comment
-LINE_COMMENT:  '//' .*? ('\n' | EOF) -> channel(HIDDEN);
-BLOCK_COMMENT: '/*' .*? '*/' -> channel(HIDDEN);
+LINE_COMMENT:  '//' ~[\r\n]*;
+BLOCK_COMMENT: '/*' .*? '*/';
 
-WHITE_SPACE:     [\p{White_Space}]+ -> channel(HIDDEN);
+WHITE_SPACE:     [\p{White_Space}]+;
 ERROR_CHARACTAR: . -> channel(HIDDEN);

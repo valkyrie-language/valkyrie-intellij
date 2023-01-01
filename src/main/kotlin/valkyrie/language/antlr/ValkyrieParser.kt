@@ -50,6 +50,7 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_define_extends -> ValkyrieExtendsStatement(node)
                 // function
                 RULE_define_function -> ValkyrieFunctionStatement(node, type)
+                RULE_function_parameters -> ValkyrieBlockNode(node, ValkyrieBlockKind.Parenthesis)
                 RULE_parameter_item -> ValkyrieFunctionParameter(node, type)
                 RULE_function_block -> ValkyrieBlockNode(node)
                 // variable

@@ -117,7 +117,7 @@ class ValkyrieLexer : Lexer() {
 
         val CommentLine = TokenIElementType(LINE_COMMENT, "CommentLine", ValkyrieLanguage);
         val CommentBlock = TokenIElementType(BLOCK_COMMENT, "CommentBlock", ValkyrieLanguage);
-        val Comments = TokenSet.create(CommentBlock, CommentLine);
+        val Comments: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, LINE_COMMENT, BLOCK_COMMENT);
         val CompletionWords: TokenSet = PSIElementTypeFactory.createTokenSet(
             ValkyrieLanguage,
             KW_IF,
