@@ -70,6 +70,17 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         }
     }
 
+    override fun visitForParameter(o: ValkyrieForParameter) {
+        if (o.mutable) {
+            highlight(o.nameIdentifier, Color.SYM_LOCAL_MUT)
+        } else {
+            highlight(o.nameIdentifier, Color.SYM_LOCAL)
+        }
+        for (mod in o.modifiers) {
+            highlight(mod, Color.MODIFIER)
+        }
+    }
+
     override fun visitNewObject(o: ValkyrieNewStatement) {
         for (mod in o.modifiers) {
             highlight(mod, Color.MODIFIER)

@@ -57,6 +57,7 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_define_variale -> ValkyrieAssignStatement(node, type)
                 // control
                 RULE_for_statement -> ValkyrieForStatement(node)
+                RULE_for_parameter -> ValkyrieForParameter(node)
                 RULE_while_statement -> ValkyrieWhileStatement(node)
                 // pattern match
                 RULE_match_call -> ValkyrieMatchBlockNode(node)

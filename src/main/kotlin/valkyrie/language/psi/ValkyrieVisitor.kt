@@ -24,8 +24,13 @@ open class ValkyrieVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveVisitor {
             is ValkyrieTraitStatement -> visitTraitDeclaration(element)
             is ValkyrieFunctionStatement -> visitFunctionDeclaration(element)
             is ValkyrieFunctionParameter -> visitFunctionItem(element)
+            // for statement
+            is ValkyrieForStatement -> visitForStatement(element)
+            is ValkyrieForParameter -> visitForParameter(element)
             //
             is ValkyrieNewStatement -> visitNewObject(element)
+
+
 
             else -> {
                 visitOther(element)
@@ -33,6 +38,7 @@ open class ValkyrieVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveVisitor {
         }
         element.acceptChildren(this)
     }
+
 
 
     open fun visitProgram(o: ValkyrieProgramNode) {
@@ -82,6 +88,13 @@ open class ValkyrieVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveVisitor {
 
 
     open fun visitFunctionItem(o: ValkyrieFunctionParameter) {
+
+    }
+    open fun visitForParameter(o: ValkyrieForParameter) {
+
+    }
+
+    open fun visitForStatement(o: ValkyrieForStatement) {
 
     }
 

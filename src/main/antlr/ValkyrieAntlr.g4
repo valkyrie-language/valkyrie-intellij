@@ -106,8 +106,9 @@ while_statement: KW_WHILE inline_expression function_block;
 // ===========================================================================
 for_statement: KW_FOR for_pattern infix_in inline_expression if_guard? function_block;
 for_pattern
-    : for_parameter (COMMA for_parameter)*
-    | PARENTHESES_L for_parameter (COMMA for_parameter)* PARENTHESES_R
+    : case_tuple
+    | for_parameter (COMMA for_parameter)* COMMA?
+    | PARENTHESES_L for_parameter (COMMA for_parameter)* COMMA? PARENTHESES_R
     ;
 for_parameter: identifier+;
 if_guard:      KW_IF inline_expression;
@@ -206,7 +207,8 @@ match_statement: when_block | else_pattern | case_pattern | eos_free;
 with_block:      macro_call* KW_WITH identifier | KW_WITH '[' identifier? ']';
 when_block:      macro_call* KW_WHEN inline_expression COLON expression*;
 else_pattern:    macro_call* KW_ELSE COLON expression*;
-case_pattern:    macro_call* KW_CASE identifier '(' identifier? ')' if_guard? COLON expression*;
+case_pattern:    macro_call* case_tuple if_guard? COLON expression*;
+case_tuple:      KW_CASE identifier '(' identifier? ')';
 // ===========================================================================
 new_call: macro_call* KW_NEW modified_namepath generic_call_in_type? new_body;
 new_body

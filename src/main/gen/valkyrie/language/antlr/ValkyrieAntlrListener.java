@@ -824,6 +824,16 @@ public interface ValkyrieAntlrListener extends ParseTreeListener {
 	 */
 	void exitCase_pattern(ValkyrieAntlrParser.Case_patternContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#case_tuple}.
+	 * @param ctx the parse tree
+	 */
+	void enterCase_tuple(ValkyrieAntlrParser.Case_tupleContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#case_tuple}.
+	 * @param ctx the parse tree
+	 */
+	void exitCase_tuple(ValkyrieAntlrParser.Case_tupleContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#new_call}.
 	 * @param ctx the parse tree
 	 */

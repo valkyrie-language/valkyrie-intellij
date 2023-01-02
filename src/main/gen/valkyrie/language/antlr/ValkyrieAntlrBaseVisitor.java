@@ -585,6 +585,13 @@ public class ValkyrieAntlrBaseVisitor<T> extends AbstractParseTreeVisitor<T> imp
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitCase_tuple(ValkyrieAntlrParser.Case_tupleContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitNew_call(ValkyrieAntlrParser.New_callContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}

@@ -500,6 +500,12 @@ public interface ValkyrieAntlrVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCase_pattern(ValkyrieAntlrParser.Case_patternContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#case_tuple}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCase_tuple(ValkyrieAntlrParser.Case_tupleContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#new_call}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

@@ -989,6 +989,18 @@ public class ValkyrieAntlrBaseListener implements ValkyrieAntlrListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterCase_tuple(ValkyrieAntlrParser.Case_tupleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCase_tuple(ValkyrieAntlrParser.Case_tupleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterNew_call(ValkyrieAntlrParser.New_callContext ctx) { }
 	/**
 	 * {@inheritDoc}

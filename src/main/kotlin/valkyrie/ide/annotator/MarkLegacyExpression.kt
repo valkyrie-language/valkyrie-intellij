@@ -6,13 +6,9 @@ import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.editor.colors.CodeInsightColors
 import com.intellij.psi.PsiElement
 import valkyrie.ide.actions.ast_transform.*
+import valkyrie.language.ast.ValkyrieForStatement
 import valkyrie.language.ast.ValkyrieIfStatementNode
 import valkyrie.language.ast.ValkyrieWhichStatement
-
-//import valkyrie.language.psi_node.ValkyrieForStatementNode
-//import valkyrie.language.psi_node.ValkyrieIfStatementNode
-//import valkyrie.language.psi_node.ValkyrieWhichStatementNode
-
 
 class MarkLegacyExpression : HyperlinkAnnotator() {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
@@ -98,12 +94,12 @@ class MarkLegacyExpression : HyperlinkAnnotator() {
             .create()
     }
 
-//    private fun insertElseBlock(element: ValkyrieForStatementNode, holder: AnnotationHolder) {
-//        val fixer = InsertElseBlock(element);
-//        holder.newAnnotation(HighlightSeverity.INFORMATION, fixer.getDescription())
-//            .range(element.firstChild.textRange)
-//            .withFix(fixer)
-//            .create()
-//    }
+    private fun insertElseBlock(element: ValkyrieForStatement, holder: AnnotationHolder) {
+        val fixer = InsertElseBlock(element);
+        holder.newAnnotation(HighlightSeverity.INFORMATION, fixer.getDescription())
+            .range(element.firstChild.textRange)
+            .withFix(fixer)
+            .create()
+    }
 }
 

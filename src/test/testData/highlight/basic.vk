@@ -20,9 +20,11 @@ trait TestTrait {
 
 
 function test(
+    // 1
+    #[nice(#boat args)]
     // 2
-    #[nice(#a b)]
-    mut a: A = "",
+    placeholder mut a: A = 0,
+    // 3
     `b`: `B` = null
 ) -> ReturnType {
 
@@ -31,8 +33,8 @@ function test(
 "{text}"
 
 json'{
-    "nice": 123,
-    poe: 123
+    nice: 123,
+    poe:  123
 }'
 
 re'ab[cd]'
