@@ -40,8 +40,8 @@ class ValkyrieIconProvider : IconProvider() {
         val UNION = AllIcons.Nodes.Enum
         val VARIANT = AllIcons.Nodes.AnonymousClass
         val TRAIT = AllIcons.Nodes.Interface
-        val FUNCTION = AllIcons.Nodes.Method
-        val FIELD = AllIcons.Nodes.Field
+        val Function = AllIcons.Nodes.Function
+        val Field = AllIcons.Nodes.Field
+        val Method = AllIcons.Nodes.Method
     }
-
 }

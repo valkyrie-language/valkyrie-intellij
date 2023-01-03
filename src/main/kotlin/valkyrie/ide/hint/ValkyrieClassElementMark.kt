@@ -19,7 +19,7 @@ class ValkyrieClassElementMark : LineMarkerProvider {
             return RelatedItemLineMarkerInfo(
                 element.nameIdentifier.firstChild,
                 element.nameIdentifier.textRange,
-                ValkyrieIconProvider.Instance.FUNCTION,
+                ValkyrieIconProvider.Instance.Function,
                 null,
                 null,
                 GutterIconRenderer.Alignment.RIGHT // 上
@@ -29,7 +29,7 @@ class ValkyrieClassElementMark : LineMarkerProvider {
             return RelatedItemLineMarkerInfo(
                 element.nameIdentifier.firstChild,
                 element.nameIdentifier.textRange,
-                ValkyrieIconProvider.Instance.FIELD,
+                ValkyrieIconProvider.Instance.Field,
                 null,
                 null,
                 GutterIconRenderer.Alignment.RIGHT // 下

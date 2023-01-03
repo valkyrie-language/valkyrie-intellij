@@ -31,7 +31,7 @@ class CompletionInClassScope : CompletionProvider<CompletionParameters>() {
 
     private fun CompletionResultSet.addLinkedTraitMethod(kind: String, trait: String, args: String = "") {
         val element = LookupElementBuilder.create(kind)
-            .withIcon(ValkyrieIconProvider.Instance.FUNCTION)
+            .withIcon(ValkyrieIconProvider.Instance.Function)
             .withTypeText(trait, ValkyrieIconProvider.Instance.TRAIT, false)
             .withInsertHandler { context, _ ->
                 val document = context.document

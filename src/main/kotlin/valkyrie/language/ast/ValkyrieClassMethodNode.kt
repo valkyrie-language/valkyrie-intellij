@@ -10,9 +10,11 @@ import org.antlr.intellij.adaptor.psi.ScopeNode
 import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.antlr.parentScope
 import valkyrie.language.file.ValkyrieIconProvider
+import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
-class ValkyrieClassMethodNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ScopeNode {
+
+class ValkyrieClassMethodNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ValkyrieScopeNode {
     val method by lazy { ValkyrieModifiedNode.findIdentifier(this)!! }
     val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
     override fun getName(): String {
@@ -24,7 +26,7 @@ class ValkyrieClassMethodNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNa
     }
 
     override fun getIcon(flags: Int): Icon {
-        return ValkyrieIconProvider.Instance.FUNCTION
+        return ValkyrieIconProvider.Instance.Method
     }
 
 

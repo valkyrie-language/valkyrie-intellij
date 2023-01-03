@@ -6,12 +6,12 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.tree.IElementType
 import org.antlr.intellij.adaptor.psi.IdentifierDefSubtree
-import org.antlr.intellij.adaptor.psi.ScopeNode
 import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.file.ValkyrieIconProvider
+import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
-class ValkyrieFlagsItemNode(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ScopeNode {
+class ValkyrieFlagsItemNode(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ValkyrieScopeNode {
     private val _identifier = findChildByClass(ValkyrieIdentifierNode::class.java)!!;
 
 
@@ -24,7 +24,7 @@ class ValkyrieFlagsItemNode(node: ASTNode, type: IElementType) : IdentifierDefSu
     }
 
     override fun getIcon(flags: Int): Icon {
-        return ValkyrieIconProvider.Instance.FIELD
+        return ValkyrieIconProvider.Instance.Field
     }
 
 

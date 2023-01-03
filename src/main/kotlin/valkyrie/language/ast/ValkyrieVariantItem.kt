@@ -9,9 +9,10 @@ import com.intellij.psi.impl.source.tree.CompositeElement
 import org.antlr.intellij.adaptor.psi.ScopeNode
 import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.file.ValkyrieIconProvider
+import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
-class ValkyrieVariantItem(node: CompositeElement) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ScopeNode {
+class ValkyrieVariantItem(node: CompositeElement) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ValkyrieScopeNode {
     private val _identifier by lazy { ValkyrieIdentifierNode.find(this)!! }
     override fun getName(): String {
         return _identifier.name

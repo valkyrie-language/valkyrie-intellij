@@ -6,12 +6,12 @@ import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.tree.IElementType
 import org.antlr.intellij.adaptor.SymtabUtils
 import org.antlr.intellij.adaptor.psi.IdentifierDefSubtree
-import org.antlr.intellij.adaptor.psi.ScopeNode
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.file.ValkyrieIconProvider
+import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
-class ValkyrieNamespaceStatement(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ScopeNode {
+class ValkyrieNamespaceStatement(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ValkyrieScopeNode {
     val namepath by lazy { ValkyrieNamepathNode.find(this)!! }
 
     override fun getName(): String {

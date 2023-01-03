@@ -1,10 +1,14 @@
 package valkyrie.language.ast
 
 import com.intellij.extapi.psi.ASTWrapperPsiElement
+import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.util.PsiTreeUtil
+import valkyrie.ide.view.IdentifierPresentation
+import valkyrie.language.file.ValkyrieIconProvider
+import javax.swing.Icon
 
 class ValkyrieForParameter(node: CompositeElement) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner {
     private val _identifier by lazy { findIdentifier() }
@@ -20,6 +24,14 @@ class ValkyrieForParameter(node: CompositeElement) : ASTWrapperPsiElement(node),
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode {
         return _identifier
+    }
+
+    override fun getIcon(flags: Int): Icon {
+        return ValkyrieIconProvider.Instance.Field;
+    }
+
+    override fun getPresentation(): ItemPresentation {
+        return IdentifierPresentation(_identifier, this.getIcon(0))
     }
 
     private fun findModifiers(): List<ValkyrieIdentifierNode> {

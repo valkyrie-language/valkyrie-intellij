@@ -10,10 +10,11 @@ import org.antlr.intellij.adaptor.psi.ScopeNode
 import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.antlr.parentScope
 import valkyrie.language.file.ValkyrieIconProvider
+import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
 
-class ValkyrieClassFieldNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ScopeNode {
+class ValkyrieClassFieldNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ValkyrieScopeNode {
     val field by lazy { ValkyrieModifiedNode.findIdentifier(this)!! }
     val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
 
@@ -30,7 +31,7 @@ class ValkyrieClassFieldNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNam
     }
 
     override fun getIcon(flags: Int): Icon {
-        return ValkyrieIconProvider.Instance.FIELD
+        return ValkyrieIconProvider.Instance.Field
     }
 
     override fun getContext(): ScopeNode? {

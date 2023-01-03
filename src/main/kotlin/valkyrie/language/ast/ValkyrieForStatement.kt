@@ -13,9 +13,10 @@ import valkyrie.language.antlr.ValkyrieAntlrParser
 import valkyrie.language.antlr.ValkyrieParser
 import valkyrie.language.antlr.parentScope
 import valkyrie.language.file.ValkyrieIconProvider
+import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
-class ValkyrieForStatement(node: CompositeElement) : ASTWrapperPsiElement(node), ScopeNode {
+class ValkyrieForStatement(node: CompositeElement) : ASTWrapperPsiElement(node), ValkyrieScopeNode {
     val parameters by lazy { findParameters() };
     override fun getIcon(flags: Int): Icon {
         return ValkyrieIconProvider.Instance.Operator
