@@ -2,8 +2,6 @@ package valkyrie.language.ast
 
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.tree.IElementType
 import org.antlr.intellij.adaptor.psi.IdentifierDefSubtree
 import valkyrie.ide.view.NamepathPresentation
@@ -30,8 +28,6 @@ class ValkyrieFlagsStatement(node: ASTNode, type: IElementType) : IdentifierDefS
         return NamepathPresentation(_identifier, this.getIcon(0))
     }
 
-    override fun resolve(element: PsiNamedElement?): PsiElement? {
-        TODO("Not yet implemented")
-    }
+
 }
 

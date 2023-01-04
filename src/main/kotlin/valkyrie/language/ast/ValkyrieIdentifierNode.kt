@@ -6,8 +6,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.PsiReference
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.ide.reference.declaration.ValkyrieClassReference
-import valkyrie.ide.reference.declaration.ValkyrieTraitReference
 import valkyrie.language.antlr.parentScope
 
 class ValkyrieIdentifierNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNamedElement {
@@ -34,12 +32,12 @@ class ValkyrieIdentifierNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNam
      */
     override fun getReference(): PsiReference? {
         return when (val parent = parent.parentScope) {
-            is ValkyrieTraitStatement -> {
-                ValkyrieTraitReference(parent, this)
-            }
-            is ValkyrieClassStatement -> {
-                ValkyrieClassReference(parent, this)
-            }
+//            is ValkyrieTraitStatement -> {
+//                ValkyrieTraitReference(parent, this)
+//            }
+//            is ValkyrieClassStatement -> {
+//                ValkyrieClassReference(parent, this)
+//            }
             else -> {
                 null;
             }

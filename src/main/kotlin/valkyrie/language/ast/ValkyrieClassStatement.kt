@@ -4,12 +4,9 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.impl.source.tree.CompositeElement
-import org.antlr.intellij.adaptor.SymtabUtils
 import org.antlr.intellij.adaptor.psi.ScopeNode
 import valkyrie.ide.view.IdentifierPresentation
-import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.antlr.parentScope
 import valkyrie.language.antlr.recursiveSearch
 import valkyrie.language.file.ValkyrieFileNode
@@ -48,9 +45,7 @@ class ValkyrieClassStatement(node: CompositeElement) : ASTWrapperPsiElement(node
         return IdentifierPresentation(_identifier, this.getIcon(0))
     }
 
-    override fun resolve(element: PsiNamedElement?): PsiElement? {
-        return SymtabUtils.resolve(this, ValkyrieLanguage, element, "/script/class/ID");
-    }
+
 
     fun getFields(): Array<ValkyrieClassFieldNode> {
         val output = mutableListOf<ValkyrieClassFieldNode>();

@@ -29,7 +29,6 @@ class ValkyrieClassMethodNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNa
         return ValkyrieIconProvider.Instance.Method
     }
 
-
     override fun getPresentation(): ItemPresentation {
         return IdentifierPresentation(method, this.getIcon(0))
     }
@@ -37,16 +36,4 @@ class ValkyrieClassMethodNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNa
     override fun getNameIdentifier(): PsiElement {
         return method
     }
-
-
-    override fun getContext(): ScopeNode? {
-        return parentScope
-    }
-
-
-    override fun resolve(element: PsiNamedElement?): PsiElement? {
-        TODO("Not yet implemented")
-    }
-
-
 }

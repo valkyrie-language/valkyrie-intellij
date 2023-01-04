@@ -4,7 +4,6 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.impl.source.tree.CompositeElement
 import org.antlr.intellij.adaptor.psi.ScopeNode
 import valkyrie.ide.view.IdentifierPresentation
@@ -41,8 +40,6 @@ class ValkyrieUnionStatement(node: CompositeElement) : ASTWrapperPsiElement(node
         return parentScope
     }
 
-    override fun resolve(element: PsiNamedElement?): PsiElement? {
-        TODO("Not yet implemented")
-    }
+
 }
 

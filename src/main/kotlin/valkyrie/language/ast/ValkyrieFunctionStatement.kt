@@ -3,13 +3,9 @@ package valkyrie.language.ast
 //import valkyrie.language.psi.ValkyrieGenericDefine
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.tree.IElementType
-import org.antlr.intellij.adaptor.SymtabUtils
 import org.antlr.intellij.adaptor.psi.IdentifierDefSubtree
 import valkyrie.ide.view.IdentifierPresentation
-import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
@@ -32,8 +28,6 @@ class ValkyrieFunctionStatement(node: ASTNode, type: IElementType) : IdentifierD
         return IdentifierPresentation(namepath.nameIdentifier, this.getIcon(0))
     }
 
-    override fun resolve(element: PsiNamedElement?): PsiElement? {
-        return SymtabUtils.resolve(this, ValkyrieLanguage, element, "/script/function/ID");
-    }
+
 }
 

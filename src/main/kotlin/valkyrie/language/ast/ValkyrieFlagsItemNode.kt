@@ -2,8 +2,6 @@ package valkyrie.language.ast
 
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.tree.IElementType
 import org.antlr.intellij.adaptor.psi.IdentifierDefSubtree
 import valkyrie.ide.view.IdentifierPresentation
@@ -33,7 +31,5 @@ class ValkyrieFlagsItemNode(node: ASTNode, type: IElementType) : IdentifierDefSu
     }
 
 
-    override fun resolve(element: PsiNamedElement?): PsiElement? {
-        TODO("Not yet implemented")
-    }
+
 }

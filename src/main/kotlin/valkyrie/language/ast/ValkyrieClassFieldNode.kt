@@ -34,17 +34,11 @@ class ValkyrieClassFieldNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNam
         return ValkyrieIconProvider.Instance.Field
     }
 
-    override fun getContext(): ScopeNode? {
-        return parentScope
+    override fun getContext(): PsiElement? {
+        return super.getContext()
     }
-
-
     override fun getPresentation(): ItemPresentation {
         return IdentifierPresentation(field, this.getIcon(0))
-    }
-
-    override fun resolve(element: PsiNamedElement?): PsiElement? {
-        TODO("Not yet implemented")
     }
 }
 
