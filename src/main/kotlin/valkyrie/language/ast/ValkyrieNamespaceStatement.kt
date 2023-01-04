@@ -1,13 +1,15 @@
 package valkyrie.language.ast
 
 import com.intellij.lang.ASTNode
+import com.intellij.psi.PsiNameIdentifierOwner
+import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.tree.IElementType
 import org.antlr.intellij.adaptor.psi.IdentifierDefSubtree
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
-class ValkyrieNamespaceStatement(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ValkyrieScopeNode {
+class ValkyrieNamespaceStatement(node: CompositeElement, type: IElementType) : ValkyrieScopeNode(node), PsiNameIdentifierOwner {
     val namepath by lazy { ValkyrieNamepathNode.find(this)!! }
 
     override fun getName(): String {

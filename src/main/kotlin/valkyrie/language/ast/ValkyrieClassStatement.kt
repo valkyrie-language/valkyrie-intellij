@@ -1,20 +1,17 @@
 package valkyrie.language.ast
 
-import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
-import org.antlr.intellij.adaptor.psi.ScopeNode
 import valkyrie.ide.view.IdentifierPresentation
-import valkyrie.language.antlr.parentScope
 import valkyrie.language.antlr.recursiveSearch
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
-class ValkyrieClassStatement(node: CompositeElement) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ValkyrieScopeNode {
+class ValkyrieClassStatement(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner {
     private val _identifier by lazy { ValkyrieIdentifierNode.find(this)!! }
     val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
     override fun getName(): String {
@@ -35,10 +32,6 @@ class ValkyrieClassStatement(node: CompositeElement) : ASTWrapperPsiElement(node
 
     override fun getContainingFile(): ValkyrieFileNode {
         return super.getContainingFile() as ValkyrieFileNode
-    }
-
-    override fun getContext(): ScopeNode? {
-        return parentScope
     }
 
     override fun getPresentation(): ItemPresentation {

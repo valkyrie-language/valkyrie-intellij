@@ -1,16 +1,10 @@
 package valkyrie.language.ast
 
-import com.intellij.extapi.psi.ASTWrapperPsiElement
-import com.intellij.lang.ASTNode
-import org.antlr.intellij.adaptor.psi.ScopeNode
-import valkyrie.language.antlr.parentScope
+import com.intellij.psi.impl.source.tree.CompositeElement
 import valkyrie.language.psi.ValkyrieScopeNode
 
-class ValkyrieLetStatement(node: ASTNode) : ASTWrapperPsiElement(node), ValkyrieScopeNode {
+class ValkyrieLetStatement(node: CompositeElement) : ValkyrieScopeNode(node) {
 
-    override fun getContext(): ScopeNode? {
-        return parentScope
-    }
 
 
 }

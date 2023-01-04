@@ -1,19 +1,24 @@
 package valkyrie.language.ast
 
-import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiNameIdentifierOwner
+import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.tree.IElementType
-import org.antlr.intellij.adaptor.psi.IdentifierDefSubtree
 import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
-class ValkyrieTraitStatement(node: ASTNode, type: IElementType) : IdentifierDefSubtree(node, type), ValkyrieScopeNode {
+class ValkyrieTraitStatement(node: CompositeElement, type: IElementType) : ValkyrieScopeNode(node), PsiNameIdentifierOwner {
     private val _identifier by lazy { ValkyrieIdentifierNode.find(this)!! }
 
     override fun getName(): String {
         return _identifier.text
+    }
+
+    override fun setName(name: String): PsiElement {
+        TODO("Not yet implemented")
     }
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode {

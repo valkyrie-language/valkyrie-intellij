@@ -1,20 +1,16 @@
 package valkyrie.language.ast
 
-import com.intellij.extapi.psi.ASTWrapperPsiElement
-import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import com.intellij.psi.PsiNamedElement
-import org.antlr.intellij.adaptor.psi.ScopeNode
+import com.intellij.psi.impl.source.tree.CompositeElement
 import valkyrie.ide.view.IdentifierPresentation
-import valkyrie.language.antlr.parentScope
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
 
-class ValkyrieClassFieldNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ValkyrieScopeNode {
+class ValkyrieClassFieldNode(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner {
     val field by lazy { ValkyrieModifiedNode.findIdentifier(this)!! }
     val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
 
@@ -34,9 +30,7 @@ class ValkyrieClassFieldNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNam
         return ValkyrieIconProvider.Instance.Field
     }
 
-    override fun getContext(): PsiElement? {
-        return super.getContext()
-    }
+
     override fun getPresentation(): ItemPresentation {
         return IdentifierPresentation(field, this.getIcon(0))
     }
