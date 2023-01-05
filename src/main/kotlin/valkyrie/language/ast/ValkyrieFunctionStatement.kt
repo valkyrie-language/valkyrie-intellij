@@ -15,18 +15,17 @@ class ValkyrieFunctionStatement(node: CompositeElement, type: IElementType) : Va
     override fun getName(): String {
         return namepath.nameIdentifier.name
     }
+
     fun getNameIdentifier(): ValkyrieIdentifierNode {
         return namepath.nameIdentifier
     }
 
-    override fun getIcon(flags: Int): Icon {
+    override fun getBaseIcon(): Icon {
         return ValkyrieIconProvider.Instance.Function
     }
 
     override fun getPresentation(): ItemPresentation {
         return IdentifierPresentation(namepath.nameIdentifier, this.getIcon(0))
     }
-
-
 }
 

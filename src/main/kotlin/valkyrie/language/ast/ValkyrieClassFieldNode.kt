@@ -26,8 +26,8 @@ class ValkyrieClassFieldNode(node: CompositeElement) : ValkyrieScopeNode(node), 
         return field
     }
 
-    override fun getIcon(flags: Int): Icon {
-        return ValkyrieIconProvider.Instance.Field
+    override fun getBaseIcon(): Icon {
+       return ValkyrieIconProvider.Instance.Field
     }
 
 

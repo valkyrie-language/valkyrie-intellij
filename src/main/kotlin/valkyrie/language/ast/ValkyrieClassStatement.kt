@@ -26,7 +26,7 @@ class ValkyrieClassStatement(node: CompositeElement) : ValkyrieScopeNode(node), 
         return _identifier;
     }
 
-    override fun getIcon(flags: Int): Icon {
+    override fun getBaseIcon(): Icon {
         return ValkyrieIconProvider.Instance.CLASS
     }
 

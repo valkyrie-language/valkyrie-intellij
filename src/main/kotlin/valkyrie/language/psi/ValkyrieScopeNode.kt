@@ -1,8 +1,10 @@
 package valkyrie.language.psi
 
 import com.intellij.extapi.psi.ASTWrapperPsiElement
+import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.util.parents
+import javax.swing.Icon
 
 /**
  * This interface acts as a tag so that we can identify nodes in
@@ -24,4 +26,11 @@ abstract class ValkyrieScopeNode(node: CompositeElement) : ASTWrapperPsiElement(
         }
         return null;
     }
+
+    abstract override fun getBaseIcon(): Icon;
+    override fun getIcon(flags: Int): Icon {
+        return baseIcon
+    }
+
+    abstract override fun getPresentation(): ItemPresentation;
 }

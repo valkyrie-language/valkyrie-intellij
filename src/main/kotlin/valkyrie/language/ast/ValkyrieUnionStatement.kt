@@ -1,18 +1,15 @@
 package valkyrie.language.ast
 
-import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
-import org.antlr.intellij.adaptor.psi.ScopeNode
 import valkyrie.ide.view.IdentifierPresentation
-import valkyrie.language.antlr.parentScope
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
-class ValkyrieUnionStatement(node: CompositeElement) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ValkyrieScopeNode {
+class ValkyrieUnionStatement(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner {
     private val _identifier by lazy { ValkyrieIdentifierNode.find(this)!! }
 
     override fun getName(): String {
@@ -27,7 +24,7 @@ class ValkyrieUnionStatement(node: CompositeElement) : ASTWrapperPsiElement(node
         return _identifier
     }
 
-    override fun getIcon(flags: Int): Icon {
+    override fun getBaseIcon(): Icon {
         return ValkyrieIconProvider.Instance.UNION
     }
 
@@ -35,10 +32,6 @@ class ValkyrieUnionStatement(node: CompositeElement) : ASTWrapperPsiElement(node
         return IdentifierPresentation(_identifier, this.getIcon(0))
     }
 
-
-    override fun getContext(): ScopeNode? {
-        return parentScope
-    }
 
 
 }

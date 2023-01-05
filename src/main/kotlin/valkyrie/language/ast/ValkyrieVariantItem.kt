@@ -23,7 +23,7 @@ class ValkyrieVariantItem(node: CompositeElement) : ValkyrieScopeNode(node), Psi
         return _identifier
     }
 
-    override fun getIcon(flags: Int): Icon {
+    override fun getBaseIcon(): Icon {
         return ValkyrieIconProvider.Instance.VARIANT
     }
 

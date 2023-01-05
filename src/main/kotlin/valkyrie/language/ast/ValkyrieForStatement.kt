@@ -13,10 +13,10 @@ import javax.swing.Icon
 
 class ValkyrieForStatement(node: CompositeElement) : ValkyrieScopeNode(node) {
     val parameters by lazy { findParameters() };
-    override fun getIcon(flags: Int): Icon {
+
+    override fun getBaseIcon(): Icon {
         return ValkyrieIconProvider.Instance.Operator
     }
-
     override fun getPresentation(): ItemPresentation {
         return PresentationData("for", null, getIcon(0), null)
     }

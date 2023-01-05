@@ -21,9 +21,11 @@ class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node),
         TODO("Not yet implemented")
     }
 
-    override fun getIcon(flags: Int): Icon {
+
+    override fun getBaseIcon(): Icon {
         return ValkyrieIconProvider.Instance.Method
     }
+
 
     override fun getPresentation(): ItemPresentation {
         return IdentifierPresentation(method, this.getIcon(0))
