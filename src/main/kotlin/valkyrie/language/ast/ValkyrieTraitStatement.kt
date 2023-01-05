@@ -30,7 +30,7 @@ class ValkyrieTraitStatement(node: CompositeElement, type: IElementType) : Valky
     }
 
     override fun getPresentation(): ItemPresentation {
-        return IdentifierPresentation(_identifier, this.getIcon(0))
+        return IdentifierPresentation(_identifier, this.baseIcon)
     }
 
 

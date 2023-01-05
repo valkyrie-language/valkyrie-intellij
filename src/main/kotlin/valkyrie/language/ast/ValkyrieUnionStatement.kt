@@ -29,7 +29,7 @@ class ValkyrieUnionStatement(node: CompositeElement) : ValkyrieScopeNode(node), 
     }
 
     override fun getPresentation(): ItemPresentation {
-        return IdentifierPresentation(_identifier, this.getIcon(0))
+        return IdentifierPresentation(_identifier, this.baseIcon)
     }
 
 

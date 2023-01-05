@@ -13,10 +13,11 @@ class TestClass {
         block
     }
 
-    display(n) {               }
+    get display() {               }
+    set a() {}
 }
 
-extends TestClass{
+extends TestClass {
 
 }
 

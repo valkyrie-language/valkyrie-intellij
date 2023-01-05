@@ -8,7 +8,7 @@ import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
 import valkyrie.language.ast.ValkyrieClassFieldNode
 import valkyrie.language.ast.ValkyrieClassMethodNode
-import valkyrie.language.file.ValkyrieIconProvider
+
 //import valkyrie.language.psi_node.ValkyrieClassFieldNode
 //import valkyrie.language.psi_node.ValkyrieClassMethodNode
 
@@ -19,7 +19,7 @@ class ValkyrieClassElementMark : LineMarkerProvider {
             return RelatedItemLineMarkerInfo(
                 element.nameIdentifier.firstChild,
                 element.nameIdentifier.textRange,
-                ValkyrieIconProvider.Instance.Function,
+                element.baseIcon,
                 null,
                 null,
                 GutterIconRenderer.Alignment.RIGHT // 上
@@ -29,7 +29,7 @@ class ValkyrieClassElementMark : LineMarkerProvider {
             return RelatedItemLineMarkerInfo(
                 element.nameIdentifier.firstChild,
                 element.nameIdentifier.textRange,
-                ValkyrieIconProvider.Instance.Field,
+                element.baseIcon,
                 null,
                 null,
                 GutterIconRenderer.Alignment.RIGHT // 下

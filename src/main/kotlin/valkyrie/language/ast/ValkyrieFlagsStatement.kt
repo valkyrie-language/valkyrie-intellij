@@ -30,7 +30,7 @@ class ValkyrieFlagsStatement(node: CompositeElement, type: IElementType) : Valky
     }
 
     override fun getPresentation(): ItemPresentation {
-        return NamepathPresentation(_identifier, this.getIcon(0))
+        return NamepathPresentation(_identifier, this.baseIcon)
     }
 
 

@@ -31,7 +31,7 @@ class ValkyrieFlagsItemNode(node: CompositeElement, type: IElementType) : Valkyr
     }
 
     override fun getPresentation(): ItemPresentation {
-        return IdentifierPresentation(_identifier, this.getIcon(0))
+        return IdentifierPresentation(_identifier, this.baseIcon)
     }
 
 

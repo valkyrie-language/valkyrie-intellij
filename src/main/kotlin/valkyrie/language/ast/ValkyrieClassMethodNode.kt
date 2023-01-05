@@ -1,5 +1,6 @@
 package valkyrie.language.ast
 
+import com.intellij.icons.AllIcons
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
@@ -23,12 +24,17 @@ class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node),
 
 
     override fun getBaseIcon(): Icon {
+        for (m in modifiers) {
+            if (m.name == "get" || m.name == "set") {
+                return AllIcons.Nodes.Property
+            }
+        }
         return ValkyrieIconProvider.Instance.Method
     }
 
 
     override fun getPresentation(): ItemPresentation {
-        return IdentifierPresentation(method, this.getIcon(0))
+        return IdentifierPresentation(method, this.baseIcon)
     }
 
     override fun getNameIdentifier(): PsiElement {

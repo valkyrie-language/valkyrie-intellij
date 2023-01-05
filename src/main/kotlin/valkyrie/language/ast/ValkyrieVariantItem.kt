@@ -28,6 +28,6 @@ class ValkyrieVariantItem(node: CompositeElement) : ValkyrieScopeNode(node), Psi
     }
 
     override fun getPresentation(): ItemPresentation {
-        return IdentifierPresentation(_identifier, this.getIcon(0))
+        return IdentifierPresentation(_identifier, this.baseIcon)
     }
 }

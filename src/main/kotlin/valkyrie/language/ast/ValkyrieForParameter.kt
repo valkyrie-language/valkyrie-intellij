@@ -1,13 +1,13 @@
 package valkyrie.language.ast
 
 import com.intellij.extapi.psi.ASTWrapperPsiElement
+import com.intellij.icons.AllIcons
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.ide.view.IdentifierPresentation
-import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
 class ValkyrieForParameter(node: CompositeElement) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner {
@@ -27,7 +27,7 @@ class ValkyrieForParameter(node: CompositeElement) : ASTWrapperPsiElement(node),
     }
 
     override fun getIcon(flags: Int): Icon {
-        return ValkyrieIconProvider.Instance.Field;
+        return AllIcons.Nodes.Parameter
     }
 
     override fun getPresentation(): ItemPresentation {

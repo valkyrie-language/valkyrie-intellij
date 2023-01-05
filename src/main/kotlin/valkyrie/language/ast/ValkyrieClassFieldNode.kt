@@ -25,11 +25,16 @@ class ValkyrieClassFieldNode(node: CompositeElement) : ValkyrieScopeNode(node), 
     override fun getNameIdentifier(): ValkyrieIdentifierNode {
         return field
     }
-
-    override fun getBaseIcon(): Icon {
+    override fun isVisibilitySupported(): Boolean {
+        return true;
+    }
+    public override fun getBaseIcon(): Icon {
        return ValkyrieIconProvider.Instance.Field
     }
 
+    override fun getIcon(flags: Int): Icon {
+        return ValkyrieIconProvider.Instance.Field
+    }
 
     override fun getPresentation(): ItemPresentation {
         return IdentifierPresentation(field, this.getIcon(0))

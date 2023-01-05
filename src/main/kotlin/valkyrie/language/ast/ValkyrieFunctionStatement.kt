@@ -25,7 +25,7 @@ class ValkyrieFunctionStatement(node: CompositeElement, type: IElementType) : Va
     }
 
     override fun getPresentation(): ItemPresentation {
-        return IdentifierPresentation(namepath.nameIdentifier, this.getIcon(0))
+        return IdentifierPresentation(namepath.nameIdentifier, this.baseIcon)
     }
 }
 

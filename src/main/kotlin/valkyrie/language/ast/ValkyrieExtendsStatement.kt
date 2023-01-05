@@ -1,9 +1,9 @@
 package valkyrie.language.ast
 
+import com.intellij.icons.AllIcons
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.impl.source.tree.CompositeElement
 import valkyrie.ide.view.NamepathPresentation
-import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
@@ -15,14 +15,10 @@ class ValkyrieExtendsStatement(node: CompositeElement) : ValkyrieScopeNode(node)
     }
 
     override fun getBaseIcon(): Icon {
-        return ValkyrieIconProvider.Instance.TRAIT
+        return AllIcons.Nodes.Enum
     }
 
     override fun getPresentation(): ItemPresentation {
-        return NamepathPresentation(_identifier, getIcon(0))
+        return NamepathPresentation(_identifier, this.baseIcon)
     }
-
-
-
-
 }

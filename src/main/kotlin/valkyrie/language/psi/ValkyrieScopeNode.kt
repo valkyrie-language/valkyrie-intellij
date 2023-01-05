@@ -1,9 +1,15 @@
+@file:Suppress("UnstableApiUsage")
+
 package valkyrie.language.psi
 
 import com.intellij.extapi.psi.ASTWrapperPsiElement
+import com.intellij.model.psi.PsiSymbolDeclaration
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.impl.source.tree.CompositeElement
+import com.intellij.psi.impl.source.tree.SharedImplUtil
 import com.intellij.psi.util.parents
+import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.file.ValkyrieFileNode
 import javax.swing.Icon
 
 /**
@@ -18,6 +24,10 @@ import javax.swing.Icon
  * implements ScopeNode.
  */
 abstract class ValkyrieScopeNode(node: CompositeElement) : ASTWrapperPsiElement(node) {
+    override fun getContainingFile(): ValkyrieFileNode {
+        return SharedImplUtil.getContainingFile(node) as ValkyrieFileNode
+    }
+
     override fun getContext(): ValkyrieScopeNode? {
         for (parent in this.parents(false)) {
             if (parent is ValkyrieScopeNode) {
@@ -27,10 +37,14 @@ abstract class ValkyrieScopeNode(node: CompositeElement) : ASTWrapperPsiElement(
         return null;
     }
 
-    abstract override fun getBaseIcon(): Icon;
-    override fun getIcon(flags: Int): Icon {
-        return baseIcon
+    override fun getLanguage(): ValkyrieLanguage {
+        return ValkyrieLanguage
     }
+
+    override fun getOwnDeclarations(): MutableCollection<out PsiSymbolDeclaration> {
+        return mutableSetOf()
+    }
+    public abstract override fun getBaseIcon(): Icon;
 
     abstract override fun getPresentation(): ItemPresentation;
 }
