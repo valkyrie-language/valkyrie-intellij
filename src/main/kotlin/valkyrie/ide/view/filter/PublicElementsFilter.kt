@@ -11,11 +11,11 @@ import valkyrie.ide.view.ValkyrieVisibility
 import valkyrie.language.ValkyrieBundle
 
 
-object PublicElementsFilter : Filter {
+class PublicElementsFilter : Filter {
 
     override fun getName() = "view.PublicElementsFilter"
 
-    override fun isReverted() = true
+    override fun isReverted() = false
     override fun getPresentation(): ActionPresentation = ActionPresentationData(
         ValkyrieBundle.message(name),
         null,

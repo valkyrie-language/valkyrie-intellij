@@ -10,7 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.ide.view.IdentifierPresentation
 import javax.swing.Icon
 
-class ValkyrieForParameter(node: CompositeElement) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner {
+class ValkyrieLetParameter(node: CompositeElement) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner {
     private val _identifier by lazy { findIdentifier() }
     val modifiers by lazy { findModifiers() };
     val mutable by lazy { isMutable() };

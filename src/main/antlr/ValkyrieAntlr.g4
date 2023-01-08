@@ -53,7 +53,7 @@ class_method
 // ===========================================================================
 define_trait: KW_TRAIT identifier class_block;
 // ===========================================================================
-define_extends: KW_EXTENDS namepath (COLON type_expression) class_block;
+define_extends: KW_EXTENDS namepath (COLON type_expression)? class_block;
 // ===========================================================================
 define_union:       KW_UNION identifier union_block;
 union_block:        BRACE_L union_statements* BRACE_R;
@@ -75,8 +75,8 @@ define_function
     : macro_call* modifiers KW_FUNCTION namepath function_parameters type_hint? effect_hint? function_block
     ;
 function_parameters
-    : PARENTHESES_L parameter_item (COMMA parameter_item)* PARENTHESES_R
-    | PARENTHESES_L PARENTHESES_R
+    : PARENTHESES_L PARENTHESES_R
+    | PARENTHESES_L parameter_item (COMMA parameter_item)* PARENTHESES_R
     ;
 parameter_item:    macro_call* modified_identifier type_hint? parameter_default?;
 parameter_default: OP_ASSIGN expression;
@@ -96,22 +96,31 @@ lambda_call: OP_THROW? function_block;
 // ===========================================================================
 function_block: BRACE_L function_statements* BRACE_R;
 // ===========================================================================
-define_variale: KW_LET identifier OP_ASSIGN expression;
+define_variale: KW_LET define_variale_lhs type_hint? (OP_ASSIGN expression)?;
+define_variale_lhs
+    : PARENTHESES_L PARENTHESES_R
+    | PARENTHESES_L let_parameter (COMMA let_parameter)* COMMA? PARENTHESES_R
+    | BRACKET_L BRACKET_R
+    | BRACKET_L let_parameter (COMMA let_parameter)* COMMA? BRACKET_R
+    | let_parameter
+    | KW_CASE? case_tuple
+    ;
+let_parameter: identifier+;
 // ===========================================================================
 if_statement:      KW_IF inline_expression function_block else_if_statement* else_statement?;
 else_if_statement: KW_ELSE KW_IF inline_expression function_block;
 else_statement:    KW_ELSE function_block;
 // ===========================================================================
-while_statement: KW_WHILE inline_expression function_block;
+while_statement: macro_call* KW_WHILE inline_expression function_block;
 // ===========================================================================
-for_statement: KW_FOR for_pattern infix_in inline_expression if_guard? function_block;
+for_statement: macro_call* KW_FOR for_pattern infix_in inline_expression if_guard? function_block;
 for_pattern
-    : case_tuple
-    | for_parameter (COMMA for_parameter)* COMMA?
-    | PARENTHESES_L for_parameter (COMMA for_parameter)* COMMA? PARENTHESES_R
+    : KW_CASE? case_tuple
+    | let_parameter (COMMA let_parameter)* COMMA?
+    | PARENTHESES_L let_parameter (COMMA let_parameter)* COMMA? PARENTHESES_R
     ;
-for_parameter: identifier+;
-if_guard:      KW_IF inline_expression;
+
+if_guard: KW_IF inline_expression;
 // ===========================================================================
 expression
     : expression suffix_call
@@ -172,8 +181,8 @@ term
     | string_literal
     | number_literal
     | namepath
-    | '(' expression ')'
-    | '[' expression ']'
+    | PARENTHESES_L expression PARENTHESES_R
+    | BRACKET_L expression BRACKET_R
     | SPECIAL
     ;
 
@@ -185,9 +194,12 @@ op_logic:    LOGIC_OR | LOGIC_AND;
 infix_is:    KW_IS | KW_IS KW_NOT;
 infix_in:    KW_IN | OP_IN;
 // ===========================================================================
-define_generic:       OP_PROPORTION? OP_LT identifier OP_GT | GENERIC_L identifier GENERIC_R;
-generic_call:         OP_PROPORTION OP_LT identifier OP_GT | GENERIC_L identifier GENERIC_R;
-generic_call_in_type: OP_PROPORTION? OP_LT identifier OP_GT | GENERIC_L identifier GENERIC_R;
+define_generic: OP_PROPORTION? OP_LT identifier OP_GT | GENERIC_L identifier GENERIC_R;
+generic_call:   OP_PROPORTION OP_LT type_expression OP_GT | GENERIC_L type_expression GENERIC_R;
+generic_call_in_type
+    : OP_PROPORTION? OP_LT type_expression OP_GT
+    | GENERIC_L type_expression GENERIC_R
+    ;
 // ===========================================================================
 slice_call:  BRACKET_L expression BRACKET_R;
 offset_call: OP_PROPORTION BRACKET_L expression BRACKET_R | OFFSET_L expression OFFSET_R;
@@ -204,11 +216,16 @@ match_call:      OP_THROW? DOT KW_MATCH type_expression match_block;
 catch_call:      OP_THROW? DOT KW_CATCH type_expression match_block;
 match_block:     BRACE_L match_statement* BRACE_R;
 match_statement: when_block | else_pattern | case_pattern | eos_free;
-with_block:      macro_call* KW_WITH identifier | KW_WITH '[' identifier? ']';
+with_block:      macro_call* KW_WITH identifier | KW_WITH BRACKET_L identifier? BRACKET_R;
 when_block:      macro_call* KW_WHEN inline_expression COLON expression*;
 else_pattern:    macro_call* KW_ELSE COLON expression*;
-case_pattern:    macro_call* case_tuple if_guard? COLON expression*;
-case_tuple:      KW_CASE identifier '(' identifier? ')';
+// ===========================================================================
+case_pattern: macro_call* KW_CASE case_tuple if_guard? COLON expression*;
+case_tuple
+    : namepath PARENTHESES_L PARENTHESES_R
+    | namepath PARENTHESES_L case_term (COMMA case_term)* COMMA? PARENTHESES_R
+    ;
+case_term: case_tuple | identifier;
 // ===========================================================================
 new_call: macro_call* KW_NEW modified_namepath generic_call_in_type? new_body;
 new_body

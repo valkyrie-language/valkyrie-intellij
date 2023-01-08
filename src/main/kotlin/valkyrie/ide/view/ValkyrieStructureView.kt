@@ -39,7 +39,7 @@ class ValkyrieStructureView : PsiStructureViewFactory {
         }
 
         override fun getSorters() = arrayOf(Sorter.ALPHA_SORTER)
-        override fun getFilters() = arrayOf(PublicElementsFilter, MainInfoFilter)
+        override fun getFilters() = arrayOf(PublicElementsFilter(), MainInfoFilter())
         override fun getGroupers() = arrayOf(PropertiesGrouper)
         override fun isAlwaysLeaf(element: StructureViewTreeElement): Boolean {
             // 是否是叶节点

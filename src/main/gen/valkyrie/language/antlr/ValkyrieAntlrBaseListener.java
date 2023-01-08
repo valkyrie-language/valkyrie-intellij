@@ -509,6 +509,30 @@ public class ValkyrieAntlrBaseListener implements ValkyrieAntlrListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDefine_variale_lhs(ValkyrieAntlrParser.Define_variale_lhsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDefine_variale_lhs(ValkyrieAntlrParser.Define_variale_lhsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLet_parameter(ValkyrieAntlrParser.Let_parameterContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLet_parameter(ValkyrieAntlrParser.Let_parameterContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterIf_statement(ValkyrieAntlrParser.If_statementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -576,18 +600,6 @@ public class ValkyrieAntlrBaseListener implements ValkyrieAntlrListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFor_pattern(ValkyrieAntlrParser.For_patternContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterFor_parameter(ValkyrieAntlrParser.For_parameterContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFor_parameter(ValkyrieAntlrParser.For_parameterContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -996,6 +1008,18 @@ public class ValkyrieAntlrBaseListener implements ValkyrieAntlrListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCase_tuple(ValkyrieAntlrParser.Case_tupleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCase_term(ValkyrieAntlrParser.Case_termContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCase_term(ValkyrieAntlrParser.Case_termContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

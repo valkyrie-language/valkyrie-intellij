@@ -1,11 +1,11 @@
 package valkyrie.language.ast
 
 import com.intellij.extapi.psi.ASTWrapperPsiElement
+import com.intellij.icons.AllIcons
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.tree.IElementType
-import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
 class ValkyrieNamespaceStatement(node: CompositeElement, type: IElementType) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner {
@@ -29,9 +29,13 @@ class ValkyrieNamespaceStatement(node: CompositeElement, type: IElementType) : A
         return namepath.nameIdentifier
     }
 
-    override fun getIcon(flags: Int): Icon {
-        return ValkyrieIconProvider.Instance.TRAIT
+    override fun getBaseIcon(): Icon {
+        return AllIcons.Nodes.Module
     }
+
+//    override fun getPresentation(): ItemPresentation {
+//        return PresentationData(namepath.namespace, null, baseIcon, null)
+//    }
 
 //    override fun resolve(element: PsiNamedElement?): PsiElement? {
 //        return SymtabUtils.resolve(this, ValkyrieLanguage, element, "/script/trait/ID");

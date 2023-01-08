@@ -9,33 +9,33 @@ import com.intellij.psi.PsiElement
 import javax.swing.Icon
 
 class ValkyrieStructureItem : StructureViewTreeElement, SortableTreeElement {
-    private val self: NavigatablePsiElement
+    val node: NavigatablePsiElement
     val view: ItemPresentation;
     var visibility: ValkyrieVisibility = ValkyrieVisibility.Public
 
     constructor(self: NavigatablePsiElement) {
-        this.self = self
+        this.node = self
         this.view = self.presentation!!
     }
 
     constructor(self: NavigatablePsiElement, name: String, icon: Icon) {
-        this.self = self
+        this.node = self
         this.view = PresentationData(name, "", icon, null)
     }
 
-    override fun getValue(): Any = self
+    override fun getValue(): Any = node
 
-    override fun navigate(requestFocus: Boolean) = self.navigate(requestFocus)
+    override fun navigate(requestFocus: Boolean) = node.navigate(requestFocus)
 
-    override fun canNavigate(): Boolean = self.canNavigate()
+    override fun canNavigate(): Boolean = node.canNavigate()
 
-    override fun canNavigateToSource(): Boolean = self.canNavigateToSource()
+    override fun canNavigateToSource(): Boolean = node.canNavigateToSource()
 
-    override fun getAlphaSortKey(): String = self.name ?: ""
+    override fun getAlphaSortKey(): String = node.name ?: ""
 
     override fun getPresentation(): ItemPresentation = view
 
-    override fun getChildren(): Array<out ValkyrieStructureItem> = findChildrenView(self)
+    override fun getChildren(): Array<out ValkyrieStructureItem> = findChildrenView(node)
 
     companion object {
         fun findChildrenView(root: PsiElement): Array<ValkyrieStructureItem> {

@@ -5,8 +5,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.tree.IElementType
-import org.antlr.intellij.adaptor.psi.ScopeNode
-import valkyrie.language.antlr.parentScope
+
 
 class ValkyrieFunctionParameter(node: ASTNode, type: IElementType) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner {
     val parameter by lazy { ValkyrieModifiedNode.findIdentifier(this)!! }
@@ -24,9 +23,6 @@ class ValkyrieFunctionParameter(node: ASTNode, type: IElementType) : ASTWrapperP
         return this.parameter
     }
 
-    override fun getContext(): ScopeNode? {
-        return parentScope
-    }
 }
 
 

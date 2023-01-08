@@ -6,3 +6,11 @@ while aa > 0 {
 while (bb!=0) {
 
 }
+
+while true {
+    while false {
+        while null {
+
+        }
+    }
+}

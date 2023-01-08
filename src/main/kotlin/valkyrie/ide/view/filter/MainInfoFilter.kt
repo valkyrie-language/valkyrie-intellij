@@ -7,15 +7,14 @@ import com.intellij.ide.util.treeView.smartTree.ActionPresentationData
 import com.intellij.ide.util.treeView.smartTree.Filter
 import com.intellij.ide.util.treeView.smartTree.TreeElement
 import valkyrie.ide.view.ValkyrieStructureItem
-import valkyrie.ide.view.ValkyrieVisibility
 import valkyrie.language.ValkyrieBundle
+import valkyrie.language.ast.*
 
 
-object MainInfoFilter : Filter {
-
+class MainInfoFilter : Filter {
     override fun getName() = "view.MainInfoFilter"
 
-    override fun isReverted() = true
+    override fun isReverted() = false
     override fun getPresentation(): ActionPresentation = ActionPresentationData(
         ValkyrieBundle.message(this.name),
         null,
@@ -23,6 +22,20 @@ object MainInfoFilter : Filter {
     )
 
     override fun isVisible(node: TreeElement): Boolean {
-        return (node as? ValkyrieStructureItem)?.visibility == ValkyrieVisibility.Public
+        if (node is ValkyrieStructureItem) {
+            when (node.node) {
+                // class
+                is ValkyrieClassStatement -> return true
+                is ValkyrieClassFieldNode -> return true
+                is ValkyrieClassMethodNode -> return true
+                // union
+                is ValkyrieUnionStatement -> return true
+                is ValkyrieVariantItem -> return true
+                // trait
+                is ValkyrieTraitStatement -> return true
+                is ValkyrieExtendsStatement -> return true
+            }
+        }
+        return false;
     }
 }

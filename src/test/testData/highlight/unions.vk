@@ -13,7 +13,7 @@ union Test2{
     }
 
     nice(){
-        field
+        let field = 2;
     }
 
     display() {}

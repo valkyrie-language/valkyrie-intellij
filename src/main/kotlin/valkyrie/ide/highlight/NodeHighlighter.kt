@@ -1,6 +1,7 @@
 package valkyrie.ide.highlight
 
 
+//import valkyrie.language.psi_node.ValkyrieIdentifierNode
 import ai.grazie.utils.isUppercase
 import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType
@@ -8,11 +9,9 @@ import com.intellij.codeInsight.daemon.impl.HighlightVisitor
 import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.language.ast.*
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.psi.ValkyrieVisitor
-//import valkyrie.language.psi_node.ValkyrieIdentifierNode
 import valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 
 class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
@@ -63,6 +62,10 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         }
     }
 
+    override fun visitVariableDeclaration(o: ValkyrieLetStatement) {
+        super.visitVariableDeclaration(o)
+    }
+
     override fun visitFunctionItem(o: ValkyrieFunctionParameter) {
         highlight(o.nameIdentifier, Color.SYM_ARG)
         for (mod in o.modifiers) {
@@ -70,7 +73,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         }
     }
 
-    override fun visitForParameter(o: ValkyrieForParameter) {
+    override fun visitForParameter(o: ValkyrieLetParameter) {
         if (o.mutable) {
             highlight(o.nameIdentifier, Color.SYM_LOCAL_MUT)
         } else {
@@ -82,9 +85,14 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitNewObject(o: ValkyrieNewStatement) {
+        highlight(o.identifier, Color.SYM_CLASS)
         for (mod in o.modifiers) {
             highlight(mod, Color.MODIFIER)
         }
+    }
+
+    override fun visitNamepath(o: ValkyrieNamepathNode) {
+        fakeTypeColor(o.nameIdentifier)
     }
 // =================================================================================================================
 
@@ -116,26 +124,24 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     override fun visit(element: PsiElement) = element.accept(this)
 }
 
-private fun NodeHighlighter.fakeTypeColor(psi: PsiElement) {
-    for (node in PsiTreeUtil.findChildrenOfType(psi, ValkyrieIdentifierNode::class.java)) {
-        val name = node.name
-        when {
-            name.isUppercase() -> highlight(node, Color.SYM_GENERIC)
-            name.first().isUpperCase() -> highlight(node, Color.SYM_CLASS)
-            keywords.contains(name) -> highlight(node, Color.KEYWORD)
-            traits.contains(name) -> highlight(node, Color.SYM_TRAIT)
-        }
+private fun NodeHighlighter.fakeTypeColor(psi: ValkyrieIdentifierNode) {
+    val name = psi.name
+    when {
+        variants.contains(name) -> highlight(psi, Color.SYM_VARIANT)
+        name.isUppercase() -> highlight(psi, Color.SYM_GENERIC)
+        name.first().isUpperCase() -> highlight(psi, Color.SYM_CLASS)
+        keywords.contains(name) -> highlight(psi, Color.KEYWORD)
+        traits.contains(name) -> highlight(psi, Color.SYM_TRAIT)
     }
 }
 
-private val forceKeywords = setOf("await", "async", "quote")
-
 private val keywords = setOf(
-    "u8", "u16", "u32", "u64",
+    "u8", "u16", "u32", "u64", "int",
     "i8", "i16", "i32", "i64",
     "f32", "f64",
     "bool", "char", "string",
-    "unit"
+    "unit",
+    "pass", "scope", "async", "await", "quote"
 )
 
 private val traits = setOf("Iterator")

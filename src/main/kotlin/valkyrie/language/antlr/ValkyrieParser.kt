@@ -54,10 +54,10 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_parameter_item -> ValkyrieFunctionParameter(node, type)
                 RULE_function_block -> ValkyrieBlockNode(node)
                 // variable
-                RULE_define_variale -> ValkyrieAssignStatement(node, type)
+                RULE_define_variale -> ValkyrieLetStatement(node)
+                RULE_let_parameter -> ValkyrieLetParameter(node)
                 // control
                 RULE_for_statement -> ValkyrieForStatement(node)
-                RULE_for_parameter -> ValkyrieForParameter(node)
                 RULE_while_statement -> ValkyrieWhileStatement(node)
                 // pattern match
                 RULE_match_call -> ValkyrieMatchBlockNode(node)

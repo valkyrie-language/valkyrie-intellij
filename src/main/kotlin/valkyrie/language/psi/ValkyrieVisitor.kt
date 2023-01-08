@@ -24,14 +24,15 @@ open class ValkyrieVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveVisitor {
             is ValkyrieTraitStatement -> visitTraitDeclaration(element)
             is ValkyrieFunctionStatement -> visitFunctionDeclaration(element)
             is ValkyrieFunctionParameter -> visitFunctionItem(element)
+            // let binding
+            is ValkyrieLetStatement -> visitVariableDeclaration(element)
+
             // for statement
             is ValkyrieForStatement -> visitForStatement(element)
-            is ValkyrieForParameter -> visitForParameter(element)
+            is ValkyrieLetParameter -> visitForParameter(element)
             //
             is ValkyrieNewStatement -> visitNewObject(element)
-
-
-
+            is ValkyrieNamepathNode -> visitNamepath(element)
             else -> {
                 visitOther(element)
             }
@@ -40,69 +41,76 @@ open class ValkyrieVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveVisitor {
     }
 
 
-
-    open fun visitProgram(o: ValkyrieProgramNode) {
-
-    }
-
-    open fun visitNamespace(o: ValkyrieNamespaceStatement) {
+    protected open fun visitProgram(o: ValkyrieProgramNode) {
 
     }
 
-    open fun visitClassDeclaration(o: ValkyrieClassStatement) {
+    protected open fun visitNamespace(o: ValkyrieNamespaceStatement) {
 
     }
 
-    open fun visitClassField(o: ValkyrieClassFieldNode) {
+    protected open fun visitClassDeclaration(o: ValkyrieClassStatement) {
 
     }
 
-    open fun visitClassMethod(o: ValkyrieClassMethodNode) {
+    protected open fun visitClassField(o: ValkyrieClassFieldNode) {
 
     }
 
-    open fun visitFlagsDeclaration(o: ValkyrieFlagsStatement) {
+    protected open fun visitClassMethod(o: ValkyrieClassMethodNode) {
 
     }
 
-    open fun visitFlagsField(o: ValkyrieFlagsItemNode) {
+    protected open fun visitFlagsDeclaration(o: ValkyrieFlagsStatement) {
 
     }
 
-    open fun visitUnionDeclaration(o: ValkyrieUnionStatement) {
+    protected open fun visitFlagsField(o: ValkyrieFlagsItemNode) {
 
     }
 
-    open fun visitVariantDeclaration(o: ValkyrieVariantItem) {
+    protected open fun visitUnionDeclaration(o: ValkyrieUnionStatement) {
 
     }
 
-
-    open fun visitTraitDeclaration(o: ValkyrieTraitStatement) {
-
-    }
-
-    open fun visitFunctionDeclaration(o: ValkyrieFunctionStatement) {
+    protected open fun visitVariantDeclaration(o: ValkyrieVariantItem) {
 
     }
 
 
-    open fun visitFunctionItem(o: ValkyrieFunctionParameter) {
-
-    }
-    open fun visitForParameter(o: ValkyrieForParameter) {
+    protected open fun visitTraitDeclaration(o: ValkyrieTraitStatement) {
 
     }
 
-    open fun visitForStatement(o: ValkyrieForStatement) {
+    protected open fun visitFunctionDeclaration(o: ValkyrieFunctionStatement) {
 
     }
 
-    open fun visitNewObject(o: ValkyrieNewStatement) {
+    protected open fun visitVariableDeclaration(o: ValkyrieLetStatement) {
 
     }
 
-    open fun visitOther(o: PsiElement) {
+    protected open fun visitFunctionItem(o: ValkyrieFunctionParameter) {
+
+    }
+
+    protected open fun visitForParameter(o: ValkyrieLetParameter) {
+
+    }
+
+    protected open fun visitForStatement(o: ValkyrieForStatement) {
+
+    }
+
+    protected open fun visitNewObject(o: ValkyrieNewStatement) {
+
+    }
+
+    protected open fun visitNamepath(o: ValkyrieNamepathNode) {
+
+    }
+
+    protected open fun visitOther(o: PsiElement) {
 
     }
 }

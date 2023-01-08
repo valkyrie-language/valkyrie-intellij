@@ -22,9 +22,9 @@ class ValkyrieForStatement(node: CompositeElement) : ValkyrieScopeNode(node) {
         return PresentationData("for", null, this.baseIcon, null)
     }
 
-    private fun findParameters(): @Unmodifiable MutableList<ValkyrieForParameter> {
+    private fun findParameters(): @Unmodifiable MutableList<ValkyrieLetParameter> {
         val pattern = ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_for_pattern);
-        return PsiTreeUtil.getChildrenOfTypeAsList(pattern, ValkyrieForParameter::class.java);
+        return PsiTreeUtil.getChildrenOfTypeAsList(pattern, ValkyrieLetParameter::class.java);
     }
 }
 

@@ -418,6 +418,26 @@ public interface ValkyrieAntlrListener extends ParseTreeListener {
 	 */
 	void exitDefine_variale(ValkyrieAntlrParser.Define_varialeContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#define_variale_lhs}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefine_variale_lhs(ValkyrieAntlrParser.Define_variale_lhsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#define_variale_lhs}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefine_variale_lhs(ValkyrieAntlrParser.Define_variale_lhsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#let_parameter}.
+	 * @param ctx the parse tree
+	 */
+	void enterLet_parameter(ValkyrieAntlrParser.Let_parameterContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#let_parameter}.
+	 * @param ctx the parse tree
+	 */
+	void exitLet_parameter(ValkyrieAntlrParser.Let_parameterContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#if_statement}.
 	 * @param ctx the parse tree
 	 */
@@ -477,16 +497,6 @@ public interface ValkyrieAntlrListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFor_pattern(ValkyrieAntlrParser.For_patternContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#for_parameter}.
-	 * @param ctx the parse tree
-	 */
-	void enterFor_parameter(ValkyrieAntlrParser.For_parameterContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#for_parameter}.
-	 * @param ctx the parse tree
-	 */
-	void exitFor_parameter(ValkyrieAntlrParser.For_parameterContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#if_guard}.
 	 * @param ctx the parse tree
@@ -833,6 +843,16 @@ public interface ValkyrieAntlrListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCase_tuple(ValkyrieAntlrParser.Case_tupleContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#case_term}.
+	 * @param ctx the parse tree
+	 */
+	void enterCase_term(ValkyrieAntlrParser.Case_termContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#case_term}.
+	 * @param ctx the parse tree
+	 */
+	void exitCase_term(ValkyrieAntlrParser.Case_termContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#new_call}.
 	 * @param ctx the parse tree

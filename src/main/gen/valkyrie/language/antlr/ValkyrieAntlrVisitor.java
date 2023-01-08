@@ -257,6 +257,18 @@ public interface ValkyrieAntlrVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDefine_variale(ValkyrieAntlrParser.Define_varialeContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#define_variale_lhs}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefine_variale_lhs(ValkyrieAntlrParser.Define_variale_lhsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#let_parameter}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLet_parameter(ValkyrieAntlrParser.Let_parameterContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#if_statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -292,12 +304,6 @@ public interface ValkyrieAntlrVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFor_pattern(ValkyrieAntlrParser.For_patternContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#for_parameter}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFor_parameter(ValkyrieAntlrParser.For_parameterContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#if_guard}.
 	 * @param ctx the parse tree
@@ -505,6 +511,12 @@ public interface ValkyrieAntlrVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitCase_tuple(ValkyrieAntlrParser.Case_tupleContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#case_term}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCase_term(ValkyrieAntlrParser.Case_termContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#new_call}.
 	 * @param ctx the parse tree

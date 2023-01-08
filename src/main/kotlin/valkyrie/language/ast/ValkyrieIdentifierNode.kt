@@ -6,7 +6,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.PsiReference
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.language.antlr.parentScope
 
 class ValkyrieIdentifierNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNamedElement {
     override fun getName(): String {
@@ -31,17 +30,7 @@ class ValkyrieIdentifierNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNam
      * as we have parent (context) information.
      */
     override fun getReference(): PsiReference? {
-        return when (val parent = parent.parentScope) {
-//            is ValkyrieTraitStatement -> {
-//                ValkyrieTraitReference(parent, this)
-//            }
-//            is ValkyrieClassStatement -> {
-//                ValkyrieClassReference(parent, this)
-//            }
-            else -> {
-                null;
-            }
-        }
+        return null;
     }
 
     companion object {

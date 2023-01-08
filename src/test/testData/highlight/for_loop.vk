@@ -2,6 +2,7 @@ for a in range(1, 9, 2) {
 
 }
 
+#parallel
 while true {
     #parallel
     for a, b in xrange(2, 2, start: 0) {
