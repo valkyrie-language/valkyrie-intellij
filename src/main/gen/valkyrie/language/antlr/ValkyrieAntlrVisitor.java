@@ -101,6 +101,24 @@ public interface ValkyrieAntlrVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDefine_trait(ValkyrieAntlrParser.Define_traitContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#trait_block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTrait_block(ValkyrieAntlrParser.Trait_blockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#trait_statements}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTrait_statements(ValkyrieAntlrParser.Trait_statementsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#define_trait_type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefine_trait_type(ValkyrieAntlrParser.Define_trait_typeContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#define_extends}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -166,24 +184,6 @@ public interface ValkyrieAntlrVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitBitflags_item(ValkyrieAntlrParser.Bitflags_itemContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#define_type}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDefine_type(ValkyrieAntlrParser.Define_typeContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#type_hint}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitType_hint(ValkyrieAntlrParser.Type_hintContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#effect_hint}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEffect_hint(ValkyrieAntlrParser.Effect_hintContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#define_function}.
 	 * @param ctx the parse tree
@@ -268,6 +268,24 @@ public interface ValkyrieAntlrVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLet_parameter(ValkyrieAntlrParser.Let_parameterContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#define_type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefine_type(ValkyrieAntlrParser.Define_typeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#type_hint}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitType_hint(ValkyrieAntlrParser.Type_hintContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#effect_hint}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEffect_hint(ValkyrieAntlrParser.Effect_hintContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#if_statement}.
 	 * @param ctx the parse tree

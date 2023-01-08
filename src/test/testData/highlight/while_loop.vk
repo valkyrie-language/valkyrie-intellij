@@ -1,16 +1,21 @@
-while aa > 0 {
-
-}
-
-
-while (bb!=0) {
-
-}
-
 while true {
     while false {
         while null {
 
         }
+    }
+}
+
+#parallel
+while true {
+    #parallel
+    for a, b in xrange(2, 2, start: 0) {
+
+    }
+}
+
+while (b!=0) {
+    while let Some(a) = expr {
+
     }
 }

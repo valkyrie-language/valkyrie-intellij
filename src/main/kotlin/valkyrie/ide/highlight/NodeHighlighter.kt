@@ -33,6 +33,9 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     override fun visitClassMethod(o: ValkyrieClassMethodNode) {
         highlight(o.nameIdentifier, Color.SYM_FUNCTION_SELF)
+        for (mod in o.modifiers) {
+            highlight(mod, Color.MODIFIER)
+        }
     }
 
     override fun visitFlagsDeclaration(o: ValkyrieFlagsStatement) {

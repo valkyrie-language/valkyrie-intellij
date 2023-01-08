@@ -12,13 +12,13 @@ try Option<u64> {
     print("a < 0")
     when a:
     print("a == 0")
-    else:
+    #[cfg(test)]  else:
     fine
 }
 .match {
-    case Some(a):
+    #[cfg(test)]  case Some(a):
     print("Caught some")
-    case Some(a) if a > 0 && b>0:
+    #[cfg(test)]  case Some(a) if a > 0 && b>0:
     print("a > 0")
 }
 .match {

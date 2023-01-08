@@ -158,6 +158,36 @@ public interface ValkyrieAntlrListener extends ParseTreeListener {
 	 */
 	void exitDefine_trait(ValkyrieAntlrParser.Define_traitContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#trait_block}.
+	 * @param ctx the parse tree
+	 */
+	void enterTrait_block(ValkyrieAntlrParser.Trait_blockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#trait_block}.
+	 * @param ctx the parse tree
+	 */
+	void exitTrait_block(ValkyrieAntlrParser.Trait_blockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#trait_statements}.
+	 * @param ctx the parse tree
+	 */
+	void enterTrait_statements(ValkyrieAntlrParser.Trait_statementsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#trait_statements}.
+	 * @param ctx the parse tree
+	 */
+	void exitTrait_statements(ValkyrieAntlrParser.Trait_statementsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#define_trait_type}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefine_trait_type(ValkyrieAntlrParser.Define_trait_typeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#define_trait_type}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefine_trait_type(ValkyrieAntlrParser.Define_trait_typeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#define_extends}.
 	 * @param ctx the parse tree
 	 */
@@ -267,36 +297,6 @@ public interface ValkyrieAntlrListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBitflags_item(ValkyrieAntlrParser.Bitflags_itemContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#define_type}.
-	 * @param ctx the parse tree
-	 */
-	void enterDefine_type(ValkyrieAntlrParser.Define_typeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#define_type}.
-	 * @param ctx the parse tree
-	 */
-	void exitDefine_type(ValkyrieAntlrParser.Define_typeContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#type_hint}.
-	 * @param ctx the parse tree
-	 */
-	void enterType_hint(ValkyrieAntlrParser.Type_hintContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#type_hint}.
-	 * @param ctx the parse tree
-	 */
-	void exitType_hint(ValkyrieAntlrParser.Type_hintContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#effect_hint}.
-	 * @param ctx the parse tree
-	 */
-	void enterEffect_hint(ValkyrieAntlrParser.Effect_hintContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#effect_hint}.
-	 * @param ctx the parse tree
-	 */
-	void exitEffect_hint(ValkyrieAntlrParser.Effect_hintContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#define_function}.
 	 * @param ctx the parse tree
@@ -437,6 +437,36 @@ public interface ValkyrieAntlrListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLet_parameter(ValkyrieAntlrParser.Let_parameterContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#define_type}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefine_type(ValkyrieAntlrParser.Define_typeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#define_type}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefine_type(ValkyrieAntlrParser.Define_typeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#type_hint}.
+	 * @param ctx the parse tree
+	 */
+	void enterType_hint(ValkyrieAntlrParser.Type_hintContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#type_hint}.
+	 * @param ctx the parse tree
+	 */
+	void exitType_hint(ValkyrieAntlrParser.Type_hintContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#effect_hint}.
+	 * @param ctx the parse tree
+	 */
+	void enterEffect_hint(ValkyrieAntlrParser.Effect_hintContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#effect_hint}.
+	 * @param ctx the parse tree
+	 */
+	void exitEffect_hint(ValkyrieAntlrParser.Effect_hintContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#if_statement}.
 	 * @param ctx the parse tree

@@ -197,6 +197,42 @@ public class ValkyrieAntlrBaseListener implements ValkyrieAntlrListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterTrait_block(ValkyrieAntlrParser.Trait_blockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTrait_block(ValkyrieAntlrParser.Trait_blockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTrait_statements(ValkyrieAntlrParser.Trait_statementsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTrait_statements(ValkyrieAntlrParser.Trait_statementsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDefine_trait_type(ValkyrieAntlrParser.Define_trait_typeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDefine_trait_type(ValkyrieAntlrParser.Define_trait_typeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterDefine_extends(ValkyrieAntlrParser.Define_extendsContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -324,42 +360,6 @@ public class ValkyrieAntlrBaseListener implements ValkyrieAntlrListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitBitflags_item(ValkyrieAntlrParser.Bitflags_itemContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDefine_type(ValkyrieAntlrParser.Define_typeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDefine_type(ValkyrieAntlrParser.Define_typeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterType_hint(ValkyrieAntlrParser.Type_hintContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitType_hint(ValkyrieAntlrParser.Type_hintContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterEffect_hint(ValkyrieAntlrParser.Effect_hintContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEffect_hint(ValkyrieAntlrParser.Effect_hintContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -528,6 +528,42 @@ public class ValkyrieAntlrBaseListener implements ValkyrieAntlrListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitLet_parameter(ValkyrieAntlrParser.Let_parameterContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDefine_type(ValkyrieAntlrParser.Define_typeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDefine_type(ValkyrieAntlrParser.Define_typeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterType_hint(ValkyrieAntlrParser.Type_hintContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitType_hint(ValkyrieAntlrParser.Type_hintContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEffect_hint(ValkyrieAntlrParser.Effect_hintContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEffect_hint(ValkyrieAntlrParser.Effect_hintContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

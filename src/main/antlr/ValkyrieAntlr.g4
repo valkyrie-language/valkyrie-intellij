@@ -51,9 +51,12 @@ class_method
     : macro_call* modified_namepath function_parameters type_hint? effect_hint? function_block?
     ;
 // ===========================================================================
-define_trait: KW_TRAIT identifier class_block;
+define_trait:      KW_TRAIT identifier trait_block;
+trait_block:       BRACE_L trait_statements* BRACE_R;
+trait_statements:  define_trait_type | class_method | class_field | eos_free;
+define_trait_type: KW_TYPE identifier (OP_ASSIGN type_expression)?;
 // ===========================================================================
-define_extends: KW_EXTENDS namepath (COLON type_expression)? class_block;
+define_extends: KW_EXTENDS namepath (COLON type_expression)? trait_block;
 // ===========================================================================
 define_union:       KW_UNION identifier union_block;
 union_block:        BRACE_L union_statements* BRACE_R;
@@ -66,10 +69,6 @@ define_bitflags:     KW_BITFLAGS namepath bitflags_block;
 bitflags_block:      BRACE_L bitflags_statements* BRACE_R;
 bitflags_statements: bitflags_item | eos_free;
 bitflags_item:       identifier (OP_ASSIGN expression)?;
-// ===========================================================================
-define_type: KW_TYPE identifier OP_ASSIGN identifier;
-type_hint:   (COLON | OP_ARROW) type_expression;
-effect_hint: OP_DIV type_expression;
 // ===========================================================================
 define_function
     : macro_call* modifiers KW_FUNCTION namepath function_parameters type_hint? effect_hint? function_block
@@ -107,13 +106,19 @@ define_variale_lhs
     ;
 let_parameter: identifier+;
 // ===========================================================================
+define_type: KW_TYPE identifier OP_ASSIGN identifier;
+type_hint:   (COLON | OP_ARROW) type_expression;
+effect_hint: OP_DIV type_expression;
+// ===========================================================================
 if_statement:      KW_IF inline_expression function_block else_if_statement* else_statement?;
 else_if_statement: KW_ELSE KW_IF inline_expression function_block;
 else_statement:    KW_ELSE function_block;
 // ===========================================================================
 while_statement: macro_call* KW_WHILE inline_expression function_block;
 // ===========================================================================
-for_statement: macro_call* KW_FOR for_pattern infix_in inline_expression if_guard? function_block;
+for_statement
+    : macro_call* KW_FOR for_pattern infix_in inline_expression if_guard? function_block
+    ;
 for_pattern
     : KW_CASE? case_tuple
     | let_parameter (COMMA let_parameter)* COMMA?
@@ -210,10 +215,10 @@ macro_call
     ;
 macro_call_item: namepath function_parameters?;
 // ===========================================================================
-try_statement: KW_TRY type_expression function_block;
+try_statement: KW_TRY type_expression? function_block;
 // ===========================================================================
-match_call:      OP_THROW? DOT KW_MATCH type_expression match_block;
-catch_call:      OP_THROW? DOT KW_CATCH type_expression match_block;
+match_call:      OP_THROW? DOT KW_MATCH type_expression? match_block;
+catch_call:      OP_THROW? DOT KW_CATCH type_expression? match_block;
 match_block:     BRACE_L match_statement* BRACE_R;
 match_statement: when_block | else_pattern | case_pattern | eos_free;
 with_block:      macro_call* KW_WITH identifier | KW_WITH BRACKET_L identifier? BRACKET_R;
