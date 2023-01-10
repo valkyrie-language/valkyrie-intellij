@@ -416,6 +416,12 @@ public interface ValkyrieAntlrVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitOp_logic(ValkyrieAntlrParser.Op_logicContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#op_assign}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOp_assign(ValkyrieAntlrParser.Op_assignContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#infix_is}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

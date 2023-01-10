@@ -18,7 +18,6 @@ trait TestTrait {
 }
 
 
-
 function test(
     // 1
     #[nice(#boat args)]
@@ -27,7 +26,12 @@ function test(
     // 3
     `b`: `B` = null
 ) -> ReturnType {
-
+    if self.index >= self.term.length() {
+        return None;
+    };
+let item = self.term.get(self.index);
+self.index += 1;
+return item;
 }
 
 "{text}"

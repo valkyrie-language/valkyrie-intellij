@@ -684,6 +684,16 @@ public interface ValkyrieAntlrListener extends ParseTreeListener {
 	 */
 	void exitOp_logic(ValkyrieAntlrParser.Op_logicContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#op_assign}.
+	 * @param ctx the parse tree
+	 */
+	void enterOp_assign(ValkyrieAntlrParser.Op_assignContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#op_assign}.
+	 * @param ctx the parse tree
+	 */
+	void exitOp_assign(ValkyrieAntlrParser.Op_assignContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#infix_is}.
 	 * @param ctx the parse tree
 	 */

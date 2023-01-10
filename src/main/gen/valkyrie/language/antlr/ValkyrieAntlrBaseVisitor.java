@@ -487,6 +487,13 @@ public class ValkyrieAntlrBaseVisitor<T> extends AbstractParseTreeVisitor<T> imp
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitOp_assign(ValkyrieAntlrParser.Op_assignContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitInfix_is(ValkyrieAntlrParser.Infix_isContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}

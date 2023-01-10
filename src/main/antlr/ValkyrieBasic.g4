@@ -46,12 +46,15 @@ OP_GEQ: '⩾' | '≥' | '>=';
 // arrow
 OP_ARROW:  '⟶' | '->';
 OP_ARROW2: '⇒' | '=>';
+// assign
 OP_ASSIGN: '=';
-
+OP_ADD_ASSIGN: '+=';
+OP_SUB_ASSIGN: '-=';
+OP_MUL_ASSIGN: '*=';
+OP_DIV_ASSIGN: '/=';
 // "⟧" -> { pushToken(ValkyrieTypes.SLICE_R, r) } -> pushToken(ValkyrieTypes.OP_GEQ, r) "/>" -> {
 // pushToken(ValkyrieTypes.OP_GS, r) }
-// 
-// ">" -> pushToken(ValkyrieTypes.OP_GT, r) -> pushToken(ValkyrieTypes.OP_LEQ, r) "</" -> {
+//
 // pushToken(ValkyrieTypes.OP_LS, r) } "⩕" -> { pushToken(ValkyrieTypes.PATTERN_AND, r) } "⩖" -> {
 // pushToken(ValkyrieTypes.PATTERN_OR, r) }
 

@@ -10,29 +10,25 @@ options {
 program: top_statement* EOF;
 top_statement
     : define_namespace
-    | import_statement eos?
-    | define_extension eos?
-    | define_class eos?
-    | define_union eos?
-    | define_bitflags eos?
-    | define_trait eos?
-    | define_extends eos?
-    | define_function eos?
-    | define_type eos?
-    | define_variale eos?
-    | if_statement eos?
-    | while_statement eos?
-    | for_statement eos?
-    | expression eos?
+    | import_statement
+    | define_extension
+    | define_class
+    | define_union
+    | define_bitflags
+    | define_trait
+    | define_extends
+    | define_function
+    | define_type
+    | define_variale
+    | if_statement
+    | while_statement
+    | for_statement
+    | expression
+    | eos
     ;
-function_statements
-    : define_lambda eos?
-    | while_statement eos?
-    | for_statement eos?
-    | expression eos?
-    ;
-eos:      SEMICOLON;
-eos_free: COMMA | SEMICOLON;
+function_statements: define_lambda | while_statement | for_statement | expression | eos;
+eos:                 SEMICOLON;
+eos_free:            COMMA | SEMICOLON;
 // ===========================================================================
 define_namespace: KW_NAMESPACE namepath_free eos?;
 // ===========================================================================
@@ -134,6 +130,7 @@ expression
     | expression op_logic expression
     | expression op_compare expression
     | expression infix_is type_expression
+    | expression op_assign type_expression
     | control_expression
     | prefix_call expression
     | term
@@ -196,6 +193,7 @@ op_pattern:  OP_AND | OP_OR;
 op_multiple: OP_MUL | OP_DIV;
 op_plus:     OP_ADD | OP_SUB;
 op_logic:    LOGIC_OR | LOGIC_AND;
+op_assign:   OP_ASSIGN | OP_ADD_ASSIGN | OP_SUB_ASSIGN | OP_MUL_ASSIGN | OP_DIV_ASSIGN;
 infix_is:    KW_IS | KW_IS KW_NOT;
 infix_in:    KW_IN | OP_IN;
 // ===========================================================================

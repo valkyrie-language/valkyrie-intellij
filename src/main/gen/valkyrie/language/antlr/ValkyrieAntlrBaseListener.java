@@ -821,6 +821,18 @@ public class ValkyrieAntlrBaseListener implements ValkyrieAntlrListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterOp_assign(ValkyrieAntlrParser.Op_assignContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOp_assign(ValkyrieAntlrParser.Op_assignContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterInfix_is(ValkyrieAntlrParser.Infix_isContext ctx) { }
 	/**
 	 * {@inheritDoc}
