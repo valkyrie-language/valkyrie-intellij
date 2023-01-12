@@ -47,14 +47,14 @@ OP_GEQ: '⩾' | '≥' | '>=';
 OP_ARROW:  '⟶' | '->';
 OP_ARROW2: '⇒' | '=>';
 // assign
-OP_ASSIGN: '=';
+OP_ASSIGN:     '=';
 OP_ADD_ASSIGN: '+=';
 OP_SUB_ASSIGN: '-=';
 OP_MUL_ASSIGN: '*=';
 OP_DIV_ASSIGN: '/=';
 // "⟧" -> { pushToken(ValkyrieTypes.SLICE_R, r) } -> pushToken(ValkyrieTypes.OP_GEQ, r) "/>" -> {
 // pushToken(ValkyrieTypes.OP_GS, r) }
-//
+// 
 // pushToken(ValkyrieTypes.OP_LS, r) } "⩕" -> { pushToken(ValkyrieTypes.PATTERN_AND, r) } "⩖" -> {
 // pushToken(ValkyrieTypes.PATTERN_OR, r) }
 
@@ -92,14 +92,12 @@ OP_POW:   '^';
 // suffix
 OP_TEMPERATURE: '℃' | '℉';
 // standalone
-OP_EMPTY: '∅';
 
-// DOT ":=", "≔" ->
-// pushToken(ValkyrieTypes.PATTERN_SET, r) "->", "==", "≡" -> pushToken(ValkyrieTypes.OP_EQ, r)
-// "...", ".." -> pushToken(ValkyrieTypes.KW_DOTS, r) start with + "++" ->
-// pushToken(ValkyrieTypes.OP_INC, r) "+=" -> pushToken(ValkyrieTypes.OP_ADD_ASSIGN, r) "+" ->
-// pushToken(ValkyrieTypes.OP_ADD, r) // start with - "--" -> pushToken(ValkyrieTypes.OP_DEC, r) r)
-// "¶" -> pushToken(ValkyrieTypes.OP_QUOTE, r) "⟦" -> { pushToken(ValkyrieTypes.SLICE_L, r) }
+// DOT ":=", "≔" -> pushToken(ValkyrieTypes.PATTERN_SET, r) "->", "==", "≡" ->
+// pushToken(ValkyrieTypes.OP_EQ, r) "...", ".." -> pushToken(ValkyrieTypes.KW_DOTS, r) start with +
+// "++" -> pushToken(ValkyrieTypes.OP_INC, r) "+=" -> pushToken(ValkyrieTypes.OP_ADD_ASSIGN, r) "+"
+// -> pushToken(ValkyrieTypes.OP_ADD, r) // start with - "--" -> pushToken(ValkyrieTypes.OP_DEC, r)
+// r) "¶" -> pushToken(ValkyrieTypes.OP_QUOTE, r) "⟦" -> { pushToken(ValkyrieTypes.SLICE_L, r) }
 // "⤇", "|=>", "⤃", "!=>" -> { pushToken(ValkyrieTypes.OP_EMPTY, r) }
 
 // keywords
@@ -139,9 +137,8 @@ DECIMAL
     ;
 fragment EXP: [Ee] [+\-]? INTEGER;
 
-STRING_SINGLE:  '\'' ~[']* '\'';
-STRING_DOUBLE:  '"' ~["]* '"';
-
+STRING_SINGLE: '\'' ~[']* '\'';
+STRING_DOUBLE: '"' ~["]* '"';
 
 // conditional
 KW_IF:        'if';
@@ -155,10 +152,7 @@ BREAK:    'break';
 CONTINUE: 'continue';
 RAISE:    'raise';
 // atom
-fragment NULL:  'null';
-fragment TRUE:  'true';
-fragment FALSE: 'false';
-SPECIAL:        NULL | TRUE | FALSE;
+SPECIAL: 'true' | 'false' | 'null' | 'nil' | '∅';
 // atom
 RAW_ID:     '`' ~[`]+ '`';
 UNICODE_ID: [_\p{XID_start}] [\p{XID_continue}]*;

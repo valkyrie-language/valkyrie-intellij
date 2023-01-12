@@ -26,9 +26,16 @@ top_statement
     | expression
     | eos
     ;
-function_statements: define_lambda | while_statement | for_statement | expression | eos;
-eos:                 SEMICOLON;
-eos_free:            COMMA | SEMICOLON;
+function_statements
+    : define_lambda
+    | define_variale
+    | while_statement
+    | for_statement
+    | expression
+    | eos
+    ;
+eos:      SEMICOLON;
+eos_free: COMMA | SEMICOLON;
 // ===========================================================================
 define_namespace: KW_NAMESPACE namepath_free eos?;
 // ===========================================================================
@@ -165,13 +172,13 @@ suffix_call
     | dot_call
     ;
 control_expression
-    : RETURN expression
+    : RETURN expression?
     | RESUME expression
     | BREAK
     | CONTINUE
     | RAISE expression
-    | YIELD RETURN? expression
-    | YIELD BREAK expression
+    | YIELD RETURN? expression?
+    | YIELD BREAK
     | YIELD KW_WITH expression
     ;
 // 带返回值的表达式, 能作为表达式的开头

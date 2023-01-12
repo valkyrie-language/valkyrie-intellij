@@ -26,12 +26,16 @@ function test(
     // 3
     `b`: `B` = null
 ) -> ReturnType {
+    if err != nil {
+        return a
+    }
+
     if self.index >= self.term.length() {
         return None;
     };
 let item = self.term.get(self.index);
-self.index += 1;
-return item;
+    self.index += 1;
+    return item;
 }
 
 "{text}"
