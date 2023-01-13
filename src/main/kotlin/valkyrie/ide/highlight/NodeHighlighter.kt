@@ -130,11 +130,11 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 private fun NodeHighlighter.fakeTypeColor(psi: ValkyrieIdentifierNode) {
     val name = psi.name
     when {
+        keywords.contains(name) -> highlight(psi, Color.KEYWORD)
+        traits.contains(name) -> highlight(psi, Color.SYM_TRAIT)
         variants.contains(name) -> highlight(psi, Color.SYM_VARIANT)
         name.isUppercase() -> highlight(psi, Color.SYM_GENERIC)
         name.first().isUpperCase() -> highlight(psi, Color.SYM_CLASS)
-        keywords.contains(name) -> highlight(psi, Color.KEYWORD)
-        traits.contains(name) -> highlight(psi, Color.SYM_TRAIT)
     }
 }
 
@@ -144,10 +144,11 @@ private val keywords = setOf(
     "f32", "f64",
     "bool", "char", "string",
     "unit",
-    "pass", "scope", "async", "await", "quote"
+    "pass", "scope", "async", "await", "quote",
+    "self", "Self"
 )
 
-private val traits = setOf("Iterator")
+private val traits = setOf("Iterator", "Iterable", "Sequence")
 
 private val variants = setOf("Some", "None", "Success", "Failure", "Left", "Riht")
 

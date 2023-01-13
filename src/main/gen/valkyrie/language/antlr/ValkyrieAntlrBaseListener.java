@@ -245,6 +245,18 @@ public class ValkyrieAntlrBaseListener implements ValkyrieAntlrListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterImpliments(ValkyrieAntlrParser.ImplimentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitImpliments(ValkyrieAntlrParser.ImplimentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterDefine_union(ValkyrieAntlrParser.Define_unionContext ctx) { }
 	/**
 	 * {@inheritDoc}

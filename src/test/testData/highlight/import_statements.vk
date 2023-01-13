@@ -54,14 +54,14 @@ class String {
 }
 
 
-@ndet
+#ndet
 def random() {
-	@liberate() {
+	#liberate() {
 
 	}
 }
 
-@unlimited(non_det_evaluate)
+#unlimited(non_det_evaluate)
 fn multiply(a: i64, b: i64) i64 {
     return a * b;
 }
@@ -71,8 +71,8 @@ micro a() {
 }
 
 
-@allow(evaluate: [diverge, arbitrary])
+#allow(evaluate: [diverge, arbitrary])
 def main() -> Result<T> {
-    let len = @eval random();
+    let len = #eval random();
     const my_static_array: [len]u8 = undefined;
 }

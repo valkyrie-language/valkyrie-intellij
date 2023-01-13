@@ -3,19 +3,19 @@ use std.logging.*;
 
 
 
-@trace 0
-@print 100
-@blame 150
-@risky 175
-@alert 200
-@error 250
-@fatal 255
+#trace 0
+#print 100
+#blame 150
+#risky 175
+#alert 200
+#error 250
+#fatal 255
 
 
-@instrument(level: print)
+#instrument(level: print)
 
 
-@instrument(skip_all, skip: [self, my_arg], fields: {
+#instrument(skip_all, skip: [self, my_arg], fields: {
 	[incomplete, next: my_arg + 1]
 })
 

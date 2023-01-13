@@ -56,25 +56,25 @@ trait ScalableSequence<T>: Sequence<T> {
 	//? 能把 other 的元素逐个放到左边
 	append(mut self, other: Sequence);
 	//? 能把 other 的元素逐个放到右边
-	extend(mut self, other: Sequence);
+	`extend`(mut self, other: Sequence);
 	shrink(mut self)
 	clear(mut self)
 
 	final infix `++`(mut self, other: Sequence) -> Sequence {
-		self.extend(other);
+		self.`extend`(other);
 		return self;
 	}
 }
 
-@silent
+#silent
 exception A {
 
 }
 
 //? 可变的序列
 trait MutableSequence: Sequence {
-	function set(mut self, index: Integer, item: Sequence::Item);
-	function each(mut self, f: (Integer, Sequence::Item) -> ()) {
+	 set(mut self, index: Integer, item: Sequence::Item);
+	 each(mut self, f: (Integer, Sequence::Item) -> ()) {
 		for i in 0..self.length() {
 			f(i, self.get(i));
 		}

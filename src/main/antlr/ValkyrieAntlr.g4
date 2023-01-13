@@ -54,12 +54,13 @@ class_method
     : macro_call* modified_namepath function_parameters type_hint? effect_hint? function_block?
     ;
 // ===========================================================================
-define_trait:      KW_TRAIT identifier trait_block;
+define_trait:      KW_TRAIT identifier define_generic? impliments? trait_block;
 trait_block:       BRACE_L trait_statements* BRACE_R;
 trait_statements:  define_trait_type | class_method | class_field | eos_free;
 define_trait_type: KW_TYPE identifier (OP_ASSIGN type_expression)?;
 // ===========================================================================
-define_extends: KW_EXTENDS namepath (COLON type_expression)? trait_block;
+define_extends: KW_EXTENDS namepath impliments? trait_block;
+impliments: (COLON | KW_IMPLEMENTS) type_expression;
 // ===========================================================================
 define_union:       KW_UNION identifier union_block;
 union_block:        BRACE_L union_statements* BRACE_R;

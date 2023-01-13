@@ -125,6 +125,12 @@ public interface ValkyrieAntlrVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDefine_extends(ValkyrieAntlrParser.Define_extendsContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#impliments}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitImpliments(ValkyrieAntlrParser.ImplimentsContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#define_union}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

@@ -110,6 +110,7 @@ KW_NAMESPACE
 KW_IMPORT:    'using' | 'using!' | 'using*' | 'using?';
 KW_EXTENSION: 'extension';
 KW_EXTENDS:   'extend' | 'extends';
+KW_IMPLEMENTS: 'implement'|'implements';
 KW_CLASS:     'class' | 'structure';
 KW_TRAIT:     'trait' | 'interface';
 KW_UNION:     'union';

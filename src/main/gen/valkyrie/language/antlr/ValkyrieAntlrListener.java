@@ -198,6 +198,16 @@ public interface ValkyrieAntlrListener extends ParseTreeListener {
 	 */
 	void exitDefine_extends(ValkyrieAntlrParser.Define_extendsContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#impliments}.
+	 * @param ctx the parse tree
+	 */
+	void enterImpliments(ValkyrieAntlrParser.ImplimentsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#impliments}.
+	 * @param ctx the parse tree
+	 */
+	void exitImpliments(ValkyrieAntlrParser.ImplimentsContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#define_union}.
 	 * @param ctx the parse tree
 	 */
