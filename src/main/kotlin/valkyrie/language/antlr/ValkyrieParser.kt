@@ -11,6 +11,8 @@ import org.antlr.v4.runtime.tree.ParseTree
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.antlr.ValkyrieAntlrParser.*
 import valkyrie.language.ast.*
+import valkyrie.language.ast.calls.ValkyrieCallGeneric
+import valkyrie.language.ast.calls.ValkyrieCallMacro
 import valkyrie.language.ast.pattern_match.ValkyrieCatchBlockNode
 import valkyrie.language.ast.pattern_match.ValkyrieMatchBlockNode
 import valkyrie.language.ast.pattern_match.ValkyrieWhenBlockNode
@@ -66,7 +68,9 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_with_block -> ValkyrieWithBlockNode(node)
                 RULE_when_block -> ValkyrieWhenBlockNode(node)
                 // expression
-                RULE_macro_call -> ValkyrieMacroCall(node)
+                RULE_macro_call -> ValkyrieCallMacro(node)
+                RULE_generic_call -> ValkyrieCallGeneric(node, true)
+                RULE_generic_call_in_type -> ValkyrieCallGeneric(node, false)
                 RULE_expression -> extractExpression(node)
                 // new
                 RULE_new_call -> ValkyrieNewStatement(node)

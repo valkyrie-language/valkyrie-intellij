@@ -106,8 +106,8 @@ class ValkyrieLexer : Lexer() {
         )
         val Operators = TokenSet.orSet(OperatorPrefix, OperatorInfix, OperatorSuffix);
 
-        val Comma = TokenIElementType(COMMA, ",", ValkyrieLanguage);
-        val Semicolon = TokenIElementType(SEMICOLON, ",", ValkyrieLanguage);
+        val Comma : TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, COMMA);
+        val Semicolon : TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, SEMICOLON);
         val Dot = TokenIElementType(DOT, ".", ValkyrieLanguage);
         val Proportion = TokenIElementType(OP_PROPORTION, ".", ValkyrieLanguage);
         val Integers: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, INTEGER);

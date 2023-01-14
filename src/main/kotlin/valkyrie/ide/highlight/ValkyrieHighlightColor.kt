@@ -50,33 +50,9 @@ enum class ValkyrieHighlightColor(humanName: Supplier<@AttributeDescriptor Strin
     TYPE_HINT(ValkyrieBundle.messagePointer("color.token.symbol.type"), Default.CLASS_NAME),
 
     // 标点符号
-    OPERATION_SIGN(OptionsBundle.messagePointer("options.language.defaults.operation"), Default.OPERATION_SIGN),
-    PARENTHESES(OptionsBundle.messagePointer("options.language.defaults.parentheses"), Default.PARENTHESES),
-    BRACKETS(OptionsBundle.messagePointer("options.language.defaults.brackets"), Default.BRACKETS),
-    BRACES(OptionsBundle.messagePointer("options.language.defaults.braces"), Default.BRACES),
-    DOT(OptionsBundle.messagePointer("options.language.defaults.dot"), Default.DOT),
-    COMMA(OptionsBundle.messagePointer("options.language.defaults.comma"), Default.COMMA),
     ASSIGN(ValkyrieBundle.messagePointer("color.token.set"), Default.OPERATION_SIGN),
-    SEMICOLON(OptionsBundle.messagePointer("options.language.defaults.semicolon"), Default.SEMICOLON),
     OP_NUMBER(ValkyrieBundle.messagePointer("color.token.number.suffix"), Default.METADATA),
     OP_STRING(ValkyrieBundle.messagePointer("color.token.string.prefix"), Default.KEYWORD),
-
-    // 注释
-    LINE_COMMENT(OptionsBundle.messagePointer("options.language.defaults.line.comment"), Default.LINE_COMMENT),
-    BLOCK_COMMENT(OptionsBundle.messagePointer("options.language.defaults.block.comment"), Default.BLOCK_COMMENT),
-    DOC_COMMENT(OptionsBundle.messagePointer("options.language.defaults.doc.markup"), Default.DOC_COMMENT),
-    DOC_COMMENT_HINT(OptionsBundle.messagePointer("options.language.defaults.doc.markup"), Default.LINE_COMMENT),
-    DOC_COMMENT_WARN(OptionsBundle.messagePointer("options.language.defaults.doc.markup"), Default.LINE_COMMENT),
-    DOC_COMMENT_TODO(OptionsBundle.messagePointer("options.language.defaults.doc.markup"), Default.LINE_COMMENT),
-    
-    // 错误
-    BAD_CHARACTER(
-        OptionsBundle.messagePointer("options.java.attribute.descriptor.bad.character"),
-        HighlighterColors.BAD_CHARACTER
-    ),
-
-    // 废弃
-    EXTENSION(OptionsBundle.messagePointer("options.language.defaults.metadata"), Default.METADATA),
     ;
 
     val textAttributesKey: TextAttributesKey = TextAttributesKey.createTextAttributesKey("voml.lang.$name", default)

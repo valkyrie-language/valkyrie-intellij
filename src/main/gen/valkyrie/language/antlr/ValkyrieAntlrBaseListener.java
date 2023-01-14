@@ -1,4 +1,4 @@
-// Generated from C:/Users/Dell/IdeaProjects/valkyrie-intellij/src/main/antlr\ValkyrieAntlr.g4 by ANTLR 4.12.0
+// Generated from D:/Java/valkyrie-intellij/src/main/antlr/ValkyrieAntlr.g4 by ANTLR 4.13.1
 package valkyrie.language.antlr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -965,6 +965,30 @@ public class ValkyrieAntlrBaseListener implements ValkyrieAntlrListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterMatch_statement(ValkyrieAntlrParser.Match_statementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMatch_statement(ValkyrieAntlrParser.Match_statementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCatch_statement(ValkyrieAntlrParser.Catch_statementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCatch_statement(ValkyrieAntlrParser.Catch_statementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterMatch_call(ValkyrieAntlrParser.Match_callContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1001,13 +1025,13 @@ public class ValkyrieAntlrBaseListener implements ValkyrieAntlrListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMatch_statement(ValkyrieAntlrParser.Match_statementContext ctx) { }
+	@Override public void enterMatch_terms(ValkyrieAntlrParser.Match_termsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMatch_statement(ValkyrieAntlrParser.Match_statementContext ctx) { }
+	@Override public void exitMatch_terms(ValkyrieAntlrParser.Match_termsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -1,4 +1,4 @@
-// Generated from C:/Users/Dell/IdeaProjects/valkyrie-intellij/src/main/antlr\ValkyrieAntlr.g4 by ANTLR 4.12.0
+// Generated from D:/Java/valkyrie-intellij/src/main/antlr/ValkyrieAntlr.g4 by ANTLR 4.13.1
 package valkyrie.language.antlr;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -804,6 +804,26 @@ public interface ValkyrieAntlrListener extends ParseTreeListener {
 	 */
 	void exitTry_statement(ValkyrieAntlrParser.Try_statementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#match_statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterMatch_statement(ValkyrieAntlrParser.Match_statementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#match_statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitMatch_statement(ValkyrieAntlrParser.Match_statementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#catch_statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterCatch_statement(ValkyrieAntlrParser.Catch_statementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#catch_statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitCatch_statement(ValkyrieAntlrParser.Catch_statementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#match_call}.
 	 * @param ctx the parse tree
 	 */
@@ -834,15 +854,15 @@ public interface ValkyrieAntlrListener extends ParseTreeListener {
 	 */
 	void exitMatch_block(ValkyrieAntlrParser.Match_blockContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#match_statement}.
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#match_terms}.
 	 * @param ctx the parse tree
 	 */
-	void enterMatch_statement(ValkyrieAntlrParser.Match_statementContext ctx);
+	void enterMatch_terms(ValkyrieAntlrParser.Match_termsContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#match_statement}.
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#match_terms}.
 	 * @param ctx the parse tree
 	 */
-	void exitMatch_statement(ValkyrieAntlrParser.Match_statementContext ctx);
+	void exitMatch_terms(ValkyrieAntlrParser.Match_termsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#with_block}.
 	 * @param ctx the parse tree

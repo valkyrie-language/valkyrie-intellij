@@ -1,6 +1,5 @@
 package valkyrie.ide.formatter
 
-import valkyrie.language.antlr.ValkyrieAntlrParser
 import com.intellij.application.options.CodeStyle
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.editor.Document
@@ -8,6 +7,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.codeStyle.PreFormatProcessor
+import com.intellij.psi.tree.TokenSet
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.nextLeaf
@@ -19,10 +19,12 @@ import org.antlr.intellij.adaptor.psi.ANTLRPsiNode
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings.*
 import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.antlr.ValkyrieAntlrParser
+import valkyrie.language.antlr.ValkyrieLexer
+import valkyrie.language.antlr.childrenWithLeaves
 import valkyrie.language.ast.ValkyrieClassStatement
 import valkyrie.language.ast.ValkyrieNamespaceStatement
 import valkyrie.language.psi.ValkyrieVisitor
-import valkyrie.language.antlr.childrenWithLeaves
 
 //import valkyrie.language.psi_node.ValkyrieClassStatementNode
 
@@ -102,14 +104,15 @@ private class RewriteVisitor(private val text: Document, val settings: ValkyrieC
 //    }
 
     fun deleteDelimiterAfter(node: PsiElement) {
+        val both = TokenSet.orSet(ValkyrieLexer.Comma, ValkyrieLexer.Semicolon);
         var leaf = PsiTreeUtil.skipWhitespacesForward(node)
         while (true) {
             when {
                 leaf == null -> break
-//                leaf.elementType == ValkyrieTypes.SEMICOLON || leaf.elementType == ValkyrieTypes.COMMA -> {
-//                    deleteNode(leaf)
-//                    leaf = PsiTreeUtil.skipWhitespacesForward(leaf)
-//                }
+                both.contains(leaf.elementType) -> {
+                    deleteNode(leaf)
+                    leaf = PsiTreeUtil.skipWhitespacesForward(leaf)
+                }
 
                 else -> break
             }
@@ -145,22 +148,24 @@ private class RewriteVisitor(private val text: Document, val settings: ValkyrieC
 
 private fun RewriteVisitor.fixDelimiter(element: PsiElement, config: CommaOrSemicolon) {
     val delimiter = element.nextLeaf(true) ?: return;
+    val both = TokenSet.orSet(ValkyrieLexer.Comma, ValkyrieLexer.Semicolon);
+
     when (config) {
         CommaOrSemicolon.Ignore -> return
         CommaOrSemicolon.Nothing -> {
-//            if (delimiter.elementType == ValkyrieTypes.SEMICOLON || delimiter.elementType == ValkyrieTypes.COMMA) {
-//                deleteNode(delimiter)
-//            }
+            if (both.contains(delimiter.elementType)) {
+                deleteNode(delimiter)
+            }
         }
 
         CommaOrSemicolon.Comma -> when {
-//            delimiter.elementType == ValkyrieTypes.SEMICOLON -> replaceNode(delimiter, ",")
-//            delimiter.elementType != ValkyrieTypes.COMMA -> insertAfter(element, ",")
+            ValkyrieLexer.Semicolon.contains(delimiter.elementType) -> replaceNode(delimiter, ",")
+            !ValkyrieLexer.Comma.contains(delimiter.elementType) -> insertAfter(element, ",")
         }
 
         CommaOrSemicolon.Semicolon -> when {
-//            delimiter.elementType == ValkyrieTypes.COMMA -> replaceNode(delimiter, ";")
-//            delimiter.elementType != ValkyrieTypes.SEMICOLON -> insertAfter(element, ";")
+            ValkyrieLexer.Comma.contains(delimiter.elementType) -> replaceNode(delimiter, ";")
+            !ValkyrieLexer.Semicolon.contains(delimiter.elementType) -> insertAfter(element, ";")
         }
     }
     deleteDelimiterAfter(delimiter)

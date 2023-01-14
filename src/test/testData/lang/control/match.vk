@@ -1,9 +1,11 @@
+
+
 match cond {
-    case A:
+    when A:
         print("a")
-    case B:
+    when B:
         print("b")
-    case _:
+    when _:
         print("other")
 }
 

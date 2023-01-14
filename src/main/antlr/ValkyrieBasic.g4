@@ -20,10 +20,22 @@ BRACKET_L:     '[';
 BRACKET_R:     ']';
 BRACE_L:       '{';
 BRACE_R:       '}';
-GENERIC_L:     '⦓';
-GENERIC_R:     '⦔';
+GENERIC_L:     '⟨';
+GENERIC_R:     '⟩';
 OFFSET_L:      '⁅';
 OFFSET_R:      '⁆';
+RANGE_L:       '⟦';
+RANGE_R:       '⟧';
+CEILING_L:     '⌈';
+CEILING_R:     '⌉';
+FLOOR_L:       '⌊';
+FLOOR_R:       '⌋';
+COLLECTION_L:   '⦃';
+COLLECTION_R:   '⦄';
+
+
+
+
 // infix
 OP_ADD: '+';
 OP_INC: '++';
@@ -64,12 +76,13 @@ LOGIC_AND: '&&';
 OP_AND:    '&';
 
 // macro call
-AT:   '@';
-HASH: '#' | '##' | '#!';
+OP_AT:   '@';
+OP_HASH: '#' | '##' | '#!';
 // macro slot
 LAMBDA_SLOT: '$' | '$$';
 MACRO_SLOT:  '§' | '§§';
 // monadic
+OP_UNIMPLEMENTED: '⅏' | '???';
 OP_OR_ELSE: '??';
 OP_THROW:   '?';
 // not

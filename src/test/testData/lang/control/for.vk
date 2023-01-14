@@ -12,7 +12,4 @@ for mut i, j in 0..=100 if i != 50 {
 for c in s if c.is_ascii {
 
 }
-else {
-
-}
 

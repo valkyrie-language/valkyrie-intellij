@@ -5,7 +5,7 @@ bitflag Bitflags: Debug + Copy + !Default {
     D = 8
 }
 
-bitflag public Flags {
+public bitflag Flags {
     A = 1 << 0
     B = 1 << 1
     C = 1 << 2

@@ -25,7 +25,7 @@ private val removeSpaceAfter = TokenSet.orSet(
 )
 
 private val removeSpaceNewlineAfter = TokenSet.orSet(
-    createTokenSet(ValkyrieLanguage, DOT, OP_PROPORTION, HASH)
+    createTokenSet(ValkyrieLanguage, DOT, OP_PROPORTION, OP_HASH, OP_AT)
 )
 
 // 左右插入一个空格

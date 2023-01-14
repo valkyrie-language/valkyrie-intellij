@@ -1,4 +1,4 @@
-// Generated from C:/Users/Dell/IdeaProjects/valkyrie-intellij/src/main/antlr\ValkyrieAntlr.g4 by ANTLR 4.12.0
+// Generated from D:/Java/valkyrie-intellij/src/main/antlr/ValkyrieAntlr.g4 by ANTLR 4.13.1
 package valkyrie.language.antlr;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -488,6 +488,18 @@ public interface ValkyrieAntlrVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTry_statement(ValkyrieAntlrParser.Try_statementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#match_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMatch_statement(ValkyrieAntlrParser.Match_statementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#catch_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCatch_statement(ValkyrieAntlrParser.Catch_statementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#match_call}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -506,11 +518,11 @@ public interface ValkyrieAntlrVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMatch_block(ValkyrieAntlrParser.Match_blockContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#match_statement}.
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#match_terms}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMatch_statement(ValkyrieAntlrParser.Match_statementContext ctx);
+	T visitMatch_terms(ValkyrieAntlrParser.Match_termsContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#with_block}.
 	 * @param ctx the parse tree

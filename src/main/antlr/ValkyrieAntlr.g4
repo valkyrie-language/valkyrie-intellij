@@ -186,6 +186,8 @@ control_expression
 term
     : try_statement
     | if_statement
+    | match_statement
+    | catch_statement
     | new_call
     | function_call
     | string_literal
@@ -216,17 +218,22 @@ slice_call:  BRACKET_L expression BRACKET_R;
 offset_call: OP_PROPORTION BRACKET_L expression BRACKET_R | OFFSET_L expression OFFSET_R;
 // ===========================================================================
 macro_call
-    : HASH macro_call_item
-    | HASH BRACKET_L macro_call_item (COMMA macro_call_item)* BRACKET_R
+    : OP_HASH macro_call_item
+    | OP_HASH BRACKET_L macro_call_item (COMMA macro_call_item)* BRACKET_R
     ;
 macro_call_item: namepath function_parameters?;
 // ===========================================================================
 try_statement: KW_TRY type_expression? function_block;
 // ===========================================================================
+match_statement
+    : KW_MATCH inline_expression match_block;
+catch_statement
+    : KW_CATCH inline_expression match_block;
+// ===========================================================================
 match_call:      OP_THROW? DOT KW_MATCH type_expression? match_block;
 catch_call:      OP_THROW? DOT KW_CATCH type_expression? match_block;
-match_block:     BRACE_L match_statement* BRACE_R;
-match_statement: when_block | else_pattern | case_pattern | eos_free;
+match_block:     BRACE_L match_terms* BRACE_R;
+match_terms: when_block | else_pattern | case_pattern | eos_free;
 with_block:      macro_call* KW_WITH identifier | KW_WITH BRACKET_L identifier? BRACKET_R;
 when_block:      macro_call* KW_WHEN inline_expression COLON expression*;
 else_pattern:    macro_call* KW_ELSE COLON expression*;
