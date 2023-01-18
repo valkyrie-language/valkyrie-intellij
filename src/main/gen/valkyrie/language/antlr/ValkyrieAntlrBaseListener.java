@@ -101,6 +101,42 @@ public class ValkyrieAntlrBaseListener implements ValkyrieAntlrListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterImport_as(ValkyrieAntlrParser.Import_asContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitImport_as(ValkyrieAntlrParser.Import_asContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterImport_term(ValkyrieAntlrParser.Import_termContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitImport_term(ValkyrieAntlrParser.Import_termContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterImport_block(ValkyrieAntlrParser.Import_blockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitImport_block(ValkyrieAntlrParser.Import_blockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterDefine_extension(ValkyrieAntlrParser.Define_extensionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -941,13 +977,25 @@ public class ValkyrieAntlrBaseListener implements ValkyrieAntlrListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMacro_call_item(ValkyrieAntlrParser.Macro_call_itemContext ctx) { }
+	@Override public void enterAnnotation(ValkyrieAntlrParser.AnnotationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMacro_call_item(ValkyrieAntlrParser.Macro_call_itemContext ctx) { }
+	@Override public void exitAnnotation(ValkyrieAntlrParser.AnnotationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAnnotation_call_item(ValkyrieAntlrParser.Annotation_call_itemContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAnnotation_call_item(ValkyrieAntlrParser.Annotation_call_itemContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1157,6 +1205,18 @@ public class ValkyrieAntlrBaseListener implements ValkyrieAntlrListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterCollection_literal(ValkyrieAntlrParser.Collection_literalContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCollection_literal(ValkyrieAntlrParser.Collection_literalContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterModifiers(ValkyrieAntlrParser.ModifiersContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1188,6 +1248,18 @@ public class ValkyrieAntlrBaseListener implements ValkyrieAntlrListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitModified_namepath(ValkyrieAntlrParser.Modified_namepathContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMacro_call_name(ValkyrieAntlrParser.Macro_call_nameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMacro_call_name(ValkyrieAntlrParser.Macro_call_nameContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -1,12 +1,14 @@
 // missing scope means public
-export { }
-export super, package::a, package::b {
-    nested::{`import` as export, `export` as import}
+using { }
+using package.name;
+using `import` as @export;
+using package::name { };
+using {
+    super, package::a, package::b {
+        nested::{`import` as export, `export` as import}
+    }
 }
-
-import package.name;
-import `import` as @export;
-import std::{
+using std::{
     import, export,
     @`import`, @`result`,
     nested.{
@@ -14,4 +16,4 @@ import std::{
         @`export` as import,
     }
 }
-import serde::{#Serialize, #Deserialize}
+using serde::{#Serialize, #Deserialize}

@@ -78,6 +78,36 @@ public interface ValkyrieAntlrListener extends ParseTreeListener {
 	 */
 	void exitImport_statement(ValkyrieAntlrParser.Import_statementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#import_as}.
+	 * @param ctx the parse tree
+	 */
+	void enterImport_as(ValkyrieAntlrParser.Import_asContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#import_as}.
+	 * @param ctx the parse tree
+	 */
+	void exitImport_as(ValkyrieAntlrParser.Import_asContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#import_term}.
+	 * @param ctx the parse tree
+	 */
+	void enterImport_term(ValkyrieAntlrParser.Import_termContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#import_term}.
+	 * @param ctx the parse tree
+	 */
+	void exitImport_term(ValkyrieAntlrParser.Import_termContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#import_block}.
+	 * @param ctx the parse tree
+	 */
+	void enterImport_block(ValkyrieAntlrParser.Import_blockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#import_block}.
+	 * @param ctx the parse tree
+	 */
+	void exitImport_block(ValkyrieAntlrParser.Import_blockContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#define_extension}.
 	 * @param ctx the parse tree
 	 */
@@ -784,15 +814,25 @@ public interface ValkyrieAntlrListener extends ParseTreeListener {
 	 */
 	void exitMacro_call(ValkyrieAntlrParser.Macro_callContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#macro_call_item}.
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#annotation}.
 	 * @param ctx the parse tree
 	 */
-	void enterMacro_call_item(ValkyrieAntlrParser.Macro_call_itemContext ctx);
+	void enterAnnotation(ValkyrieAntlrParser.AnnotationContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#macro_call_item}.
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#annotation}.
 	 * @param ctx the parse tree
 	 */
-	void exitMacro_call_item(ValkyrieAntlrParser.Macro_call_itemContext ctx);
+	void exitAnnotation(ValkyrieAntlrParser.AnnotationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#annotation_call_item}.
+	 * @param ctx the parse tree
+	 */
+	void enterAnnotation_call_item(ValkyrieAntlrParser.Annotation_call_itemContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#annotation_call_item}.
+	 * @param ctx the parse tree
+	 */
+	void exitAnnotation_call_item(ValkyrieAntlrParser.Annotation_call_itemContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#try_statement}.
 	 * @param ctx the parse tree
@@ -964,6 +1004,16 @@ public interface ValkyrieAntlrListener extends ParseTreeListener {
 	 */
 	void exitNew_statement(ValkyrieAntlrParser.New_statementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#collection_literal}.
+	 * @param ctx the parse tree
+	 */
+	void enterCollection_literal(ValkyrieAntlrParser.Collection_literalContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#collection_literal}.
+	 * @param ctx the parse tree
+	 */
+	void exitCollection_literal(ValkyrieAntlrParser.Collection_literalContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#modifiers}.
 	 * @param ctx the parse tree
 	 */
@@ -993,6 +1043,16 @@ public interface ValkyrieAntlrListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitModified_namepath(ValkyrieAntlrParser.Modified_namepathContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#macro_call_name}.
+	 * @param ctx the parse tree
+	 */
+	void enterMacro_call_name(ValkyrieAntlrParser.Macro_call_nameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValkyrieAntlrParser#macro_call_name}.
+	 * @param ctx the parse tree
+	 */
+	void exitMacro_call_name(ValkyrieAntlrParser.Macro_call_nameContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValkyrieAntlrParser#namepath_free}.
 	 * @param ctx the parse tree

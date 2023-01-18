@@ -33,11 +33,10 @@ class TokenHighlighter : SyntaxHighlighter {
         return when {
             ValkyrieLexer.Keywords.contains(tokenType) -> ValkyrieHighlightColor.KEYWORD.textAttributesKey
             ValkyrieLexer.Operators.contains(tokenType) -> DefaultLanguageHighlighterColors.OPERATION_SIGN
-            hash.contains(tokenType) -> ValkyrieHighlightColor.SYM_MACRO.textAttributesKey
+            ValkyrieLexer.MacroOperators.contains(tokenType) -> ValkyrieHighlightColor.SYM_MACRO.textAttributesKey
             ValkyrieLexer.Integers.contains(tokenType) -> ValkyrieHighlightColor.INTEGER.textAttributesKey
             ValkyrieLexer.Decimals.contains(tokenType) -> ValkyrieHighlightColor.DECIMAL.textAttributesKey
             ValkyrieLexer.Strings.contains(tokenType) -> ValkyrieHighlightColor.STRING.textAttributesKey
-
             ValkyrieLexer.Comments.contains(tokenType) -> DefaultLanguageHighlighterColors.LINE_COMMENT
             // inherit
             ValkyrieLexer.Comma.contains(tokenType) -> DefaultLanguageHighlighterColors.COMMA
@@ -45,8 +44,6 @@ class TokenHighlighter : SyntaxHighlighter {
 
             else -> {
                 when (tokenType) {
-//                    ValkyrieLexer.CommentLine -> ValkyrieHighlightColor.LINE_COMMENT
-//                    ValkyrieLexer.CommentBlock -> ValkyrieHighlightColor.BLOCK_COMMENT
                     ValkyrieBracketMatch.Instance.ParenthesisL, ValkyrieBracketMatch.Instance.ParenthesisR -> DefaultLanguageHighlighterColors.PARENTHESES
                     ValkyrieBracketMatch.Instance.BracketL, ValkyrieBracketMatch.Instance.BracketR -> DefaultLanguageHighlighterColors.BRACKETS
                     ValkyrieBracketMatch.Instance.BraceL, ValkyrieBracketMatch.Instance.BraceR -> DefaultLanguageHighlighterColors.BRACES

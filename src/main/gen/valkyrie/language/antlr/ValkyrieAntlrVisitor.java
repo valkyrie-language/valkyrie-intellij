@@ -53,6 +53,24 @@ public interface ValkyrieAntlrVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitImport_statement(ValkyrieAntlrParser.Import_statementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#import_as}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitImport_as(ValkyrieAntlrParser.Import_asContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#import_term}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitImport_term(ValkyrieAntlrParser.Import_termContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#import_block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitImport_block(ValkyrieAntlrParser.Import_blockContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#define_extension}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -476,11 +494,17 @@ public interface ValkyrieAntlrVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMacro_call(ValkyrieAntlrParser.Macro_callContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#macro_call_item}.
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#annotation}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMacro_call_item(ValkyrieAntlrParser.Macro_call_itemContext ctx);
+	T visitAnnotation(ValkyrieAntlrParser.AnnotationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#annotation_call_item}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAnnotation_call_item(ValkyrieAntlrParser.Annotation_call_itemContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#try_statement}.
 	 * @param ctx the parse tree
@@ -584,6 +608,12 @@ public interface ValkyrieAntlrVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitNew_statement(ValkyrieAntlrParser.New_statementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#collection_literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCollection_literal(ValkyrieAntlrParser.Collection_literalContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#modifiers}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -601,6 +631,12 @@ public interface ValkyrieAntlrVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitModified_namepath(ValkyrieAntlrParser.Modified_namepathContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#macro_call_name}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMacro_call_name(ValkyrieAntlrParser.Macro_call_nameContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValkyrieAntlrParser#namepath_free}.
 	 * @param ctx the parse tree
