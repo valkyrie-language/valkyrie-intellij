@@ -7,7 +7,7 @@ fun properties(key: String) = project.findProperty(key).toString()
 plugins {
     idea
     java
-//    antlr
+    antlr
     kotlin("jvm") version "1.9.0"
     kotlin("plugin.serialization") version "1.9.0"
     id("org.jetbrains.intellij") version "1.15.0"
@@ -17,8 +17,7 @@ plugins {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-//    implementation("org.antlr:antlr4:${properties("antlrVersion")}")
-    implementation("org.antlr:antlr4-runtime:${properties("antlrVersion")}")
+    antlr("org.antlr:antlr4:${properties("antlrVersion")}")
     implementation("org.antlr:antlr4-intellij-adaptor:0.1")
 }
 
@@ -57,6 +56,7 @@ qodana {
     showReport.set(System.getenv("QODANA_SHOW_REPORT")?.toBoolean() ?: false)
 }
 
+
 tasks {
     // Set the JVM compatibility versions
     properties("javaVersion").let {
@@ -73,6 +73,16 @@ tasks {
         gradleVersion = properties("gradleVersion")
     }
 
+    generateGrammarSource {
+        maxHeapSize = "64m"
+        arguments = arguments + listOf(
+            "-listener",
+            "-visitor",
+            "-long-messages",
+            "-encoding", "utf8",
+            "-package", "valkyrie.language.antlr"
+        )
+    }
     patchPluginXml {
         version.set(properties("pluginVersion"))
         sinceBuild.set(properties("pluginSinceBuild"))
@@ -122,22 +132,14 @@ tasks {
     }
 }
 
-//tasks.generateGrammarSource {
-//    maxHeapSize = "64m"
-//    arguments = arguments + listOf(
-//        "-listener",
-//        "-visitor",
-//        "-long-messages",
-//        "-Dlanguage=Java",
-//        "-encoding", "utf8",
-//        "-package", "valkyrie.language.antlr"
-//    )
-//}
+
 
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     jvmTarget = "17"
 }
+compileKotlin.dependsOn("generateGrammarSource")
+
 val compileTestKotlin: KotlinCompile by tasks
 compileTestKotlin.kotlinOptions {
     jvmTarget = "17"

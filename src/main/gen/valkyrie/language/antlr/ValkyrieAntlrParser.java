@@ -231,7 +231,7 @@ public class ValkyrieAntlrParser extends Parser {
 			setState(221);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 294985775676653896L) != 0) || ((((_la - 70)) & ~0x3f) == 0 && ((1L << (_la - 70)) & 548943155183L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 296111675583496520L) != 0) || ((((_la - 70)) & ~0x3f) == 0 && ((1L << (_la - 70)) & 548943155183L) != 0)) {
 				{
 				{
 				setState(218);
@@ -3577,7 +3577,7 @@ public class ValkyrieAntlrParser extends Parser {
 			setState(600);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 294985775676653896L) != 0) || ((((_la - 80)) & ~0x3f) == 0 && ((1L << (_la - 80)) & 536077301L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 296111675583496520L) != 0) || ((((_la - 80)) & ~0x3f) == 0 && ((1L << (_la - 80)) & 536077301L) != 0)) {
 				{
 				{
 				setState(597);
@@ -4745,6 +4745,7 @@ public class ValkyrieAntlrParser extends Parser {
 				break;
 			case OP_ADD:
 			case OP_SUB:
+			case OP_AND:
 			case OP_NOT:
 				{
 				setState(750);
@@ -4975,6 +4976,7 @@ public class ValkyrieAntlrParser extends Parser {
 			switch (_input.LA(1)) {
 			case OP_ADD:
 			case OP_SUB:
+			case OP_AND:
 			case OP_NOT:
 				{
 				setState(791);
@@ -5285,6 +5287,7 @@ public class ValkyrieAntlrParser extends Parser {
 		public TerminalNode OP_NOT() { return getToken(ValkyrieAntlrParser.OP_NOT, 0); }
 		public TerminalNode OP_ADD() { return getToken(ValkyrieAntlrParser.OP_ADD, 0); }
 		public TerminalNode OP_SUB() { return getToken(ValkyrieAntlrParser.OP_SUB, 0); }
+		public TerminalNode OP_AND() { return getToken(ValkyrieAntlrParser.OP_AND, 0); }
 		public Prefix_callContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -5313,7 +5316,7 @@ public class ValkyrieAntlrParser extends Parser {
 			{
 			setState(841);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 288230376235597824L) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 289356276142440448L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -8025,7 +8028,7 @@ public class ValkyrieAntlrParser extends Parser {
 			setState(1150);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 294985775676653900L) != 0) || ((((_la - 86)) & ~0x3f) == 0 && ((1L << (_la - 86)) & 8376207L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 296111675583496524L) != 0) || ((((_la - 86)) & ~0x3f) == 0 && ((1L << (_la - 86)) & 8376207L) != 0)) {
 				{
 				{
 				setState(1147);
@@ -8089,6 +8092,7 @@ public class ValkyrieAntlrParser extends Parser {
 			case BRACKET_L:
 			case OP_ADD:
 			case OP_SUB:
+			case OP_AND:
 			case OP_AT:
 			case OP_HASH:
 			case OP_NOT:
@@ -9249,7 +9253,7 @@ public class ValkyrieAntlrParser extends Parser {
 		"\u00c0\u00c2\u00c4\u00c6\u00c8\u00ca\u00cc\u00ce\u00d0\u00d2\u00d4\u00d6"+
 		"\u00d8\u0000\u0010\u0001\u0000\u0002\u0003\u0001\u000034\u0002\u0000\u0001"+
 		"\u0001\u0004\u0004\u0002\u0000\u0005\u0005JJ\u0002\u0000\u0005\u0005("+
-		"(\u0003\u0000\u0018\u0018\u001a\u001a::\u0003\u0000\u001e #$\'\'\u0002"+
+		"(\u0004\u0000\u0018\u0018\u001a\u001a22::\u0003\u0000\u001e #$\'\'\u0002"+
 		"\u00000022\u0001\u0000\u001c\u001d\u0002\u0000\u0018\u0018\u001a\u001a"+
 		"\u0002\u0000//11\u0001\u0000*.\u0001\u0000<=\u0001\u0000kl\u0001\u0000"+
 		"]^\u0001\u0000_`\u0562\u0000\u00dd\u0001\u0000\u0000\u0000\u0002\u00f2"+

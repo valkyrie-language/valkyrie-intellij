@@ -64,16 +64,20 @@ OP_ADD_ASSIGN: '+=';
 OP_SUB_ASSIGN: '-=';
 OP_MUL_ASSIGN: '*=';
 OP_DIV_ASSIGN: '/=';
-// "⟧" -> { pushToken(ValkyrieTypes.SLICE_R, r) } -> pushToken(ValkyrieTypes.OP_GEQ, r) "/>" -> {
-// pushToken(ValkyrieTypes.OP_GS, r) }
-// 
-// pushToken(ValkyrieTypes.OP_LS, r) } "⩕" -> { pushToken(ValkyrieTypes.PATTERN_AND, r) } "⩖" -> {
-// pushToken(ValkyrieTypes.PATTERN_OR, r) }
-
-LOGIC_OR:  '||';
-OP_OR:     '|';
-LOGIC_AND: '&&';
+// logical
+LOGIC_NOT: '¬';
+LOGIC_AND: '&&' | '∧';
+LOGIC_OR:  '||' | '∨';
+LOGIC_XOR: '⊻';
+LOGIC_NOR: '⊽';
+LOGIC_NAND: '⊼';
+// bitwise
 OP_AND:    '&';
+OP_OR:     '|';
+OP_XOR:    '⊕';
+OP_EQV:    '≡';
+OP_IMPL:   '‽';
+OP_IFF:    '⇔';
 
 // macro call
 OP_AT:   '@';
@@ -92,6 +96,8 @@ KW_NOT: 'not';
 OP_IN:     '∈' | '∊';
 KW_IN:     'in';
 OP_NOT_IN: '∉';
+OP_CONTINUES: '∋' | '∍';
+
 
 // is
 KW_IS:     'is';
@@ -115,10 +121,7 @@ OP_TEMPERATURE: '℃' | '℉';
 
 // keywords
 KW_NAMESPACE
-    : 'namespace'
-    | 'namespace!'
-    | 'namespace*'
-    | 'namespace?'
+    : 'namespace' ('!' | '*' | '?')?
     ;
 KW_IMPORT:    'using' | 'using!' | 'using*' | 'using?';
 KW_EXTENSION: 'extension';

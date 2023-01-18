@@ -172,7 +172,7 @@ type_expression
     | term                                       # TTerm
     ;
 // ===========================================================================
-prefix_call: OP_NOT | OP_ADD | OP_SUB;
+prefix_call: OP_NOT | OP_ADD | OP_SUB | OP_AND;
 suffix_call
     : OP_NOT
     | OP_TEMPERATURE
@@ -215,7 +215,7 @@ op_compare:  OP_LT | OP_LEQ | OP_GT | OP_GEQ | OP_EQ | OP_NE;
 op_pattern:  OP_AND | OP_OR;
 op_multiple: OP_MUL | OP_DIV;
 op_plus:     OP_ADD | OP_SUB;
-op_logic:    LOGIC_OR | LOGIC_AND;
+op_logic:    LOGIC_OR | LOGIC_AND | LOGIC_XOR | LOGIC_NOR | LOGIC_NAND;
 op_assign:   OP_ASSIGN | OP_ADD_ASSIGN | OP_SUB_ASSIGN | OP_MUL_ASSIGN | OP_DIV_ASSIGN;
 infix_is:    KW_IS | KW_IS KW_NOT;
 infix_in:    KW_IN | OP_IN;
