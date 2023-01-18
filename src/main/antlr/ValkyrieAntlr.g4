@@ -59,8 +59,12 @@ define_class
     ;
 class_block:      BRACE_L class_statements* BRACE_R;
 class_statements: class_method | class_field | eos_free;
-class_inherit:    PARENTHESES_L namepath? PARENTHESES_R;
-class_field:      annotation* modified_identifier type_hint? parameter_default?;
+class_inherit
+    : PARENTHESES_L PARENTHESES_R
+    | PARENTHESES_L inherit_type (COMMA inherit_type)* COMMA? PARENTHESES_R
+    ;
+inherit_type: modified_namepath;
+class_field:  annotation* modified_identifier type_hint? parameter_default?;
 class_method
     : annotation* modified_namepath function_parameters type_hint? effect_hint? function_block?
     ;
@@ -80,7 +84,7 @@ define_variant:     identifier variant_block?;
 variant_block:      BRACE_L variant_statements* BRACE_R;
 variant_statements: class_field | eos_free;
 // ===========================================================================
-define_bitflags:     KW_BITFLAGS namepath bitflags_block;
+define_bitflags:     KW_BITFLAGS namepath type_hint bitflags_block;
 bitflags_block:      BRACE_L bitflags_statements* BRACE_R;
 bitflags_statements: bitflags_item | eos_free;
 bitflags_item:       identifier (OP_ASSIGN expression)?;
@@ -220,8 +224,14 @@ op_assign:   OP_ASSIGN | OP_ADD_ASSIGN | OP_SUB_ASSIGN | OP_MUL_ASSIGN | OP_DIV_
 infix_is:    KW_IS | KW_IS KW_NOT;
 infix_in:    KW_IN | OP_IN;
 // ===========================================================================
-define_generic: OP_PROPORTION? OP_LT identifier OP_GT | GENERIC_L identifier GENERIC_R;
-generic_call:   OP_PROPORTION OP_LT type_expression OP_GT | GENERIC_L type_expression GENERIC_R;
+define_generic
+    : GENERIC_L GENERIC_R
+    | GENERIC_L generic_item (COMMA generic_item)* COMMA? GENERIC_R
+    | OP_PROPORTION? OP_LT OP_GT
+    | OP_PROPORTION? OP_LT generic_item (COMMA generic_item)* COMMA? OP_GT
+    ;
+generic_item: identifier (COLON type_expression)?;
+generic_call: OP_PROPORTION OP_LT type_expression OP_GT | GENERIC_L type_expression GENERIC_R;
 generic_call_in_type
     : OP_PROPORTION? OP_LT type_expression OP_GT
     | GENERIC_L type_expression GENERIC_R
@@ -267,11 +277,12 @@ new_statement: tuple_call_item | eos_free;
 // ===========================================================================
 collection_literal
     : BRACKET_L BRACKET_R
-    | BRACKET_L expression (COMMA expression)* COMMA? BRACKET_R
+    | BRACKET_L collection_pair (COMMA collection_pair)* COMMA? BRACKET_R
     | PARENTHESES_L PARENTHESES_R
-    | PARENTHESES_L expression (COMMA expression)+ COMMA? PARENTHESES_R
-    | PARENTHESES_L expression COMMA PARENTHESES_R
+    | PARENTHESES_L collection_pair (COMMA collection_pair)+ COMMA? PARENTHESES_R
+    | PARENTHESES_L collection_pair COMMA PARENTHESES_R
     ;
+collection_pair: (identifier COLON)? expression;
 // ===========================================================================
 modifiers:           identifier*;
 modified_identifier: identifier+;

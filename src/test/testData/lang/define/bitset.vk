@@ -10,10 +10,10 @@ public bitflag Flags {
     B = 1 << 1
     C = 1 << 2
     bitflag = A | B | C
-    class = 1 >> 8
+    `class` = 1 >> 8
 }
 
-def test test() {
+test function  test() {
     let e1 = Flags::A | Flags::C;
     let e2 = Flags::B | Flags::C;
     // union
@@ -39,7 +39,7 @@ extends Bitflags {
     }
 }
 // always public
-@infix('|')
+#infix('|')
 def oppo logic_or(self, rhs: Self) -> Self {
     Self::from(self.bits | rhs.bits)
 }

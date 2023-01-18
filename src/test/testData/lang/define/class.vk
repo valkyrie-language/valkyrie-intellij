@@ -1,8 +1,12 @@
 
+class A1(public virtual XBase, inline YBase)
 
-class A1(int, int)
-
-class A2<T>(T, T)
+class A2{
+    public virtual
+    inherit x_base: XBase;
+    private inline
+    inherit _y_base: YBase;
+}
 
 class A3<T: Debug>(T, T)
 
