@@ -1,17 +1,35 @@
-
+// https://internals.rust-lang.org/t/variadic-generics-design-sketch/18974/23
 class A1(public virtual XBase, inline YBase)
 
 class A2{
     public virtual
-    inherit x_base: XBase;
+    inherit x_base: XBase,
     private inline
-    inherit _y_base: YBase;
+    inherit _y_base: YBase,
 }
 
 class A3<T: Debug>(T, T)
 
-forall T {T: Debug}
-class A4<T>(T, T)
+template F, A {
+
+}
+trait Functor<F<A>> {
+    map<A, ..B>(self: F<A>, f: (a: A) -> B) -> F<B>
+}
+
+template Params {
+
+}
+class Print(w: Write,  parameters: Params) {
+
+}
+trait Fn<Ret, **Args> {
+    fn call(self, **_: Args) -> Ret;
+}
+class A4<M> {
+    x: T,
+    y: T,
+}
 
 #[Serialize, Deserialize]
 #Serialize
@@ -30,7 +48,7 @@ define type A {
 forall T, U {T: Debug}
 define public static class A<T> (T, usize): Debug;
 class A: Clone + Debug {
-item: String = "item"
+    item: String = "item"
 }
 
 type alias null = Null;
@@ -44,7 +62,7 @@ bitset
 tagged
 forall T {}
 extend Vec<T>: Iterable {
-forall 'a { Self: 'a }
+    forall 'a { Self: 'a }
 type Iter = <&'a [T] as IntoIterator>::IntoIter;
 fn iter(&self) -> Self::Iter<'_> {
 self.iter()
@@ -61,7 +79,7 @@ let a = {
 }
 
 class A {
-    i: &int
+    i: &int,
 }
 
 #[open, parameter]

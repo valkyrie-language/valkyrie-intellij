@@ -84,7 +84,8 @@ define_variant:     identifier variant_block?;
 variant_block:      BRACE_L variant_statements* BRACE_R;
 variant_statements: class_field | eos_free;
 // ===========================================================================
-define_bitflags:     KW_BITFLAGS namepath type_hint bitflags_block;
+define_bitflags:     KW_BITFLAGS namepath bitflags_layout? type_hint? bitflags_block;
+bitflags_layout:     PARENTHESES_L type_expression? PARENTHESES_R;
 bitflags_block:      BRACE_L bitflags_statements* BRACE_R;
 bitflags_statements: bitflags_item | eos_free;
 bitflags_item:       identifier (OP_ASSIGN expression)?;
