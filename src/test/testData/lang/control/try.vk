@@ -19,15 +19,15 @@ try Option<T> {
 }
 
 trait Biased {
-    def biased(self): bool;
+    function biased(self): bool;
 }
 
 extend<T> Option<T>: Biased {
-    def biased(self) = @matches(self, Some(_))
+    function biased(self) = @matches(self, Some(_))
 }
 
 extend<T> Result<T>: Biased {
-    def biased(self) = @matches(self, Success(_))
+    function biased(self) = @matches(self, Success(_))
 }
 
 match a {

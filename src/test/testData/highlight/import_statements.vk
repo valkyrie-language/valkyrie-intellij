@@ -22,22 +22,23 @@ public class List {
 
 }
 
+template T {
+    where {
 
+    }
+    require {
+
+    }
+    ensure {
+    }
+}
 class NDArray {
 	meta dimension: Array<Integer>
 	meta data_type: T
-	where {
-
-	}
-	require {
-
-	}
-	ensure {
-	}
 }
 
 
-def widge(type T: Type, data: T) {
+function widge(type T: Type, data: T) {
     object {
         member: T,
     }
@@ -55,14 +56,14 @@ class String {
 
 
 #ndet
-def random() {
+function random() {
 	#liberate() {
 
 	}
 }
 
 #unlimited(non_det_evaluate)
-fn multiply(a: i64, b: i64) i64 {
+function multiply(a: i64, b: i64) i64 {
     return a * b;
 }
 
@@ -72,7 +73,7 @@ micro a() {
 
 
 #allow(evaluate: [diverge, arbitrary])
-def main() -> Result<T> {
+function main() -> Result<T> {
     let len = #eval random();
     const my_static_array: [len]u8 = undefined;
 }

@@ -30,11 +30,8 @@ CEILING_L:     '⌈';
 CEILING_R:     '⌉';
 FLOOR_L:       '⌊';
 FLOOR_R:       '⌋';
-COLLECTION_L:   '⦃';
-COLLECTION_R:   '⦄';
-
-
-
+COLLECTION_L:  '⦃';
+COLLECTION_R:  '⦄';
 
 // infix
 OP_ADD: '+';
@@ -65,19 +62,19 @@ OP_SUB_ASSIGN: '-=';
 OP_MUL_ASSIGN: '*=';
 OP_DIV_ASSIGN: '/=';
 // logical
-LOGIC_NOT: '¬';
-LOGIC_AND: '&&' | '∧';
-LOGIC_OR:  '||' | '∨';
-LOGIC_XOR: '⊻';
-LOGIC_NOR: '⊽';
+LOGIC_NOT:  '¬';
+LOGIC_AND:  '&&' | '∧';
+LOGIC_OR:   '||' | '∨';
+LOGIC_XOR:  '⊻';
+LOGIC_NOR:  '⊽';
 LOGIC_NAND: '⊼';
 // bitwise
-OP_AND:    '&';
-OP_OR:     '|';
-OP_XOR:    '⊕';
-OP_EQV:    '≡';
-OP_IMPL:   '‽';
-OP_IFF:    '⇔';
+OP_AND:  '&';
+OP_OR:   '|';
+OP_XOR:  '⊕';
+OP_EQV:  '≡';
+OP_IMPL: '‽';
+OP_IFF:  '⇔';
 
 // macro call
 OP_AT:   '@';
@@ -87,17 +84,16 @@ LAMBDA_SLOT: '$' | '$$';
 MACRO_SLOT:  '§' | '§§';
 // monadic
 OP_UNIMPLEMENTED: '⅏' | '???';
-OP_OR_ELSE: '??';
-OP_THROW:   '?';
+OP_OR_ELSE:       '??';
+OP_THROW:         '?';
 // not
 OP_NOT: '!';
 KW_NOT: 'not';
 // in
-OP_IN:     '∈' | '∊';
-KW_IN:     'in';
-OP_NOT_IN: '∉';
+OP_IN:        '∈' | '∊';
+KW_IN:        'in';
+OP_NOT_IN:    '∉';
 OP_CONTINUES: '∋' | '∍';
-
 
 // is
 KW_IS:     'is';
@@ -113,32 +109,29 @@ OP_TEMPERATURE: '℃' | '℉';
 // standalone
 
 // DOT ":=", "≔" -> pushToken(ValkyrieTypes.PATTERN_SET, r) "->", "==", "≡" ->
-// pushToken(ValkyrieTypes.OP_EQ, r) "...", ".." -> pushToken(ValkyrieTypes.KW_DOTS, r) start with +
-// "++" -> pushToken(ValkyrieTypes.OP_INC, r) "+=" -> pushToken(ValkyrieTypes.OP_ADD_ASSIGN, r) "+"
-// -> pushToken(ValkyrieTypes.OP_ADD, r) // start with - "--" -> pushToken(ValkyrieTypes.OP_DEC, r)
-// r) "¶" -> pushToken(ValkyrieTypes.OP_QUOTE, r) "⟦" -> { pushToken(ValkyrieTypes.SLICE_L, r) }
+// pushToken(ValkyrieTypes.OP_EQ, r) "...", ".." -> pushToken(ValkyrieTypes.KW_DOTS, r) 
+// r) "¶" -> pushToken(ValkyrieTypes.OP_QUOTE, r) 
 // "⤇", "|=>", "⤃", "!=>" -> { pushToken(ValkyrieTypes.OP_EMPTY, r) }
 
 // keywords
-KW_NAMESPACE
-    : 'namespace' ('!' | '*' | '?')?
-    ;
-KW_IMPORT:    'using' | 'using!' | 'using*' | 'using?';
-KW_EXTENSION: 'extension';
-KW_EXTENDS:   'extend' | 'extends';
-KW_IMPLEMENTS: 'implement'|'implements';
-KW_CLASS:     'class' | 'structure';
-KW_TRAIT:     'trait' | 'interface';
-KW_UNION:     'union';
-KW_BITFLAGS:  'flags';
-KW_TYPE:      'type';
-KW_LET:       'let';
-KW_FUNCTION:  'function' | 'micro' | 'macro';
-KW_LAMBDA:    'lambda';
-KW_WITCH:     'which';
-KW_WHILE:     'while';
-KW_FOR:       'for';
-KW_NEW:       'new' | 'object';
+KW_NAMESPACE:  'namespace' ('!' | '*' | '?')?;
+KW_IMPORT:     'using' | 'using!' | 'using*' | 'using?';
+KW_EXTENSION:  'extension';
+KW_TEMPLATE:   'generic';
+KW_EXTENDS:    'extend' | 'extends';
+KW_IMPLEMENTS: 'implement' | 'implements';
+KW_CLASS:      'class' | 'structure';
+KW_TRAIT:      'trait' | 'interface';
+KW_UNION:      'union';
+KW_BITFLAGS:   'flags';
+KW_TYPE:       'type';
+KW_LET:        'let';
+KW_FUNCTION:   'function' | 'micro' | 'macro';
+KW_LAMBDA:     'lambda';
+KW_WITCH:      'which';
+KW_WHILE:      'while' | 'until';
+KW_FOR:        'for';
+KW_NEW:        'new' | 'object';
 // pattern match
 KW_TRY:   'try';
 KW_MATCH: 'match';
@@ -175,8 +168,8 @@ RAW_ID:     '`' ~[`]+ '`';
 UNICODE_ID: [_\p{XID_start}] [\p{XID_continue}]*;
 
 // comment
-LINE_COMMENT:  '//' ~[\r\n]*;
-BLOCK_COMMENT: '/*' .*? '*/';
+LINE_COMMENT:  '//' ~[\r\n]* -> channel(HIDDEN);
+BLOCK_COMMENT: '/*' .*? '*/' -> channel(HIDDEN);
 
-WHITE_SPACE:     [\p{White_Space}]+;
+WHITE_SPACE:     [\p{White_Space}]+ -> channel(HIDDEN);
 ERROR_CHARACTAR: . -> channel(HIDDEN);

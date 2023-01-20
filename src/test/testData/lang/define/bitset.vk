@@ -31,16 +31,16 @@ test function  test() {
 }
 
 extends Bitflags {
-    def get_bits(self) {
+    function get_bits(self) {
 
     }
-    def as_bools(self) {
+    function as_bools(self) {
 
     }
 }
 // always public
 #infix('|')
-def oppo logic_or(self, rhs: Self) -> Self {
+function oppo logic_or(self, rhs: Self) -> Self {
     Self::from(self.bits | rhs.bits)
 }
 

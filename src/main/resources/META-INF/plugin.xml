@@ -46,7 +46,7 @@
 		<indexedRootsProvider implementation="valkyrie.ide.project.ExtraIndexContributor"/>
 		<!--				<generatedSourcesFilter implementation="valkyrie.ide.project.package.ValkyrieGeneratedSource"/>-->
 		<!-- Project Facet -->
-		<facetType implementation="valkyrie.ide.project.facet.ValkyrieFacetType"/>
+<!--		<facetType implementation="valkyrie.ide.project.facet.ValkyrieFacetType"/>-->
 		<!-- StructureView -->
 		<iconProvider implementation="valkyrie.language.file.ValkyrieIconProvider"/>
 		<projectViewNestingRulesProvider implementation="valkyrie.language.file.ValkyrieFileGroup"/>
@@ -80,7 +80,7 @@
 		<postFormatProcessor implementation="valkyrie.ide.formatter.ValkyrieAfterFormat"/>
 		<lang.smartEnterProcessor language="Valkyrie" implementationClass="valkyrie.ide.formatter.SmartEnter"/>
 		<!-- Tests -->
-		<configurationType implementation="valkyrie.ide.runner.ValkyrieConfigurationType"/>
+<!--		<configurationType implementation="valkyrie.ide.runner.ValkyrieConfigurationType"/>-->
 		<runConfigurationsSettings implementation="valkyrie.ide.runner.ValkyrieRunnerSettings"/>
 		<runConfigurationProducer implementation="valkyrie.ide.runner.ValkyrieRunConfigurationProducer"/>
 		<runConfigurationTemplateProvider implementation="valkyrie.ide.runner.ValkyrieRunningTemplateProvider"/>

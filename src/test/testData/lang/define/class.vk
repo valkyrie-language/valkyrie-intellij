@@ -10,7 +10,8 @@ class A2{
 
 class A3<T: Debug>(T, T)
 
-template F, A {
+
+generic F, A {
 
 }
 trait Functor<F<A>> {
@@ -24,7 +25,7 @@ class Print(w: Write,  parameters: Params) {
 
 }
 trait Fn<Ret, **Args> {
-    fn call(self, **_: Args) -> Ret;
+    function call(self, **_: Args) -> Ret;
 }
 class A4<M> {
     x: T,
@@ -64,12 +65,12 @@ forall T {}
 extend Vec<T>: Iterable {
     forall 'a { Self: 'a }
 type Iter = <&'a [T] as IntoIterator>::IntoIter;
-fn iter(&self) -> Self::Iter<'_> {
+function iter(&self) -> Self::Iter<'_> {
 self.iter()
 }
 }
 ⦃ {}⦄⟦ ⟧ ⟨ ⟩ ⟪ ⟫ ⟮ ⟯ ⟬ ⟭ ⌈ ⌉ ⌊ ⌋ ⦇ ⦈ ⦉ ⦊
-def method(mut arg: int)
+function method(mut arg: int)
 {
 arg = arg + 44;
 }
@@ -87,6 +88,6 @@ class WorldOptions {
 
 }
 
-def world(...options:WorldOptions) {
+function world(...options:WorldOptions) {
 
 }

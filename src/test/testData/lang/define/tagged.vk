@@ -27,7 +27,7 @@ variant Validation {
 }
 
 extends Validation {
-    def is_true(self): bool {
+    function is_true(self): bool {
         @matches(self, Fine(_, []))
     }
 }

@@ -97,9 +97,9 @@ class ValkyrieLexer : Lexer() {
             OP_ADD, OP_SUB,
             OP_MUL, OP_DIV,
             LOGIC_OR, LOGIC_AND,
-            OP_LEQ, OP_LL, OP_LLL,
-            OP_GEQ, OP_GG, OP_GGG,
-            OP_UNTIL
+            OP_LT, OP_LEQ, OP_LL, OP_LLL,
+            OP_GT, OP_GEQ, OP_GG, OP_GGG,
+            OP_UNTIL,
         )
         val OperatorSuffix: TokenSet = PSIElementTypeFactory.createTokenSet(
             ValkyrieLanguage,
@@ -108,8 +108,8 @@ class ValkyrieLexer : Lexer() {
         val Operators = TokenSet.orSet(OperatorPrefix, OperatorInfix, OperatorSuffix);
         val MacroOperators = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieAntlrLexer.OP_HASH, ValkyrieAntlrLexer.OP_AT);
 
-        val Comma : TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, COMMA);
-        val Semicolon : TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, SEMICOLON);
+        val Comma: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, COMMA);
+        val Semicolon: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, SEMICOLON);
         val Dot = TokenIElementType(DOT, ".", ValkyrieLanguage);
         val Proportion = TokenIElementType(OP_PROPORTION, ".", ValkyrieLanguage);
         val Integers: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, INTEGER);

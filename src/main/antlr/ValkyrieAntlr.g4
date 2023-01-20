@@ -55,7 +55,7 @@ import_block: BRACE_L BRACE_R | BRACE_L import_term* BRACE_R;
 define_extension: KW_EXTENSION;
 // ===========================================================================
 define_class
-    : annotation* modifiers KW_CLASS identifier define_generic? class_inherit? class_block
+    : template_call annotation* modifiers KW_CLASS identifier define_generic? class_inherit? class_block eos?
     ;
 class_block:      BRACE_L class_statements* BRACE_R;
 class_statements: class_method | class_field | eos_free;
@@ -69,13 +69,17 @@ class_method
     : annotation* modified_namepath function_parameters type_hint? effect_hint? function_block?
     ;
 // ===========================================================================
-define_trait:      KW_TRAIT identifier define_generic? impliments? trait_block;
+define_trait
+    : template_call annotation* modifiers KW_TRAIT identifier define_generic? impliments? trait_block eos?
+    ;
 trait_block:       BRACE_L trait_statements* BRACE_R;
 trait_statements:  define_trait_type | class_method | class_field | eos_free;
 define_trait_type: KW_TYPE identifier (OP_ASSIGN type_expression)?;
 // ===========================================================================
-define_extends: KW_EXTENDS namepath impliments? trait_block;
-impliments:     (COLON | KW_IMPLEMENTS) type_expression;
+define_extends
+    : template_call annotation* modifiers KW_EXTENDS namepath impliments? trait_block
+    ;
+impliments: (COLON | KW_IMPLEMENTS) type_expression;
 // ===========================================================================
 define_union:       KW_UNION identifier union_block;
 union_block:        BRACE_L union_statements* BRACE_R;
@@ -100,8 +104,12 @@ function_parameters
 parameter_item:    annotation* modified_identifier type_hint? parameter_default?;
 parameter_default: OP_ASSIGN expression;
 // ===========================================================================
-function_call: namepath tuple_call_body;
-dot_call:      OP_THROW? DOT identifier tuple_call_body?;
+function_call
+    : OP_THROW? tuple_call_body // method?(b)
+    ;
+dot_call
+    : OP_THROW? DOT identifier tuple_call_body? // ?.method()
+    ;
 tuple_call_body
     : PARENTHESES_L PARENTHESES_R
     | PARENTHESES_L tuple_call_item (COMMA tuple_call_item)* COMMA? PARENTHESES_R
@@ -158,6 +166,7 @@ expression
     | expression op_assign type_expression
     | control_expression
     | prefix_call expression
+    | PARENTHESES_L expression PARENTHESES_R
     | term
     ;
 inline_expression
@@ -187,7 +196,7 @@ suffix_call
     | lambda_call
     | match_call
     | catch_call
-    | dot_call
+    | function_call
     | dot_call
     ;
 control_expression
@@ -240,6 +249,8 @@ generic_call_in_type
 // ===========================================================================
 slice_call:  BRACKET_L expression BRACKET_R;
 offset_call: OP_PROPORTION BRACKET_L expression BRACKET_R | OFFSET_L expression OFFSET_R;
+// ===========================================================================
+template_call: annotation* modifiers KW_TEMPLATE identifier* BRACE_L BRACE_R;
 // ===========================================================================
 macro_call: OP_AT macro_call_name function_parameters?;
 annotation

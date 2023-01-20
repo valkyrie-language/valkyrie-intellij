@@ -5,7 +5,7 @@ let a = true;
 
 inline function package::path::range(min: int, max: int, step: int): Range {
     lambda () { };
-    new lazy std::iterator::Range::<T>() {
+    new lazy std::iterator::Range⟨T⟩() {
         from: min,
         till: max,
         step: step,
@@ -33,7 +33,7 @@ function test(
     if self.index >= self.term.length() {
         return None;
     };
-let item = self.term.get(self.index);
+    let item = self.term.get(self.index);
     self.index += 1;
     return item;
 }
@@ -48,8 +48,8 @@ json'{
 re'ab[cd]'
 
 
-std::test::<T>(arg)[index];
-std::test⦓T⦔(arg)⁅index⁆;
+std::test⟨T⟩(arg)[index];
+std::test⟨T⟩(arg)⁅index⁆;
 
 
 a?.like

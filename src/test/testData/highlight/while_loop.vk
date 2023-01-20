@@ -1,6 +1,6 @@
 while true {
     while false {
-        while null {
+        until null {
 
         }
     }
@@ -15,7 +15,7 @@ while true {
 }
 
 while (b!=0) {
-    while let Some(a) = expr {
+    while case Some(a) = expr {
 
     }
 }

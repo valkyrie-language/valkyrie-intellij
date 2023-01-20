@@ -24,6 +24,7 @@ import valkyrie.language.antlr.ValkyrieLexer
 import valkyrie.language.antlr.childrenWithLeaves
 import valkyrie.language.ast.ValkyrieClassStatement
 import valkyrie.language.ast.ValkyrieNamespaceStatement
+import valkyrie.language.ast.calls.ValkyrieCallGeneric
 import valkyrie.language.psi.ValkyrieVisitor
 
 //import valkyrie.language.psi_node.ValkyrieClassStatementNode
@@ -92,6 +93,24 @@ private class RewriteVisitor(private val text: Document, val settings: ValkyrieC
     override fun visitClassDeclaration(o: ValkyrieClassStatement) {
         for (field in o.getFields()) {
             fixDelimiter(field, settings.class_field_trailing)
+        }
+    }
+
+    override fun visitGenericCall(o: ValkyrieCallGeneric) {
+        for (leaf in o.childrenWithLeaves) {
+            when (leaf.node.text) {
+                "<" -> {
+                    replaceNode(leaf, "⟨")
+                }
+
+                ">" -> {
+                    replaceNode(leaf, "⟩")
+                }
+
+                "::" -> {
+                    deleteNode(leaf)
+                }
+            }
         }
     }
 
