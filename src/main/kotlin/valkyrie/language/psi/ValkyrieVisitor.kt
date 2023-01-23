@@ -35,15 +35,16 @@ open class ValkyrieVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveVisitor {
             is ValkyrieLetParameter -> visitForParameter(element)
             //
             is ValkyrieNewStatement -> visitNewObject(element)
-            is ValkyrieNamepathNode -> visitNamepath(element)
-            else -> {
-                visitOther(element)
+            is ValkyrieNamepathNode -> {
+                visitNamepath(element)
+                return;
             }
+            // parent will not be namepath
+            is ValkyrieIdentifierNode -> visitIdentifier(element)
+            else -> visitOther(element)
         }
         element.acceptChildren(this)
     }
-
-
 
 
     protected open fun visitProgram(o: ValkyrieProgramNode) {
@@ -65,9 +66,11 @@ open class ValkyrieVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveVisitor {
     protected open fun visitClassMethod(o: ValkyrieClassMethodNode) {
 
     }
+
     protected open fun visitGenericCall(o: ValkyrieCallGeneric) {
 
     }
+
     protected open fun visitFlagsDeclaration(o: ValkyrieFlagsStatement) {
 
     }
@@ -114,6 +117,10 @@ open class ValkyrieVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveVisitor {
     }
 
     protected open fun visitNamepath(o: ValkyrieNamepathNode) {
+
+    }
+
+    protected open fun visitIdentifier(o: ValkyrieIdentifierNode) {
 
     }
 

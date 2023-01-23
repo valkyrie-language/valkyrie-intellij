@@ -1,5 +1,6 @@
 package valkyrie.language.ast
 
+import com.intellij.icons.AllIcons
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
@@ -25,19 +26,22 @@ class ValkyrieClassFieldNode(node: CompositeElement) : ValkyrieScopeNode(node), 
     override fun getNameIdentifier(): ValkyrieIdentifierNode {
         return field
     }
+
     override fun isVisibilitySupported(): Boolean {
         return true;
     }
-    public override fun getBaseIcon(): Icon {
-       return ValkyrieIconProvider.Instance.Field
-    }
 
-    override fun getIcon(flags: Int): Icon {
+    override fun getBaseIcon(): Icon {
+        for (m in modifiers) {
+            if (m.name == "inherit") {
+                return AllIcons.Nodes.Class
+            }
+        }
         return ValkyrieIconProvider.Instance.Field
     }
 
     override fun getPresentation(): ItemPresentation {
-        return IdentifierPresentation(field, this.getIcon(0))
+        return IdentifierPresentation(field, this.baseIcon)
     }
 }
 

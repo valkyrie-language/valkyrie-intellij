@@ -1,93 +1,30 @@
-// https://internals.rust-lang.org/t/variadic-generics-design-sketch/18974/23
-class A1(public virtual XBase, inline YBase)
+class Empty1 {};
 
-class A2{
+class Empty2() {};
+
+generic T {
+    where { T: AnyType => AnyType }
+}
+public static dynamic_transaction_safe volatile final
+class Empty3⟨T⟩() {}
+
+
+open impart
+class Inherit1(public virtual XBase, inline YBase) {}
+
+open impart
+class Inherit2 {
     public virtual
     inherit x_base: XBase,
     private inline
     inherit _y_base: YBase,
 }
 
-class A3<T: Debug>(T, T)
-
-
-generic F, A {
-
-}
-trait Functor<F<A>> {
-    map<A, ..B>(self: F<A>, f: (a: A) -> B) -> F<B>
-}
-
-template Params {
-
-}
-class Print(w: Write,  parameters: Params) {
-
-}
-trait Fn<Ret, **Args> {
-    function call(self, **_: Args) -> Ret;
-}
-class A4<M> {
-    x: T,
-    y: T,
-}
-
-#[Serialize, Deserialize]
-#Serialize
-#Deserialize
-#derive
-class B {
-    a: int,
-    b: int,
-}
-
-define type A {
-
-}
-
-
-forall T, U {T: Debug}
-define public static class A<T> (T, usize): Debug;
-class A: Clone + Debug {
-    item: String = "item"
-}
-
-type alias null = Null;
-forall <T>
-class: T;
-class A {
-
-}
-interface
-bitset
-tagged
-forall T {}
-extend Vec<T>: Iterable {
-    forall 'a { Self: 'a }
-type Iter = <&'a [T] as IntoIterator>::IntoIter;
-function iter(&self) -> Self::Iter<'_> {
-self.iter()
-}
-}
-⦃ {}⦄⟦ ⟧ ⟨ ⟩ ⟪ ⟫ ⟮ ⟯ ⟬ ⟭ ⌈ ⌉ ⌊ ⌋ ⦇ ⦈ ⦉ ⦊
-function method(mut arg: int)
-{
-arg = arg + 44;
-}
-
-let a = {
-
-}
-
-class A {
-    i: &int,
-}
-
-#[open, parameter]
-class WorldOptions {
-
-}
-
-function world(...options:WorldOptions) {
-
+class A3⟨T: Debug⟩(Integer){
+    get value(): Integer{
+        _integer
+    }
+    set value() {
+        _integer
+    }
 }

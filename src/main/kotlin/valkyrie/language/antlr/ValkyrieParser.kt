@@ -30,15 +30,20 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
             return when (type.ruleIndex) {
                 RULE_program -> ValkyrieProgramNode(node, type)
                 RULE_define_namespace -> ValkyrieNamespaceStatement(node, type)
-                RULE_import_block  -> ValkyrieBlockNode(node)
-                // class
-                RULE_define_class -> ValkyrieClassStatement(node)
-                RULE_class_block -> ValkyrieBlockNode(node)
-                RULE_class_field -> ValkyrieClassFieldNode(node)
-                RULE_class_method -> ValkyrieClassMethodNode(node)
+                RULE_import_block -> ValkyrieBlockNode(node)
+                // annotations
                 RULE_modifiers -> ValkyrieModifiedNode(node, ValkyrieModifiedKind.Pure)
                 RULE_modified_identifier -> ValkyrieModifiedNode(node, ValkyrieModifiedKind.ModifiedIdentifier)
                 RULE_modified_namepath -> ValkyrieModifiedNode(node, ValkyrieModifiedKind.ModifiedNamepath)
+                RULE_template_block -> ValkyrieBlockNode(node, ValkyrieBlockKind.Brace)
+                RULE_where_block -> ValkyrieBlockNode(node, ValkyrieBlockKind.Brace)
+                // class
+                RULE_define_class -> ValkyrieClassStatement(node)
+                RULE_class_inherit_item -> ValkyrieClassInheritItem(node)
+                RULE_class_block -> ValkyrieBlockNode(node)
+                RULE_class_field -> ValkyrieClassFieldNode(node)
+                RULE_class_method -> ValkyrieClassMethodNode(node)
+
                 // flags
                 RULE_define_bitflags -> ValkyrieFlagsStatement(node, type)
                 RULE_bitflags_block -> ValkyrieBlockNode(node)

@@ -22,6 +22,11 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         for (mod in o.modifiers) {
             highlight(mod, Color.MODIFIER)
         }
+        for (inherit in o.inherits) {
+            for (mod in inherit.modifiers) {
+                highlight(mod, Color.MODIFIER)
+            }
+        }
     }
 
     override fun visitClassField(o: ValkyrieClassFieldNode) {
@@ -96,6 +101,10 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     override fun visitNamepath(o: ValkyrieNamepathNode) {
         fakeTypeColor(o.nameIdentifier)
+    }
+
+    override fun visitIdentifier(o: ValkyrieIdentifierNode) {
+        fakeTypeColor(o)
     }
 // =================================================================================================================
 

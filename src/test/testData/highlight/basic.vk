@@ -13,6 +13,90 @@ inline function package::path::range(min: int, max: int, step: int): Range {
     }
 }
 
+generic F {
+    where {
+        F: AnyType -> AnyType
+    }
+}
+trait Functor< F > {
+// map<A, B>(self: F<A>, f: (a: A) -> B) -> F<B>
+}
+
+generic Params {
+
+}
+function Print(w: Write, parameters: Params) {
+
+}
+// trait Fn<Ret, **Args> {
+//     function call(self, **_: Args) -> Ret;
+// }
+class A4< M > {
+    x: T,
+    y: T,
+}
+
+#[Serialize, Deserialize]
+#Serialize
+#Deserialize
+#derive
+class B {
+    a: int,
+    b: int,
+}
+
+type A = a;
+
+
+generic T, U {
+    where {
+        T: Debug
+    }
+}
+define public static class A< T > (T, usize): Debug;
+class A: Clone + Debug {
+    item: String = "item"
+}
+
+alias type `null` = Null;
+template T { }
+class A {
+
+}
+interface
+bitset
+tagged
+forall T {}
+extend Vec<T>: Iterable {
+    forall 'a { Self: 'a }
+type Iter = <&'a [T] as IntoIterator>::IntoIter;
+function iter(&self) -> Self::Iter<'_> {
+self.iter()
+}
+}
+⦃ {}⦄⟦ ⟧ ⟨ ⟩ ⟪ ⟫ ⟮ ⟯ ⟬ ⟭ ⌈ ⌉ ⌊ ⌋ ⦇ ⦈ ⦉ ⦊
+function method(mut arg: int)
+{
+    arg = arg + 44;
+}
+
+let a = {
+
+}
+
+class A {
+    i: &int,
+}
+
+#[open, parameter]
+class WorldOptions {
+
+}
+
+function world(...options:WorldOptions) {
+
+}
+
 trait TestTrait {
 
 }

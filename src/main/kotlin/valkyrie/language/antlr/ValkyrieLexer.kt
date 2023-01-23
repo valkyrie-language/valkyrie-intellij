@@ -68,6 +68,8 @@ class ValkyrieLexer : Lexer() {
             KW_TRAIT, KW_EXTENDS,
             KW_FUNCTION, KW_LAMBDA,
             KW_LET,
+            //
+            KW_TEMPLATE, KW_WHERE,
             // conditional
             KW_IF, KW_ELSE,
             // control flow

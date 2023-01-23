@@ -109,29 +109,33 @@ OP_TEMPERATURE: '℃' | '℉';
 // standalone
 
 // DOT ":=", "≔" -> pushToken(ValkyrieTypes.PATTERN_SET, r) "->", "==", "≡" ->
-// pushToken(ValkyrieTypes.OP_EQ, r) "...", ".." -> pushToken(ValkyrieTypes.KW_DOTS, r) 
-// r) "¶" -> pushToken(ValkyrieTypes.OP_QUOTE, r) 
-// "⤇", "|=>", "⤃", "!=>" -> { pushToken(ValkyrieTypes.OP_EMPTY, r) }
+// pushToken(ValkyrieTypes.OP_EQ, r) "...", ".." -> pushToken(ValkyrieTypes.KW_DOTS, r) r) "¶" ->
+// pushToken(ValkyrieTypes.OP_QUOTE, r) "⤇", "|=>", "⤃", "!=>" -> {
+// pushToken(ValkyrieTypes.OP_EMPTY, r) }
 
 // keywords
-KW_NAMESPACE:  'namespace' ('!' | '*' | '?')?;
-KW_IMPORT:     'using' | 'using!' | 'using*' | 'using?';
-KW_EXTENSION:  'extension';
-KW_TEMPLATE:   'generic';
+KW_NAMESPACE: 'namespace' ('!' | '*' | '?')?;
+KW_IMPORT:    'using' | 'using!' | 'using*' | 'using?';
+KW_EXTENSION: 'extension';
+// 
+KW_CLASS:    'class' | 'structure';
+KW_TRAIT:    'trait' | 'interface';
+KW_UNION:    'union';
+KW_BITFLAGS: 'flags';
+KW_TYPE:     'type';
+//
+KW_TEMPLATE:   'template' | 'generic' | 'forall';
 KW_EXTENDS:    'extend' | 'extends';
 KW_IMPLEMENTS: 'implement' | 'implements';
-KW_CLASS:      'class' | 'structure';
-KW_TRAIT:      'trait' | 'interface';
-KW_UNION:      'union';
-KW_BITFLAGS:   'flags';
-KW_TYPE:       'type';
-KW_LET:        'let';
-KW_FUNCTION:   'function' | 'micro' | 'macro';
-KW_LAMBDA:     'lambda';
-KW_WITCH:      'which';
-KW_WHILE:      'while' | 'until';
-KW_FOR:        'for';
-KW_NEW:        'new' | 'object';
+KW_WHERE:      'where';
+//
+KW_LET:      'let';
+KW_FUNCTION: 'function' | 'micro' | 'macro';
+KW_LAMBDA:   'lambda';
+KW_WITCH:    'which';
+KW_WHILE:    'while' | 'until';
+KW_FOR:      'for';
+KW_NEW:      'new' | 'object';
 // pattern match
 KW_TRY:   'try';
 KW_MATCH: 'match';

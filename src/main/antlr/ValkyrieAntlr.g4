@@ -55,29 +55,29 @@ import_block: BRACE_L BRACE_R | BRACE_L import_term* BRACE_R;
 define_extension: KW_EXTENSION;
 // ===========================================================================
 define_class
-    : template_call annotation* modifiers KW_CLASS identifier define_generic? class_inherit? class_block eos?
+    : template_call? annotation* modifiers KW_CLASS identifier define_generic? class_inherit? class_block eos?
     ;
 class_block:      BRACE_L class_statements* BRACE_R;
 class_statements: class_method | class_field | eos_free;
 class_inherit
     : PARENTHESES_L PARENTHESES_R
-    | PARENTHESES_L inherit_type (COMMA inherit_type)* COMMA? PARENTHESES_R
+    | PARENTHESES_L class_inherit_item (COMMA class_inherit_item)* COMMA? PARENTHESES_R
     ;
-inherit_type: modified_namepath;
-class_field:  annotation* modified_identifier type_hint? parameter_default?;
+class_inherit_item: modified_namepath;
+class_field:        annotation* modified_identifier type_hint? parameter_default?;
 class_method
     : annotation* modified_namepath function_parameters type_hint? effect_hint? function_block?
     ;
 // ===========================================================================
 define_trait
-    : template_call annotation* modifiers KW_TRAIT identifier define_generic? impliments? trait_block eos?
+    : template_call? annotation* modifiers KW_TRAIT identifier define_generic? impliments? trait_block eos?
     ;
 trait_block:       BRACE_L trait_statements* BRACE_R;
 trait_statements:  define_trait_type | class_method | class_field | eos_free;
 define_trait_type: KW_TYPE identifier (OP_ASSIGN type_expression)?;
 // ===========================================================================
 define_extends
-    : template_call annotation* modifiers KW_EXTENDS namepath impliments? trait_block
+    : template_call? annotation* modifiers KW_EXTENDS namepath impliments? trait_block
     ;
 impliments: (COLON | KW_IMPLEMENTS) type_expression;
 // ===========================================================================
@@ -181,9 +181,10 @@ inline_expression
     | term
     ;
 type_expression
-    : type_expression op_pattern type_expression # TPattern
-    | type_expression generic_call_in_type       # TParens
-    | term                                       # TTerm
+    : type_expression op_pattern type_expression   # TPattern
+    | type_expression infix_arrows type_expression # TArrays
+    | type_expression generic_call_in_type         # TParens
+    | term                                         # TTerm
     ;
 // ===========================================================================
 prefix_call: OP_NOT | OP_ADD | OP_SUB | OP_AND;
@@ -225,14 +226,15 @@ term
     | SPECIAL
     ;
 
-op_compare:  OP_LT | OP_LEQ | OP_GT | OP_GEQ | OP_EQ | OP_NE;
-op_pattern:  OP_AND | OP_OR;
-op_multiple: OP_MUL | OP_DIV;
-op_plus:     OP_ADD | OP_SUB;
-op_logic:    LOGIC_OR | LOGIC_AND | LOGIC_XOR | LOGIC_NOR | LOGIC_NAND;
-op_assign:   OP_ASSIGN | OP_ADD_ASSIGN | OP_SUB_ASSIGN | OP_MUL_ASSIGN | OP_DIV_ASSIGN;
-infix_is:    KW_IS | KW_IS KW_NOT;
-infix_in:    KW_IN | OP_IN;
+op_compare:   OP_LT | OP_LEQ | OP_GT | OP_GEQ | OP_EQ | OP_NE;
+op_pattern:   OP_AND | OP_OR;
+infix_arrows: OP_ARROW | OP_ARROW2;
+op_multiple:  OP_MUL | OP_DIV;
+op_plus:      OP_ADD | OP_SUB;
+op_logic:     LOGIC_OR | LOGIC_AND | LOGIC_XOR | LOGIC_NOR | LOGIC_NAND;
+op_assign:    OP_ASSIGN | OP_ADD_ASSIGN | OP_SUB_ASSIGN | OP_MUL_ASSIGN | OP_DIV_ASSIGN;
+infix_is:     KW_IS | KW_IS KW_NOT;
+infix_in:     KW_IN | OP_IN;
 // ===========================================================================
 define_generic
     : GENERIC_L GENERIC_R
@@ -250,7 +252,14 @@ generic_call_in_type
 slice_call:  BRACKET_L expression BRACKET_R;
 offset_call: OP_PROPORTION BRACKET_L expression BRACKET_R | OFFSET_L expression OFFSET_R;
 // ===========================================================================
-template_call: annotation* modifiers KW_TEMPLATE identifier* BRACE_L BRACE_R;
+template_call
+    : annotation* modifiers KW_TEMPLATE template_block
+    | annotation* modifiers KW_TEMPLATE identifier (COMMA identifier)* COMMA? template_block
+    ;
+template_block: BRACE_L tempalte_terms* BRACE_R;
+tempalte_terms: KW_WHERE where_block | eos_free;
+where_block:    BRACE_L where_bound* BRACE_R;
+where_bound:    identifier COLON type_expression | eos_free;
 // ===========================================================================
 macro_call: OP_AT macro_call_name function_parameters?;
 annotation
