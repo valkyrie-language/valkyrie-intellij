@@ -18,13 +18,26 @@ class Inherit2 {
     inherit x_base: XBase,
     private inline
     inherit _y_base: YBase,
+
+    constructor() {
+
+    }
 }
 
 class A3⟨T: Debug⟩(Integer){
-    get value(): Integer{
+    get value(self): Integer {
         _integer
     }
-    set value() {
+    set value(mut self) {
         _integer
     }
 }
+
+class 原神 {
+    启动(self) {
+        shell"F:\Games\Genshin Impact\UnityCrashHandler64.exe"
+    }
+}
+
+
+

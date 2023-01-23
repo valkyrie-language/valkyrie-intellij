@@ -67,7 +67,7 @@ trait ScalableSequence<T>: Sequence<T> {
 }
 
 #silent
-exception A {
+exception class A {
 
 }
 

@@ -37,7 +37,11 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitClassMethod(o: ValkyrieClassMethodNode) {
-        highlight(o.nameIdentifier, Color.SYM_FUNCTION_SELF)
+        if (o.method.name == "constructor") {
+            highlight(o.nameIdentifier, Color.KEYWORD)
+        } else {
+            highlight(o.nameIdentifier, Color.SYM_FUNCTION_SELF)
+        }
         for (mod in o.modifiers) {
             highlight(mod, Color.MODIFIER)
         }
@@ -64,10 +68,14 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitFunctionDeclaration(o: ValkyrieFunctionStatement) {
-        highlight(o.getNameIdentifier(), Color.SYM_FUNCTION_FREE)
+        highlight(o.nameIdentifier, Color.SYM_FUNCTION_FREE)
         for (mod in o.modifiers) {
             highlight(mod, Color.MODIFIER)
         }
+    }
+
+    override fun visitCallArgument(o: ValkyrieCallArgument) {
+        highlight(o.key, Color.SYM_ARG)
     }
 
     override fun visitVariableDeclaration(o: ValkyrieLetStatement) {
@@ -101,6 +109,10 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     override fun visitNamepath(o: ValkyrieNamepathNode) {
         fakeTypeColor(o.nameIdentifier)
+    }
+
+    override fun visitString(o: ValkyrieStringNode) {
+        highlight(o.handler, Color.SYM_MACRO)
     }
 
     override fun visitIdentifier(o: ValkyrieIdentifierNode) {
@@ -138,12 +150,19 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
 private fun NodeHighlighter.fakeTypeColor(psi: ValkyrieIdentifierNode) {
     val name = psi.name
-    when {
-        keywords.contains(name) -> highlight(psi, Color.KEYWORD)
-        traits.contains(name) -> highlight(psi, Color.SYM_TRAIT)
-        variants.contains(name) -> highlight(psi, Color.SYM_VARIANT)
-        name.isUppercase() -> highlight(psi, Color.SYM_GENERIC)
-        name.first().isUpperCase() -> highlight(psi, Color.SYM_CLASS)
+    if (keywords.contains(name)) {
+        highlight(psi, Color.KEYWORD)
+    } else if (traits.contains(name)) {
+        highlight(psi, Color.SYM_TRAIT)
+    } else if (variants.contains(name)) {
+        highlight(psi, Color.SYM_VARIANT)
+    } else if (name.isUppercase()) {
+        highlight(psi, Color.SYM_GENERIC)
+    } else {
+        val first = name.firstOrNull();
+        if (first != null && first.isUpperCase()) {
+            highlight(psi, Color.SYM_CLASS)
+        }
     }
 }
 

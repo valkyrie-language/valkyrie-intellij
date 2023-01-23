@@ -13,10 +13,6 @@ enum class ValkyrieBlockKind {
 class ValkyrieBlockNode : ASTWrapperPsiElement {
     val kind: ValkyrieBlockKind
 
-    constructor(node: CompositeElement) : super(node) {
-        kind = ValkyrieBlockKind.Brace
-    }
-
     constructor(node: CompositeElement, kind: ValkyrieBlockKind) : super(node) {
         this.kind = kind
     }

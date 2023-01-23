@@ -1,18 +1,33 @@
-micro function() {
+function name() {}
+
+macro module::`function`(): R / P {
 
 }
 
-macro module::function(): R {
-
+inline function package::path::range(min: int, max: int, step: int): Range {
+    new lazy std::iterator::Range⟨int⟩() {
+        from: min,
+        till: max,
+        step: step,
+        _current: min,
+    }
 }
 
-
-micro function(a, k: T, p: U = 1) -> R {
+micro name(a, k: T, p: U = 1) -> R {
     print("Hello, world!")
 }
 
+generic P {
+    where { P: AnyType }
+}
+function Print<P>(w: Write, ..parameters: P) {
+    lambda () { };
+}
 
-micro function<G, R>(g: G) -> R {
+
+
+
+micro name<G, R>(g: G) -> R {
     1 + 1
     a in b
     print("Hello, world!")
@@ -20,13 +35,15 @@ micro function<G, R>(g: G) -> R {
 
 
 macro outer<L>(lhs: L) -> String {
-    # let mut count = 0
-    micro inner<R>(rhs: R) {
-        while count < 10 {
-            count += 1
-            print("{lhs} {rhs}")
-        }
+    #mut let mut count = 0
+}
+
+micro inner<R>(rhs: R) {
+    while count < 10 {
+        count += 1
+        print("{lhs} {rhs}")
     }
+}
     "{count}"
 }
 

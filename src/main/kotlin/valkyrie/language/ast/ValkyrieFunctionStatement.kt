@@ -2,22 +2,27 @@ package valkyrie.language.ast
 
 //import valkyrie.language.psi.ValkyrieGenericDefine
 import com.intellij.navigation.ItemPresentation
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
-import com.intellij.psi.tree.IElementType
 import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
-class ValkyrieFunctionStatement(node: CompositeElement, type: IElementType) : ValkyrieScopeNode(node) {
-    val namepath by lazy { ValkyrieNamepathNode.find(this)!! }
+class ValkyrieFunctionStatement(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner {
+    val namepath by lazy { ValkyrieNamepathNode.find(this) }
     val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
     override fun getName(): String {
-        return namepath.nameIdentifier.name
+        return namepath?.nameIdentifier?.name ?: "[Unknown Function]"
     }
 
-    fun getNameIdentifier(): ValkyrieIdentifierNode {
-        return namepath.nameIdentifier
+    override fun setName(name: String): PsiElement {
+        TODO("Not yet implemented")
+    }
+
+    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
+        return namepath?.nameIdentifier
     }
 
     override fun getBaseIcon(): Icon {
@@ -25,7 +30,7 @@ class ValkyrieFunctionStatement(node: CompositeElement, type: IElementType) : Va
     }
 
     override fun getPresentation(): ItemPresentation {
-        return IdentifierPresentation(namepath.nameIdentifier, this.baseIcon)
+        return IdentifierPresentation(namepath?.nameIdentifier, this.baseIcon)
     }
 }
 

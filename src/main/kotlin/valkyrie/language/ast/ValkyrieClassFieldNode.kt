@@ -10,7 +10,6 @@ import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
-
 class ValkyrieClassFieldNode(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner {
     val field by lazy { ValkyrieModifiedNode.findIdentifier(this)!! }
     val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
@@ -34,7 +33,7 @@ class ValkyrieClassFieldNode(node: CompositeElement) : ValkyrieScopeNode(node), 
     override fun getBaseIcon(): Icon {
         for (m in modifiers) {
             if (m.name == "inherit") {
-                return AllIcons.Nodes.Class
+                return AllIcons.Gutter.OverridingMethod
             }
         }
         return ValkyrieIconProvider.Instance.Field

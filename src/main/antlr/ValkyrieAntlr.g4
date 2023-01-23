@@ -65,9 +65,7 @@ class_inherit
     ;
 class_inherit_item: modified_namepath;
 class_field:        annotation* modified_identifier type_hint? parameter_default?;
-class_method
-    : annotation* modified_namepath function_parameters type_hint? effect_hint? function_block?
-    ;
+class_method:       annotation* modified_namepath function_parameters type_hint? function_block?;
 // ===========================================================================
 define_trait
     : template_call? annotation* modifiers KW_TRAIT identifier define_generic? impliments? trait_block eos?
@@ -77,7 +75,7 @@ trait_statements:  define_trait_type | class_method | class_field | eos_free;
 define_trait_type: KW_TYPE identifier (OP_ASSIGN type_expression)?;
 // ===========================================================================
 define_extends
-    : template_call? annotation* modifiers KW_EXTENDS namepath impliments? trait_block
+    : template_call? annotation* modifiers KW_EXTENDS namepath generic_call? impliments? trait_block
     ;
 impliments: (COLON | KW_IMPLEMENTS) type_expression;
 // ===========================================================================
@@ -95,7 +93,7 @@ bitflags_statements: bitflags_item | eos_free;
 bitflags_item:       identifier (OP_ASSIGN expression)?;
 // ===========================================================================
 define_function
-    : annotation* modifiers KW_FUNCTION namepath function_parameters type_hint? effect_hint? function_block
+    : template_call? annotation* modifiers KW_FUNCTION namepath generic_call? function_parameters type_hint? function_block
     ;
 function_parameters
     : PARENTHESES_L PARENTHESES_R
@@ -116,10 +114,8 @@ tuple_call_body
     ;
 tuple_call_item: identifier COLON expression | expression;
 // ===========================================================================
-define_lambda
-    : annotation* KW_LAMBDA function_parameters type_hint? effect_hint? function_block
-    ;
-lambda_call: OP_THROW? function_block;
+define_lambda: annotation* KW_LAMBDA function_parameters type_hint? function_block;
+lambda_call:   OP_THROW? function_block;
 // ===========================================================================
 function_block: BRACE_L function_statements* BRACE_R;
 // ===========================================================================
@@ -135,14 +131,18 @@ define_variale_lhs
 let_parameter: identifier+;
 // ===========================================================================
 define_type: KW_TYPE identifier OP_ASSIGN identifier;
-type_hint:   (COLON | OP_ARROW) type_expression;
+type_hint:   (COLON | OP_ARROW) type_expression effect_hint?;
 effect_hint: OP_DIV type_expression;
 // ===========================================================================
 if_statement:      KW_IF inline_expression function_block else_if_statement* else_statement?;
 else_if_statement: KW_ELSE KW_IF inline_expression function_block;
 else_statement:    KW_ELSE function_block;
 // ===========================================================================
-while_statement: annotation* KW_WHILE inline_expression function_block;
+while_statement
+    : annotation* KW_WHILE inline_expression function_block
+    | annotation* while_let function_block
+    ;
+while_let: KW_WHILE KW_LET case_tuple OP_ASSIGN inline_expression;
 // ===========================================================================
 for_statement
     : annotation* KW_FOR for_pattern infix_in inline_expression if_guard? function_block
@@ -242,8 +242,13 @@ define_generic
     | OP_PROPORTION? OP_LT OP_GT
     | OP_PROPORTION? OP_LT generic_item (COMMA generic_item)* COMMA? OP_GT
     ;
-generic_item: identifier (COLON type_expression)?;
-generic_call: OP_PROPORTION OP_LT type_expression OP_GT | GENERIC_L type_expression GENERIC_R;
+generic_item: (identifier COLON)? type_expression;
+generic_call
+    : OP_PROPORTION OP_LT OP_GT
+    | OP_PROPORTION OP_LT type_expression (COMMA type_expression)* COMMA? OP_GT
+    | GENERIC_L GENERIC_R
+    | GENERIC_L type_expression (COMMA type_expression)* COMMA? GENERIC_R
+    ;
 generic_call_in_type
     : OP_PROPORTION? OP_LT type_expression OP_GT
     | GENERIC_L type_expression GENERIC_R

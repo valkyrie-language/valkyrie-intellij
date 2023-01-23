@@ -31,7 +31,7 @@ class ValkyrieClassStatement(node: CompositeElement) : ValkyrieScopeNode(node), 
         TODO("Not yet implemented")
     }
 
-    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
+    override fun getNameIdentifier(): ValkyrieIdentifierNode {
         return _identifier;
     }
 

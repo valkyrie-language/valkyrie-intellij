@@ -44,14 +44,14 @@ OP_DIV: '/';
 OP_EQ: '==';
 OP_NE: '!=';
 // compare
-OP_LT:  '<';
-OP_LL:  '≪' | '<<';
-OP_LLL: '⋘' | '<<<';
 OP_LEQ: '⩽' | '≤' | '<=';
-OP_GT:  '>';
-OP_GG:  '≫' | '>>';
-OP_GGG: '⋙' | '>>>';
+OP_LLL: '⋘' | '<' '<' '<';
+OP_LL:  '≪' | '<' '<';
+OP_LT:  '<';
 OP_GEQ: '⩾' | '≥' | '>=';
+OP_GGG: '⋙' | '>' '>' '>';
+OP_GG:  '≫' | '>' '>';
+OP_GT:  '>';
 // arrow
 OP_ARROW:  '⟶' | '->';
 OP_ARROW2: '⇒' | '=>';

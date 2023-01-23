@@ -3,15 +3,6 @@ namespace ad.bd.cd
 let a = true;
 
 
-inline function package::path::range(min: int, max: int, step: int): Range {
-    lambda () { };
-    new lazy std::iterator::Range⟨T⟩() {
-        from: min,
-        till: max,
-        step: step,
-        _current: min,
-    }
-}
 
 generic F {
     where {
@@ -19,15 +10,11 @@ generic F {
     }
 }
 trait Functor< F > {
+
 // map<A, B>(self: F<A>, f: (a: A) -> B) -> F<B>
 }
 
-generic Params {
 
-}
-function Print(w: Write, parameters: Params) {
-
-}
 // trait Fn<Ret, **Args> {
 //     function call(self, **_: Args) -> Ret;
 // }

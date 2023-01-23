@@ -8,8 +8,9 @@ import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
+// must = must use `::`
 class ValkyrieCallGeneric(node: CompositeElement, must: Boolean) : ValkyrieScopeNode(node){
-    private val _identifier by lazy { ValkyrieIdentifierNode.find(this)!! }
+    private val _identifier by lazy { ValkyrieIdentifierNode.find(this) }
     override fun getBaseIcon(): Icon {
         return ValkyrieIconProvider.Instance.CLASS
     }

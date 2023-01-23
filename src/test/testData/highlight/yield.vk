@@ -14,7 +14,7 @@ self.word ?= b"Hello, World!"
 
 
 
-concept T, E { }
+generic T, E { }
 extends Result<T, E>: Perform {
 	perform(self) -> T / E {
 		match self {

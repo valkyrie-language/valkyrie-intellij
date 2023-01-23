@@ -4,6 +4,7 @@ import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionProvider
 import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.lookup.LookupElementBuilder
+import com.intellij.icons.AllIcons
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.patterns.PsiElementPattern
 import com.intellij.psi.PsiElement
@@ -72,11 +73,11 @@ class CompletionInFileScope : CompletionProvider<CompletionParameters>() {
     }
 
     private fun macroCall(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
-        return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.Instance.MACRO)
+        return buildWithReplace(show, replace, offset, lookup, AllIcons.Gutter.ExtAnnotation)
     }
 
     private fun annotationCall(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
-        return buildWithReplace(show, replace, offset, lookup, ValkyrieIconProvider.Instance.ANNOTATION)
+        return buildWithReplace(show, replace, offset, lookup, AllIcons.Nodes.Annotationtype)
     }
 
 

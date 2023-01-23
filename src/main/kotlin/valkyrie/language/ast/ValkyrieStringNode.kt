@@ -17,16 +17,16 @@ import valkyrie.language.antlr.ValkyrieAntlrParser
 import valkyrie.language.antlr.ValkyrieParser
 
 class ValkyrieStringNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiLanguageInjectionHost {
-    private val _handler by lazy {
+    val handler by lazy {
         PsiTreeUtil.getChildOfType(this, ValkyrieIdentifierNode::class.java)
     }
     private val _text by lazy {
         ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_string)!!
     }
-    private val injectLanguage = _handler?.name?.lowercase();
+    private val injectLanguage = handler?.name?.lowercase();
 
     override fun isValidHost(): Boolean {
-        return _handler != null
+        return handler != null
     }
 
     override fun updateText(text: String): PsiLanguageInjectionHost {

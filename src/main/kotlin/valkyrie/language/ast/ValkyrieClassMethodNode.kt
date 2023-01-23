@@ -24,6 +24,9 @@ class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node),
 
 
     override fun getBaseIcon(): Icon {
+        if (method.name == "constructor") {
+            return AllIcons.Gutter.ImplementingMethod
+        }
         for (m in modifiers) {
             if (m.name == "get" || m.name == "set") {
                 return AllIcons.Nodes.Property
