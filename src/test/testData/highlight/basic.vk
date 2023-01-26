@@ -4,52 +4,13 @@ let a = true;
 
 
 
-generic F {
-    where {
-        F: AnyType -> AnyType
-    }
-}
-trait Functor< F > {
 
-// map<A, B>(self: F<A>, f: (a: A) -> B) -> F<B>
-}
-
-
-// trait Fn<Ret, **Args> {
-//     function call(self, **_: Args) -> Ret;
-// }
-class A4< M > {
-    x: T,
-    y: T,
-}
-
-#[Serialize, Deserialize]
-#Serialize
-#Deserialize
-#derive
-class B {
-    a: int,
-    b: int,
-}
 
 type A = a;
 
 
-generic T, U {
-    where {
-        T: Debug
-    }
-}
-define public static class A< T > (T, usize): Debug;
-class A: Clone + Debug {
-    item: String = "item"
-}
-
 alias type `null` = Null;
-template T { }
-class A {
 
-}
 interface
 bitset
 tagged

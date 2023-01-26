@@ -34,3 +34,51 @@ try Option⟨u64⟩ {
 
 }
 .await
+
+try Option⟨T⟩ {
+    body
+}
+.catch {
+    // with handler;
+    case Exception::A(message):
+    resume message + "A"
+    case Exception::F(message):
+    return message + "F"
+    else:
+    return "else"
+}
+.match {
+    case "A":
+    return "A"
+    case "F":
+    return "F"
+    else:
+    return "else"
+}
+.await {
+    // with handler;
+    case Exception::A(message):
+    resume message + "A"
+    case Exception::F(message):
+    return message + "F"
+    else:
+    return "else"
+}
+try Option⟨u64⟩ {
+
+}
+.match {
+// with []
+case Some(a):
+print("Caught some")
+when null || A:
+print("Caught null")
+}
+.match {
+    case Some(a) && a > 0:
+print("a > 0")
+case a < 0:
+print("a < 0")
+case _:
+print("a == 0")
+}

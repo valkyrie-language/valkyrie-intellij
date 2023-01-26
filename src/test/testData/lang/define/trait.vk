@@ -2,16 +2,29 @@ trait A: Trait + Trait
 {
 
 }
+generic F {
+    where {
+        F: AnyType -> AnyType
+    }
+}
+trait Functor< F > {
 
+// map<A, B>(self: F<A>, f: (a: A) -> B) -> F<B>
+}
+
+
+// trait Fn<Ret, **Args> {
+//     function call(self, **_: Args) -> Ret;
+// }
 trait Functor<F> {
-   forall A, B {}
+   generic A, B {}
    function map(a: F<A>, f: Function<A, B>) -> F<B>;
 }
 
 function flatMap<B>(f: A => List[B]): List<B>
 
 
-trait SemiGroup[T]:
+trait SemiGroup<T>:
   extension (x: T) function combine (y: T): T
 
 trait Monoid[T] extends SemiGroup[T]:
@@ -22,16 +35,16 @@ given Monoid[String] with
 
 
 trait SemiGroup {
-    function combine(self, rhs: Self): Self
+     combine(self, rhs: Self): Self
 }
 
 trait Monoid: SemiGroup + Default {
-    function empty(): Self
+     empty(): Self
 }
 
 extends String: Monoid<String> {
-    function combine(self, y: Self) = self.concat(y)
-    function unit() = ""
+     combine(self, y: Self) = self.concat(y)
+     unit() = ""
 }
 
 let a = String::unit()
@@ -56,15 +69,6 @@ trait Functor {
 }
 
 trait Functor {
-    type Unwrapped;
-    type Wrapped<B>: Functor;
-
-    function flat_map<F, B>(self, f: F) -> Self::Wrapped<B>
-    where
-        F: FnMut(Self::Unwrapped) -> B;
-}
-
-trait Functor {
     function flat_map<A, B, F: Mutable<A> -> B>(self: Self<A>, f: F) -> Self<B>;
 }
 
@@ -75,11 +79,6 @@ extends Option: Functor {
             None => None,
         }
     }
-}
-
-trait HKT<A, B> {
-    type URI;
-    type Target;
 }
 
 trait Functor<A, B>: HKT<A, B> {

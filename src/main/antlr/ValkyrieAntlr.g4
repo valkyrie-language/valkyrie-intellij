@@ -55,7 +55,7 @@ import_block: BRACE_L BRACE_R | BRACE_L import_term* BRACE_R;
 define_extension: KW_EXTENSION;
 // ===========================================================================
 define_class
-    : template_call? annotation* modifiers KW_CLASS identifier define_generic? class_inherit? class_block eos?
+    : template_call? annotation* modifiers KW_CLASS identifier define_generic? class_inherit? type_hint? class_block eos?
     ;
 class_block:      BRACE_L class_statements* BRACE_R;
 class_statements: class_method | class_field | eos_free;
@@ -65,7 +65,9 @@ class_inherit
     ;
 class_inherit_item: modified_namepath;
 class_field:        annotation* modified_identifier type_hint? parameter_default?;
-class_method:       annotation* modified_namepath function_parameters type_hint? function_block?;
+class_method
+    : annotation* modified_namepath define_generic? function_parameters type_hint? effect_hint? function_block?
+    ;
 // ===========================================================================
 define_trait
     : template_call? annotation* modifiers KW_TRAIT identifier define_generic? impliments? trait_block eos?
@@ -75,7 +77,7 @@ trait_statements:  define_trait_type | class_method | class_field | eos_free;
 define_trait_type: KW_TYPE identifier (OP_ASSIGN type_expression)?;
 // ===========================================================================
 define_extends
-    : template_call? annotation* modifiers KW_EXTENDS namepath generic_call? impliments? trait_block
+    : template_call? annotation* modifiers KW_EXTENDS namepath define_generic? impliments? trait_block
     ;
 impliments: (COLON | KW_IMPLEMENTS) type_expression;
 // ===========================================================================
@@ -93,7 +95,7 @@ bitflags_statements: bitflags_item | eos_free;
 bitflags_item:       identifier (OP_ASSIGN expression)?;
 // ===========================================================================
 define_function
-    : template_call? annotation* modifiers KW_FUNCTION namepath generic_call? function_parameters type_hint? function_block
+    : template_call? annotation* modifiers KW_FUNCTION namepath generic_call? function_parameters type_hint? effect_hint? function_block
     ;
 function_parameters
     : PARENTHESES_L PARENTHESES_R
@@ -131,7 +133,7 @@ define_variale_lhs
 let_parameter: identifier+;
 // ===========================================================================
 define_type: KW_TYPE identifier OP_ASSIGN identifier;
-type_hint:   (COLON | OP_ARROW) type_expression effect_hint?;
+type_hint:   (COLON | OP_ARROW) type_expression;
 effect_hint: OP_DIV type_expression;
 // ===========================================================================
 if_statement:      KW_IF inline_expression function_block else_if_statement* else_statement?;
@@ -167,7 +169,18 @@ expression
     | control_expression
     | prefix_call expression
     | PARENTHESES_L expression PARENTHESES_R
-    | term
+    | try_statement
+    | if_statement
+    | match_statement
+    | catch_statement
+    | new_call
+    | macro_call
+    | function_call
+    | collection_literal
+    | string_literal
+    | number_literal
+    | namepath
+    | SPECIAL
     ;
 inline_expression
     : inline_expression dot_call
@@ -178,13 +191,28 @@ inline_expression
     | inline_expression infix_is inline_expression
     | inline_expression OP_UNTIL inline_expression
     | prefix_call inline_expression
-    | term
+    | try_statement
+    | if_statement
+    | match_statement
+    | catch_statement
+    | new_call
+    | macro_call
+    | function_call
+    | collection_literal
+    | string_literal
+    | number_literal
+    | namepath
+    | SPECIAL
     ;
 type_expression
     : type_expression op_pattern type_expression   # TPattern
     | type_expression infix_arrows type_expression # TArrays
+    | type_expression OP_ADD type_expression       # TAdd
     | type_expression generic_call_in_type         # TParens
-    | term                                         # TTerm
+    | string_literal                               # TStrig
+    | number_literal                               # TNumber
+    | namepath                                     # TNamepath
+    | SPECIAL                                      # TSpecial
     ;
 // ===========================================================================
 prefix_call: OP_NOT | OP_ADD | OP_SUB | OP_AND;
@@ -211,20 +239,6 @@ control_expression
     | YIELD KW_WITH expression
     ;
 // 带返回值的表达式, 能作为表达式的开头
-term
-    : try_statement
-    | if_statement
-    | match_statement
-    | catch_statement
-    | new_call
-    | macro_call
-    | function_call
-    | collection_literal
-    | string_literal
-    | number_literal
-    | namepath
-    | SPECIAL
-    ;
 
 op_compare:   OP_LT | OP_LEQ | OP_GT | OP_GEQ | OP_EQ | OP_NE;
 op_pattern:   OP_AND | OP_OR;

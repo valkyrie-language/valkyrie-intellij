@@ -176,7 +176,7 @@ private val keywords = setOf(
     "self", "Self"
 )
 
-private val traits = setOf("Iterator", "Iterable", "Sequence")
+private val traits = setOf("Iterator", "Iterable", "Sequence", "Debug", "Display")
 
 private val variants = setOf("Some", "None", "Success", "Failure", "Left", "Riht")
 
