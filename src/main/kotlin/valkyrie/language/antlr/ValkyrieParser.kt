@@ -39,6 +39,7 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_define_namespace -> ValkyrieNamespaceStatement(node, type)
                 RULE_import_block -> ValkyrieBlockNode(node, ValkyrieBlockKind.Brace)
                 // annotations
+                RULE_template_call -> ValkyrieTemplateStatement(node)
                 RULE_modifiers -> ValkyrieModifiedNode(node, ValkyrieModifiedKind.Pure)
                 RULE_modified_identifier -> ValkyrieModifiedNode(node, ValkyrieModifiedKind.ModifiedIdentifier)
                 RULE_modified_namepath -> ValkyrieModifiedNode(node, ValkyrieModifiedKind.ModifiedNamepath)
@@ -50,7 +51,7 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_class_block -> ValkyrieBlockNode(node, ValkyrieBlockKind.Brace)
                 RULE_class_field -> ValkyrieClassFieldNode(node)
                 RULE_class_method -> ValkyrieClassMethodNode(node)
-
+                RULE_define_generic -> ValkyrieGenericStatement(node)
                 // flags
                 RULE_define_bitflags -> ValkyrieFlagsStatement(node, type)
                 RULE_bitflags_block -> ValkyrieBlockNode(node, ValkyrieBlockKind.Brace)

@@ -1,7 +1,11 @@
 package valkyrie.language.ast
 
+import com.intellij.codeInsight.daemon.LineMarkerInfo
+import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
 import com.intellij.icons.AllIcons
+import com.intellij.navigation.GotoRelatedItem
 import com.intellij.navigation.ItemPresentation
+import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
@@ -41,6 +45,17 @@ class ValkyrieClassFieldNode(node: CompositeElement) : ValkyrieScopeNode(node), 
 
     override fun getPresentation(): ItemPresentation {
         return IdentifierPresentation(field, this.baseIcon)
+    }
+
+    fun getLineMark(): LineMarkerInfo<*> {
+        return RelatedItemLineMarkerInfo(
+            nameIdentifier.firstChild,
+            nameIdentifier.textRange,
+            baseIcon,
+            null,
+            null,
+            GutterIconRenderer.Alignment.RIGHT // 下
+        ) { mutableListOf(GotoRelatedItem(this)) }
     }
 }
 

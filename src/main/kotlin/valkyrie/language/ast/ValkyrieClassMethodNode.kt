@@ -1,17 +1,22 @@
 package valkyrie.language.ast
 
+import com.intellij.codeInsight.daemon.LineMarkerInfo
+import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
 import com.intellij.icons.AllIcons
+import com.intellij.navigation.GotoRelatedItem
 import com.intellij.navigation.ItemPresentation
+import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
 import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.file.ValkyrieIconProvider
+import valkyrie.language.psi.ValkyrieLineMarkElement
 import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
 
-class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner {
+class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner, ValkyrieLineMarkElement {
     val method by lazy { ValkyrieModifiedNode.findIdentifier(this)!! }
     val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
     override fun getName(): String {
@@ -40,7 +45,19 @@ class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node),
         return IdentifierPresentation(method, this.baseIcon)
     }
 
+    override fun getLineMark(): LineMarkerInfo<*> {
+        return RelatedItemLineMarkerInfo(
+            nameIdentifier.firstChild,
+            nameIdentifier.textRange,
+            baseIcon,
+            null,
+            null,
+            GutterIconRenderer.Alignment.RIGHT // 上
+        ) { mutableListOf(GotoRelatedItem(this)) }
+    }
+
     override fun getNameIdentifier(): PsiElement {
         return method
     }
 }
+

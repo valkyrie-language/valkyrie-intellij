@@ -56,7 +56,7 @@ class ClassA {
         return self / rhs
     }
     #inline
-    join< T, >(mut self: T, other: T): T {
+    join⟨T, ⟩(mut self: T, other: T): T {
         return self.append(other)
     }
 }
@@ -67,7 +67,8 @@ class TestClass {
 }
 
 #derive(Default, Debug, Serde)
-class Class :: < T >          {
+class Class⟨T⟩
+{
     #call
     readonly
     field1: u32,

@@ -17,6 +17,16 @@ import valkyrie.ide.highlight.ValkyrieHighlightColor as Color
 class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
 
+
+    override fun visitTemplateDeclaration(o: ValkyrieTemplateStatement) {
+        for (mod in o.modifiers) {
+            highlight(mod, Color.MODIFIER)
+        }
+        for (mod in o.parameters) {
+            highlight(mod, Color.SYM_GENERIC)
+        }
+    }
+
     override fun visitClassDeclaration(o: ValkyrieClassStatement) {
         highlight(o.nameIdentifier, Color.SYM_CLASS)
         for (mod in o.modifiers) {
@@ -116,7 +126,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitIdentifier(o: ValkyrieIdentifierNode) {
-        fakeTypeColor(o)
+//        fakeTypeColor(o)
     }
 // =================================================================================================================
 

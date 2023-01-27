@@ -120,7 +120,7 @@
 		<codeInsight.parameterNameHints language="Valkyrie" implementationClass="valkyrie.ide.hint.ParameterNameHint"/>
 		<codeInsight.lineMarkerProvider
 			language="Valkyrie"
-			implementationClass="valkyrie.ide.hint.ValkyrieClassElementMark"/>
+			implementationClass="valkyrie.ide.hint.ValkyrieLineMarkerProvider"/>
 		<runLineMarkerContributor
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.runner.ValkyrieRunner"/>

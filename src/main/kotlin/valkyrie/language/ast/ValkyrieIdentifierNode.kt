@@ -37,6 +37,9 @@ class ValkyrieIdentifierNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiNam
         fun find(node: PsiElement): ValkyrieIdentifierNode? {
             return PsiTreeUtil.getChildOfType(node, ValkyrieIdentifierNode::class.java)
         }
+        fun findMany(node: PsiElement): Array<ValkyrieIdentifierNode> {
+            return PsiTreeUtil.getChildrenOfType(node, ValkyrieIdentifierNode::class.java) ?: arrayOf()
+        }
     }
 }
 

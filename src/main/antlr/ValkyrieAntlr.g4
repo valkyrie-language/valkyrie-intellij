@@ -206,9 +206,9 @@ inline_expression
     ;
 type_expression
     : type_expression op_pattern type_expression   # TPattern
-    | type_expression infix_arrows type_expression # TArrays
+    | type_expression infix_arrows type_expression # TArrows
     | type_expression OP_ADD type_expression       # TAdd
-    | type_expression generic_call_in_type         # TParens
+    | type_expression generic_call_in_type         # TGeneric
     | string_literal                               # TStrig
     | number_literal                               # TNumber
     | namepath                                     # TNamepath

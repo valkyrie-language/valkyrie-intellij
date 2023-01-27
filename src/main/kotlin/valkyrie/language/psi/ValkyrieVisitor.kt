@@ -17,7 +17,8 @@ open class ValkyrieVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveVisitor {
             is ValkyrieClassFieldNode -> visitClassField(element)
             is ValkyrieClassMethodNode -> visitClassMethod(element)
             is ValkyrieCallGeneric -> visitGenericCall(element)
-
+            is ValkyrieGenericStatement -> visitGenericDeclaration(element)
+            is ValkyrieTemplateStatement -> visitTemplateDeclaration(element)
             //
             is ValkyrieFlagsStatement -> visitFlagsDeclaration(element)
             is ValkyrieFlagsItemNode -> visitFlagsField(element)
@@ -48,6 +49,14 @@ open class ValkyrieVisitor : PsiParseTreeVisitor<Unit>(), PsiRecursiveVisitor {
             else -> visitOther(element)
         }
         element.acceptChildren(this)
+    }
+
+    protected open fun visitTemplateDeclaration(o: ValkyrieTemplateStatement) {
+
+    }
+
+    protected open fun visitGenericDeclaration(o: ValkyrieGenericStatement) {
+
     }
 
     protected open fun visitCallArgument(o: ValkyrieCallArgument) {
