@@ -2,6 +2,7 @@ package valkyrie.language.ast
 
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
+import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.icons.AllIcons
 import com.intellij.navigation.GotoRelatedItem
 import com.intellij.navigation.ItemPresentation
@@ -10,18 +11,22 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.util.PsiTreeUtil
+import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.antlr.ValkyrieAntlrParser
 import valkyrie.language.antlr.ValkyrieParser
 import valkyrie.language.antlr.recursiveSearch
+import valkyrie.language.antlr.register
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.file.ValkyrieIconProvider
+import valkyrie.language.psi.ValkyrieHighlightElement
 import valkyrie.language.psi.ValkyrieLineMarkElement
 import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
 
-class ValkyrieClassStatement(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner, ValkyrieLineMarkElement {
+class ValkyrieClassStatement(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner, ValkyrieLineMarkElement,
+    ValkyrieHighlightElement {
     private val _identifier by lazy { ValkyrieIdentifierNode.find(this)!! }
     val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
     val inherits: Array<ValkyrieClassInheritItem> by lazy {
@@ -69,7 +74,6 @@ class ValkyrieClassStatement(node: CompositeElement) : ValkyrieScopeNode(node), 
 
     override fun getLineMark(): LineMarkerInfo<*> {
         return RelatedItemLineMarkerInfo(
-
             nameIdentifier.firstChild,
             nameIdentifier.textRange,
             AllIcons.Gutter.OverridenMethod,
@@ -77,6 +81,18 @@ class ValkyrieClassStatement(node: CompositeElement) : ValkyrieScopeNode(node), 
             null,
             GutterIconRenderer.Alignment.RIGHT // 上
         ) { mutableListOf(GotoRelatedItem(this)) }
+    }
+
+    override fun highlight(info: HighlightInfoHolder) {
+        info.register(nameIdentifier, ValkyrieHighlightColor.SYM_CLASS)
+        for (mod in modifiers) {
+            info.register(mod, ValkyrieHighlightColor.MODIFIER)
+        }
+        for (inherit in inherits) {
+            for (mod in inherit.modifiers) {
+                info.register(mod, ValkyrieHighlightColor.MODIFIER)
+            }
+        }
     }
 }
 

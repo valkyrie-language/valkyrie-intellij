@@ -1,10 +1,15 @@
 package valkyrie.language.antlr
 
 
+import com.intellij.codeInsight.daemon.impl.HighlightInfo
+import com.intellij.codeInsight.daemon.impl.HighlightInfoType
+import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.lang.ASTNode
+import com.intellij.psi.PsiElement
 import com.intellij.psi.TokenType
 import com.intellij.psi.impl.source.tree.CompositeElement
 import org.antlr.intellij.adaptor.psi.ANTLRPsiNode
+import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.language.ast.ValkyrieBinaryExpression
 
 
@@ -22,3 +27,10 @@ fun extractExpression(node: CompositeElement): ANTLRPsiNode {
     }
 }
 
+fun HighlightInfoHolder.register(element: PsiElement?, color: ValkyrieHighlightColor) {
+    if (element == null) return
+    val builder = HighlightInfo.newHighlightInfo(HighlightInfoType.INFORMATION)
+    builder.textAttributes(color.textAttributesKey)
+    builder.range(element.textRange)
+    this.add(builder.create())
+}

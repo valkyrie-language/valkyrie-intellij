@@ -2,38 +2,26 @@ namespace ad.bd.cd
 
 let a = true;
 
-
-
-
-
 type A = a;
-
 
 alias type `null` = Null;
 
-interface
-bitset
-tagged
-forall T {}
-extend Vec<T>: Iterable {
-    forall 'a { Self: 'a }
-type Iter = <&'a [T] as IntoIterator>::IntoIter;
-function iter(&self) -> Self::Iter<'_> {
-self.iter()
+generic T {}
+extends Vec<T>: Iterable {
+
 }
-}
-⦃ {}⦄⟦ ⟧ ⟨ ⟩ ⟪ ⟫ ⟮ ⟯ ⟬ ⟭ ⌈ ⌉ ⌊ ⌋ ⦇ ⦈ ⦉ ⦊
+
 function method(mut arg: int)
 {
     arg = arg + 44;
 }
 
-let a = {
+let a = scope {
 
 }
 
 class A {
-    i: &int,
+    i: int,
 }
 
 #[open, parameter]
@@ -41,7 +29,7 @@ class WorldOptions {
 
 }
 
-function world(...options:WorldOptions) {
+function world(..options: WorldOptions) {
 
 }
 
@@ -72,12 +60,7 @@ function test(
 
 "{text}"
 
-json'{
-    nice: 123,
-    poe:  123
-}'
 
-re'ab[cd]'
 
 
 std::test⟨T⟩(arg)[index];

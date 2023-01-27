@@ -2,18 +2,13 @@ package valkyrie.language.ast
 
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.psi.impl.source.tree.CompositeElement
+import valkyrie.language.psi.types.ValkyrieBlockType
 
-
-enum class ValkyrieBlockKind {
-    Brace,
-    Bracket,
-    Parenthesis
-}
 
 class ValkyrieBlockNode : ASTWrapperPsiElement {
-    val kind: ValkyrieBlockKind
+    val kind: ValkyrieBlockType
 
-    constructor(node: CompositeElement, kind: ValkyrieBlockKind) : super(node) {
+    constructor(node: CompositeElement, kind: ValkyrieBlockType) : super(node) {
         this.kind = kind
     }
 

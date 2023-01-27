@@ -2,6 +2,7 @@ package valkyrie.language.ast
 
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
+import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.icons.AllIcons
 import com.intellij.navigation.GotoRelatedItem
 import com.intellij.navigation.ItemPresentation
@@ -9,14 +10,17 @@ import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
+import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.view.IdentifierPresentation
+import valkyrie.language.antlr.register
 import valkyrie.language.file.ValkyrieIconProvider
+import valkyrie.language.psi.ValkyrieHighlightElement
 import valkyrie.language.psi.ValkyrieLineMarkElement
 import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
 
-class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner, ValkyrieLineMarkElement {
+class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner, ValkyrieLineMarkElement, ValkyrieHighlightElement {
     val method by lazy { ValkyrieModifiedNode.findIdentifier(this)!! }
     val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
     override fun getName(): String {
@@ -58,6 +62,17 @@ class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node),
 
     override fun getNameIdentifier(): PsiElement {
         return method
+    }
+
+    override fun highlight(info: HighlightInfoHolder) {
+        if (method.name == "constructor") {
+            info.register(nameIdentifier, ValkyrieHighlightColor.KEYWORD)
+        } else {
+            info.register(nameIdentifier, ValkyrieHighlightColor.SYM_FUNCTION_SELF)
+        }
+        for (mod in modifiers) {
+            info.register(mod, ValkyrieHighlightColor.MODIFIER)
+        }
     }
 }
 

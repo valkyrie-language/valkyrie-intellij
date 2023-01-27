@@ -8,28 +8,23 @@ import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.util.PsiTreeUtil
 import org.jetbrains.annotations.Unmodifiable
 import valkyrie.language.antlr.childrenWithLeaves
+import valkyrie.language.psi.types.ValkyrieModifiedType
 
-enum class ValkyrieModifiedKind {
-    Pure,
-    ModifiedIdentifier,
-    ModifiedNamepath,
-}
-
-class ValkyrieModifiedNode(node: CompositeElement, val kind: ValkyrieModifiedKind) : ASTWrapperPsiElement(node) {
+class ValkyrieModifiedNode(node: CompositeElement, val kind: ValkyrieModifiedType) : ASTWrapperPsiElement(node) {
     private fun filterAll(): @Unmodifiable MutableList<ValkyrieIdentifierNode> {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifierNode::class.java)
     }
     fun findModifiers(): List<ValkyrieIdentifierNode> {
         return when (kind) {
-            ValkyrieModifiedKind.Pure -> {
+            ValkyrieModifiedType.Pure -> {
                 filterAll()
             }
 
-            ValkyrieModifiedKind.ModifiedIdentifier -> {
+            ValkyrieModifiedType.ModifiedIdentifier -> {
                 filterAll().dropLast(1)
             }
 
-            ValkyrieModifiedKind.ModifiedNamepath -> {
+            ValkyrieModifiedType.ModifiedNamepath -> {
                 val items = mutableListOf<ValkyrieIdentifierNode>();
                 for (child in this.childrenWithLeaves) {
                     if (child is PsiWhiteSpace) {
@@ -46,7 +41,7 @@ class ValkyrieModifiedNode(node: CompositeElement, val kind: ValkyrieModifiedKin
     }
 
     fun findIdentifier(): ValkyrieIdentifierNode? {
-        return if (kind == ValkyrieModifiedKind.Pure) {
+        return if (kind == ValkyrieModifiedType.Pure) {
             null
         } else {
             filterAll().lastOrNull()

@@ -6,8 +6,8 @@ import com.intellij.lang.Language
 import com.intellij.navigation.NavigationItem
 import com.intellij.psi.PsiElement
 import com.intellij.ui.breadcrumbs.BreadcrumbsProvider
-import org.antlr.intellij.adaptor.psi.ScopeNode
 import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Action
 import javax.swing.Icon
 
@@ -17,15 +17,14 @@ class ValkyrieBreadcrumbsProvider : BreadcrumbsProvider {
     }
 
     override fun acceptElement(element: PsiElement): Boolean {
-        return element is ScopeNode
+        return element is ValkyrieScopeNode
     }
 
     override fun getElementInfo(element: PsiElement): String {
-        if (element is NavigationItem) {
-            return element.name ?: "[Missing]"
-        }
-        else {
-            return "[Unknown]"
+        return if (element is NavigationItem) {
+            element.name ?: "[Missing]"
+        } else {
+            "[Unknown]"
         }
     }
 
