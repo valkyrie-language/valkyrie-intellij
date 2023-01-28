@@ -6,9 +6,20 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.tree.IElementType
+import com.intellij.psi.util.elementType
+import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory
+import org.antlr.intellij.adaptor.psi.ANTLRPsiNode
+import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
+import valkyrie.language.psi.ValkyrieRewritableElement
+import valkyrie.ide.formatter.ValkyrieRewriter
+import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.antlr.ValkyrieAntlrParser
+import valkyrie.language.antlr.childrenWithLeaves
 import javax.swing.Icon
 
-class ValkyrieNamespaceStatement(node: CompositeElement, type: IElementType) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner {
+class ValkyrieNamespaceStatement(node: CompositeElement, type: IElementType) : ASTWrapperPsiElement(node),
+    PsiNameIdentifierOwner,
+    ValkyrieRewritableElement {
     val namepath by lazy { ValkyrieNamepathNode.find(this)!! }
 
     override fun getName(): String {
@@ -43,5 +54,35 @@ class ValkyrieNamespaceStatement(node: CompositeElement, type: IElementType) : A
 
     fun isTestFile(): Boolean {
         return false;
+    }
+
+    override fun rewrite(w: ValkyrieRewriter) {
+        val split = PSIElementTypeFactory.createTokenSet(
+            ValkyrieLanguage,
+            ValkyrieAntlrParser.DOT,
+            ValkyrieAntlrParser.OP_PROPORTION
+        );
+        for (leaf in namepath.childrenWithLeaves) {
+            if (split.contains(leaf.elementType)) {
+                when (w.settings.namespace_delimiter) {
+                    ValkyrieCodeStyleSettings.NamespaceDelimiter.Ignore -> break
+                    ValkyrieCodeStyleSettings.NamespaceDelimiter.Dot -> w.replaceNode(leaf, ".")
+                    ValkyrieCodeStyleSettings.NamespaceDelimiter.Colon -> w.replaceNode(leaf, "::")
+                    ValkyrieCodeStyleSettings.NamespaceDelimiter.UnicodeColon -> w.replaceNode(leaf, "∷")
+                }
+            }
+        }
+
+        val last = lastChild;
+        when (w.settings.namespace_colon) {
+            ValkyrieCodeStyleSettings.Triplet.Ignore -> {}
+            ValkyrieCodeStyleSettings.Triplet.Always -> if (last !is ANTLRPsiNode) {
+                w.insertAfter(this, ";")
+            }
+
+            ValkyrieCodeStyleSettings.Triplet.Nothing -> if (last is ANTLRPsiNode) {
+                w.deleteNode(last)
+            }
+        }
     }
 }

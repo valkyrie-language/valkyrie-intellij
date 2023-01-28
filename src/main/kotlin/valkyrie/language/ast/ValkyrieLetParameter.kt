@@ -1,5 +1,6 @@
 package valkyrie.language.ast
 
+import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.icons.AllIcons
 import com.intellij.navigation.ItemPresentation
@@ -7,10 +8,13 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.util.PsiTreeUtil
+import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.view.IdentifierPresentation
+import valkyrie.language.antlr.register
+import valkyrie.language.psi.ValkyrieHighlightElement
 import javax.swing.Icon
 
-class ValkyrieLetParameter(node: CompositeElement) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner {
+class ValkyrieLetParameter(node: CompositeElement) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ValkyrieHighlightElement {
     private val _identifier by lazy { findIdentifier() }
     val modifiers by lazy { findModifiers() };
     val mutable by lazy { isMutable() };
@@ -52,5 +56,16 @@ class ValkyrieLetParameter(node: CompositeElement) : ASTWrapperPsiElement(node),
             }
         }
         return false
+    }
+
+    override fun highlight(info: HighlightInfoHolder) {
+        if (mutable) {
+            info.register(nameIdentifier, ValkyrieHighlightColor.SYM_LOCAL_MUT)
+        } else {
+            info.register(nameIdentifier, ValkyrieHighlightColor.SYM_LOCAL)
+        }
+        for (mod in modifiers) {
+            info.register(mod, ValkyrieHighlightColor.MODIFIER)
+        }
     }
 }

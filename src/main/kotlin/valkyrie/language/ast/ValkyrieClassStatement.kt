@@ -11,6 +11,8 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.util.PsiTreeUtil
+import valkyrie.language.psi.ValkyrieRewritableElement
+import valkyrie.ide.formatter.ValkyrieRewriter
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.antlr.ValkyrieAntlrParser
@@ -25,8 +27,11 @@ import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
 
-class ValkyrieClassStatement(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner, ValkyrieLineMarkElement,
-    ValkyrieHighlightElement {
+class ValkyrieClassStatement(node: CompositeElement) : ValkyrieScopeNode(node),
+    PsiNameIdentifierOwner,
+    ValkyrieLineMarkElement,
+    ValkyrieHighlightElement,
+    ValkyrieRewritableElement {
     private val _identifier by lazy { ValkyrieIdentifierNode.find(this)!! }
     val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
     val inherits: Array<ValkyrieClassInheritItem> by lazy {
@@ -92,6 +97,12 @@ class ValkyrieClassStatement(node: CompositeElement) : ValkyrieScopeNode(node), 
             for (mod in inherit.modifiers) {
                 info.register(mod, ValkyrieHighlightColor.MODIFIER)
             }
+        }
+    }
+
+    override fun rewrite(w: ValkyrieRewriter) {
+        for (field in getFields()) {
+            w.fixDelimiter(field, w.settings.class_field_trailing)
         }
     }
 }

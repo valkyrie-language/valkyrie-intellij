@@ -1,5 +1,6 @@
 package valkyrie.language.ast
 
+import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.json.json5.Json5Language
 import com.intellij.lang.ASTNode
@@ -12,11 +13,14 @@ import com.intellij.psi.LiteralTextEscaper
 import com.intellij.psi.PsiLanguageInjectionHost
 import com.intellij.psi.util.PsiTreeUtil
 import org.intellij.lang.regexp.RegExpLanguage
+import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.matcher.escaper.StringEscape
 import valkyrie.language.antlr.ValkyrieAntlrParser
 import valkyrie.language.antlr.ValkyrieParser
+import valkyrie.language.antlr.register
+import valkyrie.language.psi.ValkyrieHighlightElement
 
-class ValkyrieStringNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiLanguageInjectionHost {
+class ValkyrieStringNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiLanguageInjectionHost, ValkyrieHighlightElement {
     val handler by lazy {
         PsiTreeUtil.getChildOfType(this, ValkyrieIdentifierNode::class.java)
     }
@@ -69,5 +73,9 @@ class ValkyrieStringNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiLanguag
         val start = _text.textRange.startOffset - textRange.startOffset + 1;
         val end = _text.textRange.endOffset - textRange.startOffset - 1;
         return TextRange(start, end)
+    }
+
+    override fun highlight(info: HighlightInfoHolder) {
+        info.register(handler, ValkyrieHighlightColor.SYM_MACRO)
     }
 }

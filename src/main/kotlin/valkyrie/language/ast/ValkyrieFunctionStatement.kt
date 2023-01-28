@@ -1,16 +1,20 @@
 package valkyrie.language.ast
 
 //import valkyrie.language.psi.ValkyrieGenericDefine
+import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
+import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.view.IdentifierPresentation
+import valkyrie.language.antlr.register
 import valkyrie.language.file.ValkyrieIconProvider
+import valkyrie.language.psi.ValkyrieHighlightElement
 import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
-class ValkyrieFunctionStatement(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner {
+class ValkyrieFunctionStatement(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner, ValkyrieHighlightElement {
     val namepath by lazy { ValkyrieNamepathNode.find(this) }
     val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
     override fun getName(): String {
@@ -31,6 +35,13 @@ class ValkyrieFunctionStatement(node: CompositeElement) : ValkyrieScopeNode(node
 
     override fun getPresentation(): ItemPresentation {
         return IdentifierPresentation(namepath?.nameIdentifier, this.baseIcon)
+    }
+
+    override fun highlight(info: HighlightInfoHolder) {
+        info.register(nameIdentifier, ValkyrieHighlightColor.SYM_FUNCTION_FREE)
+        for (mod in modifiers) {
+            info.register(mod, ValkyrieHighlightColor.MODIFIER)
+        }
     }
 }
 
