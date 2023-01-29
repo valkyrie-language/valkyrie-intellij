@@ -17,7 +17,7 @@ class ValkyrieLineMarkerProvider : LineMarkerProvider {
     override fun collectSlowLineMarkers(elements: MutableList<out PsiElement>, result: MutableCollection<in LineMarkerInfo<*>>) {
         for (element in elements) {
             if (element is ValkyrieLineMarkElement) {
-                result.add(element.getLineMark())
+                element.on_line_mark(result)
             }
         }
     }

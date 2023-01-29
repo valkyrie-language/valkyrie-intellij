@@ -10,7 +10,7 @@ import com.intellij.psi.search.SearchScope
 import valkyrie.ide.project.crate.NamespaceMapping
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.antlr.recursiveSearch
+import valkyrie.language.antlr.traversal
 import valkyrie.language.ast.ValkyrieClassStatement
 import valkyrie.language.ast.ValkyrieNamespaceStatement
 
@@ -48,7 +48,7 @@ class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvide
     val namepath: String = namespace?.name ?: ""
 
     fun updateCache() {
-        this.recursiveSearch {
+        this.traversal {
             if (it is ValkyrieClassStatement) {
                 NamespaceMapping.Instance.ClassCache.getOrPut(it.name ?: "") { mutableSetOf() }.add(namepath)
                 false

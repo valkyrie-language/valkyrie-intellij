@@ -16,43 +16,31 @@ self.word ?= b"Hello, World!"
 
 generic T, E { }
 extends Result⟨T, E⟩: Perform {
-perform(self) -> T / E {
-    match self {
-        case Success(s): s
-        case Failure(e): raise e
+    perform(self) -> T / E {
+        match self {
+            case Success(s): s
+            case Failure(e): raise e
+        }
     }
-}
 }
 
 generic T {}
-extends Option<T>: Perform {
+extends Option⟨T⟩: Perform {
     perform(self) -> T / null {
         match self {
-      case  Some(s) : s
-        case None : raise null
+            case  Some(s): s
+            case None: raise null
+        }
     }
 }
-}
-
-cases A(type) {
-case A;
-case B;
-}
 
 
 
-which {
-case a @Some(a) if a > 0:
-print(1)
-case a < 0:
-print(-1)
-case _: print(0)
-}
-
-if case Some(a) = b {
+if let Some(a) = b {
     print(1)
 }
-else if a < 0 {
+
+if a < 0 {
     print(-1)
 }
 else {
@@ -70,9 +58,9 @@ function main()  {
     }
 }
 
-~~
+
 #mut #async
-function function() {
+function `function`() {
     return 1;
 }
 //
@@ -80,6 +68,6 @@ function function_cps(async) {
     return async(1);
 }
 
-#async {
+@async {
 
 }

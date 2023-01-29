@@ -25,8 +25,8 @@ class ValkyrieClassInheritItem(node: CompositeElement) : ASTWrapperPsiElement(no
         return IdentifierPresentation(inherit, this.baseIcon)
     }
 
-    override fun getLineMark(): LineMarkerInfo<*> {
-        return RelatedItemLineMarkerInfo(
+    override fun on_line_mark(e: MutableCollection<in LineMarkerInfo<*>>) {
+        val info = RelatedItemLineMarkerInfo(
             inherit.firstChild,
             inherit.textRange,
             baseIcon,
@@ -34,5 +34,8 @@ class ValkyrieClassInheritItem(node: CompositeElement) : ASTWrapperPsiElement(no
             null,
             GutterIconRenderer.Alignment.RIGHT // 上
         ) { mutableListOf(GotoRelatedItem(this)) }
+        e.add(info)
     }
+
+
 }

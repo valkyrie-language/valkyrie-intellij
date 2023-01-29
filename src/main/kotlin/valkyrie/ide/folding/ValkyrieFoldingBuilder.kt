@@ -7,7 +7,7 @@ import com.intellij.openapi.editor.Document
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import com.intellij.psi.util.PsiTreeUtil
+import valkyrie.language.antlr.traversal
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.psi.ValkyrieFoldableElement
 
@@ -15,7 +15,7 @@ class ValkyrieFoldingBuilder : CustomFoldingBuilder(), DumbAware {
     override fun buildLanguageFoldRegions(descriptors: MutableList<FoldingDescriptor>, root: PsiElement, document: Document, quick: Boolean) {
         if (root !is ValkyrieFileNode) return
         val visitor = ValkyrieNodeFolder(descriptors)
-        PsiTreeUtil.processElements(root) {
+        root.traversal {
             if (it is ValkyrieFoldableElement) {
                 it.on_fold(visitor)
             }

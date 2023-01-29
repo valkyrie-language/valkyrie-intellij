@@ -53,6 +53,7 @@ OP_GGG: '⋙' | '>' '>' '>';
 OP_GG:  '≫' | '>' '>';
 OP_GT:  '>';
 // arrow
+OP_BIND:   '←' | '<-';
 OP_ARROW:  '⟶' | '->';
 OP_ARROW2: '⇒' | '=>';
 // assign
@@ -102,11 +103,14 @@ OP_IS_NOT: '⋢' | '<!';
 // as
 KW_AS: 'as' | 'as!' | 'as*';
 // until
-OP_UNTIL: '..<' | '..=';
-OP_POW:   '^';
+OP_DECONSTRUCT: '...' | '..';
+OP_UNTIL:       '..<' | '..=';
+OP_POW:         '^';
 // suffix
 OP_TEMPERATURE: '℃' | '℉';
 // standalone
+OP_REFERENCE: '※';
+OP_LABEL:     '¶';
 
 // DOT ":=", "≔" -> pushToken(ValkyrieTypes.PATTERN_SET, r) "->", "==", "≡" ->
 // pushToken(ValkyrieTypes.OP_EQ, r) "...", ".." -> pushToken(ValkyrieTypes.KW_DOTS, r) r) "¶" ->
@@ -115,7 +119,7 @@ OP_TEMPERATURE: '℃' | '℉';
 
 // keywords
 KW_NAMESPACE: 'namespace' ('!' | '*' | '?')?;
-KW_IMPORT:    'using' | 'using!' | 'using*' | 'using?';
+KW_IMPORT:    'using' ('!' | '*' | '?')?;
 KW_EXTENSION: 'extension';
 // 
 KW_CLASS:    'class' | 'structure';

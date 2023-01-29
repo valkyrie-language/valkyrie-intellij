@@ -93,7 +93,7 @@ class ValkyrieClassDeclare : PsiSymbolDeclaration {
     }
 
     override fun getRangeInDeclaringElement(): TextRange {
-        return declaringElement.nameIdentifier?.textRange ?: declaringElement.textRange
+        return declaringElement.nameIdentifier.textRange ?: declaringElement.textRange
     }
 
     override fun getSymbol(): ValkyrieSymbol {

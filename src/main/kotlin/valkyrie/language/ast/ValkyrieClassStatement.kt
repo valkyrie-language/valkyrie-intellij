@@ -11,26 +11,24 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.ide.folding.ValkyrieNodeFolder
 import valkyrie.ide.formatter.ValkyrieRewriter
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.antlr.ValkyrieAntlrParser
 import valkyrie.language.antlr.ValkyrieParser
-import valkyrie.language.antlr.recursiveSearch
 import valkyrie.language.antlr.register
+import valkyrie.language.antlr.traversal
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.language.psi.*
+import valkyrie.language.psi.ValkyrieHighlightElement
+import valkyrie.language.psi.ValkyrieLineMarkElement
+import valkyrie.language.psi.ValkyrieRewritableElement
+import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
 
-class ValkyrieClassStatement(node: CompositeElement) : ValkyrieScopeNode(node),
-    PsiNameIdentifierOwner,
-    ValkyrieLineMarkElement,
-    ValkyrieHighlightElement,
-    ValkyrieRewritableElement,
-    ValkyrieFoldableElement {
+class ValkyrieClassStatement(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner, ValkyrieLineMarkElement,
+    ValkyrieHighlightElement, ValkyrieRewritableElement {
     private val _identifier by lazy { ValkyrieIdentifierNode.find(this)!! }
     val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
     val inherits: Array<ValkyrieClassInheritItem> by lazy {
@@ -65,7 +63,7 @@ class ValkyrieClassStatement(node: CompositeElement) : ValkyrieScopeNode(node),
 
     fun getFields(): Array<ValkyrieClassFieldNode> {
         val output = mutableListOf<ValkyrieClassFieldNode>();
-        this.recursiveSearch {
+        this.traversal {
             if (it is ValkyrieClassFieldNode) {
                 output.add(it);
                 false
@@ -74,17 +72,6 @@ class ValkyrieClassStatement(node: CompositeElement) : ValkyrieScopeNode(node),
             }
         }
         return output.toTypedArray()
-    }
-
-    override fun getLineMark(): LineMarkerInfo<*> {
-        return RelatedItemLineMarkerInfo(
-            nameIdentifier.firstChild,
-            nameIdentifier.textRange,
-            AllIcons.Gutter.OverridenMethod,
-            null,
-            null,
-            GutterIconRenderer.Alignment.RIGHT // 上
-        ) { mutableListOf(GotoRelatedItem(this)) }
     }
 
     override fun on_highlight(e: HighlightInfoHolder) {
@@ -105,10 +92,16 @@ class ValkyrieClassStatement(node: CompositeElement) : ValkyrieScopeNode(node),
         }
     }
 
-    override fun on_fold(e: ValkyrieNodeFolder) {
-        TODO("Not yet implemented")
+    override fun on_line_mark(e: MutableCollection<in LineMarkerInfo<*>>) {
+        val info = RelatedItemLineMarkerInfo(
+            nameIdentifier.firstChild,
+            nameIdentifier.textRange,
+            AllIcons.Gutter.OverridenMethod,
+            null,
+            null,
+            GutterIconRenderer.Alignment.RIGHT // 上
+        ) { mutableListOf(GotoRelatedItem(this)) }
+        e.add(info)
     }
-
-
 }
 

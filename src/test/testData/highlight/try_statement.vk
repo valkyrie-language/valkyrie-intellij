@@ -1,34 +1,26 @@
 try Option⟨u64⟩ {
-    std::TestClass.call⟨T⟩(test) {
 
-    }
 }
 .match {
-    #[cfg(test)]
-    when null || A:
-    print("Caught null")
-    resume a
-    when a < 0 || c!=0:
-    print("a < 0")
-    when a:
-    print("a == 0")
-    #[cfg(test)]
-    else:
-    fine
-}
-.match {
-    #[cfg(test)]
+    #[compile(test)]
+    when null:
+        print("branch 1")
+    when a < 0 || c != 0:
+        print("branch 2")
+    case (114, "514"):
+        print("branch 3")
     case Some(a):
-    print("Caught some")
-    #[cfg(test)]
-    case Some(a) if a > 0 && b>0:
-    print("a > 0")
+        print("branch 4")
+    case Left(a) if a > 0 && b > 0:
+        print("branch 5")
+    else:
+        print("branch _")
 }
 .match {
     when a>0:
-    yyy
+        yyy
     else:
-    zzz
+        zzz
 }?
 .catch {
 
@@ -39,46 +31,59 @@ try Option⟨T⟩ {
     body
 }
 .catch {
-    // with handler;
+    with handler;
     case Exception::A(message):
-    resume message + "A"
+        resume message + "A"
     case Exception::F(message):
-    return message + "F"
+        return message + "F"
+    case Exception::A(message):
+        resume message + "A"
+    case Exception::F(message):
+        return message + "F"
     else:
-    return "else"
+        return "else"
 }
 .match {
     case "A":
-    return "A"
+        return "A"
     case "F":
-    return "F"
+        return "F"
     else:
-    return "else"
+        return "else"
 }
 .await {
-    // with handler;
-    case Exception::A(message):
-    resume message + "A"
-    case Exception::F(message):
-    return message + "F"
-    else:
-    return "else"
+
 }
 try Option⟨u64⟩ {
 
 }
 .match {
-// with []
-case Some(a):
-print("Caught some")
-when null || A:
-print("Caught null")
+    // with []
+    case Some(a):
+        print("Caught some")
+    when null || A:
+        print("Caught null")
 }
 .match {
-    case Some(a) && a > 0:
-print("a > 0")
+    case Some(a) if a > 0:
+        print("a > 0")
+    when a < 0:
+        print("a < 0")
+    when _:
+        print("a == 0")
+}
+
+match A(`type`) {
+    case A;
+    case B;
+}
+
+
+
+match _ {
+    case a @Some(a) if a > 0:
+print(1)
 case a < 0:
-print("a < 0")
-case _:
-print("a == 0")
+print(-1)
+case _: print(0)
 }

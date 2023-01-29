@@ -5,8 +5,8 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.formatter.FormatterUtil
-import valkyrie.language.ast.ValkyrieBlockNode
 import valkyrie.language.antlr.isWhitespaceOrEmpty
+import valkyrie.language.psi.ValkyrieIndentElement
 
 //import valkyrie.language.psi.ValkyrieTokenType
 
@@ -24,12 +24,12 @@ class FormatBlock(
     private val mySubBlocks: List<Block> by lazy { buildChildren() }
 
     private fun buildChildren(): List<Block> {
-        return node.getChildren(null).filter { !it.isWhitespaceOrEmpty() }.map { childNode ->
+        return node.getChildren(null).filter { !it.isWhitespaceOrEmpty() }.map {
             FormatBlock(
-                node = childNode,
-                alignment = computeAlignment(childNode),
-                indent = computeIndent(childNode),
-                wrap = computeWrap(childNode),
+                node = it,
+                alignment = computeAlignment(it),
+                indent = computeIndent(it),
+                wrap = computeWrap(it),
                 space
             )
         }
@@ -62,31 +62,11 @@ class FormatBlock(
     }
 
     private fun computeIndent(child: ASTNode): Indent? {
-        return if (node.psi is ValkyrieBlockNode) {
-            val firstLine = node.firstChildNode == child;
-            val lastLine = node.lastChildNode == child;
-            val isCornerChild = firstLine || lastLine
-            if (isCornerChild) {
-                Indent.getNoneIndent()
-            } else {
-                Indent.getNormalIndent()
-            }
-        } else {
-            Indent.getNoneIndent()
+        val psi = node.psi;
+        if (psi is ValkyrieIndentElement) {
+            return psi.on_indent(child)
         }
-
-//            node.psi is ValkyrieMatchExpression -> {
-//                when (child.psi) {
-//                    is ValkyrieMatchCase, is ValkyrieMatchElse, is ValkyrieMatchWith -> Indent.getNoneIndent()
-//                    else -> Indent.getNormalIndent()
-//                }
-//            }
-//            node.psi is ValkyrieCaseBlock -> when (child.psi) {
-//                is ValkyrieExpression -> Indent.getNormalIndent()
-//                else -> Indent.getNoneIndent()
-//            }
-//            else -> Indent.getNoneIndent()
-
+        return Indent.getNoneIndent()
     }
 
 

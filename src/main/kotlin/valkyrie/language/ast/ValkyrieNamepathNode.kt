@@ -27,8 +27,6 @@ class ValkyrieNamepathNode(node: ASTNode, type: IElementType, val free: Boolean 
     }
 
 
-
-
     override fun on_highlight(e: HighlightInfoHolder) {
         fakeTypeColor(e, nameIdentifier)
     }
@@ -50,6 +48,8 @@ private fun fakeTypeColor(info: HighlightInfoHolder, psi: ValkyrieIdentifierNode
         info.register(psi, ValkyrieHighlightColor.SYM_TRAIT)
     } else if (variants.contains(name)) {
         info.register(psi, ValkyrieHighlightColor.SYM_VARIANT)
+    } else if (functions.contains(name)) {
+        info.register(psi, ValkyrieHighlightColor.SYM_FUNCTION_FREE)
     } else if (name.isUppercase()) {
         info.register(psi, ValkyrieHighlightColor.SYM_GENERIC)
     } else {
@@ -59,6 +59,11 @@ private fun fakeTypeColor(info: HighlightInfoHolder, psi: ValkyrieIdentifierNode
         }
     }
 }
+
+private val functions = setOf(
+    "print",
+)
+
 
 private val keywords = setOf(
     "u8", "u16", "u32", "u64", "int",

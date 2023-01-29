@@ -34,7 +34,7 @@ class ValkyrieRewriter {
 
     fun rewriteGeneric(o: PsiElement) {
         for (leaf in o.childrenWithLeaves) {
-            when (leaf.node.text) {
+            when (leaf.text) {
                 "<" -> replaceNode(leaf, "⟨")
                 ">" -> replaceNode(leaf, "⟩")
                 "::" -> deleteNode(leaf)

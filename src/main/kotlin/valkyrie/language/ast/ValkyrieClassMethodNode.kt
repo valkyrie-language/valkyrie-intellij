@@ -49,16 +49,6 @@ class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node),
         return IdentifierPresentation(method, this.baseIcon)
     }
 
-    override fun getLineMark(): LineMarkerInfo<*> {
-        return RelatedItemLineMarkerInfo(
-            nameIdentifier.firstChild,
-            nameIdentifier.textRange,
-            baseIcon,
-            null,
-            null,
-            GutterIconRenderer.Alignment.RIGHT // 上
-        ) { mutableListOf(GotoRelatedItem(this)) }
-    }
 
     override fun getNameIdentifier(): PsiElement {
         return method
@@ -73,6 +63,18 @@ class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node),
         for (mod in modifiers) {
             e.register(mod, ValkyrieHighlightColor.MODIFIER)
         }
+    }
+
+    override fun on_line_mark(e: MutableCollection<in LineMarkerInfo<*>>) {
+        val info = RelatedItemLineMarkerInfo(
+            nameIdentifier.firstChild,
+            nameIdentifier.textRange,
+            baseIcon,
+            null,
+            null,
+            GutterIconRenderer.Alignment.RIGHT // 上
+        ) { mutableListOf(GotoRelatedItem(this)) }
+        e.add(info)
     }
 }
 

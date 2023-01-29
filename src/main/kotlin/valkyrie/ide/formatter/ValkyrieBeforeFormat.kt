@@ -5,10 +5,10 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.impl.source.codeStyle.PreFormatProcessor
-import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.DocumentUtil
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
 import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.antlr.traversal
 import valkyrie.language.psi.ValkyrieRewritableElement
 
 //import valkyrie.language.psi_node.ValkyrieClassStatementNode
@@ -28,7 +28,7 @@ class ValkyrieBeforeFormat : PreFormatProcessor {
         DocumentUtil.executeInBulk(document) {
             psiDocumentManager.doPostponedOperationsAndUnblockDocument(document)
             val writer = ValkyrieRewriter(document, settings);
-            PsiTreeUtil.processElements(psiRoot) {
+            psiRoot.traversal {
                 if (it is ValkyrieRewritableElement) {
                     it.on_rewrite(writer)
                 }

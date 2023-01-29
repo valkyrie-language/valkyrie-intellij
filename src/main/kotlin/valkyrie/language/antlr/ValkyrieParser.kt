@@ -6,6 +6,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.tree.IElementType
 import org.antlr.intellij.adaptor.lexer.RuleIElementType
+import org.antlr.intellij.adaptor.parser.ANTLRParseTreeToPSIConverter
 import org.antlr.intellij.adaptor.parser.ANTLRParserAdaptor
 import org.antlr.intellij.adaptor.psi.ANTLRPsiNode
 import org.antlr.v4.runtime.Parser
@@ -17,8 +18,6 @@ import valkyrie.language.ast.calls.ValkyrieCallGeneric
 import valkyrie.language.ast.calls.ValkyrieCallMacro
 import valkyrie.language.ast.pattern_match.ValkyrieCatchBlockNode
 import valkyrie.language.ast.pattern_match.ValkyrieMatchBlockNode
-import valkyrie.language.ast.pattern_match.ValkyrieWhenBlockNode
-import valkyrie.language.ast.pattern_match.ValkyrieWithBlockNode
 import valkyrie.language.psi.types.ValkyrieBlockType
 import valkyrie.language.psi.types.ValkyrieModifiedType
 
@@ -32,6 +31,9 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
         return super.parse(root, builder)
     }
 
+    override fun createListener(parser: Parser?, root: IElementType?, builder: PsiBuilder?): ANTLRParseTreeToPSIConverter {
+        return super.createListener(parser, root, builder)
+    }
 
     companion object {
         fun extractCompositeNode(node: CompositeElement): PsiElement {
@@ -66,6 +68,7 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 // trait
                 RULE_define_trait -> ValkyrieTraitStatement(node, type)
                 RULE_define_extends -> ValkyrieExtendsStatement(node)
+                RULE_trait_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
                 // function
                 RULE_define_function -> ValkyrieFunctionStatement(node)
                 RULE_function_parameters -> ValkyrieBlockNode(node, ValkyrieBlockType.Parenthesis)
@@ -73,7 +76,9 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_function_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
                 // variable
                 RULE_define_variale -> ValkyrieLetStatement(node)
-                RULE_let_parameter -> ValkyrieLetParameter(node)
+                RULE_let_pattern -> ValkyrieLetPattern(node)
+                RULE_let_pattern_item -> ValkyrieLetPatternItem(node)
+                RULE_let_pattern_pair -> ValkyrieLetPatternPair(node)
                 // control
                 RULE_for_statement -> ValkyrieForStatement(node)
                 RULE_while_statement -> ValkyrieWhileStatement(node)
@@ -81,8 +86,7 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_match_call -> ValkyrieMatchBlockNode(node)
                 RULE_catch_call -> ValkyrieCatchBlockNode(node)
                 RULE_match_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
-                RULE_with_block -> ValkyrieWithBlockNode(node)
-                RULE_when_block -> ValkyrieWhenBlockNode(node)
+                RULE_match_case_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Indent)
                 // expression
                 RULE_macro_call -> ValkyrieCallMacro(node)
                 RULE_generic_call -> ValkyrieCallGeneric(node, true)

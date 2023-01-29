@@ -121,16 +121,29 @@ lambda_call:   OP_THROW? function_block;
 // ===========================================================================
 function_block: BRACE_L function_statements* BRACE_R;
 // ===========================================================================
-define_variale: KW_LET define_variale_lhs type_hint? (OP_ASSIGN expression)?;
-define_variale_lhs
-    : PARENTHESES_L PARENTHESES_R
-    | PARENTHESES_L let_parameter (COMMA let_parameter)* COMMA? PARENTHESES_R
-    | BRACKET_L BRACKET_R
-    | BRACKET_L let_parameter (COMMA let_parameter)* COMMA? BRACKET_R
-    | let_parameter
-    | KW_CASE? case_tuple
+define_variale:    KW_LET let_pattern type_hint? (OP_ASSIGN expression)?;
+let_pattern:       let_pattern_tuple | let_pattern_block | let_pattern_plain;
+let_pattern_plain: modified_identifier (COMMA modified_identifier)* COMMA?;
+let_pattern_tuple
+    : namepath? PARENTHESES_L PARENTHESES_R
+    | namepath? PARENTHESES_L let_pattern_item (COMMA let_pattern_item)* COMMA? PARENTHESES_R
     ;
-let_parameter: identifier+;
+let_pattern_block
+    : namepath? BRACE_L BRACE_R
+    | namepath? BRACE_L let_pattern_pair (COMMA let_pattern_pair)* COMMA? BRACE_R
+    ;
+let_pattern_item
+    : (bind = identifier OP_BIND)? let_pattern_tuple
+    | (bind = identifier OP_BIND)? let_pattern_block
+    | (modifier += identifier)* OP_DECONSTRUCT bind = identifier?
+    | (modifier += identifier)* bind = identifier
+    ;
+let_pattern_pair
+    : (modified_identifier COLON)? (identifier OP_BIND)? let_pattern_tuple
+    | (modified_identifier COLON)? (identifier OP_BIND)? let_pattern_block
+    | (modified_identifier COLON)? OP_DECONSTRUCT bind = identifier?
+    | (modified_identifier COLON)? bind = identifier
+    ;
 // ===========================================================================
 define_type: KW_TYPE identifier OP_ASSIGN identifier;
 type_hint:   (COLON | OP_ARROW) type_expression;
@@ -144,17 +157,11 @@ while_statement
     : annotation* KW_WHILE inline_expression function_block
     | annotation* while_let function_block
     ;
-while_let: KW_WHILE KW_LET case_tuple OP_ASSIGN inline_expression;
+while_let: KW_WHILE KW_LET case_term OP_ASSIGN inline_expression;
 // ===========================================================================
 for_statement
-    : annotation* KW_FOR for_pattern infix_in inline_expression if_guard? function_block
+    : annotation* KW_FOR let_pattern infix_in inline_expression if_guard? function_block
     ;
-for_pattern
-    : KW_CASE? case_tuple
-    | let_parameter (COMMA let_parameter)* COMMA?
-    | PARENTHESES_L let_parameter (COMMA let_parameter)* COMMA? PARENTHESES_R
-    ;
-
 if_guard: KW_IF inline_expression;
 // ===========================================================================
 expression
@@ -176,6 +183,7 @@ expression
     | new_call
     | macro_call
     | function_call
+    | define_label
     | collection_literal
     | string_literal
     | number_literal
@@ -191,6 +199,7 @@ inline_expression
     | inline_expression infix_is inline_expression
     | inline_expression OP_UNTIL inline_expression
     | prefix_call inline_expression
+    | inline_expression slice_call
     | try_statement
     | if_statement
     | match_statement
@@ -215,7 +224,7 @@ type_expression
     | SPECIAL                                      # TSpecial
     ;
 // ===========================================================================
-prefix_call: OP_NOT | OP_ADD | OP_SUB | OP_AND;
+prefix_call: OP_NOT | OP_ADD | OP_SUB | OP_AND | OP_REFERENCE | OP_DECONSTRUCT;
 suffix_call
     : OP_NOT
     | OP_TEMPERATURE
@@ -231,10 +240,10 @@ suffix_call
 control_expression
     : RETURN expression?
     | RESUME expression
-    | BREAK
-    | CONTINUE
+    | BREAK (OP_LABEL identifier)?
+    | CONTINUE (OP_LABEL identifier)?
     | RAISE expression
-    | YIELD RETURN? expression?
+    | YIELD (OP_LABEL identifier)? expression?
     | YIELD BREAK
     | YIELD KW_WITH expression
     ;
@@ -267,8 +276,8 @@ generic_call_in_type
     : OP_PROPORTION? OP_LT type_expression OP_GT
     | GENERIC_L type_expression GENERIC_R
     ;
+define_label: OP_LABEL identifier;
 // ===========================================================================
-slice_call:  BRACKET_L expression BRACKET_R;
 offset_call: OP_PROPORTION BRACKET_L expression BRACKET_R | OFFSET_L expression OFFSET_R;
 // ===========================================================================
 template_call
@@ -292,20 +301,31 @@ try_statement: KW_TRY type_expression? function_block;
 match_statement: KW_MATCH inline_expression match_block;
 catch_statement: KW_CATCH inline_expression match_block;
 // ===========================================================================
-match_call:   OP_THROW? DOT KW_MATCH type_expression? match_block;
-catch_call:   OP_THROW? DOT KW_CATCH type_expression? match_block;
-match_block:  BRACE_L match_terms* BRACE_R;
-match_terms:  when_block | else_pattern | case_pattern | eos_free;
-with_block:   annotation* KW_WITH identifier | KW_WITH BRACKET_L identifier? BRACKET_R;
-when_block:   annotation* KW_WHEN inline_expression COLON expression*;
-else_pattern: annotation* KW_ELSE COLON expression*;
-// ===========================================================================
-case_pattern: annotation* KW_CASE case_tuple if_guard? COLON expression*;
-case_tuple
-    : namepath PARENTHESES_L PARENTHESES_R
-    | namepath PARENTHESES_L case_term (COMMA case_term)* COMMA? PARENTHESES_R
+match_call:  OP_THROW? DOT KW_MATCH type_expression? match_block;
+catch_call:  OP_THROW? DOT KW_CATCH type_expression? match_block;
+match_block: BRACE_L match_terms* BRACE_R;
+match_terms
+    : annotation* KW_WITH identifier                                    # MatchWith
+    | annotation* KW_WITH BRACKET_L identifier? BRACKET_R               # MatchWithMany
+    | annotation* KW_WHEN inline_expression match_case_block            # MatchWhen
+    | annotation* KW_ELSE match_case_block                              # MatchElse
+    | annotation* KW_CASE pattern_expression if_guard? match_case_block # MatchCase
+    | eos_free                                                          # MatchSkip
     ;
-case_term: case_tuple | identifier;
+match_case_block: COLON expression*;
+pattern_expression
+    : pattern_expression OP_BIND pattern_expression
+    | pattern_expression OP_UNTIL pattern_expression
+    | case_term
+    | number_literal
+    | string_literal
+    ;
+case_term
+    : PARENTHESES_L (case_pair (COMMA case_pair)* COMMA?) PARENTHESES_R
+    | namepath PARENTHESES_L (case_pair (COMMA case_pair)* COMMA?) PARENTHESES_R
+    | BRACKET_L (case_pair (COMMA case_pair)* COMMA?) BRACKET_R
+    ;
+case_pair: identifier+;
 // ===========================================================================
 new_call: annotation* KW_NEW modified_namepath generic_call_in_type? new_body;
 new_body
@@ -323,6 +343,22 @@ collection_literal
     | PARENTHESES_L collection_pair COMMA PARENTHESES_R
     ;
 collection_pair: (identifier COLON)? expression;
+// ===========================================================================
+
+// ===========================================================================
+slice_call: OP_THROW? range_literal;
+range_literal
+    : BRACKET_L (range_axis (COMMA range_axis)* COMMA?)? BRACKET_R # Ordinal
+    | OFFSET_L (range_axis (COMMA range_axis)* COMMA?)? OFFSET_R   # Offset
+    ;
+range_axis
+    : COLON // [:]
+    | OP_PROPORTION // [::]
+    | range_start (COLON range_end)? (COLON range_step)?
+    ;
+range_start: inline_expression;
+range_end:   inline_expression;
+range_step:  inline_expression;
 // ===========================================================================
 modifiers:           identifier*;
 modified_identifier: identifier+;

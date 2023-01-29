@@ -1,13 +1,19 @@
 package valkyrie.language.ast
 
 import com.intellij.extapi.psi.ASTWrapperPsiElement
+import com.intellij.formatting.Indent
+import com.intellij.lang.ASTNode
 import com.intellij.psi.impl.source.tree.CompositeElement
+import com.intellij.refactoring.suggested.endOffset
+import com.intellij.refactoring.suggested.startOffset
 import valkyrie.ide.folding.ValkyrieNodeFolder
+import valkyrie.language.antlr.childrenWithLeaves
 import valkyrie.language.psi.ValkyrieFoldableElement
+import valkyrie.language.psi.ValkyrieIndentElement
 import valkyrie.language.psi.types.ValkyrieBlockType
 
 
-class ValkyrieBlockNode : ASTWrapperPsiElement, ValkyrieFoldableElement {
+class ValkyrieBlockNode : ASTWrapperPsiElement, ValkyrieFoldableElement, ValkyrieIndentElement {
     val kind: ValkyrieBlockType
 
     constructor(node: CompositeElement, kind: ValkyrieBlockType) : super(node) {
@@ -15,7 +21,44 @@ class ValkyrieBlockNode : ASTWrapperPsiElement, ValkyrieFoldableElement {
     }
 
     override fun on_fold(e: ValkyrieNodeFolder) {
-        e.fold(this, e.findBrace(this))
+        if (kind == ValkyrieBlockType.Indent) {
+            e.fold(this, firstChild.endOffset, lastChild.endOffset)
+        } else {
+            var start = startOffset;
+            var end = endOffset;
+            for (leaf in childrenWithLeaves) {
+                if (leaf.text == "{") {
+                    start = leaf.endOffset;
+                    continue
+                }
+                if (leaf.text == "}") {
+                    end = leaf.startOffset;
+                    break
+                }
+            }
+            e.fold(this, start, end)
+        }
     }
+
+    override fun on_indent(child: ASTNode): Indent {
+        return if (kind == ValkyrieBlockType.Indent) {
+            if (node.firstChildNode == child) {
+                Indent.getNoneIndent()
+            } else {
+                Indent.getNormalIndent()
+            }
+        } else {
+            val firstLine = node.firstChildNode == child;
+            val lastLine = node.lastChildNode == child;
+            val isCornerChild = firstLine || lastLine
+            if (isCornerChild) {
+                Indent.getNoneIndent()
+            } else {
+                Indent.getNormalIndent()
+            }
+        }
+    }
+
+
 }
 

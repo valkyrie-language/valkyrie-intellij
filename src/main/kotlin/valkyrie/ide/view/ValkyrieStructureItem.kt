@@ -6,6 +6,7 @@ import com.intellij.ide.util.treeView.smartTree.SortableTreeElement
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
+import valkyrie.language.antlr.traversal
 import javax.swing.Icon
 
 class ValkyrieStructureItem : StructureViewTreeElement, SortableTreeElement {
@@ -40,21 +41,17 @@ class ValkyrieStructureItem : StructureViewTreeElement, SortableTreeElement {
     companion object {
         fun findChildrenView(root: PsiElement): Array<ValkyrieStructureItem> {
             val output = mutableListOf<ValkyrieStructureItem>();
-            var needSearch = root.children.toList();
-            while (needSearch.isNotEmpty()) {
-                val nextSearch = mutableListOf<PsiElement>();
-                for (node in needSearch) {
-                    if (node is NavigatablePsiElement) {
-                        if (node.presentation != null) {
-                            output.add(ValkyrieStructureItem(node))
-                        } else {
-                            nextSearch.addAll(node.children);
-                        }
+            root.traversal {
+                if (it is NavigatablePsiElement) {
+                    if (it.presentation != null) {
+                        output.add(ValkyrieStructureItem(it))
+                        false
                     } else {
-                        nextSearch.addAll(node.children);
+                        true;
                     }
+                } else {
+                    true
                 }
-                needSearch = nextSearch
             }
             return output.toTypedArray()
         }

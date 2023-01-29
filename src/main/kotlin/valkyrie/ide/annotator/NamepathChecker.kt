@@ -14,13 +14,8 @@ import valkyrie.language.ast.ValkyrieUnionStatement
 class NamepathChecker : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         when (element) {
-            is ValkyrieClassStatement -> {
-                checkValidClassName(element, holder)
-            }
-
-            is ValkyrieUnionStatement -> {
-                checkValidUnionName(element, holder)
-            }
+            is ValkyrieClassStatement -> checkValidClassName(element, holder)
+            is ValkyrieUnionStatement -> checkValidUnionName(element, holder)
         }
     }
 
@@ -32,8 +27,8 @@ class NamepathChecker : Annotator {
     }
 
     private fun checkValidUnionName(element: ValkyrieUnionStatement, holder: AnnotationHolder) {
-//        checkNeedEscape(element.nameIdentifier, holder)
-//        checkCamelCase(element.nameIdentifier, holder)
+        checkNeedEscape(element.nameIdentifier, holder)
+        checkCamelCase(element.nameIdentifier, holder)
     }
 
     private fun checkCamelCase(element: ValkyrieIdentifierNode, holder: AnnotationHolder) {
