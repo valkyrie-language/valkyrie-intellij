@@ -13,7 +13,7 @@ class ValkyrieNumberNode(node: ASTNode) : ANTLRPsiNode(node), ValkyrieHighlightE
         PsiTreeUtil.getChildOfType(this, ValkyrieIdentifierNode::class.java)
     }
 
-    override fun highlight(info: HighlightInfoHolder) {
-        info.register(handler, ValkyrieHighlightColor.SYM_MACRO)
+    override fun on_highlight(e: HighlightInfoHolder) {
+        e.register(handler, ValkyrieHighlightColor.SYM_MACRO)
     }
 }

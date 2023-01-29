@@ -27,10 +27,10 @@ class ValkyrieFunctionParameter(node: ASTNode, type: IElementType) : ASTWrapperP
         return this.parameter
     }
 
-    override fun highlight(info: HighlightInfoHolder) {
-        info.register(nameIdentifier, ValkyrieHighlightColor.SYM_ARG)
+    override fun on_highlight(e: HighlightInfoHolder) {
+        e.register(nameIdentifier, ValkyrieHighlightColor.SYM_ARG)
         for (mod in modifiers) {
-            info.register(mod, ValkyrieHighlightColor.MODIFIER)
+            e.register(mod, ValkyrieHighlightColor.MODIFIER)
         }
     }
 

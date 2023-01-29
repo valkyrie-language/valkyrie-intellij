@@ -37,8 +37,8 @@ class ValkyrieTraitStatement(node: CompositeElement, type: IElementType) : Valky
         return IdentifierPresentation(_identifier, this.baseIcon)
     }
 
-    override fun highlight(info: HighlightInfoHolder) {
-        info.register(nameIdentifier, ValkyrieHighlightColor.SYM_TRAIT)
+    override fun on_highlight(e: HighlightInfoHolder) {
+        e.register(nameIdentifier, ValkyrieHighlightColor.SYM_TRAIT)
     }
 
 

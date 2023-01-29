@@ -24,11 +24,12 @@ perform(self) -> T / E {
 }
 }
 
-extends<T> Option<T>: Perform {
+generic T {}
+extends Option<T>: Perform {
     perform(self) -> T / null {
         match self {
-        Some(s) => s
-        None => raise null
+      case  Some(s) : s
+        case None : raise null
     }
 }
 }

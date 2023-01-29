@@ -39,12 +39,12 @@ class ValkyrieUnionStatement(node: CompositeElement) : ValkyrieScopeNode(node), 
         return IdentifierPresentation(_identifier, this.baseIcon)
     }
 
-    override fun highlight(info: HighlightInfoHolder) {
-        info.register(nameIdentifier, ValkyrieHighlightColor.SYM_CLASS)
+    override fun on_highlight(e: HighlightInfoHolder) {
+        e.register(nameIdentifier, ValkyrieHighlightColor.SYM_CLASS)
     }
 
-    override fun rewrite(w: ValkyrieRewriter) {
-        w.fixDelimiter(this, w.settings.union_trailing)
+    override fun on_rewrite(e: ValkyrieRewriter) {
+        e.fixDelimiter(this, e.settings.union_trailing)
 //        for (field in union_fields) {
 //            w.fixDelimiter(field, w.settings.union_item_field_trailing)
 //        }

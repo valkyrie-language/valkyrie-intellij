@@ -37,10 +37,10 @@ class ValkyrieFunctionStatement(node: CompositeElement) : ValkyrieScopeNode(node
         return IdentifierPresentation(namepath?.nameIdentifier, this.baseIcon)
     }
 
-    override fun highlight(info: HighlightInfoHolder) {
-        info.register(nameIdentifier, ValkyrieHighlightColor.SYM_FUNCTION_FREE)
+    override fun on_highlight(e: HighlightInfoHolder) {
+        e.register(nameIdentifier, ValkyrieHighlightColor.SYM_FUNCTION_FREE)
         for (mod in modifiers) {
-            info.register(mod, ValkyrieHighlightColor.MODIFIER)
+            e.register(mod, ValkyrieHighlightColor.MODIFIER)
         }
     }
 }

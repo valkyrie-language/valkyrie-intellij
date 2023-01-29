@@ -58,14 +58,14 @@ class ValkyrieLetParameter(node: CompositeElement) : ASTWrapperPsiElement(node),
         return false
     }
 
-    override fun highlight(info: HighlightInfoHolder) {
+    override fun on_highlight(e: HighlightInfoHolder) {
         if (mutable) {
-            info.register(nameIdentifier, ValkyrieHighlightColor.SYM_LOCAL_MUT)
+            e.register(nameIdentifier, ValkyrieHighlightColor.SYM_LOCAL_MUT)
         } else {
-            info.register(nameIdentifier, ValkyrieHighlightColor.SYM_LOCAL)
+            e.register(nameIdentifier, ValkyrieHighlightColor.SYM_LOCAL)
         }
         for (mod in modifiers) {
-            info.register(mod, ValkyrieHighlightColor.MODIFIER)
+            e.register(mod, ValkyrieHighlightColor.MODIFIER)
         }
     }
 }

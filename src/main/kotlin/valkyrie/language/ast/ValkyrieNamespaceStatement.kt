@@ -56,7 +56,7 @@ class ValkyrieNamespaceStatement(node: CompositeElement, type: IElementType) : A
         return false;
     }
 
-    override fun rewrite(w: ValkyrieRewriter) {
+    override fun on_rewrite(e: ValkyrieRewriter) {
         val split = PSIElementTypeFactory.createTokenSet(
             ValkyrieLanguage,
             ValkyrieAntlrParser.DOT,
@@ -64,24 +64,24 @@ class ValkyrieNamespaceStatement(node: CompositeElement, type: IElementType) : A
         );
         for (leaf in namepath.childrenWithLeaves) {
             if (split.contains(leaf.elementType)) {
-                when (w.settings.namespace_delimiter) {
+                when (e.settings.namespace_delimiter) {
                     ValkyrieCodeStyleSettings.NamespaceDelimiter.Ignore -> break
-                    ValkyrieCodeStyleSettings.NamespaceDelimiter.Dot -> w.replaceNode(leaf, ".")
-                    ValkyrieCodeStyleSettings.NamespaceDelimiter.Colon -> w.replaceNode(leaf, "::")
-                    ValkyrieCodeStyleSettings.NamespaceDelimiter.UnicodeColon -> w.replaceNode(leaf, "∷")
+                    ValkyrieCodeStyleSettings.NamespaceDelimiter.Dot -> e.replaceNode(leaf, ".")
+                    ValkyrieCodeStyleSettings.NamespaceDelimiter.Colon -> e.replaceNode(leaf, "::")
+                    ValkyrieCodeStyleSettings.NamespaceDelimiter.UnicodeColon -> e.replaceNode(leaf, "∷")
                 }
             }
         }
 
         val last = lastChild;
-        when (w.settings.namespace_colon) {
+        when (e.settings.namespace_colon) {
             ValkyrieCodeStyleSettings.Triplet.Ignore -> {}
             ValkyrieCodeStyleSettings.Triplet.Always -> if (last !is ANTLRPsiNode) {
-                w.insertAfter(this, ";")
+                e.insertAfter(this, ";")
             }
 
             ValkyrieCodeStyleSettings.Triplet.Nothing -> if (last is ANTLRPsiNode) {
-                w.deleteNode(last)
+                e.deleteNode(last)
             }
         }
     }

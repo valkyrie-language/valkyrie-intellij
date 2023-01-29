@@ -62,10 +62,10 @@ class ValkyrieClassFieldNode(node: CompositeElement) : ValkyrieScopeNode(node), 
         ) { mutableListOf(GotoRelatedItem(this)) }
     }
 
-    override fun highlight(info: HighlightInfoHolder) {
-        info.register(nameIdentifier, ValkyrieHighlightColor.SYM_FIELD)
+    override fun on_highlight(e: HighlightInfoHolder) {
+        e.register(nameIdentifier, ValkyrieHighlightColor.SYM_FIELD)
         for (mod in modifiers) {
-            info.register(mod, ValkyrieHighlightColor.MODIFIER)
+            e.register(mod, ValkyrieHighlightColor.MODIFIER)
         }
     }
 }

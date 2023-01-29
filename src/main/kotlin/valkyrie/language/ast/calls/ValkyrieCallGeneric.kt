@@ -21,7 +21,7 @@ class ValkyrieCallGeneric(node: CompositeElement, must: Boolean) : ValkyrieScope
         return IdentifierPresentation(_identifier, this.baseIcon)
     }
 
-    override fun rewrite(w: ValkyrieRewriter) {
-        w.rewriteGeneric(this)
+    override fun on_rewrite(e: ValkyrieRewriter) {
+        e.rewriteGeneric(this)
     }
 }

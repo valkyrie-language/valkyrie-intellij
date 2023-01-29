@@ -64,14 +64,14 @@ class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node),
         return method
     }
 
-    override fun highlight(info: HighlightInfoHolder) {
+    override fun on_highlight(e: HighlightInfoHolder) {
         if (method.name == "constructor") {
-            info.register(nameIdentifier, ValkyrieHighlightColor.KEYWORD)
+            e.register(nameIdentifier, ValkyrieHighlightColor.KEYWORD)
         } else {
-            info.register(nameIdentifier, ValkyrieHighlightColor.SYM_FUNCTION_SELF)
+            e.register(nameIdentifier, ValkyrieHighlightColor.SYM_FUNCTION_SELF)
         }
         for (mod in modifiers) {
-            info.register(mod, ValkyrieHighlightColor.MODIFIER)
+            e.register(mod, ValkyrieHighlightColor.MODIFIER)
         }
     }
 }

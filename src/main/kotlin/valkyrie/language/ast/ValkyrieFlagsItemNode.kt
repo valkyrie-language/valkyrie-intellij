@@ -39,8 +39,8 @@ class ValkyrieFlagsItemNode(node: CompositeElement, type: IElementType) : Valkyr
         return IdentifierPresentation(_identifier, this.baseIcon)
     }
 
-    override fun highlight(info: HighlightInfoHolder) {
-        info.register(nameIdentifier, ValkyrieHighlightColor.SYM_FIELD)
+    override fun on_highlight(e: HighlightInfoHolder) {
+        e.register(nameIdentifier, ValkyrieHighlightColor.SYM_FIELD)
     }
 
 

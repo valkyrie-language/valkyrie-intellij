@@ -75,7 +75,7 @@ class ValkyrieStringNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiLanguag
         return TextRange(start, end)
     }
 
-    override fun highlight(info: HighlightInfoHolder) {
-        info.register(handler, ValkyrieHighlightColor.SYM_MACRO)
+    override fun on_highlight(e: HighlightInfoHolder) {
+        e.register(handler, ValkyrieHighlightColor.SYM_MACRO)
     }
 }

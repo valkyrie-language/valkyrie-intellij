@@ -11,7 +11,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.language.psi.ValkyrieRewritableElement
+import valkyrie.ide.folding.ValkyrieNodeFolder
 import valkyrie.ide.formatter.ValkyrieRewriter
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.view.IdentifierPresentation
@@ -21,9 +21,7 @@ import valkyrie.language.antlr.recursiveSearch
 import valkyrie.language.antlr.register
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.language.psi.ValkyrieHighlightElement
-import valkyrie.language.psi.ValkyrieLineMarkElement
-import valkyrie.language.psi.ValkyrieScopeNode
+import valkyrie.language.psi.*
 import javax.swing.Icon
 
 
@@ -31,7 +29,8 @@ class ValkyrieClassStatement(node: CompositeElement) : ValkyrieScopeNode(node),
     PsiNameIdentifierOwner,
     ValkyrieLineMarkElement,
     ValkyrieHighlightElement,
-    ValkyrieRewritableElement {
+    ValkyrieRewritableElement,
+    ValkyrieFoldableElement {
     private val _identifier by lazy { ValkyrieIdentifierNode.find(this)!! }
     val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
     val inherits: Array<ValkyrieClassInheritItem> by lazy {
@@ -88,22 +87,28 @@ class ValkyrieClassStatement(node: CompositeElement) : ValkyrieScopeNode(node),
         ) { mutableListOf(GotoRelatedItem(this)) }
     }
 
-    override fun highlight(info: HighlightInfoHolder) {
-        info.register(nameIdentifier, ValkyrieHighlightColor.SYM_CLASS)
+    override fun on_highlight(e: HighlightInfoHolder) {
+        e.register(nameIdentifier, ValkyrieHighlightColor.SYM_CLASS)
         for (mod in modifiers) {
-            info.register(mod, ValkyrieHighlightColor.MODIFIER)
+            e.register(mod, ValkyrieHighlightColor.MODIFIER)
         }
         for (inherit in inherits) {
             for (mod in inherit.modifiers) {
-                info.register(mod, ValkyrieHighlightColor.MODIFIER)
+                e.register(mod, ValkyrieHighlightColor.MODIFIER)
             }
         }
     }
 
-    override fun rewrite(w: ValkyrieRewriter) {
+    override fun on_rewrite(e: ValkyrieRewriter) {
         for (field in getFields()) {
-            w.fixDelimiter(field, w.settings.class_field_trailing)
+            e.fixDelimiter(field, e.settings.class_field_trailing)
         }
     }
+
+    override fun on_fold(e: ValkyrieNodeFolder) {
+        TODO("Not yet implemented")
+    }
+
+
 }
 

@@ -30,7 +30,7 @@ class ValkyrieBeforeFormat : PreFormatProcessor {
             val writer = ValkyrieRewriter(document, settings);
             PsiTreeUtil.processElements(psiRoot) {
                 if (it is ValkyrieRewritableElement) {
-                    it.rewrite(writer)
+                    it.on_rewrite(writer)
                 }
                 true
             }

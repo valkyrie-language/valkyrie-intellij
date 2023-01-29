@@ -20,7 +20,7 @@ class NodeHighlighter : HighlightVisitor {
     override fun visit(element: PsiElement) {
         PsiTreeUtil.processElements(element) {
             if (it is ValkyrieHighlightElement) {
-                _info?.let { info -> it.highlight(info) }
+                _info?.let { info -> it.on_highlight(info) }
             }
             ProgressManager.checkCanceled()
             true

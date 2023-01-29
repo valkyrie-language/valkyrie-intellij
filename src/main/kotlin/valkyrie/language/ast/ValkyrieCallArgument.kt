@@ -9,8 +9,8 @@ import valkyrie.language.psi.ValkyrieHighlightElement
 
 class ValkyrieCallArgument(node: CompositeElement) : ASTWrapperPsiElement(node), ValkyrieHighlightElement {
     val key by lazy { ValkyrieIdentifierNode.find(this) }
-    override fun highlight(info: HighlightInfoHolder) {
-        info.register(key, ValkyrieHighlightColor.SYM_ARG)
+    override fun on_highlight(e: HighlightInfoHolder) {
+        e.register(key, ValkyrieHighlightColor.SYM_ARG)
     }
 
 }

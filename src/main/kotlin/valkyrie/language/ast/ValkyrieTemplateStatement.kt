@@ -22,12 +22,12 @@ class ValkyrieTemplateStatement(node: CompositeElement) : ValkyrieScopeNode(node
         return PresentationData("generic", null, this.baseIcon, null)
     }
 
-    override fun highlight(info: HighlightInfoHolder) {
+    override fun on_highlight(e: HighlightInfoHolder) {
         for (mod in modifiers) {
-            info.register(mod, ValkyrieHighlightColor.MODIFIER)
+            e.register(mod, ValkyrieHighlightColor.MODIFIER)
         }
         for (mod in parameters) {
-            info.register(mod, ValkyrieHighlightColor.SYM_GENERIC)
+            e.register(mod, ValkyrieHighlightColor.SYM_GENERIC)
         }
     }
 }

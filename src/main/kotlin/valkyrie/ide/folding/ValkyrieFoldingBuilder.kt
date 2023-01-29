@@ -9,13 +9,16 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.language.file.ValkyrieFileNode
+import valkyrie.language.psi.ValkyrieFoldableElement
 
 class ValkyrieFoldingBuilder : CustomFoldingBuilder(), DumbAware {
     override fun buildLanguageFoldRegions(descriptors: MutableList<FoldingDescriptor>, root: PsiElement, document: Document, quick: Boolean) {
         if (root !is ValkyrieFileNode) return
-        val visitor = FoldingVisitor(descriptors)
+        val visitor = ValkyrieNodeFolder(descriptors)
         PsiTreeUtil.processElements(root) {
-            it.accept(visitor);
+            if (it is ValkyrieFoldableElement) {
+                it.on_fold(visitor)
+            }
             true
         }
     }

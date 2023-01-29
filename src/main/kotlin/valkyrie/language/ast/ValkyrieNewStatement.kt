@@ -10,10 +10,10 @@ import valkyrie.language.psi.ValkyrieHighlightElement
 class ValkyrieNewStatement(node: CompositeElement) : ASTWrapperPsiElement(node), ValkyrieHighlightElement {
     val identifier by lazy { ValkyrieModifiedNode.findIdentifier(this) };
     val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
-    override fun highlight(info: HighlightInfoHolder) {
-        info.register(identifier, ValkyrieHighlightColor.SYM_CLASS)
+    override fun on_highlight(e: HighlightInfoHolder) {
+        e.register(identifier, ValkyrieHighlightColor.SYM_CLASS)
         for (mod in modifiers) {
-            info.register(mod, ValkyrieHighlightColor.MODIFIER)
+            e.register(mod, ValkyrieHighlightColor.MODIFIER)
         }
     }
 

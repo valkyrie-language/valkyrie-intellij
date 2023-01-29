@@ -29,8 +29,8 @@ class ValkyrieNamepathNode(node: ASTNode, type: IElementType, val free: Boolean 
 
 
 
-    override fun highlight(info: HighlightInfoHolder) {
-        fakeTypeColor(info, nameIdentifier)
+    override fun on_highlight(e: HighlightInfoHolder) {
+        fakeTypeColor(e, nameIdentifier)
     }
 
     companion object {

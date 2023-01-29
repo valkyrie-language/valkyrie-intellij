@@ -18,7 +18,7 @@ class ValkyrieLetStatement(node: CompositeElement) : ASTWrapperPsiElement(node),
         return PresentationData("let", null, this.baseIcon, null)
     }
 
-    override fun highlight(info: HighlightInfoHolder) {
+    override fun on_highlight(e: HighlightInfoHolder) {
 
     }
 }
