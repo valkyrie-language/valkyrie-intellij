@@ -94,7 +94,7 @@ fun PsiWhiteSpace.isMultiLine(): Boolean = getLineCount() > 1
 inline val <T : StubElement<*>> StubBasedPsiElement<T>.greenStub: T?
     get() = (this as? StubBasedPsiElementBase<T>)?.greenStub
 
-/// true = continue, false = break
+/** true = continue, false = break */
 fun PsiElement.traversal(filter: (PsiElement) -> Boolean) {
     var needSearch = children.toList();
     while (needSearch.isNotEmpty()) {

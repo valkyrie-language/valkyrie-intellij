@@ -10,59 +10,78 @@ import valkyrie.language.psi.ValkyrieIndentElement
 
 //import valkyrie.language.psi.ValkyrieTokenType
 
-class FormatBlock(
-    private val node: ASTNode,
-    private val alignment: Alignment?,
-    private val indent: Indent?,
-    private val wrap: Wrap?,
-    private val space: FormatSpace,
-) : ASTBlock {
-    private val myIsIncomplete: Boolean by lazy {
-        node.getChildren(null).any { it.elementType is PsiErrorElement } || FormatterUtil.isIncomplete(node)
+class FormatBlock : ASTBlock {
+    private val _node: ASTNode
+    private val _alignment: Alignment?
+    private val _indent: Indent?
+    private val _wrap: Wrap?
+    private val _space: FormatSpace
+
+    constructor(node: ASTNode, space: FormatSpace) {
+        this._node = node
+        this._alignment = computeAlignment(node)
+        this._indent = computeIndent(node)
+        this._wrap = computeWrap(node)
+        this._space = space
     }
 
-    private val mySubBlocks: List<Block> by lazy { buildChildren() }
+    constructor(node: ASTNode, alignment: Alignment?, indent: Indent?, wrap: Wrap?, space: FormatSpace) {
+        this._node = node
+        this._alignment = alignment
+        this._indent = indent
+        this._wrap = wrap
+        this._space = space
+    }
 
-    private fun buildChildren(): List<Block> {
+    override fun isLeaf(): Boolean {
+        return _node.firstChildNode == null
+    }
+
+    override fun getNode(): ASTNode {
+        return _node
+    }
+
+
+    override fun getWrap(): Wrap? {
+        return _wrap
+    }
+
+    override fun getIndent(): Indent? {
+        return _indent
+    }
+
+    override fun getAlignment(): Alignment? {
+        return _alignment
+    }
+
+    override fun getTextRange(): TextRange = _node.textRange
+
+    override fun getSpacing(child1: Block?, child2: Block): Spacing? {
+        return _space.spacingBuilder.getSpacing(this, child1, child2)
+    }
+
+    override fun getSubBlocks(): List<Block> {
         return node.getChildren(null).filter { !it.isWhitespaceOrEmpty() }.map {
             FormatBlock(
                 node = it,
                 alignment = computeAlignment(it),
                 indent = computeIndent(it),
                 wrap = computeWrap(it),
-                space
+                _space
             )
         }
     }
 
-    override fun isLeaf(): Boolean = node.firstChildNode == null
-
-    override fun getNode() = node
-
-    override fun getTextRange(): TextRange = node.textRange
-
-    override fun getWrap() = wrap
-
-    override fun getIndent() = indent
-
-    override fun getAlignment() = alignment
-
-    override fun getSpacing(child1: Block?, child2: Block) = space.spacingBuilder.getSpacing(this, child1, child2)
-
-    override fun getSubBlocks(): List<Block> = mySubBlocks
-
-    override fun isIncomplete(): Boolean = myIsIncomplete
+    override fun isIncomplete(): Boolean {
+        return _node.getChildren(null).any { it.elementType is PsiErrorElement } || FormatterUtil.isIncomplete(_node)
+    }
 
     override fun getChildAttributes(newChildIndex: Int): ChildAttributes {
-        val indent = when (node.psi) {
-            // is FluentAttribute -> Indent.getNormalIndent()
-            else -> Indent.getNoneIndent()
-        }
-        return ChildAttributes(indent, null)
+        return ChildAttributes(Indent.getNoneIndent(), null)
     }
 
     private fun computeIndent(child: ASTNode): Indent? {
-        val psi = node.psi;
+        val psi = _node.psi;
         if (psi is ValkyrieIndentElement) {
             return psi.on_indent(child)
         }
@@ -71,14 +90,15 @@ class FormatBlock(
 
 
     private fun computeAlignment(child: ASTNode): Alignment? {
-        return when (node.psi) {
-//            is ValkyrieBitflagItem -> Alignment.createAlignment(true, Alignment.Anchor.LEFT)
-            else -> null
-        }
+//        val psi = _node.psi;
+//        if (psi is ValkyrieAlignmentElement) {
+//            return psi.on_alignment(child)
+//        }
+        return null
     }
 
     private fun computeWrap(child: ASTNode): Wrap? {
-        return when (node.psi) {
+        return when (_node.psi) {
             else -> null
         }
     }

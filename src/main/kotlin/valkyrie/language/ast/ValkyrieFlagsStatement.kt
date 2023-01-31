@@ -5,7 +5,6 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
-import com.intellij.psi.tree.IElementType
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.view.NamepathPresentation
 import valkyrie.language.antlr.register
@@ -14,7 +13,8 @@ import valkyrie.language.psi.ValkyrieHighlightElement
 import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
-class ValkyrieFlagsStatement(node: CompositeElement, type: IElementType) : ValkyrieScopeNode(node), PsiNameIdentifierOwner, ValkyrieHighlightElement {
+class ValkyrieFlagsStatement(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner, ValkyrieHighlightElement
+     {
     private val _identifier: ValkyrieNamepathNode = findChildByClass(ValkyrieNamepathNode::class.java)!!;
 
     override fun getName(): String {

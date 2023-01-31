@@ -1,7 +1,13 @@
-union TestUnion {
+union EmptyUnion1 {
 
 }
 
+union EmptyUnion2(u8): A + B {
+
+}
+union A(u8): A + B {
+    A
+}
 
 union Test2{
     Test

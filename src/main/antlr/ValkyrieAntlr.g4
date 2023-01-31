@@ -90,9 +90,8 @@ variant_statements: class_field | eos_free;
 // ===========================================================================
 define_bitflags:     KW_BITFLAGS namepath bitflags_layout? type_hint? bitflags_block;
 bitflags_layout:     PARENTHESES_L type_expression? PARENTHESES_R;
-bitflags_block:      BRACE_L bitflags_statements* BRACE_R;
-bitflags_statements: bitflags_item | eos_free;
-bitflags_item:       identifier (OP_ASSIGN expression)?;
+bitflags_block:      BRACE_L (bitflags_item | eos_free)* BRACE_R;
+bitflags_item:       annotation* identifier (OP_ASSIGN expression)?;
 // ===========================================================================
 define_function
     : template_call? annotation* modifiers KW_FUNCTION namepath generic_call? function_parameters type_hint? effect_hint? function_block
@@ -154,11 +153,9 @@ else_if_statement: KW_ELSE KW_IF inline_expression function_block;
 else_statement:    KW_ELSE function_block;
 // ===========================================================================
 while_statement
-    : annotation* KW_WHILE inline_expression function_block
-    | annotation* while_let function_block
+    : annotation* KW_WHILE inline_expression function_block                              # WhileExpression
+    | annotation* KW_WHILE KW_LET let_pattern OP_ASSIGN inline_expression function_block # WhileLet
     ;
-while_let: KW_WHILE KW_LET case_term OP_ASSIGN inline_expression;
-// ===========================================================================
 for_statement
     : annotation* KW_FOR let_pattern infix_in inline_expression if_guard? function_block
     ;

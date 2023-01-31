@@ -5,13 +5,13 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
-import valkyrie.language.psi.ValkyrieRewritableElement
 import valkyrie.ide.formatter.ValkyrieRewriter
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.antlr.register
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.psi.ValkyrieHighlightElement
+import valkyrie.language.psi.ValkyrieRewritableElement
 import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 

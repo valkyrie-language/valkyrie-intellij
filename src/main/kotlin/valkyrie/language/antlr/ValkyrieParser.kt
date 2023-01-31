@@ -57,9 +57,9 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_class_method -> ValkyrieClassMethodNode(node)
                 RULE_define_generic -> ValkyrieGenericStatement(node)
                 // flags
-                RULE_define_bitflags -> ValkyrieFlagsStatement(node, type)
+                RULE_define_bitflags -> ValkyrieFlagsStatement(node)
+                RULE_bitflags_item -> ValkyrieFlagsStatementItem(node, type)
                 RULE_bitflags_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
-                RULE_bitflags_item -> ValkyrieFlagsItemNode(node, type)
                 // union
                 RULE_define_union -> ValkyrieUnionStatement(node)
                 RULE_union_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)

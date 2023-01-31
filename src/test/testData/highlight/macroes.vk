@@ -1,4 +1,4 @@
-namespace test::macroes;
+namespace test.macroes;
 
 
 
@@ -6,7 +6,7 @@ namespace test::macroes;
 
 #derive(Default, Debug, Serde)
 class TClass {
-    fields
+    fields,
 }
 
 extends TClass {

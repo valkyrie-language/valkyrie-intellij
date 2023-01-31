@@ -35,13 +35,13 @@ ensure {}// 后置
 where {}// 约束
 }
 class A {
-    inherit Base;
-    inherit Base2;
+    inherit Base,
+    inherit Base2,
 }
 
 
 class B {
-    item
+    item,
 }
 
 
@@ -52,20 +52,18 @@ public static void fun main(args: [String], type A, ) {
 
 }
 
-union A(u8): A + B {
-    A
-}
+
 
 function a() {
 
 }
 
 class A(B, C): C + D {
-    pub static a(): Ref<B> + D {
+    pub static a(): Ref⟨B⟩ + D {
         return 1
     }
-    a {
-    get {
+    a, {
+    get, {
 return 1
 }
 set {
@@ -76,7 +74,7 @@ set {
 }
 
 
-a::<T>()
+a⟨T⟩()
 a⦑T⦒
 a<T>
 

@@ -13,7 +13,7 @@ class ValkyrieLetPatternItem : ASTWrapperPsiElement, ValkyrieHighlightElement {
     }
 
     override fun on_highlight(e: HighlightInfoHolder) {
-        TODO("Not yet implemented")
+
     }
 }
 
