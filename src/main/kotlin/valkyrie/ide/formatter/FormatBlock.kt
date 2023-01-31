@@ -6,6 +6,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.formatter.FormatterUtil
 import valkyrie.language.antlr.isWhitespaceOrEmpty
+import valkyrie.language.psi.ValkyrieAlignmentElement
 import valkyrie.language.psi.ValkyrieIndentElement
 
 //import valkyrie.language.psi.ValkyrieTokenType
@@ -90,10 +91,10 @@ class FormatBlock : ASTBlock {
 
 
     private fun computeAlignment(child: ASTNode): Alignment? {
-//        val psi = _node.psi;
-//        if (psi is ValkyrieAlignmentElement) {
-//            return psi.on_alignment(child)
-//        }
+        val psi = _node.psi;
+        if (psi is ValkyrieAlignmentElement) {
+            return psi.on_alignment(child)
+        }
         return null
     }
 

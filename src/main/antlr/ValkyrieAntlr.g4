@@ -6,24 +6,25 @@ options {
 
 // $antlr-format useTab false, columnLimit 144
 // $antlr-format alignColons hanging, alignSemicolons hanging, alignFirstTokens true
-program: top_statement* EOF;
-top_statement
-    : define_namespace
-    | import_statement
-    | define_extension
-    | define_class
-    | define_union
-    | define_bitflags
-    | define_trait
-    | define_extends
-    | define_function
-    | define_type
-    | define_variale
-    | if_statement
-    | while_statement
-    | for_statement
-    | expression
-    | eos
+program
+    : (
+        define_namespace
+        | import_statement
+        | define_extension
+        | define_class
+        | define_union
+        | define_bitflags
+        | define_trait
+        | define_extends
+        | define_function
+        | define_type
+        | define_variale
+        | if_statement
+        | while_statement
+        | for_statement
+        | expression
+        | eos
+    )* EOF
     ;
 function_statements
     : define_lambda
@@ -88,10 +89,10 @@ define_variant:     identifier variant_block?;
 variant_block:      BRACE_L variant_statements* BRACE_R;
 variant_statements: class_field | eos_free;
 // ===========================================================================
-define_bitflags:     KW_BITFLAGS namepath bitflags_layout? type_hint? bitflags_block;
-bitflags_layout:     PARENTHESES_L type_expression? PARENTHESES_R;
-bitflags_block:      BRACE_L (bitflags_item | eos_free)* BRACE_R;
-bitflags_item:       annotation* identifier (OP_ASSIGN expression)?;
+define_bitflags: KW_BITFLAGS namepath bitflags_layout? type_hint? bitflags_block;
+bitflags_layout: PARENTHESES_L type_expression? PARENTHESES_R;
+bitflags_block:  BRACE_L (bitflags_item | eos_free)* BRACE_R;
+bitflags_item:   annotation* identifier (OP_ASSIGN expression)?;
 // ===========================================================================
 define_function
     : template_call? annotation* modifiers KW_FUNCTION namepath generic_call? function_parameters type_hint? effect_hint? function_block
