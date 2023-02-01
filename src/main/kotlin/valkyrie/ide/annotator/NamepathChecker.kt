@@ -5,9 +5,9 @@ import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.psi.PsiElement
-import valkyrie.language.ast.ValkyrieClassStatement
+import valkyrie.language.ast.classes.ValkyrieClassStatement
 import valkyrie.language.ast.ValkyrieIdentifierNode
-import valkyrie.language.ast.ValkyrieUnionStatement
+import valkyrie.language.ast.unions.ValkyrieUnionStatement
 
 //import valkyrie.language.psi_node.ValkyrieUnionStatementNode
 

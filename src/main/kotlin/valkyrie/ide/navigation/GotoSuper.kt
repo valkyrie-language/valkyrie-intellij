@@ -7,7 +7,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.language.ast.ValkyrieClassStatement
+import valkyrie.language.ast.classes.ValkyrieClassStatement
 import valkyrie.language.ast.ValkyrieTraitStatement
 
 //import valkyrie.language.psi_node.ValkyrieClassStatementNode

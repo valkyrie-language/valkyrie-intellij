@@ -10,7 +10,7 @@ import com.intellij.ui.ColorUtil
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.highlight.ValkyrieHighlightColor.*
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.ast.ValkyrieClassStatement
+import valkyrie.language.ast.classes.ValkyrieClassStatement
 import valkyrie.language.ast.ValkyrieTraitStatement
 import valkyrie.language.antlr.ValkyrieLexer
 import valkyrie.lsp.RequestDocument

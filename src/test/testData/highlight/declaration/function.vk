@@ -1,3 +1,5 @@
+namespace test.macroes;
+
 function name() {}
 
 macro module::`function`(): R / P {
@@ -17,6 +19,22 @@ micro name(a, k: T, p: U = 1) -> R {
     print("Hello, world!")
 }
 
+
+#derive(Default, Debug, Serde)
+class TClass {
+    fields,
+}
+
+extends TClass {
+    functions
+}
+
+
+#[derive]
+function name(args) {
+    block
+}
+
 generic P {
     where { P: AnyType }
 }
@@ -25,7 +43,48 @@ function Print<P>(w: Write, ..parameters: P) {
 }
 
 
+#require(safe)
+public static void fun main function main(args: List<String>, a) {
 
+}
+
+
+
+function a() {
+
+}
+
+
+
+a⟨T⟩()
+a⦑T⦒
+a < T >
+base 1
+a⟦T⟧
+a⦃T⦄
+a⟬T⟭
+a⦅T⦆
+base 0
+
+a⦉T⦊
+
+#? 能被 @derive 的 trait
+@derive(Copy, Clone, Debug, PartialEq, Eq, Hash)
+@(Copy, Clone, Debug, PartialEq, Eq, Hash)
+derived macro A {
+
+}
+
+
+#? 隐式宏, 此类宏不需要
+implicit macro print() {
+
+}
+
+print("a")
+
+a[T]
+a⁅T⁆
 
 micro name<G, R>(g: G) -> R {
     1 + 1

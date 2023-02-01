@@ -1,4 +1,4 @@
-package valkyrie.language.ast
+package valkyrie.language.ast.classes
 
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
@@ -13,68 +13,62 @@ import com.intellij.psi.impl.source.tree.CompositeElement
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.antlr.register
+import valkyrie.language.ast.ValkyrieIdentifierNode
+import valkyrie.language.ast.ValkyrieModifiedNode
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.psi.ValkyrieHighlightElement
-import valkyrie.language.psi.ValkyrieLineMarkElement
 import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
-
-class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner, ValkyrieLineMarkElement, ValkyrieHighlightElement {
-    val method by lazy { ValkyrieModifiedNode.findIdentifier(this)!! }
+class ValkyrieClassFieldNode(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner, ValkyrieHighlightElement {
+    val field by lazy { ValkyrieModifiedNode.findIdentifier(this)!! }
     val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
+
     override fun getName(): String {
-        return method.name
+        return field.name
     }
 
     override fun setName(name: String): PsiElement {
         TODO("Not yet implemented")
     }
 
+    override fun getNameIdentifier(): ValkyrieIdentifierNode {
+        return field
+    }
+
+    override fun isVisibilitySupported(): Boolean {
+        return true;
+    }
 
     override fun getBaseIcon(): Icon {
-        if (method.name == "constructor") {
-            return AllIcons.Gutter.ImplementingMethod
-        }
         for (m in modifiers) {
-            if (m.name == "get" || m.name == "set") {
-                return AllIcons.Nodes.Property
+            if (m.name == "inherit") {
+                return AllIcons.Gutter.OverridingMethod
             }
         }
-        return ValkyrieIconProvider.Instance.Method
+        return ValkyrieIconProvider.Instance.Field
     }
-
 
     override fun getPresentation(): ItemPresentation {
-        return IdentifierPresentation(method, this.baseIcon)
+        return IdentifierPresentation(field, this.baseIcon)
     }
 
-
-    override fun getNameIdentifier(): PsiElement {
-        return method
-    }
-
-    override fun on_highlight(e: HighlightInfoHolder) {
-        if (method.name == "constructor") {
-            e.register(nameIdentifier, ValkyrieHighlightColor.KEYWORD)
-        } else {
-            e.register(nameIdentifier, ValkyrieHighlightColor.SYM_FUNCTION_SELF)
-        }
-        for (mod in modifiers) {
-            e.register(mod, ValkyrieHighlightColor.MODIFIER)
-        }
-    }
-
-    override fun on_line_mark(e: MutableCollection<in LineMarkerInfo<*>>) {
-        val info = RelatedItemLineMarkerInfo(
+    fun getLineMark(): LineMarkerInfo<*> {
+        return RelatedItemLineMarkerInfo(
             nameIdentifier.firstChild,
             nameIdentifier.textRange,
             baseIcon,
             null,
             null,
-            GutterIconRenderer.Alignment.RIGHT // 上
+            GutterIconRenderer.Alignment.RIGHT // 下
         ) { mutableListOf(GotoRelatedItem(this)) }
-        e.add(info)
+    }
+
+    override fun on_highlight(e: HighlightInfoHolder) {
+        e.register(nameIdentifier, ValkyrieHighlightColor.SYM_FIELD)
+        for (mod in modifiers) {
+            e.register(mod, ValkyrieHighlightColor.MODIFIER)
+        }
     }
 }
 

@@ -8,7 +8,7 @@ import com.intellij.openapi.progress.ProgressManager
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.parents
 import com.intellij.util.ProcessingContext
-import valkyrie.language.ast.ValkyrieClassStatement
+import valkyrie.language.ast.classes.ValkyrieClassStatement
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.antlr.ValkyrieLexer
 

@@ -6,7 +6,7 @@ import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.parents
-import valkyrie.language.ast.ValkyrieClassStatement
+import valkyrie.language.ast.classes.ValkyrieClassStatement
 import valkyrie.language.ast.ValkyrieTraitStatement
 import java.text.MessageFormat
 import java.util.*

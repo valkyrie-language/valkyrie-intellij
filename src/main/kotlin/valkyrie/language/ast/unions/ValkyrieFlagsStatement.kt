@@ -1,26 +1,21 @@
-package valkyrie.language.ast
+package valkyrie.language.ast.unions
 
 import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
-import com.intellij.extapi.psi.ASTWrapperPsiElement
-import com.intellij.formatting.Alignment
-import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
-import com.intellij.psi.tree.IElementType
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.antlr.register
+import valkyrie.language.ast.ValkyrieIdentifierNode
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.language.psi.ValkyrieAlignmentElement
 import valkyrie.language.psi.ValkyrieHighlightElement
+import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
-class ValkyrieFlagsStatementItem(node: CompositeElement, type: IElementType) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner,
-    ValkyrieHighlightElement, ValkyrieAlignmentElement {
-    private val _identifier = findChildByClass(ValkyrieIdentifierNode::class.java)!!;
-
+class ValkyrieFlagsStatement(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner, ValkyrieHighlightElement {
+    private val _identifier by lazy { ValkyrieIdentifierNode.find(this)!! };
 
     override fun getName(): String {
         return _identifier.name
@@ -35,7 +30,7 @@ class ValkyrieFlagsStatementItem(node: CompositeElement, type: IElementType) : A
     }
 
     override fun getBaseIcon(): Icon {
-        return ValkyrieIconProvider.Instance.Field
+        return ValkyrieIconProvider.Instance.CLASS
     }
 
     override fun getPresentation(): ItemPresentation {
@@ -43,15 +38,7 @@ class ValkyrieFlagsStatementItem(node: CompositeElement, type: IElementType) : A
     }
 
     override fun on_highlight(e: HighlightInfoHolder) {
-        e.register(nameIdentifier, ValkyrieHighlightColor.SYM_FIELD)
+        e.register(nameIdentifier, ValkyrieHighlightColor.SYM_CLASS)
     }
-    override fun on_alignment(child: ASTNode): Alignment? {
-        if (child.text == "=") {
-            return Alignment.createAlignment()
-        }
-        return null
-    }
-
-
-
 }
+

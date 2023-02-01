@@ -92,7 +92,7 @@ bitflags_block:  BRACE_L (bitflags_item | eos_free)* BRACE_R;
 bitflags_item:   annotation* identifier (OP_ASSIGN expression)?;
 // ===========================================================================
 define_function
-    : template_call? annotation* modifiers KW_FUNCTION namepath generic_call? function_parameters type_hint? effect_hint? function_block
+    : template_call? annotation* modifiers KW_FUNCTION namepath define_generic? function_parameters type_hint? effect_hint? function_block
     ;
 function_parameters
     : PARENTHESES_L PARENTHESES_R

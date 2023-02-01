@@ -1,4 +1,4 @@
-package valkyrie.language.ast
+package valkyrie.language.ast.classes
 
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
@@ -18,6 +18,8 @@ import valkyrie.language.antlr.ValkyrieAntlrParser
 import valkyrie.language.antlr.ValkyrieParser
 import valkyrie.language.antlr.register
 import valkyrie.language.antlr.traversal
+import valkyrie.language.ast.ValkyrieIdentifierNode
+import valkyrie.language.ast.ValkyrieModifiedNode
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.psi.ValkyrieHighlightElement

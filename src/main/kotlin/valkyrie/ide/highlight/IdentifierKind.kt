@@ -1,6 +1,9 @@
 package valkyrie.ide.highlight
 
 import valkyrie.language.ast.*
+import valkyrie.language.ast.classes.ValkyrieClassFieldNode
+import valkyrie.language.ast.classes.ValkyrieClassMethodNode
+import valkyrie.language.ast.classes.ValkyrieClassStatement
 
 //import valkyrie.language.psi_node.ValkyrieClassStatementNode
 //import valkyrie.language.psi_node.ValkyrieTraitStatementNode

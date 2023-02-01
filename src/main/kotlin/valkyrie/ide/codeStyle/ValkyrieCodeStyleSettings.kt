@@ -7,8 +7,8 @@ import valkyrie.language.ValkyrieLanguage
 @Suppress("PropertyName")
 class ValkyrieCodeStyleSettings(container: CodeStyleSettings) : CustomCodeStyleSettings(ValkyrieLanguage.id, container) {
     val class_field_trailing: CommaOrSemicolon = CommaOrSemicolon.Comma
-    val union_item_field_trailing: CommaOrSemicolon = CommaOrSemicolon.Comma
-    val union_trailing: CommaOrSemicolon = CommaOrSemicolon.Comma
+    val flags_trailing: CommaOrSemicolon = CommaOrSemicolon.Comma
+    val variant_trailing: CommaOrSemicolon = CommaOrSemicolon.Comma
     val return_type: ReturnType = ReturnType.Arrow
     val namespace_delimiter: NamespaceDelimiter = NamespaceDelimiter.Dot
     val namespace_colon: Triplet = Triplet.Always

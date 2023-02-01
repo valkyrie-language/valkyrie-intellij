@@ -6,7 +6,7 @@ import com.intellij.model.psi.PsiSymbolDeclaration
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiReference
-import valkyrie.language.ast.ValkyrieClassStatement
+import valkyrie.language.ast.classes.ValkyrieClassStatement
 
 
 class ValkyrieDeclared(val target: ValkyrieClassStatement) : PsiSymbolDeclaration, PsiReference {

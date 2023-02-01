@@ -6,7 +6,7 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiFile
-import valkyrie.language.ast.ValkyrieClassFieldNode
+import valkyrie.language.ast.classes.ValkyrieClassFieldNode
 import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 

@@ -11,7 +11,7 @@ import valkyrie.ide.project.crate.NamespaceMapping
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.antlr.traversal
-import valkyrie.language.ast.ValkyrieClassStatement
+import valkyrie.language.ast.classes.ValkyrieClassStatement
 import valkyrie.language.ast.ValkyrieNamespaceStatement
 
 

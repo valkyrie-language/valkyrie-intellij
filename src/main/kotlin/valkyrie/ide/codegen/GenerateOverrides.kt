@@ -6,9 +6,9 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import valkyrie.language.ast.ValkyrieClassStatement
+import valkyrie.language.ast.classes.ValkyrieClassStatement
 import valkyrie.language.ast.ValkyrieExtendsStatement
-import valkyrie.language.ast.ValkyrieUnionStatement
+import valkyrie.language.ast.unions.ValkyrieUnionStatement
 import valkyrie.language.antlr.caretElement
 
 

@@ -4,7 +4,7 @@ import com.intellij.ide.hierarchy.HierarchyNodeDescriptor
 import com.intellij.ide.util.treeView.NodeDescriptor
 import com.intellij.openapi.roots.ui.util.CompositeAppearance
 import com.intellij.ui.SimpleTextAttributes
-import valkyrie.language.ast.ValkyrieClassStatement
+import valkyrie.language.ast.classes.ValkyrieClassStatement
 
 class HierarchyClassNode : HierarchyNodeDescriptor {
     val node: ValkyrieClassStatement

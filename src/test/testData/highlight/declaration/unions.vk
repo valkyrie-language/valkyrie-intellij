@@ -15,17 +15,17 @@ union TestUnion1 {}
 union A(BaseUnion): A + B {
     A,
     Bb,
-    Ccc
+    Ccc,
 }
 
 union Test2{
-    Test
+    Test,
     Nothing,
-    Test{};
+    Test{},
     Field {
         public static field_a,
         mut field_b
-    }
+    },
 
     nice(){
         let field = 2;

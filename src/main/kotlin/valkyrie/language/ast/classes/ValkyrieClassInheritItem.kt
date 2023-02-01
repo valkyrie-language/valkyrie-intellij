@@ -1,4 +1,4 @@
-package valkyrie.language.ast
+package valkyrie.language.ast.classes
 
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
@@ -9,6 +9,7 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.impl.source.tree.CompositeElement
 import valkyrie.ide.view.IdentifierPresentation
+import valkyrie.language.ast.ValkyrieModifiedNode
 import valkyrie.language.psi.ValkyrieLineMarkElement
 import javax.swing.Icon
 

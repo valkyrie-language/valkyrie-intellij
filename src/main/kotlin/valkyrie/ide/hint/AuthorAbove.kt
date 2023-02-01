@@ -5,6 +5,10 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import valkyrie.language.ast.*
+import valkyrie.language.ast.classes.ValkyrieClassMethodNode
+import valkyrie.language.ast.classes.ValkyrieClassStatement
+import valkyrie.language.ast.unions.ValkyrieFlagsStatement
+import valkyrie.language.ast.unions.ValkyrieUnionStatement
 //import valkyrie.language.psi_node.ValkyrieDefineStatementNode
 //import valkyrie.language.psi_node.ValkyrieExtendsStatementNode
 //import valkyrie.language.psi_node.ValkyrieUnionStatementNode

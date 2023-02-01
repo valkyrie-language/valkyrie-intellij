@@ -6,7 +6,7 @@ import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.psi.PsiElement
 import valkyrie.ide.actions.InferClassFieldType
 import valkyrie.ide.actions.InferDefineItemType
-import valkyrie.language.ast.ValkyrieClassFieldNode
+import valkyrie.language.ast.classes.ValkyrieClassFieldNode
 import valkyrie.language.ast.ValkyrieFunctionParameter
 import valkyrie.language.ast.ValkyrieLetStatement
 

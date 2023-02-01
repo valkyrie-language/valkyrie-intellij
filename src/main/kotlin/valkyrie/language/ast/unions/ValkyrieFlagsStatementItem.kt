@@ -1,23 +1,29 @@
-package valkyrie.language.ast
+package valkyrie.language.ast.unions
 
 import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
+import com.intellij.extapi.psi.ASTWrapperPsiElement
+import com.intellij.formatting.Alignment
+import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
+import com.intellij.psi.tree.IElementType
 import valkyrie.ide.formatter.ValkyrieRewriter
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.antlr.register
+import valkyrie.language.ast.ValkyrieIdentifierNode
 import valkyrie.language.file.ValkyrieIconProvider
+import valkyrie.language.psi.ValkyrieAlignmentElement
 import valkyrie.language.psi.ValkyrieHighlightElement
 import valkyrie.language.psi.ValkyrieRewritableElement
-import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
-class ValkyrieUnionStatement(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner, ValkyrieHighlightElement,
-    ValkyrieRewritableElement {
-    private val _identifier by lazy { ValkyrieIdentifierNode.find(this)!! }
+class ValkyrieFlagsStatementItem(node: CompositeElement, type: IElementType) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner,
+    ValkyrieHighlightElement, ValkyrieAlignmentElement, ValkyrieRewritableElement {
+    private val _identifier = findChildByClass(ValkyrieIdentifierNode::class.java)!!;
+
 
     override fun getName(): String {
         return _identifier.name
@@ -32,7 +38,7 @@ class ValkyrieUnionStatement(node: CompositeElement) : ValkyrieScopeNode(node), 
     }
 
     override fun getBaseIcon(): Icon {
-        return ValkyrieIconProvider.Instance.UNION
+        return ValkyrieIconProvider.Instance.Field
     }
 
     override fun getPresentation(): ItemPresentation {
@@ -40,14 +46,17 @@ class ValkyrieUnionStatement(node: CompositeElement) : ValkyrieScopeNode(node), 
     }
 
     override fun on_highlight(e: HighlightInfoHolder) {
-        e.register(nameIdentifier, ValkyrieHighlightColor.SYM_CLASS)
+        e.register(nameIdentifier, ValkyrieHighlightColor.SYM_FIELD)
+    }
+
+    override fun on_alignment(child: ASTNode): Alignment? {
+        if (child.text == "=") {
+            return Alignment.createAlignment()
+        }
+        return null
     }
 
     override fun on_rewrite(e: ValkyrieRewriter) {
-        e.fixDelimiter(this, e.settings.union_trailing)
-//        for (field in union_fields) {
-//            w.fixDelimiter(field, w.settings.union_item_field_trailing)
-//        }
+        e.fixDelimiter(this, e.settings.flags_trailing)
     }
 }
-
