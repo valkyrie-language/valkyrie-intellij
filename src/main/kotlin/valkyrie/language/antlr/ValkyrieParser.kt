@@ -17,7 +17,6 @@ import valkyrie.language.ast.*
 import valkyrie.language.ast.calls.ValkyrieCallGeneric
 import valkyrie.language.ast.calls.ValkyrieCallMacro
 import valkyrie.language.ast.classes.*
-import valkyrie.language.ast.pattern_match.ValkyrieCatchBlockNode
 import valkyrie.language.ast.pattern_match.ValkyrieMatchBlockNode
 import valkyrie.language.ast.unions.ValkyrieFlagsStatement
 import valkyrie.language.ast.unions.ValkyrieFlagsStatementItem
@@ -88,8 +87,14 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_for_statement -> ValkyrieForStatement(node)
                 RULE_while_statement -> ValkyrieWhileStatement(node)
                 // pattern match
-                RULE_match_call -> ValkyrieMatchBlockNode(node)
-                RULE_catch_call -> ValkyrieCatchBlockNode(node)
+                RULE_match_call -> {
+//                    ValkyrieParser.getChildOfType(node.psi)
+
+                    ValkyrieMatchBlockNode(node)
+                    // ValkyrieCatchBlockNode(node)
+
+                }
+
                 RULE_match_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
                 RULE_match_case_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Indent)
                 // expression
@@ -99,7 +104,8 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_tuple_call_item -> ValkyrieCallArgument(node)
                 RULE_expression -> extractExpression(node)
                 // new
-                RULE_new_call -> ValkyrieNewStatement(node)
+                RULE_object_statement -> ValkyrieObjectStatement(node)
+                RULE_new_statement -> ValkyrieNewStatement(node)
                 RULE_new_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
                 // atomic
                 RULE_namepath_free -> ValkyrieNamepathNode(node, type, true)

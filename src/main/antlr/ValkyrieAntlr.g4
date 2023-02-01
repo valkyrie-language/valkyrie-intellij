@@ -43,14 +43,15 @@ import_statement: KW_IMPORT import_term;
 import_as:        KW_AS (OP_AT | OP_HASH)? identifier;
 import_term
     : import_block
-    | OP_AT namepath_free import_as?
-    | OP_AT namepath_free ((OP_PROPORTION | DOT)? import_block)?
-    | OP_HASH namepath_free import_as?
-    | OP_HASH namepath_free ((OP_PROPORTION | DOT)? import_block)?
-    | namepath_free import_as?
-    | namepath_free ((OP_PROPORTION | DOT)? import_block)?
+    | OP_AT import_name import_as?
+    | OP_AT import_name ((OP_PROPORTION | DOT)? import_block)?
+    | OP_HASH import_name import_as?
+    | OP_HASH import_name ((OP_PROPORTION | DOT)? import_block)?
+    | import_name import_as?
+    | import_name ((OP_PROPORTION | DOT)? import_block)?
     | eos_free
     ;
+import_name:  identifier ((OP_PROPORTION | DOT) identifier)* ((OP_PROPORTION | DOT) (OP_MUL));
 import_block: BRACE_L BRACE_R | BRACE_L import_term* BRACE_R;
 // ===========================================================================
 define_extension: KW_EXTENSION;
@@ -174,8 +175,8 @@ expression
     | try_statement
     | if_statement
     | match_statement
-    | catch_statement
-    | new_call
+    | new_statement
+    | object_statement
     | macro_call
     | function_call
     | define_label
@@ -198,8 +199,7 @@ inline_expression
     | try_statement
     | if_statement
     | match_statement
-    | catch_statement
-    | new_call
+    | new_statement
     | macro_call
     | function_call
     | collection_literal
@@ -228,7 +228,6 @@ suffix_call
     | generic_call
     | lambda_call
     | match_call
-    | catch_call
     | function_call
     | dot_call
     ;
@@ -263,14 +262,15 @@ define_generic
 generic_item: (identifier COLON)? type_expression;
 generic_call
     : OP_PROPORTION OP_LT OP_GT
-    | OP_PROPORTION OP_LT type_expression (COMMA type_expression)* COMMA? OP_GT
+    | OP_PROPORTION OP_LT generic_pair (COMMA generic_pair)* COMMA? OP_GT
     | GENERIC_L GENERIC_R
-    | GENERIC_L type_expression (COMMA type_expression)* COMMA? GENERIC_R
+    | GENERIC_L generic_pair (COMMA generic_pair)* COMMA? GENERIC_R
     ;
 generic_call_in_type
-    : OP_PROPORTION? OP_LT type_expression OP_GT
-    | GENERIC_L type_expression GENERIC_R
+    : OP_PROPORTION? OP_LT generic_pair (COMMA generic_pair)* OP_GT
+    | GENERIC_L generic_pair (COMMA generic_pair)* GENERIC_R
     ;
+generic_pair: (identifier COLON)? type_expression;
 define_label: OP_LABEL identifier;
 // ===========================================================================
 offset_call: OP_PROPORTION BRACKET_L expression BRACKET_R | OFFSET_L expression OFFSET_R;
@@ -291,44 +291,42 @@ annotation
     ;
 annotation_call_item: macro_call_name function_parameters?;
 // ===========================================================================
-try_statement: KW_TRY type_expression? function_block;
+try_statement:   annotation* KW_TRY type_expression? function_block;
+match_statement: annotation* (KW_MATCH | KW_CATCH) inline_expression match_block;
 // ===========================================================================
-match_statement: KW_MATCH inline_expression match_block;
-catch_statement: KW_CATCH inline_expression match_block;
-// ===========================================================================
-match_call:  OP_THROW? DOT KW_MATCH type_expression? match_block;
-catch_call:  OP_THROW? DOT KW_CATCH type_expression? match_block;
+match_call:  OP_THROW? DOT (KW_MATCH | KW_CATCH) type_expression? match_block;
 match_block: BRACE_L match_terms* BRACE_R;
 match_terms
-    : annotation* KW_WITH identifier                                    # MatchWith
-    | annotation* KW_WITH BRACKET_L identifier? BRACKET_R               # MatchWithMany
-    | annotation* KW_WHEN inline_expression match_case_block            # MatchWhen
-    | annotation* KW_ELSE match_case_block                              # MatchElse
-    | annotation* KW_CASE pattern_expression if_guard? match_case_block # MatchCase
-    | eos_free                                                          # MatchSkip
+    : annotation* KW_WITH identifier                              # MatchWith
+    | annotation* KW_WITH BRACKET_L identifier? BRACKET_R         # MatchWithMany
+    | annotation* KW_WHEN inline_expression match_case_block      # MatchWhen
+    | annotation* KW_ELSE match_case_block                        # MatchElse
+    | annotation* KW_CASE case_pattern if_guard? match_case_block # MatchCase
+    | eos_free                                                    # MatchSkip
     ;
 match_case_block: COLON expression*;
-pattern_expression
-    : pattern_expression OP_BIND pattern_expression
-    | pattern_expression OP_UNTIL pattern_expression
-    | case_term
+case_pattern
+    : identifier OP_BIND case_pattern
+    | case_pattern OP_UNTIL case_pattern
+    | case_pattern (OP_OR | OP_ADD) case_pattern
+    | let_pattern_tuple
+    | let_pattern_block
+    | namepath
     | number_literal
     | string_literal
     ;
-case_term
-    : PARENTHESES_L (case_pair (COMMA case_pair)* COMMA?) PARENTHESES_R
-    | namepath PARENTHESES_L (case_pair (COMMA case_pair)* COMMA?) PARENTHESES_R
-    | BRACKET_L (case_pair (COMMA case_pair)* COMMA?) BRACKET_R
-    ;
 case_pair: identifier+;
 // ===========================================================================
-new_call: annotation* KW_NEW modified_namepath generic_call_in_type? new_body;
+object_statement: KW_OBJECT define_generic? class_inherit? type_hint? class_block;
+new_statement
+    : KW_NEW modified_namepath generic_call_in_type? tuple_call_body? new_block
+    | KW_NEW modified_namepath generic_call_in_type? tuple_call_body
+    ;
 new_body
     : tuple_call_body? new_block // 可选
     | tuple_call_body // 必选
     ;
-new_block:     BRACE_L new_statement* BRACE_R;
-new_statement: tuple_call_item | eos_free;
+new_block: BRACE_L (tuple_call_item | eos_free)* BRACE_R;
 // ===========================================================================
 collection_literal
     : BRACKET_L BRACKET_R

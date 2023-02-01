@@ -133,13 +133,15 @@ KW_EXTENDS:    'extend' | 'extends';
 KW_IMPLEMENTS: 'implement' | 'implements';
 KW_WHERE:      'where';
 //
+KW_WHILE: 'while' | 'until';
+KW_FOR:   'for';
+//
 KW_LET:      'let';
-KW_FUNCTION: 'function' | 'micro' | 'macro';
-KW_LAMBDA:   'lambda';
 KW_WITCH:    'which';
-KW_WHILE:    'while' | 'until';
-KW_FOR:      'for';
-KW_NEW:      'new' | 'object';
+KW_NEW:      'new';
+KW_OBJECT:   'object';
+KW_LAMBDA:   'lambda';
+KW_FUNCTION: 'function' | 'micro' | 'macro';
 // pattern match
 KW_TRY:   'try';
 KW_MATCH: 'match';

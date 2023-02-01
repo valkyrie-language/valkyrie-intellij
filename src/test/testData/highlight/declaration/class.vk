@@ -52,10 +52,10 @@ class A(B, C): C + D {
     }
     _a,
     get a() {
-        return 1
+        return _a
     }
     set a() {
-        return 1
+        _a = value
     }
 }
 
@@ -64,7 +64,10 @@ generic T {
         T: Trait
     }
 }
-#derive(Copy, Clone, Debug, PartialEq, Eq, Hash)
+// test
+#[Copy(Clone), Debug]
+// test
+#derive(PartialEq, Eq, Hash)
 class A⟨T⟩ {
 
 }

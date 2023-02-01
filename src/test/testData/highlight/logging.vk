@@ -1,4 +1,4 @@
-use std.logging.*;
+using std.logging.*;
 
 
 
@@ -9,7 +9,7 @@ use std.logging.*;
 #risky 175
 #alert 200
 #error 250
-#fatal 255
+#fatal 225
 
 
 #instrument(level: print)

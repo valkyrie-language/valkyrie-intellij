@@ -85,7 +85,7 @@ class ValkyrieLexer : Lexer() {
             BREAK, CONTINUE,
             RAISE,
             //
-            KW_NEW,
+            KW_NEW, KW_OBJECT,
             SPECIAL,
             OP_THROW
         )

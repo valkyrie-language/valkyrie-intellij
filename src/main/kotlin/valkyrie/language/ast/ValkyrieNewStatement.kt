@@ -19,3 +19,5 @@ class ValkyrieNewStatement(node: CompositeElement) : ASTWrapperPsiElement(node),
 
 
 }
+
+

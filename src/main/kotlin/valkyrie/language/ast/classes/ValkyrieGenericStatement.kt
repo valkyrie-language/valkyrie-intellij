@@ -9,5 +9,4 @@ class ValkyrieGenericStatement(node: CompositeElement) : ASTWrapperPsiElement(no
     override fun on_rewrite(e: ValkyrieRewriter) {
         e.rewriteGeneric(this)
     }
-
 }

@@ -1,15 +1,31 @@
-new A;
+new A();
 
-new B();
+new B {};
 
-new C {
+new C() {
 
 };
+
+object(Base) {
+
+}
+
+object⟨T⟩(T) {
+
+}
+
+object: Interface {
+    note: 32
+
+    override get() {
+        64
+    }
+}
 
 
 new D();
 
-E::<>(){};
+E⟨⟩(){};
 
 new stack List
 {
@@ -34,37 +50,37 @@ new stack List(10)
 
 new stack List⟨T: Integer⟩(capacity: 10)
 {
-    0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 }
 
 new stack Object {
-    item1,
-    item2,
-    (tuple1, ),
-    (key, value),
-    key: value
+item1,
+item2,
+(tuple1, ),
+(key, value),
+key: value
 }
 
 
 
-new keywords BaseballTeam::<T> (args) {
-    name: "object one",
-    Size: Math::PI,
-    ["RF"]: "Mookie Betts",
-    ["CF"]: "Mike Trout",
-    (key),
-    (key, ),
-    (key, value),
-    (key, value1, value2),
-    new IndexersExample {
-        [1]: '1',
-        [2]: '4',
-        [3]: '9',
-        ['C', 4]: "Middle C",
-        ['A', 4]: "440 Hz",
-        ['F', 7]: "F above middle C",
-        ['C', 'A', 0]: "C above A above C above middle C",
-    },
-    [4]: "Jose Altuve",
+new keywords BaseballTeam:: < T > (args) {
+name: "object one",
+Size: Math::PI,
+["RF"]: "Mookie Betts",
+["CF"]: "Mike Trout",
+(key),
+(key, ),
+(key, value),
+(key, value1, value2),
+new IndexersExample {
+[1]: '1',
+[2]: '4',
+[3]: '9',
+['C', 4]: "Middle C",
+['A', 4]: "440 Hz",
+['F', 7]: "F above middle C",
+['C', 'A', 0]: "C above A above C above middle C",
+},
+[4]: "Jose Altuve",
 }
 
