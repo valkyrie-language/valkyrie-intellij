@@ -73,8 +73,7 @@ class_method
 define_trait
     : template_call? annotation* modifiers KW_TRAIT identifier define_generic? impliments? trait_block eos?
     ;
-trait_block:       BRACE_L trait_statements* BRACE_R;
-trait_statements:  define_trait_type | class_method | class_field | eos_free;
+trait_block:       BRACE_L (define_trait_type | class_method | class_field | eos_free)* BRACE_R;
 define_trait_type: KW_TYPE identifier (OP_ASSIGN type_expression)?;
 // ===========================================================================
 define_extends
@@ -82,15 +81,13 @@ define_extends
     ;
 impliments: (COLON | KW_IMPLEMENTS) type_expression;
 // ===========================================================================
-define_union:       KW_UNION identifier union_block;
-union_block:        BRACE_L union_statements* BRACE_R;
-union_statements:   class_method | define_variant | eos_free;
-define_variant:     identifier variant_block?;
-variant_block:      BRACE_L variant_statements* BRACE_R;
-variant_statements: class_field | eos_free;
+define_union:   KW_UNION identifier base_layout? type_hint? union_block;
+base_layout:    PARENTHESES_L type_expression? PARENTHESES_R;
+union_block:    BRACE_L (class_method | define_variant | eos_free)* BRACE_R;
+define_variant: identifier variant_block?;
+variant_block:  BRACE_L (class_field | eos_free)* BRACE_R;
 // ===========================================================================
-define_bitflags: KW_BITFLAGS namepath bitflags_layout? type_hint? bitflags_block;
-bitflags_layout: PARENTHESES_L type_expression? PARENTHESES_R;
+define_bitflags: KW_BITFLAGS identifier base_layout? type_hint? bitflags_block;
 bitflags_block:  BRACE_L (bitflags_item | eos_free)* BRACE_R;
 bitflags_item:   annotation* identifier (OP_ASSIGN expression)?;
 // ===========================================================================

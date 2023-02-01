@@ -1,7 +1,0 @@
-namespace std.create.test;
-
-flags TestFlags {
-    A = 12 + 1;
-    Bb = 12 + 2;
-    Ccc = 3
-}

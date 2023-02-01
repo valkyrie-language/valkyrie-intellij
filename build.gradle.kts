@@ -1,6 +1,7 @@
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.ir.backend.js.compile
+import org.gradle.kotlin.dsl.*
 
 fun properties(key: String) = project.findProperty(key).toString()
 
@@ -16,12 +17,14 @@ plugins {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-    antlr("org.antlr:antlr4:${properties("antlrVersion")}")
+//    implementation(kotlin("stdlib-jdk8"))
+    antlr("org.antlr:antlr4:${properties("antlrVersion")}") {
+        exclude(group = "com.ibm.icu", module = "icu4j")
+    }
     implementation("org.antlr:antlr4-intellij-adaptor:0.1")
 }
 
-group = properties("pluginGroup")
+group = properties("Group")
 version = properties("pluginVersion")
 
 // Configure project's dependencies

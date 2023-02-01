@@ -1,12 +1,21 @@
-union EmptyUnion1 {
+namespace std.create.test;
 
+
+
+flags TestFlags1 {}
+
+flags TestFlags2(u8): A + B {
+    A = 12 + 1;
+    Bb = 12 + 2;
+    Ccc = 3
 }
 
-union EmptyUnion2(u8): A + B {
+union TestUnion1 {}
 
-}
-union A(u8): A + B {
-    A
+union A(BaseUnion): A + B {
+    A,
+    Bb,
+    Ccc
 }
 
 union Test2{
