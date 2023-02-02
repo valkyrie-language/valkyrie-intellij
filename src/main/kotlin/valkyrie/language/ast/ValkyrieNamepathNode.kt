@@ -1,14 +1,13 @@
 package valkyrie.language.ast
 
 import ai.grazie.utils.isUppercase
-import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.PsiTreeUtil
 import org.antlr.intellij.adaptor.psi.IdentifierDefSubtree
+import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.ide.highlight.ValkyrieHighlightColor
-import valkyrie.language.antlr.register
 import valkyrie.language.psi.ValkyrieHighlightElement
 
 
@@ -27,20 +26,20 @@ class ValkyrieNamepathNode(node: ASTNode, type: IElementType, val free: Boolean 
     }
 
 
-    override fun on_highlight(e: HighlightInfoHolder) {
-        fakeTypeColor(e, nameIdentifier)
-    }
-
     companion object {
         fun find(node: PsiElement): ValkyrieNamepathNode? {
             return PsiTreeUtil.getChildOfType(node, ValkyrieNamepathNode::class.java)
         }
     }
 
+    override fun on_highlight(e: NodeHighlighter) {
+        fakeTypeColor(e, nameIdentifier)
+    }
+
 }
 
 
-private fun fakeTypeColor(info: HighlightInfoHolder, psi: ValkyrieIdentifierNode) {
+private fun fakeTypeColor(info: NodeHighlighter, psi: ValkyrieIdentifierNode) {
     val name = psi.name
     if (keywords.contains(name)) {
         info.register(psi, ValkyrieHighlightColor.KEYWORD)

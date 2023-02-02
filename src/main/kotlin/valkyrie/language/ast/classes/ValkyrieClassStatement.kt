@@ -2,7 +2,6 @@ package valkyrie.language.ast.classes
 
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
-import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.icons.AllIcons
 import com.intellij.navigation.GotoRelatedItem
 import com.intellij.navigation.ItemPresentation
@@ -12,11 +11,11 @@ import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.ide.formatter.ValkyrieRewriter
+import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.antlr.ValkyrieAntlrParser
 import valkyrie.language.antlr.ValkyrieParser
-import valkyrie.language.antlr.register
 import valkyrie.language.antlr.traversal
 import valkyrie.language.ast.ValkyrieIdentifierNode
 import valkyrie.language.ast.ValkyrieModifiedNode
@@ -76,16 +75,9 @@ class ValkyrieClassStatement(node: CompositeElement) : ValkyrieScopeNode(node), 
         return output.toTypedArray()
     }
 
-    override fun on_highlight(e: HighlightInfoHolder) {
+    override fun on_highlight(e: NodeHighlighter) {
         e.register(nameIdentifier, ValkyrieHighlightColor.SYM_CLASS)
-        for (mod in modifiers) {
-            e.register(mod, ValkyrieHighlightColor.MODIFIER)
-        }
-        for (inherit in inherits) {
-            for (mod in inherit.modifiers) {
-                e.register(mod, ValkyrieHighlightColor.MODIFIER)
-            }
-        }
+        e.register_modifiers(modifiers)
     }
 
     override fun on_rewrite(e: ValkyrieRewriter) {

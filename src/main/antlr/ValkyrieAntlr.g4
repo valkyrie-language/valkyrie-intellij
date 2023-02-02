@@ -59,8 +59,7 @@ define_extension: KW_EXTENSION;
 define_class
     : template_call? annotation* modifiers KW_CLASS identifier define_generic? class_inherit? type_hint? class_block eos?
     ;
-class_block:      BRACE_L class_statements* BRACE_R;
-class_statements: class_method | class_field | eos_free;
+class_block: BRACE_L (class_dsl | class_method | class_field | eos_free)* BRACE_R;
 class_inherit
     : PARENTHESES_L PARENTHESES_R
     | PARENTHESES_L class_inherit_item (COMMA class_inherit_item)* COMMA? PARENTHESES_R
@@ -70,6 +69,7 @@ class_field:        annotation* modified_identifier type_hint? parameter_default
 class_method
     : annotation* modified_namepath define_generic? function_parameters type_hint? effect_hint? function_block?
     ;
+class_dsl: modified_identifier class_block;
 // ===========================================================================
 define_trait
     : template_call? annotation* modifiers KW_TRAIT identifier define_generic? impliments? trait_block eos?
@@ -284,7 +284,7 @@ tempalte_terms: KW_WHERE where_block | eos_free;
 where_block:    BRACE_L where_bound* BRACE_R;
 where_bound:    identifier COLON type_expression | eos_free;
 // ===========================================================================
-macro_call: OP_AT macro_call_name function_parameters?;
+macro_call: OP_AT macro_call_name function_parameters? class_block?;
 annotation
     : OP_HASH annotation_call_item
     | OP_HASH BRACKET_L annotation_call_item (COMMA annotation_call_item)* BRACKET_R

@@ -1,6 +1,5 @@
 package valkyrie.language.ast.unions
 
-import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.formatting.Alignment
 import com.intellij.lang.ASTNode
@@ -10,9 +9,9 @@ import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.tree.IElementType
 import valkyrie.ide.formatter.ValkyrieRewriter
+import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.view.IdentifierPresentation
-import valkyrie.language.antlr.register
 import valkyrie.language.ast.ValkyrieIdentifierNode
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.psi.ValkyrieAlignmentElement
@@ -45,7 +44,7 @@ class ValkyrieFlagsStatementItem(node: CompositeElement, type: IElementType) : A
         return IdentifierPresentation(_identifier, this.baseIcon)
     }
 
-    override fun on_highlight(e: HighlightInfoHolder) {
+    override fun on_highlight(e: NodeHighlighter) {
         e.register(nameIdentifier, ValkyrieHighlightColor.SYM_FIELD)
     }
 

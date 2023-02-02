@@ -1,39 +1,25 @@
 package valkyrie.ide.highlight
 
-
-//import valkyrie.language.psi_node.ValkyrieIdentifierNode
-import com.intellij.codeInsight.daemon.impl.HighlightVisitor
+import com.intellij.codeInsight.daemon.impl.HighlightInfo
+import com.intellij.codeInsight.daemon.impl.HighlightInfoType
 import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
-import com.intellij.openapi.progress.ProgressManager
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiFile
-import valkyrie.language.antlr.traversal
-import valkyrie.language.file.ValkyrieFileNode
-import valkyrie.language.psi.ValkyrieHighlightElement
+import valkyrie.language.ast.ValkyrieIdentifierNode
 
-class NodeHighlighter : HighlightVisitor {
-    private var _info: HighlightInfoHolder? = null
-    override fun suitableForFile(file: PsiFile): Boolean {
-        return file is ValkyrieFileNode
+@Suppress("FunctionName")
+class NodeHighlighter(private val info: HighlightInfoHolder?) {
+    fun register(element: PsiElement?, color: ValkyrieHighlightColor) {
+        if (element == null) return
+        val builder = HighlightInfo.newHighlightInfo(HighlightInfoType.INFORMATION)
+        builder.textAttributes(color.textAttributesKey)
+        builder.range(element.textRange)
+        this.info?.add(builder.create())
     }
 
-    override fun visit(element: PsiElement) {
-        element.traversal {
-            if (it is ValkyrieHighlightElement) {
-                _info?.let { info -> it.on_highlight(info) }
-            }
-            ProgressManager.checkCanceled()
-            true
+    fun register_modifiers(modifiers: Collection<ValkyrieIdentifierNode>) {
+        for (mod in modifiers) {
+            this.register(mod, ValkyrieHighlightColor.MODIFIER)
         }
     }
 
-    override fun analyze(file: PsiFile, updateWholeFile: Boolean, holder: HighlightInfoHolder, action: Runnable): Boolean {
-        _info = holder
-        action.run()
-        return true
-    }
-
-    override fun clone(): HighlightVisitor = NodeHighlighter()
 }
-
-

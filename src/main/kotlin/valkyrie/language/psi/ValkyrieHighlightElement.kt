@@ -1,21 +1,9 @@
 package valkyrie.language.psi
 
-import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
-import com.intellij.formatting.Alignment
-import com.intellij.formatting.Indent
-import com.intellij.lang.ASTNode
+import valkyrie.ide.highlight.NodeHighlighter
 
 interface ValkyrieHighlightElement {
     @Suppress("FunctionName")
-    fun on_highlight(e: HighlightInfoHolder);
+    fun on_highlight(e: NodeHighlighter);
 }
 
-interface ValkyrieIndentElement {
-    @Suppress("FunctionName")
-    fun on_indent(child: ASTNode): Indent;
-}
-
-interface ValkyrieAlignmentElement {
-    @Suppress("FunctionName")
-    fun on_alignment(child: ASTNode): Alignment?;
-}

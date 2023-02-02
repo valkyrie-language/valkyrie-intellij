@@ -1,8 +1,8 @@
 package valkyrie.language.ast
 
-import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.psi.impl.source.tree.CompositeElement
+import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.language.psi.ValkyrieHighlightElement
 
 class ValkyrieLetPatternItem : ASTWrapperPsiElement, ValkyrieHighlightElement {
@@ -12,7 +12,8 @@ class ValkyrieLetPatternItem : ASTWrapperPsiElement, ValkyrieHighlightElement {
 
     }
 
-    override fun on_highlight(e: HighlightInfoHolder) {
+
+    override fun on_highlight(e: NodeHighlighter) {
 
     }
 }

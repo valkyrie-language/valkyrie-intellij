@@ -2,7 +2,6 @@ package valkyrie.language.ast.classes
 
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
-import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.icons.AllIcons
 import com.intellij.navigation.GotoRelatedItem
 import com.intellij.navigation.ItemPresentation
@@ -10,9 +9,9 @@ import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
+import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.view.IdentifierPresentation
-import valkyrie.language.antlr.register
 import valkyrie.language.ast.ValkyrieModifiedNode
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.psi.ValkyrieHighlightElement
@@ -55,17 +54,14 @@ class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node),
         return method
     }
 
-    override fun on_highlight(e: HighlightInfoHolder) {
+    override fun on_highlight(e: NodeHighlighter) {
         if (method.name == "constructor") {
             e.register(nameIdentifier, ValkyrieHighlightColor.KEYWORD)
         } else {
             e.register(nameIdentifier, ValkyrieHighlightColor.SYM_FUNCTION_SELF)
         }
-        for (mod in modifiers) {
-            e.register(mod, ValkyrieHighlightColor.MODIFIER)
-        }
+        e.register_modifiers(modifiers)
     }
-
     override fun on_line_mark(e: MutableCollection<in LineMarkerInfo<*>>) {
         val info = RelatedItemLineMarkerInfo(
             nameIdentifier.firstChild,
@@ -77,5 +73,7 @@ class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node),
         ) { mutableListOf(GotoRelatedItem(this)) }
         e.add(info)
     }
+
+
 }
 

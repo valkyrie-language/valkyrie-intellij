@@ -8,12 +8,14 @@ import com.intellij.navigation.GotoRelatedItem
 import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.impl.source.tree.CompositeElement
+import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.ast.ValkyrieModifiedNode
+import valkyrie.language.psi.ValkyrieHighlightElement
 import valkyrie.language.psi.ValkyrieLineMarkElement
 import javax.swing.Icon
 
-class ValkyrieClassInheritItem(node: CompositeElement) : ASTWrapperPsiElement(node), ValkyrieLineMarkElement {
+class ValkyrieClassInheritItem(node: CompositeElement) : ASTWrapperPsiElement(node), ValkyrieLineMarkElement, ValkyrieHighlightElement {
     val inherit by lazy { ValkyrieModifiedNode.findIdentifier(this)!! }
     val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
 
@@ -38,5 +40,7 @@ class ValkyrieClassInheritItem(node: CompositeElement) : ASTWrapperPsiElement(no
         e.add(info)
     }
 
-
+    override fun on_highlight(e: NodeHighlighter) {
+        e.register_modifiers(modifiers)
+    }
 }

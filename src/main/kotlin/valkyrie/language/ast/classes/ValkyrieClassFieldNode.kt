@@ -2,7 +2,6 @@ package valkyrie.language.ast.classes
 
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
-import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.icons.AllIcons
 import com.intellij.navigation.GotoRelatedItem
 import com.intellij.navigation.ItemPresentation
@@ -10,17 +9,20 @@ import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
+import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.view.IdentifierPresentation
-import valkyrie.language.antlr.register
 import valkyrie.language.ast.ValkyrieIdentifierNode
 import valkyrie.language.ast.ValkyrieModifiedNode
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.psi.ValkyrieHighlightElement
+import valkyrie.language.psi.ValkyrieLineMarkElement
 import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
-class ValkyrieClassFieldNode(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner, ValkyrieHighlightElement {
+
+class ValkyrieClassFieldNode(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner, ValkyrieHighlightElement,
+    ValkyrieLineMarkElement {
     val field by lazy { ValkyrieModifiedNode.findIdentifier(this)!! }
     val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
 
@@ -53,22 +55,22 @@ class ValkyrieClassFieldNode(node: CompositeElement) : ValkyrieScopeNode(node), 
         return IdentifierPresentation(field, this.baseIcon)
     }
 
-    fun getLineMark(): LineMarkerInfo<*> {
-        return RelatedItemLineMarkerInfo(
+
+    override fun on_highlight(e: NodeHighlighter) {
+        e.register(nameIdentifier, ValkyrieHighlightColor.SYM_FIELD)
+        e.register_modifiers(modifiers)
+    }
+
+    override fun on_line_mark(e: MutableCollection<in LineMarkerInfo<*>>) {
+        val item = RelatedItemLineMarkerInfo(
             nameIdentifier.firstChild,
             nameIdentifier.textRange,
             baseIcon,
             null,
             null,
             GutterIconRenderer.Alignment.RIGHT // 下
-        ) { mutableListOf(GotoRelatedItem(this)) }
-    }
-
-    override fun on_highlight(e: HighlightInfoHolder) {
-        e.register(nameIdentifier, ValkyrieHighlightColor.SYM_FIELD)
-        for (mod in modifiers) {
-            e.register(mod, ValkyrieHighlightColor.MODIFIER)
-        }
+        ) { mutableListOf(GotoRelatedItem(this)) };
+        e.add(item)
     }
 }
 

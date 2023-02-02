@@ -1,11 +1,10 @@
 package valkyrie.language.ast
 
-import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.lang.ASTNode
 import com.intellij.psi.util.PsiTreeUtil
 import org.antlr.intellij.adaptor.psi.ANTLRPsiNode
+import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.ide.highlight.ValkyrieHighlightColor
-import valkyrie.language.antlr.register
 import valkyrie.language.psi.ValkyrieHighlightElement
 
 class ValkyrieNumberNode(node: ASTNode) : ANTLRPsiNode(node), ValkyrieHighlightElement {
@@ -13,7 +12,7 @@ class ValkyrieNumberNode(node: ASTNode) : ANTLRPsiNode(node), ValkyrieHighlightE
         PsiTreeUtil.getChildOfType(this, ValkyrieIdentifierNode::class.java)
     }
 
-    override fun on_highlight(e: HighlightInfoHolder) {
+    override fun on_highlight(e: NodeHighlighter) {
         e.register(handler, ValkyrieHighlightColor.SYM_MACRO)
     }
 }

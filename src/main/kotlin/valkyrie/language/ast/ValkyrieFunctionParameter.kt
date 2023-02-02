@@ -1,13 +1,12 @@
 package valkyrie.language.ast
 
-import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.tree.IElementType
+import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.ide.highlight.ValkyrieHighlightColor
-import valkyrie.language.antlr.register
 import valkyrie.language.psi.ValkyrieHighlightElement
 
 
@@ -27,11 +26,9 @@ class ValkyrieFunctionParameter(node: ASTNode, type: IElementType) : ASTWrapperP
         return this.parameter
     }
 
-    override fun on_highlight(e: HighlightInfoHolder) {
+    override fun on_highlight(e: NodeHighlighter) {
         e.register(nameIdentifier, ValkyrieHighlightColor.SYM_ARG)
-        for (mod in modifiers) {
-            e.register(mod, ValkyrieHighlightColor.MODIFIER)
-        }
+        e.register_modifiers(modifiers)
     }
 
 }
