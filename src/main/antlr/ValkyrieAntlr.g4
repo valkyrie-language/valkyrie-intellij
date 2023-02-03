@@ -69,7 +69,7 @@ class_field:        annotation* modified_identifier type_hint? parameter_default
 class_method
     : annotation* modified_namepath define_generic? function_parameters type_hint? effect_hint? function_block?
     ;
-class_dsl: modified_identifier class_block;
+class_dsl: annotation* modified_identifier class_block;
 // ===========================================================================
 define_trait
     : template_call? annotation* modifiers KW_TRAIT identifier define_generic? impliments? trait_block eos?
@@ -183,6 +183,7 @@ expression
     | collection_literal
     | string_literal
     | number_literal
+    | lambda_name
     | namepath
     | SPECIAL
     ;
@@ -284,12 +285,12 @@ tempalte_terms: KW_WHERE where_block | eos_free;
 where_block:    BRACE_L where_bound* BRACE_R;
 where_bound:    identifier COLON type_expression | eos_free;
 // ===========================================================================
-macro_call: OP_AT macro_call_name function_parameters? class_block?;
+macro_call: OP_AT annotation_call_item;
 annotation
     : OP_HASH annotation_call_item
     | OP_HASH BRACKET_L annotation_call_item (COMMA annotation_call_item)* BRACKET_R
     ;
-annotation_call_item: macro_call_name function_parameters?;
+annotation_call_item: namepath tuple_call_body? class_block?;
 // ===========================================================================
 try_statement:   annotation* KW_TRY type_expression? function_block;
 match_statement: annotation* (KW_MATCH | KW_CATCH) inline_expression match_block;
@@ -357,9 +358,10 @@ modifiers:           identifier*;
 modified_identifier: identifier+;
 modified_namepath:   identifier+ (OP_PROPORTION identifier)*;
 // namepath
-macro_call_name: identifier (OP_PROPORTION identifier)* (DOT identifier)?;
-namepath_free:   identifier ((OP_PROPORTION | DOT) identifier)*;
-namepath:        identifier (OP_PROPORTION identifier)*;
+lambda_name:   LAMBDA_SLOT (identifier | number)?;
+function_name: identifier (OP_PROPORTION identifier)* (DOT identifier)?;
+namepath_free: identifier ((OP_PROPORTION | DOT) identifier)*;
+namepath:      identifier (OP_PROPORTION identifier)*;
 // identifier
 identifier: UNICODE_ID | RAW_ID;
 // numbewr

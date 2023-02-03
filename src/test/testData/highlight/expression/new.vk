@@ -10,17 +10,8 @@ object(Base) {
 
 }
 
-object⟨T⟩(T) {
 
-}
-
-object: Interface {
-    super super {
-
-    };
-    super;
-    super
-
+object: Super {
     offset: int = a() {
 
     }
@@ -28,6 +19,45 @@ object: Interface {
     override get() {
         64
     }
+}
+
+object⟨SUPER⟩(Super): Super {
+    super;
+    super
+    super: SUPER = super {
+        get super()
+        super = super
+    };
+    #[super, super(super: super)]
+    super super {
+        super super;
+        super super {
+            get super()
+            super = super
+        }
+    }
+}
+
+
+label.translatesAutoresizingMaskIntoConstraints = false
+
+NSLayoutConstraint.activate([
+label.topAnchor.constraint(
+equalTo: button.bottomAnchor,
+constant: 20
+),
+label.leadingAnchor.constraint(
+equalTo: button.leadingAnchor
+),
+label.widthAnchor.constraint(
+lessThanOrEqualTo: view.widthAnchor,
+constant: -40
+)
+])
+label.layout {
+    $0.top == button.bottomAnchor + 20
+    $0.leading == button.leadingAnchor
+    $0.width <= view.widthAnchor - 40
 }
 
 
@@ -41,9 +71,16 @@ new stack List
 }
 
 
-new Integer⟨A⟩()
+new
+Integer
+⟨
+A
+⟩
+(
+A
+)
 {
-
+    A
 }
 
 new stack List⟨A⟩ ()

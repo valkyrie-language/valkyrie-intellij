@@ -14,7 +14,8 @@ import org.antlr.v4.runtime.tree.ParseTree
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.antlr.ValkyrieAntlrParser.*
 import valkyrie.language.ast.*
-import valkyrie.language.ast.calls.ValkyrieCallGeneric
+import valkyrie.language.ast.calls.ValkyrieAnnotation
+import valkyrie.language.ast.calls.ValkyrieAnnotationItem
 import valkyrie.language.ast.calls.ValkyrieCallMacro
 import valkyrie.language.ast.classes.*
 import valkyrie.language.ast.pattern_match.ValkyrieMatchBlockNode
@@ -53,13 +54,16 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_modified_namepath -> ValkyrieModifiedNode(node, ValkyrieModifiedType.ModifiedNamepath)
                 RULE_template_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
                 RULE_where_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
+                RULE_annotation -> ValkyrieAnnotation(node)
+                RULE_annotation_call_item -> ValkyrieAnnotationItem(node)
                 // class
                 RULE_define_class -> ValkyrieClassStatement(node)
+                RULE_define_generic -> ValkyrieGenericStatement(node)
                 RULE_class_inherit_item -> ValkyrieClassInheritItem(node)
                 RULE_class_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
                 RULE_class_field -> ValkyrieClassFieldNode(node)
                 RULE_class_method -> ValkyrieClassMethodNode(node)
-                RULE_define_generic -> ValkyrieGenericStatement(node)
+                RULE_class_dsl -> ValkyrieClassCustomNode(node)
                 // flags
                 RULE_define_bitflags -> ValkyrieFlagsStatement(node)
                 RULE_bitflags_item -> ValkyrieFlagsStatementItem(node, type)
@@ -99,8 +103,8 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_match_case_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Indent)
                 // expression
                 RULE_macro_call -> ValkyrieCallMacro(node)
-                RULE_generic_call -> ValkyrieCallGeneric(node, true)
-                RULE_generic_call_in_type -> ValkyrieCallGeneric(node, false)
+                RULE_generic_call -> ValkyrieGenericCall(node, true)
+                RULE_generic_call_in_type -> ValkyrieGenericCall(node, false)
                 RULE_tuple_call_item -> ValkyrieCallArgument(node)
                 RULE_expression -> extractExpression(node)
                 // new
