@@ -147,9 +147,19 @@ define_type: KW_TYPE identifier OP_ASSIGN identifier;
 type_hint:   (COLON | OP_ARROW) type_expression;
 effect_hint: OP_DIV type_expression;
 // ===========================================================================
-if_statement:      KW_IF inline_expression function_block else_if_statement* else_statement?;
+if_statement
+    : annotation* KW_IF inline_expression then = function_block else_if_statement* (
+        KW_ELSE else = function_block
+    )? # IfFlow
+    | annotation* KW_IF (KW_LET | KW_NOT) (
+        let_pattern_tuple
+        | let_pattern_block
+        | identifier
+        | SPECIAL
+    ) OP_ASSIGN inline_expression then = function_block # IfGuard
+    // | KW_IF (KW_LET | KW_NOT) inline_expression then = function_block # IfFastGuard
+    ;
 else_if_statement: KW_ELSE KW_IF inline_expression function_block;
-else_statement:    KW_ELSE function_block;
 // ===========================================================================
 while_statement
     : annotation* KW_WHILE inline_expression function_block                              # WhileExpression
@@ -189,18 +199,15 @@ expression
     ;
 inline_expression
     : inline_expression dot_call
+    | inline_expression slice_call
     | inline_expression op_multiple inline_expression
     | inline_expression op_plus inline_expression
     | inline_expression op_logic inline_expression
     | inline_expression op_compare inline_expression
-    | inline_expression infix_is inline_expression
+    | inline_expression (KW_IS | KW_IS KW_NOT) inline_expression
     | inline_expression OP_UNTIL inline_expression
+    | inline_expression KW_AS inline_expression
     | prefix_call inline_expression
-    | inline_expression slice_call
-    | try_statement
-    | if_statement
-    | match_statement
-    | new_statement
     | macro_call
     | function_call
     | collection_literal
@@ -292,29 +299,32 @@ annotation
     ;
 annotation_call_item: namepath tuple_call_body? class_block?;
 // ===========================================================================
-try_statement:   annotation* KW_TRY type_expression? function_block;
-match_statement: annotation* (KW_MATCH | KW_CATCH) inline_expression match_block;
+try_statement: annotation* KW_TRY type_expression? function_block;
+match_statement
+    : annotation* (KW_MATCH | KW_CATCH) inline_expression (KW_AS identifier)? match_block
+    ;
 // ===========================================================================
-match_call:  OP_THROW? DOT (KW_MATCH | KW_CATCH) type_expression? match_block;
+match_call:  OP_THROW? DOT (KW_MATCH | KW_CATCH) (KW_AS identifier type_hint?)? match_block;
 match_block: BRACE_L match_terms* BRACE_R;
 match_terms
-    : annotation* KW_WITH identifier                              # MatchWith
-    | annotation* KW_WITH BRACKET_L identifier? BRACKET_R         # MatchWithMany
-    | annotation* KW_WHEN inline_expression match_case_block      # MatchWhen
-    | annotation* KW_ELSE match_case_block                        # MatchElse
-    | annotation* KW_CASE case_pattern if_guard? match_case_block # MatchCase
-    | eos_free                                                    # MatchSkip
+    : annotation* KW_WITH identifier                                                                        # MatchWith
+    | annotation* KW_WITH BRACKET_L (identifier (COMMA identifier)* COMMA?)? BRACKET_R                      # MatchWithMany
+    | annotation* KW_TYPE (identifier OP_BIND)? type_expression (KW_IF inline_expression)? match_case_block # MatchType
+    | annotation* KW_WHEN inline_expression match_case_block                                                # MatchWhen
+    | annotation* KW_ELSE match_case_block                                                                  # MatchElse
+    | annotation* KW_CASE case_pattern (KW_IF inline_expression)? match_case_block                          # MatchCase
+    | eos_free                                                                                              # MatchSkip
     ;
 match_case_block: COLON expression*;
 case_pattern
-    : identifier OP_BIND case_pattern
-    | case_pattern OP_UNTIL case_pattern
+    : case_pattern OP_UNTIL case_pattern
     | case_pattern (OP_OR | OP_ADD) case_pattern
-    | let_pattern_tuple
-    | let_pattern_block
-    | namepath
+    | (identifier OP_BIND)? let_pattern_tuple
+    | (identifier OP_BIND)? let_pattern_block
+    | (identifier OP_BIND)? namepath
     | number_literal
     | string_literal
+    | SPECIAL
     ;
 case_pair: identifier+;
 // ===========================================================================

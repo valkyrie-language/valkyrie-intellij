@@ -39,37 +39,10 @@ object⟨SUPER⟩(Super): Super {
 }
 
 
-label.translatesAutoresizingMaskIntoConstraints = false
-
-NSLayoutConstraint.activate([
-label.topAnchor.constraint(
-equalTo: button.bottomAnchor,
-constant: 20
-),
-label.leadingAnchor.constraint(
-equalTo: button.leadingAnchor
-),
-label.widthAnchor.constraint(
-lessThanOrEqualTo: view.widthAnchor,
-constant: -40
-)
-])
-label.layout {
-    $0.top == button.bottomAnchor + 20
-    $0.leading == button.leadingAnchor
-    $0.width <= view.widthAnchor - 40
-}
 
 
-new D();
 
 E⟨⟩(){};
-
-new stack List
-{
-    "term"
-}
-
 
 new
 Integer
@@ -77,19 +50,15 @@ Integer
 A
 ⟩
 (
-A
+    A
 )
 {
     A
 }
 
-new stack List⟨A⟩ ()
+new stack List⟨Any⟩(10)
 {
-
-}
-
-new stack List(10)
-{
+    "term",
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 }
 
@@ -98,11 +67,11 @@ new stack List⟨T: Integer⟩(capacity: 10)
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 }
 
-new stack Object {
-    item1,
-    item2,
-    (tuple1, ),
-    (key, value),
+new stack List {
+    ..item1,
+    ..item2,
+    ..(tuple1, ),
+    ...(key: key, value),
     key: value
 }
 

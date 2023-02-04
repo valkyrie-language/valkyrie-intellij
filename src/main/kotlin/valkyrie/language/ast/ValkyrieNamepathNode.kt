@@ -70,7 +70,7 @@ private val keywords = setOf(
     "f32", "f64",
     "bool", "char", "string",
     "unit",
-    "pass", "scope", "async", "await", "quote",
+    "scope", "async", "await", "quote",
     "self", "Self"
 )
 

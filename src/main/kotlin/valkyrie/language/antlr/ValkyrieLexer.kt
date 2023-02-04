@@ -87,7 +87,7 @@ class ValkyrieLexer : Lexer() {
             //
             KW_NEW, KW_OBJECT,
             SPECIAL,
-            OP_THROW
+            OP_THROW, KW_NOT
         )
         val OperatorPrefix: TokenSet = PSIElementTypeFactory.createTokenSet(
             ValkyrieLanguage,

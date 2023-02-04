@@ -12,3 +12,46 @@ a.b;
 a.b();
 a.b.c();
 a(1).b(1)(2).b(1)(2)(3);
+
+a::b::c
+a::b::c()
+
+a::b.c
+a::b.c()
+
+a.b::c
+a.b::c()
+
+a.b.c
+// a.(b.c)
+a.b.c()
+a.b().c()
+a().b().c()
+
+label.translatesAutoresizingMaskIntoConstraints = false
+
+NSLayoutConstraint.activate(
+    label.topAnchor.constraint(
+        equalTo: button.bottomAnchor,
+        constant: 20
+    ),
+    label.leadingAnchor.constraint(
+        equalTo: button.leadingAnchor
+    ),
+    label.widthAnchor.constraint(
+        lessThanOrEqualTo: view.widthAnchor,
+        constant: -40
+    )
+)
+label.layout {
+    lambda(i: int)
+    $0.top == button.bottomAnchor + 20
+    $0.leading == button.leadingAnchor
+    $0.width <= view.widthAnchor - 40
+}
+
+scope {
+    for a in b {
+        yield a
+    }
+}

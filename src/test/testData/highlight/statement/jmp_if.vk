@@ -13,3 +13,29 @@ if let (x, y) = point {
 if let Failure(error) = x {
     print(error);
 }
+
+if let Point(x, y) = point {
+    return "some {x}, {y}"
+}
+
+#guard
+if let null = condition {
+    return
+}
+
+#guard
+if not Some = condition {
+    return
+}
+
+
+#guard
+if a > 0 {
+    return ok
+}
+
+
+#guard
+if !pattern {
+    return true
+}

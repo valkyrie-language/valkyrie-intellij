@@ -40,7 +40,7 @@ for mut a, ref b in items {
     for (mut a, ref b, ..) in items {
         for Some(mut a, ref _, mut ..a) in items {
 
-            for Point {mut x: p <- Some(e <- (q, )), mut y: _, ...s} in items {
+            for Point {mut x: p := Some(e := (q, )), mut y: _, ...s} in items {
 
             }
         }
@@ -50,8 +50,8 @@ for mut a, ref b in items {
 
 
 while k != n && i == j {
-    until let Some(a, Some(c <- (a, b))) = next {
-        while let Success {a: Some(c <- Result { c })} = next {
+    until let Some(a, Some(c := (a, b))) = next {
+        while let Success {a: Some(c := Result { c })} = next {
             print("Deeper loop!");
         }
     }

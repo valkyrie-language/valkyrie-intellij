@@ -53,11 +53,12 @@ OP_GGG: '⋙' | '>' '>' '>';
 OP_GG:  '≫' | '>' '>';
 OP_GT:  '>';
 // arrow
-OP_BIND:   '←' | '<-';
+OP_LEFT:   '←' | '<-';
 OP_ARROW:  '⟶' | '->';
 OP_ARROW2: '⇒' | '=>';
 // assign
 OP_ASSIGN:     '=';
+OP_BIND:       '≔' | ':=';
 OP_ADD_ASSIGN: '+=';
 OP_SUB_ASSIGN: '-=';
 OP_MUL_ASSIGN: '*=';
