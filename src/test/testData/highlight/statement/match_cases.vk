@@ -19,13 +19,13 @@ match _ as a {
         @todo
     type Debug + Display:
         @todo
-    type TypeA | TypeB:
+    type name::TypeA | path::TypeB:
         @todo
-    type var := List⟨Integer⟩:
+    type List⟨Integer⟩:
         @todo
-    type var := Array⟨Array⟨T⟩⟩:
+    type Array⟨Array⟨T⟩⟩:
         @todo
-    type var := String if a.is_empty():
+    type String if a.is_empty():
         @todo
     when var is not String:
         var.length
@@ -35,12 +35,12 @@ match _ {
     case true:
         // expr == true
         @todo
-    case var := (114, "514", a):
+    case (114, "514", a):
 // expr is tuple && expr.1 == 114 && expr.2 == 514; a = expr.3
 @todo
-case var := None:
+case var := std::None:
 @todo
-case var := Some(mut a):
+case var := std::Some(mut a):
 @todo
 when Success {a: b}:
 @todo

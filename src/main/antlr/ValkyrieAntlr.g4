@@ -309,7 +309,7 @@ match_block: BRACE_L match_terms* BRACE_R;
 match_terms
     : annotation* KW_WITH identifier                                                                        # MatchWith
     | annotation* KW_WITH BRACKET_L (identifier (COMMA identifier)* COMMA?)? BRACKET_R                      # MatchWithMany
-    | annotation* KW_TYPE (identifier OP_BIND)? type_expression (KW_IF inline_expression)? match_case_block # MatchType
+    | annotation* KW_TYPE type_expression (KW_IF inline_expression)? match_case_block # MatchType
     | annotation* KW_WHEN inline_expression match_case_block                                                # MatchWhen
     | annotation* KW_ELSE match_case_block                                                                  # MatchElse
     | annotation* KW_CASE case_pattern (KW_IF inline_expression)? match_case_block                          # MatchCase
