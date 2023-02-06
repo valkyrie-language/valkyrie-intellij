@@ -133,7 +133,7 @@
 		<psi.referenceContributor
 			language="Valkyrie"
 			implementation="valkyrie.ide.reference.ValkyrieReferenceContributor"/>
-		<psi.referenceProvider language="Valkyrie" providerClass="valkyrie.ide.reference.ValkyrieReferenceProvider"/>
+<!--		<psi.referenceProvider language="Valkyrie" providerClass="valkyrie.ide.reference.ValkyrieReferenceProvider"/>-->
 		<!--		<psi.symbolReferenceProvider-->
 		<!--			anyReferenceClass="true"-->
 		<!--			implementationClass="valkyrie.ide.reference.ValkyrieReferenceProvider"-->

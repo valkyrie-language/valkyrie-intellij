@@ -5,9 +5,10 @@ lexer grammar ValkyrieBasic;
 
 }
 
-DOT:       '.';
-COMMA:     ',';
-SEMICOLON: ';';
+DOT:        '.';
+COMMA:      ',' | '，';
+SEMICOLON:  ';';
+FAKE_COLON: '⁏' | ';;';
 
 // colon
 OP_PROPORTION: '∷' | '::';
@@ -34,12 +35,15 @@ COLLECTION_L:  '⦃';
 COLLECTION_R:  '⦄';
 
 // infix
-OP_ADD: '+';
-OP_INC: '++';
-OP_SUB: '-';
-OP_DEC: '--';
-OP_MUL: '*';
-OP_DIV: '/';
+OP_ADD:     '+';
+OP_INC:     '++';
+OP_SUB:     '-';
+OP_DEC:     '--';
+OP_MUL:     '*';
+OP_DIV:     '/';
+OP_DIV_DIV: '//';
+OP_DIV_REM: '/%' | '÷';
+OP_REM_REM: '%%';
 // equal
 OP_EQ: '==';
 OP_NE: '!=';
@@ -59,6 +63,7 @@ OP_ARROW2: '⇒' | '=>';
 // assign
 OP_ASSIGN:     '=';
 OP_BIND:       '≔' | ':=';
+OP_MAY_ASSIGN: '?=';
 OP_ADD_ASSIGN: '+=';
 OP_SUB_ASSIGN: '-=';
 OP_MUL_ASSIGN: '*=';
@@ -66,10 +71,14 @@ OP_DIV_ASSIGN: '/=';
 // logical
 LOGIC_NOT:  '¬';
 LOGIC_AND:  '&&' | '∧';
+LOGIC_XAND: '⩟';
+LOGIC_NAND: '⊼';
 LOGIC_OR:   '||' | '∨';
 LOGIC_XOR:  '⊻';
 LOGIC_NOR:  '⊽';
-LOGIC_NAND: '⊼';
+// set
+SET_INTERSECTION: '∩';
+SET_UNION:        '∪';
 // bitwise
 OP_AND:  '&';
 OP_OR:   '|';
@@ -86,7 +95,7 @@ LAMBDA_SLOT: '$' | '$$';
 MACRO_SLOT:  '§' | '§§';
 // monadic
 OP_UNIMPLEMENTED: '⅏' | '???';
-OP_OR_ELSE:       '??';
+OP_OR_ELSE:       '?:';
 OP_THROW:         '?';
 // not
 OP_NOT: '!';
@@ -107,16 +116,16 @@ KW_AS: 'as' | 'as!' | 'as*';
 OP_DECONSTRUCT: '...' | '..';
 OP_UNTIL:       '..<' | '..=';
 OP_POW:         '^';
+// prefix
+OP_INVERSE: '⅟';
+OP_ROOTS:   '√' | '∛' | '∜';
 // suffix
 OP_TEMPERATURE: '℃' | '℉';
+OP_TRANSPOSE:   'ᵀ' | 'ᴴ';
+OP_PERCENT:     '%' | '‰' | '‱';
 // standalone
 OP_REFERENCE: '※';
 OP_LABEL:     '¶';
-
-// DOT ":=", "≔" -> pushToken(ValkyrieTypes.PATTERN_SET, r) "->", "==", "≡" ->
-// pushToken(ValkyrieTypes.OP_EQ, r) "...", ".." -> pushToken(ValkyrieTypes.KW_DOTS, r) r) "¶" ->
-// pushToken(ValkyrieTypes.OP_QUOTE, r) "⤇", "|=>", "⤃", "!=>" -> {
-// pushToken(ValkyrieTypes.OP_EMPTY, r) }
 
 // keywords
 KW_NAMESPACE: 'namespace' ('!' | '*' | '?')?;
@@ -160,6 +169,7 @@ fragment EXP: [Ee] [+\-]? INTEGER;
 
 STRING_SINGLE: '\'' ~[']* '\'';
 STRING_DOUBLE: '"' ~["]* '"';
+STRING_BLOCK:  '"""' .*? '"""' | '\'\'\'' .*? '\'\'\'';
 
 // conditional
 KW_IF:        'if';
@@ -179,8 +189,8 @@ RAW_ID:     '`' ~[`]+ '`';
 UNICODE_ID: [_\p{XID_start}] [\p{XID_continue}]*;
 
 // comment
-LINE_COMMENT:  '//' ~[\r\n]* -> channel(HIDDEN);
-BLOCK_COMMENT: '/*' .*? '*/' -> channel(HIDDEN);
+LINE_COMMENT:  '~' ~[\r\n]* -> channel(HIDDEN);
+BLOCK_COMMENT: '[~' .*? '~]' -> channel(HIDDEN);
 
 WHITE_SPACE:     [\p{White_Space}]+ -> channel(HIDDEN);
 ERROR_CHARACTAR: . -> channel(HIDDEN);

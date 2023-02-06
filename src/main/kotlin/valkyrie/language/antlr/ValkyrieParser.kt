@@ -18,7 +18,8 @@ import valkyrie.language.ast.calls.ValkyrieAnnotation
 import valkyrie.language.ast.calls.ValkyrieAnnotationItem
 import valkyrie.language.ast.calls.ValkyrieCallMacro
 import valkyrie.language.ast.classes.*
-import valkyrie.language.ast.pattern_match.ValkyrieMatchBlockNode
+import valkyrie.language.ast.pattern_match.ValkyrieMatchCall
+import valkyrie.language.ast.pattern_match.ValkyrieMatchStatement
 import valkyrie.language.ast.unions.ValkyrieFlagsStatement
 import valkyrie.language.ast.unions.ValkyrieFlagsStatementItem
 import valkyrie.language.ast.unions.ValkyrieUnionStatement
@@ -80,25 +81,24 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 // function
                 RULE_define_function -> ValkyrieFunctionStatement(node)
                 RULE_function_parameters -> ValkyrieBlockNode(node, ValkyrieBlockType.Parenthesis)
-                RULE_parameter_item -> ValkyrieFunctionParameter(node, type)
+                RULE_parameter_item -> ValkyrieFunctionParameter(node)
                 RULE_function_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
                 // variable
                 RULE_define_variale -> ValkyrieLetStatement(node)
                 RULE_let_pattern -> ValkyrieLetPattern(node)
                 RULE_let_pattern_item -> ValkyrieLetPatternItem(node)
-                RULE_let_pattern_pair -> ValkyrieLetPatternPair(node)
                 // control
                 RULE_for_statement -> ValkyrieForStatement(node)
                 RULE_while_statement -> ValkyrieWhileStatement(node)
                 // pattern match
-                RULE_match_call -> {
+                RULE_match_statement -> {
 //                    ValkyrieParser.getChildOfType(node.psi)
-
-                    ValkyrieMatchBlockNode(node)
+                    ValkyrieMatchStatement(node)
                     // ValkyrieCatchBlockNode(node)
-
                 }
-
+                RULE_match_call -> {
+                    ValkyrieMatchCall(node)
+                }
                 RULE_match_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
                 RULE_match_case_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Indent)
                 // expression

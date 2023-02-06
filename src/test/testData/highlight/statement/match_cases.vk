@@ -4,7 +4,7 @@ match a {
     with [a, b]
 }
 
-// when with (expression: bool)
+~~ when with (expression: bool)
 match _ {
     when true:
         @todo
@@ -31,72 +31,89 @@ match _ as a {
         var.length
 }
 
-match _ {
-    case true:
-        // expr == true
+match e := last as String {
+    case Type if ture:
+        ~~ expr == true
         @todo
-    case (114, "514", a):
-// expr is tuple && expr.1 == 114 && expr.2 == 514; a = expr.3
-@todo
-case var := std::None:
-@todo
-case var := std::Some(mut a):
-@todo
-when Success {a: b}:
-@todo
+    case ():
+        @todo
+    case (1, )
+    case (114, "514", a) if true:
+        ~~ expr is tuple && expr.1 == 114 && expr.2 == 514; a = expr.3
+        @todo
+    case a ..= 2 | b ..< c:
+        @todo("range")
+    case None:
+        @todo
+    case std::option::None:
+        @todo
+    case Some():
+        @todo
+    case std::option::Some(mut a, ref b: c := None):
+        @todo
+    case Success {a: b}:
+        @todo
 }
+
+
 try Option⟨u64⟩{
 
 }
-.match {
-#[compile(test)]
-when null:
-print("branch 1")
-when a < 0 || c != 0:
-print("branch 2")
-
-print("branch 3")
-case Some(a):
-print("branch 4")
-case Left(a) if a > 0 && b > 0:
-print("branch 5")
-else:
-print("branch _")
+.match as e {
+    #[compile(test)]
+    when null:
+        print("branch 1")
+    when a < 0 || c != 0:
+        print("branch 2")
+        print("branch 3")
+    case Some(a):
+        print("branch 4")
+    case Left(Right(b)) if a > 0 && b > 0:
+        print("branch 5")
+    case Some(a := Some(b)) if a > b:
+        print(1)
+    when a < 0:
+        print( - 1)
+    case _:
+        print(0)
+    else:
+        print("branch _")
 }
 .match {
-when a > 0:
-yyy
-else:
-zzz
+    when a > 0:
+        yyy
+    else:
+        zzz
 }?
 .catch {
 
 }
 .await
 
+
 try Option⟨T⟩{
-body
+    body
 }
 .catch {
-with handler;
-case Exception::A(message):
-resume message + "A"
-case Exception::F(message):
-return message + "F"
-case Exception::A(message):
-resume message + "A"
-case Exception::F(message):
-return message + "F"
-else:
-return "else"
+    with handler;
+    case Exception::A(message): ~~ String
+        resume message + "A"
+    case Exception::F(message): ~~ String
+        return message + "F"
+    case Exception::A(message): ~~ String
+        resume message + "A"
+    case Exception::F(message): ~~ String
+        return message + "F"
+    else:
+        return "else"
 }
 .match {
-case "A":
-return "A"
-case "F":
-return "F"
-else:
-return "else"
+    case "A":
+        return "A"
+    case "F":
+        return "F"
+    else:
+        return "else"
 }
 .await {
 
@@ -105,32 +122,18 @@ try Option⟨u64⟩{
 
 }
 .match {
-// with []
-case Some(a):
-print("Caught some")
-when null || A:
-print("Caught null")
+    ~~ with []
+    case Some(a):
+        print("Caught some")
+    when null || A:
+        print("Caught null")
 }
 .match {
-case Some(a) if a > 0:
-print("a > 0")
-when a < 0:
-print("a < 0")
-when _:
-print("a == 0")
+    case Some(a) if a > 0:
+        print("a > 0")
+    when a < 0:
+        print("a < 0")
+    when _:
+        print("a == 0")
 }
 
-match A(`type`) {
-case A;
-case B;
-}
-
-
-
-match _ {
-case a @Some(a) if a > 0:
-print(1)
-case a < 0:
-print( - 1)
-case _: print(0)
-}

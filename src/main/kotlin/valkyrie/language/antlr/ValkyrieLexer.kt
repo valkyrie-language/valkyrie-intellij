@@ -91,21 +91,23 @@ class ValkyrieLexer : Lexer() {
         )
         val OperatorPrefix: TokenSet = PSIElementTypeFactory.createTokenSet(
             ValkyrieLanguage,
-            OP_NOT, OP_DECONSTRUCT, OP_REFERENCE
+            OP_NOT, OP_DECONSTRUCT, OP_REFERENCE, OP_INVERSE, OP_ROOTS
         )
         val OperatorInfix: TokenSet = PSIElementTypeFactory.createTokenSet(
             ValkyrieLanguage,
             OP_EQ, OP_NE,
             OP_ADD, OP_SUB,
             OP_MUL, OP_DIV,
+            OP_POW,
             LOGIC_OR, LOGIC_AND,
+            OP_OR, OP_AND, OP_BIND,
             OP_LT, OP_LEQ, OP_LL, OP_LLL,
             OP_GT, OP_GEQ, OP_GG, OP_GGG,
             OP_UNTIL,
         )
         val OperatorSuffix: TokenSet = PSIElementTypeFactory.createTokenSet(
             ValkyrieLanguage,
-            OP_TEMPERATURE,
+            OP_TEMPERATURE, OP_PERCENT, OP_TRANSPOSE
         )
         val Operators = TokenSet.orSet(OperatorPrefix, OperatorInfix, OperatorSuffix);
         val MacroOperators = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, OP_HASH, OP_AT);

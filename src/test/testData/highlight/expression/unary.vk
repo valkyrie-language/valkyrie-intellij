@@ -1,8 +1,8 @@
-// sign
+~~ sign
 +a;
 -a;
 
-// unbox, unpack, unpack all
+~~ unbox, unpack, unpack all
 *var;
 **var;
 ⁑var;
@@ -11,20 +11,20 @@
 a ** var;
 
 
-// inverse
+~~ inverse
 ⅟a;
 
-// surd
+~~ surd
 √2 + ∛3 + ∜5;
 √(2 + ∛(3 + ∜5));
 √∛∜x;
 
-// temperature
+~~ temperature
 20℃ + 30℉;
 
-// percentage
+~~ percentage
 2% + 3‰ + 5‱;
 (2% + (3‰ + 5))‱;
 x%‰‱;
 
-// tensor ᵀᴴᵀ
+~~ tensor ᵀᴴᵀ

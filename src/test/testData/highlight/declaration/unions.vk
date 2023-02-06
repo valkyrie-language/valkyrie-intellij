@@ -2,13 +2,7 @@ namespace std.create.test;
 
 
 
-flags TestFlags1 {}
 
-flags TestFlags2(u8): A + B {
-    A = 12 + 1;
-    Bb = 12 + 2;
-    Ccc = 3
-}
 
 union TestUnion1 {}
 
