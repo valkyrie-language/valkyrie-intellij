@@ -40,19 +40,21 @@ OP_INC:     '++';
 OP_SUB:     '-';
 OP_DEC:     '--';
 OP_MUL:     '*';
-OP_DIV:     '/';
-OP_DIV_DIV: '//';
+OP_DIV:     '⁄' | '∕' | '/';
 OP_DIV_REM: '/%' | '÷';
-OP_REM_REM: '%%';
 // equal
-OP_EQ: '==';
-OP_NE: '!=';
+OP_EQ:  '==';
+OP_NE:  '≠' | '!=';
+OP_NEE: '≢' | '!==' | '=!=';
+OP_EEE: '≡' | '===';
 // compare
 OP_LEQ: '⩽' | '≤' | '<=';
+OP_LLE: '<<=';
 OP_LLL: '⋘' | '<' '<' '<';
 OP_LL:  '≪' | '<' '<';
 OP_LT:  '<';
 OP_GEQ: '⩾' | '≥' | '>=';
+OP_GGE: '>>=';
 OP_GGG: '⋙' | '>' '>' '>';
 OP_GG:  '≫' | '>' '>';
 OP_GT:  '>';
@@ -80,12 +82,14 @@ LOGIC_NOR:  '⊽';
 SET_INTERSECTION: '∩';
 SET_UNION:        '∪';
 // bitwise
-OP_AND:  '&';
-OP_OR:   '|';
-OP_XOR:  '⊕';
-OP_EQV:  '≡';
-OP_IMPL: '‽';
-OP_IFF:  '⇔';
+OP_AND:    '&';
+OP_OR:     '|';
+OP_XOR:    '⊕';
+OP_IMPL:   '‽';
+OP_IFF:    '⇔';
+OP_MAP:    '/>' | '/@' | '⇴' | '⨵';
+OP_APPLY2: '@@' | '⊕';
+OP_APPLY3: '@@@' | '⟴';
 
 // macro call
 OP_AT:   '@';
@@ -94,9 +98,10 @@ OP_HASH: '#' | '##' | '#!';
 LAMBDA_SLOT: '$' | '$$';
 MACRO_SLOT:  '§' | '§§';
 // monadic
-OP_UNIMPLEMENTED: '⅏' | '???';
+OP_UNIMPLEMENTED: '⅏' | '⍼' | '⟁' | '???';
+OP_OR_DEFAULT:    '??';
 OP_OR_ELSE:       '?:';
-OP_THROW:         '?';
+OP_AND_THEN:      '?';
 // not
 OP_NOT: '!';
 KW_NOT: 'not';
@@ -118,11 +123,13 @@ OP_UNTIL:       '..<' | '..=';
 OP_POW:         '^';
 // prefix
 OP_INVERSE: '⅟';
-OP_ROOTS:   '√' | '∛' | '∜';
+OP_ROOT2:   '√';
+OP_ROOT3:   '∛';
+OP_ROOT4:   '∜';
 // suffix
 OP_TEMPERATURE: '℃' | '℉';
 OP_TRANSPOSE:   'ᵀ' | 'ᴴ';
-OP_PERCENT:     '%' | '‰' | '‱';
+OP_PERCENT:     '%' | '⁒' | '‰' | '‱';
 // standalone
 OP_REFERENCE: '※';
 OP_LABEL:     '¶';
@@ -140,7 +147,7 @@ KW_TYPE:     'type';
 //
 KW_TEMPLATE:   'template' | 'generic' | 'forall';
 KW_EXTENDS:    'extend' | 'extends';
-KW_IMPLEMENTS: 'implement' | 'implements';
+KW_IMPLEMENTS: 'implement';
 KW_WHERE:      'where';
 //
 KW_WHILE: 'while' | 'until';
@@ -189,8 +196,8 @@ RAW_ID:     '`' ~[`]+ '`';
 UNICODE_ID: [_\p{XID_start}] [\p{XID_continue}]*;
 
 // comment
-LINE_COMMENT:  '~' ~[\r\n]* -> channel(HIDDEN);
-BLOCK_COMMENT: '[~' .*? '~]' -> channel(HIDDEN);
+LINE_COMMENT:  '//' ~[\r\n]* -> channel(HIDDEN);
+BLOCK_COMMENT: '/*' .*? '*/' -> channel(HIDDEN);
 
 WHITE_SPACE:     [\p{White_Space}]+ -> channel(HIDDEN);
 ERROR_CHARACTAR: . -> channel(HIDDEN);

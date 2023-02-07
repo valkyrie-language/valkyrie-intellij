@@ -1,5 +1,5 @@
 @derive(Default, Debug, Serde)]
-class $Tuple$($fields$)
+class $Tuple$($base$)
 
 extends $Tuple$ {
     $block$

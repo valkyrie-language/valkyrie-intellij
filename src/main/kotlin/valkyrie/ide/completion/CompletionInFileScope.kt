@@ -67,9 +67,9 @@ class CompletionInFileScope : CompletionProvider<CompletionParameters>() {
 
     private fun CompletionResultSet.addTopMacros() {
         addElement(annotationCall("@derive", "@derive()", 1))
-        addElement(macroCall("@type_of", "@type_of[]", 1))
-        addElement(macroCall("@name_of", "@name_of[]", 1))
-        addElement(macroCall("@name_path_of", "@name_path_of[]", 1))
+        addElement(macroCall("type_of", "@type_of[]", 1))
+        addElement(macroCall("name_of", "@name_of[]", 1))
+        addElement(macroCall("name_path_of", "@name_path_of[]", 1))
     }
 
     private fun macroCall(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
@@ -93,11 +93,11 @@ class CompletionInFileScope : CompletionProvider<CompletionParameters>() {
         result.addKeywordSnippet("type", "type.ft")
 
         result.addKeywordSnippet("class", "class.ft", setOf("cass", "struct"))
-        result.addKeywordSnippet("tuple class", "class_tuple.ft", setOf("class tuple"))
-        result.addKeywordSnippet("generic class", "class_generic.ft", setOf("class generic"))
+        result.addKeywordSnippet("class inherit", "class_tuple.ft", setOf("class tuple"))
+        result.addKeywordSnippet("class generic", "class_generic.ft", setOf("class generic"))
 
-        result.addKeywordSnippet("tagged", "tagged.ft")
-        result.addKeywordSnippet("bitset", "bitset.ft")
+        result.addKeywordSnippet("union", "tagged.ft")
+        result.addKeywordSnippet("flags", "bitset.ft")
 
         result.addKeywordSnippet("trait", "trait.ft")
         result.addKeywordSnippet("interface", "interface.ft")

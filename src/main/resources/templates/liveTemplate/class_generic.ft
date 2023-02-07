@@ -1,8 +1,10 @@
-@derive(Default, Debug, Serde)]
-class $Class$[$Generic$] {
+#derive(Default, Debug, Serde)
+class $Class$⟨$Generic$⟩ {
     $fields$
 }
+generic $Generic$ {
 
-extend[$Generic$] $Class$ {
+}
+extends $Class$⟨$Generic$⟩ {
     $functions$
 }

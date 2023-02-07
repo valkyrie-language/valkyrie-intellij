@@ -9,11 +9,11 @@ import valkyrie.language.antlr.ValkyrieLexer
 //import valkyrie.language.psi.ValkyrieTypes
 
 class ValkyrieCommenter : CodeDocumentationAwareCommenter {
-    override fun getLineCommentPrefix() = "~"
-    override fun getBlockCommentPrefix() = "[~"
-    override fun getBlockCommentSuffix() = "~]"
-    override fun getCommentedBlockCommentPrefix() = "~][~"
-    override fun getCommentedBlockCommentSuffix() = "~][~"
+    override fun getLineCommentPrefix() = "//"
+    override fun getBlockCommentPrefix() = "/*"
+    override fun getBlockCommentSuffix() = "*/"
+    override fun getCommentedBlockCommentPrefix() = "*//*"
+    override fun getCommentedBlockCommentSuffix() = "*//*"
     override fun getLineCommentPrefixes(): MutableList<String> {
         return super.getLineCommentPrefixes()
     }
@@ -25,13 +25,15 @@ class ValkyrieCommenter : CodeDocumentationAwareCommenter {
     override fun getLineCommentTokenType(): IElementType {
         return ValkyrieLexer.CommentLine
     }
+
     override fun getBlockCommentTokenType(): IElementType {
         return ValkyrieLexer.CommentBlock
     }
+
     override fun getDocumentationCommentTokenType(): IElementType? = null
     override fun getDocumentationCommentPrefix() = null
     override fun getDocumentationCommentSuffix() = null
-    override fun getDocumentationCommentLinePrefix() = "~?"
+    override fun getDocumentationCommentLinePrefix() = "//?"
     override fun isDocumentationComment(element: PsiComment?): Boolean {
         if (element == null || element.elementType != ValkyrieLexer.CommentBlock) {
             return false

@@ -1,5 +1,6 @@
 package valkyrie.language.antlr
 
+import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.ParserDefinition
 import com.intellij.lang.PsiParser
@@ -96,7 +97,7 @@ class ValkyrieParserDefinition : ParserDefinition {
             ValkyrieParser.extractCompositeNode(node)
         } else {
             println("create element of ${node.javaClass.name}: ${node.elementType}(${node.text})")
-            ANTLRPsiNode(node)
+            ASTWrapperPsiElement(node)
         }
     }
 

@@ -1,4 +1,4 @@
-#derive(Default, Debug, Serde)]
+#derive(Default, Debug, Serde)
 class $Class$ {
     $fields$
 }

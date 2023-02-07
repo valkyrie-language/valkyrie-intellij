@@ -1,8 +1,8 @@
-@derive(Debug, Serde)]
-tagged $TaggedUnion$ {
+#derive(Debug, Serde)
+union $TaggedUnion$ {
     $Fields$
 }
 
-extend $TaggedUnion$ {
+extends $TaggedUnion$ {
     $functions$
 }

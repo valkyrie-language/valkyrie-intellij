@@ -1,4 +1,4 @@
-@derive(Debug, Serde)]
+#derive(Debug, Serde)
 tagged $TaggedUnion$ {
     $Fields$
 }
