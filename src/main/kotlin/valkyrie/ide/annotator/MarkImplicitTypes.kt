@@ -1,20 +1,20 @@
 package valkyrie.ide.annotator
 
-import com.intellij.codeInsight.highlighting.HyperlinkAnnotator
 import com.intellij.lang.annotation.AnnotationHolder
+import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.psi.PsiElement
 import valkyrie.ide.actions.InferClassFieldType
 import valkyrie.ide.actions.InferDefineItemType
-import valkyrie.language.ast.classes.ValkyrieClassFieldNode
 import valkyrie.language.ast.ValkyrieFunctionParameter
 import valkyrie.language.ast.ValkyrieLetStatement
+import valkyrie.language.ast.classes.ValkyrieClassFieldNode
 
 //import valkyrie.language.psi_node.ValkyrieClassFieldNode
 //import valkyrie.language.psi_node.ValkyrieDefineItemNode
 //import valkyrie.language.psi_node.ValkyrieLetStatementNode
 
-class MarkImplicitTypes : HyperlinkAnnotator() {
+class MarkImplicitTypes : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         when (element) {
             is ValkyrieLetStatement -> {

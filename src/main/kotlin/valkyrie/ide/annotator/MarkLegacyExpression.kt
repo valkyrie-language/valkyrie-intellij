@@ -1,7 +1,7 @@
 package valkyrie.ide.annotator
 
-import com.intellij.codeInsight.highlighting.HyperlinkAnnotator
 import com.intellij.lang.annotation.AnnotationHolder
+import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.editor.colors.CodeInsightColors
 import com.intellij.psi.PsiElement
@@ -10,7 +10,7 @@ import valkyrie.language.ast.ValkyrieForStatement
 import valkyrie.language.ast.ValkyrieIfStatementNode
 import valkyrie.language.ast.ValkyrieWhichStatement
 
-class MarkLegacyExpression : HyperlinkAnnotator() {
+class MarkLegacyExpression : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         when (element) {
             is ValkyrieIfStatementNode -> {
@@ -26,8 +26,7 @@ class MarkLegacyExpression : HyperlinkAnnotator() {
 //                    insertElseIf(item.firstChild, holder, false)
 //                    switchBranch(element, holder, true)
 //                    switchBranch(element, holder, false)
-//                }
-//                insertElseIf(element.firstChild!!, holder, false)
+//                } insertElseIf(element.firstChild!!, holder, false)
 //                val warn = element.elseStatement != null || element.efStatementList.isNotEmpty()
 //                toModernIf(element, holder, warn)
 

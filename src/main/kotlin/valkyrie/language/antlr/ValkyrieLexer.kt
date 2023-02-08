@@ -97,7 +97,7 @@ class ValkyrieLexer : Lexer() {
             ValkyrieLanguage,
             OP_ADD, OP_SUB,
             OP_MUL,
-            OP_DIV, OP_DIV_REM,
+            OP_DIV, OP_REM, OP_DIV_REM,
             OP_POW,
             LOGIC_OR, LOGIC_AND, LOGIC_XOR, LOGIC_NOR, LOGIC_NAND, LOGIC_XAND,
             OP_OR, OP_AND, OP_BIND,

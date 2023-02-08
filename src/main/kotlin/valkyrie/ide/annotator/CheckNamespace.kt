@@ -1,7 +1,7 @@
 package valkyrie.ide.annotator
 
-import com.intellij.codeInsight.highlighting.HyperlinkAnnotator
 import com.intellij.lang.annotation.AnnotationHolder
+import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
@@ -14,7 +14,7 @@ import valkyrie.language.ValkyrieBundle
 import valkyrie.language.ast.ValkyrieNamespaceStatement
 import valkyrie.language.file.ValkyrieFileNode
 
-class CheckNamespace : HyperlinkAnnotator() {
+class CheckNamespace : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         when (element) {
             is ValkyrieFileNode -> annotateFile(element, holder)

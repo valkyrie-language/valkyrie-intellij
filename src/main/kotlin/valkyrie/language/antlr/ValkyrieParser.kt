@@ -98,6 +98,12 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
 //                RULE_match_call -> {
 //                    ValkyrieMatchCall(node)
 //                }
+
+                RULE_lambda_name -> ValkyrieLambdaSlot(node)
+
+
+
+
                 RULE_match_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
                 RULE_match_case_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Indent)
                 // expression
@@ -106,6 +112,9 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_generic_call_in_type -> ValkyrieGenericCall(node, false)
                 RULE_tuple_call_item -> ValkyrieCallArgument(node)
                 RULE_tuple_call_body -> ValkyrieBlockNode(node, ValkyrieBlockType.Parenthesis)
+                // operators
+                RULE_infix_map -> ValkyrieOperatorNode(node, ValkyrieOperatorKind.Infix)
+
 //                RULE_collection_literal -> ValkyrieBlockNode(node, ValkyrieBlockType.Parenthesis)
                 RULE_expression -> extractExpression(node)
                 // new

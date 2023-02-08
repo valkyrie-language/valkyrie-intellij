@@ -8,10 +8,6 @@ import valkyrie.ide.formatter.ValkyrieNumberConverter
 import valkyrie.language.psi.ValkyrieFactory
 
 class ConvertNumberBase(private val base: Int) : AbstractNumberConversionIntention() {
-    override fun getActionName(converter: NumberConverter?, convertedText: String?): String {
-        return "Convert to Base $base"
-    }
-
     override fun extract(element: PsiElement): NumberConversionContext? {
 //        if (element is ValkyrieNumberNode) {
 //            element.integer?.let {

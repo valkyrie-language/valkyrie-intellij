@@ -8,9 +8,7 @@ import valkyrie.ide.formatter.ValkyrieNumberConverter
 import valkyrie.language.psi.ValkyrieFactory
 
 class ConvertNumberUnit(private val display: String, private val base: Int) : AbstractNumberConversionIntention() {
-    override fun getActionName(converter: NumberConverter?, convertedText: String?): String {
-        return display
-    }
+
 
     override fun extract(element: PsiElement): NumberConversionContext? {
         return NumberConversionContext(element, 0, element.text, true)

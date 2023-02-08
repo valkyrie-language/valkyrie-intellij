@@ -167,11 +167,7 @@ if_guard: KW_IF inline_expression;
 // ==========================================================================
 expression_root: annotation* expression OP_AND_THEN? eos?;
 expression
-    :
-    // prefix
-    op_prefix expression # EPrefix
-    // suffix
-    | expression op_suffix     # ESuffix
+    : expression op_suffix     # ESuffix
     | expression slice_call    # ESlice
     | expression generic_call  # EGeneric
     | expression function_call # EFunction
@@ -179,6 +175,8 @@ expression
     | expression OP_AND_THEN? DOT? function_block # EClosure
     // value?.match as i: int {}
     | expression OP_AND_THEN? DOT (KW_MATCH | KW_CATCH) (KW_AS identifier type_hint?)? match_block # EDotMatch
+    // prefix
+    | op_prefix expression # EPrefix
     // infix
     | <assoc = right> lhs = expression infix_pow rhs = expression # EPow
     | lhs = expression op_multiple rhs = expression               # EMul
@@ -190,9 +188,9 @@ expression
     | lhs = expression infix_is rhs = type_expression             # EIsA
     | lhs = expression infix_as rhs = type_expression             # EAs
     | lhs = expression infix_in rhs = expression                  # EIn
-    | lhs = expression op_assign rhs = type_expression            # EAssign
     | lhs = expression OP_OR_ELSE rhs = type_expression           # EOrElse
     | lhs = expression op_pipeline rhs = expression               # EPipe
+    | lhs = expression op_assign rhs = type_expression            # EAssign
     | PARENTHESES_L expression PARENTHESES_R                      # EGroup
     // term
     | control_expression # EControl
@@ -202,6 +200,7 @@ expression
     | match_statement    # EMatch
     | object_statement   # EObject
     | macro_call         # EMacro
+    | function_block     # ELambda
     | define_label       # EDefine
     | tuple_literal      # ETuple
     | range_literal      # ERange
@@ -245,6 +244,7 @@ atomic
     : string_literal # AString
     | number_literal # ANumber
     | lambda_name    # ALambda
+    | output_name    # AOutput
     | namepath       # ANamepath
     | SPECIAL        # ASpecial
     ;
@@ -271,17 +271,26 @@ op_prefix
     | OP_ROOT4
     | OP_MUL
     ;
-op_suffix: OP_NOT | OP_TEMPERATURE | OP_TRANSPOSE | OP_PERCENT | OP_OR_DEFAULT;
+op_suffix
+    : OP_NOT
+    | OP_TEMPERATURE
+    | OP_TRANSPOSE
+    | OP_PERCENT
+    | OP_REM
+    | OP_OR_DEFAULT
+    | OP_INC
+    | OP_DEC
+    ;
 // 中缀运算符
 op_compare:   OP_LT | OP_LEQ | OP_GT | OP_GEQ | OP_EQ | OP_NE | OP_EEE | OP_NEE;
 op_pattern:   OP_AND | OP_OR;
 infix_map:    OP_MAP | OP_APPLY2 | OP_APPLY3;
 infix_pow:    OP_POW | OP_ROOT2;
 infix_arrows: OP_ARROW | OP_ARROW2;
-op_multiple:  OP_MUL | OP_DIV | OP_DIV | OP_DIV_REM;
+op_multiple:  OP_MUL | OP_DIV | OP_REM | OP_DIV_REM;
 op_plus:      OP_ADD | OP_SUB;
 op_logic:     LOGIC_OR | LOGIC_AND | LOGIC_XOR | LOGIC_NOR | LOGIC_NAND | LOGIC_XAND;
-op_pipeline:  OP_LL | OP_LLE | OP_LLL | OP_GG | OP_GGE | OP_GGG;
+op_pipeline:  OP_LL | OP_LLE | OP_LLL | OP_GG | OP_GGG;
 op_assign
     : OP_ASSIGN
     | OP_ADD_ASSIGN
@@ -289,6 +298,7 @@ op_assign
     | OP_MUL_ASSIGN
     | OP_DIV_ASSIGN
     | OP_MAY_ASSIGN
+    | OP_GGE
     ;
 infix_is: KW_IS | KW_IS KW_NOT | OP_IS | OP_IS_NOT | OP_CONTINUES;
 infix_as: KW_AS;
@@ -414,6 +424,7 @@ modified_namepath
     ;
 // namepath
 lambda_name:   LAMBDA_SLOT (identifier | number)?;
+output_name:   (OP_REM | OP_LAST) INTEGER;
 function_name: identifier (OP_PROPORTION identifier)* (DOT identifier)?;
 namepath_free: identifier ((OP_PROPORTION | DOT) identifier)*;
 namepath:      identifier (OP_PROPORTION identifier)*;

@@ -1,16 +1,35 @@
 package valkyrie.language.ast
 
-import com.intellij.psi.PsiElement
-import com.intellij.psi.tree.IElementType
-import com.intellij.psi.util.elementType
-import org.antlr.intellij.adaptor.psi.ANTLRPsiLeafNode
-
-class ValkyrieOperatorNode : ANTLRPsiLeafNode {
-
-
-    constructor(type: IElementType, text: String) : super(type, text)
-    constructor(infix: PsiElement) : super(infix.elementType!!, infix.text) {
+import com.intellij.extapi.psi.ASTWrapperPsiElement
+import com.intellij.psi.impl.source.tree.CompositeElement
+import valkyrie.ide.formatter.ValkyrieRewriter
+import valkyrie.language.antlr.childrenWithLeaves
+import valkyrie.language.psi.ValkyrieRewritableElement
 
 
+enum class ValkyrieOperatorKind {
+    Prefix,
+    Infix,
+    Suffix,
+}
+
+
+class ValkyrieOperatorNode(node: CompositeElement, kind: ValkyrieOperatorKind) : ASTWrapperPsiElement(node), ValkyrieRewritableElement {
+    override fun on_rewrite(e: ValkyrieRewriter) {
+        for (child in childrenWithLeaves) {
+            when (child.text) {
+                "/@" -> {
+                    e.replaceNode(child, "⇴")
+                }
+
+                "@@" -> {
+                    e.replaceNode(child, "⊕")
+                }
+
+                "@@@" -> {
+                    e.replaceNode(child, "⟴")
+                }
+            }
+        }
     }
 }
