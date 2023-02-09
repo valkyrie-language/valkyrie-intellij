@@ -1,17 +1,16 @@
 package valkyrie.ide.hint
 
 import com.intellij.codeInsight.hints.*
-import com.intellij.codeInsight.hints.presentation.PresentationFactory
 import com.intellij.openapi.editor.Editor
-import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.ui.dsl.builder.panel
+import valkyrie.ide.hint.TypeInlayProvider.InlayTypeSetting
 import valkyrie.language.ValkyrieBundle
 //import valkyrie.language.psi_node.*
 import javax.swing.JComponent
 
 @Suppress("UnstableApiUsage", "PropertyName")
-class ValkyrieInlayTypeHint : InlayHintsProvider<ValkyrieInlayTypeHint.InlayTypeSetting> {
+class TypeInlayProvider : InlayHintsProvider<InlayTypeSetting> {
     data class InlayTypeSetting(
         var show_obvious_type: Boolean = false,
         var showForLoopType: Boolean = true,
@@ -102,7 +101,7 @@ class ValkyrieInlayTypeHint : InlayHintsProvider<ValkyrieInlayTypeHint.InlayType
     }
 
     override fun getCollectorFor(file: PsiFile, editor: Editor, settings: InlayTypeSetting, sink: InlayHintsSink): InlayHintsCollector {
-        return InlayTypeHint(settings)
+        return TypeInlayHint(settings)
     }
 
     // todo: getCasePreview
@@ -116,57 +115,4 @@ class ValkyrieInlayTypeHint : InlayHintsProvider<ValkyrieInlayTypeHint.InlayType
     }
 }
 
-
-@Suppress("UnstableApiUsage")
-private class InlayTypeHint(private val settings: ValkyrieInlayTypeHint.InlayTypeSetting) : InlayHintsCollector {
-    override fun collect(element: PsiElement, editor: Editor, sink: InlayHintsSink): Boolean {
-        val inlay = PresentationFactory(editor);
-        fun inline(start: Int, text: String, split: String = ":") {
-            sink.addInlineElement(
-                start, true,
-                // click then replace
-                inlay.roundWithBackgroundAndSmallInset(inlay.smallTextWithoutBackground("$split $text")), false
-            )
-        }
-        when {
-//            settings.showForLoopType && element is ValkyriePatternItemNode -> {
-//                inline(element.identifier.textRange.endOffset, "Unknown")
-//            }
-
-//            settings.showDefineParameterType && element is ValkyrieDefineItemNode -> {
-//                val id = element.identifier ?: return true;
-//                if (id.text == "self") {
-//                    // skip
-//                } else if (element.typeExpression == null) {
-//                    id.textRange?.let {
-//                        inline(it.endOffset, "Unknown")
-//                    }
-//                }
-//            }
-
-//            settings.showDefineReturnType && element is ValkyrieDefineStatementNode -> {
-//                if (element.returnType == null) {
-//                    element.defineTuple?.textRange?.let {
-//                        inline(it.endOffset, "Unknown", split = "⟶")
-//                    }
-//                }
-//            }
-//
-//            settings.showClassFieldType && element is ValkyrieClassFieldNode -> {
-//                if (element.typeExpression == null) {
-//                    inline(element.nameIdentifier.textRange.endOffset, "Unknown", split = ":")
-//                }
-//            }
-//
-//            settings.showBitFlagType && element is ValkyrieBitflagStatementNode -> {
-//                if (element.typeExpression == null) {
-//                    inline(element.identifier.textRange.endOffset, "u32")
-//                }
-//            }
-        }
-        return true
-    }
-
-
-}
 

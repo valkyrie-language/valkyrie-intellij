@@ -113,11 +113,12 @@
 		<!-- Hint -->
 		<codeInsight.inlayProvider
 			language="Valkyrie"
-			implementationClass="valkyrie.ide.hint.ValkyrieInlayTypeHint"/>
+			implementationClass="valkyrie.ide.hint.TypeInlayProvider"/>
 		<codeInsight.typeInfo language="Valkyrie" implementationClass="valkyrie.ide.hint.TypeInfoHint"/>
 		<codeInsight.parameterInfo language="Valkyrie" implementationClass="valkyrie.ide.hint.ParameterInfoHint"/>
 		<codeInsight.parameterInfo.listener implementation="valkyrie.ide.hint.ParameterInfoListener"/>
-		<codeInsight.parameterNameHints language="Valkyrie" implementationClass="valkyrie.ide.hint.ParameterNameHint"/>
+		<codeInsight.parameterNameHints language="Valkyrie"
+		                                implementationClass="valkyrie.ide.hint.ParameterInlayProvider"/>
 		<codeInsight.lineMarkerProvider
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.hint.ValkyrieLineMarkerProvider"/>

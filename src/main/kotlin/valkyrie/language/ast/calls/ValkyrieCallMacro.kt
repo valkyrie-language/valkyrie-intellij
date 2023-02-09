@@ -8,7 +8,7 @@ import valkyrie.language.psi.ValkyrieIndentElement
 
 class ValkyrieCallMacro(node: CompositeElement) : ASTWrapperPsiElement(node), ValkyrieIndentElement {
     override fun on_indent(child: ASTNode): Indent {
-        TODO("Not yet implemented")
+        return Indent.getNormalIndent()
     }
 
 }

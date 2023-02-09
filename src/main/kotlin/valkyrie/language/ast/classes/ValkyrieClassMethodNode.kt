@@ -9,18 +9,25 @@ import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
+import com.intellij.refactoring.suggested.endOffset
 import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.ide.highlight.ValkyrieHighlightColor
+import valkyrie.ide.hint.ParameterInlayHint
+import valkyrie.ide.hint.TypeInlayHint
 import valkyrie.ide.view.IdentifierPresentation
+import valkyrie.language.antlr.ValkyrieAntlrParser
+import valkyrie.language.antlr.ValkyrieParser
 import valkyrie.language.ast.ValkyrieModifiedNode
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.psi.ValkyrieHighlightElement
+import valkyrie.language.psi.ValkyrieInlayElement
 import valkyrie.language.psi.ValkyrieLineMarkElement
 import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
 
-class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner, ValkyrieLineMarkElement, ValkyrieHighlightElement {
+class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner, ValkyrieLineMarkElement,
+    ValkyrieHighlightElement, ValkyrieInlayElement {
     val method by lazy { ValkyrieModifiedNode.findIdentifier(this)!! }
     val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
     override fun getName(): String {
@@ -75,5 +82,17 @@ class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node),
     }
 
 
+    override fun type_hint(inlay: TypeInlayHint): Boolean {
+        return super.type_hint(inlay)
+    }
+
+    override fun parameter_hint(inlay: ParameterInlayHint): Boolean {
+        val body = ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_type_hint);
+        if (body == null) {
+            inlay.inline(this.endOffset, " ⟶ Any?")
+            return true
+        }
+        return false
+    }
 }
 

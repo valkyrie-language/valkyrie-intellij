@@ -117,6 +117,7 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
 
 //                RULE_collection_literal -> ValkyrieBlockNode(node, ValkyrieBlockType.Parenthesis)
                 RULE_expression -> extractExpression(node)
+                RULE_function_call -> ValkyrieCallFunction(node)
                 // new
                 RULE_object_statement -> ValkyrieObjectStatement(node)
                 RULE_new_statement -> ValkyrieNewStatement(node)
