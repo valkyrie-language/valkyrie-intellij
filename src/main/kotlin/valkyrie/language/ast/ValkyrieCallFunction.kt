@@ -18,7 +18,7 @@ class ValkyrieCallFunction(node: CompositeElement) : ASTWrapperPsiElement(node),
         for (item in items) {
             val key = item.key;
             if (key == null) {
-                inlay.inline(item.startOffset, "${'a' + id}")
+                inlay.inline(item.startOffset, "${'a' + id}: ")
             }
             id += 1
         }

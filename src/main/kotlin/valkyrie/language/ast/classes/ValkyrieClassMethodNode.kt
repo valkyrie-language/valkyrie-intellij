@@ -17,6 +17,7 @@ import valkyrie.ide.hint.TypeInlayHint
 import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.antlr.ValkyrieAntlrParser
 import valkyrie.language.antlr.ValkyrieParser
+import valkyrie.language.ast.ValkyrieFunctionParameter
 import valkyrie.language.ast.ValkyrieModifiedNode
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.language.psi.ValkyrieHighlightElement
@@ -69,6 +70,7 @@ class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node),
         }
         e.register_modifiers(modifiers)
     }
+
     override fun on_line_mark(e: MutableCollection<in LineMarkerInfo<*>>) {
         val info = RelatedItemLineMarkerInfo(
             nameIdentifier.firstChild,
@@ -83,14 +85,25 @@ class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node),
 
 
     override fun type_hint(inlay: TypeInlayHint): Boolean {
-        return super.type_hint(inlay)
+        val typeHint = ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_type_hint);
+        val argument = ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_function_parameters)!!;
+        if (typeHint == null) {
+            inlay.inline(argument.endOffset, ": Any?")
+        }
+        return true
     }
 
     override fun parameter_hint(inlay: ParameterInlayHint): Boolean {
-        val body = ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_type_hint);
-        if (body == null) {
-            inlay.inline(this.endOffset, " ⟶ Any?")
-            return true
+        val argument = ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_function_parameters)!!;
+        val parameter = ValkyrieParser.getChildrenOfType<ValkyrieFunctionParameter>(argument)
+        if (parameter.isEmpty()) {
+            for (m in modifiers) {
+                if (m.name == "get") {
+                    inlay.inline(argument.firstChild.endOffset, "self")
+                } else if (m.name == "set") {
+                    inlay.inline(argument.firstChild.endOffset, "mut self")
+                }
+            }
         }
         return false
     }

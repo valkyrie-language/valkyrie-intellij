@@ -27,9 +27,10 @@ class ParameterInlayProvider : InlayParameterHintsProvider {
         return visitor.info;
     }
 
-    /// getParameterHints 的后处理
+
     override fun getInlayPresentation(inlayText: String): String {
-        return "$inlayText:"
+        // 取消 inlay 的后处理
+        return inlayText
     }
 
     override fun getProperty(key: String?): String? {

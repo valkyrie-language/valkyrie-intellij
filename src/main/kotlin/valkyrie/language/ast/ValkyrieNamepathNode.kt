@@ -49,6 +49,8 @@ private fun fakeTypeColor(info: NodeHighlighter, psi: ValkyrieIdentifierNode) {
         info.register(psi, ValkyrieHighlightColor.SYM_VARIANT)
     } else if (functions.contains(name)) {
         info.register(psi, ValkyrieHighlightColor.SYM_FUNCTION_FREE)
+    } else if (name.startsWith('_')) {
+        info.register(psi, ValkyrieHighlightColor.SYM_ARG)
     } else if (name.isUppercase()) {
         info.register(psi, ValkyrieHighlightColor.SYM_GENERIC)
     } else {
@@ -69,12 +71,17 @@ private val keywords = setOf(
     "i8", "i16", "i32", "i64",
     "f32", "f64",
     "bool", "char", "string",
-    "unit", "callcc",
+    "unit", "callcc", "go",
     "scope", "async", "await", "quote",
-    "self", "Self"
+    "self", "Self",
+    "violate", "value"
 )
 
-private val traits = setOf("Iterator", "Iterable", "Sequence", "Debug", "Display")
+private val traits = setOf(
+    "Iterator", "Iterable", "Sequence",
+    "Debug", "Display", "Default",
+    "Encode", "Decode"
+)
 
 private val variants = setOf("Some", "None", "Success", "Failure", "Left", "Riht")
 

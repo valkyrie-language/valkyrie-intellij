@@ -1,14 +1,15 @@
 package valkyrie.language.antlr
 
+import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.tree.IElementType
+import com.intellij.psi.util.PsiTreeUtil
 import org.antlr.intellij.adaptor.lexer.RuleIElementType
 import org.antlr.intellij.adaptor.parser.ANTLRParseTreeToPSIConverter
 import org.antlr.intellij.adaptor.parser.ANTLRParserAdaptor
-import org.antlr.intellij.adaptor.psi.ANTLRPsiNode
 import org.antlr.v4.runtime.Parser
 import org.antlr.v4.runtime.tree.ParseTree
 import valkyrie.language.ValkyrieLanguage
@@ -44,7 +45,7 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
         fun extractCompositeNode(node: CompositeElement): PsiElement {
             val type: RuleIElementType = node.elementType as RuleIElementType;
             return when (type.ruleIndex) {
-                RULE_program -> ValkyrieProgramNode(node, type)
+//                RULE_program -> ValkyrieProgramNode(node, type)
                 RULE_define_namespace -> ValkyrieNamespaceStatement(node, type)
                 RULE_import_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
                 // annotations
@@ -102,8 +103,6 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_lambda_name -> ValkyrieLambdaSlot(node)
 
 
-
-
                 RULE_match_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
                 RULE_match_case_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Indent)
                 // expression
@@ -131,7 +130,7 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 // comment
 
 
-                else -> ANTLRPsiNode(node)
+                else -> ASTWrapperPsiElement(node)
             }
         }
 
@@ -147,7 +146,15 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
             return null;
         }
 
-        fun getChildrenOfTypeAsList(psi: PsiElement?, parserRule: Int): List<PsiElement> {
+        inline fun <reified T> getChildrenOfType(psi: PsiElement?): List<T> where T : PsiElement {
+            if (psi != null) {
+                return PsiTreeUtil.getChildrenOfTypeAsList(psi, T::class.java)
+            }
+            return emptyList()
+        }
+
+
+        fun getChildrenOfType(psi: PsiElement?, parserRule: Int): List<PsiElement> {
             val output = mutableListOf<PsiElement>();
             if (psi != null) {
                 for (child in psi.children) {

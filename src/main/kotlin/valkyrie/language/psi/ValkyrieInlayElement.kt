@@ -3,7 +3,7 @@ package valkyrie.language.psi
 import valkyrie.ide.hint.ParameterInlayHint
 import valkyrie.ide.hint.TypeInlayHint
 
-@Suppress("UnstableApiUsage", "FunctionName")
+@Suppress("FunctionName")
 interface ValkyrieInlayElement {
     fun type_hint(inlay: TypeInlayHint): Boolean {
         return false

@@ -7,8 +7,8 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.language.ast.classes.ValkyrieClassStatement
 import valkyrie.language.ast.ValkyrieTraitStatement
+import valkyrie.language.ast.classes.ValkyrieClassStatement
 
 //import valkyrie.language.psi_node.ValkyrieClassStatementNode
 //import valkyrie.language.psi_node.ValkyrieTraitStatementNode
@@ -32,23 +32,21 @@ class GotoSuper : GotoTargetHandler() {
         is ValkyrieTraitStatement -> "ValkyrieTraitStatementNode not found"
         else -> "???? not found"
     }
-    private companion object {
-        private fun findSource(editor: Editor, file: PsiFile): PsiElement? {
-            val element = file.findElementAt(editor.caretModel.offset) ?: return null
-            return PsiTreeUtil.getParentOfType(
-                element,
-                ValkyrieClassStatement::class.java,
-                ValkyrieTraitStatement::class.java
-            )
-        }
-
-        private fun findTargets(element: PsiElement): List<PsiElement?> = listOf(
-            PsiTreeUtil.getParentOfType(
-                element,
-                ValkyrieClassStatement::class.java,
-                ValkyrieTraitStatement::class.java
-            )
-        )
-    }
 }
 
+private fun findSource(editor: Editor, file: PsiFile): PsiElement? {
+    val element = file.findElementAt(editor.caretModel.offset) ?: return null
+    return PsiTreeUtil.getParentOfType(
+        element,
+        ValkyrieClassStatement::class.java,
+        ValkyrieTraitStatement::class.java
+    )
+}
+
+private fun findTargets(element: PsiElement): List<PsiElement?> = listOf(
+    PsiTreeUtil.getParentOfType(
+        element,
+        ValkyrieClassStatement::class.java,
+        ValkyrieTraitStatement::class.java
+    )
+)
