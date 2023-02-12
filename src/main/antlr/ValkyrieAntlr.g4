@@ -418,7 +418,7 @@ range_start: inline_expression;
 range_end:   inline_expression;
 range_step:  inline_expression;
 // ===========================================================================
-modifiers:           identifier*;
+modifiers:           (mods +=identifier)*;
 modified_identifier: (mods += identifier)* id = identifier;
 modified_namepath
     : (mods += identifier)* path += identifier (OP_PROPORTION path += identifier)*

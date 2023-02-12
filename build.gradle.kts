@@ -1,7 +1,6 @@
+
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jetbrains.kotlin.ir.backend.js.compile
-import org.gradle.kotlin.dsl.*
 
 fun properties(key: String) = project.findProperty(key).toString()
 
@@ -13,7 +12,6 @@ plugins {
     kotlin("plugin.serialization") version "1.9.0"
     id("org.jetbrains.intellij") version "1.15.0"
     id("org.jetbrains.changelog") version "1.3.1"
-    id("org.jetbrains.qodana") version "0.1.13"
 }
 
 dependencies {
@@ -50,15 +48,6 @@ changelog {
     version.set(properties("pluginVersion"))
     groups.set(emptyList())
 }
-
-// Configure Gradle Qodana Plugin - read more: https://github.com/JetBrains/gradle-qodana-plugin
-qodana {
-    cachePath.set(projectDir.resolve(".qodana").canonicalPath)
-    reportPath.set(projectDir.resolve("build/reports/inspections").canonicalPath)
-    saveReport.set(true)
-    showReport.set(System.getenv("QODANA_SHOW_REPORT")?.toBoolean() ?: false)
-}
-
 
 tasks {
     // Set the JVM compatibility versions
