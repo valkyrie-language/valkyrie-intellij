@@ -95,7 +95,13 @@ function_parameters
     : PARENTHESES_L PARENTHESES_R
     | PARENTHESES_L parameter_item (COMMA parameter_item)* PARENTHESES_R
     ;
-parameter_item:    annotation* modified_identifier type_hint? parameter_default?;
+parameter_item
+    : annotation* (mods += identifier)* OP_DOT3 id = identifier? type_hint? parameter_default?
+    | annotation* (mods += identifier)* OP_DOT2 id = identifier? type_hint? parameter_default?
+    | annotation* (mods += identifier)* id = identifier type_hint? parameter_default?
+    | OP_LT
+    | OP_GT
+    ;
 parameter_default: OP_ASSIGN expression;
 // ===========================================================================
 function_call
@@ -137,7 +143,7 @@ let_pattern_tuple
 let_pattern_item
     : (modified_identifier COLON)? (bind = identifier OP_BIND)? let_pattern_tuple
     | (modified_identifier COLON)? (bind = identifier OP_BIND)? identifier
-    | modified_identifier? OP_DECONSTRUCT bind = identifier?
+    | modified_identifier? OP_DOT2 bind = identifier?
     | modified_identifier
     ;
 // ===========================================================================
@@ -183,14 +189,14 @@ expression
     | lhs = expression op_plus rhs = expression                   # EPlus
     | lhs = expression op_logic rhs = expression                  # ELogic
     | lhs = expression op_compare rhs = expression                # ECompare
-    | lhs = expression infix_range rhs = expression                  # EUntil
+    | lhs = expression infix_range rhs = expression               # EUntil
     | lhs = expression infix_map rhs = expression                 # EMap
     | lhs = expression infix_is rhs = type_expression             # EIsA
     | lhs = expression infix_as rhs = type_expression             # EAs
     | lhs = expression infix_in rhs = expression                  # EIn
-    | lhs = expression OP_OR_ELSE rhs = op_assign           # EOrElse
+    | lhs = expression OP_OR_ELSE rhs = op_assign                 # EOrElse
     | lhs = expression op_pipeline rhs = expression               # EPipe
-    | lhs = expression op_assign rhs = expression            # EAssign
+    | lhs = expression op_assign rhs = expression                 # EAssign
     | PARENTHESES_L expression PARENTHESES_R                      # EGroup
     // term
     | control_expression # EControl
@@ -221,9 +227,9 @@ inline_expression
     | lhs = inline_expression op_logic rhs = inline_expression    # ILogic
     | lhs = inline_expression infix_map rhs = inline_expression   # IMap
     | lhs = inline_expression op_compare rhs = inline_expression  # ICompare
-    | lhs = inline_expression infix_is rhs = type_expression    # IIs
-        | lhs = inline_expression infix_as rhs = type_expression       # IAs
-    | lhs = inline_expression infix_range rhs = inline_expression    # IRange
+    | lhs = inline_expression infix_is rhs = type_expression      # IIs
+    | lhs = inline_expression infix_as rhs = type_expression      # IAs
+    | lhs = inline_expression infix_range rhs = inline_expression # IRange
     // term
     | tuple_literal # ITuple
     | range_literal # IRange
@@ -264,7 +270,8 @@ op_prefix
     | OP_SUB
     | OP_AND
     | OP_REFERENCE
-    | OP_DECONSTRUCT
+    | OP_DOT2
+    | OP_DOT3
     | OP_INVERSE
     | OP_ROOT2
     | OP_ROOT3
@@ -286,7 +293,7 @@ op_compare:   OP_LT | OP_LEQ | OP_GT | OP_GEQ | OP_EQ | OP_NE | OP_EEE | OP_NEE;
 op_pattern:   OP_AND | OP_OR;
 infix_map:    OP_MAP | OP_APPLY2 | OP_APPLY3;
 infix_pow:    OP_POW | OP_ROOT2;
-infix_range: OP_UNTIL;
+infix_range:  OP_UNTIL;
 infix_arrows: OP_ARROW | OP_ARROW2;
 op_multiple:  OP_MUL | OP_DIV | OP_REM | OP_DIV_REM;
 op_plus:      OP_ADD | OP_SUB;
@@ -331,7 +338,7 @@ template_call
     | annotation* modifiers KW_TEMPLATE identifier (COMMA identifier)* COMMA? template_block
     ;
 template_block:      BRACE_L (template_statements | eos_free)* BRACE_R;
-template_statements: KW_WHERE where_block;
+template_statements: KW_WHERE where_block | RETURN type_expression;
 where_block:         BRACE_L where_bound* BRACE_R;
 where_bound:         identifier COLON type_expression | eos_free;
 // ===========================================================================
@@ -418,7 +425,7 @@ range_start: inline_expression;
 range_end:   inline_expression;
 range_step:  inline_expression;
 // ===========================================================================
-modifiers:           (mods +=identifier)*;
+modifiers:           (mods += identifier)*;
 modified_identifier: (mods += identifier)* id = identifier;
 modified_namepath
     : (mods += identifier)* path += identifier (OP_PROPORTION path += identifier)*

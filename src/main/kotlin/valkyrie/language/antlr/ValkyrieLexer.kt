@@ -91,7 +91,7 @@ class ValkyrieLexer : Lexer() {
         )
         val OperatorPrefix: TokenSet = PSIElementTypeFactory.createTokenSet(
             ValkyrieLanguage,
-            OP_NOT, OP_DECONSTRUCT, OP_REFERENCE, OP_INVERSE, OP_ROOT3, OP_ROOT4
+            OP_NOT, OP_DOT2, OP_DOT3, OP_REFERENCE, OP_INVERSE, OP_ROOT3, OP_ROOT4
         )
         val OperatorInfix: TokenSet = PSIElementTypeFactory.createTokenSet(
             ValkyrieLanguage,

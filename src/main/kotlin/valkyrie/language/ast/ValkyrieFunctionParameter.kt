@@ -10,18 +10,18 @@ import valkyrie.language.psi.ValkyrieHighlightElement
 
 
 class ValkyrieFunctionParameter(node: ASTNode) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ValkyrieHighlightElement {
-    val parameter by lazy { ValkyrieModifiedNode.findIdentifier(this)!! }
+    val parameter by lazy { ValkyrieModifiedNode.findIdentifier(this) }
     val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
 
-    override fun getName(): String {
-        return this.parameter.text
+    override fun getName(): String? {
+        return this.parameter?.text
     }
 
     override fun setName(name: String): PsiElement {
         TODO("Not yet implemented")
     }
 
-    override fun getNameIdentifier(): ValkyrieIdentifierNode {
+    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
         return this.parameter
     }
 
