@@ -24,9 +24,16 @@ class ValkyrieFactory {
         this.project = element.project
     }
 
-    fun create_file(text: String): ValkyrieFileNode {
+    private fun create_file(text: String): ValkyrieFileNode {
         val factory = PsiFileFactory.getInstance(project)
         return factory.createFileFromText("factory.vk", ValkyrieLanguage, text) as ValkyrieFileNode
+    }
+
+    private fun create_expression(operator: String): PsiElement? {
+        val file = create_file(operator);
+        var node = ValkyrieParser.getChildOfType(file, ValkyrieAntlrParser.RULE_program);
+        node = ValkyrieParser.getChildOfType(node, ValkyrieAntlrParser.RULE_expression_root);
+        return ValkyrieParser.getChildOfType(node, ValkyrieAntlrParser.RULE_expression);
     }
 
     fun create_namespace(text: String, kind: String = ""): ValkyrieNamespaceStatement {
@@ -44,12 +51,16 @@ class ValkyrieFactory {
         throw Exception("unreachable: ValkyrieFactory::createNumberLiteral")
     }
 
+
     fun create_infix(operator: String): PsiElement? {
-        val file = create_file("LHS $operator RHS");
-        var node = ValkyrieParser.getChildOfType(file, ValkyrieAntlrParser.RULE_program);
-        node = ValkyrieParser.getChildOfType(node, ValkyrieAntlrParser.RULE_expression_root);
-        node = ValkyrieParser.getChildOfType(node, ValkyrieAntlrParser.RULE_expression);
-        node = node?.childrenWithLeaves?.take(3)?.lastOrNull();
-        return node
+        val node = create_expression("LHS $operator RHS");
+        return node?.childrenWithLeaves?.take(3)?.lastOrNull();
+    }
+
+    fun replace_generic(lhs: PsiElement, rhs: PsiElement) {
+        val file = create_expression("G⟨⟩")
+        val node = ValkyrieParser.getChildOfType(file, ValkyrieAntlrParser.RULE_generic_call);
+        node?.firstChild?.let { lhs.replace(it) }
+        node?.lastChild?.let { rhs.replace(it) }
     }
 }

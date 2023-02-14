@@ -7,6 +7,6 @@ import valkyrie.language.psi.ValkyrieRewritableElement
 
 class ValkyrieGenericStatement(node: CompositeElement) : ASTWrapperPsiElement(node), ValkyrieRewritableElement {
     override fun on_rewrite(e: ValkyrieRewriter) {
-        e.rewriteGeneric(this)
+        e.replace_generic(this)
     }
 }

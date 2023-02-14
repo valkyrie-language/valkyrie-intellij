@@ -34,16 +34,6 @@ class ValkyrieRewriter {
 //        }
 //    }
 
-    fun rewriteGeneric(o: PsiElement) {
-        for (leaf in o.childrenWithLeaves) {
-            when (leaf.text) {
-                "<" -> unsafe_replace(leaf, "⟨")
-                ">" -> unsafe_replace(leaf, "⟩")
-                "::" -> delete_node(leaf)
-            }
-        }
-    }
-
     fun deleteDelimiterAfter(node: PsiElement) {
         val both = TokenSet.orSet(ValkyrieLexer.Comma, ValkyrieLexer.Semicolon);
         var leaf = PsiTreeUtil.skipWhitespacesForward(node)
@@ -75,6 +65,26 @@ class ValkyrieRewriter {
     fun replace_infix(node: PsiElement, replace: String) {
         val o = ValkyrieFactory(node.project).create_infix(replace);
         o?.let { node.replace(it) }
+    }
+
+    fun replace_generic(root: PsiElement) {
+        val o = ValkyrieFactory(root.project);
+        var lhs: PsiElement? = null;
+        var rhs: PsiElement? = null;
+
+        for (leaf in root.childrenWithLeaves) {
+            when (leaf.text) {
+                "::" -> delete_node(leaf)
+                "<" -> lhs = leaf;
+                ">" -> {
+                    rhs = leaf
+                    break
+                }
+            }
+        }
+        if (lhs != null && rhs != null) {
+            o.replace_generic(lhs, rhs)
+        }
     }
 
     fun insert_before(node: PsiElement, insert: String) {
@@ -114,3 +124,4 @@ class ValkyrieRewriter {
         deleteDelimiterAfter(delimiter)
     }
 }
+

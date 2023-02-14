@@ -18,6 +18,6 @@ class ValkyrieGenericCall(node: CompositeElement, must: Boolean) : ASTWrapperPsi
 //    }
 
     override fun on_rewrite(e: ValkyrieRewriter) {
-        e.rewriteGeneric(this)
+        e.replace_generic(this)
     }
 }

@@ -6,12 +6,19 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.ide.highlight.ValkyrieHighlightColor
+import valkyrie.language.antlr.ValkyrieParser
 import valkyrie.language.psi.ValkyrieHighlightElement
 
 
 class ValkyrieFunctionParameter(node: ASTNode) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner, ValkyrieHighlightElement {
-    val parameter by lazy { ValkyrieModifiedNode.findIdentifier(this) }
-    val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
+    val parameter by lazy {
+        val all = ValkyrieParser.getChildrenOfType<ValkyrieIdentifierNode>(this);
+        all.lastOrNull()
+    }
+    val modifiers by lazy {
+        val all = ValkyrieParser.getChildrenOfType<ValkyrieIdentifierNode>(this);
+        all.dropLast(1)
+    };
 
     override fun getName(): String? {
         return this.parameter?.text
