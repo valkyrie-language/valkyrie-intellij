@@ -10,11 +10,11 @@ import com.intellij.psi.util.elementType
 import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory
 import org.antlr.intellij.adaptor.psi.ANTLRPsiNode
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
-import valkyrie.language.psi.ValkyrieRewritableElement
 import valkyrie.ide.formatter.ValkyrieRewriter
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.antlr.ValkyrieAntlrParser
 import valkyrie.language.antlr.childrenWithLeaves
+import valkyrie.language.psi.ValkyrieRewritableElement
 import javax.swing.Icon
 
 class ValkyrieNamespaceStatement(node: CompositeElement, type: IElementType) : ASTWrapperPsiElement(node),
@@ -66,9 +66,9 @@ class ValkyrieNamespaceStatement(node: CompositeElement, type: IElementType) : A
             if (split.contains(leaf.elementType)) {
                 when (e.settings.namespace_delimiter) {
                     ValkyrieCodeStyleSettings.NamespaceDelimiter.Ignore -> break
-                    ValkyrieCodeStyleSettings.NamespaceDelimiter.Dot -> e.replaceNode(leaf, ".")
-                    ValkyrieCodeStyleSettings.NamespaceDelimiter.Colon -> e.replaceNode(leaf, "::")
-                    ValkyrieCodeStyleSettings.NamespaceDelimiter.UnicodeColon -> e.replaceNode(leaf, "∷")
+                    ValkyrieCodeStyleSettings.NamespaceDelimiter.Dot -> e.unsafe_replace(leaf, ".")
+                    ValkyrieCodeStyleSettings.NamespaceDelimiter.Colon -> e.unsafe_replace(leaf, "::")
+                    ValkyrieCodeStyleSettings.NamespaceDelimiter.UnicodeColon -> e.unsafe_replace(leaf, "∷")
                 }
             }
         }
@@ -81,7 +81,7 @@ class ValkyrieNamespaceStatement(node: CompositeElement, type: IElementType) : A
             }
 
             ValkyrieCodeStyleSettings.Triplet.Nothing -> if (last is ANTLRPsiNode) {
-                e.deleteNode(last)
+                e.delete_node(last)
             }
         }
     }

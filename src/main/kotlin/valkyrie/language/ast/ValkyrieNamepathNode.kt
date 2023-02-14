@@ -80,7 +80,7 @@ private val keywords = setOf(
 private val traits = setOf(
     "Iterator", "Iterable", "Sequence",
     "Debug", "Display", "Default",
-    "Encode", "Decode"
+    "Encode", "Decode", "Write"
 )
 
 private val variants = setOf("Some", "None", "Success", "Failure", "Left", "Riht")

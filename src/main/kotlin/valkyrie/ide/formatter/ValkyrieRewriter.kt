@@ -11,7 +11,9 @@ import com.intellij.refactoring.suggested.startOffset
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
 import valkyrie.language.antlr.ValkyrieLexer
 import valkyrie.language.antlr.childrenWithLeaves
+import valkyrie.language.psi.ValkyrieFactory
 
+@Suppress("FunctionName")
 class ValkyrieRewriter {
     private var offsetDelta: Int = 0
     private val text: Document
@@ -35,9 +37,9 @@ class ValkyrieRewriter {
     fun rewriteGeneric(o: PsiElement) {
         for (leaf in o.childrenWithLeaves) {
             when (leaf.text) {
-                "<" -> replaceNode(leaf, "⟨")
-                ">" -> replaceNode(leaf, "⟩")
-                "::" -> deleteNode(leaf)
+                "<" -> unsafe_replace(leaf, "⟨")
+                ">" -> unsafe_replace(leaf, "⟩")
+                "::" -> delete_node(leaf)
             }
         }
     }
@@ -49,7 +51,7 @@ class ValkyrieRewriter {
             when {
                 leaf == null -> break
                 both.contains(leaf.elementType) -> {
-                    deleteNode(leaf)
+                    delete_node(leaf)
                     leaf = PsiTreeUtil.skipWhitespacesForward(leaf)
                 }
 
@@ -58,21 +60,24 @@ class ValkyrieRewriter {
         }
     }
 
-    fun deleteNode(node: PsiElement?) {
-        if (node == null) return
-        val delta = node.textLength
-        text.deleteString(node.startOffset + offsetDelta, node.endOffset + offsetDelta)
-        offsetDelta -= delta
+    fun delete_node(node: PsiElement?) {
+        node?.delete()
     }
 
-    fun replaceNode(node: PsiElement?, replace: String) {
+
+    fun unsafe_replace(node: PsiElement?, replace: String) {
         if (node == null) return
         val delta = replace.length - node.textLength
         text.replaceString(node.startOffset + offsetDelta, node.endOffset + offsetDelta, replace)
         offsetDelta += delta
     }
 
-    fun insertBefore(node: PsiElement, insert: String) {
+    fun replace_infix(node: PsiElement, replace: String) {
+        val o = ValkyrieFactory(node.project).create_infix(replace);
+        o?.let { node.replace(it) }
+    }
+
+    fun insert_before(node: PsiElement, insert: String) {
         val delta = insert.length
         text.insertString(node.startOffset + offsetDelta, insert)
         offsetDelta += delta
@@ -92,22 +97,20 @@ class ValkyrieRewriter {
             ValkyrieCodeStyleSettings.CommaOrSemicolon.Ignore -> return
             ValkyrieCodeStyleSettings.CommaOrSemicolon.Nothing -> {
                 if (both.contains(delimiter.elementType)) {
-                    deleteNode(delimiter)
+                    delete_node(delimiter)
                 }
             }
 
             ValkyrieCodeStyleSettings.CommaOrSemicolon.Comma -> when {
-                ValkyrieLexer.Semicolon.contains(delimiter.elementType) -> replaceNode(delimiter, ",")
+                ValkyrieLexer.Semicolon.contains(delimiter.elementType) -> unsafe_replace(delimiter, ",")
                 !ValkyrieLexer.Comma.contains(delimiter.elementType) -> insertAfter(element, ",")
             }
 
             ValkyrieCodeStyleSettings.CommaOrSemicolon.Semicolon -> when {
-                ValkyrieLexer.Comma.contains(delimiter.elementType) -> replaceNode(delimiter, ";")
+                ValkyrieLexer.Comma.contains(delimiter.elementType) -> unsafe_replace(delimiter, ";")
                 !ValkyrieLexer.Semicolon.contains(delimiter.elementType) -> insertAfter(element, ";")
             }
         }
         deleteDelimiterAfter(delimiter)
     }
-
-
 }

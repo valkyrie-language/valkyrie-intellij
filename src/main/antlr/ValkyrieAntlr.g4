@@ -19,7 +19,6 @@ program
         | define_function
         | define_type
         // same as function
-        | define_lambda
         | let_binding
         | loop_statement
         | guard_statement
@@ -119,7 +118,6 @@ define_lambda: annotation* KW_LAMBDA function_parameters type_hint? function_blo
 function_block
     : BRACE_L (
         define_type
-        | define_lambda
         | let_binding
         | loop_statement
         | guard_statement
@@ -206,7 +204,8 @@ expression
     | match_statement    # EMatch
     | object_statement   # EObject
     | macro_call         # EMacro
-    | function_block     # ELambda
+    | define_lambda      # ELambda
+    | function_block     # EFunction
     | define_label       # EDefine
     | tuple_literal      # ETuple
     | range_literal      # ERange

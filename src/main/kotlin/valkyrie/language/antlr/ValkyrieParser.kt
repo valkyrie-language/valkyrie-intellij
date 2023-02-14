@@ -113,6 +113,7 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_tuple_call_body -> ValkyrieBlockNode(node, ValkyrieBlockType.Parenthesis)
                 // operators
                 RULE_infix_map -> ValkyrieOperatorNode(node, ValkyrieOperatorKind.Infix)
+                RULE_op_multiple -> ValkyrieOperatorNode(node, ValkyrieOperatorKind.Infix)
 
 //                RULE_collection_literal -> ValkyrieBlockNode(node, ValkyrieBlockType.Parenthesis)
                 RULE_expression -> extractExpression(node)
@@ -134,6 +135,12 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
             }
         }
 
+        inline fun <reified T> getChildOfType(psi: PsiElement?): T? where T : PsiElement {
+            if (psi != null) {
+                return PsiTreeUtil.getChildOfType(psi, T::class.java)
+            }
+            return null
+        }
         fun getChildOfType(psi: PsiElement?, parserRule: Int): PsiElement? {
             if (psi != null) {
                 for (child in psi.children) {

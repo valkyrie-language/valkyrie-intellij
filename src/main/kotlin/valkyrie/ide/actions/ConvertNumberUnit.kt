@@ -22,7 +22,7 @@ class ConvertNumberUnit(private val display: String, private val base: Int) : Ab
         if (sourceElement == null || replacement == null) {
             return
         }
-        val target = ValkyrieFactory(sourceElement).createNumberLiteral(replacement, "");
+        val target = ValkyrieFactory(sourceElement).create_number_literal(replacement, "");
         sourceElement.replace(target)
     }
 }

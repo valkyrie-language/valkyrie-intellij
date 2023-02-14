@@ -14,21 +14,15 @@ enum class ValkyrieOperatorKind {
 }
 
 
-class ValkyrieOperatorNode(node: CompositeElement, kind: ValkyrieOperatorKind) : ASTWrapperPsiElement(node), ValkyrieRewritableElement {
+class ValkyrieOperatorNode(node: CompositeElement, val kind: ValkyrieOperatorKind) : ASTWrapperPsiElement(node), ValkyrieRewritableElement {
     override fun on_rewrite(e: ValkyrieRewriter) {
         for (child in childrenWithLeaves) {
-            when (child.text) {
-                "/@" -> {
-                    e.replaceNode(child, "⇴")
-                }
-
-                "@@" -> {
-                    e.replaceNode(child, "⊕")
-                }
-
-                "@@@" -> {
-                    e.replaceNode(child, "⟴")
-                }
+            when {
+                child.text == "%" && kind == ValkyrieOperatorKind.Infix -> e.replace_infix(child, "⁒")
+                child.text == "/%" -> e.replace_infix(child, "÷")
+                child.text == "/@" -> e.replace_infix(child, "⇴")
+                child.text == "@@" -> e.replace_infix(child, "⊕")
+                child.text == "@@@" -> e.replace_infix(child, "⟴")
             }
         }
     }

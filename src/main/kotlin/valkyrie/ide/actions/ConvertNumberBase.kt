@@ -18,8 +18,6 @@ class ConvertNumberBase(private val base: Int) : AbstractNumberConversionIntenti
 //            }
 //        }
         return null
-
-
     }
 
     override fun getConverters(file: PsiFile): MutableList<NumberConverter> {
@@ -30,7 +28,7 @@ class ConvertNumberBase(private val base: Int) : AbstractNumberConversionIntenti
         if (sourceElement == null || replacement == null) {
             return
         }
-        val target = ValkyrieFactory(sourceElement).createNumberLiteral(replacement, "");
+        val target = ValkyrieFactory(sourceElement).create_number_literal(replacement, "");
         sourceElement.replace(target)
     }
 }

@@ -2,10 +2,7 @@ package valkyrie.ide.annotator
 
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
-import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.psi.PsiElement
-import valkyrie.ide.actions.InferClassFieldType
-import valkyrie.ide.actions.InferDefineItemType
 import valkyrie.language.ast.ValkyrieFunctionParameter
 import valkyrie.language.ast.ValkyrieLetStatement
 import valkyrie.language.ast.classes.ValkyrieClassFieldNode
@@ -33,19 +30,19 @@ class MarkImplicitTypes : Annotator {
 
             is ValkyrieClassFieldNode -> {
 //                if (element.typeExpression == null) {
-                    holder.newAnnotation(HighlightSeverity.INFORMATION, "Infer type")
-                        .range(element.firstChild.textRange)
-                        .withFix(InferClassFieldType(element))
-                        .create()
+//                    holder.newAnnotation(HighlightSeverity.INFORMATION, "Infer type")
+//                        .range(element.firstChild.textRange)
+//                        .withFix(InferClassFieldType(element))
+//                        .create()
 //                }
             }
 
             is ValkyrieFunctionParameter -> {
 //                if (element.typeExpression == null) {
-                    holder.newAnnotation(HighlightSeverity.INFORMATION, "Infer type")
-                        .range(element.firstChild.textRange)
-                        .withFix(InferDefineItemType(element))
-                        .create()
+//                    holder.newAnnotation(HighlightSeverity.INFORMATION, "Infer type")
+//                        .range(element.firstChild.textRange)
+//                        .withFix(InferDefineItemType(element))
+//                        .create()
 //                }
             }
         }

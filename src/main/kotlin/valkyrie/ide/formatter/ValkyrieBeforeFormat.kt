@@ -5,7 +5,6 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.impl.source.codeStyle.PreFormatProcessor
-import com.intellij.util.DocumentUtil
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.antlr.traversal
@@ -25,18 +24,26 @@ class ValkyrieBeforeFormat : PreFormatProcessor {
         )
         val psiDocumentManager = PsiDocumentManager.getInstance(psiRoot.project)
         val document = psiDocumentManager.getDocument(psiRoot.containingFile) ?: return range
-        DocumentUtil.executeInBulk(document) {
-            psiDocumentManager.doPostponedOperationsAndUnblockDocument(document)
-            val writer = ValkyrieRewriter(document, settings);
-            psiRoot.traversal {
-                if (it is ValkyrieRewritableElement) {
-                    it.on_rewrite(writer)
-                }
-                true
+        val writer = ValkyrieRewriter(document, settings);
+        psiRoot.traversal {
+            if (it is ValkyrieRewritableElement) {
+                it.on_rewrite(writer)
             }
-
-            psiDocumentManager.commitDocument(document)
+            true
         }
+
+//        DocumentUtil.executeInBulk(document) {
+//            psiDocumentManager.doPostponedOperationsAndUnblockDocument(document)
+//            val writer = ValkyrieRewriter(document, settings);
+//            psiRoot.traversal {
+//                if (it is ValkyrieRewritableElement) {
+//                    it.on_rewrite(writer)
+//                }
+//                true
+//            }
+//
+//            psiDocumentManager.commitDocument(document)
+//        }
         return range
     }
 }
