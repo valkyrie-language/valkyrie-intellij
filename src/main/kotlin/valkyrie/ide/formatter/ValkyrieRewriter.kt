@@ -34,14 +34,14 @@ class ValkyrieRewriter {
 //        }
 //    }
 
-    fun deleteDelimiterAfter(node: PsiElement) {
+    private fun delete_delimiter_after(node: PsiElement) {
         val both = TokenSet.orSet(ValkyrieLexer.Comma, ValkyrieLexer.Semicolon);
         var leaf = PsiTreeUtil.skipWhitespacesForward(node)
         while (true) {
             when {
                 leaf == null -> break
                 both.contains(leaf.elementType) -> {
-                    delete_node(leaf)
+                    leaf.delete()
                     leaf = PsiTreeUtil.skipWhitespacesForward(leaf)
                 }
 
@@ -54,12 +54,34 @@ class ValkyrieRewriter {
         node?.delete()
     }
 
-
-    fun unsafe_replace(node: PsiElement?, replace: String) {
+    fun replace_dot(node: PsiElement?) {
         if (node == null) return
-        val delta = replace.length - node.textLength
-        text.replaceString(node.startOffset + offsetDelta, node.endOffset + offsetDelta, replace)
-        offsetDelta += delta
+        ValkyrieFactory(node.project).replace_dot(node)
+    }
+
+    fun replace_comma(node: PsiElement?) {
+        if (node == null) return
+        ValkyrieFactory(node.project).replace_comma(node)
+    }
+
+    fun replace_colon(node: PsiElement?, semi: Boolean) {
+        if (node == null) return
+        if (semi) {
+            ValkyrieFactory(node.project).replace_semicolon(node)
+        } else {
+            ValkyrieFactory(node.project).replace_colon(node)
+        }
+
+    }
+
+    fun replace_proportion(node: PsiElement?, unicode: Boolean) {
+        if (node == null) return
+        ValkyrieFactory(node.project).replace_proportion(node, unicode)
+    }
+
+    fun replace_arrow(node: PsiElement?, unicode: Boolean) {
+        if (node == null) return
+        ValkyrieFactory(node.project).replace_arrow(node, unicode)
     }
 
     fun replace_infix(node: PsiElement, replace: String) {
@@ -112,16 +134,16 @@ class ValkyrieRewriter {
             }
 
             ValkyrieCodeStyleSettings.CommaOrSemicolon.Comma -> when {
-                ValkyrieLexer.Semicolon.contains(delimiter.elementType) -> unsafe_replace(delimiter, ",")
+                ValkyrieLexer.Semicolon.contains(delimiter.elementType) -> replace_comma(delimiter)
                 !ValkyrieLexer.Comma.contains(delimiter.elementType) -> insertAfter(element, ",")
             }
 
             ValkyrieCodeStyleSettings.CommaOrSemicolon.Semicolon -> when {
-                ValkyrieLexer.Comma.contains(delimiter.elementType) -> unsafe_replace(delimiter, ";")
+                ValkyrieLexer.Comma.contains(delimiter.elementType) -> replace_colon(delimiter, true)
                 !ValkyrieLexer.Semicolon.contains(delimiter.elementType) -> insertAfter(element, ";")
             }
         }
-        deleteDelimiterAfter(delimiter)
+        delete_delimiter_after(delimiter)
     }
 }
 

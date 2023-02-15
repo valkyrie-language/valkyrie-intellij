@@ -63,4 +63,36 @@ class ValkyrieFactory {
         node?.firstChild?.let { lhs.replace(it) }
         node?.lastChild?.let { rhs.replace(it) }
     }
+
+    fun replace_dot(node: PsiElement) {
+        val root = create_expression("a.0");
+    }
+
+    fun replace_comma(node: PsiElement) {
+        val root = create_expression("(1,)");
+    }
+
+    fun replace_proportion(node: PsiElement, unicode: Boolean) {
+        val root = if (unicode) {
+            create_expression("a∷b");
+        } else {
+            create_expression("a::b");
+        }
+    }
+
+    fun replace_colon(node: PsiElement) {
+        val root = create_expression("0;");
+    }
+
+    fun replace_semicolon(node: PsiElement) {
+        val root = create_expression("a: T");
+    }
+
+    fun replace_arrow(node: PsiElement, unicode: Boolean) {
+        val root = if (unicode) {
+            create_expression("lambda() ⟶ b {}");
+        } else {
+            create_expression("lambda() -> b {}");
+        }
+    }
 }

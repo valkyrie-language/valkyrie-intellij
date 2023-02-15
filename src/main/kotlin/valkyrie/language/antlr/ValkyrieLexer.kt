@@ -67,7 +67,7 @@ class ValkyrieLexer : Lexer() {
             KW_UNION, KW_BITFLAGS,
             KW_TRAIT, KW_EXTENDS,
             KW_FUNCTION, KW_LAMBDA,
-            KW_LET,
+            KW_LET, OP_BIND,
             //
             KW_TEMPLATE, KW_WHERE,
             // conditional
@@ -100,7 +100,7 @@ class ValkyrieLexer : Lexer() {
             OP_DIV, OP_REM, OP_DIV_REM,
             OP_POW,
             LOGIC_OR, LOGIC_AND, LOGIC_XOR, LOGIC_NOR, LOGIC_NAND, LOGIC_XAND,
-            OP_OR, OP_AND, OP_BIND,
+            OP_OR, OP_AND,
             OP_EQ, OP_NE, OP_EEE, OP_NEE,
             OP_LT, OP_LEQ, OP_LL, OP_LLL,
             OP_GT, OP_GEQ, OP_GG, OP_GGG,

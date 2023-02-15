@@ -105,6 +105,7 @@ parameter_default: OP_ASSIGN expression;
 // ===========================================================================
 function_call
     : OP_AND_THEN? tuple_call_body // method?(b)
+    | OP_AND_THEN? DOT INTEGER tuple_call_body? // value.1()
     | OP_AND_THEN? DOT OP_AT? namepath tuple_call_body? // value?.path::method()
     ;
 tuple_call_body
@@ -195,7 +196,10 @@ expression
     | lhs = expression OP_OR_ELSE rhs = op_assign                 # EOrElse
     | lhs = expression op_pipeline rhs = expression               # EPipe
     | lhs = expression op_assign rhs = expression                 # EAssign
-    | PARENTHESES_L expression PARENTHESES_R                      # EGroup
+    // groups
+    | PARENTHESES_L expression PARENTHESES_R # EGroup
+    | FLOOR_L expression FLOOR_R             # EFloor
+    | CEILING_L expression CEILING_R         # ECeiling
     // term
     | control_expression # EControl
     | if_statement       # EIf
@@ -229,6 +233,10 @@ inline_expression
     | lhs = inline_expression infix_is rhs = type_expression      # IIs
     | lhs = inline_expression infix_as rhs = type_expression      # IAs
     | lhs = inline_expression infix_range rhs = inline_expression # IRange
+    // groups
+    | PARENTHESES_L expression PARENTHESES_R # IGroup
+    | FLOOR_L expression FLOOR_R             # IFloor
+    | CEILING_L expression CEILING_R         # ICeiling
     // term
     | tuple_literal # ITuple
     | range_literal # IRange
@@ -417,12 +425,19 @@ range_literal
     ;
 range_axis
     : COLON // [:]
-    | OP_PROPORTION // [::]
-    | range_start (COLON range_end)? (COLON range_step)?
+    | index = expression // [s]
+    | head = expression COLON // [s:]
+    | COLON tail = expression // [:s]
+    | head = expression COLON tail = expression //[s:s]
+    | (OP_PROPORTION | COLON COLON) // [::] + [: :]
+    | head = expression (OP_PROPORTION | COLON COLON) // [s::]
+    | COLON tail = expression COLON // [:s:]
+    | (OP_PROPORTION | COLON COLON) step = expression // [::s]
+    | head = expression COLON tail = expression COLON // [s:s:]
+    | COLON tail = expression COLON step = expression // [:s:s]
+    | head = expression (OP_PROPORTION | COLON COLON) setp = expression // [s::s]
+    | head = expression COLON tail = expression COLON step = expression // [s:s:s]
     ;
-range_start: inline_expression;
-range_end:   inline_expression;
-range_step:  inline_expression;
 // ===========================================================================
 modifiers:           (mods += identifier)*;
 modified_identifier: (mods += identifier)* id = identifier;

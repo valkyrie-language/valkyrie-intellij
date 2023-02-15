@@ -66,9 +66,9 @@ class ValkyrieNamespaceStatement(node: CompositeElement, type: IElementType) : A
             if (split.contains(leaf.elementType)) {
                 when (e.settings.namespace_delimiter) {
                     ValkyrieCodeStyleSettings.NamespaceDelimiter.Ignore -> break
-                    ValkyrieCodeStyleSettings.NamespaceDelimiter.Dot -> e.unsafe_replace(leaf, ".")
-                    ValkyrieCodeStyleSettings.NamespaceDelimiter.Colon -> e.unsafe_replace(leaf, "::")
-                    ValkyrieCodeStyleSettings.NamespaceDelimiter.UnicodeColon -> e.unsafe_replace(leaf, "∷")
+                    ValkyrieCodeStyleSettings.NamespaceDelimiter.Dot -> e.replace_dot(leaf)
+                    ValkyrieCodeStyleSettings.NamespaceDelimiter.Colon -> e.replace_proportion(leaf, false)
+                    ValkyrieCodeStyleSettings.NamespaceDelimiter.UnicodeColon -> e.replace_proportion(leaf, true)
                 }
             }
         }
