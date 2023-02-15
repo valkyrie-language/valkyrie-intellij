@@ -8,9 +8,8 @@ import valkyrie.language.psi.ValkyrieIndentElement
 
 class ValkyrieCallMacro(node: CompositeElement) : ASTWrapperPsiElement(node), ValkyrieIndentElement {
     override fun on_indent(child: ASTNode): Indent {
-        return Indent.getNormalIndent()
+        return Indent.getNoneIndent()
     }
-
 }
 
 

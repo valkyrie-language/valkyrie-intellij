@@ -66,6 +66,8 @@ OP_GT:  '>';
 OP_LEFT:   '←' | '<-';
 OP_ARROW:  '⟶' | '->';
 OP_ARROW2: '⇒' | '=>';
+OP_ARROW3: '==>';
+
 // assign
 OP_ASSIGN:     '=';
 OP_BIND:       '≔' | ':=';
@@ -149,10 +151,9 @@ KW_UNION:    'union';
 KW_BITFLAGS: 'flags';
 KW_TYPE:     'type';
 //
-KW_TEMPLATE:   'template' | 'generic' | 'forall';
-KW_EXTENDS:    'extend' | 'extends';
-KW_IMPLEMENTS: 'implement';
-KW_WHERE:      'where';
+KW_TEMPLATE:   'template';
+KW_EXTENDS:    'extends';
+KW_IMPLEMENTS: 'implements';
 //
 KW_WHILE: 'while' | 'until';
 KW_FOR:   'for';

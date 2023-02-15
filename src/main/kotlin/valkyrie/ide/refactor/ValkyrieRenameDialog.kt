@@ -18,6 +18,7 @@ class ValkyrieRenameDialog : RenameRefactoringDialogProvider() {
     }
 
     override fun isApplicable(processor: RenamePsiElementProcessorBase?): Boolean {
-        return false
+//        print(processor.toString())
+        return true
     }
 }

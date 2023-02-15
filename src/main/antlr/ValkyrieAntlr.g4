@@ -27,8 +27,8 @@ program
     )* EOF
     ;
 
-eos:      SEMICOLON;
-eos_free: COMMA | SEMICOLON;
+eos:      SEMICOLON | FAKE_COLON;
+eos_free: COMMA | SEMICOLON | FAKE_COLON;
 // ===========================================================================
 define_namespace: KW_NAMESPACE namepath_free eos?;
 // ===========================================================================
@@ -60,7 +60,7 @@ class_inherit
 class_inherit_item: modified_namepath;
 class_field:        annotation* modified_identifier type_hint? parameter_default?;
 class_method
-    : annotation* modified_namepath define_generic? function_parameters type_hint? effect_hint? function_block?
+    : annotation* modified_namepath define_generic? function_parameters type_hint? function_block?
     ;
 class_dsl: annotation* modified_identifier class_block;
 // ===========================================================================
@@ -71,11 +71,14 @@ trait_block:       BRACE_L (define_trait_type | class_method | class_field | eos
 define_trait_type: KW_TYPE identifier (OP_ASSIGN type_expression)?;
 // ===========================================================================
 define_extends
-    : template_call? annotation* modifiers KW_EXTENDS namepath define_generic? with_implements? trait_block
+    : template_call? annotation* modifiers KW_EXTENDS namepath define_generic? with_implements? extends_block
     ;
+extends_block:   BRACE_L (define_trait_type | class_method | eos_free)* BRACE_R;
 with_implements: (COLON | KW_IMPLEMENTS) type_expression;
 // ===========================================================================
-define_union:   annotation* modifiers KW_UNION identifier base_layout? type_hint? union_block;
+define_union
+    : template_call? annotation* modifiers KW_UNION identifier define_generic? base_layout? type_hint? union_block
+    ;
 base_layout:    PARENTHESES_L type_expression? PARENTHESES_R;
 union_block:    BRACE_L (class_method | define_variant | eos_free)* BRACE_R;
 define_variant: identifier variant_block?;
@@ -88,7 +91,7 @@ bitflags_block: BRACE_L (class_method | bitflags_item | eos_free)* BRACE_R;
 bitflags_item:  annotation* identifier (OP_ASSIGN expression)?;
 // ===========================================================================
 define_function
-    : template_call? annotation* modifiers KW_FUNCTION namepath define_generic? function_parameters type_hint? effect_hint? function_block
+    : template_call? annotation* modifiers KW_FUNCTION namepath define_generic? function_parameters return_type? function_block
     ;
 function_parameters
     : PARENTHESES_L PARENTHESES_R
@@ -101,6 +104,7 @@ parameter_item
     | OP_LT
     | OP_GT
     ;
+return_type:       (COLON | OP_ARROW) ret = type_expression (OP_DIV eff = type_expression)?;
 parameter_default: OP_ASSIGN expression;
 // ===========================================================================
 function_call
@@ -146,9 +150,11 @@ let_pattern_item
     | modified_identifier
     ;
 // ===========================================================================
-define_type: KW_TYPE identifier OP_ASSIGN identifier;
-type_hint:   (COLON | OP_ARROW) type_expression;
-effect_hint: OP_DIV type_expression;
+define_type
+    : annotation* modifiers KW_TYPE identifier define_generic? OP_ASSIGN type_expression
+    | annotation* modifiers KW_TYPE identifier define_generic? template_block
+    ;
+type_hint: COLON type_expression;
 // ===========================================================================
 if_statement
     : annotation* KW_IF inline_expression then_block = function_block else_if_statement* (
@@ -243,7 +249,9 @@ inline_expression
     | atomic        # IAtom
     ;
 type_expression
-    : type_expression op_pattern type_expression   # TPattern
+    : op_prefix type_expression                    # TPrefix
+    | type_expression generic_call_in_type         # TGeneric
+    | type_expression op_pattern type_expression   # TPattern
     | type_expression infix_arrows type_expression # TArrows
     | type_expression OP_ADD type_expression       # TAdd
     | type_expression generic_call_in_type         # TGeneric
@@ -305,7 +313,7 @@ infix_arrows: OP_ARROW | OP_ARROW2;
 op_multiple:  OP_MUL | OP_DIV | OP_REM | OP_DIV_REM;
 op_plus:      OP_ADD | OP_SUB;
 op_logic:     LOGIC_OR | LOGIC_AND | LOGIC_XOR | LOGIC_NOR | LOGIC_NAND | LOGIC_XAND;
-op_pipeline:  OP_LL | OP_LLE | OP_LLL | OP_GG | OP_GGG;
+op_pipeline:  OP_LL | OP_LLE | OP_LLL | OP_GG | OP_GGG | OP_ARROW3;
 op_assign
     : OP_ASSIGN
     | OP_ADD_ASSIGN
@@ -345,9 +353,10 @@ template_call
     | annotation* modifiers KW_TEMPLATE identifier (COMMA identifier)* COMMA? template_block
     ;
 template_block:      BRACE_L (template_statements | eos_free)* BRACE_R;
-template_statements: KW_WHERE where_block | RETURN type_expression;
+template_statements: 'where' where_block | RETURN type_expression | identifier require_block;
 where_block:         BRACE_L where_bound* BRACE_R;
 where_bound:         identifier COLON type_expression | eos_free;
+require_block:       BRACE_L (expression_root | eos_free)* BRACE_R;
 // ===========================================================================
 macro_call
     : OP_AT annotation_call_item class_block?
@@ -445,9 +454,9 @@ modified_namepath
     : (mods += identifier)* path += identifier (OP_PROPORTION path += identifier)*
     ;
 // namepath
-lambda_name:   LAMBDA_SLOT (identifier | number)?;
-output_name:   (OP_REM | OP_LAST) INTEGER;
-function_name: identifier (OP_PROPORTION identifier)* (DOT identifier)?;
+lambda_name: LAMBDA_SLOT (identifier | number)?;
+output_name: OP_REM INTEGER # PositiveOutput | OP_LAST INTEGER? # NegativeOutput;
+
 namepath_free: identifier ((OP_PROPORTION | DOT) identifier)*;
 namepath:      identifier (OP_PROPORTION identifier)*;
 // identifier

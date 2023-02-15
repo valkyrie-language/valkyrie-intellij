@@ -2,19 +2,19 @@
 charset = utf-8
 end_of_line = lf
 
-[*.{kt, kts}]
+[*.{kt,kts}]
 indent_style = space
 indent_size = 4
 max_line_length = 144
 
-[*.{json, json5, proto}]
+[*.{json,json5,proto}]
 indent_style = space
 indent_size = 4
 
-[*.{bnf, flex, toml}]
+[*.{bnf,flex,toml}]
 indent_style = space
 indent_size = 4
 
-[*.{xml, yaml}]
+[*.{xml,yaml}]
 indent_style = tab
 indent_size = 4

@@ -3,10 +3,12 @@ package valkyrie.language.psi
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
+import com.intellij.psi.util.descendants
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.antlr.ValkyrieAntlrParser
 import valkyrie.language.antlr.ValkyrieParser
 import valkyrie.language.antlr.childrenWithLeaves
+import valkyrie.language.ast.ValkyrieIdentifierNode
 import valkyrie.language.ast.ValkyrieNamespaceStatement
 import valkyrie.language.ast.ValkyrieNumberNode
 import valkyrie.language.file.ValkyrieFileNode
@@ -44,6 +46,16 @@ class ValkyrieFactory {
             }
         }
         throw Exception("unreachable: ValkyrieFactory::createNamespace")
+    }
+
+    fun create_identifier(name: String): ValkyrieIdentifierNode? {
+        val file = create_file(name);
+        for (child in file.descendants()) {
+            if (child is ValkyrieIdentifierNode) {
+                return child
+            }
+        }
+        return null;
     }
 
     fun create_number_literal(number: String, unit: String?): ValkyrieNumberNode {
@@ -95,4 +107,6 @@ class ValkyrieFactory {
             create_expression("lambda() -> b {}");
         }
     }
+
+
 }

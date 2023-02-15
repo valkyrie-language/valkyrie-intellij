@@ -18,12 +18,10 @@ import valkyrie.ide.view.IdentifierPresentation
 import valkyrie.language.antlr.ValkyrieAntlrParser
 import valkyrie.language.antlr.ValkyrieParser
 import valkyrie.language.ast.ValkyrieFunctionParameter
+import valkyrie.language.ast.ValkyrieIdentifierNode
 import valkyrie.language.ast.ValkyrieModifiedNode
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.language.psi.ValkyrieHighlightElement
-import valkyrie.language.psi.ValkyrieInlayElement
-import valkyrie.language.psi.ValkyrieLineMarkElement
-import valkyrie.language.psi.ValkyrieScopeNode
+import valkyrie.language.psi.*
 import javax.swing.Icon
 
 
@@ -35,8 +33,8 @@ class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node),
         return method.name
     }
 
-    override fun setName(name: String): PsiElement {
-        TODO("Not yet implemented")
+    override fun setName(name: String): ValkyrieIdentifierNode {
+        return ValkyrieFactory(this.project).create_identifier(name)!!
     }
 
 
@@ -86,17 +84,17 @@ class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node),
 
     override fun type_hint(inlay: TypeInlayHint): Boolean {
         val typeHint = ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_type_hint);
-        val argument = ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_function_parameters)!!;
-        if (typeHint == null) {
+        val argument = ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_function_parameters);
+        if (typeHint == null && argument != null) {
             inlay.inline(argument.endOffset, ": Any?")
         }
         return true
     }
 
     override fun parameter_hint(inlay: ParameterInlayHint): Boolean {
-        val argument = ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_function_parameters)!!;
+        val argument = ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_function_parameters);
         val parameter = ValkyrieParser.getChildrenOfType<ValkyrieFunctionParameter>(argument)
-        if (parameter.isEmpty()) {
+        if (argument != null && parameter.isEmpty()) {
             for (m in modifiers) {
                 if (m.name == "get") {
                     inlay.inline(argument.firstChild.endOffset, "self")
