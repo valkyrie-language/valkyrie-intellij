@@ -14,7 +14,7 @@ private val removeSpaceBefore = TokenSet.orSet(
     createTokenSet(ValkyrieLanguage, DOT, OP_PROPORTION, COLON, GENERIC_L, GENERIC_R),
     ValkyrieBracketMatch.Instance.Right,
 
-)
+    )
 
 private val removeSpaceNewlineBefore = TokenSet.orSet(
     createTokenSet(ValkyrieLanguage, COMMA, OP_PROPORTION)
@@ -36,7 +36,7 @@ private val spaceAroundOperator = TokenSet.orSet(
 )
 
 private val addSpaceAfter = TokenSet.orSet(
-    createTokenSet(ValkyrieLanguage, COMMA, COLON)
+    createTokenSet(ValkyrieLanguage, COMMA)
 )
 
 private val newlineIndentAfter = TokenSet.create()

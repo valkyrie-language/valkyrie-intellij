@@ -127,7 +127,7 @@ function_block
     )* BRACE_R
     ;
 // ===========================================================================
-let_binding:       KW_LET let_pattern type_hint? (OP_ASSIGN expression_root)?;
+let_binding:       annotation* KW_LET let_pattern type_hint? (OP_ASSIGN expression_root)?;
 let_pattern:       let_pattern_tuple | let_pattern_plain;
 let_pattern_plain: modified_identifier (COMMA modified_identifier)* COMMA?;
 let_pattern_tuple
