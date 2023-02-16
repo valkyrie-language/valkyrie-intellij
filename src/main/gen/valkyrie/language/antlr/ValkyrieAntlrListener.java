@@ -1,6 +1,5 @@
 // Generated from C:/Users/Dell/IdeaProjects/valkyrie-intellij/src/main/antlr/ValkyrieAntlr.g4 by ANTLR 4.13.1
 package valkyrie.language.antlr;
-
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**

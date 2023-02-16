@@ -1,7 +1,7 @@
 grammar ValkyrieAntlr;
-import ValkyrieBasic;
+
 options {
-	language = Java;
+    tokenVocab = 'ValkyrieAntlrLexer';
 }
 
 // $antlr-format useTab false, columnLimit 144
@@ -392,6 +392,7 @@ case_pattern_item
     : case_pattern_tuple
     | bind = identifier OP_BIND case_pattern_item
     | modified_identifier COLON (bind = identifier OP_BIND)? case_pattern_item
+    | (OP_DOT2|OP_DOT3) identifier?
     | modified_identifier
     | namepath
     | number_literal

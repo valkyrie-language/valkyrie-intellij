@@ -65,16 +65,16 @@ tasks {
         gradleVersion = properties("gradleVersion")
     }
 
-    generateGrammarSource {
-        maxHeapSize = "64m"
-        arguments = arguments + listOf(
-            "-listener",
-            "-visitor",
-            "-long-messages",
-            "-encoding", "utf8",
-            "-package", "valkyrie.language.antlr"
-        )
-    }
+//    generateGrammarSource {
+//        maxHeapSize = "64m"
+//        arguments = arguments + listOf(
+//            "-listener",
+//            "-visitor",
+//            "-long-messages",
+//            "-encoding", "utf8",
+//            "-package", "valkyrie.language.antlr"
+//        )
+//    }
     patchPluginXml {
         version.set(properties("pluginVersion"))
         sinceBuild.set(properties("pluginSinceBuild"))

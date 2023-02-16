@@ -106,6 +106,8 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_match_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
                 RULE_match_case_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Indent)
                 // expression
+                RULE_extends_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
+                // expression
                 RULE_macro_call -> ValkyrieCallMacro(node)
                 RULE_generic_call -> ValkyrieGenericCall(node, true)
                 RULE_generic_call_in_type -> ValkyrieGenericCall(node, false)

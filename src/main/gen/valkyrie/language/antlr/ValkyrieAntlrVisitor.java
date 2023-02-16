@@ -1,6 +1,5 @@
 // Generated from C:/Users/Dell/IdeaProjects/valkyrie-intellij/src/main/antlr/ValkyrieAntlr.g4 by ANTLR 4.13.1
 package valkyrie.language.antlr;
-
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -8,7 +7,7 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  * by {@link ValkyrieAntlrParser}.
  *
  * @param <T> The return type of the visit operation. Use {@link Void} for
- *            operations with no return type.
+ * operations with no return type.
  */
 public interface ValkyrieAntlrVisitor<T> extends ParseTreeVisitor<T> {
     /**

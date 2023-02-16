@@ -1,6 +1,5 @@
 // Generated from C:/Users/Dell/IdeaProjects/valkyrie-intellij/src/main/antlr/ValkyrieAntlr.g4 by ANTLR 4.13.1
 package valkyrie.language.antlr;
-
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
@@ -9,7 +8,7 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
  * of the available methods.
  *
  * @param <T> The return type of the visit operation. Use {@link Void} for
- *            operations with no return type.
+ * operations with no return type.
  */
 @SuppressWarnings("CheckReturnValue")
 public class ValkyrieAntlrBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements ValkyrieAntlrVisitor<T> {

@@ -1,4 +1,4 @@
-lexer grammar ValkyrieBasic;
+lexer grammar ValkyrieAntlrLexer;
 // $antlr-format useTab false, alignColons hanging, alignSemicolons hanging
 // $antlr-format alignFirstTokens true
 @lexer::members {
@@ -179,7 +179,7 @@ DECIMAL
     ;
 fragment EXP: [Ee] [+\-]? INTEGER;
 
-STRING_SINGLE: '\'' ~[']* '\'';
+STRING_SINGLE: '\'' -> pushMode(IN_STRING1);
 STRING_DOUBLE: '"' ~["]* '"';
 STRING_BLOCK:  '"""' .*? '"""' | '\'\'\'' .*? '\'\'\'';
 
@@ -206,3 +206,8 @@ BLOCK_COMMENT: '/*' .*? '*/' -> channel(HIDDEN);
 
 WHITE_SPACE:     [\p{White_Space}]+ -> channel(HIDDEN);
 ERROR_CHARACTAR: . -> channel(HIDDEN);
+
+mode IN_STRING1;
+
+STRING_TEXT: ~[']+ ;
+DQUOTE_IN_STRING: '\'' -> type(STRING_SINGLE), popMode;
