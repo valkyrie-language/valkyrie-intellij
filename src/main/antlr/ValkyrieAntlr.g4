@@ -353,7 +353,7 @@ template_call
     | annotation* modifiers KW_TEMPLATE identifier (COMMA identifier)* COMMA? template_block
     ;
 template_block:      BRACE_L (template_statements | eos_free)* BRACE_R;
-template_statements: 'where' where_block | RETURN type_expression | identifier require_block;
+template_statements: KW_WHERE where_block | RETURN type_expression | identifier require_block;
 where_block:         BRACE_L where_bound* BRACE_R;
 where_bound:         identifier COLON type_expression | eos_free;
 require_block:       BRACE_L (expression_root | eos_free)* BRACE_R;
@@ -466,9 +466,7 @@ identifier: UNICODE_ID | RAW_ID;
 number:         DECIMAL | INTEGER;
 number_literal: number identifier?;
 // string
-string: STRING_SINGLE | STRING_DOUBLE;
+string: STRING_START (STRING_TEXT|ESCAPE_TEXT)? STRING_END;
 string_literal
-    : identifier? STRING_SINGLE
-    | identifier? STRING_DOUBLE
-    | identifier? STRING_BLOCK
+    : identifier? string
     ;
