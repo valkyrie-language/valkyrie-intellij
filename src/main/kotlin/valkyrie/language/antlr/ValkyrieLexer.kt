@@ -1,5 +1,6 @@
 package valkyrie.language.antlr
 
+
 import com.intellij.lexer.Lexer
 import com.intellij.lexer.LexerPosition
 import com.intellij.psi.tree.IElementType
@@ -123,7 +124,7 @@ class ValkyrieLexer : Lexer() {
         val Proportion = TokenIElementType(OP_PROPORTION, ".", ValkyrieLanguage);
         val Integers: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, INTEGER);
         val Decimals: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, DECIMAL);
-        val Strings: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, STRING_START, STRING_TEXT, STRING_END);
+        val Strings: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, STRING_START, STRING_END, STRING_TEXT);
         val Identifiers: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, UNICODE_ID);
 
         val CommentLine = TokenIElementType(LINE_COMMENT, "CommentLine", ValkyrieLanguage);

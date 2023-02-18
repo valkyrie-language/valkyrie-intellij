@@ -69,8 +69,9 @@ class ValkyrieStringNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiLanguag
 
 
     private fun innerRange(): TextRange {
-        val start = _text.textRange.startOffset - textRange.startOffset + 1;
-        val end = _text.textRange.endOffset - textRange.startOffset - 1;
+        val delta = _text.firstChild.textLength;
+        val start = _text.textRange.startOffset - textRange.startOffset + delta;
+        val end = _text.textRange.endOffset - textRange.startOffset - delta;
         return TextRange(start, end)
     }
 

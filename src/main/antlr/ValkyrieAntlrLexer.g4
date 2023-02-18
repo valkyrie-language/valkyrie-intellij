@@ -108,7 +108,7 @@ OP_OR_DEFAULT:    '??';
 OP_OR_ELSE:       '?:';
 OP_AND_THEN:      '?';
 // not
-OP_NOT: '!';
+OP_NOT: '!' | '¬';
 KW_NOT: 'not';
 // in
 OP_IN:        '∈' | '∊';
@@ -179,13 +179,12 @@ DECIMAL
     | INTEGER EXP
     ;
 fragment EXP: [Ee] [+\-]? INTEGER;
-
+// $antlr-format off
 STRING_START: '\'' -> pushMode(IN_STRING1);
-STRING_END: '\'';
 STRING_DOUBLE: '"' -> type(STRING_START), pushMode(IN_STRING2);
 STRING_TRIPLE:  '\'\'\'' -> type(STRING_START), pushMode(IN_STRING3);
 STRING_SIXFOLD: '"""' -> type(STRING_START), pushMode(IN_STRING6);
-
+// $antlr-format on
 // conditional
 KW_IF:        'if';
 KW_ELSE:      'else';
@@ -210,22 +209,21 @@ BLOCK_COMMENT: '/*' .*? '*/' -> channel(HIDDEN);
 WHITE_SPACE:     [\p{White_Space}]+ -> channel(HIDDEN);
 ERROR_CHARACTAR: . -> channel(HIDDEN);
 
+// $antlr-format off
 mode IN_STRING1;
-STRING_TEXT: ~[\\]+;
-ESCAPE_TEXT: '\\' .;
-STRING_OUT1: '\'' -> type(STRING_END), popMode;
+STRING_TEXT: ~[']+;
+STRING_END:  '\'' -> popMode;
 
 mode IN_STRING2;
-STRING_TEXT2: ~[\\]+ -> type(STRING_TEXT);
-ESCAPE_TEXT2: '\\' . -> type(ESCAPE_TEXT);
-STRING_OUT2: '"' -> type(STRING_END), popMode;
+STRING_TEXT2: ~["]+ -> type(STRING_TEXT);
+STRING_OUT2:  '"' -> type(STRING_END), popMode;
 
 mode IN_STRING3;
-STRING_TEXT3: ~[\\]+ -> type(STRING_TEXT);
-ESCAPE_TEXT3: '\\' . -> type(ESCAPE_TEXT);
-STRING_OUT3: '\'\'\'' -> type(STRING_END), popMode;
+STRING_TEXT3: ~[']+ -> type(STRING_TEXT);
+ESCAPE_TEXT:  '\'' -> type(STRING_TEXT);
+STRING_OUT3:  '\'\'\'' -> type(STRING_END), popMode;
 
 mode IN_STRING6;
-STRING_TEXT6: ~[\\]+ -> type(STRING_TEXT);
-ESCAPE_TEXT6: '\\' . -> type(ESCAPE_TEXT);
-STRING_OUT6: '"""' -> type(STRING_END), popMode;
+STRING_TEXT6: ~["]+ -> type(STRING_TEXT);
+ESCAPE_TEXT6: '"' -> type(STRING_TEXT);
+STRING_OUT6:  '"""' -> type(STRING_END), popMode;

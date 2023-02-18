@@ -1,7 +1,7 @@
 grammar ValkyrieAntlr;
 
 options {
-    tokenVocab = 'ValkyrieAntlrLexer';
+	tokenVocab = 'ValkyrieAntlrLexer';
 }
 
 // $antlr-format useTab false, columnLimit 144
@@ -392,7 +392,7 @@ case_pattern_item
     : case_pattern_tuple
     | bind = identifier OP_BIND case_pattern_item
     | modified_identifier COLON (bind = identifier OP_BIND)? case_pattern_item
-    | (OP_DOT2|OP_DOT3) identifier?
+    | (OP_DOT2 | OP_DOT3) identifier?
     | modified_identifier
     | namepath
     | number_literal
@@ -466,7 +466,5 @@ identifier: UNICODE_ID | RAW_ID;
 number:         DECIMAL | INTEGER;
 number_literal: number identifier?;
 // string
-string: STRING_START (STRING_TEXT|ESCAPE_TEXT)? STRING_END;
-string_literal
-    : identifier? string
-    ;
+string:         STRING_START STRING_TEXT* STRING_END;
+string_literal: identifier? string;
