@@ -60,7 +60,7 @@ class_inherit
 class_inherit_item: modified_namepath;
 class_field:        annotation* modified_identifier type_hint? parameter_default?;
 class_method
-    : annotation* modified_namepath define_generic? function_parameters type_hint? function_block?
+    : annotation* modified_namepath define_generic? function_parameters return_type? function_block?
     ;
 class_dsl: annotation* modified_identifier class_block;
 // ===========================================================================
@@ -98,27 +98,47 @@ function_parameters
     | PARENTHESES_L parameter_item (COMMA parameter_item)* PARENTHESES_R
     ;
 parameter_item
-    : annotation* (mods += identifier)* OP_DOT3 id = identifier? type_hint? parameter_default?
-    | annotation* (mods += identifier)* OP_DOT2 id = identifier? type_hint? parameter_default?
+    : annotation* (mods += identifier)* parameter_special id = identifier? type_hint? parameter_default?
     | annotation* (mods += identifier)* id = identifier type_hint? parameter_default?
     | OP_LT
     | OP_GT
     ;
-return_type:       (COLON | OP_ARROW) ret = type_expression (OP_DIV eff = type_expression)?;
+parameter_special
+    : OP_DOT3 # DictParameters
+    | OP_DOT2 # ListParameters
+    | OP_POW  # ContextParameter
+    ;
+return_type
+    : (COLON | OP_ARROW) ret = type_expression
+    | ((COLON | OP_ARROW) ret = type_expression)? OP_DIV eff += type_expression
+    | ((COLON | OP_ARROW) ret = type_expression)? OP_DIV BRACKET_L (
+        eff += type_expression (COMMA eff += type_expression)* COMMA?
+    )? BRACKET_R
+    ;
 parameter_default: OP_ASSIGN expression;
 // ===========================================================================
 function_call
     : OP_AND_THEN? tuple_call_body // method?(b)
     | OP_AND_THEN? DOT INTEGER tuple_call_body? // value.1()
-    | OP_AND_THEN? DOT OP_AT? namepath tuple_call_body? // value?.path::method()
+    | OP_AND_THEN? DOT OP_AT? identifier tuple_call_body? // value?.path::method()
+    ;
+closure_call // Two consecutive `{ } { }` are not allowed to be connected
+    : OP_AND_THEN? tuple_call_body function_block?                        # NormalClosure // method?(b) {}
+    | OP_AND_THEN? function_block                                         # DirectClosure // value? { lambda }
+    | OP_AND_THEN? DOT INTEGER tuple_call_body? function_block?           # IntegerClosure // value?.1() { }
+    | OP_AND_THEN? DOT OP_AT? identifier tuple_call_body? function_block? # InternalClosure // value?.@method() { }
+    | OP_AND_THEN? DOT function_block                                     # SlotClosure // value?. { lambda }
     ;
 tuple_call_body
     : PARENTHESES_L PARENTHESES_R
     | PARENTHESES_L tuple_call_item (COMMA tuple_call_item)* COMMA? PARENTHESES_R
     ;
-tuple_call_item: identifier COLON expression | expression;
+tuple_call_item
+    : annotation* (mods += identifier)* field = identifier COLON expression
+    | annotation* expression
+    ;
 // ===========================================================================
-define_lambda: annotation* KW_LAMBDA function_parameters type_hint? function_block;
+define_lambda: annotation* KW_LAMBDA function_parameters return_type? function_block;
 // ===========================================================================
 function_block
     : BRACE_L (
@@ -147,6 +167,7 @@ let_pattern_item
     : (modified_identifier COLON)? (bind = identifier OP_BIND)? let_pattern_tuple
     | (modified_identifier COLON)? (bind = identifier OP_BIND)? identifier
     | modified_identifier? OP_DOT2 bind = identifier?
+    | modified_identifier? OP_DOT3 bind = identifier?
     | modified_identifier
     ;
 // ===========================================================================
@@ -178,12 +199,10 @@ if_guard: KW_IF inline_expression;
 // ==========================================================================
 expression_root: annotation* expression OP_AND_THEN? eos?;
 expression
-    : expression op_suffix     # ESuffix
-    | expression slice_call    # ESlice
-    | expression generic_call  # EGeneric
-    | expression function_call # EFunction
-    // value?. { lambda }
-    | expression OP_AND_THEN? DOT? function_block # EClosure
+    : expression op_suffix    # ESuffix
+    | expression slice_call   # ESlice
+    | expression generic_call # EGeneric
+    | expression closure_call # EClosure
     // value?.match as i: int {}
     | expression OP_AND_THEN? DOT (KW_MATCH | KW_CATCH) (KW_AS identifier type_hint?)? match_block # EDotMatch
     // prefix
@@ -279,6 +298,7 @@ control_expression
     | YIELD (OP_LABEL identifier)? expression? # CYield
     | YIELD BREAK                              # CBreak
     | YIELD KW_WITH expression                 # CWith
+    | FALL_THROUGH (OP_LABEL identifier)?      # CFall
     ;
 op_prefix
     : OP_NOT
@@ -365,13 +385,13 @@ macro_call
     ;
 annotation
     : OP_HASH annotation_call_item class_block?
-    | OP_HASH BRACKET_L annotation_call_item (COMMA annotation_call_item)* BRACKET_R class_block?
+    | OP_HASH BRACKET_L annotation_call_item (COMMA annotation_call_item)* BRACKET_R
     ;
 annotation_call_item: namepath tuple_call_body? class_block?;
 // ===========================================================================
 try_statement: annotation* KW_TRY type_expression? function_block;
 match_statement
-    : annotation* (KW_MATCH | KW_CATCH) (identifier OP_BIND)? inline_expression match_block
+    : annotation* (KW_MATCH | KW_CATCH) (identifier OP_BIND)? inline_expression OP_AND_THEN? match_block
     ;
 // ===========================================================================
 match_block: BRACE_L (match_terms | eos_free)* BRACE_R;
@@ -439,8 +459,8 @@ collection_pair
 // ===========================================================================
 slice_call: OP_AND_THEN? range_literal;
 range_literal
-    : BRACKET_L (range_axis (COMMA range_axis)* COMMA?)? BRACKET_R # Ordinal
-    | OFFSET_L (range_axis (COMMA range_axis)* COMMA?)? OFFSET_R   # Offset
+    : BRACKET_L (range_axis (COMMA range_axis)* COMMA?)? BRACKET_R
+    | OFFSET_L (range_axis (COMMA range_axis)* COMMA?)? OFFSET_R
     ;
 range_axis
     : COLON // [:]

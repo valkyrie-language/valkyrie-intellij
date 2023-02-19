@@ -77,13 +77,13 @@ class ValkyrieLexer : Lexer() {
             KW_WHILE,
             KW_FOR, KW_IN,
             // which/match/catch
-            KW_WITCH, KW_MATCH, KW_CATCH,
+            KW_MATCH, KW_CATCH,
             KW_WITH, KW_WHEN, KW_CASE,
             KW_TRY,
             // control keywords
             RETURN, RESUME,
             YIELD,
-            BREAK, CONTINUE,
+            BREAK, CONTINUE, FALL_THROUGH,
             RAISE,
             // monadic
             OP_AND_THEN, OP_OR_ELSE, OP_OR_DEFAULT,
@@ -112,7 +112,12 @@ class ValkyrieLexer : Lexer() {
             OP_UNTIL,
             OP_IN, OP_NOT_IN,
             OP_IS, OP_IS_NOT,
-            OP_MAP, OP_APPLY2, OP_APPLY3
+            OP_MAP, OP_APPLY2, OP_APPLY3,
+            OP_ARROW,
+            //
+            OP_ASSIGN, OP_MAY_ASSIGN,
+            OP_ADD_ASSIGN, OP_SUB_ASSIGN, OP_DIV_ASSIGN, OP_MUL_ASSIGN
+
         )
         val OperatorSuffix: TokenSet = PSIElementTypeFactory.createTokenSet(
             ValkyrieLanguage,

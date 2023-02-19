@@ -13,12 +13,7 @@ import javax.swing.Icon
 
 class ValkyrieMatchStatement(node: CompositeElement) : ValkyrieScopeNode(node), ValkyrieHighlightElement {
     val bind by lazy { ValkyrieIdentifierNode.find(this) }
-    override fun on_highlight(e: NodeHighlighter) {
-        if (bind != null) {
-            // maybe mutable
-            e.register(bind, ValkyrieHighlightColor.SYM_LOCAL)
-        }
-    }
+
 
     override fun getBaseIcon(): Icon {
         return AllIcons.Actions.InlayRenameInNoCodeFilesActive
@@ -26,6 +21,13 @@ class ValkyrieMatchStatement(node: CompositeElement) : ValkyrieScopeNode(node), 
 
     override fun getPresentation(): ItemPresentation {
         return PresentationData("match", null, this.baseIcon, null)
+    }
+
+    override fun on_highlight(e: NodeHighlighter) {
+        if (bind != null) {
+            // maybe mutable
+            e.register(bind, ValkyrieHighlightColor.SYM_LOCAL)
+        }
     }
 }
 

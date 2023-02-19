@@ -159,7 +159,6 @@ KW_WHILE: 'while' | 'until';
 KW_FOR:   'for';
 //
 KW_LET:      'let';
-KW_WITCH:    'which';
 KW_NEW:      'new';
 KW_OBJECT:   'object';
 KW_LAMBDA:   'lambda';
@@ -190,12 +189,13 @@ KW_IF:        'if';
 KW_ELSE:      'else';
 KW_OTHERWISE: 'otherwise';
 // control goto FROM: 'from';
-RETURN:   'return';
-RESUME:   'resume';
-YIELD:    'yield';
-BREAK:    'break';
-CONTINUE: 'continue';
-RAISE:    'raise';
+RETURN:       'return';
+RESUME:       'resume';
+YIELD:        'yield';
+BREAK:        'break';
+CONTINUE:     'continue';
+FALL_THROUGH: 'fallthrough';
+RAISE:        'raise';
 // atom
 SPECIAL: 'true' | 'false' | 'null' | 'nil' | '∅' | '∞';
 // atom

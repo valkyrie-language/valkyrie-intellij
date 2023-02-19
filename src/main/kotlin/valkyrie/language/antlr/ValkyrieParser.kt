@@ -146,8 +146,8 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
         fun getChildOfType(psi: PsiElement?, parserRule: Int): PsiElement? {
             if (psi != null) {
                 for (child in psi.children) {
-                    val type = child.node.elementType as RuleIElementType;
-                    if (type.ruleIndex == parserRule) {
+                    val type = child.node.elementType as? RuleIElementType;
+                    if (type?.ruleIndex == parserRule) {
                         return child;
                     }
                 }
