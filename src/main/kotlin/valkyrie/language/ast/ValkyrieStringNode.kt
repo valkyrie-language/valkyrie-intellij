@@ -10,7 +10,6 @@ import com.intellij.lang.xml.XMLLanguage
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.LiteralTextEscaper
 import com.intellij.psi.PsiLanguageInjectionHost
-import com.intellij.psi.util.PsiTreeUtil
 import org.intellij.lang.regexp.RegExpLanguage
 import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.ide.highlight.ValkyrieHighlightColor
@@ -21,15 +20,15 @@ import valkyrie.language.psi.ValkyrieHighlightElement
 
 class ValkyrieStringNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiLanguageInjectionHost, ValkyrieHighlightElement {
     val handler by lazy {
-        PsiTreeUtil.getChildOfType(this, ValkyrieIdentifierNode::class.java)
+        ValkyrieParser.getChildOfType<ValkyrieIdentifierNode>(this)
     }
     private val _text by lazy {
         ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_string)!!
     }
-    private val injectLanguage = handler?.name?.lowercase();
+    private val injectLanguage = handler?.text?.lowercase();
 
     override fun isValidHost(): Boolean {
-        return handler != null
+        return true
     }
 
     override fun updateText(text: String): PsiLanguageInjectionHost {
@@ -42,16 +41,46 @@ class ValkyrieStringNode(node: ASTNode) : ASTWrapperPsiElement(node), PsiLanguag
 
     fun injectPerform(r: MultiHostRegistrar) {
         when (injectLanguage) {
+            null, "i" -> injectInterpolation(r)
+            "r", "raw" -> {}
             "re" -> injectRegex(r)
             "json5", "jsonp", "json" -> inject(r, Json5Language.INSTANCE)
             "xp", "xpath" -> inject(r, XMLLanguage.INSTANCE)
             "xml" -> inject(r, XMLLanguage.INSTANCE)
             "html" -> inject(r, HTMLLanguage.INSTANCE)
-            null -> {}
             else -> Language.getRegisteredLanguages()
                 .filter { it != Language.ANY }
                 .firstOrNull { it.id == injectLanguage }
                 ?.let { inject(r, it) }
+        }
+    }
+
+    private fun injectInterpolation(registrar: MultiHostRegistrar) {
+
+        val ranges = mutableListOf<TextRange>()
+        val delta = handler?.text?.length ?: 0;
+        var balance = 0;
+        var start = 0;
+        for (char in _text.text.withIndex()) {
+            if (char.value == '{') {
+                balance += 1;
+                if (balance == 1) {
+                    start = char.index + delta + 1;
+                }
+            } else if (char.value == '}') {
+                balance -= 1;
+                if (balance == 0) {
+                    val end = char.index + delta;
+                    ranges.add(TextRange(start, end))
+                }
+            }
+        }
+        if (ranges.isNotEmpty()) {
+            for (range in ranges) {
+                registrar.startInjecting(language);
+                registrar.addPlace(null, null, this, range)
+                registrar.doneInjecting()
+            }
         }
     }
 

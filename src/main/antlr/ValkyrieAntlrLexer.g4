@@ -134,7 +134,7 @@ OP_ROOT3:   '∛';
 OP_ROOT4:   '∜';
 // suffix
 OP_TEMPERATURE: '℃' | '℉';
-OP_TRANSPOSE:   'ᵀ' | 'ᴴ';
+OP_TRANSPOSE:   '⊤' | '†' | '⊹'; // ᵀ,ᴴ are XIDs
 OP_PERCENT:     '‰' | '‱';
 // standalone
 OP_REFERENCE: '※';
@@ -179,7 +179,7 @@ DECIMAL
     | INTEGER EXP
     ;
 fragment EXP: [Ee] [+\-]? INTEGER;
-// $antlr-format off
+              // $antlr-format off
 STRING_START: '\'' -> pushMode(IN_STRING1);
 STRING_DOUBLE: '"' -> type(STRING_START), pushMode(IN_STRING2);
 STRING_TRIPLE:  '\'\'\'' -> type(STRING_START), pushMode(IN_STRING3);
@@ -197,7 +197,7 @@ BREAK:    'break';
 CONTINUE: 'continue';
 RAISE:    'raise';
 // atom
-SPECIAL: 'true' | 'false' | 'null' | 'nil' | '∅';
+SPECIAL: 'true' | 'false' | 'null' | 'nil' | '∅' | '∞';
 // atom
 RAW_ID:     '`' ~[`]+ '`';
 UNICODE_ID: [_\p{XID_start}] [\p{XID_continue}]*;

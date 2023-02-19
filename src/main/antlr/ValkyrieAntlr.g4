@@ -250,6 +250,7 @@ inline_expression
     ;
 type_expression
     : op_prefix type_expression                    # TPrefix
+    | type_expression OP_AND_THEN                  # TOptional
     | type_expression generic_call_in_type         # TGeneric
     | type_expression op_pattern type_expression   # TPattern
     | type_expression infix_arrows type_expression # TArrows
@@ -274,7 +275,7 @@ control_expression
     : (RETURN | RESUME expression?)            # CReturn
     | BREAK (OP_LABEL identifier)?             # CBreak
     | CONTINUE (OP_LABEL identifier)?          # CContinue
-    | RAISE expression                         # CRaise
+    | RAISE expression?                        # CRaise
     | YIELD (OP_LABEL identifier)? expression? # CYield
     | YIELD BREAK                              # CBreak
     | YIELD KW_WITH expression                 # CWith
@@ -411,22 +412,30 @@ case_pattern_tuple
     ;
 // ===========================================================================
 object_statement: KW_OBJECT define_generic? class_inherit? type_hint? class_block;
+// ===========================================================================
 new_statement
     : KW_NEW modified_namepath generic_call_in_type? tuple_call_body? new_block
     | KW_NEW modified_namepath generic_call_in_type? tuple_call_body
     ;
-new_body
-    : tuple_call_body? new_block // 可选
-    | tuple_call_body // 必选
+new_block: BRACE_L (new_call_item | eos_free)* BRACE_R;
+new_call_item
+    : identifier COLON expression
+    | INTEGER COLON expression
+    | range_literal COLON expression
+    | expression
     ;
-new_block: BRACE_L (tuple_call_item | eos_free)* BRACE_R;
 // ===========================================================================
 tuple_literal
     : PARENTHESES_L PARENTHESES_R
     | PARENTHESES_L collection_pair (COMMA collection_pair)+ COMMA? PARENTHESES_R
     | PARENTHESES_L collection_pair COMMA PARENTHESES_R
     ;
-collection_pair: (identifier COLON)? expression;
+collection_pair
+    : identifier COLON expression
+    | INTEGER COLON expression
+    | string COLON expression
+    | expression
+    ;
 // ===========================================================================
 slice_call: OP_AND_THEN? range_literal;
 range_literal

@@ -91,12 +91,13 @@ class ValkyrieRewriter {
 
     fun replace_generic(root: PsiElement) {
         val o = ValkyrieFactory(root.project);
+        var sep: PsiElement? = null;
         var lhs: PsiElement? = null;
         var rhs: PsiElement? = null;
 
         for (leaf in root.childrenWithLeaves) {
             when (leaf.text) {
-                "::" -> delete_node(leaf)
+                "::" -> sep = leaf;
                 "<" -> lhs = leaf;
                 ">" -> {
                     rhs = leaf
@@ -105,6 +106,7 @@ class ValkyrieRewriter {
             }
         }
         if (lhs != null && rhs != null) {
+            sep?.delete()
             o.replace_generic(lhs, rhs)
         }
     }

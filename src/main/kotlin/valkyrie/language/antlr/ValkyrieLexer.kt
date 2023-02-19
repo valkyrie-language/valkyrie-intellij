@@ -85,10 +85,13 @@ class ValkyrieLexer : Lexer() {
             YIELD,
             BREAK, CONTINUE,
             RAISE,
+            // monadic
+            OP_AND_THEN, OP_OR_ELSE, OP_OR_DEFAULT,
             //
             KW_NEW, KW_OBJECT,
-            SPECIAL,
-            OP_AND_THEN, OP_OR_ELSE, OP_OR_DEFAULT, KW_NOT, KW_IS,
+            KW_NOT, KW_IS,
+            // special
+            OP_LAST, SPECIAL,
         )
         val OperatorPrefix: TokenSet = PSIElementTypeFactory.createTokenSet(
             ValkyrieLanguage,
