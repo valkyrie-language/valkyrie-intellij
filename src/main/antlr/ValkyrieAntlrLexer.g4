@@ -115,7 +115,8 @@ OP_IN:        '∈' | '∊';
 KW_IN:        'in';
 OP_NOT_IN:    '∉';
 OP_CONTINUES: '∋' | '∍';
-
+// prime
+OP_PRIME: '′'|'″'|'‴'|'⁗';
 // is
 KW_IS:     'is';
 OP_IS:     '⊑' | '<:';
@@ -151,7 +152,7 @@ KW_UNION:    'union';
 KW_BITFLAGS: 'flags';
 KW_TYPE:     'type';
 //
-KW_TEMPLATE:   'template';
+KW_TEMPLATE:   'template' | 'generic';
 KW_EXTENDS:    'extends';
 KW_IMPLEMENTS: 'implements';
 //
