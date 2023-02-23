@@ -77,7 +77,6 @@ OP_SUB_ASSIGN: '-=';
 OP_MUL_ASSIGN: '*=';
 OP_DIV_ASSIGN: '/=';
 // logical
-LOGIC_NOT:  '¬';
 LOGIC_AND:  '&&' | '∧';
 LOGIC_XAND: '⩟';
 LOGIC_NAND: '⊼';
@@ -108,7 +107,8 @@ OP_OR_DEFAULT:    '??';
 OP_OR_ELSE:       '?:';
 OP_AND_THEN:      '?';
 // not
-OP_NOT: '!' | '¬';
+OP_BANG: '!';
+OP_NOT: '¬';
 KW_NOT: 'not';
 // in
 OP_IN:        '∈' | '∊';

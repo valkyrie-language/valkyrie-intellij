@@ -67,7 +67,9 @@ class_dsl: annotation* modified_identifier class_block;
 define_trait
     : template_call? annotation* modifiers KW_TRAIT identifier define_generic? with_implements? trait_block eos?
     ;
-trait_block:       BRACE_L (define_trait_type | class_method | class_field | class_dsl| eos_free)* BRACE_R;
+trait_block
+    : BRACE_L (define_trait_type | class_method | class_field | class_dsl | eos_free)* BRACE_R
+    ;
 define_trait_type: KW_TYPE identifier (OP_ASSIGN type_expression)?;
 // ===========================================================================
 define_extends
@@ -269,6 +271,7 @@ inline_expression
 type_expression
     : op_prefix type_expression                    # TPrefix
     | type_expression OP_AND_THEN                  # TOptional
+    | type_expression OP_BANG                      # TMust
     | type_expression generic_call_in_type         # TGeneric
     | type_expression op_pattern type_expression   # TPattern
     | type_expression infix_arrows type_expression # TArrows
@@ -301,6 +304,7 @@ control_expression
     ;
 op_prefix
     : OP_NOT
+    | OP_BANG
     | OP_ADD
     | OP_SUB
     | OP_AND
@@ -314,7 +318,7 @@ op_prefix
     | OP_MUL
     ;
 op_suffix
-    : OP_NOT
+    : OP_BANG
     | OP_TEMPERATURE
     | OP_TRANSPOSE
     | OP_PERCENT
@@ -368,8 +372,11 @@ define_label: OP_LABEL identifier;
 
 // ===========================================================================
 template_call
-    : annotation* modifiers KW_TEMPLATE template_block
-    | annotation* modifiers KW_TEMPLATE identifier (COMMA identifier)* COMMA? template_block
+    : annotation* modifiers KW_TEMPLATE (
+        identifier (COMMA identifier)* COMMA?
+        | OP_LT identifier (COMMA identifier)* COMMA? OP_GT
+        | GENERIC_L identifier (COMMA identifier)* COMMA? GENERIC_R
+    )? template_block
     ;
 template_block:      BRACE_L (template_statements | template_implements | eos_free)* BRACE_R;
 template_statements: KW_WHERE where_block | RETURN type_expression | identifier require_block;
