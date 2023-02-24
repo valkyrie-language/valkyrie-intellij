@@ -153,7 +153,7 @@ function_block
     ;
 // ===========================================================================
 let_binding:       annotation* KW_LET let_pattern type_hint? (OP_ASSIGN expression_root)?;
-let_pattern:       let_pattern_tuple | let_pattern_plain;
+let_pattern:       let_pattern_tuple #LP1 | let_pattern_plain #LP2;
 let_pattern_plain: modified_identifier (COMMA modified_identifier)* COMMA?;
 let_pattern_tuple
     : PARENTHESES_L (
@@ -442,12 +442,13 @@ new_statement
     : KW_NEW modified_namepath generic_call_in_type? tuple_call_body? new_block
     | KW_NEW modified_namepath generic_call_in_type? tuple_call_body
     ;
-new_block: BRACE_L (new_call_item | eos_free)* BRACE_R;
-new_call_item
-    : identifier COLON expression
-    | INTEGER COLON expression
-    | range_literal COLON expression
-    | expression
+new_block:     BRACE_L (new_call_item | eos_free)* BRACE_R;
+new_call_item: new_call_key? expression;
+new_call_key
+    : identifier COLON    # NK1
+    | INTEGER COLON       # NK2
+    | string COLON        # NK3
+    | range_literal COLON # NK4
     ;
 // ===========================================================================
 tuple_literal
@@ -455,12 +456,8 @@ tuple_literal
     | PARENTHESES_L collection_pair (COMMA collection_pair)+ COMMA? PARENTHESES_R
     | PARENTHESES_L collection_pair COMMA PARENTHESES_R
     ;
-collection_pair
-    : identifier COLON expression
-    | INTEGER COLON expression
-    | string COLON expression
-    | expression
-    ;
+collection_pair: collection_key? expression;
+collection_key:  identifier COLON # CK1 | INTEGER COLON # CK2 | string COLON # CK3;
 // ===========================================================================
 slice_call: OP_AND_THEN? range_literal;
 range_literal
@@ -490,7 +487,7 @@ modified_namepath
     ;
 // namepath
 lambda_name: LAMBDA_SLOT (identifier | number)?;
-output_name: OP_REM INTEGER # PositiveOutput | OP_LAST INTEGER? # NegativeOutput;
+output_name: (OP_PERCENT|OP_LAST) INTEGER # PositiveOutput | OP_LAST INTEGER? # NegativeOutput;
 
 namepath_free: identifier ((OP_PROPORTION | DOT) identifier)*;
 namepath:      identifier (OP_PROPORTION identifier)*;

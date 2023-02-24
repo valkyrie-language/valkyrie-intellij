@@ -71,6 +71,7 @@ class ValkyrieLexer : Lexer() {
             KW_LET, OP_BIND,
             //
             KW_TEMPLATE,
+            KW_IMPLEMENTS, KW_WHERE,
             // conditional
             KW_IF, KW_ELSE,
             // control flow

@@ -74,7 +74,7 @@
 		<colorProvider implementation="valkyrie.ide.highlight.ValkyrieColorParser"/>
 		<!-- Formatter -->
 		<langCodeStyleSettingsProvider implementation="valkyrie.ide.codeStyle.ValkyrieCodeStyleProvider"/>
-		<formattingService implementation="valkyrie.ide.formatter.ValkyrieNativeFormat"/>
+		<!--		<formattingService implementation="valkyrie.ide.formatter.ValkyrieNativeFormat"/>-->
 		<preFormatProcessor implementation="valkyrie.ide.formatter.ValkyrieBeforeFormat"/>
 		<lang.formatter language="Valkyrie" implementationClass="valkyrie.ide.formatter.FormatBuilder"/>
 		<postFormatProcessor implementation="valkyrie.ide.formatter.ValkyrieAfterFormat"/>
