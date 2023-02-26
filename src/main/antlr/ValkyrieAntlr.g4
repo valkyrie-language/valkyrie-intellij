@@ -14,6 +14,7 @@ program
         | define_class
         | define_union
         | define_bitflags
+        | define_enumerate
         | define_trait
         | define_extends
         | define_function
@@ -89,8 +90,12 @@ variant_block:  BRACE_L (class_field | eos_free)* BRACE_R;
 define_bitflags
     : annotation* modifiers KW_BITFLAGS identifier base_layout? type_hint? bitflags_block
     ;
+define_enumerate
+    : annotation* modifiers KW_ENUMERATION identifier base_layout? type_hint? bitflags_block
+    ;
 bitflags_block: BRACE_L (class_method | bitflags_item | eos_free)* BRACE_R;
 bitflags_item:  annotation* identifier (OP_ASSIGN expression)?;
+// ===========================================================================
 // ===========================================================================
 define_function
     : template_call? annotation* modifiers KW_FUNCTION namepath define_generic? function_parameters return_type? function_block
@@ -364,8 +369,8 @@ generic_call
     | GENERIC_L generic_pair (COMMA generic_pair)* COMMA? GENERIC_R
     ;
 generic_call_in_type
-    : OP_PROPORTION? OP_LT generic_pair (COMMA generic_pair)* OP_GT
-    | GENERIC_L generic_pair (COMMA generic_pair)* GENERIC_R
+    : OP_PROPORTION? (OP_LT generic_pair (COMMA generic_pair)* COMMA?)? OP_GT
+    | GENERIC_L (generic_pair (COMMA generic_pair)* COMMA?)? GENERIC_R
     ;
 generic_pair: (identifier COLON)? type_expression;
 define_label: OP_LABEL identifier;
@@ -441,6 +446,7 @@ object_statement: KW_OBJECT define_generic? class_inherit? type_hint? class_bloc
 new_statement
     : KW_NEW modified_namepath generic_call_in_type? tuple_call_body? new_block
     | KW_NEW modified_namepath generic_call_in_type? tuple_call_body
+    | KW_NEW modified_namepath
     ;
 new_block:     BRACE_L (new_call_item | eos_free)* BRACE_R;
 new_call_item: new_call_key? expression;

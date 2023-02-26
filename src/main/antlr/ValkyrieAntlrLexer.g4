@@ -90,8 +90,6 @@ LOGIC_NOR:  '⊽';
 // set
 SET_INTERSECTION: '∩';
 SET_UNION:        '∪';
-//OP_SUB_TYPE: '<:';
-//OP_SUP_TYPE: ':>';
 // bitwise
 OP_AND:    '&';
 OP_OR:     '|';
@@ -121,6 +119,7 @@ OP_CONTINUES: '∋' | '∍';
 OP_PRIME: [′″‴⁗];
 // is
 KW_IS:     'is';
+OP_SUP_TYPE: ':>';
 OP_IS:     '⊑' | '<:';
 OP_IS_NOT: '⋢' | '<!';
 // as
@@ -154,6 +153,7 @@ KW_CLASS:    'class' | 'structure';
 KW_TRAIT:    'trait' | 'interface';
 KW_UNION:    'union';
 KW_BITFLAGS: 'flags';
+KW_ENUMERATION: 'enumerate';
 KW_TYPE:     'type';
 //
 KW_TEMPLATE:   'template' | 'generic';
