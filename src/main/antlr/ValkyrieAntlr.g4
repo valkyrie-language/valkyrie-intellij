@@ -219,6 +219,7 @@ expression
     | lhs = expression op_plus rhs = expression                      # EPlus
     | lhs = expression op_compare rhs = expression                   # ECompare
     | lhs = expression op_logic rhs = expression                     # ELogic
+    | lhs = expression op_bitwise rhs = expression                   # EBitwise
     | lhs = expression infix_range rhs = expression                  # EUntil
     | lhs = expression infix_map rhs = expression                    # EMap
     | lhs = expression infix_is rhs = type_expression                # EIsA
@@ -259,6 +260,7 @@ inline_expression
     | lhs = inline_expression op_multiple rhs = inline_expression # IMul
     | lhs = inline_expression op_plus rhs = inline_expression     # IPlus
     | lhs = inline_expression op_logic rhs = inline_expression    # ILogic
+    | lhs = inline_expression op_bitwise rhs = inline_expression  # IBitwise
     | lhs = inline_expression infix_map rhs = inline_expression   # IMap
     | lhs = inline_expression op_compare rhs = inline_expression  # ICompare
     | lhs = inline_expression infix_is rhs = type_expression      # IIs
@@ -308,7 +310,8 @@ control_expression
     | FALL_THROUGH (OP_LABEL identifier)?      # CFall
     ;
 op_prefix
-    : OP_NOT
+    : MAIN_PREFIX
+    | OP_NOT
     | OP_BANG
     | OP_ADD
     | OP_SUB
@@ -316,24 +319,21 @@ op_prefix
     | OP_REFERENCE
     | OP_DOT2
     | OP_DOT3
-    | OP_INVERSE
     | OP_ROOT2
-    | OP_ROOT3
-    | OP_ROOT4
     | OP_MUL
     ;
 op_suffix
     : OP_BANG
-    | OP_TEMPERATURE
+    | MAIN_SUFFIX
     | OP_TRANSPOSE
     | OP_PERCENT
     | OP_REM
     | OP_OR_DEFAULT
-    | OP_PRIME
     ;
 // 中缀运算符
 op_compare:   OP_LT | OP_LEQ | OP_GT | OP_GEQ | OP_EQ | OP_NE | OP_EEE | OP_NEE;
 op_pattern:   OP_AND | OP_OR;
+op_bitwise:   OP_AND | OP_OR;
 infix_map:    OP_MAP | OP_APPLY2 | OP_APPLY3;
 infix_pow:    OP_POW | OP_ROOT2;
 infix_range:  OP_UNTIL;

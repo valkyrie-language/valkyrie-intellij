@@ -20,10 +20,7 @@ import valkyrie.language.ast.calls.ValkyrieAnnotationItem
 import valkyrie.language.ast.calls.ValkyrieCallMacro
 import valkyrie.language.ast.classes.*
 import valkyrie.language.ast.pattern_match.ValkyrieMatchStatement
-import valkyrie.language.ast.unions.ValkyrieFlagsStatement
-import valkyrie.language.ast.unions.ValkyrieFlagsStatementItem
-import valkyrie.language.ast.unions.ValkyrieUnionStatement
-import valkyrie.language.ast.unions.ValkyrieUnionStatementItem
+import valkyrie.language.ast.unions.*
 import valkyrie.language.psi.types.ValkyrieBlockType
 import valkyrie.language.psi.types.ValkyrieModifiedType
 
@@ -66,6 +63,7 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_class_method -> ValkyrieClassMethodNode(node)
                 RULE_class_dsl -> ValkyrieClassCustomNode(node)
                 // flags
+                RULE_define_enumerate -> ValkyrieEnumerateStatement(node)
                 RULE_define_bitflags -> ValkyrieFlagsStatement(node)
                 RULE_bitflags_item -> ValkyrieFlagsStatementItem(node, type)
                 RULE_bitflags_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)

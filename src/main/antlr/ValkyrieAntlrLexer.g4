@@ -115,8 +115,6 @@ OP_IN:        '∈' | '∊';
 KW_IN:        'in';
 OP_NOT_IN:    '∉';
 OP_CONTINUES: '∋' | '∍';
-// prime
-OP_PRIME: [′″‴⁗];
 // is
 KW_IS:     'is';
 OP_SUP_TYPE: ':>';
@@ -130,15 +128,12 @@ OP_DOT2:  '‥' | '..';
 OP_UNTIL: '..<' | '..=';
 OP_POW:   '^';
 // prefix
-OP_INVERSE: '⅟';
+MAIN_PREFIX: [⅟∛∜];
 OP_ROOT2:   '√';
-OP_ROOT3:   '∛';
-OP_ROOT4:   '∜';
 // suffix
-OP_TEMPERATURE: '℃' | '℉';
+MAIN_SUFFIX:    [℃℉‰‱′″‴⁗];
 OP_TRANSPOSE:   '⊤' | '†' | '⊹'; // ᵀ,ᴴ are XIDs
 OP_PERCENT:     '%';
-OP_PERCENT2:    '‰' | '‱';
 // standalone
 OP_REFERENCE: '※';
 OP_LABEL:     '¶';

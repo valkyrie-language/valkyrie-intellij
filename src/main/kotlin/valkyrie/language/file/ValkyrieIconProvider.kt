@@ -30,8 +30,6 @@ class ValkyrieIconProvider : IconProvider() {
 
         // val IMPORT = AllIcons.Welcome.Import
         val IMPORT = AllIcons.Nodes.EntryPoints
-        val MACRO = AllIcons.Gutter.ExtAnnotation
-        val ANNOTATION = AllIcons.Nodes.Annotationtype
 
         //
         val TYPE = AllIcons.Nodes.Type
