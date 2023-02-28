@@ -14,6 +14,7 @@ import org.antlr.intellij.adaptor.parser.ANTLRParseTreeToPSIConverter
 import org.antlr.intellij.adaptor.parser.ANTLRParserAdaptor
 import org.antlr.v4.runtime.Parser
 import org.antlr.v4.runtime.ParserRuleContext
+import org.antlr.v4.runtime.tree.ErrorNode
 import org.antlr.v4.runtime.tree.ParseTree
 import org.antlr.v4.runtime.tree.TerminalNode
 import valkyrie.language.ValkyrieLanguage
@@ -24,7 +25,10 @@ import valkyrie.language.ast.calls.ValkyrieAnnotationItem
 import valkyrie.language.ast.calls.ValkyrieCallMacro
 import valkyrie.language.ast.classes.*
 import valkyrie.language.ast.pattern_match.ValkyrieMatchStatement
-import valkyrie.language.ast.unions.*
+import valkyrie.language.ast.unions.ValkyrieFlagsStatement
+import valkyrie.language.ast.unions.ValkyrieFlagsStatementItem
+import valkyrie.language.ast.unions.ValkyrieUnionStatement
+import valkyrie.language.ast.unions.ValkyrieUnionStatementItem
 import valkyrie.language.psi.types.ValkyrieBlockType
 import valkyrie.language.psi.types.ValkyrieModifiedType
 
@@ -44,6 +48,98 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
 
     companion object {
         fun extractCompositeNode(node: CompositeElement): PsiElement {
+            return RuleRewriter.extract(node)
+        }
+
+        inline fun <reified T> getChildOfType(psi: PsiElement?): T? where T : PsiElement {
+            if (psi != null) {
+                return PsiTreeUtil.getChildOfType(psi, T::class.java)
+            }
+            return null
+        }
+
+        fun getChildOfType(psi: PsiElement?, parserRule: Int): PsiElement? {
+            if (psi != null) {
+                for (child in psi.children) {
+                    val type = child.node.elementType as? RuleIElementType;
+                    if (type?.ruleIndex == parserRule) {
+                        return child;
+                    }
+                }
+            }
+            return null;
+        }
+
+        inline fun <reified T> getChildrenOfType(psi: PsiElement?): List<T> where T : PsiElement {
+            if (psi != null) {
+                return PsiTreeUtil.getChildrenOfTypeAsList(psi, T::class.java)
+            }
+            return emptyList()
+        }
+
+
+        fun getChildrenOfType(psi: PsiElement?, parserRule: Int): List<PsiElement> {
+            val output = mutableListOf<PsiElement>();
+            if (psi != null) {
+                for (child in psi.children) {
+                    val type = child.node.elementType as RuleIElementType;
+                    if (type.ruleIndex == parserRule) {
+                        output.add(child)
+                    }
+                }
+            }
+            return output;
+        }
+    }
+}
+
+private class RuleRewriter(language: Language, parser: Parser?, builder: PsiBuilder?) :
+    ANTLRParseTreeToPSIConverter(language, parser, builder) {
+    override fun enterEveryRule(ctx: ParserRuleContext?) {
+        ProgressIndicatorProvider.checkCanceled()
+        if (ignoreContext(ctx)) {
+            return
+        }
+        markers.push(getBuilder().mark())
+    }
+
+    override fun exitEveryRule(ctx: ParserRuleContext?) {
+        ProgressIndicatorProvider.checkCanceled()
+        if (ignoreContext(ctx)) {
+            return
+        }
+        val marker = markers.pop()
+        val index = getRuleElementTypes()[ctx!!.ruleIndex];
+        marker.done(index)
+    }
+
+    override fun visitErrorNode(node: ErrorNode?) {
+        super.visitErrorNode(node)
+    }
+
+    override fun visitTerminal(node: TerminalNode?) {
+        builder!!.advanceLexer()
+    }
+
+
+    private fun ignoreContext(ctx: ParserRuleContext?): Boolean {
+        return when (ctx) {
+            is ProgramContext, is Top_statementContext,
+            is Class_statemntsContext, is Flags_statementContext, is Union_statementsContext,
+            is Trait_statementContext, is Extends_statementContext,
+            is Function_statementContext, is Return_partContext,
+            is LeadingContext,
+            is NamejoinContext, is Namejoin_freeContext, is Range_joinContext,
+            -> true
+
+            null -> true
+            else -> false
+        }
+
+    }
+
+    companion object {
+        fun extract(node: CompositeElement): PsiElement {
             val type: RuleIElementType = node.elementType as RuleIElementType;
             return when (type.ruleIndex) {
 //                RULE_program -> ValkyrieProgramNode(node, type)
@@ -66,11 +162,10 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_class_field -> ValkyrieClassFieldNode(node)
                 RULE_class_method -> ValkyrieClassMethodNode(node)
                 RULE_class_dsl -> ValkyrieClassCustomNode(node)
-                // flags
-                RULE_define_enumerate -> ValkyrieEnumerateStatement(node)
-                RULE_define_bitflags -> ValkyrieFlagsStatement(node)
-                RULE_bitflags_item -> ValkyrieFlagsStatementItem(node, type)
-                RULE_bitflags_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
+                // flags, enumeration
+                RULE_define_flags -> ValkyrieFlagsStatement(node)
+                RULE_flags_item -> ValkyrieFlagsStatementItem(node, type)
+                RULE_flags_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
                 // union
                 RULE_define_union -> ValkyrieUnionStatement(node)
                 RULE_union_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
@@ -120,7 +215,7 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 RULE_op_multiple -> ValkyrieOperatorNode(node, ValkyrieOperatorKind.Infix)
 
 //                RULE_collection_literal -> ValkyrieBlockNode(node, ValkyrieBlockType.Parenthesis)
-                RULE_expression -> extractExpression(node)
+                RULE_main_expression -> extractExpression(node)
                 RULE_function_call -> ValkyrieCallFunction(node)
                 // new
                 RULE_object_statement -> ValkyrieObjectStatement(node)
@@ -138,75 +233,6 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
                 else -> ASTWrapperPsiElement(node)
             }
         }
-
-        inline fun <reified T> getChildOfType(psi: PsiElement?): T? where T : PsiElement {
-            if (psi != null) {
-                return PsiTreeUtil.getChildOfType(psi, T::class.java)
-            }
-            return null
-        }
-
-        fun getChildOfType(psi: PsiElement?, parserRule: Int): PsiElement? {
-            if (psi != null) {
-                for (child in psi.children) {
-                    val type = child.node.elementType as? RuleIElementType;
-                    if (type?.ruleIndex == parserRule) {
-                        return child;
-                    }
-                }
-            }
-            return null;
-        }
-
-        inline fun <reified T> getChildrenOfType(psi: PsiElement?): List<T> where T : PsiElement {
-            if (psi != null) {
-                return PsiTreeUtil.getChildrenOfTypeAsList(psi, T::class.java)
-            }
-            return emptyList()
-        }
-
-
-        fun getChildrenOfType(psi: PsiElement?, parserRule: Int): List<PsiElement> {
-            val output = mutableListOf<PsiElement>();
-            if (psi != null) {
-                for (child in psi.children) {
-                    val type = child.node.elementType as RuleIElementType;
-                    if (type.ruleIndex == parserRule) {
-                        output.add(child)
-                    }
-                }
-            }
-            return output;
-        }
-    }
-}
-
-private class RuleRewriter(language: Language, parser: Parser?, builder: PsiBuilder?) :
-    ANTLRParseTreeToPSIConverter(language, parser, builder) {
-    override fun enterEveryRule(ctx: ParserRuleContext?) {
-        ProgressIndicatorProvider.checkCanceled()
-        when (ctx) {
-            is ProgramContext -> {}
-            else -> {
-                markers.push(getBuilder().mark())
-            }
-        }
-
-    }
-
-    override fun exitEveryRule(ctx: ParserRuleContext?) {
-        ProgressIndicatorProvider.checkCanceled()
-        when (ctx) {
-            is ProgramContext -> {}
-            else -> {
-                val marker = markers.pop()
-                marker.done(getRuleElementTypes()[ctx!!.ruleIndex])
-            }
-        }
-    }
-
-    override fun visitTerminal(node: TerminalNode?) {
-        builder!!.advanceLexer()
     }
 }
 

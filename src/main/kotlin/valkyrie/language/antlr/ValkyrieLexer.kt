@@ -65,7 +65,7 @@ class ValkyrieLexer : Lexer() {
             // declare keywords
             KW_NAMESPACE, KW_IMPORT, KW_AS,
             KW_CLASS, KW_TYPE,
-            KW_UNION, KW_BITFLAGS,
+            KW_UNION, KW_FLAGS,
             KW_TRAIT, KW_EXTENDS,
             KW_FUNCTION, KW_LAMBDA,
             KW_LET, OP_BIND,
@@ -78,7 +78,7 @@ class ValkyrieLexer : Lexer() {
             KW_WHILE,
             KW_FOR, KW_IN,
             // which/match/catch
-            KW_MATCH, KW_CATCH,
+            KW_MATCH,
             KW_WITH, KW_WHEN, KW_CASE,
             KW_TRY,
             // control keywords

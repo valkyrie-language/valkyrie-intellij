@@ -116,10 +116,10 @@ KW_IN:        'in';
 OP_NOT_IN:    '∉';
 OP_CONTINUES: '∋' | '∍';
 // is
-KW_IS:     'is';
+KW_IS:       'is';
 OP_SUP_TYPE: ':>';
-OP_IS:     '⊑' | '<:';
-OP_IS_NOT: '⋢' | '<!';
+OP_IS:       '⊑' | '<:';
+OP_IS_NOT:   '⋢' | '<!';
 // as
 KW_AS: 'as' | 'as!' | 'as*';
 // until
@@ -129,11 +129,11 @@ OP_UNTIL: '..<' | '..=';
 OP_POW:   '^';
 // prefix
 MAIN_PREFIX: [⅟∛∜];
-OP_ROOT2:   '√';
+OP_ROOT2:    '√';
 // suffix
-MAIN_SUFFIX:    [℃℉‰‱′″‴⁗];
-OP_TRANSPOSE:   '⊤' | '†' | '⊹'; // ᵀ,ᴴ are XIDs
-OP_PERCENT:     '%';
+MAIN_SUFFIX:  [℃℉‰‱′″‴⁗];
+OP_TRANSPOSE: '⊤' | '†' | '⊹'; // ᵀ,ᴴ are XIDs
+OP_PERCENT:   '%';
 // standalone
 OP_REFERENCE: '※';
 OP_LABEL:     '¶';
@@ -144,12 +144,11 @@ KW_NAMESPACE: 'namespace' ('!' | '*' | '?')?;
 KW_IMPORT:    'using' ('!' | '*' | '?')?;
 KW_EXTENSION: 'extension';
 // 
-KW_CLASS:    'class' | 'structure';
-KW_TRAIT:    'trait' | 'interface';
-KW_UNION:    'union';
-KW_BITFLAGS: 'flags';
-KW_ENUMERATION: 'enumerate';
-KW_TYPE:     'type';
+KW_CLASS: 'class' | 'structure';
+KW_TRAIT: 'trait' | 'interface';
+KW_UNION: 'union';
+KW_FLAGS: 'flags' | 'enumerate';
+KW_TYPE:  'type';
 //
 KW_TEMPLATE:   'template' | 'generic';
 KW_EXTENDS:    'extends';
@@ -165,8 +164,7 @@ KW_LAMBDA:   'lambda';
 KW_FUNCTION: 'function' | 'micro' | 'macro';
 // pattern match
 KW_TRY:   'try';
-KW_MATCH: 'match';
-KW_CATCH: 'catch';
+KW_MATCH: 'match' | 'catch';
 KW_WITH:  'with';
 KW_CASE:  'case';
 KW_WHEN:  'when';

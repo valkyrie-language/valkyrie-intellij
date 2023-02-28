@@ -35,7 +35,7 @@ class ValkyrieFactory {
         val file = create_file(operator);
         var node = ValkyrieParser.getChildOfType(file, ValkyrieAntlrParser.RULE_program);
         node = ValkyrieParser.getChildOfType(node, ValkyrieAntlrParser.RULE_expression_root);
-        return ValkyrieParser.getChildOfType(node, ValkyrieAntlrParser.RULE_expression);
+        return ValkyrieParser.getChildOfType(node, ValkyrieAntlrParser.RULE_main_expression);
     }
 
     fun create_namespace(text: String, kind: String = ""): ValkyrieNamespaceStatement {
