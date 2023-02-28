@@ -85,7 +85,7 @@ define_union
 base_layout:    PARENTHESES_L type_expression? PARENTHESES_R;
 union_block:    BRACE_L (class_method | define_variant | eos_free)* BRACE_R;
 define_variant: identifier variant_block?;
-variant_block:  BRACE_L (class_field | eos_free)* BRACE_R;
+variant_block:  BRACE_L (class_field | class_method | eos_free)* BRACE_R;
 // ===========================================================================
 define_bitflags
     : annotation* modifiers KW_BITFLAGS identifier base_layout? type_hint? bitflags_block

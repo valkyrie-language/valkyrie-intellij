@@ -2,7 +2,9 @@ package valkyrie.language.antlr
 
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
+import com.intellij.lang.Language
 import com.intellij.lang.PsiBuilder
+import com.intellij.openapi.progress.ProgressIndicatorProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.tree.IElementType
@@ -11,7 +13,9 @@ import org.antlr.intellij.adaptor.lexer.RuleIElementType
 import org.antlr.intellij.adaptor.parser.ANTLRParseTreeToPSIConverter
 import org.antlr.intellij.adaptor.parser.ANTLRParserAdaptor
 import org.antlr.v4.runtime.Parser
+import org.antlr.v4.runtime.ParserRuleContext
 import org.antlr.v4.runtime.tree.ParseTree
+import org.antlr.v4.runtime.tree.TerminalNode
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.antlr.ValkyrieAntlrParser.*
 import valkyrie.language.ast.*
@@ -35,7 +39,7 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
     }
 
     override fun createListener(parser: Parser?, root: IElementType?, builder: PsiBuilder?): ANTLRParseTreeToPSIConverter {
-        return super.createListener(parser, root, builder)
+        return RuleRewriter(language, parser, builder)
     }
 
     companion object {
@@ -141,6 +145,7 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
             }
             return null
         }
+
         fun getChildOfType(psi: PsiElement?, parserRule: Int): PsiElement? {
             if (psi != null) {
                 for (child in psi.children) {
@@ -173,6 +178,35 @@ class ValkyrieParser(parser: ValkyrieAntlrParser) : ANTLRParserAdaptor(ValkyrieL
             }
             return output;
         }
+    }
+}
+
+private class RuleRewriter(language: Language, parser: Parser?, builder: PsiBuilder?) :
+    ANTLRParseTreeToPSIConverter(language, parser, builder) {
+    override fun enterEveryRule(ctx: ParserRuleContext?) {
+        ProgressIndicatorProvider.checkCanceled()
+        when (ctx) {
+            is ProgramContext -> {}
+            else -> {
+                markers.push(getBuilder().mark())
+            }
+        }
+
+    }
+
+    override fun exitEveryRule(ctx: ParserRuleContext?) {
+        ProgressIndicatorProvider.checkCanceled()
+        when (ctx) {
+            is ProgramContext -> {}
+            else -> {
+                val marker = markers.pop()
+                marker.done(getRuleElementTypes()[ctx!!.ruleIndex])
+            }
+        }
+    }
+
+    override fun visitTerminal(node: TerminalNode?) {
+        builder!!.advanceLexer()
     }
 }
 
