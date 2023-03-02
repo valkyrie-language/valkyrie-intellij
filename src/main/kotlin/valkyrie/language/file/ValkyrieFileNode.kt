@@ -11,7 +11,7 @@ import valkyrie.ide.project.crate.NamespaceMapping
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.antlr.traversal
-import valkyrie.language.ast.ValkyrieNamespaceStatement
+import valkyrie.language.ast.ValkyrieNamespaceNode
 import valkyrie.language.ast.classes.ValkyrieClassStatement
 
 
@@ -29,16 +29,16 @@ class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvide
     val packageName: String
         get() {
             for (child in this.children) {
-                if (child is ValkyrieNamespaceStatement) {
-                    return child.name
+                if (child is ValkyrieNamespaceNode) {
+                    return child.name ?: ""
                 }
             }
             return ""
         }
-    val namespace: ValkyrieNamespaceStatement?
+    val namespace: ValkyrieNamespaceNode?
         get() {
             for (child in this.children) {
-                if (child is ValkyrieNamespaceStatement) {
+                if (child is ValkyrieNamespaceNode) {
                     return child
                 }
             }

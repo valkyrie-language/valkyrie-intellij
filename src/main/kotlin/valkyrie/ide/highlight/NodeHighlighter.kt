@@ -21,7 +21,12 @@ class NodeHighlighter(private val info: HighlightInfoHolder?) {
             this.register(mod, ValkyrieHighlightColor.MODIFIER)
         }
     }
+
     fun register_macro(annotation: PsiElement) {
         this.register(annotation, ValkyrieHighlightColor.SYM_MACRO)
+    }
+
+    fun register_keywords(annotation: PsiElement?) {
+        this.register(annotation, ValkyrieHighlightColor.KEYWORD)
     }
 }

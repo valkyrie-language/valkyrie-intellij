@@ -33,7 +33,15 @@ class ValkyrieNamepathNode(node: ASTNode, type: IElementType, val free: Boolean 
     }
 
     override fun on_highlight(e: NodeHighlighter) {
-        fakeTypeColor(e, nameIdentifier)
+        val head = identifiers.firstOrNull();
+        if (identifiers.count() == 1) {
+            fakeTypeColor(e, head!!)
+        } else {
+            if (head?.name == "Self") {
+                e.register_keywords(head)
+            }
+            fakeTypeColor(e, identifiers.last())
+        }
     }
 
 }

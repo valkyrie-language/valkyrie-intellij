@@ -16,7 +16,7 @@ import valkyrie.language.psi.ValkyrieHighlightElement
 import valkyrie.language.psi.ValkyrieLineMarkElement
 import javax.swing.Icon
 
-class ValkyrieClassCustomNode(node: CompositeElement) : ASTWrapperPsiElement(node), ValkyrieHighlightElement, ValkyrieLineMarkElement {
+class ValkyrieClassDomainNode(node: CompositeElement) : ASTWrapperPsiElement(node), ValkyrieHighlightElement, ValkyrieLineMarkElement {
     val custom by lazy { ValkyrieModifiedNode.findIdentifier(this)!! };
     val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
     override fun on_highlight(e: NodeHighlighter) {

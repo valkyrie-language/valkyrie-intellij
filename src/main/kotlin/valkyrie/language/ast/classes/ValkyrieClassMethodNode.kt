@@ -86,7 +86,13 @@ class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node),
 
 
     override fun type_hint(inlay: TypeInlayHint): Boolean {
-        val typeHint = ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_type_hint);
+
+        if (method.name == "constructor") {
+            e.register(nameIdentifier, ValkyrieHighlightColor.KEYWORD)
+        }
+
+
+        val typeHint = ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_return_type);
         val argument = ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_function_parameters);
         if (typeHint == null && argument != null) {
             inlay.inline(argument.endOffset, ": Any?")

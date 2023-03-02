@@ -80,16 +80,16 @@ class ValkyrieClassFieldNode(node: CompositeElement) : ValkyrieScopeNode(node), 
 
     override fun type_hint(inlay: TypeInlayHint): Boolean {
         val hint = ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_type_hint);
-        val default = ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_parameter_default)
+        val tacit = ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_parameter_default)
 
-        if (hint == null && default == null) {
+        if (hint == null && tacit == null) {
             inlay.inline(field.endOffset, ": Any? = null")
             return true;
         } else if (hint == null) {
             inlay.inline(field.endOffset, ": Any?")
             return true;
-        } else if (default == null) {
-            inlay.inline(hint.endOffset, " = default")
+        } else if (tacit == null) {
+            inlay.inline(hint.endOffset, " = tacit")
             return true;
         }
         return false;

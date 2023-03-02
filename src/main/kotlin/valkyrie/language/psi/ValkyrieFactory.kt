@@ -9,7 +9,7 @@ import valkyrie.language.antlr.ValkyrieAntlrParser
 import valkyrie.language.antlr.ValkyrieParser
 import valkyrie.language.antlr.childrenWithLeaves
 import valkyrie.language.ast.ValkyrieIdentifierNode
-import valkyrie.language.ast.ValkyrieNamespaceStatement
+import valkyrie.language.ast.ValkyrieNamespaceNode
 import valkyrie.language.ast.ValkyrieNumberNode
 import valkyrie.language.file.ValkyrieFileNode
 
@@ -38,10 +38,10 @@ class ValkyrieFactory {
         return ValkyrieParser.getChildOfType(node, ValkyrieAntlrParser.RULE_main_expression);
     }
 
-    fun create_namespace(text: String, kind: String = ""): ValkyrieNamespaceStatement {
+    fun create_namespace(text: String, kind: String = ""): ValkyrieNamespaceNode {
         val file = create_file("namespace${kind} $text;");
         for (child in file.children) {
-            if (child is ValkyrieNamespaceStatement) {
+            if (child is ValkyrieNamespaceNode) {
                 return child
             }
         }

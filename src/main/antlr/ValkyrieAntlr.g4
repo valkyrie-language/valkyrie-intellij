@@ -6,8 +6,9 @@ options {
 
 // $antlr-format useTab false, columnLimit 144
 // $antlr-format alignColons hanging, alignSemicolons hanging, alignFirstTokens true
-program: top_statement* EOF;
-top_statement
+program: program_term* EOF;
+program_block: BRACE_L program_term* BRACE_R;
+program_term
     : define_namespace
     | import_statement
     | define_extension
@@ -52,24 +53,24 @@ define_class
     : template_call? annotation* modifiers KW_CLASS identifier define_generic? class_inherit? type_hint? class_block eos?
     ;
 class_block:     BRACE_L class_statemnts* BRACE_R;
-class_statemnts: class_dsl | class_method | class_field | eos_free;
+class_statemnts: class_domain | class_method | class_field | eos_free;
 class_inherit
     : PARENTHESES_L PARENTHESES_R
     | PARENTHESES_L class_inherit_item (COMMA class_inherit_item)* COMMA? PARENTHESES_R
     ;
-class_inherit_item: modified_namepath;
+class_inherit_item: (identifier COLON)? type_expression;
 class_field:        annotation* modified_identifier type_hint? parameter_default?;
 class_method
     : annotation* modified_namepath define_generic? function_parameters return_part? function_block?
     ;
-class_dsl: annotation* modified_identifier class_block;
+class_domain: annotation* modified_identifier program_block;
 // ===========================================================================
 define_trait
     : template_call? annotation* modifiers KW_TRAIT identifier define_generic? with_implements? trait_block eos?
     ;
 trait_block:       BRACE_L trait_statement* BRACE_R;
-trait_statement:   define_trait_type | class_method | class_field | class_dsl | eos_free;
-define_trait_type: KW_TYPE identifier (OP_ASSIGN type_expression)?;
+trait_statement:   define_trait_type | class_method | class_field | class_domain | eos_free;
+define_trait_type: modifiers KW_TYPE identifier (OP_ASSIGN type_expression)?;
 // ===========================================================================
 define_extends
     : template_call? annotation* modifiers KW_EXTENDS namepath define_generic? with_implements? extends_block
@@ -175,6 +176,7 @@ define_type
     | annotation* modifiers KW_TYPE identifier define_generic? template_block
     ;
 type_hint: COLON type_expression;
+type_pair: (collection_key COLON)? type_expression;
 // ===========================================================================
 if_statement
     : annotation* KW_IF inline_expression then_block = function_block else_if_statement* (
@@ -277,10 +279,8 @@ type_expression
     | type_expression infix_arrows type_expression # TArrows
     | type_expression OP_ADD type_expression       # TAdd
     | type_expression generic_call_in_type         # TGeneric
-    | PARENTHESES_L (
-        type_expression COMMA // must add ,
-        | type_expression (COMMA type_expression)+ COMMA?
-    )? PARENTHESES_R # TTuple
+    | PARENTHESES_L (        type_pair COMMA         | type_pair (COMMA type_pair)+ COMMA?    )? PARENTHESES_R # TTuple
+    | function_block # TBlock
     | leading        # TAtom
     ;
 leading
@@ -347,7 +347,7 @@ define_generic
     | namejoin? OP_LT OP_GT
     | namejoin? OP_LT generic_item (COMMA generic_item)* COMMA? OP_GT
     ;
-generic_item: (identifier COLON)? type_expression;
+generic_item: identifier (COLON bound=type_expression)? (OP_ASSIGN default=type_expression)?;
 generic_call
     : namejoin OP_LT OP_GT
     | namejoin OP_LT generic_pair (COMMA generic_pair)* COMMA? OP_GT

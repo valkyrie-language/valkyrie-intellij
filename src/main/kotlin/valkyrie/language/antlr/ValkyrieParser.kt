@@ -124,7 +124,7 @@ private class RuleRewriter(language: Language, parser: Parser?, builder: PsiBuil
 
     private fun ignoreContext(ctx: ParserRuleContext?): Boolean {
         return when (ctx) {
-            is ProgramContext, is Top_statementContext,
+            is ProgramContext, is Program_termContext,
             is Class_statemntsContext, is Flags_statementContext, is Union_statementsContext,
             is Trait_statementContext, is Extends_statementContext,
             is Function_statementContext, is Return_partContext,
@@ -143,7 +143,7 @@ private class RuleRewriter(language: Language, parser: Parser?, builder: PsiBuil
             val type: RuleIElementType = node.elementType as RuleIElementType;
             return when (type.ruleIndex) {
 //                RULE_program -> ValkyrieProgramNode(node, type)
-                RULE_define_namespace -> ValkyrieNamespaceStatement(node, type)
+                RULE_define_namespace -> ValkyrieNamespaceNode(node)
                 RULE_import_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
                 // annotations
                 RULE_template_call -> ValkyrieTemplateStatement(node)
@@ -161,7 +161,7 @@ private class RuleRewriter(language: Language, parser: Parser?, builder: PsiBuil
                 RULE_class_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
                 RULE_class_field -> ValkyrieClassFieldNode(node)
                 RULE_class_method -> ValkyrieClassMethodNode(node)
-                RULE_class_dsl -> ValkyrieClassCustomNode(node)
+                RULE_class_domain -> ValkyrieClassDomainNode(node)
                 // flags, enumeration
                 RULE_define_flags -> ValkyrieFlagsStatement(node)
                 RULE_flags_item -> ValkyrieFlagsStatementItem(node, type)

@@ -13,7 +13,13 @@ import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
-class CreateNamespace(private val element: ValkyrieFileNode) : LocalQuickFixAndIntentionActionOnPsiElement(element), PriorityAction, Iconable {
+class CreateNamespace : LocalQuickFixAndIntentionActionOnPsiElement, PriorityAction, Iconable {
+    private val element: ValkyrieFileNode
+
+    constructor(element: ValkyrieFileNode) : super(element) {
+        this.element = element
+    }
+
     override fun startInWriteAction(): Boolean {
         return true
     }
@@ -31,8 +37,35 @@ class CreateNamespace(private val element: ValkyrieFileNode) : LocalQuickFixAndI
     }
 
     override fun invoke(project: Project, file: PsiFile, editor: Editor?, startElement: PsiElement, endElement: PsiElement) {
+        if (editor == null) {
+            return
+        }
         CheckUtil.checkWritable(element)
-        editor!!.document.insertString(0, "namespace std.create.test;\n")
+        if (element.name == "_.vk" || element.name == "index.vk") {
+            createIndexNamespace()
+        }
+        val indexFile = element.containingDirectory?.findFile("_.vk") as? ValkyrieFileNode;
+        if (indexFile != null) {
+            createElementNamespace(indexFile, editor)
+        }
+    }
+
+    private fun createIndexNamespace() {
+
+    }
+
+    private fun createElementNamespace(indexFile: ValkyrieFileNode, editor: Editor) {
+        val sb = StringBuilder("namespace ");
+        val thisFile = element.containingFile as ValkyrieFileNode;
+        val indexName = indexFile.namespace ?: return
+        val fileName = thisFile.namespace
+        if (fileName == null) {
+            sb.append(indexName.namepath?.text)
+            sb.append(";\n")
+            editor.document.insertString(0, sb.toString())
+        } else {
+            // check name same
+        }
     }
 
     override fun getIcon(flags: Int): Icon {

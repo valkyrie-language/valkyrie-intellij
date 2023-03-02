@@ -21,7 +21,8 @@ class ValkyrieSdkValidator : ProjectSdkSetupValidator {
         if (sdk == null) {
             return null
         }
-        return "Invalid standard library"
+//        return "Invalid standard library"
+        return null
     }
 
     override fun getFixHandler(project: Project, file: VirtualFile): ActionHandler {

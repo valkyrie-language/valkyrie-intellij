@@ -146,7 +146,7 @@ KW_EXTENSION: 'extension';
 // 
 KW_CLASS: 'class' | 'structure';
 KW_TRAIT: 'trait' | 'interface';
-KW_UNION: 'union';
+KW_UNION: 'union' | 'variant';
 KW_FLAGS: 'flags' | 'enumerate';
 KW_TYPE:  'type';
 //
