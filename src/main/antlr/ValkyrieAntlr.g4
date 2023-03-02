@@ -6,7 +6,7 @@ options {
 
 // $antlr-format useTab false, columnLimit 144
 // $antlr-format alignColons hanging, alignSemicolons hanging, alignFirstTokens true
-program: program_term* EOF;
+program:       program_term* EOF;
 program_block: BRACE_L program_term* BRACE_R;
 program_term
     : define_namespace
@@ -32,20 +32,38 @@ eos_free: COMMA | SEMICOLON | FAKE_COLON;
 // ===========================================================================
 define_namespace: attribute* modifiers KW_NAMESPACE namepath_free eos?;
 // ===========================================================================
-import_statement: KW_IMPORT import_term;
-import_as:        KW_AS (OP_AT | OP_HASH)? identifier;
+import_statement
+    : attribute* KW_IMPORT eos_free
+    | attribute* KW_IMPORT import_block eos_free?
+    | attribute* KW_IMPORT import_term eos_free?
+    ;
+
 import_term
-    : import_block
-    | OP_AT import_name import_as?
-    | OP_AT import_name (namejoin_free? import_block)?
-    | OP_HASH import_name import_as?
-    | OP_HASH import_name (namejoin_free? import_block)?
-    | import_name import_as?
-    | import_name (namejoin_free? import_block)?
+    : import_all
+    | import_macro
+    | import_attribute
+    | import_space
+    | import_name
     | eos_free
     ;
-import_name:  identifier (namejoin_free identifier)* (namejoin_free (OP_MUL));
-import_block: BRACE_L BRACE_R | BRACE_L import_term* BRACE_R;
+// using package.module.@macro (as x)?
+import_macro: (path = identifier import_join)* OP_AT item = identifier import_as?;
+// using package.module.#Attribute (as x)?
+import_attribute: (path = identifier import_join)* OP_HASH item = identifier import_as?;
+// using package.module.*
+import_all: (path = identifier import_join)+ (OP_MUL);
+// using package.module.name { space }
+import_space: path = identifier (import_join path = identifier)* import_join? import_block;
+// using package.module.name (as x)?
+import_name: identifier (import_join identifier)* import_as?;
+
+import_block
+    : PARENTHESES_L import_term* PARENTHESES_R
+    | BRACKET_L import_term* BRACKET_R
+    | BRACE_L import_term* BRACE_R
+    ;
+import_as:   KW_AS (OP_AT | OP_HASH)? identifier;
+import_join: OP_PROPORTION | DOT | OP_DIV;
 // ===========================================================================
 define_extension: KW_EXTENSION;
 // ===========================================================================
@@ -68,9 +86,11 @@ class_domain: attribute* modified_identifier program_block;
 define_trait
     : template_call? attribute* modifiers KW_TRAIT identifier define_generic? with_implements? trait_block eos?
     ;
-trait_block:       BRACE_L trait_statement* BRACE_R;
-trait_statement:   define_trait_type | class_method | class_field | class_domain | eos_free;
-define_trait_type: modifiers KW_TYPE identifier (COLON type_expression)? (OP_ASSIGN type_expression)?;
+trait_block:     BRACE_L trait_statement* BRACE_R;
+trait_statement: define_trait_type | class_method | class_field | class_domain | eos_free;
+define_trait_type
+    : modifiers KW_TYPE identifier (COLON type_expression)? (OP_ASSIGN type_expression)?
+    ;
 // ===========================================================================
 define_extends
     : template_call? attribute* modifiers KW_EXTENDS namepath define_generic? with_implements? extends_block
@@ -189,15 +209,15 @@ guard_statement
     ;
 else_if_statement: KW_ELSE KW_IF inline_expression function_block;
 // ===========================================================================
-loop_statement
-    : while_statement
-    | while_let_statement
-    | for_statement
-    ;
+loop_statement:  while_statement | while_let_statement | for_statement;
 while_statement: attribute* KW_WHILE inline_expression? mark_label? function_block;
-while_let_statement: attribute* KW_WHILE KW_LET let_pattern OP_ASSIGN inline_expression mark_label? function_block;
-for_statement: attribute* KW_FOR let_pattern infix_in cond = inline_expression if_guard? mark_label? function_block;
-if_guard: KW_IF inline_expression;
+while_let_statement
+    : attribute* KW_WHILE KW_LET let_pattern OP_ASSIGN inline_expression mark_label? function_block
+    ;
+for_statement
+    : attribute* KW_FOR let_pattern infix_in cond = inline_expression if_guard? mark_label? function_block
+    ;
+if_guard:   KW_IF inline_expression;
 mark_label: OP_HASH identifier;
 // ==========================================================================
 expression_root: attribute* main_expression OP_AND_THEN? eos?;
@@ -219,8 +239,8 @@ main_expression
     | lhs = main_expression op_bitwise rhs = main_expression                   # EBitwise
     | lhs = main_expression infix_range rhs = main_expression                  # EUntil
     | lhs = main_expression infix_map rhs = main_expression                    # EMap
-    | lhs = main_expression infix_is rhs = type_expression                # EIsA
-    | lhs = main_expression infix_as rhs = type_expression                # EAs
+    | lhs = main_expression infix_is rhs = type_expression                     # EIsA
+    | lhs = main_expression infix_as rhs = type_expression                     # EAs
     | lhs = main_expression infix_in rhs = main_expression                     # EIn
     | lhs = main_expression OP_OR_ELSE rhs = main_expression                   # EOrElse
     | lhs = main_expression op_pipeline rhs = main_expression                  # EPipe
@@ -273,17 +293,17 @@ inline_expression
     | leading       # IAtom
     ;
 type_expression
-    : op_prefix type_expression                    # TPrefix
-    | type_expression OP_AND_THEN                  # TOptional
-    | type_expression OP_BANG                      # TMust
-    | type_expression generic_call_in_type         # TGeneric
-    | type_expression op_pattern type_expression   # TPattern
-    | type_expression infix_arrows type_expression # TArrows
-    | type_expression OP_ADD type_expression       # TAdd
-    | PARENTHESES_L (        type_pair COMMA         | type_pair (COMMA type_pair)+ COMMA?    )? PARENTHESES_R # TTuple
-    | function_block # TBlock
-    | OP_MUL         # TKind
-    | leading        # TAtom
+    : op_prefix type_expression                                                            # TPrefix
+    | type_expression OP_AND_THEN                                                          # TOptional
+    | type_expression OP_BANG                                                              # TMust
+    | type_expression generic_call_in_type                                                 # TGeneric
+    | type_expression op_pattern type_expression                                           # TPattern
+    | type_expression infix_arrows type_expression                                         # TArrows
+    | type_expression OP_ADD type_expression                                               # TAdd
+    | PARENTHESES_L (type_pair COMMA | type_pair (COMMA type_pair)+ COMMA?)? PARENTHESES_R # TTuple
+    | function_block                                                                       # TBlock
+    | OP_MUL                                                                               # TKind
+    | leading                                                                              # TAtom
     ;
 leading
     : string_literal # AString
@@ -296,13 +316,13 @@ leading
 // ===========================================================================
 control_expression
     : (RETURN | RESUME main_expression?)            # CReturn
-    | BREAK (OP_LABEL identifier)?             # CBreak
-    | CONTINUE (OP_LABEL identifier)?          # CContinue
+    | BREAK (OP_LABEL identifier)?                  # CBreak
+    | CONTINUE (OP_LABEL identifier)?               # CContinue
     | RAISE main_expression?                        # CRaise
     | YIELD (OP_LABEL identifier)? main_expression? # CYield
-    | YIELD BREAK                              # CBreak
+    | YIELD BREAK                                   # CBreak
     | YIELD KW_WITH main_expression                 # CWith
-    | FALL_THROUGH (OP_LABEL identifier)?      # CFall
+    | FALL_THROUGH (OP_LABEL identifier)?           # CFall
     ;
 op_prefix
     : MAIN_PREFIX
@@ -349,7 +369,10 @@ define_generic
     | OP_PROPORTION? OP_LT OP_GT
     | OP_PROPORTION? OP_LT generic_item (COMMA generic_item)* COMMA? OP_GT
     ;
-generic_item: identifier (COLON bound=type_expression)? (OP_ASSIGN default=type_expression)? | LAMBDA_SLOT;
+generic_item
+    : identifier (COLON bound = type_expression)? (OP_ASSIGN default = type_expression)?
+    | LAMBDA_SLOT
+    ;
 generic_call
     : OP_PROPORTION OP_LT OP_GT
     | OP_PROPORTION OP_LT generic_pair (COMMA generic_pair)* COMMA? OP_GT
@@ -377,9 +400,8 @@ template_implements: KW_IMPLEMENTS type_expression;
 where_block:         BRACE_L where_bound* BRACE_R;
 where_bound:         identifier COLON type_expression | eos_free;
 require_block:       BRACE_L (expression_root | eos_free)* BRACE_R;
-// ===========================================================================
-// @macro(v, k: v) { any }
-macro_call    : OP_AT macro_item;
+// =========================================================================== @macro(v, k: v) { any }
+macro_call: OP_AT macro_item;
 macro_item: namepath tuple_call_body? class_block?;
 // #attribute.variant(v, k: v) { any }
 attribute
@@ -402,7 +424,7 @@ match_terms
     | attribute* KW_ELSE match_case_block                                             # MatchElse
     | attribute* KW_CASE case_pattern (KW_IF inline_expression)? match_case_block     # MatchCase
     ;
-match_case_block: (COLON|OP_ARROW2) main_expression*;
+match_case_block: (COLON | OP_ARROW2) main_expression*;
 case_pattern
     : case_pattern (OP_OR | OP_ADD) case_pattern # CaseOR
     | case_pattern (OP_UNTIL) case_pattern       # CaseUntil
@@ -483,11 +505,11 @@ output_name
     : (OP_PERCENT | OP_LAST) INTEGER # PositiveOutput
     | OP_LAST INTEGER?               # NegativeOutput
     ;
-range_join: OP_PROPORTION | COLON COLON;
-namepath_free:  identifier (namejoin_free identifier)*;
-namejoin_free:  OP_PROPORTION | DOT;
-namepath:       identifier (namejoin identifier)*;
-namejoin:       OP_PROPORTION;
+range_join:    OP_PROPORTION | COLON COLON;
+namepath_free: identifier (namejoin_free identifier)*;
+namejoin_free: OP_PROPORTION | DOT;
+namepath:      identifier (namejoin identifier)*;
+namejoin:      OP_PROPORTION;
 // identifier
 identifier: UNICODE_ID | RAW_ID;
 // number

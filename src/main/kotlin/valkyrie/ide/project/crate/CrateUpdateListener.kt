@@ -14,10 +14,10 @@ class CrateUpdateListener : AsyncFileListener {
         val finder = PsiManager.getInstance(project);
         val changes = mutableListOf<ValkyrieFileNode>()
         for (event in events) {
-            val file = event.file?.let { finder.findFile(it) } as? ValkyrieFileNode
-            if (file != null) {
-                changes.add(file)
-            }
+//            val file = event.file?.let { finder.findFile(it) } as? ValkyrieFileNode
+//            if (file != null) {
+//                changes.add(file)
+//            }
         }
         return NamespaceMapping(changes.toTypedArray())
     }

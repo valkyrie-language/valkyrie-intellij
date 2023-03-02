@@ -30,12 +30,17 @@ import javax.swing.Icon
 
 class ValkyrieClassStatement(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner, ValkyrieLineMarkElement,
     ValkyrieHighlightElement, ValkyrieRewritableElement {
-    private val _identifier by lazy { ValkyrieIdentifierNode.find(this)!! }
-    val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
-    val inherits: Array<ValkyrieClassInheritItem> by lazy {
+    private val _identifier = ValkyrieIdentifierNode.find(this)!!
+    val modifiers = ValkyrieModifiedNode.findModifiers(this)
+    val inherits: Array<ValkyrieClassInheritItem> = run {
         val inherit = ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_class_inherit);
         PsiTreeUtil.getChildrenOfType(inherit, ValkyrieClassInheritItem::class.java) ?: emptyArray()
     }
+
+    override fun getNameIdentifier(): ValkyrieIdentifierNode {
+        return _identifier;
+    }
+
 
     override fun getName(): String {
         return _identifier.text;
@@ -45,9 +50,6 @@ class ValkyrieClassStatement(node: CompositeElement) : ValkyrieScopeNode(node), 
         TODO("Not yet implemented")
     }
 
-    override fun getNameIdentifier(): ValkyrieIdentifierNode {
-        return _identifier;
-    }
 
     override fun getBaseIcon(): Icon {
         return ValkyrieIconProvider.Instance.CLASS
