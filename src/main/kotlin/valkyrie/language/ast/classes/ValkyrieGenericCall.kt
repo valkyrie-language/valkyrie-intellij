@@ -21,3 +21,4 @@ class ValkyrieGenericCall(node: CompositeElement, must: Boolean) : ASTWrapperPsi
         e.replace_generic(this)
     }
 }
+

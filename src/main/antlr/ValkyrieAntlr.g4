@@ -30,7 +30,7 @@ program_term
 eos:      SEMICOLON | FAKE_COLON;
 eos_free: COMMA | SEMICOLON | FAKE_COLON;
 // ===========================================================================
-define_namespace: KW_NAMESPACE namepath_free eos?;
+define_namespace: attribute* modifiers KW_NAMESPACE namepath_free eos?;
 // ===========================================================================
 import_statement: KW_IMPORT import_term;
 import_as:        KW_AS (OP_AT | OP_HASH)? identifier;
@@ -50,37 +50,37 @@ import_block: BRACE_L BRACE_R | BRACE_L import_term* BRACE_R;
 define_extension: KW_EXTENSION;
 // ===========================================================================
 define_class
-    : template_call? annotation* modifiers KW_CLASS identifier define_generic? class_inherit? type_hint? class_block eos?
+    : template_call? attribute* modifiers KW_CLASS identifier define_generic? class_inherit? type_hint? class_block eos?
     ;
 class_block:     BRACE_L class_statemnts* BRACE_R;
-class_statemnts: class_domain | class_method | class_field | eos_free;
+class_statemnts: class_domain | class_method | class_field | macro_call | eos_free;
 class_inherit
     : PARENTHESES_L PARENTHESES_R
     | PARENTHESES_L class_inherit_item (COMMA class_inherit_item)* COMMA? PARENTHESES_R
     ;
 class_inherit_item: (identifier COLON)? type_expression;
-class_field:        annotation* modified_identifier type_hint? parameter_default?;
+class_field:        attribute* modified_identifier type_hint? parameter_default?;
 class_method
-    : annotation* modified_namepath define_generic? function_parameters return_part? function_block?
+    : attribute* modified_namepath define_generic? function_parameters return_part? function_block?
     ;
-class_domain: annotation* modified_identifier program_block;
+class_domain: attribute* modified_identifier program_block;
 // ===========================================================================
 define_trait
-    : template_call? annotation* modifiers KW_TRAIT identifier define_generic? with_implements? trait_block eos?
+    : template_call? attribute* modifiers KW_TRAIT identifier define_generic? with_implements? trait_block eos?
     ;
 trait_block:       BRACE_L trait_statement* BRACE_R;
 trait_statement:   define_trait_type | class_method | class_field | class_domain | eos_free;
-define_trait_type: modifiers KW_TYPE identifier (OP_ASSIGN type_expression)?;
+define_trait_type: modifiers KW_TYPE identifier (COLON type_expression)? (OP_ASSIGN type_expression)?;
 // ===========================================================================
 define_extends
-    : template_call? annotation* modifiers KW_EXTENDS namepath define_generic? with_implements? extends_block
+    : template_call? attribute* modifiers KW_EXTENDS namepath define_generic? with_implements? extends_block
     ;
 extends_block:     BRACE_L extends_statement* BRACE_R;
 extends_statement: define_trait_type | class_method | eos_free;
 with_implements:   (COLON | KW_IMPLEMENTS) type_expression;
 // ===========================================================================
 define_union
-    : template_call? annotation* modifiers KW_UNION identifier define_generic? base_layout? type_hint? union_block
+    : template_call? attribute* modifiers KW_UNION identifier define_generic? base_layout? type_hint? union_block
     ;
 base_layout:      PARENTHESES_L type_expression? PARENTHESES_R;
 union_block:      BRACE_L union_statements* BRACE_R;
@@ -88,21 +88,21 @@ union_statements: class_method | define_variant | eos_free;
 define_variant:   identifier variant_block?;
 variant_block:    BRACE_L (class_field | class_method | eos_free)* BRACE_R;
 // ===========================================================================
-define_flags:    annotation* modifiers KW_FLAGS identifier base_layout? type_hint? flags_block;
+define_flags:    attribute* modifiers KW_FLAGS identifier base_layout? type_hint? flags_block;
 flags_block:     BRACE_L flags_statement* BRACE_R;
 flags_statement: class_method | flags_item | eos_free;
-flags_item:      annotation* identifier (OP_ASSIGN main_expression)?;
+flags_item:      attribute* identifier (OP_ASSIGN main_expression)?;
 // ===========================================================================
 define_function
-    : template_call? annotation* modifiers KW_FUNCTION namepath define_generic? function_parameters return_part? function_block
+    : template_call? attribute* modifiers KW_FUNCTION namepath define_generic? function_parameters return_part? function_block
     ;
 function_parameters
     : PARENTHESES_L PARENTHESES_R
     | PARENTHESES_L parameter_item (COMMA parameter_item)* PARENTHESES_R
     ;
 parameter_item
-    : annotation* (mods += identifier)* parameter_special id = identifier? type_hint? parameter_default?
-    | annotation* (mods += identifier)* id = identifier type_hint? parameter_default?
+    : attribute* (mods += identifier)* parameter_special id = identifier? type_hint? parameter_default?
+    | attribute* (mods += identifier)* id = identifier type_hint? parameter_default?
     | OP_LT
     | OP_GT
     ;
@@ -135,11 +135,11 @@ tuple_call_body
     | PARENTHESES_L tuple_call_item (COMMA tuple_call_item)* COMMA? PARENTHESES_R
     ;
 tuple_call_item
-    : annotation* (mods += identifier)* field = identifier COLON main_expression
-    | annotation* main_expression
+    : attribute* (mods += identifier)* field = identifier COLON main_expression
+    | attribute* main_expression
     ;
 // ===========================================================================
-define_lambda: annotation* KW_LAMBDA function_parameters return_part? function_block;
+define_lambda: attribute* KW_LAMBDA function_parameters return_part? function_block;
 // ===========================================================================
 function_block: BRACE_L function_statement* BRACE_R;
 function_statement
@@ -151,7 +151,7 @@ function_statement
     | eos
     ;
 // ===========================================================================
-let_binding:       annotation* KW_LET let_pattern type_hint? (OP_ASSIGN expression_root)?;
+let_binding:       attribute* KW_LET let_pattern type_hint? (OP_ASSIGN expression_root)?;
 let_pattern:       let_pattern_tuple # LP1 | let_pattern_plain # LP2;
 let_pattern_plain: modified_identifier (COMMA modified_identifier)* COMMA?;
 let_pattern_tuple
@@ -172,33 +172,35 @@ let_pattern_item
     ;
 // ===========================================================================
 define_type
-    : annotation* modifiers KW_TYPE identifier define_generic? OP_ASSIGN type_expression
-    | annotation* modifiers KW_TYPE identifier define_generic? template_block
+    : attribute* modifiers KW_TYPE identifier define_generic? OP_ASSIGN type_expression
+    | attribute* modifiers KW_TYPE identifier define_generic? template_block
     ;
 type_hint: COLON type_expression;
 type_pair: (collection_key COLON)? type_expression;
 // ===========================================================================
 if_statement
-    : annotation* KW_IF inline_expression then_block = function_block else_if_statement* (
+    : attribute* KW_IF inline_expression then_block = function_block else_if_statement* (
         KW_ELSE else_block = function_block
     )?
     ;
 guard_statement
-    : annotation* KW_IF (KW_LET | KW_NOT) (let_pattern_tuple | identifier | SPECIAL) OP_ASSIGN inline_expression then = function_block
-    | annotation* KW_IF (KW_LET | KW_NOT) inline_expression then = function_block
+    : attribute* KW_IF (KW_LET | KW_NOT) (let_pattern_tuple | identifier | SPECIAL) OP_ASSIGN inline_expression then = function_block
+    | attribute* KW_IF (KW_LET | KW_NOT) inline_expression then = function_block
     ;
 else_if_statement: KW_ELSE KW_IF inline_expression function_block;
 // ===========================================================================
 loop_statement
-    : annotation* KW_WHILE cond = inline_expression function_block                       # WhileLoop
-    | annotation* KW_WHILE KW_LET let_pattern OP_ASSIGN inline_expression function_block # WhileLet
-    | annotation* KW_FOR let_pattern infix_in cond = inline_expression (
-        KW_IF guard = inline_expression
-    )? function_block # ForLoop
+    : while_statement
+    | while_let_statement
+    | for_statement
     ;
+while_statement: attribute* KW_WHILE inline_expression? mark_label? function_block;
+while_let_statement: attribute* KW_WHILE KW_LET let_pattern OP_ASSIGN inline_expression mark_label? function_block;
+for_statement: attribute* KW_FOR let_pattern infix_in cond = inline_expression if_guard? mark_label? function_block;
 if_guard: KW_IF inline_expression;
+mark_label: OP_HASH identifier;
 // ==========================================================================
-expression_root: annotation* main_expression OP_AND_THEN? eos?;
+expression_root: attribute* main_expression OP_AND_THEN? eos?;
 main_expression
     : main_expression op_suffix    # ESuffix
     | main_expression slice_call   # ESlice
@@ -278,9 +280,9 @@ type_expression
     | type_expression op_pattern type_expression   # TPattern
     | type_expression infix_arrows type_expression # TArrows
     | type_expression OP_ADD type_expression       # TAdd
-    | type_expression generic_call_in_type         # TGeneric
     | PARENTHESES_L (        type_pair COMMA         | type_pair (COMMA type_pair)+ COMMA?    )? PARENTHESES_R # TTuple
     | function_block # TBlock
+    | OP_MUL         # TKind
     | leading        # TAtom
     ;
 leading
@@ -344,25 +346,25 @@ infix_in: KW_IN | KW_NOT KW_IN | OP_IN | OP_NOT_IN;
 define_generic
     : GENERIC_L GENERIC_R
     | GENERIC_L generic_item (COMMA generic_item)* COMMA? GENERIC_R
-    | namejoin? OP_LT OP_GT
-    | namejoin? OP_LT generic_item (COMMA generic_item)* COMMA? OP_GT
+    | OP_PROPORTION? OP_LT OP_GT
+    | OP_PROPORTION? OP_LT generic_item (COMMA generic_item)* COMMA? OP_GT
     ;
-generic_item: identifier (COLON bound=type_expression)? (OP_ASSIGN default=type_expression)?;
+generic_item: identifier (COLON bound=type_expression)? (OP_ASSIGN default=type_expression)? | LAMBDA_SLOT;
 generic_call
-    : namejoin OP_LT OP_GT
-    | namejoin OP_LT generic_pair (COMMA generic_pair)* COMMA? OP_GT
+    : OP_PROPORTION OP_LT OP_GT
+    | OP_PROPORTION OP_LT generic_pair (COMMA generic_pair)* COMMA? OP_GT
     | GENERIC_L GENERIC_R
     | GENERIC_L generic_pair (COMMA generic_pair)* COMMA? GENERIC_R
     ;
 generic_call_in_type
-    : namejoin? (OP_LT generic_pair (COMMA generic_pair)* COMMA?)? OP_GT
+    : OP_PROPORTION? OP_LT (generic_pair (COMMA generic_pair)* COMMA?)? OP_GT
     | GENERIC_L (generic_pair (COMMA generic_pair)* COMMA?)? GENERIC_R
     ;
 generic_pair: (identifier COLON)? type_expression;
 define_label: OP_LABEL identifier;
 // ===========================================================================
 template_call
-    : annotation* modifiers KW_TEMPLATE (
+    : attribute* modifiers KW_TEMPLATE (
         identifier (COMMA identifier)* COMMA?
         | OP_LT identifier (COMMA identifier)* COMMA? OP_GT
         | GENERIC_L identifier (COMMA identifier)* COMMA? GENERIC_R
@@ -376,31 +378,31 @@ where_block:         BRACE_L where_bound* BRACE_R;
 where_bound:         identifier COLON type_expression | eos_free;
 require_block:       BRACE_L (expression_root | eos_free)* BRACE_R;
 // ===========================================================================
-macro_call
-    : OP_AT annotation_call_item class_block?
-    | OP_AT BRACKET_L annotation_call_item (COMMA annotation_call_item)* BRACKET_R class_block?
+// @macro(v, k: v) { any }
+macro_call    : OP_AT macro_item;
+macro_item: namepath tuple_call_body? class_block?;
+// #attribute.variant(v, k: v) { any }
+attribute
+    : OP_HASH attribute_item
+    | OP_HASH BRACKET_L (attribute_item (COMMA attribute_item)* COMMA?)? BRACKET_R
     ;
-annotation
-    : OP_HASH annotation_call_item class_block?
-    | OP_HASH BRACKET_L annotation_call_item (COMMA annotation_call_item)* BRACKET_R
-    ;
-annotation_call_item: namepath tuple_call_body? class_block?;
+attribute_item: namepath (DOT identifier)* tuple_call_body? class_block?;
 // ===========================================================================
-try_statement: annotation* KW_TRY type_expression? function_block;
+try_statement: attribute* KW_TRY type_expression? function_block;
 match_statement
-    : annotation* KW_MATCH (identifier OP_BIND)? inline_expression OP_AND_THEN? match_block
+    : attribute* KW_MATCH (identifier OP_BIND)? inline_expression OP_AND_THEN? match_block
     ;
 // ===========================================================================
 match_block: BRACE_L (match_terms | eos_free)* BRACE_R;
 match_terms
-    : annotation* KW_WITH identifier                                                   # MatchWith
-    | annotation* KW_WITH BRACKET_L (identifier (COMMA identifier)* COMMA?)? BRACKET_R # MatchWithMany
-    | annotation* KW_TYPE type_expression (KW_IF inline_expression)? match_case_block  # MatchType
-    | annotation* KW_WHEN inline_expression match_case_block                           # MatchWhen
-    | annotation* KW_ELSE match_case_block                                             # MatchElse
-    | annotation* KW_CASE case_pattern (KW_IF inline_expression)? match_case_block     # MatchCase
+    : attribute* KW_WITH identifier                                                   # MatchWith
+    | attribute* KW_WITH BRACKET_L (identifier (COMMA identifier)* COMMA?)? BRACKET_R # MatchWithMany
+    | attribute* KW_TYPE type_expression (KW_IF inline_expression)? match_case_block  # MatchType
+    | attribute* KW_WHEN inline_expression match_case_block                           # MatchWhen
+    | attribute* KW_ELSE match_case_block                                             # MatchElse
+    | attribute* KW_CASE case_pattern (KW_IF inline_expression)? match_case_block     # MatchCase
     ;
-match_case_block: COLON main_expression*;
+match_case_block: (COLON|OP_ARROW2) main_expression*;
 case_pattern
     : case_pattern (OP_OR | OP_ADD) case_pattern # CaseOR
     | case_pattern (OP_UNTIL) case_pattern       # CaseUntil

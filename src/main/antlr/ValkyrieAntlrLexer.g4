@@ -146,12 +146,12 @@ KW_EXTENSION: 'extension';
 // 
 KW_CLASS: 'class' | 'structure';
 KW_TRAIT: 'trait' | 'interface';
-KW_UNION: 'union' | 'variant';
+KW_UNION: 'union' | 'variant' | 'inductive' | 'unite';
 KW_FLAGS: 'flags' | 'enumerate';
 KW_TYPE:  'type';
 //
-KW_TEMPLATE:   'template' | 'generic';
-KW_EXTENDS:    'extends';
+KW_TEMPLATE:   'template' | 'generic' | 'constraint';
+KW_EXTENDS:    'extends' | 'extend' | 'imply';
 KW_IMPLEMENTS: 'implements';
 //
 KW_WHILE: 'while' | 'until';

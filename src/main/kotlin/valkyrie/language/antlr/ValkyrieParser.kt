@@ -20,8 +20,7 @@ import org.antlr.v4.runtime.tree.TerminalNode
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.antlr.ValkyrieAntlrParser.*
 import valkyrie.language.ast.*
-import valkyrie.language.ast.calls.ValkyrieAnnotation
-import valkyrie.language.ast.calls.ValkyrieAnnotationItem
+import valkyrie.language.ast.calls.ValkyrieAttributeItem
 import valkyrie.language.ast.calls.ValkyrieCallMacro
 import valkyrie.language.ast.classes.*
 import valkyrie.language.ast.pattern_match.ValkyrieMatchStatement
@@ -128,7 +127,7 @@ private class RuleRewriter(language: Language, parser: Parser?, builder: PsiBuil
             is Class_statemntsContext, is Flags_statementContext, is Union_statementsContext,
             is Trait_statementContext, is Extends_statementContext,
             is Function_statementContext, is Return_partContext,
-            is LeadingContext,
+            is LeadingContext, is Loop_statementContext,
             is NamejoinContext, is Namejoin_freeContext, is Range_joinContext,
             -> true
 
@@ -152,11 +151,12 @@ private class RuleRewriter(language: Language, parser: Parser?, builder: PsiBuil
                 RULE_modified_namepath -> ValkyrieModifiedNode(node, ValkyrieModifiedType.ModifiedNamepath)
                 RULE_template_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
                 RULE_where_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
-                RULE_annotation -> ValkyrieAnnotation(node)
-                RULE_annotation_call_item -> ValkyrieAnnotationItem(node)
+//                RULE_attribute -> ValkyrieAnnotation(node)
+                RULE_attribute_item -> ValkyrieAttributeItem(node)
                 // class
                 RULE_define_class -> ValkyrieClassStatement(node)
-                RULE_define_generic -> ValkyrieGenericStatement(node)
+                RULE_define_generic -> ValkyrieGenericDeclaration(node)
+                RULE_generic_item -> ValkyrieGenericDeclarationItem(node)
                 RULE_class_inherit_item -> ValkyrieClassInheritItem(node)
                 RULE_class_block -> ValkyrieBlockNode(node, ValkyrieBlockType.Brace)
                 RULE_class_field -> ValkyrieClassFieldNode(node)

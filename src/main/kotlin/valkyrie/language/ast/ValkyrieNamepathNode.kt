@@ -70,7 +70,7 @@ private fun fakeTypeColor(info: NodeHighlighter, psi: ValkyrieIdentifierNode) {
 }
 
 private val functions = setOf(
-    "print",
+    "print"
 )
 
 
@@ -91,5 +91,5 @@ private val traits = setOf(
     "Encode", "Decode", "Write"
 )
 
-private val variants = setOf("Some", "None", "Success", "Failure", "Left", "Riht")
+private val variants = setOf("Some", "None", "Success", "Failure", "Left", "Riht", "Fine", "Fail")
 

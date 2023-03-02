@@ -24,9 +24,8 @@ class CompletionInClassScope : CompletionProvider<CompletionParameters>() {
         result.addLinkedTraitMethod("extractor", "Extractor")
         result.addLinkedTraitMethod("destructor", "Destructor")
         result.addLinkedTraitMethod("hash", "Hash")
-        result.addLinkedTraitMethod("from", "From[T]", "value: T")
+        result.addLinkedTraitMethod("from", "From<T>", "value: T")
         result.addLinkedTraitMethod("apply", "Caller")
-        result.addLinkedTraitMethod("unapply", "Extractor")
     }
 
     private fun CompletionResultSet.addLinkedTraitMethod(kind: String, trait: String, args: String = "") {

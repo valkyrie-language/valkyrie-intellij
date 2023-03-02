@@ -7,7 +7,7 @@ import valkyrie.language.antlr.childrenWithLeaves
 import valkyrie.language.ast.ValkyrieNamepathNode
 import valkyrie.language.psi.ValkyrieHighlightElement
 
-class ValkyrieAnnotationItem(node: CompositeElement) : ASTWrapperPsiElement(node), ValkyrieHighlightElement {
+class ValkyrieAttributeItem(node: CompositeElement) : ASTWrapperPsiElement(node), ValkyrieHighlightElement {
     override fun on_highlight(e: NodeHighlighter) {
         val id = this.findChildByClass(ValkyrieNamepathNode::class.java) ?: return;
         for (node in id.childrenWithLeaves) {

@@ -13,10 +13,6 @@ class ValkyrieLambdaSlot : ASTWrapperPsiElement, ValkyrieHighlightElement {
 
     }
     override fun on_highlight(e: NodeHighlighter) {
-        if (_num != null && _num.text == "0") {
-            e.register(this, ValkyrieHighlightColor.KEYWORD)
-        } else {
-            e.register(this, ValkyrieHighlightColor.SYM_ARG)
-        }
+        e.register(this, ValkyrieHighlightColor.KEYWORD)
     }
 }

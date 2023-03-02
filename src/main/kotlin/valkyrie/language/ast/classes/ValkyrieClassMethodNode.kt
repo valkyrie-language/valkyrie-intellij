@@ -27,10 +27,10 @@ import javax.swing.Icon
 
 class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner, ValkyrieLineMarkElement,
     ValkyrieHighlightElement, ValkyrieInlayElement {
-    val method by lazy { ValkyrieModifiedNode.findIdentifier(this)!! }
-    val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
+    val method = ValkyrieModifiedNode.findIdentifier(this)
+    val modifiers = ValkyrieModifiedNode.findModifiers(this);
     override fun getName(): String {
-        return method.name
+        return method?.name ?: ""
     }
 
     override fun setName(name: String): ValkyrieIdentifierNode {
@@ -39,10 +39,10 @@ class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node),
 
 
     override fun getBaseIcon(): Icon {
-        if (method.name == "constructor") {
+        if (method?.name == "constructor") {
             return AllIcons.Nodes.ClassInitializer
         }
-        if (method.name == "+") {
+        if (method?.name == "+") {
             return AllIcons.Gutter.ImplementingMethod
         }
         for (m in modifiers) {
@@ -59,12 +59,12 @@ class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node),
     }
 
 
-    override fun getNameIdentifier(): PsiElement {
+    override fun getNameIdentifier(): PsiElement? {
         return method
     }
 
     override fun on_highlight(e: NodeHighlighter) {
-        if (method.name == "constructor") {
+        if (name == "constructor") {
             e.register(nameIdentifier, ValkyrieHighlightColor.KEYWORD)
         } else {
             e.register(nameIdentifier, ValkyrieHighlightColor.SYM_FUNCTION_SELF)
@@ -73,9 +73,12 @@ class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node),
     }
 
     override fun on_line_mark(e: MutableCollection<in LineMarkerInfo<*>>) {
+        if (nameIdentifier == null) {
+            return
+        }
         val info = RelatedItemLineMarkerInfo(
-            nameIdentifier.firstChild,
-            nameIdentifier.textRange,
+            nameIdentifier!!.firstChild,
+            nameIdentifier!!.textRange,
             baseIcon,
             null,
             null,
@@ -86,15 +89,13 @@ class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node),
 
 
     override fun type_hint(inlay: TypeInlayHint): Boolean {
-
-        if (method.name == "constructor") {
-            e.register(nameIdentifier, ValkyrieHighlightColor.KEYWORD)
-        }
-
-
         val typeHint = ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_return_type);
         val argument = ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_function_parameters);
+
         if (typeHint == null && argument != null) {
+            if (name == "constructor") {
+                inlay.inline(argument.endOffset, ": Self")
+            }
             inlay.inline(argument.endOffset, ": Any?")
         }
         return true
