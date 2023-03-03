@@ -165,6 +165,7 @@ KW_FUNCTION: 'function' | 'micro' | 'macro';
 // pattern match
 KW_TRY:   'try';
 KW_MATCH: 'match' | 'catch';
+KW_SWITCH: 'switch';
 KW_WITH:  'with';
 KW_CASE:  'case';
 KW_WHEN:  'when';

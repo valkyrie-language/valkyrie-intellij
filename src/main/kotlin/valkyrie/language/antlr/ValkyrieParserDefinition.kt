@@ -33,7 +33,7 @@ class ValkyrieParserDefinition : ParserDefinition {
      * "Tokens of those types are automatically skipped by PsiBuilder."
      */
     override fun getWhitespaceTokens(): TokenSet {
-        return PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, ValkyrieAntlrLexer.WHITE_SPACE)
+        return ValkyrieLanguage.createTokenSet(ValkyrieAntlrLexer.WHITE_SPACE)
     }
 
     override fun getCommentTokens(): TokenSet {

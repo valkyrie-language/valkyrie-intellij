@@ -246,6 +246,7 @@ main_expression
     | if_statement       # EIf
     | new_statement      # ENew
     | try_statement      # ETry
+    | switch_statement   # ESwitch
     | match_statement    # EMatch
     | object_statement   # EObject
     | macro_call         # EMacro
@@ -359,7 +360,7 @@ infix_assign
     | OP_GGE
     ;
 infix_is: KW_IS | KW_IS KW_NOT | OP_IS | OP_IS_NOT | OP_CONTINUES;
-infix_as: KW_AS;
+infix_as: KW_AS OP_AND_THEN | KW_AS;
 infix_in: KW_IN | KW_NOT KW_IN | OP_IN | OP_NOT_IN;
 // ===========================================================================
 define_generic
@@ -413,6 +414,9 @@ try_statement: attribute* KW_TRY type_expression? function_block;
 match_statement
     : attribute* KW_MATCH (identifier OP_BIND)? inline_expression OP_AND_THEN? match_block
     ;
+switch_statement
+	: attribute* KW_SWITCH  match_block
+  ;
 // ===========================================================================
 match_block: BRACE_L (match_terms | eos_free)* BRACE_R;
 // value?.match as i: int {}

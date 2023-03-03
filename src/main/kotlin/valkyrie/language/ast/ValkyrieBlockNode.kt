@@ -20,7 +20,11 @@ class ValkyrieBlockNode : ASTWrapperPsiElement, ValkyrieFoldableElement, Valkyri
         this.kind = kind
     }
 
+
     override fun on_fold(e: ValkyrieNodeFolder) {
+        if (children.isEmpty()) {
+            return
+        }
         if (kind == ValkyrieBlockType.Indent) {
             e.fold(this, firstChild.endOffset, lastChild.endOffset)
         } else {
@@ -58,7 +62,5 @@ class ValkyrieBlockNode : ASTWrapperPsiElement, ValkyrieFoldableElement, Valkyri
             }
         }
     }
-
-
 }
 

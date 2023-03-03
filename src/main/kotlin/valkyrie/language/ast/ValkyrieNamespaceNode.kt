@@ -4,7 +4,6 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.icons.AllIcons
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.util.elementType
-import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory
 import org.antlr.intellij.adaptor.psi.ANTLRPsiNode
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
 import valkyrie.ide.formatter.ValkyrieRewriter
@@ -43,8 +42,8 @@ class ValkyrieNamespaceNode(node: CompositeElement) : ASTWrapperPsiElement(node)
     }
 
     override fun on_rewrite(e: ValkyrieRewriter) {
-        val split = PSIElementTypeFactory.createTokenSet(
-            ValkyrieLanguage,
+        val split = ValkyrieLanguage.createTokenSet(
+
             ValkyrieAntlrParser.DOT,
             ValkyrieAntlrParser.OP_PROPORTION
         );

@@ -1,12 +1,10 @@
 package valkyrie.language.antlr
 
-
 import com.intellij.lexer.Lexer
 import com.intellij.lexer.LexerPosition
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import org.antlr.intellij.adaptor.lexer.ANTLRLexerAdaptor
-import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory
 import org.antlr.intellij.adaptor.lexer.TokenIElementType
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.antlr.ValkyrieAntlrLexer.*
@@ -60,8 +58,9 @@ class ValkyrieLexer : Lexer() {
     }
 
     companion object {
-        val Keywords: TokenSet = PSIElementTypeFactory.createTokenSet(
-            ValkyrieLanguage,
+
+        val Keywords: TokenSet = ValkyrieLanguage.createTokenSet(
+
             // declare keywords
             KW_NAMESPACE, KW_IMPORT, KW_AS,
             KW_CLASS, KW_TYPE,
@@ -94,12 +93,12 @@ class ValkyrieLexer : Lexer() {
             // special
             OP_LAST, SPECIAL,
         )
-        val OperatorPrefix: TokenSet = PSIElementTypeFactory.createTokenSet(
-            ValkyrieLanguage,
+        val OperatorPrefix: TokenSet = ValkyrieLanguage.createTokenSet(
+
             OP_NOT, OP_DOT2, OP_DOT3, OP_REFERENCE, MAIN_PREFIX
         )
-        val OperatorInfix: TokenSet = PSIElementTypeFactory.createTokenSet(
-            ValkyrieLanguage,
+        val OperatorInfix: TokenSet = ValkyrieLanguage.createTokenSet(
+
             OP_ADD, OP_SUB,
             OP_MUL,
             OP_DIV, OP_REM, OP_DIV_REM,
@@ -119,27 +118,27 @@ class ValkyrieLexer : Lexer() {
             OP_ASSIGN, OP_MAY_ASSIGN,
             OP_ADD_ASSIGN, OP_SUB_ASSIGN, OP_DIV_ASSIGN, OP_MUL_ASSIGN
         )
-        val OperatorSuffix: TokenSet = PSIElementTypeFactory.createTokenSet(
-            ValkyrieLanguage,
+        val OperatorSuffix: TokenSet = ValkyrieLanguage.createTokenSet(
+
             MAIN_SUFFIX, OP_PERCENT, OP_TRANSPOSE
         )
         val Operators = TokenSet.orSet(OperatorPrefix, OperatorInfix, OperatorSuffix);
-        val MacroOperators = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, OP_HASH, OP_AT, OP_UNIMPLEMENTED);
+        val MacroOperators = ValkyrieLanguage.createTokenSet(OP_HASH, OP_AT, OP_UNIMPLEMENTED);
 
-        val Comma: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, COMMA);
-        val Semicolon: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, SEMICOLON);
+        val Comma: TokenSet = ValkyrieLanguage.createTokenSet(COMMA);
+        val Semicolon: TokenSet = ValkyrieLanguage.createTokenSet(SEMICOLON);
         val Dot = TokenIElementType(DOT, ".", ValkyrieLanguage);
         val Proportion = TokenIElementType(OP_PROPORTION, ".", ValkyrieLanguage);
-        val Integers: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, INTEGER);
-        val Decimals: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, DECIMAL);
-        val Strings: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, STRING_START, STRING_END, STRING_TEXT);
-        val Identifiers: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, UNICODE_ID);
+        val Integers: TokenSet = ValkyrieLanguage.createTokenSet(INTEGER);
+        val Decimals: TokenSet = ValkyrieLanguage.createTokenSet(DECIMAL);
+        val Strings: TokenSet = ValkyrieLanguage.createTokenSet(STRING_START, STRING_END, STRING_TEXT);
+        val Identifiers: TokenSet = ValkyrieLanguage.createTokenSet(UNICODE_ID);
 
         val CommentLine = TokenIElementType(LINE_COMMENT, "CommentLine", ValkyrieLanguage);
         val CommentBlock = TokenIElementType(BLOCK_COMMENT, "CommentBlock", ValkyrieLanguage);
-        val Comments: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, LINE_COMMENT, BLOCK_COMMENT);
-        val CompletionWords: TokenSet = PSIElementTypeFactory.createTokenSet(
-            ValkyrieLanguage,
+        val Comments: TokenSet = ValkyrieLanguage.createTokenSet(LINE_COMMENT, BLOCK_COMMENT);
+        val CompletionWords: TokenSet = ValkyrieLanguage.createTokenSet(
+
             KW_IF,
             KW_ELSE,
             KW_TRAIT,
