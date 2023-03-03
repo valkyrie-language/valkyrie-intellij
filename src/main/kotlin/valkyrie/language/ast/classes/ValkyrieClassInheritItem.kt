@@ -16,8 +16,8 @@ import valkyrie.language.psi.ValkyrieLineMarkElement
 import javax.swing.Icon
 
 class ValkyrieClassInheritItem(node: CompositeElement) : ASTWrapperPsiElement(node), ValkyrieLineMarkElement, ValkyrieHighlightElement {
-    val inherit by lazy { ValkyrieModifiedNode.findIdentifier(this)!! }
-    val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
+    val inherit = ValkyrieModifiedNode.findIdentifier(this)
+    val modifiers = ValkyrieModifiedNode.findModifiers(this)
 
 
     public override fun getBaseIcon(): Icon {
@@ -29,6 +29,9 @@ class ValkyrieClassInheritItem(node: CompositeElement) : ASTWrapperPsiElement(no
     }
 
     override fun on_line_mark(e: MutableCollection<in LineMarkerInfo<*>>) {
+        if (inherit == null) {
+            return
+        }
         val info = RelatedItemLineMarkerInfo(
             inherit.firstChild,
             inherit.textRange,

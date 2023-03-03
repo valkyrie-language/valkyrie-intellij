@@ -59,12 +59,12 @@ class ValkyrieRewriter {
         ValkyrieFactory(node.project).replace_dot(node)
     }
 
-    fun replace_comma(node: PsiElement?) {
+    private fun replace_comma(node: PsiElement?) {
         if (node == null) return
         ValkyrieFactory(node.project).replace_comma(node)
     }
 
-    fun replace_colon(node: PsiElement?, semi: Boolean) {
+    private fun replace_colon(node: PsiElement?, semi: Boolean) {
         if (node == null) return
         if (semi) {
             ValkyrieFactory(node.project).replace_semicolon(node)

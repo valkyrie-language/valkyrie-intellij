@@ -7,13 +7,19 @@ import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.language.ast.ValkyrieIdentifierNode
 import valkyrie.language.psi.ValkyrieHighlightElement
 
-class ValkyrieMatchCall(node: CompositeElement) : ASTWrapperPsiElement(node), ValkyrieHighlightElement {
-    val bind = ValkyrieIdentifierNode.find(this)
+class PatternSymbolNode : ASTWrapperPsiElement, ValkyrieHighlightElement {
+    val bind: ValkyrieIdentifierNode?
+
+    constructor(node: CompositeElement) : super(node) {
+
+
+        this.bind = ValkyrieIdentifierNode.find(this)
+    }
+
+
     override fun on_highlight(e: NodeHighlighter) {
         if (bind != null) {
             e.register(bind, ValkyrieHighlightColor.SYM_LOCAL)
         }
     }
 }
-
-

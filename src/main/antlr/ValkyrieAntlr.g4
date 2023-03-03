@@ -6,8 +6,8 @@ options {
 
 // $antlr-format useTab false, columnLimit 144
 // $antlr-format alignColons hanging, alignSemicolons hanging, alignFirstTokens true
-program:       program_term* EOF;
-program_block: BRACE_L program_term* BRACE_R;
+program:       (program_term | eos)* EOF;
+program_block: BRACE_L (program_term | eos)* BRACE_R;
 program_term
     : define_namespace
     | import_statement
@@ -24,7 +24,6 @@ program_term
     | loop_statement
     | guard_statement
     | expression_root
-    | eos
     ;
 
 eos:      SEMICOLON | FAKE_COLON;
@@ -37,32 +36,25 @@ import_statement
     | attribute* KW_IMPORT import_block eos_free?
     | attribute* KW_IMPORT import_term eos_free?
     ;
-
-import_term
-    : import_all
-    | import_macro
-    | import_attribute
-    | import_space
-    | import_name
-    | eos_free
-    ;
-// using package.module.@macro (as x)?
-import_macro: (path = identifier import_join)* OP_AT item = identifier import_as?;
-// using package.module.#Attribute (as x)?
-import_attribute: (path = identifier import_join)* OP_HASH item = identifier import_as?;
+import_term: import_all | import_space | import_name | eos_free;
 // using package.module.*
 import_all: (path = identifier import_join)+ (OP_MUL);
 // using package.module.name { space }
 import_space: path = identifier (import_join path = identifier)* import_join? import_block;
-// using package.module.name (as x)?
-import_name: identifier (import_join identifier)* import_as?;
-
+// using package.module.name (as @x)?
+import_name
+    : (path = identifier import_join)* name = import_name_item (KW_AS alias = import_name_item)?
+    ;
+import_name_item
+    : OP_AT item = identifier   # ImportMacro
+    | OP_HASH item = identifier # ImportAttribute
+    | identifier                # ImportIdentifier
+    ;
 import_block
     : PARENTHESES_L import_term* PARENTHESES_R
     | BRACKET_L import_term* BRACKET_R
     | BRACE_L import_term* BRACE_R
     ;
-import_as:   KW_AS (OP_AT | OP_HASH)? identifier;
 import_join: OP_PROPORTION | DOT | OP_DIV;
 // ===========================================================================
 define_extension: KW_EXTENSION;
@@ -139,12 +131,12 @@ effect_type
     ;
 parameter_default: OP_ASSIGN main_expression;
 // ===========================================================================
-function_call
+dot_function_call
     : OP_AND_THEN? tuple_call_body // method?(b)
     | OP_AND_THEN? DOT INTEGER tuple_call_body? // value.1()
     | OP_AND_THEN? DOT OP_AT? identifier tuple_call_body? // value?.path::method()
     ;
-closure_call // Two consecutive `{ } { }` are not allowed to be connected
+dot_closure_call // Two consecutive `{ } { }` are not allowed to be connected
     : OP_AND_THEN? (function_block | tuple_call_body function_block?)     # NormalClosure // method?(b) {}
     | OP_AND_THEN? DOT function_block                                     # SlotClosure // value?. { lambda }
     | OP_AND_THEN? DOT INTEGER tuple_call_body? function_block?           # IntegerClosure // value?.1() { }
@@ -217,17 +209,16 @@ while_let_statement
 for_statement
     : attribute* KW_FOR let_pattern infix_in cond = inline_expression if_guard? mark_label? function_block
     ;
-if_guard:   KW_IF inline_expression;
-mark_label: OP_HASH identifier;
+for_dot_call: OP_AND_THEN? DOT KW_FOR let_pattern if_guard? mark_label? function_block;
+if_guard:     KW_IF inline_expression;
+mark_label:   OP_HASH identifier;
 // ==========================================================================
 expression_root: attribute* main_expression OP_AND_THEN? eos?;
 main_expression
-    : main_expression op_suffix    # ESuffix
-    | main_expression slice_call   # ESlice
-    | main_expression generic_call # EGeneric
-    | main_expression closure_call # EClosure
-    // value?.match as i: int {}
-    | main_expression OP_AND_THEN? DOT KW_MATCH (KW_AS identifier type_hint?)? match_block # EDotMatch
+    : main_expression op_suffix     # ESuffix
+    | main_expression slice_call    # ESlice
+    | main_expression generic_call  # EGeneric
+    | main_expression main_dot_call # EDotCall
     // prefix
     | op_prefix main_expression # EPrefix
     // infix
@@ -250,6 +241,7 @@ main_expression
     | FLOOR_L main_expression FLOOR_R             # EFloor
     | CEILING_L main_expression CEILING_R         # ECeiling
     // term
+    | loop_statement     # ELoop
     | control_expression # EControl
     | if_statement       # EIf
     | new_statement      # ENew
@@ -262,17 +254,23 @@ main_expression
     | define_label       # EDefine
     | tuple_literal      # ETuple
     | range_literal      # ERange
-    | leading            # EAtom
+    | leading_expression # EAtom
     ;
+main_dot_call
+    : dot_match_call
+    | for_dot_call
+    | dot_closure_call
+    ;
+
 // statement with return type
 inline_expression
     :
     // prefix
     op_prefix inline_expression # IPrefix
     // suffix
-    | inline_expression function_call # IFunction
-    | inline_expression generic_call  # IGeneric
-    | inline_expression slice_call    # ISlice
+    | inline_expression dot_function_call # IFunction
+    | inline_expression generic_call      # IGeneric
+    | inline_expression slice_call        # ISlice
     // infix
     | lhs = inline_expression op_multiple rhs = inline_expression # IMul
     | lhs = inline_expression op_plus rhs = inline_expression     # IPlus
@@ -288,9 +286,9 @@ inline_expression
     | FLOOR_L main_expression FLOOR_R             # IFloor
     | CEILING_L main_expression CEILING_R         # ICeiling
     // term
-    | tuple_literal # ITuple
-    | range_literal # IRange
-    | leading       # IAtom
+    | tuple_literal      # ITuple
+    | range_literal      # IRange
+    | leading_expression # IAtom
     ;
 type_expression
     : op_prefix type_expression                                                            # TPrefix
@@ -303,19 +301,20 @@ type_expression
     | PARENTHESES_L (type_pair COMMA | type_pair (COMMA type_pair)+ COMMA?)? PARENTHESES_R # TTuple
     | function_block                                                                       # TBlock
     | OP_MUL                                                                               # TKind
-    | leading                                                                              # TAtom
+    | leading_expression                                                                   # TAtom
     ;
-leading
-    : string_literal # AString
-    | number_literal # ANumber
-    | lambda_name    # ALambda
-    | output_name    # AOutput
-    | namepath       # ANamepath
-    | SPECIAL        # ASpecial
+leading_expression
+    : string_literal   # AString
+    | number_literal   # ANumber
+    | lambda_name      # ALambda
+    | output_name      # AOutput
+    | namepath         # ANamepath
+    | SPECIAL          # ASpecial
+    | OP_UNIMPLEMENTED # AUNIMPLEMENTED
     ;
 // ===========================================================================
 control_expression
-    : (RETURN | RESUME main_expression?)            # CReturn
+    : ((RETURN | RESUME) mark_label? main_expression?)            # CReturn
     | BREAK (OP_LABEL identifier)?                  # CBreak
     | CONTINUE (OP_LABEL identifier)?               # CContinue
     | RAISE main_expression?                        # CRaise
@@ -416,6 +415,8 @@ match_statement
     ;
 // ===========================================================================
 match_block: BRACE_L (match_terms | eos_free)* BRACE_R;
+// value?.match as i: int {}
+dot_match_call: OP_AND_THEN? DOT KW_MATCH (KW_AS identifier type_hint?)? match_block;
 match_terms
     : attribute* KW_WITH identifier                                                   # MatchWith
     | attribute* KW_WITH BRACKET_L (identifier (COMMA identifier)* COMMA?)? BRACKET_R # MatchWithMany

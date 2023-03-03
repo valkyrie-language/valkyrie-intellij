@@ -127,7 +127,7 @@ private class RuleRewriter(language: Language, parser: Parser?, builder: PsiBuil
             is Class_statemntsContext, is Flags_statementContext, is Union_statementsContext,
             is Trait_statementContext, is Extends_statementContext,
             is Function_statementContext, is Return_partContext,
-            is LeadingContext, is Loop_statementContext,
+            is Leading_expressionContext, is Loop_statementContext,
             is NamejoinContext, is Namejoin_freeContext, is Range_joinContext,
             -> true
 
@@ -216,7 +216,7 @@ private class RuleRewriter(language: Language, parser: Parser?, builder: PsiBuil
 
 //                RULE_collection_literal -> ValkyrieBlockNode(node, ValkyrieBlockType.Parenthesis)
                 RULE_main_expression -> extractExpression(node)
-                RULE_function_call -> ValkyrieCallFunction(node)
+                RULE_dot_function_call -> ValkyrieCallFunction(node)
                 // new
                 RULE_object_statement -> ValkyrieObjectStatement(node)
                 RULE_new_statement -> ValkyrieNewStatement(node)

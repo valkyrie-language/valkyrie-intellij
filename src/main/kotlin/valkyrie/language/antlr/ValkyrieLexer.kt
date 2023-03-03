@@ -124,7 +124,7 @@ class ValkyrieLexer : Lexer() {
             MAIN_SUFFIX, OP_PERCENT, OP_TRANSPOSE
         )
         val Operators = TokenSet.orSet(OperatorPrefix, OperatorInfix, OperatorSuffix);
-        val MacroOperators = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, OP_HASH, OP_AT);
+        val MacroOperators = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, OP_HASH, OP_AT, OP_UNIMPLEMENTED);
 
         val Comma: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, COMMA);
         val Semicolon: TokenSet = PSIElementTypeFactory.createTokenSet(ValkyrieLanguage, SEMICOLON);

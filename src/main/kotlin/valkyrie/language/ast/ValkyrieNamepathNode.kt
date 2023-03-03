@@ -75,9 +75,10 @@ private val functions = setOf(
 
 
 private val keywords = setOf(
-    "u8", "u16", "u32", "u64", "int",
-    "i8", "i16", "i32", "i64",
-    "f32", "f64",
+    "u8", "u16", "u32", "u64", "u128", "u256", "usize", "nat",
+    "i8", "i16", "i32", "i64", "i128", "i256", "isize", "nat",
+    "f32", "f64", "f128",
+    "d128",
     "bool", "char", "string",
     "unit", "callcc", "go",
     "scope", "async", "await", "quote",

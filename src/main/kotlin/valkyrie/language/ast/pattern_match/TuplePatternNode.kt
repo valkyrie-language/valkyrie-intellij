@@ -7,7 +7,7 @@ import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.language.ast.ValkyrieIdentifierNode
 import valkyrie.language.psi.ValkyrieHighlightElement
 
-class ValkyrieMatchCall(node: CompositeElement) : ASTWrapperPsiElement(node), ValkyrieHighlightElement {
+class PatternTupleNode(node: CompositeElement) : ASTWrapperPsiElement(node), ValkyrieHighlightElement {
     val bind = ValkyrieIdentifierNode.find(this)
     override fun on_highlight(e: NodeHighlighter) {
         if (bind != null) {
