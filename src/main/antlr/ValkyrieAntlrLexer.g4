@@ -144,10 +144,10 @@ KW_NAMESPACE: 'namespace' ('!' | '*' | '?')?;
 KW_IMPORT:    'using' ('!' | '*' | '?')?;
 KW_EXTENSION: 'extension';
 // 
-KW_CLASS: 'class' | 'structure';
+KW_CLASS: 'class' | 'structure' | 'vague' | 'fluid';
 KW_TRAIT: 'trait' | 'interface';
-KW_UNION: 'union' | 'variant' | 'inductive' | 'unite';
 KW_FLAGS: 'flags' | 'enumerate';
+KW_UNION: 'unite' | 'union' | 'variant' | 'inductive';
 KW_TYPE:  'type';
 //
 KW_TEMPLATE:   'template' | 'generic' | 'constraint';
