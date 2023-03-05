@@ -5,9 +5,25 @@ import com.intellij.lexer.LexerPosition
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import org.antlr.intellij.adaptor.lexer.ANTLRLexerAdaptor
+import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory
 import org.antlr.intellij.adaptor.lexer.TokenIElementType
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.antlr.ValkyrieAntlrLexer.*
+
+
+internal object AntlrLexerFactory {
+    init {
+        PSIElementTypeFactory.defineLanguageIElementTypes(
+            ValkyrieLanguage,
+            ValkyrieAntlrParser.tokenNames,
+            ValkyrieAntlrParser.ruleNames
+        )
+    }
+
+    fun createLexer(lexer: org.antlr.v4.runtime.Lexer?): ANTLRLexerAdaptor {
+        return ANTLRLexerAdaptor(ValkyrieLanguage, lexer)
+    }
+}
 
 class ValkyrieLexer : Lexer() {
     private var adaptor: ANTLRLexerAdaptor

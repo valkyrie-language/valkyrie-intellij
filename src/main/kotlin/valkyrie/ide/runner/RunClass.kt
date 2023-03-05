@@ -38,7 +38,4 @@ class RunClass(val classPath: List<String>, private val full: Boolean) : AnActio
         return true
     }
 
-    override fun getTemplateText(): String? {
-        return "RunFile.getTemplateText"
-    }
 }

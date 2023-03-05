@@ -15,7 +15,5 @@ class GenerateProperties : AnAction(name, description, AllIcons.Nodes.Property) 
 
     }
 
-    override fun getTemplateText(): String? {
-        return super.getTemplateText()
-    }
+
 }

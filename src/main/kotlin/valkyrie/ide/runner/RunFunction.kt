@@ -55,7 +55,4 @@ class RunFunction : AnAction() {
         return true
     }
 
-    override fun getTemplateText(): String? {
-        return "RunFile.getTemplateText"
-    }
 }
