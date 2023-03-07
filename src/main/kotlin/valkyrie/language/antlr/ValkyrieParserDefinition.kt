@@ -13,7 +13,6 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
-import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory
 import org.antlr.intellij.adaptor.parser.ANTLRParserAdaptor
 import org.antlr.intellij.adaptor.psi.ANTLRPsiNode
 import valkyrie.language.ValkyrieLanguage
@@ -106,14 +105,6 @@ class ValkyrieParserDefinition : ParserDefinition {
         return super.spaceExistenceTypeBetweenTokens(left, right)
     }
 
-    @Suppress("CompanionObjectInExtension", "DEPRECATION")
-    companion object {
-        init {
-            PSIElementTypeFactory.defineLanguageIElementTypes(
-                ValkyrieLanguage, ValkyrieAntlrParser.tokenNames, ValkyrieAntlrParser.ruleNames
-            )
-        }
-    }
 }
 
 

@@ -177,7 +177,7 @@
 		<lang.quoteHandler
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.matcher.ValkyrieQuoteHandler"/>
-		<codeCompletionConfigurable instance="valkyrie.ide.completion.CompletionConfig"/>
+		<!--		<codeCompletionConfigurable instance="valkyrie.ide.completion.CompletionConfig"/>-->
 		<completion.contributor
 			language="Valkyrie"
 			implementationClass="valkyrie.ide.completion.CompletionRegistrar"/>

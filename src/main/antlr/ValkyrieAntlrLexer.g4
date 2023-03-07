@@ -3,7 +3,7 @@ lexer grammar ValkyrieAntlrLexer;
 // $antlr-format alignFirstTokens true
 @lexer::members {
 
-}
+} 
 
 DOT:        '.';
 COMMA:      ',' | '，';
@@ -161,7 +161,7 @@ KW_LET:      'let';
 KW_NEW:      'new';
 KW_OBJECT:   'object';
 KW_LAMBDA:   'lambda';
-KW_FUNCTION: 'function' | 'micro' | 'macro';
+KW_FUNCTION: 'function' | 'func' | 'fun' | 'fn' | 'micro' | 'macro';
 // pattern match
 KW_TRY:   'try';
 KW_MATCH: 'match' | 'catch';
@@ -199,11 +199,11 @@ RAISE:        'raise';
 SPECIAL: 'true' | 'false' | 'null' | 'nil' | [∅∞⧝⧞];
 // atom
 RAW_ID:     '`' ~[`]+ '`';
-UNICODE_ID: [_\p{XID_start}] [\p{XID_continue}]*;
+UNICODE_ID: [_\p{XID_start}\p{Emoji_Presentation}] [\p{XID_continue}\p{Emoji}]*;
 
 // comment
-LINE_COMMENT:  '//' ~[\r\n]* -> channel(HIDDEN);
-BLOCK_COMMENT: '/*' .*? '*/' -> channel(HIDDEN);
+LINE_COMMENT:  [🗨⍝~] ~[\r\n]* -> channel(HIDDEN);
+BLOCK_COMMENT: '🗨🗨🗨' .*? '🗩🗩🗩' -> channel(HIDDEN);
 
 WHITE_SPACE:     [\p{White_Space}]+ -> channel(HIDDEN);
 ERROR_CHARACTAR: . -> channel(HIDDEN);

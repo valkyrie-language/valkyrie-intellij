@@ -2,6 +2,8 @@
 
 # Valkyrie Intellij Changelog
 
+## [Unreleased]
+
 ## [0.0.4] Initial Version
 ### Added
 - Support `*.vk` file type
