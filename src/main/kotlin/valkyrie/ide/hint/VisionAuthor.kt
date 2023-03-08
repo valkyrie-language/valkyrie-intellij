@@ -4,18 +4,17 @@ import com.intellij.codeInsight.hints.VcsCodeVisionLanguageContext
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import valkyrie.language.ast.*
+import valkyrie.language.ast.ValkyrieExtendsStatement
+import valkyrie.language.ast.ValkyrieFunctionStatement
+import valkyrie.language.ast.ValkyrieTraitStatement
 import valkyrie.language.ast.classes.ValkyrieClassMethodNode
 import valkyrie.language.ast.classes.ValkyrieClassStatement
 import valkyrie.language.ast.unions.ValkyrieFlagsStatement
 import valkyrie.language.ast.unions.ValkyrieUnionStatement
-//import valkyrie.language.psi_node.ValkyrieDefineStatementNode
-//import valkyrie.language.psi_node.ValkyrieExtendsStatementNode
-//import valkyrie.language.psi_node.ValkyrieUnionStatementNode
 import java.awt.event.MouseEvent
 
 @Suppress("UnstableApiUsage")
-class AuthorAbove : VcsCodeVisionLanguageContext {
+class VisionAuthor : VcsCodeVisionLanguageContext {
     /// 额外的点击事件
     /// 本身会打开 Git Blame
     override fun handleClick(mouseEvent: MouseEvent, editor: Editor, element: PsiElement) {
@@ -36,5 +35,3 @@ class AuthorAbove : VcsCodeVisionLanguageContext {
         return false
     }
 }
-
-
