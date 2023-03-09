@@ -184,8 +184,8 @@ let_pattern_item
     ;
 // ===========================================================================
 define_type
-    : attribute* modifiers KW_TYPE identifier define_generic? OP_ASSIGN type_expression
-    | attribute* modifiers KW_TYPE identifier define_generic? template_block
+    :
+    attribute* modifiers KW_TYPE identifier define_generic? with_implements? template_block
     ;
 type_hint: COLON type_expression;
 type_pair: (collection_key COLON)? type_expression;

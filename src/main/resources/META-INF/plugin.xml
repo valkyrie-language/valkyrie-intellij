@@ -221,7 +221,7 @@
 		<action id="valkyrie.create.file" class="valkyrie.ide.actions.file_transform.ValkyrieCreateFile">
 			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewHtmlFile"/>
 		</action>
-		<action id="jss.JssConvertJson" class="valkyrie.ide.actions.FluentConvertMo"/>
+		<!--		<action id="jss.JssConvertJson" class="valkyrie.ide.actions.FluentConvertMo"/>-->
 		<action id="valkyrie.macro.expand-to-file" class="valkyrie.ide.actions.ExpandMacroToFile">
 			<keyboard-shortcut keymap="$default" first-keystroke="control shift G"/>
 		</action>

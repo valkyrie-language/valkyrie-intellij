@@ -9,7 +9,7 @@ import valkyrie.language.antlr.ValkyrieLexer
 //import valkyrie.language.psi.ValkyrieTypes
 
 class ValkyrieCommenter : CodeDocumentationAwareCommenter {
-    override fun getLineCommentPrefix() = "//"
+    override fun getLineCommentPrefix() = "⍝"
     override fun getBlockCommentPrefix() = "/*"
     override fun getBlockCommentSuffix() = "*/"
     override fun getCommentedBlockCommentPrefix() = "*//*"

@@ -54,13 +54,13 @@ OP_EEE: '≡' | '===';
 // compare
 OP_LEQ: '⩽' | '≤' | '<=';
 OP_LLE: '<<=';
-OP_LLL: '⋘' | '<' '<' '<';
-OP_LL:  '≪' | '<' '<';
+OP_LLL: '⋘' ;
+OP_LL:  '≪' ;
 OP_LT:  '<';
 OP_GEQ: '⩾' | '≥' | '>=';
 OP_GGE: '>>=';
-OP_GGG: '⋙' | '>' '>' '>';
-OP_GG:  '≫' | '>' '>';
+OP_GGG: '⋙' ;
+OP_GG:  '≫' ;
 OP_GT:  '>';
 // arrow
 OP_LEFT:   '←' | '<-';
