@@ -375,15 +375,16 @@ generic_item
     ;
 generic_call
     : OP_PROPORTION OP_LT OP_GT
-    | OP_PROPORTION OP_LT generic_pair (COMMA generic_pair)* COMMA? OP_GT
+    | OP_PROPORTION OP_LT generic_pair2 (COMMA generic_pair2)* COMMA? OP_GT
     | GENERIC_L GENERIC_R
     | GENERIC_L generic_pair (COMMA generic_pair)* COMMA? GENERIC_R
     ;
 generic_call_in_type
-    : OP_PROPORTION? OP_LT (generic_pair (COMMA generic_pair)* COMMA?)? OP_GT
+    : OP_PROPORTION? OP_LT (generic_pair2 (COMMA generic_pair2)* COMMA?)? OP_GT
     | GENERIC_L (generic_pair (COMMA generic_pair)* COMMA?)? GENERIC_R
     ;
-generic_pair: (identifier COLON)? type_expression;
+generic_pair: (identifier (OP_ASSIGN|COLON))? type_expression;
+generic_pair2: (identifier OP_ASSIGN)? type_expression;
 define_label: OP_LABEL identifier;
 // ===========================================================================
 template_call

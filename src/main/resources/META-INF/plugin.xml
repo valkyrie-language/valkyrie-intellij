@@ -130,10 +130,11 @@
 		<codeInsight.daemonBoundCodeVisionProvider language="Valkyrie"
 		                                           implementationClass="valkyrie.ide.hint.VisionInheritors"/>
 		<codeInsight.daemonBoundCodeVisionProvider language="Valkyrie"
-		                                           implementationClass="valkyrie.ide.hint.VisionReferences"/>
+		                                           implementationClass="valkyrie.ide.hint.VisionUsage"/>
 		<codeInsight.daemonBoundCodeVisionProvider language="Valkyrie"
-		                                           implementationClass="valkyrie.ide.hint.ValkyrieCodeVision"/>
-
+		                                           implementationClass="valkyrie.ide.hint.VisionMonomorphisms"/>
+		<codeInsight.daemonBoundCodeVisionProvider language="Valkyrie"
+		                                           implementationClass="valkyrie.ide.hint.VisionEffects"/>
 
 		<!--		<psi.fileReferenceHelper implementation="valkyrie.ide.reference.ValkyrieFileReference"/>-->
 		<psi.treeChangeListener implementation="valkyrie.ide.project.crate.ValkyrieFileListener"/>

@@ -140,15 +140,15 @@ OP_LABEL:     '¶';
 OP_OUTPUT:    '⛤' | '⛥' | '⛦';
 OP_LAST:      '⛧' | '%%';
 // keywords
-KW_NAMESPACE: 'namespace' ('!' | '*' | '?')?;
-KW_IMPORT:    'using' ('!' | '*' | '?')?;
+KW_NAMESPACE: 'namespace' [!*?]?;
+KW_IMPORT:    'using' [!*?]?;
 KW_EXTENSION: 'extension';
 // 
 KW_CLASS: 'class' | 'structure' | 'vague' | 'fluid';
 KW_TRAIT: 'trait' | 'interface';
 KW_FLAGS: 'flags' | 'enumerate';
 KW_UNION: 'unite' | 'union' | 'variant' | 'inductive';
-KW_TYPE:  'type';
+KW_TYPE:  'typus' | 'type';
 //
 KW_TEMPLATE:   'template' | 'generic' | 'constraint';
 KW_EXTENDS:    'extends' | 'extend' | 'imply';
@@ -202,7 +202,7 @@ RAW_ID:     '`' ~[`]+ '`';
 UNICODE_ID: [_\p{XID_start}\p{Emoji_Presentation}] [\p{XID_continue}\p{Emoji}]*;
 
 // comment
-LINE_COMMENT:  [🗨⍝~] ~[\r\n]* -> channel(HIDDEN);
+LINE_COMMENT:  ([🗨⍝]|[\\][\\]) ~[\r\n]* -> channel(HIDDEN);
 BLOCK_COMMENT: '🗨🗨🗨' .*? '🗩🗩🗩' -> channel(HIDDEN);
 
 WHITE_SPACE:     [\p{White_Space}]+ -> channel(HIDDEN);
