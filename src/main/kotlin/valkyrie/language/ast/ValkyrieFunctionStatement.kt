@@ -13,11 +13,13 @@ import valkyrie.language.psi.ValkyrieHighlightElement
 import valkyrie.language.psi.ValkyrieScopeNode
 import javax.swing.Icon
 
-class ValkyrieFunctionStatement(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner, ValkyrieHighlightElement {
-    val namepath by lazy { ValkyrieNamepathNode.find(this) }
+class ValkyrieFunctionStatement : ValkyrieScopeNode, PsiNameIdentifierOwner, ValkyrieHighlightElement {
+    constructor(node: CompositeElement) : super(node)
+
+    val namepath by lazy { ValkyrieModifiedNode.findIdentifier(this) }
     val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
     override fun getName(): String {
-        return namepath?.nameIdentifier?.name ?: "[Unknown Function]"
+        return namepath?.name ?: "[Unknown Function]"
     }
 
     override fun setName(name: String): PsiElement {
@@ -25,7 +27,7 @@ class ValkyrieFunctionStatement(node: CompositeElement) : ValkyrieScopeNode(node
     }
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return namepath?.nameIdentifier
+        return namepath
     }
 
     override fun getBaseIcon(): Icon {
@@ -33,7 +35,7 @@ class ValkyrieFunctionStatement(node: CompositeElement) : ValkyrieScopeNode(node
     }
 
     override fun getPresentation(): ItemPresentation {
-        return IdentifierPresentation(namepath?.nameIdentifier, this.baseIcon)
+        return IdentifierPresentation(namepath, this.baseIcon)
     }
 
 

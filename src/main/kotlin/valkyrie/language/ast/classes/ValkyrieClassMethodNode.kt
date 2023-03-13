@@ -25,10 +25,13 @@ import valkyrie.language.psi.*
 import javax.swing.Icon
 
 
-class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node), PsiNameIdentifierOwner, ValkyrieLineMarkElement,
+class ValkyrieClassMethodNode : ValkyrieScopeNode, PsiNameIdentifierOwner, ValkyrieLineMarkElement,
     ValkyrieHighlightElement, ValkyrieInlayElement {
-    val method = ValkyrieModifiedNode.findIdentifier(this)
-    val modifiers = ValkyrieModifiedNode.findModifiers(this);
+    constructor(node: CompositeElement) : super(node)
+
+    val method by lazy { ValkyrieModifiedNode.findIdentifier(this) }
+    val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
+
     override fun getName(): String {
         return method?.name ?: ""
     }
@@ -36,7 +39,6 @@ class ValkyrieClassMethodNode(node: CompositeElement) : ValkyrieScopeNode(node),
     override fun setName(name: String): ValkyrieIdentifierNode {
         return ValkyrieFactory(this.project).create_identifier(name)!!
     }
-
 
     override fun getBaseIcon(): Icon {
         if (method?.name == "constructor") {

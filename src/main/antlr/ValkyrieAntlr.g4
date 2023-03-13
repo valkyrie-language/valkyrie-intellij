@@ -71,7 +71,7 @@ class_inherit
 class_inherit_item: (identifier COLON)? type_expression;
 class_field:        attribute* modified_identifier type_hint? parameter_default?;
 class_method
-    : attribute* modified_namepath define_generic? function_parameters return_part? function_block?
+    :attribute* modified_identifier define_generic? function_parameters return_part? function_block?
     ;
 class_domain: attribute* modified_identifier program_block;
 // ===========================================================================
@@ -97,7 +97,7 @@ define_union
 base_layout:      PARENTHESES_L type_expression? PARENTHESES_R;
 union_block:      BRACE_L union_statements* BRACE_R;
 union_statements: class_method | define_variant | eos_free;
-define_variant:   identifier variant_block?;
+define_variant:   attribute* identifier variant_block?;
 variant_block:    BRACE_L (class_field | class_method | eos_free)* BRACE_R;
 // ===========================================================================
 define_flags:    attribute* modifiers KW_FLAGS identifier base_layout? type_hint? flags_block;
@@ -106,7 +106,7 @@ flags_statement: class_method | flags_item | eos_free;
 flags_item:      attribute* identifier (OP_ASSIGN main_expression)?;
 // ===========================================================================
 define_function
-    : template_call? attribute* modifiers KW_FUNCTION namepath define_generic? function_parameters return_part? function_block
+    : template_call? attribute* modifiers KW_FUNCTION identifier define_generic? function_parameters return_part? function_block
     ;
 function_parameters
     : PARENTHESES_L PARENTHESES_R

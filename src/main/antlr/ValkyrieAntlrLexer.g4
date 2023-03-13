@@ -63,14 +63,13 @@ OP_GGG: '⋙' ;
 OP_GG:  '≫' ;
 OP_GT:  '>';
 // arrow
-OP_LEFT:   '←' | '<-';
 OP_ARROW:  '⟶' | '->';
 OP_ARROW2: '⇒' | '=>';
 OP_ARROW3: '==>';
 
 // assign
 OP_ASSIGN:     '=';
-OP_BIND:       '≔' | ':=';
+OP_BIND:       '←' | '<-';
 OP_MAY_ASSIGN: '?=';
 OP_ADD_ASSIGN: '+=';
 OP_SUB_ASSIGN: '-=';
@@ -148,7 +147,7 @@ KW_CLASS: 'class' | 'structure' | 'vague' | 'fluid';
 KW_TRAIT: 'trait' | 'interface';
 KW_FLAGS: 'flags' | 'enumerate';
 KW_UNION: 'unite' | 'union' | 'variant' | 'inductive';
-KW_TYPE:  'typus' | 'type';
+KW_TYPE:  'typus';
 //
 KW_TEMPLATE:   'template' | 'generic' | 'constraint';
 KW_EXTENDS:    'extends' | 'extend' | 'imply';
