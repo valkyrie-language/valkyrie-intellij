@@ -6,7 +6,6 @@ import com.intellij.icons.AllIcons
 import com.intellij.navigation.GotoRelatedItem
 import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.editor.markup.GutterIconRenderer
-import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.refactoring.suggested.endOffset
@@ -29,25 +28,28 @@ class ValkyrieClassMethodNode : ValkyrieScopeNode, PsiNameIdentifierOwner, Valky
     ValkyrieHighlightElement, ValkyrieInlayElement {
     constructor(node: CompositeElement) : super(node)
 
-    val method by lazy { ValkyrieModifiedNode.findIdentifier(this) }
-    val modifiers by lazy { ValkyrieModifiedNode.findModifiers(this) };
+
+    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
+        return ValkyrieModifiedNode.findIdentifier(this)
+    }
 
     override fun getName(): String {
-        return method?.name ?: ""
+        return nameIdentifier?.name ?: ""
     }
+
 
     override fun setName(name: String): ValkyrieIdentifierNode {
         return ValkyrieFactory(this.project).create_identifier(name)!!
     }
 
     override fun getBaseIcon(): Icon {
-        if (method?.name == "constructor") {
+        if (name == "constructor") {
             return AllIcons.Nodes.ClassInitializer
         }
-        if (method?.name == "+") {
+        if (name == "+") {
             return AllIcons.Gutter.ImplementingMethod
         }
-        for (m in modifiers) {
+        for (m in ValkyrieModifiedNode.findModifiers(this)) {
             if (m.name == "get" || m.name == "set") {
                 return AllIcons.Nodes.Property
             }
@@ -57,13 +59,9 @@ class ValkyrieClassMethodNode : ValkyrieScopeNode, PsiNameIdentifierOwner, Valky
 
 
     override fun getPresentation(): ItemPresentation {
-        return IdentifierPresentation(method, this.baseIcon)
+        return IdentifierPresentation(nameIdentifier, this.baseIcon)
     }
 
-
-    override fun getNameIdentifier(): PsiElement? {
-        return method
-    }
 
     override fun on_highlight(e: NodeHighlighter) {
         if (name == "constructor") {
@@ -71,7 +69,7 @@ class ValkyrieClassMethodNode : ValkyrieScopeNode, PsiNameIdentifierOwner, Valky
         } else {
             e.register(nameIdentifier, ValkyrieHighlightColor.SYM_FUNCTION_SELF)
         }
-        e.register_modifiers(modifiers)
+        e.register_modifiers(ValkyrieModifiedNode.findModifiers(this))
     }
 
     override fun on_line_mark(e: MutableCollection<in LineMarkerInfo<*>>) {
@@ -107,7 +105,7 @@ class ValkyrieClassMethodNode : ValkyrieScopeNode, PsiNameIdentifierOwner, Valky
         val argument = ValkyrieParser.getChildOfType(this, ValkyrieAntlrParser.RULE_function_parameters);
         val parameter = ValkyrieParser.getChildrenOfType<ValkyrieFunctionParameter>(argument)
         if (argument != null && parameter.isEmpty()) {
-            for (m in modifiers) {
+            for (m in ValkyrieModifiedNode.findModifiers(this)) {
                 if (m.name == "get") {
                     inlay.inline(argument.firstChild.endOffset, "self")
                 } else if (m.name == "set") {

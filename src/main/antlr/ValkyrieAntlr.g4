@@ -147,7 +147,7 @@ tuple_call_body
     | PARENTHESES_L tuple_call_item (COMMA tuple_call_item)* COMMA? PARENTHESES_R
     ;
 tuple_call_item
-    : attribute* (mods += identifier)* field = identifier COLON main_expression
+    : attribute* (mods += identifier)* field = identifier OP_ASSIGN main_expression
     | attribute* main_expression
     ;
 // ===========================================================================
@@ -346,7 +346,7 @@ infix_map:    OP_MAP | OP_APPLY2 | OP_APPLY3;
 infix_pow:    OP_POW | OP_ROOT2;
 infix_range:  OP_UNTIL;
 infix_arrows: OP_ARROW | OP_ARROW2;
-op_multiple:  OP_MUL | OP_DIV | OP_REM | OP_DIV_REM;
+op_multiple:  OP_MUL | OP_DIV | OP_REM | OP_DIV_REM | OP_PERCENT;
 op_plus:      OP_ADD | OP_SUB;
 op_logic:     LOGIC_OR | LOGIC_AND | LOGIC_XOR | LOGIC_NOR | LOGIC_NAND | LOGIC_XAND;
 op_pipeline:  OP_LL | OP_LLE | OP_LLL | OP_GG | OP_GGG | OP_ARROW3;
@@ -375,16 +375,15 @@ generic_item
     ;
 generic_call
     : OP_PROPORTION OP_LT OP_GT
-    | OP_PROPORTION OP_LT generic_pair2 (COMMA generic_pair2)* COMMA? OP_GT
+    | OP_PROPORTION OP_LT generic_pair (COMMA generic_pair)* COMMA? OP_GT
     | GENERIC_L GENERIC_R
     | GENERIC_L generic_pair (COMMA generic_pair)* COMMA? GENERIC_R
     ;
 generic_call_in_type
-    : OP_PROPORTION? OP_LT (generic_pair2 (COMMA generic_pair2)* COMMA?)? OP_GT
+    : OP_PROPORTION? OP_LT (generic_pair (COMMA generic_pair)* COMMA?)? OP_GT
     | GENERIC_L (generic_pair (COMMA generic_pair)* COMMA?)? GENERIC_R
     ;
-generic_pair: (identifier (OP_ASSIGN|COLON))? type_expression;
-generic_pair2: (identifier OP_ASSIGN)? type_expression;
+generic_pair: (identifier OP_ASSIGN)? type_expression;
 define_label: OP_LABEL identifier;
 // ===========================================================================
 template_call
@@ -467,10 +466,10 @@ new_statement
 new_block:     BRACE_L (new_call_item | eos_free)* BRACE_R;
 new_call_item: new_call_key? main_expression;
 new_call_key
-    : identifier COLON    # NK1
-    | INTEGER COLON       # NK2
-    | string COLON        # NK3
-    | range_literal COLON # NK4
+    : identifier OP_ASSIGN    # NK1
+    | INTEGER OP_ASSIGN       # NK2
+    | string OP_ASSIGN        # NK3
+    | range_literal OP_ASSIGN # NK4
     ;
 // ===========================================================================
 tuple_literal

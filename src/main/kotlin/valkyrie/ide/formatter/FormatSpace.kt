@@ -12,8 +12,7 @@ import valkyrie.language.antlr.ValkyrieLexer
 private val removeSpaceBefore = TokenSet.orSet(
     ValkyrieLanguage.createTokenSet(DOT, OP_PROPORTION, COLON, GENERIC_L, GENERIC_R),
     ValkyrieBracketMatch.Instance.Right,
-
-    )
+)
 
 private val removeSpaceNewlineBefore = TokenSet.orSet(
     ValkyrieLanguage.createTokenSet(COMMA, OP_PROPORTION)

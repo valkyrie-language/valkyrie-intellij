@@ -120,7 +120,7 @@ OP_SUP_TYPE: ':>';
 OP_IS:       '⊑' | '<:';
 OP_IS_NOT:   '⋢' | '<!';
 // as
-KW_AS: 'as' | 'as!' | 'as*';
+KW_AS: 'as' [!?]?;
 // until
 OP_DOT3:  '…' | '...';
 OP_DOT2:  '‥' | '..';
@@ -170,7 +170,7 @@ KW_CASE:  'case';
 KW_WHEN:  'when';
 KW_WHERE: 'where';
 // number
-INTEGER: [0] | [1-9][0-9]*;
+INTEGER: [0] | [1-9]([_]?[0-9])*;
 DECIMAL
     : INTEGER DOT INTEGER EXP? // 1.35, 1.35E-9, 0.3, -4.5
     | INTEGER EXP

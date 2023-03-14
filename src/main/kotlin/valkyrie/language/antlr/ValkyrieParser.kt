@@ -209,6 +209,8 @@ private class RuleRewriter(language: Language, parser: Parser?, builder: PsiBuil
                 RULE_generic_call -> ValkyrieGenericCall(node, true)
                 RULE_generic_call_in_type -> ValkyrieGenericCall(node, false)
 
+                RULE_tuple_literal -> ValkyrieBlockNode(node, ValkyrieBlockType.Parenthesis)
+                RULE_new_call_item -> ValkyrieCallArgument(node)
                 RULE_tuple_call_item -> ValkyrieCallArgument(node)
                 RULE_tuple_call_body -> ValkyrieBlockNode(node, ValkyrieBlockType.Parenthesis)
                 // operators

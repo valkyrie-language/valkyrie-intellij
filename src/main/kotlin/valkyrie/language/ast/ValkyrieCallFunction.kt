@@ -16,7 +16,7 @@ class ValkyrieCallFunction(node: CompositeElement) : ASTWrapperPsiElement(node),
         val items = PsiTreeUtil.getChildrenOfTypeAsList(body, ValkyrieCallArgument::class.java)
         var id = 0;
         for (item in items) {
-            val key = item.key;
+            val key = item.getNameIdentifier();
             if (key == null) {
                 inlay.inline(item.startOffset, "${'a' + id}: ")
             }
