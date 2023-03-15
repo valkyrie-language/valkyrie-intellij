@@ -6,8 +6,10 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
-import valkyrie.language.ast.ValkyrieCommentDocument
+import valkyrie.ide.formatter.ValkyrieCommenter
 import valkyrie.language.antlr.ValkyrieLexer
+import valkyrie.language.ast.ValkyrieCommentDocument
+import valkyrie.language.file.ValkyrieFileNode
 import java.net.ConnectException
 import java.util.function.Consumer
 
@@ -30,12 +32,12 @@ class DocumentationProvider : DocumentationProvider {
     }
 
     override fun collectDocComments(file: PsiFile, sink: Consumer<in PsiDocCommentBase>) {
-//        if (file !is ValkyrieFileNode) return
+        if (file !is ValkyrieFileNode) return
         for (leaf in PsiTreeUtil.findChildrenOfType(file, PsiComment::class.java)) {
-//            val text = ValkyrieCommenter.extractDocumentText(leaf)
-//            if (text != null) {
-//                sink.accept(DocumentNode(leaf, text))
-//            }
+            val text = ValkyrieCommenter().extractDocumentText(leaf)
+            if (text != null) {
+                sink.accept(ValkyrieCommentDocument(leaf))
+            }
         }
     }
 
@@ -80,5 +82,9 @@ class DocumentationProvider : DocumentationProvider {
 
     override fun getUrlFor(element: PsiElement?, originalElement: PsiElement?): MutableList<String>? {
         return super.getUrlFor(element, originalElement)
+    }
+
+    override fun getDocumentationParts(element: PsiElement, originalElement: PsiElement?): DocumentationProvider.DocumentationParts? {
+        return super.getDocumentationParts(element, originalElement)
     }
 }

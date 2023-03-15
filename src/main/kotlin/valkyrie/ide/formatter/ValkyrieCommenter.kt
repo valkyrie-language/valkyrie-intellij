@@ -10,21 +10,29 @@ import valkyrie.language.antlr.ValkyrieLexer
 
 class ValkyrieCommenter : CodeDocumentationAwareCommenter {
     override fun getLineCommentPrefix() = "⍝"
-    override fun getBlockCommentPrefix() = "/*"
-    override fun getBlockCommentSuffix() = "*/"
-    override fun getCommentedBlockCommentPrefix() = "*//*"
-    override fun getCommentedBlockCommentSuffix() = "*//*"
+    override fun getDocumentationCommentLinePrefix() = "⍝?"
     override fun getLineCommentPrefixes(): MutableList<String> {
-        return super.getLineCommentPrefixes()
-    }
-
-    override fun blockCommentRequiresFullLineSelection(): Boolean {
-        return false
+        return mutableListOf("⍝", "\\\\")
     }
 
     override fun getLineCommentTokenType(): IElementType {
         return ValkyrieLexer.CommentLine
     }
+
+    override fun getLineCommentTokenTypes(): MutableList<IElementType> {
+        return mutableListOf(ValkyrieLexer.CommentLine)
+    }
+
+    override fun getBlockCommentPrefix() = null
+    override fun getBlockCommentSuffix() = null
+    override fun getCommentedBlockCommentPrefix() = null
+    override fun getCommentedBlockCommentSuffix() = null
+
+
+    override fun blockCommentRequiresFullLineSelection(): Boolean {
+        return false
+    }
+
 
     override fun getBlockCommentTokenType(): IElementType {
         return ValkyrieLexer.CommentBlock
@@ -33,13 +41,14 @@ class ValkyrieCommenter : CodeDocumentationAwareCommenter {
     override fun getDocumentationCommentTokenType(): IElementType? = null
     override fun getDocumentationCommentPrefix() = null
     override fun getDocumentationCommentSuffix() = null
-    override fun getDocumentationCommentLinePrefix() = "//?"
+
     override fun isDocumentationComment(element: PsiComment?): Boolean {
         if (element == null || element.elementType != ValkyrieLexer.CommentBlock) {
             return false
         }
         return element.text.startsWith(documentationCommentLinePrefix)
     }
+
 
     fun extractDocumentText(element: PsiComment): String? {
         if (element.elementType == ValkyrieLexer.CommentLine && element.text.startsWith(documentationCommentLinePrefix)) {
