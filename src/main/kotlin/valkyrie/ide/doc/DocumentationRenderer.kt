@@ -5,24 +5,17 @@ package valkyrie.ide.doc
 import com.intellij.openapi.editor.colors.EditorColorsManager
 import com.intellij.openapi.editor.richcopy.HtmlSyntaxInfoUtil
 import com.intellij.psi.PsiElement
-import com.intellij.psi.util.elementType
 import com.intellij.ui.ColorUtil
 import valkyrie.ide.highlight.ValkyrieHighlightColor
 import valkyrie.ide.highlight.ValkyrieHighlightColor.*
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.ast.classes.ValkyrieClassStatement
 import valkyrie.language.ast.ValkyrieTraitStatement
-import valkyrie.language.antlr.ValkyrieLexer
-import valkyrie.lsp.RequestDocument
+import valkyrie.language.ast.classes.ValkyrieClassStatement
 
 class DocumentationRenderer(var element: PsiElement, private var original: PsiElement?) {
     private val doc = StringBuilder()
     fun onHover(): String {
-         when {
-            ValkyrieLexer.Keywords.contains(element.elementType) -> return RequestDocument.keyword(element.text).send()
-             ValkyrieLexer.Operators.contains(element.elementType) -> return RequestDocument.operator(element.text).send()
-            else -> {}
-        }
+
         when (element) {
             is ValkyrieTraitStatement -> buildDetail(element as ValkyrieTraitStatement)
             is ValkyrieClassStatement -> buildShort(element as ValkyrieClassStatement)
