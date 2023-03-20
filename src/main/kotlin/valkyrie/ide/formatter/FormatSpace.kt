@@ -4,37 +4,37 @@ import com.intellij.formatting.SpacingBuilder
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import com.intellij.psi.tree.TokenSet
-import valkyrie.ide.matcher.ValkyrieBracketMatch
-import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.antlr.ValkyrieAntlrLexer.*
-import valkyrie.language.antlr.ValkyrieLexer
+import yggdrasil.language.YggdrasilLanguage
+import yggdrasil.psi.ParserExtension
+
 
 private val removeSpaceBefore = TokenSet.orSet(
-    ValkyrieLanguage.createTokenSet(DOT, OP_PROPORTION, COLON, GENERIC_L, GENERIC_R),
-    ValkyrieBracketMatch.Instance.Right,
+//    createTokenSet(YggdrasilLanguage),
+//    ValkyrieBracketMatch.Instance.Right,
+
 )
 
 private val removeSpaceNewlineBefore = TokenSet.orSet(
-    ValkyrieLanguage.createTokenSet(COMMA, OP_PROPORTION)
+//    createTokenSet(YggdrasilLanguage)
 
 )
 
 private val removeSpaceAfter = TokenSet.orSet(
-    ValkyrieLanguage.createTokenSet(DOT, OP_PROPORTION, GENERIC_L, GENERIC_R)
+//    createTokenSet(YggdrasilLanguage)
 )
 
 private val removeSpaceNewlineAfter = TokenSet.orSet(
-    ValkyrieLanguage.createTokenSet(DOT, OP_PROPORTION, OP_HASH, OP_AT)
+//    createTokenSet(YggdrasilLanguage)
 )
 
 // 左右插入一个空格
 private val spaceAroundOperator = TokenSet.orSet(
-    ValkyrieLanguage.createTokenSet(KW_IN),
-    ValkyrieLexer.OperatorInfix
+//    createTokenSet(YggdrasilLanguage),
+    ParserExtension.OperatorInfix
 )
 
 private val addSpaceAfter = TokenSet.orSet(
-    ValkyrieLanguage.createTokenSet(COMMA)
+//    YggdrasilLanguage.createTokenSet(ParserExtension.COMMA)
 )
 
 private val newlineIndentAfter = TokenSet.create()
@@ -42,7 +42,7 @@ private val newlineIndentAfter = TokenSet.create()
 data class FormatSpace(val commonSettings: CommonCodeStyleSettings, val spacingBuilder: SpacingBuilder) {
     companion object {
         fun create(settings: CodeStyleSettings): FormatSpace {
-            val commonSettings = settings.getCommonSettings(ValkyrieLanguage)
+            val commonSettings = settings.getCommonSettings(YggdrasilLanguage)
             return FormatSpace(commonSettings, createSpacingBuilder(commonSettings))
         }
 

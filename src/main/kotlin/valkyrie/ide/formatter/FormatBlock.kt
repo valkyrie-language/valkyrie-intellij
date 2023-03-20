@@ -5,11 +5,11 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.formatter.FormatterUtil
-import valkyrie.language.antlr.isWhitespaceOrEmpty
-import valkyrie.language.psi.ValkyrieAlignmentElement
-import valkyrie.language.psi.ValkyrieIndentElement
+import yggdrasil.antlr.isWhitespaceOrEmpty
+import yggdrasil.language.psi.ValkyrieAlignmentElement
+import yggdrasil.psi.node.*
 
-//import valkyrie.language.psi.ValkyrieTokenType
+//import nexus.language.psi.ValkyrieTokenType
 
 class FormatBlock : ASTBlock {
     private val _node: ASTNode
@@ -62,15 +62,17 @@ class FormatBlock : ASTBlock {
     }
 
     override fun getSubBlocks(): List<Block> {
-        return node.getChildren(null).filter { !it.isWhitespaceOrEmpty() }.map {
-            FormatBlock(
-                node = it,
-                alignment = computeAlignment(it),
-                indent = computeIndent(it),
-                wrap = computeWrap(it),
-                _space
-            )
-        }
+        return node.getChildren(null)
+            .filter { !it.isWhitespaceOrEmpty() }
+            .map {
+                FormatBlock(
+                    node = it,
+                    alignment = computeAlignment(it),
+                    indent = computeIndent(it),
+                    wrap = computeWrap(it),
+                    _space
+                )
+            }
     }
 
     override fun isIncomplete(): Boolean {
@@ -82,13 +84,38 @@ class FormatBlock : ASTBlock {
     }
 
     private fun computeIndent(child: ASTNode): Indent? {
-        val psi = _node.psi;
-        if (psi is ValkyrieIndentElement) {
-            return psi.on_indent(child)
+        val isCorner = _node.firstChildNode == child || _node.lastChildNode == child
+        val byCorner = if (isCorner) Indent.getNoneIndent() else Indent.getNormalIndent();
+        return when (node.psi) {
+            is YggdrasilGrammarBody -> byCorner
+            is YggdrasilClassBody -> byCorner
+            is YggdrasilUnionBody -> byCorner
+            is YggdrasilGroupBody -> byCorner
+            is YggdrasilExpressionGroup -> byCorner
+            is YggdrasilFunctionBlock -> byCorner
+            is YggdrasilFunctionParameter -> byCorner
+            is YggdrasilTuple -> byCorner
+            else -> Indent.getNoneIndent()
         }
-        return Indent.getNoneIndent()
     }
-
+//    private fun computeIndent(child: ASTNode): Indent? {
+//        return when (_node.psi) {
+//            is YggdrasilClassBody -> _node.indentInRange(child, 1, 1)
+//            is YggdrasilUnionBody -> _node.indentInRange(child, 1, 1)
+//            else -> Indent.getNoneIndent()
+//        }
+//    }
+//
+//    private fun ASTNode.indentInRange(child: ASTNode, head: Int, tail: Int): Indent {
+//        val children = this.getChildren(null);
+//        val index = children.indexOf(child)
+//        val last = children.size - tail
+//        return when {
+//            index <= head -> Indent.getNoneIndent()
+//            index >= last -> Indent.getNoneIndent()
+//            else -> Indent.getNormalIndent()
+//        }
+//    }
 
     private fun computeAlignment(child: ASTNode): Alignment? {
         val psi = _node.psi;

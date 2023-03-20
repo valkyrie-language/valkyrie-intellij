@@ -10,9 +10,7 @@ import com.intellij.patterns.PsiElementPattern
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.util.ProcessingContext
-import valkyrie.ide.project.crate.NamespaceMapping
-import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.file.ValkyrieIconProvider
+import yggdrasil.language.YggdrasilLanguage
 import javax.swing.Icon
 
 class CompletionInFileScope : CompletionProvider<CompletionParameters>() {
@@ -21,55 +19,19 @@ class CompletionInFileScope : CompletionProvider<CompletionParameters>() {
         element = parameters.position
         result.addTopMacros()
         keywordSnippet(result)
-        addControlFlow(result)
-
-        for (classes in NamespaceMapping.Instance.ClassCache) {
-
-            for (path in classes.value) {
-                result.addElement(
-                    LookupElementBuilder.create(path)
-                        .withIcon(ValkyrieIconProvider.Instance.CLASS)
-                        .withLookupString(classes.key)
-                )
-
-
-            }
-
-
-        }
-
-//        println("已触发: ${parameters.position.text}")
-    }
-
-    fun keywordFor(result: CompletionResultSet) {
-        result.addKeywordSnippet("for in", "for_in.ft")
-        result.addKeywordSnippet("for range", "for_range.ft")
-        result.addKeywordSnippet("for kv", "for_kv.ft")
-    }
-
-    fun inClassBlock(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
-
-    }
-
-    fun inClassTuple(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
-//        element = parameters.position
-        result.addTopMacros()
-    }
-
-    fun inMacroBlock(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
-//        element = parameters.position
-    }
-
-    fun inDefineBlock(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
-//        element = parameters.position
-        addControlFlow(result)
     }
 
     private fun CompletionResultSet.addTopMacros() {
-        addElement(annotationCall("@derive", "@derive()", 1))
-        addElement(macroCall("type_of", "@type_of[]", 1))
-        addElement(macroCall("name_of", "@name_of[]", 1))
-        addElement(macroCall("name_path_of", "@name_path_of[]", 1))
+        addElement(annotationCall("#derive", "#derive()", 1))
+        addElement(annotationCall("#style", "#style()", 1))
+        addElement(annotationCall("#railroad", "#railroad()", 1))
+        addElement(annotationCall("#atomic", "#atomic", 1))
+        addElement(macroCall("@comment_line", "@comment_line", 1))
+    }
+
+    private fun keywordSnippet(result: CompletionResultSet) {
+        result.addKeywordSnippet("class", "let.ft", setOf("class", "struct"))
+        result.addKeywordSnippet("union", "let_mut.ft", setOf("union", "enum"))
     }
 
     private fun macroCall(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
@@ -81,39 +43,6 @@ class CompletionInFileScope : CompletionProvider<CompletionParameters>() {
     }
 
 
-    private fun keywordSnippet(result: CompletionResultSet) {
-        result.addKeywordSnippet("let", "let.ft", setOf("val"))
-        result.addKeywordSnippet("let mut", "let_mut.ft", setOf("var", "mut"))
-
-        result.addKeywordSnippet("def", "def.ft", setOf("fn", "fun", "function"))
-        result.addKeywordSnippet("method", "method.ft", setOf("def"))
-        result.addKeywordSnippet("mutable method", "method_mut.ft", setOf("def", "mutmethod"))
-        result.addKeywordSnippet("lambda", "lambda.ft")
-
-        result.addKeywordSnippet("type", "type.ft")
-
-        result.addKeywordSnippet("class", "class.ft", setOf("cass", "struct"))
-        result.addKeywordSnippet("class inherit", "class_tuple.ft", setOf("class tuple"))
-        result.addKeywordSnippet("class generic", "class_generic.ft", setOf("class generic"))
-
-        result.addKeywordSnippet("union", "tagged.ft")
-        result.addKeywordSnippet("flags", "bitset.ft")
-
-        result.addKeywordSnippet("trait", "trait.ft")
-        result.addKeywordSnippet("interface", "interface.ft")
-        result.addKeywordSnippet("protocol", "protocol.ft")
-    }
-
-    private fun addControlFlow(result: CompletionResultSet) {
-        result.addKeywordSnippet("if", "if.ft")
-        result.addKeywordSnippet("else if", "else_if.ft", setOf("ef"))
-        result.addKeywordSnippet("else", "else.ft")
-        result.addKeywordSnippet("for in", "for_in.ft")
-        result.addKeywordSnippet("for range", "for_range.ft")
-        result.addKeywordSnippet("for kv", "for_kv.ft")
-    }
-
-
     private fun CompletionResultSet.addKeywordSnippet(id: String, file: String, lookup: Set<String> = setOf()) {
         if (element == null) {
             return
@@ -121,7 +50,7 @@ class CompletionInFileScope : CompletionProvider<CompletionParameters>() {
         val item = TemplateReplaceElement.snippetFromPath(element!!, id, file)
             .bold()
             .withLookupStrings(lookup)
-            .withIcon(ValkyrieIconProvider.Instance.SNIPPET)
+            .withIcon(AllIcons.Actions.MoreHorizontal)
         addElement(item)
     }
 
@@ -141,8 +70,8 @@ class CompletionInFileScope : CompletionProvider<CompletionParameters>() {
 
         private fun CompletionResultSet.addLinkedTraitMethod(kind: String, trait: String, args: String = "") {
             val element = LookupElementBuilder.create(kind)
-                .withIcon(ValkyrieIconProvider.Instance.Function)
-                .withTypeText(trait, ValkyrieIconProvider.Instance.TRAIT, false)
+                .withIcon(AllIcons.Nodes.Function)
+                .withTypeText(trait, AllIcons.Nodes.Interface, false)
                 .withInsertHandler { context, _ ->
                     val document = context.document
                     document.replaceString(context.startOffset, context.tailOffset, "$kind($args) {}")
@@ -155,5 +84,5 @@ class CompletionInFileScope : CompletionProvider<CompletionParameters>() {
 
 
 private fun triggerCondition(): PsiElementPattern.Capture<LeafPsiElement> {
-    return PlatformPatterns.psiElement(LeafPsiElement::class.java).withLanguage(ValkyrieLanguage);
+    return PlatformPatterns.psiElement(LeafPsiElement::class.java).withLanguage(YggdrasilLanguage);
 }

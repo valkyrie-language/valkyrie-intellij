@@ -2,31 +2,30 @@ package valkyrie.ide.highlight
 
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
-import valkyrie.language.ValkyrieBundle
-import valkyrie.language.file.ValkyrieIconProvider
+import yggdrasil.language.file.YggdrasilIconProvider
 
 class HighlightSetting : ColorSettingsPage {
-    private val annotatorTags = ValkyrieHighlightColor
+    private val annotatorTags = HighlightColor
         .values()
         .associateBy({ it.name }, { it.textAttributesKey })
 
-    override fun getAttributeDescriptors() = ValkyrieHighlightColor
+    override fun getAttributeDescriptors() = HighlightColor
         .values()
         .map { it.attributesDescriptor }
         .toTypedArray()
 
     override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
 
-    override fun getDisplayName() = ValkyrieBundle.message("filetype.name")
+    override fun getDisplayName() = yggdrasil.language.YggdrasilBundle.message("filetype.name")
 
-    override fun getIcon() = ValkyrieIconProvider.Instance.Valkyrie
+    override fun getIcon() = YggdrasilIconProvider.Instance.File
 
     override fun getHighlighter() = TokenHighlighter()
 
     override fun getAdditionalHighlightingTagToDescriptorMap() = annotatorTags
 
     override fun getDemoText(): String {
-        val file = javaClass.getResource("/templates/code-highlight.vk");
+        val file = javaClass.getResource("/templates/code-highlight.ne");
         return file?.readText() ?: ""
     }
 }

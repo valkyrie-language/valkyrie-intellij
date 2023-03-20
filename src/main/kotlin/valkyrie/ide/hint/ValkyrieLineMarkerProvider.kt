@@ -3,10 +3,10 @@ package valkyrie.ide.hint
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.LineMarkerProvider
 import com.intellij.psi.PsiElement
-import valkyrie.language.psi.ValkyrieLineMarkElement
+import yggdrasil.language.psi.ValkyrieLineMarkElement
 
-//import valkyrie.language.psi_node.ValkyrieClassFieldNode
-//import valkyrie.language.psi_node.ValkyrieClassMethodNode
+//import nexus.language.psi_node.ValkyrieClassFieldNode
+//import nexus.language.psi_node.ValkyrieClassMethodNode
 
 @Suppress("UnstableApiUsage")
 class ValkyrieLineMarkerProvider : LineMarkerProvider {

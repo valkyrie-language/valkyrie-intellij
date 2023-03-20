@@ -2,61 +2,43 @@ package valkyrie.ide.highlight
 
 
 import com.intellij.lexer.Lexer
-import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
-import com.intellij.psi.TokenType
+import com.intellij.openapi.fileTypes.SyntaxHighlighterBase.pack
 import com.intellij.psi.tree.IElementType
-import valkyrie.ide.matcher.ValkyrieBracketMatch
-import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.antlr.ValkyrieAntlrLexer
-import valkyrie.language.antlr.ValkyrieLexer
-
+import yggdrasil.psi.ParserDefinition
+import yggdrasil.psi.YggdrasilTypes.*
 
 class TokenHighlighter : SyntaxHighlighter {
     override fun getHighlightingLexer(): Lexer {
-        return ValkyrieLexer()
+        return ParserDefinition.createLexer()
     }
 
     override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> {
-        val key = getTokenColor(tokenType);
-        return if (key == null) {
-            TextAttributesKey.EMPTY_ARRAY
-        } else {
-            arrayOf(key)
-        }
+        return pack(getTokenColor(tokenType)?.textAttributesKey)
     }
 
-    private fun getTokenColor(tokenType: IElementType): TextAttributesKey? {
-        val hash = ValkyrieLanguage.createTokenSet(ValkyrieAntlrLexer.OP_HASH, ValkyrieAntlrLexer.OP_AT);
-        return when {
-            ValkyrieLexer.Keywords.contains(tokenType) -> ValkyrieHighlightColor.KEYWORD.textAttributesKey
-            ValkyrieLexer.Operators.contains(tokenType) -> DefaultLanguageHighlighterColors.OPERATION_SIGN
-            ValkyrieLexer.MacroOperators.contains(tokenType) -> ValkyrieHighlightColor.SYM_MACRO.textAttributesKey
-            ValkyrieLexer.Integers.contains(tokenType) -> ValkyrieHighlightColor.INTEGER.textAttributesKey
-            ValkyrieLexer.Decimals.contains(tokenType) -> ValkyrieHighlightColor.DECIMAL.textAttributesKey
-            ValkyrieLexer.Strings.contains(tokenType) -> ValkyrieHighlightColor.STRING.textAttributesKey
-            ValkyrieLexer.Comments.contains(tokenType) -> DefaultLanguageHighlighterColors.LINE_COMMENT
-            // inherit
-            ValkyrieLexer.Comma.contains(tokenType) -> DefaultLanguageHighlighterColors.COMMA
-            ValkyrieLexer.Semicolon.contains(tokenType) -> DefaultLanguageHighlighterColors.SEMICOLON
+    private fun getTokenColor(tokenType: IElementType): HighlightColor? {
+        return when (tokenType) {
+            KW_GRAMMAR, KW_USING,
+            KW_CLASS, KW_UNION, KW_GROUP, KW_MACRO,
+            -> HighlightColor.KEYWORD
+            // operations
+            COLON, BIND -> HighlightColor.OPERATION
+            OP_OR, OP_CONCAT -> HighlightColor.OPERATION
+            OP_REMARK -> HighlightColor.OPERATION
+            OP_OPTIONAL, OP_MANY, OP_MANY1 -> HighlightColor.OPERATION
+            // literals
+            TEXT_SINGLE, TEXT_DOUBLE -> HighlightColor.STRING
+            ESCAPED -> HighlightColor.STRING_ESCAPED
+            INTEGER -> HighlightColor.INTEGER
+            // comments
+            COMMENT_LINE -> HighlightColor.COMMENT_LINE
+            COMMENT_BLOCK -> HighlightColor.COMMENT_BLOCK
+            // errors
+//            TokenType.BAD_CHARACTER -> YggdrasilHighlightColor.BAD_CHARACTER
 
-            else -> {
-                when (tokenType) {
-                    ValkyrieBracketMatch.Instance.ParenthesisL, ValkyrieBracketMatch.Instance.ParenthesisR -> DefaultLanguageHighlighterColors.PARENTHESES
-                    ValkyrieBracketMatch.Instance.BracketL, ValkyrieBracketMatch.Instance.BracketR -> DefaultLanguageHighlighterColors.BRACKETS
-                    ValkyrieBracketMatch.Instance.BraceL, ValkyrieBracketMatch.Instance.BraceR -> DefaultLanguageHighlighterColors.BRACES
-                    //
-//                    COLON, OP_SET -> ValkyrieHighlightColor.ASSIGN
-                    // 原子类型
-//                    BYTE -> ValkyrieHighlightColor.INTEGER
-//                    COLOUR -> ValkyrieHighlightColor.INTEGER
-//                    NUMBER_SUFFIX -> ValkyrieHighlightColor.OP_NUMBER
-                    // 错误
-                    TokenType.BAD_CHARACTER -> com.intellij.openapi.editor.HighlighterColors.BAD_CHARACTER
-                    else -> null
-                }
-            }
+            else -> null
         }
     }
 }

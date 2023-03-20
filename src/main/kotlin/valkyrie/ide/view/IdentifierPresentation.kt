@@ -2,11 +2,11 @@ package valkyrie.ide.view
 
 import com.intellij.navigation.ColoredItemPresentation
 import com.intellij.openapi.editor.colors.TextAttributesKey
-import valkyrie.ide.highlight.ValkyrieHighlightColor
-import valkyrie.language.ast.ValkyrieIdentifierNode
+import valkyrie.ide.highlight.HighlightColor
+import yggdrasil.psi.node.YggdrasilIdentifierNode
 import javax.swing.Icon
 
-class IdentifierPresentation(val name: ValkyrieIdentifierNode?, private val icon: Icon) : ColoredItemPresentation {
+class IdentifierPresentation(val name: YggdrasilIdentifierNode?, private val icon: Icon) : ColoredItemPresentation {
     override fun getPresentableText(): String {
         return name?.name ?: "[Missing]"
     }
@@ -16,7 +16,7 @@ class IdentifierPresentation(val name: ValkyrieIdentifierNode?, private val icon
     }
 
     override fun getTextAttributesKey(): TextAttributesKey {
-        return ValkyrieHighlightColor.IDENTIFIER.textAttributesKey
+        return HighlightColor.IDENTIFIER.textAttributesKey
     }
 
 }
