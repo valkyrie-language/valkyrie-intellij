@@ -3,7 +3,7 @@ package valkyrie.ide.completion
 import com.intellij.codeInsight.editorActions.BackspaceHandlerDelegate
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiFile
-import yggdrasil.language.file.YggdrasilFileType
+import valkyrie.language.file.ValkyrieFileType
 
 class AutoDeleteBrace : BackspaceHandlerDelegate() {
     override fun beforeCharDeleted(c: Char, file: PsiFile, editor: Editor) {
@@ -12,7 +12,7 @@ class AutoDeleteBrace : BackspaceHandlerDelegate() {
 
     override fun charDeleted(c: Char, file: PsiFile, editor: Editor): Boolean {
 
-        if (file.fileType !is YggdrasilFileType) {
+        if (file.fileType !is ValkyrieFileType) {
             return false;
         }
         return false;

@@ -2,6 +2,7 @@ package valkyrie.ide.highlight
 
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
+import valkyrie.language.YggdrasilBundle
 import yggdrasil.language.file.YggdrasilIconProvider
 
 class HighlightSetting : ColorSettingsPage {
@@ -16,7 +17,7 @@ class HighlightSetting : ColorSettingsPage {
 
     override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
 
-    override fun getDisplayName() = yggdrasil.language.YggdrasilBundle.message("filetype.name")
+    override fun getDisplayName() = YggdrasilBundle.message("filetype.name")
 
     override fun getIcon() = YggdrasilIconProvider.Instance.File
 

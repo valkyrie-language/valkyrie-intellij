@@ -4,7 +4,7 @@ import com.intellij.formatting.SpacingBuilder
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import com.intellij.psi.tree.TokenSet
-import yggdrasil.language.YggdrasilLanguage
+import valkyrie.language.ValkyrieLanguage
 import yggdrasil.psi.ParserExtension
 
 
@@ -42,7 +42,7 @@ private val newlineIndentAfter = TokenSet.create()
 data class FormatSpace(val commonSettings: CommonCodeStyleSettings, val spacingBuilder: SpacingBuilder) {
     companion object {
         fun create(settings: CodeStyleSettings): FormatSpace {
-            val commonSettings = settings.getCommonSettings(YggdrasilLanguage)
+            val commonSettings = settings.getCommonSettings(ValkyrieLanguage)
             return FormatSpace(commonSettings, createSpacingBuilder(commonSettings))
         }
 

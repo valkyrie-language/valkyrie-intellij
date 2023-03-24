@@ -5,7 +5,7 @@ import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.options.OptionsBundle
 import com.intellij.openapi.options.colors.AttributesDescriptor
 import com.intellij.openapi.util.NlsContexts.AttributeDescriptor
-import yggdrasil.language.YggdrasilBundle
+import valkyrie.language.YggdrasilBundle
 import java.util.function.Supplier
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors as Default
 

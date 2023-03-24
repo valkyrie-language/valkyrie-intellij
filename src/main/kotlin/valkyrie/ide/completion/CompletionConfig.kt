@@ -1,9 +1,10 @@
 package valkyrie.ide.completion
 
 import com.intellij.application.options.CodeCompletionOptionsCustomSection
+import valkyrie.language.YggdrasilBundle
 import javax.swing.JComponent
 
-private val TITLE = yggdrasil.language.YggdrasilBundle.message("settings.completion.title")
+private val TITLE = YggdrasilBundle.message("settings.completion.title")
 
 class CompletionConfig : CodeCompletionOptionsCustomSection {
     init {

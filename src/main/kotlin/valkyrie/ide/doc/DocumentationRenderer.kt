@@ -6,6 +6,7 @@ import com.intellij.openapi.editor.richcopy.HtmlSyntaxInfoUtil
 import com.intellij.psi.PsiElement
 import com.intellij.ui.ColorUtil
 import valkyrie.ide.highlight.HighlightColor
+import valkyrie.language.ValkyrieLanguage
 
 
 class DocumentationRenderer(var element: PsiElement, private var original: PsiElement?) {
@@ -38,7 +39,7 @@ class DocumentationRenderer(var element: PsiElement, private var original: PsiEl
         HtmlSyntaxInfoUtil.appendHighlightedByLexerAndEncodedAsHtmlCodeSnippet(
             doc,
             element.project,
-            yggdrasil.language.YggdrasilLanguage,
+            ValkyrieLanguage,
             code.trimIndent(),
             1.0f,
         )

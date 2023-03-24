@@ -6,9 +6,11 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
+import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.YggdrasilBundle
 
-private val name = yggdrasil.language.YggdrasilBundle.message("action.macro.expand_file")
-private val description = yggdrasil.language.YggdrasilBundle.message("action.convert_prop.description")
+private val name = YggdrasilBundle.message("action.macro.expand_file")
+private val description = YggdrasilBundle.message("action.convert_prop.description")
 
 class ExpandTemplate : AnAction(name, description, AllIcons.Actions.GroupByMethod) {
     override fun actionPerformed(e: AnActionEvent) {
@@ -36,7 +38,7 @@ class ExpandTemplate : AnAction(name, description, AllIcons.Actions.GroupByMetho
                 break
             }
         }
-        val file = builder.createFileFromText(fileName, yggdrasil.language.YggdrasilLanguage, text)
+        val file = builder.createFileFromText(fileName, ValkyrieLanguage, text)
         dir.add(file)
         return file;
     }
