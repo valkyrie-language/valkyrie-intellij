@@ -7,10 +7,10 @@ import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.YggdrasilBundle
+import valkyrie.language.ValkyrieBundle
 
-private val name = YggdrasilBundle.message("action.macro.expand_file")
-private val description = YggdrasilBundle.message("action.convert_prop.description")
+private val name = ValkyrieBundle.message("action.macro.expand_file")
+private val description = ValkyrieBundle.message("action.convert_prop.description")
 
 class ExpandTemplate : AnAction(name, description, AllIcons.Actions.GroupByMethod) {
     override fun actionPerformed(e: AnActionEvent) {

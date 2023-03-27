@@ -7,7 +7,7 @@ import java.util.function.Supplier
 
 private const val Bundle = "messages.ValkyrieBundle"
 
-object YggdrasilBundle : DynamicBundle(Bundle) {
+object ValkyrieBundle : DynamicBundle(Bundle) {
 
     @Suppress("SpreadOperator")
     @JvmStatic

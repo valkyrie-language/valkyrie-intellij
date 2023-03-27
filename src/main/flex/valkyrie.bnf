@@ -1,8 +1,8 @@
 {
     parserClass = "yggdrasil.psi.parser.YggdrasilParser"
-    parserUtilClass = "yggdrasil.psi.ParserExtension"
+    parserUtilClass = "valkyrie.psi.ParserExtension"
 
-    extends = "yggdrasil.psi.YggdrasilElement"
+    extends = "valkyrie.psi.YggdrasilElement"
 
     psiClassPrefix = "Yggdrasil"
     psiImplClassSuffix = "Node"
@@ -10,8 +10,8 @@
     psiImplPackage = "yggdrasil.psi.node"
 
     elementTypeHolderClass = "yggdrasil.psi.YggdrasilTypes"
-    elementTypeClass = "yggdrasil.psi.YggdrasilElementType"
-    tokenTypeClass = "yggdrasil.psi.YggdrasilTokenType"
+    elementTypeClass = "valkyrie.psi.YggdrasilElementType"
+    tokenTypeClass = "valkyrie.psi.YggdrasilTokenType"
 
     psiImplUtilClass = "yggdrasil.psi.node.YggdrasilPsiExtension"
 

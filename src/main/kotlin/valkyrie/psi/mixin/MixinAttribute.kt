@@ -6,7 +6,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
-import yggdrasil.psi.YggdrasilElement
+import valkyrie.psi.YggdrasilElement
 import yggdrasil.psi.node.YggdrasilAttribute
 
 abstract class MixinAttribute(node: ASTNode) : YggdrasilElement(node), YggdrasilAttribute {

@@ -7,7 +7,7 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.icons.AllIcons
 import com.intellij.psi.PsiElement
 import com.intellij.util.ProcessingContext
-import yggdrasil.language.file.YggdrasilFileNode
+import valkyrie.language.file.YggdrasilFileNode
 
 class CompletionInClassScope : CompletionProvider<CompletionParameters>() {
     var element: PsiElement? = null;

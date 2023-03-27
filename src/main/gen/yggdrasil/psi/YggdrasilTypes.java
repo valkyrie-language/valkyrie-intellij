@@ -4,6 +4,8 @@ package yggdrasil.psi;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.PsiElement;
 import com.intellij.lang.ASTNode;
+import valkyrie.psi.YggdrasilElementType;
+import valkyrie.psi.YggdrasilTokenType;
 import yggdrasil.psi.node.*;
 
 public interface YggdrasilTypes {

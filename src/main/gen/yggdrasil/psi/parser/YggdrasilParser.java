@@ -5,7 +5,7 @@ import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiBuilder.Marker;
 
 import static yggdrasil.psi.YggdrasilTypes.*;
-import static yggdrasil.psi.ParserExtension.*;
+import static valkyrie.psi.ParserExtension.*;
 
 import com.intellij.psi.tree.IElementType;
 import com.intellij.lang.ASTNode;

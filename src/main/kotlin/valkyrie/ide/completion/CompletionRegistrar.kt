@@ -7,8 +7,8 @@ import com.intellij.openapi.progress.ProgressManager
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.parents
 import com.intellij.util.ProcessingContext
-import yggdrasil.language.file.YggdrasilFileNode
-import yggdrasil.psi.ParserExtension
+import valkyrie.language.file.YggdrasilFileNode
+import valkyrie.psi.ParserExtension
 import yggdrasil.psi.node.YggdrasilClassNode
 import yggdrasil.psi.node.YggdrasilDefineUnion
 

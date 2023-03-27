@@ -6,7 +6,7 @@ import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase.pack
 import com.intellij.psi.tree.IElementType
-import yggdrasil.psi.ParserDefinition
+import valkyrie.psi.ParserDefinition
 import yggdrasil.psi.YggdrasilTypes.*
 
 class TokenHighlighter : SyntaxHighlighter {

@@ -8,7 +8,7 @@ import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import yggdrasil.antlr.traversal
-import yggdrasil.language.file.YggdrasilFileNode
+import valkyrie.language.file.YggdrasilFileNode
 import yggdrasil.language.psi.YggdrasilFoldableElement
 
 class ValkyrieFoldingBuilder : CustomFoldingBuilder(), DumbAware {

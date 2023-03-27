@@ -8,7 +8,7 @@ import com.intellij.codeInsight.daemon.impl.HighlightVisitor
 import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import yggdrasil.language.file.YggdrasilFileNode
+import valkyrie.language.file.YggdrasilFileNode
 import yggdrasil.psi.node.*
 
 class NodeHighlighter : YggdrasilVisitor(), HighlightVisitor {

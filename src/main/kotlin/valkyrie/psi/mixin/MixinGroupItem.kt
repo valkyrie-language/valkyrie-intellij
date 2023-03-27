@@ -11,7 +11,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
-import yggdrasil.psi.YggdrasilElement
+import valkyrie.psi.YggdrasilElement
 import yggdrasil.psi.node.YggdrasilGroupItem
 import yggdrasil.psi.node.YggdrasilIdentifierNode
 import javax.swing.Icon

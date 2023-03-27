@@ -1,4 +1,4 @@
-package yggdrasil.language.file
+package valkyrie.language.file
 
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.model.psi.PsiSymbolDeclaration
@@ -8,8 +8,7 @@ import com.intellij.psi.FileViewProvider
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.SearchScope
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.YggdrasilBundle
-import valkyrie.language.file.ValkyrieFileType
+import valkyrie.language.ValkyrieBundle
 
 
 /**
@@ -19,7 +18,7 @@ ValkyrieFile 是个 PsiElement
 class YggdrasilFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ValkyrieLanguage) {
     override fun getFileType(): FileType = ValkyrieFileType
 
-    override fun toString(): String = YggdrasilBundle.message("action.create_file")
+    override fun toString(): String = ValkyrieBundle.message("action.create_file")
 
     val definitions = YggdrasilFileCache(this)
 

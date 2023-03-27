@@ -9,7 +9,7 @@ import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.impl.source.tree.SharedImplUtil
 import com.intellij.psi.util.parents
 import valkyrie.language.ValkyrieLanguage
-import yggdrasil.language.file.YggdrasilFileNode
+import valkyrie.language.file.YggdrasilFileNode
 import javax.swing.Icon
 
 /**

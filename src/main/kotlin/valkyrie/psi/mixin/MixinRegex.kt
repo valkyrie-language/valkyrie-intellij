@@ -6,7 +6,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.LiteralTextEscaper
 import com.intellij.psi.PsiLanguageInjectionHost
 import org.intellij.lang.regexp.RegExpLanguage
-import yggdrasil.psi.YggdrasilElement
+import valkyrie.psi.YggdrasilElement
 import yggdrasil.psi.node.YggdrasilRegex
 import yggdrasil.psi.node.YggdrasilRegexNode
 

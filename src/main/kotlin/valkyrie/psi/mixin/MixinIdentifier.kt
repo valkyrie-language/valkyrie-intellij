@@ -5,8 +5,8 @@ import com.intellij.psi.impl.source.tree.SharedImplUtil
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.ide.reference.declaration.ValkyrieReference
-import yggdrasil.language.file.YggdrasilFileNode
-import yggdrasil.psi.YggdrasilElement
+import valkyrie.language.file.YggdrasilFileNode
+import valkyrie.psi.YggdrasilElement
 import yggdrasil.psi.node.YggdrasilClassNode
 import yggdrasil.psi.node.YggdrasilDefineUnion
 import yggdrasil.psi.node.YggdrasilIdentifier

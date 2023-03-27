@@ -9,7 +9,7 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import yggdrasil.psi.YggdrasilElement
+import valkyrie.psi.YggdrasilElement
 import yggdrasil.psi.node.YggdrasilDefineFunction
 
 import yggdrasil.psi.node.YggdrasilIdentifierNode

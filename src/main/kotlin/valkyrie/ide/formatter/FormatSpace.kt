@@ -5,7 +5,7 @@ import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import com.intellij.psi.tree.TokenSet
 import valkyrie.language.ValkyrieLanguage
-import yggdrasil.psi.ParserExtension
+import valkyrie.psi.ParserExtension
 
 
 private val removeSpaceBefore = TokenSet.orSet(

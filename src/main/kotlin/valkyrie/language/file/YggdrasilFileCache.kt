@@ -1,4 +1,4 @@
-package yggdrasil.language.file
+package valkyrie.language.file
 
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.psi.PsiNameIdentifierOwner

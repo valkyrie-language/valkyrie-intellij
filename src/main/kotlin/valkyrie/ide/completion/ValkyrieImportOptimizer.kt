@@ -2,7 +2,7 @@ package valkyrie.ide.completion
 
 import com.intellij.lang.ImportOptimizer
 import com.intellij.psi.PsiFile
-import yggdrasil.language.file.YggdrasilFileNode
+import valkyrie.language.file.YggdrasilFileNode
 
 class ValkyrieImportOptimizer : ImportOptimizer {
     override fun supports(file: PsiFile): Boolean {
