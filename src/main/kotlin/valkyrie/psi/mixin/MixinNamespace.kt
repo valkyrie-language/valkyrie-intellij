@@ -8,21 +8,21 @@ import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.psi.ValkyrieElement
-import yggdrasil.psi.node.ValkyrieGrammar
+import yggdrasil.psi.node.ValkyrieDeclareNamespace
 import yggdrasil.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
-abstract class MixinGrammar(node: ASTNode) : ValkyrieElement(node),
+abstract class MixinNamespace(node: ASTNode) : ValkyrieElement(node),
     NavigatablePsiElement,
     PsiNameIdentifierOwner,
-    ValkyrieGrammar {
+    ValkyrieDeclareNamespace {
 
     override fun getName(): String? {
         return this.nameIdentifier?.name ?: "⟪anonymous⟫"
     }
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.identifier as? ValkyrieIdentifierNode
+        return this.namepathFree?.lastChild as? ValkyrieIdentifierNode
     }
 
 

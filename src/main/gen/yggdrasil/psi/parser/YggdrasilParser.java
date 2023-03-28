@@ -3,7 +3,6 @@ package yggdrasil.psi.parser;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiBuilder.Marker;
-
 import static valkyrie.psi.ValkyrieTypes.*;
 import static valkyrie.psi.ParserExtension.*;
 import com.intellij.psi.tree.IElementType;
@@ -37,6 +36,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     public static final TokenSet[] EXTENDS_SETS_ = new TokenSet[]{
+            create_token_set_(NAMEPATH, NAMEPATH_FREE),
             create_token_set_(IDENTIFIER, IDENTIFIER_FREE),
             create_token_set_(ATOMIC, EXPRESSION, EXPRESSION_CHOICE, EXPRESSION_GROUP,
                     EXPRESSION_HARD, EXPRESSION_SOFT, EXPRESSION_TAG, TERM),
@@ -268,6 +268,20 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = r && identifier(b, l + 1);
         exit_section_(b, m, CLASS_CAST, r);
         return r;
+    }
+
+    /* ********************************************************** */
+    // annotations KW_NAMESPACE namepath-free
+    public static boolean declare_namespace(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "declare_namespace")) return false;
+        boolean r, p;
+        Marker m = enter_section_(b, l, _NONE_, DECLARE_NAMESPACE, "<declare namespace>");
+        r = annotations(b, l + 1);
+        r = r && consumeToken(b, KW_NAMESPACE);
+        p = r; // pin = 2
+        r = r && namepath_free(b, l + 1);
+        exit_section_(b, l, m, r, p, null);
+        return r || p;
     }
 
     /* ********************************************************** */
@@ -613,21 +627,6 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // annotations KW_GRAMMAR identifier grammar-body
-    public static boolean grammar(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "grammar")) return false;
-        boolean r, p;
-        Marker m = enter_section_(b, l, _NONE_, GRAMMAR, "<grammar>");
-        r = annotations(b, l + 1);
-        r = r && consumeToken(b, KW_GRAMMAR);
-        p = r; // pin = 2
-        r = r && report_error_(b, identifier(b, l + 1));
-        r = p && grammar_body(b, l + 1) && r;
-        exit_section_(b, l, m, r, p, null);
-        return r || p;
-    }
-
-    /* ********************************************************** */
     // BRACE_L grammar-term* BRACE_R
     public static boolean grammar_body(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "grammar_body")) return false;
@@ -813,6 +812,84 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         Marker m = enter_section_(b, l, _NONE_, MODIFIER, "<modifier>");
         r = identifier(b, l + 1);
         exit_section_(b, l, m, r, false, null);
+        return r;
+    }
+
+    /* ********************************************************** */
+    // identifier ((DOT) identifier)* {
+    // }
+    public static boolean namepath(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "namepath")) return false;
+        if (!nextTokenIs(b, "<namepath>", SYMBOL, SYMBOW_RAW)) return false;
+        boolean r;
+        Marker m = enter_section_(b, l, _NONE_, NAMEPATH, "<namepath>");
+        r = identifier(b, l + 1);
+        r = r && namepath_1(b, l + 1);
+        r = r && namepath_2(b, l + 1);
+        exit_section_(b, l, m, r, false, null);
+        return r;
+    }
+
+    // ((DOT) identifier)*
+    private static boolean namepath_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "namepath_1")) return false;
+        while (true) {
+            int c = current_position_(b);
+            if (!namepath_1_0(b, l + 1)) break;
+            if (!empty_element_parsed_guard_(b, "namepath_1", c)) break;
+        }
+        return true;
+    }
+
+    // (DOT) identifier
+    private static boolean namepath_1_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "namepath_1_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, DOT);
+        r = r && identifier(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // {
+    // }
+    private static boolean namepath_2(PsiBuilder b, int l) {
+        return true;
+    }
+
+    /* ********************************************************** */
+    // identifier ((DOT) identifier)*
+    public static boolean namepath_free(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "namepath_free")) return false;
+        if (!nextTokenIs(b, "<namepath free>", SYMBOL, SYMBOW_RAW)) return false;
+        boolean r;
+        Marker m = enter_section_(b, l, _NONE_, NAMEPATH_FREE, "<namepath free>");
+        r = identifier(b, l + 1);
+        r = r && namepath_free_1(b, l + 1);
+        exit_section_(b, l, m, r, false, null);
+        return r;
+    }
+
+    // ((DOT) identifier)*
+    private static boolean namepath_free_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "namepath_free_1")) return false;
+        while (true) {
+            int c = current_position_(b);
+            if (!namepath_free_1_0(b, l + 1)) break;
+            if (!empty_element_parsed_guard_(b, "namepath_free_1", c)) break;
+        }
+        return true;
+    }
+
+    // (DOT) identifier
+    private static boolean namepath_free_1_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "namepath_free_1_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, DOT);
+        r = r && identifier(b, l + 1);
+        exit_section_(b, m, null, r);
         return r;
     }
 
@@ -1046,7 +1123,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // grammar
+    // declare-namespace
     //   | using
     //   | class
     //   | define-union
@@ -1056,7 +1133,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     static boolean statements(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "statements")) return false;
         boolean r;
-        r = grammar(b, l + 1);
+        r = declare_namespace(b, l + 1);
         if (!r) r = using(b, l + 1);
         if (!r) r = class_$(b, l + 1);
         if (!r) r = define_union(b, l + 1);

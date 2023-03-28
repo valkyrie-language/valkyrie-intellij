@@ -1,7 +1,6 @@
 package valkyrie.ide.highlight
 
 
-//import nexus.language.psi_node.ValkyrieIdentifierNode
 import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType
 import com.intellij.codeInsight.daemon.impl.HighlightVisitor
@@ -14,9 +13,6 @@ import yggdrasil.psi.node.*
 class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
 
-    override fun visitGrammar(o: ValkyrieGrammar) {
-        o.identifier?.let { highlight(it, HighlightColor.SYM_MACRO) }
-    }
 
     override fun visitUsing(o: ValkyrieUsing) {
         o.identifierFree?.let { highlight(it, HighlightColor.SYM_MACRO) }

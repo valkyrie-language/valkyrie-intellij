@@ -16,6 +16,7 @@ public interface ValkyrieTypes {
     IElementType CLASS = new YggdrasilElementType("CLASS");
     IElementType CLASS_BODY = new YggdrasilElementType("CLASS_BODY");
     IElementType CLASS_CAST = new YggdrasilElementType("CLASS_CAST");
+    IElementType DECLARE_NAMESPACE = new YggdrasilElementType("DECLARE_NAMESPACE");
     IElementType DEFINE_FUNCTION = new YggdrasilElementType("DEFINE_FUNCTION");
     IElementType DEFINE_UNION = new YggdrasilElementType("DEFINE_UNION");
     IElementType ESCAPE = new YggdrasilElementType("ESCAPE");
@@ -28,7 +29,6 @@ public interface ValkyrieTypes {
     IElementType FUNCTION_BLOCK = new YggdrasilElementType("FUNCTION_BLOCK");
     IElementType FUNCTION_CALL = new YggdrasilElementType("FUNCTION_CALL");
     IElementType FUNCTION_PARAMETER = new YggdrasilElementType("FUNCTION_PARAMETER");
-    IElementType GRAMMAR = new YggdrasilElementType("GRAMMAR");
     IElementType GRAMMAR_BODY = new YggdrasilElementType("GRAMMAR_BODY");
     IElementType GRAMMAR_TERM = new YggdrasilElementType("GRAMMAR_TERM");
     IElementType GROUP = new YggdrasilElementType("GROUP");
@@ -39,6 +39,8 @@ public interface ValkyrieTypes {
     IElementType IDENTIFIER_FREE = new YggdrasilElementType("IDENTIFIER_FREE");
     IElementType KEY = new YggdrasilElementType("KEY");
     IElementType MODIFIER = new YggdrasilElementType("MODIFIER");
+    IElementType NAMEPATH = new YggdrasilElementType("NAMEPATH");
+    IElementType NAMEPATH_FREE = new YggdrasilElementType("NAMEPATH_FREE");
     IElementType NUMBER = new YggdrasilElementType("NUMBER");
     IElementType PAIR = new YggdrasilElementType("PAIR");
     IElementType PARAMETER = new YggdrasilElementType("PARAMETER");
@@ -85,6 +87,7 @@ public interface ValkyrieTypes {
     IElementType KW_GROUP = new YggdrasilTokenType("group");
     IElementType KW_IMPORT = new YggdrasilTokenType("import");
     IElementType KW_MACRO = new YggdrasilTokenType("macro");
+    IElementType KW_NAMESPACE = new YggdrasilTokenType("KW_NAMESPACE");
     IElementType KW_UNION = new YggdrasilTokenType("union");
     IElementType KW_USING = new YggdrasilTokenType("using");
     IElementType OP_AND = new YggdrasilTokenType("OP_AND");
@@ -131,6 +134,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieClassBodyNode(node);
             } else if (type == CLASS_CAST) {
                 return new ValkyrieClassCastNode(node);
+            } else if (type == DECLARE_NAMESPACE) {
+                return new ValkyrieDeclareNamespaceNode(node);
             } else if (type == DEFINE_FUNCTION) {
                 return new ValkyrieDefineFunctionNode(node);
             } else if (type == DEFINE_UNION) {
@@ -153,8 +158,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieFunctionCallNode(node);
             } else if (type == FUNCTION_PARAMETER) {
                 return new ValkyrieFunctionParameterNode(node);
-            } else if (type == GRAMMAR) {
-                return new ValkyrieGrammarNode(node);
             } else if (type == GRAMMAR_BODY) {
                 return new ValkyrieGrammarBodyNode(node);
             } else if (type == GRAMMAR_TERM) {
@@ -175,6 +178,10 @@ public interface ValkyrieTypes {
                 return new ValkyrieKeyNode(node);
             } else if (type == MODIFIER) {
                 return new ValkyrieModifierNode(node);
+            } else if (type == NAMEPATH) {
+                return new ValkyrieNamepathNode(node);
+            } else if (type == NAMEPATH_FREE) {
+                return new ValkyrieNamepathFreeNode(node);
             } else if (type == NUMBER) {
                 return new ValkyrieNumberNode(node);
             } else if (type == PAIR) {

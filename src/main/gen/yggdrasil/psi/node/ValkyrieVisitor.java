@@ -39,6 +39,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitDeclareNamespace(@NotNull ValkyrieDeclareNamespace o) {
+        visitPsiElement(o);
+    }
+
     public void visitDefineFunction(@NotNull ValkyrieDefineFunction o) {
         visitPsiElement(o);
     }
@@ -87,10 +91,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitGrammar(@NotNull ValkyrieGrammar o) {
-        visitPsiElement(o);
-    }
-
     public void visitGrammarBody(@NotNull ValkyrieGrammarBody o) {
         visitPsiElement(o);
     }
@@ -129,6 +129,14 @@ public class ValkyrieVisitor extends PsiElementVisitor {
 
     public void visitModifier(@NotNull ValkyrieModifier o) {
         visitPsiElement(o);
+    }
+
+    public void visitNamepath(@NotNull ValkyrieNamepath o) {
+        visitPsiElement(o);
+    }
+
+    public void visitNamepathFree(@NotNull ValkyrieNamepathFree o) {
+        visitNamepath(o);
     }
 
     public void visitNumber(@NotNull ValkyrieNumber o) {

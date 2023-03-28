@@ -2,22 +2,24 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
-import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieNumberNode extends ValkyrieElement implements ValkyrieNumber {
+public class ValkyrieNamepathFreeNode extends ValkyrieNamepathNode implements ValkyrieNamepathFree {
 
-    public ValkyrieNumberNode(@NotNull ASTNode node) {
+    public ValkyrieNamepathFreeNode(@NotNull ASTNode node) {
         super(node);
     }
 
+    @Override
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitNumber(this);
+        visitor.visitNamepathFree(this);
     }
 
     @Override

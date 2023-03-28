@@ -74,7 +74,7 @@
 // https://github.com/bytecodealliance/fluent/blob/master/spec/fluent.ebnf
 root ::= statements*
 private statements ::=
-    grammar
+    declare-namespace
   | using
   | class
   | define-union
@@ -92,9 +92,9 @@ attribute   ::= (AT|HASH) identifier tuple? {
     methods=[highlight]
 }
 // === grammar statement ===
-grammar ::= annotations KW_GRAMMAR identifier grammar-body {
+declare-namespace ::= annotations KW_NAMESPACE namepath-free {
 	pin = 2
-    mixin = "valkyrie.psi.mixin.MixinGrammar"
+    mixin = "valkyrie.psi.mixin.MixinNamespace"
 }
 grammar-body ::= BRACE_L grammar-term* BRACE_R;
 grammar-term ::= pair | COMMA | SEMICOLON;
@@ -222,7 +222,12 @@ number ::= INTEGER {
 
 
 /* Literals */
+namepath      ::= identifier ((DOT) identifier)* {
 
+}
+namepath-free ::= identifier ((DOT) identifier)* {
+    extends = namepath
+}
 /* Identifier */
 identifier          ::= SYMBOL | SYMBOW_RAW {
     mixin = "valkyrie.psi.mixin.MixinIdentifier"
