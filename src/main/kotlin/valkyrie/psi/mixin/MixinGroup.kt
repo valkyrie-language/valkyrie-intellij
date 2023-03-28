@@ -1,4 +1,4 @@
-package yggdrasil.psi.mixin
+package valkyrie.psi.mixin
 
 import com.intellij.icons.AllIcons
 import com.intellij.ide.projectView.PresentationData
@@ -7,21 +7,21 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import valkyrie.psi.YggdrasilElement
-import yggdrasil.psi.node.YggdrasilGroup
-import yggdrasil.psi.node.YggdrasilGroupItemNode
-import yggdrasil.psi.node.YggdrasilIdentifierNode
+import valkyrie.psi.ValkyrieElement
+import yggdrasil.psi.node.ValkyrieGroup
+import yggdrasil.psi.node.ValkyrieGroupItemNode
+import yggdrasil.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
 
-abstract class MixinGroup(node: ASTNode) : YggdrasilElement(node),
+abstract class MixinGroup(node: ASTNode) : ValkyrieElement(node),
     NavigatablePsiElement,
     PsiNameIdentifierOwner,
-    YggdrasilGroup {
+    ValkyrieGroup {
 
 
-    override fun getNameIdentifier(): YggdrasilIdentifierNode? {
-        return this.identifierFree as? YggdrasilIdentifierNode
+    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
+        return this.identifierFree as? ValkyrieIdentifierNode
     }
 
     override fun getName(): String? {
@@ -41,13 +41,13 @@ abstract class MixinGroup(node: ASTNode) : YggdrasilElement(node),
         return PresentationData(name, "", baseIcon, null)
     }
 
-    override fun getTokenList(): MutableList<YggdrasilGroupItemNode> {
+    override fun getTokenList(): MutableList<ValkyrieGroupItemNode> {
         if (groupBody == null) {
             return mutableListOf()
         }
-        val items = mutableListOf<YggdrasilGroupItemNode>()
+        val items = mutableListOf<ValkyrieGroupItemNode>()
         for (item in groupBody!!.groupTermList) {
-            val inner = item.groupItem as? YggdrasilGroupItemNode;
+            val inner = item.groupItem as? ValkyrieGroupItemNode;
             if (inner != null) {
                 items.add(inner)
             }

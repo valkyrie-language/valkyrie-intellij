@@ -9,21 +9,21 @@ import com.intellij.model.psi.PsiCompletableReference
 import com.intellij.model.psi.PsiSymbolDeclaration
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import yggdrasil.psi.node.YggdrasilIdentifierNode
+import yggdrasil.psi.node.ValkyrieIdentifierNode
 
 
 class ImportData : Symbol, Pointer<ImportData>, PsiSymbolDeclaration, PsiCompletableReference {
-    val nav: YggdrasilIdentifierNode
+    val nav: ValkyrieIdentifierNode
     var name: String
     var namepath: Array<String>
 
-    constructor(nav: YggdrasilIdentifierNode, name: String) {
+    constructor(nav: ValkyrieIdentifierNode, name: String) {
         this.nav = nav
         this.name = name
         this.namepath = arrayOf()
     }
 
-    constructor(nav: YggdrasilIdentifierNode, name: String, namepath: Array<String>) {
+    constructor(nav: ValkyrieIdentifierNode, name: String, namepath: Array<String>) {
         this.nav = nav
         this.name = name
         this.namepath = namepath

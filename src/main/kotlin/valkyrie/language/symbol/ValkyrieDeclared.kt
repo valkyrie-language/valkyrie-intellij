@@ -6,10 +6,10 @@ import com.intellij.model.psi.PsiSymbolDeclaration
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiReference
-import yggdrasil.psi.node.YggdrasilClassNode
+import yggdrasil.psi.node.ValkyrieClassNode
 
 
-class ValkyrieDeclared(val target: YggdrasilClassNode) : PsiSymbolDeclaration, PsiReference {
+class ValkyrieDeclared(val target: ValkyrieClassNode) : PsiSymbolDeclaration, PsiReference {
     val source: PsiElement? = null;
     override fun getDeclaringElement(): PsiElement {
         return target

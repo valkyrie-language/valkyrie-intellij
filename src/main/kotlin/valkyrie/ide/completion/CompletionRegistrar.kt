@@ -9,8 +9,8 @@ import com.intellij.psi.util.parents
 import com.intellij.util.ProcessingContext
 import valkyrie.language.file.YggdrasilFileNode
 import valkyrie.psi.ParserExtension
-import yggdrasil.psi.node.YggdrasilClassNode
-import yggdrasil.psi.node.YggdrasilDefineUnion
+import yggdrasil.psi.node.ValkyrieClassNode
+import yggdrasil.psi.node.ValkyrieDefineUnion
 
 
 class CompletionRegistrar : CompletionContributor() {
@@ -39,12 +39,12 @@ class CompletionRegistrar : CompletionContributor() {
                         return
                     }
 
-                    is YggdrasilClassNode -> {
+                    is ValkyrieClassNode -> {
                         CompletionInClassScope().addCompletionVariants(parameters, context, result)
                         return
                     }
 
-                    is YggdrasilDefineUnion -> {
+                    is ValkyrieDefineUnion -> {
                         CompletionInClassScope().addCompletionVariants(parameters, context, result)
                         return
                     }

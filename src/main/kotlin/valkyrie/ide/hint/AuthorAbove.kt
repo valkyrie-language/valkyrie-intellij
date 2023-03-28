@@ -4,8 +4,8 @@ import com.intellij.codeInsight.hints.VcsCodeVisionLanguageContext
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import yggdrasil.psi.node.YggdrasilClassNode
-import yggdrasil.psi.node.YggdrasilDefineUnion
+import yggdrasil.psi.node.ValkyrieClass
+import yggdrasil.psi.node.ValkyrieDefineUnion
 import java.awt.event.MouseEvent
 
 @Suppress("UnstableApiUsage")
@@ -17,8 +17,8 @@ class AuthorAbove : VcsCodeVisionLanguageContext {
     }
 
     override fun isAccepted(element: PsiElement): Boolean {
-        return element is YggdrasilClassNode
-            || element is YggdrasilDefineUnion
+        return element is ValkyrieClass
+            || element is ValkyrieDefineUnion
 //            || element is YggdrasilClimbStatement
 //            || element is YggdrasilGrammarNode
     }

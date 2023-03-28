@@ -2,7 +2,7 @@ package yggdrasil.psi;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
-import static yggdrasil.psi.YggdrasilTypes.*;
+import static valkyrie.psi.ValkyrieTypes.*;
 
 %%
 

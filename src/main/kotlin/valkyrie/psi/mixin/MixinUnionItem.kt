@@ -1,4 +1,4 @@
-package yggdrasil.psi.mixin
+package valkyrie.psi.mixin
 
 import com.intellij.icons.AllIcons
 import com.intellij.ide.projectView.PresentationData
@@ -7,21 +7,21 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import valkyrie.psi.YggdrasilElement
-import yggdrasil.psi.node.YggdrasilIdentifierNode
-import yggdrasil.psi.node.YggdrasilUnionVariant
+import valkyrie.psi.ValkyrieElement
+import yggdrasil.psi.node.ValkyrieIdentifierNode
+import yggdrasil.psi.node.ValkyrieUnionVariant
 import javax.swing.Icon
 
-abstract class MixinUnionItem(node: ASTNode) : YggdrasilElement(node),
+abstract class MixinUnionItem(node: ASTNode) : ValkyrieElement(node),
     NavigatablePsiElement,
     PsiNameIdentifierOwner,
-    YggdrasilUnionVariant {
+    ValkyrieUnionVariant {
     override fun getNavigationElement(): PsiElement {
         return nameIdentifier ?: this
     }
 
-    override fun getNameIdentifier(): YggdrasilIdentifierNode? {
-        return this.tagBranch?.identifierFree as? YggdrasilIdentifierNode
+    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
+        return this.tagBranch?.identifierFree as? ValkyrieIdentifierNode
     }
 
 

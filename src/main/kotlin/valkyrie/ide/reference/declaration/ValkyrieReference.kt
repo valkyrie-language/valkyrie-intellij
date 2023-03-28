@@ -5,19 +5,19 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiQualifiedReference
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
-import yggdrasil.psi.node.YggdrasilClassNode
-import yggdrasil.psi.node.YggdrasilDefineUnion
-import yggdrasil.psi.node.YggdrasilGroupItemNode
-import yggdrasil.psi.node.YggdrasilIdentifierNode
+import yggdrasil.psi.node.ValkyrieClass
+import yggdrasil.psi.node.ValkyrieDefineUnion
+import yggdrasil.psi.node.ValkyrieGroupItem
+import yggdrasil.psi.node.ValkyrieIdentifierNode
 
 open class ValkyrieReference : PsiQualifiedReference {
-    private val _element: YggdrasilIdentifierNode
+    private val _element: ValkyrieIdentifierNode
 
-    constructor(element: YggdrasilIdentifierNode) {
+    constructor(element: ValkyrieIdentifierNode) {
         this._element = element
     }
 
-    override fun getElement(): YggdrasilIdentifierNode {
+    override fun getElement(): ValkyrieIdentifierNode {
         return _element
     }
 
@@ -59,9 +59,9 @@ open class ValkyrieReference : PsiQualifiedReference {
 
     fun highlight(highlighter: NodeHighlighter) {
         return when (this.resolve()) {
-            is YggdrasilClassNode -> highlighter.highlight(_element, HighlightColor.RULE_CLASS)
-            is YggdrasilDefineUnion -> highlighter.highlight(_element, HighlightColor.RULE_UNION)
-            is YggdrasilGroupItemNode -> highlighter.highlight(_element, HighlightColor.SYM_CONSTANT)
+            is ValkyrieClass -> highlighter.highlight(_element, HighlightColor.RULE_CLASS)
+            is ValkyrieDefineUnion -> highlighter.highlight(_element, HighlightColor.RULE_UNION)
+            is ValkyrieGroupItem -> highlighter.highlight(_element, HighlightColor.SYM_CONSTANT)
             else -> {
 
             }

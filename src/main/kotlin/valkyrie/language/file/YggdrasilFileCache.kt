@@ -10,15 +10,15 @@ class YggdrasilFileCache(val root: YggdrasilFileNode) {
 
         for (child in root.children) {
             when (child) {
-                is YggdrasilClassNode -> {
+                is ValkyrieClassNode -> {
                     cache[child.name] = child
                 }
 
-                is YggdrasilDefineUnionNode -> {
+                is ValkyrieDefineUnionNode -> {
                     cache[child.name] = child
                 }
 
-                is YggdrasilGroupNode -> {
+                is ValkyrieGroupNode -> {
                     for (item in child.tokenList) {
                         cache[item.name] = item
                     }
@@ -32,15 +32,15 @@ class YggdrasilFileCache(val root: YggdrasilFileNode) {
         val completions = mutableListOf<LookupElement>()
         for (child in root.children) {
             when (child) {
-                is YggdrasilClassNode -> {
+                is ValkyrieClassNode -> {
                     child.createLookup(completions)
                 }
 
-                is YggdrasilDefineUnion -> {
+                is ValkyrieDefineUnion -> {
                     child.createLookup(completions)
                 }
 
-                is YggdrasilGroupNode -> {
+                is ValkyrieGroupNode -> {
                     for (item in child.tokenList) {
                         item.createLookup(completions)
                     }
@@ -51,7 +51,7 @@ class YggdrasilFileCache(val root: YggdrasilFileNode) {
     }
 
 
-    fun find(name: YggdrasilIdentifierNode?): PsiNameIdentifierOwner? {
+    fun find(name: ValkyrieIdentifierNode?): PsiNameIdentifierOwner? {
         return getCache()[name?.text]
     }
 }

@@ -1,4 +1,4 @@
-package yggdrasil.psi.mixin
+package valkyrie.psi.mixin
 
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
@@ -11,21 +11,21 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
-import valkyrie.psi.YggdrasilElement
-import yggdrasil.psi.node.YggdrasilGroupItem
-import yggdrasil.psi.node.YggdrasilIdentifierNode
+import valkyrie.psi.ValkyrieElement
+import yggdrasil.psi.node.ValkyrieGroupItem
+import yggdrasil.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
-abstract class MixinGroupItem(node: ASTNode) : YggdrasilElement(node),
+abstract class MixinGroupItem(node: ASTNode) : ValkyrieElement(node),
     NavigatablePsiElement,
     PsiNameIdentifierOwner,
-    YggdrasilGroupItem {
+    ValkyrieGroupItem {
     override fun getNavigationElement(): PsiElement {
         return nameIdentifier ?: this
     }
 
-    override fun getNameIdentifier(): YggdrasilIdentifierNode? {
-        return this.identifierList.lastOrNull() as? YggdrasilIdentifierNode
+    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
+        return this.identifierList.lastOrNull() as? ValkyrieIdentifierNode
     }
 
 

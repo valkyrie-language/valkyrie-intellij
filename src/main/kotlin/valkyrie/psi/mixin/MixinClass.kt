@@ -1,4 +1,4 @@
-package yggdrasil.psi.mixin
+package valkyrie.psi.mixin
 
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
@@ -9,29 +9,29 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import valkyrie.psi.YggdrasilElement
-import yggdrasil.psi.node.YggdrasilClass
-import yggdrasil.psi.node.YggdrasilIdentifierNode
+import valkyrie.psi.ValkyrieElement
+import yggdrasil.psi.node.ValkyrieClass
+import yggdrasil.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
 
-abstract class MixinClass(node: ASTNode) : YggdrasilElement(node),
+abstract class MixinClass(node: ASTNode) : ValkyrieElement(node),
     NavigatablePsiElement,
     PsiNameIdentifierOwner,
-    YggdrasilClass {
+    ValkyrieClass {
     override fun getNavigationElement(): PsiElement {
         return nameIdentifier ?: this
     }
 
-    override fun getNameIdentifier(): YggdrasilIdentifierNode? {
-        return this.identifier as? YggdrasilIdentifierNode
+    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
+        return this.identifier as? ValkyrieIdentifierNode
     }
 
     override fun getName(): String {
         return this.identifier?.text ?: ""
     }
 
-    override fun setName(name: String): YggdrasilIdentifierNode {
+    override fun setName(name: String): ValkyrieIdentifierNode {
         TODO("Not yet implemented")
     }
 

@@ -1,14 +1,14 @@
-package yggdrasil.psi.mixin
+package valkyrie.psi.mixin
 
 import com.intellij.icons.AllIcons
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
-import valkyrie.psi.YggdrasilElement
-import yggdrasil.psi.node.YggdrasilExpressionTag
+import valkyrie.psi.ValkyrieElement
+import yggdrasil.psi.node.ValkyrieExpressionTag
 import javax.swing.Icon
 
-abstract class MixinExpressionTag(node: ASTNode) : YggdrasilElement(node), YggdrasilExpressionTag {
+abstract class MixinExpressionTag(node: ASTNode) : ValkyrieElement(node), ValkyrieExpressionTag {
     override fun getName(): String {
         return this.identifierFree?.text ?: ""
     }

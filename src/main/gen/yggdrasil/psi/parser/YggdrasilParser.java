@@ -4,9 +4,8 @@ package yggdrasil.psi.parser;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiBuilder.Marker;
 
-import static yggdrasil.psi.YggdrasilTypes.*;
+import static valkyrie.psi.ValkyrieTypes.*;
 import static valkyrie.psi.ParserExtension.*;
-
 import com.intellij.psi.tree.IElementType;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.tree.TokenSet;

@@ -1,4 +1,4 @@
-package yggdrasil.psi.mixin
+package valkyrie.psi.mixin
 
 import com.intellij.lang.ASTNode
 import com.intellij.psi.impl.source.tree.SharedImplUtil
@@ -6,15 +6,15 @@ import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.ide.reference.declaration.ValkyrieReference
 import valkyrie.language.file.YggdrasilFileNode
-import valkyrie.psi.YggdrasilElement
-import yggdrasil.psi.node.YggdrasilClassNode
-import yggdrasil.psi.node.YggdrasilDefineUnion
-import yggdrasil.psi.node.YggdrasilIdentifier
-import yggdrasil.psi.node.YggdrasilIdentifierNode
+import valkyrie.psi.ValkyrieElement
+import yggdrasil.psi.node.ValkyrieClassNode
+import yggdrasil.psi.node.ValkyrieDefineUnion
+import yggdrasil.psi.node.ValkyrieIdentifier
+import yggdrasil.psi.node.ValkyrieIdentifierNode
 
-abstract class MixinIdentifier(node: ASTNode) : YggdrasilElement(node),
+abstract class MixinIdentifier(node: ASTNode) : ValkyrieElement(node),
 
-    YggdrasilIdentifier {
+    ValkyrieIdentifier {
 
     override fun getContainingFile(): YggdrasilFileNode {
         return SharedImplUtil.getContainingFile(node) as YggdrasilFileNode
@@ -26,13 +26,13 @@ abstract class MixinIdentifier(node: ASTNode) : YggdrasilElement(node),
 
 
     override fun getReference(): ValkyrieReference? {
-        if (this.parent is YggdrasilClassNode) {
+        if (this.parent is ValkyrieClassNode) {
             return null
         }
-        if (this.parent is YggdrasilDefineUnion) {
+        if (this.parent is ValkyrieDefineUnion) {
             return null
         }
-        return ValkyrieReference(this as YggdrasilIdentifierNode)
+        return ValkyrieReference(this as ValkyrieIdentifierNode)
     }
 
 

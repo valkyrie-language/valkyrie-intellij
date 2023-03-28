@@ -2,14 +2,14 @@
     parserClass = "yggdrasil.psi.parser.YggdrasilParser"
     parserUtilClass = "valkyrie.psi.ParserExtension"
 
-    extends = "valkyrie.psi.YggdrasilElement"
+    extends = "valkyrie.psi.ValkyrieElement"
 
-    psiClassPrefix = "Yggdrasil"
+    psiClassPrefix = "Valkyrie"
     psiImplClassSuffix = "Node"
     psiPackage = "yggdrasil.psi.node"
     psiImplPackage = "yggdrasil.psi.node"
 
-    elementTypeHolderClass = "yggdrasil.psi.YggdrasilTypes"
+    elementTypeHolderClass = "valkyrie.psi.ValkyrieTypes"
     elementTypeClass = "valkyrie.psi.YggdrasilElementType"
     tokenTypeClass = "valkyrie.psi.YggdrasilTokenType"
 
@@ -84,24 +84,24 @@ private statements ::=
 // === annotation statement ===
 annotations ::= attribute* modifier*
 modifier    ::= identifier {
-    mixin = "yggdrasil.psi.mixin.MixinModifier"
+    mixin = "valkyrie.psi.mixin.MixinModifier"
 }
 attribute   ::= (AT|HASH) identifier tuple? {
 	pin = 2
-    mixin = "yggdrasil.psi.mixin.MixinAttribute"
+    mixin = "valkyrie.psi.mixin.MixinAttribute"
     methods=[highlight]
 }
 // === grammar statement ===
 grammar ::= annotations KW_GRAMMAR identifier grammar-body {
 	pin = 2
-    mixin = "yggdrasil.psi.mixin.MixinGrammar"
+    mixin = "valkyrie.psi.mixin.MixinGrammar"
 }
 grammar-body ::= BRACE_L grammar-term* BRACE_R;
 grammar-term ::= pair | COMMA | SEMICOLON;
 // === class statement ===
 using ::= annotations KW_USING identifier-free (DOT (OP_MANY | using-body))? {
     pin = 2
-    mixin = "yggdrasil.psi.mixin.MixinUsing"
+    mixin = "valkyrie.psi.mixin.MixinUsing"
 }
 using-body ::= BRACE_L using-term* BRACE_R;
 using-term ::=
@@ -111,7 +111,7 @@ using-alias ::= key KW_AS identifier-free;
 // === class statement ===
 class  ::= annotations KW_CLASS identifier class-cast? OP_REMARK? class-body {
     pin = 2
-    mixin = "yggdrasil.psi.mixin.MixinClass"
+    mixin = "valkyrie.psi.mixin.MixinClass"
     methods=[createLookup]
 }
 class-cast ::= TO identifier;
@@ -119,30 +119,30 @@ class-body ::= BRACE_L OP_OR? expression? BRACE_R;
 // === union statement ===
 define-union ::= annotations KW_UNION identifier OP_REMARK? union-body {
     pin = 2
-    mixin = "yggdrasil.psi.mixin.MixinUnion"
+    mixin = "valkyrie.psi.mixin.MixinUnion"
     methods=[createLookup]
 }
 union-body ::= BRACE_L union-variant* BRACE_R;
 union-variant ::= OP_OR expression-hard tag-branch? {
-    mixin = "yggdrasil.psi.mixin.MixinUnionItem"
+    mixin = "valkyrie.psi.mixin.MixinUnionItem"
 }
 tag-branch ::= HASH identifier-free;
 // === group statement ===
 group  ::= annotations KW_GROUP identifier-free? group-body {
     pin = 2
-    mixin = "yggdrasil.psi.mixin.MixinGroup"
+    mixin = "valkyrie.psi.mixin.MixinGroup"
     methods=[getTokenList]
 }
 group-body ::= BRACE_L group-term* BRACE_R;
 group-term ::= group-item | SEMICOLON;
 group-item ::= attribute* identifier* COLON atomic {
-    mixin = "yggdrasil.psi.mixin.MixinGroupItem"
+    mixin = "valkyrie.psi.mixin.MixinGroupItem"
     methods=[highlight createLookup]
 }
 /// === function definition ===
 define-function ::= annotations KW_MACRO identifier-free function-parameter function-block {
     pin = 2
-    mixin = "yggdrasil.psi.mixin.MixinDefineFunction"
+    mixin = "valkyrie.psi.mixin.MixinDefineFunction"
     methods=[createLookup]
 }
 function-parameter ::= PARENTHESIS_L (parameter (COMMA parameter)* COMMA?)? PARENTHESIS_R;
@@ -169,7 +169,7 @@ expression-soft ::= expression-tag expression-tag* {
 }
 expression-tag ::= (identifier-free BIND)? term {
     extends = expression
-    mixin = "yggdrasil.psi.mixin.MixinExpressionTag"
+    mixin = "valkyrie.psi.mixin.MixinExpressionTag"
 }
 term ::= prefix* atomic suffix* {
     extends = expression
@@ -197,10 +197,10 @@ range-upper ::= INTEGER;
 range-lower ::= INTEGER;
 
 string ::= TEXT_SINGLE | TEXT_DOUBLE {
-    mixin = "yggdrasil.psi.mixin.MixinString"
+    mixin = "valkyrie.psi.mixin.MixinString"
 }
 regex ::= REGULAR_EXPRESSION | REGULAR_RANGE {
-    mixin = "yggdrasil.psi.mixin.MixinRegex"
+    mixin = "valkyrie.psi.mixin.MixinRegex"
 }
 // === atomic statement ===
 key      ::= identifier-free;
@@ -225,7 +225,7 @@ number ::= INTEGER {
 
 /* Identifier */
 identifier          ::= SYMBOL | SYMBOW_RAW {
-    mixin = "yggdrasil.psi.mixin.MixinIdentifier"
+    mixin = "valkyrie.psi.mixin.MixinIdentifier"
     methods=[highlight]
 }
 identifier-free     ::= SYMBOL | SYMBOW_RAW | KW_MACRO | KW_CLASS | KW_UNION | KW_GROUP | KW_GRAMMAR | KW_IMPORT | KW_AS | KW_CLIMB {

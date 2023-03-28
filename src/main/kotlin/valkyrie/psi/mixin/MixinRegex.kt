@@ -1,4 +1,4 @@
-package yggdrasil.psi.mixin
+package valkyrie.psi.mixin
 
 import com.intellij.lang.ASTNode
 import com.intellij.lang.injection.MultiHostRegistrar
@@ -6,11 +6,11 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.LiteralTextEscaper
 import com.intellij.psi.PsiLanguageInjectionHost
 import org.intellij.lang.regexp.RegExpLanguage
-import valkyrie.psi.YggdrasilElement
-import yggdrasil.psi.node.YggdrasilRegex
-import yggdrasil.psi.node.YggdrasilRegexNode
+import valkyrie.psi.ValkyrieElement
+import yggdrasil.psi.node.ValkyrieRegex
+import yggdrasil.psi.node.ValkyrieRegexNode
 
-abstract class MixinRegex(node: ASTNode) : YggdrasilElement(node), PsiLanguageInjectionHost, YggdrasilRegex {
+abstract class MixinRegex(node: ASTNode) : ValkyrieElement(node), PsiLanguageInjectionHost, ValkyrieRegex {
 
     override fun isValidHost(): Boolean {
         return true
@@ -21,7 +21,7 @@ abstract class MixinRegex(node: ASTNode) : YggdrasilElement(node), PsiLanguageIn
     }
 
     override fun createLiteralTextEscaper(): LiteralTextEscaper<out PsiLanguageInjectionHost> {
-        return YggdrasilRegexEscaper(this as YggdrasilRegexNode)
+        return YggdrasilRegexEscaper(this as ValkyrieRegexNode)
     }
 
     fun injectPerform(r: MultiHostRegistrar) {
@@ -36,9 +36,9 @@ abstract class MixinRegex(node: ASTNode) : YggdrasilElement(node), PsiLanguageIn
 }
 
 private class YggdrasilRegexEscaper : LiteralTextEscaper<PsiLanguageInjectionHost> {
-    private val host: YggdrasilRegexNode
+    private val host: ValkyrieRegexNode
 
-    constructor(host: YggdrasilRegexNode) : super(host) {
+    constructor(host: ValkyrieRegexNode) : super(host) {
         this.host = host
     }
 

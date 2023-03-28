@@ -7,7 +7,7 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase.pack
 import com.intellij.psi.tree.IElementType
 import valkyrie.psi.ParserDefinition
-import yggdrasil.psi.YggdrasilTypes.*
+import valkyrie.psi.ValkyrieTypes.*
 
 class TokenHighlighter : SyntaxHighlighter {
     override fun getHighlightingLexer(): Lexer {

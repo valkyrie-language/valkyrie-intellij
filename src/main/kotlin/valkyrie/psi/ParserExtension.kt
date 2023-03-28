@@ -1,12 +1,10 @@
 package valkyrie.psi
 
-import com.intellij.extapi.psi.ASTWrapperPsiElement
-import com.intellij.lang.ASTNode
 import com.intellij.lang.parser.GeneratedParserUtilBase
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import valkyrie.language.ValkyrieLanguage
-import yggdrasil.psi.YggdrasilTypes.*
+import valkyrie.psi.ValkyrieTypes.*
 
 class ParserExtension : GeneratedParserUtilBase() {
     companion object {
@@ -52,8 +50,6 @@ class ParserExtension : GeneratedParserUtilBase() {
     }
 
 }
-
-open class YggdrasilElement(node: ASTNode) : ASTWrapperPsiElement(node)
 
 class YggdrasilElementType(debugName: String) : IElementType(debugName, ValkyrieLanguage) {
     override fun toString(): String = "YggdrasilElement.${super.toString()}"

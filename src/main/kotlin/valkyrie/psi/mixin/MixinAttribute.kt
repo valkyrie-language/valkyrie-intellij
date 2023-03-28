@@ -1,4 +1,4 @@
-package yggdrasil.psi.mixin
+package valkyrie.psi.mixin
 
 import com.intellij.icons.AllIcons
 import com.intellij.ide.projectView.PresentationData
@@ -6,10 +6,10 @@ import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
-import valkyrie.psi.YggdrasilElement
-import yggdrasil.psi.node.YggdrasilAttribute
+import valkyrie.psi.ValkyrieElement
+import yggdrasil.psi.node.ValkyrieAttribute
 
-abstract class MixinAttribute(node: ASTNode) : YggdrasilElement(node), YggdrasilAttribute {
+abstract class MixinAttribute(node: ASTNode) : ValkyrieElement(node), ValkyrieAttribute {
 
     override fun getName(): String {
         return this.identifier.text ?: ""

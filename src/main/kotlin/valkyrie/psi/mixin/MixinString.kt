@@ -1,11 +1,11 @@
-package yggdrasil.psi.mixin
+package valkyrie.psi.mixin
 
 import com.intellij.lang.ASTNode
-import valkyrie.psi.YggdrasilElement
-import yggdrasil.psi.node.YggdrasilString
+import valkyrie.psi.ValkyrieElement
+import yggdrasil.psi.node.ValkyrieString
 
-abstract class MixinString(node: ASTNode) : YggdrasilElement(node),
-    YggdrasilString {
+abstract class MixinString(node: ASTNode) : ValkyrieElement(node),
+    ValkyrieString {
 
 
 //    override fun getPresentation(): ItemPresentation? {

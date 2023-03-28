@@ -5,7 +5,7 @@ import com.intellij.lang.PairedBraceMatcher
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
-import yggdrasil.psi.YggdrasilTypes.*
+import valkyrie.psi.ValkyrieTypes.*
 
 
 class BraceMatch : PairedBraceMatcher {

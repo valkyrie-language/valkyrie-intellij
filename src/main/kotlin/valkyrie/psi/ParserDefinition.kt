@@ -14,7 +14,7 @@ import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.file.YggdrasilFileNode
-import yggdrasil.psi.YggdrasilTypes
+import valkyrie.psi.ValkyrieTypes
 import yggdrasil.psi._YggdrasilLexer
 import yggdrasil.psi.parser.YggdrasilParser
 
@@ -24,11 +24,11 @@ object ParserDefinition : ParserDefinition {
     override fun createParser(project: Project): PsiParser = YggdrasilParser()
     override fun getFileNodeType(): IFileElementType = IFileElementType(ValkyrieLanguage)
     override fun getCommentTokens(): TokenSet =
-        TokenSet.create(YggdrasilTypes.COMMENT_LINE, YggdrasilTypes.COMMENT_BLOCK)
+        TokenSet.create(ValkyrieTypes.COMMENT_LINE, ValkyrieTypes.COMMENT_BLOCK)
 
     override fun getStringLiteralElements(): TokenSet = TokenSet.create()
     override fun getWhitespaceTokens(): TokenSet = TokenSet.create(TokenType.WHITE_SPACE)
-    override fun createElement(node: ASTNode): PsiElement = YggdrasilTypes.Factory.createElement(node)
+    override fun createElement(node: ASTNode): PsiElement = ValkyrieTypes.Factory.createElement(node)
     override fun createFile(viewProvider: FileViewProvider): PsiFile = YggdrasilFileNode(viewProvider)
     override fun spaceExistenceTypeBetweenTokens(left: ASTNode, right: ASTNode): ParserDefinition.SpaceRequirements {
         return ParserDefinition.SpaceRequirements.MAY

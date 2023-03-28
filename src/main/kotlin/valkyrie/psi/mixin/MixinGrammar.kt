@@ -1,4 +1,4 @@
-package yggdrasil.psi.mixin
+package valkyrie.psi.mixin
 
 import com.intellij.icons.AllIcons
 import com.intellij.ide.projectView.PresentationData
@@ -7,22 +7,22 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import valkyrie.psi.YggdrasilElement
-import yggdrasil.psi.node.YggdrasilGrammar
-import yggdrasil.psi.node.YggdrasilIdentifierNode
+import valkyrie.psi.ValkyrieElement
+import yggdrasil.psi.node.ValkyrieGrammar
+import yggdrasil.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
-abstract class MixinGrammar(node: ASTNode) : YggdrasilElement(node),
+abstract class MixinGrammar(node: ASTNode) : ValkyrieElement(node),
     NavigatablePsiElement,
     PsiNameIdentifierOwner,
-    YggdrasilGrammar {
+    ValkyrieGrammar {
 
     override fun getName(): String? {
         return this.nameIdentifier?.name ?: "⟪anonymous⟫"
     }
 
-    override fun getNameIdentifier(): YggdrasilIdentifierNode? {
-        return this.identifier as? YggdrasilIdentifierNode
+    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
+        return this.identifier as? ValkyrieIdentifierNode
     }
 
 
