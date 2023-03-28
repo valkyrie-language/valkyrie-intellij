@@ -6,14 +6,8 @@ import static valkyrie.psi.ValkyrieTypes.*;
 
 %%
 
-//%{
-//public WitLexer() {
-//	this((java.io.Reader)null);
-//}
-//%}
-
 %public
-%class _YggdrasilLexer
+%class _ValkyrieLexer
 %implements com.intellij.lexer.FlexLexer
 %function advance
 %type com.intellij.psi.tree.IElementType
@@ -45,7 +39,8 @@ KW_AS        = as
 KW_EXCLUDE   = exclude
 KW_GROUP     = group|token
 KW_CLASS     = class|struct|structure
-KW_UNION     = union|enum|climb
+KW_UNION     = unite|union|variant|inductive
+KW_ENUMERATE = enumerate|enum
 KW_FLAGS     = flags
 KW_MACRO     = macro|function|func|fun|fn|def
 
@@ -101,12 +96,14 @@ KW_MACRO     = macro|function|func|fun|fn|def
 {KW_NAMESPACE} { return KW_NAMESPACE; }
 {KW_USING} { return KW_USING; }
 {KW_AS} { return KW_AS; }
-      
 
-    {KW_GROUP} { return KW_GROUP; }
+
+{KW_ENUMERATE} { return KW_ENUMERATE;}
+{KW_FLAGS} { return KW_FLAGS;}
+
+
     {KW_CLASS} { return KW_CLASS; }
     {KW_UNION} { return KW_UNION; }
-    {KW_IMPORT} { return KW_IMPORT; }
 
     {KW_MACRO} { return KW_MACRO; }
 

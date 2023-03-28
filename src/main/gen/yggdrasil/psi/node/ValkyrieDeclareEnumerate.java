@@ -6,15 +6,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieGrammar extends PsiElement {
+public interface ValkyrieDeclareEnumerate extends PsiElement {
 
     @NotNull
     ValkyrieAnnotations getAnnotations();
 
     @Nullable
-    ValkyrieGrammarBody getGrammarBody();
-
-    @Nullable
-    ValkyrieIdentifier getIdentifier();
+    ValkyrieNamepathFree getNamepathFree();
 
 }

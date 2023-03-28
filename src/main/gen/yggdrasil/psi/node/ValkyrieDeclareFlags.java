@@ -2,10 +2,11 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieDeclareNamespace extends PsiElement {
+public interface ValkyrieDeclareFlags extends PsiElement {
 
     @NotNull
     ValkyrieAnnotations getAnnotations();

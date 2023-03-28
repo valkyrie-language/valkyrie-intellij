@@ -76,6 +76,8 @@ root ::= statements*
 private statements ::=
     declare-namespace
   | using
+  | declare-enumerate
+  | declare-flags
   | class
   | define-union
   | group
@@ -96,8 +98,6 @@ declare-namespace ::= annotations KW_NAMESPACE namepath-free {
 	pin = 2
     mixin = "valkyrie.psi.mixin.MixinNamespace"
 }
-grammar-body ::= BRACE_L grammar-term* BRACE_R;
-grammar-term ::= pair | COMMA | SEMICOLON;
 // === class statement ===
 using ::= annotations KW_USING identifier-free (DOT (OP_MANY | using-body))? {
     pin = 2
@@ -108,6 +108,18 @@ using-term ::=
     using-alias
   | SEMICOLON
 using-alias ::= key KW_AS identifier-free;
+
+// === class statement ===
+declare-enumerate ::= annotations KW_ENUMERATE namepath-free {
+    pin = 2
+//    mixin = "valkyrie.psi.mixin.MixinNamespace"
+}
+
+
+declare-flags ::= annotations KW_FLAGS namepath-free {
+    pin = 2
+//    mixin = "valkyrie.psi.mixin.MixinNamespace"
+}
 // === class statement ===
 class  ::= annotations KW_CLASS identifier class-cast? OP_REMARK? class-body {
     pin = 2

@@ -271,6 +271,34 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
+    // annotations KW_ENUMERATE namepath-free
+    public static boolean declare_enumerate(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "declare_enumerate")) return false;
+        boolean r, p;
+        Marker m = enter_section_(b, l, _NONE_, DECLARE_ENUMERATE, "<declare enumerate>");
+        r = annotations(b, l + 1);
+        r = r && consumeToken(b, KW_ENUMERATE);
+        p = r; // pin = 2
+        r = r && namepath_free(b, l + 1);
+        exit_section_(b, l, m, r, p, null);
+        return r || p;
+    }
+
+    /* ********************************************************** */
+    // annotations KW_FLAGS namepath-free
+    public static boolean declare_flags(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "declare_flags")) return false;
+        boolean r, p;
+        Marker m = enter_section_(b, l, _NONE_, DECLARE_FLAGS, "<declare flags>");
+        r = annotations(b, l + 1);
+        r = r && consumeToken(b, KW_FLAGS);
+        p = r; // pin = 2
+        r = r && namepath_free(b, l + 1);
+        exit_section_(b, l, m, r, p, null);
+        return r || p;
+    }
+
+    /* ********************************************************** */
     // annotations KW_NAMESPACE namepath-free
     public static boolean declare_namespace(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "declare_namespace")) return false;
@@ -624,44 +652,6 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!recursion_guard_(b, l, "function_parameter_1_0_2")) return false;
         consumeToken(b, COMMA);
         return true;
-    }
-
-    /* ********************************************************** */
-    // BRACE_L grammar-term* BRACE_R
-    public static boolean grammar_body(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "grammar_body")) return false;
-        if (!nextTokenIs(b, BRACE_L)) return false;
-        boolean r;
-        Marker m = enter_section_(b);
-        r = consumeToken(b, BRACE_L);
-        r = r && grammar_body_1(b, l + 1);
-        r = r && consumeToken(b, BRACE_R);
-        exit_section_(b, m, GRAMMAR_BODY, r);
-        return r;
-    }
-
-    // grammar-term*
-    private static boolean grammar_body_1(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "grammar_body_1")) return false;
-        while (true) {
-            int c = current_position_(b);
-            if (!grammar_term(b, l + 1)) break;
-            if (!empty_element_parsed_guard_(b, "grammar_body_1", c)) break;
-        }
-        return true;
-    }
-
-    /* ********************************************************** */
-    // pair | COMMA | SEMICOLON
-    public static boolean grammar_term(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "grammar_term")) return false;
-        boolean r;
-        Marker m = enter_section_(b, l, _NONE_, GRAMMAR_TERM, "<grammar term>");
-        r = pair(b, l + 1);
-        if (!r) r = consumeToken(b, COMMA);
-        if (!r) r = consumeToken(b, SEMICOLON);
-        exit_section_(b, l, m, r, false, null);
-        return r;
     }
 
     /* ********************************************************** */
@@ -1125,6 +1115,8 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     /* ********************************************************** */
     // declare-namespace
     //   | using
+    //   | declare-enumerate
+    //   | declare-flags
     //   | class
     //   | define-union
     //   | group
@@ -1135,6 +1127,8 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         boolean r;
         r = declare_namespace(b, l + 1);
         if (!r) r = using(b, l + 1);
+        if (!r) r = declare_enumerate(b, l + 1);
+        if (!r) r = declare_flags(b, l + 1);
         if (!r) r = class_$(b, l + 1);
         if (!r) r = define_union(b, l + 1);
         if (!r) r = group(b, l + 1);

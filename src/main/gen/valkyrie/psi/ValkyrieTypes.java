@@ -16,6 +16,8 @@ public interface ValkyrieTypes {
     IElementType CLASS = new YggdrasilElementType("CLASS");
     IElementType CLASS_BODY = new YggdrasilElementType("CLASS_BODY");
     IElementType CLASS_CAST = new YggdrasilElementType("CLASS_CAST");
+    IElementType DECLARE_ENUMERATE = new YggdrasilElementType("DECLARE_ENUMERATE");
+    IElementType DECLARE_FLAGS = new YggdrasilElementType("DECLARE_FLAGS");
     IElementType DECLARE_NAMESPACE = new YggdrasilElementType("DECLARE_NAMESPACE");
     IElementType DEFINE_FUNCTION = new YggdrasilElementType("DEFINE_FUNCTION");
     IElementType DEFINE_UNION = new YggdrasilElementType("DEFINE_UNION");
@@ -29,8 +31,6 @@ public interface ValkyrieTypes {
     IElementType FUNCTION_BLOCK = new YggdrasilElementType("FUNCTION_BLOCK");
     IElementType FUNCTION_CALL = new YggdrasilElementType("FUNCTION_CALL");
     IElementType FUNCTION_PARAMETER = new YggdrasilElementType("FUNCTION_PARAMETER");
-    IElementType GRAMMAR_BODY = new YggdrasilElementType("GRAMMAR_BODY");
-    IElementType GRAMMAR_TERM = new YggdrasilElementType("GRAMMAR_TERM");
     IElementType GROUP = new YggdrasilElementType("GROUP");
     IElementType GROUP_BODY = new YggdrasilElementType("GROUP_BODY");
     IElementType GROUP_ITEM = new YggdrasilElementType("GROUP_ITEM");
@@ -83,6 +83,8 @@ public interface ValkyrieTypes {
     IElementType KW_AS = new YggdrasilTokenType("as");
     IElementType KW_CLASS = new YggdrasilTokenType("class");
     IElementType KW_CLIMB = new YggdrasilTokenType("climb");
+    IElementType KW_ENUMERATE = new YggdrasilTokenType("KW_ENUMERATE");
+    IElementType KW_FLAGS = new YggdrasilTokenType("KW_FLAGS");
     IElementType KW_GRAMMAR = new YggdrasilTokenType("grammar");
     IElementType KW_GROUP = new YggdrasilTokenType("group");
     IElementType KW_IMPORT = new YggdrasilTokenType("import");
@@ -134,6 +136,10 @@ public interface ValkyrieTypes {
                 return new ValkyrieClassBodyNode(node);
             } else if (type == CLASS_CAST) {
                 return new ValkyrieClassCastNode(node);
+            } else if (type == DECLARE_ENUMERATE) {
+                return new ValkyrieDeclareEnumerateNode(node);
+            } else if (type == DECLARE_FLAGS) {
+                return new ValkyrieDeclareFlagsNode(node);
             } else if (type == DECLARE_NAMESPACE) {
                 return new ValkyrieDeclareNamespaceNode(node);
             } else if (type == DEFINE_FUNCTION) {
@@ -158,10 +164,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieFunctionCallNode(node);
             } else if (type == FUNCTION_PARAMETER) {
                 return new ValkyrieFunctionParameterNode(node);
-            } else if (type == GRAMMAR_BODY) {
-                return new ValkyrieGrammarBodyNode(node);
-            } else if (type == GRAMMAR_TERM) {
-                return new ValkyrieGrammarTermNode(node);
             } else if (type == GROUP) {
                 return new ValkyrieGroupNode(node);
             } else if (type == GROUP_BODY) {
