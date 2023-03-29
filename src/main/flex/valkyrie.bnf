@@ -84,6 +84,7 @@ private statements ::=
   | define-function
   | SEMICOLON
 // === annotation statement ===
+
 annotations ::= attribute* modifier*
 modifier    ::= identifier {
     mixin = "valkyrie.psi.mixin.MixinModifier"
@@ -110,13 +111,17 @@ using-term ::=
 using-alias ::= key KW_AS identifier-free;
 
 // === class statement ===
-declare-enumerate ::= annotations KW_ENUMERATE namepath-free {
+declare-enumerate ::= annotations KW_ENUMERATE identifier-free enumerate-body {
     pin = 2
 //    mixin = "valkyrie.psi.mixin.MixinNamespace"
 }
+enumerate-body ::= BRACE_R enumerate-item* BRACE_R;
+enumerate-item ::=
+    declare-semantic
+  | SEMICOLON
+declare-semantic ::= attribute* identifier-free;
 
-
-declare-flags ::= annotations KW_FLAGS namepath-free {
+declare-flags ::= annotations KW_FLAGS identifier-free enumerate-body {
     pin = 2
 //    mixin = "valkyrie.psi.mixin.MixinNamespace"
 }
@@ -241,7 +246,7 @@ namepath-free ::= identifier ((DOT) identifier)* {
     extends = namepath
 }
 /* Identifier */
-identifier          ::= SYMBOL | SYMBOW_RAW {
+identifier            ::= SYMBOL | SYMBOW_RAW {
     mixin = "valkyrie.psi.mixin.MixinIdentifier"
     methods=[highlight]
 }

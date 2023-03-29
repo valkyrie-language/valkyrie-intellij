@@ -19,8 +19,11 @@ public interface ValkyrieTypes {
     IElementType DECLARE_ENUMERATE = new YggdrasilElementType("DECLARE_ENUMERATE");
     IElementType DECLARE_FLAGS = new YggdrasilElementType("DECLARE_FLAGS");
     IElementType DECLARE_NAMESPACE = new YggdrasilElementType("DECLARE_NAMESPACE");
+    IElementType DECLARE_SEMANTIC = new YggdrasilElementType("DECLARE_SEMANTIC");
     IElementType DEFINE_FUNCTION = new YggdrasilElementType("DEFINE_FUNCTION");
     IElementType DEFINE_UNION = new YggdrasilElementType("DEFINE_UNION");
+    IElementType ENUMERATE_BODY = new YggdrasilElementType("ENUMERATE_BODY");
+    IElementType ENUMERATE_ITEM = new YggdrasilElementType("ENUMERATE_ITEM");
     IElementType ESCAPE = new YggdrasilElementType("ESCAPE");
     IElementType EXPRESSION = new YggdrasilElementType("EXPRESSION");
     IElementType EXPRESSION_CHOICE = new YggdrasilElementType("EXPRESSION_CHOICE");
@@ -142,10 +145,16 @@ public interface ValkyrieTypes {
                 return new ValkyrieDeclareFlagsNode(node);
             } else if (type == DECLARE_NAMESPACE) {
                 return new ValkyrieDeclareNamespaceNode(node);
+            } else if (type == DECLARE_SEMANTIC) {
+                return new ValkyrieDeclareSemanticNode(node);
             } else if (type == DEFINE_FUNCTION) {
                 return new ValkyrieDefineFunctionNode(node);
             } else if (type == DEFINE_UNION) {
                 return new ValkyrieDefineUnionNode(node);
+            } else if (type == ENUMERATE_BODY) {
+                return new ValkyrieEnumerateBodyNode(node);
+            } else if (type == ENUMERATE_ITEM) {
+                return new ValkyrieEnumerateItemNode(node);
             } else if (type == ESCAPE) {
                 return new ValkyrieEscapeNode(node);
             } else if (type == EXPRESSION_CHOICE) {

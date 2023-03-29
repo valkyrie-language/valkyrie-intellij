@@ -2,18 +2,16 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieDeclareEnumerate extends PsiElement {
+public interface ValkyrieDeclareSemantic extends PsiElement {
 
     @NotNull
-    ValkyrieAnnotations getAnnotations();
+    List<ValkyrieAttribute> getAttributeList();
 
-    @Nullable
-    ValkyrieEnumerateBody getEnumerateBody();
-
-    @Nullable
+    @NotNull
     ValkyrieIdentifierFree getIdentifierFree();
 
 }

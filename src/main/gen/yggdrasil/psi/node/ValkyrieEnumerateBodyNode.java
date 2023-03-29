@@ -2,22 +2,25 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieDeclareFlagsNode extends ValkyrieElement implements ValkyrieDeclareFlags {
+public class ValkyrieEnumerateBodyNode extends ValkyrieElement implements ValkyrieEnumerateBody {
 
-    public ValkyrieDeclareFlagsNode(@NotNull ASTNode node) {
+    public ValkyrieEnumerateBodyNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitDeclareFlags(this);
+        visitor.visitEnumerateBody(this);
     }
 
     @Override
@@ -28,20 +31,8 @@ public class ValkyrieDeclareFlagsNode extends ValkyrieElement implements Valkyri
 
     @Override
     @NotNull
-    public ValkyrieAnnotations getAnnotations() {
-        return findNotNullChildByClass(ValkyrieAnnotations.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieEnumerateBody getEnumerateBody() {
-        return findChildByClass(ValkyrieEnumerateBody.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieIdentifierFree getIdentifierFree() {
-        return findChildByClass(ValkyrieIdentifierFree.class);
+    public List<ValkyrieEnumerateItem> getEnumerateItemList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieEnumerateItem.class);
     }
 
 }

@@ -271,7 +271,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // annotations KW_ENUMERATE namepath-free
+    // annotations KW_ENUMERATE identifier-free enumerate-body
     public static boolean declare_enumerate(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "declare_enumerate")) return false;
         boolean r, p;
@@ -279,13 +279,14 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = annotations(b, l + 1);
         r = r && consumeToken(b, KW_ENUMERATE);
         p = r; // pin = 2
-        r = r && namepath_free(b, l + 1);
+        r = r && report_error_(b, identifier_free(b, l + 1));
+        r = p && enumerate_body(b, l + 1) && r;
         exit_section_(b, l, m, r, p, null);
         return r || p;
     }
 
     /* ********************************************************** */
-    // annotations KW_FLAGS namepath-free
+    // annotations KW_FLAGS identifier-free enumerate-body
     public static boolean declare_flags(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "declare_flags")) return false;
         boolean r, p;
@@ -293,7 +294,8 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = annotations(b, l + 1);
         r = r && consumeToken(b, KW_FLAGS);
         p = r; // pin = 2
-        r = r && namepath_free(b, l + 1);
+        r = r && report_error_(b, identifier_free(b, l + 1));
+        r = p && enumerate_body(b, l + 1) && r;
         exit_section_(b, l, m, r, p, null);
         return r || p;
     }
@@ -310,6 +312,29 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = r && namepath_free(b, l + 1);
         exit_section_(b, l, m, r, p, null);
         return r || p;
+    }
+
+    /* ********************************************************** */
+    // attribute* identifier-free
+    public static boolean declare_semantic(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "declare_semantic")) return false;
+        boolean r;
+        Marker m = enter_section_(b, l, _NONE_, DECLARE_SEMANTIC, "<declare semantic>");
+        r = declare_semantic_0(b, l + 1);
+        r = r && identifier_free(b, l + 1);
+        exit_section_(b, l, m, r, false, null);
+        return r;
+    }
+
+    // attribute*
+    private static boolean declare_semantic_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "declare_semantic_0")) return false;
+        while (true) {
+            int c = current_position_(b);
+            if (!attribute(b, l + 1)) break;
+            if (!empty_element_parsed_guard_(b, "declare_semantic_0", c)) break;
+        }
+        return true;
     }
 
     /* ********************************************************** */
@@ -349,6 +374,44 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!recursion_guard_(b, l, "define_union_3")) return false;
         consumeToken(b, OP_REMARK);
         return true;
+    }
+
+    /* ********************************************************** */
+    // BRACE_R enumerate-item* BRACE_R
+    public static boolean enumerate_body(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "enumerate_body")) return false;
+        if (!nextTokenIs(b, BRACE_R)) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, BRACE_R);
+        r = r && enumerate_body_1(b, l + 1);
+        r = r && consumeToken(b, BRACE_R);
+        exit_section_(b, m, ENUMERATE_BODY, r);
+        return r;
+    }
+
+    // enumerate-item*
+    private static boolean enumerate_body_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "enumerate_body_1")) return false;
+        while (true) {
+            int c = current_position_(b);
+            if (!enumerate_item(b, l + 1)) break;
+            if (!empty_element_parsed_guard_(b, "enumerate_body_1", c)) break;
+        }
+        return true;
+    }
+
+    /* ********************************************************** */
+    // declare-semantic
+    //   | SEMICOLON
+    public static boolean enumerate_item(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "enumerate_item")) return false;
+        boolean r;
+        Marker m = enter_section_(b, l, _NONE_, ENUMERATE_ITEM, "<enumerate item>");
+        r = declare_semantic(b, l + 1);
+        if (!r) r = consumeToken(b, SEMICOLON);
+        exit_section_(b, l, m, r, false, null);
+        return r;
     }
 
     /* ********************************************************** */

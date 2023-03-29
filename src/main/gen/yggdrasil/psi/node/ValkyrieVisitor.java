@@ -51,11 +51,23 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitDeclareSemantic(@NotNull ValkyrieDeclareSemantic o) {
+        visitPsiElement(o);
+    }
+
     public void visitDefineFunction(@NotNull ValkyrieDefineFunction o) {
         visitPsiElement(o);
     }
 
     public void visitDefineUnion(@NotNull ValkyrieDefineUnion o) {
+        visitPsiElement(o);
+    }
+
+    public void visitEnumerateBody(@NotNull ValkyrieEnumerateBody o) {
+        visitPsiElement(o);
+    }
+
+    public void visitEnumerateItem(@NotNull ValkyrieEnumerateItem o) {
         visitPsiElement(o);
     }
 
