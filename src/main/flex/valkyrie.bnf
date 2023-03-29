@@ -10,8 +10,8 @@
     psiImplPackage = "yggdrasil.psi.node"
 
     elementTypeHolderClass = "valkyrie.psi.ValkyrieTypes"
-    elementTypeClass = "valkyrie.psi.YggdrasilElementType"
-    tokenTypeClass = "valkyrie.psi.YggdrasilTokenType"
+    elementTypeClass = "valkyrie.psi.ValkyrieElementType"
+    tokenTypeClass = "valkyrie.psi.ValkyrieTokenType"
 
     psiImplUtilClass = "yggdrasil.psi.node.YggdrasilPsiExtension"
 
@@ -108,23 +108,26 @@ using-body ::= BRACE_L using-term* BRACE_R;
 using-term ::=
     using-alias
   | SEMICOLON
+  | COMMA
 using-alias ::= key KW_AS identifier-free;
 
-// === class statement ===
+// === enumerate statement ===
+declare-flags ::= annotations KW_FLAGS identifier-free enumerate-body {
+    pin = 2
+    mixin = "valkyrie.psi.mixin.MixinFlags"
+    methods=[highlight createLookup]
+}
 declare-enumerate ::= annotations KW_ENUMERATE identifier-free enumerate-body {
     pin = 2
-//    mixin = "valkyrie.psi.mixin.MixinNamespace"
+    mixin = "valkyrie.psi.mixin.MixinEnumerate"
+    methods=[highlight createLookup]
 }
-enumerate-body ::= BRACE_R enumerate-item* BRACE_R;
+enumerate-body ::= BRACE_L enumerate-item* BRACE_R;
 enumerate-item ::=
     declare-semantic
   | SEMICOLON
+  | COMMA
 declare-semantic ::= attribute* identifier-free;
-
-declare-flags ::= annotations KW_FLAGS identifier-free enumerate-body {
-    pin = 2
-//    mixin = "valkyrie.psi.mixin.MixinNamespace"
-}
 // === class statement ===
 class  ::= annotations KW_CLASS identifier class-cast? OP_REMARK? class-body {
     pin = 2

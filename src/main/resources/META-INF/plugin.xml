@@ -70,7 +70,7 @@
 			implementation="valkyrie.ide.highlight.NodeHighlighter"
 		/>
 		<lang.syntaxHighlighter
-			language="Valkyrie"
+			language="valkyrie"
 			implementationClass="valkyrie.ide.highlight.TokenHighlighter"
 		/>
 		<!--		<colorProvider implementation="valkyrie.ide.highlight.ValkyrieColorParser"/>-->

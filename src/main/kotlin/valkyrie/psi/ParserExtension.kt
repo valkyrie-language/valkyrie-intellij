@@ -1,9 +1,7 @@
 package valkyrie.psi
 
 import com.intellij.lang.parser.GeneratedParserUtilBase
-import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
-import valkyrie.language.ValkyrieLanguage
 import valkyrie.psi.ValkyrieTypes.*
 
 class ParserExtension : GeneratedParserUtilBase() {
@@ -49,13 +47,5 @@ class ParserExtension : GeneratedParserUtilBase() {
         )
     }
 
-}
-
-class YggdrasilElementType(debugName: String) : IElementType(debugName, ValkyrieLanguage) {
-    override fun toString(): String = "YggdrasilElement.${super.toString()}"
-}
-
-class YggdrasilTokenType(debugName: String) : IElementType(debugName, ValkyrieLanguage) {
-    override fun toString(): String = "YggdrasilToken.${super.toString()}"
 }
 

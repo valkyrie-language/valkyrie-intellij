@@ -3,6 +3,8 @@
 
 package yggdrasil.psi;
 
+import com.intellij.psi.search.scope.packageSet.lexer.ScopeTokenTypes;
+
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
 import static valkyrie.psi.ValkyrieTypes.*;
@@ -341,9 +343,9 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
                     "\1\33\1\34\1\35\1\36\1\0\1\37\2\0\1\40" +
                     "\1\41\4\0\1\42\1\43\1\0\1\44\1\45\4\26" +
                     "\1\46\10\26\1\37\1\47\1\0\1\47\1\0\3\26" +
-                    "\1\46\7\26\1\50\2\0\1\26\1\51\1\26\1\46" +
-                    "\10\26\1\52\1\26\1\53\4\26\1\54\1\55\5\26" +
-                    "\1\52\11\26\1\51\1\56";
+                    "\1\46\7\26\1\50\2\0\3\26\1\46\10\26\1\51" +
+                    "\1\26\1\52\1\53\4\26\1\54\1\55\5\26\1\51" +
+                    "\11\26\1\56";
 
     private static int[] zzUnpackAction() {
         int[] result = new int[131];
@@ -384,10 +386,10 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
                     "\0\u093d\0\u0974\0\u09ab\0\u09e2\0\u0a19\0\u0a50\0\u0a87\0\u0abe" +
                     "\0\u0af5\0\u0b2c\0\67\0\u0898\0\u0b63\0\u0b9a\0\u0bd1\0\u0c08" +
                     "\0\u0c3f\0\u0c76\0\u0cad\0\u0ce4\0\u0d1b\0\u0d52\0\u0d89\0\u0dc0" +
-                    "\0\u0df7\0\u0181\0\u0e2e\0\u0181\0\u0e65\0\u0e9c\0\u0ed3\0\u0f0a" +
-                    "\0\u0181\0\u0181\0\u0f41\0\u0f78\0\u0faf\0\u0fe6\0\u101d\0\u1054" +
-                    "\0\u108b\0\u10c2\0\u10f9\0\u1130\0\u1167\0\u119e\0\u11d5\0\u120c" +
-                    "\0\u1243\0\u0181\0\u0181";
+                    "\0\u0df7\0\u0181\0\u0e2e\0\u0181\0\u0181\0\u0e65\0\u0e9c\0\u0ed3" +
+                    "\0\u0f0a\0\u0181\0\u0181\0\u0f41\0\u0f78\0\u0faf\0\u0fe6\0\u101d" +
+                    "\0\u1054\0\u108b\0\u10c2\0\u10f9\0\u1130\0\u1167\0\u119e\0\u11d5" +
+                    "\0\u120c\0\u1243\0\u0181";
 
     private static int[] zzUnpackRowMap() {
         int[] result = new int[131];
@@ -475,44 +477,45 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
                     "\6\31\1\151\12\31\4\0\1\31\2\0\13\134\1\135" +
                     "\4\134\1\133\46\134\21\0\1\31\7\0\1\31\5\0" +
                     "\15\31\1\152\3\31\4\0\1\31\23\0\1\31\7\0" +
-                    "\1\31\5\0\3\31\1\153\15\31\4\0\1\31\23\0" +
-                    "\1\31\7\0\1\31\5\0\15\31\1\154\3\31\4\0" +
-                    "\1\31\23\0\1\31\7\0\1\31\5\0\16\31\1\155" +
-                    "\2\31\4\0\1\31\23\0\1\31\7\0\1\31\5\0" +
-                    "\1\31\1\156\17\31\4\0\1\31\23\0\1\31\7\0" +
-                    "\1\31\5\0\12\31\1\102\6\31\4\0\1\31\23\0" +
-                    "\1\31\7\0\1\31\5\0\15\31\1\157\3\31\4\0" +
-                    "\1\31\23\0\1\31\7\0\1\31\5\0\1\31\1\160" +
-                    "\17\31\4\0\1\31\23\0\1\31\7\0\1\31\5\0" +
-                    "\11\31\1\161\7\31\4\0\1\31\23\0\1\31\7\0" +
-                    "\1\31\5\0\3\31\1\161\15\31\4\0\1\31\23\0" +
-                    "\1\31\7\0\1\31\5\0\5\31\1\162\13\31\4\0" +
-                    "\1\31\23\0\1\31\7\0\1\31\5\0\1\163\20\31" +
-                    "\4\0\1\31\23\0\1\31\7\0\1\31\5\0\14\31" +
-                    "\1\164\4\31\4\0\1\31\23\0\1\31\7\0\1\31" +
-                    "\5\0\6\31\1\165\12\31\4\0\1\31\23\0\1\31" +
-                    "\7\0\1\31\5\0\16\31\1\166\2\31\4\0\1\31" +
-                    "\23\0\1\31\7\0\1\31\5\0\13\31\1\167\5\31" +
+                    "\1\31\5\0\3\31\1\153\11\31\1\154\3\31\4\0" +
+                    "\1\31\23\0\1\31\7\0\1\31\5\0\15\31\1\155" +
+                    "\3\31\4\0\1\31\23\0\1\31\7\0\1\31\5\0" +
+                    "\16\31\1\156\2\31\4\0\1\31\23\0\1\31\7\0" +
+                    "\1\31\5\0\1\31\1\157\17\31\4\0\1\31\23\0" +
+                    "\1\31\7\0\1\31\5\0\12\31\1\102\6\31\4\0" +
+                    "\1\31\23\0\1\31\7\0\1\31\5\0\15\31\1\160" +
+                    "\3\31\4\0\1\31\23\0\1\31\7\0\1\31\5\0" +
+                    "\1\31\1\161\17\31\4\0\1\31\23\0\1\31\7\0" +
+                    "\1\31\5\0\11\31\1\162\7\31\4\0\1\31\23\0" +
+                    "\1\31\7\0\1\31\5\0\3\31\1\162\15\31\4\0" +
+                    "\1\31\23\0\1\31\7\0\1\31\5\0\5\31\1\163" +
+                    "\13\31\4\0\1\31\23\0\1\31\7\0\1\31\5\0" +
+                    "\1\164\20\31\4\0\1\31\23\0\1\31\7\0\1\31" +
+                    "\5\0\14\31\1\165\4\31\4\0\1\31\23\0\1\31" +
+                    "\7\0\1\31\5\0\6\31\1\166\12\31\4\0\1\31" +
+                    "\23\0\1\31\7\0\1\31\5\0\16\31\1\167\2\31" +
+                    "\4\0\1\31\23\0\1\31\7\0\1\31\5\0\13\31" +
+                    "\1\170\5\31\4\0\1\31\23\0\1\31\7\0\1\31" +
+                    "\5\0\16\31\1\171\2\31\4\0\1\31\23\0\1\31" +
+                    "\7\0\1\31\5\0\11\31\1\172\7\31\4\0\1\31" +
+                    "\23\0\1\31\7\0\1\31\5\0\1\173\20\31\4\0" +
+                    "\1\31\23\0\1\31\7\0\1\31\5\0\12\31\1\174" +
+                    "\6\31\4\0\1\31\23\0\1\31\7\0\1\31\5\0" +
+                    "\6\31\1\175\12\31\4\0\1\31\23\0\1\31\7\0" +
+                    "\1\31\5\0\1\176\20\31\4\0\1\31\23\0\1\31" +
+                    "\7\0\1\31\5\0\17\31\1\177\1\31\4\0\1\31" +
+                    "\23\0\1\31\7\0\1\31\5\0\16\31\1\162\2\31" +
                     "\4\0\1\31\23\0\1\31\7\0\1\31\5\0\16\31" +
-                    "\1\170\2\31\4\0\1\31\23\0\1\31\7\0\1\31" +
-                    "\5\0\11\31\1\171\7\31\4\0\1\31\23\0\1\31" +
-                    "\7\0\1\31\5\0\1\172\20\31\4\0\1\31\23\0" +
-                    "\1\31\7\0\1\31\5\0\12\31\1\173\6\31\4\0" +
-                    "\1\31\23\0\1\31\7\0\1\31\5\0\6\31\1\174" +
-                    "\12\31\4\0\1\31\23\0\1\31\7\0\1\31\5\0" +
-                    "\1\175\20\31\4\0\1\31\23\0\1\31\7\0\1\31" +
-                    "\5\0\17\31\1\176\1\31\4\0\1\31\23\0\1\31" +
-                    "\7\0\1\31\5\0\16\31\1\161\2\31\4\0\1\31" +
-                    "\23\0\1\31\7\0\1\31\5\0\16\31\1\177\2\31" +
-                    "\4\0\1\31\23\0\1\31\7\0\1\31\5\0\11\31" +
-                    "\1\102\7\31\4\0\1\31\23\0\1\31\7\0\1\31" +
-                    "\5\0\20\31\1\147\4\0\1\31\23\0\1\31\7\0" +
-                    "\1\31\5\0\1\31\1\200\17\31\4\0\1\31\23\0" +
-                    "\1\31\7\0\1\31\5\0\14\31\1\201\4\31\4\0" +
-                    "\1\31\23\0\1\31\7\0\1\31\5\0\3\31\1\202" +
-                    "\15\31\4\0\1\31\23\0\1\31\7\0\1\31\5\0" +
-                    "\3\31\1\203\15\31\4\0\1\31\23\0\1\31\7\0" +
-                    "\1\31\5\0\3\31\1\152\15\31\4\0\1\31\2\0";
+                    "\1\200\2\31\4\0\1\31\23\0\1\31\7\0\1\31" +
+                    "\5\0\11\31\1\102\7\31\4\0\1\31\23\0\1\31" +
+                    "\7\0\1\31\5\0\20\31\1\147\4\0\1\31\23\0" +
+                    "\1\31\7\0\1\31\5\0\1\31\1\201\17\31\4\0" +
+                    "\1\31\23\0\1\31\7\0\1\31\5\0\14\31\1\202" +
+                    "\4\31\4\0\1\31\23\0\1\31\7\0\1\31\5\0" +
+                    "\3\31\1\154\15\31\4\0\1\31\23\0\1\31\7\0" +
+                    "\1\31\5\0\3\31\1\203\15\31\4\0\1\31\23\0" +
+                    "\1\31\7\0\1\31\5\0\3\31\1\152\15\31\4\0" +
+                    "\1\31\2\0";
 
     private static int[] zzUnpacktrans() {
         int[] result = new int[4730];
@@ -578,56 +581,36 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
         return j;
     }
 
-    /**
-     * the input device
-     */
+    /** the input device */
     private java.io.Reader zzReader;
 
-    /**
-     * the current state of the DFA
-     */
+    /** the current state of the DFA */
     private int zzState;
 
-    /**
-     * the current lexical state
-     */
+    /** the current lexical state */
     private int zzLexicalState = YYINITIAL;
 
-    /**
-     * this buffer contains the current text to be matched and is
-     * the source of the yytext() string
-     */
+    /** this buffer contains the current text to be matched and is
+     the source of the yytext() string */
     private CharSequence zzBuffer = "";
 
-    /**
-     * the textposition at the last accepting state
-     */
+    /** the textposition at the last accepting state */
     private int zzMarkedPos;
 
-    /**
-     * the current text position in the buffer
-     */
+    /** the current text position in the buffer */
     private int zzCurrentPos;
 
-    /**
-     * startRead marks the beginning of the yytext() string in the buffer
-     */
+    /** startRead marks the beginning of the yytext() string in the buffer */
     private int zzStartRead;
 
-    /**
-     * endRead marks the last character in the buffer, that has been read
-     * from input
-     */
+    /** endRead marks the last character in the buffer, that has been read
+     from input */
     private int zzEndRead;
 
-    /**
-     * zzAtEOF == true <=> the scanner is at the EOF
-     */
+    /** zzAtEOF == true <=> the scanner is at the EOF */
     private boolean zzAtEOF;
 
-    /**
-     * Number of newlines encountered up to the start of the matched text.
-     */
+    /** Number of newlines encountered up to the start of the matched text. */
     @SuppressWarnings("unused")
     private int yyline;
 
@@ -637,21 +620,15 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
     @SuppressWarnings("unused")
     protected int yycolumn;
 
-    /**
-     * Number of characters up to the start of the matched text.
-     */
+    /** Number of characters up to the start of the matched text. */
     @SuppressWarnings("unused")
     private long yychar;
 
-    /**
-     * Whether the scanner is currently at the beginning of a line.
-     */
+    /** Whether the scanner is currently at the beginning of a line. */
     @SuppressWarnings("unused")
     private boolean zzAtBOL = true;
 
-    /**
-     * Whether the user-EOF-code has already been executed.
-     */
+    /** Whether the user-EOF-code has already been executed. */
     @SuppressWarnings("unused")
     private boolean zzEOFDone;
 
@@ -666,16 +643,12 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
     }
 
 
-    /**
-     * Returns the maximum size of the scanner buffer, which limits the size of tokens.
-     */
+    /** Returns the maximum size of the scanner buffer, which limits the size of tokens. */
     private int zzMaxBufferLen() {
         return Integer.MAX_VALUE;
     }
 
-    /**
-     * Whether the scanner buffer can grow to accommodate a larger token.
-     */
+    /**  Whether the scanner buffer can grow to accommodate a larger token. */
     private boolean zzCanGrow() {
         return true;
     }
@@ -793,11 +766,11 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
 
     /**
      * Pushes the specified amount of characters back into the input stream.
-     * <p>
+     *
      * They will be read again by then next call of the scanning method
      *
-     * @param number the number of characters to be read again.
-     *               This number must not be greater than yylength()!
+     * @param number  the number of characters to be read again.
+     *                This number must not be greater than yylength()!
      */
     public void yypushback(int number) {
         if (number > yylength())
@@ -812,7 +785,7 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
      * the end of input is encountered or an I/O-Error occurs.
      *
      * @return the next token
-     * @throws java.io.IOException if any I/O-Error occurs
+     * @exception java.io.IOException  if any I/O-Error occurs
      */
     public com.intellij.psi.tree.IElementType advance() throws java.io.IOException {
         int zzInput;
@@ -1135,13 +1108,13 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
                     case 86:
                         break;
                     case 41: {
-                        return KW_ENUMERATE;
+                        return KW_CLASS;
                     }
                     // fall through
                     case 87:
                         break;
                     case 42: {
-                        return KW_CLASS;
+                        return KW_ENUMERATE;
                     }
                     // fall through
                     case 88:
@@ -1168,14 +1141,13 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
                         return KW_NAMESPACE;
                     }
                     // fall through
-                    case 92:
-                        break;
-                    default:
-                        zzScanError(ZZ_NO_MATCH);
-                }
-            }
-        }
+          case 92: break;
+          default:
+            zzScanError(ZZ_NO_MATCH);
+          }
+      }
     }
+  }
 
 
 }

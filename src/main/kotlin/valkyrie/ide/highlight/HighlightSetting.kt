@@ -6,12 +6,10 @@ import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieIconProvider
 
 class HighlightSetting : ColorSettingsPage {
-    private val annotatorTags = HighlightColor
-        .values()
+    private val annotatorTags = HighlightColor.entries
         .associateBy({ it.name }, { it.textAttributesKey })
 
-    override fun getAttributeDescriptors() = HighlightColor
-        .values()
+    override fun getAttributeDescriptors() = HighlightColor.entries
         .map { it.attributesDescriptor }
         .toTypedArray()
 

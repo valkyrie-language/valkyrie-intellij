@@ -4,6 +4,8 @@ package yggdrasil.psi.node;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
+import com.intellij.codeInsight.lookup.LookupElement;
+import valkyrie.ide.highlight.NodeHighlighter;
 
 public interface ValkyrieDeclareFlags extends PsiElement {
 
@@ -15,5 +17,9 @@ public interface ValkyrieDeclareFlags extends PsiElement {
 
     @Nullable
     ValkyrieIdentifierFree getIdentifierFree();
+
+    void highlight(@NotNull NodeHighlighter highlighter);
+
+    void createLookup(@NotNull List<LookupElement> completions);
 
 }

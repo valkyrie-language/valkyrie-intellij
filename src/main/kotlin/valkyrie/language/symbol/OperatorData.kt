@@ -19,7 +19,7 @@ class OperatorData(
         doc.append(HighlightColor.KEYWORD, "operator ")
         doc.append(HighlightColor.SYM_MACRO, symbol)
         doc.append(HighlightColor.KEYWORD, " de-sugars ")
-        doc.append(HighlightColor.SYM_FUNCTION, name)
+        doc.append(HighlightColor.SYM_FUNCTION_FREE, name)
         doc.append("<br/>")
         doc.append(HighlightColor.KEYWORD, "associative ")
         doc.append(HighlightColor.SYM_MACRO, associative.toString())

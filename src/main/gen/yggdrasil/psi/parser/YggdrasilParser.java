@@ -377,13 +377,13 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // BRACE_R enumerate-item* BRACE_R
+    // BRACE_L enumerate-item* BRACE_R
     public static boolean enumerate_body(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "enumerate_body")) return false;
-        if (!nextTokenIs(b, BRACE_R)) return false;
+        if (!nextTokenIs(b, BRACE_L)) return false;
         boolean r;
         Marker m = enter_section_(b);
-        r = consumeToken(b, BRACE_R);
+        r = consumeToken(b, BRACE_L);
         r = r && enumerate_body_1(b, l + 1);
         r = r && consumeToken(b, BRACE_R);
         exit_section_(b, m, ENUMERATE_BODY, r);
@@ -404,12 +404,14 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     /* ********************************************************** */
     // declare-semantic
     //   | SEMICOLON
+    //   | COMMA
     public static boolean enumerate_item(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "enumerate_item")) return false;
         boolean r;
         Marker m = enter_section_(b, l, _NONE_, ENUMERATE_ITEM, "<enumerate item>");
         r = declare_semantic(b, l + 1);
         if (!r) r = consumeToken(b, SEMICOLON);
+        if (!r) r = consumeToken(b, COMMA);
         exit_section_(b, l, m, r, false, null);
         return r;
     }
@@ -1466,12 +1468,14 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     /* ********************************************************** */
     // using-alias
     //   | SEMICOLON
+    //   | COMMA
     public static boolean using_term(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "using_term")) return false;
         boolean r;
         Marker m = enter_section_(b, l, _NONE_, USING_TERM, "<using term>");
         r = using_alias(b, l + 1);
         if (!r) r = consumeToken(b, SEMICOLON);
+        if (!r) r = consumeToken(b, COMMA);
         exit_section_(b, l, m, r, false, null);
         return r;
     }

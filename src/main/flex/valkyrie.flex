@@ -1,6 +1,6 @@
 package yggdrasil.psi;
 
-import static com.intellij.psi.TokenType.BAD_CHARACTER;
+import com.intellij.psi.search.scope.packageSet.lexer.ScopeTokenTypes;import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
 import static valkyrie.psi.ValkyrieTypes.*;
 

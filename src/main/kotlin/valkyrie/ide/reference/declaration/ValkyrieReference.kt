@@ -59,8 +59,8 @@ open class ValkyrieReference : PsiQualifiedReference {
 
     fun highlight(highlighter: NodeHighlighter) {
         return when (this.resolve()) {
-            is ValkyrieClass -> highlighter.highlight(_element, HighlightColor.RULE_CLASS)
-            is ValkyrieDefineUnion -> highlighter.highlight(_element, HighlightColor.RULE_UNION)
+            is ValkyrieClass -> highlighter.highlight(_element, HighlightColor.SYM_CLASS)
+            is ValkyrieDefineUnion -> highlighter.highlight(_element, HighlightColor.SYM_CLASS)
             is ValkyrieGroupItem -> highlighter.highlight(_element, HighlightColor.SYM_CONSTANT)
             else -> {
 

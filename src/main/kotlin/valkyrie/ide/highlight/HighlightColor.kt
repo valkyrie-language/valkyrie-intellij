@@ -9,7 +9,6 @@ import valkyrie.language.ValkyrieBundle
 import java.util.function.Supplier
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors as Default
 
-
 enum class HighlightColor(humanName: Supplier<@AttributeDescriptor String>, default: TextAttributesKey? = null) {
     // 特殊关键词
     KEYWORD(OptionsBundle.messagePointer("options.language.defaults.keyword"), Default.KEYWORD),
@@ -29,29 +28,35 @@ enum class HighlightColor(humanName: Supplier<@AttributeDescriptor String>, defa
     // 标识符
     IDENTIFIER(OptionsBundle.messagePointer("options.language.defaults.identifier"), Default.IDENTIFIER),
     SYM_TYPE(ValkyrieBundle.messagePointer("color.token.symbol.trait"), Default.CLASS_REFERENCE),
-    RULE_CLASS(ValkyrieBundle.messagePointer("color.token.symbol.class"), Default.CLASS_NAME),
-    RULE_UNION(ValkyrieBundle.messagePointer("color.token.symbol.variant"), Default.INTERFACE_NAME),
+    SYM_GENERIC(ValkyrieBundle.messagePointer("color.token.symbol.trait"), Default.METADATA),
+    SYM_TRAIT(ValkyrieBundle.messagePointer("color.token.symbol.trait"), Default.INTERFACE_NAME),
+    SYM_CLASS(ValkyrieBundle.messagePointer("color.token.symbol.class"), Default.CLASS_NAME),
+    SYM_VARIANT(ValkyrieBundle.messagePointer("color.token.symbol.variant"), Default.STATIC_FIELD),
     SYM_MACRO(ValkyrieBundle.messagePointer("color.token.symbol.macro"), Default.METADATA),
-    SYM_LANGUAGE(ValkyrieBundle.messagePointer("color.token.symbol.macro"), Default.METADATA),
     SYM_LOCAL(ValkyrieBundle.messagePointer("color.token.symbol.local"), Default.LOCAL_VARIABLE),
     SYM_LOCAL_MUT(ValkyrieBundle.messagePointer("color.token.symbol.local.mutable"), Default.REASSIGNED_LOCAL_VARIABLE),
     SYM_GLOBAL(ValkyrieBundle.messagePointer("color.token.symbol.global"), Default.GLOBAL_VARIABLE),
     SYM_GLOBAL_MUT(ValkyrieBundle.messagePointer("color.token.symbol.global.mut"), Default.GLOBAL_VARIABLE),
-    TAG_NODE(ValkyrieBundle.messagePointer("color.token.symbol.parameter"), Default.PARAMETER),
-    TAG_BRANCH(ValkyrieBundle.messagePointer("color.token.symbol.parameter"), Default.PARAMETER),
+    SYM_ARG(ValkyrieBundle.messagePointer("color.token.symbol.parameter"), Default.PARAMETER),
+    SYM_ARG_MUT(ValkyrieBundle.messagePointer("color.token.symbol.parameter.mutable"), Default.REASSIGNED_PARAMETER),
+    SYM_ARG_SELF(ValkyrieBundle.messagePointer("color.token.symbol.self"), Default.KEYWORD),
+    SYM_ARG_SELF_MUT(ValkyrieBundle.messagePointer("color.token.symbol.self.mutable"), Default.KEYWORD),
     SYM_FIELD(ValkyrieBundle.messagePointer("color.token.symbol.field"), Default.INSTANCE_FIELD),
     SYM_CONSTANT(ValkyrieBundle.messagePointer("color.token.symbol.constant"), Default.CONSTANT),
-    SYM_BUILTIN(ValkyrieBundle.messagePointer("color.token.symbol.built.in"), Default.CONSTANT),
-    SYM_FUNCTION(ValkyrieBundle.messagePointer("color.token.symbol.function.self"), Default.INSTANCE_METHOD),
-    SYM_ARGUMENT(ValkyrieBundle.messagePointer("color.token.symbol.type"), Default.PARAMETER),
+    SYM_FUNCTION_SELF(ValkyrieBundle.messagePointer("color.token.symbol.function.self"), Default.INSTANCE_METHOD),
+    SYM_FUNCTION_FREE(ValkyrieBundle.messagePointer("color.token.symbol.function.free"), Default.STATIC_METHOD),
+
+    //
+    TYPE_HINT(ValkyrieBundle.messagePointer("color.token.symbol.type"), Default.CLASS_NAME),
 
     // 标点符号
-    ASSIGN(ValkyrieBundle.messagePointer("color.token.set"), Default.OPERATION_SIGN),
     OPERATION(OptionsBundle.messagePointer("options.language.defaults.operation"), Default.OPERATION_SIGN),
-    OP_NUMBER(ValkyrieBundle.messagePointer("color.token.number.suffix"), Default.METADATA),
-    OP_STRING(ValkyrieBundle.messagePointer("color.token.string.prefix"), Default.KEYWORD),
     COMMENT_LINE(OptionsBundle.messagePointer("options.language.defaults.line.comment"), Default.LINE_COMMENT),
     COMMENT_BLOCK(OptionsBundle.messagePointer("options.language.defaults.block.comment"), Default.BLOCK_COMMENT),
+
+
+    OP_NUMBER(ValkyrieBundle.messagePointer("color.token.number.suffix"), Default.METADATA),
+    OP_STRING(ValkyrieBundle.messagePointer("color.token.string.prefix"), Default.KEYWORD),
     ;
 
     val textAttributesKey: TextAttributesKey = TextAttributesKey.createTextAttributesKey("voml.lang.$name", default)
