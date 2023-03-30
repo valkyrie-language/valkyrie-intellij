@@ -2,16 +2,9 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieIdentifierAnnotated extends PsiElement {
-
-    @NotNull
-    List<ValkyrieAttribute> getAttributeList();
-
-    @NotNull
-    List<ValkyrieModifier> getModifierList();
+public interface ValkyrieTypePrefix extends PsiElement {
 
 }

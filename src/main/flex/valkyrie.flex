@@ -37,11 +37,12 @@ KW_NAMESPACE = namespace
 KW_USING     = using
 KW_AS        = as
 KW_EXCLUDE   = exclude
-KW_GROUP     = group|token
 KW_CLASS     = class|struct|structure
-KW_UNION     = unite|union|variant|inductive
-KW_ENUMERATE = enumerate|enum
+KW_UNION     = union
+KW_UNITE     = unite|inductive
+KW_ENUMERATE = enumerate|enums?
 KW_FLAGS     = flags
+KW_INTERFACE = interface|trait
 KW_MACRO     = macro|function|func|fun|fn|def
 
 %%
@@ -74,7 +75,7 @@ KW_MACRO     = macro|function|func|fun|fn|def
 	"." { return DOT; }
 	"," { return COMMA; }
 	"-" { return HYPHEN; }
-	"=" { return BIND; }
+	"=" { return EQUAL; }
 
 	"^" { return OP_REMARK; }
     "!" { return OP_NOT; }
@@ -93,17 +94,17 @@ KW_MACRO     = macro|function|func|fun|fn|def
 }
 
 <YYINITIAL> {
-{KW_NAMESPACE} { return KW_NAMESPACE; }
-{KW_USING} { return KW_USING; }
-{KW_AS} { return KW_AS; }
+    {KW_NAMESPACE} { return KW_NAMESPACE; }
+    {KW_USING} { return KW_USING; }
+    {KW_AS} { return KW_AS; }
 
-
-{KW_ENUMERATE} { return KW_ENUMERATE;}
-{KW_FLAGS} { return KW_FLAGS;}
-
+    {KW_FLAGS} { return KW_FLAGS;}
+    {KW_ENUMERATE} { return KW_ENUMERATE;}
+    {KW_UNITE} { return KW_UNITE; }
+    {KW_UNITE} { return KW_UNION; }
 
     {KW_CLASS} { return KW_CLASS; }
-    {KW_UNION} { return KW_UNION; }
+    {KW_INTERFACE} { return KW_INTERFACE; }
 
     {KW_MACRO} { return KW_MACRO; }
 

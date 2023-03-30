@@ -3,6 +3,7 @@ package yggdrasil.language.symbol
 import com.intellij.model.presentation.SymbolDeclarationPresentation
 import com.intellij.model.presentation.SymbolDeclarationPresentationProvider
 import valkyrie.language.file.ValkyrieIconProvider
+import valkyrie.language.symbol.ValkyrieDeclared
 import javax.swing.Icon
 
 object SymbolProvider : SymbolDeclarationPresentationProvider<ValkyrieDeclared> {

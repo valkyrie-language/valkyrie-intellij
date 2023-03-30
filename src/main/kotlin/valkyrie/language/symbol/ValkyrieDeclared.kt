@@ -1,15 +1,16 @@
 @file:Suppress("ConvertSecondaryConstructorToPrimary", "MemberVisibilityCanBePrivate", "UnstableApiUsage")
 
-package yggdrasil.language.symbol
+package valkyrie.language.symbol
 
 import com.intellij.model.psi.PsiSymbolDeclaration
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiReference
-import yggdrasil.psi.node.ValkyrieClassNode
+import yggdrasil.language.symbol.ValkyrieSymbol
+import yggdrasil.psi.node.ValkyrieDeclareClass
 
 
-class ValkyrieDeclared(val target: ValkyrieClassNode) : PsiSymbolDeclaration, PsiReference {
+class ValkyrieDeclared(val target: ValkyrieDeclareClass) : PsiSymbolDeclaration, PsiReference {
     val source: PsiElement? = null;
     override fun getDeclaringElement(): PsiElement {
         return target

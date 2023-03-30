@@ -2,23 +2,27 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.mixin.MixinClass;
 import com.intellij.codeInsight.lookup.LookupElement;
+import valkyrie.ide.highlight.NodeHighlighter;
 
-public class ValkyrieClassNode extends MixinClass implements ValkyrieClass {
+public class ValkyrieDeclareClassNode extends MixinClass implements ValkyrieDeclareClass {
 
-    public ValkyrieClassNode(@NotNull ASTNode node) {
+    public ValkyrieDeclareClassNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitClass(this);
+        visitor.visitDeclareClass(this);
     }
 
     @Override

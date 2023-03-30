@@ -9,13 +9,14 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.psi.ValkyrieTypes.*;
 
-public class ValkyrieTermNode extends ValkyrieExpressionNode implements ValkyrieTerm {
+import valkyrie.psi.ValkyrieElement;
+
+public class ValkyrieTermNode extends ValkyrieElement implements ValkyrieTerm {
 
     public ValkyrieTermNode(@NotNull ASTNode node) {
         super(node);
     }
 
-    @Override
     public void accept(@NotNull ValkyrieVisitor visitor) {
         visitor.visitTerm(this);
     }

@@ -2,46 +2,31 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieDeclareSemanticNode extends ValkyrieElement implements ValkyrieDeclareSemantic {
+public class ValkyrieInfixNode extends ValkyrieElement implements ValkyrieInfix {
 
-    public ValkyrieDeclareSemanticNode(@NotNull ASTNode node) {
+    public ValkyrieInfixNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitDeclareSemantic(this);
+        visitor.visitInfix(this);
     }
 
     @Override
     public void accept(@NotNull PsiElementVisitor visitor) {
         if (visitor instanceof ValkyrieVisitor) accept((ValkyrieVisitor) visitor);
         else super.accept(visitor);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieAttribute> getAttributeList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieAttribute.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieExpression getExpression() {
-        return findChildByClass(ValkyrieExpression.class);
-    }
-
-    @Override
-    @NotNull
-    public ValkyrieIdentifierFree getIdentifierFree() {
-        return findNotNullChildByClass(ValkyrieIdentifierFree.class);
     }
 
 }

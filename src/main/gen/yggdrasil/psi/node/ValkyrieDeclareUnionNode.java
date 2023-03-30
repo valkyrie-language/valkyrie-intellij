@@ -2,23 +2,27 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.mixin.MixinUnion;
 import com.intellij.codeInsight.lookup.LookupElement;
+import valkyrie.ide.highlight.NodeHighlighter;
 
-public class ValkyrieDefineUnionNode extends MixinUnion implements ValkyrieDefineUnion {
+public class ValkyrieDeclareUnionNode extends MixinUnion implements ValkyrieDeclareUnion {
 
-    public ValkyrieDefineUnionNode(@NotNull ASTNode node) {
+    public ValkyrieDeclareUnionNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitDefineUnion(this);
+        visitor.visitDeclareUnion(this);
     }
 
     @Override

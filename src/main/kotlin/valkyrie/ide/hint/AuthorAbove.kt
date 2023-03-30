@@ -4,8 +4,7 @@ import com.intellij.codeInsight.hints.VcsCodeVisionLanguageContext
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import yggdrasil.psi.node.ValkyrieClass
-import yggdrasil.psi.node.ValkyrieDefineUnion
+import yggdrasil.psi.node.*
 import java.awt.event.MouseEvent
 
 @Suppress("UnstableApiUsage")
@@ -17,10 +16,11 @@ class AuthorAbove : VcsCodeVisionLanguageContext {
     }
 
     override fun isAccepted(element: PsiElement): Boolean {
-        return element is ValkyrieClass
-            || element is ValkyrieDefineUnion
-//            || element is YggdrasilClimbStatement
-//            || element is YggdrasilGrammarNode
+        return element is ValkyrieDeclareClass
+            || element is ValkyrieDeclareEnumerate
+            || element is ValkyrieDeclareFlags
+            || element is ValkyrieDeclareVariants
+            || element is ValkyrieDeclareInterface
     }
 
     override fun isCustomFileAccepted(file: PsiFile): Boolean {

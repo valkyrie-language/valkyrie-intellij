@@ -2,23 +2,27 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
-import valkyrie.psi.mixin.MixinDefineFunction;
+
+import valkyrie.psi.mixin.MixinUnite;
 import com.intellij.codeInsight.lookup.LookupElement;
+import valkyrie.ide.highlight.NodeHighlighter;
 
-public class ValkyrieDefineFunctionNode extends MixinDefineFunction implements ValkyrieDefineFunction {
+public class ValkyrieDeclareUniteNode extends MixinUnite implements ValkyrieDeclareUnite {
 
-    public ValkyrieDefineFunctionNode(@NotNull ASTNode node) {
+    public ValkyrieDeclareUniteNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitDefineFunction(this);
+        visitor.visitDeclareUnite(this);
     }
 
     @Override
@@ -35,20 +39,14 @@ public class ValkyrieDefineFunctionNode extends MixinDefineFunction implements V
 
     @Override
     @Nullable
-    public ValkyrieFunctionBlock getFunctionBlock() {
-        return findChildByClass(ValkyrieFunctionBlock.class);
+    public ValkyrieIdentifier getIdentifier() {
+        return findChildByClass(ValkyrieIdentifier.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieFunctionParameter getFunctionParameter() {
-        return findChildByClass(ValkyrieFunctionParameter.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieIdentifierFree getIdentifierFree() {
-        return findChildByClass(ValkyrieIdentifierFree.class);
+    public ValkyrieUnionBody getUnionBody() {
+        return findChildByClass(ValkyrieUnionBody.class);
     }
 
 }

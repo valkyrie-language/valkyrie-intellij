@@ -13,33 +13,31 @@ public interface ValkyrieTypes {
     IElementType ATOMIC = new ValkyrieElementType("ATOMIC");
     IElementType ATTRIBUTE = new ValkyrieElementType("ATTRIBUTE");
     IElementType CATEGORY = new ValkyrieElementType("CATEGORY");
-    IElementType CLASS = new ValkyrieElementType("CLASS");
     IElementType CLASS_BODY = new ValkyrieElementType("CLASS_BODY");
     IElementType CLASS_CAST = new ValkyrieElementType("CLASS_CAST");
+    IElementType DECLARE_CLASS = new ValkyrieElementType("DECLARE_CLASS");
     IElementType DECLARE_ENUMERATE = new ValkyrieElementType("DECLARE_ENUMERATE");
     IElementType DECLARE_FLAGS = new ValkyrieElementType("DECLARE_FLAGS");
+    IElementType DECLARE_FUNCTION = new ValkyrieElementType("DECLARE_FUNCTION");
+    IElementType DECLARE_INTERFACE = new ValkyrieElementType("DECLARE_INTERFACE");
     IElementType DECLARE_NAMESPACE = new ValkyrieElementType("DECLARE_NAMESPACE");
     IElementType DECLARE_SEMANTIC = new ValkyrieElementType("DECLARE_SEMANTIC");
-    IElementType DEFINE_FUNCTION = new ValkyrieElementType("DEFINE_FUNCTION");
-    IElementType DEFINE_UNION = new ValkyrieElementType("DEFINE_UNION");
+    IElementType DECLARE_UNION = new ValkyrieElementType("DECLARE_UNION");
+    IElementType DECLARE_UNITE = new ValkyrieElementType("DECLARE_UNITE");
     IElementType ENUMERATE_BODY = new ValkyrieElementType("ENUMERATE_BODY");
     IElementType ENUMERATE_ITEM = new ValkyrieElementType("ENUMERATE_ITEM");
     IElementType ESCAPE = new ValkyrieElementType("ESCAPE");
     IElementType EXPRESSION = new ValkyrieElementType("EXPRESSION");
-    IElementType EXPRESSION_CHOICE = new ValkyrieElementType("EXPRESSION_CHOICE");
     IElementType EXPRESSION_GROUP = new ValkyrieElementType("EXPRESSION_GROUP");
-    IElementType EXPRESSION_HARD = new ValkyrieElementType("EXPRESSION_HARD");
-    IElementType EXPRESSION_SOFT = new ValkyrieElementType("EXPRESSION_SOFT");
-    IElementType EXPRESSION_TAG = new ValkyrieElementType("EXPRESSION_TAG");
     IElementType FUNCTION_BLOCK = new ValkyrieElementType("FUNCTION_BLOCK");
     IElementType FUNCTION_CALL = new ValkyrieElementType("FUNCTION_CALL");
     IElementType FUNCTION_PARAMETER = new ValkyrieElementType("FUNCTION_PARAMETER");
-    IElementType GROUP = new ValkyrieElementType("GROUP");
     IElementType GROUP_BODY = new ValkyrieElementType("GROUP_BODY");
     IElementType GROUP_ITEM = new ValkyrieElementType("GROUP_ITEM");
     IElementType GROUP_TERM = new ValkyrieElementType("GROUP_TERM");
     IElementType IDENTIFIER = new ValkyrieElementType("IDENTIFIER");
     IElementType IDENTIFIER_FREE = new ValkyrieElementType("IDENTIFIER_FREE");
+    IElementType INFIX = new ValkyrieElementType("INFIX");
     IElementType KEY = new ValkyrieElementType("KEY");
     IElementType MODIFIER = new ValkyrieElementType("MODIFIER");
     IElementType NAMEPATH = new ValkyrieElementType("NAMEPATH");
@@ -57,6 +55,11 @@ public interface ValkyrieTypes {
     IElementType TAG_BRANCH = new ValkyrieElementType("TAG_BRANCH");
     IElementType TERM = new ValkyrieElementType("TERM");
     IElementType TUPLE = new ValkyrieElementType("TUPLE");
+    IElementType TYPE_EXPRESSION = new ValkyrieElementType("TYPE_EXPRESSION");
+    IElementType TYPE_INFIX = new ValkyrieElementType("TYPE_INFIX");
+    IElementType TYPE_PREFIX = new ValkyrieElementType("TYPE_PREFIX");
+    IElementType TYPE_SUFFIX = new ValkyrieElementType("TYPE_SUFFIX");
+    IElementType TYPE_TERM = new ValkyrieElementType("TYPE_TERM");
     IElementType UNION_BODY = new ValkyrieElementType("UNION_BODY");
     IElementType UNION_VARIANT = new ValkyrieElementType("UNION_VARIANT");
     IElementType USING = new ValkyrieElementType("USING");
@@ -79,7 +82,9 @@ public interface ValkyrieTypes {
     IElementType COMMENT_LINE = new ValkyrieTokenType("Comment");
     IElementType DOLLAR = new ValkyrieTokenType("$");
     IElementType DOT = new ValkyrieTokenType(".");
+    IElementType EQUAL = new ValkyrieTokenType("EQUAL");
     IElementType ESCAPED = new ValkyrieTokenType("\\escaped");
+    IElementType EXPRESSION_TAG = new ValkyrieTokenType("expression-tag");
     IElementType HASH = new ValkyrieTokenType("HASH");
     IElementType HYPHEN = new ValkyrieTokenType("-");
     IElementType INTEGER = new ValkyrieTokenType("<<INTEGER>>");
@@ -91,9 +96,11 @@ public interface ValkyrieTypes {
     IElementType KW_GRAMMAR = new ValkyrieTokenType("grammar");
     IElementType KW_GROUP = new ValkyrieTokenType("group");
     IElementType KW_IMPORT = new ValkyrieTokenType("import");
+    IElementType KW_INTERFACE = new ValkyrieTokenType("KW_INTERFACE");
     IElementType KW_MACRO = new ValkyrieTokenType("macro");
     IElementType KW_NAMESPACE = new ValkyrieTokenType("KW_NAMESPACE");
     IElementType KW_UNION = new ValkyrieTokenType("union");
+    IElementType KW_UNITE = new ValkyrieTokenType("KW_UNITE");
     IElementType KW_USING = new ValkyrieTokenType("using");
     IElementType OP_AND = new ValkyrieTokenType("OP_AND");
     IElementType OP_CONCAT = new ValkyrieTokenType("~");
@@ -133,48 +140,44 @@ public interface ValkyrieTypes {
                 return new ValkyrieAttributeNode(node);
             } else if (type == CATEGORY) {
                 return new ValkyrieCategoryNode(node);
-            } else if (type == CLASS) {
-                return new ValkyrieClassNode(node);
             } else if (type == CLASS_BODY) {
                 return new ValkyrieClassBodyNode(node);
             } else if (type == CLASS_CAST) {
                 return new ValkyrieClassCastNode(node);
+            } else if (type == DECLARE_CLASS) {
+                return new ValkyrieDeclareClassNode(node);
             } else if (type == DECLARE_ENUMERATE) {
                 return new ValkyrieDeclareEnumerateNode(node);
             } else if (type == DECLARE_FLAGS) {
                 return new ValkyrieDeclareFlagsNode(node);
+            } else if (type == DECLARE_FUNCTION) {
+                return new ValkyrieDeclareFunctionNode(node);
+            } else if (type == DECLARE_INTERFACE) {
+                return new ValkyrieDeclareInterfaceNode(node);
             } else if (type == DECLARE_NAMESPACE) {
                 return new ValkyrieDeclareNamespaceNode(node);
             } else if (type == DECLARE_SEMANTIC) {
                 return new ValkyrieDeclareSemanticNode(node);
-            } else if (type == DEFINE_FUNCTION) {
-                return new ValkyrieDefineFunctionNode(node);
-            } else if (type == DEFINE_UNION) {
-                return new ValkyrieDefineUnionNode(node);
+            } else if (type == DECLARE_UNION) {
+                return new ValkyrieDeclareUnionNode(node);
+            } else if (type == DECLARE_UNITE) {
+                return new ValkyrieDeclareUniteNode(node);
             } else if (type == ENUMERATE_BODY) {
                 return new ValkyrieEnumerateBodyNode(node);
             } else if (type == ENUMERATE_ITEM) {
                 return new ValkyrieEnumerateItemNode(node);
             } else if (type == ESCAPE) {
                 return new ValkyrieEscapeNode(node);
-            } else if (type == EXPRESSION_CHOICE) {
-                return new ValkyrieExpressionChoiceNode(node);
+            } else if (type == EXPRESSION) {
+                return new ValkyrieExpressionNode(node);
             } else if (type == EXPRESSION_GROUP) {
                 return new ValkyrieExpressionGroupNode(node);
-            } else if (type == EXPRESSION_HARD) {
-                return new ValkyrieExpressionHardNode(node);
-            } else if (type == EXPRESSION_SOFT) {
-                return new ValkyrieExpressionSoftNode(node);
-            } else if (type == EXPRESSION_TAG) {
-                return new ValkyrieExpressionTagNode(node);
             } else if (type == FUNCTION_BLOCK) {
                 return new ValkyrieFunctionBlockNode(node);
             } else if (type == FUNCTION_CALL) {
                 return new ValkyrieFunctionCallNode(node);
             } else if (type == FUNCTION_PARAMETER) {
                 return new ValkyrieFunctionParameterNode(node);
-            } else if (type == GROUP) {
-                return new ValkyrieGroupNode(node);
             } else if (type == GROUP_BODY) {
                 return new ValkyrieGroupBodyNode(node);
             } else if (type == GROUP_ITEM) {
@@ -185,6 +188,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieIdentifierNode(node);
             } else if (type == IDENTIFIER_FREE) {
                 return new ValkyrieIdentifierFreeNode(node);
+            } else if (type == INFIX) {
+                return new ValkyrieInfixNode(node);
             } else if (type == KEY) {
                 return new ValkyrieKeyNode(node);
             } else if (type == MODIFIER) {
@@ -219,6 +224,16 @@ public interface ValkyrieTypes {
                 return new ValkyrieTermNode(node);
             } else if (type == TUPLE) {
                 return new ValkyrieTupleNode(node);
+            } else if (type == TYPE_EXPRESSION) {
+                return new ValkyrieTypeExpressionNode(node);
+            } else if (type == TYPE_INFIX) {
+                return new ValkyrieTypeInfixNode(node);
+            } else if (type == TYPE_PREFIX) {
+                return new ValkyrieTypePrefixNode(node);
+            } else if (type == TYPE_SUFFIX) {
+                return new ValkyrieTypeSuffixNode(node);
+            } else if (type == TYPE_TERM) {
+                return new ValkyrieTypeTermNode(node);
             } else if (type == UNION_BODY) {
                 return new ValkyrieUnionBodyNode(node);
             } else if (type == UNION_VARIANT) {

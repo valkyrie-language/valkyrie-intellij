@@ -10,7 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.psi.ValkyrieTypes.*;
 import valkyrie.psi.ValkyrieElement;
 
-public abstract class ValkyrieExpressionNode extends ValkyrieElement implements ValkyrieExpression {
+public class ValkyrieExpressionNode extends ValkyrieElement implements ValkyrieExpression {
 
     public ValkyrieExpressionNode(@NotNull ASTNode node) {
         super(node);
@@ -24,6 +24,18 @@ public abstract class ValkyrieExpressionNode extends ValkyrieElement implements 
     public void accept(@NotNull PsiElementVisitor visitor) {
         if (visitor instanceof ValkyrieVisitor) accept((ValkyrieVisitor) visitor);
         else super.accept(visitor);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieInfix> getInfixList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieInfix.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieTerm> getTermList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTerm.class);
     }
 
 }

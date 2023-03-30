@@ -2,21 +2,25 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
+import com.intellij.codeInsight.lookup.LookupElement;
 
-public interface ValkyrieGroup extends PsiElement {
+public interface ValkyrieDeclareFunction extends PsiElement {
 
     @NotNull
     ValkyrieAnnotations getAnnotations();
 
     @Nullable
-    ValkyrieGroupBody getGroupBody();
+    ValkyrieFunctionBlock getFunctionBlock();
+
+    @Nullable
+    ValkyrieFunctionParameter getFunctionParameter();
 
     @Nullable
     ValkyrieIdentifierFree getIdentifierFree();
 
-    @NotNull
-    List<ValkyrieGroupItemNode> getTokenList();
+    void createLookup(@NotNull List<LookupElement> completions);
 
 }

@@ -87,7 +87,6 @@ class FormatBlock : ASTBlock {
         val isCorner = _node.firstChildNode == child || _node.lastChildNode == child
         val byCorner = if (isCorner) Indent.getNoneIndent() else Indent.getNormalIndent();
         return when (node.psi) {
-            is ValkyrieGrammarBody -> byCorner
             is ValkyrieClassBody -> byCorner
             is ValkyrieUnionBody -> byCorner
             is ValkyrieGroupBody -> byCorner

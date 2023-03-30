@@ -9,15 +9,17 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
+import valkyrie.ide.highlight.HighlightColor
+import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.psi.ValkyrieElement
-import yggdrasil.psi.node.ValkyrieDefineUnion
+import yggdrasil.psi.node.ValkyrieDeclareUnion
 import yggdrasil.psi.node.ValkyrieIdentifier
 import javax.swing.Icon
 
 abstract class MixinUnion(node: ASTNode) : ValkyrieElement(node),
     NavigatablePsiElement,
     PsiNameIdentifierOwner,
-    ValkyrieDefineUnion {
+    ValkyrieDeclareUnion {
     override fun getNavigationElement(): PsiElement {
         return nameIdentifier ?: this
     }
@@ -55,6 +57,8 @@ abstract class MixinUnion(node: ASTNode) : ValkyrieElement(node),
             )
         }
     }
+    override fun highlight(visitor: NodeHighlighter) {
+        visitor.highlight(this.firstChild, HighlightColor.SYM_MACRO)
+        this.identifier?.let { visitor.highlight(it, HighlightColor.SYM_MACRO) }
+    }
 }
-
-

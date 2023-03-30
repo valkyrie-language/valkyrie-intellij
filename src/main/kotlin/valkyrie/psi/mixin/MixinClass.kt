@@ -9,8 +9,10 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
+import valkyrie.ide.highlight.HighlightColor
+import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.psi.ValkyrieElement
-import yggdrasil.psi.node.ValkyrieClass
+import yggdrasil.psi.node.ValkyrieDeclareClass
 import yggdrasil.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
@@ -18,7 +20,7 @@ import javax.swing.Icon
 abstract class MixinClass(node: ASTNode) : ValkyrieElement(node),
     NavigatablePsiElement,
     PsiNameIdentifierOwner,
-    ValkyrieClass {
+    ValkyrieDeclareClass {
     override fun getNavigationElement(): PsiElement {
         return nameIdentifier ?: this
     }
@@ -55,6 +57,10 @@ abstract class MixinClass(node: ASTNode) : ValkyrieElement(node),
                     .withTailText(" atomic", true)
             )
         }
+    }
+    override fun highlight(visitor: NodeHighlighter) {
+        visitor.highlight(this.firstChild, HighlightColor.SYM_MACRO)
+        this.identifier?.let { visitor.highlight(it, HighlightColor.SYM_MACRO) }
     }
 }
 

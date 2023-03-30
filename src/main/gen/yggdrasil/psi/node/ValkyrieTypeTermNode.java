@@ -2,22 +2,25 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
-import valkyrie.psi.mixin.MixinExpressionTag;
 
-public class ValkyrieExpressionTagNode extends MixinExpressionTag implements ValkyrieExpressionTag {
+import valkyrie.psi.ValkyrieElement;
 
-    public ValkyrieExpressionTagNode(@NotNull ASTNode node) {
+public class ValkyrieTypeTermNode extends ValkyrieElement implements ValkyrieTypeTerm {
+
+    public ValkyrieTypeTermNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitExpressionTag(this);
+        visitor.visitTypeTerm(this);
     }
 
     @Override
@@ -33,9 +36,15 @@ public class ValkyrieExpressionTagNode extends MixinExpressionTag implements Val
     }
 
     @Override
-    @Nullable
-    public ValkyrieIdentifierFree getIdentifierFree() {
-        return findChildByClass(ValkyrieIdentifierFree.class);
+    @NotNull
+    public List<ValkyrieTypePrefix> getTypePrefixList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypePrefix.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieTypeSuffix> getTypeSuffixList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeSuffix.class);
     }
 
 }

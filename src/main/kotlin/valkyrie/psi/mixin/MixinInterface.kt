@@ -7,17 +7,18 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
+import valkyrie.ide.highlight.HighlightColor
+import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.psi.ValkyrieElement
-import yggdrasil.psi.node.ValkyrieGroup
-import yggdrasil.psi.node.ValkyrieGroupItemNode
+import yggdrasil.psi.node.ValkyrieDeclareInterface
 import yggdrasil.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
 
-abstract class MixinGroup(node: ASTNode) : ValkyrieElement(node),
+abstract class MixinInterface(node: ASTNode) : ValkyrieElement(node),
     NavigatablePsiElement,
     PsiNameIdentifierOwner,
-    ValkyrieGroup {
+    ValkyrieDeclareInterface {
 
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
@@ -40,20 +41,9 @@ abstract class MixinGroup(node: ASTNode) : ValkyrieElement(node),
     override fun getPresentation(): ItemPresentation? {
         return PresentationData(name, "", baseIcon, null)
     }
-
-    override fun getTokenList(): MutableList<ValkyrieGroupItemNode> {
-        if (groupBody == null) {
-            return mutableListOf()
-        }
-        val items = mutableListOf<ValkyrieGroupItemNode>()
-        for (item in groupBody!!.groupTermList) {
-            val inner = item.groupItem as? ValkyrieGroupItemNode;
-            if (inner != null) {
-                items.add(inner)
-            }
-        }
-        return items;
+    override fun highlight(visitor: NodeHighlighter) {
+        visitor.highlight(this.firstChild, HighlightColor.SYM_MACRO)
+        this.identifierFree?.let { visitor.highlight(it, HighlightColor.SYM_MACRO) }
     }
-
 }
 

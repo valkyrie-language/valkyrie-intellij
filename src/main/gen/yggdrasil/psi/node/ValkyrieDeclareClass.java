@@ -2,11 +2,13 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 import com.intellij.codeInsight.lookup.LookupElement;
+import valkyrie.ide.highlight.NodeHighlighter;
 
-public interface ValkyrieClass extends PsiElement {
+public interface ValkyrieDeclareClass extends PsiElement {
 
     @NotNull
     ValkyrieAnnotations getAnnotations();
@@ -19,6 +21,8 @@ public interface ValkyrieClass extends PsiElement {
 
     @Nullable
     ValkyrieIdentifier getIdentifier();
+
+    void highlight(@NotNull NodeHighlighter visitor);
 
     void createLookup(@NotNull List<LookupElement> completions);
 

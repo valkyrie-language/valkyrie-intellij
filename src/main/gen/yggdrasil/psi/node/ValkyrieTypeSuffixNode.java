@@ -2,22 +2,25 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
 
-public class ValkyrieExpressionChoiceNode extends ValkyrieExpressionNode implements ValkyrieExpressionChoice {
+import valkyrie.psi.ValkyrieElement;
 
-    public ValkyrieExpressionChoiceNode(@NotNull ASTNode node) {
+public class ValkyrieTypeSuffixNode extends ValkyrieElement implements ValkyrieTypeSuffix {
+
+    public ValkyrieTypeSuffixNode(@NotNull ASTNode node) {
         super(node);
     }
 
-    @Override
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitExpressionChoice(this);
+        visitor.visitTypeSuffix(this);
     }
 
     @Override
@@ -27,9 +30,9 @@ public class ValkyrieExpressionChoiceNode extends ValkyrieExpressionNode impleme
     }
 
     @Override
-    @NotNull
-    public List<ValkyrieExpression> getExpressionList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpression.class);
+    @Nullable
+    public ValkyrieRange getRange() {
+        return findChildByClass(ValkyrieRange.class);
     }
 
 }

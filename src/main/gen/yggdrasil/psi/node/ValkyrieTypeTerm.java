@@ -2,15 +2,19 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieExpression extends PsiElement {
+public interface ValkyrieTypeTerm extends PsiElement {
 
     @NotNull
-    List<ValkyrieInfix> getInfixList();
+    ValkyrieExpression getExpression();
 
     @NotNull
-    List<ValkyrieTerm> getTermList();
+    List<ValkyrieTypePrefix> getTypePrefixList();
+
+    @NotNull
+    List<ValkyrieTypeSuffix> getTypeSuffixList();
 
 }

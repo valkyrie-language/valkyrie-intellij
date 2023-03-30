@@ -2,7 +2,8 @@ package valkyrie.language.file
 
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import yggdrasil.psi.node.*
+import yggdrasil.psi.node.ValkyrieDeclareClassNode
+import yggdrasil.psi.node.ValkyrieIdentifierNode
 
 class YggdrasilFileCache(val root: YggdrasilFileNode) {
     private fun getCache(): MutableMap<String, PsiNameIdentifierOwner> {
@@ -10,19 +11,19 @@ class YggdrasilFileCache(val root: YggdrasilFileNode) {
 
         for (child in root.children) {
             when (child) {
-                is ValkyrieClassNode -> {
+                is ValkyrieDeclareClassNode -> {
                     cache[child.name] = child
                 }
 
-                is ValkyrieDefineUnionNode -> {
-                    cache[child.name] = child
-                }
-
-                is ValkyrieGroupNode -> {
-                    for (item in child.tokenList) {
-                        cache[item.name] = item
-                    }
-                }
+//                is ValkyrieDefineUnionNode -> {
+//                    cache[child.name] = child
+//                }
+//
+//                is ValkyrieGroupNode -> {
+//                    for (item in child.tokenList) {
+//                        cache[item.name] = item
+//                    }
+//                }
             }
         }
         return cache
@@ -32,19 +33,19 @@ class YggdrasilFileCache(val root: YggdrasilFileNode) {
         val completions = mutableListOf<LookupElement>()
         for (child in root.children) {
             when (child) {
-                is ValkyrieClassNode -> {
+                is ValkyrieDeclareClassNode -> {
                     child.createLookup(completions)
                 }
 
-                is ValkyrieDefineUnion -> {
-                    child.createLookup(completions)
-                }
-
-                is ValkyrieGroupNode -> {
-                    for (item in child.tokenList) {
-                        item.createLookup(completions)
-                    }
-                }
+//                is ValkyrieDefineUnion -> {
+//                    child.createLookup(completions)
+//                }
+//
+//                is ValkyrieGroupNode -> {
+//                    for (item in child.tokenList) {
+//                        item.createLookup(completions)
+//                    }
+//                }
             }
         }
         return completions

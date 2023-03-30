@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieGrammarBody extends PsiElement {
+public interface ValkyrieTypeSuffix extends PsiElement {
 
-    @NotNull
-    List<ValkyrieGrammarTerm> getGrammarTermList();
+    @Nullable
+    ValkyrieRange getRange();
 
 }

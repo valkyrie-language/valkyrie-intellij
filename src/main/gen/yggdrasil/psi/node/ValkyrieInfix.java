@@ -5,9 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieExpressionSoft extends ValkyrieExpression {
-
-    @NotNull
-    List<ValkyrieExpression> getExpressionList();
+public interface ValkyrieInfix extends PsiElement {
 
 }

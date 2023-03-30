@@ -76,12 +76,13 @@ root ::= statements*
 private statements ::=
     declare-namespace
   | using
-  | declare-enumerate
   | declare-flags
-  | class
-  | define-union
-  | group
-  | define-function
+  | declare-enumerate
+  | declare-unite
+  | declare-class
+  | declare-union
+  | declare-interface
+  | declare-function
   | SEMICOLON
 // === annotation statement ===
 
@@ -127,31 +128,42 @@ enumerate-item ::=
     declare-semantic
   | SEMICOLON
   | COMMA
-declare-semantic ::= attribute* identifier-free;
+declare-semantic ::= attribute* identifier-free (EQUAL expression)?;
 // === class statement ===
-class  ::= annotations KW_CLASS identifier class-cast? OP_REMARK? class-body {
+declare-class ::= annotations KW_CLASS identifier class-cast? OP_REMARK? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinClass"
-    methods=[createLookup]
+    methods=[highlight createLookup]
 }
 class-cast ::= TO identifier;
 class-body ::= BRACE_L OP_OR? expression? BRACE_R;
 // === union statement ===
-define-union ::= annotations KW_UNION identifier OP_REMARK? union-body {
+declare-union ::= annotations KW_UNITE identifier OP_REMARK? union-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinUnion"
-    methods=[createLookup]
+    methods=[highlight createLookup]
 }
 union-body ::= BRACE_L union-variant* BRACE_R;
-union-variant ::= OP_OR expression-hard tag-branch? {
+union-variant ::= OP_OR expression tag-branch? {
+    mixin = "valkyrie.psi.mixin.MixinUnionItem"
+}
+tag-branch ::= HASH identifier-free;
+// === union statement ===
+declare-unite ::= annotations KW_UNITE identifier OP_REMARK? union-body {
+    pin = 2
+    mixin = "valkyrie.psi.mixin.MixinUnite"
+    methods=[highlight createLookup]
+}
+union-body ::= BRACE_L union-variant* BRACE_R;
+union-variant ::= OP_OR expression tag-branch? {
     mixin = "valkyrie.psi.mixin.MixinUnionItem"
 }
 tag-branch ::= HASH identifier-free;
 // === group statement ===
-group  ::= annotations KW_GROUP identifier-free? group-body {
+declare-interface ::= annotations KW_INTERFACE identifier-free? group-body {
     pin = 2
-    mixin = "valkyrie.psi.mixin.MixinGroup"
-    methods=[getTokenList]
+    mixin = "valkyrie.psi.mixin.MixinInterface"
+    methods=[highlight createLookup]
 }
 group-body ::= BRACE_L group-term* BRACE_R;
 group-term ::= group-item | SEMICOLON;
@@ -160,7 +172,7 @@ group-item ::= attribute* identifier* COLON atomic {
     methods=[highlight createLookup]
 }
 /// === function definition ===
-define-function ::= annotations KW_MACRO identifier-free function-parameter function-block {
+declare-function ::= annotations KW_MACRO identifier-free function-parameter function-block {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinDefineFunction"
     methods=[createLookup]
@@ -175,27 +187,25 @@ function-call ::= AT identifier-free tuple? {
     pin = 2
 }
 // === expression statement ===
-expression ::= expression-choice {
+expression ::= term (infix term)* {
 
 };
-expression-choice ::= expression-hard (OP_OR expression-hard)* {
-    extends = expression
-}
-expression-hard ::= expression-soft (OP_CONCAT expression-soft)* {
-    extends = expression
-}
-expression-soft ::= expression-tag expression-tag* {
-    extends = expression
-}
-expression-tag ::= (identifier-free BIND)? term {
-    extends = expression
-    mixin = "valkyrie.psi.mixin.MixinExpressionTag"
-}
 term ::= prefix* atomic suffix* {
-    extends = expression
+
 }
 prefix ::= OP_NOT | OP_AND | OP_REMARK;
+infix ::= OP_CONCAT;
 suffix ::= OP_OPTIONAL | OP_MANY | OP_MANY1 | range;
+// === expression statement ===
+type-expression ::= type-term (type-infix type-term)* {
+
+};
+type-term ::= type-prefix* atomic type-suffix* {
+
+}
+type-prefix ::= OP_NOT | OP_AND | OP_REMARK;
+type-infix ::= OP_CONCAT;
+type-suffix ::= OP_OPTIONAL | OP_MANY | OP_MANY1 | range;
 // === atomic statement ===
 atomic ::= expression-group | identifier-free | escape | string | regex | function-call | number {
     extends = expression

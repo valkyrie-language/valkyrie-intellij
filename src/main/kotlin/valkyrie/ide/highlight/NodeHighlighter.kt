@@ -28,9 +28,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         o.highlight(this)
     }
 
-    override fun visitClass(o: ValkyrieClass) {
-        o.identifier?.let { highlight(it, HighlightColor.SYM_CLASS) }
-    }
 
     override fun visitDeclareEnumerate(o: ValkyrieDeclareEnumerate) {
         o.highlight(this)
@@ -40,20 +37,10 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         o.highlight(this)
     }
 
-    override fun visitDefineUnion(o: ValkyrieDefineUnion) {
-        o.identifier?.let { highlight(it, HighlightColor.SYM_CLASS) }
-    }
 
-    override fun visitDefineFunction(o: ValkyrieDefineFunction) {
-        o.identifierFree?.let { highlight(it, HighlightColor.SYM_FUNCTION_FREE) }
-    }
 
     override fun visitGroupItem(o: ValkyrieGroupItem) {
         o.highlight(this)
-    }
-
-    override fun visitExpressionTag(o: ValkyrieExpressionTag) {
-        o.identifierFree?.let { highlight(it, HighlightColor.SYM_CLASS) }
     }
 
     override fun visitTagBranch(o: ValkyrieTagBranch) {

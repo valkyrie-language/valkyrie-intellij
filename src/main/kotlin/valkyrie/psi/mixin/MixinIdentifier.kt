@@ -7,8 +7,8 @@ import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.ide.reference.declaration.ValkyrieReference
 import valkyrie.language.file.YggdrasilFileNode
 import valkyrie.psi.ValkyrieElement
-import yggdrasil.psi.node.ValkyrieClassNode
-import yggdrasil.psi.node.ValkyrieDefineUnion
+import yggdrasil.psi.node.ValkyrieDeclareClass
+import yggdrasil.psi.node.ValkyrieDeclareVariants
 import yggdrasil.psi.node.ValkyrieIdentifier
 import yggdrasil.psi.node.ValkyrieIdentifierNode
 
@@ -26,10 +26,10 @@ abstract class MixinIdentifier(node: ASTNode) : ValkyrieElement(node),
 
 
     override fun getReference(): ValkyrieReference? {
-        if (this.parent is ValkyrieClassNode) {
+        if (this.parent is ValkyrieDeclareClass) {
             return null
         }
-        if (this.parent is ValkyrieDefineUnion) {
+        if (this.parent is ValkyrieDeclareVariants) {
             return null
         }
         return ValkyrieReference(this as ValkyrieIdentifierNode)

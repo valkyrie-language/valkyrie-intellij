@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieValue extends PsiElement {
 
     @Nullable
-    ValkyrieExpression getExpression();
-
-    @Nullable
     ValkyrieTuple getTuple();
 
 }

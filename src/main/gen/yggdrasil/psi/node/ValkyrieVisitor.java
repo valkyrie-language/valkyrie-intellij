@@ -27,15 +27,15 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitClass(@NotNull ValkyrieClass o) {
-        visitPsiElement(o);
-    }
-
     public void visitClassBody(@NotNull ValkyrieClassBody o) {
         visitPsiElement(o);
     }
 
     public void visitClassCast(@NotNull ValkyrieClassCast o) {
+        visitPsiElement(o);
+    }
+
+    public void visitDeclareClass(@NotNull ValkyrieDeclareClass o) {
         visitPsiElement(o);
     }
 
@@ -47,6 +47,14 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitDeclareFunction(@NotNull ValkyrieDeclareFunction o) {
+        visitPsiElement(o);
+    }
+
+    public void visitDeclareInterface(@NotNull ValkyrieDeclareInterface o) {
+        visitPsiElement(o);
+    }
+
     public void visitDeclareNamespace(@NotNull ValkyrieDeclareNamespace o) {
         visitPsiElement(o);
     }
@@ -55,11 +63,11 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitDefineFunction(@NotNull ValkyrieDefineFunction o) {
+    public void visitDeclareUnion(@NotNull ValkyrieDeclareUnion o) {
         visitPsiElement(o);
     }
 
-    public void visitDefineUnion(@NotNull ValkyrieDefineUnion o) {
+    public void visitDeclareUnite(@NotNull ValkyrieDeclareUnite o) {
         visitPsiElement(o);
     }
 
@@ -79,23 +87,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitExpressionChoice(@NotNull ValkyrieExpressionChoice o) {
-        visitExpression(o);
-    }
-
     public void visitExpressionGroup(@NotNull ValkyrieExpressionGroup o) {
-        visitExpression(o);
-    }
-
-    public void visitExpressionHard(@NotNull ValkyrieExpressionHard o) {
-        visitExpression(o);
-    }
-
-    public void visitExpressionSoft(@NotNull ValkyrieExpressionSoft o) {
-        visitExpression(o);
-    }
-
-    public void visitExpressionTag(@NotNull ValkyrieExpressionTag o) {
         visitExpression(o);
     }
 
@@ -108,10 +100,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitFunctionParameter(@NotNull ValkyrieFunctionParameter o) {
-        visitPsiElement(o);
-    }
-
-    public void visitGroup(@NotNull ValkyrieGroup o) {
         visitPsiElement(o);
     }
 
@@ -133,6 +121,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
 
     public void visitIdentifierFree(@NotNull ValkyrieIdentifierFree o) {
         visitIdentifier(o);
+    }
+
+    public void visitInfix(@NotNull ValkyrieInfix o) {
+        visitPsiElement(o);
     }
 
     public void visitKey(@NotNull ValkyrieKey o) {
@@ -196,10 +188,30 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitTerm(@NotNull ValkyrieTerm o) {
-        visitExpression(o);
+        visitPsiElement(o);
     }
 
     public void visitTuple(@NotNull ValkyrieTuple o) {
+        visitPsiElement(o);
+    }
+
+    public void visitTypeExpression(@NotNull ValkyrieTypeExpression o) {
+        visitPsiElement(o);
+    }
+
+    public void visitTypeInfix(@NotNull ValkyrieTypeInfix o) {
+        visitPsiElement(o);
+    }
+
+    public void visitTypePrefix(@NotNull ValkyrieTypePrefix o) {
+        visitPsiElement(o);
+    }
+
+    public void visitTypeSuffix(@NotNull ValkyrieTypeSuffix o) {
+        visitPsiElement(o);
+    }
+
+    public void visitTypeTerm(@NotNull ValkyrieTypeTerm o) {
         visitPsiElement(o);
     }
 
