@@ -2,22 +2,21 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static valkyrie.psi.ValkyrieTypes.*;
-import valkyrie.psi.ValkyrieElement;
+import valkyrie.psi.mixin.MixinField;
 
-public class ValkyrieDeclareSemanticNode extends ValkyrieElement implements ValkyrieDeclareSemantic {
+public class ValkyrieDeclareFieldNode extends MixinField implements ValkyrieDeclareField {
 
-    public ValkyrieDeclareSemanticNode(@NotNull ASTNode node) {
+    public ValkyrieDeclareFieldNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitDeclareSemantic(this);
+        visitor.visitDeclareField(this);
     }
 
     @Override
@@ -40,8 +39,14 @@ public class ValkyrieDeclareSemanticNode extends ValkyrieElement implements Valk
 
     @Override
     @NotNull
-    public ValkyrieIdentifierFree getIdentifierFree() {
-        return findNotNullChildByClass(ValkyrieIdentifierFree.class);
+    public List<ValkyrieModifier> getModifierList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieModifier.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieTypeHint getTypeHint() {
+        return findChildByClass(ValkyrieTypeHint.class);
     }
 
 }

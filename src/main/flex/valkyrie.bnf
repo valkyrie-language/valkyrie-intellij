@@ -111,7 +111,30 @@ using-term ::=
   | SEMICOLON
   | COMMA
 using-alias ::= key KW_AS identifier-free;
-
+// === class statement ===
+declare-class ::= annotations KW_CLASS identifier-free class-body {
+    pin = 2
+    mixin = "valkyrie.psi.mixin.MixinClass"
+    methods=[highlight createLookup]
+}
+class-body ::= BRACE_L class-item* BRACE_R;
+class-item ::=
+    declare-field
+  | SEMICOLON
+  | COMMA
+// === class field statement ===
+declare-field ::= attribute* modifier+ type-hint? default-value? {
+    mixin = "valkyrie.psi.mixin.MixinField"
+    methods=[highlight]
+}
+type-hint     ::= COLON type-expression;
+default-value ::= EQUAL expression;
+// === union statement ===
+declare-union ::= annotations KW_UNITE identifier OP_REMARK? class-body {
+    pin = 2
+    mixin = "valkyrie.psi.mixin.MixinUnion"
+    methods=[highlight createLookup]
+}
 // === enumerate statement ===
 declare-flags ::= annotations KW_FLAGS identifier-free enumerate-body {
     pin = 2
@@ -128,26 +151,9 @@ enumerate-item ::=
     declare-semantic
   | SEMICOLON
   | COMMA
-declare-semantic ::= attribute* identifier-free (EQUAL expression)?;
-// === class statement ===
-declare-class ::= annotations KW_CLASS identifier class-cast? OP_REMARK? class-body {
+declare-semantic ::= attribute* identifier-free default-value? {
     pin = 2
-    mixin = "valkyrie.psi.mixin.MixinClass"
-    methods=[highlight createLookup]
 }
-class-cast ::= TO identifier;
-class-body ::= BRACE_L OP_OR? expression? BRACE_R;
-// === union statement ===
-declare-union ::= annotations KW_UNITE identifier OP_REMARK? union-body {
-    pin = 2
-    mixin = "valkyrie.psi.mixin.MixinUnion"
-    methods=[highlight createLookup]
-}
-union-body ::= BRACE_L union-variant* BRACE_R;
-union-variant ::= OP_OR expression tag-branch? {
-    mixin = "valkyrie.psi.mixin.MixinUnionItem"
-}
-tag-branch ::= HASH identifier-free;
 // === union statement ===
 declare-unite ::= annotations KW_UNITE identifier OP_REMARK? union-body {
     pin = 2
@@ -172,10 +178,10 @@ group-item ::= attribute* identifier* COLON atomic {
     methods=[highlight createLookup]
 }
 /// === function definition ===
-declare-function ::= annotations KW_MACRO identifier-free function-parameter function-block {
+declare-function ::= annotations KW_FUNCTION identifier-free function-parameter function-block {
     pin = 2
-    mixin = "valkyrie.psi.mixin.MixinDefineFunction"
-    methods=[createLookup]
+    mixin = "valkyrie.psi.mixin.MixinFunction"
+    methods=[highlight createLookup]
 }
 function-parameter ::= PARENTHESIS_L (parameter (COMMA parameter)* COMMA?)? PARENTHESIS_R;
 parameter ::= identifier (COLON expression)? {
@@ -259,10 +265,10 @@ namepath-free ::= identifier ((DOT) identifier)* {
     extends = namepath
 }
 /* Identifier */
-identifier            ::= SYMBOL | SYMBOW_RAW {
+identifier           ::= SYMBOL | SYMBOW_RAW {
     mixin = "valkyrie.psi.mixin.MixinIdentifier"
     methods=[highlight]
 }
-identifier-free     ::= SYMBOL | SYMBOW_RAW | KW_MACRO | KW_CLASS | KW_UNION | KW_GROUP | KW_GRAMMAR | KW_IMPORT | KW_AS | KW_CLIMB {
+identifier-free      ::= SYMBOL | SYMBOW_RAW | KW_MACRO | KW_CLASS | KW_UNION | KW_GROUP | KW_GRAMMAR | KW_IMPORT | KW_AS | KW_CLIMB {
     extends = identifier
 }

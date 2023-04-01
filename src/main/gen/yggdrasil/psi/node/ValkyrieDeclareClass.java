@@ -2,7 +2,6 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 import com.intellij.codeInsight.lookup.LookupElement;
@@ -17,10 +16,7 @@ public interface ValkyrieDeclareClass extends PsiElement {
     ValkyrieClassBody getClassBody();
 
     @Nullable
-    ValkyrieClassCast getClassCast();
-
-    @Nullable
-    ValkyrieIdentifier getIdentifier();
+    ValkyrieIdentifierFree getIdentifierFree();
 
     void highlight(@NotNull NodeHighlighter visitor);
 

@@ -31,7 +31,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitClassCast(@NotNull ValkyrieClassCast o) {
+    public void visitClassItem(@NotNull ValkyrieClassItem o) {
         visitPsiElement(o);
     }
 
@@ -40,6 +40,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitDeclareEnumerate(@NotNull ValkyrieDeclareEnumerate o) {
+        visitPsiElement(o);
+    }
+
+    public void visitDeclareField(@NotNull ValkyrieDeclareField o) {
         visitPsiElement(o);
     }
 
@@ -68,6 +72,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitDeclareUnite(@NotNull ValkyrieDeclareUnite o) {
+        visitPsiElement(o);
+    }
+
+    public void visitDefaultValue(@NotNull ValkyrieDefaultValue o) {
         visitPsiElement(o);
     }
 
@@ -196,6 +204,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitTypeExpression(@NotNull ValkyrieTypeExpression o) {
+        visitPsiElement(o);
+    }
+
+    public void visitTypeHint(@NotNull ValkyrieTypeHint o) {
         visitPsiElement(o);
     }
 

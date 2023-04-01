@@ -9,12 +9,13 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
+import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.psi.ValkyrieElement
 import yggdrasil.psi.node.ValkyrieDeclareFunction
 import yggdrasil.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
-abstract class MixinDefineFunction(node: ASTNode) : ValkyrieElement(node),
+abstract class MixinFunction(node: ASTNode) : ValkyrieElement(node),
     NavigatablePsiElement,
     PsiNameIdentifierOwner,
     ValkyrieDeclareFunction {
@@ -55,5 +56,9 @@ abstract class MixinDefineFunction(node: ASTNode) : ValkyrieElement(node),
                     .withTailText(" atomic", true)
             )
         }
+    }
+
+    override fun highlight(highlighter: NodeHighlighter) {
+
     }
 }

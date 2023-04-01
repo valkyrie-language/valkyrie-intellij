@@ -11,7 +11,7 @@ public interface ValkyrieDeclareSemantic extends PsiElement {
     List<ValkyrieAttribute> getAttributeList();
 
     @Nullable
-    ValkyrieExpression getExpression();
+    ValkyrieDefaultValue getDefaultValue();
 
     @NotNull
     ValkyrieIdentifierFree getIdentifierFree();

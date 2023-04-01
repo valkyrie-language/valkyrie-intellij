@@ -2,15 +2,12 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-
 import static valkyrie.psi.ValkyrieTypes.*;
-
 import valkyrie.psi.mixin.MixinClass;
 import com.intellij.codeInsight.lookup.LookupElement;
 import valkyrie.ide.highlight.NodeHighlighter;
@@ -45,14 +42,8 @@ public class ValkyrieDeclareClassNode extends MixinClass implements ValkyrieDecl
 
     @Override
     @Nullable
-    public ValkyrieClassCast getClassCast() {
-        return findChildByClass(ValkyrieClassCast.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieIdentifier getIdentifier() {
-        return findChildByClass(ValkyrieIdentifier.class);
+    public ValkyrieIdentifierFree getIdentifierFree() {
+        return findChildByClass(ValkyrieIdentifierFree.class);
     }
 
 }

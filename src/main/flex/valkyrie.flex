@@ -43,7 +43,7 @@ KW_UNITE     = unite|inductive
 KW_ENUMERATE = enumerate|enums?
 KW_FLAGS     = flags
 KW_INTERFACE = interface|trait
-KW_MACRO     = macro|function|func|fun|fn|def
+KW_FUNCTION  = macro|micro|function|func|fun|fn|def
 
 %%
 
@@ -106,7 +106,7 @@ KW_MACRO     = macro|function|func|fun|fn|def
     {KW_CLASS} { return KW_CLASS; }
     {KW_INTERFACE} { return KW_INTERFACE; }
 
-    {KW_MACRO} { return KW_MACRO; }
+    {KW_FUNCTION} { return KW_FUNCTION; }
 
     {ESCAPED} { return ESCAPED; }
     {SYMBOW_RAW} { return SYMBOW_RAW; }

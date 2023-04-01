@@ -13,21 +13,25 @@ import yggdrasil.psi.node.*
 class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
 
-
     override fun visitUsing(o: ValkyrieUsing) {
         o.identifierFree?.let { highlight(it, HighlightColor.SYM_MACRO) }
     }
-
-
-    override fun visitModifier(o: ValkyrieModifier) {
-        highlight(o.identifier, HighlightColor.KEYWORD)
-    }
-
 
     override fun visitAttribute(o: ValkyrieAttribute) {
         o.highlight(this)
     }
 
+    override fun visitDeclareClass(o: ValkyrieDeclareClass) {
+        o.highlight(this)
+    }
+
+    override fun visitDeclareField(o: ValkyrieDeclareField) {
+        o.highlight(this)
+    }
+
+    override fun visitDeclareUnion(o: ValkyrieDeclareUnion) {
+        o.highlight(this)
+    }
 
     override fun visitDeclareEnumerate(o: ValkyrieDeclareEnumerate) {
         o.highlight(this)
@@ -37,7 +41,9 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         o.highlight(this)
     }
 
-
+    override fun visitDeclareUnite(o: ValkyrieDeclareUnite) {
+        o.highlight(this)
+    }
 
     override fun visitGroupItem(o: ValkyrieGroupItem) {
         o.highlight(this)

@@ -27,9 +27,9 @@ public class ValkyrieClassBodyNode extends ValkyrieElement implements ValkyrieCl
     }
 
     @Override
-    @Nullable
-    public ValkyrieExpression getExpression() {
-        return findChildByClass(ValkyrieExpression.class);
+    @NotNull
+    public List<ValkyrieClassItem> getClassItemList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieClassItem.class);
     }
 
 }

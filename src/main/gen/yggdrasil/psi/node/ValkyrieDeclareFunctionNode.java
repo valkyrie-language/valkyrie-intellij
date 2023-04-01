@@ -2,19 +2,18 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-
 import static valkyrie.psi.ValkyrieTypes.*;
 
-import valkyrie.psi.mixin.MixinDefineFunction;
+import valkyrie.psi.mixin.MixinFunction;
 import com.intellij.codeInsight.lookup.LookupElement;
+import valkyrie.ide.highlight.NodeHighlighter;
 
-public class ValkyrieDeclareFunctionNode extends MixinDefineFunction implements ValkyrieDeclareFunction {
+public class ValkyrieDeclareFunctionNode extends MixinFunction implements ValkyrieDeclareFunction {
 
     public ValkyrieDeclareFunctionNode(@NotNull ASTNode node) {
         super(node);
