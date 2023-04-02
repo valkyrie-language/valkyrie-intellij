@@ -90,8 +90,8 @@ annotations ::= attribute* modifier*
 modifier    ::= identifier {
     mixin = "valkyrie.psi.mixin.MixinModifier"
 }
-attribute   ::= (AT|HASH) identifier tuple? {
-	pin = 2
+attribute   ::= HASH namepath (DOT identifier-free)* tuple? {
+	pin = 1
     mixin = "valkyrie.psi.mixin.MixinAttribute"
     methods=[highlight]
 }
@@ -178,19 +178,27 @@ group-item ::= attribute* identifier* COLON atomic {
     methods=[highlight createLookup]
 }
 /// === function definition ===
-declare-function ::= annotations KW_FUNCTION identifier-free function-parameter function-block {
+declare-function ::= annotations KW_FUNCTION identifier-free parameter-body return-type? effect-type? function-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinFunction"
     methods=[highlight createLookup]
 }
-function-parameter ::= PARENTHESIS_L (parameter (COMMA parameter)* COMMA?)? PARENTHESIS_R;
-parameter ::= identifier (COLON expression)? {
+parameter-body ::= PARENTHESIS_L (parameter-item (COMMA parameter-item)* COMMA?)? PARENTHESIS_R;
+parameter-item ::= identifier type-hint? default-value? {
 
 }
-function-block ::= BRACE_L OP_OR? expression? BRACE_R;
+function-body ::= BRACE_L function-item* BRACE_R;
+function-item ::=
+    expression
+  | SEMICOLON;
+return-type  ::= (OP_TO|COLON) type-expression;
+effect-type  ::= SLASH type-expression;
 // === function statement ===
-function-call ::= AT identifier-free tuple? {
-    pin = 2
+function-call ::= namepath tuple? {
+    pin = 1
+}
+macro-call    ::= AT namepath (DOT identifier-free)* {
+
 }
 // === expression statement ===
 expression ::= term (infix term)* {
@@ -199,64 +207,64 @@ expression ::= term (infix term)* {
 term ::= prefix* atomic suffix* {
 
 }
-prefix ::= OP_NOT | OP_AND | OP_REMARK;
-infix ::= OP_CONCAT;
-suffix ::= OP_OPTIONAL | OP_MANY | OP_MANY1 | range;
+prefix ::= OP_BANG;
+infix ::= OP_AND;
+suffix ::= OP_BANG | OP_AND_THEN;
 // === expression statement ===
 type-expression ::= type-term (type-infix type-term)* {
 
 };
-type-term ::= type-prefix* atomic type-suffix* {
+type-term ::= type-prefix* type-atomic type-suffix* {
 
 }
-type-prefix ::= OP_NOT | OP_AND | OP_REMARK;
+type-prefix ::= OP_NOT;
 type-infix ::= OP_CONCAT;
-type-suffix ::= OP_OPTIONAL | OP_MANY | OP_MANY1 | range;
+type-suffix ::= OP_OPTIONAL;
+type-atomic ::= identifier-free;
 // === atomic statement ===
-atomic ::= expression-group | identifier-free | escape | string | regex | function-call | number {
-    extends = expression
-}
-expression-group ::= PARENTHESIS_L OP_OR? expression PARENTHESIS_R {
-    extends = expression
-}
+atomic ::=
+    PARENTHESIS_L expression PARENTHESIS_R
+  | macro-call
+  | function-call
+  | namepath
+  | string
+  | number
+  | ordinal-range
 // === atomic statement ===
-escape ::= ESCAPED category? {
-
-}
-category ::= BRACE_L (key COLON)? identifier-free BRACE_R;
-// === atomic statement ===
-range    ::= BRACE_L COMMA? BRACE_R
-           | BRACE_L range-lower COMMA? BRACE_R
-           | BRACE_L COMMA range-upper BRACE_R
-           | BRACE_L range-upper COMMA range-upper BRACE_R
-range-upper ::= INTEGER;
-range-lower ::= INTEGER;
+ordinal-range ::= BRACE_L (range-item (COMMA range-item)? COMMA?) BRACE_R;
+range-item ::= range-index
+             | range-lower COLON range-upper?
+             | range-lower COLON COLON range-step?
+             | range-lower COLON range-upper COLON range-step?
+             | COLON range-upper?
+             | COLON COLON range-step?
+             | COLON range-upper COLON range-step?
+range-lower ::= expression;
+range-upper ::= expression;
+range-step  ::= expression;
+range-index ::= expression;
 
 string ::= TEXT_SINGLE | TEXT_DOUBLE {
     mixin = "valkyrie.psi.mixin.MixinString"
 }
-regex ::= REGULAR_EXPRESSION | REGULAR_RANGE {
-    mixin = "valkyrie.psi.mixin.MixinRegex"
-}
 // === atomic statement ===
 key      ::= identifier-free;
-value    ::= tuple | expression-tag;
+value    ::= tuple | string;
 pair     ::= key COLON value {
 //    mixin = "yggdrasil.psi.mixin.MixinTuple"
 }
-argument ::= (identifier-free COLON)? value {
-//    mixin = "yggdrasil.psi.mixin.MixinTuple"
+tuple    ::= PARENTHESIS_L PARENTHESIS_R
+  | PARENTHESIS_L argument COMMA PARENTHESIS_R
+  | PARENTHESIS_L (argument (COMMA argument)+ COMMA?)? PARENTHESIS_R
+{
+  //    mixin = "yggdrasil.psi.mixin.MixinTuple"
 }
-tuple    ::= PARENTHESIS_L (argument (COMMA argument)* COMMA?)?  PARENTHESIS_R
-//  | PARENTHESIS_L argument COMMA PARENTHESIS_R
-//  | PARENTHESIS_L PARENTHESIS_R
+argument ::= (identifier-free COLON)? value {
 
+}
 number ::= INTEGER {
 //    mixin = "yggdrasil.psi.mixin.MixinNumber"
 }
-
-
-
 /* Literals */
 namepath      ::= identifier ((DOT) identifier)* {
 

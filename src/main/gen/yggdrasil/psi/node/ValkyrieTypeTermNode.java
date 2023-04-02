@@ -28,8 +28,8 @@ public class ValkyrieTypeTermNode extends ValkyrieElement implements ValkyrieTyp
 
     @Override
     @NotNull
-    public ValkyrieExpression getExpression() {
-        return findNotNullChildByClass(ValkyrieExpression.class);
+    public ValkyrieTypeAtomic getTypeAtomic() {
+        return findNotNullChildByClass(ValkyrieTypeAtomic.class);
     }
 
     @Override

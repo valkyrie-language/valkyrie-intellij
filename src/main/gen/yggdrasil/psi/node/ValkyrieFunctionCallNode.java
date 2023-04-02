@@ -28,8 +28,8 @@ public class ValkyrieFunctionCallNode extends ValkyrieElement implements Valkyri
 
     @Override
     @NotNull
-    public ValkyrieIdentifierFree getIdentifierFree() {
-        return findNotNullChildByClass(ValkyrieIdentifierFree.class);
+    public ValkyrieNamepath getNamepath() {
+        return findNotNullChildByClass(ValkyrieNamepath.class);
     }
 
     @Override

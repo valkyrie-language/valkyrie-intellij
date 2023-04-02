@@ -12,7 +12,6 @@ public interface ValkyrieTypes {
     IElementType ARGUMENT = new ValkyrieElementType("ARGUMENT");
     IElementType ATOMIC = new ValkyrieElementType("ATOMIC");
     IElementType ATTRIBUTE = new ValkyrieElementType("ATTRIBUTE");
-    IElementType CATEGORY = new ValkyrieElementType("CATEGORY");
     IElementType CLASS_BODY = new ValkyrieElementType("CLASS_BODY");
     IElementType CLASS_ITEM = new ValkyrieElementType("CLASS_ITEM");
     IElementType DECLARE_CLASS = new ValkyrieElementType("DECLARE_CLASS");
@@ -26,14 +25,13 @@ public interface ValkyrieTypes {
     IElementType DECLARE_UNION = new ValkyrieElementType("DECLARE_UNION");
     IElementType DECLARE_UNITE = new ValkyrieElementType("DECLARE_UNITE");
     IElementType DEFAULT_VALUE = new ValkyrieElementType("DEFAULT_VALUE");
+    IElementType EFFECT_TYPE = new ValkyrieElementType("EFFECT_TYPE");
     IElementType ENUMERATE_BODY = new ValkyrieElementType("ENUMERATE_BODY");
     IElementType ENUMERATE_ITEM = new ValkyrieElementType("ENUMERATE_ITEM");
-    IElementType ESCAPE = new ValkyrieElementType("ESCAPE");
     IElementType EXPRESSION = new ValkyrieElementType("EXPRESSION");
-    IElementType EXPRESSION_GROUP = new ValkyrieElementType("EXPRESSION_GROUP");
-    IElementType FUNCTION_BLOCK = new ValkyrieElementType("FUNCTION_BLOCK");
+    IElementType FUNCTION_BODY = new ValkyrieElementType("FUNCTION_BODY");
     IElementType FUNCTION_CALL = new ValkyrieElementType("FUNCTION_CALL");
-    IElementType FUNCTION_PARAMETER = new ValkyrieElementType("FUNCTION_PARAMETER");
+    IElementType FUNCTION_ITEM = new ValkyrieElementType("FUNCTION_ITEM");
     IElementType GROUP_BODY = new ValkyrieElementType("GROUP_BODY");
     IElementType GROUP_ITEM = new ValkyrieElementType("GROUP_ITEM");
     IElementType GROUP_TERM = new ValkyrieElementType("GROUP_TERM");
@@ -41,22 +39,28 @@ public interface ValkyrieTypes {
     IElementType IDENTIFIER_FREE = new ValkyrieElementType("IDENTIFIER_FREE");
     IElementType INFIX = new ValkyrieElementType("INFIX");
     IElementType KEY = new ValkyrieElementType("KEY");
+    IElementType MACRO_CALL = new ValkyrieElementType("MACRO_CALL");
     IElementType MODIFIER = new ValkyrieElementType("MODIFIER");
     IElementType NAMEPATH = new ValkyrieElementType("NAMEPATH");
     IElementType NAMEPATH_FREE = new ValkyrieElementType("NAMEPATH_FREE");
     IElementType NUMBER = new ValkyrieElementType("NUMBER");
+    IElementType ORDINAL_RANGE = new ValkyrieElementType("ORDINAL_RANGE");
     IElementType PAIR = new ValkyrieElementType("PAIR");
-    IElementType PARAMETER = new ValkyrieElementType("PARAMETER");
+    IElementType PARAMETER_BODY = new ValkyrieElementType("PARAMETER_BODY");
+    IElementType PARAMETER_ITEM = new ValkyrieElementType("PARAMETER_ITEM");
     IElementType PREFIX = new ValkyrieElementType("PREFIX");
-    IElementType RANGE = new ValkyrieElementType("RANGE");
+    IElementType RANGE_INDEX = new ValkyrieElementType("RANGE_INDEX");
+    IElementType RANGE_ITEM = new ValkyrieElementType("RANGE_ITEM");
     IElementType RANGE_LOWER = new ValkyrieElementType("RANGE_LOWER");
+    IElementType RANGE_STEP = new ValkyrieElementType("RANGE_STEP");
     IElementType RANGE_UPPER = new ValkyrieElementType("RANGE_UPPER");
-    IElementType REGEX = new ValkyrieElementType("REGEX");
+    IElementType RETURN_TYPE = new ValkyrieElementType("RETURN_TYPE");
     IElementType STRING = new ValkyrieElementType("STRING");
     IElementType SUFFIX = new ValkyrieElementType("SUFFIX");
     IElementType TAG_BRANCH = new ValkyrieElementType("TAG_BRANCH");
     IElementType TERM = new ValkyrieElementType("TERM");
     IElementType TUPLE = new ValkyrieElementType("TUPLE");
+    IElementType TYPE_ATOMIC = new ValkyrieElementType("TYPE_ATOMIC");
     IElementType TYPE_EXPRESSION = new ValkyrieElementType("TYPE_EXPRESSION");
     IElementType TYPE_HINT = new ValkyrieElementType("TYPE_HINT");
     IElementType TYPE_INFIX = new ValkyrieElementType("TYPE_INFIX");
@@ -87,7 +91,6 @@ public interface ValkyrieTypes {
     IElementType DOT = new ValkyrieTokenType(".");
     IElementType EQUAL = new ValkyrieTokenType("EQUAL");
     IElementType ESCAPED = new ValkyrieTokenType("\\escaped");
-    IElementType EXPRESSION_TAG = new ValkyrieTokenType("expression-tag");
     IElementType HASH = new ValkyrieTokenType("HASH");
     IElementType HYPHEN = new ValkyrieTokenType("-");
     IElementType INTEGER = new ValkyrieTokenType("<<INTEGER>>");
@@ -107,19 +110,19 @@ public interface ValkyrieTypes {
     IElementType KW_UNITE = new ValkyrieTokenType("KW_UNITE");
     IElementType KW_USING = new ValkyrieTokenType("using");
     IElementType OP_AND = new ValkyrieTokenType("OP_AND");
+    IElementType OP_AND_THEN = new ValkyrieTokenType("OP_AND_THEN");
+    IElementType OP_BANG = new ValkyrieTokenType("OP_BANG");
     IElementType OP_CONCAT = new ValkyrieTokenType("~");
     IElementType OP_MANY = new ValkyrieTokenType("*");
-    IElementType OP_MANY1 = new ValkyrieTokenType("OP_MANY1");
     IElementType OP_NOT = new ValkyrieTokenType("OP_NOT");
     IElementType OP_OPTIONAL = new ValkyrieTokenType("OP_OPTIONAL");
     IElementType OP_OR = new ValkyrieTokenType("|");
     IElementType OP_REMARK = new ValkyrieTokenType("^");
+    IElementType OP_TO = new ValkyrieTokenType("OP_TO");
     IElementType PARENTHESIS_L = new ValkyrieTokenType("(");
     IElementType PARENTHESIS_R = new ValkyrieTokenType(")");
     IElementType PLACE_HOLDER = new ValkyrieTokenType("_");
     IElementType REFERENCE = new ValkyrieTokenType("$Symbol");
-    IElementType REGULAR_EXPRESSION = new ValkyrieTokenType("REGULAR_EXPRESSION");
-    IElementType REGULAR_RANGE = new ValkyrieTokenType("REGULAR_RANGE");
     IElementType SELECTION_LINE = new ValkyrieTokenType("SELECTION_LINE");
     IElementType SEMICOLON = new ValkyrieTokenType(";");
     IElementType SLASH = new ValkyrieTokenType("/");
@@ -142,8 +145,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieAtomicNode(node);
             } else if (type == ATTRIBUTE) {
                 return new ValkyrieAttributeNode(node);
-            } else if (type == CATEGORY) {
-                return new ValkyrieCategoryNode(node);
             } else if (type == CLASS_BODY) {
                 return new ValkyrieClassBodyNode(node);
             } else if (type == CLASS_ITEM) {
@@ -170,22 +171,20 @@ public interface ValkyrieTypes {
                 return new ValkyrieDeclareUniteNode(node);
             } else if (type == DEFAULT_VALUE) {
                 return new ValkyrieDefaultValueNode(node);
+            } else if (type == EFFECT_TYPE) {
+                return new ValkyrieEffectTypeNode(node);
             } else if (type == ENUMERATE_BODY) {
                 return new ValkyrieEnumerateBodyNode(node);
             } else if (type == ENUMERATE_ITEM) {
                 return new ValkyrieEnumerateItemNode(node);
-            } else if (type == ESCAPE) {
-                return new ValkyrieEscapeNode(node);
             } else if (type == EXPRESSION) {
                 return new ValkyrieExpressionNode(node);
-            } else if (type == EXPRESSION_GROUP) {
-                return new ValkyrieExpressionGroupNode(node);
-            } else if (type == FUNCTION_BLOCK) {
-                return new ValkyrieFunctionBlockNode(node);
+            } else if (type == FUNCTION_BODY) {
+                return new ValkyrieFunctionBodyNode(node);
             } else if (type == FUNCTION_CALL) {
                 return new ValkyrieFunctionCallNode(node);
-            } else if (type == FUNCTION_PARAMETER) {
-                return new ValkyrieFunctionParameterNode(node);
+            } else if (type == FUNCTION_ITEM) {
+                return new ValkyrieFunctionItemNode(node);
             } else if (type == GROUP_BODY) {
                 return new ValkyrieGroupBodyNode(node);
             } else if (type == GROUP_ITEM) {
@@ -200,6 +199,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieInfixNode(node);
             } else if (type == KEY) {
                 return new ValkyrieKeyNode(node);
+            } else if (type == MACRO_CALL) {
+                return new ValkyrieMacroCallNode(node);
             } else if (type == MODIFIER) {
                 return new ValkyrieModifierNode(node);
             } else if (type == NAMEPATH) {
@@ -208,20 +209,28 @@ public interface ValkyrieTypes {
                 return new ValkyrieNamepathFreeNode(node);
             } else if (type == NUMBER) {
                 return new ValkyrieNumberNode(node);
+            } else if (type == ORDINAL_RANGE) {
+                return new ValkyrieOrdinalRangeNode(node);
             } else if (type == PAIR) {
                 return new ValkyriePairNode(node);
-            } else if (type == PARAMETER) {
-                return new ValkyrieParameterNode(node);
+            } else if (type == PARAMETER_BODY) {
+                return new ValkyrieParameterBodyNode(node);
+            } else if (type == PARAMETER_ITEM) {
+                return new ValkyrieParameterItemNode(node);
             } else if (type == PREFIX) {
                 return new ValkyriePrefixNode(node);
-            } else if (type == RANGE) {
-                return new ValkyrieRangeNode(node);
+            } else if (type == RANGE_INDEX) {
+                return new ValkyrieRangeIndexNode(node);
+            } else if (type == RANGE_ITEM) {
+                return new ValkyrieRangeItemNode(node);
             } else if (type == RANGE_LOWER) {
                 return new ValkyrieRangeLowerNode(node);
+            } else if (type == RANGE_STEP) {
+                return new ValkyrieRangeStepNode(node);
             } else if (type == RANGE_UPPER) {
                 return new ValkyrieRangeUpperNode(node);
-            } else if (type == REGEX) {
-                return new ValkyrieRegexNode(node);
+            } else if (type == RETURN_TYPE) {
+                return new ValkyrieReturnTypeNode(node);
             } else if (type == STRING) {
                 return new ValkyrieStringNode(node);
             } else if (type == SUFFIX) {
@@ -232,6 +241,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieTermNode(node);
             } else if (type == TUPLE) {
                 return new ValkyrieTupleNode(node);
+            } else if (type == TYPE_ATOMIC) {
+                return new ValkyrieTypeAtomicNode(node);
             } else if (type == TYPE_EXPRESSION) {
                 return new ValkyrieTypeExpressionNode(node);
             } else if (type == TYPE_HINT) {

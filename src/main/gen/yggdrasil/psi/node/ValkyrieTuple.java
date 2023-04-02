@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieTuple extends PsiElement {
 
-    @NotNull
-    List<ValkyrieArgument> getArgumentList();
+    @Nullable
+    ValkyrieArgument getArgument();
 
 }

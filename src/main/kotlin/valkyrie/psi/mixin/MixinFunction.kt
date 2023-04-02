@@ -9,6 +9,7 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
+import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.psi.ValkyrieElement
 import yggdrasil.psi.node.ValkyrieDeclareFunction
@@ -29,7 +30,7 @@ abstract class MixinFunction(node: ASTNode) : ValkyrieElement(node),
 
 
     override fun getName(): String {
-        return nameIdentifier?.name ?: ""
+        return nameIdentifier?.name ?: "⟪anonymous function⟫"
     }
 
 
@@ -42,7 +43,7 @@ abstract class MixinFunction(node: ASTNode) : ValkyrieElement(node),
     }
 
     override fun getPresentation(): ItemPresentation? {
-        return PresentationData("YggdrasilClass", "YggdrasilClass", baseIcon, null)
+        return PresentationData(nameIdentifier?.text, "", baseIcon, null)
     }
 
     override fun createLookup(completions: MutableList<LookupElement>) {
@@ -59,6 +60,6 @@ abstract class MixinFunction(node: ASTNode) : ValkyrieElement(node),
     }
 
     override fun highlight(highlighter: NodeHighlighter) {
-
+        nameIdentifier?.let { highlighter.highlight(it, HighlightColor.SYM_FUNCTION_FREE) }
     }
 }

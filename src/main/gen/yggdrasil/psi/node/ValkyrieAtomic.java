@@ -5,22 +5,25 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieAtomic extends ValkyrieExpression {
+public interface ValkyrieAtomic extends PsiElement {
 
     @Nullable
-    ValkyrieEscape getEscape();
+    ValkyrieExpression getExpression();
 
     @Nullable
     ValkyrieFunctionCall getFunctionCall();
 
     @Nullable
-    ValkyrieIdentifierFree getIdentifierFree();
+    ValkyrieMacroCall getMacroCall();
+
+    @Nullable
+    ValkyrieNamepath getNamepath();
 
     @Nullable
     ValkyrieNumber getNumber();
 
     @Nullable
-    ValkyrieRegex getRegex();
+    ValkyrieOrdinalRange getOrdinalRange();
 
     @Nullable
     ValkyrieString getString();

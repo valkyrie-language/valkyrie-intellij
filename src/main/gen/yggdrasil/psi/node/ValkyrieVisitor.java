@@ -16,14 +16,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitAtomic(@NotNull ValkyrieAtomic o) {
-        visitExpression(o);
-    }
-
-    public void visitAttribute(@NotNull ValkyrieAttribute o) {
         visitPsiElement(o);
     }
 
-    public void visitCategory(@NotNull ValkyrieCategory o) {
+    public void visitAttribute(@NotNull ValkyrieAttribute o) {
         visitPsiElement(o);
     }
 
@@ -79,6 +75,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitEffectType(@NotNull ValkyrieEffectType o) {
+        visitPsiElement(o);
+    }
+
     public void visitEnumerateBody(@NotNull ValkyrieEnumerateBody o) {
         visitPsiElement(o);
     }
@@ -87,19 +87,11 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitEscape(@NotNull ValkyrieEscape o) {
-        visitPsiElement(o);
-    }
-
     public void visitExpression(@NotNull ValkyrieExpression o) {
         visitPsiElement(o);
     }
 
-    public void visitExpressionGroup(@NotNull ValkyrieExpressionGroup o) {
-        visitExpression(o);
-    }
-
-    public void visitFunctionBlock(@NotNull ValkyrieFunctionBlock o) {
+    public void visitFunctionBody(@NotNull ValkyrieFunctionBody o) {
         visitPsiElement(o);
     }
 
@@ -107,7 +99,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitFunctionParameter(@NotNull ValkyrieFunctionParameter o) {
+    public void visitFunctionItem(@NotNull ValkyrieFunctionItem o) {
         visitPsiElement(o);
     }
 
@@ -139,6 +131,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitMacroCall(@NotNull ValkyrieMacroCall o) {
+        visitPsiElement(o);
+    }
+
     public void visitModifier(@NotNull ValkyrieModifier o) {
         visitPsiElement(o);
     }
@@ -155,11 +151,19 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitOrdinalRange(@NotNull ValkyrieOrdinalRange o) {
+        visitPsiElement(o);
+    }
+
     public void visitPair(@NotNull ValkyriePair o) {
         visitPsiElement(o);
     }
 
-    public void visitParameter(@NotNull ValkyrieParameter o) {
+    public void visitParameterBody(@NotNull ValkyrieParameterBody o) {
+        visitPsiElement(o);
+    }
+
+    public void visitParameterItem(@NotNull ValkyrieParameterItem o) {
         visitPsiElement(o);
     }
 
@@ -167,7 +171,11 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitRange(@NotNull ValkyrieRange o) {
+    public void visitRangeIndex(@NotNull ValkyrieRangeIndex o) {
+        visitPsiElement(o);
+    }
+
+    public void visitRangeItem(@NotNull ValkyrieRangeItem o) {
         visitPsiElement(o);
     }
 
@@ -175,11 +183,15 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitRangeStep(@NotNull ValkyrieRangeStep o) {
+        visitPsiElement(o);
+    }
+
     public void visitRangeUpper(@NotNull ValkyrieRangeUpper o) {
         visitPsiElement(o);
     }
 
-    public void visitRegex(@NotNull ValkyrieRegex o) {
+    public void visitReturnType(@NotNull ValkyrieReturnType o) {
         visitPsiElement(o);
     }
 
@@ -200,6 +212,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitTuple(@NotNull ValkyrieTuple o) {
+        visitPsiElement(o);
+    }
+
+    public void visitTypeAtomic(@NotNull ValkyrieTypeAtomic o) {
         visitPsiElement(o);
     }
 

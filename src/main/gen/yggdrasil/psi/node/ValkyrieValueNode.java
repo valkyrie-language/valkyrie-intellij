@@ -28,6 +28,12 @@ public class ValkyrieValueNode extends ValkyrieElement implements ValkyrieValue 
 
     @Override
     @Nullable
+    public ValkyrieString getString() {
+        return findChildByClass(ValkyrieString.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieTuple getTuple() {
         return findChildByClass(ValkyrieTuple.class);
     }

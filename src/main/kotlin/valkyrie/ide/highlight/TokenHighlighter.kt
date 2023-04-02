@@ -21,13 +21,13 @@ class TokenHighlighter : SyntaxHighlighter {
     private fun getTokenColor(tokenType: IElementType): HighlightColor? {
         return when (tokenType) {
             KW_NAMESPACE, KW_USING,
-            KW_CLASS, KW_UNION, KW_ENUMERATE, KW_FLAGS, KW_MACRO,
+            KW_CLASS, KW_UNION, KW_ENUMERATE, KW_FLAGS, KW_FUNCTION,
             -> HighlightColor.KEYWORD
             // operations
             COLON, BIND -> HighlightColor.OPERATION
             OP_OR, OP_CONCAT -> HighlightColor.OPERATION
             OP_REMARK -> HighlightColor.OPERATION
-            OP_OPTIONAL, OP_MANY, OP_MANY1 -> HighlightColor.OPERATION
+            OP_OPTIONAL, OP_MANY -> HighlightColor.OPERATION
             // literals
             TEXT_SINGLE, TEXT_DOUBLE -> HighlightColor.STRING
             ESCAPED -> HighlightColor.STRING_ESCAPED

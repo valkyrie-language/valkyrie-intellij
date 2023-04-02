@@ -27,9 +27,9 @@ public class ValkyrieTupleNode extends ValkyrieElement implements ValkyrieTuple 
     }
 
     @Override
-    @NotNull
-    public List<ValkyrieArgument> getArgumentList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieArgument.class);
+    @Nullable
+    public ValkyrieArgument getArgument() {
+        return findChildByClass(ValkyrieArgument.class);
     }
 
 }

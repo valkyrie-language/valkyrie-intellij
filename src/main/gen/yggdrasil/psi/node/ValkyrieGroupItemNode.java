@@ -30,14 +30,14 @@ public class ValkyrieGroupItemNode extends MixinGroupItem implements ValkyrieGro
 
     @Override
     @NotNull
-    public List<ValkyrieAttribute> getAttributeList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieAttribute.class);
+    public ValkyrieAtomic getAtomic() {
+        return findNotNullChildByClass(ValkyrieAtomic.class);
     }
 
     @Override
     @NotNull
-    public ValkyrieExpression getExpression() {
-        return findNotNullChildByClass(ValkyrieExpression.class);
+    public List<ValkyrieAttribute> getAttributeList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieAttribute.class);
     }
 
     @Override

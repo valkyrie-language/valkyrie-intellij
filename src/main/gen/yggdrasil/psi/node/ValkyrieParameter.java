@@ -8,9 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieParameter extends PsiElement {
 
     @Nullable
-    ValkyrieExpression getExpression();
+    ValkyrieDefaultValue getDefaultValue();
 
     @NotNull
     ValkyrieIdentifier getIdentifier();
+
+    @Nullable
+    ValkyrieTypeHint getTypeHint();
 
 }

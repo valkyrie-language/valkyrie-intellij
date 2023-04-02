@@ -10,10 +10,10 @@ import valkyrie.ide.highlight.NodeHighlighter;
 public interface ValkyrieGroupItem extends PsiElement {
 
     @NotNull
-    List<ValkyrieAttribute> getAttributeList();
+    ValkyrieAtomic getAtomic();
 
     @NotNull
-    ValkyrieExpression getExpression();
+    List<ValkyrieAttribute> getAttributeList();
 
     @NotNull
     List<ValkyrieIdentifier> getIdentifierList();

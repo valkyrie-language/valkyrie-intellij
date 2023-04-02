@@ -8,7 +8,6 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.psi.ValkyrieTypes.*;
-
 import valkyrie.psi.mixin.MixinFunction;
 import com.intellij.codeInsight.lookup.LookupElement;
 import valkyrie.ide.highlight.NodeHighlighter;
@@ -37,20 +36,32 @@ public class ValkyrieDeclareFunctionNode extends MixinFunction implements Valkyr
 
     @Override
     @Nullable
-    public ValkyrieFunctionBlock getFunctionBlock() {
-        return findChildByClass(ValkyrieFunctionBlock.class);
+    public ValkyrieEffectType getEffectType() {
+        return findChildByClass(ValkyrieEffectType.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieFunctionParameter getFunctionParameter() {
-        return findChildByClass(ValkyrieFunctionParameter.class);
+    public ValkyrieFunctionBody getFunctionBody() {
+        return findChildByClass(ValkyrieFunctionBody.class);
     }
 
     @Override
     @Nullable
     public ValkyrieIdentifierFree getIdentifierFree() {
         return findChildByClass(ValkyrieIdentifierFree.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieParameterBody getParameterBody() {
+        return findChildByClass(ValkyrieParameterBody.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieReturnType getReturnType() {
+        return findChildByClass(ValkyrieReturnType.class);
     }
 
 }

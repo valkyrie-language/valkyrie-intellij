@@ -45,6 +45,9 @@ KW_FLAGS     = flags
 KW_INTERFACE = interface|trait
 KW_FUNCTION  = macro|micro|function|func|fun|fn|def
 
+OP_BANG      = [!]
+OP_AND_THEN  = [?]
+
 %%
 
 <YYINITIAL> {
@@ -62,15 +65,18 @@ KW_FUNCTION  = macro|micro|function|func|fun|fn|def
 	"}" { return BRACE_R; }
 	"<" { return ANGLE_L; }
 	">" { return ANGLE_R; }
-    "->" { return TO; }
-    "|" { return OP_OR;}
-    "~" { return OP_CONCAT;}
 
-	":" { return COLON; }
-	";" { return SEMICOLON; }
-	"#" { return HASH; }
-	"$" { return DOLLAR; }
-	"@" { return AT; }
+	; { return SEMICOLON; }
+	: { return COLON; }
+    -> { return OP_TO; }
+    \| { return OP_OR;}
+    \~ { return OP_CONCAT;}
+
+
+	@ { return AT; }
+	# { return HASH; }
+	\$ { return DOLLAR; }
+
 	"/" { return SLASH; }
 	"." { return DOT; }
 	"," { return COMMA; }
@@ -78,19 +84,14 @@ KW_FUNCTION  = macro|micro|function|func|fun|fn|def
 	"=" { return EQUAL; }
 
 	"^" { return OP_REMARK; }
-    "!" { return OP_NOT; }
-
-    "?" { return OP_OPTIONAL; }
-    "*" { return OP_MANY; }
-    "+" { return OP_MANY1; }
+    {OP_BANG} { return OP_BANG; }
+    {OP_AND_THEN} { return OP_AND_THEN; }
 }
 
 <YYINITIAL> {
     {DEC} { return INTEGER; }
     {TEXT_SINGLE} { return TEXT_SINGLE; }
     {TEXT_DOUBLE} { return TEXT_DOUBLE; }
-    {REGULAR_RANGE} { return REGULAR_RANGE; }
-    {REGULAR_EXPRESSION} { return REGULAR_EXPRESSION;}
 }
 
 <YYINITIAL> {

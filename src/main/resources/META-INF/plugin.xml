@@ -52,9 +52,10 @@
 		<!--		<projectViewNestingRulesProvider implementation="valkyrie.language.file.ValkyrieFileGroup"/>-->
 		<!--		<treeStructureProvider implementation="valkyrie.ide.view.VStructureProvider"/>-->
 		<!--		&lt;!&ndash;		<lang.structureViewExtension implementation="valkyrie.ide.view.VStructureViewExtension"/>&ndash;&gt;-->
-		<!--		<lang.psiStructureViewFactory-->
-		<!--			language="Valkyrie"-->
-		<!--			implementationClass="valkyrie.ide.view.ValkyrieStructureView"/>-->
+		<lang.psiStructureViewFactory
+			language="valkyrie"
+			implementationClass="valkyrie.ide.view.ValkyrieStructureView"
+		/>
 		<!--		<typeHierarchyProvider-->
 		<!--			language="Valkyrie"-->
 		<!--			implementationClass="valkyrie.ide.view.hierarchy.TypeHierarchyProvider"/>-->

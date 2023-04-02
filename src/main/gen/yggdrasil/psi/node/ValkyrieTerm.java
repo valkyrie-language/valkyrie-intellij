@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieTerm extends PsiElement {
 
     @NotNull
-    ValkyrieExpression getExpression();
+    ValkyrieAtomic getAtomic();
 
     @NotNull
     List<ValkyriePrefix> getPrefixList();

@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieFunctionCall extends PsiElement {
 
     @NotNull
-    ValkyrieIdentifierFree getIdentifierFree();
+    ValkyrieNamepath getNamepath();
 
     @Nullable
     ValkyrieTuple getTuple();

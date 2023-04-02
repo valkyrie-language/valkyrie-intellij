@@ -9,13 +9,14 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.psi.ValkyrieTypes.*;
 
-public class ValkyrieAtomicNode extends ValkyrieExpressionNode implements ValkyrieAtomic {
+import valkyrie.psi.ValkyrieElement;
+
+public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomic {
 
     public ValkyrieAtomicNode(@NotNull ASTNode node) {
         super(node);
     }
 
-    @Override
     public void accept(@NotNull ValkyrieVisitor visitor) {
         visitor.visitAtomic(this);
     }
@@ -28,8 +29,8 @@ public class ValkyrieAtomicNode extends ValkyrieExpressionNode implements Valkyr
 
     @Override
     @Nullable
-    public ValkyrieEscape getEscape() {
-        return findChildByClass(ValkyrieEscape.class);
+    public ValkyrieExpression getExpression() {
+        return findChildByClass(ValkyrieExpression.class);
     }
 
     @Override
@@ -40,8 +41,14 @@ public class ValkyrieAtomicNode extends ValkyrieExpressionNode implements Valkyr
 
     @Override
     @Nullable
-    public ValkyrieIdentifierFree getIdentifierFree() {
-        return findChildByClass(ValkyrieIdentifierFree.class);
+    public ValkyrieMacroCall getMacroCall() {
+        return findChildByClass(ValkyrieMacroCall.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieNamepath getNamepath() {
+        return findChildByClass(ValkyrieNamepath.class);
     }
 
     @Override
@@ -52,8 +59,8 @@ public class ValkyrieAtomicNode extends ValkyrieExpressionNode implements Valkyr
 
     @Override
     @Nullable
-    public ValkyrieRegex getRegex() {
-        return findChildByClass(ValkyrieRegex.class);
+    public ValkyrieOrdinalRange getOrdinalRange() {
+        return findChildByClass(ValkyrieOrdinalRange.class);
     }
 
     @Override

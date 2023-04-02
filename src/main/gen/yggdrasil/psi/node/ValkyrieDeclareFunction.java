@@ -13,13 +13,19 @@ public interface ValkyrieDeclareFunction extends PsiElement {
     ValkyrieAnnotations getAnnotations();
 
     @Nullable
-    ValkyrieFunctionBlock getFunctionBlock();
+    ValkyrieEffectType getEffectType();
 
     @Nullable
-    ValkyrieFunctionParameter getFunctionParameter();
+    ValkyrieFunctionBody getFunctionBody();
 
     @Nullable
     ValkyrieIdentifierFree getIdentifierFree();
+
+    @Nullable
+    ValkyrieParameterBody getParameterBody();
+
+    @Nullable
+    ValkyrieReturnType getReturnType();
 
     void highlight(@NotNull NodeHighlighter highlighter);
 

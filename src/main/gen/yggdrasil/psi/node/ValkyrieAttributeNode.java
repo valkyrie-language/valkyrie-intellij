@@ -29,8 +29,14 @@ public class ValkyrieAttributeNode extends MixinAttribute implements ValkyrieAtt
 
     @Override
     @NotNull
-    public ValkyrieIdentifier getIdentifier() {
-        return findNotNullChildByClass(ValkyrieIdentifier.class);
+    public List<ValkyrieIdentifierFree> getIdentifierFreeList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifierFree.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieNamepath getNamepath() {
+        return findChildByClass(ValkyrieNamepath.class);
     }
 
     @Override

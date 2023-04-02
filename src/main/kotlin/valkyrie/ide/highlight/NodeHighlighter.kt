@@ -45,13 +45,10 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         o.highlight(this)
     }
 
-    override fun visitGroupItem(o: ValkyrieGroupItem) {
+    override fun visitDeclareFunction(o: ValkyrieDeclareFunction) {
         o.highlight(this)
     }
 
-    override fun visitTagBranch(o: ValkyrieTagBranch) {
-        highlight(o, HighlightColor.SYM_CLASS)
-    }
 
     override fun visitArgument(o: ValkyrieArgument) {
         o.identifierFree?.let { highlight(it, HighlightColor.SYM_FIELD) }
@@ -59,25 +56,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     override fun visitPair(o: ValkyriePair) {
         highlight(o.key, HighlightColor.SYM_FIELD)
-    }
-
-    override fun visitFunctionCall(o: ValkyrieFunctionCall) {
-        highlight(o.firstChild, HighlightColor.SYM_FUNCTION_FREE)
-        highlight(o.identifierFree, HighlightColor.SYM_FUNCTION_FREE)
-    }
-
-    override fun visitAtomic(o: ValkyrieAtomic) {
-        o.identifierFree?.highlight(this)
-    }
-
-    override fun visitCategory(o: ValkyrieCategory) {
-        o.key?.let { highlight(it, HighlightColor.SYM_FIELD) }
-        highlight(o.identifierFree, HighlightColor.SYM_CONSTANT)
-    }
-
-    override fun visitRange(o: ValkyrieRange) {
-        highlight(o.firstChild, HighlightColor.OPERATION)
-        highlight(o.lastChild, HighlightColor.OPERATION)
     }
 
     fun highlight(element: PsiElement, color: HighlightColor) {

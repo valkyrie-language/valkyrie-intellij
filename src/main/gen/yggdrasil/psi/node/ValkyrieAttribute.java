@@ -9,7 +9,10 @@ import valkyrie.ide.highlight.NodeHighlighter;
 public interface ValkyrieAttribute extends PsiElement {
 
     @NotNull
-    ValkyrieIdentifier getIdentifier();
+    List<ValkyrieIdentifierFree> getIdentifierFreeList();
+
+    @Nullable
+    ValkyrieNamepath getNamepath();
 
     @Nullable
     ValkyrieTuple getTuple();

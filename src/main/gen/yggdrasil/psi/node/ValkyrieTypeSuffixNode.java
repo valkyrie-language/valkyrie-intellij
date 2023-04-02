@@ -26,10 +26,4 @@ public class ValkyrieTypeSuffixNode extends ValkyrieElement implements ValkyrieT
         else super.accept(visitor);
     }
 
-    @Override
-    @Nullable
-    public ValkyrieRange getRange() {
-        return findChildByClass(ValkyrieRange.class);
-    }
-
 }

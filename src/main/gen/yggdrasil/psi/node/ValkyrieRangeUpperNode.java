@@ -26,4 +26,10 @@ public class ValkyrieRangeUpperNode extends ValkyrieElement implements ValkyrieR
         else super.accept(visitor);
     }
 
+    @Override
+    @NotNull
+    public ValkyrieExpression getExpression() {
+        return findNotNullChildByClass(ValkyrieExpression.class);
+    }
+
 }
