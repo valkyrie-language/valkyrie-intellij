@@ -2,15 +2,13 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieClassItem extends PsiElement {
+public interface ValkyrieArgumentBody extends PsiElement {
 
-    @Nullable
-    ValkyrieDeclareField getDeclareField();
-
-    @Nullable
-    ValkyrieDeclareMethod getDeclareMethod();
+    @NotNull
+    List<ValkyrieArgument> getArgumentList();
 
 }

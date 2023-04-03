@@ -12,12 +12,15 @@ import yggdrasil.psi.node.ValkyrieAttribute
 abstract class MixinAttribute(node: ASTNode) : ValkyrieElement(node), ValkyrieAttribute {
 
     override fun getName(): String {
-        return this.identifierFreeList.lastOrNull()?.text ?: ""
+        return ""
     }
 
     override fun highlight(visitor: NodeHighlighter) {
         visitor.highlight(this.firstChild, HighlightColor.SYM_MACRO)
-        this.identifierFreeList.lastOrNull()?.let { visitor.highlight(it, HighlightColor.SYM_MACRO) }
+        val ids = this.namepath?.identifierList ?: listOf()
+        for (id in ids) {
+            visitor.highlight(id, HighlightColor.SYM_MACRO)
+        }
     }
 
     override fun getPresentation(): ItemPresentation? {

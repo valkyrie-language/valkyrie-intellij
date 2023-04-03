@@ -55,7 +55,24 @@ OP_AND_THEN  = [?]
 	{COMMENT_LINE}     { return COMMENT_LINE; }
 	{COMMENT_BLOCK}    { return COMMENT_BLOCK; }
 }
-
+// PARENTHESES_L: '(';
+   //PARENTHESES_R: ')';
+   //BRACKET_L:     '[';
+   //BRACKET_R:     ']';
+   //BRACE_L:       '{';
+   //BRACE_R:       '}';
+   //GENERIC_L:     '⟨';
+   //GENERIC_R:     '⟩';
+   //OFFSET_L:      '⁅';
+   //OFFSET_R:      '⁆';
+   //RANGE_L:       '⟦';
+   //RANGE_R:       '⟧';
+   //CEILING_L:     '⌈';
+   //CEILING_R:     '⌉';
+   //FLOOR_L:       '⌊';
+   //FLOOR_R:       '⌋';
+   //COLLECTION_L:  '⦃';
+   //COLLECTION_R:  '⦄';
 <YYINITIAL> {
 	"(" { return PARENTHESIS_L; }
     ")" { return PARENTHESIS_R; }
@@ -65,7 +82,10 @@ OP_AND_THEN  = [?]
 	"}" { return BRACE_R; }
 	"<" { return ANGLE_L; }
 	">" { return ANGLE_R; }
+      "⟨" { return ANGLE_R; }
+}
 
+<YYINITIAL> {
 	; { return SEMICOLON; }
 	: { return COLON; }
     -> { return OP_TO; }

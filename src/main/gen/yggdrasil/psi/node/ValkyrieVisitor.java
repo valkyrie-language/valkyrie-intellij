@@ -15,6 +15,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitArgumentBody(@NotNull ValkyrieArgumentBody o) {
+        visitPsiElement(o);
+    }
+
     public void visitAtomic(@NotNull ValkyrieAtomic o) {
         visitPsiElement(o);
     }
@@ -52,6 +56,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitDeclareInterface(@NotNull ValkyrieDeclareInterface o) {
+        visitPsiElement(o);
+    }
+
+    public void visitDeclareMethod(@NotNull ValkyrieDeclareMethod o) {
         visitPsiElement(o);
     }
 

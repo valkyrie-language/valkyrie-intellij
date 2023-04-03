@@ -8,9 +8,11 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.psi.ValkyrieTypes.*;
-import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieDeclareSemanticNode extends ValkyrieElement implements ValkyrieDeclareSemantic {
+import valkyrie.psi.mixin.MixinSemantic;
+import valkyrie.ide.highlight.NodeHighlighter;
+
+public class ValkyrieDeclareSemanticNode extends MixinSemantic implements ValkyrieDeclareSemantic {
 
     public ValkyrieDeclareSemanticNode(@NotNull ASTNode node) {
         super(node);
@@ -28,8 +30,8 @@ public class ValkyrieDeclareSemanticNode extends ValkyrieElement implements Valk
 
     @Override
     @NotNull
-    public List<ValkyrieAttribute> getAttributeList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieAttribute.class);
+    public ValkyrieAnnotations getAnnotations() {
+        return findNotNullChildByClass(ValkyrieAnnotations.class);
     }
 
     @Override

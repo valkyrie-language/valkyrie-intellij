@@ -33,11 +33,15 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         o.highlight(this)
     }
 
+    override fun visitDeclareFlags(o: ValkyrieDeclareFlags) {
+        o.highlight(this)
+    }
+
     override fun visitDeclareEnumerate(o: ValkyrieDeclareEnumerate) {
         o.highlight(this)
     }
 
-    override fun visitDeclareFlags(o: ValkyrieDeclareFlags) {
+    override fun visitDeclareSemantic(o: ValkyrieDeclareSemantic) {
         o.highlight(this)
     }
 

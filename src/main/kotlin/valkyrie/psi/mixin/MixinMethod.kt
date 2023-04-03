@@ -10,14 +10,14 @@ import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.psi.ValkyrieElement
-import yggdrasil.psi.node.ValkyrieDeclareField
+import yggdrasil.psi.node.ValkyrieDeclareMethod
 import yggdrasil.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
-abstract class MixinField(node: ASTNode) : ValkyrieElement(node),
+abstract class MixinMethod(node: ASTNode) : ValkyrieElement(node),
     NavigatablePsiElement,
     PsiNameIdentifierOwner,
-    ValkyrieDeclareField {
+    ValkyrieDeclareMethod {
     override fun getNavigationElement(): PsiElement {
         return nameIdentifier ?: this
     }
@@ -54,4 +54,3 @@ abstract class MixinField(node: ASTNode) : ValkyrieElement(node),
 
     }
 }
-

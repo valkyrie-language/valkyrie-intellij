@@ -2,23 +2,26 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
-import valkyrie.psi.mixin.MixinField;
+
+import valkyrie.psi.mixin.MixinMethod;
 import valkyrie.ide.highlight.NodeHighlighter;
 
-public class ValkyrieDeclareFieldNode extends MixinField implements ValkyrieDeclareField {
+public class ValkyrieDeclareMethodNode extends MixinMethod implements ValkyrieDeclareMethod {
 
-    public ValkyrieDeclareFieldNode(@NotNull ASTNode node) {
+    public ValkyrieDeclareMethodNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitDeclareField(this);
+        visitor.visitDeclareMethod(this);
     }
 
     @Override
@@ -35,8 +38,14 @@ public class ValkyrieDeclareFieldNode extends MixinField implements ValkyrieDecl
 
     @Override
     @Nullable
-    public ValkyrieDefaultValue getDefaultValue() {
-        return findChildByClass(ValkyrieDefaultValue.class);
+    public ValkyrieEffectType getEffectType() {
+        return findChildByClass(ValkyrieEffectType.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieFunctionBody getFunctionBody() {
+        return findChildByClass(ValkyrieFunctionBody.class);
     }
 
     @Override
@@ -46,9 +55,15 @@ public class ValkyrieDeclareFieldNode extends MixinField implements ValkyrieDecl
     }
 
     @Override
+    @NotNull
+    public ValkyrieParameterBody getParameterBody() {
+        return findNotNullChildByClass(ValkyrieParameterBody.class);
+    }
+
+    @Override
     @Nullable
-    public ValkyrieTypeHint getTypeHint() {
-        return findChildByClass(ValkyrieTypeHint.class);
+    public ValkyrieReturnType getReturnType() {
+        return findChildByClass(ValkyrieReturnType.class);
     }
 
 }

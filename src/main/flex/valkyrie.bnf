@@ -84,17 +84,6 @@ private statements ::=
   | declare-interface
   | declare-function
   | SEMICOLON
-// === annotation statement ===
-
-annotations ::= attribute* modifier*
-modifier    ::= identifier {
-    mixin = "valkyrie.psi.mixin.MixinModifier"
-}
-attribute   ::= HASH namepath (DOT identifier-free)* tuple? {
-	pin = 1
-    mixin = "valkyrie.psi.mixin.MixinAttribute"
-    methods=[highlight]
-}
 // === grammar statement ===
 declare-namespace ::= annotations KW_NAMESPACE namepath-free {
 	pin = 2
@@ -120,6 +109,7 @@ declare-class ::= annotations KW_CLASS identifier-free class-body {
 class-body ::= BRACE_L class-item* BRACE_R;
 class-item ::=
     declare-field
+  | declare-method
   | SEMICOLON
   | COMMA
 // === class field statement ===
@@ -129,6 +119,11 @@ declare-field ::= attribute* modifier+ type-hint? default-value? {
 }
 type-hint     ::= COLON type-expression;
 default-value ::= EQUAL expression;
+// === class method statement ===
+declare-method ::= attribute* modifier+ parameter-body return-type? effect-type? function-body? {
+    mixin = "valkyrie.psi.mixin.MixinMethod"
+    methods=[highlight]
+}
 // === union statement ===
 declare-union ::= annotations KW_UNITE identifier OP_REMARK? class-body {
     pin = 2
@@ -151,8 +146,9 @@ enumerate-item ::=
     declare-semantic
   | SEMICOLON
   | COMMA
-declare-semantic ::= attribute* identifier-free default-value? {
-    pin = 2
+declare-semantic ::= annotations identifier-free default-value? {
+    mixin = "valkyrie.psi.mixin.MixinSemantic"
+    methods=[highlight]
 }
 // === union statement ===
 declare-unite ::= annotations KW_UNITE identifier OP_REMARK? union-body {
@@ -197,7 +193,7 @@ effect-type  ::= SLASH type-expression;
 function-call ::= namepath tuple? {
     pin = 1
 }
-macro-call    ::= AT namepath (DOT identifier-free)* {
+macro-call    ::= AT namepath tuple? {
 
 }
 // === expression statement ===
@@ -259,20 +255,30 @@ tuple    ::= PARENTHESIS_L PARENTHESIS_R
 {
   //    mixin = "yggdrasil.psi.mixin.MixinTuple"
 }
+argument-body ::= PARENTHESIS_L (argument (COMMA argument)* COMMA?)? PARENTHESIS_R;
 argument ::= (identifier-free COLON)? value {
 
 }
 number ::= INTEGER {
 //    mixin = "yggdrasil.psi.mixin.MixinNumber"
 }
-/* Literals */
+// === annotation statement ===
+annotations ::= attribute* modifier*
+modifier    ::= identifier !(COMMA|SEMICOLON|EQUAL|COLON|PARENTHESIS_L|BRACE_R) {
+    mixin = "valkyrie.psi.mixin.MixinModifier"
+}
+attribute   ::= HASH namepath argument-body? {
+	pin = 1
+    mixin = "valkyrie.psi.mixin.MixinAttribute"
+    methods=[highlight]
+}
+// === identifiers ===
 namepath      ::= identifier ((DOT) identifier)* {
 
 }
 namepath-free ::= identifier ((DOT) identifier)* {
     extends = namepath
 }
-/* Identifier */
 identifier           ::= SYMBOL | SYMBOW_RAW {
     mixin = "valkyrie.psi.mixin.MixinIdentifier"
     methods=[highlight]

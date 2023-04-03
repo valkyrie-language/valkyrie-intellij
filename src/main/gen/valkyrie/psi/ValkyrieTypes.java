@@ -10,6 +10,7 @@ public interface ValkyrieTypes {
 
     IElementType ANNOTATIONS = new ValkyrieElementType("ANNOTATIONS");
     IElementType ARGUMENT = new ValkyrieElementType("ARGUMENT");
+    IElementType ARGUMENT_BODY = new ValkyrieElementType("ARGUMENT_BODY");
     IElementType ATOMIC = new ValkyrieElementType("ATOMIC");
     IElementType ATTRIBUTE = new ValkyrieElementType("ATTRIBUTE");
     IElementType CLASS_BODY = new ValkyrieElementType("CLASS_BODY");
@@ -20,6 +21,7 @@ public interface ValkyrieTypes {
     IElementType DECLARE_FLAGS = new ValkyrieElementType("DECLARE_FLAGS");
     IElementType DECLARE_FUNCTION = new ValkyrieElementType("DECLARE_FUNCTION");
     IElementType DECLARE_INTERFACE = new ValkyrieElementType("DECLARE_INTERFACE");
+    IElementType DECLARE_METHOD = new ValkyrieElementType("DECLARE_METHOD");
     IElementType DECLARE_NAMESPACE = new ValkyrieElementType("DECLARE_NAMESPACE");
     IElementType DECLARE_SEMANTIC = new ValkyrieElementType("DECLARE_SEMANTIC");
     IElementType DECLARE_UNION = new ValkyrieElementType("DECLARE_UNION");
@@ -141,6 +143,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieAnnotationsNode(node);
             } else if (type == ARGUMENT) {
                 return new ValkyrieArgumentNode(node);
+            } else if (type == ARGUMENT_BODY) {
+                return new ValkyrieArgumentBodyNode(node);
             } else if (type == ATOMIC) {
                 return new ValkyrieAtomicNode(node);
             } else if (type == ATTRIBUTE) {
@@ -161,6 +165,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieDeclareFunctionNode(node);
             } else if (type == DECLARE_INTERFACE) {
                 return new ValkyrieDeclareInterfaceNode(node);
+            } else if (type == DECLARE_METHOD) {
+                return new ValkyrieDeclareMethodNode(node);
             } else if (type == DECLARE_NAMESPACE) {
                 return new ValkyrieDeclareNamespaceNode(node);
             } else if (type == DECLARE_SEMANTIC) {

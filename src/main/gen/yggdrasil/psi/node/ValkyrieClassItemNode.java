@@ -32,4 +32,10 @@ public class ValkyrieClassItemNode extends ValkyrieElement implements ValkyrieCl
         return findChildByClass(ValkyrieDeclareField.class);
     }
 
+    @Override
+    @Nullable
+    public ValkyrieDeclareMethod getDeclareMethod() {
+        return findChildByClass(ValkyrieDeclareMethod.class);
+    }
+
 }

@@ -8,14 +8,11 @@ import valkyrie.ide.highlight.NodeHighlighter;
 
 public interface ValkyrieAttribute extends PsiElement {
 
-    @NotNull
-    List<ValkyrieIdentifierFree> getIdentifierFreeList();
+    @Nullable
+    ValkyrieArgumentBody getArgumentBody();
 
     @Nullable
     ValkyrieNamepath getNamepath();
-
-    @Nullable
-    ValkyrieTuple getTuple();
 
     void highlight(@NotNull NodeHighlighter visitor);
 

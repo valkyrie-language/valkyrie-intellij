@@ -2,16 +2,15 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
 public interface ValkyrieMacroCall extends PsiElement {
 
     @NotNull
-    List<ValkyrieIdentifierFree> getIdentifierFreeList();
-
-    @NotNull
     ValkyrieNamepath getNamepath();
+
+    @Nullable
+    ValkyrieTuple getTuple();
 
 }
