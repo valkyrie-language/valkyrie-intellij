@@ -1,12 +1,12 @@
 package valkyrie.psi.mixin
 
-import com.intellij.icons.AllIcons
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
+import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.ValkyrieElement
 import yggdrasil.psi.node.ValkyrieDeclareNamespace
 import yggdrasil.psi.node.ValkyrieIdentifierNode
@@ -32,7 +32,7 @@ abstract class MixinNamespace(node: ASTNode) : ValkyrieElement(node),
 
 
     override fun getBaseIcon(): Icon {
-        return AllIcons.Nodes.DataSchema
+        return ValkyrieIconProvider.Instance.Namespace
     }
 
     override fun getPresentation(): ItemPresentation? {
