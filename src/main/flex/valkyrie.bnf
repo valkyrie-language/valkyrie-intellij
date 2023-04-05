@@ -82,6 +82,7 @@ private statements ::=
   | declare-class
   | declare-union
   | declare-interface
+  | declare-imply
   | declare-function
   | SEMICOLON
 // === grammar statement ===
@@ -108,19 +109,21 @@ declare-class ::= annotations KW_CLASS identifier-free class-body {
 }
 class-body ::= BRACE_L class-item* BRACE_R;
 class-item ::=
-    declare-field
-  | declare-method
+    declare-method
+  | declare-field
   | SEMICOLON
   | COMMA
 // === class field statement ===
-declare-field ::= attribute* modifier+ type-hint? default-value? {
+declare-field ::= annotations identifier-free type-hint? default-value? {
+    pin = 2
     mixin = "valkyrie.psi.mixin.MixinField"
     methods=[highlight]
 }
 type-hint     ::= COLON type-expression;
 default-value ::= EQUAL expression;
 // === class method statement ===
-declare-method ::= attribute* modifier+ parameter-body return-type? effect-type? function-body? {
+declare-method ::= annotations identifier-free parameter-body return-type? effect-type? function-body? {
+    pin = 3
     mixin = "valkyrie.psi.mixin.MixinMethod"
     methods=[highlight]
 }
@@ -162,16 +165,15 @@ union-variant ::= OP_OR expression tag-branch? {
 }
 tag-branch ::= HASH identifier-free;
 // === group statement ===
-declare-interface ::= annotations KW_INTERFACE identifier-free? group-body {
+declare-interface ::= annotations KW_INTERFACE identifier-free? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinInterface"
     methods=[highlight createLookup]
 }
-group-body ::= BRACE_L group-term* BRACE_R;
-group-term ::= group-item | SEMICOLON;
-group-item ::= attribute* identifier* COLON atomic {
-    mixin = "valkyrie.psi.mixin.MixinGroupItem"
-    methods=[highlight createLookup]
+declare-imply ::= annotations KW_IMPLY identifier-free class-body {
+    pin = 2
+    mixin = "valkyrie.psi.mixin.MixinImply"
+    methods=[highlight]
 }
 /// === function definition ===
 declare-function ::= annotations KW_FUNCTION identifier-free parameter-body return-type? effect-type? function-body {
@@ -217,6 +219,9 @@ type-prefix ::= OP_NOT;
 type-infix ::= OP_CONCAT;
 type-suffix ::= OP_OPTIONAL;
 type-atomic ::= identifier-free;
+
+generic ::= GENERIC_L GENERIC_R;
+
 // === atomic statement ===
 atomic ::=
     PARENTHESIS_L expression PARENTHESIS_R
@@ -226,8 +231,10 @@ atomic ::=
   | string
   | number
   | ordinal-range
+  | offset-range
 // === atomic statement ===
 ordinal-range ::= BRACE_L (range-item (COMMA range-item)? COMMA?) BRACE_R;
+offset-range  ::= OFFSET_L (range-item (COMMA range-item)? COMMA?) OFFSET_R;
 range-item ::= range-index
              | range-lower COLON range-upper?
              | range-lower COLON COLON range-step?

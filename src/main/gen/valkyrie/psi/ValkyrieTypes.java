@@ -20,6 +20,7 @@ public interface ValkyrieTypes {
     IElementType DECLARE_FIELD = new ValkyrieElementType("DECLARE_FIELD");
     IElementType DECLARE_FLAGS = new ValkyrieElementType("DECLARE_FLAGS");
     IElementType DECLARE_FUNCTION = new ValkyrieElementType("DECLARE_FUNCTION");
+    IElementType DECLARE_IMPLY = new ValkyrieElementType("DECLARE_IMPLY");
     IElementType DECLARE_INTERFACE = new ValkyrieElementType("DECLARE_INTERFACE");
     IElementType DECLARE_METHOD = new ValkyrieElementType("DECLARE_METHOD");
     IElementType DECLARE_NAMESPACE = new ValkyrieElementType("DECLARE_NAMESPACE");
@@ -34,9 +35,7 @@ public interface ValkyrieTypes {
     IElementType FUNCTION_BODY = new ValkyrieElementType("FUNCTION_BODY");
     IElementType FUNCTION_CALL = new ValkyrieElementType("FUNCTION_CALL");
     IElementType FUNCTION_ITEM = new ValkyrieElementType("FUNCTION_ITEM");
-    IElementType GROUP_BODY = new ValkyrieElementType("GROUP_BODY");
-    IElementType GROUP_ITEM = new ValkyrieElementType("GROUP_ITEM");
-    IElementType GROUP_TERM = new ValkyrieElementType("GROUP_TERM");
+    IElementType GENERIC = new ValkyrieElementType("GENERIC");
     IElementType IDENTIFIER = new ValkyrieElementType("IDENTIFIER");
     IElementType IDENTIFIER_FREE = new ValkyrieElementType("IDENTIFIER_FREE");
     IElementType INFIX = new ValkyrieElementType("INFIX");
@@ -46,6 +45,7 @@ public interface ValkyrieTypes {
     IElementType NAMEPATH = new ValkyrieElementType("NAMEPATH");
     IElementType NAMEPATH_FREE = new ValkyrieElementType("NAMEPATH_FREE");
     IElementType NUMBER = new ValkyrieElementType("NUMBER");
+    IElementType OFFSET_RANGE = new ValkyrieElementType("OFFSET_RANGE");
     IElementType ORDINAL_RANGE = new ValkyrieElementType("ORDINAL_RANGE");
     IElementType PAIR = new ValkyrieElementType("PAIR");
     IElementType PARAMETER_BODY = new ValkyrieElementType("PARAMETER_BODY");
@@ -93,6 +93,8 @@ public interface ValkyrieTypes {
     IElementType DOT = new ValkyrieTokenType(".");
     IElementType EQUAL = new ValkyrieTokenType("EQUAL");
     IElementType ESCAPED = new ValkyrieTokenType("\\escaped");
+    IElementType GENERIC_L = new ValkyrieTokenType("GENERIC_L");
+    IElementType GENERIC_R = new ValkyrieTokenType("GENERIC_R");
     IElementType HASH = new ValkyrieTokenType("HASH");
     IElementType HYPHEN = new ValkyrieTokenType("-");
     IElementType INTEGER = new ValkyrieTokenType("<<INTEGER>>");
@@ -104,6 +106,7 @@ public interface ValkyrieTypes {
     IElementType KW_FUNCTION = new ValkyrieTokenType("KW_FUNCTION");
     IElementType KW_GRAMMAR = new ValkyrieTokenType("grammar");
     IElementType KW_GROUP = new ValkyrieTokenType("group");
+    IElementType KW_IMPLY = new ValkyrieTokenType("KW_IMPLY");
     IElementType KW_IMPORT = new ValkyrieTokenType("import");
     IElementType KW_INTERFACE = new ValkyrieTokenType("KW_INTERFACE");
     IElementType KW_MACRO = new ValkyrieTokenType("macro");
@@ -111,6 +114,8 @@ public interface ValkyrieTypes {
     IElementType KW_UNION = new ValkyrieTokenType("union");
     IElementType KW_UNITE = new ValkyrieTokenType("KW_UNITE");
     IElementType KW_USING = new ValkyrieTokenType("using");
+    IElementType OFFSET_L = new ValkyrieTokenType("OFFSET_L");
+    IElementType OFFSET_R = new ValkyrieTokenType("OFFSET_R");
     IElementType OP_AND = new ValkyrieTokenType("OP_AND");
     IElementType OP_AND_THEN = new ValkyrieTokenType("OP_AND_THEN");
     IElementType OP_BANG = new ValkyrieTokenType("OP_BANG");
@@ -163,6 +168,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieDeclareFlagsNode(node);
             } else if (type == DECLARE_FUNCTION) {
                 return new ValkyrieDeclareFunctionNode(node);
+            } else if (type == DECLARE_IMPLY) {
+                return new ValkyrieDeclareImplyNode(node);
             } else if (type == DECLARE_INTERFACE) {
                 return new ValkyrieDeclareInterfaceNode(node);
             } else if (type == DECLARE_METHOD) {
@@ -191,12 +198,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieFunctionCallNode(node);
             } else if (type == FUNCTION_ITEM) {
                 return new ValkyrieFunctionItemNode(node);
-            } else if (type == GROUP_BODY) {
-                return new ValkyrieGroupBodyNode(node);
-            } else if (type == GROUP_ITEM) {
-                return new ValkyrieGroupItemNode(node);
-            } else if (type == GROUP_TERM) {
-                return new ValkyrieGroupTermNode(node);
+            } else if (type == GENERIC) {
+                return new ValkyrieGenericNode(node);
             } else if (type == IDENTIFIER) {
                 return new ValkyrieIdentifierNode(node);
             } else if (type == IDENTIFIER_FREE) {
@@ -215,6 +218,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieNamepathFreeNode(node);
             } else if (type == NUMBER) {
                 return new ValkyrieNumberNode(node);
+            } else if (type == OFFSET_RANGE) {
+                return new ValkyrieOffsetRangeNode(node);
             } else if (type == ORDINAL_RANGE) {
                 return new ValkyrieOrdinalRangeNode(node);
             } else if (type == PAIR) {

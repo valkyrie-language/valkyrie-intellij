@@ -35,8 +35,8 @@ public class ValkyrieDeclareInterfaceNode extends MixinInterface implements Valk
 
     @Override
     @Nullable
-    public ValkyrieGroupBody getGroupBody() {
-        return findChildByClass(ValkyrieGroupBody.class);
+    public ValkyrieClassBody getClassBody() {
+        return findChildByClass(ValkyrieClassBody.class);
     }
 
     @Override

@@ -2,10 +2,9 @@ package valkyrie.language.file
 
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import yggdrasil.psi.node.ValkyrieDeclareClassNode
-import yggdrasil.psi.node.ValkyrieIdentifierNode
+import yggdrasil.psi.node.*
 
-class YggdrasilFileCache(val root: YggdrasilFileNode) {
+class YggdrasilFileCache(val root: ValkyrieFileNode) {
     private fun getCache(): MutableMap<String, PsiNameIdentifierOwner> {
         val cache = mutableMapOf<String, PsiNameIdentifierOwner>()
 
@@ -15,15 +14,13 @@ class YggdrasilFileCache(val root: YggdrasilFileNode) {
                     cache[child.name] = child
                 }
 
-//                is ValkyrieDefineUnionNode -> {
-//                    cache[child.name] = child
-//                }
-//
-//                is ValkyrieGroupNode -> {
-//                    for (item in child.tokenList) {
-//                        cache[item.name] = item
-//                    }
-//                }
+                is ValkyrieDeclareUnionNode -> {
+                    cache[child.name] = child
+                }
+
+                is ValkyrieDeclareUniteNode -> {
+                    cache[child.name] = child
+                }
             }
         }
         return cache
@@ -33,19 +30,9 @@ class YggdrasilFileCache(val root: YggdrasilFileNode) {
         val completions = mutableListOf<LookupElement>()
         for (child in root.children) {
             when (child) {
-                is ValkyrieDeclareClassNode -> {
-                    child.createLookup(completions)
-                }
-
-//                is ValkyrieDefineUnion -> {
-//                    child.createLookup(completions)
-//                }
-//
-//                is ValkyrieGroupNode -> {
-//                    for (item in child.tokenList) {
-//                        item.createLookup(completions)
-//                    }
-//                }
+                is ValkyrieDeclareClass -> child.createLookup(completions)
+                is ValkyrieDeclareUnion -> child.createLookup(completions)
+                is ValkyrieDeclareUnite -> child.createLookup(completions)
             }
         }
         return completions

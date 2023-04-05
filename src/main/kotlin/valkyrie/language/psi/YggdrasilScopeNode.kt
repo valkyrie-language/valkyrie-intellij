@@ -9,7 +9,7 @@ import com.intellij.psi.impl.source.tree.CompositeElement
 import com.intellij.psi.impl.source.tree.SharedImplUtil
 import com.intellij.psi.util.parents
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.file.YggdrasilFileNode
+import valkyrie.language.file.ValkyrieFileNode
 import javax.swing.Icon
 
 /**
@@ -24,8 +24,8 @@ import javax.swing.Icon
  * implements ScopeNode.
  */
 abstract class YggdrasilScopeNode(node: CompositeElement) : ASTWrapperPsiElement(node) {
-    override fun getContainingFile(): YggdrasilFileNode {
-        return SharedImplUtil.getContainingFile(node) as YggdrasilFileNode
+    override fun getContainingFile(): ValkyrieFileNode {
+        return SharedImplUtil.getContainingFile(node) as ValkyrieFileNode
     }
 
     override fun getContext(): YggdrasilScopeNode? {

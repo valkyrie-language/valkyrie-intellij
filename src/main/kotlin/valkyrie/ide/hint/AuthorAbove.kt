@@ -19,7 +19,8 @@ class AuthorAbove : VcsCodeVisionLanguageContext {
         return element is ValkyrieDeclareClass
             || element is ValkyrieDeclareEnumerate
             || element is ValkyrieDeclareFlags
-            || element is ValkyrieDeclareVariants
+            || element is ValkyrieDeclareUnion
+            || element is ValkyrieDeclareUnite
             || element is ValkyrieDeclareInterface
     }
 
