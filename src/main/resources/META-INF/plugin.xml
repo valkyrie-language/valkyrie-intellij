@@ -128,16 +128,24 @@
 		<!--		<runLineMarkerContributor-->
 		<!--			language="Valkyrie"-->
 		<!--			implementationClass="valkyrie.ide.runner.ValkyrieRunner"/>-->
-		<!--				<vcs.codeVisionLanguageContext language="Valkyrie"-->
-		<!--				                               implementationClass="valkyrie.ide.hint.VisionAuthor"/>-->
-		<!--				<codeInsight.daemonBoundCodeVisionProvider language="Valkyrie"-->
-		<!--				                                           implementationClass="valkyrie.ide.hint.VisionInheritors"/>-->
-		<!--				<codeInsight.daemonBoundCodeVisionProvider language="Valkyrie"-->
-		<!--				                                           implementationClass="valkyrie.ide.hint.VisionUsage"/>-->
-		<!--				<codeInsight.daemonBoundCodeVisionProvider language="Valkyrie"-->
-		<!--				                                           implementationClass="valkyrie.ide.hint.VisionMonomorphisms"/>-->
-		<!--				<codeInsight.daemonBoundCodeVisionProvider language="Valkyrie"-->
-		<!--				                                           implementationClass="valkyrie.ide.hint.VisionEffects"/>-->
+		<vcs.codeVisionLanguageContext
+			language="Valkyrie"
+			implementationClass="valkyrie.ide.hint.VisionAuthor"/>
+		<codeInsight.daemonBoundCodeVisionProvider
+			language="Valkyrie"
+			implementationClass="valkyrie.ide.hint.VisionInheritors"/>
+		<codeInsight.daemonBoundCodeVisionProvider
+			language="Valkyrie"
+			implementationClass="valkyrie.ide.hint.VisionUsage"
+		/>
+		<codeInsight.daemonBoundCodeVisionProvider
+			language="Valkyrie"
+			implementationClass="valkyrie.ide.hint.VisionMonomorphism"
+		/>
+		<codeInsight.daemonBoundCodeVisionProvider
+			language="Valkyrie"
+			implementationClass="valkyrie.ide.hint.VisionEffects"
+		/>
 
 		<!--		<psi.fileReferenceHelper implementation="valkyrie.ide.reference.ValkyrieFileReference"/>-->
 		<!--		<psi.treeChangeListener implementation="valkyrie.ide.project.crate.ValkyrieFileListener"/>-->
