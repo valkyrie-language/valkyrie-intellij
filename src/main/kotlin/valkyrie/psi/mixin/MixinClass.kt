@@ -17,10 +17,7 @@ import yggdrasil.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
 
-abstract class MixinClass(node: ASTNode) : ValkyrieElement(node),
-    NavigatablePsiElement,
-    PsiNameIdentifierOwner,
-    ValkyrieDeclareClass {
+abstract class MixinClass(node: ASTNode) : ValkyrieElement(node), NavigatablePsiElement, PsiNameIdentifierOwner, ValkyrieDeclareClass {
     override fun getNavigationElement(): PsiElement {
         return nameIdentifier ?: this
     }
@@ -60,7 +57,7 @@ abstract class MixinClass(node: ASTNode) : ValkyrieElement(node),
     }
 
     override fun highlight(visitor: NodeHighlighter) {
-        this.identifierFree?.let { visitor.highlight(it, HighlightColor.SYM_CLASS) }
+        this.identifierFree?.let { visitor.highlight(it, HighlightColor.SYM_STRUCTURE) }
     }
 }
 

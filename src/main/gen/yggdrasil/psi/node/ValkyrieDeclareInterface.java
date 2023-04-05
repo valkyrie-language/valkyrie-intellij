@@ -12,7 +12,7 @@ public interface ValkyrieDeclareInterface extends PsiElement {
     ValkyrieAnnotations getAnnotations();
 
     @Nullable
-    ValkyrieGroupBody getGroupBody();
+    ValkyrieClassBody getClassBody();
 
     @Nullable
     ValkyrieIdentifierFree getIdentifierFree();

@@ -2,22 +2,25 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieGroupTermNode extends ValkyrieElement implements ValkyrieGroupTerm {
+public class ValkyrieOffsetRangeNode extends ValkyrieElement implements ValkyrieOffsetRange {
 
-    public ValkyrieGroupTermNode(@NotNull ASTNode node) {
+    public ValkyrieOffsetRangeNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitGroupTerm(this);
+        visitor.visitOffsetRange(this);
     }
 
     @Override
@@ -27,9 +30,9 @@ public class ValkyrieGroupTermNode extends ValkyrieElement implements ValkyrieGr
     }
 
     @Override
-    @Nullable
-    public ValkyrieGroupItem getGroupItem() {
-        return findChildByClass(ValkyrieGroupItem.class);
+    @NotNull
+    public List<ValkyrieRangeItem> getRangeItemList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieRangeItem.class);
     }
 
 }

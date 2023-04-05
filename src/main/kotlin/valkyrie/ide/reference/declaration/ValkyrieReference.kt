@@ -6,8 +6,8 @@ import com.intellij.psi.PsiQualifiedReference
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
 import yggdrasil.psi.node.ValkyrieDeclareClass
-import yggdrasil.psi.node.ValkyrieDeclareVariants
-import yggdrasil.psi.node.ValkyrieGroupItem
+import yggdrasil.psi.node.ValkyrieDeclareUnion
+import yggdrasil.psi.node.ValkyrieDeclareUnite
 import yggdrasil.psi.node.ValkyrieIdentifierNode
 
 open class ValkyrieReference : PsiQualifiedReference {
@@ -59,9 +59,9 @@ open class ValkyrieReference : PsiQualifiedReference {
 
     fun highlight(highlighter: NodeHighlighter) {
         return when (this.resolve()) {
-            is ValkyrieDeclareClass -> highlighter.highlight(_element, HighlightColor.SYM_CLASS)
-            is ValkyrieDeclareVariants -> highlighter.highlight(_element, HighlightColor.SYM_CLASS)
-            is ValkyrieGroupItem -> highlighter.highlight(_element, HighlightColor.SYM_CONSTANT)
+            is ValkyrieDeclareClass -> highlighter.highlight(_element, HighlightColor.SYM_STRUCTURE)
+            is ValkyrieDeclareUnion -> highlighter.highlight(_element, HighlightColor.SYM_STRUCTURE)
+            is ValkyrieDeclareUnite -> highlighter.highlight(_element, HighlightColor.SYM_CONSTANT)
             else -> {
 
             }

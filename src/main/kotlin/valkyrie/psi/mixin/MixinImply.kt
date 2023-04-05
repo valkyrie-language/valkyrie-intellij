@@ -7,14 +7,13 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.psi.ValkyrieElement
-import yggdrasil.psi.node.ValkyrieDeclareMethod
+import yggdrasil.psi.node.ValkyrieDeclareImply
 import yggdrasil.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
-abstract class MixinMethod(node: ASTNode) : ValkyrieElement(node), NavigatablePsiElement, PsiNameIdentifierOwner, ValkyrieDeclareMethod {
+abstract class MixinImply(node: ASTNode) : ValkyrieElement(node), NavigatablePsiElement, PsiNameIdentifierOwner, ValkyrieDeclareImply {
     override fun getNavigationElement(): PsiElement {
         return nameIdentifier ?: this
     }
@@ -23,25 +22,26 @@ abstract class MixinMethod(node: ASTNode) : ValkyrieElement(node), NavigatablePs
         return this.identifierFree as? ValkyrieIdentifierNode
     }
 
+
     override fun getName(): String {
-        return nameIdentifier?.text ?: ""
+        return nameIdentifier?.name ?: "⟪anonymous⟫"
     }
 
-    override fun setName(name: String): ValkyrieIdentifierNode {
+
+    override fun setName(name: String): PsiElement {
         TODO("Not yet implemented")
     }
 
     override fun getBaseIcon(): Icon {
-        return AllIcons.Nodes.Field
+        return AllIcons.Nodes.IdeaModule
     }
 
     override fun getPresentation(): ItemPresentation? {
-        // annotations.identifierList.joinToString(" ")
         return PresentationData(name, "", baseIcon, null)
     }
 
+    override fun highlight(highlighter: NodeHighlighter) {
 
-    override fun highlight(visitor: NodeHighlighter) {
-        nameIdentifier?.let { visitor.highlight(it, HighlightColor.SYM_FUNCTION_FREE) }
     }
 }
+

@@ -13,19 +13,16 @@ import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.psi.ValkyrieElement
 import yggdrasil.psi.node.ValkyrieDeclareUnion
-import yggdrasil.psi.node.ValkyrieIdentifier
+import yggdrasil.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
-abstract class MixinUnion(node: ASTNode) : ValkyrieElement(node),
-    NavigatablePsiElement,
-    PsiNameIdentifierOwner,
-    ValkyrieDeclareUnion {
+abstract class MixinUnion(node: ASTNode) : ValkyrieElement(node), NavigatablePsiElement, PsiNameIdentifierOwner, ValkyrieDeclareUnion {
     override fun getNavigationElement(): PsiElement {
         return nameIdentifier ?: this
     }
 
-    override fun getNameIdentifier(): ValkyrieIdentifier? {
-        return this.identifier
+    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
+        return this.identifier as? ValkyrieIdentifierNode
     }
 
 

@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieCategory extends PsiElement {
+public interface ValkyrieOffsetRange extends PsiElement {
 
     @NotNull
-    ValkyrieIdentifierFree getIdentifierFree();
-
-    @Nullable
-    ValkyrieKey getKey();
+    List<ValkyrieRangeItem> getRangeItemList();
 
 }

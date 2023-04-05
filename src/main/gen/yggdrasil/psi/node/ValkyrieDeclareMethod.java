@@ -2,7 +2,6 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 import valkyrie.ide.highlight.NodeHighlighter;
@@ -10,7 +9,7 @@ import valkyrie.ide.highlight.NodeHighlighter;
 public interface ValkyrieDeclareMethod extends PsiElement {
 
     @NotNull
-    List<ValkyrieAttribute> getAttributeList();
+    ValkyrieAnnotations getAnnotations();
 
     @Nullable
     ValkyrieEffectType getEffectType();
@@ -19,7 +18,7 @@ public interface ValkyrieDeclareMethod extends PsiElement {
     ValkyrieFunctionBody getFunctionBody();
 
     @NotNull
-    List<ValkyrieModifier> getModifierList();
+    ValkyrieIdentifierFree getIdentifierFree();
 
     @NotNull
     ValkyrieParameterBody getParameterBody();

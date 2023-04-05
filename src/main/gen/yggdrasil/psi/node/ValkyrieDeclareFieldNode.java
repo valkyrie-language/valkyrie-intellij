@@ -29,8 +29,8 @@ public class ValkyrieDeclareFieldNode extends MixinField implements ValkyrieDecl
 
     @Override
     @NotNull
-    public List<ValkyrieAttribute> getAttributeList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieAttribute.class);
+    public ValkyrieAnnotations getAnnotations() {
+        return findNotNullChildByClass(ValkyrieAnnotations.class);
     }
 
     @Override
@@ -41,8 +41,8 @@ public class ValkyrieDeclareFieldNode extends MixinField implements ValkyrieDecl
 
     @Override
     @NotNull
-    public List<ValkyrieModifier> getModifierList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieModifier.class);
+    public ValkyrieIdentifierFree getIdentifierFree() {
+        return findNotNullChildByClass(ValkyrieIdentifierFree.class);
     }
 
     @Override

@@ -2,15 +2,12 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-
 import static valkyrie.psi.ValkyrieTypes.*;
-
 import valkyrie.psi.mixin.MixinMethod;
 import valkyrie.ide.highlight.NodeHighlighter;
 
@@ -32,8 +29,8 @@ public class ValkyrieDeclareMethodNode extends MixinMethod implements ValkyrieDe
 
     @Override
     @NotNull
-    public List<ValkyrieAttribute> getAttributeList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieAttribute.class);
+    public ValkyrieAnnotations getAnnotations() {
+        return findNotNullChildByClass(ValkyrieAnnotations.class);
     }
 
     @Override
@@ -50,8 +47,8 @@ public class ValkyrieDeclareMethodNode extends MixinMethod implements ValkyrieDe
 
     @Override
     @NotNull
-    public List<ValkyrieModifier> getModifierList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieModifier.class);
+    public ValkyrieIdentifierFree getIdentifierFree() {
+        return findNotNullChildByClass(ValkyrieIdentifierFree.class);
     }
 
     @Override

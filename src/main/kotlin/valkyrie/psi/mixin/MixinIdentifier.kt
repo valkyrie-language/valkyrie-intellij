@@ -5,19 +5,16 @@ import com.intellij.psi.impl.source.tree.SharedImplUtil
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.ide.reference.declaration.ValkyrieReference
-import valkyrie.language.file.YggdrasilFileNode
+import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ValkyrieElement
 import yggdrasil.psi.node.ValkyrieDeclareClass
-import yggdrasil.psi.node.ValkyrieDeclareVariants
+import yggdrasil.psi.node.ValkyrieDeclareUnion
 import yggdrasil.psi.node.ValkyrieIdentifier
 import yggdrasil.psi.node.ValkyrieIdentifierNode
 
-abstract class MixinIdentifier(node: ASTNode) : ValkyrieElement(node),
-
-    ValkyrieIdentifier {
-
-    override fun getContainingFile(): YggdrasilFileNode {
-        return SharedImplUtil.getContainingFile(node) as YggdrasilFileNode
+abstract class MixinIdentifier(node: ASTNode) : ValkyrieElement(node), ValkyrieIdentifier {
+    override fun getContainingFile(): ValkyrieFileNode {
+        return SharedImplUtil.getContainingFile(node) as ValkyrieFileNode
     }
 
     override fun getName(): String? {
@@ -29,7 +26,7 @@ abstract class MixinIdentifier(node: ASTNode) : ValkyrieElement(node),
         if (this.parent is ValkyrieDeclareClass) {
             return null
         }
-        if (this.parent is ValkyrieDeclareVariants) {
+        if (this.parent is ValkyrieDeclareUnion) {
             return null
         }
         return ValkyrieReference(this as ValkyrieIdentifierNode)

@@ -23,7 +23,7 @@ abstract class MixinField(node: ASTNode) : ValkyrieElement(node),
     }
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.modifierList.lastOrNull()?.identifier as? ValkyrieIdentifierNode
+        return this.identifierFree as? ValkyrieIdentifierNode
     }
 
     override fun getName(): String {
@@ -45,12 +45,7 @@ abstract class MixinField(node: ASTNode) : ValkyrieElement(node),
 
 
     override fun highlight(visitor: NodeHighlighter) {
-        if (modifierList.isNotEmpty()) {
-            for (mod in modifierList.subList(0, modifierList.size - 1)) {
-                visitor.highlight(mod, HighlightColor.KEYWORD)
-            }
-            nameIdentifier?.let { visitor.highlight(it, HighlightColor.SYM_FIELD) }
-        }
+        nameIdentifier?.let { visitor.highlight(it, HighlightColor.SYM_FIELD) }
 
     }
 }

@@ -55,6 +55,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitDeclareImply(@NotNull ValkyrieDeclareImply o) {
+        visitPsiElement(o);
+    }
+
     public void visitDeclareInterface(@NotNull ValkyrieDeclareInterface o) {
         visitPsiElement(o);
     }
@@ -111,15 +115,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitGroupBody(@NotNull ValkyrieGroupBody o) {
-        visitPsiElement(o);
-    }
-
-    public void visitGroupItem(@NotNull ValkyrieGroupItem o) {
-        visitPsiElement(o);
-    }
-
-    public void visitGroupTerm(@NotNull ValkyrieGroupTerm o) {
+    public void visitGeneric(@NotNull ValkyrieGeneric o) {
         visitPsiElement(o);
     }
 
@@ -156,6 +152,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitNumber(@NotNull ValkyrieNumber o) {
+        visitPsiElement(o);
+    }
+
+    public void visitOffsetRange(@NotNull ValkyrieOffsetRange o) {
         visitPsiElement(o);
     }
 

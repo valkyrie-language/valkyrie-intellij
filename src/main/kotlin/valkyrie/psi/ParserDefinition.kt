@@ -13,8 +13,7 @@ import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.file.YggdrasilFileNode
-import yggdrasil.psi._ValkyrieLexer
+import valkyrie.language.file.ValkyrieFileNode
 import yggdrasil.psi.parser.YggdrasilParser
 
 object ParserDefinition : ParserDefinition {
@@ -28,7 +27,7 @@ object ParserDefinition : ParserDefinition {
     override fun getStringLiteralElements(): TokenSet = TokenSet.create()
     override fun getWhitespaceTokens(): TokenSet = TokenSet.create(TokenType.WHITE_SPACE)
     override fun createElement(node: ASTNode): PsiElement = ValkyrieTypes.Factory.createElement(node)
-    override fun createFile(viewProvider: FileViewProvider): PsiFile = YggdrasilFileNode(viewProvider)
+    override fun createFile(viewProvider: FileViewProvider): PsiFile = ValkyrieFileNode(viewProvider)
     override fun spaceExistenceTypeBetweenTokens(left: ASTNode, right: ASTNode): ParserDefinition.SpaceRequirements {
         return ParserDefinition.SpaceRequirements.MAY
     }

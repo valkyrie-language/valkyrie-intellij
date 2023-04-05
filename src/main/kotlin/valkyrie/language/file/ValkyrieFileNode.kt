@@ -15,7 +15,7 @@ import valkyrie.language.ValkyrieBundle
 ValkyrieFile 是个 PsiElement
  */
 @Suppress("UnstableApiUsage")
-class YggdrasilFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ValkyrieLanguage) {
+class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ValkyrieLanguage) {
     override fun getFileType(): FileType = ValkyrieFileType
 
     override fun toString(): String = ValkyrieBundle.message("action.create_file")

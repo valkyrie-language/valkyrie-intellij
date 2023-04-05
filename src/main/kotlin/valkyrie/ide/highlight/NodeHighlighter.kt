@@ -7,7 +7,7 @@ import com.intellij.codeInsight.daemon.impl.HighlightVisitor
 import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import valkyrie.language.file.YggdrasilFileNode
+import valkyrie.language.file.ValkyrieFileNode
 import yggdrasil.psi.node.*
 
 class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
@@ -26,6 +26,10 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitDeclareField(o: ValkyrieDeclareField) {
+        o.highlight(this)
+    }
+
+    override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
         o.highlight(this)
     }
 
@@ -84,7 +88,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     override fun clone(): HighlightVisitor = NodeHighlighter()
 
-    override fun suitableForFile(file: PsiFile): Boolean = file is YggdrasilFileNode
+    override fun suitableForFile(file: PsiFile): Boolean = file is ValkyrieFileNode
 
     override fun visit(element: PsiElement) = element.accept(this)
 }

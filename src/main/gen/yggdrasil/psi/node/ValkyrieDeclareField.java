@@ -9,13 +9,13 @@ import valkyrie.ide.highlight.NodeHighlighter;
 public interface ValkyrieDeclareField extends PsiElement {
 
     @NotNull
-    List<ValkyrieAttribute> getAttributeList();
+    ValkyrieAnnotations getAnnotations();
 
     @Nullable
     ValkyrieDefaultValue getDefaultValue();
 
     @NotNull
-    List<ValkyrieModifier> getModifierList();
+    ValkyrieIdentifierFree getIdentifierFree();
 
     @Nullable
     ValkyrieTypeHint getTypeHint();

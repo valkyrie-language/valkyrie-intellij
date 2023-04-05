@@ -7,7 +7,7 @@ import com.intellij.openapi.progress.ProgressManager
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.parents
 import com.intellij.util.ProcessingContext
-import valkyrie.language.file.YggdrasilFileNode
+import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ParserExtension
 import yggdrasil.psi.node.ValkyrieDeclareClassNode
 import yggdrasil.psi.node.ValkyrieDeclareUnionNode
@@ -34,7 +34,7 @@ class CompletionRegistrar : CompletionContributor() {
                     return
                 }
                 when (node) {
-                    is YggdrasilFileNode -> {
+                    is ValkyrieFileNode -> {
                         CompletionInFileScope().addCompletionVariants(parameters, context, result)
                         return
                     }

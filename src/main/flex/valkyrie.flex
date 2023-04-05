@@ -1,6 +1,6 @@
-package yggdrasil.psi;
+package valkyrie.psi;
 
-import com.intellij.psi.search.scope.packageSet.lexer.ScopeTokenTypes;import static com.intellij.psi.TokenType.BAD_CHARACTER;
+import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
 import static valkyrie.psi.ValkyrieTypes.*;
 
@@ -44,6 +44,7 @@ KW_ENUMERATE = enumerate|enums?
 KW_FLAGS     = flags
 KW_INTERFACE = interface|trait
 KW_FUNCTION  = macro|micro|function|func|fun|fn|def
+KW_IMPLY     = imply|impliments?|extends?
 
 OP_BANG      = [!]
 OP_AND_THEN  = [?]
@@ -78,11 +79,14 @@ OP_AND_THEN  = [?]
     ")" { return PARENTHESIS_R; }
     "[" { return BRACKET_L; }
     "]" { return BRACKET_R; }
+    "⁅" { return OFFSET_L; }
+    "⁆" { return OFFSET_R; }
 	"{" { return BRACE_L; }
 	"}" { return BRACE_R; }
 	"<" { return ANGLE_L; }
 	">" { return ANGLE_R; }
-      "⟨" { return ANGLE_R; }
+    "⟨" { return GENERIC_L; }
+    "⟩" { return GENERIC_R; }
 }
 
 <YYINITIAL> {
@@ -126,6 +130,8 @@ OP_AND_THEN  = [?]
 
     {KW_CLASS} { return KW_CLASS; }
     {KW_INTERFACE} { return KW_INTERFACE; }
+    {KW_IMPLY} { return KW_IMPLY; }
+
 
     {KW_FUNCTION} { return KW_FUNCTION; }
 

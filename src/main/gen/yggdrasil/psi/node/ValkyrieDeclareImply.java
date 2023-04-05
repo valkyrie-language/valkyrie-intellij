@@ -5,22 +5,19 @@ import java.util.List;
 
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import com.intellij.codeInsight.lookup.LookupElement;
 import valkyrie.ide.highlight.NodeHighlighter;
 
-public interface ValkyrieDeclareVariants extends PsiElement {
+public interface ValkyrieDeclareImply extends PsiElement {
 
     @NotNull
     ValkyrieAnnotations getAnnotations();
 
     @Nullable
-    ValkyrieIdentifier getIdentifier();
+    ValkyrieClassBody getClassBody();
 
     @Nullable
-    ValkyrieUnionBody getUnionBody();
+    ValkyrieIdentifierFree getIdentifierFree();
 
-    void highlight(@NotNull NodeHighlighter visitor);
-
-    void createLookup(@NotNull List<LookupElement> completions);
+    void highlight(@NotNull NodeHighlighter highlighter);
 
 }

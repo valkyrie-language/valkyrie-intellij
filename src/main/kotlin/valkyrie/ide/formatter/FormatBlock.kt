@@ -7,7 +7,9 @@ import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.formatter.FormatterUtil
 import yggdrasil.antlr.isWhitespaceOrEmpty
 import yggdrasil.language.psi.ValkyrieAlignmentElement
-import yggdrasil.psi.node.*
+import yggdrasil.psi.node.ValkyrieClassBody
+import yggdrasil.psi.node.ValkyrieTuple
+import yggdrasil.psi.node.ValkyrieUnionBody
 
 //import nexus.language.psi.ValkyrieTokenType
 
@@ -89,10 +91,6 @@ class FormatBlock : ASTBlock {
         return when (node.psi) {
             is ValkyrieClassBody -> byCorner
             is ValkyrieUnionBody -> byCorner
-            is ValkyrieGroupBody -> byCorner
-            is ValkyrieExpressionGroup -> byCorner
-            is ValkyrieFunctionBlock -> byCorner
-            is ValkyrieFunctionParameter -> byCorner
             is ValkyrieTuple -> byCorner
             else -> Indent.getNoneIndent()
         }
