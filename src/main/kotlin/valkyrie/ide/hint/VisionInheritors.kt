@@ -4,10 +4,8 @@ import com.intellij.codeInsight.CodeInsightBundle
 import com.intellij.codeInsight.codeVision.CodeVisionEntry
 import com.intellij.codeInsight.codeVision.settings.PlatformCodeVisionIds
 import com.intellij.psi.PsiElement
-import valkyrie.language.ast.ValkyrieTraitStatement
-import valkyrie.language.ast.classes.ValkyrieClassFieldNode
-import valkyrie.language.ast.classes.ValkyrieClassMethodNode
-import valkyrie.language.ast.classes.ValkyrieClassStatement
+import yggdrasil.psi.node.ValkyrieDeclareClass
+import yggdrasil.psi.node.ValkyrieDeclareInterface
 
 
 class VisionInheritors : ValkyrieCodeVision() {
@@ -18,13 +16,13 @@ class VisionInheritors : ValkyrieCodeVision() {
     /// Removed, it is recommended to use shortcut keys to jump
     override fun getCodeVision(element: PsiElement): CodeVisionEntry? {
         return when (element) {
-            is ValkyrieClassStatement, is ValkyrieTraitStatement -> {
+            is ValkyrieDeclareClass, is ValkyrieDeclareInterface -> {
                 null
             }
 
-            is ValkyrieClassMethodNode, is ValkyrieClassFieldNode -> {
-                null
-            }
+//            is ValkyrieDeclareClass, is ValkyrieClassFieldNode -> {
+//                null
+//            }
 
             else -> null
         }

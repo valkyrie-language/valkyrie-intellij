@@ -7,33 +7,33 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieBundle
-import valkyrie.language.ast.ValkyrieTraitStatement
-import valkyrie.language.ast.classes.ValkyrieClassMethodNode
-import valkyrie.language.ast.classes.ValkyrieClassStatement
+import yggdrasil.psi.node.ValkyrieDeclareClass
+import yggdrasil.psi.node.ValkyrieDeclareFunction
 
-class VisionMonomorphisms : ValkyrieCodeVision() {
-    override val id: String = "hint.vision.monomorphism.name"
+class VisionEffects : ValkyrieCodeVision() {
+    override val id: String = "hint.vision.effect.name"
     override val name: String = ValkyrieBundle.message(id)
+
     override fun getCodeVision(element: PsiElement): TextCodeVisionEntry? {
         when (element) {
-            is ValkyrieClassStatement, is ValkyrieTraitStatement -> {
+            is ValkyrieDeclareFunction -> {
                 return TextCodeVisionEntry(
                     ValkyrieBundle.message(id, '?'),
                     id,
-                    AllIcons.Nodes.CopyOfFolder,
-                    "VisionMonomorphisms",
-                    "tooltip",
+                    AllIcons.Actions.DiagramDiff,
+                    "longPresentation",
+                    "Tooltip",
                     listOf()
                 )
             }
 
-            is ValkyrieClassMethodNode -> {
+            is ValkyrieDeclareClass -> {
                 return TextCodeVisionEntry(
                     ValkyrieBundle.message(id, '?'),
                     id,
-                    AllIcons.General.InlineCopy,
-                    "VisionMonomorphisms",
-                    "tooltip",
+                    AllIcons.Actions.DiagramDiff,
+                    "longPresentation",
+                    "Tooltip",
                     listOf()
                 )
             }
@@ -47,4 +47,3 @@ class VisionMonomorphisms : ValkyrieCodeVision() {
 
     }
 }
-
