@@ -122,28 +122,28 @@
 		<!--		<codeInsight.parameterInfo.listener implementation="valkyrie.ide.hint.ParameterInfoListener"/>-->
 		<!--		<codeInsight.parameterNameHints language="Valkyrie"-->
 		<!--		                                implementationClass="valkyrie.ide.hint.ParameterInlayProvider"/>-->
-		<!--		<codeInsight.lineMarkerProvider-->
-		<!--			language="Valkyrie"-->
-		<!--			implementationClass="valkyrie.ide.hint.ValkyrieLineMarkerProvider"/>-->
-		<!--		<runLineMarkerContributor-->
-		<!--			language="Valkyrie"-->
-		<!--			implementationClass="valkyrie.ide.runner.ValkyrieRunner"/>-->
+		<codeInsight.lineMarkerProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.line_marker.ValkyrieLineMarkerProvider"/>
+		<!--				<runLineMarkerContributor-->
+		<!--					language="Valkyrie"-->
+		<!--					implementationClass="valkyrie.ide.runner.ValkyrieRunner"/>-->
 		<vcs.codeVisionLanguageContext
-			language="Valkyrie"
+			language="valkyrie"
 			implementationClass="valkyrie.ide.hint.VisionAuthor"/>
 		<codeInsight.daemonBoundCodeVisionProvider
-			language="Valkyrie"
+			language="valkyrie"
 			implementationClass="valkyrie.ide.hint.VisionInheritors"/>
 		<codeInsight.daemonBoundCodeVisionProvider
-			language="Valkyrie"
+			language="valkyrie"
 			implementationClass="valkyrie.ide.hint.VisionUsage"
 		/>
 		<codeInsight.daemonBoundCodeVisionProvider
-			language="Valkyrie"
+			language="valkyrie"
 			implementationClass="valkyrie.ide.hint.VisionMonomorphism"
 		/>
 		<codeInsight.daemonBoundCodeVisionProvider
-			language="Valkyrie"
+			language="valkyrie"
 			implementationClass="valkyrie.ide.hint.VisionEffects"
 		/>
 
@@ -166,7 +166,7 @@
 		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.NamepathChecker"/>
 		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.LiteralChecker"/>
 		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.MarkImplicitTypes"/>
-		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.MarkLegacyExpression"/>
+		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.LegacyExpression"/>
 		<!-- Declaration -->
 		<!--		<typeDeclarationProvider implementation="valkyrie.ide.reference.declaration.TypeDeclarationProvider"/>-->
 		<!--		<psi.declarationProvider implementation="valkyrie.ide.reference.declaration.SymbolDeclarationProvider"/>-->

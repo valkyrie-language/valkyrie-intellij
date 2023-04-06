@@ -18,8 +18,8 @@ class LiteralChecker : Annotator {
 //            return
 //        }
 //        if (element !is ValkyrieNumberNode) return
-        val unit = ""
-        annotateSimple(element.firstChild, holder)
+//        val unit = ""
+//        annotateSimple(element.firstChild, holder)
     }
 
     private fun annotateLiteralColor(color: PsiElement, holder: AnnotationHolder) {
