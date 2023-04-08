@@ -41,7 +41,6 @@
         KW_AS = "as"
         KW_MACRO = "macro"
 
-		VERSION = "<<semver>>"
         PARENTHESIS_L = '('
         PARENTHESIS_R = ')'
         BRACKET_L = '['
@@ -81,9 +80,10 @@ private statements ::=
   | declare-unite
   | declare-class
   | declare-union
-  | declare-interface
+  | declare-trait
   | declare-imply
   | declare-function
+  | trait-alias
   | SEMICOLON
 // === grammar statement ===
 declare-namespace ::= annotations KW_NAMESPACE namepath-free {
@@ -102,11 +102,15 @@ using-term ::=
   | COMMA
 using-alias ::= key KW_AS identifier-free;
 // === class statement ===
-declare-class ::= annotations KW_CLASS identifier-free class-body {
+declare-class ::= annotations KW_CLASS identifier-free class-inherit? class-implement? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinClass"
-    methods=[highlight createLookup]
+    methods=[createLookup]
 }
+class-inherit   ::= PARENTHESIS_L (super-class (COMMA super-class)? COMMA?) PARENTHESIS_R;
+super-class     ::= (identifier-free EQUAL)? type-expression;
+class-implement ::= type-hint;
+// === class body ===
 class-body ::= BRACE_L class-item* BRACE_R;
 class-item ::=
     declare-method
@@ -165,10 +169,11 @@ union-variant ::= OP_OR expression tag-branch? {
 }
 tag-branch ::= HASH identifier-free;
 // === group statement ===
-declare-interface ::= annotations KW_INTERFACE identifier-free? class-body {
+trait-alias ::= KW_TRAIT identifier-free EQUAL type-expression;
+declare-trait ::= annotations KW_TRAIT identifier-free? class-body {
     pin = 2
-    mixin = "valkyrie.psi.mixin.MixinInterface"
-    methods=[highlight createLookup]
+    mixin = "valkyrie.psi.mixin.MixinTrait"
+    methods=[createLookup]
 }
 declare-imply ::= annotations KW_IMPLY identifier-free class-body {
     pin = 2

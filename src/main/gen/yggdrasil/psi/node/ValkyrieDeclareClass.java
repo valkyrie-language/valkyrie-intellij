@@ -5,7 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 import com.intellij.codeInsight.lookup.LookupElement;
-import valkyrie.ide.highlight.NodeHighlighter;
 
 public interface ValkyrieDeclareClass extends PsiElement {
 
@@ -16,9 +15,13 @@ public interface ValkyrieDeclareClass extends PsiElement {
     ValkyrieClassBody getClassBody();
 
     @Nullable
-    ValkyrieIdentifierFree getIdentifierFree();
+    ValkyrieClassImplement getClassImplement();
 
-    void highlight(@NotNull NodeHighlighter visitor);
+    @Nullable
+    ValkyrieClassInherit getClassInherit();
+
+    @Nullable
+    ValkyrieIdentifierFree getIdentifierFree();
 
     void createLookup(@NotNull List<LookupElement> completions);
 

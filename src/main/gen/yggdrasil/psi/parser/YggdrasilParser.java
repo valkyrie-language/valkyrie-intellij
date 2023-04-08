@@ -259,6 +259,69 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
+    // type-hint
+    public static boolean class_implement(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "class_implement")) return false;
+        if (!nextTokenIs(b, COLON)) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = type_hint(b, l + 1);
+        exit_section_(b, m, CLASS_IMPLEMENT, r);
+        return r;
+    }
+
+    /* ********************************************************** */
+    // PARENTHESIS_L (super-class (COMMA super-class)? COMMA?) PARENTHESIS_R
+    public static boolean class_inherit(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "class_inherit")) return false;
+        if (!nextTokenIs(b, PARENTHESIS_L)) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, PARENTHESIS_L);
+        r = r && class_inherit_1(b, l + 1);
+        r = r && consumeToken(b, PARENTHESIS_R);
+        exit_section_(b, m, CLASS_INHERIT, r);
+        return r;
+    }
+
+    // super-class (COMMA super-class)? COMMA?
+    private static boolean class_inherit_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "class_inherit_1")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = super_class(b, l + 1);
+        r = r && class_inherit_1_1(b, l + 1);
+        r = r && class_inherit_1_2(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // (COMMA super-class)?
+    private static boolean class_inherit_1_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "class_inherit_1_1")) return false;
+        class_inherit_1_1_0(b, l + 1);
+        return true;
+    }
+
+    // COMMA super-class
+    private static boolean class_inherit_1_1_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "class_inherit_1_1_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, COMMA);
+        r = r && super_class(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // COMMA?
+    private static boolean class_inherit_1_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "class_inherit_1_2")) return false;
+        consumeToken(b, COMMA);
+        return true;
+    }
+
+    /* ********************************************************** */
     // declare-method
     //   | declare-field
     //   | SEMICOLON
@@ -276,7 +339,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // annotations KW_CLASS identifier-free class-body
+    // annotations KW_CLASS identifier-free class-inherit? class-implement? class-body
     public static boolean declare_class(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "declare_class")) return false;
         boolean r, p;
@@ -285,9 +348,25 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = r && consumeToken(b, KW_CLASS);
         p = r; // pin = 2
         r = r && report_error_(b, identifier_free(b, l + 1));
+        r = p && report_error_(b, declare_class_3(b, l + 1)) && r;
+        r = p && report_error_(b, declare_class_4(b, l + 1)) && r;
         r = p && class_body(b, l + 1) && r;
         exit_section_(b, l, m, r, p, null);
         return r || p;
+    }
+
+    // class-inherit?
+    private static boolean declare_class_3(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "declare_class_3")) return false;
+        class_inherit(b, l + 1);
+        return true;
+    }
+
+    // class-implement?
+    private static boolean declare_class_4(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "declare_class_4")) return false;
+        class_implement(b, l + 1);
+        return true;
     }
 
     /* ********************************************************** */
@@ -397,28 +476,6 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // annotations KW_INTERFACE identifier-free? class-body
-    public static boolean declare_interface(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "declare_interface")) return false;
-        boolean r, p;
-        Marker m = enter_section_(b, l, _NONE_, DECLARE_INTERFACE, "<declare interface>");
-        r = annotations(b, l + 1);
-        r = r && consumeToken(b, KW_INTERFACE);
-        p = r; // pin = 2
-        r = r && report_error_(b, declare_interface_2(b, l + 1));
-        r = p && class_body(b, l + 1) && r;
-        exit_section_(b, l, m, r, p, null);
-        return r || p;
-    }
-
-    // identifier-free?
-    private static boolean declare_interface_2(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "declare_interface_2")) return false;
-        identifier_free(b, l + 1);
-        return true;
-    }
-
-    /* ********************************************************** */
     // annotations identifier-free parameter-body return-type? effect-type? function-body?
     public static boolean declare_method(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "declare_method")) return false;
@@ -487,6 +544,28 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     private static boolean declare_semantic_2(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "declare_semantic_2")) return false;
         default_value(b, l + 1);
+        return true;
+    }
+
+    /* ********************************************************** */
+    // annotations KW_TRAIT identifier-free? class-body
+    public static boolean declare_trait(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "declare_trait")) return false;
+        boolean r, p;
+        Marker m = enter_section_(b, l, _NONE_, DECLARE_TRAIT, "<declare trait>");
+        r = annotations(b, l + 1);
+        r = r && consumeToken(b, KW_TRAIT);
+        p = r; // pin = 2
+        r = r && report_error_(b, declare_trait_2(b, l + 1));
+        r = p && class_body(b, l + 1) && r;
+        exit_section_(b, l, m, r, p, null);
+        return r || p;
+    }
+
+    // identifier-free?
+    private static boolean declare_trait_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "declare_trait_2")) return false;
+        identifier_free(b, l + 1);
         return true;
     }
 
@@ -1395,9 +1474,10 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     //   | declare-unite
     //   | declare-class
     //   | declare-union
-    //   | declare-interface
+    //   | declare-trait
     //   | declare-imply
     //   | declare-function
+    //   | trait-alias
     //   | SEMICOLON
     static boolean statements(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "statements")) return false;
@@ -1409,9 +1489,10 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!r) r = declare_unite(b, l + 1);
         if (!r) r = declare_class(b, l + 1);
         if (!r) r = declare_union(b, l + 1);
-        if (!r) r = declare_interface(b, l + 1);
+        if (!r) r = declare_trait(b, l + 1);
         if (!r) r = declare_imply(b, l + 1);
         if (!r) r = declare_function(b, l + 1);
+        if (!r) r = trait_alias(b, l + 1);
         if (!r) r = consumeToken(b, SEMICOLON);
         return r;
     }
@@ -1439,6 +1520,36 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = consumeToken(b, OP_BANG);
         if (!r) r = consumeToken(b, OP_AND_THEN);
         exit_section_(b, l, m, r, false, null);
+        return r;
+    }
+
+    /* ********************************************************** */
+    // (identifier-free EQUAL)? type-expression
+    public static boolean super_class(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "super_class")) return false;
+        boolean r;
+        Marker m = enter_section_(b, l, _NONE_, SUPER_CLASS, "<super class>");
+        r = super_class_0(b, l + 1);
+        r = r && type_expression(b, l + 1);
+        exit_section_(b, l, m, r, false, null);
+        return r;
+    }
+
+    // (identifier-free EQUAL)?
+    private static boolean super_class_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "super_class_0")) return false;
+        super_class_0_0(b, l + 1);
+        return true;
+    }
+
+    // identifier-free EQUAL
+    private static boolean super_class_0_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "super_class_0_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = identifier_free(b, l + 1);
+        r = r && consumeToken(b, EQUAL);
+        exit_section_(b, m, null, r);
         return r;
     }
 
@@ -1496,6 +1607,21 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     // }
     private static boolean term_3(PsiBuilder b, int l) {
         return true;
+    }
+
+    /* ********************************************************** */
+    // KW_TRAIT identifier-free EQUAL type-expression
+    public static boolean trait_alias(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "trait_alias")) return false;
+        if (!nextTokenIs(b, KW_TRAIT)) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, KW_TRAIT);
+        r = r && identifier_free(b, l + 1);
+        r = r && consumeToken(b, EQUAL);
+        r = r && type_expression(b, l + 1);
+        exit_section_(b, m, TRAIT_ALIAS, r);
+        return r;
     }
 
     /* ********************************************************** */

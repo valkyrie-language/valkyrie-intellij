@@ -31,6 +31,14 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitClassImplement(@NotNull ValkyrieClassImplement o) {
+        visitPsiElement(o);
+    }
+
+    public void visitClassInherit(@NotNull ValkyrieClassInherit o) {
+        visitPsiElement(o);
+    }
+
     public void visitClassItem(@NotNull ValkyrieClassItem o) {
         visitPsiElement(o);
     }
@@ -59,10 +67,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitDeclareInterface(@NotNull ValkyrieDeclareInterface o) {
-        visitPsiElement(o);
-    }
-
     public void visitDeclareMethod(@NotNull ValkyrieDeclareMethod o) {
         visitPsiElement(o);
     }
@@ -72,6 +76,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitDeclareSemantic(@NotNull ValkyrieDeclareSemantic o) {
+        visitPsiElement(o);
+    }
+
+    public void visitDeclareTrait(@NotNull ValkyrieDeclareTrait o) {
         visitPsiElement(o);
     }
 
@@ -211,11 +219,19 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitSuperClass(@NotNull ValkyrieSuperClass o) {
+        visitPsiElement(o);
+    }
+
     public void visitTagBranch(@NotNull ValkyrieTagBranch o) {
         visitPsiElement(o);
     }
 
     public void visitTerm(@NotNull ValkyrieTerm o) {
+        visitPsiElement(o);
+    }
+
+    public void visitTraitAlias(@NotNull ValkyrieTraitAlias o) {
         visitPsiElement(o);
     }
 

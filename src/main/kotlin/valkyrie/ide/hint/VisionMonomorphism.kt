@@ -8,15 +8,15 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieBundle
 import yggdrasil.psi.node.ValkyrieDeclareClass
-import yggdrasil.psi.node.ValkyrieDeclareInterface
 import yggdrasil.psi.node.ValkyrieDeclareMethod
+import yggdrasil.psi.node.ValkyrieDeclareTrait
 
 class VisionMonomorphism : ValkyrieCodeVision() {
     override val id: String = "hint.vision.monomorphism.name"
     override val name: String = ValkyrieBundle.message(id)
     override fun getCodeVision(element: PsiElement): TextCodeVisionEntry? {
         when (element) {
-            is ValkyrieDeclareClass, is ValkyrieDeclareInterface -> {
+            is ValkyrieDeclareClass, is ValkyrieDeclareTrait -> {
                 return TextCodeVisionEntry(
                     ValkyrieBundle.message(id, '?'),
                     id,

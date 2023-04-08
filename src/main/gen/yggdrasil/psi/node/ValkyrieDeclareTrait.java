@@ -2,11 +2,11 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import valkyrie.ide.highlight.NodeHighlighter;
 
-public interface ValkyrieDeclareInterface extends PsiElement {
+public interface ValkyrieDeclareTrait extends PsiElement {
 
     @NotNull
     ValkyrieAnnotations getAnnotations();
@@ -17,10 +17,8 @@ public interface ValkyrieDeclareInterface extends PsiElement {
     @Nullable
     ValkyrieIdentifierFree getIdentifierFree();
 
-    void highlight(@NotNull NodeHighlighter visitor);
-
     //WARNING: createLookup(...) is skipped
-    //matching createLookup(ValkyrieDeclareInterface, ...)
+    //matching createLookup(ValkyrieDeclareTrait, ...)
     //methods are not found in YggdrasilPsiExtension
 
 }
