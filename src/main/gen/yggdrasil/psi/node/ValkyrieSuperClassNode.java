@@ -2,23 +2,25 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
-import valkyrie.psi.mixin.MixinInterface;
-import valkyrie.ide.highlight.NodeHighlighter;
 
-public class ValkyrieDeclareInterfaceNode extends MixinInterface implements ValkyrieDeclareInterface {
+import valkyrie.psi.ValkyrieElement;
 
-    public ValkyrieDeclareInterfaceNode(@NotNull ASTNode node) {
+public class ValkyrieSuperClassNode extends ValkyrieElement implements ValkyrieSuperClass {
+
+    public ValkyrieSuperClassNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitDeclareInterface(this);
+        visitor.visitSuperClass(this);
     }
 
     @Override
@@ -28,21 +30,15 @@ public class ValkyrieDeclareInterfaceNode extends MixinInterface implements Valk
     }
 
     @Override
-    @NotNull
-    public ValkyrieAnnotations getAnnotations() {
-        return findNotNullChildByClass(ValkyrieAnnotations.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieClassBody getClassBody() {
-        return findChildByClass(ValkyrieClassBody.class);
-    }
-
-    @Override
     @Nullable
     public ValkyrieIdentifierFree getIdentifierFree() {
         return findChildByClass(ValkyrieIdentifierFree.class);
+    }
+
+    @Override
+    @NotNull
+    public ValkyrieTypeExpression getTypeExpression() {
+        return findNotNullChildByClass(ValkyrieTypeExpression.class);
     }
 
 }

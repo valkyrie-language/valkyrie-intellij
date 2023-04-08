@@ -10,7 +10,6 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.psi.ValkyrieTypes.*;
 import valkyrie.psi.mixin.MixinClass;
 import com.intellij.codeInsight.lookup.LookupElement;
-import valkyrie.ide.highlight.NodeHighlighter;
 
 public class ValkyrieDeclareClassNode extends MixinClass implements ValkyrieDeclareClass {
 
@@ -38,6 +37,18 @@ public class ValkyrieDeclareClassNode extends MixinClass implements ValkyrieDecl
     @Nullable
     public ValkyrieClassBody getClassBody() {
         return findChildByClass(ValkyrieClassBody.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieClassImplement getClassImplement() {
+        return findChildByClass(ValkyrieClassImplement.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieClassInherit getClassInherit() {
+        return findChildByClass(ValkyrieClassInherit.class);
     }
 
     @Override

@@ -344,10 +344,10 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
                     "\5\24\1\47\11\24\1\41\1\0\4\24\1\47\11\24" +
                     "\1\50\1\24\1\51\2\24\1\47\11\24\1\52\1\24" +
                     "\1\51\1\24\1\53\2\24\1\54\4\24\1\55\1\56" +
-                    "\1\57\1\24\1\54\5\24\1\52\14\24\1\60";
+                    "\1\57\1\24\1\54\5\24\1\52\13\24\1\60";
 
     private static int[] zzUnpackAction() {
-        int[] result = new int[141];
+        int[] result = new int[140];
         int offset = 0;
         offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
         return result;
@@ -389,10 +389,10 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
                     "\0\u01a4\0\u10a4\0\u10e0\0\u111c\0\u1158\0\u01a4\0\u01a4\0\u01a4" +
                     "\0\u1194\0\u11d0\0\u120c\0\u1248\0\u1284\0\u12c0\0\u12fc\0\u1338" +
                     "\0\u1374\0\u13b0\0\u13ec\0\u1428\0\u1464\0\u14a0\0\u14dc\0\u1518" +
-                    "\0\u1554\0\u1590\0\u15cc\0\u1608\0\u01a4";
+                    "\0\u1554\0\u1590\0\u15cc\0\u01a4";
 
     private static int[] zzUnpackRowMap() {
-        int[] result = new int[141];
+        int[] result = new int[140];
         int offset = 0;
         offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
         return result;
@@ -523,17 +523,16 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
                     "\2\27\4\0\1\27\26\0\1\27\7\0\1\27\5\0" +
                     "\1\27\1\212\21\27\4\0\1\27\26\0\1\27\7\0" +
                     "\1\27\5\0\1\27\1\213\21\27\4\0\1\27\26\0" +
-                    "\1\27\7\0\1\27\5\0\14\27\1\214\6\27\4\0" +
+                    "\1\27\7\0\1\27\5\0\14\27\1\212\6\27\4\0" +
                     "\1\27\26\0\1\27\7\0\1\27\5\0\3\27\1\154" +
                     "\17\27\4\0\1\27\26\0\1\27\7\0\1\27\5\0" +
                     "\16\27\1\172\4\27\4\0\1\27\26\0\1\27\7\0" +
-                    "\1\27\5\0\3\27\1\166\17\27\4\0\1\27\26\0" +
-                    "\1\27\7\0\1\27\5\0\3\27\1\215\17\27\4\0" +
-                    "\1\27\26\0\1\27\7\0\1\27\5\0\3\27\1\152" +
-                    "\17\27\4\0\1\27\6\0";
+                    "\1\27\5\0\3\27\1\152\17\27\4\0\1\27\26\0" +
+                    "\1\27\7\0\1\27\5\0\3\27\1\214\17\27\4\0" +
+                    "\1\27\6\0";
 
     private static int[] zzUnpacktrans() {
-        int[] result = new int[5700];
+        int[] result = new int[5640];
         int offset = 0;
         offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
         return result;
@@ -575,10 +574,10 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
                     "\1\1\1\11\1\1\10\11\1\1\1\11\1\1\2\11" +
                     "\14\1\6\11\1\1\2\11\1\0\1\11\2\0\2\11" +
                     "\1\0\1\11\1\0\1\11\21\1\1\0\16\1\1\11" +
-                    "\62\1";
+                    "\61\1";
 
     private static int[] zzUnpackAttribute() {
-        int[] result = new int[141];
+        int[] result = new int[140];
         int offset = 0;
         offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
         return result;
@@ -596,56 +595,36 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
         return j;
     }
 
-    /**
-     * the input device
-     */
+    /** the input device */
     private java.io.Reader zzReader;
 
-    /**
-     * the current state of the DFA
-     */
+    /** the current state of the DFA */
     private int zzState;
 
-    /**
-     * the current lexical state
-     */
+    /** the current lexical state */
     private int zzLexicalState = YYINITIAL;
 
-    /**
-     * this buffer contains the current text to be matched and is
-     * the source of the yytext() string
-     */
+    /** this buffer contains the current text to be matched and is
+     the source of the yytext() string */
     private CharSequence zzBuffer = "";
 
-    /**
-     * the textposition at the last accepting state
-     */
+    /** the textposition at the last accepting state */
     private int zzMarkedPos;
 
-    /**
-     * the current text position in the buffer
-     */
+    /** the current text position in the buffer */
     private int zzCurrentPos;
 
-    /**
-     * startRead marks the beginning of the yytext() string in the buffer
-     */
+    /** startRead marks the beginning of the yytext() string in the buffer */
     private int zzStartRead;
 
-    /**
-     * endRead marks the last character in the buffer, that has been read
-     * from input
-     */
+    /** endRead marks the last character in the buffer, that has been read
+     from input */
     private int zzEndRead;
 
-    /**
-     * zzAtEOF == true <=> the scanner is at the EOF
-     */
+    /** zzAtEOF == true <=> the scanner is at the EOF */
     private boolean zzAtEOF;
 
-    /**
-     * Number of newlines encountered up to the start of the matched text.
-     */
+    /** Number of newlines encountered up to the start of the matched text. */
     @SuppressWarnings("unused")
     private int yyline;
 
@@ -655,21 +634,15 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
     @SuppressWarnings("unused")
     protected int yycolumn;
 
-    /**
-     * Number of characters up to the start of the matched text.
-     */
+    /** Number of characters up to the start of the matched text. */
     @SuppressWarnings("unused")
     private long yychar;
 
-    /**
-     * Whether the scanner is currently at the beginning of a line.
-     */
+    /** Whether the scanner is currently at the beginning of a line. */
     @SuppressWarnings("unused")
     private boolean zzAtBOL = true;
 
-    /**
-     * Whether the user-EOF-code has already been executed.
-     */
+    /** Whether the user-EOF-code has already been executed. */
     @SuppressWarnings("unused")
     private boolean zzEOFDone;
 
@@ -684,16 +657,12 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
     }
 
 
-    /**
-     * Returns the maximum size of the scanner buffer, which limits the size of tokens.
-     */
+    /** Returns the maximum size of the scanner buffer, which limits the size of tokens. */
     private int zzMaxBufferLen() {
         return Integer.MAX_VALUE;
     }
 
-    /**
-     * Whether the scanner buffer can grow to accommodate a larger token.
-     */
+    /**  Whether the scanner buffer can grow to accommodate a larger token. */
     private boolean zzCanGrow() {
         return true;
     }
@@ -811,11 +780,11 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
 
     /**
      * Pushes the specified amount of characters back into the input stream.
-     * <p>
+     *
      * They will be read again by then next call of the scanning method
      *
-     * @param number the number of characters to be read again.
-     *               This number must not be greater than yylength()!
+     * @param number  the number of characters to be read again.
+     *                This number must not be greater than yylength()!
      */
     public void yypushback(int number) {
         if (number > yylength())
@@ -830,7 +799,7 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
      * the end of input is encountered or an I/O-Error occurs.
      *
      * @return the next token
-     * @throws java.io.IOException if any I/O-Error occurs
+     * @exception java.io.IOException  if any I/O-Error occurs
      */
     public com.intellij.psi.tree.IElementType advance() throws java.io.IOException {
         int zzInput;
@@ -1177,7 +1146,7 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
                     case 92:
                         break;
                     case 45: {
-                        return KW_INTERFACE;
+                        return KW_TRAIT;
                     }
                     // fall through
                     case 93:
@@ -1198,14 +1167,13 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
                         return KW_NAMESPACE;
                     }
                     // fall through
-                    case 96:
-                        break;
-                    default:
-                        zzScanError(ZZ_NO_MATCH);
-                }
-            }
-        }
+          case 96: break;
+          default:
+            zzScanError(ZZ_NO_MATCH);
+          }
+      }
     }
+  }
 
 
 }

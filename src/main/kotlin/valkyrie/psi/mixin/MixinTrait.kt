@@ -7,20 +7,13 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import valkyrie.ide.highlight.HighlightColor
-import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.psi.ValkyrieElement
-import yggdrasil.psi.node.ValkyrieDeclareInterface
+import yggdrasil.psi.node.ValkyrieDeclareTrait
 import yggdrasil.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
 
-abstract class MixinInterface(node: ASTNode) : ValkyrieElement(node),
-    NavigatablePsiElement,
-    PsiNameIdentifierOwner,
-    ValkyrieDeclareInterface {
-
-
+abstract class MixinTrait(node: ASTNode) : ValkyrieElement(node), NavigatablePsiElement, PsiNameIdentifierOwner, ValkyrieDeclareTrait {
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
         return this.identifierFree as? ValkyrieIdentifierNode
     }
@@ -35,15 +28,15 @@ abstract class MixinInterface(node: ASTNode) : ValkyrieElement(node),
 
 
     override fun getBaseIcon(): Icon {
-        return AllIcons.Nodes.ModuleGroup
+        return AllIcons.Nodes.Interface
+    }
+
+    override fun getIcon(flags: Int): Icon {
+        return baseIcon
     }
 
     override fun getPresentation(): ItemPresentation? {
         return PresentationData(name, "", baseIcon, null)
-    }
-    override fun highlight(visitor: NodeHighlighter) {
-        visitor.highlight(this.firstChild, HighlightColor.SYM_MACRO)
-        this.identifierFree?.let { visitor.highlight(it, HighlightColor.SYM_MACRO) }
     }
 }
 

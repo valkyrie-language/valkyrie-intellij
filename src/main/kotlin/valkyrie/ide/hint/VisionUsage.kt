@@ -8,7 +8,7 @@ import com.intellij.codeInsight.codeVision.CodeVisionEntry
 import com.intellij.codeInsight.codeVision.settings.PlatformCodeVisionIds
 import com.intellij.psi.PsiElement
 import yggdrasil.psi.node.ValkyrieDeclareClass
-import yggdrasil.psi.node.ValkyrieDeclareInterface
+import yggdrasil.psi.node.ValkyrieDeclareTrait
 
 
 class VisionUsage : ValkyrieCodeVision() {
@@ -19,7 +19,7 @@ class VisionUsage : ValkyrieCodeVision() {
     /// Removed, it is recommended to click on the mark on the left to jump to find usages
     override fun getCodeVision(element: PsiElement): CodeVisionEntry? {
         return when (element) {
-            is ValkyrieDeclareClass, is ValkyrieDeclareInterface -> {
+            is ValkyrieDeclareClass, is ValkyrieDeclareTrait -> {
                 null
             }
 

@@ -18,11 +18,24 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitAttribute(o: ValkyrieAttribute) {
-        o.highlight(this)
+        o as ValkyrieAttributeNode
+        highlight(o.firstChild, HighlightColor.SYM_MACRO)
+        for (id in o.identifiers) {
+            highlight(id, HighlightColor.SYM_MACRO)
+        }
+    }
+
+    override fun visitModifier(o: ValkyrieModifier) {
+        highlight(o.identifier, HighlightColor.KEYWORD)
     }
 
     override fun visitDeclareClass(o: ValkyrieDeclareClass) {
-        o.highlight(this)
+        o as ValkyrieDeclareClassNode
+        o.identifierFree?.let { highlight(it, HighlightColor.SYM_STRUCTURE) }
+    }
+
+    override fun visitSuperClass(o: ValkyrieSuperClass) {
+        o.identifierFree?.let { highlight(it, HighlightColor.SYM_FIELD) }
     }
 
     override fun visitDeclareField(o: ValkyrieDeclareField) {
@@ -51,6 +64,11 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     override fun visitDeclareUnite(o: ValkyrieDeclareUnite) {
         o.highlight(this)
+    }
+
+    override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {
+        o as ValkyrieDeclareTraitNode
+        o.nameIdentifier?.let { highlight(it, HighlightColor.SYM_TRAIT) }
     }
 
     override fun visitDeclareFunction(o: ValkyrieDeclareFunction) {

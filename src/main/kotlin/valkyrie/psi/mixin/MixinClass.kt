@@ -9,15 +9,16 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import valkyrie.ide.highlight.HighlightColor
-import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.psi.ValkyrieElement
 import yggdrasil.psi.node.ValkyrieDeclareClass
 import yggdrasil.psi.node.ValkyrieIdentifierNode
+import yggdrasil.psi.node.ValkyrieSuperClass
 import javax.swing.Icon
 
 
 abstract class MixinClass(node: ASTNode) : ValkyrieElement(node), NavigatablePsiElement, PsiNameIdentifierOwner, ValkyrieDeclareClass {
+    val superClasses: List<ValkyrieSuperClass> = this.classInherit?.superClassList ?: listOf()
+
     override fun getNavigationElement(): PsiElement {
         return nameIdentifier ?: this
     }
@@ -38,6 +39,10 @@ abstract class MixinClass(node: ASTNode) : ValkyrieElement(node), NavigatablePsi
         return AllIcons.Nodes.Class
     }
 
+    override fun getIcon(flags: Int): Icon {
+        return baseIcon
+    }
+
     override fun getPresentation(): ItemPresentation? {
         // annotations.identifierList.joinToString(" ")
         return PresentationData(name, "", baseIcon, null)
@@ -56,9 +61,7 @@ abstract class MixinClass(node: ASTNode) : ValkyrieElement(node), NavigatablePsi
         }
     }
 
-    override fun highlight(visitor: NodeHighlighter) {
-        this.identifierFree?.let { visitor.highlight(it, HighlightColor.SYM_STRUCTURE) }
-    }
+
 }
 
 

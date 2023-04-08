@@ -37,12 +37,12 @@ KW_NAMESPACE = namespace
 KW_USING     = using
 KW_AS        = as
 KW_EXCLUDE   = exclude
-KW_CLASS     = class|struct|structure
+KW_CLASS     = class|struct|structure|interface
 KW_UNION     = union
 KW_UNITE     = unite|inductive
 KW_ENUMERATE = enumerate|enums?
 KW_FLAGS     = flags
-KW_INTERFACE = interface|trait
+KW_TRAIT     = trait
 KW_FUNCTION  = macro|micro|function|func|fun|fn|def
 KW_IMPLY     = imply|impliments?|extends?
 
@@ -129,7 +129,7 @@ OP_AND_THEN  = [?]
     {KW_UNITE} { return KW_UNION; }
 
     {KW_CLASS} { return KW_CLASS; }
-    {KW_INTERFACE} { return KW_INTERFACE; }
+    {KW_TRAIT} { return KW_TRAIT; }
     {KW_IMPLY} { return KW_IMPLY; }
 
 

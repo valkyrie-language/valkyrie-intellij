@@ -21,7 +21,7 @@ class VisionAuthor : VcsCodeVisionLanguageContext {
             || element is ValkyrieDeclareFlags
             || element is ValkyrieDeclareUnion
             || element is ValkyrieDeclareUnite
-            || element is ValkyrieDeclareInterface
+            || element is ValkyrieDeclareTrait
     }
 
     override fun isCustomFileAccepted(file: PsiFile): Boolean {
