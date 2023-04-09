@@ -2,22 +2,25 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieSuffixNode extends ValkyrieElement implements ValkyrieSuffix {
+public class ValkyrieGenericCallNode extends ValkyrieElement implements ValkyrieGenericCall {
 
-    public ValkyrieSuffixNode(@NotNull ASTNode node) {
+    public ValkyrieGenericCallNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitSuffix(this);
+        visitor.visitGenericCall(this);
     }
 
     @Override
@@ -28,8 +31,14 @@ public class ValkyrieSuffixNode extends ValkyrieElement implements ValkyrieSuffi
 
     @Override
     @Nullable
-    public ValkyrieGenericCall getGenericCall() {
-        return findChildByClass(ValkyrieGenericCall.class);
+    public ValkyrieGenericCallAsciiBody getGenericCallAsciiBody() {
+        return findChildByClass(ValkyrieGenericCallAsciiBody.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieGenericCallStandardBody getGenericCallStandardBody() {
+        return findChildByClass(ValkyrieGenericCallStandardBody.class);
     }
 
 }

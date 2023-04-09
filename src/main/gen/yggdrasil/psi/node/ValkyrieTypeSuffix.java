@@ -7,4 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieTypeSuffix extends PsiElement {
 
+    @NotNull
+    ValkyrieGenericCallFree getGenericCallFree();
+
 }

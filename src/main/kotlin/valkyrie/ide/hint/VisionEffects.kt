@@ -7,7 +7,6 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieBundle
-import yggdrasil.psi.node.ValkyrieDeclareClass
 import yggdrasil.psi.node.ValkyrieDeclareFunction
 
 class VisionEffects : ValkyrieCodeVision() {
@@ -26,18 +25,6 @@ class VisionEffects : ValkyrieCodeVision() {
                     listOf()
                 )
             }
-
-            is ValkyrieDeclareClass -> {
-                return TextCodeVisionEntry(
-                    ValkyrieBundle.message(id, '?'),
-                    id,
-                    AllIcons.Actions.DiagramDiff,
-                    "longPresentation",
-                    "Tooltip",
-                    listOf()
-                )
-            }
-
 
             else -> return null
         }

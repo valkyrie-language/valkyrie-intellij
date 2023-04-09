@@ -2,7 +2,6 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
@@ -16,6 +15,9 @@ public interface ValkyrieDeclareTrait extends PsiElement {
 
     @Nullable
     ValkyrieIdentifierFree getIdentifierFree();
+
+    @Nullable
+    ValkyrieTypeHint getTypeHint();
 
     //WARNING: createLookup(...) is skipped
     //matching createLookup(ValkyrieDeclareTrait, ...)

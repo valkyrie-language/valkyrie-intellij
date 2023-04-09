@@ -2,12 +2,10 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieClassImplement extends PsiElement {
-
-    @NotNull
-    ValkyrieTypeHint getTypeHint();
+public interface ValkyrieGenericTypeFree extends ValkyrieGenericType {
 
 }

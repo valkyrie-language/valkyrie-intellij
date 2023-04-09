@@ -47,8 +47,14 @@ public class ValkyrieDeclareClassNode extends MixinClass implements ValkyrieDecl
 
     @Override
     @Nullable
-    public ValkyrieClassInherit getClassInherit() {
-        return findChildByClass(ValkyrieClassInherit.class);
+    public ValkyrieClassInheritBody getClassInheritBody() {
+        return findChildByClass(ValkyrieClassInheritBody.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieDeclareGeneric getDeclareGeneric() {
+        return findChildByClass(ValkyrieDeclareGeneric.class);
     }
 
     @Override

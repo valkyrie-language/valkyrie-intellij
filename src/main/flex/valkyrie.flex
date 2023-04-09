@@ -46,9 +46,13 @@ KW_TRAIT     = trait
 KW_FUNCTION  = macro|micro|function|func|fun|fn|def
 KW_IMPLY     = imply|impliments?|extends?
 
+COLON        = :|∶
+PROPORTION   = ∷|::
+
 OP_BANG      = [!]
 OP_AND_THEN  = [?]
-
+OP_PLUS      = [+]
+OP_MINUS     = [-]
 %%
 
 <YYINITIAL> {
@@ -56,16 +60,7 @@ OP_AND_THEN  = [?]
 	{COMMENT_LINE}     { return COMMENT_LINE; }
 	{COMMENT_BLOCK}    { return COMMENT_BLOCK; }
 }
-// PARENTHESES_L: '(';
-   //PARENTHESES_R: ')';
-   //BRACKET_L:     '[';
-   //BRACKET_R:     ']';
-   //BRACE_L:       '{';
-   //BRACE_R:       '}';
-   //GENERIC_L:     '⟨';
-   //GENERIC_R:     '⟩';
-   //OFFSET_L:      '⁅';
-   //OFFSET_R:      '⁆';
+
    //RANGE_L:       '⟦';
    //RANGE_R:       '⟧';
    //CEILING_L:     '⌈';
@@ -91,7 +86,10 @@ OP_AND_THEN  = [?]
 
 <YYINITIAL> {
 	; { return SEMICOLON; }
-	: { return COLON; }
+
+    {PROPORTION} { return PROPORTION; }
+	{COLON}      { return COLON; }
+
     -> { return OP_TO; }
     \| { return OP_OR;}
     \~ { return OP_CONCAT;}
@@ -104,11 +102,13 @@ OP_AND_THEN  = [?]
 	"/" { return SLASH; }
 	"." { return DOT; }
 	"," { return COMMA; }
-	"-" { return HYPHEN; }
+
 	"=" { return EQUAL; }
 
 	"^" { return OP_REMARK; }
-    {OP_BANG} { return OP_BANG; }
+    {OP_PLUS}     { return OP_PLUS; }
+    {OP_MINUS}    { return OP_MINUS; }
+    {OP_BANG}     { return OP_BANG; }
     {OP_AND_THEN} { return OP_AND_THEN; }
 }
 

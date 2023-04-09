@@ -34,7 +34,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         o.identifierFree?.let { highlight(it, HighlightColor.SYM_STRUCTURE) }
     }
 
-    override fun visitSuperClass(o: ValkyrieSuperClass) {
+    override fun visitClassInherit(o: ValkyrieClassInherit) {
         o.identifierFree?.let { highlight(it, HighlightColor.SYM_FIELD) }
     }
 
@@ -64,6 +64,11 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     override fun visitDeclareUnite(o: ValkyrieDeclareUnite) {
         o.highlight(this)
+    }
+
+    override fun visitTraitAlias(o: ValkyrieTraitAlias) {
+        o as ValkyrieTraitAliasNode
+        o.nameIdentifier?.let { highlight(it, HighlightColor.SYM_TRAIT) }
     }
 
     override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {

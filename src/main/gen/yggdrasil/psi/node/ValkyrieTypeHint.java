@@ -4,10 +4,13 @@ package yggdrasil.psi.node;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
+import valkyrie.ide.highlight.NodeHighlighter;
 
 public interface ValkyrieTypeHint extends PsiElement {
 
     @NotNull
     ValkyrieTypeExpression getTypeExpression();
+
+    void highlight_traits(@NotNull NodeHighlighter visitor);
 
 }
