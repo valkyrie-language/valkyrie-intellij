@@ -2,15 +2,12 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-
 import static valkyrie.psi.ValkyrieTypes.*;
-
 import valkyrie.psi.mixin.MixinTrait;
 
 public class ValkyrieDeclareTraitNode extends MixinTrait implements ValkyrieDeclareTrait {
@@ -45,6 +42,12 @@ public class ValkyrieDeclareTraitNode extends MixinTrait implements ValkyrieDecl
     @Nullable
     public ValkyrieIdentifierFree getIdentifierFree() {
         return findChildByClass(ValkyrieIdentifierFree.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieTypeHint getTypeHint() {
+        return findChildByClass(ValkyrieTypeHint.class);
     }
 
 }

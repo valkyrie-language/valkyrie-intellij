@@ -10,14 +10,14 @@ import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.psi.ValkyrieElement
+import yggdrasil.psi.node.ValkyrieClassInherit
 import yggdrasil.psi.node.ValkyrieDeclareClass
 import yggdrasil.psi.node.ValkyrieIdentifierNode
-import yggdrasil.psi.node.ValkyrieSuperClass
 import javax.swing.Icon
 
 
 abstract class MixinClass(node: ASTNode) : ValkyrieElement(node), NavigatablePsiElement, PsiNameIdentifierOwner, ValkyrieDeclareClass {
-    val superClasses: List<ValkyrieSuperClass> = this.classInherit?.superClassList ?: listOf()
+    val superClasses: List<ValkyrieClassInherit> = this.classInheritBody?.classInheritList ?: listOf()
 
     override fun getNavigationElement(): PsiElement {
         return nameIdentifier ?: this

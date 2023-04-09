@@ -2,16 +2,18 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
 public interface ValkyrieTraitAlias extends PsiElement {
 
     @NotNull
-    ValkyrieIdentifierFree getIdentifierFree();
+    ValkyrieAnnotations getAnnotations();
 
     @NotNull
+    ValkyrieIdentifierFree getIdentifierFree();
+
+    @Nullable
     ValkyrieTypeExpression getTypeExpression();
 
 }

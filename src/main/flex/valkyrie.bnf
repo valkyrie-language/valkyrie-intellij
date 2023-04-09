@@ -75,6 +75,7 @@ root ::= statements*
 private statements ::=
     declare-namespace
   | using
+  | trait-alias
   | declare-flags
   | declare-enumerate
   | declare-unite
@@ -83,7 +84,6 @@ private statements ::=
   | declare-trait
   | declare-imply
   | declare-function
-  | trait-alias
   | SEMICOLON
 // === grammar statement ===
 declare-namespace ::= annotations KW_NAMESPACE namepath-free {
@@ -102,14 +102,14 @@ using-term ::=
   | COMMA
 using-alias ::= key KW_AS identifier-free;
 // === class statement ===
-declare-class ::= annotations KW_CLASS identifier-free class-inherit? class-implement? class-body {
+declare-class ::= annotations KW_CLASS identifier-free declare-generic? class-inherit-body? class-implement? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinClass"
     methods=[createLookup]
 }
-class-inherit   ::= PARENTHESIS_L (super-class (COMMA super-class)? COMMA?) PARENTHESIS_R;
-super-class     ::= (identifier-free EQUAL)? type-expression;
-class-implement ::= type-hint;
+class-inherit-body ::= PARENTHESIS_L (class-inherit (COMMA class-inherit)? COMMA?)? PARENTHESIS_R;
+class-inherit      ::= (annotations identifier-free EQUAL)? type-expression;
+class-implement    ::= type-hint;
 // === class body ===
 class-body ::= BRACE_L class-item* BRACE_R;
 class-item ::=
@@ -123,8 +123,12 @@ declare-field ::= annotations identifier-free type-hint? default-value? {
     mixin = "valkyrie.psi.mixin.MixinField"
     methods=[highlight]
 }
-type-hint     ::= COLON type-expression;
+type-hint     ::= COLON type-expression {
+    mixin = "valkyrie.psi.mixin.MixinTypeHint"
+    methods=[highlight_traits]
+}
 default-value ::= EQUAL expression;
+default-type  ::= EQUAL type-expression;
 // === class method statement ===
 declare-method ::= annotations identifier-free parameter-body return-type? effect-type? function-body? {
     pin = 3
@@ -169,8 +173,11 @@ union-variant ::= OP_OR expression tag-branch? {
 }
 tag-branch ::= HASH identifier-free;
 // === group statement ===
-trait-alias ::= KW_TRAIT identifier-free EQUAL type-expression;
-declare-trait ::= annotations KW_TRAIT identifier-free? class-body {
+trait-alias ::= annotations KW_TRAIT identifier-free EQUAL type-expression {
+    pin = 4
+    mixin = "valkyrie.psi.mixin.MixinTraitAlias"
+}
+declare-trait ::= annotations KW_TRAIT identifier-free? type-hint? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinTrait"
     methods=[createLookup]
@@ -180,6 +187,14 @@ declare-imply ::= annotations KW_IMPLY identifier-free class-body {
     mixin = "valkyrie.psi.mixin.MixinImply"
     methods=[highlight]
 }
+// === generic statement ===
+declare-generic ::=
+    PROPORTION? GENERIC_L (generic-parameter (COMMA generic-parameter)* COMMA?) GENERIC_R
+  | PROPORTION? ANGLE_L   (generic-parameter (COMMA generic-parameter)* COMMA?) ANGLE_R
+{
+
+}
+generic-parameter ::= annotations identifier-free type-hint? default-type?;
 /// === function definition ===
 declare-function ::= annotations KW_FUNCTION identifier-free parameter-body return-type? effect-type? function-body {
     pin = 2
@@ -210,9 +225,9 @@ expression ::= term (infix term)* {
 term ::= prefix* atomic suffix* {
 
 }
-prefix ::= OP_BANG;
-infix ::= OP_AND;
-suffix ::= OP_BANG | OP_AND_THEN;
+prefix ::= OP_PLUS | OP_MINUS | OP_BANG;
+infix  ::= OP_PLUS | OP_MINUS | OP_AND;
+suffix ::= OP_BANG | OP_AND_THEN | generic-call;
 // === expression statement ===
 type-expression ::= type-term (type-infix type-term)* {
 
@@ -220,13 +235,20 @@ type-expression ::= type-term (type-infix type-term)* {
 type-term ::= type-prefix* type-atomic type-suffix* {
 
 }
-type-prefix ::= OP_NOT;
-type-infix ::= OP_CONCAT;
-type-suffix ::= OP_OPTIONAL;
+type-prefix ::= OP_BANG | OP_PLUS;
+type-infix  ::= OP_PLUS;
+type-suffix ::= generic-call-free;
 type-atomic ::= identifier-free;
+// === generic statement ===
+generic-call ::= PROPORTION? generic-call-standard-body | PROPORTION generic-call-ascii-body {
 
-generic ::= GENERIC_L GENERIC_R;
-
+}
+generic-call-free ::= PROPORTION? generic-call-standard-body | PROPORTION? generic-call-ascii-body {
+    extends=generic-call
+}
+generic-call-standard-body ::= GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R
+generic-call-ascii-body    ::= ANGLE_L   (generic-argument (COMMA generic-argument)* COMMA?)? ANGLE_R
+generic-argument ::= (annotations identifier-free EQUAL) type-expression;
 // === atomic statement ===
 atomic ::=
     PARENTHESIS_L expression PARENTHESIS_R
@@ -285,10 +307,10 @@ attribute   ::= HASH namepath argument-body? {
     methods=[highlight]
 }
 // === identifiers ===
-namepath      ::= identifier ((DOT) identifier)* {
+namepath      ::= identifier (PROPORTION identifier)* {
 
 }
-namepath-free ::= identifier ((DOT) identifier)* {
+namepath-free ::= identifier ((PROPORTION|DOT) identifier)* {
     extends = namepath
 }
 identifier           ::= SYMBOL | SYMBOW_RAW {

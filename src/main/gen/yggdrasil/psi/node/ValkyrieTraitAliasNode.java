@@ -2,18 +2,16 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-
 import static valkyrie.psi.ValkyrieTypes.*;
 
-import valkyrie.psi.ValkyrieElement;
+import valkyrie.psi.mixin.MixinTraitAlias;
 
-public class ValkyrieTraitAliasNode extends ValkyrieElement implements ValkyrieTraitAlias {
+public class ValkyrieTraitAliasNode extends MixinTraitAlias implements ValkyrieTraitAlias {
 
     public ValkyrieTraitAliasNode(@NotNull ASTNode node) {
         super(node);
@@ -31,14 +29,20 @@ public class ValkyrieTraitAliasNode extends ValkyrieElement implements ValkyrieT
 
     @Override
     @NotNull
+    public ValkyrieAnnotations getAnnotations() {
+        return findNotNullChildByClass(ValkyrieAnnotations.class);
+    }
+
+    @Override
+    @NotNull
     public ValkyrieIdentifierFree getIdentifierFree() {
         return findNotNullChildByClass(ValkyrieIdentifierFree.class);
     }
 
     @Override
-    @NotNull
+    @Nullable
     public ValkyrieTypeExpression getTypeExpression() {
-        return findNotNullChildByClass(ValkyrieTypeExpression.class);
+        return findChildByClass(ValkyrieTypeExpression.class);
     }
 
 }

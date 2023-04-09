@@ -8,12 +8,11 @@ import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.psi.ValkyrieElement
-import yggdrasil.psi.node.ValkyrieDeclareTrait
 import yggdrasil.psi.node.ValkyrieIdentifierNode
+import yggdrasil.psi.node.ValkyrieTraitAlias
 import javax.swing.Icon
 
-
-abstract class MixinTrait(node: ASTNode) : ValkyrieElement(node), NavigatablePsiElement, PsiNameIdentifierOwner, ValkyrieDeclareTrait {
+abstract class MixinTraitAlias(node: ASTNode) : ValkyrieElement(node), NavigatablePsiElement, PsiNameIdentifierOwner, ValkyrieTraitAlias {
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
         return this.identifierFree as? ValkyrieIdentifierNode
     }
@@ -39,5 +38,3 @@ abstract class MixinTrait(node: ASTNode) : ValkyrieElement(node), NavigatablePsi
         return PresentationData(name, "", baseIcon, null)
     }
 }
-
-

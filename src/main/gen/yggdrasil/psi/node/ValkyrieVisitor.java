@@ -39,6 +39,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitClassInheritBody(@NotNull ValkyrieClassInheritBody o) {
+        visitPsiElement(o);
+    }
+
     public void visitClassItem(@NotNull ValkyrieClassItem o) {
         visitPsiElement(o);
     }
@@ -60,6 +64,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitDeclareFunction(@NotNull ValkyrieDeclareFunction o) {
+        visitPsiElement(o);
+    }
+
+    public void visitDeclareGeneric(@NotNull ValkyrieDeclareGeneric o) {
         visitPsiElement(o);
     }
 
@@ -88,6 +96,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitDeclareUnite(@NotNull ValkyrieDeclareUnite o) {
+        visitPsiElement(o);
+    }
+
+    public void visitDefaultType(@NotNull ValkyrieDefaultType o) {
         visitPsiElement(o);
     }
 
@@ -123,7 +135,27 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitGeneric(@NotNull ValkyrieGeneric o) {
+    public void visitGenericArgument(@NotNull ValkyrieGenericArgument o) {
+        visitPsiElement(o);
+    }
+
+    public void visitGenericCall(@NotNull ValkyrieGenericCall o) {
+        visitPsiElement(o);
+    }
+
+    public void visitGenericCallAsciiBody(@NotNull ValkyrieGenericCallAsciiBody o) {
+        visitPsiElement(o);
+    }
+
+    public void visitGenericCallFree(@NotNull ValkyrieGenericCallFree o) {
+        visitGenericCall(o);
+    }
+
+    public void visitGenericCallStandardBody(@NotNull ValkyrieGenericCallStandardBody o) {
+        visitPsiElement(o);
+    }
+
+    public void visitGenericParameter(@NotNull ValkyrieGenericParameter o) {
         visitPsiElement(o);
     }
 
@@ -216,10 +248,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitSuffix(@NotNull ValkyrieSuffix o) {
-        visitPsiElement(o);
-    }
-
-    public void visitSuperClass(@NotNull ValkyrieSuperClass o) {
         visitPsiElement(o);
     }
 

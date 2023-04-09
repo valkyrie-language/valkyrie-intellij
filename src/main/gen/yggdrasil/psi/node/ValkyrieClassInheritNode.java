@@ -2,15 +2,12 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-
 import static valkyrie.psi.ValkyrieTypes.*;
-
 import valkyrie.psi.ValkyrieElement;
 
 public class ValkyrieClassInheritNode extends ValkyrieElement implements ValkyrieClassInherit {
@@ -30,9 +27,21 @@ public class ValkyrieClassInheritNode extends ValkyrieElement implements Valkyri
     }
 
     @Override
+    @Nullable
+    public ValkyrieAnnotations getAnnotations() {
+        return findChildByClass(ValkyrieAnnotations.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieIdentifierFree getIdentifierFree() {
+        return findChildByClass(ValkyrieIdentifierFree.class);
+    }
+
+    @Override
     @NotNull
-    public List<ValkyrieSuperClass> getSuperClassList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieSuperClass.class);
+    public ValkyrieTypeExpression getTypeExpression() {
+        return findNotNullChildByClass(ValkyrieTypeExpression.class);
     }
 
 }
