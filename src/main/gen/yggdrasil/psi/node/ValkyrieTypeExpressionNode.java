@@ -8,9 +8,11 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.psi.ValkyrieTypes.*;
-import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieTypeExpressionNode extends ValkyrieElement implements ValkyrieTypeExpression {
+import valkyrie.psi.mixin.MixinTypeExpression;
+import valkyrie.ide.highlight.NodeHighlighter;
+
+public class ValkyrieTypeExpressionNode extends MixinTypeExpression implements ValkyrieTypeExpression {
 
     public ValkyrieTypeExpressionNode(@NotNull ASTNode node) {
         super(node);

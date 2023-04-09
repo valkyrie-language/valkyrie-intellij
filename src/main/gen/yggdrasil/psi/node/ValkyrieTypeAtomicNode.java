@@ -27,9 +27,15 @@ public class ValkyrieTypeAtomicNode extends ValkyrieElement implements ValkyrieT
     }
 
     @Override
-    @NotNull
-    public ValkyrieIdentifierFree getIdentifierFree() {
-        return findNotNullChildByClass(ValkyrieIdentifierFree.class);
+    @Nullable
+    public ValkyrieNamepath getNamepath() {
+        return findChildByClass(ValkyrieNamepath.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieString getString() {
+        return findChildByClass(ValkyrieString.class);
     }
 
 }

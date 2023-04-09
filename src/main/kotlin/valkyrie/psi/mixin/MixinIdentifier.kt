@@ -17,7 +17,7 @@ abstract class MixinIdentifier(node: ASTNode) : ValkyrieElement(node), ValkyrieI
         return SharedImplUtil.getContainingFile(node) as ValkyrieFileNode
     }
 
-    override fun getName(): String? {
+    override fun getName(): String {
         return this.text.trim('`')
     }
 

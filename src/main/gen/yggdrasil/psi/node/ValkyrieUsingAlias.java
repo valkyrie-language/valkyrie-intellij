@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieUsingAlias extends PsiElement {
 
     @NotNull
-    ValkyrieIdentifierFree getIdentifierFree();
-
-    @NotNull
-    ValkyrieKey getKey();
+    List<ValkyrieIdentifierFree> getIdentifierFreeList();
 
 }

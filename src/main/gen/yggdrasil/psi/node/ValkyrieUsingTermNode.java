@@ -28,8 +28,26 @@ public class ValkyrieUsingTermNode extends ValkyrieElement implements ValkyrieUs
 
     @Override
     @Nullable
+    public ValkyrieNamepathFree getNamepathFree() {
+        return findChildByClass(ValkyrieNamepathFree.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieUsingAlias getUsingAlias() {
         return findChildByClass(ValkyrieUsingAlias.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieUsingAny getUsingAny() {
+        return findChildByClass(ValkyrieUsingAny.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieUsingBlock getUsingBlock() {
+        return findChildByClass(ValkyrieUsingBlock.class);
     }
 
 }

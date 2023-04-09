@@ -34,14 +34,14 @@ public class ValkyrieUsingNode extends MixinUsing implements ValkyrieUsing {
 
     @Override
     @Nullable
-    public ValkyrieIdentifierFree getIdentifierFree() {
-        return findChildByClass(ValkyrieIdentifierFree.class);
+    public ValkyrieUsingBody getUsingBody() {
+        return findChildByClass(ValkyrieUsingBody.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieUsingBody getUsingBody() {
-        return findChildByClass(ValkyrieUsingBody.class);
+    public ValkyrieUsingTerm getUsingTerm() {
+        return findChildByClass(ValkyrieUsingTerm.class);
     }
 
 }

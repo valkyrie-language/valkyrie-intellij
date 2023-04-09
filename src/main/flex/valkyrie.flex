@@ -29,14 +29,16 @@ DEC = [0-9]
 HEX = [0-9a-fA-F]
 
 
-SYMBOL=[\p{XID_Start}_][\p{XID_Continue}_]*
+SYMBOL=[\p{XID_Start}_][\p{XID_Continue}]*
 SYMBOW_RAW = `[^`]*`
 ESCAPED = \\.
 
-KW_NAMESPACE = namespace
-KW_USING     = using
-KW_AS        = as
+KW_NAMESPACE = namespace[!?]?
+KW_USING     = using[!?]?
+KW_AS        = as[!?]?
 KW_EXCLUDE   = exclude
+
+KW_TYPE      = typus|type
 KW_CLASS     = class|struct|structure|interface
 KW_UNION     = union
 KW_UNITE     = unite|inductive
@@ -46,6 +48,7 @@ KW_TRAIT     = trait
 KW_FUNCTION  = macro|micro|function|func|fun|fn|def
 KW_IMPLY     = imply|impliments?|extends?
 
+STAR         = \*
 COLON        = :|∶
 PROPORTION   = ∷|::
 
@@ -89,6 +92,7 @@ OP_MINUS     = [-]
 
     {PROPORTION} { return PROPORTION; }
 	{COLON}      { return COLON; }
+    {STAR}       { return STAR; }
 
     -> { return OP_TO; }
     \| { return OP_OR;}
@@ -113,27 +117,26 @@ OP_MINUS     = [-]
 }
 
 <YYINITIAL> {
-    {DEC} { return INTEGER; }
+    {DEC}         { return INTEGER; }
     {TEXT_SINGLE} { return TEXT_SINGLE; }
     {TEXT_DOUBLE} { return TEXT_DOUBLE; }
 }
 
 <YYINITIAL> {
     {KW_NAMESPACE} { return KW_NAMESPACE; }
-    {KW_USING} { return KW_USING; }
-    {KW_AS} { return KW_AS; }
+    {KW_USING}     { return KW_USING; }
+    {KW_AS}        { return KW_AS; }
+    {KW_EXCLUDE}   { return KW_EXCLUDE; }
 
-    {KW_FLAGS} { return KW_FLAGS;}
-    {KW_ENUMERATE} { return KW_ENUMERATE;}
-    {KW_UNITE} { return KW_UNITE; }
-    {KW_UNITE} { return KW_UNION; }
-
-    {KW_CLASS} { return KW_CLASS; }
-    {KW_TRAIT} { return KW_TRAIT; }
-    {KW_IMPLY} { return KW_IMPLY; }
-
-
-    {KW_FUNCTION} { return KW_FUNCTION; }
+    {KW_TYPE}      { return KW_TYPE; }
+    {KW_FLAGS}     { return KW_FLAGS; }
+    {KW_ENUMERATE} { return KW_ENUMERATE; }
+    {KW_UNITE}     { return KW_UNITE; }
+    {KW_UNITE}     { return KW_UNION; }
+    {KW_CLASS}     { return KW_CLASS; }
+    {KW_TRAIT}     { return KW_TRAIT; }
+    {KW_IMPLY}     { return KW_IMPLY; }
+    {KW_FUNCTION}  { return KW_FUNCTION; }
 
     {ESCAPED} { return ESCAPED; }
     {SYMBOW_RAW} { return SYMBOW_RAW; }

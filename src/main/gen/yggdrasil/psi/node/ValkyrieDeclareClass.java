@@ -15,9 +15,6 @@ public interface ValkyrieDeclareClass extends PsiElement {
     ValkyrieClassBody getClassBody();
 
     @Nullable
-    ValkyrieClassImplement getClassImplement();
-
-    @Nullable
     ValkyrieClassInheritBody getClassInheritBody();
 
     @Nullable
@@ -25,6 +22,9 @@ public interface ValkyrieDeclareClass extends PsiElement {
 
     @Nullable
     ValkyrieIdentifierFree getIdentifierFree();
+
+    @Nullable
+    ValkyrieTypeHint getTypeHint();
 
     void createLookup(@NotNull List<LookupElement> completions);
 

@@ -27,9 +27,9 @@ public class ValkyrieTypeSuffixNode extends ValkyrieElement implements ValkyrieT
     }
 
     @Override
-    @NotNull
+    @Nullable
     public ValkyrieGenericCallFree getGenericCallFree() {
-        return findNotNullChildByClass(ValkyrieGenericCallFree.class);
+        return findChildByClass(ValkyrieGenericCallFree.class);
     }
 
 }

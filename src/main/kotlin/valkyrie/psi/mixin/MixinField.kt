@@ -7,8 +7,6 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import valkyrie.ide.highlight.HighlightColor
-import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.psi.ValkyrieElement
 import yggdrasil.psi.node.ValkyrieDeclareField
 import yggdrasil.psi.node.ValkyrieIdentifierNode
@@ -44,9 +42,6 @@ abstract class MixinField(node: ASTNode) : ValkyrieElement(node),
     }
 
 
-    override fun highlight(visitor: NodeHighlighter) {
-        nameIdentifier?.let { visitor.highlight(it, HighlightColor.SYM_FIELD) }
 
-    }
 }
 

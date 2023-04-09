@@ -11,9 +11,9 @@ public interface ValkyrieUsing extends PsiElement {
     ValkyrieAnnotations getAnnotations();
 
     @Nullable
-    ValkyrieIdentifierFree getIdentifierFree();
+    ValkyrieUsingBody getUsingBody();
 
     @Nullable
-    ValkyrieUsingBody getUsingBody();
+    ValkyrieUsingTerm getUsingTerm();
 
 }

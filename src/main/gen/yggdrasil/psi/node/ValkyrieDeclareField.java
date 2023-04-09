@@ -4,7 +4,6 @@ package yggdrasil.psi.node;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import valkyrie.ide.highlight.NodeHighlighter;
 
 public interface ValkyrieDeclareField extends PsiElement {
 
@@ -19,7 +18,5 @@ public interface ValkyrieDeclareField extends PsiElement {
 
     @Nullable
     ValkyrieTypeHint getTypeHint();
-
-    void highlight(@NotNull NodeHighlighter visitor);
 
 }
