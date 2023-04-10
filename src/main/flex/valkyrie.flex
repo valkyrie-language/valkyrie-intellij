@@ -45,12 +45,38 @@ KW_UNITE     = unite|inductive
 KW_ENUMERATE = enumerate|enums?
 KW_FLAGS     = flags
 KW_TRAIT     = trait
-KW_FUNCTION  = macro|micro|function|func|fun|fn|def
 KW_IMPLY     = imply|impliments?|extends?
+KW_FUNCTION  = macro|micro|function|func|fun|fn|def
+KW_LET       = let|val|var
+
+KW_WHILE = while
+KW_UNTIL = until
+KW_FOR   = for
+KW_IN    = in
+KW_IF    = if
+KW_ELSE  = else
+KW_IS    = is
+KW_NOT   = not
+
+KW_TRY   = try
+KW_CATCH = catch
+
+KW_MATCH = match
+KW_CASE  = case
+KW_WHEN  = when
+
+KW_NIL   = nil
+KW_NULL  = null
+KW_TRUE  = true
+KW_FALSE = false
+
 
 STAR         = \*
 COLON        = :|∶
 PROPORTION   = ∷|::
+
+
+
 
 OP_BANG      = [!]
 OP_AND_THEN  = [?]
@@ -132,15 +158,34 @@ OP_MINUS     = [-]
     {KW_FLAGS}     { return KW_FLAGS; }
     {KW_ENUMERATE} { return KW_ENUMERATE; }
     {KW_UNITE}     { return KW_UNITE; }
-    {KW_UNITE}     { return KW_UNION; }
+    {KW_UNION}     { return KW_UNION; }
     {KW_CLASS}     { return KW_CLASS; }
     {KW_TRAIT}     { return KW_TRAIT; }
     {KW_IMPLY}     { return KW_IMPLY; }
     {KW_FUNCTION}  { return KW_FUNCTION; }
+    {KW_LET}       { return KW_LET; }
 
-    {ESCAPED} { return ESCAPED; }
+    {KW_IF}    { return KW_IF; }
+    {KW_ELSE}  { return KW_ELSE; }
+    {KW_WHILE} { return KW_WHILE; }
+    {KW_UNTIL} { return KW_WHILE; }
+    {KW_FOR}   { return KW_FOR; }
+    {KW_IN}    { return KW_IN; }
+
+    {KW_TRY}   { return KW_TRY; }
+    {KW_CATCH} { return KW_CATCH; }
+    {KW_MATCH} { return KW_MATCH; }
+    {KW_CASE}  { return KW_CASE; }
+    {KW_WHEN}  { return KW_WHEN; }
+
+    {KW_NULL}    { return KW_NULL; }
+    {KW_NIL}     { return KW_NIL; }
+    {KW_TRUE}    { return KW_TRUE; }
+    {KW_FALSE}   { return KW_FALSE; }
+    {KW_IS}      { return KW_IS; }
+    {KW_NOT}     { return KW_NOT; }
     {SYMBOW_RAW} { return SYMBOW_RAW; }
-    {SYMBOL}  { return SYMBOL; }
+    {SYMBOL}     { return SYMBOL; }
 }
 // =====================================================================================================================
 [^] { return BAD_CHARACTER; }

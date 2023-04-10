@@ -85,7 +85,26 @@ private statements ::=
   | declare-trait
   | declare-imply
   | declare-function
+  | declare-variable
+  | if-case-statement
+  | if-statement
+  | while-statement
+  | for-statement
+  | try-statement
+  | catch-statement
+  | match-statement
+  | expression
   | SEMICOLON
+block-statement ::=
+    if-case-statement
+  | if-statement
+  | while-statement
+  | for-statement
+  | try-statement
+  | catch-statement
+  | match-statement
+  | expression
+  | SEMICOLON;
 // === grammar statement ===
 declare-namespace ::= annotations KW_NAMESPACE namepath-free {
 	pin = 2
@@ -103,11 +122,12 @@ using-term ::=
   | namepath-free
   | SEMICOLON
   | COMMA
-using-any     ::= (namepath-free (DOT|PROPORTION)?) STAR using-exclude?
+using-any     ::= (namepath-free using-dot?) STAR using-exclude?
 using-exclude ::= KW_EXCLUDE (identifier-free|BRACE_L (identifier-free (COMMA identifier-free)* COMMA?) BRACE_R)
-using-block   ::= namepath-free (DOT|PROPORTION)? using-body
+using-block   ::= namepath-free using-dot? using-body
 using-body    ::= BRACE_L using-term* BRACE_R;
 using-alias   ::= identifier-free KW_AS identifier-free;
+private using-dot ::= DOT|PROPORTION|SLASH
 // === class statement ===
 type-alias ::= annotations KW_TYPE identifier-free EQUAL type-expression {
     pin = 2
@@ -138,8 +158,7 @@ type-hint     ::= COLON type-expression {
 default-value ::= EQUAL expression;
 default-type  ::= EQUAL type-expression;
 // === class method statement ===
-declare-method ::= annotations identifier-free parameter-body return-type? effect-type? function-body? {
-    pin = 3
+declare-method ::= annotations identifier-free declare-generic? parameter-body return-type? effect-type? block-body? {
     mixin = "valkyrie.psi.mixin.MixinMethod"
     methods=[highlight]
 }
@@ -204,7 +223,7 @@ declare-generic ::=
 }
 generic-parameter ::= annotations identifier-free type-hint? default-type?;
 /// === function definition ===
-declare-function ::= annotations KW_FUNCTION identifier-free parameter-body return-type? effect-type? function-body {
+declare-function ::= annotations KW_FUNCTION declare-generic? identifier-free parameter-body return-type? effect-type? block-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinFunction"
     methods=[highlight createLookup]
@@ -213,12 +232,15 @@ parameter-body ::= PARENTHESIS_L (parameter-item (COMMA parameter-item)* COMMA?)
 parameter-item ::= identifier type-hint? default-value? {
 
 }
-function-body ::= BRACE_L function-item* BRACE_R;
-function-item ::=
-    expression
-  | SEMICOLON;
+
 return-type  ::= (OP_TO|COLON) type-expression;
 effect-type  ::= SLASH type-expression;
+block-body ::= BRACE_L block-statement* BRACE_R;
+// === function statement ===
+declare-variable ::= KW_LET pattern type-hint? EQUAL expression {
+    pin = 1
+//    mixin = "valkyrie.psi.mixin.MixinVariable"
+}
 // === function statement ===
 function-call ::= namepath tuple? {
     pin = 1
@@ -227,7 +249,64 @@ macro-call    ::= AT namepath tuple? {
 
 }
 dot-call ::= OP_AND_THEN? DOT namepath argument-body?;
-// === expression statement ===
+dot-call-match ::= OP_AND_THEN? DOT KW_MATCH match-body {
+    pin = 3
+}
+dot-call-catch ::= OP_AND_THEN? DOT KW_CATCH match-body {
+    pin = 3
+}
+// === if statement ===
+if-case-statement ::= KW_IF (KW_LET|KW_CASE) pattern EQUAL inline-expression block-body {
+    pin=2
+}
+if-statement ::= KW_IF inline-expression block-body else-if-statement* else-statement? {
+    pin = 1
+}
+else-if-statement ::= KW_ELSE KW_IF inline-expression block-body {
+    pin = 2
+}
+else-statement ::= KW_ELSE block-body {
+    pin = 1
+}
+
+// === if statement ===
+while-statement ::= while-kind inline-expression block-body else-statement? {
+    pin = 1
+}
+while-kind ::= KW_WHILE|KW_UNTIL
+
+for-statement ::= KW_FOR (bare-pattern|pattern) KW_IN inline-expression block-body else-statement? {
+    pin = 1
+}
+// === if statement ===
+try-statement ::= KW_TRY type-expression? block-body {
+    pin = 1
+}
+
+catch-statement ::= KW_CATCH inline-expression match-body {
+    pin = 1
+}
+match-statement ::= KW_MATCH inline-expression match-body {
+    pin = 1
+}
+match-body ::= BRACE_L match-item* BRACE_R;
+match-item ::=
+    match-case
+  | match-when
+  | match-else
+match-case ::= KW_CASE inline-expression {
+    pin = 1
+}
+match-when ::= KW_WHEN inline-expression {
+    pin = 1
+}
+match-else ::= KW_ELSE inline-expression {
+    pin = 1
+}
+// === pattern expression ===
+bare-pattern ::= identifier-free (identifier-free COMMA)* COMMA?
+pattern ::= identifier-free;
+// === common expression ===
 expression ::= term (infix term)* {
 
 };
@@ -235,8 +314,18 @@ term ::= prefix* atomic suffix* {
 
 }
 prefix ::= OP_PLUS | OP_MINUS | OP_BANG;
-infix  ::= OP_PLUS | OP_MINUS | OP_AND;
-suffix ::= OP_BANG | OP_AND_THEN | dot-call | generic-call;
+infix  ::=
+    OP_PLUS | OP_MINUS
+  | ANGLE_L | ANGLE_R
+  | OP_AND
+  | KW_AS | is_not;
+is_not ::= KW_IS KW_NOT?
+suffix ::= OP_BANG | OP_AND_THEN | dot-call | dot-call-catch | dot-call-match | generic-call;
+// === expression statement ===
+inline-expression ::= term (infix term)* {
+    extends=expression
+};
+
 // === expression statement ===
 type-expression ::= type-term (type-infix type-term)* {
     mixin = "valkyrie.psi.mixin.MixinTypeExpression"
@@ -264,6 +353,7 @@ atomic ::=
     PARENTHESIS_L expression PARENTHESIS_R
   | macro-call
   | function-call
+  | special
   | namepath
   | string
   | number
@@ -302,6 +392,7 @@ argument ::= (identifier-free EQUAL)? expression {
 number ::= INTEGER {
 //    mixin = "yggdrasil.psi.mixin.MixinNumber"
 }
+special ::= KW_NULL | KW_NIL | KW_TRUE | KW_FALSE;
 // === annotation statement ===
 annotations ::= attribute* modifier*
 modifier    ::= identifier !(COMMA|SEMICOLON|EQUAL|COLON|PARENTHESIS_L|BRACE_R) {

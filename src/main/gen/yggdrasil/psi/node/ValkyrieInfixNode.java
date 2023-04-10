@@ -26,4 +26,10 @@ public class ValkyrieInfixNode extends ValkyrieElement implements ValkyrieInfix 
         else super.accept(visitor);
     }
 
+    @Override
+    @Nullable
+    public ValkyrieIsNot getIsNot() {
+        return findChildByClass(ValkyrieIsNot.class);
+    }
+
 }
