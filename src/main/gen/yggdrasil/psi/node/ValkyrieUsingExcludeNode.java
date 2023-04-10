@@ -2,22 +2,25 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieUsingAliasNode extends ValkyrieElement implements ValkyrieUsingAlias {
+public class ValkyrieUsingExcludeNode extends ValkyrieElement implements ValkyrieUsingExclude {
 
-    public ValkyrieUsingAliasNode(@NotNull ASTNode node) {
+    public ValkyrieUsingExcludeNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitUsingAlias(this);
+        visitor.visitUsingExclude(this);
     }
 
     @Override

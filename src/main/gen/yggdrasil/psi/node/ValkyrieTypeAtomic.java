@@ -7,7 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieTypeAtomic extends PsiElement {
 
-    @NotNull
-    ValkyrieIdentifierFree getIdentifierFree();
+    @Nullable
+    ValkyrieNamepath getNamepath();
+
+    @Nullable
+    ValkyrieString getString();
 
 }

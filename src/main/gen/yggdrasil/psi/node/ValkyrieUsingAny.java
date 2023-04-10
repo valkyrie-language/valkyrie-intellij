@@ -2,13 +2,15 @@
 package yggdrasil.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieGenericArgumentBody extends PsiElement {
+public interface ValkyrieUsingAny extends PsiElement {
 
     @NotNull
-    List<ValkyrieGenericArgument> getGenericArgumentList();
+    ValkyrieNamepathFree getNamepathFree();
+
+    @Nullable
+    ValkyrieUsingExclude getUsingExclude();
 
 }

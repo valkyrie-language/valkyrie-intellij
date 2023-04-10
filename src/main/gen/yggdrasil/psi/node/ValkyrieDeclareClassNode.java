@@ -41,12 +41,6 @@ public class ValkyrieDeclareClassNode extends MixinClass implements ValkyrieDecl
 
     @Override
     @Nullable
-    public ValkyrieClassImplement getClassImplement() {
-        return findChildByClass(ValkyrieClassImplement.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieClassInheritBody getClassInheritBody() {
         return findChildByClass(ValkyrieClassInheritBody.class);
     }
@@ -61,6 +55,12 @@ public class ValkyrieDeclareClassNode extends MixinClass implements ValkyrieDecl
     @Nullable
     public ValkyrieIdentifierFree getIdentifierFree() {
         return findChildByClass(ValkyrieIdentifierFree.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieTypeHint getTypeHint() {
+        return findChildByClass(ValkyrieTypeHint.class);
     }
 
 }

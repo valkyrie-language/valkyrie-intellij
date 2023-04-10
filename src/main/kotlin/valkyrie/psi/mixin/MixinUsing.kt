@@ -9,9 +9,7 @@ import yggdrasil.psi.node.ValkyrieUsing
 import javax.swing.Icon
 
 abstract class MixinUsing(node: ASTNode) : ValkyrieElement(node), ValkyrieUsing {
-    override fun getName(): String {
-        return this.identifierFree?.text ?: ""
-    }
+
 
     override fun getBaseIcon(): Icon {
         return AllIcons.Nodes.NativeLibrariesFolder

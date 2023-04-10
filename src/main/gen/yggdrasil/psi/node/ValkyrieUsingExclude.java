@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieClassImplement extends PsiElement {
+public interface ValkyrieUsingExclude extends PsiElement {
 
     @NotNull
-    ValkyrieTypeHint getTypeHint();
+    List<ValkyrieIdentifierFree> getIdentifierFreeList();
 
 }

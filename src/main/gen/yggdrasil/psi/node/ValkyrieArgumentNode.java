@@ -27,15 +27,15 @@ public class ValkyrieArgumentNode extends ValkyrieElement implements ValkyrieArg
     }
 
     @Override
-    @Nullable
-    public ValkyrieIdentifierFree getIdentifierFree() {
-        return findChildByClass(ValkyrieIdentifierFree.class);
+    @NotNull
+    public ValkyrieExpression getExpression() {
+        return findNotNullChildByClass(ValkyrieExpression.class);
     }
 
     @Override
-    @NotNull
-    public ValkyrieValue getValue() {
-        return findNotNullChildByClass(ValkyrieValue.class);
+    @Nullable
+    public ValkyrieIdentifierFree getIdentifierFree() {
+        return findChildByClass(ValkyrieIdentifierFree.class);
     }
 
 }

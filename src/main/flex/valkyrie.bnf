@@ -75,6 +75,7 @@ root ::= statements*
 private statements ::=
     declare-namespace
   | using
+  | type-alias
   | trait-alias
   | declare-flags
   | declare-enumerate
@@ -91,25 +92,33 @@ declare-namespace ::= annotations KW_NAMESPACE namepath-free {
     mixin = "valkyrie.psi.mixin.MixinNamespace"
 }
 // === class statement ===
-using ::= annotations KW_USING identifier-free (DOT (OP_MANY | using-body))? {
+using ::= annotations KW_USING (using-body|using-term) {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinUsing"
 }
-using-body ::= BRACE_L using-term* BRACE_R;
 using-term ::=
-    using-alias
+    using-any
+  | using-alias
+  | using-block
+  | namepath-free
   | SEMICOLON
   | COMMA
-using-alias ::= key KW_AS identifier-free;
+using-any     ::= (namepath-free (DOT|PROPORTION)?) STAR using-exclude?
+using-exclude ::= KW_EXCLUDE (identifier-free|BRACE_L (identifier-free (COMMA identifier-free)* COMMA?) BRACE_R)
+using-block   ::= namepath-free (DOT|PROPORTION)? using-body
+using-body    ::= BRACE_L using-term* BRACE_R;
+using-alias   ::= identifier-free KW_AS identifier-free;
 // === class statement ===
-declare-class ::= annotations KW_CLASS identifier-free declare-generic? class-inherit-body? class-implement? class-body {
+type-alias ::= annotations KW_TYPE identifier-free EQUAL type-expression {
+    pin = 2
+}
+declare-class ::= annotations KW_CLASS identifier-free declare-generic? class-inherit-body? type-hint? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinClass"
     methods=[createLookup]
 }
 class-inherit-body ::= PARENTHESIS_L (class-inherit (COMMA class-inherit)? COMMA?)? PARENTHESIS_R;
 class-inherit      ::= (annotations identifier-free EQUAL)? type-expression;
-class-implement    ::= type-hint;
 // === class body ===
 class-body ::= BRACE_L class-item* BRACE_R;
 class-item ::=
@@ -117,15 +126,14 @@ class-item ::=
   | declare-field
   | SEMICOLON
   | COMMA
+
 // === class field statement ===
 declare-field ::= annotations identifier-free type-hint? default-value? {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinField"
-    methods=[highlight]
 }
 type-hint     ::= COLON type-expression {
     mixin = "valkyrie.psi.mixin.MixinTypeHint"
-    methods=[highlight_traits]
 }
 default-value ::= EQUAL expression;
 default-type  ::= EQUAL type-expression;
@@ -218,6 +226,7 @@ function-call ::= namepath tuple? {
 macro-call    ::= AT namepath tuple? {
 
 }
+dot-call ::= OP_AND_THEN? DOT namepath argument-body?;
 // === expression statement ===
 expression ::= term (infix term)* {
 
@@ -227,18 +236,19 @@ term ::= prefix* atomic suffix* {
 }
 prefix ::= OP_PLUS | OP_MINUS | OP_BANG;
 infix  ::= OP_PLUS | OP_MINUS | OP_AND;
-suffix ::= OP_BANG | OP_AND_THEN | generic-call;
+suffix ::= OP_BANG | OP_AND_THEN | dot-call | generic-call;
 // === expression statement ===
 type-expression ::= type-term (type-infix type-term)* {
-
+    mixin = "valkyrie.psi.mixin.MixinTypeExpression"
+    methods=[highlight_trait highlight_class]
 };
 type-term ::= type-prefix* type-atomic type-suffix* {
 
 }
-type-prefix ::= OP_BANG | OP_PLUS;
+type-prefix ::= OP_PLUS | OP_MINUS | OP_BANG;
 type-infix  ::= OP_PLUS;
-type-suffix ::= generic-call-free;
-type-atomic ::= identifier-free;
+type-suffix ::= OP_AND_THEN | generic-call-free;
+type-atomic ::= namepath | string;
 // === generic statement ===
 generic-call ::= PROPORTION? generic-call-standard-body | PROPORTION generic-call-ascii-body {
 
@@ -248,7 +258,7 @@ generic-call-free ::= PROPORTION? generic-call-standard-body | PROPORTION? gener
 }
 generic-call-standard-body ::= GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R
 generic-call-ascii-body    ::= ANGLE_L   (generic-argument (COMMA generic-argument)* COMMA?)? ANGLE_R
-generic-argument ::= (annotations identifier-free EQUAL) type-expression;
+generic-argument ::= (annotations identifier-free EQUAL)? type-expression;
 // === atomic statement ===
 atomic ::=
     PARENTHESIS_L expression PARENTHESIS_R
@@ -278,11 +288,7 @@ string ::= TEXT_SINGLE | TEXT_DOUBLE {
     mixin = "valkyrie.psi.mixin.MixinString"
 }
 // === atomic statement ===
-key      ::= identifier-free;
-value    ::= tuple | string;
-pair     ::= key COLON value {
-//    mixin = "yggdrasil.psi.mixin.MixinTuple"
-}
+
 tuple    ::= PARENTHESIS_L PARENTHESIS_R
   | PARENTHESIS_L argument COMMA PARENTHESIS_R
   | PARENTHESIS_L (argument (COMMA argument)+ COMMA?)? PARENTHESIS_R
@@ -290,7 +296,7 @@ tuple    ::= PARENTHESIS_L PARENTHESIS_R
   //    mixin = "yggdrasil.psi.mixin.MixinTuple"
 }
 argument-body ::= PARENTHESIS_L (argument (COMMA argument)* COMMA?)? PARENTHESIS_R;
-argument ::= (identifier-free COLON)? value {
+argument ::= (identifier-free EQUAL)? expression {
 
 }
 number ::= INTEGER {

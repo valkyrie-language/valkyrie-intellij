@@ -31,10 +31,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitClassImplement(@NotNull ValkyrieClassImplement o) {
-        visitPsiElement(o);
-    }
-
     public void visitClassInherit(@NotNull ValkyrieClassInherit o) {
         visitPsiElement(o);
     }
@@ -107,6 +103,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitDotCall(@NotNull ValkyrieDotCall o) {
+        visitPsiElement(o);
+    }
+
     public void visitEffectType(@NotNull ValkyrieEffectType o) {
         visitPsiElement(o);
     }
@@ -171,10 +171,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitKey(@NotNull ValkyrieKey o) {
-        visitPsiElement(o);
-    }
-
     public void visitMacroCall(@NotNull ValkyrieMacroCall o) {
         visitPsiElement(o);
     }
@@ -200,10 +196,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitOrdinalRange(@NotNull ValkyrieOrdinalRange o) {
-        visitPsiElement(o);
-    }
-
-    public void visitPair(@NotNull ValkyriePair o) {
         visitPsiElement(o);
     }
 
@@ -267,6 +259,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitTypeAlias(@NotNull ValkyrieTypeAlias o) {
+        visitPsiElement(o);
+    }
+
     public void visitTypeAtomic(@NotNull ValkyrieTypeAtomic o) {
         visitPsiElement(o);
     }
@@ -311,15 +307,23 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitUsingAny(@NotNull ValkyrieUsingAny o) {
+        visitPsiElement(o);
+    }
+
+    public void visitUsingBlock(@NotNull ValkyrieUsingBlock o) {
+        visitPsiElement(o);
+    }
+
     public void visitUsingBody(@NotNull ValkyrieUsingBody o) {
         visitPsiElement(o);
     }
 
-    public void visitUsingTerm(@NotNull ValkyrieUsingTerm o) {
+    public void visitUsingExclude(@NotNull ValkyrieUsingExclude o) {
         visitPsiElement(o);
     }
 
-    public void visitValue(@NotNull ValkyrieValue o) {
+    public void visitUsingTerm(@NotNull ValkyrieUsingTerm o) {
         visitPsiElement(o);
     }
 

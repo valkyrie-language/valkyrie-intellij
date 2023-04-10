@@ -9,7 +9,6 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.psi.ValkyrieTypes.*;
 import valkyrie.psi.mixin.MixinField;
-import valkyrie.ide.highlight.NodeHighlighter;
 
 public class ValkyrieDeclareFieldNode extends MixinField implements ValkyrieDeclareField {
 
