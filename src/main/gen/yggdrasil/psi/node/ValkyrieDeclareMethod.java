@@ -12,10 +12,13 @@ public interface ValkyrieDeclareMethod extends PsiElement {
     ValkyrieAnnotations getAnnotations();
 
     @Nullable
-    ValkyrieEffectType getEffectType();
+    ValkyrieBlockBody getBlockBody();
 
     @Nullable
-    ValkyrieFunctionBody getFunctionBody();
+    ValkyrieDeclareGeneric getDeclareGeneric();
+
+    @Nullable
+    ValkyrieEffectType getEffectType();
 
     @NotNull
     ValkyrieIdentifierFree getIdentifierFree();

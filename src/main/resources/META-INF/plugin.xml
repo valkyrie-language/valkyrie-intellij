@@ -8,7 +8,7 @@
 	<resource-bundle>messages.ValkyrieBundle</resource-bundle>
 	<extensions defaultExtensionNs="com.intellij">
 		<fileType
-			name="Valkyrie"
+			name="valkyrie"
 			language="valkyrie"
 			extensions="vk;valkyrie;"
 			implementationClass="valkyrie.language.file.ValkyrieFileType"
@@ -200,15 +200,14 @@
 		<!--			language="Valkyrie"-->
 		<!--			implementationClass="valkyrie.ide.completion.CompletionRegistrar"/>-->
 		<!--		<nameSuggestionProvider implementation="valkyrie.ide.completion.CompletionSuggestion"/>-->
-		<!--		<lang.foldingBuilder-->
-		<!--			language="Valkyrie"-->
-		<!--			implementationClass="valkyrie.ide.folding.ValkyrieFoldingBuilder"/>-->
-		<!--		<codeBlockProvider language="Valkyrie" implementationClass="valkyrie.ide.matcher.ValkyrieCodeBlockProvider"/>-->
-		<!--		<codeFoldingOptionsProvider instance="valkyrie.ide.folding.ValkyrieFoldingOptions"/>-->
+		<codeFoldingOptionsProvider instance="valkyrie.ide.folding.ValkyrieFoldingOptions"/>
+		<lang.foldingBuilder language="valkyrie" implementationClass="valkyrie.ide.folding.ValkyrieFoldingBuilder"/>
+		<!--				<codeBlockProvider language="valkyrie" implementationClass="valkyrie.ide.matcher.ValkyrieCodeBlockProvider"/>-->
 		<!--		<referenceImporter implementation="valkyrie.ide.completion.ValkyrieImportInsert"/>-->
-		<!--		<lang.importOptimizer-->
-		<!--			language="Valkyrie"-->
-		<!--			implementationClass="valkyrie.ide.completion.ValkyrieImportOptimizer"/>-->
+		<lang.importOptimizer
+			language="valkyrie"
+			implementationClass="valkyrie.ide.completion.ValkyrieImportOptimizer"
+		/>
 
 		<!-- Codegen -->
 		<!--		<codeInsight.implementMethod language="Valkyrie" implementationClass="valkyrie.ide.codegen.GenerateImplements"/>-->

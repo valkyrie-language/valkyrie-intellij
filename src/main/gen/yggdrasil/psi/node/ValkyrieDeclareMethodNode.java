@@ -35,14 +35,20 @@ public class ValkyrieDeclareMethodNode extends MixinMethod implements ValkyrieDe
 
     @Override
     @Nullable
-    public ValkyrieEffectType getEffectType() {
-        return findChildByClass(ValkyrieEffectType.class);
+    public ValkyrieBlockBody getBlockBody() {
+        return findChildByClass(ValkyrieBlockBody.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieFunctionBody getFunctionBody() {
-        return findChildByClass(ValkyrieFunctionBody.class);
+    public ValkyrieDeclareGeneric getDeclareGeneric() {
+        return findChildByClass(ValkyrieDeclareGeneric.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieEffectType getEffectType() {
+        return findChildByClass(ValkyrieEffectType.class);
     }
 
     @Override

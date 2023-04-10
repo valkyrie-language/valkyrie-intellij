@@ -70,6 +70,12 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
 
     @Override
     @Nullable
+    public ValkyrieSpecial getSpecial() {
+        return findChildByClass(ValkyrieSpecial.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieString getString() {
         return findChildByClass(ValkyrieString.class);
     }
