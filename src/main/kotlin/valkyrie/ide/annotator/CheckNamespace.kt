@@ -9,7 +9,7 @@ import com.intellij.psi.util.elementType
 import com.intellij.psi.util.parents
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieFileNode
-import yggdrasil.psi.node.ValkyrieDeclareNamespaceNode
+import valkyrie.psi.node.ValkyrieDeclareNamespaceNode
 
 class CheckNamespace : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {

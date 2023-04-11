@@ -2,7 +2,7 @@ package valkyrie.language.file
 
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import yggdrasil.psi.node.*
+import valkyrie.psi.node.*
 
 class YggdrasilFileCache(val root: ValkyrieFileNode) {
     private fun getCache(): MutableMap<String, PsiNameIdentifierOwner> {

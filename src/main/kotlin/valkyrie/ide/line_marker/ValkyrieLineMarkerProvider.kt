@@ -3,9 +3,9 @@ package valkyrie.ide.line_marker
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.LineMarkerProvider
 import com.intellij.psi.PsiElement
-import yggdrasil.psi.node.ValkyrieDeclareClassNode
-import yggdrasil.psi.node.ValkyrieDeclareTraitNode
-import yggdrasil.psi.node.ValkyrieDeclareUnionNode
+import valkyrie.psi.node.ValkyrieDeclareClassNode
+import valkyrie.psi.node.ValkyrieDeclareTraitNode
+import valkyrie.psi.node.ValkyrieDeclareUnionNode
 
 class ValkyrieLineMarkerProvider : LineMarkerProvider {
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? {

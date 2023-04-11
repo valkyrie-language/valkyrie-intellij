@@ -12,8 +12,8 @@ import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.psi.ValkyrieElement
-import yggdrasil.psi.node.ValkyrieDeclareUnite
-import yggdrasil.psi.node.ValkyrieIdentifier
+import valkyrie.psi.node.ValkyrieDeclareUnite
+import valkyrie.psi.node.ValkyrieIdentifier
 import javax.swing.Icon
 
 abstract class MixinUnite(node: ASTNode) : ValkyrieElement(node),

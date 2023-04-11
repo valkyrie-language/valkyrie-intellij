@@ -3,9 +3,9 @@ package valkyrie.ide.annotator
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.psi.PsiElement
-import yggdrasil.psi.node.ValkyrieDeclareClassNode
-import yggdrasil.psi.node.ValkyrieDeclareUnionNode
-import yggdrasil.psi.node.ValkyrieIdentifierNode
+import valkyrie.psi.node.ValkyrieDeclareClassNode
+import valkyrie.psi.node.ValkyrieDeclareUnionNode
+import valkyrie.psi.node.ValkyrieIdentifierNode
 
 class NamepathChecker : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {

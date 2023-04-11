@@ -6,8 +6,8 @@ import com.intellij.navigation.ItemPresentation
 import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.ValkyrieElement
-import yggdrasil.psi.node.ValkyrieAttribute
-import yggdrasil.psi.node.ValkyrieIdentifier
+import valkyrie.psi.node.ValkyrieAttribute
+import valkyrie.psi.node.ValkyrieIdentifier
 import javax.swing.Icon
 
 abstract class MixinAttribute(node: ASTNode) : ValkyrieElement(node), ValkyrieAttribute {

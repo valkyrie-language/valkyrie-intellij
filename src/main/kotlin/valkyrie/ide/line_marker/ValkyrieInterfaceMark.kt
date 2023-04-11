@@ -4,7 +4,7 @@ import com.intellij.codeInsight.daemon.MergeableLineMarkerInfo
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment
 import com.intellij.psi.PsiElement
-import yggdrasil.psi.node.ValkyrieDeclareTraitNode
+import valkyrie.psi.node.ValkyrieDeclareTraitNode
 import java.util.function.Supplier
 import javax.swing.Icon
 

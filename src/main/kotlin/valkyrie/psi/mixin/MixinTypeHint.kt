@@ -5,9 +5,9 @@ import com.intellij.lang.ASTNode
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.psi.ValkyrieElement
-import yggdrasil.psi.node.ValkyrieIdentifierNode
-import yggdrasil.psi.node.ValkyrieTypeExpression
-import yggdrasil.psi.node.ValkyrieTypeHint
+import valkyrie.psi.node.ValkyrieIdentifierNode
+import valkyrie.psi.node.ValkyrieTypeExpression
+import valkyrie.psi.node.ValkyrieTypeHint
 import javax.swing.Icon
 
 abstract class MixinTypeHint(node: ASTNode) : ValkyrieElement(node), ValkyrieTypeHint {

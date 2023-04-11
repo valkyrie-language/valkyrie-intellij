@@ -12,9 +12,9 @@ import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.ValkyrieElement
-import yggdrasil.psi.node.ValkyrieDeclareFlags
-import yggdrasil.psi.node.ValkyrieEnumerateItem
-import yggdrasil.psi.node.ValkyrieIdentifierNode
+import valkyrie.psi.node.ValkyrieDeclareFlags
+import valkyrie.psi.node.ValkyrieEnumerateItem
+import valkyrie.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
 abstract class MixinFlags(node: ASTNode) : ValkyrieElement(node),

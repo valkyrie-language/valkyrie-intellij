@@ -5,10 +5,10 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.refactoring.suggested.endOffset
 import com.intellij.refactoring.suggested.startOffset
-import yggdrasil.psi.node.ValkyrieBlockBody
-import yggdrasil.psi.node.ValkyrieClassBody
-import yggdrasil.psi.node.ValkyrieEnumerateBody
-import yggdrasil.psi.node.ValkyrieUsingBody
+import valkyrie.psi.node.ValkyrieBlockBody
+import valkyrie.psi.node.ValkyrieClassBody
+import valkyrie.psi.node.ValkyrieEnumerateBody
+import valkyrie.psi.node.ValkyrieUsingBody
 
 
 class ValkyrieFoldVisitor(private val descriptors: MutableList<FoldingDescriptor>) : ValkyrieRecursiveVisitor() {

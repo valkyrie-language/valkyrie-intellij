@@ -7,10 +7,10 @@ import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.ide.reference.declaration.ValkyrieReference
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ValkyrieElement
-import yggdrasil.psi.node.ValkyrieDeclareClass
-import yggdrasil.psi.node.ValkyrieDeclareUnion
-import yggdrasil.psi.node.ValkyrieIdentifier
-import yggdrasil.psi.node.ValkyrieIdentifierNode
+import valkyrie.psi.node.ValkyrieDeclareClass
+import valkyrie.psi.node.ValkyrieDeclareUnion
+import valkyrie.psi.node.ValkyrieIdentifier
+import valkyrie.psi.node.ValkyrieIdentifierNode
 
 abstract class MixinIdentifier(node: ASTNode) : ValkyrieElement(node), ValkyrieIdentifier {
     override fun getContainingFile(): ValkyrieFileNode {

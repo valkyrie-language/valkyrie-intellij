@@ -7,7 +7,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiReference
 import yggdrasil.language.symbol.ValkyrieSymbol
-import yggdrasil.psi.node.ValkyrieDeclareClass
+import valkyrie.psi.node.ValkyrieDeclareClass
 
 
 class ValkyrieDeclared(val target: ValkyrieDeclareClass) : PsiSymbolDeclaration, PsiReference {

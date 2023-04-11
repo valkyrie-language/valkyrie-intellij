@@ -7,8 +7,8 @@ import com.intellij.psi.LiteralTextEscaper
 import com.intellij.psi.PsiLanguageInjectionHost
 import org.intellij.lang.regexp.RegExpLanguage
 import valkyrie.psi.ValkyrieElement
-import yggdrasil.psi.node.ValkyrieString
-import yggdrasil.psi.node.ValkyrieStringNode
+import valkyrie.psi.node.ValkyrieString
+import valkyrie.psi.node.ValkyrieStringNode
 
 
 abstract class MixinString(node: ASTNode) : ValkyrieElement(node), PsiLanguageInjectionHost, ValkyrieString {

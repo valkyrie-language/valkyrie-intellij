@@ -9,8 +9,8 @@ import com.intellij.psi.util.parents
 import com.intellij.util.ProcessingContext
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ParserExtension
-import yggdrasil.psi.node.ValkyrieDeclareClassNode
-import yggdrasil.psi.node.ValkyrieDeclareUnionNode
+import valkyrie.psi.node.ValkyrieDeclareClassNode
+import valkyrie.psi.node.ValkyrieDeclareUnionNode
 
 
 class CompletionRegistrar : CompletionContributor() {

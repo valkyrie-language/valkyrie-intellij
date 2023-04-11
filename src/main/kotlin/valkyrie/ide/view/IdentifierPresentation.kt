@@ -3,7 +3,7 @@ package valkyrie.ide.view
 import com.intellij.navigation.ColoredItemPresentation
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import valkyrie.ide.highlight.HighlightColor
-import yggdrasil.psi.node.ValkyrieIdentifierNode
+import valkyrie.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
 class IdentifierPresentation(val name: ValkyrieIdentifierNode?, private val icon: Icon) : ColoredItemPresentation {

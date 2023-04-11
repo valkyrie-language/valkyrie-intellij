@@ -1,19 +1,19 @@
 {
-    parserClass = "yggdrasil.psi.parser.YggdrasilParser"
+    parserClass = "valkyrie.psi.parser.YggdrasilParser"
     parserUtilClass = "valkyrie.psi.ParserExtension"
 
     extends = "valkyrie.psi.ValkyrieElement"
 
     psiClassPrefix = "Valkyrie"
     psiImplClassSuffix = "Node"
-    psiPackage = "yggdrasil.psi.node"
-    psiImplPackage = "yggdrasil.psi.node"
+    psiPackage = "valkyrie.psi.node"
+    psiImplPackage = "valkyrie.psi.node"
 
     elementTypeHolderClass = "valkyrie.psi.ValkyrieTypes"
     elementTypeClass = "valkyrie.psi.ValkyrieElementType"
     tokenTypeClass = "valkyrie.psi.ValkyrieTokenType"
 
-    psiImplUtilClass = "yggdrasil.psi.node.YggdrasilPsiExtension"
+    psiImplUtilClass = "valkyrie.psi.node.YggdrasilPsiExtension"
 
     tokens = [
         // comment
@@ -237,7 +237,7 @@ return-type  ::= (OP_TO|COLON) type-expression;
 effect-type  ::= SLASH type-expression;
 block-body ::= BRACE_L block-statement* BRACE_R;
 // === function statement ===
-declare-variable ::= KW_LET pattern type-hint? EQUAL expression {
+declare-variable ::= KW_LET pattern type-hint? EQUAL block-statement {
     pin = 1
 //    mixin = "valkyrie.psi.mixin.MixinVariable"
 }
@@ -268,14 +268,16 @@ else-if-statement ::= KW_ELSE KW_IF inline-expression block-body {
 else-statement ::= KW_ELSE block-body {
     pin = 1
 }
-
+otherwise-statement ::= otherwise-kind block-body {
+    pin = 1
+}
+otherwise-kind      ::= KW_OTHERWISE|KW_ELSE;
 // === if statement ===
-while-statement ::= while-kind inline-expression block-body else-statement? {
+while-statement ::= while-kind inline-expression block-body otherwise-statement? {
     pin = 1
 }
 while-kind ::= KW_WHILE|KW_UNTIL
-
-for-statement ::= KW_FOR (bare-pattern|pattern) KW_IN inline-expression block-body else-statement? {
+for-statement ::= KW_FOR (bare-pattern|pattern) KW_IN inline-expression block-body otherwise-statement? {
     pin = 1
 }
 // === if statement ===
@@ -291,21 +293,35 @@ match-statement ::= KW_MATCH inline-expression match-body {
 }
 match-body ::= BRACE_L match-item* BRACE_R;
 match-item ::=
-    match-case
+    match-with
+  | match-case
   | match-when
   | match-else
-match-case ::= KW_CASE inline-expression {
+match-with ::= KW_WITH inline-expression COLON {
     pin = 1
 }
-match-when ::= KW_WHEN inline-expression {
+match-case ::= KW_CASE inline-expression COLON {
     pin = 1
 }
-match-else ::= KW_ELSE inline-expression {
+match-when ::= KW_WHEN inline-expression COLON {
+    pin = 1
+}
+match-else ::= KW_ELSE inline-expression COLON {
     pin = 1
 }
 // === pattern expression ===
 bare-pattern ::= identifier-free (identifier-free COMMA)* COMMA?
 pattern ::= identifier-free;
+// === pattern expression ===
+new-value  ::= KW_NEW type-expression;
+new-object ::= KW_OBJECT type-hint?;
+new-lambda ::= KW_LAMBDA;
+// === control expression ===
+control-statement ::=
+    KW_RETURN | KW_RESUME | KW_CONTINUE | KW_BREAK | KW_YIELD | KW_THROUGH | KW_RAISE;
+
+
+
 // === common expression ===
 expression ::= term (infix term)* {
 
@@ -383,14 +399,14 @@ tuple    ::= PARENTHESIS_L PARENTHESIS_R
   | PARENTHESIS_L argument COMMA PARENTHESIS_R
   | PARENTHESIS_L (argument (COMMA argument)+ COMMA?)? PARENTHESIS_R
 {
-  //    mixin = "yggdrasil.psi.mixin.MixinTuple"
+  //    mixin = "valkyrie.psi.mixin.MixinTuple"
 }
 argument-body ::= PARENTHESIS_L (argument (COMMA argument)* COMMA?)? PARENTHESIS_R;
 argument ::= (identifier-free EQUAL)? expression {
 
 }
 number ::= INTEGER {
-//    mixin = "yggdrasil.psi.mixin.MixinNumber"
+//    mixin = "valkyrie.psi.mixin.MixinNumber"
 }
 special ::= KW_NULL | KW_NIL | KW_TRUE | KW_FALSE;
 // === annotation statement ===

@@ -10,9 +10,9 @@ import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.psi.ValkyrieElement
-import yggdrasil.psi.node.ValkyrieClassInherit
-import yggdrasil.psi.node.ValkyrieDeclareClass
-import yggdrasil.psi.node.ValkyrieIdentifierNode
+import valkyrie.psi.node.ValkyrieClassInherit
+import valkyrie.psi.node.ValkyrieDeclareClass
+import valkyrie.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
 

@@ -7,7 +7,7 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieBundle
-import yggdrasil.psi.node.ValkyrieDeclareFunction
+import valkyrie.psi.node.ValkyrieDeclareFunction
 
 class VisionEffects : ValkyrieCodeVision() {
     override val id: String = "hint.vision.effect.name"
