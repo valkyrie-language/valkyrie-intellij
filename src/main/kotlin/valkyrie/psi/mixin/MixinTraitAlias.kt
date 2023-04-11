@@ -8,8 +8,8 @@ import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.psi.ValkyrieElement
-import yggdrasil.psi.node.ValkyrieIdentifierNode
-import yggdrasil.psi.node.ValkyrieTraitAlias
+import valkyrie.psi.node.ValkyrieIdentifierNode
+import valkyrie.psi.node.ValkyrieTraitAlias
 import javax.swing.Icon
 
 abstract class MixinTraitAlias(node: ASTNode) : ValkyrieElement(node), NavigatablePsiElement, PsiNameIdentifierOwner, ValkyrieTraitAlias {

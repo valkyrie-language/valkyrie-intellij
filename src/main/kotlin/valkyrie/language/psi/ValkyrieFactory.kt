@@ -2,7 +2,7 @@ package yggdrasil.language.psi
 
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
-import yggdrasil.psi.node.ValkyrieNumberNode
+import valkyrie.psi.node.ValkyrieNumberNode
 
 class ValkyrieFactory {
     private val project: Project

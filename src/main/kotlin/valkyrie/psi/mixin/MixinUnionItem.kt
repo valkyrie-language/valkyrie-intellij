@@ -8,8 +8,8 @@ import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.psi.ValkyrieElement
-import yggdrasil.psi.node.ValkyrieIdentifierNode
-import yggdrasil.psi.node.ValkyrieUnionVariant
+import valkyrie.psi.node.ValkyrieIdentifierNode
+import valkyrie.psi.node.ValkyrieUnionVariant
 import javax.swing.Icon
 
 abstract class MixinUnionItem(node: ASTNode) : ValkyrieElement(node),

@@ -4,8 +4,8 @@ import com.intellij.codeInsight.CodeInsightBundle
 import com.intellij.codeInsight.codeVision.CodeVisionEntry
 import com.intellij.codeInsight.codeVision.settings.PlatformCodeVisionIds
 import com.intellij.psi.PsiElement
-import yggdrasil.psi.node.ValkyrieDeclareClass
-import yggdrasil.psi.node.ValkyrieDeclareTrait
+import valkyrie.psi.node.ValkyrieDeclareClass
+import valkyrie.psi.node.ValkyrieDeclareTrait
 
 
 class VisionInheritors : ValkyrieCodeVision() {

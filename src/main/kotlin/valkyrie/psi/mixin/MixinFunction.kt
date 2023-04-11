@@ -12,8 +12,8 @@ import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.psi.ValkyrieElement
-import yggdrasil.psi.node.ValkyrieDeclareFunction
-import yggdrasil.psi.node.ValkyrieIdentifierNode
+import valkyrie.psi.node.ValkyrieDeclareFunction
+import valkyrie.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
 abstract class MixinFunction(node: ASTNode) : ValkyrieElement(node),

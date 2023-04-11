@@ -14,7 +14,7 @@ import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.file.ValkyrieFileNode
-import yggdrasil.psi.parser.YggdrasilParser
+import valkyrie.psi.parser.YggdrasilParser
 
 object ParserDefinition : ParserDefinition {
     fun createLexer(): Lexer = FlexAdapter(_ValkyrieLexer(null))

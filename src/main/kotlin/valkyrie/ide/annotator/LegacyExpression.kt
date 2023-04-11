@@ -3,8 +3,8 @@ package valkyrie.ide.annotator
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.psi.PsiElement
-import yggdrasil.psi.node.ValkyrieDeclareClassNode
-import yggdrasil.psi.node.ValkyrieDeclareFunctionNode
+import valkyrie.psi.node.ValkyrieDeclareClassNode
+import valkyrie.psi.node.ValkyrieDeclareFunctionNode
 
 class LegacyExpression : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {

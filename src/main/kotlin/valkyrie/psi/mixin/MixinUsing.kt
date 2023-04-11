@@ -5,7 +5,7 @@ import com.intellij.ide.projectView.PresentationData
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import valkyrie.psi.ValkyrieElement
-import yggdrasil.psi.node.ValkyrieUsing
+import valkyrie.psi.node.ValkyrieUsing
 import javax.swing.Icon
 
 abstract class MixinUsing(node: ASTNode) : ValkyrieElement(node), ValkyrieUsing {

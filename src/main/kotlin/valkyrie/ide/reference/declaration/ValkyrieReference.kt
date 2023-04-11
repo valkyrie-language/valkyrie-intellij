@@ -5,10 +5,10 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiQualifiedReference
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
-import yggdrasil.psi.node.ValkyrieDeclareClass
-import yggdrasil.psi.node.ValkyrieDeclareUnion
-import yggdrasil.psi.node.ValkyrieDeclareUnite
-import yggdrasil.psi.node.ValkyrieIdentifierNode
+import valkyrie.psi.node.ValkyrieDeclareClass
+import valkyrie.psi.node.ValkyrieDeclareUnion
+import valkyrie.psi.node.ValkyrieDeclareUnite
+import valkyrie.psi.node.ValkyrieIdentifierNode
 
 open class ValkyrieReference : PsiQualifiedReference {
     private val _element: ValkyrieIdentifierNode

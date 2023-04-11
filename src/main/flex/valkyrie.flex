@@ -16,8 +16,6 @@ import static valkyrie.psi.ValkyrieTypes.*;
 //%state TextContextIndent
 
 WHITE_SPACE        = [\s\t]
-REGULAR_EXPRESSION = \/([^\/\\]|\\.)+\/
-REGULAR_RANGE      = \[[^\]]*\]
 COMMENT_LINE       = (⍝|[\\]{2})[^\r\n]*
 COMMENT_BLOCK      = [/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]
 TEXT_SINGLE        = '([^'])*'
@@ -45,27 +43,42 @@ KW_UNITE     = unite|inductive
 KW_ENUMERATE = enumerate|enums?
 KW_FLAGS     = flags
 KW_TRAIT     = trait
-KW_IMPLY     = imply|impliments?|extends?
+KW_EXTENDS   = imply|impliments?|extends?
+KW_TEMPLATE  = template|generic|constraint
+KW_IMPLEMENT = implement
 KW_FUNCTION  = macro|micro|function|func|fun|fn|def
 KW_LET       = let|val|var
-
-KW_WHILE = while
-KW_UNTIL = until
-KW_FOR   = for
-KW_IN    = in
-KW_IF    = if
-KW_ELSE  = else
-KW_IS    = is
-KW_NOT   = not
+KW_NEW       = new
+KW_OBJECT    = object
+KW_LAMBDA    = lambda
 
 KW_TRY   = try
 KW_CATCH = catch
 
 KW_MATCH = match
+KW_WITH  = with
 KW_CASE  = case
 KW_WHEN  = when
 
-KW_NIL   = nil
+KW_WHILE     = while
+KW_UNTIL     = until
+KW_FOR       = for
+KW_IN        = in
+KW_IF        = if
+KW_ELSE      = else
+KW_OTHERWISE = otherwise
+KW_IS        = is
+KW_NOT       = not
+
+KW_RETURN   = return
+KW_RESUME   = resume
+KW_YIELD    = yield
+KW_BREAK    = break
+KW_CONTINUE = continue
+KW_THROUGH  = fallthrough
+KW_RAISE    = raise
+
+KW_NIL   = nil|∅
 KW_NULL  = null
 KW_TRUE  = true
 KW_FALSE = false
@@ -161,22 +174,36 @@ OP_MINUS     = [-]
     {KW_UNION}     { return KW_UNION; }
     {KW_CLASS}     { return KW_CLASS; }
     {KW_TRAIT}     { return KW_TRAIT; }
-    {KW_IMPLY}     { return KW_IMPLY; }
+    {KW_EXTENDS}   { return KW_IMPLY; }
     {KW_FUNCTION}  { return KW_FUNCTION; }
     {KW_LET}       { return KW_LET; }
+    {KW_NEW}       { return KW_NEW; }
+    {KW_OBJECT}    { return KW_OBJECT; }
+    {KW_LAMBDA}    { return KW_LAMBDA; }
 
-    {KW_IF}    { return KW_IF; }
-    {KW_ELSE}  { return KW_ELSE; }
-    {KW_WHILE} { return KW_WHILE; }
-    {KW_UNTIL} { return KW_WHILE; }
-    {KW_FOR}   { return KW_FOR; }
-    {KW_IN}    { return KW_IN; }
+    {KW_IF}        { return KW_IF; }
+    {KW_ELSE}      { return KW_ELSE; }
+    {KW_OTHERWISE} { return KW_OTHERWISE; }
+    {KW_WHILE}     { return KW_WHILE; }
+    {KW_UNTIL}     { return KW_WHILE; }
+    {KW_FOR}       { return KW_FOR; }
+    {KW_IN}        { return KW_IN; }
+
+    {KW_RETURN}   { return KW_RETURN; }
+    {KW_RESUME}   { return KW_RESUME; }
+    {KW_YIELD}    { return KW_YIELD; }
+    {KW_BREAK}    { return KW_BREAK; }
+    {KW_CONTINUE} { return KW_CONTINUE; }
+    {KW_THROUGH}  { return KW_THROUGH; }
+    {KW_RAISE}    { return KW_RAISE; }
 
     {KW_TRY}   { return KW_TRY; }
     {KW_CATCH} { return KW_CATCH; }
     {KW_MATCH} { return KW_MATCH; }
-    {KW_CASE}  { return KW_CASE; }
+    {KW_WITH}  { return KW_WITH; }
     {KW_WHEN}  { return KW_WHEN; }
+    {KW_CASE}  { return KW_CASE; }
+
 
     {KW_NULL}    { return KW_NULL; }
     {KW_NIL}     { return KW_NIL; }

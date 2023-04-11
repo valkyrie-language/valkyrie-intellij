@@ -7,9 +7,9 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieBundle
-import yggdrasil.psi.node.ValkyrieDeclareClassNode
-import yggdrasil.psi.node.ValkyrieDeclareMethodNode
-import yggdrasil.psi.node.ValkyrieDeclareTraitNode
+import valkyrie.psi.node.ValkyrieDeclareClassNode
+import valkyrie.psi.node.ValkyrieDeclareMethodNode
+import valkyrie.psi.node.ValkyrieDeclareTraitNode
 
 class VisionMonomorphism : ValkyrieCodeVision() {
     override val id: String = "hint.vision.monomorphism.name"
