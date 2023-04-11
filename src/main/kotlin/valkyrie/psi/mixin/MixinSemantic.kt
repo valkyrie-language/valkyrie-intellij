@@ -7,8 +7,6 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import valkyrie.ide.highlight.HighlightColor
-import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.psi.ValkyrieElement
 import valkyrie.psi.node.ValkyrieDeclareSemantic
 import valkyrie.psi.node.ValkyrieIdentifierNode
@@ -40,7 +38,4 @@ abstract class MixinSemantic(node: ASTNode) : ValkyrieElement(node), Navigatable
         return PresentationData(name, "", baseIcon, null)
     }
 
-    override fun highlight(highlighter: NodeHighlighter) {
-        nameIdentifier?.let { highlighter.highlight(it, HighlightColor.SYM_FIELD) }
-    }
 }

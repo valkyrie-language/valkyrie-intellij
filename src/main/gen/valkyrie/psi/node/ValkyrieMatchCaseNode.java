@@ -2,15 +2,12 @@
 package valkyrie.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-
 import static valkyrie.psi.ValkyrieTypes.*;
-
 import valkyrie.psi.ValkyrieElement;
 
 public class ValkyrieMatchCaseNode extends ValkyrieElement implements ValkyrieMatchCase {
@@ -31,8 +28,14 @@ public class ValkyrieMatchCaseNode extends ValkyrieElement implements ValkyrieMa
 
     @Override
     @Nullable
-    public ValkyrieInlineExpression getInlineExpression() {
-        return findChildByClass(ValkyrieInlineExpression.class);
+    public ValkyrieBlockBare getBlockBare() {
+        return findChildByClass(ValkyrieBlockBare.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyriePattern getPattern() {
+        return findChildByClass(ValkyriePattern.class);
     }
 
 }

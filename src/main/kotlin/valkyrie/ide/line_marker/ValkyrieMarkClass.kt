@@ -8,7 +8,7 @@ import valkyrie.psi.node.ValkyrieDeclareClassNode
 import java.util.function.Supplier
 import javax.swing.Icon
 
-class ValkyrieClassMark : MergeableLineMarkerInfo<PsiElement> {
+class ValkyrieMarkClass : MergeableLineMarkerInfo<PsiElement> {
     private constructor(element: PsiElement, icon: Icon) : super(
         element,
         element.textRange,
@@ -28,19 +28,19 @@ class ValkyrieClassMark : MergeableLineMarkerInfo<PsiElement> {
     }
 
     companion object {
-        fun standalone(node: ValkyrieDeclareClassNode): ValkyrieClassMark? {
+        fun standalone(node: ValkyrieDeclareClassNode): ValkyrieMarkClass? {
             val leaf = node.nameIdentifier?.firstChild ?: return null;
-            return ValkyrieClassMark(leaf, node.getIcon(0))
+            return ValkyrieMarkClass(leaf, node.getIcon(0))
         }
 
-        fun ancestor(node: ValkyrieDeclareClassNode): ValkyrieClassMark? {
+        fun ancestor(node: ValkyrieDeclareClassNode): ValkyrieMarkClass? {
             val leaf = node.nameIdentifier?.firstChild ?: return null;
-            return ValkyrieClassMark(leaf, AllIcons.Gutter.OverridingMethod)
+            return ValkyrieMarkClass(leaf, AllIcons.Gutter.OverridingMethod)
         }
 
-        fun descendant(node: ValkyrieDeclareClassNode): ValkyrieClassMark? {
+        fun descendant(node: ValkyrieDeclareClassNode): ValkyrieMarkClass? {
             val leaf = node.nameIdentifier?.firstChild ?: return null;
-            return ValkyrieClassMark(leaf, AllIcons.Gutter.OverridenMethod)
+            return ValkyrieMarkClass(leaf, AllIcons.Gutter.OverridenMethod)
         }
     }
 }

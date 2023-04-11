@@ -21,16 +21,6 @@ COMMENT_BLOCK      = [/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]
 TEXT_SINGLE        = '([^'])*'
 TEXT_DOUBLE        = \"([^\"]|\\.)*\"
 
-
-BIN = [0-1]
-DEC = [0-9]
-HEX = [0-9a-fA-F]
-
-
-SYMBOL=[\p{XID_Start}_][\p{XID_Continue}]*
-SYMBOW_RAW = `[^`]*`
-ESCAPED = \\.
-
 KW_NAMESPACE = namespace[!?]?
 KW_USING     = using[!?]?
 KW_AS        = as[!?]?
@@ -52,7 +42,7 @@ KW_NEW       = new
 KW_OBJECT    = object
 KW_LAMBDA    = lambda
 
-KW_TRY   = try
+KW_TRY   = try[!?]?
 KW_CATCH = catch
 
 KW_MATCH = match
@@ -95,6 +85,19 @@ OP_BANG      = [!]
 OP_AND_THEN  = [?]
 OP_PLUS      = [+]
 OP_MINUS     = [-]
+OP_UNTIL     = [.]{2}[<=]
+
+
+
+SYMBOL=[\p{XID_Start}_][\p{XID_Continue}]*
+SYMBOW_RAW = `[^`]*`
+ESCAPED = \\.
+
+BIN = [0-1]
+DEC = [0-9]
+HEX = [0-9a-fA-F]
+COLOR = [©®]{HEX}*
+
 %%
 
 <YYINITIAL> {
@@ -153,9 +156,11 @@ OP_MINUS     = [-]
     {OP_MINUS}    { return OP_MINUS; }
     {OP_BANG}     { return OP_BANG; }
     {OP_AND_THEN} { return OP_AND_THEN; }
+    {OP_UNTIL}    { return OP_UNTIL; }
 }
 
 <YYINITIAL> {
+    {COLOR}       { return COLOR; }
     {DEC}         { return INTEGER; }
     {TEXT_SINGLE} { return TEXT_SINGLE; }
     {TEXT_DOUBLE} { return TEXT_DOUBLE; }

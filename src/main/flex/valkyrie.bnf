@@ -93,6 +93,9 @@ private statements ::=
   | try-statement
   | catch-statement
   | match-statement
+  | new-value
+  | new-object
+  | new-lambda
   | expression
   | SEMICOLON
 block-statement ::=
@@ -103,6 +106,9 @@ block-statement ::=
   | try-statement
   | catch-statement
   | match-statement
+  | new-value
+  | new-object
+  | new-lambda
   | expression
   | SEMICOLON;
 // === grammar statement ===
@@ -160,24 +166,23 @@ default-type  ::= EQUAL type-expression;
 // === class method statement ===
 declare-method ::= annotations identifier-free declare-generic? parameter-body return-type? effect-type? block-body? {
     mixin = "valkyrie.psi.mixin.MixinMethod"
-    methods=[highlight]
 }
 // === union statement ===
 declare-union ::= annotations KW_UNITE identifier OP_REMARK? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinUnion"
-    methods=[highlight createLookup]
+    methods=[createLookup]
 }
 // === enumerate statement ===
 declare-flags ::= annotations KW_FLAGS identifier-free enumerate-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinFlags"
-    methods=[highlight createLookup]
+    methods=[createLookup]
 }
 declare-enumerate ::= annotations KW_ENUMERATE identifier-free enumerate-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinEnumerate"
-    methods=[highlight createLookup]
+    methods=[createLookup]
 }
 enumerate-body ::= BRACE_L enumerate-item* BRACE_R;
 enumerate-item ::=
@@ -186,13 +191,12 @@ enumerate-item ::=
   | COMMA
 declare-semantic ::= annotations identifier-free default-value? {
     mixin = "valkyrie.psi.mixin.MixinSemantic"
-    methods=[highlight]
 }
 // === union statement ===
 declare-unite ::= annotations KW_UNITE identifier OP_REMARK? union-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinUnite"
-    methods=[highlight createLookup]
+    methods=[createLookup]
 }
 union-body ::= BRACE_L union-variant* BRACE_R;
 union-variant ::= OP_OR expression tag-branch? {
@@ -212,7 +216,6 @@ declare-trait ::= annotations KW_TRAIT identifier-free? type-hint? class-body {
 declare-imply ::= annotations KW_IMPLY identifier-free class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinImply"
-    methods=[highlight]
 }
 // === generic statement ===
 declare-generic ::=
@@ -226,7 +229,7 @@ generic-parameter ::= annotations identifier-free type-hint? default-type?;
 declare-function ::= annotations KW_FUNCTION declare-generic? identifier-free parameter-body return-type? effect-type? block-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinFunction"
-    methods=[highlight createLookup]
+    methods=[createLookup]
 }
 parameter-body ::= PARENTHESIS_L (parameter-item (COMMA parameter-item)* COMMA?)? PARENTHESIS_R;
 parameter-item ::= identifier type-hint? default-value? {
@@ -236,17 +239,18 @@ parameter-item ::= identifier type-hint? default-value? {
 return-type  ::= (OP_TO|COLON) type-expression;
 effect-type  ::= SLASH type-expression;
 block-body ::= BRACE_L block-statement* BRACE_R;
+block-bare ::= block-statement*;
 // === function statement ===
 declare-variable ::= KW_LET pattern type-hint? EQUAL block-statement {
     pin = 1
 //    mixin = "valkyrie.psi.mixin.MixinVariable"
 }
 // === function statement ===
-function-call ::= namepath tuple? {
-    pin = 1
+function-call ::= namepath argument-body {
+    pin = 2
 }
-macro-call    ::= AT namepath tuple? {
-
+macro-call    ::= AT namepath argument-body? {
+    pin = 1
 }
 dot-call ::= OP_AND_THEN? DOT namepath argument-body?;
 dot-call-match ::= OP_AND_THEN? DOT KW_MATCH match-body {
@@ -277,14 +281,13 @@ while-statement ::= while-kind inline-expression block-body otherwise-statement?
     pin = 1
 }
 while-kind ::= KW_WHILE|KW_UNTIL
-for-statement ::= KW_FOR (bare-pattern|pattern) KW_IN inline-expression block-body otherwise-statement? {
+for-statement ::= KW_FOR (pattern-bare|pattern) KW_IN inline-expression block-body otherwise-statement? {
     pin = 1
 }
 // === if statement ===
 try-statement ::= KW_TRY type-expression? block-body {
     pin = 1
 }
-
 catch-statement ::= KW_CATCH inline-expression match-body {
     pin = 1
 }
@@ -297,21 +300,28 @@ match-item ::=
   | match-case
   | match-when
   | match-else
-match-with ::= KW_WITH inline-expression COLON {
+match-with ::= KW_WITH pattern COLON block-bare {
     pin = 1
 }
-match-case ::= KW_CASE inline-expression COLON {
+match-case ::= KW_CASE pattern COLON block-bare {
     pin = 1
 }
-match-when ::= KW_WHEN inline-expression COLON {
+match-when ::= KW_WHEN inline-expression COLON block-bare {
     pin = 1
 }
-match-else ::= KW_ELSE inline-expression COLON {
+match-else ::= KW_ELSE inline-expression COLON block-bare {
     pin = 1
 }
+
 // === pattern expression ===
-bare-pattern ::= identifier-free (identifier-free COMMA)* COMMA?
-pattern ::= identifier-free;
+pattern ::=
+    pattern-unapply
+  | pattern-term
+pattern-unapply ::= namepath-free? PARENTHESIS_L pattern-bare PARENTHESIS_R
+pattern-bare ::= pattern-term (COMMA pattern-term)* COMMA?
+
+pattern-term ::=  annotations identifier-free
+
 // === pattern expression ===
 new-value  ::= KW_NEW type-expression;
 new-object ::= KW_OBJECT type-hint?;
@@ -334,6 +344,7 @@ infix  ::=
     OP_PLUS | OP_MINUS
   | ANGLE_L | ANGLE_R
   | OP_AND
+  | OP_UNTIL
   | KW_AS | is_not;
 is_not ::= KW_IS KW_NOT?
 suffix ::= OP_BANG | OP_AND_THEN | dot-call | dot-call-catch | dot-call-match | generic-call;
@@ -408,12 +419,16 @@ argument ::= (identifier-free EQUAL)? expression {
 number ::= INTEGER {
 //    mixin = "valkyrie.psi.mixin.MixinNumber"
 }
-special ::= KW_NULL | KW_NIL | KW_TRUE | KW_FALSE;
+special ::= KW_NULL | KW_NIL | KW_TRUE | KW_FALSE | COLOR;
 // === annotation statement ===
 annotations ::= attribute* modifier*
-modifier    ::= identifier !(COMMA|SEMICOLON|EQUAL|COLON|PARENTHESIS_L|BRACE_R) {
+modifier    ::= identifier !modifier-stop {
     mixin = "valkyrie.psi.mixin.MixinModifier"
 }
+private modifier-stop ::= KW_IN
+    | COMMA | SEMICOLON | EQUAL | COLON
+    | PARENTHESIS_L | PARENTHESIS_R
+    | BRACE_L | BRACE_R
 attribute   ::= HASH namepath argument-body? {
 	pin = 1
     mixin = "valkyrie.psi.mixin.MixinAttribute"
@@ -421,7 +436,8 @@ attribute   ::= HASH namepath argument-body? {
 }
 // === identifiers ===
 namepath      ::= identifier (PROPORTION identifier)* {
-
+    mixin = "valkyrie.psi.mixin.MixinNamepath"
+    methods=[highlight_fake]
 }
 namepath-free ::= identifier ((PROPORTION|DOT) identifier)* {
     extends = namepath

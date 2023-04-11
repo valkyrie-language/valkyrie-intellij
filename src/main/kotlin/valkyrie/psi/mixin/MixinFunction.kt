@@ -9,8 +9,6 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import valkyrie.ide.highlight.HighlightColor
-import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.psi.ValkyrieElement
 import valkyrie.psi.node.ValkyrieDeclareFunction
 import valkyrie.psi.node.ValkyrieIdentifierNode
@@ -57,9 +55,5 @@ abstract class MixinFunction(node: ASTNode) : ValkyrieElement(node),
                     .withTailText(" atomic", true)
             )
         }
-    }
-
-    override fun highlight(highlighter: NodeHighlighter) {
-        nameIdentifier?.let { highlighter.highlight(it, HighlightColor.SYM_FUNCTION_FREE) }
     }
 }

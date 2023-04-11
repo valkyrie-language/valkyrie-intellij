@@ -13,7 +13,7 @@ public interface ValkyrieTypes {
     IElementType ARGUMENT_BODY = new ValkyrieElementType("ARGUMENT_BODY");
     IElementType ATOMIC = new ValkyrieElementType("ATOMIC");
     IElementType ATTRIBUTE = new ValkyrieElementType("ATTRIBUTE");
-    IElementType BARE_PATTERN = new ValkyrieElementType("BARE_PATTERN");
+    IElementType BLOCK_BARE = new ValkyrieElementType("BLOCK_BARE");
     IElementType BLOCK_BODY = new ValkyrieElementType("BLOCK_BODY");
     IElementType BLOCK_STATEMENT = new ValkyrieElementType("BLOCK_STATEMENT");
     IElementType CATCH_STATEMENT = new ValkyrieElementType("CATCH_STATEMENT");
@@ -84,6 +84,9 @@ public interface ValkyrieTypes {
     IElementType PARAMETER_BODY = new ValkyrieElementType("PARAMETER_BODY");
     IElementType PARAMETER_ITEM = new ValkyrieElementType("PARAMETER_ITEM");
     IElementType PATTERN = new ValkyrieElementType("PATTERN");
+    IElementType PATTERN_BARE = new ValkyrieElementType("PATTERN_BARE");
+    IElementType PATTERN_TERM = new ValkyrieElementType("PATTERN_TERM");
+    IElementType PATTERN_UNAPPLY = new ValkyrieElementType("PATTERN_UNAPPLY");
     IElementType PREFIX = new ValkyrieElementType("PREFIX");
     IElementType RANGE_INDEX = new ValkyrieElementType("RANGE_INDEX");
     IElementType RANGE_ITEM = new ValkyrieElementType("RANGE_ITEM");
@@ -128,6 +131,7 @@ public interface ValkyrieTypes {
     IElementType BRACKET_L = new ValkyrieTokenType("[");
     IElementType BRACKET_R = new ValkyrieTokenType("]");
     IElementType COLON = new ValkyrieTokenType(":");
+    IElementType COLOR = new ValkyrieTokenType("COLOR");
     IElementType COMMA = new ValkyrieTokenType(",");
     IElementType COMMENT_BLOCK = new ValkyrieTokenType("Comment Block");
     IElementType COMMENT_LINE = new ValkyrieTokenType("Comment");
@@ -200,6 +204,7 @@ public interface ValkyrieTypes {
     IElementType OP_PLUS = new ValkyrieTokenType("OP_PLUS");
     IElementType OP_REMARK = new ValkyrieTokenType("^");
     IElementType OP_TO = new ValkyrieTokenType("OP_TO");
+    IElementType OP_UNTIL = new ValkyrieTokenType("OP_UNTIL");
     IElementType PARENTHESIS_L = new ValkyrieTokenType("(");
     IElementType PARENTHESIS_R = new ValkyrieTokenType(")");
     IElementType PLACE_HOLDER = new ValkyrieTokenType("_");
@@ -229,8 +234,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieAtomicNode(node);
             } else if (type == ATTRIBUTE) {
                 return new ValkyrieAttributeNode(node);
-            } else if (type == BARE_PATTERN) {
-                return new ValkyrieBarePatternNode(node);
+            } else if (type == BLOCK_BARE) {
+                return new ValkyrieBlockBareNode(node);
             } else if (type == BLOCK_BODY) {
                 return new ValkyrieBlockBodyNode(node);
             } else if (type == BLOCK_STATEMENT) {
@@ -371,6 +376,12 @@ public interface ValkyrieTypes {
                 return new ValkyrieParameterItemNode(node);
             } else if (type == PATTERN) {
                 return new ValkyriePatternNode(node);
+            } else if (type == PATTERN_BARE) {
+                return new ValkyriePatternBareNode(node);
+            } else if (type == PATTERN_TERM) {
+                return new ValkyriePatternTermNode(node);
+            } else if (type == PATTERN_UNAPPLY) {
+                return new ValkyriePatternUnapplyNode(node);
             } else if (type == PREFIX) {
                 return new ValkyriePrefixNode(node);
             } else if (type == RANGE_INDEX) {

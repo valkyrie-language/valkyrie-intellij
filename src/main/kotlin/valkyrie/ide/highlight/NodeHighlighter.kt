@@ -14,7 +14,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
 
 
-
     override fun visitAttribute(o: ValkyrieAttribute) {
         o as ValkyrieAttributeNode
         highlight(o.firstChild, HighlightColor.SYM_MACRO)
@@ -46,27 +45,33 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
-        o.highlight(this)
+        o as ValkyrieDeclareMethodNode
+        highlight(o.nameIdentifier, HighlightColor.SYM_FUNCTION_FREE)
     }
 
     override fun visitDeclareUnion(o: ValkyrieDeclareUnion) {
-        o.highlight(this)
+        o as ValkyrieDeclareUnionNode
+        highlight(o.nameIdentifier, HighlightColor.SYM_MACRO)
     }
 
     override fun visitDeclareFlags(o: ValkyrieDeclareFlags) {
-        o.highlight(this)
+        o as ValkyrieDeclareFlagsNode
+        highlight(o.nameIdentifier, HighlightColor.SYM_CONSTANT)
     }
 
     override fun visitDeclareEnumerate(o: ValkyrieDeclareEnumerate) {
-        o.highlight(this)
+        o as ValkyrieDeclareEnumerateNode
+        highlight(o.nameIdentifier, HighlightColor.SYM_CONSTANT)
     }
 
     override fun visitDeclareSemantic(o: ValkyrieDeclareSemantic) {
-        o.highlight(this)
+        o as ValkyrieDeclareSemanticNode
+        highlight(o.nameIdentifier, HighlightColor.SYM_FIELD)
     }
 
     override fun visitDeclareUnite(o: ValkyrieDeclareUnite) {
-        o.highlight(this)
+        o as ValkyrieDeclareUniteNode
+        highlight(o.nameIdentifier, HighlightColor.SYM_MACRO)
     }
 
     override fun visitTraitAlias(o: ValkyrieTraitAlias) {
@@ -81,9 +86,14 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitDeclareFunction(o: ValkyrieDeclareFunction) {
-        o.highlight(this)
+        o as ValkyrieDeclareFunctionNode
+        highlight(o.nameIdentifier, HighlightColor.SYM_FUNCTION_FREE)
     }
 
+
+    override fun visitDeclareVariable(o: ValkyrieDeclareVariable) {
+        super.visitDeclareVariable(o)
+    }
 
     override fun visitGenericParameter(o: ValkyrieGenericParameter) {
         o as ValkyrieGenericParameterNode
@@ -106,7 +116,11 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitArgument(o: ValkyrieArgument) {
-        o.identifierFree?.let { highlight(it, HighlightColor.SYM_FIELD) }
+        highlight(o.identifierFree, HighlightColor.SYM_ARG)
+    }
+
+    override fun visitFunctionCall(o: ValkyrieFunctionCall) {
+        o.namepath.highlight_fake(this)
     }
 
 

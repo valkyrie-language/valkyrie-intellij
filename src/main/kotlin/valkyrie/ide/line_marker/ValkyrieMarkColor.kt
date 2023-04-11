@@ -1,19 +1,20 @@
-package valkyrie.ide.highlight
+package valkyrie.ide.line_marker
 
 import com.intellij.openapi.editor.ElementColorProvider
 import com.intellij.psi.PsiElement
 import com.intellij.ui.JBColor
 import java.awt.Color
 
-class ValkyrieColorParser : ElementColorProvider {
+class ValkyrieMarkColor : ElementColorProvider {
     override fun getColorFrom(element: PsiElement): Color? {
-        return null;
-//        val rest = element.text.substring(1);
-//        return when {
-//            element.text.startsWith('®') -> rgb(rest)
-//            element.text.startsWith('©') -> cmyk(rest)
-//            else -> null
-//        }
+        print("getColorFrom: ${element}")
+
+        val rest = element.text.substring(1);
+        return when {
+            element.text.startsWith('®') -> rgb(rest)
+            element.text.startsWith('©') -> cmyk(rest)
+            else -> null
+        }
     }
 
     private fun rgb(text: String): Color? {

@@ -1,4 +1,4 @@
-package valkyrie.ide.highlight
+package valkyrie.ide.line_marker
 
 import java.awt.Color
 

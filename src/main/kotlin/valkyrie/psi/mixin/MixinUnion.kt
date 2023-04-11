@@ -9,8 +9,6 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import valkyrie.ide.highlight.HighlightColor
-import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.psi.ValkyrieElement
 import valkyrie.psi.node.ValkyrieDeclareUnion
 import valkyrie.psi.node.ValkyrieIdentifierNode
@@ -53,9 +51,5 @@ abstract class MixinUnion(node: ASTNode) : ValkyrieElement(node), NavigatablePsi
                     .withTailText(" withTailText")
             )
         }
-    }
-    override fun highlight(visitor: NodeHighlighter) {
-        visitor.highlight(this.firstChild, HighlightColor.SYM_MACRO)
-        this.identifier?.let { visitor.highlight(it, HighlightColor.SYM_MACRO) }
     }
 }

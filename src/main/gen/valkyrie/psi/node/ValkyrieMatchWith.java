@@ -2,13 +2,15 @@
 package valkyrie.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
 public interface ValkyrieMatchWith extends PsiElement {
 
     @Nullable
-    ValkyrieInlineExpression getInlineExpression();
+    ValkyrieBlockBare getBlockBare();
+
+    @Nullable
+    ValkyriePattern getPattern();
 
 }

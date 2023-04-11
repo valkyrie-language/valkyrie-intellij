@@ -74,7 +74,7 @@
 			language="valkyrie"
 			implementationClass="valkyrie.ide.highlight.TokenHighlighter"
 		/>
-		<!--						<colorProvider implementation="valkyrie.ide.highlight.ValkyrieColorParser"/>-->
+		<colorProvider implementation="valkyrie.ide.line_marker.ValkyrieMarkColor"/>
 		<!-- Formatter -->
 		<!--		<langCodeStyleSettingsProvider implementation="valkyrie.ide.codeStyle.ValkyrieCodeStyleProvider"/>-->
 		<!--		<formattingService implementation="valkyrie.ide.formatter.ValkyrieNativeFormat"/>-->
@@ -124,7 +124,7 @@
 		<!--		                                implementationClass="valkyrie.ide.hint.ParameterInlayProvider"/>-->
 		<codeInsight.lineMarkerProvider
 			language="valkyrie"
-			implementationClass="valkyrie.ide.line_marker.ValkyrieLineMarkerProvider"/>
+			implementationClass="valkyrie.ide.line_marker.ValkyrieMarkerProvider"/>
 		<!--				<runLineMarkerContributor-->
 		<!--					language="Valkyrie"-->
 		<!--					implementationClass="valkyrie.ide.runner.ValkyrieRunner"/>-->

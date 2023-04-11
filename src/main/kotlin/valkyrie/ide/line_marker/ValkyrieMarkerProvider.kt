@@ -7,7 +7,7 @@ import valkyrie.psi.node.ValkyrieDeclareClassNode
 import valkyrie.psi.node.ValkyrieDeclareTraitNode
 import valkyrie.psi.node.ValkyrieDeclareUnionNode
 
-class ValkyrieLineMarkerProvider : LineMarkerProvider {
+class ValkyrieMarkerProvider : LineMarkerProvider {
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? {
         return null
     }
@@ -24,13 +24,13 @@ class ValkyrieLineMarkerProvider : LineMarkerProvider {
 
     private fun ValkyrieDeclareClassNode.addLineMarkerInfo(result: MutableCollection<in LineMarkerInfo<*>>) {
         if (this.superClasses.isEmpty()) {
-            ValkyrieClassMark.standalone(this)?.let { result.add(it) }
+            ValkyrieMarkClass.standalone(this)?.let { result.add(it) }
         } else {
-            ValkyrieClassMark.ancestor(this)?.let { result.add(it) }
-            ValkyrieClassMark.ancestor(this)?.let { result.add(it) }
-            ValkyrieClassMark.descendant(this)?.let { result.add(it) }
-            ValkyrieClassMark.descendant(this)?.let { result.add(it) }
-            ValkyrieClassMark.descendant(this)?.let { result.add(it) }
+            ValkyrieMarkClass.ancestor(this)?.let { result.add(it) }
+            ValkyrieMarkClass.ancestor(this)?.let { result.add(it) }
+            ValkyrieMarkClass.descendant(this)?.let { result.add(it) }
+            ValkyrieMarkClass.descendant(this)?.let { result.add(it) }
+            ValkyrieMarkClass.descendant(this)?.let { result.add(it) }
         }
 
 
@@ -42,13 +42,13 @@ class ValkyrieLineMarkerProvider : LineMarkerProvider {
 
     private fun ValkyrieDeclareTraitNode.addLineMarkerInfo(result: MutableCollection<in LineMarkerInfo<*>>) {
         if (kotlin.random.Random.nextBoolean()) {
-            ValkyrieInterfaceMark.standalone(this)?.let { result.add(it) }
+            ValkyrieMarkInterface.standalone(this)?.let { result.add(it) }
         } else {
-            ValkyrieInterfaceMark.ancestor(this, this)?.let { result.add(it) }
-            ValkyrieInterfaceMark.ancestor(this, this)?.let { result.add(it) }
-            ValkyrieInterfaceMark.descendant(this, this)?.let { result.add(it) }
-            ValkyrieInterfaceMark.descendant(this, this)?.let { result.add(it) }
-            ValkyrieInterfaceMark.descendant(this, this)?.let { result.add(it) }
+            ValkyrieMarkInterface.ancestor(this, this)?.let { result.add(it) }
+            ValkyrieMarkInterface.ancestor(this, this)?.let { result.add(it) }
+            ValkyrieMarkInterface.descendant(this, this)?.let { result.add(it) }
+            ValkyrieMarkInterface.descendant(this, this)?.let { result.add(it) }
+            ValkyrieMarkInterface.descendant(this, this)?.let { result.add(it) }
         }
     }
 }

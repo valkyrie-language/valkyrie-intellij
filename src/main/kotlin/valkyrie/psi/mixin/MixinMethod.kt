@@ -7,8 +7,6 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import valkyrie.ide.highlight.HighlightColor
-import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.psi.ValkyrieElement
 import valkyrie.psi.node.ValkyrieDeclareMethod
 import valkyrie.psi.node.ValkyrieIdentifierNode
@@ -38,10 +36,5 @@ abstract class MixinMethod(node: ASTNode) : ValkyrieElement(node), NavigatablePs
     override fun getPresentation(): ItemPresentation? {
         // annotations.identifierList.joinToString(" ")
         return PresentationData(name, "", baseIcon, null)
-    }
-
-
-    override fun highlight(visitor: NodeHighlighter) {
-        nameIdentifier?.let { visitor.highlight(it, HighlightColor.SYM_FUNCTION_FREE) }
     }
 }

@@ -4,7 +4,6 @@ package valkyrie.psi.node;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import valkyrie.ide.highlight.NodeHighlighter;
 
 public interface ValkyrieAttribute extends PsiElement {
 
@@ -14,6 +13,8 @@ public interface ValkyrieAttribute extends PsiElement {
     @Nullable
     ValkyrieNamepath getNamepath();
 
-    void highlight(@NotNull NodeHighlighter visitor);
+    //WARNING: highlight(...) is skipped
+    //matching highlight(ValkyrieAttribute, ...)
+    //methods are not found in YggdrasilPsiExtension
 
 }

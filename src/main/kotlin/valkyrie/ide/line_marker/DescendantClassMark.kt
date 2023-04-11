@@ -2,21 +2,21 @@ package valkyrie.ide.line_marker
 
 import com.intellij.codeInsight.daemon.MergeableLineMarkerInfo
 import com.intellij.icons.AllIcons
-import com.intellij.openapi.editor.markup.GutterIconRenderer
-import com.intellij.openapi.util.TextRange
+import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment
 import com.intellij.psi.PsiElement
+import valkyrie.psi.node.ValkyrieDeclareClassNode
 import java.util.function.Supplier
 import javax.swing.Icon
 
-class DescendantClassMark : MergeableLineMarkerInfo<PsiElement> {
-    constructor(element: PsiElement, range: TextRange) : super(
+class ValkyrieMarkFunction : MergeableLineMarkerInfo<PsiElement> {
+    private constructor(element: PsiElement, icon: Icon) : super(
         element,
-        range,
-        AllIcons.Gutter.OverridenMethod,
+        element.textRange,
+        icon,
         { "tooltipProvider" },
         null,
-        GutterIconRenderer.Alignment.RIGHT,
-        Supplier<String> { "DescendantClassMark" }
+        Alignment.CENTER,
+        Supplier<String> { "AncestorClassMark" }
     )
 
     override fun canMergeWith(info: MergeableLineMarkerInfo<*>): Boolean {
@@ -24,6 +24,24 @@ class DescendantClassMark : MergeableLineMarkerInfo<PsiElement> {
     }
 
     override fun getCommonIcon(infos: MutableList<out MergeableLineMarkerInfo<*>>): Icon {
-        return AllIcons.Gutter.OverridenMethod
+        return myIcon
+    }
+
+    companion object {
+        fun standalone(node: ValkyrieDeclareClassNode): ValkyrieMarkFunction? {
+            val leaf = node.nameIdentifier?.firstChild ?: return null;
+            return ValkyrieMarkFunction(leaf, node.getIcon(0))
+        }
+
+        fun ancestor(node: ValkyrieDeclareClassNode): ValkyrieMarkFunction? {
+            val leaf = node.nameIdentifier?.firstChild ?: return null;
+            return ValkyrieMarkFunction(leaf, AllIcons.Gutter.OverridingMethod)
+        }
+
+        fun descendant(node: ValkyrieDeclareClassNode): ValkyrieMarkFunction? {
+            val leaf = node.nameIdentifier?.firstChild ?: return null;
+            return ValkyrieMarkFunction(leaf, AllIcons.Gutter.OverridenMethod)
+        }
     }
 }
+
