@@ -6,6 +6,15 @@ import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
+import com.intellij.psi.util.elementType
+import valkyrie.ide.actions.ast_transform.DeleteThis
+import valkyrie.ide.actions.ast_transform.ReplaceLeafText
+import valkyrie.ide.highlight.HighlightColor
+import valkyrie.ide.line_marker.ValkyrieMarkColor
+import valkyrie.language.ValkyrieBundle
+import valkyrie.psi.ValkyrieTypes
+import valkyrie.psi.node.ValkyrieDeclareGenericNode
+import valkyrie.psi.node.ValkyrieGenericCallFreeNode
 
 
 //import valkyrie.language.psi.ValkyrieTypes
@@ -13,27 +22,66 @@ import com.intellij.psi.PsiElement
 
 class LiteralChecker : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
-//        if (element.elementType == ValkyrieTypes.COLOUR) {
-//            annotateLiteralColor(element, holder)
-//            return
-//        }
-//        if (element !is ValkyrieNumberNode) return
-//        val unit = ""
-//        annotateSimple(element.firstChild, holder)
+        when (element.elementType) {
+            ValkyrieTypes.PROPORTION -> checkOperationNameJoin(element, holder)
+            ValkyrieTypes.COLOR -> checkColor(element, holder)
+            ValkyrieTypes.KW_TYPE -> checkKeywordType(element, holder)
+            ValkyrieTypes.KW_FUNCTION -> checkKeywordMicro(element, holder)
+        }
     }
 
-    private fun annotateLiteralColor(color: PsiElement, holder: AnnotationHolder) {
-//        if (ValkyrieColorParser().getColorFrom(color) == null) {
-//            val info = when {
-//                color.text.startsWith('®') -> ValkyrieBundle.message("annotator.color.rgb")
-//                color.text.startsWith('©') -> ValkyrieBundle.message("annotator.color.cmyk")
-//                else -> ""
-//            }
-//            holder.newAnnotation(HighlightSeverity.ERROR, info)
-//                .range(color.textRange)
-//                .withFix(DeleteThis(color))
-//                .create()
-//        }
+    private fun checkColor(color: PsiElement, holder: AnnotationHolder) {
+        if (ValkyrieMarkColor().getColorFrom(color) == null) {
+            val info = when {
+                color.text.startsWith('®') -> ValkyrieBundle.message("annotator.color.rgb")
+                color.text.startsWith('©') -> ValkyrieBundle.message("annotator.color.cmyk")
+                else -> ""
+            }
+            holder.newAnnotation(HighlightSeverity.ERROR, info)
+                .range(color.textRange)
+                .withFix(DeleteThis(color))
+                .create()
+        }
+    }
+
+    private fun checkKeywordType(kw: PsiElement, holder: AnnotationHolder) {
+        if (kw.text == "type") {
+            holder.newAnnotation(HighlightSeverity.WARNING, "`${kw.text}` is deprecated, use `typus` instead")
+                .range(kw.textRange)
+                .withFix(ReplaceLeafText(kw, ValkyrieTypes.KW_TYPE, "typus"))
+                .create()
+        }
+    }
+
+    private fun checkKeywordMicro(kw: PsiElement, holder: AnnotationHolder) {
+        if (kw.text == "function") {
+            holder.newAnnotation(HighlightSeverity.WARNING, "`${kw.text}` is deprecated, use `micro` instead")
+                .range(kw.textRange)
+                .withFix(ReplaceLeafText(kw, ValkyrieTypes.KW_FUNCTION, "micro"))
+                .create()
+        }
+    }
+
+    private fun checkOperationNameJoin(op: PsiElement, holder: AnnotationHolder) {
+        if (op.parent is ValkyrieDeclareGenericNode) {
+            holder.newAnnotation(HighlightSeverity.WEAK_WARNING, "`${op.text}` in `declare generic` is useless")
+                .range(op.textRange)
+                .withFix(DeleteThis(op))
+                .textAttributes(HighlightColor.COMMENT_LINE.textAttributesKey)
+                .create()
+        }
+        if (op.parent is ValkyrieGenericCallFreeNode) {
+            holder.newAnnotation(HighlightSeverity.WEAK_WARNING, "`${op.text}` in `call generic` is useless")
+                .range(op.textRange)
+                .withFix(DeleteThis(op))
+                .textAttributes(HighlightColor.COMMENT_LINE.textAttributesKey)
+                .create()
+        } else if (op.text == "::") {
+            holder.newAnnotation(HighlightSeverity.INFORMATION, "`${op.text}` is deprecated, use `∷` instead")
+                .range(op.textRange)
+                .withFix(ReplaceLeafText(op, ValkyrieTypes.PROPORTION, "∷"))
+                .create()
+        }
     }
 
     private fun annotateSimple(number: PsiElement, holder: AnnotationHolder) {

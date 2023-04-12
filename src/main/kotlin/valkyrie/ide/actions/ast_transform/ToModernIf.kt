@@ -1,5 +1,6 @@
 package valkyrie.ide.actions.ast_transform
 
+//import valkyrie.language.psi_node.ValkyrieIfStatementNode
 import com.intellij.codeInsight.intention.PriorityAction
 import com.intellij.codeInspection.LocalQuickFixAndIntentionActionOnPsiElement
 import com.intellij.icons.AllIcons
@@ -9,21 +10,10 @@ import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import valkyrie.language.ValkyrieBundle
+import valkyrie.psi.node.ValkyrieIfStatementNode
 import javax.swing.Icon
 
-class DeleteThis(element: PsiElement, vararg rest: PsiElement?) : LocalQuickFixAndIntentionActionOnPsiElement(element), PriorityAction,
-    Iconable {
-    val todo = mutableListOf<PsiElement>()
-
-    init {
-        this.todo.add(element)
-        for (item in rest) {
-            if (item != null) {
-                this.todo.add(item)
-            }
-        }
-    }
-
+class ToModernIf(element: ValkyrieIfStatementNode) : LocalQuickFixAndIntentionActionOnPsiElement(element), PriorityAction, Iconable {
     override fun startInWriteAction(): Boolean {
         return true
     }
@@ -33,21 +23,19 @@ class DeleteThis(element: PsiElement, vararg rest: PsiElement?) : LocalQuickFixA
     }
 
     override fun getText(): String {
-        return ValkyrieBundle.message("action.delete.node.name")
+        return ValkyrieBundle.message("action.convert.modern_if.name")
     }
 
     fun getDescription(): String {
-        return ValkyrieBundle.message("action.delete.node.help")
+        return ValkyrieBundle.message("action.convert.modern_if.help")
     }
 
     override fun invoke(project: Project, file: PsiFile, editor: Editor?, startElement: PsiElement, endElement: PsiElement) {
-        for (item in todo) {
-            item.delete()
-        }
+
     }
 
     override fun getIcon(flags: Int): Icon {
-        return AllIcons.CodeWithMe.CwmTerminate
+        return AllIcons.Nodes.Deploy
     }
 
     override fun getPriority(): PriorityAction.Priority {

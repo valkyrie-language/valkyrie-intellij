@@ -9,33 +9,44 @@ import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import valkyrie.language.ValkyrieBundle
-import valkyrie.language.ast.ValkyrieIfStatementNode
-//import valkyrie.language.psi_node.ValkyrieIfStatementNode
 import javax.swing.Icon
 
-class ToModernIf(element: ValkyrieIfStatementNode) : LocalQuickFixAndIntentionActionOnPsiElement(element), PriorityAction, Iconable {
+class DeleteThis : LocalQuickFixAndIntentionActionOnPsiElement, PriorityAction, Iconable {
+    val todo: MutableList<PsiElement> = mutableListOf()
+
+    constructor(element: PsiElement, vararg rest: PsiElement?) : super(element) {
+        this.todo.add(element)
+        for (item in rest) {
+            if (item != null) {
+                this.todo.add(item)
+            }
+        }
+    }
+
     override fun startInWriteAction(): Boolean {
         return true
     }
 
     override fun getFamilyName(): String {
-        return "getFamilyName"
+        return "GetFamilyName"
     }
 
     override fun getText(): String {
-        return ValkyrieBundle.message("action.convert.modern_if.name")
+        return ValkyrieBundle.message("action.delete.node.name")
     }
 
     fun getDescription(): String {
-        return ValkyrieBundle.message("action.convert.modern_if.help")
+        return ValkyrieBundle.message("action.delete.node.help")
     }
 
     override fun invoke(project: Project, file: PsiFile, editor: Editor?, startElement: PsiElement, endElement: PsiElement) {
-
+        for (item in todo) {
+            item.delete()
+        }
     }
 
     override fun getIcon(flags: Int): Icon {
-        return AllIcons.Nodes.Deploy
+        return AllIcons.CodeWithMe.CwmTerminate
     }
 
     override fun getPriority(): PriorityAction.Priority {
