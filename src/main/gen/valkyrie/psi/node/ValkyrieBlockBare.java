@@ -2,13 +2,12 @@
 package valkyrie.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
 public interface ValkyrieBlockBare extends PsiElement {
 
     @NotNull
-    List<ValkyrieBlockStatement> getBlockStatementList();
+    List<ValkyrieInlineStatement> getInlineStatementList();
 
 }

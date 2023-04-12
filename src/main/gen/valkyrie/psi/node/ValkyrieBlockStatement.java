@@ -8,36 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieBlockStatement extends PsiElement {
 
     @Nullable
-    ValkyrieCatchStatement getCatchStatement();
+    ValkyrieDeclareVariable getDeclareVariable();
 
     @Nullable
-    ValkyrieExpression getExpression();
-
-    @Nullable
-    ValkyrieForStatement getForStatement();
-
-    @Nullable
-    ValkyrieIfCaseStatement getIfCaseStatement();
-
-    @Nullable
-    ValkyrieIfStatement getIfStatement();
-
-    @Nullable
-    ValkyrieMatchStatement getMatchStatement();
-
-    @Nullable
-    ValkyrieNewLambda getNewLambda();
-
-    @Nullable
-    ValkyrieNewObject getNewObject();
-
-    @Nullable
-    ValkyrieNewValue getNewValue();
-
-    @Nullable
-    ValkyrieTryStatement getTryStatement();
-
-    @Nullable
-    ValkyrieWhileStatement getWhileStatement();
+    ValkyrieInlineStatement getInlineStatement();
 
 }

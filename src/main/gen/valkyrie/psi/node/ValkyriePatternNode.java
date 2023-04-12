@@ -28,8 +28,20 @@ public class ValkyriePatternNode extends ValkyrieElement implements ValkyriePatt
 
     @Override
     @Nullable
-    public ValkyriePatternTerm getPatternTerm() {
-        return findChildByClass(ValkyriePatternTerm.class);
+    public ValkyriePatternAtomic getPatternAtomic() {
+        return findChildByClass(ValkyriePatternAtomic.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyriePatternObject getPatternObject() {
+        return findChildByClass(ValkyriePatternObject.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyriePatternSequence getPatternSequence() {
+        return findChildByClass(ValkyriePatternSequence.class);
     }
 
     @Override

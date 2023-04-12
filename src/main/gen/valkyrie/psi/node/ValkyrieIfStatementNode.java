@@ -27,9 +27,9 @@ public class ValkyrieIfStatementNode extends ValkyrieElement implements Valkyrie
     }
 
     @Override
-    @Nullable
+    @NotNull
     public ValkyrieBlockBody getBlockBody() {
-        return findChildByClass(ValkyrieBlockBody.class);
+        return findNotNullChildByClass(ValkyrieBlockBody.class);
     }
 
     @Override
@@ -45,9 +45,9 @@ public class ValkyrieIfStatementNode extends ValkyrieElement implements Valkyrie
     }
 
     @Override
-    @Nullable
-    public ValkyrieInlineExpression getInlineExpression() {
-        return findChildByClass(ValkyrieInlineExpression.class);
+    @NotNull
+    public ValkyrieIfCondition getIfCondition() {
+        return findNotNullChildByClass(ValkyrieIfCondition.class);
     }
 
 }

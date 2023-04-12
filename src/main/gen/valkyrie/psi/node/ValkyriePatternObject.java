@@ -2,10 +2,11 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyriePatternUnapply extends PsiElement {
+public interface ValkyriePatternObject extends PsiElement {
 
     @NotNull
     ValkyrieAnnotations getAnnotations();
@@ -14,6 +15,6 @@ public interface ValkyriePatternUnapply extends PsiElement {
     ValkyrieNamepathFree getNamepathFree();
 
     @NotNull
-    ValkyriePatternUnapplyBody getPatternUnapplyBody();
+    ValkyriePatternObjectBody getPatternObjectBody();
 
 }

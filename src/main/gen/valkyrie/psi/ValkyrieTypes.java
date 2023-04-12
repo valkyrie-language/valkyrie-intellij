@@ -58,9 +58,11 @@ public interface ValkyrieTypes {
     IElementType IDENTIFIER = new ValkyrieElementType("IDENTIFIER");
     IElementType IDENTIFIER_FREE = new ValkyrieElementType("IDENTIFIER_FREE");
     IElementType IF_CASE_STATEMENT = new ValkyrieElementType("IF_CASE_STATEMENT");
+    IElementType IF_CONDITION = new ValkyrieElementType("IF_CONDITION");
     IElementType IF_STATEMENT = new ValkyrieElementType("IF_STATEMENT");
     IElementType INFIX = new ValkyrieElementType("INFIX");
     IElementType INLINE_EXPRESSION = new ValkyrieElementType("INLINE_EXPRESSION");
+    IElementType INLINE_STATEMENT = new ValkyrieElementType("INLINE_STATEMENT");
     IElementType IS_NOT = new ValkyrieElementType("IS_NOT");
     IElementType MACRO_CALL = new ValkyrieElementType("MACRO_CALL");
     IElementType MATCH_BODY = new ValkyrieElementType("MATCH_BODY");
@@ -84,9 +86,15 @@ public interface ValkyrieTypes {
     IElementType PARAMETER_BODY = new ValkyrieElementType("PARAMETER_BODY");
     IElementType PARAMETER_ITEM = new ValkyrieElementType("PARAMETER_ITEM");
     IElementType PATTERN = new ValkyrieElementType("PATTERN");
+    IElementType PATTERN_ATOMIC = new ValkyrieElementType("PATTERN_ATOMIC");
     IElementType PATTERN_BARE = new ValkyrieElementType("PATTERN_BARE");
-    IElementType PATTERN_TERM = new ValkyrieElementType("PATTERN_TERM");
+    IElementType PATTERN_OBJECT = new ValkyrieElementType("PATTERN_OBJECT");
+    IElementType PATTERN_OBJECT_BODY = new ValkyrieElementType("PATTERN_OBJECT_BODY");
+    IElementType PATTERN_PAIR = new ValkyrieElementType("PATTERN_PAIR");
+    IElementType PATTERN_SEQUENCE = new ValkyrieElementType("PATTERN_SEQUENCE");
+    IElementType PATTERN_SEQUENCE_BODY = new ValkyrieElementType("PATTERN_SEQUENCE_BODY");
     IElementType PATTERN_UNAPPLY = new ValkyrieElementType("PATTERN_UNAPPLY");
+    IElementType PATTERN_UNAPPLY_BODY = new ValkyrieElementType("PATTERN_UNAPPLY_BODY");
     IElementType PREFIX = new ValkyrieElementType("PREFIX");
     IElementType RANGE_INDEX = new ValkyrieElementType("RANGE_INDEX");
     IElementType RANGE_ITEM = new ValkyrieElementType("RANGE_ITEM");
@@ -196,14 +204,16 @@ public interface ValkyrieTypes {
     IElementType OFFSET_R = new ValkyrieTokenType("OFFSET_R");
     IElementType OP_AND = new ValkyrieTokenType("OP_AND");
     IElementType OP_AND_THEN = new ValkyrieTokenType("OP_AND_THEN");
+    IElementType OP_ARROW1 = new ValkyrieTokenType("OP_ARROW1");
     IElementType OP_BANG = new ValkyrieTokenType("OP_BANG");
     IElementType OP_CONCAT = new ValkyrieTokenType("~");
+    IElementType OP_EQ = new ValkyrieTokenType("OP_EQ");
     IElementType OP_MANY = new ValkyrieTokenType("*");
     IElementType OP_MINUS = new ValkyrieTokenType("OP_MINUS");
+    IElementType OP_NE = new ValkyrieTokenType("OP_NE");
     IElementType OP_OR = new ValkyrieTokenType("|");
     IElementType OP_PLUS = new ValkyrieTokenType("OP_PLUS");
     IElementType OP_REMARK = new ValkyrieTokenType("^");
-    IElementType OP_TO = new ValkyrieTokenType("OP_TO");
     IElementType OP_UNTIL = new ValkyrieTokenType("OP_UNTIL");
     IElementType PARENTHESIS_L = new ValkyrieTokenType("(");
     IElementType PARENTHESIS_R = new ValkyrieTokenType(")");
@@ -324,12 +334,16 @@ public interface ValkyrieTypes {
                 return new ValkyrieIdentifierFreeNode(node);
             } else if (type == IF_CASE_STATEMENT) {
                 return new ValkyrieIfCaseStatementNode(node);
+            } else if (type == IF_CONDITION) {
+                return new ValkyrieIfConditionNode(node);
             } else if (type == IF_STATEMENT) {
                 return new ValkyrieIfStatementNode(node);
             } else if (type == INFIX) {
                 return new ValkyrieInfixNode(node);
             } else if (type == INLINE_EXPRESSION) {
                 return new ValkyrieInlineExpressionNode(node);
+            } else if (type == INLINE_STATEMENT) {
+                return new ValkyrieInlineStatementNode(node);
             } else if (type == IS_NOT) {
                 return new ValkyrieIsNotNode(node);
             } else if (type == MACRO_CALL) {
@@ -376,12 +390,24 @@ public interface ValkyrieTypes {
                 return new ValkyrieParameterItemNode(node);
             } else if (type == PATTERN) {
                 return new ValkyriePatternNode(node);
+            } else if (type == PATTERN_ATOMIC) {
+                return new ValkyriePatternAtomicNode(node);
             } else if (type == PATTERN_BARE) {
                 return new ValkyriePatternBareNode(node);
-            } else if (type == PATTERN_TERM) {
-                return new ValkyriePatternTermNode(node);
+            } else if (type == PATTERN_OBJECT) {
+                return new ValkyriePatternObjectNode(node);
+            } else if (type == PATTERN_OBJECT_BODY) {
+                return new ValkyriePatternObjectBodyNode(node);
+            } else if (type == PATTERN_PAIR) {
+                return new ValkyriePatternPairNode(node);
+            } else if (type == PATTERN_SEQUENCE) {
+                return new ValkyriePatternSequenceNode(node);
+            } else if (type == PATTERN_SEQUENCE_BODY) {
+                return new ValkyriePatternSequenceBodyNode(node);
             } else if (type == PATTERN_UNAPPLY) {
                 return new ValkyriePatternUnapplyNode(node);
+            } else if (type == PATTERN_UNAPPLY_BODY) {
+                return new ValkyriePatternUnapplyBodyNode(node);
             } else if (type == PREFIX) {
                 return new ValkyriePrefixNode(node);
             } else if (type == RANGE_INDEX) {

@@ -2,21 +2,19 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import com.intellij.codeInsight.lookup.LookupElement;
 
-public interface ValkyrieDeclareUnion extends PsiElement {
+public interface ValkyriePatternPair extends PsiElement {
 
     @NotNull
     ValkyrieAnnotations getAnnotations();
 
-    @Nullable
-    ValkyrieClassBody getClassBody();
-
-    @Nullable
+    @NotNull
     ValkyrieIdentifierFree getIdentifierFree();
 
-    void createLookup(@NotNull List<LookupElement> completions);
+    @NotNull
+    ValkyriePattern getPattern();
 
 }

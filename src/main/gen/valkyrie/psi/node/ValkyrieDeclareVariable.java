@@ -8,10 +8,10 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieDeclareVariable extends PsiElement {
 
     @Nullable
-    ValkyrieBlockStatement getBlockStatement();
+    ValkyrieInlineStatement getInlineStatement();
 
     @Nullable
-    ValkyriePattern getPattern();
+    ValkyriePatternBare getPatternBare();
 
     @Nullable
     ValkyrieTypeHint getTypeHint();

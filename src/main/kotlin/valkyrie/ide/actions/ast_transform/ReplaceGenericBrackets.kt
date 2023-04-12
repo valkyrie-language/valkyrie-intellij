@@ -8,22 +8,20 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import com.intellij.psi.tree.IElementType
 import valkyrie.language.ValkyrieBundle
+import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.replaceLeaf
 import javax.swing.Icon
 
+class ReplaceGenericBrackets : LocalQuickFixAndIntentionActionOnPsiElement, PriorityAction, Iconable {
+    private var left: PsiElement
+    private var right: PsiElement
+    private var jointer: PsiElement?
 
-class ReplaceLeafText : LocalQuickFixAndIntentionActionOnPsiElement, PriorityAction, Iconable {
-    // This element must a psi leaf
-    private var leaf: PsiElement
-    private var kind: IElementType
-    private var target: String
-
-    constructor(leaf: PsiElement, kind: IElementType, target: String) : super(leaf) {
-        this.leaf = leaf
-        this.kind = kind
-        this.target = target
+    constructor(left: PsiElement, right: PsiElement, join: PsiElement? = null) : super(left) {
+        this.left = left
+        this.right = right
+        this.jointer = join
     }
 
     override fun startInWriteAction(): Boolean {
@@ -35,16 +33,17 @@ class ReplaceLeafText : LocalQuickFixAndIntentionActionOnPsiElement, PriorityAct
     }
 
     override fun getText(): String {
-        return ValkyrieBundle.message("action.replace.text.name", target)
+        return ValkyrieBundle.message("action.replace.generic.brackets.name")
     }
 
-
     fun getDescription(): String {
-        return ValkyrieBundle.message("action.replace.text.help")
+        return ValkyrieBundle.message("action.replace.generic.brackets.help")
     }
 
     override fun invoke(project: Project, file: PsiFile, editor: Editor?, startElement: PsiElement, endElement: PsiElement) {
-        leaf.replaceLeaf(kind, target)
+        jointer?.delete()
+        left.replaceLeaf(ValkyrieTypes.GENERIC_L, "⟨")
+        right.replaceLeaf(ValkyrieTypes.GENERIC_R, "⟩")
     }
 
     override fun getIcon(flags: Int): Icon {
@@ -58,4 +57,6 @@ class ReplaceLeafText : LocalQuickFixAndIntentionActionOnPsiElement, PriorityAct
     override fun availableInBatchMode(): Boolean {
         return true
     }
+
+
 }
