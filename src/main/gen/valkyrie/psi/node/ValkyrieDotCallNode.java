@@ -34,6 +34,12 @@ public class ValkyrieDotCallNode extends ValkyrieElement implements ValkyrieDotC
 
     @Override
     @NotNull
+    public ValkyrieBlockBody getBlockBody() {
+        return findNotNullChildByClass(ValkyrieBlockBody.class);
+    }
+
+    @Override
+    @NotNull
     public ValkyrieNamepath getNamepath() {
         return findNotNullChildByClass(ValkyrieNamepath.class);
     }

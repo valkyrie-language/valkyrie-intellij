@@ -24,11 +24,12 @@ class TokenHighlighter : SyntaxHighlighter {
             KW_TYPE, KW_CLASS, KW_UNION, KW_ENUMERATE, KW_FLAGS,
             KW_TRAIT,
             KW_FUNCTION, KW_LET,
-            KW_IF, KW_ELSE, KW_OTHERWISE, KW_THROUGH,
+            KW_IF, KW_ELSE, KW_THROUGH,
             KW_FOR, KW_IN,
             KW_RETURN, KW_RESUME, KW_BREAK, KW_CONTINUE, KW_YIELD,
             KW_TRY, KW_MATCH, KW_WITH, KW_CASE, KW_WHEN,
             KW_IS, KW_NOT,
+            KW_BOOLEAN, KW_NULL, KW_NIL,
             -> HighlightColor.KEYWORD
             // operations
             COLON, EQUAL, BIND, STAR -> HighlightColor.OPERATION

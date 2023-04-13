@@ -46,12 +46,6 @@ public class ValkyrieForStatementNode extends ValkyrieElement implements Valkyri
 
     @Override
     @Nullable
-    public ValkyrieOtherwiseStatement getOtherwiseStatement() {
-        return findChildByClass(ValkyrieOtherwiseStatement.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyriePatternBare getPatternBare() {
         return findChildByClass(ValkyriePatternBare.class);
     }

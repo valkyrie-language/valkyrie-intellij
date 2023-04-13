@@ -27,9 +27,15 @@ public class ValkyrieFunctionCallNode extends ValkyrieElement implements Valkyri
     }
 
     @Override
-    @NotNull
+    @Nullable
     public ValkyrieArgumentBody getArgumentBody() {
-        return findNotNullChildByClass(ValkyrieArgumentBody.class);
+        return findChildByClass(ValkyrieArgumentBody.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieBlockBody getBlockBody() {
+        return findChildByClass(ValkyrieBlockBody.class);
     }
 
     @Override

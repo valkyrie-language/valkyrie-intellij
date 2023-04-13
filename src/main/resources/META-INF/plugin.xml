@@ -162,9 +162,9 @@
 		<!-- Lint -->
 		<!--		<lang.namesValidator language="Valkyrie" implementationClass="valkyrie.ide.lint.ValkyrieNameValidator"/>-->
 		<!--		<qualifiedNameProvider implementation="valkyrie.ide.lint.ValkyrieNameQualifier"/>-->
-		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.CheckNamespace"/>
+		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.ValkyrieCheckNamespace"/>
 		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.NamepathChecker"/>
-		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.LiteralChecker"/>
+		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.ValkyrieCheckLiteral"/>
 		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.MarkImplicitTypes"/>
 		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.LegacyExpression"/>
 		<!-- Declaration -->

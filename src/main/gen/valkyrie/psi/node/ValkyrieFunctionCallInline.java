@@ -2,18 +2,16 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieTerm extends PsiElement {
+public interface ValkyrieFunctionCallInline extends PsiElement {
 
     @NotNull
-    ValkyrieAtomic getAtomic();
+    ValkyrieArgumentBody getArgumentBody();
 
     @NotNull
-    List<ValkyriePrefix> getPrefixList();
-
-    @NotNull
-    List<ValkyrieSuffix> getSuffixList();
+    ValkyrieNamepath getNamepath();
 
 }

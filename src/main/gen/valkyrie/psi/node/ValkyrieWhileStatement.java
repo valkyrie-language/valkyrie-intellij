@@ -13,7 +13,4 @@ public interface ValkyrieWhileStatement extends PsiElement {
     @Nullable
     ValkyrieInlineExpression getInlineExpression();
 
-    @Nullable
-    ValkyrieOtherwiseStatement getOtherwiseStatement();
-
 }

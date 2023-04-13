@@ -7,8 +7,11 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieFunctionCall extends PsiElement {
 
-    @NotNull
+    @Nullable
     ValkyrieArgumentBody getArgumentBody();
+
+    @Nullable
+    ValkyrieBlockBody getBlockBody();
 
     @NotNull
     ValkyrieNamepath getNamepath();

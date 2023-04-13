@@ -19,6 +19,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitAtomic(@NotNull ValkyrieAtomic o) {
+        visitPsiElement(o);
+    }
+
     public void visitAttribute(@NotNull ValkyrieAttribute o) {
         visitPsiElement(o);
     }
@@ -123,6 +127,14 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitDotCallFor(@NotNull ValkyrieDotCallFor o) {
+        visitPsiElement(o);
+    }
+
+    public void visitDotCallInline(@NotNull ValkyrieDotCallInline o) {
+        visitPsiElement(o);
+    }
+
     public void visitDotCallMatch(@NotNull ValkyrieDotCallMatch o) {
         visitPsiElement(o);
     }
@@ -156,6 +168,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitFunctionCall(@NotNull ValkyrieFunctionCall o) {
+        visitPsiElement(o);
+    }
+
+    public void visitFunctionCallInline(@NotNull ValkyrieFunctionCallInline o) {
         visitPsiElement(o);
     }
 
@@ -207,8 +223,20 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitInlineAtomic(@NotNull ValkyrieInlineAtomic o) {
+        visitPsiElement(o);
+    }
+
     public void visitInlineExpression(@NotNull ValkyrieInlineExpression o) {
-        visitExpression(o);
+        visitPsiElement(o);
+    }
+
+    public void visitInlineSuffix(@NotNull ValkyrieInlineSuffix o) {
+        visitPsiElement(o);
+    }
+
+    public void visitInlineTerm(@NotNull ValkyrieInlineTerm o) {
+        visitPsiElement(o);
     }
 
     public void visitIsNot(@NotNull ValkyrieIsNot o) {
@@ -284,14 +312,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitOrdinalRange(@NotNull ValkyrieOrdinalRange o) {
-        visitPsiElement(o);
-    }
-
-    public void visitOtherwiseKind(@NotNull ValkyrieOtherwiseKind o) {
-        visitPsiElement(o);
-    }
-
-    public void visitOtherwiseStatement(@NotNull ValkyrieOtherwiseStatement o) {
         visitPsiElement(o);
     }
 

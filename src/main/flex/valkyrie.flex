@@ -48,14 +48,13 @@ KW_WITH  = with
 KW_CASE  = case
 KW_WHEN  = when
 
-KW_WHILE     = while|until
-KW_FOR       = for
-KW_IN        = in
-KW_IF        = if
-KW_ELSE      = else
-KW_OTHERWISE = otherwise
-KW_IS        = is
-KW_NOT       = not
+KW_WHILE = while|until
+KW_FOR   = for
+KW_IN    = in
+KW_IF    = if
+KW_ELSE  = else
+KW_IS    = is
+KW_NOT   = not
 
 KW_RETURN   = return
 KW_RESUME   = resume
@@ -65,11 +64,9 @@ KW_CONTINUE = continue
 KW_THROUGH  = fallthrough
 KW_RAISE    = raise
 
-KW_NIL   = nil|∅
-KW_NULL  = null
-KW_TRUE  = true
-KW_FALSE = false
-
+KW_NIL     = nil|∅
+KW_NULL    = null
+KW_BOOLEAN = true|false
 
 STAR         = \*
 COLON        = :|∶
@@ -108,7 +105,6 @@ SYMBOW_RAW = `[^`]*`
 ESCAPED = \\.
 
 BIN = [0-1]
-DEC = [0-9]
 HEX = [0-9a-fA-F]
 COLOR = [©®][0-9a-zA-Z]*
 INTEGER = 0|[1-9][_0-9]*
@@ -194,7 +190,6 @@ INTEGER = 0|[1-9][_0-9]*
 
     {KW_IF}        { return KW_IF; }
     {KW_ELSE}      { return KW_ELSE; }
-    {KW_OTHERWISE} { return KW_OTHERWISE; }
     {KW_WHILE}     { return KW_WHILE; }
     {KW_FOR}       { return KW_FOR; }
     {KW_IN}        { return KW_IN; }
@@ -216,8 +211,7 @@ INTEGER = 0|[1-9][_0-9]*
 
     {KW_NULL}    { return KW_NULL; }
     {KW_NIL}     { return KW_NIL; }
-    {KW_TRUE}    { return KW_TRUE; }
-    {KW_FALSE}   { return KW_FALSE; }
+    {KW_BOOLEAN} { return KW_BOOLEAN; }
     {KW_IS}      { return KW_IS; }
     {KW_NOT}     { return KW_NOT; }
     {SYMBOW_RAW} { return SYMBOW_RAW; }
