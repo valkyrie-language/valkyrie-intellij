@@ -8,8 +8,6 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import valkyrie.ide.highlight.HighlightColor
-import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.ValkyrieElement
 import valkyrie.psi.node.ValkyrieDeclareEnumerate
@@ -58,10 +56,6 @@ abstract class MixinEnumerate(node: ASTNode) : ValkyrieElement(node), Navigatabl
 
     fun enumerateItems(): List<ValkyrieEnumerateItem> {
         return this.enumerateBody?.enumerateItemList ?: listOf()
-    }
-
-    override fun highlight(highlighter: NodeHighlighter) {
-        this.identifierFree?.let { highlighter.highlight(it, HighlightColor.SYM_CONSTANT) }
     }
 }
 

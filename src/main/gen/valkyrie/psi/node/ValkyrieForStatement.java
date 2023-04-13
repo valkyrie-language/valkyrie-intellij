@@ -2,14 +2,10 @@
 package valkyrie.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
 public interface ValkyrieForStatement extends PsiElement {
-
-    @Nullable
-    ValkyrieBarePattern getBarePattern();
 
     @Nullable
     ValkyrieBlockBody getBlockBody();
@@ -22,5 +18,8 @@ public interface ValkyrieForStatement extends PsiElement {
 
     @Nullable
     ValkyriePattern getPattern();
+
+    @Nullable
+    ValkyriePatternBare getPatternBare();
 
 }

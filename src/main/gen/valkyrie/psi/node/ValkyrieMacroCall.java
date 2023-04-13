@@ -7,10 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieMacroCall extends PsiElement {
 
-    @NotNull
-    ValkyrieNamepath getNamepath();
+    @Nullable
+    ValkyrieArgumentBody getArgumentBody();
 
     @Nullable
-    ValkyrieTuple getTuple();
+    ValkyrieNamepath getNamepath();
 
 }

@@ -3,7 +3,6 @@ package valkyrie.psi.mixin
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
-import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.ValkyrieElement
 import valkyrie.psi.node.ValkyrieAttribute
@@ -17,9 +16,6 @@ abstract class MixinAttribute(node: ASTNode) : ValkyrieElement(node), ValkyrieAt
         return identifiers.lastOrNull()?.text ?: ""
     }
 
-    override fun highlight(visitor: NodeHighlighter) {
-
-    }
 
     override fun getBaseIcon(): Icon {
         return ValkyrieIconProvider.Instance.Attribute

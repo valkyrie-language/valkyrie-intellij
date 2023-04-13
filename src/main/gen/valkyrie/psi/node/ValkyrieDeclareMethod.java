@@ -2,10 +2,8 @@
 package valkyrie.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import valkyrie.ide.highlight.NodeHighlighter;
 
 public interface ValkyrieDeclareMethod extends PsiElement {
 
@@ -29,7 +27,5 @@ public interface ValkyrieDeclareMethod extends PsiElement {
 
     @Nullable
     ValkyrieReturnType getReturnType();
-
-    void highlight(@NotNull NodeHighlighter visitor);
 
 }

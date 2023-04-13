@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieMatchCase extends PsiElement {
 
     @Nullable
-    ValkyrieInlineExpression getInlineExpression();
+    ValkyrieBlockBare getBlockBare();
+
+    @Nullable
+    ValkyriePattern getPattern();
 
 }

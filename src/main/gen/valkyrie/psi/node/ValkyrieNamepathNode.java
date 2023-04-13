@@ -2,18 +2,17 @@
 package valkyrie.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-
 import static valkyrie.psi.ValkyrieTypes.*;
 
-import valkyrie.psi.ValkyrieElement;
+import valkyrie.psi.mixin.MixinNamepath;
+import valkyrie.ide.highlight.NodeHighlighter;
 
-public class ValkyrieNamepathNode extends ValkyrieElement implements ValkyrieNamepath {
+public class ValkyrieNamepathNode extends MixinNamepath implements ValkyrieNamepath {
 
     public ValkyrieNamepathNode(@NotNull ASTNode node) {
         super(node);

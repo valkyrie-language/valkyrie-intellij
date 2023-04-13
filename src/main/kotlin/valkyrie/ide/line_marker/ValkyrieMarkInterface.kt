@@ -8,7 +8,7 @@ import valkyrie.psi.node.ValkyrieDeclareTraitNode
 import java.util.function.Supplier
 import javax.swing.Icon
 
-class ValkyrieInterfaceMark : MergeableLineMarkerInfo<PsiElement> {
+class ValkyrieMarkInterface : MergeableLineMarkerInfo<PsiElement> {
     private constructor(element: PsiElement, icon: Icon) : super(
         element,
         element.textRange,
@@ -28,19 +28,19 @@ class ValkyrieInterfaceMark : MergeableLineMarkerInfo<PsiElement> {
     }
 
     companion object {
-        fun standalone(node: ValkyrieDeclareTraitNode): ValkyrieInterfaceMark? {
+        fun standalone(node: ValkyrieDeclareTraitNode): ValkyrieMarkInterface? {
             val leaf = node.nameIdentifier?.firstChild ?: return null;
-            return ValkyrieInterfaceMark(leaf, node.getIcon(0))
+            return ValkyrieMarkInterface(leaf, node.getIcon(0))
         }
 
-        fun ancestor(self: ValkyrieDeclareTraitNode, parent: ValkyrieDeclareTraitNode): ValkyrieInterfaceMark? {
+        fun ancestor(self: ValkyrieDeclareTraitNode, parent: ValkyrieDeclareTraitNode): ValkyrieMarkInterface? {
             val leaf = self.nameIdentifier?.firstChild ?: return null;
-            return ValkyrieInterfaceMark(leaf, AllIcons.Gutter.ImplementingMethod)
+            return ValkyrieMarkInterface(leaf, AllIcons.Gutter.ImplementingMethod)
         }
 
-        fun descendant(node: ValkyrieDeclareTraitNode, child: ValkyrieDeclareTraitNode): ValkyrieInterfaceMark? {
+        fun descendant(node: ValkyrieDeclareTraitNode, child: ValkyrieDeclareTraitNode): ValkyrieMarkInterface? {
             val leaf = node.nameIdentifier?.firstChild ?: return null;
-            return ValkyrieInterfaceMark(leaf, AllIcons.Gutter.ImplementedMethod)
+            return ValkyrieMarkInterface(leaf, AllIcons.Gutter.ImplementedMethod)
         }
     }
 }
