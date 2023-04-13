@@ -49,6 +49,18 @@ class ValkyrieFoldingBuilder : CustomFoldingBuilder(), DumbAware {
             "$counter variants"
         }
 
+        is ValkyrieMatchBodyNode -> {
+            var counter = 0;
+            for (item in psi.matchItemList) {
+                when (item.firstChild) {
+                    is ValkyrieMatchWith, is ValkyrieMatchCase, is ValkyrieMatchElse -> {
+                        counter += 1
+                    }
+                }
+            }
+            "$counter branches"
+        }
+
 
         else -> "..."
     }

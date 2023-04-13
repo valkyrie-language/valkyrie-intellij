@@ -8,12 +8,39 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieDeclareVariable extends PsiElement {
 
     @Nullable
-    ValkyrieInlineStatement getInlineStatement();
+    ValkyrieExpression getExpression();
+
+    @Nullable
+    ValkyrieForStatement getForStatement();
+
+    @Nullable
+    ValkyrieIfCaseStatement getIfCaseStatement();
+
+    @Nullable
+    ValkyrieIfStatement getIfStatement();
+
+    @Nullable
+    ValkyrieMatchStatement getMatchStatement();
+
+    @Nullable
+    ValkyrieNewLambda getNewLambda();
+
+    @Nullable
+    ValkyrieNewObject getNewObject();
+
+    @Nullable
+    ValkyrieNewValue getNewValue();
 
     @Nullable
     ValkyriePatternBare getPatternBare();
 
     @Nullable
+    ValkyrieTryStatement getTryStatement();
+
+    @Nullable
     ValkyrieTypeHint getTypeHint();
+
+    @Nullable
+    ValkyrieWhileStatement getWhileStatement();
 
 }

@@ -13,14 +13,14 @@ import static valkyrie.psi.ValkyrieTypes.*;
 
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyriePatternAtomicNode extends ValkyrieElement implements ValkyriePatternAtomic {
+public class ValkyriePatternLiteralNode extends ValkyrieElement implements ValkyriePatternLiteral {
 
-    public ValkyriePatternAtomicNode(@NotNull ASTNode node) {
+    public ValkyriePatternLiteralNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitPatternAtomic(this);
+        visitor.visitPatternLiteral(this);
     }
 
     @Override
@@ -43,8 +43,8 @@ public class ValkyriePatternAtomicNode extends ValkyrieElement implements Valkyr
 
     @Override
     @Nullable
-    public ValkyrieNumber getNumber() {
-        return findChildByClass(ValkyrieNumber.class);
+    public ValkyrieSpecial getSpecial() {
+        return findChildByClass(ValkyrieSpecial.class);
     }
 
     @Override

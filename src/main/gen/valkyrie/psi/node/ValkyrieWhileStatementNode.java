@@ -44,10 +44,4 @@ public class ValkyrieWhileStatementNode extends ValkyrieElement implements Valky
         return findChildByClass(ValkyrieOtherwiseStatement.class);
     }
 
-    @Override
-    @NotNull
-    public ValkyrieWhileKind getWhileKind() {
-        return findNotNullChildByClass(ValkyrieWhileKind.class);
-    }
-
 }

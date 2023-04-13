@@ -28,8 +28,50 @@ public class ValkyrieDeclareVariableNode extends ValkyrieElement implements Valk
 
     @Override
     @Nullable
-    public ValkyrieInlineStatement getInlineStatement() {
-        return findChildByClass(ValkyrieInlineStatement.class);
+    public ValkyrieExpression getExpression() {
+        return findChildByClass(ValkyrieExpression.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieForStatement getForStatement() {
+        return findChildByClass(ValkyrieForStatement.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieIfCaseStatement getIfCaseStatement() {
+        return findChildByClass(ValkyrieIfCaseStatement.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieIfStatement getIfStatement() {
+        return findChildByClass(ValkyrieIfStatement.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieMatchStatement getMatchStatement() {
+        return findChildByClass(ValkyrieMatchStatement.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieNewLambda getNewLambda() {
+        return findChildByClass(ValkyrieNewLambda.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieNewObject getNewObject() {
+        return findChildByClass(ValkyrieNewObject.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieNewValue getNewValue() {
+        return findChildByClass(ValkyrieNewValue.class);
     }
 
     @Override
@@ -40,8 +82,20 @@ public class ValkyrieDeclareVariableNode extends ValkyrieElement implements Valk
 
     @Override
     @Nullable
+    public ValkyrieTryStatement getTryStatement() {
+        return findChildByClass(ValkyrieTryStatement.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieTypeHint getTypeHint() {
         return findChildByClass(ValkyrieTypeHint.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieWhileStatement getWhileStatement() {
+        return findChildByClass(ValkyrieWhileStatement.class);
     }
 
 }

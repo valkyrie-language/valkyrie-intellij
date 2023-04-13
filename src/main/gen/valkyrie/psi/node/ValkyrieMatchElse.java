@@ -10,7 +10,4 @@ public interface ValkyrieMatchElse extends PsiElement {
     @Nullable
     ValkyrieBlockBare getBlockBare();
 
-    @Nullable
-    ValkyrieInlineExpression getInlineExpression();
-
 }

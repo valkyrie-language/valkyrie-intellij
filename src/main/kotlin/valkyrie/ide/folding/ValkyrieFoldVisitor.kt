@@ -5,10 +5,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.refactoring.suggested.endOffset
 import com.intellij.refactoring.suggested.startOffset
-import valkyrie.psi.node.ValkyrieBlockBody
-import valkyrie.psi.node.ValkyrieClassBody
-import valkyrie.psi.node.ValkyrieEnumerateBody
-import valkyrie.psi.node.ValkyrieUsingBody
+import valkyrie.psi.node.*
 
 
 class ValkyrieFoldVisitor(private val descriptors: MutableList<FoldingDescriptor>) : ValkyrieRecursiveVisitor() {
@@ -29,6 +26,10 @@ class ValkyrieFoldVisitor(private val descriptors: MutableList<FoldingDescriptor
         fold(o, o.firstChild.endOffset, o.lastChild.startOffset)
     }
 
+
+    override fun visitMatchBody(o: ValkyrieMatchBody) {
+        fold(o, o.firstChild.endOffset, o.lastChild.startOffset)
+    }
 
     private fun fold(node: PsiElement, start: Int, end: Int) {
         if (end > start) {
