@@ -54,3 +54,5 @@ data class CMYK(val c: Float, val m: Float, val y: Float, val k: Float) {
         return Color(r.toInt(), g.toInt(), b.toInt(), a.toInt())
     }
 }
+
+

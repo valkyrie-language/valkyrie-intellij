@@ -57,19 +57,19 @@ class CreateNamespace : LocalQuickFixAndIntentionActionOnPsiElement, PriorityAct
     private fun createElementNamespace(indexFile: ValkyrieFileNode, editor: Editor) {
         val sb = StringBuilder("namespace ");
         val thisFile = element.containingFile as ValkyrieFileNode;
-        val indexName = indexFile.namespace ?: return
-        val fileName = thisFile.namespace
-        if (fileName == null) {
-            sb.append(indexName.namepath?.text)
-            sb.append(";\n")
-            editor.document.insertString(0, sb.toString())
-        } else {
-            // check name same
-        }
+//        val indexName = indexFile.namespace ?: return
+//        val fileName = thisFile.namespace
+//        if (fileName == null) {
+//            sb.append(indexName.namepath?.text)
+//            sb.append(";\n")
+//            editor.document.insertString(0, sb.toString())
+//        } else {
+//            // check name same
+//        }
     }
 
     override fun getIcon(flags: Int): Icon {
-        return ValkyrieIconProvider.Instance.NAMESPACE
+        return ValkyrieIconProvider.Instance.Namespace
     }
 
     override fun getPriority(): PriorityAction.Priority {

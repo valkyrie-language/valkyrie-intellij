@@ -96,7 +96,7 @@ ESCAPED = \\.
 BIN = [0-1]
 DEC = [0-9]
 HEX = [0-9a-fA-F]
-COLOR = [©®]{HEX}*
+COLOR = [©®][0-9a-zA-Z]*
 
 %%
 
