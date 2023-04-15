@@ -30,9 +30,6 @@ abstract class MixinTraitAlias(node: ASTNode) : ValkyrieElement(node), Navigatab
         return ValkyrieIconProvider.Instance.Trait
     }
 
-    override fun getIcon(flags: Int): Icon {
-        return baseIcon
-    }
 
     override fun getPresentation(): ItemPresentation {
         return PresentationData(name, "", baseIcon, null)

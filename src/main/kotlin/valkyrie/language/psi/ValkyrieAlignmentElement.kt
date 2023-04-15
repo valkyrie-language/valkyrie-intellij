@@ -1,4 +1,4 @@
-package yggdrasil.language.psi
+package valkyrie.language.psi
 
 import com.intellij.formatting.Alignment
 import com.intellij.lang.ASTNode

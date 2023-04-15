@@ -15,7 +15,7 @@ import javax.swing.Icon
 ValkyrieFile 是个 PsiElement
  */
 class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ValkyrieLanguage) {
-    val definitions = YggdrasilFileCache(this)
+    val definitions = ValkyrieFileCache(this)
     override fun getName(): String {
         return super.getName()
     }

@@ -21,9 +21,14 @@ class ValkyrieMarkerProvider : LineMarkerProvider {
                 is ValkyrieTraitAliasNode -> element.addLineMarkerInfo(result)
                 is ValkyrieDeclareEnumerateNode -> element.addLineMarkerInfo(result)
                 is ValkyrieDeclareFlagsNode -> element.addLineMarkerInfo(result)
+                is ValkyrieDeclareFieldNode -> element.addLineMarkerInfo(result)
+                is ValkyrieDeclareMethodNode -> element.addLineMarkerInfo(result)
+
                 is ValkyrieNewObjectNode -> element.addLineMarkerInfo(result)
                 is ValkyrieDeclareUniteNode -> element.addLineMarkerInfo(result)
                 is ValkyrieNewValueNode -> element.addLineMarkerInfo(result)
+
+
             }
         }
     }
@@ -61,8 +66,8 @@ class ValkyrieMarkerProvider : LineMarkerProvider {
     }
 
     private fun ValkyrieDeclareUnionNode.addLineMarkerInfo(result: MutableCollection<in LineMarkerInfo<*>>) {
-        result.add(object : LineMarkerInfo<ValkyrieDeclareUnionNode>(
-            this,
+        result.add(object : LineMarkerInfo<PsiElement>(
+            this.nameIdentifier?.firstChild!!,
             this.textRange,
             this.getIcon(0),
             { "tooltipProvider" },
@@ -73,8 +78,8 @@ class ValkyrieMarkerProvider : LineMarkerProvider {
     }
 
     private fun ValkyrieDeclareUniteNode.addLineMarkerInfo(result: MutableCollection<in LineMarkerInfo<*>>) {
-        result.add(object : LineMarkerInfo<ValkyrieDeclareUniteNode>(
-            this,
+        result.add(object : LineMarkerInfo<PsiElement>(
+            this.nameIdentifier?.firstChild!!,
             this.textRange,
             this.getIcon(0),
             { "tooltipProvider" },
@@ -85,8 +90,8 @@ class ValkyrieMarkerProvider : LineMarkerProvider {
     }
 
     private fun ValkyrieDeclareEnumerateNode.addLineMarkerInfo(result: MutableCollection<in LineMarkerInfo<*>>) {
-        result.add(object : LineMarkerInfo<ValkyrieDeclareEnumerateNode>(
-            this,
+        result.add(object : LineMarkerInfo<PsiElement>(
+            this.nameIdentifier?.firstChild!!,
             this.textRange,
             this.getIcon(0),
             { "tooltipProvider" },
@@ -97,8 +102,8 @@ class ValkyrieMarkerProvider : LineMarkerProvider {
     }
 
     private fun ValkyrieDeclareFlagsNode.addLineMarkerInfo(result: MutableCollection<in LineMarkerInfo<*>>) {
-        result.add(object : LineMarkerInfo<ValkyrieDeclareFlagsNode>(
-            this,
+        result.add(object : LineMarkerInfo<PsiElement>(
+            this.nameIdentifier?.firstChild!!,
             this.textRange,
             this.getIcon(0),
             { "tooltipProvider" },
@@ -109,8 +114,8 @@ class ValkyrieMarkerProvider : LineMarkerProvider {
     }
 
     private fun ValkyrieNewObjectNode.addLineMarkerInfo(result: MutableCollection<in LineMarkerInfo<*>>) {
-        result.add(object : LineMarkerInfo<ValkyrieNewObjectNode>(
-            this,
+        result.add(object : LineMarkerInfo<PsiElement>(
+            this.firstChild,
             this.textRange,
             this.getIcon(0),
             { "tooltipProvider" },
@@ -121,8 +126,8 @@ class ValkyrieMarkerProvider : LineMarkerProvider {
     }
 
     private fun ValkyrieNewValueNode.addLineMarkerInfo(result: MutableCollection<in LineMarkerInfo<*>>) {
-        result.add(object : LineMarkerInfo<ValkyrieNewValueNode>(
-            this,
+        result.add(object : LineMarkerInfo<PsiElement>(
+            this.firstChild,
             this.textRange,
             this.getIcon(0),
             { "tooltipProvider" },
@@ -133,8 +138,8 @@ class ValkyrieMarkerProvider : LineMarkerProvider {
     }
 
     private fun ValkyrieDeclareFieldNode.addLineMarkerInfo(result: MutableCollection<in LineMarkerInfo<*>>) {
-        result.add(object : LineMarkerInfo<ValkyrieDeclareFieldNode>(
-            this,
+        result.add(object : LineMarkerInfo<PsiElement>(
+            this.nameIdentifier?.firstChild!!,
             this.textRange,
             this.getIcon(0),
             { "tooltipProvider" },
@@ -145,8 +150,8 @@ class ValkyrieMarkerProvider : LineMarkerProvider {
     }
 
     private fun ValkyrieDeclareMethodNode.addLineMarkerInfo(result: MutableCollection<in LineMarkerInfo<*>>) {
-        result.add(object : LineMarkerInfo<ValkyrieDeclareMethodNode>(
-            this,
+        result.add(object : LineMarkerInfo<PsiElement>(
+            this.nameIdentifier?.firstChild!!,
             this.textRange,
             this.getIcon(0),
             { "tooltipProvider" },

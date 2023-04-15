@@ -6,7 +6,7 @@ import com.intellij.codeInsight.hints.InlayParameterHintsProvider
 import com.intellij.codeInsight.hints.Option
 import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieBundle
-import yggdrasil.language.psi.ValkyrieInlayElement
+import valkyrie.language.psi.ValkyrieInlayElement
 
 
 @Suppress("UnstableApiUsage")
