@@ -21,7 +21,7 @@ abstract class MixinAttribute(node: ASTNode) : ValkyrieElement(node), ValkyrieAt
         return ValkyrieIconProvider.Instance.Attribute
     }
 
-    override fun getPresentation(): ItemPresentation? {
+    override fun getPresentation(): ItemPresentation {
         return PresentationData(name, "", baseIcon, null)
     }
 }

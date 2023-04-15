@@ -44,4 +44,3 @@ class ValkyrieMarkFunction : MergeableLineMarkerInfo<PsiElement> {
         }
     }
 }
-

@@ -11,24 +11,22 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.psi.ValkyrieElement
 import valkyrie.psi.node.ValkyrieDeclareUnite
-import valkyrie.psi.node.ValkyrieIdentifier
+import valkyrie.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
-abstract class MixinUnite(node: ASTNode) : ValkyrieElement(node),
-    NavigatablePsiElement,
-    PsiNameIdentifierOwner,
-    ValkyrieDeclareUnite {
+abstract class MixinUnite(node: ASTNode) : ValkyrieElement(node), NavigatablePsiElement, PsiNameIdentifierOwner, ValkyrieDeclareUnite {
+    val uniteItems = uniteBody?.uniteItemList?.map { it.firstChild } ?: listOf();
     override fun getNavigationElement(): PsiElement {
         return nameIdentifier ?: this
     }
 
-    override fun getNameIdentifier(): ValkyrieIdentifier? {
-        return this.identifier
+    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
+        return this.identifier as? ValkyrieIdentifierNode
     }
 
 
     override fun getName(): String {
-        return this.identifier?.text ?: ""
+        return this.nameIdentifier?.name ?: ""
     }
 
     override fun setName(name: String): PsiElement {
@@ -39,7 +37,8 @@ abstract class MixinUnite(node: ASTNode) : ValkyrieElement(node),
         return AllIcons.Nodes.AbstractClass
     }
 
-    override fun getPresentation(): ItemPresentation? {
+
+    override fun getPresentation(): ItemPresentation {
         return PresentationData(name, "", baseIcon, null)
     }
 
@@ -55,7 +54,6 @@ abstract class MixinUnite(node: ASTNode) : ValkyrieElement(node),
             )
         }
     }
-
 }
 
 

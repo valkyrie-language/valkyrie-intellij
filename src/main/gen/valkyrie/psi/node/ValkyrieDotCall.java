@@ -10,7 +10,7 @@ public interface ValkyrieDotCall extends PsiElement {
     @Nullable
     ValkyrieArgumentBody getArgumentBody();
 
-    @NotNull
+    @Nullable
     ValkyrieBlockBody getBlockBody();
 
     @NotNull

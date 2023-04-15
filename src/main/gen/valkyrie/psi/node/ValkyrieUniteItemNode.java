@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
-import valkyrie.psi.mixin.MixinUnionItem;
 
-public class ValkyrieUnionVariantNode extends MixinUnionItem implements ValkyrieUnionVariant {
+import valkyrie.psi.ValkyrieElement;
 
-    public ValkyrieUnionVariantNode(@NotNull ASTNode node) {
+public class ValkyrieUniteItemNode extends ValkyrieElement implements ValkyrieUniteItem {
+
+    public ValkyrieUniteItemNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitUnionVariant(this);
+        visitor.visitUniteItem(this);
     }
 
     @Override
@@ -27,15 +30,21 @@ public class ValkyrieUnionVariantNode extends MixinUnionItem implements Valkyrie
     }
 
     @Override
-    @NotNull
-    public ValkyrieExpression getExpression() {
-        return findNotNullChildByClass(ValkyrieExpression.class);
+    @Nullable
+    public ValkyrieDeclareField getDeclareField() {
+        return findChildByClass(ValkyrieDeclareField.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieTagBranch getTagBranch() {
-        return findChildByClass(ValkyrieTagBranch.class);
+    public ValkyrieDeclareMethod getDeclareMethod() {
+        return findChildByClass(ValkyrieDeclareMethod.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieDeclareVariant getDeclareVariant() {
+        return findChildByClass(ValkyrieDeclareVariant.class);
     }
 
 }

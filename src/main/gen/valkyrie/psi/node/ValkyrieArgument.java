@@ -11,6 +11,6 @@ public interface ValkyrieArgument extends PsiElement {
     ValkyrieExpression getExpression();
 
     @Nullable
-    ValkyrieIdentifierFree getIdentifierFree();
+    ValkyrieIdentifier getIdentifier();
 
 }

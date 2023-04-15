@@ -15,7 +15,7 @@ public interface ValkyrieDeclareUnion extends PsiElement {
     ValkyrieClassBody getClassBody();
 
     @Nullable
-    ValkyrieIdentifierFree getIdentifierFree();
+    ValkyrieIdentifier getIdentifier();
 
     void createLookup(@NotNull List<LookupElement> completions);
 

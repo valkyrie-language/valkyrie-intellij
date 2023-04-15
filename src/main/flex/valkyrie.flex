@@ -77,9 +77,14 @@ PROPORTION   = ∷|::
 
 OP_BANG      = [!]
 OP_AND_THEN  = [?]
+
+
 OP_PLUS      = [+]
-OP_DIV       = [/⁄∕]
 OP_MINUS     = [-]
+OP_DIV       = [/⁄∕]
+OP_POW       = \^
+
+
 OP_UNTIL     = [.]{2}[<=]
 
 // equal
@@ -147,6 +152,7 @@ INTEGER = 0|[1-9][_0-9]*
 	\$ { return DOLLAR; }
 
 	{OP_DIV} { return OP_DIV; }
+    {OP_POW} { return OP_POW; }
 	"." { return DOT; }
 	"," { return COMMA; }
 

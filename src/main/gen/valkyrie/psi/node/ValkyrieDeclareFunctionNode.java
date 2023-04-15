@@ -53,8 +53,8 @@ public class ValkyrieDeclareFunctionNode extends MixinFunction implements Valkyr
 
     @Override
     @Nullable
-    public ValkyrieIdentifierFree getIdentifierFree() {
-        return findChildByClass(ValkyrieIdentifierFree.class);
+    public ValkyrieIdentifier getIdentifier() {
+        return findChildByClass(ValkyrieIdentifier.class);
     }
 
     @Override

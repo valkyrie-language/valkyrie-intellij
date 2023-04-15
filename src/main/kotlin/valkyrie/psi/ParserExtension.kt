@@ -1,12 +1,6 @@
 package valkyrie.psi
 
-import com.intellij.lang.ASTFactory
 import com.intellij.lang.parser.GeneratedParserUtilBase
-import com.intellij.psi.PsiElement
-import com.intellij.psi.impl.GeneratedMarkerVisitor
-import com.intellij.psi.impl.PsiManagerEx
-import com.intellij.psi.impl.source.DummyHolderFactory
-import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import valkyrie.psi.ValkyrieTypes.*
 
@@ -48,12 +42,3 @@ class ParserExtension : GeneratedParserUtilBase() {
     }
 }
 
-fun PsiElement.replaceLeaf(kind: IElementType, text: String) {
-    val myManager = PsiManagerEx.getInstanceEx(project)
-    val holderElement = DummyHolderFactory.createHolder(myManager, null).treeElement
-    val newElement = ASTFactory.leaf(kind, holderElement.charTable.intern(text))
-    holderElement.rawAddChildren(newElement)
-    GeneratedMarkerVisitor.markGenerated(newElement.psi)
-    val psi = newElement.psi
-    this.replace(psi)
-}

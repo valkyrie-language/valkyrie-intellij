@@ -10,7 +10,7 @@ import javax.swing.Icon
 
 abstract class MixinModifier(node: ASTNode) : ValkyrieElement(node), ValkyrieModifier {
     override fun getName(): String {
-        return this.identifier.text ?: ""
+        return this.text.trim('`')
     }
 
     override fun getBaseIcon(): Icon {
@@ -18,7 +18,7 @@ abstract class MixinModifier(node: ASTNode) : ValkyrieElement(node), ValkyrieMod
     }
 
 
-    override fun getPresentation(): ItemPresentation? {
+    override fun getPresentation(): ItemPresentation {
         return PresentationData(name, "", baseIcon, null)
     }
 }

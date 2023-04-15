@@ -7,6 +7,9 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieForStatement extends PsiElement {
 
+    @NotNull
+    List<ValkyrieAttribute> getAttributeList();
+
     @Nullable
     ValkyrieBlockBody getBlockBody();
 

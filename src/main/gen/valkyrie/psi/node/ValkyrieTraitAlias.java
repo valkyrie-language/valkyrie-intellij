@@ -11,7 +11,7 @@ public interface ValkyrieTraitAlias extends PsiElement {
     ValkyrieAnnotations getAnnotations();
 
     @NotNull
-    ValkyrieIdentifierFree getIdentifierFree();
+    ValkyrieIdentifier getIdentifier();
 
     @Nullable
     ValkyrieTypeExpression getTypeExpression();

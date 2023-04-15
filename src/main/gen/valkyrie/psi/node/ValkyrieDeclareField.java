@@ -14,7 +14,7 @@ public interface ValkyrieDeclareField extends PsiElement {
     ValkyrieDefaultValue getDefaultValue();
 
     @NotNull
-    ValkyrieIdentifierFree getIdentifierFree();
+    ValkyrieIdentifier getIdentifier();
 
     @Nullable
     ValkyrieTypeHint getTypeHint();

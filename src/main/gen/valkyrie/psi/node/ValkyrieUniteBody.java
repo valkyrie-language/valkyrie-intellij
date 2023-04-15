@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieOtherwiseStatement extends PsiElement {
-
-    @Nullable
-    ValkyrieBlockBody getBlockBody();
+public interface ValkyrieUniteBody extends PsiElement {
 
     @NotNull
-    ValkyrieOtherwiseKind getOtherwiseKind();
+    List<ValkyrieUniteItem> getUniteItemList();
 
 }

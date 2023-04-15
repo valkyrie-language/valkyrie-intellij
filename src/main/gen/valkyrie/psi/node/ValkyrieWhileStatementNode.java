@@ -27,6 +27,12 @@ public class ValkyrieWhileStatementNode extends ValkyrieElement implements Valky
     }
 
     @Override
+    @NotNull
+    public List<ValkyrieAttribute> getAttributeList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieAttribute.class);
+    }
+
+    @Override
     @Nullable
     public ValkyrieBlockBody getBlockBody() {
         return findChildByClass(ValkyrieBlockBody.class);

@@ -34,8 +34,8 @@ public class ValkyrieTraitAliasNode extends MixinTraitAlias implements ValkyrieT
 
     @Override
     @NotNull
-    public ValkyrieIdentifierFree getIdentifierFree() {
-        return findNotNullChildByClass(ValkyrieIdentifierFree.class);
+    public ValkyrieIdentifier getIdentifier() {
+        return findNotNullChildByClass(ValkyrieIdentifier.class);
     }
 
     @Override

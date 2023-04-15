@@ -26,10 +26,4 @@ public class ValkyrieModifierNode extends MixinModifier implements ValkyrieModif
         else super.accept(visitor);
     }
 
-    @Override
-    @NotNull
-    public ValkyrieIdentifier getIdentifier() {
-        return findNotNullChildByClass(ValkyrieIdentifier.class);
-    }
-
 }

@@ -7,7 +7,13 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieNewValue extends PsiElement {
 
-    @NotNull
+    @Nullable
+    ValkyrieArgumentBody getArgumentBody();
+
+    @Nullable
+    ValkyrieNewBody getNewBody();
+
+    @Nullable
     ValkyrieTypeExpression getTypeExpression();
 
 }

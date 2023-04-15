@@ -14,6 +14,6 @@ public interface ValkyrieDeclareImply extends PsiElement {
     ValkyrieClassBody getClassBody();
 
     @Nullable
-    ValkyrieIdentifierFree getIdentifierFree();
+    ValkyrieIdentifier getIdentifier();
 
 }

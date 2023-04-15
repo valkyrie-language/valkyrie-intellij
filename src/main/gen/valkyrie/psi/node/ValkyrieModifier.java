@@ -7,7 +7,4 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieModifier extends PsiElement {
 
-    @NotNull
-    ValkyrieIdentifier getIdentifier();
-
 }

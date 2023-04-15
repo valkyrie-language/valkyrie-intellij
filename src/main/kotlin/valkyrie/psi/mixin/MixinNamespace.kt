@@ -35,7 +35,7 @@ abstract class MixinNamespace(node: ASTNode) : ValkyrieElement(node),
         return ValkyrieIconProvider.Instance.Namespace
     }
 
-    override fun getPresentation(): ItemPresentation? {
+    override fun getPresentation(): ItemPresentation {
         return PresentationData(name, "", baseIcon, null)
     }
 }

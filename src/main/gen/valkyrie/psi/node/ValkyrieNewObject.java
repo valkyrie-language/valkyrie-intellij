@@ -8,6 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieNewObject extends PsiElement {
 
     @Nullable
+    ValkyrieClassBody getClassBody();
+
+    @Nullable
+    ValkyrieClassInheritBody getClassInheritBody();
+
+    @Nullable
     ValkyrieTypeHint getTypeHint();
 
 }

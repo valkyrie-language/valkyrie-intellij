@@ -15,17 +15,18 @@ import valkyrie.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
 abstract class MixinUnion(node: ASTNode) : ValkyrieElement(node), NavigatablePsiElement, PsiNameIdentifierOwner, ValkyrieDeclareUnion {
+    val unionItems = classBody?.classItemList?.map { it.firstChild } ?: listOf();
     override fun getNavigationElement(): PsiElement {
         return nameIdentifier ?: this
     }
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.identifierFree as? ValkyrieIdentifierNode
+        return this.identifier as? ValkyrieIdentifierNode
     }
 
 
     override fun getName(): String {
-        return nameIdentifier?.text ?: ""
+        return nameIdentifier?.name ?: ""
     }
 
     override fun setName(name: String): PsiElement {
@@ -36,7 +37,11 @@ abstract class MixinUnion(node: ASTNode) : ValkyrieElement(node), NavigatablePsi
         return AllIcons.Nodes.AbstractClass
     }
 
-    override fun getPresentation(): ItemPresentation? {
+    override fun getIcon(flags: Int): Icon {
+        return baseIcon
+    }
+
+    override fun getPresentation(): ItemPresentation {
         return PresentationData(name, "", baseIcon, null)
     }
 

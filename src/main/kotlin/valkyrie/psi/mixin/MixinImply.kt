@@ -18,7 +18,7 @@ abstract class MixinImply(node: ASTNode) : ValkyrieElement(node), NavigatablePsi
     }
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.identifierFree as? ValkyrieIdentifierNode
+        return this.identifier as? ValkyrieIdentifierNode
     }
 
 

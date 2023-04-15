@@ -88,16 +88,14 @@ private statements ::=
   | block-statement
 private block-statement ::=
     declare-variable
-  | while-statement
+  | declare-lambda
   | control-statement
   | inline-statement
 private inline-statement ::=
     if-case-statement
   | if-statement
-  | for-statement
   | new-value
   | new-object
-  | new-lambda
   | expression
   | SEMICOLON;
 // === grammar statement ===
@@ -118,22 +116,22 @@ using-term ::=
   | SEMICOLON
   | COMMA
 using-any     ::= (namepath-free using-dot?) STAR using-exclude?
-using-exclude ::= KW_EXCLUDE (identifier-free|BRACE_L (identifier-free (COMMA identifier-free)* COMMA?) BRACE_R)
+using-exclude ::= KW_EXCLUDE (identifier|BRACE_L (identifier (COMMA identifier)* COMMA?) BRACE_R)
 using-block   ::= namepath-free using-dot? using-body
 using-body    ::= BRACE_L using-term* BRACE_R;
-using-alias   ::= identifier-free KW_AS identifier-free;
+using-alias   ::= identifier KW_AS identifier;
 private using-dot ::= DOT|PROPORTION|OP_DIV
 // === class statement ===
-type-alias ::= annotations KW_TYPE identifier-free EQUAL type-expression {
+type-alias ::= annotations KW_TYPE identifier EQUAL type-expression {
     pin = 2
 }
-declare-class ::= annotations KW_CLASS identifier-free declare-generic? class-inherit-body? type-hint? class-body {
+declare-class ::= annotations KW_CLASS identifier declare-generic? class-inherit-body? type-hint? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinClass"
     methods=[createLookup]
 }
 class-inherit-body ::= PARENTHESIS_L (class-inherit (COMMA class-inherit)? COMMA?)? PARENTHESIS_R;
-class-inherit      ::= (annotations identifier-free EQUAL)? type-expression;
+class-inherit      ::= (annotations identifier EQUAL)? type-expression;
 // === class body ===
 class-body ::= BRACE_L class-item* BRACE_R;
 class-item ::=
@@ -143,7 +141,7 @@ class-item ::=
   | COMMA
 
 // === class field statement ===
-declare-field ::= annotations identifier-free type-hint? default-value? {
+declare-field ::= annotations identifier type-hint? default-value? {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinField"
 }
@@ -153,22 +151,22 @@ type-hint     ::= COLON type-expression {
 default-value ::= EQUAL expression;
 default-type  ::= EQUAL type-expression;
 // === class method statement ===
-declare-method ::= annotations identifier-free declare-generic? parameter-body return-type? effect-type? block-body? {
+declare-method ::= annotations identifier declare-generic? parameter-body return-type? effect-type? block-body? {
     mixin = "valkyrie.psi.mixin.MixinMethod"
 }
 // === union statement ===
-declare-union ::= annotations KW_UNITE identifier-free class-body {
+declare-union ::= annotations KW_UNION identifier class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinUnion"
     methods=[createLookup]
 }
 // === enumerate statement ===
-declare-flags ::= annotations KW_FLAGS identifier-free enumerate-body {
+declare-flags ::= annotations KW_FLAGS identifier enumerate-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinFlags"
     methods=[createLookup]
 }
-declare-enumerate ::= annotations KW_ENUMERATE identifier-free enumerate-body {
+declare-enumerate ::= annotations KW_ENUMERATE identifier enumerate-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinEnumerate"
     methods=[createLookup]
@@ -178,47 +176,55 @@ enumerate-item ::=
     declare-semantic
   | SEMICOLON
   | COMMA
-declare-semantic ::= annotations identifier-free default-value? {
+declare-semantic ::= annotations identifier default-value? {
     mixin = "valkyrie.psi.mixin.MixinSemantic"
 }
 // === union statement ===
-declare-unite ::= annotations KW_UNITE identifier OP_REMARK? union-body {
+declare-unite ::= annotations KW_UNITE identifier OP_REMARK? unite-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinUnite"
     methods=[createLookup]
 }
-union-body ::= BRACE_L union-variant* BRACE_R;
-union-variant ::= OP_OR expression tag-branch? {
-    mixin = "valkyrie.psi.mixin.MixinUnionItem"
+unite-body ::= BRACE_L unite-item* BRACE_R;
+unite-item ::=
+    declare-variant
+  | declare-method
+  | declare-field
+  | SEMICOLON
+  | COMMA
+declare-variant ::= annotations identifier class-body? {
+    mixin = "valkyrie.psi.mixin.MixinVariant"
 }
-tag-branch ::= HASH identifier-free;
 // === group statement ===
-trait-alias ::= annotations KW_TRAIT identifier-free EQUAL type-expression {
+trait-alias ::= annotations KW_TRAIT identifier EQUAL type-expression {
     pin = 4
     mixin = "valkyrie.psi.mixin.MixinTraitAlias"
 }
-declare-trait ::= annotations KW_TRAIT identifier-free? type-hint? class-body {
+declare-trait ::= annotations KW_TRAIT identifier declare-generic? type-hint? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinTrait"
     methods=[createLookup]
 }
-declare-imply ::= annotations KW_IMPLY identifier-free class-body {
+declare-imply ::= annotations KW_IMPLY identifier class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinImply"
 }
 // === generic statement ===
 declare-generic ::=
-    PROPORTION? GENERIC_L (generic-parameter (COMMA generic-parameter)* COMMA?) GENERIC_R
-  | PROPORTION? ANGLE_L   (generic-parameter (COMMA generic-parameter)* COMMA?) ANGLE_R
+    PROPORTION? GENERIC_L (generic-parameter (COMMA generic-parameter)* COMMA?)? GENERIC_R
+  | PROPORTION? ANGLE_L   (generic-parameter (COMMA generic-parameter)* COMMA?)? ANGLE_R
 {
 
 }
-generic-parameter ::= annotations identifier-free type-hint? default-type?;
+generic-parameter ::= annotations identifier type-hint? default-type?;
 /// === function definition ===
-declare-function ::= annotations KW_FUNCTION declare-generic? identifier-free parameter-body return-type? effect-type? block-body {
+declare-function ::= annotations KW_FUNCTION declare-generic? identifier parameter-body return-type? effect-type? block-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinFunction"
     methods=[createLookup]
+}
+declare-lambda ::= KW_LAMBDA declare-generic? parameter-body return-type? effect-type? {
+    pin = 1
 }
 parameter-body ::= PARENTHESIS_L (parameter-item (COMMA parameter-item)* COMMA?)? PARENTHESIS_R;
 parameter-item ::= identifier type-hint? default-value? {
@@ -234,12 +240,12 @@ declare-variable ::= KW_LET pattern-bare type-hint? EQUAL inline-statement {
 //    mixin = "valkyrie.psi.mixin.MixinVariable"
 }
 // === function statement ===
-function-call ::= namepath (argument-body|argument-body? block-body);
+function-call ::= namepath (argument-body | argument-body? block-body)?;
 function-call-inline ::= namepath argument-body;
-macro-call    ::= AT namepath argument-body? {
+macro-call    ::= AT namepath (argument-body | argument-body? block-body)? {
     pin = 1
 }
-dot-call ::= OP_AND_THEN? DOT namepath argument-body? block-body;
+dot-call        ::= OP_AND_THEN? DOT namepath (argument-body | argument-body? block-body)?;
 dot-call-inline ::= OP_AND_THEN? DOT namepath argument-body?
 dot-call-for    ::= OP_AND_THEN? DOT KW_FOR pattern-bare if-condition? block-body {
     pin = 3
@@ -264,11 +270,11 @@ else-statement ::= KW_ELSE block-body {
     pin = 1
 }
 // === if statement ===
-while-statement ::= KW_WHILE inline-expression block-body {
-    pin = 1
+while-statement ::= attribute* KW_WHILE inline-expression block-body {
+    pin = 2
 }
-for-statement ::= KW_FOR pattern-bare KW_IN inline-expression if-condition? block-body {
-    pin = 1
+for-statement ::= attribute* KW_FOR pattern-bare KW_IN inline-expression if-condition? block-body {
+    pin = 2
 }
 // === if statement ===
 try-statement ::= KW_TRY type-expression? block-body {
@@ -319,26 +325,31 @@ pattern-object      ::= annotations namepath-free? pattern-object-body;
 pattern-object-body ::= BRACE_L (pattern-pair (COMMA pattern-pair)* COMMA?)? BRACE_R {
     pin = 1
 }
-pattern-pair      ::= annotations identifier-free COLON pattern;
-pattern-literal   ::= annotations (identifier-free|string|special)
+pattern-pair      ::= annotations identifier COLON pattern;
+pattern-literal   ::= annotations (identifier|string|special)
 // === pattern expression ===
-new-value  ::= KW_NEW type-expression;
-new-object ::= KW_OBJECT type-hint?;
-new-lambda ::= KW_LAMBDA;
+// new Self { r: red, g: green, b: blue, a: alpha}
+new-value  ::= KW_NEW type-expression? argument-body? new-body {
+    pin = 1
+    mixin = "valkyrie.psi.mixin.MixinBuilder"
+}
+new-body   ::= BRACE_L BRACE_R;
+new-object ::= KW_OBJECT class-inherit-body? type-hint? class-body {
+    pin = 1
+    mixin = "valkyrie.psi.mixin.MixinObject"
+}
 // === control expression ===
 control-statement ::=
-    KW_RETURN expression
-  | KW_CONTINUE
-  | KW_BREAK
-  | KW_THROUGH
-  | KW_YIELD KW_RETURN expression
-  | KW_YIELD KW_BREAK
+    KW_RETURN control-label? expression
+  | KW_CONTINUE control-label?
+  | KW_BREAK control-label?
+  | KW_THROUGH control-label?
+  | KW_YIELD KW_RETURN? control-label? expression
+  | KW_YIELD KW_BREAK control-label?
+  | KW_YIELD KW_WITH expression
   | KW_RAISE expression
-  | KW_RESUME
-
-
-
-
+  | KW_RESUME expression
+control-label ::= OP_POW (identifier| INTEGER|KW_MACRO|KW_FOR|KW_WHILE);
 // === common expression ===
 expression ::= term (infix term)* OP_AND_THEN? {
 
@@ -397,12 +408,15 @@ generic-call-free ::= PROPORTION? generic-call-standard-body | PROPORTION? gener
 }
 generic-call-standard-body ::= GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R
 generic-call-ascii-body    ::= ANGLE_L   (generic-argument (COMMA generic-argument)* COMMA?)? ANGLE_R
-generic-argument ::= (annotations identifier-free EQUAL)? type-expression;
+generic-argument ::= (annotations identifier EQUAL)? type-expression;
 // === atomic statement ===
 atomic ::=
     PARENTHESIS_L expression PARENTHESIS_R
+  | tuple
   | macro-call
   | function-call
+  | for-statement
+  | while-statement
   | try-statement
   | match-statement
   | ordinal-range
@@ -430,7 +444,7 @@ tuple    ::= PARENTHESIS_L PARENTHESIS_R
   //    mixin = "valkyrie.psi.mixin.MixinTuple"
 }
 argument-body ::= PARENTHESIS_L (argument (COMMA argument)* COMMA?)? PARENTHESIS_R;
-argument ::= (identifier-free EQUAL)? expression {
+argument ::= (identifier EQUAL)? expression {
 
 }
 // === literal items ===
@@ -443,14 +457,14 @@ special ::= KW_NULL | KW_NIL | KW_BOOLEAN | COLOR;
 
 // === annotation statement ===
 annotations ::= attribute* modifier*
-modifier    ::= identifier !modifier-stop {
+modifier    ::= (SYMBOL | SYMBOW_RAW) !modifier-stop {
     mixin = "valkyrie.psi.mixin.MixinModifier"
 }
 private modifier-stop ::= KW_IN | KW_IF
     | COMMA | COLON | PROPORTION | DOT | SEMICOLON | EQUAL
     | PARENTHESIS_L | PARENTHESIS_R
     | BRACE_L | BRACE_R
-attribute   ::= HASH namepath argument-body? {
+attribute ::= HASH namepath argument-body? {
 	pin = 1
     mixin = "valkyrie.psi.mixin.MixinAttribute"
     methods=[highlight]
@@ -463,10 +477,7 @@ namepath      ::= identifier (PROPORTION identifier)* {
 namepath-free ::= identifier ((PROPORTION|DOT) identifier)* {
     extends = namepath
 }
-identifier           ::= SYMBOL | SYMBOW_RAW {
+identifier      ::= SYMBOL | SYMBOW_RAW | KW_MACRO | KW_CLASS | KW_UNION | KW_GROUP | KW_GRAMMAR | KW_IMPORT | KW_AS | KW_CLIMB {
     mixin = "valkyrie.psi.mixin.MixinIdentifier"
     methods=[highlight]
-}
-identifier-free      ::= SYMBOL | SYMBOW_RAW | KW_MACRO | KW_CLASS | KW_UNION | KW_GROUP | KW_GRAMMAR | KW_IMPORT | KW_AS | KW_CLIMB {
-    extends = identifier
 }

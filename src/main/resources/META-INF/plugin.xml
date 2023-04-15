@@ -228,7 +228,7 @@
 
 	</extensions>
 	<actions>
-		<!--		<action id="valkyrie.create.file" class="valkyrie.ide.actions.file_transform.ValkyrieCreateFile">-->
+		<!--		<action id="valkyrie.create.file" class="valkyrie.ide.actions.ValkyrieCreateFile">-->
 		<!--			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewHtmlFile"/>-->
 		<!--		</action>-->
 		<!--		&lt;!&ndash;		<action id="jss.JssConvertJson" class="valkyrie.ide.actions.FluentConvertMo"/>&ndash;&gt;-->

@@ -15,20 +15,18 @@ import valkyrie.psi.node.ValkyrieEnumerateItem
 import valkyrie.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
-abstract class MixinFlags(node: ASTNode) : ValkyrieElement(node),
-    NavigatablePsiElement,
-    PsiNameIdentifierOwner,
-    ValkyrieDeclareFlags {
+abstract class MixinFlags(node: ASTNode) : ValkyrieElement(node), NavigatablePsiElement, PsiNameIdentifierOwner, ValkyrieDeclareFlags {
+    val flagItems = enumerateBody?.enumerateItemList?.map { it.firstChild } ?: listOf();
     override fun getNavigationElement(): PsiElement {
         return nameIdentifier ?: this
     }
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.identifierFree as? ValkyrieIdentifierNode
+        return this.identifier as? ValkyrieIdentifierNode
     }
 
     override fun getName(): String {
-        return nameIdentifier?.text ?: ""
+        return nameIdentifier?.name ?: "⟪anonymous flags⟫"
     }
 
     override fun setName(name: String): ValkyrieIdentifierNode {
@@ -39,7 +37,11 @@ abstract class MixinFlags(node: ASTNode) : ValkyrieElement(node),
         return ValkyrieIconProvider.Instance.Flags
     }
 
-    override fun getPresentation(): ItemPresentation? {
+    override fun getIcon(flags: Int): Icon {
+        return baseIcon
+    }
+
+    override fun getPresentation(): ItemPresentation {
         // annotations.identifierList.joinToString(" ")
         return PresentationData(name, "", baseIcon, null)
     }
