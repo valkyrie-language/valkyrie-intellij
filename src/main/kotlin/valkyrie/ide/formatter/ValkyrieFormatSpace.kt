@@ -5,45 +5,43 @@ import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import com.intellij.psi.tree.TokenSet
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.psi.ParserExtension
-
+import valkyrie.psi.ValkyrieTypes.*
 
 private val removeSpaceBefore = TokenSet.orSet(
-//    createTokenSet(YggdrasilLanguage),
+    TokenSet.create(DOT, COLON),
 //    ValkyrieBracketMatch.Instance.Right,
-
 )
 
 private val removeSpaceNewlineBefore = TokenSet.orSet(
-//    createTokenSet(YggdrasilLanguage)
-
+    TokenSet.create(COMMA, PROPORTION)
 )
 
 private val removeSpaceAfter = TokenSet.orSet(
-//    createTokenSet(YggdrasilLanguage)
+//    ValkyrieLanguage.createTokenSet(DOT, OP_PROPORTION, GENERIC_L, GENERIC_R)
 )
 
 private val removeSpaceNewlineAfter = TokenSet.orSet(
-//    createTokenSet(YggdrasilLanguage)
+//    ValkyrieLanguage.createTokenSet(DOT, OP_PROPORTION, OP_HASH, OP_AT)
 )
 
 // 左右插入一个空格
 private val spaceAroundOperator = TokenSet.orSet(
-//    createTokenSet(YggdrasilLanguage),
-    ParserExtension.OperatorInfix
+//    ValkyrieLanguage.createTokenSet(KW_IN),
+//    ValkyrieLexer.OperatorInfix
 )
 
 private val addSpaceAfter = TokenSet.orSet(
-//    YggdrasilLanguage.createTokenSet(ParserExtension.COMMA)
+//    ValkyrieLanguage.createTokenSet(COMMA)
 )
 
 private val newlineIndentAfter = TokenSet.create()
 
-data class FormatSpace(val commonSettings: CommonCodeStyleSettings, val spacingBuilder: SpacingBuilder) {
+data class ValkyrieFormatSpace(val commonSettings: CommonCodeStyleSettings, val spacingBuilder: SpacingBuilder) {
+
     companion object {
-        fun create(settings: CodeStyleSettings): FormatSpace {
+        fun create(settings: CodeStyleSettings): ValkyrieFormatSpace {
             val commonSettings = settings.getCommonSettings(ValkyrieLanguage)
-            return FormatSpace(commonSettings, createSpacingBuilder(commonSettings))
+            return ValkyrieFormatSpace(commonSettings, createSpacingBuilder(commonSettings))
         }
 
         private fun createSpacingBuilder(commonSettings: CommonCodeStyleSettings): SpacingBuilder {
