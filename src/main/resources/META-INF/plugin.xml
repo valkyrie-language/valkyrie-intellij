@@ -152,31 +152,32 @@
 
 		<!--		<psi.fileReferenceHelper implementation="valkyrie.ide.reference.ValkyrieFileReference"/>-->
 		<!--		<psi.treeChangeListener implementation="valkyrie.ide.project.crate.ValkyrieFileListener"/>-->
-		<!--		<psi.referenceContributor-->
-		<!--			language="Valkyrie"-->
-		<!--			implementation="valkyrie.ide.reference.ValkyrieReferenceContributor"/>-->
-		<!--		<psi.referenceProvider language="Valkyrie" providerClass="valkyrie.ide.reference.ValkyrieReferenceProvider"/>-->
+		<psi.referenceContributor
+			language="Valkyrie"
+			implementation="valkyrie.ide.reference.ValkyrieReferenceContributor"/>
+		<psi.referenceProvider language="Valkyrie" providerClass="valkyrie.ide.reference.ValkyrieReferenceProvider"/>
 		<!--		<psi.symbolReferenceProvider-->
 		<!--			anyReferenceClass="true"-->
 		<!--			implementationClass="valkyrie.ide.reference.ValkyrieReferenceProvider"-->
 		<!--			hostLanguage="Valkyrie"-->
 		<!--			hostElementClass="com.intellij.psi.xml.XmlAttributeValue"-->
-		<!--			targetClass="valkyrie.language.symbol.ValkyrieSymbolTemplate"/>-->
+		<!--			targetClass="valkyrie.language.symbol.ValkyrieSymbolTemplate"-->
+		<!--		/>-->
 		<!-- Lint -->
 		<!--		<lang.namesValidator language="Valkyrie" implementationClass="valkyrie.ide.lint.ValkyrieNameValidator"/>-->
-		<!--		<qualifiedNameProvider implementation="valkyrie.ide.lint.ValkyrieNameQualifier"/>-->
+		<!--				<qualifiedNameProvider implementation="valkyrie.ide.lint.ValkyrieNameQualifier"/>-->
 		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.ValkyrieCheckNamespace"/>
 		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.NamepathChecker"/>
 		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.ValkyrieCheckLiteral"/>
 		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.MarkImplicitTypes"/>
 		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.LegacyExpression"/>
 		<!-- Declaration -->
-		<!--		<typeDeclarationProvider implementation="valkyrie.ide.reference.declaration.TypeDeclarationProvider"/>-->
+		<typeDeclarationProvider implementation="valkyrie.ide.reference.declaration.ValkyrieTypeDeclarationProvider"/>
 		<!--		<psi.declarationProvider implementation="valkyrie.ide.reference.declaration.SymbolDeclarationProvider"/>-->
-		<declarationRangeHandler
-			key="org.rust.lang.core.psi.ValkyrieClass"
-			implementationClass="valkyrie.ide.reference.declaration.ClassDeclarationHandler"
-		/>
+		<!--		<declarationRangeHandler-->
+		<!--			key="org.rust.lang.core.psi.ValkyrieClass"-->
+		<!--			implementationClass="valkyrie.ide.reference.declaration.ClassDeclarationHandler"-->
+		<!--		/>-->
 		<findUsagesHandlerFactory implementation="valkyrie.ide.usages.ValkyrieUsagesFactory"/>
 		<lang.findUsagesProvider
 			language="valkyrie"

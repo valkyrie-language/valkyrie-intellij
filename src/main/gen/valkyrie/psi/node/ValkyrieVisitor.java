@@ -195,15 +195,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitGenericCallAsciiBody(@NotNull ValkyrieGenericCallAsciiBody o) {
-        visitPsiElement(o);
-    }
-
     public void visitGenericCallFree(@NotNull ValkyrieGenericCallFree o) {
-        visitGenericCall(o);
-    }
-
-    public void visitGenericCallStandardBody(@NotNull ValkyrieGenericCallStandardBody o) {
         visitPsiElement(o);
     }
 

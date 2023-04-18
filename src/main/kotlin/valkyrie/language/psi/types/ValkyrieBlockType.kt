@@ -1,4 +1,4 @@
-package yggdrasil.language.psi.types
+package valkyrie.language.psi.types
 
 enum class ValkyrieBlockType {
     Brace,

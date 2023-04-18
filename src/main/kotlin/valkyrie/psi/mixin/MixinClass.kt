@@ -9,6 +9,7 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
+import com.intellij.psi.PsiReference
 import valkyrie.psi.ValkyrieElement
 import valkyrie.psi.node.ValkyrieDeclareClass
 import valkyrie.psi.node.ValkyrieIdentifierNode
@@ -45,6 +46,14 @@ abstract class MixinClass(node: ASTNode) : ValkyrieElement(node), NavigatablePsi
         return PresentationData(name, "", baseIcon, null)
     }
 
+    override fun getReference(): PsiReference? {
+        return null
+    }
+
+    override fun getReferences(): Array<PsiReference> {
+        return arrayOf()
+    }
+
     override fun createLookup(completions: MutableList<LookupElement>) {
         this.identifier?.let {
             completions.add(
@@ -57,8 +66,4 @@ abstract class MixinClass(node: ASTNode) : ValkyrieElement(node), NavigatablePsi
             )
         }
     }
-
-
 }
-
-

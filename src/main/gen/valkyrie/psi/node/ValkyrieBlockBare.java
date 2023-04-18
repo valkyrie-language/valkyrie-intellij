@@ -8,6 +8,15 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieBlockBare extends PsiElement {
 
     @NotNull
+    List<ValkyrieControlStatement> getControlStatementList();
+
+    @NotNull
+    List<ValkyrieDeclareLambda> getDeclareLambdaList();
+
+    @NotNull
+    List<ValkyrieDeclareVariable> getDeclareVariableList();
+
+    @NotNull
     List<ValkyrieExpression> getExpressionList();
 
     @NotNull

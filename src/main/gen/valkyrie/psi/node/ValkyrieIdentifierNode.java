@@ -9,7 +9,6 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.psi.ValkyrieTypes.*;
 import valkyrie.psi.mixin.MixinIdentifier;
-import valkyrie.ide.highlight.NodeHighlighter;
 
 public class ValkyrieIdentifierNode extends MixinIdentifier implements ValkyrieIdentifier {
 

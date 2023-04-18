@@ -20,6 +20,6 @@ class GenerateClassMember(val parent: ValkyrieDeclareClassNode) : MemberChooserO
     }
 
     override fun getText(): String {
-        return parent.name
+        return parent.name ?: "class"
     }
 }

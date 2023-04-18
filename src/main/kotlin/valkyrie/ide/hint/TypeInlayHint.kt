@@ -6,7 +6,6 @@ import com.intellij.codeInsight.hints.presentation.PresentationFactory
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import valkyrie.ide.hint.TypeInlayProvider.InlayTypeSetting
-import valkyrie.language.psi.ValkyrieInlayElement
 
 @Suppress("UnstableApiUsage")
 class TypeInlayHint(val settings: InlayTypeSetting) : InlayHintsCollector {
@@ -15,9 +14,9 @@ class TypeInlayHint(val settings: InlayTypeSetting) : InlayHintsCollector {
     override fun collect(element: PsiElement, editor: Editor, sink: InlayHintsSink): Boolean {
         _factory = PresentationFactory(editor);
         _sink = sink;
-        if (element is ValkyrieInlayElement) {
+//        if (element is ValkyrieInlayElement) {
 //            element.type_hint(this)
-        }
+//        }
         return true
 //            settings.showForLoopType && element is ValkyriePatternItemNode -> {
 //                inline(element.identifier.textRange.endOffset, "Unknown")

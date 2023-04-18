@@ -16,8 +16,8 @@ class ValkyrieUsagesProvider : FindUsagesProvider {
         return DefaultWordsScanner(
             ParserDefinition.createLexer(),
             TokenSet.create(ValkyrieTypes.SYMBOL, ValkyrieTypes.SYMBOW_RAW),
-            TokenSet.create(ValkyrieTypes.SYMBOL, ValkyrieTypes.SYMBOW_RAW),
             TokenSet.create(ValkyrieTypes.COMMENT_LINE, ValkyrieTypes.COMMENT_BLOCK),
+            TokenSet.create(),
             TokenSet.EMPTY
         )
     }

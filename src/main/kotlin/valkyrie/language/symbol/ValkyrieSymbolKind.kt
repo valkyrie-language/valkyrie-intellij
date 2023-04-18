@@ -1,4 +1,4 @@
-package yggdrasil.language.symbol
+package valkyrie.language.symbol
 
 enum class ValkyrieSymbolKind {
     ValkyrieClass {

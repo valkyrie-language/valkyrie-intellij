@@ -6,7 +6,6 @@ import com.intellij.codeInsight.hints.InlayParameterHintsProvider
 import com.intellij.codeInsight.hints.Option
 import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieBundle
-import valkyrie.language.psi.ValkyrieInlayElement
 
 
 @Suppress("UnstableApiUsage")
@@ -21,9 +20,9 @@ class ParameterInlayProvider : InlayParameterHintsProvider {
     /// 函数里面的东西
     override fun getParameterHints(element: PsiElement): MutableList<InlayInfo> {
         val visitor = ParameterInlayHint();
-        if (element is ValkyrieInlayElement) {
-            element.parameter_hint(visitor)
-        }
+//        if (element is ValkyrieInlayElement) {
+//            element.parameter_hint(visitor)
+//        }
         return visitor.info;
     }
 

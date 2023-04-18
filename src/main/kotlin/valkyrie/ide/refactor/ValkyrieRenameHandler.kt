@@ -18,6 +18,7 @@ class ValkyrieRenameHandler : RenameHandler {
         val offset = editor.caretModel.offset
         editor.scrollingModel.scrollToCaret(ScrollType.MAKE_VISIBLE)
         val element = file.findElementAt(offset) ?: return
+        println("invoke1($element, $dataContext)")
 //        if (ValkyrieLexer.Keywords.contains(element.elementType)) {
 //            val message = ValkyrieBundle.message("rename.invalid.keyword", element.elementType!!)
 //            CommonRefactoringUtil.showErrorHint(project, editor, message, "getTitle", "getHelpId")

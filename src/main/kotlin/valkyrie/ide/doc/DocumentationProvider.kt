@@ -42,22 +42,17 @@ class DocumentationProvider : DocumentationProvider {
 //        if (comment is ValkyrieCommentDocument) {
 //            return comment.render()
 //        }
-        return null
+        return "generateRenderedDoc"
     }
 
     // 按住 Ctrl 后悬浮
     override fun getQuickNavigateInfo(element: PsiElement?, originalElement: PsiElement?): String? {
-        return originalElement?.let { this.generateHoverDoc(it, originalElement) }
+        return "getQuickNavigateInfo"
     }
 
     // 悬浮
     override fun generateHoverDoc(element: PsiElement, originalElement: PsiElement?): String? {
-        try {
-            return DocumentationRenderer(element, originalElement).onHover()
-        } catch (_: ConnectException) {
-            // skip
-        }
-        return null
+        return "generateHoverDoc"
     }
 
     override fun getCustomDocumentationElement(editor: Editor, file: PsiFile, contextElement: PsiElement?, targetOffset: Int): PsiElement? {

@@ -233,7 +233,7 @@ parameter-item ::= identifier type-hint? default-value? {
 return-type ::= (OP_ARROW1|COLON) type-expression;
 effect-type ::= SLASH type-expression;
 block-body  ::= BRACE_L block-statement* BRACE_R;
-block-bare  ::= inline-statement*;
+block-bare  ::= block-statement*;
 // === function statement ===
 declare-variable ::= KW_LET pattern-bare type-hint? EQUAL inline-statement {
     pin = 1
@@ -400,14 +400,13 @@ type-infix  ::= OP_PLUS | OP_ARROW1 | OP_OR;
 type-suffix ::= OP_AND_THEN | generic-call-free;
 type-atomic ::= namepath | string;
 // === generic statement ===
-generic-call ::= PROPORTION? generic-call-standard-body | PROPORTION generic-call-ascii-body {
+generic-call ::=
+    PROPORTION? GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R
+  | PROPORTION  ANGLE_L   (generic-argument (COMMA generic-argument)* COMMA?)? ANGLE_R
+generic-call-free ::=
+    PROPORTION? GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R
+  | PROPORTION? ANGLE_L   (generic-argument (COMMA generic-argument)* COMMA?)? ANGLE_R
 
-}
-generic-call-free ::= PROPORTION? generic-call-standard-body | PROPORTION? generic-call-ascii-body {
-    extends=generic-call
-}
-generic-call-standard-body ::= GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R
-generic-call-ascii-body    ::= ANGLE_L   (generic-argument (COMMA generic-argument)* COMMA?)? ANGLE_R
 generic-argument ::= (annotations identifier EQUAL)? type-expression;
 // === atomic statement ===
 atomic ::=
@@ -479,5 +478,4 @@ namepath-free ::= identifier ((PROPORTION|DOT) identifier)* {
 }
 identifier      ::= SYMBOL | SYMBOW_RAW | KW_MACRO | KW_CLASS | KW_UNION | KW_GROUP | KW_GRAMMAR | KW_IMPORT | KW_AS | KW_CLIMB {
     mixin = "valkyrie.psi.mixin.MixinIdentifier"
-    methods=[highlight]
 }

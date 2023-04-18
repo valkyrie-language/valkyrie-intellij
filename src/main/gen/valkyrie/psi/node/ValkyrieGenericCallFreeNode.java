@@ -9,13 +9,14 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.psi.ValkyrieTypes.*;
 
-public class ValkyrieGenericCallFreeNode extends ValkyrieGenericCallNode implements ValkyrieGenericCallFree {
+import valkyrie.psi.ValkyrieElement;
+
+public class ValkyrieGenericCallFreeNode extends ValkyrieElement implements ValkyrieGenericCallFree {
 
     public ValkyrieGenericCallFreeNode(@NotNull ASTNode node) {
         super(node);
     }
 
-    @Override
     public void accept(@NotNull ValkyrieVisitor visitor) {
         visitor.visitGenericCallFree(this);
     }
@@ -24,6 +25,12 @@ public class ValkyrieGenericCallFreeNode extends ValkyrieGenericCallNode impleme
     public void accept(@NotNull PsiElementVisitor visitor) {
         if (visitor instanceof ValkyrieVisitor) accept((ValkyrieVisitor) visitor);
         else super.accept(visitor);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieGenericArgument> getGenericArgumentList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieGenericArgument.class);
     }
 
 }
