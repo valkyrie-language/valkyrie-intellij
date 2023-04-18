@@ -41,8 +41,8 @@ public class ValkyrieDeclareUnionNode extends MixinUnion implements ValkyrieDecl
 
     @Override
     @Nullable
-    public ValkyrieIdentifier getIdentifier() {
-        return findChildByClass(ValkyrieIdentifier.class);
+    public ValkyrieIdentifierFree getIdentifierFree() {
+        return findChildByClass(ValkyrieIdentifierFree.class);
     }
 
 }

@@ -207,6 +207,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitIfCondition(@NotNull ValkyrieIfCondition o) {
+        visitPsiElement(o);
+    }
+
     public void visitIfStatement(@NotNull ValkyrieIfStatement o) {
         visitPsiElement(o);
     }
@@ -217,6 +221,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
 
     public void visitInlineExpression(@NotNull ValkyrieInlineExpression o) {
         visitExpression(o);
+    }
+
+    public void visitInlineStatement(@NotNull ValkyrieInlineStatement o) {
+        visitPsiElement(o);
     }
 
     public void visitIsNot(@NotNull ValkyrieIsNot o) {
@@ -311,15 +319,39 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitPatternAtomic(@NotNull ValkyriePatternAtomic o) {
+        visitPsiElement(o);
+    }
+
     public void visitPatternBare(@NotNull ValkyriePatternBare o) {
         visitPsiElement(o);
     }
 
-    public void visitPatternTerm(@NotNull ValkyriePatternTerm o) {
+    public void visitPatternObject(@NotNull ValkyriePatternObject o) {
+        visitPsiElement(o);
+    }
+
+    public void visitPatternObjectBody(@NotNull ValkyriePatternObjectBody o) {
+        visitPsiElement(o);
+    }
+
+    public void visitPatternPair(@NotNull ValkyriePatternPair o) {
+        visitPsiElement(o);
+    }
+
+    public void visitPatternSequence(@NotNull ValkyriePatternSequence o) {
+        visitPsiElement(o);
+    }
+
+    public void visitPatternSequenceBody(@NotNull ValkyriePatternSequenceBody o) {
         visitPsiElement(o);
     }
 
     public void visitPatternUnapply(@NotNull ValkyriePatternUnapply o) {
+        visitPsiElement(o);
+    }
+
+    public void visitPatternUnapplyBody(@NotNull ValkyriePatternUnapplyBody o) {
         visitPsiElement(o);
     }
 

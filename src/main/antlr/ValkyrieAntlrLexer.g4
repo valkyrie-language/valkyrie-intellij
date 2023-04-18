@@ -49,8 +49,8 @@ OP_DIV_REM: '/%' | '÷';
 // equal
 OP_EQ:  '==';
 OP_NE:  '≠' | '!=';
-OP_NEE: '≢' | '!==' | '=!=';
 OP_EEE: '≡' | '===';
+OP_NEE: '≢' | '!==' | '=!=';
 // compare
 OP_LEQ: '⩽' | '≤' | '<=';
 OP_LLE: '<<=';

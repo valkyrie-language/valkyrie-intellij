@@ -99,6 +99,9 @@ private statements ::=
   | expression
   | SEMICOLON
 block-statement ::=
+    declare-variable
+  | inline-statement;
+inline-statement ::=
     if-case-statement
   | if-statement
   | while-statement
@@ -168,7 +171,7 @@ declare-method ::= annotations identifier-free declare-generic? parameter-body r
     mixin = "valkyrie.psi.mixin.MixinMethod"
 }
 // === union statement ===
-declare-union ::= annotations KW_UNITE identifier OP_REMARK? class-body {
+declare-union ::= annotations KW_UNITE identifier-free class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinUnion"
     methods=[createLookup]
@@ -236,12 +239,12 @@ parameter-item ::= identifier type-hint? default-value? {
 
 }
 
-return-type  ::= (OP_TO|COLON) type-expression;
+return-type  ::= (OP_ARROW1|COLON) type-expression;
 effect-type  ::= SLASH type-expression;
 block-body ::= BRACE_L block-statement* BRACE_R;
-block-bare ::= block-statement*;
+block-bare ::= inline-statement*;
 // === function statement ===
-declare-variable ::= KW_LET pattern type-hint? EQUAL block-statement {
+declare-variable ::= KW_LET pattern-bare type-hint? EQUAL inline-statement {
     pin = 1
 //    mixin = "valkyrie.psi.mixin.MixinVariable"
 }
@@ -263,7 +266,10 @@ dot-call-catch ::= OP_AND_THEN? DOT KW_CATCH match-body {
 if-case-statement ::= KW_IF (KW_LET|KW_CASE) pattern EQUAL inline-expression block-body {
     pin=2
 }
-if-statement ::= KW_IF inline-expression block-body else-if-statement* else-statement? {
+if-statement ::= if-condition block-body else-if-statement* else-statement? {
+
+}
+if-condition ::= KW_IF inline-expression {
     pin = 1
 }
 else-if-statement ::= KW_ELSE KW_IF inline-expression block-body {
@@ -281,7 +287,7 @@ while-statement ::= while-kind inline-expression block-body otherwise-statement?
     pin = 1
 }
 while-kind ::= KW_WHILE|KW_UNTIL
-for-statement ::= KW_FOR (pattern-bare|pattern) KW_IN inline-expression block-body otherwise-statement? {
+for-statement ::= KW_FOR pattern-bare KW_IN inline-expression if-condition? block-body otherwise-statement? {
     pin = 1
 }
 // === if statement ===
@@ -316,12 +322,28 @@ match-else ::= KW_ELSE inline-expression COLON block-bare {
 // === pattern expression ===
 pattern ::=
     pattern-unapply
-  | pattern-term
-pattern-unapply ::= namepath-free? PARENTHESIS_L pattern-bare PARENTHESIS_R
-pattern-bare ::= pattern-term (COMMA pattern-term)* COMMA?
-
-pattern-term ::=  annotations identifier-free
-
+  | pattern-sequence
+  | pattern-object
+  | pattern-atomic
+pattern-bare     ::=
+    pattern-atomic (COMMA pattern-atomic)* COMMA? !(PARENTHESIS_L|BRACKET_L|BRACE_L)
+  | pattern-unapply
+  | pattern-sequence
+  | pattern-object
+pattern-unapply      ::= annotations namepath-free? pattern-unapply-body;
+pattern-unapply-body ::= PARENTHESIS_L (pattern (COMMA pattern)* COMMA?)? PARENTHESIS_R {
+    pin = 1
+}
+pattern-sequence      ::= pattern-sequence-body;
+pattern-sequence-body ::= BRACKET_L (pattern (COMMA pattern)* COMMA?)? BRACKET_R {
+    pin = 1
+}
+pattern-object      ::= annotations namepath-free? pattern-object-body;
+pattern-object-body ::= BRACE_L (pattern-pair (COMMA pattern-pair)* COMMA?)? BRACE_R {
+    pin = 1
+}
+pattern-pair   ::= annotations identifier-free COLON pattern;
+pattern-atomic ::= annotations (identifier-free | number | string)
 // === pattern expression ===
 new-value  ::= KW_NEW type-expression;
 new-object ::= KW_OBJECT type-hint?;
@@ -345,8 +367,10 @@ infix  ::=
   | ANGLE_L | ANGLE_R
   | OP_AND
   | OP_UNTIL
-  | KW_AS | is_not;
-is_not ::= KW_IS KW_NOT?
+  | OP_EQ | OP_NE
+  | KW_AS
+  | is_not | KW_IS
+is_not ::= KW_IS KW_NOT | OP_BANG KW_IS;
 suffix ::= OP_BANG | OP_AND_THEN | dot-call | dot-call-catch | dot-call-match | generic-call;
 // === expression statement ===
 inline-expression ::= term (infix term)* {
@@ -362,7 +386,7 @@ type-term ::= type-prefix* type-atomic type-suffix* {
 
 }
 type-prefix ::= OP_PLUS | OP_MINUS | OP_BANG;
-type-infix  ::= OP_PLUS;
+type-infix  ::= OP_PLUS | OP_ARROW1 | OP_OR;
 type-suffix ::= OP_AND_THEN | generic-call-free;
 type-atomic ::= namepath | string;
 // === generic statement ===
@@ -426,7 +450,7 @@ modifier    ::= identifier !modifier-stop {
     mixin = "valkyrie.psi.mixin.MixinModifier"
 }
 private modifier-stop ::= KW_IN
-    | COMMA | SEMICOLON | EQUAL | COLON
+    | COMMA | COLON | PROPORTION | DOT | SEMICOLON | EQUAL
     | PARENTHESIS_L | PARENTHESIS_R
     | BRACE_L | BRACE_R
 attribute   ::= HASH namepath argument-body? {

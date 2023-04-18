@@ -25,13 +25,17 @@ class TokenHighlighter : SyntaxHighlighter {
             KW_TRAIT,
             KW_FUNCTION, KW_LET,
             KW_IF, KW_ELSE, KW_OTHERWISE, KW_THROUGH,
+            KW_FOR, KW_IN,
             KW_RETURN, KW_RESUME, KW_BREAK, KW_CONTINUE, KW_YIELD,
             KW_TRY, KW_CATCH, KW_MATCH, KW_WITH, KW_CASE, KW_WHEN,
+            KW_IS, KW_NOT,
             -> HighlightColor.KEYWORD
             // operations
             COLON, EQUAL, BIND, STAR -> HighlightColor.OPERATION
-            OP_OR, OP_CONCAT -> HighlightColor.OPERATION
-            OP_PLUS, OP_AND_THEN -> HighlightColor.OPERATION
+            OP_OR, OP_UNTIL,
+            OP_EQ, OP_NE,
+            OP_PLUS, OP_AND_THEN,
+            -> HighlightColor.OPERATION
             // literals
             TEXT_SINGLE, TEXT_DOUBLE -> HighlightColor.STRING
             ESCAPED -> HighlightColor.STRING_ESCAPED

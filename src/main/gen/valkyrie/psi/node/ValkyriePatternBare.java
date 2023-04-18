@@ -2,13 +2,21 @@
 package valkyrie.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
 public interface ValkyriePatternBare extends PsiElement {
 
     @NotNull
-    List<ValkyriePatternTerm> getPatternTermList();
+    List<ValkyriePatternAtomic> getPatternAtomicList();
+
+    @Nullable
+    ValkyriePatternObject getPatternObject();
+
+    @Nullable
+    ValkyriePatternSequence getPatternSequence();
+
+    @Nullable
+    ValkyriePatternUnapply getPatternUnapply();
 
 }

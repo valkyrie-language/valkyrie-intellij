@@ -28,14 +28,14 @@ public class ValkyrieDeclareVariableNode extends ValkyrieElement implements Valk
 
     @Override
     @Nullable
-    public ValkyrieBlockStatement getBlockStatement() {
-        return findChildByClass(ValkyrieBlockStatement.class);
+    public ValkyrieInlineStatement getInlineStatement() {
+        return findChildByClass(ValkyrieInlineStatement.class);
     }
 
     @Override
     @Nullable
-    public ValkyriePattern getPattern() {
-        return findChildByClass(ValkyriePattern.class);
+    public ValkyriePatternBare getPatternBare() {
+        return findChildByClass(ValkyriePatternBare.class);
     }
 
     @Override

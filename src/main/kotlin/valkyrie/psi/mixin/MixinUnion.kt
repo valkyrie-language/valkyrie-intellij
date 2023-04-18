@@ -20,12 +20,12 @@ abstract class MixinUnion(node: ASTNode) : ValkyrieElement(node), NavigatablePsi
     }
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.identifier as? ValkyrieIdentifierNode
+        return this.identifierFree as? ValkyrieIdentifierNode
     }
 
 
     override fun getName(): String {
-        return this.identifier?.text ?: ""
+        return nameIdentifier?.text ?: ""
     }
 
     override fun setName(name: String): PsiElement {
@@ -41,7 +41,7 @@ abstract class MixinUnion(node: ASTNode) : ValkyrieElement(node), NavigatablePsi
     }
 
     override fun createLookup(completions: MutableList<LookupElement>) {
-        this.identifier?.let {
+        this.nameIdentifier?.let {
             completions.add(
                 LookupElementBuilder.create(it)
                     .withIcon(baseIcon)

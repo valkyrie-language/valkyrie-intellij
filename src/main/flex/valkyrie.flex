@@ -87,7 +87,23 @@ OP_PLUS      = [+]
 OP_MINUS     = [-]
 OP_UNTIL     = [.]{2}[<=]
 
-
+// equal
+OP_EQ  = ==
+OP_NE  = ≠|\!=
+OP_EEE = ≡|===
+OP_NEE = ≢|\!==|=\!=
+// compare
+OP_LEQ = ⩽|≤|<=
+OP_LLE = <<=
+OP_LLL = ⋘
+OP_LL = ≪
+OP_GEQ = ⩾|≥|>=
+OP_GGE = >>=
+OP_GGG = ⋙
+// arrow
+OP_ARROW1 = ⟶|->
+OP_ARROW2 = ⇒|=>
+OP_ARROW3 = ==>
 
 SYMBOL=[\p{XID_Start}_][\p{XID_Continue}]*
 SYMBOW_RAW = `[^`]*`
@@ -97,6 +113,7 @@ BIN = [0-1]
 DEC = [0-9]
 HEX = [0-9a-fA-F]
 COLOR = [©®][0-9a-zA-Z]*
+INTEGER = 0|[1-9][_0-9]*
 
 %%
 
@@ -136,10 +153,8 @@ COLOR = [©®][0-9a-zA-Z]*
 	{COLON}      { return COLON; }
     {STAR}       { return STAR; }
 
-    -> { return OP_TO; }
+    {OP_ARROW1} { return OP_ARROW1; }
     \| { return OP_OR;}
-    \~ { return OP_CONCAT;}
-
 
 	@ { return AT; }
 	# { return HASH; }
@@ -149,9 +164,10 @@ COLOR = [©®][0-9a-zA-Z]*
 	"." { return DOT; }
 	"," { return COMMA; }
 
-	"=" { return EQUAL; }
+	"="     { return EQUAL; }
+    {OP_EQ} { return OP_EQ;}
+    {OP_NE} { return OP_NE; }
 
-	"^" { return OP_REMARK; }
     {OP_PLUS}     { return OP_PLUS; }
     {OP_MINUS}    { return OP_MINUS; }
     {OP_BANG}     { return OP_BANG; }
@@ -161,7 +177,7 @@ COLOR = [©®][0-9a-zA-Z]*
 
 <YYINITIAL> {
     {COLOR}       { return COLOR; }
-    {DEC}         { return INTEGER; }
+    {INTEGER}     { return INTEGER; }
     {TEXT_SINGLE} { return TEXT_SINGLE; }
     {TEXT_DOUBLE} { return TEXT_DOUBLE; }
 }

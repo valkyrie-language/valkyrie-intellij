@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieIfStatement extends PsiElement {
 
-    @Nullable
+    @NotNull
     ValkyrieBlockBody getBlockBody();
 
     @NotNull
@@ -16,7 +16,7 @@ public interface ValkyrieIfStatement extends PsiElement {
     @Nullable
     ValkyrieElseStatement getElseStatement();
 
-    @Nullable
-    ValkyrieInlineExpression getInlineExpression();
+    @NotNull
+    ValkyrieIfCondition getIfCondition();
 
 }

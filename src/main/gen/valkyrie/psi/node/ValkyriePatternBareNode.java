@@ -2,15 +2,12 @@
 package valkyrie.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-
 import static valkyrie.psi.ValkyrieTypes.*;
-
 import valkyrie.psi.ValkyrieElement;
 
 public class ValkyriePatternBareNode extends ValkyrieElement implements ValkyriePatternBare {
@@ -31,8 +28,26 @@ public class ValkyriePatternBareNode extends ValkyrieElement implements Valkyrie
 
     @Override
     @NotNull
-    public List<ValkyriePatternTerm> getPatternTermList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyriePatternTerm.class);
+    public List<ValkyriePatternAtomic> getPatternAtomicList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyriePatternAtomic.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyriePatternObject getPatternObject() {
+        return findChildByClass(ValkyriePatternObject.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyriePatternSequence getPatternSequence() {
+        return findChildByClass(ValkyriePatternSequence.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyriePatternUnapply getPatternUnapply() {
+        return findChildByClass(ValkyriePatternUnapply.class);
     }
 
 }
