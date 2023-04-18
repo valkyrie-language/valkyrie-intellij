@@ -10,7 +10,7 @@ import valkyrie.psi.ValkyrieElement
 import valkyrie.psi.node.ValkyrieNewObject
 import javax.swing.Icon
 
-abstract class MixinObject(node: ASTNode) : ValkyrieElement(node), NavigatablePsiElement, ValkyrieNewObject {
+abstract class MixinObject(node: ASTNode) : ValkyrieElement(node), ValkyrieNewObject {
     override fun getNavigationElement(): PsiElement {
         return this.firstChild
     }
