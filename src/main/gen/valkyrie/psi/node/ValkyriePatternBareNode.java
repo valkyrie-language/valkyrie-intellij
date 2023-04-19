@@ -28,8 +28,8 @@ public class ValkyriePatternBareNode extends ValkyrieElement implements Valkyrie
 
     @Override
     @NotNull
-    public List<ValkyriePatternAtomic> getPatternAtomicList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyriePatternAtomic.class);
+    public List<ValkyriePatternLiteral> getPatternLiteralList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyriePatternLiteral.class);
     }
 
     @Override

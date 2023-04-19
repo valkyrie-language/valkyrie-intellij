@@ -16,7 +16,4 @@ public interface ValkyrieWhileStatement extends PsiElement {
     @Nullable
     ValkyrieOtherwiseStatement getOtherwiseStatement();
 
-    @NotNull
-    ValkyrieWhileKind getWhileKind();
-
 }

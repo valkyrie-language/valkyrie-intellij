@@ -2,15 +2,22 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyriePatternTerm extends PsiElement {
+public interface ValkyriePatternLiteral extends PsiElement {
 
     @NotNull
     ValkyrieAnnotations getAnnotations();
 
-    @NotNull
-    ValkyriePatternAtomic getPatternAtomic();
+    @Nullable
+    ValkyrieIdentifierFree getIdentifierFree();
+
+    @Nullable
+    ValkyrieSpecial getSpecial();
+
+    @Nullable
+    ValkyrieString getString();
 
 }

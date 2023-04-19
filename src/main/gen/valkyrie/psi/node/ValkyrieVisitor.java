@@ -19,10 +19,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitAtomic(@NotNull ValkyrieAtomic o) {
-        visitPsiElement(o);
-    }
-
     public void visitAttribute(@NotNull ValkyrieAttribute o) {
         visitPsiElement(o);
     }
@@ -35,11 +31,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitBlockStatement(@NotNull ValkyrieBlockStatement o) {
-        visitPsiElement(o);
-    }
-
-    public void visitCatchStatement(@NotNull ValkyrieCatchStatement o) {
+    public void visitCaseItem(@NotNull ValkyrieCaseItem o) {
         visitPsiElement(o);
     }
 
@@ -131,10 +123,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitDotCallCatch(@NotNull ValkyrieDotCallCatch o) {
-        visitPsiElement(o);
-    }
-
     public void visitDotCallMatch(@NotNull ValkyrieDotCallMatch o) {
         visitPsiElement(o);
     }
@@ -223,11 +211,11 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitExpression(o);
     }
 
-    public void visitInlineStatement(@NotNull ValkyrieInlineStatement o) {
+    public void visitIsNot(@NotNull ValkyrieIsNot o) {
         visitPsiElement(o);
     }
 
-    public void visitIsNot(@NotNull ValkyrieIsNot o) {
+    public void visitLiteral(@NotNull ValkyrieLiteral o) {
         visitPsiElement(o);
     }
 
@@ -319,11 +307,11 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitPatternAtomic(@NotNull ValkyriePatternAtomic o) {
+    public void visitPatternBare(@NotNull ValkyriePatternBare o) {
         visitPsiElement(o);
     }
 
-    public void visitPatternBare(@NotNull ValkyriePatternBare o) {
+    public void visitPatternLiteral(@NotNull ValkyriePatternLiteral o) {
         visitPsiElement(o);
     }
 
@@ -480,10 +468,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitUsingTerm(@NotNull ValkyrieUsingTerm o) {
-        visitPsiElement(o);
-    }
-
-    public void visitWhileKind(@NotNull ValkyrieWhileKind o) {
         visitPsiElement(o);
     }
 

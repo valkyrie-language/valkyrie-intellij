@@ -27,7 +27,7 @@ class TokenHighlighter : SyntaxHighlighter {
             KW_IF, KW_ELSE, KW_OTHERWISE, KW_THROUGH,
             KW_FOR, KW_IN,
             KW_RETURN, KW_RESUME, KW_BREAK, KW_CONTINUE, KW_YIELD,
-            KW_TRY, KW_CATCH, KW_MATCH, KW_WITH, KW_CASE, KW_WHEN,
+            KW_TRY, KW_MATCH, KW_WITH, KW_CASE, KW_WHEN,
             KW_IS, KW_NOT,
             -> HighlightColor.KEYWORD
             // operations

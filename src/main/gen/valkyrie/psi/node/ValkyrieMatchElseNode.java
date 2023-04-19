@@ -32,10 +32,4 @@ public class ValkyrieMatchElseNode extends ValkyrieElement implements ValkyrieMa
         return findChildByClass(ValkyrieBlockBare.class);
     }
 
-    @Override
-    @Nullable
-    public ValkyrieInlineExpression getInlineExpression() {
-        return findChildByClass(ValkyrieInlineExpression.class);
-    }
-
 }

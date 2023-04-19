@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface ValkyriePatternBare extends PsiElement {
 
     @NotNull
-    List<ValkyriePatternAtomic> getPatternAtomicList();
+    List<ValkyriePatternLiteral> getPatternLiteralList();
 
     @Nullable
     ValkyriePatternObject getPatternObject();

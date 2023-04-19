@@ -2,16 +2,18 @@
 package valkyrie.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyriePatternTuple extends PsiElement {
+public interface ValkyrieCaseItem extends PsiElement {
 
     @Nullable
-    ValkyrieNamepathFree getNamepathFree();
+    ValkyrieNamepath getNamepath();
 
-    @NotNull
-    ValkyriePatternBare getPatternBare();
+    @Nullable
+    ValkyrieNumber getNumber();
+
+    @Nullable
+    ValkyriePattern getPattern();
 
 }

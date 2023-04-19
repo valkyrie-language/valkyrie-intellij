@@ -60,7 +60,7 @@
         AT = '@'
         TO = "->"
         HYPHEN = "-"
-        SLASH = '/'
+        OP_DIV = '/'
         OP_OR = '|'
         OP_CONCAT = '~'
         PLACE_HOLDER = "_"
@@ -85,29 +85,16 @@ private statements ::=
   | declare-trait
   | declare-imply
   | declare-function
-  | declare-variable
-  | if-case-statement
-  | if-statement
-  | while-statement
-  | for-statement
-  | try-statement
-  | catch-statement
-  | match-statement
-  | new-value
-  | new-object
-  | new-lambda
-  | expression
-  | SEMICOLON
-block-statement ::=
+  | block-statement
+private block-statement ::=
     declare-variable
   | inline-statement;
-inline-statement ::=
+private inline-statement ::=
     if-case-statement
   | if-statement
   | while-statement
   | for-statement
   | try-statement
-  | catch-statement
   | match-statement
   | new-value
   | new-object
@@ -136,7 +123,7 @@ using-exclude ::= KW_EXCLUDE (identifier-free|BRACE_L (identifier-free (COMMA id
 using-block   ::= namepath-free using-dot? using-body
 using-body    ::= BRACE_L using-term* BRACE_R;
 using-alias   ::= identifier-free KW_AS identifier-free;
-private using-dot ::= DOT|PROPORTION|SLASH
+private using-dot ::= DOT|PROPORTION|OP_DIV
 // === class statement ===
 type-alias ::= annotations KW_TYPE identifier-free EQUAL type-expression {
     pin = 2
@@ -238,11 +225,10 @@ parameter-body ::= PARENTHESIS_L (parameter-item (COMMA parameter-item)* COMMA?)
 parameter-item ::= identifier type-hint? default-value? {
 
 }
-
-return-type  ::= (OP_ARROW1|COLON) type-expression;
-effect-type  ::= SLASH type-expression;
-block-body ::= BRACE_L block-statement* BRACE_R;
-block-bare ::= inline-statement*;
+return-type ::= (OP_ARROW1|COLON) type-expression;
+effect-type ::= SLASH type-expression;
+block-body  ::= BRACE_L block-statement* BRACE_R;
+block-bare  ::= inline-statement*;
 // === function statement ===
 declare-variable ::= KW_LET pattern-bare type-hint? EQUAL inline-statement {
     pin = 1
@@ -257,9 +243,6 @@ macro-call    ::= AT namepath argument-body? {
 }
 dot-call ::= OP_AND_THEN? DOT namepath argument-body?;
 dot-call-match ::= OP_AND_THEN? DOT KW_MATCH match-body {
-    pin = 3
-}
-dot-call-catch ::= OP_AND_THEN? DOT KW_CATCH match-body {
     pin = 3
 }
 // === if statement ===
@@ -283,18 +266,14 @@ otherwise-statement ::= otherwise-kind block-body {
 }
 otherwise-kind      ::= KW_OTHERWISE|KW_ELSE;
 // === if statement ===
-while-statement ::= while-kind inline-expression block-body otherwise-statement? {
+while-statement ::= KW_WHILE inline-expression block-body otherwise-statement? {
     pin = 1
 }
-while-kind ::= KW_WHILE|KW_UNTIL
 for-statement ::= KW_FOR pattern-bare KW_IN inline-expression if-condition? block-body otherwise-statement? {
     pin = 1
 }
 // === if statement ===
 try-statement ::= KW_TRY type-expression? block-body {
-    pin = 1
-}
-catch-statement ::= KW_CATCH inline-expression match-body {
     pin = 1
 }
 match-statement ::= KW_MATCH inline-expression match-body {
@@ -309,24 +288,24 @@ match-item ::=
 match-with ::= KW_WITH pattern COLON block-bare {
     pin = 1
 }
-match-case ::= KW_CASE pattern COLON block-bare {
+match-case ::= KW_CASE case-item COLON block-bare {
     pin = 1
 }
+case-item ::= namepath|number|pattern;
 match-when ::= KW_WHEN inline-expression COLON block-bare {
     pin = 1
 }
-match-else ::= KW_ELSE inline-expression COLON block-bare {
+match-else ::= KW_ELSE COLON block-bare {
     pin = 1
 }
-
 // === pattern expression ===
 pattern ::=
     pattern-unapply
   | pattern-sequence
   | pattern-object
-  | pattern-atomic
+  | pattern-literal
 pattern-bare     ::=
-    pattern-atomic (COMMA pattern-atomic)* COMMA? !(PARENTHESIS_L|BRACKET_L|BRACE_L)
+    pattern-literal (COMMA pattern-literal)* COMMA? !(PARENTHESIS_L|BRACKET_L|BRACE_L)
   | pattern-unapply
   | pattern-sequence
   | pattern-object
@@ -342,8 +321,8 @@ pattern-object      ::= annotations namepath-free? pattern-object-body;
 pattern-object-body ::= BRACE_L (pattern-pair (COMMA pattern-pair)* COMMA?)? BRACE_R {
     pin = 1
 }
-pattern-pair   ::= annotations identifier-free COLON pattern;
-pattern-atomic ::= annotations (identifier-free | number | string)
+pattern-pair      ::= annotations identifier-free COLON pattern;
+pattern-literal   ::= annotations (identifier-free|string|special)
 // === pattern expression ===
 new-value  ::= KW_NEW type-expression;
 new-object ::= KW_OBJECT type-hint?;
@@ -358,7 +337,7 @@ control-statement ::=
 expression ::= term (infix term)* {
 
 };
-term ::= prefix* atomic suffix* {
+term ::= prefix* literal suffix* {
 
 }
 prefix ::= OP_PLUS | OP_MINUS | OP_BANG;
@@ -371,7 +350,7 @@ infix  ::=
   | KW_AS
   | is_not | KW_IS
 is_not ::= KW_IS KW_NOT | OP_BANG KW_IS;
-suffix ::= OP_BANG | OP_AND_THEN | dot-call | dot-call-catch | dot-call-match | generic-call;
+suffix ::= OP_BANG | OP_AND_THEN | dot-call | dot-call-match | generic-call;
 // === expression statement ===
 inline-expression ::= term (infix term)* {
     extends=expression
@@ -400,7 +379,7 @@ generic-call-standard-body ::= GENERIC_L (generic-argument (COMMA generic-argume
 generic-call-ascii-body    ::= ANGLE_L   (generic-argument (COMMA generic-argument)* COMMA?)? ANGLE_R
 generic-argument ::= (annotations identifier-free EQUAL)? type-expression;
 // === atomic statement ===
-atomic ::=
+literal ::=
     PARENTHESIS_L expression PARENTHESIS_R
   | macro-call
   | function-call

@@ -34,8 +34,8 @@ public class ValkyrieMatchCaseNode extends ValkyrieElement implements ValkyrieMa
 
     @Override
     @Nullable
-    public ValkyriePattern getPattern() {
-        return findChildByClass(ValkyriePattern.class);
+    public ValkyrieCaseItem getCaseItem() {
+        return findChildByClass(ValkyrieCaseItem.class);
     }
 
 }

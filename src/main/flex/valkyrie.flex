@@ -43,15 +43,12 @@ KW_OBJECT    = object
 KW_LAMBDA    = lambda
 
 KW_TRY   = try[!?]?
-KW_CATCH = catch
-
-KW_MATCH = match
+KW_MATCH = match|catch
 KW_WITH  = with
 KW_CASE  = case
 KW_WHEN  = when
 
-KW_WHILE     = while
-KW_UNTIL     = until
+KW_WHILE     = while|until
 KW_FOR       = for
 KW_IN        = in
 KW_IF        = if
@@ -84,6 +81,7 @@ PROPORTION   = ∷|::
 OP_BANG      = [!]
 OP_AND_THEN  = [?]
 OP_PLUS      = [+]
+OP_DIV       = [/⁄∕]
 OP_MINUS     = [-]
 OP_UNTIL     = [.]{2}[<=]
 
@@ -123,14 +121,6 @@ INTEGER = 0|[1-9][_0-9]*
 	{COMMENT_BLOCK}    { return COMMENT_BLOCK; }
 }
 
-   //RANGE_L:       '⟦';
-   //RANGE_R:       '⟧';
-   //CEILING_L:     '⌈';
-   //CEILING_R:     '⌉';
-   //FLOOR_L:       '⌊';
-   //FLOOR_R:       '⌋';
-   //COLLECTION_L:  '⦃';
-   //COLLECTION_R:  '⦄';
 <YYINITIAL> {
 	"(" { return PARENTHESIS_L; }
     ")" { return PARENTHESIS_R; }
@@ -160,7 +150,7 @@ INTEGER = 0|[1-9][_0-9]*
 	# { return HASH; }
 	\$ { return DOLLAR; }
 
-	"/" { return SLASH; }
+	{OP_DIV} { return OP_DIV; }
 	"." { return DOT; }
 	"," { return COMMA; }
 
@@ -206,7 +196,6 @@ INTEGER = 0|[1-9][_0-9]*
     {KW_ELSE}      { return KW_ELSE; }
     {KW_OTHERWISE} { return KW_OTHERWISE; }
     {KW_WHILE}     { return KW_WHILE; }
-    {KW_UNTIL}     { return KW_WHILE; }
     {KW_FOR}       { return KW_FOR; }
     {KW_IN}        { return KW_IN; }
 
@@ -219,7 +208,6 @@ INTEGER = 0|[1-9][_0-9]*
     {KW_RAISE}    { return KW_RAISE; }
 
     {KW_TRY}   { return KW_TRY; }
-    {KW_CATCH} { return KW_CATCH; }
     {KW_MATCH} { return KW_MATCH; }
     {KW_WITH}  { return KW_WITH; }
     {KW_WHEN}  { return KW_WHEN; }

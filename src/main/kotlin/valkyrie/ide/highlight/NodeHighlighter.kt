@@ -123,9 +123,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         o.namepath.highlight_fake(this)
     }
 
-    override fun visitPatternAtomic(o: ValkyriePatternAtomic) {
-        highlight(o.identifierFree, HighlightColor.SYM_ARG)
-    }
 
 
     fun highlight(element: PsiElement?, color: HighlightColor) {

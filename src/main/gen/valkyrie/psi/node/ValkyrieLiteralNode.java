@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomic {
+public class ValkyrieLiteralNode extends ValkyrieElement implements ValkyrieLiteral {
 
-    public ValkyrieAtomicNode(@NotNull ASTNode node) {
+    public ValkyrieLiteralNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitAtomic(this);
+        visitor.visitLiteral(this);
     }
 
     @Override

@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieBlockStatementNode extends ValkyrieElement implements ValkyrieBlockStatement {
+public class ValkyrieCaseItemNode extends ValkyrieElement implements ValkyrieCaseItem {
 
-    public ValkyrieBlockStatementNode(@NotNull ASTNode node) {
+    public ValkyrieCaseItemNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitBlockStatement(this);
+        visitor.visitCaseItem(this);
     }
 
     @Override
@@ -28,14 +31,20 @@ public class ValkyrieBlockStatementNode extends ValkyrieElement implements Valky
 
     @Override
     @Nullable
-    public ValkyrieDeclareVariable getDeclareVariable() {
-        return findChildByClass(ValkyrieDeclareVariable.class);
+    public ValkyrieNamepath getNamepath() {
+        return findChildByClass(ValkyrieNamepath.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieInlineStatement getInlineStatement() {
-        return findChildByClass(ValkyrieInlineStatement.class);
+    public ValkyrieNumber getNumber() {
+        return findChildByClass(ValkyrieNumber.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyriePattern getPattern() {
+        return findChildByClass(ValkyriePattern.class);
     }
 
 }
