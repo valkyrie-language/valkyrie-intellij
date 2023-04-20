@@ -16,7 +16,7 @@ import valkyrie.language.ValkyrieBundle
 import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.node.*
 
-class LiteralChecker : Annotator {
+class ValkyrieCheckLiteral : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         when (element.elementType) {
             ValkyrieTypes.PROPORTION -> checkOperationNameJoin(element, holder)

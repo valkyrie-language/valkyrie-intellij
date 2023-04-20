@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieBlockBody extends PsiElement {
 
     @NotNull
+    List<ValkyrieControlStatement> getControlStatementList();
+
+    @NotNull
     List<ValkyrieDeclareVariable> getDeclareVariableList();
 
     @NotNull
@@ -23,9 +26,6 @@ public interface ValkyrieBlockBody extends PsiElement {
     List<ValkyrieIfStatement> getIfStatementList();
 
     @NotNull
-    List<ValkyrieMatchStatement> getMatchStatementList();
-
-    @NotNull
     List<ValkyrieNewLambda> getNewLambdaList();
 
     @NotNull
@@ -33,9 +33,6 @@ public interface ValkyrieBlockBody extends PsiElement {
 
     @NotNull
     List<ValkyrieNewValue> getNewValueList();
-
-    @NotNull
-    List<ValkyrieTryStatement> getTryStatementList();
 
     @NotNull
     List<ValkyrieWhileStatement> getWhileStatementList();

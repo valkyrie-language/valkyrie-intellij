@@ -23,13 +23,13 @@ class NamepathChecker : Annotator {
     }
 
     private fun checkValidUnionName(element: ValkyrieDeclareUnionNode, holder: AnnotationHolder) {
-        element.nameIdentifier?.let { checkNeedEscape(it, holder) }
-        element.nameIdentifier?.let { checkCamelCase(it, holder) }
+        checkNeedEscape(element.nameIdentifier, holder)
+        checkCamelCase(element.nameIdentifier, holder)
     }
 
-    private fun checkCamelCase(element: ValkyrieIdentifierNode, holder: AnnotationHolder) {
-
-//        val name = element.name;
+    private fun checkCamelCase(element: ValkyrieIdentifierNode?, holder: AnnotationHolder) {
+        element ?: return
+        val name = element.name;
 //        val fixer = CamelCaseFixer();
 //        if (name[0].isLowerCase()) {
 //            holder.newAnnotation(HighlightSeverity.WEAK_WARNING, "Name must start with uppercase")
@@ -38,7 +38,8 @@ class NamepathChecker : Annotator {
     }
 }
 
-private fun checkNeedEscape(element: ValkyrieIdentifierNode, holder: AnnotationHolder) {
+private fun checkNeedEscape(element: ValkyrieIdentifierNode?, holder: AnnotationHolder) {
+    element ?: return
     val rawName = element.text;
     if (!rawName.startsWith('`')) return
     // if raw name contains non xid_continue, then need escape

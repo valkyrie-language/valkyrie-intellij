@@ -26,4 +26,10 @@ public class ValkyrieControlStatementNode extends ValkyrieElement implements Val
         else super.accept(visitor);
     }
 
+    @Override
+    @Nullable
+    public ValkyrieExpression getExpression() {
+        return findChildByClass(ValkyrieExpression.class);
+    }
+
 }

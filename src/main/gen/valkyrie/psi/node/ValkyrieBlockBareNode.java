@@ -52,12 +52,6 @@ public class ValkyrieBlockBareNode extends ValkyrieElement implements ValkyrieBl
 
     @Override
     @NotNull
-    public List<ValkyrieMatchStatement> getMatchStatementList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieMatchStatement.class);
-    }
-
-    @Override
-    @NotNull
     public List<ValkyrieNewLambda> getNewLambdaList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNewLambda.class);
     }
@@ -72,18 +66,6 @@ public class ValkyrieBlockBareNode extends ValkyrieElement implements ValkyrieBl
     @NotNull
     public List<ValkyrieNewValue> getNewValueList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNewValue.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieTryStatement> getTryStatementList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTryStatement.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieWhileStatement> getWhileStatementList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieWhileStatement.class);
     }
 
 }

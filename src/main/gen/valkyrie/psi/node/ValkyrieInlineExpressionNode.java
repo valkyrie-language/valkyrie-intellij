@@ -9,13 +9,14 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.psi.ValkyrieTypes.*;
 
-public class ValkyrieInlineExpressionNode extends ValkyrieExpressionNode implements ValkyrieInlineExpression {
+import valkyrie.psi.ValkyrieElement;
+
+public class ValkyrieInlineExpressionNode extends ValkyrieElement implements ValkyrieInlineExpression {
 
     public ValkyrieInlineExpressionNode(@NotNull ASTNode node) {
         super(node);
     }
 
-    @Override
     public void accept(@NotNull ValkyrieVisitor visitor) {
         visitor.visitInlineExpression(this);
     }
@@ -24,6 +25,18 @@ public class ValkyrieInlineExpressionNode extends ValkyrieExpressionNode impleme
     public void accept(@NotNull PsiElementVisitor visitor) {
         if (visitor instanceof ValkyrieVisitor) accept((ValkyrieVisitor) visitor);
         else super.accept(visitor);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieInfix> getInfixList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieInfix.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieInlineTerm> getInlineTermList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieInlineTerm.class);
     }
 
 }

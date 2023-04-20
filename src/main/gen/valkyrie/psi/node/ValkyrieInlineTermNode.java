@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieWhileStatementNode extends ValkyrieElement implements ValkyrieWhileStatement {
+public class ValkyrieInlineTermNode extends ValkyrieElement implements ValkyrieInlineTerm {
 
-    public ValkyrieWhileStatementNode(@NotNull ASTNode node) {
+    public ValkyrieInlineTermNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitWhileStatement(this);
+        visitor.visitInlineTerm(this);
     }
 
     @Override
@@ -27,15 +30,21 @@ public class ValkyrieWhileStatementNode extends ValkyrieElement implements Valky
     }
 
     @Override
-    @Nullable
-    public ValkyrieBlockBody getBlockBody() {
-        return findChildByClass(ValkyrieBlockBody.class);
+    @NotNull
+    public ValkyrieInlineAtomic getInlineAtomic() {
+        return findNotNullChildByClass(ValkyrieInlineAtomic.class);
     }
 
     @Override
-    @Nullable
-    public ValkyrieInlineExpression getInlineExpression() {
-        return findChildByClass(ValkyrieInlineExpression.class);
+    @NotNull
+    public List<ValkyrieInlineSuffix> getInlineSuffixList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieInlineSuffix.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyriePrefix> getPrefixList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyriePrefix.class);
     }
 
 }

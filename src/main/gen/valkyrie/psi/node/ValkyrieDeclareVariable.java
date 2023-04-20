@@ -20,9 +20,6 @@ public interface ValkyrieDeclareVariable extends PsiElement {
     ValkyrieIfStatement getIfStatement();
 
     @Nullable
-    ValkyrieMatchStatement getMatchStatement();
-
-    @Nullable
     ValkyrieNewLambda getNewLambda();
 
     @Nullable
@@ -35,12 +32,6 @@ public interface ValkyrieDeclareVariable extends PsiElement {
     ValkyriePatternBare getPatternBare();
 
     @Nullable
-    ValkyrieTryStatement getTryStatement();
-
-    @Nullable
     ValkyrieTypeHint getTypeHint();
-
-    @Nullable
-    ValkyrieWhileStatement getWhileStatement();
 
 }

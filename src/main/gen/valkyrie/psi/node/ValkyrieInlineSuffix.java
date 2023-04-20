@@ -2,19 +2,14 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieSuffix extends PsiElement {
+public interface ValkyrieInlineSuffix extends PsiElement {
 
     @Nullable
-    ValkyrieDotCall getDotCall();
-
-    @Nullable
-    ValkyrieDotCallFor getDotCallFor();
-
-    @Nullable
-    ValkyrieDotCallMatch getDotCallMatch();
+    ValkyrieDotCallInline getDotCallInline();
 
     @Nullable
     ValkyrieGenericCall getGenericCall();

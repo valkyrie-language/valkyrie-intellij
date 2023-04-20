@@ -88,14 +88,13 @@ private statements ::=
   | block-statement
 private block-statement ::=
     declare-variable
-  | inline-statement;
+  | while-statement
+  | control-statement
+  | inline-statement
 private inline-statement ::=
     if-case-statement
   | if-statement
-  | while-statement
   | for-statement
-  | try-statement
-  | match-statement
   | new-value
   | new-object
   | new-lambda
@@ -235,13 +234,16 @@ declare-variable ::= KW_LET pattern-bare type-hint? EQUAL inline-statement {
 //    mixin = "valkyrie.psi.mixin.MixinVariable"
 }
 // === function statement ===
-function-call ::= namepath argument-body {
-    pin = 2
-}
+function-call ::= namepath (argument-body|argument-body? block-body);
+function-call-inline ::= namepath argument-body;
 macro-call    ::= AT namepath argument-body? {
     pin = 1
 }
-dot-call ::= OP_AND_THEN? DOT namepath argument-body?;
+dot-call ::= OP_AND_THEN? DOT namepath argument-body? block-body;
+dot-call-inline ::= OP_AND_THEN? DOT namepath argument-body?
+dot-call-for    ::= OP_AND_THEN? DOT KW_FOR pattern-bare if-condition? block-body {
+    pin = 3
+}
 dot-call-match ::= OP_AND_THEN? DOT KW_MATCH match-body {
     pin = 3
 }
@@ -261,15 +263,11 @@ else-if-statement ::= KW_ELSE KW_IF inline-expression block-body {
 else-statement ::= KW_ELSE block-body {
     pin = 1
 }
-otherwise-statement ::= otherwise-kind block-body {
-    pin = 1
-}
-otherwise-kind      ::= KW_OTHERWISE|KW_ELSE;
 // === if statement ===
-while-statement ::= KW_WHILE inline-expression block-body otherwise-statement? {
+while-statement ::= KW_WHILE inline-expression block-body {
     pin = 1
 }
-for-statement ::= KW_FOR pattern-bare KW_IN inline-expression if-condition? block-body otherwise-statement? {
+for-statement ::= KW_FOR pattern-bare KW_IN inline-expression if-condition? block-body {
     pin = 1
 }
 // === if statement ===
@@ -329,15 +327,23 @@ new-object ::= KW_OBJECT type-hint?;
 new-lambda ::= KW_LAMBDA;
 // === control expression ===
 control-statement ::=
-    KW_RETURN | KW_RESUME | KW_CONTINUE | KW_BREAK | KW_YIELD | KW_THROUGH | KW_RAISE;
+    KW_RETURN expression
+  | KW_CONTINUE
+  | KW_BREAK
+  | KW_THROUGH
+  | KW_YIELD KW_RETURN expression
+  | KW_YIELD KW_BREAK
+  | KW_RAISE expression
+  | KW_RESUME
+
 
 
 
 // === common expression ===
-expression ::= term (infix term)* {
+expression ::= term (infix term)* OP_AND_THEN? {
 
 };
-term ::= prefix* literal suffix* {
+term ::= prefix* atomic suffix* {
 
 }
 prefix ::= OP_PLUS | OP_MINUS | OP_BANG;
@@ -350,12 +356,26 @@ infix  ::=
   | KW_AS
   | is_not | KW_IS
 is_not ::= KW_IS KW_NOT | OP_BANG KW_IS;
-suffix ::= OP_BANG | OP_AND_THEN | dot-call | dot-call-match | generic-call;
-// === expression statement ===
-inline-expression ::= term (infix term)* {
-    extends=expression
-};
+suffix ::= OP_BANG
+    | dot-call | dot-call-for | dot-call-match
+    | generic-call;
+inline-suffix ::= OP_BANG
+    | dot-call-inline
+    | generic-call
+// === inline expression statement ===
+inline-expression ::= inline-term (infix inline-term)* {
 
+};
+inline-term ::= prefix* inline-atomic inline-suffix* {
+
+}
+inline-atomic ::=
+    PARENTHESIS_L expression PARENTHESIS_R
+  | macro-call
+  | function-call-inline
+  | ordinal-range
+  | offset-range
+  | literal
 // === expression statement ===
 type-expression ::= type-term (type-infix type-term)* {
     mixin = "valkyrie.psi.mixin.MixinTypeExpression"
@@ -379,16 +399,15 @@ generic-call-standard-body ::= GENERIC_L (generic-argument (COMMA generic-argume
 generic-call-ascii-body    ::= ANGLE_L   (generic-argument (COMMA generic-argument)* COMMA?)? ANGLE_R
 generic-argument ::= (annotations identifier-free EQUAL)? type-expression;
 // === atomic statement ===
-literal ::=
+atomic ::=
     PARENTHESIS_L expression PARENTHESIS_R
   | macro-call
   | function-call
-  | special
-  | namepath
-  | string
-  | number
+  | try-statement
+  | match-statement
   | ordinal-range
   | offset-range
+  | literal
 // === atomic statement ===
 ordinal-range ::= BRACE_L (range-item (COMMA range-item)? COMMA?) BRACE_R;
 offset-range  ::= OFFSET_L (range-item (COMMA range-item)? COMMA?) OFFSET_R;
@@ -404,11 +423,6 @@ range-upper ::= expression;
 range-step  ::= expression;
 range-index ::= expression;
 
-string ::= TEXT_SINGLE | TEXT_DOUBLE {
-    mixin = "valkyrie.psi.mixin.MixinString"
-}
-// === atomic statement ===
-
 tuple    ::= PARENTHESIS_L PARENTHESIS_R
   | PARENTHESIS_L argument COMMA PARENTHESIS_R
   | PARENTHESIS_L (argument (COMMA argument)+ COMMA?)? PARENTHESIS_R
@@ -419,16 +433,20 @@ argument-body ::= PARENTHESIS_L (argument (COMMA argument)* COMMA?)? PARENTHESIS
 argument ::= (identifier-free EQUAL)? expression {
 
 }
-number ::= INTEGER {
-//    mixin = "valkyrie.psi.mixin.MixinNumber"
+// === literal items ===
+literal ::= special | namepath | number | string;
+number ::= INTEGER;
+string ::= TEXT_SINGLE | TEXT_DOUBLE {
+    mixin = "valkyrie.psi.mixin.MixinString"
 }
-special ::= KW_NULL | KW_NIL | KW_TRUE | KW_FALSE | COLOR;
+special ::= KW_NULL | KW_NIL | KW_BOOLEAN | COLOR;
+
 // === annotation statement ===
 annotations ::= attribute* modifier*
 modifier    ::= identifier !modifier-stop {
     mixin = "valkyrie.psi.mixin.MixinModifier"
 }
-private modifier-stop ::= KW_IN
+private modifier-stop ::= KW_IN | KW_IF
     | COMMA | COLON | PROPORTION | DOT | SEMICOLON | EQUAL
     | PARENTHESIS_L | PARENTHESIS_R
     | BRACE_L | BRACE_R

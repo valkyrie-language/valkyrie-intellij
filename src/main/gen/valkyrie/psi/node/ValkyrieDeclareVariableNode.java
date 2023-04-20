@@ -52,12 +52,6 @@ public class ValkyrieDeclareVariableNode extends ValkyrieElement implements Valk
 
     @Override
     @Nullable
-    public ValkyrieMatchStatement getMatchStatement() {
-        return findChildByClass(ValkyrieMatchStatement.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieNewLambda getNewLambda() {
         return findChildByClass(ValkyrieNewLambda.class);
     }
@@ -82,20 +76,8 @@ public class ValkyrieDeclareVariableNode extends ValkyrieElement implements Valk
 
     @Override
     @Nullable
-    public ValkyrieTryStatement getTryStatement() {
-        return findChildByClass(ValkyrieTryStatement.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieTypeHint getTypeHint() {
         return findChildByClass(ValkyrieTypeHint.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieWhileStatement getWhileStatement() {
-        return findChildByClass(ValkyrieWhileStatement.class);
     }
 
 }

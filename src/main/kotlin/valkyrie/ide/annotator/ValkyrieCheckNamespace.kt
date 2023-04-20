@@ -11,7 +11,7 @@ import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.node.ValkyrieDeclareNamespaceNode
 
-class CheckNamespace : Annotator {
+class ValkyrieCheckNamespace : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         when (element) {
             is ValkyrieFileNode -> annotateFile(element, holder)

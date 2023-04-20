@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieWhileStatementNode extends ValkyrieElement implements ValkyrieWhileStatement {
+public class ValkyrieInlineSuffixNode extends ValkyrieElement implements ValkyrieInlineSuffix {
 
-    public ValkyrieWhileStatementNode(@NotNull ASTNode node) {
+    public ValkyrieInlineSuffixNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitWhileStatement(this);
+        visitor.visitInlineSuffix(this);
     }
 
     @Override
@@ -28,14 +31,14 @@ public class ValkyrieWhileStatementNode extends ValkyrieElement implements Valky
 
     @Override
     @Nullable
-    public ValkyrieBlockBody getBlockBody() {
-        return findChildByClass(ValkyrieBlockBody.class);
+    public ValkyrieDotCallInline getDotCallInline() {
+        return findChildByClass(ValkyrieDotCallInline.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieInlineExpression getInlineExpression() {
-        return findChildByClass(ValkyrieInlineExpression.class);
+    public ValkyrieGenericCall getGenericCall() {
+        return findChildByClass(ValkyrieGenericCall.class);
     }
 
 }

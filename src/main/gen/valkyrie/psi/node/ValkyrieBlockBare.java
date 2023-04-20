@@ -20,9 +20,6 @@ public interface ValkyrieBlockBare extends PsiElement {
     List<ValkyrieIfStatement> getIfStatementList();
 
     @NotNull
-    List<ValkyrieMatchStatement> getMatchStatementList();
-
-    @NotNull
     List<ValkyrieNewLambda> getNewLambdaList();
 
     @NotNull
@@ -30,11 +27,5 @@ public interface ValkyrieBlockBare extends PsiElement {
 
     @NotNull
     List<ValkyrieNewValue> getNewValueList();
-
-    @NotNull
-    List<ValkyrieTryStatement> getTryStatementList();
-
-    @NotNull
-    List<ValkyrieWhileStatement> getWhileStatementList();
 
 }
