@@ -36,9 +36,6 @@ abstract class MixinField(node: ASTNode) : ValkyrieElement(node),
         return AllIcons.Nodes.Field
     }
 
-    override fun getIcon(flags: Int): Icon {
-        return baseIcon
-    }
 
     override fun getPresentation(): ItemPresentation {
         // annotations.identifierList.joinToString(" ")

@@ -1,4 +1,4 @@
-package yggdrasil.language.psi
+package valkyrie.language.psi
 
 import valkyrie.ide.hint.ParameterInlayHint
 

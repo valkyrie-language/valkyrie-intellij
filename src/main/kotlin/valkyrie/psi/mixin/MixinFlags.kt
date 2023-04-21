@@ -37,9 +37,6 @@ abstract class MixinFlags(node: ASTNode) : ValkyrieElement(node), NavigatablePsi
         return ValkyrieIconProvider.Instance.Flags
     }
 
-    override fun getIcon(flags: Int): Icon {
-        return baseIcon
-    }
 
     override fun getPresentation(): ItemPresentation {
         // annotations.identifierList.joinToString(" ")

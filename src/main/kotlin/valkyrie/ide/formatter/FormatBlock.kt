@@ -10,7 +10,7 @@ import valkyrie.psi.node.ValkyrieMatchBody
 import valkyrie.psi.node.ValkyrieTuple
 import valkyrie.psi.node.ValkyrieUniteBody
 import yggdrasil.antlr.isWhitespaceOrEmpty
-import yggdrasil.language.psi.ValkyrieAlignmentElement
+import valkyrie.language.psi.ValkyrieAlignmentElement
 
 
 //import nexus.language.psi.ValkyrieTokenType

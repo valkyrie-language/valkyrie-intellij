@@ -2,16 +2,13 @@ package valkyrie.psi
 
 
 import com.intellij.extapi.psi.StubBasedPsiElementBase
-import com.intellij.lang.ASTFactory
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
-import com.intellij.psi.impl.GeneratedMarkerVisitor
-import com.intellij.psi.impl.PsiManagerEx
-import com.intellij.psi.impl.source.DummyHolderFactory
 import com.intellij.psi.stubs.StubElement
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.PsiTreeUtil
+import valkyrie.language.psi.ValkyrieFactory
 
 val PsiElement.ancestors: Sequence<PsiElement>
     get() = generateSequence(this) {
@@ -121,11 +118,6 @@ fun PsiFile?.caretElement(editor: Editor?): PsiElement? {
 
 
 fun PsiElement.replaceLeaf(kind: IElementType, text: String) {
-    val myManager = PsiManagerEx.getInstanceEx(project)
-    val holderElement = DummyHolderFactory.createHolder(myManager, null).treeElement
-    val newElement = ASTFactory.leaf(kind, holderElement.charTable.intern(text))
-    holderElement.rawAddChildren(newElement)
-    GeneratedMarkerVisitor.markGenerated(newElement.psi)
-    val psi = newElement.psi
-    this.replace(psi)
+    val builder = ValkyrieFactory(this)
+    this.replace(builder.createLeaf(kind, text))
 }
