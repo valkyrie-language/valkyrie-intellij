@@ -11,21 +11,21 @@ import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.ValkyrieElement
 import valkyrie.psi.node.ValkyrieDeclareEnumerate
-import valkyrie.psi.node.ValkyrieEnumerateItem
 import valkyrie.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
 abstract class MixinEnumerate(node: ASTNode) : ValkyrieElement(node), NavigatablePsiElement, PsiNameIdentifierOwner, ValkyrieDeclareEnumerate {
+    val enumerateItems = this.enumerateBody?.enumerateItemList?.map { it.firstChild } ?: listOf()
     override fun getNavigationElement(): PsiElement {
         return nameIdentifier ?: this
     }
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.identifierFree as? ValkyrieIdentifierNode
+        return this.identifier as? ValkyrieIdentifierNode
     }
 
     override fun getName(): String {
-        return nameIdentifier?.text ?: ""
+        return nameIdentifier?.name ?: ""
     }
 
     override fun setName(name: String): ValkyrieIdentifierNode {
@@ -36,7 +36,8 @@ abstract class MixinEnumerate(node: ASTNode) : ValkyrieElement(node), Navigatabl
         return ValkyrieIconProvider.Instance.Enumeration
     }
 
-    override fun getPresentation(): ItemPresentation? {
+
+    override fun getPresentation(): ItemPresentation {
         // annotations.identifierList.joinToString(" ")
         return PresentationData(name, "", baseIcon, null)
     }
@@ -54,8 +55,6 @@ abstract class MixinEnumerate(node: ASTNode) : ValkyrieElement(node), Navigatabl
         }
     }
 
-    fun enumerateItems(): List<ValkyrieEnumerateItem> {
-        return this.enumerateBody?.enumerateItemList ?: listOf()
-    }
+
 }
 

@@ -23,17 +23,17 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitModifier(o: ValkyrieModifier) {
-        highlight(o.identifier, HighlightColor.KEYWORD)
+        highlight(o, HighlightColor.KEYWORD)
     }
 
     override fun visitDeclareClass(o: ValkyrieDeclareClass) {
         o as ValkyrieDeclareClassNode
-        highlight(o.identifierFree, HighlightColor.SYM_CLASS)
+        highlight(o.identifier, HighlightColor.SYM_CLASS)
         o.typeHint?.typeExpression?.highlight_trait(this)
     }
 
     override fun visitClassInherit(o: ValkyrieClassInherit) {
-        highlight(o.identifierFree, HighlightColor.SYM_FIELD)
+        highlight(o.identifier, HighlightColor.SYM_FIELD)
         o.typeExpression.highlight_class(this)
     }
 
@@ -97,12 +97,12 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     override fun visitGenericParameter(o: ValkyrieGenericParameter) {
         o as ValkyrieGenericParameterNode
-        highlight(o.identifierFree, HighlightColor.SYM_MACRO)
+        highlight(o.identifier, HighlightColor.SYM_MACRO)
         o.typeHint?.typeExpression?.highlight_trait(this)
     }
 
     override fun visitGenericArgument(o: ValkyrieGenericArgument) {
-        highlight(o.identifierFree, HighlightColor.SYM_CLASS)
+        highlight(o.identifier, HighlightColor.SYM_CLASS)
         o.typeExpression.highlight_class(this)
     }
 
@@ -116,13 +116,20 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitArgument(o: ValkyrieArgument) {
-        highlight(o.identifierFree, HighlightColor.SYM_ARG)
+        highlight(o.identifier, HighlightColor.SYM_ARG)
     }
 
     override fun visitFunctionCall(o: ValkyrieFunctionCall) {
         o.namepath.highlight_fake(this)
     }
 
+    override fun visitDotCall(o: ValkyrieDotCall) {
+        highlight(o.namepath.lastChild, HighlightColor.SYM_FUNCTION_SELF)
+    }
+
+    override fun visitDotCallInline(o: ValkyrieDotCallInline) {
+        highlight(o.namepath.lastChild, HighlightColor.SYM_FUNCTION_SELF)
+    }
 
 
     fun highlight(element: PsiElement?, color: HighlightColor) {

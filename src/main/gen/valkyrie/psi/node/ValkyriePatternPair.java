@@ -11,7 +11,7 @@ public interface ValkyriePatternPair extends PsiElement {
     ValkyrieAnnotations getAnnotations();
 
     @NotNull
-    ValkyrieIdentifierFree getIdentifierFree();
+    ValkyrieIdentifier getIdentifier();
 
     @NotNull
     ValkyriePattern getPattern();

@@ -34,6 +34,12 @@ public class ValkyrieBlockBodyNode extends ValkyrieElement implements ValkyrieBl
 
     @Override
     @NotNull
+    public List<ValkyrieDeclareLambda> getDeclareLambdaList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareLambda.class);
+    }
+
+    @Override
+    @NotNull
     public List<ValkyrieDeclareVariable> getDeclareVariableList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareVariable.class);
     }
@@ -42,12 +48,6 @@ public class ValkyrieBlockBodyNode extends ValkyrieElement implements ValkyrieBl
     @NotNull
     public List<ValkyrieExpression> getExpressionList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpression.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieForStatement> getForStatementList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieForStatement.class);
     }
 
     @Override
@@ -64,12 +64,6 @@ public class ValkyrieBlockBodyNode extends ValkyrieElement implements ValkyrieBl
 
     @Override
     @NotNull
-    public List<ValkyrieNewLambda> getNewLambdaList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNewLambda.class);
-    }
-
-    @Override
-    @NotNull
     public List<ValkyrieNewObject> getNewObjectList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNewObject.class);
     }
@@ -78,12 +72,6 @@ public class ValkyrieBlockBodyNode extends ValkyrieElement implements ValkyrieBl
     @NotNull
     public List<ValkyrieNewValue> getNewValueList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNewValue.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieWhileStatement> getWhileStatementList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieWhileStatement.class);
     }
 
 }

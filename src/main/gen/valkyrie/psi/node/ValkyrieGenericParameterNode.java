@@ -40,8 +40,8 @@ public class ValkyrieGenericParameterNode extends ValkyrieElement implements Val
 
     @Override
     @NotNull
-    public ValkyrieIdentifierFree getIdentifierFree() {
-        return findNotNullChildByClass(ValkyrieIdentifierFree.class);
+    public ValkyrieIdentifier getIdentifier() {
+        return findNotNullChildByClass(ValkyrieIdentifier.class);
     }
 
     @Override

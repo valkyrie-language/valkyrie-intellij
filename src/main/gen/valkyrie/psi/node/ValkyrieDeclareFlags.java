@@ -15,7 +15,7 @@ public interface ValkyrieDeclareFlags extends PsiElement {
     ValkyrieEnumerateBody getEnumerateBody();
 
     @Nullable
-    ValkyrieIdentifierFree getIdentifierFree();
+    ValkyrieIdentifier getIdentifier();
 
     void createLookup(@NotNull List<LookupElement> completions);
 

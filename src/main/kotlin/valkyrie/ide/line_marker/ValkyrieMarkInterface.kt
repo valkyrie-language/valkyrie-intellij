@@ -5,6 +5,7 @@ import com.intellij.icons.AllIcons
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment
 import com.intellij.psi.PsiElement
 import valkyrie.psi.node.ValkyrieDeclareTraitNode
+import valkyrie.psi.node.ValkyrieTraitAliasNode
 import java.util.function.Supplier
 import javax.swing.Icon
 
@@ -28,6 +29,10 @@ class ValkyrieMarkInterface : MergeableLineMarkerInfo<PsiElement> {
     }
 
     companion object {
+        fun standalone(node: ValkyrieTraitAliasNode): ValkyrieMarkInterface? {
+            val leaf = node.nameIdentifier?.firstChild ?: return null;
+            return ValkyrieMarkInterface(leaf, node.getIcon(0))
+        }
         fun standalone(node: ValkyrieDeclareTraitNode): ValkyrieMarkInterface? {
             val leaf = node.nameIdentifier?.firstChild ?: return null;
             return ValkyrieMarkInterface(leaf, node.getIcon(0))

@@ -34,8 +34,8 @@ public class ValkyrieClassInheritNode extends ValkyrieElement implements Valkyri
 
     @Override
     @Nullable
-    public ValkyrieIdentifierFree getIdentifierFree() {
-        return findChildByClass(ValkyrieIdentifierFree.class);
+    public ValkyrieIdentifier getIdentifier() {
+        return findChildByClass(ValkyrieIdentifier.class);
     }
 
     @Override

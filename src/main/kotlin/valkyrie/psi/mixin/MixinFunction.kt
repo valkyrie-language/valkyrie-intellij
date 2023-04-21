@@ -23,7 +23,7 @@ abstract class MixinFunction(node: ASTNode) : ValkyrieElement(node),
     }
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.identifierFree as? ValkyrieIdentifierNode
+        return this.identifier as? ValkyrieIdentifierNode
     }
 
 
@@ -57,3 +57,4 @@ abstract class MixinFunction(node: ASTNode) : ValkyrieElement(node),
         }
     }
 }
+

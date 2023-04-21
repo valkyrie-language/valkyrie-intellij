@@ -21,7 +21,7 @@ abstract class MixinField(node: ASTNode) : ValkyrieElement(node),
     }
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.identifierFree as? ValkyrieIdentifierNode
+        return this.identifier as? ValkyrieIdentifierNode
     }
 
     override fun getName(): String {
@@ -36,7 +36,11 @@ abstract class MixinField(node: ASTNode) : ValkyrieElement(node),
         return AllIcons.Nodes.Field
     }
 
-    override fun getPresentation(): ItemPresentation? {
+    override fun getIcon(flags: Int): Icon {
+        return baseIcon
+    }
+
+    override fun getPresentation(): ItemPresentation {
         // annotations.identifierList.joinToString(" ")
         return PresentationData(name, "", baseIcon, null)
     }

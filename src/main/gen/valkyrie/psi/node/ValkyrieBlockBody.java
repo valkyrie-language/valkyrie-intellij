@@ -11,13 +11,13 @@ public interface ValkyrieBlockBody extends PsiElement {
     List<ValkyrieControlStatement> getControlStatementList();
 
     @NotNull
+    List<ValkyrieDeclareLambda> getDeclareLambdaList();
+
+    @NotNull
     List<ValkyrieDeclareVariable> getDeclareVariableList();
 
     @NotNull
     List<ValkyrieExpression> getExpressionList();
-
-    @NotNull
-    List<ValkyrieForStatement> getForStatementList();
 
     @NotNull
     List<ValkyrieIfCaseStatement> getIfCaseStatementList();
@@ -26,15 +26,9 @@ public interface ValkyrieBlockBody extends PsiElement {
     List<ValkyrieIfStatement> getIfStatementList();
 
     @NotNull
-    List<ValkyrieNewLambda> getNewLambdaList();
-
-    @NotNull
     List<ValkyrieNewObject> getNewObjectList();
 
     @NotNull
     List<ValkyrieNewValue> getNewValueList();
-
-    @NotNull
-    List<ValkyrieWhileStatement> getWhileStatementList();
 
 }

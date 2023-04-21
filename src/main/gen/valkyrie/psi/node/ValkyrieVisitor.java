@@ -55,6 +55,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitControlLabel(@NotNull ValkyrieControlLabel o) {
+        visitPsiElement(o);
+    }
+
     public void visitControlStatement(@NotNull ValkyrieControlStatement o) {
         visitPsiElement(o);
     }
@@ -87,6 +91,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitDeclareLambda(@NotNull ValkyrieDeclareLambda o) {
+        visitPsiElement(o);
+    }
+
     public void visitDeclareMethod(@NotNull ValkyrieDeclareMethod o) {
         visitPsiElement(o);
     }
@@ -112,6 +120,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitDeclareVariable(@NotNull ValkyrieDeclareVariable o) {
+        visitPsiElement(o);
+    }
+
+    public void visitDeclareVariant(@NotNull ValkyrieDeclareVariant o) {
         visitPsiElement(o);
     }
 
@@ -203,10 +215,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitIdentifierFree(@NotNull ValkyrieIdentifierFree o) {
-        visitIdentifier(o);
-    }
-
     public void visitIfCaseStatement(@NotNull ValkyrieIfCaseStatement o) {
         visitPsiElement(o);
     }
@@ -291,7 +299,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitNamepath(o);
     }
 
-    public void visitNewLambda(@NotNull ValkyrieNewLambda o) {
+    public void visitNewBody(@NotNull ValkyrieNewBody o) {
         visitPsiElement(o);
     }
 
@@ -403,10 +411,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitTagBranch(@NotNull ValkyrieTagBranch o) {
-        visitPsiElement(o);
-    }
-
     public void visitTerm(@NotNull ValkyrieTerm o) {
         visitPsiElement(o);
     }
@@ -455,11 +459,11 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitUnionBody(@NotNull ValkyrieUnionBody o) {
+    public void visitUniteBody(@NotNull ValkyrieUniteBody o) {
         visitPsiElement(o);
     }
 
-    public void visitUnionVariant(@NotNull ValkyrieUnionVariant o) {
+    public void visitUniteItem(@NotNull ValkyrieUniteItem o) {
         visitPsiElement(o);
     }
 

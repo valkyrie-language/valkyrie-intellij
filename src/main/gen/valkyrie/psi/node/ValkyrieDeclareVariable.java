@@ -11,16 +11,10 @@ public interface ValkyrieDeclareVariable extends PsiElement {
     ValkyrieExpression getExpression();
 
     @Nullable
-    ValkyrieForStatement getForStatement();
-
-    @Nullable
     ValkyrieIfCaseStatement getIfCaseStatement();
 
     @Nullable
     ValkyrieIfStatement getIfStatement();
-
-    @Nullable
-    ValkyrieNewLambda getNewLambda();
 
     @Nullable
     ValkyrieNewObject getNewObject();

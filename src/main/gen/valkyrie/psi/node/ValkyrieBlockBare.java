@@ -11,16 +11,10 @@ public interface ValkyrieBlockBare extends PsiElement {
     List<ValkyrieExpression> getExpressionList();
 
     @NotNull
-    List<ValkyrieForStatement> getForStatementList();
-
-    @NotNull
     List<ValkyrieIfCaseStatement> getIfCaseStatementList();
 
     @NotNull
     List<ValkyrieIfStatement> getIfStatementList();
-
-    @NotNull
-    List<ValkyrieNewLambda> getNewLambdaList();
 
     @NotNull
     List<ValkyrieNewObject> getNewObjectList();

@@ -41,8 +41,8 @@ public class ValkyrieDeclareUniteNode extends MixinUnite implements ValkyrieDecl
 
     @Override
     @Nullable
-    public ValkyrieUnionBody getUnionBody() {
-        return findChildByClass(ValkyrieUnionBody.class);
+    public ValkyrieUniteBody getUniteBody() {
+        return findChildByClass(ValkyrieUniteBody.class);
     }
 
 }

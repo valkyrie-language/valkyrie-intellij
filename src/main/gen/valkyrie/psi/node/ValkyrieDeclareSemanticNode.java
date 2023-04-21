@@ -40,8 +40,8 @@ public class ValkyrieDeclareSemanticNode extends MixinSemantic implements Valkyr
 
     @Override
     @NotNull
-    public ValkyrieIdentifierFree getIdentifierFree() {
-        return findNotNullChildByClass(ValkyrieIdentifierFree.class);
+    public ValkyrieIdentifier getIdentifier() {
+        return findNotNullChildByClass(ValkyrieIdentifier.class);
     }
 
 }

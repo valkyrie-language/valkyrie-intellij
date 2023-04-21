@@ -14,6 +14,6 @@ public interface ValkyrieDeclareSemantic extends PsiElement {
     ValkyrieDefaultValue getDefaultValue();
 
     @NotNull
-    ValkyrieIdentifierFree getIdentifierFree();
+    ValkyrieIdentifier getIdentifier();
 
 }

@@ -11,6 +11,9 @@ public interface ValkyrieMacroCall extends PsiElement {
     ValkyrieArgumentBody getArgumentBody();
 
     @Nullable
+    ValkyrieBlockBody getBlockBody();
+
+    @Nullable
     ValkyrieNamepath getNamepath();
 
 }

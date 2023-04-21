@@ -28,8 +28,8 @@ public class ValkyrieUsingExcludeNode extends ValkyrieElement implements Valkyri
 
     @Override
     @NotNull
-    public List<ValkyrieIdentifierFree> getIdentifierFreeList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifierFree.class);
+    public List<ValkyrieIdentifier> getIdentifierList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifier.class);
     }
 
 }

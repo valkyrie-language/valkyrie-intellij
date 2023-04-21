@@ -1,17 +1,23 @@
-package yggdrasil.antlr
+package valkyrie.psi
 
 
 import com.intellij.extapi.psi.StubBasedPsiElementBase
+import com.intellij.lang.ASTFactory
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
+import com.intellij.psi.impl.GeneratedMarkerVisitor
+import com.intellij.psi.impl.PsiManagerEx
+import com.intellij.psi.impl.source.DummyHolderFactory
 import com.intellij.psi.stubs.StubElement
+import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.PsiTreeUtil
 
 val PsiElement.ancestors: Sequence<PsiElement>
     get() = generateSequence(this) {
         if (it is PsiFile) null else it.parent
     }
+
 
 val PsiElement.childrenWithLeaves: Sequence<PsiElement>
     get() = generateSequence(this.firstChild) { it.nextSibling }
@@ -111,4 +117,15 @@ fun PsiElement.traversal(filter: (PsiElement) -> Boolean) {
 fun PsiFile?.caretElement(editor: Editor?): PsiElement? {
     val offset = editor?.caretModel?.offset ?: return null
     return this?.findElementAt(offset)
+}
+
+
+fun PsiElement.replaceLeaf(kind: IElementType, text: String) {
+    val myManager = PsiManagerEx.getInstanceEx(project)
+    val holderElement = DummyHolderFactory.createHolder(myManager, null).treeElement
+    val newElement = ASTFactory.leaf(kind, holderElement.charTable.intern(text))
+    holderElement.rawAddChildren(newElement)
+    GeneratedMarkerVisitor.markGenerated(newElement.psi)
+    val psi = newElement.psi
+    this.replace(psi)
 }

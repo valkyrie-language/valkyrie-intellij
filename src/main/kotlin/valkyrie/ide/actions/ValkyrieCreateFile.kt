@@ -1,4 +1,4 @@
-package valkyrie.ide.actions.file_transform
+package valkyrie.ide.actions
 
 import com.intellij.ide.actions.CreateFileFromTemplateAction
 import com.intellij.ide.actions.CreateFileFromTemplateDialog.Builder

@@ -18,7 +18,7 @@ abstract class MixinSemantic(node: ASTNode) : ValkyrieElement(node), Navigatable
     }
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.identifierFree as? ValkyrieIdentifierNode
+        return this.identifier as? ValkyrieIdentifierNode
     }
 
     override fun getName(): String {
@@ -33,7 +33,7 @@ abstract class MixinSemantic(node: ASTNode) : ValkyrieElement(node), Navigatable
         return AllIcons.Nodes.Constant
     }
 
-    override fun getPresentation(): ItemPresentation? {
+    override fun getPresentation(): ItemPresentation {
         // annotations.identifierList.joinToString(" ")
         return PresentationData(name, "", baseIcon, null)
     }

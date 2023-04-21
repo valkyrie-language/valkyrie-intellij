@@ -8,25 +8,25 @@ import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.psi.ValkyrieElement
+import valkyrie.psi.node.ValkyrieDeclareVariant
 import valkyrie.psi.node.ValkyrieIdentifierNode
-import valkyrie.psi.node.ValkyrieUnionVariant
 import javax.swing.Icon
 
-abstract class MixinUnionItem(node: ASTNode) : ValkyrieElement(node),
+abstract class MixinVariant(node: ASTNode) : ValkyrieElement(node),
     NavigatablePsiElement,
     PsiNameIdentifierOwner,
-    ValkyrieUnionVariant {
+    ValkyrieDeclareVariant {
     override fun getNavigationElement(): PsiElement {
         return nameIdentifier ?: this
     }
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.tagBranch?.identifierFree as? ValkyrieIdentifierNode
+        return this.identifier as? ValkyrieIdentifierNode
     }
 
 
     override fun getName(): String {
-        return nameIdentifier?.name ?: "⟪anonymous⟫"
+        return nameIdentifier?.name ?: "⟪anonymous variant⟫"
     }
 
     override fun setName(name: String): PsiElement {
@@ -37,7 +37,7 @@ abstract class MixinUnionItem(node: ASTNode) : ValkyrieElement(node),
         return AllIcons.Nodes.Variable
     }
 
-    override fun getPresentation(): ItemPresentation? {
+    override fun getPresentation(): ItemPresentation {
         return PresentationData(name, "", baseIcon, null)
     }
 }

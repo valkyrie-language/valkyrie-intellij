@@ -2,15 +2,12 @@
 package valkyrie.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-
 import static valkyrie.psi.ValkyrieTypes.*;
-
 import valkyrie.psi.ValkyrieElement;
 
 public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomic {
@@ -33,6 +30,12 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
     @Nullable
     public ValkyrieExpression getExpression() {
         return findChildByClass(ValkyrieExpression.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieForStatement getForStatement() {
+        return findChildByClass(ValkyrieForStatement.class);
     }
 
     @Override
@@ -75,6 +78,18 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
     @Nullable
     public ValkyrieTryStatement getTryStatement() {
         return findChildByClass(ValkyrieTryStatement.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieTuple getTuple() {
+        return findChildByClass(ValkyrieTuple.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieWhileStatement getWhileStatement() {
+        return findChildByClass(ValkyrieWhileStatement.class);
     }
 
 }

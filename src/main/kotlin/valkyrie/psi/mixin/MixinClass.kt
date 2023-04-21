@@ -10,21 +10,21 @@ import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.psi.ValkyrieElement
-import valkyrie.psi.node.ValkyrieClassInherit
 import valkyrie.psi.node.ValkyrieDeclareClass
 import valkyrie.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
 
 abstract class MixinClass(node: ASTNode) : ValkyrieElement(node), NavigatablePsiElement, PsiNameIdentifierOwner, ValkyrieDeclareClass {
-    val superClasses: List<ValkyrieClassInherit> = this.classInheritBody?.classInheritList ?: listOf()
+    val superClasses = this.classInheritBody?.classInheritList ?: listOf()
+    val classItems = classBody?.classItemList?.map { it.firstChild } ?: listOf();
 
     override fun getNavigationElement(): PsiElement {
         return nameIdentifier ?: this
     }
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.identifierFree as? ValkyrieIdentifierNode
+        return this.identifier as? ValkyrieIdentifierNode
     }
 
     override fun getName(): String {
@@ -39,17 +39,14 @@ abstract class MixinClass(node: ASTNode) : ValkyrieElement(node), NavigatablePsi
         return AllIcons.Nodes.Class
     }
 
-    override fun getIcon(flags: Int): Icon {
-        return baseIcon
-    }
 
-    override fun getPresentation(): ItemPresentation? {
+    override fun getPresentation(): ItemPresentation {
         // annotations.identifierList.joinToString(" ")
         return PresentationData(name, "", baseIcon, null)
     }
 
     override fun createLookup(completions: MutableList<LookupElement>) {
-        this.identifierFree?.let {
+        this.identifier?.let {
             completions.add(
                 LookupElementBuilder.create(it)
                     .withIcon(baseIcon)

@@ -2,15 +2,19 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieUnionVariant extends PsiElement {
+public interface ValkyrieDeclareVariant extends PsiElement {
 
     @NotNull
-    ValkyrieExpression getExpression();
+    ValkyrieAnnotations getAnnotations();
 
     @Nullable
-    ValkyrieTagBranch getTagBranch();
+    ValkyrieClassBody getClassBody();
+
+    @NotNull
+    ValkyrieIdentifier getIdentifier();
 
 }

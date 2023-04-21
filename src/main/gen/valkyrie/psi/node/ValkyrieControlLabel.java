@@ -5,6 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieIdentifierFree extends ValkyrieIdentifier {
+public interface ValkyrieControlLabel extends PsiElement {
+
+    @Nullable
+    ValkyrieIdentifier getIdentifier();
 
 }

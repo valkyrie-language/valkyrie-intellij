@@ -11,6 +11,7 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.fileEditor.FileEditor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFile
+import valkyrie.language.file.ValkyrieFileNode
 
 class ValkyrieStructureView : PsiStructureViewFactory {
     override fun getStructureViewBuilder(psiFile: PsiFile): Builder {
@@ -34,7 +35,7 @@ class ValkyrieStructureView : PsiStructureViewFactory {
 
     class Model(file: PsiFile?) : TextEditorBasedStructureViewModel(null, file), ElementInfoProvider, ExpandInfoProvider {
         override fun getRoot(): StructureViewTreeElement {
-            return ValkyrieStructureItem(psiFile)
+            return ValkyrieStructureItem(psiFile as ValkyrieFileNode)
         }
 
         override fun getSorters() = arrayOf(Sorter.ALPHA_SORTER)
