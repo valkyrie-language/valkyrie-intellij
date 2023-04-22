@@ -8,13 +8,15 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
 import valkyrie.ide.actions.ast_transform.DeleteThis
-import valkyrie.ide.actions.ast_transform.ReplaceGenericBrackets
 import valkyrie.ide.actions.ast_transform.ReplaceLeafText
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.line_marker.ValkyrieMarkColor
 import valkyrie.language.ValkyrieBundle
 import valkyrie.psi.ValkyrieTypes
-import valkyrie.psi.node.*
+import valkyrie.psi.node.ValkyrieDeclareGenericNode
+import valkyrie.psi.node.ValkyrieGenericCallFreeNode
+import valkyrie.psi.node.ValkyrieNamepathFreeNode
+import valkyrie.psi.node.ValkyrieUsingBlockNode
 
 class ValkyrieCheckLiteral : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
@@ -23,8 +25,6 @@ class ValkyrieCheckLiteral : Annotator {
             ValkyrieTypes.COLOR -> checkColor(element, holder)
             ValkyrieTypes.KW_TYPE -> checkKeywordType(element, holder)
             ValkyrieTypes.KW_FUNCTION -> checkKeywordMicro(element, holder)
-            ValkyrieTypes.ANGLE_L -> checkOperationGenericL(element, holder)
-            ValkyrieTypes.ANGLE_R -> checkOperationGenericR(element, holder)
         }
     }
 
@@ -85,30 +85,6 @@ class ValkyrieCheckLiteral : Annotator {
                     .create()
             }
 
-            op.text == "::" -> {
-                holder.newAnnotation(HighlightSeverity.INFORMATION, "`${op.text}` is deprecated, use `∷` instead")
-                    .range(op.textRange)
-                    .withFix(ReplaceLeafText(op, ValkyrieTypes.PROPORTION, "∷"))
-                    .create()
-            }
-        }
-    }
-
-    private fun checkOperationGenericL(op: PsiElement, holder: AnnotationHolder) {
-        if (op.parent is ValkyrieGenericCallAsciiBodyNode) {
-            holder.newAnnotation(HighlightSeverity.INFORMATION, "`${op.text}` in `declare generic` is useless")
-                .range(op.textRange)
-                .withFix(ReplaceGenericBrackets(op, op.parent.lastChild))
-                .create()
-        }
-    }
-
-    private fun checkOperationGenericR(op: PsiElement, holder: AnnotationHolder) {
-        if (op.parent is ValkyrieGenericCallAsciiBodyNode) {
-            holder.newAnnotation(HighlightSeverity.INFORMATION, "`${op.text}` in `declare generic` is useless")
-                .range(op.textRange)
-                .withFix(ReplaceGenericBrackets(op.parent.firstChild, op))
-                .create()
         }
     }
 

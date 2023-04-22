@@ -1,4 +1,4 @@
-package valkyrie.ide.goto
+package valkyrie.ide.navigation
 
 //import com.intellij.navigation.NavigationTarget
 import com.intellij.model.Symbol
@@ -7,9 +7,8 @@ import com.intellij.openapi.project.Project
 import com.intellij.platform.backend.navigation.NavigationTarget
 import yggdrasil.language.symbol.ValkyrieSymbolTemplate
 
-
 @Suppress("UnstableApiUsage")
-class VSymbolNavigationProvider : SymbolNavigationProvider {
+class ValkyrieSymbolNavigationProvider : SymbolNavigationProvider {
 
     override fun getNavigationTargets(project: Project, symbol: Symbol): MutableCollection<out NavigationTarget> {
         val sym = symbol as? ValkyrieSymbolTemplate ?: return mutableSetOf()

@@ -7,10 +7,7 @@ import valkyrie.language.ValkyrieLanguage
 class ValkyrieCodeStyleProvider : LanguageCodeStyleSettingsProvider() {
     override fun getLanguage() = ValkyrieLanguage
     override fun getIndentOptionsEditor() = SmartIndentOptionsEditor()
-    override fun createConfigurable(
-        settings: CodeStyleSettings,
-        modelSettings: CodeStyleSettings,
-    ): CodeStyleConfigurable {
+    override fun createConfigurable(settings: CodeStyleSettings, modelSettings: CodeStyleSettings): CodeStyleConfigurable {
         return ValkyrieCodeStyleConfigurable(settings, modelSettings)
     }
 
@@ -45,10 +42,7 @@ class ValkyrieCodeStyleProvider : LanguageCodeStyleSettingsProvider() {
         }
     }
 
-    override fun customizeDefaults(
-        commonSettings: CommonCodeStyleSettings,
-        indentOptions: CommonCodeStyleSettings.IndentOptions,
-    ) {
+    override fun customizeDefaults(commonSettings: CommonCodeStyleSettings, indentOptions: CommonCodeStyleSettings.IndentOptions) {
         commonSettings.RIGHT_MARGIN = 100
 
         commonSettings.LINE_COMMENT_AT_FIRST_COLUMN = false

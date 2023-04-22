@@ -5,24 +5,22 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.formatter.FormatterUtil
+
+import valkyrie.language.psi.ValkyrieAlignmentElement
 import valkyrie.psi.node.ValkyrieClassBody
 import valkyrie.psi.node.ValkyrieMatchBody
 import valkyrie.psi.node.ValkyrieTuple
 import valkyrie.psi.node.ValkyrieUniteBody
 import yggdrasil.antlr.isWhitespaceOrEmpty
-import valkyrie.language.psi.ValkyrieAlignmentElement
-
-
-//import nexus.language.psi.ValkyrieTokenType
 
 class FormatBlock : ASTBlock {
     private val _node: ASTNode
     private val _alignment: Alignment?
     private val _indent: Indent?
     private val _wrap: Wrap?
-    private val _space: FormatSpace
+    private val _space: ValkyrieFormatSpace
 
-    constructor(node: ASTNode, space: FormatSpace) {
+    constructor(node: ASTNode, space: ValkyrieFormatSpace) {
         this._node = node
         this._alignment = computeAlignment(node)
         this._indent = computeIndent(node)
@@ -30,7 +28,7 @@ class FormatBlock : ASTBlock {
         this._space = space
     }
 
-    constructor(node: ASTNode, alignment: Alignment?, indent: Indent?, wrap: Wrap?, space: FormatSpace) {
+    constructor(node: ASTNode, alignment: Alignment?, indent: Indent?, wrap: Wrap?, space: ValkyrieFormatSpace) {
         this._node = node
         this._alignment = alignment
         this._indent = indent
