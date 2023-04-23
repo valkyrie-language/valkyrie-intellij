@@ -20,3 +20,4 @@ open class ValkyrieElement(node: ASTNode) : ASTWrapperPsiElement(node) {
         return baseIcon
     }
 }
+
