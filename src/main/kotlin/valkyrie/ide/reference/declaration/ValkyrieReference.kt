@@ -1,33 +1,48 @@
 package valkyrie.ide.reference.declaration
 
 import com.intellij.openapi.util.TextRange
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiQualifiedReference
+import com.intellij.psi.*
+import com.intellij.psi.impl.source.resolve.reference.impl.PsiPolyVariantCachingReference
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
-import valkyrie.psi.node.ValkyrieDeclareClass
-import valkyrie.psi.node.ValkyrieDeclareUnion
-import valkyrie.psi.node.ValkyrieDeclareUnite
-import valkyrie.psi.node.ValkyrieIdentifierNode
+import valkyrie.language.file.ValkyrieFileNode
+import valkyrie.psi.node.*
 
-open class ValkyrieReference : PsiQualifiedReference {
-    private val _element: ValkyrieIdentifierNode
+open class ValkyrieReference : PsiPolyVariantCachingReference {
+    private val namepath: ValkyrieNamepathNode
 
-    constructor(element: ValkyrieIdentifierNode) {
-        this._element = element
+    constructor(element: ValkyrieNamepathNode) {
+        this.namepath = element
     }
 
+
     override fun getElement(): ValkyrieIdentifierNode {
-        return _element
+        return namepath.lastChild as ValkyrieIdentifierNode
     }
 
     override fun getRangeInElement(): TextRange {
-        return TextRange(0, _element.text.length)
+        return TextRange(0, namepath.text.length)
+    }
+
+    override fun getAbsoluteRange(): TextRange {
+        return super.getAbsoluteRange()
     }
 
     override fun resolve(): PsiElement? {
-        return _element.containingFile.definitions.find(_element)
+//        return null
+        return namepath.containingFile.definitions.find(element)
     }
+
+
+    override fun resolveInner(incompleteCode: Boolean, containingFile: PsiFile): Array<ResolveResult> {
+        if (containingFile !is ValkyrieFileNode) return arrayOf()
+        val list: MutableList<ResolveResult> = mutableListOf()
+        for (mutableEntry in containingFile.definitions.getCache()) {
+            list.add(PsiElementResolveResult(mutableEntry.value))
+        }
+        return list.toTypedArray()
+    }
+
 
     override fun getCanonicalText(): String {
         TODO("Not yet implemented")
@@ -42,29 +57,29 @@ open class ValkyrieReference : PsiQualifiedReference {
     }
 
     override fun isReferenceTo(element: PsiElement): Boolean {
-        return resolve() == element
+        return when (element) {
+            is PsiNameIdentifierOwner -> true
+            else -> false
+        }
     }
+
 
     override fun isSoft(): Boolean {
         TODO("Not yet implemented")
     }
 
-    override fun getQualifier(): PsiElement? {
-        TODO("Not yet implemented")
-    }
-
-    override fun getReferenceName(): String? {
-        TODO("Not yet implemented")
-    }
 
     fun highlight(highlighter: NodeHighlighter) {
         return when (this.resolve()) {
-            is ValkyrieDeclareClass -> highlighter.highlight(_element, HighlightColor.SYM_CLASS)
-            is ValkyrieDeclareUnion -> highlighter.highlight(_element, HighlightColor.SYM_CLASS)
-            is ValkyrieDeclareUnite -> highlighter.highlight(_element, HighlightColor.SYM_CONSTANT)
+            is ValkyrieDeclareClass -> highlighter.highlight(namepath, HighlightColor.SYM_CLASS)
+            is ValkyrieDeclareUnion -> highlighter.highlight(namepath, HighlightColor.SYM_CLASS)
+            is ValkyrieDeclareUnite -> highlighter.highlight(namepath, HighlightColor.SYM_CONSTANT)
             else -> {
 
             }
         }
     }
 }
+
+
+

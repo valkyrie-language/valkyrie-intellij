@@ -2,13 +2,10 @@ package valkyrie.language.file
 
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import valkyrie.psi.node.ValkyrieDeclareClassNode
-import valkyrie.psi.node.ValkyrieDeclareUnionNode
-import valkyrie.psi.node.ValkyrieDeclareUniteNode
-import valkyrie.psi.node.ValkyrieIdentifierNode
+import valkyrie.psi.node.*
 
 class ValkyrieFileCache(val root: ValkyrieFileNode) {
-    private fun getCache(): MutableMap<String, PsiNameIdentifierOwner> {
+    fun getCache(): MutableMap<String, PsiNameIdentifierOwner> {
         val cache = mutableMapOf<String, PsiNameIdentifierOwner>()
 
         for (child in root.children) {
@@ -16,7 +13,13 @@ class ValkyrieFileCache(val root: ValkyrieFileNode) {
                 is ValkyrieDeclareClassNode -> {
                     cache[child.name] = child
                 }
+                is ValkyrieDeclareTraitNode -> {
+                    cache[child.name] = child
+                }
 
+                is ValkyrieTraitAliasNode -> {
+                    cache[child.name] = child
+                }
                 is ValkyrieDeclareUnionNode -> {
                     cache[child.name] = child
                 }
@@ -33,7 +36,6 @@ class ValkyrieFileCache(val root: ValkyrieFileNode) {
         val completions = mutableListOf<LookupElement>()
         for (child in root.children) {
             when (child) {
-                is ValkyrieDeclareClassNode -> child.createLookup(completions)
                 is ValkyrieDeclareUnionNode -> child.createLookup(completions)
                 is ValkyrieDeclareUniteNode -> child.createLookup(completions)
             }

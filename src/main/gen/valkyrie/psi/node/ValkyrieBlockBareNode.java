@@ -28,6 +28,24 @@ public class ValkyrieBlockBareNode extends ValkyrieElement implements ValkyrieBl
 
     @Override
     @NotNull
+    public List<ValkyrieControlStatement> getControlStatementList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieControlStatement.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieDeclareLambda> getDeclareLambdaList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareLambda.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieDeclareVariable> getDeclareVariableList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareVariable.class);
+    }
+
+    @Override
+    @NotNull
     public List<ValkyrieExpression> getExpressionList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpression.class);
     }

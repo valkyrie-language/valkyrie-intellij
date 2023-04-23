@@ -7,10 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieGenericCall extends PsiElement {
 
-    @Nullable
-    ValkyrieGenericCallAsciiBody getGenericCallAsciiBody();
-
-    @Nullable
-    ValkyrieGenericCallStandardBody getGenericCallStandardBody();
+    @NotNull
+    List<ValkyrieGenericArgument> getGenericArgumentList();
 
 }

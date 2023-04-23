@@ -1,4 +1,4 @@
-package yggdrasil.language.symbol
+package valkyrie.language.symbol
 
 import com.intellij.model.presentation.SymbolDeclarationPresentation
 import com.intellij.model.presentation.SymbolDeclarationPresentationProvider

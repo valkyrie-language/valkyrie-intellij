@@ -3,20 +3,19 @@ package valkyrie.psi.mixin
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiQualifiedNamedElement
-import com.intellij.psi.impl.source.tree.SharedImplUtil
+import com.intellij.psi.PsiReference
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
-import valkyrie.language.file.ValkyrieFileNode
+import valkyrie.ide.reference.declaration.ValkyrieReference
 import valkyrie.psi.ValkyrieElement
 import valkyrie.psi.node.ValkyrieIdentifierNode
 import valkyrie.psi.node.ValkyrieNamepath
+import valkyrie.psi.node.ValkyrieNamepathNode
 
 abstract class MixinNamepath(node: ASTNode) : ValkyrieElement(node), ValkyrieNamepath, PsiQualifiedNamedElement {
     val identifier: ValkyrieIdentifierNode = identifierList.last() as ValkyrieIdentifierNode;
 
-    override fun getContainingFile(): ValkyrieFileNode {
-        return SharedImplUtil.getContainingFile(node) as ValkyrieFileNode
-    }
+
 
     override fun getName(): String {
         return identifier.name
@@ -35,6 +34,9 @@ abstract class MixinNamepath(node: ASTNode) : ValkyrieElement(node), ValkyrieNam
         TODO("Not yet implemented")
     }
 
+    override fun getReference(): PsiReference? {
+        return ValkyrieReference(this as ValkyrieNamepathNode)
+    }
 
     override fun highlight_fake(highlighter: NodeHighlighter) {
         val last = identifierList.last() as ValkyrieIdentifierNode;

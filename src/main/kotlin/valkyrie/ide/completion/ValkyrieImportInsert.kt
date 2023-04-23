@@ -15,5 +15,9 @@ class ValkyrieImportInsert : ReferenceImporter {
     override fun isAddUnambiguousImportsOnTheFlyEnabled(file: PsiFile): Boolean {
         return super.isAddUnambiguousImportsOnTheFlyEnabled(file)
     }
+
+    override fun autoImportReferenceAtCursor(editor: Editor, file: PsiFile): Boolean {
+        return super.autoImportReferenceAtCursor(editor, file)
+    }
 }
 

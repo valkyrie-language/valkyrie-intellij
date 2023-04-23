@@ -8,7 +8,7 @@ import valkyrie.language.file.ValkyrieFileNode
 
 class ValkyrieNativeFormat : AsyncDocumentFormattingService() {
     override fun getFeatures(): MutableSet<FormattingService.Feature> {
-        TODO("Not yet implemented")
+        return mutableSetOf()
     }
 
     override fun canFormat(file: PsiFile): Boolean {

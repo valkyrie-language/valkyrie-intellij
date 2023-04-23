@@ -55,9 +55,7 @@ public interface ValkyrieTypes {
     IElementType FUNCTION_CALL_INLINE = new ValkyrieElementType("FUNCTION_CALL_INLINE");
     IElementType GENERIC_ARGUMENT = new ValkyrieElementType("GENERIC_ARGUMENT");
     IElementType GENERIC_CALL = new ValkyrieElementType("GENERIC_CALL");
-    IElementType GENERIC_CALL_ASCII_BODY = new ValkyrieElementType("GENERIC_CALL_ASCII_BODY");
     IElementType GENERIC_CALL_FREE = new ValkyrieElementType("GENERIC_CALL_FREE");
-    IElementType GENERIC_CALL_STANDARD_BODY = new ValkyrieElementType("GENERIC_CALL_STANDARD_BODY");
     IElementType GENERIC_PARAMETER = new ValkyrieElementType("GENERIC_PARAMETER");
     IElementType IDENTIFIER = new ValkyrieElementType("IDENTIFIER");
     IElementType IF_CASE_STATEMENT = new ValkyrieElementType("IF_CASE_STATEMENT");
@@ -328,12 +326,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieGenericArgumentNode(node);
             } else if (type == GENERIC_CALL) {
                 return new ValkyrieGenericCallNode(node);
-            } else if (type == GENERIC_CALL_ASCII_BODY) {
-                return new ValkyrieGenericCallAsciiBodyNode(node);
             } else if (type == GENERIC_CALL_FREE) {
                 return new ValkyrieGenericCallFreeNode(node);
-            } else if (type == GENERIC_CALL_STANDARD_BODY) {
-                return new ValkyrieGenericCallStandardBodyNode(node);
             } else if (type == GENERIC_PARAMETER) {
                 return new ValkyrieGenericParameterNode(node);
             } else if (type == IDENTIFIER) {

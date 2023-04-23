@@ -36,7 +36,6 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     public static final TokenSet[] EXTENDS_SETS_ = new TokenSet[]{
-            create_token_set_(GENERIC_CALL, GENERIC_CALL_FREE),
             create_token_set_(NAMEPATH, NAMEPATH_FREE),
     };
 
@@ -240,13 +239,13 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // inline-statement*
+    // block-statement*
     public static boolean block_bare(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "block_bare")) return false;
         Marker m = enter_section_(b, l, _NONE_, BLOCK_BARE, "<block bare>");
         while (true) {
             int c = current_position_(b);
-            if (!inline_statement(b, l + 1)) break;
+            if (!block_statement(b, l + 1)) break;
             if (!empty_element_parsed_guard_(b, "block_bare", c)) break;
         }
         exit_section_(b, l, m, true, false, null);
@@ -1610,8 +1609,8 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // PROPORTION? generic-call-standard-body | PROPORTION generic-call-ascii-body {
-    // }
+    // PROPORTION? GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R
+    //   | PROPORTION  ANGLE_L   (generic-argument (COMMA generic-argument)* COMMA?)? ANGLE_R
     public static boolean generic_call(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "generic_call")) return false;
         if (!nextTokenIs(b, "<generic call>", GENERIC_L, PROPORTION)) return false;
@@ -1623,13 +1622,15 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // PROPORTION? generic-call-standard-body
+    // PROPORTION? GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R
     private static boolean generic_call_0(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "generic_call_0")) return false;
         boolean r;
         Marker m = enter_section_(b);
         r = generic_call_0_0(b, l + 1);
-        r = r && generic_call_standard_body(b, l + 1);
+        r = r && consumeToken(b, GENERIC_L);
+        r = r && generic_call_0_2(b, l + 1);
+        r = r && consumeToken(b, GENERIC_R);
         exit_section_(b, m, null, r);
         return r;
     }
@@ -1641,72 +1642,39 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return true;
     }
 
-    // PROPORTION generic-call-ascii-body {
-    // }
-    private static boolean generic_call_1(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "generic_call_1")) return false;
-        boolean r;
-        Marker m = enter_section_(b);
-        r = consumeToken(b, PROPORTION);
-        r = r && generic_call_ascii_body(b, l + 1);
-        r = r && generic_call_1_2(b, l + 1);
-        exit_section_(b, m, null, r);
-        return r;
-    }
-
-    // {
-    // }
-    private static boolean generic_call_1_2(PsiBuilder b, int l) {
-        return true;
-    }
-
-    /* ********************************************************** */
-    // ANGLE_L   (generic-argument (COMMA generic-argument)* COMMA?)? ANGLE_R
-    public static boolean generic_call_ascii_body(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "generic_call_ascii_body")) return false;
-        if (!nextTokenIs(b, ANGLE_L)) return false;
-        boolean r;
-        Marker m = enter_section_(b);
-        r = consumeToken(b, ANGLE_L);
-        r = r && generic_call_ascii_body_1(b, l + 1);
-        r = r && consumeToken(b, ANGLE_R);
-        exit_section_(b, m, GENERIC_CALL_ASCII_BODY, r);
-        return r;
-    }
-
     // (generic-argument (COMMA generic-argument)* COMMA?)?
-    private static boolean generic_call_ascii_body_1(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "generic_call_ascii_body_1")) return false;
-        generic_call_ascii_body_1_0(b, l + 1);
+    private static boolean generic_call_0_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "generic_call_0_2")) return false;
+        generic_call_0_2_0(b, l + 1);
         return true;
     }
 
     // generic-argument (COMMA generic-argument)* COMMA?
-    private static boolean generic_call_ascii_body_1_0(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "generic_call_ascii_body_1_0")) return false;
+    private static boolean generic_call_0_2_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "generic_call_0_2_0")) return false;
         boolean r;
         Marker m = enter_section_(b);
         r = generic_argument(b, l + 1);
-        r = r && generic_call_ascii_body_1_0_1(b, l + 1);
-        r = r && generic_call_ascii_body_1_0_2(b, l + 1);
+        r = r && generic_call_0_2_0_1(b, l + 1);
+        r = r && generic_call_0_2_0_2(b, l + 1);
         exit_section_(b, m, null, r);
         return r;
     }
 
     // (COMMA generic-argument)*
-    private static boolean generic_call_ascii_body_1_0_1(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "generic_call_ascii_body_1_0_1")) return false;
+    private static boolean generic_call_0_2_0_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "generic_call_0_2_0_1")) return false;
         while (true) {
             int c = current_position_(b);
-            if (!generic_call_ascii_body_1_0_1_0(b, l + 1)) break;
-            if (!empty_element_parsed_guard_(b, "generic_call_ascii_body_1_0_1", c)) break;
+            if (!generic_call_0_2_0_1_0(b, l + 1)) break;
+            if (!empty_element_parsed_guard_(b, "generic_call_0_2_0_1", c)) break;
         }
         return true;
     }
 
     // COMMA generic-argument
-    private static boolean generic_call_ascii_body_1_0_1_0(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "generic_call_ascii_body_1_0_1_0")) return false;
+    private static boolean generic_call_0_2_0_1_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "generic_call_0_2_0_1_0")) return false;
         boolean r;
         Marker m = enter_section_(b);
         r = consumeToken(b, COMMA);
@@ -1716,14 +1684,75 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     // COMMA?
-    private static boolean generic_call_ascii_body_1_0_2(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "generic_call_ascii_body_1_0_2")) return false;
+    private static boolean generic_call_0_2_0_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "generic_call_0_2_0_2")) return false;
+        consumeToken(b, COMMA);
+        return true;
+    }
+
+    // PROPORTION  ANGLE_L   (generic-argument (COMMA generic-argument)* COMMA?)? ANGLE_R
+    private static boolean generic_call_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "generic_call_1")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeTokens(b, 0, PROPORTION, ANGLE_L);
+        r = r && generic_call_1_2(b, l + 1);
+        r = r && consumeToken(b, ANGLE_R);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // (generic-argument (COMMA generic-argument)* COMMA?)?
+    private static boolean generic_call_1_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "generic_call_1_2")) return false;
+        generic_call_1_2_0(b, l + 1);
+        return true;
+    }
+
+    // generic-argument (COMMA generic-argument)* COMMA?
+    private static boolean generic_call_1_2_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "generic_call_1_2_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = generic_argument(b, l + 1);
+        r = r && generic_call_1_2_0_1(b, l + 1);
+        r = r && generic_call_1_2_0_2(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // (COMMA generic-argument)*
+    private static boolean generic_call_1_2_0_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "generic_call_1_2_0_1")) return false;
+        while (true) {
+            int c = current_position_(b);
+            if (!generic_call_1_2_0_1_0(b, l + 1)) break;
+            if (!empty_element_parsed_guard_(b, "generic_call_1_2_0_1", c)) break;
+        }
+        return true;
+    }
+
+    // COMMA generic-argument
+    private static boolean generic_call_1_2_0_1_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "generic_call_1_2_0_1_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, COMMA);
+        r = r && generic_argument(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // COMMA?
+    private static boolean generic_call_1_2_0_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "generic_call_1_2_0_2")) return false;
         consumeToken(b, COMMA);
         return true;
     }
 
     /* ********************************************************** */
-    // PROPORTION? generic-call-standard-body | PROPORTION? generic-call-ascii-body
+    // PROPORTION? GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R
+    //   | PROPORTION? ANGLE_L   (generic-argument (COMMA generic-argument)* COMMA?)? ANGLE_R
     public static boolean generic_call_free(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "generic_call_free")) return false;
         boolean r;
@@ -1734,13 +1763,15 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // PROPORTION? generic-call-standard-body
+    // PROPORTION? GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R
     private static boolean generic_call_free_0(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "generic_call_free_0")) return false;
         boolean r;
         Marker m = enter_section_(b);
         r = generic_call_free_0_0(b, l + 1);
-        r = r && generic_call_standard_body(b, l + 1);
+        r = r && consumeToken(b, GENERIC_L);
+        r = r && generic_call_free_0_2(b, l + 1);
+        r = r && consumeToken(b, GENERIC_R);
         exit_section_(b, m, null, r);
         return r;
     }
@@ -1752,13 +1783,63 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return true;
     }
 
-    // PROPORTION? generic-call-ascii-body
+    // (generic-argument (COMMA generic-argument)* COMMA?)?
+    private static boolean generic_call_free_0_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "generic_call_free_0_2")) return false;
+        generic_call_free_0_2_0(b, l + 1);
+        return true;
+    }
+
+    // generic-argument (COMMA generic-argument)* COMMA?
+    private static boolean generic_call_free_0_2_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "generic_call_free_0_2_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = generic_argument(b, l + 1);
+        r = r && generic_call_free_0_2_0_1(b, l + 1);
+        r = r && generic_call_free_0_2_0_2(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // (COMMA generic-argument)*
+    private static boolean generic_call_free_0_2_0_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "generic_call_free_0_2_0_1")) return false;
+        while (true) {
+            int c = current_position_(b);
+            if (!generic_call_free_0_2_0_1_0(b, l + 1)) break;
+            if (!empty_element_parsed_guard_(b, "generic_call_free_0_2_0_1", c)) break;
+        }
+        return true;
+    }
+
+    // COMMA generic-argument
+    private static boolean generic_call_free_0_2_0_1_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "generic_call_free_0_2_0_1_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, COMMA);
+        r = r && generic_argument(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // COMMA?
+    private static boolean generic_call_free_0_2_0_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "generic_call_free_0_2_0_2")) return false;
+        consumeToken(b, COMMA);
+        return true;
+    }
+
+    // PROPORTION? ANGLE_L   (generic-argument (COMMA generic-argument)* COMMA?)? ANGLE_R
     private static boolean generic_call_free_1(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "generic_call_free_1")) return false;
         boolean r;
         Marker m = enter_section_(b);
         r = generic_call_free_1_0(b, l + 1);
-        r = r && generic_call_ascii_body(b, l + 1);
+        r = r && consumeToken(b, ANGLE_L);
+        r = r && generic_call_free_1_2(b, l + 1);
+        r = r && consumeToken(b, ANGLE_R);
         exit_section_(b, m, null, r);
         return r;
     }
@@ -1770,53 +1851,39 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return true;
     }
 
-    /* ********************************************************** */
-    // GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R
-    public static boolean generic_call_standard_body(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "generic_call_standard_body")) return false;
-        if (!nextTokenIs(b, GENERIC_L)) return false;
-        boolean r;
-        Marker m = enter_section_(b);
-        r = consumeToken(b, GENERIC_L);
-        r = r && generic_call_standard_body_1(b, l + 1);
-        r = r && consumeToken(b, GENERIC_R);
-        exit_section_(b, m, GENERIC_CALL_STANDARD_BODY, r);
-        return r;
-    }
-
     // (generic-argument (COMMA generic-argument)* COMMA?)?
-    private static boolean generic_call_standard_body_1(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "generic_call_standard_body_1")) return false;
-        generic_call_standard_body_1_0(b, l + 1);
+    private static boolean generic_call_free_1_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "generic_call_free_1_2")) return false;
+        generic_call_free_1_2_0(b, l + 1);
         return true;
     }
 
     // generic-argument (COMMA generic-argument)* COMMA?
-    private static boolean generic_call_standard_body_1_0(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "generic_call_standard_body_1_0")) return false;
+    private static boolean generic_call_free_1_2_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "generic_call_free_1_2_0")) return false;
         boolean r;
         Marker m = enter_section_(b);
         r = generic_argument(b, l + 1);
-        r = r && generic_call_standard_body_1_0_1(b, l + 1);
-        r = r && generic_call_standard_body_1_0_2(b, l + 1);
+        r = r && generic_call_free_1_2_0_1(b, l + 1);
+        r = r && generic_call_free_1_2_0_2(b, l + 1);
         exit_section_(b, m, null, r);
         return r;
     }
 
     // (COMMA generic-argument)*
-    private static boolean generic_call_standard_body_1_0_1(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "generic_call_standard_body_1_0_1")) return false;
+    private static boolean generic_call_free_1_2_0_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "generic_call_free_1_2_0_1")) return false;
         while (true) {
             int c = current_position_(b);
-            if (!generic_call_standard_body_1_0_1_0(b, l + 1)) break;
-            if (!empty_element_parsed_guard_(b, "generic_call_standard_body_1_0_1", c)) break;
+            if (!generic_call_free_1_2_0_1_0(b, l + 1)) break;
+            if (!empty_element_parsed_guard_(b, "generic_call_free_1_2_0_1", c)) break;
         }
         return true;
     }
 
     // COMMA generic-argument
-    private static boolean generic_call_standard_body_1_0_1_0(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "generic_call_standard_body_1_0_1_0")) return false;
+    private static boolean generic_call_free_1_2_0_1_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "generic_call_free_1_2_0_1_0")) return false;
         boolean r;
         Marker m = enter_section_(b);
         r = consumeToken(b, COMMA);
@@ -1826,8 +1893,8 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     // COMMA?
-    private static boolean generic_call_standard_body_1_0_2(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "generic_call_standard_body_1_0_2")) return false;
+    private static boolean generic_call_free_1_2_0_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "generic_call_free_1_2_0_2")) return false;
         consumeToken(b, COMMA);
         return true;
     }

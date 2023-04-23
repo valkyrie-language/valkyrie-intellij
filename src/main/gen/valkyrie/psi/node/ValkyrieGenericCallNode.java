@@ -27,15 +27,9 @@ public class ValkyrieGenericCallNode extends ValkyrieElement implements Valkyrie
     }
 
     @Override
-    @Nullable
-    public ValkyrieGenericCallAsciiBody getGenericCallAsciiBody() {
-        return findChildByClass(ValkyrieGenericCallAsciiBody.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieGenericCallStandardBody getGenericCallStandardBody() {
-        return findChildByClass(ValkyrieGenericCallStandardBody.class);
+    @NotNull
+    public List<ValkyrieGenericArgument> getGenericArgumentList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieGenericArgument.class);
     }
 
 }

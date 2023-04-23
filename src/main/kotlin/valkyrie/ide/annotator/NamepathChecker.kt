@@ -17,9 +17,9 @@ class NamepathChecker : Annotator {
 
     // element.text can't start with lowercase
     private fun checkValidClassName(element: ValkyrieDeclareClassNode, holder: AnnotationHolder) {
-        val id = element.nameIdentifier ?: return;
-        checkNeedEscape(id, holder)
-        checkCamelCase(id, holder)
+//        val id = element.nameIdentifier ?: return;
+//        checkNeedEscape(id, holder)
+//        checkCamelCase(id, holder)
     }
 
     private fun checkValidUnionName(element: ValkyrieDeclareUnionNode, holder: AnnotationHolder) {
