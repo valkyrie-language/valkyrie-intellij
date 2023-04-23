@@ -5,11 +5,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.formatter.FormatterUtil
-
-import valkyrie.psi.node.ValkyrieClassBody
-import valkyrie.psi.node.ValkyrieMatchBody
-import valkyrie.psi.node.ValkyrieTuple
-import valkyrie.psi.node.ValkyrieUniteBody
+import valkyrie.psi.node.*
 import yggdrasil.antlr.isWhitespaceOrEmpty
 
 class FormatBlock : ASTBlock {
@@ -91,7 +87,10 @@ class FormatBlock : ASTBlock {
             is ValkyrieClassBody -> byCorner
             is ValkyrieUniteBody -> byCorner
             is ValkyrieMatchBody -> byCorner
+            is ValkyrieEnumerateBody -> byCorner
             is ValkyrieTuple -> byCorner
+            is ValkyrieBlockBody -> byCorner
+            is ValkyrieBlockBare -> Indent.getNormalIndent()
             else -> Indent.getNoneIndent()
         }
     }

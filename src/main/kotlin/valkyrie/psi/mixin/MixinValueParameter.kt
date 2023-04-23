@@ -3,21 +3,17 @@ package valkyrie.psi.mixin
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import valkyrie.psi.ValkyrieDeclareElement
-import valkyrie.psi.node.ValkyrieDeclareClass
 import valkyrie.psi.node.ValkyrieIdentifierNode
+import valkyrie.psi.node.ValkyrieParameterItem
 import javax.swing.Icon
 
-
-abstract class MixinClass(node: ASTNode) : ValkyrieDeclareElement(node), ValkyrieDeclareClass {
-    val superClasses = this.classInheritBody?.classInheritList ?: listOf()
-    val classItems = classBody?.classItemList?.map { it.firstChild } ?: listOf();
+abstract class MixinValueParameter(node: ASTNode) : ValkyrieDeclareElement(node), ValkyrieParameterItem {
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
         return this.identifier as? ValkyrieIdentifierNode
     }
 
     override fun getBaseIcon(): Icon {
-        return AllIcons.Nodes.Class
+        return AllIcons.Nodes.Field
     }
 }
-

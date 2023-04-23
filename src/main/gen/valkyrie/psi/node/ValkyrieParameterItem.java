@@ -7,6 +7,9 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieParameterItem extends PsiElement {
 
+    @NotNull
+    ValkyrieAnnotations getAnnotations();
+
     @Nullable
     ValkyrieDefaultValue getDefaultValue();
 

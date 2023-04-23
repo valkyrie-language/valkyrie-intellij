@@ -4,7 +4,6 @@ package valkyrie.psi.node;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import com.intellij.codeInsight.lookup.LookupElement;
 
 public interface ValkyrieDeclareEnumerate extends PsiElement {
 
@@ -16,7 +15,5 @@ public interface ValkyrieDeclareEnumerate extends PsiElement {
 
     @Nullable
     ValkyrieIdentifier getIdentifier();
-
-    void createLookup(@NotNull List<LookupElement> completions);
 
 }

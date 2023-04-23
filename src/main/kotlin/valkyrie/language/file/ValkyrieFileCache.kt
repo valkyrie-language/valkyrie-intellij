@@ -11,21 +11,21 @@ class ValkyrieFileCache(val root: ValkyrieFileNode) {
         for (child in root.children) {
             when (child) {
                 is ValkyrieDeclareClassNode -> {
-                    cache[child.name] = child
+                    cache[child.name!!] = child
                 }
                 is ValkyrieDeclareTraitNode -> {
-                    cache[child.name] = child
+                    cache[child.name!!] = child
                 }
 
                 is ValkyrieTraitAliasNode -> {
-                    cache[child.name] = child
+                    cache[child.name!!] = child
                 }
                 is ValkyrieDeclareUnionNode -> {
-                    cache[child.name] = child
+                    cache[child.name!!] = child
                 }
 
                 is ValkyrieDeclareUniteNode -> {
-                    cache[child.name] = child
+                    cache[child.name!!] = child
                 }
             }
         }

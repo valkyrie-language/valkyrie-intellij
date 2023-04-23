@@ -4,20 +4,21 @@ import com.intellij.formatting.SpacingBuilder
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import com.intellij.psi.tree.TokenSet
+import valkyrie.ide.matcher.ValkyrieBraceMatch
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.psi.ValkyrieTypes.*
-
-private val removeSpaceBefore = TokenSet.orSet(
-    TokenSet.create(DOT, COLON),
-//    ValkyrieBracketMatch.Instance.Right,
-)
 
 private val removeSpaceNewlineBefore = TokenSet.orSet(
     TokenSet.create(COMMA, PROPORTION)
 )
 
+private val removeSpaceBefore = TokenSet.orSet(
+    TokenSet.create(DOT, COLON),
+    ValkyrieBraceMatch.Right,
+)
+
 private val removeSpaceAfter = TokenSet.orSet(
-//    ValkyrieLanguage.createTokenSet(DOT, OP_PROPORTION, GENERIC_L, GENERIC_R)
+    ValkyrieBraceMatch.Left,
 )
 
 private val removeSpaceNewlineAfter = TokenSet.orSet(
@@ -26,18 +27,17 @@ private val removeSpaceNewlineAfter = TokenSet.orSet(
 
 // 左右插入一个空格
 private val spaceAroundOperator = TokenSet.orSet(
-//    ValkyrieLanguage.createTokenSet(KW_IN),
+    TokenSet.create(OP_ARROW1)
 //    ValkyrieLexer.OperatorInfix
 )
 
 private val addSpaceAfter = TokenSet.orSet(
-//    ValkyrieLanguage.createTokenSet(COMMA)
+    TokenSet.create(COMMA)
 )
 
 private val newlineIndentAfter = TokenSet.create()
 
 data class ValkyrieFormatSpace(val commonSettings: CommonCodeStyleSettings, val spacingBuilder: SpacingBuilder) {
-
     companion object {
         fun create(settings: CodeStyleSettings): ValkyrieFormatSpace {
             val commonSettings = settings.getCommonSettings(ValkyrieLanguage)

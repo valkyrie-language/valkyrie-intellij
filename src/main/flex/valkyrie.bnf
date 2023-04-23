@@ -128,10 +128,11 @@ type-alias ::= annotations KW_TYPE identifier EQUAL type-expression {
 declare-class ::= annotations KW_CLASS identifier declare-generic? class-inherit-body? type-hint? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinClass"
-    methods=[createLookup]
 }
 class-inherit-body ::= PARENTHESIS_L (class-inherit (COMMA class-inherit)? COMMA?)? PARENTHESIS_R;
-class-inherit      ::= (annotations identifier EQUAL)? type-expression;
+class-inherit      ::= (annotations identifier EQUAL)? type-expression {
+    mixin = "valkyrie.psi.mixin.MixinClassInherit"
+}
 // === class body ===
 class-body ::= BRACE_L class-item* BRACE_R;
 class-item ::=
@@ -158,18 +159,15 @@ declare-method ::= annotations identifier declare-generic? parameter-body return
 declare-union ::= annotations KW_UNION identifier class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinUnion"
-    methods=[createLookup]
 }
 // === enumerate statement ===
 declare-flags ::= annotations KW_FLAGS identifier enumerate-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinFlags"
-    methods=[createLookup]
 }
 declare-enumerate ::= annotations KW_ENUMERATE identifier enumerate-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinEnumerate"
-    methods=[createLookup]
 }
 enumerate-body ::= BRACE_L enumerate-item* BRACE_R;
 enumerate-item ::=
@@ -183,7 +181,6 @@ declare-semantic ::= annotations identifier default-value? {
 declare-unite ::= annotations KW_UNITE identifier OP_REMARK? unite-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinUnite"
-    methods=[createLookup]
 }
 unite-body ::= BRACE_L unite-item* BRACE_R;
 unite-item ::=
@@ -203,7 +200,6 @@ trait-alias ::= annotations KW_TRAIT identifier EQUAL type-expression {
 declare-trait ::= annotations KW_TRAIT identifier declare-generic? type-hint? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinTrait"
-    methods=[createLookup]
 }
 declare-imply ::= annotations KW_IMPLY identifier class-body {
     pin = 2
@@ -216,19 +212,20 @@ declare-generic ::=
 {
 
 }
-generic-parameter ::= annotations identifier type-hint? default-type?;
+generic-parameter ::= annotations identifier type-hint? default-type? {
+    mixin = "valkyrie.psi.mixin.MixinTypeParameter"
+}
 /// === function definition ===
 declare-function ::= annotations KW_FUNCTION declare-generic? identifier parameter-body return-type? effect-type? block-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinFunction"
-    methods=[createLookup]
 }
 declare-lambda ::= KW_LAMBDA declare-generic? parameter-body return-type? effect-type? {
     pin = 1
 }
 parameter-body ::= PARENTHESIS_L (parameter-item (COMMA parameter-item)* COMMA?)? PARENTHESIS_R;
-parameter-item ::= identifier type-hint? default-value? {
-
+parameter-item ::= annotations identifier type-hint? default-value? {
+    mixin = "valkyrie.psi.mixin.MixinValueParameter"
 }
 return-type ::= (OP_ARROW1|COLON) type-expression;
 effect-type ::= SLASH type-expression;
@@ -237,7 +234,7 @@ block-bare  ::= block-statement*;
 // === function statement ===
 declare-variable ::= KW_LET pattern-bare type-hint? EQUAL inline-statement {
     pin = 1
-//    mixin = "valkyrie.psi.mixin.MixinVariable"
+    mixin = "valkyrie.psi.mixin.MixinVariable"
 }
 // === function statement ===
 function-call ::= namepath (argument-body | argument-body? block-body)?;

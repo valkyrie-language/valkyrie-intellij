@@ -8,6 +8,7 @@ import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.node.*
 
+
 open class ValkyrieReference : PsiPolyVariantCachingReference {
     private val namepath: ValkyrieNamepathNode
 

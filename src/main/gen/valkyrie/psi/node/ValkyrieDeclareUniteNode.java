@@ -9,7 +9,6 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.psi.ValkyrieTypes.*;
 import valkyrie.psi.mixin.MixinUnite;
-import com.intellij.codeInsight.lookup.LookupElement;
 
 public class ValkyrieDeclareUniteNode extends MixinUnite implements ValkyrieDeclareUnite {
 

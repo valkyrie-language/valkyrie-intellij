@@ -15,8 +15,6 @@ import valkyrie.psi.node.ValkyrieNamepathNode
 abstract class MixinNamepath(node: ASTNode) : ValkyrieElement(node), ValkyrieNamepath, PsiQualifiedNamedElement {
     val identifier: ValkyrieIdentifierNode = identifierList.last() as ValkyrieIdentifierNode;
 
-
-
     override fun getName(): String {
         return identifier.name
     }

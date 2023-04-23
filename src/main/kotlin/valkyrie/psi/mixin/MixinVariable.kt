@@ -5,16 +5,15 @@ import com.intellij.ide.projectView.PresentationData
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import valkyrie.psi.ValkyrieElement
-import valkyrie.psi.node.ValkyrieDeclareImply
+import valkyrie.psi.node.ValkyrieDeclareVariable
 import javax.swing.Icon
 
-abstract class MixinImply(node: ASTNode) : ValkyrieElement(node), ValkyrieDeclareImply {
+abstract class MixinVariable(node: ASTNode) : ValkyrieElement(node), ValkyrieDeclareVariable {
     override fun getBaseIcon(): Icon {
-        return AllIcons.Nodes.IdeaModule
+        return AllIcons.Nodes.Variable
     }
 
     override fun getPresentation(): ItemPresentation? {
         return PresentationData(name, "", baseIcon, null)
     }
 }
-
