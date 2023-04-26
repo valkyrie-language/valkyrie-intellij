@@ -4,7 +4,6 @@ package valkyrie.psi.node;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import com.intellij.codeInsight.lookup.LookupElement;
 
 public interface ValkyrieDeclareClass extends PsiElement {
 
@@ -25,7 +24,5 @@ public interface ValkyrieDeclareClass extends PsiElement {
 
     @Nullable
     ValkyrieTypeHint getTypeHint();
-
-    void createLookup(@NotNull List<LookupElement> completions);
 
 }

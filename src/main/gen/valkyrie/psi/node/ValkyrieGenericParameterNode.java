@@ -1,16 +1,12 @@
 // This is a generated file. Not intended for manual editing.
 package valkyrie.psi.node;
 
-import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.util.PsiTreeUtil;
-import static valkyrie.psi.ValkyrieTypes.*;
-import valkyrie.psi.ValkyrieElement;
+import valkyrie.psi.mixin.MixinTypeParameter;
 
-public class ValkyrieGenericParameterNode extends ValkyrieElement implements ValkyrieGenericParameter {
+public class ValkyrieGenericParameterNode extends MixinTypeParameter implements ValkyrieGenericParameter {
 
     public ValkyrieGenericParameterNode(@NotNull ASTNode node) {
         super(node);

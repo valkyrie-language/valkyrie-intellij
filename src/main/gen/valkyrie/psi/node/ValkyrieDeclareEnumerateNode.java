@@ -9,7 +9,6 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.psi.ValkyrieTypes.*;
 import valkyrie.psi.mixin.MixinEnumerate;
-import com.intellij.codeInsight.lookup.LookupElement;
 
 public class ValkyrieDeclareEnumerateNode extends MixinEnumerate implements ValkyrieDeclareEnumerate {
 

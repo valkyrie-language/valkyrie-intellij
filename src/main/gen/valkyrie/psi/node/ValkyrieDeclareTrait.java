@@ -22,8 +22,4 @@ public interface ValkyrieDeclareTrait extends PsiElement {
     @Nullable
     ValkyrieTypeHint getTypeHint();
 
-    //WARNING: createLookup(...) is skipped
-    //matching createLookup(ValkyrieDeclareTrait, ...)
-    //methods are not found in YggdrasilPsiExtension
-
 }

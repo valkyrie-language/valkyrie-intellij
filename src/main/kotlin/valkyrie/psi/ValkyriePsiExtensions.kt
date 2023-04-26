@@ -121,3 +121,19 @@ fun PsiElement.replaceLeaf(kind: IElementType, text: String) {
     val builder = ValkyrieFactory(this)
     this.replace(builder.createLeaf(kind, text))
 }
+
+fun PsiElement.findPair(lhs: IElementType, rhs: IElementType): Pair<PsiElement, PsiElement>? {
+    var head: PsiElement? = null;
+    var tail: PsiElement? = null;
+    for (child in this.childrenWithLeaves) {
+        if (child.node.elementType == lhs) {
+            head = child;
+        } else if (child.node.elementType == rhs) {
+            tail = child;
+        }
+    }
+    if (head != null && tail != null) {
+        return head to tail
+    }
+    return null
+}

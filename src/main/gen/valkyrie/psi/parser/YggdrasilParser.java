@@ -2786,14 +2786,13 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // identifier type-hint? default-value? {
-    // }
+    // annotations identifier type-hint? default-value?
     public static boolean parameter_item(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "parameter_item")) return false;
         boolean r;
         Marker m = enter_section_(b, l, _NONE_, PARAMETER_ITEM, "<parameter item>");
-        r = identifier(b, l + 1);
-        r = r && parameter_item_1(b, l + 1);
+        r = annotations(b, l + 1);
+        r = r && identifier(b, l + 1);
         r = r && parameter_item_2(b, l + 1);
         r = r && parameter_item_3(b, l + 1);
         exit_section_(b, l, m, r, false, null);
@@ -2801,22 +2800,16 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     // type-hint?
-    private static boolean parameter_item_1(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "parameter_item_1")) return false;
+    private static boolean parameter_item_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "parameter_item_2")) return false;
         type_hint(b, l + 1);
         return true;
     }
 
     // default-value?
-    private static boolean parameter_item_2(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "parameter_item_2")) return false;
-        default_value(b, l + 1);
-        return true;
-    }
-
-    // {
-    // }
     private static boolean parameter_item_3(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "parameter_item_3")) return false;
+        default_value(b, l + 1);
         return true;
     }
 

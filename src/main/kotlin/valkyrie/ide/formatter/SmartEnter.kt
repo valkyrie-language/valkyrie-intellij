@@ -10,7 +10,7 @@ import com.intellij.psi.PsiFile
 class SmartEnter : SmartEnterProcessorWithFixers() {
     init {
         addFixers(
-            CommaFixer()
+            ValkyrieCommaFixer()
         )
         addEnterProcessors(
             PlainEnterProcessor(getEnterHandler())

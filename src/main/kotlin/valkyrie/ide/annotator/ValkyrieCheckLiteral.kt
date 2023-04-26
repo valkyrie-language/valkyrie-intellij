@@ -9,19 +9,13 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
 import valkyrie.ide.actions.ast_transform.DeleteThis
 import valkyrie.ide.actions.ast_transform.ReplaceLeafText
-import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.line_marker.ValkyrieMarkColor
 import valkyrie.language.ValkyrieBundle
 import valkyrie.psi.ValkyrieTypes
-import valkyrie.psi.node.ValkyrieDeclareGenericNode
-import valkyrie.psi.node.ValkyrieGenericCallFreeNode
-import valkyrie.psi.node.ValkyrieNamepathFreeNode
-import valkyrie.psi.node.ValkyrieUsingBlockNode
 
 class ValkyrieCheckLiteral : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         when (element.elementType) {
-            ValkyrieTypes.PROPORTION -> checkOperationNameJoin(element, holder)
             ValkyrieTypes.COLOR -> checkColor(element, holder)
             ValkyrieTypes.KW_TYPE -> checkKeywordType(element, holder)
             ValkyrieTypes.KW_FUNCTION -> checkKeywordMicro(element, holder)
@@ -60,34 +54,6 @@ class ValkyrieCheckLiteral : Annotator {
         }
     }
 
-    private fun checkOperationNameJoin(op: PsiElement, holder: AnnotationHolder) {
-        when {
-            op.parent is ValkyrieDeclareGenericNode -> {
-                holder.newAnnotation(HighlightSeverity.WEAK_WARNING, "`${op.text}` in `declare generic` is useless")
-                    .range(op.textRange)
-                    .withFix(DeleteThis(op))
-                    .textAttributes(HighlightColor.COMMENT_LINE.textAttributesKey)
-                    .create()
-            }
-
-            op.parent is ValkyrieGenericCallFreeNode -> {
-                holder.newAnnotation(HighlightSeverity.WEAK_WARNING, "`${op.text}` in `call generic` is useless")
-                    .range(op.textRange)
-                    .withFix(DeleteThis(op))
-                    .textAttributes(HighlightColor.COMMENT_LINE.textAttributesKey)
-                    .create()
-            }
-
-            op.parent is ValkyrieNamepathFreeNode || op.parent is ValkyrieUsingBlockNode -> {
-                holder.newAnnotation(HighlightSeverity.WEAK_WARNING, "`${op.text}` is deprecated, use `.` instead")
-                    .range(op.textRange)
-                    .withFix(ReplaceLeafText(op, ValkyrieTypes.DOT, "."))
-                    .create()
-            }
-
-        }
-    }
-
     private fun annotateSimple(number: PsiElement, holder: AnnotationHolder) {
 //        holder.newAnnotation(HighlightSeverity.INFORMATION, "Base 10 Integer")
 //            .range(number.textRange)
@@ -96,7 +62,6 @@ class ValkyrieCheckLiteral : Annotator {
 //            .withFix(ConvertNumberBase(2))
 //            .create()
     }
-
 
     private fun annotateUnit(number: PsiElement, unit: String, holder: AnnotationHolder, range: TextRange) {
         holder.newAnnotation(HighlightSeverity.WARNING, "Out of range")

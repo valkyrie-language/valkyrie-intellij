@@ -14,11 +14,11 @@ import valkyrie.psi.node.*
 class ValkyrieFoldingBuilder : CustomFoldingBuilder(), DumbAware {
     override fun buildLanguageFoldRegions(descriptors: MutableList<FoldingDescriptor>, root: PsiElement, document: Document, quick: Boolean) {
         if (root !is ValkyrieFileNode) return
-        val visitor = ValkyrieFoldVisitor(descriptors)
+        val visitor = ValkyrieFoldingVisitor(descriptors)
         PsiTreeUtil.processElements(root) { it.accept(visitor); true }
     }
 
-    override fun getLanguagePlaceholderText(node: ASTNode, range: TextRange) = when (val psi = node.psi) {
+    override fun getLanguagePlaceholderText(node: ASTNode, range: TextRange): String = when (val psi = node.psi) {
         is ValkyrieUsingBodyNode -> "${psi.usingTermList.size} items"
         is ValkyrieClassBodyNode -> {
             var fields = 0;
