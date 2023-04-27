@@ -1,8 +1,10 @@
 package valkyrie.ide.folding
 
 import com.intellij.lang.folding.FoldingDescriptor
+import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiRecursiveVisitor
 import com.intellij.psi.tree.IElementType
 import com.intellij.refactoring.suggested.endOffset
 import com.intellij.refactoring.suggested.startOffset
@@ -10,12 +12,17 @@ import valkyrie.psi.findPair
 import valkyrie.psi.node.*
 
 
-class ValkyrieFoldingVisitor : ValkyrieRecursiveVisitor {
+class ValkyrieFoldingVisitor : ValkyrieVisitor, PsiRecursiveVisitor {
 
     private val descriptors: MutableList<FoldingDescriptor>
 
     constructor(descriptors: MutableList<FoldingDescriptor>) : super() {
         this.descriptors = descriptors
+    }
+
+    override fun visitElement(element: PsiElement) {
+        ProgressManager.checkCanceled()
+        element.acceptChildren(this)
     }
 
     override fun visitUsingBody(o: ValkyrieUsingBody) {
