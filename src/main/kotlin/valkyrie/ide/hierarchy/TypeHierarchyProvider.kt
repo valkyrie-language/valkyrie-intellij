@@ -6,8 +6,8 @@ import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.parents
-import valkyrie.language.ast.classes.ValkyrieClassStatement
-import valkyrie.language.ast.ValkyrieTraitStatement
+import valkyrie.psi.node.ValkyrieDeclareClassNode
+import valkyrie.psi.node.ValkyrieDeclareTraitNode
 import java.text.MessageFormat
 import java.util.*
 import javax.swing.JPanel
@@ -69,11 +69,11 @@ private class TypeHierarchyBrowser : TypeHierarchyBrowserBase {
     override fun createHierarchyTreeStructure(type: String, pointer: PsiElement): HierarchyTreeStructure? {
         for (node in pointer.parents(true)) {
             when (node) {
-                is ValkyrieClassStatement -> {
+                is ValkyrieDeclareClassNode -> {
                     return TypeHierarchyTree(HierarchyClassNode(node))
                 }
 
-                is ValkyrieTraitStatement -> {
+                is ValkyrieDeclareTraitNode -> {
                     return TypeHierarchyTree(HierarchyTraitNode(node))
                 }
             }
@@ -84,11 +84,11 @@ private class TypeHierarchyBrowser : TypeHierarchyBrowserBase {
     override fun getContentDisplayName(typeName: String, element: PsiElement): String {
         for (node in element.parents(true)) {
             when (node) {
-                is ValkyrieClassStatement -> {
+                is ValkyrieDeclareClassNode -> {
                     return MessageFormat.format(typeName, node.name)
                 }
 
-                is ValkyrieTraitStatement -> {
+                is ValkyrieDeclareTraitNode -> {
                     return MessageFormat.format(typeName, node.name)
                 }
             }
@@ -97,7 +97,7 @@ private class TypeHierarchyBrowser : TypeHierarchyBrowserBase {
     }
 
     override fun getName(): String {
-        return "super.getName()"
+        return "super.GetName()"
     }
 
     override fun getQualifiedName(psiElement: PsiElement?): String {

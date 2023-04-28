@@ -14,6 +14,8 @@ class ValkyrieBraceMatch : PairedBraceMatcher {
             BracePair(BRACE_L, BRACE_R, true),
             BracePair(BRACKET_L, BRACKET_R, true),
             BracePair(PARENTHESIS_L, PARENTHESIS_R, true),
+            BracePair(GENERIC_L, GENERIC_R, true),
+
         )
     }
 
@@ -27,10 +29,10 @@ class ValkyrieBraceMatch : PairedBraceMatcher {
 
     companion object {
         val Left = TokenSet.create(
-            PARENTHESIS_L, BRACKET_L, BRACE_L,
+            PARENTHESIS_L, BRACKET_L, BRACE_L, GENERIC_L
         )
         val Right = TokenSet.create(
-            PARENTHESIS_R, BRACKET_R, BRACE_R,
+            PARENTHESIS_R, BRACKET_R, BRACE_R, GENERIC_R
         )
     }
 }

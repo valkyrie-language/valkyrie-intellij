@@ -17,6 +17,7 @@ class ValkyrieStructureItem : StructureViewTreeElement, SortableTreeElement {
     constructor(self: ValkyrieFileNode) {
         this.node = self
         this.view = self.presentation
+        // TODO: use visitor pattern
         for (child in self.children) {
             when (child) {
                 is ValkyrieDeclareNamespaceNode -> children.add(ValkyrieStructureItem(child))

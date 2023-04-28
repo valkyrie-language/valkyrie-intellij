@@ -10,6 +10,5 @@ class ValkyrieReferenceContributor : PsiReferenceContributor() {
 //            ClassReferenceProvider()
 //        )
     }
-
 }
 
