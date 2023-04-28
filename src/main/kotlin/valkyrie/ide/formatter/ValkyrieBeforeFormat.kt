@@ -2,14 +2,15 @@ package valkyrie.ide.formatter
 
 import com.intellij.application.options.CodeStyle
 import com.intellij.lang.ASTNode
+import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiRecursiveVisitor
 import com.intellij.psi.impl.source.codeStyle.PreFormatProcessor
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings.ReturnType
-import valkyrie.ide.folding.ValkyrieRecursiveVisitor
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.childrenWithLeaves
@@ -34,7 +35,12 @@ class ValkyrieBeforeFormat : PreFormatProcessor {
 }
 
 
-private class BeforeFormatFixer(val settings: ValkyrieCodeStyleSettings) : ValkyrieRecursiveVisitor() {
+private class BeforeFormatFixer(val settings: ValkyrieCodeStyleSettings) : ValkyrieVisitor(), PsiRecursiveVisitor {
+    override fun visitElement(element: PsiElement) {
+        ProgressManager.checkCanceled()
+        element.acceptChildren(this)
+    }
+
     override fun visitUsingTerm(o: ValkyrieUsingTerm) {
         super.visitUsingTerm(o)
     }

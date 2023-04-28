@@ -9,7 +9,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.language.file.ValkyrieFileNode
-import valkyrie.psi.node.*
+import valkyrie.psi.node.ValkyrieUsingBodyNode
 
 class ValkyrieFoldingBuilder : CustomFoldingBuilder(), DumbAware {
     override fun buildLanguageFoldRegions(descriptors: MutableList<FoldingDescriptor>, root: PsiElement, document: Document, quick: Boolean) {
@@ -18,53 +18,11 @@ class ValkyrieFoldingBuilder : CustomFoldingBuilder(), DumbAware {
         PsiTreeUtil.processElements(root) { it.accept(visitor); true }
     }
 
-    override fun getLanguagePlaceholderText(node: ASTNode, range: TextRange): String = when (val psi = node.psi) {
-        is ValkyrieUsingBodyNode -> "${psi.usingTermList.size} items"
-        is ValkyrieClassBodyNode -> {
-            var fields = 0;
-            var methods = 0;
-            for (item in psi.classItemList) {
-                when (item.firstChild) {
-                    is ValkyrieDeclareField -> {
-                        fields += 1
-                    }
-
-                    is ValkyrieDeclareMethod -> {
-                        methods += 1
-                    }
-                }
-            }
-
-            "$fields fields, $methods methods"
-        }
-
-        is ValkyrieEnumerateBodyNode -> {
-            var counter = 0;
-            for (item in psi.enumerateItemList) {
-                if (item.firstChild is ValkyrieDeclareSemantic) {
-                    counter += 1
-                }
-            }
-
-            "$counter variants"
-        }
-
-        is ValkyrieMatchBodyNode -> {
-            var counter = 0;
-            for (item in psi.matchItemList) {
-                when (item.firstChild) {
-                    is ValkyrieMatchWith, is ValkyrieMatchCase, is ValkyrieMatchElse -> {
-                        counter += 1
-                    }
-                }
-            }
-            "$counter branches"
-        }
-
-
-        else -> "..."
+    override fun getLanguagePlaceholderText(node: ASTNode, range: TextRange): String {
+        val builder = ValkyriePlaceholderVisitor()
+        node.psi.accept(builder)
+        return builder.placeholder
     }
-
 
     override fun isRegionCollapsedByDefault(node: ASTNode) = when (node.psi) {
         is ValkyrieUsingBodyNode -> true

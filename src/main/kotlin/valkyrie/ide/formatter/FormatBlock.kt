@@ -5,7 +5,6 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.formatter.FormatterUtil
-import valkyrie.psi.node.*
 import yggdrasil.antlr.isWhitespaceOrEmpty
 
 class FormatBlock : ASTBlock {
@@ -81,37 +80,11 @@ class FormatBlock : ASTBlock {
     }
 
     private fun computeIndent(child: ASTNode): Indent? {
-        val isCorner = _node.firstChildNode == child || _node.lastChildNode == child
-        val byCorner = if (isCorner) Indent.getNoneIndent() else Indent.getNormalIndent();
-        return when (node.psi) {
-            is ValkyrieClassBody -> byCorner
-            is ValkyrieUniteBody -> byCorner
-            is ValkyrieMatchBody -> byCorner
-            is ValkyrieEnumerateBody -> byCorner
-            is ValkyrieTuple -> byCorner
-            is ValkyrieBlockBody -> byCorner
-            is ValkyrieBlockBare -> Indent.getNormalIndent()
-            else -> Indent.getNoneIndent()
-        }
+        val builder = ValkyrieIndentVisitor(child)
+        _node.psi.accept(builder)
+        return builder.indent
     }
-//    private fun computeIndent(child: ASTNode): Indent? {
-//        return when (_node.psi) {
-//            is YggdrasilClassBody -> _node.indentInRange(child, 1, 1)
-//            is YggdrasilUnionBody -> _node.indentInRange(child, 1, 1)
-//            else -> Indent.getNoneIndent()
-//        }
-//    }
-//
-//    private fun ASTNode.indentInRange(child: ASTNode, head: Int, tail: Int): Indent {
-//        val children = this.getChildren(null);
-//        val index = children.indexOf(child)
-//        val last = children.size - tail
-//        return when {
-//            index <= head -> Indent.getNoneIndent()
-//            index >= last -> Indent.getNoneIndent()
-//            else -> Indent.getNormalIndent()
-//        }
-//    }
+
 
     private fun computeAlignment(child: ASTNode): Alignment? {
         val psi = _node.psi;
@@ -127,3 +100,4 @@ class FormatBlock : ASTBlock {
         }
     }
 }
+
