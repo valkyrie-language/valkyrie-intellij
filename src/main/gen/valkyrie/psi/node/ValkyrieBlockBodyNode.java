@@ -34,12 +34,6 @@ public class ValkyrieBlockBodyNode extends ValkyrieElement implements ValkyrieBl
 
     @Override
     @NotNull
-    public List<ValkyrieDeclareLambda> getDeclareLambdaList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareLambda.class);
-    }
-
-    @Override
-    @NotNull
     public List<ValkyrieDeclareVariable> getDeclareVariableList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareVariable.class);
     }
@@ -60,6 +54,12 @@ public class ValkyrieBlockBodyNode extends ValkyrieElement implements ValkyrieBl
     @NotNull
     public List<ValkyrieIfStatement> getIfStatementList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIfStatement.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieNewLambda> getNewLambdaList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNewLambda.class);
     }
 
     @Override

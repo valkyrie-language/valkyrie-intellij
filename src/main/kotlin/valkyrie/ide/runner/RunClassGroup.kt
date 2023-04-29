@@ -1,15 +1,10 @@
 package valkyrie.ide.runner
 
-//import valkyrie.language.psi_node.ValkyrieClassStatementNode
-import com.intellij.execution.lineMarker.RunLineMarkerContributor.Info
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieBundle
-import valkyrie.language.ast.classes.ValkyrieClassStatement
-
 
 class RunClassGroup : ActionGroup() {
     private val name: String = ""
@@ -19,18 +14,6 @@ class RunClassGroup : ActionGroup() {
         templatePresentation.icon = AllIcons.RunConfigurations.TestState.Run_run
         templatePresentation.text = ValkyrieBundle.message("action.run.class.group.name")
         templatePresentation.description = ValkyrieBundle.message("action.run.class.group.help")
-    }
-
-    companion object {
-        fun markClass(element: PsiElement): Info? {
-            if (element !is ValkyrieClassStatement) return null;
-            return Info(RunClass(listOf("element"), false))
-        }
-
-//        fun markExtends(element: PsiElement): Info? {
-//            if (element !is ValkyrieExtendsStatementNode) return null;
-//            return Info(RunClassGroup())
-//        }
     }
 
     override fun actionPerformed(event: AnActionEvent) {

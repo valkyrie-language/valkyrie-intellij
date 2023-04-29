@@ -2,6 +2,7 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
@@ -9,16 +10,17 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 
 import static valkyrie.psi.ValkyrieTypes.*;
-import valkyrie.psi.mixin.MixinTypeParameter;
 
-public class ValkyrieGenericParameterNode extends MixinTypeParameter implements ValkyrieGenericParameter {
+import valkyrie.psi.mixin.MixinLambda;
 
-    public ValkyrieGenericParameterNode(@NotNull ASTNode node) {
+public class ValkyrieNewLambdaNode extends MixinLambda implements ValkyrieNewLambda {
+
+    public ValkyrieNewLambdaNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitGenericParameter(this);
+        visitor.visitNewLambda(this);
     }
 
     @Override
@@ -28,27 +30,27 @@ public class ValkyrieGenericParameterNode extends MixinTypeParameter implements 
     }
 
     @Override
-    @NotNull
-    public ValkyrieAnnotations getAnnotations() {
-        return findNotNullChildByClass(ValkyrieAnnotations.class);
+    @Nullable
+    public ValkyrieDeclareGeneric getDeclareGeneric() {
+        return findChildByClass(ValkyrieDeclareGeneric.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieDefaultType getDefaultType() {
-        return findChildByClass(ValkyrieDefaultType.class);
-    }
-
-    @Override
-    @NotNull
-    public ValkyrieIdentifier getIdentifier() {
-        return findNotNullChildByClass(ValkyrieIdentifier.class);
+    public ValkyrieEffectType getEffectType() {
+        return findChildByClass(ValkyrieEffectType.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieTypeHint getTypeHint() {
-        return findChildByClass(ValkyrieTypeHint.class);
+    public ValkyrieParameterBody getParameterBody() {
+        return findChildByClass(ValkyrieParameterBody.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieReturnType getReturnType() {
+        return findChildByClass(ValkyrieReturnType.class);
     }
 
 }

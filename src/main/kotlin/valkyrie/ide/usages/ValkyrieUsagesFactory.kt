@@ -4,23 +4,15 @@ import com.intellij.find.findUsages.FindUsagesHandler
 import com.intellij.find.findUsages.FindUsagesHandlerFactory
 import com.intellij.openapi.extensions.PluginDescriptor
 import com.intellij.psi.PsiElement
-import valkyrie.psi.node.*
+import valkyrie.psi.ValkyrieDeclareElement
+import valkyrie.psi.node.ValkyrieNamepath
 
 class ValkyrieUsagesFactory : FindUsagesHandlerFactory() {
     override fun canFindUsages(element: PsiElement): Boolean {
         // element is a PsiNamedElement
         return when (element) {
-            is ValkyrieDeclareEnumerate,
-            is ValkyrieDeclareClass,
-            is ValkyrieDeclareTrait,
-            is ValkyrieTraitAlias,
-            is ValkyrieDeclareSemantic,
-            is ValkyrieDeclareFlags,
-            -> true
-
-            is ValkyrieNamepath,
-            -> false
-
+            is ValkyrieDeclareElement -> true
+            is ValkyrieNamepath -> false
             else -> {
                 println("canFindUsages: $element")
                 false

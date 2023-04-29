@@ -8,7 +8,6 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.psi.ValkyrieTypes.*;
-
 import valkyrie.psi.mixin.MixinVariable;
 
 public class ValkyrieDeclareVariableNode extends MixinVariable implements ValkyrieDeclareVariable {

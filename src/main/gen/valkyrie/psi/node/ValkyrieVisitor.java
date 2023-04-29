@@ -91,10 +91,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitDeclareLambda(@NotNull ValkyrieDeclareLambda o) {
-        visitPsiElement(o);
-    }
-
     public void visitDeclareMethod(@NotNull ValkyrieDeclareMethod o) {
         visitPsiElement(o);
     }
@@ -292,6 +288,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitNewBody(@NotNull ValkyrieNewBody o) {
+        visitPsiElement(o);
+    }
+
+    public void visitNewLambda(@NotNull ValkyrieNewLambda o) {
         visitPsiElement(o);
     }
 

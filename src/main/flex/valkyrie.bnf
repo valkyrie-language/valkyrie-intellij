@@ -88,7 +88,7 @@ private statements ::=
   | block-statement
 private block-statement ::=
     declare-variable
-  | declare-lambda
+  | new-lambda
   | control-statement
   | inline-statement
 private inline-statement ::=
@@ -220,9 +220,7 @@ declare-function ::= annotations KW_FUNCTION declare-generic? identifier paramet
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinFunction"
 }
-declare-lambda ::= KW_LAMBDA declare-generic? parameter-body return-type? effect-type? {
-    pin = 1
-}
+
 parameter-body ::= PARENTHESIS_L (parameter-item (COMMA parameter-item)* COMMA?)? PARENTHESIS_R;
 parameter-item ::= annotations identifier type-hint? default-value? {
     mixin = "valkyrie.psi.mixin.MixinValueParameter"
@@ -334,6 +332,10 @@ new-body   ::= BRACE_L BRACE_R;
 new-object ::= KW_OBJECT class-inherit-body? type-hint? class-body {
     pin = 1
     mixin = "valkyrie.psi.mixin.MixinObject"
+}
+new-lambda ::= KW_LAMBDA declare-generic? parameter-body return-type? effect-type? {
+    pin = 1
+    mixin = "valkyrie.psi.mixin.MixinLambda"
 }
 // === control expression ===
 control-statement ::=

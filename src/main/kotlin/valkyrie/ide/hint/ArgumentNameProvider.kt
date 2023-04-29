@@ -9,7 +9,7 @@ import valkyrie.language.ValkyrieBundle
 
 
 @Suppress("UnstableApiUsage")
-class ValkyrieArgumentNameProvider : InlayParameterHintsProvider {
+class ArgumentNameProvider : InlayParameterHintsProvider {
     var context = ""
 
     override fun getHintInfo(element: PsiElement): HintInfo? {
@@ -19,7 +19,7 @@ class ValkyrieArgumentNameProvider : InlayParameterHintsProvider {
 
     /// 函数里面的东西
     override fun getParameterHints(element: PsiElement): MutableList<InlayInfo> {
-        val visitor = ValkyrieArgumentNameVisitor();
+        val visitor = ArgumentNameVisitor();
         element.accept(visitor)
         return visitor.info;
     }

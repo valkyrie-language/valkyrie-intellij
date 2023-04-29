@@ -11,7 +11,6 @@ import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings.ReturnType
-import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.childrenWithLeaves
 import valkyrie.psi.node.*
@@ -20,7 +19,7 @@ import valkyrie.psi.replaceLeaf
 
 class ValkyrieBeforeFormat : PreFormatProcessor {
     override fun process(element: ASTNode, range: TextRange): TextRange {
-        val root = element.psi as ValkyrieFileNode
+        val root = element.psi
         val settings = CodeStyle.getCustomSettings(
             root.containingFile, ValkyrieCodeStyleSettings::class.java
         )
@@ -35,7 +34,13 @@ class ValkyrieBeforeFormat : PreFormatProcessor {
 }
 
 
-private class BeforeFormatFixer(val settings: ValkyrieCodeStyleSettings) : ValkyrieVisitor(), PsiRecursiveVisitor {
+private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
+    val settings: ValkyrieCodeStyleSettings
+
+    constructor(settings: ValkyrieCodeStyleSettings) : super() {
+        this.settings = settings
+    }
+
     override fun visitElement(element: PsiElement) {
         ProgressManager.checkCanceled()
         element.acceptChildren(this)

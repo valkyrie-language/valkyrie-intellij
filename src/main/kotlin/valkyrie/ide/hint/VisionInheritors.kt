@@ -3,6 +3,7 @@ package valkyrie.ide.hint
 import com.intellij.codeInsight.CodeInsightBundle
 import com.intellij.codeInsight.codeVision.CodeVisionEntry
 import com.intellij.codeInsight.codeVision.settings.PlatformCodeVisionIds
+import com.intellij.codeInsight.completion.CompletionData
 import com.intellij.psi.PsiElement
 import valkyrie.psi.node.ValkyrieDeclareClass
 import valkyrie.psi.node.ValkyrieDeclareTrait
@@ -28,4 +29,20 @@ class VisionInheritors : ValkyrieCodeVision() {
         }
     }
 }
+
+//class A : CodeVisionProvider<PsiElement> {
+//    override val defaultAnchor: CodeVisionAnchorKind
+//        get() = TODO("Not yet implemented")
+//    override val id: String
+//        get() = TODO("Not yet implemented")
+//    override val name: String
+//        get() = TODO("Not yet implemented")
+//    override val relativeOrderings: List<CodeVisionRelativeOrdering>
+//        get() = TODO("Not yet implemented")
+//
+//    override fun precomputeOnUiThread(editor: Editor): PsiElement {
+//        TODO("Not yet implemented")
+//    }
+//
+//}
 
