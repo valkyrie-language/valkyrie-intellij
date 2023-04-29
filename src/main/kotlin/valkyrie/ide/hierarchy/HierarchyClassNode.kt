@@ -1,4 +1,4 @@
-package valkyrie.ide.view.hierarchy
+package valkyrie.ide.hierarchy
 
 import com.intellij.ide.hierarchy.HierarchyNodeDescriptor
 import com.intellij.ide.util.treeView.NodeDescriptor

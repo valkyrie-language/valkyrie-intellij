@@ -1,32 +1,14 @@
 package valkyrie.ide.hint
 
-import com.intellij.codeInsight.codeVision.CodeVisionEntry
 import com.intellij.codeInsight.codeVision.ui.model.TextCodeVisionEntry
 import com.intellij.icons.AllIcons
-import com.intellij.openapi.editor.Editor
-import com.intellij.openapi.util.TextRange
-import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieBundle
 import valkyrie.psi.node.ValkyrieDeclareClass
 import valkyrie.psi.node.ValkyrieDeclareMethod
 import valkyrie.psi.node.ValkyrieDeclareTrait
 import valkyrie.psi.node.ValkyrieVisitor
 
-class VisionMonomorphism : ValkyrieCodeVision() {
-    override val id: String = "hint.vision.monomorphism.name"
-    override val name: String = ValkyrieBundle.message(id)
-    override fun getCodeVision(element: PsiElement): TextCodeVisionEntry? {
-        val visit = MonomorphismVisitor(id)
-        element.accept(visit)
-        return visit.vision
-    }
-
-    override fun handleClick(editor: Editor, textRange: TextRange, entry: CodeVisionEntry) {
-
-    }
-}
-
-private class MonomorphismVisitor : ValkyrieVisitor {
+class ValkyrieMonomorphismVisitor : ValkyrieVisitor {
     private val id: String
     var vision: TextCodeVisionEntry? = null
 

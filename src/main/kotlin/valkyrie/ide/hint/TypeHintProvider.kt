@@ -4,13 +4,13 @@ import com.intellij.codeInsight.hints.*
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiFile
 import com.intellij.ui.dsl.builder.panel
-import valkyrie.ide.hint.TypeInlayProvider.InlayTypeSetting
+import valkyrie.ide.hint.TypeHintProvider.InlayTypeSetting
 import valkyrie.language.ValkyrieBundle
 //import valkyrie.language.psi_node.*
 import javax.swing.JComponent
 
 @Suppress("UnstableApiUsage", "PropertyName")
-class TypeInlayProvider : InlayHintsProvider<InlayTypeSetting> {
+class TypeHintProvider : InlayHintsProvider<InlayTypeSetting> {
     data class InlayTypeSetting(
         var show_obvious_type: Boolean = false,
         var showForLoopType: Boolean = true,
@@ -101,7 +101,7 @@ class TypeInlayProvider : InlayHintsProvider<InlayTypeSetting> {
     }
 
     override fun getCollectorFor(file: PsiFile, editor: Editor, settings: InlayTypeSetting, sink: InlayHintsSink): InlayHintsCollector {
-        return TypeInlayHint(settings)
+        return TypeHintCollector(settings)
     }
 
     // todo: getCasePreview

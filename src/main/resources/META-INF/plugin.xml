@@ -56,18 +56,12 @@
 			language="valkyrie"
 			implementationClass="valkyrie.ide.view.ValkyrieStructureView"
 		/>
-		<typeHierarchyProvider
-			language="valkyrie"
-			implementationClass="valkyrie.ide.view.hierarchy.TypeHierarchyProvider"
-		/>
+		<typeHierarchyProvider language="valkyrie" implementationClass="valkyrie.ide.hierarchy.TypeHierarchyProvider"/>
 		<methodHierarchyProvider
 			language="valkyrie"
-			implementationClass="valkyrie.ide.view.hierarchy.MethodHierarchyProvider"
+			implementationClass="valkyrie.ide.hierarchy.MethodHierarchyProvider"
 		/>
-		<callHierarchyProvider
-			language="valkyrie"
-			implementationClass="valkyrie.ide.view.hierarchy.CallHierarchyProvider"
-		/>
+		<callHierarchyProvider language="valkyrie" implementationClass="valkyrie.ide.hierarchy.CallHierarchyProvider"/>
 		<!-- Highlight -->
 		<colorSettingsPage implementation="valkyrie.ide.highlight.HighlightSetting"/>
 		<highlightVisitor
@@ -119,18 +113,19 @@
 		<!-- Hint -->
 		<codeInsight.inlayProvider
 			language="valkyrie"
-			implementationClass="valkyrie.ide.hint.TypeInlayProvider"
+			implementationClass="valkyrie.ide.hint.TypeHintProvider"
 		/>
 		<codeInsight.typeInfo language="valkyrie" implementationClass="valkyrie.ide.hint.TypeInfoHint"/>
 		<codeInsight.parameterInfo language="valkyrie" implementationClass="valkyrie.ide.hint.ParameterInfoHint"/>
 		<codeInsight.parameterInfo.listener implementation="valkyrie.ide.hint.ParameterInfoListener"/>
 		<codeInsight.parameterNameHints
 			language="valkyrie"
-			implementationClass="valkyrie.ide.hint.ParameterInlayProvider"
+			implementationClass="valkyrie.ide.hint.ValkyrieArgumentNameProvider"
 		/>
 		<codeInsight.lineMarkerProvider
 			language="valkyrie"
-			implementationClass="valkyrie.ide.line_marker.ValkyrieMarkerProvider"/>
+			implementationClass="valkyrie.ide.line_marker.ValkyrieMarkerProvider"
+		/>
 		<!--				<runLineMarkerContributor-->
 		<!--					language="valkyrie"-->
 		<!--					implementationClass="valkyrie.ide.runner.ValkyrieRunner"/>-->
@@ -146,7 +141,7 @@
 		/>
 		<codeInsight.daemonBoundCodeVisionProvider
 			language="valkyrie"
-			implementationClass="valkyrie.ide.hint.VisionMonomorphism"
+			implementationClass="valkyrie.ide.hint.ValkyrieMonomorphismProvider"
 		/>
 		<codeInsight.daemonBoundCodeVisionProvider
 			language="valkyrie"
