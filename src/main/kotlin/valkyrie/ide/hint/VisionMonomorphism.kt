@@ -7,51 +7,18 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieBundle
-import valkyrie.psi.node.ValkyrieDeclareClassNode
-import valkyrie.psi.node.ValkyrieDeclareMethodNode
-import valkyrie.psi.node.ValkyrieDeclareTraitNode
+import valkyrie.psi.node.ValkyrieDeclareClass
+import valkyrie.psi.node.ValkyrieDeclareMethod
+import valkyrie.psi.node.ValkyrieDeclareTrait
+import valkyrie.psi.node.ValkyrieVisitor
 
 class VisionMonomorphism : ValkyrieCodeVision() {
     override val id: String = "hint.vision.monomorphism.name"
     override val name: String = ValkyrieBundle.message(id)
     override fun getCodeVision(element: PsiElement): TextCodeVisionEntry? {
-        when (element) {
-            is ValkyrieDeclareClassNode -> {
-                return TextCodeVisionEntry(
-                    ValkyrieBundle.message(id, '?'),
-                    id,
-                    AllIcons.Nodes.CopyOfFolder,
-                    "VisionMonomorphism",
-                    "tooltip",
-                    listOf()
-                )
-            }
-
-            is ValkyrieDeclareTraitNode -> {
-                return TextCodeVisionEntry(
-                    ValkyrieBundle.message(id, '?'),
-                    id,
-                    AllIcons.Nodes.CopyOfFolder,
-                    "VisionMonomorphism",
-                    "tooltip",
-                    listOf()
-                )
-            }
-
-            is ValkyrieDeclareMethodNode -> {
-                return TextCodeVisionEntry(
-                    ValkyrieBundle.message(id, '?'),
-                    id,
-                    AllIcons.General.InlineCopy,
-                    "VisionMonomorphism",
-                    "tooltip",
-                    listOf()
-                )
-            }
-
-
-            else -> return null
-        }
+        val visit = MonomorphismVisitor(id)
+        element.accept(visit)
+        return visit.vision
     }
 
     override fun handleClick(editor: Editor, textRange: TextRange, entry: CodeVisionEntry) {
@@ -59,4 +26,53 @@ class VisionMonomorphism : ValkyrieCodeVision() {
     }
 }
 
+private class MonomorphismVisitor : ValkyrieVisitor {
+    private val id: String
+    var vision: TextCodeVisionEntry? = null
 
+    constructor(id: String) : super() {
+        this.id = id
+    }
+
+
+    override fun visitDeclareClass(o: ValkyrieDeclareClass) {
+        if (o.declareGeneric != null) {
+            vision = TextCodeVisionEntry(
+                ValkyrieBundle.message(id, '?'),
+                id,
+                AllIcons.Nodes.CopyOfFolder,
+                "VisionMonomorphism",
+                "tooltip",
+                listOf()
+            )
+        }
+
+
+    }
+
+    override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {
+        if (o.declareGeneric != null) {
+            vision = TextCodeVisionEntry(
+                ValkyrieBundle.message(id, '?'),
+                id,
+                AllIcons.Nodes.CopyOfFolder,
+                "VisionMonomorphism",
+                "tooltip",
+                listOf()
+            )
+        }
+    }
+
+    override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
+        if (o.declareGeneric != null) {
+            vision = TextCodeVisionEntry(
+                ValkyrieBundle.message(id, '?'),
+                id,
+                AllIcons.Nodes.CopyOfFolder,
+                "VisionMonomorphism",
+                "tooltip",
+                listOf()
+            )
+        }
+    }
+}

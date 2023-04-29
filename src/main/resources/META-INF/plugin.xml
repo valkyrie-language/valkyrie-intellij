@@ -51,20 +51,23 @@
 		<iconProvider implementation="valkyrie.language.file.ValkyrieIconProvider"/>
 		<!--		<projectViewNestingRulesProvider implementation="valkyrie.language.file.ValkyrieFileGroup"/>-->
 		<!--		<treeStructureProvider implementation="valkyrie.ide.view.VStructureProvider"/>-->
-		<!--		<lang.structureViewExtension implementation="valkyrie.ide.view.VStructureViewExtension"/>-->
+		<lang.structureViewExtension implementation="valkyrie.ide.view.ValkyrieStructureViewExtension"/>
 		<lang.psiStructureViewFactory
 			language="valkyrie"
 			implementationClass="valkyrie.ide.view.ValkyrieStructureView"
 		/>
-		<!--		<typeHierarchyProvider-->
-		<!--			language="Valkyrie"-->
-		<!--			implementationClass="valkyrie.ide.view.hierarchy.TypeHierarchyProvider"/>-->
-		<!--		<methodHierarchyProvider-->
-		<!--			language="Valkyrie"-->
-		<!--			implementationClass="valkyrie.ide.view.hierarchy.MethodHierarchyProvider"/>-->
-		<!--		<callHierarchyProvider-->
-		<!--			language="Valkyrie"-->
-		<!--			implementationClass="valkyrie.ide.view.hierarchy.CallHierarchyProvider"/>-->
+		<typeHierarchyProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.view.hierarchy.TypeHierarchyProvider"
+		/>
+		<methodHierarchyProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.view.hierarchy.MethodHierarchyProvider"
+		/>
+		<callHierarchyProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.view.hierarchy.CallHierarchyProvider"
+		/>
 		<!-- Highlight -->
 		<colorSettingsPage implementation="valkyrie.ide.highlight.HighlightSetting"/>
 		<highlightVisitor
@@ -172,7 +175,7 @@
 		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.MarkImplicitTypes"/>
 		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.LegacyExpression"/>
 		<!-- Declaration -->
-		<typeDeclarationProvider implementation="valkyrie.ide.reference.declaration.ValkyrieTypeDeclarationProvider"/>
+		<typeDeclarationProvider implementation="valkyrie.ide.reference.declaration.ValkyrieDeclarationProvider"/>
 		<!--		<psi.declarationProvider implementation="valkyrie.ide.reference.declaration.SymbolDeclarationProvider"/>-->
 		<!--		<declarationRangeHandler-->
 		<!--			key="org.rust.lang.core.psi.ValkyrieClass"-->

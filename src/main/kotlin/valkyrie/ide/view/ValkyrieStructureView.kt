@@ -41,11 +41,11 @@ class ValkyrieStructureView : PsiStructureViewFactory {
         override fun getSorters() = arrayOf(Sorter.ALPHA_SORTER)
 
         override fun getFilters(): Array<Filter> {
-            return super.getFilters()
+            return arrayOf()
         }
 
         override fun getGroupers(): Array<Grouper> {
-            return super.getGroupers()
+            return arrayOf()
         }
 
         override fun isAlwaysLeaf(element: StructureViewTreeElement): Boolean {
