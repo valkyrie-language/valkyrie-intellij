@@ -237,11 +237,23 @@
 		                       implementationClass="valkyrie.ide.completion.ValkyrieFileDropHandler"/>
 
 		<!-- Live Template -->
+		<liveTemplateContextProvider
+			language="valkyrie" contextId="valkyrie"
+			implementationClass="valkyrie.ide.completion.ValkyrieLiveTemplateContextProvider"
+		/>
+		<liveTemplateContext
+			language="valkyrie" contextId="valkyrie"
+			implementationClass="valkyrie.ide.completion.ValkyrieLiveTemplateContextAll"
+		/>
+		<liveTemplateContext
+			language="valkyrie" contextId="valkyrie"
+			implementationClass="valkyrie.ide.completion.ValkyrieLiveTemplateContextTop"
+		/>
+		<defaultLiveTemplatesProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.completion.ValkyrieLiveTemplateDefault"
+		/>
 		<customLiveTemplate language="valkyrie" implementationClass="valkyrie.ide.completion.ValkyrieLiveTemplate"/>
-		<liveTemplateContext language="valkyrie" contextId="valkyrie"
-		                     implementationClass="valkyrie.ide.completion.ValkyrieLiveTemplateContext"/>
-		<liveTemplateContextProvider language="valkyrie" contextId="valkyrie"
-		                             implementationClass="valkyrie.ide.completion.ValkyrieLiveTemplateContextProvider"/>
 		<liveTemplateMacro language="valkyrie" implementationClass="valkyrie.ide.completion.ValkyrieLiveTemplateMacro"/>
 		<!-- Document -->
 		<lang.documentationProvider
