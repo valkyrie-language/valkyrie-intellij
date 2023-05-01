@@ -18,7 +18,6 @@ class CompletionInFileScope : CompletionProvider<CompletionParameters>() {
     override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
         element = parameters.position
         result.addTopMacros()
-        keywordSnippet(result)
     }
 
     private fun CompletionResultSet.addTopMacros() {
@@ -29,11 +28,6 @@ class CompletionInFileScope : CompletionProvider<CompletionParameters>() {
         addElement(macroCall("@comment_line", "@comment_line", 1))
     }
 
-    private fun keywordSnippet(result: CompletionResultSet) {
-        result.addKeywordSnippet("class", "let.ft", setOf("class", "struct"))
-        result.addKeywordSnippet("union", "let_mut.ft", setOf("union", "enum"))
-    }
-
     private fun macroCall(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
         return buildWithReplace(show, replace, offset, lookup, AllIcons.Gutter.ExtAnnotation)
     }
@@ -41,19 +35,6 @@ class CompletionInFileScope : CompletionProvider<CompletionParameters>() {
     private fun annotationCall(show: String, replace: String, offset: Int, lookup: Set<String> = setOf()): LookupElementBuilder {
         return buildWithReplace(show, replace, offset, lookup, AllIcons.Nodes.Annotationtype)
     }
-
-
-    private fun CompletionResultSet.addKeywordSnippet(id: String, file: String, lookup: Set<String> = setOf()) {
-        if (element == null) {
-            return
-        }
-        val item = TemplateReplaceElement.snippetFromPath(element!!, id, file)
-            .bold()
-            .withLookupStrings(lookup)
-            .withIcon(AllIcons.Actions.MoreHorizontal)
-        addElement(item)
-    }
-
 
     companion object {
         val Condition = triggerCondition();

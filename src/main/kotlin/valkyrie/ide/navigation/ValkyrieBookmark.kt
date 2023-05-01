@@ -1,4 +1,4 @@
-package valkyrie.ide.goto
+package valkyrie.ide.navigation
 
 import com.intellij.ide.bookmark.Bookmark
 import com.intellij.ide.bookmark.BookmarkProvider
@@ -58,7 +58,7 @@ class ValkyrieBookmark : BookmarkProvider {
     }
 
     override fun createBookmark(context: Any?): Bookmark? {
-        TODO("Not yet implemented")
+        return null
     }
 
 }
