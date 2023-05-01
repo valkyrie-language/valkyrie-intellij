@@ -17,8 +17,8 @@ open class ValkyrieReference : PsiPolyVariantCachingReference {
     }
 
 
-    override fun getElement(): ValkyrieIdentifierNode {
-        return namepath.lastChild as ValkyrieIdentifierNode
+    override fun getElement(): PsiElement {
+        return namepath
     }
 
     override fun getRangeInElement(): TextRange {
@@ -31,7 +31,7 @@ open class ValkyrieReference : PsiPolyVariantCachingReference {
 
     override fun resolve(): PsiElement? {
 //        return null
-        return namepath.containingFile.definitions.find(element)
+        return namepath.containingFile.definitions.find(element.lastChild as ValkyrieIdentifierNode)
     }
 
 
