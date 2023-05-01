@@ -20,7 +20,7 @@ class TypeHintVisitor : ValkyrieVisitor {
     }
 
     override fun visitDeclareField(o: ValkyrieDeclareField) {
-        if (setting.showClassFieldType) {
+        if (!setting.showClassFieldType) {
             return
         }
 
@@ -31,55 +31,51 @@ class TypeHintVisitor : ValkyrieVisitor {
 
 
     override fun visitForStatement(o: ValkyrieForStatement) {
-//            settings.showForLoopType && element is ValkyriePatternItemNode -> {
+        if (setting.showForLoopType) {
 //                inline(element.identifier.textRange.endOffset, "Unknown")
-//            }
-    }
-
-    override fun visitReturnType(o: ValkyrieReturnType) {
-//            settings.showDefineReturnType && element is ValkyrieDefineStatementNode -> {
-//                if (element.returnType == null) {
-//                    element.defineTuple?.textRange?.let {
-//                        inline(it.endOffset, "Unknown", split = "⟶")
-//                    }
-//                }
-//            }
+        }
     }
 
     override fun visitDeclareFunction(o: ValkyrieDeclareFunction) {
-//
-//            settings.showDefineParameterType && element is ValkyrieDefineItemNode -> {
-//                val id = element.identifier ?: return true;
-//                if (id.text == "self") {
-//                    // skip
-//                } else if (element.typeExpression == null) {
-//                    id.textRange?.let {
-//                        inline(it.endOffset, "Unknown")
-//                    }
-//                }
+        if (setting.showDefineParameterType) {
+            val parameter = o.parameterBody?.parameterItemList ?: listOf()
+            for (parameterItem in parameter) {
+                if (parameterItem.typeHint == null) {
+                    parameterItem.identifier.endOffset.let { hint(it, ": Any") }
+                }
+            }
+        }
+        if (setting.showDefineReturnType) {
+            if (o.returnType == null) {
+                o.parameterBody?.endOffset?.let { hint(it, "⟶ Any") }
+            }
+            return
+        }
+        if (setting.showDefineEffectType) {
+//            if (o.effectType == null) {
+//                o.parameterBody?.endOffset?.let { hint(it, "/ Pure") }
 //            }
-//
-
+        }
     }
 
 
     override fun visitDeclareEnumerate(o: ValkyrieDeclareEnumerate) {
-        super.visitDeclareEnumerate(o)
+        if (setting.showEnumerationType) {
+            o.identifier?.endOffset?.let { hint(it, ": [u8; 4]") }
+        }
     }
 
     override fun visitDeclareFlags(o: ValkyrieDeclareFlags) {
-//            settings.showBitFlagType && element is ValkyrieBitflagStatementNode -> {
-//                if (element.typeExpression == null) {
-//                    inline(element.identifier.textRange.endOffset, "u32")
-//                }
-//            }
+        if (setting.showBitFlagType) {
+            o.identifier?.endOffset?.let { hint(it, ": [u8; 4]") }
+        }
     }
 
     fun hint(start: Int, text: String) {
-        sink!!.addInlineElement(
+        sink.addInlineElement(
             start, true,
             // click then replace
-            factory!!.roundWithBackgroundAndSmallInset(factory!!.smallTextWithoutBackground(text)), false
+            factory.roundWithBackgroundAndSmallInset(factory.smallTextWithoutBackground(text)), false
         )
     }
 }

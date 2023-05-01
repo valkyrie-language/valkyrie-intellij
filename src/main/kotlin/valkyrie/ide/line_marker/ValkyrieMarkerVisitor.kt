@@ -1,10 +1,15 @@
 package valkyrie.ide.line_marker
 
 import com.intellij.codeInsight.daemon.LineMarkerInfo
+import com.intellij.execution.lineMarker.RunLineMarkerContributor
+import com.intellij.execution.lineMarker.RunLineMarkerProvider
+import com.intellij.icons.AllIcons
+import com.intellij.psi.PsiElement
+import valkyrie.ide.runner.RunTest
+import valkyrie.ide.runner.RunTestDebugMode
 import valkyrie.psi.node.*
 
 class ValkyrieMarkerVisitor : ValkyrieVisitor {
-
     var result: MutableCollection<in LineMarkerInfo<*>>
 
     constructor(result: MutableCollection<in LineMarkerInfo<*>>) : super() {
@@ -64,6 +69,7 @@ class ValkyrieMarkerVisitor : ValkyrieVisitor {
     override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
         o as ValkyrieDeclareMethodNode
         result.add(ValkyrieMarkAny(o))
+        createFunctionTest(o, o.annotations)
     }
 
     override fun visitNewObject(o: ValkyrieNewObject) {
@@ -87,4 +93,51 @@ class ValkyrieMarkerVisitor : ValkyrieVisitor {
     }
 
 
+    override fun visitNewLambda(o: ValkyrieNewLambda) {
+        o as ValkyrieNewLambdaNode
+        result.add(ValkyrieMarkAny(o))
+    }
+
+    private fun createFunctionTest(source: PsiElement?, annotations: ValkyrieAnnotations?) {
+        val leaf = findTest(annotations)
+        if (source == null || leaf == null) {
+            return
+        }
+        val info =
+            RunLineMarkerContributor.Info(AllIcons.RunConfigurations.TestState.Run_run, { "te" }, RunTest(source), RunTestDebugMode(source));
+
+        result.add(RunLineMarkerProvider.createLineMarker(leaf, info.icon, mutableListOf(info)))
+    }
+
+    private fun findTest(annotations: ValkyrieAnnotations?): PsiElement? {
+        annotations ?: return null
+        for (attr in annotations.attributeList) {
+            attr as ValkyrieAttributeNode;
+            if (attr.name == "test") {
+                return attr.firstChild
+            }
+        }
+
+        for (mod in annotations.modifierList) {
+            mod as ValkyrieModifierNode;
+            if (mod.name == "test") {
+                return mod.firstChild
+            }
+        }
+
+        return null
+    }
+
+    private fun findTest(body: ValkyrieClassBody?): Boolean {
+        body ?: return false
+        for (item in body.classItemList) {
+            val child = item.firstChild;
+            if (child is ValkyrieDeclareMethodNode) {
+                if (findTest(child.annotations) != null) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
 }

@@ -279,14 +279,14 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
 
     /* ********************************************************** */
     // declare-variable
-    //   | declare-lambda
+    //   | new-lambda
     //   | control-statement
     //   | inline-statement
     static boolean block_statement(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "block_statement")) return false;
         boolean r;
         r = declare_variable(b, l + 1);
-        if (!r) r = declare_lambda(b, l + 1);
+        if (!r) r = new_lambda(b, l + 1);
         if (!r) r = control_statement(b, l + 1);
         if (!r) r = inline_statement(b, l + 1);
         return r;
@@ -950,44 +950,6 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = p && class_body(b, l + 1) && r;
         exit_section_(b, l, m, r, p, null);
         return r || p;
-    }
-
-    /* ********************************************************** */
-    // KW_LAMBDA declare-generic? parameter-body return-type? effect-type?
-    public static boolean declare_lambda(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "declare_lambda")) return false;
-        if (!nextTokenIs(b, KW_LAMBDA)) return false;
-        boolean r, p;
-        Marker m = enter_section_(b, l, _NONE_, DECLARE_LAMBDA, null);
-        r = consumeToken(b, KW_LAMBDA);
-        p = r; // pin = 1
-        r = r && report_error_(b, declare_lambda_1(b, l + 1));
-        r = p && report_error_(b, parameter_body(b, l + 1)) && r;
-        r = p && report_error_(b, declare_lambda_3(b, l + 1)) && r;
-        r = p && declare_lambda_4(b, l + 1) && r;
-        exit_section_(b, l, m, r, p, null);
-        return r || p;
-    }
-
-    // declare-generic?
-    private static boolean declare_lambda_1(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "declare_lambda_1")) return false;
-        declare_generic(b, l + 1);
-        return true;
-    }
-
-    // return-type?
-    private static boolean declare_lambda_3(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "declare_lambda_3")) return false;
-        return_type(b, l + 1);
-        return true;
-    }
-
-    // effect-type?
-    private static boolean declare_lambda_4(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "declare_lambda_4")) return false;
-        effect_type(b, l + 1);
-        return true;
     }
 
     /* ********************************************************** */
@@ -2547,6 +2509,44 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = consumeTokens(b, 0, BRACE_L, BRACE_R);
         exit_section_(b, m, NEW_BODY, r);
         return r;
+    }
+
+    /* ********************************************************** */
+    // KW_LAMBDA declare-generic? parameter-body return-type? effect-type?
+    public static boolean new_lambda(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "new_lambda")) return false;
+        if (!nextTokenIs(b, KW_LAMBDA)) return false;
+        boolean r, p;
+        Marker m = enter_section_(b, l, _NONE_, NEW_LAMBDA, null);
+        r = consumeToken(b, KW_LAMBDA);
+        p = r; // pin = 1
+        r = r && report_error_(b, new_lambda_1(b, l + 1));
+        r = p && report_error_(b, parameter_body(b, l + 1)) && r;
+        r = p && report_error_(b, new_lambda_3(b, l + 1)) && r;
+        r = p && new_lambda_4(b, l + 1) && r;
+        exit_section_(b, l, m, r, p, null);
+        return r || p;
+    }
+
+    // declare-generic?
+    private static boolean new_lambda_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "new_lambda_1")) return false;
+        declare_generic(b, l + 1);
+        return true;
+    }
+
+    // return-type?
+    private static boolean new_lambda_3(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "new_lambda_3")) return false;
+        return_type(b, l + 1);
+        return true;
+    }
+
+    // effect-type?
+    private static boolean new_lambda_4(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "new_lambda_4")) return false;
+        effect_type(b, l + 1);
+        return true;
     }
 
     /* ********************************************************** */

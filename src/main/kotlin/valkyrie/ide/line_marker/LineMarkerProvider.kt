@@ -1,10 +1,9 @@
 package valkyrie.ide.line_marker
 
 import com.intellij.codeInsight.daemon.LineMarkerInfo
-import com.intellij.codeInsight.daemon.LineMarkerProvider
 import com.intellij.psi.PsiElement
 
-class ValkyrieMarkerProvider : LineMarkerProvider {
+class LineMarkerProvider : com.intellij.codeInsight.daemon.LineMarkerProvider {
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? {
         return null
     }
@@ -15,7 +14,6 @@ class ValkyrieMarkerProvider : LineMarkerProvider {
             element.accept(visitor)
         }
     }
-
 }
 
 

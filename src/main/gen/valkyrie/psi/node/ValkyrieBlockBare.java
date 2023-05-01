@@ -11,9 +11,6 @@ public interface ValkyrieBlockBare extends PsiElement {
     List<ValkyrieControlStatement> getControlStatementList();
 
     @NotNull
-    List<ValkyrieDeclareLambda> getDeclareLambdaList();
-
-    @NotNull
     List<ValkyrieDeclareVariable> getDeclareVariableList();
 
     @NotNull
@@ -24,6 +21,9 @@ public interface ValkyrieBlockBare extends PsiElement {
 
     @NotNull
     List<ValkyrieIfStatement> getIfStatementList();
+
+    @NotNull
+    List<ValkyrieNewLambda> getNewLambdaList();
 
     @NotNull
     List<ValkyrieNewObject> getNewObjectList();

@@ -110,31 +110,22 @@
 		<usageFilteringRuleProvider implementation="valkyrie.ide.navigation.usageFiltering"/>
 		<bookmarkProvider implementation="valkyrie.ide.goto.ValkyrieBookmark"/>
 		<bookmarksListProvider implementation="valkyrie.ide.goto.ValkyrieBookmarkList"/>
-		<!-- Hint -->
-		<codeInsight.inlayProvider
-			language="valkyrie"
-			implementationClass="valkyrie.ide.hint.TypeHintProvider"
-		/>
-		<codeInsight.typeInfo language="valkyrie" implementationClass="valkyrie.ide.hint.TypeInfoHint"/>
-		<codeInsight.parameterInfo language="valkyrie" implementationClass="valkyrie.ide.hint.ParameterInfoHint"/>
-		<codeInsight.parameterInfo.listener implementation="valkyrie.ide.hint.ParameterInfoListener"/>
-		<codeInsight.parameterNameHints
-			language="valkyrie"
-			implementationClass="valkyrie.ide.hint.ValkyrieArgumentNameProvider"
-		/>
+		<!-- Hint Line Marker -->
 		<codeInsight.lineMarkerProvider
 			language="valkyrie"
-			implementationClass="valkyrie.ide.line_marker.ValkyrieMarkerProvider"
+			implementationClass="valkyrie.ide.line_marker.LineMarkerProvider"
 		/>
-		<!--				<runLineMarkerContributor-->
-		<!--					language="valkyrie"-->
-		<!--					implementationClass="valkyrie.ide.runner.ValkyrieRunner"/>-->
+
+		<runLineMarkerContributor language="valkyrie" implementationClass="valkyrie.ide.runner.RunnerProvider"/>
+		<!-- Hint Above -->
 		<vcs.codeVisionLanguageContext
 			language="valkyrie"
-			implementationClass="valkyrie.ide.hint.VisionAuthor"/>
+			implementationClass="valkyrie.ide.hint.VisionAuthor"
+		/>
 		<codeInsight.daemonBoundCodeVisionProvider
 			language="valkyrie"
-			implementationClass="valkyrie.ide.hint.VisionInheritors"/>
+			implementationClass="valkyrie.ide.hint.VisionInheritors"
+		/>
 		<codeInsight.daemonBoundCodeVisionProvider
 			language="valkyrie"
 			implementationClass="valkyrie.ide.hint.VisionUsage"
@@ -147,13 +138,25 @@
 			language="valkyrie"
 			implementationClass="valkyrie.ide.hint.VisionEffects"
 		/>
-
+		<!-- Hint Inlay -->
+		<codeInsight.inlayProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.hint.TypeHintProvider"
+		/>
+		<codeInsight.typeInfo language="valkyrie" implementationClass="valkyrie.ide.hint.TypeInfoHint"/>
+		<codeInsight.parameterInfo language="valkyrie" implementationClass="valkyrie.ide.hint.ParameterInfoHint"/>
+		<codeInsight.parameterInfo.listener implementation="valkyrie.ide.hint.ParameterInfoListener"/>
+		<codeInsight.parameterNameHints
+			language="valkyrie"
+			implementationClass="valkyrie.ide.hint.ArgumentNameProvider"
+		/>
 		<!--		<psi.fileReferenceHelper implementation="valkyrie.ide.reference.ValkyrieFileReference"/>-->
 		<!--		<psi.treeChangeListener implementation="valkyrie.ide.project.crate.ValkyrieFileListener"/>-->
 		<psi.referenceContributor
-			language="Valkyrie"
-			implementation="valkyrie.ide.reference.ValkyrieReferenceContributor"/>
-		<psi.referenceProvider language="Valkyrie" providerClass="valkyrie.ide.reference.ValkyrieReferenceProvider"/>
+			language="valkyrie"
+			implementation="valkyrie.ide.reference.ValkyrieReferenceContributor"
+		/>
+		<psi.referenceProvider language="valkyrie" providerClass="valkyrie.ide.reference.ValkyrieReferenceProvider"/>
 		<!--		<psi.symbolReferenceProvider-->
 		<!--			anyReferenceClass="true"-->
 		<!--			implementationClass="valkyrie.ide.reference.ValkyrieReferenceProvider"-->
@@ -198,6 +201,7 @@
 			language="valkyrie"
 			implementationClass="valkyrie.ide.matcher.BraceMatchAdapter"
 		/>
+		<codeBlockSupportHandler language="valkyrie" implementationClass="valkyrie.ide.matcher.CodeBlockSupport"/>
 		<lang.quoteHandler
 			language="valkyrie"
 			implementationClass="valkyrie.ide.matcher.ValkyrieQuoteHandler"
@@ -205,10 +209,18 @@
 		<codeCompletionConfigurable instance="valkyrie.ide.completion.CompletionConfig"/>
 		<completion.contributor
 			language="valkyrie"
-			implementationClass="valkyrie.ide.completion.CompletionRegistrar"/>
+			implementationClass="valkyrie.ide.completion.CompletionRegistrar"
+		/>
+		<controlFlowProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.completion.ValkyrieControlFlowProvider"
+		/>
 		<nameSuggestionProvider implementation="valkyrie.ide.completion.CompletionSuggestion"/>
+		<!-- Folding -->
 		<codeFoldingOptionsProvider instance="valkyrie.ide.folding.ValkyrieFoldingOptions"/>
 		<lang.foldingBuilder language="valkyrie" implementationClass="valkyrie.ide.folding.ValkyrieFoldingBuilder"/>
+		<customFoldingProvider language="valkyrie" implementationClass="valkyrie.ide.completion.ValkyrieFoldingRegion"/>
+		<!-- codeBlockProvider -->
 		<codeBlockProvider language="valkyrie" implementationClass="valkyrie.ide.matcher.ValkyrieCodeBlockProvider"/>
 		<referenceImporter implementation="valkyrie.ide.completion.ValkyrieImportInsert"/>
 		<lang.importOptimizer
@@ -221,10 +233,21 @@
 		<codeInsight.overrideMethod language="valkyrie" implementationClass="valkyrie.ide.codegen.GenerateOverrides"/>
 		<codeInsight.delegateMethods language="valkyrie" implementationClass="valkyrie.ide.codegen.GenerateDelegates"/>
 		<testCreator language="valkyrie" implementationClass="valkyrie.ide.codegen.GenerateTests"/>
+		<customFileDropHandler language="valkyrie"
+		                       implementationClass="valkyrie.ide.completion.ValkyrieFileDropHandler"/>
+
+		<!-- Live Template -->
+		<customLiveTemplate language="valkyrie" implementationClass="valkyrie.ide.completion.ValkyrieLiveTemplate"/>
+		<liveTemplateContext language="valkyrie" contextId="valkyrie"
+		                     implementationClass="valkyrie.ide.completion.ValkyrieLiveTemplateContext"/>
+		<liveTemplateContextProvider language="valkyrie" contextId="valkyrie"
+		                             implementationClass="valkyrie.ide.completion.ValkyrieLiveTemplateContextProvider"/>
+		<liveTemplateMacro language="valkyrie" implementationClass="valkyrie.ide.completion.ValkyrieLiveTemplateMacro"/>
 		<!-- Document -->
 		<lang.documentationProvider
 			language="valkyrie"
-			implementationClass="valkyrie.ide.doc.DocumentationProvider"/>
+			implementationClass="valkyrie.ide.doc.DocumentationProvider"
+		/>
 		<!--				<indexPatternBuilder-->
 		<!--						implementation="valkyrie.ide.lint.VomlTodoIndexPatternBuilder"-->
 		<!--				/>-->

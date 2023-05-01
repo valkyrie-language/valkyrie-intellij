@@ -29,7 +29,6 @@ public interface ValkyrieTypes {
     IElementType DECLARE_FUNCTION = new ValkyrieElementType("DECLARE_FUNCTION");
     IElementType DECLARE_GENERIC = new ValkyrieElementType("DECLARE_GENERIC");
     IElementType DECLARE_IMPLY = new ValkyrieElementType("DECLARE_IMPLY");
-    IElementType DECLARE_LAMBDA = new ValkyrieElementType("DECLARE_LAMBDA");
     IElementType DECLARE_METHOD = new ValkyrieElementType("DECLARE_METHOD");
     IElementType DECLARE_NAMESPACE = new ValkyrieElementType("DECLARE_NAMESPACE");
     IElementType DECLARE_SEMANTIC = new ValkyrieElementType("DECLARE_SEMANTIC");
@@ -80,6 +79,7 @@ public interface ValkyrieTypes {
     IElementType NAMEPATH = new ValkyrieElementType("NAMEPATH");
     IElementType NAMEPATH_FREE = new ValkyrieElementType("NAMEPATH_FREE");
     IElementType NEW_BODY = new ValkyrieElementType("NEW_BODY");
+    IElementType NEW_LAMBDA = new ValkyrieElementType("NEW_LAMBDA");
     IElementType NEW_OBJECT = new ValkyrieElementType("NEW_OBJECT");
     IElementType NEW_VALUE = new ValkyrieElementType("NEW_VALUE");
     IElementType NUMBER = new ValkyrieElementType("NUMBER");
@@ -274,8 +274,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieDeclareGenericNode(node);
             } else if (type == DECLARE_IMPLY) {
                 return new ValkyrieDeclareImplyNode(node);
-            } else if (type == DECLARE_LAMBDA) {
-                return new ValkyrieDeclareLambdaNode(node);
             } else if (type == DECLARE_METHOD) {
                 return new ValkyrieDeclareMethodNode(node);
             } else if (type == DECLARE_NAMESPACE) {
@@ -376,6 +374,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieNamepathFreeNode(node);
             } else if (type == NEW_BODY) {
                 return new ValkyrieNewBodyNode(node);
+            } else if (type == NEW_LAMBDA) {
+                return new ValkyrieNewLambdaNode(node);
             } else if (type == NEW_OBJECT) {
                 return new ValkyrieNewObjectNode(node);
             } else if (type == NEW_VALUE) {

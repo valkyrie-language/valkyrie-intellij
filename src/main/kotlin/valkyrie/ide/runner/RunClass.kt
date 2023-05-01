@@ -7,7 +7,6 @@ import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.ui.Messages
 import valkyrie.language.ValkyrieBundle
 
-
 class RunClass(val classPath: List<String>, private val full: Boolean) : AnAction() {
     init {
         if (full) {

@@ -5,14 +5,11 @@ import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieBundle
+import valkyrie.psi.node.ValkyrieDeclareNamespaceNode
 
-class RunNamespaceGroup(element: PsiElement) : ActionGroup() {
-    init {
-//        if (element !is ValkyrieNamespaceStatementNode) {
-//            throw IllegalArgumentException("element must be a ValkyrieNamespaceStatementNode")
-//        }
+class RunNamespaceGroup : ActionGroup {
+    constructor(element: ValkyrieDeclareNamespaceNode) : super() {
         templatePresentation.icon = AllIcons.RunConfigurations.TestState.Run_run
         templatePresentation.text = ValkyrieBundle.message("action.run.namespace.group.name")
         templatePresentation.description = ValkyrieBundle.message("action.run.namespace.group.help")
@@ -35,3 +32,5 @@ class RunNamespaceGroup(element: PsiElement) : ActionGroup() {
         event.presentation.isEnabledAndVisible = currentProject != null
     }
 }
+
+

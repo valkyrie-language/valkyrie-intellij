@@ -19,6 +19,7 @@ class TypeHintProvider : InlayHintsProvider<InlayTypeSetting> {
         var showDefineEffectType: Boolean = true,
         var showClassFieldType: Boolean = true,
         var showBitFlagType: Boolean = true,
+        var showEnumerationType: Boolean = true,
     )
 
     private val rootKey = "v.type.hints";
@@ -114,5 +115,3 @@ class TypeHintProvider : InlayHintsProvider<InlayTypeSetting> {
         return "ValkyrieInlayProvider.getProperty"
     }
 }
-
-

@@ -22,14 +22,12 @@ class DocumentationProvider : DocumentationProvider {
         return null
     }
 
-
     override fun findDocComment(file: PsiFile, range: TextRange): PsiDocCommentBase? {
         println("findDocComment $file $range")
         return super.findDocComment(file, range)
     }
 
     override fun collectDocComments(file: PsiFile, sink: Consumer<in PsiDocCommentBase>) {
-//        if (file !is ValkyrieFileNode) return
         for (leaf in PsiTreeUtil.findChildrenOfType(file, PsiComment::class.java)) {
 //            val text = ValkyrieCommenter.extractDocumentText(leaf)
 //            if (text != null) {
@@ -42,17 +40,17 @@ class DocumentationProvider : DocumentationProvider {
 //        if (comment is ValkyrieCommentDocument) {
 //            return comment.render()
 //        }
-        return "generateRenderedDoc"
+        return "generateRenderedDoc: ${comment.text}"
     }
 
     // 按住 Ctrl 后悬浮
     override fun getQuickNavigateInfo(element: PsiElement?, originalElement: PsiElement?): String? {
-        return "getQuickNavigateInfo"
+        return "getQuickNavigateInfo: ${element?.text}"
     }
 
     // 悬浮
     override fun generateHoverDoc(element: PsiElement, originalElement: PsiElement?): String? {
-        return "generateHoverDoc"
+        return "generateHoverDoc : ${element.text}"
     }
 
     override fun getCustomDocumentationElement(editor: Editor, file: PsiFile, contextElement: PsiElement?, targetOffset: Int): PsiElement? {

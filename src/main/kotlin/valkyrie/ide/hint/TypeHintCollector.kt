@@ -9,9 +9,7 @@ import valkyrie.ide.hint.TypeHintProvider.InlayTypeSetting
 @Suppress("UnstableApiUsage")
 class TypeHintCollector(val settings: InlayTypeSetting) : InlayHintsCollector {
     override fun collect(element: PsiElement, editor: Editor, sink: InlayHintsSink): Boolean {
-        println("TypeInlayHintCollector: ${element}")
-        val visitor = TypeHintVisitor(sink, editor, settings)
-        element.accept(visitor)
+        element.accept(TypeHintVisitor(sink, editor, settings))
         return true
     }
 }
