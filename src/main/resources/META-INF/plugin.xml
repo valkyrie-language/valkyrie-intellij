@@ -241,6 +241,11 @@
 			language="valkyrie"
 			implementationClass="valkyrie.ide.live_template.ValkyrieLiveTemplateContext"
 		/>
+		<defaultLiveTemplates file="templates/liveTemplate.xml"/>
+		<defaultTemplatePropertiesProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.live_template.ValkyrieDefaultTemplatePropertiesProvider"
+		/>
 		<customLiveTemplate language="valkyrie" implementationClass="valkyrie.ide.live_template.ValkyrieLiveTemplate"/>
 		<liveTemplateMacro
 			language="valkyrie"
@@ -249,11 +254,6 @@
 		<fileTemplateGroup
 			language="valkyrie"
 			implementationClass="valkyrie.ide.live_template.ValkyrieFileTemplateGroupDescriptorFactory"
-		/>
-		<defaultLiveTemplates file="templates/liveTemplate.xml"/>
-		<defaultTemplatePropertiesProvider
-			language="valkyrie"
-			implementationClass="valkyrie.ide.live_template.ValkyrieDefaultTemplatePropertiesProvider"
 		/>
 		<!-- Document -->
 		<lang.documentationProvider
