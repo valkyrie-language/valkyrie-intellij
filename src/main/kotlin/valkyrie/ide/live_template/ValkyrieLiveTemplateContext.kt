@@ -9,7 +9,19 @@ import valkyrie.language.ValkyrieLanguage
 class ValkyrieLiveTemplateContext : LiveTemplateContextProvider {
     override fun createContexts(): MutableCollection<LiveTemplateContext> {
         return mutableListOf(
-            SnippetContextAll(), SnippetOnTop(), SnippetContextInClass(), SnippetInMatch(), SnippetInFunction()
+            SnippetContextAll(),
+            SnippetContextConditional("top") {
+                it.file.language is ValkyrieLanguage
+            },
+            SnippetContextConditional("class") {
+                it.file.language is ValkyrieLanguage
+            },
+            SnippetContextConditional("match") {
+                it.file.language is ValkyrieLanguage
+            },
+            SnippetContextConditional("micro") {
+                it.file.language is ValkyrieLanguage
+            }
         )
     }
 }
@@ -31,9 +43,17 @@ private class SnippetContextAll : TemplateContextType, LiveTemplateContext {
     }
 }
 
-private class SnippetOnTop : TemplateContextType, LiveTemplateContext {
-    constructor() : super("valkyrie-top", ValkyrieBundle.message("live-template.scope.top"), SnippetContextAll::class.java)
+private class SnippetContextConditional : TemplateContextType, LiveTemplateContext {
 
+    val condition: (TemplateActionContext) -> Boolean
+
+    constructor(id: String, condition: (TemplateActionContext) -> Boolean) : super(
+        "valkyrie-${id}",
+        ValkyrieBundle.message("live-template.scope.${id}"),
+        SnippetContextAll::class.java
+    ) {
+        this.condition = condition
+    }
 
     override fun getBaseContextId(): String {
         return "valkyrie"
@@ -44,59 +64,6 @@ private class SnippetOnTop : TemplateContextType, LiveTemplateContext {
     }
 
     override fun isInContext(templateActionContext: TemplateActionContext): Boolean {
-        return templateActionContext.file.language is ValkyrieLanguage
-    }
-}
-
-
-private class SnippetInMatch : TemplateContextType, LiveTemplateContext {
-    constructor() : super("valkyrie-match", ValkyrieBundle.message("live-template.scope.match"), SnippetContextAll::class.java)
-
-
-    override fun getBaseContextId(): String {
-        return "valkyrie"
-    }
-
-    override fun getTemplateContextType(): TemplateContextType {
-        return this
-    }
-
-    override fun isInContext(templateActionContext: TemplateActionContext): Boolean {
-        return templateActionContext.file.language is ValkyrieLanguage
-    }
-}
-
-
-private class SnippetInFunction : TemplateContextType, LiveTemplateContext {
-    constructor() : super("valkyrie-micro", ValkyrieBundle.message("live-template.scope.micro"), SnippetContextAll::class.java)
-
-
-    override fun getBaseContextId(): String {
-        return "valkyrie"
-    }
-
-    override fun getTemplateContextType(): TemplateContextType {
-        return this
-    }
-
-    override fun isInContext(templateActionContext: TemplateActionContext): Boolean {
-        return templateActionContext.file.language is ValkyrieLanguage
-    }
-}
-
-private class SnippetContextInClass : TemplateContextType, LiveTemplateContext {
-    constructor() : super("valkyrie-class", ValkyrieBundle.message("live-template.scope.class"), SnippetContextAll::class.java)
-
-
-    override fun getBaseContextId(): String {
-        return "valkyrie"
-    }
-
-    override fun getTemplateContextType(): TemplateContextType {
-        return this
-    }
-
-    override fun isInContext(templateActionContext: TemplateActionContext): Boolean {
-        return templateActionContext.file.language is ValkyrieLanguage
+        return condition(templateActionContext)
     }
 }

@@ -3,10 +3,12 @@ package valkyrie.ide.annotator
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.psi.PsiElement
+import valkyrie.psi.node.ValkyrieParameterItem
 
-class MarkImplicitTypes : Annotator {
+class AnnotateInferType : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
-        when (element) {
+        element.accept(LintInferType(holder))
+//        when (element) {
 //            is ValkyrieLetStatement -> {
 //                if (element.typeExpressionList.isEmpty()) {
 //                    holder.newAnnotation(HighlightSeverity.INFORMATION, "Infer type")
@@ -20,7 +22,7 @@ class MarkImplicitTypes : Annotator {
 //                        .create()
 //                }
 //            }
-
+//
 //            is ValkyrieClassFieldNode -> {
 //                if (element.typeExpression == null) {
 //                    holder.newAnnotation(HighlightSeverity.INFORMATION, "Infer type")
@@ -29,7 +31,7 @@ class MarkImplicitTypes : Annotator {
 //                        .create()
 //                }
 //            }
-
+//
 //            is ValkyrieFunctionParameter -> {
 //                if (element.typeExpression == null) {
 //                    holder.newAnnotation(HighlightSeverity.INFORMATION, "Infer type")
@@ -38,7 +40,14 @@ class MarkImplicitTypes : Annotator {
 //                        .create()
 //                }
 //            }
-        }
+//        }
     }
 }
+
+private class LintInferType(holder: AnnotationHolder) : ValkyrieAnnotator(holder) {
+    override fun visitParameterItem(o: ValkyrieParameterItem) {
+        super.visitParameterItem(o)
+    }
+}
+
 

@@ -20,8 +20,12 @@ public interface ValkyrieTypes {
     IElementType CLASS_INHERIT = new ValkyrieElementType("CLASS_INHERIT");
     IElementType CLASS_INHERIT_BODY = new ValkyrieElementType("CLASS_INHERIT_BODY");
     IElementType CLASS_ITEM = new ValkyrieElementType("CLASS_ITEM");
+    IElementType CONTROL_BREAK = new ValkyrieElementType("CONTROL_BREAK");
     IElementType CONTROL_LABEL = new ValkyrieElementType("CONTROL_LABEL");
+    IElementType CONTROL_RETURN = new ValkyrieElementType("CONTROL_RETURN");
     IElementType CONTROL_STATEMENT = new ValkyrieElementType("CONTROL_STATEMENT");
+    IElementType CONTROL_YIELD_SEND = new ValkyrieElementType("CONTROL_YIELD_SEND");
+    IElementType CONTROL_YIELD_STOP = new ValkyrieElementType("CONTROL_YIELD_STOP");
     IElementType DECLARE_CLASS = new ValkyrieElementType("DECLARE_CLASS");
     IElementType DECLARE_ENUMERATE = new ValkyrieElementType("DECLARE_ENUMERATE");
     IElementType DECLARE_FIELD = new ValkyrieElementType("DECLARE_FIELD");
@@ -256,10 +260,18 @@ public interface ValkyrieTypes {
                 return new ValkyrieClassInheritBodyNode(node);
             } else if (type == CLASS_ITEM) {
                 return new ValkyrieClassItemNode(node);
+            } else if (type == CONTROL_BREAK) {
+                return new ValkyrieControlBreakNode(node);
             } else if (type == CONTROL_LABEL) {
                 return new ValkyrieControlLabelNode(node);
+            } else if (type == CONTROL_RETURN) {
+                return new ValkyrieControlReturnNode(node);
             } else if (type == CONTROL_STATEMENT) {
                 return new ValkyrieControlStatementNode(node);
+            } else if (type == CONTROL_YIELD_SEND) {
+                return new ValkyrieControlYieldSendNode(node);
+            } else if (type == CONTROL_YIELD_STOP) {
+                return new ValkyrieControlYieldStopNode(node);
             } else if (type == DECLARE_CLASS) {
                 return new ValkyrieDeclareClassNode(node);
             } else if (type == DECLARE_ENUMERATE) {

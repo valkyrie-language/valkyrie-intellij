@@ -25,7 +25,7 @@ class TokenHighlighter : SyntaxHighlighter {
             KW_TRAIT,
             KW_FUNCTION, KW_LET, KW_LAMBDA, KW_NEW, KW_OBJECT,
             KW_IF, KW_ELSE, KW_THROUGH,
-            KW_FOR, KW_IN,
+            KW_WHILE, KW_FOR, KW_IN,
             KW_RETURN, KW_RESUME, KW_BREAK, KW_CONTINUE, KW_YIELD,
             KW_TRY, KW_MATCH, KW_WITH, KW_CASE, KW_WHEN,
             KW_IS, KW_NOT,

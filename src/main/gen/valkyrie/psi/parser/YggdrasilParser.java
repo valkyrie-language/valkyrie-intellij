@@ -437,6 +437,26 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
+    // KW_BREAK control-label?
+    public static boolean control_break(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_break")) return false;
+        if (!nextTokenIs(b, KW_BREAK)) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, KW_BREAK);
+        r = r && control_break_1(b, l + 1);
+        exit_section_(b, m, CONTROL_BREAK, r);
+        return r;
+    }
+
+    // control-label?
+    private static boolean control_break_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_break_1")) return false;
+        control_label(b, l + 1);
+        return true;
+    }
+
+    /* ********************************************************** */
     // OP_POW (identifier| INTEGER|KW_MACRO|KW_FOR|KW_WHILE)
     public static boolean control_label(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "control_label")) return false;
@@ -463,92 +483,56 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
 
     /* ********************************************************** */
     // KW_RETURN control-label? expression
+    public static boolean control_return(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_return")) return false;
+        if (!nextTokenIs(b, KW_RETURN)) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, KW_RETURN);
+        r = r && control_return_1(b, l + 1);
+        r = r && expression(b, l + 1);
+        exit_section_(b, m, CONTROL_RETURN, r);
+        return r;
+    }
+
+    // control-label?
+    private static boolean control_return_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_return_1")) return false;
+        control_label(b, l + 1);
+        return true;
+    }
+
+    /* ********************************************************** */
+    // control-return
+    //   | control-yield-send    // generator<Yield=T, Return=()>
+    //   | control-yield-stop    // generator<Yield=R, Return=()>
     //   | KW_CONTINUE control-label?
-    //   | KW_BREAK control-label?
+    //   | control-break
     //   | KW_THROUGH control-label?
-    //   | KW_YIELD KW_RETURN? control-label? expression
-    //   | KW_YIELD KW_BREAK control-label?
-    //   | KW_YIELD KW_WITH expression
     //   | KW_RAISE expression
     //   | KW_RESUME expression
     public static boolean control_statement(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "control_statement")) return false;
         boolean r;
         Marker m = enter_section_(b, l, _NONE_, CONTROL_STATEMENT, "<control statement>");
-        r = control_statement_0(b, l + 1);
-        if (!r) r = control_statement_1(b, l + 1);
-        if (!r) r = control_statement_2(b, l + 1);
+        r = control_return(b, l + 1);
+        if (!r) r = control_yield_send(b, l + 1);
+        if (!r) r = control_yield_stop(b, l + 1);
         if (!r) r = control_statement_3(b, l + 1);
-        if (!r) r = control_statement_4(b, l + 1);
+        if (!r) r = control_break(b, l + 1);
         if (!r) r = control_statement_5(b, l + 1);
         if (!r) r = control_statement_6(b, l + 1);
         if (!r) r = control_statement_7(b, l + 1);
-        if (!r) r = control_statement_8(b, l + 1);
         exit_section_(b, l, m, r, false, null);
         return r;
     }
 
-    // KW_RETURN control-label? expression
-    private static boolean control_statement_0(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "control_statement_0")) return false;
-        boolean r;
-        Marker m = enter_section_(b);
-        r = consumeToken(b, KW_RETURN);
-        r = r && control_statement_0_1(b, l + 1);
-        r = r && expression(b, l + 1);
-        exit_section_(b, m, null, r);
-        return r;
-    }
-
-    // control-label?
-    private static boolean control_statement_0_1(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "control_statement_0_1")) return false;
-        control_label(b, l + 1);
-        return true;
-    }
-
     // KW_CONTINUE control-label?
-    private static boolean control_statement_1(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "control_statement_1")) return false;
-        boolean r;
-        Marker m = enter_section_(b);
-        r = consumeToken(b, KW_CONTINUE);
-        r = r && control_statement_1_1(b, l + 1);
-        exit_section_(b, m, null, r);
-        return r;
-    }
-
-    // control-label?
-    private static boolean control_statement_1_1(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "control_statement_1_1")) return false;
-        control_label(b, l + 1);
-        return true;
-    }
-
-    // KW_BREAK control-label?
-    private static boolean control_statement_2(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "control_statement_2")) return false;
-        boolean r;
-        Marker m = enter_section_(b);
-        r = consumeToken(b, KW_BREAK);
-        r = r && control_statement_2_1(b, l + 1);
-        exit_section_(b, m, null, r);
-        return r;
-    }
-
-    // control-label?
-    private static boolean control_statement_2_1(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "control_statement_2_1")) return false;
-        control_label(b, l + 1);
-        return true;
-    }
-
-    // KW_THROUGH control-label?
     private static boolean control_statement_3(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "control_statement_3")) return false;
         boolean r;
         Marker m = enter_section_(b);
-        r = consumeToken(b, KW_THROUGH);
+        r = consumeToken(b, KW_CONTINUE);
         r = r && control_statement_3_1(b, l + 1);
         exit_section_(b, m, null, r);
         return r;
@@ -561,65 +545,27 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return true;
     }
 
-    // KW_YIELD KW_RETURN? control-label? expression
-    private static boolean control_statement_4(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "control_statement_4")) return false;
-        boolean r;
-        Marker m = enter_section_(b);
-        r = consumeToken(b, KW_YIELD);
-        r = r && control_statement_4_1(b, l + 1);
-        r = r && control_statement_4_2(b, l + 1);
-        r = r && expression(b, l + 1);
-        exit_section_(b, m, null, r);
-        return r;
-    }
-
-    // KW_RETURN?
-    private static boolean control_statement_4_1(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "control_statement_4_1")) return false;
-        consumeToken(b, KW_RETURN);
-        return true;
-    }
-
-    // control-label?
-    private static boolean control_statement_4_2(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "control_statement_4_2")) return false;
-        control_label(b, l + 1);
-        return true;
-    }
-
-    // KW_YIELD KW_BREAK control-label?
+    // KW_THROUGH control-label?
     private static boolean control_statement_5(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "control_statement_5")) return false;
         boolean r;
         Marker m = enter_section_(b);
-        r = consumeTokens(b, 0, KW_YIELD, KW_BREAK);
-        r = r && control_statement_5_2(b, l + 1);
+        r = consumeToken(b, KW_THROUGH);
+        r = r && control_statement_5_1(b, l + 1);
         exit_section_(b, m, null, r);
         return r;
     }
 
     // control-label?
-    private static boolean control_statement_5_2(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "control_statement_5_2")) return false;
+    private static boolean control_statement_5_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_statement_5_1")) return false;
         control_label(b, l + 1);
         return true;
     }
 
-    // KW_YIELD KW_WITH expression
+    // KW_RAISE expression
     private static boolean control_statement_6(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "control_statement_6")) return false;
-        boolean r;
-        Marker m = enter_section_(b);
-        r = consumeTokens(b, 0, KW_YIELD, KW_WITH);
-        r = r && expression(b, l + 1);
-        exit_section_(b, m, null, r);
-        return r;
-    }
-
-    // KW_RAISE expression
-    private static boolean control_statement_7(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "control_statement_7")) return false;
         boolean r;
         Marker m = enter_section_(b);
         r = consumeToken(b, KW_RAISE);
@@ -629,14 +575,180 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     // KW_RESUME expression
-    private static boolean control_statement_8(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "control_statement_8")) return false;
+    private static boolean control_statement_7(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_statement_7")) return false;
         boolean r;
         Marker m = enter_section_(b);
         r = consumeToken(b, KW_RESUME);
         r = r && expression(b, l + 1);
         exit_section_(b, m, null, r);
         return r;
+    }
+
+    /* ********************************************************** */
+    // KW_YIELD KW_WITH KW_CONTINUE? expression
+    //   | KW_YIELD KW_CONTINUE? control-label? expression
+    public static boolean control_yield_send(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_yield_send")) return false;
+        if (!nextTokenIs(b, KW_YIELD)) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = control_yield_send_0(b, l + 1);
+        if (!r) r = control_yield_send_1(b, l + 1);
+        exit_section_(b, m, CONTROL_YIELD_SEND, r);
+        return r;
+    }
+
+    // KW_YIELD KW_WITH KW_CONTINUE? expression
+    private static boolean control_yield_send_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_yield_send_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeTokens(b, 0, KW_YIELD, KW_WITH);
+        r = r && control_yield_send_0_2(b, l + 1);
+        r = r && expression(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // KW_CONTINUE?
+    private static boolean control_yield_send_0_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_yield_send_0_2")) return false;
+        consumeToken(b, KW_CONTINUE);
+        return true;
+    }
+
+    // KW_YIELD KW_CONTINUE? control-label? expression
+    private static boolean control_yield_send_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_yield_send_1")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, KW_YIELD);
+        r = r && control_yield_send_1_1(b, l + 1);
+        r = r && control_yield_send_1_2(b, l + 1);
+        r = r && expression(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // KW_CONTINUE?
+    private static boolean control_yield_send_1_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_yield_send_1_1")) return false;
+        consumeToken(b, KW_CONTINUE);
+        return true;
+    }
+
+    // control-label?
+    private static boolean control_yield_send_1_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_yield_send_1_2")) return false;
+        control_label(b, l + 1);
+        return true;
+    }
+
+    /* ********************************************************** */
+    // KW_YIELD KW_WITH KW_RETURN expression?
+    //   | KW_YIELD KW_WITH KW_BREAK expression?
+    //   | KW_YIELD KW_RETURN control-label? expression?
+    //   | KW_YIELD KW_BREAK control-label? expression?
+    public static boolean control_yield_stop(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_yield_stop")) return false;
+        if (!nextTokenIs(b, KW_YIELD)) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = control_yield_stop_0(b, l + 1);
+        if (!r) r = control_yield_stop_1(b, l + 1);
+        if (!r) r = control_yield_stop_2(b, l + 1);
+        if (!r) r = control_yield_stop_3(b, l + 1);
+        exit_section_(b, m, CONTROL_YIELD_STOP, r);
+        return r;
+    }
+
+    // KW_YIELD KW_WITH KW_RETURN expression?
+    private static boolean control_yield_stop_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_yield_stop_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeTokens(b, 0, KW_YIELD, KW_WITH, KW_RETURN);
+        r = r && control_yield_stop_0_3(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // expression?
+    private static boolean control_yield_stop_0_3(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_yield_stop_0_3")) return false;
+        expression(b, l + 1);
+        return true;
+    }
+
+    // KW_YIELD KW_WITH KW_BREAK expression?
+    private static boolean control_yield_stop_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_yield_stop_1")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeTokens(b, 0, KW_YIELD, KW_WITH, KW_BREAK);
+        r = r && control_yield_stop_1_3(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // expression?
+    private static boolean control_yield_stop_1_3(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_yield_stop_1_3")) return false;
+        expression(b, l + 1);
+        return true;
+    }
+
+    // KW_YIELD KW_RETURN control-label? expression?
+    private static boolean control_yield_stop_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_yield_stop_2")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeTokens(b, 0, KW_YIELD, KW_RETURN);
+        r = r && control_yield_stop_2_2(b, l + 1);
+        r = r && control_yield_stop_2_3(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // control-label?
+    private static boolean control_yield_stop_2_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_yield_stop_2_2")) return false;
+        control_label(b, l + 1);
+        return true;
+    }
+
+    // expression?
+    private static boolean control_yield_stop_2_3(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_yield_stop_2_3")) return false;
+        expression(b, l + 1);
+        return true;
+    }
+
+    // KW_YIELD KW_BREAK control-label? expression?
+    private static boolean control_yield_stop_3(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_yield_stop_3")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeTokens(b, 0, KW_YIELD, KW_BREAK);
+        r = r && control_yield_stop_3_2(b, l + 1);
+        r = r && control_yield_stop_3_3(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // control-label?
+    private static boolean control_yield_stop_3_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_yield_stop_3_2")) return false;
+        control_label(b, l + 1);
+        return true;
+    }
+
+    // expression?
+    private static boolean control_yield_stop_3_3(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_yield_stop_3_3")) return false;
+        expression(b, l + 1);
+        return true;
     }
 
     /* ********************************************************** */
