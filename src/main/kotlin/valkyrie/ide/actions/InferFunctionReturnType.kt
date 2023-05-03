@@ -6,12 +6,19 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiFile
-import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.file.ValkyrieIconProvider
+import valkyrie.psi.node.ValkyrieDeclareFunction
+import valkyrie.psi.node.ValkyrieDeclareFunctionNode
 import javax.swing.Icon
 
 /// Add or fix return type
-class InferDefineReturnType(private val element: ValkyrieFileNode) : HintAction, Iconable {
+class InferFunctionReturnType : HintAction, Iconable {
+    private val element: ValkyrieDeclareFunctionNode
+
+    constructor(element: ValkyrieDeclareFunction) {
+        this.element = element as ValkyrieDeclareFunctionNode
+    }
+
     override fun startInWriteAction(): Boolean {
         return true
     }
@@ -21,7 +28,7 @@ class InferDefineReturnType(private val element: ValkyrieFileNode) : HintAction,
     }
 
     override fun getFamilyName(): String {
-        return "getFamilyName"
+        return "GetFamilyName"
     }
 
     override fun isAvailable(project: Project, editor: Editor?, file: PsiFile?): Boolean {
