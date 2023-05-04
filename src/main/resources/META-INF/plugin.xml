@@ -238,23 +238,23 @@
 
 		<!-- Live Template -->
 		<liveTemplateContextProvider
-			language="valkyrie" contextId="valkyrie"
-			implementationClass="valkyrie.ide.completion.ValkyrieLiveTemplateContextProvider"
-		/>
-		<liveTemplateContext
-			language="valkyrie" contextId="valkyrie"
-			implementationClass="valkyrie.ide.completion.ValkyrieLiveTemplateContextAll"
-		/>
-		<liveTemplateContext
-			language="valkyrie" contextId="valkyrie"
-			implementationClass="valkyrie.ide.completion.ValkyrieLiveTemplateContextTop"
-		/>
-		<defaultLiveTemplatesProvider
 			language="valkyrie"
-			implementationClass="valkyrie.ide.completion.ValkyrieLiveTemplateDefault"
+			implementationClass="valkyrie.ide.live_template.ValkyrieLiveTemplateContext"
 		/>
-		<customLiveTemplate language="valkyrie" implementationClass="valkyrie.ide.completion.ValkyrieLiveTemplate"/>
-		<liveTemplateMacro language="valkyrie" implementationClass="valkyrie.ide.completion.ValkyrieLiveTemplateMacro"/>
+		<customLiveTemplate language="valkyrie" implementationClass="valkyrie.ide.live_template.ValkyrieLiveTemplate"/>
+		<liveTemplateMacro
+			language="valkyrie"
+			implementationClass="valkyrie.ide.live_template.LiveTemplateSafeIdentifier"
+		/>
+		<fileTemplateGroup
+			language="valkyrie"
+			implementationClass="valkyrie.ide.live_template.ValkyrieFileTemplateGroupDescriptorFactory"
+		/>
+		<defaultLiveTemplates file="templates/liveTemplate.xml"/>
+		<defaultTemplatePropertiesProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.live_template.ValkyrieDefaultTemplatePropertiesProvider"
+		/>
 		<!-- Document -->
 		<lang.documentationProvider
 			language="valkyrie"

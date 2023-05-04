@@ -1,4 +1,4 @@
-package valkyrie.ide.completion
+package valkyrie.ide.live_template
 
 import com.intellij.codeInsight.template.CustomLiveTemplate
 import com.intellij.codeInsight.template.CustomTemplateCallback
