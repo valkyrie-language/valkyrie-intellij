@@ -174,23 +174,35 @@
 		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.LegacyExpression"/>
 		<!-- Declaration -->
 		<typeDeclarationProvider implementation="valkyrie.ide.reference.declaration.ValkyrieDeclarationProvider"/>
+		<usageTargetProvider implementation="valkyrie.ide.reference.declaration.ValkyrieUsageTargetProvider"/>
+		<gotoRelatedProvider implementation="valkyrie.ide.reference.declaration.ValkyrieGotoRelatedProvider"/>
+		<implicitUsageProvider implementation="valkyrie.ide.hint.ImplicitUsage"/>
 		<!--		<psi.declarationProvider implementation="valkyrie.ide.reference.declaration.SymbolDeclarationProvider"/>-->
 		<!--		<declarationRangeHandler-->
 		<!--			key="org.rust.lang.core.psi.ValkyrieClass"-->
 		<!--			implementationClass="valkyrie.ide.reference.declaration.ClassDeclarationHandler"-->
 		<!--		/>-->
 		<findUsagesHandlerFactory implementation="valkyrie.ide.usages.ValkyrieUsagesFactory"/>
-		<definitionsSearch
-			language="valkyrie"
-			implementationClass="valkyrie.ide.annotator.SearchDefinitions"
-		/>
+		<definitionsSearch implementation="valkyrie.ide.annotator.SearchDefinitions"/>
 		<allOverridingMethodsSearch
 			language="valkyrie"
-			implementationClass="valkyrie.ide.annotator.ValkyrieAllOverridingMethodsSearch"
+			implementation="valkyrie.ide.annotator.ValkyrieAllOverridingMethodsSearch"
 		/>
 		<classInheritorsSearch
 			language="valkyrie"
-			implementationClass="valkyrie.ide.annotator.ValkyrieClassInheritorsSearch"
+			implementation="valkyrie.ide.annotator.ValkyrieClassInheritorsSearch"
+		/>
+		<directClassInheritorsSearch
+			language="valkyrie"
+			implementation="valkyrie.ide.annotator.DirectClassInheritorsSearch"
+		/>
+		<overridingMethodsSearch
+			language="valkyrie"
+			implementation="valkyrie.ide.annotator.OverridingMethodsSearch"
+		/>
+		<superMethodsSearch
+			language="valkyrie"
+			implementation="valkyrie.ide.annotator.SuperMethodsSearch"
 		/>
 
 

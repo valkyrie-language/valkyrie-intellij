@@ -1050,7 +1050,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // annotations KW_IMPLY identifier class-body
+    // annotations KW_IMPLY declare-generic? namepath generic-call-free? class-body
     public static boolean declare_imply(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "declare_imply")) return false;
         boolean r, p;
@@ -1058,10 +1058,26 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = annotations(b, l + 1);
         r = r && consumeToken(b, KW_IMPLY);
         p = r; // pin = 2
-        r = r && report_error_(b, identifier(b, l + 1));
+        r = r && report_error_(b, declare_imply_2(b, l + 1));
+        r = p && report_error_(b, namepath(b, l + 1)) && r;
+        r = p && report_error_(b, declare_imply_4(b, l + 1)) && r;
         r = p && class_body(b, l + 1) && r;
         exit_section_(b, l, m, r, p, null);
         return r || p;
+    }
+
+    // declare-generic?
+    private static boolean declare_imply_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "declare_imply_2")) return false;
+        declare_generic(b, l + 1);
+        return true;
+    }
+
+    // generic-call-free?
+    private static boolean declare_imply_4(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "declare_imply_4")) return false;
+        generic_call_free(b, l + 1);
+        return true;
     }
 
     /* ********************************************************** */
