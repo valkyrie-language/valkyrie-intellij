@@ -19,7 +19,7 @@ private class LintControlFlow(holder: AnnotationHolder) : ValkyrieAnnotator(hold
     override fun visitControlYieldStop(o: ValkyrieControlYieldStop) {
         for (kw in o.childrenWithLeaves) {
             if (kw.elementType == ValkyrieTypes.KW_RETURN) {
-                o.replace(ValkyrieTypes.KW_BREAK, "break", "`yield return` is equivalent to `yield break`").create()
+                kw.replace(ValkyrieTypes.KW_BREAK, "break", "`yield return` is equivalent to `yield break`").create()
                 break
             }
         }
@@ -28,11 +28,10 @@ private class LintControlFlow(holder: AnnotationHolder) : ValkyrieAnnotator(hold
     override fun visitControlYieldSend(o: ValkyrieControlYieldSend) {
         for (kw in o.childrenWithLeaves) {
             if (kw.elementType == ValkyrieTypes.KW_CONTINUE) {
-                o.delete("`yield continue` is equivalent to `yield`").create()
+                kw.delete("`yield continue` is equivalent to `yield`").create()
                 break
             }
         }
     }
 }
-
 

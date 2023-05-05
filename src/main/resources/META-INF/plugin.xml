@@ -180,10 +180,21 @@
 		<!--			implementationClass="valkyrie.ide.reference.declaration.ClassDeclarationHandler"-->
 		<!--		/>-->
 		<findUsagesHandlerFactory implementation="valkyrie.ide.usages.ValkyrieUsagesFactory"/>
-		<lang.findUsagesProvider
+		<definitionsSearch
 			language="valkyrie"
-			implementationClass="valkyrie.ide.usages.ValkyrieUsagesProvider"
+			implementationClass="valkyrie.ide.annotator.SearchDefinitions"
 		/>
+		<allOverridingMethodsSearch
+			language="valkyrie"
+			implementationClass="valkyrie.ide.annotator.ValkyrieAllOverridingMethodsSearch"
+		/>
+		<classInheritorsSearch
+			language="valkyrie"
+			implementationClass="valkyrie.ide.annotator.ValkyrieClassInheritorsSearch"
+		/>
+
+
+		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.LegacyExpression"/>
 		<!-- Rename -->
 		<renameHandler implementation="valkyrie.ide.refactor.ValkyrieRenameHandler"/>
 		<rename.inplace.resolveSnapshotProvider

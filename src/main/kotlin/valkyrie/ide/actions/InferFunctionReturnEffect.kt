@@ -5,6 +5,7 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiFile
+import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.node.ValkyrieDeclareFunction
 import valkyrie.psi.node.ValkyrieDeclareFunctionNode
@@ -21,9 +22,6 @@ class InferFunctionReturnEffect : HintAction, Iconable {
         return true
     }
 
-    override fun getText(): String {
-        return "Infer define parameter's type"
-    }
 
     override fun getFamilyName(): String {
         return "GetFamilyName"
@@ -42,7 +40,11 @@ class InferFunctionReturnEffect : HintAction, Iconable {
     }
 
     override fun getIcon(flags: Int): Icon {
-        return ValkyrieIconProvider.Instance.File
+        return ValkyrieIconProvider.Instance.Effect
+    }
+
+    override fun getText(): String {
+        return ValkyrieBundle.message("action.infer.function.return.effect")
     }
 }
 

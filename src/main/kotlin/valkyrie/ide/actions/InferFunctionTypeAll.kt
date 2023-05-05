@@ -7,6 +7,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.node.ValkyrieDeclareFunction
 import valkyrie.psi.node.ValkyrieDeclareFunctionNode
@@ -27,19 +28,21 @@ class InferFunctionTypeAll : LocalQuickFixAndIntentionActionOnPsiElement, Priori
         return "GetFamilyName"
     }
 
-    override fun getText(): String {
-        return "Infer define parameter's type"
-    }
 
     override fun invoke(project: Project, file: PsiFile, editor: Editor?, startElement: PsiElement, endElement: PsiElement) {
 
     }
 
-    override fun getIcon(flags: Int): Icon {
-        return ValkyrieIconProvider.Instance.Namespace
-    }
-
     override fun getPriority(): PriorityAction.Priority {
         return PriorityAction.Priority.LOW
     }
+    override fun getIcon(flags: Int): Icon {
+        return ValkyrieIconProvider.Instance.MultipleType
+    }
+
+    override fun getText(): String {
+        return ValkyrieBundle.message("action.infer.function.all")
+    }
 }
+
+

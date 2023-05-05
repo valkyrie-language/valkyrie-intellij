@@ -2,11 +2,11 @@ package valkyrie.ide.hint
 
 import com.intellij.codeInsight.codeVision.CodeVisionEntry
 import com.intellij.codeInsight.codeVision.ui.model.TextCodeVisionEntry
-import com.intellij.icons.AllIcons
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieBundle
+import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.node.ValkyrieDeclareMethod
 import valkyrie.psi.node.ValkyrieVisitor
 
@@ -38,7 +38,7 @@ private class EffectVisitor : ValkyrieVisitor {
         TextCodeVisionEntry(
             ValkyrieBundle.message(id, '?'),
             id,
-            AllIcons.Actions.DiagramDiff,
+            ValkyrieIconProvider.Instance.Effect,
             "longPresentation",
             "Tooltip",
             listOf()
