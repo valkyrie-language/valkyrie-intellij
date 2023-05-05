@@ -104,8 +104,15 @@
 		<breadcrumbsPresentationProvider implementation="valkyrie.ide.navigation.ValkyrieBreadcrumbsPresentation"/>
 		<symbolNavigation
 			forClass="valkyrie.language.symbol.ValkyrieSymbolTemplate"
-			implementationClass="valkyrie.ide.navigation.ValkyrieSymbolNavigationProvider"/>
-		<codeInsight.gotoSuper language="valkyrie" implementationClass="valkyrie.ide.navigation.GotoSuper"/>
+			implementationClass="valkyrie.ide.navigation.ValkyrieSymbolNavigationProvider"
+		/>
+		<codeInsight.gotoSuper language="valkyrie" implementationClass="valkyrie.ide.goto_super.GotoSuperSymbol"/>
+		<superMethodsSearch implementation="valkyrie.ide.goto_super.SuperMethodsSearch"/>
+
+
+		<gotoRelatedProvider implementation="valkyrie.ide.goto_related.GotoRelatedSymbol"/>
+
+
 		<importFilteringRule implementation="valkyrie.ide.navigation.ValkyrieImportFilter"/>
 		<usageFilteringRuleProvider implementation="valkyrie.ide.navigation.usageFiltering"/>
 		<bookmarkProvider implementation="valkyrie.ide.navigation.ValkyrieBookmark"/>
@@ -175,7 +182,7 @@
 		<!-- Declaration -->
 		<typeDeclarationProvider implementation="valkyrie.ide.reference.declaration.ValkyrieDeclarationProvider"/>
 		<usageTargetProvider implementation="valkyrie.ide.reference.declaration.ValkyrieUsageTargetProvider"/>
-		<gotoRelatedProvider implementation="valkyrie.ide.reference.declaration.ValkyrieGotoRelatedProvider"/>
+
 		<implicitUsageProvider implementation="valkyrie.ide.hint.ImplicitUsage"/>
 		<!--		<psi.declarationProvider implementation="valkyrie.ide.reference.declaration.SymbolDeclarationProvider"/>-->
 		<!--		<declarationRangeHandler-->
@@ -199,10 +206,6 @@
 		<overridingMethodsSearch
 			language="valkyrie"
 			implementation="valkyrie.ide.annotator.OverridingMethodsSearch"
-		/>
-		<superMethodsSearch
-			language="valkyrie"
-			implementation="valkyrie.ide.annotator.SuperMethodsSearch"
 		/>
 
 

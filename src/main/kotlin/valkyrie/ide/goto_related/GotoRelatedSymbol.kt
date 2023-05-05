@@ -1,4 +1,4 @@
-package valkyrie.ide.reference.declaration
+package valkyrie.ide.goto_related
 
 import com.intellij.navigation.GotoRelatedItem
 import com.intellij.navigation.GotoRelatedProvider
@@ -7,7 +7,8 @@ import com.intellij.psi.PsiElement
 import valkyrie.psi.node.ValkyrieDeclareMethod
 import valkyrie.psi.node.ValkyrieVisitor
 
-class ValkyrieGotoRelatedProvider : GotoRelatedProvider() {
+/** Ctrl + Alt + Home */
+class GotoRelatedSymbol : GotoRelatedProvider() {
     override fun getItems(context: DataContext): MutableList<out GotoRelatedItem> {
         return mutableListOf()
     }

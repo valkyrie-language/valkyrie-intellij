@@ -2,11 +2,7 @@ package valkyrie.ide.reference.declaration
 
 import com.intellij.codeInsight.navigation.actions.TypeDeclarationProvider
 import com.intellij.openapi.actionSystem.DataContext
-import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiFile
-import com.intellij.usages.UsageTarget
-import com.intellij.usages.UsageTargetProvider
 import valkyrie.language.ValkyrieBundle
 import valkyrie.psi.ValkyrieDeclareElement
 import valkyrie.psi.node.*
@@ -63,22 +59,3 @@ private class ValkyrieDeclarationVisitor : ValkyrieVisitor() {
         }
     }
 }
-
-class ValkyrieUsageTargetProvider : UsageTargetProvider {
-    override fun getTargets(psiElement: PsiElement): Array<UsageTarget> {
-        println("getTargets1: $psiElement")
-        return arrayOf()
-    }
-
-    override fun getTargets(editor: Editor, file: PsiFile): Array<UsageTarget> {
-        println("getTargets2: $file")
-        return arrayOf()
-    }
-}
-
-class ValkyrieUsageTargetVisitor : ValkyrieVisitor() {
-    val targets: MutableList<UsageTarget> = mutableListOf()
-
-
-}
-
