@@ -7,6 +7,7 @@ import com.intellij.icons.AllIcons
 import com.intellij.psi.PsiElement
 import valkyrie.ide.runner.RunTest
 import valkyrie.ide.runner.RunTestDebugMode
+import valkyrie.psi.mixin.superClasses
 import valkyrie.psi.node.*
 
 class ValkyrieMarkerVisitor : ValkyrieVisitor {

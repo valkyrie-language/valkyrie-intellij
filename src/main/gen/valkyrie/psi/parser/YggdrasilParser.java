@@ -362,7 +362,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // PARENTHESIS_L (class-inherit (COMMA class-inherit)? COMMA?)? PARENTHESIS_R
+    // PARENTHESIS_L (class-inherit (COMMA class-inherit)* COMMA?)? PARENTHESIS_R
     public static boolean class_inherit_body(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "class_inherit_body")) return false;
         if (!nextTokenIs(b, PARENTHESIS_L)) return false;
@@ -375,14 +375,14 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // (class-inherit (COMMA class-inherit)? COMMA?)?
+    // (class-inherit (COMMA class-inherit)* COMMA?)?
     private static boolean class_inherit_body_1(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "class_inherit_body_1")) return false;
         class_inherit_body_1_0(b, l + 1);
         return true;
     }
 
-    // class-inherit (COMMA class-inherit)? COMMA?
+    // class-inherit (COMMA class-inherit)* COMMA?
     private static boolean class_inherit_body_1_0(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "class_inherit_body_1_0")) return false;
         boolean r;
@@ -394,10 +394,14 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // (COMMA class-inherit)?
+    // (COMMA class-inherit)*
     private static boolean class_inherit_body_1_0_1(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "class_inherit_body_1_0_1")) return false;
-        class_inherit_body_1_0_1_0(b, l + 1);
+        while (true) {
+            int c = current_position_(b);
+            if (!class_inherit_body_1_0_1_0(b, l + 1)) break;
+            if (!empty_element_parsed_guard_(b, "class_inherit_body_1_0_1", c)) break;
+        }
         return true;
     }
 

@@ -1,0 +1,11 @@
+<template name="fn00" value="micro $name$() -&gt; Result&lt;$type$, $AnyError$&gt; {&#10;    $slot$&#10;}&#10;$END$"
+          description="Traverse linear iterator" toReformat="false" toShortenFQNames="true">
+	<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+	<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
+	<variable name="AnyError" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
+	<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
+	<context>
+		<option name="valkyrie-micro" value="true"/>
+		<option name="valkyrie-top" value="true"/>
+	</context>
+</template>

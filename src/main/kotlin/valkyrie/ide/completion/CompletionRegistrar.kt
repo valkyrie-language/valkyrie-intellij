@@ -3,56 +3,72 @@ package valkyrie.ide.completion
 import com.intellij.codeInsight.completion.CompletionContributor
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionResultSet
+import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.openapi.progress.ProgressManager
-import com.intellij.psi.util.elementType
 import com.intellij.psi.util.parents
-import com.intellij.util.ProcessingContext
 import valkyrie.language.file.ValkyrieFileNode
-import valkyrie.psi.ParserExtension
-import valkyrie.psi.node.ValkyrieDeclareClassNode
-import valkyrie.psi.node.ValkyrieDeclareUnionNode
+import valkyrie.psi.ValkyrieDeclareElement
+import valkyrie.psi.node.*
 
 
 class CompletionRegistrar : CompletionContributor() {
-//    init {
-//        extend(CompletionType.BASIC, CompletionInFileScope.Condition, CompletionInFileScope())
-//        extend(CompletionType.BASIC, CompletionInClassScope.Condition, CompletionInClassScope())
-//    }
-
     override fun fillCompletionVariants(parameters: CompletionParameters, result: CompletionResultSet) {
-//        super.fillCompletionVariants(parameters, result)
-        myFill(parameters, result)
-    }
-
-    private fun myFill(parameters: CompletionParameters, result: CompletionResultSet) {
         ProgressManager.checkCanceled()
-        val context = ProcessingContext()
+
         val element = parameters.originalPosition ?: return
-        if (ParserExtension.CompletionWords.contains(element.elementType)) {
-            for (node in element.parents(false)) {
-                if (result.isStopped) {
+        for (node in element.parents(false)) {
+            if (result.isStopped) {
+                return
+            }
+            when (node) {
+                is ValkyrieFileNode -> {
+                    node.accept(CompletionVisitor(parameters, result, null))
                     return
                 }
-                when (node) {
-                    is ValkyrieFileNode -> {
-                        CompletionInFileScope().addCompletionVariants(parameters, context, result)
-                        return
-                    }
 
-                    is ValkyrieDeclareClassNode -> {
-                        CompletionInClassScope().addCompletionVariants(parameters, context, result)
-                        return
-                    }
+                is ValkyrieClassBody -> {
+                    when (val ctx = ValkyrieDeclareElement.getCaretDeclaration(node)) {
+                        is ValkyrieDeclareClassNode -> {
+                            CompletionInClass(ctx, parameters, result).complete(node)
+                        }
 
-                    is ValkyrieDeclareUnionNode -> {
-                        CompletionInClassScope().addCompletionVariants(parameters, context, result)
-                        return
+                        is ValkyrieDeclareTraitNode -> {
+                            CompletionInTrait(ctx, parameters, result)
+                        }
                     }
+                    return
+                }
+
+                is ValkyrieBlockBody -> {
+                    val ctx = ValkyrieDeclareElement.getCaretDeclaration(node)
+                    node.accept(CompletionVisitor(parameters, result, ctx))
+                    return
                 }
             }
-        } else {
-            println("CompletionRegistrar: ${element.elementType}")
         }
     }
 }
 
+class CompletionVisitor : ValkyrieVisitor {
+    private val parameters: CompletionParameters
+    val context: ValkyrieDeclareElement?
+    val result: CompletionResultSet
+
+    constructor(parameters: CompletionParameters, result: CompletionResultSet, context: ValkyrieDeclareElement?) : super() {
+        this.parameters = parameters
+        this.context = context
+        this.result = result
+    }
+
+    override fun visitClassBody(o: ValkyrieClassBody) {
+        println("CompletionVisitor.visitClassBody")
+
+        result.addElement(LookupElementBuilder.create("visitClassBody"))
+    }
+
+
+    override fun visitBlockBody(o: ValkyrieBlockBody) {
+        println("CompletionVisitor.visitBlockBody")
+        result.addElement(LookupElementBuilder.create("visitBlockBody"))
+    }
+}
