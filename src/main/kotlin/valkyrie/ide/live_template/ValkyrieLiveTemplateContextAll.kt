@@ -7,7 +7,7 @@ import com.intellij.codeInsight.template.TemplateContextType
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.ValkyrieLanguage
 
-
+@Suppress("DEPRECATION")
 class ValkyrieLiveTemplateContextAll : TemplateContextType, LiveTemplateContext {
 
     constructor() : super("valkyrie", ValkyrieBundle.message("live-template.scope.all"), EverywhereContextType::class.java);
@@ -24,5 +24,3 @@ class ValkyrieLiveTemplateContextAll : TemplateContextType, LiveTemplateContext 
         return templateActionContext.file.language is ValkyrieLanguage
     }
 }
-
-

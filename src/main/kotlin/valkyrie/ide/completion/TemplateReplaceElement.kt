@@ -14,19 +14,6 @@ class TemplateReplaceElement(val element: PsiElement, val id: String, val text: 
         TemplateBuilder(element, context.editor).runFromText(id, text, discard)
     }
 
-    companion object {
-        fun snippetFromPath(
-            element: PsiElement,
-            id: String,
-            file: String,
-            discard: Map<String, String> = mapOf(),
-        ): LookupElementBuilder {
-            val path = "/templates/liveTemplate/$file";
-            val text = object {}.javaClass.getResourceAsStream(path)?.use { it.reader(Charsets.UTF_8).readText() } ?: path
-            val insert = TemplateReplaceElement(element, id, text, discard);
-            return LookupElementBuilder.create(id).withInsertHandler(insert)
-        }
-    }
 }
 
 

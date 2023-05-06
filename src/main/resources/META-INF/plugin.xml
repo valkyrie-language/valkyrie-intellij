@@ -108,7 +108,7 @@
 		<codeInsight.gotoSuper language="valkyrie" implementationClass="valkyrie.ide.navigation.GotoSuper"/>
 		<importFilteringRule implementation="valkyrie.ide.navigation.ValkyrieImportFilter"/>
 		<usageFilteringRuleProvider implementation="valkyrie.ide.navigation.usageFiltering"/>
-		<bookmarkProvider implementation="valkyrie.ide.goto.ValkyrieBookmark"/>
+		<bookmarkProvider implementation="valkyrie.ide.navigation.ValkyrieBookmark"/>
 		<bookmarksListProvider implementation="valkyrie.ide.goto.ValkyrieBookmarkList"/>
 		<!-- Hint Line Marker -->
 		<codeInsight.lineMarkerProvider
