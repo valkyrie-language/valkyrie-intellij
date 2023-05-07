@@ -8,7 +8,19 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieControlStatement extends PsiElement {
 
     @Nullable
+    ValkyrieControlBreak getControlBreak();
+
+    @Nullable
     ValkyrieControlLabel getControlLabel();
+
+    @Nullable
+    ValkyrieControlReturn getControlReturn();
+
+    @Nullable
+    ValkyrieControlYieldSend getControlYieldSend();
+
+    @Nullable
+    ValkyrieControlYieldStop getControlYieldStop();
 
     @Nullable
     ValkyrieExpression getExpression();

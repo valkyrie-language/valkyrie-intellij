@@ -36,8 +36,9 @@ KW_TRAIT     = trait
 KW_EXTENDS   = imply|impliments?|extends?
 KW_TEMPLATE  = template|generic|constraint
 KW_IMPLEMENT = implement
-KW_FUNCTION  = macro|micro|function|func|fun|fn|def
-KW_LET       = let|val|var
+KW_MICRO     = micro|function|func|fun|fn|def
+KW_MACRO     = macro
+KW_LET       = let
 KW_NEW       = new
 KW_OBJECT    = object
 KW_LAMBDA    = lambda
@@ -188,7 +189,8 @@ INTEGER = 0|[1-9][_0-9]*
     {KW_CLASS}     { return KW_CLASS; }
     {KW_TRAIT}     { return KW_TRAIT; }
     {KW_EXTENDS}   { return KW_IMPLY; }
-    {KW_FUNCTION}  { return KW_FUNCTION; }
+    {KW_MICRO}     { return KW_FUNCTION; }
+    {KW_MACRO}     { return KW_MACRO; }
     {KW_LET}       { return KW_LET; }
     {KW_NEW}       { return KW_NEW; }
     {KW_OBJECT}    { return KW_OBJECT; }

@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieControlStatementNode extends ValkyrieElement implements ValkyrieControlStatement {
+public class ValkyrieControlYieldStopNode extends ValkyrieElement implements ValkyrieControlYieldStop {
 
-    public ValkyrieControlStatementNode(@NotNull ASTNode node) {
+    public ValkyrieControlYieldStopNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitControlStatement(this);
+        visitor.visitControlYieldStop(this);
     }
 
     @Override
@@ -28,32 +31,8 @@ public class ValkyrieControlStatementNode extends ValkyrieElement implements Val
 
     @Override
     @Nullable
-    public ValkyrieControlBreak getControlBreak() {
-        return findChildByClass(ValkyrieControlBreak.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieControlLabel getControlLabel() {
         return findChildByClass(ValkyrieControlLabel.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieControlReturn getControlReturn() {
-        return findChildByClass(ValkyrieControlReturn.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieControlYieldSend getControlYieldSend() {
-        return findChildByClass(ValkyrieControlYieldSend.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieControlYieldStop getControlYieldStop() {
-        return findChildByClass(ValkyrieControlYieldStop.class);
     }
 
     @Override
