@@ -1,43 +1,39 @@
 <templateSet name="Valkyrie" description="Create a type">
-	<template name="value class" value="value class $name$ {&#10;    $END$&#10;}" description="Create a type"
-	          toReformat="true" toShortenFQNames="true">
-		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie" value="true"/>
-		</context>
-	</template>
 	<template name="abstract class" value="abstract class $name$ {&#10;    $END$&#10;}" description="Create a type"
 	          toReformat="true" toShortenFQNames="true">
 		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
 		<context>
-			<option name="valkyrie" value="true"/>
+			<option name="valkyrie" value="false"/>
+			<option name="valkyrie-top" value="true"/>
 		</context>
 	</template>
 	<template name="class" value="class $name$ {&#10;    $END$&#10;}" description="Create a type" toReformat="true"
 	          toShortenFQNames="true">
 		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
 		<context>
-			<option name="valkyrie" value="true"/>
+			<option name="valkyrie" value="false"/>
+			<option name="valkyrie-top" value="true"/>
 		</context>
 	</template>
 	<template name="constructor" value="constructor() {&#10;    $END$&#10;}" description="" toReformat="false"
 	          toShortenFQNames="true">
 		<context>
-			<option name="valkyrie" value="true"/>
+			<option name="valkyrie" value="false"/>
+			<option name="valkyrie-class" value="true"/>
 		</context>
 	</template>
 	<template name="for-in" value="for item in $list$ {&#10;    $END$&#10;}" description="Traverse linear iterator"
 	          toReformat="false" toShortenFQNames="true">
 		<variable name="list" expression="" defaultValue="&quot;list&quot;" alwaysStopAt="true"/>
 		<context>
-			<option name="valkyrie" value="true"/>
+			<option name="valkyrie-class" value="false"/>
 		</context>
 	</template>
 	<template name="for-kv" value="for key, value in $dict$ {&#10;    $END$&#10;}"
 	          description="Traverse dictionary iterator" toReformat="false" toShortenFQNames="true">
 		<variable name="dict" expression="" defaultValue="&quot;dict&quot;" alwaysStopAt="true"/>
 		<context>
-			<option name="valkyrie" value="true"/>
+			<option name="valkyrie-class" value="false"/>
 		</context>
 	</template>
 	<template name="for-range" value="for index in [$head$, $tail$, $step$] {&#10;    $END$&#10;}"
@@ -46,7 +42,7 @@
 		<variable name="tail" expression="" defaultValue="&quot;-1&quot;" alwaysStopAt="true"/>
 		<variable name="step" expression="" defaultValue="&quot;1&quot;" alwaysStopAt="true"/>
 		<context>
-			<option name="valkyrie" value="true"/>
+			<option name="valkyrie-class" value="false"/>
 		</context>
 	</template>
 	<template name="for-range0" value="for index in [$head$, $tail$, $step$] {&#10;    $END$&#10;}"
@@ -55,7 +51,7 @@
 		<variable name="tail" expression="" defaultValue="&quot;-1&quot;" alwaysStopAt="true"/>
 		<variable name="step" expression="" defaultValue="&quot;1&quot;" alwaysStopAt="true"/>
 		<context>
-			<option name="valkyrie" value="true"/>
+			<option name="valkyrie-class" value="false"/>
 		</context>
 	</template>
 	<template name="lambda" value="{&#10;    lambda($args$)&#10;    $block$&#10;}&#10;" description=""
@@ -63,20 +59,23 @@
 		<variable name="args" expression="" defaultValue="" alwaysStopAt="true"/>
 		<variable name="block" expression="" defaultValue="" alwaysStopAt="true"/>
 		<context>
-			<option name="valkyrie" value="true"/>
+			<option name="valkyrie" value="false"/>
+			<option name="valkyrie-top" value="true"/>
 		</context>
 	</template>
 	<template name="lambda-hint" value="lambda($args$)&#10;" description="" toReformat="false" toShortenFQNames="true">
 		<variable name="args" expression="" defaultValue="" alwaysStopAt="true"/>
 		<context>
-			<option name="valkyrie" value="true"/>
+			<option name="valkyrie" value="false"/>
+			<option name="valkyrie-top" value="true"/>
 		</context>
 	</template>
 	<template name="singleton class" value="singleton class $name$ {&#10;    $END$&#10;}" description="Create a type"
 	          toReformat="true" toShortenFQNames="true">
 		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
 		<context>
-			<option name="valkyrie" value="true"/>
+			<option name="valkyrie" value="false"/>
+			<option name="valkyrie-top" value="true"/>
 		</context>
 	</template>
 	<template name="val" value="let mut $var$ = $statement$;&#10;" description="" toReformat="false"
@@ -84,7 +83,16 @@
 		<variable name="var" expression="" defaultValue="&quot;val&quot;" alwaysStopAt="true"/>
 		<variable name="statement" expression="" defaultValue="&quot;statement&quot;" alwaysStopAt="true"/>
 		<context>
-			<option name="valkyrie" value="true"/>
+			<option name="valkyrie" value="false"/>
+			<option name="valkyrie-top" value="true"/>
+		</context>
+	</template>
+	<template name="value class" value="value class $name$ {&#10;    $END$&#10;}" description="Create a type"
+	          toReformat="true" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<context>
+			<option name="valkyrie" value="false"/>
+			<option name="valkyrie-top" value="true"/>
 		</context>
 	</template>
 	<template name="var" value="let $val$ = $statement$;&#10;" description="" toReformat="false"
@@ -92,7 +100,8 @@
 		<variable name="val" expression="" defaultValue="&quot;val&quot;" alwaysStopAt="true"/>
 		<variable name="statement" expression="" defaultValue="&quot;statement&quot;" alwaysStopAt="true"/>
 		<context>
-			<option name="valkyrie" value="true"/>
+			<option name="valkyrie" value="false"/>
+			<option name="valkyrie-top" value="true"/>
 		</context>
 	</template>
 </templateSet>
