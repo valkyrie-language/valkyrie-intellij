@@ -342,13 +342,15 @@ control-statement ::=
     control-return
   | control-yield-send    // generator<Yield=T, Return=()>
   | control-yield-stop    // generator<Yield=R, Return=()>
-  | KW_CONTINUE control-label?
+  | control-continue
   | control-break
   | KW_THROUGH control-label?
   | KW_RAISE expression
   | KW_RESUME expression
 control-break  ::= KW_BREAK control-label?
 control-return ::= KW_RETURN control-label? expression;
+control-continue ::= KW_CONTINUE control-label?
+
 control-yield-send ::=
     KW_YIELD KW_WITH KW_CONTINUE? expression
   | KW_YIELD KW_CONTINUE? control-label? expression

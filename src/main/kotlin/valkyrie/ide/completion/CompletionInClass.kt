@@ -26,7 +26,9 @@ class CompletionInClass : ValkyrieCompletionProvider {
 
         result.addElement(LookupElementBuilder.create("constructor").withIcon(AllIcons.Nodes.MethodReference))
 
+        addConstructor()
         addMethods()
+        addGetSet()
     }
 }
 

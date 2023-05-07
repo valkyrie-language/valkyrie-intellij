@@ -1,4 +1,4 @@
-<templateSet group="Valkyrie" description="Create a type">
+<templateSet group="Valkyrie Trigger" description="Create a type">
 	<template name="0b" value="16 ^^" description="" toReformat="true" toShortenFQNames="true">
 		<context>
 			<option name="valkyrie-top" value="true"/>
@@ -14,23 +14,6 @@
 			<option name="valkyrie-top" value="true"/>
 		</context>
 	</template>
-	<template name="abstract class" value="abstract class $name$ {&#10;    $slot$&#10;}&#10;$END$"
-	          description="Define non-instantiable abstract class" toReformat="false" toShortenFQNames="true">
-		<variable name="name" expression="" defaultValue="&quot;AbstractClass&quot;" alwaysStopAt="true"/>
-		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie-top" value="true"/>
-		</context>
-	</template>
-	<template name="class"
-	          value="class $name$ {&#10;    $slot$&#10;}&#10;&#10;imply $name$ {&#10;    $END$&#10;}&#10;&#10;"
-	          description="Define normal class" toReformat="false" toShortenFQNames="true">
-		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
-		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie-top" value="true"/>
-		</context>
-	</template>
 	<template name="closure" value="{&#10;    $block$&#10;}&#10;$END$" description="" toReformat="false"
 	          toShortenFQNames="true">
 		<variable name="block" expression="" defaultValue="" alwaysStopAt="true"/>
@@ -39,8 +22,8 @@
 			<option name="valkyrie-top" value="true"/>
 		</context>
 	</template>
-	<template name="constructor" value="constructor($argument$) {&#10;    $slot$&#10;}&#10;$END$"
-	          description="Create constructor" toReformat="false" toShortenFQNames="true">
+	<template name="constructor" value="constructor($argument$) {&#10;    $slot$&#10;}&#10;$END$" description="ctror"
+	          toReformat="false" toShortenFQNames="true">
 		<variable name="argument" expression="" defaultValue="" alwaysStopAt="true"/>
 		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
 		<context>
@@ -49,7 +32,7 @@
 	</template>
 	<template name="constructor?"
 	          value="constructor($argument$) -&gt; Result&lt;Self, $error$&gt; {&#10;    $slot$&#10;}&#10;$END$"
-	          description="Create a constructor that might go wrong" toReformat="false" toShortenFQNames="true">
+	          description="ctrr" toReformat="false" toShortenFQNames="true">
 		<variable name="argument" expression="" defaultValue="" alwaysStopAt="true"/>
 		<variable name="error" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
 		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
@@ -64,125 +47,64 @@
 			<option name="valkyrie-top" value="true"/>
 		</context>
 	</template>
-	<template name="ffunction3"
-	          value="micro $name$($arg1$: Any, $arg2$: Any, $arg3$: Any) -&gt; Unit {&#10;    $slot$&#10;}&#10;$END$"
-	          description="Traverse linear iterator" toReformat="false" toShortenFQNames="true">
-		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
-		<variable name="arg1" expression="" defaultValue="&quot;arg1&quot;" alwaysStopAt="true"/>
-		<variable name="arg2" expression="" defaultValue="&quot;arg2&quot;" alwaysStopAt="true"/>
-		<variable name="arg3" expression="" defaultValue="&quot;arg3&quot;" alwaysStopAt="true"/>
-		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie-micro" value="true"/>
-			<option name="valkyrie-top" value="true"/>
-		</context>
-	</template>
-	<template name="for-in" value="for item in $list$ {&#10;    $slot$&#10;}&#10;$END$"
-	          description="Traverse linear iterator" toReformat="false" toShortenFQNames="true">
-		<variable name="list" expression="" defaultValue="&quot;list&quot;" alwaysStopAt="true"/>
-		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie-micro" value="true"/>
-			<option name="valkyrie-top" value="true"/>
-		</context>
-	</template>
-	<template name="for-kv" value="for key, value in $dict$ {&#10;    $slot$&#10;}&#10;$END$"
-	          description="Traverse dictionary iterator" toReformat="false" toShortenFQNames="true">
-		<variable name="dict" expression="" defaultValue="&quot;dict&quot;" alwaysStopAt="true"/>
-		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie-micro" value="true"/>
-			<option name="valkyrie-top" value="true"/>
-		</context>
-	</template>
-	<template name="for-range" value="for index in [$head$, $tail$, $step$] {&#10;    $slot$&#10;}&#10;$END$"
-	          description="Traverse ordinal numbers" toReformat="false" toShortenFQNames="true">
-		<variable name="head" expression="" defaultValue="&quot;1&quot;" alwaysStopAt="true"/>
-		<variable name="tail" expression="" defaultValue="&quot;-1&quot;" alwaysStopAt="true"/>
-		<variable name="step" expression="" defaultValue="&quot;1&quot;" alwaysStopAt="true"/>
-		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie-micro" value="true"/>
-			<option name="valkyrie-top" value="true"/>
-		</context>
-	</template>
-	<template name="for-range0" value="for index in [$head$, $tail$, $step$] {&#10;    $slot$&#10;}&#10;$END$"
-	          description="Traverse offset numbers" toReformat="false" toShortenFQNames="true">
-		<variable name="head" expression="" defaultValue="&quot;1&quot;" alwaysStopAt="true"/>
-		<variable name="tail" expression="" defaultValue="&quot;-1&quot;" alwaysStopAt="true"/>
-		<variable name="step" expression="" defaultValue="&quot;1&quot;" alwaysStopAt="true"/>
-		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie-micro" value="true"/>
-			<option name="valkyrie-top" value="true"/>
-		</context>
-	</template>
-	<template name="function0" value="micro $name$() -&gt; Unit {&#10;    $slot$&#10;}&#10;$END$"
-	          description="Traverse linear iterator" toReformat="false" toShortenFQNames="true">
+	<template name="function0" value="micro $name$() -&gt; Unit {&#10;    $slot$&#10;}&#10;$END$" description="fn0"
+	          toReformat="false" toShortenFQNames="true">
 		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
 		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
-		<context/>
 	</template>
 	<template name="function0?"
 	          value="micro $name$() -&gt; Result&lt;$type$, $AnyError$&gt; {&#10;    $slot$&#10;}&#10;$END$"
-	          description="Traverse linear iterator" toReformat="false" toShortenFQNames="true">
+	          description="ff0" toReformat="false" toShortenFQNames="true">
 		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
 		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
 		<variable name="AnyError" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
 		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
 	</template>
 	<template name="function1" value="micro $name$($arg1$: Any) -&gt; Unit {&#10;    $slot$&#10;}&#10;$END$"
-	          description="Traverse linear iterator" toReformat="false" toShortenFQNames="true">
+	          description="fn1" toReformat="false" toShortenFQNames="true">
 		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
 		<variable name="arg1" expression="" defaultValue="&quot;arg1&quot;" alwaysStopAt="true"/>
 		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie-micro" value="true"/>
-			<option name="valkyrie-top" value="true"/>
-		</context>
 	</template>
 	<template name="function1?"
 	          value="micro $name$($arg1$: Any) -&gt; Result&lt;$type$, $AnyError$&gt; {&#10;    $slot$&#10;}&#10;$END$"
-	          description="Traverse linear iterator" toReformat="false" toShortenFQNames="true">
+	          description="ff1" toReformat="false" toShortenFQNames="true">
 		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
 		<variable name="arg1" expression="" defaultValue="&quot;arg1&quot;" alwaysStopAt="true"/>
 		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
 		<variable name="AnyError" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
 		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie-micro" value="true"/>
-			<option name="valkyrie-top" value="true"/>
-		</context>
 	</template>
 	<template name="function2"
 	          value="micro $name$($arg1$: Any, $arg2$: Any) -&gt; Unit {&#10;    $slot$&#10;}&#10;$END$"
-	          description="Traverse linear iterator" toReformat="false" toShortenFQNames="true">
+	          description="fn2" toReformat="false" toShortenFQNames="true">
 		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
 		<variable name="arg1" expression="" defaultValue="&quot;arg1&quot;" alwaysStopAt="true"/>
 		<variable name="arg2" expression="" defaultValue="&quot;arg2&quot;" alwaysStopAt="true"/>
 		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie-micro" value="true"/>
-			<option name="valkyrie-top" value="true"/>
-		</context>
 	</template>
 	<template name="function2?"
 	          value="micro $name$($arg1$: Any, $arg2$: Any) -&gt; Result&lt;$type$, $AnyError$&gt; {&#10;    $slot$&#10;}&#10;$END$"
-	          description="Traverse linear iterator" toReformat="false" toShortenFQNames="true">
+	          description="ff2" toReformat="false" toShortenFQNames="true">
 		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
 		<variable name="arg1" expression="" defaultValue="&quot;arg1&quot;" alwaysStopAt="true"/>
 		<variable name="arg2" expression="" defaultValue="&quot;arg2&quot;" alwaysStopAt="true"/>
 		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
 		<variable name="AnyError" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
 		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie-micro" value="true"/>
-			<option name="valkyrie-top" value="true"/>
-		</context>
+	</template>
+	<template name="function3"
+	          value="micro $name$($arg1$: Any, $arg2$: Any, $arg3$: Any) -&gt; Unit {&#10;    $slot$&#10;}&#10;$END$"
+	          description="fn3" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="arg1" expression="" defaultValue="&quot;arg1&quot;" alwaysStopAt="true"/>
+		<variable name="arg2" expression="" defaultValue="&quot;arg2&quot;" alwaysStopAt="true"/>
+		<variable name="arg3" expression="" defaultValue="&quot;arg3&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
 	</template>
 	<template name="function3?"
 	          value="micro $name$($arg1$: Any, $arg2$: Any, $arg3$: Any) -&gt; Result&lt;$type$, $AnyError$&gt; {&#10;    $slot$&#10;}&#10;$END$"
-	          description="Traverse linear iterator" toReformat="false" toShortenFQNames="true">
+	          description="ff3" toReformat="false" toShortenFQNames="true">
 		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
 		<variable name="arg1" expression="" defaultValue="&quot;arg1&quot;" alwaysStopAt="true"/>
 		<variable name="arg2" expression="" defaultValue="&quot;arg2&quot;" alwaysStopAt="true"/>
@@ -190,31 +112,87 @@
 		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
 		<variable name="AnyError" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
 		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie-micro" value="true"/>
-			<option name="valkyrie-top" value="true"/>
-		</context>
+	</template>
+	<template name="function4?"
+	          value="micro $name$($arg1$: Any, $arg2$: Any, $arg3$: Any) -&gt; Result&lt;$type$, $AnyError$&gt; {&#10;    $slot$&#10;}&#10;$END$"
+	          description="ff4" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="arg1" expression="" defaultValue="&quot;arg1&quot;" alwaysStopAt="true"/>
+		<variable name="arg2" expression="" defaultValue="&quot;arg2&quot;" alwaysStopAt="true"/>
+		<variable name="arg3" expression="" defaultValue="&quot;arg3&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
+		<variable name="AnyError" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
+	</template>
+	<template name="function5?"
+	          value="micro $name$($arg1$: Any, $arg2$: Any, $arg3$: Any) -&gt; Result&lt;$type$, $AnyError$&gt; {&#10;    $slot$&#10;}&#10;$END$"
+	          description="ff5" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="arg1" expression="" defaultValue="&quot;arg1&quot;" alwaysStopAt="true"/>
+		<variable name="arg2" expression="" defaultValue="&quot;arg2&quot;" alwaysStopAt="true"/>
+		<variable name="arg3" expression="" defaultValue="&quot;arg3&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
+		<variable name="AnyError" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
+	</template>
+	<template name="function6?"
+	          value="micro $name$($arg1$: Any, $arg2$: Any, $arg3$: Any) -&gt; Result&lt;$type$, $AnyError$&gt; {&#10;    $slot$&#10;}&#10;$END$"
+	          description="ff6" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="arg1" expression="" defaultValue="&quot;arg1&quot;" alwaysStopAt="true"/>
+		<variable name="arg2" expression="" defaultValue="&quot;arg2&quot;" alwaysStopAt="true"/>
+		<variable name="arg3" expression="" defaultValue="&quot;arg3&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
+		<variable name="AnyError" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
+	</template>
+	<template name="function7?"
+	          value="micro $name$($arg1$: Any, $arg2$: Any, $arg3$: Any) -&gt; Result&lt;$type$, $AnyError$&gt; {&#10;    $slot$&#10;}&#10;$END$"
+	          description="ff7" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="arg1" expression="" defaultValue="&quot;arg1&quot;" alwaysStopAt="true"/>
+		<variable name="arg2" expression="" defaultValue="&quot;arg2&quot;" alwaysStopAt="true"/>
+		<variable name="arg3" expression="" defaultValue="&quot;arg3&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
+		<variable name="AnyError" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
+	</template>
+	<template name="function8?"
+	          value="micro $name$($arg1$: Any, $arg2$: Any, $arg3$: Any) -&gt; Result&lt;$type$, $AnyError$&gt; {&#10;    $slot$&#10;}&#10;$END$"
+	          description="ff8" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="arg1" expression="" defaultValue="&quot;arg1&quot;" alwaysStopAt="true"/>
+		<variable name="arg2" expression="" defaultValue="&quot;arg2&quot;" alwaysStopAt="true"/>
+		<variable name="arg3" expression="" defaultValue="&quot;arg3&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
+		<variable name="AnyError" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
+	</template>
+	<template name="function9?"
+	          value="micro $name$($arg1$: Any, $arg2$: Any, $arg3$: Any) -&gt; Result&lt;$type$, $AnyError$&gt; {&#10;    $slot$&#10;}&#10;$END$"
+	          description="ff9" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="arg1" expression="" defaultValue="&quot;arg1&quot;" alwaysStopAt="true"/>
+		<variable name="arg2" expression="" defaultValue="&quot;arg2&quot;" alwaysStopAt="true"/>
+		<variable name="arg3" expression="" defaultValue="&quot;arg3&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
+		<variable name="AnyError" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
 	</template>
 	<template name="get-set"
 	          value="private _$name$: $type$&#10;get $name$(self) -&gt; $type$ {&#10;    return _$name$&#10;}&#10;set $name$(mut self, value: $type$) {&#10;    _$name$ = value&#10;}&#10;$END$"
-	          description="" toReformat="false" toShortenFQNames="true">
+	          description="gs" toReformat="false" toShortenFQNames="true">
 		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
 		<variable name="type" expression="" defaultValue="&quot;Any&quot;" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie-class" value="true"/>
-		</context>
 	</template>
-	<template name="getter" value="get $name$(self) -&gt; $type$ {&#10;    $slot$&#10;}&#10;$END$" description=""
+	<template name="getter" value="get $name$(self) -&gt; $type$ {&#10;    $slot$&#10;}&#10;$END$" description="gg"
 	          toReformat="false" toShortenFQNames="true">
 		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
 		<variable name="type" expression="" defaultValue="&quot;Any&quot;" alwaysStopAt="true"/>
 		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie-class" value="true"/>
-		</context>
 	</template>
-	<template name="imply" value="imply $type$ {&#10;    $slot$&#10;}&#10;$END$" description="Create a type"
-	          toReformat="false" toShortenFQNames="true">
+	<template name="imply" value="imply $type$ {&#10;    $slot$&#10;}&#10;$END$" description="ii" toReformat="false"
+	          toShortenFQNames="true">
 		<variable name="type" expression="" defaultValue="&quot;Type&quot;" alwaysStopAt="true"/>
 		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
 		<context>
@@ -222,49 +200,32 @@
 		</context>
 	</template>
 	<template name="imply-error"
-	          value="imply $type$: Error {&#10;    &#10;}&#10;imply $type$: Display {&#10;    display(self)&#10;}"
-	          description="Create a type" toReformat="false" toShortenFQNames="true">
+	          value="imply $type$: Error {&#10;    &#10;}&#10;imply $type$: Show {&#10;    show(self) {&#10;        $END$&#10;    }&#10;}"
+	          description="iirr" toReformat="false" toShortenFQNames="true">
 		<variable name="type" expression="" defaultValue="&quot;Type&quot;" alwaysStopAt="true"/>
 		<context>
 			<option name="valkyrie-top" value="true"/>
 		</context>
 	</template>
-	<template name="imply-trait" value="imply $END$$type$: $interface$ {&#10;    &#10;}&#10;"
-	          description="Create a type" toReformat="false" toShortenFQNames="true">
+	<template name="imply-trait" value="imply $END$$type$: $interface$ {&#10;    &#10;}&#10;" description="iitt"
+	          toReformat="false" toShortenFQNames="true">
 		<variable name="type" expression="" defaultValue="&quot;Type&quot;" alwaysStopAt="true"/>
 		<variable name="interface" expression="" defaultValue="&quot;Interface&quot;" alwaysStopAt="true"/>
 		<context>
 			<option name="valkyrie-top" value="true"/>
 		</context>
 	</template>
-	<template name="interface" value="abstract class $name$ {&#10;    $slot$&#10;}&#10;$END$"
-	          description="Create a type" toReformat="false" toShortenFQNames="true">
+	<template name="interface" value="abstract class $name$ {&#10;    $slot$&#10;}&#10;$END$" description=""
+	          toReformat="false" toShortenFQNames="true">
 		<variable name="name" expression="" defaultValue="&quot;Interface&quot;" alwaysStopAt="true"/>
 		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
 		<context>
 			<option name="valkyrie-top" value="true"/>
 		</context>
 	</template>
-	<template name="lambda" value="{&#10;    lambda(it, $args$)&#10;    $block$&#10;}&#10;$END$" description=""
-	          toReformat="false" toShortenFQNames="true">
-		<variable name="args" expression="" defaultValue="" alwaysStopAt="true"/>
-		<variable name="block" expression="" defaultValue="" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie-micro" value="true"/>
-			<option name="valkyrie-top" value="true"/>
-		</context>
-	</template>
-	<template name="lambda-hint" value="lambda(it, $args$)&#10;" description="" toReformat="false"
-	          toShortenFQNames="true">
-		<variable name="args" expression="" defaultValue="" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie-micro" value="true"/>
-			<option name="valkyrie-top" value="true"/>
-		</context>
-	</template>
 	<template name="match"
 	          value="match $pattern$ {&#10;    case _:&#10;        $then$&#10;    else  :&#10;        $else$&#10;}&#10;$END$"
-	          description="Create a type" toReformat="false" toShortenFQNames="true">
+	          description="match" toReformat="false" toShortenFQNames="true">
 		<variable name="pattern" expression="" defaultValue="&quot;pattern&quot;" alwaysStopAt="true"/>
 		<variable name="then" expression="" defaultValue="" alwaysStopAt="true"/>
 		<variable name="else" expression="" defaultValue="" alwaysStopAt="true"/>
@@ -272,43 +233,145 @@
 			<option name="valkyrie-top" value="true"/>
 		</context>
 	</template>
-	<template name="method0" value="$name$() -&gt; $type$ {&#10;    $slot$&#10;}&#10;$END$"
-	          description="Traverse linear iterator" toReformat="false" toShortenFQNames="true">
+	<template name="method0" value="$name$() -&gt; $type$ {&#10;    $slot$&#10;}&#10;$END$" description="fn0"
+	          toReformat="false" toShortenFQNames="true">
 		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
 		<variable name="type" expression="" defaultValue="&quot;Any&quot;" alwaysStopAt="true"/>
 		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
 	</template>
 	<template name="method0?" value="$name$() -&gt; Result&lt;$type$, $AnyError$&gt; {&#10;    $slot$&#10;}&#10;$END$"
-	          description="Traverse linear iterator" toReformat="false" toShortenFQNames="true">
+	          description="ff0" toReformat="false" toShortenFQNames="true">
 		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
 		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
 		<variable name="AnyError" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
 		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
 	</template>
-	<template name="namespace" value="namespace package.$module$" description="Traverse linear iterator"
-	          toReformat="false" toShortenFQNames="true">
-		<variable name="module" expression="" defaultValue="&quot;module&quot;" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie-micro" value="true"/>
-			<option name="valkyrie-top" value="true"/>
-		</context>
-	</template>
-	<template name="setter" value="set $name$(mut self, value: $type$) {&#10;    $slot$&#10;}&#10;$END$" description=""
+	<template name="method1" value="$name$() -&gt; $type$ {&#10;    $slot$&#10;}&#10;$END$" description="fn1"
 	          toReformat="false" toShortenFQNames="true">
 		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
 		<variable name="type" expression="" defaultValue="&quot;Any&quot;" alwaysStopAt="true"/>
 		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie-class" value="true"/>
-		</context>
 	</template>
-	<template name="singleton class" value="singleton class $name$ {&#10;    $slot$&#10;}&#10;$END$"
-	          description="Create a type" toReformat="false" toShortenFQNames="true">
+	<template name="method1?" value="$name$() -&gt; Result&lt;$type$, $AnyError$&gt; {&#10;    $slot$&#10;}&#10;$END$"
+	          description="ff1" toReformat="false" toShortenFQNames="true">
 		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
+		<variable name="AnyError" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
 		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie-top" value="true"/>
-		</context>
+	</template>
+	<template name="method2" value="$name$() -&gt; $type$ {&#10;    $slot$&#10;}&#10;$END$"
+	          description="Traverse linear iterator" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;Any&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
+	</template>
+	<template name="method2?" value="$name$() -&gt; Result&lt;$type$, $AnyError$&gt; {&#10;    $slot$&#10;}&#10;$END$"
+	          description="ff2" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
+		<variable name="AnyError" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
+	</template>
+	<template name="method3" value="$name$() -&gt; $type$ {&#10;    $slot$&#10;}&#10;$END$"
+	          description="Traverse linear iterator" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;Any&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
+	</template>
+	<template name="method3?" value="$name$() -&gt; Result&lt;$type$, $AnyError$&gt; {&#10;    $slot$&#10;}&#10;$END$"
+	          description="ff3" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
+		<variable name="AnyError" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
+	</template>
+	<template name="method4" value="$name$() -&gt; $type$ {&#10;    $slot$&#10;}&#10;$END$"
+	          description="Traverse linear iterator" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;Any&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
+	</template>
+	<template name="method4?" value="$name$() -&gt; Result&lt;$type$, $AnyError$&gt; {&#10;    $slot$&#10;}&#10;$END$"
+	          description="ff4" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
+		<variable name="AnyError" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
+	</template>
+	<template name="method5" value="$name$() -&gt; $type$ {&#10;    $slot$&#10;}&#10;$END$"
+	          description="Traverse linear iterator" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;Any&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
+	</template>
+	<template name="method5?" value="$name$() -&gt; Result&lt;$type$, $AnyError$&gt; {&#10;    $slot$&#10;}&#10;$END$"
+	          description="ff5" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
+		<variable name="AnyError" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
+	</template>
+	<template name="method6" value="$name$() -&gt; $type$ {&#10;    $slot$&#10;}&#10;$END$"
+	          description="Traverse linear iterator" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;Any&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
+	</template>
+	<template name="method6?" value="$name$() -&gt; Result&lt;$type$, $AnyError$&gt; {&#10;    $slot$&#10;}&#10;$END$"
+	          description="ff6" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
+		<variable name="AnyError" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
+	</template>
+	<template name="method7" value="$name$() -&gt; $type$ {&#10;    $slot$&#10;}&#10;$END$"
+	          description="Traverse linear iterator" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;Any&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
+	</template>
+	<template name="method7?" value="$name$() -&gt; Result&lt;$type$, $AnyError$&gt; {&#10;    $slot$&#10;}&#10;$END$"
+	          description="ff7" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
+		<variable name="AnyError" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
+	</template>
+	<template name="method8" value="$name$() -&gt; $type$ {&#10;    $slot$&#10;}&#10;$END$"
+	          description="Traverse linear iterator" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;Any&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
+	</template>
+	<template name="method8?" value="$name$() -&gt; Result&lt;$type$, $AnyError$&gt; {&#10;    $slot$&#10;}&#10;$END$"
+	          description="ff8" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
+		<variable name="AnyError" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
+	</template>
+	<template name="method9" value="$name$() -&gt; $type$ {&#10;    $slot$&#10;}&#10;$END$"
+	          description="Traverse linear iterator" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;Any&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
+	</template>
+	<template name="method9?" value="$name$() -&gt; Result&lt;$type$, $AnyError$&gt; {&#10;    $slot$&#10;}&#10;$END$"
+	          description="ff9" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
+		<variable name="AnyError" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
+	</template>
+	<template name="namespace" value="namespace package.$module$" description="ns" toReformat="false"
+	          toShortenFQNames="true">
+		<variable name="module" expression="" defaultValue="&quot;module&quot;" alwaysStopAt="true"/>
+	</template>
+	<template name="setter" value="set $name$(mut self, value: $type$) {&#10;    $slot$&#10;}&#10;$END$"
+	          description="ss" toReformat="false" toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="&quot;Any&quot;" alwaysStopAt="true"/>
+		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
 	</template>
 	<template name="trait" value="trait $name$ {&#10;    $slot$&#10;}&#10;$END$" description="Create a type"
 	          toReformat="false" toShortenFQNames="true">
@@ -326,28 +389,36 @@
 			<option name="valkyrie-top" value="true"/>
 		</context>
 	</template>
-	<template name="try-option"
+	<template name="try-option" value="try Option&lt;$type$&gt; {&#10;    $then$&#10;}&#10;$END$&#10;" description="tto"
+	          toReformat="false" toShortenFQNames="true">
+		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
+		<variable name="then" expression="" defaultValue="" alwaysStopAt="true"/>
+	</template>
+	<template name="try-option-match"
 	          value="try Option&lt;$type$&gt; {&#10;    $then$&#10;}&#10;.match {&#10;    case Some(s):&#10;        $slot1$&#10;    case None():&#10;        $slot2$&#10;}&#10;$END$&#10;"
-	          description="Create a type" toReformat="false" toShortenFQNames="true">
+	          description="ttoo" toReformat="false" toShortenFQNames="true">
 		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
 		<variable name="then" expression="" defaultValue="" alwaysStopAt="true"/>
 		<variable name="slot1" expression="" defaultValue="" alwaysStopAt="true"/>
 		<variable name="slot2" expression="" defaultValue="" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie-top" value="true"/>
-		</context>
 	</template>
 	<template name="try-result"
 	          value="try Result&lt;$type$, $error$&gt; {&#10;    $then$&#10;}&#10;.match {&#10;    case Success(s):&#10;        $slot1$&#10;    case Failure(e):&#10;        $slot2$&#10;}&#10;$END$&#10;"
-	          description="Create a type" toReformat="false" toShortenFQNames="true">
+	          description="ttr" toReformat="false" toShortenFQNames="true">
 		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
 		<variable name="error" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
 		<variable name="then" expression="" defaultValue="" alwaysStopAt="true"/>
 		<variable name="slot1" expression="" defaultValue="" alwaysStopAt="true"/>
 		<variable name="slot2" expression="" defaultValue="" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie-top" value="true"/>
-		</context>
+	</template>
+	<template name="try-result-match"
+	          value="try Result&lt;$type$, $error$&gt; {&#10;    $then$&#10;}&#10;.match {&#10;    case Success(s):&#10;        $slot1$&#10;    case Failure(e):&#10;        $slot2$&#10;}&#10;$END$&#10;"
+	          description="ttrr" toReformat="false" toShortenFQNames="true">
+		<variable name="type" expression="" defaultValue="&quot;_&quot;" alwaysStopAt="true"/>
+		<variable name="error" expression="" defaultValue="&quot;AnyError&quot;" alwaysStopAt="true"/>
+		<variable name="then" expression="" defaultValue="" alwaysStopAt="true"/>
+		<variable name="slot1" expression="" defaultValue="" alwaysStopAt="true"/>
+		<variable name="slot2" expression="" defaultValue="" alwaysStopAt="true"/>
 	</template>
 	<template name="until" value="until $condition$ {&#10;    $slot$&#10;}&#10;$END$"
 	          description="Traverse linear iterator" toReformat="false" toShortenFQNames="true">
@@ -355,29 +426,6 @@
 		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
 		<context>
 			<option name="valkyrie-micro" value="true"/>
-			<option name="valkyrie-top" value="true"/>
-		</context>
-	</template>
-	<template name="val" value="let mut $var$ = $statement$;&#10;" description="" toReformat="true"
-	          toShortenFQNames="true">
-		<variable name="var" expression="" defaultValue="&quot;val&quot;" alwaysStopAt="true"/>
-		<variable name="statement" expression="" defaultValue="&quot;statement&quot;" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie-top" value="true"/>
-		</context>
-	</template>
-	<template name="value class" value="value class $name$ {&#10;    $slot$&#10;}&#10;$END$" description="Create a type"
-	          toReformat="false" toShortenFQNames="true">
-		<variable name="name" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true"/>
-		<variable name="slot" expression="" defaultValue="" alwaysStopAt="true"/>
-		<context>
-			<option name="valkyrie-top" value="true"/>
-		</context>
-	</template>
-	<template name="var" value="let $val$ = $statement$;&#10;" description="" toReformat="true" toShortenFQNames="true">
-		<variable name="val" expression="" defaultValue="&quot;val&quot;" alwaysStopAt="true"/>
-		<variable name="statement" expression="" defaultValue="&quot;statement&quot;" alwaysStopAt="true"/>
-		<context>
 			<option name="valkyrie-top" value="true"/>
 		</context>
 	</template>

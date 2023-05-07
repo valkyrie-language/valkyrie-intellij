@@ -11,6 +11,7 @@ import javax.swing.Icon
 class ValkyrieMarkAny : MergeableLineMarkerInfo<PsiElement> {
     private val declare: ValkyrieElement
 
+
     constructor(declare: ValkyrieDeclareElement) : super(
         declare.navigationElement.firstChild,
         declare.navigationElement.firstChild.textRange,
@@ -23,16 +24,16 @@ class ValkyrieMarkAny : MergeableLineMarkerInfo<PsiElement> {
         this.declare = declare
     }
 
-    constructor(declare: ValkyrieElement) : super(
-        declare.firstChild,
-        declare.firstChild.textRange,
-        declare.getIcon(0),
+    constructor(leaf: PsiElement, icon: Icon) : super(
+        leaf,
+        leaf.textRange,
+        icon,
         { "tooltipProvider" },
         null,
         GutterIconRenderer.Alignment.CENTER,
         Supplier<String> { "AncestorClassMark" }
     ) {
-        this.declare = declare
+        this.declare = leaf as ValkyrieElement
     }
 
 
@@ -49,3 +50,5 @@ class ValkyrieMarkAny : MergeableLineMarkerInfo<PsiElement> {
         return element.getIcon(0)
     }
 }
+
+

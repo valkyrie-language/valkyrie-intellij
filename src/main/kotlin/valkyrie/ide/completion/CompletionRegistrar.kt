@@ -3,12 +3,14 @@ package valkyrie.ide.completion
 import com.intellij.codeInsight.completion.CompletionContributor
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionResultSet
-import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.psi.util.parents
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ValkyrieDeclareElement
-import valkyrie.psi.node.*
+import valkyrie.psi.node.ValkyrieBlockBody
+import valkyrie.psi.node.ValkyrieClassBody
+import valkyrie.psi.node.ValkyrieDeclareClassNode
+import valkyrie.psi.node.ValkyrieDeclareTraitNode
 
 
 class CompletionRegistrar : CompletionContributor() {
@@ -22,7 +24,7 @@ class CompletionRegistrar : CompletionContributor() {
             }
             when (node) {
                 is ValkyrieFileNode -> {
-                    node.accept(CompletionVisitor(parameters, result, null))
+                    CompletionInFile(node, parameters, result).complete()
                     return
                 }
 
@@ -33,42 +35,17 @@ class CompletionRegistrar : CompletionContributor() {
                         }
 
                         is ValkyrieDeclareTraitNode -> {
-                            CompletionInTrait(ctx, parameters, result)
+                            CompletionInTrait(ctx, parameters, result).complete(node)
                         }
                     }
                     return
                 }
 
                 is ValkyrieBlockBody -> {
-                    val ctx = ValkyrieDeclareElement.getCaretDeclaration(node)
-                    node.accept(CompletionVisitor(parameters, result, ctx))
+
                     return
                 }
             }
         }
-    }
-}
-
-class CompletionVisitor : ValkyrieVisitor {
-    private val parameters: CompletionParameters
-    val context: ValkyrieDeclareElement?
-    val result: CompletionResultSet
-
-    constructor(parameters: CompletionParameters, result: CompletionResultSet, context: ValkyrieDeclareElement?) : super() {
-        this.parameters = parameters
-        this.context = context
-        this.result = result
-    }
-
-    override fun visitClassBody(o: ValkyrieClassBody) {
-        println("CompletionVisitor.visitClassBody")
-
-        result.addElement(LookupElementBuilder.create("visitClassBody"))
-    }
-
-
-    override fun visitBlockBody(o: ValkyrieBlockBody) {
-        println("CompletionVisitor.visitBlockBody")
-        result.addElement(LookupElementBuilder.create("visitBlockBody"))
     }
 }

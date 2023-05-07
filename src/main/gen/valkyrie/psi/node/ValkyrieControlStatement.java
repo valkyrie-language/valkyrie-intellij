@@ -11,6 +11,9 @@ public interface ValkyrieControlStatement extends PsiElement {
     ValkyrieControlBreak getControlBreak();
 
     @Nullable
+    ValkyrieControlContinue getControlContinue();
+
+    @Nullable
     ValkyrieControlLabel getControlLabel();
 
     @Nullable

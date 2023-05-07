@@ -6,7 +6,7 @@ import com.intellij.codeInsight.lookup.CharFilter
 import com.intellij.codeInsight.lookup.Lookup
 import valkyrie.language.ValkyrieLanguage
 
-class CompletionInterrupter : CharFilter() {
+class CompletionCharacterTrigger : CharFilter() {
     override fun acceptChar(c: Char, prefixLength: Int, lookup: Lookup?): Result? {
         val element = lookup?.psiElement ?: return null
         if (element.language != ValkyrieLanguage) {

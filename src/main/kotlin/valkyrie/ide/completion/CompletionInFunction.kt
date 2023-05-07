@@ -7,7 +7,7 @@ import com.intellij.icons.AllIcons
 import valkyrie.psi.node.ValkyrieClassBody
 import valkyrie.psi.node.ValkyrieDeclareTraitNode
 
-class CompletionInTrait : ValkyrieCompletionProvider {
+class CompletionInFunction : ValkyrieCompletionProvider {
     val node: ValkyrieDeclareTraitNode
 
     constructor(node: ValkyrieDeclareTraitNode, parameters: CompletionParameters, result: CompletionResultSet) : super(parameters, result) {
@@ -16,7 +16,7 @@ class CompletionInTrait : ValkyrieCompletionProvider {
 
     fun complete(body: ValkyrieClassBody) {
         result.addElement(
-            LookupElementBuilder.create("in trait block")
+            LookupElementBuilder.create("in class block")
                 .withIcon(AllIcons.Nodes.MethodReference)
                 .withTailText("withTailText")
                 .withTypeText("withTypeText")
@@ -27,7 +27,6 @@ class CompletionInTrait : ValkyrieCompletionProvider {
         result.addElement(LookupElementBuilder.create("constructor").withIcon(AllIcons.Nodes.MethodReference))
 
         addMethods()
-        addGetSet()
     }
 }
 

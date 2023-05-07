@@ -461,6 +461,26 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
+    // KW_CONTINUE control-label?
+    public static boolean control_continue(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_continue")) return false;
+        if (!nextTokenIs(b, KW_CONTINUE)) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, KW_CONTINUE);
+        r = r && control_continue_1(b, l + 1);
+        exit_section_(b, m, CONTROL_CONTINUE, r);
+        return r;
+    }
+
+    // control-label?
+    private static boolean control_continue_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_continue_1")) return false;
+        control_label(b, l + 1);
+        return true;
+    }
+
+    /* ********************************************************** */
     // OP_POW (identifier| INTEGER|KW_MACRO|KW_FOR|KW_WHILE)
     public static boolean control_label(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "control_label")) return false;
@@ -510,7 +530,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     // control-return
     //   | control-yield-send    // generator<Yield=T, Return=()>
     //   | control-yield-stop    // generator<Yield=R, Return=()>
-    //   | KW_CONTINUE control-label?
+    //   | control-continue
     //   | control-break
     //   | KW_THROUGH control-label?
     //   | KW_RAISE expression
@@ -522,31 +542,13 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = control_return(b, l + 1);
         if (!r) r = control_yield_send(b, l + 1);
         if (!r) r = control_yield_stop(b, l + 1);
-        if (!r) r = control_statement_3(b, l + 1);
+        if (!r) r = control_continue(b, l + 1);
         if (!r) r = control_break(b, l + 1);
         if (!r) r = control_statement_5(b, l + 1);
         if (!r) r = control_statement_6(b, l + 1);
         if (!r) r = control_statement_7(b, l + 1);
         exit_section_(b, l, m, r, false, null);
         return r;
-    }
-
-    // KW_CONTINUE control-label?
-    private static boolean control_statement_3(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "control_statement_3")) return false;
-        boolean r;
-        Marker m = enter_section_(b);
-        r = consumeToken(b, KW_CONTINUE);
-        r = r && control_statement_3_1(b, l + 1);
-        exit_section_(b, m, null, r);
-        return r;
-    }
-
-    // control-label?
-    private static boolean control_statement_3_1(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "control_statement_3_1")) return false;
-        control_label(b, l + 1);
-        return true;
     }
 
     // KW_THROUGH control-label?
