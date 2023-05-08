@@ -1,6 +1,5 @@
 package valkyrie.ide.actions
 
-//import valkyrie.language.psi_node.ValkyrieDefineItemNode
 import com.intellij.codeInspection.HintAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
@@ -8,16 +7,15 @@ import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiFile
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.psi.node.ValkyrieDeclareFunction
-import valkyrie.psi.node.ValkyrieDeclareFunctionNode
+import valkyrie.psi.node.ValkyrieDeclareVariable
+import valkyrie.psi.node.ValkyrieDeclareVariableNode
 import javax.swing.Icon
 
-/// Add or fix return type
-class InferFunctionReturnType : HintAction, Iconable {
-    private val element: ValkyrieDeclareFunctionNode
+class InferVariableType : HintAction, Iconable {
+    private val element: ValkyrieDeclareVariableNode
 
-    constructor(element: ValkyrieDeclareFunction) {
-        this.element = element as ValkyrieDeclareFunctionNode
+    constructor(element: ValkyrieDeclareVariable) {
+        this.element = element as ValkyrieDeclareVariableNode
     }
 
     override fun startInWriteAction(): Boolean {
@@ -45,8 +43,6 @@ class InferFunctionReturnType : HintAction, Iconable {
     }
 
     override fun getText(): String {
-        return ValkyrieBundle.message("action.infer.function.return")
+        return ValkyrieBundle.message("action.infer.variable")
     }
-
 }
-

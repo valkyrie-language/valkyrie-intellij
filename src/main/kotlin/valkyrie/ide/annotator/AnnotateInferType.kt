@@ -4,12 +4,9 @@ import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.psi.PsiElement
-import valkyrie.ide.actions.InferFunctionParameterType
-import valkyrie.ide.actions.InferFunctionReturnEffect
-import valkyrie.ide.actions.InferFunctionReturnType
-import valkyrie.ide.actions.InferFunctionTypeAll
+import valkyrie.ide.actions.*
 import valkyrie.psi.node.ValkyrieDeclareFunction
-import valkyrie.psi.node.ValkyrieParameterItem
+import valkyrie.psi.node.ValkyrieDeclareVariable
 
 class AnnotateInferType : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
@@ -34,12 +31,12 @@ class AnnotateInferType : Annotator {
 private class LintInferType(holder: AnnotationHolder) : ValkyrieAnnotator(holder) {
     override fun visitDeclareFunction(o: ValkyrieDeclareFunction) {
         var missingParameterType = false;
-        for (type in o.parameterBody?.parameterItemList ?: listOf()) {
-            if (type.typeHint == null) {
+        for (parameter in o.parameterBody?.parameterItemList ?: listOf()) {
+            if (parameter.typeHint == null) {
                 missingParameterType = true;
                 holder.newAnnotation(HighlightSeverity.INFORMATION, "Infer type")
-                    .range(type.textRange)
-                    .withFix(InferFunctionParameterType(type))
+                    .range(parameter.textRange)
+                    .withFix(InferFunctionParameterType(parameter, o))
                     .create()
             }
         }
@@ -64,14 +61,17 @@ private class LintInferType(holder: AnnotationHolder) : ValkyrieAnnotator(holder
         }
     }
 
-    override fun visitParameterItem(o: ValkyrieParameterItem) {
+    override fun visitDeclareVariable(o: ValkyrieDeclareVariable) {
         if (o.typeHint == null) {
             holder.newAnnotation(HighlightSeverity.INFORMATION, "Infer type")
                 .range(o.textRange)
-                .withFix(InferFunctionParameterType(o))
+                .withFix(InferVariableType(o))
                 .create()
+
+
         }
     }
+
 }
 
 

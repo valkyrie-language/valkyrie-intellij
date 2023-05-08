@@ -32,7 +32,8 @@ private val spaceAroundOperator = TokenSet.orSet(
 )
 
 private val addSpaceAfter = TokenSet.orSet(
-    TokenSet.create(COMMA)
+    TokenSet.create(COMMA),
+    TokenSet.create(KW_YIELD, KW_RETURN, KW_RESUME, KW_CONTINUE, KW_BREAK)
 )
 
 private val newlineIndentAfter = TokenSet.create()
