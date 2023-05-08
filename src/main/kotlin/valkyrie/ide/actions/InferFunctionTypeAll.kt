@@ -8,17 +8,23 @@ import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import valkyrie.language.file.ValkyrieIconProvider
+import valkyrie.psi.node.ValkyrieDeclareFunction
 import valkyrie.psi.node.ValkyrieDeclareFunctionNode
 import javax.swing.Icon
 
-class InferDefineItemType(element: ValkyrieDeclareFunctionNode) : LocalQuickFixAndIntentionActionOnPsiElement(element), PriorityAction,
-    Iconable {
+class InferFunctionTypeAll : LocalQuickFixAndIntentionActionOnPsiElement, PriorityAction, Iconable {
+    val element: ValkyrieDeclareFunctionNode
+
+    constructor(element: ValkyrieDeclareFunction) : super(element) {
+        this.element = element as ValkyrieDeclareFunctionNode
+    }
+
     override fun startInWriteAction(): Boolean {
         return true
     }
 
     override fun getFamilyName(): String {
-        return "getFamilyName"
+        return "GetFamilyName"
     }
 
     override fun getText(): String {
@@ -37,4 +43,3 @@ class InferDefineItemType(element: ValkyrieDeclareFunctionNode) : LocalQuickFixA
         return PriorityAction.Priority.LOW
     }
 }
-

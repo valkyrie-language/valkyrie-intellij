@@ -15,7 +15,6 @@ val PsiElement.ancestors: Sequence<PsiElement>
         if (it is PsiFile) null else it.parent
     }
 
-
 val PsiElement.childrenWithLeaves: Sequence<PsiElement>
     get() = generateSequence(this.firstChild) { it.nextSibling }
 
