@@ -7,7 +7,7 @@ import com.intellij.codeInsight.template.Template
 import com.intellij.codeInsight.template.TemplateManager
 
 
-class ValkyrieLiveTemplate : InsertHandler<LookupElement> {
+class ValkyrieCompletionTemplate : InsertHandler<LookupElement> {
     var template: Template;
 
     constructor(live: Template) {

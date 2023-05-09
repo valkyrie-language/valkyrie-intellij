@@ -3,9 +3,9 @@ package valkyrie.ide.completion
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.lookup.LookupElementBuilder
-import com.intellij.codeInsight.template.impl.TemplateSettings
 import com.intellij.icons.AllIcons
 import com.intellij.icons.ExpUiIcons
+import valkyrie.ide.live_template.ValkyrieLiveTemplate
 import valkyrie.language.ValkyrieBundle
 
 open class ValkyrieCompletionProvider(val parameters: CompletionParameters, val result: CompletionResultSet) {
@@ -125,10 +125,7 @@ open class ValkyrieCompletionProvider(val parameters: CompletionParameters, val 
         result.addElement(lookup)
     }
 
-    private fun getTemplate(template: String): ValkyrieLiveTemplate? {
-        val t = TemplateSettings.getInstance().getTemplate(template, "Valkyrie Trigger");
-        return t?.let { ValkyrieLiveTemplate(it) }
+    private fun getTemplate(template: String): ValkyrieCompletionTemplate? {
+        return ValkyrieLiveTemplate.getTemplate(template)?.let { ValkyrieCompletionTemplate(it) }
     }
-
-
 }
