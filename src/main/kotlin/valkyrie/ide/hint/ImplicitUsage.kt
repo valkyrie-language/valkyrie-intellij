@@ -16,4 +16,11 @@ class ImplicitUsage : ImplicitUsageProvider {
         TODO("Not yet implemented")
     }
 
+    override fun isClassWithCustomizedInitialization(element: PsiElement): Boolean {
+        return super.isClassWithCustomizedInitialization(element)
+    }
+
+    override fun isImplicitlyNotNullInitialized(element: PsiElement): Boolean {
+        return super.isImplicitlyNotNullInitialized(element)
+    }
 }

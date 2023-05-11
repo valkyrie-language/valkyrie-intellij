@@ -40,8 +40,20 @@ public class ValkyrieDeclareImplyNode extends MixinImply implements ValkyrieDecl
 
     @Override
     @Nullable
-    public ValkyrieIdentifier getIdentifier() {
-        return findChildByClass(ValkyrieIdentifier.class);
+    public ValkyrieDeclareGeneric getDeclareGeneric() {
+        return findChildByClass(ValkyrieDeclareGeneric.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieGenericCallFree getGenericCallFree() {
+        return findChildByClass(ValkyrieGenericCallFree.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieNamepath getNamepath() {
+        return findChildByClass(ValkyrieNamepath.class);
     }
 
 }

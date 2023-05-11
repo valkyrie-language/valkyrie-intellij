@@ -201,7 +201,7 @@ declare-trait ::= annotations KW_TRAIT identifier declare-generic? type-hint? cl
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinTrait"
 }
-declare-imply ::= annotations KW_IMPLY identifier class-body {
+declare-imply ::= annotations KW_IMPLY declare-generic? namepath generic-call-free? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinImply"
 }

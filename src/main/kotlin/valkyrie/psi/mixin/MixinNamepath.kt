@@ -4,7 +4,6 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiQualifiedNamedElement
 import com.intellij.psi.PsiReference
-import valkyrie.ide.annotator.SearchDefinitionsParameter
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.ide.reference.declaration.ValkyrieReference
@@ -13,7 +12,7 @@ import valkyrie.psi.node.ValkyrieIdentifierNode
 import valkyrie.psi.node.ValkyrieNamepath
 import valkyrie.psi.node.ValkyrieNamepathNode
 
-abstract class MixinNamepath(node: ASTNode) : ValkyrieElement(node), ValkyrieNamepath, PsiQualifiedNamedElement, SearchDefinitionsParameter {
+abstract class MixinNamepath(node: ASTNode) : ValkyrieElement(node), ValkyrieNamepath, PsiQualifiedNamedElement {
     val identifier: ValkyrieIdentifierNode = identifierList.last() as ValkyrieIdentifierNode;
 
     override fun getName(): String {
