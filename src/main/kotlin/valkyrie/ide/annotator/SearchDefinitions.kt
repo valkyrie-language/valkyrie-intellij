@@ -51,16 +51,6 @@ class OverridingMethodsSearch : QueryExecutorBase<PsiElement, OverridingMethodsS
     }
 }
 
-class SuperMethodsSearch : QueryExecutorBase<PsiElement, SuperMethodsSearch.SearchParameters>(true) {
-    override fun processQuery(queryParameters: SearchParameters, consumer: Processor<in PsiElement>) {
-        println("superMethodsSearch : $queryParameters")
-    }
-
-    class SearchParameters {
-
-    }
-}
-
 
 class ValkyrieAllOverridingMethodsSearch : QueryExecutorBase<PsiElement, ValkyrieAllOverridingMethodsSearch.SearchParameters>(true) {
     override fun processQuery(queryParameters: SearchParameters, consumer: Processor<in PsiElement>) {
