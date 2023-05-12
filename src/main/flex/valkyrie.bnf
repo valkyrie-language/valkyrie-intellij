@@ -129,7 +129,7 @@ declare-class ::= annotations KW_CLASS identifier declare-generic? class-inherit
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinClass"
 }
-class-inherit-body ::= PARENTHESIS_L (class-inherit (COMMA class-inherit)? COMMA?)? PARENTHESIS_R;
+class-inherit-body ::= PARENTHESIS_L (class-inherit (COMMA class-inherit)* COMMA?)? PARENTHESIS_R;
 class-inherit      ::= (annotations identifier EQUAL)? type-expression {
     mixin = "valkyrie.psi.mixin.MixinClassInherit"
 }

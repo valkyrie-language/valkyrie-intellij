@@ -51,7 +51,11 @@ abstract class ValkyrieDeclareElement(node: ASTNode) : ValkyrieElement(node), Ps
     companion object {
         fun getCaretDeclaration(editor: Editor, file: PsiFile): ValkyrieDeclareElement? {
             val leaf = file.findElementAt(editor.caretModel.offset) ?: return null
-            for (ancestor in leaf.ancestors) {
+            return getCaretDeclaration(leaf)
+        }
+
+        fun getCaretDeclaration(element: PsiElement): ValkyrieDeclareElement? {
+            for (ancestor in element.ancestors) {
                 if (ancestor is ValkyrieDeclareElement) {
                     return ancestor
                 }

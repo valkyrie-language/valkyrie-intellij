@@ -22,8 +22,8 @@ class TokenHighlighter : SyntaxHighlighter {
         return when (tokenType) {
             KW_NAMESPACE, KW_USING, KW_AS, KW_EXCLUDE,
             KW_TYPE, KW_CLASS, KW_UNION, KW_ENUMERATE, KW_FLAGS,
-            KW_TRAIT,
-            KW_FUNCTION, KW_LET, KW_LAMBDA, KW_NEW, KW_OBJECT,
+            KW_TRAIT, KW_IMPLY,
+            KW_FUNCTION, KW_MACRO, KW_LET, KW_LAMBDA, KW_NEW, KW_OBJECT,
             KW_IF, KW_ELSE, KW_THROUGH,
             KW_WHILE, KW_FOR, KW_IN,
             KW_RETURN, KW_RESUME, KW_BREAK, KW_CONTINUE, KW_YIELD,

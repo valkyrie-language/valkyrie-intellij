@@ -2,33 +2,94 @@ package valkyrie.ide.goto_super
 
 import com.intellij.codeInsight.navigation.GotoTargetHandler
 import com.intellij.codeInsight.navigation.GotoTargetHandler.GotoData
-import com.intellij.codeInsight.navigation.actions.GotoSuperAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import valkyrie.psi.ValkyrieDeclareElement
-import valkyrie.psi.node.ValkyrieVisitor
+import valkyrie.psi.mixin.superClasses
+import valkyrie.psi.node.*
 
 class GotoSuperSymbol : GotoTargetHandler() {
-    override fun getFeatureUsedKey() = GotoSuperAction.FEATURE_ID
+    override fun getFeatureUsedKey() = "valkyrie.goto.super";
     override fun getSourceAndTargetElements(editor: Editor, file: PsiFile): GotoData? {
         val element = ValkyrieDeclareElement.getCaretDeclaration(editor, file)
-        println("getSourceAndTargetElements: ${element}")
         val visitor = GotoSuperVisitor()
         element?.accept(visitor)
         return visitor.target
     }
 
-    override fun getChooserTitle(sourceElement: PsiElement, name: String?, length: Int, finished: Boolean) = "GetChooserTitle"
 
-    override fun getNotFoundMessage(project: Project, editor: Editor, file: PsiFile) = "GetNotFoundMessage"
+    override fun getChooserTitle(sourceElement: PsiElement, name: String?, length: Int, finished: Boolean): String {
+        val sb = if (finished) {
+            StringBuilder("Found ")
+        } else {
+            StringBuilder("Finding ")
+        }
 
+        when (sourceElement) {
+            is ValkyrieDeclareClassNode -> {
+                sb.append("super classes")
+            }
+
+            is ValkyrieDeclareTraitNode -> {
+                sb.append("trait bounds")
+            }
+
+            is ValkyrieTraitAliasNode -> {
+                sb.append("trait aliases")
+            }
+
+            else -> {
+                sb.append("super $sourceElement")
+            }
+        }
+        return sb.toString()
+    }
+
+    override fun getAdText(source: PsiElement?, length: Int): String {
+        return "Found $length items"
+    }
+
+    override fun getNotFoundMessage(project: Project, editor: Editor, file: PsiFile): String {
+        return when (val element = ValkyrieDeclareElement.getCaretDeclaration(editor, file)) {
+            is ValkyrieDeclareClassNode -> {
+                "`${element.name}` has no super class"
+            }
+
+            is ValkyrieDeclareTraitNode -> {
+                "`${element.name}` has no trait bounds"
+            }
+
+            else -> {
+                "Can't find super symbol for `${element?.name}`"
+            }
+        }
+    }
 }
 
 
 private class GotoSuperVisitor : ValkyrieVisitor() {
-    val target: GotoData? = null
+    var target: GotoData? = null
 
+    override fun visitDeclareClass(o: ValkyrieDeclareClass) {
+        val inherits: MutableList<ValkyrieClassInherit> = mutableListOf()
+        for (base in o.superClasses) {
+            inherits.add(base)
+        }
+        target = GotoData(o, inherits.toTypedArray(), listOf())
+    }
 
+    override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {
+        target = GotoData(o, arrayOf(o.typeHint), listOf())
+    }
+
+    override fun visitTraitAlias(o: ValkyrieTraitAlias) {
+        target = GotoData(o, arrayOf(o.typeExpression, o.typeExpression), listOf())
+    }
+
+    override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
+        o as ValkyrieDeclareMethodNode;
+        target = GotoData(o, arrayOf(o, o.parent), listOf())
+    }
 }
