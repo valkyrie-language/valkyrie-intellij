@@ -122,7 +122,10 @@
 			language="valkyrie"
 			implementationClass="valkyrie.ide.line_marker.LineMarkerProvider"
 		/>
-
+		<codeInsight.template.postfixTemplateProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.line_marker.PostfixTemplateFactory"
+		/>
 		<runLineMarkerContributor language="valkyrie" implementationClass="valkyrie.ide.runner.RunnerProvider"/>
 		<!-- Hint Above -->
 		<vcs.codeVisionLanguageContext
@@ -221,7 +224,7 @@
 		<!-- Completion -->
 		<typedHandler implementation="valkyrie.ide.completion.AutoInsertBrace"/>
 		<backspaceHandlerDelegate implementation="valkyrie.ide.completion.AutoDeleteBrace"/>
-		<lookup.charFilter implementation="valkyrie.ide.completion.CompletionInterrupter"/>
+		<lookup.charFilter implementation="valkyrie.ide.completion.CompletionCharacterTrigger"/>
 		<lang.commenter language="valkyrie" implementationClass="valkyrie.ide.formatter.ValkyrieCommenter"/>
 		<lang.braceMatcher
 			language="valkyrie"

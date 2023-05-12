@@ -59,6 +59,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitControlContinue(@NotNull ValkyrieControlContinue o) {
+        visitPsiElement(o);
+    }
+
     public void visitControlLabel(@NotNull ValkyrieControlLabel o) {
         visitPsiElement(o);
     }
