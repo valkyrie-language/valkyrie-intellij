@@ -1,4 +1,4 @@
-package valkyrie.ide.live_template
+package valkyrie.ide.templates.file_template
 
 import com.intellij.icons.AllIcons
 import com.intellij.ide.fileTemplates.FileTemplateGroupDescriptor

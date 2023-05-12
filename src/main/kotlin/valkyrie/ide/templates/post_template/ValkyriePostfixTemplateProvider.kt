@@ -7,12 +7,12 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiFile
 import org.jdom.Element
 
-class PostfixTemplateFactory : PostfixTemplateProvider {
+class ValkyriePostfixTemplateProvider : PostfixTemplateProvider {
     override fun getTemplates(): MutableSet<PostfixTemplate> {
         return mutableSetOf(
-            PostfixTemplateDotIf(),
+//            PostfixTemplateDotIf(),
             PostfixTemplateDotWhile(),
-            PostfixTemplateDotUntil()
+            PostfixTemplateDotUntil(),
         )
     }
 
@@ -48,5 +48,5 @@ class PostfixTemplateFactory : PostfixTemplateProvider {
     override fun createEditor(templateToEdit: PostfixTemplate?): PostfixTemplateEditor? {
         return super.createEditor(templateToEdit)
     }
-
 }
+

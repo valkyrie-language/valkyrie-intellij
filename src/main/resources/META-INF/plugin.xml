@@ -124,7 +124,7 @@
 		/>
 		<codeInsight.template.postfixTemplateProvider
 			language="valkyrie"
-			implementationClass="valkyrie.ide.post_template.PostfixTemplateFactory"
+			implementationClass="valkyrie.ide.post_template.ValkyriePostfixTemplateProvider"
 		/>
 		<runLineMarkerContributor language="valkyrie" implementationClass="valkyrie.ide.runner.RunnerProvider"/>
 		<!-- Hint Above -->
@@ -282,7 +282,7 @@
 		/>
 		<fileTemplateGroup
 			language="valkyrie"
-			implementationClass="valkyrie.ide.live_template.ValkyrieFileTemplateGroupDescriptorFactory"
+			implementationClass="valkyrie.ide.templates.file_template.ValkyrieFileTemplateGroupDescriptorFactory"
 		/>
 		<!-- Document -->
 		<lang.documentationProvider
