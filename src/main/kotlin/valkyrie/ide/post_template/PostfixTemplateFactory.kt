@@ -37,6 +37,7 @@ class PostfixTemplateFactory : PostfixTemplateProvider {
     }
 
     override fun readExternalTemplate(id: String, name: String, template: Element): PostfixTemplate? {
+        println("readExternalTemplate: ${id} ${name} ${template}")
         return super.readExternalTemplate(id, name, template)
     }
 
