@@ -2,6 +2,8 @@ package valkyrie.ide.live_template
 
 import com.intellij.codeInsight.template.CustomLiveTemplate
 import com.intellij.codeInsight.template.CustomTemplateCallback
+import com.intellij.codeInsight.template.impl.TemplateImpl
+import com.intellij.codeInsight.template.impl.TemplateSettings
 
 class ValkyrieLiveTemplate : CustomLiveTemplate {
     override fun computeTemplateKey(callback: CustomTemplateCallback): String? {
@@ -30,5 +32,11 @@ class ValkyrieLiveTemplate : CustomLiveTemplate {
 
     override fun getShortcut(): Char {
         return 'L'
+    }
+
+    companion object {
+        fun getTemplate(key: String): TemplateImpl? {
+            return TemplateSettings.getInstance().getTemplate(key, "Valkyrie Trigger")
+        }
     }
 }

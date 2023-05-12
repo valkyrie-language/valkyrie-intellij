@@ -124,7 +124,7 @@
 		/>
 		<codeInsight.template.postfixTemplateProvider
 			language="valkyrie"
-			implementationClass="valkyrie.ide.line_marker.PostfixTemplateFactory"
+			implementationClass="valkyrie.ide.post_template.PostfixTemplateFactory"
 		/>
 		<runLineMarkerContributor language="valkyrie" implementationClass="valkyrie.ide.runner.RunnerProvider"/>
 		<!-- Hint Above -->

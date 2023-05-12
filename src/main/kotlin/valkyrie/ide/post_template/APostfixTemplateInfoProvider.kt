@@ -1,14 +1,7 @@
-package valkyrie.ide.line_marker
+package valkyrie.ide.post_template
 
-import com.intellij.codeInsight.template.postfix.templates.PostfixTemplatePsiInfo
-import com.intellij.psi.PsiElement
+import com.intellij.codeInsight.template.postfix.templates.PostfixTemplate
+import com.intellij.codeInsight.template.postfix.templates.PostfixTemplateProvider
+import com.intellij.openapi.editor.Editor
+import com.intellij.psi.PsiFile
 
-class APostfixTemplateInfoProvider : PostfixTemplatePsiInfo() {
-    override fun createExpression(context: PsiElement, prefix: String, suffix: String): PsiElement {
-        return context
-    }
-
-    override fun getNegatedExpression(element: PsiElement): PsiElement {
-        return element
-    }
-}

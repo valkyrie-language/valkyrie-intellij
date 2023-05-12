@@ -1,4 +1,4 @@
-package valkyrie.ide.line_marker
+package valkyrie.ide.post_template
 
 import com.intellij.codeInsight.template.postfix.templates.PostfixTemplateExpressionSelector
 import com.intellij.openapi.editor.Document
