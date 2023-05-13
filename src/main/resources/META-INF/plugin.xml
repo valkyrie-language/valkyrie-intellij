@@ -124,7 +124,7 @@
 		/>
 		<codeInsight.template.postfixTemplateProvider
 			language="valkyrie"
-			implementationClass="valkyrie.ide.post_template.ValkyriePostfixTemplateProvider"
+			implementationClass="valkyrie.ide.templates.post_template.ValkyriePostfixTemplateProvider"
 		/>
 		<runLineMarkerContributor language="valkyrie" implementationClass="valkyrie.ide.runner.RunnerProvider"/>
 		<!-- Hint Above -->
@@ -268,17 +268,22 @@
 		<!-- Live Template -->
 		<liveTemplateContextProvider
 			language="valkyrie"
-			implementationClass="valkyrie.ide.live_template.ValkyrieLiveTemplateContext"
+			implementationClass="valkyrie.ide.templates.live_template.ValkyrieLiveTemplateContext"
 		/>
 		<defaultLiveTemplates file="templates/liveTemplate.xml"/>
 		<defaultTemplatePropertiesProvider
 			language="valkyrie"
-			implementationClass="valkyrie.ide.live_template.ValkyrieDefaultTemplatePropertiesProvider"
+			implementationClass="valkyrie.ide.templates.live_template.ValkyrieDefaultTemplatePropertiesProvider"
 		/>
-		<customLiveTemplate language="valkyrie" implementationClass="valkyrie.ide.live_template.ValkyrieLiveTemplate"/>
+		<customLiveTemplate language="valkyrie"
+		                    implementationClass="valkyrie.ide.templates.live_template.ValkyrieLiveTemplate"/>
 		<liveTemplateMacro
 			language="valkyrie"
-			implementationClass="valkyrie.ide.live_template.LiveTemplateSafeIdentifier"
+			implementationClass="valkyrie.ide.templates.live_template.LiveTemplateSafeIdentifier"
+		/>
+		<liveTemplateMacro
+			language="valkyrie"
+			implementationClass="valkyrie.ide.templates.live_template.LiveTemplateSafeExpression"
 		/>
 		<fileTemplateGroup
 			language="valkyrie"

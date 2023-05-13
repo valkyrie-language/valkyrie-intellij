@@ -5,7 +5,7 @@ import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.icons.AllIcons
 import com.intellij.icons.ExpUiIcons
-import valkyrie.ide.live_template.ValkyrieLiveTemplate
+import valkyrie.ide.templates.live_template.ValkyrieLiveTemplate
 import valkyrie.language.ValkyrieBundle
 
 open class ValkyrieCompletionProvider(val parameters: CompletionParameters, val result: CompletionResultSet) {
@@ -125,7 +125,7 @@ open class ValkyrieCompletionProvider(val parameters: CompletionParameters, val 
         result.addElement(lookup)
     }
 
-    private fun getTemplate(template: String): ValkyrieCompletionTemplate? {
-        return ValkyrieLiveTemplate.getTemplate(template)?.let { ValkyrieCompletionTemplate(it) }
+    private fun getTemplate(template: String): ValkyrieLiveCompletionTemplate? {
+        return ValkyrieLiveTemplate.getTemplate(template)?.let { ValkyrieLiveCompletionTemplate(it) }
     }
 }

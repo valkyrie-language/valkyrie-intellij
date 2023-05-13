@@ -1,4 +1,4 @@
-package valkyrie.ide.post_template
+package valkyrie.ide.templates.post_template
 
 import com.intellij.codeInsight.template.postfix.templates.PostfixTemplate
 import com.intellij.codeInsight.template.postfix.templates.PostfixTemplateProvider
@@ -6,6 +6,8 @@ import com.intellij.codeInsight.template.postfix.templates.editable.PostfixTempl
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiFile
 import org.jdom.Element
+import valkyrie.ide.post_template.PostfixTemplateDotUntil
+import valkyrie.ide.post_template.PostfixTemplateDotWhile
 
 class ValkyriePostfixTemplateProvider : PostfixTemplateProvider {
     override fun getTemplates(): MutableSet<PostfixTemplate> {
