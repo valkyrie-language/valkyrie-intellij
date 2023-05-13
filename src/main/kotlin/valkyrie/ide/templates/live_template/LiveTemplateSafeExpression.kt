@@ -1,34 +1,8 @@
-package valkyrie.ide.live_template
+package valkyrie.ide.templates.live_template
 
-import com.intellij.codeInsight.lookup.LookupFocusDegree
 import com.intellij.codeInsight.template.*
 import com.intellij.codeInsight.template.macro.MacroBase
 import com.intellij.openapi.util.text.StringUtil
-
-
-class LiveTemplateSafeIdentifier : Macro() {
-    override fun getName(): String {
-        return "safe-identifier"
-    }
-
-    override fun getPresentableName(): String {
-        return "@safe-identifier(id: String)"
-    }
-
-    override fun calculateResult(params: Array<out Expression>, context: ExpressionContext?): Result? {
-        return null
-    }
-
-    override fun getDefaultValue(): String {
-        return super.getDefaultValue()
-    }
-
-    override fun getLookupFocusDegree(): LookupFocusDegree {
-        return super.getLookupFocusDegree()
-    }
-
-
-}
 
 class LiveTemplateSafeExpression : MacroBase {
     constructor() : super("safe-identifier", "titleCase(String)")
