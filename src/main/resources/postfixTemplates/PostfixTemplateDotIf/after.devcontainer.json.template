@@ -1,1 +1,9 @@
-gggccc
+if lhs + f(rhs) {
+
+}
+
+if true {
+	if lhs + f(rhs) {
+
+	}
+}

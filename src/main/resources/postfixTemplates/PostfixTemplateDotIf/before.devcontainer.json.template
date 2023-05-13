@@ -1,1 +1,5 @@
-ggg
+lhs + f(rhs).if
+
+if lhs + f(rhs) {
+
+}.if

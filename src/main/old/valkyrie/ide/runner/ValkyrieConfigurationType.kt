@@ -6,24 +6,3 @@ import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
-class ValkyrieConfigurationType : ConfigurationType {
-    override fun getDisplayName(): String {
-        return ValkyrieBundle.message("running.group.name")
-    }
-
-    override fun getConfigurationTypeDescription(): String {
-        return "ValkyrieRunningConfigType.getConfigurationTypeDescription"
-    }
-
-    override fun getIcon(): Icon {
-        return ValkyrieIconProvider.Instance.Valkyrie
-    }
-
-    override fun getId(): String {
-        return "valkyrie.script"
-    }
-
-    override fun getConfigurationFactories(): Array<ConfigurationFactory> {
-        return arrayOf(ValkyrieConfigurationFactory(this))
-    }
-}

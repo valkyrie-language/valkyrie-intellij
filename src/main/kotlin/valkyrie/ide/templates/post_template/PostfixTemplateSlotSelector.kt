@@ -18,7 +18,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.refactoring.IntroduceTargetChooser
 import com.intellij.util.containers.ContainerUtil
-import valkyrie.ide.templates.live_template.ValkyrieLiveTemplate
+import valkyrie.ide.completion.ValkyrieLookupElement
 import valkyrie.psi.ancestors
 import valkyrie.psi.node.*
 import java.util.*
@@ -26,33 +26,33 @@ import java.util.*
 open class PostfixTemplateSlotSelector : PostfixTemplate {
     val liveTemplate: TemplateImpl?
 
-    constructor(templateId: String, templateName: String, templateKey: String, example: String) : super(
-        templateId,
-        templateName,
-        templateKey,
-        example,
-        null
-    ) {
-        this.liveTemplate = ValkyrieLiveTemplate.getTemplate(templateKey.trimStart('.'))
+    constructor(templateName: String, templateKey: String) : super(null, templateName, templateKey, "", null) {
+        this.liveTemplate = ValkyrieLookupElement.getTemplate(templateName)
     }
 
     override fun getProvider(): ValkyriePostfixTemplateProvider {
         return ValkyriePostfixTemplateProvider()
     }
 
+    override fun getExample(): String {
+        return key
+    }
+
     open fun getExpressions(context: PsiElement, document: Document, offset: Int): List<PsiElement> {
+//        println("getExpressions: $context")
         val expressions = mutableMapOf<TextRange, PsiElement>()
         for (ancestor in context.ancestors) {
             when (ancestor) {
-                is ValkyrieExpressionNode -> {
+                is ValkyrieFunctionCallNode,
+                is ValkyrieExpressionNode,
+                -> {
                     expressions[ancestor.textRange] = ancestor
                 }
 
-                is ValkyrieFunctionCallNode -> {
-                    expressions[ancestor.textRange] = ancestor
-                }
-
-                is ValkyrieWhileStatementNode -> {
+                is ValkyrieWhileStatementNode,
+                is ValkyrieForStatementNode,
+                is ValkyrieIfStatementNode,
+                -> {
                     return mutableListOf(ancestor)
                 }
             }

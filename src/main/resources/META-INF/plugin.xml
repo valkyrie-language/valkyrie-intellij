@@ -80,16 +80,16 @@
 		<postFormatProcessor implementation="valkyrie.ide.formatter.ValkyrieAfterFormat"/>
 		<lang.smartEnterProcessor language="valkyrie" implementationClass="valkyrie.ide.formatter.SmartEnter"/>
 		<!-- Tests -->
-		<!--		<configurationType implementation="valkyrie.ide.runner.ValkyrieConfigurationType"/>-->
+		<configurationType implementation="valkyrie.ide.runner.ValkyrieConfigurationType"/>
 		<!--		<runConfigurationsSettings implementation="valkyrie.ide.runner.ValkyrieRunnerSettings"/>-->
 		<!--		<runConfigurationProducer implementation="valkyrie.ide.runner.ValkyrieRunConfigurationProducer"/>-->
 		<!--		<runConfigurationTemplateProvider implementation="valkyrie.ide.runner.ValkyrieRunningTemplateProvider"/>-->
 		<!--		<importTestOutput implementation="valkyrie.ide.runner.TestOutput"/>-->
 
-		<!--		<testFinder implementation="valkyrie.ide.runner.ValkyrieFindTests"/>-->
-		<!--		<testActionProvider implementation="valkyrie.ide.runner.VTestActionProvider"/>-->
-		<!--		<testStatusListener implementation="valkyrie.ide.runner.VTestStatusListener"/>-->
-		<!--		<testDiffProvider language="Valkyrie" implementationClass="valkyrie.ide.runner.VTestDiffProvider"/>-->
+		<testFinder implementation="valkyrie.ide.runner.ValkyrieFindTests"/>
+		<testActionProvider implementation="valkyrie.ide.runner.VTestActionProvider"/>
+		<testStatusListener implementation="valkyrie.ide.runner.VTestStatusListener"/>
+		<testDiffProvider language="valkyrie" implementationClass="valkyrie.ide.runner.VTestDiffProvider"/>
 		<!-- Debugger -->
 		<!--		<xdebugger.breakpointType implementation="valkyrie.ide.runner.breakpointType"/>-->
 		<!--		<xdebugger.breakpointGroupingRule implementation="valkyrie.ide.runner.breakpointGroupingRule"/>-->

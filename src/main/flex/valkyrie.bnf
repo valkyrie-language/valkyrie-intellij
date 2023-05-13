@@ -364,6 +364,7 @@ control-label ::= OP_POW (identifier| INTEGER|KW_MACRO|KW_FOR|KW_WHILE);
 expression ::= term (infix term)* OP_AND_THEN? {
 
 };
+
 term ::= prefix* atomic suffix* {
 
 }
