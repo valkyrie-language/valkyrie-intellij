@@ -28,6 +28,12 @@ public class ValkyrieClassItemNode extends ValkyrieElement implements ValkyrieCl
 
     @Override
     @Nullable
+    public ValkyrieDeclareDomain getDeclareDomain() {
+        return findChildByClass(ValkyrieDeclareDomain.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieDeclareField getDeclareField() {
         return findChildByClass(ValkyrieDeclareField.class);
     }

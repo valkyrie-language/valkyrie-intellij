@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieClassItem extends PsiElement {
 
     @Nullable
+    ValkyrieDeclareDomain getDeclareDomain();
+
+    @Nullable
     ValkyrieDeclareField getDeclareField();
 
     @Nullable

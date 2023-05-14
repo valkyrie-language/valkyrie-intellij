@@ -2,15 +2,10 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieControlYieldFrom extends PsiElement {
-
-    @Nullable
-    ValkyrieControlLabel getControlLabel();
-
-    @NotNull
-    ValkyrieExpression getExpression();
+public interface ValkyrieSlotIndex extends PsiElement {
 
 }
