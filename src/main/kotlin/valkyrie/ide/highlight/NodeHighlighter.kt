@@ -7,7 +7,10 @@ import com.intellij.codeInsight.daemon.impl.HighlightVisitor
 import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import com.intellij.psi.util.elementType
 import valkyrie.language.file.ValkyrieFileNode
+import valkyrie.psi.ValkyrieTypes
+import valkyrie.psi.childrenWithLeaves
 import valkyrie.psi.node.*
 
 class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
@@ -90,9 +93,19 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.nameIdentifier, HighlightColor.SYM_FUNCTION_FREE)
     }
 
+    override fun visitDeclareMacro(o: ValkyrieDeclareMacro) {
+        o as ValkyrieDeclareMacroNode
+        highlight(o.nameIdentifier, HighlightColor.SYM_MACRO)
+    }
+
 
     override fun visitDeclareVariable(o: ValkyrieDeclareVariable) {
         super.visitDeclareVariable(o)
+    }
+
+    override fun visitParameterItem(o: ValkyrieParameterItem) {
+        highlight(o.identifier, HighlightColor.SYM_ARG)
+        o.typeHint?.typeExpression?.highlight_class(this)
     }
 
     override fun visitGenericParameter(o: ValkyrieGenericParameter) {
@@ -100,6 +113,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifier, HighlightColor.SYM_MACRO)
         o.typeHint?.typeExpression?.highlight_trait(this)
     }
+
 
     override fun visitGenericArgument(o: ValkyrieGenericArgument) {
         highlight(o.identifier, HighlightColor.SYM_CLASS)
@@ -123,6 +137,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         o.namepath.highlight_fake(this)
     }
 
+
     override fun visitDotCall(o: ValkyrieDotCall) {
         highlight(o.namepath.lastChild, HighlightColor.SYM_FUNCTION_SELF)
     }
@@ -131,6 +146,15 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.namepath.lastChild, HighlightColor.SYM_FUNCTION_SELF)
     }
 
+
+    override fun visitRangeItem(o: ValkyrieRangeItem) {
+        for (child in o.childrenWithLeaves) {
+            if (child.elementType == ValkyrieTypes.PROPORTION) {
+                highlight(child, HighlightColor.OPERATION)
+                break
+            }
+        }
+    }
 
     fun highlight(element: PsiElement?, color: HighlightColor) {
         element ?: return

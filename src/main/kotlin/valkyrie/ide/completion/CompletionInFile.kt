@@ -13,6 +13,7 @@ class CompletionInFile : ValkyrieCompletionProvider {
 
     fun complete() {
         addFunctions()
+        addControls()
     }
 }
 

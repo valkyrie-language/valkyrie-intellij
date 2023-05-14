@@ -22,19 +22,19 @@ class TokenHighlighter : SyntaxHighlighter {
         return when (tokenType) {
             KW_NAMESPACE, KW_USING, KW_AS, KW_EXCLUDE,
             KW_TYPE, KW_CLASS, KW_UNION, KW_ENUMERATE, KW_FLAGS,
-            KW_TRAIT, KW_IMPLY,
+            KW_TRAIT, KW_IMPLY, KW_FROM,
             KW_FUNCTION, KW_MACRO, KW_LET, KW_LAMBDA, KW_NEW, KW_OBJECT,
             KW_IF, KW_ELSE, KW_THROUGH,
             KW_WHILE, KW_FOR, KW_IN,
-            KW_RETURN, KW_RESUME, KW_BREAK, KW_CONTINUE, KW_YIELD,
+            KW_RETURN, KW_RESUME, KW_BREAK, KW_CONTINUE, KW_YIELD, KW_RAISE,
             KW_TRY, KW_MATCH, KW_WITH, KW_CASE, KW_WHEN,
             KW_IS, KW_NOT,
             KW_BOOLEAN, KW_NULL, KW_NIL,
             -> HighlightColor.KEYWORD
             // operations
-            COLON, EQUAL, BIND, STAR -> HighlightColor.OPERATION
+            COLON, STAR,
             OP_OR, OP_UNTIL,
-            OP_EQ, OP_NE,
+            EQUAL, OP_EE, OP_NE,
             OP_PLUS, OP_AND_THEN,
             -> HighlightColor.OPERATION
             // literals

@@ -40,14 +40,32 @@ public class ValkyrieControlStatementNode extends ValkyrieElement implements Val
 
     @Override
     @Nullable
-    public ValkyrieControlLabel getControlLabel() {
-        return findChildByClass(ValkyrieControlLabel.class);
+    public ValkyrieControlRaise getControlRaise() {
+        return findChildByClass(ValkyrieControlRaise.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieControlResume getControlResume() {
+        return findChildByClass(ValkyrieControlResume.class);
     }
 
     @Override
     @Nullable
     public ValkyrieControlReturn getControlReturn() {
         return findChildByClass(ValkyrieControlReturn.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieControlThrough getControlThrough() {
+        return findChildByClass(ValkyrieControlThrough.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieControlYieldFrom getControlYieldFrom() {
+        return findChildByClass(ValkyrieControlYieldFrom.class);
     }
 
     @Override
@@ -60,12 +78,6 @@ public class ValkyrieControlStatementNode extends ValkyrieElement implements Val
     @Nullable
     public ValkyrieControlYieldStop getControlYieldStop() {
         return findChildByClass(ValkyrieControlYieldStop.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieExpression getExpression() {
-        return findChildByClass(ValkyrieExpression.class);
     }
 
 }

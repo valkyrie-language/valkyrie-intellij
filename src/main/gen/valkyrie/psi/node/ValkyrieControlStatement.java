@@ -14,18 +14,24 @@ public interface ValkyrieControlStatement extends PsiElement {
     ValkyrieControlContinue getControlContinue();
 
     @Nullable
-    ValkyrieControlLabel getControlLabel();
+    ValkyrieControlRaise getControlRaise();
+
+    @Nullable
+    ValkyrieControlResume getControlResume();
 
     @Nullable
     ValkyrieControlReturn getControlReturn();
+
+    @Nullable
+    ValkyrieControlThrough getControlThrough();
+
+    @Nullable
+    ValkyrieControlYieldFrom getControlYieldFrom();
 
     @Nullable
     ValkyrieControlYieldSend getControlYieldSend();
 
     @Nullable
     ValkyrieControlYieldStop getControlYieldStop();
-
-    @Nullable
-    ValkyrieExpression getExpression();
 
 }

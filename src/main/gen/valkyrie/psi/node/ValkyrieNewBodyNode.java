@@ -26,4 +26,10 @@ public class ValkyrieNewBodyNode extends ValkyrieElement implements ValkyrieNewB
         else super.accept(visitor);
     }
 
+    @Override
+    @NotNull
+    public List<ValkyrieNewItem> getNewItemList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNewItem.class);
+    }
+
 }

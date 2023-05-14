@@ -22,6 +22,24 @@ open class ValkyrieCompletionProvider(val parameters: CompletionParameters, val 
         }
     }
 
+    protected fun addControls() {
+        createKeywordControl(
+            "yield-send",
+            mutableSetOf("yield", "yield-continue", "yield-then", "yield-return"),
+            ValkyrieBundle.message("completion.control.yield.send")
+        )
+        createNormalFunction(
+            "yield-from",
+            mutableSetOf(),
+            ValkyrieBundle.message("completion.control.yield.from")
+        )
+        createNormalFunction(
+            "yield-stop",
+            mutableSetOf("yield-break"),
+            ValkyrieBundle.message("completion.control.yield.stop")
+        )
+    }
+
     protected fun addMethods() {
         for (arguments in 0..3) {
             createNormalMethod("method$arguments", mutableSetOf("fn$arguments"), ValkyrieBundle.message("completion.method.unit", arguments))
@@ -56,6 +74,14 @@ open class ValkyrieCompletionProvider(val parameters: CompletionParameters, val 
         val live = getLiveTemplate(key) ?: return
         live.setLookup(key, word)
         live.setIcon(AllIcons.Nodes.Function)
+        live.setText(key, help)
+        result.addElement(live)
+    }
+
+    private fun createKeywordControl(key: String, word: MutableSet<String>, help: String) {
+        val live = getLiveTemplate(key) ?: return
+        live.setLookup(key, word)
+        live.setIcon(ExpUiIcons.Actions.Deploy)
         live.setText(key, help)
         result.addElement(live)
     }

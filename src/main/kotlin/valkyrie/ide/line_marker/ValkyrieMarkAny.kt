@@ -4,12 +4,11 @@ import com.intellij.codeInsight.daemon.MergeableLineMarkerInfo
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
 import valkyrie.psi.ValkyrieDeclareElement
-import valkyrie.psi.ValkyrieElement
 import java.util.function.Supplier
 import javax.swing.Icon
 
 class ValkyrieMarkAny : MergeableLineMarkerInfo<PsiElement> {
-    private val declare: ValkyrieElement
+    private val declare: PsiElement
 
 
     constructor(declare: ValkyrieDeclareElement) : super(
@@ -33,11 +32,11 @@ class ValkyrieMarkAny : MergeableLineMarkerInfo<PsiElement> {
         GutterIconRenderer.Alignment.CENTER,
         Supplier<String> { "AncestorClassMark" }
     ) {
-        this.declare = leaf as ValkyrieElement
+        this.declare = leaf
     }
 
 
-    override fun getElement(): ValkyrieElement {
+    override fun getElement(): PsiElement {
         return declare
     }
 

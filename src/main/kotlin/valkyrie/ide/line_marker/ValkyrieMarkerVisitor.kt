@@ -1,22 +1,20 @@
 package valkyrie.ide.line_marker
 
 import com.intellij.codeInsight.daemon.LineMarkerInfo
-import com.intellij.codeInsight.template.postfix.templates.*
 import com.intellij.execution.lineMarker.RunLineMarkerContributor
 import com.intellij.execution.lineMarker.RunLineMarkerProvider
 import com.intellij.icons.AllIcons
 import com.intellij.icons.ExpUiIcons
-import com.intellij.json.surroundWith.JsonWithQuotesSurrounder
-import com.intellij.lang.surroundWith.Surrounder
-import com.intellij.openapi.editor.Document
-import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiFile
-import com.intellij.util.Function
+import com.intellij.psi.util.elementType
 import valkyrie.ide.runner.RunTest
 import valkyrie.ide.runner.RunTestDebugMode
+import valkyrie.language.file.ValkyrieIconProvider
+import valkyrie.psi.ValkyrieTypes
+import valkyrie.psi.childrenWithLeaves
 import valkyrie.psi.mixin.superClasses
 import valkyrie.psi.node.*
+import javax.swing.Icon
 import kotlin.random.Random
 
 class ValkyrieMarkerVisitor : ValkyrieVisitor {
@@ -102,6 +100,10 @@ class ValkyrieMarkerVisitor : ValkyrieVisitor {
         result.add(ValkyrieMarkAny(o))
     }
 
+    override fun visitDeclareMacro(o: ValkyrieDeclareMacro) {
+        o as ValkyrieDeclareMacroNode
+        result.add(ValkyrieMarkAny(o))
+    }
 
     override fun visitNewLambda(o: ValkyrieNewLambda) {
         o as ValkyrieNewLambdaNode
@@ -109,22 +111,55 @@ class ValkyrieMarkerVisitor : ValkyrieVisitor {
     }
 
     override fun visitControlYieldSend(o: ValkyrieControlYieldSend) {
-        result.add(ValkyrieMarkAny(o.firstChild, ExpUiIcons.General.Exit))
+        markYieldWith(o)
     }
 
     override fun visitControlYieldStop(o: ValkyrieControlYieldStop) {
-        result.add(ValkyrieMarkAny(o.firstChild, ExpUiIcons.General.Exit))
+        markYieldWith(o)
+    }
+
+    override fun visitControlYieldFrom(o: ValkyrieControlYieldFrom) {
+        markYieldWith(o)
     }
 
     override fun visitControlReturn(o: ValkyrieControlReturn) {
-        // ExpUiIcons
-        result.add(ValkyrieMarkAny(o.firstChild, ExpUiIcons.Gutter.WriteAccess))
+        markLeaf(o.firstChild, ValkyrieIconProvider.Instance.Stop)
     }
 
     override fun visitControlContinue(o: ValkyrieControlContinue) {
-        result.add(ValkyrieMarkAny(o.firstChild, ExpUiIcons.Gutter.WriteAccess))
+        markLeaf(o.firstChild, ValkyrieIconProvider.Instance.Then)
     }
 
+    override fun visitControlBreak(o: ValkyrieControlBreak) {
+        markLeaf(o.firstChild, ValkyrieIconProvider.Instance.Then)
+    }
+
+    override fun visitControlThrough(o: ValkyrieControlThrough) {
+        markLeaf(o.firstChild, ValkyrieIconProvider.Instance.Then)
+    }
+
+    override fun visitControlResume(o: ValkyrieControlResume) {
+        markLeaf(o.firstChild, ExpUiIcons.Actions.Filterdups)
+    }
+
+    override fun visitControlRaise(o: ValkyrieControlRaise) {
+        markLeaf(o.firstChild, ExpUiIcons.General.Upload)
+    }
+
+
+    private fun markLeaf(leaf: PsiElement, icon: Icon) {
+        result.add(ValkyrieMarkAny(leaf, icon))
+    }
+
+    fun markYieldWith(o: PsiElement) {
+        for (child in o.childrenWithLeaves) {
+            if (child.elementType == ValkyrieTypes.KW_WITH) {
+                markLeaf(o.firstChild, ValkyrieIconProvider.Instance.Then)
+                return
+            }
+        }
+        markLeaf(o.firstChild, ValkyrieIconProvider.Instance.Stop)
+    }
 
     private fun createFunctionTest(source: PsiElement?, annotations: ValkyrieAnnotations?) {
         val leaf = findTest(annotations)

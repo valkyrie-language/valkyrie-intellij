@@ -7,4 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieNewBody extends PsiElement {
 
+    @NotNull
+    List<ValkyrieNewItem> getNewItemList();
+
 }
