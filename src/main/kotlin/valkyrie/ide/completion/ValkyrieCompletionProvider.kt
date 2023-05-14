@@ -2,89 +2,37 @@ package valkyrie.ide.completion
 
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionResultSet
-import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.icons.AllIcons
 import com.intellij.icons.ExpUiIcons
-import valkyrie.ide.templates.live_template.ValkyrieLiveTemplate
 import valkyrie.language.ValkyrieBundle
 
 open class ValkyrieCompletionProvider(val parameters: CompletionParameters, val result: CompletionResultSet) {
     protected fun addFunctions() {
         for (arguments in 0..3) {
-            result.addElement(
-                LookupElementBuilder.create("function$arguments")
-                    .withIcon(AllIcons.Nodes.Method)
-                    .withBaseLookupString("function$arguments")
-                    .withLookupStrings(mutableSetOf("function$arguments", "fn$arguments"))
-                    .withCaseSensitivity(false)
-                    .withInsertHandler(getTemplate("function$arguments"))
+            createNormalFunction(
+                "function$arguments",
+                mutableSetOf("fn$arguments"),
+                ValkyrieBundle.message("completion.method.unit", arguments)
             )
-            result.addElement(
-                LookupElementBuilder.create("function$arguments?")
-                    .withIcon(AllIcons.Nodes.Method)
-                    .withBaseLookupString("function$arguments?")
-                    .withLookupStrings(mutableSetOf("function$arguments$arguments", "ff$arguments"))
-                    .withCaseSensitivity(false)
-                    .withInsertHandler(getTemplate("function$arguments?"))
+            createNormalFunction(
+                "function$arguments?",
+                mutableSetOf("ff$arguments?"),
+                ValkyrieBundle.message("completion.method.result", arguments)
             )
         }
     }
 
     protected fun addMethods() {
         for (arguments in 0..3) {
-            result.addElement(
-                LookupElementBuilder.create("method$arguments")
-                    .withIcon(AllIcons.Nodes.Method)
-                    .withBaseLookupString("method$arguments")
-                    .withLookupStrings(mutableSetOf("fn$arguments"))
-                    .withCaseSensitivity(false)
-                    .withTypeText(ValkyrieBundle.message("completion.method.unit", arguments), true)
-                    .withInsertHandler(getTemplate("method$arguments"))
-            )
-            result.addElement(
-                LookupElementBuilder.create("method$arguments?")
-                    .withIcon(AllIcons.Nodes.Method)
-                    .withBaseLookupString("method$arguments?")
-                    .withLookupStrings(
-                        mutableSetOf(
-                            "ff$arguments",
-                        )
-                    )
-                    .withCaseSensitivity(false)
-                    .withTypeText(ValkyrieBundle.message("completion.method.result", arguments), true)
-                    .withInsertHandler(getTemplate("method$arguments?"))
-            )
+            createNormalMethod("method$arguments", mutableSetOf("fn$arguments"), ValkyrieBundle.message("completion.method.unit", arguments))
+            createNormalMethod("method$arguments?", mutableSetOf("ff$arguments"), ValkyrieBundle.message("completion.method.result", arguments))
         }
     }
 
     protected fun addGetSet() {
-        result.addElement(
-            LookupElementBuilder.create("getter")
-                .withIcon(AllIcons.Nodes.Property)
-                .withBaseLookupString("getter")
-                .withLookupStrings(mutableSetOf("getter", "gg"))
-                .withCaseSensitivity(false)
-                .withTypeText(ValkyrieBundle.message("completion.getter"), true)
-                .withInsertHandler(getTemplate("getter"))
-        )
-        result.addElement(
-            LookupElementBuilder.create("setter")
-                .withIcon(AllIcons.Nodes.Property)
-                .withBaseLookupString("setter")
-                .withLookupStrings(mutableSetOf("setter", "ss"))
-                .withCaseSensitivity(false)
-                .withTypeText(ValkyrieBundle.message("completion.setter"), true)
-                .withInsertHandler(getTemplate("setter"))
-        )
-        result.addElement(
-            LookupElementBuilder.create("get-set")
-                .withIcon(AllIcons.Nodes.Property)
-                .withBaseLookupString("get-set")
-                .withLookupStrings(mutableSetOf("get-set", "getset", "gs"))
-                .withCaseSensitivity(false)
-                .withTypeText(ValkyrieBundle.message("completion.get-set"), true)
-                .withInsertHandler(getTemplate("get-set"))
-        )
+        createProperty("getter", mutableSetOf("getter", "gg"), ValkyrieBundle.message("completion.getter"))
+        createProperty("setter", mutableSetOf("setter", "ss"), ValkyrieBundle.message("completion.setter"))
+        createProperty("get-set", mutableSetOf("get-set", "getset", "gs"), ValkyrieBundle.message("completion.get-set"))
     }
 
     protected fun addConstructor() {
@@ -103,29 +51,52 @@ open class ValkyrieCompletionProvider(val parameters: CompletionParameters, val 
 
     }
 
-    private fun createKeywordMethod(id: String, word: MutableSet<String>, help: String) {
-        val lookup = LookupElementBuilder.create(id)
-            .withIcon(ExpUiIcons.Nodes.MethodReference)
-            .withCaseSensitivity(true)
-            .withBaseLookupString(id)
-            .withLookupStrings(word)
-            .withTypeText(help, true)
-            .withInsertHandler(getTemplate(id))
-        result.addElement(lookup)
+
+    private fun createNormalFunction(key: String, word: MutableSet<String>, help: String) {
+        val live = getLiveTemplate(key) ?: return
+        live.setLookup(key, word)
+        live.setIcon(AllIcons.Nodes.Function)
+        live.setText(key, help)
+        result.addElement(live)
     }
 
-    private fun createOperatorMethod(id: String, word: MutableSet<String>, help: String) {
-        val lookup = LookupElementBuilder.create(id)
-            .withIcon(ExpUiIcons.Inline.Regex)
-            .withCaseSensitivity(true)
-            .withBaseLookupString(id)
-            .withLookupStrings(word)
-            .withTypeText(help, true)
-            .withInsertHandler(getTemplate(id))
-        result.addElement(lookup)
+
+    private fun createProperty(key: String, word: MutableSet<String>, help: String) {
+        val live = getLiveTemplate(key) ?: return
+        live.setLookup(key, word)
+        live.setIcon(AllIcons.Nodes.Property)
+        live.setText(key, help)
+        result.addElement(live)
     }
 
-    private fun getTemplate(template: String): ValkyrieLiveCompletionTemplate? {
-        return ValkyrieLiveTemplate.getTemplate(template)?.let { ValkyrieLiveCompletionTemplate(it) }
+    private fun createKeywordMethod(key: String, word: MutableSet<String>, help: String) {
+        val live = getLiveTemplate(key) ?: return
+        live.setLookup(key, word)
+        live.setIcon(ExpUiIcons.Nodes.MethodReference)
+        live.setText(key, help)
+        result.addElement(live)
     }
+
+    private fun createNormalMethod(key: String, word: MutableSet<String>, help: String) {
+        val live = getLiveTemplate(key) ?: return
+        live.setLookup(key, word)
+        live.setIcon(ExpUiIcons.Nodes.Method)
+        live.setText(key, help)
+        result.addElement(live)
+    }
+
+
+    private fun createOperatorMethod(key: String, word: MutableSet<String>, help: String) {
+        val live = getLiveTemplate(key) ?: return
+        live.setLookup(key, word)
+        live.setIcon(ExpUiIcons.Inline.Regex)
+        live.setText(key, help)
+        result.addElement(live)
+    }
+
+    private fun getLiveTemplate(key: String): ValkyrieLiveCompletionTemplate? {
+        val template = ValkyrieLookupElement.getTemplate(key) ?: return null
+        return ValkyrieLiveCompletionTemplate(template)
+    }
+
 }

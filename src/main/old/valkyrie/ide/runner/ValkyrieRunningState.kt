@@ -12,14 +12,3 @@ import com.intellij.execution.process.KillableProcessHandler
 import com.intellij.execution.runners.ExecutionEnvironment
 import com.intellij.execution.runners.ProgramRunner
 
-class ValkyrieRunningState(executor: Executor, private val environment: ExecutionEnvironment) : RunProfileState {
-    override fun execute(executor: Executor?, runner: ProgramRunner<*>): ExecutionResult {
-        val line = BuildTextConsoleView(environment.project, true, listOf())
-        val console = BuildTreeConsoleView(
-            environment.project,
-            DefaultBuildDescriptor("Valkyrie", "Valkyrie", "Valkyrie", System.currentTimeMillis()),
-            line
-        )
-        return DefaultExecutionResult(console, KillableProcessHandler(GeneralCommandLine("cmd", "/c", "dir")));
-    }
-}

@@ -6,13 +6,11 @@ import com.intellij.codeInsight.template.postfix.templates.editable.PostfixTempl
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiFile
 import org.jdom.Element
-import valkyrie.ide.post_template.PostfixTemplateDotUntil
-import valkyrie.ide.post_template.PostfixTemplateDotWhile
 
 class ValkyriePostfixTemplateProvider : PostfixTemplateProvider {
     override fun getTemplates(): MutableSet<PostfixTemplate> {
         return mutableSetOf(
-//            PostfixTemplateDotIf(),
+            PostfixTemplateDotIf(),
             PostfixTemplateDotWhile(),
             PostfixTemplateDotUntil(),
         )
@@ -39,7 +37,7 @@ class ValkyriePostfixTemplateProvider : PostfixTemplateProvider {
     }
 
     override fun readExternalTemplate(id: String, name: String, template: Element): PostfixTemplate? {
-        println("readExternalTemplate: ${id} ${name} ${template}")
+        println("readExternalTemplate: $id $name $template")
         return super.readExternalTemplate(id, name, template)
     }
 
@@ -51,4 +49,5 @@ class ValkyriePostfixTemplateProvider : PostfixTemplateProvider {
         return super.createEditor(templateToEdit)
     }
 }
+
 

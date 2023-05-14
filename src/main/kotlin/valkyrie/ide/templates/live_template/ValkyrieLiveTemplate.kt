@@ -34,9 +34,5 @@ class ValkyrieLiveTemplate : CustomLiveTemplate {
         return 'L'
     }
 
-    companion object {
-        fun getTemplate(key: String): TemplateImpl? {
-            return TemplateSettings.getInstance().getTemplate(key, "Valkyrie Trigger")
-        }
-    }
+
 }
