@@ -1,5 +1,6 @@
-package valkyrie.ide.post_template
+package valkyrie.ide.templates.post_template
 
+import com.intellij.openapi.editor.Document
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 
@@ -17,6 +18,11 @@ class PostfixTemplateDotIf : PostfixTemplateSlotSelector {
 
     override fun getPresentableName(): String {
         return "super.getPresentableName()"
+    }
+
+    override fun isApplicable(context: PsiElement, copyDocument: Document, newOffset: Int): Boolean {
+        println("isApplicable: ${context}")
+        return super.isApplicable(context, copyDocument, newOffset)
     }
 
 

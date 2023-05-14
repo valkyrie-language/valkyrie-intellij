@@ -1,4 +1,4 @@
-package valkyrie.ide.post_template
+package valkyrie.ide.templates.post_template
 
 import com.intellij.codeInsight.CodeInsightBundle
 import com.intellij.codeInsight.template.Template
@@ -18,7 +18,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.refactoring.IntroduceTargetChooser
 import com.intellij.util.containers.ContainerUtil
-import valkyrie.ide.live_template.ValkyrieLiveTemplate
+import valkyrie.ide.templates.live_template.ValkyrieLiveTemplate
 import valkyrie.psi.ancestors
 import valkyrie.psi.node.*
 import java.util.*

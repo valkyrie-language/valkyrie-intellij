@@ -1,4 +1,4 @@
-package valkyrie.ide.live_template
+package valkyrie.ide.templates.live_template
 
 import com.intellij.codeInsight.lookup.LookupFocusDegree
 import com.intellij.codeInsight.template.Expression

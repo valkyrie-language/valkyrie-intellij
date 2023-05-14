@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package valkyrie.ide.live_template
+package valkyrie.ide.templates.live_template
 
 import com.intellij.codeInsight.template.*
 import valkyrie.language.ValkyrieBundle
