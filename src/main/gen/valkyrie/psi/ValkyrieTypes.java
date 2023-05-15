@@ -32,6 +32,7 @@ public interface ValkyrieTypes {
     IElementType CONTROL_YIELD_SEND = new ValkyrieElementType("CONTROL_YIELD_SEND");
     IElementType CONTROL_YIELD_STOP = new ValkyrieElementType("CONTROL_YIELD_STOP");
     IElementType DECLARE_CLASS = new ValkyrieElementType("DECLARE_CLASS");
+    IElementType DECLARE_COMPONENT = new ValkyrieElementType("DECLARE_COMPONENT");
     IElementType DECLARE_DOMAIN = new ValkyrieElementType("DECLARE_DOMAIN");
     IElementType DECLARE_ENUMERATE = new ValkyrieElementType("DECLARE_ENUMERATE");
     IElementType DECLARE_FIELD = new ValkyrieElementType("DECLARE_FIELD");
@@ -175,7 +176,7 @@ public interface ValkyrieTypes {
     IElementType KW_BREAK = new ValkyrieTokenType("KW_BREAK");
     IElementType KW_CASE = new ValkyrieTokenType("KW_CASE");
     IElementType KW_CLASS = new ValkyrieTokenType("KW_CLASS");
-    IElementType KW_CLIMB = new ValkyrieTokenType("KW_CLIMB");
+    IElementType KW_COMPONENT = new ValkyrieTokenType("KW_COMPONENT");
     IElementType KW_CONTINUE = new ValkyrieTokenType("KW_CONTINUE");
     IElementType KW_ELSE = new ValkyrieTokenType("KW_ELSE");
     IElementType KW_ENUMERATE = new ValkyrieTokenType("KW_ENUMERATE");
@@ -184,8 +185,6 @@ public interface ValkyrieTypes {
     IElementType KW_FOR = new ValkyrieTokenType("KW_FOR");
     IElementType KW_FROM = new ValkyrieTokenType("KW_FROM");
     IElementType KW_FUNCTION = new ValkyrieTokenType("KW_FUNCTION");
-    IElementType KW_GRAMMAR = new ValkyrieTokenType("KW_GRAMMAR");
-    IElementType KW_GROUP = new ValkyrieTokenType("KW_GROUP");
     IElementType KW_IF = new ValkyrieTokenType("KW_IF");
     IElementType KW_IMPLY = new ValkyrieTokenType("KW_IMPLY");
     IElementType KW_IMPORT = new ValkyrieTokenType("KW_IMPORT");
@@ -301,6 +300,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieControlYieldStopNode(node);
             } else if (type == DECLARE_CLASS) {
                 return new ValkyrieDeclareClassNode(node);
+            } else if (type == DECLARE_COMPONENT) {
+                return new ValkyrieDeclareComponentNode(node);
             } else if (type == DECLARE_DOMAIN) {
                 return new ValkyrieDeclareDomainNode(node);
             } else if (type == DECLARE_ENUMERATE) {

@@ -40,12 +40,6 @@ public class ValkyrieControlStatementNode extends ValkyrieElement implements Val
 
     @Override
     @Nullable
-    public ValkyrieControlRaise getControlRaise() {
-        return findChildByClass(ValkyrieControlRaise.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieControlResume getControlResume() {
         return findChildByClass(ValkyrieControlResume.class);
     }

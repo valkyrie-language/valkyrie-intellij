@@ -28,6 +28,12 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
 
     @Override
     @Nullable
+    public ValkyrieControlRaise getControlRaise() {
+        return findChildByClass(ValkyrieControlRaise.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieExpression getExpression() {
         return findChildByClass(ValkyrieExpression.class);
     }

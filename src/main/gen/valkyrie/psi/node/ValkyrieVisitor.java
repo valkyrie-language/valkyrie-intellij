@@ -103,6 +103,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitDeclareComponent(@NotNull ValkyrieDeclareComponent o) {
+        visitPsiElement(o);
+    }
+
     public void visitDeclareDomain(@NotNull ValkyrieDeclareDomain o) {
         visitPsiElement(o);
     }

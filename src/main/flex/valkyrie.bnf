@@ -75,6 +75,7 @@ private statements ::=
   | declare-trait
   | declare-imply
   | declare-function
+  | declare-component
   | declare-macro
   | block-statement
 private block-statement ::=
@@ -222,6 +223,10 @@ declare-macro ::= annotations KW_MACRO declare-generic? identifier parameter-bod
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinMacro"
 }
+declare-component ::= annotations KW_COMPONENT declare-generic? identifier parameter-body return-type? effect-type? block-body {
+    pin = 2
+    mixin = "valkyrie.psi.mixin.MixinComponent"
+}
 parameter-body ::= PARENTHESIS_L (parameter-item (COMMA parameter-item)* COMMA?)? PARENTHESIS_R;
 parameter-item ::= annotations identifier type-hint? default-value? {
     mixin = "valkyrie.psi.mixin.MixinValueParameter"
@@ -361,7 +366,6 @@ control-statement ::=
   | control-continue
   | control-break
   | control-through
-  | control-raise
   | control-resume
 control-break  ::= KW_BREAK control-label?
 control-return ::= KW_RETURN control-label? expression?;
@@ -453,6 +457,7 @@ atomic ::=
   | for-statement   // for ... {...}
   | while-statement // while/until {...}
   | try-statement   // try T {...}
+  | control-raise   // raise T
   | match-statement // match ... { ... }
   | slot            // $id
   | literal
@@ -514,6 +519,10 @@ namepath-free ::= identifier ((PROPORTION|DOT) identifier)* {
 }
 
 
-identifier    ::= SYMBOL | SYMBOW_RAW | KW_MACRO | KW_CLASS | KW_UNION | KW_GROUP | KW_GRAMMAR | KW_IMPORT | KW_AS | KW_CLIMB {
+identifier ::= SYMBOL | SYMBOW_RAW
+    | KW_CLASS
+    | KW_FUNCTION | KW_MACRO | KW_COMPONENT
+    | KW_UNION | KW_IMPORT | KW_AS
+{
     mixin = "valkyrie.psi.mixin.MixinIdentifier"
 }
