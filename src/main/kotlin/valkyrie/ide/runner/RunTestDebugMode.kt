@@ -1,6 +1,6 @@
 package valkyrie.ide.runner
 
-import com.intellij.icons.AllIcons
+import com.intellij.icons.ExpUiIcons
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
@@ -8,13 +8,13 @@ import com.intellij.openapi.ui.Messages
 import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieBundle
 
-class RunTest : AnAction {
+class RunTestDebugMode : AnAction {
     val element: PsiElement
     private var path: String = "";
 
     constructor(element: PsiElement) : super() {
         this.element = element
-        templatePresentation.icon = AllIcons.RunConfigurations.TestState.Run_run
+        templatePresentation.icon = ExpUiIcons.Run.Debug
         templatePresentation.text = ValkyrieBundle.message("action.run.class.full.name")
         templatePresentation.description = ValkyrieBundle.message("action.run.class.full.help")
     }
@@ -42,5 +42,3 @@ class RunTest : AnAction {
         super.update(e)
     }
 }
-
-

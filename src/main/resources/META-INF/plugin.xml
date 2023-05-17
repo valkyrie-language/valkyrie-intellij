@@ -17,6 +17,7 @@
 			language="valkyrie"
 			implementationClass="valkyrie.psi.ParserDefinition"/>
 		<multiHostInjector implementation="valkyrie.ide.matcher.LanguageInjector"/>
+		<applicationInitializedListener implementation="valkyrie.lsp.ValkyrieLspRegister"/>
 		<!-- Project -->
 		<!--		<projectNameProvider implementation="valkyrie.ide.project.ValkyrieProjectName"/>-->
 		<!--		<primaryModuleManager implementation="valkyrie.ide.project.ValkyriePrimaryPackage"/>-->
@@ -49,8 +50,8 @@
 		<!--		<facetType implementation="valkyrie.ide.project.facet.ValkyrieFacetType"/>-->
 		<!-- StructureView -->
 		<iconProvider implementation="valkyrie.language.file.ValkyrieIconProvider"/>
-		<!--		<projectViewNestingRulesProvider implementation="valkyrie.language.file.ValkyrieFileGroup"/>-->
-		<!--		<treeStructureProvider implementation="valkyrie.ide.view.VStructureProvider"/>-->
+		<projectViewNestingRulesProvider implementation="valkyrie.language.file.ValkyrieFileGroup"/>
+		<treeStructureProvider implementation="valkyrie.ide.view.ProjectViewModifier"/>
 		<lang.structureViewExtension implementation="valkyrie.ide.view.ValkyrieStructureViewExtension"/>
 		<lang.psiStructureViewFactory
 			language="valkyrie"

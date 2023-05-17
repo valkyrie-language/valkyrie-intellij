@@ -34,6 +34,7 @@ KW_ENUMERATE = enumerate|enums?
 KW_FLAGS     = flags
 KW_TRAIT     = trait
 KW_EXTENDS   = imply|impliments?|extends?
+KW_WHERE     = where
 KW_TEMPLATE  = template|generic|constraint
 KW_IMPLEMENT = implement
 KW_MICRO     = micro|function|func|fun|fn|def
@@ -48,6 +49,7 @@ KW_MATCH = match|catch
 KW_WITH  = with
 KW_CASE  = case
 KW_WHEN  = when
+KW_FROM  = from
 
 KW_WHILE = while|until
 KW_FOR   = for
@@ -89,7 +91,8 @@ OP_POW       = \^
 OP_UNTIL     = [.]{2}[<=]
 
 // equal
-OP_EQ  = ==
+EQUAL  = =
+OP_EE  = ==
 OP_NE  = ≠|\!=
 OP_EEE = ≡|===
 OP_NEE = ≢|\!==|=\!=
@@ -157,8 +160,8 @@ INTEGER = 0|[1-9][_0-9]*
 	"." { return DOT; }
 	"," { return COMMA; }
 
-	"="     { return EQUAL; }
-    {OP_EQ} { return OP_EQ;}
+	{EQUAL}     { return EQUAL; }
+    {OP_EE} { return OP_EE;}
     {OP_NE} { return OP_NE; }
 
     {OP_PLUS}     { return OP_PLUS; }
@@ -189,6 +192,7 @@ INTEGER = 0|[1-9][_0-9]*
     {KW_CLASS}     { return KW_CLASS; }
     {KW_TRAIT}     { return KW_TRAIT; }
     {KW_EXTENDS}   { return KW_IMPLY; }
+    {KW_WHERE}     { return KW_WHERE; }
     {KW_MICRO}     { return KW_FUNCTION; }
     {KW_MACRO}     { return KW_MACRO; }
     {KW_LET}       { return KW_LET; }
@@ -214,6 +218,7 @@ INTEGER = 0|[1-9][_0-9]*
     {KW_MATCH} { return KW_MATCH; }
     {KW_WITH}  { return KW_WITH; }
     {KW_WHEN}  { return KW_WHEN; }
+    {KW_FROM}  { return KW_FROM; }
     {KW_CASE}  { return KW_CASE; }
 
 

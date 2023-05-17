@@ -4,3 +4,4 @@ enum class ValkyrieVisibility {
     Public,
     Private,
 }
+

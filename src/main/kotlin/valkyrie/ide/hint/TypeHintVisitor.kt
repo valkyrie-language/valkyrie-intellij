@@ -58,6 +58,23 @@ class TypeHintVisitor : ValkyrieVisitor {
         }
     }
 
+    override fun visitDeclareMacro(o: ValkyrieDeclareMacro) {
+        if (setting.showDefineParameterType) {
+            val parameter = o.parameterBody?.parameterItemList ?: listOf()
+            for (parameterItem in parameter) {
+                if (parameterItem.typeHint == null) {
+                    parameterItem.identifier.endOffset.let { hint(it, ": AnyNode") }
+                }
+            }
+        }
+        if (setting.showDefineReturnType) {
+            if (o.returnType == null) {
+                o.parameterBody?.endOffset?.let { hint(it, "⟶ AnyNode") }
+            }
+            return
+        }
+    }
+
 
     override fun visitDeclareEnumerate(o: ValkyrieDeclareEnumerate) {
         if (setting.showEnumerationType) {
