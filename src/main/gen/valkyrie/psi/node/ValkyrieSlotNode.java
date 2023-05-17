@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieUniteItemNode extends ValkyrieElement implements ValkyrieUniteItem {
+public class ValkyrieSlotNode extends ValkyrieElement implements ValkyrieSlot {
 
-    public ValkyrieUniteItemNode(@NotNull ASTNode node) {
+    public ValkyrieSlotNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitUniteItem(this);
+        visitor.visitSlot(this);
     }
 
     @Override
@@ -28,14 +31,14 @@ public class ValkyrieUniteItemNode extends ValkyrieElement implements ValkyrieUn
 
     @Override
     @Nullable
-    public ValkyrieDeclareMethod getDeclareMethod() {
-        return findChildByClass(ValkyrieDeclareMethod.class);
+    public ValkyrieSlotIndex getSlotIndex() {
+        return findChildByClass(ValkyrieSlotIndex.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieDeclareVariant getDeclareVariant() {
-        return findChildByClass(ValkyrieDeclareVariant.class);
+    public ValkyrieSlotNamed getSlotNamed() {
+        return findChildByClass(ValkyrieSlotNamed.class);
     }
 
 }

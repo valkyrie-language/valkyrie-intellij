@@ -2,15 +2,16 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieControlYieldFrom extends PsiElement {
+public interface ValkyrieMacroCallInline extends PsiElement {
 
     @Nullable
-    ValkyrieControlLabel getControlLabel();
+    ValkyrieArgumentBody getArgumentBody();
 
     @NotNull
-    ValkyrieExpression getExpression();
+    ValkyrieNamepath getNamepath();
 
 }

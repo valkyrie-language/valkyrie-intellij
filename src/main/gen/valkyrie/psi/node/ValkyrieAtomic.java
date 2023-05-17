@@ -17,6 +17,9 @@ public interface ValkyrieAtomic extends PsiElement {
     ValkyrieFunctionCall getFunctionCall();
 
     @Nullable
+    ValkyrieLambdaBlock getLambdaBlock();
+
+    @Nullable
     ValkyrieLiteral getLiteral();
 
     @Nullable
@@ -30,6 +33,9 @@ public interface ValkyrieAtomic extends PsiElement {
 
     @Nullable
     ValkyrieOrdinalRange getOrdinalRange();
+
+    @Nullable
+    ValkyrieSlot getSlot();
 
     @Nullable
     ValkyrieTryStatement getTryStatement();

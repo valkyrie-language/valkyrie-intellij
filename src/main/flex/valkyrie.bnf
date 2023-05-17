@@ -130,7 +130,8 @@ class-inherit      ::= (annotations identifier EQUAL)? type-expression {
 // === class body ===
 class-body ::= BRACE_L class-item* BRACE_R;
 class-item ::=
-    declare-method
+    declare-domain
+  | declare-method
   | declare-field
   | SEMICOLON
   | COMMA
@@ -148,6 +149,10 @@ default-type  ::= EQUAL type-expression;
 // === class method statement ===
 declare-method ::= annotations identifier declare-generic? parameter-body return-type? effect-type? block-body? {
     mixin = "valkyrie.psi.mixin.MixinMethod"
+}
+// === class domain statement ===
+declare-domain ::= annotations identifier class-body {
+    mixin = "valkyrie.psi.mixin.MixinDomain"
 }
 // === union statement ===
 declare-union ::= annotations KW_UNION identifier class-body {
@@ -180,7 +185,6 @@ unite-body ::= BRACE_L unite-item* BRACE_R;
 unite-item ::=
     declare-variant
   | declare-method
-  | declare-field
   | SEMICOLON
   | COMMA
 declare-variant ::= annotations identifier class-body? {
@@ -232,11 +236,14 @@ declare-variable ::= KW_LET pattern-bare type-hint? EQUAL inline-statement {
     mixin = "valkyrie.psi.mixin.MixinVariable"
 }
 // === function statement ===
-function-call ::= namepath (argument-body | argument-body? block-body)?;
+function-call ::= namepath (argument-body? block-body | argument-body)?;
 function-call-inline ::= namepath argument-body;
-macro-call    ::= AT namepath (argument-body | argument-body? block-body)? {
+macro-call    ::= AT namepath (argument-body? class-body|argument-body)? {
     pin = 1
 }
+
+macro-call-inline ::= AT namepath argument-body?
+
 dot-call        ::= OP_AND_THEN? DOT namepath (argument-body | argument-body? block-body)?;
 dot-call-inline ::= OP_AND_THEN? DOT namepath argument-body?
 dot-call-for    ::= OP_AND_THEN? DOT KW_FOR pattern-bare if-condition? block-body {
@@ -338,6 +345,13 @@ new-lambda ::= KW_LAMBDA declare-generic? parameter-body return-type? effect-typ
     pin = 1
     mixin = "valkyrie.psi.mixin.MixinLambda"
 }
+lambda-block  ::= BRACE_L new-lambda? block-statement* BRACE_R;
+// === slot statement ===
+slot ::=
+    slot-named
+  | slot-index
+slot-named ::= DOLLAR identifier;
+slot-index ::= DOLLAR INTEGER;
 // === control expression ===
 control-statement ::=
     control-return
@@ -430,15 +444,17 @@ generic-argument ::= (annotations identifier EQUAL)? type-expression;
 // === atomic statement ===
 atomic ::=
     PARENTHESIS_L expression PARENTHESIS_R
-  | tuple
-  | macro-call
-  | function-call
-  | for-statement
-  | while-statement
-  | try-statement
-  | match-statement
-  | ordinal-range
-  | offset-range
+  | tuple           // ( )
+  | lambda-block    // { }
+  | ordinal-range   // [ ]
+  | offset-range    // ⁅ ⁆
+  | macro-call      // @path::id() { }
+  | function-call   // path::id() { }
+  | for-statement   // for ... {...}
+  | while-statement // while/until {...}
+  | try-statement   // try T {...}
+  | match-statement // match ... { ... }
+  | slot            // $id
   | literal
 // === atomic statement ===
 ordinal-range ::= BRACKET_L (range-item (COMMA range-item)* COMMA?)? BRACKET_R;
@@ -486,7 +502,9 @@ attribute ::= HASH namepath argument-body? {
     mixin = "valkyrie.psi.mixin.MixinAttribute"
     methods=[highlight]
 }
+
 // === identifiers ===
+
 namepath      ::= identifier (PROPORTION identifier)* {
     mixin = "valkyrie.psi.mixin.MixinNamepath"
     methods=[highlight_fake]
@@ -494,6 +512,8 @@ namepath      ::= identifier (PROPORTION identifier)* {
 namepath-free ::= identifier ((PROPORTION|DOT) identifier)* {
     extends = namepath
 }
-identifier      ::= SYMBOL | SYMBOW_RAW | KW_MACRO | KW_CLASS | KW_UNION | KW_GROUP | KW_GRAMMAR | KW_IMPORT | KW_AS | KW_CLIMB {
+
+
+identifier    ::= SYMBOL | SYMBOW_RAW | KW_MACRO | KW_CLASS | KW_UNION | KW_GROUP | KW_GRAMMAR | KW_IMPORT | KW_AS | KW_CLIMB {
     mixin = "valkyrie.psi.mixin.MixinIdentifier"
 }

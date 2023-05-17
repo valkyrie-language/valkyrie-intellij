@@ -46,6 +46,12 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
 
     @Override
     @Nullable
+    public ValkyrieLambdaBlock getLambdaBlock() {
+        return findChildByClass(ValkyrieLambdaBlock.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieLiteral getLiteral() {
         return findChildByClass(ValkyrieLiteral.class);
     }
@@ -72,6 +78,12 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
     @Nullable
     public ValkyrieOrdinalRange getOrdinalRange() {
         return findChildByClass(ValkyrieOrdinalRange.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieSlot getSlot() {
+        return findChildByClass(ValkyrieSlot.class);
     }
 
     @Override

@@ -2,18 +2,19 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieMacroCall extends PsiElement {
+public interface ValkyrieDeclareDomain extends PsiElement {
 
-    @Nullable
-    ValkyrieArgumentBody getArgumentBody();
+    @NotNull
+    ValkyrieAnnotations getAnnotations();
 
-    @Nullable
+    @NotNull
     ValkyrieClassBody getClassBody();
 
-    @Nullable
-    ValkyrieNamepath getNamepath();
+    @NotNull
+    ValkyrieIdentifier getIdentifier();
 
 }

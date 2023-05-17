@@ -34,8 +34,8 @@ public class ValkyrieMacroCallNode extends ValkyrieElement implements ValkyrieMa
 
     @Override
     @Nullable
-    public ValkyrieBlockBody getBlockBody() {
-        return findChildByClass(ValkyrieBlockBody.class);
+    public ValkyrieClassBody getClassBody() {
+        return findChildByClass(ValkyrieClassBody.class);
     }
 
     @Override

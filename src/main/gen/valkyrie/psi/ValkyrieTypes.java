@@ -32,6 +32,7 @@ public interface ValkyrieTypes {
     IElementType CONTROL_YIELD_SEND = new ValkyrieElementType("CONTROL_YIELD_SEND");
     IElementType CONTROL_YIELD_STOP = new ValkyrieElementType("CONTROL_YIELD_STOP");
     IElementType DECLARE_CLASS = new ValkyrieElementType("DECLARE_CLASS");
+    IElementType DECLARE_DOMAIN = new ValkyrieElementType("DECLARE_DOMAIN");
     IElementType DECLARE_ENUMERATE = new ValkyrieElementType("DECLARE_ENUMERATE");
     IElementType DECLARE_FIELD = new ValkyrieElementType("DECLARE_FIELD");
     IElementType DECLARE_FLAGS = new ValkyrieElementType("DECLARE_FLAGS");
@@ -78,8 +79,10 @@ public interface ValkyrieTypes {
     IElementType INLINE_SUFFIX = new ValkyrieElementType("INLINE_SUFFIX");
     IElementType INLINE_TERM = new ValkyrieElementType("INLINE_TERM");
     IElementType IS_NOT = new ValkyrieElementType("IS_NOT");
+    IElementType LAMBDA_BLOCK = new ValkyrieElementType("LAMBDA_BLOCK");
     IElementType LITERAL = new ValkyrieElementType("LITERAL");
     IElementType MACRO_CALL = new ValkyrieElementType("MACRO_CALL");
+    IElementType MACRO_CALL_INLINE = new ValkyrieElementType("MACRO_CALL_INLINE");
     IElementType MATCH_BODY = new ValkyrieElementType("MATCH_BODY");
     IElementType MATCH_CASE = new ValkyrieElementType("MATCH_CASE");
     IElementType MATCH_ELSE = new ValkyrieElementType("MATCH_ELSE");
@@ -117,6 +120,9 @@ public interface ValkyrieTypes {
     IElementType RANGE_STEP = new ValkyrieElementType("RANGE_STEP");
     IElementType RANGE_UPPER = new ValkyrieElementType("RANGE_UPPER");
     IElementType RETURN_TYPE = new ValkyrieElementType("RETURN_TYPE");
+    IElementType SLOT = new ValkyrieElementType("SLOT");
+    IElementType SLOT_INDEX = new ValkyrieElementType("SLOT_INDEX");
+    IElementType SLOT_NAMED = new ValkyrieElementType("SLOT_NAMED");
     IElementType SPECIAL = new ValkyrieElementType("SPECIAL");
     IElementType STRING = new ValkyrieElementType("STRING");
     IElementType SUFFIX = new ValkyrieElementType("SUFFIX");
@@ -295,6 +301,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieControlYieldStopNode(node);
             } else if (type == DECLARE_CLASS) {
                 return new ValkyrieDeclareClassNode(node);
+            } else if (type == DECLARE_DOMAIN) {
+                return new ValkyrieDeclareDomainNode(node);
             } else if (type == DECLARE_ENUMERATE) {
                 return new ValkyrieDeclareEnumerateNode(node);
             } else if (type == DECLARE_FIELD) {
@@ -387,10 +395,14 @@ public interface ValkyrieTypes {
                 return new ValkyrieInlineTermNode(node);
             } else if (type == IS_NOT) {
                 return new ValkyrieIsNotNode(node);
+            } else if (type == LAMBDA_BLOCK) {
+                return new ValkyrieLambdaBlockNode(node);
             } else if (type == LITERAL) {
                 return new ValkyrieLiteralNode(node);
             } else if (type == MACRO_CALL) {
                 return new ValkyrieMacroCallNode(node);
+            } else if (type == MACRO_CALL_INLINE) {
+                return new ValkyrieMacroCallInlineNode(node);
             } else if (type == MATCH_BODY) {
                 return new ValkyrieMatchBodyNode(node);
             } else if (type == MATCH_CASE) {
@@ -465,6 +477,12 @@ public interface ValkyrieTypes {
                 return new ValkyrieRangeUpperNode(node);
             } else if (type == RETURN_TYPE) {
                 return new ValkyrieReturnTypeNode(node);
+            } else if (type == SLOT) {
+                return new ValkyrieSlotNode(node);
+            } else if (type == SLOT_INDEX) {
+                return new ValkyrieSlotIndexNode(node);
+            } else if (type == SLOT_NAMED) {
+                return new ValkyrieSlotNamedNode(node);
             } else if (type == SPECIAL) {
                 return new ValkyrieSpecialNode(node);
             } else if (type == STRING) {
