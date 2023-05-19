@@ -11,7 +11,7 @@ public interface ValkyrieNewObject extends PsiElement {
     ValkyrieClassBody getClassBody();
 
     @Nullable
-    ValkyrieClassInheritBody getClassInheritBody();
+    ValkyrieClassInherit getClassInherit();
 
     @Nullable
     ValkyrieTypeHint getTypeHint();

@@ -6,7 +6,7 @@ import com.intellij.psi.*
 import com.intellij.refactoring.suggested.endOffset
 import com.intellij.refactoring.suggested.startOffset
 import valkyrie.ide.highlight.NodeHighlighter
-import valkyrie.psi.ValkyrieDeclareElement
+import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.ValkyrieIdentifier
 import valkyrie.psi.node.ValkyrieIdentifierNode
 
@@ -47,7 +47,7 @@ class ValkyrieNamepathReference : PsiPolyVariantReference, EmptyResolveMessagePr
     private fun resolveSequence() = sequence {
         for (child in target.containingFile.children) {
             when (child) {
-                is ValkyrieDeclareElement -> {
+                is ValkyrieDeclaration -> {
                     if (target.name == child.name) {
                         yield(child)
                     }
@@ -84,7 +84,7 @@ class ValkyrieNamepathReference : PsiPolyVariantReference, EmptyResolveMessagePr
 
     fun highlight(highlighter: NodeHighlighter) {
         when (val raw = this.resolveSequence().firstOrNull()) {
-            is ValkyrieDeclareElement -> raw.color?.let { highlighter.highlight(this.target, it) }
+            is ValkyrieDeclaration -> raw.color?.let { highlighter.highlight(this.target, it) }
             else -> {}
         }
     }

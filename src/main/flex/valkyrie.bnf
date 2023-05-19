@@ -128,12 +128,12 @@ type-alias ::= annotations KW_TYPE identifier EQUAL type-expression {
 declare-where ::= KW_WHERE where-body;
 where-body    ::= BRACE_L BRACE_R
 
-declare-class ::= declare-template? annotations KW_CLASS identifier declare-generic? class-inherit-body? type-hint? class-body {
+declare-class ::= declare-template? annotations KW_CLASS identifier declare-generic? class-inherit? type-hint? class-body {
     pin = 3
     mixin = "valkyrie.psi.mixin.MixinClass"
 }
-class-inherit-body ::= PARENTHESIS_L (class-inherit (COMMA class-inherit)* COMMA?)? PARENTHESIS_R;
-class-inherit      ::= (annotations identifier EQUAL)? type-expression {
+class-inherit ::= PARENTHESIS_L (inherit-item (COMMA inherit-item)* COMMA?)? PARENTHESIS_R;
+inherit-item  ::= (annotations identifier EQUAL)? type-expression {
     mixin = "valkyrie.psi.mixin.MixinClassInherit"
 }
 // === class body ===
@@ -169,19 +169,18 @@ declare-union ::= annotations KW_UNION identifier class-body {
     mixin = "valkyrie.psi.mixin.MixinUnion"
 }
 // === enumerate statement ===
-declare-flags ::= annotations KW_FLAGS identifier type-hint? enumerate-body {
+declare-flags ::= annotations KW_FLAGS identifier class-inherit? type-hint? enumerate-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinFlags"
 }
-declare-enumerate ::= annotations KW_ENUMERATE identifier type-hint? enumerate-body {
+declare-enumerate ::= annotations KW_ENUMERATE identifier class-inherit? type-hint? enumerate-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinEnumerate"
 }
 enumerate-body ::= BRACE_L enumerate-item* BRACE_R;
-enumerate-item ::=
-    declare-semantic
-  | SEMICOLON
-  | COMMA
+enumerate-item ::= SEMICOLON | COMMA
+  | declare-method
+  | declare-semantic
 declare-semantic ::= annotations identifier default-value? {
     mixin = "valkyrie.psi.mixin.MixinSemantic"
 }
@@ -191,11 +190,9 @@ declare-unite ::= declare-template? annotations KW_UNITE identifier unite-body {
     mixin = "valkyrie.psi.mixin.MixinUnite"
 }
 unite-body ::= BRACE_L unite-item* BRACE_R;
-unite-item ::=
-    declare-variant
+unite-item ::= SEMICOLON | COMMA
+  | declare-variant
   | declare-method
-  | SEMICOLON
-  | COMMA
 declare-variant ::= annotations identifier class-body? {
     mixin = "valkyrie.psi.mixin.MixinVariant"
 }
@@ -360,7 +357,7 @@ new-item ::=
     inline-statement
   | COLON
   | COMMA
-new-object ::= KW_OBJECT class-inherit-body? type-hint? class-body {
+new-object ::= KW_OBJECT class-inherit? type-hint? class-body {
     pin = 1
     mixin = "valkyrie.psi.mixin.MixinObject"
 }

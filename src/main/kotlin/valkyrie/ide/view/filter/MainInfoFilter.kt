@@ -10,7 +10,8 @@ import valkyrie.ide.view.ValkyrieStructureItem
 import valkyrie.language.ValkyrieBundle
 import valkyrie.psi.node.ValkyrieDeclareClassNode
 
-class MainInfoFilter : Filter {
+
+object MainInfoFilter : Filter {
     override fun getName() = "view.MainInfoFilter"
 
     override fun isReverted() = false

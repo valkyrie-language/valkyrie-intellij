@@ -6,7 +6,7 @@ import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.psi.util.parents
 import valkyrie.language.file.ValkyrieFileNode
-import valkyrie.psi.ValkyrieDeclareElement
+import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.ValkyrieBlockBody
 import valkyrie.psi.node.ValkyrieClassBody
 import valkyrie.psi.node.ValkyrieDeclareClassNode
@@ -29,7 +29,7 @@ class CompletionRegistrar : CompletionContributor() {
                 }
 
                 is ValkyrieClassBody -> {
-                    when (val ctx = ValkyrieDeclareElement.getCaretDeclaration(node)) {
+                    when (val ctx = ValkyrieDeclaration.getCaretDeclaration(node)) {
                         is ValkyrieDeclareClassNode -> {
                             CompletionInClass(ctx, parameters, result).complete(node)
                         }

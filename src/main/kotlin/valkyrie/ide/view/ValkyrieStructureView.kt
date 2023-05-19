@@ -11,6 +11,10 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.fileEditor.FileEditor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFile
+import valkyrie.ide.view.filter.MainInfoFilter
+import valkyrie.ide.view.filter.PublicElementsFilter
+import valkyrie.ide.view.grouper.PropertiesGrouper
+import valkyrie.ide.view.sorter.PublicElementsSorter
 import valkyrie.language.file.ValkyrieFileNode
 
 class ValkyrieStructureView : PsiStructureViewFactory {
@@ -38,14 +42,16 @@ class ValkyrieStructureView : PsiStructureViewFactory {
             return ValkyrieStructureItem(psiFile as ValkyrieFileNode)
         }
 
-        override fun getSorters() = arrayOf(Sorter.ALPHA_SORTER)
+        override fun getSorters(): Array<Sorter> {
+            return arrayOf(Sorter.ALPHA_SORTER, PublicElementsSorter)
+        }
 
         override fun getFilters(): Array<Filter> {
-            return arrayOf()
+            return arrayOf(MainInfoFilter, PublicElementsFilter)
         }
 
         override fun getGroupers(): Array<Grouper> {
-            return arrayOf()
+            return arrayOf(PropertiesGrouper)
         }
 
         override fun isAlwaysLeaf(element: StructureViewTreeElement): Boolean {

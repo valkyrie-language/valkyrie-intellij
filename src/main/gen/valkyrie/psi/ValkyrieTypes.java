@@ -22,7 +22,6 @@ public interface ValkyrieTypes {
     IElementType CASE_ITEM = new ValkyrieElementType("CASE_ITEM");
     IElementType CLASS_BODY = new ValkyrieElementType("CLASS_BODY");
     IElementType CLASS_INHERIT = new ValkyrieElementType("CLASS_INHERIT");
-    IElementType CLASS_INHERIT_BODY = new ValkyrieElementType("CLASS_INHERIT_BODY");
     IElementType CLASS_ITEM = new ValkyrieElementType("CLASS_ITEM");
     IElementType CONTROL_BREAK = new ValkyrieElementType("CONTROL_BREAK");
     IElementType CONTROL_CONTINUE = new ValkyrieElementType("CONTROL_CONTINUE");
@@ -82,6 +81,7 @@ public interface ValkyrieTypes {
     IElementType IF_CONDITION = new ValkyrieElementType("IF_CONDITION");
     IElementType IF_STATEMENT = new ValkyrieElementType("IF_STATEMENT");
     IElementType INFIX = new ValkyrieElementType("INFIX");
+    IElementType INHERIT_ITEM = new ValkyrieElementType("INHERIT_ITEM");
     IElementType INLINE_ATOMIC = new ValkyrieElementType("INLINE_ATOMIC");
     IElementType INLINE_SUFFIX = new ValkyrieElementType("INLINE_SUFFIX");
     IElementType INLINE_TERM = new ValkyrieElementType("INLINE_TERM");
@@ -307,8 +307,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieClassBodyNode(node);
             } else if (type == CLASS_INHERIT) {
                 return new ValkyrieClassInheritNode(node);
-            } else if (type == CLASS_INHERIT_BODY) {
-                return new ValkyrieClassInheritBodyNode(node);
             } else if (type == CLASS_ITEM) {
                 return new ValkyrieClassItemNode(node);
             } else if (type == CONTROL_BREAK) {
@@ -427,6 +425,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieIfStatementNode(node);
             } else if (type == INFIX) {
                 return new ValkyrieInfixNode(node);
+            } else if (type == INHERIT_ITEM) {
+                return new ValkyrieInheritItemNode(node);
             } else if (type == INLINE_ATOMIC) {
                 return new ValkyrieInlineAtomicNode(node);
             } else if (type == INLINE_SUFFIX) {

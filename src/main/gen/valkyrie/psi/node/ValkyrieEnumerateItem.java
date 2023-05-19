@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieEnumerateItem extends PsiElement {
 
     @Nullable
+    ValkyrieDeclareMethod getDeclareMethod();
+
+    @Nullable
     ValkyrieDeclareSemantic getDeclareSemantic();
 
 }

@@ -46,7 +46,7 @@ class ValkyrieRenameHandler : RenameHandler {
     override fun isAvailableOnDataContext(dataContext: DataContext): Boolean {
         val file = CommonDataKeys.PSI_FILE.getData(dataContext)
         if (file is ValkyrieFileNode) {
-            return true
+            return false
         } else {
             println("isAvailableOnDataContext: $file")
             return false

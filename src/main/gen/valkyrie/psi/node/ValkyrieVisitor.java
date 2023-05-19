@@ -63,10 +63,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitClassInheritBody(@NotNull ValkyrieClassInheritBody o) {
-        visitPsiElement(o);
-    }
-
     public void visitClassItem(@NotNull ValkyrieClassItem o) {
         visitPsiElement(o);
     }
@@ -300,6 +296,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitInfix(@NotNull ValkyrieInfix o) {
+        visitPsiElement(o);
+    }
+
+    public void visitInheritItem(@NotNull ValkyrieInheritItem o) {
         visitPsiElement(o);
     }
 
