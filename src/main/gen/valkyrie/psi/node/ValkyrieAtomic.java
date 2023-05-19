@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieAtomic extends PsiElement {
 
     @Nullable
+    ValkyrieControlRaise getControlRaise();
+
+    @Nullable
     ValkyrieExpression getExpression();
 
     @Nullable

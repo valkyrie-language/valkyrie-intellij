@@ -39,6 +39,7 @@ KW_TEMPLATE  = template|generic|constraint
 KW_IMPLEMENT = implement
 KW_MICRO     = micro|function|func|fun|fn|def
 KW_MACRO     = macro
+KW_COMPONENT = component
 KW_LET       = let
 KW_NEW       = new
 KW_OBJECT    = object
@@ -195,6 +196,8 @@ INTEGER = 0|[1-9][_0-9]*
     {KW_WHERE}     { return KW_WHERE; }
     {KW_MICRO}     { return KW_FUNCTION; }
     {KW_MACRO}     { return KW_MACRO; }
+    {KW_COMPONENT} { return KW_COMPONENT; }
+
     {KW_LET}       { return KW_LET; }
     {KW_NEW}       { return KW_NEW; }
     {KW_OBJECT}    { return KW_OBJECT; }
