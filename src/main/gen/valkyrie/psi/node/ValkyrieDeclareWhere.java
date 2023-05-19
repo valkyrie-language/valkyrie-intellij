@@ -7,4 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieDeclareWhere extends PsiElement {
 
+    @NotNull
+    ValkyrieWhereBody getWhereBody();
+
 }

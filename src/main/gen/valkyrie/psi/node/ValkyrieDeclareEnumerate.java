@@ -16,4 +16,7 @@ public interface ValkyrieDeclareEnumerate extends PsiElement {
     @Nullable
     ValkyrieIdentifier getIdentifier();
 
+    @Nullable
+    ValkyrieTypeHint getTypeHint();
+
 }

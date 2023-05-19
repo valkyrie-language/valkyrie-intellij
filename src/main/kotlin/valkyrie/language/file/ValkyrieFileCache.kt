@@ -44,7 +44,7 @@ class ValkyrieFileCache(val root: ValkyrieFileNode) {
     }
 
 
-    fun find(name: ValkyrieIdentifierNode?): PsiNameIdentifierOwner? {
-        return getCache()[name?.text]
+    fun find(name: String?): PsiNameIdentifierOwner? {
+        return getCache()[name]
     }
 }

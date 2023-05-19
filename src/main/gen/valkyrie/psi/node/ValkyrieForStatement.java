@@ -14,10 +14,10 @@ public interface ValkyrieForStatement extends PsiElement {
     ValkyrieBlockBody getBlockBody();
 
     @Nullable
-    ValkyrieIfCondition getIfCondition();
+    ValkyrieExpressionInline getExpressionInline();
 
     @Nullable
-    ValkyrieInlineExpression getInlineExpression();
+    ValkyrieIfCondition getIfCondition();
 
     @Nullable
     ValkyrieLetPattern getLetPattern();

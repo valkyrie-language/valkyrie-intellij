@@ -28,8 +28,8 @@ public class ValkyrieArgumentNode extends ValkyrieElement implements ValkyrieArg
 
     @Override
     @NotNull
-    public ValkyrieExpression getExpression() {
-        return findNotNullChildByClass(ValkyrieExpression.class);
+    public ValkyrieExpressionRoot getExpressionRoot() {
+        return findNotNullChildByClass(ValkyrieExpressionRoot.class);
     }
 
     @Override

@@ -26,4 +26,10 @@ public class ValkyrieDeclareWhereNode extends ValkyrieElement implements Valkyri
         else super.accept(visitor);
     }
 
+    @Override
+    @NotNull
+    public ValkyrieWhereBody getWhereBody() {
+        return findNotNullChildByClass(ValkyrieWhereBody.class);
+    }
+
 }

@@ -40,8 +40,8 @@ public class ValkyrieWhileStatementNode extends ValkyrieElement implements Valky
 
     @Override
     @Nullable
-    public ValkyrieInlineExpression getInlineExpression() {
-        return findChildByClass(ValkyrieInlineExpression.class);
+    public ValkyrieExpressionInline getExpressionInline() {
+        return findChildByClass(ValkyrieExpressionInline.class);
     }
 
 }

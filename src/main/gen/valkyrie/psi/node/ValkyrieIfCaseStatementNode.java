@@ -34,8 +34,8 @@ public class ValkyrieIfCaseStatementNode extends ValkyrieElement implements Valk
 
     @Override
     @Nullable
-    public ValkyrieInlineExpression getInlineExpression() {
-        return findChildByClass(ValkyrieInlineExpression.class);
+    public ValkyrieExpressionInline getExpressionInline() {
+        return findChildByClass(ValkyrieExpressionInline.class);
     }
 
     @Override

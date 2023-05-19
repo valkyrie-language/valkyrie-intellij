@@ -11,6 +11,6 @@ public interface ValkyrieControlReturn extends PsiElement {
     ValkyrieControlLabel getControlLabel();
 
     @Nullable
-    ValkyrieExpression getExpression();
+    ValkyrieExpressionRoot getExpressionRoot();
 
 }

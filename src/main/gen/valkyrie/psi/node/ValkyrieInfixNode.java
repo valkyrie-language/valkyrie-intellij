@@ -28,6 +28,30 @@ public class ValkyrieInfixNode extends ValkyrieElement implements ValkyrieInfix 
 
     @Override
     @Nullable
+    public ValkyrieBadLl getBadLl() {
+        return findChildByClass(ValkyrieBadLl.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieBadLll getBadLll() {
+        return findChildByClass(ValkyrieBadLll.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieBadRr getBadRr() {
+        return findChildByClass(ValkyrieBadRr.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieBadRrr getBadRrr() {
+        return findChildByClass(ValkyrieBadRrr.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieIsNot getIsNot() {
         return findChildByClass(ValkyrieIsNot.class);
     }

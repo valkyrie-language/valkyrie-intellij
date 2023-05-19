@@ -11,7 +11,7 @@ public interface ValkyrieIfCaseStatement extends PsiElement {
     ValkyrieBlockBody getBlockBody();
 
     @Nullable
-    ValkyrieInlineExpression getInlineExpression();
+    ValkyrieExpressionInline getExpressionInline();
 
     @Nullable
     ValkyriePattern getPattern();

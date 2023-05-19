@@ -34,6 +34,12 @@ public class ValkyrieDotCallForNode extends ValkyrieElement implements ValkyrieD
 
     @Override
     @Nullable
+    public ValkyrieExpressionInline getExpressionInline() {
+        return findChildByClass(ValkyrieExpressionInline.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieForPatternDot getForPatternDot() {
         return findChildByClass(ValkyrieForPatternDot.class);
     }
@@ -42,12 +48,6 @@ public class ValkyrieDotCallForNode extends ValkyrieElement implements ValkyrieD
     @Nullable
     public ValkyrieIfCondition getIfCondition() {
         return findChildByClass(ValkyrieIfCondition.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieInlineExpression getInlineExpression() {
-        return findChildByClass(ValkyrieInlineExpression.class);
     }
 
 }

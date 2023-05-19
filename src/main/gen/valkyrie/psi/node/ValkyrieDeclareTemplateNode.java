@@ -26,4 +26,22 @@ public class ValkyrieDeclareTemplateNode extends ValkyrieElement implements Valk
         else super.accept(visitor);
     }
 
+    @Override
+    @NotNull
+    public ValkyrieAnnotations getAnnotations() {
+        return findNotNullChildByClass(ValkyrieAnnotations.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieIdentifier> getIdentifierList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifier.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieTemplateBody getTemplateBody() {
+        return findChildByClass(ValkyrieTemplateBody.class);
+    }
+
 }
