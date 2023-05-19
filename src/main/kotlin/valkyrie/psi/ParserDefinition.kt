@@ -16,8 +16,8 @@ import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.parser.YggdrasilParser
 
-object ParserDefinition : ParserDefinition {
-    fun createLexer(): Lexer = FlexAdapter(_ValkyrieLexer(null))
+class ParserDefinition : ParserDefinition {
+
     override fun createLexer(project: Project): Lexer = FlexAdapter(_ValkyrieLexer(null))
     override fun createParser(project: Project): PsiParser = YggdrasilParser()
     override fun getFileNodeType(): IFileElementType = IFileElementType(ValkyrieLanguage)
@@ -31,4 +31,9 @@ object ParserDefinition : ParserDefinition {
     override fun spaceExistenceTypeBetweenTokens(left: ASTNode, right: ASTNode): ParserDefinition.SpaceRequirements {
         return ParserDefinition.SpaceRequirements.MAY
     }
+
+    object Instance {
+        fun lexer(): Lexer = FlexAdapter(_ValkyrieLexer(null))
+    }
+
 }
