@@ -7,6 +7,7 @@ import com.intellij.lang.Language
 import com.intellij.openapi.project.Project
 import valkyrie.language.ValkyrieLanguage
 
+@Suppress("UnstableApiUsage")
 class ValkyrieInlaySettingsProvider : InlaySettingsProvider {
     override fun createModels(project: Project, language: Language): List<InlayProviderSettingsModel> {
         return listOf(

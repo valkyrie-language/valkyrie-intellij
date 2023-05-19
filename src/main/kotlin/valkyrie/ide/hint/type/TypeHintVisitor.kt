@@ -1,19 +1,18 @@
-package valkyrie.ide.hint
+package valkyrie.ide.hint.type
 
 import com.intellij.codeInsight.hints.InlayHintsSink
 import com.intellij.codeInsight.hints.presentation.PresentationFactory
 import com.intellij.openapi.editor.Editor
 import com.intellij.refactoring.suggested.endOffset
-import valkyrie.ide.hint.TypeHintProvider.InlayTypeSetting
 import valkyrie.psi.node.*
 
 @Suppress("UnstableApiUsage")
 class TypeHintVisitor : ValkyrieVisitor {
     private val sink: InlayHintsSink
     private val factory: PresentationFactory
-    private val setting: InlayTypeSetting
+    private val setting: TypeHintSetting
 
-    constructor(sink: InlayHintsSink, editor: Editor, setting: InlayTypeSetting) : super() {
+    constructor(sink: InlayHintsSink, editor: Editor, setting: TypeHintSetting) : super() {
         this.sink = sink
         this.factory = PresentationFactory(editor)
         this.setting = setting

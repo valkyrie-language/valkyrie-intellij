@@ -227,6 +227,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitForPatternDot(@NotNull ValkyrieForPatternDot o) {
+        visitPsiElement(o);
+    }
+
     public void visitForStatement(@NotNull ValkyrieForStatement o) {
         visitPsiElement(o);
     }
@@ -296,6 +300,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitLambdaBlock(@NotNull ValkyrieLambdaBlock o) {
+        visitPsiElement(o);
+    }
+
+    public void visitLetPattern(@NotNull ValkyrieLetPattern o) {
         visitPsiElement(o);
     }
 
@@ -536,6 +544,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitUniteItem(@NotNull ValkyrieUniteItem o) {
+        visitPsiElement(o);
+    }
+
+    public void visitUnused(@NotNull ValkyrieUnused o) {
         visitPsiElement(o);
     }
 

@@ -17,13 +17,13 @@ public interface ValkyrieDeclareVariable extends PsiElement {
     ValkyrieIfStatement getIfStatement();
 
     @Nullable
+    ValkyrieLetPattern getLetPattern();
+
+    @Nullable
     ValkyrieNewObject getNewObject();
 
     @Nullable
     ValkyrieNewValue getNewValue();
-
-    @Nullable
-    ValkyriePatternBare getPatternBare();
 
     @Nullable
     ValkyrieTypeHint getTypeHint();

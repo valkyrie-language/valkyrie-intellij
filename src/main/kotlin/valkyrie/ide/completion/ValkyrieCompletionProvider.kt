@@ -7,6 +7,16 @@ import com.intellij.icons.ExpUiIcons
 import valkyrie.language.ValkyrieBundle
 
 open class ValkyrieCompletionProvider(val parameters: CompletionParameters, val result: CompletionResultSet) {
+
+    protected fun addClasses() {
+        createClass("class", mutableSetOf("class"), ValkyrieBundle.message("completion.class"))
+        createClass("structure", mutableSetOf("value-class", "data-class"), ValkyrieBundle.message("completion.class"))
+        createClass("abstract class", mutableSetOf("interface"), ValkyrieBundle.message("completion.class"))
+        createClass("virtual class", mutableSetOf("virtual"), ValkyrieBundle.message("completion.class"))
+        createClass("singleton class", mutableSetOf("static-class", "companion-object"), ValkyrieBundle.message("completion.class"))
+        createClass("component class", mutableSetOf("component"), ValkyrieBundle.message("completion.class"))
+    }
+
     protected fun addFunctions() {
         for (arguments in 0..3) {
             createNormalFunction(
@@ -77,6 +87,15 @@ open class ValkyrieCompletionProvider(val parameters: CompletionParameters, val 
         live.setText(key, help)
         result.addElement(live)
     }
+
+    private fun createClass(key: String, word: MutableSet<String>, help: String) {
+        val live = getLiveTemplate(key) ?: return
+        live.setLookup(key, word)
+        live.setIcon(ExpUiIcons.Nodes.Class)
+        live.setText(key, help)
+        result.addElement(live)
+    }
+
 
     private fun createKeywordControl(key: String, word: MutableSet<String>, help: String) {
         val live = getLiveTemplate(key) ?: return

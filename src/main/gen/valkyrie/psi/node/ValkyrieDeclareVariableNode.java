@@ -46,6 +46,12 @@ public class ValkyrieDeclareVariableNode extends MixinVariable implements Valkyr
 
     @Override
     @Nullable
+    public ValkyrieLetPattern getLetPattern() {
+        return findChildByClass(ValkyrieLetPattern.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieNewObject getNewObject() {
         return findChildByClass(ValkyrieNewObject.class);
     }
@@ -54,12 +60,6 @@ public class ValkyrieDeclareVariableNode extends MixinVariable implements Valkyr
     @Nullable
     public ValkyrieNewValue getNewValue() {
         return findChildByClass(ValkyrieNewValue.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyriePatternBare getPatternBare() {
-        return findChildByClass(ValkyriePatternBare.class);
     }
 
     @Override

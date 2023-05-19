@@ -52,8 +52,8 @@ public class ValkyrieForStatementNode extends ValkyrieElement implements Valkyri
 
     @Override
     @Nullable
-    public ValkyriePatternBare getPatternBare() {
-        return findChildByClass(ValkyriePatternBare.class);
+    public ValkyrieLetPattern getLetPattern() {
+        return findChildByClass(ValkyrieLetPattern.class);
     }
 
 }

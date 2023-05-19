@@ -140,8 +140,17 @@
 		<!-- Hint Inlay -->
 		<codeInsight.inlayProvider
 			language="valkyrie"
-			implementationClass="valkyrie.ide.hint.TypeHintProvider"
+			implementationClass="valkyrie.ide.hint.type.TypeHintProvider"
 		/>
+		<codeInsight.inlayProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.hint.lambda.LambdaHintProvider"
+		/>
+		<codeInsight.inlayProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.hint.chain.ChainHintProvider"
+		/>
+
 		<codeInsight.typeInfo language="valkyrie" implementationClass="valkyrie.ide.hint.TypeInfoHint"/>
 		<codeInsight.parameterInfo language="valkyrie" implementationClass="valkyrie.ide.hint.ParameterInfoHint"/>
 		<codeInsight.parameterInfo.listener implementation="valkyrie.ide.hint.ParameterInfoListener"/>
@@ -176,7 +185,10 @@
 		<usageTargetProvider implementation="valkyrie.ide.reference.declaration.ValkyrieUsageTargetProvider"/>
 
 		<implicitUsageProvider implementation="valkyrie.ide.hint.ImplicitUsage"/>
-		<!--		<psi.declarationProvider implementation="valkyrie.ide.reference.declaration.SymbolDeclarationProvider"/>-->
+		<psi.declarationProvider implementation="valkyrie.ide.reference.declaration.SymbolDeclarationProvider"/>
+		<gotoDeclarationHandler implementation="valkyrie.ide.reference.declaration.ValkyrieGotoDeclarationHandler"/>
+		<codeInsight.declarativeInlayProviderFactory implementation="valkyrie.ide.hint.ValkyrieInlayProviderFactory"/>
+
 		<!--		<declarationRangeHandler-->
 		<!--			key="org.rust.lang.core.psi.ValkyrieClass"-->
 		<!--			implementationClass="valkyrie.ide.reference.declaration.ClassDeclarationHandler"-->
@@ -203,13 +215,14 @@
 
 		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.LegacyExpression"/>
 		<!-- Rename -->
-		<renameHandler implementation="valkyrie.ide.refactor.ValkyrieRenameHandler"/>
+		<!--		<renameHandler implementation="valkyrie.ide.refactor.ValkyrieRenameHandler"/>-->
 		<rename.inplace.resolveSnapshotProvider
 			language="valkyrie"
 			implementationClass="valkyrie.ide.refactor.ValkyrieRenameInPlace"
 		/>
 		<renameInputValidator implementation="valkyrie.ide.refactor.ValkyrieRenameInputValidator"/>
 		<renameRefactoringDialogProvider implementation="valkyrie.ide.refactor.ValkyrieRenameDialog"/>
+		<renameFileActionProvider implementation="valkyrie.ide.refactor.ValkyrieRenameFileActionProvider"/>
 		<!-- Completion -->
 		<typedHandler implementation="valkyrie.ide.completion.AutoInsertBrace"/>
 		<backspaceHandlerDelegate implementation="valkyrie.ide.completion.AutoDeleteBrace"/>
