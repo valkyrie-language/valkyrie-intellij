@@ -3,7 +3,6 @@ package valkyrie.ide.reference.declaration
 import com.intellij.codeInsight.daemon.EmptyResolveMessageProvider
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
-import com.intellij.psi.impl.source.resolve.reference.impl.PsiPolyVariantCachingReference
 import com.intellij.refactoring.suggested.endOffset
 import com.intellij.refactoring.suggested.startOffset
 import valkyrie.ide.highlight.NodeHighlighter
@@ -12,7 +11,7 @@ import valkyrie.psi.node.ValkyrieIdentifier
 import valkyrie.psi.node.ValkyrieIdentifierNode
 
 
-class ValkyrieNamepathReference : PsiPolyVariantCachingReference, EmptyResolveMessageProvider {
+class ValkyrieNamepathReference : PsiPolyVariantReference, EmptyResolveMessageProvider {
     private var origin: PsiElement
     private var parts: Array<ValkyrieIdentifierNode> = arrayOf()
     private var index: Int = 0
@@ -36,19 +35,27 @@ class ValkyrieNamepathReference : PsiPolyVariantCachingReference, EmptyResolveMe
         return TextRange(target.startOffset - origin.startOffset, target.endOffset - origin.startOffset)
     }
 
-    override fun resolveInner(incompleteCode: Boolean, containingFile: PsiFile): Array<ResolveResult> {
-        val list: MutableList<ResolveResult> = mutableListOf()
-        for (child in containingFile.children) {
+    override fun resolve(): PsiElement? {
+        return null
+    }
+
+
+    override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult> {
+        return resolveSequence().map { PsiElementResolveResult(it) }.toList().toTypedArray()
+    }
+
+    private fun resolveSequence() = sequence {
+        for (child in target.containingFile.children) {
             when (child) {
                 is ValkyrieDeclareElement -> {
                     if (target.name == child.name) {
-                        list.add(PsiElementResolveResult(child))
+                        yield(child)
                     }
                 }
             }
         }
-        return list.toTypedArray()
     }
+
 
     override fun getCanonicalText(): String {
         return "getCanonicalText"
@@ -76,7 +83,7 @@ class ValkyrieNamepathReference : PsiPolyVariantCachingReference, EmptyResolveMe
 
 
     fun highlight(highlighter: NodeHighlighter) {
-        when (val raw = this.resolve()) {
+        when (val raw = this.resolveSequence().firstOrNull()) {
             is ValkyrieDeclareElement -> raw.color?.let { highlighter.highlight(this.target, it) }
             else -> {}
         }

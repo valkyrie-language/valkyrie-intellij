@@ -176,6 +176,7 @@ public interface ValkyrieTypes {
     IElementType COMMA = new ValkyrieTokenType(",");
     IElementType COMMENT_BLOCK = new ValkyrieTokenType("Comment Block");
     IElementType COMMENT_LINE = new ValkyrieTokenType("Comment");
+    IElementType DECIMAL = new ValkyrieTokenType("DECIMAL");
     IElementType DOLLAR = new ValkyrieTokenType("$");
     IElementType DOMAIN_L = new ValkyrieTokenType("DOMAIN_L");
     IElementType DOMAIN_R = new ValkyrieTokenType("DOMAIN_R");
@@ -267,7 +268,6 @@ public interface ValkyrieTypes {
     IElementType REFERENCE = new ValkyrieTokenType("$Symbol");
     IElementType SELECTION_LINE = new ValkyrieTokenType("SELECTION_LINE");
     IElementType SEMICOLON = new ValkyrieTokenType(";");
-    IElementType SLASH = new ValkyrieTokenType("SLASH");
     IElementType STAR = new ValkyrieTokenType("STAR");
     IElementType SYMBOL = new ValkyrieTokenType("Symbol");
     IElementType SYMBOW_RAW = new ValkyrieTokenType("SYMBOW_RAW");

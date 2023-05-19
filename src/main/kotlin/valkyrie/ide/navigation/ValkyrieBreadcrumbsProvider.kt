@@ -7,6 +7,10 @@ import com.intellij.navigation.NavigationItem
 import com.intellij.psi.PsiElement
 import com.intellij.ui.breadcrumbs.BreadcrumbsProvider
 import valkyrie.language.ValkyrieLanguage
+import valkyrie.psi.ValkyrieDeclareElement
+import valkyrie.psi.node.ValkyrieForStatement
+import valkyrie.psi.node.ValkyrieForStatementNode
+import valkyrie.psi.node.ValkyrieWhileStatementNode
 import javax.swing.Action
 import javax.swing.Icon
 
@@ -15,13 +19,27 @@ class ValkyrieBreadcrumbsProvider : BreadcrumbsProvider {
         return arrayOf(ValkyrieLanguage)
     }
 
-    override fun acceptElement(element: PsiElement): Boolean {
-        return false
+    override fun acceptElement(element: PsiElement) = when (element) {
+        is ValkyrieDeclareElement -> {
+            true
+        }
+
+        is ValkyrieWhileStatementNode,
+        is ValkyrieForStatementNode,
+        -> {
+            true
+        }
+
+        else -> {
+            false
+        }
     }
 
     override fun getElementInfo(element: PsiElement): String {
         return if (element is NavigationItem) {
             element.name ?: "[Missing]"
+        } else if (element is ValkyrieForStatement) {
+            "for-loop"
         } else {
             "[Unknown]"
         }

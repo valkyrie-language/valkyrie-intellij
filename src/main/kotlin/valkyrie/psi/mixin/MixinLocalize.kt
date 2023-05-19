@@ -19,19 +19,6 @@ abstract class MixinLocalize(node: ASTNode) : ValkyrieElement(node), ValkyrieLoc
         return identifier.name
     }
 
-//    override fun getQualifiedName(): String {
-//        val names: MutableList<String> = mutableListOf()
-//        for (i in identifierList) {
-//            val id = i as ValkyrieIdentifierNode;
-//            names.add(id.name)
-//        }
-//        return names.joinToString(".")
-//    }
-//
-//    override fun setName(name: String): PsiElement {
-//        TODO("Not yet implemented")
-//    }
-
     override fun getReference(): ValkyrieNamepathReference? {
         return references.lastOrNull()
     }
