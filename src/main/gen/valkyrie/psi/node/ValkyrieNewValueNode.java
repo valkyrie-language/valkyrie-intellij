@@ -33,6 +33,12 @@ public class ValkyrieNewValueNode extends MixinBuilder implements ValkyrieNewVal
     }
 
     @Override
+    @NotNull
+    public List<ValkyrieModifier> getModifierList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieModifier.class);
+    }
+
+    @Override
     @Nullable
     public ValkyrieNewBody getNewBody() {
         return findChildByClass(ValkyrieNewBody.class);
