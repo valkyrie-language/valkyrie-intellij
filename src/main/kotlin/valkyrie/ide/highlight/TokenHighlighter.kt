@@ -11,7 +11,7 @@ import valkyrie.psi.ValkyrieTypes.*
 
 class TokenHighlighter : SyntaxHighlighter {
     override fun getHighlightingLexer(): Lexer {
-        return ParserDefinition.createLexer()
+        return ParserDefinition.Instance.lexer()
     }
 
     override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> {

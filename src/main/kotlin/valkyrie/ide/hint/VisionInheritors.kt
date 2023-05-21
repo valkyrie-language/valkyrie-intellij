@@ -3,7 +3,7 @@ package valkyrie.ide.hint
 import com.intellij.codeInsight.CodeInsightBundle
 import com.intellij.codeInsight.codeVision.CodeVisionEntry
 import com.intellij.codeInsight.codeVision.settings.PlatformCodeVisionIds
-import com.intellij.codeInsight.completion.CompletionData
+
 import com.intellij.psi.PsiElement
 import valkyrie.psi.node.ValkyrieDeclareClass
 import valkyrie.psi.node.ValkyrieDeclareTrait

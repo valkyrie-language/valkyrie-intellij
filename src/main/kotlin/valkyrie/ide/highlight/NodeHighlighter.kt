@@ -52,6 +52,11 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.nameIdentifier, HighlightColor.SYM_FUNCTION_FREE)
     }
 
+    override fun visitDeclareDomain(o: ValkyrieDeclareDomain) {
+        o as ValkyrieDeclareDomainNode
+        highlight(o.nameIdentifier, HighlightColor.SYM_MACRO)
+    }
+
     override fun visitDeclareUnion(o: ValkyrieDeclareUnion) {
         o as ValkyrieDeclareUnionNode
         highlight(o.nameIdentifier, HighlightColor.SYM_MACRO)
@@ -96,6 +101,11 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     override fun visitDeclareMacro(o: ValkyrieDeclareMacro) {
         o as ValkyrieDeclareMacroNode
         highlight(o.nameIdentifier, HighlightColor.SYM_MACRO)
+    }
+
+    override fun visitMacroCall(o: ValkyrieMacroCall) {
+        highlight(o.firstChild, HighlightColor.SYM_MACRO)
+        highlight(o.namepath, HighlightColor.SYM_MACRO)
     }
 
 
@@ -154,6 +164,10 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
                 break
             }
         }
+    }
+
+    override fun visitSlot(o: ValkyrieSlot) {
+        highlight(o, HighlightColor.KEYWORD)
     }
 
     fun highlight(element: PsiElement?, color: HighlightColor) {
