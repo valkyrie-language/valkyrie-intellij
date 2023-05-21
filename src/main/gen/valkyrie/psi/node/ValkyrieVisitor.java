@@ -27,6 +27,22 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitAttributeAbove(@NotNull ValkyrieAttributeAbove o) {
+        visitPsiElement(o);
+    }
+
+    public void visitAttributeItem(@NotNull ValkyrieAttributeItem o) {
+        visitPsiElement(o);
+    }
+
+    public void visitAttributeMany(@NotNull ValkyrieAttributeMany o) {
+        visitPsiElement(o);
+    }
+
+    public void visitAttributeOne(@NotNull ValkyrieAttributeOne o) {
+        visitPsiElement(o);
+    }
+
     public void visitBadLl(@NotNull ValkyrieBadLl o) {
         visitPsiElement(o);
     }

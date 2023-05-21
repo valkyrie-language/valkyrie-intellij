@@ -18,12 +18,25 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
 
 
-    override fun visitAttribute(o: ValkyrieAttribute) {
-        o as ValkyrieAttributeNode
+    override fun visitAttributeOne(o: ValkyrieAttributeOne) {
         highlight(o.firstChild, HighlightColor.SYM_MACRO)
-        for (id in o.identifiers) {
-            highlight(id, HighlightColor.SYM_MACRO)
+    }
+
+    override fun visitAttributeMany(o: ValkyrieAttributeMany) {
+        for (child in o.childrenWithLeaves) {
+            when (child.elementType) {
+                ValkyrieTypes.BRACKET_L,
+                ValkyrieTypes.BRACKET_R,
+                ValkyrieTypes.HASH,
+                -> {
+                    highlight(child, HighlightColor.SYM_MACRO)
+                }
+            }
         }
+    }
+
+    override fun visitAttributeItem(o: ValkyrieAttributeItem) {
+        highlight(o.namepath, HighlightColor.SYM_MACRO)
     }
 
     override fun visitModifier(o: ValkyrieModifier) {
