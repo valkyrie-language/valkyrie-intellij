@@ -63,6 +63,7 @@ public interface ValkyrieTypes {
     IElementType ENUMERATE_BODY = new ValkyrieElementType("ENUMERATE_BODY");
     IElementType ENUMERATE_ITEM = new ValkyrieElementType("ENUMERATE_ITEM");
     IElementType EXPRESSION = new ValkyrieElementType("EXPRESSION");
+    IElementType FOR_PATTERN_DOT = new ValkyrieElementType("FOR_PATTERN_DOT");
     IElementType FOR_STATEMENT = new ValkyrieElementType("FOR_STATEMENT");
     IElementType FUNCTION_CALL = new ValkyrieElementType("FUNCTION_CALL");
     IElementType FUNCTION_CALL_INLINE = new ValkyrieElementType("FUNCTION_CALL_INLINE");
@@ -81,6 +82,7 @@ public interface ValkyrieTypes {
     IElementType INLINE_TERM = new ValkyrieElementType("INLINE_TERM");
     IElementType IS_NOT = new ValkyrieElementType("IS_NOT");
     IElementType LAMBDA_BLOCK = new ValkyrieElementType("LAMBDA_BLOCK");
+    IElementType LET_PATTERN = new ValkyrieElementType("LET_PATTERN");
     IElementType LITERAL = new ValkyrieElementType("LITERAL");
     IElementType MACRO_CALL = new ValkyrieElementType("MACRO_CALL");
     IElementType MACRO_CALL_INLINE = new ValkyrieElementType("MACRO_CALL_INLINE");
@@ -141,6 +143,7 @@ public interface ValkyrieTypes {
     IElementType TYPE_TERM = new ValkyrieElementType("TYPE_TERM");
     IElementType UNITE_BODY = new ValkyrieElementType("UNITE_BODY");
     IElementType UNITE_ITEM = new ValkyrieElementType("UNITE_ITEM");
+    IElementType UNUSED = new ValkyrieElementType("UNUSED");
     IElementType USING = new ValkyrieElementType("USING");
     IElementType USING_ALIAS = new ValkyrieElementType("USING_ALIAS");
     IElementType USING_ANY = new ValkyrieElementType("USING_ANY");
@@ -157,12 +160,16 @@ public interface ValkyrieTypes {
     IElementType BRACE_R = new ValkyrieTokenType("}");
     IElementType BRACKET_L = new ValkyrieTokenType("[");
     IElementType BRACKET_R = new ValkyrieTokenType("]");
+    IElementType BUILDER_L = new ValkyrieTokenType("BUILDER_L");
+    IElementType BUILDER_R = new ValkyrieTokenType("BUILDER_R");
     IElementType COLON = new ValkyrieTokenType(":");
     IElementType COLOR = new ValkyrieTokenType("COLOR");
     IElementType COMMA = new ValkyrieTokenType(",");
     IElementType COMMENT_BLOCK = new ValkyrieTokenType("Comment Block");
     IElementType COMMENT_LINE = new ValkyrieTokenType("Comment");
     IElementType DOLLAR = new ValkyrieTokenType("$");
+    IElementType DOMAIN_L = new ValkyrieTokenType("DOMAIN_L");
+    IElementType DOMAIN_R = new ValkyrieTokenType("DOMAIN_R");
     IElementType DOT = new ValkyrieTokenType(".");
     IElementType EQUAL = new ValkyrieTokenType("=");
     IElementType ESCAPED = new ValkyrieTokenType("\\escaped");
@@ -221,9 +228,12 @@ public interface ValkyrieTypes {
     IElementType OP_AND = new ValkyrieTokenType("OP_AND");
     IElementType OP_AND_THEN = new ValkyrieTokenType("OP_AND_THEN");
     IElementType OP_ARROW1 = new ValkyrieTokenType("OP_ARROW1");
+    IElementType OP_ARROW2 = new ValkyrieTokenType("OP_ARROW2");
+    IElementType OP_ARROW3 = new ValkyrieTokenType("OP_ARROW3");
     IElementType OP_BANG = new ValkyrieTokenType("OP_BANG");
     IElementType OP_CONCAT = new ValkyrieTokenType("~");
     IElementType OP_DIV = new ValkyrieTokenType("/");
+    IElementType OP_DIV_REM = new ValkyrieTokenType("OP_DIV_REM");
     IElementType OP_EE = new ValkyrieTokenType("OP_EE");
     IElementType OP_MANY = new ValkyrieTokenType("*");
     IElementType OP_MINUS = new ValkyrieTokenType("OP_MINUS");
@@ -231,7 +241,7 @@ public interface ValkyrieTypes {
     IElementType OP_OR = new ValkyrieTokenType("|");
     IElementType OP_PLUS = new ValkyrieTokenType("OP_PLUS");
     IElementType OP_POW = new ValkyrieTokenType("OP_POW");
-    IElementType OP_REMARK = new ValkyrieTokenType("^");
+    IElementType OP_REM = new ValkyrieTokenType("OP_REM");
     IElementType OP_UNTIL = new ValkyrieTokenType("OP_UNTIL");
     IElementType PARENTHESIS_L = new ValkyrieTokenType("(");
     IElementType PARENTHESIS_R = new ValkyrieTokenType(")");
@@ -362,6 +372,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieEnumerateItemNode(node);
             } else if (type == EXPRESSION) {
                 return new ValkyrieExpressionNode(node);
+            } else if (type == FOR_PATTERN_DOT) {
+                return new ValkyrieForPatternDotNode(node);
             } else if (type == FOR_STATEMENT) {
                 return new ValkyrieForStatementNode(node);
             } else if (type == FUNCTION_CALL) {
@@ -398,6 +410,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieIsNotNode(node);
             } else if (type == LAMBDA_BLOCK) {
                 return new ValkyrieLambdaBlockNode(node);
+            } else if (type == LET_PATTERN) {
+                return new ValkyrieLetPatternNode(node);
             } else if (type == LITERAL) {
                 return new ValkyrieLiteralNode(node);
             } else if (type == MACRO_CALL) {
@@ -518,6 +532,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieUniteBodyNode(node);
             } else if (type == UNITE_ITEM) {
                 return new ValkyrieUniteItemNode(node);
+            } else if (type == UNUSED) {
+                return new ValkyrieUnusedNode(node);
             } else if (type == USING) {
                 return new ValkyrieUsingNode(node);
             } else if (type == USING_ALIAS) {

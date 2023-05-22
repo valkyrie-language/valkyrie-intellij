@@ -32,22 +32,4 @@ public class ValkyriePatternBareNode extends ValkyrieElement implements Valkyrie
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyriePatternLiteral.class);
     }
 
-    @Override
-    @Nullable
-    public ValkyriePatternObject getPatternObject() {
-        return findChildByClass(ValkyriePatternObject.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyriePatternSequence getPatternSequence() {
-        return findChildByClass(ValkyriePatternSequence.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyriePatternUnapply getPatternUnapply() {
-        return findChildByClass(ValkyriePatternUnapply.class);
-    }
-
 }

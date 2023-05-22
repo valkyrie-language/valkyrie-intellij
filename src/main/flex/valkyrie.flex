@@ -87,7 +87,8 @@ OP_PLUS      = [+]
 OP_MINUS     = [-]
 OP_DIV       = [/⁄∕]
 OP_POW       = \^
-
+OP_REM       = ⁒|%
+OP_DIV_REM   = ÷|"/%"
 
 OP_UNTIL     = [.]{2}[<=]
 
@@ -130,12 +131,16 @@ INTEGER = 0|[1-9][_0-9]*
 <YYINITIAL> {
 	"(" { return PARENTHESIS_L; }
     ")" { return PARENTHESIS_R; }
+    "⦅" { return BUILDER_L; }
+    "⦆" { return BUILDER_R; }
     "[" { return BRACKET_L; }
     "]" { return BRACKET_R; }
     "⁅" { return OFFSET_L; }
     "⁆" { return OFFSET_R; }
 	"{" { return BRACE_L; }
 	"}" { return BRACE_R; }
+    '⦃' { return DOMAIN_L; }
+    "⦄" { return DOMAIN_R; }
 	"<" { return ANGLE_L; }
 	">" { return ANGLE_R; }
     "⟨" { return GENERIC_L; }
@@ -150,13 +155,19 @@ INTEGER = 0|[1-9][_0-9]*
     {STAR}       { return STAR; }
 
     {OP_ARROW1} { return OP_ARROW1; }
+    {OP_ARROW2} { return OP_ARROW2; }
+    {OP_ARROW3} { return OP_ARROW3; }
+
     \| { return OP_OR;}
 
 	@ { return AT; }
 	# { return HASH; }
-	\$ { return DOLLAR; }
+    "$" { return DOLLAR; }
+
 
 	{OP_DIV} { return OP_DIV; }
+	{OP_REM} { return OP_DIV; }
+	{OP_DIV_REM} { return OP_DIV_REM; }
     {OP_POW} { return OP_POW; }
 	"." { return DOT; }
 	"," { return COMMA; }

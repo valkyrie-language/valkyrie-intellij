@@ -10,13 +10,4 @@ public interface ValkyriePatternBare extends PsiElement {
     @NotNull
     List<ValkyriePatternLiteral> getPatternLiteralList();
 
-    @Nullable
-    ValkyriePatternObject getPatternObject();
-
-    @Nullable
-    ValkyriePatternSequence getPatternSequence();
-
-    @Nullable
-    ValkyriePatternUnapply getPatternUnapply();
-
 }

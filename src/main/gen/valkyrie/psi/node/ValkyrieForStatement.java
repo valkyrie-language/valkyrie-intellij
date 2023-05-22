@@ -20,6 +20,6 @@ public interface ValkyrieForStatement extends PsiElement {
     ValkyrieInlineExpression getInlineExpression();
 
     @Nullable
-    ValkyriePatternBare getPatternBare();
+    ValkyrieLetPattern getLetPattern();
 
 }

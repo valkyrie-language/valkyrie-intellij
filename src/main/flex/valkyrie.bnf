@@ -38,7 +38,6 @@
         BRACE_R = '}'
         ANGLE_L = '<'
         ANGLE_R = '>'
-        OP_REMARK = '^'
         EQUAL = '='
         COLON = ':'
         PROPORTION = '∷'
@@ -178,7 +177,7 @@ declare-semantic ::= annotations identifier default-value? {
     mixin = "valkyrie.psi.mixin.MixinSemantic"
 }
 // === union statement ===
-declare-unite ::= annotations KW_UNITE identifier OP_REMARK? unite-body {
+declare-unite ::= annotations KW_UNITE identifier unite-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinUnite"
 }
@@ -236,10 +235,15 @@ effect-type ::= SLASH type-expression;
 block-body  ::= BRACE_L block-statement* BRACE_R;
 block-bare  ::= block-statement*;
 // === function statement ===
-declare-variable ::= KW_LET pattern-bare type-hint? EQUAL inline-statement {
+declare-variable ::= KW_LET let-pattern type-hint? EQUAL inline-statement {
     pin = 1
     mixin = "valkyrie.psi.mixin.MixinVariable"
 }
+let-pattern ::=
+    pattern-bare
+  | pattern-unapply
+  | pattern-sequence
+  | pattern-object
 // === function statement ===
 function-call ::= namepath (argument-body? block-body | argument-body)?;
 function-call-inline ::= namepath argument-body;
@@ -251,9 +255,7 @@ macro-call-inline ::= AT namepath argument-body?
 
 dot-call        ::= OP_AND_THEN? DOT namepath (argument-body | argument-body? block-body)?;
 dot-call-inline ::= OP_AND_THEN? DOT namepath argument-body?
-dot-call-for    ::= OP_AND_THEN? DOT KW_FOR pattern-bare if-condition? block-body {
-    pin = 3
-}
+
 dot-call-match ::= OP_AND_THEN? DOT KW_MATCH match-body {
     pin = 3
 }
@@ -277,9 +279,16 @@ else-statement ::= KW_ELSE block-body {
 while-statement ::= attribute* KW_WHILE inline-expression block-body {
     pin = 2
 }
-for-statement ::= attribute* KW_FOR pattern-bare KW_IN inline-expression if-condition? block-body {
+for-statement ::= attribute* KW_FOR let-pattern KW_IN inline-expression if-condition? block-body {
     pin = 2
 }
+dot-call-for    ::= OP_AND_THEN? DOT KW_FOR for-pattern-dot inline-expression if-condition? block-body {
+    pin = 3
+}
+for-pattern-dot ::=
+    pattern-bare
+  | pattern-unapply
+  | pattern-sequence
 // === if statement ===
 try-statement ::= KW_TRY type-expression? block-body {
     pin = 1
@@ -312,11 +321,8 @@ pattern ::=
   | pattern-sequence
   | pattern-object
   | pattern-literal
-pattern-bare     ::=
-    pattern-literal (COMMA pattern-literal)* COMMA? !(PARENTHESIS_L|BRACKET_L|BRACE_L)
-  | pattern-unapply
-  | pattern-sequence
-  | pattern-object
+
+pattern-bare         ::= pattern-literal (COMMA pattern-literal)* COMMA? !(PARENTHESIS_L|BRACKET_L|BRACE_L)
 pattern-unapply      ::= annotations namepath-free? pattern-unapply-body;
 pattern-unapply-body ::= PARENTHESIS_L (pattern (COMMA pattern)* COMMA?)? PARENTHESIS_R {
     pin = 1
@@ -397,6 +403,7 @@ term ::= prefix* atomic suffix* {
 prefix ::= OP_PLUS | OP_MINUS | OP_BANG;
 infix  ::=
     OP_PLUS | OP_MINUS
+  | STAR | OP_DIV | OP_REM | OP_DIV_REM
   | ANGLE_L | ANGLE_R
   | OP_AND
   | OP_UNTIL
@@ -453,13 +460,13 @@ atomic ::=
   | ordinal-range   // [ ]
   | offset-range    // ⁅ ⁆
   | macro-call      // @path::id() { }
+  | slot            // $id
   | function-call   // path::id() { }
   | for-statement   // for ... {...}
   | while-statement // while/until {...}
   | try-statement   // try T {...}
   | control-raise   // raise T
   | match-statement // match ... { ... }
-  | slot            // $id
   | literal
 // === atomic statement ===
 ordinal-range ::= BRACKET_L (range-item (COMMA range-item)* COMMA?)? BRACKET_R;
@@ -526,3 +533,4 @@ identifier ::= SYMBOL | SYMBOW_RAW
 {
     mixin = "valkyrie.psi.mixin.MixinIdentifier"
 }
+unused ::= BUILDER_L BUILDER_R DOMAIN_L DOMAIN_R OP_ARROW2 OP_ARROW3

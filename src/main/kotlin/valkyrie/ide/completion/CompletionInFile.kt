@@ -12,8 +12,10 @@ class CompletionInFile : ValkyrieCompletionProvider {
     }
 
     fun complete() {
+        addClasses()
         addFunctions()
         addControls()
+
     }
 }
 
