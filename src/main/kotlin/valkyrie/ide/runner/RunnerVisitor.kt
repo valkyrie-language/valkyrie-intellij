@@ -19,25 +19,3 @@ class RunnerVisitor : ValkyrieVisitor() {
     }
 
 }
-
-private fun ValkyrieAnnotations.hasRunner(): Boolean {
-    for (node in attributeList) {
-        node as ValkyrieAttributeNode
-        return when (node.name) {
-            "test" -> true
-            "bench" -> true
-            else -> continue
-        }
-    }
-
-    for (node in modifierList) {
-        node as ValkyrieModifierNode
-        return when (node.name) {
-            "test" -> true
-            "bench" -> true
-            else -> continue
-        }
-    }
-    return false
-}
-

@@ -174,8 +174,8 @@ class ValkyrieMarkerVisitor : ValkyrieVisitor {
 
     private fun findTest(annotations: ValkyrieAnnotations?): PsiElement? {
         annotations ?: return null
-        for (attr in annotations.attributeList) {
-            attr as ValkyrieAttributeNode;
+        for (attr in annotations.attributeBelowList) {
+            attr as ValkyrieAttributeBelowNode;
             if (attr.name == "test") {
                 return attr.firstChild
             }

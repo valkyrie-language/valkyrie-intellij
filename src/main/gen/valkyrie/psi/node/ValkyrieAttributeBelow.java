@@ -2,10 +2,11 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieAttributeAbove extends PsiElement {
+public interface ValkyrieAttributeBelow extends PsiElement {
 
     @NotNull
     ValkyrieAttributeItem getAttributeItem();

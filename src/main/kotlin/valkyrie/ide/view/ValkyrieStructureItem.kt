@@ -5,7 +5,7 @@ import com.intellij.ide.util.treeView.smartTree.SortableTreeElement
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import valkyrie.language.file.ValkyrieFileNode
-import valkyrie.psi.mixin.attributes
+
 import valkyrie.psi.node.*
 
 
@@ -111,15 +111,16 @@ class ValkyrieStructureItem : StructureViewTreeElement, SortableTreeElement {
     }
 
     private fun addAnnotations(annotations: ValkyrieAnnotations) {
-        for (attribute in annotations.attributes) {
-            children.add(ValkyrieStructureItem(attribute))
+        for (attribute in annotations.attributeBelowList) {
+            children.add(ValkyrieStructureItem(attribute.attributeItem))
         }
         for (child in annotations.modifierList) {
             children.add(ValkyrieStructureItem(child))
         }
     }
 
-    constructor(self: ValkyrieAttributeItemNode) {
+    constructor(self: ValkyrieAttributeItem) {
+        self as ValkyrieAttributeItemNode
         this.node = self
         this.view = self.presentation
     }

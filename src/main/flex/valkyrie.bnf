@@ -102,13 +102,11 @@ using ::= annotations KW_USING (using-body|using-term) {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinUsing"
 }
-using-term ::=
-    using-any
+using-term ::= SEMICOLON | COMMA
+  | using-any
   | using-alias
   | using-block
   | namepath-free
-  | SEMICOLON
-  | COMMA
 using-any     ::= (namepath-free using-dot?) STAR using-exclude?
 using-exclude ::= KW_EXCLUDE (identifier|BRACE_L (identifier (COMMA identifier)* COMMA?) BRACE_R)
 using-block   ::= namepath-free using-dot? using-body
@@ -139,13 +137,10 @@ inherit-item  ::= (annotations identifier EQUAL)? type-expression {
 }
 // === class body ===
 class-body ::= BRACE_L class-item* BRACE_R;
-class-item ::=
-    declare-domain
+class-item ::= SEMICOLON | COMMA
+  | declare-domain
   | declare-method
   | declare-field
-  | SEMICOLON
-  | COMMA
-
 // === class field statement ===
 declare-field ::= annotations identifier type-hint? default-value? {
     pin = 2
@@ -286,10 +281,10 @@ else-statement ::= KW_ELSE block-body {
     pin = 1
 }
 // === if statement ===
-while-statement ::= attribute* KW_WHILE expression-inline block-body {
+while-statement ::= attribute-below* KW_WHILE expression-inline block-body {
     pin = 2
 }
-for-statement ::= attribute* KW_FOR let-pattern KW_IN expression-inline if-condition? block-body {
+for-statement ::= attribute-below* KW_FOR let-pattern KW_IN expression-inline if-condition? block-body {
     pin = 2
 }
 dot-call-for    ::= OP_AND_THEN? DOT KW_FOR for-pattern-dot expression-inline if-condition? block-body {
@@ -528,7 +523,7 @@ string ::= TEXT_SINGLE | TEXT_DOUBLE {
 special ::= KW_NULL | KW_NIL | KW_BOOLEAN | COLOR;
 
 // === annotation statement ===
-annotations ::= attribute* modifier*
+annotations ::= attribute-below* modifier*
 modifier    ::= (SYMBOL | SYMBOW_RAW) !modifier-stop {
     mixin = "valkyrie.psi.mixin.MixinModifier"
 }
@@ -536,14 +531,11 @@ private modifier-stop ::= KW_IN | KW_IF
     | COMMA | COLON | PROPORTION | DOT | SEMICOLON | EQUAL
     | PARENTHESIS_L | PARENTHESIS_R
     | BRACE_L | BRACE_R
-attribute      ::=
-    HASH BRACKET_L (attribute-item (COMMA attribute-item)* COMMA)? BRACKET_R
-  | HASH attribute-item
-attribute-item ::= namepath argument-body? class-body? {
+attribute-below ::= HASH attribute-item
+attribute-above ::= HASH OP_POW attribute-item;
+attribute-item  ::= namepath argument-body? class-body? {
     mixin = "valkyrie.psi.mixin.MixinAttribute"
 }
-attribute-above ::= HASH '^' BRACKET_L (attribute-item (COMMA attribute-item)* COMMA)? BRACKET_R
-
 // === identifiers ===
 namepath      ::= identifier (PROPORTION identifier)* {
     mixin = "valkyrie.psi.mixin.MixinNamepath"
