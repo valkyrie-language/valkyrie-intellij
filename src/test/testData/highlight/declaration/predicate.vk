@@ -1,0 +1,77 @@
+trait List⟨T, ⟩ {
+    #opposite(empty)
+    predicate filled() -> bool {
+
+    }
+    predicate scalable() -> bool {
+
+    }
+
+    predicate mutable() -> bool {
+
+    }
+
+    head(self) -> T?;
+    tail(self) -> T?;
+
+    get(self, index: usize) -> T?
+    unchecked get(self, index: usize) -> T;
+
+    `[]=`(self) -> T {
+        self.get_unchecked()
+    }
+
+
+    #predicate(mutable, scalable)
+    set(self) {
+
+    }
+
+    `[]=`(self, ord: usize, value: T) -> bool {
+        self.set_unchecked(value)
+    }
+
+
+    `::[]=`(self, ord: usize, value: T) -> bool {
+        self.set_unchecked(value)
+    }
+
+
+
+
+
+    #predicate(scalable)
+    resize(self) {
+
+    }
+    clear(self) {
+
+    }
+}
+
+#contract
+class Array⟨T, ⟩ {
+
+
+    first() -> T {
+
+    }
+
+    非空元素
+
+    非空
+    空元素
+}
+
+class action {
+
+}
+trait Action {
+
+}
+
+class Action {
+
+}
+
+⸿action.a.b.c(Action::field, 1, 2, 3)

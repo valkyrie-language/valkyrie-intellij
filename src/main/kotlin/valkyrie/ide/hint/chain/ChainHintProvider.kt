@@ -1,6 +1,10 @@
 package valkyrie.ide.hint.chain
 
-import com.intellij.codeInsight.hints.*
+import com.intellij.codeInsight.hints.ImmediateConfigurable.Case
+import com.intellij.codeInsight.hints.InlayGroup
+import com.intellij.codeInsight.hints.InlayHintsProvider
+import com.intellij.codeInsight.hints.InlayHintsSink
+import com.intellij.codeInsight.hints.SettingsKey
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiFile
 import valkyrie.language.ValkyrieBundle
@@ -16,8 +20,6 @@ class ChainHintProvider : InlayHintsProvider<ChainHintSetting> {
 
     override fun createSettings() = ChainHintSetting()
 
-    /// 不知道干嘛的 显示在
-    /// Editor > Inlay Hints > Types
     override fun createConfigurable(settings: ChainHintSetting): ChainHintSettingPanel {
         return ChainHintSettingPanel(settings)
     }
@@ -26,10 +28,8 @@ class ChainHintProvider : InlayHintsProvider<ChainHintSetting> {
         return ChainHintCollector(settings)
     }
 
-    // todo: getCasePreview
-    override fun getCaseDescription(case: ImmediateConfigurable.Case): String {
-        //return ValkyrieBundle.message(case.id)
-        return case.id
+    override fun getCaseDescription(case: Case): String {
+        return "getCaseDescription: ${case.id}"
     }
 
     override fun getProperty(key: String): String {

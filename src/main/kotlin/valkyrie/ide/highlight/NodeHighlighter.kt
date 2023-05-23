@@ -8,6 +8,7 @@ import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.elementType
+import valkyrie.ide.reference.declaration.ValkyrieNamepathReference
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.childrenWithLeaves
@@ -144,7 +145,11 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitFunctionCall(o: ValkyrieFunctionCall) {
-        o.namepath.highlight_fake(this)
+        for (reference in o.namepath.references) {
+            if (reference is ValkyrieNamepathReference) {
+                reference.highlight(this)
+            }
+        }
     }
 
 

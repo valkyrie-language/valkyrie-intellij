@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieIfCondition extends PsiElement {
 
     @Nullable
-    ValkyrieInlineExpression getInlineExpression();
+    ValkyrieExpressionInline getExpressionInline();
 
 }

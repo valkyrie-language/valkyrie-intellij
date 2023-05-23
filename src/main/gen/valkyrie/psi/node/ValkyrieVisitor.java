@@ -27,6 +27,22 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitBadLl(@NotNull ValkyrieBadLl o) {
+        visitPsiElement(o);
+    }
+
+    public void visitBadLll(@NotNull ValkyrieBadLll o) {
+        visitPsiElement(o);
+    }
+
+    public void visitBadRr(@NotNull ValkyrieBadRr o) {
+        visitPsiElement(o);
+    }
+
+    public void visitBadRrr(@NotNull ValkyrieBadRrr o) {
+        visitPsiElement(o);
+    }
+
     public void visitBlockBare(@NotNull ValkyrieBlockBare o) {
         visitPsiElement(o);
     }
@@ -227,6 +243,14 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitExpressionInline(@NotNull ValkyrieExpressionInline o) {
+        visitPsiElement(o);
+    }
+
+    public void visitExpressionRoot(@NotNull ValkyrieExpressionRoot o) {
+        visitPsiElement(o);
+    }
+
     public void visitForPatternDot(@NotNull ValkyrieForPatternDot o) {
         visitPsiElement(o);
     }
@@ -283,10 +307,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitInlineExpression(@NotNull ValkyrieInlineExpression o) {
-        visitPsiElement(o);
-    }
-
     public void visitInlineSuffix(@NotNull ValkyrieInlineSuffix o) {
         visitPsiElement(o);
     }
@@ -308,6 +328,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitLiteral(@NotNull ValkyrieLiteral o) {
+        visitPsiElement(o);
+    }
+
+    public void visitLocalizeCall(@NotNull ValkyrieLocalizeCall o) {
         visitPsiElement(o);
     }
 
@@ -491,6 +515,14 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitTemplateBody(@NotNull ValkyrieTemplateBody o) {
+        visitPsiElement(o);
+    }
+
+    public void visitTemplateItem(@NotNull ValkyrieTemplateItem o) {
+        visitPsiElement(o);
+    }
+
     public void visitTerm(@NotNull ValkyrieTerm o) {
         visitPsiElement(o);
     }
@@ -576,6 +608,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitUsingTerm(@NotNull ValkyrieUsingTerm o) {
+        visitPsiElement(o);
+    }
+
+    public void visitWhereBody(@NotNull ValkyrieWhereBody o) {
         visitPsiElement(o);
     }
 

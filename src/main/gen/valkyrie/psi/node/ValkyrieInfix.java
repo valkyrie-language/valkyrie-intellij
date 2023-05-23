@@ -8,6 +8,18 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieInfix extends PsiElement {
 
     @Nullable
+    ValkyrieBadLl getBadLl();
+
+    @Nullable
+    ValkyrieBadLll getBadLll();
+
+    @Nullable
+    ValkyrieBadRr getBadRr();
+
+    @Nullable
+    ValkyrieBadRrr getBadRrr();
+
+    @Nullable
     ValkyrieIsNot getIsNot();
 
 }

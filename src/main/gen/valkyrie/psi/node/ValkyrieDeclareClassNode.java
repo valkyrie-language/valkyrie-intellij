@@ -52,6 +52,12 @@ public class ValkyrieDeclareClassNode extends MixinClass implements ValkyrieDecl
 
     @Override
     @Nullable
+    public ValkyrieDeclareTemplate getDeclareTemplate() {
+        return findChildByClass(ValkyrieDeclareTemplate.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieIdentifier getIdentifier() {
         return findChildByClass(ValkyrieIdentifier.class);
     }

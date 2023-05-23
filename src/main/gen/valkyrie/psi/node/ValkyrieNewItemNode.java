@@ -28,8 +28,8 @@ public class ValkyrieNewItemNode extends ValkyrieElement implements ValkyrieNewI
 
     @Override
     @Nullable
-    public ValkyrieExpression getExpression() {
-        return findChildByClass(ValkyrieExpression.class);
+    public ValkyrieExpressionRoot getExpressionRoot() {
+        return findChildByClass(ValkyrieExpressionRoot.class);
     }
 
     @Override

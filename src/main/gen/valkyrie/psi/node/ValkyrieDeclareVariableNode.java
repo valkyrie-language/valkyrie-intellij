@@ -28,8 +28,8 @@ public class ValkyrieDeclareVariableNode extends MixinVariable implements Valkyr
 
     @Override
     @Nullable
-    public ValkyrieExpression getExpression() {
-        return findChildByClass(ValkyrieExpression.class);
+    public ValkyrieExpressionRoot getExpressionRoot() {
+        return findChildByClass(ValkyrieExpressionRoot.class);
     }
 
     @Override

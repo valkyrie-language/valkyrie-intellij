@@ -7,4 +7,13 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieDeclareTemplate extends PsiElement {
 
+    @NotNull
+    ValkyrieAnnotations getAnnotations();
+
+    @NotNull
+    List<ValkyrieIdentifier> getIdentifierList();
+
+    @Nullable
+    ValkyrieTemplateBody getTemplateBody();
+
 }

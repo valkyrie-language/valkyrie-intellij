@@ -34,8 +34,8 @@ public class ValkyrieMatchWhenNode extends ValkyrieElement implements ValkyrieMa
 
     @Override
     @Nullable
-    public ValkyrieInlineExpression getInlineExpression() {
-        return findChildByClass(ValkyrieInlineExpression.class);
+    public ValkyrieExpressionInline getExpressionInline() {
+        return findChildByClass(ValkyrieExpressionInline.class);
     }
 
 }

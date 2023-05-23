@@ -128,4 +128,22 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
             }
         }
     }
+    override fun visitBadLll(o: ValkyrieBadLll) {
+        o.replaceLeaf(ValkyrieTypes.OP_LLL, "⋘")
+    }
+
+    override fun visitBadRrr(o: ValkyrieBadRrr) {
+        o.replaceLeaf(ValkyrieTypes.OP_GGG, "⋙")
+    }
+
+    override fun visitBadLl(o: ValkyrieBadLl) {
+        o.replaceLeaf(ValkyrieTypes.OP_LL, "≪")
+    }
+
+    override fun visitBadRr(o: ValkyrieBadRr) {
+        o.replaceLeaf(ValkyrieTypes.OP_GG, "≫")
+    }
+
+
+
 }

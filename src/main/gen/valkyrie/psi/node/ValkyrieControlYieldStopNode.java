@@ -34,8 +34,8 @@ public class ValkyrieControlYieldStopNode extends ValkyrieElement implements Val
 
     @Override
     @Nullable
-    public ValkyrieExpression getExpression() {
-        return findChildByClass(ValkyrieExpression.class);
+    public ValkyrieExpressionRoot getExpressionRoot() {
+        return findChildByClass(ValkyrieExpressionRoot.class);
     }
 
 }

@@ -28,8 +28,8 @@ public class ValkyrieMatchStatementNode extends ValkyrieElement implements Valky
 
     @Override
     @Nullable
-    public ValkyrieInlineExpression getInlineExpression() {
-        return findChildByClass(ValkyrieInlineExpression.class);
+    public ValkyrieExpressionInline getExpressionInline() {
+        return findChildByClass(ValkyrieExpressionInline.class);
     }
 
     @Override
