@@ -11,6 +11,6 @@ public interface ValkyrieControlYieldSend extends PsiElement {
     ValkyrieControlLabel getControlLabel();
 
     @NotNull
-    ValkyrieExpression getExpression();
+    ValkyrieExpressionRoot getExpressionRoot();
 
 }

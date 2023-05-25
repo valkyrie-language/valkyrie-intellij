@@ -40,8 +40,8 @@ public class ValkyrieLambdaBlockNode extends ValkyrieElement implements Valkyrie
 
     @Override
     @NotNull
-    public List<ValkyrieExpression> getExpressionList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpression.class);
+    public List<ValkyrieExpressionRoot> getExpressionRootList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpressionRoot.class);
     }
 
     @Override

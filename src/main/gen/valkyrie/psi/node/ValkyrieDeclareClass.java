@@ -20,6 +20,9 @@ public interface ValkyrieDeclareClass extends PsiElement {
     ValkyrieDeclareGeneric getDeclareGeneric();
 
     @Nullable
+    ValkyrieDeclareTemplate getDeclareTemplate();
+
+    @Nullable
     ValkyrieIdentifier getIdentifier();
 
     @Nullable

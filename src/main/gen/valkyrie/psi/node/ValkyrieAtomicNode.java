@@ -34,8 +34,8 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
 
     @Override
     @Nullable
-    public ValkyrieExpression getExpression() {
-        return findChildByClass(ValkyrieExpression.class);
+    public ValkyrieExpressionRoot getExpressionRoot() {
+        return findChildByClass(ValkyrieExpressionRoot.class);
     }
 
     @Override
@@ -60,6 +60,12 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
     @Nullable
     public ValkyrieLiteral getLiteral() {
         return findChildByClass(ValkyrieLiteral.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieLocalizeCall getLocalizeCall() {
+        return findChildByClass(ValkyrieLocalizeCall.class);
     }
 
     @Override

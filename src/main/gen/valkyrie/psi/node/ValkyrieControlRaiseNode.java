@@ -28,8 +28,8 @@ public class ValkyrieControlRaiseNode extends ValkyrieElement implements Valkyri
 
     @Override
     @NotNull
-    public ValkyrieExpression getExpression() {
-        return findNotNullChildByClass(ValkyrieExpression.class);
+    public ValkyrieExpressionRoot getExpressionRoot() {
+        return findNotNullChildByClass(ValkyrieExpressionRoot.class);
     }
 
 }

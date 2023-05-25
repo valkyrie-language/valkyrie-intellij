@@ -16,4 +16,7 @@ public interface ValkyrieDeclareFlags extends PsiElement {
     @Nullable
     ValkyrieIdentifier getIdentifier();
 
+    @Nullable
+    ValkyrieTypeHint getTypeHint();
+
 }

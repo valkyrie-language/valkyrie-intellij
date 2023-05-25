@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieDeclareVariable extends PsiElement {
 
     @Nullable
-    ValkyrieExpression getExpression();
+    ValkyrieExpressionRoot getExpressionRoot();
 
     @Nullable
     ValkyrieIfCaseStatement getIfCaseStatement();

@@ -14,7 +14,7 @@ public interface ValkyrieLambdaBlock extends PsiElement {
     List<ValkyrieDeclareVariable> getDeclareVariableList();
 
     @NotNull
-    List<ValkyrieExpression> getExpressionList();
+    List<ValkyrieExpressionRoot> getExpressionRootList();
 
     @NotNull
     List<ValkyrieIfCaseStatement> getIfCaseStatementList();

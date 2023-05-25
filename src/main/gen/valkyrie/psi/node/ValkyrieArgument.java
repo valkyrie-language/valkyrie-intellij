@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieArgument extends PsiElement {
 
     @NotNull
-    ValkyrieExpression getExpression();
+    ValkyrieExpressionRoot getExpressionRoot();
 
     @Nullable
     ValkyrieIdentifier getIdentifier();

@@ -10,9 +10,14 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.refactoring.suggested.startOffset
+import valkyrie.ide.highlight.HighlightColor
 import valkyrie.psi.node.ValkyrieIdentifierNode
 
-abstract class ValkyrieDeclareElement(node: ASTNode) : ValkyrieElement(node), PsiNameIdentifierOwner {
+abstract class ValkyrieDeclareElement : ValkyrieElement, PsiNameIdentifierOwner {
+    open val color: HighlightColor? = null
+
+    constructor(node: ASTNode) : super(node)
+
     abstract override fun getNameIdentifier(): ValkyrieIdentifierNode?;
 
     override fun getName(): String? {
@@ -47,6 +52,7 @@ abstract class ValkyrieDeclareElement(node: ASTNode) : ValkyrieElement(node), Ps
             )
         }
     }
+
 
     companion object {
         fun getCaretDeclaration(editor: Editor, file: PsiFile): ValkyrieDeclareElement? {

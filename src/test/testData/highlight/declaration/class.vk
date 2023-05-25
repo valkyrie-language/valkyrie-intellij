@@ -15,7 +15,12 @@ violate {
     y._private_field
 }
 
-generic {
+refine typus Positive(Integer) {
+
+}
+
+
+template {
 
 }
 function a() {
@@ -24,15 +29,16 @@ function a() {
     @refute \\ 否定
 }
 
-
-generic T, U {
+forall T, U {
     \\ forall {f32, f64}
     \\ \\ 前置
     \\ require {
     \\
     \\ }
     \\ ensure {}\\ 后置
-    \\ where {}\\ 约束
+    where {
+
+    }
 }
 class A {
     inherit Base,

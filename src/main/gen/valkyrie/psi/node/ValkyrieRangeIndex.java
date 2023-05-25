@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieRangeIndex extends PsiElement {
 
     @NotNull
-    ValkyrieExpression getExpression();
+    ValkyrieExpressionRoot getExpressionRoot();
 
 }

@@ -11,7 +11,7 @@ public interface ValkyrieAtomic extends PsiElement {
     ValkyrieControlRaise getControlRaise();
 
     @Nullable
-    ValkyrieExpression getExpression();
+    ValkyrieExpressionRoot getExpressionRoot();
 
     @Nullable
     ValkyrieForStatement getForStatement();
@@ -24,6 +24,9 @@ public interface ValkyrieAtomic extends PsiElement {
 
     @Nullable
     ValkyrieLiteral getLiteral();
+
+    @Nullable
+    ValkyrieLocalizeCall getLocalizeCall();
 
     @Nullable
     ValkyrieMacroCall getMacroCall();

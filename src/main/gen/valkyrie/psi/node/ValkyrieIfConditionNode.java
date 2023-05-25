@@ -28,8 +28,8 @@ public class ValkyrieIfConditionNode extends ValkyrieElement implements Valkyrie
 
     @Override
     @Nullable
-    public ValkyrieInlineExpression getInlineExpression() {
-        return findChildByClass(ValkyrieInlineExpression.class);
+    public ValkyrieExpressionInline getExpressionInline() {
+        return findChildByClass(ValkyrieExpressionInline.class);
     }
 
 }

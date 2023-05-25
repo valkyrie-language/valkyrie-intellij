@@ -34,8 +34,8 @@ public class ValkyrieControlResumeNode extends ValkyrieElement implements Valkyr
 
     @Override
     @NotNull
-    public ValkyrieExpression getExpression() {
-        return findNotNullChildByClass(ValkyrieExpression.class);
+    public ValkyrieExpressionRoot getExpressionRoot() {
+        return findNotNullChildByClass(ValkyrieExpressionRoot.class);
     }
 
 }

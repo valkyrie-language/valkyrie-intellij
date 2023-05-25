@@ -34,8 +34,8 @@ public class ValkyrieControlYieldSendNode extends ValkyrieElement implements Val
 
     @Override
     @NotNull
-    public ValkyrieExpression getExpression() {
-        return findNotNullChildByClass(ValkyrieExpression.class);
+    public ValkyrieExpressionRoot getExpressionRoot() {
+        return findNotNullChildByClass(ValkyrieExpressionRoot.class);
     }
 
 }
