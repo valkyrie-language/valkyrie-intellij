@@ -171,8 +171,19 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         }
     }
 
+    override fun visitLocalizeCall(o: ValkyrieLocalizeCall) {
+        highlight(o.firstChild, HighlightColor.SYM_MACRO)
+        for (id in o.identifierList) {
+            highlight(id, HighlightColor.SYM_MACRO)
+        }
+    }
+
     override fun visitSlot(o: ValkyrieSlot) {
         highlight(o, HighlightColor.KEYWORD)
+    }
+
+    override fun visitNumber(o: ValkyrieNumber) {
+        highlight(o.identifier, HighlightColor.SYM_MACRO)
     }
 
     fun highlight(element: PsiElement?, color: HighlightColor) {

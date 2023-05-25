@@ -123,8 +123,7 @@ BIN = [0-1]
 HEX = [0-9a-fA-F]
 COLOR = [©®][0-9a-zA-Z]*
 INTEGER = 0|[1-9][_0-9]*
-
-
+DECIMAL = {INTEGER}(\.[0-9]+)?
 
 W1 = ߷
 W2 = ※

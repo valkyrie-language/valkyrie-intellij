@@ -240,7 +240,7 @@ parameter-item ::= annotations identifier type-hint? default-value? {
     mixin = "valkyrie.psi.mixin.MixinValueParameter"
 }
 return-type ::= (OP_ARROW1|COLON) type-expression;
-effect-type ::= SLASH type-expression;
+effect-type ::= OP_DIV type-expression;
 block-body  ::= BRACE_L block-statement* BRACE_R;
 block-bare  ::= block-statement*;
 // === function statement ===
@@ -259,7 +259,7 @@ function-call-inline ::= namepath argument-body;
 macro-call    ::= AT namepath (argument-body? class-body|argument-body)? {
     pin = 1
 }
-localize-call ::= OP_L10N identifier (DOT identifier)* argument-body? {
+localize-call ::= OP_L10N (identifier ((DOT|PROPORTION|OP_DIV) identifier)*)? argument-body? {
     pin = 1
     mixin = "valkyrie.psi.mixin.MixinLocalize"
 }
@@ -521,7 +521,9 @@ argument ::= (identifier EQUAL)? expression-root {
 }
 // === literal items ===
 literal ::= special | namepath | number | string;
-number ::= INTEGER;
+number ::=
+    INTEGER identifier?
+  | DECIMAL identifier?;
 string ::= TEXT_SINGLE | TEXT_DOUBLE {
     mixin = "valkyrie.psi.mixin.MixinString"
 }

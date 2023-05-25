@@ -1783,13 +1783,13 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // SLASH type-expression
+    // OP_DIV type-expression
     public static boolean effect_type(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "effect_type")) return false;
-        if (!nextTokenIs(b, SLASH)) return false;
+        if (!nextTokenIs(b, OP_DIV)) return false;
         boolean r;
         Marker m = enter_section_(b);
-        r = consumeToken(b, SLASH);
+        r = consumeToken(b, OP_DIV);
         r = r && type_expression(b, l + 1);
         exit_section_(b, m, EFFECT_TYPE, r);
         return r;
@@ -2773,7 +2773,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // OP_L10N identifier (DOT identifier)* argument-body?
+    // OP_L10N (identifier ((DOT|PROPORTION|OP_DIV) identifier)*)? argument-body?
     public static boolean localize_call(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "localize_call")) return false;
         if (!nextTokenIs(b, OP_L10N)) return false;
@@ -2781,38 +2781,65 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         Marker m = enter_section_(b, l, _NONE_, LOCALIZE_CALL, null);
         r = consumeToken(b, OP_L10N);
         p = r; // pin = 1
-        r = r && report_error_(b, identifier(b, l + 1));
-        r = p && report_error_(b, localize_call_2(b, l + 1)) && r;
-        r = p && localize_call_3(b, l + 1) && r;
+        r = r && report_error_(b, localize_call_1(b, l + 1));
+        r = p && localize_call_2(b, l + 1) && r;
         exit_section_(b, l, m, r, p, null);
         return r || p;
     }
 
-    // (DOT identifier)*
-    private static boolean localize_call_2(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "localize_call_2")) return false;
+    // (identifier ((DOT|PROPORTION|OP_DIV) identifier)*)?
+    private static boolean localize_call_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "localize_call_1")) return false;
+        localize_call_1_0(b, l + 1);
+        return true;
+    }
+
+    // identifier ((DOT|PROPORTION|OP_DIV) identifier)*
+    private static boolean localize_call_1_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "localize_call_1_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = identifier(b, l + 1);
+        r = r && localize_call_1_0_1(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // ((DOT|PROPORTION|OP_DIV) identifier)*
+    private static boolean localize_call_1_0_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "localize_call_1_0_1")) return false;
         while (true) {
             int c = current_position_(b);
-            if (!localize_call_2_0(b, l + 1)) break;
-            if (!empty_element_parsed_guard_(b, "localize_call_2", c)) break;
+            if (!localize_call_1_0_1_0(b, l + 1)) break;
+            if (!empty_element_parsed_guard_(b, "localize_call_1_0_1", c)) break;
         }
         return true;
     }
 
-    // DOT identifier
-    private static boolean localize_call_2_0(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "localize_call_2_0")) return false;
+    // (DOT|PROPORTION|OP_DIV) identifier
+    private static boolean localize_call_1_0_1_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "localize_call_1_0_1_0")) return false;
         boolean r;
         Marker m = enter_section_(b);
-        r = consumeToken(b, DOT);
+        r = localize_call_1_0_1_0_0(b, l + 1);
         r = r && identifier(b, l + 1);
         exit_section_(b, m, null, r);
         return r;
     }
 
+    // DOT|PROPORTION|OP_DIV
+    private static boolean localize_call_1_0_1_0_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "localize_call_1_0_1_0_0")) return false;
+        boolean r;
+        r = consumeToken(b, DOT);
+        if (!r) r = consumeToken(b, PROPORTION);
+        if (!r) r = consumeToken(b, OP_DIV);
+        return r;
+    }
+
     // argument-body?
-    private static boolean localize_call_3(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "localize_call_3")) return false;
+    private static boolean localize_call_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "localize_call_2")) return false;
         argument_body(b, l + 1);
         return true;
     }
@@ -3279,15 +3306,53 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // INTEGER
+    // INTEGER identifier?
+    //   | DECIMAL identifier?
     public static boolean number(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "number")) return false;
-        if (!nextTokenIs(b, INTEGER)) return false;
+        if (!nextTokenIs(b, "<number>", DECIMAL, INTEGER)) return false;
+        boolean r;
+        Marker m = enter_section_(b, l, _NONE_, NUMBER, "<number>");
+        r = number_0(b, l + 1);
+        if (!r) r = number_1(b, l + 1);
+        exit_section_(b, l, m, r, false, null);
+        return r;
+    }
+
+    // INTEGER identifier?
+    private static boolean number_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "number_0")) return false;
         boolean r;
         Marker m = enter_section_(b);
         r = consumeToken(b, INTEGER);
-        exit_section_(b, m, NUMBER, r);
+        r = r && number_0_1(b, l + 1);
+        exit_section_(b, m, null, r);
         return r;
+    }
+
+    // identifier?
+    private static boolean number_0_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "number_0_1")) return false;
+        identifier(b, l + 1);
+        return true;
+    }
+
+    // DECIMAL identifier?
+    private static boolean number_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "number_1")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, DECIMAL);
+        r = r && number_1_1(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // identifier?
+    private static boolean number_1_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "number_1_1")) return false;
+        identifier(b, l + 1);
+        return true;
     }
 
     /* ********************************************************** */
