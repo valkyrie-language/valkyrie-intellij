@@ -1,7 +1,19 @@
 trait List⟨T, ⟩ {
     #opposite(empty)
     predicate filled() -> bool {
+        for i in j {
+            while true {
+                until false {
 
+
+
+                
+
+
+
+                }
+            }
+        }
     }
     predicate scalable() -> bool {
 
@@ -56,11 +68,6 @@ class Array⟨T, ⟩ {
     first() -> T {
 
     }
-
-    非空元素
-
-    非空
-    空元素
 }
 
 class action {
@@ -74,4 +81,5 @@ class Action {
 
 }
 
-⸿action.a.b.c(Action::field, 1, 2, 3)
+⸿action.a.b.c(Action∷field, 1, 2, 3)
+

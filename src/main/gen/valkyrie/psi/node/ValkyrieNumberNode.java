@@ -26,4 +26,10 @@ public class ValkyrieNumberNode extends ValkyrieElement implements ValkyrieNumbe
         else super.accept(visitor);
     }
 
+    @Override
+    @Nullable
+    public ValkyrieIdentifier getIdentifier() {
+        return findChildByClass(ValkyrieIdentifier.class);
+    }
+
 }
