@@ -2,12 +2,12 @@ package valkyrie.psi.mixin
 
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
-import valkyrie.psi.ValkyrieDeclareElement
+import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.ValkyrieDeclareUnite
 import valkyrie.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
-abstract class MixinUnite(node: ASTNode) : ValkyrieDeclareElement(node), ValkyrieDeclareUnite {
+abstract class MixinUnite(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareUnite {
     val uniteItems = uniteBody?.uniteItemList?.map { it.firstChild } ?: listOf();
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {

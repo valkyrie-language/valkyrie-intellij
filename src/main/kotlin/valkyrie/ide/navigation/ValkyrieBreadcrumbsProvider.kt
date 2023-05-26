@@ -7,7 +7,7 @@ import com.intellij.navigation.NavigationItem
 import com.intellij.psi.PsiElement
 import com.intellij.ui.breadcrumbs.BreadcrumbsProvider
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.psi.ValkyrieDeclareElement
+import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.ValkyrieForStatement
 import valkyrie.psi.node.ValkyrieForStatementNode
 import valkyrie.psi.node.ValkyrieWhileStatementNode
@@ -20,7 +20,7 @@ class ValkyrieBreadcrumbsProvider : BreadcrumbsProvider {
     }
 
     override fun acceptElement(element: PsiElement) = when (element) {
-        is ValkyrieDeclareElement -> {
+        is ValkyrieDeclaration -> {
             true
         }
 

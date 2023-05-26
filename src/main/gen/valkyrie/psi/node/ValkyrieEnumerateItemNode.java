@@ -28,6 +28,12 @@ public class ValkyrieEnumerateItemNode extends ValkyrieElement implements Valkyr
 
     @Override
     @Nullable
+    public ValkyrieDeclareMethod getDeclareMethod() {
+        return findChildByClass(ValkyrieDeclareMethod.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieDeclareSemantic getDeclareSemantic() {
         return findChildByClass(ValkyrieDeclareSemantic.class);
     }

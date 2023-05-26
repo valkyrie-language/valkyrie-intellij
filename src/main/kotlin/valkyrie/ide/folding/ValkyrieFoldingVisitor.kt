@@ -33,7 +33,7 @@ class ValkyrieFoldingVisitor : ValkyrieVisitor, PsiRecursiveVisitor {
         fold(o, o.firstChild.endOffset, o.lastChild.startOffset)
     }
 
-    override fun visitClassInheritBody(o: ValkyrieClassInheritBody) {
+    override fun visitClassInherit(o: ValkyrieClassInherit) {
         fold(o, o.firstChild.endOffset, o.lastChild.startOffset)
     }
 

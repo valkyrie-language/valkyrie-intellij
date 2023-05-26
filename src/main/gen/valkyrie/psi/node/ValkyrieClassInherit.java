@@ -7,13 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieClassInherit extends PsiElement {
 
-    @Nullable
-    ValkyrieAnnotations getAnnotations();
-
-    @Nullable
-    ValkyrieIdentifier getIdentifier();
-
     @NotNull
-    ValkyrieTypeExpression getTypeExpression();
+    List<ValkyrieInheritItem> getInheritItemList();
 
 }

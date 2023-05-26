@@ -77,13 +77,17 @@ class TypeHintVisitor : ValkyrieVisitor {
 
     override fun visitDeclareEnumerate(o: ValkyrieDeclareEnumerate) {
         if (setting.showEnumerationType) {
-            o.identifier?.endOffset?.let { hint(it, ": [u8; 4]") }
+            if (o.classInherit == null) {
+                o.identifier?.endOffset?.let { hint(it, "([u8; 4])") }
+            }
         }
     }
 
     override fun visitDeclareFlags(o: ValkyrieDeclareFlags) {
         if (setting.showBitFlagType) {
-            o.identifier?.endOffset?.let { hint(it, ": [u8; 4]") }
+            if (o.classInherit == null) {
+                o.identifier?.endOffset?.let { hint(it, "([u8; 4])") }
+            }
         }
     }
 

@@ -6,9 +6,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieTemplateSymbol extends PsiElement {
+public interface ValkyrieInheritItem extends PsiElement {
+
+    @Nullable
+    ValkyrieAnnotations getAnnotations();
+
+    @Nullable
+    ValkyrieIdentifier getIdentifier();
 
     @NotNull
-    ValkyrieIdentifier getIdentifier();
+    ValkyrieTypeExpression getTypeExpression();
 
 }

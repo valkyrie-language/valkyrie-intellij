@@ -11,6 +11,9 @@ public interface ValkyrieDeclareEnumerate extends PsiElement {
     ValkyrieAnnotations getAnnotations();
 
     @Nullable
+    ValkyrieClassInherit getClassInherit();
+
+    @Nullable
     ValkyrieEnumerateBody getEnumerateBody();
 
     @Nullable

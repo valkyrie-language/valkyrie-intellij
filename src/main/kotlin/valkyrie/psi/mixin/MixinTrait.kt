@@ -3,13 +3,13 @@ package valkyrie.psi.mixin
 import com.intellij.lang.ASTNode
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.psi.ValkyrieDeclareElement
+import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.ValkyrieDeclareTrait
 import valkyrie.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
 
-abstract class MixinTrait(node: ASTNode) : ValkyrieDeclareElement(node), ValkyrieDeclareTrait {
+abstract class MixinTrait(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareTrait {
     override val color: HighlightColor
         get() = HighlightColor.SYM_TRAIT
     val traitItems = classBody?.classItemList?.map { it.firstChild } ?: listOf();

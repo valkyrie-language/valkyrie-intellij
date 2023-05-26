@@ -8,9 +8,10 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.psi.ValkyrieTypes.*;
-import valkyrie.psi.mixin.MixinClassInherit;
 
-public class ValkyrieClassInheritNode extends MixinClassInherit implements ValkyrieClassInherit {
+import valkyrie.psi.ValkyrieElement;
+
+public class ValkyrieClassInheritNode extends ValkyrieElement implements ValkyrieClassInherit {
 
     public ValkyrieClassInheritNode(@NotNull ASTNode node) {
         super(node);
@@ -27,21 +28,9 @@ public class ValkyrieClassInheritNode extends MixinClassInherit implements Valky
     }
 
     @Override
-    @Nullable
-    public ValkyrieAnnotations getAnnotations() {
-        return findChildByClass(ValkyrieAnnotations.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieIdentifier getIdentifier() {
-        return findChildByClass(ValkyrieIdentifier.class);
-    }
-
-    @Override
     @NotNull
-    public ValkyrieTypeExpression getTypeExpression() {
-        return findNotNullChildByClass(ValkyrieTypeExpression.class);
+    public List<ValkyrieInheritItem> getInheritItemList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieInheritItem.class);
     }
 
 }

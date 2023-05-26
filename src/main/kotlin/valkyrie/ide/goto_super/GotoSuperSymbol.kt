@@ -6,14 +6,14 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import valkyrie.psi.ValkyrieDeclareElement
+import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.mixin.superClasses
 import valkyrie.psi.node.*
 
 class GotoSuperSymbol : GotoTargetHandler() {
     override fun getFeatureUsedKey() = "valkyrie.goto.super";
     override fun getSourceAndTargetElements(editor: Editor, file: PsiFile): GotoData? {
-        val element = ValkyrieDeclareElement.getCaretDeclaration(editor, file)
+        val element = ValkyrieDeclaration.getCaretDeclaration(editor, file)
         val visitor = GotoSuperVisitor()
         element?.accept(visitor)
         return visitor.target
@@ -52,7 +52,7 @@ class GotoSuperSymbol : GotoTargetHandler() {
     }
 
     override fun getNotFoundMessage(project: Project, editor: Editor, file: PsiFile): String {
-        return when (val element = ValkyrieDeclareElement.getCaretDeclaration(editor, file)) {
+        return when (val element = ValkyrieDeclaration.getCaretDeclaration(editor, file)) {
             is ValkyrieDeclareClassNode -> {
                 "`${element.name}` has no super class"
             }
@@ -73,11 +73,8 @@ private class GotoSuperVisitor : ValkyrieVisitor() {
     var target: GotoData? = null
 
     override fun visitDeclareClass(o: ValkyrieDeclareClass) {
-        val inherits: MutableList<ValkyrieClassInherit> = mutableListOf()
-        for (base in o.superClasses) {
-            inherits.add(base)
-        }
-        target = GotoData(o, inherits.toTypedArray(), listOf())
+
+        target = GotoData(o, o.superClasses.toTypedArray(), listOf())
     }
 
     override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {

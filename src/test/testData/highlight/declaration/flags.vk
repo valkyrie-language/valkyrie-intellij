@@ -1,18 +1,18 @@
 flags Empty {}
 
-flags OneFlag {
+flags OneFlag(u8) {
     A,
 
-    get name() {
+get name() {
 
-    }
+}
 }
 
 inherit
 appoint
 delegate
 
-flags TestFlags2(u8): A + B {
+flags TestFlags2(u8) {
     A = 12 + 1,
     Bb = 12 + 2,
     Ccc = 3,

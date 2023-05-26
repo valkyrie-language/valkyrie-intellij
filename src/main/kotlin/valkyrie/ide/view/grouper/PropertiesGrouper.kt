@@ -3,24 +3,24 @@ package valkyrie.ide.view.grouper
 
 import com.intellij.ide.util.treeView.AbstractTreeNode
 import com.intellij.ide.util.treeView.smartTree.*
-import com.intellij.util.PlatformIcons
+import com.intellij.util.PlatformIcons.ABSTRACT_CLASS_ICON
 import valkyrie.language.ValkyrieBundle
 
-object PropertiesGrouper : Grouper {
-    override fun getPresentation(): ActionPresentation = ActionPresentationData(
-        ValkyrieBundle.message("view.PropertiesGrouper"),
-        "GGGGG",
-        PlatformIcons.ABSTRACT_CLASS_ICON
-    )
+private val title = ValkyrieBundle.message("view.PropertiesGrouper");
+private val text = ValkyrieBundle.message("view.PropertiesGrouper");
+private val description = ValkyrieBundle.message("view.PropertiesGrouper");
 
-    override fun getName(): String {
-        return ValkyrieBundle.message("view.PropertiesGrouper")
+object PropertiesGrouper : Grouper {
+    override fun getPresentation(): ActionPresentation {
+        return ActionPresentationData(text, description, ABSTRACT_CLASS_ICON)
     }
 
-    override fun group(
-        parent: AbstractTreeNode<*>,
-        children: MutableCollection<TreeElement>,
-    ): MutableCollection<Group> {
+    override fun getName(): String {
+        return title
+    }
+
+    override fun group(parent: AbstractTreeNode<*>, children: MutableCollection<TreeElement>): MutableCollection<Group> {
         return arrayListOf()
     }
 }
+
