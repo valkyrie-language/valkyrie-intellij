@@ -6,6 +6,7 @@ import com.intellij.openapi.extensions.PluginDescriptor
 import com.intellij.psi.PsiElement
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ValkyrieDeclaration
+import valkyrie.psi.node.ValkyrieDeclareNamespace
 import valkyrie.psi.node.ValkyrieModifier
 import valkyrie.psi.node.ValkyrieNamepath
 
@@ -14,8 +15,9 @@ class ValkyrieUsagesFactory : FindUsagesHandlerFactory() {
         // element is a PsiNamedElement
         return when (element) {
             is ValkyrieFileNode -> true
-            is ValkyrieNamepath -> false
             is ValkyrieModifier -> false
+            is ValkyrieNamepath -> false
+            is ValkyrieDeclareNamespace -> true
             is ValkyrieDeclaration -> true
             else -> {
                 println("canFindUsages: $element")

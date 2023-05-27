@@ -348,7 +348,7 @@ pattern-pair      ::= annotations identifier COLON pattern;
 pattern-literal   ::= annotations (identifier|string|special)
 // === pattern expression ===
 // new Self { r: red, g: green, b: blue, a: alpha}
-new-value  ::= KW_NEW type-expression? argument-body? new-body {
+new-value  ::= KW_NEW modifier* type-expression? argument-body? new-body {
     pin = 1
     mixin = "valkyrie.psi.mixin.MixinBuilder"
 }

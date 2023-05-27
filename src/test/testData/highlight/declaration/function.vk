@@ -2,11 +2,11 @@ namespace test.macroes;
 
 function name() {}
 
-macro module::`function`(): R / P {
+macro `function`(): R / P {
 
 }
 
-inline function package::path::range(min: int, max: int, step: int): Range {
+inline function range(min: int, max: int, step: int): Range {
     new lazy std::iterator::Range⟨int⟩() {
         from: min,
         till: max,

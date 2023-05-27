@@ -3293,7 +3293,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // KW_NEW type-expression? argument-body? new-body
+    // KW_NEW modifier* type-expression? argument-body? new-body
     public static boolean new_value(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "new_value")) return false;
         if (!nextTokenIs(b, KW_NEW)) return false;
@@ -3303,21 +3303,33 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         p = r; // pin = 1
         r = r && report_error_(b, new_value_1(b, l + 1));
         r = p && report_error_(b, new_value_2(b, l + 1)) && r;
+        r = p && report_error_(b, new_value_3(b, l + 1)) && r;
         r = p && new_body(b, l + 1) && r;
         exit_section_(b, l, m, r, p, null);
         return r || p;
     }
 
-    // type-expression?
+    // modifier*
     private static boolean new_value_1(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "new_value_1")) return false;
+        while (true) {
+            int c = current_position_(b);
+            if (!modifier(b, l + 1)) break;
+            if (!empty_element_parsed_guard_(b, "new_value_1", c)) break;
+        }
+        return true;
+    }
+
+    // type-expression?
+    private static boolean new_value_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "new_value_2")) return false;
         type_expression(b, l + 1);
         return true;
     }
 
     // argument-body?
-    private static boolean new_value_2(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "new_value_2")) return false;
+    private static boolean new_value_3(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "new_value_3")) return false;
         argument_body(b, l + 1);
         return true;
     }
