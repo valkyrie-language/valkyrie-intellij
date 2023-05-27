@@ -14,7 +14,7 @@ public interface ValkyrieDeclareClass extends PsiElement {
     ValkyrieClassBody getClassBody();
 
     @Nullable
-    ValkyrieClassInheritBody getClassInheritBody();
+    ValkyrieClassInherit getClassInherit();
 
     @Nullable
     ValkyrieDeclareGeneric getDeclareGeneric();

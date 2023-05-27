@@ -12,7 +12,11 @@ import valkyrie.language.ValkyrieLanguage
 private val name = ValkyrieBundle.message("action.macro.expand_file")
 private val description = ValkyrieBundle.message("action.convert_prop.description")
 
-class ExpandMacroToFile : AnAction(name, description, AllIcons.Actions.Preview) {
+class ExpandMacroToFile : AnAction {
+    constructor() : super(name, description, AllIcons.Actions.Preview) {
+
+    }
+
     override fun actionPerformed(e: AnActionEvent) {
 //        val src = LangDataKeys.PSI_FILE.getData(e.dataContext) ?: return
 //        if (isValidFile(src)) {

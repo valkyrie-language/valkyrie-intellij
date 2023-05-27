@@ -2,13 +2,13 @@ package valkyrie.psi.mixin
 
 import com.intellij.lang.ASTNode
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.psi.ValkyrieDeclareElement
+import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.ValkyrieDeclareFlags
 import valkyrie.psi.node.ValkyrieEnumerateItem
 import valkyrie.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
-abstract class MixinFlags(node: ASTNode) : ValkyrieDeclareElement(node), ValkyrieDeclareFlags {
+abstract class MixinFlags(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareFlags {
     val flagItems = enumerateBody?.enumerateItemList?.map { it.firstChild } ?: listOf();
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {

@@ -3,7 +3,7 @@ package valkyrie.ide.line_marker
 import com.intellij.codeInsight.daemon.MergeableLineMarkerInfo
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
-import valkyrie.psi.ValkyrieDeclareElement
+import valkyrie.psi.ValkyrieDeclaration
 import java.util.function.Supplier
 import javax.swing.Icon
 
@@ -11,7 +11,7 @@ class ValkyrieMarkAny : MergeableLineMarkerInfo<PsiElement> {
     private val declare: PsiElement
 
 
-    constructor(declare: ValkyrieDeclareElement) : super(
+    constructor(declare: ValkyrieDeclaration) : super(
         declare.navigationElement.firstChild,
         declare.navigationElement.firstChild.textRange,
         declare.getIcon(0),

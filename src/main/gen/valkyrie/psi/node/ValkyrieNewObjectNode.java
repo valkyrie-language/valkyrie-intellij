@@ -34,8 +34,8 @@ public class ValkyrieNewObjectNode extends MixinObject implements ValkyrieNewObj
 
     @Override
     @Nullable
-    public ValkyrieClassInheritBody getClassInheritBody() {
-        return findChildByClass(ValkyrieClassInheritBody.class);
+    public ValkyrieClassInherit getClassInherit() {
+        return findChildByClass(ValkyrieClassInherit.class);
     }
 
     @Override

@@ -13,7 +13,7 @@ import com.intellij.refactoring.suggested.startOffset
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.psi.node.ValkyrieIdentifierNode
 
-abstract class ValkyrieDeclareElement : ValkyrieElement, PsiNameIdentifierOwner {
+abstract class ValkyrieDeclaration : ValkyrieElement, PsiNameIdentifierOwner {
     open val color: HighlightColor? = null
 
     constructor(node: ASTNode) : super(node)
@@ -55,14 +55,14 @@ abstract class ValkyrieDeclareElement : ValkyrieElement, PsiNameIdentifierOwner 
 
 
     companion object {
-        fun getCaretDeclaration(editor: Editor, file: PsiFile): ValkyrieDeclareElement? {
+        fun getCaretDeclaration(editor: Editor, file: PsiFile): ValkyrieDeclaration? {
             val leaf = file.findElementAt(editor.caretModel.offset) ?: return null
             return getCaretDeclaration(leaf)
         }
 
-        fun getCaretDeclaration(element: PsiElement): ValkyrieDeclareElement? {
+        fun getCaretDeclaration(element: PsiElement): ValkyrieDeclaration? {
             for (ancestor in element.ancestors) {
-                if (ancestor is ValkyrieDeclareElement) {
+                if (ancestor is ValkyrieDeclaration) {
                     return ancestor
                 }
             }

@@ -20,9 +20,6 @@ refine typus Positive(Integer) {
 }
 
 
-template {
-
-}
 function a() {
     @assert \\ 断言
     @assume \\ 假设

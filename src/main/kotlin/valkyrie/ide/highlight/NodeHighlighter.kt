@@ -36,7 +36,8 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         o.typeHint?.typeExpression?.highlight_trait(this)
     }
 
-    override fun visitClassInherit(o: ValkyrieClassInherit) {
+
+    override fun visitInheritItem(o: ValkyrieInheritItem) {
         highlight(o.identifier, HighlightColor.SYM_FIELD)
         o.typeExpression.highlight_class(this)
     }

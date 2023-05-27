@@ -11,7 +11,7 @@ import valkyrie.ide.view.ValkyrieVisibility
 import valkyrie.language.ValkyrieBundle
 
 
-class PublicElementsFilter : Filter {
+object PublicElementsFilter : Filter {
 
     override fun getName() = "view.PublicElementsFilter"
 
