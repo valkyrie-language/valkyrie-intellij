@@ -10,6 +10,9 @@ public interface ValkyrieNewValue extends PsiElement {
     @Nullable
     ValkyrieArgumentBody getArgumentBody();
 
+    @NotNull
+    List<ValkyrieModifier> getModifierList();
+
     @Nullable
     ValkyrieNewBody getNewBody();
 
