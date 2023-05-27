@@ -28,6 +28,12 @@ public class ValkyrieLambdaBlockNode extends ValkyrieElement implements Valkyrie
 
     @Override
     @NotNull
+    public List<ValkyrieAttributeAbove> getAttributeAboveList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieAttributeAbove.class);
+    }
+
+    @Override
+    @NotNull
     public List<ValkyrieControlStatement> getControlStatementList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieControlStatement.class);
     }

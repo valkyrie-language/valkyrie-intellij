@@ -28,6 +28,12 @@ public class ValkyrieBlockBodyNode extends ValkyrieElement implements ValkyrieBl
 
     @Override
     @NotNull
+    public List<ValkyrieAttributeAbove> getAttributeAboveList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieAttributeAbove.class);
+    }
+
+    @Override
+    @NotNull
     public List<ValkyrieControlStatement> getControlStatementList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieControlStatement.class);
     }

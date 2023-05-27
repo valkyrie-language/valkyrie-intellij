@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieLambdaBlock extends PsiElement {
 
     @NotNull
+    List<ValkyrieAttributeAbove> getAttributeAboveList();
+
+    @NotNull
     List<ValkyrieControlStatement> getControlStatementList();
 
     @NotNull
