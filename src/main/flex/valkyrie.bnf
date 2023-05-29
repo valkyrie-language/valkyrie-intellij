@@ -82,6 +82,7 @@ private statements ::=
 private block-statement ::=
     declare-variable
   | new-lambda
+  | attribute-above
   | control-statement
   | inline-statement
 private inline-statement ::=
@@ -535,14 +536,15 @@ private modifier-stop ::= KW_IN | KW_IF
     | COMMA | COLON | PROPORTION | DOT | SEMICOLON | EQUAL
     | PARENTHESIS_L | PARENTHESIS_R
     | BRACE_L | BRACE_R
-attribute ::= HASH namepath argument-body? {
-	pin = 1
+attribute      ::=
+    HASH BRACKET_L (attribute-item (COMMA attribute-item)* COMMA)? BRACKET_R
+  | HASH attribute-item
+attribute-item ::= namepath argument-body? class-body? {
     mixin = "valkyrie.psi.mixin.MixinAttribute"
-    methods=[highlight]
 }
+attribute-above ::= HASH '^' BRACKET_L (attribute-item (COMMA attribute-item)* COMMA)? BRACKET_R
 
 // === identifiers ===
-
 namepath      ::= identifier (PROPORTION identifier)* {
     mixin = "valkyrie.psi.mixin.MixinNamepath"
     methods=[highlight_fake]

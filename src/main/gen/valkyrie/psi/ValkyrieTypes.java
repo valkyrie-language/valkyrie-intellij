@@ -13,6 +13,10 @@ public interface ValkyrieTypes {
     IElementType ARGUMENT_BODY = new ValkyrieElementType("ARGUMENT_BODY");
     IElementType ATOMIC = new ValkyrieElementType("ATOMIC");
     IElementType ATTRIBUTE = new ValkyrieElementType("ATTRIBUTE");
+    IElementType ATTRIBUTE_ABOVE = new ValkyrieElementType("ATTRIBUTE_ABOVE");
+    IElementType ATTRIBUTE_ITEM = new ValkyrieElementType("ATTRIBUTE_ITEM");
+    IElementType ATTRIBUTE_MANY = new ValkyrieElementType("ATTRIBUTE_MANY");
+    IElementType ATTRIBUTE_ONE = new ValkyrieElementType("ATTRIBUTE_ONE");
     IElementType BAD_LL = new ValkyrieElementType("BAD_LL");
     IElementType BAD_LLL = new ValkyrieElementType("BAD_LLL");
     IElementType BAD_RR = new ValkyrieElementType("BAD_RR");
@@ -289,6 +293,14 @@ public interface ValkyrieTypes {
                 return new ValkyrieAtomicNode(node);
             } else if (type == ATTRIBUTE) {
                 return new ValkyrieAttributeNode(node);
+            } else if (type == ATTRIBUTE_ABOVE) {
+                return new ValkyrieAttributeAboveNode(node);
+            } else if (type == ATTRIBUTE_ITEM) {
+                return new ValkyrieAttributeItemNode(node);
+            } else if (type == ATTRIBUTE_MANY) {
+                return new ValkyrieAttributeManyNode(node);
+            } else if (type == ATTRIBUTE_ONE) {
+                return new ValkyrieAttributeOneNode(node);
             } else if (type == BAD_LL) {
                 return new ValkyrieBadLlNode(node);
             } else if (type == BAD_LLL) {

@@ -225,25 +225,168 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // HASH namepath argument-body?
+    // attribute-one | attribute-many
     public static boolean attribute(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "attribute")) return false;
         if (!nextTokenIs(b, HASH)) return false;
-        boolean r, p;
-        Marker m = enter_section_(b, l, _NONE_, ATTRIBUTE, null);
+        boolean r;
+        Marker m = enter_section_(b);
+        r = attribute_one(b, l + 1);
+        if (!r) r = attribute_many(b, l + 1);
+        exit_section_(b, m, ATTRIBUTE, r);
+        return r;
+    }
+
+    /* ********************************************************** */
+    // HASH '^' BRACKET_L (attribute-item (COMMA attribute-item)* COMMA)? BRACKET_R
+    public static boolean attribute_above(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "attribute_above")) return false;
+        if (!nextTokenIs(b, HASH)) return false;
+        boolean r;
+        Marker m = enter_section_(b);
         r = consumeToken(b, HASH);
-        p = r; // pin = 1
-        r = r && report_error_(b, namepath(b, l + 1));
-        r = p && attribute_2(b, l + 1) && r;
-        exit_section_(b, l, m, r, p, null);
-        return r || p;
+        r = r && consumeToken(b, "^");
+        r = r && consumeToken(b, BRACKET_L);
+        r = r && attribute_above_3(b, l + 1);
+        r = r && consumeToken(b, BRACKET_R);
+        exit_section_(b, m, ATTRIBUTE_ABOVE, r);
+        return r;
+    }
+
+    // (attribute-item (COMMA attribute-item)* COMMA)?
+    private static boolean attribute_above_3(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "attribute_above_3")) return false;
+        attribute_above_3_0(b, l + 1);
+        return true;
+    }
+
+    // attribute-item (COMMA attribute-item)* COMMA
+    private static boolean attribute_above_3_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "attribute_above_3_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = attribute_item(b, l + 1);
+        r = r && attribute_above_3_0_1(b, l + 1);
+        r = r && consumeToken(b, COMMA);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // (COMMA attribute-item)*
+    private static boolean attribute_above_3_0_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "attribute_above_3_0_1")) return false;
+        while (true) {
+            int c = current_position_(b);
+            if (!attribute_above_3_0_1_0(b, l + 1)) break;
+            if (!empty_element_parsed_guard_(b, "attribute_above_3_0_1", c)) break;
+        }
+        return true;
+    }
+
+    // COMMA attribute-item
+    private static boolean attribute_above_3_0_1_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "attribute_above_3_0_1_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, COMMA);
+        r = r && attribute_item(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    /* ********************************************************** */
+    // namepath argument-body? class-body?
+    public static boolean attribute_item(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "attribute_item")) return false;
+        boolean r;
+        Marker m = enter_section_(b, l, _NONE_, ATTRIBUTE_ITEM, "<attribute item>");
+        r = namepath(b, l + 1);
+        r = r && attribute_item_1(b, l + 1);
+        r = r && attribute_item_2(b, l + 1);
+        exit_section_(b, l, m, r, false, null);
+        return r;
     }
 
     // argument-body?
-    private static boolean attribute_2(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "attribute_2")) return false;
+    private static boolean attribute_item_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "attribute_item_1")) return false;
         argument_body(b, l + 1);
         return true;
+    }
+
+    // class-body?
+    private static boolean attribute_item_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "attribute_item_2")) return false;
+        class_body(b, l + 1);
+        return true;
+    }
+
+    /* ********************************************************** */
+    // HASH BRACKET_L (attribute-item (COMMA attribute-item)* COMMA)? BRACKET_R
+    public static boolean attribute_many(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "attribute_many")) return false;
+        if (!nextTokenIs(b, HASH)) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeTokens(b, 0, HASH, BRACKET_L);
+        r = r && attribute_many_2(b, l + 1);
+        r = r && consumeToken(b, BRACKET_R);
+        exit_section_(b, m, ATTRIBUTE_MANY, r);
+        return r;
+    }
+
+    // (attribute-item (COMMA attribute-item)* COMMA)?
+    private static boolean attribute_many_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "attribute_many_2")) return false;
+        attribute_many_2_0(b, l + 1);
+        return true;
+    }
+
+    // attribute-item (COMMA attribute-item)* COMMA
+    private static boolean attribute_many_2_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "attribute_many_2_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = attribute_item(b, l + 1);
+        r = r && attribute_many_2_0_1(b, l + 1);
+        r = r && consumeToken(b, COMMA);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // (COMMA attribute-item)*
+    private static boolean attribute_many_2_0_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "attribute_many_2_0_1")) return false;
+        while (true) {
+            int c = current_position_(b);
+            if (!attribute_many_2_0_1_0(b, l + 1)) break;
+            if (!empty_element_parsed_guard_(b, "attribute_many_2_0_1", c)) break;
+        }
+        return true;
+    }
+
+    // COMMA attribute-item
+    private static boolean attribute_many_2_0_1_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "attribute_many_2_0_1_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, COMMA);
+        r = r && attribute_item(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    /* ********************************************************** */
+    // HASH attribute-item
+    public static boolean attribute_one(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "attribute_one")) return false;
+        if (!nextTokenIs(b, HASH)) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, HASH);
+        r = r && attribute_item(b, l + 1);
+        exit_section_(b, m, ATTRIBUTE_ONE, r);
+        return r;
     }
 
     /* ********************************************************** */
@@ -344,6 +487,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     /* ********************************************************** */
     // declare-variable
     //   | new-lambda
+    //   | attribute-above
     //   | control-statement
     //   | inline-statement
     static boolean block_statement(PsiBuilder b, int l) {
@@ -351,6 +495,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         boolean r;
         r = declare_variable(b, l + 1);
         if (!r) r = new_lambda(b, l + 1);
+        if (!r) r = attribute_above(b, l + 1);
         if (!r) r = control_statement(b, l + 1);
         if (!r) r = inline_statement(b, l + 1);
         return r;
