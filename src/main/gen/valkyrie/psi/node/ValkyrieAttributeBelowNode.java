@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
-import valkyrie.psi.mixin.MixinAttribute;
 
-public class ValkyrieAttributeItemNode extends MixinAttribute implements ValkyrieAttributeItem {
+import valkyrie.psi.ValkyrieElement;
 
-    public ValkyrieAttributeItemNode(@NotNull ASTNode node) {
+public class ValkyrieAttributeBelowNode extends ValkyrieElement implements ValkyrieAttributeBelow {
+
+    public ValkyrieAttributeBelowNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitAttributeItem(this);
+        visitor.visitAttributeBelow(this);
     }
 
     @Override
@@ -27,21 +30,9 @@ public class ValkyrieAttributeItemNode extends MixinAttribute implements Valkyri
     }
 
     @Override
-    @Nullable
-    public ValkyrieArgumentBody getArgumentBody() {
-        return findChildByClass(ValkyrieArgumentBody.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieClassBody getClassBody() {
-        return findChildByClass(ValkyrieClassBody.class);
-    }
-
-    @Override
     @NotNull
-    public ValkyrieNamepath getNamepath() {
-        return findNotNullChildByClass(ValkyrieNamepath.class);
+    public ValkyrieAttributeItem getAttributeItem() {
+        return findNotNullChildByClass(ValkyrieAttributeItem.class);
     }
 
 }
