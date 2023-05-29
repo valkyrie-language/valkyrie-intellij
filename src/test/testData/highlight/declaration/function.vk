@@ -20,9 +20,8 @@ micro name(a, k: T, p: U = 1) -> R {
     print("Hello, world!")
 }
 
-
+#^derive(Default, Debug, Serde)
 #derive(Default, Debug, Serde) { }
-#[derive]
 class TClass {
     fields,
 }
@@ -31,14 +30,12 @@ extends TClass {
     functions
 }
 
-
-#[derive]
 function name(args) {
     block
 }
 
 generic P {
-    where { P: AnyType }
+    ⍝ where { P: AnyType }
 }
 function Print<P>(w: Write, ..parameters: P) {
     lambda () { };
