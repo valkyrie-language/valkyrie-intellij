@@ -28,10 +28,4 @@ public interface ValkyrieBlockBody extends PsiElement {
     @NotNull
     List<ValkyrieNewLambda> getNewLambdaList();
 
-    @NotNull
-    List<ValkyrieNewObject> getNewObjectList();
-
-    @NotNull
-    List<ValkyrieNewValue> getNewValueList();
-
 }

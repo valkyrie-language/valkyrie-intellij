@@ -20,12 +20,6 @@ public interface ValkyrieDeclareVariable extends PsiElement {
     ValkyrieLetPattern getLetPattern();
 
     @Nullable
-    ValkyrieNewObject getNewObject();
-
-    @Nullable
-    ValkyrieNewValue getNewValue();
-
-    @Nullable
     ValkyrieTypeHint getTypeHint();
 
 }

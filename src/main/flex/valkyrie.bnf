@@ -85,13 +85,11 @@ private block-statement ::=
   | attribute-above
   | control-statement
   | inline-statement
-private inline-statement ::=
-    if-case-statement
+private inline-statement ::= SEMICOLON
+  | if-case-statement
   | if-statement
-  | new-value
-  | new-object
+
   | expression-root
-  | SEMICOLON;
 // === grammar statement ===
 declare-namespace ::= annotations KW_NAMESPACE namepath-free {
 	pin = 2
@@ -201,7 +199,7 @@ declare-trait ::= annotations KW_TRAIT identifier declare-generic? type-hint? cl
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinTrait"
 }
-declare-imply ::= annotations KW_IMPLY declare-generic? namepath generic-call-free? class-body {
+declare-imply ::= annotations KW_IMPLY declare-generic? namepath generic-call-free? type-hint class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinImply"
 }
@@ -478,15 +476,17 @@ atomic ::=
   | lambda-block    // { }
   | ordinal-range   // [ ]
   | offset-range    // ⁅ ⁆
-  | macro-call      // @path::id() { }
-  | slot            // $id
-  | localize-call   // ⸿
-  | function-call   // path::id() { }
   | for-statement   // for ... {...}
   | while-statement // while/until {...}
   | try-statement   // try T {...}
   | control-raise   // raise T
   | match-statement // match ... { ... }
+  | new-value       // new T { ... }
+  | new-object      // object(base): Interface { }
+  | macro-call      // @path::id() { }
+  | slot            // $id
+  | localize-call   // ⸿scope.path
+  | function-call   // path::id() { }
   | literal
 // === atomic statement ===
 ordinal-range ::= BRACKET_L (range-item (COMMA range-item)* COMMA?)? BRACKET_R;

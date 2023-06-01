@@ -52,18 +52,6 @@ public class ValkyrieDeclareVariableNode extends MixinVariable implements Valkyr
 
     @Override
     @Nullable
-    public ValkyrieNewObject getNewObject() {
-        return findChildByClass(ValkyrieNewObject.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieNewValue getNewValue() {
-        return findChildByClass(ValkyrieNewValue.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieTypeHint getTypeHint() {
         return findChildByClass(ValkyrieTypeHint.class);
     }
