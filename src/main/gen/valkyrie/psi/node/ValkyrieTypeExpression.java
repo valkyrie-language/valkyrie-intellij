@@ -14,6 +14,9 @@ public interface ValkyrieTypeExpression extends PsiElement {
     @NotNull
     List<ValkyrieTypeTerm> getTypeTermList();
 
+    //WARNING: highlight_trait(...) is skipped
+    //matching highlight_trait(ValkyrieTypeExpression, ...)
+    //methods are not found in YggdrasilPsiExtension
 
     void highlight_class(@NotNull NodeHighlighter visitor);
 

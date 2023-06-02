@@ -2,17 +2,15 @@ package valkyrie.psi.mixin
 
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
-import com.intellij.psi.PsiElement
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.psi.ValkyrieDeclaration
-import valkyrie.psi.node.ValkyrieDeclareClass
-import valkyrie.psi.node.ValkyrieDeclareClassNode
-import valkyrie.psi.node.ValkyrieIdentifierNode
-import valkyrie.psi.node.ValkyrieInheritItemNode
+import valkyrie.psi.node.*
 import javax.swing.Icon
 
 
 abstract class MixinClass(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareClass {
+    var fields: MutableList<ValkyrieDeclareFieldNode> = mutableListOf()
+
     override val color: HighlightColor
         get() = HighlightColor.SYM_CLASS
 
@@ -28,15 +26,12 @@ abstract class MixinClass(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDe
         return AllIcons.Nodes.Class
     }
 
+    override fun subtreeChanged() {
+        fields.clear()
+    }
 }
 
 val ValkyrieDeclareClass.superClasses: List<ValkyrieInheritItemNode>
     get() {
         return this.classInherit?.inheritItemList?.map { it as ValkyrieInheritItemNode } ?: listOf()
     }
-
-val ValkyrieDeclareClass.classItems: List<PsiElement>
-    get() {
-        return this.classBody?.classItemList?.map { it.firstChild } ?: listOf()
-    }
-
