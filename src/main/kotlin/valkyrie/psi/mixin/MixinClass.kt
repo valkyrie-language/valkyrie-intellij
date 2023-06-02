@@ -27,6 +27,7 @@ abstract class MixinClass(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDe
     override fun getBaseIcon(): Icon {
         return AllIcons.Nodes.Class
     }
+
 }
 
 val ValkyrieDeclareClass.superClasses: List<ValkyrieInheritItemNode>

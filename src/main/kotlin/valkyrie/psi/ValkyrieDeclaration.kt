@@ -53,7 +53,6 @@ abstract class ValkyrieDeclaration : ValkyrieElement, PsiNameIdentifierOwner {
         }
     }
 
-
     companion object {
         fun getCaretDeclaration(editor: Editor, file: PsiFile): ValkyrieDeclaration? {
             val leaf = file.findElementAt(editor.caretModel.offset) ?: return null

@@ -1,15 +1,20 @@
 namespace std.iterators;
 
-micro range(max: int): Range {
+micro range(max: int)-> Range {
     range(1, max, 1)
 }
 
-micro range(min: int, max: int): Range {
+micro range(min: int, max: int)-> Range {
     range(1, max, 1)
 }
 
-micro range(min: int, max: int, step: int): Range {
-    new Range {from: min, till: max, step, _current: min}
+micro range(min: i32, max: i32, step: i32)-> Range {
+    new Range {
+    from = min,
+    till = max,
+    step = step,
+    _current = min
+    }
 }
 
 class Range {
@@ -19,7 +24,11 @@ class Range {
     _current: Integer,
 }
 
-extends Range: Iterator<Integer> {
+trait Iterator {
+
+}
+
+extends Range: Iterator⟨Integer⟩ {
     next() {}
 }
 

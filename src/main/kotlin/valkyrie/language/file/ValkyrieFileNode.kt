@@ -8,6 +8,7 @@ import com.intellij.psi.FileViewProvider
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.SearchScope
 import valkyrie.language.ValkyrieLanguage
+import valkyrie.psi.ValkyrieDeclaration
 import javax.swing.Icon
 
 
@@ -15,7 +16,7 @@ import javax.swing.Icon
 ValkyrieFile 是个 PsiElement
  */
 class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ValkyrieLanguage) {
-    val definitions = ValkyrieFileCache(this)
+    val definitions: MutableList<ValkyrieDeclaration> = mutableListOf()
     override fun getName(): String {
         return super.getName()
     }
@@ -47,6 +48,15 @@ class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvide
             null
         }
         return PresentationData(name, location, this.baseIcon, null)
+    }
+
+    override fun subtreeChanged() {
+        definitions.clear()
+        for (child in this.children) {
+            if (child is ValkyrieDeclaration) {
+                definitions.add(child)
+            }
+        }
     }
 
     override fun toString(): String = "ValkyrieFileNode"
