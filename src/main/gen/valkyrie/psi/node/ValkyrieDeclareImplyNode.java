@@ -56,4 +56,10 @@ public class ValkyrieDeclareImplyNode extends MixinImply implements ValkyrieDecl
         return findChildByClass(ValkyrieNamepath.class);
     }
 
+    @Override
+    @Nullable
+    public ValkyrieTypeHint getTypeHint() {
+        return findChildByClass(ValkyrieTypeHint.class);
+    }
+
 }

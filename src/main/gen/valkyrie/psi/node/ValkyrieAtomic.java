@@ -35,6 +35,12 @@ public interface ValkyrieAtomic extends PsiElement {
     ValkyrieMatchStatement getMatchStatement();
 
     @Nullable
+    ValkyrieNewObject getNewObject();
+
+    @Nullable
+    ValkyrieNewValue getNewValue();
+
+    @Nullable
     ValkyrieOffsetRange getOffsetRange();
 
     @Nullable

@@ -16,10 +16,4 @@ public interface ValkyrieNewItem extends PsiElement {
     @Nullable
     ValkyrieIfStatement getIfStatement();
 
-    @Nullable
-    ValkyrieNewObject getNewObject();
-
-    @Nullable
-    ValkyrieNewValue getNewValue();
-
 }

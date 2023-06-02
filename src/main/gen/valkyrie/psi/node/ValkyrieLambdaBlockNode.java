@@ -68,16 +68,4 @@ public class ValkyrieLambdaBlockNode extends ValkyrieElement implements Valkyrie
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNewLambda.class);
     }
 
-    @Override
-    @NotNull
-    public List<ValkyrieNewObject> getNewObjectList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNewObject.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieNewValue> getNewValueList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNewValue.class);
-    }
-
 }

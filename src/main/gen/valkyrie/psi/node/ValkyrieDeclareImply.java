@@ -22,4 +22,7 @@ public interface ValkyrieDeclareImply extends PsiElement {
     @Nullable
     ValkyrieNamepath getNamepath();
 
+    @Nullable
+    ValkyrieTypeHint getTypeHint();
+
 }
