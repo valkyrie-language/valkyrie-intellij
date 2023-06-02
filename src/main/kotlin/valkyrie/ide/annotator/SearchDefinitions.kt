@@ -26,7 +26,7 @@ private class SearchDefinitionsVisitor : ValkyrieVisitor {
 
     override fun visitNamepath(o: ValkyrieNamepath) {
         o as ValkyrieNamepathNode
-        for (value in o.containingFile.definitions.getCache().values) {
+        for (value in o.containingFile.definitions) {
             consumer.process(value)
         }
     }

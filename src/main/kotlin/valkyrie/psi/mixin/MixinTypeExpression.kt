@@ -14,11 +14,6 @@ abstract class MixinTypeExpression(node: ASTNode) : ValkyrieElement(node), Valky
         return AllIcons.Nodes.Type
     }
 
-    override fun highlight_trait(visitor: NodeHighlighter) {
-        for (typeTerm in this.typeTermList) {
-            visitor.highlight(typeTerm.typeAtomic.namepath?.lastChild, HighlightColor.SYM_TRAIT)
-        }
-    }
 
     override fun highlight_class(visitor: NodeHighlighter) {
         for (typeTerm in this.typeTermList) {

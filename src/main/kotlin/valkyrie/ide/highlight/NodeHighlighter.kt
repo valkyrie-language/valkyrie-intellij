@@ -37,7 +37,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     override fun visitDeclareClass(o: ValkyrieDeclareClass) {
         o as ValkyrieDeclareClassNode
         highlight(o.identifier, HighlightColor.SYM_CLASS)
-        o.typeHint?.typeExpression?.highlight_trait(this)
     }
 
 
@@ -91,12 +90,15 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     override fun visitTraitAlias(o: ValkyrieTraitAlias) {
         o as ValkyrieTraitAliasNode
         highlight(o.nameIdentifier, HighlightColor.SYM_TRAIT)
-        o.typeExpression?.highlight_trait(this)
     }
 
     override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {
         o as ValkyrieDeclareTraitNode
         highlight(o.nameIdentifier, HighlightColor.SYM_TRAIT)
+    }
+
+    override fun visitDeclareImply(o: ValkyrieDeclareImply) {
+        o.namepath.highlight(this)
     }
 
     override fun visitDeclareFunction(o: ValkyrieDeclareFunction) {
@@ -127,13 +129,19 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     override fun visitGenericParameter(o: ValkyrieGenericParameter) {
         o as ValkyrieGenericParameterNode
         highlight(o.identifier, HighlightColor.SYM_MACRO)
-        o.typeHint?.typeExpression?.highlight_trait(this)
+
     }
 
 
     override fun visitGenericArgument(o: ValkyrieGenericArgument) {
         highlight(o.identifier, HighlightColor.SYM_CLASS)
         o.typeExpression.highlight_class(this)
+    }
+
+    override fun visitTypeExpression(o: ValkyrieTypeExpression) {
+        for (term in o.typeTermList) {
+            term.typeAtomic.namepath.highlight(this)
+        }
     }
 
 
@@ -150,11 +158,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitFunctionCall(o: ValkyrieFunctionCall) {
-        for (reference in o.namepath.references) {
-            if (reference is ValkyrieNamepathReference) {
-                reference.highlight(this)
-            }
-        }
+        o.namepath.highlight(this)
     }
 
 
@@ -166,6 +170,9 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.namepath.lastChild, HighlightColor.SYM_FUNCTION_SELF)
     }
 
+    override fun visitNewValue(o: ValkyrieNewValue) {
+
+    }
 
     override fun visitRangeItem(o: ValkyrieRangeItem) {
         for (child in o.childrenWithLeaves) {
@@ -190,6 +197,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     override fun visitNumber(o: ValkyrieNumber) {
         highlight(o.identifier, HighlightColor.SYM_MACRO)
     }
+
 
     fun highlight(element: PsiElement?, color: HighlightColor) {
         element ?: return
@@ -217,4 +225,14 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     override fun suitableForFile(file: PsiFile): Boolean = file is ValkyrieFileNode
 
     override fun visit(element: PsiElement) = element.accept(this)
+}
+
+
+private fun ValkyrieNamepath?.highlight(highlighter: NodeHighlighter) {
+    this ?: return
+    for (reference in this.references) {
+        if (reference is ValkyrieNamepathReference) {
+            reference.highlight(highlighter)
+        }
+    }
 }
