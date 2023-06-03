@@ -8,6 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieClassBody extends PsiElement {
 
     @NotNull
-    List<ValkyrieClassItem> getClassItemList();
+    List<ValkyrieDeclareDomain> getDeclareDomainList();
+
+    @NotNull
+    List<ValkyrieDeclareField> getDeclareFieldList();
+
+    @NotNull
+    List<ValkyrieDeclareMethod> getDeclareMethodList();
 
 }

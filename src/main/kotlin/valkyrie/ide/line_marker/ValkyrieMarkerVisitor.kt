@@ -193,7 +193,7 @@ class ValkyrieMarkerVisitor : ValkyrieVisitor {
 
     private fun findTest(body: ValkyrieClassBody?): Boolean {
         body ?: return false
-        for (item in body.classItemList) {
+        for (item in body.declareMethodList) {
             val child = item.firstChild;
             if (child is ValkyrieDeclareMethodNode) {
                 if (findTest(child.annotations) != null) {

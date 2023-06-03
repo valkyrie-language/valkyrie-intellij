@@ -133,21 +133,33 @@ class ValkyrieStructureItem : StructureViewTreeElement, SortableTreeElement {
 
     private fun addClassBody(body: ValkyrieClassBody?) {
         body ?: return
-        for (valkyrieClassItem in body.classItemList) {
-            when (val child = valkyrieClassItem.firstChild) {
-                is ValkyrieDeclareFieldNode -> children.add(ValkyrieStructureItem(child))
-                is ValkyrieDeclareMethodNode -> children.add(ValkyrieStructureItem(child))
-            }
+        for (item in body.declareFieldList) {
+            children.add(ValkyrieStructureItem(item))
+        }
+        for (item in body.declareMethodList) {
+            children.add(ValkyrieStructureItem(item))
+        }
+        for (item in body.declareDomainList) {
+            children.add(ValkyrieStructureItem(item))
         }
     }
 
-    constructor(self: ValkyrieDeclareFieldNode) {
+    constructor(self: ValkyrieDeclareField) {
+        self as ValkyrieDeclareFieldNode
         this.node = self
         this.view = self.presentation
         addAnnotations(self.annotations)
     }
 
-    constructor(self: ValkyrieDeclareMethodNode) {
+    constructor(self: ValkyrieDeclareMethod) {
+        self as ValkyrieDeclareMethodNode
+        this.node = self
+        this.view = self.presentation
+        addAnnotations(self.annotations)
+    }
+
+    constructor(self: ValkyrieDeclareDomain) {
+        self as ValkyrieDeclareDomainNode
         this.node = self
         this.view = self.presentation
         addAnnotations(self.annotations)

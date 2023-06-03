@@ -28,8 +28,20 @@ public class ValkyrieClassBodyNode extends ValkyrieElement implements ValkyrieCl
 
     @Override
     @NotNull
-    public List<ValkyrieClassItem> getClassItemList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieClassItem.class);
+    public List<ValkyrieDeclareDomain> getDeclareDomainList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareDomain.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieDeclareField> getDeclareFieldList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareField.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieDeclareMethod> getDeclareMethodList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareMethod.class);
     }
 
 }

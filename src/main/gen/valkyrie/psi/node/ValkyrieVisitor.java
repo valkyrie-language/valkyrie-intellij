@@ -71,10 +71,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitClassItem(@NotNull ValkyrieClassItem o) {
-        visitPsiElement(o);
-    }
-
     public void visitControlBreak(@NotNull ValkyrieControlBreak o) {
         visitPsiElement(o);
     }

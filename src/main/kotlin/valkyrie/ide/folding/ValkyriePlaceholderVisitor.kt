@@ -10,50 +10,27 @@ class ValkyriePlaceholderVisitor : ValkyrieVisitor() {
     }
 
     override fun visitClassBody(o: ValkyrieClassBody) {
-        var fields = 0;
-        var methods = 0;
-        for (item in o.classItemList) {
-            when (item.firstChild) {
-                is ValkyrieDeclareField -> {
-                    fields += 1
-                }
-
-                is ValkyrieDeclareMethod -> {
-                    methods += 1
-                }
+        val fields = o.declareFieldList.count();
+        val methods = o.declareMethodList.count();
+        val domain = o.declareDomainList.count()
+        placeholder = mutableListOf(
+            if (fields <= 1) {
+                "$fields field"
+            } else {
+                "$fields fields"
+            },
+            if (methods <= 1) {
+                "$methods method"
+            } else {
+                "$methods methods"
+            },
+            if (domain <= 1) {
+                "$domain domain"
+            } else {
+                "$domain domains"
             }
-        }
-        if (fields == 0 && methods == 0) {
-            return
-        }
-        val sb = StringBuilder()
-
-        when (fields) {
-            0 -> {
-            }
-
-            1 -> {
-                sb.append("1 field, ")
-            }
-
-            else -> {
-                sb.append("$fields fields, ")
-            }
-        }
-        when (methods) {
-            0 -> {
-
-            }
-
-            1 -> {
-                sb.append("1 method")
-            }
-
-            else -> {
-                sb.append("$methods methods")
-            }
-        }
-        placeholder = sb.toString()
+        )
+            .joinToString(", ")
     }
 
     override fun visitEnumerateBody(o: ValkyrieEnumerateBody) {

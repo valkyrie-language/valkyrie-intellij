@@ -511,16 +511,14 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     //   | declare-domain
     //   | declare-method
     //   | declare-field
-    public static boolean class_item(PsiBuilder b, int l) {
+    static boolean class_item(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "class_item")) return false;
         boolean r;
-        Marker m = enter_section_(b, l, _NONE_, CLASS_ITEM, "<class item>");
         r = consumeToken(b, SEMICOLON);
         if (!r) r = consumeToken(b, COMMA);
         if (!r) r = declare_domain(b, l + 1);
         if (!r) r = declare_method(b, l + 1);
         if (!r) r = declare_field(b, l + 1);
-        exit_section_(b, l, m, r, false, null);
         return r;
     }
 
