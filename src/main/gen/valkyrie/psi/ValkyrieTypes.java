@@ -65,7 +65,6 @@ public interface ValkyrieTypes {
     IElementType ELSE_IF_STATEMENT = new ValkyrieElementType("ELSE_IF_STATEMENT");
     IElementType ELSE_STATEMENT = new ValkyrieElementType("ELSE_STATEMENT");
     IElementType ENUMERATE_BODY = new ValkyrieElementType("ENUMERATE_BODY");
-    IElementType ENUMERATE_ITEM = new ValkyrieElementType("ENUMERATE_ITEM");
     IElementType EXPRESSION = new ValkyrieElementType("EXPRESSION");
     IElementType EXPRESSION_INLINE = new ValkyrieElementType("EXPRESSION_INLINE");
     IElementType EXPRESSION_ROOT = new ValkyrieElementType("EXPRESSION_ROOT");
@@ -394,8 +393,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieElseStatementNode(node);
             } else if (type == ENUMERATE_BODY) {
                 return new ValkyrieEnumerateBodyNode(node);
-            } else if (type == ENUMERATE_ITEM) {
-                return new ValkyrieEnumerateItemNode(node);
             } else if (type == EXPRESSION) {
                 return new ValkyrieExpressionNode(node);
             } else if (type == EXPRESSION_INLINE) {

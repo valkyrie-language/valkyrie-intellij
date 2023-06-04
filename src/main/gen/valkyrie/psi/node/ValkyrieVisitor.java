@@ -235,10 +235,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitEnumerateItem(@NotNull ValkyrieEnumerateItem o) {
-        visitPsiElement(o);
-    }
-
     public void visitExpression(@NotNull ValkyrieExpression o) {
         visitPsiElement(o);
     }
