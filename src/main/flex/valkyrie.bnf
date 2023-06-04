@@ -172,9 +172,10 @@ declare-enumerate ::= annotations KW_ENUMERATE identifier class-inherit? type-hi
     mixin = "valkyrie.psi.mixin.MixinEnumerate"
 }
 enumerate-body ::= BRACE_L enumerate-item* BRACE_R;
-enumerate-item ::= SEMICOLON | COMMA
+private enumerate-item ::= SEMICOLON | COMMA
   | declare-method
   | declare-semantic
+  | declare-domain
 declare-semantic ::= annotations identifier default-value? {
     mixin = "valkyrie.psi.mixin.MixinSemantic"
 }

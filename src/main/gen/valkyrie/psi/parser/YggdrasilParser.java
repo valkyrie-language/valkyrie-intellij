@@ -1873,15 +1873,15 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     // SEMICOLON | COMMA
     //   | declare-method
     //   | declare-semantic
-    public static boolean enumerate_item(PsiBuilder b, int l) {
+    //   | declare-domain
+    static boolean enumerate_item(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "enumerate_item")) return false;
         boolean r;
-        Marker m = enter_section_(b, l, _NONE_, ENUMERATE_ITEM, "<enumerate item>");
         r = consumeToken(b, SEMICOLON);
         if (!r) r = consumeToken(b, COMMA);
         if (!r) r = declare_method(b, l + 1);
         if (!r) r = declare_semantic(b, l + 1);
-        exit_section_(b, l, m, r, false, null);
+        if (!r) r = declare_domain(b, l + 1);
         return r;
     }
 

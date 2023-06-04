@@ -28,8 +28,20 @@ public class ValkyrieEnumerateBodyNode extends ValkyrieElement implements Valkyr
 
     @Override
     @NotNull
-    public List<ValkyrieEnumerateItem> getEnumerateItemList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieEnumerateItem.class);
+    public List<ValkyrieDeclareDomain> getDeclareDomainList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareDomain.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieDeclareMethod> getDeclareMethodList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareMethod.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieDeclareSemantic> getDeclareSemanticList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareSemantic.class);
     }
 
 }
