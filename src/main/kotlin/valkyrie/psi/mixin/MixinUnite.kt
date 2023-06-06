@@ -8,7 +8,6 @@ import valkyrie.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
 abstract class MixinUnite(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareUnite {
-    val uniteItems = uniteBody?.uniteItemList?.map { it.firstChild } ?: listOf();
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
         return this.identifier as? ValkyrieIdentifierNode

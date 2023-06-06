@@ -29,35 +29,19 @@ class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
 
     override fun visitDeclareFlags(o: ValkyrieDeclareFlags) {
         o.annotations.pushChildrenTo(this)
-//        for (child in o.enumerateBody?.declareSemanticList ?: listOf()) {
-//            items.add(ValkyrieStructureItem(child))
-//        }
+        o.enumerateBody?.pushChildrenTo(this)
     }
 
     override fun visitDeclareEnumerate(o: ValkyrieDeclareEnumerate) {
         o.annotations.pushChildrenTo(this)
-//        for (child in o.enumerateBody?.declareSemanticList ?: listOf()) {
-//            items.add(ValkyrieStructureItem(child))
-//        }
+        o.enumerateBody?.pushChildrenTo(this)
     }
-
 
     override fun visitDeclareClass(o: ValkyrieDeclareClass) {
         o.annotations.pushChildrenTo(this)
         o.classBody?.pushChildrenTo(this)
     }
 
-    override fun visitClassBody(o: ValkyrieClassBody) {
-        for (item in o.declareFieldList) {
-            visitDeclareField(item)
-        }
-        for (item in o.declareMethodList) {
-            visitDeclareMethod(item)
-        }
-        for (item in o.declareDomainList) {
-            visitDeclareDomain(item)
-        }
-    }
 
     override fun visitDeclareUnion(o: ValkyrieDeclareUnion) {
         o.annotations.pushChildrenTo(this)
@@ -91,10 +75,9 @@ class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
         items.add(ValkyrieStructureItem(o as ValkyrieAttributeItemNode))
     }
 
-
     override fun visitDeclareField(o: ValkyrieDeclareField) {
         o.annotations.pushChildrenTo(this)
-        items.add(ValkyrieStructureItem(o as ValkyrieDeclareMethodNode))
+        items.add(ValkyrieStructureItem(o as ValkyrieDeclareFieldNode))
     }
 
     override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
@@ -109,13 +92,14 @@ class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
 
 
     override fun visitNewValue(o: ValkyrieNewValue) {
-        super.visitNewValue(o)
+        items.add(ValkyrieStructureItem(o as ValkyrieNewValueNode))
     }
 
     override fun visitNewObject(o: ValkyrieNewObject) {
-        super.visitNewObject(o)
+        items.add(ValkyrieStructureItem(o as ValkyrieNewObjectNode))
     }
 }
+
 
 private fun ValkyrieAnnotations.pushChildrenTo(visitor: ValkyrieStructureItemVisitor) {
     for (attribute in this.attributeBelowList) {
@@ -127,15 +111,15 @@ private fun ValkyrieAnnotations.pushChildrenTo(visitor: ValkyrieStructureItemVis
 }
 
 private fun ValkyrieEnumerateBody.pushChildrenTo(visitor: ValkyrieStructureItemVisitor) {
-//    for (item in this.declareFieldList) {
-//        visitor.visitDeclareField(item)
-//    }
-//    for (item in this.declareMethodList) {
-//        visitor.visitDeclareMethod(item)
-//    }
-//    for (item in this.declareDomainList) {
-//        visitor.visitDeclareDomain(item)
-//    }
+    for (item in this.declareSemanticList) {
+        visitor.visitDeclareSemantic(item)
+    }
+    for (item in this.declareMethodList) {
+        visitor.visitDeclareMethod(item)
+    }
+    for (item in this.declareDomainList) {
+        visitor.visitDeclareDomain(item)
+    }
 }
 
 private fun ValkyrieClassBody.pushChildrenTo(visitor: ValkyrieStructureItemVisitor) {
@@ -151,11 +135,10 @@ private fun ValkyrieClassBody.pushChildrenTo(visitor: ValkyrieStructureItemVisit
 }
 
 private fun ValkyrieUniteBody.pushChildrenTo(visitor: ValkyrieStructureItemVisitor) {
-//    for (attribute in this.attributeBelowList) {
-//        visitor.visitAttributeItem(attribute.attributeItem)
-//    }
-//    for (child in this.modifierList) {
-//        visitor.visitModifier(child)
-//    }
+    for (item in this.declareVariantList) {
+        visitor.visitDeclareVariant(item)
+    }
+    for (item in this.declareMethodList) {
+        visitor.visitDeclareMethod(item)
+    }
 }
-
