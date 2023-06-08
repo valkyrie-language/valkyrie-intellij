@@ -2,6 +2,7 @@ package valkyrie.ide.view
 
 import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.psi.PsiFile
+import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.*
 
 
@@ -10,15 +11,8 @@ class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
     override fun visitFile(file: PsiFile) {
         for (child in file.children) {
             when (child) {
-                is ValkyrieDeclareNamespaceNode -> items.add(ValkyrieStructureItem(child))
-                is ValkyrieDeclareClassNode -> items.add(ValkyrieStructureItem(child))
-                is ValkyrieDeclareUnionNode -> items.add(ValkyrieStructureItem(child))
-                is ValkyrieDeclareTraitNode -> items.add(ValkyrieStructureItem(child))
-                is ValkyrieDeclareFlagsNode -> items.add(ValkyrieStructureItem(child))
-                is ValkyrieDeclareEnumerateNode -> items.add(ValkyrieStructureItem(child))
-                is ValkyrieDeclareUniteNode -> items.add(ValkyrieStructureItem(child))
-                is ValkyrieNewObjectNode -> items.add(ValkyrieStructureItem(child))
-                is ValkyrieNewValueNode -> items.add(ValkyrieStructureItem(child))
+                is ValkyrieDeclaration -> items.add(ValkyrieStructureItem(child))
+                is ValkyrieDeclareImplyNode -> items.add(ValkyrieStructureItem(child))
             }
         }
     }
@@ -67,78 +61,58 @@ class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
         o.classBody?.pushChildrenTo(this)
     }
 
-    override fun visitModifier(o: ValkyrieModifier) {
-        items.add(ValkyrieStructureItem(o as ValkyrieModifierNode))
-    }
-
-    override fun visitAttributeItem(o: ValkyrieAttributeItem) {
-        items.add(ValkyrieStructureItem(o as ValkyrieAttributeItemNode))
-    }
-
     override fun visitDeclareField(o: ValkyrieDeclareField) {
         o.annotations.pushChildrenTo(this)
-        items.add(ValkyrieStructureItem(o as ValkyrieDeclareFieldNode))
     }
 
     override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
         o.annotations.pushChildrenTo(this)
-        items.add(ValkyrieStructureItem(o as ValkyrieDeclareMethodNode))
     }
 
     override fun visitDeclareDomain(o: ValkyrieDeclareDomain) {
         o.annotations.pushChildrenTo(this)
-        items.add(ValkyrieStructureItem(o as ValkyrieDeclareDomainNode))
-    }
-
-
-    override fun visitNewValue(o: ValkyrieNewValue) {
-        items.add(ValkyrieStructureItem(o as ValkyrieNewValueNode))
-    }
-
-    override fun visitNewObject(o: ValkyrieNewObject) {
-        items.add(ValkyrieStructureItem(o as ValkyrieNewObjectNode))
     }
 }
 
 
 private fun ValkyrieAnnotations.pushChildrenTo(visitor: ValkyrieStructureItemVisitor) {
     for (attribute in this.attributeBelowList) {
-        visitor.visitAttributeItem(attribute.attributeItem)
+        visitor.items.add(ValkyrieStructureItem(attribute.attributeItem as ValkyrieAttributeItemNode))
     }
     for (child in this.modifierList) {
-        visitor.visitModifier(child)
+        visitor.items.add(ValkyrieStructureItem(child as ValkyrieModifierNode))
     }
 }
 
 private fun ValkyrieEnumerateBody.pushChildrenTo(visitor: ValkyrieStructureItemVisitor) {
     for (item in this.declareSemanticList) {
-        visitor.visitDeclareSemantic(item)
+        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareSemanticNode))
     }
     for (item in this.declareMethodList) {
-        visitor.visitDeclareMethod(item)
+        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareMethodNode))
     }
     for (item in this.declareDomainList) {
-        visitor.visitDeclareDomain(item)
+        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareDomainNode))
     }
 }
 
 private fun ValkyrieClassBody.pushChildrenTo(visitor: ValkyrieStructureItemVisitor) {
     for (item in this.declareFieldList) {
-        visitor.visitDeclareField(item)
+        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareFieldNode))
     }
     for (item in this.declareMethodList) {
-        visitor.visitDeclareMethod(item)
+        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareMethodNode))
     }
     for (item in this.declareDomainList) {
-        visitor.visitDeclareDomain(item)
+        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareDomainNode))
     }
 }
 
 private fun ValkyrieUniteBody.pushChildrenTo(visitor: ValkyrieStructureItemVisitor) {
     for (item in this.declareVariantList) {
-        visitor.visitDeclareVariant(item)
+        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareVariantNode))
     }
     for (item in this.declareMethodList) {
-        visitor.visitDeclareMethod(item)
+        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareMethodNode))
     }
 }

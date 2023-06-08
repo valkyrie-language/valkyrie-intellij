@@ -9,13 +9,15 @@ import com.intellij.ide.util.treeView.smartTree.TreeElement
 import valkyrie.language.ValkyrieBundle
 
 
+private val name = ValkyrieBundle.message("view.PublicElementsFilter")
+
 object PublicElementsFilter : Filter {
 
     override fun getName() = "view.PublicElementsFilter"
 
     override fun isReverted() = false
     override fun getPresentation(): ActionPresentation = ActionPresentationData(
-        ValkyrieBundle.message(name),
+        name,
         null,
         AllIcons.Nodes.Public
     )

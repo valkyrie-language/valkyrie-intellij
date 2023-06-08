@@ -6,21 +6,32 @@ import com.intellij.ide.util.treeView.smartTree.ActionPresentation
 import com.intellij.ide.util.treeView.smartTree.ActionPresentationData
 import com.intellij.ide.util.treeView.smartTree.Filter
 import com.intellij.ide.util.treeView.smartTree.TreeElement
+import valkyrie.ide.view.ValkyrieStructureItem
 import valkyrie.language.ValkyrieBundle
+import valkyrie.psi.ValkyrieDeclaration
 
 
-object MainInfoFilter : Filter {
-    override fun getName() = "view.MainInfoFilter"
+private val title = ValkyrieBundle.message("view.filter.declaration")
+
+object DeclarationFilter : Filter {
+    override fun getName(): String = title
 
     override fun isReverted() = false
     override fun getPresentation(): ActionPresentation = ActionPresentationData(
-        ValkyrieBundle.message(this.name),
+        name,
         null,
         AllIcons.Nodes.Favorite
     )
 
     override fun isVisible(node: TreeElement): Boolean {
+        return when (node) {
+            is ValkyrieStructureItem -> {
+                node.value is ValkyrieDeclaration
+            }
 
-        return true;
+            else -> {
+                true;
+            }
+        }
     }
 }

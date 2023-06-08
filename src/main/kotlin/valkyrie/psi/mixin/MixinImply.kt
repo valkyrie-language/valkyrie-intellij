@@ -6,9 +6,16 @@ import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import valkyrie.psi.ValkyrieElement
 import valkyrie.psi.node.ValkyrieDeclareImply
+import valkyrie.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
 abstract class MixinImply(node: ASTNode) : ValkyrieElement(node), ValkyrieDeclareImply {
+    val id = this.namepath?.identifierList?.lastOrNull() as? ValkyrieIdentifierNode
+
+    override fun getName(): String? {
+        return id?.name
+    }
+
     override fun getBaseIcon(): Icon {
         return AllIcons.Nodes.IdeaModule
     }
