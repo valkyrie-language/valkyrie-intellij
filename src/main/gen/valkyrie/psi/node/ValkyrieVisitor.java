@@ -355,10 +355,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitMatchItem(@NotNull ValkyrieMatchItem o) {
-        visitPsiElement(o);
-    }
-
     public void visitMatchStatement(@NotNull ValkyrieMatchStatement o) {
         visitPsiElement(o);
     }
@@ -384,10 +380,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitNewBody(@NotNull ValkyrieNewBody o) {
-        visitPsiElement(o);
-    }
-
-    public void visitNewItem(@NotNull ValkyrieNewItem o) {
         visitPsiElement(o);
     }
 
@@ -572,10 +564,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitUniteBody(@NotNull ValkyrieUniteBody o) {
-        visitPsiElement(o);
-    }
-
-    public void visitUniteItem(@NotNull ValkyrieUniteItem o) {
         visitPsiElement(o);
     }
 

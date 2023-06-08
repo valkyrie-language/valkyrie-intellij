@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieUniteBody extends PsiElement {
 
     @NotNull
-    List<ValkyrieUniteItem> getUniteItemList();
+    List<ValkyrieDeclareMethod> getDeclareMethodList();
+
+    @NotNull
+    List<ValkyrieDeclareVariant> getDeclareVariantList();
 
 }
