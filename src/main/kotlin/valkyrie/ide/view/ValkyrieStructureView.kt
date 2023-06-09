@@ -11,7 +11,7 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.fileEditor.FileEditor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFile
-import valkyrie.ide.view.filter.MainInfoFilter
+import valkyrie.ide.view.filter.DeclarationFilter
 import valkyrie.ide.view.filter.PublicElementsFilter
 import valkyrie.ide.view.grouper.PropertiesGrouper
 import valkyrie.ide.view.sorter.PublicElementsSorter
@@ -47,7 +47,7 @@ class ValkyrieStructureView : PsiStructureViewFactory {
         }
 
         override fun getFilters(): Array<Filter> {
-            return arrayOf(MainInfoFilter, PublicElementsFilter)
+            return arrayOf(DeclarationFilter, PublicElementsFilter)
         }
 
         override fun getGroupers(): Array<Grouper> {
