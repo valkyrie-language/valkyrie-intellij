@@ -58,12 +58,6 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
 
     @Override
     @Nullable
-    public ValkyrieLiteral getLiteral() {
-        return findChildByClass(ValkyrieLiteral.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieLocalizeCall getLocalizeCall() {
         return findChildByClass(ValkyrieLocalizeCall.class);
     }
@@ -82,6 +76,12 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
 
     @Override
     @Nullable
+    public ValkyrieNamepath getNamepath() {
+        return findChildByClass(ValkyrieNamepath.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieNewObject getNewObject() {
         return findChildByClass(ValkyrieNewObject.class);
     }
@@ -90,6 +90,12 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
     @Nullable
     public ValkyrieNewValue getNewValue() {
         return findChildByClass(ValkyrieNewValue.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieNumber getNumber() {
+        return findChildByClass(ValkyrieNumber.class);
     }
 
     @Override
@@ -108,6 +114,18 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
     @Nullable
     public ValkyrieSlot getSlot() {
         return findChildByClass(ValkyrieSlot.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieSpecial getSpecial() {
+        return findChildByClass(ValkyrieSpecial.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieString getString() {
+        return findChildByClass(ValkyrieString.class);
     }
 
     @Override

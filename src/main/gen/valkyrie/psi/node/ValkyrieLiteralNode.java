@@ -44,10 +44,4 @@ public class ValkyrieLiteralNode extends ValkyrieElement implements ValkyrieLite
         return findChildByClass(ValkyrieSpecial.class);
     }
 
-    @Override
-    @Nullable
-    public ValkyrieString getString() {
-        return findChildByClass(ValkyrieString.class);
-    }
-
 }

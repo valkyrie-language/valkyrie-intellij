@@ -246,7 +246,9 @@ let-pattern ::=
   | pattern-sequence
   | pattern-object
 // === function statement ===
-function-call ::= namepath (argument-body? block-body | argument-body)?;
+function-call ::=
+    namepath argument-body? block-body
+  | namepath argument-body;
 function-call-inline ::= namepath argument-body;
 macro-call    ::= AT namepath (argument-body? class-body|argument-body)? {
     pin = 1
@@ -475,6 +477,9 @@ atomic ::=
   | lambda-block    // { }
   | ordinal-range   // [ ]
   | offset-range    // ⁅ ⁆
+  | macro-call      // @path::id() { }
+  | slot            // $id
+  | localize-call   // ⸿scope.path
   | for-statement   // for ... {...}
   | while-statement // while/until {...}
   | try-statement   // try T {...}
@@ -482,11 +487,11 @@ atomic ::=
   | match-statement // match ... { ... }
   | new-value       // new T { ... }
   | new-object      // object(base): Interface { }
-  | macro-call      // @path::id() { }
-  | slot            // $id
-  | localize-call   // ⸿scope.path
+  | string          // handler"..."
+  | special         // true false
   | function-call   // path::id() { }
-  | literal
+  | namepath
+  | number
 // === atomic statement ===
 ordinal-range ::= BRACKET_L (range-item (COMMA range-item)* COMMA?)? BRACKET_R;
 offset-range  ::= OFFSET_L (range-item (COMMA range-item)* COMMA?)? OFFSET_R;
@@ -512,7 +517,7 @@ argument ::= (identifier EQUAL)? expression-root {
 
 }
 // === literal items ===
-literal ::= special | namepath | number | string;
+literal ::= special | namepath | number;
 number ::=
     INTEGER identifier?
   | DECIMAL identifier?;
