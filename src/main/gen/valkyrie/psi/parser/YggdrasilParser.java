@@ -4712,15 +4712,13 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     // SEMICOLON | COMMA
     //   | declare-variant
     //   | declare-method
-    public static boolean unite_item(PsiBuilder b, int l) {
+    static boolean unite_item(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "unite_item")) return false;
         boolean r;
-        Marker m = enter_section_(b, l, _NONE_, UNITE_ITEM, "<unite item>");
         r = consumeToken(b, SEMICOLON);
         if (!r) r = consumeToken(b, COMMA);
         if (!r) r = declare_variant(b, l + 1);
         if (!r) r = declare_method(b, l + 1);
-        exit_section_(b, l, m, r, false, null);
         return r;
     }
 

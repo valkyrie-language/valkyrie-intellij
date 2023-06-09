@@ -8,7 +8,6 @@ import valkyrie.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
 abstract class MixinEnumerate(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareEnumerate {
-    val enumerateItems = this.enumerateBody?.enumerateItemList?.map { it.firstChild } ?: listOf()
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
         return this.identifier as? ValkyrieIdentifierNode

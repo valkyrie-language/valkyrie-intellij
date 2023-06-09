@@ -10,63 +10,27 @@ class ValkyriePlaceholderVisitor : ValkyrieVisitor() {
     }
 
     override fun visitClassBody(o: ValkyrieClassBody) {
-        val fields = o.declareFieldList.count();
-        val methods = o.declareMethodList.count();
-        val domain = o.declareDomainList.count()
-        placeholder = mutableListOf(
-            if (fields <= 1) {
-                "$fields field"
-            } else {
-                "$fields fields"
-            },
-            if (methods <= 1) {
-                "$methods method"
-            } else {
-                "$methods methods"
-            },
-            if (domain <= 1) {
-                "$domain domain"
-            } else {
-                "$domain domains"
-            }
-        )
-            .joinToString(", ")
+        val text = PluralJoiner()
+        text.add(o.declareFieldList.count(), "field", "fields")
+        text.add(o.declareMethodList.count(), "method", "methods")
+        text.add(o.declareDomainList.count(), "domain", "domains")
+        placeholder = text.finish()
     }
 
     override fun visitEnumerateBody(o: ValkyrieEnumerateBody) {
-        var counter = 0;
-        for (item in o.enumerateItemList) {
-            if (item.firstChild is ValkyrieDeclareSemantic) {
-                counter += 1
-            }
-        }
-        placeholder = when (counter) {
-            0, 1 -> {
-                "$counter variant"
-            }
-
-            else -> {
-                "$counter variants"
-            }
-        }
+        val text = PluralJoiner()
+        text.add(o.declareSemanticList.count(), "enumerate", "enumerates")
+        text.add(o.declareMethodList.count(), "method", "methods")
+        text.add(o.declareDomainList.count(), "domain", "domains")
+        placeholder = text.finish()
     }
 
-    override fun visitUniteBody(o: ValkyrieUniteBody) {
-        var counter = 0;
-        for (item in o.uniteItemList) {
-            if (item.firstChild is ValkyrieDeclareVariant) {
-                counter += 1
-            }
-        }
-        placeholder = when (counter) {
-            0, 1 -> {
-                "$counter variant"
-            }
 
-            else -> {
-                "$counter variants"
-            }
-        }
+    override fun visitUniteBody(o: ValkyrieUniteBody) {
+        val text = PluralJoiner()
+        text.add(o.declareVariantList.count(), "variant", "variants")
+        text.add(o.declareMethodList.count(), "method", "methods")
+        placeholder = text.finish()
     }
 
     override fun visitMatchBody(o: ValkyrieMatchBody) {
@@ -85,6 +49,29 @@ class ValkyriePlaceholderVisitor : ValkyrieVisitor() {
 
             else -> {
                 "$counter branches"
+            }
+        }
+    }
+
+}
+
+private class PluralJoiner {
+    private var terms: MutableList<Triple<Int, String, String>> = mutableListOf()
+
+    fun add(count: Int, singular: String, plural: String) {
+        terms += Triple(count, singular, plural)
+    }
+
+    fun finish(): String {
+        return if (terms.sumOf { it.first } == 0) {
+            "nothing"
+        } else {
+            terms.filter { it.first != 0 }.joinToString(", ") {
+                if (it.first == 1) {
+                    "1 ${it.second}"
+                } else {
+                    "${it.first} ${it.third}"
+                }
             }
         }
     }

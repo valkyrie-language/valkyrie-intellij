@@ -6,9 +6,7 @@ import com.intellij.ide.util.treeView.smartTree.ActionPresentation
 import com.intellij.ide.util.treeView.smartTree.ActionPresentationData
 import com.intellij.ide.util.treeView.smartTree.Filter
 import com.intellij.ide.util.treeView.smartTree.TreeElement
-import valkyrie.ide.view.ValkyrieStructureItem
 import valkyrie.language.ValkyrieBundle
-import valkyrie.psi.node.ValkyrieDeclareClassNode
 
 
 object MainInfoFilter : Filter {
@@ -22,20 +20,7 @@ object MainInfoFilter : Filter {
     )
 
     override fun isVisible(node: TreeElement): Boolean {
-        if (node is ValkyrieStructureItem) {
-            when (node.psi) {
-                // class
-                is ValkyrieDeclareClassNode -> return true
-//                is ValkyrieClassFieldNode -> return true
-//                is ValkyrieClassMethodNode -> return true
-                // union
-//                is ValkyrieUnionStatement -> return true
-//                is ValkyrieUnionStatementItem -> return true
-                // trait
-//                is ValkyrieTraitStatement -> return true
-//                is ValkyrieExtendsStatement -> return true
-            }
-        }
-        return false;
+
+        return true;
     }
 }
