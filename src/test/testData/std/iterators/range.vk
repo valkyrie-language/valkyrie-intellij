@@ -16,12 +16,18 @@ micro range(min: i32, max: i32, step: i32)-> Range {
     _current = min
     }
 }
+\\ import { render } from "solid-js/web";
+\\import { createSignal } from "solid-js";
 
+\\function Counter() {
+\\return <div>Count: 0</div>;
+\\
+
+\\render(() => <Counter />, document.getElementById('app'));
+#component
 class Range {
 
-    domain {
 
-    }
 
     from: Integer,
     till: Integer,
@@ -46,5 +52,10 @@ extends Range: Iterator⟨Integer⟩ {
 }
 
 extends Range: RandomIterator {
+
+}
+
+
+new Range {
 
 }
