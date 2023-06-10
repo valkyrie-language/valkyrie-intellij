@@ -348,10 +348,8 @@ new-value  ::= KW_NEW modifier* type-expression? argument-body? new-body {
     mixin = "valkyrie.psi.mixin.MixinBuilder"
 }
 new-body ::= BRACE_L new-item* BRACE_R;
-new-item ::=
-    inline-statement
-  | COLON
-  | COMMA
+private new-item ::= SEMICOLON | COMMA
+  | inline-statement
 new-object ::= KW_OBJECT class-inherit? type-hint? class-body {
     pin = 1
     mixin = "valkyrie.psi.mixin.MixinObject"
@@ -518,7 +516,7 @@ literal ::= special | namepath | number | string;
 number ::=
     INTEGER identifier?
   | DECIMAL identifier?;
-string ::= TEXT_SINGLE | TEXT_DOUBLE {
+string ::= identifier? TEXT_SINGLE |  identifier? TEXT_DOUBLE {
     mixin = "valkyrie.psi.mixin.MixinString"
 }
 special ::= KW_NULL | KW_NIL | KW_BOOLEAN | COLOR;

@@ -95,7 +95,6 @@ public interface ValkyrieTypes {
     IElementType MATCH_BODY = new ValkyrieElementType("MATCH_BODY");
     IElementType MATCH_CASE = new ValkyrieElementType("MATCH_CASE");
     IElementType MATCH_ELSE = new ValkyrieElementType("MATCH_ELSE");
-    IElementType MATCH_ITEM = new ValkyrieElementType("MATCH_ITEM");
     IElementType MATCH_STATEMENT = new ValkyrieElementType("MATCH_STATEMENT");
     IElementType MATCH_WHEN = new ValkyrieElementType("MATCH_WHEN");
     IElementType MATCH_WITH = new ValkyrieElementType("MATCH_WITH");
@@ -103,7 +102,6 @@ public interface ValkyrieTypes {
     IElementType NAMEPATH = new ValkyrieElementType("NAMEPATH");
     IElementType NAMEPATH_FREE = new ValkyrieElementType("NAMEPATH_FREE");
     IElementType NEW_BODY = new ValkyrieElementType("NEW_BODY");
-    IElementType NEW_ITEM = new ValkyrieElementType("NEW_ITEM");
     IElementType NEW_LAMBDA = new ValkyrieElementType("NEW_LAMBDA");
     IElementType NEW_OBJECT = new ValkyrieElementType("NEW_OBJECT");
     IElementType NEW_VALUE = new ValkyrieElementType("NEW_VALUE");
@@ -452,8 +450,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieMatchCaseNode(node);
             } else if (type == MATCH_ELSE) {
                 return new ValkyrieMatchElseNode(node);
-            } else if (type == MATCH_ITEM) {
-                return new ValkyrieMatchItemNode(node);
             } else if (type == MATCH_STATEMENT) {
                 return new ValkyrieMatchStatementNode(node);
             } else if (type == MATCH_WHEN) {
@@ -468,8 +464,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieNamepathFreeNode(node);
             } else if (type == NEW_BODY) {
                 return new ValkyrieNewBodyNode(node);
-            } else if (type == NEW_ITEM) {
-                return new ValkyrieNewItemNode(node);
             } else if (type == NEW_LAMBDA) {
                 return new ValkyrieNewLambdaNode(node);
             } else if (type == NEW_OBJECT) {

@@ -28,8 +28,26 @@ public class ValkyrieMatchBodyNode extends ValkyrieElement implements ValkyrieMa
 
     @Override
     @NotNull
-    public List<ValkyrieMatchItem> getMatchItemList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieMatchItem.class);
+    public List<ValkyrieMatchCase> getMatchCaseList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieMatchCase.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieMatchElse> getMatchElseList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieMatchElse.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieMatchWhen> getMatchWhenList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieMatchWhen.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieMatchWith> getMatchWithList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieMatchWith.class);
     }
 
 }

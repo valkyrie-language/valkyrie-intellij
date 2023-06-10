@@ -26,4 +26,10 @@ public class ValkyrieStringNode extends MixinString implements ValkyrieString {
         else super.accept(visitor);
     }
 
+    @Override
+    @Nullable
+    public ValkyrieIdentifier getIdentifier() {
+        return findChildByClass(ValkyrieIdentifier.class);
+    }
+
 }
