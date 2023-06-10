@@ -521,7 +521,7 @@ literal ::= special | namepath | number;
 number ::=
     INTEGER identifier?
   | DECIMAL identifier?;
-string ::= identifier? TEXT_SINGLE |  identifier? TEXT_DOUBLE {
+string ::= identifier? STRING_L STRING_TEXT STRING_R {
     mixin = "valkyrie.psi.mixin.MixinString"
 }
 special ::= KW_NULL | KW_NIL | KW_BOOLEAN | COLOR;

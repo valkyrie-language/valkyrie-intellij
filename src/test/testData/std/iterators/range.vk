@@ -50,10 +50,10 @@ class Counter {
     render() {
         Text {
             if theme.red {
-                regex"d[ijk]star*"
+
             }
             else {
-                re"d[ijk]star*"
+
             }
         }
 
@@ -77,3 +77,15 @@ extends Range: RandomIterator {
 new Range {
 
 }
+
+regex"""
+d[ijk]star*
+"""
+
+re"d[ijk]star*"
+
+json"""
+{
+a: 2
+}
+"""
