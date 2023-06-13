@@ -16,7 +16,4 @@ public interface ValkyrieLiteral extends PsiElement {
     @Nullable
     ValkyrieSpecial getSpecial();
 
-    @Nullable
-    ValkyrieString getString();
-
 }

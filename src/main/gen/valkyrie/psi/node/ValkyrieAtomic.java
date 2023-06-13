@@ -23,9 +23,6 @@ public interface ValkyrieAtomic extends PsiElement {
     ValkyrieLambdaBlock getLambdaBlock();
 
     @Nullable
-    ValkyrieLiteral getLiteral();
-
-    @Nullable
     ValkyrieLocalizeCall getLocalizeCall();
 
     @Nullable
@@ -35,10 +32,16 @@ public interface ValkyrieAtomic extends PsiElement {
     ValkyrieMatchStatement getMatchStatement();
 
     @Nullable
+    ValkyrieNamepath getNamepath();
+
+    @Nullable
     ValkyrieNewObject getNewObject();
 
     @Nullable
     ValkyrieNewValue getNewValue();
+
+    @Nullable
+    ValkyrieNumber getNumber();
 
     @Nullable
     ValkyrieOffsetRange getOffsetRange();
@@ -48,6 +51,12 @@ public interface ValkyrieAtomic extends PsiElement {
 
     @Nullable
     ValkyrieSlot getSlot();
+
+    @Nullable
+    ValkyrieSpecial getSpecial();
+
+    @Nullable
+    ValkyrieString getString();
 
     @Nullable
     ValkyrieTryStatement getTryStatement();
