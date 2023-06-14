@@ -38,7 +38,7 @@ class TokenHighlighter : SyntaxHighlighter {
             OP_PLUS, OP_AND_THEN,
             -> HighlightColor.OPERATION
             // literals
-            TEXT_SINGLE, TEXT_DOUBLE -> HighlightColor.STRING
+            STRING_L, STRING_TEXT, STRING_R -> HighlightColor.STRING
             ESCAPED -> HighlightColor.STRING_ESCAPED
             INTEGER -> HighlightColor.INTEGER
             // comments

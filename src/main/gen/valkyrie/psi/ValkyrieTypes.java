@@ -266,10 +266,11 @@ public interface ValkyrieTypes {
     IElementType SELECTION_LINE = new ValkyrieTokenType("SELECTION_LINE");
     IElementType SEMICOLON = new ValkyrieTokenType(";");
     IElementType STAR = new ValkyrieTokenType("STAR");
+    IElementType STRING_L = new ValkyrieTokenType("STRING_L");
+    IElementType STRING_R = new ValkyrieTokenType("STRING_R");
+    IElementType STRING_TEXT = new ValkyrieTokenType("STRING_TEXT");
     IElementType SYMBOL = new ValkyrieTokenType("Symbol");
     IElementType SYMBOW_RAW = new ValkyrieTokenType("SYMBOW_RAW");
-    IElementType TEXT_DOUBLE = new ValkyrieTokenType("TEXT_DOUBLE");
-    IElementType TEXT_SINGLE = new ValkyrieTokenType("TEXT_SINGLE");
     IElementType TO = new ValkyrieTokenType("->");
     IElementType URL = new ValkyrieTokenType("Url");
 

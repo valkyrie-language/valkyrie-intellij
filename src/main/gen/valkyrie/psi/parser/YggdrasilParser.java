@@ -4267,49 +4267,20 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // identifier? TEXT_SINGLE |  identifier? TEXT_DOUBLE
+    // identifier? STRING_L STRING_TEXT STRING_R
     public static boolean string(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "string")) return false;
         boolean r;
         Marker m = enter_section_(b, l, _NONE_, STRING, "<string>");
         r = string_0(b, l + 1);
-        if (!r) r = string_1(b, l + 1);
+        r = r && consumeTokens(b, 0, STRING_L, STRING_TEXT, STRING_R);
         exit_section_(b, l, m, r, false, null);
         return r;
     }
 
-    // identifier? TEXT_SINGLE
+    // identifier?
     private static boolean string_0(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "string_0")) return false;
-        boolean r;
-        Marker m = enter_section_(b);
-        r = string_0_0(b, l + 1);
-        r = r && consumeToken(b, TEXT_SINGLE);
-        exit_section_(b, m, null, r);
-        return r;
-    }
-
-    // identifier?
-    private static boolean string_0_0(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "string_0_0")) return false;
-        identifier(b, l + 1);
-        return true;
-    }
-
-    // identifier? TEXT_DOUBLE
-    private static boolean string_1(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "string_1")) return false;
-        boolean r;
-        Marker m = enter_section_(b);
-        r = string_1_0(b, l + 1);
-        r = r && consumeToken(b, TEXT_DOUBLE);
-        exit_section_(b, m, null, r);
-        return r;
-    }
-
-    // identifier?
-    private static boolean string_1_0(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "string_1_0")) return false;
         identifier(b, l + 1);
         return true;
     }
