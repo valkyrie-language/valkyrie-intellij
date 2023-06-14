@@ -3361,8 +3361,8 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // INTEGER identifier?
-    //   | DECIMAL identifier?
+    // INTEGER number-suffix?
+    //   | DECIMAL number-suffix?
     public static boolean number(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "number")) return false;
         if (!nextTokenIs(b, "<number>", DECIMAL, INTEGER)) return false;
@@ -3374,7 +3374,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // INTEGER identifier?
+    // INTEGER number-suffix?
     private static boolean number_0(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "number_0")) return false;
         boolean r;
@@ -3385,14 +3385,14 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // identifier?
+    // number-suffix?
     private static boolean number_0_1(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "number_0_1")) return false;
-        identifier(b, l + 1);
+        number_suffix(b, l + 1);
         return true;
     }
 
-    // DECIMAL identifier?
+    // DECIMAL number-suffix?
     private static boolean number_1(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "number_1")) return false;
         boolean r;
@@ -3403,11 +3403,24 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // identifier?
+    // number-suffix?
     private static boolean number_1_1(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "number_1_1")) return false;
-        identifier(b, l + 1);
+        number_suffix(b, l + 1);
         return true;
+    }
+
+    /* ********************************************************** */
+    // identifier
+    //   | OP_CELSIUS
+    //   | OP_FAHRENHEIT
+    static boolean number_suffix(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "number_suffix")) return false;
+        boolean r;
+        r = identifier(b, l + 1);
+        if (!r) r = consumeToken(b, OP_CELSIUS);
+        if (!r) r = consumeToken(b, OP_FAHRENHEIT);
+        return r;
     }
 
     /* ********************************************************** */

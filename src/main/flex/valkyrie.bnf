@@ -519,8 +519,12 @@ argument ::= (identifier EQUAL)? expression-root {
 // === literal items ===
 literal ::= special | namepath | number;
 number ::=
-    INTEGER identifier?
-  | DECIMAL identifier?;
+    INTEGER number-suffix?
+  | DECIMAL number-suffix?;
+private number-suffix ::=
+    identifier
+  | OP_CELSIUS
+  | OP_FAHRENHEIT
 string ::= identifier? STRING_L STRING_TEXT* STRING_R {
     mixin = "valkyrie.psi.mixin.MixinString"
 }

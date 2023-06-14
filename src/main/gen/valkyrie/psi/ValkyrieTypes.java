@@ -238,10 +238,12 @@ public interface ValkyrieTypes {
     IElementType OP_ARROW2 = new ValkyrieTokenType("OP_ARROW2");
     IElementType OP_ARROW3 = new ValkyrieTokenType("OP_ARROW3");
     IElementType OP_BANG = new ValkyrieTokenType("OP_BANG");
+    IElementType OP_CELSIUS = new ValkyrieTokenType("OP_CELSIUS");
     IElementType OP_CONCAT = new ValkyrieTokenType("~");
     IElementType OP_DIV = new ValkyrieTokenType("/");
     IElementType OP_DIV_REM = new ValkyrieTokenType("OP_DIV_REM");
     IElementType OP_EE = new ValkyrieTokenType("OP_EE");
+    IElementType OP_FAHRENHEIT = new ValkyrieTokenType("OP_FAHRENHEIT");
     IElementType OP_GEQ = new ValkyrieTokenType("OP_GEQ");
     IElementType OP_GG = new ValkyrieTokenType("≫");
     IElementType OP_GGG = new ValkyrieTokenType("⋙");
