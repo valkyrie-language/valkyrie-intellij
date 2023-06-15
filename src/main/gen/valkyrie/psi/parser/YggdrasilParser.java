@@ -4267,13 +4267,15 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // identifier? STRING_L STRING_TEXT STRING_R
+    // identifier? STRING_L STRING_TEXT* STRING_R
     public static boolean string(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "string")) return false;
         boolean r;
         Marker m = enter_section_(b, l, _NONE_, STRING, "<string>");
         r = string_0(b, l + 1);
-        r = r && consumeTokens(b, 0, STRING_L, STRING_TEXT, STRING_R);
+        r = r && consumeToken(b, STRING_L);
+        r = r && string_2(b, l + 1);
+        r = r && consumeToken(b, STRING_R);
         exit_section_(b, l, m, r, false, null);
         return r;
     }
@@ -4282,6 +4284,17 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     private static boolean string_0(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "string_0")) return false;
         identifier(b, l + 1);
+        return true;
+    }
+
+    // STRING_TEXT*
+    private static boolean string_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "string_2")) return false;
+        while (true) {
+            int c = current_position_(b);
+            if (!consumeToken(b, STRING_TEXT)) break;
+            if (!empty_element_parsed_guard_(b, "string_2", c)) break;
+        }
         return true;
     }
 

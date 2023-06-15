@@ -48,6 +48,9 @@ class Counter {
 
 
     render() {
+        render_once {
+
+        }
         Text {
             if theme.red {
 
@@ -65,16 +68,16 @@ trait Iterator {
 
 }
 
-extends Range: Iterator⟨Integer⟩ {
+extends Counter: Iterator⟨Integer⟩ {
     next() {}
 }
 
-extends Range: RandomIterator {
+extends Counter: RandomIterator {
 
 }
 
 
-new Range {
+new Counter {
 
 }
 
@@ -109,22 +112,24 @@ xml"""
 
 
 
+20m
+30m
+
+40cm
+
+1分钟
+2℃
 
 
-
+−40
+°F	419.67
+°R
 
 java"""
 public static void main(String[] args){
 
 }
 """
-
-
-
-kotlin"""
-"2"
-"""
-
 
 
 
