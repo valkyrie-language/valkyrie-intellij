@@ -1,17 +1,19 @@
 package valkyrie.project.facet
 
 import com.intellij.facet.Facet
-import com.intellij.facet.FacetConfiguration
 import com.intellij.facet.FacetType
 import com.intellij.facet.FacetTypeId
-import com.intellij.facet.ui.FacetEditorContext
-import com.intellij.facet.ui.FacetEditorTab
-import com.intellij.facet.ui.FacetValidatorsManager
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.module.ModuleType
+import valkyrie.language.ValkyrieBundle
+import valkyrie.language.file.ValkyrieIconProvider
+import javax.swing.Icon
 
-class ValkyrieFacetType :
-    FacetType<ValkyrieFacet, ValkyrieFacetConfig>(FacetTypeId("ValkyrieFacetType1"), "ValkyrieFacetType12", "ValkyrieFacetType13") {
+private val facetName = ValkyrieBundle.message("facet.type.name")
+
+class ValkyrieFacetType : FacetType<ValkyrieFacet, ValkyrieFacetConfig> {
+    constructor() : super(FacetTypeId("ValkyrieFacetType1"), "ValkyrieFacetType12", facetName)
+
     override fun createDefaultConfiguration(): ValkyrieFacetConfig {
         return ValkyrieFacetConfig()
     }
@@ -24,21 +26,24 @@ class ValkyrieFacetType :
         return ValkyrieFacet(this, module, name ?: "createFacet", configuration, null)
     }
 
-}
+    override fun getDefaultFacetName(): String {
+        return "getDefaultFacetName"
+    }
 
-class ValkyrieFacet : Facet<ValkyrieFacetConfig> {
-    constructor(
-        facetType: FacetType<out Facet<*>, *>,
-        module: Module,
-        name: String,
-        configuration: ValkyrieFacetConfig,
-        underlyingFacet: Facet<*>?,
-    ) : super(facetType, module, name, configuration, underlyingFacet)
+    override fun getIcon(): Icon {
+        return ValkyrieIconProvider.Instance.Valkyrie
+    }
 
-}
+    override fun getHelpTopic(): String {
+        return "getHelpTopic"
+    }
 
-class ValkyrieFacetConfig : FacetConfiguration {
-    override fun createEditorTabs(editorContext: FacetEditorContext?, validatorsManager: FacetValidatorsManager?): Array<FacetEditorTab> {
-        return arrayOf()
+    override fun getPresentableName(): String {
+        return super.getPresentableName()
+    }
+
+    override fun isOnlyOneFacetAllowed(): Boolean {
+        return true
     }
 }
+

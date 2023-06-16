@@ -49,8 +49,14 @@
 		<!--		<fileBasedIndex implementation="valkyrie.ide.project.ValkyrieFileIndex"/>-->
 		<!--		<indexedRootsProvider implementation="valkyrie.ide.project.ExtraIndexContributor"/>-->
 		<!--				<generatedSourcesFilter implementation="valkyrie.ide.project.package.ValkyrieGeneratedSource"/>-->
-		<!-- Project Facet -->
+		<!-- Project Facet(Module) -->
 		<facetType implementation="valkyrie.project.facet.ValkyrieFacetType"/>
+		<moduleConfigurationEditorProvider implementation="valkyrie.project.facet.moduleConfigurationEditorProvider"/>
+		<moduleNameGenerator implementation="valkyrie.project.facet.ValkyrieModuleNameGenerator"/>
+		<moduleBuilder builderClass="valkyrie.project.facet.ValkyrieModuleBuilder"/>
+		<primaryModuleManager implementation="valkyrie.project.facet.ValkyriePrimaryModuleManager"/>
+		<module.workingDirectoryProvider implementation="valkyrie.project.facet.workingDirectoryProvider"/>
+
 		<!-- StructureView -->
 		<iconProvider implementation="valkyrie.language.file.ValkyrieIconProvider"/>
 		<projectViewNestingRulesProvider implementation="valkyrie.language.file.ValkyrieFileGroup"/>
