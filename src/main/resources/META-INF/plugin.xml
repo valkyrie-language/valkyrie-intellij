@@ -16,9 +16,12 @@
 		<lang.parserDefinition
 			language="valkyrie"
 			implementationClass="valkyrie.psi.ParserDefinition"/>
-		<multiHostInjector implementation="valkyrie.ide.matcher.LanguageInjector"/>
+
+
 		<applicationInitializedListener implementation="valkyrie.lsp.ValkyrieLspRegister"/>
 		<!-- Project -->
+		<newProjectWizard.languageGenerator implementation="valkyrie.project.languageGenerator"/>
+
 		<!--		<projectNameProvider implementation="valkyrie.ide.project.ValkyrieProjectName"/>-->
 		<!--		<primaryModuleManager implementation="valkyrie.ide.project.ValkyriePrimaryPackage"/>-->
 		<!--		<vfs.asyncListener implementation="valkyrie.ide.project.crate.CrateUpdateListener"/>-->
@@ -218,6 +221,16 @@
 		<implicitUsageProvider implementation="valkyrie.ide.hint.ImplicitUsage"/>
 		<findUsagesHandlerFactory implementation="valkyrie.ide.usages.ValkyrieUsagesFactory"/>
 		<lang.findUsagesProvider language="valkyrie" implementationClass="valkyrie.ide.usages.findUsagesProvider"/>
+		<!-- Injection -->
+		<languageInjectionContributor
+			language="valkyrie"
+			implementationClass="valkyrie.ide.matcher.languageInjectionContributor"
+		/>
+		<languageInjectionPerformer
+			language="valkyrie"
+			implementationClass="valkyrie.ide.matcher.languageInjectionPerformer"
+		/>
+		<multiHostInjector implementation="valkyrie.ide.matcher.LanguageInjector"/>
 
 		<!-- Rename -->
 		<renameHandler implementation="valkyrie.ide.refactor.ValkyrieRenameHandler"/>
