@@ -20,9 +20,9 @@
 
 		<applicationInitializedListener implementation="valkyrie.lsp.ValkyrieLspRegister"/>
 		<!-- Project -->
-		<newProjectWizard.languageGenerator implementation="valkyrie.project.languageGenerator"/>
-
-		<!--		<projectNameProvider implementation="valkyrie.ide.project.ValkyrieProjectName"/>-->
+		<newProjectWizard.languageGenerator implementation="valkyrie.project.ValkyrieProjectGenerator"/>
+		<directoryProjectGenerator implementation="valkyrie.project.directoryProjectGenerator"/>
+		<projectNameProvider implementation="valkyrie.project.ValkyrieProjectName"/>
 		<!--		<primaryModuleManager implementation="valkyrie.ide.project.ValkyriePrimaryPackage"/>-->
 		<!--		<vfs.asyncListener implementation="valkyrie.ide.project.crate.CrateUpdateListener"/>-->
 		<!-- Project SDK -->
@@ -50,7 +50,7 @@
 		<!--		<indexedRootsProvider implementation="valkyrie.ide.project.ExtraIndexContributor"/>-->
 		<!--				<generatedSourcesFilter implementation="valkyrie.ide.project.package.ValkyrieGeneratedSource"/>-->
 		<!-- Project Facet -->
-		<!--		<facetType implementation="valkyrie.ide.project.facet.ValkyrieFacetType"/>-->
+		<facetType implementation="valkyrie.project.facet.ValkyrieFacetType"/>
 		<!-- StructureView -->
 		<iconProvider implementation="valkyrie.language.file.ValkyrieIconProvider"/>
 		<projectViewNestingRulesProvider implementation="valkyrie.language.file.ValkyrieFileGroup"/>
