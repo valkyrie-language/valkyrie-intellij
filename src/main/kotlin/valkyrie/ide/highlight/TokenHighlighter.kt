@@ -36,6 +36,7 @@ class TokenHighlighter : SyntaxHighlighter {
             OP_OR, OP_UNTIL,
             EQUAL, OP_EE, OP_NE,
             OP_PLUS, OP_AND_THEN,
+            OP_CELSIUS, OP_FAHRENHEIT,
             -> HighlightColor.OPERATION
             // literals
             STRING_L, STRING_TEXT, STRING_R -> HighlightColor.STRING

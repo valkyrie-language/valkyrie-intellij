@@ -119,17 +119,12 @@ xml"""
 
 1分钟
 2℃
+3℉
 
-
-−40
-°F	419.67
-°R
 
 java"""
 public static void main(String[] args){
 
 }
 """
-
-
 
