@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement
 
 class ValkyrieStructureViewExtension : StructureViewExtension {
     override fun getType(): Class<out PsiElement> {
-        TODO("Not yet implemented")
+        return PsiElement::class.java
     }
 
     override fun getChildren(parent: PsiElement?): Array<StructureViewTreeElement> {

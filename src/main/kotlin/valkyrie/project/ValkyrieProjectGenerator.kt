@@ -15,7 +15,7 @@ import javax.swing.Icon
 
 
 class ValkyrieProjectGenerator : LanguageGeneratorNewProjectWizard {
-    override val icon: Icon = ValkyrieIconProvider.Instance.File
+    override val icon: Icon = ValkyrieIconProvider.Instance.Valkyrie
     override val name: String = "Valkyrie Project"
 
     override fun createStep(parent: NewProjectWizardStep): NewProjectWizardStep {

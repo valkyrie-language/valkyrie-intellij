@@ -14,7 +14,7 @@ class directoryProjectGenerator : DirectoryProjectGenerator<Any?> {
     }
 
     override fun getLogo(): Icon? {
-        return ValkyrieIconProvider.Instance.File
+        return ValkyrieIconProvider.Instance.Valkyrie
     }
 
     override fun generateProject(project: Project, baseDir: VirtualFile, settings: Any, module: Module) {

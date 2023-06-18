@@ -7,7 +7,7 @@ import com.intellij.psi.PsiDirectory
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieIconProvider
 
-class ValkyrieCreateFile : CreateFileFromTemplateAction(name, description, ValkyrieIconProvider.Instance.File) {
+class ValkyrieCreateFile : CreateFileFromTemplateAction(name, description, ValkyrieIconProvider.Instance.Valkyrie) {
     companion object {
         private val name = ValkyrieBundle.message("action.create_file")
         private val description = ValkyrieBundle.message("action.create_file.description")
@@ -17,7 +17,7 @@ class ValkyrieCreateFile : CreateFileFromTemplateAction(name, description, Valky
     }
 
     override fun buildDialog(project: Project, directory: PsiDirectory, builder: Builder) {
-        builder.setTitle(name).addKind("Empty file", ValkyrieIconProvider.Instance.File, templatePath)
+        builder.setTitle(name).addKind("Empty file", ValkyrieIconProvider.Instance.Valkyrie, templatePath)
     }
 
     override fun getActionName(directory: PsiDirectory, newName: String, templateName: String): String = name
