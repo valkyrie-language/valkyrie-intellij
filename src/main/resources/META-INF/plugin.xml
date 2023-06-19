@@ -26,10 +26,10 @@
 		<!--		<primaryModuleManager implementation="valkyrie.ide.project.ValkyriePrimaryPackage"/>-->
 		<!--		<vfs.asyncListener implementation="valkyrie.ide.project.crate.CrateUpdateListener"/>-->
 		<!-- Project SDK -->
-		<!--		<sdkType implementation="valkyrie.ide.project.package.sdk.ValkyrieSdkType"/>-->
-		<!--		<sdkFinder implementation="valkyrie.ide.project.sdk.ValkyrieSdkFinder"/>-->
+		<sdkType implementation="valkyrie.project.sdk.ValkyrieSdkType"/>
+		<sdkFinder implementation="valkyrie.project.sdk.ValkyrieSdkFinder"/>
 		<!--		<projectSdkSetupValidator implementation="valkyrie.ide.project.sdk.ValkyrieSdkValidator"/>-->
-		<!--		<sdkDownload implementation="valkyrie.ide.project.package.sdk.ValkyrieSdkDownload"/>-->
+		<sdkDownload implementation="valkyrie.project.sdk.ValkyrieSdkDownload"/>
 		<!--		<projectOpenProcessor implementation="valkyrie.ide.project.ValkyrieOpenProject"/>-->
 		<!-- Project Library -->
 		<!--		<library.type implementation="valkyrie.ide.project.library.ValkyrieLibraryType"/>-->
