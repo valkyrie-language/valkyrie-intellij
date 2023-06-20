@@ -4,10 +4,10 @@ import com.intellij.openapi.module.ModuleConfigurationEditor
 import com.intellij.ui.dsl.builder.panel
 import javax.swing.JComponent
 
-class ValkyrieModuleConfigurationEditor : ModuleConfigurationEditor {
+class ValkyrieModuleDependenciesEditor : ModuleConfigurationEditor {
     override fun createComponent(): JComponent? {
         return panel {
-            row("ModuleConfigurationEditor") {
+            row("ValkyrieModuleDependenciesEditor") {
                 text("???")
             }
         }
@@ -28,6 +28,4 @@ class ValkyrieModuleConfigurationEditor : ModuleConfigurationEditor {
     override fun getHelpTopic(): String? {
         return "getHelpTopic333"
     }
-
-
 }

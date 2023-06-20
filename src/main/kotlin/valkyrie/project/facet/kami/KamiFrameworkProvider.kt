@@ -1,29 +1,30 @@
-package valkyrie.project.facet
+package valkyrie.project.facet.kami
 
 import com.intellij.facet.Facet
 import com.intellij.facet.FacetType
 import com.intellij.facet.FacetTypeId
+import com.intellij.icons.ExpUiIcons
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.module.ModuleType
 import valkyrie.language.ValkyrieBundle
-import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
-private val facetName = ValkyrieBundle.message("facet.type.name")
+private val facetName = ValkyrieBundle.message("framework.aura.name")
 
-class ValkyrieFacetType : FacetType<ValkyrieFacet, ValkyrieFacetConfig> {
-    constructor() : super(FacetTypeId("ValkyrieFacetType1"), "ValkyrieFacetType12", facetName)
+/** Game development framework, similar to Unity, Godot */
+class KamiFrameworkProvider : FacetType<KamiFacet, KamiConfigPanel> {
+    constructor() : super(FacetTypeId("ValkyrieAuraFramework"), "ValkyrieAuraFramework2", facetName)
 
-    override fun createDefaultConfiguration(): ValkyrieFacetConfig {
-        return ValkyrieFacetConfig()
+    override fun createDefaultConfiguration(): KamiConfigPanel {
+        return KamiConfigPanel()
     }
 
     override fun isSuitableModuleType(moduleType: ModuleType<*>?): Boolean {
         return true
     }
 
-    override fun createFacet(module: Module, name: String?, configuration: ValkyrieFacetConfig, underlyingFacet: Facet<*>?): ValkyrieFacet {
-        return ValkyrieFacet(this, module, name ?: "createFacet", configuration, null)
+    override fun createFacet(module: Module, name: String?, configuration: KamiConfigPanel, underlyingFacet: Facet<*>?): KamiFacet {
+        return KamiFacet(this, module, name ?: "createFacet", configuration, null)
     }
 
     override fun getDefaultFacetName(): String {
@@ -31,7 +32,7 @@ class ValkyrieFacetType : FacetType<ValkyrieFacet, ValkyrieFacetConfig> {
     }
 
     override fun getIcon(): Icon {
-        return ValkyrieIconProvider.Instance.Valkyrie
+        return ExpUiIcons.Javaee.WebService
     }
 
     override fun getHelpTopic(): String {

@@ -4,9 +4,11 @@ import com.intellij.openapi.module.ModuleConfigurationEditor
 import com.intellij.openapi.roots.ui.configuration.ModuleConfigurationEditorProvider
 import com.intellij.openapi.roots.ui.configuration.ModuleConfigurationState
 
-class moduleConfigurationEditorProvider : ModuleConfigurationEditorProvider {
+class ValkyrieExtraModuleConfigEditors : ModuleConfigurationEditorProvider {
     override fun createEditors(state: ModuleConfigurationState?): Array<ModuleConfigurationEditor> {
-        return arrayOf(ValkyrieModuleConfigurationEditor(), ValkyrieModuleConfigurationEditor())
+        /// Warning, this interface is valid for all languages
+        /// Removed
+        return arrayOf()
     }
 }
 

@@ -8,12 +8,12 @@ import com.intellij.platform.DirectoryProjectGenerator
 import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
-class directoryProjectGenerator : DirectoryProjectGenerator<Any?> {
+class DirectoryProjectGenerator : DirectoryProjectGenerator<Any?> {
     override fun getName(): String {
         return "directoryProjectGenerator"
     }
 
-    override fun getLogo(): Icon? {
+    override fun getLogo(): Icon {
         return ValkyrieIconProvider.Instance.Valkyrie
     }
 
