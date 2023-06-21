@@ -28,8 +28,10 @@
 		<!-- Project SDK -->
 		<sdkType implementation="valkyrie.project.sdk.ValkyrieSdkType"/>
 		<sdkFinder implementation="valkyrie.project.sdk.ValkyrieSdkFinder"/>
-		<!--		<projectSdkSetupValidator implementation="valkyrie.ide.project.sdk.ValkyrieSdkValidator"/>-->
+		<projectSdkSetupValidator implementation="valkyrie.project.sdk.ValkyrieSdkValidator"/>
 		<sdkDownload implementation="valkyrie.project.sdk.ValkyrieSdkDownload"/>
+		<unknownSdkContributor implementation="valkyrie.project.sdk.unknownSdkContributor"/>
+		<unknownSdkResolver implementation="valkyrie.project.sdk.unknownSdkResolver"/>
 		<!--		<projectOpenProcessor implementation="valkyrie.ide.project.ValkyrieOpenProject"/>-->
 		<!-- Project Library -->
 		<!--		<library.type implementation="valkyrie.ide.project.library.ValkyrieLibraryType"/>-->
