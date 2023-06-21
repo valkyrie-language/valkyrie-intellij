@@ -61,7 +61,7 @@
 		<fileBasedIndex implementation="valkyrie.project.ValkyrieFileIndex"/>
 		<indexedRootsProvider implementation="valkyrie.project.ExtraIndexContributor"/>
 		<generatedSourcesFilter implementation="valkyrie.project.ValkyrieGeneratedSource"/>
-
+		<packaging.artifactType/>
 		<!-- StructureView -->
 		<iconProvider implementation="valkyrie.language.file.ValkyrieIconProvider"/>
 		<projectViewNestingRulesProvider implementation="valkyrie.language.file.ValkyrieFileGroup"/>

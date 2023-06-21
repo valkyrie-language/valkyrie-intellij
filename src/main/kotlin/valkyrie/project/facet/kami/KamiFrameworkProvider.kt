@@ -3,20 +3,28 @@ package valkyrie.project.facet.kami
 import com.intellij.facet.Facet
 import com.intellij.facet.FacetType
 import com.intellij.facet.FacetTypeId
+import com.intellij.facet.impl.invalid.MultipleInvalidFacetEditor
+import com.intellij.facet.ui.FacetEditor
+import com.intellij.facet.ui.MultipleFacetSettingsEditor
 import com.intellij.icons.ExpUiIcons
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.module.ModuleType
+import com.intellij.openapi.project.Project
 import valkyrie.language.ValkyrieBundle
 import javax.swing.Icon
 
-private val facetName = ValkyrieBundle.message("framework.aura.name")
+private val facetName = ValkyrieBundle.message("framework.kami.name")
 
 /** Game development framework, similar to Unity, Godot */
 class KamiFrameworkProvider : FacetType<KamiFacet, KamiConfigPanel> {
-    constructor() : super(FacetTypeId("ValkyrieAuraFramework"), "ValkyrieAuraFramework2", facetName)
+    constructor() : super(FacetTypeId(::KamiFrameworkProvider.toString()), ::KamiFrameworkProvider.toString(), facetName)
 
     override fun createDefaultConfiguration(): KamiConfigPanel {
         return KamiConfigPanel()
+    }
+
+    override fun createMultipleConfigurationsEditor(project: Project, editors: Array<out FacetEditor>): MultipleFacetSettingsEditor? {
+        return MultipleInvalidFacetEditor(editors)
     }
 
     override fun isSuitableModuleType(moduleType: ModuleType<*>?): Boolean {
@@ -28,11 +36,11 @@ class KamiFrameworkProvider : FacetType<KamiFacet, KamiConfigPanel> {
     }
 
     override fun getDefaultFacetName(): String {
-        return "getDefaultFacetName"
+        return facetName
     }
 
     override fun getIcon(): Icon {
-        return ExpUiIcons.Javaee.WebService
+        return ExpUiIcons.CodeWithMe.CwmAccess
     }
 
     override fun getHelpTopic(): String {
@@ -46,5 +54,7 @@ class KamiFrameworkProvider : FacetType<KamiFacet, KamiConfigPanel> {
     override fun isOnlyOneFacetAllowed(): Boolean {
         return true
     }
+
+
 }
 

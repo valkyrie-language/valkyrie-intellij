@@ -9,7 +9,7 @@ import com.intellij.openapi.module.ModuleType
 import valkyrie.language.ValkyrieBundle
 import javax.swing.Icon
 
-private val facetName = ValkyrieBundle.message("framework.iris.name")
+private val facetName = ValkyrieBundle.message("framework.asgard.name")
 
 /** Full stack framework based on MVC, like Elixir Phoenix, Ruby on Rails */
 class AsgardFrameworkProvider : FacetType<AsgardFacet, AsgardConfig> {
