@@ -11,8 +11,10 @@ import com.intellij.psi.util.elementType
 import valkyrie.ide.reference.declaration.ValkyrieNamepathReference
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ValkyrieTypes
-import valkyrie.psi.childrenWithLeaves
 import valkyrie.psi.node.*
+
+val PsiElement.childrenWithLeaves: Sequence<PsiElement>
+    get() = generateSequence(this.firstChild) { it.nextSibling }
 
 class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
@@ -212,15 +214,9 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         infoHolder?.add(builder.create())
     }
 
-    override fun analyze(
-        file: PsiFile,
-        updateWholeFile: Boolean,
-        holder: HighlightInfoHolder,
-        action: Runnable,
-    ): Boolean {
+    override fun analyze(file: PsiFile, updateWholeFile: Boolean, holder: HighlightInfoHolder, action: Runnable): Boolean {
         infoHolder = holder
         action.run()
-
         return true
     }
 
