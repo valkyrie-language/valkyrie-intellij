@@ -39,9 +39,9 @@ public class ValkyriePatternPairNode extends ValkyrieElement implements Valkyrie
     }
 
     @Override
-    @NotNull
+    @Nullable
     public ValkyriePattern getPattern() {
-        return findNotNullChildByClass(ValkyriePattern.class);
+        return findChildByClass(ValkyriePattern.class);
     }
 
 }

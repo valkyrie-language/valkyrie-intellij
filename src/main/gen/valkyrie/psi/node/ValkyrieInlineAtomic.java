@@ -14,15 +14,21 @@ public interface ValkyrieInlineAtomic extends PsiElement {
     ValkyrieFunctionCallInline getFunctionCallInline();
 
     @Nullable
-    ValkyrieLiteral getLiteral();
+    ValkyrieMacroCall getMacroCall();
 
     @Nullable
-    ValkyrieMacroCall getMacroCall();
+    ValkyrieNamepath getNamepath();
+
+    @Nullable
+    ValkyrieNumber getNumber();
 
     @Nullable
     ValkyrieOffsetRange getOffsetRange();
 
     @Nullable
     ValkyrieOrdinalRange getOrdinalRange();
+
+    @Nullable
+    ValkyrieSpecial getSpecial();
 
 }

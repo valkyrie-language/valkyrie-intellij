@@ -11,21 +11,18 @@ public interface ValkyrieDeclareComponent extends PsiElement {
     ValkyrieAnnotations getAnnotations();
 
     @Nullable
-    ValkyrieBlockBody getBlockBody();
+    ValkyrieClassBody getClassBody();
+
+    @Nullable
+    ValkyrieClassInherit getClassInherit();
 
     @Nullable
     ValkyrieDeclareGeneric getDeclareGeneric();
 
     @Nullable
-    ValkyrieEffectType getEffectType();
-
-    @Nullable
     ValkyrieIdentifier getIdentifier();
 
     @Nullable
-    ValkyrieParameterBody getParameterBody();
-
-    @Nullable
-    ValkyrieReturnType getReturnType();
+    ValkyrieTypeHint getTypeHint();
 
 }

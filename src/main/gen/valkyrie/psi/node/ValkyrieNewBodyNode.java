@@ -32,16 +32,4 @@ public class ValkyrieNewBodyNode extends ValkyrieElement implements ValkyrieNewB
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpressionRoot.class);
     }
 
-    @Override
-    @NotNull
-    public List<ValkyrieIfCaseStatement> getIfCaseStatementList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIfCaseStatement.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieIfStatement> getIfStatementList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIfStatement.class);
-    }
-
 }

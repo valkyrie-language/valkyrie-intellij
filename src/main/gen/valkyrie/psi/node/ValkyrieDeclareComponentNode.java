@@ -34,8 +34,14 @@ public class ValkyrieDeclareComponentNode extends MixinComponent implements Valk
 
     @Override
     @Nullable
-    public ValkyrieBlockBody getBlockBody() {
-        return findChildByClass(ValkyrieBlockBody.class);
+    public ValkyrieClassBody getClassBody() {
+        return findChildByClass(ValkyrieClassBody.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieClassInherit getClassInherit() {
+        return findChildByClass(ValkyrieClassInherit.class);
     }
 
     @Override
@@ -46,26 +52,14 @@ public class ValkyrieDeclareComponentNode extends MixinComponent implements Valk
 
     @Override
     @Nullable
-    public ValkyrieEffectType getEffectType() {
-        return findChildByClass(ValkyrieEffectType.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieIdentifier getIdentifier() {
         return findChildByClass(ValkyrieIdentifier.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieParameterBody getParameterBody() {
-        return findChildByClass(ValkyrieParameterBody.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieReturnType getReturnType() {
-        return findChildByClass(ValkyrieReturnType.class);
+    public ValkyrieTypeHint getTypeHint() {
+        return findChildByClass(ValkyrieTypeHint.class);
     }
 
 }

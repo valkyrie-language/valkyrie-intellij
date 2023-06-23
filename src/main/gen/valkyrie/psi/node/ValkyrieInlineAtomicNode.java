@@ -40,14 +40,20 @@ public class ValkyrieInlineAtomicNode extends ValkyrieElement implements Valkyri
 
     @Override
     @Nullable
-    public ValkyrieLiteral getLiteral() {
-        return findChildByClass(ValkyrieLiteral.class);
+    public ValkyrieMacroCall getMacroCall() {
+        return findChildByClass(ValkyrieMacroCall.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieMacroCall getMacroCall() {
-        return findChildByClass(ValkyrieMacroCall.class);
+    public ValkyrieNamepath getNamepath() {
+        return findChildByClass(ValkyrieNamepath.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieNumber getNumber() {
+        return findChildByClass(ValkyrieNumber.class);
     }
 
     @Override
@@ -60,6 +66,12 @@ public class ValkyrieInlineAtomicNode extends ValkyrieElement implements Valkyri
     @Nullable
     public ValkyrieOrdinalRange getOrdinalRange() {
         return findChildByClass(ValkyrieOrdinalRange.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieSpecial getSpecial() {
+        return findChildByClass(ValkyrieSpecial.class);
     }
 
 }

@@ -21,7 +21,6 @@ public interface ValkyrieTypes {
     IElementType BAD_RRR = new ValkyrieElementType("BAD_RRR");
     IElementType BLOCK_BARE = new ValkyrieElementType("BLOCK_BARE");
     IElementType BLOCK_BODY = new ValkyrieElementType("BLOCK_BODY");
-    IElementType CASE_ITEM = new ValkyrieElementType("CASE_ITEM");
     IElementType CLASS_BODY = new ValkyrieElementType("CLASS_BODY");
     IElementType CLASS_INHERIT = new ValkyrieElementType("CLASS_INHERIT");
     IElementType CONTROL_BREAK = new ValkyrieElementType("CONTROL_BREAK");
@@ -88,7 +87,6 @@ public interface ValkyrieTypes {
     IElementType IS_NOT = new ValkyrieElementType("IS_NOT");
     IElementType LAMBDA_BLOCK = new ValkyrieElementType("LAMBDA_BLOCK");
     IElementType LET_PATTERN = new ValkyrieElementType("LET_PATTERN");
-    IElementType LITERAL = new ValkyrieElementType("LITERAL");
     IElementType LOCALIZE_CALL = new ValkyrieElementType("LOCALIZE_CALL");
     IElementType MACRO_CALL = new ValkyrieElementType("MACRO_CALL");
     IElementType MACRO_CALL_INLINE = new ValkyrieElementType("MACRO_CALL_INLINE");
@@ -253,13 +251,17 @@ public interface ValkyrieTypes {
     IElementType OP_LLL = new ValkyrieTokenType("⋘");
     IElementType OP_MANY = new ValkyrieTokenType("*");
     IElementType OP_MINUS = new ValkyrieTokenType("OP_MINUS");
+    IElementType OP_MINUS_EQ = new ValkyrieTokenType("OP_MINUS_EQ");
     IElementType OP_NE = new ValkyrieTokenType("OP_NE");
     IElementType OP_OR = new ValkyrieTokenType("|");
     IElementType OP_PLUS = new ValkyrieTokenType("OP_PLUS");
+    IElementType OP_PLUS_EQ = new ValkyrieTokenType("OP_PLUS_EQ");
     IElementType OP_POW = new ValkyrieTokenType("OP_POW");
     IElementType OP_REM = new ValkyrieTokenType("OP_REM");
     IElementType OP_RR = new ValkyrieTokenType("OP_RR");
     IElementType OP_UNTIL = new ValkyrieTokenType("OP_UNTIL");
+    IElementType OP_UNWRAP_ELSE = new ValkyrieTokenType("OP_UNWRAP_ELSE");
+    IElementType OP_UNWRAP_OR = new ValkyrieTokenType("OP_UNWRAP_OR");
     IElementType PARENTHESIS_L = new ValkyrieTokenType("(");
     IElementType PARENTHESIS_R = new ValkyrieTokenType(")");
     IElementType PLACE_HOLDER = new ValkyrieTokenType("_");
@@ -305,8 +307,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieBlockBareNode(node);
             } else if (type == BLOCK_BODY) {
                 return new ValkyrieBlockBodyNode(node);
-            } else if (type == CASE_ITEM) {
-                return new ValkyrieCaseItemNode(node);
             } else if (type == CLASS_BODY) {
                 return new ValkyrieClassBodyNode(node);
             } else if (type == CLASS_INHERIT) {
@@ -439,8 +439,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieLambdaBlockNode(node);
             } else if (type == LET_PATTERN) {
                 return new ValkyrieLetPatternNode(node);
-            } else if (type == LITERAL) {
-                return new ValkyrieLiteralNode(node);
             } else if (type == LOCALIZE_CALL) {
                 return new ValkyrieLocalizeCallNode(node);
             } else if (type == MACRO_CALL) {

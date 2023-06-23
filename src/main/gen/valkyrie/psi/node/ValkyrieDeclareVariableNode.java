@@ -34,18 +34,6 @@ public class ValkyrieDeclareVariableNode extends MixinVariable implements Valkyr
 
     @Override
     @Nullable
-    public ValkyrieIfCaseStatement getIfCaseStatement() {
-        return findChildByClass(ValkyrieIfCaseStatement.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieIfStatement getIfStatement() {
-        return findChildByClass(ValkyrieIfStatement.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieLetPattern getLetPattern() {
         return findChildByClass(ValkyrieLetPattern.class);
     }
