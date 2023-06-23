@@ -2,9 +2,11 @@
 	<id>Valkyrie</id>
 	<name>Valkyrie Language</name>
 	<vendor>voml</vendor>
+	<depends>com.intellij.java</depends>
+	<depends>com.intellij.modules.lang</depends>
 	<depends>com.intellij.modules.platform</depends>
 	<depends optional="true" config-file="plugin-for-idea.xml">com.intellij.modules.ultimate</depends>
-	<depends optional="true" config-file="plugin-with-markdown.xml">org.intellij.plugins.markdown</depends>
+	<depends optional="true" config-file="plugin-with-toml.xml">org.toml.lang</depends>
 	<resource-bundle>messages.ValkyrieBundle</resource-bundle>
 	<extensions defaultExtensionNs="com.intellij">
 		<!-- Language -->
@@ -18,9 +20,9 @@
 			language="valkyrie"
 			implementationClass="valkyrie.psi.ParserDefinition"
 		/>
-		<applicationInitializedListener implementation="valkyrie.lsp.ValkyrieLspRegister"/>
 		<!-- Project -->
 		<newProjectWizard.languageGenerator implementation="valkyrie.project.ValkyrieProjectGenerator"/>
+		<projectWizard.projectCategory implementation="valkyrie.project.ValkyrieProjectCategory"/>
 		<directoryProjectGenerator implementation="valkyrie.project.DirectoryProjectGenerator"/>
 		<projectNameProvider implementation="valkyrie.project.ValkyrieProjectName"/>
 		<projectOpenProcessor implementation="valkyrie.project.projectOpenProcessor"/>
@@ -49,9 +51,10 @@
 		<moduleNameGenerator implementation="valkyrie.project.facet.ValkyrieModuleNameGenerator"/>
 		<moduleBuilder builderClass="valkyrie.project.facet.ValkyrieModuleBuilder"/>
 		<module.workingDirectoryProvider implementation="valkyrie.project.facet.workingDirectoryProvider"/>
-		<primaryModuleManager implementation="valkyrie.project.facet.ValkyrieRootModule"/>
+		<primaryModuleManager implementation="valkyrie.project.modules.ValkyrieRootModule"/>
 		<moduleContextProvider implementation="valkyrie.project.ValkyriePackageContext"/>
 		<moduleExtension implementation="valkyrie.project.moduleExtension"/>
+		<packageGroupRuleProvider implementation="valkyrie.project.packageGroupRuleProvider"/>
 		<!-- Project Module (Valkyrie Package) -->
 		<generatedSourcesFilter implementation="valkyrie.project.facet.generatedSourcesFilter"/>
 		<testSourcesFilter implementation="valkyrie.project.facet.testSourcesFilter"/>
@@ -61,7 +64,9 @@
 		<fileBasedIndex implementation="valkyrie.project.ValkyrieFileIndex"/>
 		<indexedRootsProvider implementation="valkyrie.project.ExtraIndexContributor"/>
 		<generatedSourcesFilter implementation="valkyrie.project.ValkyrieGeneratedSource"/>
-		<packaging.artifactType/>
+		<!-- Project Artifact -->
+		<packaging.artifactPropertiesProvider implementation="valkyrie.project.artifact.artifactPropertiesProvider"/>
+		<packaging.artifactType implementation="valkyrie.project.artifact.ValkyrieArtifactType"/>
 		<!-- StructureView -->
 		<iconProvider implementation="valkyrie.language.file.ValkyrieIconProvider"/>
 		<projectViewNestingRulesProvider implementation="valkyrie.language.file.ValkyrieFileGroup"/>
