@@ -79,16 +79,11 @@ private statements ::=
   | declare-component
   | declare-macro
   | block-statement
-private block-statement ::=
-    declare-variable
+private block-statement ::= SEMICOLON
+  | declare-variable
   | new-lambda
   | attribute-above
   | control-statement
-  | inline-statement
-private inline-statement ::= SEMICOLON
-  | if-case-statement
-  | if-statement
-
   | expression-root
 // === grammar statement ===
 declare-namespace ::= annotations KW_NAMESPACE namepath-free {
@@ -129,6 +124,11 @@ declare-class ::= declare-template? annotations KW_CLASS identifier declare-gene
     pin = 3
     mixin = "valkyrie.psi.mixin.MixinClass"
 }
+declare-component ::= annotations KW_COMPONENT identifier declare-generic? class-inherit? type-hint? class-body {
+    pin = 2
+    mixin = "valkyrie.psi.mixin.MixinComponent"
+}
+
 class-inherit ::= PARENTHESIS_L (inherit-item (COMMA inherit-item)* COMMA?)? PARENTHESIS_R;
 inherit-item  ::= (annotations identifier EQUAL)? type-expression {
     mixin = "valkyrie.psi.mixin.MixinClassInherit"
@@ -141,7 +141,6 @@ private class-item ::= SEMICOLON | COMMA
   | declare-field
 // === class field statement ===
 declare-field ::= annotations identifier type-hint? default-value? {
-    pin = 2
     mixin = "valkyrie.psi.mixin.MixinField"
 }
 type-hint     ::= COLON type-expression {
@@ -223,10 +222,7 @@ declare-macro ::= annotations KW_MACRO declare-generic? identifier parameter-bod
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinMacro"
 }
-declare-component ::= annotations KW_COMPONENT declare-generic? identifier parameter-body return-type? effect-type? block-body {
-    pin = 2
-    mixin = "valkyrie.psi.mixin.MixinComponent"
-}
+
 parameter-body ::= PARENTHESIS_L (parameter-item (COMMA parameter-item)* COMMA?)? PARENTHESIS_R;
 parameter-item ::= annotations identifier type-hint? default-value? {
     mixin = "valkyrie.psi.mixin.MixinValueParameter"
@@ -236,7 +232,7 @@ effect-type ::= OP_DIV type-expression;
 block-body  ::= BRACE_L block-statement* BRACE_R;
 block-bare  ::= block-statement*;
 // === function statement ===
-declare-variable ::= KW_LET let-pattern type-hint? EQUAL inline-statement {
+declare-variable ::= KW_LET let-pattern type-hint? EQUAL expression-root {
     pin = 1
     mixin = "valkyrie.psi.mixin.MixinVariable"
 }
@@ -311,10 +307,10 @@ private match-item ::=
 match-with ::= KW_WITH pattern COLON block-bare {
     pin = 1
 }
-match-case ::= KW_CASE case-item COLON block-bare {
+match-case ::= KW_CASE pattern if-condition? COLON block-bare {
     pin = 1
 }
-case-item ::= namepath|number|pattern;
+
 match-when ::= KW_WHEN expression-inline COLON block-bare {
     pin = 1
 }
@@ -341,7 +337,7 @@ pattern-object      ::= annotations namepath-free? pattern-object-body;
 pattern-object-body ::= BRACE_L (pattern-pair (COMMA pattern-pair)* COMMA?)? BRACE_R {
     pin = 1
 }
-pattern-pair      ::= annotations identifier COLON pattern;
+pattern-pair      ::= annotations identifier (COLON pattern)?;
 pattern-literal   ::= annotations (identifier|string|special)
 // === pattern expression ===
 // new Self { r: red, g: green, b: blue, a: alpha}
@@ -351,7 +347,7 @@ new-value  ::= KW_NEW modifier* type-expression? argument-body? new-body {
 }
 new-body ::= BRACE_L new-item* BRACE_R;
 private new-item ::= SEMICOLON | COMMA
-  | inline-statement
+  | expression-root
 new-object ::= KW_OBJECT class-inherit? type-hint? class-body {
     pin = 1
     mixin = "valkyrie.psi.mixin.MixinObject"
@@ -406,7 +402,8 @@ term ::= prefix* atomic suffix* {
 }
 prefix ::= OP_PLUS | OP_MINUS | OP_BANG;
 infix  ::=
-    OP_PLUS | OP_MINUS
+    OP_PLUS  | OP_PLUS_EQ
+  | OP_MINUS | OP_MINUS_EQ
   | STAR | OP_DIV | OP_REM | OP_DIV_REM
   | OP_OR
   | OP_AND
@@ -414,11 +411,12 @@ infix  ::=
   | OP_GGG | bad-rrr  // >>>
   | OP_LL  | bad-ll   // <<
   | OP_GG  | bad-rr   // >>
-  | OP_LEQ | ANGLE_L  // <
-  | OP_GEQ | ANGLE_R  // >
+  | OP_LEQ | ANGLE_L  // <, <=
+  | OP_GEQ | ANGLE_R  // >, >=
   | OP_UNTIL
   | EQUAL | OP_EE | OP_NE
   | KW_AS
+  | OP_UNWRAP_OR | OP_UNWRAP_ELSE // ??
   | is_not | KW_IS
 bad-lll ::= ANGLE_L ANGLE_L ANGLE_L
   | OP_LL ANGLE_L
@@ -448,7 +446,9 @@ inline-atomic ::=
   | function-call-inline
   | ordinal-range
   | offset-range
-  | literal
+  | special
+  | namepath
+  | number
 // === expression statement ===
 type-expression ::= type-term (type-infix type-term)* {
     mixin = "valkyrie.psi.mixin.MixinTypeExpression"
@@ -473,23 +473,25 @@ generic-argument ::= (annotations identifier EQUAL)? type-expression;
 // === atomic statement ===
 atomic ::=
     PARENTHESIS_L expression-root PARENTHESIS_R
-  | tuple           // ( )
-  | lambda-block    // { }
-  | ordinal-range   // [ ]
-  | offset-range    // ⁅ ⁆
-  | macro-call      // @path::id() { }
-  | slot            // $id
-  | localize-call   // ⸿scope.path
-  | for-statement   // for ... {...}
-  | while-statement // while/until {...}
-  | try-statement   // try T {...}
-  | control-raise   // raise T
-  | match-statement // match ... { ... }
-  | new-value       // new T { ... }
-  | new-object      // object(base): Interface { }
-  | string          // handler"..."
-  | special         // true false
-  | function-call   // path::id() { }
+  | tuple             // ( )
+  | lambda-block      // { }
+  | ordinal-range     // [ ]
+  | offset-range      // ⁅ ⁆
+  | macro-call        // @path::id() { }
+  | slot              // $id
+  | localize-call     // ⸿scope.path
+  | if-case-statement // if case ...
+  | if-statement      // if ...
+  | for-statement     // for ... {...}
+  | while-statement   // while/until {...}
+  | try-statement     // try T {...}
+  | control-raise     // raise T
+  | match-statement   // match ... { ... }
+  | new-value         // new T { ... }
+  | new-object        // object(base): Interface { }
+  | string            // handler"..."
+  | special           // true false
+  | function-call     // path::id() { }
   | namepath
   | number
 // === atomic statement ===
@@ -517,10 +519,9 @@ argument ::= (identifier EQUAL)? expression-root {
 
 }
 // === literal items ===
-literal ::= special | namepath | number;
 number ::=
-    INTEGER number-suffix?
-  | DECIMAL number-suffix?;
+    DECIMAL number-suffix?
+  | INTEGER number-suffix?
 private number-suffix ::=
     identifier
   | OP_CELSIUS

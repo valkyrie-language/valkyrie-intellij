@@ -52,18 +52,6 @@ public class ValkyrieLambdaBlockNode extends ValkyrieElement implements Valkyrie
 
     @Override
     @NotNull
-    public List<ValkyrieIfCaseStatement> getIfCaseStatementList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIfCaseStatement.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieIfStatement> getIfStatementList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIfStatement.class);
-    }
-
-    @Override
-    @NotNull
     public List<ValkyrieNewLambda> getNewLambdaList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNewLambda.class);
     }
