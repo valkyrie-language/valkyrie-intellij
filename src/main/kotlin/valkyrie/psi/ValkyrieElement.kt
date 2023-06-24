@@ -12,6 +12,11 @@ open class ValkyrieElement(node: ASTNode) : ASTWrapperPsiElement(node) {
         return SharedImplUtil.getContainingFile(node) as ValkyrieFileNode
     }
 
+
+    override fun getName(): String {
+        return "⟪anonymous⟫"
+    }
+
     override fun getBaseIcon(): Icon {
         return AllIcons.Nodes.EmptyNode
     }

@@ -128,6 +128,15 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
             }
         }
     }
+
+    override fun visitLocalizeCall(o: ValkyrieLocalizeCall) {
+        val symbol = o.firstChild
+        if (symbol.text == "\\L") {
+            symbol.replaceLeaf(ValkyrieTypes.OP_L10N, "⸿")
+        }
+    }
+
+
     override fun visitBadLll(o: ValkyrieBadLll) {
         o.replaceLeaf(ValkyrieTypes.OP_LLL, "⋘")
     }
@@ -143,7 +152,6 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
     override fun visitBadRr(o: ValkyrieBadRr) {
         o.replaceLeaf(ValkyrieTypes.OP_GG, "≫")
     }
-
 
 
 }

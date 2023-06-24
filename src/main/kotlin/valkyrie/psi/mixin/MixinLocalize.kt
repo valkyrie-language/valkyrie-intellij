@@ -8,7 +8,7 @@ import valkyrie.psi.node.ValkyrieIdentifierNode
 import valkyrie.psi.node.ValkyrieLocalizeCall
 
 abstract class MixinLocalize(node: ASTNode) : ValkyrieElement(node), ValkyrieLocalizeCall {
-    val identifier: ValkyrieIdentifierNode = identifierList.last() as ValkyrieIdentifierNode;
+    val identifier: ValkyrieIdentifierNode? = identifierList.lastOrNull() as? ValkyrieIdentifierNode;
 
 
     override fun getNavigationElement(): PsiElement {
@@ -16,7 +16,7 @@ abstract class MixinLocalize(node: ASTNode) : ValkyrieElement(node), ValkyrieLoc
     }
 
     override fun getName(): String {
-        return identifier.name
+        return identifier?.name ?: "⟪anonymous localize⟫"
     }
 
     override fun getReference(): ValkyrieNamepathReference? {

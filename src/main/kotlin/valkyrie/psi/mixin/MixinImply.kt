@@ -12,8 +12,8 @@ import javax.swing.Icon
 abstract class MixinImply(node: ASTNode) : ValkyrieElement(node), ValkyrieDeclareImply {
     val id = this.namepath?.identifierList?.lastOrNull() as? ValkyrieIdentifierNode
 
-    override fun getName(): String? {
-        return id?.name
+    override fun getName(): String {
+        return id?.name ?: "⟪anonymous imply⟫"
     }
 
     override fun getBaseIcon(): Icon {
