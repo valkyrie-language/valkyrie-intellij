@@ -239,13 +239,13 @@
 		<!-- Injection -->
 		<languageInjectionContributor
 			language="valkyrie"
-			implementationClass="valkyrie.ide.matcher.languageInjectionContributor"
+			implementationClass="valkyrie.ide.matcher.ValkyrieLanguageInjectionContributor"
 		/>
 		<languageInjectionPerformer
 			language="valkyrie"
-			implementationClass="valkyrie.ide.matcher.languageInjectionPerformer"
+			implementationClass="valkyrie.ide.matcher.ValkyrieLanguageInjectionPerformer"
 		/>
-		<multiHostInjector implementation="valkyrie.ide.matcher.LanguageInjector"/>
+		<multiHostInjector implementation="valkyrie.ide.matcher.ValkyrieLanguageInjector"/>
 
 		<!-- Rename -->
 		<renameHandler implementation="valkyrie.ide.refactor.ValkyrieRenameHandler"/>
@@ -263,9 +263,10 @@
 		<lang.commenter language="valkyrie" implementationClass="valkyrie.ide.formatter.ValkyrieCommenter"/>
 		<lang.braceMatcher
 			language="valkyrie"
-			implementationClass="valkyrie.ide.matcher.BraceMatchAdapter"
+			implementationClass="valkyrie.ide.matcher.ValkyrieBraceMatchAdapter"
 		/>
-		<codeBlockSupportHandler language="valkyrie" implementationClass="valkyrie.ide.matcher.CodeBlockSupport"/>
+		<codeBlockSupportHandler language="valkyrie"
+		                         implementationClass="valkyrie.ide.matcher.ValkyrieCodeBlockSupport"/>
 		<lang.quoteHandler
 			language="valkyrie"
 			implementationClass="valkyrie.ide.matcher.ValkyrieQuoteHandler"

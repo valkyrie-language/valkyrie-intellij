@@ -17,7 +17,7 @@ import valkyrie.psi.node.ValkyrieStringNode
 import valkyrie.psi.node.ValkyrieVisitor
 
 
-class LanguageInjector : MultiHostInjector {
+class ValkyrieLanguageInjector : MultiHostInjector {
     override fun getLanguagesToInject(registrar: MultiHostRegistrar, context: PsiElement) {
         context.accept(LanguageInjectorVisitor(registrar))
     }

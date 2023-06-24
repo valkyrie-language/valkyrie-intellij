@@ -5,12 +5,13 @@ import com.intellij.lang.injection.general.Injection
 import com.intellij.lang.injection.general.LanguageInjectionPerformer
 import com.intellij.psi.PsiElement
 
-class languageInjectionPerformer : LanguageInjectionPerformer {
+class ValkyrieLanguageInjectionPerformer : LanguageInjectionPerformer {
     override fun isPrimary(): Boolean {
-        return true
+        return false
     }
 
     override fun performInjection(registrar: MultiHostRegistrar, injection: Injection, context: PsiElement): Boolean {
-        return true
+        return false
     }
 }
+

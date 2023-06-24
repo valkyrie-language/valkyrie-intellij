@@ -11,16 +11,15 @@ import valkyrie.psi.ValkyrieTypes.*
 class ValkyrieBraceMatch : PairedBraceMatcher {
     override fun getPairs(): Array<BracePair> {
         return arrayOf(
-            BracePair(BRACE_L, BRACE_R, true),
-            BracePair(BRACKET_L, BRACKET_R, true),
-            BracePair(PARENTHESIS_L, PARENTHESIS_R, true),
-            BracePair(GENERIC_L, GENERIC_R, true),
-
+//            BracePair(BRACE_L, BRACE_R, false),
+//            BracePair(BRACKET_L, BRACKET_R, false),
+//            BracePair(PARENTHESIS_L, PARENTHESIS_R, false),
+//            BracePair(GENERIC_L, GENERIC_R, false),
         )
     }
 
     override fun isPairedBracesAllowedBeforeType(lbraceType: IElementType, next: IElementType?): Boolean {
-        return false
+        return true
     }
 
     override fun getCodeConstructStart(file: PsiFile?, openingBraceOffset: Int): Int {
@@ -36,3 +35,4 @@ class ValkyrieBraceMatch : PairedBraceMatcher {
         )
     }
 }
+
