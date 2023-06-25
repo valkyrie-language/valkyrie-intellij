@@ -33,21 +33,9 @@ public class ValkyriePatternLiteralNode extends ValkyrieElement implements Valky
     }
 
     @Override
-    @Nullable
-    public ValkyrieIdentifier getIdentifier() {
-        return findChildByClass(ValkyrieIdentifier.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieSpecial getSpecial() {
-        return findChildByClass(ValkyrieSpecial.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieString getString() {
-        return findChildByClass(ValkyrieString.class);
+    @NotNull
+    public ValkyriePatternAtomic getPatternAtomic() {
+        return findNotNullChildByClass(ValkyriePatternAtomic.class);
     }
 
 }

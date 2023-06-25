@@ -52,14 +52,8 @@ public class ValkyrieSuffixNode extends ValkyrieElement implements ValkyrieSuffi
 
     @Override
     @Nullable
-    public ValkyrieIsNot getIsNot() {
-        return findChildByClass(ValkyrieIsNot.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyriePattern getPattern() {
-        return findChildByClass(ValkyriePattern.class);
+    public ValkyrieIsStatement getIsStatement() {
+        return findChildByClass(ValkyrieIsStatement.class);
     }
 
     @Override

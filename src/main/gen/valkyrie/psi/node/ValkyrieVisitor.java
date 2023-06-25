@@ -311,7 +311,11 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitIsNot(@NotNull ValkyrieIsNot o) {
+    public void visitIsExpression(@NotNull ValkyrieIsExpression o) {
+        visitPsiElement(o);
+    }
+
+    public void visitIsStatement(@NotNull ValkyrieIsStatement o) {
         visitPsiElement(o);
     }
 
@@ -408,6 +412,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitPattern(@NotNull ValkyriePattern o) {
+        visitPsiElement(o);
+    }
+
+    public void visitPatternAtomic(@NotNull ValkyriePatternAtomic o) {
         visitPsiElement(o);
     }
 
