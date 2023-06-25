@@ -19,4 +19,13 @@ public interface ValkyrieSuffix extends PsiElement {
     @Nullable
     ValkyrieGenericCall getGenericCall();
 
+    @Nullable
+    ValkyrieIsNot getIsNot();
+
+    @Nullable
+    ValkyriePattern getPattern();
+
+    @Nullable
+    ValkyrieTypeExpression getTypeExpression();
+
 }
