@@ -2732,6 +2732,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     //     pattern-unapply
     //   | pattern-sequence
     //   | pattern-literal
+    //   | type-expression
     // )
     public static boolean is_expression(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "is_expression")) return false;
@@ -2759,12 +2760,14 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     // pattern-unapply
     //   | pattern-sequence
     //   | pattern-literal
+    //   | type-expression
     private static boolean is_expression_1(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "is_expression_1")) return false;
         boolean r;
         r = pattern_unapply(b, l + 1);
         if (!r) r = pattern_sequence(b, l + 1);
         if (!r) r = pattern_literal(b, l + 1);
+        if (!r) r = type_expression(b, l + 1);
         return r;
     }
 
@@ -2774,6 +2777,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     //   | pattern-sequence
     //   | pattern-literal
     //   | pattern-object
+    //   | type-expression
     // )
     public static boolean is_statement(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "is_statement")) return false;
@@ -2802,6 +2806,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     //   | pattern-sequence
     //   | pattern-literal
     //   | pattern-object
+    //   | type-expression
     private static boolean is_statement_1(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "is_statement_1")) return false;
         boolean r;
@@ -2809,6 +2814,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!r) r = pattern_sequence(b, l + 1);
         if (!r) r = pattern_literal(b, l + 1);
         if (!r) r = pattern_object(b, l + 1);
+        if (!r) r = type_expression(b, l + 1);
         return r;
     }
 
