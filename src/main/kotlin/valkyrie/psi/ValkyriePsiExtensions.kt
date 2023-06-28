@@ -16,7 +16,9 @@ val PsiElement.ancestors: Sequence<PsiElement>
     }
 
 val PsiElement.childrenWithLeaves: Sequence<PsiElement>
-    get() = generateSequence(this.firstChild) { it.nextSibling }
+    get() {
+        return generateSequence(this.firstChild) { it.nextSibling }
+    }
 
 inline fun <reified T : PsiElement> PsiElement.ancestorStrict(): T? =
     PsiTreeUtil.getParentOfType(this, T::class.java, /* strict */ true)

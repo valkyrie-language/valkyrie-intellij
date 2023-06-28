@@ -14,9 +14,6 @@ public interface ValkyriePatternAtomic extends PsiElement {
     ValkyrieNumber getNumber();
 
     @Nullable
-    ValkyriePatternType getPatternType();
-
-    @Nullable
     ValkyrieSpecial getSpecial();
 
     @Nullable

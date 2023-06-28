@@ -45,7 +45,8 @@ class ValkyrieNamepathReference : PsiPolyVariantReference, EmptyResolveMessagePr
     }
 
     private fun resolveSequence() = sequence {
-        for (child in target.containingFile.children) {
+        val children = target.containingFile?.children ?: arrayOf();
+        for (child in children) {
             when (child) {
                 is ValkyrieDeclaration -> {
                     if (target.name == child.name) {

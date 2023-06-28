@@ -27,21 +27,9 @@ public class ValkyrieIsExpressionNode extends ValkyrieElement implements Valkyri
     }
 
     @Override
-    @Nullable
-    public ValkyriePatternLiteral getPatternLiteral() {
-        return findChildByClass(ValkyriePatternLiteral.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyriePatternSequence getPatternSequence() {
-        return findChildByClass(ValkyriePatternSequence.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyriePatternUnapply getPatternUnapply() {
-        return findChildByClass(ValkyriePatternUnapply.class);
+    @NotNull
+    public ValkyrieTypePatternInline getTypePatternInline() {
+        return findNotNullChildByClass(ValkyrieTypePatternInline.class);
     }
 
 }

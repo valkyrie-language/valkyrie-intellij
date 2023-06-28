@@ -13,4 +13,7 @@ public interface ValkyrieTypeAtomic extends PsiElement {
     @Nullable
     ValkyrieString getString();
 
+    @Nullable
+    ValkyrieTypeTuple getTypeTuple();
+
 }

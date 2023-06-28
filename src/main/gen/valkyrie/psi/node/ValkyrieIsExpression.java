@@ -7,13 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieIsExpression extends PsiElement {
 
-    @Nullable
-    ValkyriePatternLiteral getPatternLiteral();
-
-    @Nullable
-    ValkyriePatternSequence getPatternSequence();
-
-    @Nullable
-    ValkyriePatternUnapply getPatternUnapply();
+    @NotNull
+    ValkyrieTypePatternInline getTypePatternInline();
 
 }

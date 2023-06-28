@@ -7,16 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieLetPattern extends PsiElement {
 
-    @Nullable
-    ValkyriePatternBare getPatternBare();
-
-    @Nullable
-    ValkyriePatternObject getPatternObject();
-
-    @Nullable
-    ValkyriePatternSequence getPatternSequence();
-
-    @Nullable
-    ValkyriePatternUnapply getPatternUnapply();
+    @NotNull
+    List<ValkyrieLetPatternItem> getLetPatternItemList();
 
 }

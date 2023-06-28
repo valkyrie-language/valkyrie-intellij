@@ -8,10 +8,9 @@ import valkyrie.language.file.ValkyrieFileNode
 import javax.swing.Icon
 
 open class ValkyrieElement(node: ASTNode) : ASTWrapperPsiElement(node) {
-    override fun getContainingFile(): ValkyrieFileNode {
-        return SharedImplUtil.getContainingFile(node) as ValkyrieFileNode
+    override fun getContainingFile(): ValkyrieFileNode? {
+        return SharedImplUtil.findFileElement(node)?.psi as? ValkyrieFileNode
     }
-
 
     override fun getName(): String {
         return "⟪anonymous⟫"
