@@ -50,10 +50,4 @@ public class ValkyrieInfixNode extends ValkyrieElement implements ValkyrieInfix 
         return findChildByClass(ValkyrieBadRrr.class);
     }
 
-    @Override
-    @Nullable
-    public ValkyrieIsNot getIsNot() {
-        return findChildByClass(ValkyrieIsNot.class);
-    }
-
 }

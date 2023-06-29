@@ -2562,9 +2562,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     //   | OP_GEQ | ANGLE_R  // >, >=
     //   | OP_UNTIL
     //   | EQUAL | OP_EE | OP_NE
-    //   | KW_AS
-    //   | OP_UNWRAP_OR | OP_UNWRAP_ELSE // ??
-    //   | is_not | KW_IS
+    //   | OP_UNWRAP_OR | OP_UNWRAP_ELSE
     public static boolean infix(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "infix")) return false;
         boolean r;
@@ -2595,11 +2593,8 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!r) r = consumeToken(b, EQUAL);
         if (!r) r = consumeToken(b, OP_EE);
         if (!r) r = consumeToken(b, OP_NE);
-        if (!r) r = consumeToken(b, KW_AS);
         if (!r) r = consumeToken(b, OP_UNWRAP_OR);
         if (!r) r = consumeToken(b, OP_UNWRAP_ELSE);
-        if (!r) r = is_not(b, l + 1);
-        if (!r) r = consumeToken(b, KW_IS);
         exit_section_(b, l, m, r, false, null);
         return r;
     }
@@ -3099,6 +3094,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     //     | COMMA | COLON | PROPORTION | DOT | SEMICOLON | EQUAL
     //     | PARENTHESIS_L | PARENTHESIS_R
     //     | BRACE_L | BRACE_R
+    //     | ANGLE_L | GENERIC_L
     static boolean modifier_stop(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "modifier_stop")) return false;
         boolean r;
@@ -3114,6 +3110,8 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!r) r = consumeToken(b, PARENTHESIS_R);
         if (!r) r = consumeToken(b, BRACE_L);
         if (!r) r = consumeToken(b, BRACE_R);
+        if (!r) r = consumeToken(b, ANGLE_L);
+        if (!r) r = consumeToken(b, GENERIC_L);
         return r;
     }
 
@@ -4311,7 +4309,12 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
 
     /* ********************************************************** */
     // OP_BANG
-    //     | dot-call | dot-call-for | dot-call-match
+    //     | dot-call
+    //     | dot-call-for
+    //     | dot-call-match
+    //     | KW_AS type-expression
+    //     | KW_IS pattern
+    //     | is_not pattern
     //     | generic-call
     public static boolean suffix(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "suffix")) return false;
@@ -4321,8 +4324,44 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!r) r = dot_call(b, l + 1);
         if (!r) r = dot_call_for(b, l + 1);
         if (!r) r = dot_call_match(b, l + 1);
+        if (!r) r = suffix_4(b, l + 1);
+        if (!r) r = suffix_5(b, l + 1);
+        if (!r) r = suffix_6(b, l + 1);
         if (!r) r = generic_call(b, l + 1);
         exit_section_(b, l, m, r, false, null);
+        return r;
+    }
+
+    // KW_AS type-expression
+    private static boolean suffix_4(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "suffix_4")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, KW_AS);
+        r = r && type_expression(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // KW_IS pattern
+    private static boolean suffix_5(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "suffix_5")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, KW_IS);
+        r = r && pattern(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // is_not pattern
+    private static boolean suffix_6(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "suffix_6")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = is_not(b, l + 1);
+        r = r && pattern(b, l + 1);
+        exit_section_(b, m, null, r);
         return r;
     }
 
@@ -4569,7 +4608,8 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // namepath | string
+    // namepath
+    //   | string
     public static boolean type_atomic(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "type_atomic")) return false;
         boolean r;

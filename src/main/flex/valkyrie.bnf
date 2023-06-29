@@ -339,7 +339,7 @@ pattern-object-body ::= BRACE_L (pattern-pair (COMMA pattern-pair)* COMMA?)? BRA
 }
 pattern-pair      ::= annotations identifier (COLON pattern)?;
 pattern-literal   ::= annotations (identifier|string|special)
-// === pattern expression ===
+// === new expression ===
 // new Self { r: red, g: green, b: blue, a: alpha}
 new-value  ::= KW_NEW modifier* type-expression? argument-body? new-body {
     pin = 1
@@ -348,10 +348,14 @@ new-value  ::= KW_NEW modifier* type-expression? argument-body? new-body {
 new-body ::= BRACE_L new-item* BRACE_R;
 private new-item ::= SEMICOLON | COMMA
   | expression-root
+// === object expression ===
+// object: Interface { }
 new-object ::= KW_OBJECT class-inherit? type-hint? class-body {
     pin = 1
     mixin = "valkyrie.psi.mixin.MixinObject"
 }
+// === lambda expression ===
+// { lambda(x, y) -> u32 }
 new-lambda ::= KW_LAMBDA declare-generic? parameter-body return-type? effect-type? {
     pin = 1
     mixin = "valkyrie.psi.mixin.MixinLambda"
@@ -401,6 +405,7 @@ term ::= prefix* atomic suffix* {
 
 }
 prefix ::= OP_PLUS | OP_MINUS | OP_BANG;
+
 infix  ::=
     OP_PLUS  | OP_PLUS_EQ
   | OP_MINUS | OP_MINUS_EQ
@@ -415,9 +420,7 @@ infix  ::=
   | OP_GEQ | ANGLE_R  // >, >=
   | OP_UNTIL
   | EQUAL | OP_EE | OP_NE
-  | KW_AS
   | OP_UNWRAP_OR | OP_UNWRAP_ELSE // ??
-  | is_not | KW_IS
 bad-lll ::= ANGLE_L ANGLE_L ANGLE_L
   | OP_LL ANGLE_L
   | ANGLE_L OP_LL
@@ -427,8 +430,14 @@ bad-rrr ::= ANGLE_R ANGLE_R ANGLE_R
 bad-ll  ::= ANGLE_L ANGLE_L
 bad-rr  ::= ANGLE_R ANGLE_R
 is_not ::= KW_IS KW_NOT | OP_BANG KW_IS;
+
 suffix ::= OP_BANG
-    | dot-call | dot-call-for | dot-call-match
+    | dot-call
+    | dot-call-for
+    | dot-call-match
+    | KW_AS type-expression
+    | KW_IS pattern
+    | is_not pattern
     | generic-call;
 inline-suffix ::= OP_BANG
     | dot-call-inline
@@ -460,7 +469,9 @@ type-term ::= type-prefix* type-atomic type-suffix* {
 type-prefix ::= OP_PLUS | OP_MINUS | OP_BANG;
 type-infix  ::= OP_PLUS | OP_ARROW1 | OP_OR;
 type-suffix ::= OP_AND_THEN | generic-call-free;
-type-atomic ::= namepath | string;
+type-atomic ::=
+    namepath
+  | string
 // === generic statement ===
 generic-call ::=
     PROPORTION? GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R
@@ -468,7 +479,6 @@ generic-call ::=
 generic-call-free ::=
     PROPORTION? GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R
   | PROPORTION? ANGLE_L   (generic-argument (COMMA generic-argument)* COMMA?)? ANGLE_R
-
 generic-argument ::= (annotations identifier EQUAL)? type-expression;
 // === atomic statement ===
 atomic ::=
@@ -540,6 +550,7 @@ private modifier-stop ::= KW_IN | KW_IF
     | COMMA | COLON | PROPORTION | DOT | SEMICOLON | EQUAL
     | PARENTHESIS_L | PARENTHESIS_R
     | BRACE_L | BRACE_R
+    | ANGLE_L | GENERIC_L
 attribute-below ::= HASH attribute-item
 attribute-above ::= HASH OP_POW attribute-item;
 attribute-item  ::= namepath argument-body? class-body? {
