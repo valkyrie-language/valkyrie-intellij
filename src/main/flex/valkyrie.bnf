@@ -338,7 +338,9 @@ pattern-object-body ::= BRACE_L (pattern-pair (COMMA pattern-pair)* COMMA?)? BRA
     pin = 1
 }
 pattern-pair      ::= annotations identifier (COLON pattern)?;
-pattern-literal   ::= annotations (identifier|string|special)
+pattern-literal   ::= annotations pattern-atomic
+pattern-atomic    ::= string | number | special|identifier;
+
 // === new expression ===
 // new Self { r: red, g: green, b: blue, a: alpha}
 new-value  ::= KW_NEW modifier* type-expression? argument-body? new-body {
@@ -429,19 +431,30 @@ bad-rrr ::= ANGLE_R ANGLE_R ANGLE_R
   | ANGLE_R OP_RR
 bad-ll  ::= ANGLE_L ANGLE_L
 bad-rr  ::= ANGLE_R ANGLE_R
-is_not ::= KW_IS KW_NOT | OP_BANG KW_IS;
 
 suffix ::= OP_BANG
     | dot-call
     | dot-call-for
     | dot-call-match
     | KW_AS type-expression
-    | KW_IS pattern
-    | is_not pattern
+    | is-statement
     | generic-call;
+is-statement ::= (KW_IS |KW_IS KW_NOT | OP_BANG KW_IS) (
+    pattern-unapply
+  | pattern-sequence
+  | pattern-literal
+  | pattern-object
+)
+is-expression ::= (KW_IS |KW_IS KW_NOT | OP_BANG KW_IS) (
+    pattern-unapply
+  | pattern-sequence
+  | pattern-literal
+)
+
 inline-suffix ::= OP_BANG
     | dot-call-inline
     | generic-call
+    | is-expression
 // === inline expression statement ===
 expression-inline ::= inline-term (infix inline-term)* {
 

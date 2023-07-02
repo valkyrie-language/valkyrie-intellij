@@ -2671,6 +2671,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     // OP_BANG
     //     | dot-call-inline
     //     | generic-call
+    //     | is-expression
     public static boolean inline_suffix(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "inline_suffix")) return false;
         boolean r;
@@ -2678,6 +2679,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = consumeToken(b, OP_BANG);
         if (!r) r = dot_call_inline(b, l + 1);
         if (!r) r = generic_call(b, l + 1);
+        if (!r) r = is_expression(b, l + 1);
         exit_section_(b, l, m, r, false, null);
         return r;
     }
@@ -2726,15 +2728,87 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // KW_IS KW_NOT | OP_BANG KW_IS
-    public static boolean is_not(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "is_not")) return false;
-        if (!nextTokenIs(b, "<is not>", KW_IS, OP_BANG)) return false;
+    // (KW_IS |KW_IS KW_NOT | OP_BANG KW_IS) (
+    //     pattern-unapply
+    //   | pattern-sequence
+    //   | pattern-literal
+    // )
+    public static boolean is_expression(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "is_expression")) return false;
+        if (!nextTokenIs(b, "<is expression>", KW_IS, OP_BANG)) return false;
         boolean r;
-        Marker m = enter_section_(b, l, _NONE_, IS_NOT, "<is not>");
-        r = parseTokens(b, 0, KW_IS, KW_NOT);
-        if (!r) r = parseTokens(b, 0, OP_BANG, KW_IS);
+        Marker m = enter_section_(b, l, _NONE_, IS_EXPRESSION, "<is expression>");
+        r = is_expression_0(b, l + 1);
+        r = r && is_expression_1(b, l + 1);
         exit_section_(b, l, m, r, false, null);
+        return r;
+    }
+
+    // KW_IS |KW_IS KW_NOT | OP_BANG KW_IS
+    private static boolean is_expression_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "is_expression_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, KW_IS);
+        if (!r) r = parseTokens(b, 0, KW_IS, KW_NOT);
+        if (!r) r = parseTokens(b, 0, OP_BANG, KW_IS);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // pattern-unapply
+    //   | pattern-sequence
+    //   | pattern-literal
+    private static boolean is_expression_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "is_expression_1")) return false;
+        boolean r;
+        r = pattern_unapply(b, l + 1);
+        if (!r) r = pattern_sequence(b, l + 1);
+        if (!r) r = pattern_literal(b, l + 1);
+        return r;
+    }
+
+    /* ********************************************************** */
+    // (KW_IS |KW_IS KW_NOT | OP_BANG KW_IS) (
+    //     pattern-unapply
+    //   | pattern-sequence
+    //   | pattern-literal
+    //   | pattern-object
+    // )
+    public static boolean is_statement(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "is_statement")) return false;
+        if (!nextTokenIs(b, "<is statement>", KW_IS, OP_BANG)) return false;
+        boolean r;
+        Marker m = enter_section_(b, l, _NONE_, IS_STATEMENT, "<is statement>");
+        r = is_statement_0(b, l + 1);
+        r = r && is_statement_1(b, l + 1);
+        exit_section_(b, l, m, r, false, null);
+        return r;
+    }
+
+    // KW_IS |KW_IS KW_NOT | OP_BANG KW_IS
+    private static boolean is_statement_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "is_statement_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, KW_IS);
+        if (!r) r = parseTokens(b, 0, KW_IS, KW_NOT);
+        if (!r) r = parseTokens(b, 0, OP_BANG, KW_IS);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // pattern-unapply
+    //   | pattern-sequence
+    //   | pattern-literal
+    //   | pattern-object
+    private static boolean is_statement_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "is_statement_1")) return false;
+        boolean r;
+        r = pattern_unapply(b, l + 1);
+        if (!r) r = pattern_sequence(b, l + 1);
+        if (!r) r = pattern_literal(b, l + 1);
+        if (!r) r = pattern_object(b, l + 1);
         return r;
     }
 
@@ -3634,6 +3708,20 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
+    // string | number | special|identifier
+    public static boolean pattern_atomic(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "pattern_atomic")) return false;
+        boolean r;
+        Marker m = enter_section_(b, l, _NONE_, PATTERN_ATOMIC, "<pattern atomic>");
+        r = string(b, l + 1);
+        if (!r) r = number(b, l + 1);
+        if (!r) r = special(b, l + 1);
+        if (!r) r = identifier(b, l + 1);
+        exit_section_(b, l, m, r, false, null);
+        return r;
+    }
+
+    /* ********************************************************** */
     // pattern-literal (COMMA pattern-literal)* COMMA? !(PARENTHESIS_L|BRACKET_L|BRACE_L)
     public static boolean pattern_bare(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "pattern_bare")) return false;
@@ -3697,24 +3785,14 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // annotations (identifier|string|special)
+    // annotations pattern-atomic
     public static boolean pattern_literal(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "pattern_literal")) return false;
         boolean r;
         Marker m = enter_section_(b, l, _NONE_, PATTERN_LITERAL, "<pattern literal>");
         r = annotations(b, l + 1);
-        r = r && pattern_literal_1(b, l + 1);
+        r = r && pattern_atomic(b, l + 1);
         exit_section_(b, l, m, r, false, null);
-        return r;
-    }
-
-    // identifier|string|special
-    private static boolean pattern_literal_1(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "pattern_literal_1")) return false;
-        boolean r;
-        r = identifier(b, l + 1);
-        if (!r) r = string(b, l + 1);
-        if (!r) r = special(b, l + 1);
         return r;
     }
 
@@ -4313,8 +4391,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     //     | dot-call-for
     //     | dot-call-match
     //     | KW_AS type-expression
-    //     | KW_IS pattern
-    //     | is_not pattern
+    //     | is-statement
     //     | generic-call
     public static boolean suffix(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "suffix")) return false;
@@ -4325,8 +4402,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!r) r = dot_call_for(b, l + 1);
         if (!r) r = dot_call_match(b, l + 1);
         if (!r) r = suffix_4(b, l + 1);
-        if (!r) r = suffix_5(b, l + 1);
-        if (!r) r = suffix_6(b, l + 1);
+        if (!r) r = is_statement(b, l + 1);
         if (!r) r = generic_call(b, l + 1);
         exit_section_(b, l, m, r, false, null);
         return r;
@@ -4339,28 +4415,6 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         Marker m = enter_section_(b);
         r = consumeToken(b, KW_AS);
         r = r && type_expression(b, l + 1);
-        exit_section_(b, m, null, r);
-        return r;
-    }
-
-    // KW_IS pattern
-    private static boolean suffix_5(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "suffix_5")) return false;
-        boolean r;
-        Marker m = enter_section_(b);
-        r = consumeToken(b, KW_IS);
-        r = r && pattern(b, l + 1);
-        exit_section_(b, m, null, r);
-        return r;
-    }
-
-    // is_not pattern
-    private static boolean suffix_6(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "suffix_6")) return false;
-        boolean r;
-        Marker m = enter_section_(b);
-        r = is_not(b, l + 1);
-        r = r && pattern(b, l + 1);
         exit_section_(b, m, null, r);
         return r;
     }
