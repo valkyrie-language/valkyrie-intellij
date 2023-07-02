@@ -2,6 +2,7 @@
 	<id>Valkyrie</id>
 	<name>Valkyrie Language</name>
 	<vendor>voml</vendor>
+	<depends>com.intellij.java</depends>
 	<depends>com.intellij.modules.lang</depends>
 	<depends>com.intellij.modules.platform</depends>
 	<depends optional="true" config-file="plugin-for-idea.xml">com.intellij.modules.ultimate</depends>
@@ -21,12 +22,14 @@
 		/>
 		<!-- Project -->
 		<newProjectWizard.languageGenerator implementation="valkyrie.project.ValkyrieProjectGenerator"/>
-		<!--		<projectWizard.projectCategory implementation="valkyrie.project.ValkyrieProjectCategory"/>-->
+		<projectWizard.projectCategory implementation="valkyrie.project.ValkyrieProjectCategory"/>
 		<directoryProjectGenerator implementation="valkyrie.project.DirectoryProjectGenerator"/>
 		<projectNameProvider implementation="valkyrie.project.ValkyrieProjectName"/>
 		<!--		<projectOpenProcessor implementation="valkyrie.project.projectOpenProcessor"/>-->
 		<postStartupActivity implementation="valkyrie.project.modules.ValkyrieProjectActivityListener"/>
 		<!--		<vfs.asyncListener implementation="valkyrie.ide.project.crate.CrateUpdateListener"/>-->
+		<projectImportProvider implementation="valkyrie.project.legion.LegionProvider"/>
+		<projectImportBuilder implementation="valkyrie.project.legion.LegionImporter"/>
 		<!-- Project SDK (Valkyrie Runtime) -->
 		<sdkType implementation="valkyrie.project.sdk.ValkyrieSdkType"/>
 		<sdkFinder implementation="valkyrie.project.sdk.ValkyrieSdkFinder"/>
@@ -47,10 +50,10 @@
 		/>
 		<additionalLibraryRootsProvider implementation="valkyrie.project.library.LibraryRootsProvider"/>
 		<!-- Project Module (Valkyrie Package) -->
-		<moduleType implementationClass="valkyrie.project.modules.ValkyrieModuleType"/>
+		<!--		<moduleType implementationClass="valkyrie.project.modules.ValkyrieModuleType"/>-->
 		<moduleConfigurationEditorProvider implementation="valkyrie.project.facet.ValkyrieExtraModuleConfigEditors"/>
 		<moduleNameGenerator implementation="valkyrie.project.facet.ValkyrieModuleNameGenerator"/>
-		<moduleBuilder builderClass="valkyrie.project.modules.ValkyrieModuleBuilder"/>
+		<moduleBuilder builderClass="valkyrie.project.legion.LegionBuilder"/>
 		<module.workingDirectoryProvider implementation="valkyrie.project.modules.ValkyrieWorkingDirectoryProvider"/>
 		<primaryModuleManager implementation="valkyrie.project.modules.ValkyrieRootModule"/>
 		<moduleContextProvider implementation="valkyrie.project.ValkyriePackageContext"/>
@@ -66,8 +69,8 @@
 		<indexedRootsProvider implementation="valkyrie.project.ExtraIndexContributor"/>
 		<generatedSourcesFilter implementation="valkyrie.project.ValkyrieGeneratedSource"/>
 		<!-- Project Artifact -->
-		<!--		<packaging.artifactPropertiesProvider implementation="valkyrie.project.artifact.artifactPropertiesProvider"/>-->
-		<!--		<packaging.artifactType implementation="valkyrie.project.artifact.ValkyrieArtifactType"/>-->
+		<packaging.artifactPropertiesProvider implementation="valkyrie.project.artifact.artifactPropertiesProvider"/>
+		<packaging.artifactType implementation="valkyrie.project.artifact.ValkyrieArtifactType"/>
 		<!-- StructureView -->
 		<iconProvider implementation="valkyrie.language.file.ValkyrieIconProvider"/>
 		<projectViewNestingRulesProvider implementation="valkyrie.language.file.ValkyrieFileGroup"/>
@@ -320,7 +323,5 @@
 		<action id="valkyrie.macro.expand" class="valkyrie.ide.codegen.ExpandMacro">
 			<add-to-group group-id="GenerateGroup" anchor="last"/>
 		</action>
-
-
 	</actions>
 </idea-plugin>

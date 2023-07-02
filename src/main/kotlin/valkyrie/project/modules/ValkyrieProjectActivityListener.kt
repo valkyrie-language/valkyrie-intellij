@@ -1,60 +1,99 @@
 package valkyrie.project.modules
 
 import com.intellij.openapi.module.ModifiableModuleModel
-import com.intellij.openapi.module.ModuleManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.guessProjectDir
+import com.intellij.openapi.roots.ModifiableRootModel
 import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.startup.ProjectActivity
-import com.intellij.openapi.vfs.refreshAndFindVirtualFileOrDirectory
-import com.intellij.openapi.vfs.toNioPathOrNull
+import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.openapi.vfs.resolveFromRootOrRelative
 import valkyrie.language.ValkyrieLanguage
-import java.nio.file.Path
-import kotlin.io.path.exists
-import kotlin.io.path.listDirectoryEntries
 
 
 class ValkyrieProjectActivityListener : ProjectActivity {
     override suspend fun execute(project: Project) {
-        markModules(project)
-    }
 
-    private fun markModules(project: Project) {
-        val root = project.guessProjectDir()?.toNioPathOrNull() ?: return
-        val workspace = root.resolve("legion.toml")
-        val manager = ModuleManager.getInstance(project);
-        val model = manager.getModifiableModel();
-        if (workspace.exists()) {
-            for (entry in workspace.resolve("projects").listDirectoryEntries()) {
-                markSingle(entry, model)
+    }
+}
+
+
+class MyToolWindowListener() {
+    fun markModules(project: Project, model: ModifiableModuleModel) {
+        val root = project.guessProjectDir() ?: return
+        val ws = root.resolveFromRootOrRelative("legion.toml")
+        val pkg = root.resolveFromRootOrRelative("package.toml")
+        when {
+            ws != null -> {
+                markMono(root, model)
             }
-        } else {
-            markSingle(root, model)
-        }
-        model.commit()
-    }
 
-    private fun markSingle(dir: Path, model: ModifiableModuleModel) {
-        val pkg = dir.resolve("package.toml")
-        if (pkg.exists()) {
-            val module = model.newModule(dir, ValkyrieLanguage.moduleID)
-            markModuleRoots(dir, ModuleRootManager.getInstance(module))
+            pkg != null -> {
+                markSingle(root, model)
+            }
         }
+        model.modules.forEach { markModuleRoots(ModuleRootManager.getInstance(it)) }
     }
 
 
-    private fun markModuleRoots(path: Path, manager: ModuleRootManager) {
+    private fun markMono(root: VirtualFile, model: ModifiableModuleModel) {
+        val projects = root.resolveFromRootOrRelative("projects")?.children ?: arrayOf();
+        for (entry in projects) {
+            val pkg = entry.resolveFromRootOrRelative("package.toml");
+            if (pkg != null) {
+                println("markMono: ${pkg.path}")
+                model.newModule(pkg.path, ValkyrieLanguage.moduleID)
+            }
+        }
+        // TODO: mark root as group
+        // model.loadModule(root.path)
+    }
+
+    private fun markSingle(root: VirtualFile, model: ModifiableModuleModel) {
+        println("markSingle: $root")
+        model.newModule(root.path, ValkyrieLanguage.moduleID)
+    }
+
+    private fun markModuleRoots(manager: ModuleRootManager) {
+        val root = manager.module.moduleFile ?: return
         val modifiableModel = manager.modifiableModel
-        val src = path.resolve("src").refreshAndFindVirtualFileOrDirectory()
-        if (src != null) {
-            val contentEntry = modifiableModel.addContentEntry(src)
-            contentEntry.addSourceFolder(src, false)
-        }
-        val tests = path.resolve("tests").refreshAndFindVirtualFileOrDirectory()
-        if (tests != null) {
-            val contentEntry = modifiableModel.addContentEntry(tests)
-            contentEntry.addSourceFolder(tests, true)
-        }
+        markSources(root, modifiableModel, "library", "source", "src")
+        markTests(root, modifiableModel, "test", "tests")
+        markTests(root, modifiableModel, "benchmark", "benchmarks", "bench")
+        markTests(root, modifiableModel, "example", "examples")
+        markExclude(root, modifiableModel, "target", "build", "out", "dist")
         modifiableModel.commit()
+    }
+
+    private fun markSources(root: VirtualFile, model: ModifiableRootModel, vararg sources: String) {
+        for (source in sources) {
+            val src = root.resolveFromRootOrRelative(source)
+            if (src != null) {
+                val contentEntry = model.addContentEntry(src)
+                contentEntry.addSourceFolder(src, false)
+                break
+            }
+        }
+    }
+
+    private fun markTests(root: VirtualFile, model: ModifiableRootModel, vararg sources: String) {
+        for (source in sources) {
+            val src = root.resolveFromRootOrRelative(source)
+            if (src != null) {
+                val contentEntry = model.addContentEntry(src)
+                contentEntry.addSourceFolder(src, true)
+                break
+            }
+        }
+    }
+
+    private fun markExclude(root: VirtualFile, model: ModifiableRootModel, vararg sources: String) {
+        for (source in sources) {
+            val src = root.resolveFromRootOrRelative(source)
+            if (src != null) {
+                val contentEntry = model.addContentEntry(src)
+                contentEntry.addExcludeFolder(src)
+            }
+        }
     }
 }

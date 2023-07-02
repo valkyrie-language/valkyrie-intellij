@@ -12,7 +12,8 @@ class ValkyrieRootModule : PrimaryModuleManager() {
         val ws = root.resolve("legions.json5");
         return when {
             ws.exists() -> {
-                ValkyrieModule(project)
+//                ValkyrieModule(project)
+                null
             }
 
             else -> {
