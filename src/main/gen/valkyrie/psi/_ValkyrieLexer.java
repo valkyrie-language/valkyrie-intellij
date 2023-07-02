@@ -1305,14 +1305,14 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
                         break;
                     case 30: {
                         return OP_OR;
-                    }
-                    // fall through
+            }
+          // fall through
                     case 142:
                         break;
                     case 31: {
                         return BRACE_R;
-            }
-          // fall through
+                    }
+                    // fall through
                     case 143:
                         break;
                     case 32: {
@@ -1520,34 +1520,34 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
                     // fall through
                     case 177:
                         break;
-                    case 66: {
-                        return KW_IF;
-                    }
-                    // fall through
-                    case 178:
-                        break;
-                    case 67: { return KW_IN;
+                    case 66: { return KW_IF;
             }
           // fall through
-                    case 179:
+                    case 178:
                         break;
+                    case 67: {
+                        return KW_IN;
+                    }
+                    // fall through
+          case 179:
+              break;
                     case 68: {
                         return KW_IS;
                     }
                     // fall through
-          case 180: break;
+                    case 180:
+                        break;
                     case 69: {
                         yybegin(TextCapture6);
                         return STRING_L;
                     }
                     // fall through
-                    case 181:
-                        break;
+          case 181: break;
                     case 70: {
                         yybegin(TextCapture3);
                         return STRING_L;
                     }
-          // fall through
+                    // fall through
                     case 182:
                         break;
                     case 71: {
@@ -1564,8 +1564,8 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
                         break;
                     case 73: {
                         return OP_ARROW3;
-                    }
-                    // fall through
+            }
+          // fall through
                     case 185:
                         break;
                     case 74: {
@@ -1582,13 +1582,13 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
                         break;
                     case 76: {
                         return KW_NEW;
-            }
+                    }
           // fall through
                     case 188:
                         break;
                     case 77: {
                         return KW_NOT;
-                    }
+            }
           // fall through
                     case 189:
                         break;
@@ -1600,8 +1600,8 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
                         break;
                     case 79: {
                         return COMMENT_BLOCK;
-            }
-          // fall through
+                    }
+                    // fall through
                     case 191:
                         break;
                     case 80: {
@@ -1642,14 +1642,14 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
                         break;
                     case 86: {
                         return KW_TYPE;
-                    }
-                    // fall through
+            }
+          // fall through
                     case 198:
                         break;
                     case 87: {
                         return KW_WHEN;
-            }
-          // fall through
+                    }
+                    // fall through
                     case 199:
                         break;
                     case 88: {
@@ -1726,8 +1726,8 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
                         break;
                     case 100: {
                         return KW_USING;
-                    }
-                    // fall through
+            }
+          // fall through
                     case 212:
                         break;
                     case 101: {
@@ -1762,13 +1762,14 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
                         break;
                     case 106: {
                         return KW_RESUME;
-            }
+                    }
           // fall through
-                    case 218: break;
-          case 107: {
-              return KW_RETURN;
-          }
-          // fall through
+                    case 218:
+                        break;
+                    case 107: {
+                        return KW_RETURN;
+                    }
+                    // fall through
                     case 219:
                         break;
                     case 108: {
@@ -1783,17 +1784,17 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
                     // fall through
                     case 221:
                         break;
-                    case 110: {
-                        return KW_CONTINUE;
-                    }
-                    // fall through
+                    case 110:
+            { return KW_CONTINUE;
+            }
+          // fall through
                     case 222:
                         break;
-                    case 111:
+          case 111:
             { return KW_NAMESPACE;
             }
           // fall through
-                    case 223: break;
+          case 223: break;
           case 112:
             { return KW_THROUGH;
             }

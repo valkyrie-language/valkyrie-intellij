@@ -80,7 +80,7 @@ private statements ::=
   | declare-macro
   | block-statement
 private block-statement ::= SEMICOLON
-  | declare-variable
+  | let-statement
   | new-lambda
   | attribute-above
   | control-statement
@@ -232,7 +232,7 @@ effect-type ::= OP_DIV type-expression;
 block-body  ::= BRACE_L block-statement* BRACE_R;
 block-bare  ::= block-statement*;
 // === function statement ===
-declare-variable ::= KW_LET let-pattern type-hint? EQUAL expression-root {
+let-statement ::= KW_LET let-pattern type-hint? EQUAL expression-root {
     pin = 1
     mixin = "valkyrie.psi.mixin.MixinVariable"
 }

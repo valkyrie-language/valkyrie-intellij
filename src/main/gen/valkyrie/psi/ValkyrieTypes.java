@@ -58,7 +58,6 @@ public interface ValkyrieTypes {
     IElementType DECLARE_TRAIT = new ValkyrieElementType("DECLARE_TRAIT");
     IElementType DECLARE_UNION = new ValkyrieElementType("DECLARE_UNION");
     IElementType DECLARE_UNITE = new ValkyrieElementType("DECLARE_UNITE");
-    IElementType DECLARE_VARIABLE = new ValkyrieElementType("DECLARE_VARIABLE");
     IElementType DECLARE_VARIANT = new ValkyrieElementType("DECLARE_VARIANT");
     IElementType DECLARE_WHERE = new ValkyrieElementType("DECLARE_WHERE");
     IElementType DEFAULT_TYPE = new ValkyrieElementType("DEFAULT_TYPE");
@@ -95,6 +94,7 @@ public interface ValkyrieTypes {
     IElementType LAMBDA_BLOCK = new ValkyrieElementType("LAMBDA_BLOCK");
     IElementType LET_PATTERN = new ValkyrieElementType("LET_PATTERN");
     IElementType LET_PATTERN_ITEM = new ValkyrieElementType("LET_PATTERN_ITEM");
+    IElementType LET_STATEMENT = new ValkyrieElementType("LET_STATEMENT");
     IElementType LOCALIZE_CALL = new ValkyrieElementType("LOCALIZE_CALL");
     IElementType MACRO_CALL = new ValkyrieElementType("MACRO_CALL");
     IElementType MACRO_CALL_INLINE = new ValkyrieElementType("MACRO_CALL_INLINE");
@@ -398,8 +398,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieDeclareUnionNode(node);
             } else if (type == DECLARE_UNITE) {
                 return new ValkyrieDeclareUniteNode(node);
-            } else if (type == DECLARE_VARIABLE) {
-                return new ValkyrieDeclareVariableNode(node);
             } else if (type == DECLARE_VARIANT) {
                 return new ValkyrieDeclareVariantNode(node);
             } else if (type == DECLARE_WHERE) {
@@ -472,6 +470,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieLetPatternNode(node);
             } else if (type == LET_PATTERN_ITEM) {
                 return new ValkyrieLetPatternItemNode(node);
+            } else if (type == LET_STATEMENT) {
+                return new ValkyrieLetStatementNode(node);
             } else if (type == LOCALIZE_CALL) {
                 return new ValkyrieLocalizeCallNode(node);
             } else if (type == MACRO_CALL) {
