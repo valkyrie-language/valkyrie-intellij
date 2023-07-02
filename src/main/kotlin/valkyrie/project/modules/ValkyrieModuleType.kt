@@ -13,14 +13,14 @@ import com.intellij.ui.dsl.builder.panel
 import org.jetbrains.jps.model.module.JpsModuleSourceRootType
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.project.legion.LegionBuilder
+import valkyrie.project.legion.LegionWorkspaceBuilder
 import javax.swing.Icon
 import javax.swing.JComponent
 
 
-class ValkyrieModuleType : ModuleType<LegionBuilder>(ValkyrieLanguage.moduleID) {
-    override fun createModuleBuilder(): LegionBuilder {
-        return LegionBuilder()
+class ValkyrieModuleType : ModuleType<LegionWorkspaceBuilder>(ValkyrieLanguage.moduleID) {
+    override fun createModuleBuilder(): LegionWorkspaceBuilder {
+        return LegionWorkspaceBuilder()
     }
 
     override fun getName(): String {
@@ -45,7 +45,7 @@ class ValkyrieModuleType : ModuleType<LegionBuilder>(ValkyrieLanguage.moduleID) 
 
     override fun createWizardSteps(
         wizardContext: WizardContext,
-        moduleBuilder: LegionBuilder,
+        moduleBuilder: LegionWorkspaceBuilder,
         modulesProvider: ModulesProvider,
     ): Array<ModuleWizardStep> {
         return super.createWizardSteps(wizardContext, moduleBuilder, modulesProvider)

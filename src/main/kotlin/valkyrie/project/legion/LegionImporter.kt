@@ -1,5 +1,6 @@
 package valkyrie.project.legion
 
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.module.ModifiableModuleModel
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.project.Project
@@ -13,12 +14,19 @@ import javax.swing.Icon
 class LegionImporter : ProjectImportBuilder<LegionImporterConfig>() {
     override fun commit(
         project: Project,
-        model: ModifiableModuleModel,
+        model: ModifiableModuleModel?,
         modulesProvider: ModulesProvider,
         artifactModel: ModifiableArtifactModel,
     ): MutableList<Module> {
-        return LegionBuilder().commit(project, model, modulesProvider)
+        val analyzer = LegionStructureAnalyzer(project)
+        ApplicationManager.getApplication().runWriteAction {
+            analyzer.markWorkspace(model)
+        }
+        return modulesProvider.modules.toMutableList()
+
+//        return LegionWorkspaceBuilder().commit(project, model, modulesProvider)
     }
+
 
     override fun getName(): String {
         return "Legion"
@@ -78,3 +86,5 @@ class LegionImporter : ProjectImportBuilder<LegionImporterConfig>() {
 class LegionImporterConfig {
 
 }
+
+
