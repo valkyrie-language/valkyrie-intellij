@@ -48,11 +48,11 @@ class ValkyrieModuleType : ModuleType<LegionWorkspaceBuilder>(ValkyrieLanguage.m
         moduleBuilder: LegionWorkspaceBuilder,
         modulesProvider: ModulesProvider,
     ): Array<ModuleWizardStep> {
-        return super.createWizardSteps(wizardContext, moduleBuilder, modulesProvider)
+        return arrayOf(AA("createWizardSteps"))
     }
 
     override fun isSupportedRootType(type: JpsModuleSourceRootType<*>?): Boolean {
-        return super.isSupportedRootType(type)
+        return true
     }
 
     override fun isValidSdk(module: Module, projectSdk: Sdk?): Boolean {
@@ -64,19 +64,19 @@ class ValkyrieModuleType : ModuleType<LegionWorkspaceBuilder>(ValkyrieLanguage.m
     }
 
     override fun modifyProjectTypeStep(settingsStep: SettingsStep, moduleBuilder: ModuleBuilder): ModuleWizardStep? {
-        return AA()
+        return AA("modifyProjectTypeStep")
     }
 
     override fun modifySettingsStep(settingsStep: SettingsStep, moduleBuilder: ModuleBuilder): ModuleWizardStep? {
-        return BB()
+        return AA("modifySettingsStep")
     }
 }
 
 
-class AA : ModuleWizardStep() {
+class AA(private val name: String) : ModuleWizardStep() {
     override fun getComponent(): JComponent {
         return panel {
-            row("modifyProjectTypeStep") {
+            row(name) {
                 text("???")
             }
         }

@@ -1,4 +1,4 @@
-package valkyrie.project.facet
+package valkyrie.project.modules
 
 import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.openapi.roots.ModuleRootModel

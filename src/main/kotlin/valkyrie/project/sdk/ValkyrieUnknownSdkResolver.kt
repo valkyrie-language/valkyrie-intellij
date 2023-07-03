@@ -11,7 +11,7 @@ import com.intellij.openapi.roots.ui.configuration.UnknownSdkResolver
 import com.intellij.openapi.roots.ui.configuration.UnknownSdkResolver.UnknownSdkLookup
 import com.intellij.openapi.roots.ui.configuration.projectRoot.SdkDownloadTask
 
-class unknownSdkResolver : UnknownSdkResolver {
+class ValkyrieUnknownSdkResolver : UnknownSdkResolver {
     override fun supportsResolution(sdkTypeId: SdkTypeId): Boolean {
         return true
     }
