@@ -216,7 +216,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     override fun analyze(file: PsiFile, updateWholeFile: Boolean, holder: HighlightInfoHolder, action: Runnable): Boolean {
         infoHolder = holder
-        action.run()
+//        action.run()
         return true
     }
 
