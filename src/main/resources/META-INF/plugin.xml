@@ -2,7 +2,6 @@
 	<id>Valkyrie</id>
 	<name>Valkyrie Language</name>
 	<vendor>voml</vendor>
-	<depends>com.intellij.java</depends>
 	<depends>com.intellij.modules.lang</depends>
 	<depends>com.intellij.modules.platform</depends>
 	<depends optional="true" config-file="plugin-for-idea.xml">com.intellij.modules.ultimate</depends>
@@ -22,7 +21,7 @@
 		/>
 		<!-- Project -->
 		<newProjectWizard.languageGenerator implementation="valkyrie.project.ValkyrieProjectGenerator"/>
-		<projectWizard.projectCategory implementation="valkyrie.project.ValkyrieProjectCategory"/>
+		<!--		<projectWizard.projectCategory implementation="valkyrie.project.ValkyrieProjectCategory"/>-->
 		<directoryProjectGenerator implementation="valkyrie.project.DirectoryProjectGenerator"/>
 		<projectNameProvider implementation="valkyrie.project.ValkyrieProjectName"/>
 		<projectOpenProcessor implementation="valkyrie.project.projectOpenProcessor"/>
@@ -65,8 +64,8 @@
 		<indexedRootsProvider implementation="valkyrie.project.ExtraIndexContributor"/>
 		<generatedSourcesFilter implementation="valkyrie.project.ValkyrieGeneratedSource"/>
 		<!-- Project Artifact -->
-		<packaging.artifactPropertiesProvider implementation="valkyrie.project.artifact.artifactPropertiesProvider"/>
-		<packaging.artifactType implementation="valkyrie.project.artifact.ValkyrieArtifactType"/>
+		<!--		<packaging.artifactPropertiesProvider implementation="valkyrie.project.artifact.artifactPropertiesProvider"/>-->
+		<!--		<packaging.artifactType implementation="valkyrie.project.artifact.ValkyrieArtifactType"/>-->
 		<!-- StructureView -->
 		<iconProvider implementation="valkyrie.language.file.ValkyrieIconProvider"/>
 		<projectViewNestingRulesProvider implementation="valkyrie.language.file.ValkyrieFileGroup"/>
@@ -126,12 +125,7 @@
 			implementationClass="valkyrie.ide.navigation.ValkyrieSymbolNavigationProvider"
 		/>
 		<codeInsight.gotoSuper language="valkyrie" implementationClass="valkyrie.ide.goto_super.GotoSuperSymbol"/>
-		<superMethodsSearch implementation="valkyrie.ide.goto_super.SuperMethodsSearch"/>
-
-
 		<gotoRelatedProvider implementation="valkyrie.ide.goto_related.GotoRelatedSymbol"/>
-
-
 		<importFilteringRule implementation="valkyrie.ide.navigation.ValkyrieImportFilter"/>
 
 		<bookmarkProvider implementation="valkyrie.ide.navigation.ValkyrieBookmark"/>
@@ -211,22 +205,6 @@
 		/>
 
 		<definitionsScopedSearch implementation="valkyrie.ide.annotator.SearchDefinitions"/>
-		<allOverridingMethodsSearch
-			language="valkyrie"
-			implementation="valkyrie.ide.annotator.ValkyrieAllOverridingMethodsSearch"
-		/>
-		<classInheritorsSearch
-			language="valkyrie"
-			implementation="valkyrie.ide.annotator.ValkyrieClassInheritorsSearch"
-		/>
-		<directClassInheritorsSearch
-			language="valkyrie"
-			implementation="valkyrie.ide.annotator.DirectClassInheritorsSearch"
-		/>
-		<overridingMethodsSearch
-			language="valkyrie"
-			implementation="valkyrie.ide.annotator.OverridingMethodsSearch"
-		/>
 		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.LegacyExpression"/>
 		<!-- Usage -->
 		<codeInsight.daemonBoundCodeVisionProvider implementation="valkyrie.ide.hint.VisionUsage"/>
@@ -261,10 +239,10 @@
 		<backspaceHandlerDelegate implementation="valkyrie.ide.completion.AutoDeleteBrace"/>
 		<lookup.charFilter implementation="valkyrie.ide.completion.CompletionCharacterTrigger"/>
 		<lang.commenter language="valkyrie" implementationClass="valkyrie.ide.formatter.ValkyrieCommenter"/>
-		<lang.braceMatcher
-			language="valkyrie"
-			implementationClass="valkyrie.ide.matcher.ValkyrieBraceMatchAdapter"
-		/>
+		<!--		<lang.braceMatcher-->
+		<!--			language="valkyrie"-->
+		<!--			implementationClass="valkyrie.ide.matcher.ValkyrieBraceMatchAdapter"-->
+		<!--		/>-->
 		<codeBlockSupportHandler language="valkyrie"
 		                         implementationClass="valkyrie.ide.matcher.ValkyrieCodeBlockSupport"/>
 		<lang.quoteHandler

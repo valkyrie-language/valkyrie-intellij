@@ -40,14 +40,14 @@ public class ValkyrieDotCallForNode extends ValkyrieElement implements ValkyrieD
 
     @Override
     @Nullable
-    public ValkyrieForPatternDot getForPatternDot() {
-        return findChildByClass(ValkyrieForPatternDot.class);
+    public ValkyrieIfCondition getIfCondition() {
+        return findChildByClass(ValkyrieIfCondition.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieIfCondition getIfCondition() {
-        return findChildByClass(ValkyrieIfCondition.class);
+    public ValkyrieLetPattern getLetPattern() {
+        return findChildByClass(ValkyrieLetPattern.class);
     }
 
 }

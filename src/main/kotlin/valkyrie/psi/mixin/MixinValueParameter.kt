@@ -17,3 +17,5 @@ abstract class MixinValueParameter(node: ASTNode) : ValkyrieDeclaration(node), V
         return AllIcons.Nodes.Field
     }
 }
+
+

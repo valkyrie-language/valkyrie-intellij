@@ -1,0 +1,35 @@
+let a = _;
+let a, b = _
+let a, mut b: (i32, i64) = _;
+let (a, b): (i32, i64) = _;
+
+
+
+if not Some(i32, i32) = c {
+
+}
+
+if let Some(a, b) = c {
+
+}
+
+
+
+if let Some(a) = expr {
+    fine
+}
+else {
+    fail
+}
+
+match expr {
+    case Some(a):
+        fine
+    else:
+        fail
+}
+
+if c is not Some(i32, i32) {
+
+}
+

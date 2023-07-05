@@ -7,13 +7,19 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieIfCaseStatement extends PsiElement {
 
-    @Nullable
+    @NotNull
     ValkyrieBlockBody getBlockBody();
 
     @Nullable
+    ValkyrieCasePattern getCasePattern();
+
+    @Nullable
+    ValkyrieElseStatement getElseStatement();
+
+    @NotNull
     ValkyrieExpressionInline getExpressionInline();
 
     @Nullable
-    ValkyriePattern getPattern();
+    ValkyrieTypePattern getTypePattern();
 
 }

@@ -13,7 +13,7 @@ public flags Flags {
     `class` = 1 ≫ 8
 }
 
-test function  test() {
+test function test() {
     let e1 = Flags∷A | Flags∷C;
     let e2 = Flags∷B | Flags∷C;
     \\ union
@@ -31,10 +31,10 @@ test function  test() {
 }
 
 extends Bitflags {
-    function get_bits(self) {
+    public static void main(self) {
 
     }
-    function as_bools(self) {
+    as_bools(self) {
 
     }
 }

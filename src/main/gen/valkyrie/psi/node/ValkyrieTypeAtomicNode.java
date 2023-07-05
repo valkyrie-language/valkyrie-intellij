@@ -38,4 +38,10 @@ public class ValkyrieTypeAtomicNode extends ValkyrieElement implements ValkyrieT
         return findChildByClass(ValkyrieString.class);
     }
 
+    @Override
+    @Nullable
+    public ValkyrieTypeTuple getTypeTuple() {
+        return findChildByClass(ValkyrieTypeTuple.class);
+    }
+
 }

@@ -1,5 +1,43 @@
-namespace std;
-namespace! std.string;
-namespace? std.integer;
-namespace* std.decimal;
+match literal {
+    case nil:
+    case null:
+    case true:
+    case false:
+    case Option::None:
+    case Some(a):
+    case Some(a, b):
+    case Some(Some(a = b, c), d):
+}
 
+match tuple {
+    case ():
+    case (a):
+    case (a, ):
+    case (a, b):
+    case ((a), b):
+    case Some(a):
+    case Some(a, b):
+    case Some(Some(a = b, c), d):
+}
+
+match tuple {
+    case []:
+    case [a]:
+    case [a, ]:
+    case [a, b]:
+    case [[a], b]:
+    case Some[a]:
+    case Some[a, b]:
+    case Some[Some[a, b], c]:
+}
+
+match dict {
+    case {}:
+    case {a}:
+    case {a, }:
+    case {a, b}:
+    case {a = {b}, c}:
+    case Some{a}:
+    case Some{a, b}:
+    case Some{a = Some{b, c}, d}:
+}

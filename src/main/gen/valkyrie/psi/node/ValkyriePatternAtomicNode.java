@@ -40,12 +40,6 @@ public class ValkyriePatternAtomicNode extends ValkyrieElement implements Valkyr
 
     @Override
     @Nullable
-    public ValkyriePatternType getPatternType() {
-        return findChildByClass(ValkyriePatternType.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieSpecial getSpecial() {
         return findChildByClass(ValkyrieSpecial.class);
     }

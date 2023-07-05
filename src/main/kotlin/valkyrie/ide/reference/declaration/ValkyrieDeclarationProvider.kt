@@ -4,6 +4,7 @@ import com.intellij.codeInsight.navigation.actions.TypeDeclarationProvider
 import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieBundle
+import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.*
 
@@ -41,7 +42,9 @@ private class ValkyrieDeclarationVisitor : ValkyrieVisitor() {
 
     override fun visitNamepath(o: ValkyrieNamepath) {
         o as ValkyrieNamepathNode
-        for (element in o.containingFile.children) {
+
+
+        for (element in o.containingFile?.children ?: arrayOf()) {
             if (element is ValkyrieDeclaration) {
                 if (element.name == o.name) {
                     declarations.add(element)

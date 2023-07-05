@@ -1,0 +1,59 @@
+class i32 {};
+
+
+\\ literal
+scope {
+    _ is nil;
+    _ is null;
+    _ is true;
+    _ is false;
+    _ is 1cm;
+    _ is "";
+    _ is '';
+}
+
+\\ tuple
+scope {
+    _ is ();
+    _ is (i32);
+    _ is (i32, );
+    _ is (i32, i64);
+    _ is Some(i32)
+    _ is Some(_)
+}
+
+\\ array
+scope {
+    _ is [];
+    _ is [i32];
+    _ is [i32, ];
+    _ is [i32, i64];
+    _ is Some[i32]
+    _ is Some[_]
+}
+
+scope {
+    _ is {};
+    _ is {a:i32};
+    _ is {a:i32, };
+    _ is {a:i32, b:i64};
+    _ is Some {a:i32}
+    _ is Some {_}
+}
+
+if _ is Object {
+    test
+}
+if (_ is Object {}) {
+    test
+}
+
+scope {
+    _ is Integer;
+    _ is List⟨Integer⟩;
+    _ is List⟨List⟨Integer⟩⟩;
+    _ is Option⟨Integer⟩;
+    _ is Some(List⟨Integer⟩)
+}
+
+

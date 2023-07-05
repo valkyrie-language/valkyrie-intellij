@@ -4,6 +4,7 @@ import com.intellij.openapi.application.QueryExecutorBase
 import com.intellij.psi.PsiElement
 import com.intellij.psi.search.searches.DefinitionsScopedSearch.SearchParameters
 import com.intellij.util.Processor
+import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
 import valkyrie.psi.node.ValkyrieDeclareClassNode
 import valkyrie.psi.node.ValkyrieNamepath
 import valkyrie.psi.node.ValkyrieNamepathNode
