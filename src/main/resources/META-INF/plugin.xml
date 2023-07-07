@@ -51,7 +51,8 @@
 		<additionalLibraryRootsProvider implementation="valkyrie.project.library.LibraryRootsProvider"/>
 		<!-- Project Module (Valkyrie Package) -->
 		<!--		<moduleType implementationClass="valkyrie.project.modules.ValkyrieModuleType"/>-->
-		<moduleConfigurationEditorProvider implementation="valkyrie.project.modules.ValkyrieModuleConfiguration"/>
+		<moduleConfigurationEditorProvider
+			implementation="valkyrie.project.modules.config_editor.ValkyrieModuleConfiguration"/>
 		<moduleNameGenerator implementation="valkyrie.project.facet.ValkyrieModuleNameGenerator"/>
 		<moduleBuilder builderClass="valkyrie.project.legion.LegionWorkspaceBuilder"/>
 		<module.workingDirectoryProvider implementation="valkyrie.project.modules.ValkyrieWorkingDirectoryProvider"/>
