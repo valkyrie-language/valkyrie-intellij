@@ -1,19 +1,15 @@
-package valkyrie.project.facet
+package valkyrie.project.modules
 
 import com.intellij.ide.util.frameworkSupport.FrameworkRole
 import com.intellij.openapi.module.ModuleType
+import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
-class ValkyrieModuleType : ModuleType<ValkyrieModuleBuilder> {
-    val builder: ValkyrieModuleBuilder
 
-    constructor(builder: ValkyrieModuleBuilder) : super("ValkyrieModuleType") {
-        this.builder = builder
-    }
-
+class ValkyrieModuleType : ModuleType<ValkyrieModuleBuilder>(ValkyrieLanguage.moduleID) {
     override fun createModuleBuilder(): ValkyrieModuleBuilder {
-        return builder
+        return ValkyrieModuleBuilder()
     }
 
     override fun getName(): String {
@@ -35,5 +31,6 @@ class ValkyrieModuleType : ModuleType<ValkyrieModuleBuilder> {
     override fun getDefaultAcceptableRole(): FrameworkRole {
         return super.getDefaultAcceptableRole()
     }
-
 }
+
+

@@ -7,15 +7,15 @@ import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiFile
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.psi.node.ValkyrieDeclareVariable
-import valkyrie.psi.node.ValkyrieDeclareVariableNode
+import valkyrie.psi.node.ValkyrieLetStatement
+import valkyrie.psi.node.ValkyrieLetStatementNode
 import javax.swing.Icon
 
 class InferVariableType : HintAction, Iconable {
-    private val element: ValkyrieDeclareVariableNode
+    private val element: ValkyrieLetStatementNode
 
-    constructor(element: ValkyrieDeclareVariable) {
-        this.element = element as ValkyrieDeclareVariableNode
+    constructor(element: ValkyrieLetStatement) {
+        this.element = element as ValkyrieLetStatementNode
     }
 
     override fun startInWriteAction(): Boolean {

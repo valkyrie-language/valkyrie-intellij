@@ -1,4 +1,4 @@
-package valkyrie.project.facet
+package valkyrie.project.modules
 
 import com.intellij.ide.util.projectWizard.ModuleBuilder
 import com.intellij.ide.util.projectWizard.WizardInputField
@@ -11,7 +11,7 @@ import javax.swing.JLabel
 
 class ValkyrieModuleBuilder : ModuleBuilder() {
     override fun getModuleType(): ModuleType<*> {
-        return ValkyrieModuleType(this)
+        return ValkyrieModuleType()
     }
 
     override fun canCreateModule(): Boolean {
