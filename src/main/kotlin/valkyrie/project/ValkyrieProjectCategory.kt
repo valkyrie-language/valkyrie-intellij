@@ -1,13 +1,17 @@
 package valkyrie.project
 
+import com.intellij.ide.highlighter.ModuleFileType
 import com.intellij.ide.projectWizard.ProjectCategory
 import com.intellij.ide.util.projectWizard.ModuleBuilder
-import valkyrie.project.legion.LegionBuilder
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.vfs.resolveFromRootOrRelative
+import valkyrie.project.legion.LegionWorkspaceBuilder
+import java.io.File
 import javax.swing.Icon
 
 class ValkyrieProjectCategory : ProjectCategory() {
     override fun createModuleBuilder(): ModuleBuilder {
-        return LegionBuilder()
+        return LegionWorkspaceBuilder()
     }
 
     override fun getDisplayName(): String {

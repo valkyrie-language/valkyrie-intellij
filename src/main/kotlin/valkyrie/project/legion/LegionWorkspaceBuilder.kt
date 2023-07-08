@@ -1,25 +1,28 @@
 package valkyrie.project.legion
 
+import com.intellij.ide.highlighter.ModuleFileType
 import com.intellij.ide.util.frameworkSupport.FrameworkRole
 import com.intellij.ide.util.projectWizard.*
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.module.ModifiableModuleModel
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.module.ModuleType
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectType
-import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.openapi.roots.ModifiableRootModel
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider
+import com.intellij.openapi.util.Computable
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.resolveFromRootOrRelative
 import com.intellij.ui.dsl.builder.panel
 import valkyrie.project.modules.ValkyrieModuleType
+import java.io.File
 import javax.swing.Icon
 import javax.swing.JComponent
 import javax.swing.JLabel
 
 
-class LegionBuilder : ModuleBuilder() {
+class LegionWorkspaceBuilder : ModuleBuilder() {
     override fun getModuleType(): ModuleType<*> {
         return ValkyrieModuleType()
     }
@@ -37,9 +40,6 @@ class LegionBuilder : ModuleBuilder() {
         return super.getModuleFileDirectory()
     }
 
-    override fun getName(): String {
-        return "GetName23357"
-    }
 
     override fun getPresentableName(): String {
         return "Valkyrie Module"
@@ -58,23 +58,15 @@ class LegionBuilder : ModuleBuilder() {
     }
 
     override fun getAdditionalFields(): MutableList<WizardInputField<*>> {
-        return mutableListOf(CC())
-    }
-
-    override fun getModuleJdk(): Sdk {
-        return super.getModuleJdk()
+        return mutableListOf(ValkyrieWizardInputField())
     }
 
     override fun isTemplate(): Boolean {
-        return super.isTemplate()
+        return false
     }
 
     override fun addModuleConfigurationUpdater(updater: ModuleConfigurationUpdater?) {
         super.addModuleConfigurationUpdater(updater)
-    }
-
-    override fun setModuleJdk(jdk: Sdk?) {
-        super.setModuleJdk(jdk)
     }
 
     override fun isOpenProjectSettingsAfter(): Boolean {
@@ -82,11 +74,11 @@ class LegionBuilder : ModuleBuilder() {
     }
 
     override fun modifyProjectTypeStep(settingsStep: SettingsStep): ModuleWizardStep? {
-        return DD("modifyProjectTypeStep")
+        return ValkyrieModuleWizardStep("modifyProjectTypeStep")
     }
 
     override fun modifyStep(settingsStep: SettingsStep?): ModuleWizardStep {
-        return DD("modifyStep")
+        return ValkyrieModuleWizardStep("modifyStep")
     }
 
     override fun getContentEntryPath(): String? {
@@ -107,11 +99,11 @@ class LegionBuilder : ModuleBuilder() {
 
 
     override fun createWizardSteps(wizardContext: WizardContext, modulesProvider: ModulesProvider): Array<ModuleWizardStep> {
-        return arrayOf(DD("createWizardSteps"))
+        return arrayOf(ValkyrieModuleWizardStep("createWizardSteps"))
     }
 
     override fun createFinishingSteps(wizardContext: WizardContext, modulesProvider: ModulesProvider): Array<ModuleWizardStep> {
-        return arrayOf(DD("createFinishingSteps"))
+        return arrayOf(ValkyrieModuleWizardStep("createFinishingSteps"))
     }
 
     override fun createProject(name: String?, path: String?): Project? {
@@ -119,18 +111,38 @@ class LegionBuilder : ModuleBuilder() {
     }
 
     override fun modifySettingsStep(settingsStep: SettingsStep): ModuleWizardStep {
-        return DD("modifySettingsStep")
+        return ValkyrieModuleWizardStep("modifySettingsStep")
     }
 
     override fun commit(project: Project, model: ModifiableModuleModel?, modulesProvider: ModulesProvider?): MutableList<Module> {
-        val module = commitModule(project, model)
-        return if (module != null) mutableListOf(module) else mutableListOf()
+        configProjectRoot(project)
+        return when (val root = commitModule(project, model)) {
+            null -> mutableListOf()
+            else -> mutableListOf(root)
+        }
     }
 
-    override fun setModuleFilePath(path: String?) {
-        super.setModuleFilePath(path)
+    override fun commitModule(project: Project, model: ModifiableModuleModel?): Module? {
+        return ApplicationManager.getApplication().runWriteAction(
+            Computable {
+                createAndCommitIfNeeded(
+                    project,
+                    model,
+                    true
+                )
+            })
     }
 
+    override fun createModule(moduleModel: ModifiableModuleModel): Module {
+        deleteModuleFile(moduleFilePath)
+        val module = moduleModel.newModule(moduleFilePath, moduleType.id)
+        setupModule(module)
+        return module
+    }
+
+    override fun setupModule(module: Module?) {
+        super.setupModule(module)
+    }
 
     override fun setupRootModel(model: ModifiableRootModel) {
         val root = model.module.moduleFile ?: return
@@ -175,7 +187,21 @@ class LegionBuilder : ModuleBuilder() {
     }
 }
 
-class DD(val text: String) : ModuleWizardStep() {
+private fun LegionWorkspaceBuilder.configProjectRoot(project: Project) {
+    name = project.name
+    val dotIdea = project.projectFile?.findChild(Project.DIRECTORY_STORE_FOLDER);
+    moduleFilePath = when (dotIdea) {
+        null -> {
+            project.basePath + File.separator + name + ModuleFileType.DOT_DEFAULT_EXTENSION
+        }
+
+        else -> {
+            dotIdea.resolveFromRootOrRelative(name + ModuleFileType.DOT_DEFAULT_EXTENSION)?.path
+        }
+    }
+}
+
+class ValkyrieModuleWizardStep(val text: String) : ModuleWizardStep() {
     override fun getComponent(): JComponent {
         return panel {
             row(text) {
@@ -191,7 +217,7 @@ class DD(val text: String) : ModuleWizardStep() {
 }
 
 
-class CC : WizardInputField<JComponent>("a", "b") {
+class ValkyrieWizardInputField : WizardInputField<JComponent>("a", "b") {
     override fun getLabel(): String {
         return "WizardInputField.getLabel"
     }

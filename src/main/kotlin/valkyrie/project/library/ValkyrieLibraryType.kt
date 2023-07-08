@@ -2,26 +2,20 @@ package valkyrie.project.library
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.OrderRootType
-import com.intellij.openapi.roots.libraries.*
+import com.intellij.openapi.roots.libraries.LibraryType
+import com.intellij.openapi.roots.libraries.NewLibraryConfiguration
+import com.intellij.openapi.roots.libraries.PersistentLibraryKind
 import com.intellij.openapi.roots.libraries.ui.LibraryEditorComponent
 import com.intellij.openapi.roots.libraries.ui.LibraryPropertiesEditor
 import com.intellij.openapi.roots.libraries.ui.LibraryRootsComponentDescriptor
 import com.intellij.openapi.roots.ui.configuration.libraryEditor.LibraryEditor
 import com.intellij.openapi.vfs.VirtualFile
-import org.jdom.Element
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 import javax.swing.JComponent
 
 class ValkyrieLibraryType : LibraryType<ValkyrieLibraryProperty>(ValkyrieLibraryKind()) {
-    companion object {
-        const val ID = "library.valkyrie"
-        val kind by lazy {
-            LibraryKind(ID)
-        }
-    }
-
     override fun getIcon(properties: ValkyrieLibraryProperty?): Icon? {
         return ValkyrieIconProvider.Instance.Valkyrie
     }
@@ -81,31 +75,3 @@ private class NewLibraryPanel(
     }
 }
 
-class ValkyrieLibraryProperty : LibraryProperties<Element>() {
-    override fun equals(other: Any?): Boolean {
-        if (other !is ValkyrieLibraryProperty) return false;
-        return this.hashCode() == other.hashCode()
-    }
-
-    override fun hashCode(): Int {
-        return 0
-    }
-
-    override fun getState(): Element? {
-        return null
-    }
-
-    override fun loadState(state: Element) {
-
-    }
-}
-
-class ValkyrieLibraryKind : PersistentLibraryKind<ValkyrieLibraryProperty>(ValkyrieLibraryType.ID) {
-    override fun createDefaultProperties(): ValkyrieLibraryProperty {
-        return ValkyrieLibraryProperty()
-    }
-
-    override fun getAdditionalRootTypes(): Array<OrderRootType> {
-        return super.getAdditionalRootTypes()
-    }
-}
