@@ -6,8 +6,8 @@ import com.intellij.openapi.roots.ui.configuration.ContentRootPanel
 import com.intellij.openapi.roots.ui.configuration.ModuleSourceRootEditHandler
 import javax.swing.JComponent
 
-class ValkyrieContentRootPanel : ContentRootPanel {
-    val entry: ContentEntry?
+class ValkyrieModuleRootsContentRoot : ContentRootPanel {
+    private val entry: ContentEntry?
 
     constructor(callback: ActionCallback, handler: List<ModuleSourceRootEditHandler<*>?>, entry: ContentEntry?) : super(callback, handler) {
         this.entry = entry

@@ -53,7 +53,7 @@ class LegionWorkspaceBuilder : ModuleBuilder() {
     }
 
     override fun getProjectType(): ProjectType {
-        return ProjectType("ValkyrieModuleBuilder")
+        return ProjectType("LegionWorkspaceBuilder")
     }
 
     override fun getAdditionalFields(): MutableList<WizardInputField<*>> {
