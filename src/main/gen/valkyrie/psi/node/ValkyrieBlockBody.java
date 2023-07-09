@@ -14,10 +14,10 @@ public interface ValkyrieBlockBody extends PsiElement {
     List<ValkyrieControlStatement> getControlStatementList();
 
     @NotNull
-    List<ValkyrieDeclareVariable> getDeclareVariableList();
+    List<ValkyrieExpressionRoot> getExpressionRootList();
 
     @NotNull
-    List<ValkyrieExpressionRoot> getExpressionRootList();
+    List<ValkyrieLetStatement> getLetStatementList();
 
     @NotNull
     List<ValkyrieNewLambda> getNewLambdaList();
