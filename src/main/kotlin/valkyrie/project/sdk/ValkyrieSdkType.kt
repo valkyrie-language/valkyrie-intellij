@@ -1,11 +1,9 @@
 package valkyrie.project.sdk
 
 import com.intellij.openapi.projectRoots.*
-import com.intellij.ui.dsl.builder.panel
 import org.jdom.Element
 import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
-import javax.swing.JComponent
 
 class ValkyrieSdkType : SdkType("ValkyrieSdkType") {
     override fun saveAdditionalData(additionalData: SdkAdditionalData, additional: Element) {
@@ -62,24 +60,3 @@ class ValkyrieSdkType : SdkType("ValkyrieSdkType") {
     }
 }
 
-class ValkyrieAdditionalDataConfigurable : AdditionalDataConfigurable {
-    override fun createComponent(): JComponent? {
-        return panel {
-            row("ValkyrieAdditionalDataConfigurable") {
-                text("???")
-            }
-        }
-    }
-
-    override fun isModified(): Boolean {
-        return false
-    }
-
-    override fun apply() {
-
-    }
-
-    override fun setSdk(sdk: Sdk?) {
-
-    }
-}

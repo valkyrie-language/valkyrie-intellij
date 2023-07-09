@@ -1,4 +1,4 @@
-package valkyrie.project.facet
+package valkyrie.project.modules
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.TestSourcesFilter
@@ -12,20 +12,15 @@ class testSourcesFilter : TestSourcesFilter() {
     override fun isTestSource(file: VirtualFile, project: Project): Boolean {
         val psi = PsiManager.getInstance(project).findFile(file) as? ValkyrieFileNode ?: return false
         return psi.namespace == null
-
-
     }
+}
 
-
-    companion object {
-        fun isTestRoot(file: VirtualFile, project: Project): Boolean {
-            val path = file.toNioPath()
-            val available = setOf("test", "tests", "bench", "benches", "benchmark", "benchmarks", "example")
-            val config = path.resolveSibling("legion.json5")
-            if (!config.exists()) {
-                return false
-            }
-            return available.contains(file.presentableName)
-        }
+private fun isTestRoot(file: VirtualFile, project: Project): Boolean {
+    val path = file.toNioPath()
+    val available = setOf("test", "tests", "bench", "benches", "benchmark", "benchmarks", "example")
+    val config = path.resolveSibling("legion.json5")
+    if (!config.exists()) {
+        return false
     }
+    return available.contains(file.presentableName)
 }
