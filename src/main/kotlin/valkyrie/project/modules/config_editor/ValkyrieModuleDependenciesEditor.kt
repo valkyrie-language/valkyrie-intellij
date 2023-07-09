@@ -1,18 +1,17 @@
-package valkyrie.project.modules
+package valkyrie.project.modules.config_editor
 
 import com.intellij.ide.JavaUiBundle
 import com.intellij.ide.util.projectWizard.importSources.JavaModuleSourceRoot
 import com.intellij.ide.util.projectWizard.importSources.JavaSourceRootDetectionUtil
-import com.intellij.openapi.module.ModuleConfigurationEditor
-import com.intellij.openapi.module.ModuleType
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.progress.util.ProgressWindow
 import com.intellij.openapi.progress.util.SmoothProgressAdapter
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.ContentEntry
-import com.intellij.openapi.roots.ModifiableRootModel
-import com.intellij.openapi.roots.ui.configuration.*
+import com.intellij.openapi.roots.ui.configuration.CommonContentEntriesEditor
+import com.intellij.openapi.roots.ui.configuration.ContentEntryEditor
+import com.intellij.openapi.roots.ui.configuration.ModuleConfigurationState
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.openapi.vfs.VirtualFile
@@ -21,48 +20,23 @@ import org.jetbrains.jps.model.java.JavaResourceRootType
 import org.jetbrains.jps.model.java.JavaSourceRootType
 import java.io.File
 
+class ValkyrieModuleDependenciesEditor : CommonContentEntriesEditor {
+    constructor(moduleName: String, state: ModuleConfigurationState) : super(
+        moduleName,
+        state,
+        JavaSourceRootType.SOURCE,
+        JavaSourceRootType.TEST_SOURCE,
+        JavaResourceRootType.RESOURCE,
+        JavaResourceRootType.TEST_RESOURCE,
+    )
 
-class ValkyrieModuleConfiguration : ModuleConfigurationEditorProviderEx {
-    override fun createEditors(state: ModuleConfigurationState?): Array<ModuleConfigurationEditor> {
-        val module = state?.currentRootModel?.module ?: return arrayOf()
-        return when {
-            ModuleType.get(module) is ValkyrieModuleType -> {
-                arrayOf(ValkyrieModuleDependenciesEditor(module.name, state))
-            }
-
-            else -> {
-                arrayOf()
-            }
-        }
-    }
-
-    override fun isCompleteEditorSet(): Boolean {
-        return false
-    }
-}
-
-private class ValkyrieModuleDependenciesEditor(moduleName: String?, state: ModuleConfigurationState?) : CommonContentEntriesEditor(
-    moduleName,
-    state,
-    JavaSourceRootType.SOURCE,
-    JavaSourceRootType.TEST_SOURCE,
-    JavaResourceRootType.RESOURCE,
-    JavaResourceRootType.TEST_RESOURCE
-) {
     override fun createContentEntryEditor(contentEntryUrl: String): ContentEntryEditor {
-        return object : JavaContentEntryEditor(contentEntryUrl, editHandlers) {
-            override fun getModel(): ModifiableRootModel {
-                return modifiableModel
-            }
-        }
+        return ValkyrieContentEntryEditor(contentEntryUrl, editHandlers, model)
     }
-
-    private val modifiableModel: ModifiableRootModel
-        get() = model
 
     override fun addContentEntries(files: Array<VirtualFile>): List<ContentEntry> {
         val contentEntries = super.addContentEntries(files)
-        if (!contentEntries.isEmpty()) {
+        if (contentEntries.isNotEmpty()) {
             val contentEntriesArray = contentEntries.toTypedArray<ContentEntry>()
             addSourceRoots(myProject, contentEntriesArray) {
                 addContentEntryPanels(
@@ -91,7 +65,8 @@ private class ValkyrieModuleDependenciesEditor(moduleName: String?, state: Modul
             val searchRunnable = Runnable {
                 val process = Runnable {
                     for (file in fileToEntryMap.keys) {
-                        progressIndicator.text = JavaUiBundle.message("module.paths.searching.source.roots.progress", file.path)
+                        progressIndicator.text =
+                            JavaUiBundle.message("module.paths.searching.source.roots.progress", file.path)
                         val roots = JavaSourceRootDetectionUtil.suggestRoots(file)
                         entryToRootMap[fileToEntryMap[file]] = roots
                     }
