@@ -20,7 +20,7 @@ class ValkyrieUsagesFactory : FindUsagesHandlerFactory() {
             is ValkyrieDeclareNamespace -> true
             is ValkyrieDeclaration -> true
             else -> {
-                println("canFindUsages: $element")
+//                println("canFindUsages: $element")
                 false
             }
         }

@@ -6,6 +6,6 @@ import com.intellij.openapi.startup.ProjectActivity
 
 class ValkyrieProjectActivityListener : ProjectActivity {
     override suspend fun execute(project: Project) {
-
+//        ModuleManager.getInstance(project).newModule("test.iml", "WEB_MODULE")
     }
 }

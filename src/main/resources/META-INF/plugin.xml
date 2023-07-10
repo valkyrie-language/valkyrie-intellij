@@ -8,6 +8,7 @@
 	<depends optional="true" config-file="plugin-for-idea.xml">com.intellij.modules.ultimate</depends>
 	<depends optional="true" config-file="plugin-with-toml.xml">org.toml.lang</depends>
 	<resource-bundle>messages.ValkyrieBundle</resource-bundle>
+
 	<extensions defaultExtensionNs="com.intellij">
 		<!-- Language -->
 		<fileType
@@ -15,7 +16,14 @@
 			language="valkyrie"
 			extensions="vk;valkyrie;"
 			implementationClass="valkyrie.language.file.ValkyrieFileType"
-			fieldName="INSTANCE"/>
+			fieldName="INSTANCE"
+		/>
+		<fileTypeDetector implementation="valkyrie.language.file.ValkyrieFileTypeDetector"/>
+
+		<lang.substitutor language="JSON" implementationClass="valkyrie.project.legion.LegionFileTypeRecast"/>
+
+
+		<vfs.asyncListener implementation="valkyrie.ide.project.crate.FileTypeRecast"/>
 		<lang.parserDefinition
 			language="valkyrie"
 			implementationClass="valkyrie.psi.ParserDefinition"
@@ -25,9 +33,8 @@
 		<projectWizard.projectCategory implementation="valkyrie.project.ValkyrieProjectCategory"/>
 		<directoryProjectGenerator implementation="valkyrie.project.DirectoryProjectGenerator"/>
 		<projectNameProvider implementation="valkyrie.project.ValkyrieProjectName"/>
-		<!--		<projectOpenProcessor implementation="valkyrie.project.projectOpenProcessor"/>-->
+		<projectOpenProcessor implementation="valkyrie.project.ValkyrieProjectOpenProcessor"/>
 		<postStartupActivity implementation="valkyrie.project.modules.ValkyrieProjectActivityListener"/>
-		<!--		<vfs.asyncListener implementation="valkyrie.ide.project.crate.CrateUpdateListener"/>-->
 		<projectImportProvider implementation="valkyrie.project.legion.LegionProvider"/>
 		<projectImportBuilder implementation="valkyrie.project.legion.LegionImporter"/>
 		<!-- Project SDK (Valkyrie Runtime) -->
@@ -52,7 +59,8 @@
 		<!-- Project Module (Valkyrie Package) -->
 		<!--		<moduleType implementationClass="valkyrie.project.modules.ValkyrieModuleType"/>-->
 		<moduleConfigurationEditorProvider
-			implementation="valkyrie.project.modules.config_editor.ValkyrieModuleConfiguration"/>
+			implementation="valkyrie.project.modules.config_editor.ValkyrieModuleConfiguration"
+		/>
 		<moduleNameGenerator implementation="valkyrie.project.facet.ValkyrieModuleNameGenerator"/>
 		<moduleBuilder builderClass="valkyrie.project.legion.LegionWorkspaceBuilder"/>
 		<module.workingDirectoryProvider implementation="valkyrie.project.modules.ValkyrieWorkingDirectoryProvider"/>
@@ -82,10 +90,6 @@
 			implementationClass="valkyrie.ide.view.ValkyrieStructureView"
 		/>
 		<typeHierarchyProvider language="valkyrie" implementationClass="valkyrie.ide.hierarchy.TypeHierarchyProvider"/>
-		<methodHierarchyProvider
-			language="valkyrie"
-			implementationClass="valkyrie.ide.hierarchy.MethodHierarchyProvider"
-		/>
 		<callHierarchyProvider language="valkyrie" implementationClass="valkyrie.ide.hierarchy.CallHierarchyProvider"/>
 		<!-- Highlight -->
 		<colorSettingsPage implementation="valkyrie.ide.highlight.HighlightSetting"/>
@@ -104,6 +108,9 @@
 		<lang.formatter language="valkyrie" implementationClass="valkyrie.ide.formatter.ValkyrieFormatBuilder"/>
 		<postFormatProcessor implementation="valkyrie.ide.formatter.ValkyrieAfterFormat"/>
 		<lang.smartEnterProcessor language="valkyrie" implementationClass="valkyrie.ide.formatter.SmartEnter"/>
+		<!-- Scope -->
+
+
 		<!-- Tests -->
 		<configurationType implementation="valkyrie.ide.runner.ValkyrieConfigurationType"/>
 		<!--		<runConfigurationsSettings implementation="valkyrie.ide.runner.ValkyrieRunnerSettings"/>-->
@@ -184,13 +191,13 @@
 			implementation="valkyrie.ide.reference.ValkyrieReferenceContributor"
 		/>
 		<psi.referenceProvider language="valkyrie" providerClass="valkyrie.ide.reference.ValkyrieReferenceProvider"/>
-		<!--		<psi.symbolReferenceProvider-->
-		<!--			anyReferenceClass="true"-->
-		<!--			implementationClass="valkyrie.ide.reference.ValkyrieReferenceProvider"-->
-		<!--			hostLanguage="Valkyrie"-->
-		<!--			hostElementClass="com.intellij.psi.xml.XmlAttributeValue"-->
-		<!--			targetClass="valkyrie.language.symbol.ValkyrieSymbolTemplate"-->
-		<!--		/>-->
+		<psi.symbolReferenceProvider
+			anyReferenceClass="true"
+			implementationClass="valkyrie.ide.reference.symbolReferenceProvider"
+			hostLanguage="valkyrie"
+			hostElementClass="com.intellij.psi.xml.XmlAttributeValue"
+			targetClass="valkyrie.language.symbol.ValkyrieSymbolTemplate"
+		/>
 		<!-- Lint -->
 		<lang.namesValidator language="valkyrie" implementationClass="valkyrie.ide.lint.ValkyrieNameValidator"/>
 		<qualifiedNameProvider implementation="valkyrie.ide.lint.ValkyrieNameQualifier"/>
@@ -249,8 +256,10 @@
 		<!--			language="valkyrie"-->
 		<!--			implementationClass="valkyrie.ide.matcher.ValkyrieBraceMatchAdapter"-->
 		<!--		/>-->
-		<codeBlockSupportHandler language="valkyrie"
-		                         implementationClass="valkyrie.ide.matcher.ValkyrieCodeBlockSupport"/>
+		<codeBlockSupportHandler
+			language="valkyrie"
+			implementationClass="valkyrie.ide.matcher.ValkyrieCodeBlockSupport"
+		/>
 		<lang.quoteHandler
 			language="valkyrie"
 			implementationClass="valkyrie.ide.matcher.ValkyrieQuoteHandler"
@@ -278,9 +287,18 @@
 		<codeInsight.implementMethod language="valkyrie" implementationClass="valkyrie.ide.codegen.GenerateImplements"/>
 		<codeInsight.overrideMethod language="valkyrie" implementationClass="valkyrie.ide.codegen.GenerateOverrides"/>
 		<codeInsight.delegateMethods language="valkyrie" implementationClass="valkyrie.ide.codegen.GenerateDelegates"/>
+		<methodHierarchyProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.hierarchy.MethodHierarchyProvider"
+		/>
+		<superMethodsSearch implementation="valkyrie.ide.codegen.superMethodsSearch"/>
+		<deepestSuperMethodsSearch implementation="valkyrie.ide.codegen.deepestSuperMethodsSearch"/>
+		<overridingMethodsSearch implementation="valkyrie.ide.codegen.overridingMethodsSearch"/>
+		<allOverridingMethodsSearch implementation="valkyrie.ide.codegen.allOverridingMethodsSearch"/>
+
+
 		<testCreator language="valkyrie" implementationClass="valkyrie.ide.codegen.GenerateTests"/>
 		<customFileDropHandler implementation="valkyrie.ide.completion.ValkyrieFileDropHandler"/>
-
 		<!-- Live Template -->
 		<liveTemplateContextProvider implementation="valkyrie.ide.templates.live_template.ValkyrieLiveTemplateContext"/>
 		<defaultLiveTemplates file="templates/liveTemplate.xml"/>

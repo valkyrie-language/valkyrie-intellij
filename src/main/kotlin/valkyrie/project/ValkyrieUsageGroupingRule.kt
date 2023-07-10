@@ -13,5 +13,4 @@ class ValkyrieUsageGroupingRule : UsageGroupingRule {
     override fun getParentGroupsFor(usage: Usage, targets: Array<out UsageTarget>): MutableList<UsageGroup> {
         return super.getParentGroupsFor(usage, targets)
     }
-
 }
