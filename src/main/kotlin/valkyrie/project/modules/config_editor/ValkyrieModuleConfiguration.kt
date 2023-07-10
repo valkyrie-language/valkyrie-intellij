@@ -14,10 +14,10 @@ class ValkyrieModuleConfiguration : ModuleConfigurationEditorProviderEx {
         return when {
             id == ValkyrieLanguage.moduleID -> {
                 arrayOf(
-                    ValkyrieModuleDependenciesEditor(module.name, state),
-                    OutputEditor(state),
+                    ValkyrieModuleRootsEditor(module.name, state),
                     ClasspathEditor(state),
-                    AnnotationsEditor(state)
+                    AnnotationsEditor(state),
+                    JavadocEditor(state),
                 )
             }
 
