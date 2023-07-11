@@ -10,6 +10,7 @@ import kotlin.io.path.exists
 @Suppress("UnstableApiUsage")
 class ValkyrieProjectName : ProjectNameProvider {
     override fun getNameFile(project: Project): Path? {
+        // default path is `.idea/.name`
         return null
     }
 
