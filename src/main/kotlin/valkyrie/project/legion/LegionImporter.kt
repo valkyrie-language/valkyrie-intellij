@@ -83,8 +83,4 @@ class LegionImporter : ProjectImportBuilder<LegionImporterConfig>() {
     }
 }
 
-class LegionImporterConfig {
-
-}
-
 

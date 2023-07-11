@@ -11,6 +11,10 @@
 
 	<extensions defaultExtensionNs="com.intellij">
 		<!-- Language -->
+		<lang.parserDefinition
+			language="valkyrie"
+			implementationClass="valkyrie.psi.ParserDefinition"
+		/>
 		<fileType
 			name="valkyrie"
 			language="valkyrie"
@@ -19,15 +23,8 @@
 			fieldName="INSTANCE"
 		/>
 		<fileTypeDetector implementation="valkyrie.language.file.ValkyrieFileTypeDetector"/>
-
 		<lang.substitutor language="JSON" implementationClass="valkyrie.project.legion.LegionFileTypeRecast"/>
-
-
 		<vfs.asyncListener implementation="valkyrie.ide.project.crate.FileTypeRecast"/>
-		<lang.parserDefinition
-			language="valkyrie"
-			implementationClass="valkyrie.psi.ParserDefinition"
-		/>
 		<!-- Project -->
 		<newProjectWizard.languageGenerator implementation="valkyrie.project.ValkyrieProjectGenerator"/>
 		<projectWizard.projectCategory implementation="valkyrie.project.ValkyrieProjectCategory"/>
@@ -40,14 +37,15 @@
 		<!-- Project SDK (Valkyrie Runtime) -->
 		<sdkType implementation="valkyrie.project.sdk.ValkyrieSdkType"/>
 		<sdkFinder implementation="valkyrie.project.sdk.ValkyrieSdkFinder"/>
-		<projectSdkSetupValidator implementation="valkyrie.project.sdk.ValkyrieSdkValidator"/>
 		<sdkDownload implementation="valkyrie.project.sdk.ValkyrieSdkDownload"/>
+		<sdkEditorAdditionalOptionsProvider implementation="valkyrie.project.sdk.ValkyrieSdkAdditionalOptions"/>
 		<unknownSdkContributor implementation="valkyrie.project.sdk.ValkyrieSdkUnknownContributor"/>
 		<unknownSdkResolver implementation="valkyrie.project.sdk.ValkyrieSdkUnknownResolver"/>
+		<projectSdkSetupValidator implementation="valkyrie.project.sdk.ValkyrieSdkValidator"/>
 		<!-- Project Facet (Valkyrie Framework) -->
-		<facetType implementation="valkyrie.project.facet.kami.KamiFrameworkProvider"/>
-		<facetType implementation="valkyrie.project.facet.iris.IrisFrameworkProvider"/>
-		<facetType implementation="valkyrie.project.facet.asgard.AsgardFrameworkProvider"/>
+		<!--		<facetType implementation="valkyrie.project.facet.kami.KamiFrameworkProvider"/>-->
+		<facetType implementation="valkyrie.project.facet.iris.ValkyrieFrameworkProvider"/>
+		<!--		<facetType implementation="valkyrie.project.facet.asgard.AsgardFrameworkProvider"/>-->
 		<!-- Project Library -->
 		<library.type implementation="valkyrie.project.library.ValkyrieLibraryType"/>
 		<librarySettingsProvider implementation="valkyrie.project.library.ValkyrieLibrarySettings"/>
@@ -61,7 +59,7 @@
 		<moduleConfigurationEditorProvider
 			implementation="valkyrie.project.modules.config_editor.ValkyrieModuleConfiguration"
 		/>
-		<moduleNameGenerator implementation="valkyrie.project.facet.ValkyrieModuleNameGenerator"/>
+		<moduleNameGenerator implementation="valkyrie.project.modules.ValkyrieModuleNameGenerator"/>
 		<moduleBuilder builderClass="valkyrie.project.legion.LegionWorkspaceBuilder"/>
 		<module.workingDirectoryProvider implementation="valkyrie.project.modules.ValkyrieWorkingDirectoryProvider"/>
 		<primaryModuleManager implementation="valkyrie.project.modules.ValkyrieRootModule"/>
@@ -78,8 +76,10 @@
 		<indexedRootsProvider implementation="valkyrie.project.ExtraIndexContributor"/>
 		<generatedSourcesFilter implementation="valkyrie.project.ValkyrieGeneratedSource"/>
 		<!-- Project Artifact -->
-		<packaging.artifactPropertiesProvider implementation="valkyrie.project.artifact.artifactPropertiesProvider"/>
 		<packaging.artifactType implementation="valkyrie.project.artifact.ValkyrieArtifactType"/>
+		<packaging.artifactPropertiesProvider
+			implementation="valkyrie.project.artifact.ValkyrieArtifactPropertiesProvider"
+		/>
 		<!-- StructureView -->
 		<iconProvider implementation="valkyrie.language.file.ValkyrieIconProvider"/>
 		<projectViewNestingRulesProvider implementation="valkyrie.language.file.ValkyrieFileGroup"/>

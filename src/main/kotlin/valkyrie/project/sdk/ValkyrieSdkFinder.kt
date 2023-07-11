@@ -7,7 +7,7 @@ import com.intellij.openapi.roots.impl.SdkFinder
 
 class ValkyrieSdkFinder : SdkFinder() {
     override fun findSdk(name: String, sdkType: String): Sdk? {
-        println("ValkyrieSdkFinder: $sdkType($name)")
+//        println("ValkyrieSdkFinder: $sdkType($name)")
         val jdkTable = ProjectJdkTable.getInstance()
         return jdkTable.findJdk(name)
     }
