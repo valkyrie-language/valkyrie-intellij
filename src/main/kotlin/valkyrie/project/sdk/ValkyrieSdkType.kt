@@ -26,7 +26,7 @@ class ValkyrieSdkType : SdkType("ValkyrieSDK") {
 
     override fun suggestSdkName(currentSdkName: String?, sdkHome: String): String {
         println("suggestSdkName: $currentSdkName")
-        return "Saber (nightly)"
+        return "Valkyrie (nightly)"
     }
 
     override fun createAdditionalDataConfigurable(sdkModel: SdkModel, sdkModificator: SdkModificator): AdditionalDataConfigurable {

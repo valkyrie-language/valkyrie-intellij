@@ -8,9 +8,9 @@ import com.intellij.facet.ui.FacetValidatorsManager
 class ValkyrieFacetConfig : FacetConfiguration {
     override fun createEditorTabs(editorContext: FacetEditorContext?, validatorsManager: FacetValidatorsManager?): Array<FacetEditorTab> {
         return arrayOf(
-            ValkyrieFacetConfigVersion(editorContext),
-
-            )
+            ValkyrieFacetConfigFramework(editorContext),
+            ValkyrieFacetConfigDependency(editorContext)
+        )
     }
 }
 

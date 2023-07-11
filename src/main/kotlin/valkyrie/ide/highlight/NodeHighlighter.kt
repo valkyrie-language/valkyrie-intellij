@@ -37,7 +37,10 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitDeclareClass(o: ValkyrieDeclareClass) {
-        o as ValkyrieDeclareClassNode
+        highlight(o.identifier, HighlightColor.SYM_CLASS)
+    }
+
+    override fun visitDeclareComponent(o: ValkyrieDeclareComponent) {
         highlight(o.identifier, HighlightColor.SYM_CLASS)
     }
 
