@@ -1,4 +1,4 @@
-package valkyrie.project.facet
+package valkyrie.project.modules
 
 import com.intellij.ide.util.projectWizard.ModuleNameGenerator
 import java.util.function.Consumer
