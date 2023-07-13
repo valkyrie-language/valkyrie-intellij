@@ -14,11 +14,8 @@ import com.intellij.openapi.roots.ui.configuration.ModulesProvider
 import com.intellij.openapi.util.Computable
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.resolveFromRootOrRelative
-import com.intellij.ui.dsl.builder.panel
 import valkyrie.project.modules.ValkyrieModuleType
 import java.io.File
-import javax.swing.JComponent
-import javax.swing.JLabel
 
 
 class LegionWorkspaceBuilder : ModuleBuilder() {
@@ -193,34 +190,4 @@ private fun LegionWorkspaceBuilder.configProjectRoot(project: Project) {
     }
 }
 
-class ValkyrieModuleWizardStep(val text: String) : ModuleWizardStep() {
-    override fun getComponent(): JComponent {
-        return panel {
-            row(text) {
-                text("???")
-            }
-        }
-    }
 
-    override fun updateDataModel() {
-
-    }
-
-}
-
-
-class ValkyrieWizardInputField : WizardInputField<JComponent>("a", "b") {
-    override fun getLabel(): String {
-        return "WizardInputField.getLabel"
-    }
-
-    override fun getComponent(): JComponent {
-        return JLabel("Put your content here")
-    }
-
-    override fun getValue(): String {
-        return "WizardInputField.getValue"
-    }
-
-
-}
