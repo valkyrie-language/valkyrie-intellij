@@ -9,7 +9,7 @@ import valkyrie.language.ValkyrieLanguage
 import valkyrie.psi.ValkyrieTypes.*
 
 private val removeSpaceNewlineBefore = TokenSet.orSet(
-    TokenSet.create(COMMA, PROPORTION)
+    TokenSet.create(COMMA, NAME_SPLIT)
 )
 
 private val removeSpaceBefore = TokenSet.orSet(

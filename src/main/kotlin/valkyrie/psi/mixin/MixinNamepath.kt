@@ -3,10 +3,13 @@ package valkyrie.psi.mixin
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiQualifiedNamedElement
+import com.intellij.psi.util.elementType
+import com.intellij.psi.util.firstLeaf
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.ide.reference.declaration.ValkyrieNamepathReference
 import valkyrie.psi.ValkyrieElement
+import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.node.ValkyrieIdentifierNode
 import valkyrie.psi.node.ValkyrieNamepath
 
@@ -75,3 +78,13 @@ abstract class MixinNamepath(node: ASTNode) : ValkyrieElement(node), ValkyrieNam
 }
 
 
+fun ValkyrieNamepath.highlight(highlighter: NodeHighlighter) {
+    if (this.firstLeaf().elementType == ValkyrieTypes.NAME_SCOPE) {
+        highlighter.highlight(this.firstChild, HighlightColor.KEYWORD)
+    }
+    for (reference in this.references) {
+        if (reference is ValkyrieNamepathReference) {
+            reference.highlight(highlighter)
+        }
+    }
+}
