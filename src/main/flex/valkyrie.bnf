@@ -40,7 +40,7 @@
         ANGLE_R = '>'
         EQUAL = '='
         COLON = ':'
-        PROPORTION = '∷'
+        NAME_SPLIT = '∷'
         SEMICOLON = ';'
         COMMA = ','
         DOLLAR = '$'
@@ -105,7 +105,7 @@ using-exclude ::= KW_EXCLUDE (identifier|BRACE_L (identifier (COMMA identifier)*
 using-block   ::= namepath-free using-dot? using-body
 using-body    ::= BRACE_L using-term* BRACE_R;
 using-alias   ::= identifier KW_AS identifier;
-private using-dot ::= DOT|PROPORTION|OP_DIV
+private using-dot ::= DOT|NAME_SPLIT|OP_DIV
 // === forall statement ===
 declare-template ::= annotations KW_TEMPLATE (identifier (COMMA identifier)* COMMA?)? template-body {
     pin = 2
@@ -205,8 +205,8 @@ declare-imply ::= annotations KW_IMPLY declare-generic? namepath generic-call-fr
 }
 // === generic statement ===
 declare-generic ::=
-    PROPORTION? GENERIC_L (generic-parameter (COMMA generic-parameter)* COMMA?)? GENERIC_R
-  | PROPORTION? ANGLE_L   (generic-parameter (COMMA generic-parameter)* COMMA?)? ANGLE_R
+    NAME_SPLIT? GENERIC_L (generic-parameter (COMMA generic-parameter)* COMMA?)? GENERIC_R
+  | NAME_SPLIT? ANGLE_L   (generic-parameter (COMMA generic-parameter)* COMMA?)? ANGLE_R
 {
 
 }
@@ -245,7 +245,7 @@ function-call-inline ::= namepath argument-body;
 macro-call    ::= AT namepath (argument-body? class-body|argument-body)? {
     pin = 1
 }
-localize-call ::= OP_L10N (identifier ((DOT|PROPORTION|OP_DIV) identifier)*)? argument-body? {
+localize-call ::= OP_L10N (identifier ((DOT|NAME_SPLIT|OP_DIV) identifier)*)? argument-body? {
     pin = 1
     mixin = "valkyrie.psi.mixin.MixinLocalize"
 }
@@ -525,11 +525,11 @@ type-atomic ::=
 type-tuple  ::= PARENTHESIS_L (type-expression (COMMA type-expression)* COMMA?)? PARENTHESIS_R;
 // === generic statement ===
 generic-call ::=
-    PROPORTION? GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R
-  | PROPORTION  ANGLE_L   (generic-argument (COMMA generic-argument)* COMMA?)? ANGLE_R
+    NAME_SPLIT? GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R
+  | NAME_SPLIT  ANGLE_L   (generic-argument (COMMA generic-argument)* COMMA?)? ANGLE_R
 generic-call-free ::=
-    PROPORTION? GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R
-  | PROPORTION? ANGLE_L   (generic-argument (COMMA generic-argument)* COMMA?)? ANGLE_R
+    NAME_SPLIT? GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R
+  | NAME_SPLIT? ANGLE_L   (generic-argument (COMMA generic-argument)* COMMA?)? ANGLE_R
 generic-argument ::= (annotations identifier EQUAL)? type-expression;
 // === atomic statement ===
 atomic ::=
@@ -567,7 +567,7 @@ range-lower ::= expression-root;
 range-upper ::= expression-root;
 range-step  ::= expression-root;
 range-index ::= expression-root;
-private c2  ::= PROPORTION | COLON COLON;
+private c2  ::= NAME_SPLIT | COLON COLON;
 tuple       ::=
     PARENTHESIS_L PARENTHESIS_R
   | PARENTHESIS_L argument COMMA PARENTHESIS_R
@@ -598,7 +598,7 @@ modifier    ::= (SYMBOL | SYMBOW_RAW) !modifier-stop {
     mixin = "valkyrie.psi.mixin.MixinModifier"
 }
 private modifier-stop ::= KW_IN | KW_IF
-    | COMMA | COLON | PROPORTION | DOT | SEMICOLON | EQUAL
+    | COMMA | COLON | NAME_SPLIT | DOT | SEMICOLON | EQUAL
     | PARENTHESIS_L | PARENTHESIS_R
     | BRACE_L | BRACE_R
     | ANGLE_L | GENERIC_L
@@ -608,11 +608,11 @@ attribute-item  ::= namepath argument-body? class-body? {
     mixin = "valkyrie.psi.mixin.MixinAttribute"
 }
 // === identifiers ===
-namepath      ::= identifier (PROPORTION identifier)* {
+namepath      ::= NAME_SCOPE? identifier (NAME_SPLIT identifier)* {
     mixin = "valkyrie.psi.mixin.MixinNamepath"
     methods=[highlight_fake]
 }
-namepath-free ::= identifier ((PROPORTION|DOT) identifier)* {
+namepath-free ::= identifier ((NAME_SPLIT|DOT) identifier)* {
     extends = namepath
 }
 

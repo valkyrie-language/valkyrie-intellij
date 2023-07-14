@@ -8,11 +8,11 @@ import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.elementType
-import valkyrie.ide.reference.declaration.ValkyrieNamepathReference
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.childrenWithLeaves
 import valkyrie.psi.mixin.getHighlightColor
+import valkyrie.psi.mixin.highlight
 import valkyrie.psi.node.*
 
 
@@ -88,8 +88,11 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitDeclareUnite(o: ValkyrieDeclareUnite) {
-        o as ValkyrieDeclareUniteNode
-        highlight(o.nameIdentifier, HighlightColor.SYM_MACRO)
+        highlight(o.identifier, HighlightColor.SYM_CLASS)
+    }
+
+    override fun visitDeclareVariant(o: ValkyrieDeclareVariant) {
+        highlight(o.identifier, HighlightColor.SYM_VARIANT)
     }
 
     override fun visitTraitAlias(o: ValkyrieTraitAlias) {
@@ -103,7 +106,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitDeclareImply(o: ValkyrieDeclareImply) {
-        o.namepath.highlight(this)
+        o.namepath?.highlight(this)
     }
 
     override fun visitDeclareFunction(o: ValkyrieDeclareFunction) {
@@ -141,7 +144,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     override fun visitTypeExpression(o: ValkyrieTypeExpression) {
         for (term in o.typeTermList) {
-            term.typeAtomic.namepath.highlight(this)
+            term.typeAtomic.namepath?.highlight(this)
         }
     }
 
@@ -150,11 +153,11 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitTypePatternTuple(o: ValkyrieTypePatternTuple) {
-        o.namepath.highlight(this)
+        o.namepath?.highlight(this)
     }
 
     override fun visitTypePatternObject(o: ValkyrieTypePatternObject) {
-        o.namepath.highlight(this)
+        o.namepath?.highlight(this)
     }
 
     override fun visitPatternPair(o: ValkyriePatternPair) {
@@ -166,11 +169,11 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitCasePatternTuple(o: ValkyrieCasePatternTuple) {
-        o.namepath.highlight(this)
+        o.namepath?.highlight(this)
     }
 
     override fun visitCasePatternObject(o: ValkyrieCasePatternObject) {
-        o.namepath.highlight(this)
+        o.namepath?.highlight(this)
     }
 
     override fun visitCasePatternPair(o: ValkyrieCasePatternPair) {
@@ -212,7 +215,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     override fun visitRangeItem(o: ValkyrieRangeItem) {
         for (child in o.childrenWithLeaves) {
-            if (child.elementType == ValkyrieTypes.PROPORTION) {
+            if (child.elementType == ValkyrieTypes.NAME_SPLIT) {
                 highlight(child, HighlightColor.OPERATION)
                 break
             }
@@ -261,12 +264,3 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     override fun visit(element: PsiElement) = element.accept(this)
 }
 
-
-private fun ValkyrieNamepath?.highlight(highlighter: NodeHighlighter) {
-    this ?: return
-    for (reference in this.references) {
-        if (reference is ValkyrieNamepathReference) {
-            reference.highlight(highlighter)
-        }
-    }
-}
