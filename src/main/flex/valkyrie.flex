@@ -76,7 +76,7 @@ KW_BOOLEAN = true|false
 STAR       = \*
 COLON      = :|∶
 NAME_SPLIT = [⸬∷]|::
-NAME_SCOPE = [⸭]|\\N
+NAME_SCOPE = [⁜]|\\N
 
 
 
@@ -137,7 +137,8 @@ DECIMAL = {INTEGER}(\.[0-9]+)?
 W1 = ߷
 W2 = ※
 
-
+OP_REFERENCE = [⁋]
+OP_DEREFERENCE = [¶]
 
 
 
@@ -179,6 +180,8 @@ W2 = ※
     {NAME_SCOPE} { return NAME_SCOPE; }
 	{COLON}      { return COLON; }
     {STAR}       { return STAR; }
+    {OP_REFERENCE} { return OP_REFERENCE;}
+    {OP_DEREFERENCE} { return OP_DEREFERENCE;}
 
     {OP_ARROW1} { return OP_ARROW1; }
     {OP_ARROW2} { return OP_ARROW2; }

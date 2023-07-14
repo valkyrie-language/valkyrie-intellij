@@ -71,8 +71,8 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
     override fun visitNamepath(o: ValkyrieNamepath) {
         for (child in o.childrenWithLeaves) {
             if (child.elementType == ValkyrieTypes.NAME_SCOPE) {
-                if (child.text != "⸭") {
-                    child.replaceLeaf(ValkyrieTypes.NAME_SCOPE, "⸭")
+                if (child.text != "⁜") {
+                    child.replaceLeaf(ValkyrieTypes.NAME_SCOPE, "⁜")
                 }
             } else if (child.elementType == ValkyrieTypes.NAME_SPLIT) {
                 if (child.text != "⸬") {
