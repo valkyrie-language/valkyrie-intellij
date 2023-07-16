@@ -2,15 +2,10 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieTypePatternTuple extends PsiElement {
-
-    @Nullable
-    ValkyrieNamepath getNamepath();
-
-    @NotNull
-    List<ValkyrieTypePattern> getTypePatternList();
+public interface ValkyrieInfixGreater extends PsiElement {
 
 }

@@ -14,6 +14,9 @@ public interface ValkyrieForStatement extends PsiElement {
     ValkyrieBlockBody getBlockBody();
 
     @Nullable
+    ValkyrieControlLabel getControlLabel();
+
+    @Nullable
     ValkyrieExpressionInline getExpressionInline();
 
     @Nullable

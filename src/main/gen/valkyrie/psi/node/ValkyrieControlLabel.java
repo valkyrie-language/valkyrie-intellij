@@ -7,7 +7,4 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieControlLabel extends PsiElement {
 
-    @Nullable
-    ValkyrieIdentifier getIdentifier();
-
 }

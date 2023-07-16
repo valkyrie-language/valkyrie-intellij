@@ -26,10 +26,4 @@ public class ValkyrieControlLabelNode extends ValkyrieElement implements Valkyri
         else super.accept(visitor);
     }
 
-    @Override
-    @Nullable
-    public ValkyrieIdentifier getIdentifier() {
-        return findChildByClass(ValkyrieIdentifier.class);
-    }
-
 }
