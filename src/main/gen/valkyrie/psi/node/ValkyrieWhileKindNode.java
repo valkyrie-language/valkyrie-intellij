@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyriePrefixDerefNode extends ValkyrieElement implements ValkyriePrefixDeref {
+public class ValkyrieWhileKindNode extends ValkyrieElement implements ValkyrieWhileKind {
 
-    public ValkyriePrefixDerefNode(@NotNull ASTNode node) {
+    public ValkyrieWhileKindNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitPrefixDeref(this);
+        visitor.visitWhileKind(this);
     }
 
     @Override

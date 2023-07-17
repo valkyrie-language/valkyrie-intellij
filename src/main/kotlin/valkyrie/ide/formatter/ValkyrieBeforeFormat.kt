@@ -135,6 +135,22 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
         }
     }
 
+    override fun visitTypePatternPair(o: ValkyrieTypePatternPair) {
+        rewritePatternType(o)
+    }
+
+    override fun visitCasePatternPair(o: ValkyrieCasePatternPair) {
+        rewritePatternTerm(o)
+    }
+
+    override fun visitCasePatternRoot(o: ValkyrieCasePatternRoot) {
+        rewritePatternTerm(o)
+    }
+
+    override fun visitCasePatternItem(o: ValkyrieCasePatternItem) {
+        rewritePatternTerm(o)
+    }
+
     override fun visitLocalizeCall(o: ValkyrieLocalizeCall) {
         val symbol = o.firstLeaf()
         if (symbol.text != "⸿") {
@@ -168,4 +184,26 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
     }
 
 
+}
+
+private fun rewritePatternType(o: PsiElement) {
+    for (child in o.childrenWithLeaves) {
+        when (child.elementType) {
+            ValkyrieTypes.AT, ValkyrieTypes.EQUAL -> {
+                child.replaceLeaf(ValkyrieTypes.COLON, ":")
+                break
+            }
+        }
+    }
+}
+
+private fun rewritePatternTerm(o: PsiElement) {
+    for (child in o.childrenWithLeaves) {
+        when (child.elementType) {
+            ValkyrieTypes.AT, ValkyrieTypes.COLON -> {
+                child.replaceLeaf(ValkyrieTypes.EQUAL, "=")
+                break
+            }
+        }
+    }
 }

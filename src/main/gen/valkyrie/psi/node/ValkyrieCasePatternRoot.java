@@ -7,28 +7,13 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieCasePatternRoot extends PsiElement {
 
-    @Nullable
+    @NotNull
     ValkyrieCasePattern getCasePattern();
 
     @Nullable
-    ValkyrieCasePatternArray getCasePatternArray();
+    ValkyrieIdentifier getIdentifier();
 
-    @Nullable
-    ValkyrieCasePatternObject getCasePatternObject();
-
-    @Nullable
-    ValkyrieCasePatternTuple getCasePatternTuple();
-
-    @Nullable
-    ValkyrieNamepath getNamepath();
-
-    @Nullable
-    ValkyrieNumber getNumber();
-
-    @Nullable
-    ValkyrieSpecial getSpecial();
-
-    @Nullable
-    ValkyrieString getString();
+    @NotNull
+    List<ValkyrieModifier> getModifierList();
 
 }

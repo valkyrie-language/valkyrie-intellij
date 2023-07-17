@@ -150,7 +150,7 @@
 		<!-- Hint Line Marker -->
 		<codeInsight.lineMarkerProvider
 			language="valkyrie"
-			implementationClass="valkyrie.ide.line_marker.LineMarkerProvider"
+			implementationClass="valkyrie.ide.line_marker.ValkyrieLineMarkerProvider"
 		/>
 		<codeInsight.template.postfixTemplateProvider
 			language="valkyrie"

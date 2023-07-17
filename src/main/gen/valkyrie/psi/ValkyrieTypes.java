@@ -22,7 +22,6 @@ public interface ValkyrieTypes {
     IElementType BLOCK_BARE = new ValkyrieElementType("BLOCK_BARE");
     IElementType BLOCK_BODY = new ValkyrieElementType("BLOCK_BODY");
     IElementType CASE_PATTERN = new ValkyrieElementType("CASE_PATTERN");
-    IElementType CASE_PATTERN_ARRAY = new ValkyrieElementType("CASE_PATTERN_ARRAY");
     IElementType CASE_PATTERN_ITEM = new ValkyrieElementType("CASE_PATTERN_ITEM");
     IElementType CASE_PATTERN_OBJECT = new ValkyrieElementType("CASE_PATTERN_OBJECT");
     IElementType CASE_PATTERN_PAIR = new ValkyrieElementType("CASE_PATTERN_PAIR");
@@ -178,6 +177,7 @@ public interface ValkyrieTypes {
     IElementType USING_EXCLUDE = new ValkyrieElementType("USING_EXCLUDE");
     IElementType USING_TERM = new ValkyrieElementType("USING_TERM");
     IElementType WHERE_BODY = new ValkyrieElementType("WHERE_BODY");
+    IElementType WHILE_KIND = new ValkyrieElementType("WHILE_KIND");
     IElementType WHILE_STATEMENT = new ValkyrieElementType("WHILE_STATEMENT");
 
     IElementType ANGLE_L = new ValkyrieTokenType("<");
@@ -245,6 +245,7 @@ public interface ValkyrieTypes {
     IElementType KW_TYPE = new ValkyrieTokenType("KW_TYPE");
     IElementType KW_UNION = new ValkyrieTokenType("KW_UNION");
     IElementType KW_UNITE = new ValkyrieTokenType("KW_UNITE");
+    IElementType KW_UNTIL = new ValkyrieTokenType("KW_UNTIL");
     IElementType KW_USING = new ValkyrieTokenType("KW_USING");
     IElementType KW_WHEN = new ValkyrieTokenType("KW_WHEN");
     IElementType KW_WHERE = new ValkyrieTokenType("KW_WHERE");
@@ -337,8 +338,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieBlockBodyNode(node);
             } else if (type == CASE_PATTERN) {
                 return new ValkyrieCasePatternNode(node);
-            } else if (type == CASE_PATTERN_ARRAY) {
-                return new ValkyrieCasePatternArrayNode(node);
             } else if (type == CASE_PATTERN_ITEM) {
                 return new ValkyrieCasePatternItemNode(node);
             } else if (type == CASE_PATTERN_OBJECT) {
@@ -649,6 +648,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieUsingTermNode(node);
             } else if (type == WHERE_BODY) {
                 return new ValkyrieWhereBodyNode(node);
+            } else if (type == WHILE_KIND) {
+                return new ValkyrieWhileKindNode(node);
             } else if (type == WHILE_STATEMENT) {
                 return new ValkyrieWhileStatementNode(node);
             }

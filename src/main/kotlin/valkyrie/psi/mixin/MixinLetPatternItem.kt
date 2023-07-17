@@ -9,6 +9,15 @@ import valkyrie.psi.node.ValkyrieLetPatternItem
 import javax.swing.Icon
 
 abstract class MixinLetPatternItem(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieLetPatternItem {
+    override val color: HighlightColor
+        get() {
+            for (modifier in this.modifierList) {
+                if (modifier.text == "mut") {
+                    return HighlightColor.SYM_LOCAL_MUT
+                }
+            }
+            return HighlightColor.SYM_LOCAL
+        }
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
         return this.identifier as? ValkyrieIdentifierNode
@@ -17,13 +26,4 @@ abstract class MixinLetPatternItem(node: ASTNode) : ValkyrieDeclaration(node), V
     override fun getBaseIcon(): Icon {
         return AllIcons.Nodes.Field
     }
-}
-
-fun ValkyrieLetPatternItem.getHighlightColor(): HighlightColor {
-    for (modifier in this.modifierList) {
-        if (modifier.text == "mut") {
-            return HighlightColor.SYM_LOCAL_MUT
-        }
-    }
-    return HighlightColor.SYM_LOCAL
 }

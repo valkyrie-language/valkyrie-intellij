@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieCasePatternArray extends PsiElement {
 
     @NotNull
-    List<ValkyrieCasePatternItem> getCasePatternItemList();
+    List<ValkyrieCasePattern> getCasePatternList();
 
     @Nullable
     ValkyrieNamepath getNamepath();

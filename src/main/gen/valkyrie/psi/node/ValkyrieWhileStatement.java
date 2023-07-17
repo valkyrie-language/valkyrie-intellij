@@ -19,4 +19,7 @@ public interface ValkyrieWhileStatement extends PsiElement {
     @Nullable
     ValkyrieExpressionInline getExpressionInline();
 
+    @NotNull
+    ValkyrieWhileKind getWhileKind();
+
 }

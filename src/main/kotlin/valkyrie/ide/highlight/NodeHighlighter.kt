@@ -11,7 +11,6 @@ import com.intellij.psi.util.elementType
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.childrenWithLeaves
-import valkyrie.psi.mixin.getHighlightColor
 import valkyrie.psi.mixin.highlight
 import valkyrie.psi.node.*
 
@@ -149,8 +148,14 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitLetPatternItem(o: ValkyrieLetPatternItem) {
-        highlight(o.identifier, o.getHighlightColor())
+        o as ValkyrieLetPatternItemNode
+        highlight(o.identifier, o.color)
     }
+
+    override fun visitPatternPair(o: ValkyriePatternPair) {
+        highlight(o.identifier, HighlightColor.SYM_LOCAL)
+    }
+
 
     override fun visitTypePatternTuple(o: ValkyrieTypePatternTuple) {
         o.namepath?.highlight(this)
@@ -160,12 +165,28 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         o.namepath?.highlight(this)
     }
 
-    override fun visitPatternPair(o: ValkyriePatternPair) {
-        highlight(o.identifier, HighlightColor.SYM_ARG)
+    override fun visitTypePatternPair(o: ValkyrieTypePatternPair) {
+        highlight(o.identifier, HighlightColor.SYM_LOCAL)
     }
 
     override fun visitTypePatternItem(o: ValkyrieTypePatternItem) {
         o.namepath.highlight(this)
+    }
+
+    override fun visitCasePattern(o: ValkyrieCasePattern) {
+
+        val names = o.namepath?.identifierList ?: emptyList();
+        if (names.count() == 1) {
+            val head = names.firstOrNull() as? ValkyrieIdentifierNode
+            val c = head?.name?.firstOrNull()
+            if (c?.isLowerCase() == true) {
+                highlight(head, HighlightColor.SYM_LOCAL)
+            } else if (c?.isUpperCase() == true) {
+                highlight(head, HighlightColor.SYM_VARIANT)
+            }
+        } else {
+            o.namepath?.highlight(this)
+        }
     }
 
     override fun visitCasePatternTuple(o: ValkyrieCasePatternTuple) {
@@ -177,11 +198,14 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitCasePatternPair(o: ValkyrieCasePatternPair) {
-        highlight(o.identifier, HighlightColor.SYM_ARG)
+        highlight(o.identifier, HighlightColor.SYM_LOCAL)
     }
 
+    override fun visitCasePatternRoot(o: ValkyrieCasePatternRoot) {
+        highlight(o.identifier, HighlightColor.SYM_LOCAL)
+    }
     override fun visitCasePatternItem(o: ValkyrieCasePatternItem) {
-        highlight(o.identifier, HighlightColor.SYM_ARG)
+        highlight(o.identifier, HighlightColor.SYM_LOCAL)
     }
 
     override fun visitDefaultType(o: ValkyrieDefaultType) {
@@ -207,6 +231,10 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     override fun visitDotCallInline(o: ValkyrieDotCallInline) {
         highlight(o.namepath.lastChild, HighlightColor.SYM_FUNCTION_SELF)
+    }
+
+    override fun visitAtomic(o: ValkyrieAtomic) {
+        o.namepath?.highlight(this)
     }
 
     override fun visitNewValue(o: ValkyrieNewValue) {

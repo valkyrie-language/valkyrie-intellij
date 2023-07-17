@@ -28,8 +28,8 @@ public class ValkyrieCasePatternTupleNode extends ValkyrieElement implements Val
 
     @Override
     @NotNull
-    public List<ValkyrieCasePatternItem> getCasePatternItemList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieCasePatternItem.class);
+    public List<ValkyrieCasePattern> getCasePatternList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieCasePattern.class);
     }
 
     @Override

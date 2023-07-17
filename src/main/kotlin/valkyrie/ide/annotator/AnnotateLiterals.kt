@@ -7,7 +7,6 @@ import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
-import valkyrie.ide.actions.ast_transform.DeleteThis
 import valkyrie.ide.line_marker.ValkyrieMarkColor
 import valkyrie.language.ValkyrieBundle
 import valkyrie.psi.ValkyrieTypes
@@ -76,16 +75,6 @@ private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) 
 //        }
     }
 
-
-    override fun visitCasePatternArray(o: ValkyrieCasePatternArray) {
-        val ns = o.namepath;
-        if (ns != null && ns.containingFile != null) {
-            holder.newAnnotation(HighlightSeverity.ERROR, ValkyrieBundle.message("lint.invalid.invalid-array-type"))
-                .range(ns.textRange)
-                .withFix(DeleteThis(ns))
-                .create()
-        }
-    }
 
     override fun visitDeclareClass(o: ValkyrieDeclareClass) {
         super.visitDeclareClass(o)
