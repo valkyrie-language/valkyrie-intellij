@@ -463,7 +463,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // (modifier|KW_LET)* identifier ((EQUAL|AT|COLON) case-pattern)?
+    // (modifier|KW_LET)* identifier ((EQUAL|AT|COLON|BIND) case-pattern)?
     public static boolean case_pattern_item(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern_item")) return false;
         boolean r;
@@ -495,14 +495,14 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // ((EQUAL|AT|COLON) case-pattern)?
+    // ((EQUAL|AT|COLON|BIND) case-pattern)?
     private static boolean case_pattern_item_2(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern_item_2")) return false;
         case_pattern_item_2_0(b, l + 1);
         return true;
     }
 
-    // (EQUAL|AT|COLON) case-pattern
+    // (EQUAL|AT|COLON|BIND) case-pattern
     private static boolean case_pattern_item_2_0(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern_item_2_0")) return false;
         boolean r;
@@ -513,13 +513,14 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // EQUAL|AT|COLON
+    // EQUAL|AT|COLON|BIND
     private static boolean case_pattern_item_2_0_0(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern_item_2_0_0")) return false;
         boolean r;
         r = consumeToken(b, EQUAL);
         if (!r) r = consumeToken(b, AT);
         if (!r) r = consumeToken(b, COLON);
+        if (!r) r = consumeToken(b, BIND);
         return r;
     }
 
@@ -593,7 +594,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // identifier ((EQUAL|AT|COLON) case-pattern)?
+    // identifier ((EQUAL|AT|COLON|BIND) case-pattern)?
     public static boolean case_pattern_pair(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern_pair")) return false;
         boolean r;
@@ -604,14 +605,14 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // ((EQUAL|AT|COLON) case-pattern)?
+    // ((EQUAL|AT|COLON|BIND) case-pattern)?
     private static boolean case_pattern_pair_1(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern_pair_1")) return false;
         case_pattern_pair_1_0(b, l + 1);
         return true;
     }
 
-    // (EQUAL|AT|COLON) case-pattern
+    // (EQUAL|AT|COLON|BIND) case-pattern
     private static boolean case_pattern_pair_1_0(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern_pair_1_0")) return false;
         boolean r;
@@ -622,18 +623,19 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // EQUAL|AT|COLON
+    // EQUAL|AT|COLON|BIND
     private static boolean case_pattern_pair_1_0_0(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern_pair_1_0_0")) return false;
         boolean r;
         r = consumeToken(b, EQUAL);
         if (!r) r = consumeToken(b, AT);
         if (!r) r = consumeToken(b, COLON);
+        if (!r) r = consumeToken(b, BIND);
         return r;
     }
 
     /* ********************************************************** */
-    // ((modifier|KW_LET)* identifier (EQUAL|AT))? case-pattern
+    // ((modifier|KW_LET)* identifier (EQUAL|AT|BIND))? case-pattern
     public static boolean case_pattern_root(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern_root")) return false;
         boolean r;
@@ -644,14 +646,14 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // ((modifier|KW_LET)* identifier (EQUAL|AT))?
+    // ((modifier|KW_LET)* identifier (EQUAL|AT|BIND))?
     private static boolean case_pattern_root_0(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern_root_0")) return false;
         case_pattern_root_0_0(b, l + 1);
         return true;
     }
 
-    // (modifier|KW_LET)* identifier (EQUAL|AT)
+    // (modifier|KW_LET)* identifier (EQUAL|AT|BIND)
     private static boolean case_pattern_root_0_0(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern_root_0_0")) return false;
         boolean r;
@@ -683,12 +685,13 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // EQUAL|AT
+    // EQUAL|AT|BIND
     private static boolean case_pattern_root_0_0_2(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern_root_0_0_2")) return false;
         boolean r;
         r = consumeToken(b, EQUAL);
         if (!r) r = consumeToken(b, AT);
+        if (!r) r = consumeToken(b, BIND);
         return r;
     }
 
@@ -3662,6 +3665,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
 
     /* ********************************************************** */
     // match-with
+    //   | match-type
     //   | match-case
     //   | match-when
     //   | match-else
@@ -3669,6 +3673,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!recursion_guard_(b, l, "match_item")) return false;
         boolean r;
         r = match_with(b, l + 1);
+        if (!r) r = match_type(b, l + 1);
         if (!r) r = match_case(b, l + 1);
         if (!r) r = match_when(b, l + 1);
         if (!r) r = match_else(b, l + 1);
@@ -3686,6 +3691,22 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         p = r; // pin = 1
         r = r && report_error_(b, expression_inline(b, l + 1));
         r = p && match_body(b, l + 1) && r;
+        exit_section_(b, l, m, r, p, null);
+        return r || p;
+    }
+
+    /* ********************************************************** */
+    // KW_TYPE type-pattern COLON block-bare
+    public static boolean match_type(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "match_type")) return false;
+        if (!nextTokenIs(b, KW_TYPE)) return false;
+        boolean r, p;
+        Marker m = enter_section_(b, l, _NONE_, MATCH_TYPE, null);
+        r = consumeToken(b, KW_TYPE);
+        p = r; // pin = 1
+        r = r && report_error_(b, type_pattern(b, l + 1));
+        r = p && report_error_(b, consumeToken(b, COLON)) && r;
+        r = p && block_bare(b, l + 1) && r;
         exit_section_(b, l, m, r, p, null);
         return r || p;
     }
@@ -3756,7 +3777,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
 
     /* ********************************************************** */
     // KW_IN | KW_IF
-    //     | COMMA | EQUAL | COLON | SEMICOLON
+    //     | COMMA | EQUAL | BIND | COLON | SEMICOLON
     //     | NAME_SPLIT | DOT
     //     | PARENTHESIS_L | PARENTHESIS_R
     //     | BRACE_L | BRACE_R
@@ -3768,6 +3789,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!r) r = consumeToken(b, KW_IF);
         if (!r) r = consumeToken(b, COMMA);
         if (!r) r = consumeToken(b, EQUAL);
+        if (!r) r = consumeToken(b, BIND);
         if (!r) r = consumeToken(b, COLON);
         if (!r) r = consumeToken(b, SEMICOLON);
         if (!r) r = consumeToken(b, NAME_SPLIT);

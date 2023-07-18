@@ -19,9 +19,9 @@ class LegionImporter : ProjectImportBuilder<LegionImporterConfig>() {
         artifactModel: ModifiableArtifactModel,
     ): MutableList<Module> {
         val analyzer = LegionStructureAnalyzer(project)
-        ApplicationManager.getApplication().runWriteAction {
-            analyzer.markWorkspace(model)
-        }
+//        ApplicationManager.getApplication().runWriteAction {
+//            analyzer.markWorkspace(model)
+//        }
         return modulesProvider.modules.toMutableList()
 
 //        return LegionWorkspaceBuilder().commit(project, model, modulesProvider)

@@ -37,9 +37,9 @@ class TokenHighlighter : SyntaxHighlighter {
             KW_BOOLEAN, KW_NULL, KW_NIL,
             -> HighlightColor.KEYWORD
             // operations
-            COLON, STAR,
+            COLON, EQUAL, BIND, STAR,
             OP_OR, OP_UNTIL,
-            EQUAL, OP_EE, OP_NE,
+            OP_EE, OP_NE,
             OP_PLUS, OP_AND_THEN,
             OP_CELSIUS, OP_FAHRENHEIT,
             -> HighlightColor.OPERATION

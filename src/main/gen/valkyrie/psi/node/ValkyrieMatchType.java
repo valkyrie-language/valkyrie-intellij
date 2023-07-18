@@ -2,9 +2,16 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieWhileKind extends PsiElement {
+public interface ValkyrieMatchType extends PsiElement {
+
+    @Nullable
+    ValkyrieBlockBare getBlockBare();
+
+    @Nullable
+    ValkyrieTypePattern getTypePattern();
 
 }
