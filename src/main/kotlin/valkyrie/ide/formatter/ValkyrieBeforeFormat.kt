@@ -143,6 +143,14 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
     }
 
 
+    override fun visitInfixLessEqual(o: ValkyrieInfixLessEqual) {
+        o.replaceLeaf(ValkyrieTypes.INFIX_LESS_EQUAL, "<=")
+    }
+
+    override fun visitInfixGreaterEqual(o: ValkyrieInfixGreaterEqual) {
+        o.replaceLeaf(ValkyrieTypes.INFIX_GREATER_EQUAL, ">=")
+    }
+
     override fun visitBadLll(o: ValkyrieBadLll) {
         o.replaceLeaf(ValkyrieTypes.OP_LLL, "⋘")
     }

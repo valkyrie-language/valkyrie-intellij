@@ -19,4 +19,16 @@ public interface ValkyrieInfix extends PsiElement {
     @Nullable
     ValkyrieBadRrr getBadRrr();
 
+    @Nullable
+    ValkyrieInfixGreater getInfixGreater();
+
+    @Nullable
+    ValkyrieInfixGreaterEqual getInfixGreaterEqual();
+
+    @Nullable
+    ValkyrieInfixLess getInfixLess();
+
+    @Nullable
+    ValkyrieInfixLessEqual getInfixLessEqual();
+
 }

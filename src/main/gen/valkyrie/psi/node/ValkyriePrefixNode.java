@@ -26,4 +26,22 @@ public class ValkyriePrefixNode extends ValkyrieElement implements ValkyriePrefi
         else super.accept(visitor);
     }
 
+    @Override
+    @Nullable
+    public ValkyriePrefixDeref getPrefixDeref() {
+        return findChildByClass(ValkyriePrefixDeref.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyriePrefixNot getPrefixNot() {
+        return findChildByClass(ValkyriePrefixNot.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyriePrefixRef getPrefixRef() {
+        return findChildByClass(ValkyriePrefixRef.class);
+    }
+
 }

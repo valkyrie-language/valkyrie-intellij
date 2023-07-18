@@ -53,9 +53,12 @@ KW_CASE  = case
 KW_WHEN  = when
 KW_FROM  = from
 
-KW_WHILE = while|until
+KW_LOOP  = loop
+KW_WHILE = while
+KW_UNTIL = until
+OP_LABEL = [※]|\\l
 KW_FOR   = for
-KW_IN    = in
+
 KW_IF    = if
 KW_ELSE  = else
 KW_IS    = is
@@ -69,7 +72,7 @@ KW_CONTINUE = continue
 KW_THROUGH  = fallthrough
 KW_RAISE    = raise
 
-KW_NIL     = nil|∅
+KW_NIL     = [∅]|nil
 KW_NULL    = null
 KW_BOOLEAN = true|false
 
@@ -79,40 +82,60 @@ NAME_SPLIT = [⸬∷]|::
 NAME_SCOPE = [⁜]|\\N
 
 
-
 OP_BANG        = [!]
+OP_NOT         = [!¬]
 OP_AND_THEN    = [?]
 OP_UNWRAP_OR   = [?]{2}
 OP_UNWRAP_ELSE = :[?]|[?]:
 
+OP_ADD        = [+]
+OP_ADD_ASSIGN = [+][=]
+OP_MINUS      = [-]
+OP_SUB_ASSIGN = [-][=]
+OP_MUL        = [×]
+OP_MUL_ASSIGN = [×*][=]
+OP_DIV        = [/⁄∕]
+OP_DIV_ASSIGN = [/⁄∕][=]
+OP_REM        = [⁒%]
+OP_REM_ASSIGN = [⁒%][=]
+OP_DIV_REM    = ÷|\/%
+OP_POW        = \^
+OP_POW_ASSIGN = \^[=]
+OP_SQRT2      = [√]
+OP_SQRT3      = [∛]
+OP_SQRT4      = [∜]
 
+OP_UNTIL      = [.]{2}[<=]
 
-OP_PLUS      = [+]
-OP_PLUS_EQ   = [+][=]
-OP_MINUS     = [-]
-OP_MINUS_EQ  = [-][=]
-OP_DIV       = [/⁄∕]
-OP_POW       = \^
-OP_REM       = ⁒|%
-OP_DIV_REM   = ÷|"/%"
-
-OP_UNTIL     = [.]{2}[<=]
+OP_PM = [±]
+OP_MP = [∓]
 
 // equal
 EQUAL  = =
 OP_EE  = ==
-OP_NE  = ≠|\!=
-OP_EEE = ≡|===
-OP_NEE = ≢|\!==|=\!=
+OP_NE  = [≠]|{OP_NOT}=
+OP_EEE = [≡]|={3}
+OP_NEE = [≢]|{OP_NOT}={2,3}|={OP_NOT}=
+// contains/belongs
+KW_IN           = in
+OP_IN           = [∈∊]|\![∉]
+OP_NOT_IN       = [∉]|\![∈]
+OP_CONTAINS     = [∋∍]|\![∌]
+OP_NOT_CONTAINS = [∌]|\![∋∍]
 // compare
-OP_LEQ = ⩽|≤|<=
-OP_LLE = <<=
+LEQ = ⩽|≤|<=
 OP_LLL = ⋘
+OP_LLE = <<=
 OP_LL  = ≪
-OP_GEQ = ⩾|≥|>=
+OP_LE  = {OP_NOT}{GEQ}
+OP_LEQ = {LEQ}|{OP_NOT}>
+
+GEQ = ⩾|≥|>=
+OP_GGG = ⋙
 OP_GGE = >>=
 OP_GG  = ≫
-OP_GGG = ⋙
+OP_GEQ = ⩾|≥|>=|{OP_NOT}<
+OP_GE  = {OP_NOT}{LEQ}
 // arrow
 OP_ARROW1 = ⟶|->
 OP_ARROW2 = ⇒|=>
@@ -134,16 +157,10 @@ COLOR = (©|®|\\#)[0-9a-zA-Z]*
 INTEGER = 0|[1-9][_0-9]*
 DECIMAL = {INTEGER}(\.[0-9]+)?
 
-W1 = ߷
-W2 = ※
+RESERVED = [߷⸖↯⍼♯⟀⟁]
 
 OP_REFERENCE = [⁋]
 OP_DEREFERENCE = [¶]
-
-
-
-
-
 
 
 %%
@@ -216,12 +233,14 @@ OP_DEREFERENCE = [¶]
     {OP_EE} { return OP_EE;}
     {OP_NE} { return OP_NE; }
 
-    {OP_PLUS}     { return OP_PLUS; }
-    {OP_PLUS_EQ}     { return OP_PLUS_EQ; }
+    {OP_ADD}     { return OP_PLUS; }
+    {OP_ADD_ASSIGN}     { return OP_PLUS_EQ; }
     {OP_MINUS}    { return OP_MINUS; }
-    {OP_MINUS_EQ}     { return OP_MINUS_EQ; }
+    {OP_SUB_ASSIGN}     { return OP_MINUS_EQ; }
+
 
     {OP_BANG}     { return OP_BANG; }
+    {OP_NOT}      { return OP_NOT; }
     {OP_AND_THEN} { return OP_AND_THEN; }
     {OP_UNWRAP_OR}  { return OP_UNWRAP_OR; }
     {OP_UNWRAP_ELSE}  { return OP_UNWRAP_ELSE; }
@@ -289,6 +308,8 @@ OP_DEREFERENCE = [¶]
     {KW_IF}        { return KW_IF; }
     {KW_ELSE}      { return KW_ELSE; }
     {KW_WHILE}     { return KW_WHILE; }
+    {KW_UNTIL}     { return KW_UNTIL; }
+    {OP_LABEL}     { return OP_LABEL; }
     {KW_FOR}       { return KW_FOR; }
     {KW_IN}        { return KW_IN; }
 

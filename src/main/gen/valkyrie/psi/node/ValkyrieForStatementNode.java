@@ -40,6 +40,12 @@ public class ValkyrieForStatementNode extends ValkyrieElement implements Valkyri
 
     @Override
     @Nullable
+    public ValkyrieControlLabel getControlLabel() {
+        return findChildByClass(ValkyrieControlLabel.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieExpressionInline getExpressionInline() {
         return findChildByClass(ValkyrieExpressionInline.class);
     }
