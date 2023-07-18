@@ -276,9 +276,10 @@ else-statement ::= KW_ELSE block-body {
     pin = 1
 }
 // === if statement ===
-while-statement ::= attribute-below* control-label? KW_WHILE expression-inline block-body {
+while-statement ::= attribute-below* control-label? while-kind expression-inline block-body {
     pin = 3
 }
+while-kind ::= KW_WHILE|KW_UNTIL;
 for-statement ::= attribute-below* control-label? KW_FOR let-pattern KW_IN expression-inline if-condition? block-body {
     pin = 3
 }
@@ -301,7 +302,7 @@ private match-item ::=
 match-with ::= KW_WITH pattern COLON block-bare {
     pin = 1
 }
-match-case ::= KW_CASE (identifier EQUAL)? case-pattern-root if-condition? COLON block-bare {
+match-case ::= KW_CASE case-pattern-root if-condition? COLON block-bare {
     pin = 1
 }
 
@@ -343,14 +344,14 @@ let-pattern-item ::= modifier* identifier {
 // === is pattern ===
 type-pattern ::= special
     | type-pattern-object // X is Object { a: _ }
-    | type-pattern-tuple  // X is Tuple()
     | type-pattern-array  // X is [_]
+    | type-pattern-tuple  // X is Tuple()
     | string              // X is "string"
     | number              // X is 1
     | type-pattern-item   // X is Integer
 type-pattern-inline ::= special
-    | type-pattern-tuple  // X is Tuple()
     | type-pattern-array  // X is [_]
+    | type-pattern-tuple  // X is Tuple()
     | string              // X is "string"
     | number              // X is 1
     | type-pattern-item   // X is Integer
@@ -360,29 +361,23 @@ type-pattern-array  ::= namepath? BRACKET_L     (type-pattern (COMMA type-patter
 type-pattern-pair   ::= identifier (EQUAL|COLON) type-pattern
 type-pattern-item   ::= namepath generic-call-free?
 // === case pattern ===
-case-pattern-root ::= special
-    | case-pattern-tuple
-    | case-pattern-array
-    | case-pattern-object
-    | string
-    | number
-    | namepath
-    | case-pattern
 case-pattern ::= special
-    | case-pattern-tuple
-    | case-pattern-array
-    | case-pattern-object
-    | string
-    | number
-    | namepath
-    | identifier
+    | case-pattern-tuple   // case Some()
+    | case-pattern-object  // case Object { }
+    | string               // case "text"
+    | number               // case 1
+    | namepath !identifier // Option::None
+    | case-pattern-item    // mut id
 case-pattern-object ::= namepath? BRACE_L (case-pattern-pair (COMMA case-pattern-pair)* COMMA?)? BRACE_R
-case-pattern-pair   ::= identifier ((EQUAL|COLON) case-pattern)? {
+case-pattern-tuple  ::= namepath? PARENTHESIS_L (case-pattern (COMMA case-pattern)* COMMA?)? PARENTHESIS_R
+                      | namepath? BRACKET_L (case-pattern (COMMA case-pattern)* COMMA?)? BRACKET_R
+case-pattern-pair   ::= identifier ((EQUAL|AT|COLON) case-pattern)? {
     mixin = "valkyrie.psi.mixin.MixinCasePatternPair"
 }
-case-pattern-tuple  ::= namepath? PARENTHESIS_L (case-pattern-item (COMMA case-pattern-item)* COMMA?)? PARENTHESIS_R
-case-pattern-array  ::= namepath? BRACKET_L (case-pattern-item (COMMA case-pattern-item)* COMMA?)? BRACKET_R
-case-pattern-item   ::= (identifier (EQUAL|COLON))? case-pattern {
+case-pattern-root   ::= ((modifier|KW_LET)* identifier (EQUAL|AT))? case-pattern {
+    mixin = "valkyrie.psi.mixin.MixinCasePatternRoot"
+}
+case-pattern-item   ::= (modifier|KW_LET)* identifier ((EQUAL|AT|COLON) case-pattern)? {
     mixin = "valkyrie.psi.mixin.MixinCasePatternItem"
 }
 // === new expression ===
@@ -612,7 +607,8 @@ modifier    ::= (SYMBOL | SYMBOW_RAW) !modifier-stop {
     mixin = "valkyrie.psi.mixin.MixinModifier"
 }
 private modifier-stop ::= KW_IN | KW_IF
-    | COMMA | COLON | NAME_SPLIT | DOT | SEMICOLON | EQUAL
+    | COMMA | EQUAL | COLON | SEMICOLON
+    | NAME_SPLIT | DOT
     | PARENTHESIS_L | PARENTHESIS_R
     | BRACE_L | BRACE_R
     | ANGLE_L | GENERIC_L
@@ -622,9 +618,8 @@ attribute-item  ::= namepath argument-body? class-body? {
     mixin = "valkyrie.psi.mixin.MixinAttribute"
 }
 // === identifiers ===
-namepath      ::= NAME_SCOPE? identifier (NAME_SPLIT identifier)* {
+namepath      ::= (NAME_SCOPE NAME_SPLIT?)? identifier (NAME_SPLIT identifier)* {
     mixin = "valkyrie.psi.mixin.MixinNamepath"
-    methods=[highlight_fake]
 }
 namepath-free ::= identifier ((NAME_SPLIT|DOT) identifier)* {
     extends = namepath

@@ -8,9 +8,10 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.psi.ValkyrieTypes.*;
-import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieCasePatternRootNode extends ValkyrieElement implements ValkyrieCasePatternRoot {
+import valkyrie.psi.mixin.MixinCasePatternRoot;
+
+public class ValkyrieCasePatternRootNode extends MixinCasePatternRoot implements ValkyrieCasePatternRoot {
 
     public ValkyrieCasePatternRootNode(@NotNull ASTNode node) {
         super(node);
@@ -27,51 +28,21 @@ public class ValkyrieCasePatternRootNode extends ValkyrieElement implements Valk
     }
 
     @Override
-    @Nullable
+    @NotNull
     public ValkyrieCasePattern getCasePattern() {
-        return findChildByClass(ValkyrieCasePattern.class);
+        return findNotNullChildByClass(ValkyrieCasePattern.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieCasePatternArray getCasePatternArray() {
-        return findChildByClass(ValkyrieCasePatternArray.class);
+    public ValkyrieIdentifier getIdentifier() {
+        return findChildByClass(ValkyrieIdentifier.class);
     }
 
     @Override
-    @Nullable
-    public ValkyrieCasePatternObject getCasePatternObject() {
-        return findChildByClass(ValkyrieCasePatternObject.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieCasePatternTuple getCasePatternTuple() {
-        return findChildByClass(ValkyrieCasePatternTuple.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieNamepath getNamepath() {
-        return findChildByClass(ValkyrieNamepath.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieNumber getNumber() {
-        return findChildByClass(ValkyrieNumber.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieSpecial getSpecial() {
-        return findChildByClass(ValkyrieSpecial.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieString getString() {
-        return findChildByClass(ValkyrieString.class);
+    @NotNull
+    public List<ValkyrieModifier> getModifierList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieModifier.class);
     }
 
 }
