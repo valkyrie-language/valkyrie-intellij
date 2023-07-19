@@ -38,4 +38,10 @@ public class ValkyrieMatchWhenNode extends ValkyrieElement implements ValkyrieMa
         return findChildByClass(ValkyrieExpressionInline.class);
     }
 
+    @Override
+    @Nullable
+    public ValkyrieInfixLogical getInfixLogical() {
+        return findChildByClass(ValkyrieInfixLogical.class);
+    }
+
 }

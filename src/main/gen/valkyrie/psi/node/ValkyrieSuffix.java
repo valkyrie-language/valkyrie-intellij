@@ -14,7 +14,7 @@ public interface ValkyrieSuffix extends PsiElement {
     ValkyrieDotCallFor getDotCallFor();
 
     @Nullable
-    ValkyrieDotCallMatch getDotCallMatch();
+    ValkyrieDotMatchCall getDotMatchCall();
 
     @Nullable
     ValkyrieGenericCall getGenericCall();

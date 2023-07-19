@@ -33,9 +33,9 @@ public class ValkyrieMatchWithNode extends ValkyrieElement implements ValkyrieMa
     }
 
     @Override
-    @Nullable
-    public ValkyriePattern getPattern() {
-        return findChildByClass(ValkyriePattern.class);
+    @NotNull
+    public List<ValkyriePattern> getPatternList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyriePattern.class);
     }
 
 }

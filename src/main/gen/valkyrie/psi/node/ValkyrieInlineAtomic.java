@@ -31,4 +31,7 @@ public interface ValkyrieInlineAtomic extends PsiElement {
     @Nullable
     ValkyrieSpecial getSpecial();
 
+    @Nullable
+    ValkyrieString getString();
+
 }

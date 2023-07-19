@@ -11,6 +11,15 @@ public interface ValkyrieMatchStatement extends PsiElement {
     ValkyrieExpressionInline getExpressionInline();
 
     @Nullable
+    ValkyrieIdentifier getIdentifier();
+
+    @Nullable
     ValkyrieMatchBody getMatchBody();
+
+    @NotNull
+    ValkyrieMatchKind getMatchKind();
+
+    @NotNull
+    List<ValkyrieModifier> getModifierList();
 
 }

@@ -46,12 +46,6 @@ public class ValkyrieTypePatternInlineNode extends ValkyrieElement implements Va
 
     @Override
     @Nullable
-    public ValkyrieTypePatternArray getTypePatternArray() {
-        return findChildByClass(ValkyrieTypePatternArray.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieTypePatternItem getTypePatternItem() {
         return findChildByClass(ValkyrieTypePatternItem.class);
     }

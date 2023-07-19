@@ -40,8 +40,8 @@ public class ValkyrieSuffixNode extends ValkyrieElement implements ValkyrieSuffi
 
     @Override
     @Nullable
-    public ValkyrieDotCallMatch getDotCallMatch() {
-        return findChildByClass(ValkyrieDotCallMatch.class);
+    public ValkyrieDotMatchCall getDotMatchCall() {
+        return findChildByClass(ValkyrieDotMatchCall.class);
     }
 
     @Override

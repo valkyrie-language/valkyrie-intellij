@@ -10,7 +10,7 @@ public interface ValkyrieMatchWith extends PsiElement {
     @Nullable
     ValkyrieBlockBare getBlockBare();
 
-    @Nullable
-    ValkyriePattern getPattern();
+    @NotNull
+    List<ValkyriePattern> getPatternList();
 
 }
