@@ -23,7 +23,7 @@
 			fieldName="INSTANCE"
 		/>
 		<fileTypeDetector implementation="valkyrie.language.file.ValkyrieFileTypeDetector"/>
-		<lang.substitutor language="JSON" implementationClass="valkyrie.project.legion.LegionFileTypeRecast"/>
+		<lang.substitutor language="JSON" implementationClass="valkyrie.project.legion.LegionFileTypeReinterpret"/>
 		<vfs.asyncListener implementation="valkyrie.ide.project.crate.FileTypeRecast"/>
 		<!-- Project -->
 		<newProjectWizard.languageGenerator implementation="valkyrie.project.ValkyrieProjectGenerator"/>
