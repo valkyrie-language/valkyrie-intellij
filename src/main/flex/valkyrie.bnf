@@ -254,9 +254,7 @@ macro-call-inline ::= AT namepath argument-body?
 dot-call        ::= OP_AND_THEN? DOT namepath (argument-body | argument-body? block-body)?;
 dot-call-inline ::= OP_AND_THEN? DOT namepath argument-body?
 
-dot-call-match ::= OP_AND_THEN? DOT KW_MATCH match-body {
-    pin = 3
-}
+
 // === if let statement ===
 // hard to read: KW_IF PARENTHESIS_L (KW_LET|KW_NOT) case-pattern EQUAL expression PARENTHESIS_R block-body
 if-case-statement ::=
@@ -286,13 +284,20 @@ for-statement ::= attribute-below* control-label? KW_FOR let-pattern KW_IN expre
 dot-call-for    ::= OP_AND_THEN? DOT KW_FOR let-pattern expression-inline if-condition? block-body {
     pin = 3
 }
-// === if statement ===
+// === try statement ===
 try-statement ::= KW_TRY type-expression? block-body {
     pin = 1
 }
-match-statement ::= KW_MATCH expression-inline match-body {
+// === match statement ===
+match-statement ::= match-kind (modifier* identifier BIND)? expression-inline match-body {
     pin = 1
+    mixin = "valkyrie.psi.mixin.MixinMatchStatement"
 }
+dot-match-call ::= OP_AND_THEN? DOT match-kind (modifier* identifier BIND)? match-body {
+    pin = 3
+    mixin = "valkyrie.psi.mixin.MixinMatchCall"
+}
+match-kind ::= KW_MATCH|KW_CATCH;
 match-body ::= BRACE_L match-item* BRACE_R;
 private match-item ::=
     match-with
@@ -300,16 +305,16 @@ private match-item ::=
   | match-case
   | match-when
   | match-else
-match-with ::= KW_WITH pattern COLON block-bare {
+match-with ::= KW_WITH OP_OR? pattern (OP_OR pattern)* COLON block-bare {
     pin = 1
 }
-match-type ::= KW_TYPE type-pattern COLON block-bare {
+match-type ::= KW_TYPE OP_OR? type-pattern (OP_OR type-pattern)* COLON block-bare {
     pin = 1
 }
-match-case ::= KW_CASE case-pattern if-condition? COLON block-bare {
+match-case ::= KW_CASE OP_OR? case-pattern (OP_OR case-pattern)* if-condition? COLON block-bare {
     pin = 1
 }
-match-when ::= KW_WHEN expression-inline COLON block-bare {
+match-when ::= KW_WHEN infix-logical? expression-inline COLON block-bare {
     pin = 1
 }
 match-else ::= KW_ELSE COLON block-bare {
@@ -346,20 +351,18 @@ let-pattern-item ::= modifier* identifier {
 // === is pattern ===
 type-pattern ::= special
     | type-pattern-object // X is Object { a: _ }
-    | type-pattern-array  // X is [_]
     | type-pattern-tuple  // X is Tuple()
     | string              // X is "string"
     | number              // X is 1
     | type-pattern-item   // X is Integer
 type-pattern-inline ::= special
-    | type-pattern-array  // X is [_]
     | type-pattern-tuple  // X is Tuple()
     | string              // X is "string"
     | number              // X is 1
     | type-pattern-item   // X is Integer
 type-pattern-object ::= namepath? BRACE_L (type-pattern-pair (COMMA type-pattern-pair)* COMMA?)? BRACE_R
 type-pattern-tuple  ::= namepath? PARENTHESIS_L (type-pattern (COMMA type-pattern)* COMMA?)? PARENTHESIS_R
-type-pattern-array  ::= namepath? BRACKET_L     (type-pattern (COMMA type-pattern)* COMMA?)? BRACKET_R
+                      | namepath? BRACKET_L     (type-pattern (COMMA type-pattern)* COMMA?)? BRACKET_R
 type-pattern-pair   ::= identifier (EQUAL|COLON) type-pattern
 type-pattern-item   ::= namepath generic-call-free?
 // === case pattern ===
@@ -380,7 +383,6 @@ case-pattern-item   ::= (modifier|KW_LET)* identifier ((EQUAL|AT|COLON|BIND) cas
     mixin = "valkyrie.psi.mixin.MixinCasePatternItem"
 }
 // === new expression ===
-// new Self { r: red, g: green, b: blue, a: alpha}
 new-value  ::= KW_NEW modifier* type-expression? argument-body? new-body {
     pin = 1
     mixin = "valkyrie.psi.mixin.MixinBuilder"
@@ -471,11 +473,13 @@ infix  ::= OP_PLUS  | OP_PLUS_EQ
     // range
     | OP_UNTIL
     | EQUAL | OP_EE | OP_NE
+    | infix-logical
     | OP_UNWRAP_OR | OP_UNWRAP_ELSE // ??
 infix-less          ::= ANGLE_L;
 infix-less-equal    ::= OP_LEQ;
 infix-greater       ::= ANGLE_R;
 infix-greater-equal ::= OP_GEQ;
+infix-logical       ::= LOGIC_AND | LOGIC_XAND | LOGIC_NAND | LOGIC_OR | LOGIC_XOR | LOGIC_NOR;
 
 bad-lll ::= ANGLE_L ANGLE_L ANGLE_L
   | OP_LL ANGLE_L
@@ -489,7 +493,7 @@ bad-rr  ::= ANGLE_R ANGLE_R
 suffix ::= OP_BANG
     | dot-call
     | dot-call-for
-    | dot-call-match
+    | dot-match-call
     | KW_AS type-expression
     | is-statement
     | generic-call;
@@ -506,15 +510,15 @@ expression-inline ::= inline-term (infix inline-term)* {
 inline-term ::= prefix* inline-atomic inline-suffix* {
 
 }
-inline-atomic ::=
-    PARENTHESIS_L expression-root PARENTHESIS_R
-  | macro-call
-  | function-call-inline
-  | ordinal-range
-  | offset-range
-  | special
-  | namepath
-  | number
+inline-atomic ::= PARENTHESIS_L expression-root PARENTHESIS_R
+    | macro-call
+    | function-call-inline
+    | ordinal-range
+    | offset-range
+    | special
+    | namepath
+    | number
+    | string
 // === expression statement ===
 type-expression ::= type-term (type-infix type-term)* {
     mixin = "valkyrie.psi.mixin.MixinTypeExpression"

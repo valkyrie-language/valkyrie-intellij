@@ -31,6 +31,7 @@ class FormatBlock : ASTBlock {
     }
 
     override fun isLeaf(): Boolean {
+
         return _node.firstChildNode == null
     }
 
