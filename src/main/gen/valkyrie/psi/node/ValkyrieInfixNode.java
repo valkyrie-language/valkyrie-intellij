@@ -74,4 +74,10 @@ public class ValkyrieInfixNode extends ValkyrieElement implements ValkyrieInfix 
         return findChildByClass(ValkyrieInfixLessEqual.class);
     }
 
+    @Override
+    @Nullable
+    public ValkyrieInfixLogical getInfixLogical() {
+        return findChildByClass(ValkyrieInfixLogical.class);
+    }
+
 }

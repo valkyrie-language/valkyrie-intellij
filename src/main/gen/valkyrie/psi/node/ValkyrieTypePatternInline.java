@@ -17,9 +17,6 @@ public interface ValkyrieTypePatternInline extends PsiElement {
     ValkyrieString getString();
 
     @Nullable
-    ValkyrieTypePatternArray getTypePatternArray();
-
-    @Nullable
     ValkyrieTypePatternItem getTypePatternItem();
 
     @Nullable

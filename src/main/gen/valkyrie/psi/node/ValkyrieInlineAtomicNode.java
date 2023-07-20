@@ -74,4 +74,10 @@ public class ValkyrieInlineAtomicNode extends ValkyrieElement implements Valkyri
         return findChildByClass(ValkyrieSpecial.class);
     }
 
+    @Override
+    @Nullable
+    public ValkyrieString getString() {
+        return findChildByClass(ValkyrieString.class);
+    }
+
 }

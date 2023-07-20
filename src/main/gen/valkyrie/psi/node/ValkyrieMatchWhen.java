@@ -13,4 +13,7 @@ public interface ValkyrieMatchWhen extends PsiElement {
     @Nullable
     ValkyrieExpressionInline getExpressionInline();
 
+    @Nullable
+    ValkyrieInfixLogical getInfixLogical();
+
 }
