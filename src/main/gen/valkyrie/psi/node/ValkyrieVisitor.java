@@ -219,11 +219,11 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitDotCallFor(@NotNull ValkyrieDotCallFor o) {
+    public void visitDotCallInline(@NotNull ValkyrieDotCallInline o) {
         visitPsiElement(o);
     }
 
-    public void visitDotCallInline(@NotNull ValkyrieDotCallInline o) {
+    public void visitDotLoopCall(@NotNull ValkyrieDotLoopCall o) {
         visitPsiElement(o);
     }
 
@@ -364,6 +364,34 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitLocalizeCall(@NotNull ValkyrieLocalizeCall o) {
+        visitPsiElement(o);
+    }
+
+    public void visitLoopCondition(@NotNull ValkyrieLoopCondition o) {
+        visitPsiElement(o);
+    }
+
+    public void visitLoopEach(@NotNull ValkyrieLoopEach o) {
+        visitPsiElement(o);
+    }
+
+    public void visitLoopStatement(@NotNull ValkyrieLoopStatement o) {
+        visitPsiElement(o);
+    }
+
+    public void visitLoopUntil(@NotNull ValkyrieLoopUntil o) {
+        visitPsiElement(o);
+    }
+
+    public void visitLoopUntilNot(@NotNull ValkyrieLoopUntilNot o) {
+        visitPsiElement(o);
+    }
+
+    public void visitLoopWhile(@NotNull ValkyrieLoopWhile o) {
+        visitPsiElement(o);
+    }
+
+    public void visitLoopWhileLet(@NotNull ValkyrieLoopWhileLet o) {
         visitPsiElement(o);
     }
 
@@ -579,6 +607,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitTryNotStatement(@NotNull ValkyrieTryNotStatement o) {
+        visitPsiElement(o);
+    }
+
     public void visitTryStatement(@NotNull ValkyrieTryStatement o) {
         visitPsiElement(o);
     }
@@ -651,14 +683,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitUntilNotStatement(@NotNull ValkyrieUntilNotStatement o) {
-        visitPsiElement(o);
-    }
-
-    public void visitUntilStatement(@NotNull ValkyrieUntilStatement o) {
-        visitPsiElement(o);
-    }
-
     public void visitUnused(@NotNull ValkyrieUnused o) {
         visitPsiElement(o);
     }
@@ -692,14 +716,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitWhereBody(@NotNull ValkyrieWhereBody o) {
-        visitPsiElement(o);
-    }
-
-    public void visitWhileLetStatement(@NotNull ValkyrieWhileLetStatement o) {
-        visitPsiElement(o);
-    }
-
-    public void visitWhileStatement(@NotNull ValkyrieWhileStatement o) {
         visitPsiElement(o);
     }
 

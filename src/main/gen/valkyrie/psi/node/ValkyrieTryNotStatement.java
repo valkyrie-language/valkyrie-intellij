@@ -6,21 +6,18 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieWhileLetStatement extends PsiElement {
+public interface ValkyrieTryNotStatement extends PsiElement {
 
     @Nullable
     ValkyrieBlockBody getBlockBody();
 
     @Nullable
-    ValkyrieCasePattern getCasePattern();
-
-    @Nullable
-    ValkyrieControlLabel getControlLabel();
+    ValkyrieElseStatement getElseStatement();
 
     @Nullable
     ValkyrieExpressionInline getExpressionInline();
 
     @Nullable
-    ValkyrieIfCondition getIfCondition();
+    ValkyrieTypePattern getTypePattern();
 
 }

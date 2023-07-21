@@ -13,20 +13,26 @@ import static valkyrie.psi.ValkyrieTypes.*;
 
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieUntilStatementNode extends ValkyrieElement implements ValkyrieUntilStatement {
+public class ValkyrieLoopStatementNode extends ValkyrieElement implements ValkyrieLoopStatement {
 
-    public ValkyrieUntilStatementNode(@NotNull ASTNode node) {
+    public ValkyrieLoopStatementNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitUntilStatement(this);
+        visitor.visitLoopStatement(this);
     }
 
     @Override
     public void accept(@NotNull PsiElementVisitor visitor) {
         if (visitor instanceof ValkyrieVisitor) accept((ValkyrieVisitor) visitor);
         else super.accept(visitor);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieAttributeBelow> getAttributeBelowList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieAttributeBelow.class);
     }
 
     @Override
@@ -43,8 +49,8 @@ public class ValkyrieUntilStatementNode extends ValkyrieElement implements Valky
 
     @Override
     @Nullable
-    public ValkyrieExpressionInline getExpressionInline() {
-        return findChildByClass(ValkyrieExpressionInline.class);
+    public ValkyrieLoopCondition getLoopCondition() {
+        return findChildByClass(ValkyrieLoopCondition.class);
     }
 
 }

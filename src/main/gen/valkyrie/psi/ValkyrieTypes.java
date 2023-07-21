@@ -61,8 +61,8 @@ public interface ValkyrieTypes {
     IElementType DEFAULT_TYPE = new ValkyrieElementType("DEFAULT_TYPE");
     IElementType DEFAULT_VALUE = new ValkyrieElementType("DEFAULT_VALUE");
     IElementType DOT_CALL = new ValkyrieElementType("DOT_CALL");
-    IElementType DOT_CALL_FOR = new ValkyrieElementType("DOT_CALL_FOR");
     IElementType DOT_CALL_INLINE = new ValkyrieElementType("DOT_CALL_INLINE");
+    IElementType DOT_LOOP_CALL = new ValkyrieElementType("DOT_LOOP_CALL");
     IElementType DOT_MATCH_CALL = new ValkyrieElementType("DOT_MATCH_CALL");
     IElementType EFFECT_TYPE = new ValkyrieElementType("EFFECT_TYPE");
     IElementType ELSE_IF_STATEMENT = new ValkyrieElementType("ELSE_IF_STATEMENT");
@@ -98,6 +98,13 @@ public interface ValkyrieTypes {
     IElementType LET_PATTERN_ITEM = new ValkyrieElementType("LET_PATTERN_ITEM");
     IElementType LET_STATEMENT = new ValkyrieElementType("LET_STATEMENT");
     IElementType LOCALIZE_CALL = new ValkyrieElementType("LOCALIZE_CALL");
+    IElementType LOOP_CONDITION = new ValkyrieElementType("LOOP_CONDITION");
+    IElementType LOOP_EACH = new ValkyrieElementType("LOOP_EACH");
+    IElementType LOOP_STATEMENT = new ValkyrieElementType("LOOP_STATEMENT");
+    IElementType LOOP_UNTIL = new ValkyrieElementType("LOOP_UNTIL");
+    IElementType LOOP_UNTIL_NOT = new ValkyrieElementType("LOOP_UNTIL_NOT");
+    IElementType LOOP_WHILE = new ValkyrieElementType("LOOP_WHILE");
+    IElementType LOOP_WHILE_LET = new ValkyrieElementType("LOOP_WHILE_LET");
     IElementType MACRO_CALL = new ValkyrieElementType("MACRO_CALL");
     IElementType MACRO_CALL_INLINE = new ValkyrieElementType("MACRO_CALL_INLINE");
     IElementType MATCH_BODY = new ValkyrieElementType("MATCH_BODY");
@@ -151,6 +158,7 @@ public interface ValkyrieTypes {
     IElementType TERM = new ValkyrieElementType("TERM");
     IElementType TRAIT_ALIAS = new ValkyrieElementType("TRAIT_ALIAS");
     IElementType TRY_LET_STATEMENT = new ValkyrieElementType("TRY_LET_STATEMENT");
+    IElementType TRY_NOT_STATEMENT = new ValkyrieElementType("TRY_NOT_STATEMENT");
     IElementType TRY_STATEMENT = new ValkyrieElementType("TRY_STATEMENT");
     IElementType TUPLE = new ValkyrieElementType("TUPLE");
     IElementType TYPE_ALIAS = new ValkyrieElementType("TYPE_ALIAS");
@@ -169,8 +177,6 @@ public interface ValkyrieTypes {
     IElementType TYPE_TERM = new ValkyrieElementType("TYPE_TERM");
     IElementType TYPE_TUPLE = new ValkyrieElementType("TYPE_TUPLE");
     IElementType UNITE_BODY = new ValkyrieElementType("UNITE_BODY");
-    IElementType UNTIL_NOT_STATEMENT = new ValkyrieElementType("UNTIL_NOT_STATEMENT");
-    IElementType UNTIL_STATEMENT = new ValkyrieElementType("UNTIL_STATEMENT");
     IElementType UNUSED = new ValkyrieElementType("UNUSED");
     IElementType USING = new ValkyrieElementType("USING");
     IElementType USING_ALIAS = new ValkyrieElementType("USING_ALIAS");
@@ -180,8 +186,6 @@ public interface ValkyrieTypes {
     IElementType USING_EXCLUDE = new ValkyrieElementType("USING_EXCLUDE");
     IElementType USING_TERM = new ValkyrieElementType("USING_TERM");
     IElementType WHERE_BODY = new ValkyrieElementType("WHERE_BODY");
-    IElementType WHILE_LET_STATEMENT = new ValkyrieElementType("WHILE_LET_STATEMENT");
-    IElementType WHILE_STATEMENT = new ValkyrieElementType("WHILE_STATEMENT");
 
     IElementType ANGLE_L = new ValkyrieTokenType("<");
     IElementType ANGLE_R = new ValkyrieTokenType(">");
@@ -218,6 +222,7 @@ public interface ValkyrieTypes {
     IElementType KW_CLASS = new ValkyrieTokenType("KW_CLASS");
     IElementType KW_COMPONENT = new ValkyrieTokenType("KW_COMPONENT");
     IElementType KW_CONTINUE = new ValkyrieTokenType("KW_CONTINUE");
+    IElementType KW_EACH = new ValkyrieTokenType("KW_EACH");
     IElementType KW_ELSE = new ValkyrieTokenType("KW_ELSE");
     IElementType KW_ENUMERATE = new ValkyrieTokenType("KW_ENUMERATE");
     IElementType KW_EXCLUDE = new ValkyrieTokenType("KW_EXCLUDE");
@@ -428,10 +433,10 @@ public interface ValkyrieTypes {
                 return new ValkyrieDefaultValueNode(node);
             } else if (type == DOT_CALL) {
                 return new ValkyrieDotCallNode(node);
-            } else if (type == DOT_CALL_FOR) {
-                return new ValkyrieDotCallForNode(node);
             } else if (type == DOT_CALL_INLINE) {
                 return new ValkyrieDotCallInlineNode(node);
+            } else if (type == DOT_LOOP_CALL) {
+                return new ValkyrieDotLoopCallNode(node);
             } else if (type == DOT_MATCH_CALL) {
                 return new ValkyrieDotMatchCallNode(node);
             } else if (type == EFFECT_TYPE) {
@@ -502,6 +507,20 @@ public interface ValkyrieTypes {
                 return new ValkyrieLetStatementNode(node);
             } else if (type == LOCALIZE_CALL) {
                 return new ValkyrieLocalizeCallNode(node);
+            } else if (type == LOOP_CONDITION) {
+                return new ValkyrieLoopConditionNode(node);
+            } else if (type == LOOP_EACH) {
+                return new ValkyrieLoopEachNode(node);
+            } else if (type == LOOP_STATEMENT) {
+                return new ValkyrieLoopStatementNode(node);
+            } else if (type == LOOP_UNTIL) {
+                return new ValkyrieLoopUntilNode(node);
+            } else if (type == LOOP_UNTIL_NOT) {
+                return new ValkyrieLoopUntilNotNode(node);
+            } else if (type == LOOP_WHILE) {
+                return new ValkyrieLoopWhileNode(node);
+            } else if (type == LOOP_WHILE_LET) {
+                return new ValkyrieLoopWhileLetNode(node);
             } else if (type == MACRO_CALL) {
                 return new ValkyrieMacroCallNode(node);
             } else if (type == MACRO_CALL_INLINE) {
@@ -608,6 +627,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieTraitAliasNode(node);
             } else if (type == TRY_LET_STATEMENT) {
                 return new ValkyrieTryLetStatementNode(node);
+            } else if (type == TRY_NOT_STATEMENT) {
+                return new ValkyrieTryNotStatementNode(node);
             } else if (type == TRY_STATEMENT) {
                 return new ValkyrieTryStatementNode(node);
             } else if (type == TUPLE) {
@@ -644,10 +665,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieTypeTupleNode(node);
             } else if (type == UNITE_BODY) {
                 return new ValkyrieUniteBodyNode(node);
-            } else if (type == UNTIL_NOT_STATEMENT) {
-                return new ValkyrieUntilNotStatementNode(node);
-            } else if (type == UNTIL_STATEMENT) {
-                return new ValkyrieUntilStatementNode(node);
             } else if (type == UNUSED) {
                 return new ValkyrieUnusedNode(node);
             } else if (type == USING) {
@@ -666,10 +683,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieUsingTermNode(node);
             } else if (type == WHERE_BODY) {
                 return new ValkyrieWhereBodyNode(node);
-            } else if (type == WHILE_LET_STATEMENT) {
-                return new ValkyrieWhileLetStatementNode(node);
-            } else if (type == WHILE_STATEMENT) {
-                return new ValkyrieWhileStatementNode(node);
             }
             throw new AssertionError("Unknown element type: " + type);
         }

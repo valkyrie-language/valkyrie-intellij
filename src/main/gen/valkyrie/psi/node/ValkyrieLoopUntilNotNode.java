@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieWhileStatementNode extends ValkyrieElement implements ValkyrieWhileStatement {
+public class ValkyrieLoopUntilNotNode extends ValkyrieElement implements ValkyrieLoopUntilNot {
 
-    public ValkyrieWhileStatementNode(@NotNull ASTNode node) {
+    public ValkyrieLoopUntilNotNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitWhileStatement(this);
+        visitor.visitLoopUntilNot(this);
     }
 
     @Override
@@ -28,20 +31,14 @@ public class ValkyrieWhileStatementNode extends ValkyrieElement implements Valky
 
     @Override
     @Nullable
-    public ValkyrieBlockBody getBlockBody() {
-        return findChildByClass(ValkyrieBlockBody.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieControlLabel getControlLabel() {
-        return findChildByClass(ValkyrieControlLabel.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieExpressionInline getExpressionInline() {
         return findChildByClass(ValkyrieExpressionInline.class);
+    }
+
+    @Override
+    @NotNull
+    public ValkyrieTypePattern getTypePattern() {
+        return findNotNullChildByClass(ValkyrieTypePattern.class);
     }
 
 }

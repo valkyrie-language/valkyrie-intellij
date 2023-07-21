@@ -5,6 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieWhileKind extends PsiElement {
+public interface ValkyrieLoopUntil extends PsiElement {
+
+    @Nullable
+    ValkyrieExpressionInline getExpressionInline();
 
 }

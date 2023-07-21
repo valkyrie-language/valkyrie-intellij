@@ -13,14 +13,14 @@ import static valkyrie.psi.ValkyrieTypes.*;
 
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieWhileLetStatementNode extends ValkyrieElement implements ValkyrieWhileLetStatement {
+public class ValkyrieLoopUntilNode extends ValkyrieElement implements ValkyrieLoopUntil {
 
-    public ValkyrieWhileLetStatementNode(@NotNull ASTNode node) {
+    public ValkyrieLoopUntilNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitWhileLetStatement(this);
+        visitor.visitLoopUntil(this);
     }
 
     @Override
@@ -31,32 +31,8 @@ public class ValkyrieWhileLetStatementNode extends ValkyrieElement implements Va
 
     @Override
     @Nullable
-    public ValkyrieBlockBody getBlockBody() {
-        return findChildByClass(ValkyrieBlockBody.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieCasePattern getCasePattern() {
-        return findChildByClass(ValkyrieCasePattern.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieControlLabel getControlLabel() {
-        return findChildByClass(ValkyrieControlLabel.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieExpressionInline getExpressionInline() {
         return findChildByClass(ValkyrieExpressionInline.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieIfCondition getIfCondition() {
-        return findChildByClass(ValkyrieIfCondition.class);
     }
 
 }

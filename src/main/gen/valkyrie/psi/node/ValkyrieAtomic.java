@@ -14,9 +14,6 @@ public interface ValkyrieAtomic extends PsiElement {
     ValkyrieExpressionRoot getExpressionRoot();
 
     @Nullable
-    ValkyrieForStatement getForStatement();
-
-    @Nullable
     ValkyrieFunctionCall getFunctionCall();
 
     @Nullable
@@ -27,6 +24,9 @@ public interface ValkyrieAtomic extends PsiElement {
 
     @Nullable
     ValkyrieLocalizeCall getLocalizeCall();
+
+    @Nullable
+    ValkyrieLoopStatement getLoopStatement();
 
     @Nullable
     ValkyrieMacroCall getMacroCall();
@@ -65,21 +65,12 @@ public interface ValkyrieAtomic extends PsiElement {
     ValkyrieTryLetStatement getTryLetStatement();
 
     @Nullable
+    ValkyrieTryNotStatement getTryNotStatement();
+
+    @Nullable
     ValkyrieTryStatement getTryStatement();
 
     @Nullable
     ValkyrieTuple getTuple();
-
-    @Nullable
-    ValkyrieUntilNotStatement getUntilNotStatement();
-
-    @Nullable
-    ValkyrieUntilStatement getUntilStatement();
-
-    @Nullable
-    ValkyrieWhileLetStatement getWhileLetStatement();
-
-    @Nullable
-    ValkyrieWhileStatement getWhileStatement();
 
 }
