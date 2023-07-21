@@ -14,22 +14,21 @@ import com.intellij.packaging.elements.PackagingElementResolvingContext
 class LegionModel : PackagingModifiableModel {
     private val _project: Project
     private val _modules: IdeModifiableModelsProvider
-    private var _artifacts: ModifiableArtifactModel? = null
-    private var _context: LegionModelContext? = null
+    private var _artifacts: ModifiableArtifactModel
+    private var _context: LegionModelContext
     private val _importer: ArtifactExternalDependenciesImporter
 
     constructor(project: Project, myModelsProvider: IdeModifiableModelsProvider) {
         println("LegionModel")
         this._project = project
         this._modules = myModelsProvider
+        this._artifacts = findArtifactModel()
+        this._context = findContext()
         this._importer = ArtifactExternalDependenciesImporterImpl()
     }
 
     override fun getModifiableArtifactModel(): ModifiableArtifactModel {
-        if (_artifacts == null) {
-            _artifacts = findArtifactModel()
-        }
-        return _artifacts!!
+        return _artifacts
     }
 
     private fun findArtifactModel(): ModifiableArtifactModel {
@@ -48,10 +47,7 @@ class LegionModel : PackagingModifiableModel {
     }
 
     override fun getPackagingElementResolvingContext(): PackagingElementResolvingContext {
-        if (_context == null) {
-            _context = findContext()
-        }
-        return _context!!
+        return _context
     }
 
     private fun findContext(): LegionModelContext {
@@ -64,16 +60,10 @@ class LegionModel : PackagingModifiableModel {
 
     override fun commit() {
         _importer.applyChanges(modifiableArtifactModel, packagingElementResolvingContext)
-        if (_artifacts != null) {
-            _artifacts!!.commit()
-        }
+        _artifacts.commit()
     }
 
     override fun dispose() {
-        if (_artifacts != null) {
-            _artifacts!!.dispose()
-        }
+        _artifacts.dispose()
     }
-
-
 }

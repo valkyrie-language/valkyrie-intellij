@@ -9,6 +9,7 @@ import com.intellij.psi.PsiRecursiveVisitor
 import com.intellij.psi.impl.source.codeStyle.PreFormatProcessor
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
+import com.intellij.psi.util.firstLeaf
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings.ReturnType
 import valkyrie.psi.ValkyrieTypes
@@ -69,18 +70,23 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
 
     override fun visitNamepath(o: ValkyrieNamepath) {
         for (child in o.childrenWithLeaves) {
-            if (child.elementType == ValkyrieTypes.PROPORTION) {
-                if (child.text == "::") {
-                    child.replaceLeaf(ValkyrieTypes.PROPORTION, "∷")
+            if (child.elementType == ValkyrieTypes.NAME_SCOPE) {
+                if (child.text != "⸭") {
+                    child.replaceLeaf(ValkyrieTypes.NAME_SCOPE, "⸭")
+                }
+            } else if (child.elementType == ValkyrieTypes.NAME_SPLIT) {
+                if (child.text != "⸬") {
+                    child.replaceLeaf(ValkyrieTypes.NAME_SPLIT, "⸬")
                 }
             }
+
         }
     }
 
     private fun fixGenericBracket(o: PsiElement) {
         for (child in o.childrenWithLeaves) {
             when (child.elementType) {
-                ValkyrieTypes.PROPORTION -> child.delete()
+                ValkyrieTypes.NAME_SPLIT -> child.delete()
                 ValkyrieTypes.ANGLE_L -> child.replaceLeaf(ValkyrieTypes.GENERIC_L, "⟨")
                 ValkyrieTypes.ANGLE_R -> child.replaceLeaf(ValkyrieTypes.GENERIC_R, "⟩")
             }
@@ -130,8 +136,8 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
     }
 
     override fun visitLocalizeCall(o: ValkyrieLocalizeCall) {
-        val symbol = o.firstChild
-        if (symbol.text == "\\L") {
+        val symbol = o.firstLeaf()
+        if (symbol.text != "⸿") {
             symbol.replaceLeaf(ValkyrieTypes.OP_L10N, "⸿")
         }
     }
