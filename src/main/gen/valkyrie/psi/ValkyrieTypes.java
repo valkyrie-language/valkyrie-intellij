@@ -79,7 +79,6 @@ public interface ValkyrieTypes {
     IElementType GENERIC_CALL_FREE = new ValkyrieElementType("GENERIC_CALL_FREE");
     IElementType GENERIC_PARAMETER = new ValkyrieElementType("GENERIC_PARAMETER");
     IElementType IDENTIFIER = new ValkyrieElementType("IDENTIFIER");
-    IElementType IF_CASE_STATEMENT = new ValkyrieElementType("IF_CASE_STATEMENT");
     IElementType IF_CONDITION = new ValkyrieElementType("IF_CONDITION");
     IElementType IF_STATEMENT = new ValkyrieElementType("IF_STATEMENT");
     IElementType INFIX = new ValkyrieElementType("INFIX");
@@ -151,6 +150,7 @@ public interface ValkyrieTypes {
     IElementType TEMPLATE_ITEM = new ValkyrieElementType("TEMPLATE_ITEM");
     IElementType TERM = new ValkyrieElementType("TERM");
     IElementType TRAIT_ALIAS = new ValkyrieElementType("TRAIT_ALIAS");
+    IElementType TRY_LET_STATEMENT = new ValkyrieElementType("TRY_LET_STATEMENT");
     IElementType TRY_STATEMENT = new ValkyrieElementType("TRY_STATEMENT");
     IElementType TUPLE = new ValkyrieElementType("TUPLE");
     IElementType TYPE_ALIAS = new ValkyrieElementType("TYPE_ALIAS");
@@ -169,6 +169,8 @@ public interface ValkyrieTypes {
     IElementType TYPE_TERM = new ValkyrieElementType("TYPE_TERM");
     IElementType TYPE_TUPLE = new ValkyrieElementType("TYPE_TUPLE");
     IElementType UNITE_BODY = new ValkyrieElementType("UNITE_BODY");
+    IElementType UNTIL_NOT_STATEMENT = new ValkyrieElementType("UNTIL_NOT_STATEMENT");
+    IElementType UNTIL_STATEMENT = new ValkyrieElementType("UNTIL_STATEMENT");
     IElementType UNUSED = new ValkyrieElementType("UNUSED");
     IElementType USING = new ValkyrieElementType("USING");
     IElementType USING_ALIAS = new ValkyrieElementType("USING_ALIAS");
@@ -178,7 +180,7 @@ public interface ValkyrieTypes {
     IElementType USING_EXCLUDE = new ValkyrieElementType("USING_EXCLUDE");
     IElementType USING_TERM = new ValkyrieElementType("USING_TERM");
     IElementType WHERE_BODY = new ValkyrieElementType("WHERE_BODY");
-    IElementType WHILE_KIND = new ValkyrieElementType("WHILE_KIND");
+    IElementType WHILE_LET_STATEMENT = new ValkyrieElementType("WHILE_LET_STATEMENT");
     IElementType WHILE_STATEMENT = new ValkyrieElementType("WHILE_STATEMENT");
 
     IElementType ANGLE_L = new ValkyrieTokenType("<");
@@ -230,6 +232,7 @@ public interface ValkyrieTypes {
     IElementType KW_IS = new ValkyrieTokenType("KW_IS");
     IElementType KW_LAMBDA = new ValkyrieTokenType("KW_LAMBDA");
     IElementType KW_LET = new ValkyrieTokenType("KW_LET");
+    IElementType KW_LOOP = new ValkyrieTokenType("KW_LOOP");
     IElementType KW_MACRO = new ValkyrieTokenType("KW_MACRO");
     IElementType KW_MATCH = new ValkyrieTokenType("KW_MATCH");
     IElementType KW_NAMESPACE = new ValkyrieTokenType("KW_NAMESPACE");
@@ -461,8 +464,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieGenericParameterNode(node);
             } else if (type == IDENTIFIER) {
                 return new ValkyrieIdentifierNode(node);
-            } else if (type == IF_CASE_STATEMENT) {
-                return new ValkyrieIfCaseStatementNode(node);
             } else if (type == IF_CONDITION) {
                 return new ValkyrieIfConditionNode(node);
             } else if (type == IF_STATEMENT) {
@@ -605,6 +606,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieTermNode(node);
             } else if (type == TRAIT_ALIAS) {
                 return new ValkyrieTraitAliasNode(node);
+            } else if (type == TRY_LET_STATEMENT) {
+                return new ValkyrieTryLetStatementNode(node);
             } else if (type == TRY_STATEMENT) {
                 return new ValkyrieTryStatementNode(node);
             } else if (type == TUPLE) {
@@ -641,6 +644,10 @@ public interface ValkyrieTypes {
                 return new ValkyrieTypeTupleNode(node);
             } else if (type == UNITE_BODY) {
                 return new ValkyrieUniteBodyNode(node);
+            } else if (type == UNTIL_NOT_STATEMENT) {
+                return new ValkyrieUntilNotStatementNode(node);
+            } else if (type == UNTIL_STATEMENT) {
+                return new ValkyrieUntilStatementNode(node);
             } else if (type == UNUSED) {
                 return new ValkyrieUnusedNode(node);
             } else if (type == USING) {
@@ -659,8 +666,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieUsingTermNode(node);
             } else if (type == WHERE_BODY) {
                 return new ValkyrieWhereBodyNode(node);
-            } else if (type == WHILE_KIND) {
-                return new ValkyrieWhileKindNode(node);
+            } else if (type == WHILE_LET_STATEMENT) {
+                return new ValkyrieWhileLetStatementNode(node);
             } else if (type == WHILE_STATEMENT) {
                 return new ValkyrieWhileStatementNode(node);
             }

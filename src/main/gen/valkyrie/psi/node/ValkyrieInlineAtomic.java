@@ -14,7 +14,7 @@ public interface ValkyrieInlineAtomic extends PsiElement {
     ValkyrieFunctionCallInline getFunctionCallInline();
 
     @Nullable
-    ValkyrieMacroCall getMacroCall();
+    ValkyrieMacroCallInline getMacroCallInline();
 
     @Nullable
     ValkyrieNamepath getNamepath();
@@ -33,5 +33,8 @@ public interface ValkyrieInlineAtomic extends PsiElement {
 
     @Nullable
     ValkyrieString getString();
+
+    @Nullable
+    ValkyrieTuple getTuple();
 
 }
