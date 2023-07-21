@@ -452,7 +452,10 @@ expression ::= term (infix term)*;
 term ::= prefix* atomic suffix* {
 
 }
-prefix ::= OP_PLUS | OP_MINUS | OP_BANG;
+prefix ::= OP_PLUS | OP_MINUS | OP_BANG | prefix-ref | prefix-deref;
+// pointer prefix
+prefix-ref   ::= OP_REFERENCE | OP_AND // &p
+prefix-deref ::= OP_DEREFERENCE | STAR // *p
 
 infix  ::=
     OP_PLUS  | OP_PLUS_EQ
