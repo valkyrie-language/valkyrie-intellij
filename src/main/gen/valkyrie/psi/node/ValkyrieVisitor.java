@@ -291,10 +291,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitIfCaseStatement(@NotNull ValkyrieIfCaseStatement o) {
-        visitPsiElement(o);
-    }
-
     public void visitIfCondition(@NotNull ValkyrieIfCondition o) {
         visitPsiElement(o);
     }
@@ -579,6 +575,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitTryLetStatement(@NotNull ValkyrieTryLetStatement o) {
+        visitPsiElement(o);
+    }
+
     public void visitTryStatement(@NotNull ValkyrieTryStatement o) {
         visitPsiElement(o);
     }
@@ -651,6 +651,14 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitUntilNotStatement(@NotNull ValkyrieUntilNotStatement o) {
+        visitPsiElement(o);
+    }
+
+    public void visitUntilStatement(@NotNull ValkyrieUntilStatement o) {
+        visitPsiElement(o);
+    }
+
     public void visitUnused(@NotNull ValkyrieUnused o) {
         visitPsiElement(o);
     }
@@ -687,7 +695,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitWhileKind(@NotNull ValkyrieWhileKind o) {
+    public void visitWhileLetStatement(@NotNull ValkyrieWhileLetStatement o) {
         visitPsiElement(o);
     }
 

@@ -52,12 +52,6 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
 
     @Override
     @Nullable
-    public ValkyrieIfCaseStatement getIfCaseStatement() {
-        return findChildByClass(ValkyrieIfCaseStatement.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieIfStatement getIfStatement() {
         return findChildByClass(ValkyrieIfStatement.class);
     }
@@ -142,6 +136,12 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
 
     @Override
     @Nullable
+    public ValkyrieTryLetStatement getTryLetStatement() {
+        return findChildByClass(ValkyrieTryLetStatement.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieTryStatement getTryStatement() {
         return findChildByClass(ValkyrieTryStatement.class);
     }
@@ -150,6 +150,24 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
     @Nullable
     public ValkyrieTuple getTuple() {
         return findChildByClass(ValkyrieTuple.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieUntilNotStatement getUntilNotStatement() {
+        return findChildByClass(ValkyrieUntilNotStatement.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieUntilStatement getUntilStatement() {
+        return findChildByClass(ValkyrieUntilStatement.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieWhileLetStatement getWhileLetStatement() {
+        return findChildByClass(ValkyrieWhileLetStatement.class);
     }
 
     @Override

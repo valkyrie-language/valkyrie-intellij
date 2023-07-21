@@ -7,10 +7,7 @@ import com.intellij.openapi.progress.ProgressManager
 import com.intellij.psi.util.parents
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ValkyrieDeclaration
-import valkyrie.psi.node.ValkyrieBlockBody
-import valkyrie.psi.node.ValkyrieClassBody
-import valkyrie.psi.node.ValkyrieDeclareClassNode
-import valkyrie.psi.node.ValkyrieDeclareTraitNode
+import valkyrie.psi.node.*
 
 
 class CompletionRegistrar : CompletionContributor() {
@@ -40,9 +37,15 @@ class CompletionRegistrar : CompletionContributor() {
                     }
                     return
                 }
+                is ValkyrieMatchBody -> {
+                    // type, case, when, else
+                    return
+                }
 
+                is ValkyrieArgumentBody -> {
+                    return
+                }
                 is ValkyrieBlockBody -> {
-
                     return
                 }
             }

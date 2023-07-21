@@ -14,6 +14,9 @@ public interface ValkyrieForStatement extends PsiElement {
     ValkyrieBlockBody getBlockBody();
 
     @Nullable
+    ValkyrieCasePattern getCasePattern();
+
+    @Nullable
     ValkyrieControlLabel getControlLabel();
 
     @Nullable
@@ -21,8 +24,5 @@ public interface ValkyrieForStatement extends PsiElement {
 
     @Nullable
     ValkyrieIfCondition getIfCondition();
-
-    @Nullable
-    ValkyrieLetPattern getLetPattern();
 
 }

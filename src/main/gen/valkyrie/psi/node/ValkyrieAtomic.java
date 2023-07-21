@@ -20,9 +20,6 @@ public interface ValkyrieAtomic extends PsiElement {
     ValkyrieFunctionCall getFunctionCall();
 
     @Nullable
-    ValkyrieIfCaseStatement getIfCaseStatement();
-
-    @Nullable
     ValkyrieIfStatement getIfStatement();
 
     @Nullable
@@ -65,10 +62,22 @@ public interface ValkyrieAtomic extends PsiElement {
     ValkyrieString getString();
 
     @Nullable
+    ValkyrieTryLetStatement getTryLetStatement();
+
+    @Nullable
     ValkyrieTryStatement getTryStatement();
 
     @Nullable
     ValkyrieTuple getTuple();
+
+    @Nullable
+    ValkyrieUntilNotStatement getUntilNotStatement();
+
+    @Nullable
+    ValkyrieUntilStatement getUntilStatement();
+
+    @Nullable
+    ValkyrieWhileLetStatement getWhileLetStatement();
 
     @Nullable
     ValkyrieWhileStatement getWhileStatement();

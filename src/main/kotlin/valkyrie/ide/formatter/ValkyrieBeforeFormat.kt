@@ -43,6 +43,10 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
     }
 
     override fun visitElement(element: PsiElement) {
+        if (element.elementType == ValkyrieTypes.BIND) {
+            println("visitElement: ${element.text}")
+        }
+
         ProgressManager.checkCanceled()
         element.acceptChildren(this)
     }

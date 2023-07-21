@@ -40,8 +40,8 @@ public class ValkyrieInlineAtomicNode extends ValkyrieElement implements Valkyri
 
     @Override
     @Nullable
-    public ValkyrieMacroCall getMacroCall() {
-        return findChildByClass(ValkyrieMacroCall.class);
+    public ValkyrieMacroCallInline getMacroCallInline() {
+        return findChildByClass(ValkyrieMacroCallInline.class);
     }
 
     @Override
@@ -78,6 +78,12 @@ public class ValkyrieInlineAtomicNode extends ValkyrieElement implements Valkyri
     @Nullable
     public ValkyrieString getString() {
         return findChildByClass(ValkyrieString.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieTuple getTuple() {
+        return findChildByClass(ValkyrieTuple.class);
     }
 
 }
