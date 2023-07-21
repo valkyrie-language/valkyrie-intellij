@@ -8,13 +8,13 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieLetStatement extends PsiElement {
 
     @Nullable
-    ValkyrieCasePattern getCasePattern();
-
-    @Nullable
     ValkyrieElseStatement getElseStatement();
 
     @Nullable
     ValkyrieExpressionRoot getExpressionRoot();
+
+    @Nullable
+    ValkyrieLetPattern getLetPattern();
 
     @Nullable
     ValkyrieTypeHint getTypeHint();

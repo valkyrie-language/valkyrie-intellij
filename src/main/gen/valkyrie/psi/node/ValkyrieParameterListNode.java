@@ -8,16 +8,16 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.psi.ValkyrieTypes.*;
-import valkyrie.psi.mixin.MixinValueParameter;
+import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieParameterItemNode extends MixinValueParameter implements ValkyrieParameterItem {
+public class ValkyrieParameterListNode extends ValkyrieElement implements ValkyrieParameterList {
 
-    public ValkyrieParameterItemNode(@NotNull ASTNode node) {
+    public ValkyrieParameterListNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitParameterItem(this);
+        visitor.visitParameterList(this);
     }
 
     @Override
@@ -39,15 +39,9 @@ public class ValkyrieParameterItemNode extends MixinValueParameter implements Va
     }
 
     @Override
-    @NotNull
-    public ValkyrieIdentifier getIdentifier() {
-        return findNotNullChildByClass(ValkyrieIdentifier.class);
-    }
-
-    @Override
     @Nullable
-    public ValkyrieParameterKind getParameterKind() {
-        return findChildByClass(ValkyrieParameterKind.class);
+    public ValkyrieIdentifier getIdentifier() {
+        return findChildByClass(ValkyrieIdentifier.class);
     }
 
     @Override

@@ -17,21 +17,29 @@ import static valkyrie.psi.ValkyrieTypes.*;
 %state TextCapture3
 %state TextCapture2
 %state TextCapture1
+%state IntegerHandler
 
 WHITE_SPACE        = [\s\t]
 COMMENT_LINE       = (⍝|[\\]{2})[^\r\n]*
 COMMENT_BLOCK      = [/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]
 
-KW_NAMESPACE = namespace[!?]?
-KW_USING     = using[!?]?
-KW_AS        = as[!?]?
+COLON    = [:∶：]
+STAR     = [*]
+DOT      = [.。]
+COMMA    = [,，]
+BANG     = [!！]
+QUESTION = [?？]
+
+KW_NAMESPACE = namespace({BANG}|{QUESTION})?
+KW_USING     = using({BANG}|{QUESTION})?
+KW_AS        = as({BANG}|{QUESTION})?
 KW_EXCLUDE   = exclude
 
 KW_TYPE      = typus|type
 KW_CLASS     = class|struct|structure|interface
 KW_UNION     = union
 KW_UNITE     = unite|inductive
-KW_ENUMERATE = enumerate|enums?
+KW_ENUMERATE = enums|enumerate
 KW_FLAGS     = flags
 KW_TRAIT     = trait
 KW_EXTENDS   = imply|impliments?|extends?
@@ -77,39 +85,58 @@ KW_NIL     = [∅]|nil
 KW_NULL    = null
 KW_BOOLEAN = true|false
 
-STAR       = \*
-COLON      = :|∶
-NAME_SPLIT = [⸬∷]|::
+SYMBOL=[\p{XID_Start}_][\p{XID_Continue}]*
+SYMBOW_RAW = `[^`]*`
+ESCAPED = \\.
+NAME_SPLIT = [⸬∷]|{COLON}{2}
 NAME_SCOPE = [⁜]|\\N
 
+BIN = [0-1]
+HEX = [0-9a-fA-F]
+COLOR = (©|®|\\#)[0-9a-zA-Z]*
+INTEGER = 0|[1-9][_0-9]*
+DECIMAL = {INTEGER}(\.[0-9]+)?
 
-OP_BANG        = [!]
-OP_NOT         = [!¬]
-OP_AND_THEN    = [?]
-OP_UNWRAP_OR   = [?]{2}
-OP_UNWRAP_ELSE = :[?]|[?]:
 
-OP_ADD        = [+]
-OP_ADD_ASSIGN = [+][=]
-OP_MINUS      = [-]
-OP_SUB_ASSIGN = [-][=]
-OP_MUL        = [×]
-OP_MUL_ASSIGN = [×*][=]
-OP_DIV        = [/⁄∕]
-OP_DIV_ASSIGN = [/⁄∕][=]
-OP_REM        = [⁒%]
-OP_REM_ASSIGN = [⁒%][=]
-OP_DIV_REM    = ÷|\/%
-OP_POW        = \^
-OP_POW_ASSIGN = \^[=]
+
+OP_NOT         = [¬]
+OP_AND_THEN    = {QUESTION}
+OP_SET_THEN    = {QUESTION}[=]
+OP_UNWRAP_OR   = {QUESTION}{2}
+OP_UNWRAP_ELSE = {COLON}{QUESTION}|{QUESTION}{COLON}
+
+// start with +
+OP_ADD           = [+]
+OP_ADD_ASSIGN    = [+][=]
+// start with -
+OP_SUB           = [-]
+OP_SUB_ASSIGN    = [-][=]
+// start with `*`
+OP_MUL           = [×]
+OP_MUL_ASSIGN    = [×*][=]
+// start with `/`
+OP_DIV           = [/⁄∕]
+OP_DIV_ASSIGN    = [/⁄∕][=]
+OP_MAP           = [⇴⨵] | [/][@];
+OP_DIV_REM       = [÷]|[/][%]
+// start with `%`
+OP_REM           = [⁒%]
+OP_REM_ASSIGN    = [⁒%][=]
+// start with `^`
+OP_POW           = \^
+OP_POW_ASSIGN    = \^[=]
+
 OP_SQRT2      = [√]
 OP_SQRT3      = [∛]
 OP_SQRT4      = [∜]
 
-OP_UNTIL      = [.]{2}[<=]
+OP_UNTIL      = {DOT}{2}[<=]
 
 OP_PM = [±]
 OP_MP = [∓]
+
+OP_APPLY2 = [⊕] | [@]{2};
+OP_APPLY3 = [⟴]| [@]{3};
 
 // equal
 BIND   = [←]|<-
@@ -152,23 +179,19 @@ OP_ARROW2 = ⇒|=>
 OP_ARROW3 = ==>
 
 
+OP_DOT2 = [‥]|{DOT}{2}
+OP_DOT3 = […]|{DOT}{3}
+
+
 OP_L10N = ⸿|\\L
 
 OP_CELSIUS    = ℃
 OP_FAHRENHEIT = ℉
 
-SYMBOL=[\p{XID_Start}_][\p{XID_Continue}]*
-SYMBOW_RAW = `[^`]*`
-ESCAPED = \\.
 
-BIN = [0-1]
-HEX = [0-9a-fA-F]
-COLOR = (©|®|\\#)[0-9a-zA-Z]*
-INTEGER = 0|[1-9][_0-9]*
-DECIMAL = {INTEGER}(\.[0-9]+)?
 
-OP_REFERENCE = [⁋]
-OP_DEREFERENCE = [¶]
+OP_REFERENCE = [❡¶]
+OP_DEREFERENCE = [⁋]
 
 RESERVED = [߷⸖↯⍼♯⟀⟁]
 %%
@@ -176,7 +199,6 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
 <YYINITIAL> {
     {WHITE_SPACE}+     { return WHITE_SPACE; }
 	{COMMENT_LINE}     { return COMMENT_LINE; }
-	{COMMENT_BLOCK}    { return COMMENT_BLOCK; }
 }
 
 <YYINITIAL> {
@@ -201,11 +223,11 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
 <YYINITIAL> {
 	; { return SEMICOLON; }
 
-    {NAME_SPLIT} { return NAME_SPLIT; }
-    {NAME_SCOPE} { return NAME_SCOPE; }
-	{COLON}      { return COLON; }
-    {STAR}       { return STAR; }
-    {OP_REFERENCE} { return OP_REFERENCE;}
+    {NAME_SPLIT}     { return NAME_SPLIT; }
+    {NAME_SCOPE}     { return NAME_SCOPE; }
+	{COLON}          { return COLON; }
+    {STAR}           { return STAR; }
+    {OP_REFERENCE}   { return OP_REFERENCE;}
     {OP_DEREFERENCE} { return OP_DEREFERENCE;}
 
     {OP_ARROW1} { return OP_ARROW1; }
@@ -219,33 +241,41 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
     "$" { return DOLLAR; }
 
 
-	{OP_DIV} { return OP_DIV; }
-	{OP_REM} { return OP_DIV; }
-	{OP_DIV_REM} { return OP_DIV_REM; }
-    {OP_POW} { return OP_POW; }
-	"." { return DOT; }
-	"," { return COMMA; }
 
-    {BIND}      { return BIND;}
-	{EQUAL}     { return EQUAL; }
+	{OP_DOT3} { return ANY_DICT; }
+    {OP_DOT2} { return ANY_LIST; }
+	{DOT}     { return DOT; }
+
+	{COMMA}   { return COMMA; }
+
+    {BIND}     { return BIND;}
+	{EQUAL}    { return EQUAL; }
     // <
-    { OP_LLL }  { return OP_LLL; }
-    { OP_LL }   { return OP_LL; }
-    { OP_LEQ }   { return OP_LEQ; }
+    { OP_LLL } { return OP_LLL; }
+    { OP_LL }  { return OP_LL; }
+    { OP_LEQ } { return OP_LEQ; }
     // >
-    { OP_GGG }  { return OP_GGG; }
-    { OP_GG }   { return OP_GG; }
-    { OP_GEQ }   { return OP_GEQ; }
-
-
+    { OP_GGG } { return OP_GGG; }
+    { OP_GG }  { return OP_GG; }
+    { OP_GEQ } { return OP_GEQ; }
 
     {OP_EE} { return OP_EE;}
     {OP_NE} { return OP_NE; }
 
-    {OP_ADD}     { return OP_PLUS; }
-    {OP_ADD_ASSIGN}     { return OP_PLUS_EQ; }
-    {OP_MINUS}    { return OP_MINUS; }
-    {OP_SUB_ASSIGN}     { return OP_MINUS_EQ; }
+
+    {OP_ADD}           { return OP_ADD; }
+    {OP_ADD_ASSIGN}    { return OP_ADD_ASSIGN; }
+    {OP_SUB}           { return OP_SUB; }
+    {OP_SUB_ASSIGN}    { return OP_SUB_ASSIGN; }
+    {OP_MUL}           { return OP_MUL; }
+    {OP_MUL_ASSIGN}    { return OP_MUL_ASSIGN; }
+    {OP_DIV}           { return OP_DIV; }
+	{OP_DIV_REM}       { return OP_DIV_REM; }
+    {OP_DIV_ASSIGN}    { return OP_DIV_ASSIGN; }
+	{OP_REM}           { return OP_REM; }
+    {OP_POW}           { return OP_POW; }
+    {OP_POW_ASSIGN}    { return OP_POW_ASSIGN; }
+
     // logical
     {LOGIC_AND}  { return LOGIC_AND; }
     {LOGIC_XAND} { return LOGIC_XAND; }
@@ -254,15 +284,16 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
     {LOGIC_XOR}  { return LOGIC_XOR; }
     {LOGIC_NOR}  { return LOGIC_NOR; }
 
-    {OP_BANG}     { return OP_BANG; }
+    {BANG}     { return OP_BANG; }
     {OP_NOT}      { return OP_NOT; }
     {OP_AND_THEN} { return OP_AND_THEN; }
+    {OP_SET_THEN} { return OP_SET_THEN; }
     {OP_UNWRAP_OR}  { return OP_UNWRAP_OR; }
     {OP_UNWRAP_ELSE}  { return OP_UNWRAP_ELSE; }
 
-    {OP_UNTIL}    { return OP_UNTIL; }
+    {OP_UNTIL}      { return OP_UNTIL; }
     // Localization
-    {OP_L10N}    { return OP_L10N; }
+    {OP_L10N}       { return OP_L10N; }
     // Temperature
     {OP_CELSIUS}    { return OP_CELSIUS; }
     {OP_FAHRENHEIT} { return OP_FAHRENHEIT; }
@@ -287,8 +318,8 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
           yybegin(TextCapture1);
           return STRING_L;
     }
-    {COLOR}    { return COLOR; }
-    {INTEGER}  { return INTEGER; }
+    {COLOR}   { return COLOR; }
+    {INTEGER} { return INTEGER; }
 }
 
 <YYINITIAL> {

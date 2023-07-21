@@ -34,12 +34,6 @@ public class ValkyrieTryLetStatementNode extends ValkyrieElement implements Valk
 
     @Override
     @Nullable
-    public ValkyrieCasePattern getCasePattern() {
-        return findChildByClass(ValkyrieCasePattern.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieElseStatement getElseStatement() {
         return findChildByClass(ValkyrieElseStatement.class);
     }
@@ -54,6 +48,12 @@ public class ValkyrieTryLetStatementNode extends ValkyrieElement implements Valk
     @Nullable
     public ValkyrieIfCondition getIfCondition() {
         return findChildByClass(ValkyrieIfCondition.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieLetPattern getLetPattern() {
+        return findChildByClass(ValkyrieLetPattern.class);
     }
 
 }

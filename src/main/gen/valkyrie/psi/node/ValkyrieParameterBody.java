@@ -8,6 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieParameterBody extends PsiElement {
 
     @NotNull
+    List<ValkyrieParameterDict> getParameterDictList();
+
+    @NotNull
     List<ValkyrieParameterItem> getParameterItemList();
+
+    @NotNull
+    List<ValkyrieParameterList> getParameterListList();
 
 }

@@ -2,21 +2,31 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieLetPattern extends PsiElement {
+public interface ValkyrieLoopInline extends PsiElement {
 
     @Nullable
     ValkyrieBarePattern getBarePattern();
-
-    @Nullable
-    ValkyrieCasePatternObject getCasePatternObject();
 
     @Nullable
     ValkyrieCasePatternTuple getCasePatternTuple();
 
     @Nullable
     ValkyrieMatchBind getMatchBind();
+
+    @Nullable
+    ValkyrieNamepath getNamepath();
+
+    @Nullable
+    ValkyrieNumber getNumber();
+
+    @Nullable
+    ValkyrieSpecial getSpecial();
+
+    @Nullable
+    ValkyrieString getString();
 
 }
