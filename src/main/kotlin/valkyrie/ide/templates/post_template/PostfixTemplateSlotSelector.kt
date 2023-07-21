@@ -49,7 +49,7 @@ open class PostfixTemplateSlotSelector : PostfixTemplate {
                     expressions[ancestor.textRange] = ancestor
                 }
 
-                is ValkyrieWhileStatementNode,
+                is ValkyrieLoopStatementNode,
                 is ValkyrieForStatementNode,
                 is ValkyrieIfStatementNode,
                 -> {
@@ -152,7 +152,7 @@ open class PostfixTemplateSlotSelector : PostfixTemplate {
             return when (replace) {
                 is ValkyrieIfStatement,
                 is ValkyrieForStatement,
-                is ValkyrieWhileStatement,
+                is ValkyrieLoopStatement,
                 -> {
                     "slot"
                 }

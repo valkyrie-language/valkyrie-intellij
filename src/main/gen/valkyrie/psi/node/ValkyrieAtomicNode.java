@@ -40,12 +40,6 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
 
     @Override
     @Nullable
-    public ValkyrieForStatement getForStatement() {
-        return findChildByClass(ValkyrieForStatement.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieFunctionCall getFunctionCall() {
         return findChildByClass(ValkyrieFunctionCall.class);
     }
@@ -66,6 +60,12 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
     @Nullable
     public ValkyrieLocalizeCall getLocalizeCall() {
         return findChildByClass(ValkyrieLocalizeCall.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieLoopStatement getLoopStatement() {
+        return findChildByClass(ValkyrieLoopStatement.class);
     }
 
     @Override
@@ -142,6 +142,12 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
 
     @Override
     @Nullable
+    public ValkyrieTryNotStatement getTryNotStatement() {
+        return findChildByClass(ValkyrieTryNotStatement.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieTryStatement getTryStatement() {
         return findChildByClass(ValkyrieTryStatement.class);
     }
@@ -150,30 +156,6 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
     @Nullable
     public ValkyrieTuple getTuple() {
         return findChildByClass(ValkyrieTuple.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieUntilNotStatement getUntilNotStatement() {
-        return findChildByClass(ValkyrieUntilNotStatement.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieUntilStatement getUntilStatement() {
-        return findChildByClass(ValkyrieUntilStatement.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieWhileLetStatement getWhileLetStatement() {
-        return findChildByClass(ValkyrieWhileLetStatement.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieWhileStatement getWhileStatement() {
-        return findChildByClass(ValkyrieWhileStatement.class);
     }
 
 }

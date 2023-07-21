@@ -5,9 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieDotCallMatch extends PsiElement {
+public interface ValkyrieLoopUntilNot extends PsiElement {
 
     @Nullable
-    ValkyrieMatchBody getMatchBody();
+    ValkyrieExpressionInline getExpressionInline();
+
+    @NotNull
+    ValkyrieTypePattern getTypePattern();
 
 }

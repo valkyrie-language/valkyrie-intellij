@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieTryLetStatementNode extends ValkyrieElement implements ValkyrieTryLetStatement {
+public class ValkyrieLoopConditionNode extends ValkyrieElement implements ValkyrieLoopCondition {
 
-    public ValkyrieTryLetStatementNode(@NotNull ASTNode node) {
+    public ValkyrieLoopConditionNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitTryLetStatement(this);
+        visitor.visitLoopCondition(this);
     }
 
     @Override
@@ -28,32 +31,32 @@ public class ValkyrieTryLetStatementNode extends ValkyrieElement implements Valk
 
     @Override
     @Nullable
-    public ValkyrieBlockBody getBlockBody() {
-        return findChildByClass(ValkyrieBlockBody.class);
+    public ValkyrieLoopEach getLoopEach() {
+        return findChildByClass(ValkyrieLoopEach.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieCasePattern getCasePattern() {
-        return findChildByClass(ValkyrieCasePattern.class);
+    public ValkyrieLoopUntil getLoopUntil() {
+        return findChildByClass(ValkyrieLoopUntil.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieElseStatement getElseStatement() {
-        return findChildByClass(ValkyrieElseStatement.class);
+    public ValkyrieLoopUntilNot getLoopUntilNot() {
+        return findChildByClass(ValkyrieLoopUntilNot.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieExpressionInline getExpressionInline() {
-        return findChildByClass(ValkyrieExpressionInline.class);
+    public ValkyrieLoopWhile getLoopWhile() {
+        return findChildByClass(ValkyrieLoopWhile.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieIfCondition getIfCondition() {
-        return findChildByClass(ValkyrieIfCondition.class);
+    public ValkyrieLoopWhileLet getLoopWhileLet() {
+        return findChildByClass(ValkyrieLoopWhileLet.class);
     }
 
 }

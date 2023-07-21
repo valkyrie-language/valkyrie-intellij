@@ -58,7 +58,7 @@ KW_LOOP  = loop
 KW_WHILE = while
 KW_UNTIL = until
 OP_LABEL = [※]|\\l
-KW_FOR   = for
+KW_EACH  = each
 
 KW_IF    = if
 KW_ELSE  = else
@@ -327,7 +327,7 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
     {KW_WHILE}     { return KW_WHILE; }
     {KW_UNTIL}     { return KW_UNTIL; }
     {OP_LABEL}     { return OP_LABEL; }
-    {KW_FOR}       { return KW_FOR; }
+    {KW_EACH}      { return KW_EACH; }
     {KW_IN}        { return KW_IN; }
 
     {KW_RETURN}   { return KW_RETURN; }

@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieTryLetStatementNode extends ValkyrieElement implements ValkyrieTryLetStatement {
+public class ValkyrieLoopEachNode extends ValkyrieElement implements ValkyrieLoopEach {
 
-    public ValkyrieTryLetStatementNode(@NotNull ASTNode node) {
+    public ValkyrieLoopEachNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitTryLetStatement(this);
+        visitor.visitLoopEach(this);
     }
 
     @Override
@@ -27,21 +30,9 @@ public class ValkyrieTryLetStatementNode extends ValkyrieElement implements Valk
     }
 
     @Override
-    @Nullable
-    public ValkyrieBlockBody getBlockBody() {
-        return findChildByClass(ValkyrieBlockBody.class);
-    }
-
-    @Override
-    @Nullable
+    @NotNull
     public ValkyrieCasePattern getCasePattern() {
-        return findChildByClass(ValkyrieCasePattern.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieElseStatement getElseStatement() {
-        return findChildByClass(ValkyrieElseStatement.class);
+        return findNotNullChildByClass(ValkyrieCasePattern.class);
     }
 
     @Override

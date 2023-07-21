@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieDotCallForNode extends ValkyrieElement implements ValkyrieDotCallFor {
+public class ValkyrieTryNotStatementNode extends ValkyrieElement implements ValkyrieTryNotStatement {
 
-    public ValkyrieDotCallForNode(@NotNull ASTNode node) {
+    public ValkyrieTryNotStatementNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitDotCallFor(this);
+        visitor.visitTryNotStatement(this);
     }
 
     @Override
@@ -34,8 +37,8 @@ public class ValkyrieDotCallForNode extends ValkyrieElement implements ValkyrieD
 
     @Override
     @Nullable
-    public ValkyrieCasePattern getCasePattern() {
-        return findChildByClass(ValkyrieCasePattern.class);
+    public ValkyrieElseStatement getElseStatement() {
+        return findChildByClass(ValkyrieElseStatement.class);
     }
 
     @Override
@@ -46,8 +49,8 @@ public class ValkyrieDotCallForNode extends ValkyrieElement implements ValkyrieD
 
     @Override
     @Nullable
-    public ValkyrieIfCondition getIfCondition() {
-        return findChildByClass(ValkyrieIfCondition.class);
+    public ValkyrieTypePattern getTypePattern() {
+        return findChildByClass(ValkyrieTypePattern.class);
     }
 
 }
