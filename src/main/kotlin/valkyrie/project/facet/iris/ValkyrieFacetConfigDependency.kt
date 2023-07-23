@@ -6,7 +6,7 @@ import com.intellij.ui.dsl.builder.panel
 import valkyrie.language.ValkyrieBundle
 import javax.swing.JComponent
 
-class ValkyrieFacetConfigFramework(val context: FacetEditorContext?) : FacetEditorTab() {
+class ValkyrieFacetConfigDependency(val context: FacetEditorContext?) : FacetEditorTab() {
     private var targetPlatform: String = "JVM 1.8"
     private var reportCompilerWarnings: Boolean = true
     private var role: LegionRoleData = LegionRoleData()
@@ -96,13 +96,12 @@ class ValkyrieFacetConfigFramework(val context: FacetEditorContext?) : FacetEdit
     }
 
     override fun getDisplayName(): String {
-        return ValkyrieBundle.message("facet.panel.framework")
+        return ValkyrieBundle.message("facet.panel.dependency")
     }
 
     override fun getHelpTopic(): String? {
         return "getHelpTopic"
     }
-
 
     override fun reset() {
         super.reset()
@@ -111,5 +110,6 @@ class ValkyrieFacetConfigFramework(val context: FacetEditorContext?) : FacetEdit
     override fun apply() {
         super.apply()
     }
-}
 
+
+}

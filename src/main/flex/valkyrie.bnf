@@ -126,7 +126,7 @@ declare-component ::= annotations KW_COMPONENT identifier declare-generic? class
 }
 
 class-inherit ::= PARENTHESIS_L (inherit-item (COMMA inherit-item)* COMMA?)? PARENTHESIS_R;
-inherit-item  ::= (annotations identifier EQUAL)? type-expression {
+inherit-item  ::= (annotations identifier COLON)? type-expression {
     mixin = "valkyrie.psi.mixin.MixinClassInherit"
 }
 // === class body ===
@@ -181,8 +181,8 @@ declare-unite ::= declare-template? annotations KW_UNITE identifier unite-body {
 }
 unite-body ::= BRACE_L unite-item* BRACE_R;
 private unite-item ::= SEMICOLON | COMMA
-  | declare-variant
   | declare-method
+  | declare-variant
 declare-variant ::= annotations identifier class-body? {
     mixin = "valkyrie.psi.mixin.MixinVariant"
 }

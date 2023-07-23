@@ -3,7 +3,6 @@ package valkyrie.ide.reference.declaration
 import com.intellij.model.Symbol
 import com.intellij.model.psi.PsiSymbolDeclaration
 import com.intellij.model.psi.PsiSymbolDeclarationProvider
-import com.intellij.model.psi.PsiSymbolService
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import valkyrie.psi.node.ValkyrieDeclareClass
@@ -11,7 +10,7 @@ import valkyrie.psi.node.ValkyrieDeclareClassNode
 import valkyrie.psi.node.ValkyrieDeclareImply
 import valkyrie.psi.node.ValkyrieVisitor
 
-@Suppress("UnstableApiUsage")
+
 class SymbolDeclarationProvider : PsiSymbolDeclarationProvider {
     override fun getDeclarations(element: PsiElement, offsetInElement: Int): MutableCollection<out PsiSymbolDeclaration> {
         val visitor = SymbolDeclarationProviderVisitor()
@@ -20,12 +19,12 @@ class SymbolDeclarationProvider : PsiSymbolDeclarationProvider {
     }
 }
 
-@Suppress("UnstableApiUsage")
+
 class SymbolDeclarationProviderVisitor : ValkyrieVisitor() {
     val list: MutableList<PsiSymbolDeclaration> = mutableListOf()
 
     override fun visitDeclareClass(o: ValkyrieDeclareClass) {
-        list.add(APsiSymbolDeclaration(o))
+        list.add(ValkyriePsiSymbolDeclaration(o))
     }
 
     override fun visitDeclareImply(o: ValkyrieDeclareImply) {
@@ -33,8 +32,8 @@ class SymbolDeclarationProviderVisitor : ValkyrieVisitor() {
     }
 }
 
-@Suppress("UnstableApiUsage")
-class APsiSymbolDeclaration : PsiSymbolDeclaration {
+
+class ValkyriePsiSymbolDeclaration : PsiSymbolDeclaration {
     val source: ValkyrieDeclareClassNode
 
     constructor(source: ValkyrieDeclareClass) {
@@ -50,6 +49,7 @@ class APsiSymbolDeclaration : PsiSymbolDeclaration {
     }
 
     override fun getSymbol(): Symbol {
-        return PsiSymbolService.getInstance().asSymbol(source)
+        TODO("Not yet implemented")
+//        return PsiSymbolService.getInstance().asSymbol(source)
     }
 }

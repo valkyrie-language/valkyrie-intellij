@@ -15,7 +15,7 @@ class LegionModulesProvider : ModulesProvider {
 
     override fun getModules(): Array<Module> {
         for (module in _models.modules) {
-            println("getModules: $module(${module.moduleFile})")
+            println("getModules: $module(${module.name})")
         }
         return _models.modules
     }
@@ -25,12 +25,12 @@ class LegionModulesProvider : ModulesProvider {
     }
 
     override fun getRootModel(module: Module): ModuleRootModel {
-        println("getRootModel: $module(${module.moduleFile})")
+        println("getRootModel: $module(${module.name})")
         return _models.getModifiableRootModel(module)
     }
 
     override fun getFacetModel(module: Module): FacetModel {
-        println("getFacetModel: $module(${module.moduleFile})")
+        println("getFacetModel: $module(${module.name})")
         return _models.getModifiableFacetModel(module)
     }
 }
