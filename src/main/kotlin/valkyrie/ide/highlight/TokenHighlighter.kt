@@ -40,8 +40,13 @@ class TokenHighlighter : SyntaxHighlighter {
             // operations
             COLON, EQUAL, BIND, STAR,
             OP_OR, OP_UNTIL,
+            OP_GGG, OP_GEQ, OP_GG,
+            OP_LLL, OP_LEQ, OP_LL,
             OP_EE, OP_NE,
-            OP_PLUS, OP_AND_THEN,
+            OP_ADD, OP_ADD_ASSIGN,
+            OP_SUB, OP_SUB_ASSIGN,
+            OP_MUL, OP_MUL_ASSIGN,
+            OP_AND_THEN,
             OP_CELSIUS, OP_FAHRENHEIT,
             -> HighlightColor.OPERATION
             // literals

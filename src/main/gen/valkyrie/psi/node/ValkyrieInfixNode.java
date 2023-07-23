@@ -80,4 +80,10 @@ public class ValkyrieInfixNode extends ValkyrieElement implements ValkyrieInfix 
         return findChildByClass(ValkyrieInfixLogical.class);
     }
 
+    @Override
+    @Nullable
+    public ValkyrieInfixMultiple getInfixMultiple() {
+        return findChildByClass(ValkyrieInfixMultiple.class);
+    }
+
 }

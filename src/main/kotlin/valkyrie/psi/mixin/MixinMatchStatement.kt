@@ -11,7 +11,7 @@ import javax.swing.Icon
 abstract class MixinMatchStatement(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieMatchStatement {
     override val color: HighlightColor
         get() {
-            for (modifier in this.modifierList) {
+            for (modifier in matchBind?.modifierList ?: emptyList()) {
                 if (modifier.text == "mut") {
                     return HighlightColor.SYM_LOCAL_MUT
                 }
@@ -20,7 +20,7 @@ abstract class MixinMatchStatement(node: ASTNode) : ValkyrieDeclaration(node), V
         }
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.identifier as? ValkyrieIdentifierNode
+        return this.matchBind?.identifier as? ValkyrieIdentifierNode
     }
 
     override fun getBaseIcon(): Icon {

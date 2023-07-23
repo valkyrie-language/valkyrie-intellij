@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieLoopEachNode extends ValkyrieElement implements ValkyrieLoopEach {
+public class ValkyrieLoopInlineNode extends ValkyrieElement implements ValkyrieLoopInline {
 
-    public ValkyrieLoopEachNode(@NotNull ASTNode node) {
+    public ValkyrieLoopInlineNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitLoopEach(this);
+        visitor.visitLoopInline(this);
     }
 
     @Override
@@ -34,26 +37,38 @@ public class ValkyrieLoopEachNode extends ValkyrieElement implements ValkyrieLoo
 
     @Override
     @Nullable
-    public ValkyrieCasePattern getCasePattern() {
-        return findChildByClass(ValkyrieCasePattern.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieExpressionInline getExpressionInline() {
-        return findChildByClass(ValkyrieExpressionInline.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieIfCondition getIfCondition() {
-        return findChildByClass(ValkyrieIfCondition.class);
+    public ValkyrieCasePatternTuple getCasePatternTuple() {
+        return findChildByClass(ValkyrieCasePatternTuple.class);
     }
 
     @Override
     @Nullable
     public ValkyrieMatchBind getMatchBind() {
         return findChildByClass(ValkyrieMatchBind.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieNamepath getNamepath() {
+        return findChildByClass(ValkyrieNamepath.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieNumber getNumber() {
+        return findChildByClass(ValkyrieNumber.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieSpecial getSpecial() {
+        return findChildByClass(ValkyrieSpecial.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieString getString() {
+        return findChildByClass(ValkyrieString.class);
     }
 
 }

@@ -147,9 +147,13 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         }
     }
 
-    override fun visitLetPatternItem(o: ValkyrieLetPatternItem) {
-        o as ValkyrieLetPatternItemNode
-        highlight(o.identifier, o.color)
+
+    override fun visitBarePatternItem(o: ValkyrieBarePatternItem) {
+        highlight(o.identifier, HighlightColor.SYM_LOCAL)
+    }
+
+    override fun visitMatchBind(o: ValkyrieMatchBind) {
+        highlight(o.identifier, HighlightColor.SYM_LOCAL)
     }
 
     override fun visitPatternPair(o: ValkyriePatternPair) {

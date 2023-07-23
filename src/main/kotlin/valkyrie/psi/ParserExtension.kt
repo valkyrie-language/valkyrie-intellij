@@ -11,7 +11,16 @@ class ParserExtension : GeneratedParserUtilBase() {
 
         )
         val OperatorInfix: TokenSet = TokenSet.create(
-            OP_PLUS,
+            OP_ADD, OP_ADD_ASSIGN,
+            OP_SUB, OP_SUB_ASSIGN,
+            OP_MUL, OP_MUL_ASSIGN,
+            OP_DIV, OP_DIV_ASSIGN,
+//            OP_MOD, OP_MOD_ASSIGN,
+            OP_POW, OP_POW_ASSIGN,
+//            OP_AND, OP_AND_ASSIGN,
+//            OP_OR, OP_OR_ASSIGN,
+//            OP_XOR, OP_XOR_ASSIGN,
+//            OP_SHL, OP_SHL_ASSIGN,
         )
         val OperatorSuffix: TokenSet = TokenSet.create(
             OP_BANG,

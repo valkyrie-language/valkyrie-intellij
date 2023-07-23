@@ -27,9 +27,27 @@ public class ValkyrieLetPatternNode extends ValkyrieElement implements ValkyrieL
     }
 
     @Override
-    @NotNull
-    public List<ValkyrieLetPatternItem> getLetPatternItemList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieLetPatternItem.class);
+    @Nullable
+    public ValkyrieBarePattern getBarePattern() {
+        return findChildByClass(ValkyrieBarePattern.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieCasePatternObject getCasePatternObject() {
+        return findChildByClass(ValkyrieCasePatternObject.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieCasePatternTuple getCasePatternTuple() {
+        return findChildByClass(ValkyrieCasePatternTuple.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieMatchBind getMatchBind() {
+        return findChildByClass(ValkyrieMatchBind.class);
     }
 
 }

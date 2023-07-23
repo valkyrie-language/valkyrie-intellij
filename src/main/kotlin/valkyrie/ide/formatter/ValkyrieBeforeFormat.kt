@@ -7,6 +7,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiRecursiveVisitor
 import com.intellij.psi.impl.source.codeStyle.PreFormatProcessor
+import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.firstLeaf
@@ -43,12 +44,32 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
     }
 
     override fun visitElement(element: PsiElement) {
-        if (element.elementType == ValkyrieTypes.BIND) {
-            println("visitElement: ${element.text}")
-        }
-
         ProgressManager.checkCanceled()
-        element.acceptChildren(this)
+        when (element.elementType) {
+            ValkyrieTypes.BIND -> {
+                element.replaceToken(ValkyrieTypes.BIND, "←")
+            }
+
+            ValkyrieTypes.INFIX_MULTIPLE -> {
+                element.replaceToken(ValkyrieTypes.INFIX_MULTIPLE, "×")
+            }
+
+            ValkyrieTypes.OP_MUL_ASSIGN -> {
+                element.replaceToken(ValkyrieTypes.OP_MUL_ASSIGN, "×=")
+            }
+
+            ValkyrieTypes.NAME_SCOPE -> {
+                element.replaceToken(ValkyrieTypes.NAME_SCOPE, "⁜")
+            }
+
+            ValkyrieTypes.NAME_SPLIT -> {
+                element.replaceToken(ValkyrieTypes.NAME_SPLIT, "⸬")
+            }
+
+            else -> {
+                element.acceptChildren(this)
+            }
+        }
     }
 
     override fun visitUsingTerm(o: ValkyrieUsingTerm) {
@@ -72,20 +93,6 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
         fixGenericBracket(o)
     }
 
-    override fun visitNamepath(o: ValkyrieNamepath) {
-        for (child in o.childrenWithLeaves) {
-            if (child.elementType == ValkyrieTypes.NAME_SCOPE) {
-                if (child.text != "⁜") {
-                    child.replaceLeaf(ValkyrieTypes.NAME_SCOPE, "⁜")
-                }
-            } else if (child.elementType == ValkyrieTypes.NAME_SPLIT) {
-                if (child.text != "⸬") {
-                    child.replaceLeaf(ValkyrieTypes.NAME_SPLIT, "⸬")
-                }
-            }
-
-        }
-    }
 
     private fun fixGenericBracket(o: PsiElement) {
         for (child in o.childrenWithLeaves) {
@@ -139,18 +146,6 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
         }
     }
 
-    override fun visitTypePatternPair(o: ValkyrieTypePatternPair) {
-        rewritePatternType(o)
-    }
-
-    override fun visitCasePatternPair(o: ValkyrieCasePatternPair) {
-        rewritePatternTerm(o)
-    }
-
-
-    override fun visitCasePatternItem(o: ValkyrieCasePatternItem) {
-        rewritePatternTerm(o)
-    }
 
     override fun visitLocalizeCall(o: ValkyrieLocalizeCall) {
         val symbol = o.firstLeaf()
@@ -184,6 +179,11 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
         o.replaceLeaf(ValkyrieTypes.OP_GG, "≫")
     }
 
+    private fun PsiElement.replaceToken(token: IElementType, text: String) {
+        if (this.text != text) {
+            this.replaceLeaf(token, text)
+        }
+    }
 
 }
 

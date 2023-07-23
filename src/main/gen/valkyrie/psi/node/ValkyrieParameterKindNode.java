@@ -10,26 +10,20 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.psi.ValkyrieTypes.*;
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieLoopWhileNode extends ValkyrieElement implements ValkyrieLoopWhile {
+public class ValkyrieParameterKindNode extends ValkyrieElement implements ValkyrieParameterKind {
 
-    public ValkyrieLoopWhileNode(@NotNull ASTNode node) {
+    public ValkyrieParameterKindNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitLoopWhile(this);
+        visitor.visitParameterKind(this);
     }
 
     @Override
     public void accept(@NotNull PsiElementVisitor visitor) {
         if (visitor instanceof ValkyrieVisitor) accept((ValkyrieVisitor) visitor);
         else super.accept(visitor);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieExpressionInline getExpressionInline() {
-        return findChildByClass(ValkyrieExpressionInline.class);
     }
 
 }

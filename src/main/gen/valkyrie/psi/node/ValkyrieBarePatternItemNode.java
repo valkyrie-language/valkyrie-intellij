@@ -8,16 +8,16 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.psi.ValkyrieTypes.*;
-import valkyrie.psi.ValkyrieElement;
+import valkyrie.psi.mixin.MixinLetPatternItem;
 
-public class ValkyrieLoopWhileNode extends ValkyrieElement implements ValkyrieLoopWhile {
+public class ValkyrieBarePatternItemNode extends MixinLetPatternItem implements ValkyrieBarePatternItem {
 
-    public ValkyrieLoopWhileNode(@NotNull ASTNode node) {
+    public ValkyrieBarePatternItemNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitLoopWhile(this);
+        visitor.visitBarePatternItem(this);
     }
 
     @Override
@@ -27,9 +27,15 @@ public class ValkyrieLoopWhileNode extends ValkyrieElement implements ValkyrieLo
     }
 
     @Override
-    @Nullable
-    public ValkyrieExpressionInline getExpressionInline() {
-        return findChildByClass(ValkyrieExpressionInline.class);
+    @NotNull
+    public ValkyrieIdentifier getIdentifier() {
+        return findNotNullChildByClass(ValkyrieIdentifier.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieModifier> getModifierList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieModifier.class);
     }
 
 }

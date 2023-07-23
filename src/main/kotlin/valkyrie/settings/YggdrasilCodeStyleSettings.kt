@@ -1,4 +1,4 @@
-package yggdrasil.settings
+package valkyrie.settings
 
 import com.intellij.lang.Language
 import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider

@@ -2,15 +2,12 @@
 package valkyrie.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-
 import static valkyrie.psi.ValkyrieTypes.*;
-
 import valkyrie.psi.ValkyrieElement;
 
 public class ValkyrieDotLoopCallNode extends ValkyrieElement implements ValkyrieDotLoopCall {
@@ -43,12 +40,6 @@ public class ValkyrieDotLoopCallNode extends ValkyrieElement implements Valkyrie
 
     @Override
     @Nullable
-    public ValkyrieCasePattern getCasePattern() {
-        return findChildByClass(ValkyrieCasePattern.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieControlLabel getControlLabel() {
         return findChildByClass(ValkyrieControlLabel.class);
     }
@@ -57,6 +48,12 @@ public class ValkyrieDotLoopCallNode extends ValkyrieElement implements Valkyrie
     @Nullable
     public ValkyrieIfCondition getIfCondition() {
         return findChildByClass(ValkyrieIfCondition.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieLoopInline getLoopInline() {
+        return findChildByClass(ValkyrieLoopInline.class);
     }
 
 }

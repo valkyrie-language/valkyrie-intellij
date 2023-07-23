@@ -38,4 +38,16 @@ public class ValkyrieCasePatternPairNode extends MixinCasePatternPair implements
         return findNotNullChildByClass(ValkyrieIdentifier.class);
     }
 
+    @Override
+    @NotNull
+    public List<ValkyrieModifier> getModifierList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieModifier.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieTypeExpression getTypeExpression() {
+        return findChildByClass(ValkyrieTypeExpression.class);
+    }
+
 }

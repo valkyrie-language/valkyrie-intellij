@@ -6,11 +6,11 @@ import com.intellij.psi.*
 import com.intellij.refactoring.suggested.endOffset
 import com.intellij.refactoring.suggested.startOffset
 import valkyrie.ide.highlight.NodeHighlighter
+import valkyrie.language.file.ValkyrieFileNode
+import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
 import valkyrie.psi.ValkyrieDeclaration
-import valkyrie.psi.mixin.getVariableList
 import valkyrie.psi.node.ValkyrieIdentifier
 import valkyrie.psi.node.ValkyrieIdentifierNode
-import valkyrie.psi.node.ValkyrieLetStatementNode
 
 
 class ValkyrieNamepathReference : PsiPolyVariantReference, EmptyResolveMessageProvider {
@@ -46,22 +46,12 @@ class ValkyrieNamepathReference : PsiPolyVariantReference, EmptyResolveMessagePr
         return resolveSequence().map { PsiElementResolveResult(it) }.toList().toTypedArray()
     }
 
-    private fun resolveSequence() = sequence {
-        val children = target.containingFile?.children ?: arrayOf();
-        for (child in children) {
-            when (child) {
-                is ValkyrieLetStatementNode -> {
-                    for (variable in child.getVariableList()) {
-                        if (variable.name == child.name) {
-                            yield(variable)
-                        }
-                    }
-                }
-
-                is ValkyrieDeclaration -> {
-                    if (target.name == child.name) {
-                        yield(child)
-                    }
+    private fun resolveSequence(): Sequence<ValkyrieDeclaration> {
+        val file = element.containingFile as? ValkyrieFileNode
+        return sequence {
+            for (definition in file.definitions) {
+                if (definition.name == target.name) {
+                    yield(definition)
                 }
             }
         }
