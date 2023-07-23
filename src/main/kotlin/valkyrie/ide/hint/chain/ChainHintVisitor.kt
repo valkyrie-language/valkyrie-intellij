@@ -21,6 +21,7 @@ class ChainHintVisitor : ValkyrieVisitor {
     }
 
     override fun visitDotCall(o: ValkyrieDotCall) {
+        // 如果该行后面没有文字
         hint(o.endOffset, "Iterator<Item=Any>")
     }
 
