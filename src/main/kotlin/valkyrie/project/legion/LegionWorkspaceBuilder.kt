@@ -128,12 +128,12 @@ class LegionWorkspaceBuilder : ModuleBuilder() {
     }
 
     override fun setupRootModel(model: ModifiableRootModel) {
-        val root = model.module.moduleFile ?: return
-        markSources(root, model, "library", "source", "src")
-        markTests(root, model, "test", "tests")
-        markTests(root, model, "benchmark", "benchmarks", "bench")
-        markTests(root, model, "example", "examples")
-        markExclude(root, model, "target", "build", "out", "dist")
+//        val root = model.module.moduleFile ?: return
+//        markSources(root, model, "library", "source", "src")
+//        markTests(root, model, "test", "tests")
+//        markTests(root, model, "benchmark", "benchmarks", "bench")
+//        markTests(root, model, "example", "examples")
+//        markExclude(root, model, "target", "build", "out", "dist")
         model.commit()
     }
 

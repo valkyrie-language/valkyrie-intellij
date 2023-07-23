@@ -69,14 +69,14 @@
 		<primaryModuleManager implementation="valkyrie.project.modules.ValkyrieRootModule"/>
 		<moduleContextProvider implementation="valkyrie.project.ValkyriePackageContext"/>
 		<moduleExtension implementation="valkyrie.project.moduleExtension"/>
-		<packageGroupRuleProvider implementation="valkyrie.project.ValkyriePackageGroupRuleProvider"/>
+		<!--		<packageGroupRuleProvider implementation="valkyrie.project.ValkyriePackageGroupRuleProvider"/>-->
 		<!-- Project Module (Valkyrie Package) -->
 		<generatedSourcesFilter implementation="valkyrie.project.modules.generatedSourcesFilter"/>
 		<testSourcesFilter implementation="valkyrie.project.modules.testSourcesFilter"/>
 		<generatedSourceUsageFilter implementation="valkyrie.project.modules.generatedSourceUsageFilter"/>
 		<directoryIndexExcludePolicy implementation="valkyrie.project.modules.directoryIndexExcludePolicy"/>
 		<!-- Project Index (Valkyrie Namespace) -->
-		<fileBasedIndex implementation="valkyrie.project.ValkyrieFileIndex"/>
+		<!--		<fileBasedIndex implementation="valkyrie.project.ValkyrieFileIndex"/>-->
 		<indexedRootsProvider implementation="valkyrie.project.ExtraIndexContributor"/>
 		<generatedSourcesFilter implementation="valkyrie.project.ValkyrieGeneratedSource"/>
 		<!-- Project Artifact -->
