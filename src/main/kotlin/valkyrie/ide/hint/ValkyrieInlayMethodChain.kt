@@ -17,11 +17,11 @@ class ValkyrieInlayMethodChain : InlayHintsProvider {
 
 private class InlayMethodCollector(val file: ValkyrieFileNode, val editor: Editor) : SharedBypassCollector {
     override fun collectFromElement(element: PsiElement, sink: InlayTreeSink) {
-        element.accept(ACollectorVisitor(sink, editor))
+        element.accept(ValkyrieCollectorVisitor(sink, editor))
     }
 }
 
-private class ACollectorVisitor(val sink: InlayTreeSink, val editor: Editor) : ValkyrieVisitor() {
+private class ValkyrieCollectorVisitor(val sink: InlayTreeSink, val editor: Editor) : ValkyrieVisitor() {
     override fun visitDotCall(o: ValkyrieDotCall) {
         // TODO: check if this is the last element of the line
         sink.addPresentation(

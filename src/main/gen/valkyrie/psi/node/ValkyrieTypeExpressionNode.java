@@ -9,7 +9,6 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.psi.ValkyrieTypes.*;
 import valkyrie.psi.mixin.MixinTypeExpression;
-import valkyrie.ide.highlight.NodeHighlighter;
 
 public class ValkyrieTypeExpressionNode extends MixinTypeExpression implements ValkyrieTypeExpression {
 

@@ -46,44 +46,34 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     override fun visitInheritItem(o: ValkyrieInheritItem) {
         highlight(o.identifier, HighlightColor.SYM_FIELD)
-        o.typeExpression.highlight_class(this)
     }
 
-
     override fun visitDeclareField(o: ValkyrieDeclareField) {
-        o as ValkyrieDeclareFieldNode
-        highlight(o.nameIdentifier, HighlightColor.SYM_FIELD)
-        o.typeHint?.typeExpression?.highlight_class(this)
+        highlight(o.identifier, HighlightColor.SYM_FIELD)
     }
 
     override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
-        o as ValkyrieDeclareMethodNode
-        highlight(o.nameIdentifier, HighlightColor.SYM_FUNCTION_FREE)
+        highlight(o.identifier, HighlightColor.SYM_FUNCTION_FREE)
     }
 
     override fun visitDeclareDomain(o: ValkyrieDeclareDomain) {
-        o as ValkyrieDeclareDomainNode
-        highlight(o.nameIdentifier, HighlightColor.SYM_MACRO)
+        highlight(o.identifier, HighlightColor.SYM_MACRO)
     }
 
     override fun visitDeclareUnion(o: ValkyrieDeclareUnion) {
-        o as ValkyrieDeclareUnionNode
-        highlight(o.nameIdentifier, HighlightColor.SYM_MACRO)
+        highlight(o.identifier, HighlightColor.SYM_MACRO)
     }
 
     override fun visitDeclareFlags(o: ValkyrieDeclareFlags) {
-        o as ValkyrieDeclareFlagsNode
-        highlight(o.nameIdentifier, HighlightColor.SYM_CONSTANT)
+        highlight(o.identifier, HighlightColor.SYM_CONSTANT)
     }
 
     override fun visitDeclareEnumerate(o: ValkyrieDeclareEnumerate) {
-        o as ValkyrieDeclareEnumerateNode
-        highlight(o.nameIdentifier, HighlightColor.SYM_CONSTANT)
+        highlight(o.identifier, HighlightColor.SYM_CONSTANT)
     }
 
     override fun visitDeclareSemantic(o: ValkyrieDeclareSemantic) {
-        o as ValkyrieDeclareSemanticNode
-        highlight(o.nameIdentifier, HighlightColor.SYM_FIELD)
+        highlight(o.identifier, HighlightColor.SYM_FIELD)
     }
 
     override fun visitDeclareUnite(o: ValkyrieDeclareUnite) {
@@ -95,13 +85,11 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitTraitAlias(o: ValkyrieTraitAlias) {
-        o as ValkyrieTraitAliasNode
-        highlight(o.nameIdentifier, HighlightColor.SYM_TRAIT)
+        highlight(o.identifier, HighlightColor.SYM_TRAIT)
     }
 
     override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {
-        o as ValkyrieDeclareTraitNode
-        highlight(o.nameIdentifier, HighlightColor.SYM_TRAIT)
+        highlight(o.identifier, HighlightColor.SYM_TRAIT)
     }
 
     override fun visitDeclareImply(o: ValkyrieDeclareImply) {
@@ -109,13 +97,11 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitDeclareFunction(o: ValkyrieDeclareFunction) {
-        o as ValkyrieDeclareFunctionNode
-        highlight(o.nameIdentifier, HighlightColor.SYM_FUNCTION_FREE)
+        highlight(o.identifier, HighlightColor.SYM_FUNCTION_FREE)
     }
 
     override fun visitDeclareMacro(o: ValkyrieDeclareMacro) {
-        o as ValkyrieDeclareMacroNode
-        highlight(o.nameIdentifier, HighlightColor.SYM_MACRO)
+        highlight(o.identifier, HighlightColor.SYM_MACRO)
     }
 
     override fun visitMacroCall(o: ValkyrieMacroCall) {
@@ -126,11 +112,9 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     override fun visitParameterItem(o: ValkyrieParameterItem) {
         highlight(o.identifier, HighlightColor.SYM_ARG)
-        o.typeHint?.typeExpression?.highlight_class(this)
     }
 
     override fun visitGenericParameter(o: ValkyrieGenericParameter) {
-        o as ValkyrieGenericParameterNode
         highlight(o.identifier, HighlightColor.SYM_MACRO)
 
     }
@@ -138,7 +122,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     override fun visitGenericArgument(o: ValkyrieGenericArgument) {
         highlight(o.identifier, HighlightColor.SYM_CLASS)
-        o.typeExpression.highlight_class(this)
     }
 
     override fun visitTypeExpression(o: ValkyrieTypeExpression) {
@@ -209,12 +192,8 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifier, HighlightColor.SYM_LOCAL)
     }
 
-    override fun visitDefaultType(o: ValkyrieDefaultType) {
-        o.typeExpression.highlight_class(this)
-    }
-
-    override fun visitReturnType(o: ValkyrieReturnType) {
-        o.typeExpression.highlight_class(this)
+    override fun visitTypeAtomic(o: ValkyrieTypeAtomic) {
+        o.namepath?.highlight(this)
     }
 
     override fun visitArgument(o: ValkyrieArgument) {

@@ -575,7 +575,6 @@ inline-atomic ::= PARENTHESIS_L expression-root PARENTHESIS_R
 // === expression statement ===
 type-expression ::= type-term (type-infix type-term)* {
     mixin = "valkyrie.psi.mixin.MixinTypeExpression"
-    methods=[highlight_trait highlight_class]
 };
 type-term ::= type-prefix* type-atomic type-suffix* {
 

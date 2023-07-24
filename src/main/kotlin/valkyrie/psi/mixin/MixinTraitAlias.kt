@@ -9,14 +9,13 @@ import valkyrie.psi.node.ValkyrieTraitAlias
 import javax.swing.Icon
 
 abstract class MixinTraitAlias(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieTraitAlias {
-    override val color: HighlightColor
-        get() = HighlightColor.SYM_TRAIT
+    override val color: HighlightColor = HighlightColor.SYM_TRAIT
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
         return this.identifier as? ValkyrieIdentifierNode
     }
 
     override fun getName(): String {
-        return nameIdentifier?.name ?: "⟪anonymous trait⟫"
+        return nameIdentifier?.name ?: "⟪anonymous alias⟫"
     }
 
 
