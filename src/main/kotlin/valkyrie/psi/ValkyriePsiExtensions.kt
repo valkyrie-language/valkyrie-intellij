@@ -58,6 +58,9 @@ fun PsiElement.isAncestorOf(child: PsiElement): Boolean =
 val PsiElement.endOffsetInParent: Int
     get() = startOffsetInParent + textLength
 
+val PsiElement.lineNumber: Int?
+    get() = containingFile.viewProvider.document?.getLineNumber(startOffsetInParent)
+
 fun PsiElement.rangeWithPrevSpace(prev: PsiElement?): TextRange = when (prev) {
     is PsiWhiteSpace -> textRange.union(prev.textRange)
     else -> textRange

@@ -86,6 +86,7 @@
 		/>
 		<!-- StructureView -->
 		<iconProvider implementation="valkyrie.language.file.ValkyrieIconProvider"/>
+		<gutterMarkPreprocessor implementation="valkyrie.ide.gutter.ValkyrieGutterMarkPreprocessor"/>
 		<projectViewNestingRulesProvider implementation="valkyrie.language.file.ValkyrieFileGroup"/>
 		<treeStructureProvider implementation="valkyrie.ide.view.ProjectViewModifier"/>
 		<lang.structureViewExtension implementation="valkyrie.ide.view.ValkyrieStructureViewExtension"/>

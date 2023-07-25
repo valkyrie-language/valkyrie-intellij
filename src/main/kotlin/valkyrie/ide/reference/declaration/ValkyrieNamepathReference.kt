@@ -17,7 +17,8 @@ class ValkyrieNamepathReference : PsiPolyVariantReference, EmptyResolveMessagePr
     private var origin: PsiElement
     private var parts: Array<ValkyrieIdentifierNode> = arrayOf()
     private var index: Int = 0
-    private val target: ValkyrieIdentifierNode = parts[index]
+    private val target: ValkyrieIdentifierNode
+        get() = parts[index]
 
     constructor(origin: PsiElement, parts: List<ValkyrieIdentifier>, index: Int) {
         this.parts = parts.map { it as ValkyrieIdentifierNode }.toTypedArray()

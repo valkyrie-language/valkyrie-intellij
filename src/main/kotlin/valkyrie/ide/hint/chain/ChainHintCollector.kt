@@ -5,7 +5,7 @@ import com.intellij.codeInsight.hints.InlayHintsSink
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 
-@Suppress("UnstableApiUsage")
+
 class ChainHintCollector : InlayHintsCollector {
     val settings: ChainHintSetting
 

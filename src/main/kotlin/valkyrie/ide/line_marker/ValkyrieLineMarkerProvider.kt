@@ -1,11 +1,25 @@
+@file:Suppress("PropertyName")
+
 package valkyrie.ide.line_marker
 
-import com.intellij.codeInsight.daemon.LineMarkerInfo
-import com.intellij.codeInsight.daemon.LineMarkerProvider
+import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
+import com.intellij.codeInsight.daemon.RelatedItemLineMarkerProvider
+import com.intellij.icons.AllIcons
 import com.intellij.icons.ExpUiIcons
+import com.intellij.java.JavaBundle
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
-import valkyrie.language.file.ValkyrieIconProvider
+import valkyrie.ide.line_marker.mark_class.ClassDescendantMarker
+import valkyrie.ide.line_marker.mark_class.ClassImplementMarker
+import valkyrie.ide.line_marker.mark_class.ClassMarker
+import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
+import valkyrie.language.file.ValkyrieIconProvider.Instance.Attribute
+import valkyrie.language.file.ValkyrieIconProvider.Instance.Enumeration
+import valkyrie.language.file.ValkyrieIconProvider.Instance.Field
+import valkyrie.language.file.ValkyrieIconProvider.Instance.Method
+import valkyrie.language.file.ValkyrieIconProvider.Instance.Stop
+import valkyrie.language.file.ValkyrieIconProvider.Instance.Then
+import valkyrie.language.file.ValkyrieIconProvider.Instance.Trait
 import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.childrenWithLeaves
 import valkyrie.psi.mixin.superClasses
@@ -13,51 +27,79 @@ import valkyrie.psi.node.*
 import javax.swing.Icon
 import kotlin.random.Random
 
-class ValkyrieLineMarkerProvider : LineMarkerProvider {
-    override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? {
-        return null
+class ValkyrieLineMarkerProvider : RelatedItemLineMarkerProvider() {
+    val enums_declaration =
+        Option("valkyrie.declare.enums", JavaBundle.message("gutter.overridden.method"), Enumeration)
+    val field_declaration =
+        Option("valkyrie.declare.field", JavaBundle.message("gutter.implemented.method"), Field)
+    val method_declaration = Option("valkyrie.declare.method", JavaBundle.message("gutter.overriding.method"), Method)
+    val domain_declaration =
+        Option("valkyrie.declare.domain", JavaBundle.message("gutter.implementing.method"), AllIcons.Gutter.ImplementingMethod)
+    val class_declaration =
+        Option("valkyrie.declare.class", JavaBundle.message("gutter.sibling.inherited.method"), Attribute)
+    val trait_declaration = Option("valkyrie.declare.trait", JavaBundle.message("gutter.service"), Trait)
+
+    /** Settings > Editor > General > Gutter Icons */
+    override fun getOptions(): Array<Option> {
+        return arrayOf(enums_declaration, field_declaration, method_declaration, domain_declaration, class_declaration, trait_declaration)
     }
 
-    override fun collectSlowLineMarkers(elements: MutableList<out PsiElement>, result: MutableCollection<in LineMarkerInfo<*>>) {
-        val visitor = ValkyrieMarkerVisitor(result)
-        for (element in elements) {
-            element.accept(visitor)
-        }
+    override fun getName(): String {
+        return "ValkyrieLineMarkerProvider"
     }
 
+    override fun getIcon(): Icon? {
+        return super.getIcon()
+    }
+
+
+    override fun collectNavigationMarkers(element: PsiElement, result: MutableCollection<in RelatedItemLineMarkerInfo<*>>) {
+        val visitor = ValkyrieMarkerVisitor(this, result)
+        element.accept(visitor)
+    }
 }
 
 
 private class ValkyrieMarkerVisitor : ValkyrieVisitor {
-    var result: MutableCollection<in LineMarkerInfo<*>>
+    val config: ValkyrieLineMarkerProvider
+    var result: MutableCollection<in RelatedItemLineMarkerInfo<*>>
 
-    constructor(result: MutableCollection<in LineMarkerInfo<*>>) : super() {
+    constructor(config: ValkyrieLineMarkerProvider, result: MutableCollection<in RelatedItemLineMarkerInfo<*>>) : super() {
+        this.config = config
         this.result = result
     }
 
     override fun visitDeclareClass(o: ValkyrieDeclareClass) {
+        if (!config.class_declaration.isEnabled) return
         o as ValkyrieDeclareClassNode
+        val leaf = o.nameIdentifier ?: return
         if (o.superClasses.isEmpty()) {
-            ValkyrieMarkClass.standalone(o)?.let { result.add(it) }
+            result.add(ClassMarker(o))
         } else {
-            ValkyrieMarkClass.ancestor(o)?.let { result.add(it) }
-            ValkyrieMarkClass.ancestor(o)?.let { result.add(it) }
-            ValkyrieMarkClass.descendant(o)?.let { result.add(it) }
-            ValkyrieMarkClass.descendant(o)?.let { result.add(it) }
-            ValkyrieMarkClass.descendant(o)?.let { result.add(it) }
+            for (definition in o.containingFile.definitions) {
+                when (definition) {
+                    is ValkyrieDeclareClassNode -> {
+                        result.add(ClassDescendantMarker(leaf, definition))
+                    }
+
+                    is ValkyrieDeclareTraitNode -> {
+                        result.add(ClassImplementMarker(leaf, definition))
+                    }
+                }
+            }
         }
     }
 
     override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {
+        if (!config.trait_declaration.isEnabled) return
         o as ValkyrieDeclareTraitNode
+        val leaf = o.nameIdentifier?.firstChild ?: return
         if (Random.nextBoolean()) {
-            ValkyrieMarkInterface.standalone(o)?.let { result.add(it) }
+            ValkyrieMarkTrait.standalone(o)?.let { result.add(it) }
         } else {
-            ValkyrieMarkInterface.ancestor(o, o)?.let { result.add(it) }
-            ValkyrieMarkInterface.ancestor(o, o)?.let { result.add(it) }
-            ValkyrieMarkInterface.descendant(o, o)?.let { result.add(it) }
-            ValkyrieMarkInterface.descendant(o, o)?.let { result.add(it) }
-            ValkyrieMarkInterface.descendant(o, o)?.let { result.add(it) }
+            ValkyrieMarkTrait.descendant(o, o)?.let { result.add(it) }
+            ValkyrieMarkTrait.descendant(o, o)?.let { result.add(it) }
+            ValkyrieMarkTrait.descendant(o, o)?.let { result.add(it) }
         }
     }
 
@@ -67,48 +109,57 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
 
     override fun visitDeclareUnion(o: ValkyrieDeclareUnion) {
         o as ValkyrieDeclareUnionNode
-        result.add(ValkyrieMarkAny(o))
+//        result.add(ValkyrieMarkAny(o))
     }
 
     override fun visitDeclareEnumerate(o: ValkyrieDeclareEnumerate) {
-        o as ValkyrieDeclareEnumerateNode
-        result.add(ValkyrieMarkAny(o))
+        if (config.enums_declaration.isEnabled) {
+            result.add(ValkyrieMarkEnumeration(o as ValkyrieDeclareEnumerateNode))
+        }
     }
 
     override fun visitDeclareFlags(o: ValkyrieDeclareFlags) {
         o as ValkyrieDeclareFlagsNode
-        result.add(ValkyrieMarkAny(o))
+//        result.add(ValkyrieMarkAny(o))
     }
 
     override fun visitDeclareField(o: ValkyrieDeclareField) {
-        o as ValkyrieDeclareFieldNode
-        result.add(ValkyrieMarkAny(o))
+        if (config.field_declaration.isEnabled) {
+            result.add(ValkyrieMarkField(o as ValkyrieDeclareFieldNode))
+        }
     }
 
     override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
-        o as ValkyrieDeclareMethodNode
-        result.add(ValkyrieMarkAny(o))
+        if (config.method_declaration.isEnabled) {
+            result.add(ValkyrieMarkMethod(o as ValkyrieDeclareMethodNode))
+        }
         createFunctionTest(o, o.annotations)
+    }
+
+    override fun visitDeclareDomain(o: ValkyrieDeclareDomain) {
+        if (config.domain_declaration.isEnabled) {
+
+        }
     }
 
     override fun visitDeclareUnite(o: ValkyrieDeclareUnite) {
         o as ValkyrieDeclareUniteNode
-        result.add(ValkyrieMarkAny(o))
+//        result.add(ValkyrieMarkAny(o))
     }
 
     override fun visitDeclareFunction(o: ValkyrieDeclareFunction) {
         o as ValkyrieDeclareFunctionNode
-        result.add(ValkyrieMarkAny(o))
+//        result.add(ValkyrieMarkAny(o))
     }
 
     override fun visitDeclareMacro(o: ValkyrieDeclareMacro) {
         o as ValkyrieDeclareMacroNode
-        result.add(ValkyrieMarkAny(o))
+//        result.add(ValkyrieMarkAny(o))
     }
 
     override fun visitNewLambda(o: ValkyrieNewLambda) {
         o as ValkyrieNewLambdaNode
-        result.add(ValkyrieMarkAny(o.firstChild, o.getIcon(0)))
+//        result.add(ValkyrieMarkAny(o.firstChild, o.getIcon(0)))
     }
 
     override fun visitControlYieldSend(o: ValkyrieControlYieldSend) {
@@ -124,19 +175,19 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
     }
 
     override fun visitControlReturn(o: ValkyrieControlReturn) {
-        markLeaf(o.firstChild, ValkyrieIconProvider.Instance.Stop)
+        markLeaf(o.firstChild, Stop)
     }
 
     override fun visitControlContinue(o: ValkyrieControlContinue) {
-        markLeaf(o.firstChild, ValkyrieIconProvider.Instance.Then)
+        markLeaf(o.firstChild, Then)
     }
 
     override fun visitControlBreak(o: ValkyrieControlBreak) {
-        markLeaf(o.firstChild, ValkyrieIconProvider.Instance.Then)
+        markLeaf(o.firstChild, Then)
     }
 
     override fun visitControlThrough(o: ValkyrieControlThrough) {
-        markLeaf(o.firstChild, ValkyrieIconProvider.Instance.Then)
+        markLeaf(o.firstChild, Then)
     }
 
     override fun visitControlResume(o: ValkyrieControlResume) {
@@ -149,17 +200,17 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
 
 
     private fun markLeaf(leaf: PsiElement, icon: Icon) {
-        result.add(ValkyrieMarkAny(leaf, icon))
+//        result.add(ValkyrieMarkAny(leaf, icon))
     }
 
     fun markYieldWith(o: PsiElement) {
         for (child in o.childrenWithLeaves) {
             if (child.elementType == ValkyrieTypes.KW_WITH) {
-                markLeaf(o.firstChild, ValkyrieIconProvider.Instance.Then)
+                markLeaf(o.firstChild, Then)
                 return
             }
         }
-        markLeaf(o.firstChild, ValkyrieIconProvider.Instance.Stop)
+        markLeaf(o.firstChild, Stop)
     }
 
     private fun createFunctionTest(source: PsiElement?, annotations: ValkyrieAnnotations?) {
@@ -205,3 +256,5 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
         return false
     }
 }
+
+

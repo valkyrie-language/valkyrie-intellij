@@ -9,6 +9,8 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiNameIdentifierOwner
+import com.intellij.psi.tree.IElementType
+import com.intellij.psi.util.elementType
 import com.intellij.refactoring.suggested.startOffset
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.psi.node.ValkyrieIdentifierNode
@@ -40,6 +42,7 @@ abstract class ValkyrieDeclaration : ValkyrieElement, PsiNameIdentifierOwner {
         return PresentationData(name, "", baseIcon, null)
     }
 
+
     fun createLookup(completions: MutableList<LookupElement>) {
         nameIdentifier?.let {
             completions.add(
@@ -53,11 +56,21 @@ abstract class ValkyrieDeclaration : ValkyrieElement, PsiNameIdentifierOwner {
         }
     }
 
+    fun findKeyword(target: IElementType): PsiElement {
+        for (leaf in this.childrenWithLeaves) {
+            if (leaf.elementType == target) {
+                return leaf
+            }
+        }
+        throw Exception("No keyword found")
+    }
+
     companion object {
         fun getCaretDeclaration(editor: Editor, file: PsiFile): ValkyrieDeclaration? {
             val leaf = file.findElementAt(editor.caretModel.offset) ?: return null
             return getCaretDeclaration(leaf)
         }
+
 
         fun getCaretDeclaration(element: PsiElement): ValkyrieDeclaration? {
             for (ancestor in element.ancestors) {

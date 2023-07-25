@@ -1,5 +1,7 @@
 package valkyrie.psi.mixin
 
+import com.intellij.application.options.editor.GutterIconsConfigurable
+import com.intellij.execution.console.GutterContentProvider
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import valkyrie.psi.ValkyrieElement
