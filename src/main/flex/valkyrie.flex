@@ -111,6 +111,7 @@ OP_PM = [±]
 OP_MP = [∓]
 
 // equal
+BIND   = [←]|<-
 EQUAL  = =
 OP_EE  = ==
 OP_NE  = [≠]|{OP_NOT}=
@@ -157,12 +158,10 @@ COLOR = (©|®|\\#)[0-9a-zA-Z]*
 INTEGER = 0|[1-9][_0-9]*
 DECIMAL = {INTEGER}(\.[0-9]+)?
 
-RESERVED = [߷⸖↯⍼♯⟀⟁]
-
 OP_REFERENCE = [⁋]
 OP_DEREFERENCE = [¶]
 
-
+RESERVED = [߷⸖↯⍼♯⟀⟁]
 %%
 
 <YYINITIAL> {
@@ -218,6 +217,7 @@ OP_DEREFERENCE = [¶]
 	"." { return DOT; }
 	"," { return COMMA; }
 
+    {BIND}      { return BIND;}
 	{EQUAL}     { return EQUAL; }
     // <
     { OP_LLL }  { return OP_LLL; }

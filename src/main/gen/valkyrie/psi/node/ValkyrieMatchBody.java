@@ -14,6 +14,9 @@ public interface ValkyrieMatchBody extends PsiElement {
     List<ValkyrieMatchElse> getMatchElseList();
 
     @NotNull
+    List<ValkyrieMatchType> getMatchTypeList();
+
+    @NotNull
     List<ValkyrieMatchWhen> getMatchWhenList();
 
     @NotNull

@@ -105,6 +105,7 @@ public interface ValkyrieTypes {
     IElementType MATCH_CASE = new ValkyrieElementType("MATCH_CASE");
     IElementType MATCH_ELSE = new ValkyrieElementType("MATCH_ELSE");
     IElementType MATCH_STATEMENT = new ValkyrieElementType("MATCH_STATEMENT");
+    IElementType MATCH_TYPE = new ValkyrieElementType("MATCH_TYPE");
     IElementType MATCH_WHEN = new ValkyrieElementType("MATCH_WHEN");
     IElementType MATCH_WITH = new ValkyrieElementType("MATCH_WITH");
     IElementType MODIFIER = new ValkyrieElementType("MODIFIER");
@@ -183,6 +184,7 @@ public interface ValkyrieTypes {
     IElementType ANGLE_L = new ValkyrieTokenType("<");
     IElementType ANGLE_R = new ValkyrieTokenType(">");
     IElementType AT = new ValkyrieTokenType("@");
+    IElementType BIND = new ValkyrieTokenType("BIND");
     IElementType BRACE_L = new ValkyrieTokenType("{");
     IElementType BRACE_R = new ValkyrieTokenType("}");
     IElementType BRACKET_L = new ValkyrieTokenType("[");
@@ -504,6 +506,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieMatchElseNode(node);
             } else if (type == MATCH_STATEMENT) {
                 return new ValkyrieMatchStatementNode(node);
+            } else if (type == MATCH_TYPE) {
+                return new ValkyrieMatchTypeNode(node);
             } else if (type == MATCH_WHEN) {
                 return new ValkyrieMatchWhenNode(node);
             } else if (type == MATCH_WITH) {

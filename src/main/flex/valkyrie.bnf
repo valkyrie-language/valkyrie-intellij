@@ -296,17 +296,19 @@ match-statement ::= KW_MATCH expression-inline match-body {
 match-body ::= BRACE_L match-item* BRACE_R;
 private match-item ::=
     match-with
+  | match-type
   | match-case
   | match-when
   | match-else
 match-with ::= KW_WITH pattern COLON block-bare {
     pin = 1
 }
-match-case ::= KW_CASE case-pattern-root if-condition? COLON block-bare {
+match-type ::= KW_TYPE type-pattern COLON block-bare {
     pin = 1
 }
-
-
+match-case ::= KW_CASE case-pattern if-condition? COLON block-bare {
+    pin = 1
+}
 match-when ::= KW_WHEN expression-inline COLON block-bare {
     pin = 1
 }
@@ -371,13 +373,10 @@ case-pattern ::= special
 case-pattern-object ::= namepath? BRACE_L (case-pattern-pair (COMMA case-pattern-pair)* COMMA?)? BRACE_R
 case-pattern-tuple  ::= namepath? PARENTHESIS_L (case-pattern (COMMA case-pattern)* COMMA?)? PARENTHESIS_R
                       | namepath? BRACKET_L (case-pattern (COMMA case-pattern)* COMMA?)? BRACKET_R
-case-pattern-pair   ::= identifier ((EQUAL|AT|COLON) case-pattern)? {
+case-pattern-pair   ::= identifier ((EQUAL|AT|COLON|BIND) case-pattern)? {
     mixin = "valkyrie.psi.mixin.MixinCasePatternPair"
 }
-case-pattern-root   ::= ((modifier|KW_LET)* identifier (EQUAL|AT))? case-pattern {
-    mixin = "valkyrie.psi.mixin.MixinCasePatternRoot"
-}
-case-pattern-item   ::= (modifier|KW_LET)* identifier ((EQUAL|AT|COLON) case-pattern)? {
+case-pattern-item   ::= (modifier|KW_LET)* identifier ((EQUAL|AT|COLON|BIND) case-pattern)? {
     mixin = "valkyrie.psi.mixin.MixinCasePatternItem"
 }
 // === new expression ===
@@ -607,7 +606,7 @@ modifier    ::= (SYMBOL | SYMBOW_RAW) !modifier-stop {
     mixin = "valkyrie.psi.mixin.MixinModifier"
 }
 private modifier-stop ::= KW_IN | KW_IF
-    | COMMA | EQUAL | COLON | SEMICOLON
+    | COMMA | EQUAL | BIND | COLON | SEMICOLON
     | NAME_SPLIT | DOT
     | PARENTHESIS_L | PARENTHESIS_R
     | BRACE_L | BRACE_R
