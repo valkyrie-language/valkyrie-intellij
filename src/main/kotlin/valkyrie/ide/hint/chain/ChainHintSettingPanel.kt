@@ -7,7 +7,7 @@ import com.intellij.ui.dsl.builder.panel
 import valkyrie.language.ValkyrieBundle
 import javax.swing.JComponent
 
-@Suppress("UnstableApiUsage")
+
 class ChainHintSettingPanel : ImmediateConfigurable {
     private val settings: ChainHintSetting
 
