@@ -2,18 +2,19 @@ package valkyrie.ide.line_marker
 
 import com.intellij.codeInsight.daemon.MergeableLineMarkerInfo
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
+import com.intellij.icons.AllIcons
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER
 import com.intellij.psi.PsiElement
-import valkyrie.language.file.ValkyrieIconProvider.Instance.Enumeration
-import valkyrie.psi.node.ValkyrieDeclareEnumerateNode
+import valkyrie.psi.node.ValkyrieIdentifier
 import javax.swing.Icon
 
-class ValkyrieMarkEnumeration : RelatedItemLineMarkerInfo<PsiElement> {
-    constructor(element: ValkyrieDeclareEnumerateNode) : super(
-        element,
-        element.keyword.textRange,
-        Enumeration,
-        { "tooltipProvider" },
+
+class ValkyrieMarkTraitAncestor : RelatedItemLineMarkerInfo<PsiElement> {
+    private constructor(leaf: ValkyrieIdentifier, ancestor: ValkyrieIdentifier) : super(
+        leaf.firstChild,
+        leaf.textRange,
+        AllIcons.Gutter.ImplementingMethod,
+        { "Valkyrie Trait" },
         { "PresentationProvider" },
         { e, elt -> },
         CENTER,
@@ -22,11 +23,10 @@ class ValkyrieMarkEnumeration : RelatedItemLineMarkerInfo<PsiElement> {
     )
 
     override fun canMergeWith(info: MergeableLineMarkerInfo<*>): Boolean {
-        return super.canMergeWith(info)
+        return info.icon == myIcon;
     }
 
     override fun getCommonIcon(infos: MutableList<out MergeableLineMarkerInfo<*>>): Icon {
-        return super.getCommonIcon(infos)
+        return myIcon
     }
 }
-

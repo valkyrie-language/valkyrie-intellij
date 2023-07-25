@@ -28,13 +28,19 @@ class TypeHintSettingPanel(private val settings: TypeHintSetting) : ImmediateCon
             Case(
                 "Define return types",
                 "hints.type.define",
-                settings::showDefineReturnType,
+                settings::show_define_return_type,
                 ValkyrieBundle.message("view.PropertiesGrouper")
             ),
             Case(
                 "Bitflag types",
-                "hints.type.bitflag",
-                settings::showBitFlagType,
+                "hints.type.flags",
+                settings::show_bitflags_type,
+                ValkyrieBundle.message("view.PropertiesGrouper")
+            ),
+            Case(
+                "Enumeration types",
+                "hints.type.enums",
+                settings::show_enumeration_type,
                 ValkyrieBundle.message("view.PropertiesGrouper")
             ),
         )

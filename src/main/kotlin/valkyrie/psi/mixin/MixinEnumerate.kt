@@ -10,7 +10,7 @@ import valkyrie.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
 abstract class MixinEnumerate(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareEnumerate {
-
+    val keyword: PsiElement = findKeyword(ValkyrieTypes.KW_ENUMERATE)
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
         return this.identifier as? ValkyrieIdentifierNode
     }
@@ -18,10 +18,5 @@ abstract class MixinEnumerate(node: ASTNode) : ValkyrieDeclaration(node), Valkyr
     override fun getBaseIcon(): Icon {
         return ValkyrieIconProvider.Instance.Enumeration
     }
-
-    val keyword: PsiElement
-        get() {
-            return this.findKeyword(ValkyrieTypes.KW_ENUMERATE)
-        }
 }
 

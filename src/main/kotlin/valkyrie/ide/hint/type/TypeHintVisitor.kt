@@ -19,7 +19,7 @@ class TypeHintVisitor : ValkyrieVisitor {
     }
 
     override fun visitDeclareField(o: ValkyrieDeclareField) {
-        if (!setting.showClassFieldType) {
+        if (!setting.show_class_field_type) {
             return
         }
 
@@ -44,7 +44,7 @@ class TypeHintVisitor : ValkyrieVisitor {
                 }
             }
         }
-        if (setting.showDefineReturnType) {
+        if (setting.show_define_return_type) {
             if (o.returnType == null) {
                 o.parameterBody?.endOffset?.let { hint(it, "⟶ Any") }
             }
@@ -66,7 +66,7 @@ class TypeHintVisitor : ValkyrieVisitor {
                 }
             }
         }
-        if (setting.showDefineReturnType) {
+        if (setting.show_define_return_type) {
             if (o.returnType == null) {
                 o.parameterBody?.endOffset?.let { hint(it, "⟶ AnyNode") }
             }
@@ -76,17 +76,17 @@ class TypeHintVisitor : ValkyrieVisitor {
 
 
     override fun visitDeclareEnumerate(o: ValkyrieDeclareEnumerate) {
-        if (setting.showEnumerationType) {
+        if (setting.show_enumeration_type) {
             if (o.classInherit == null) {
-                o.identifier?.endOffset?.let { hint(it, "([u8; 4])") }
+                o.identifier?.endOffset?.let { hint(it, "= u32") }
             }
         }
     }
 
     override fun visitDeclareFlags(o: ValkyrieDeclareFlags) {
-        if (setting.showBitFlagType) {
+        if (setting.show_bitflags_type) {
             if (o.classInherit == null) {
-                o.identifier?.endOffset?.let { hint(it, "([u8; 4])") }
+                o.identifier?.endOffset?.let { hint(it, "= u32") }
             }
         }
     }

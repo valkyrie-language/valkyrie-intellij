@@ -1,32 +1,33 @@
-package valkyrie.ide.line_marker
-
+package valkyrie.ide.line_marker.markers
 
 import com.intellij.codeInsight.daemon.MergeableLineMarkerInfo
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
+import com.intellij.icons.AllIcons
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER
 import com.intellij.psi.PsiElement
-import valkyrie.language.file.ValkyrieIconProvider.Instance.Field
-import valkyrie.psi.node.ValkyrieDeclareFieldNode
+import valkyrie.psi.node.ValkyrieDeclareClassNode
 import javax.swing.Icon
 
-class ValkyrieMarkField : RelatedItemLineMarkerInfo<PsiElement> {
-    constructor(element: ValkyrieDeclareFieldNode) : super(
-        element.identifier.firstChild,
-        element.identifier.firstChild.textRange,
-        Field,
-        { "Valkyrie Field" },
-        { "PresentationProvider" },
-        { e, elt -> },
+class ClassMarker : RelatedItemLineMarkerInfo<PsiElement> {
+    constructor(element: ValkyrieDeclareClassNode) : super(
+        element.keyword,
+        element.textRange,
+        AllIcons.Nodes.Class,
+        { "Valkyrie Class" },
+        { element.name },
+        null,
         CENTER,
         { mutableListOf() },
         { "AccessibleNameProvider" }
     )
 
     override fun canMergeWith(info: MergeableLineMarkerInfo<*>): Boolean {
-        return super.canMergeWith(info)
+        // there is only one class marker
+        return false
     }
 
     override fun getCommonIcon(infos: MutableList<out MergeableLineMarkerInfo<*>>): Icon {
         return myIcon
     }
 }
+
