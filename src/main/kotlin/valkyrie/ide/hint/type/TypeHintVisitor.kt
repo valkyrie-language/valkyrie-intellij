@@ -6,7 +6,7 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.refactoring.suggested.endOffset
 import valkyrie.psi.node.*
 
-@Suppress("UnstableApiUsage")
+
 class TypeHintVisitor : ValkyrieVisitor {
     private val sink: InlayHintsSink
     private val factory: PresentationFactory
@@ -30,13 +30,13 @@ class TypeHintVisitor : ValkyrieVisitor {
 
 
     override fun visitForStatement(o: ValkyrieForStatement) {
-        if (setting.showForLoopType) {
+        if (setting.show_loop_each_types) {
 //                inline(element.identifier.textRange.endOffset, "Unknown")
         }
     }
 
     override fun visitDeclareFunction(o: ValkyrieDeclareFunction) {
-        if (setting.showDefineParameterType) {
+        if (setting.show_define_parameter_type) {
             val parameter = o.parameterBody?.parameterItemList ?: listOf()
             for (parameterItem in parameter) {
                 if (parameterItem.typeHint == null) {
@@ -50,7 +50,7 @@ class TypeHintVisitor : ValkyrieVisitor {
             }
             return
         }
-        if (setting.showDefineEffectType) {
+        if (setting.show_define_effect_type) {
 //            if (o.effectType == null) {
 //                o.parameterBody?.endOffset?.let { hint(it, "/ Pure") }
 //            }
@@ -58,7 +58,7 @@ class TypeHintVisitor : ValkyrieVisitor {
     }
 
     override fun visitDeclareMacro(o: ValkyrieDeclareMacro) {
-        if (setting.showDefineParameterType) {
+        if (setting.show_define_parameter_type) {
             val parameter = o.parameterBody?.parameterItemList ?: listOf()
             for (parameterItem in parameter) {
                 if (parameterItem.typeHint == null) {

@@ -1,21 +1,29 @@
 package valkyrie.ide.hint.lambda
 
-import com.intellij.codeInsight.hints.*
+import com.intellij.codeInsight.hints.ImmediateConfigurable.Case
+import com.intellij.codeInsight.hints.InlayGroup
+import com.intellij.codeInsight.hints.InlayHintsProvider
+import com.intellij.codeInsight.hints.InlayHintsSink
+import com.intellij.codeInsight.hints.SettingsKey
+import com.intellij.lang.Language
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiFile
 import valkyrie.language.ValkyrieBundle
+import valkyrie.language.ValkyrieLanguage
 
-@Suppress("UnstableApiUsage")
+
 class LambdaHintProvider : InlayHintsProvider<LambdaHintSetting> {
-    private val rootKey = "v.lambda.hints";
-    override val name: String = ValkyrieBundle.message("inlay.type.group.name")
-    override val group: InlayGroup = InlayGroup.LAMBDAS_GROUP
-    override val key: SettingsKey<LambdaHintSetting> = SettingsKey(rootKey)
-    override val description: String? = super.description
-    override val previewText = javaClass.getResource("/templates/inlay-hint-lambda.vk")?.readText();
+    override val name = ValkyrieBundle.message("inlay.type.group.name")
+    override val group = InlayGroup.LAMBDAS_GROUP
+    override val key: SettingsKey<LambdaHintSetting> = SettingsKey("lambda")
+    override val description = super.description
+    override val previewText = null;
+    override fun isLanguageSupported(language: Language): Boolean {
+        return language is ValkyrieLanguage
+    }
+
     override fun createSettings() = LambdaHintSetting()
 
-    /// 不知道干嘛的 显示在
     /// Editor > Inlay Hints > Types
     override fun createConfigurable(settings: LambdaHintSetting): LambdaHintSettingPanel {
         return LambdaHintSettingPanel(settings)
@@ -25,10 +33,9 @@ class LambdaHintProvider : InlayHintsProvider<LambdaHintSetting> {
         return LambdaHintCollector(settings)
     }
 
-    // todo: getCasePreview
-    override fun getCaseDescription(case: ImmediateConfigurable.Case): String {
-        //return ValkyrieBundle.message(case.id)
-        return case.id
+
+    override fun getCaseDescription(case: Case): String {
+        return ValkyrieBundle.message("hint.${case.id}.detail")
     }
 
     override fun getProperty(key: String): String {

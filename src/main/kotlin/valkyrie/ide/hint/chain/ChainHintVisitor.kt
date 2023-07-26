@@ -34,9 +34,10 @@ class ChainHintVisitor : ValkyrieVisitor {
 
     fun hint(start: Int, text: String) {
         sink.addInlineElement(
-            start, true,
-            // click then replace
-            factory.roundWithBackgroundAndSmallInset(factory.smallTextWithoutBackground(text)), true
+            start,
+            true,
+            factory.roundWithBackgroundAndSmallInset(factory.smallTextWithoutBackground(text)),
+            true
         )
     }
 }

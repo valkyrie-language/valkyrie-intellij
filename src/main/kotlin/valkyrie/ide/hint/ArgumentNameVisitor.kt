@@ -6,7 +6,7 @@ import valkyrie.psi.node.ValkyrieArgumentBody
 import valkyrie.psi.node.ValkyrieInheritItem
 import valkyrie.psi.node.ValkyrieVisitor
 
-@Suppress("UnstableApiUsage")
+
 class ArgumentNameVisitor : ValkyrieVisitor() {
     var info: MutableList<InlayInfo> = mutableListOf()
 

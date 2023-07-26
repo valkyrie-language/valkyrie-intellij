@@ -8,7 +8,6 @@ import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieBundle
 
 
-@Suppress("UnstableApiUsage")
 class ArgumentNameProvider : InlayParameterHintsProvider {
     var context = ""
 
@@ -59,3 +58,4 @@ class ArgumentNameProvider : InlayParameterHintsProvider {
         )
     }
 }
+

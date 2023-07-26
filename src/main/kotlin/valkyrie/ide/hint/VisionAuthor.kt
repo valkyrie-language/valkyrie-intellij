@@ -7,7 +7,7 @@ import com.intellij.psi.PsiFile
 import valkyrie.psi.node.*
 import java.awt.event.MouseEvent
 
-@Suppress("UnstableApiUsage")
+
 class VisionAuthor : VcsCodeVisionLanguageContext {
     /// 额外的点击事件
     /// 本身会打开 Git Blame

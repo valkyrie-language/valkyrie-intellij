@@ -1,13 +1,15 @@
 package valkyrie.ide.hint.lambda
 
+import com.intellij.codeInsight.hints.ImmediateConfigurable.Case
+import valkyrie.settings.inlayOption
+
 @Suppress("PropertyName")
 data class LambdaHintSetting(
     var show_obvious_type: Boolean = false,
-    var showForLoopType: Boolean = true,
-    var showDefineParameterType: Boolean = true,
-    var showDefineReturnType: Boolean = true,
-    var showDefineEffectType: Boolean = true,
-    var showClassFieldType: Boolean = true,
-    var showBitFlagType: Boolean = true,
-    var showEnumerationType: Boolean = true,
-)
+) {
+    fun buildOptions(): List<Case> {
+        return listOf(
+            inlayOption("lambda.obvious", this::show_obvious_type),
+        )
+    }
+}

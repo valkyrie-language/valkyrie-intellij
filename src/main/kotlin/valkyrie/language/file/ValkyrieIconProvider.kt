@@ -23,6 +23,8 @@ class ValkyrieIconProvider : IconProvider() {
         val Trait = IconLoader.getIcon("/icons/trait.svg", ValkyrieIconProvider::class.java)
         val Enumeration = IconLoader.getIcon("/icons/codeAssistantEnum.svg", ValkyrieIconProvider::class.java)
         val Class = AllIcons.Nodes.Class
+        val Singleton = IconLoader.getIcon("/icons/slim.svg", ValkyrieIconProvider::class.java)
+        val Neural = IconLoader.getIcon("/icons/showCacheable.svg", ValkyrieIconProvider::class.java)
         val Field = AllIcons.Nodes.Field
         val Method = AllIcons.Nodes.Method
         val Unite = IconLoader.getIcon("/icons/codeAssistantUnion.svg", ValkyrieIconProvider::class.java)

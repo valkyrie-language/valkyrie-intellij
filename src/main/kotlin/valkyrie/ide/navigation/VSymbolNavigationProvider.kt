@@ -8,7 +8,6 @@ import com.intellij.platform.backend.navigation.NavigationTarget
 import valkyrie.language.symbol.ValkyrieSymbolTemplate
 
 
-@Suppress("UnstableApiUsage")
 class VSymbolNavigationProvider : SymbolNavigationProvider {
 
     override fun getNavigationTargets(project: Project, symbol: Symbol): MutableCollection<out NavigationTarget> {

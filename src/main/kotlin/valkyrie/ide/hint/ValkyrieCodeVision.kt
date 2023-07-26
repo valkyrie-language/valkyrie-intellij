@@ -15,7 +15,7 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.SyntaxTraverser
 import valkyrie.language.file.ValkyrieFileNode
 
-@Suppress("UnstableApiUsage")
+
 abstract class ValkyrieCodeVision : DaemonBoundCodeVisionProvider {
     override val defaultAnchor: CodeVisionAnchorKind = CodeVisionAnchorKind.Top
     override val relativeOrderings: List<CodeVisionRelativeOrdering> = emptyList()
