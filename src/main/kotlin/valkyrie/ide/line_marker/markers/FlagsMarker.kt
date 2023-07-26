@@ -1,20 +1,20 @@
-package valkyrie.ide.line_marker.mark_class
+package valkyrie.ide.line_marker.markers
 
 import com.intellij.codeInsight.daemon.MergeableLineMarkerInfo
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
-import com.intellij.icons.AllIcons
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER
 import com.intellij.psi.PsiElement
-import valkyrie.psi.node.ValkyrieDeclareClassNode
+import valkyrie.language.file.ValkyrieIconProvider.Instance.Flags
+import valkyrie.psi.node.ValkyrieDeclareFlagsNode
 import javax.swing.Icon
 
-class ClassMarker : RelatedItemLineMarkerInfo<PsiElement> {
-    constructor(element: ValkyrieDeclareClassNode) : super(
+class FlagsMarker : RelatedItemLineMarkerInfo<PsiElement> {
+    constructor(element: ValkyrieDeclareFlagsNode) : super(
         element.keyword,
-        element.textRange,
-        AllIcons.Nodes.Class,
-        { "Valkyrie Class" },
-        { element.name },
+        element.keyword.textRange,
+        Flags,
+        { "tooltipProvider" },
+        { "PresentationProvider" },
         null,
         CENTER,
         { mutableListOf() },
@@ -22,13 +22,11 @@ class ClassMarker : RelatedItemLineMarkerInfo<PsiElement> {
     )
 
     override fun canMergeWith(info: MergeableLineMarkerInfo<*>): Boolean {
-        // there is only one class marker
+        // there is only one enumeration marker
         return false
     }
 
     override fun getCommonIcon(infos: MutableList<out MergeableLineMarkerInfo<*>>): Icon {
-        return myIcon
+        return super.getCommonIcon(infos)
     }
 }
-
-
