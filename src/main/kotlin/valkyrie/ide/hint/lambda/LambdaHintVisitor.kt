@@ -5,7 +5,7 @@ import com.intellij.codeInsight.hints.presentation.PresentationFactory
 import com.intellij.openapi.editor.Editor
 import valkyrie.psi.node.ValkyrieVisitor
 
-@Suppress("UnstableApiUsage")
+
 class LambdaHintVisitor : ValkyrieVisitor {
     private val sink: InlayHintsSink
     private val factory: PresentationFactory

@@ -18,3 +18,4 @@ class ChainHintCollector : InlayHintsCollector {
         return true
     }
 }
+

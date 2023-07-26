@@ -7,7 +7,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.platform.backend.navigation.NavigationTarget
 import valkyrie.language.symbol.ValkyrieSymbolTemplate
 
-@Suppress("UnstableApiUsage")
+
 class ValkyrieSymbolNavigationProvider : SymbolNavigationProvider {
 
     override fun getNavigationTargets(project: Project, symbol: Symbol): MutableCollection<out NavigationTarget> {

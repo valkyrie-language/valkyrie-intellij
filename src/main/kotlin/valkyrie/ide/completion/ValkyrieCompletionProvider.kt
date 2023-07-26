@@ -13,8 +13,9 @@ open class ValkyrieCompletionProvider(val parameters: CompletionParameters, val 
         createClass("structure", mutableSetOf("value-class", "data-class"), ValkyrieBundle.message("completion.class"))
         createClass("abstract class", mutableSetOf("interface"), ValkyrieBundle.message("completion.class"))
         createClass("virtual class", mutableSetOf("virtual"), ValkyrieBundle.message("completion.class"))
-        createClass("singleton class", mutableSetOf("static-class", "companion-object"), ValkyrieBundle.message("completion.class"))
-        createClass("component class", mutableSetOf("component"), ValkyrieBundle.message("completion.class"))
+        createClass("singleton", mutableSetOf("static-class", "companion-object"), ValkyrieBundle.message("completion.class"))
+        createClass("widget", mutableSetOf("component-class"), ValkyrieBundle.message("completion.class"))
+        createClass("neural-network", mutableSetOf("neural", "network", "layer"), ValkyrieBundle.message("completion.class"))
     }
 
     protected fun addFunctions() {
