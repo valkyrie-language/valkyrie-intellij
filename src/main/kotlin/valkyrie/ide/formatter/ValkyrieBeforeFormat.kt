@@ -143,9 +143,6 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
         rewritePatternTerm(o)
     }
 
-    override fun visitCasePatternRoot(o: ValkyrieCasePatternRoot) {
-        rewritePatternTerm(o)
-    }
 
     override fun visitCasePatternItem(o: ValkyrieCasePatternItem) {
         rewritePatternTerm(o)

@@ -32,6 +32,18 @@ class ValkyrieIndentVisitor(val child: ASTNode) : ValkyrieVisitor() {
         indent = Indent.getNormalIndent()
     }
 
+    override fun visitCasePatternObject(o: ValkyrieCasePatternObject) {
+        super.visitCasePatternObject(o)
+    }
+
+    override fun visitTypePatternObject(o: ValkyrieTypePatternObject) {
+        byCorner(o.node)
+    }
+
+    override fun visitNewBody(o: ValkyrieNewBody) {
+        byCorner(o.node)
+    }
+
     override fun visitOffsetRange(o: ValkyrieOffsetRange) {
         byCorner(o.node)
     }
@@ -60,22 +72,14 @@ class ValkyrieIndentVisitor(val child: ASTNode) : ValkyrieVisitor() {
         }
     }
 
-//    private fun computeIndent(child: ASTNode): Indent? {
-//        return when (_node.psi) {
-//            is YggdrasilClassBody -> _node.indentInRange(child, 1, 1)
-//            is YggdrasilUnionBody -> _node.indentInRange(child, 1, 1)
-//            else -> Indent.getNoneIndent()
-//        }
-//    }
-//
-//    private fun ASTNode.indentInRange(child: ASTNode, head: Int, tail: Int): Indent {
-//        val children = this.getChildren(null);
-//        val index = children.indexOf(child)
-//        val last = children.size - tail
-//        return when {
-//            index <= head -> Indent.getNoneIndent()
-//            index >= last -> Indent.getNoneIndent()
-//            else -> Indent.getNormalIndent()
-//        }
-//    }
+    private fun ASTNode.indentInRange(child: ASTNode, head: Int, tail: Int): Indent {
+        val children = this.getChildren(null);
+        val index = children.indexOf(child)
+        val last = children.size - tail
+        return when {
+            index <= head -> Indent.getNoneIndent()
+            index >= last -> Indent.getNoneIndent()
+            else -> Indent.getNormalIndent()
+        }
+    }
 }

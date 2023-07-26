@@ -47,7 +47,8 @@ KW_OBJECT    = object
 KW_LAMBDA    = lambda
 
 KW_TRY   = try[!?]?
-KW_MATCH = match|catch
+KW_MATCH = match
+KW_CATCH = catch
 KW_WITH  = with
 KW_CASE  = case
 KW_WHEN  = when
@@ -137,6 +138,14 @@ OP_GGE = >>=
 OP_GG  = ≫
 OP_GEQ = ⩾|≥|>=|{OP_NOT}<
 OP_GE  = {OP_NOT}{LEQ}
+// logical
+LOGIC_AND  = [∧]|[&]{2}
+LOGIC_XAND = [⩟]
+LOGIC_NAND = [⊼]
+LOGIC_OR   = [∨]|[|]{2}
+LOGIC_XOR  = [⊻]
+LOGIC_NOR  = [⊽]
+
 // arrow
 OP_ARROW1 = ⟶|->
 OP_ARROW2 = ⇒|=>
@@ -237,7 +246,13 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
     {OP_ADD_ASSIGN}     { return OP_PLUS_EQ; }
     {OP_MINUS}    { return OP_MINUS; }
     {OP_SUB_ASSIGN}     { return OP_MINUS_EQ; }
-
+    // logical
+    {LOGIC_AND}  { return LOGIC_AND; }
+    {LOGIC_XAND} { return LOGIC_XAND; }
+    {LOGIC_NAND} { return LOGIC_NAND; }
+    {LOGIC_OR}   { return LOGIC_OR; }
+    {LOGIC_XOR}  { return LOGIC_XOR; }
+    {LOGIC_NOR}  { return LOGIC_NOR; }
 
     {OP_BANG}     { return OP_BANG; }
     {OP_NOT}      { return OP_NOT; }
@@ -323,6 +338,7 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
 
     {KW_TRY}   { return KW_TRY; }
     {KW_MATCH} { return KW_MATCH; }
+    {KW_CATCH} { return KW_CATCH; }
     {KW_WITH}  { return KW_WITH; }
     {KW_WHEN}  { return KW_WHEN; }
     {KW_FROM}  { return KW_FROM; }
