@@ -59,28 +59,29 @@
 
 // https://github.com/bytecodealliance/fluent/blob/master/spec/fluent.ebnf
 root ::= statements*
-private statements ::=
-    declare-namespace
-  | using
-  | type-alias
-  | trait-alias
-  | declare-flags
-  | declare-enumerate
-  | declare-unite
-  | declare-class
-  | declare-union
-  | declare-trait
-  | declare-imply
-  | declare-function
-  | declare-component
-  | declare-macro
-  | block-statement
+private statements ::= declare-namespace
+    | using
+    | type-alias
+    | trait-alias
+    | declare-flags
+    | declare-enumerate
+    | declare-unite
+    | declare-class
+    | declare-union
+    | declare-trait
+    | declare-imply
+    | declare-function
+    | declare-component
+    | declare-singleton
+    | declare-neural
+    | declare-macro
+    | block-statement
 private block-statement ::= SEMICOLON
-  | let-statement
-  | new-lambda
-  | attribute-above
-  | control-statement
-  | expression-root
+    | let-statement
+    | new-lambda
+    | attribute-above
+    | control-statement
+    | expression-root
 // === grammar statement ===
 declare-namespace ::= annotations KW_NAMESPACE namepath-free {
 	pin = 2
@@ -124,6 +125,15 @@ declare-component ::= annotations KW_COMPONENT identifier declare-generic? class
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinComponent"
 }
+declare-singleton ::= annotations KW_SINGLETON identifier declare-generic? class-inherit? type-hint? class-body {
+    pin = 2
+    mixin = "valkyrie.psi.mixin.MixinSingleton"
+}
+declare-neural ::= annotations KW_NEURAL identifier declare-generic? class-inherit? type-hint? class-body {
+    pin = 2
+    mixin = "valkyrie.psi.mixin.MixinNeural"
+}
+
 
 class-inherit ::= PARENTHESIS_L (inherit-item (COMMA inherit-item)* COMMA?)? PARENTHESIS_R;
 inherit-item  ::= (annotations identifier COLON)? type-expression {
@@ -685,7 +695,7 @@ namepath-free ::= identifier ((NAME_SPLIT|DOT) identifier)* {
 
 identifier ::= SYMBOL | SYMBOW_RAW
     | KW_CLASS
-    | KW_FUNCTION | KW_MACRO | KW_COMPONENT
+    | KW_FUNCTION | KW_MACRO | KW_COMPONENT | KW_NEURAL
     | KW_UNION | KW_IMPORT | KW_AS
     | KW_FROM
 {

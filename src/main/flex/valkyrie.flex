@@ -48,7 +48,9 @@ KW_TEMPLATE  = template|generic|constraint|forall
 KW_IMPLEMENT = implement
 KW_MICRO     = micro|function|func|fun|fn|def
 KW_MACRO     = macro
+KW_SINGLETON = singleton
 KW_COMPONENT = widget
+KW_NEURAL    = neural
 KW_LET       = let
 KW_NEW       = new
 KW_OBJECT    = object
@@ -345,6 +347,9 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
     {KW_MICRO}     { return KW_FUNCTION; }
     {KW_MACRO}     { return KW_MACRO; }
     {KW_COMPONENT} { return KW_COMPONENT; }
+    {KW_SINGLETON} { return KW_SINGLETON; }
+    {KW_NEURAL}    { return KW_NEURAL; }
+
 
     {KW_LET}       { return KW_LET; }
     {KW_NEW}       { return KW_NEW; }
