@@ -53,7 +53,9 @@ public interface ValkyrieTypes {
     IElementType DECLARE_MACRO = new ValkyrieElementType("DECLARE_MACRO");
     IElementType DECLARE_METHOD = new ValkyrieElementType("DECLARE_METHOD");
     IElementType DECLARE_NAMESPACE = new ValkyrieElementType("DECLARE_NAMESPACE");
+    IElementType DECLARE_NEURAL = new ValkyrieElementType("DECLARE_NEURAL");
     IElementType DECLARE_SEMANTIC = new ValkyrieElementType("DECLARE_SEMANTIC");
+    IElementType DECLARE_SINGLETON = new ValkyrieElementType("DECLARE_SINGLETON");
     IElementType DECLARE_TEMPLATE = new ValkyrieElementType("DECLARE_TEMPLATE");
     IElementType DECLARE_TRAIT = new ValkyrieElementType("DECLARE_TRAIT");
     IElementType DECLARE_UNION = new ValkyrieElementType("DECLARE_UNION");
@@ -249,6 +251,7 @@ public interface ValkyrieTypes {
     IElementType KW_MACRO = new ValkyrieTokenType("KW_MACRO");
     IElementType KW_MATCH = new ValkyrieTokenType("KW_MATCH");
     IElementType KW_NAMESPACE = new ValkyrieTokenType("KW_NAMESPACE");
+    IElementType KW_NEURAL = new ValkyrieTokenType("KW_NEURAL");
     IElementType KW_NEW = new ValkyrieTokenType("KW_NEW");
     IElementType KW_NIL = new ValkyrieTokenType("KW_NIL");
     IElementType KW_NOT = new ValkyrieTokenType("KW_NOT");
@@ -257,6 +260,7 @@ public interface ValkyrieTypes {
     IElementType KW_RAISE = new ValkyrieTokenType("KW_RAISE");
     IElementType KW_RESUME = new ValkyrieTokenType("KW_RESUME");
     IElementType KW_RETURN = new ValkyrieTokenType("KW_RETURN");
+    IElementType KW_SINGLETON = new ValkyrieTokenType("KW_SINGLETON");
     IElementType KW_TEMPLATE = new ValkyrieTokenType("KW_TEMPLATE");
     IElementType KW_THROUGH = new ValkyrieTokenType("KW_THROUGH");
     IElementType KW_TRAIT = new ValkyrieTokenType("KW_TRAIT");
@@ -426,8 +430,12 @@ public interface ValkyrieTypes {
                 return new ValkyrieDeclareMethodNode(node);
             } else if (type == DECLARE_NAMESPACE) {
                 return new ValkyrieDeclareNamespaceNode(node);
+            } else if (type == DECLARE_NEURAL) {
+                return new ValkyrieDeclareNeuralNode(node);
             } else if (type == DECLARE_SEMANTIC) {
                 return new ValkyrieDeclareSemanticNode(node);
+            } else if (type == DECLARE_SINGLETON) {
+                return new ValkyrieDeclareSingletonNode(node);
             } else if (type == DECLARE_TEMPLATE) {
                 return new ValkyrieDeclareTemplateNode(node);
             } else if (type == DECLARE_TRAIT) {
