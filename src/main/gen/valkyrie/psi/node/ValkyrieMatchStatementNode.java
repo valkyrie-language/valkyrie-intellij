@@ -8,9 +8,10 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.psi.ValkyrieTypes.*;
-import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieMatchStatementNode extends ValkyrieElement implements ValkyrieMatchStatement {
+import valkyrie.psi.mixin.MixinMatchStatement;
+
+public class ValkyrieMatchStatementNode extends MixinMatchStatement implements ValkyrieMatchStatement {
 
     public ValkyrieMatchStatementNode(@NotNull ASTNode node) {
         super(node);
@@ -34,8 +35,26 @@ public class ValkyrieMatchStatementNode extends ValkyrieElement implements Valky
 
     @Override
     @Nullable
+    public ValkyrieIdentifier getIdentifier() {
+        return findChildByClass(ValkyrieIdentifier.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieMatchBody getMatchBody() {
         return findChildByClass(ValkyrieMatchBody.class);
+    }
+
+    @Override
+    @NotNull
+    public ValkyrieMatchKind getMatchKind() {
+        return findNotNullChildByClass(ValkyrieMatchKind.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieModifier> getModifierList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieModifier.class);
     }
 
 }
