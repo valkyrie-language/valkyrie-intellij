@@ -1,1 +1,5 @@
-inlayProviders/type/preview.valkyrie
+let a = new List<u32> {1, 2, 3}
+let b = a
+let c = a.map {
+	$it.to_string()
+}

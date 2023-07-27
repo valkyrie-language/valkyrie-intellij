@@ -18,13 +18,13 @@ data class ChainHintSetting(
     fun buildOptions(): List<Case> {
         return listOf(
             inlayOption("chain.obvious", this::show_obvious),
-            inlayOption("chain.loop", this::show_dot_loop),
-            inlayOption("chain.match", this::show_dot_match),
-            inlayOption("chain.catch", this::show_dot_catch),
-            inlayOption("chain.future", this::show_future),
-            inlayOption("chain.iterator", this::show_iterator),
-            inlayOption("chain.generator", this::show_generator),
-            inlayOption("chain.coroutine", this::show_coroutine),
+//            inlayOption("chain.loop", this::show_dot_loop),
+//            inlayOption("chain.match", this::show_dot_match),
+//            inlayOption("chain.catch", this::show_dot_catch),
+//            inlayOption("chain.future", this::show_future),
+//            inlayOption("chain.iterator", this::show_iterator),
+//            inlayOption("chain.generator", this::show_generator),
+//            inlayOption("chain.coroutine", this::show_coroutine),
         )
     }
 }

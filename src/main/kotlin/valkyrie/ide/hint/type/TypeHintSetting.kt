@@ -18,13 +18,13 @@ data class TypeHintSetting(
     fun buildOptions(): List<Case> {
         return listOf(
             inlayOption("type.obvious", this::show_obvious_type),
-            inlayOption("type.loop.each", this::show_loop_each_types),
-            inlayOption("type.define.parameter", this::show_define_parameter_type),
-            inlayOption("type.define.return", this::show_define_return_type),
-            inlayOption("type.define.effect", this::show_define_effect_type),
-            inlayOption("type.field", this::show_class_field_type),
-            inlayOption("type.flags", this::show_bitflags_type),
-            inlayOption("type.enums", this::show_enumeration_type),
+//            inlayOption("type.loop.each", this::show_loop_each_types),
+//            inlayOption("type.define.parameter", this::show_define_parameter_type),
+//            inlayOption("type.define.return", this::show_define_return_type),
+//            inlayOption("type.define.effect", this::show_define_effect_type),
+//            inlayOption("type.field", this::show_class_field_type),
+//            inlayOption("type.flags", this::show_bitflags_type),
+//            inlayOption("type.enums", this::show_enumeration_type),
         )
     }
 }

@@ -1,1 +1,14 @@
-inlayProviders/chain/preview.valkyrie
+iterator micro double(sequence: List⟨u32?⟩) -> u32 {
+    sequence
+	    .into_iter()
+	    .match {
+	        case Some: n
+	        case None: 0
+	    }
+	    .filter {$it.is_even}
+	    .map {$it * 2}
+	    .map(identify)
+	    .for i {
+	        yield with $it
+	    }
+}

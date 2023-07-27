@@ -93,9 +93,11 @@ class TypeHintVisitor : ValkyrieVisitor {
 
     fun hint(start: Int, text: String) {
         sink.addInlineElement(
-            start, true,
+            start,
+            true,
             // click then replace
-            factory.roundWithBackgroundAndSmallInset(factory.smallTextWithoutBackground(text)), false
+            factory.roundWithBackgroundAndSmallInset(factory.smallTextWithoutBackground(text)),
+            false
         )
     }
 }

@@ -8,16 +8,12 @@ import javax.swing.JComponent
 
 
 class TypeHintSettingPanel(private val settings: TypeHintSetting) : ImmediateConfigurable {
-    override val mainCheckboxText: String
-        get() = super.mainCheckboxText
+    override val mainCheckboxText = super.mainCheckboxText
     override val cases: List<Case>
         get() {
             return settings.buildOptions()
         }
 
-    override fun reset() {
-        super.reset()
-    }
 
     override fun createComponent(listener: ChangeListener): JComponent {
         return panel {
@@ -31,5 +27,9 @@ class TypeHintSettingPanel(private val settings: TypeHintSetting) : ImmediateCon
                 }
             }
         }
+    }
+
+    override fun reset() {
+
     }
 }

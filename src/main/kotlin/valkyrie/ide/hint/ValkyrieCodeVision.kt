@@ -20,7 +20,6 @@ abstract class ValkyrieCodeVision : DaemonBoundCodeVisionProvider {
     override val defaultAnchor: CodeVisionAnchorKind = CodeVisionAnchorKind.Top
     override val relativeOrderings: List<CodeVisionRelativeOrdering> = emptyList()
 
-
     override fun computeForEditor(editor: Editor, file: PsiFile): List<Pair<TextRange, CodeVisionEntry>> {
         if (file.project.isDefault || file !is ValkyrieFileNode) return emptyList()
         // we want to let this provider work only in tests dedicated for code vision, otherwise they harm performance
