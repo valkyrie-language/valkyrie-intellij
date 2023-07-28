@@ -16,4 +16,7 @@ public interface ValkyrieClassBody extends PsiElement {
     @NotNull
     List<ValkyrieDeclareMethod> getDeclareMethodList();
 
+    @NotNull
+    List<ValkyrieTypeAlias> getTypeAliasList();
+
 }

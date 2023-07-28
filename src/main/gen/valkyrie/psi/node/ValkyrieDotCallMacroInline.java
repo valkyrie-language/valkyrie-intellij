@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieAttributeInline extends PsiElement {
+public interface ValkyrieDotCallMacroInline extends PsiElement {
 
     @Nullable
     ValkyrieArgumentBody getArgumentBody();
