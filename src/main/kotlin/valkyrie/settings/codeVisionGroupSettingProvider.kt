@@ -6,7 +6,7 @@ import com.intellij.codeInsight.codeVision.settings.CodeVisionGroupSettingProvid
 import com.intellij.openapi.project.Project
 
 class codeVisionGroupSettingProvider : CodeVisionGroupSettingProvider {
-    override val groupId = "valkyrie"
+    override val groupId = "effect"
     override val groupName = super.groupName
     override val description = super.description
 

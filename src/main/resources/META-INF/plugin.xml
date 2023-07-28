@@ -103,8 +103,26 @@
 
 		<postFormatProcessor implementation="valkyrie.ide.formatter.ValkyrieAfterFormat"/>
 
-		<!-- Scope -->
-
+		<!-- Inspection -->
+		<globalInspection
+			language="valkyrie"
+			groupPath="Valkyrie"
+			groupKey="inspection.duplicate.group"
+			key="inspection.duplicate.method"
+			implementationClass="valkyrie.ide.lint.FindDuplicateMethod"
+			enabledByDefault="true"
+			level="WARNING"
+		/>
+		<inspectionToolProvider implementation="valkyrie.ide.lint.LocalInspectionFactory"/>
+		<localInspection
+			language="valkyrie"
+			groupPath="Valkyrie"
+			groupKey="inspection.duplicate.group"
+			key="inspection.duplicate.type"
+			implementationClass="valkyrie.ide.lint.FindDuplicateType"
+			enabledByDefault="true"
+			level="ERROR"
+		/>
 
 		<!-- Tests -->
 		<configurationType implementation="valkyrie.ide.runner.ValkyrieConfigurationType"/>
@@ -149,7 +167,6 @@
 			language="valkyrie"
 			implementationClass="valkyrie.ide.hint.VisionAuthor"
 		/>
-
 
 
 		<!-- Lint -->
