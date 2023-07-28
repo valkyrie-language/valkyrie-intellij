@@ -11,12 +11,12 @@ public interface ValkyrieDotCallFor extends PsiElement {
     ValkyrieBlockBody getBlockBody();
 
     @Nullable
+    ValkyrieCasePattern getCasePattern();
+
+    @Nullable
     ValkyrieExpressionInline getExpressionInline();
 
     @Nullable
     ValkyrieIfCondition getIfCondition();
-
-    @Nullable
-    ValkyrieLetPattern getLetPattern();
 
 }

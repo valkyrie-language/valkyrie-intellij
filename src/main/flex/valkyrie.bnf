@@ -232,11 +232,10 @@ effect-type ::= OP_DIV type-expression;
 block-body  ::= BRACE_L block-statement* BRACE_R;
 block-bare  ::= block-statement*;
 // === function statement ===
-let-statement ::= KW_LET let-pattern type-hint? EQUAL expression-root {
+let-statement ::= KW_LET case-pattern type-hint? EQUAL expression-root else-statement? {
     pin = 1
     mixin = "valkyrie.psi.mixin.MixinVariable"
 }
-
 // === function statement ===
 function-call ::=
     namepath argument-body? block-body
@@ -255,11 +254,7 @@ dot-call        ::= OP_AND_THEN? DOT namepath (argument-body | argument-body? bl
 dot-call-inline ::= OP_AND_THEN? DOT namepath argument-body?
 
 
-// === if let statement ===
-// hard to read: KW_IF PARENTHESIS_L (KW_LET|KW_NOT) case-pattern EQUAL expression PARENTHESIS_R block-body
-if-case-statement ::=
-    KW_IF KW_LET case-pattern EQUAL expression-inline block-body else-statement?
-  | KW_IF KW_NOT type-pattern EQUAL expression-inline block-body else-statement?
+
 // === if statement ===
 if-statement ::= if-condition block-body else-if-statement* else-statement? {
 
@@ -273,16 +268,36 @@ else-if-statement ::= KW_ELSE KW_IF expression-inline block-body {
 else-statement ::= KW_ELSE block-body {
     pin = 1
 }
-// === if statement ===
-while-statement ::= attribute-below* control-label? while-kind expression-inline block-body {
+// === while statement ===
+loop-statement ::= control-label? KW_LOOP loop-condition block-body {
     pin = 3
 }
-while-kind ::= KW_WHILE|KW_UNTIL;
-for-statement ::= attribute-below* control-label? KW_FOR let-pattern KW_IN expression-inline if-condition? block-body {
+loop-condition ::= KW_WHILE expression-inline {
+    pin = 1
+}
+while-let-statement ::= control-label? KW_LOOP KW_WHILE KW_LET case-pattern EQUAL expression-inline if-condition? block-body {
     pin = 3
 }
-dot-call-for    ::= OP_AND_THEN? DOT KW_FOR let-pattern expression-inline if-condition? block-body {
+while-statement ::= control-label? KW_LOOP KW_WHILE expression-inline block-body {
     pin = 3
+}
+// === until statement ===
+until-not-statement ::= control-label? KW_LOOP KW_UNTIL KW_NOT type-pattern EQUAL expression-inline block-body {
+    pin = 3
+}
+until-statement ::= control-label? KW_LOOP KW_UNTIL expression-inline block-body {
+    pin = 3
+}
+// === while statement ===
+for-statement ::= attribute-below* control-label? KW_FOR case-pattern KW_IN expression-inline if-condition? block-body {
+    pin = 3
+}
+dot-call-for    ::= OP_AND_THEN? DOT KW_FOR case-pattern expression-inline if-condition? block-body {
+    pin = 3
+}
+// === try let statement ===
+try-let-statement ::= KW_TRY KW_LET case-pattern EQUAL expression-inline if-condition? block-body else-statement? {
+    pin = 2
 }
 // === try statement ===
 try-statement ::= KW_TRY type-expression? block-body {
@@ -314,7 +329,7 @@ match-type ::= KW_TYPE OP_OR? type-pattern (OP_OR type-pattern)* COLON block-bar
 match-case ::= KW_CASE OP_OR? case-pattern (OP_OR case-pattern)* if-condition? COLON block-bare {
     pin = 1
 }
-match-when ::= KW_WHEN infix-logical? expression-inline COLON block-bare {
+match-when ::= KW_WHEN infix-logical? expression COLON block-bare {
     pin = 1
 }
 match-else ::= KW_ELSE COLON block-bare {
@@ -511,14 +526,15 @@ inline-term ::= prefix* inline-atomic inline-suffix* {
 
 }
 inline-atomic ::= PARENTHESIS_L expression-root PARENTHESIS_R
-    | macro-call
-    | function-call-inline
-    | ordinal-range
-    | offset-range
-    | special
-    | namepath
-    | number
-    | string
+    | tuple                 // (1, 2, 3)
+    | macro-call-inline     // @macro()
+    | ordinal-range         // [1:2:3]
+    | offset-range          // ⁅1:2:3⁆
+    | number                // 1
+    | string                // "text"
+    | special               // true, false, null, ...
+    | function-call-inline  // function()
+    | namepath              // Option::None
 // === expression statement ===
 type-expression ::= type-term (type-infix type-term)* {
     mixin = "valkyrie.psi.mixin.MixinTypeExpression"
@@ -546,25 +562,28 @@ generic-argument ::= (annotations identifier EQUAL)? type-expression;
 // === atomic statement ===
 atomic ::=
     PARENTHESIS_L expression-root PARENTHESIS_R
-  | tuple             // ( )
-  | lambda-block      // { }
-  | ordinal-range     // [ ]
-  | offset-range      // ⁅ ⁆
-  | macro-call        // @path::id() { }
-  | slot              // $id
-  | localize-call     // ⸿scope.path
-  | if-case-statement // if case ...
-  | if-statement      // if ...
-  | for-statement     // for ... {...}
-  | while-statement   // while/until {...}
-  | try-statement     // try T {...}
-  | control-raise     // raise T
-  | match-statement   // match ... { ... }
-  | new-value         // new T { ... }
-  | new-object        // object(base): Interface { }
-  | string            // handler"..."
-  | special           // true false
-  | function-call     // path::id() { }
+  | tuple               // ( )
+  | lambda-block        // { }
+  | ordinal-range       // [ ]
+  | offset-range        // ⁅ ⁆
+  | macro-call          // @path::id() { }
+  | slot                // $id
+  | localize-call       // ⸿scope.path
+  | if-statement        // if ...
+  | for-statement       // for ... {...}
+  | while-let-statement // while let
+  | while-statement     // while {...}
+  | until-not-statement // until not
+  | until-statement     // while {...}
+  | try-let-statement   // if case ...
+  | try-statement       // try T {...}
+  | control-raise       // raise T
+  | match-statement     // match ... { ... }
+  | new-value           // new T { ... }
+  | new-object          // object(base): Interface { }
+  | string              // handler"..."
+  | special             // true false
+  | function-call       // path::id() { }
   | namepath
   | number
 // === atomic statement ===

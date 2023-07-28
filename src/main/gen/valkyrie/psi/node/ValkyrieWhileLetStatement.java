@@ -2,10 +2,11 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieIfCaseStatement extends PsiElement {
+public interface ValkyrieWhileLetStatement extends PsiElement {
 
     @Nullable
     ValkyrieBlockBody getBlockBody();
@@ -14,9 +15,12 @@ public interface ValkyrieIfCaseStatement extends PsiElement {
     ValkyrieCasePattern getCasePattern();
 
     @Nullable
-    ValkyrieElseStatement getElseStatement();
+    ValkyrieControlLabel getControlLabel();
 
     @Nullable
     ValkyrieExpressionInline getExpressionInline();
+
+    @Nullable
+    ValkyrieIfCondition getIfCondition();
 
 }

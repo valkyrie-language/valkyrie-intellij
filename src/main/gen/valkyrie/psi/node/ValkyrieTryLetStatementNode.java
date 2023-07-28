@@ -2,34 +2,31 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieForStatementNode extends ValkyrieElement implements ValkyrieForStatement {
+public class ValkyrieTryLetStatementNode extends ValkyrieElement implements ValkyrieTryLetStatement {
 
-    public ValkyrieForStatementNode(@NotNull ASTNode node) {
+    public ValkyrieTryLetStatementNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitForStatement(this);
+        visitor.visitTryLetStatement(this);
     }
 
     @Override
     public void accept(@NotNull PsiElementVisitor visitor) {
         if (visitor instanceof ValkyrieVisitor) accept((ValkyrieVisitor) visitor);
         else super.accept(visitor);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieAttributeBelow> getAttributeBelowList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieAttributeBelow.class);
     }
 
     @Override
@@ -46,8 +43,8 @@ public class ValkyrieForStatementNode extends ValkyrieElement implements Valkyri
 
     @Override
     @Nullable
-    public ValkyrieControlLabel getControlLabel() {
-        return findChildByClass(ValkyrieControlLabel.class);
+    public ValkyrieElseStatement getElseStatement() {
+        return findChildByClass(ValkyrieElseStatement.class);
     }
 
     @Override

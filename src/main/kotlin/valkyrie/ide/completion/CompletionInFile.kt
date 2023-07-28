@@ -15,7 +15,6 @@ class CompletionInFile : ValkyrieCompletionProvider {
         addClasses()
         addFunctions()
         addControls()
-
     }
 }
 
