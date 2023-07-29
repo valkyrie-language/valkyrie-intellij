@@ -4,9 +4,9 @@ import com.intellij.execution.lineMarker.RunLineMarkerContributor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 
-class RunnerProvider : RunLineMarkerContributor() {
+// 该接口非常难用, element 会传入所有 节点, 但是必须是 leaf 节点才能返回 info, 否则会报错
+class ValkyrieRunMarkerContributor : RunLineMarkerContributor() {
     override fun getInfo(element: PsiElement): Info? {
-        // Token needs to be determined, very difficult to use
         return null
     }
 
@@ -15,8 +15,7 @@ class RunnerProvider : RunLineMarkerContributor() {
     }
 
     override fun producesAllPossibleConfigurations(file: PsiFile): Boolean {
-        return super.producesAllPossibleConfigurations(file)
+        return false
     }
 }
-
 

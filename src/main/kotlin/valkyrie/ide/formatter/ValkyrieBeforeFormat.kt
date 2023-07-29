@@ -4,6 +4,7 @@ import com.intellij.application.options.CodeStyle
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.util.TextRange
+import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiRecursiveVisitor
 import com.intellij.psi.impl.source.codeStyle.PreFormatProcessor
@@ -23,11 +24,16 @@ class ValkyrieBeforeFormat : PreFormatProcessor {
     override fun process(element: ASTNode, range: TextRange): TextRange {
         val root = element.psi
         val settings = CodeStyle.getCustomSettings(
-            root.containingFile, ValkyrieCodeStyleSettings::class.java
+            root.containingFile,
+            ValkyrieCodeStyleSettings::class.java
         )
         val visitor = BeforeFormatFixer(settings)
         PsiTreeUtil.processElements(root) { it.accept(visitor); true }
-        return range
+        val project = element.psi.project;
+        val file = element.psi.containingFile
+        val document = PsiDocumentManager.getInstance(project).getDocument(file)
+        // update document cache
+        return TextRange(0, document?.textLength ?: 0)
     }
 
     override fun changesWhitespacesOnly(): Boolean {

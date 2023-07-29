@@ -6,12 +6,13 @@ import com.intellij.psi.PsiElement
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.ValkyrieTypes.KW_CLASS
+import valkyrie.psi.findKeyword
 import valkyrie.psi.node.*
 import javax.swing.Icon
 
 
 abstract class MixinClass(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareClass {
-    val keyword: PsiElement = findKeyword(KW_CLASS)
+
     var fields: MutableList<ValkyrieDeclareFieldNode> = mutableListOf()
 
     override val color: HighlightColor
@@ -38,4 +39,8 @@ abstract class MixinClass(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDe
 val ValkyrieDeclareClass.superClasses: List<ValkyrieInheritItemNode>
     get() {
         return this.classInherit?.inheritItemList?.map { it as ValkyrieInheritItemNode } ?: listOf()
+    }
+val ValkyrieDeclareClass.keyword: PsiElement
+    get() {
+        return findKeyword(KW_CLASS)
     }

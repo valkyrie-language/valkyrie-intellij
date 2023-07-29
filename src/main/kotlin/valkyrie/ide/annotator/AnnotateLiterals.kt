@@ -21,7 +21,7 @@ class AnnotateLiterals : Annotator {
 }
 
 private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) {
-    override fun visitTypeAlias(o: ValkyrieTypeAlias) {
+    override fun visitAssociatedType(o: ValkyrieAssociatedType) {
         fixKeywordType(o.childrenWithLeaves)
     }
 
@@ -29,7 +29,7 @@ private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) 
         fixKeywordFunction(o.childrenWithLeaves)
     }
 
-    //        holder.newAnnotation(HighlightSeverity.INFORMATION, "Base 10 Integer")
+//        holder.newAnnotation(HighlightSeverity.INFORMATION, "Base 10 Integer")
 //            .range(number.textRange)
 //            .withFix(ConvertNumberBase(16))
 //            .withFix(ConvertNumberBase(8))
