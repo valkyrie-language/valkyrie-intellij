@@ -114,15 +114,7 @@
 			level="WARNING"
 		/>
 		<inspectionToolProvider implementation="valkyrie.ide.lint.LocalInspectionFactory"/>
-		<localInspection
-			language="valkyrie"
-			groupPath="Valkyrie"
-			groupKey="inspection.duplicate.group"
-			key="inspection.duplicate.type"
-			implementationClass="valkyrie.ide.lint.FindDuplicateType"
-			enabledByDefault="true"
-			level="ERROR"
-		/>
+
 
 		<!-- Tests -->
 		<configurationType implementation="valkyrie.ide.runner.ValkyrieConfigurationType"/>

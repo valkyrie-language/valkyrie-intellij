@@ -19,3 +19,4 @@ abstract class MixinCasePatternItem(node: ASTNode) : ValkyrieDeclaration(node), 
     }
 }
 
+
