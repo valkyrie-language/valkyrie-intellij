@@ -15,7 +15,6 @@ class VisionUsage : ValkyrieCodeVision() {
     override val groupId: String = PlatformCodeVisionIds.USAGES.key
     override val id: String = "VisionReferences"
     override val name: String = CodeInsightBundle.message("settings.inlay.hints.usages")
-
     /// Removed, it is recommended to click on the mark on the left to jump to find usages
     override fun getCodeVision(element: PsiElement): CodeVisionEntry? {
         return when (element) {

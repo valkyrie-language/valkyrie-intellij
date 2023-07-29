@@ -10,7 +10,7 @@ import valkyrie.language.ValkyrieLanguage
 
 
 class ChainHintProvider : InlayHintsProvider<ChainHintSetting> {
-    override val name = ValkyrieBundle.message("inlay.type.group.name")
+    override val name = ValkyrieBundle.message("inlay.type.name")
     override val group = InlayGroup.METHOD_CHAINS_GROUP
     override val key: SettingsKey<ChainHintSetting> = SettingsKey("chain")
     override val description = super.description

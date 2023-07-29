@@ -19,9 +19,9 @@ class YggdrasilCodeStyleSettings : LanguageCodeStyleSettingsProvider() {
 
 fun inlayOption(id: String, property: KMutableProperty0<Boolean>): Case {
     return Case(
-        ValkyrieBundle.message("hints.${id}.name"),
+        ValkyrieBundle.message("inlay.${id}.name"),
         id,
         property,
-        ValkyrieBundle.message("hints.${id}.detail")
+        ValkyrieBundle.message("inlay.${id}.detail")
     )
 }
