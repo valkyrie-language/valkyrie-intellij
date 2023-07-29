@@ -7,7 +7,13 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieTypeTuple extends PsiElement {
 
-    @NotNull
-    List<ValkyrieTypeExpression> getTypeExpressionList();
+    @Nullable
+    ValkyrieParameterDict getParameterDict();
+
+    @Nullable
+    ValkyrieParameterItem getParameterItem();
+
+    @Nullable
+    ValkyrieParameterList getParameterList();
 
 }

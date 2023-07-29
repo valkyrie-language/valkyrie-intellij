@@ -26,6 +26,7 @@ class TokenHighlighter : SyntaxHighlighter {
             return HighlightColor.KEYWORD
         } else {
             return when (tokenType) {
+                OP_BASE, OP_EXPONENT -> HighlightColor.KEYWORD
                 // operations
                 COLON, EQUAL, BIND, STAR -> HighlightColor.OPERATION
                 // literals
@@ -34,6 +35,8 @@ class TokenHighlighter : SyntaxHighlighter {
                 DECIMAL -> HighlightColor.DECIMAL
                 INTEGER -> HighlightColor.INTEGER
                 NUMBER_SUFFIX -> HighlightColor.SYM_MACRO
+                NUMBER_BASE -> HighlightColor.STRING
+                NUMBER_EXPONENT -> HighlightColor.STRING_ESCAPED
                 // comments
                 COMMENT_LINE -> HighlightColor.COMMENT_LINE
                 COMMENT_BLOCK -> HighlightColor.COMMENT_BLOCK

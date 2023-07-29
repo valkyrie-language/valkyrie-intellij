@@ -11,6 +11,15 @@ public interface ValkyrieTypeAtomic extends PsiElement {
     ValkyrieNamepath getNamepath();
 
     @Nullable
+    ValkyrieParameterDict getParameterDict();
+
+    @Nullable
+    ValkyrieParameterItem getParameterItem();
+
+    @Nullable
+    ValkyrieParameterList getParameterList();
+
+    @Nullable
     ValkyrieString getString();
 
     @Nullable

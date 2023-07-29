@@ -20,7 +20,7 @@ public interface ValkyrieCasePattern extends PsiElement {
     ValkyrieNamepath getNamepath();
 
     @Nullable
-    ValkyrieNumber getNumber();
+    ValkyrieNumberLiteral getNumberLiteral();
 
     @Nullable
     ValkyrieSpecial getSpecial();

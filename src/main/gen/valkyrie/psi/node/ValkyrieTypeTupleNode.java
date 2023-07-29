@@ -27,9 +27,21 @@ public class ValkyrieTypeTupleNode extends ValkyrieElement implements ValkyrieTy
     }
 
     @Override
-    @NotNull
-    public List<ValkyrieTypeExpression> getTypeExpressionList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeExpression.class);
+    @Nullable
+    public ValkyrieParameterDict getParameterDict() {
+        return findChildByClass(ValkyrieParameterDict.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieParameterItem getParameterItem() {
+        return findChildByClass(ValkyrieParameterItem.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieParameterList getParameterList() {
+        return findChildByClass(ValkyrieParameterList.class);
     }
 
 }

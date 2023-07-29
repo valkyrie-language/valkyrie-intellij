@@ -46,29 +46,14 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
     override fun visitElement(element: PsiElement) {
         ProgressManager.checkCanceled()
         when (element.elementType) {
-            ValkyrieTypes.BIND -> {
-                element.replaceToken(ValkyrieTypes.BIND, "←")
-            }
-
-            ValkyrieTypes.INFIX_MULTIPLE -> {
-                element.replaceToken(ValkyrieTypes.INFIX_MULTIPLE, "×")
-            }
-
-            ValkyrieTypes.OP_MUL_ASSIGN -> {
-                element.replaceToken(ValkyrieTypes.OP_MUL_ASSIGN, "×=")
-            }
-
-            ValkyrieTypes.NAME_SCOPE -> {
-                element.replaceToken(ValkyrieTypes.NAME_SCOPE, "⁜")
-            }
-
-            ValkyrieTypes.NAME_SPLIT -> {
-                element.replaceToken(ValkyrieTypes.NAME_SPLIT, "⸬")
-            }
-
-            else -> {
-                element.acceptChildren(this)
-            }
+            ValkyrieTypes.BIND -> element.replaceToken(ValkyrieTypes.BIND, "←")
+            ValkyrieTypes.INFIX_MULTIPLE -> element.replaceToken(ValkyrieTypes.INFIX_MULTIPLE, "×")
+            ValkyrieTypes.OP_MUL_ASSIGN -> element.replaceToken(ValkyrieTypes.OP_MUL_ASSIGN, "×=")
+            ValkyrieTypes.NAME_SCOPE -> element.replaceToken(ValkyrieTypes.NAME_SCOPE, "⁜")
+            ValkyrieTypes.NAME_SPLIT -> element.replaceToken(ValkyrieTypes.NAME_SPLIT, "⸬")
+            ValkyrieTypes.OP_BASE -> element.replaceToken(ValkyrieTypes.OP_BASE, "⁂")
+            ValkyrieTypes.OP_EXPONENT -> element.replaceToken(ValkyrieTypes.OP_EXPONENT, "⁑")
+            else -> element.acceptChildren(this)
         }
     }
 
@@ -83,7 +68,6 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
     override fun visitDeclareGeneric(o: ValkyrieDeclareGeneric) {
         fixGenericBracket(o)
     }
-
 
     override fun visitGenericCallFree(o: ValkyrieGenericCallFree) {
         fixGenericBracket(o)
@@ -103,7 +87,15 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
             }
         }
     }
-
+    override fun visitOffsetRange(o: ValkyrieOffsetRange) {
+        for (child in o.childrenWithLeaves) {
+            when (child.elementType) {
+                ValkyrieTypes.NAME_SPLIT -> child.delete()
+                ValkyrieTypes.BRACKET_L -> child.replaceLeaf(ValkyrieTypes.OFFSET_L, "⁅")
+                ValkyrieTypes.BRACKET_R -> child.replaceLeaf(ValkyrieTypes.OFFSET_R, "⁆")
+            }
+        }
+    }
     override fun visitReturnType(o: ValkyrieReturnType) {
         when (settings.return_type) {
             ReturnType.Ignore -> return
@@ -178,6 +170,7 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
     override fun visitBadRr(o: ValkyrieBadRr) {
         o.replaceLeaf(ValkyrieTypes.OP_GG, "≫")
     }
+
 
     private fun PsiElement.replaceToken(token: IElementType, text: String) {
         if (this.text != text) {

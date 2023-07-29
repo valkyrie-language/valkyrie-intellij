@@ -131,9 +131,11 @@ public interface ValkyrieTypes {
     IElementType NEW_LAMBDA = new ValkyrieElementType("NEW_LAMBDA");
     IElementType NEW_OBJECT = new ValkyrieElementType("NEW_OBJECT");
     IElementType NEW_VALUE = new ValkyrieElementType("NEW_VALUE");
-    IElementType NUMBER = new ValkyrieElementType("NUMBER");
+    IElementType NUMBER_LITERAL = new ValkyrieElementType("NUMBER_LITERAL");
     IElementType OFFSET_RANGE = new ValkyrieElementType("OFFSET_RANGE");
+    IElementType OFFSET_SLICE = new ValkyrieElementType("OFFSET_SLICE");
     IElementType ORDINAL_RANGE = new ValkyrieElementType("ORDINAL_RANGE");
+    IElementType ORDINAL_SLICE = new ValkyrieElementType("ORDINAL_SLICE");
     IElementType PARAMETER_BODY = new ValkyrieElementType("PARAMETER_BODY");
     IElementType PARAMETER_DICT = new ValkyrieElementType("PARAMETER_DICT");
     IElementType PARAMETER_ITEM = new ValkyrieElementType("PARAMETER_ITEM");
@@ -290,6 +292,8 @@ public interface ValkyrieTypes {
     IElementType LOGIC_XOR = new ValkyrieTokenType("LOGIC_XOR");
     IElementType NAME_SCOPE = new ValkyrieTokenType("NAME_SCOPE");
     IElementType NAME_SPLIT = new ValkyrieTokenType("∷");
+    IElementType NUMBER_BASE = new ValkyrieTokenType("NUMBER_BASE");
+    IElementType NUMBER_EXPONENT = new ValkyrieTokenType("NUMBER_EXPONENT");
     IElementType NUMBER_SUFFIX = new ValkyrieTokenType("NUMBER_SUFFIX");
     IElementType OFFSET_L = new ValkyrieTokenType("OFFSET_L");
     IElementType OFFSET_R = new ValkyrieTokenType("OFFSET_R");
@@ -301,6 +305,7 @@ public interface ValkyrieTypes {
     IElementType OP_ARROW2 = new ValkyrieTokenType("OP_ARROW2");
     IElementType OP_ARROW3 = new ValkyrieTokenType("OP_ARROW3");
     IElementType OP_BANG = new ValkyrieTokenType("OP_BANG");
+    IElementType OP_BASE = new ValkyrieTokenType("OP_BASE");
     IElementType OP_CELSIUS = new ValkyrieTokenType("OP_CELSIUS");
     IElementType OP_DEREFERENCE = new ValkyrieTokenType("OP_DEREFERENCE");
     IElementType OP_DIV = new ValkyrieTokenType("OP_DIV");
@@ -310,6 +315,7 @@ public interface ValkyrieTypes {
     IElementType OP_DIV_REM = new ValkyrieTokenType("OP_DIV_REM");
     IElementType OP_DIV_ROUND = new ValkyrieTokenType("OP_DIV_ROUND");
     IElementType OP_EE = new ValkyrieTokenType("OP_EE");
+    IElementType OP_EXPONENT = new ValkyrieTokenType("OP_EXPONENT");
     IElementType OP_FAHRENHEIT = new ValkyrieTokenType("OP_FAHRENHEIT");
     IElementType OP_GEQ = new ValkyrieTokenType("OP_GEQ");
     IElementType OP_GG = new ValkyrieTokenType("≫");
@@ -601,12 +607,16 @@ public interface ValkyrieTypes {
                 return new ValkyrieNewObjectNode(node);
             } else if (type == NEW_VALUE) {
                 return new ValkyrieNewValueNode(node);
-            } else if (type == NUMBER) {
-                return new ValkyrieNumberNode(node);
+            } else if (type == NUMBER_LITERAL) {
+                return new ValkyrieNumberLiteralNode(node);
             } else if (type == OFFSET_RANGE) {
                 return new ValkyrieOffsetRangeNode(node);
+            } else if (type == OFFSET_SLICE) {
+                return new ValkyrieOffsetSliceNode(node);
             } else if (type == ORDINAL_RANGE) {
                 return new ValkyrieOrdinalRangeNode(node);
+            } else if (type == ORDINAL_SLICE) {
+                return new ValkyrieOrdinalSliceNode(node);
             } else if (type == PARAMETER_BODY) {
                 return new ValkyrieParameterBodyNode(node);
             } else if (type == PARAMETER_DICT) {

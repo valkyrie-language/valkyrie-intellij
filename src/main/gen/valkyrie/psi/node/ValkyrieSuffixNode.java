@@ -64,6 +64,18 @@ public class ValkyrieSuffixNode extends ValkyrieElement implements ValkyrieSuffi
 
     @Override
     @Nullable
+    public ValkyrieOffsetSlice getOffsetSlice() {
+        return findChildByClass(ValkyrieOffsetSlice.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieOrdinalSlice getOrdinalSlice() {
+        return findChildByClass(ValkyrieOrdinalSlice.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieTypeExpression getTypeExpression() {
         return findChildByClass(ValkyrieTypeExpression.class);
     }

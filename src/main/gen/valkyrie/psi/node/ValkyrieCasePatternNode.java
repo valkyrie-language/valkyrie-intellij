@@ -52,8 +52,8 @@ public class ValkyrieCasePatternNode extends ValkyrieElement implements Valkyrie
 
     @Override
     @Nullable
-    public ValkyrieNumber getNumber() {
-        return findChildByClass(ValkyrieNumber.class);
+    public ValkyrieNumberLiteral getNumberLiteral() {
+        return findChildByClass(ValkyrieNumberLiteral.class);
     }
 
     @Override

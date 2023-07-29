@@ -52,8 +52,8 @@ public class ValkyrieLoopInlineNode extends ValkyrieElement implements ValkyrieL
 
     @Override
     @Nullable
-    public ValkyrieNumber getNumber() {
-        return findChildByClass(ValkyrieNumber.class);
+    public ValkyrieNumberLiteral getNumberLiteral() {
+        return findChildByClass(ValkyrieNumberLiteral.class);
     }
 
     @Override

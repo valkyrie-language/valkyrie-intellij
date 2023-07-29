@@ -50,4 +50,16 @@ public class ValkyrieInlineSuffixNode extends ValkyrieElement implements Valkyri
         return findChildByClass(ValkyrieIsExpression.class);
     }
 
+    @Override
+    @Nullable
+    public ValkyrieOffsetSlice getOffsetSlice() {
+        return findChildByClass(ValkyrieOffsetSlice.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieOrdinalSlice getOrdinalSlice() {
+        return findChildByClass(ValkyrieOrdinalSlice.class);
+    }
+
 }

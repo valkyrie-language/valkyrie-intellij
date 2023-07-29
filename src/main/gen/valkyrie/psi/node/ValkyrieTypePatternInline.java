@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieTypePatternInline extends PsiElement {
 
     @Nullable
-    ValkyrieNumber getNumber();
+    ValkyrieNumberLiteral getNumberLiteral();
 
     @Nullable
     ValkyrieSpecial getSpecial();

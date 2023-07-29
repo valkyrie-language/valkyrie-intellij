@@ -26,6 +26,12 @@ public interface ValkyrieSuffix extends PsiElement {
     ValkyrieIsStatement getIsStatement();
 
     @Nullable
+    ValkyrieOffsetSlice getOffsetSlice();
+
+    @Nullable
+    ValkyrieOrdinalSlice getOrdinalSlice();
+
+    @Nullable
     ValkyrieTypeExpression getTypeExpression();
 
 }
