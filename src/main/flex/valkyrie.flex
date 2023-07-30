@@ -18,9 +18,10 @@ import static valkyrie.psi.ValkyrieTypes.*;
 %state TextCapture2
 %state TextCapture1
 %state IntegerHandler
+%state AfterNumber
 
 WHITE_SPACE        = [\s\t]
-COMMENT_LINE       = (⍝|[\\]{2})[^\r\n]*
+COMMENT_LINE       = (⍝|[\\]{2}|[/]{2})[^\r\n]*
 COMMENT_BLOCK      = [/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]
 
 COLON    = [:∶：]
@@ -97,8 +98,7 @@ BIN = [0-1]
 HEX = [0-9a-fA-F]
 COLOR = (©|®|\\#)[0-9a-zA-Z]*
 INTEGER = 0|[1-9][_0-9]*
-DECIMAL = {INTEGER}(\.[0-9]+)?
-
+DECIMAL = {INTEGER}\.[0-9]+
 
 
 OP_NOT         = [¬]
@@ -117,10 +117,14 @@ OP_SUB_ASSIGN    = [-][=]
 OP_MUL           = [×]
 OP_MUL_ASSIGN    = [×*][=]
 // start with `/`
-OP_DIV           = [/⁄∕]
-OP_DIV_ASSIGN    = [/⁄∕][=]
-OP_MAP           = [⇴⨵] | [/][@];
-OP_DIV_REM       = [÷]|[/][%]
+OP_DIV             = [/⁄∕]
+OP_DIV_ASSIGN      = {OP_DIV}[=]
+OP_DIV_FLOOR       = {OP_DIV}{DOT}
+OP_DIV_CEIL        = {OP_DIV}[\^]
+OP_DIV_ROUND_FLOOR = {OP_DIV}({DOT}\^)
+OP_DIV_ROUND_CEIL  = {OP_DIV}(\^{DOT})
+OP_DIV_REM         = [÷]|[/][%]
+OP_MAP             = [⇴⨵]|[/][@]
 // start with `%`
 OP_REM           = [⁒%]
 OP_REM_ASSIGN    = [⁒%][=]
@@ -128,9 +132,13 @@ OP_REM_ASSIGN    = [⁒%][=]
 OP_POW           = \^
 OP_POW_ASSIGN    = \^[=]
 
-OP_SQRT2      = [√]
-OP_SQRT3      = [∛]
-OP_SQRT4      = [∜]
+OP_SQRT       = [√]
+OP_SURD3      = [∛]
+OP_SURD4      = [∜]
+
+OP_REV = [⅟]
+OP_HALF = ½
+
 
 OP_UNTIL      = {DOT}{2}[<=]
 
@@ -220,6 +228,10 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
 	">" { return ANGLE_R; }
     "⟨" { return GENERIC_L; }
     "⟩" { return GENERIC_R; }
+    "⌊" { return FLOOR_L; }
+    "⌋" { return FLOOR_R; }
+    "⌈" { return CEIL_L; }
+    "⌉" { return CEIL_R; }
 }
 
 <YYINITIAL> {
@@ -264,19 +276,33 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
     {OP_EE} { return OP_EE;}
     {OP_NE} { return OP_NE; }
 
-
     {OP_ADD}           { return OP_ADD; }
     {OP_ADD_ASSIGN}    { return OP_ADD_ASSIGN; }
+
     {OP_SUB}           { return OP_SUB; }
     {OP_SUB_ASSIGN}    { return OP_SUB_ASSIGN; }
+
     {OP_MUL}           { return OP_MUL; }
     {OP_MUL_ASSIGN}    { return OP_MUL_ASSIGN; }
-    {OP_DIV}           { return OP_DIV; }
-	{OP_DIV_REM}       { return OP_DIV_REM; }
-    {OP_DIV_ASSIGN}    { return OP_DIV_ASSIGN; }
+
+
+    {OP_DIV_ROUND_FLOOR} { return OP_DIV_ROUND; }
+    {OP_DIV_ROUND_CEIL}  { return OP_DIV_ROUND; }
+    {OP_DIV_FLOOR}       { return OP_DIV_FLOOR; }
+    {OP_DIV_CEIL}        { return OP_DIV_CEIL; }
+	{OP_DIV_REM}         { return OP_DIV_REM; }
+    {OP_DIV_ASSIGN}      { return OP_DIV_ASSIGN; }
+    {OP_MAP}             { return OP_MAP; }
+    {OP_DIV}             { return OP_DIV; }
+
 	{OP_REM}           { return OP_REM; }
+	{OP_REM_ASSIGN}    { return OP_REM_ASSIGN; }
+
     {OP_POW}           { return OP_POW; }
-    {OP_POW_ASSIGN}    { return OP_POW_ASSIGN; }
+
+    {OP_SQRT}          { return OP_SQRT; }
+    {OP_SURD3}         { return OP_SURD3; }
+    {OP_SURD4}         { return OP_SURD4; }
 
     // logical
     {LOGIC_AND}  { return LOGIC_AND; }
@@ -286,11 +312,11 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
     {LOGIC_XOR}  { return LOGIC_XOR; }
     {LOGIC_NOR}  { return LOGIC_NOR; }
 
-    {BANG}     { return OP_BANG; }
-    {OP_NOT}      { return OP_NOT; }
-    {OP_AND_THEN} { return OP_AND_THEN; }
-    {OP_SET_THEN} { return OP_SET_THEN; }
-    {OP_UNWRAP_OR}  { return OP_UNWRAP_OR; }
+    {BANG}            { return OP_BANG; }
+    {OP_NOT}          { return OP_NOT; }
+    {OP_AND_THEN}     { return OP_AND_THEN; }
+    {OP_SET_THEN}     { return OP_SET_THEN; }
+    {OP_UNWRAP_OR}    { return OP_UNWRAP_OR; }
     {OP_UNWRAP_ELSE}  { return OP_UNWRAP_ELSE; }
 
     {OP_UNTIL}      { return OP_UNTIL; }
@@ -321,7 +347,18 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
           return STRING_L;
     }
     {COLOR}   { return COLOR; }
-    {INTEGER} { return INTEGER; }
+
+}
+
+<YYINITIAL> {
+    {DECIMAL} { yybegin(AfterNumber);return DECIMAL; }
+    {INTEGER} { yybegin(AfterNumber);return INTEGER; }
+}
+
+<AfterNumber>{
+    {SYMBOW_RAW} { yybegin(YYINITIAL);return NUMBER_SUFFIX; }
+    {SYMBOL}     { yybegin(YYINITIAL);return NUMBER_SUFFIX; }
+    [^]          { yybegin(YYINITIAL);yypushback(yylength()); }
 }
 
 <YYINITIAL> {

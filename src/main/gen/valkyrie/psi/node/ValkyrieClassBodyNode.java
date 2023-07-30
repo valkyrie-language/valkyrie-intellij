@@ -44,4 +44,10 @@ public class ValkyrieClassBodyNode extends ValkyrieElement implements ValkyrieCl
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareMethod.class);
     }
 
+    @Override
+    @NotNull
+    public List<ValkyrieTypeAlias> getTypeAliasList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeAlias.class);
+    }
+
 }

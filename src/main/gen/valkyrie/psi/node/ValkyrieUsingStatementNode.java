@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.mixin.MixinUsing;
 
-public class ValkyrieUsingNode extends MixinUsing implements ValkyrieUsing {
+public class ValkyrieUsingStatementNode extends MixinUsing implements ValkyrieUsingStatement {
 
-    public ValkyrieUsingNode(@NotNull ASTNode node) {
+    public ValkyrieUsingStatementNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitUsing(this);
+        visitor.visitUsingStatement(this);
     }
 
     @Override
