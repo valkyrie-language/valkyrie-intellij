@@ -5,7 +5,7 @@ import com.intellij.codeInspection.LocalInspectionTool
 
 class LocalInspectionFactory : InspectionToolProvider {
     override fun getInspectionClasses(): Array<Class<out LocalInspectionTool>> {
-        return arrayOf()
+        return arrayOf(FindDuplicateType::class.java)
     }
 }
 
