@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieParameterItem extends PsiElement {
+public interface ValkyrieParameterList extends PsiElement {
 
     @NotNull
     ValkyrieAnnotations getAnnotations();
@@ -13,11 +13,8 @@ public interface ValkyrieParameterItem extends PsiElement {
     @Nullable
     ValkyrieDefaultValue getDefaultValue();
 
-    @NotNull
-    ValkyrieIdentifier getIdentifier();
-
     @Nullable
-    ValkyrieParameterKind getParameterKind();
+    ValkyrieIdentifier getIdentifier();
 
     @Nullable
     ValkyrieTypeHint getTypeHint();

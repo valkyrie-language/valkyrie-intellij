@@ -34,4 +34,7 @@ public interface ValkyrieInfix extends PsiElement {
     @Nullable
     ValkyrieInfixLogical getInfixLogical();
 
+    @Nullable
+    ValkyrieInfixMultiple getInfixMultiple();
+
 }

@@ -11,9 +11,6 @@ public interface ValkyrieTryLetStatement extends PsiElement {
     ValkyrieBlockBody getBlockBody();
 
     @Nullable
-    ValkyrieCasePattern getCasePattern();
-
-    @Nullable
     ValkyrieElseStatement getElseStatement();
 
     @Nullable
@@ -21,5 +18,8 @@ public interface ValkyrieTryLetStatement extends PsiElement {
 
     @Nullable
     ValkyrieIfCondition getIfCondition();
+
+    @Nullable
+    ValkyrieLetPattern getLetPattern();
 
 }

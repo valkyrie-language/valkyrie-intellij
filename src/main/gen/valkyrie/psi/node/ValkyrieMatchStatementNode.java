@@ -34,8 +34,8 @@ public class ValkyrieMatchStatementNode extends MixinMatchStatement implements V
 
     @Override
     @Nullable
-    public ValkyrieIdentifier getIdentifier() {
-        return findChildByClass(ValkyrieIdentifier.class);
+    public ValkyrieMatchBind getMatchBind() {
+        return findChildByClass(ValkyrieMatchBind.class);
     }
 
     @Override
@@ -48,12 +48,6 @@ public class ValkyrieMatchStatementNode extends MixinMatchStatement implements V
     @NotNull
     public ValkyrieMatchKind getMatchKind() {
         return findNotNullChildByClass(ValkyrieMatchKind.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieModifier> getModifierList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieModifier.class);
     }
 
 }

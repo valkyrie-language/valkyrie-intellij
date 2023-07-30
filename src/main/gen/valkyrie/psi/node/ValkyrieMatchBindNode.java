@@ -10,14 +10,14 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static valkyrie.psi.ValkyrieTypes.*;
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieLoopWhileNode extends ValkyrieElement implements ValkyrieLoopWhile {
+public class ValkyrieMatchBindNode extends ValkyrieElement implements ValkyrieMatchBind {
 
-    public ValkyrieLoopWhileNode(@NotNull ASTNode node) {
+    public ValkyrieMatchBindNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitLoopWhile(this);
+        visitor.visitMatchBind(this);
     }
 
     @Override
@@ -27,9 +27,15 @@ public class ValkyrieLoopWhileNode extends ValkyrieElement implements ValkyrieLo
     }
 
     @Override
-    @Nullable
-    public ValkyrieExpressionInline getExpressionInline() {
-        return findChildByClass(ValkyrieExpressionInline.class);
+    @NotNull
+    public ValkyrieIdentifier getIdentifier() {
+        return findNotNullChildByClass(ValkyrieIdentifier.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieModifier> getModifierList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieModifier.class);
     }
 
 }

@@ -28,8 +28,20 @@ public class ValkyrieParameterBodyNode extends ValkyrieElement implements Valkyr
 
     @Override
     @NotNull
+    public List<ValkyrieParameterDict> getParameterDictList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieParameterDict.class);
+    }
+
+    @Override
+    @NotNull
     public List<ValkyrieParameterItem> getParameterItemList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieParameterItem.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieParameterList> getParameterListList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieParameterList.class);
     }
 
 }
