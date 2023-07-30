@@ -10,7 +10,7 @@ import valkyrie.language.ValkyrieLanguage
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.ValkyrieForStatement
 import valkyrie.psi.node.ValkyrieForStatementNode
-import valkyrie.psi.node.ValkyrieWhileStatementNode
+import valkyrie.psi.node.ValkyrieLoopStatementNode
 import javax.swing.Action
 import javax.swing.Icon
 
@@ -24,7 +24,7 @@ class ValkyrieBreadcrumbsProvider : BreadcrumbsProvider {
             true
         }
 
-        is ValkyrieWhileStatementNode,
+        is ValkyrieLoopStatementNode,
         is ValkyrieForStatementNode,
         -> {
             true
