@@ -8,9 +8,11 @@ import valkyrie.psi.node.*;
 
 public interface ValkyrieTypes {
 
+    IElementType ALIAS_TYPE = new ValkyrieElementType("ALIAS_TYPE");
     IElementType ANNOTATIONS = new ValkyrieElementType("ANNOTATIONS");
     IElementType ARGUMENT = new ValkyrieElementType("ARGUMENT");
     IElementType ARGUMENT_BODY = new ValkyrieElementType("ARGUMENT_BODY");
+    IElementType ASSOCIATED_TYPE = new ValkyrieElementType("ASSOCIATED_TYPE");
     IElementType ATOMIC = new ValkyrieElementType("ATOMIC");
     IElementType ATTRIBUTE_ABOVE = new ValkyrieElementType("ATTRIBUTE_ABOVE");
     IElementType ATTRIBUTE_BELOW = new ValkyrieElementType("ATTRIBUTE_BELOW");
@@ -175,7 +177,6 @@ public interface ValkyrieTypes {
     IElementType TRY_NOT_STATEMENT = new ValkyrieElementType("TRY_NOT_STATEMENT");
     IElementType TRY_STATEMENT = new ValkyrieElementType("TRY_STATEMENT");
     IElementType TUPLE = new ValkyrieElementType("TUPLE");
-    IElementType TYPE_ALIAS = new ValkyrieElementType("TYPE_ALIAS");
     IElementType TYPE_ATOMIC = new ValkyrieElementType("TYPE_ATOMIC");
     IElementType TYPE_EXPRESSION = new ValkyrieElementType("TYPE_EXPRESSION");
     IElementType TYPE_HINT = new ValkyrieElementType("TYPE_HINT");
@@ -361,12 +362,16 @@ public interface ValkyrieTypes {
     class Factory {
         public static PsiElement createElement(ASTNode node) {
             IElementType type = node.getElementType();
-            if (type == ANNOTATIONS) {
+            if (type == ALIAS_TYPE) {
+                return new ValkyrieAliasTypeNode(node);
+            } else if (type == ANNOTATIONS) {
                 return new ValkyrieAnnotationsNode(node);
             } else if (type == ARGUMENT) {
                 return new ValkyrieArgumentNode(node);
             } else if (type == ARGUMENT_BODY) {
                 return new ValkyrieArgumentBodyNode(node);
+            } else if (type == ASSOCIATED_TYPE) {
+                return new ValkyrieAssociatedTypeNode(node);
             } else if (type == ATOMIC) {
                 return new ValkyrieAtomicNode(node);
             } else if (type == ATTRIBUTE_ABOVE) {
@@ -695,8 +700,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieTryStatementNode(node);
             } else if (type == TUPLE) {
                 return new ValkyrieTupleNode(node);
-            } else if (type == TYPE_ALIAS) {
-                return new ValkyrieTypeAliasNode(node);
             } else if (type == TYPE_ATOMIC) {
                 return new ValkyrieTypeAtomicNode(node);
             } else if (type == TYPE_EXPRESSION) {

@@ -28,6 +28,12 @@ public class ValkyrieClassBodyNode extends ValkyrieElement implements ValkyrieCl
 
     @Override
     @NotNull
+    public List<ValkyrieAssociatedType> getAssociatedTypeList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieAssociatedType.class);
+    }
+
+    @Override
+    @NotNull
     public List<ValkyrieDeclareDomain> getDeclareDomainList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareDomain.class);
     }
@@ -42,12 +48,6 @@ public class ValkyrieClassBodyNode extends ValkyrieElement implements ValkyrieCl
     @NotNull
     public List<ValkyrieDeclareMethod> getDeclareMethodList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareMethod.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieTypeAlias> getTypeAliasList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeAlias.class);
     }
 
 }
