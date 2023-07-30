@@ -5,15 +5,15 @@ import com.intellij.psi.PsiElement
 
 class ImplicitUsage : ImplicitUsageProvider {
     override fun isImplicitUsage(element: PsiElement): Boolean {
-        TODO("Not yet implemented")
+        return true
     }
 
     override fun isImplicitRead(element: PsiElement): Boolean {
-        TODO("Not yet implemented")
+        return true
     }
 
     override fun isImplicitWrite(element: PsiElement): Boolean {
-        TODO("Not yet implemented")
+        return true
     }
 
     override fun isClassWithCustomizedInitialization(element: PsiElement): Boolean {
