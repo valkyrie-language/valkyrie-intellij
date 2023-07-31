@@ -30,6 +30,7 @@ class ParserExtension : GeneratedParserUtilBase() {
             OperatorInfix,
             OperatorSuffix
         );
+
         val Comments: TokenSet = TokenSet.create();
         val CompletionWords: TokenSet = TokenSet.create(
             SYMBOL, SYMBOW_RAW

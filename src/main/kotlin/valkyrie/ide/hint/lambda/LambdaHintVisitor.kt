@@ -3,8 +3,6 @@ package valkyrie.ide.hint.lambda
 import com.intellij.codeInsight.hints.InlayHintsSink
 import com.intellij.codeInsight.hints.presentation.PresentationFactory
 import com.intellij.openapi.editor.Editor
-import com.intellij.refactoring.suggested.endOffset
-import valkyrie.psi.node.ValkyrieDeclareField
 import valkyrie.psi.node.ValkyrieVisitor
 
 @Suppress("UnstableApiUsage")
@@ -19,15 +17,6 @@ class LambdaHintVisitor : ValkyrieVisitor {
         this.setting = setting
     }
 
-    override fun visitDeclareField(o: ValkyrieDeclareField) {
-        if (!setting.showClassFieldType) {
-            return
-        }
-
-        if (o.typeHint == null) {
-            hint(o.identifier.endOffset, ": Any")
-        }
-    }
 
     fun hint(start: Int, text: String) {
         sink.addInlineElement(
