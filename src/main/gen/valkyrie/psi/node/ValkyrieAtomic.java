@@ -44,7 +44,7 @@ public interface ValkyrieAtomic extends PsiElement {
     ValkyrieNewValue getNewValue();
 
     @Nullable
-    ValkyrieNumber getNumber();
+    ValkyrieNumberLiteral getNumberLiteral();
 
     @Nullable
     ValkyrieOffsetRange getOffsetRange();

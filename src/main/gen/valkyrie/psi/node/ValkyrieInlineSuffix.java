@@ -19,4 +19,10 @@ public interface ValkyrieInlineSuffix extends PsiElement {
     @Nullable
     ValkyrieIsExpression getIsExpression();
 
+    @Nullable
+    ValkyrieOffsetSlice getOffsetSlice();
+
+    @Nullable
+    ValkyrieOrdinalSlice getOrdinalSlice();
+
 }

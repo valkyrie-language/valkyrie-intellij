@@ -36,8 +36,8 @@ private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) 
 //            .withFix(ConvertNumberBase(2))
 //            .create()
 
-    override fun visitNumber(o: ValkyrieNumber) {
-        super.visitNumber(o)
+    override fun visitNumberLiteral(o: ValkyrieNumberLiteral) {
+        super.visitNumberLiteral(o)
     }
 
     override fun visitSpecial(o: ValkyrieSpecial) {

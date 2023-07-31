@@ -329,7 +329,7 @@ loop-inline ::= bare-pattern !(PARENTHESIS_L|BRACKET_L|BIND)
     | match-bind? namepath             // loop x <- Option::None in ...
     | match-bind? special              // loop ture in ...
     | match-bind? string               // loop x <- "text" in ...
-    | match-bind? number               // loop x <- 1 in ...
+    | match-bind? number-literal               // loop x <- 1 in ...
 // === for statement ===
 for-statement ::= KW_FOR case-pattern KW_IN expression-inline if-condition? block-body {
     pin = 1
@@ -346,7 +346,7 @@ try-statement ::= KW_TRY type-expression? block-body {
     pin = 1
 }
 // === match statement ===
-match-statement ::= match-kind match-bind? expression-inline match-body {
+match-statement ::= match-kind match-bind? expression-inline? match-body {
     pin = 1
     mixin = "valkyrie.psi.mixin.MixinMatchStatement"
 }
@@ -398,18 +398,18 @@ pattern-object-body ::= BRACE_L (pattern-pair (COMMA pattern-pair)* COMMA?)? BRA
 }
 pattern-pair    ::= annotations identifier (COLON pattern)?;
 pattern-literal ::= annotations pattern-atomic
-pattern-atomic  ::= string | number | special | identifier;
+pattern-atomic  ::= string | number-literal | special | identifier;
 // === is pattern ===
 type-pattern ::= special
     | type-pattern-object // X is Object { a: _ }
     | type-pattern-tuple  // X is Tuple()
     | string              // X is "string"
-    | number              // X is 1
+    | number-literal              // X is 1
     | type-pattern-item   // X is Integer
 type-pattern-inline ::= special
     | type-pattern-tuple  // X is Tuple()
     | string              // X is "string"
-    | number              // X is 1
+    | number-literal              // X is 1
     | type-pattern-item   // X is Integer
 type-pattern-object ::= namepath? BRACE_L (type-pattern-pair (COMMA type-pattern-pair)* COMMA?)? BRACE_R
 type-pattern-tuple  ::= namepath? PARENTHESIS_L (type-pattern (COMMA type-pattern)* COMMA?)? PARENTHESIS_R
@@ -421,7 +421,7 @@ case-pattern ::= special
     | case-pattern-tuple   // case Some()
     | case-pattern-object  // case Object { }
     | string               // case "text"
-    | number               // case 1
+    | number-literal               // case 1
     | namepath !identifier // Option::None
     | case-pattern-item    // mut id
 
@@ -574,7 +574,9 @@ suffix ::= OP_BANG
     | dot-match-call
     | KW_AS type-expression
     | is-statement
-    | generic-call;
+    | generic-call
+    | ordinal-slice
+    | offset-slice
 is-statement ::= (KW_IS KW_NOT | OP_BANG KW_IS | KW_IS) type-pattern
 is-expression ::= (KW_IS KW_NOT | OP_BANG KW_IS | KW_IS) type-pattern-inline
 inline-suffix ::= OP_BANG
@@ -582,8 +584,10 @@ inline-suffix ::= OP_BANG
     | OP_FAHRENHEIT
     | dot-call-macro-inline  // .@macro
     | dot-call-inline        // .@function
-    | generic-call
     | is-expression
+    | generic-call
+    | ordinal-slice
+    | offset-slice
 // === inline expression statement ===
 expression-inline ::= inline-term (infix inline-term)* {
 
@@ -598,9 +602,9 @@ inline-atomic ::= PARENTHESIS_L expression-root PARENTHESIS_R
     | CEIL_L expression-root CEIL_R   // ⌈5/2.0⌉
     | tuple                 // (1, 2, 3)
     | macro-call-inline     // @macro()
-    | ordinal-range         // [1:2:3]
     | offset-range          // ⁅1:2:3⁆
-    | number                // 1
+    | ordinal-range         // [1:2:3]
+    | number-literal                // 1
     | string                // "text"
     | special               // true, false, null, ...
     | function-call-inline  // function()
@@ -615,11 +619,13 @@ type-term ::= type-prefix* type-atomic type-suffix* {
 type-prefix ::= OP_ADD | OP_SUB | OP_BANG;
 type-infix  ::= OP_ADD | OP_ARROW1 | OP_OR;
 type-suffix ::= OP_AND_THEN | generic-call-free;
-type-atomic ::=
-    type-tuple
-  | namepath
-  | string
-type-tuple  ::= PARENTHESIS_L (type-expression (COMMA type-expression)* COMMA?)? PARENTHESIS_R;
+type-atomic ::= PARENTHESIS_L parameter-term PARENTHESIS_R
+    | type-tuple
+    | namepath
+    | string
+type-tuple  ::= PARENTHESIS_L PARENTHESIS_R
+    | PARENTHESIS_L parameter-term COMMA? PARENTHESIS_R
+    | PARENTHESIS_L (parameter-term (COMMA parameter-term)+ COMMA?)? PARENTHESIS_R;
 // === generic statement ===
 generic-call ::=
     NAME_SPLIT? GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R
@@ -636,8 +642,8 @@ atomic ::=    PARENTHESIS_L expression-root PARENTHESIS_R
     | CEIL_L expression-root CEIL_R   // ⌈5/2.0⌉
     | tuple               // ( )
     | lambda-block        // { }
-    | ordinal-range       // [ ]
     | offset-range        // ⁅ ⁆
+    | ordinal-range       // [ ]
     | macro-call          // @path::id() { }
     | slot                // $id
     | localize-call       // ⸿scope.path
@@ -654,10 +660,13 @@ atomic ::=    PARENTHESIS_L expression-root PARENTHESIS_R
     | special             // true false
     | function-call       // path::id() { }
     | namepath
-    | number
+    | number-literal
 // === atomic statement ===
 ordinal-range ::= BRACKET_L (range-item (COMMA range-item)* COMMA?)? BRACKET_R;
-offset-range  ::= OFFSET_L (range-item (COMMA range-item)* COMMA?)? OFFSET_R;
+ordinal-slice ::= OP_AND_THEN? ordinal-range;
+offset-range  ::= OFFSET_L  (range-item (COMMA range-item)* COMMA?)? OFFSET_R
+    | NAME_SPLIT  BRACKET_L (range-item (COMMA range-item)* COMMA?)? BRACKET_R
+offset-slice  ::= OP_AND_THEN? offset-range;
 range-item ::=
     range-lower? COLON range-upper? COLON range-step?
   | range-lower? c2 range-upper?
@@ -680,9 +689,9 @@ argument ::= (identifier EQUAL)? expression-root {
 
 }
 // === literal items ===
-number ::=
-    DECIMAL NUMBER_SUFFIX?
-  | INTEGER NUMBER_SUFFIX?
+number-literal ::=
+    DECIMAL (OP_EXPONENT NUMBER_EXPONENT)? NUMBER_SUFFIX?
+  | INTEGER (OP_BASE NUMBER_BASE)? (OP_EXPONENT NUMBER_EXPONENT)? NUMBER_SUFFIX?
 string ::= identifier? STRING_L STRING_TEXT* STRING_R {
     mixin = "valkyrie.psi.mixin.MixinString"
 }
