@@ -153,7 +153,8 @@
 		<bookmarkProvider implementation="valkyrie.ide.navigation.ValkyrieBookmark"/>
 		<bookmarksListProvider implementation="valkyrie.ide.goto.ValkyrieBookmarkList"/>
 
-		<runLineMarkerContributor language="valkyrie" implementationClass="valkyrie.ide.runner.RunnerProvider"/>
+		<runLineMarkerContributor language="valkyrie"
+		                          implementationClass="valkyrie.ide.runner.ValkyrieRunMarkerContributor"/>
 		<!-- Hint Above -->
 		<vcs.codeVisionLanguageContext
 			language="valkyrie"
@@ -345,6 +346,10 @@
 		<lineMarkerProvider
 			language="valkyrie"
 			implementationClass="valkyrie.ide.line_marker.ValkyrieLineMarkerProvider"
+		/>
+		<lineMarkerProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.runner.ValkyrieRunMarkerProvider"
 		/>
 		<template.postfixTemplateProvider
 			language="valkyrie"
