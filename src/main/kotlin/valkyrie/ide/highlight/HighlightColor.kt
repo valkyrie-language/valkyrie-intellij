@@ -42,6 +42,7 @@ enum class HighlightColor(humanName: Supplier<@AttributeDescriptor String>, defa
     SYM_ARG_SELF(ValkyrieBundle.messagePointer("color.token.symbol.self"), Default.KEYWORD),
     SYM_ARG_SELF_MUT(ValkyrieBundle.messagePointer("color.token.symbol.self.mutable"), Default.KEYWORD),
     SYM_FIELD(ValkyrieBundle.messagePointer("color.token.symbol.field"), Default.INSTANCE_FIELD),
+    SYM_FIELD_SUPER(ValkyrieBundle.messagePointer("color.token.symbol.field.super"), Default.INSTANCE_FIELD),
     SYM_CONSTANT(ValkyrieBundle.messagePointer("color.token.symbol.constant"), Default.CONSTANT),
     SYM_FUNCTION_SELF(ValkyrieBundle.messagePointer("color.token.symbol.function.self"), Default.INSTANCE_METHOD),
     SYM_FUNCTION_FREE(ValkyrieBundle.messagePointer("color.token.symbol.function.free"), Default.STATIC_METHOD),
