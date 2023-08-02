@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieClassBody extends PsiElement {
 
     @NotNull
+    List<ValkyrieAssociatedType> getAssociatedTypeList();
+
+    @NotNull
     List<ValkyrieDeclareDomain> getDeclareDomainList();
 
     @NotNull
@@ -15,8 +18,5 @@ public interface ValkyrieClassBody extends PsiElement {
 
     @NotNull
     List<ValkyrieDeclareMethod> getDeclareMethodList();
-
-    @NotNull
-    List<ValkyrieTypeAlias> getTypeAliasList();
 
 }
