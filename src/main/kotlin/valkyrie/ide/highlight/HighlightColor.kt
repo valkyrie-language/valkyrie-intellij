@@ -12,8 +12,6 @@ import com.intellij.openapi.editor.DefaultLanguageHighlighterColors as Default
 enum class HighlightColor(humanName: Supplier<@AttributeDescriptor String>, default: TextAttributesKey? = null) {
     // 特殊关键词
     KEYWORD(OptionsBundle.messagePointer("options.language.defaults.keyword"), Default.KEYWORD),
-    MODIFIER(ValkyrieBundle.messagePointer("valkyrie.highlight.modifier"), Default.KEYWORD),
-
     // 字面量
     NULL(ValkyrieBundle.messagePointer("color.token.null"), Default.KEYWORD),
     BOOLEAN(ValkyrieBundle.messagePointer("color.token.boolean"), Default.KEYWORD),
@@ -24,19 +22,23 @@ enum class HighlightColor(humanName: Supplier<@AttributeDescriptor String>, defa
     TEXT(ValkyrieBundle.messagePointer("color.token.text"), STRING.textAttributesKey),
     STRING_ESCAPED(ValkyrieBundle.messagePointer("color.token.text"), Default.VALID_STRING_ESCAPE),
     STRING_BAD(ValkyrieBundle.messagePointer("color.token.text"), Default.INVALID_STRING_ESCAPE),
-
     // 标识符
     IDENTIFIER(OptionsBundle.messagePointer("options.language.defaults.identifier"), Default.IDENTIFIER),
+    SYM_MACRO(ValkyrieBundle.messagePointer("color.token.symbol.macro"), Default.METADATA),
+    SYM_ATTRIBUTE(ValkyrieBundle.messagePointer("color.token.symbol.macro.attribute"), Default.METADATA),
+    SYM_MODIFIER(ValkyrieBundle.messagePointer("color.token.symbol.macro.modifier"), Default.KEYWORD),
+
     SYM_TYPE(ValkyrieBundle.messagePointer("color.token.symbol.trait"), Default.CLASS_REFERENCE),
     SYM_GENERIC(ValkyrieBundle.messagePointer("color.token.symbol.trait"), Default.METADATA),
     SYM_TRAIT(ValkyrieBundle.messagePointer("color.token.symbol.trait"), Default.INTERFACE_NAME),
     SYM_CLASS(ValkyrieBundle.messagePointer("color.token.symbol.class"), Default.CLASS_NAME),
+    SYM_STRUCTURE(ValkyrieBundle.messagePointer("color.token.symbol.class.value"), Default.CLASS_NAME),
+
     SYM_VARIANT(ValkyrieBundle.messagePointer("color.token.symbol.variant"), Default.STATIC_FIELD),
-    SYM_MACRO(ValkyrieBundle.messagePointer("color.token.symbol.macro"), Default.METADATA),
     SYM_LOCAL(ValkyrieBundle.messagePointer("color.token.symbol.local"), Default.LOCAL_VARIABLE),
     SYM_LOCAL_MUT(ValkyrieBundle.messagePointer("color.token.symbol.local.mutable"), Default.REASSIGNED_LOCAL_VARIABLE),
     SYM_GLOBAL(ValkyrieBundle.messagePointer("color.token.symbol.global"), Default.GLOBAL_VARIABLE),
-    SYM_GLOBAL_MUT(ValkyrieBundle.messagePointer("color.token.symbol.global.mut"), Default.GLOBAL_VARIABLE),
+    SYM_GLOBAL_MUT(ValkyrieBundle.messagePointer("color.token.symbol.global.mutable"), Default.GLOBAL_VARIABLE),
     SYM_ARG(ValkyrieBundle.messagePointer("color.token.symbol.parameter"), Default.PARAMETER),
     SYM_ARG_MUT(ValkyrieBundle.messagePointer("color.token.symbol.parameter.mutable"), Default.REASSIGNED_PARAMETER),
     SYM_ARG_SELF(ValkyrieBundle.messagePointer("color.token.symbol.self"), Default.KEYWORD),
