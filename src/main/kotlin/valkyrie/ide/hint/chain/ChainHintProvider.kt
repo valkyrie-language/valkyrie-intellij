@@ -2,20 +2,31 @@ package valkyrie.ide.hint.chain
 
 import com.intellij.codeInsight.hints.*
 import com.intellij.codeInsight.hints.ImmediateConfigurable.Case
+import com.intellij.lang.Language
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiFile
 import valkyrie.language.ValkyrieBundle
+import valkyrie.language.ValkyrieLanguage
 
 
 class ChainHintProvider : InlayHintsProvider<ChainHintSetting> {
-    private val rootKey = "v.chain.hints";
-    override val name: String = ValkyrieBundle.message("inlay.type.group.name")
-    override val group: InlayGroup = InlayGroup.METHOD_CHAINS_GROUP
-    override val key: SettingsKey<ChainHintSetting> = SettingsKey(rootKey)
-    override val description: String? = super.description
-    override val previewText = javaClass.getResource("/templates/inlay-hint-chain.vk")?.readText();
+    override val name = ValkyrieBundle.message("inlay.type.group.name")
+    override val group = InlayGroup.METHOD_CHAINS_GROUP
+    override val key: SettingsKey<ChainHintSetting> = SettingsKey("chain")
+    override val description = super.description
+    override val previewText = null;
+    override fun isLanguageSupported(language: Language): Boolean {
+        return language is ValkyrieLanguage
+    }
 
     override fun createSettings() = ChainHintSetting()
+    override fun getCaseDescription(case: Case): String {
+        return ValkyrieBundle.message("hint.${case.id}.detail")
+    }
+
+    override fun getProperty(key: String): String {
+        return "LambdaHintProvider.getProperty"
+    }
 
     override fun createConfigurable(settings: ChainHintSetting): ChainHintSettingPanel {
         return ChainHintSettingPanel(settings)
@@ -25,22 +36,16 @@ class ChainHintProvider : InlayHintsProvider<ChainHintSetting> {
         return ChainHintCollector(settings)
     }
 
-    override fun getCaseDescription(case: Case): String {
-        return "getCaseDescription: ${case.id}"
-    }
-
     override fun getPlaceholdersCollectorFor(
         file: PsiFile,
         editor: Editor,
         settings: ChainHintSetting,
         sink: InlayHintsSink,
     ): InlayHintsCollector? {
-        return null
+        return ChainHintCollector(settings)
     }
 
-    override fun getProperty(key: String): String {
-        return "LambdaHintProvider.getProperty"
-    }
+
 }
 
 

@@ -10,7 +10,7 @@ object ValkyrieFileType : LanguageFileType(ValkyrieLanguage) {
 
     override fun getDescription(): String = ValkyrieBundle.message("filetype.description")
 
-    override fun getDefaultExtension(): String = "vk;valkyrie;"
+    override fun getDefaultExtension(): String = "valkyrie"
 
     override fun getIcon(): Icon = ValkyrieIconProvider.Instance.Valkyrie
 

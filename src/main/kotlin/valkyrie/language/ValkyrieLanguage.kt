@@ -2,6 +2,7 @@ package valkyrie.language
 
 import com.intellij.lang.Language
 import com.intellij.openapi.fileTypes.LanguageFileType
+import valkyrie.language.file.ValkyrieFileType
 
 
 private const val LANGUAGE_ID = "valkyrie"
@@ -19,8 +20,8 @@ object ValkyrieLanguage : Language(LANGUAGE_ID) {
         return "Valkyrie"
     }
 
-    override fun getAssociatedFileType(): LanguageFileType? {
-        return super.getAssociatedFileType()
+    override fun getAssociatedFileType(): LanguageFileType {
+        return ValkyrieFileType
     }
 
     override fun getMimeTypes(): Array<String> {
