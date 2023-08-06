@@ -453,11 +453,11 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
 
     /* ********************************************************** */
     // SEMICOLON
-    //   | let-statement
-    //   | new-lambda
-    //   | attribute-above
-    //   | control-statement
-    //   | expression-root
+    //     | let-statement
+    //     | new-lambda
+    //     | attribute-above
+    //     | control-statement
+    //     | expression-root
     static boolean block_statement(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "block_statement")) return false;
         boolean r;
@@ -1901,6 +1901,45 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
+    // annotations KW_NEURAL identifier declare-generic? class-inherit? type-hint? class-body
+    public static boolean declare_neural(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "declare_neural")) return false;
+        boolean r, p;
+        Marker m = enter_section_(b, l, _NONE_, DECLARE_NEURAL, "<declare neural>");
+        r = annotations(b, l + 1);
+        r = r && consumeToken(b, KW_NEURAL);
+        p = r; // pin = 2
+        r = r && report_error_(b, identifier(b, l + 1));
+        r = p && report_error_(b, declare_neural_3(b, l + 1)) && r;
+        r = p && report_error_(b, declare_neural_4(b, l + 1)) && r;
+        r = p && report_error_(b, declare_neural_5(b, l + 1)) && r;
+        r = p && class_body(b, l + 1) && r;
+        exit_section_(b, l, m, r, p, null);
+        return r || p;
+    }
+
+    // declare-generic?
+    private static boolean declare_neural_3(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "declare_neural_3")) return false;
+        declare_generic(b, l + 1);
+        return true;
+    }
+
+    // class-inherit?
+    private static boolean declare_neural_4(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "declare_neural_4")) return false;
+        class_inherit(b, l + 1);
+        return true;
+    }
+
+    // type-hint?
+    private static boolean declare_neural_5(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "declare_neural_5")) return false;
+        type_hint(b, l + 1);
+        return true;
+    }
+
+    /* ********************************************************** */
     // annotations identifier default-value?
     public static boolean declare_semantic(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "declare_semantic")) return false;
@@ -1917,6 +1956,45 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     private static boolean declare_semantic_2(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "declare_semantic_2")) return false;
         default_value(b, l + 1);
+        return true;
+    }
+
+    /* ********************************************************** */
+    // annotations KW_SINGLETON identifier declare-generic? class-inherit? type-hint? class-body
+    public static boolean declare_singleton(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "declare_singleton")) return false;
+        boolean r, p;
+        Marker m = enter_section_(b, l, _NONE_, DECLARE_SINGLETON, "<declare singleton>");
+        r = annotations(b, l + 1);
+        r = r && consumeToken(b, KW_SINGLETON);
+        p = r; // pin = 2
+        r = r && report_error_(b, identifier(b, l + 1));
+        r = p && report_error_(b, declare_singleton_3(b, l + 1)) && r;
+        r = p && report_error_(b, declare_singleton_4(b, l + 1)) && r;
+        r = p && report_error_(b, declare_singleton_5(b, l + 1)) && r;
+        r = p && class_body(b, l + 1) && r;
+        exit_section_(b, l, m, r, p, null);
+        return r || p;
+    }
+
+    // declare-generic?
+    private static boolean declare_singleton_3(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "declare_singleton_3")) return false;
+        declare_generic(b, l + 1);
+        return true;
+    }
+
+    // class-inherit?
+    private static boolean declare_singleton_4(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "declare_singleton_4")) return false;
+        class_inherit(b, l + 1);
+        return true;
+    }
+
+    // type-hint?
+    private static boolean declare_singleton_5(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "declare_singleton_5")) return false;
+        type_hint(b, l + 1);
         return true;
     }
 
@@ -2030,7 +2108,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // declare-template? annotations KW_UNITE identifier class-inherit unite-body
+    // declare-template? annotations KW_UNITE identifier unite-body
     public static boolean declare_unite(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "declare_unite")) return false;
         boolean r, p;
@@ -2040,7 +2118,6 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = r && consumeToken(b, KW_UNITE);
         p = r; // pin = 3
         r = r && report_error_(b, identifier(b, l + 1));
-        r = p && report_error_(b, class_inherit(b, l + 1)) && r;
         r = p && unite_body(b, l + 1) && r;
         exit_section_(b, l, m, r, p, null);
         return r || p;
@@ -2939,7 +3016,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     /* ********************************************************** */
     // SYMBOL | SYMBOW_RAW
     //     | KW_CLASS
-    //     | KW_FUNCTION | KW_MACRO | KW_COMPONENT
+    //     | KW_FUNCTION | KW_MACRO | KW_COMPONENT | KW_NEURAL
     //     | KW_UNION | KW_IMPORT | KW_AS
     //     | KW_FROM
     public static boolean identifier(PsiBuilder b, int l) {
@@ -2952,6 +3029,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!r) r = consumeToken(b, KW_FUNCTION);
         if (!r) r = consumeToken(b, KW_MACRO);
         if (!r) r = consumeToken(b, KW_COMPONENT);
+        if (!r) r = consumeToken(b, KW_NEURAL);
         if (!r) r = consumeToken(b, KW_UNION);
         if (!r) r = consumeToken(b, KW_IMPORT);
         if (!r) r = consumeToken(b, KW_AS);
@@ -5611,20 +5689,22 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
 
     /* ********************************************************** */
     // declare-namespace
-    //   | using
-    //   | type-alias
-    //   | trait-alias
-    //   | declare-flags
-    //   | declare-enumerate
-    //   | declare-unite
-    //   | declare-class
-    //   | declare-union
-    //   | declare-trait
-    //   | declare-imply
-    //   | declare-function
-    //   | declare-component
-    //   | declare-macro
-    //   | block-statement
+    //     | using
+    //     | type-alias
+    //     | trait-alias
+    //     | declare-flags
+    //     | declare-enumerate
+    //     | declare-unite
+    //     | declare-class
+    //     | declare-union
+    //     | declare-trait
+    //     | declare-imply
+    //     | declare-function
+    //     | declare-component
+    //     | declare-singleton
+    //     | declare-neural
+    //     | declare-macro
+    //     | block-statement
     static boolean statements(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "statements")) return false;
         boolean r;
@@ -5641,6 +5721,8 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!r) r = declare_imply(b, l + 1);
         if (!r) r = declare_function(b, l + 1);
         if (!r) r = declare_component(b, l + 1);
+        if (!r) r = declare_singleton(b, l + 1);
+        if (!r) r = declare_neural(b, l + 1);
         if (!r) r = declare_macro(b, l + 1);
         if (!r) r = block_statement(b, l + 1);
         return r;
