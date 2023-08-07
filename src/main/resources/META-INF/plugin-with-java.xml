@@ -1,0 +1,27 @@
+<idea-plugin>
+	<!--		<platform.lsp.serverSupportProvider implementation="valkyrie.lsp.ValkyrieLanguageProtocol"/>-->
+	<extensions defaultExtensionNs="com.intellij">
+		<!-- Project -->
+		<projectWizard.projectCategory implementation="valkyrie.project.ValkyrieProjectCategory"/>
+		<projectOpenProcessor implementation="valkyrie.project.ValkyrieProjectOpenProcessor"/>
+		<projectImportProvider implementation="valkyrie.project.legion.LegionProvider"/>
+		<projectImportBuilder implementation="valkyrie.project.legion.LegionImporter"/>
+		<!-- Project SDK (Valkyrie Runtime) -->
+		<sdkEditorAdditionalOptionsProvider implementation="valkyrie.project.sdk.ValkyrieSdkAdditionalOptions"/>
+		<!-- Project Artifact -->
+		<packaging.artifactType implementation="valkyrie.project.artifact.ValkyrieArtifactType"/>
+		<packaging.artifactPropertiesProvider
+			implementation="valkyrie.project.artifact.ValkyrieArtifactPropertiesProvider"
+		/>
+		<methodImplementor implementation="valkyrie.ide.codegen.methodImplementor"/>
+		<superMethodsSearch implementation="valkyrie.ide.codegen.superMethodsSearch"/>
+		<deepestSuperMethodsSearch implementation="valkyrie.ide.codegen.deepestSuperMethodsSearch"/>
+		<overridingMethodsSearch implementation="valkyrie.ide.codegen.overridingMethodsSearch"/>
+		<allOverridingMethodsSearch implementation="valkyrie.ide.codegen.allOverridingMethodsSearch"/>
+		<methodReferencesSearch implementation="valkyrie.ide.codegen.methodReferencesSearch"/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij.codeInsight">
+		<implicitSubclassProvider implementation="valkyrie.ide.hint.implicitSubclassProvider"/>
+		<changeVariableTypeQuickFixProvider implementation="valkyrie.ide.hint.changeVariableTypeQuickFixProvider"/>
+	</extensions>
+</idea-plugin>
