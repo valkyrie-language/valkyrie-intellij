@@ -24,11 +24,11 @@ class SymbolDeclarationProviderVisitor : ValkyrieVisitor() {
     val list: MutableList<PsiSymbolDeclaration> = mutableListOf()
 
     override fun visitDeclareClass(o: ValkyrieDeclareClass) {
-        list.add(ValkyriePsiSymbolDeclaration(o))
+//        list.add(ValkyriePsiSymbolDeclaration(o))
     }
 
     override fun visitDeclareImply(o: ValkyrieDeclareImply) {
-        super.visitDeclareImply(o)
+
     }
 }
 
