@@ -101,10 +101,13 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
                         result.add(SubtypeMarker(leaf, definition))
                     }
 
-                    is ValkyrieDeclareTraitNode -> {
-                        result.add(ImplementMarker(leaf, definition))
-                    }
                 }
+            }
+            for (child in o.containingFile?.children ?: arrayOf()) {
+                if (child is ValkyrieDeclareImplyNode) {
+                    result.add(ImplementMarker(leaf, child))
+                }
+
             }
         }
     }

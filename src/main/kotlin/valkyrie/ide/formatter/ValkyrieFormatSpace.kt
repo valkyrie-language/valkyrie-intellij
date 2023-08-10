@@ -6,6 +6,7 @@ import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import com.intellij.psi.tree.TokenSet
 import valkyrie.ide.matcher.ValkyrieBraceMatch
 import valkyrie.language.ValkyrieLanguage
+import valkyrie.psi.ParserExtension
 import valkyrie.psi.ValkyrieTypes.*
 
 private val removeSpaceNewlineBefore = TokenSet.orSet(
@@ -13,11 +14,13 @@ private val removeSpaceNewlineBefore = TokenSet.orSet(
 )
 
 private val removeSpaceBefore = TokenSet.orSet(
+    ParserExtension.OperatorSuffix,
     TokenSet.create(DOT, COLON),
     ValkyrieBraceMatch.Right,
 )
 
 private val removeSpaceAfter = TokenSet.orSet(
+    ParserExtension.OperatorPrefix,
     ValkyrieBraceMatch.Left,
 )
 
@@ -27,11 +30,12 @@ private val removeSpaceNewlineAfter = TokenSet.orSet(
 
 // 左右插入一个空格
 private val spaceAroundOperator = TokenSet.orSet(
-    TokenSet.create(OP_ARROW1)
-//    ValkyrieLexer.OperatorInfix
+    ParserExtension.OperatorInfix,
+    TokenSet.create(OP_ARROW1),
 )
 
 private val addSpaceAfter = TokenSet.orSet(
+
     TokenSet.create(COMMA),
     TokenSet.create(KW_YIELD, KW_RETURN, KW_RESUME, KW_CONTINUE, KW_BREAK)
 )

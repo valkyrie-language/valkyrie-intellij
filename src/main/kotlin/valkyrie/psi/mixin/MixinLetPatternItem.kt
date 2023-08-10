@@ -4,21 +4,12 @@ import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.psi.ValkyrieDeclaration
+import valkyrie.psi.node.ValkyrieBarePatternItem
 import valkyrie.psi.node.ValkyrieIdentifierNode
-import valkyrie.psi.node.ValkyrieLetPatternItem
 import javax.swing.Icon
 
-abstract class MixinLetPatternItem(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieLetPatternItem {
-    override val color: HighlightColor
-        get() {
-            for (modifier in this.modifierList) {
-                if (modifier.text == "mut") {
-                    return HighlightColor.SYM_LOCAL_MUT
-                }
-            }
-            return HighlightColor.SYM_LOCAL
-        }
-
+abstract class MixinLetPatternItem(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieBarePatternItem {
+    override val color = HighlightColor.SYM_ARG
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
         return this.identifier as? ValkyrieIdentifierNode
     }
@@ -27,4 +18,3 @@ abstract class MixinLetPatternItem(node: ASTNode) : ValkyrieDeclaration(node), V
         return AllIcons.Nodes.Field
     }
 }
-
