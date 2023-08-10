@@ -5,12 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieLetPatternItem extends PsiElement {
+public interface ValkyrieNewCopy extends PsiElement {
 
     @NotNull
-    ValkyrieIdentifier getIdentifier();
+    ValkyrieExpressionInline getExpressionInline();
 
-    @NotNull
-    List<ValkyrieModifier> getModifierList();
+    @Nullable
+    ValkyrieNewBody getNewBody();
 
 }

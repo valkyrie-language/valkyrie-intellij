@@ -60,7 +60,7 @@
 // https://github.com/bytecodealliance/fluent/blob/master/spec/fluent.ebnf
 root ::= statements*
 private statements ::= declare-namespace
-    | using
+    | using-statement
     | type-alias
     | trait-alias
     | declare-flags
@@ -88,7 +88,7 @@ declare-namespace ::= annotations KW_NAMESPACE namepath-free {
     mixin = "valkyrie.psi.mixin.MixinNamespace"
 }
 // === class statement ===
-using ::= annotations KW_USING (using-body|using-term) {
+using-statement ::= annotations KW_USING (using-body|using-term) {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinUsing"
 }
@@ -142,9 +142,10 @@ inherit-item  ::= (annotations identifier COLON)? type-expression {
 // === class body ===
 class-body ::= BRACE_L class-item* BRACE_R;
 private class-item ::= SEMICOLON | COMMA
-  | declare-domain
-  | declare-method
-  | declare-field
+    | type-alias
+    | declare-domain
+    | declare-method
+    | declare-field
 // === class field statement ===
 declare-field ::= annotations identifier type-hint? default-value? {
     mixin = "valkyrie.psi.mixin.MixinField"
@@ -258,22 +259,23 @@ let-pattern ::= bare-pattern !let-stop // let ref x, mut y
     | match-bind? case-pattern-object  // let a <- Object {x, y}
     | match-bind? case-pattern-tuple   // let a <- Some(x)
 private let-stop ::= PARENTHESIS_L|BRACKET_L | BRACE_L | BIND;
-// === function statement ===
-function-call ::=
-    namepath argument-body? block-body
-  | namepath argument-body;
-function-call-inline ::= namepath argument-body;
-macro-call    ::= AT namepath (argument-body? class-body|argument-body)? {
-    pin = 1
-}
+// === localize path ===
 localize-call ::= OP_L10N (identifier ((DOT|NAME_SPLIT|OP_DIV) identifier)*)? argument-body? {
     pin = 1
     mixin = "valkyrie.psi.mixin.MixinLocalize"
 }
-macro-call-inline ::= AT namepath argument-body?
-
+// === function call statement ===
+function-call ::= namepath (argument-body? block-body | argument-body);
+function-call-inline ::= namepath argument-body;
 dot-call        ::= OP_AND_THEN? DOT namepath (argument-body | argument-body? block-body)?;
 dot-call-inline ::= OP_AND_THEN? DOT namepath argument-body?
+// === macro call statement ===
+macro-call    ::= AT namepath (argument-body? class-body|argument-body)? {
+    pin = 1
+}
+dot-call-macro        ::= OP_AND_THEN? DOT AT namepath (argument-body? class-body|argument-body)?
+macro-call-inline     ::= AT namepath argument-body?
+dot-call-macro-inline ::= OP_AND_THEN? DOT AT namepath argument-body?
 
 
 
@@ -319,7 +321,7 @@ loop-each      ::= KW_EACH? match-bind? (bare-pattern !(PARENTHESIS_L|BRACKET_L|
     pin = 4
 }
 // === while statement ===
-dot-loop-call  ::= OP_AND_THEN? DOT KW_LOOP control-label? attribute-below* KW_EACH? loop-inline if-condition? block-body {
+dot-loop-call  ::= OP_AND_THEN? DOT KW_LOOP control-label? attribute-below* KW_EACH? loop-inline? if-condition? block-body {
     pin = 3
 }
 loop-inline ::= bare-pattern !(PARENTHESIS_L|BRACKET_L|BIND)
@@ -437,6 +439,9 @@ bare-pattern-item ::= modifier* identifier {
     mixin = "valkyrie.psi.mixin.MixinLetPatternItem"
 }
 // === new expression ===
+new-copy   ::= KW_NEW expression-inline KW_WITH new-body {
+    pin = 3
+}
 new-value  ::= KW_NEW modifier* type-expression? argument-body? new-body {
     pin = 1
     mixin = "valkyrie.psi.mixin.MixinBuilder"
@@ -501,7 +506,11 @@ term ::= prefix* atomic suffix* {
 
 }
 // prefix operators
-prefix ::= OP_ADD | OP_SUB
+prefix ::= OP_ADD
+    | OP_SUB
+    | OP_SQRT
+    | OP_SURD3
+    | OP_SURD4
     | prefix-not
     | prefix-ref   // &p
     | prefix-deref // *p
@@ -514,13 +523,17 @@ prefix-not   ::= OP_NOT | OP_BANG
 // infix operators
 infix  ::= OP_ADD  | OP_ADD_ASSIGN
     | OP_SUB | OP_SUB_ASSIGN
-    | OP_DIV_REM
     | OP_OR
     | OP_AND
     | infix-multiple | OP_MUL_ASSIGN
     | OP_DIV | OP_DIV_ASSIGN
-    | OP_REM
-    | OP_POW | OP_POW_ASSIGN
+    | OP_DIV_ROUND
+    | OP_DIV_FLOOR
+    | OP_DIV_CEIL
+    | OP_DIV_REM
+    | OP_REM | OP_REM_ASSIGN
+    | OP_POW
+    | OP_SQRT
     | OP_LLL | bad-lll  // <<<
     | OP_GGG | bad-rrr  // >>>
     | OP_LL  | bad-ll   // <<
@@ -534,6 +547,8 @@ infix  ::= OP_ADD  | OP_ADD_ASSIGN
     | OP_UNTIL
     | EQUAL | OP_EE | OP_NE
     | infix-logical
+    // sequence
+    | OP_MAP // f /@ x
     | OP_UNWRAP_OR | OP_UNWRAP_ELSE // ??
 infix-less          ::= ANGLE_L;
 infix-less-equal    ::= OP_LEQ;
@@ -541,20 +556,21 @@ infix-greater       ::= ANGLE_R;
 infix-greater-equal ::= OP_GEQ;
 infix-logical       ::= LOGIC_AND | LOGIC_XAND | LOGIC_NAND | LOGIC_OR | LOGIC_XOR | LOGIC_NOR;
 infix-multiple      ::= OP_MUL | STAR;
-
-
 bad-lll ::= ANGLE_L ANGLE_L ANGLE_L
-  | OP_LL ANGLE_L
-  | ANGLE_L OP_LL
+    | OP_LL ANGLE_L
+    | ANGLE_L OP_LL
 bad-rrr ::= ANGLE_R ANGLE_R ANGLE_R
-  | OP_RR ANGLE_R
-  | ANGLE_R OP_RR
+    | OP_RR ANGLE_R
+    | ANGLE_R OP_RR
 bad-ll  ::= ANGLE_L ANGLE_L
 bad-rr  ::= ANGLE_R ANGLE_R
 
 suffix ::= OP_BANG
-    | dot-call
-    | dot-loop-call
+    | OP_CELSIUS
+    | OP_FAHRENHEIT
+    | dot-call-macro         // .@macro() { }
+    | dot-call               // .method
+    | dot-loop-call          // ,loop { }
     | dot-match-call
     | KW_AS type-expression
     | is-statement
@@ -562,7 +578,10 @@ suffix ::= OP_BANG
 is-statement ::= (KW_IS KW_NOT | OP_BANG KW_IS | KW_IS) type-pattern
 is-expression ::= (KW_IS KW_NOT | OP_BANG KW_IS | KW_IS) type-pattern-inline
 inline-suffix ::= OP_BANG
-    | dot-call-inline
+    | OP_CELSIUS
+    | OP_FAHRENHEIT
+    | dot-call-macro-inline  // .@macro
+    | dot-call-inline        // .@function
     | generic-call
     | is-expression
 // === inline expression statement ===
@@ -573,6 +592,10 @@ inline-term ::= prefix* inline-atomic inline-suffix* {
 
 }
 inline-atomic ::= PARENTHESIS_L expression-root PARENTHESIS_R
+    | FLOOR_L expression-root FLOOR_R // ⌊5/2.0⌋
+    | FLOOR_L expression-root CEIL_R  // ⌊5/2.0⌉
+    | CEIL_L expression-root FLOOR_R  // ⌈5/2.0⌋
+    | CEIL_L expression-root CEIL_R   // ⌈5/2.0⌉
     | tuple                 // (1, 2, 3)
     | macro-call-inline     // @macro()
     | ordinal-range         // [1:2:3]
@@ -606,29 +629,32 @@ generic-call-free ::=
   | NAME_SPLIT? ANGLE_L   (generic-argument (COMMA generic-argument)* COMMA?)? ANGLE_R
 generic-argument ::= (annotations identifier EQUAL)? type-expression;
 // === atomic statement ===
-atomic ::=
-    PARENTHESIS_L expression-root PARENTHESIS_R
-  | tuple               // ( )
-  | lambda-block        // { }
-  | ordinal-range       // [ ]
-  | offset-range        // ⁅ ⁆
-  | macro-call          // @path::id() { }
-  | slot                // $id
-  | localize-call       // ⸿scope.path
-  | if-statement        // if ...
-  | loop-statement      // loop {...}
-  | try-let-statement   // if case ...
-  | try-not-statement
-  | try-statement       // try T {...}
-  | control-raise       // raise T
-  | match-statement     // match ... { ... }
-  | new-value           // new T { ... }
-  | new-object          // object(base): Interface { }
-  | string              // handler"..."
-  | special             // true false
-  | function-call       // path::id() { }
-  | namepath
-  | number
+atomic ::=    PARENTHESIS_L expression-root PARENTHESIS_R
+    | FLOOR_L expression-root FLOOR_R // ⌊5/2.0⌋
+    | FLOOR_L expression-root CEIL_R  // ⌊5/2.0⌉
+    | CEIL_L expression-root FLOOR_R  // ⌈5/2.0⌋
+    | CEIL_L expression-root CEIL_R   // ⌈5/2.0⌉
+    | tuple               // ( )
+    | lambda-block        // { }
+    | ordinal-range       // [ ]
+    | offset-range        // ⁅ ⁆
+    | macro-call          // @path::id() { }
+    | slot                // $id
+    | localize-call       // ⸿scope.path
+    | if-statement        // if ...
+    | loop-statement      // loop {...}
+    | try-let-statement   // if case ...
+    | try-not-statement
+    | try-statement       // try T {...}
+    | control-raise       // raise T
+    | match-statement     // match ... { ... }
+    | new-value           // new T { ... }
+    | new-object          // object(base): Interface { }
+    | string              // handler"..."
+    | special             // true false
+    | function-call       // path::id() { }
+    | namepath
+    | number
 // === atomic statement ===
 ordinal-range ::= BRACKET_L (range-item (COMMA range-item)* COMMA?)? BRACKET_R;
 offset-range  ::= OFFSET_L (range-item (COMMA range-item)* COMMA?)? OFFSET_R;
@@ -655,12 +681,8 @@ argument ::= (identifier EQUAL)? expression-root {
 }
 // === literal items ===
 number ::=
-    DECIMAL number-suffix?
-  | INTEGER number-suffix?
-private number-suffix ::=
-    identifier
-  | OP_CELSIUS
-  | OP_FAHRENHEIT
+    DECIMAL NUMBER_SUFFIX?
+  | INTEGER NUMBER_SUFFIX?
 string ::= identifier? STRING_L STRING_TEXT* STRING_R {
     mixin = "valkyrie.psi.mixin.MixinString"
 }
