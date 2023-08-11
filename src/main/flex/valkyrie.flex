@@ -22,7 +22,7 @@ import static valkyrie.psi.ValkyrieTypes.*;
 %state AfterNumberExp
 
 WHITE_SPACE        = [\s\t]
-COMMENT_LINE       = (⍝|[\\]{2}|[/]{2})[^\r\n]*
+COMMENT_LINE       = [#⍝][^\r\n]*
 COMMENT_BLOCK      = [/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]
 
 COLON    = [:∶：]
@@ -144,8 +144,10 @@ OP_SURD3      = [∛]
 OP_SURD4      = [∜]
 
 OP_REV = [⅟]
-OP_HALF = ½
+OP_HALF = [½]
 
+OP_MACRO_BIND = [↯]|@@
+OP_MACRO_FREE = [@]
 
 OP_UNTIL      = {DOT}{2}[<=]
 
@@ -206,11 +208,10 @@ OP_CELSIUS    = ℃
 OP_FAHRENHEIT = ℉
 
 
+OP_REFERENCE = [⁋]
+OP_DEREFERENCE = [¶❡]
 
-OP_REFERENCE = [❡¶]
-OP_DEREFERENCE = [⁋]
-
-RESERVED = [߷⸖↯⍼♯⟀⟁]
+RESERVED = [⸎߷⸖⍼♯⟀⟁]
 %%
 
 <YYINITIAL> {
@@ -257,8 +258,8 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
 
     "|" { return OP_OR;}
     & { return OP_AND;}
-	@ { return AT; }
-	# { return HASH; }
+	{OP_MACRO_BIND} { return OP_MACRO_BIND; }
+	{OP_MACRO_FREE} { return OP_MACRO_FREE; }
     "$" { return DOLLAR; }
 
 

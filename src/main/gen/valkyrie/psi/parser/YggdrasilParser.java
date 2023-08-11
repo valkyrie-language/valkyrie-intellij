@@ -344,26 +344,26 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // HASH OP_POW attribute-item
+    // OP_MACRO_BIND OP_POW attribute-item
     public static boolean attribute_above(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "attribute_above")) return false;
-        if (!nextTokenIs(b, HASH)) return false;
+        if (!nextTokenIs(b, OP_MACRO_BIND)) return false;
         boolean r;
         Marker m = enter_section_(b);
-        r = consumeTokens(b, 0, HASH, OP_POW);
+        r = consumeTokens(b, 0, OP_MACRO_BIND, OP_POW);
         r = r && attribute_item(b, l + 1);
         exit_section_(b, m, ATTRIBUTE_ABOVE, r);
         return r;
     }
 
     /* ********************************************************** */
-    // HASH attribute-item
+    // OP_MACRO_BIND attribute-item
     public static boolean attribute_below(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "attribute_below")) return false;
-        if (!nextTokenIs(b, HASH)) return false;
+        if (!nextTokenIs(b, OP_MACRO_BIND)) return false;
         boolean r;
         Marker m = enter_section_(b);
-        r = consumeToken(b, HASH);
+        r = consumeToken(b, OP_MACRO_BIND);
         r = r && attribute_item(b, l + 1);
         exit_section_(b, m, ATTRIBUTE_BELOW, r);
         return r;
@@ -633,7 +633,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // (modifier|KW_LET)* identifier ((EQUAL|AT|COLON|BIND) case-pattern)?
+    // (modifier|KW_LET)* identifier ((EQUAL|OP_MACRO_FREE|COLON|BIND|OP_ARROW1) case-pattern)?
     public static boolean case_pattern_item(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern_item")) return false;
         boolean r;
@@ -665,14 +665,14 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // ((EQUAL|AT|COLON|BIND) case-pattern)?
+    // ((EQUAL|OP_MACRO_FREE|COLON|BIND|OP_ARROW1) case-pattern)?
     private static boolean case_pattern_item_2(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern_item_2")) return false;
         case_pattern_item_2_0(b, l + 1);
         return true;
     }
 
-    // (EQUAL|AT|COLON|BIND) case-pattern
+    // (EQUAL|OP_MACRO_FREE|COLON|BIND|OP_ARROW1) case-pattern
     private static boolean case_pattern_item_2_0(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern_item_2_0")) return false;
         boolean r;
@@ -683,14 +683,15 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // EQUAL|AT|COLON|BIND
+    // EQUAL|OP_MACRO_FREE|COLON|BIND|OP_ARROW1
     private static boolean case_pattern_item_2_0_0(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern_item_2_0_0")) return false;
         boolean r;
         r = consumeToken(b, EQUAL);
-        if (!r) r = consumeToken(b, AT);
+        if (!r) r = consumeToken(b, OP_MACRO_FREE);
         if (!r) r = consumeToken(b, COLON);
         if (!r) r = consumeToken(b, BIND);
+        if (!r) r = consumeToken(b, OP_ARROW1);
         return r;
     }
 
@@ -764,7 +765,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // (modifier|KW_LET)* identifier (COLON type-expression)? ((EQUAL|AT|BIND) case-pattern)?
+    // (modifier|KW_LET)* identifier (COLON type-expression)? ((EQUAL|OP_MACRO_FREE|BIND|OP_ARROW1) case-pattern)?
     public static boolean case_pattern_pair(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern_pair")) return false;
         boolean r;
@@ -815,14 +816,14 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // ((EQUAL|AT|BIND) case-pattern)?
+    // ((EQUAL|OP_MACRO_FREE|BIND|OP_ARROW1) case-pattern)?
     private static boolean case_pattern_pair_3(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern_pair_3")) return false;
         case_pattern_pair_3_0(b, l + 1);
         return true;
     }
 
-    // (EQUAL|AT|BIND) case-pattern
+    // (EQUAL|OP_MACRO_FREE|BIND|OP_ARROW1) case-pattern
     private static boolean case_pattern_pair_3_0(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern_pair_3_0")) return false;
         boolean r;
@@ -833,13 +834,14 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // EQUAL|AT|BIND
+    // EQUAL|OP_MACRO_FREE|BIND|OP_ARROW1
     private static boolean case_pattern_pair_3_0_0(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern_pair_3_0_0")) return false;
         boolean r;
         r = consumeToken(b, EQUAL);
-        if (!r) r = consumeToken(b, AT);
+        if (!r) r = consumeToken(b, OP_MACRO_FREE);
         if (!r) r = consumeToken(b, BIND);
+        if (!r) r = consumeToken(b, OP_ARROW1);
         return r;
     }
 
@@ -2384,14 +2386,14 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // OP_AND_THEN? DOT AT namepath (argument-body? class-body|argument-body)?
+    // OP_AND_THEN? DOT OP_MACRO_FREE namepath (argument-body? class-body|argument-body)?
     public static boolean dot_call_macro(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "dot_call_macro")) return false;
         if (!nextTokenIs(b, "<dot call macro>", DOT, OP_AND_THEN)) return false;
         boolean r;
         Marker m = enter_section_(b, l, _NONE_, DOT_CALL_MACRO, "<dot call macro>");
         r = dot_call_macro_0(b, l + 1);
-        r = r && consumeTokens(b, 0, DOT, AT);
+        r = r && consumeTokens(b, 0, DOT, OP_MACRO_FREE);
         r = r && namepath(b, l + 1);
         r = r && dot_call_macro_4(b, l + 1);
         exit_section_(b, l, m, r, false, null);
@@ -2442,14 +2444,14 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // OP_AND_THEN? DOT AT namepath argument-body?
+    // OP_AND_THEN? DOT OP_MACRO_FREE namepath argument-body?
     public static boolean dot_call_macro_inline(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "dot_call_macro_inline")) return false;
         if (!nextTokenIs(b, "<dot call macro inline>", DOT, OP_AND_THEN)) return false;
         boolean r;
         Marker m = enter_section_(b, l, _NONE_, DOT_CALL_MACRO_INLINE, "<dot call macro inline>");
         r = dot_call_macro_inline_0(b, l + 1);
-        r = r && consumeTokens(b, 0, DOT, AT);
+        r = r && consumeTokens(b, 0, DOT, OP_MACRO_FREE);
         r = r && namepath(b, l + 1);
         r = r && dot_call_macro_inline_4(b, l + 1);
         exit_section_(b, l, m, r, false, null);
@@ -4275,13 +4277,13 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // AT namepath (argument-body? class-body|argument-body)?
+    // OP_MACRO_FREE namepath (argument-body? class-body|argument-body)?
     public static boolean macro_call(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "macro_call")) return false;
-        if (!nextTokenIs(b, AT)) return false;
+        if (!nextTokenIs(b, OP_MACRO_FREE)) return false;
         boolean r, p;
         Marker m = enter_section_(b, l, _NONE_, MACRO_CALL, null);
-        r = consumeToken(b, AT);
+        r = consumeToken(b, OP_MACRO_FREE);
         p = r; // pin = 1
         r = r && report_error_(b, namepath(b, l + 1));
         r = p && macro_call_2(b, l + 1) && r;
@@ -4326,13 +4328,13 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // AT namepath argument-body?
+    // OP_MACRO_FREE namepath argument-body?
     public static boolean macro_call_inline(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "macro_call_inline")) return false;
-        if (!nextTokenIs(b, AT)) return false;
+        if (!nextTokenIs(b, OP_MACRO_FREE)) return false;
         boolean r;
         Marker m = enter_section_(b);
-        r = consumeToken(b, AT);
+        r = consumeToken(b, OP_MACRO_FREE);
         r = r && namepath(b, l + 1);
         r = r && macro_call_inline_2(b, l + 1);
         exit_section_(b, m, MACRO_CALL_INLINE, r);
@@ -4396,7 +4398,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // KW_CASE OP_OR? case-pattern (OP_OR case-pattern)* if-condition? COLON block-bare
+    // KW_CASE OP_OR? case-pattern (OP_OR case-pattern)* if-condition? OP_ARROW1 block-bare
     public static boolean match_case(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "match_case")) return false;
         if (!nextTokenIs(b, KW_CASE)) return false;
@@ -4408,7 +4410,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = p && report_error_(b, case_pattern(b, l + 1)) && r;
         r = p && report_error_(b, match_case_3(b, l + 1)) && r;
         r = p && report_error_(b, match_case_4(b, l + 1)) && r;
-        r = p && report_error_(b, consumeToken(b, COLON)) && r;
+        r = p && report_error_(b, consumeToken(b, OP_ARROW1)) && r;
         r = p && block_bare(b, l + 1) && r;
         exit_section_(b, l, m, r, p, null);
         return r || p;
@@ -4451,13 +4453,13 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // KW_ELSE COLON block-bare
+    // KW_ELSE OP_ARROW1 block-bare
     public static boolean match_else(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "match_else")) return false;
         if (!nextTokenIs(b, KW_ELSE)) return false;
         boolean r, p;
         Marker m = enter_section_(b, l, _NONE_, MATCH_ELSE, null);
-        r = consumeTokens(b, 1, KW_ELSE, COLON);
+        r = consumeTokens(b, 1, KW_ELSE, OP_ARROW1);
         p = r; // pin = 1
         r = r && block_bare(b, l + 1);
         exit_section_(b, l, m, r, p, null);
@@ -4525,7 +4527,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // KW_TYPE OP_OR? type-pattern (OP_OR type-pattern)* COLON block-bare
+    // KW_TYPE OP_OR? type-pattern (OP_OR type-pattern)* OP_ARROW1 block-bare
     public static boolean match_type(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "match_type")) return false;
         if (!nextTokenIs(b, KW_TYPE)) return false;
@@ -4536,7 +4538,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = r && report_error_(b, match_type_1(b, l + 1));
         r = p && report_error_(b, type_pattern(b, l + 1)) && r;
         r = p && report_error_(b, match_type_3(b, l + 1)) && r;
-        r = p && report_error_(b, consumeToken(b, COLON)) && r;
+        r = p && report_error_(b, consumeToken(b, OP_ARROW1)) && r;
         r = p && block_bare(b, l + 1) && r;
         exit_section_(b, l, m, r, p, null);
         return r || p;
@@ -4572,7 +4574,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // KW_WHEN infix-logical? expression COLON block-bare
+    // KW_WHEN infix-logical? expression OP_ARROW1 block-bare
     public static boolean match_when(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "match_when")) return false;
         if (!nextTokenIs(b, KW_WHEN)) return false;
@@ -4582,7 +4584,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         p = r; // pin = 1
         r = r && report_error_(b, match_when_1(b, l + 1));
         r = p && report_error_(b, expression(b, l + 1)) && r;
-        r = p && report_error_(b, consumeToken(b, COLON)) && r;
+        r = p && report_error_(b, consumeToken(b, OP_ARROW1)) && r;
         r = p && block_bare(b, l + 1) && r;
         exit_section_(b, l, m, r, p, null);
         return r || p;
@@ -4596,7 +4598,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // KW_WITH OP_OR? pattern (OP_OR pattern)* COLON block-bare
+    // KW_WITH OP_OR? pattern (OP_OR pattern)* OP_ARROW1 block-bare
     public static boolean match_with(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "match_with")) return false;
         if (!nextTokenIs(b, KW_WITH)) return false;
@@ -4607,7 +4609,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = r && report_error_(b, match_with_1(b, l + 1));
         r = p && report_error_(b, pattern(b, l + 1)) && r;
         r = p && report_error_(b, match_with_3(b, l + 1)) && r;
-        r = p && report_error_(b, consumeToken(b, COLON)) && r;
+        r = p && report_error_(b, consumeToken(b, OP_ARROW1)) && r;
         r = p && block_bare(b, l + 1) && r;
         exit_section_(b, l, m, r, p, null);
         return r || p;
