@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieOrdinalSliceNode extends ValkyrieElement implements ValkyrieOrdinalSlice {
+public class ValkyrieAliasTypeNode extends ValkyrieElement implements ValkyrieAliasType {
 
-    public ValkyrieOrdinalSliceNode(@NotNull ASTNode node) {
+    public ValkyrieAliasTypeNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitOrdinalSlice(this);
+        visitor.visitAliasType(this);
     }
 
     @Override
@@ -28,8 +31,20 @@ public class ValkyrieOrdinalSliceNode extends ValkyrieElement implements Valkyri
 
     @Override
     @NotNull
-    public ValkyrieOrdinalRange getOrdinalRange() {
-        return findNotNullChildByClass(ValkyrieOrdinalRange.class);
+    public ValkyrieAnnotations getAnnotations() {
+        return findNotNullChildByClass(ValkyrieAnnotations.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieIdentifier getIdentifier() {
+        return findChildByClass(ValkyrieIdentifier.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieTypeExpression getTypeExpression() {
+        return findChildByClass(ValkyrieTypeExpression.class);
     }
 
 }
