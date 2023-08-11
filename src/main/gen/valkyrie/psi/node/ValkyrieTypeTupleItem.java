@@ -2,21 +2,19 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyriePatternAtomic extends PsiElement {
+public interface ValkyrieTypeTupleItem extends PsiElement {
 
     @Nullable
     ValkyrieIdentifier getIdentifier();
 
-    @Nullable
-    ValkyrieNumberLiteral getNumberLiteral();
+    @NotNull
+    List<ValkyrieModifier> getModifierList();
 
-    @Nullable
-    ValkyrieSpecial getSpecial();
-
-    @Nullable
-    ValkyrieString getString();
+    @NotNull
+    ValkyrieTypeExpression getTypeExpression();
 
 }

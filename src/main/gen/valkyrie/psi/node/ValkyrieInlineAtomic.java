@@ -20,7 +20,7 @@ public interface ValkyrieInlineAtomic extends PsiElement {
     ValkyrieNamepath getNamepath();
 
     @Nullable
-    ValkyrieNumber getNumber();
+    ValkyrieNumberLiteral getNumberLiteral();
 
     @Nullable
     ValkyrieOffsetRange getOffsetRange();

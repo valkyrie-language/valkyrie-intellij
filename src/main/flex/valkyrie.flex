@@ -17,8 +17,9 @@ import static valkyrie.psi.ValkyrieTypes.*;
 %state TextCapture3
 %state TextCapture2
 %state TextCapture1
-%state IntegerHandler
 %state AfterNumber
+%state AfterNumberBase
+%state AfterNumberExp
 
 WHITE_SPACE        = [\s\t]
 COMMENT_LINE       = (⍝|[\\]{2}|[/]{2})[^\r\n]*
@@ -94,12 +95,18 @@ ESCAPED = \\.
 NAME_SPLIT = [⸬∷]|{COLON}{2}
 NAME_SCOPE = [⁜]|\\N
 
-BIN = [0-1]
-HEX = [0-9a-fA-F]
-COLOR = (©|®|\\#)[0-9a-zA-Z]*
-INTEGER = 0|[1-9][_0-9]*
-DECIMAL = {INTEGER}\.[0-9]+
-
+COLOR           = (©|®|\\#)[0-9a-zA-Z]*
+// decimal number
+C_DEC           = [0-9]
+C_NUM           = [0-9a-zA-Z]
+INTEGER         = {C_DEC}(_?{C_DEC})*
+DECIMAL         = {C_DEC}(_?{C_DEC})*(\.{C_DEC}(_?{C_DEC})*)
+// number based
+O_BASE          = [⁂]|[*]{3}
+NUMBER_BASE     = {C_NUM}(_?{C_NUM})*(\.{C_NUM}(_?{C_NUM})*)?
+// number exponent
+O_EXPONENT      = [⁑]|[*]{2}
+NUMBER_EXPONENT = [+-]?[0-9]+
 
 OP_NOT         = [¬]
 OP_AND_THEN    = {QUESTION}
@@ -346,19 +353,28 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
           yybegin(TextCapture1);
           return STRING_L;
     }
-    {COLOR}   { return COLOR; }
-
+    {COLOR} { return COLOR; }
 }
-
+// Parsing number with suffix
 <YYINITIAL> {
     {DECIMAL} { yybegin(AfterNumber);return DECIMAL; }
     {INTEGER} { yybegin(AfterNumber);return INTEGER; }
 }
+<AfterNumber> {
+    {O_BASE}{NUMBER_BASE}         { yybegin(AfterNumberBase);yypushback(yylength()); }
+    {O_EXPONENT}{NUMBER_EXPONENT} { yybegin(AfterNumberExp);yypushback(yylength()); }
 
-<AfterNumber>{
     {SYMBOW_RAW} { yybegin(YYINITIAL);return NUMBER_SUFFIX; }
     {SYMBOL}     { yybegin(YYINITIAL);return NUMBER_SUFFIX; }
     [^]          { yybegin(YYINITIAL);yypushback(yylength()); }
+}
+<AfterNumberBase> {
+    {O_BASE}      { return OP_BASE; }
+    {NUMBER_BASE} { yybegin(AfterNumber); return NUMBER_BASE;}
+}
+<AfterNumberExp> {
+    {O_EXPONENT}      { return OP_EXPONENT; }
+    {NUMBER_EXPONENT} { yybegin(AfterNumber); return NUMBER_EXPONENT;}
 }
 
 <YYINITIAL> {
