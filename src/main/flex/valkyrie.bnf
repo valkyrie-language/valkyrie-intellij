@@ -21,7 +21,6 @@
         COMMENT_BLOCK = "Comment Block"
 
         // literal
-        URL = "Url"
         SYMBOL    = "Symbol"
         ESCAPED   = "\escaped"
         INTEGER   = "<<INTEGER>>"
@@ -49,7 +48,6 @@
         ANY_LIST = '‥'
         ANY_DICT = '…'
 
-
         OP_LLL = "⋘"
         OP_GGG = "⋙"
         OP_LL = "≪"
@@ -57,7 +55,7 @@
     ]
 }
 
-// https://github.com/bytecodealliance/fluent/blob/master/spec/fluent.ebnf
+
 root ::= statements*
 private statements ::= declare-namespace
     | using-statement
@@ -619,9 +617,10 @@ type-expression ::= type-term (type-infix type-term)* {
 type-term ::= type-prefix* type-atomic type-suffix* {
 
 }
-type-prefix ::= OP_ADD | OP_SUB | OP_BANG;
+type-prefix ::= OP_ADD | OP_SUB | OP_BANG | OP_AND | STAR;
 type-infix  ::= OP_ADD | OP_ARROW1 | OP_OR;
-type-suffix ::= OP_AND_THEN | generic-call-free;
+type-suffix ::= OP_AND_THEN
+    | generic-call-free;
 type-atomic ::= PARENTHESIS_L parameter-term PARENTHESIS_R
     | type-tuple
     | namepath

@@ -29,6 +29,7 @@ enum class HighlightColor(humanName: Supplier<@AttributeDescriptor String>, defa
     SYM_MODIFIER(ValkyrieBundle.messagePointer("color.token.symbol.macro.modifier"), Default.KEYWORD),
     SYM_DOMAIN(ValkyrieBundle.messagePointer("color.token.symbol.macro.domain"), Default.METADATA),
 
+    // 类型
     SYM_TYPE(ValkyrieBundle.messagePointer("color.token.type.trait"), Default.CLASS_REFERENCE),
     SYM_GENERIC(ValkyrieBundle.messagePointer("color.token.type.generic"), Default.METADATA),
     SYM_TRAIT(ValkyrieBundle.messagePointer("color.token.type.trait"), Default.INTERFACE_NAME),
@@ -36,8 +37,7 @@ enum class HighlightColor(humanName: Supplier<@AttributeDescriptor String>, defa
     SYM_STRUCTURE(ValkyrieBundle.messagePointer("color.token.type.structure"), Default.CLASS_NAME),
     SYM_VARIANT(ValkyrieBundle.messagePointer("color.token.type.variant"), Default.STATIC_FIELD),
 
-
-
+    // 变量
     SYM_LOCAL(ValkyrieBundle.messagePointer("color.token.symbol.local"), Default.LOCAL_VARIABLE),
     SYM_LOCAL_MUT(ValkyrieBundle.messagePointer("color.token.symbol.local.mutable"), Default.REASSIGNED_LOCAL_VARIABLE),
     SYM_GLOBAL(ValkyrieBundle.messagePointer("color.token.symbol.global"), Default.GLOBAL_VARIABLE),
