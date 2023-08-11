@@ -3,11 +3,12 @@ package valkyrie.language.psi
 import com.intellij.lang.ASTFactory
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
-import com.intellij.psi.impl.GeneratedMarkerVisitor
 import com.intellij.psi.impl.PsiManagerEx
-import com.intellij.psi.impl.source.DummyHolderFactory
+import com.intellij.psi.impl.source.DummyHolder
+import com.intellij.psi.impl.source.codeStyle.CodeEditUtil
+import com.intellij.psi.impl.source.tree.LeafElement
 import com.intellij.psi.tree.IElementType
-import valkyrie.psi.ValkyrieTypes
+import valkyrie.language.ValkyrieLanguage
 import valkyrie.psi.node.ValkyrieNumberLiteralNode
 
 class ValkyrieFactory {
@@ -27,17 +28,16 @@ class ValkyrieFactory {
         throw Exception("unreachable: ValkyrieFactory::createNumberLiteral")
     }
 
-    fun createSymbol(kind: IElementType, text: String): PsiElement {
-        return createLeaf(ValkyrieTypes.SYMBOL, text)
-    }
+//    fun createSymbol(kind: IElementType, text: String): LeafElement {
+//        return createLeaf(ValkyrieTypes.SYMBOL, text)
+//    }
 
-    fun createLeaf(kind: IElementType, text: String): PsiElement {
-        val myManager = PsiManagerEx.getInstanceEx(project)
-        val holderElement = DummyHolderFactory.createHolder(myManager, null).treeElement
-        val newElement = ASTFactory.leaf(kind, holderElement.charTable.intern(text))
-        holderElement.rawAddChildren(newElement)
-        GeneratedMarkerVisitor.markGenerated(newElement.psi)
-        return newElement.psi
+    fun createLeaf(kind: IElementType, text: String): LeafElement {
+        val manager = PsiManagerEx.getInstanceEx(project)
+        val holder = DummyHolder(manager, null, null, null, true, ValkyrieLanguage)
+        val leaf = ASTFactory.leaf(kind, holder.treeElement.charTable.intern(text))
+        CodeEditUtil.setNodeGenerated(leaf, true);
+        return leaf
     }
 
 //

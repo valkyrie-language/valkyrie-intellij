@@ -9,8 +9,6 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiNameIdentifierOwner
-import com.intellij.psi.tree.IElementType
-import com.intellij.psi.util.elementType
 import com.intellij.refactoring.suggested.startOffset
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.psi.node.ValkyrieIdentifierNode
@@ -54,15 +52,6 @@ abstract class ValkyrieDeclaration : ValkyrieElement, PsiNameIdentifierOwner {
                     .withTailText(" atomic", true)
             )
         }
-    }
-
-    fun findKeyword(target: IElementType): PsiElement {
-        for (leaf in this.childrenWithLeaves) {
-            if (leaf.elementType == target) {
-                return leaf
-            }
-        }
-        throw Exception("No keyword found")
     }
 
     companion object {
