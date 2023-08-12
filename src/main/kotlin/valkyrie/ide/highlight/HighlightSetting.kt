@@ -24,8 +24,7 @@ class HighlightSetting : ColorSettingsPage {
     override fun getAdditionalHighlightingTagToDescriptorMap() = annotatorTags
 
     override fun getDemoText(): String {
-        val file = javaClass.getResource("/templates/code-highlight.ne");
-        return file?.readText() ?: ""
+        return javaClass.getResource("/templates/code-highlight.vk")?.readText() ?: ""
     }
 }
 
