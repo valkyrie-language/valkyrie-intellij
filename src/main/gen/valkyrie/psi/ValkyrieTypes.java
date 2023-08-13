@@ -26,10 +26,15 @@ public interface ValkyrieTypes {
     IElementType BLOCK_BARE = new ValkyrieElementType("BLOCK_BARE");
     IElementType BLOCK_BODY = new ValkyrieElementType("BLOCK_BODY");
     IElementType CASE_PATTERN = new ValkyrieElementType("CASE_PATTERN");
+    IElementType CASE_PATTERN_BIND = new ValkyrieElementType("CASE_PATTERN_BIND");
+    IElementType CASE_PATTERN_DICT = new ValkyrieElementType("CASE_PATTERN_DICT");
     IElementType CASE_PATTERN_ITEM = new ValkyrieElementType("CASE_PATTERN_ITEM");
-    IElementType CASE_PATTERN_OBJECT = new ValkyrieElementType("CASE_PATTERN_OBJECT");
+    IElementType CASE_PATTERN_KIND = new ValkyrieElementType("CASE_PATTERN_KIND");
+    IElementType CASE_PATTERN_LIST = new ValkyrieElementType("CASE_PATTERN_LIST");
+    IElementType CASE_PATTERN_MAIN = new ValkyrieElementType("CASE_PATTERN_MAIN");
     IElementType CASE_PATTERN_PAIR = new ValkyrieElementType("CASE_PATTERN_PAIR");
-    IElementType CASE_PATTERN_TUPLE = new ValkyrieElementType("CASE_PATTERN_TUPLE");
+    IElementType CASE_PATTERN_REST = new ValkyrieElementType("CASE_PATTERN_REST");
+    IElementType CASE_PATTERN_TOP = new ValkyrieElementType("CASE_PATTERN_TOP");
     IElementType CLASS_BODY = new ValkyrieElementType("CLASS_BODY");
     IElementType CLASS_INHERIT = new ValkyrieElementType("CLASS_INHERIT");
     IElementType CONTROL_BREAK = new ValkyrieElementType("CONTROL_BREAK");
@@ -270,6 +275,7 @@ public interface ValkyrieTypes {
     IElementType KW_RETURN = new ValkyrieTokenType("KW_RETURN");
     IElementType KW_SINGLETON = new ValkyrieTokenType("KW_SINGLETON");
     IElementType KW_TEMPLATE = new ValkyrieTokenType("KW_TEMPLATE");
+    IElementType KW_THEN = new ValkyrieTokenType("KW_THEN");
     IElementType KW_THROUGH = new ValkyrieTokenType("KW_THROUGH");
     IElementType KW_TRAIT = new ValkyrieTokenType("KW_TRAIT");
     IElementType KW_TRY = new ValkyrieTokenType("KW_TRY");
@@ -397,14 +403,24 @@ public interface ValkyrieTypes {
                 return new ValkyrieBlockBodyNode(node);
             } else if (type == CASE_PATTERN) {
                 return new ValkyrieCasePatternNode(node);
+            } else if (type == CASE_PATTERN_BIND) {
+                return new ValkyrieCasePatternBindNode(node);
+            } else if (type == CASE_PATTERN_DICT) {
+                return new ValkyrieCasePatternDictNode(node);
             } else if (type == CASE_PATTERN_ITEM) {
                 return new ValkyrieCasePatternItemNode(node);
-            } else if (type == CASE_PATTERN_OBJECT) {
-                return new ValkyrieCasePatternObjectNode(node);
+            } else if (type == CASE_PATTERN_KIND) {
+                return new ValkyrieCasePatternKindNode(node);
+            } else if (type == CASE_PATTERN_LIST) {
+                return new ValkyrieCasePatternListNode(node);
+            } else if (type == CASE_PATTERN_MAIN) {
+                return new ValkyrieCasePatternMainNode(node);
             } else if (type == CASE_PATTERN_PAIR) {
                 return new ValkyrieCasePatternPairNode(node);
-            } else if (type == CASE_PATTERN_TUPLE) {
-                return new ValkyrieCasePatternTupleNode(node);
+            } else if (type == CASE_PATTERN_REST) {
+                return new ValkyrieCasePatternRestNode(node);
+            } else if (type == CASE_PATTERN_TOP) {
+                return new ValkyrieCasePatternTopNode(node);
             } else if (type == CLASS_BODY) {
                 return new ValkyrieClassBodyNode(node);
             } else if (type == CLASS_INHERIT) {

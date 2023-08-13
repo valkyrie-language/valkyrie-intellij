@@ -22,8 +22,8 @@ class ValkyrieVariableCollector : ValkyrieVisitor() {
     override fun visitLetPattern(o: ValkyrieLetPattern) {
         o.barePattern?.let { visitBarePattern(it) }
         o.matchBind?.let { visitMatchBind(it) }
-        o.casePatternTuple?.let { visitCasePatternTuple(it) }
-        o.casePatternObject?.let { visitCasePatternObject(it) }
+        o.casePatternDict?.let { visitCasePatternDict(it) }
+        o.casePatternList?.let { visitCasePatternList(it) }
     }
 
     override fun visitBarePattern(o: ValkyrieBarePattern) {
@@ -36,10 +36,9 @@ class ValkyrieVariableCollector : ValkyrieVisitor() {
         list.add(o.identifier)
     }
 
-    override fun visitCasePatternTuple(o: ValkyrieCasePatternTuple) {
-        super.visitCasePatternTuple(o)
-    }
+    override fun visitCasePatternList(o: ValkyrieCasePatternList) {
 
+    }
     override fun visitPatternObject(o: ValkyriePatternObject) {
         super.visitPatternObject(o)
     }

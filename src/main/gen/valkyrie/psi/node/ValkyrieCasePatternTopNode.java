@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
-import valkyrie.psi.mixin.MixinCasePatternPair;
 
-public class ValkyrieCasePatternPairNode extends MixinCasePatternPair implements ValkyrieCasePatternPair {
+import valkyrie.psi.ValkyrieElement;
 
-    public ValkyrieCasePatternPairNode(@NotNull ASTNode node) {
+public class ValkyrieCasePatternTopNode extends ValkyrieElement implements ValkyrieCasePatternTop {
+
+    public ValkyrieCasePatternTopNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitCasePatternPair(this);
+        visitor.visitCasePatternTop(this);
     }
 
     @Override
@@ -34,14 +37,8 @@ public class ValkyrieCasePatternPairNode extends MixinCasePatternPair implements
 
     @Override
     @Nullable
-    public ValkyrieCasePatternBind getCasePatternBind() {
-        return findChildByClass(ValkyrieCasePatternBind.class);
-    }
-
-    @Override
-    @NotNull
     public ValkyrieIdentifier getIdentifier() {
-        return findNotNullChildByClass(ValkyrieIdentifier.class);
+        return findChildByClass(ValkyrieIdentifier.class);
     }
 
     @Override

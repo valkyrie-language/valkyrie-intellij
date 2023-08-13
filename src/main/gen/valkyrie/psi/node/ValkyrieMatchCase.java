@@ -11,7 +11,10 @@ public interface ValkyrieMatchCase extends PsiElement {
     ValkyrieBlockBare getBlockBare();
 
     @NotNull
-    List<ValkyrieCasePattern> getCasePatternList();
+    List<ValkyrieCasePatternKind> getCasePatternKindList();
+
+    @NotNull
+    List<ValkyrieCasePatternTop> getCasePatternTopList();
 
     @Nullable
     ValkyrieIfCondition getIfCondition();

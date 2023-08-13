@@ -73,6 +73,7 @@ OP_LABEL = [※]|\\l
 KW_EACH  = each
 
 KW_IF    = if
+KW_THEN  = then
 KW_ELSE  = else
 KW_IS    = is
 KW_NOT   = not
@@ -411,6 +412,7 @@ RESERVED = [⸎߷⸖⍼♯⟀⟁]
     {KW_LAMBDA}    { return KW_LAMBDA; }
 
     {KW_IF}        { return KW_IF; }
+    {KW_THEN}      { return KW_THEN; }
     {KW_ELSE}      { return KW_ELSE; }
 
     {KW_LOOP}      { return KW_LOOP; }

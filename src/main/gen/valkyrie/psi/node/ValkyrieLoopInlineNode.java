@@ -34,8 +34,8 @@ public class ValkyrieLoopInlineNode extends ValkyrieElement implements ValkyrieL
 
     @Override
     @Nullable
-    public ValkyrieCasePatternTuple getCasePatternTuple() {
-        return findChildByClass(ValkyrieCasePatternTuple.class);
+    public ValkyrieCasePatternList getCasePatternList() {
+        return findChildByClass(ValkyrieCasePatternList.class);
     }
 
     @Override

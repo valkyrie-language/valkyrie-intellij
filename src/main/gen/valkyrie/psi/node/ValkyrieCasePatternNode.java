@@ -28,20 +28,14 @@ public class ValkyrieCasePatternNode extends ValkyrieElement implements Valkyrie
 
     @Override
     @Nullable
-    public ValkyrieCasePatternItem getCasePatternItem() {
-        return findChildByClass(ValkyrieCasePatternItem.class);
+    public ValkyrieCasePatternDict getCasePatternDict() {
+        return findChildByClass(ValkyrieCasePatternDict.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieCasePatternObject getCasePatternObject() {
-        return findChildByClass(ValkyrieCasePatternObject.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieCasePatternTuple getCasePatternTuple() {
-        return findChildByClass(ValkyrieCasePatternTuple.class);
+    public ValkyrieCasePatternList getCasePatternList() {
+        return findChildByClass(ValkyrieCasePatternList.class);
     }
 
     @Override

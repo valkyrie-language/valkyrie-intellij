@@ -11,10 +11,10 @@ public interface ValkyrieLetPattern extends PsiElement {
     ValkyrieBarePattern getBarePattern();
 
     @Nullable
-    ValkyrieCasePatternObject getCasePatternObject();
+    ValkyrieCasePatternDict getCasePatternDict();
 
     @Nullable
-    ValkyrieCasePatternTuple getCasePatternTuple();
+    ValkyrieCasePatternList getCasePatternList();
 
     @Nullable
     ValkyrieMatchBind getMatchBind();

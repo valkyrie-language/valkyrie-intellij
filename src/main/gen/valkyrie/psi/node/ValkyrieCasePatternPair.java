@@ -10,6 +10,9 @@ public interface ValkyrieCasePatternPair extends PsiElement {
     @Nullable
     ValkyrieCasePattern getCasePattern();
 
+    @Nullable
+    ValkyrieCasePatternBind getCasePatternBind();
+
     @NotNull
     ValkyrieIdentifier getIdentifier();
 
