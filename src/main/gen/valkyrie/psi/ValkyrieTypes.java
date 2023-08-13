@@ -357,7 +357,6 @@ public interface ValkyrieTypes {
     IElementType STRING_TEXT = new ValkyrieTokenType("STRING_TEXT");
     IElementType SYMBOL = new ValkyrieTokenType("Symbol");
     IElementType SYMBOW_RAW = new ValkyrieTokenType("SYMBOW_RAW");
-    IElementType URL = new ValkyrieTokenType("Url");
 
     class Factory {
         public static PsiElement createElement(ASTNode node) {

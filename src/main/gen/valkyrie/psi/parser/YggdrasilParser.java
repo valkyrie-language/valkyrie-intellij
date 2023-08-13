@@ -6935,7 +6935,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // OP_ADD | OP_SUB | OP_BANG
+    // OP_ADD | OP_SUB | OP_BANG | OP_AND | STAR
     public static boolean type_prefix(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "type_prefix")) return false;
         boolean r;
@@ -6943,12 +6943,15 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = consumeToken(b, OP_ADD);
         if (!r) r = consumeToken(b, OP_SUB);
         if (!r) r = consumeToken(b, OP_BANG);
+        if (!r) r = consumeToken(b, OP_AND);
+        if (!r) r = consumeToken(b, STAR);
         exit_section_(b, l, m, r, false, null);
         return r;
     }
 
     /* ********************************************************** */
-    // OP_AND_THEN | generic-call-free
+    // OP_AND_THEN
+    //     | generic-call-free
     public static boolean type_suffix(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "type_suffix")) return false;
         boolean r;
