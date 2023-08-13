@@ -8,10 +8,10 @@ import valkyrie.psi.ValkyrieTypes
 
 
 class ValkyrieCommenter : CodeDocumentationAwareCommenter {
-    override fun getLineCommentPrefix() = "⍝"
-    override fun getDocumentationCommentLinePrefix() = "⍝?"
+    override fun getLineCommentPrefix() = "#"
+    override fun getDocumentationCommentLinePrefix() = "#?"
     override fun getLineCommentPrefixes(): MutableList<String> {
-        return mutableListOf("⍝", "\\\\")
+        return mutableListOf("#", "\\\\")
     }
 
     override fun getLineCommentTokenType(): IElementType {
