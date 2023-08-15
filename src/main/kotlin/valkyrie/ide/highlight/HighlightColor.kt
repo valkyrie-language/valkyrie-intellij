@@ -66,7 +66,7 @@ enum class HighlightColor(humanName: Supplier<@AttributeDescriptor String>, defa
     OP_STRING(ValkyrieBundle.messagePointer("color.token.string.prefix"), Default.KEYWORD),
     ;
 
-    val textAttributesKey: TextAttributesKey = TextAttributesKey.createTextAttributesKey("voml.lang.$name", default)
+    val textAttributesKey: TextAttributesKey = TextAttributesKey.createTextAttributesKey("VALKYRIE.$name", default)
     val attributesDescriptor: AttributesDescriptor = AttributesDescriptor(humanName, textAttributesKey)
     val testSeverity: HighlightSeverity = HighlightSeverity(name, HighlightSeverity.INFORMATION.myVal)
 }
