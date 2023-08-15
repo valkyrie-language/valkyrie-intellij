@@ -2,7 +2,6 @@
 package valkyrie.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
@@ -10,6 +9,9 @@ public interface ValkyrieCasePatternTop extends PsiElement {
 
     @Nullable
     ValkyrieCasePattern getCasePattern();
+
+    @Nullable
+    ValkyrieCasePatternBind getCasePatternBind();
 
     @Nullable
     ValkyrieIdentifier getIdentifier();

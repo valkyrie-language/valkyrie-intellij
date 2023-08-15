@@ -50,7 +50,6 @@ open class PostfixTemplateSlotSelector : PostfixTemplate {
                 }
 
                 is ValkyrieLoopStatementNode,
-                is ValkyrieForStatementNode,
                 is ValkyrieIfStatementNode,
                 -> {
                     return mutableListOf(ancestor)
