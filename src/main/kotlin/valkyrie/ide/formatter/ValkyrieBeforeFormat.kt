@@ -4,6 +4,7 @@ import com.intellij.application.options.CodeStyle
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.util.TextRange
+import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiRecursiveVisitor
 import com.intellij.psi.impl.source.codeStyle.PreFormatProcessor
@@ -13,7 +14,7 @@ import com.intellij.psi.util.elementType
 import com.intellij.psi.util.firstLeaf
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings.ReturnType
-import valkyrie.psi.ValkyrieTypes
+import valkyrie.psi.ValkyrieTypes.*
 import valkyrie.psi.childrenWithLeaves
 import valkyrie.psi.node.*
 import valkyrie.psi.replaceLeaf
@@ -28,7 +29,11 @@ class ValkyrieBeforeFormat : PreFormatProcessor {
         )
         val visitor = BeforeFormatFixer(settings)
         PsiTreeUtil.processElements(root) { it.accept(visitor); true }
-        return element.textRange
+        val project = element.psi.project;
+        val file = element.psi.containingFile
+        val document = PsiDocumentManager.getInstance(project).getDocument(file)
+        // refresh document cache
+        return TextRange(0, document?.textLength ?: 0)
     }
 
     override fun changesWhitespacesOnly(): Boolean {
@@ -47,13 +52,15 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
     override fun visitElement(element: PsiElement) {
         ProgressManager.checkCanceled()
         when (element.elementType) {
-            ValkyrieTypes.BIND -> element.replaceToken(ValkyrieTypes.BIND, "←")
-            ValkyrieTypes.INFIX_MULTIPLE -> element.replaceToken(ValkyrieTypes.INFIX_MULTIPLE, "×")
-            ValkyrieTypes.OP_MUL_ASSIGN -> element.replaceToken(ValkyrieTypes.OP_MUL_ASSIGN, "×=")
-            ValkyrieTypes.NAME_SCOPE -> element.replaceToken(ValkyrieTypes.NAME_SCOPE, "⁜")
-            ValkyrieTypes.NAME_SPLIT -> element.replaceToken(ValkyrieTypes.NAME_SPLIT, "⸬")
-            ValkyrieTypes.OP_BASE -> element.replaceToken(ValkyrieTypes.OP_BASE, "⁂")
-            ValkyrieTypes.OP_EXPONENT -> element.replaceToken(ValkyrieTypes.OP_EXPONENT, "⁑")
+            BIND -> element.replaceToken(BIND, "←")
+            INFIX_MULTIPLE -> element.replaceToken(INFIX_MULTIPLE, "×")
+            OP_MUL_ASSIGN -> element.replaceToken(OP_MUL_ASSIGN, "×=")
+            NAME_SCOPE -> element.replaceToken(NAME_SCOPE, "⁜")
+            NAME_SPLIT -> element.replaceToken(NAME_SPLIT, "⸬")
+            OP_BASE -> element.replaceToken(OP_BASE, "⁂")
+            OP_EXPONENT -> element.replaceToken(OP_EXPONENT, "⁑")
+            OP_MACRO_LOWER -> element.replaceToken(OP_MACRO_LOWER, "↯")
+            OP_MACRO_UPPER -> element.replaceToken(OP_MACRO_UPPER, "↸")
             else -> element.acceptChildren(this)
         }
     }
@@ -82,9 +89,9 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
     private fun fixGenericBracket(o: PsiElement) {
         for (child in o.childrenWithLeaves) {
             when (child.elementType) {
-                ValkyrieTypes.NAME_SPLIT -> child.delete()
-                ValkyrieTypes.ANGLE_L -> child.replaceLeaf(ValkyrieTypes.GENERIC_L, "⟨")
-                ValkyrieTypes.ANGLE_R -> child.replaceLeaf(ValkyrieTypes.GENERIC_R, "⟩")
+                NAME_SPLIT -> child.delete()
+                ANGLE_L -> child.replaceLeaf(GENERIC_L, "⟨")
+                ANGLE_R -> child.replaceLeaf(GENERIC_R, "⟩")
             }
         }
     }
@@ -92,9 +99,9 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
     override fun visitOffsetRange(o: ValkyrieOffsetRange) {
         for (child in o.childrenWithLeaves) {
             when (child.elementType) {
-                ValkyrieTypes.NAME_SPLIT -> child.delete()
-                ValkyrieTypes.BRACKET_L -> child.replaceLeaf(ValkyrieTypes.OFFSET_L, "⁅")
-                ValkyrieTypes.BRACKET_R -> child.replaceLeaf(ValkyrieTypes.OFFSET_R, "⁆")
+                NAME_SPLIT -> child.delete()
+                BRACKET_L -> child.replaceLeaf(OFFSET_L, "⁅")
+                BRACKET_R -> child.replaceLeaf(OFFSET_R, "⁆")
             }
         }
     }
@@ -102,9 +109,9 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
     override fun visitReturnType(o: ValkyrieReturnType) {
         when (settings.return_type) {
             ReturnType.Ignore -> return
-            ReturnType.Colon -> o.firstChild.replaceLeaf(ValkyrieTypes.COLON, ":")
-            ReturnType.Arrow -> o.firstChild.replaceLeaf(ValkyrieTypes.OP_ARROW1, "->")
-            ReturnType.UnicodeArrow -> o.firstChild.replaceLeaf(ValkyrieTypes.OP_ARROW1, "⟶")
+            ReturnType.Colon -> o.firstChild.replaceLeaf(COLON, ":")
+            ReturnType.Arrow -> o.firstChild.replaceLeaf(OP_ARROW1, "->")
+            ReturnType.UnicodeArrow -> o.firstChild.replaceLeaf(OP_ARROW1, "⟶")
         }
     }
 
@@ -117,8 +124,8 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
             ValkyrieCodeStyleSettings.CommaOrSemicolon.Nothing -> {
                 for (child in o.childrenWithLeaves) {
                     when (child.elementType) {
-                        ValkyrieTypes.SEMICOLON -> child.delete()
-                        ValkyrieTypes.COMMA -> child.delete()
+                        SEMICOLON -> child.delete()
+                        COMMA -> child.delete()
                     }
                 }
             }
@@ -126,7 +133,7 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
             ValkyrieCodeStyleSettings.CommaOrSemicolon.Comma -> {
                 for (child in o.childrenWithLeaves) {
                     when (child.elementType) {
-                        ValkyrieTypes.SEMICOLON -> child.replaceLeaf(ValkyrieTypes.COMMA, ",")
+                        SEMICOLON -> child.replaceLeaf(COMMA, ",")
                     }
                 }
             }
@@ -134,7 +141,7 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
             ValkyrieCodeStyleSettings.CommaOrSemicolon.Semicolon -> {
                 for (child in o.childrenWithLeaves) {
                     when (child.elementType) {
-                        ValkyrieTypes.COMMA -> child.replaceLeaf(ValkyrieTypes.SEMICOLON, ";")
+                        COMMA -> child.replaceLeaf(SEMICOLON, ";")
                     }
                 }
             }
@@ -145,41 +152,41 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
     override fun visitLocalizeCall(o: ValkyrieLocalizeCall) {
         val symbol = o.firstLeaf()
         if (symbol.text != "⸿") {
-            symbol.replaceLeaf(ValkyrieTypes.OP_L10N, "⸿")
+            symbol.replaceLeaf(OP_L10N, "⸿")
         }
     }
 
 
     override fun visitInfixLessEqual(o: ValkyrieInfixLessEqual) {
-        o.replaceLeaf(ValkyrieTypes.INFIX_LESS_EQUAL, "<=")
+        o.replaceLeaf(INFIX_LESS_EQUAL, "<=")
     }
 
     override fun visitInfixGreaterEqual(o: ValkyrieInfixGreaterEqual) {
-        o.replaceLeaf(ValkyrieTypes.INFIX_GREATER_EQUAL, ">=")
+        o.replaceLeaf(INFIX_GREATER_EQUAL, ">=")
     }
 
     override fun visitPrefixRef(o: ValkyriePrefixRef) {
-        o.replaceLeaf(ValkyrieTypes.PREFIX_REF, "⁋")
+        o.replaceLeaf(PREFIX_REF, "⁋")
     }
 
     override fun visitPrefixDeref(o: ValkyriePrefixDeref) {
-        o.replaceLeaf(ValkyrieTypes.PREFIX_DEREF, "❡")
+        o.replaceLeaf(PREFIX_DEREF, "❡")
     }
 
     override fun visitBadLll(o: ValkyrieBadLll) {
-        o.replaceLeaf(ValkyrieTypes.OP_LLL, "⋘")
+        o.replaceLeaf(OP_LLL, "⋘")
     }
 
     override fun visitBadRrr(o: ValkyrieBadRrr) {
-        o.replaceLeaf(ValkyrieTypes.OP_GGG, "⋙")
+        o.replaceLeaf(OP_GGG, "⋙")
     }
 
     override fun visitBadLl(o: ValkyrieBadLl) {
-        o.replaceLeaf(ValkyrieTypes.OP_LL, "≪")
+        o.replaceLeaf(OP_LL, "≪")
     }
 
     override fun visitBadRr(o: ValkyrieBadRr) {
-        o.replaceLeaf(ValkyrieTypes.OP_GG, "≫")
+        o.replaceLeaf(OP_GG, "≫")
     }
 
 
@@ -194,8 +201,8 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
 private fun rewritePatternType(o: PsiElement) {
     for (child in o.childrenWithLeaves) {
         when (child.elementType) {
-            ValkyrieTypes.OP_MACRO_FREE, ValkyrieTypes.EQUAL -> {
-                child.replaceLeaf(ValkyrieTypes.COLON, ":")
+            OP_MACRO, EQUAL -> {
+                child.replaceLeaf(COLON, ":")
                 break
             }
         }
@@ -205,8 +212,8 @@ private fun rewritePatternType(o: PsiElement) {
 private fun rewritePatternTerm(o: PsiElement) {
     for (child in o.childrenWithLeaves) {
         when (child.elementType) {
-            ValkyrieTypes.OP_MACRO_FREE, ValkyrieTypes.COLON, ValkyrieTypes.EQUAL -> {
-                child.replaceLeaf(ValkyrieTypes.BIND, "←")
+            OP_MACRO, COLON, EQUAL -> {
+                child.replaceLeaf(BIND, "←")
                 break
             }
         }

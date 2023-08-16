@@ -331,8 +331,9 @@ public interface ValkyrieTypes {
     IElementType OP_LEQ = new ValkyrieTokenType("OP_LEQ");
     IElementType OP_LL = new ValkyrieTokenType("≪");
     IElementType OP_LLL = new ValkyrieTokenType("⋘");
-    IElementType OP_MACRO_BIND = new ValkyrieTokenType("OP_MACRO_BIND");
-    IElementType OP_MACRO_FREE = new ValkyrieTokenType("OP_MACRO_FREE");
+    IElementType OP_MACRO = new ValkyrieTokenType("OP_MACRO");
+    IElementType OP_MACRO_LOWER = new ValkyrieTokenType("OP_MACRO_LOWER");
+    IElementType OP_MACRO_UPPER = new ValkyrieTokenType("OP_MACRO_UPPER");
     IElementType OP_MAP = new ValkyrieTokenType("OP_MAP");
     IElementType OP_MUL = new ValkyrieTokenType("OP_MUL");
     IElementType OP_MUL_ASSIGN = new ValkyrieTokenType("OP_MUL_ASSIGN");
