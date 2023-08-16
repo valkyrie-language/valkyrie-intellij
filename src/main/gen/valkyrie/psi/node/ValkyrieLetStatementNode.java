@@ -28,20 +28,14 @@ public class ValkyrieLetStatementNode extends MixinVariable implements ValkyrieL
 
     @Override
     @Nullable
-    public ValkyrieElseStatement getElseStatement() {
-        return findChildByClass(ValkyrieElseStatement.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieExpressionRoot getExpressionRoot() {
         return findChildByClass(ValkyrieExpressionRoot.class);
     }
 
     @Override
-    @Nullable
+    @NotNull
     public ValkyrieLetPattern getLetPattern() {
-        return findChildByClass(ValkyrieLetPattern.class);
+        return findNotNullChildByClass(ValkyrieLetPattern.class);
     }
 
     @Override

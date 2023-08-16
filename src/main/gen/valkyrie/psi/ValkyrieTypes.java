@@ -129,6 +129,7 @@ public interface ValkyrieTypes {
     IElementType MATCH_TYPE = new ValkyrieElementType("MATCH_TYPE");
     IElementType MATCH_WHEN = new ValkyrieElementType("MATCH_WHEN");
     IElementType MATCH_WITH = new ValkyrieElementType("MATCH_WITH");
+    IElementType MAY_LET_STATEMENT = new ValkyrieElementType("MAY_LET_STATEMENT");
     IElementType MODIFIER = new ValkyrieElementType("MODIFIER");
     IElementType NAMEPATH = new ValkyrieElementType("NAMEPATH");
     IElementType NAMEPATH_FREE = new ValkyrieElementType("NAMEPATH_FREE");
@@ -176,6 +177,7 @@ public interface ValkyrieTypes {
     IElementType TEMPLATE_BODY = new ValkyrieElementType("TEMPLATE_BODY");
     IElementType TEMPLATE_ITEM = new ValkyrieElementType("TEMPLATE_ITEM");
     IElementType TERM = new ValkyrieElementType("TERM");
+    IElementType THEN_STATEMENT = new ValkyrieElementType("THEN_STATEMENT");
     IElementType TRAIT_ALIAS = new ValkyrieElementType("TRAIT_ALIAS");
     IElementType TRY_LET_STATEMENT = new ValkyrieElementType("TRY_LET_STATEMENT");
     IElementType TRY_NOT_STATEMENT = new ValkyrieElementType("TRY_NOT_STATEMENT");
@@ -608,6 +610,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieMatchWhenNode(node);
             } else if (type == MATCH_WITH) {
                 return new ValkyrieMatchWithNode(node);
+            } else if (type == MAY_LET_STATEMENT) {
+                return new ValkyrieMayLetStatementNode(node);
             } else if (type == MODIFIER) {
                 return new ValkyrieModifierNode(node);
             } else if (type == NAMEPATH) {
@@ -702,6 +706,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieTemplateItemNode(node);
             } else if (type == TERM) {
                 return new ValkyrieTermNode(node);
+            } else if (type == THEN_STATEMENT) {
+                return new ValkyrieThenStatementNode(node);
             } else if (type == TRAIT_ALIAS) {
                 return new ValkyrieTraitAliasNode(node);
             } else if (type == TRY_LET_STATEMENT) {

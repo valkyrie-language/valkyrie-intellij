@@ -237,6 +237,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     //     | localize-call       // ⸿scope.path
     //     | if-statement        // if ...
     //     | loop-statement      // loop {...}
+    //     | may-let-statement   // let? Some(x) = X
     //     | try-let-statement   // if case ...
     //     | try-not-statement
     //     | try-statement       // try T {...}
@@ -267,6 +268,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!r) r = localize_call(b, l + 1);
         if (!r) r = if_statement(b, l + 1);
         if (!r) r = loop_statement(b, l + 1);
+        if (!r) r = may_let_statement(b, l + 1);
         if (!r) r = try_let_statement(b, l + 1);
         if (!r) r = try_not_statement(b, l + 1);
         if (!r) r = try_statement(b, l + 1);
@@ -3915,19 +3917,18 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // KW_LET let-pattern type-hint? (EQUAL|OP_SET_THEN) expression-root else-statement?
+    // KW_LET let-pattern type-hint? EQUAL expression-root
     public static boolean let_statement(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "let_statement")) return false;
         if (!nextTokenIs(b, KW_LET)) return false;
         boolean r, p;
         Marker m = enter_section_(b, l, _NONE_, LET_STATEMENT, null);
         r = consumeToken(b, KW_LET);
-        p = r; // pin = 1
-        r = r && report_error_(b, let_pattern(b, l + 1));
-        r = p && report_error_(b, let_statement_2(b, l + 1)) && r;
-        r = p && report_error_(b, let_statement_3(b, l + 1)) && r;
-        r = p && report_error_(b, expression_root(b, l + 1)) && r;
-        r = p && let_statement_5(b, l + 1) && r;
+        r = r && let_pattern(b, l + 1);
+        r = r && let_statement_2(b, l + 1);
+        r = r && consumeToken(b, EQUAL);
+        p = r; // pin = 4
+        r = r && expression_root(b, l + 1);
         exit_section_(b, l, m, r, p, null);
         return r || p;
     }
@@ -3936,22 +3937,6 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     private static boolean let_statement_2(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "let_statement_2")) return false;
         type_hint(b, l + 1);
-        return true;
-    }
-
-    // EQUAL|OP_SET_THEN
-    private static boolean let_statement_3(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "let_statement_3")) return false;
-        boolean r;
-        r = consumeToken(b, EQUAL);
-        if (!r) r = consumeToken(b, OP_SET_THEN);
-        return r;
-    }
-
-    // else-statement?
-    private static boolean let_statement_5(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "let_statement_5")) return false;
-        else_statement(b, l + 1);
         return true;
     }
 
@@ -4802,6 +4787,30 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = consumeToken(b, COLON);
         if (!r) r = consumeToken(b, KW_THEN);
         return r;
+    }
+
+    /* ********************************************************** */
+    // KW_LET let-pattern type-hint? OP_SET_THEN expression-root
+    public static boolean may_let_statement(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "may_let_statement")) return false;
+        if (!nextTokenIs(b, KW_LET)) return false;
+        boolean r, p;
+        Marker m = enter_section_(b, l, _NONE_, MAY_LET_STATEMENT, null);
+        r = consumeToken(b, KW_LET);
+        r = r && let_pattern(b, l + 1);
+        r = r && may_let_statement_2(b, l + 1);
+        r = r && consumeToken(b, OP_SET_THEN);
+        p = r; // pin = 4
+        r = r && expression_root(b, l + 1);
+        exit_section_(b, l, m, r, p, null);
+        return r || p;
+    }
+
+    // type-hint?
+    private static boolean may_let_statement_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "may_let_statement_2")) return false;
+        type_hint(b, l + 1);
+        return true;
     }
 
     /* ********************************************************** */
@@ -6507,6 +6516,20 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
+    // KW_THEN block-body
+    public static boolean then_statement(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "then_statement")) return false;
+        if (!nextTokenIs(b, KW_THEN)) return false;
+        boolean r, p;
+        Marker m = enter_section_(b, l, _NONE_, THEN_STATEMENT, null);
+        r = consumeToken(b, KW_THEN);
+        p = r; // pin = 1
+        r = r && block_body(b, l + 1);
+        exit_section_(b, l, m, r, p, null);
+        return r || p;
+    }
+
+    /* ********************************************************** */
     // annotations KW_TRAIT identifier EQUAL type-expression
     public static boolean trait_alias(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "trait_alias")) return false;
@@ -6523,7 +6546,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // KW_TRY KW_LET let-pattern EQUAL expression-inline if-condition? block-body else-statement?
+    // KW_TRY KW_LET let-pattern EQUAL expression if-condition? else-statement
     public static boolean try_let_statement(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "try_let_statement")) return false;
         if (!nextTokenIs(b, KW_TRY)) return false;
@@ -6533,10 +6556,9 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         p = r; // pin = 2
         r = r && report_error_(b, let_pattern(b, l + 1));
         r = p && report_error_(b, consumeToken(b, EQUAL)) && r;
-        r = p && report_error_(b, expression_inline(b, l + 1)) && r;
+        r = p && report_error_(b, expression(b, l + 1)) && r;
         r = p && report_error_(b, try_let_statement_5(b, l + 1)) && r;
-        r = p && report_error_(b, block_body(b, l + 1)) && r;
-        r = p && try_let_statement_7(b, l + 1) && r;
+        r = p && else_statement(b, l + 1) && r;
         exit_section_(b, l, m, r, p, null);
         return r || p;
     }
@@ -6548,15 +6570,8 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return true;
     }
 
-    // else-statement?
-    private static boolean try_let_statement_7(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "try_let_statement_7")) return false;
-        else_statement(b, l + 1);
-        return true;
-    }
-
     /* ********************************************************** */
-    // KW_TRY KW_NOT type-pattern EQUAL expression-inline block-body else-statement?
+    // KW_TRY KW_NOT type-pattern EQUAL expression block-body then-statement
     public static boolean try_not_statement(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "try_not_statement")) return false;
         if (!nextTokenIs(b, KW_TRY)) return false;
@@ -6566,18 +6581,11 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         p = r; // pin = 2
         r = r && report_error_(b, type_pattern(b, l + 1));
         r = p && report_error_(b, consumeToken(b, EQUAL)) && r;
-        r = p && report_error_(b, expression_inline(b, l + 1)) && r;
+        r = p && report_error_(b, expression(b, l + 1)) && r;
         r = p && report_error_(b, block_body(b, l + 1)) && r;
-        r = p && try_not_statement_6(b, l + 1) && r;
+        r = p && then_statement(b, l + 1) && r;
         exit_section_(b, l, m, r, p, null);
         return r || p;
-    }
-
-    // else-statement?
-    private static boolean try_not_statement_6(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "try_not_statement_6")) return false;
-        else_statement(b, l + 1);
-        return true;
     }
 
     /* ********************************************************** */

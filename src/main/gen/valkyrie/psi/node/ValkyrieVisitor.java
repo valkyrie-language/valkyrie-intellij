@@ -491,6 +491,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitMayLetStatement(@NotNull ValkyrieMayLetStatement o) {
+        visitPsiElement(o);
+    }
+
     public void visitModifier(@NotNull ValkyrieModifier o) {
         visitPsiElement(o);
     }
@@ -676,6 +680,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitTerm(@NotNull ValkyrieTerm o) {
+        visitPsiElement(o);
+    }
+
+    public void visitThenStatement(@NotNull ValkyrieThenStatement o) {
         visitPsiElement(o);
     }
 

@@ -35,6 +35,9 @@ public interface ValkyrieAtomic extends PsiElement {
     ValkyrieMatchStatement getMatchStatement();
 
     @Nullable
+    ValkyrieMayLetStatement getMayLetStatement();
+
+    @Nullable
     ValkyrieNamepath getNamepath();
 
     @Nullable
