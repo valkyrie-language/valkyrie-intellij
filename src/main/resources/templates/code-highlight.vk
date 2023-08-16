@@ -1,7 +1,11 @@
 <KEYWORD>namespace</KEYWORD> <KEYWORD>package</KEYWORD>.module_path.module_name;
 
 <KEYWORD>using</KEYWORD> dependency.restrict.<SYM_TRAIT>TraitBound</SYM_TRAIT>;
-<KEYWORD>using</KEYWORD> dependency.external.<SYM_CLASS>ExternalClass</SYM_CLASS>.{<SYM_CLASS>ExternalClass</SYM_CLASS> <KEYWORD>as</KEYWORD> <SYM_CLASS>Ec</SYM_CLASS>, <SYM_TRAIT>ExternalTrait</SYM_TRAIT> <KEYWORD>as</KEYWORD> <SYM_TRAIT>Et</SYM_TRAIT>};
+<KEYWORD>using</KEYWORD> dependency.external.<SYM_CLASS>ExternalClass</SYM_CLASS>.{
+    <SYM_CLASS>ExternalClass</SYM_CLASS> <KEYWORD>as</KEYWORD> <SYM_CLASS>Ec</SYM_CLASS>,
+    <SYM_TRAIT>ExternalTrait</SYM_TRAIT> <KEYWORD>as</KEYWORD> <SYM_TRAIT>Et</SYM_TRAIT>,
+    include.{* <KEYWORD>exclude</KEYWORD> {<SYM_FUNCTION_FREE>function</SYM_FUNCTION_FREE>}}
+};
 
 <KEYWORD>trait</KEYWORD> <SYM_TRAIT>TraitName</SYM_TRAIT> {
     <SYM_FUNCTION_SELF>trait_method</SYM_FUNCTION_SELF>(<SYM_ARG_SELF>self</SYM_ARG_SELF>) -> <KEYWORD>Self</KEYWORD>;
@@ -39,9 +43,9 @@
         <SYM_ARG_SELF>self</SYM_ARG_SELF>.<SYM_FIELD_SUPER>pussy</SYM_FIELD_SUPER>.<SYM_FUNCTION_SELF>say</SYM_FUNCTION_SELF>()
     }
     <SYM_DOMAIN>dsl</SYM_DOMAIN> {
-		<SYM_FIELD>field</SYM_FIELD>;
-		<SYM_FUNCTION_FREE>method</SYM_FUNCTION_FREE>() { }
-		<SYM_DOMAIN>domain</SYM_DOMAIN> { }
+        <SYM_FIELD>field</SYM_FIELD>;
+        <SYM_FUNCTION_FREE>method</SYM_FUNCTION_FREE>() { }
+        <SYM_DOMAIN>domain</SYM_DOMAIN> { }
     }
 }
 
@@ -71,7 +75,7 @@
 }
 
 <SYM_MODIFIER>functional</SYM_MODIFIER> <KEYWORD>macro</KEYWORD> <SYM_MACRO>name_of</SYM_MACRO>(<SYM_ARG>ns</SYM_ARG>: <SYM_CLASS>NamepathNode</SYM_CLASS>) {
-	<SYM_ARG>ns</SYM_ARG>.<SYM_FUNCTION_SELF>resolve</SYM_FUNCTION_SELF>()?.<SYM_FIELD>last_name</SYM_FIELD>
+    <SYM_ARG>ns</SYM_ARG>.<SYM_FUNCTION_SELF>resolve</SYM_FUNCTION_SELF>()?.<SYM_FIELD>last_name</SYM_FIELD>
 }
 
 <SYM_FUNCTION_FREE>print</SYM_FUNCTION_FREE>(<SYM_MACRO>@name_of</SYM_MACRO>(<SYM_CLASS>NamepathNode</SYM_CLASS>))
