@@ -34,6 +34,12 @@ public class ValkyrieCasePatternItemNode extends MixinCasePatternItem implements
 
     @Override
     @Nullable
+    public ValkyrieCasePatternBind getCasePatternBind() {
+        return findChildByClass(ValkyrieCasePatternBind.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieIdentifier getIdentifier() {
         return findChildByClass(ValkyrieIdentifier.class);
     }
