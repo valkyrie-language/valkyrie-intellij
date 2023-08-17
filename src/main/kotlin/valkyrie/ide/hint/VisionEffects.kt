@@ -14,10 +14,8 @@ class VisionEffects : ValkyrieCodeVision() {
     override val id: String = "hint.vision.effect.name"
     override val name: String = ValkyrieBundle.message(id)
 
-    override fun getCodeVision(element: PsiElement): TextCodeVisionEntry? {
-        val visit = EffectVisitor(id)
-        element.accept(visit)
-        return visit.vision
+    override fun addCodeVision(element: PsiElement, entry: MutableList<Pair<TextRange, CodeVisionEntry>>) {
+        element.accept(EffectVisitor(id, entry))
     }
 
     override fun handleClick(editor: Editor, textRange: TextRange, entry: CodeVisionEntry) {
@@ -28,20 +26,23 @@ class VisionEffects : ValkyrieCodeVision() {
 
 private class EffectVisitor : ValkyrieVisitor {
     private val id: String
-    var vision: TextCodeVisionEntry? = null
+    var entry: MutableList<Pair<TextRange, CodeVisionEntry>>
 
-    constructor(id: String) : super() {
+    constructor(id: String, entry: MutableList<Pair<TextRange, CodeVisionEntry>>) : super() {
         this.id = id
+        this.entry = entry
     }
 
     override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
-        TextCodeVisionEntry(
-            ValkyrieBundle.message(id, '?'),
-            id,
-            ValkyrieIconProvider.Instance.Effect,
-            "longPresentation",
-            "Tooltip",
-            listOf()
+        entry.add(
+            o.textRange to TextCodeVisionEntry(
+                ValkyrieBundle.message(id, '?'),
+                id,
+                ValkyrieIconProvider.Instance.Effect,
+                "longPresentation",
+                "Tooltip",
+                listOf()
+            )
         )
     }
 }

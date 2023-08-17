@@ -27,19 +27,16 @@ abstract class ValkyrieCodeVision : DaemonBoundCodeVisionProvider {
 
         val virtualFile = file.viewProvider.virtualFile
         if (ProjectFileIndex.getInstance(file.project).isInLibrarySource(virtualFile)) return emptyList()
-
         val lenses = ArrayList<Pair<TextRange, CodeVisionEntry>>()
         val traverser = SyntaxTraverser.psiTraverser(file)
         for (element in traverser) {
-            val hint = getCodeVision(element) ?: continue
             if (!InlayHintsUtils.isFirstInLine(element)) continue
-            val range = InlayHintsUtils.getTextRangeWithoutLeadingCommentsAndWhitespaces(element)
-            lenses.add(range to hint)
+            addCodeVision(element, lenses)
         }
         return lenses
     }
 
-    abstract fun getCodeVision(element: PsiElement): CodeVisionEntry?;
+    abstract fun addCodeVision(element: PsiElement, entry: MutableList<Pair<TextRange, CodeVisionEntry>>);
     override fun handleClick(editor: Editor, textRange: TextRange, entry: CodeVisionEntry) {
 
     }

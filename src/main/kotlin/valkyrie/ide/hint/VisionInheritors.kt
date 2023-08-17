@@ -3,10 +3,10 @@ package valkyrie.ide.hint
 import com.intellij.codeInsight.CodeInsightBundle
 import com.intellij.codeInsight.codeVision.CodeVisionEntry
 import com.intellij.codeInsight.codeVision.settings.PlatformCodeVisionIds
-
+import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import valkyrie.psi.node.ValkyrieDeclareClass
-import valkyrie.psi.node.ValkyrieDeclareTrait
+import valkyrie.psi.node.ValkyrieDeclareMethod
+import valkyrie.psi.node.ValkyrieVisitor
 
 
 class VisionInheritors : ValkyrieCodeVision() {
@@ -14,35 +14,30 @@ class VisionInheritors : ValkyrieCodeVision() {
     override val id: String = "VisionReferences"
     override val name: String = CodeInsightBundle.message("settings.inlay.hints.inheritors")
 
-    /// Removed, it is recommended to use shortcut keys to jump
-    override fun getCodeVision(element: PsiElement): CodeVisionEntry? {
-        return when (element) {
-            is ValkyrieDeclareClass, is ValkyrieDeclareTrait -> {
-                null
-            }
-
-//            is ValkyrieDeclareClass, is ValkyrieClassFieldNode -> {
-//                null
-//            }
-
-            else -> null
-        }
+    override fun addCodeVision(element: PsiElement, entry: MutableList<Pair<TextRange, CodeVisionEntry>>) {
+        element.accept(InheritorsVisitor(id, entry))
     }
 }
 
-//class A : CodeVisionProvider<PsiElement> {
-//    override val defaultAnchor: CodeVisionAnchorKind
-//        get() = TODO("Not yet implemented")
-//    override val id: String
-//        get() = TODO("Not yet implemented")
-//    override val name: String
-//        get() = TODO("Not yet implemented")
-//    override val relativeOrderings: List<CodeVisionRelativeOrdering>
-//        get() = TODO("Not yet implemented")
-//
-//    override fun precomputeOnUiThread(editor: Editor): PsiElement {
-//        TODO("Not yet implemented")
-//    }
-//
-//}
+private class InheritorsVisitor : ValkyrieVisitor {
+    private val id: String
+    var entry: MutableList<Pair<TextRange, CodeVisionEntry>>
 
+    constructor(id: String, entry: MutableList<Pair<TextRange, CodeVisionEntry>>) : super() {
+        this.id = id
+        this.entry = entry
+    }
+
+    override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
+//        entry.add(
+//            o.textRange to TextCodeVisionEntry(
+//                ValkyrieBundle.message(id, '?'),
+//                id,
+//                ValkyrieIconProvider.Instance.Effect,
+//                "longPresentation",
+//                "Tooltip",
+//                listOf()
+//            )
+//        )
+    }
+}
