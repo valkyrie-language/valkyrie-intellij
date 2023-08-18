@@ -8,13 +8,10 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieTryLetStatement extends PsiElement {
 
     @Nullable
-    ValkyrieBlockBody getBlockBody();
-
-    @Nullable
     ValkyrieElseStatement getElseStatement();
 
     @Nullable
-    ValkyrieExpressionInline getExpressionInline();
+    ValkyrieExpression getExpression();
 
     @Nullable
     ValkyrieIfCondition getIfCondition();

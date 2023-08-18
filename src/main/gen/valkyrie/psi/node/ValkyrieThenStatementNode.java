@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieTryNotStatementNode extends ValkyrieElement implements ValkyrieTryNotStatement {
+public class ValkyrieThenStatementNode extends ValkyrieElement implements ValkyrieThenStatement {
 
-    public ValkyrieTryNotStatementNode(@NotNull ASTNode node) {
+    public ValkyrieThenStatementNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitTryNotStatement(this);
+        visitor.visitThenStatement(this);
     }
 
     @Override
@@ -30,24 +33,6 @@ public class ValkyrieTryNotStatementNode extends ValkyrieElement implements Valk
     @Nullable
     public ValkyrieBlockBody getBlockBody() {
         return findChildByClass(ValkyrieBlockBody.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieExpression getExpression() {
-        return findChildByClass(ValkyrieExpression.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieThenStatement getThenStatement() {
-        return findChildByClass(ValkyrieThenStatement.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieTypePattern getTypePattern() {
-        return findChildByClass(ValkyrieTypePattern.class);
     }
 
 }

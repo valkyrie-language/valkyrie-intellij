@@ -82,6 +82,12 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
 
     @Override
     @Nullable
+    public ValkyrieMayLetStatement getMayLetStatement() {
+        return findChildByClass(ValkyrieMayLetStatement.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieNamepath getNamepath() {
         return findChildByClass(ValkyrieNamepath.class);
     }
