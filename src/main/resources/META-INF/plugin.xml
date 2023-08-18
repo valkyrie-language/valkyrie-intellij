@@ -317,7 +317,7 @@
 		<!-- Code Vision -->
 		<codeVisionProviderFactory implementation="valkyrie.ide.hint.codeVisionProviderFactory"/>
 		<daemonBoundCodeVisionProvider implementation="valkyrie.ide.hint.VisionUsage"/>
-		<daemonBoundCodeVisionProvider implementation="valkyrie.ide.hint.VisionInheritors"/>
+		<daemonBoundCodeVisionProvider implementation="valkyrie.ide.hint.VisionHandler"/>
 		<daemonBoundCodeVisionProvider implementation="valkyrie.ide.hint.VisionMonomorphism"/>
 		<daemonBoundCodeVisionProvider implementation="valkyrie.ide.hint.VisionEffects"/>
 		<!-- Inlay Hint -->

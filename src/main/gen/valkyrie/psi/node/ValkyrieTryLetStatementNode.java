@@ -50,4 +50,10 @@ public class ValkyrieTryLetStatementNode extends ValkyrieElement implements Valk
         return findChildByClass(ValkyrieLetPattern.class);
     }
 
+    @Override
+    @Nullable
+    public ValkyrieTypeHint getTypeHint() {
+        return findChildByClass(ValkyrieTypeHint.class);
+    }
+
 }

@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieLetStatement extends PsiElement {
 
     @Nullable
-    ValkyrieExpressionRoot getExpressionRoot();
+    ValkyrieExpression getExpression();
 
     @NotNull
     ValkyrieLetPattern getLetPattern();

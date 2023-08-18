@@ -19,4 +19,7 @@ public interface ValkyrieTryLetStatement extends PsiElement {
     @Nullable
     ValkyrieLetPattern getLetPattern();
 
+    @Nullable
+    ValkyrieTypeHint getTypeHint();
+
 }

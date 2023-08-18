@@ -39,6 +39,12 @@ public class ValkyrieAttributeItemNode extends MixinAttribute implements Valkyri
     }
 
     @Override
+    @Nullable
+    public ValkyrieGenericCall getGenericCall() {
+        return findChildByClass(ValkyrieGenericCall.class);
+    }
+
+    @Override
     @NotNull
     public ValkyrieNamepath getNamepath() {
         return findNotNullChildByClass(ValkyrieNamepath.class);
