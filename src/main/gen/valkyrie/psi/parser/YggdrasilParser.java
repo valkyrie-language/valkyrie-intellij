@@ -1731,7 +1731,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // annotations KW_ENUMERATE identifier class-inherit? type-hint? enumerate-body
+    // annotations KW_ENUMERATE identifier class-inherit? (EQUAL type-atomic)? enumerate-body
     public static boolean declare_enumerate(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "declare_enumerate")) return false;
         boolean r, p;
@@ -1754,11 +1754,22 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return true;
     }
 
-    // type-hint?
+    // (EQUAL type-atomic)?
     private static boolean declare_enumerate_4(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "declare_enumerate_4")) return false;
-        type_hint(b, l + 1);
+        declare_enumerate_4_0(b, l + 1);
         return true;
+    }
+
+    // EQUAL type-atomic
+    private static boolean declare_enumerate_4_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "declare_enumerate_4_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, EQUAL);
+        r = r && type_atomic(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
     }
 
     /* ********************************************************** */
@@ -1790,7 +1801,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // annotations KW_FLAGS identifier class-inherit? type-hint? enumerate-body
+    // annotations KW_FLAGS identifier class-inherit? (EQUAL type-atomic)? enumerate-body
     public static boolean declare_flags(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "declare_flags")) return false;
         boolean r, p;
@@ -1813,11 +1824,22 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return true;
     }
 
-    // type-hint?
+    // (EQUAL type-atomic)?
     private static boolean declare_flags_4(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "declare_flags_4")) return false;
-        type_hint(b, l + 1);
+        declare_flags_4_0(b, l + 1);
         return true;
+    }
+
+    // EQUAL type-atomic
+    private static boolean declare_flags_4_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "declare_flags_4_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, EQUAL);
+        r = r && type_atomic(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
     }
 
     /* ********************************************************** */
