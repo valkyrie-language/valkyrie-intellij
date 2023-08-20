@@ -148,7 +148,7 @@ private class-item ::= SEMICOLON | COMMA
     | declare-method
     | declare-field
 // === class field statement ===
-declare-field ::= annotations identifier type-hint? default-value? {
+declare-field ::= annotations identifier-field type-hint? default-value? {
     mixin = "valkyrie.psi.mixin.MixinField"
 }
 type-hint     ::= COLON type-expression {
@@ -629,13 +629,13 @@ type-prefix ::= OP_ADD | OP_SUB | OP_BANG | OP_AND | STAR;
 type-infix  ::= OP_ADD | OP_ARROW1 | OP_OR;
 type-suffix ::= OP_AND_THEN
     | generic-call-free;
-type-atomic ::= PARENTHESIS_L parameter-term PARENTHESIS_R
+type-atomic ::= PARENTHESIS_L type-expression PARENTHESIS_R
     | type-tuple
     | namepath
     | string
 type-tuple  ::= PARENTHESIS_L PARENTHESIS_R
-    | PARENTHESIS_L parameter-term COMMA? PARENTHESIS_R
-    | PARENTHESIS_L (parameter-term (COMMA parameter-term)+ COMMA?)? PARENTHESIS_R;
+    | PARENTHESIS_L generic-argument COMMA PARENTHESIS_R
+    | PARENTHESIS_L generic-argument (COMMA generic-argument)+ COMMA? PARENTHESIS_R;
 // === generic statement ===
 generic-call ::=
     NAME_SPLIT? GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R
@@ -734,7 +734,9 @@ namepath-free ::= identifier ((NAME_SPLIT|DOT) identifier)* {
     extends = namepath
 }
 
-
+identifier-field ::= KW_OBJECT | identifier {
+    extends = identifier
+}
 identifier ::= SYMBOL | SYMBOW_RAW
     | KW_CLASS
     | KW_FUNCTION | KW_MACRO | KW_COMPONENT | KW_NEURAL

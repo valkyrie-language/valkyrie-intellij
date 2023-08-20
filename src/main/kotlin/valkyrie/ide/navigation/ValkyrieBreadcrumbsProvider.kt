@@ -8,7 +8,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.ui.breadcrumbs.BreadcrumbsProvider
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.psi.ValkyrieDeclaration
-import valkyrie.psi.node.ValkyrieForStatement
 import valkyrie.psi.node.ValkyrieLoopStatementNode
 import javax.swing.Action
 import javax.swing.Icon
@@ -36,7 +35,7 @@ class ValkyrieBreadcrumbsProvider : BreadcrumbsProvider {
     override fun getElementInfo(element: PsiElement): String {
         return if (element is NavigationItem) {
             element.name ?: "[Missing]"
-        } else if (element is ValkyrieForStatement) {
+        } else if (element is ValkyrieLoopStatementNode) {
             "for-loop"
         } else {
             "[Unknown]"

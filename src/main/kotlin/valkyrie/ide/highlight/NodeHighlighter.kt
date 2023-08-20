@@ -38,6 +38,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     override fun visitDeclareClass(o: ValkyrieDeclareClass) {
         highlight(o.identifier, HighlightColor.SYM_CLASS)
     }
+
     override fun visitDeclareSingleton(o: ValkyrieDeclareSingleton) {
         highlight(o.identifier, HighlightColor.SYM_CONSTANT)
     }
@@ -50,13 +51,12 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifier, HighlightColor.SYM_CLASS)
     }
 
-
     override fun visitInheritItem(o: ValkyrieInheritItem) {
         highlight(o.identifier, HighlightColor.SYM_FIELD)
     }
 
-    override fun visitDeclareField(o: ValkyrieDeclareField) {
-        highlight(o.identifier, HighlightColor.SYM_FIELD)
+    override fun visitIdentifierField(o: ValkyrieIdentifierField) {
+        highlight(o, HighlightColor.SYM_FIELD)
     }
 
     override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {

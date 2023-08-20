@@ -91,6 +91,7 @@ public interface ValkyrieTypes {
     IElementType GENERIC_CALL_FREE = new ValkyrieElementType("GENERIC_CALL_FREE");
     IElementType GENERIC_PARAMETER = new ValkyrieElementType("GENERIC_PARAMETER");
     IElementType IDENTIFIER = new ValkyrieElementType("IDENTIFIER");
+    IElementType IDENTIFIER_FIELD = new ValkyrieElementType("IDENTIFIER_FIELD");
     IElementType IF_CONDITION = new ValkyrieElementType("IF_CONDITION");
     IElementType IF_STATEMENT = new ValkyrieElementType("IF_STATEMENT");
     IElementType INFIX = new ValkyrieElementType("INFIX");
@@ -535,6 +536,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieGenericParameterNode(node);
             } else if (type == IDENTIFIER) {
                 return new ValkyrieIdentifierNode(node);
+            } else if (type == IDENTIFIER_FIELD) {
+                return new ValkyrieIdentifierFieldNode(node);
             } else if (type == IF_CONDITION) {
                 return new ValkyrieIfConditionNode(node);
             } else if (type == IF_STATEMENT) {

@@ -339,6 +339,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitIdentifierField(@NotNull ValkyrieIdentifierField o) {
+        visitIdentifier(o);
+    }
+
     public void visitIfCondition(@NotNull ValkyrieIfCondition o) {
         visitPsiElement(o);
     }
