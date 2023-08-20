@@ -425,7 +425,7 @@ case-pattern ::= special
     | case-pattern-dict    // case Object { }
     | string               // case "text"
     | number-literal       // case 1
-    | namepath !(identifier|case-pattern-bind|COLON)
+    | namepath !(identifier|case-pattern-bind)
 case-pattern-dict ::= namepath? BRACE_L (case-pattern-pair (COMMA case-pattern-pair)* COMMA?)? BRACE_R
 case-pattern-pair ::= modifier* identifier (COLON type-expression)? (case-pattern-bind case-pattern)? {
     mixin = "valkyrie.psi.mixin.MixinCasePatternPair"
