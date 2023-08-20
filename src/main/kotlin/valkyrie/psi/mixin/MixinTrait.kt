@@ -5,6 +5,7 @@ import com.intellij.psi.PsiElement
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.ValkyrieDeclaration
+import valkyrie.psi.ValkyrieTypes.KW_CLASS
 import valkyrie.psi.ValkyrieTypes.KW_TRAIT
 import valkyrie.psi.findKeyword
 import valkyrie.psi.node.ValkyrieDeclareTrait
@@ -27,4 +28,7 @@ abstract class MixinTrait(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDe
 
 }
 
-
+val ValkyrieDeclareTrait.keyword: PsiElement
+    get() {
+        return findKeyword(KW_CLASS)
+    }
