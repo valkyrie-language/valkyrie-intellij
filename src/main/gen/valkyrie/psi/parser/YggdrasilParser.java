@@ -604,7 +604,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     //     | case-pattern-dict    // case Object { }
     //     | string               // case "text"
     //     | number-literal       // case 1
-    //     | namepath !(identifier|case-pattern-bind|COLON)
+    //     | namepath !(identifier|case-pattern-bind)
     public static boolean case_pattern(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern")) return false;
         boolean r;
@@ -619,7 +619,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // namepath !(identifier|case-pattern-bind|COLON)
+    // namepath !(identifier|case-pattern-bind)
     private static boolean case_pattern_5(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern_5")) return false;
         boolean r;
@@ -630,7 +630,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // !(identifier|case-pattern-bind|COLON)
+    // !(identifier|case-pattern-bind)
     private static boolean case_pattern_5_1(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern_5_1")) return false;
         boolean r;
@@ -640,13 +640,12 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // identifier|case-pattern-bind|COLON
+    // identifier|case-pattern-bind
     private static boolean case_pattern_5_1_0(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "case_pattern_5_1_0")) return false;
         boolean r;
         r = identifier(b, l + 1);
         if (!r) r = case_pattern_bind(b, l + 1);
-        if (!r) r = consumeToken(b, COLON);
         return r;
     }
 
