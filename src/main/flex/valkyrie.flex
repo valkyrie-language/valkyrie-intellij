@@ -89,7 +89,6 @@ KW_RAISE    = raise
 
 KW_NIL     = [∅]|nil
 KW_NULL    = null
-KW_BOOLEAN = true|false
 
 SYMBOL=[\p{XID_Start}_][\p{XID_Continue}]*
 SYMBOW_RAW = `[^`]*`
@@ -443,7 +442,6 @@ RESERVED = [⸎߷⸖⍼♯⟀⟁]
 
     {KW_NULL}    { return KW_NULL; }
     {KW_NIL}     { return KW_NIL; }
-    {KW_BOOLEAN} { return KW_BOOLEAN; }
     {KW_IS}      { return KW_IS; }
     {KW_NOT}     { return KW_NOT; }
     {SYMBOW_RAW} { return SYMBOW_RAW; }

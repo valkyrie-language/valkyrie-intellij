@@ -3,7 +3,8 @@ package valkyrie.ide.hint.chain
 import com.intellij.codeInsight.hints.InlayHintsSink
 import com.intellij.codeInsight.hints.presentation.PresentationFactory
 import com.intellij.openapi.editor.Editor
-import com.intellij.refactoring.suggested.endOffset
+import com.intellij.psi.util.endOffset
+
 import valkyrie.psi.lineNumber
 import valkyrie.psi.node.ValkyrieDotCall
 import valkyrie.psi.node.ValkyrieDotCallInline
@@ -24,7 +25,7 @@ class ChainHintVisitor : ValkyrieVisitor {
         // 如果该行后面没有文字
         if (
             o.nextSibling == null || o.lineNumber != o.nextSibling?.lineNumber) {
-            hint(o.endOffset, "Iterator<Item=Any>")
+            hint(o.endOffset, "Iterator<Item=AnyType>")
         }
     }
 

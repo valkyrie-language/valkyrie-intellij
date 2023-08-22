@@ -240,7 +240,6 @@ public interface ValkyrieTypes {
     IElementType GENERIC_R = new ValkyrieTokenType("GENERIC_R");
     IElementType INTEGER = new ValkyrieTokenType("<<INTEGER>>");
     IElementType KW_AS = new ValkyrieTokenType("KW_AS");
-    IElementType KW_BOOLEAN = new ValkyrieTokenType("KW_BOOLEAN");
     IElementType KW_BREAK = new ValkyrieTokenType("KW_BREAK");
     IElementType KW_CASE = new ValkyrieTokenType("KW_CASE");
     IElementType KW_CATCH = new ValkyrieTokenType("KW_CATCH");

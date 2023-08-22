@@ -46,6 +46,12 @@ public class ValkyrieLoopStatementNode extends ValkyrieElement implements Valkyr
 
     @Override
     @Nullable
+    public ValkyrieElseStatement getElseStatement() {
+        return findChildByClass(ValkyrieElseStatement.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieLoopCondition getLoopCondition() {
         return findChildByClass(ValkyrieLoopCondition.class);
     }

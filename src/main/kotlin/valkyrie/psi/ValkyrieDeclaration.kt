@@ -9,7 +9,8 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiNameIdentifierOwner
-import com.intellij.refactoring.suggested.startOffset
+import com.intellij.psi.util.startOffset
+
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.psi.node.ValkyrieIdentifierNode
 
@@ -48,7 +49,7 @@ abstract class ValkyrieDeclaration : ValkyrieElement, PsiNameIdentifierOwner {
                     .withIcon(baseIcon)
                     .withCaseSensitivity(false)
                     .withTypeText("withTypeText")
-                    .withPresentableText(name ?: "⟪anonymous⟫")
+                    .withPresentableText(name)
                     .withTailText(" atomic", true)
             )
         }

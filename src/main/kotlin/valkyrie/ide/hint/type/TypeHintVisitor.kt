@@ -3,7 +3,8 @@ package valkyrie.ide.hint.type
 import com.intellij.codeInsight.hints.InlayHintsSink
 import com.intellij.codeInsight.hints.presentation.PresentationFactory
 import com.intellij.openapi.editor.Editor
-import com.intellij.refactoring.suggested.endOffset
+import com.intellij.psi.util.endOffset
+
 import valkyrie.psi.node.*
 
 

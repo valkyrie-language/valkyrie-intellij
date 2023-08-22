@@ -195,6 +195,10 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifier, HighlightColor.SYM_LOCAL)
     }
 
+    override fun visitCasePatternItem(o: ValkyrieCasePatternItem) {
+        highlight(o.identifier, HighlightColor.SYM_LOCAL)
+    }
+
     override fun visitTypeAtomic(o: ValkyrieTypeAtomic) {
         o.namepath?.highlight(this)
     }
