@@ -8,12 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieTypeTuple extends PsiElement {
 
     @Nullable
-    ValkyrieParameterDict getParameterDict();
-
-    @Nullable
-    ValkyrieParameterItem getParameterItem();
-
-    @Nullable
-    ValkyrieParameterList getParameterList();
+    ValkyrieGenericArgument getGenericArgument();
 
 }

@@ -34,26 +34,14 @@ public class ValkyrieTypeAtomicNode extends ValkyrieElement implements ValkyrieT
 
     @Override
     @Nullable
-    public ValkyrieParameterDict getParameterDict() {
-        return findChildByClass(ValkyrieParameterDict.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieParameterItem getParameterItem() {
-        return findChildByClass(ValkyrieParameterItem.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieParameterList getParameterList() {
-        return findChildByClass(ValkyrieParameterList.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieString getString() {
         return findChildByClass(ValkyrieString.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieTypeExpression getTypeExpression() {
+        return findChildByClass(ValkyrieTypeExpression.class);
     }
 
     @Override
