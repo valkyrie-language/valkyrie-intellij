@@ -7,13 +7,16 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieLoopWhileLet extends PsiElement {
 
-    @NotNull
-    ValkyrieCasePattern getCasePattern();
-
     @Nullable
     ValkyrieExpressionInline getExpressionInline();
 
     @Nullable
     ValkyrieIfCondition getIfCondition();
+
+    @NotNull
+    ValkyrieLetPattern getLetPattern();
+
+    @Nullable
+    ValkyrieTypeHint getTypeHint();
 
 }

@@ -300,14 +300,14 @@ loop-condition ::=
 {
     pin = 1
 }
-loop-while-let ::= KW_WHILE case-pattern EQUAL expression-inline if-condition? {
-    pin = 3
+loop-while-let ::= KW_WHILE KW_LET? let-pattern type-hint? EQUAL expression-inline if-condition? {
+    pin = 5
 }
 loop-while     ::= KW_WHILE expression-inline {
     pin = 1
 }
-loop-until-not ::= KW_UNTIL type-pattern EQUAL expression-inline {
-    pin = 3
+loop-until-not ::= KW_UNTIL KW_NOT? type-pattern EQUAL expression-inline {
+    pin = 4
 }
 loop-until     ::= KW_UNTIL expression-inline {
     pin = 1
@@ -321,10 +321,10 @@ dot-loop-call  ::= OP_AND_THEN? DOT KW_LOOP control-label? attribute-below* KW_E
 }
 loop-inline ::= bare-pattern !(PARENTHESIS_L|BRACKET_L|BIND)
     | match-bind? case-pattern-list   // loop x <- Some() in ...
-    | match-bind? namepath             // loop x <- Option::None in ...
-    | match-bind? special              // loop ture in ...
-    | match-bind? string               // loop x <- "text" in ...
-    | match-bind? number-literal               // loop x <- 1 in ...
+    | match-bind? namepath            // loop x <- Option::None in ...
+    | match-bind? special             // loop ture in ...
+    | match-bind? string              // loop x <- "text" in ...
+    | match-bind? number-literal      // loop x <- 1 in ...
 // === function statement ===
 let-statement ::= KW_LET let-pattern type-hint? EQUAL expression {
     pin = 4
@@ -368,19 +368,27 @@ private match-item ::=
     | match-else
 match-with ::= KW_WITH OP_OR? pattern (OP_OR pattern)* (COLON|KW_THEN) block-bare {
     pin = 1
+    recoverWhile=match-recover
 }
 match-type ::= KW_TYPE OP_OR? type-pattern (OP_OR type-pattern)* (COLON|KW_THEN) block-bare {
     pin = 1
+    recoverWhile=match-recover
 }
-match-case ::= KW_CASE case-pattern-kind? case-pattern-top (case-pattern-kind case-pattern-top)* if-condition? (COLON|KW_THEN) block-bare {
+match-case ::= KW_CASE match-case-head match-case-rest* if-condition? (COLON|KW_THEN) block-bare {
     pin = 1
+    recoverWhile=match-recover
 }
+private match-case-head ::= case-pattern-kind? case-pattern-top
+private match-case-rest ::= case-pattern-kind  case-pattern-top
 match-when ::= KW_WHEN infix-logical? expression (COLON|KW_THEN) block-bare {
     pin = 1
+    recoverWhile=match-recover
 }
 match-else ::= KW_ELSE (COLON|KW_THEN) block-bare {
     pin = 1
+    recoverWhile=match-recover
 }
+private match-recover ::= !(KW_WITH | KW_TYPE | KW_CASE | KW_WHEN | KW_ELSE | BRACE_R);
 // === pattern expression ===
 pattern ::=
       pattern-unapply
@@ -425,7 +433,7 @@ case-pattern ::= special
     | case-pattern-dict    // case Object { }
     | string               // case "text"
     | number-literal       // case 1
-    | namepath !(identifier|COLON|EQUAL)
+    | namepath
 case-pattern-dict ::= namepath? BRACE_L (case-pattern-pair (COMMA case-pattern-pair)* COMMA?)? BRACE_R
 case-pattern-pair ::= modifier* identifier (COLON type-expression)? (case-pattern-bind case-pattern)? {
     mixin = "valkyrie.psi.mixin.MixinCasePatternPair"
@@ -433,15 +441,16 @@ case-pattern-pair ::= modifier* identifier (COLON type-expression)? (case-patter
 case-pattern-bind ::= EQUAL | OP_MACRO | BIND;
 case-pattern-list ::= namepath? PARENTHESIS_L (case-pattern-main (COMMA case-pattern-main)* COMMA?)? PARENTHESIS_R
                     | namepath? BRACKET_L     (case-pattern-main (COMMA case-pattern-main)* COMMA?)? BRACKET_R
-case-pattern-top  ::= case-pattern | modifier* identifier (KW_IS type-expression)? (case-pattern-bind case-pattern)? {
+case-pattern-top  ::= modifier* identifier !case-id-stop (KW_IS type-expression)? (case-pattern-bind case-pattern)? | case-pattern {
     mixin = "valkyrie.psi.mixin.MixinCasePatternItem"
 }
-case-pattern-item ::= case-pattern | modifier* identifier (COLON type-expression)? (case-pattern-bind case-pattern)? {
+case-pattern-item ::= modifier* identifier !case-id-stop (COLON type-expression)? (case-pattern-bind case-pattern)? | case-pattern {
     mixin = "valkyrie.psi.mixin.MixinCasePatternItem"
 }
 case-pattern-main ::= case-pattern-kind? case-pattern-item case-pattern-rest*
 case-pattern-rest ::= case-pattern-kind case-pattern-item
 case-pattern-kind ::= OP_OR|OP_AND|LOGIC_AND|LOGIC_OR
+private case-id-stop ::= NAME_SPLIT|PARENTHESIS_L|BRACE_L|BRACKET_L;
 // === loop bare pattern pattern ===
 bare-pattern      ::= bare-pattern-item (COMMA bare-pattern-item)* COMMA?
 bare-pattern-item ::= modifier* identifier {

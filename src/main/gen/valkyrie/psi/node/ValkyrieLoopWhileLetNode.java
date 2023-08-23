@@ -27,12 +27,6 @@ public class ValkyrieLoopWhileLetNode extends ValkyrieElement implements Valkyri
     }
 
     @Override
-    @NotNull
-    public ValkyrieCasePattern getCasePattern() {
-        return findNotNullChildByClass(ValkyrieCasePattern.class);
-    }
-
-    @Override
     @Nullable
     public ValkyrieExpressionInline getExpressionInline() {
         return findChildByClass(ValkyrieExpressionInline.class);
@@ -42,6 +36,18 @@ public class ValkyrieLoopWhileLetNode extends ValkyrieElement implements Valkyri
     @Nullable
     public ValkyrieIfCondition getIfCondition() {
         return findChildByClass(ValkyrieIfCondition.class);
+    }
+
+    @Override
+    @NotNull
+    public ValkyrieLetPattern getLetPattern() {
+        return findNotNullChildByClass(ValkyrieLetPattern.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieTypeHint getTypeHint() {
+        return findChildByClass(ValkyrieTypeHint.class);
     }
 
 }
