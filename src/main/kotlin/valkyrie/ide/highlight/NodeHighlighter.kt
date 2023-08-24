@@ -55,12 +55,12 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifier, HighlightColor.SYM_FIELD)
     }
 
-    override fun visitIdentifierField(o: ValkyrieIdentifierField) {
-        highlight(o, HighlightColor.SYM_FIELD)
+    override fun visitDeclareField(o: ValkyrieDeclareField) {
+        highlight(o.identifierTail, HighlightColor.SYM_FIELD)
     }
 
     override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
-        highlight(o.identifier, HighlightColor.SYM_FUNCTION_FREE)
+        highlight(o.identifierTail, HighlightColor.SYM_FUNCTION_FREE)
     }
 
     override fun visitDeclareDomain(o: ValkyrieDeclareDomain) {
@@ -77,10 +77,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     override fun visitDeclareEnumerate(o: ValkyrieDeclareEnumerate) {
         highlight(o.identifier, HighlightColor.SYM_CONSTANT)
-    }
-
-    override fun visitDeclareSemantic(o: ValkyrieDeclareSemantic) {
-        highlight(o.identifier, HighlightColor.SYM_FIELD)
     }
 
     override fun visitDeclareUnite(o: ValkyrieDeclareUnite) {
@@ -227,6 +223,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     override fun visitNewValue(o: ValkyrieNewValue) {
 
     }
+
 
     override fun visitRangeItem(o: ValkyrieRangeItem) {
         for (child in o.childrenWithLeaves) {

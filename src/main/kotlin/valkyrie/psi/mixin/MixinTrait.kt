@@ -30,5 +30,5 @@ abstract class MixinTrait(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDe
 
 val ValkyrieDeclareTrait.keyword: PsiElement
     get() {
-        return findKeyword(KW_CLASS)
+        return findKeyword(KW_TRAIT)
     }

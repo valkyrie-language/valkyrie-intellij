@@ -13,19 +13,10 @@ abstract class MixinCasePatternItem(node: ASTNode) : ValkyrieDeclaration(node) {
     override val color = HighlightColor.SYM_ARG
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
         return when (this) {
-            is ValkyrieCasePatternItem -> {
-                this.identifier as? ValkyrieIdentifierNode
-            }
-
-            is ValkyrieCasePatternTop -> {
-                this.identifier as? ValkyrieIdentifierNode
-            }
-
-            else -> {
-                null
-            }
+            is ValkyrieCasePatternItem -> this.identifier as? ValkyrieIdentifierNode
+            is ValkyrieCasePatternTop -> this.identifier as? ValkyrieIdentifierNode
+            else -> null
         }
-
     }
 
     override fun getBaseIcon(): Icon {

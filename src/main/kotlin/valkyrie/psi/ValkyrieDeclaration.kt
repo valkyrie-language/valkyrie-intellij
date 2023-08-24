@@ -12,6 +12,8 @@ import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.util.startOffset
 
 import valkyrie.ide.highlight.HighlightColor
+import valkyrie.psi.mixin.MixinIdentifier
+import valkyrie.psi.node.ValkyrieIdentifier
 import valkyrie.psi.node.ValkyrieIdentifierNode
 
 abstract class ValkyrieDeclaration : ValkyrieElement, PsiNameIdentifierOwner {
@@ -19,7 +21,7 @@ abstract class ValkyrieDeclaration : ValkyrieElement, PsiNameIdentifierOwner {
 
     constructor(node: ASTNode) : super(node)
 
-    abstract override fun getNameIdentifier(): ValkyrieIdentifierNode?;
+    abstract override fun getNameIdentifier(): MixinIdentifier?;
 
     override fun getName(): String {
         return nameIdentifier?.name ?: super.getName()

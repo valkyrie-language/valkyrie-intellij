@@ -10,8 +10,8 @@ import valkyrie.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
 abstract class MixinMethod(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareMethod {
-    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.identifier as? ValkyrieIdentifierNode
+    override fun getNameIdentifier(): MixinIdentifier? {
+        return this.identifierTail as? MixinIdentifier
     }
 
     override fun getBaseIcon(): Icon {
