@@ -38,12 +38,12 @@ KW_AS        = as({BANG}|{QUESTION})?
 KW_EXCLUDE   = exclude
 
 KW_TYPE      = typus|type
-KW_CLASS     = class|struct|structure|interface
+KW_CLASS     = class|struct|structure
 KW_UNION     = union
-KW_UNITE     = unite|inductive
+KW_UNITY     = unity|inductive
 KW_ENUMERATE = enums|enumerate
 KW_FLAGS     = flags
-KW_TRAIT     = trait
+KW_TRAIT     = trait|interface
 KW_EXTENDS   = imply|impliments?|extends?
 KW_WHERE     = where
 KW_TEMPLATE  = generic|constraint|forall
@@ -88,7 +88,6 @@ KW_THROUGH  = fallthrough
 KW_RAISE    = raise
 
 KW_NIL     = [∅]|nil
-KW_NULL    = null
 
 SYMBOL=[\p{XID_Start}_][\p{XID_Continue}]*
 SYMBOW_RAW = `[^`]*`
@@ -395,7 +394,7 @@ RESERVED = [⸎߷⸖⍼♯⟀⟁]
     {KW_TYPE}      { return KW_TYPE; }
     {KW_FLAGS}     { return KW_FLAGS; }
     {KW_ENUMERATE} { return KW_ENUMERATE; }
-    {KW_UNITE}     { return KW_UNITE; }
+    {KW_UNITY}     { return KW_UNITE; }
     {KW_UNION}     { return KW_UNION; }
     {KW_CLASS}     { return KW_CLASS; }
     {KW_TRAIT}     { return KW_TRAIT; }
@@ -439,8 +438,6 @@ RESERVED = [⸎߷⸖⍼♯⟀⟁]
     {KW_FROM}  { return KW_FROM; }
     {KW_CASE}  { return KW_CASE; }
 
-
-    {KW_NULL}    { return KW_NULL; }
     {KW_NIL}     { return KW_NIL; }
     {KW_IS}      { return KW_IS; }
     {KW_NOT}     { return KW_NOT; }

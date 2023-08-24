@@ -9,8 +9,8 @@ import javax.swing.Icon
 
 abstract class MixinField(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareField {
 
-    override fun getNameIdentifier(): MixinIdentifier? {
-        return this.identifierTail as? MixinIdentifier
+    override fun getNameIdentifier(): MixinIdentifier {
+        return this.identifierFree as MixinIdentifier
     }
 
     override fun getBaseIcon(): Icon {
