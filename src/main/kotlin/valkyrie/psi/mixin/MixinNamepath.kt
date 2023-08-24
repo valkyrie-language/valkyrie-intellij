@@ -47,7 +47,6 @@ abstract class MixinNamepath : ValkyrieElement, ValkyrieNamepath, PsiQualifiedNa
 
 }
 
-
 fun ValkyrieNamepath.highlight(highlighter: NodeHighlighter) {
     highlightFake(highlighter, this.identifierList)
     if (this.firstLeaf().elementType == ValkyrieTypes.NAME_SCOPE) {
