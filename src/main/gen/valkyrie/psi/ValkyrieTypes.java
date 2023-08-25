@@ -8,7 +8,6 @@ import valkyrie.psi.node.*;
 
 public interface ValkyrieTypes {
 
-    IElementType ALIAS_TYPE = new ValkyrieElementType("ALIAS_TYPE");
     IElementType ANNOTATIONS = new ValkyrieElementType("ANNOTATIONS");
     IElementType ARGUMENT = new ValkyrieElementType("ARGUMENT");
     IElementType ARGUMENT_BODY = new ValkyrieElementType("ARGUMENT_BODY");
@@ -123,6 +122,7 @@ public interface ValkyrieTypes {
     IElementType LOOP_WHILE_LET = new ValkyrieElementType("LOOP_WHILE_LET");
     IElementType MACRO_CALL = new ValkyrieElementType("MACRO_CALL");
     IElementType MACRO_CALL_INLINE = new ValkyrieElementType("MACRO_CALL_INLINE");
+    IElementType MACRO_PATH = new ValkyrieElementType("MACRO_PATH");
     IElementType MATCH_BIND = new ValkyrieElementType("MATCH_BIND");
     IElementType MATCH_BODY = new ValkyrieElementType("MATCH_BODY");
     IElementType MATCH_CASE = new ValkyrieElementType("MATCH_CASE");
@@ -137,7 +137,7 @@ public interface ValkyrieTypes {
     IElementType MAY_LET_STATEMENT = new ValkyrieElementType("MAY_LET_STATEMENT");
     IElementType MODIFIER = new ValkyrieElementType("MODIFIER");
     IElementType NAMEPATH = new ValkyrieElementType("NAMEPATH");
-    IElementType NAMEPATH_FREE = new ValkyrieElementType("NAMEPATH_FREE");
+    IElementType NAMEPATH_AUTO = new ValkyrieElementType("NAMEPATH_AUTO");
     IElementType NEW_BODY = new ValkyrieElementType("NEW_BODY");
     IElementType NEW_LAMBDA = new ValkyrieElementType("NEW_LAMBDA");
     IElementType NEW_OBJECT = new ValkyrieElementType("NEW_OBJECT");
@@ -187,6 +187,7 @@ public interface ValkyrieTypes {
     IElementType TRY_NOT_STATEMENT = new ValkyrieElementType("TRY_NOT_STATEMENT");
     IElementType TRY_STATEMENT = new ValkyrieElementType("TRY_STATEMENT");
     IElementType TUPLE = new ValkyrieElementType("TUPLE");
+    IElementType TYPE_ALIAS = new ValkyrieElementType("TYPE_ALIAS");
     IElementType TYPE_ATOMIC = new ValkyrieElementType("TYPE_ATOMIC");
     IElementType TYPE_EXPRESSION = new ValkyrieElementType("TYPE_EXPRESSION");
     IElementType TYPE_HINT = new ValkyrieElementType("TYPE_HINT");
@@ -370,9 +371,7 @@ public interface ValkyrieTypes {
     class Factory {
         public static PsiElement createElement(ASTNode node) {
             IElementType type = node.getElementType();
-            if (type == ALIAS_TYPE) {
-                return new ValkyrieAliasTypeNode(node);
-            } else if (type == ANNOTATIONS) {
+            if (type == ANNOTATIONS) {
                 return new ValkyrieAnnotationsNode(node);
             } else if (type == ARGUMENT) {
                 return new ValkyrieArgumentNode(node);
@@ -600,6 +599,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieMacroCallNode(node);
             } else if (type == MACRO_CALL_INLINE) {
                 return new ValkyrieMacroCallInlineNode(node);
+            } else if (type == MACRO_PATH) {
+                return new ValkyrieMacroPathNode(node);
             } else if (type == MATCH_BIND) {
                 return new ValkyrieMatchBindNode(node);
             } else if (type == MATCH_BODY) {
@@ -628,8 +629,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieModifierNode(node);
             } else if (type == NAMEPATH) {
                 return new ValkyrieNamepathNode(node);
-            } else if (type == NAMEPATH_FREE) {
-                return new ValkyrieNamepathFreeNode(node);
+            } else if (type == NAMEPATH_AUTO) {
+                return new ValkyrieNamepathAutoNode(node);
             } else if (type == NEW_BODY) {
                 return new ValkyrieNewBodyNode(node);
             } else if (type == NEW_LAMBDA) {
@@ -728,6 +729,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieTryStatementNode(node);
             } else if (type == TUPLE) {
                 return new ValkyrieTupleNode(node);
+            } else if (type == TYPE_ALIAS) {
+                return new ValkyrieTypeAliasNode(node);
             } else if (type == TYPE_ATOMIC) {
                 return new ValkyrieTypeAtomicNode(node);
             } else if (type == TYPE_EXPRESSION) {

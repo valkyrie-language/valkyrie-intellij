@@ -12,7 +12,7 @@ import javax.swing.Icon
 
 abstract class MixinNamespace(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareNamespace {
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.namepathFree?.lastChild as? ValkyrieIdentifierNode
+        return this.namepathAuto?.lastChild as? ValkyrieIdentifierNode
     }
 
     override fun getBaseIcon(): Icon {

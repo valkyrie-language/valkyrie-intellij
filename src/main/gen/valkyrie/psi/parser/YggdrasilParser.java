@@ -36,25 +36,9 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     public static final TokenSet[] EXTENDS_SETS_ = new TokenSet[]{
-            create_token_set_(NAMEPATH, NAMEPATH_FREE),
             create_token_set_(IDENTIFIER, IDENTIFIER_FREE),
+            create_token_set_(MACRO_PATH, NAMEPATH, NAMEPATH_AUTO),
     };
-
-    /* ********************************************************** */
-    // annotations KW_TYPE identifier EQUAL type-expression
-    public static boolean alias_type(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "alias_type")) return false;
-        boolean r, p;
-        Marker m = enter_section_(b, l, _NONE_, ALIAS_TYPE, "<alias type>");
-        r = annotations(b, l + 1);
-        r = r && consumeToken(b, KW_TYPE);
-        p = r; // pin = 2
-        r = r && report_error_(b, identifier(b, l + 1));
-        r = p && report_error_(b, consumeToken(b, EQUAL)) && r;
-        r = p && type_expression(b, l + 1) && r;
-        exit_section_(b, l, m, r, p, null);
-        return r || p;
-    }
 
     /* ********************************************************** */
     // attribute-below* modifier*
@@ -2235,7 +2219,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // annotations KW_NAMESPACE namepath-free
+    // annotations KW_NAMESPACE namepath-auto
     public static boolean declare_namespace(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "declare_namespace")) return false;
         boolean r, p;
@@ -2243,7 +2227,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = annotations(b, l + 1);
         r = r && consumeToken(b, KW_NAMESPACE);
         p = r; // pin = 2
-        r = r && namepath_free(b, l + 1);
+        r = r && namepath_auto(b, l + 1);
         exit_section_(b, l, m, r, p, null);
         return r || p;
     }
@@ -3155,42 +3139,50 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // namepath (argument-body? block-body | argument-body)
+    // namepath generic-call? (argument-body? block-body | argument-body)
     public static boolean function_call(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "function_call")) return false;
         boolean r;
         Marker m = enter_section_(b, l, _NONE_, FUNCTION_CALL, "<function call>");
         r = namepath(b, l + 1);
         r = r && function_call_1(b, l + 1);
+        r = r && function_call_2(b, l + 1);
         exit_section_(b, l, m, r, false, null);
         return r;
     }
 
-    // argument-body? block-body | argument-body
+    // generic-call?
     private static boolean function_call_1(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "function_call_1")) return false;
+        generic_call(b, l + 1);
+        return true;
+    }
+
+    // argument-body? block-body | argument-body
+    private static boolean function_call_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "function_call_2")) return false;
         boolean r;
         Marker m = enter_section_(b);
-        r = function_call_1_0(b, l + 1);
+        r = function_call_2_0(b, l + 1);
         if (!r) r = argument_body(b, l + 1);
         exit_section_(b, m, null, r);
         return r;
     }
 
     // argument-body? block-body
-    private static boolean function_call_1_0(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "function_call_1_0")) return false;
+    private static boolean function_call_2_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "function_call_2_0")) return false;
         boolean r;
         Marker m = enter_section_(b);
-        r = function_call_1_0_0(b, l + 1);
+        r = function_call_2_0_0(b, l + 1);
         r = r && block_body(b, l + 1);
         exit_section_(b, m, null, r);
         return r;
     }
 
     // argument-body?
-    private static boolean function_call_1_0_0(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "function_call_1_0_0")) return false;
+    private static boolean function_call_2_0_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "function_call_2_0_0")) return false;
         argument_body(b, l + 1);
         return true;
     }
@@ -4662,7 +4654,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // OP_MACRO namepath (argument-body? class-body|argument-body)?
+    // OP_MACRO macro-path generic-call? (argument-body? class-body|argument-body)?
     public static boolean macro_call(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "macro_call")) return false;
         if (!nextTokenIs(b, OP_MACRO)) return false;
@@ -4670,44 +4662,52 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         Marker m = enter_section_(b, l, _NONE_, MACRO_CALL, null);
         r = consumeToken(b, OP_MACRO);
         p = r; // pin = 1
-        r = r && report_error_(b, namepath(b, l + 1));
-        r = p && macro_call_2(b, l + 1) && r;
+        r = r && report_error_(b, macro_path(b, l + 1));
+        r = p && report_error_(b, macro_call_2(b, l + 1)) && r;
+        r = p && macro_call_3(b, l + 1) && r;
         exit_section_(b, l, m, r, p, null);
         return r || p;
     }
 
-    // (argument-body? class-body|argument-body)?
+    // generic-call?
     private static boolean macro_call_2(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "macro_call_2")) return false;
-        macro_call_2_0(b, l + 1);
+        generic_call(b, l + 1);
+        return true;
+    }
+
+    // (argument-body? class-body|argument-body)?
+    private static boolean macro_call_3(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "macro_call_3")) return false;
+        macro_call_3_0(b, l + 1);
         return true;
     }
 
     // argument-body? class-body|argument-body
-    private static boolean macro_call_2_0(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "macro_call_2_0")) return false;
+    private static boolean macro_call_3_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "macro_call_3_0")) return false;
         boolean r;
         Marker m = enter_section_(b);
-        r = macro_call_2_0_0(b, l + 1);
+        r = macro_call_3_0_0(b, l + 1);
         if (!r) r = argument_body(b, l + 1);
         exit_section_(b, m, null, r);
         return r;
     }
 
     // argument-body? class-body
-    private static boolean macro_call_2_0_0(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "macro_call_2_0_0")) return false;
+    private static boolean macro_call_3_0_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "macro_call_3_0_0")) return false;
         boolean r;
         Marker m = enter_section_(b);
-        r = macro_call_2_0_0_0(b, l + 1);
+        r = macro_call_3_0_0_0(b, l + 1);
         r = r && class_body(b, l + 1);
         exit_section_(b, m, null, r);
         return r;
     }
 
     // argument-body?
-    private static boolean macro_call_2_0_0_0(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "macro_call_2_0_0_0")) return false;
+    private static boolean macro_call_3_0_0_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "macro_call_3_0_0_0")) return false;
         argument_body(b, l + 1);
         return true;
     }
@@ -4731,6 +4731,40 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!recursion_guard_(b, l, "macro_call_inline_2")) return false;
         argument_body(b, l + 1);
         return true;
+    }
+
+    /* ********************************************************** */
+    // identifier-free (NAME_SPLIT identifier-free)*
+    public static boolean macro_path(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "macro_path")) return false;
+        boolean r;
+        Marker m = enter_section_(b, l, _NONE_, MACRO_PATH, "<macro path>");
+        r = identifier_free(b, l + 1);
+        r = r && macro_path_1(b, l + 1);
+        exit_section_(b, l, m, r, false, null);
+        return r;
+    }
+
+    // (NAME_SPLIT identifier-free)*
+    private static boolean macro_path_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "macro_path_1")) return false;
+        while (true) {
+            int c = current_position_(b);
+            if (!macro_path_1_0(b, l + 1)) break;
+            if (!empty_element_parsed_guard_(b, "macro_path_1", c)) break;
+        }
+        return true;
+    }
+
+    // NAME_SPLIT identifier-free
+    private static boolean macro_path_1_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "macro_path_1_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, NAME_SPLIT);
+        r = r && identifier_free(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
     }
 
     /* ********************************************************** */
@@ -5343,41 +5377,41 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
 
     /* ********************************************************** */
     // identifier ((NAME_SPLIT|DOT) identifier)*
-    public static boolean namepath_free(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "namepath_free")) return false;
+    public static boolean namepath_auto(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "namepath_auto")) return false;
         boolean r;
-        Marker m = enter_section_(b, l, _NONE_, NAMEPATH_FREE, "<namepath free>");
+        Marker m = enter_section_(b, l, _NONE_, NAMEPATH_AUTO, "<namepath auto>");
         r = identifier(b, l + 1);
-        r = r && namepath_free_1(b, l + 1);
+        r = r && namepath_auto_1(b, l + 1);
         exit_section_(b, l, m, r, false, null);
         return r;
     }
 
     // ((NAME_SPLIT|DOT) identifier)*
-    private static boolean namepath_free_1(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "namepath_free_1")) return false;
+    private static boolean namepath_auto_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "namepath_auto_1")) return false;
         while (true) {
             int c = current_position_(b);
-            if (!namepath_free_1_0(b, l + 1)) break;
-            if (!empty_element_parsed_guard_(b, "namepath_free_1", c)) break;
+            if (!namepath_auto_1_0(b, l + 1)) break;
+            if (!empty_element_parsed_guard_(b, "namepath_auto_1", c)) break;
         }
         return true;
     }
 
     // (NAME_SPLIT|DOT) identifier
-    private static boolean namepath_free_1_0(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "namepath_free_1_0")) return false;
+    private static boolean namepath_auto_1_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "namepath_auto_1_0")) return false;
         boolean r;
         Marker m = enter_section_(b);
-        r = namepath_free_1_0_0(b, l + 1);
+        r = namepath_auto_1_0_0(b, l + 1);
         r = r && identifier(b, l + 1);
         exit_section_(b, m, null, r);
         return r;
     }
 
     // NAME_SPLIT|DOT
-    private static boolean namepath_free_1_0_0(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "namepath_free_1_0_0")) return false;
+    private static boolean namepath_auto_1_0_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "namepath_auto_1_0_0")) return false;
         boolean r;
         r = consumeToken(b, NAME_SPLIT);
         if (!r) r = consumeToken(b, DOT);
@@ -6128,7 +6162,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // annotations namepath-free? pattern-object-body
+    // annotations namepath-auto? pattern-object-body
     public static boolean pattern_object(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "pattern_object")) return false;
         boolean r;
@@ -6140,10 +6174,10 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // namepath-free?
+    // namepath-auto?
     private static boolean pattern_object_1(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "pattern_object_1")) return false;
-        namepath_free(b, l + 1);
+        namepath_auto(b, l + 1);
         return true;
     }
 
@@ -6317,7 +6351,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // annotations namepath-free? pattern-unapply-body
+    // annotations namepath-auto? pattern-unapply-body
     public static boolean pattern_unapply(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "pattern_unapply")) return false;
         boolean r;
@@ -6329,10 +6363,10 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // namepath-free?
+    // namepath-auto?
     private static boolean pattern_unapply_1(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "pattern_unapply_1")) return false;
-        namepath_free(b, l + 1);
+        namepath_auto(b, l + 1);
         return true;
     }
 
@@ -6704,7 +6738,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     /* ********************************************************** */
     // declare-namespace
     //     | using-statement
-    //     | alias-type
+    //     | type-alias
     //     | trait-alias
     //     | declare-flags
     //     | declare-enumerate
@@ -6724,7 +6758,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         boolean r;
         r = declare_namespace(b, l + 1);
         if (!r) r = using_statement(b, l + 1);
-        if (!r) r = alias_type(b, l + 1);
+        if (!r) r = type_alias(b, l + 1);
         if (!r) r = trait_alias(b, l + 1);
         if (!r) r = declare_flags(b, l + 1);
         if (!r) r = declare_enumerate(b, l + 1);
@@ -6831,12 +6865,14 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
 
     /* ********************************************************** */
     // KW_LET
+    //     | KW_TYPE
     //     | KW_CLASS | KW_TRAIT | KW_OBJECT
     //     | KW_CATCH | KW_MATCH | KW_CASE
     static boolean symbol_lead(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "symbol_lead")) return false;
         boolean r;
         r = consumeToken(b, KW_LET);
+        if (!r) r = consumeToken(b, KW_TYPE);
         if (!r) r = consumeToken(b, KW_CLASS);
         if (!r) r = consumeToken(b, KW_TRAIT);
         if (!r) r = consumeToken(b, KW_OBJECT);
@@ -7145,6 +7181,30 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     //   //    mixin = "valkyrie.psi.mixin.MixinTuple"
     // }
     private static boolean tuple_2_3(PsiBuilder b, int l) {
+        return true;
+    }
+
+    /* ********************************************************** */
+    // annotations KW_TYPE identifier declare-generic? EQUAL type-expression
+    public static boolean type_alias(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "type_alias")) return false;
+        boolean r, p;
+        Marker m = enter_section_(b, l, _NONE_, TYPE_ALIAS, "<type alias>");
+        r = annotations(b, l + 1);
+        r = r && consumeToken(b, KW_TYPE);
+        p = r; // pin = 2
+        r = r && report_error_(b, identifier(b, l + 1));
+        r = p && report_error_(b, type_alias_3(b, l + 1)) && r;
+        r = p && report_error_(b, consumeToken(b, EQUAL)) && r;
+        r = p && type_expression(b, l + 1) && r;
+        exit_section_(b, l, m, r, p, null);
+        return r || p;
+    }
+
+    // declare-generic?
+    private static boolean type_alias_3(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "type_alias_3")) return false;
+        declare_generic(b, l + 1);
         return true;
     }
 
@@ -7749,7 +7809,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // (namepath-free using-dot?) STAR using-exclude?
+    // (namepath-auto using-dot?) STAR using-exclude?
     public static boolean using_any(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "using_any")) return false;
         boolean r;
@@ -7761,12 +7821,12 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // namepath-free using-dot?
+    // namepath-auto using-dot?
     private static boolean using_any_0(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "using_any_0")) return false;
         boolean r;
         Marker m = enter_section_(b);
-        r = namepath_free(b, l + 1);
+        r = namepath_auto(b, l + 1);
         r = r && using_any_0_1(b, l + 1);
         exit_section_(b, m, null, r);
         return r;
@@ -7787,12 +7847,12 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // namepath-free using-dot? using-body
+    // namepath-auto using-dot? using-body
     public static boolean using_block(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "using_block")) return false;
         boolean r;
         Marker m = enter_section_(b, l, _NONE_, USING_BLOCK, "<using block>");
-        r = namepath_free(b, l + 1);
+        r = namepath_auto(b, l + 1);
         r = r && using_block_1(b, l + 1);
         r = r && using_body(b, l + 1);
         exit_section_(b, l, m, r, false, null);
@@ -7947,7 +8007,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     //   | using-any
     //   | using-alias
     //   | using-block
-    //   | namepath-free
+    //   | namepath-auto
     public static boolean using_term(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "using_term")) return false;
         boolean r;
@@ -7957,7 +8017,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!r) r = using_any(b, l + 1);
         if (!r) r = using_alias(b, l + 1);
         if (!r) r = using_block(b, l + 1);
-        if (!r) r = namepath_free(b, l + 1);
+        if (!r) r = namepath_auto(b, l + 1);
         exit_section_(b, l, m, r, false, null);
         return r;
     }

@@ -109,7 +109,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     override fun visitMacroCall(o: ValkyrieMacroCall) {
         highlight(o.firstChild, HighlightColor.SYM_MACRO)
-        highlight(o.namepath, HighlightColor.SYM_MACRO)
+        highlight(o.macroPath, HighlightColor.SYM_MACRO)
     }
 
 

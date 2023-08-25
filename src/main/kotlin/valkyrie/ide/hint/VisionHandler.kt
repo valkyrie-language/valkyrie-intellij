@@ -14,7 +14,7 @@ import valkyrie.psi.node.ValkyrieVisitor
 
 class VisionHandler : ValkyrieCodeVision() {
     override val groupId: String = PlatformCodeVisionIds.INHERITORS.key
-    override val id: String = "VisionReferences"
+    override val id: String = "vision.handler"
     override val name: String = CodeInsightBundle.message("settings.inlay.hints.inheritors")
 
     override fun addCodeVision(element: PsiElement, entry: MutableList<Pair<TextRange, CodeVisionEntry>>) {
