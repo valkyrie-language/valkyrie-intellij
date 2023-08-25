@@ -14,7 +14,7 @@ public interface ValkyrieDeclareFlags extends PsiElement {
     ValkyrieClassInherit getClassInherit();
 
     @Nullable
-    ValkyrieEnumerateBody getEnumerateBody();
+    ValkyrieFlagsBody getFlagsBody();
 
     @Nullable
     ValkyrieIdentifier getIdentifier();

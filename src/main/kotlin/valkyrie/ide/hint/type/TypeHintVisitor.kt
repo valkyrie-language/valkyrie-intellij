@@ -25,7 +25,7 @@ class TypeHintVisitor : ValkyrieVisitor {
         }
 
         if (o.typeHint == null) {
-            hint(o.identifier.endOffset, ": Any")
+            hint(o.identifierFree.endOffset, ": Any")
         }
     }
 

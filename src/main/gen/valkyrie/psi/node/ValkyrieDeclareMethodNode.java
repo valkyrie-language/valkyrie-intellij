@@ -52,8 +52,8 @@ public class ValkyrieDeclareMethodNode extends MixinMethod implements ValkyrieDe
 
     @Override
     @NotNull
-    public ValkyrieIdentifier getIdentifier() {
-        return findNotNullChildByClass(ValkyrieIdentifier.class);
+    public ValkyrieIdentifierFree getIdentifierFree() {
+        return findNotNullChildByClass(ValkyrieIdentifierFree.class);
     }
 
     @Override

@@ -8,9 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieMatchWith extends PsiElement {
 
     @Nullable
-    ValkyrieBlockBare getBlockBare();
+    ValkyrieMatchWithControl getMatchWithControl();
 
-    @NotNull
-    List<ValkyriePattern> getPatternList();
+    @Nullable
+    ValkyrieMatchWithProvide getMatchWithProvide();
 
 }

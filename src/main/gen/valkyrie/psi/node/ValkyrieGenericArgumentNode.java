@@ -40,8 +40,8 @@ public class ValkyrieGenericArgumentNode extends ValkyrieElement implements Valk
 
     @Override
     @NotNull
-    public ValkyrieTypeExpression getTypeExpression() {
-        return findNotNullChildByClass(ValkyrieTypeExpression.class);
+    public List<ValkyrieTypeExpression> getTypeExpressionList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeExpression.class);
     }
 
 }

@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieControlRaise extends PsiElement {
+public interface ValkyrieMatchWithControl extends PsiElement {
 
-    @Nullable
-    ValkyrieExpressionRoot getExpressionRoot();
-
-    @Nullable
-    ValkyrieTypeExpression getTypeExpression();
+    @NotNull
+    List<ValkyrieIdentifierFree> getIdentifierFreeList();
 
 }

@@ -93,7 +93,7 @@ public interface ValkyrieTypes {
     IElementType GENERIC_CALL_FREE = new ValkyrieElementType("GENERIC_CALL_FREE");
     IElementType GENERIC_PARAMETER = new ValkyrieElementType("GENERIC_PARAMETER");
     IElementType IDENTIFIER = new ValkyrieElementType("IDENTIFIER");
-    IElementType IDENTIFIER_TAIL = new ValkyrieElementType("IDENTIFIER_TAIL");
+    IElementType IDENTIFIER_FREE = new ValkyrieElementType("IDENTIFIER_FREE");
     IElementType IF_CONDITION = new ValkyrieElementType("IF_CONDITION");
     IElementType IF_STATEMENT = new ValkyrieElementType("IF_STATEMENT");
     IElementType INFIX = new ValkyrieElementType("INFIX");
@@ -132,6 +132,8 @@ public interface ValkyrieTypes {
     IElementType MATCH_TYPE = new ValkyrieElementType("MATCH_TYPE");
     IElementType MATCH_WHEN = new ValkyrieElementType("MATCH_WHEN");
     IElementType MATCH_WITH = new ValkyrieElementType("MATCH_WITH");
+    IElementType MATCH_WITH_CONTROL = new ValkyrieElementType("MATCH_WITH_CONTROL");
+    IElementType MATCH_WITH_PROVIDE = new ValkyrieElementType("MATCH_WITH_PROVIDE");
     IElementType MAY_LET_STATEMENT = new ValkyrieElementType("MAY_LET_STATEMENT");
     IElementType MODIFIER = new ValkyrieElementType("MODIFIER");
     IElementType NAMEPATH = new ValkyrieElementType("NAMEPATH");
@@ -269,7 +271,6 @@ public interface ValkyrieTypes {
     IElementType KW_NEW = new ValkyrieTokenType("KW_NEW");
     IElementType KW_NIL = new ValkyrieTokenType("KW_NIL");
     IElementType KW_NOT = new ValkyrieTokenType("KW_NOT");
-    IElementType KW_NULL = new ValkyrieTokenType("KW_NULL");
     IElementType KW_OBJECT = new ValkyrieTokenType("KW_OBJECT");
     IElementType KW_RAISE = new ValkyrieTokenType("KW_RAISE");
     IElementType KW_RESUME = new ValkyrieTokenType("KW_RESUME");
@@ -539,8 +540,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieGenericParameterNode(node);
             } else if (type == IDENTIFIER) {
                 return new ValkyrieIdentifierNode(node);
-            } else if (type == IDENTIFIER_TAIL) {
-                return new ValkyrieIdentifierTailNode(node);
+            } else if (type == IDENTIFIER_FREE) {
+                return new ValkyrieIdentifierFreeNode(node);
             } else if (type == IF_CONDITION) {
                 return new ValkyrieIfConditionNode(node);
             } else if (type == IF_STATEMENT) {
@@ -617,6 +618,10 @@ public interface ValkyrieTypes {
                 return new ValkyrieMatchWhenNode(node);
             } else if (type == MATCH_WITH) {
                 return new ValkyrieMatchWithNode(node);
+            } else if (type == MATCH_WITH_CONTROL) {
+                return new ValkyrieMatchWithControlNode(node);
+            } else if (type == MATCH_WITH_PROVIDE) {
+                return new ValkyrieMatchWithProvideNode(node);
             } else if (type == MAY_LET_STATEMENT) {
                 return new ValkyrieMayLetStatementNode(node);
             } else if (type == MODIFIER) {

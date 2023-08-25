@@ -34,6 +34,12 @@ public class ValkyrieTypeAtomicNode extends ValkyrieElement implements ValkyrieT
 
     @Override
     @Nullable
+    public ValkyrieNumberLiteral getNumberLiteral() {
+        return findChildByClass(ValkyrieNumberLiteral.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieString getString() {
         return findChildByClass(ValkyrieString.class);
     }

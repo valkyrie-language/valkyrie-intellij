@@ -28,14 +28,14 @@ public class ValkyrieMatchWithNode extends ValkyrieElement implements ValkyrieMa
 
     @Override
     @Nullable
-    public ValkyrieBlockBare getBlockBare() {
-        return findChildByClass(ValkyrieBlockBare.class);
+    public ValkyrieMatchWithControl getMatchWithControl() {
+        return findChildByClass(ValkyrieMatchWithControl.class);
     }
 
     @Override
-    @NotNull
-    public List<ValkyriePattern> getPatternList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyriePattern.class);
+    @Nullable
+    public ValkyrieMatchWithProvide getMatchWithProvide() {
+        return findChildByClass(ValkyrieMatchWithProvide.class);
     }
 
 }
