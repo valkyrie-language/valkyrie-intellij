@@ -22,7 +22,7 @@ import static valkyrie.psi.ValkyrieTypes.*;
 %state AfterNumberExp
 
 WHITE_SPACE        = [\s\t]
-COMMENT_LINE       = [#⍝][^\r\n]*
+COMMENT_LINE       = (⍝|[\-]{2}|[/]{2})[^\r\n]*
 COMMENT_BLOCK      = [/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]
 
 COLON    = [:∶：]
@@ -38,22 +38,21 @@ KW_AS        = as({BANG}|{QUESTION})?
 KW_EXCLUDE   = exclude
 
 KW_TYPE      = typus|type
-KW_CLASS     = class|struct|structure
+KW_CLASS     = class|struct|structure|interface
 KW_UNION     = union
-KW_UNITY     = unity|inductive
+KW_UNITE     = unite|inductive
 KW_ENUMERATE = enums|enumerate
 KW_FLAGS     = flags
-KW_TRAIT     = trait|interface
+KW_TRAIT     = trait
 KW_EXTENDS   = imply|impliments?|extends?
 KW_WHERE     = where
-KW_TEMPLATE  = generic|constraint|forall
+KW_TEMPLATE  = template|generic|constraint|forall
 KW_IMPLEMENT = implement
 KW_MICRO     = micro|function|func|fun|fn|def
-KW_MACRO     = macro|template
+KW_MACRO     = macro
 KW_SINGLETON = singleton
 KW_COMPONENT = widget
 KW_NEURAL    = neural
-KW_MAY_LET   = let[?]
 KW_LET       = let
 KW_NEW       = new
 KW_OBJECT    = object
@@ -74,7 +73,6 @@ OP_LABEL = [※]|\\l
 KW_EACH  = each
 
 KW_IF    = if
-KW_THEN  = then
 KW_ELSE  = else
 KW_IS    = is
 KW_NOT   = not
@@ -87,7 +85,9 @@ KW_CONTINUE = continue
 KW_THROUGH  = fallthrough
 KW_RAISE    = raise
 
-
+KW_NIL     = [∅]|nil
+KW_NULL    = null
+KW_BOOLEAN = true|false
 
 SYMBOL=[\p{XID_Start}_][\p{XID_Continue}]*
 SYMBOW_RAW = `[^`]*`
@@ -95,8 +95,7 @@ ESCAPED = \\.
 NAME_SPLIT = [⸬∷]|{COLON}{2}
 NAME_SCOPE = [⁜]|\\N
 
-COLOR  = (©|®|\\#)[0-9a-zA-Z]*
-KW_NIL = [∅]
+COLOR           = (©|®|\\#)[0-9a-zA-Z]*
 // decimal number
 C_DEC           = [0-9]
 C_NUM           = [0-9a-zA-Z]
@@ -145,11 +144,8 @@ OP_SURD3      = [∛]
 OP_SURD4      = [∜]
 
 OP_REV = [⅟]
-OP_HALF = [½]
+OP_HALF = ½
 
-OP_MACRO_LOWER = [↯]|@[.]
-OP_MACRO_UPPER = [↸]|@\^
-OP_MACRO  = [@]
 
 OP_UNTIL      = {DOT}{2}[<=]
 
@@ -210,10 +206,11 @@ OP_CELSIUS    = ℃
 OP_FAHRENHEIT = ℉
 
 
-OP_REFERENCE = [⁋]
-OP_DEREFERENCE = [¶❡]
 
-RESERVED = [⸎߷⸖⍼♯⟀⟁]
+OP_REFERENCE = [❡¶]
+OP_DEREFERENCE = [⁋]
+
+RESERVED = [߷⸖↯⍼♯⟀⟁]
 %%
 
 <YYINITIAL> {
@@ -260,9 +257,8 @@ RESERVED = [⸎߷⸖⍼♯⟀⟁]
 
     "|" { return OP_OR;}
     & { return OP_AND;}
-	{OP_MACRO_LOWER} { return OP_MACRO_LOWER; }
-	{OP_MACRO_UPPER} { return OP_MACRO_UPPER; }
-	{OP_MACRO}  { return OP_MACRO; }
+	@ { return AT; }
+	# { return HASH; }
     "$" { return DOLLAR; }
 
 
@@ -395,7 +391,7 @@ RESERVED = [⸎߷⸖⍼♯⟀⟁]
     {KW_TYPE}      { return KW_TYPE; }
     {KW_FLAGS}     { return KW_FLAGS; }
     {KW_ENUMERATE} { return KW_ENUMERATE; }
-    {KW_UNITY}     { return KW_UNITE; }
+    {KW_UNITE}     { return KW_UNITE; }
     {KW_UNION}     { return KW_UNION; }
     {KW_CLASS}     { return KW_CLASS; }
     {KW_TRAIT}     { return KW_TRAIT; }
@@ -407,13 +403,13 @@ RESERVED = [⸎߷⸖⍼♯⟀⟁]
     {KW_SINGLETON} { return KW_SINGLETON; }
     {KW_NEURAL}    { return KW_NEURAL; }
 
+
     {KW_LET}       { return KW_LET; }
     {KW_NEW}       { return KW_NEW; }
     {KW_OBJECT}    { return KW_OBJECT; }
     {KW_LAMBDA}    { return KW_LAMBDA; }
 
     {KW_IF}        { return KW_IF; }
-    {KW_THEN}      { return KW_THEN; }
     {KW_ELSE}      { return KW_ELSE; }
 
     {KW_LOOP}      { return KW_LOOP; }
@@ -439,7 +435,10 @@ RESERVED = [⸎߷⸖⍼♯⟀⟁]
     {KW_FROM}  { return KW_FROM; }
     {KW_CASE}  { return KW_CASE; }
 
+
+    {KW_NULL}    { return KW_NULL; }
     {KW_NIL}     { return KW_NIL; }
+    {KW_BOOLEAN} { return KW_BOOLEAN; }
     {KW_IS}      { return KW_IS; }
     {KW_NOT}     { return KW_NOT; }
     {SYMBOW_RAW} { return SYMBOW_RAW; }

@@ -3,7 +3,7 @@ package valkyrie.ide.completion
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.icons.AllIcons
-import com.intellij.icons.ExpUiIcons
+import com.intellij.icons.AllIcons.Nodes.Deploy
 import valkyrie.language.ValkyrieBundle
 
 open class ValkyrieCompletionProvider(val parameters: CompletionParameters, val result: CompletionResultSet) {
@@ -91,7 +91,7 @@ open class ValkyrieCompletionProvider(val parameters: CompletionParameters, val 
     private fun createClass(key: String, word: MutableSet<String>, help: String) {
         val live = getLiveTemplate(key) ?: return
         live.setLookup(key, word)
-        live.setIcon(ExpUiIcons.Nodes.Class)
+        live.setIcon(AllIcons.Nodes.Class)
         live.setText(key, help)
         result.addElement(live)
     }
@@ -100,7 +100,7 @@ open class ValkyrieCompletionProvider(val parameters: CompletionParameters, val 
     private fun createKeywordControl(key: String, word: MutableSet<String>, help: String) {
         val live = getLiveTemplate(key) ?: return
         live.setLookup(key, word)
-        live.setIcon(ExpUiIcons.Actions.Deploy)
+        live.setIcon(Deploy)
         live.setText(key, help)
         result.addElement(live)
     }
@@ -117,7 +117,7 @@ open class ValkyrieCompletionProvider(val parameters: CompletionParameters, val 
     private fun createKeywordMethod(key: String, word: MutableSet<String>, help: String) {
         val live = getLiveTemplate(key) ?: return
         live.setLookup(key, word)
-        live.setIcon(ExpUiIcons.Nodes.MethodReference)
+        live.setIcon(AllIcons.Nodes.MethodReference)
         live.setText(key, help)
         result.addElement(live)
     }
@@ -125,7 +125,7 @@ open class ValkyrieCompletionProvider(val parameters: CompletionParameters, val 
     private fun createNormalMethod(key: String, word: MutableSet<String>, help: String) {
         val live = getLiveTemplate(key) ?: return
         live.setLookup(key, word)
-        live.setIcon(ExpUiIcons.Nodes.Method)
+        live.setIcon(AllIcons.Nodes.Method)
         live.setText(key, help)
         result.addElement(live)
     }
@@ -134,7 +134,7 @@ open class ValkyrieCompletionProvider(val parameters: CompletionParameters, val 
     private fun createOperatorMethod(key: String, word: MutableSet<String>, help: String) {
         val live = getLiveTemplate(key) ?: return
         live.setLookup(key, word)
-        live.setIcon(ExpUiIcons.Inline.Regex)
+        live.setIcon(AllIcons.Actions.Regex)
         live.setText(key, help)
         result.addElement(live)
     }

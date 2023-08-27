@@ -1,7 +1,6 @@
 package valkyrie.language.file
 
 import com.intellij.icons.AllIcons
-import com.intellij.icons.ExpUiIcons
 import com.intellij.ide.IconProvider
 import com.intellij.openapi.util.IconLoader
 import com.intellij.psi.PsiElement
@@ -32,10 +31,10 @@ class ValkyrieIconProvider : IconProvider() {
         val Flags = IconLoader.getIcon("/icons/codeAssistantField.svg", ValkyrieIconProvider::class.java)
         val Attribute = IconLoader.getIcon("/icons/codeAssistantMacro.svg", ValkyrieIconProvider::class.java)
         val Object = IconLoader.getIcon("/icons/objectScala.svg", ValkyrieIconProvider::class.java)
-        val Effect = ExpUiIcons.Actions.DiagramDiff
+        val Effect = AllIcons.Actions.DiagramDiff
         val Untyped = IconLoader.getIcon("/icons/untyped.svg", ValkyrieIconProvider::class.java)
         val MultipleType = IconLoader.getIcon("/icons/multipleTypeDefinitions.svg", ValkyrieIconProvider::class.java)
-        val Stop = ExpUiIcons.Actions.ShowWriteAccess
+        val Stop = AllIcons.Actions.ShowWriteAccess
         val Then = IconLoader.getIcon("/icons/goto.svg", ValkyrieIconProvider::class.java)
     }
 }

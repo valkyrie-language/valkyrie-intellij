@@ -5,7 +5,7 @@ import com.intellij.facet.FacetType
 import com.intellij.facet.ui.DefaultFacetSettingsEditor
 import com.intellij.facet.ui.FacetEditor
 import com.intellij.facet.ui.MultipleFacetSettingsEditor
-import com.intellij.icons.ExpUiIcons
+import com.intellij.icons.AllIcons
 import com.intellij.openapi.extensions.PluginDescriptor
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.module.ModuleType
@@ -29,7 +29,7 @@ class ValkyrieFrameworkProvider : FacetType<ValkyrieFacet, ValkyrieFacetConfig> 
 
 
     override fun getIcon(): Icon {
-        return ExpUiIcons.Gutter.Colors
+        return AllIcons.Gutter.Colors
     }
 
     override fun getHelpTopic(): String {
