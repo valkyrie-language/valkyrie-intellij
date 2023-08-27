@@ -40,8 +40,8 @@ public class ValkyrieDeclareFlagsNode extends MixinFlags implements ValkyrieDecl
 
     @Override
     @Nullable
-    public ValkyrieEnumerateBody getEnumerateBody() {
-        return findChildByClass(ValkyrieEnumerateBody.class);
+    public ValkyrieFlagsBody getFlagsBody() {
+        return findChildByClass(ValkyrieFlagsBody.class);
     }
 
     @Override

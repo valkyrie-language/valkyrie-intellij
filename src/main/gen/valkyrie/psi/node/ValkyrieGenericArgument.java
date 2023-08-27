@@ -14,6 +14,6 @@ public interface ValkyrieGenericArgument extends PsiElement {
     ValkyrieIdentifier getIdentifier();
 
     @NotNull
-    ValkyrieTypeExpression getTypeExpression();
+    List<ValkyrieTypeExpression> getTypeExpressionList();
 
 }
