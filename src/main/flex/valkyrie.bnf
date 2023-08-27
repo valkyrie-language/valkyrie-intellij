@@ -59,7 +59,7 @@
 root ::= statements*
 private statements ::= declare-namespace
     | using-statement
-    | alias-type
+    | type-alias
     | trait-alias
     | declare-flags
     | declare-enumerate
@@ -81,7 +81,7 @@ private block-statement ::= SEMICOLON
     | control-statement
     | expression-root
 // === grammar statement ===
-declare-namespace ::= annotations KW_NAMESPACE namepath-free {
+declare-namespace ::= annotations KW_NAMESPACE namepath-auto {
 	pin = 2
     mixin = "valkyrie.psi.mixin.MixinNamespace"
 }
@@ -94,10 +94,10 @@ using-term ::= SEMICOLON | COMMA
   | using-any
   | using-alias
   | using-block
-  | namepath-free
-using-any     ::= (namepath-free using-dot?) STAR using-exclude?
+  | namepath-auto
+using-any     ::= (namepath-auto using-dot?) STAR using-exclude?
 using-exclude ::= KW_EXCLUDE (identifier|BRACE_L (identifier (COMMA identifier)* COMMA?) BRACE_R)
-using-block   ::= namepath-free using-dot? using-body
+using-block   ::= namepath-auto using-dot? using-body
 using-body    ::= BRACE_L using-term* BRACE_R;
 using-alias   ::= identifier KW_AS identifier;
 private using-dot ::= DOT|NAME_SPLIT|OP_DIV
@@ -108,8 +108,8 @@ declare-template ::= annotations KW_TEMPLATE (identifier (COMMA identifier)* COM
 template-body ::= BRACE_L template-item* BRACE_R;
 template-item ::= SEMICOLON
   | declare-where
-// === class statement ===
-alias-type ::= annotations KW_TYPE identifier EQUAL type-expression {
+// === type statement ===
+type-alias ::= annotations KW_TYPE identifier declare-generic? EQUAL type-expression {
     pin = 2
 }
 associated-type ::= annotations KW_TYPE identifier (EQUAL type-expression)? {
@@ -117,7 +117,7 @@ associated-type ::= annotations KW_TYPE identifier (EQUAL type-expression)? {
 }
 declare-where ::= KW_WHERE where-body;
 where-body    ::= BRACE_L BRACE_R
-
+// === class statement ===
 declare-class ::= declare-template? annotations KW_CLASS identifier declare-generic? class-inherit? type-hint? class-body {
     pin = 3
     mixin = "valkyrie.psi.mixin.MixinClass"
@@ -264,13 +264,16 @@ localize-call ::= OP_L10N (identifier ((DOT|NAME_SPLIT|OP_DIV) identifier)*)? ar
     mixin = "valkyrie.psi.mixin.MixinLocalize"
 }
 // === function call statement ===
-function-call ::= namepath (argument-body? block-body | argument-body);
+function-call ::= namepath generic-call? (argument-body? block-body | argument-body);
 function-call-inline ::= namepath argument-body;
 dot-call        ::= OP_AND_THEN? DOT namepath (argument-body | argument-body? block-body)?;
 dot-call-inline ::= OP_AND_THEN? DOT namepath argument-body?
 // === macro call statement ===
-macro-call    ::= OP_MACRO namepath (argument-body? class-body|argument-body)? {
+macro-call    ::= OP_MACRO macro-path generic-call? (argument-body? class-body|argument-body)? {
     pin = 1
+}
+macro-path ::= identifier-free (NAME_SPLIT identifier-free)* {
+    extends = namepath
 }
 dot-call-macro        ::= OP_AND_THEN? DOT OP_MACRO namepath (argument-body? class-body|argument-body)?
 macro-call-inline     ::= OP_MACRO namepath argument-body?
@@ -405,7 +408,7 @@ pattern ::=
     | pattern-sequence
     | pattern-object
     | pattern-literal
-pattern-unapply      ::= annotations namepath-free? pattern-unapply-body;
+pattern-unapply      ::= annotations namepath-auto? pattern-unapply-body;
 pattern-unapply-body ::= PARENTHESIS_L (pattern (COMMA pattern)* COMMA?)? PARENTHESIS_R {
     pin = 1
 }
@@ -413,7 +416,7 @@ pattern-sequence      ::= pattern-sequence-body;
 pattern-sequence-body ::= BRACKET_L (pattern (COMMA pattern)* COMMA?)? BRACKET_R {
     pin = 1
 }
-pattern-object      ::= annotations namepath-free? pattern-object-body;
+pattern-object      ::= annotations namepath-auto? pattern-object-body;
 pattern-object-body ::= BRACE_L (pattern-pair (COMMA pattern-pair)* COMMA?)? BRACE_R {
     pin = 1
 }
@@ -755,7 +758,8 @@ attribute-item   ::= namepath (DOT identifier-free)? generic-call? argument-body
 namepath      ::= (NAME_SCOPE NAME_SPLIT?)? identifier (NAME_SPLIT identifier)* {
     mixin = "valkyrie.psi.mixin.MixinNamepath"
 }
-namepath-free ::= identifier ((NAME_SPLIT|DOT) identifier)* {
+
+namepath-auto ::= identifier ((NAME_SPLIT|DOT) identifier)* {
     extends = namepath
 }
 identifier ::= symbol-safe | symbol {
@@ -768,6 +772,7 @@ identifier-free ::=  symbol-lead | symbol-safe | symbol {
 private symbol      ::= SYMBOL | SYMBOW_RAW;
 private symbol-safe ::= KW_FROM | KW_AS;
 private symbol-lead ::= KW_LET
+    | KW_TYPE
     | KW_CLASS | KW_TRAIT | KW_OBJECT
     | KW_CATCH | KW_MATCH | KW_CASE
 unused ::= BUILDER_L BUILDER_R DOMAIN_L DOMAIN_R OP_ARROW2 OP_ARROW3
