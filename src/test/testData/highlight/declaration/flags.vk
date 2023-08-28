@@ -2,10 +2,9 @@ flags Empty {}
 
 flags OneFlag(u8) {
     A,
+    get name() {
 
-get name() {
-
-}
+    }
 }
 
 inherit
@@ -20,14 +19,14 @@ flags TestFlags2(u8) {
 
 flags ManyEnums {
     A = 1,
-    B = 2 ^ 5, ,
+    B = 2 ^ 5,
     C = Base.A && Base.B,
-    D = TestFlags2[Self::A] || TestFlags2[Self::B],
+    D = TestFlags2[Self⸬A] || TestFlags2[Self⸬B],
 }
 
 flags ManyFlags {
     A = 1,
     B = 2 ^ 2,
     C = Base.A && Base.B,
-    D = ManyEnums[Self::A] || ManyEnums[Self::B],
+    D = ManyEnums[Self⸬A] || ManyEnums[Self⸬B],
 }

@@ -3,7 +3,7 @@ package valkyrie.project.facet.asgard
 import com.intellij.facet.Facet
 import com.intellij.facet.FacetType
 import com.intellij.facet.FacetTypeId
-import com.intellij.icons.ExpUiIcons
+import com.intellij.icons.AllIcons
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.module.ModuleType
 import valkyrie.language.ValkyrieBundle
@@ -32,7 +32,7 @@ class AsgardFrameworkProvider : FacetType<AsgardFacet, AsgardConfig> {
     }
 
     override fun getIcon(): Icon {
-        return ExpUiIcons.Gutter.Colors
+        return AllIcons.Gutter.Colors
     }
 
     override fun getHelpTopic(): String {

@@ -1,7 +1,9 @@
 package valkyrie.project.legion
 
+
 import com.intellij.json.json5.Json5Language
 import com.intellij.lang.Language
+import com.intellij.lang.xml.XMLLanguage
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.isFile

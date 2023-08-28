@@ -1,6 +1,6 @@
 package valkyrie.ide.codegen
 
-import com.intellij.icons.ExpUiIcons
+import com.intellij.icons.AllIcons.Actions.GroupByMethod
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.psi.PsiDirectory
@@ -12,7 +12,7 @@ import valkyrie.language.ValkyrieLanguage
 private val name = ValkyrieBundle.message("action.macro.expand_file")
 private val description = ValkyrieBundle.message("action.convert_prop.description")
 
-class ExpandMacro : AnAction(name, description, ExpUiIcons.Actions.GroupByMethod) {
+class ExpandMacro : AnAction(name, description, GroupByMethod) {
     override fun actionPerformed(e: AnActionEvent) {
 //        val src = LangDataKeys.PSI_FILE.getData(e.dataContext) ?: return
 //        if (isValidFile(src)) {

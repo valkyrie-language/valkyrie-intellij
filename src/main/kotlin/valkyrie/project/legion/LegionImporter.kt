@@ -36,9 +36,7 @@ class LegionImporter : ProjectImportBuilder<LegionImporterConfig>() {
         return ValkyrieIconProvider.Instance.Valkyrie
     }
 
-    override fun isOpenProjectSettingsAfter(): Boolean {
-        return false
-    }
+
 
     override fun setOpenProjectSettingsAfter(on: Boolean) {
 
@@ -48,7 +46,7 @@ class LegionImporter : ProjectImportBuilder<LegionImporterConfig>() {
         return false
     }
 
-    override fun createProject(name: String?, path: String?): Project? {
+    override fun createProject(name: String, path: String): Project? {
         return super.createProject(name, path)
     }
 
@@ -78,7 +76,7 @@ class LegionImporter : ProjectImportBuilder<LegionImporterConfig>() {
         super.setFileToImport(path)
     }
 
-    override fun isSuitableSdkType(sdkType: SdkTypeId?): Boolean {
+    override fun isSuitableSdkType(sdkType: SdkTypeId): Boolean {
         return super.isSuitableSdkType(sdkType)
     }
 }

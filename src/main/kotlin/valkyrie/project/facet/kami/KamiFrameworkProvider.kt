@@ -6,7 +6,7 @@ import com.intellij.facet.FacetTypeId
 import com.intellij.facet.impl.invalid.MultipleInvalidFacetEditor
 import com.intellij.facet.ui.FacetEditor
 import com.intellij.facet.ui.MultipleFacetSettingsEditor
-import com.intellij.icons.ExpUiIcons
+import com.intellij.icons.AllIcons
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.module.ModuleType
 import com.intellij.openapi.project.Project
@@ -40,7 +40,7 @@ class KamiFrameworkProvider : FacetType<KamiFacet, KamiConfigPanel> {
     }
 
     override fun getIcon(): Icon {
-        return ExpUiIcons.CodeWithMe.CwmAccess
+        return AllIcons.CodeWithMe.CwmAccess
     }
 
     override fun getHelpTopic(): String {

@@ -65,10 +65,6 @@ class LegionWorkspaceBuilder : ModuleBuilder() {
         super.addModuleConfigurationUpdater(updater)
     }
 
-    override fun isOpenProjectSettingsAfter(): Boolean {
-        return super.isOpenProjectSettingsAfter()
-    }
-
     override fun modifyProjectTypeStep(settingsStep: SettingsStep): ModuleWizardStep? {
         return ValkyrieModuleWizardStep("modifyProjectTypeStep")
     }
