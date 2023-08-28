@@ -15,17 +15,17 @@ class ValkyrieSdkUnknownResolver : UnknownSdkResolver {
         return true
     }
 
-    override fun createResolver(project: Project?, indicator: ProgressIndicator): UnknownSdkLookup {
-        return ValkyrieUnknownSdkLookup(project)
+    override fun createResolver(project: Project?, indicator: ProgressIndicator): UnknownSdkLookup? {
+        return null
     }
 }
 
-private class ValkyrieUnknownSdkLookup(project: Project?) : UnknownSdkLookup {
-    override fun proposeLocalFix(sdk: UnknownSdk, indicator: ProgressIndicator): UnknownSdkLocalSdkFix {
-        return ValkyrieSdkUnknownLocalFix(sdk, indicator)
-    }
-
-    override fun proposeDownload(sdk: UnknownSdk, indicator: ProgressIndicator): UnknownSdkDownloadableSdkFix {
-        return ValkyrieSdkUnknownRemoteFix(sdk, indicator)
-    }
-}
+//private class ValkyrieUnknownSdkLookup(project: Project?) : UnknownSdkLookup {
+//    override fun proposeLocalFix(sdk: UnknownSdk, indicator: ProgressIndicator): UnknownSdkLocalSdkFix {
+//        return ValkyrieSdkUnknownLocalFix(sdk, indicator)
+//    }
+//
+//    override fun proposeDownload(sdk: UnknownSdk, indicator: ProgressIndicator): UnknownSdkDownloadableSdkFix {
+//        return ValkyrieSdkUnknownRemoteFix(sdk, indicator)
+//    }
+//}

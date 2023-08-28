@@ -31,6 +31,7 @@ dependencies {
     intellijPlatform {
         // https://youtrack.jetbrains.com/articles/IDEA-A-2100662189/IntelliJ-IDEA-2024.3-Latest-Builds
         intellijIdeaUltimate("243.19420.21", useInstaller = true)
+        bundledPlugin("com.intellij.modules.json")
         bundledPlugin("org.toml.lang")
         bundledPlugin("org.intellij.plugins.markdown")
         // https://plugins.jetbrains.com/plugin/227-psiviewer/versions
@@ -65,7 +66,7 @@ tasks {
         gradleVersion = properties("gradleVersion").get()
     }
     patchPluginXml {
-        version = properties("pluginVersion")
+        version = properties("pluginVersion").get()
         sinceBuild = properties("pluginSinceBuild")
         untilBuild = properties("pluginUntilBuild")
 
