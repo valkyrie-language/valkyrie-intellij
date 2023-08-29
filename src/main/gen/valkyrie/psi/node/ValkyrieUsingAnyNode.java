@@ -28,8 +28,8 @@ public class ValkyrieUsingAnyNode extends ValkyrieElement implements ValkyrieUsi
 
     @Override
     @NotNull
-    public ValkyrieNamepathFree getNamepathFree() {
-        return findNotNullChildByClass(ValkyrieNamepathFree.class);
+    public ValkyrieNamepathAuto getNamepathAuto() {
+        return findNotNullChildByClass(ValkyrieNamepathAuto.class);
     }
 
     @Override

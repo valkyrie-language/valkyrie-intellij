@@ -11,7 +11,7 @@ public interface ValkyriePatternObject extends PsiElement {
     ValkyrieAnnotations getAnnotations();
 
     @Nullable
-    ValkyrieNamepathFree getNamepathFree();
+    ValkyrieNamepathAuto getNamepathAuto();
 
     @NotNull
     ValkyriePatternObjectBody getPatternObjectBody();

@@ -34,8 +34,8 @@ public class ValkyrieDeclareNamespaceNode extends MixinNamespace implements Valk
 
     @Override
     @Nullable
-    public ValkyrieNamepathFree getNamepathFree() {
-        return findChildByClass(ValkyrieNamepathFree.class);
+    public ValkyrieNamepathAuto getNamepathAuto() {
+        return findChildByClass(ValkyrieNamepathAuto.class);
     }
 
 }

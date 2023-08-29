@@ -29,6 +29,9 @@ public interface ValkyrieAtomic extends PsiElement {
     ValkyrieLoopStatement getLoopStatement();
 
     @Nullable
+    ValkyrieLoopTemplate getLoopTemplate();
+
+    @Nullable
     ValkyrieMacroCall getMacroCall();
 
     @Nullable

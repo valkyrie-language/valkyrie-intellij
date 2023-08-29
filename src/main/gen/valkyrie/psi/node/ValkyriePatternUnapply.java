@@ -11,7 +11,7 @@ public interface ValkyriePatternUnapply extends PsiElement {
     ValkyrieAnnotations getAnnotations();
 
     @Nullable
-    ValkyrieNamepathFree getNamepathFree();
+    ValkyrieNamepathAuto getNamepathAuto();
 
     @NotNull
     ValkyriePatternUnapplyBody getPatternUnapplyBody();

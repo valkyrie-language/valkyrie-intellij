@@ -34,8 +34,8 @@ public class ValkyriePatternObjectNode extends ValkyrieElement implements Valkyr
 
     @Override
     @Nullable
-    public ValkyrieNamepathFree getNamepathFree() {
-        return findChildByClass(ValkyrieNamepathFree.class);
+    public ValkyrieNamepathAuto getNamepathAuto() {
+        return findChildByClass(ValkyrieNamepathAuto.class);
     }
 
     @Override

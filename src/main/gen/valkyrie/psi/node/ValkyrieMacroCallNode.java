@@ -40,8 +40,14 @@ public class ValkyrieMacroCallNode extends ValkyrieElement implements ValkyrieMa
 
     @Override
     @Nullable
-    public ValkyrieNamepath getNamepath() {
-        return findChildByClass(ValkyrieNamepath.class);
+    public ValkyrieGenericCall getGenericCall() {
+        return findChildByClass(ValkyrieGenericCall.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieMacroPath getMacroPath() {
+        return findChildByClass(ValkyrieMacroPath.class);
     }
 
 }

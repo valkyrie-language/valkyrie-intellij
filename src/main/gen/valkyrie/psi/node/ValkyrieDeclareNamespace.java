@@ -11,6 +11,6 @@ public interface ValkyrieDeclareNamespace extends PsiElement {
     ValkyrieAnnotations getAnnotations();
 
     @Nullable
-    ValkyrieNamepathFree getNamepathFree();
+    ValkyrieNamepathAuto getNamepathAuto();
 
 }

@@ -2,12 +2,13 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieMatchWithProvide extends PsiElement {
+public interface ValkyrieLoopTemplateStart extends PsiElement {
 
-    @NotNull
-    List<ValkyrieTypeExpression> getTypeExpressionList();
+    @Nullable
+    ValkyrieLoopCondition getLoopCondition();
 
 }

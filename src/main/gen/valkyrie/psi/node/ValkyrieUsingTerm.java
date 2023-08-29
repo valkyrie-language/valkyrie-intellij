@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieUsingTerm extends PsiElement {
 
     @Nullable
-    ValkyrieNamepathFree getNamepathFree();
+    ValkyrieNamepathAuto getNamepathAuto();
 
     @Nullable
     ValkyrieUsingAlias getUsingAlias();

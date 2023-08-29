@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieUsingAny extends PsiElement {
 
     @NotNull
-    ValkyrieNamepathFree getNamepathFree();
+    ValkyrieNamepathAuto getNamepathAuto();
 
     @Nullable
     ValkyrieUsingExclude getUsingExclude();
