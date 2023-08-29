@@ -17,15 +17,15 @@
 <SYM_MODIFIER>value</SYM_MODIFIER> <KEYWORD>class</KEYWORD> <SYM_STRUCTURE>ClassName</SYM_STRUCTURE>: <SYM_TRAIT>Display</SYM_TRAIT> {
     <SYM_FIELD>field_bool</SYM_FIELD>: <SYM_STRUCTURE>Boolean</SYM_STRUCTURE> = true
     <SYM_FIELD>field_string</SYM_FIELD>: <SYM_CLASS>String</SYM_CLASS> = ""
-    <SYM_ATTRIBUTE>#get</SYM_ATTRIBUTE>                // public get
-    <SYM_ATTRIBUTE>#set</SYM_ATTRIBUTE>(<SYM_MODIFIER>internal</SYM_MODIFIER>)      // internal set
-    <SYM_FIELD>_field_u32</SYM_FIELD>: <KEYWORD>u32</KEYWORD> = 0 // private field
-    <SYM_ATTRIBUTE>#get</SYM_ATTRIBUTE>({ <SYM_FIELD>_field_f32</SYM_FIELD> })
-    <SYM_ATTRIBUTE>#set</SYM_ATTRIBUTE>({ <SYM_FIELD>_field_f32</SYM_FIELD> = <KEYWORD>value</KEYWORD> })
+    <SYM_ATTRIBUTE>↯get</SYM_ATTRIBUTE>                # public get
+    <SYM_ATTRIBUTE>↯set</SYM_ATTRIBUTE>(<SYM_MODIFIER>internal</SYM_MODIFIER>)      # internal set
+    <SYM_FIELD>_field_u32</SYM_FIELD>: <KEYWORD>u32</KEYWORD> = 0 # private field
+    <SYM_ATTRIBUTE>↯get</SYM_ATTRIBUTE>({ <SYM_FIELD>_field_f32</SYM_FIELD> })
+    <SYM_ATTRIBUTE>↯set</SYM_ATTRIBUTE>({ <SYM_FIELD>_field_f32</SYM_FIELD> = <KEYWORD>value</KEYWORD> })
     <SYM_FIELD>_field_f32</SYM_FIELD>: <KEYWORD>f32</KEYWORD> = 0.0
 }
 
-<SYM_ATTRIBUTE>#derive</SYM_ATTRIBUTE>(<SYM_TRAIT>TotalEqual</SYM_TRAIT>)
+<SYM_ATTRIBUTE>↯derive</SYM_ATTRIBUTE>(<SYM_TRAIT>TotalEqual</SYM_TRAIT>)
 <KEYWORD>class</KEYWORD> <SYM_CLASS>Point</SYM_CLASS>⟨<SYM_GENERIC>T</SYM_GENERIC>: <SYM_TRAIT>TotalEqual</SYM_TRAIT> = <KEYWORD>f32</KEYWORD>⟩ {
     <SYM_FIELD>x</SYM_FIELD>: <SYM_GENERIC>T</SYM_GENERIC> = <KEYWORD>default</KEYWORD>;
     <SYM_FIELD>y</SYM_FIELD>: <SYM_GENERIC>T</SYM_GENERIC> = <KEYWORD>default</KEYWORD>;

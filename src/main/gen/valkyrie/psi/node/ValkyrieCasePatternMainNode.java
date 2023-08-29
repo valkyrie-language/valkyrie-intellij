@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieLetPatternNode extends ValkyrieElement implements ValkyrieLetPattern {
+public class ValkyrieCasePatternMainNode extends ValkyrieElement implements ValkyrieCasePatternMain {
 
-    public ValkyrieLetPatternNode(@NotNull ASTNode node) {
+    public ValkyrieCasePatternMainNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitLetPattern(this);
+        visitor.visitCasePatternMain(this);
     }
 
     @Override
@@ -27,27 +30,21 @@ public class ValkyrieLetPatternNode extends ValkyrieElement implements ValkyrieL
     }
 
     @Override
-    @Nullable
-    public ValkyrieBarePattern getBarePattern() {
-        return findChildByClass(ValkyrieBarePattern.class);
+    @NotNull
+    public ValkyrieCasePatternItem getCasePatternItem() {
+        return findNotNullChildByClass(ValkyrieCasePatternItem.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieCasePatternDict getCasePatternDict() {
-        return findChildByClass(ValkyrieCasePatternDict.class);
+    public ValkyrieCasePatternKind getCasePatternKind() {
+        return findChildByClass(ValkyrieCasePatternKind.class);
     }
 
     @Override
-    @Nullable
-    public ValkyrieCasePatternList getCasePatternList() {
-        return findChildByClass(ValkyrieCasePatternList.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieMatchBind getMatchBind() {
-        return findChildByClass(ValkyrieMatchBind.class);
+    @NotNull
+    public List<ValkyrieCasePatternRest> getCasePatternRestList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieCasePatternRest.class);
     }
 
 }

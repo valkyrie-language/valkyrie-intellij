@@ -11,7 +11,7 @@ public interface ValkyrieLoopInline extends PsiElement {
     ValkyrieBarePattern getBarePattern();
 
     @Nullable
-    ValkyrieCasePatternTuple getCasePatternTuple();
+    ValkyrieCasePatternList getCasePatternList();
 
     @Nullable
     ValkyrieMatchBind getMatchBind();

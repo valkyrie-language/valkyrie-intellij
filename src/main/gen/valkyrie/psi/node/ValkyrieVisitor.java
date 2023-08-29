@@ -79,11 +79,27 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitCasePatternBind(@NotNull ValkyrieCasePatternBind o) {
+        visitPsiElement(o);
+    }
+
+    public void visitCasePatternDict(@NotNull ValkyrieCasePatternDict o) {
+        visitPsiElement(o);
+    }
+
     public void visitCasePatternItem(@NotNull ValkyrieCasePatternItem o) {
         visitPsiElement(o);
     }
 
-    public void visitCasePatternObject(@NotNull ValkyrieCasePatternObject o) {
+    public void visitCasePatternKind(@NotNull ValkyrieCasePatternKind o) {
+        visitPsiElement(o);
+    }
+
+    public void visitCasePatternList(@NotNull ValkyrieCasePatternList o) {
+        visitPsiElement(o);
+    }
+
+    public void visitCasePatternMain(@NotNull ValkyrieCasePatternMain o) {
         visitPsiElement(o);
     }
 
@@ -91,7 +107,11 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitCasePatternTuple(@NotNull ValkyrieCasePatternTuple o) {
+    public void visitCasePatternRest(@NotNull ValkyrieCasePatternRest o) {
+        visitPsiElement(o);
+    }
+
+    public void visitCasePatternTop(@NotNull ValkyrieCasePatternTop o) {
         visitPsiElement(o);
     }
 

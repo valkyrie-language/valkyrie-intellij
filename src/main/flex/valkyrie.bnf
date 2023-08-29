@@ -257,8 +257,8 @@ let-statement ::= KW_LET let-pattern type-hint? (EQUAL|OP_SET_THEN) expression-r
     mixin = "valkyrie.psi.mixin.MixinVariable"
 }
 let-pattern ::= bare-pattern !let-stop // let ref x, mut y
-    | match-bind? case-pattern-object  // let a <- Object {x, y}
-    | match-bind? case-pattern-tuple   // let a <- Some(x)
+    | match-bind? case-pattern-dict  // let a <- Object {x, y}
+    | match-bind? case-pattern-list   // let a <- Some(x)
 private let-stop ::= PARENTHESIS_L|BRACKET_L | BRACE_L | BIND;
 // === localize path ===
 localize-call ::= OP_L10N (identifier ((DOT|NAME_SPLIT|OP_DIV) identifier)*)? argument-body? {
@@ -326,7 +326,7 @@ dot-loop-call  ::= OP_AND_THEN? DOT KW_LOOP control-label? attribute-below* KW_E
     pin = 3
 }
 loop-inline ::= bare-pattern !(PARENTHESIS_L|BRACKET_L|BIND)
-    | match-bind? case-pattern-tuple   // loop x <- Some() in ...
+    | match-bind? case-pattern-list   // loop x <- Some() in ...
     | match-bind? namepath             // loop x <- Option::None in ...
     | match-bind? special              // loop ture in ...
     | match-bind? string               // loop x <- "text" in ...
@@ -359,32 +359,32 @@ match-bind     ::= modifier* identifier BIND
 match-kind ::= KW_MATCH|KW_CATCH;
 match-body ::= BRACE_L match-item* BRACE_R;
 private match-item ::=
-    match-with
-  | match-type
-  | match-case
-  | match-when
-  | match-else
-match-with ::= KW_WITH OP_OR? pattern (OP_OR pattern)* OP_ARROW1 block-bare {
+      match-with
+    | match-type
+    | match-case
+    | match-when
+    | match-else
+match-with ::= KW_WITH OP_OR? pattern (OP_OR pattern)* (COLON|KW_THEN) block-bare {
     pin = 1
 }
-match-type ::= KW_TYPE OP_OR? type-pattern (OP_OR type-pattern)* OP_ARROW1 block-bare {
+match-type ::= KW_TYPE OP_OR? type-pattern (OP_OR type-pattern)* (COLON|KW_THEN) block-bare {
     pin = 1
 }
-match-case ::= KW_CASE OP_OR? case-pattern (OP_OR case-pattern)* if-condition? OP_ARROW1 block-bare {
+match-case ::= KW_CASE case-pattern-kind? case-pattern-top (case-pattern-kind case-pattern-top)* if-condition? (COLON|KW_THEN) block-bare {
     pin = 1
 }
-match-when ::= KW_WHEN infix-logical? expression OP_ARROW1 block-bare {
+match-when ::= KW_WHEN infix-logical? expression (COLON|KW_THEN) block-bare {
     pin = 1
 }
-match-else ::= KW_ELSE OP_ARROW1 block-bare {
+match-else ::= KW_ELSE (COLON|KW_THEN) block-bare {
     pin = 1
 }
 // === pattern expression ===
 pattern ::=
-    pattern-unapply
-  | pattern-sequence
-  | pattern-object
-  | pattern-literal
+      pattern-unapply
+    | pattern-sequence
+    | pattern-object
+    | pattern-literal
 pattern-unapply      ::= annotations namepath-free? pattern-unapply-body;
 pattern-unapply-body ::= PARENTHESIS_L (pattern (COMMA pattern)* COMMA?)? PARENTHESIS_R {
     pin = 1
@@ -419,23 +419,29 @@ type-pattern-pair   ::= identifier (EQUAL|COLON) type-pattern
 type-pattern-item   ::= namepath generic-call-free?
 // === case pattern ===
 case-pattern ::= special
-    | case-pattern-tuple   // case Some()
-    | case-pattern-object  // case Object { }
+    | case-pattern-list    // case Some()
+    | case-pattern-dict    // case Object { }
     | string               // case "text"
-    | number-literal               // case 1
+    | number-literal       // case 1
     | namepath !identifier // Option::None
-    | case-pattern-item    // mut id
-
-case-pattern-object ::= namepath? BRACE_L (case-pattern-pair (COMMA case-pattern-pair)* COMMA?)? BRACE_R
-case-pattern-pair   ::= (modifier|KW_LET)* identifier (COLON type-expression)? ((EQUAL|OP_MACRO_FREE|BIND|OP_ARROW1) case-pattern)? {
+case-pattern-dict ::= namepath? BRACE_L (case-pattern-pair (COMMA case-pattern-pair)* COMMA?)? BRACE_R
+case-pattern-pair ::= modifier* identifier (COLON type-expression)? (case-pattern-bind case-pattern)? {
     mixin = "valkyrie.psi.mixin.MixinCasePatternPair"
 }
-case-pattern-tuple  ::= namepath? PARENTHESIS_L (case-pattern (COMMA case-pattern)* COMMA?)? PARENTHESIS_R
-                      | namepath? BRACKET_L (case-pattern (COMMA case-pattern)* COMMA?)? BRACKET_R
-case-pattern-item   ::= (modifier|KW_LET)* identifier ((EQUAL|OP_MACRO_FREE|COLON|BIND|OP_ARROW1) case-pattern)? {
+case-pattern-bind ::= EQUAL | OP_MACRO_FREE | BIND;
+case-pattern-list ::= namepath? PARENTHESIS_L (case-pattern-main (COMMA case-pattern-main)* COMMA?)? PARENTHESIS_R
+                    | namepath? BRACKET_L     (case-pattern-main (COMMA case-pattern-main)* COMMA?)? BRACKET_R
+case-pattern-top  ::= case-pattern | modifier* identifier (KW_IS type-expression)? (EQUAL case-pattern)? {
     mixin = "valkyrie.psi.mixin.MixinCasePatternItem"
 }
-bare-pattern ::= bare-pattern-item (COMMA bare-pattern-item)* COMMA?
+case-pattern-item ::= case-pattern | modifier* identifier (COLON type-expression)? (EQUAL case-pattern)? {
+    mixin = "valkyrie.psi.mixin.MixinCasePatternItem"
+}
+case-pattern-main ::= case-pattern-kind? case-pattern-item case-pattern-rest*
+case-pattern-rest ::= case-pattern-kind case-pattern-item
+case-pattern-kind ::= OP_OR|OP_AND|LOGIC_AND|LOGIC_OR
+// === loop bare pattern pattern ===
+bare-pattern      ::= bare-pattern-item (COMMA bare-pattern-item)* COMMA?
 bare-pattern-item ::= modifier* identifier {
     mixin = "valkyrie.psi.mixin.MixinLetPatternItem"
 }
