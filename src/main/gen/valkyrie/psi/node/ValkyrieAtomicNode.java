@@ -70,6 +70,12 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
 
     @Override
     @Nullable
+    public ValkyrieLoopTemplate getLoopTemplate() {
+        return findChildByClass(ValkyrieLoopTemplate.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieMacroCall getMacroCall() {
         return findChildByClass(ValkyrieMacroCall.class);
     }
