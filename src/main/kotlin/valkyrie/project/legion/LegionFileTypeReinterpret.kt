@@ -1,7 +1,6 @@
 package valkyrie.project.legion
 
 
-import com.intellij.json.json5.Json5Language
 import com.intellij.lang.Language
 import com.intellij.lang.xml.XMLLanguage
 import com.intellij.openapi.project.Project
@@ -18,7 +17,7 @@ class LegionFileTypeReinterpret : LanguageSubstitutor() {
                 "legion.lock",
                 "legions.json",
                 "legions.lock",
-                -> Json5Language.INSTANCE
+                    -> XMLLanguage.INSTANCE
 
                 else -> null
             }

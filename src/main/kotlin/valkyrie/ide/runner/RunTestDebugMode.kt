@@ -14,7 +14,7 @@ class RunTestDebugMode : AnAction {
 
     constructor(element: PsiElement) : super() {
         this.element = element
-        templatePresentation.icon = AllIcons.Run.Restart
+        templatePresentation.icon = AllIcons.Nodes.Test
         templatePresentation.text = ValkyrieBundle.message("action.run.class.full.name")
         templatePresentation.description = ValkyrieBundle.message("action.run.class.full.help")
     }
@@ -32,10 +32,6 @@ class RunTestDebugMode : AnAction {
             path,
             Messages.getErrorIcon()
         )
-    }
-
-    override fun displayTextInToolbar(): Boolean {
-        return true
     }
 
     override fun update(e: AnActionEvent) {

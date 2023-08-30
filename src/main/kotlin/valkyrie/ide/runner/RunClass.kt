@@ -33,8 +33,5 @@ class RunClass(val classPath: List<String>, private val full: Boolean) : AnActio
         )
     }
 
-    override fun displayTextInToolbar(): Boolean {
-        return true
-    }
 
 }
