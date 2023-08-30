@@ -331,10 +331,6 @@ loop-inline ::= bare-pattern !(PARENTHESIS_L|BRACKET_L|BIND)
     | match-bind? special              // loop ture in ...
     | match-bind? string               // loop x <- "text" in ...
     | match-bind? number-literal               // loop x <- 1 in ...
-// === for statement ===
-for-statement ::= KW_FOR case-pattern KW_IN expression-inline if-condition? block-body {
-    pin = 1
-}
 // === try let statement ===
 try-let-statement ::= KW_TRY KW_LET let-pattern EQUAL expression-inline if-condition? block-body else-statement? {
     pin = 2
@@ -423,7 +419,7 @@ case-pattern ::= special
     | case-pattern-dict    // case Object { }
     | string               // case "text"
     | number-literal       // case 1
-    | namepath !identifier // Option::None
+    | namepath !(identifier|case-pattern-bind|COLON)
 case-pattern-dict ::= namepath? BRACE_L (case-pattern-pair (COMMA case-pattern-pair)* COMMA?)? BRACE_R
 case-pattern-pair ::= modifier* identifier (COLON type-expression)? (case-pattern-bind case-pattern)? {
     mixin = "valkyrie.psi.mixin.MixinCasePatternPair"
@@ -431,10 +427,10 @@ case-pattern-pair ::= modifier* identifier (COLON type-expression)? (case-patter
 case-pattern-bind ::= EQUAL | OP_MACRO_FREE | BIND;
 case-pattern-list ::= namepath? PARENTHESIS_L (case-pattern-main (COMMA case-pattern-main)* COMMA?)? PARENTHESIS_R
                     | namepath? BRACKET_L     (case-pattern-main (COMMA case-pattern-main)* COMMA?)? BRACKET_R
-case-pattern-top  ::= case-pattern | modifier* identifier (KW_IS type-expression)? (EQUAL case-pattern)? {
+case-pattern-top  ::= case-pattern | modifier* identifier (KW_IS type-expression)? (case-pattern-bind case-pattern)? {
     mixin = "valkyrie.psi.mixin.MixinCasePatternItem"
 }
-case-pattern-item ::= case-pattern | modifier* identifier (COLON type-expression)? (EQUAL case-pattern)? {
+case-pattern-item ::= case-pattern | modifier* identifier (COLON type-expression)? (case-pattern-bind case-pattern)? {
     mixin = "valkyrie.psi.mixin.MixinCasePatternItem"
 }
 case-pattern-main ::= case-pattern-kind? case-pattern-item case-pattern-rest*
