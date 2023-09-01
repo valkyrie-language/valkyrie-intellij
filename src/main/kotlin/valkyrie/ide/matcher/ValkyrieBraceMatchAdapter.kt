@@ -15,7 +15,6 @@ private val TYPE_TOKENS: ParentAwareTokenSet = ParentAwareTokenSet.orSet(
     ParentAwareTokenSet.create(
         ValkyrieTypes.SYMBOL, ValkyrieTypes.SYMBOW_RAW,
         ValkyrieTypes.COMMA,
-        ValkyrieTypes.OP_MACRO_BIND,
         ValkyrieTypes.BRACE_L, ValkyrieTypes.BRACE_R,
 //        JavaTokenType.QUEST, JavaTokenType.EXTENDS_KEYWORD, JavaTokenType.SUPER_KEYWORD
     )

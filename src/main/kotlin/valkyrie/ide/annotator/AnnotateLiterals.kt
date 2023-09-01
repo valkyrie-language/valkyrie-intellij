@@ -10,7 +10,6 @@ import com.intellij.psi.util.elementType
 import valkyrie.ide.line_marker.ValkyrieMarkColor
 import valkyrie.language.ValkyrieBundle
 import valkyrie.psi.ValkyrieTypes
-import valkyrie.psi.childrenWithLeaves
 import valkyrie.psi.node.*
 
 /** Static, literal level lightweight analysis */
@@ -21,13 +20,6 @@ class AnnotateLiterals : Annotator {
 }
 
 private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) {
-    override fun visitAssociatedType(o: ValkyrieAssociatedType) {
-        fixKeywordType(o.childrenWithLeaves)
-    }
-
-    override fun visitDeclareFunction(o: ValkyrieDeclareFunction) {
-        fixKeywordFunction(o.childrenWithLeaves)
-    }
 
 //        holder.newAnnotation(HighlightSeverity.INFORMATION, "Base 10 Integer")
 //            .range(number.textRange)
@@ -129,29 +121,6 @@ private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) 
             .range(TextRange.from(offset, length))
             .textAttributes(DefaultLanguageHighlighterColors.INVALID_STRING_ESCAPE)
             .create()
-    }
-
-
-    private fun fixKeywordType(children: Sequence<PsiElement>) {
-        for (kw in children) {
-            if (kw.elementType == ValkyrieTypes.KW_TYPE) {
-                if (kw.text == "type") {
-                    kw.replace(ValkyrieTypes.KW_TYPE, "typus", "`${kw.text}` is deprecated, use `typus` instead").create()
-                }
-                break
-            }
-        }
-    }
-
-    private fun fixKeywordFunction(children: Sequence<PsiElement>) {
-        for (kw in children) {
-            if (kw.elementType == ValkyrieTypes.KW_TYPE) {
-                if (kw.text == "function") {
-                    kw.replace(ValkyrieTypes.KW_FUNCTION, "micro", "`${kw.text}` is deprecated, use `micro` instead").create()
-                }
-                break
-            }
-        }
     }
 }
 

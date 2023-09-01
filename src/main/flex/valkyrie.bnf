@@ -262,12 +262,12 @@ function-call-inline ::= namepath argument-body;
 dot-call        ::= OP_AND_THEN? DOT namepath (argument-body | argument-body? block-body)?;
 dot-call-inline ::= OP_AND_THEN? DOT namepath argument-body?
 // === macro call statement ===
-macro-call    ::= OP_MACRO_FREE namepath (argument-body? class-body|argument-body)? {
+macro-call    ::= OP_MACRO namepath (argument-body? class-body|argument-body)? {
     pin = 1
 }
-dot-call-macro        ::= OP_AND_THEN? DOT OP_MACRO_FREE namepath (argument-body? class-body|argument-body)?
-macro-call-inline     ::= OP_MACRO_FREE namepath argument-body?
-dot-call-macro-inline ::= OP_AND_THEN? DOT OP_MACRO_FREE namepath argument-body?
+dot-call-macro        ::= OP_AND_THEN? DOT OP_MACRO namepath (argument-body? class-body|argument-body)?
+macro-call-inline     ::= OP_MACRO namepath argument-body?
+dot-call-macro-inline ::= OP_AND_THEN? DOT OP_MACRO namepath argument-body?
 
 
 
@@ -326,7 +326,7 @@ loop-inline ::= bare-pattern !(PARENTHESIS_L|BRACKET_L|BIND)
     | match-bind? string               // loop x <- "text" in ...
     | match-bind? number-literal               // loop x <- 1 in ...
 // === function statement ===
-let-statement ::= KW_LET let-pattern type-hint? EQUAL expression-root {
+let-statement ::= KW_LET let-pattern type-hint? EQUAL expression {
     pin = 4
     mixin = "valkyrie.psi.mixin.MixinVariable"
 }
@@ -335,18 +335,18 @@ let-pattern ::= bare-pattern !let-stop // let ref x, mut y
     | match-bind? case-pattern-list   // let a <- Some(x)
 private let-stop ::= PARENTHESIS_L|BRACKET_L | BRACE_L | BIND;
 // === try let statement ===
-may-let-statement ::= KW_LET let-pattern type-hint? OP_SET_THEN expression-root {
+may-let-statement ::= KW_LET let-pattern type-hint? OP_SET_THEN expression {
     pin = 4
-}
-try-let-statement ::= KW_TRY KW_LET let-pattern EQUAL expression if-condition? else-statement {
-    pin = 2
-}
-try-not-statement ::= KW_TRY KW_NOT type-pattern EQUAL expression block-body then-statement {
-    pin = 2
 }
 // === try statement ===
 try-statement ::= KW_TRY type-expression? block-body {
     pin = 1
+}
+try-let-statement ::= KW_TRY KW_LET let-pattern type-hint? EQUAL expression if-condition? else-statement {
+    pin = 2
+}
+try-not-statement ::= KW_TRY KW_NOT type-pattern EQUAL expression block-body then-statement {
+    pin = 2
 }
 // === match statement ===
 match-statement ::= match-kind match-bind? expression-inline? match-body {
@@ -357,7 +357,7 @@ dot-match-call ::= OP_AND_THEN? DOT match-kind (modifier* identifier BIND)? matc
     pin = 3
     mixin = "valkyrie.psi.mixin.MixinMatchCall"
 }
-match-bind     ::= modifier* identifier BIND
+match-bind ::= modifier* identifier BIND
 match-kind ::= KW_MATCH|KW_CATCH;
 match-body ::= BRACE_L match-item* BRACE_R;
 private match-item ::=
@@ -430,7 +430,7 @@ case-pattern-dict ::= namepath? BRACE_L (case-pattern-pair (COMMA case-pattern-p
 case-pattern-pair ::= modifier* identifier (COLON type-expression)? (case-pattern-bind case-pattern)? {
     mixin = "valkyrie.psi.mixin.MixinCasePatternPair"
 }
-case-pattern-bind ::= EQUAL | OP_MACRO_FREE | BIND;
+case-pattern-bind ::= EQUAL | OP_MACRO | BIND;
 case-pattern-list ::= namepath? PARENTHESIS_L (case-pattern-main (COMMA case-pattern-main)* COMMA?)? PARENTHESIS_R
                     | namepath? BRACKET_L     (case-pattern-main (COMMA case-pattern-main)* COMMA?)? BRACKET_R
 case-pattern-top  ::= case-pattern | modifier* identifier (KW_IS type-expression)? (case-pattern-bind case-pattern)? {
@@ -721,9 +721,9 @@ private modifier-stop ::= KW_IN | KW_IF
     | BRACKET_L | BRACKET_R
     | ANGLE_L | ANGLE_R
     | GENERIC_L | GENERIC_R
-attribute-below  ::= OP_MACRO_BIND attribute-item
-attribute-above  ::= OP_MACRO_BIND OP_POW attribute-item;
-attribute-item   ::= namepath argument-body? class-body? {
+attribute-below  ::= OP_MACRO_LOWER attribute-item
+attribute-above  ::= OP_MACRO_UPPER attribute-item;
+attribute-item   ::= namepath generic-call? argument-body? class-body? {
     mixin = "valkyrie.psi.mixin.MixinAttribute"
 }
 // === identifiers ===
