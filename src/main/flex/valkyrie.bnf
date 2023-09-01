@@ -251,15 +251,6 @@ return-type ::= (OP_ARROW1|COLON) type-expression;
 effect-type ::= OP_DIV type-expression;
 block-body  ::= BRACE_L block-statement* BRACE_R;
 block-bare  ::= block-statement*;
-// === function statement ===
-let-statement ::= KW_LET let-pattern type-hint? (EQUAL|OP_SET_THEN) expression-root else-statement? {
-    pin = 1
-    mixin = "valkyrie.psi.mixin.MixinVariable"
-}
-let-pattern ::= bare-pattern !let-stop // let ref x, mut y
-    | match-bind? case-pattern-dict  // let a <- Object {x, y}
-    | match-bind? case-pattern-list   // let a <- Some(x)
-private let-stop ::= PARENTHESIS_L|BRACKET_L | BRACE_L | BIND;
 // === localize path ===
 localize-call ::= OP_L10N (identifier ((DOT|NAME_SPLIT|OP_DIV) identifier)*)? argument-body? {
     pin = 1
@@ -289,6 +280,9 @@ if-condition ::= KW_IF expression-inline {
 }
 else-if-statement ::= KW_ELSE KW_IF expression-inline block-body {
     pin = 2
+}
+then-statement ::= KW_THEN block-body {
+    pin = 1
 }
 else-statement ::= KW_ELSE block-body {
     pin = 1
@@ -331,11 +325,23 @@ loop-inline ::= bare-pattern !(PARENTHESIS_L|BRACKET_L|BIND)
     | match-bind? special              // loop ture in ...
     | match-bind? string               // loop x <- "text" in ...
     | match-bind? number-literal               // loop x <- 1 in ...
+// === function statement ===
+let-statement ::= KW_LET let-pattern type-hint? EQUAL expression-root {
+    pin = 4
+    mixin = "valkyrie.psi.mixin.MixinVariable"
+}
+let-pattern ::= bare-pattern !let-stop // let ref x, mut y
+    | match-bind? case-pattern-dict  // let a <- Object {x, y}
+    | match-bind? case-pattern-list   // let a <- Some(x)
+private let-stop ::= PARENTHESIS_L|BRACKET_L | BRACE_L | BIND;
 // === try let statement ===
-try-let-statement ::= KW_TRY KW_LET let-pattern EQUAL expression-inline if-condition? block-body else-statement? {
+may-let-statement ::= KW_LET let-pattern type-hint? OP_SET_THEN expression-root {
+    pin = 4
+}
+try-let-statement ::= KW_TRY KW_LET let-pattern EQUAL expression if-condition? else-statement {
     pin = 2
 }
-try-not-statement ::= KW_TRY KW_NOT type-pattern EQUAL expression-inline block-body else-statement? {
+try-not-statement ::= KW_TRY KW_NOT type-pattern EQUAL expression block-body then-statement {
     pin = 2
 }
 // === try statement ===
@@ -653,6 +659,7 @@ atomic ::=    PARENTHESIS_L expression-root PARENTHESIS_R
     | localize-call       // ⸿scope.path
     | if-statement        // if ...
     | loop-statement      // loop {...}
+    | may-let-statement   // let? Some(x) = X
     | try-let-statement   // if case ...
     | try-not-statement
     | try-statement       // try T {...}

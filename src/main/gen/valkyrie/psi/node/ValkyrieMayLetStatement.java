@@ -2,10 +2,11 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieLetStatement extends PsiElement {
+public interface ValkyrieMayLetStatement extends PsiElement {
 
     @Nullable
     ValkyrieExpressionRoot getExpressionRoot();
