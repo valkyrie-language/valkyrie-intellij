@@ -17,7 +17,7 @@
 
     tokens = [
         // comment
-        COMMENT_LINE = "Comment"
+        COMMENT_LINE = "Comment Line"
         COMMENT_BLOCK = "Comment Block"
 
         // literal
@@ -108,6 +108,7 @@ declare-template ::= annotations KW_TEMPLATE (identifier (COMMA identifier)* COM
 template-body ::= BRACE_L template-item* BRACE_R;
 template-item ::= SEMICOLON
   | declare-where
+
 // === type statement ===
 type-alias ::= annotations KW_TYPE identifier declare-generic? EQUAL type-expression {
     pin = 2
@@ -157,7 +158,7 @@ type-hint     ::= COLON type-expression {
 default-value ::= EQUAL expression-root;
 default-type  ::= EQUAL type-expression;
 // === class method statement ===
-declare-method ::= annotations identifier-free declare-generic? parameter-body return-type? effect-type? block-body? {
+declare-method ::= annotations (KW_FUNCTION|KW_MACRO)? identifier-free declare-generic? parameter-body return-type? effect-type? block-body? {
     mixin = "valkyrie.psi.mixin.MixinMethod"
 }
 // === class domain statement ===
@@ -301,6 +302,12 @@ else-statement ::= KW_ELSE block-body {
 loop-statement ::= KW_LOOP control-label? attribute-below* loop-condition? block-body else-statement? {
     pin = 1
 }
+loop-template-start ::= TEMPLATE_L KW_LOOP loop-condition TEMPLATE_R {
+    pin = 2
+}
+loop-template ::= loop-template-start statements* template-end {
+
+}
 loop-condition ::=
       loop-while-let // while let
     | loop-while     // while {...}
@@ -308,7 +315,7 @@ loop-condition ::=
     | loop-until     // while {...}
     | loop-each      // match x in ...
 {
-    pin = 1
+
 }
 loop-while-let ::= KW_WHILE KW_LET? let-pattern type-hint? EQUAL expression-inline if-condition? {
     pin = 5
@@ -325,6 +332,7 @@ loop-until     ::= KW_UNTIL expression-inline {
 loop-each      ::= KW_EACH? match-bind? (bare-pattern !(PARENTHESIS_L|BRACKET_L|BRACE_L)|case-pattern) KW_IN expression-inline if-condition? {
     pin = 4
 }
+
 // === while statement ===
 dot-loop-call  ::= OP_AND_THEN? DOT KW_LOOP control-label? attribute-below* KW_EACH? loop-inline? if-condition? block-body {
     pin = 3
@@ -685,6 +693,7 @@ atomic ::=    PARENTHESIS_L expression-root PARENTHESIS_R
     | localize-call       // ⸿scope.path
     | if-statement        // if ...
     | loop-statement      // loop {...}
+    | loop-template       // <% loop i in j %> <% end %>
     | may-let-statement   // let? Some(x) = X
     | try-let-statement   // if case ...
     | try-not-statement
@@ -732,8 +741,7 @@ number-literal ::=
 string ::= identifier? STRING_L STRING_TEXT* STRING_R {
     mixin = "valkyrie.psi.mixin.MixinString"
 }
-special ::= KW_NIL | COLOR;
-
+special ::= KW_NIL|KW_NULL|KW_BOOLEAN|COLOR;
 // === annotation statement ===
 annotations ::= attribute-below* modifier*
 modifier    ::= (SYMBOL | SYMBOW_RAW) !modifier-stop {
@@ -775,4 +783,8 @@ private symbol-lead ::= KW_LET
     | KW_TYPE
     | KW_CLASS | KW_TRAIT | KW_OBJECT
     | KW_CATCH | KW_MATCH | KW_CASE
+template-end  ::= TEMPLATE_L template-end-word TEMPLATE_R
+template-end-word  ::= KW_END
+    | KW_END KW_FOR
+    | KW_LOOP KW_LOOP
 unused ::= BUILDER_L BUILDER_R DOMAIN_L DOMAIN_R OP_ARROW2 OP_ARROW3

@@ -19,7 +19,7 @@ class ValkyrieCommenter : CodeDocumentationAwareCommenter {
     }
 
     override fun getLineCommentTokenTypes(): MutableList<IElementType> {
-        return mutableListOf(ValkyrieTypes.COMMENT_LINE)
+        return mutableListOf(ValkyrieTypes.COMMENT_LINE, ValkyrieTypes.COMMENT_BLOCK)
     }
 
     override fun getBlockCommentPrefix() = null

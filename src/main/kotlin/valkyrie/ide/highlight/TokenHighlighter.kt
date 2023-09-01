@@ -5,6 +5,7 @@ import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase.pack
+import com.intellij.psi.TokenType.BAD_CHARACTER
 import com.intellij.psi.tree.IElementType
 import valkyrie.psi.ParserDefinition
 import valkyrie.psi.ParserExtension
@@ -35,13 +36,14 @@ class TokenHighlighter : SyntaxHighlighter {
                 DECIMAL -> HighlightColor.DECIMAL
                 INTEGER -> HighlightColor.INTEGER
                 NUMBER_SUFFIX -> HighlightColor.SYM_MACRO
+                TEMPLATE_L, TEMPLATE_R, KW_END -> HighlightColor.SYM_MACRO
                 NUMBER_BASE -> HighlightColor.STRING
                 NUMBER_EXPONENT -> HighlightColor.STRING_ESCAPED
                 // comments
                 COMMENT_LINE -> HighlightColor.COMMENT_LINE
                 COMMENT_BLOCK -> HighlightColor.COMMENT_BLOCK
                 // errors
-// TokenType.BAD_CHARACTER -> YggdrasilHighlightColor.BAD_CHARACTER
+//                TokenType.BAD_CHARACTER -> BAD_CHARACTER
                 else -> null
             }
         }

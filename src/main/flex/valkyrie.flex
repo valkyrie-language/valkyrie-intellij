@@ -13,6 +13,7 @@ import static valkyrie.psi.ValkyrieTypes.*;
 %type com.intellij.psi.tree.IElementType
 %unicode
 
+%state CommentBlock
 %state TextCapture6
 %state TextCapture3
 %state TextCapture2
@@ -22,8 +23,10 @@ import static valkyrie.psi.ValkyrieTypes.*;
 %state AfterNumberExp
 
 WHITE_SPACE        = [\s\t]
-COMMENT_LINE       = (⍝|[\-]{2}|[/]{2})[^\r\n]*
-COMMENT_BLOCK      = [/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]
+COMMENT = [⍝#]
+COMMENT_LINE       = {COMMENT}[^\r\n]*
+ANGLE_L = [<⟨]
+ANGLE_R = [>⟩]
 
 COLON    = [:∶：]
 STAR     = [*]
@@ -31,7 +34,8 @@ DOT      = [.。]
 COMMA    = [,，]
 BANG     = [!！]
 QUESTION = [?？]
-
+TEMPLATE_L = [<⟨]%[._\-~=]?
+TEMPLATE_R = %[>⟩][._\-~=]?
 KW_NAMESPACE = namespace({BANG}|{QUESTION})?
 KW_USING     = using({BANG}|{QUESTION})?
 KW_AS        = as({BANG}|{QUESTION})?
@@ -40,8 +44,8 @@ KW_EXCLUDE   = exclude
 KW_TYPE      = typus|type
 KW_CLASS     = class|struct|structure|interface
 KW_UNION     = union
-KW_UNITE     = unite|inductive
-KW_ENUMERATE = enums|enumerate
+KW_UNITE     = unity|unite|inductive|unity
+KW_ENUMERATE = enums|enum|enumerate
 KW_FLAGS     = flags
 KW_TRAIT     = trait
 KW_EXTENDS   = imply|impliments?|extends?
@@ -66,11 +70,12 @@ KW_CASE  = case
 KW_WHEN  = when
 KW_FROM  = from
 
-KW_LOOP  = loop
+KW_LOOP  = loop|for
 KW_WHILE = while
 KW_UNTIL = until
 OP_LABEL = [※]|\\l
 KW_EACH  = each
+KW_END   = end
 
 KW_IF    = if
 KW_ELSE  = else
@@ -95,7 +100,7 @@ ESCAPED = \\.
 NAME_SPLIT = [⸬∷]|{COLON}{2}
 NAME_SCOPE = [⁜]|\\N
 
-COLOR           = (©|®|\\#)[0-9a-zA-Z]*
+COLOR           = (©|®)[0-9a-zA-Z]*
 // decimal number
 C_DEC           = [0-9]
 C_NUM           = [0-9a-zA-Z]
@@ -216,8 +221,20 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
 <YYINITIAL> {
     {WHITE_SPACE}+     { return WHITE_SPACE; }
 	{COMMENT_LINE}     { return COMMENT_LINE; }
+    {ANGLE_L}{COMMENT} {
+        yybegin(CommentBlock);
+        return COMMENT_BLOCK;
+    }
+    {COMMENT}{ANGLE_R} { return COMMENT_BLOCK; }
 }
-
+<CommentBlock> {
+    {ANGLE_L}{COMMENT} { return COMMENT_BLOCK; }
+    {COMMENT}{ANGLE_R} {
+        yybegin(YYINITIAL);
+        return COMMENT_BLOCK;
+    }
+    . { return COMMENT_BLOCK; }
+}
 <YYINITIAL> {
 	"(" { return PARENTHESIS_L; }
     ")" { return PARENTHESIS_R; }
@@ -239,10 +256,13 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
     "⌋" { return FLOOR_R; }
     "⌈" { return CEIL_L; }
     "⌉" { return CEIL_R; }
+    {TEMPLATE_L} { return TEMPLATE_L; }
+    {TEMPLATE_R} { return TEMPLATE_R; }
 }
 
 <YYINITIAL> {
 	; { return SEMICOLON; }
+    {KW_END} { return KW_END; }
 
     {NAME_SPLIT}     { return NAME_SPLIT; }
     {NAME_SCOPE}     { return NAME_SCOPE; }
@@ -255,13 +275,12 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
     {OP_ARROW2} { return OP_ARROW2; }
     {OP_ARROW3} { return OP_ARROW3; }
 
-    "|" { return OP_OR;}
-    & { return OP_AND;}
-	@ { return AT; }
-	# { return HASH; }
-    "$" { return DOLLAR; }
-
-
+    "|"   { return OP_OR;}
+    &     { return OP_AND;}
+	@\^   { return OP_MACRO_UPPER; }
+	@     { return OP_MACRO; }
+    @\.|↯ { return OP_MACRO_LOWER;}
+    "$"   { return DOLLAR; }
 
 	{OP_DOT3} { return ANY_DICT; }
     {OP_DOT2} { return ANY_LIST; }

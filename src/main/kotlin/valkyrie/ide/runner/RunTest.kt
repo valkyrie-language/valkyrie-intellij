@@ -34,9 +34,6 @@ class RunTest : AnAction {
         )
     }
 
-    override fun displayTextInToolbar(): Boolean {
-        return true
-    }
 
     override fun update(e: AnActionEvent) {
         super.update(e)

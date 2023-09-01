@@ -25,7 +25,7 @@ class ChainHintVisitor : ValkyrieVisitor {
         // 如果该行后面没有文字
         if (
             o.nextSibling == null || o.lineNumber != o.nextSibling?.lineNumber) {
-            hint(o.endOffset, "Iterator<Item=AnyType>")
+            hint(o.endOffset, " any ")
         }
     }
 
