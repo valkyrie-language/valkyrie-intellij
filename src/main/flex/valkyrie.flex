@@ -3,7 +3,7 @@ package valkyrie.psi;
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
 import static valkyrie.psi.ValkyrieTypes.*;
-
+import java.util.LinkedList;
 %%
 
 %public
@@ -13,8 +13,18 @@ import static valkyrie.psi.ValkyrieTypes.*;
 %type com.intellij.psi.tree.IElementType
 %unicode
 %{
-    int nest_comment = 0;
+    private final LinkedList<Integer> states = new LinkedList();
+
+    private void yypushstate(int state) {
+        states.addFirst(yystate());
+        yybegin(state);
+    }
+    private void yypopstate() {
+        final int state = states.removeFirst();
+        yybegin(state);
+    }
 %}
+
 %state CommentBlock
 %state TextCapture6
 %state TextCapture3
@@ -23,6 +33,11 @@ import static valkyrie.psi.ValkyrieTypes.*;
 %state AfterNumber
 %state AfterNumberBase
 %state AfterNumberExp
+
+%eof{
+    return;
+%eof}
+
 
 WHITE_SPACE        = [\s\t]
 COMMENT = [⍝#]
@@ -36,8 +51,8 @@ DOT      = [.。]
 COMMA    = [,，]
 BANG     = [!！]
 QUESTION = [?？]
-TEMPLATE_L = [<⟨]%[._\-~=]?
-TEMPLATE_R = %[>⟩][._\-~=]?
+TEMPLATE_L = [<⟨][$][._\-~=]?
+TEMPLATE_R = [$][>⟩][._\-~=]?
 KW_NAMESPACE = namespace({BANG}|{QUESTION})?
 KW_USING     = using({BANG}|{QUESTION})?
 KW_AS        = as({BANG}|{QUESTION})?
@@ -78,6 +93,7 @@ KW_UNTIL = until
 OP_LABEL = [※]|\\l
 KW_EACH  = each
 KW_END   = end
+OP_END   = [<][$][>]
 
 KW_IF    = if
 KW_ELSE  = else
@@ -223,27 +239,30 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
     {WHITE_SPACE}+     { return WHITE_SPACE; }
     {COMMENT_LINE}     { return COMMENT_LINE; }
     {ANGLE_L}{COMMENT} {
-        nest_comment++;
-        yybegin(CommentBlock);
-        return COMMENT_BLOCK;
+        yypushstate(CommentBlock);
     }
-    {COMMENT}{ANGLE_R} { return COMMENT_BLOCK; }
 }
 
 <CommentBlock> {
     {ANGLE_L}{COMMENT} {
-        nest_comment++;
-        return COMMENT_BLOCK;
+        yypushstate(CommentBlock);
     }
+    [^<⍝#>]+ { }
     {COMMENT}{ANGLE_R} {
-        nest_comment--;
-        if (nest_comment == 0) {
-            yybegin(YYINITIAL);
+        yypopstate();
+        if (yystate() != CommentBlock) {
+            return COMMENT_BLOCK;
         }
-        return COMMENT_BLOCK;
     }
-    . { return COMMENT_BLOCK; }
+    [<⍝#>] { }
+    . { return BAD_CHARACTER; }
 }
+//    <<EOF>> {
+//        yyclearstack();
+//        yybegin(YYINITIAL);
+//        return COMMENT_BLOCK;
+//    }
+// [^] { return COMMENT_BLOCK; }
 <YYINITIAL> {
 	"(" { return PARENTHESIS_L; }
     ")" { return PARENTHESIS_R; }
@@ -271,6 +290,7 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
 
 <YYINITIAL> {
 	; { return SEMICOLON; }
+    {OP_END} { return OP_END; }
     {KW_END} { return KW_END; }
 
     {NAME_SPLIT}     { return NAME_SPLIT; }

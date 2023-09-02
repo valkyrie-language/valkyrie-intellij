@@ -2,18 +2,19 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieLoopStatement extends PsiElement {
+public interface ValkyrieLoopStart extends PsiElement {
 
     @NotNull
-    ValkyrieBlockBody getBlockBody();
+    List<ValkyrieAttributeBelow> getAttributeBelowList();
 
     @Nullable
-    ValkyrieElseStatement getElseStatement();
+    ValkyrieControlLabel getControlLabel();
 
-    @NotNull
-    ValkyrieLoopStart getLoopStart();
+    @Nullable
+    ValkyrieLoopCondition getLoopCondition();
 
 }

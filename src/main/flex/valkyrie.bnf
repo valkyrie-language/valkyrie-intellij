@@ -299,24 +299,21 @@ else-statement ::= KW_ELSE block-body {
     pin = 1
 }
 // === while statement ===
-loop-statement ::= KW_LOOP control-label? attribute-below* loop-condition? block-body else-statement? {
+loop-statement ::= loop-start block-body else-statement? {
+
+}
+loop-template ::= TEMPLATE_L loop-start TEMPLATE_R statements* (template-else statements*)? template-end {
+
+}
+loop-start     ::= KW_LOOP loop-condition? control-label? attribute-below* {
     pin = 1
 }
-loop-template-start ::= TEMPLATE_L KW_LOOP loop-condition TEMPLATE_R {
-    pin = 2
-}
-loop-template ::= loop-template-start statements* template-end {
-
-}
 loop-condition ::=
-      loop-while-let // while let
+      loop-while-let // while let Some(value) = ... if ...
     | loop-while     // while {...}
-    | loop-until-not // until not
-    | loop-until     // while {...}
+    | loop-until-not // until not Integer = ... if ...
+    | loop-until     // until {...}
     | loop-each      // match x in ...
-{
-
-}
 loop-while-let ::= KW_WHILE KW_LET? let-pattern type-hint? EQUAL expression-inline if-condition? {
     pin = 5
 }
@@ -634,6 +631,7 @@ inline-term ::= prefix* inline-atomic inline-suffix* {
 
 }
 inline-atomic ::= PARENTHESIS_L expression-root PARENTHESIS_R
+    | TEMPLATE_L expression-root TEMPLATE_R
     | FLOOR_L expression-root FLOOR_R // ⌊5/2.0⌋
     | FLOOR_L expression-root CEIL_R  // ⌊5/2.0⌉
     | CEIL_L expression-root FLOOR_R  // ⌈5/2.0⌋
@@ -680,6 +678,7 @@ generic-argument ::=
     | type-expression;
 // === atomic statement ===
 atomic ::=    PARENTHESIS_L expression-root PARENTHESIS_R
+    | TEMPLATE_L expression-root TEMPLATE_R
     | FLOOR_L expression-root FLOOR_R // ⌊5/2.0⌋
     | FLOOR_L expression-root CEIL_R  // ⌊5/2.0⌉
     | CEIL_L expression-root FLOOR_R  // ⌈5/2.0⌋
@@ -693,7 +692,7 @@ atomic ::=    PARENTHESIS_L expression-root PARENTHESIS_R
     | localize-call       // ⸿scope.path
     | if-statement        // if ...
     | loop-statement      // loop {...}
-    | loop-template       // <% loop i in j %> <% end %>
+    | loop-template       // <% loop ... %> <% end %>
     | may-let-statement   // let? Some(x) = X
     | try-let-statement   // if case ...
     | try-not-statement
@@ -784,6 +783,7 @@ private symbol-lead ::= KW_LET
     | KW_CLASS | KW_TRAIT | KW_OBJECT
     | KW_CATCH | KW_MATCH | KW_CASE
 template-end  ::= TEMPLATE_L KW_END keywords? TEMPLATE_R
+template-else ::= TEMPLATE_L KW_ELSE keywords? TEMPLATE_R
 keywords      ::= KW_LOOP
 //    | KW_LOOP KW_END
 unused ::= BUILDER_L BUILDER_R DOMAIN_L DOMAIN_R OP_ARROW2 OP_ARROW3

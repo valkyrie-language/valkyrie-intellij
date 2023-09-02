@@ -5,15 +5,15 @@ import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase.pack
-import com.intellij.psi.TokenType.BAD_CHARACTER
 import com.intellij.psi.tree.IElementType
 import valkyrie.psi.ParserDefinition
 import valkyrie.psi.ParserExtension
+import valkyrie.psi.ValkyrieLexer
 import valkyrie.psi.ValkyrieTypes.*
 
 class TokenHighlighter : SyntaxHighlighter {
     override fun getHighlightingLexer(): Lexer {
-        return ParserDefinition.Instance.lexer()
+        return ValkyrieLexer()
     }
 
     override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> {

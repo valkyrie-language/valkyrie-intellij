@@ -439,15 +439,15 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitLoopStart(@NotNull ValkyrieLoopStart o) {
+        visitPsiElement(o);
+    }
+
     public void visitLoopStatement(@NotNull ValkyrieLoopStatement o) {
         visitPsiElement(o);
     }
 
     public void visitLoopTemplate(@NotNull ValkyrieLoopTemplate o) {
-        visitPsiElement(o);
-    }
-
-    public void visitLoopTemplateStart(@NotNull ValkyrieLoopTemplateStart o) {
         visitPsiElement(o);
     }
 
@@ -700,6 +700,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitTemplateBody(@NotNull ValkyrieTemplateBody o) {
+        visitPsiElement(o);
+    }
+
+    public void visitTemplateElse(@NotNull ValkyrieTemplateElse o) {
         visitPsiElement(o);
     }
 
