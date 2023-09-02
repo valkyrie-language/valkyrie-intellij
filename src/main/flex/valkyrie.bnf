@@ -170,11 +170,11 @@ declare-union ::= annotations KW_UNION identifier class-body {
     mixin = "valkyrie.psi.mixin.MixinUnion"
 }
 // === enumerate statement ===
-declare-flags ::= annotations KW_FLAGS identifier class-inherit? type-hint? enumerate-body {
+declare-flags ::= annotations KW_FLAGS identifier class-inherit? (EQUAL type-atomic)? enumerate-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinFlags"
 }
-declare-enumerate ::= annotations KW_ENUMERATE identifier class-inherit? type-hint? enumerate-body {
+declare-enumerate ::= annotations KW_ENUMERATE identifier class-inherit? (EQUAL type-atomic)? enumerate-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinEnumerate"
 }

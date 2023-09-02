@@ -13,6 +13,9 @@ public interface ValkyrieAttributeItem extends PsiElement {
     @Nullable
     ValkyrieClassBody getClassBody();
 
+    @Nullable
+    ValkyrieGenericCall getGenericCall();
+
     @NotNull
     ValkyrieNamepath getNamepath();
 
