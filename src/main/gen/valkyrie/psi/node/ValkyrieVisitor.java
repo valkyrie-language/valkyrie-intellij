@@ -407,6 +407,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitKeywords(@NotNull ValkyrieKeywords o) {
+        visitPsiElement(o);
+    }
+
     public void visitLambdaBlock(@NotNull ValkyrieLambdaBlock o) {
         visitPsiElement(o);
     }
@@ -700,10 +704,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitTemplateEnd(@NotNull ValkyrieTemplateEnd o) {
-        visitPsiElement(o);
-    }
-
-    public void visitTemplateEndWord(@NotNull ValkyrieTemplateEndWord o) {
         visitPsiElement(o);
     }
 

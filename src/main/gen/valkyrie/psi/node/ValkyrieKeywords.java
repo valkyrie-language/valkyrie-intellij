@@ -2,12 +2,10 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieLoopTemplateStart extends PsiElement {
-
-    @Nullable
-    ValkyrieLoopCondition getLoopCondition();
+public interface ValkyrieKeywords extends PsiElement {
 
 }

@@ -4077,6 +4077,18 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
+    // KW_LOOP
+    public static boolean keywords(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "keywords")) return false;
+        if (!nextTokenIs(b, KW_LOOP)) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, KW_LOOP);
+        exit_section_(b, m, KEYWORDS, r);
+        return r;
+    }
+
+    /* ********************************************************** */
     // BRACE_L new-lambda? block-statement* BRACE_R
     public static boolean lambda_block(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "lambda_block")) return false;
@@ -7008,33 +7020,24 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // TEMPLATE_L template-end-word TEMPLATE_R
+    // TEMPLATE_L KW_END keywords? TEMPLATE_R
     public static boolean template_end(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "template_end")) return false;
         if (!nextTokenIs(b, TEMPLATE_L)) return false;
         boolean r;
         Marker m = enter_section_(b);
-        r = consumeToken(b, TEMPLATE_L);
-        r = r && template_end_word(b, l + 1);
+        r = consumeTokens(b, 0, TEMPLATE_L, KW_END);
+        r = r && template_end_2(b, l + 1);
         r = r && consumeToken(b, TEMPLATE_R);
         exit_section_(b, m, TEMPLATE_END, r);
         return r;
     }
 
-    /* ********************************************************** */
-    // KW_END
-    //     | KW_END KW_FOR
-    //     | KW_LOOP KW_LOOP
-    public static boolean template_end_word(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "template_end_word")) return false;
-        if (!nextTokenIs(b, "<template end word>", KW_END, KW_LOOP)) return false;
-        boolean r;
-        Marker m = enter_section_(b, l, _NONE_, TEMPLATE_END_WORD, "<template end word>");
-        r = consumeToken(b, KW_END);
-        if (!r) r = parseTokens(b, 0, KW_END, KW_FOR);
-        if (!r) r = parseTokens(b, 0, KW_LOOP, KW_LOOP);
-        exit_section_(b, l, m, r, false, null);
-        return r;
+    // keywords?
+    private static boolean template_end_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "template_end_2")) return false;
+        keywords(b, l + 1);
+        return true;
     }
 
     /* ********************************************************** */
