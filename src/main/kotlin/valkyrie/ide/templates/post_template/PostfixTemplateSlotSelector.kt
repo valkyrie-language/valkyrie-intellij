@@ -150,9 +150,9 @@ open class PostfixTemplateSlotSelector : PostfixTemplate {
         fun conditionTemplate(replace: PsiElement): String {
             return when (replace) {
                 is ValkyrieIfStatement,
-                is ValkyrieForStatement,
                 is ValkyrieLoopStatement,
-                -> {
+                is ValkyrieLoopWhile,
+                    -> {
                     "slot"
                 }
 
