@@ -23,7 +23,7 @@ class ParserExtension : GeneratedParserUtilBase() {
             KW_TRY, KW_MATCH, KW_CATCH,
             KW_WITH, KW_CASE, KW_WHEN,
             KW_IS, KW_NOT,
-            KW_BOOLEAN, KW_NULL, KW_NIL,
+            KW_NULL, KW_NIL,
         )
 
         val OperatorPrefix: TokenSet = TokenSet.create(

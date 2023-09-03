@@ -288,7 +288,7 @@ else-statement ::= KW_ELSE block-body {
     pin = 1
 }
 // === while statement ===
-loop-statement ::= KW_LOOP control-label? attribute-below* loop-condition? block-body {
+loop-statement ::= KW_LOOP control-label? attribute-below* loop-condition? block-body else-statement? {
     pin = 1
 }
 loop-condition ::=
@@ -296,7 +296,7 @@ loop-condition ::=
     | loop-while     // while {...}
     | loop-until-not // until not
     | loop-until     // while {...}
-    | loop-each     // match x in ...
+    | loop-each      // match x in ...
 {
     pin = 1
 }
@@ -425,7 +425,7 @@ case-pattern ::= special
     | case-pattern-dict    // case Object { }
     | string               // case "text"
     | number-literal       // case 1
-    | namepath !(identifier|case-pattern-bind)
+    | namepath !(identifier|COLON|EQUAL)
 case-pattern-dict ::= namepath? BRACE_L (case-pattern-pair (COMMA case-pattern-pair)* COMMA?)? BRACE_R
 case-pattern-pair ::= modifier* identifier (COLON type-expression)? (case-pattern-bind case-pattern)? {
     mixin = "valkyrie.psi.mixin.MixinCasePatternPair"
@@ -706,7 +706,7 @@ number-literal ::=
 string ::= identifier? STRING_L STRING_TEXT* STRING_R {
     mixin = "valkyrie.psi.mixin.MixinString"
 }
-special ::= KW_NULL | KW_NIL | KW_BOOLEAN | COLOR;
+special ::= KW_NULL | KW_NIL | COLOR;
 
 // === annotation statement ===
 annotations ::= attribute-below* modifier*

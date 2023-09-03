@@ -1,7 +1,8 @@
 package valkyrie.ide.hint
 
 import com.intellij.codeInsight.hints.InlayInfo
-import com.intellij.refactoring.suggested.startOffset
+import com.intellij.psi.util.startOffset
+
 import valkyrie.psi.node.ValkyrieArgumentBody
 import valkyrie.psi.node.ValkyrieInheritItem
 import valkyrie.psi.node.ValkyrieVisitor

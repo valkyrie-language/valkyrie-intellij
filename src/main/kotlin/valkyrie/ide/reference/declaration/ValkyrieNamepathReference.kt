@@ -3,8 +3,10 @@ package valkyrie.ide.reference.declaration
 import com.intellij.codeInsight.daemon.EmptyResolveMessageProvider
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
-import com.intellij.refactoring.suggested.endOffset
-import com.intellij.refactoring.suggested.startOffset
+import com.intellij.psi.util.endOffset
+import com.intellij.psi.util.startOffset
+
+
 import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.file.ValkyrieFileNode.Companion.definitions

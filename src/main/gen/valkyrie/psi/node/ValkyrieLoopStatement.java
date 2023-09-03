@@ -17,6 +17,9 @@ public interface ValkyrieLoopStatement extends PsiElement {
     ValkyrieControlLabel getControlLabel();
 
     @Nullable
+    ValkyrieElseStatement getElseStatement();
+
+    @Nullable
     ValkyrieLoopCondition getLoopCondition();
 
 }

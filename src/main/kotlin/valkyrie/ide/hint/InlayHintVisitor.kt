@@ -6,7 +6,8 @@ import com.intellij.codeInsight.hints.declarative.InlayTreeSink
 import com.intellij.codeInsight.hints.presentation.PresentationFactory
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
-import com.intellij.refactoring.suggested.endOffset
+import com.intellij.psi.util.endOffset
+
 import valkyrie.psi.node.ValkyrieVisitor
 
 abstract class InlayHintVisitor : ValkyrieVisitor {
