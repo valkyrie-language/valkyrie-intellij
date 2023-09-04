@@ -11,8 +11,8 @@ import javax.swing.Icon
 
 class ValkyrieMarkField : RelatedItemLineMarkerInfo<PsiElement> {
     constructor(element: ValkyrieDeclareFieldNode) : super(
-        element.identifier.firstChild,
-        element.identifier.firstChild.textRange,
+        element.nameIdentifier!!.firstChild,
+        element.nameIdentifier!!.firstChild.textRange,
         Field,
         { "Valkyrie Field" },
         { "PresentationProvider" },
