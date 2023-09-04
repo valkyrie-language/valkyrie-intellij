@@ -28,20 +28,8 @@ public class ValkyrieLoopStatementNode extends ValkyrieElement implements Valkyr
 
     @Override
     @NotNull
-    public List<ValkyrieAttributeBelow> getAttributeBelowList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieAttributeBelow.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieBlockBody getBlockBody() {
-        return findChildByClass(ValkyrieBlockBody.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieControlLabel getControlLabel() {
-        return findChildByClass(ValkyrieControlLabel.class);
+        return findNotNullChildByClass(ValkyrieBlockBody.class);
     }
 
     @Override
@@ -51,9 +39,9 @@ public class ValkyrieLoopStatementNode extends ValkyrieElement implements Valkyr
     }
 
     @Override
-    @Nullable
-    public ValkyrieLoopCondition getLoopCondition() {
-        return findChildByClass(ValkyrieLoopCondition.class);
+    @NotNull
+    public ValkyrieLoopStart getLoopStart() {
+        return findNotNullChildByClass(ValkyrieLoopStart.class);
     }
 
 }

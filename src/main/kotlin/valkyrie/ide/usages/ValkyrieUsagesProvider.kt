@@ -7,6 +7,7 @@ import com.intellij.lang.findUsages.FindUsagesProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.tree.TokenSet
 import valkyrie.psi.ParserDefinition
+import valkyrie.psi.ValkyrieLexer
 import valkyrie.psi.ValkyrieTypes
 
 
@@ -14,7 +15,7 @@ class ValkyrieUsagesProvider : FindUsagesProvider {
     override fun getWordsScanner(): WordsScanner {
 
         return DefaultWordsScanner(
-            ParserDefinition.Instance.lexer(),
+            ValkyrieLexer(),
             TokenSet.create(ValkyrieTypes.SYMBOL, ValkyrieTypes.SYMBOW_RAW),
             TokenSet.create(ValkyrieTypes.COMMENT_LINE, ValkyrieTypes.COMMENT_BLOCK),
             TokenSet.create(),
