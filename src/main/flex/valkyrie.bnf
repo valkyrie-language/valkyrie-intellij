@@ -783,8 +783,7 @@ private symbol-lead ::= KW_LET
     | KW_TYPE
     | KW_CLASS | KW_TRAIT | KW_OBJECT
     | KW_CATCH | KW_MATCH | KW_CASE
-template-end  ::= TEMPLATE_L template-end-word TEMPLATE_R
-template-end-word  ::= KW_END
-    | KW_END KW_FOR
-    | KW_LOOP KW_LOOP
+template-end  ::= TEMPLATE_L KW_END keywords? TEMPLATE_R
+keywords      ::= KW_LOOP
+//    | KW_LOOP KW_END
 unused ::= BUILDER_L BUILDER_R DOMAIN_L DOMAIN_R OP_ARROW2 OP_ARROW3
