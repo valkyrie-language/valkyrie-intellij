@@ -350,6 +350,7 @@ let-pattern ::= bare-pattern !let-stop // let ref x, mut y
     | match-bind? case-pattern-list   // let a <- Some(x)
 private let-stop ::= PARENTHESIS_L|BRACKET_L | BRACE_L | BIND;
 // === try let statement ===
+let-wait-yield    ::= KW_LET let-pattern type-hint? OP_SET_THEN control-yield-type
 may-let-statement ::= KW_LET let-pattern type-hint? OP_SET_THEN expression {
     pin = 4
 }
@@ -526,6 +527,9 @@ control-yield-stop ::=
 control-yield-from ::=
     KW_YIELD KW_WITH KW_FROM expression-root
   | KW_YIELD KW_FROM control-label? expression-root;
+control-yield-type ::=
+    KW_YIELD KW_WITH KW_TYPE type-expression?
+  | KW_YIELD KW_TYPE control-label? type-expression?;
 control-label ::= OP_LABEL (SYMBOL|SYMBOW_RAW|INTEGER|KW_MACRO|KW_FOR|KW_WHILE);
 control-raise ::= KW_RAISE expression-root
     | KW_RAISE KW_USING expression-root
@@ -693,6 +697,7 @@ atomic ::=    PARENTHESIS_L expression-root PARENTHESIS_R
     | if-statement        // if ...
     | loop-statement      // loop {...}
     | loop-template       // <% loop ... %> <% end %>
+    | let-wait-yield      // yield type i32
     | may-let-statement   // let? Some(x) = X
     | try-let-statement   // if case ...
     | try-not-statement
@@ -782,7 +787,7 @@ private symbol-lead ::= KW_LET
     | KW_TYPE
     | KW_CLASS | KW_TRAIT | KW_OBJECT
     | KW_CATCH | KW_MATCH | KW_CASE
-template-end  ::= TEMPLATE_L KW_END keywords? TEMPLATE_R
+template-end  ::= TEMPLATE_L KW_END keywords? TEMPLATE_R | OP_END
 template-else ::= TEMPLATE_L KW_ELSE keywords? TEMPLATE_R
 keywords      ::= KW_LOOP
 //    | KW_LOOP KW_END

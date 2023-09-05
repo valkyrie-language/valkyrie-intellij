@@ -23,6 +23,9 @@ public interface ValkyrieAtomic extends PsiElement {
     ValkyrieLambdaBlock getLambdaBlock();
 
     @Nullable
+    ValkyrieLetWaitYield getLetWaitYield();
+
+    @Nullable
     ValkyrieLocalizeCall getLocalizeCall();
 
     @Nullable

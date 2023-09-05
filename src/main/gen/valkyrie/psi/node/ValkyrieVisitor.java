@@ -163,6 +163,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitControlYieldType(@NotNull ValkyrieControlYieldType o) {
+        visitPsiElement(o);
+    }
+
     public void visitDeclareClass(@NotNull ValkyrieDeclareClass o) {
         visitPsiElement(o);
     }
@@ -420,6 +424,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitLetStatement(@NotNull ValkyrieLetStatement o) {
+        visitPsiElement(o);
+    }
+
+    public void visitLetWaitYield(@NotNull ValkyrieLetWaitYield o) {
         visitPsiElement(o);
     }
 

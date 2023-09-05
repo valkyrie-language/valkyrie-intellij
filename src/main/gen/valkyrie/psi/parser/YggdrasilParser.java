@@ -224,6 +224,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     //     | if-statement        // if ...
     //     | loop-statement      // loop {...}
     //     | loop-template       // <% loop ... %> <% end %>
+    //     | let-wait-yield      // yield type i32
     //     | may-let-statement   // let? Some(x) = X
     //     | try-let-statement   // if case ...
     //     | try-not-statement
@@ -257,6 +258,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!r) r = if_statement(b, l + 1);
         if (!r) r = loop_statement(b, l + 1);
         if (!r) r = loop_template(b, l + 1);
+        if (!r) r = let_wait_yield(b, l + 1);
         if (!r) r = may_let_statement(b, l + 1);
         if (!r) r = try_let_statement(b, l + 1);
         if (!r) r = try_not_statement(b, l + 1);
@@ -1696,6 +1698,64 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     private static boolean control_yield_stop_3_3(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "control_yield_stop_3_3")) return false;
         expression_root(b, l + 1);
+        return true;
+    }
+
+    /* ********************************************************** */
+    // KW_YIELD KW_WITH KW_TYPE type-expression?
+    //   | KW_YIELD KW_TYPE control-label? type-expression?
+    public static boolean control_yield_type(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_yield_type")) return false;
+        if (!nextTokenIs(b, KW_YIELD)) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = control_yield_type_0(b, l + 1);
+        if (!r) r = control_yield_type_1(b, l + 1);
+        exit_section_(b, m, CONTROL_YIELD_TYPE, r);
+        return r;
+    }
+
+    // KW_YIELD KW_WITH KW_TYPE type-expression?
+    private static boolean control_yield_type_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_yield_type_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeTokens(b, 0, KW_YIELD, KW_WITH, KW_TYPE);
+        r = r && control_yield_type_0_3(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // type-expression?
+    private static boolean control_yield_type_0_3(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_yield_type_0_3")) return false;
+        type_expression(b, l + 1);
+        return true;
+    }
+
+    // KW_YIELD KW_TYPE control-label? type-expression?
+    private static boolean control_yield_type_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_yield_type_1")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeTokens(b, 0, KW_YIELD, KW_TYPE);
+        r = r && control_yield_type_1_2(b, l + 1);
+        r = r && control_yield_type_1_3(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // control-label?
+    private static boolean control_yield_type_1_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_yield_type_1_2")) return false;
+        control_label(b, l + 1);
+        return true;
+    }
+
+    // type-expression?
+    private static boolean control_yield_type_1_3(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "control_yield_type_1_3")) return false;
+        type_expression(b, l + 1);
         return true;
     }
 
@@ -4255,6 +4315,29 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!r) r = consumeToken(b, BRACE_L);
         if (!r) r = consumeToken(b, BIND);
         return r;
+    }
+
+    /* ********************************************************** */
+    // KW_LET let-pattern type-hint? OP_SET_THEN control-yield-type
+    public static boolean let_wait_yield(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "let_wait_yield")) return false;
+        if (!nextTokenIs(b, KW_LET)) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, KW_LET);
+        r = r && let_pattern(b, l + 1);
+        r = r && let_wait_yield_2(b, l + 1);
+        r = r && consumeToken(b, OP_SET_THEN);
+        r = r && control_yield_type(b, l + 1);
+        exit_section_(b, m, LET_WAIT_YIELD, r);
+        return r;
+    }
+
+    // type-hint?
+    private static boolean let_wait_yield_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "let_wait_yield_2")) return false;
+        type_hint(b, l + 1);
+        return true;
     }
 
     /* ********************************************************** */
@@ -7085,22 +7168,33 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // TEMPLATE_L KW_END keywords? TEMPLATE_R
+    // TEMPLATE_L KW_END keywords? TEMPLATE_R | OP_END
     public static boolean template_end(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "template_end")) return false;
-        if (!nextTokenIs(b, TEMPLATE_L)) return false;
+        if (!nextTokenIs(b, "<template end>", OP_END, TEMPLATE_L)) return false;
+        boolean r;
+        Marker m = enter_section_(b, l, _NONE_, TEMPLATE_END, "<template end>");
+        r = template_end_0(b, l + 1);
+        if (!r) r = consumeToken(b, OP_END);
+        exit_section_(b, l, m, r, false, null);
+        return r;
+    }
+
+    // TEMPLATE_L KW_END keywords? TEMPLATE_R
+    private static boolean template_end_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "template_end_0")) return false;
         boolean r;
         Marker m = enter_section_(b);
         r = consumeTokens(b, 0, TEMPLATE_L, KW_END);
-        r = r && template_end_2(b, l + 1);
+        r = r && template_end_0_2(b, l + 1);
         r = r && consumeToken(b, TEMPLATE_R);
-        exit_section_(b, m, TEMPLATE_END, r);
+        exit_section_(b, m, null, r);
         return r;
     }
 
     // keywords?
-    private static boolean template_end_2(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "template_end_2")) return false;
+    private static boolean template_end_0_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "template_end_0_2")) return false;
         keywords(b, l + 1);
         return true;
     }

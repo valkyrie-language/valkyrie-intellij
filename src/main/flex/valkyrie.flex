@@ -284,14 +284,14 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
     "⌋" { return FLOOR_R; }
     "⌈" { return CEIL_L; }
     "⌉" { return CEIL_R; }
-    {TEMPLATE_L} { return TEMPLATE_L; }
-    {TEMPLATE_R} { return TEMPLATE_R; }
 }
 
 <YYINITIAL> {
 	; { return SEMICOLON; }
-    {OP_END} { return OP_END; }
     {KW_END} { return KW_END; }
+    {OP_END} { return OP_END; }
+    {TEMPLATE_L} { return TEMPLATE_L; }
+    {TEMPLATE_R} { return TEMPLATE_R; }
 
     {NAME_SPLIT}     { return NAME_SPLIT; }
     {NAME_SCOPE}     { return NAME_SCOPE; }
