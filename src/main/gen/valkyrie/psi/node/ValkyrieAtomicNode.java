@@ -2,12 +2,15 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
 public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomic {
@@ -34,6 +37,12 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
 
     @Override
     @Nullable
+    public ValkyrieControlYieldType getControlYieldType() {
+        return findChildByClass(ValkyrieControlYieldType.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieExpressionRoot getExpressionRoot() {
         return findChildByClass(ValkyrieExpressionRoot.class);
     }
@@ -54,12 +63,6 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
     @Nullable
     public ValkyrieLambdaBlock getLambdaBlock() {
         return findChildByClass(ValkyrieLambdaBlock.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieLetWaitYield getLetWaitYield() {
-        return findChildByClass(ValkyrieLetWaitYield.class);
     }
 
     @Override

@@ -54,11 +54,12 @@ public interface ValkyrieTypes {
     IElementType DECLARE_ENUMERATE = new ValkyrieElementType("DECLARE_ENUMERATE");
     IElementType DECLARE_FIELD = new ValkyrieElementType("DECLARE_FIELD");
     IElementType DECLARE_FLAGS = new ValkyrieElementType("DECLARE_FLAGS");
-    IElementType DECLARE_FUNCTION = new ValkyrieElementType("DECLARE_FUNCTION");
     IElementType DECLARE_GENERIC = new ValkyrieElementType("DECLARE_GENERIC");
     IElementType DECLARE_IMPLY = new ValkyrieElementType("DECLARE_IMPLY");
     IElementType DECLARE_MACRO = new ValkyrieElementType("DECLARE_MACRO");
     IElementType DECLARE_METHOD = new ValkyrieElementType("DECLARE_METHOD");
+    IElementType DECLARE_MEZZO = new ValkyrieElementType("DECLARE_MEZZO");
+    IElementType DECLARE_MICRO = new ValkyrieElementType("DECLARE_MICRO");
     IElementType DECLARE_NAMESPACE = new ValkyrieElementType("DECLARE_NAMESPACE");
     IElementType DECLARE_NEURAL = new ValkyrieElementType("DECLARE_NEURAL");
     IElementType DECLARE_SEMANTIC = new ValkyrieElementType("DECLARE_SEMANTIC");
@@ -110,10 +111,10 @@ public interface ValkyrieTypes {
     IElementType IS_EXPRESSION = new ValkyrieElementType("IS_EXPRESSION");
     IElementType IS_STATEMENT = new ValkyrieElementType("IS_STATEMENT");
     IElementType KEYWORDS = new ValkyrieElementType("KEYWORDS");
+    IElementType KW_FUNCTION = new ValkyrieElementType("KW_FUNCTION");
     IElementType LAMBDA_BLOCK = new ValkyrieElementType("LAMBDA_BLOCK");
     IElementType LET_PATTERN = new ValkyrieElementType("LET_PATTERN");
     IElementType LET_STATEMENT = new ValkyrieElementType("LET_STATEMENT");
-    IElementType LET_WAIT_YIELD = new ValkyrieElementType("LET_WAIT_YIELD");
     IElementType LOCALIZE_CALL = new ValkyrieElementType("LOCALIZE_CALL");
     IElementType LOOP_CONDITION = new ValkyrieElementType("LOOP_CONDITION");
     IElementType LOOP_EACH = new ValkyrieElementType("LOOP_EACH");
@@ -266,7 +267,6 @@ public interface ValkyrieTypes {
     IElementType KW_FLAGS = new ValkyrieTokenType("KW_FLAGS");
     IElementType KW_FOR = new ValkyrieTokenType("KW_FOR");
     IElementType KW_FROM = new ValkyrieTokenType("KW_FROM");
-    IElementType KW_FUNCTION = new ValkyrieTokenType("KW_FUNCTION");
     IElementType KW_IF = new ValkyrieTokenType("KW_IF");
     IElementType KW_IMPLY = new ValkyrieTokenType("KW_IMPLY");
     IElementType KW_IN = new ValkyrieTokenType("KW_IN");
@@ -276,6 +276,8 @@ public interface ValkyrieTypes {
     IElementType KW_LOOP = new ValkyrieTokenType("KW_LOOP");
     IElementType KW_MACRO = new ValkyrieTokenType("KW_MACRO");
     IElementType KW_MATCH = new ValkyrieTokenType("KW_MATCH");
+    IElementType KW_MEZZO = new ValkyrieTokenType("KW_MEZZO");
+    IElementType KW_MICRO = new ValkyrieTokenType("KW_MICRO");
     IElementType KW_NAMESPACE = new ValkyrieTokenType("KW_NAMESPACE");
     IElementType KW_NEURAL = new ValkyrieTokenType("KW_NEURAL");
     IElementType KW_NEW = new ValkyrieTokenType("KW_NEW");
@@ -476,8 +478,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieDeclareFieldNode(node);
             } else if (type == DECLARE_FLAGS) {
                 return new ValkyrieDeclareFlagsNode(node);
-            } else if (type == DECLARE_FUNCTION) {
-                return new ValkyrieDeclareFunctionNode(node);
             } else if (type == DECLARE_GENERIC) {
                 return new ValkyrieDeclareGenericNode(node);
             } else if (type == DECLARE_IMPLY) {
@@ -486,6 +486,10 @@ public interface ValkyrieTypes {
                 return new ValkyrieDeclareMacroNode(node);
             } else if (type == DECLARE_METHOD) {
                 return new ValkyrieDeclareMethodNode(node);
+            } else if (type == DECLARE_MEZZO) {
+                return new ValkyrieDeclareMezzoNode(node);
+            } else if (type == DECLARE_MICRO) {
+                return new ValkyrieDeclareMicroNode(node);
             } else if (type == DECLARE_NAMESPACE) {
                 return new ValkyrieDeclareNamespaceNode(node);
             } else if (type == DECLARE_NEURAL) {
@@ -588,14 +592,14 @@ public interface ValkyrieTypes {
                 return new ValkyrieIsStatementNode(node);
             } else if (type == KEYWORDS) {
                 return new ValkyrieKeywordsNode(node);
+            } else if (type == KW_FUNCTION) {
+                return new ValkyrieKwFunctionNode(node);
             } else if (type == LAMBDA_BLOCK) {
                 return new ValkyrieLambdaBlockNode(node);
             } else if (type == LET_PATTERN) {
                 return new ValkyrieLetPatternNode(node);
             } else if (type == LET_STATEMENT) {
                 return new ValkyrieLetStatementNode(node);
-            } else if (type == LET_WAIT_YIELD) {
-                return new ValkyrieLetWaitYieldNode(node);
             } else if (type == LOCALIZE_CALL) {
                 return new ValkyrieLocalizeCallNode(node);
             } else if (type == LOOP_CONDITION) {

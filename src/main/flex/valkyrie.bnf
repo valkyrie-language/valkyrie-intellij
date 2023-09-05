@@ -68,11 +68,12 @@ private statements ::= declare-namespace
     | declare-union
     | declare-trait
     | declare-imply
-    | declare-function
+    | declare-micro
+    | declare-mezzo
+    | declare-macro
     | declare-component
     | declare-singleton
     | declare-neural
-    | declare-macro
     | block-statement
 private block-statement ::= SEMICOLON
     | let-statement
@@ -158,7 +159,7 @@ type-hint     ::= COLON type-expression {
 default-value ::= EQUAL expression-root;
 default-type  ::= EQUAL type-expression;
 // === class method statement ===
-declare-method ::= annotations (KW_FUNCTION|KW_MACRO)? identifier-free declare-generic? parameter-body return-type? effect-type? block-body? {
+declare-method ::= annotations KW_FUNCTION? identifier-free declare-generic? parameter-body return-type? effect-type? block-body? {
     mixin = "valkyrie.psi.mixin.MixinMethod"
 }
 // === class domain statement ===
@@ -230,15 +231,18 @@ generic-parameter ::= annotations identifier type-hint? default-type? {
     mixin = "valkyrie.psi.mixin.MixinTypeParameter"
 }
 /// === function definition ===
-declare-function ::= annotations KW_FUNCTION declare-generic? identifier parameter-body return-type? effect-type? block-body {
+declare-micro ::= annotations KW_MICRO declare-generic? identifier parameter-body return-type? effect-type? block-body {
     pin = 2
-    mixin = "valkyrie.psi.mixin.MixinFunction"
+    mixin = "valkyrie.psi.mixin.MixinMicro"
 }
-declare-macro ::= annotations KW_MACRO declare-generic? identifier parameter-body return-type? effect-type? block-body {
+declare-mezzo ::= annotations KW_MEZZO declare-generic? identifier parameter-body return-type? effect-type? block-body {
+    pin = 2
+    mixin = "valkyrie.psi.mixin.MixinMezzo"
+}
+declare-macro ::= annotations KW_MEZZO declare-generic? identifier parameter-body return-type? effect-type? block-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinMacro"
 }
-
 parameter-body ::= PARENTHESIS_L (parameter-term (COMMA parameter-term)* COMMA?)? PARENTHESIS_R;
 private parameter-term ::= ANGLE_L | ANGLE_R
     | parameter-dict
@@ -346,11 +350,10 @@ let-statement ::= KW_LET let-pattern type-hint? EQUAL expression {
     mixin = "valkyrie.psi.mixin.MixinVariable"
 }
 let-pattern ::= bare-pattern !let-stop // let ref x, mut y
-    | match-bind? case-pattern-dict  // let a <- Object {x, y}
-    | match-bind? case-pattern-list   // let a <- Some(x)
+    | match-bind? case-pattern-dict    // let a <- Object {x, y}
+    | match-bind? case-pattern-list    // let a <- Some(x)
 private let-stop ::= PARENTHESIS_L|BRACKET_L | BRACE_L | BIND;
 // === try let statement ===
-let-wait-yield    ::= KW_LET let-pattern type-hint? OP_SET_THEN control-yield-type
 may-let-statement ::= KW_LET let-pattern type-hint? OP_SET_THEN expression {
     pin = 4
 }
@@ -697,7 +700,7 @@ atomic ::=    PARENTHESIS_L expression-root PARENTHESIS_R
     | if-statement        // if ...
     | loop-statement      // loop {...}
     | loop-template       // <% loop ... %> <% end %>
-    | let-wait-yield      // yield type i32
+    | control-yield-type  // yield type i32
     | may-let-statement   // let? Some(x) = X
     | try-let-statement   // if case ...
     | try-not-statement
@@ -787,6 +790,7 @@ private symbol-lead ::= KW_LET
     | KW_TYPE
     | KW_CLASS | KW_TRAIT | KW_OBJECT
     | KW_CATCH | KW_MATCH | KW_CASE
+KW_FUNCTION   ::= KW_MICRO|KW_MEZZO|KW_MACRO
 template-end  ::= TEMPLATE_L KW_END keywords? TEMPLATE_R | OP_END
 template-else ::= TEMPLATE_L KW_ELSE keywords? TEMPLATE_R
 keywords      ::= KW_LOOP

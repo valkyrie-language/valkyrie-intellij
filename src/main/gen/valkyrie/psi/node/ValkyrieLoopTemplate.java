@@ -2,6 +2,7 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
@@ -26,13 +27,16 @@ public interface ValkyrieLoopTemplate extends PsiElement {
     List<ValkyrieDeclareFlags> getDeclareFlagsList();
 
     @NotNull
-    List<ValkyrieDeclareFunction> getDeclareFunctionList();
-
-    @NotNull
     List<ValkyrieDeclareImply> getDeclareImplyList();
 
     @NotNull
     List<ValkyrieDeclareMacro> getDeclareMacroList();
+
+    @NotNull
+    List<ValkyrieDeclareMezzo> getDeclareMezzoList();
+
+    @NotNull
+    List<ValkyrieDeclareMicro> getDeclareMicroList();
 
     @NotNull
     List<ValkyrieDeclareNamespace> getDeclareNamespaceList();

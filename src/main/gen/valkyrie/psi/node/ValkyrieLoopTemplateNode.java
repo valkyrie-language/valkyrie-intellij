@@ -2,12 +2,15 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
 public class ValkyrieLoopTemplateNode extends ValkyrieElement implements ValkyrieLoopTemplate {
@@ -64,12 +67,6 @@ public class ValkyrieLoopTemplateNode extends ValkyrieElement implements Valkyri
 
     @Override
     @NotNull
-    public List<ValkyrieDeclareFunction> getDeclareFunctionList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareFunction.class);
-    }
-
-    @Override
-    @NotNull
     public List<ValkyrieDeclareImply> getDeclareImplyList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareImply.class);
     }
@@ -78,6 +75,18 @@ public class ValkyrieLoopTemplateNode extends ValkyrieElement implements Valkyri
     @NotNull
     public List<ValkyrieDeclareMacro> getDeclareMacroList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareMacro.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieDeclareMezzo> getDeclareMezzoList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareMezzo.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieDeclareMicro> getDeclareMicroList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareMicro.class);
     }
 
     @Override
