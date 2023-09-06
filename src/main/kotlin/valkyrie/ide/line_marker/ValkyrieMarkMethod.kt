@@ -11,8 +11,8 @@ import javax.swing.Icon
 
 class ValkyrieMarkMethod : RelatedItemLineMarkerInfo<PsiElement> {
     constructor(element: ValkyrieDeclareMethodNode) : super(
-        element.identifier.firstChild,
-        element.identifier.firstChild.textRange,
+        element.nameIdentifier.firstChild,
+        element.nameIdentifier.firstChild.textRange,
         Method,
         { "tooltipProvider" },
         { element.name },
