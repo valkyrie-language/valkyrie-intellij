@@ -7,6 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public class ValkyrieVisitor extends PsiElementVisitor {
 
+    public void visitKwFunction(@NotNull ValkyrieKwFunction o) {
+        visitPsiElement(o);
+    }
+
     public void visitAnnotations(@NotNull ValkyrieAnnotations o) {
         visitPsiElement(o);
     }
@@ -191,10 +195,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitDeclareFunction(@NotNull ValkyrieDeclareFunction o) {
-        visitPsiElement(o);
-    }
-
     public void visitDeclareGeneric(@NotNull ValkyrieDeclareGeneric o) {
         visitPsiElement(o);
     }
@@ -208,6 +208,14 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitDeclareMethod(@NotNull ValkyrieDeclareMethod o) {
+        visitPsiElement(o);
+    }
+
+    public void visitDeclareMezzo(@NotNull ValkyrieDeclareMezzo o) {
+        visitPsiElement(o);
+    }
+
+    public void visitDeclareMicro(@NotNull ValkyrieDeclareMicro o) {
         visitPsiElement(o);
     }
 
@@ -424,10 +432,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitLetStatement(@NotNull ValkyrieLetStatement o) {
-        visitPsiElement(o);
-    }
-
-    public void visitLetWaitYield(@NotNull ValkyrieLetWaitYield o) {
         visitPsiElement(o);
     }
 

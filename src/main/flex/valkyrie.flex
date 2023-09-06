@@ -67,10 +67,11 @@ KW_FLAGS     = flags
 KW_TRAIT     = trait
 KW_EXTENDS   = imply|impliments?|extends?
 KW_WHERE     = where
-KW_TEMPLATE  = template|generic|constraint|forall
+KW_TEMPLATE  = generic|constraint|forall
 KW_IMPLEMENT = implement
 KW_MICRO     = micro|function|func|fun|fn|def
-KW_MACRO     = macro
+KW_MEZZO     = mezzo
+KW_MACRO     = macro|template
 KW_SINGLETON = singleton
 KW_COMPONENT = widget
 KW_NEURAL    = neural
@@ -445,7 +446,8 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
     {KW_TRAIT}     { return KW_TRAIT; }
     {KW_EXTENDS}   { return KW_IMPLY; }
     {KW_WHERE}     { return KW_WHERE; }
-    {KW_MICRO}     { return KW_FUNCTION; }
+    {KW_MICRO}     { return KW_MICRO; }
+    {KW_MEZZO}     { return KW_MEZZO; }
     {KW_MACRO}     { return KW_MACRO; }
     {KW_COMPONENT} { return KW_COMPONENT; }
     {KW_SINGLETON} { return KW_SINGLETON; }
