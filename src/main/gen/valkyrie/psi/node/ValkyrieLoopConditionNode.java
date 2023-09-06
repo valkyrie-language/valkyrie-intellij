@@ -37,6 +37,12 @@ public class ValkyrieLoopConditionNode extends ValkyrieElement implements Valkyr
 
     @Override
     @Nullable
+    public ValkyrieLoopMatch getLoopMatch() {
+        return findChildByClass(ValkyrieLoopMatch.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieLoopUntil getLoopUntil() {
         return findChildByClass(ValkyrieLoopUntil.class);
     }

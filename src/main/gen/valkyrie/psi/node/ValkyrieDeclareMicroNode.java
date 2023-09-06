@@ -11,11 +11,11 @@ import com.intellij.psi.util.PsiTreeUtil;
 
 import static valkyrie.psi.ValkyrieTypes.*;
 
-import valkyrie.psi.mixin.MixinMicro;
+import valkyrie.psi.mixin.MixinDeclareMicro;
 
-public class ValkyrieDeclareMicroNode extends MixinMicro implements ValkyrieDeclareMicro {
+public class ValkyrieDeclareMicroNode extends MixinDeclareMicro implements ValkyrieDeclareMicro {
 
-    public ValkyrieDeclareMicroNode(ASTNode node) {
+    public ValkyrieDeclareMicroNode(@NotNull ASTNode node) {
         super(node);
     }
 

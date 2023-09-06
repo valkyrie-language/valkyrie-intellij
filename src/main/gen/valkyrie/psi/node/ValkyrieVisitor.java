@@ -451,6 +451,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitLoopMatch(@NotNull ValkyrieLoopMatch o) {
+        visitPsiElement(o);
+    }
+
     public void visitLoopStart(@NotNull ValkyrieLoopStart o) {
         visitPsiElement(o);
     }

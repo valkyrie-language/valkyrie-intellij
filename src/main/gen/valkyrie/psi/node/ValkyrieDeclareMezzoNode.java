@@ -11,11 +11,11 @@ import com.intellij.psi.util.PsiTreeUtil;
 
 import static valkyrie.psi.ValkyrieTypes.*;
 
-import valkyrie.psi.mixin.MixinMezzo;
+import valkyrie.psi.mixin.MixinDeclareMezzo;
 
-public class ValkyrieDeclareMezzoNode extends MixinMezzo implements ValkyrieDeclareMezzo {
+public class ValkyrieDeclareMezzoNode extends MixinDeclareMezzo implements ValkyrieDeclareMezzo {
 
-    public ValkyrieDeclareMezzoNode(ASTNode node) {
+    public ValkyrieDeclareMezzoNode(@NotNull ASTNode node) {
         super(node);
     }
 
