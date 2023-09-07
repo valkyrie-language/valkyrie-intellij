@@ -6,18 +6,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieDeclareUnite extends PsiElement {
+public interface ValkyrieDeclareDepends extends PsiElement {
 
     @NotNull
     ValkyrieAnnotations getAnnotations();
 
     @NotNull
-    List<ValkyrieDeclareDepends> getDeclareDependsList();
+    List<ValkyrieIdentifier> getIdentifierList();
 
     @Nullable
-    ValkyrieIdentifier getIdentifier();
-
-    @Nullable
-    ValkyrieUniteBody getUniteBody();
+    ValkyrieTemplateBody getTemplateBody();
 
 }

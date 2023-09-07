@@ -67,6 +67,12 @@ public class ValkyrieLoopTemplateNode extends ValkyrieElement implements Valkyri
 
     @Override
     @NotNull
+    public List<ValkyrieDeclareFunction> getDeclareFunctionList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareFunction.class);
+    }
+
+    @Override
+    @NotNull
     public List<ValkyrieDeclareImply> getDeclareImplyList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareImply.class);
     }
@@ -81,12 +87,6 @@ public class ValkyrieLoopTemplateNode extends ValkyrieElement implements Valkyri
     @NotNull
     public List<ValkyrieDeclareMezzo> getDeclareMezzoList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareMezzo.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieDeclareMicro> getDeclareMicroList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareMicro.class);
     }
 
     @Override
@@ -111,6 +111,12 @@ public class ValkyrieLoopTemplateNode extends ValkyrieElement implements Valkyri
     @NotNull
     public List<ValkyrieDeclareTrait> getDeclareTraitList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareTrait.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieDeclareType> getDeclareTypeList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareType.class);
     }
 
     @Override
@@ -165,12 +171,6 @@ public class ValkyrieLoopTemplateNode extends ValkyrieElement implements Valkyri
     @NotNull
     public List<ValkyrieTraitAlias> getTraitAliasList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTraitAlias.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieTypeAlias> getTypeAliasList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeAlias.class);
     }
 
     @Override

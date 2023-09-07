@@ -11,16 +11,16 @@ import com.intellij.psi.util.PsiTreeUtil;
 
 import static valkyrie.psi.ValkyrieTypes.*;
 
-import valkyrie.psi.mixin.MixinSingleton;
+import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieDeclareSingletonNode extends MixinSingleton implements ValkyrieDeclareSingleton {
+public class ValkyrieDeclareTypeNode extends ValkyrieElement implements ValkyrieDeclareType {
 
-    public ValkyrieDeclareSingletonNode(@NotNull ASTNode node) {
+    public ValkyrieDeclareTypeNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitDeclareSingleton(this);
+        visitor.visitDeclareType(this);
     }
 
     @Override
@@ -37,18 +37,6 @@ public class ValkyrieDeclareSingletonNode extends MixinSingleton implements Valk
 
     @Override
     @Nullable
-    public ValkyrieClassBody getClassBody() {
-        return findChildByClass(ValkyrieClassBody.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieClassInherit getClassInherit() {
-        return findChildByClass(ValkyrieClassInherit.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieDeclareDepends getDeclareDepends() {
         return findChildByClass(ValkyrieDeclareDepends.class);
     }
@@ -61,8 +49,8 @@ public class ValkyrieDeclareSingletonNode extends MixinSingleton implements Valk
 
     @Override
     @Nullable
-    public ValkyrieTypeHint getTypeHint() {
-        return findChildByClass(ValkyrieTypeHint.class);
+    public ValkyrieTypeExpression getTypeExpression() {
+        return findChildByClass(ValkyrieTypeExpression.class);
     }
 
 }

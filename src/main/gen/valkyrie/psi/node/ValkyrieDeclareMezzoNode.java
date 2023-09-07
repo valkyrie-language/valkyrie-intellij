@@ -43,8 +43,8 @@ public class ValkyrieDeclareMezzoNode extends MixinDeclareMezzo implements Valky
 
     @Override
     @Nullable
-    public ValkyrieDeclareGeneric getDeclareGeneric() {
-        return findChildByClass(ValkyrieDeclareGeneric.class);
+    public ValkyrieDeclareDepends getDeclareDepends() {
+        return findChildByClass(ValkyrieDeclareDepends.class);
     }
 
     @Override

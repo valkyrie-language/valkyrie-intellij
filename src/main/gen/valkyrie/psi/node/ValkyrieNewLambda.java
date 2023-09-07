@@ -9,7 +9,7 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieNewLambda extends PsiElement {
 
     @Nullable
-    ValkyrieDeclareGeneric getDeclareGeneric();
+    ValkyrieDeclareDepends getDeclareDepends();
 
     @Nullable
     ValkyrieEffectType getEffectType();

@@ -27,6 +27,9 @@ public interface ValkyrieLoopTemplate extends PsiElement {
     List<ValkyrieDeclareFlags> getDeclareFlagsList();
 
     @NotNull
+    List<ValkyrieDeclareFunction> getDeclareFunctionList();
+
+    @NotNull
     List<ValkyrieDeclareImply> getDeclareImplyList();
 
     @NotNull
@@ -34,9 +37,6 @@ public interface ValkyrieLoopTemplate extends PsiElement {
 
     @NotNull
     List<ValkyrieDeclareMezzo> getDeclareMezzoList();
-
-    @NotNull
-    List<ValkyrieDeclareMicro> getDeclareMicroList();
 
     @NotNull
     List<ValkyrieDeclareNamespace> getDeclareNamespaceList();
@@ -49,6 +49,9 @@ public interface ValkyrieLoopTemplate extends PsiElement {
 
     @NotNull
     List<ValkyrieDeclareTrait> getDeclareTraitList();
+
+    @NotNull
+    List<ValkyrieDeclareType> getDeclareTypeList();
 
     @NotNull
     List<ValkyrieDeclareUnion> getDeclareUnionList();
@@ -76,9 +79,6 @@ public interface ValkyrieLoopTemplate extends PsiElement {
 
     @NotNull
     List<ValkyrieTraitAlias> getTraitAliasList();
-
-    @NotNull
-    List<ValkyrieTypeAlias> getTypeAliasList();
 
     @NotNull
     List<ValkyrieUsingStatement> getUsingStatementList();
