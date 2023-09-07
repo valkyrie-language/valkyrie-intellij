@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieControlRaiseNode extends ValkyrieElement implements ValkyrieControlRaise {
+public class ValkyrieFlagsBodyNode extends ValkyrieElement implements ValkyrieFlagsBody {
 
-    public ValkyrieControlRaiseNode(@NotNull ASTNode node) {
+    public ValkyrieFlagsBodyNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitControlRaise(this);
+        visitor.visitFlagsBody(this);
     }
 
     @Override
@@ -27,15 +30,21 @@ public class ValkyrieControlRaiseNode extends ValkyrieElement implements Valkyri
     }
 
     @Override
-    @Nullable
-    public ValkyrieExpressionRoot getExpressionRoot() {
-        return findChildByClass(ValkyrieExpressionRoot.class);
+    @NotNull
+    public List<ValkyrieDeclareDomain> getDeclareDomainList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareDomain.class);
     }
 
     @Override
-    @Nullable
-    public ValkyrieTypeExpression getTypeExpression() {
-        return findChildByClass(ValkyrieTypeExpression.class);
+    @NotNull
+    public List<ValkyrieDeclareMethod> getDeclareMethodList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareMethod.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieFlagsNumber> getFlagsNumberList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieFlagsNumber.class);
     }
 
 }

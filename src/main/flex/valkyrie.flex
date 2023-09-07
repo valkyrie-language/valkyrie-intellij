@@ -87,7 +87,7 @@ KW_CONTINUE = continue
 KW_THROUGH  = fallthrough
 KW_RAISE    = raise
 
-KW_NIL     = [∅]|nil
+
 
 SYMBOL=[\p{XID_Start}_][\p{XID_Continue}]*
 SYMBOW_RAW = `[^`]*`
@@ -95,7 +95,8 @@ ESCAPED = \\.
 NAME_SPLIT = [⸬∷]|{COLON}{2}
 NAME_SCOPE = [⁜]|\\N
 
-COLOR           = (©|®|\\#)[0-9a-zA-Z]*
+COLOR  = (©|®|\\#)[0-9a-zA-Z]*
+KW_NIL = [∅]
 // decimal number
 C_DEC           = [0-9]
 C_NUM           = [0-9a-zA-Z]

@@ -69,7 +69,7 @@ private class MonomorphismVisitor : ValkyrieVisitor {
     override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
         if (o.declareGeneric != null) {
             entry.add(
-                o.identifier.textRange to TextCodeVisionEntry(
+                o.identifierFree.textRange to TextCodeVisionEntry(
                     ValkyrieBundle.message(id, '?'),
                     id,
                     AllIcons.Nodes.CopyOfFolder,

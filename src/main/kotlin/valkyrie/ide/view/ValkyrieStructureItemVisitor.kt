@@ -23,7 +23,7 @@ class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
 
     override fun visitDeclareFlags(o: ValkyrieDeclareFlags) {
         o.annotations.pushChildrenTo(this)
-        o.enumerateBody?.pushChildrenTo(this)
+        o.flagsBody?.pushChildrenTo(this)
     }
 
     override fun visitDeclareEnumerate(o: ValkyrieDeclareEnumerate) {
@@ -86,6 +86,18 @@ private fun ValkyrieAnnotations.pushChildrenTo(visitor: ValkyrieStructureItemVis
 
 private fun ValkyrieEnumerateBody.pushChildrenTo(visitor: ValkyrieStructureItemVisitor) {
     for (item in this.declareSemanticList) {
+        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareSemanticNode))
+    }
+    for (item in this.declareMethodList) {
+        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareMethodNode))
+    }
+    for (item in this.declareDomainList) {
+        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareDomainNode))
+    }
+}
+
+private fun ValkyrieFlagsBody.pushChildrenTo(visitor: ValkyrieStructureItemVisitor) {
+    for (item in this.flagsNumberList) {
         visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareSemanticNode))
     }
     for (item in this.declareMethodList) {

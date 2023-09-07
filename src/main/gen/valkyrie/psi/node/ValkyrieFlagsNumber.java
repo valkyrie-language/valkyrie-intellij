@@ -2,21 +2,19 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieDeclareField extends PsiElement {
+public interface ValkyrieFlagsNumber extends PsiElement {
 
     @NotNull
     ValkyrieAnnotations getAnnotations();
 
-    @Nullable
-    ValkyrieDefaultValue getDefaultValue();
-
     @NotNull
-    ValkyrieIdentifierFree getIdentifierFree();
+    List<ValkyrieIdentifier> getIdentifierList();
 
     @Nullable
-    ValkyrieTypeHint getTypeHint();
+    ValkyrieNumberLiteral getNumberLiteral();
 
 }

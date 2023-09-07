@@ -11,6 +11,9 @@ public interface ValkyrieDeclareUnite extends PsiElement {
     ValkyrieAnnotations getAnnotations();
 
     @Nullable
+    ValkyrieDeclareGeneric getDeclareGeneric();
+
+    @Nullable
     ValkyrieDeclareTemplate getDeclareTemplate();
 
     @Nullable

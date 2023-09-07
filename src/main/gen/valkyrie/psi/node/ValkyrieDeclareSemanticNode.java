@@ -33,15 +33,15 @@ public class ValkyrieDeclareSemanticNode extends MixinSemantic implements Valkyr
     }
 
     @Override
-    @Nullable
-    public ValkyrieDefaultValue getDefaultValue() {
-        return findChildByClass(ValkyrieDefaultValue.class);
+    @NotNull
+    public List<ValkyrieIdentifier> getIdentifierList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifier.class);
     }
 
     @Override
-    @NotNull
-    public ValkyrieIdentifier getIdentifier() {
-        return findNotNullChildByClass(ValkyrieIdentifier.class);
+    @Nullable
+    public ValkyrieNumberLiteral getNumberLiteral() {
+        return findChildByClass(ValkyrieNumberLiteral.class);
     }
 
 }
