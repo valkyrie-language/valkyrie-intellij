@@ -65,8 +65,8 @@ KW_UNITE     = unity|unite|inductive|unity
 KW_ENUMERATE = enums?|enumerate
 KW_FLAGS     = flags
 KW_TRAIT     = trait
-KW_DEPENDS   = depends?|dependent|generic|constraint|forall|exists
-KW_EXTENDS   = impls?|extends?
+KW_INFER     = infer|forall|exists
+KW_IMPLY     = imply|impls?|extends?
 KW_WHERE     = where
 KW_IMPLEMENT = implements?
 KW_MICRO     = micro|function|func|fun|fn|def
@@ -434,7 +434,7 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
     {KW_EXCLUDE}   { return KW_EXCLUDE; }
 
 
-    {KW_DEPENDS}   { return KW_DEPENDS; }
+    {KW_INFER}     { return KW_INFER; }
     {KW_WHERE}     { return KW_WHERE; }
 
 
@@ -445,7 +445,7 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
     {KW_UNION}     { return KW_UNION; }
     {KW_CLASS}     { return KW_CLASS; }
     {KW_TRAIT}     { return KW_TRAIT; }
-    {KW_EXTENDS}   { return KW_IMPLY; }
+    {KW_IMPLY}     { return KW_IMPLY; }
     {KW_WHERE}     { return KW_WHERE; }
     {KW_MICRO}     { return KW_MICRO; }
     {KW_MEZZO}     { return KW_MEZZO; }
