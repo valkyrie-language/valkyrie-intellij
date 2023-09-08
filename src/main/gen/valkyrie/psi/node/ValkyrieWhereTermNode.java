@@ -13,14 +13,14 @@ import static valkyrie.psi.ValkyrieTypes.*;
 
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieDeclareWhereNode extends ValkyrieElement implements ValkyrieDeclareWhere {
+public class ValkyrieWhereTermNode extends ValkyrieElement implements ValkyrieWhereTerm {
 
-    public ValkyrieDeclareWhereNode(@NotNull ASTNode node) {
+    public ValkyrieWhereTermNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitDeclareWhere(this);
+        visitor.visitWhereTerm(this);
     }
 
     @Override
@@ -30,9 +30,9 @@ public class ValkyrieDeclareWhereNode extends ValkyrieElement implements Valkyri
     }
 
     @Override
-    @NotNull
-    public List<ValkyrieWhereTerm> getWhereTermList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieWhereTerm.class);
+    @Nullable
+    public ValkyrieWhereCondition getWhereCondition() {
+        return findChildByClass(ValkyrieWhereCondition.class);
     }
 
 }

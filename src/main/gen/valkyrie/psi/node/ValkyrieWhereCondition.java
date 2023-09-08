@@ -6,9 +6,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieDeclareWhere extends PsiElement {
+public interface ValkyrieWhereCondition extends PsiElement {
 
     @NotNull
-    List<ValkyrieWhereTerm> getWhereTermList();
+    List<ValkyrieTypeExpression> getTypeExpressionList();
 
 }

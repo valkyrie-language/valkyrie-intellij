@@ -220,7 +220,8 @@ public interface ValkyrieTypes {
     IElementType USING_EXCLUDE = new ValkyrieElementType("USING_EXCLUDE");
     IElementType USING_STATEMENT = new ValkyrieElementType("USING_STATEMENT");
     IElementType USING_TERM = new ValkyrieElementType("USING_TERM");
-    IElementType WHERE_BODY = new ValkyrieElementType("WHERE_BODY");
+    IElementType WHERE_CONDITION = new ValkyrieElementType("WHERE_CONDITION");
+    IElementType WHERE_TERM = new ValkyrieElementType("WHERE_TERM");
 
     IElementType ANGLE_L = new ValkyrieTokenType("<");
     IElementType ANGLE_R = new ValkyrieTokenType(">");
@@ -811,8 +812,10 @@ public interface ValkyrieTypes {
                 return new ValkyrieUsingStatementNode(node);
             } else if (type == USING_TERM) {
                 return new ValkyrieUsingTermNode(node);
-            } else if (type == WHERE_BODY) {
-                return new ValkyrieWhereBodyNode(node);
+            } else if (type == WHERE_CONDITION) {
+                return new ValkyrieWhereConditionNode(node);
+            } else if (type == WHERE_TERM) {
+                return new ValkyrieWhereTermNode(node);
             }
             throw new AssertionError("Unknown element type: " + type);
         }

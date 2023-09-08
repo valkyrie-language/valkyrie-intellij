@@ -102,14 +102,19 @@ using-block   ::= namepath-auto using-dot? using-body
 using-body    ::= BRACE_L using-term* BRACE_R;
 using-alias   ::= identifier KW_AS identifier;
 private using-dot ::= DOT|NAME_SPLIT|OP_DIV
-// === forall statement ===
+// depends T { where T: Show }
+// extends List<T> { show_list() }
 declare-depends ::= annotations KW_DEPENDS (identifier (COMMA identifier)* COMMA?)? template-body {
     pin = 2
 }
 template-body ::= BRACE_L template-item* BRACE_R;
 template-item ::= SEMICOLON
   | declare-where
-
+// where T: Show, X: Show
+declare-where   ::= KW_WHERE where-term+;
+where-term      ::= COMMA | SEMICOLON
+    | where-condition;
+where-condition ::= type-expression COLON type-expression;
 // === type statement ===
 declare-type ::= annotations KW_TYPE identifier declare-depends? EQUAL type-expression {
     pin = 2
@@ -117,8 +122,8 @@ declare-type ::= annotations KW_TYPE identifier declare-depends? EQUAL type-expr
 associated-type ::= annotations KW_TYPE identifier (EQUAL type-expression)? {
     pin = 2
 }
-declare-where ::= KW_WHERE where-body;
-where-body    ::= BRACE_L BRACE_R
+
+
 // === class statement ===
 declare-class ::= declare-depends? annotations KW_CLASS identifier declare-depends? class-inherit? type-hint? class-body {
     pin = 3
