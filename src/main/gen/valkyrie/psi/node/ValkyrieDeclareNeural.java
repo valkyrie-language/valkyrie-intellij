@@ -18,7 +18,7 @@ public interface ValkyrieDeclareNeural extends PsiElement {
     ValkyrieClassInherit getClassInherit();
 
     @Nullable
-    ValkyrieDeclareDepends getDeclareDepends();
+    ValkyrieDeclareInfer getDeclareInfer();
 
     @Nullable
     ValkyrieIdentifier getIdentifier();

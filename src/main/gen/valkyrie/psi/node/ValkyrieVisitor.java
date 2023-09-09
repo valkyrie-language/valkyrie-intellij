@@ -179,10 +179,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitDeclareDepends(@NotNull ValkyrieDeclareDepends o) {
-        visitPsiElement(o);
-    }
-
     public void visitDeclareDomain(@NotNull ValkyrieDeclareDomain o) {
         visitPsiElement(o);
     }
@@ -208,6 +204,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitDeclareImply(@NotNull ValkyrieDeclareImply o) {
+        visitPsiElement(o);
+    }
+
+    public void visitDeclareInfer(@NotNull ValkyrieDeclareInfer o) {
         visitPsiElement(o);
     }
 
@@ -368,6 +368,14 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitIfStatement(@NotNull ValkyrieIfStatement o) {
+        visitPsiElement(o);
+    }
+
+    public void visitInferBody(@NotNull ValkyrieInferBody o) {
+        visitPsiElement(o);
+    }
+
+    public void visitInferItem(@NotNull ValkyrieInferItem o) {
         visitPsiElement(o);
     }
 
@@ -719,19 +727,11 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitTemplateBody(@NotNull ValkyrieTemplateBody o) {
-        visitPsiElement(o);
-    }
-
     public void visitTemplateElse(@NotNull ValkyrieTemplateElse o) {
         visitPsiElement(o);
     }
 
     public void visitTemplateEnd(@NotNull ValkyrieTemplateEnd o) {
-        visitPsiElement(o);
-    }
-
-    public void visitTemplateItem(@NotNull ValkyrieTemplateItem o) {
         visitPsiElement(o);
     }
 
@@ -763,11 +763,19 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitTypeAlias(@NotNull ValkyrieTypeAlias o) {
+        visitPsiElement(o);
+    }
+
     public void visitTypeAtomic(@NotNull ValkyrieTypeAtomic o) {
         visitPsiElement(o);
     }
 
     public void visitTypeExpression(@NotNull ValkyrieTypeExpression o) {
+        visitPsiElement(o);
+    }
+
+    public void visitTypeFunction(@NotNull ValkyrieTypeFunction o) {
         visitPsiElement(o);
     }
 

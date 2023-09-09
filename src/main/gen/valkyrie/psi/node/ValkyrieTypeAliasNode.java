@@ -30,27 +30,21 @@ public class ValkyrieTypeAliasNode extends ValkyrieElement implements ValkyrieTy
     }
 
     @Override
+    @Nullable
+    public ValkyrieDeclareInfer getDeclareInfer() {
+        return findChildByClass(ValkyrieDeclareInfer.class);
+    }
+
+    @Override
     @NotNull
-    public ValkyrieAnnotations getAnnotations() {
-        return findNotNullChildByClass(ValkyrieAnnotations.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieDeclareGeneric getDeclareGeneric() {
-        return findChildByClass(ValkyrieDeclareGeneric.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieIdentifier getIdentifier() {
-        return findChildByClass(ValkyrieIdentifier.class);
+        return findNotNullChildByClass(ValkyrieIdentifier.class);
     }
 
     @Override
-    @Nullable
+    @NotNull
     public ValkyrieTypeExpression getTypeExpression() {
-        return findChildByClass(ValkyrieTypeExpression.class);
+        return findNotNullChildByClass(ValkyrieTypeExpression.class);
     }
 
 }

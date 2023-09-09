@@ -15,7 +15,7 @@ public interface ValkyrieDeclareTrait extends PsiElement {
     ValkyrieClassBody getClassBody();
 
     @Nullable
-    ValkyrieDeclareDepends getDeclareDepends();
+    ValkyrieDeclareInfer getDeclareInfer();
 
     @Nullable
     ValkyrieIdentifier getIdentifier();

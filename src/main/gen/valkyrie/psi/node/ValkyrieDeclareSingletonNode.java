@@ -49,8 +49,8 @@ public class ValkyrieDeclareSingletonNode extends MixinSingleton implements Valk
 
     @Override
     @Nullable
-    public ValkyrieDeclareDepends getDeclareDepends() {
-        return findChildByClass(ValkyrieDeclareDepends.class);
+    public ValkyrieDeclareInfer getDeclareInfer() {
+        return findChildByClass(ValkyrieDeclareInfer.class);
     }
 
     @Override

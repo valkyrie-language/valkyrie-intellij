@@ -43,8 +43,8 @@ public class ValkyrieDeclareMacroNode extends MixinDeclareMacro implements Valky
 
     @Override
     @Nullable
-    public ValkyrieDeclareDepends getDeclareDepends() {
-        return findChildByClass(ValkyrieDeclareDepends.class);
+    public ValkyrieDeclareInfer getDeclareInfer() {
+        return findChildByClass(ValkyrieDeclareInfer.class);
     }
 
     @Override
