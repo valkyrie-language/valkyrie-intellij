@@ -5,7 +5,8 @@ package valkyrie.ide.line_marker
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerProvider
 import com.intellij.icons.AllIcons
-import com.intellij.icons.ExpUiIcons
+import com.intellij.icons.AllIcons.Actions.Upload
+import com.intellij.icons.AllIcons.Toolbar.Filterdups
 import com.intellij.java.JavaBundle
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
@@ -246,11 +247,11 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
     }
 
     override fun visitControlResume(o: ValkyrieControlResume) {
-        markLeaf(o.firstChild, ExpUiIcons.Actions.Filterdups)
+        markLeaf(o.firstChild, Filterdups)
     }
 
     override fun visitControlRaise(o: ValkyrieControlRaise) {
-        markLeaf(o.firstChild, ExpUiIcons.General.Upload)
+        markLeaf(o.firstChild, Upload)
     }
 
 

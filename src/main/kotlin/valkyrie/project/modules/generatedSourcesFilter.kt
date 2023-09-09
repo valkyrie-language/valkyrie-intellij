@@ -10,7 +10,7 @@ class generatedSourcesFilter : GeneratedSourcesFilter() {
         return false
     }
 
-    override fun getOriginalElements(element: PsiElement): MutableList<out PsiElement> {
+    override fun getOriginalElements(element: PsiElement): List<PsiElement> {
         return super.getOriginalElements(element)
     }
 
