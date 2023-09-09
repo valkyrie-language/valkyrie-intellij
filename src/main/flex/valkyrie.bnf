@@ -216,7 +216,15 @@ declare-trait ::= annotations KW_TRAIT identifier declare-generic? type-hint? cl
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinTrait"
 }
-declare-imply ::= annotations KW_IMPLY declare-generic? namepath generic-call-free? type-hint? class-body {
+// impl trait for class
+
+declare-imply ::= annotations KW_IMPLY declare-generic? (
+    // impl class: trait
+    namepath generic-call-free? COLON type-expression
+    // impl trait for class
+  | type-expression KW_FOR namepath generic-call-free?
+) class-body
+{
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinImply"
 }
@@ -233,15 +241,15 @@ generic-parameter ::= annotations identifier type-hint? default-type? {
 /// === function definition ===
 declare-micro ::= annotations KW_MICRO declare-generic? identifier parameter-body return-type? effect-type? block-body {
     pin = 2
-    mixin = "valkyrie.psi.mixin.MixinMicro"
+    mixin = "valkyrie.psi.mixin.MixinDeclareMicro"
 }
 declare-mezzo ::= annotations KW_MEZZO declare-generic? identifier parameter-body return-type? effect-type? block-body {
     pin = 2
-    mixin = "valkyrie.psi.mixin.MixinMezzo"
+    mixin = "valkyrie.psi.mixin.MixinDeclareMezzo"
 }
 declare-macro ::= annotations KW_MEZZO declare-generic? identifier parameter-body return-type? effect-type? block-body {
     pin = 2
-    mixin = "valkyrie.psi.mixin.MixinMacro"
+    mixin = "valkyrie.psi.mixin.MixinDeclareMacro"
 }
 parameter-body ::= PARENTHESIS_L (parameter-term (COMMA parameter-term)* COMMA?)? PARENTHESIS_R;
 private parameter-term ::= ANGLE_L | ANGLE_R
@@ -313,11 +321,12 @@ loop-start     ::= KW_LOOP loop-condition? control-label? attribute-below* {
     pin = 1
 }
 loop-condition ::=
-      loop-while-let // while let Some(value) = ... if ...
-    | loop-while     // while {...}
-    | loop-until-not // until not Integer = ... if ...
-    | loop-until     // until {...}
-    | loop-each      // match x in ...
+      loop-while-let // loop while let Some(value) = ... if ...
+    | loop-while     // loop while {...}
+    | loop-until-not // loop until not Integer = ... if ...
+    | loop-until     // loop until {...}
+    | loop-match     // loop match { case ... }
+    | loop-each      // loop each x in ...
 loop-while-let ::= KW_WHILE KW_LET? let-pattern type-hint? EQUAL expression-inline if-condition? {
     pin = 5
 }
@@ -328,6 +337,9 @@ loop-until-not ::= KW_UNTIL KW_NOT? type-pattern EQUAL expression-inline {
     pin = 4
 }
 loop-until     ::= KW_UNTIL expression-inline {
+    pin = 1
+}
+loop-match     ::= KW_MATCH expression-inline {
     pin = 1
 }
 loop-each      ::= KW_EACH? match-bind? (bare-pattern !(PARENTHESIS_L|BRACKET_L|BRACE_L)|case-pattern) KW_IN expression-inline if-condition? {
