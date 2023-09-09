@@ -37,47 +37,47 @@ private class MonomorphismVisitor : ValkyrieVisitor {
 
 
     override fun visitDeclareClass(o: ValkyrieDeclareClass) {
-        if (o.declareGeneric != null) {
-            entry.add(
-                o.keyword.textRange to TextCodeVisionEntry(
-                    ValkyrieBundle.message(id, '?'),
-                    id,
-                    AllIcons.Nodes.CopyOfFolder,
-                    "VisionMonomorphism",
-                    "tooltip",
-                    listOf()
-                )
-            )
-        }
+//        if (o.declareGeneric != null) {
+//            entry.add(
+//                o.keyword.textRange to TextCodeVisionEntry(
+//                    ValkyrieBundle.message(id, '?'),
+//                    id,
+//                    AllIcons.Nodes.CopyOfFolder,
+//                    "VisionMonomorphism",
+//                    "tooltip",
+//                    listOf()
+//                )
+//            )
+//        }
     }
 
     override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {
-        if (o.declareGeneric != null) {
-            entry.add(
-                o.keyword.textRange to TextCodeVisionEntry(
-                    ValkyrieBundle.message(id, '?'),
-                    id,
-                    AllIcons.Nodes.CopyOfFolder,
-                    "VisionMonomorphism",
-                    "tooltip",
-                    listOf()
-                )
-            )
-        }
+//        if (o.declareGeneric != null) {
+//            entry.add(
+//                o.keyword.textRange to TextCodeVisionEntry(
+//                    ValkyrieBundle.message(id, '?'),
+//                    id,
+//                    AllIcons.Nodes.CopyOfFolder,
+//                    "VisionMonomorphism",
+//                    "tooltip",
+//                    listOf()
+//                )
+//            )
+//        }
     }
 
     override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
-        if (o.declareGeneric != null) {
-            entry.add(
-                o.identifierFree.textRange to TextCodeVisionEntry(
-                    ValkyrieBundle.message(id, '?'),
-                    id,
-                    AllIcons.Nodes.CopyOfFolder,
-                    "VisionMonomorphism",
-                    "tooltip",
-                    listOf()
-                )
-            )
-        }
+//        if (o.declareGeneric != null) {
+//            entry.add(
+//                o.identifierFree.textRange to TextCodeVisionEntry(
+//                    ValkyrieBundle.message(id, '?'),
+//                    id,
+//                    AllIcons.Nodes.CopyOfFolder,
+//                    "VisionMonomorphism",
+//                    "tooltip",
+//                    listOf()
+//                )
+//            )
+//        }
     }
 }

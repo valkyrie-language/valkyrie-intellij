@@ -60,7 +60,6 @@ root ::= statements*
 private statements ::= declare-namespace
     | using-statement
     | declare-type
-    | trait-alias
     | declare-flags
     | declare-enumerate
     | declare-unite
@@ -217,13 +216,19 @@ declare-variant ::= annotations identifier class-body? {
     mixin = "valkyrie.psi.mixin.MixinVariant"
 }
 // === group statement ===
-trait-alias ::= annotations KW_TRAIT identifier EQUAL type-expression {
-    pin = 4
-    mixin = "valkyrie.psi.mixin.MixinTraitAlias"
-}
-declare-trait ::= annotations KW_TRAIT identifier declare-infer? type-hint? class-body {
+declare-trait ::= annotations KW_TRAIT (trait-alias|trait-define) {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinTrait"
+}
+/// trait A = C + D
+trait-alias ::= identifier EQUAL type-expression {
+    pin = 2
+//    mixin = "valkyrie.psi.mixin.MixinTraitAlias"
+}
+/// trait A: B { ... }
+trait-define ::= identifier declare-infer? type-hint? class-body {
+//    pin = 4
+//    mixin = "valkyrie.psi.mixin.MixinTraitAlias"
 }
 associated-type ::= annotations KW_TYPE identifier (EQUAL type-expression)? {
     pin = 2

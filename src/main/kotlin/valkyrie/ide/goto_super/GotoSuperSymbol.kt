@@ -78,7 +78,7 @@ private class GotoSuperVisitor : ValkyrieVisitor() {
     }
 
     override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {
-        target = GotoData(o, arrayOf(o.typeHint), listOf())
+//        target = GotoData(o, arrayOf(o.typeHint), listOf())
     }
 
     override fun visitTraitAlias(o: ValkyrieTraitAlias) {

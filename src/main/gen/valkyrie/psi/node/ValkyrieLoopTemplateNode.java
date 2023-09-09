@@ -169,12 +169,6 @@ public class ValkyrieLoopTemplateNode extends ValkyrieElement implements Valkyri
 
     @Override
     @NotNull
-    public List<ValkyrieTraitAlias> getTraitAliasList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTraitAlias.class);
-    }
-
-    @Override
-    @NotNull
     public List<ValkyrieUsingStatement> getUsingStatementList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieUsingStatement.class);
     }

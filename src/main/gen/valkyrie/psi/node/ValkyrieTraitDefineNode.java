@@ -11,16 +11,16 @@ import com.intellij.psi.util.PsiTreeUtil;
 
 import static valkyrie.psi.ValkyrieTypes.*;
 
-import valkyrie.psi.mixin.MixinTrait;
+import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieDeclareTraitNode extends MixinTrait implements ValkyrieDeclareTrait {
+public class ValkyrieTraitDefineNode extends ValkyrieElement implements ValkyrieTraitDefine {
 
-    public ValkyrieDeclareTraitNode(@NotNull ASTNode node) {
+    public ValkyrieTraitDefineNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitDeclareTrait(this);
+        visitor.visitTraitDefine(this);
     }
 
     @Override
@@ -31,20 +31,26 @@ public class ValkyrieDeclareTraitNode extends MixinTrait implements ValkyrieDecl
 
     @Override
     @NotNull
-    public ValkyrieAnnotations getAnnotations() {
-        return findNotNullChildByClass(ValkyrieAnnotations.class);
+    public ValkyrieClassBody getClassBody() {
+        return findNotNullChildByClass(ValkyrieClassBody.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieTraitAlias getTraitAlias() {
-        return findChildByClass(ValkyrieTraitAlias.class);
+    public ValkyrieDeclareInfer getDeclareInfer() {
+        return findChildByClass(ValkyrieDeclareInfer.class);
+    }
+
+    @Override
+    @NotNull
+    public ValkyrieIdentifier getIdentifier() {
+        return findNotNullChildByClass(ValkyrieIdentifier.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieTraitDefine getTraitDefine() {
-        return findChildByClass(ValkyrieTraitDefine.class);
+    public ValkyrieTypeHint getTypeHint() {
+        return findChildByClass(ValkyrieTypeHint.class);
     }
 
 }

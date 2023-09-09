@@ -2603,7 +2603,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // annotations KW_TRAIT identifier declare-infer? type-hint? class-body
+  // annotations KW_TRAIT (trait-alias|trait-define)
   public static boolean declare_trait(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "declare_trait")) return false;
     boolean r, p;
@@ -2611,26 +2611,18 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     r = annotations(b, l + 1);
     r = r && consumeToken(b, KW_TRAIT);
     p = r; // pin = 2
-    r = r && report_error_(b, identifier(b, l + 1));
-    r = p && report_error_(b, declare_trait_3(b, l + 1)) && r;
-    r = p && report_error_(b, declare_trait_4(b, l + 1)) && r;
-    r = p && class_body(b, l + 1) && r;
+    r = r && declare_trait_2(b, l + 1);
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
-  // declare-infer?
-  private static boolean declare_trait_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "declare_trait_3")) return false;
-    declare_infer(b, l + 1);
-    return true;
-  }
-
-  // type-hint?
-  private static boolean declare_trait_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "declare_trait_4")) return false;
-    type_hint(b, l + 1);
-    return true;
+  // trait-alias|trait-define
+  private static boolean declare_trait_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "declare_trait_2")) return false;
+    boolean r;
+    r = trait_alias(b, l + 1);
+    if (!r) r = trait_define(b, l + 1);
+    return r;
   }
 
   /* ********************************************************** */
@@ -7123,7 +7115,6 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
   // declare-namespace
   //     | using-statement
   //     | declare-type
-  //     | trait-alias
   //     | declare-flags
   //     | declare-enumerate
   //     | declare-unite
@@ -7144,7 +7135,6 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     r = declare_namespace(b, l + 1);
     if (!r) r = using_statement(b, l + 1);
     if (!r) r = declare_type(b, l + 1);
-    if (!r) r = trait_alias(b, l + 1);
     if (!r) r = declare_flags(b, l + 1);
     if (!r) r = declare_enumerate(b, l + 1);
     if (!r) r = declare_unite(b, l + 1);
@@ -7390,19 +7380,57 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // annotations KW_TRAIT identifier EQUAL type-expression
+  // identifier EQUAL type-expression
   public static boolean trait_alias(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "trait_alias")) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, TRAIT_ALIAS, "<trait alias>");
-    r = annotations(b, l + 1);
-    r = r && consumeToken(b, KW_TRAIT);
-    r = r && identifier(b, l + 1);
+    r = identifier(b, l + 1);
     r = r && consumeToken(b, EQUAL);
-    p = r; // pin = 4
+    p = r; // pin = 2
     r = r && type_expression(b, l + 1);
     exit_section_(b, l, m, r, p, null);
     return r || p;
+  }
+
+  /* ********************************************************** */
+  // identifier declare-infer? type-hint? class-body {
+  // //    pin = 4
+  // //    mixin = "valkyrie.psi.mixin.MixinTraitAlias"
+  // }
+  public static boolean trait_define(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "trait_define")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, TRAIT_DEFINE, "<trait define>");
+    r = identifier(b, l + 1);
+    r = r && trait_define_1(b, l + 1);
+    r = r && trait_define_2(b, l + 1);
+    r = r && class_body(b, l + 1);
+    r = r && trait_define_4(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // declare-infer?
+  private static boolean trait_define_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "trait_define_1")) return false;
+    declare_infer(b, l + 1);
+    return true;
+  }
+
+  // type-hint?
+  private static boolean trait_define_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "trait_define_2")) return false;
+    type_hint(b, l + 1);
+    return true;
+  }
+
+  // {
+  // //    pin = 4
+  // //    mixin = "valkyrie.psi.mixin.MixinTraitAlias"
+  // }
+  private static boolean trait_define_4(PsiBuilder b, int l) {
+    return true;
   }
 
   /* ********************************************************** */
