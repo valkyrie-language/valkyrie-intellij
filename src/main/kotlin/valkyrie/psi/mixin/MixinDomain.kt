@@ -1,6 +1,7 @@
 package valkyrie.psi.mixin
 
-import com.intellij.icons.ExpUiIcons
+
+import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.ValkyrieDeclareDomain
@@ -13,6 +14,6 @@ abstract class MixinDomain(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieD
     }
 
     override fun getBaseIcon(): Icon {
-        return ExpUiIcons.Nodes.Controller
+        return AllIcons.Nodes.Controller
     }
 }
