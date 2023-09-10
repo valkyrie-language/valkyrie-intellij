@@ -108,6 +108,7 @@ public interface ValkyrieTypes {
     IElementType INLINE_TERM = new ValkyrieElementType("INLINE_TERM");
     IElementType IS_EXPRESSION = new ValkyrieElementType("IS_EXPRESSION");
     IElementType IS_STATEMENT = new ValkyrieElementType("IS_STATEMENT");
+    IElementType KEYWORDS = new ValkyrieElementType("KEYWORDS");
     IElementType LAMBDA_BLOCK = new ValkyrieElementType("LAMBDA_BLOCK");
     IElementType LET_PATTERN = new ValkyrieElementType("LET_PATTERN");
     IElementType LET_STATEMENT = new ValkyrieElementType("LET_STATEMENT");
@@ -182,7 +183,6 @@ public interface ValkyrieTypes {
     IElementType SUFFIX = new ValkyrieElementType("SUFFIX");
     IElementType TEMPLATE_BODY = new ValkyrieElementType("TEMPLATE_BODY");
     IElementType TEMPLATE_END = new ValkyrieElementType("TEMPLATE_END");
-    IElementType TEMPLATE_END_WORD = new ValkyrieElementType("TEMPLATE_END_WORD");
     IElementType TEMPLATE_ITEM = new ValkyrieElementType("TEMPLATE_ITEM");
     IElementType TERM = new ValkyrieElementType("TERM");
     IElementType THEN_STATEMENT = new ValkyrieElementType("THEN_STATEMENT");
@@ -234,7 +234,7 @@ public interface ValkyrieTypes {
     IElementType COLOR = new ValkyrieTokenType("COLOR");
     IElementType COMMA = new ValkyrieTokenType(",");
     IElementType COMMENT_BLOCK = new ValkyrieTokenType("Comment Block");
-    IElementType COMMENT_LINE = new ValkyrieTokenType("Comment");
+    IElementType COMMENT_LINE = new ValkyrieTokenType("Comment Line");
     IElementType DECIMAL = new ValkyrieTokenType("DECIMAL");
     IElementType DOLLAR = new ValkyrieTokenType("$");
     IElementType DOMAIN_L = new ValkyrieTokenType("DOMAIN_L");
@@ -580,6 +580,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieIsExpressionNode(node);
             } else if (type == IS_STATEMENT) {
                 return new ValkyrieIsStatementNode(node);
+            } else if (type == KEYWORDS) {
+                return new ValkyrieKeywordsNode(node);
             } else if (type == LAMBDA_BLOCK) {
                 return new ValkyrieLambdaBlockNode(node);
             } else if (type == LET_PATTERN) {
@@ -728,8 +730,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieTemplateBodyNode(node);
             } else if (type == TEMPLATE_END) {
                 return new ValkyrieTemplateEndNode(node);
-            } else if (type == TEMPLATE_END_WORD) {
-                return new ValkyrieTemplateEndWordNode(node);
             } else if (type == TEMPLATE_ITEM) {
                 return new ValkyrieTemplateItemNode(node);
             } else if (type == TERM) {

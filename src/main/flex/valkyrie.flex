@@ -12,7 +12,9 @@ import static valkyrie.psi.ValkyrieTypes.*;
 %function advance
 %type com.intellij.psi.tree.IElementType
 %unicode
-
+%{
+    int nest_comment = 0;
+%}
 %state CommentBlock
 %state TextCapture6
 %state TextCapture3
@@ -217,20 +219,27 @@ OP_DEREFERENCE = [⁋]
 
 RESERVED = [߷⸖↯⍼♯⟀⟁]
 %%
-
 <YYINITIAL> {
     {WHITE_SPACE}+     { return WHITE_SPACE; }
-	{COMMENT_LINE}     { return COMMENT_LINE; }
+    {COMMENT_LINE}     { return COMMENT_LINE; }
     {ANGLE_L}{COMMENT} {
+        nest_comment++;
         yybegin(CommentBlock);
         return COMMENT_BLOCK;
     }
     {COMMENT}{ANGLE_R} { return COMMENT_BLOCK; }
 }
+
 <CommentBlock> {
-    {ANGLE_L}{COMMENT} { return COMMENT_BLOCK; }
+    {ANGLE_L}{COMMENT} {
+        nest_comment++;
+        return COMMENT_BLOCK;
+    }
     {COMMENT}{ANGLE_R} {
-        yybegin(YYINITIAL);
+        nest_comment--;
+        if (nest_comment == 0) {
+            yybegin(YYINITIAL);
+        }
         return COMMENT_BLOCK;
     }
     . { return COMMENT_BLOCK; }
