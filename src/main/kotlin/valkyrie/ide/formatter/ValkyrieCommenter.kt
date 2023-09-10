@@ -11,7 +11,7 @@ class ValkyrieCommenter : CodeDocumentationAwareCommenter {
     override fun getLineCommentPrefix() = "#"
     override fun getDocumentationCommentLinePrefix() = "#?"
     override fun getLineCommentPrefixes(): MutableList<String> {
-        return mutableListOf("#", "\\\\")
+        return mutableListOf("#", "⍝")
     }
 
     override fun getLineCommentTokenType(): IElementType {
@@ -19,13 +19,13 @@ class ValkyrieCommenter : CodeDocumentationAwareCommenter {
     }
 
     override fun getLineCommentTokenTypes(): MutableList<IElementType> {
-        return mutableListOf(ValkyrieTypes.COMMENT_LINE, ValkyrieTypes.COMMENT_BLOCK)
+        return mutableListOf(ValkyrieTypes.COMMENT_LINE)
     }
 
-    override fun getBlockCommentPrefix() = null
-    override fun getBlockCommentSuffix() = null
-    override fun getCommentedBlockCommentPrefix() = null
-    override fun getCommentedBlockCommentSuffix() = null
+    override fun getBlockCommentPrefix() = "<#"
+    override fun getBlockCommentSuffix() = "#>"
+    override fun getCommentedBlockCommentPrefix() = "<#"
+    override fun getCommentedBlockCommentSuffix() = "#>"
 
 
     override fun blockCommentRequiresFullLineSelection(): Boolean {
@@ -38,8 +38,8 @@ class ValkyrieCommenter : CodeDocumentationAwareCommenter {
     }
 
     override fun getDocumentationCommentTokenType(): IElementType? = null
-    override fun getDocumentationCommentPrefix() = null
-    override fun getDocumentationCommentSuffix() = null
+    override fun getDocumentationCommentPrefix() = "<#?"
+    override fun getDocumentationCommentSuffix() = "#>"
 
     override fun isDocumentationComment(element: PsiComment?): Boolean {
         if (element == null || element.elementType != ValkyrieTypes.COMMENT_BLOCK) {

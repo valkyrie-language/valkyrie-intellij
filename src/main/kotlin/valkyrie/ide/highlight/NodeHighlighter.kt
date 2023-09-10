@@ -89,10 +89,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifier, HighlightColor.SYM_VARIANT)
     }
 
-    override fun visitTraitAlias(o: ValkyrieTraitAlias) {
-        highlight(o.identifier, HighlightColor.SYM_TRAIT)
-    }
-
     override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {
         highlight(o.identifier, HighlightColor.SYM_TRAIT)
     }

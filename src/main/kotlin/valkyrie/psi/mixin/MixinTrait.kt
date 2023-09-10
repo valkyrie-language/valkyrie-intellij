@@ -12,21 +12,17 @@ import valkyrie.psi.node.ValkyrieDeclareTrait
 import valkyrie.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
-
 abstract class MixinTrait(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareTrait {
     val keyword: PsiElement = findKeyword(KW_TRAIT)
     override val color: HighlightColor = HighlightColor.SYM_TRAIT
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-//        return this.identifier as? ValkyrieIdentifierNode
-        return null
+        return this.identifier as? ValkyrieIdentifierNode
     }
 
     override fun getBaseIcon(): Icon {
         return ValkyrieIconProvider.Instance.Trait
     }
-
-
 }
 
 val ValkyrieDeclareTrait.keyword: PsiElement

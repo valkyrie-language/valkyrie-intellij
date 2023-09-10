@@ -128,32 +128,32 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
         }
     }
     override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {
-        if (!config.trait_declaration.isEnabled) return
-        o as ValkyrieDeclareTraitNode
-        val leaf = o.nameIdentifier ?: return
-        if (Random.nextBoolean()) {
-            result.add(TraitMarker(o))
-        } else {
-            for (definition in o.containingFile.definitions) {
-                when (definition) {
-                    is ValkyrieDeclareClassNode -> {
-                        result.add(SubtypeMarker(leaf, definition))
-                    }
-
-                    is ValkyrieDeclareTraitNode -> {
-                        result.add(ImplementMarker(leaf, definition))
-                    }
-
-                    is ValkyrieDeclareEnumerateNode -> {
-                        result.add(ImplementMarker(leaf, definition))
-                    }
-
-                    is ValkyrieDeclareFlagsNode -> {
-                        result.add(ImplementMarker(leaf, definition))
-                    }
-                }
-            }
-        }
+//        if (!config.trait_declaration.isEnabled) return
+//        o as ValkyrieDeclareTraitNode
+//        val leaf = o.nameIdentifier ?: return
+//        if (Random.nextBoolean()) {
+//            result.add(TraitMarker(o))
+//        } else {
+//            for (definition in o.containingFile.definitions) {
+//                when (definition) {
+//                    is ValkyrieDeclareClassNode -> {
+//                        result.add(SubtypeMarker(leaf, definition))
+//                    }
+//
+//                    is ValkyrieDeclareTraitNode -> {
+//                        result.add(ImplementMarker(leaf, definition))
+//                    }
+//
+//                    is ValkyrieDeclareEnumerateNode -> {
+//                        result.add(ImplementMarker(leaf, definition))
+//                    }
+//
+//                    is ValkyrieDeclareFlagsNode -> {
+//                        result.add(ImplementMarker(leaf, definition))
+//                    }
+//                }
+//            }
+//        }
     }
 
     override fun visitTraitAlias(o: ValkyrieTraitAlias) {
