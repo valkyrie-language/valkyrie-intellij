@@ -13,6 +13,9 @@ public interface ValkyrieFunctionCall extends PsiElement {
     @Nullable
     ValkyrieBlockBody getBlockBody();
 
+    @Nullable
+    ValkyrieGenericCall getGenericCall();
+
     @NotNull
     ValkyrieNamepath getNamepath();
 

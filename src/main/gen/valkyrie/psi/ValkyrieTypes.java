@@ -116,6 +116,8 @@ public interface ValkyrieTypes {
     IElementType LOOP_EACH = new ValkyrieElementType("LOOP_EACH");
     IElementType LOOP_INLINE = new ValkyrieElementType("LOOP_INLINE");
     IElementType LOOP_STATEMENT = new ValkyrieElementType("LOOP_STATEMENT");
+    IElementType LOOP_TEMPLATE = new ValkyrieElementType("LOOP_TEMPLATE");
+    IElementType LOOP_TEMPLATE_START = new ValkyrieElementType("LOOP_TEMPLATE_START");
     IElementType LOOP_UNTIL = new ValkyrieElementType("LOOP_UNTIL");
     IElementType LOOP_UNTIL_NOT = new ValkyrieElementType("LOOP_UNTIL_NOT");
     IElementType LOOP_WHILE = new ValkyrieElementType("LOOP_WHILE");
@@ -179,6 +181,8 @@ public interface ValkyrieTypes {
     IElementType STRING = new ValkyrieElementType("STRING");
     IElementType SUFFIX = new ValkyrieElementType("SUFFIX");
     IElementType TEMPLATE_BODY = new ValkyrieElementType("TEMPLATE_BODY");
+    IElementType TEMPLATE_END = new ValkyrieElementType("TEMPLATE_END");
+    IElementType TEMPLATE_END_WORD = new ValkyrieElementType("TEMPLATE_END_WORD");
     IElementType TEMPLATE_ITEM = new ValkyrieElementType("TEMPLATE_ITEM");
     IElementType TERM = new ValkyrieElementType("TERM");
     IElementType THEN_STATEMENT = new ValkyrieElementType("THEN_STATEMENT");
@@ -244,6 +248,7 @@ public interface ValkyrieTypes {
     IElementType GENERIC_R = new ValkyrieTokenType("GENERIC_R");
     IElementType INTEGER = new ValkyrieTokenType("<<INTEGER>>");
     IElementType KW_AS = new ValkyrieTokenType("KW_AS");
+    IElementType KW_BOOLEAN = new ValkyrieTokenType("KW_BOOLEAN");
     IElementType KW_BREAK = new ValkyrieTokenType("KW_BREAK");
     IElementType KW_CASE = new ValkyrieTokenType("KW_CASE");
     IElementType KW_CATCH = new ValkyrieTokenType("KW_CATCH");
@@ -252,6 +257,7 @@ public interface ValkyrieTypes {
     IElementType KW_CONTINUE = new ValkyrieTokenType("KW_CONTINUE");
     IElementType KW_EACH = new ValkyrieTokenType("KW_EACH");
     IElementType KW_ELSE = new ValkyrieTokenType("KW_ELSE");
+    IElementType KW_END = new ValkyrieTokenType("KW_END");
     IElementType KW_ENUMERATE = new ValkyrieTokenType("KW_ENUMERATE");
     IElementType KW_EXCLUDE = new ValkyrieTokenType("KW_EXCLUDE");
     IElementType KW_FLAGS = new ValkyrieTokenType("KW_FLAGS");
@@ -272,6 +278,7 @@ public interface ValkyrieTypes {
     IElementType KW_NEW = new ValkyrieTokenType("KW_NEW");
     IElementType KW_NIL = new ValkyrieTokenType("KW_NIL");
     IElementType KW_NOT = new ValkyrieTokenType("KW_NOT");
+    IElementType KW_NULL = new ValkyrieTokenType("KW_NULL");
     IElementType KW_OBJECT = new ValkyrieTokenType("KW_OBJECT");
     IElementType KW_RAISE = new ValkyrieTokenType("KW_RAISE");
     IElementType KW_RESUME = new ValkyrieTokenType("KW_RESUME");
@@ -367,6 +374,8 @@ public interface ValkyrieTypes {
     IElementType STRING_TEXT = new ValkyrieTokenType("STRING_TEXT");
     IElementType SYMBOL = new ValkyrieTokenType("Symbol");
     IElementType SYMBOW_RAW = new ValkyrieTokenType("SYMBOW_RAW");
+    IElementType TEMPLATE_L = new ValkyrieTokenType("TEMPLATE_L");
+    IElementType TEMPLATE_R = new ValkyrieTokenType("TEMPLATE_R");
 
     class Factory {
         public static PsiElement createElement(ASTNode node) {
@@ -587,6 +596,10 @@ public interface ValkyrieTypes {
                 return new ValkyrieLoopInlineNode(node);
             } else if (type == LOOP_STATEMENT) {
                 return new ValkyrieLoopStatementNode(node);
+            } else if (type == LOOP_TEMPLATE) {
+                return new ValkyrieLoopTemplateNode(node);
+            } else if (type == LOOP_TEMPLATE_START) {
+                return new ValkyrieLoopTemplateStartNode(node);
             } else if (type == LOOP_UNTIL) {
                 return new ValkyrieLoopUntilNode(node);
             } else if (type == LOOP_UNTIL_NOT) {
@@ -713,6 +726,10 @@ public interface ValkyrieTypes {
                 return new ValkyrieSuffixNode(node);
             } else if (type == TEMPLATE_BODY) {
                 return new ValkyrieTemplateBodyNode(node);
+            } else if (type == TEMPLATE_END) {
+                return new ValkyrieTemplateEndNode(node);
+            } else if (type == TEMPLATE_END_WORD) {
+                return new ValkyrieTemplateEndWordNode(node);
             } else if (type == TEMPLATE_ITEM) {
                 return new ValkyrieTemplateItemNode(node);
             } else if (type == TERM) {
