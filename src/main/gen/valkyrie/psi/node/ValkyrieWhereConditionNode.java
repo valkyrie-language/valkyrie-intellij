@@ -31,8 +31,8 @@ public class ValkyrieWhereConditionNode extends ValkyrieElement implements Valky
 
     @Override
     @NotNull
-    public List<ValkyrieTypeExpression> getTypeExpressionList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieTypeExpression.class);
+    public ValkyrieGenericParameter getGenericParameter() {
+        return findNotNullChildByClass(ValkyrieGenericParameter.class);
     }
 
 }

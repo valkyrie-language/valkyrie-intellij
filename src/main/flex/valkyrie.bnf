@@ -110,10 +110,12 @@ infer-body ::= BRACE_L infer-item* BRACE_R;
 infer-item ::= SEMICOLON
     | declare-where
 // where T: Show, X: Show
-declare-where   ::= KW_WHERE where-term+;
+declare-where   ::= KW_WHERE where-term* {
+    pin = 1
+}
 where-term      ::= COMMA | SEMICOLON
     | where-condition;
-where-condition ::= type-expression COLON type-expression;
+where-condition ::= generic-parameter;
 // === type statement ===
 declare-type ::= annotations KW_TYPE (type-alias|type-function) {
     pin = 2
