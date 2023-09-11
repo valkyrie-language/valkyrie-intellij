@@ -7,7 +7,7 @@ import valkyrie.psi.node.ValkyrieDeclareFunction
 import valkyrie.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
-abstract class MixinDeclareMicro(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareFunction {
+abstract class MixinDeclareFunction(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareFunction {
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
         return this.identifier as? ValkyrieIdentifierNode
     }

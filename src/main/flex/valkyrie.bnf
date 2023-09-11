@@ -59,7 +59,7 @@
 root ::= statements*
 private statements ::= declare-namespace
     | using-statement
-    | type-alias
+    | declare-type
     | trait-alias
     | declare-flags
     | declare-enumerate
@@ -68,7 +68,7 @@ private statements ::= declare-namespace
     | declare-union
     | declare-trait
     | declare-imply
-    | declare-micro
+    | declare-function
     | declare-mezzo
     | declare-macro
     | declare-component
@@ -103,7 +103,7 @@ using-body    ::= BRACE_L using-term* BRACE_R;
 using-alias   ::= identifier KW_AS identifier;
 private using-dot ::= DOT|NAME_SPLIT|OP_DIV
 // === forall statement ===
-declare-template ::= annotations KW_TEMPLATE (identifier (COMMA identifier)* COMMA?)? template-body {
+declare-depends ::= annotations KW_DEPENDS (identifier (COMMA identifier)* COMMA?)? template-body {
     pin = 2
 }
 template-body ::= BRACE_L template-item* BRACE_R;
@@ -111,7 +111,7 @@ template-item ::= SEMICOLON
   | declare-where
 
 // === type statement ===
-type-alias ::= annotations KW_TYPE identifier declare-generic? EQUAL type-expression {
+declare-type ::= annotations KW_TYPE identifier declare-depends? EQUAL type-expression {
     pin = 2
 }
 associated-type ::= annotations KW_TYPE identifier (EQUAL type-expression)? {
@@ -120,19 +120,19 @@ associated-type ::= annotations KW_TYPE identifier (EQUAL type-expression)? {
 declare-where ::= KW_WHERE where-body;
 where-body    ::= BRACE_L BRACE_R
 // === class statement ===
-declare-class ::= declare-template? annotations KW_CLASS identifier declare-generic? class-inherit? type-hint? class-body {
+declare-class ::= declare-depends? annotations KW_CLASS identifier declare-depends? class-inherit? type-hint? class-body {
     pin = 3
     mixin = "valkyrie.psi.mixin.MixinClass"
 }
-declare-component ::= annotations KW_COMPONENT identifier declare-generic? class-inherit? type-hint? class-body {
+declare-component ::= annotations KW_COMPONENT identifier declare-depends? class-inherit? type-hint? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinComponent"
 }
-declare-singleton ::= annotations KW_SINGLETON identifier declare-generic? class-inherit? type-hint? class-body {
+declare-singleton ::= annotations KW_SINGLETON identifier declare-depends? class-inherit? type-hint? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinSingleton"
 }
-declare-neural ::= annotations KW_NEURAL identifier declare-generic? class-inherit? type-hint? class-body {
+declare-neural ::= annotations KW_NEURAL identifier declare-depends? class-inherit? type-hint? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinNeural"
 }
@@ -159,7 +159,7 @@ type-hint     ::= COLON type-expression {
 default-value ::= EQUAL expression-root;
 default-type  ::= EQUAL type-expression;
 // === class method statement ===
-declare-method ::= annotations KW_FUNCTION? identifier-free declare-generic? parameter-body return-type? effect-type? block-body? {
+declare-method ::= annotations KW_FUNCTION? identifier-free declare-depends? parameter-body return-type? effect-type? block-body? {
     mixin = "valkyrie.psi.mixin.MixinMethod"
 }
 // === class domain statement ===
@@ -196,7 +196,7 @@ declare-semantic ::= annotations identifier (COLON number-literal)? (EQUAL ident
     mixin = "valkyrie.psi.mixin.MixinSemantic"
 }
 // === union statement ===
-declare-unite ::= declare-template? annotations KW_UNITE identifier declare-generic? unite-body {
+declare-unite ::= declare-depends? annotations KW_UNITE identifier declare-depends? unite-body {
     pin = 3
     mixin = "valkyrie.psi.mixin.MixinUnite"
 }
@@ -212,13 +212,13 @@ trait-alias ::= annotations KW_TRAIT identifier EQUAL type-expression {
     pin = 4
     mixin = "valkyrie.psi.mixin.MixinTraitAlias"
 }
-declare-trait ::= annotations KW_TRAIT identifier declare-generic? type-hint? class-body {
+declare-trait ::= annotations KW_TRAIT identifier declare-depends? type-hint? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinTrait"
 }
 // impl trait for class
 
-declare-imply ::= annotations KW_IMPLY declare-generic? (
+declare-imply ::= annotations KW_IMPLY declare-depends? (
     // impl class: trait
     namepath generic-call-free? COLON type-expression
     // impl trait for class
@@ -238,16 +238,18 @@ declare-generic ::=
 generic-parameter ::= annotations identifier type-hint? default-type? {
     mixin = "valkyrie.psi.mixin.MixinTypeParameter"
 }
-/// === function definition ===
-declare-micro ::= annotations KW_MICRO declare-generic? identifier parameter-body return-type? effect-type? block-body {
+/// === term function definition ===
+declare-function ::= annotations KW_MICRO declare-depends? identifier parameter-body return-type? effect-type? block-body {
     pin = 2
-    mixin = "valkyrie.psi.mixin.MixinDeclareMicro"
+    mixin = "valkyrie.psi.mixin.MixinDeclareFunction"
 }
-declare-mezzo ::= annotations KW_MEZZO declare-generic? identifier parameter-body return-type? effect-type? block-body {
+/// === type function definition ===
+declare-mezzo ::= annotations KW_MEZZO declare-depends? identifier parameter-body return-type? effect-type? block-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinDeclareMezzo"
 }
-declare-macro ::= annotations KW_MEZZO declare-generic? identifier parameter-body return-type? effect-type? block-body {
+/// === expression function definition ===
+declare-macro ::= annotations KW_MACRO declare-depends? identifier parameter-body return-type? effect-type? block-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinDeclareMacro"
 }
@@ -506,7 +508,7 @@ new-object ::= KW_OBJECT class-inherit? type-hint? class-body {
 }
 // === lambda expression ===
 // { lambda(x, y) -> u32 }
-new-lambda ::= KW_LAMBDA declare-generic? parameter-body return-type? effect-type? {
+new-lambda ::= KW_LAMBDA declare-depends? parameter-body return-type? effect-type? {
     pin = 1
     mixin = "valkyrie.psi.mixin.MixinLambda"
 }

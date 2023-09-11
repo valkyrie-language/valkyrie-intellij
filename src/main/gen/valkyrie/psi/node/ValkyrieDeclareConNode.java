@@ -11,16 +11,16 @@ import com.intellij.psi.util.PsiTreeUtil;
 
 import static valkyrie.psi.ValkyrieTypes.*;
 
-import valkyrie.psi.mixin.MixinUnite;
+import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieDeclareUniteNode extends MixinUnite implements ValkyrieDeclareUnite {
+public class ValkyrieDeclareConNode extends ValkyrieElement implements ValkyrieDeclareCon {
 
-    public ValkyrieDeclareUniteNode(@NotNull ASTNode node) {
+    public ValkyrieDeclareConNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitDeclareUnite(this);
+        visitor.visitDeclareCon(this);
     }
 
     @Override
@@ -37,20 +37,14 @@ public class ValkyrieDeclareUniteNode extends MixinUnite implements ValkyrieDecl
 
     @Override
     @NotNull
-    public List<ValkyrieDeclareDepends> getDeclareDependsList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareDepends.class);
+    public List<ValkyrieIdentifier> getIdentifierList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifier.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieIdentifier getIdentifier() {
-        return findChildByClass(ValkyrieIdentifier.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieUniteBody getUniteBody() {
-        return findChildByClass(ValkyrieUniteBody.class);
+    public ValkyrieTemplateBody getTemplateBody() {
+        return findChildByClass(ValkyrieTemplateBody.class);
     }
 
 }
