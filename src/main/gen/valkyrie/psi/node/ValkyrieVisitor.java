@@ -855,7 +855,11 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitWhereBody(@NotNull ValkyrieWhereBody o) {
+    public void visitWhereCondition(@NotNull ValkyrieWhereCondition o) {
+        visitPsiElement(o);
+    }
+
+    public void visitWhereTerm(@NotNull ValkyrieWhereTerm o) {
         visitPsiElement(o);
     }
 
