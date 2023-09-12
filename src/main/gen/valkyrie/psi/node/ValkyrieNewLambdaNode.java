@@ -31,8 +31,8 @@ public class ValkyrieNewLambdaNode extends MixinLambda implements ValkyrieNewLam
 
     @Override
     @Nullable
-    public ValkyrieDeclareDepends getDeclareDepends() {
-        return findChildByClass(ValkyrieDeclareDepends.class);
+    public ValkyrieDeclareInfer getDeclareInfer() {
+        return findChildByClass(ValkyrieDeclareInfer.class);
     }
 
     @Override

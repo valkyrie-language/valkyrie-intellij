@@ -92,10 +92,10 @@ using-statement ::= annotations KW_USING (using-body|using-term) {
     mixin = "valkyrie.psi.mixin.MixinUsing"
 }
 using-term ::= SEMICOLON | COMMA
-    | using-any
-    | using-alias
-    | using-block
-    | namepath-auto
+    | using-any      // using
+    | using-alias    // using
+    | using-block    // using
+    | namepath-auto  // using
 using-any     ::= (namepath-auto using-dot?) STAR using-exclude?
 using-exclude ::= KW_EXCLUDE (identifier|BRACE_L (identifier (COMMA identifier)* COMMA?) BRACE_R)
 using-block   ::= namepath-auto using-dot? using-body
@@ -104,7 +104,7 @@ using-alias   ::= identifier KW_AS identifier;
 private using-dot ::= DOT|NAME_SPLIT|OP_DIV
 // infer T { where T: Show }
 // imply List<T> { show_list() }
-declare-infer ::= annotations KW_DEPENDS (identifier (COMMA identifier)* COMMA?)? infer-body {
+declare-infer ::= annotations KW_INFER (identifier (COMMA identifier)* COMMA?)? infer-body {
     pin = 2
 }
 infer-body ::= BRACE_L infer-item* BRACE_R;
@@ -115,13 +115,17 @@ declare-where   ::= KW_WHERE where-term+;
 where-term      ::= COMMA | SEMICOLON
     | where-condition;
 where-condition ::= type-expression COLON type-expression;
+
 // === type statement ===
-declare-type ::= annotations KW_TYPE identifier declare-infer? EQUAL type-expression {
+declare-type ::= annotations KW_TYPE (type-alias|type-function) {
     pin = 2
 }
-associated-type ::= annotations KW_TYPE identifier (EQUAL type-expression)? {
-    pin = 2
-}
+// type A = B
+type-alias   ::= identifier declare-infer? EQUAL type-expression;
+// type A() -> B { }
+type-function ::= declare-infer? identifier parameter-body return-type? effect-type? block-body;
+
+
 
 
 // === class statement ===
@@ -194,9 +198,9 @@ declare-enumerate ::= annotations KW_ENUMERATE identifier class-inherit? (EQUAL 
 }
 enumerate-body ::= BRACE_L enumerate-item* BRACE_R;
 private enumerate-item ::= SEMICOLON | COMMA
-  | declare-method
-  | declare-semantic
-  | declare-domain
+    | declare-method
+    | declare-semantic
+    | declare-domain
 declare-semantic ::= annotations identifier (COLON number-literal)? (EQUAL identifier)? {
     mixin = "valkyrie.psi.mixin.MixinSemantic"
 }
@@ -220,6 +224,9 @@ trait-alias ::= annotations KW_TRAIT identifier EQUAL type-expression {
 declare-trait ::= annotations KW_TRAIT identifier declare-infer? type-hint? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinTrait"
+}
+associated-type ::= annotations KW_TYPE identifier (EQUAL type-expression)? {
+    pin = 2
 }
 // impl trait for class
 declare-imply ::= annotations KW_IMPLY declare-infer? (

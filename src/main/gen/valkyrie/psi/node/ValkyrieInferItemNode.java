@@ -13,14 +13,14 @@ import static valkyrie.psi.ValkyrieTypes.*;
 
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieDeclareTypeNode extends ValkyrieElement implements ValkyrieDeclareType {
+public class ValkyrieInferItemNode extends ValkyrieElement implements ValkyrieInferItem {
 
-    public ValkyrieDeclareTypeNode(@NotNull ASTNode node) {
+    public ValkyrieInferItemNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitDeclareType(this);
+        visitor.visitInferItem(this);
     }
 
     @Override
@@ -30,21 +30,9 @@ public class ValkyrieDeclareTypeNode extends ValkyrieElement implements Valkyrie
     }
 
     @Override
-    @NotNull
-    public ValkyrieAnnotations getAnnotations() {
-        return findNotNullChildByClass(ValkyrieAnnotations.class);
-    }
-
-    @Override
     @Nullable
-    public ValkyrieTypeAlias getTypeAlias() {
-        return findChildByClass(ValkyrieTypeAlias.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieTypeFunction getTypeFunction() {
-        return findChildByClass(ValkyrieTypeFunction.class);
+    public ValkyrieDeclareWhere getDeclareWhere() {
+        return findChildByClass(ValkyrieDeclareWhere.class);
     }
 
 }

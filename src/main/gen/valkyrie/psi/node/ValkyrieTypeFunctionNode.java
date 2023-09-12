@@ -11,16 +11,16 @@ import com.intellij.psi.util.PsiTreeUtil;
 
 import static valkyrie.psi.ValkyrieTypes.*;
 
-import valkyrie.psi.mixin.MixinMethod;
+import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieDeclareMethodNode extends MixinMethod implements ValkyrieDeclareMethod {
+public class ValkyrieTypeFunctionNode extends ValkyrieElement implements ValkyrieTypeFunction {
 
-    public ValkyrieDeclareMethodNode(@NotNull ASTNode node) {
+    public ValkyrieTypeFunctionNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitDeclareMethod(this);
+        visitor.visitTypeFunction(this);
     }
 
     @Override
@@ -30,21 +30,9 @@ public class ValkyrieDeclareMethodNode extends MixinMethod implements ValkyrieDe
     }
 
     @Override
-    @Nullable
-    public ValkyrieKwFunction getKwFunction() {
-        return findChildByClass(ValkyrieKwFunction.class);
-    }
-
-    @Override
     @NotNull
-    public ValkyrieAnnotations getAnnotations() {
-        return findNotNullChildByClass(ValkyrieAnnotations.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieBlockBody getBlockBody() {
-        return findChildByClass(ValkyrieBlockBody.class);
+        return findNotNullChildByClass(ValkyrieBlockBody.class);
     }
 
     @Override
@@ -61,8 +49,8 @@ public class ValkyrieDeclareMethodNode extends MixinMethod implements ValkyrieDe
 
     @Override
     @NotNull
-    public ValkyrieIdentifierFree getIdentifierFree() {
-        return findNotNullChildByClass(ValkyrieIdentifierFree.class);
+    public ValkyrieIdentifier getIdentifier() {
+        return findNotNullChildByClass(ValkyrieIdentifier.class);
     }
 
     @Override
