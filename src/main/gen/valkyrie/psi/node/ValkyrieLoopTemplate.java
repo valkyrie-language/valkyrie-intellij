@@ -78,9 +78,6 @@ public interface ValkyrieLoopTemplate extends PsiElement {
     ValkyrieTemplateEnd getTemplateEnd();
 
     @NotNull
-    List<ValkyrieTraitAlias> getTraitAliasList();
-
-    @NotNull
     List<ValkyrieUsingStatement> getUsingStatementList();
 
 }

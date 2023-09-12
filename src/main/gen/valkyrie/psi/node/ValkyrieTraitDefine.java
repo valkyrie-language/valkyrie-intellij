@@ -6,12 +6,18 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieTraitAlias extends PsiElement {
+public interface ValkyrieTraitDefine extends PsiElement {
+
+    @NotNull
+    ValkyrieClassBody getClassBody();
+
+    @Nullable
+    ValkyrieDeclareInfer getDeclareInfer();
 
     @NotNull
     ValkyrieIdentifier getIdentifier();
 
     @Nullable
-    ValkyrieTypeExpression getTypeExpression();
+    ValkyrieTypeHint getTypeHint();
 
 }
