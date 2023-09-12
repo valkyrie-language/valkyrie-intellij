@@ -58,6 +58,12 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
 
     @Override
     @Nullable
+    public ValkyrieLetWaitYield getLetWaitYield() {
+        return findChildByClass(ValkyrieLetWaitYield.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieLocalizeCall getLocalizeCall() {
         return findChildByClass(ValkyrieLocalizeCall.class);
     }

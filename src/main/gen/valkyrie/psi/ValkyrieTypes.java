@@ -47,6 +47,7 @@ public interface ValkyrieTypes {
     IElementType CONTROL_YIELD_FROM = new ValkyrieElementType("CONTROL_YIELD_FROM");
     IElementType CONTROL_YIELD_SEND = new ValkyrieElementType("CONTROL_YIELD_SEND");
     IElementType CONTROL_YIELD_STOP = new ValkyrieElementType("CONTROL_YIELD_STOP");
+    IElementType CONTROL_YIELD_TYPE = new ValkyrieElementType("CONTROL_YIELD_TYPE");
     IElementType DECLARE_CLASS = new ValkyrieElementType("DECLARE_CLASS");
     IElementType DECLARE_COMPONENT = new ValkyrieElementType("DECLARE_COMPONENT");
     IElementType DECLARE_DOMAIN = new ValkyrieElementType("DECLARE_DOMAIN");
@@ -112,6 +113,7 @@ public interface ValkyrieTypes {
     IElementType LAMBDA_BLOCK = new ValkyrieElementType("LAMBDA_BLOCK");
     IElementType LET_PATTERN = new ValkyrieElementType("LET_PATTERN");
     IElementType LET_STATEMENT = new ValkyrieElementType("LET_STATEMENT");
+    IElementType LET_WAIT_YIELD = new ValkyrieElementType("LET_WAIT_YIELD");
     IElementType LOCALIZE_CALL = new ValkyrieElementType("LOCALIZE_CALL");
     IElementType LOOP_CONDITION = new ValkyrieElementType("LOOP_CONDITION");
     IElementType LOOP_EACH = new ValkyrieElementType("LOOP_EACH");
@@ -331,6 +333,7 @@ public interface ValkyrieTypes {
     IElementType OP_DIV_REM = new ValkyrieTokenType("OP_DIV_REM");
     IElementType OP_DIV_ROUND = new ValkyrieTokenType("OP_DIV_ROUND");
     IElementType OP_EE = new ValkyrieTokenType("OP_EE");
+    IElementType OP_END = new ValkyrieTokenType("OP_END");
     IElementType OP_EXPONENT = new ValkyrieTokenType("OP_EXPONENT");
     IElementType OP_FAHRENHEIT = new ValkyrieTokenType("OP_FAHRENHEIT");
     IElementType OP_GEQ = new ValkyrieTokenType("OP_GEQ");
@@ -459,6 +462,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieControlYieldSendNode(node);
             } else if (type == CONTROL_YIELD_STOP) {
                 return new ValkyrieControlYieldStopNode(node);
+            } else if (type == CONTROL_YIELD_TYPE) {
+                return new ValkyrieControlYieldTypeNode(node);
             } else if (type == DECLARE_CLASS) {
                 return new ValkyrieDeclareClassNode(node);
             } else if (type == DECLARE_COMPONENT) {
@@ -589,6 +594,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieLetPatternNode(node);
             } else if (type == LET_STATEMENT) {
                 return new ValkyrieLetStatementNode(node);
+            } else if (type == LET_WAIT_YIELD) {
+                return new ValkyrieLetWaitYieldNode(node);
             } else if (type == LOCALIZE_CALL) {
                 return new ValkyrieLocalizeCallNode(node);
             } else if (type == LOOP_CONDITION) {
