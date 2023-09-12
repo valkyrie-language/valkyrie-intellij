@@ -3,7 +3,6 @@ package valkyrie.psi
 import com.intellij.lang.ASTNode
 import com.intellij.lang.ParserDefinition
 import com.intellij.lang.PsiParser
-import com.intellij.lexer.FlexAdapter
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.project.Project
 import com.intellij.psi.FileViewProvider
@@ -17,7 +16,7 @@ import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.parser.YggdrasilParser
 
 class ParserDefinition : ParserDefinition {
-    override fun createLexer(project: Project): Lexer = Instance.lexer()
+    override fun createLexer(project: Project): Lexer = ValkyrieLexer()
     override fun createParser(project: Project): PsiParser = YggdrasilParser()
     override fun getFileNodeType(): IFileElementType = IFileElementType(ValkyrieLanguage)
     override fun getCommentTokens(): TokenSet =
@@ -31,11 +30,4 @@ class ParserDefinition : ParserDefinition {
         return ParserDefinition.SpaceRequirements.MAY
     }
 
-    object Instance {
-        fun lexer(): Lexer {
-            var lexer = _ValkyrieLexer(null);
-            lexer.nest_comment = 0
-            return FlexAdapter(lexer)
-        }
-    }
 }

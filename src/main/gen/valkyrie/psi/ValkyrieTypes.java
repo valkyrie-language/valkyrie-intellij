@@ -116,9 +116,9 @@ public interface ValkyrieTypes {
     IElementType LOOP_CONDITION = new ValkyrieElementType("LOOP_CONDITION");
     IElementType LOOP_EACH = new ValkyrieElementType("LOOP_EACH");
     IElementType LOOP_INLINE = new ValkyrieElementType("LOOP_INLINE");
+    IElementType LOOP_START = new ValkyrieElementType("LOOP_START");
     IElementType LOOP_STATEMENT = new ValkyrieElementType("LOOP_STATEMENT");
     IElementType LOOP_TEMPLATE = new ValkyrieElementType("LOOP_TEMPLATE");
-    IElementType LOOP_TEMPLATE_START = new ValkyrieElementType("LOOP_TEMPLATE_START");
     IElementType LOOP_UNTIL = new ValkyrieElementType("LOOP_UNTIL");
     IElementType LOOP_UNTIL_NOT = new ValkyrieElementType("LOOP_UNTIL_NOT");
     IElementType LOOP_WHILE = new ValkyrieElementType("LOOP_WHILE");
@@ -182,6 +182,7 @@ public interface ValkyrieTypes {
     IElementType STRING = new ValkyrieElementType("STRING");
     IElementType SUFFIX = new ValkyrieElementType("SUFFIX");
     IElementType TEMPLATE_BODY = new ValkyrieElementType("TEMPLATE_BODY");
+    IElementType TEMPLATE_ELSE = new ValkyrieElementType("TEMPLATE_ELSE");
     IElementType TEMPLATE_END = new ValkyrieElementType("TEMPLATE_END");
     IElementType TEMPLATE_ITEM = new ValkyrieElementType("TEMPLATE_ITEM");
     IElementType TERM = new ValkyrieElementType("TERM");
@@ -596,12 +597,12 @@ public interface ValkyrieTypes {
                 return new ValkyrieLoopEachNode(node);
             } else if (type == LOOP_INLINE) {
                 return new ValkyrieLoopInlineNode(node);
+            } else if (type == LOOP_START) {
+                return new ValkyrieLoopStartNode(node);
             } else if (type == LOOP_STATEMENT) {
                 return new ValkyrieLoopStatementNode(node);
             } else if (type == LOOP_TEMPLATE) {
                 return new ValkyrieLoopTemplateNode(node);
-            } else if (type == LOOP_TEMPLATE_START) {
-                return new ValkyrieLoopTemplateStartNode(node);
             } else if (type == LOOP_UNTIL) {
                 return new ValkyrieLoopUntilNode(node);
             } else if (type == LOOP_UNTIL_NOT) {
@@ -728,6 +729,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieSuffixNode(node);
             } else if (type == TEMPLATE_BODY) {
                 return new ValkyrieTemplateBodyNode(node);
+            } else if (type == TEMPLATE_ELSE) {
+                return new ValkyrieTemplateElseNode(node);
             } else if (type == TEMPLATE_END) {
                 return new ValkyrieTemplateEndNode(node);
             } else if (type == TEMPLATE_ITEM) {
