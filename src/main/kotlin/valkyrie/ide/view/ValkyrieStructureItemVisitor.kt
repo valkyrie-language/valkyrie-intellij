@@ -43,7 +43,7 @@ class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
     }
 
     override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {
-        o.annotations.pushChildrenTo(this)
+//        o.annotations.pushChildrenTo(this)
 //        o.classBody?.pushChildrenTo(this)
     }
 

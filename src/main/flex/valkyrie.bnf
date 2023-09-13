@@ -114,7 +114,6 @@ declare-where   ::= KW_WHERE where-term+;
 where-term      ::= COMMA | SEMICOLON
     | where-condition;
 where-condition ::= type-expression COLON type-expression;
-
 // === type statement ===
 declare-type ::= annotations KW_TYPE (type-alias|type-function) {
     pin = 2
@@ -123,29 +122,23 @@ declare-type ::= annotations KW_TYPE (type-alias|type-function) {
 type-alias   ::= identifier declare-infer? EQUAL type-expression;
 // type A() -> B { }
 type-function ::= declare-infer? identifier parameter-body return-type? effect-type? block-body;
-
-
-
-
 // === class statement ===
-declare-class ::= declare-infer? annotations KW_CLASS identifier declare-infer? class-inherit? type-hint? class-body {
+declare-class ::= declare-infer? annotations KW_CLASS identifier declare-generic? class-inherit? type-hint? class-body {
     pin = 3
     mixin = "valkyrie.psi.mixin.MixinClass"
 }
-declare-component ::= annotations KW_COMPONENT identifier declare-infer? class-inherit? type-hint? class-body {
+declare-component ::= annotations KW_COMPONENT identifier declare-generic? class-inherit? type-hint? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinComponent"
 }
-declare-singleton ::= annotations KW_SINGLETON identifier declare-infer? class-inherit? type-hint? class-body {
+declare-singleton ::= annotations KW_SINGLETON identifier declare-generic? class-inherit? type-hint? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinSingleton"
 }
-declare-neural ::= annotations KW_NEURAL identifier declare-infer? class-inherit? type-hint? class-body {
+declare-neural ::= annotations KW_NEURAL identifier declare-generic? class-inherit? type-hint? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinNeural"
 }
-
-
 class-inherit ::= PARENTHESIS_L (inherit-item (COMMA inherit-item)* COMMA?)? PARENTHESIS_R;
 inherit-item  ::= (annotations identifier COLON)? type-expression {
     mixin = "valkyrie.psi.mixin.MixinClassInherit"
@@ -210,24 +203,24 @@ declare-unite ::= declare-infer? annotations KW_UNITE identifier declare-infer? 
 }
 unite-body ::= BRACE_L unite-item* BRACE_R;
 private unite-item ::= SEMICOLON | COMMA
-  | declare-method
-  | declare-variant
+    | declare-method
+    | declare-variant
 declare-variant ::= annotations identifier class-body? {
     mixin = "valkyrie.psi.mixin.MixinVariant"
 }
 // === group statement ===
-declare-trait ::= annotations KW_TRAIT (trait-alias|trait-define) {
+declare-trait ::= annotations KW_TRAIT identifier (trait-alias|trait-define) {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinTrait"
 }
 /// trait A = C + D
-trait-alias ::= identifier EQUAL type-expression {
-    pin = 2
+trait-alias ::= EQUAL type-expression {
+    pin = 1
 //    mixin = "valkyrie.psi.mixin.MixinTraitAlias"
 }
 /// trait A: B { ... }
-trait-define ::= identifier declare-infer? type-hint? class-body {
-//    pin = 4
+trait-define ::= type-hint? declare-infer? class-body {
+//    pin = 2
 //    mixin = "valkyrie.psi.mixin.MixinTraitAlias"
 }
 associated-type ::= annotations KW_TYPE identifier (EQUAL type-expression)? {

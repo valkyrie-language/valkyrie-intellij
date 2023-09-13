@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieTraitAlias extends PsiElement {
 
-    @NotNull
-    ValkyrieIdentifier getIdentifier();
-
     @Nullable
     ValkyrieTypeExpression getTypeExpression();
 

@@ -37,6 +37,12 @@ public class ValkyrieDeclareTraitNode extends MixinTrait implements ValkyrieDecl
 
     @Override
     @Nullable
+    public ValkyrieIdentifier getIdentifier() {
+        return findChildByClass(ValkyrieIdentifier.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieTraitAlias getTraitAlias() {
         return findChildByClass(ValkyrieTraitAlias.class);
     }

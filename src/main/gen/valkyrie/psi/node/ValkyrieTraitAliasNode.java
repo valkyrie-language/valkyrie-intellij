@@ -30,12 +30,6 @@ public class ValkyrieTraitAliasNode extends ValkyrieElement implements ValkyrieT
     }
 
     @Override
-    @NotNull
-    public ValkyrieIdentifier getIdentifier() {
-        return findNotNullChildByClass(ValkyrieIdentifier.class);
-    }
-
-    @Override
     @Nullable
     public ValkyrieTypeExpression getTypeExpression() {
         return findChildByClass(ValkyrieTypeExpression.class);
