@@ -2,6 +2,7 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
@@ -9,6 +10,9 @@ public interface ValkyrieAtomic extends PsiElement {
 
     @Nullable
     ValkyrieControlRaise getControlRaise();
+
+    @Nullable
+    ValkyrieControlYieldType getControlYieldType();
 
     @Nullable
     ValkyrieExpressionRoot getExpressionRoot();
@@ -21,9 +25,6 @@ public interface ValkyrieAtomic extends PsiElement {
 
     @Nullable
     ValkyrieLambdaBlock getLambdaBlock();
-
-    @Nullable
-    ValkyrieLetWaitYield getLetWaitYield();
 
     @Nullable
     ValkyrieLocalizeCall getLocalizeCall();

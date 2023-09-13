@@ -2,10 +2,14 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
 public interface ValkyrieDeclareMethod extends PsiElement {
+
+    @Nullable
+    ValkyrieKwFunction getKwFunction();
 
     @NotNull
     ValkyrieAnnotations getAnnotations();
