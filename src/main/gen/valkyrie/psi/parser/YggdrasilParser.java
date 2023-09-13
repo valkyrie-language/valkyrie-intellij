@@ -2716,31 +2716,28 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_WHERE where-term+
+  // KW_WHERE where-term*
   public static boolean declare_where(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "declare_where")) return false;
     if (!nextTokenIs(b, KW_WHERE)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, DECLARE_WHERE, null);
     r = consumeToken(b, KW_WHERE);
+    p = r; // pin = 1
     r = r && declare_where_1(b, l + 1);
-    exit_section_(b, m, DECLARE_WHERE, r);
-    return r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
-  // where-term+
+  // where-term*
   private static boolean declare_where_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "declare_where_1")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = where_term(b, l + 1);
-    while (r) {
+    while (true) {
       int c = current_position_(b);
       if (!where_term(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "declare_where_1", c)) break;
     }
-    exit_section_(b, m, null, r);
-    return r;
+    return true;
   }
 
   /* ********************************************************** */
@@ -8485,14 +8482,12 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // type-expression COLON type-expression
+  // generic-parameter
   public static boolean where_condition(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "where_condition")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, WHERE_CONDITION, "<where condition>");
-    r = type_expression(b, l + 1);
-    r = r && consumeToken(b, COLON);
-    r = r && type_expression(b, l + 1);
+    r = generic_parameter(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }

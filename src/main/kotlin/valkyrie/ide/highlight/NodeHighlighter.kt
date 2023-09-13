@@ -35,6 +35,12 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o, HighlightColor.KEYWORD)
     }
 
+    override fun visitDeclareInfer(o: ValkyrieDeclareInfer) {
+        o.identifierList.forEach {
+            highlight(it, HighlightColor.SYM_GENERIC )
+        }
+    }
+
     override fun visitDeclareClass(o: ValkyrieDeclareClass) {
         highlight(o.identifier, HighlightColor.SYM_CLASS)
     }

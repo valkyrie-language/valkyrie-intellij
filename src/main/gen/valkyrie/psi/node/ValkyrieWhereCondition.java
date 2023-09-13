@@ -9,6 +9,6 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieWhereCondition extends PsiElement {
 
     @NotNull
-    List<ValkyrieTypeExpression> getTypeExpressionList();
+    ValkyrieGenericParameter getGenericParameter();
 
 }
