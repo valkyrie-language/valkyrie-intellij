@@ -41,7 +41,7 @@ class TypeHintVisitor : ValkyrieVisitor {
             val parameter = o.parameterBody?.parameterItemList ?: listOf()
             for (parameterItem in parameter) {
                 if (parameterItem.typeHint == null) {
-                    parameterItem.identifier.endOffset.let { hint(it, ": Any") }
+                    parameterItem.identifierFree.endOffset.let { hint(it, ": Any") }
                 }
             }
         }
@@ -63,7 +63,7 @@ class TypeHintVisitor : ValkyrieVisitor {
             val parameter = o.parameterBody?.parameterItemList ?: listOf()
             for (parameterItem in parameter) {
                 if (parameterItem.typeHint == null) {
-                    parameterItem.identifier.endOffset.let { hint(it, ": AnyNode") }
+                    parameterItem.identifierFree.endOffset.let { hint(it, ": AnyNode") }
                 }
             }
         }

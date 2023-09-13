@@ -21,6 +21,6 @@ public interface ValkyrieAttributeItem extends PsiElement {
     ValkyrieIdentifierFree getIdentifierFree();
 
     @NotNull
-    ValkyrieNamepath getNamepath();
+    ValkyrieNamepathFree getNamepathFree();
 
 }

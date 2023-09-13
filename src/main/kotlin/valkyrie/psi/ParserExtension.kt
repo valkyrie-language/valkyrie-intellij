@@ -28,6 +28,9 @@ class ParserExtension : GeneratedParserUtilBase() {
             KW_WITH, KW_CASE, KW_WHEN,
             KW_IS, KW_NOT,
             KW_NIL,
+
+            ANY_LIST,
+            ANY_DICT,
         )
 
         val OperatorPrefix: TokenSet = TokenSet.create(

@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieAttributeAbove extends PsiElement {
 
-    @NotNull
-    ValkyrieAttributeItem getAttributeItem();
+    @Nullable
+    ValkyrieAttributeList getAttributeList();
 
 }

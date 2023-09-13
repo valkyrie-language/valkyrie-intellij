@@ -10,7 +10,7 @@ import javax.swing.Icon
 abstract class MixinValueParameter(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieParameterItem {
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.identifier as? ValkyrieIdentifierNode
+        return this.identifierFree as? ValkyrieIdentifierNode
     }
 
     override fun getBaseIcon(): Icon {

@@ -30,12 +30,6 @@ public class ValkyrieDeclareMethodNode extends MixinMethod implements ValkyrieDe
     }
 
     @Override
-    @Nullable
-    public ValkyrieKwFunction getKwFunction() {
-        return findChildByClass(ValkyrieKwFunction.class);
-    }
-
-    @Override
     @NotNull
     public ValkyrieAnnotations getAnnotations() {
         return findNotNullChildByClass(ValkyrieAnnotations.class);

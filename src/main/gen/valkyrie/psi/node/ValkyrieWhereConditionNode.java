@@ -31,8 +31,26 @@ public class ValkyrieWhereConditionNode extends ValkyrieElement implements Valky
 
     @Override
     @NotNull
-    public ValkyrieGenericParameter getGenericParameter() {
-        return findNotNullChildByClass(ValkyrieGenericParameter.class);
+    public ValkyrieAnnotations getAnnotations() {
+        return findNotNullChildByClass(ValkyrieAnnotations.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieDefaultType getDefaultType() {
+        return findChildByClass(ValkyrieDefaultType.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieTypeHint getTypeHint() {
+        return findChildByClass(ValkyrieTypeHint.class);
+    }
+
+    @Override
+    @NotNull
+    public ValkyrieTypeTerm getTypeTerm() {
+        return findNotNullChildByClass(ValkyrieTypeTerm.class);
     }
 
 }

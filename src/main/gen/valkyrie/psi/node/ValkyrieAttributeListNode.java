@@ -13,14 +13,14 @@ import static valkyrie.psi.ValkyrieTypes.*;
 
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieAttributeAboveNode extends ValkyrieElement implements ValkyrieAttributeAbove {
+public class ValkyrieAttributeListNode extends ValkyrieElement implements ValkyrieAttributeList {
 
-    public ValkyrieAttributeAboveNode(@NotNull ASTNode node) {
+    public ValkyrieAttributeListNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitAttributeAbove(this);
+        visitor.visitAttributeList(this);
     }
 
     @Override
@@ -30,9 +30,9 @@ public class ValkyrieAttributeAboveNode extends ValkyrieElement implements Valky
     }
 
     @Override
-    @Nullable
-    public ValkyrieAttributeList getAttributeList() {
-        return findChildByClass(ValkyrieAttributeList.class);
+    @NotNull
+    public List<ValkyrieAttributeItem> getAttributeItemList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieAttributeItem.class);
     }
 
 }

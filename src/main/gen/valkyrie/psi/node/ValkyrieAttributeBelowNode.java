@@ -30,9 +30,9 @@ public class ValkyrieAttributeBelowNode extends ValkyrieElement implements Valky
     }
 
     @Override
-    @NotNull
-    public ValkyrieAttributeItem getAttributeItem() {
-        return findNotNullChildByClass(ValkyrieAttributeItem.class);
+    @Nullable
+    public ValkyrieAttributeList getAttributeList() {
+        return findChildByClass(ValkyrieAttributeList.class);
     }
 
 }

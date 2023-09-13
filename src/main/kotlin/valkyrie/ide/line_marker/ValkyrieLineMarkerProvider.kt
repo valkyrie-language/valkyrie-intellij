@@ -10,6 +10,7 @@ import com.intellij.icons.AllIcons.Toolbar.Filterdups
 import com.intellij.java.JavaBundle
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
+import com.intellij.psi.util.firstLeaf
 import valkyrie.ide.line_marker.markers.*
 import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
 import valkyrie.language.file.ValkyrieIconProvider
@@ -29,6 +30,7 @@ import valkyrie.psi.mixin.superClasses
 import valkyrie.psi.node.*
 import javax.swing.Icon
 import kotlin.random.Random
+import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER
 
 class ValkyrieLineMarkerProvider : RelatedItemLineMarkerProvider() {
     val enums_declaration =
@@ -127,6 +129,7 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
             result.add(SingletonMarker(o as ValkyrieDeclareSingletonNode))
         }
     }
+
     override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {
 //        if (!config.trait_declaration.isEnabled) return
 //        o as ValkyrieDeclareTraitNode
@@ -183,10 +186,10 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
     }
 
     override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
+        o as ValkyrieDeclareMethodNode
         if (!config.method_declaration.isEnabled) return
-        result.add(ValkyrieMarkMethod(o as ValkyrieDeclareMethodNode))
+        mark(o.nameIdentifier, o.name, Method)
         createFunctionTest(o, o.annotations)
-
     }
 
     override fun visitDeclareDomain(o: ValkyrieDeclareDomain) {
@@ -231,42 +234,57 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
     }
 
     override fun visitControlReturn(o: ValkyrieControlReturn) {
-        markLeaf(o.firstChild, Stop)
+        mark(o.firstChild, "return", Stop)
     }
 
     override fun visitControlContinue(o: ValkyrieControlContinue) {
-        markLeaf(o.firstChild, Then)
+        mark(o.firstChild, "continue", Then)
     }
 
     override fun visitControlBreak(o: ValkyrieControlBreak) {
-        markLeaf(o.firstChild, Then)
+        mark(o.firstChild, "break", Then)
     }
 
     override fun visitControlThrough(o: ValkyrieControlThrough) {
-        markLeaf(o.firstChild, Then)
+        mark(o.firstChild, "through", Then)
     }
 
     override fun visitControlResume(o: ValkyrieControlResume) {
-        markLeaf(o.firstChild, Filterdups)
+        mark(o.firstChild, "resume", Filterdups)
     }
 
     override fun visitControlRaise(o: ValkyrieControlRaise) {
-        markLeaf(o.firstChild, Upload)
+        mark(o.firstChild, "raise", Upload)
     }
 
-
-    private fun markLeaf(leaf: PsiElement, icon: Icon) {
-//        result.add(ValkyrieMarkAny(leaf, icon))
-    }
 
     fun markYieldWith(o: PsiElement) {
         for (child in o.childrenWithLeaves) {
             if (child.elementType == ValkyrieTypes.KW_WITH) {
-                markLeaf(o.firstChild, Then)
+                mark(o.firstChild, "yield with", Then)
                 return
             }
         }
-        markLeaf(o.firstChild, Stop)
+        mark(o.firstChild, "yield with", Stop)
+    }
+
+    private fun mark(node: PsiElement?, name: String, icon: Icon) {
+        if (node == null) {
+            return
+        }
+        var leaf = node.firstLeaf();
+        result.add(RelatedItemLineMarkerInfo(
+            leaf,
+            leaf.textRange,
+            icon,
+            { "tooltipProvider" },
+            { name },
+            { e, elt -> },
+            CENTER,
+            { mutableListOf() },
+            { "AccessibleNameProvider" }
+        ))
+
     }
 
     private fun createFunctionTest(source: PsiElement?, annotations: ValkyrieAnnotations?) {

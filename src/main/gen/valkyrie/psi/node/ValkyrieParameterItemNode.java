@@ -43,8 +43,8 @@ public class ValkyrieParameterItemNode extends MixinValueParameter implements Va
 
     @Override
     @NotNull
-    public ValkyrieIdentifier getIdentifier() {
-        return findNotNullChildByClass(ValkyrieIdentifier.class);
+    public ValkyrieIdentifierFree getIdentifierFree() {
+        return findNotNullChildByClass(ValkyrieIdentifierFree.class);
     }
 
     @Override

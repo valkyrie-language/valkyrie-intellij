@@ -28,7 +28,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
 
     override fun visitAttributeItem(o: ValkyrieAttributeItem) {
-        highlight(o.namepath, HighlightColor.SYM_MACRO)
+        highlight(o.namepathFree, HighlightColor.SYM_MACRO)
     }
 
     override fun visitModifier(o: ValkyrieModifier) {
@@ -118,6 +118,14 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
 
     override fun visitParameterItem(o: ValkyrieParameterItem) {
+        highlight(o.identifierFree, HighlightColor.SYM_ARG)
+    }
+
+    override fun visitParameterList(o: ValkyrieParameterList) {
+        highlight(o.identifier, HighlightColor.SYM_ARG)
+    }
+
+    override fun visitParameterDict(o: ValkyrieParameterDict) {
         highlight(o.identifier, HighlightColor.SYM_ARG)
     }
 
