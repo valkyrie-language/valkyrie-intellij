@@ -1,9 +1,9 @@
 // This is a generated file. Not intended for manual editing.
 package valkyrie.psi;
 
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.PsiElement;
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.tree.IElementType;
 import valkyrie.psi.node.*;
 
 public interface ValkyrieTypes {
@@ -184,6 +184,7 @@ public interface ValkyrieTypes {
     IElementType RANGE_UPPER = new ValkyrieElementType("RANGE_UPPER");
     IElementType RETURN_TYPE = new ValkyrieElementType("RETURN_TYPE");
     IElementType SLOT = new ValkyrieElementType("SLOT");
+    IElementType SLOT_FIRST = new ValkyrieElementType("SLOT_FIRST");
     IElementType SLOT_INDEX = new ValkyrieElementType("SLOT_INDEX");
     IElementType SLOT_NAMED = new ValkyrieElementType("SLOT_NAMED");
     IElementType SPECIAL = new ValkyrieElementType("SPECIAL");
@@ -745,6 +746,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieReturnTypeNode(node);
             } else if (type == SLOT) {
                 return new ValkyrieSlotNode(node);
+            } else if (type == SLOT_FIRST) {
+                return new ValkyrieSlotFirstNode(node);
             } else if (type == SLOT_INDEX) {
                 return new ValkyrieSlotIndexNode(node);
             } else if (type == SLOT_NAMED) {
