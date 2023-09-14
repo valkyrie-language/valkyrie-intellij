@@ -11,9 +11,9 @@ import com.intellij.psi.util.PsiTreeUtil;
 
 import static valkyrie.psi.ValkyrieTypes.*;
 
-import valkyrie.psi.mixin.MixinMacro;
+import valkyrie.psi.mixin.MixinDeclareMacro;
 
-public class ValkyrieDeclareMacroNode extends MixinMacro implements ValkyrieDeclareMacro {
+public class ValkyrieDeclareMacroNode extends MixinDeclareMacro implements ValkyrieDeclareMacro {
 
     public ValkyrieDeclareMacroNode(@NotNull ASTNode node) {
         super(node);
