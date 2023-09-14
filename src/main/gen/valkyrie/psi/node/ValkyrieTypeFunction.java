@@ -13,9 +13,6 @@ public interface ValkyrieTypeFunction extends PsiElement {
     @Nullable
     ValkyrieDeclareInfer getDeclareInfer();
 
-    @Nullable
-    ValkyrieEffectType getEffectType();
-
     @NotNull
     ValkyrieIdentifier getIdentifier();
 

@@ -69,9 +69,6 @@ public interface ValkyrieLoopTemplate extends PsiElement {
     @NotNull
     ValkyrieLoopStart getLoopStart();
 
-    @NotNull
-    List<ValkyrieNewLambda> getNewLambdaList();
-
     @Nullable
     ValkyrieTemplateElse getTemplateElse();
 

@@ -147,12 +147,6 @@ public class ValkyrieLoopTemplateNode extends ValkyrieElement implements Valkyri
     }
 
     @Override
-    @NotNull
-    public List<ValkyrieNewLambda> getNewLambdaList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNewLambda.class);
-    }
-
-    @Override
     @Nullable
     public ValkyrieTemplateElse getTemplateElse() {
         return findChildByClass(ValkyrieTemplateElse.class);

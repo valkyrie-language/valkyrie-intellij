@@ -295,10 +295,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitEffectType(@NotNull ValkyrieEffectType o) {
-        visitPsiElement(o);
-    }
-
     public void visitElseIfStatement(@NotNull ValkyrieElseIfStatement o) {
         visitPsiElement(o);
     }
@@ -435,7 +431,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitLambdaBlock(@NotNull ValkyrieLambdaBlock o) {
+    public void visitLambdaStatement(@NotNull ValkyrieLambdaStatement o) {
         visitPsiElement(o);
     }
 
@@ -572,10 +568,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitNewBody(@NotNull ValkyrieNewBody o) {
-        visitPsiElement(o);
-    }
-
-    public void visitNewLambda(@NotNull ValkyrieNewLambda o) {
         visitPsiElement(o);
     }
 

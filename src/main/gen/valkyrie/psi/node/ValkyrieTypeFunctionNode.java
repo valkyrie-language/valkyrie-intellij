@@ -36,12 +36,6 @@ public class ValkyrieTypeFunctionNode extends ValkyrieElement implements Valkyri
     }
 
     @Override
-    @Nullable
-    public ValkyrieEffectType getEffectType() {
-        return findChildByClass(ValkyrieEffectType.class);
-    }
-
-    @Override
     @NotNull
     public ValkyrieIdentifier getIdentifier() {
         return findNotNullChildByClass(ValkyrieIdentifier.class);

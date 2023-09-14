@@ -80,7 +80,6 @@ public interface ValkyrieTypes {
     IElementType DOT_CALL_MACRO_INLINE = new ValkyrieElementType("DOT_CALL_MACRO_INLINE");
     IElementType DOT_LOOP_CALL = new ValkyrieElementType("DOT_LOOP_CALL");
     IElementType DOT_MATCH_CALL = new ValkyrieElementType("DOT_MATCH_CALL");
-    IElementType EFFECT_TYPE = new ValkyrieElementType("EFFECT_TYPE");
     IElementType ELSE_IF_STATEMENT = new ValkyrieElementType("ELSE_IF_STATEMENT");
     IElementType ELSE_STATEMENT = new ValkyrieElementType("ELSE_STATEMENT");
     IElementType ENUMERATE_BODY = new ValkyrieElementType("ENUMERATE_BODY");
@@ -115,7 +114,7 @@ public interface ValkyrieTypes {
     IElementType IS_EXPRESSION = new ValkyrieElementType("IS_EXPRESSION");
     IElementType IS_STATEMENT = new ValkyrieElementType("IS_STATEMENT");
     IElementType KEYWORDS = new ValkyrieElementType("KEYWORDS");
-    IElementType LAMBDA_BLOCK = new ValkyrieElementType("LAMBDA_BLOCK");
+    IElementType LAMBDA_STATEMENT = new ValkyrieElementType("LAMBDA_STATEMENT");
     IElementType LET_PATTERN = new ValkyrieElementType("LET_PATTERN");
     IElementType LET_STATEMENT = new ValkyrieElementType("LET_STATEMENT");
     IElementType LOCALIZE_CALL = new ValkyrieElementType("LOCALIZE_CALL");
@@ -150,7 +149,6 @@ public interface ValkyrieTypes {
     IElementType NAMEPATH_AUTO = new ValkyrieElementType("NAMEPATH_AUTO");
     IElementType NAMEPATH_FREE = new ValkyrieElementType("NAMEPATH_FREE");
     IElementType NEW_BODY = new ValkyrieElementType("NEW_BODY");
-    IElementType NEW_LAMBDA = new ValkyrieElementType("NEW_LAMBDA");
     IElementType NEW_OBJECT = new ValkyrieElementType("NEW_OBJECT");
     IElementType NEW_VALUE = new ValkyrieElementType("NEW_VALUE");
     IElementType NUMBER_LITERAL = new ValkyrieElementType("NUMBER_LITERAL");
@@ -538,8 +536,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieDotLoopCallNode(node);
             } else if (type == DOT_MATCH_CALL) {
                 return new ValkyrieDotMatchCallNode(node);
-            } else if (type == EFFECT_TYPE) {
-                return new ValkyrieEffectTypeNode(node);
             } else if (type == ELSE_IF_STATEMENT) {
                 return new ValkyrieElseIfStatementNode(node);
             } else if (type == ELSE_STATEMENT) {
@@ -608,8 +604,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieIsStatementNode(node);
             } else if (type == KEYWORDS) {
                 return new ValkyrieKeywordsNode(node);
-            } else if (type == LAMBDA_BLOCK) {
-                return new ValkyrieLambdaBlockNode(node);
+            } else if (type == LAMBDA_STATEMENT) {
+                return new ValkyrieLambdaStatementNode(node);
             } else if (type == LET_PATTERN) {
                 return new ValkyrieLetPatternNode(node);
             } else if (type == LET_STATEMENT) {
@@ -678,8 +674,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieNamepathFreeNode(node);
             } else if (type == NEW_BODY) {
                 return new ValkyrieNewBodyNode(node);
-            } else if (type == NEW_LAMBDA) {
-                return new ValkyrieNewLambdaNode(node);
             } else if (type == NEW_OBJECT) {
                 return new ValkyrieNewObjectNode(node);
             } else if (type == NEW_VALUE) {

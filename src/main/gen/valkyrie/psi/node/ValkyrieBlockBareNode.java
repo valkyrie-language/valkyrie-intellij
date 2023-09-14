@@ -49,10 +49,4 @@ public class ValkyrieBlockBareNode extends ValkyrieElement implements ValkyrieBl
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieLetStatement.class);
     }
 
-    @Override
-    @NotNull
-    public List<ValkyrieNewLambda> getNewLambdaList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNewLambda.class);
-    }
-
 }

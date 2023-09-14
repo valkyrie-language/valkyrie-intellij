@@ -47,12 +47,12 @@ private class LintInferType(holder: AnnotationHolder) : ValkyrieAnnotator(holder
                 .withFix(InferFunctionReturnType(o))
                 .create()
         }
-        if (o.effectType == null) {
-            holder.newAnnotation(HighlightSeverity.INFORMATION, "Infer type")
-                .range(o.textRange)
-                .withFix(InferFunctionReturnEffect(o))
-                .create()
-        }
+//        if (o.effectType == null) {
+//            holder.newAnnotation(HighlightSeverity.INFORMATION, "Infer type")
+//                .range(o.textRange)
+//                .withFix(InferFunctionReturnEffect(o))
+//                .create()
+//        }
         if (missingParameterType) {
             holder.newAnnotation(HighlightSeverity.INFORMATION, "Infer type")
                 .range(o.textRange)
