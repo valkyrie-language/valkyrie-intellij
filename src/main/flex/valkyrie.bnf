@@ -110,12 +110,12 @@ infer-body ::= BRACE_L infer-item* BRACE_R;
 infer-item ::= SEMICOLON
     | declare-where
 // where T: Show, X: Show
-declare-where   ::= KW_WHERE where-term* {
+declare-where   ::= KW_WHERE COLON? where-term* {
     pin = 1
 }
 where-term      ::= COMMA | SEMICOLON
     | where-condition;
-where-condition ::= generic-parameter;
+where-condition ::= annotations type-term type-hint? default-type?;
 // === type statement ===
 declare-type ::= annotations KW_TYPE (type-alias|type-function) {
     pin = 2
@@ -269,7 +269,7 @@ private parameter-term ::= ANGLE_L | ANGLE_R
     | parameter-dict
     | parameter-list
     | parameter-item
-parameter-item ::= annotations parameter-kind? identifier type-hint? default-value? {
+parameter-item ::= annotations parameter-kind? identifier-free type-hint? default-value? {
     mixin = "valkyrie.psi.mixin.MixinValueParameter"
 }
 parameter-list ::= annotations ANY_LIST identifier? type-hint? default-value? {
@@ -330,7 +330,7 @@ loop-statement ::= loop-start block-body else-statement? {
 loop-template ::= TEMPLATE_L loop-start TEMPLATE_R statements* (template-else statements*)? template-end {
 
 }
-loop-start     ::= KW_LOOP loop-condition? control-label? attribute-below* {
+loop-start     ::= (KW_LOOP|KW_FOR) loop-condition? control-label? attribute-below* {
     pin = 1
 }
 loop-condition ::=
@@ -788,17 +788,25 @@ private modifier-stop ::= KW_IN | KW_IF
     | ANGLE_L | ANGLE_R
     | GENERIC_L | GENERIC_R
 // ↯attribute.kind::<Type>(arg) { domain }
-attribute-below  ::= OP_MACRO_LOWER attribute-item
+attribute-below  ::= OP_MACRO_LOWER attribute-list {
+    pin = 1
+}
 // ↯attribute.kind::<Type>(arg) { domain }
-attribute-above  ::= OP_MACRO_UPPER attribute-item;
-attribute-item   ::= namepath (DOT identifier-free)? generic-call? argument-body? class-body? {
+attribute-above  ::= OP_MACRO_UPPER attribute-list {
+    pin = 1
+}
+attribute-list   ::= attribute-item
+    | '[' attribute-item (',' attribute-item)* ','? ']'
+attribute-item   ::= namepath-free (DOT identifier-free)? generic-call? argument-body? class-body? {
     mixin = "valkyrie.psi.mixin.MixinAttribute"
 }
 // === identifiers ===
 namepath      ::= (NAME_SCOPE NAME_SPLIT?)? identifier (NAME_SPLIT identifier)* {
     mixin = "valkyrie.psi.mixin.MixinNamepath"
 }
-
+namepath-free ::= (NAME_SCOPE NAME_SPLIT?)? identifier-free (NAME_SPLIT identifier-free)* {
+    extends = namepath
+}
 namepath-auto ::= identifier ((NAME_SPLIT|DOT) identifier)* {
     extends = namepath
 }
@@ -812,12 +820,13 @@ identifier-free ::=  symbol-lead | symbol-safe | symbol {
 private symbol      ::= SYMBOL | SYMBOW_RAW;
 private symbol-safe ::= KW_FROM | KW_AS;
 private symbol-lead ::= KW_LET
+    | KW_NAMESPACE
     | KW_TYPE
     | KW_CLASS | KW_TRAIT | KW_OBJECT
     | KW_CATCH | KW_MATCH | KW_CASE
-KW_FUNCTION   ::= KW_MICRO|KW_MEZZO|KW_MACRO
+    | KW_MICRO | KW_MEZZO | KW_MACRO
 template-end  ::= TEMPLATE_L KW_END keywords? TEMPLATE_R | OP_END
 template-else ::= TEMPLATE_L KW_ELSE keywords? TEMPLATE_R
-keywords      ::= KW_LOOP
+keywords      ::= KW_LOOP | KW_IF
 //    | KW_LOOP KW_END
 unused ::= BUILDER_L BUILDER_R DOMAIN_L DOMAIN_R OP_ARROW2 OP_ARROW3
