@@ -7,13 +7,16 @@ import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.findKeyword
 import valkyrie.psi.node.ValkyrieDeclareFlags
-import valkyrie.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
 abstract class MixinFlags(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareFlags {
     val keyword: PsiElement = findKeyword(ValkyrieTypes.KW_FLAGS)
-    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.identifier as? ValkyrieIdentifierNode
+    override fun getNavigationElement(): PsiElement {
+        return this.identifierFree ?: this
+    }
+
+    override fun getNameIdentifier(): MixinIdentifier? {
+        return this.identifierFree as? MixinIdentifier
     }
 
     override fun getBaseIcon(): Icon {

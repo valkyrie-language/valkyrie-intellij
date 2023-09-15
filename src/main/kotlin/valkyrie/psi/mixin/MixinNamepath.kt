@@ -15,12 +15,12 @@ import valkyrie.psi.node.ValkyrieIdentifierNode
 import valkyrie.psi.node.ValkyrieNamepath
 
 abstract class MixinNamepath : ValkyrieElement, ValkyrieNamepath, PsiQualifiedNamedElement {
-    val identifier: MixinIdentifier = identifierList.last() as MixinIdentifier
+    val identifier: MixinIdentifier? = identifierList.lastOrNull() as? MixinIdentifier
 
     constructor(node: ASTNode) : super(node)
 
     override fun getName(): String {
-        return identifier.name
+        return identifier?.name ?: "<<Missing Namepath>>"
     }
 
     override fun getQualifiedName(): String {

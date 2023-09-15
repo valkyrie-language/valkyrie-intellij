@@ -216,6 +216,18 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
     }
 
 
+    override fun visitNewObject(o: ValkyrieNewObject) {
+
+    }
+
+    override fun visitNewLambda(o: ValkyrieNewLambda) {
+
+    }
+
+    override fun visitNewValue(o: ValkyrieNewValue) {
+
+    }
+
 
     override fun visitControlYieldSend(o: ValkyrieControlYieldSend) {
         markYieldWith(o)
@@ -268,19 +280,19 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
         if (node == null) {
             return
         }
-        var leaf = node.firstLeaf();
+        val leaf = node.firstLeaf();
         result.add(
             RelatedItemLineMarkerInfo(
-            leaf,
-            leaf.textRange,
-            icon,
-            { "tooltipProvider" },
-            { name },
-            { e, elt -> },
-            CENTER,
-            { mutableListOf() },
-            { "AccessibleNameProvider" }
-        ))
+                leaf,
+                leaf.textRange,
+                icon,
+                { "tooltipProvider" },
+                { name },
+                { e, elt -> },
+                CENTER,
+                { mutableListOf() },
+                { "AccessibleNameProvider" }
+            ))
 
     }
 

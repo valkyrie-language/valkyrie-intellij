@@ -87,7 +87,7 @@ class TypeHintVisitor : ValkyrieVisitor {
     override fun visitDeclareFlags(o: ValkyrieDeclareFlags) {
         if (setting.show_bitflags_type) {
             if (o.classInherit == null) {
-                o.identifier?.endOffset?.let { hint(it, "= u32") }
+                o.identifierFree?.endOffset?.let { hint(it, "= u32") }
             }
         }
     }
