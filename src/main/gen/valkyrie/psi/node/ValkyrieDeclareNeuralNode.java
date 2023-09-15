@@ -49,8 +49,8 @@ public class ValkyrieDeclareNeuralNode extends MixinNeural implements ValkyrieDe
 
     @Override
     @Nullable
-    public ValkyrieDeclareGeneric getDeclareGeneric() {
-        return findChildByClass(ValkyrieDeclareGeneric.class);
+    public ValkyrieDeclareDepends getDeclareDepends() {
+        return findChildByClass(ValkyrieDeclareDepends.class);
     }
 
     @Override
