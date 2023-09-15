@@ -215,9 +215,7 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
 //        result.add(ValkyrieMarkAny(o))
     }
 
-    override fun visitLambdaStatement(o: ValkyrieLambdaStatement) {
-//        super.visitLambdaStatement(o)
-    }
+
 
     override fun visitControlYieldSend(o: ValkyrieControlYieldSend) {
         markYieldWith(o)

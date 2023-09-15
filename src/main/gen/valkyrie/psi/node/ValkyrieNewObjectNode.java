@@ -24,6 +24,12 @@ public class ValkyrieNewObjectNode extends MixinObject implements ValkyrieNewObj
     }
 
     @Override
+    @NotNull
+    public ValkyrieAnnotations getAnnotations() {
+        return findNotNullChildByClass(ValkyrieAnnotations.class);
+    }
+
+    @Override
     @Nullable
     public ValkyrieClassBody getClassBody() {
         return findChildByClass(ValkyrieClassBody.class);
@@ -33,6 +39,12 @@ public class ValkyrieNewObjectNode extends MixinObject implements ValkyrieNewObj
     @Nullable
     public ValkyrieClassInherit getClassInherit() {
         return findChildByClass(ValkyrieClassInherit.class);
+    }
+
+    @Override
+    @NotNull
+    public ValkyrieObjectNavigate getObjectNavigate() {
+        return findNotNullChildByClass(ValkyrieObjectNavigate.class);
     }
 
     @Override

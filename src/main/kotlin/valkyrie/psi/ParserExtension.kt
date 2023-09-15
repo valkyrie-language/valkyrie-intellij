@@ -18,7 +18,9 @@ class ParserExtension : GeneratedParserUtilBase() {
             KW_INFER, KW_WHERE,
             KW_IMPLY,
 
-            KW_FUNCTION, KW_MACRO, KW_LET, KW_LAMBDA, KW_NEW, KW_OBJECT,
+            KW_FUNCTION, KW_MACRO, KW_LET,
+
+            KW_NEW, KW_OBJECT, KW_LAMBDA, DOLLAR,
 
             KW_IF, KW_ELSE, KW_THROUGH,
             KW_LOOP, KW_WHILE, KW_UNTIL,

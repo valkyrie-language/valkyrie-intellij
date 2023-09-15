@@ -135,7 +135,7 @@
 		<importFilteringRule implementation="valkyrie.ide.navigation.ValkyrieImportFilter"/>
 		<gotoClassContributor implementation="valkyrie.ide.navigation.gotoClassContributor"/>
 		<gotoSymbolContributor implementation="valkyrie.ide.navigation.gotoSymbolContributor"/>
-		<gotoPrimeSymbolContributor implementation="valkyrie.ide.navigation.gotoPrimeSymbolContributor"/>
+<!--		<gotoPrimeSymbolContributor implementation="valkyrie.ide.navigation.gotoPrimeSymbolContributor"/>-->
 		<gotoFileContributor implementation="valkyrie.ide.navigation.gotoFileContributor"/>
 
 		<bookmarkProvider implementation="valkyrie.ide.navigation.ValkyrieBookmark"/>
@@ -229,9 +229,7 @@
 		/>
 
 		<!-- Methods -->
-		<!-- Methods -->
 		<testCreator language="valkyrie" implementationClass="valkyrie.ide.codegen.GenerateTests"/>
-		<customFileDropHandler implementation="valkyrie.ide.completion.ValkyrieFileDropHandler"/>
 		<!-- Live Template -->
 		<liveTemplateContextProvider implementation="valkyrie.ide.templates.live_template.ValkyrieLiveTemplateContext"/>
 		<defaultLiveTemplates file="templates/liveTemplate.xml"/>
@@ -299,19 +297,19 @@
 	<extensions defaultExtensionNs="com.intellij.psi">
 		<!--		<psi.fileReferenceHelper implementation="valkyrie.ide.reference.ValkyrieFileReference"/>-->
 		<!--		<psi.treeChangeListener implementation="valkyrie.ide.project.crate.ValkyrieFileListener"/>-->
-		<referenceContributor
-			language="valkyrie"
-			implementation="valkyrie.ide.reference.ValkyrieReferenceContributor"
-		/>
-		<referenceProvider language="valkyrie" providerClass="valkyrie.ide.reference.ValkyrieReferenceProvider"/>
-		<symbolReferenceProvider
-			anyReferenceClass="true"
-			implementationClass="valkyrie.ide.reference.symbolReferenceProvider"
-			hostLanguage="valkyrie"
-			hostElementClass="com.intellij.psi.xml.XmlAttributeValue"
-			targetClass="valkyrie.language.symbol.ValkyrieSymbolTemplate"
-		/>
-		<declarationProvider implementation="valkyrie.ide.reference.declaration.SymbolDeclarationProvider"/>
+		<!--		<referenceContributor-->
+		<!--			language="valkyrie"-->
+		<!--			implementation="valkyrie.ide.reference.ValkyrieReferenceContributor"-->
+		<!--		/>-->
+		<!--		<referenceProvider language="valkyrie" providerClass="valkyrie.ide.reference.ValkyrieReferenceProvider"/>-->
+		<!--		<symbolReferenceProvider-->
+		<!--			anyReferenceClass="true"-->
+		<!--			implementationClass="valkyrie.ide.reference.symbolReferenceProvider"-->
+		<!--			hostLanguage="valkyrie"-->
+		<!--			hostElementClass="com.intellij.psi.xml.XmlAttributeValue"-->
+		<!--			targetClass="valkyrie.language.symbol.ValkyrieSymbolTemplate"-->
+		<!--		/>-->
+		<!--		<declarationProvider implementation="valkyrie.ide.reference.declaration.SymbolDeclarationProvider"/>-->
 	</extensions>
 
 	<extensions defaultExtensionNs="com.intellij.codeInsight">

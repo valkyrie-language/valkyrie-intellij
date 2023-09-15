@@ -2,15 +2,22 @@
 package valkyrie.psi.node;
 
 import com.intellij.psi.PsiElement;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface ValkyrieNewObject extends PsiElement {
+
+    @NotNull
+    ValkyrieAnnotations getAnnotations();
 
     @Nullable
     ValkyrieClassBody getClassBody();
 
     @Nullable
     ValkyrieClassInherit getClassInherit();
+
+    @NotNull
+    ValkyrieObjectNavigate getObjectNavigate();
 
     @Nullable
     ValkyrieTypeHint getTypeHint();

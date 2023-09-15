@@ -1946,7 +1946,7 @@ public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
                     case 269:
                         break;
                     case 104: {
-                        return SYMBOW_RAW;
+                        return SYMBOL_RAW;
                     }
                     // fall through
                     case 270:

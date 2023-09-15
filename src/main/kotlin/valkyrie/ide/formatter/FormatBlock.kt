@@ -5,7 +5,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.formatter.FormatterUtil
-import yggdrasil.antlr.isWhitespaceOrEmpty
+import valkyrie.antlr.isWhitespaceOrEmpty
 
 class FormatBlock : ASTBlock {
     private val _node: ASTNode

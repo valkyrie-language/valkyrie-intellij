@@ -115,7 +115,7 @@ KW_NULL    = null
 KW_BOOLEAN = true|false
 
 SYMBOL=[\p{XID_Start}_][\p{XID_Continue}]*
-SYMBOW_RAW = `[^`]*`
+SYMBOL_RAW = `[^`]*`
 ESCAPED = \\.
 NAME_SPLIT = [⸬∷]|{COLON}{2}
 NAME_SCOPE = [⁜]|\\N
@@ -414,7 +414,7 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
     {O_BASE}{NUMBER_BASE}         { yybegin(AfterNumberBase);yypushback(yylength()); }
     {O_EXPONENT}{NUMBER_EXPONENT} { yybegin(AfterNumberExp);yypushback(yylength()); }
 
-    {SYMBOW_RAW} { yybegin(YYINITIAL);return NUMBER_SUFFIX; }
+    {SYMBOL_RAW} { yybegin(YYINITIAL);return NUMBER_SUFFIX; }
     {SYMBOL}     { yybegin(YYINITIAL);return NUMBER_SUFFIX; }
     [^]          { yybegin(YYINITIAL);yypushback(yylength()); }
 }
@@ -494,7 +494,7 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
     {KW_BOOLEAN} { return KW_BOOLEAN; }
     {KW_IS}      { return KW_IS; }
     {KW_NOT}     { return KW_NOT; }
-    {SYMBOW_RAW} { return SYMBOW_RAW; }
+    {SYMBOL_RAW} { return SYMBOL_RAW; }
     {SYMBOL}     { return SYMBOL; }
 }
 // =====================================================================================================================

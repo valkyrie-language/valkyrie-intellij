@@ -9,6 +9,8 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import valkyrie.ide.hint.InlayHintVisitor
 import valkyrie.psi.node.ValkyrieLambdaBlock
+import valkyrie.psi.node.ValkyrieLambdaStatement
+import valkyrie.psi.node.ValkyrieNewLambda
 
 class LambdaHintProvider : InlayHintsProvider {
     override fun createCollector(file: PsiFile, editor: Editor): InlayHintsCollector {
@@ -27,8 +29,8 @@ private class LambdaHintCollector(val editor: Editor) : SharedBypassCollector {
 }
 
 private class LambdaHintVisitor(sink: InlayTreeSink, editor: Editor) : InlayHintVisitor(sink, editor) {
-    override fun visitLambdaBlock(o: ValkyrieLambdaBlock) {
-        super.visitLambdaBlock(o)
+    override fun visitNewLambda(o: ValkyrieNewLambda) {
+        super.visitNewLambda(o)
     }
 }
 

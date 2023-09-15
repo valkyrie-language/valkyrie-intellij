@@ -431,7 +431,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitLambdaStatement(@NotNull ValkyrieLambdaStatement o) {
+    public void visitLambdaNavigate(@NotNull ValkyrieLambdaNavigate o) {
         visitPsiElement(o);
     }
 
@@ -571,6 +571,14 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitNewLambda(@NotNull ValkyrieNewLambda o) {
+        visitPsiElement(o);
+    }
+
+    public void visitNewNavigate(@NotNull ValkyrieNewNavigate o) {
+        visitPsiElement(o);
+    }
+
     public void visitNewObject(@NotNull ValkyrieNewObject o) {
         visitPsiElement(o);
     }
@@ -580,6 +588,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitNumberLiteral(@NotNull ValkyrieNumberLiteral o) {
+        visitPsiElement(o);
+    }
+
+    public void visitObjectNavigate(@NotNull ValkyrieObjectNavigate o) {
         visitPsiElement(o);
     }
 
