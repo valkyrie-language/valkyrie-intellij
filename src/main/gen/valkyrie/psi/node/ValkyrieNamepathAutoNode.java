@@ -11,13 +11,14 @@ import com.intellij.psi.util.PsiTreeUtil;
 
 import static valkyrie.psi.ValkyrieTypes.*;
 
-public class ValkyrieNamepathAutoNode extends ValkyrieNamepathNode implements ValkyrieNamepathAuto {
+import valkyrie.psi.ValkyrieElement;
+
+public class ValkyrieNamepathAutoNode extends ValkyrieElement implements ValkyrieNamepathAuto {
 
     public ValkyrieNamepathAutoNode(@NotNull ASTNode node) {
         super(node);
     }
 
-    @Override
     public void accept(@NotNull ValkyrieVisitor visitor) {
         visitor.visitNamepathAuto(this);
     }
@@ -26,6 +27,12 @@ public class ValkyrieNamepathAutoNode extends ValkyrieNamepathNode implements Va
     public void accept(@NotNull PsiElementVisitor visitor) {
         if (visitor instanceof ValkyrieVisitor) accept((ValkyrieVisitor) visitor);
         else super.accept(visitor);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieIdentifier> getIdentifierList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifier.class);
     }
 
 }

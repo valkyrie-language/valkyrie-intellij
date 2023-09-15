@@ -805,16 +805,15 @@ namepath      ::= (NAME_SCOPE NAME_SPLIT?)? identifier (NAME_SPLIT identifier)* 
     mixin = "valkyrie.psi.mixin.MixinNamepath"
 }
 namepath-free ::= (NAME_SCOPE NAME_SPLIT?)? identifier-free (NAME_SPLIT identifier-free)* {
-    extends = namepath
+
 }
 namepath-auto ::= identifier ((NAME_SPLIT|DOT) identifier)* {
-    extends = namepath
+
 }
 identifier ::= symbol-safe | symbol {
     mixin = "valkyrie.psi.mixin.MixinIdentifier"
 }
 identifier-free ::=  symbol-lead | symbol-safe | symbol {
-    extends = identifier
     mixin = "valkyrie.psi.mixin.MixinIdentifier"
 }
 private symbol      ::= SYMBOL | SYMBOW_RAW;

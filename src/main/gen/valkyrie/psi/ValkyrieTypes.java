@@ -16,6 +16,7 @@ public interface ValkyrieTypes {
     IElementType ATTRIBUTE_ABOVE = new ValkyrieElementType("ATTRIBUTE_ABOVE");
     IElementType ATTRIBUTE_BELOW = new ValkyrieElementType("ATTRIBUTE_BELOW");
     IElementType ATTRIBUTE_ITEM = new ValkyrieElementType("ATTRIBUTE_ITEM");
+    IElementType ATTRIBUTE_LIST = new ValkyrieElementType("ATTRIBUTE_LIST");
     IElementType BAD_LL = new ValkyrieElementType("BAD_LL");
     IElementType BAD_LLL = new ValkyrieElementType("BAD_LLL");
     IElementType BAD_RR = new ValkyrieElementType("BAD_RR");
@@ -114,7 +115,6 @@ public interface ValkyrieTypes {
     IElementType IS_EXPRESSION = new ValkyrieElementType("IS_EXPRESSION");
     IElementType IS_STATEMENT = new ValkyrieElementType("IS_STATEMENT");
     IElementType KEYWORDS = new ValkyrieElementType("KEYWORDS");
-    IElementType KW_FUNCTION = new ValkyrieElementType("KW_FUNCTION");
     IElementType LAMBDA_BLOCK = new ValkyrieElementType("LAMBDA_BLOCK");
     IElementType LET_PATTERN = new ValkyrieElementType("LET_PATTERN");
     IElementType LET_STATEMENT = new ValkyrieElementType("LET_STATEMENT");
@@ -148,6 +148,7 @@ public interface ValkyrieTypes {
     IElementType MODIFIER = new ValkyrieElementType("MODIFIER");
     IElementType NAMEPATH = new ValkyrieElementType("NAMEPATH");
     IElementType NAMEPATH_AUTO = new ValkyrieElementType("NAMEPATH_AUTO");
+    IElementType NAMEPATH_FREE = new ValkyrieElementType("NAMEPATH_FREE");
     IElementType NEW_BODY = new ValkyrieElementType("NEW_BODY");
     IElementType NEW_LAMBDA = new ValkyrieElementType("NEW_LAMBDA");
     IElementType NEW_OBJECT = new ValkyrieElementType("NEW_OBJECT");
@@ -272,6 +273,7 @@ public interface ValkyrieTypes {
     IElementType KW_FLAGS = new ValkyrieTokenType("KW_FLAGS");
     IElementType KW_FOR = new ValkyrieTokenType("KW_FOR");
     IElementType KW_FROM = new ValkyrieTokenType("KW_FROM");
+    IElementType KW_FUNCTION = new ValkyrieTokenType("KW_FUNCTION");
     IElementType KW_IF = new ValkyrieTokenType("KW_IF");
     IElementType KW_IMPLY = new ValkyrieTokenType("KW_IMPLY");
     IElementType KW_IN = new ValkyrieTokenType("KW_IN");
@@ -407,6 +409,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieAttributeBelowNode(node);
             } else if (type == ATTRIBUTE_ITEM) {
                 return new ValkyrieAttributeItemNode(node);
+            } else if (type == ATTRIBUTE_LIST) {
+                return new ValkyrieAttributeListNode(node);
             } else if (type == BAD_LL) {
                 return new ValkyrieBadLlNode(node);
             } else if (type == BAD_LLL) {
@@ -603,8 +607,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieIsStatementNode(node);
             } else if (type == KEYWORDS) {
                 return new ValkyrieKeywordsNode(node);
-            } else if (type == KW_FUNCTION) {
-                return new ValkyrieKwFunctionNode(node);
             } else if (type == LAMBDA_BLOCK) {
                 return new ValkyrieLambdaBlockNode(node);
             } else if (type == LET_PATTERN) {
@@ -671,6 +673,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieNamepathNode(node);
             } else if (type == NAMEPATH_AUTO) {
                 return new ValkyrieNamepathAutoNode(node);
+            } else if (type == NAMEPATH_FREE) {
+                return new ValkyrieNamepathFreeNode(node);
             } else if (type == NEW_BODY) {
                 return new ValkyrieNewBodyNode(node);
             } else if (type == NEW_LAMBDA) {
