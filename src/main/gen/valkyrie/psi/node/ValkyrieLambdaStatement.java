@@ -5,18 +5,21 @@ import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public interface ValkyrieParameterList extends PsiElement {
+public interface ValkyrieLambdaStatement extends PsiElement {
 
     @NotNull
     ValkyrieAnnotations getAnnotations();
 
     @Nullable
-    ValkyrieDefaultValue getDefaultValue();
+    ValkyrieBlockBody getBlockBody();
 
     @Nullable
-    ValkyrieIdentifierFree getIdentifierFree();
+    ValkyrieDeclareInfer getDeclareInfer();
 
     @Nullable
-    ValkyrieTypeHint getTypeHint();
+    ValkyrieParameterBody getParameterBody();
+
+    @Nullable
+    ValkyrieReturnType getReturnType();
 
 }
