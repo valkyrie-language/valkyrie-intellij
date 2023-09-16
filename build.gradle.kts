@@ -36,7 +36,7 @@ dependencies {
         bundledPlugin("org.intellij.plugins.markdown")
         // https://plugins.jetbrains.com/plugin/227-psiviewer/versions
         plugin("PsiViewer", "251.175")
-        plugin("com.github.voml.neo_theme", "0.4.2")
+        plugin("com.github.voml.neo_theme", "0.4.3")
         instrumentationTools()
     }
 }

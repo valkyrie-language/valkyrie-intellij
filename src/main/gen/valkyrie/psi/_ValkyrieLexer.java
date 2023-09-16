@@ -3,11 +3,11 @@
 
 package valkyrie.psi;
 
+import java.util.LinkedList;
+
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
 import static valkyrie.psi.ValkyrieTypes.*;
-
-import java.util.LinkedList;
 
 public class _ValkyrieLexer implements com.intellij.lexer.FlexLexer {
 

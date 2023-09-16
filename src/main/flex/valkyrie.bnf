@@ -123,7 +123,7 @@ declare-type ::= annotations KW_TYPE (type-alias|type-function) {
 // type A = B
 type-alias   ::= identifier declare-infer? EQUAL type-expression;
 // type A() -> B { }
-type-function ::= declare-infer? identifier parameter-body return-type? effect-type? block-body;
+type-function ::= declare-infer? identifier parameter-body return-type? block-body;
 // === class statement ===
 declare-class ::= declare-infer? annotations KW_CLASS identifier declare-generic? class-inherit? type-hint? class-body {
     pin = 3
@@ -162,7 +162,7 @@ type-hint     ::= COLON type-expression {
 default-value ::= EQUAL expression-root;
 default-type  ::= EQUAL type-expression;
 // === class method statement ===
-declare-method ::= annotations KW_FUNCTION? identifier-free declare-infer? parameter-body return-type? effect-type? block-body? {
+declare-method ::= annotations KW_FUNCTION? identifier-free declare-infer? parameter-body return-type? block-body? {
     mixin = "valkyrie.psi.mixin.MixinMethod"
 }
 // === class domain statement ===
@@ -250,17 +250,17 @@ generic-parameter ::= annotations identifier type-hint? default-type? {
     mixin = "valkyrie.psi.mixin.MixinTypeParameter"
 }
 /// === term function definition ===
-declare-function ::= annotations KW_MICRO declare-infer? identifier parameter-body return-type? effect-type? block-body {
+declare-function ::= annotations KW_MICRO declare-infer? identifier parameter-body return-type? block-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinDeclareFunction"
 }
 /// === type function definition ===
-declare-mezzo ::= annotations KW_MEZZO declare-infer? identifier parameter-body return-type? effect-type? block-body {
+declare-mezzo ::= annotations KW_MEZZO declare-infer? identifier parameter-body return-type? block-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinDeclareMezzo"
 }
 /// === expression function definition ===
-declare-macro ::= annotations KW_MACRO declare-infer? identifier parameter-body return-type? effect-type? block-body {
+declare-macro ::= annotations KW_MACRO declare-infer? identifier parameter-body return-type? block-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinDeclareMacro"
 }
@@ -281,7 +281,6 @@ parameter-dict ::= annotations ANY_DICT identifier? type-hint? default-value? {
 parameter-kind ::= OP_POW;
 
 return-type ::= (OP_ARROW1|COLON) type-expression;
-effect-type ::= OP_DIV type-expression;
 block-body  ::= BRACE_L block-statement* BRACE_R;
 block-bare  ::= block-statement*;
 // === localize path ===
@@ -518,18 +517,19 @@ new-object ::= KW_OBJECT class-inherit? type-hint? class-body {
     mixin = "valkyrie.psi.mixin.MixinObject"
 }
 // === lambda expression ===
-// { lambda(x, y) -> u32 }
-new-lambda ::= KW_LAMBDA declare-infer? parameter-body return-type? effect-type? {
-    pin = 1
+// lambda(x, y) -> u32 { }
+lambda-block  ::= annotations KW_LAMBDA declare-infer? parameter-body return-type? block-body {
+    pin = 2
     mixin = "valkyrie.psi.mixin.MixinLambda"
 }
-lambda-block  ::= BRACE_L new-lambda? block-statement* BRACE_R;
 // === slot statement ===
 slot ::=
     slot-named
   | slot-index
+  | slot-first
 slot-named ::= DOLLAR identifier;
 slot-index ::= DOLLAR INTEGER;
+slot-first ::= DOLLAR;
 // === control expression ===
 control-statement ::=
       control-return
