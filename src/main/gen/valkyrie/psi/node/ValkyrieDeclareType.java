@@ -12,12 +12,9 @@ public interface ValkyrieDeclareType extends PsiElement {
     ValkyrieAnnotations getAnnotations();
 
     @Nullable
-    ValkyrieDeclareDepends getDeclareDepends();
+    ValkyrieTypeAlias getTypeAlias();
 
     @Nullable
-    ValkyrieIdentifier getIdentifier();
-
-    @Nullable
-    ValkyrieTypeExpression getTypeExpression();
+    ValkyrieTypeFunction getTypeFunction();
 
 }

@@ -8,16 +8,13 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieTypeAlias extends PsiElement {
 
+    @Nullable
+    ValkyrieDeclareInfer getDeclareInfer();
+
     @NotNull
-    ValkyrieAnnotations getAnnotations();
-
-    @Nullable
-    ValkyrieDeclareGeneric getDeclareGeneric();
-
-    @Nullable
     ValkyrieIdentifier getIdentifier();
 
-    @Nullable
+    @NotNull
     ValkyrieTypeExpression getTypeExpression();
 
 }

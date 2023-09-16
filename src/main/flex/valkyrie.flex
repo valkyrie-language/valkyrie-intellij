@@ -445,6 +445,7 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
     {KW_UNION}     { return KW_UNION; }
     {KW_CLASS}     { return KW_CLASS; }
     {KW_TRAIT}     { return KW_TRAIT; }
+    {KW_INFER}     { return KW_INFER; }
     {KW_IMPLY}     { return KW_IMPLY; }
     {KW_WHERE}     { return KW_WHERE; }
     {KW_MICRO}     { return KW_MICRO; }

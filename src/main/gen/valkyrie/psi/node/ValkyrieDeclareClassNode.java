@@ -49,8 +49,8 @@ public class ValkyrieDeclareClassNode extends MixinClass implements ValkyrieDecl
 
     @Override
     @NotNull
-    public List<ValkyrieDeclareDepends> getDeclareDependsList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareDepends.class);
+    public List<ValkyrieDeclareInfer> getDeclareInferList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareInfer.class);
     }
 
     @Override
