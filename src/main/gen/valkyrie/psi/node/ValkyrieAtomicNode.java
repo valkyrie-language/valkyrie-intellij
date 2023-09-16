@@ -55,8 +55,8 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
 
     @Override
     @Nullable
-    public ValkyrieLambdaBlock getLambdaBlock() {
-        return findChildByClass(ValkyrieLambdaBlock.class);
+    public ValkyrieLambdaStatement getLambdaStatement() {
+        return findChildByClass(ValkyrieLambdaStatement.class);
     }
 
     @Override

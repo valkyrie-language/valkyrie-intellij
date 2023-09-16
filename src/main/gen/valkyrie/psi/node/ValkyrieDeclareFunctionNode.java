@@ -43,12 +43,6 @@ public class ValkyrieDeclareFunctionNode extends MixinDeclareFunction implements
 
     @Override
     @Nullable
-    public ValkyrieEffectType getEffectType() {
-        return findChildByClass(ValkyrieEffectType.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieIdentifier getIdentifier() {
         return findChildByClass(ValkyrieIdentifier.class);
     }

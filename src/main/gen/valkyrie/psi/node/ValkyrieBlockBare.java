@@ -20,7 +20,4 @@ public interface ValkyrieBlockBare extends PsiElement {
     @NotNull
     List<ValkyrieLetStatement> getLetStatementList();
 
-    @NotNull
-    List<ValkyrieNewLambda> getNewLambdaList();
-
 }

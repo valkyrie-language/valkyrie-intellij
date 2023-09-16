@@ -8,6 +8,7 @@ import com.intellij.icons.AllIcons
 import com.intellij.icons.AllIcons.Actions.Upload
 import com.intellij.icons.AllIcons.Toolbar.Filterdups
 import com.intellij.java.JavaBundle
+import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.firstLeaf
@@ -29,8 +30,6 @@ import valkyrie.psi.childrenWithLeaves
 import valkyrie.psi.mixin.superClasses
 import valkyrie.psi.node.*
 import javax.swing.Icon
-import kotlin.random.Random
-import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER
 
 class ValkyrieLineMarkerProvider : RelatedItemLineMarkerProvider() {
     val enums_declaration =
@@ -216,9 +215,8 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
 //        result.add(ValkyrieMarkAny(o))
     }
 
-    override fun visitNewLambda(o: ValkyrieNewLambda) {
-        o as ValkyrieNewLambdaNode
-//        result.add(ValkyrieMarkAny(o.firstChild, o.getIcon(0)))
+    override fun visitLambdaStatement(o: ValkyrieLambdaStatement) {
+//        super.visitLambdaStatement(o)
     }
 
     override fun visitControlYieldSend(o: ValkyrieControlYieldSend) {
@@ -273,7 +271,8 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
             return
         }
         var leaf = node.firstLeaf();
-        result.add(RelatedItemLineMarkerInfo(
+        result.add(
+            RelatedItemLineMarkerInfo(
             leaf,
             leaf.textRange,
             icon,

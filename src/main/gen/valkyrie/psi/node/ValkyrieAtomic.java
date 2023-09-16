@@ -22,7 +22,7 @@ public interface ValkyrieAtomic extends PsiElement {
     ValkyrieIfStatement getIfStatement();
 
     @Nullable
-    ValkyrieLambdaBlock getLambdaBlock();
+    ValkyrieLambdaStatement getLambdaStatement();
 
     @Nullable
     ValkyrieLocalizeCall getLocalizeCall();

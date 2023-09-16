@@ -43,12 +43,6 @@ public class ValkyrieDeclareMacroNode extends MixinDeclareMacro implements Valky
 
     @Override
     @Nullable
-    public ValkyrieEffectType getEffectType() {
-        return findChildByClass(ValkyrieEffectType.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieIdentifier getIdentifier() {
         return findChildByClass(ValkyrieIdentifier.class);
     }
