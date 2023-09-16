@@ -79,15 +79,15 @@ class TypeHintVisitor : ValkyrieVisitor {
     override fun visitDeclareEnumerate(o: ValkyrieDeclareEnumerate) {
         if (setting.show_enumeration_type) {
             if (o.classInherit == null) {
-                o.identifier?.endOffset?.let { hint(it, "= u32") }
+                o.identifier?.endOffset?.let { hint(it, "= 32") }
             }
         }
     }
 
     override fun visitDeclareFlags(o: ValkyrieDeclareFlags) {
         if (setting.show_bitflags_type) {
-            if (o.classInherit == null) {
-                o.identifierFree?.endOffset?.let { hint(it, "= u32") }
+            if (o.typeAtomic == null) {
+                o.identifierFree?.endOffset?.let { hint(it, "= 32") }
             }
         }
     }

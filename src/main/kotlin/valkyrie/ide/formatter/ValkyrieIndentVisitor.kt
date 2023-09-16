@@ -27,6 +27,9 @@ class ValkyrieIndentVisitor(val child: ASTNode) : ValkyrieVisitor() {
         byCorner(o.node)
     }
 
+    override fun visitFlagsBody(o: ValkyrieFlagsBody) {
+        byCorner(o.node)
+    }
     override fun visitEnumerateBody(o: ValkyrieEnumerateBody) {
         byCorner(o.node)
     }
