@@ -7,6 +7,14 @@ import valkyrie.psi.node.*
 class ValkyrieIndentVisitor(val child: ASTNode) : ValkyrieVisitor() {
     var indent: Indent? = Indent.getNoneIndent()
 
+    override fun visitInferBody(o: ValkyrieInferBody) {
+        byCorner(o.node)
+    }
+
+    override fun visitDeclareWhere(o: ValkyrieDeclareWhere) {
+        notFirst(o.node)
+    }
+
     override fun visitClassBody(o: ValkyrieClassBody) {
         byCorner(o.node)
     }
@@ -68,6 +76,14 @@ class ValkyrieIndentVisitor(val child: ASTNode) : ValkyrieVisitor() {
         val isCorner = parent.firstChildNode == child || parent.lastChildNode == child
         indent = when {
             isCorner -> Indent.getNoneIndent()
+            else -> Indent.getNormalIndent()
+        }
+    }
+
+    private fun notFirst(parent: ASTNode) {
+        val notFirst = parent.firstChildNode == child
+        indent = when {
+            notFirst -> Indent.getNoneIndent()
             else -> Indent.getNormalIndent()
         }
     }
