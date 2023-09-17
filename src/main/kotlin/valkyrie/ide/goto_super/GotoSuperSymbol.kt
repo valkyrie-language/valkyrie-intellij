@@ -57,9 +57,9 @@ class GotoSuperSymbol : GotoTargetHandler() {
                 "`${element.name}` has no super class"
             }
 
-            is ValkyrieDeclareTraitNode -> {
-                "`${element.name}` has no trait bounds"
-            }
+//            is ValkyrieDeclareTraitNode -> {
+//                "`${element.name}` has no trait bounds"
+//            }
 
             else -> {
                 "Can't find super symbol for `${element?.name}`"

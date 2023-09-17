@@ -49,8 +49,8 @@ public class ValkyrieDeclareComponentNode extends MixinComponent implements Valk
 
     @Override
     @Nullable
-    public ValkyrieDeclareInfer getDeclareInfer() {
-        return findChildByClass(ValkyrieDeclareInfer.class);
+    public ValkyrieDeclareGeneric getDeclareGeneric() {
+        return findChildByClass(ValkyrieDeclareGeneric.class);
     }
 
     @Override

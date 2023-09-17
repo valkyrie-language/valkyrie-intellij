@@ -14,9 +14,6 @@ public interface ValkyrieTraitDefine extends PsiElement {
     @Nullable
     ValkyrieDeclareInfer getDeclareInfer();
 
-    @NotNull
-    ValkyrieIdentifier getIdentifier();
-
     @Nullable
     ValkyrieTypeHint getTypeHint();
 

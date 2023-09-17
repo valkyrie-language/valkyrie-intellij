@@ -42,12 +42,6 @@ public class ValkyrieTraitDefineNode extends ValkyrieElement implements Valkyrie
     }
 
     @Override
-    @NotNull
-    public ValkyrieIdentifier getIdentifier() {
-        return findNotNullChildByClass(ValkyrieIdentifier.class);
-    }
-
-    @Override
     @Nullable
     public ValkyrieTypeHint getTypeHint() {
         return findChildByClass(ValkyrieTypeHint.class);
