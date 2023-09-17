@@ -37,8 +37,8 @@ public class ValkyrieParameterDictNode extends ValkyrieElement implements Valkyr
 
     @Override
     @Nullable
-    public ValkyrieIdentifier getIdentifier() {
-        return findChildByClass(ValkyrieIdentifier.class);
+    public ValkyrieIdentifierFree getIdentifierFree() {
+        return findChildByClass(ValkyrieIdentifierFree.class);
     }
 
     @Override

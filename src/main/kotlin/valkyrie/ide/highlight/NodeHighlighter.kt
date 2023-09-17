@@ -122,11 +122,11 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitParameterList(o: ValkyrieParameterList) {
-        highlight(o.identifier, HighlightColor.SYM_ARG)
+        highlight(o.identifierFree, HighlightColor.SYM_ARG)
     }
 
     override fun visitParameterDict(o: ValkyrieParameterDict) {
-        highlight(o.identifier, HighlightColor.SYM_ARG)
+        highlight(o.identifierFree, HighlightColor.SYM_ARG)
     }
 
     override fun visitGenericParameter(o: ValkyrieGenericParameter) {

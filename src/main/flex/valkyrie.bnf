@@ -271,10 +271,10 @@ private parameter-term ::= ANGLE_L | ANGLE_R
 parameter-item ::= annotations parameter-kind? identifier-free type-hint? default-value? {
     mixin = "valkyrie.psi.mixin.MixinValueParameter"
 }
-parameter-list ::= annotations ANY_LIST identifier? type-hint? default-value? {
+parameter-list ::= annotations ANY_LIST identifier-free? type-hint? default-value? {
 
 }
-parameter-dict ::= annotations ANY_DICT identifier? type-hint? default-value? {
+parameter-dict ::= annotations ANY_DICT identifier-free? type-hint? default-value? {
 
 }
 parameter-kind ::= OP_POW;
@@ -816,7 +816,9 @@ identifier-free ::=  symbol-lead | symbol-safe | symbol {
     mixin = "valkyrie.psi.mixin.MixinIdentifier"
 }
 private symbol      ::= SYMBOL | SYMBOW_RAW;
-private symbol-safe ::= KW_FROM | KW_AS;
+// context keywords
+private symbol-safe ::= KW_FROM | KW_AS | KW_END;
+// always keywords
 private symbol-lead ::= KW_LET
     | KW_NAMESPACE
     | KW_TYPE
