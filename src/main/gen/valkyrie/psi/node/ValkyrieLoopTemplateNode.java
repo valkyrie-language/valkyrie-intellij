@@ -52,8 +52,8 @@ public class ValkyrieLoopTemplateNode extends ValkyrieElement implements Valkyri
 
     @Override
     @NotNull
-    public List<ValkyrieDeclareEnumerate> getDeclareEnumerateList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareEnumerate.class);
+    public List<ValkyrieDeclareEnums> getDeclareEnumsList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareEnums.class);
     }
 
     @Override

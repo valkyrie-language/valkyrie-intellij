@@ -52,7 +52,7 @@ public interface ValkyrieTypes {
     IElementType DECLARE_CLASS = new ValkyrieElementType("DECLARE_CLASS");
     IElementType DECLARE_COMPONENT = new ValkyrieElementType("DECLARE_COMPONENT");
     IElementType DECLARE_DOMAIN = new ValkyrieElementType("DECLARE_DOMAIN");
-    IElementType DECLARE_ENUMERATE = new ValkyrieElementType("DECLARE_ENUMERATE");
+    IElementType DECLARE_ENUMS = new ValkyrieElementType("DECLARE_ENUMS");
     IElementType DECLARE_FIELD = new ValkyrieElementType("DECLARE_FIELD");
     IElementType DECLARE_FLAGS = new ValkyrieElementType("DECLARE_FLAGS");
     IElementType DECLARE_FUNCTION = new ValkyrieElementType("DECLARE_FUNCTION");
@@ -82,12 +82,10 @@ public interface ValkyrieTypes {
     IElementType DOT_MATCH_CALL = new ValkyrieElementType("DOT_MATCH_CALL");
     IElementType ELSE_IF_STATEMENT = new ValkyrieElementType("ELSE_IF_STATEMENT");
     IElementType ELSE_STATEMENT = new ValkyrieElementType("ELSE_STATEMENT");
-    IElementType ENUMERATE_BODY = new ValkyrieElementType("ENUMERATE_BODY");
     IElementType EXPRESSION = new ValkyrieElementType("EXPRESSION");
     IElementType EXPRESSION_INLINE = new ValkyrieElementType("EXPRESSION_INLINE");
     IElementType EXPRESSION_ROOT = new ValkyrieElementType("EXPRESSION_ROOT");
     IElementType FLAGS_BODY = new ValkyrieElementType("FLAGS_BODY");
-    IElementType FLAGS_NUMBER = new ValkyrieElementType("FLAGS_NUMBER");
     IElementType FUNCTION_CALL = new ValkyrieElementType("FUNCTION_CALL");
     IElementType FUNCTION_CALL_INLINE = new ValkyrieElementType("FUNCTION_CALL_INLINE");
     IElementType GENERIC_ARGUMENT = new ValkyrieElementType("GENERIC_ARGUMENT");
@@ -483,8 +481,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieDeclareComponentNode(node);
             } else if (type == DECLARE_DOMAIN) {
                 return new ValkyrieDeclareDomainNode(node);
-            } else if (type == DECLARE_ENUMERATE) {
-                return new ValkyrieDeclareEnumerateNode(node);
+            } else if (type == DECLARE_ENUMS) {
+                return new ValkyrieDeclareEnumsNode(node);
             } else if (type == DECLARE_FIELD) {
                 return new ValkyrieDeclareFieldNode(node);
             } else if (type == DECLARE_FLAGS) {
@@ -543,8 +541,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieElseIfStatementNode(node);
             } else if (type == ELSE_STATEMENT) {
                 return new ValkyrieElseStatementNode(node);
-            } else if (type == ENUMERATE_BODY) {
-                return new ValkyrieEnumerateBodyNode(node);
             } else if (type == EXPRESSION) {
                 return new ValkyrieExpressionNode(node);
             } else if (type == EXPRESSION_INLINE) {
@@ -553,8 +549,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieExpressionRootNode(node);
             } else if (type == FLAGS_BODY) {
                 return new ValkyrieFlagsBodyNode(node);
-            } else if (type == FLAGS_NUMBER) {
-                return new ValkyrieFlagsNumberNode(node);
             } else if (type == FUNCTION_CALL) {
                 return new ValkyrieFunctionCallNode(node);
             } else if (type == FUNCTION_CALL_INLINE) {

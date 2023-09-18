@@ -22,7 +22,7 @@ public interface ValkyrieLoopTemplate extends PsiElement {
     List<ValkyrieDeclareComponent> getDeclareComponentList();
 
     @NotNull
-    List<ValkyrieDeclareEnumerate> getDeclareEnumerateList();
+    List<ValkyrieDeclareEnums> getDeclareEnumsList();
 
     @NotNull
     List<ValkyrieDeclareFlags> getDeclareFlagsList();

@@ -81,14 +81,12 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifierFree, HighlightColor.SYM_CLASS)
     }
 
-    override fun visitFlagsNumber(o: ValkyrieFlagsNumber) {
+    override fun visitDeclareSemantic(o: ValkyrieDeclareSemantic) {
         highlight(o.identifier, HighlightColor.SYM_FIELD)
     }
 
-    override fun visitDeclareEnumerate(o: ValkyrieDeclareEnumerate) {
+    override fun visitDeclareEnums(o: ValkyrieDeclareEnums) {
         highlight(o.identifier, HighlightColor.SYM_CONSTANT)
-
-
     }
 
     override fun visitDeclareUnite(o: ValkyrieDeclareUnite) {

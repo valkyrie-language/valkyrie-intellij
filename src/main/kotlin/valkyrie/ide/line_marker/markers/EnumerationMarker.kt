@@ -5,11 +5,11 @@ import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER
 import com.intellij.psi.PsiElement
 import valkyrie.language.file.ValkyrieIconProvider.Instance.Enumeration
-import valkyrie.psi.node.ValkyrieDeclareEnumerateNode
+import valkyrie.psi.node.ValkyrieDeclareEnumsNode
 import javax.swing.Icon
 
 class EnumerationMarker : RelatedItemLineMarkerInfo<PsiElement> {
-    constructor(element: ValkyrieDeclareEnumerateNode) : super(
+    constructor(element: ValkyrieDeclareEnumsNode) : super(
         element.keyword,
         element.keyword.textRange,
         Enumeration,

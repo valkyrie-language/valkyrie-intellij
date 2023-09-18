@@ -39,11 +39,6 @@ class ValkyrieFoldingVisitor : ValkyrieVisitor, PsiRecursiveVisitor {
         fold(o, o.firstChild.endOffset, o.lastChild.startOffset)
     }
 
-
-    override fun visitEnumerateBody(o: ValkyrieEnumerateBody) {
-        fold(o, o.firstChild.endOffset, o.lastChild.startOffset)
-    }
-
     override fun visitUniteBody(o: ValkyrieUniteBody) {
         fold(o, o.firstChild.endOffset, o.lastChild.startOffset)
     }

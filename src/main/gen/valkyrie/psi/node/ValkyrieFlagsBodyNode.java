@@ -39,8 +39,8 @@ public class ValkyrieFlagsBodyNode extends ValkyrieElement implements ValkyrieFl
 
     @Override
     @NotNull
-    public List<ValkyrieFlagsNumber> getFlagsNumberList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieFlagsNumber.class);
+    public List<ValkyrieDeclareSemantic> getDeclareSemanticList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareSemantic.class);
     }
 
 }

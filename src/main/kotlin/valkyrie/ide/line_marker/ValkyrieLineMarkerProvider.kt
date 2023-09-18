@@ -168,10 +168,9 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
 //        result.add(ValkyrieMarkAny(o))
     }
 
-
-    override fun visitDeclareEnumerate(o: ValkyrieDeclareEnumerate) {
+    override fun visitDeclareEnums(o: ValkyrieDeclareEnums) {
         if (!config.enums_declaration.isEnabled) return
-        result.add(EnumerationMarker(o as ValkyrieDeclareEnumerateNode))
+        result.add(EnumerationMarker(o as ValkyrieDeclareEnumsNode))
     }
 
     override fun visitDeclareFlags(o: ValkyrieDeclareFlags) {
