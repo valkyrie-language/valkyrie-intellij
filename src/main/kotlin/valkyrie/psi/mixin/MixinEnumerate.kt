@@ -6,7 +6,6 @@ import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.findKeyword
-import valkyrie.psi.node.ValkyrieDeclareEnumerate
 import valkyrie.psi.node.ValkyrieDeclareEnums
 import valkyrie.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon

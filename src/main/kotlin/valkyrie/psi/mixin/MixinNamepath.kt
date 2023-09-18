@@ -10,23 +10,32 @@ import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.ide.reference.declaration.ValkyrieNamepathReference
 import valkyrie.psi.ValkyrieElement
 import valkyrie.psi.ValkyrieTypes
-import valkyrie.psi.node.ValkyrieIdentifier
 import valkyrie.psi.node.ValkyrieIdentifierNode
 import valkyrie.psi.node.ValkyrieNamepath
 
-abstract class MixinNamepath : ValkyrieElement, ValkyrieNamepath, PsiQualifiedNamedElement {
-    val identifier: MixinIdentifier? = identifierList.lastOrNull() as? MixinIdentifier
+abstract class MixinNamepath : ValkyrieElement, PsiQualifiedNamedElement {
+    val identifierList: List<MixinIdentifier>
+        get() {
+            val list = mutableListOf<MixinIdentifier>()
+            for (i in 0 until children.size) {
+                val child = children[i]
+                if (child is MixinIdentifier) {
+                    list.add(child)
+                }
+            }
+            return list
+        }
+    val identifier: MixinIdentifier? = identifierList.lastOrNull()
 
     constructor(node: ASTNode) : super(node)
 
     override fun getName(): String {
-        return identifier?.name ?: "<<Missing Namepath>>"
+        return identifierList.lastOrNull()?.name ?: "<<Missing Namepath>>"
     }
 
     override fun getQualifiedName(): String {
         val names: MutableList<String> = mutableListOf()
-        for (i in identifierList) {
-            val id = i as MixinIdentifier;
+        for (id in identifierList) {
             names.add(id.name)
         }
         return names.joinToString("∷")
@@ -43,25 +52,21 @@ abstract class MixinNamepath : ValkyrieElement, ValkyrieNamepath, PsiQualifiedNa
     override fun getReferences(): Array<ValkyrieNamepathReference> {
         return ValkyrieNamepathReference.fromList(this, this.identifierList)
     }
-
-
 }
 
 fun ValkyrieNamepath.highlight(highlighter: NodeHighlighter) {
-    highlightFake(highlighter, this.identifierList)
+    highlightFake(highlighter, this as MixinNamepath)
     if (this.firstLeaf().elementType == ValkyrieTypes.NAME_SCOPE) {
         highlighter.highlight(this.firstChild, HighlightColor.KEYWORD)
     }
     for (reference in this.references) {
-        if (reference is ValkyrieNamepathReference) {
-            reference.highlight(highlighter)
-        }
+        reference.highlight(highlighter)
     }
 }
 
-fun highlightFake(highlighter: NodeHighlighter, identifiers: List<ValkyrieIdentifier>) {
-    val last = identifiers.last() as ValkyrieIdentifierNode;
-    val second = identifiers.getOrNull(identifiers.size - 2) as? ValkyrieIdentifierNode?;
+fun highlightFake(highlighter: NodeHighlighter, namepath: MixinNamepath) {
+    val last = namepath.last() as ValkyrieIdentifierNode;
+    val second = namepath.getOrNull(namepath.size - 2) as? ValkyrieIdentifierNode?;
     if (second != null) {
         if (second.name.first().isUpperCase()) {
             highlighter.highlight(second, HighlightColor.SYM_CLASS)
