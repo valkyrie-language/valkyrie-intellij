@@ -114,7 +114,7 @@ public interface ValkyrieTypes {
     IElementType IS_EXPRESSION = new ValkyrieElementType("IS_EXPRESSION");
     IElementType IS_STATEMENT = new ValkyrieElementType("IS_STATEMENT");
     IElementType KEYWORDS = new ValkyrieElementType("KEYWORDS");
-    IElementType LAMBDA_STATEMENT = new ValkyrieElementType("LAMBDA_STATEMENT");
+    IElementType LAMBDA_NAVIGATE = new ValkyrieElementType("LAMBDA_NAVIGATE");
     IElementType LET_PATTERN = new ValkyrieElementType("LET_PATTERN");
     IElementType LET_STATEMENT = new ValkyrieElementType("LET_STATEMENT");
     IElementType LOCALIZE_CALL = new ValkyrieElementType("LOCALIZE_CALL");
@@ -149,9 +149,12 @@ public interface ValkyrieTypes {
     IElementType NAMEPATH_AUTO = new ValkyrieElementType("NAMEPATH_AUTO");
     IElementType NAMEPATH_FREE = new ValkyrieElementType("NAMEPATH_FREE");
     IElementType NEW_BODY = new ValkyrieElementType("NEW_BODY");
+    IElementType NEW_LAMBDA = new ValkyrieElementType("NEW_LAMBDA");
+    IElementType NEW_NAVIGATE = new ValkyrieElementType("NEW_NAVIGATE");
     IElementType NEW_OBJECT = new ValkyrieElementType("NEW_OBJECT");
     IElementType NEW_VALUE = new ValkyrieElementType("NEW_VALUE");
     IElementType NUMBER_LITERAL = new ValkyrieElementType("NUMBER_LITERAL");
+    IElementType OBJECT_NAVIGATE = new ValkyrieElementType("OBJECT_NAVIGATE");
     IElementType OFFSET_RANGE = new ValkyrieElementType("OFFSET_RANGE");
     IElementType OFFSET_SLICE = new ValkyrieElementType("OFFSET_SLICE");
     IElementType ORDINAL_RANGE = new ValkyrieElementType("ORDINAL_RANGE");
@@ -385,7 +388,7 @@ public interface ValkyrieTypes {
     IElementType STRING_R = new ValkyrieTokenType("STRING_R");
     IElementType STRING_TEXT = new ValkyrieTokenType("STRING_TEXT");
     IElementType SYMBOL = new ValkyrieTokenType("Symbol");
-    IElementType SYMBOW_RAW = new ValkyrieTokenType("SYMBOW_RAW");
+    IElementType SYMBOL_RAW = new ValkyrieTokenType("SYMBOL_RAW");
     IElementType TEMPLATE_L = new ValkyrieTokenType("TEMPLATE_L");
     IElementType TEMPLATE_R = new ValkyrieTokenType("TEMPLATE_R");
 
@@ -604,8 +607,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieIsStatementNode(node);
             } else if (type == KEYWORDS) {
                 return new ValkyrieKeywordsNode(node);
-            } else if (type == LAMBDA_STATEMENT) {
-                return new ValkyrieLambdaStatementNode(node);
+            } else if (type == LAMBDA_NAVIGATE) {
+                return new ValkyrieLambdaNavigateNode(node);
             } else if (type == LET_PATTERN) {
                 return new ValkyrieLetPatternNode(node);
             } else if (type == LET_STATEMENT) {
@@ -674,12 +677,18 @@ public interface ValkyrieTypes {
                 return new ValkyrieNamepathFreeNode(node);
             } else if (type == NEW_BODY) {
                 return new ValkyrieNewBodyNode(node);
+            } else if (type == NEW_LAMBDA) {
+                return new ValkyrieNewLambdaNode(node);
+            } else if (type == NEW_NAVIGATE) {
+                return new ValkyrieNewNavigateNode(node);
             } else if (type == NEW_OBJECT) {
                 return new ValkyrieNewObjectNode(node);
             } else if (type == NEW_VALUE) {
                 return new ValkyrieNewValueNode(node);
             } else if (type == NUMBER_LITERAL) {
                 return new ValkyrieNumberLiteralNode(node);
+            } else if (type == OBJECT_NAVIGATE) {
+                return new ValkyrieObjectNavigateNode(node);
             } else if (type == OFFSET_RANGE) {
                 return new ValkyrieOffsetRangeNode(node);
             } else if (type == OFFSET_SLICE) {

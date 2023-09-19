@@ -3,12 +3,9 @@ package valkyrie.psi.node;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import valkyrie.psi.ValkyrieElement;
-
-import java.util.List;
 
 public class ValkyrieFlagsNumberNode extends ValkyrieElement implements ValkyrieFlagsNumber {
 
@@ -33,15 +30,15 @@ public class ValkyrieFlagsNumberNode extends ValkyrieElement implements Valkyrie
     }
 
     @Override
-    @NotNull
-    public List<ValkyrieIdentifier> getIdentifierList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifier.class);
+    @Nullable
+    public ValkyrieExpression getExpression() {
+        return findChildByClass(ValkyrieExpression.class);
     }
 
     @Override
-    @Nullable
-    public ValkyrieNumberLiteral getNumberLiteral() {
-        return findChildByClass(ValkyrieNumberLiteral.class);
+    @NotNull
+    public ValkyrieIdentifier getIdentifier() {
+        return findNotNullChildByClass(ValkyrieIdentifier.class);
     }
 
 }

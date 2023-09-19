@@ -1,4 +1,4 @@
-package yggdrasil.antlr
+package valkyrie.antlr
 
 
 import com.intellij.codeInsight.daemon.impl.HighlightInfo

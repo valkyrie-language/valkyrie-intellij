@@ -12,7 +12,12 @@ plugins {
     alias(libs.plugins.qodana)
     alias(libs.plugins.kover)
 }
-
+idea {
+    module {
+        isDownloadJavadoc = true
+        isDownloadSources = true
+    }
+}
 group = properties("pluginGroup").get()
 version = properties("pluginVersion").get()
 sourceSets["main"].java.srcDirs("src/main/gen")
@@ -37,7 +42,6 @@ dependencies {
         // https://plugins.jetbrains.com/plugin/227-psiviewer/versions
         plugin("PsiViewer", "251.175")
         plugin("com.github.voml.neo_theme", "0.4.3")
-        instrumentationTools()
     }
 }
 

@@ -5,18 +5,19 @@ import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
 public interface ValkyrieNewValue extends PsiElement {
+
+    @NotNull
+    ValkyrieAnnotations getAnnotations();
 
     @Nullable
     ValkyrieArgumentBody getArgumentBody();
 
-    @NotNull
-    List<ValkyrieModifier> getModifierList();
-
     @Nullable
     ValkyrieNewBody getNewBody();
+
+    @NotNull
+    ValkyrieNewNavigate getNewNavigate();
 
     @Nullable
     ValkyrieTypeExpression getTypeExpression();

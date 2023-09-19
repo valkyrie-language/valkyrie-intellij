@@ -55,12 +55,6 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
 
     @Override
     @Nullable
-    public ValkyrieLambdaStatement getLambdaStatement() {
-        return findChildByClass(ValkyrieLambdaStatement.class);
-    }
-
-    @Override
-    @Nullable
     public ValkyrieLocalizeCall getLocalizeCall() {
         return findChildByClass(ValkyrieLocalizeCall.class);
     }
@@ -99,6 +93,12 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
     @Nullable
     public ValkyrieNamepath getNamepath() {
         return findChildByClass(ValkyrieNamepath.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieNewLambda getNewLambda() {
+        return findChildByClass(ValkyrieNewLambda.class);
     }
 
     @Override

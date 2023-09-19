@@ -174,16 +174,18 @@ declare-union ::= annotations KW_UNION identifier class-body {
     mixin = "valkyrie.psi.mixin.MixinUnion"
 }
 // === flags statement ===
-declare-flags ::= annotations KW_FLAGS identifier class-inherit? (EQUAL type-atomic)? flags-body {
+declare-flags ::= annotations KW_FLAGS identifier-free class-inherit? (EQUAL type-atomic)? flags-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinFlags"
 }
 flags-body ::= BRACE_L flags-item* BRACE_R;
 private flags-item ::= SEMICOLON | COMMA
     | declare-method
-    | flags-number
     | declare-domain
-flags-number ::= annotations identifier (COLON number-literal)? (EQUAL identifier)?;
+    | flags-number
+flags-number ::= annotations identifier (EQUAL expression)? {
+
+}
 // === enums statement ===
 declare-enumerate ::= annotations KW_ENUMERATE identifier class-inherit? (EQUAL type-atomic)? enumerate-body {
     pin = 2
@@ -502,25 +504,29 @@ bare-pattern-item ::= modifier* identifier {
     mixin = "valkyrie.psi.mixin.MixinLetPatternItem"
 }
 // === new expression ===
-new-value  ::= KW_NEW modifier* type-expression? argument-body? new-body {
-    pin = 1
+// new f() { }
+new-value  ::= annotations new-navigate type-expression? argument-body? new-body {
+    pin = 2
     mixin = "valkyrie.psi.mixin.MixinBuilder"
 }
+new-navigate    ::= KW_NEW;
 new-body ::= BRACE_L new-item* BRACE_R;
 private new-item ::= SEMICOLON | COMMA
     | expression-root
 // === object expression ===
 // object: Interface { }
-new-object ::= KW_OBJECT class-inherit? type-hint? class-body {
-    pin = 1
+new-object ::= annotations object-navigate class-inherit? type-hint? class-body {
+    pin = 2
     mixin = "valkyrie.psi.mixin.MixinObject"
 }
+object-navigate ::= KW_OBJECT;
 // === lambda expression ===
-// lambda(x, y) -> u32 { }
-lambda-statement ::= annotations KW_LAMBDA declare-infer? parameter-body return-type? block-body {
+// lambda<T>(x, y) -> T { }
+new-lambda ::= annotations lambda-navigate declare-infer? parameter-body return-type? block-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinLambda"
 }
+lambda-navigate ::= KW_LAMBDA;
 // === slot statement ===
 slot ::=
     slot-named
@@ -557,7 +563,7 @@ control-yield-from ::=
 control-yield-type ::=
     KW_YIELD KW_WITH KW_TYPE type-expression?
   | KW_YIELD KW_TYPE control-label? type-expression?;
-control-label ::= OP_LABEL (SYMBOL|SYMBOW_RAW|INTEGER|KW_MACRO|KW_FOR|KW_WHILE);
+control-label ::= OP_LABEL (SYMBOL|SYMBOL_RAW|INTEGER|KW_MACRO|KW_FOR|KW_WHILE);
 control-raise ::= KW_RAISE expression-root
     | KW_RAISE KW_USING expression-root
     | KW_RAISE KW_TYPE type-expression
@@ -715,7 +721,6 @@ atomic ::=    PARENTHESIS_L expression-root PARENTHESIS_R
     | CEIL_L expression-root FLOOR_R  // ⌈5/2.0⌋
     | CEIL_L expression-root CEIL_R   // ⌈5/2.0⌉
     | tuple               // ( )
-    | lambda-statement        // { }
     | offset-range        // ⁅ ⁆
     | ordinal-range       // [ ]
     | macro-call          // @path::id() { }
@@ -733,6 +738,7 @@ atomic ::=    PARENTHESIS_L expression-root PARENTHESIS_R
     | match-statement     // match ... { ... }
     | new-value           // new T { ... }
     | new-object          // object(base): Interface { }
+    | new-lambda          // lambda<T>(x, y) -> T
     | string              // handler"..."
     | special             // true false
     | function-call       // path::id() { }
@@ -775,7 +781,7 @@ string ::= identifier? STRING_L STRING_TEXT* STRING_R {
 special ::= KW_NIL|KW_NULL|KW_BOOLEAN|COLOR;
 // === annotation statement ===
 annotations ::= attribute-below* modifier*
-modifier    ::= (SYMBOL | SYMBOW_RAW) !modifier-stop {
+modifier    ::= (SYMBOL | SYMBOL_RAW) !modifier-stop {
     mixin = "valkyrie.psi.mixin.MixinModifier"
 }
 private modifier-stop ::= KW_IN | KW_IF
@@ -815,7 +821,7 @@ identifier ::= symbol-safe | symbol {
 identifier-free ::=  symbol-lead | symbol-safe | symbol {
     mixin = "valkyrie.psi.mixin.MixinIdentifier"
 }
-private symbol      ::= SYMBOL | SYMBOW_RAW;
+private symbol      ::= SYMBOL | SYMBOL_RAW;
 // context keywords
 private symbol-safe ::= KW_FROM | KW_AS | KW_END;
 // always keywords
@@ -828,5 +834,5 @@ private symbol-lead ::= KW_LET
 template-end  ::= TEMPLATE_L KW_END keywords? TEMPLATE_R | OP_END
 template-else ::= TEMPLATE_L KW_ELSE keywords? TEMPLATE_R
 keywords      ::= KW_LOOP | KW_IF
-//    | KW_LOOP KW_END
+// === navigation ===
 unused ::= BUILDER_L BUILDER_R DOMAIN_L DOMAIN_R OP_ARROW2 OP_ARROW3

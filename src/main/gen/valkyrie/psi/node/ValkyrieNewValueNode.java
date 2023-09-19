@@ -3,12 +3,9 @@ package valkyrie.psi.node;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import valkyrie.psi.mixin.MixinBuilder;
-
-import java.util.List;
 
 public class ValkyrieNewValueNode extends MixinBuilder implements ValkyrieNewValue {
 
@@ -27,21 +24,27 @@ public class ValkyrieNewValueNode extends MixinBuilder implements ValkyrieNewVal
     }
 
     @Override
+    @NotNull
+    public ValkyrieAnnotations getAnnotations() {
+        return findNotNullChildByClass(ValkyrieAnnotations.class);
+    }
+
+    @Override
     @Nullable
     public ValkyrieArgumentBody getArgumentBody() {
         return findChildByClass(ValkyrieArgumentBody.class);
     }
 
     @Override
-    @NotNull
-    public List<ValkyrieModifier> getModifierList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieModifier.class);
-    }
-
-    @Override
     @Nullable
     public ValkyrieNewBody getNewBody() {
         return findChildByClass(ValkyrieNewBody.class);
+    }
+
+    @Override
+    @NotNull
+    public ValkyrieNewNavigate getNewNavigate() {
+        return findNotNullChildByClass(ValkyrieNewNavigate.class);
     }
 
     @Override
