@@ -78,7 +78,7 @@ class TypeHintVisitor : ValkyrieVisitor {
     override fun visitDeclareEnums(o: ValkyrieDeclareEnums) {
         if (setting.show_enumeration_type) {
             if (o.typeAtomic == null) {
-                o.identifier?.endOffset?.let { hint(it, "= 32") }
+                o.identifierSafe?.endOffset?.let { hint(it, "= 32") }
             }
         }
     }

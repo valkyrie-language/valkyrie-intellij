@@ -56,7 +56,7 @@ class FindDuplicateType : LocalInspectionTool() {
 private class FindDuplicateTypeVisitor(tool: LocalInspectionTool, holder: ProblemsHolder) : ValkyrieLocalInspectionVisitor(tool, holder) {
     override fun visitDeclareSingleton(o: ValkyrieDeclareSingleton) {
 //        o.registerProblem(
-//            ValkyrieBundle.message("${tool.id}.detail", o.identifier?.text ?: ""),
+//            ValkyrieBundle.message("${tool.id}.detail", o.identifierSafe?.text ?: ""),
 //            FindDuplicateTypeFixer(tool, AllIcons.Actions.DependencyAnalyzer, o, mutableListOf()),
 //        )
     }

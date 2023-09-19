@@ -33,7 +33,7 @@ class ValkyrieVariableCollector : ValkyrieVisitor() {
     }
 
     override fun visitMatchBind(o: ValkyrieMatchBind) {
-        list.add(o.identifier)
+        list.add(o.identifierSafe)
     }
 
     override fun visitCasePatternList(o: ValkyrieCasePatternList) {

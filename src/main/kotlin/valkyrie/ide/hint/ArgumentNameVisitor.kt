@@ -12,7 +12,7 @@ class ArgumentNameVisitor : ValkyrieVisitor() {
     var info: MutableList<InlayInfo> = mutableListOf()
 
     override fun visitInheritItem(o: ValkyrieInheritItem) {
-        if (o.identifier == null) {
+        if (o.identifierSafe == null) {
             val id = o.typeExpression.text.lowercase()
             hint(o.startOffset, "$id:")
         }
@@ -21,7 +21,7 @@ class ArgumentNameVisitor : ValkyrieVisitor() {
 
     override fun visitArgumentBody(o: ValkyrieArgumentBody) {
         for ((i, arg) in o.argumentList.withIndex()) {
-            if (arg.identifier == null) {
+            if (arg.identifierSafe == null) {
                 hint(arg.startOffset, "${'a' + i}:")
             }
         }

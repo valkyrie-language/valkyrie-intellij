@@ -10,32 +10,28 @@ import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.ide.reference.declaration.ValkyrieNamepathReference
 import valkyrie.psi.ValkyrieElement
 import valkyrie.psi.ValkyrieTypes
-import valkyrie.psi.node.ValkyrieIdentifierNode
 import valkyrie.psi.node.ValkyrieNamepath
 
 abstract class MixinNamepath : ValkyrieElement, PsiQualifiedNamedElement {
-    val identifierList: List<MixinIdentifier>
-        get() {
-            val list = mutableListOf<MixinIdentifier>()
-            for (i in 0 until children.size) {
-                val child = children[i]
-                if (child is MixinIdentifier) {
-                    list.add(child)
-                }
-            }
-            return list
-        }
-    val identifier: MixinIdentifier? = identifierList.lastOrNull()
-
     constructor(node: ASTNode) : super(node)
 
+    val namepath: List<MixinIdentifier> by lazy { children.filterIsInstance<MixinIdentifier>() }
+    val namespace: List<MixinIdentifier> by lazy {
+        if (namepath.size > 1) {
+            namepath.subList(0, namepath.size - 1)
+        } else {
+            emptyList()
+        }
+    }
+    val identifier: MixinIdentifier? by lazy { namepath.lastOrNull() }
+
     override fun getName(): String {
-        return identifierList.lastOrNull()?.name ?: "<<Missing Namepath>>"
+        return namepath.lastOrNull()?.name ?: "<<Missing Namepath>>"
     }
 
     override fun getQualifiedName(): String {
         val names: MutableList<String> = mutableListOf()
-        for (id in identifierList) {
+        for (id in namepath) {
             names.add(id.name)
         }
         return names.joinToString("∷")
@@ -50,7 +46,7 @@ abstract class MixinNamepath : ValkyrieElement, PsiQualifiedNamedElement {
     }
 
     override fun getReferences(): Array<ValkyrieNamepathReference> {
-        return ValkyrieNamepathReference.fromList(this, this.identifierList)
+        return ValkyrieNamepathReference.fromList(this, this.namepath)
     }
 }
 
@@ -65,8 +61,9 @@ fun ValkyrieNamepath.highlight(highlighter: NodeHighlighter) {
 }
 
 fun highlightFake(highlighter: NodeHighlighter, namepath: MixinNamepath) {
-    val last = namepath.last() as ValkyrieIdentifierNode;
-    val second = namepath.getOrNull(namepath.size - 2) as? ValkyrieIdentifierNode?;
+    val last = namepath.identifier;
+    if (last == null) return;
+    val second = namepath.namespace.lastOrNull();
     if (second != null) {
         if (second.name.first().isUpperCase()) {
             highlighter.highlight(second, HighlightColor.SYM_CLASS)

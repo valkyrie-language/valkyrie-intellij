@@ -27,11 +27,11 @@ private class ValkyrieDeclarationVisitor : ValkyrieVisitor() {
 
     override fun visitDeclareClass(o: ValkyrieDeclareClass) {
         // jump to symbol start
-        o.identifier?.let { declarations.add(o) }
+        o.identifierSafe?.let { declarations.add(o) }
     }
 
     override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {
-        o.identifier?.let { declarations.add(o) }
+        o.identifierSafe?.let { declarations.add(o) }
     }
 
     override fun visitNamepath(o: ValkyrieNamepath) {
