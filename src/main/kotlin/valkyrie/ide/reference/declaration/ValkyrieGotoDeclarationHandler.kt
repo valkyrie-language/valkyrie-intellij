@@ -10,7 +10,7 @@ import valkyrie.psi.ValkyrieTypes
 class ValkyrieGotoDeclarationHandler : GotoDeclarationHandler {
     override fun getGotoDeclarationTargets(sourceElement: PsiElement?, offset: Int, editor: Editor?): Array<PsiElement> {
         return when (sourceElement?.elementType) {
-            ValkyrieTypes.SYMBOL, ValkyrieTypes.SYMBOW_RAW -> {
+            ValkyrieTypes.SYMBOL, ValkyrieTypes.SYMBOL_RAW -> {
                 arrayOf()
             }
 

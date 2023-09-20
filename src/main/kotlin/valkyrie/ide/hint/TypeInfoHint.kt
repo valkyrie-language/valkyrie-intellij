@@ -15,7 +15,7 @@ class TypeInfoHint : ExpressionTypeProvider<PsiElement>() {
                 return mutableListOf(elementAt)
             }
 
-            ValkyrieTypes.SYMBOW_RAW -> {
+            ValkyrieTypes.SYMBOL_RAW -> {
                 return mutableListOf(elementAt)
             }
 

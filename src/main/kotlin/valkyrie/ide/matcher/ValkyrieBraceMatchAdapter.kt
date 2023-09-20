@@ -13,7 +13,7 @@ private val TYPE_TOKENS: ParentAwareTokenSet = ParentAwareTokenSet.orSet(
         ValkyrieTypes.COMMENT_LINE
     ),
     ParentAwareTokenSet.create(
-        ValkyrieTypes.SYMBOL, ValkyrieTypes.SYMBOW_RAW,
+        ValkyrieTypes.SYMBOL, ValkyrieTypes.SYMBOL_RAW,
         ValkyrieTypes.COMMA,
         ValkyrieTypes.BRACE_L, ValkyrieTypes.BRACE_R,
 //        JavaTokenType.QUEST, JavaTokenType.EXTENDS_KEYWORD, JavaTokenType.SUPER_KEYWORD

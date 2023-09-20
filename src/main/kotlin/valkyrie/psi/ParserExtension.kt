@@ -77,7 +77,7 @@ class ParserExtension : GeneratedParserUtilBase() {
 
         val Comments: TokenSet = TokenSet.create();
         val CompletionWords: TokenSet = TokenSet.create(
-            SYMBOL, SYMBOW_RAW
+            SYMBOL, SYMBOL_RAW
         )
     }
 }
