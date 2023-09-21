@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 public interface ValkyrieTypePatternPair extends PsiElement {
 
     @NotNull
-    ValkyrieIdentifier getIdentifier();
+    ValkyrieIdentifierSafe getIdentifierSafe();
 
     @NotNull
     ValkyrieTypePattern getTypePattern();

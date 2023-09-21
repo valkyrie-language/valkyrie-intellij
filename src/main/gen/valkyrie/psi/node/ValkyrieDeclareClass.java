@@ -23,7 +23,7 @@ public interface ValkyrieDeclareClass extends PsiElement {
     ValkyrieDeclareInfer getDeclareInfer();
 
     @Nullable
-    ValkyrieIdentifier getIdentifier();
+    ValkyrieIdentifierSafe getIdentifierSafe();
 
     @Nullable
     ValkyrieTypeHint getTypeHint();

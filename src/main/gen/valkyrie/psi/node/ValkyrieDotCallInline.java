@@ -11,6 +11,6 @@ public interface ValkyrieDotCallInline extends PsiElement {
     ValkyrieArgumentBody getArgumentBody();
 
     @NotNull
-    ValkyrieNamepath getNamepath();
+    ValkyrieNamepathSafe getNamepathSafe();
 
 }

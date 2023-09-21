@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public interface ValkyrieMacroPath extends ValkyrieNamepath {
+public interface ValkyrieMacroPath extends ValkyrieNamepathSafe {
 
     @NotNull
     List<ValkyrieIdentifierFree> getIdentifierFreeList();

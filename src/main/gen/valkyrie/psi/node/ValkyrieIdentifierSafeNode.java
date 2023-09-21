@@ -6,14 +6,14 @@ import com.intellij.psi.PsiElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import valkyrie.psi.mixin.MixinIdentifier;
 
-public class ValkyrieIdentifierNode extends MixinIdentifier implements ValkyrieIdentifier {
+public class ValkyrieIdentifierSafeNode extends MixinIdentifier implements ValkyrieIdentifierSafe {
 
-    public ValkyrieIdentifierNode(@NotNull ASTNode node) {
+    public ValkyrieIdentifierSafeNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitIdentifier(this);
+        visitor.visitIdentifierSafe(this);
     }
 
     @Override

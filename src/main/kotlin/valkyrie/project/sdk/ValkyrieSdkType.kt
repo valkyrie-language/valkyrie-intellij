@@ -1,22 +1,30 @@
 package valkyrie.project.sdk
 
+import com.intellij.openapi.project.Project
 import com.intellij.openapi.projectRoots.*
 import com.intellij.openapi.util.io.toNioPathOrNull
 import org.jdom.Element
+import org.jetbrains.annotations.Unmodifiable
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieIconProvider
+import java.nio.file.Path
 import javax.swing.Icon
 import kotlin.io.path.exists
 
 class ValkyrieSdkType : SdkType("ValkyrieSDK") {
+    @Deprecated("Deprecated in Intellij")
     override fun suggestHomePath(): String? {
         val userPath = System.getProperty("user.home").toNioPathOrNull()
-        val roles = userPath?.resolve("valkyrie")?.resolve("roles")
-        return roles?.toString()
+        return userPath?.let { suggestHomePath(it) }
     }
 
-    override fun suggestHomePaths(): MutableCollection<String> {
-        return super.suggestHomePaths()
+    override fun suggestHomePath(path: Path): String? {
+        val roles = path.resolve("valkyrie").resolve("roles")
+        return roles.toString()
+    }
+
+    override fun suggestHomePaths(project: Project?): @Unmodifiable Collection<String?> {
+        return super.suggestHomePaths(project)
     }
 
     override fun isValidSdkHome(path: String): Boolean {

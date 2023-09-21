@@ -5,11 +5,11 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
-import valkyrie.psi.ValkyrieElement;
+import valkyrie.psi.mixin.MixinNamepath;
 
 import java.util.List;
 
-public class ValkyrieNamepathAutoNode extends ValkyrieElement implements ValkyrieNamepathAuto {
+public class ValkyrieNamepathAutoNode extends MixinNamepath implements ValkyrieNamepathAuto {
 
     public ValkyrieNamepathAutoNode(@NotNull ASTNode node) {
         super(node);
@@ -27,8 +27,8 @@ public class ValkyrieNamepathAutoNode extends ValkyrieElement implements Valkyri
 
     @Override
     @NotNull
-    public List<ValkyrieIdentifier> getIdentifierList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifier.class);
+    public List<ValkyrieIdentifierSafe> getIdentifierSafeList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifierSafe.class);
     }
 
 }

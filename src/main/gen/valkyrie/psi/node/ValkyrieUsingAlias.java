@@ -9,6 +9,6 @@ import java.util.List;
 public interface ValkyrieUsingAlias extends PsiElement {
 
     @NotNull
-    List<ValkyrieIdentifier> getIdentifierList();
+    List<ValkyrieIdentifierSafe> getIdentifierSafeList();
 
 }

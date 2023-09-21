@@ -5,18 +5,19 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import valkyrie.psi.mixin.MixinNamepath;
 
 import java.util.List;
 
-public class ValkyrieNamepathNode extends MixinNamepath implements ValkyrieNamepath {
+public class ValkyrieNamepathSafeNode extends MixinNamepath implements ValkyrieNamepathSafe {
 
-    public ValkyrieNamepathNode(@NotNull ASTNode node) {
+    public ValkyrieNamepathSafeNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitNamepath(this);
+        visitor.visitNamepathSafe(this);
     }
 
     @Override
@@ -27,8 +28,14 @@ public class ValkyrieNamepathNode extends MixinNamepath implements ValkyrieNamep
 
     @Override
     @NotNull
-    public List<ValkyrieIdentifier> getIdentifierList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifier.class);
+    public List<ValkyrieIdentifierFree> getIdentifierFreeList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifierFree.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieIdentifierSafe getIdentifierSafe() {
+        return findChildByClass(ValkyrieIdentifierSafe.class);
     }
 
 }

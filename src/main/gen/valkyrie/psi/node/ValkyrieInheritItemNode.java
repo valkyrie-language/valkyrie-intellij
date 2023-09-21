@@ -31,8 +31,8 @@ public class ValkyrieInheritItemNode extends MixinClassInherit implements Valkyr
 
     @Override
     @Nullable
-    public ValkyrieIdentifier getIdentifier() {
-        return findChildByClass(ValkyrieIdentifier.class);
+    public ValkyrieIdentifierSafe getIdentifierSafe() {
+        return findChildByClass(ValkyrieIdentifierSafe.class);
     }
 
     @Override

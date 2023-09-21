@@ -13,6 +13,6 @@ public interface ValkyrieDeclareDomain extends PsiElement {
     ValkyrieClassBody getClassBody();
 
     @NotNull
-    ValkyrieIdentifier getIdentifier();
+    ValkyrieIdentifierSafe getIdentifierSafe();
 
 }

@@ -14,6 +14,6 @@ public interface ValkyrieDeclareUnion extends PsiElement {
     ValkyrieClassBody getClassBody();
 
     @Nullable
-    ValkyrieIdentifier getIdentifier();
+    ValkyrieIdentifierSafe getIdentifierSafe();
 
 }

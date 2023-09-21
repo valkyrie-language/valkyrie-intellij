@@ -28,8 +28,8 @@ public class ValkyrieTypePatternObjectNode extends ValkyrieElement implements Va
 
     @Override
     @Nullable
-    public ValkyrieNamepath getNamepath() {
-        return findChildByClass(ValkyrieNamepath.class);
+    public ValkyrieNamepathSafe getNamepathSafe() {
+        return findChildByClass(ValkyrieNamepathSafe.class);
     }
 
     @Override

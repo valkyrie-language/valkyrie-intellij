@@ -11,6 +11,6 @@ public interface ValkyrieDotCallMacroInline extends PsiElement {
     ValkyrieArgumentBody getArgumentBody();
 
     @NotNull
-    ValkyrieNamepath getNamepath();
+    ValkyrieNamepathSafe getNamepathSafe();
 
 }

@@ -27,8 +27,8 @@ public class ValkyrieUsingAliasNode extends ValkyrieElement implements ValkyrieU
 
     @Override
     @NotNull
-    public List<ValkyrieIdentifier> getIdentifierList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifier.class);
+    public List<ValkyrieIdentifierSafe> getIdentifierSafeList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifierSafe.class);
     }
 
 }

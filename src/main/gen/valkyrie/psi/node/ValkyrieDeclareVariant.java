@@ -14,6 +14,6 @@ public interface ValkyrieDeclareVariant extends PsiElement {
     ValkyrieClassBody getClassBody();
 
     @NotNull
-    ValkyrieIdentifier getIdentifier();
+    ValkyrieIdentifierSafe getIdentifierSafe();
 
 }

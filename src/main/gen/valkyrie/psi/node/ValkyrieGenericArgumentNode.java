@@ -34,8 +34,8 @@ public class ValkyrieGenericArgumentNode extends ValkyrieElement implements Valk
 
     @Override
     @Nullable
-    public ValkyrieIdentifier getIdentifier() {
-        return findChildByClass(ValkyrieIdentifier.class);
+    public ValkyrieIdentifierSafe getIdentifierSafe() {
+        return findChildByClass(ValkyrieIdentifierSafe.class);
     }
 
     @Override

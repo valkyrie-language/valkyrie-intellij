@@ -11,7 +11,7 @@ public interface ValkyrieTypeAlias extends PsiElement {
     ValkyrieDeclareInfer getDeclareInfer();
 
     @NotNull
-    ValkyrieIdentifier getIdentifier();
+    ValkyrieIdentifierSafe getIdentifierSafe();
 
     @NotNull
     ValkyrieTypeExpression getTypeExpression();

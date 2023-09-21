@@ -40,7 +40,7 @@ public interface ValkyrieAtomic extends PsiElement {
     ValkyrieMayLetStatement getMayLetStatement();
 
     @Nullable
-    ValkyrieNamepath getNamepath();
+    ValkyrieNamepathSafe getNamepathSafe();
 
     @Nullable
     ValkyrieNewLambda getNewLambda();

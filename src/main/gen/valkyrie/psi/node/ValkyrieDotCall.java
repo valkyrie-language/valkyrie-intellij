@@ -14,6 +14,6 @@ public interface ValkyrieDotCall extends PsiElement {
     ValkyrieBlockBody getBlockBody();
 
     @NotNull
-    ValkyrieNamepath getNamepath();
+    ValkyrieNamepathSafe getNamepathSafe();
 
 }

@@ -9,6 +9,6 @@ import java.util.List;
 public interface ValkyrieUsingExclude extends PsiElement {
 
     @NotNull
-    List<ValkyrieIdentifier> getIdentifierList();
+    List<ValkyrieIdentifierSafe> getIdentifierSafeList();
 
 }

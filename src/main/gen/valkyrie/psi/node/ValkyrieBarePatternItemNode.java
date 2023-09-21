@@ -27,8 +27,8 @@ public class ValkyrieBarePatternItemNode extends MixinLetPatternItem implements 
 
     @Override
     @NotNull
-    public ValkyrieIdentifier getIdentifier() {
-        return findNotNullChildByClass(ValkyrieIdentifier.class);
+    public ValkyrieIdentifierSafe getIdentifierSafe() {
+        return findNotNullChildByClass(ValkyrieIdentifierSafe.class);
     }
 
     @Override

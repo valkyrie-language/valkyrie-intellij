@@ -16,7 +16,7 @@ public interface ValkyrieCasePatternPair extends PsiElement {
     ValkyrieCasePatternBind getCasePatternBind();
 
     @NotNull
-    ValkyrieIdentifier getIdentifier();
+    ValkyrieIdentifierSafe getIdentifierSafe();
 
     @NotNull
     List<ValkyrieModifier> getModifierList();

@@ -9,7 +9,7 @@ import java.util.List;
 public interface ValkyrieMatchBind extends PsiElement {
 
     @NotNull
-    ValkyrieIdentifier getIdentifier();
+    ValkyrieIdentifierSafe getIdentifierSafe();
 
     @NotNull
     List<ValkyrieModifier> getModifierList();

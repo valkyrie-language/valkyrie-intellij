@@ -7,6 +7,6 @@ import org.jetbrains.annotations.NotNull;
 public interface ValkyrieSlotNamed extends PsiElement {
 
     @NotNull
-    ValkyrieIdentifier getIdentifier();
+    ValkyrieIdentifierSafe getIdentifierSafe();
 
 }

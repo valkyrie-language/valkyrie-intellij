@@ -20,7 +20,7 @@ public interface ValkyrieDeclareImply extends PsiElement {
     ValkyrieGenericCallFree getGenericCallFree();
 
     @Nullable
-    ValkyrieNamepath getNamepath();
+    ValkyrieNamepathSafe getNamepathSafe();
 
     @Nullable
     ValkyrieTypeExpression getTypeExpression();

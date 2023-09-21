@@ -37,8 +37,8 @@ public class ValkyrieCasePatternNode extends ValkyrieElement implements Valkyrie
 
     @Override
     @Nullable
-    public ValkyrieNamepath getNamepath() {
-        return findChildByClass(ValkyrieNamepath.class);
+    public ValkyrieNamepathSafe getNamepathSafe() {
+        return findChildByClass(ValkyrieNamepathSafe.class);
     }
 
     @Override

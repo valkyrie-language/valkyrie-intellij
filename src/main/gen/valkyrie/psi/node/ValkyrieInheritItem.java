@@ -11,7 +11,7 @@ public interface ValkyrieInheritItem extends PsiElement {
     ValkyrieAnnotations getAnnotations();
 
     @Nullable
-    ValkyrieIdentifier getIdentifier();
+    ValkyrieIdentifierSafe getIdentifierSafe();
 
     @NotNull
     ValkyrieTypeExpression getTypeExpression();

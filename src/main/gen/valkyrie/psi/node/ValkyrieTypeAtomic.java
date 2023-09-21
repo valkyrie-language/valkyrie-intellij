@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 public interface ValkyrieTypeAtomic extends PsiElement {
 
     @Nullable
-    ValkyrieNamepath getNamepath();
+    ValkyrieNamepathSafe getNamepathSafe();
 
     @Nullable
     ValkyrieNumberLiteral getNumberLiteral();

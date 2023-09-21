@@ -13,7 +13,7 @@ public interface ValkyrieGenericArgument extends PsiElement {
     ValkyrieAnnotations getAnnotations();
 
     @Nullable
-    ValkyrieIdentifier getIdentifier();
+    ValkyrieIdentifierSafe getIdentifierSafe();
 
     @NotNull
     List<ValkyrieTypeExpression> getTypeExpressionList();

@@ -16,7 +16,7 @@ public interface ValkyrieDeclareUnite extends PsiElement {
     List<ValkyrieDeclareInfer> getDeclareInferList();
 
     @Nullable
-    ValkyrieIdentifier getIdentifier();
+    ValkyrieIdentifierSafe getIdentifierSafe();
 
     @Nullable
     ValkyrieUniteBody getUniteBody();

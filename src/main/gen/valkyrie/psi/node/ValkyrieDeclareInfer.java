@@ -13,7 +13,7 @@ public interface ValkyrieDeclareInfer extends PsiElement {
     ValkyrieAnnotations getAnnotations();
 
     @NotNull
-    List<ValkyrieIdentifier> getIdentifierList();
+    List<ValkyrieIdentifierSafe> getIdentifierSafeList();
 
     @Nullable
     ValkyrieInferBody getInferBody();

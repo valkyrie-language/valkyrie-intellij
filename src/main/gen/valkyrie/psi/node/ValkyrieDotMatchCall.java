@@ -10,7 +10,7 @@ import java.util.List;
 public interface ValkyrieDotMatchCall extends PsiElement {
 
     @Nullable
-    ValkyrieIdentifier getIdentifier();
+    ValkyrieIdentifierSafe getIdentifierSafe();
 
     @Nullable
     ValkyrieMatchBody getMatchBody();

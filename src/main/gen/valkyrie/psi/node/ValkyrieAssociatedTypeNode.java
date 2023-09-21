@@ -31,8 +31,8 @@ public class ValkyrieAssociatedTypeNode extends ValkyrieElement implements Valky
 
     @Override
     @Nullable
-    public ValkyrieIdentifier getIdentifier() {
-        return findChildByClass(ValkyrieIdentifier.class);
+    public ValkyrieIdentifierSafe getIdentifierSafe() {
+        return findChildByClass(ValkyrieIdentifierSafe.class);
     }
 
     @Override
