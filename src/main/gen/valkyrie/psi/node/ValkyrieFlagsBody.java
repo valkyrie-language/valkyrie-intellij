@@ -15,6 +15,6 @@ public interface ValkyrieFlagsBody extends PsiElement {
     List<ValkyrieDeclareMethod> getDeclareMethodList();
 
     @NotNull
-    List<ValkyrieFlagsNumber> getFlagsNumberList();
+    List<ValkyrieDeclareSemantic> getDeclareSemanticList();
 
 }

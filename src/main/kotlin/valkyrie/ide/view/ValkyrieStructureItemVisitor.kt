@@ -26,9 +26,9 @@ class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
         o.flagsBody?.pushChildrenTo(this)
     }
 
-    override fun visitDeclareEnumerate(o: ValkyrieDeclareEnumerate) {
+    override fun visitDeclareEnums(o: ValkyrieDeclareEnums) {
         o.annotations.pushChildrenTo(this)
-        o.enumerateBody?.pushChildrenTo(this)
+        o.flagsBody?.pushChildrenTo(this)
     }
 
     override fun visitDeclareClass(o: ValkyrieDeclareClass) {
@@ -45,10 +45,6 @@ class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
     override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {
 //        o.annotations.pushChildrenTo(this)
 //        o.classBody?.pushChildrenTo(this)
-    }
-
-    override fun visitDeclareSemantic(o: ValkyrieDeclareSemantic) {
-        o.annotations.pushChildrenTo(this)
     }
 
     override fun visitDeclareUnite(o: ValkyrieDeclareUnite) {
@@ -86,20 +82,8 @@ private fun ValkyrieAnnotations.pushChildrenTo(visitor: ValkyrieStructureItemVis
     }
 }
 
-private fun ValkyrieEnumerateBody.pushChildrenTo(visitor: ValkyrieStructureItemVisitor) {
-    for (item in this.declareSemanticList) {
-        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareSemanticNode))
-    }
-    for (item in this.declareMethodList) {
-        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareMethodNode))
-    }
-    for (item in this.declareDomainList) {
-        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareDomainNode))
-    }
-}
-
 private fun ValkyrieFlagsBody.pushChildrenTo(visitor: ValkyrieStructureItemVisitor) {
-    for (item in this.flagsNumberList) {
+    for (item in this.declareSemanticList) {
         visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareSemanticNode))
     }
     for (item in this.declareMethodList) {

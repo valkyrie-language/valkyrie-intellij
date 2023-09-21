@@ -61,7 +61,7 @@ private statements ::= declare-namespace
     | using-statement
     | declare-type
     | declare-flags
-    | declare-enumerate
+    | declare-enums
     | declare-unite
     | declare-class
     | declare-union
@@ -182,22 +182,14 @@ flags-body ::= BRACE_L flags-item* BRACE_R;
 private flags-item ::= SEMICOLON | COMMA
     | declare-method
     | declare-domain
-    | flags-number
-flags-number ::= annotations identifier (EQUAL expression)? {
-
+    | declare-semantic
+declare-semantic ::= annotations identifier (EQUAL expression)? {
+    mixin = "valkyrie.psi.mixin.MixinSemantic"
 }
 // === enums statement ===
-declare-enumerate ::= annotations KW_ENUMERATE identifier class-inherit? (EQUAL type-atomic)? enumerate-body {
+declare-enums ::= annotations KW_ENUMERATE identifier class-inherit? (EQUAL type-atomic)? flags-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinEnumerate"
-}
-enumerate-body ::= BRACE_L enumerate-item* BRACE_R;
-private enumerate-item ::= SEMICOLON | COMMA
-    | declare-method
-    | declare-semantic
-    | declare-domain
-declare-semantic ::= annotations identifier (COLON number-literal)? (EQUAL identifier)? {
-    mixin = "valkyrie.psi.mixin.MixinSemantic"
 }
 // === union statement ===
 declare-unite ::= declare-infer? annotations KW_UNITE identifier declare-infer? unite-body {

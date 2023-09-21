@@ -183,7 +183,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitDeclareEnumerate(@NotNull ValkyrieDeclareEnumerate o) {
+    public void visitDeclareEnums(@NotNull ValkyrieDeclareEnums o) {
         visitPsiElement(o);
     }
 
@@ -303,10 +303,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitEnumerateBody(@NotNull ValkyrieEnumerateBody o) {
-        visitPsiElement(o);
-    }
-
     public void visitExpression(@NotNull ValkyrieExpression o) {
         visitPsiElement(o);
     }
@@ -320,10 +316,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitFlagsBody(@NotNull ValkyrieFlagsBody o) {
-        visitPsiElement(o);
-    }
-
-    public void visitFlagsNumber(@NotNull ValkyrieFlagsNumber o) {
         visitPsiElement(o);
     }
 

@@ -17,9 +17,13 @@ class ValkyriePlaceholderVisitor : ValkyrieVisitor() {
         placeholder = text.finish()
     }
 
-    override fun visitEnumerateBody(o: ValkyrieEnumerateBody) {
+    override fun visitFlagsBody(o: ValkyrieFlagsBody) {
         val text = PluralJoiner()
-        text.add(o.declareSemanticList.count(), "enumerate", "enumerates")
+        if (o.parent is ValkyrieDeclareEnums) {
+            text.add(o.declareSemanticList.count(), "enumerate", "enumerates")
+        } else {
+            text.add(o.declareSemanticList.count(), "flag", "flags")
+        }
         text.add(o.declareMethodList.count(), "method", "methods")
         text.add(o.declareDomainList.count(), "domain", "domains")
         placeholder = text.finish()

@@ -30,10 +30,6 @@ class ValkyrieIndentVisitor(val child: ASTNode) : ValkyrieVisitor() {
     override fun visitFlagsBody(o: ValkyrieFlagsBody) {
         byCorner(o.node)
     }
-    override fun visitEnumerateBody(o: ValkyrieEnumerateBody) {
-        byCorner(o.node)
-    }
-
 
     override fun visitBlockBody(o: ValkyrieBlockBody) {
         byCorner(o.node)
