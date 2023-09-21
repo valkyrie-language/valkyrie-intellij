@@ -5,13 +5,13 @@ import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
+import valkyrie.psi.mixin.MixinIdentifier
 import valkyrie.psi.node.ValkyrieDeclareClassNode
 import valkyrie.psi.node.ValkyrieDeclareTraitNode
-import valkyrie.psi.node.ValkyrieIdentifier
 import javax.swing.Icon
 
 class ValkyrieMarkAncestor : RelatedItemLineMarkerInfo<PsiElement> {
-    constructor(leaf: ValkyrieIdentifier, `class`: ValkyrieDeclareClassNode) : super(
+    constructor(leaf: MixinIdentifier, `class`: ValkyrieDeclareClassNode) : super(
         leaf.firstChild,
         leaf.textRange,
         AllIcons.Gutter.OverridingMethod,
@@ -23,7 +23,7 @@ class ValkyrieMarkAncestor : RelatedItemLineMarkerInfo<PsiElement> {
         { "AccessibleNameProvider" }
     )
 
-    constructor(leaf: ValkyrieIdentifier, trait: ValkyrieDeclareTraitNode) : super(
+    constructor(leaf: MixinIdentifier, trait: ValkyrieDeclareTraitNode) : super(
         leaf.firstChild,
         leaf.textRange,
         AllIcons.Gutter.ImplementingMethod,

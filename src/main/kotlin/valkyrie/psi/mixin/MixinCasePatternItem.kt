@@ -6,15 +6,15 @@ import valkyrie.ide.highlight.HighlightColor
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.ValkyrieCasePatternItem
 import valkyrie.psi.node.ValkyrieCasePatternTop
-import valkyrie.psi.node.ValkyrieIdentifierNode
+
 import javax.swing.Icon
 
 abstract class MixinCasePatternItem(node: ASTNode) : ValkyrieDeclaration(node) {
     override val color = HighlightColor.SYM_ARG
-    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
+    override fun getNameIdentifier(): MixinIdentifier? {
         return when (this) {
-            is ValkyrieCasePatternItem -> this.identifier as? ValkyrieIdentifierNode
-            is ValkyrieCasePatternTop -> this.identifier as? ValkyrieIdentifierNode
+            is ValkyrieCasePatternItem -> this.identifierSafe as? MixinIdentifier
+            is ValkyrieCasePatternTop -> this.identifierSafe as? MixinIdentifier
             else -> null
         }
     }

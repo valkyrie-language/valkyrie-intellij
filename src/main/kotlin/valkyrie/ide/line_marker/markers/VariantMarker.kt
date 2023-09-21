@@ -10,7 +10,7 @@ import javax.swing.Icon
 
 class VariantMarker : RelatedItemLineMarkerInfo<PsiElement> {
     constructor(element: ValkyrieDeclareVariantNode) : super(
-        element.identifier.firstChild,
+        element.identifierSafe.firstChild,
         element.textRange,
         Variant,
         null,

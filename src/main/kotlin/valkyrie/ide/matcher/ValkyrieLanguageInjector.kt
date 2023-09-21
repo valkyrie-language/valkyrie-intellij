@@ -11,8 +11,9 @@ import com.intellij.psi.util.startOffset
 import org.intellij.lang.regexp.RegExpLanguage
 import org.intellij.plugins.markdown.lang.MarkdownLanguage
 import org.toml.lang.TomlLanguage
+import valkyrie.psi.mixin.MixinIdentifier
 import valkyrie.psi.mixin.MixinString
-import valkyrie.psi.node.ValkyrieIdentifierNode
+
 import valkyrie.psi.node.ValkyrieString
 import valkyrie.psi.node.ValkyrieStringNode
 import valkyrie.psi.node.ValkyrieVisitor
@@ -37,7 +38,7 @@ private class LanguageInjectorVisitor(val registrar: MultiHostRegistrar) : Valky
 
 
 
-        when (val id = (o.identifierSafe as? ValkyrieIdentifierNode)?.name) {
+        when (val id = (o.identifierSafe as? MixinIdentifier)?.name) {
             null -> {
 //                DefaultInjectedLanguageBlockBuilder().createInjectedBlock()
             }

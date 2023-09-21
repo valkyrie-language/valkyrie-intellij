@@ -21,7 +21,7 @@ abstract class MixinString : ValkyrieElement, PsiLanguageInjectionHost, Valkyrie
     }
 
     override fun isValidHost(): Boolean {
-        return identifier != null
+        return identifierSafe != null
     }
 
     override fun updateText(text: String): PsiLanguageInjectionHost {

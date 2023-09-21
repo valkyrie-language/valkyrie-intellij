@@ -3,11 +3,11 @@ package valkyrie.language.symbol
 
 class ValkyrieVariables(val parent: ValkyrieVariables? = null) {
     private val map: MutableMap<String, ValkyrieVariableKind> = mutableMapOf()
-//    fun insert(node: ValkyrieIdentifierNode, color: ValkyrieHighlightColor) {
+//    fun insert(node: MixinIdentifier, color: ValkyrieHighlightColor) {
 //        insert(node as ValkyrieIdentifierAstNode, color)
 //    }
 //
-//    fun insert(node: ValkyrieIdentifierNode, color: ValkyrieHighlightColor) {
+//    fun insert(node: MixinIdentifier, color: ValkyrieHighlightColor) {
 //        map[node.name] = ValkyrieVariableKind(node, color)
 //    }
 

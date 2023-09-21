@@ -34,9 +34,8 @@ private class ValkyrieDeclarationVisitor : ValkyrieVisitor() {
         o.identifierSafe?.let { declarations.add(o) }
     }
 
-    override fun visitNamepath(o: ValkyrieNamepath) {
-        o as ValkyrieNamepathNode
-
+    override fun visitNamepathSafe(o: ValkyrieNamepathSafe) {
+        o as ValkyrieNamepathSafeNode
 
         for (element in o.containingFile?.children ?: arrayOf()) {
             if (element is ValkyrieDeclaration) {

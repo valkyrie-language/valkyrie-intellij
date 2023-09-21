@@ -1,9 +1,10 @@
 package valkyrie.language.symbol
 
 import valkyrie.ide.highlight.HighlightColor
-import valkyrie.psi.node.ValkyrieIdentifierNode
+import valkyrie.psi.mixin.MixinIdentifier
+
 
 data class ValkyrieVariableKind(
-    val identifier: ValkyrieIdentifierNode,
+    val identifier: MixinIdentifier,
     val color: HighlightColor,
 )

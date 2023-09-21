@@ -22,8 +22,8 @@ abstract class MixinClass(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDe
         return this as ValkyrieDeclareClassNode
     }
 
-    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.identifier as? ValkyrieIdentifierNode
+    override fun getNameIdentifier(): MixinIdentifier? {
+        return this.identifierSafe as? MixinIdentifier
     }
 
     override fun getBaseIcon(): Icon {

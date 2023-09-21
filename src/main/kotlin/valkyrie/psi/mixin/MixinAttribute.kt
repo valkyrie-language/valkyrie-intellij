@@ -6,7 +6,7 @@ import com.intellij.navigation.ItemPresentation
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.ValkyrieElement
 import valkyrie.psi.node.ValkyrieAttributeItem
-import valkyrie.psi.node.ValkyrieIdentifierNode
+
 import javax.swing.Icon
 
 abstract class MixinAttribute(node: ASTNode) : ValkyrieElement(node), ValkyrieAttributeItem {
@@ -23,9 +23,9 @@ abstract class MixinAttribute(node: ASTNode) : ValkyrieElement(node), ValkyrieAt
     }
 }
 
-val ValkyrieAttributeItem.identifiers: List<ValkyrieIdentifierNode>
+val ValkyrieAttributeItem.identifiers: List<MixinIdentifier>
     get() {
-        return this.namepathFree.identifierFreeList.map { it as ValkyrieIdentifierNode }
+        return this.namepathFree.identifierFreeList.map { it as MixinIdentifier }
     }
 
 

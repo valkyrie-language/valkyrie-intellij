@@ -5,12 +5,13 @@ import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER
 import com.intellij.psi.PsiElement
-import valkyrie.psi.node.ValkyrieIdentifier
+import valkyrie.psi.mixin.MixinIdentifier
+
 import javax.swing.Icon
 
 
 class ValkyrieMarkTraitAncestor : RelatedItemLineMarkerInfo<PsiElement> {
-    private constructor(leaf: ValkyrieIdentifier, ancestor: ValkyrieIdentifier) : super(
+    private constructor(leaf: MixinIdentifier, ancestor: MixinIdentifier) : super(
         leaf.firstChild,
         leaf.textRange,
         AllIcons.Gutter.ImplementingMethod,

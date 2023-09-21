@@ -13,8 +13,8 @@ import com.intellij.psi.util.startOffset
 
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.psi.mixin.MixinIdentifier
-import valkyrie.psi.node.ValkyrieIdentifier
-import valkyrie.psi.node.ValkyrieIdentifierNode
+
+
 
 abstract class ValkyrieDeclaration : ValkyrieElement, PsiNameIdentifierOwner {
     open val color: HighlightColor? = null
