@@ -6,12 +6,18 @@ import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import valkyrie.psi.ValkyrieElement
+import valkyrie.psi.ValkyrieTypes.KW_CLASS
+import valkyrie.psi.findKeyword
 import valkyrie.psi.node.ValkyrieNewLambda
 import javax.swing.Icon
 
 abstract class MixinLambda(node: ASTNode) : ValkyrieElement(node), ValkyrieNewLambda {
+    override fun getKeyword(): PsiElement {
+        return findKeyword(KW_CLASS)
+    }
+
     override fun getNavigationElement(): PsiElement {
-        return this.lambdaNavigate
+        return this.getKeyword()
     }
 
 

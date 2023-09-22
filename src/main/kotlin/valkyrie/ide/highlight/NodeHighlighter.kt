@@ -12,7 +12,6 @@ import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.childrenWithLeaves
 import valkyrie.psi.mixin.MixinIdentifier
-import valkyrie.psi.mixin.highlight
 import valkyrie.psi.node.*
 
 
@@ -179,7 +178,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitCasePattern(o: ValkyrieCasePattern) {
-
         val names = o.namepathSafe?.namepath ?: emptyList();
         if (names.count() == 1) {
             val head = names.firstOrNull() as? MixinIdentifier
@@ -221,7 +219,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     override fun visitFunctionCall(o: ValkyrieFunctionCall) {
         o.namepathSafe.highlight(this)
     }
-
 
     override fun visitDotCall(o: ValkyrieDotCall) {
         highlight(o.namepathSafe.lastChild, HighlightColor.SYM_FUNCTION_SELF)

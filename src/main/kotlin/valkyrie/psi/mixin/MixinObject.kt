@@ -7,12 +7,17 @@ import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.ValkyrieElement
+import valkyrie.psi.ValkyrieTypes.KW_CLASS
+import valkyrie.psi.findKeyword
 import valkyrie.psi.node.ValkyrieNewObject
 import javax.swing.Icon
 
 abstract class MixinObject(node: ASTNode) : ValkyrieElement(node), ValkyrieNewObject {
+    override fun getKeyword(): PsiElement {
+        return findKeyword(KW_CLASS)
+    }
     override fun getNavigationElement(): PsiElement {
-        return this.objectNavigate
+        return this.getKeyword()
     }
 
     override fun getName(): String {
