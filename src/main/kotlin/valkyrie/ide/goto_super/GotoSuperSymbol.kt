@@ -7,7 +7,6 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import valkyrie.psi.ValkyrieDeclaration
-import valkyrie.psi.mixin.superClasses
 import valkyrie.psi.node.*
 
 class GotoSuperSymbol : GotoTargetHandler() {
