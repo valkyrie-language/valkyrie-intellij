@@ -138,6 +138,7 @@ fun PsiElement.findKeyword(target: IElementType): PsiElement {
     }
     throw Exception("No keyword found")
 }
+
 fun PsiElement.findPair(lhs: IElementType, rhs: IElementType): Pair<PsiElement, PsiElement>? {
     var head: PsiElement? = null;
     var tail: PsiElement? = null;
@@ -152,4 +153,9 @@ fun PsiElement.findPair(lhs: IElementType, rhs: IElementType): Pair<PsiElement, 
         return head to tail
     }
     return null
+}
+
+
+fun ensureLeaf(psi: PsiElement): PsiElement {
+    return if (psi.firstChild == null) psi else ensureLeaf(psi.firstChild)
 }
