@@ -57,7 +57,7 @@
 
 
 root ::= statements*
-private statements ::= declare-namespace
+statements ::= declare-namespace
     | using-statement
     | declare-type
     | declare-flags
@@ -323,16 +323,20 @@ then-statement ::= KW_THEN block-body {
 else-statement ::= KW_ELSE block-body {
     pin = 1
 }
+else-template ::= TEMPLATE_L KW_ELSE TEMPLATE_R statements* {
+    pin = 2
+}
 // === while statement ===
-loop-statement ::= loop-start block-body else-statement? {
+loop-statement ::= (KW_LOOP|KW_FOR) loop-start block-body else-statement? {
 
 }
-loop-template ::= TEMPLATE_L loop-start TEMPLATE_R statements* (template-else statements*)? template-end {
+loop-template ::= loop-template-start else-template? template-end {
 
 }
-loop-start     ::= (KW_LOOP|KW_FOR) loop-condition? control-label? attribute-below* {
-    pin = 1
+loop-template-start ::= TEMPLATE_L (KW_LOOP|KW_FOR) loop-start TEMPLATE_R statements* {
+
 }
+loop-start ::= loop-condition? control-label? attribute-below*;
 loop-condition ::=
       loop-while-let // loop while let Some(value) = ... if ...
     | loop-while     // loop while {...}
@@ -346,7 +350,7 @@ loop-while-let ::= KW_WHILE KW_LET? let-pattern type-hint? EQUAL expression-inli
 loop-while     ::= KW_WHILE expression-inline {
     pin = 1
 }
-loop-until-not ::= KW_UNTIL KW_NOT? type-pattern EQUAL expression-inline {
+loop-until-not ::= KW_UNTIL KW_NOT? type-pattern EQUAL expression-inline if-condition? {
     pin = 4
 }
 loop-until     ::= KW_UNTIL expression-inline {
@@ -511,7 +515,9 @@ new-value  ::= annotations KW_NEW type-expression? argument-body? new-body {
     methods = [getKeyword]
 }
 new-body ::= BRACE_L new-item* BRACE_R;
+new-bind ::= identifier-safe BIND expression;
 private new-item ::= SEMICOLON | COMMA
+    | new-bind
     | expression-root
 // === object expression ===
 // object: Interface { }
@@ -727,8 +733,8 @@ atomic ::=    PARENTHESIS_L expression-root PARENTHESIS_R
     | slot                // $id
     | localize-call       // ⸿scope.path
     | if-statement        // if ...
-    | loop-statement      // loop {...}
     | loop-template       // <% loop ... %> <% end %>
+    | loop-statement      // loop {...}
     | control-yield-type  // yield type i32
     | may-let-statement   // let? Some(x) = X
     | try-let-statement   // if case ...
@@ -828,7 +834,7 @@ identifier-free ::=  symbol-lead | symbol-safe | symbol {
 }
 private symbol      ::= SYMBOL | SYMBOL_RAW;
 // context keywords
-private symbol-safe ::= KW_FROM | KW_AS | KW_END;
+private symbol-safe ::= KW_FROM | KW_AS;
 // always keywords
 private symbol-lead ::= KW_LET
     | KW_NAMESPACE
@@ -836,8 +842,9 @@ private symbol-lead ::= KW_LET
     | KW_CLASS | KW_TRAIT | KW_OBJECT
     | KW_CATCH | KW_MATCH | KW_CASE
     | KW_MICRO | KW_MEZZO | KW_MACRO
-template-end  ::= TEMPLATE_L KW_END keywords? TEMPLATE_R | OP_END
-template-else ::= TEMPLATE_L KW_ELSE keywords? TEMPLATE_R
-keywords      ::= KW_LOOP | KW_IF
+    | KW_IF | KW_ELSE
+    | KW_LOOP | KW_FOR
+template-end  ::= OP_END
+    | TEMPLATE_L symbol-lead? KW_END TEMPLATE_R;
 // === navigation ===
 unused ::= BUILDER_L BUILDER_R DOMAIN_L DOMAIN_R OP_ARROW2 OP_ARROW3

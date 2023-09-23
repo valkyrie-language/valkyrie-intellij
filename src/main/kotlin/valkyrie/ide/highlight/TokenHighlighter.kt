@@ -37,7 +37,7 @@ class TokenHighlighter : SyntaxHighlighter {
                 INTEGER -> HighlightColor.INTEGER
 //                KW_NEW, KW_OBJECT, KW_LAMBDA, DOLLAR -> HighlightColor.SYM_MACRO
                 NUMBER_SUFFIX -> HighlightColor.SYM_MACRO
-                TEMPLATE_L, TEMPLATE_R, KW_END -> HighlightColor.SYM_MACRO
+                TEMPLATE_L, TEMPLATE_R, KW_END, OP_END -> HighlightColor.SYM_MACRO
                 NUMBER_BASE -> HighlightColor.STRING
                 NUMBER_EXPONENT -> HighlightColor.STRING_ESCAPED
                 // comments
