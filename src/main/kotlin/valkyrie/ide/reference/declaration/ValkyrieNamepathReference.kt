@@ -11,6 +11,7 @@ import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
 import valkyrie.psi.ValkyrieDeclaration
+import valkyrie.psi.mixin.MixinIdentifier
 import valkyrie.psi.node.ValkyrieIdentifier
 import valkyrie.psi.node.ValkyrieIdentifierNode
 
@@ -22,7 +23,7 @@ class ValkyrieNamepathReference : PsiPolyVariantReference, EmptyResolveMessagePr
     private val target: ValkyrieIdentifierNode
         get() = parts[index]
 
-    constructor(origin: PsiElement, parts: List<ValkyrieIdentifier>, index: Int) {
+    constructor(origin: PsiElement, parts: List<MixinIdentifier>, index: Int) {
         this.parts = parts.map { it as ValkyrieIdentifierNode }.toTypedArray()
         this.index = index
         this.origin = origin
@@ -91,7 +92,7 @@ class ValkyrieNamepathReference : PsiPolyVariantReference, EmptyResolveMessagePr
     }
 
     companion object {
-        fun fromList(node: PsiElement, children: List<ValkyrieIdentifier>): Array<ValkyrieNamepathReference> {
+        fun fromList(node: PsiElement, children: List<MixinIdentifier>): Array<ValkyrieNamepathReference> {
             return List(children.size) { index -> ValkyrieNamepathReference(node, children, index) }.toTypedArray()
         }
     }

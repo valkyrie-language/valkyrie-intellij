@@ -798,14 +798,16 @@ attribute-item   ::= namepath-free (DOT identifier-free)? generic-call? argument
     mixin = "valkyrie.psi.mixin.MixinAttribute"
 }
 // === identifiers ===
-namepath      ::= (NAME_SCOPE NAME_SPLIT?)? identifier (NAME_SPLIT identifier)* {
+namepath ::= identifier (NAME_SPLIT identifier-free)*
+    | NAME_SCOPE NAME_SPLIT? identifier-free (NAME_SPLIT identifier-free)*
+{
     mixin = "valkyrie.psi.mixin.MixinNamepath"
 }
 namepath-free ::= (NAME_SCOPE NAME_SPLIT?)? identifier-free (NAME_SPLIT identifier-free)* {
-
+    mixin = "valkyrie.psi.mixin.MixinNamepath"
 }
 namepath-auto ::= identifier ((NAME_SPLIT|DOT) identifier)* {
-
+    mixin = "valkyrie.psi.mixin.MixinNamepath"
 }
 identifier ::= symbol-safe | symbol {
     mixin = "valkyrie.psi.mixin.MixinIdentifier"

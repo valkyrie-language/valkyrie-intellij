@@ -17,7 +17,7 @@ class VisionAuthor : VcsCodeVisionLanguageContext {
 
     override fun isAccepted(element: PsiElement): Boolean {
         return element is ValkyrieDeclareClass
-            || element is ValkyrieDeclareEnumerate
+            || element is ValkyrieDeclareEnums
             || element is ValkyrieDeclareFlags
             || element is ValkyrieDeclareUnion
             || element is ValkyrieDeclareUnite
