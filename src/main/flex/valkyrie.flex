@@ -51,6 +51,7 @@ DOT      = [.。]
 COMMA    = [,，]
 BANG     = [!！]
 QUESTION = [?？]
+
 TEMPLATE_L = [<⟨][$][._\-~=]?
 TEMPLATE_R = [._\-~=]?[$][>⟩]
 KW_NAMESPACE = namespace({BANG}|{QUESTION})?
@@ -141,7 +142,7 @@ OP_UNWRAP_ELSE = {COLON}{QUESTION}|{QUESTION}{COLON}
 
 // start with +
 OP_ADD           = [+]
-OP_ADD_ASSIGN    = [+][=]
+OP_ADD_ASSIGN    = [+]=|<[+]=
 // start with -
 OP_SUB           = [-]
 OP_SUB_ASSIGN    = [-][=]
@@ -180,9 +181,11 @@ OP_MP = [∓]
 OP_APPLY2 = [⊕] | [@]{2};
 OP_APPLY3 = [⟴]| [@]{3};
 
+// bind
+ASSIGN_L = [←]|[<][?？]?[-]
+ASSIGN_R = [→]|[-][?？]?[>]
+BIND     = =
 // equal
-BIND   = [←]|<-
-EQUAL  = =
 OP_EE  = ==
 OP_NE  = [≠]|{OP_NOT}=
 OP_EEE = [≡]|={3}
@@ -319,8 +322,13 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
 
 	{COMMA}   { return COMMA; }
 
-    {BIND}     { return BIND;}
-	{EQUAL}    { return EQUAL; }
+    // =
+    {OP_EE}    { return OP_EE; }
+    {OP_NE}    { return OP_NE; }
+	{BIND}     { return BIND; }
+    {ASSIGN_L} { return ASSIGN_L;}
+    {ASSIGN_R} { return ASSIGN_R;}
+
     // <
     { OP_LLL } { return OP_LLL; }
     { OP_LL }  { return OP_LL; }
@@ -329,9 +337,6 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
     { OP_GGG } { return OP_GGG; }
     { OP_GG }  { return OP_GG; }
     { OP_GEQ } { return OP_GEQ; }
-
-    {OP_EE} { return OP_EE;}
-    {OP_NE} { return OP_NE; }
 
     {OP_ADD}           { return OP_ADD; }
     {OP_ADD_ASSIGN}    { return OP_ADD_ASSIGN; }

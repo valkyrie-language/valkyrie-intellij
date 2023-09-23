@@ -2,13 +2,17 @@ package valkyrie.psi.mixin
 
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
+import com.intellij.psi.PsiElement
 import valkyrie.psi.ValkyrieDeclaration
+import valkyrie.psi.ValkyrieElement
+import valkyrie.psi.ValkyrieTypes.KW_LET
+import valkyrie.psi.findKeyword
 import valkyrie.psi.node.*
 import javax.swing.Icon
 
-abstract class MixinVariable(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieLetStatement {
-    override fun getNameIdentifier(): MixinIdentifier? {
-        return this.letPattern?.matchBind?.identifierSafe as? MixinIdentifier
+abstract class MixinVariable(node: ASTNode) : ValkyrieElement(node), ValkyrieLetStatement {
+    override fun getKeyword(): PsiElement {
+        return findKeyword(KW_LET)
     }
 
     override fun getBaseIcon(): Icon {
@@ -19,12 +23,13 @@ abstract class MixinVariable(node: ASTNode) : ValkyrieDeclaration(node), Valkyri
 
 class ValkyrieVariableCollector : ValkyrieVisitor() {
     private var list = mutableListOf<MixinIdentifier>()
-    override fun visitLetPattern(o: ValkyrieLetPattern) {
-        o.barePattern?.let { visitBarePattern(it) }
-        o.matchBind?.let { visitMatchBind(it) }
-        o.casePatternDict?.let { visitCasePatternDict(it) }
-        o.casePatternList?.let { visitCasePatternList(it) }
-    }
+//    override fun visitLetPattern(o: ValkyrieLetPattern) {
+//        o.barePattern?.let { visitBarePattern(it) }
+//        o.matchBind?.let { visitMatchBind(it) }
+//        o.casePatternDict?.let { visitCasePatternDict(it) }
+//        o.casePatternList?.let { visitCasePatternList(it) }
+//    }
+
 
     override fun visitBarePattern(o: ValkyrieBarePattern) {
         for (item in o.barePatternItemList) {
@@ -39,6 +44,7 @@ class ValkyrieVariableCollector : ValkyrieVisitor() {
     override fun visitCasePatternList(o: ValkyrieCasePatternList) {
 
     }
+
     override fun visitPatternObject(o: ValkyriePatternObject) {
         super.visitPatternObject(o)
     }
