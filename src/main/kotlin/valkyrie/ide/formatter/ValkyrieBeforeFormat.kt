@@ -52,9 +52,9 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
     override fun visitElement(element: PsiElement) {
         ProgressManager.checkCanceled()
         when (element.elementType) {
-            BIND -> element.replaceToken(BIND, "←")
+//            BIND -> element.replaceToken(BIND, "←")
             INFIX_MULTIPLE -> element.replaceToken(INFIX_MULTIPLE, "×")
-            OP_MUL_ASSIGN -> element.replaceToken(OP_MUL_ASSIGN, "×=")
+            OP_MUL_ASSIGN -> element.replaceToken(OP_MUL_ASSIGN, "<×=")
             NAME_SCOPE -> element.replaceToken(NAME_SCOPE, "⁜")
             NAME_SPLIT -> element.replaceToken(NAME_SPLIT, "⸬")
             OP_BASE -> element.replaceToken(OP_BASE, "⁂")
