@@ -10,8 +10,8 @@
     psiImplPackage = "valkyrie.psi.node"
 
     elementTypeHolderClass = "valkyrie.psi.ValkyrieTypes"
-    elementTypeClass = "valkyrie.psi.ValkyrieElementType"
-    tokenTypeClass = "valkyrie.psi.ValkyrieTokenType"
+    elementTypeClass = "valkyrie.psi.ValkyrieAST"
+    tokenTypeClass = "valkyrie.psi.ValkyrieCST"
 
     psiImplUtilClass = "valkyrie.psi.node.YggdrasilPsiExtension"
 
@@ -396,12 +396,17 @@ loop-inline ::= bare-pattern !(PARENTHESIS_L|BRACKET_L|BIND)
     | match-bind? number-literal      // loop x = 1 in ...
 // === function statement ===
 // let bind = pattern <- expression
-let-statement ::= KW_LET let-pattern type-hint? (ASSIGN_L expression)? {
-    pin = 1
+let-statement ::= KW_LET bare-pattern type-hint? ASSIGN_L expression
+    | KW_LET KW_CASE? match-bind? case-pattern-dict type-hint? ASSIGN_L expression
+    | KW_LET KW_CASE? match-bind? case-pattern-list type-hint? ASSIGN_L expression
+    | KW_LET KW_CASE? bare-pattern type-hint? BIND expression
+    | KW_LET KW_CASE? case-pattern-dict type-hint? BIND expression
+    | KW_LET KW_CASE? case-pattern-list type-hint? BIND expression
+{
     mixin = "valkyrie.psi.mixin.MixinVariable"
     methods = [getKeyword]
 }
-let-pattern ::= bare-pattern !let-stop // let ref x, mut y
+let-pattern ::= bare-pattern           // let ref x, mut y
     | match-bind? case-pattern-dict    // let a = Object {x, y}
     | match-bind? case-pattern-list    // let a = Some(x)
 // === loop bare pattern pattern ===
@@ -409,7 +414,6 @@ bare-pattern      ::= bare-pattern-item (COMMA bare-pattern-item)* COMMA?
 bare-pattern-item ::= modifier* identifier-safe {
     mixin = "valkyrie.psi.mixin.MixinLetPatternItem"
 }
-private let-stop ::= PARENTHESIS_L | BRACKET_L | BRACE_L | ASSIGN_L | BIND;
 // === try let statement ===
 may-let-statement ::= KW_LET let-pattern type-hint? OP_SET_THEN expression {
     pin = 4
@@ -513,17 +517,17 @@ case-pattern ::= special
     | string               // case "text"
     | number-literal       // case 1
     | namepath-safe
-case-pattern-dict ::= namepath-safe? BRACE_L (case-pattern-pair (COMMA case-pattern-pair)* COMMA?)? BRACE_R
-case-pattern-pair ::= modifier* identifier-safe (COLON type-expression)? (case-pattern-bind case-pattern)? {
+case-pattern-dict ::= modifier* namepath-safe? BRACE_L (case-pattern-pair (COMMA case-pattern-pair)* COMMA?)? BRACE_R
+case-pattern-pair ::= modifier* (ANY_LIST|ANY_DICT)? identifier-safe (COLON type-expression)? (case-pattern-bind case-pattern)? {
     mixin = "valkyrie.psi.mixin.MixinCasePatternPair"
 }
 case-pattern-bind ::= ASSIGN_L | OP_MACRO | BIND;
-case-pattern-list ::= namepath-safe? PARENTHESIS_L (case-pattern-main (COMMA case-pattern-main)* COMMA?)? PARENTHESIS_R
-                    | namepath-safe? BRACKET_L     (case-pattern-main (COMMA case-pattern-main)* COMMA?)? BRACKET_R
+case-pattern-list ::= modifier* namepath-safe? PARENTHESIS_L (case-pattern-main (COMMA case-pattern-main)* COMMA?)? PARENTHESIS_R
+                    | modifier* namepath-safe? BRACKET_L     (case-pattern-main (COMMA case-pattern-main)* COMMA?)? BRACKET_R
 case-pattern-top  ::= modifier* identifier-safe !case-id-stop (KW_IS type-expression)? (case-pattern-bind case-pattern)? | case-pattern {
     mixin = "valkyrie.psi.mixin.MixinCasePatternItem"
 }
-case-pattern-item ::= modifier* identifier-safe !case-id-stop ((COLON|KW_IS) type-expression)? (case-pattern-bind case-pattern)? | case-pattern {
+case-pattern-item ::= modifier* (ANY_LIST|ANY_DICT)? identifier-safe !case-id-stop ((COLON|KW_IS) type-expression)? (case-pattern-bind case-pattern)? | case-pattern {
     mixin = "valkyrie.psi.mixin.MixinCasePatternItem"
 }
 case-pattern-main ::= case-pattern-kind? case-pattern-item case-pattern-rest*
@@ -818,13 +822,14 @@ modifier    ::= (SYMBOL | SYMBOL_RAW) !modifier-stop {
 }
 private modifier-stop ::= KW_IN | KW_IF
     | COMMA | SEMICOLON
-    | COLON | BIND | ASSIGN_L | ASSIGN_R
+    | COLON | BIND
     | NAME_SPLIT | DOT
     | PARENTHESIS_L | PARENTHESIS_R
     | BRACE_L | BRACE_R
     | BRACKET_L | BRACKET_R
     | ANGLE_L | ANGLE_R
     | GENERIC_L | GENERIC_R
+    | ASSIGN_L | ASSIGN_R
 // ↯attribute.kind::<Type>(arg) { domain }
 attribute-below  ::= OP_MACRO_LOWER attribute-list {
     pin = 1
