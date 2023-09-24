@@ -123,13 +123,6 @@ fun PsiFile?.caretElement(editor: Editor?): PsiElement? {
 }
 
 
-fun PsiElement.replaceLeaf(kind: IElementType, text: String) {
-    val leaf = ValkyrieFactory(this).createLeaf(kind, text)
-    this.node.treeParent.replaceChild(this.node, leaf)
-    // `this.replace` have too much checks which makes it very slow
-//    this.replace(leaf.psi)
-}
-
 fun PsiElement.findKeyword(target: IElementType): PsiElement {
     for (leaf in this.childrenWithLeaves) {
         if (leaf.elementType == target) {

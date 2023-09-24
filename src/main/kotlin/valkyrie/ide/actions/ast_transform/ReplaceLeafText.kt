@@ -10,7 +10,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IElementType
 import valkyrie.language.ValkyrieBundle
-import valkyrie.psi.replaceLeaf
 import javax.swing.Icon
 
 
@@ -44,7 +43,7 @@ class ReplaceLeafText : LocalQuickFixAndIntentionActionOnPsiElement, PriorityAct
     }
 
     override fun invoke(project: Project, file: PsiFile, editor: Editor?, startElement: PsiElement, endElement: PsiElement) {
-        leaf.replaceLeaf(kind, target)
+//        leaf.replaceLeaf(kind, target)
     }
 
     override fun getIcon(flags: Int): Icon {
