@@ -95,14 +95,14 @@ using-term ::= SEMICOLON | COMMA
     | using-block    // using
     | namepath-auto  // using
 using-any     ::= (namepath-auto using-dot?) STAR using-exclude?
-using-exclude ::= KW_EXCLUDE (identifier|BRACE_L (identifier (COMMA identifier)* COMMA?) BRACE_R)
+using-exclude ::= KW_EXCLUDE (identifier-safe|BRACE_L (identifier-safe (COMMA identifier-safe)* COMMA?) BRACE_R)
 using-block   ::= namepath-auto using-dot? using-body
 using-body    ::= BRACE_L using-term* BRACE_R;
-using-alias   ::= identifier KW_AS identifier;
+using-alias   ::= identifier-safe KW_AS identifier-safe;
 private using-dot ::= DOT|NAME_SPLIT|OP_DIV
 // infer T { where T: Show }
 // imply List<T> { show_list() }
-declare-infer ::= annotations KW_INFER (identifier (COMMA identifier)* COMMA?)? infer-body {
+declare-infer ::= annotations KW_INFER (identifier-safe (COMMA identifier-safe)* COMMA?)? infer-body {
     pin = 2
 }
 infer-body ::= BRACE_L infer-item* BRACE_R;
@@ -120,28 +120,28 @@ declare-type ::= annotations KW_TYPE (type-alias|type-function) {
     pin = 2
 }
 // type A = B
-type-alias   ::= identifier declare-infer? EQUAL type-expression;
+type-alias   ::= identifier-safe declare-infer? EQUAL type-expression;
 // type A() -> B { }
-type-function ::= declare-infer? identifier parameter-body return-type? block-body;
+type-function ::= declare-infer? identifier-safe parameter-body return-type? block-body;
 // === class statement ===
-declare-class ::= declare-infer? annotations KW_CLASS identifier declare-generic? class-inherit? type-hint? class-body {
+declare-class ::= declare-infer? annotations KW_CLASS identifier-safe declare-generic? class-inherit? type-hint? class-body {
     pin = 3
     mixin = "valkyrie.psi.mixin.MixinClass"
 }
-declare-component ::= annotations KW_COMPONENT identifier declare-generic? class-inherit? type-hint? class-body {
+declare-component ::= annotations KW_COMPONENT identifier-safe declare-generic? class-inherit? type-hint? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinComponent"
 }
-declare-singleton ::= annotations KW_SINGLETON identifier declare-generic? class-inherit? type-hint? class-body {
+declare-singleton ::= annotations KW_SINGLETON identifier-safe declare-generic? class-inherit? type-hint? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinSingleton"
 }
-declare-neural ::= annotations KW_NEURAL identifier declare-generic? class-inherit? type-hint? class-body {
+declare-neural ::= annotations KW_NEURAL identifier-safe declare-generic? class-inherit? type-hint? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinNeural"
 }
 class-inherit ::= PARENTHESIS_L (inherit-item (COMMA inherit-item)* COMMA?)? PARENTHESIS_R;
-inherit-item  ::= (annotations identifier COLON)? type-expression {
+inherit-item  ::= (annotations identifier-safe COLON)? type-expression {
     mixin = "valkyrie.psi.mixin.MixinClassInherit"
 }
 // === class body ===
@@ -165,11 +165,11 @@ declare-method ::= annotations KW_FUNCTION? identifier-free declare-infer? param
     mixin = "valkyrie.psi.mixin.MixinMethod"
 }
 // === class domain statement ===
-declare-domain ::= annotations identifier class-body {
+declare-domain ::= annotations identifier-safe class-body {
     mixin = "valkyrie.psi.mixin.MixinDomain"
 }
 // === union statement ===
-declare-union ::= annotations KW_UNION identifier class-body {
+declare-union ::= annotations KW_UNION identifier-safe class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinUnion"
 }
@@ -183,16 +183,16 @@ private flags-item ::= SEMICOLON | COMMA
     | declare-method
     | declare-domain
     | declare-semantic
-declare-semantic ::= annotations identifier (EQUAL expression)? {
+declare-semantic ::= annotations identifier-safe (EQUAL expression)? {
     mixin = "valkyrie.psi.mixin.MixinSemantic"
 }
 // === enums statement ===
-declare-enums ::= annotations KW_ENUMERATE identifier class-inherit? (EQUAL type-atomic)? flags-body {
+declare-enums ::= annotations KW_ENUMERATE identifier-safe class-inherit? (EQUAL type-atomic)? flags-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinEnumerate"
 }
 // === union statement ===
-declare-unite ::= declare-infer? annotations KW_UNITE identifier declare-infer? unite-body {
+declare-unite ::= declare-infer? annotations KW_UNITE identifier-safe declare-infer? unite-body {
     pin = 3
     mixin = "valkyrie.psi.mixin.MixinUnite"
 }
@@ -200,11 +200,11 @@ unite-body ::= BRACE_L unite-item* BRACE_R;
 private unite-item ::= SEMICOLON | COMMA
     | declare-method
     | declare-variant
-declare-variant ::= annotations identifier class-body? {
+declare-variant ::= annotations identifier-safe class-body? {
     mixin = "valkyrie.psi.mixin.MixinVariant"
 }
 // === group statement ===
-declare-trait ::= annotations KW_TRAIT identifier (trait-alias|trait-define) {
+declare-trait ::= annotations KW_TRAIT identifier-safe (trait-alias|trait-define) {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinTrait"
 }
@@ -218,7 +218,7 @@ trait-define ::= type-hint? declare-infer? class-body {
 //    pin = 2
 //    mixin = "valkyrie.psi.mixin.MixinTraitAlias"
 }
-associated-type ::= annotations KW_TYPE identifier (EQUAL type-expression)? {
+associated-type ::= annotations KW_TYPE identifier-safe (EQUAL type-expression)? {
     pin = 2
 }
 // impl trait for class
@@ -239,21 +239,21 @@ declare-generic ::=
 {
 
 }
-generic-parameter ::= annotations identifier type-hint? default-type? {
+generic-parameter ::= annotations identifier-safe type-hint? default-type? {
     mixin = "valkyrie.psi.mixin.MixinTypeParameter"
 }
 /// === term function definition ===
-declare-function ::= annotations KW_MICRO declare-infer? identifier parameter-body return-type? block-body {
+declare-function ::= annotations KW_MICRO declare-infer? identifier-safe parameter-body return-type? block-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinDeclareFunction"
 }
 /// === type function definition ===
-declare-mezzo ::= annotations KW_MEZZO declare-infer? identifier parameter-body return-type? block-body {
+declare-mezzo ::= annotations KW_MEZZO declare-infer? identifier-safe parameter-body return-type? block-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinDeclareMezzo"
 }
 /// === expression function definition ===
-declare-macro ::= annotations KW_MACRO declare-infer? identifier parameter-body return-type? block-body {
+declare-macro ::= annotations KW_MACRO declare-infer? identifier-safe parameter-body return-type? block-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinDeclareMacro"
 }
@@ -277,7 +277,7 @@ return-type ::= (OP_ARROW1|COLON) type-expression;
 block-body  ::= BRACE_L block-statement* BRACE_R;
 block-bare  ::= block-statement*;
 // === localize path ===
-localize-call ::= OP_L10N (identifier ((DOT|NAME_SPLIT|OP_DIV) identifier)*)? argument-body? {
+localize-call ::= OP_L10N (identifier-safe ((DOT|NAME_SPLIT|OP_DIV) identifier-safe)*)? argument-body? {
     pin = 1
     mixin = "valkyrie.psi.mixin.MixinLocalize"
 }
@@ -389,11 +389,11 @@ match-statement ::= match-kind match-bind? expression-inline? match-body {
     pin = 1
     mixin = "valkyrie.psi.mixin.MixinMatchStatement"
 }
-dot-match-call ::= OP_AND_THEN? DOT match-kind (modifier* identifier BIND)? match-body {
+dot-match-call ::= OP_AND_THEN? DOT match-kind (modifier* identifier-safe BIND)? match-body {
     pin = 3
     mixin = "valkyrie.psi.mixin.MixinMatchCall"
 }
-match-bind ::= modifier* identifier BIND
+match-bind ::= modifier* identifier-safe BIND
 match-kind ::= KW_MATCH|KW_CATCH;
 match-body ::= BRACE_L match-item* BRACE_R;
 private match-item ::=
@@ -446,9 +446,9 @@ pattern-object      ::= annotations namepath-auto? pattern-object-body;
 pattern-object-body ::= BRACE_L (pattern-pair (COMMA pattern-pair)* COMMA?)? BRACE_R {
     pin = 1
 }
-pattern-pair    ::= annotations identifier (COLON pattern)?;
+pattern-pair    ::= annotations identifier-safe (COLON pattern)?;
 pattern-literal ::= annotations pattern-atomic
-pattern-atomic  ::= string | number-literal | special | identifier;
+pattern-atomic  ::= string | number-literal | special | identifier-safe;
 // === is pattern ===
 type-pattern ::= special
     | type-pattern-object // X is Object { a: _ }
@@ -464,7 +464,7 @@ type-pattern-inline ::= special
 type-pattern-object ::= namepath? BRACE_L (type-pattern-pair (COMMA type-pattern-pair)* COMMA?)? BRACE_R
 type-pattern-tuple  ::= namepath? PARENTHESIS_L (type-pattern (COMMA type-pattern)* COMMA?)? PARENTHESIS_R
                       | namepath? BRACKET_L     (type-pattern (COMMA type-pattern)* COMMA?)? BRACKET_R
-type-pattern-pair   ::= identifier (EQUAL|COLON) type-pattern
+type-pattern-pair   ::= identifier-safe (EQUAL|COLON) type-pattern
 type-pattern-item   ::= namepath generic-call-free?
 // === case pattern ===
 case-pattern ::= special
@@ -474,16 +474,16 @@ case-pattern ::= special
     | number-literal       // case 1
     | namepath
 case-pattern-dict ::= namepath? BRACE_L (case-pattern-pair (COMMA case-pattern-pair)* COMMA?)? BRACE_R
-case-pattern-pair ::= modifier* identifier (COLON type-expression)? (case-pattern-bind case-pattern)? {
+case-pattern-pair ::= modifier* identifier-safe (COLON type-expression)? (case-pattern-bind case-pattern)? {
     mixin = "valkyrie.psi.mixin.MixinCasePatternPair"
 }
 case-pattern-bind ::= EQUAL | OP_MACRO | BIND;
 case-pattern-list ::= namepath? PARENTHESIS_L (case-pattern-main (COMMA case-pattern-main)* COMMA?)? PARENTHESIS_R
                     | namepath? BRACKET_L     (case-pattern-main (COMMA case-pattern-main)* COMMA?)? BRACKET_R
-case-pattern-top  ::= modifier* identifier !case-id-stop (KW_IS type-expression)? (case-pattern-bind case-pattern)? | case-pattern {
+case-pattern-top  ::= modifier* identifier-safe !case-id-stop (KW_IS type-expression)? (case-pattern-bind case-pattern)? | case-pattern {
     mixin = "valkyrie.psi.mixin.MixinCasePatternItem"
 }
-case-pattern-item ::= modifier* identifier !case-id-stop ((COLON|KW_IS) type-expression)? (case-pattern-bind case-pattern)? | case-pattern {
+case-pattern-item ::= modifier* identifier-safe !case-id-stop ((COLON|KW_IS) type-expression)? (case-pattern-bind case-pattern)? | case-pattern {
     mixin = "valkyrie.psi.mixin.MixinCasePatternItem"
 }
 case-pattern-main ::= case-pattern-kind? case-pattern-item case-pattern-rest*
@@ -492,7 +492,7 @@ case-pattern-kind ::= OP_OR|OP_AND|LOGIC_AND|LOGIC_OR
 private case-id-stop ::= NAME_SPLIT|PARENTHESIS_L|BRACE_L|BRACKET_L;
 // === loop bare pattern pattern ===
 bare-pattern      ::= bare-pattern-item (COMMA bare-pattern-item)* COMMA?
-bare-pattern-item ::= modifier* identifier {
+bare-pattern-item ::= modifier* identifier-safe {
     mixin = "valkyrie.psi.mixin.MixinLetPatternItem"
 }
 // === new expression ===
@@ -524,7 +524,7 @@ slot ::=
     slot-named
   | slot-index
   | slot-first
-slot-named ::= DOLLAR identifier;
+slot-named ::= DOLLAR identifier-safe;
 slot-index ::= DOLLAR INTEGER;
 slot-first ::= DOLLAR;
 // === control expression ===
@@ -701,9 +701,9 @@ generic-call-free ::=
     NAME_SPLIT? GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R
   | NAME_SPLIT? ANGLE_L   (generic-argument (COMMA generic-argument)* COMMA?)? ANGLE_R
 generic-argument ::=
-      annotations identifier COLON type-expression EQUAL type-expression
-    | annotations identifier COLON type-expression
-    | annotations identifier EQUAL type-expression
+      annotations identifier-safe COLON type-expression EQUAL type-expression
+    | annotations identifier-safe COLON type-expression
+    | annotations identifier-safe EQUAL type-expression
     | type-expression;
 // === atomic statement ===
 atomic ::=    PARENTHESIS_L expression-root PARENTHESIS_R
@@ -760,14 +760,14 @@ tuple       ::=
   //    mixin = "valkyrie.psi.mixin.MixinTuple"
 }
 argument-body ::= PARENTHESIS_L (argument (COMMA argument)* COMMA?)? PARENTHESIS_R;
-argument ::= (identifier EQUAL)? expression-root {
+argument ::= (identifier-safe EQUAL)? expression-root {
 
 }
 // === literal items ===
 number-literal ::=
     DECIMAL (OP_EXPONENT NUMBER_EXPONENT)? NUMBER_SUFFIX?
   | INTEGER (OP_BASE NUMBER_BASE)? (OP_EXPONENT NUMBER_EXPONENT)? NUMBER_SUFFIX?
-string ::= identifier? STRING_L STRING_TEXT* STRING_R {
+string ::= identifier-safe? STRING_L STRING_TEXT* STRING_R {
     mixin = "valkyrie.psi.mixin.MixinString"
 }
 special ::= KW_NIL|KW_NULL|KW_BOOLEAN|COLOR;
@@ -798,18 +798,21 @@ attribute-item   ::= namepath-free (DOT identifier-free)? generic-call? argument
     mixin = "valkyrie.psi.mixin.MixinAttribute"
 }
 // === identifiers ===
-namepath ::= identifier (NAME_SPLIT identifier-free)*
+namepath ::= identifier-safe (NAME_SPLIT identifier-free)*
     | NAME_SCOPE NAME_SPLIT? identifier-free (NAME_SPLIT identifier-free)*
 {
     mixin = "valkyrie.psi.mixin.MixinNamepath"
+    methods=[getNamepath getNamespace getIdentifier]
 }
 namepath-free ::= (NAME_SCOPE NAME_SPLIT?)? identifier-free (NAME_SPLIT identifier-free)* {
     mixin = "valkyrie.psi.mixin.MixinNamepath"
+    methods=[getNamepath getNamespace getIdentifier]
 }
-namepath-auto ::= identifier ((NAME_SPLIT|DOT) identifier)* {
+namepath-auto ::= identifier-safe ((NAME_SPLIT|DOT) identifier-safe)* {
     mixin = "valkyrie.psi.mixin.MixinNamepath"
+    methods=[getNamepath getNamespace getIdentifier]
 }
-identifier ::= symbol-safe | symbol {
+identifier-safe ::= symbol-safe | symbol {
     mixin = "valkyrie.psi.mixin.MixinIdentifier"
 }
 identifier-free ::=  symbol-lead | symbol-safe | symbol {

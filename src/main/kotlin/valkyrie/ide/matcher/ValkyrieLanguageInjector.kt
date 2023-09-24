@@ -37,7 +37,7 @@ private class LanguageInjectorVisitor(val registrar: MultiHostRegistrar) : Valky
 
 
 
-        when (val id = (o.identifier as? ValkyrieIdentifierNode)?.name) {
+        when (val id = (o.identifierSafe as? ValkyrieIdentifierNode)?.name) {
             null -> {
 //                DefaultInjectedLanguageBlockBuilder().createInjectedBlock()
             }
