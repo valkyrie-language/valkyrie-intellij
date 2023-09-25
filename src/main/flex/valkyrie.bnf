@@ -396,19 +396,20 @@ loop-inline ::= bare-pattern !(PARENTHESIS_L|BRACKET_L|BIND)
     | match-bind? number-literal      // loop x = 1 in ...
 // === function statement ===
 // let bind = pattern <- expression
-let-statement ::= KW_LET bare-pattern type-hint? ASSIGN_L expression
-    | KW_LET KW_CASE? match-bind? case-pattern-dict type-hint? ASSIGN_L expression
-    | KW_LET KW_CASE? match-bind? case-pattern-list type-hint? ASSIGN_L expression
-    | KW_LET KW_CASE? bare-pattern type-hint? BIND expression
-    | KW_LET KW_CASE? case-pattern-dict type-hint? BIND expression
-    | KW_LET KW_CASE? case-pattern-list type-hint? BIND expression
-{
+let-statement ::= attribute-below* KW_LET KW_CASE? let-lhs {
+    pin = 2
     mixin = "valkyrie.psi.mixin.MixinVariable"
     methods = [getKeyword]
 }
-let-pattern ::= bare-pattern           // let ref x, mut y
-    | match-bind? case-pattern-dict    // let a = Object {x, y}
-    | match-bind? case-pattern-list    // let a = Some(x)
+private let-lhs ::= let-pattern type-hint? (ASSIGN_L|BIND) expression {
+    pin=3
+}
+private let-rhs ::= expression ASSIGN_R let-pattern type-hint? {
+    pin=2
+}
+let-pattern ::= bare-pattern // let ref x, mut y
+    | case-pattern-dict      // let a = Object {x, y}
+    | case-pattern-list      // let a = Some(x)
 // === loop bare pattern pattern ===
 bare-pattern      ::= bare-pattern-item (COMMA bare-pattern-item)* COMMA?
 bare-pattern-item ::= modifier* identifier-safe {
@@ -518,16 +519,16 @@ case-pattern ::= special
     | number-literal       // case 1
     | namepath-safe
 case-pattern-dict ::= modifier* namepath-safe? BRACE_L (case-pattern-pair (COMMA case-pattern-pair)* COMMA?)? BRACE_R
-case-pattern-pair ::= modifier* (ANY_LIST|ANY_DICT)? identifier-safe (COLON type-expression)? (case-pattern-bind case-pattern)? {
+case-pattern-pair ::= annotations (ANY_LIST|ANY_DICT)? identifier-safe (COLON type-expression)? (case-pattern-bind case-pattern)? {
     mixin = "valkyrie.psi.mixin.MixinCasePatternPair"
 }
 case-pattern-bind ::= ASSIGN_L | OP_MACRO | BIND;
-case-pattern-list ::= modifier* namepath-safe? PARENTHESIS_L (case-pattern-main (COMMA case-pattern-main)* COMMA?)? PARENTHESIS_R
-                    | modifier* namepath-safe? BRACKET_L     (case-pattern-main (COMMA case-pattern-main)* COMMA?)? BRACKET_R
+case-pattern-list ::= modifier* BRACKET_L     (case-pattern-main (COMMA case-pattern-main)* COMMA?)? BRACKET_R
+    | modifier* namepath-safe?  PARENTHESIS_L (case-pattern-main (COMMA case-pattern-main)* COMMA?)? PARENTHESIS_R
 case-pattern-top  ::= modifier* identifier-safe !case-id-stop (KW_IS type-expression)? (case-pattern-bind case-pattern)? | case-pattern {
     mixin = "valkyrie.psi.mixin.MixinCasePatternItem"
 }
-case-pattern-item ::= modifier* (ANY_LIST|ANY_DICT)? identifier-safe !case-id-stop ((COLON|KW_IS) type-expression)? (case-pattern-bind case-pattern)? | case-pattern {
+case-pattern-item ::= annotations (ANY_LIST|ANY_DICT)? identifier-safe !case-id-stop ((COLON|KW_IS) type-expression)? (case-pattern-bind case-pattern)? | case-pattern {
     mixin = "valkyrie.psi.mixin.MixinCasePatternItem"
 }
 case-pattern-main ::= case-pattern-kind? case-pattern-item case-pattern-rest*
