@@ -12,19 +12,18 @@ import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.mixin.MixinIdentifier
-import valkyrie.psi.node.ValkyrieIdentifier
-import valkyrie.psi.node.ValkyrieIdentifierNode
+import valkyrie.psi.mixin.MixinNamepath
+
+
 
 
 class ValkyrieNamepathReference : PsiPolyVariantReference, EmptyResolveMessageProvider {
-    private var origin: PsiElement
-    private var parts: Array<ValkyrieIdentifierNode> = arrayOf()
+    private var origin: MixinNamepath
     private var index: Int = 0
-    private val target: ValkyrieIdentifierNode
-        get() = parts[index]
+    private val target: MixinIdentifier
+        get() = origin.namepath[index]
 
-    constructor(origin: PsiElement, parts: List<MixinIdentifier>, index: Int) {
-        this.parts = parts.map { it as ValkyrieIdentifierNode }.toTypedArray()
+    constructor(origin: MixinNamepath, index: Int) {
         this.index = index
         this.origin = origin
     }
@@ -92,8 +91,8 @@ class ValkyrieNamepathReference : PsiPolyVariantReference, EmptyResolveMessagePr
     }
 
     companion object {
-        fun fromList(node: PsiElement, children: List<MixinIdentifier>): Array<ValkyrieNamepathReference> {
-            return List(children.size) { index -> ValkyrieNamepathReference(node, children, index) }.toTypedArray()
+        fun fromList(node: MixinNamepath): Array<ValkyrieNamepathReference> {
+            return List(node.namepath.size) { index -> ValkyrieNamepathReference(node, index) }.toTypedArray()
         }
     }
 

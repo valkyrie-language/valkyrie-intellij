@@ -224,9 +224,9 @@ associated-type ::= annotations KW_TYPE identifier-safe (EQUAL type-expression)?
 // impl trait for class
 declare-imply ::= annotations KW_IMPLY declare-infer? (
     // impl class: trait
-    namepath generic-call-free? COLON type-expression
+    namepath-safe generic-call-free? COLON type-expression
     // impl trait for class
-  | type-expression KW_FOR namepath generic-call-free?
+  | type-expression KW_FOR namepath-safe generic-call-free?
 ) class-body
 {
     pin = 2
@@ -282,20 +282,20 @@ localize-call ::= OP_L10N (identifier-safe ((DOT|NAME_SPLIT|OP_DIV) identifier-s
     mixin = "valkyrie.psi.mixin.MixinLocalize"
 }
 // === function call statement ===
-function-call ::= namepath generic-call? (argument-body? block-body | argument-body);
-function-call-inline ::= namepath argument-body;
-dot-call        ::= OP_AND_THEN? DOT namepath (argument-body | argument-body? block-body)?;
-dot-call-inline ::= OP_AND_THEN? DOT namepath argument-body?
+function-call ::= namepath-safe generic-call? (argument-body? block-body | argument-body);
+function-call-inline ::= namepath-safe argument-body;
+dot-call        ::= OP_AND_THEN? DOT namepath-safe (argument-body | argument-body? block-body)?;
+dot-call-inline ::= OP_AND_THEN? DOT namepath-safe argument-body?
 // === macro call statement ===
 macro-call    ::= OP_MACRO macro-path generic-call? (argument-body? class-body|argument-body)? {
     pin = 1
 }
 macro-path ::= identifier-free (NAME_SPLIT identifier-free)* {
-    extends = namepath
+    extends = namepath-safe
 }
-dot-call-macro        ::= OP_AND_THEN? DOT OP_MACRO namepath (argument-body? class-body|argument-body)?
-macro-call-inline     ::= OP_MACRO namepath argument-body?
-dot-call-macro-inline ::= OP_AND_THEN? DOT OP_MACRO namepath argument-body?
+dot-call-macro        ::= OP_AND_THEN? DOT OP_MACRO namepath-safe (argument-body? class-body|argument-body)?
+macro-call-inline     ::= OP_MACRO namepath-safe argument-body?
+dot-call-macro-inline ::= OP_AND_THEN? DOT OP_MACRO namepath-safe argument-body?
 
 
 
@@ -357,7 +357,7 @@ dot-loop-call  ::= OP_AND_THEN? DOT KW_LOOP control-label? attribute-below* KW_E
 }
 loop-inline ::= bare-pattern !(PARENTHESIS_L|BRACKET_L|BIND)
     | match-bind? case-pattern-list   // loop x <- Some() in ...
-    | match-bind? namepath            // loop x <- Option::None in ...
+    | match-bind? namepath-safe            // loop x <- Option::None in ...
     | match-bind? special             // loop ture in ...
     | match-bind? string              // loop x <- "text" in ...
     | match-bind? number-literal      // loop x <- 1 in ...
@@ -461,25 +461,25 @@ type-pattern-inline ::= special
     | string              // X is "string"
     | number-literal              // X is 1
     | type-pattern-item   // X is Integer
-type-pattern-object ::= namepath? BRACE_L (type-pattern-pair (COMMA type-pattern-pair)* COMMA?)? BRACE_R
-type-pattern-tuple  ::= namepath? PARENTHESIS_L (type-pattern (COMMA type-pattern)* COMMA?)? PARENTHESIS_R
-                      | namepath? BRACKET_L     (type-pattern (COMMA type-pattern)* COMMA?)? BRACKET_R
+type-pattern-object ::= namepath-safe? BRACE_L (type-pattern-pair (COMMA type-pattern-pair)* COMMA?)? BRACE_R
+type-pattern-tuple  ::= namepath-safe? PARENTHESIS_L (type-pattern (COMMA type-pattern)* COMMA?)? PARENTHESIS_R
+                      | namepath-safe? BRACKET_L     (type-pattern (COMMA type-pattern)* COMMA?)? BRACKET_R
 type-pattern-pair   ::= identifier-safe (EQUAL|COLON) type-pattern
-type-pattern-item   ::= namepath generic-call-free?
+type-pattern-item   ::= namepath-safe generic-call-free?
 // === case pattern ===
 case-pattern ::= special
     | case-pattern-list    // case Some()
     | case-pattern-dict    // case Object { }
     | string               // case "text"
     | number-literal       // case 1
-    | namepath
-case-pattern-dict ::= namepath? BRACE_L (case-pattern-pair (COMMA case-pattern-pair)* COMMA?)? BRACE_R
+    | namepath-safe
+case-pattern-dict ::= namepath-safe? BRACE_L (case-pattern-pair (COMMA case-pattern-pair)* COMMA?)? BRACE_R
 case-pattern-pair ::= modifier* identifier-safe (COLON type-expression)? (case-pattern-bind case-pattern)? {
     mixin = "valkyrie.psi.mixin.MixinCasePatternPair"
 }
 case-pattern-bind ::= EQUAL | OP_MACRO | BIND;
-case-pattern-list ::= namepath? PARENTHESIS_L (case-pattern-main (COMMA case-pattern-main)* COMMA?)? PARENTHESIS_R
-                    | namepath? BRACKET_L     (case-pattern-main (COMMA case-pattern-main)* COMMA?)? BRACKET_R
+case-pattern-list ::= namepath-safe? PARENTHESIS_L (case-pattern-main (COMMA case-pattern-main)* COMMA?)? PARENTHESIS_R
+                    | namepath-safe? BRACKET_L     (case-pattern-main (COMMA case-pattern-main)* COMMA?)? BRACKET_R
 case-pattern-top  ::= modifier* identifier-safe !case-id-stop (KW_IS type-expression)? (case-pattern-bind case-pattern)? | case-pattern {
     mixin = "valkyrie.psi.mixin.MixinCasePatternItem"
 }
@@ -673,7 +673,7 @@ inline-atomic ::= PARENTHESIS_L expression-root PARENTHESIS_R
     | string                // "text"
     | special               // true, false, null, ...
     | function-call-inline  // function()
-    | namepath              // Option::None
+    | namepath-safe              // Option::None
 // === expression statement ===
 type-expression ::= type-term (type-infix type-term)* {
     mixin = "valkyrie.psi.mixin.MixinTypeExpression"
@@ -687,7 +687,7 @@ type-suffix ::= OP_AND_THEN
     | generic-call-free;
 type-atomic ::= PARENTHESIS_L type-expression PARENTHESIS_R
     | type-tuple
-    | namepath
+    | namepath-safe
     | number-literal
     | string
 type-tuple  ::= PARENTHESIS_L PARENTHESIS_R
@@ -734,7 +734,7 @@ atomic ::=    PARENTHESIS_L expression-root PARENTHESIS_R
     | string              // handler"..."
     | special             // true false
     | function-call       // path::id() { }
-    | namepath
+    | namepath-safe
     | number-literal
 // === atomic statement ===
 ordinal-range ::= BRACKET_L (range-item (COMMA range-item)* COMMA?)? BRACKET_R;
@@ -798,7 +798,7 @@ attribute-item   ::= namepath-free (DOT identifier-free)? generic-call? argument
     mixin = "valkyrie.psi.mixin.MixinAttribute"
 }
 // === identifiers ===
-namepath ::= identifier-safe (NAME_SPLIT identifier-free)*
+namepath-safe ::= identifier-safe (NAME_SPLIT identifier-free)*
     | NAME_SCOPE NAME_SPLIT? identifier-free (NAME_SPLIT identifier-free)*
 {
     mixin = "valkyrie.psi.mixin.MixinNamepath"

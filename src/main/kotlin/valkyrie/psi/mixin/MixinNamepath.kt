@@ -10,7 +10,8 @@ import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.ide.reference.declaration.ValkyrieNamepathReference
 import valkyrie.psi.ValkyrieElement
 import valkyrie.psi.ValkyrieTypes
-import valkyrie.psi.node.ValkyrieNamepath
+
+import valkyrie.psi.node.ValkyrieNamepathSafe
 
 abstract class MixinNamepath : ValkyrieElement, PsiQualifiedNamedElement {
     constructor(node: ASTNode) : super(node)
@@ -46,11 +47,11 @@ abstract class MixinNamepath : ValkyrieElement, PsiQualifiedNamedElement {
     }
 
     override fun getReferences(): Array<ValkyrieNamepathReference> {
-        return ValkyrieNamepathReference.fromList(this, this.namepath)
+        return ValkyrieNamepathReference.fromList(this)
     }
 }
 
-fun ValkyrieNamepath.highlight(highlighter: NodeHighlighter) {
+fun ValkyrieNamepathSafe.highlight(highlighter: NodeHighlighter) {
     highlightFake(highlighter, this as MixinNamepath)
     if (this.firstLeaf().elementType == ValkyrieTypes.NAME_SCOPE) {
         highlighter.highlight(this.firstChild, HighlightColor.KEYWORD)

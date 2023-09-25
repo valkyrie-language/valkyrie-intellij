@@ -7,8 +7,8 @@ import valkyrie.psi.node.*
 import javax.swing.Icon
 
 abstract class MixinVariable(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieLetStatement {
-    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.letPattern?.matchBind?.identifier as? ValkyrieIdentifierNode
+    override fun getNameIdentifier(): MixinIdentifier? {
+        return this.letPattern?.matchBind?.identifierSafe as? MixinIdentifier
     }
 
     override fun getBaseIcon(): Icon {
@@ -18,7 +18,7 @@ abstract class MixinVariable(node: ASTNode) : ValkyrieDeclaration(node), Valkyri
 
 
 class ValkyrieVariableCollector : ValkyrieVisitor() {
-    private var list = mutableListOf<ValkyrieIdentifier?>()
+    private var list = mutableListOf<MixinIdentifier>()
     override fun visitLetPattern(o: ValkyrieLetPattern) {
         o.barePattern?.let { visitBarePattern(it) }
         o.matchBind?.let { visitMatchBind(it) }
@@ -28,12 +28,12 @@ class ValkyrieVariableCollector : ValkyrieVisitor() {
 
     override fun visitBarePattern(o: ValkyrieBarePattern) {
         for (item in o.barePatternItemList) {
-            list.add(item.identifier)
+            list.add(item.identifierSafe as MixinIdentifier)
         }
     }
 
     override fun visitMatchBind(o: ValkyrieMatchBind) {
-        list.add(o.identifierSafe)
+        list.add(o.identifierSafe as MixinIdentifier)
     }
 
     override fun visitCasePatternList(o: ValkyrieCasePatternList) {
@@ -43,7 +43,7 @@ class ValkyrieVariableCollector : ValkyrieVisitor() {
         super.visitPatternObject(o)
     }
 
-    fun finish(): List<ValkyrieIdentifierNode> {
-        return list.filterNotNull().mapNotNull { it as? ValkyrieIdentifierNode }
+    fun finish(): List<MixinIdentifier> {
+        return list.filterNotNull().mapNotNull { it as? MixinIdentifier }
     }
 }

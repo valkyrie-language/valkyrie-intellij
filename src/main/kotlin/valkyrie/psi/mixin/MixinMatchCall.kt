@@ -5,7 +5,7 @@ import com.intellij.lang.ASTNode
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.ValkyrieDotMatchCall
-import valkyrie.psi.node.ValkyrieIdentifierNode
+
 import javax.swing.Icon
 
 abstract class MixinMatchCall(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDotMatchCall {
@@ -19,8 +19,8 @@ abstract class MixinMatchCall(node: ASTNode) : ValkyrieDeclaration(node), Valkyr
             return HighlightColor.SYM_LOCAL
         }
 
-    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.identifier as? ValkyrieIdentifierNode
+    override fun getNameIdentifier(): MixinIdentifier? {
+        return this.identifierSafe as? MixinIdentifier
     }
 
     override fun getBaseIcon(): Icon {

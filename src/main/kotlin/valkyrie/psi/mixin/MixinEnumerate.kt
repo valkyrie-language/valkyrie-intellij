@@ -7,13 +7,13 @@ import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.findKeyword
 import valkyrie.psi.node.ValkyrieDeclareEnums
-import valkyrie.psi.node.ValkyrieIdentifierNode
+
 import javax.swing.Icon
 
 abstract class MixinEnumerate(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareEnums {
     val keyword: PsiElement = findKeyword(ValkyrieTypes.KW_ENUMERATE)
-    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.identifier as? ValkyrieIdentifierNode
+    override fun getNameIdentifier(): MixinIdentifier? {
+        return this.identifierSafe as? MixinIdentifier
     }
 
     override fun getBaseIcon(): Icon {

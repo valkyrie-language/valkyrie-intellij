@@ -4,14 +4,14 @@ import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.ValkyrieDeclareUnion
-import valkyrie.psi.node.ValkyrieIdentifierNode
+
 import javax.swing.Icon
 
 abstract class MixinUnion(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareUnion {
 
 
-    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.identifier as? ValkyrieIdentifierNode
+    override fun getNameIdentifier(): MixinIdentifier? {
+        return this.identifierSafe as? MixinIdentifier
     }
 
     override fun getBaseIcon(): Icon {

@@ -7,12 +7,12 @@ import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.findKeyword
 import valkyrie.psi.node.ValkyrieDeclareNamespace
-import valkyrie.psi.node.ValkyrieIdentifierNode
+
 import javax.swing.Icon
 
 abstract class MixinNamespace(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareNamespace {
-    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.namepathAuto?.lastChild as? ValkyrieIdentifierNode
+    override fun getNameIdentifier(): MixinIdentifier? {
+        return this.namepathAuto?.lastChild as? MixinIdentifier
     }
 
     override fun getBaseIcon(): Icon {

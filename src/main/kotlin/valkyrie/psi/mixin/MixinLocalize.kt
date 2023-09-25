@@ -4,11 +4,11 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import valkyrie.ide.reference.declaration.ValkyrieNamepathReference
 import valkyrie.psi.ValkyrieElement
-import valkyrie.psi.node.ValkyrieIdentifierNode
+
 import valkyrie.psi.node.ValkyrieLocalizeCall
 
 abstract class MixinLocalize(node: ASTNode) : ValkyrieElement(node), ValkyrieLocalizeCall {
-    val identifier: ValkyrieIdentifierNode? = identifierList.lastOrNull() as? ValkyrieIdentifierNode;
+    val identifier: MixinIdentifier? = identifierSafeList.lastOrNull() as? MixinIdentifier;
 
 
     override fun getNavigationElement(): PsiElement {
@@ -24,6 +24,6 @@ abstract class MixinLocalize(node: ASTNode) : ValkyrieElement(node), ValkyrieLoc
     }
 
     override fun getReferences(): Array<ValkyrieNamepathReference> {
-        return ValkyrieNamepathReference.fromList(this, this.identifierList)
+        return ValkyrieNamepathReference.fromList(this as MixinNamepath)
     }
 }

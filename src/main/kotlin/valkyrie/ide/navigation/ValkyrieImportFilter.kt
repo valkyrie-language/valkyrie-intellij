@@ -5,10 +5,10 @@ import com.intellij.usages.UsageTarget
 import com.intellij.usages.rules.ImportFilteringRule
 import com.intellij.usages.rules.PsiElementUsage
 import valkyrie.psi.ancestors
-import valkyrie.psi.node.ValkyrieIdentifierNode
+import valkyrie.psi.mixin.MixinIdentifier
 
 
-//import valkyrie.language.psi_node.ValkyrieIdentifierNode
+//import valkyrie.language.psi_node.MixinIdentifier
 //import valkyrie.language.psi_node.ValkyrieImportStatementNode
 
 /**
@@ -26,7 +26,7 @@ class ValkyrieImportFilter : ImportFilteringRule() {
     override fun isVisible(usage: Usage): Boolean {
         if (usage is PsiElementUsage) {
             when (val element = usage.element) {
-                is ValkyrieIdentifierNode -> {
+                is MixinIdentifier -> {
                     return !inImport(element)
                 }
 
@@ -36,7 +36,7 @@ class ValkyrieImportFilter : ImportFilteringRule() {
         return true
     }
 
-    private fun inImport(id: ValkyrieIdentifierNode): Boolean {
+    private fun inImport(id: MixinIdentifier): Boolean {
         for (node in id.ancestors) {
 //            if (node is ValkyrieImportStatementNode) {
 //                return true

@@ -9,14 +9,12 @@ import valkyrie.psi.ValkyrieElement
 import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.findKeyword
 import valkyrie.psi.node.ValkyrieDeclareImply
-import valkyrie.psi.node.ValkyrieIdentifierNode
+
 import javax.swing.Icon
 
 abstract class MixinImply(node: ASTNode) : ValkyrieElement(node), ValkyrieDeclareImply {
-    val id = this.namepath?.identifierList?.lastOrNull() as? ValkyrieIdentifierNode
-
     override fun getName(): String {
-        return id?.name ?: "⟪anonymous imply⟫"
+        return this.namepathSafe?.identifier?.name ?: "⟪anonymous imply⟫"
     }
 
     override fun getBaseIcon(): Icon {

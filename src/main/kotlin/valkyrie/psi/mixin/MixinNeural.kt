@@ -7,13 +7,13 @@ import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.ValkyrieTypes.KW_NEURAL
 import valkyrie.psi.findKeyword
 import valkyrie.psi.node.ValkyrieDeclareComponent
-import valkyrie.psi.node.ValkyrieIdentifierNode
+
 import javax.swing.Icon
 
 abstract class MixinNeural(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareComponent {
     val keyword: PsiElement = findKeyword(KW_NEURAL)
-    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.identifier as? ValkyrieIdentifierNode
+    override fun getNameIdentifier(): MixinIdentifier? {
+        return this.identifierSafe as? MixinIdentifier
     }
 
     override fun getBaseIcon(): Icon {

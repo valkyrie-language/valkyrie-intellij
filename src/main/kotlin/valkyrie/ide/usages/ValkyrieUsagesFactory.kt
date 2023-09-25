@@ -6,9 +6,10 @@ import com.intellij.openapi.extensions.PluginDescriptor
 import com.intellij.psi.PsiElement
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ValkyrieDeclaration
+import valkyrie.psi.mixin.MixinNamepath
 import valkyrie.psi.node.ValkyrieDeclareNamespace
 import valkyrie.psi.node.ValkyrieModifier
-import valkyrie.psi.node.ValkyrieNamepath
+
 
 class ValkyrieUsagesFactory : FindUsagesHandlerFactory() {
     override fun canFindUsages(element: PsiElement): Boolean {
@@ -16,7 +17,7 @@ class ValkyrieUsagesFactory : FindUsagesHandlerFactory() {
         return when (element) {
             is ValkyrieFileNode -> true
             is ValkyrieModifier -> false
-            is ValkyrieNamepath -> false
+            is MixinNamepath -> false
             is ValkyrieDeclareNamespace -> true
             is ValkyrieDeclaration -> true
             else -> {

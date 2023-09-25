@@ -10,6 +10,7 @@ import com.intellij.psi.util.elementType
 import valkyrie.ide.line_marker.ValkyrieMarkColor
 import valkyrie.language.ValkyrieBundle
 import valkyrie.psi.ValkyrieTypes
+import valkyrie.psi.mixin.MixinIdentifier
 import valkyrie.psi.node.*
 
 /** Static, literal level lightweight analysis */
@@ -84,7 +85,7 @@ private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) 
         checkCamelCase(element.nameIdentifier, holder)
     }
 
-    private fun checkCamelCase(element: ValkyrieIdentifierNode?, holder: AnnotationHolder) {
+    private fun checkCamelCase(element: MixinIdentifier?, holder: AnnotationHolder) {
         element ?: return
         val name = element.name;
 //        val fixer = CamelCaseFixer();
@@ -124,7 +125,7 @@ private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) 
     }
 }
 
-private fun checkNeedEscape(element: ValkyrieIdentifierNode?, holder: AnnotationHolder) {
+private fun checkNeedEscape(element: MixinIdentifier?, holder: AnnotationHolder) {
     element ?: return
     val rawName = element.text;
     if (!rawName.startsWith('`')) return
