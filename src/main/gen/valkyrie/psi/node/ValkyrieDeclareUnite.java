@@ -21,4 +21,6 @@ public interface ValkyrieDeclareUnite extends PsiElement {
     @Nullable
     ValkyrieUniteBody getUniteBody();
 
+    @NotNull PsiElement getKeyword();
+
 }

@@ -16,10 +16,9 @@ public interface ValkyrieNewObject extends PsiElement {
     @Nullable
     ValkyrieClassInherit getClassInherit();
 
-    @NotNull
-    ValkyrieObjectNavigate getObjectNavigate();
-
     @Nullable
     ValkyrieTypeHint getTypeHint();
+
+    @NotNull PsiElement getKeyword();
 
 }

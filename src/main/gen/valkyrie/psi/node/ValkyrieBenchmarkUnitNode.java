@@ -5,16 +5,16 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import valkyrie.psi.mixin.MixinBuilder;
+import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieNewValueNode extends MixinBuilder implements ValkyrieNewValue {
+public class ValkyrieBenchmarkUnitNode extends ValkyrieElement implements ValkyrieBenchmarkUnit {
 
-    public ValkyrieNewValueNode(@NotNull ASTNode node) {
+    public ValkyrieBenchmarkUnitNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitNewValue(this);
+        visitor.visitBenchmarkUnit(this);
     }
 
     @Override
@@ -24,27 +24,21 @@ public class ValkyrieNewValueNode extends MixinBuilder implements ValkyrieNewVal
     }
 
     @Override
-    @NotNull
-    public ValkyrieAnnotations getAnnotations() {
-        return findNotNullChildByClass(ValkyrieAnnotations.class);
-    }
-
-    @Override
     @Nullable
     public ValkyrieArgumentBody getArgumentBody() {
         return findChildByClass(ValkyrieArgumentBody.class);
     }
 
     @Override
-    @Nullable
-    public ValkyrieNewBody getNewBody() {
-        return findChildByClass(ValkyrieNewBody.class);
+    @NotNull
+    public ValkyrieIdentifierFree getIdentifierFree() {
+        return findNotNullChildByClass(ValkyrieIdentifierFree.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieTypeExpression getTypeExpression() {
-        return findChildByClass(ValkyrieTypeExpression.class);
+    public ValkyrieNewBody getNewBody() {
+        return findChildByClass(ValkyrieNewBody.class);
     }
 
 }

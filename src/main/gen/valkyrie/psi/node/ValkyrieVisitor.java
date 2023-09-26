@@ -67,6 +67,14 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitBenchmarkBody(@NotNull ValkyrieBenchmarkBody o) {
+        visitPsiElement(o);
+    }
+
+    public void visitBenchmarkUnit(@NotNull ValkyrieBenchmarkUnit o) {
+        visitPsiElement(o);
+    }
+
     public void visitBlockBare(@NotNull ValkyrieBlockBare o) {
         visitPsiElement(o);
     }
@@ -239,6 +247,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitDeclareTests(@NotNull ValkyrieDeclareTests o) {
+        visitPsiElement(o);
+    }
+
     public void visitDeclareTrait(@NotNull ValkyrieDeclareTrait o) {
         visitPsiElement(o);
     }
@@ -300,6 +312,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitElseStatement(@NotNull ValkyrieElseStatement o) {
+        visitPsiElement(o);
+    }
+
+    public void visitElseTemplate(@NotNull ValkyrieElseTemplate o) {
         visitPsiElement(o);
     }
 
@@ -419,14 +435,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitKeywords(@NotNull ValkyrieKeywords o) {
-        visitPsiElement(o);
-    }
-
-    public void visitLambdaNavigate(@NotNull ValkyrieLambdaNavigate o) {
-        visitPsiElement(o);
-    }
-
     public void visitLetPattern(@NotNull ValkyrieLetPattern o) {
         visitPsiElement(o);
     }
@@ -464,6 +472,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitLoopTemplate(@NotNull ValkyrieLoopTemplate o) {
+        visitPsiElement(o);
+    }
+
+    public void visitLoopTemplateStart(@NotNull ValkyrieLoopTemplateStart o) {
         visitPsiElement(o);
     }
 
@@ -559,15 +571,15 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitNewBind(@NotNull ValkyrieNewBind o) {
+        visitPsiElement(o);
+    }
+
     public void visitNewBody(@NotNull ValkyrieNewBody o) {
         visitPsiElement(o);
     }
 
     public void visitNewLambda(@NotNull ValkyrieNewLambda o) {
-        visitPsiElement(o);
-    }
-
-    public void visitNewNavigate(@NotNull ValkyrieNewNavigate o) {
         visitPsiElement(o);
     }
 
@@ -580,10 +592,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitNumberLiteral(@NotNull ValkyrieNumberLiteral o) {
-        visitPsiElement(o);
-    }
-
-    public void visitObjectNavigate(@NotNull ValkyrieObjectNavigate o) {
         visitPsiElement(o);
     }
 
@@ -703,6 +711,14 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitRunBenchmark(@NotNull ValkyrieRunBenchmark o) {
+        visitPsiElement(o);
+    }
+
+    public void visitRunTestCast(@NotNull ValkyrieRunTestCast o) {
+        visitPsiElement(o);
+    }
+
     public void visitSlot(@NotNull ValkyrieSlot o) {
         visitPsiElement(o);
     }
@@ -723,6 +739,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitStatements(@NotNull ValkyrieStatements o) {
+        visitPsiElement(o);
+    }
+
     public void visitString(@NotNull ValkyrieString o) {
         visitPsiElement(o);
     }
@@ -731,15 +751,15 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitTemplateElse(@NotNull ValkyrieTemplateElse o) {
-        visitPsiElement(o);
-    }
-
     public void visitTemplateEnd(@NotNull ValkyrieTemplateEnd o) {
         visitPsiElement(o);
     }
 
     public void visitTerm(@NotNull ValkyrieTerm o) {
+        visitPsiElement(o);
+    }
+
+    public void visitTestsBody(@NotNull ValkyrieTestsBody o) {
         visitPsiElement(o);
     }
 

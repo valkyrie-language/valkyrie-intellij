@@ -5,6 +5,8 @@ import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 public interface ValkyrieDeclareClass extends PsiElement {
 
     @NotNull
@@ -27,5 +29,11 @@ public interface ValkyrieDeclareClass extends PsiElement {
 
     @Nullable
     ValkyrieTypeHint getTypeHint();
+
+    @NotNull PsiElement getKeyword();
+
+    @NotNull List<@NotNull ValkyrieInheritItemNode> getSuperClasses();
+
+    @NotNull List<@NotNull ValkyrieDeclareFieldNode> getFields();
 
 }

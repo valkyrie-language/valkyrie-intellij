@@ -5,11 +5,11 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
-import valkyrie.psi.ValkyrieElement;
+import valkyrie.psi.mixin.MixinTermExpression;
 
 import java.util.List;
 
-public class ValkyrieExpressionNode extends ValkyrieElement implements ValkyrieExpression {
+public class ValkyrieExpressionNode extends MixinTermExpression implements ValkyrieExpression {
 
     public ValkyrieExpressionNode(@NotNull ASTNode node) {
         super(node);

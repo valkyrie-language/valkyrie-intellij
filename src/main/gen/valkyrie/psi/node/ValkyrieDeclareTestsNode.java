@@ -5,16 +5,16 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import valkyrie.psi.mixin.MixinLambda;
+import valkyrie.psi.mixin.MixinDeclareTests;
 
-public class ValkyrieNewLambdaNode extends MixinLambda implements ValkyrieNewLambda {
+public class ValkyrieDeclareTestsNode extends MixinDeclareTests implements ValkyrieDeclareTests {
 
-    public ValkyrieNewLambdaNode(@NotNull ASTNode node) {
+    public ValkyrieDeclareTestsNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitNewLambda(this);
+        visitor.visitDeclareTests(this);
     }
 
     @Override
@@ -31,26 +31,14 @@ public class ValkyrieNewLambdaNode extends MixinLambda implements ValkyrieNewLam
 
     @Override
     @Nullable
-    public ValkyrieBlockBody getBlockBody() {
-        return findChildByClass(ValkyrieBlockBody.class);
+    public ValkyrieIdentifierFree getIdentifierFree() {
+        return findChildByClass(ValkyrieIdentifierFree.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieDeclareInfer getDeclareInfer() {
-        return findChildByClass(ValkyrieDeclareInfer.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieParameterBody getParameterBody() {
-        return findChildByClass(ValkyrieParameterBody.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieReturnType getReturnType() {
-        return findChildByClass(ValkyrieReturnType.class);
+    public ValkyrieTestsBody getTestsBody() {
+        return findChildByClass(ValkyrieTestsBody.class);
     }
 
 }

@@ -3,9 +3,12 @@ package valkyrie.psi.node;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElementVisitor;
+import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import valkyrie.psi.ValkyrieElement;
+
+import java.util.List;
 
 public class ValkyrieLetPatternNode extends ValkyrieElement implements ValkyrieLetPattern {
 
@@ -42,9 +45,9 @@ public class ValkyrieLetPatternNode extends ValkyrieElement implements ValkyrieL
     }
 
     @Override
-    @Nullable
-    public ValkyrieMatchBind getMatchBind() {
-        return findChildByClass(ValkyrieMatchBind.class);
+    @NotNull
+    public List<ValkyrieModifier> getModifierList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieModifier.class);
     }
 
 }

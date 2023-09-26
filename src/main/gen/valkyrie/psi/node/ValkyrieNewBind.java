@@ -4,14 +4,12 @@ package valkyrie.psi.node;
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
-public interface ValkyrieNewBody extends PsiElement {
+public interface ValkyrieNewBind extends PsiElement {
 
     @NotNull
-    List<ValkyrieExpressionRoot> getExpressionRootList();
+    ValkyrieExpression getExpression();
 
     @NotNull
-    List<ValkyrieNewBind> getNewBindList();
+    ValkyrieIdentifierSafe getIdentifierSafe();
 
 }

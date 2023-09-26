@@ -4,17 +4,16 @@ package valkyrie.psi.node;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElementVisitor;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import valkyrie.psi.mixin.MixinCasePatternPair;
+import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieCasePatternPairNode extends MixinCasePatternPair implements ValkyrieCasePatternPair {
+public class ValkyrieRunBenchmarkNode extends ValkyrieElement implements ValkyrieRunBenchmark {
 
-    public ValkyrieCasePatternPairNode(@NotNull ASTNode node) {
+    public ValkyrieRunBenchmarkNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitCasePatternPair(this);
+        visitor.visitRunBenchmark(this);
     }
 
     @Override
@@ -30,27 +29,21 @@ public class ValkyrieCasePatternPairNode extends MixinCasePatternPair implements
     }
 
     @Override
-    @Nullable
-    public ValkyrieCasePattern getCasePattern() {
-        return findChildByClass(ValkyrieCasePattern.class);
+    @NotNull
+    public ValkyrieArgumentBody getArgumentBody() {
+        return findNotNullChildByClass(ValkyrieArgumentBody.class);
     }
 
     @Override
-    @Nullable
-    public ValkyrieCasePatternBind getCasePatternBind() {
-        return findChildByClass(ValkyrieCasePatternBind.class);
+    @NotNull
+    public ValkyrieBenchmarkBody getBenchmarkBody() {
+        return findNotNullChildByClass(ValkyrieBenchmarkBody.class);
     }
 
     @Override
     @NotNull
     public ValkyrieIdentifierSafe getIdentifierSafe() {
         return findNotNullChildByClass(ValkyrieIdentifierSafe.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieTypeExpression getTypeExpression() {
-        return findChildByClass(ValkyrieTypeExpression.class);
     }
 
 }

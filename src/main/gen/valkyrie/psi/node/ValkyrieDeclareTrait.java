@@ -19,4 +19,6 @@ public interface ValkyrieDeclareTrait extends PsiElement {
     @Nullable
     ValkyrieTraitDefine getTraitDefine();
 
+    @NotNull PsiElement getKeyword();
+
 }

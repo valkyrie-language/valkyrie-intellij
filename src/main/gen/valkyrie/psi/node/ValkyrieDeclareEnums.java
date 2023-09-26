@@ -22,4 +22,6 @@ public interface ValkyrieDeclareEnums extends PsiElement {
     @Nullable
     ValkyrieTypeAtomic getTypeAtomic();
 
+    @NotNull PsiElement getKeyword();
+
 }

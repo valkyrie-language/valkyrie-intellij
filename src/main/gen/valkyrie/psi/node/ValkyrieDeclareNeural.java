@@ -25,4 +25,6 @@ public interface ValkyrieDeclareNeural extends PsiElement {
     @Nullable
     ValkyrieTypeHint getTypeHint();
 
+    @NotNull PsiElement getKeyword();
+
 }

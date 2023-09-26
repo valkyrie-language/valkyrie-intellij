@@ -5,21 +5,15 @@ import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public interface ValkyrieCasePatternPair extends PsiElement {
+public interface ValkyrieDeclareTests extends PsiElement {
 
     @NotNull
     ValkyrieAnnotations getAnnotations();
 
     @Nullable
-    ValkyrieCasePattern getCasePattern();
+    ValkyrieIdentifierFree getIdentifierFree();
 
     @Nullable
-    ValkyrieCasePatternBind getCasePatternBind();
-
-    @NotNull
-    ValkyrieIdentifierSafe getIdentifierSafe();
-
-    @Nullable
-    ValkyrieTypeExpression getTypeExpression();
+    ValkyrieTestsBody getTestsBody();
 
 }

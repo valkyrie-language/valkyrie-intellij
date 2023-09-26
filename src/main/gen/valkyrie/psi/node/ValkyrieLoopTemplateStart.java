@@ -6,12 +6,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public interface ValkyrieNewBody extends PsiElement {
+public interface ValkyrieLoopTemplateStart extends PsiElement {
 
     @NotNull
-    List<ValkyrieExpressionRoot> getExpressionRootList();
+    ValkyrieLoopStart getLoopStart();
 
     @NotNull
-    List<ValkyrieNewBind> getNewBindList();
+    List<ValkyrieStatements> getStatementsList();
 
 }

@@ -3,9 +3,12 @@ package valkyrie.psi.node;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElementVisitor;
+import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import valkyrie.psi.mixin.MixinVariable;
+
+import java.util.List;
 
 public class ValkyrieLetStatementNode extends MixinVariable implements ValkyrieLetStatement {
 
@@ -24,15 +27,21 @@ public class ValkyrieLetStatementNode extends MixinVariable implements ValkyrieL
     }
 
     @Override
+    @NotNull
+    public List<ValkyrieAttributeBelow> getAttributeBelowList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieAttributeBelow.class);
+    }
+
+    @Override
     @Nullable
     public ValkyrieExpression getExpression() {
         return findChildByClass(ValkyrieExpression.class);
     }
 
     @Override
-    @NotNull
+    @Nullable
     public ValkyrieLetPattern getLetPattern() {
-        return findNotNullChildByClass(ValkyrieLetPattern.class);
+        return findChildByClass(ValkyrieLetPattern.class);
     }
 
     @Override

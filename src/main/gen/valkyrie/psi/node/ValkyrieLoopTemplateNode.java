@@ -3,12 +3,9 @@ package valkyrie.psi.node;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import valkyrie.psi.ValkyrieElement;
-
-import java.util.List;
 
 public class ValkyrieLoopTemplateNode extends ValkyrieElement implements ValkyrieLoopTemplate {
 
@@ -27,141 +24,21 @@ public class ValkyrieLoopTemplateNode extends ValkyrieElement implements Valkyri
     }
 
     @Override
-    @NotNull
-    public List<ValkyrieAttributeAbove> getAttributeAboveList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieAttributeAbove.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieControlStatement> getControlStatementList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieControlStatement.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieDeclareClass> getDeclareClassList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareClass.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieDeclareComponent> getDeclareComponentList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareComponent.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieDeclareEnums> getDeclareEnumsList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareEnums.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieDeclareFlags> getDeclareFlagsList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareFlags.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieDeclareFunction> getDeclareFunctionList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareFunction.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieDeclareImply> getDeclareImplyList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareImply.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieDeclareMacro> getDeclareMacroList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareMacro.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieDeclareMezzo> getDeclareMezzoList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareMezzo.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieDeclareNamespace> getDeclareNamespaceList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareNamespace.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieDeclareNeural> getDeclareNeuralList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareNeural.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieDeclareSingleton> getDeclareSingletonList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareSingleton.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieDeclareTrait> getDeclareTraitList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareTrait.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieDeclareType> getDeclareTypeList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareType.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieDeclareUnion> getDeclareUnionList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareUnion.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieDeclareUnite> getDeclareUniteList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareUnite.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieExpressionRoot> getExpressionRootList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpressionRoot.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieLetStatement> getLetStatementList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieLetStatement.class);
-    }
-
-    @Override
-    @NotNull
-    public ValkyrieLoopStart getLoopStart() {
-        return findNotNullChildByClass(ValkyrieLoopStart.class);
-    }
-
-    @Override
     @Nullable
-    public ValkyrieTemplateElse getTemplateElse() {
-        return findChildByClass(ValkyrieTemplateElse.class);
+    public ValkyrieElseTemplate getElseTemplate() {
+        return findChildByClass(ValkyrieElseTemplate.class);
+    }
+
+    @Override
+    @NotNull
+    public ValkyrieLoopTemplateStart getLoopTemplateStart() {
+        return findNotNullChildByClass(ValkyrieLoopTemplateStart.class);
     }
 
     @Override
     @NotNull
     public ValkyrieTemplateEnd getTemplateEnd() {
         return findNotNullChildByClass(ValkyrieTemplateEnd.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieUsingStatement> getUsingStatementList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieUsingStatement.class);
     }
 
 }

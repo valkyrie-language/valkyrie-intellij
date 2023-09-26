@@ -3,23 +3,19 @@ package valkyrie.psi.node;
 
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-public interface ValkyrieCasePatternPair extends PsiElement {
+public interface ValkyrieRunBenchmark extends PsiElement {
 
     @NotNull
     ValkyrieAnnotations getAnnotations();
 
-    @Nullable
-    ValkyrieCasePattern getCasePattern();
+    @NotNull
+    ValkyrieArgumentBody getArgumentBody();
 
-    @Nullable
-    ValkyrieCasePatternBind getCasePatternBind();
+    @NotNull
+    ValkyrieBenchmarkBody getBenchmarkBody();
 
     @NotNull
     ValkyrieIdentifierSafe getIdentifierSafe();
-
-    @Nullable
-    ValkyrieTypeExpression getTypeExpression();
 
 }
