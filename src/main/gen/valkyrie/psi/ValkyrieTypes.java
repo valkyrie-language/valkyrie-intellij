@@ -164,16 +164,6 @@ public interface ValkyrieTypes {
     IElementType PARAMETER_ITEM = new ValkyrieAST("PARAMETER_ITEM");
     IElementType PARAMETER_KIND = new ValkyrieAST("PARAMETER_KIND");
     IElementType PARAMETER_LIST = new ValkyrieAST("PARAMETER_LIST");
-    IElementType PATTERN = new ValkyrieAST("PATTERN");
-    IElementType PATTERN_ATOMIC = new ValkyrieAST("PATTERN_ATOMIC");
-    IElementType PATTERN_LITERAL = new ValkyrieAST("PATTERN_LITERAL");
-    IElementType PATTERN_OBJECT = new ValkyrieAST("PATTERN_OBJECT");
-    IElementType PATTERN_OBJECT_BODY = new ValkyrieAST("PATTERN_OBJECT_BODY");
-    IElementType PATTERN_PAIR = new ValkyrieAST("PATTERN_PAIR");
-    IElementType PATTERN_SEQUENCE = new ValkyrieAST("PATTERN_SEQUENCE");
-    IElementType PATTERN_SEQUENCE_BODY = new ValkyrieAST("PATTERN_SEQUENCE_BODY");
-    IElementType PATTERN_UNAPPLY = new ValkyrieAST("PATTERN_UNAPPLY");
-    IElementType PATTERN_UNAPPLY_BODY = new ValkyrieAST("PATTERN_UNAPPLY_BODY");
     IElementType PREFIX = new ValkyrieAST("PREFIX");
     IElementType PREFIX_DEREF = new ValkyrieAST("PREFIX_DEREF");
     IElementType PREFIX_NOT = new ValkyrieAST("PREFIX_NOT");
@@ -713,26 +703,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieParameterKindNode(node);
             } else if (type == PARAMETER_LIST) {
                 return new ValkyrieParameterListNode(node);
-            } else if (type == PATTERN) {
-                return new ValkyriePatternNode(node);
-            } else if (type == PATTERN_ATOMIC) {
-                return new ValkyriePatternAtomicNode(node);
-            } else if (type == PATTERN_LITERAL) {
-                return new ValkyriePatternLiteralNode(node);
-            } else if (type == PATTERN_OBJECT) {
-                return new ValkyriePatternObjectNode(node);
-            } else if (type == PATTERN_OBJECT_BODY) {
-                return new ValkyriePatternObjectBodyNode(node);
-            } else if (type == PATTERN_PAIR) {
-                return new ValkyriePatternPairNode(node);
-            } else if (type == PATTERN_SEQUENCE) {
-                return new ValkyriePatternSequenceNode(node);
-            } else if (type == PATTERN_SEQUENCE_BODY) {
-                return new ValkyriePatternSequenceBodyNode(node);
-            } else if (type == PATTERN_UNAPPLY) {
-                return new ValkyriePatternUnapplyNode(node);
-            } else if (type == PATTERN_UNAPPLY_BODY) {
-                return new ValkyriePatternUnapplyBodyNode(node);
             } else if (type == PREFIX) {
                 return new ValkyriePrefixNode(node);
             } else if (type == PREFIX_DEREF) {
