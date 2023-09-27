@@ -9,6 +9,6 @@ import java.util.List;
 public interface ValkyrieInferBody extends PsiElement {
 
     @NotNull
-    List<ValkyrieInferItem> getInferItemList();
+    List<ValkyrieDeclareWhere> getDeclareWhereList();
 
 }

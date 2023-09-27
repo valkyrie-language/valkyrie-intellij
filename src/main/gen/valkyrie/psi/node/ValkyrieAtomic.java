@@ -79,6 +79,6 @@ public interface ValkyrieAtomic extends PsiElement {
     ValkyrieTryStatement getTryStatement();
 
     @Nullable
-    ValkyrieTuple getTuple();
+    ValkyrieTupleArgument getTupleArgument();
 
 }

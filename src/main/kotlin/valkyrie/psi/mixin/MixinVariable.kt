@@ -45,10 +45,6 @@ class ValkyrieVariableCollector : ValkyrieVisitor() {
 
     }
 
-    override fun visitPatternObject(o: ValkyriePatternObject) {
-        super.visitPatternObject(o)
-    }
-
     fun finish(): List<MixinIdentifier> {
         return list.filterNotNull().mapNotNull { it as? MixinIdentifier }
     }

@@ -34,6 +34,6 @@ public interface ValkyrieInlineAtomic extends PsiElement {
     ValkyrieString getString();
 
     @Nullable
-    ValkyrieTuple getTuple();
+    ValkyrieTupleArgument getTupleArgument();
 
 }

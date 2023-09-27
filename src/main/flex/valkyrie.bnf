@@ -106,9 +106,7 @@ private using-dot ::= DOT|NAME_SPLIT|OP_DIV
 declare-infer ::= annotations KW_INFER (identifier-safe (COMMA identifier-safe)* COMMA?)? infer-body {
     pin = 2
 }
-infer-body ::= <<brace infer-item>>;
-infer-item ::= SEMICOLON
-    | declare-where
+infer-body ::= <<brace declare-where>>;
 // where T: Show, X: Show
 declare-where   ::= KW_WHERE COLON? where-term* {
     pin = 1
@@ -150,12 +148,7 @@ inherit-item  ::= (annotations identifier-safe COLON)? type-expression {
     mixin = "valkyrie.psi.mixin.MixinClassInherit"
 }
 // === class body ===
-class-body ::= <<brace class-item>>;
-private class-item ::= SEMICOLON
-    | associated-type
-    | declare-domain
-    | declare-method
-    | declare-field
+class-body ::= <<brace (associated-type|declare-domain|declare-method|declare-field)>>;
 // === class field statement ===
 declare-field ::= annotations identifier-free type-hint? default-value? {
     mixin = "valkyrie.psi.mixin.MixinField"
@@ -184,11 +177,7 @@ declare-flags ::= annotations KW_FLAGS identifier-free class-inherit? (EQUAL typ
     mixin = "valkyrie.psi.mixin.MixinFlags"
     methods = [getKeyword]
 }
-flags-body ::= <<brace flags-item>>;
-private flags-item ::= SEMICOLON
-    | declare-method
-    | declare-domain
-    | declare-semantic
+flags-body ::= <<brace (declare-method|declare-domain|declare-semantic)>>;
 declare-semantic ::= annotations identifier-safe (EQUAL expression)? {
     mixin = "valkyrie.psi.mixin.MixinSemantic"
 }
@@ -239,12 +228,7 @@ declare-imply ::= annotations KW_IMPLY declare-infer? (
     mixin = "valkyrie.psi.mixin.MixinImply"
 }
 // === generic statement ===
-declare-generic ::=
-    NAME_SPLIT? <<generic generic-parameter>>
-  | NAME_SPLIT? <<angle generic-parameter>>
-{
-
-}
+declare-generic ::= NAME_SPLIT? <<generic generic-parameter>> | NAME_SPLIT? <<angle generic-parameter>>
 generic-parameter ::= annotations identifier-safe type-hint? default-type? {
     mixin = "valkyrie.psi.mixin.MixinTypeParameter"
 }
@@ -428,13 +412,7 @@ dot-match-call ::= OP_AND_THEN? DOT match-kind (modifier* identifier-safe BIND)?
 }
 match-bind ::= modifier* identifier-safe BIND;
 match-kind ::= KW_MATCH|KW_CATCH;
-match-body ::= <<brace (match-item)>>;
-private match-item ::=
-      match-with
-    | match-type
-    | match-case
-    | match-when
-    | match-else
+match-body ::= <<brace (match-with| match-type|match-case|match-when|match-else)>>;
 match-with ::= KW_WITH (match-with-provide|match-with-control) {
     pin = 1
     recoverWhile=match-recover
@@ -674,7 +652,7 @@ inline-atomic ::= PARENTHESIS_L expression-root PARENTHESIS_R
     | FLOOR_L expression-root CEIL_R  // ⌊5/2.0⌉
     | CEIL_L expression-root FLOOR_R  // ⌈5/2.0⌋
     | CEIL_L expression-root CEIL_R   // ⌈5/2.0⌉
-    | tuple                 // (1, 2, 3)
+    | tuple-argument                 // (1, 2, 3)
     | macro-call-inline     // @macro()
     | offset-range          // ⁅1:2:3⁆
     | ordinal-range         // [1:2:3]
@@ -699,9 +677,7 @@ type-atomic ::= PARENTHESIS_L type-expression PARENTHESIS_R
     | namepath-safe
     | number-literal
     | string
-type-tuple  ::= PARENTHESIS_L PARENTHESIS_R
-    | PARENTHESIS_L generic-argument COMMA PARENTHESIS_R
-    | PARENTHESIS_L generic-argument (COMMA generic-argument)+ COMMA? PARENTHESIS_R;
+type-tuple  ::= <<tuple generic-argument>>;
 // === generic statement ===
 generic-call      ::= NAME_SPLIT? <<generic generic-argument>> | NAME_SPLIT  <<angle generic-argument>>
 generic-call-free ::= NAME_SPLIT? <<generic generic-argument>> | NAME_SPLIT? <<angle generic-argument>>
@@ -717,7 +693,7 @@ atomic ::=    PARENTHESIS_L expression-root PARENTHESIS_R
     | FLOOR_L expression-root CEIL_R  // ⌊5/2.0⌉
     | CEIL_L expression-root FLOOR_R  // ⌈5/2.0⌋
     | CEIL_L expression-root CEIL_R   // ⌈5/2.0⌉
-    | tuple               // ( )
+    | tuple-argument               // ( )
     | offset-range        // ⁅ ⁆
     | ordinal-range       // [ ]
     | macro-call          // @path::id() { }
@@ -756,11 +732,7 @@ range-upper ::= expression-root;
 range-step  ::= expression-root;
 range-index ::= expression-root;
 private c2  ::= NAME_SPLIT | COLON COLON;
-tuple       ::=
-    PARENTHESIS_L PARENTHESIS_R
-  | PARENTHESIS_L argument COMMA PARENTHESIS_R
-  | PARENTHESIS_L (argument (COMMA argument)+ COMMA?)? PARENTHESIS_R
-{
+tuple-argument       ::= <<tuple argument>> {
   //    mixin = "valkyrie.psi.mixin.MixinTuple"
 }
 argument-body ::= <<parenthesis argument>>;
@@ -798,8 +770,7 @@ attribute-below  ::= OP_MACRO_LOWER attribute-list {
 attribute-above  ::= OP_MACRO_UPPER attribute-list {
     pin = 1
 }
-attribute-list   ::= attribute-item
-    | '[' attribute-item (',' attribute-item)* ','? ']'
+attribute-list   ::= attribute-item | <<bracket attribute-item>>
 attribute-item   ::= namepath-free (DOT identifier-free)? generic-call? argument-body? class-body? {
     mixin = "valkyrie.psi.mixin.MixinAttribute"
 }
@@ -839,9 +810,12 @@ private symbol-lead ::= KW_LET
 template-end  ::= OP_END
     | TEMPLATE_L symbol-lead? KW_END TEMPLATE_R;
 // === macros ===
-private meta brace ::= BRACE_L (COMMA|SEMICOLON|<<term>>)* BRACE_R
-private meta offset ::= OFFSET_L (<<term>> (COMMA <<term>>)* COMMA?)? OFFSET_R
+private meta brace   ::= BRACE_L (COMMA|SEMICOLON|<<term>>)* BRACE_R
+private meta offset  ::= OFFSET_L (<<term>> (COMMA <<term>>)* COMMA?)? OFFSET_R
 private meta bracket ::= BRACKET_L (<<term>> (COMMA <<term>>)* COMMA?)? BRACKET_R
+private meta tuple   ::= PARENTHESIS_L PARENTHESIS_R
+    | PARENTHESIS_L <<term>> COMMA PARENTHESIS_R
+    | PARENTHESIS_L (<<term>> (COMMA <<term>>)+ COMMA?)? PARENTHESIS_R
 private meta parenthesis ::= PARENTHESIS_L (<<term>> (COMMA <<term>>)* COMMA?)? PARENTHESIS_R
 private meta generic ::= GENERIC_L (<<term>> (COMMA <<term>>)* COMMA?)? GENERIC_R
 private meta angle ::= ANGLE_L (<<term>> (COMMA <<term>>)* COMMA?)? ANGLE_R

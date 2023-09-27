@@ -75,7 +75,7 @@ class ValkyrieIndentVisitor(val child: ASTNode) : ValkyrieVisitor() {
         byCorner(o.node)
     }
 
-    override fun visitTuple(o: ValkyrieTuple) {
+    override fun visitTupleArgument(o: ValkyrieTupleArgument?) {
         byCorner(o.node)
     }
 

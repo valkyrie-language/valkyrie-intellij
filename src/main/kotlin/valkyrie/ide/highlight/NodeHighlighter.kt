@@ -172,9 +172,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifierSafe, HighlightColor.SYM_LOCAL)
     }
 
-    override fun visitPatternPair(o: ValkyriePatternPair) {
-        highlight(o.identifierSafe, HighlightColor.SYM_LOCAL)
-    }
 
 
     override fun visitTypePatternTuple(o: ValkyrieTypePatternTuple) {

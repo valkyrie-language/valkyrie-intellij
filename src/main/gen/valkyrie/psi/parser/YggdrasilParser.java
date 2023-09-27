@@ -226,7 +226,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     //     | FLOOR_L expression-root CEIL_R  // ⌊5/2.0⌉
     //     | CEIL_L expression-root FLOOR_R  // ⌈5/2.0⌋
     //     | CEIL_L expression-root CEIL_R   // ⌈5/2.0⌉
-    //     | tuple               // ( )
+    //     | tuple-argument               // ( )
     //     | offset-range        // ⁅ ⁆
     //     | ordinal-range       // [ ]
     //     | macro-call          // @path::id() { }
@@ -260,7 +260,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!r) r = atomic_3(b, l + 1);
         if (!r) r = atomic_4(b, l + 1);
         if (!r) r = atomic_5(b, l + 1);
-        if (!r) r = tuple(b, l + 1);
+        if (!r) r = tuple_argument(b, l + 1);
         if (!r) r = offset_range(b, l + 1);
         if (!r) r = ordinal_range(b, l + 1);
         if (!r) r = macro_call(b, l + 1);
@@ -443,59 +443,15 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // attribute-item
-    //     | '[' attribute-item (',' attribute-item)* ','? ']'
+    // attribute-item | <<bracket attribute-item>>
     public static boolean attribute_list(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "attribute_list")) return false;
         boolean r;
         Marker m = enter_section_(b, l, _NONE_, ATTRIBUTE_LIST, "<attribute list>");
         r = attribute_item(b, l + 1);
-        if (!r) r = attribute_list_1(b, l + 1);
+        if (!r) r = bracket(b, l + 1, YggdrasilParser::attribute_item);
         exit_section_(b, l, m, r, false, null);
         return r;
-    }
-
-    // '[' attribute-item (',' attribute-item)* ','? ']'
-    private static boolean attribute_list_1(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "attribute_list_1")) return false;
-        boolean r;
-        Marker m = enter_section_(b);
-        r = consumeToken(b, BRACKET_L);
-        r = r && attribute_item(b, l + 1);
-        r = r && attribute_list_1_2(b, l + 1);
-        r = r && attribute_list_1_3(b, l + 1);
-        r = r && consumeToken(b, BRACKET_R);
-        exit_section_(b, m, null, r);
-        return r;
-    }
-
-    // (',' attribute-item)*
-    private static boolean attribute_list_1_2(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "attribute_list_1_2")) return false;
-        while (true) {
-            int c = current_position_(b);
-            if (!attribute_list_1_2_0(b, l + 1)) break;
-            if (!empty_element_parsed_guard_(b, "attribute_list_1_2", c)) break;
-        }
-        return true;
-    }
-
-    // ',' attribute-item
-    private static boolean attribute_list_1_2_0(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "attribute_list_1_2_0")) return false;
-        boolean r;
-        Marker m = enter_section_(b);
-        r = consumeToken(b, COMMA);
-        r = r && attribute_item(b, l + 1);
-        exit_section_(b, m, null, r);
-        return r;
-    }
-
-    // ','?
-    private static boolean attribute_list_1_3(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "attribute_list_1_3")) return false;
-        consumeToken(b, COMMA);
-        return true;
     }
 
     /* ********************************************************** */
@@ -1223,14 +1179,25 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // <<brace class-item>>
+    // <<brace (associated-type|declare-domain|declare-method|declare-field)>>
     public static boolean class_body(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "class_body")) return false;
         if (!nextTokenIs(b, BRACE_L)) return false;
         boolean r;
         Marker m = enter_section_(b);
-        r = brace(b, l + 1, YggdrasilParser::class_item);
+        r = brace(b, l + 1, YggdrasilParser::class_body_0_0);
         exit_section_(b, m, CLASS_BODY, r);
+        return r;
+    }
+
+    // associated-type|declare-domain|declare-method|declare-field
+    private static boolean class_body_0_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "class_body_0_0")) return false;
+        boolean r;
+        r = associated_type(b, l + 1);
+        if (!r) r = declare_domain(b, l + 1);
+        if (!r) r = declare_method(b, l + 1);
+        if (!r) r = declare_field(b, l + 1);
         return r;
     }
 
@@ -1243,23 +1210,6 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         Marker m = enter_section_(b);
         r = parenthesis(b, l + 1, YggdrasilParser::inherit_item);
         exit_section_(b, m, CLASS_INHERIT, r);
-        return r;
-    }
-
-    /* ********************************************************** */
-    // SEMICOLON
-    //     | associated-type
-    //     | declare-domain
-    //     | declare-method
-    //     | declare-field
-    static boolean class_item(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "class_item")) return false;
-        boolean r;
-        r = consumeToken(b, SEMICOLON);
-        if (!r) r = associated_type(b, l + 1);
-        if (!r) r = declare_domain(b, l + 1);
-        if (!r) r = declare_method(b, l + 1);
-        if (!r) r = declare_field(b, l + 1);
         return r;
     }
 
@@ -1984,10 +1934,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // NAME_SPLIT? <<generic generic-parameter>>
-    //   | NAME_SPLIT? <<angle generic-parameter>>
-    // {
-    // }
+    // NAME_SPLIT? <<generic generic-parameter>> | NAME_SPLIT? <<angle generic-parameter>>
     public static boolean declare_generic(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "declare_generic")) return false;
         boolean r;
@@ -2017,15 +1964,12 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     // NAME_SPLIT? <<angle generic-parameter>>
-    // {
-    // }
     private static boolean declare_generic_1(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "declare_generic_1")) return false;
         boolean r;
         Marker m = enter_section_(b);
         r = declare_generic_1_0(b, l + 1);
         r = r && angle(b, l + 1, YggdrasilParser::generic_parameter);
-        r = r && declare_generic_1_2(b, l + 1);
         exit_section_(b, m, null, r);
         return r;
     }
@@ -2034,12 +1978,6 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     private static boolean declare_generic_1_0(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "declare_generic_1_0")) return false;
         consumeToken(b, NAME_SPLIT);
-        return true;
-    }
-
-    // {
-    // }
-    private static boolean declare_generic_1_2(PsiBuilder b, int l) {
         return true;
     }
 
@@ -3065,27 +3003,22 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // <<brace flags-item>>
+    // <<brace (declare-method|declare-domain|declare-semantic)>>
     public static boolean flags_body(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "flags_body")) return false;
         if (!nextTokenIs(b, BRACE_L)) return false;
         boolean r;
         Marker m = enter_section_(b);
-        r = brace(b, l + 1, YggdrasilParser::flags_item);
+        r = brace(b, l + 1, YggdrasilParser::flags_body_0_0);
         exit_section_(b, m, FLAGS_BODY, r);
         return r;
     }
 
-    /* ********************************************************** */
-    // SEMICOLON
-    //     | declare-method
-    //     | declare-domain
-    //     | declare-semantic
-    static boolean flags_item(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "flags_item")) return false;
+    // declare-method|declare-domain|declare-semantic
+    private static boolean flags_body_0_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "flags_body_0_0")) return false;
         boolean r;
-        r = consumeToken(b, SEMICOLON);
-        if (!r) r = declare_method(b, l + 1);
+        r = declare_method(b, l + 1);
         if (!r) r = declare_domain(b, l + 1);
         if (!r) r = declare_semantic(b, l + 1);
         return r;
@@ -3471,28 +3404,14 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // <<brace infer-item>>
+    // <<brace declare-where>>
     public static boolean infer_body(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "infer_body")) return false;
         if (!nextTokenIs(b, BRACE_L)) return false;
         boolean r;
         Marker m = enter_section_(b);
-        r = brace(b, l + 1, YggdrasilParser::infer_item);
+        r = brace(b, l + 1, YggdrasilParser::declare_where);
         exit_section_(b, m, INFER_BODY, r);
-        return r;
-    }
-
-    /* ********************************************************** */
-    // SEMICOLON
-    //     | declare-where
-    public static boolean infer_item(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "infer_item")) return false;
-        if (!nextTokenIs(b, "<infer item>", KW_WHERE, SEMICOLON)) return false;
-        boolean r;
-        Marker m = enter_section_(b, l, _NONE_, INFER_ITEM, "<infer item>");
-        r = consumeToken(b, SEMICOLON);
-        if (!r) r = declare_where(b, l + 1);
-        exit_section_(b, l, m, r, false, null);
         return r;
     }
 
@@ -3690,7 +3609,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     //     | FLOOR_L expression-root CEIL_R  // ⌊5/2.0⌉
     //     | CEIL_L expression-root FLOOR_R  // ⌈5/2.0⌋
     //     | CEIL_L expression-root CEIL_R   // ⌈5/2.0⌉
-    //     | tuple                 // (1, 2, 3)
+    //     | tuple-argument                 // (1, 2, 3)
     //     | macro-call-inline     // @macro()
     //     | offset-range          // ⁅1:2:3⁆
     //     | ordinal-range         // [1:2:3]
@@ -3709,7 +3628,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!r) r = inline_atomic_3(b, l + 1);
         if (!r) r = inline_atomic_4(b, l + 1);
         if (!r) r = inline_atomic_5(b, l + 1);
-        if (!r) r = tuple(b, l + 1);
+        if (!r) r = tuple_argument(b, l + 1);
         if (!r) r = macro_call_inline(b, l + 1);
         if (!r) r = offset_range(b, l + 1);
         if (!r) r = ordinal_range(b, l + 1);
@@ -4764,7 +4683,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // <<brace (match-item)>>
+    // <<brace (match-with| match-type|match-case|match-when|match-else)>>
     public static boolean match_body(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "match_body")) return false;
         if (!nextTokenIs(b, BRACE_L)) return false;
@@ -4775,12 +4694,16 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // (match-item)
+    // match-with| match-type|match-case|match-when|match-else
     private static boolean match_body_0_0(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "match_body_0_0")) return false;
         boolean r;
         Marker m = enter_section_(b);
-        r = match_item(b, l + 1);
+        r = match_with(b, l + 1);
+        if (!r) r = match_type(b, l + 1);
+        if (!r) r = match_case(b, l + 1);
+        if (!r) r = match_when(b, l + 1);
+        if (!r) r = match_else(b, l + 1);
         exit_section_(b, m, null, r);
         return r;
     }
@@ -4880,25 +4803,6 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         boolean r;
         r = consumeToken(b, COLON);
         if (!r) r = consumeToken(b, KW_THEN);
-        return r;
-    }
-
-    /* ********************************************************** */
-    // match-with
-    //     | match-type
-    //     | match-case
-    //     | match-when
-    //     | match-else
-    static boolean match_item(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "match_item")) return false;
-        boolean r;
-        Marker m = enter_section_(b);
-        r = match_with(b, l + 1);
-        if (!r) r = match_type(b, l + 1);
-        if (!r) r = match_case(b, l + 1);
-        if (!r) r = match_when(b, l + 1);
-        if (!r) r = match_else(b, l + 1);
-        exit_section_(b, m, null, r);
         return r;
     }
 
@@ -6744,92 +6648,85 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
 
     /* ********************************************************** */
     // PARENTHESIS_L PARENTHESIS_R
-    //   | PARENTHESIS_L argument COMMA PARENTHESIS_R
-    //   | PARENTHESIS_L (argument (COMMA argument)+ COMMA?)? PARENTHESIS_R
-    // {
-    //   //    mixin = "valkyrie.psi.mixin.MixinTuple"
-    // }
-    public static boolean tuple(PsiBuilder b, int l) {
+    //     | PARENTHESIS_L <<term>> COMMA PARENTHESIS_R
+    //     | PARENTHESIS_L (<<term>> (COMMA <<term>>)+ COMMA?)? PARENTHESIS_R
+    static boolean tuple(PsiBuilder b, int l, Parser _term) {
         if (!recursion_guard_(b, l, "tuple")) return false;
         if (!nextTokenIs(b, PARENTHESIS_L)) return false;
         boolean r;
         Marker m = enter_section_(b);
         r = parseTokens(b, 0, PARENTHESIS_L, PARENTHESIS_R);
-        if (!r) r = tuple_1(b, l + 1);
-        if (!r) r = tuple_2(b, l + 1);
-        exit_section_(b, m, TUPLE, r);
+        if (!r) r = tuple_1(b, l + 1, _term);
+        if (!r) r = tuple_2(b, l + 1, _term);
+        exit_section_(b, m, null, r);
         return r;
     }
 
-    // PARENTHESIS_L argument COMMA PARENTHESIS_R
-    private static boolean tuple_1(PsiBuilder b, int l) {
+    // PARENTHESIS_L <<term>> COMMA PARENTHESIS_R
+    private static boolean tuple_1(PsiBuilder b, int l, Parser _term) {
         if (!recursion_guard_(b, l, "tuple_1")) return false;
         boolean r;
         Marker m = enter_section_(b);
         r = consumeToken(b, PARENTHESIS_L);
-        r = r && argument(b, l + 1);
+        r = r && _term.parse(b, l);
         r = r && consumeTokens(b, 0, COMMA, PARENTHESIS_R);
         exit_section_(b, m, null, r);
         return r;
     }
 
-    // PARENTHESIS_L (argument (COMMA argument)+ COMMA?)? PARENTHESIS_R
-    // {
-    //   //    mixin = "valkyrie.psi.mixin.MixinTuple"
-    // }
-    private static boolean tuple_2(PsiBuilder b, int l) {
+    // PARENTHESIS_L (<<term>> (COMMA <<term>>)+ COMMA?)? PARENTHESIS_R
+    private static boolean tuple_2(PsiBuilder b, int l, Parser _term) {
         if (!recursion_guard_(b, l, "tuple_2")) return false;
         boolean r;
         Marker m = enter_section_(b);
         r = consumeToken(b, PARENTHESIS_L);
-        r = r && tuple_2_1(b, l + 1);
+        r = r && tuple_2_1(b, l + 1, _term);
         r = r && consumeToken(b, PARENTHESIS_R);
-        r = r && tuple_2_3(b, l + 1);
         exit_section_(b, m, null, r);
         return r;
     }
 
-    // (argument (COMMA argument)+ COMMA?)?
-    private static boolean tuple_2_1(PsiBuilder b, int l) {
+    // (<<term>> (COMMA <<term>>)+ COMMA?)?
+    private static boolean tuple_2_1(PsiBuilder b, int l, Parser _term) {
         if (!recursion_guard_(b, l, "tuple_2_1")) return false;
-        tuple_2_1_0(b, l + 1);
+        tuple_2_1_0(b, l + 1, _term);
         return true;
     }
 
-    // argument (COMMA argument)+ COMMA?
-    private static boolean tuple_2_1_0(PsiBuilder b, int l) {
+    // <<term>> (COMMA <<term>>)+ COMMA?
+    private static boolean tuple_2_1_0(PsiBuilder b, int l, Parser _term) {
         if (!recursion_guard_(b, l, "tuple_2_1_0")) return false;
         boolean r;
         Marker m = enter_section_(b);
-        r = argument(b, l + 1);
-        r = r && tuple_2_1_0_1(b, l + 1);
+        r = _term.parse(b, l);
+        r = r && tuple_2_1_0_1(b, l + 1, _term);
         r = r && tuple_2_1_0_2(b, l + 1);
         exit_section_(b, m, null, r);
         return r;
     }
 
-    // (COMMA argument)+
-    private static boolean tuple_2_1_0_1(PsiBuilder b, int l) {
+    // (COMMA <<term>>)+
+    private static boolean tuple_2_1_0_1(PsiBuilder b, int l, Parser _term) {
         if (!recursion_guard_(b, l, "tuple_2_1_0_1")) return false;
         boolean r;
         Marker m = enter_section_(b);
-        r = tuple_2_1_0_1_0(b, l + 1);
+        r = tuple_2_1_0_1_0(b, l + 1, _term);
         while (r) {
             int c = current_position_(b);
-            if (!tuple_2_1_0_1_0(b, l + 1)) break;
+            if (!tuple_2_1_0_1_0(b, l + 1, _term)) break;
             if (!empty_element_parsed_guard_(b, "tuple_2_1_0_1", c)) break;
         }
         exit_section_(b, m, null, r);
         return r;
     }
 
-    // COMMA argument
-    private static boolean tuple_2_1_0_1_0(PsiBuilder b, int l) {
+    // COMMA <<term>>
+    private static boolean tuple_2_1_0_1_0(PsiBuilder b, int l, Parser _term) {
         if (!recursion_guard_(b, l, "tuple_2_1_0_1_0")) return false;
         boolean r;
         Marker m = enter_section_(b);
         r = consumeToken(b, COMMA);
-        r = r && argument(b, l + 1);
+        r = r && _term.parse(b, l);
         exit_section_(b, m, null, r);
         return r;
     }
@@ -6841,10 +6738,25 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return true;
     }
 
+    /* ********************************************************** */
+    // <<tuple argument>> {
+    //   //    mixin = "valkyrie.psi.mixin.MixinTuple"
+    // }
+    public static boolean tuple_argument(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "tuple_argument")) return false;
+        if (!nextTokenIs(b, PARENTHESIS_L)) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = tuple(b, l + 1, YggdrasilParser::argument);
+        r = r && tuple_argument_1(b, l + 1);
+        exit_section_(b, m, TUPLE_ARGUMENT, r);
+        return r;
+    }
+
     // {
     //   //    mixin = "valkyrie.psi.mixin.MixinTuple"
     // }
-    private static boolean tuple_2_3(PsiBuilder b, int l) {
+    private static boolean tuple_argument_1(PsiBuilder b, int l) {
         return true;
     }
 
@@ -7212,78 +7124,15 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // PARENTHESIS_L PARENTHESIS_R
-    //     | PARENTHESIS_L generic-argument COMMA PARENTHESIS_R
-    //     | PARENTHESIS_L generic-argument (COMMA generic-argument)+ COMMA? PARENTHESIS_R
+    // <<tuple generic-argument>>
     public static boolean type_tuple(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "type_tuple")) return false;
         if (!nextTokenIs(b, PARENTHESIS_L)) return false;
         boolean r;
         Marker m = enter_section_(b);
-        r = parseTokens(b, 0, PARENTHESIS_L, PARENTHESIS_R);
-        if (!r) r = type_tuple_1(b, l + 1);
-        if (!r) r = type_tuple_2(b, l + 1);
+        r = tuple(b, l + 1, YggdrasilParser::generic_argument);
         exit_section_(b, m, TYPE_TUPLE, r);
         return r;
-    }
-
-    // PARENTHESIS_L generic-argument COMMA PARENTHESIS_R
-    private static boolean type_tuple_1(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "type_tuple_1")) return false;
-        boolean r;
-        Marker m = enter_section_(b);
-        r = consumeToken(b, PARENTHESIS_L);
-        r = r && generic_argument(b, l + 1);
-        r = r && consumeTokens(b, 0, COMMA, PARENTHESIS_R);
-        exit_section_(b, m, null, r);
-        return r;
-    }
-
-    // PARENTHESIS_L generic-argument (COMMA generic-argument)+ COMMA? PARENTHESIS_R
-    private static boolean type_tuple_2(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "type_tuple_2")) return false;
-        boolean r;
-        Marker m = enter_section_(b);
-        r = consumeToken(b, PARENTHESIS_L);
-        r = r && generic_argument(b, l + 1);
-        r = r && type_tuple_2_2(b, l + 1);
-        r = r && type_tuple_2_3(b, l + 1);
-        r = r && consumeToken(b, PARENTHESIS_R);
-        exit_section_(b, m, null, r);
-        return r;
-    }
-
-    // (COMMA generic-argument)+
-    private static boolean type_tuple_2_2(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "type_tuple_2_2")) return false;
-        boolean r;
-        Marker m = enter_section_(b);
-        r = type_tuple_2_2_0(b, l + 1);
-        while (r) {
-            int c = current_position_(b);
-            if (!type_tuple_2_2_0(b, l + 1)) break;
-            if (!empty_element_parsed_guard_(b, "type_tuple_2_2", c)) break;
-        }
-        exit_section_(b, m, null, r);
-        return r;
-    }
-
-    // COMMA generic-argument
-    private static boolean type_tuple_2_2_0(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "type_tuple_2_2_0")) return false;
-        boolean r;
-        Marker m = enter_section_(b);
-        r = consumeToken(b, COMMA);
-        r = r && generic_argument(b, l + 1);
-        exit_section_(b, m, null, r);
-        return r;
-    }
-
-    // COMMA?
-    private static boolean type_tuple_2_3(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "type_tuple_2_3")) return false;
-        consumeToken(b, COMMA);
-        return true;
     }
 
     /* ********************************************************** */
