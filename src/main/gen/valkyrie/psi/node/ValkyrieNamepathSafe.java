@@ -8,10 +8,13 @@ import valkyrie.psi.mixin.MixinIdentifier;
 
 import java.util.List;
 
-public interface ValkyrieNamepathFree extends PsiElement {
+public interface ValkyrieNamepathSafe extends PsiElement {
 
     @NotNull
     List<ValkyrieIdentifierFree> getIdentifierFreeList();
+
+    @Nullable
+    ValkyrieIdentifierSafe getIdentifierSafe();
 
     @NotNull List<@NotNull MixinIdentifier> getNamepath();
 

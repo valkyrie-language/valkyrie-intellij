@@ -20,7 +20,7 @@ public interface ValkyrieDeclareSingleton extends PsiElement {
     ValkyrieDeclareGeneric getDeclareGeneric();
 
     @Nullable
-    ValkyrieIdentifier getIdentifier();
+    ValkyrieIdentifierSafe getIdentifierSafe();
 
     @Nullable
     ValkyrieTypeHint getTypeHint();

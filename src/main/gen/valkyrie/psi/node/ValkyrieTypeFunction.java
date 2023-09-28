@@ -14,7 +14,7 @@ public interface ValkyrieTypeFunction extends PsiElement {
     ValkyrieDeclareInfer getDeclareInfer();
 
     @NotNull
-    ValkyrieIdentifier getIdentifier();
+    ValkyrieIdentifierSafe getIdentifierSafe();
 
     @NotNull
     ValkyrieParameterBody getParameterBody();

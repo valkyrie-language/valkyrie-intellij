@@ -3,6 +3,6 @@ package valkyrie.psi.node;
 
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieWhereBody extends PsiElement {
+public interface ValkyrieIdentifierSafe extends PsiElement {
 
 }

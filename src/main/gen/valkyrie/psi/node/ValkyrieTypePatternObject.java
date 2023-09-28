@@ -10,7 +10,7 @@ import java.util.List;
 public interface ValkyrieTypePatternObject extends PsiElement {
 
     @Nullable
-    ValkyrieNamepath getNamepath();
+    ValkyrieNamepathSafe getNamepathSafe();
 
     @NotNull
     List<ValkyrieTypePatternPair> getTypePatternPairList();

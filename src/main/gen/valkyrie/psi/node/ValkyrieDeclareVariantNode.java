@@ -37,8 +37,8 @@ public class ValkyrieDeclareVariantNode extends MixinVariant implements Valkyrie
 
     @Override
     @NotNull
-    public ValkyrieIdentifier getIdentifier() {
-        return findNotNullChildByClass(ValkyrieIdentifier.class);
+    public ValkyrieIdentifierSafe getIdentifierSafe() {
+        return findNotNullChildByClass(ValkyrieIdentifierSafe.class);
     }
 
 }

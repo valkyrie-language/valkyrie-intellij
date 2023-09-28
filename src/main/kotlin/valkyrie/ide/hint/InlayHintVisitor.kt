@@ -1,6 +1,7 @@
 package valkyrie.ide.hint
 
 import com.intellij.codeInsight.hints.declarative.EndOfLinePosition
+import com.intellij.codeInsight.hints.declarative.HintFormat
 import com.intellij.codeInsight.hints.declarative.InlayActionData
 import com.intellij.codeInsight.hints.declarative.InlayTreeSink
 import com.intellij.codeInsight.hints.presentation.PresentationFactory
@@ -23,7 +24,7 @@ abstract class InlayHintVisitor : ValkyrieVisitor {
 
     protected fun PsiElement.hintEndOfLine(text: String, tooltip: String? = null, actionData: InlayActionData? = null) {
         val eol = EndOfLinePosition(editor.document.getLineNumber(this.endOffset));
-        sink.addPresentation(eol, null, tooltip, false) {
+        sink.addPresentation(eol, null, tooltip, HintFormat.default) {
             this.text(text, actionData)
         }
     }

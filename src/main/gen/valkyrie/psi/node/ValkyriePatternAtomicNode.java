@@ -25,8 +25,8 @@ public class ValkyriePatternAtomicNode extends ValkyrieElement implements Valkyr
 
     @Override
     @Nullable
-    public ValkyrieIdentifier getIdentifier() {
-        return findChildByClass(ValkyrieIdentifier.class);
+    public ValkyrieIdentifierSafe getIdentifierSafe() {
+        return findChildByClass(ValkyrieIdentifierSafe.class);
     }
 
     @Override

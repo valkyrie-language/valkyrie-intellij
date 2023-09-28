@@ -16,7 +16,7 @@ public interface ValkyrieLoopInline extends PsiElement {
     ValkyrieMatchBind getMatchBind();
 
     @Nullable
-    ValkyrieNamepath getNamepath();
+    ValkyrieNamepathSafe getNamepathSafe();
 
     @Nullable
     ValkyrieNumberLiteral getNumberLiteral();

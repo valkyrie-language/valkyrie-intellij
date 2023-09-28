@@ -31,8 +31,8 @@ public class ValkyrieTypePatternItemNode extends ValkyrieElement implements Valk
 
     @Override
     @NotNull
-    public ValkyrieNamepath getNamepath() {
-        return findNotNullChildByClass(ValkyrieNamepath.class);
+    public ValkyrieNamepathSafe getNamepathSafe() {
+        return findNotNullChildByClass(ValkyrieNamepathSafe.class);
     }
 
 }

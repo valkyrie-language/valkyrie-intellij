@@ -43,8 +43,8 @@ public class ValkyrieLoopInlineNode extends ValkyrieElement implements ValkyrieL
 
     @Override
     @Nullable
-    public ValkyrieNamepath getNamepath() {
-        return findChildByClass(ValkyrieNamepath.class);
+    public ValkyrieNamepathSafe getNamepathSafe() {
+        return findChildByClass(ValkyrieNamepathSafe.class);
     }
 
     @Override

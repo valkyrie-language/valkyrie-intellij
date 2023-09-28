@@ -17,6 +17,6 @@ public interface ValkyrieFunctionCall extends PsiElement {
     ValkyrieGenericCall getGenericCall();
 
     @NotNull
-    ValkyrieNamepath getNamepath();
+    ValkyrieNamepathSafe getNamepathSafe();
 
 }

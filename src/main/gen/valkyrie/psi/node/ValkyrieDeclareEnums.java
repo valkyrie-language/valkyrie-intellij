@@ -5,15 +5,21 @@ import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public interface ValkyrieAliasType extends PsiElement {
+public interface ValkyrieDeclareEnums extends PsiElement {
 
     @NotNull
     ValkyrieAnnotations getAnnotations();
 
     @Nullable
-    ValkyrieIdentifier getIdentifier();
+    ValkyrieClassInherit getClassInherit();
 
     @Nullable
-    ValkyrieTypeExpression getTypeExpression();
+    ValkyrieFlagsBody getFlagsBody();
+
+    @Nullable
+    ValkyrieIdentifierSafe getIdentifierSafe();
+
+    @Nullable
+    ValkyrieTypeAtomic getTypeAtomic();
 
 }

@@ -34,8 +34,8 @@ public class ValkyrieCasePatternDictNode extends ValkyrieElement implements Valk
 
     @Override
     @Nullable
-    public ValkyrieNamepath getNamepath() {
-        return findChildByClass(ValkyrieNamepath.class);
+    public ValkyrieNamepathSafe getNamepathSafe() {
+        return findChildByClass(ValkyrieNamepathSafe.class);
     }
 
 }

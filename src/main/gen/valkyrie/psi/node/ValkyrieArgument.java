@@ -11,6 +11,6 @@ public interface ValkyrieArgument extends PsiElement {
     ValkyrieExpressionRoot getExpressionRoot();
 
     @Nullable
-    ValkyrieIdentifier getIdentifier();
+    ValkyrieIdentifierSafe getIdentifierSafe();
 
 }

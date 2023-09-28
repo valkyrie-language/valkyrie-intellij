@@ -5,16 +5,16 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import valkyrie.psi.mixin.MixinTypeParameter;
+import valkyrie.psi.mixin.MixinEnumerate;
 
-public class ValkyrieGenericParameterNode extends MixinTypeParameter implements ValkyrieGenericParameter {
+public class ValkyrieDeclareEnumsNode extends MixinEnumerate implements ValkyrieDeclareEnums {
 
-    public ValkyrieGenericParameterNode(@NotNull ASTNode node) {
+    public ValkyrieDeclareEnumsNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitGenericParameter(this);
+        visitor.visitDeclareEnums(this);
     }
 
     @Override
@@ -31,20 +31,26 @@ public class ValkyrieGenericParameterNode extends MixinTypeParameter implements 
 
     @Override
     @Nullable
-    public ValkyrieDefaultType getDefaultType() {
-        return findChildByClass(ValkyrieDefaultType.class);
-    }
-
-    @Override
-    @NotNull
-    public ValkyrieIdentifierSafe getIdentifierSafe() {
-        return findNotNullChildByClass(ValkyrieIdentifierSafe.class);
+    public ValkyrieClassInherit getClassInherit() {
+        return findChildByClass(ValkyrieClassInherit.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieTypeHint getTypeHint() {
-        return findChildByClass(ValkyrieTypeHint.class);
+    public ValkyrieFlagsBody getFlagsBody() {
+        return findChildByClass(ValkyrieFlagsBody.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieIdentifierSafe getIdentifierSafe() {
+        return findChildByClass(ValkyrieIdentifierSafe.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieTypeAtomic getTypeAtomic() {
+        return findChildByClass(ValkyrieTypeAtomic.class);
     }
 
 }

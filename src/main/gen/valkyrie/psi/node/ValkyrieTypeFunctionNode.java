@@ -37,8 +37,8 @@ public class ValkyrieTypeFunctionNode extends ValkyrieElement implements Valkyri
 
     @Override
     @NotNull
-    public ValkyrieIdentifier getIdentifier() {
-        return findNotNullChildByClass(ValkyrieIdentifier.class);
+    public ValkyrieIdentifierSafe getIdentifierSafe() {
+        return findNotNullChildByClass(ValkyrieIdentifierSafe.class);
     }
 
     @Override

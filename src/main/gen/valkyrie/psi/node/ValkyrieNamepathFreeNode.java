@@ -5,11 +5,11 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
-import valkyrie.psi.ValkyrieElement;
+import valkyrie.psi.mixin.MixinNamepath;
 
 import java.util.List;
 
-public class ValkyrieNamepathFreeNode extends ValkyrieElement implements ValkyrieNamepathFree {
+public class ValkyrieNamepathFreeNode extends MixinNamepath implements ValkyrieNamepathFree {
 
     public ValkyrieNamepathFreeNode(@NotNull ASTNode node) {
         super(node);

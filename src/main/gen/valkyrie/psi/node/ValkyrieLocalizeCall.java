@@ -13,6 +13,6 @@ public interface ValkyrieLocalizeCall extends PsiElement {
     ValkyrieArgumentBody getArgumentBody();
 
     @NotNull
-    List<ValkyrieIdentifier> getIdentifierList();
+    List<ValkyrieIdentifierSafe> getIdentifierSafeList();
 
 }

@@ -11,6 +11,6 @@ public interface ValkyrieTypePatternItem extends PsiElement {
     ValkyrieGenericCallFree getGenericCallFree();
 
     @NotNull
-    ValkyrieNamepath getNamepath();
+    ValkyrieNamepathSafe getNamepathSafe();
 
 }

@@ -37,8 +37,8 @@ public class ValkyrieDotCallMacroNode extends ValkyrieElement implements Valkyri
 
     @Override
     @NotNull
-    public ValkyrieNamepath getNamepath() {
-        return findNotNullChildByClass(ValkyrieNamepath.class);
+    public ValkyrieNamepathSafe getNamepathSafe() {
+        return findNotNullChildByClass(ValkyrieNamepathSafe.class);
     }
 
 }

@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class ValkyrieMacroPathNode extends ValkyrieNamepathNode implements ValkyrieMacroPath {
+public class ValkyrieMacroPathNode extends ValkyrieNamepathSafeNode implements ValkyrieMacroPath {
 
     public ValkyrieMacroPathNode(@NotNull ASTNode node) {
         super(node);

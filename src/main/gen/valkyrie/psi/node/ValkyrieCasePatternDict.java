@@ -13,6 +13,6 @@ public interface ValkyrieCasePatternDict extends PsiElement {
     List<ValkyrieCasePatternPair> getCasePatternPairList();
 
     @Nullable
-    ValkyrieNamepath getNamepath();
+    ValkyrieNamepathSafe getNamepathSafe();
 
 }

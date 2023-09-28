@@ -16,7 +16,7 @@ public interface ValkyrieInlineAtomic extends PsiElement {
     ValkyrieMacroCallInline getMacroCallInline();
 
     @Nullable
-    ValkyrieNamepath getNamepath();
+    ValkyrieNamepathSafe getNamepathSafe();
 
     @Nullable
     ValkyrieNumberLiteral getNumberLiteral();
