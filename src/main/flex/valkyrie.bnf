@@ -38,7 +38,7 @@
         ANGLE_L = '<'
         ANGLE_R = '>'
 
-        EQUAL = '='
+        BIND = '='
         COLON = ':'
         NAME_SPLIT = '∷'
         SEMICOLON = ';'
@@ -119,15 +119,17 @@ declare-type ::= annotations KW_TYPE (type-alias|type-function) {
     pin = 2
 }
 // type A = B
-type-alias   ::= identifier-safe declare-infer? EQUAL type-expression;
+type-alias   ::= identifier-safe declare-infer? BIND type-expression;
 // type A() -> B { }
 type-function ::= declare-infer? identifier-safe parameter-body return-type? block-body;
 // === class statement ===
-declare-class ::= declare-infer? annotations KW_CLASS identifier-safe declare-generic? class-inherit? type-hint? class-body {
+declare-class ::= declare-infer? annotations KW_CLASS (class-definition|class-alias) {
     pin = 3
     mixin = "valkyrie.psi.mixin.MixinClass"
     methods = [getKeyword getSuperClasses getFields]
 }
+private class-definition ::= identifier-safe declare-generic? class-inherit? type-hint? class-body;
+private class-alias ::= identifier-safe declare-infer? BIND type-expression;
 declare-component ::= annotations KW_COMPONENT identifier-safe declare-generic? class-inherit? type-hint? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinComponent"
@@ -156,8 +158,8 @@ declare-field ::= annotations identifier-free type-hint? default-value? {
 type-hint     ::= COLON type-expression {
     mixin = "valkyrie.psi.mixin.MixinTypeHint"
 }
-default-value ::= EQUAL expression-root;
-default-type  ::= EQUAL type-expression;
+default-value ::= BIND expression-root;
+default-type  ::= BIND type-expression;
 // === class method statement ===
 declare-method ::= annotations KW_FUNCTION? identifier-free declare-infer? parameter-body return-type? block-body? {
     mixin = "valkyrie.psi.mixin.MixinMethod"
@@ -172,17 +174,17 @@ declare-union ::= annotations KW_UNION identifier-safe class-body {
     mixin = "valkyrie.psi.mixin.MixinUnion"
 }
 // === flags statement ===
-declare-flags ::= annotations KW_FLAGS identifier-free class-inherit? (EQUAL type-atomic)? flags-body {
+declare-flags ::= annotations KW_FLAGS identifier-free class-inherit? (BIND type-atomic)? flags-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinFlags"
     methods = [getKeyword]
 }
 flags-body ::= <<brace (declare-method|declare-domain|declare-semantic)>>;
-declare-semantic ::= annotations identifier-safe (EQUAL expression)? {
+declare-semantic ::= annotations identifier-safe (BIND expression)? {
     mixin = "valkyrie.psi.mixin.MixinSemantic"
 }
 // === enums statement ===
-declare-enums ::= annotations KW_ENUMERATE identifier-safe class-inherit? (EQUAL type-atomic)? flags-body {
+declare-enums ::= annotations KW_ENUMERATE identifier-safe class-inherit? (BIND type-atomic)? flags-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinEnumerate"
     methods = [getKeyword]
@@ -204,7 +206,7 @@ declare-trait ::= annotations KW_TRAIT identifier-safe (trait-alias|trait-define
     methods = [getKeyword]
 }
 /// trait A = C + D
-trait-alias ::= EQUAL type-expression {
+trait-alias ::= BIND type-expression {
     pin = 1
 //    mixin = "valkyrie.psi.mixin.MixinTraitAlias"
 }
@@ -213,7 +215,7 @@ trait-define ::= type-hint? declare-infer? class-body {
 //    pin = 2
 //    mixin = "valkyrie.psi.mixin.MixinTraitAlias"
 }
-associated-type ::= annotations KW_TYPE identifier-safe (EQUAL type-expression)? {
+associated-type ::= annotations KW_TYPE identifier-safe (BIND type-expression)? {
     pin = 2
 }
 // impl trait for class
@@ -340,13 +342,13 @@ loop-condition ::=
     | loop-until     // loop until {...}
     | loop-match     // loop match { case ... }
     | loop-each      // loop each x in ...
-loop-while-let ::= KW_WHILE KW_LET? let-pattern type-hint? EQUAL expression-inline if-condition? {
+loop-while-let ::= KW_WHILE KW_LET? let-pattern type-hint? BIND expression-inline if-condition? {
     pin = 5
 }
 loop-while     ::= KW_WHILE expression-inline {
     pin = 1
 }
-loop-until-not ::= KW_UNTIL KW_NOT? type-pattern EQUAL expression-inline if-condition? {
+loop-until-not ::= KW_UNTIL KW_NOT? type-pattern BIND expression-inline if-condition? {
     pin = 4
 }
 loop-until     ::= KW_UNTIL expression-inline {

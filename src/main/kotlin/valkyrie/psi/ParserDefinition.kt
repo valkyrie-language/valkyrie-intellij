@@ -11,13 +11,15 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
+import valkyrie.ast.ValkyrieParser
+import valkyrie.cst.ValkyrieLexer
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.parser.YggdrasilParser
 
 class ParserDefinition : ParserDefinition {
     override fun createLexer(project: Project): Lexer = ValkyrieLexer()
-    override fun createParser(project: Project): PsiParser = YggdrasilParser()
+    override fun createParser(project: Project): PsiParser = ValkyrieParser()
     override fun getFileNodeType(): IFileElementType = IFileElementType(ValkyrieLanguage)
     override fun getCommentTokens(): TokenSet =
         TokenSet.create(ValkyrieTypes.COMMENT_LINE, ValkyrieTypes.COMMENT_BLOCK)

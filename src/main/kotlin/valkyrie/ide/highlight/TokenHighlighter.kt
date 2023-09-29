@@ -8,7 +8,6 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighterBase.pack
 import com.intellij.psi.tree.IElementType
 import valkyrie.psi.ParserDefinition
 import valkyrie.psi.ParserExtension
-import valkyrie.psi.ValkyrieLexer
 import valkyrie.psi.ValkyrieTypes.*
 
 class TokenHighlighter : SyntaxHighlighter {
@@ -29,7 +28,7 @@ class TokenHighlighter : SyntaxHighlighter {
             return when (tokenType) {
                 OP_BASE, OP_EXPONENT -> HighlightColor.KEYWORD
                 // operations
-                COLON, EQUAL, BIND, STAR, KW_THEN -> HighlightColor.OPERATION
+                COLON, BIND, STAR, KW_THEN -> HighlightColor.OPERATION
                 // literals
                 STRING_L, STRING_TEXT, STRING_R -> HighlightColor.STRING
                 ESCAPED -> HighlightColor.STRING_ESCAPED
