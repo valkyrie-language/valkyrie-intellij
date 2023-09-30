@@ -11,7 +11,7 @@ import javax.swing.Icon
 
 abstract class MixinAttribute(node: ASTNode) : ValkyrieElement(node), ValkyrieAttributeItem {
     override fun getName(): String {
-        return identifiers.last().text
+        return namepathFree.identifier?.text ?: "<<Missing Name>>"
     }
 
     override fun getBaseIcon(): Icon {
@@ -22,10 +22,5 @@ abstract class MixinAttribute(node: ASTNode) : ValkyrieElement(node), ValkyrieAt
         return PresentationData(name, "", baseIcon, null)
     }
 }
-
-val ValkyrieAttributeItem.identifiers: List<MixinIdentifier>
-    get() {
-        return this.namepathFree.identifierFreeList.map { it as MixinIdentifier }
-    }
 
 

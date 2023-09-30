@@ -49,19 +49,19 @@ abstract class MixinNamepath : ValkyrieElement, PsiQualifiedNamedElement {
     override fun getReferences(): Array<ValkyrieNamepathReference> {
         return ValkyrieNamepathReference.fromList(this)
     }
+
+    fun highlight(highlighter: NodeHighlighter) {
+        highlightFake(highlighter, this)
+        if (this.firstLeaf().elementType == ValkyrieTypes.NAME_SCOPE) {
+            highlighter.highlight(this.firstChild, HighlightColor.KEYWORD)
+        }
+        for (reference in this.references) {
+            reference.highlight(highlighter)
+        }
+    }
 }
 
-fun ValkyrieNamepathSafe.highlight(highlighter: NodeHighlighter) {
-    highlightFake(highlighter, this as MixinNamepath)
-    if (this.firstLeaf().elementType == ValkyrieTypes.NAME_SCOPE) {
-        highlighter.highlight(this.firstChild, HighlightColor.KEYWORD)
-    }
-    for (reference in this.references) {
-        reference.highlight(highlighter)
-    }
-}
-
-fun highlightFake(highlighter: NodeHighlighter, namepath: MixinNamepath) {
+private fun highlightFake(highlighter: NodeHighlighter, namepath: MixinNamepath) {
     val last = namepath.identifier;
     if (last == null) return;
     val second = namepath.namespace.lastOrNull();

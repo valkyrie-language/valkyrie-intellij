@@ -127,6 +127,7 @@ type-function ::= declare-infer? identifier-safe parameter-body return-type? blo
 declare-class ::= declare-infer? annotations KW_CLASS identifier-safe declare-generic? class-inherit? type-hint? class-body {
     pin = 3
     mixin = "valkyrie.psi.mixin.MixinClass"
+    methods = [getKeyword]
 }
 declare-component ::= annotations KW_COMPONENT identifier-safe declare-generic? class-inherit? type-hint? class-body {
     pin = 2
@@ -207,6 +208,7 @@ declare-variant ::= annotations identifier-safe class-body? {
 declare-trait ::= annotations KW_TRAIT identifier-safe (trait-alias|trait-define) {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinTrait"
+    methods = [getKeyword]
 }
 /// trait A = C + D
 trait-alias ::= EQUAL type-expression {
@@ -497,28 +499,28 @@ bare-pattern-item ::= modifier* identifier-safe {
 }
 // === new expression ===
 // new f() { }
-new-value  ::= annotations new-navigate type-expression? argument-body? new-body {
+new-value  ::= annotations KW_NEW type-expression? argument-body? new-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinBuilder"
+    methods = [getKeyword]
 }
-new-navigate    ::= KW_NEW;
 new-body ::= BRACE_L new-item* BRACE_R;
 private new-item ::= SEMICOLON | COMMA
     | expression-root
 // === object expression ===
 // object: Interface { }
-new-object ::= annotations object-navigate class-inherit? type-hint? class-body {
+new-object ::= annotations KW_OBJECT class-inherit? type-hint? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinObject"
+    methods = [getKeyword]
 }
-object-navigate ::= KW_OBJECT;
 // === lambda expression ===
 // lambda<T>(x, y) -> T { }
-new-lambda ::= annotations lambda-navigate declare-infer? parameter-body return-type? block-body {
+new-lambda ::= annotations KW_LAMBDA declare-infer? parameter-body return-type? block-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinLambda"
+    methods = [getKeyword]
 }
-lambda-navigate ::= KW_LAMBDA;
 // === slot statement ===
 slot ::=
     slot-named
@@ -802,15 +804,15 @@ namepath-safe ::= identifier-safe (NAME_SPLIT identifier-free)*
     | NAME_SCOPE NAME_SPLIT? identifier-free (NAME_SPLIT identifier-free)*
 {
     mixin = "valkyrie.psi.mixin.MixinNamepath"
-    methods=[getNamepath getNamespace getIdentifier]
+    methods=[getNamepath getNamespace getIdentifier highlight]
 }
 namepath-free ::= (NAME_SCOPE NAME_SPLIT?)? identifier-free (NAME_SPLIT identifier-free)* {
     mixin = "valkyrie.psi.mixin.MixinNamepath"
-    methods=[getNamepath getNamespace getIdentifier]
+    methods=[getNamepath getNamespace getIdentifier highlight]
 }
 namepath-auto ::= identifier-safe ((NAME_SPLIT|DOT) identifier-safe)* {
     mixin = "valkyrie.psi.mixin.MixinNamepath"
-    methods=[getNamepath getNamespace getIdentifier]
+    methods=[getNamepath getNamespace getIdentifier highlight]
 }
 identifier-safe ::= symbol-safe | symbol {
     mixin = "valkyrie.psi.mixin.MixinIdentifier"
