@@ -19,7 +19,13 @@ abstract class MixinClass(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDe
         return findKeyword(KW_CLASS)
     }
 
-    var fields: MutableList<ValkyrieDeclareFieldNode> = mutableListOf()
+    override fun getSuperClasses(): List<ValkyrieInheritItemNode> {
+        return this.classInherit?.inheritItemList?.map { it as ValkyrieInheritItemNode } ?: listOf()
+    }
+
+    override fun getFields(): List<ValkyrieDeclareFieldNode> {
+       return mutableListOf()
+    }
 
     override val color: HighlightColor
         get() = HighlightColor.SYM_CLASS
@@ -35,14 +41,5 @@ abstract class MixinClass(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDe
     override fun getBaseIcon(): Icon {
         return AllIcons.Nodes.Class
     }
-
-
-    override fun subtreeChanged() {
-        fields.clear()
-    }
 }
 
-val ValkyrieDeclareClass.superClasses: List<ValkyrieInheritItemNode>
-    get() {
-        return this.classInherit?.inheritItemList?.map { it as ValkyrieInheritItemNode } ?: listOf()
-    }

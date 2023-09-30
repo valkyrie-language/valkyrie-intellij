@@ -27,7 +27,6 @@ import valkyrie.language.file.ValkyrieIconProvider.Instance.Unite
 import valkyrie.language.file.ValkyrieIconProvider.Instance.Variant
 import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.childrenWithLeaves
-import valkyrie.psi.mixin.superClasses
 import valkyrie.psi.node.*
 import javax.swing.Icon
 

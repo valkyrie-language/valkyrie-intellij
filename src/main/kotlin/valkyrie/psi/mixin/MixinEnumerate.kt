@@ -5,13 +5,18 @@ import com.intellij.psi.PsiElement
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.ValkyrieTypes
+import valkyrie.psi.ValkyrieTypes.KW_ENUMERATE
+import valkyrie.psi.ValkyrieTypes.KW_SINGLETON
 import valkyrie.psi.findKeyword
 import valkyrie.psi.node.ValkyrieDeclareEnums
 
 import javax.swing.Icon
 
 abstract class MixinEnumerate(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareEnums {
-    val keyword: PsiElement = findKeyword(ValkyrieTypes.KW_ENUMERATE)
+    override fun getKeyword(): PsiElement {
+        return findKeyword(KW_ENUMERATE)
+    }
+
     override fun getNameIdentifier(): MixinIdentifier? {
         return this.identifierSafe as? MixinIdentifier
     }

@@ -127,19 +127,22 @@ type-function ::= declare-infer? identifier-safe parameter-body return-type? blo
 declare-class ::= declare-infer? annotations KW_CLASS identifier-safe declare-generic? class-inherit? type-hint? class-body {
     pin = 3
     mixin = "valkyrie.psi.mixin.MixinClass"
-    methods = [getKeyword]
+    methods = [getKeyword getSuperClasses getFields]
 }
 declare-component ::= annotations KW_COMPONENT identifier-safe declare-generic? class-inherit? type-hint? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinComponent"
+    methods = [getKeyword]
 }
 declare-singleton ::= annotations KW_SINGLETON identifier-safe declare-generic? class-inherit? type-hint? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinSingleton"
+    methods = [getKeyword]
 }
 declare-neural ::= annotations KW_NEURAL identifier-safe declare-generic? class-inherit? type-hint? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinNeural"
+    methods = [getKeyword]
 }
 class-inherit ::= PARENTHESIS_L (inherit-item (COMMA inherit-item)* COMMA?)? PARENTHESIS_R;
 inherit-item  ::= (annotations identifier-safe COLON)? type-expression {
@@ -178,6 +181,7 @@ declare-union ::= annotations KW_UNION identifier-safe class-body {
 declare-flags ::= annotations KW_FLAGS identifier-free class-inherit? (EQUAL type-atomic)? flags-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinFlags"
+    methods = [getKeyword]
 }
 flags-body ::= BRACE_L flags-item* BRACE_R;
 private flags-item ::= SEMICOLON | COMMA
@@ -191,11 +195,13 @@ declare-semantic ::= annotations identifier-safe (EQUAL expression)? {
 declare-enums ::= annotations KW_ENUMERATE identifier-safe class-inherit? (EQUAL type-atomic)? flags-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinEnumerate"
+    methods = [getKeyword]
 }
 // === union statement ===
 declare-unite ::= declare-infer? annotations KW_UNITE identifier-safe declare-infer? unite-body {
     pin = 3
     mixin = "valkyrie.psi.mixin.MixinUnite"
+    methods = [getKeyword]
 }
 unite-body ::= BRACE_L unite-item* BRACE_R;
 private unite-item ::= SEMICOLON | COMMA
