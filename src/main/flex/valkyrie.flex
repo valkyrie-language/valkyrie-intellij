@@ -52,7 +52,7 @@ COMMA    = [,，]
 BANG     = [!！]
 QUESTION = [?？]
 TEMPLATE_L = [<⟨][$][._\-~=]?
-TEMPLATE_R = [$][>⟩][._\-~=]?
+TEMPLATE_R = [._\-~=]?[$][>⟩]
 KW_NAMESPACE = namespace({BANG}|{QUESTION})?
 KW_USING     = using({BANG}|{QUESTION})?
 KW_AS        = as({BANG}|{QUESTION})?
@@ -95,7 +95,7 @@ KW_UNTIL = until
 OP_LABEL = [※]|\\l
 KW_EACH  = each
 KW_END   = end
-OP_END   = [<][$][>]
+OP_END   = [<⟨][$][⟩>]
 
 KW_IF    = if
 KW_ELSE  = else
@@ -240,6 +240,7 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
 <YYINITIAL> {
     {WHITE_SPACE}+     { return WHITE_SPACE; }
     {COMMENT_LINE}     { return COMMENT_LINE; }
+    {OP_END}           { return OP_END; }
     {ANGLE_L}{COMMENT} {
         yypushstate(CommentBlock);
     }
@@ -289,9 +290,8 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
 }
 
 <YYINITIAL> {
-	; { return SEMICOLON; }
-    {KW_END} { return KW_END; }
-    {OP_END} { return OP_END; }
+	;            { return SEMICOLON; }
+    {KW_END}     { return KW_END; }
     {TEMPLATE_L} { return TEMPLATE_L; }
     {TEMPLATE_R} { return TEMPLATE_R; }
 
