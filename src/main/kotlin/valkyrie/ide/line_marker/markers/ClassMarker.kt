@@ -5,13 +5,12 @@ import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER
 import com.intellij.psi.PsiElement
-import valkyrie.psi.mixin.keyword
 import valkyrie.psi.node.ValkyrieDeclareClassNode
 import javax.swing.Icon
 
 class ClassMarker : RelatedItemLineMarkerInfo<PsiElement> {
     constructor(element: ValkyrieDeclareClassNode) : super(
-        element.keyword,
+        element.navigationElement,
         element.textRange,
         AllIcons.Nodes.Class,
         { "Valkyrie Class" },

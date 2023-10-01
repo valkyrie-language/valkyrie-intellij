@@ -10,7 +10,7 @@ import javax.swing.Icon
 
 class FlagsMarker : RelatedItemLineMarkerInfo<PsiElement> {
     constructor(element: ValkyrieDeclareFlagsNode) : super(
-        element.keyword,
+        element.navigationElement,
         element.keyword.textRange,
         Flags,
         { "tooltipProvider" },

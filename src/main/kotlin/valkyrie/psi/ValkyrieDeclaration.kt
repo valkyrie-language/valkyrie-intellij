@@ -32,7 +32,7 @@ abstract class ValkyrieDeclaration : ValkyrieElement, PsiNameIdentifierOwner {
     }
 
     override fun getNavigationElement(): PsiElement {
-        return nameIdentifier ?: this.firstChild
+        return ensureLeaf(nameIdentifier ?: this.firstChild)
     }
 
     override fun getTextOffset(): Int {

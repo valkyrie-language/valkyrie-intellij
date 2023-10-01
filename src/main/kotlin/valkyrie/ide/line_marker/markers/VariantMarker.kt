@@ -5,12 +5,13 @@ import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER
 import com.intellij.psi.PsiElement
 import valkyrie.language.file.ValkyrieIconProvider.Instance.Variant
+import valkyrie.psi.ensureLeaf
 import valkyrie.psi.node.ValkyrieDeclareVariantNode
 import javax.swing.Icon
 
 class VariantMarker : RelatedItemLineMarkerInfo<PsiElement> {
     constructor(element: ValkyrieDeclareVariantNode) : super(
-        element.identifierSafe.firstChild,
+        element.navigationElement,
         element.textRange,
         Variant,
         null,

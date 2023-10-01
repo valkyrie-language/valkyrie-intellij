@@ -10,7 +10,7 @@ import javax.swing.Icon
 
 class EnumerationMarker : RelatedItemLineMarkerInfo<PsiElement> {
     constructor(element: ValkyrieDeclareEnumsNode) : super(
-        element.keyword,
+        element.navigationElement,
         element.keyword.textRange,
         Enumeration,
         { "tooltipProvider" },
