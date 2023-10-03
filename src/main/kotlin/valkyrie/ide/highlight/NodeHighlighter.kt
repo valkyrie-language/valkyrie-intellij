@@ -37,7 +37,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     override fun visitDeclareInfer(o: ValkyrieDeclareInfer) {
         o.identifierSafeList.forEach {
-            highlight(it, HighlightColor.SYM_GENERIC )
+            highlight(it, HighlightColor.SYM_GENERIC)
         }
     }
 
@@ -111,6 +111,22 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     override fun visitDeclareMacro(o: ValkyrieDeclareMacro) {
         highlight(o.identifierSafe, HighlightColor.SYM_MACRO)
+    }
+
+    override fun visitDeclareTests(o: ValkyrieDeclareTests) {
+        highlight(o.identifierFree, HighlightColor.STRING)
+    }
+
+    override fun visitRunTestCast(o: ValkyrieRunTestCast) {
+        highlight(o.identifierSafe, HighlightColor.STRING)
+    }
+
+    override fun visitRunBenchmark(o: ValkyrieRunBenchmark) {
+        highlight(o.identifierSafe, HighlightColor.STRING)
+    }
+
+    override fun visitBenchmarkUnit(o: ValkyrieBenchmarkUnit) {
+        highlight(o.identifierFree, HighlightColor.STRING)
     }
 
     override fun visitMacroCall(o: ValkyrieMacroCall) {

@@ -70,6 +70,7 @@ statements ::= declare-namespace
     | declare-function
     | declare-mezzo
     | declare-macro
+    | declare-tests
     | declare-component
     | declare-singleton
     | declare-neural
@@ -284,6 +285,26 @@ parameter-kind ::= OP_POW;
 return-type ::= (OP_ARROW1|COLON) type-expression;
 block-body  ::= BRACE_L block-statement* BRACE_R;
 block-bare  ::= block-statement*;
+/// === tests and benchmark ===
+declare-tests ::= annotations KW_TESTS identifier-free? tests-body {
+    pin = 2
+    mixin = "valkyrie.psi.mixin.MixinDeclareTests"
+}
+tests-body ::= BRACE_L tests-item* BRACE_R;
+private tests-item ::= SEMICOLON | COMMA
+    | declare-tests
+    | run-benchmark
+    | run-test-cast
+run-test-cast ::= annotations identifier-safe block-body;
+run-benchmark ::= annotations identifier-safe argument-body benchmark-body {
+
+}
+benchmark-body ::= BRACE_L benchmark-item* BRACE_R;
+private benchmark-item ::= SEMICOLON | COMMA
+    | benchmark-unit // fibonacci_mut($1, true) {repeats = 100}
+benchmark-unit ::= identifier-free argument-body? block-body? {
+
+}
 // === localize path ===
 localize-call ::= OP_L10N (identifier-safe ((DOT|NAME_SPLIT|OP_DIV) identifier-safe)*)? argument-body? {
     pin = 1
@@ -344,7 +365,7 @@ loop-condition ::=
     | loop-until     // loop until {...}
     | loop-match     // loop match { case ... }
     | loop-each      // loop each x in ...
-loop-while-let ::= KW_WHILE KW_LET? let-left EQUAL expression-inline if-condition? {
+loop-while-let ::= KW_WHILE KW_LET? let-pattern type-hint? EQUAL expression-inline if-condition? {
     pin = 5
 }
 loop-while     ::= KW_WHILE expression-inline {

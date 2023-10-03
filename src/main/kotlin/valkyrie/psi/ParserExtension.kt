@@ -19,6 +19,7 @@ class ParserExtension : GeneratedParserUtilBase() {
             KW_IMPLY,
 
             KW_MICRO, KW_MEZZO, KW_MACRO,
+            KW_TESTS,
 
             KW_LET,
 
