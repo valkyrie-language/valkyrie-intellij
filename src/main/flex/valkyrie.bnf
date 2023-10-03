@@ -302,7 +302,7 @@ run-benchmark ::= annotations identifier-safe argument-body benchmark-body {
 benchmark-body ::= BRACE_L benchmark-item* BRACE_R;
 private benchmark-item ::= SEMICOLON | COMMA
     | benchmark-unit // fibonacci_mut($1, true) {repeats = 100}
-benchmark-unit ::= identifier-free argument-body? block-body? {
+benchmark-unit ::= identifier-free argument-body? new-body? {
 
 }
 // === localize path ===
@@ -602,7 +602,9 @@ control-through ::= KW_THROUGH control-label?
 expression-root ::= expression OP_AND_THEN? SEMICOLON? {
 
 };
-expression ::= term (infix term)*;
+expression ::= term (infix term)* {
+    mixin = "valkyrie.psi.mixin.MixinTermExpression"
+}
 term ::= prefix* atomic suffix* {
 
 }
@@ -692,7 +694,7 @@ inline-suffix ::= OP_BANG
     | offset-slice
 // === inline expression statement ===
 expression-inline ::= inline-term (infix inline-term)* {
-
+    mixin = "valkyrie.psi.mixin.MixinTermExpression"
 };
 inline-term ::= prefix* inline-atomic inline-suffix* {
 

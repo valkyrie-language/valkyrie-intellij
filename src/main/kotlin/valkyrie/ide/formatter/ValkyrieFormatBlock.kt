@@ -7,7 +7,7 @@ import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.formatter.FormatterUtil
 import valkyrie.antlr.isWhitespaceOrEmpty
 
-class FormatBlock : ASTBlock {
+class ValkyrieFormatBlock : ASTBlock {
     private val _node: ASTNode
     private val _alignment: Alignment?
     private val _indent: Indent?
@@ -62,7 +62,7 @@ class FormatBlock : ASTBlock {
         return node.getChildren(null)
             .filter { !it.isWhitespaceOrEmpty() }
             .map {
-                FormatBlock(
+                ValkyrieFormatBlock(
                     node = it,
                     alignment = computeAlignment(it),
                     indent = computeIndent(it),
@@ -79,26 +79,20 @@ class FormatBlock : ASTBlock {
     override fun getChildAttributes(newChildIndex: Int): ChildAttributes {
         return ChildAttributes(Indent.getNoneIndent(), null)
     }
-
+    private fun computeWrap(child: ASTNode): Wrap? {
+        val builder = ValkyrieWrapVisitor(child)
+        _node.psi.accept(builder)
+        return builder.wrap
+    }
     private fun computeIndent(child: ASTNode): Indent? {
         val builder = ValkyrieIndentVisitor(child)
         _node.psi.accept(builder)
         return builder.indent
     }
-
-
     private fun computeAlignment(child: ASTNode): Alignment? {
-        val psi = _node.psi;
-//        if (psi is ValkyrieAlignmentElement) {
-//            return psi.on_alignment(child)
-//        }
-        return null
-    }
-
-    private fun computeWrap(child: ASTNode): Wrap? {
-        return when (_node.psi) {
-            else -> null
-        }
+        val builder = ValkyrieAlignmentVisitor(child)
+        _node.psi.accept(builder)
+        return builder.alignment
     }
 }
 

@@ -11,7 +11,7 @@ class ValkyrieFormatBuilder : FormattingModelBuilder {
         val settings = formattingContext.codeStyleSettings
         val element = formattingContext.psiElement
         val ctx = ValkyrieFormatSpace.create(settings)
-        val block = FormatBlock(element.node, null, Indent.getNoneIndent(), null, ctx)
+        val block = ValkyrieFormatBlock(element.node, null, Indent.getNoneIndent(), null, ctx)
         return FormattingModelProvider.createFormattingModelForPsiFile(element.containingFile, block, settings)
     }
 }

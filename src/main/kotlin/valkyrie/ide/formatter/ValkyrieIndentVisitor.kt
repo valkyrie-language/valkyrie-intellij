@@ -35,6 +35,14 @@ class ValkyrieIndentVisitor(val child: ASTNode) : ValkyrieVisitor() {
         byCorner(o.node)
     }
 
+    override fun visitTestsBody(o: ValkyrieTestsBody) {
+        byCorner(o.node)
+    }
+
+    override fun visitBenchmarkBody(o: ValkyrieBenchmarkBody) {
+        byCorner(o.node)
+    }
+
     override fun visitBlockBare(o: ValkyrieBlockBare) {
         indent = Indent.getNormalIndent()
     }
