@@ -3,12 +3,16 @@ package valkyrie.ide.highlight
 
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.colors.TextAttributesKey
+import com.intellij.openapi.externalSystem.model.project.ModuleNameDeduplicationStrategy
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase.pack
 import com.intellij.psi.tree.IElementType
+import valkyrie.cst.ValkyrieCST.Companion.COMMENT_BLOCK
+import valkyrie.cst.ValkyrieCST.Companion.COMMENT_LINE
+import valkyrie.cst.ValkyrieLexer
 import valkyrie.psi.ParserDefinition
 import valkyrie.psi.ParserExtension
-import valkyrie.psi.ValkyrieTypes.*
+
 
 class TokenHighlighter : SyntaxHighlighter {
     override fun getHighlightingLexer(): Lexer {
@@ -26,19 +30,19 @@ class TokenHighlighter : SyntaxHighlighter {
             return HighlightColor.KEYWORD
         } else {
             return when (tokenType) {
-                OP_BASE, OP_EXPONENT -> HighlightColor.KEYWORD
+//                OP_BASE, OP_EXPONENT -> HighlightColor.KEYWORD
                 // operations
-                COLON, BIND, STAR, KW_THEN -> HighlightColor.OPERATION
+//                COLON, BIND, STAR, KW_THEN -> HighlightColor.OPERATION
                 // literals
-                STRING_L, STRING_TEXT, STRING_R -> HighlightColor.STRING
-                ESCAPED -> HighlightColor.STRING_ESCAPED
-                DECIMAL -> HighlightColor.DECIMAL
-                INTEGER -> HighlightColor.INTEGER
+//                STRING_L, STRING_TEXT, STRING_R -> HighlightColor.STRING
+//                ESCAPED -> HighlightColor.STRING_ESCAPED
+//                DECIMAL -> HighlightColor.DECIMAL
+//                INTEGER -> HighlightColor.INTEGER
 //                KW_NEW, KW_OBJECT, KW_LAMBDA, DOLLAR -> HighlightColor.SYM_MACRO
-                NUMBER_SUFFIX -> HighlightColor.SYM_MACRO
-                TEMPLATE_L, TEMPLATE_R, KW_END, OP_END -> HighlightColor.SYM_MACRO
-                NUMBER_BASE -> HighlightColor.STRING
-                NUMBER_EXPONENT -> HighlightColor.STRING_ESCAPED
+//                NUMBER_SUFFIX -> HighlightColor.SYM_MACRO
+//                TEMPLATE_L, TEMPLATE_R, KW_END, OP_END -> HighlightColor.SYM_MACRO
+//                NUMBER_BASE -> HighlightColor.STRING
+//                NUMBER_EXPONENT -> HighlightColor.STRING_ESCAPED
                 // comments
                 COMMENT_LINE -> HighlightColor.COMMENT_LINE
                 COMMENT_BLOCK -> HighlightColor.COMMENT_BLOCK

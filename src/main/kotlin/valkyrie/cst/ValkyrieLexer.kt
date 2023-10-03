@@ -326,7 +326,7 @@ class ValkyrieLexer : LexerBase() {
             "class", "structure", "struct" -> ValkyrieCST.KW_CLASS
             "trait",  "interface" -> ValkyrieCST.TRAIT
             "object" -> ValkyrieCST.OBJECT
-            else -> ValkyrieCST.IDENTIFIER
+            else -> ValkyrieCST.SYMBOL
         }
         currentState = INITIAL
     }
@@ -362,7 +362,7 @@ class ValkyrieLexer : LexerBase() {
                 i++
             } else if (c == '`') {
                 tokenEnd = i + 1
-                currentToken = ValkyrieCST.IDENTIFIER_RAW
+                currentToken = ValkyrieCST.SYMBOL_RAW
                 currentState = INITIAL
                 return
             } else {

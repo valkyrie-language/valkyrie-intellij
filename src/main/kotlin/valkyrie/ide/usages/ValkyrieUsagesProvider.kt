@@ -5,14 +5,20 @@ import com.intellij.lang.cacheBuilder.WordsScanner
 import com.intellij.lang.findUsages.FindUsagesProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.tree.TokenSet
-import valkyrie.psi.ValkyrieTypes
+import valkyrie.cst.ValkyrieCST
+import valkyrie.cst.ValkyrieLexer
+
 
 class ValkyrieUsagesProvider : FindUsagesProvider {
     override fun getWordsScanner(): WordsScanner {
         return DefaultWordsScanner(
             ValkyrieLexer(),
-            TokenSet.create(ValkyrieTypes.SYMBOL, ValkyrieTypes.SYMBOL_RAW),
-            TokenSet.create(ValkyrieTypes.COMMENT_LINE, ValkyrieTypes.COMMENT_BLOCK),
+            TokenSet.create(
+                ValkyrieCST.SYMBOL, ValkyrieCST.SYMBOL_RAW
+            ),
+            TokenSet.create(
+                ValkyrieCST.COMMENT_LINE, ValkyrieCST.COMMENT_BLOCK
+            ),
             TokenSet.create(),
             TokenSet.EMPTY
         )

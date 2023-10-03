@@ -5,16 +5,16 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.IFileElementType
-import valkyrie.ValkyrieLanguage
+import valkyrie.language.ValkyrieLanguage
 import valkyrie.ast.node.ValkyrieAnnotationManyNode
 import valkyrie.ast.node.ValkyrieAnnotationNode
 import valkyrie.ast.node.ValkyrieArrayItemNode
 import valkyrie.ast.node.ValkyrieArrayNode
 import valkyrie.ast.node.ValkyrieBinaryNode
 import valkyrie.ast.node.ValkyrieClassDeclareNode
-import valkyrie.ast.node.ValkyrieClassAnonymousNode
+import valkyrie.ast.node.ValkyrieAnonymousObjectNode
 import valkyrie.ast.node.ValkyrieMicroDeclarationNode
-import valkyrie.ast.node.ValkyrieAnonymousMicroNode
+import valkyrie.ast.node.ValkyrieAnonymousFunctionNode
 import valkyrie.ast.node.ValkyrieDomainNode
 import valkyrie.ast.node.ValkyrieFieldNode
 import valkyrie.ast.node.ValkyrieFunctionBodyNode
@@ -51,12 +51,12 @@ class ValkyrieAST(show: String) : IElementType(show, ValkyrieLanguage) {
                 MODIFIER -> ValkyrieModifierNode(node)
                 // 具名对象
                 DeclareClass -> ValkyrieClassDeclareNode(node)
-                DefineTrait -> ValkyrieTraitDeclarationNode(node)
-                DefineMicro -> ValkyrieMicroDeclarationNode(node)
+                DeclareTrait -> ValkyrieTraitDeclarationNode(node)
+                DeclareMicro -> ValkyrieMicroDeclarationNode(node)
 
                 // 匿名对象
-                AnonymousClass -> ValkyrieClassAnonymousNode(node)
-                DefineLambda -> ValkyrieAnonymousMicroNode(node)
+                AnonymousClass -> ValkyrieAnonymousObjectNode(node)
+                AnonymousMicro -> ValkyrieAnonymousFunctionNode(node)
                 // 对象属性
                 DefineField -> ValkyrieFieldNode(node)
                 DefineMethod -> ValkyrieMethodNode(node)
@@ -85,7 +85,7 @@ class ValkyrieAST(show: String) : IElementType(show, ValkyrieLanguage) {
         val STATEMENT = ValkyrieAST("STATEMENT")
         val DeclareClass = ValkyrieAST("DEFINE_CLASS")
         val AnonymousClass = ValkyrieAST("ANONYMOUS_OBJECT")
-        val DefineTrait = ValkyrieAST("DEFINE_TRAIT")
+        val DeclareTrait = ValkyrieAST("DEFINE_TRAIT")
         val ObjectBody = ValkyrieAST("OBJECT_BODY")
         val ANNOTATION = ValkyrieAST("ANNOTATION")
         val ANNOTATION_MANY = ValkyrieAST("ANNOTATION_MANY")
@@ -107,8 +107,8 @@ class ValkyrieAST(show: String) : IElementType(show, ValkyrieLanguage) {
         val ClassInheritItem = ValkyrieAST("INHERIT_CLASS_ITEM")
         val INHERIT_CLASS_LIST = ValkyrieAST("INHERIT_CLASS_LIST")
         val IMPLEMENT_TRAIT_LIST = ValkyrieAST("IMPLEMENT_TRAIT_LIST")
-        val DefineLambda = ValkyrieAST("DEFINE_LAMBDA")
-        val DefineMicro = ValkyrieAST("DEFINE_FUNCTION")
+        val AnonymousMicro = ValkyrieAST("DEFINE_LAMBDA")
+        val DeclareMicro = ValkyrieAST("DEFINE_FUNCTION")
         val FunctionBody = ValkyrieAST("FUNCTION_BODY")
     }
 }

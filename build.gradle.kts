@@ -20,6 +20,7 @@ idea {
 }
 group = properties("pluginGroup").get()
 version = properties("pluginVersion").get()
+sourceSets["main"].java.srcDirs("src/main/gen")
 
 // Configure project's dependencies
 repositories {
@@ -37,6 +38,8 @@ dependencies {
     intellijPlatform {
         // https://youtrack.jetbrains.com/articles/IDEA-A-2100662347/IntelliJ-IDEA-2025.1-Latest-Builds
         intellijIdeaUltimate("251.23774.200", useInstaller = true)
+        // org.jetbrains.intellij.platform
+        bundledPlugin("com.intellij.java")
         bundledPlugin("com.intellij.modules.json")
         bundledPlugin("org.toml.lang")
         bundledPlugin("org.intellij.plugins.markdown")

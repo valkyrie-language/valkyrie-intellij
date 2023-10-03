@@ -12,12 +12,12 @@ open class ValkyrieIdentifierNode(node: ASTNode) : ASTWrapperPsiElement(node) {
         fun parse(builder: PsiBuilder): Boolean {
             val marker = builder.mark()
             when {
-                builder.tokenType == ValkyrieCST.Companion.IDENTIFIER -> {
+                builder.tokenType == ValkyrieCST.Companion.SYMBOL -> {
                     builder.advanceLexer()
                     marker.done(ValkyrieAST.Companion.Identifier)
                     return true
                 }
-                builder.tokenType == ValkyrieCST.Companion.IDENTIFIER_RAW -> {
+                builder.tokenType == ValkyrieCST.Companion.SYMBOL_RAW -> {
                     builder.advanceLexer()
                     marker.done(ValkyrieAST.Companion.Identifier)
                     return true
