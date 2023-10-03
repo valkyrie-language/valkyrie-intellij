@@ -61,6 +61,8 @@ class ParserExtension : GeneratedParserUtilBase() {
             OP_LLL, OP_LEQ, OP_LL,
             OP_EE, OP_NE,
 
+            ASSIGN_L, ASSIGN_R,
+
             OP_AND_THEN,
 //            OP_AND, OP_AND_ASSIGN,
 //            OP_OR, OP_OR_ASSIGN,
@@ -75,6 +77,7 @@ class ParserExtension : GeneratedParserUtilBase() {
             OperatorPrefix,
             OperatorInfix,
             OperatorSuffix,
+            TokenSet.create(BIND)
         );
 
         val Comments: TokenSet = TokenSet.create();

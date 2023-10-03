@@ -344,7 +344,7 @@ loop-condition ::=
     | loop-until     // loop until {...}
     | loop-match     // loop match { case ... }
     | loop-each      // loop each x in ...
-loop-while-let ::= KW_WHILE KW_LET? let-pattern type-hint? EQUAL expression-inline if-condition? {
+loop-while-let ::= KW_WHILE KW_LET? let-left EQUAL expression-inline if-condition? {
     pin = 5
 }
 loop-while     ::= KW_WHILE expression-inline {
@@ -368,20 +368,27 @@ dot-loop-call  ::= OP_AND_THEN? DOT KW_LOOP control-label? attribute-below* KW_E
     pin = 3
 }
 loop-inline ::= bare-pattern !(PARENTHESIS_L|BRACKET_L|BIND)
-    | match-bind? case-pattern-list   // loop x <- Some() in ...
-    | match-bind? namepath-safe            // loop x <- Option::None in ...
-    | match-bind? special             // loop ture in ...
-    | match-bind? string              // loop x <- "text" in ...
-    | match-bind? number-literal      // loop x <- 1 in ...
+    | match-bind? case-pattern-list   // loop x = Some(y) in ...
+    | match-bind? namepath-safe       // loop x = Option::None in ...
+    | match-bind? special             // loop x = ture in ...
+    | match-bind? string              // loop x = "text" in ...
+    | match-bind? number-literal      // loop x = 1 in ...
 // === function statement ===
-let-statement ::= KW_LET let-pattern type-hint? EQUAL expression {
-    pin = 4
+// let bind = pattern <- expression
+let-statement ::= KW_LET let-pattern type-hint? (ASSIGN_L expression)? {
+    pin = 1
     mixin = "valkyrie.psi.mixin.MixinVariable"
+    methods = [getKeyword]
 }
 let-pattern ::= bare-pattern !let-stop // let ref x, mut y
-    | match-bind? case-pattern-dict    // let a <- Object {x, y}
-    | match-bind? case-pattern-list    // let a <- Some(x)
-private let-stop ::= PARENTHESIS_L|BRACKET_L | BRACE_L | BIND;
+    | match-bind? case-pattern-dict    // let a = Object {x, y}
+    | match-bind? case-pattern-list    // let a = Some(x)
+// === loop bare pattern pattern ===
+bare-pattern      ::= bare-pattern-item (COMMA bare-pattern-item)* COMMA?
+bare-pattern-item ::= modifier* identifier-safe {
+    mixin = "valkyrie.psi.mixin.MixinLetPatternItem"
+}
+private let-stop ::= PARENTHESIS_L | BRACKET_L | BRACE_L | ASSIGN_L | BIND;
 // === try let statement ===
 may-let-statement ::= KW_LET let-pattern type-hint? OP_SET_THEN expression {
     pin = 4
@@ -390,10 +397,10 @@ may-let-statement ::= KW_LET let-pattern type-hint? OP_SET_THEN expression {
 try-statement ::= KW_TRY type-expression? block-body {
     pin = 1
 }
-try-let-statement ::= KW_TRY KW_LET let-pattern type-hint? EQUAL expression if-condition? else-statement {
+try-let-statement ::= KW_TRY KW_LET let-pattern type-hint? ASSIGN_L expression if-condition? else-statement {
     pin = 2
 }
-try-not-statement ::= KW_TRY KW_NOT type-pattern EQUAL expression block-body then-statement {
+try-not-statement ::= KW_TRY KW_NOT type-pattern ASSIGN_L expression block-body then-statement {
     pin = 2
 }
 // === match statement ===
@@ -405,7 +412,7 @@ dot-match-call ::= OP_AND_THEN? DOT match-kind (modifier* identifier-safe BIND)?
     pin = 3
     mixin = "valkyrie.psi.mixin.MixinMatchCall"
 }
-match-bind ::= modifier* identifier-safe BIND
+match-bind ::= modifier* identifier-safe BIND;
 match-kind ::= KW_MATCH|KW_CATCH;
 match-body ::= BRACE_L match-item* BRACE_R;
 private match-item ::=
@@ -476,7 +483,7 @@ type-pattern-inline ::= special
 type-pattern-object ::= namepath-safe? BRACE_L (type-pattern-pair (COMMA type-pattern-pair)* COMMA?)? BRACE_R
 type-pattern-tuple  ::= namepath-safe? PARENTHESIS_L (type-pattern (COMMA type-pattern)* COMMA?)? PARENTHESIS_R
                       | namepath-safe? BRACKET_L     (type-pattern (COMMA type-pattern)* COMMA?)? BRACKET_R
-type-pattern-pair   ::= identifier-safe (EQUAL|COLON) type-pattern
+type-pattern-pair   ::= identifier-safe (BIND|COLON) type-pattern
 type-pattern-item   ::= namepath-safe generic-call-free?
 // === case pattern ===
 case-pattern ::= special
@@ -489,7 +496,7 @@ case-pattern-dict ::= namepath-safe? BRACE_L (case-pattern-pair (COMMA case-patt
 case-pattern-pair ::= modifier* identifier-safe (COLON type-expression)? (case-pattern-bind case-pattern)? {
     mixin = "valkyrie.psi.mixin.MixinCasePatternPair"
 }
-case-pattern-bind ::= EQUAL | OP_MACRO | BIND;
+case-pattern-bind ::= ASSIGN_L | OP_MACRO | BIND;
 case-pattern-list ::= namepath-safe? PARENTHESIS_L (case-pattern-main (COMMA case-pattern-main)* COMMA?)? PARENTHESIS_R
                     | namepath-safe? BRACKET_L     (case-pattern-main (COMMA case-pattern-main)* COMMA?)? BRACKET_R
 case-pattern-top  ::= modifier* identifier-safe !case-id-stop (KW_IS type-expression)? (case-pattern-bind case-pattern)? | case-pattern {
@@ -502,11 +509,6 @@ case-pattern-main ::= case-pattern-kind? case-pattern-item case-pattern-rest*
 case-pattern-rest ::= case-pattern-kind case-pattern-item
 case-pattern-kind ::= OP_OR|OP_AND|LOGIC_AND|LOGIC_OR
 private case-id-stop ::= NAME_SPLIT|PARENTHESIS_L|BRACE_L|BRACKET_L;
-// === loop bare pattern pattern ===
-bare-pattern      ::= bare-pattern-item (COMMA bare-pattern-item)* COMMA?
-bare-pattern-item ::= modifier* identifier-safe {
-    mixin = "valkyrie.psi.mixin.MixinLetPatternItem"
-}
 // === new expression ===
 // new f() { }
 new-value  ::= annotations KW_NEW type-expression? argument-body? new-body {
@@ -623,7 +625,8 @@ infix  ::= OP_ADD  | OP_ADD_ASSIGN
     | infix-greater-equal  // >=
     // range
     | OP_UNTIL
-    | EQUAL | OP_EE | OP_NE
+    | BIND | ASSIGN_L | ASSIGN_R
+    | OP_EE | OP_NE
     | infix-logical
     // sequence
     | OP_MAP // f /@ x
@@ -715,9 +718,9 @@ generic-call-free ::=
     NAME_SPLIT? GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R
   | NAME_SPLIT? ANGLE_L   (generic-argument (COMMA generic-argument)* COMMA?)? ANGLE_R
 generic-argument ::=
-      annotations identifier-safe COLON type-expression EQUAL type-expression
+      annotations identifier-safe COLON type-expression BIND type-expression
     | annotations identifier-safe COLON type-expression
-    | annotations identifier-safe EQUAL type-expression
+    | annotations identifier-safe BIND type-expression
     | type-expression;
 // === atomic statement ===
 atomic ::=    PARENTHESIS_L expression-root PARENTHESIS_R
@@ -774,7 +777,7 @@ tuple       ::=
   //    mixin = "valkyrie.psi.mixin.MixinTuple"
 }
 argument-body ::= PARENTHESIS_L (argument (COMMA argument)* COMMA?)? PARENTHESIS_R;
-argument ::= (identifier-safe EQUAL)? expression-root {
+argument ::= (identifier-safe BIND)? expression-root {
 
 }
 // === literal items ===
@@ -791,7 +794,8 @@ modifier    ::= (SYMBOL | SYMBOL_RAW) !modifier-stop {
     mixin = "valkyrie.psi.mixin.MixinModifier"
 }
 private modifier-stop ::= KW_IN | KW_IF
-    | COMMA | EQUAL | BIND | COLON | SEMICOLON
+    | COMMA | SEMICOLON
+    | COLON | BIND | ASSIGN_L | ASSIGN_R
     | NAME_SPLIT | DOT
     | PARENTHESIS_L | PARENTHESIS_R
     | BRACE_L | BRACE_R
