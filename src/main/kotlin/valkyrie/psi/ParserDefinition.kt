@@ -11,7 +11,9 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
+import valkyrie.ast.ValkyrieAST
 import valkyrie.ast.ValkyrieParser
+import valkyrie.cst.ValkyrieCST
 import valkyrie.cst.ValkyrieLexer
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.file.ValkyrieFileNode
@@ -22,11 +24,15 @@ class ParserDefinition : ParserDefinition {
     override fun createParser(project: Project): PsiParser = ValkyrieParser()
     override fun getFileNodeType(): IFileElementType = IFileElementType(ValkyrieLanguage)
     override fun getCommentTokens(): TokenSet =
-        TokenSet.create(ValkyrieTypes.COMMENT_LINE, ValkyrieTypes.COMMENT_BLOCK)
+        TokenSet.create(ValkyrieCST.COMMENT_LINE, ValkyrieCST.COMMENT_BLOCK)
 
-    override fun getStringLiteralElements(): TokenSet = TokenSet.create()
-    override fun getWhitespaceTokens(): TokenSet = TokenSet.create(TokenType.WHITE_SPACE)
-    override fun createElement(node: ASTNode): PsiElement = ValkyrieTypes.Factory.createElement(node)
+    override fun getStringLiteralElements(): TokenSet = TokenSet.create(
+
+    )
+    override fun getWhitespaceTokens(): TokenSet = TokenSet.create(
+        TokenType.WHITE_SPACE
+    )
+    override fun createElement(node: ASTNode): PsiElement = ValkyrieAST.createElement(node)
     override fun createFile(viewProvider: FileViewProvider): PsiFile = ValkyrieFileNode(viewProvider)
     override fun spaceExistenceTypeBetweenTokens(left: ASTNode, right: ASTNode): ParserDefinition.SpaceRequirements {
         return ParserDefinition.SpaceRequirements.MAY
