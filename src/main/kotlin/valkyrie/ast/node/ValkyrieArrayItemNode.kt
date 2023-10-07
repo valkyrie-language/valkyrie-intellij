@@ -3,13 +3,13 @@ package valkyrie.ast.node
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.extapi.psi.ASTWrapperPsiElement
-import valkyrie.ast.ParseMonad
-import valkyrie.ast.ValkyrieAST
+import valkyrie.ast.ArrayItem
+import valkyrie.ast.ParserMonad
 import valkyrie.ast.advanceIgnore
 import valkyrie.cst.ValkyrieCST
 
 class ValkyrieArrayItemNode(node: ASTNode) : ASTWrapperPsiElement(node) {
-    companion object: ParseMonad {
+    companion object: ParserMonad {
       override  fun parse(builder: PsiBuilder): Boolean {
             val marker = builder.mark()
             // 检查是否有键值对形式
@@ -43,7 +43,7 @@ class ValkyrieArrayItemNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 return false
             }
             
-            marker.done(ValkyrieAST.ArrayItem)
+            marker.done(ArrayItem)
             return true
         }
     }

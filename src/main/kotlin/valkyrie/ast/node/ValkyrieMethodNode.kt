@@ -3,8 +3,11 @@ package valkyrie.ast.node
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
-import valkyrie.ast.ValkyrieAST
+import valkyrie.ast.DefineMethod
 import valkyrie.ast.advanceIgnore
+import valkyrie.cst.LBRACE
+import valkyrie.cst.PARENTHESIS_L
+import valkyrie.cst.PARENTHESIS_R
 import valkyrie.cst.ValkyrieCST
 
 class ValkyrieMethodNode(node: ASTNode) : ASTWrapperPsiElement(node) {
@@ -38,7 +41,7 @@ class ValkyrieMethodNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             builder.advanceIgnore()
 
             // 解析参数列表
-            if (builder.tokenType !== ValkyrieCST.Companion.PARENTHESIS_L) {
+            if (builder.tokenType !== PARENTHESIS_L) {
                 builder.error("Expected '('")
                 marker.drop()
                 return false
@@ -48,7 +51,7 @@ class ValkyrieMethodNode(node: ASTNode) : ASTWrapperPsiElement(node) {
 
             // 解析参数
             var first = true
-            while (builder.tokenType !== ValkyrieCST.Companion.PARENTHESIS_R && !builder.eof()) {
+            while (builder.tokenType !== PARENTHESIS_R && !builder.eof()) {
                 if (!first) {
                     if (builder.tokenType !== ValkyrieCST.Companion.COMMA) {
                         builder.error("Expected ','")
@@ -85,7 +88,7 @@ class ValkyrieMethodNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 first = false
             }
 
-            if (builder.tokenType !== ValkyrieCST.Companion.PARENTHESIS_R) {
+            if (builder.tokenType !== PARENTHESIS_R) {
                 builder.error("Expected ')'")
                 marker.drop()
                 return false
@@ -110,7 +113,7 @@ class ValkyrieMethodNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             // 解析方法体或分号
             if (builder.tokenType === ValkyrieCST.Companion.SEMICOLON) {
                 builder.advanceLexer() // 消费分号
-            } else if (builder.tokenType === ValkyrieCST.Companion.LBRACE) {
+            } else if (builder.tokenType === LBRACE) {
                 // TODO: 解析方法体
                 ValkyrieObjectNode.parse(builder)
             } else {
@@ -119,7 +122,7 @@ class ValkyrieMethodNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 return false
             }
 
-            marker.done(ValkyrieAST.DefineMethod)
+            marker.done(DefineMethod)
             return true
         }
     }

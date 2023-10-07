@@ -3,8 +3,10 @@ package valkyrie.ast.node
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
-import valkyrie.ast.ValkyrieAST
+import valkyrie.ast.TUPLE
 import valkyrie.ast.advanceIgnore
+import valkyrie.cst.PARENTHESIS_L
+import valkyrie.cst.PARENTHESIS_R
 import valkyrie.cst.ValkyrieCST
 
 class ValkyrieTupleNode(node: ASTNode) : ASTWrapperPsiElement(node) {
@@ -14,7 +16,7 @@ class ValkyrieTupleNode(node: ASTNode) : ASTWrapperPsiElement(node) {
 
     companion object {
         fun parse(builder: PsiBuilder): Boolean {
-            if (builder.tokenType !== ValkyrieCST.Companion.PARENTHESIS_L) {
+            if (builder.tokenType !== PARENTHESIS_L) {
                 return false
             }
 
@@ -23,9 +25,9 @@ class ValkyrieTupleNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             builder.advanceIgnore()
 
             // 空元组 ()
-            if (builder.tokenType === ValkyrieCST.Companion.PARENTHESIS_R) {
+            if (builder.tokenType === PARENTHESIS_R) {
                 builder.advanceLexer() // 消费右括号
-                marker.done(ValkyrieAST.Companion.TUPLE)
+                marker.done(TUPLE)
                 return true
             }
 
@@ -44,7 +46,7 @@ class ValkyrieTupleNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             }
 
             // 多元素元组 (item1, item2, ...)
-            while (builder.tokenType !== ValkyrieCST.Companion.PARENTHESIS_R) {
+            while (builder.tokenType !== PARENTHESIS_R) {
                 if (builder.tokenType !== ValkyrieCST.Companion.COMMA) {
                     builder.error("Expected comma or right parenthesis")
                     marker.drop()
@@ -60,14 +62,14 @@ class ValkyrieTupleNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 builder.advanceIgnore()
             }
 
-            if (builder.tokenType !== ValkyrieCST.Companion.PARENTHESIS_R) {
+            if (builder.tokenType !== PARENTHESIS_R) {
                 builder.error("Expected right parenthesis")
                 marker.drop()
                 return false
             }
             builder.advanceLexer() // 消费右括号
 
-            marker.done(ValkyrieAST.Companion.TUPLE)
+            marker.done(TUPLE)
             return true
         }
     }

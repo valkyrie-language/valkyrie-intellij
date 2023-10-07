@@ -3,8 +3,9 @@ package valkyrie.ast.node
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
-import valkyrie.ast.ValkyrieAST
+import valkyrie.ast.DefineDomain
 import valkyrie.ast.advanceIgnore
+import valkyrie.cst.LBRACE
 import valkyrie.cst.ValkyrieCST
 
 class ValkyrieDomainNode(node: ASTNode) : ASTWrapperPsiElement(node) {
@@ -38,14 +39,14 @@ class ValkyrieDomainNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             builder.advanceIgnore()
 
             // 解析域体
-            if (builder.tokenType !== ValkyrieCST.Companion.LBRACE) {
+            if (builder.tokenType !== LBRACE) {
                 builder.error("Expected '{'")
                 marker.drop()
                 return false
             }
             ValkyrieObjectNode.parse(builder)
 
-            marker.done(ValkyrieAST.DefineDomain)
+            marker.done(DefineDomain)
             return true
         }
     }

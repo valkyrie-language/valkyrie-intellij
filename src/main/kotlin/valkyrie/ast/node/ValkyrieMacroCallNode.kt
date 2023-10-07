@@ -3,7 +3,7 @@ package valkyrie.ast.node
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
-import valkyrie.ast.ValkyrieAST
+import valkyrie.ast.MacroCall
 import valkyrie.ast.advanceIgnore
 import valkyrie.cst.ValkyrieCST
 
@@ -37,7 +37,7 @@ class ValkyrieMacroCallNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             }
             builder.advanceLexer() // 消费宏名称
 
-            marker.done(ValkyrieAST.Companion.MacroCall)
+            marker.done(MacroCall)
             return true
         }
     }

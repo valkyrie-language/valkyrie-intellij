@@ -3,8 +3,10 @@ package valkyrie.ast.node
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
-import valkyrie.ast.ValkyrieAST
+import valkyrie.ast.ANNOTATION_MANY
 import valkyrie.ast.parsePaired
+import valkyrie.cst.LBRACK
+import valkyrie.cst.RBRACK
 import valkyrie.cst.ValkyrieCST
 
 class ValkyrieAnnotationManyNode(node: ASTNode) : ASTWrapperPsiElement(node) {
@@ -18,14 +20,14 @@ class ValkyrieAnnotationManyNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             // 消费 ↯
             builder.advanceLexer()
             // 检查是否是 [ 符号
-            if (builder.tokenType !== ValkyrieCST.Companion.LBRACK) {
+            if (builder.tokenType !== LBRACK) {
                 return false
             }
             // 使用 parsePaired 解析多个注解
             return builder.parsePaired(
-                ValkyrieAST.Companion.ANNOTATION_MANY,
-                ValkyrieCST.Companion.LBRACK,
-                ValkyrieCST.Companion.RBRACK,
+                ANNOTATION_MANY,
+                LBRACK,
+                RBRACK,
                 ValkyrieCST.Companion.COMMA,
                 ValkyrieAnnotationNode.Companion
             )

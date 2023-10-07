@@ -3,7 +3,7 @@ package valkyrie.ast.node
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
-import valkyrie.ast.ValkyrieAST
+import valkyrie.ast.Identifier
 import valkyrie.cst.ValkyrieCST
 
 open class ValkyrieIdentifierNode(node: ASTNode) : ASTWrapperPsiElement(node) {
@@ -14,12 +14,12 @@ open class ValkyrieIdentifierNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             when {
                 builder.tokenType == ValkyrieCST.Companion.SYMBOL -> {
                     builder.advanceLexer()
-                    marker.done(ValkyrieAST.Companion.Identifier)
+                    marker.done(Identifier)
                     return true
                 }
                 builder.tokenType == ValkyrieCST.Companion.SYMBOL_RAW -> {
                     builder.advanceLexer()
-                    marker.done(ValkyrieAST.Companion.Identifier)
+                    marker.done(Identifier)
                     return true
                 }
                 else -> {

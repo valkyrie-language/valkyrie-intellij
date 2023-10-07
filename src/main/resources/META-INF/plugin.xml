@@ -255,7 +255,7 @@
 	<extensions defaultExtensionNs="com.intellij.lang">
 		<parserDefinition
 			language="valkyrie"
-			implementationClass="valkyrie.psi.ParserDefinition"
+			implementationClass="valkyrie.ast.ParserDefinition"
 		/>
 		<substitutor
 			language="JSON"

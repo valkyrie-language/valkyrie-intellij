@@ -3,7 +3,7 @@ package valkyrie.ast.node
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
-import valkyrie.ast.ValkyrieAST
+import valkyrie.ast.DefineField
 import valkyrie.ast.advanceIgnore
 import valkyrie.cst.ValkyrieCST
 
@@ -58,7 +58,7 @@ class ValkyrieFieldNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 ValkyrieValueNode.parse(builder)
             }
 
-            marker.done(ValkyrieAST.DefineField)
+            marker.done(DefineField)
             return true
         }
     }

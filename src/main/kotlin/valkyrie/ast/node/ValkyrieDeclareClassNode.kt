@@ -3,9 +3,12 @@ package valkyrie.ast.node
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
-import valkyrie.ast.ParseMonad
-import valkyrie.ast.ValkyrieAST
+import valkyrie.ast.AnonymousClass
+import valkyrie.ast.ClassInheritItem
+import valkyrie.ast.DeclareClass
+import valkyrie.ast.ParserMonad
 import valkyrie.ast.advanceIgnore
+import valkyrie.cst.KW_CLASS
 import valkyrie.cst.ValkyrieCST
 
 class ValkyrieClassDeclareNode(node: ASTNode) : ASTWrapperPsiElement(node) {
@@ -14,7 +17,7 @@ class ValkyrieClassDeclareNode(node: ASTNode) : ASTWrapperPsiElement(node) {
         return "ClassDeclaration"
     }
 
-    companion object : ParseMonad {
+    companion object : ParserMonad {
         // 解析类定义
         override fun parse(builder: PsiBuilder): Boolean {
             return parse(builder = builder, anonymous = false)
@@ -31,7 +34,7 @@ class ValkyrieClassDeclareNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 }
             }
             // 检查是否有 class 关键字
-            if (builder.tokenType === ValkyrieCST.KW_CLASS) {
+            if (builder.tokenType === KW_CLASS) {
                 builder.advanceLexer()
                 builder.advanceIgnore()
             } else {
@@ -55,9 +58,9 @@ class ValkyrieClassDeclareNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 return false
             }
             if (anonymous) {
-                marker.done(ValkyrieAST.AnonymousClass)
+                marker.done(AnonymousClass)
             } else {
-                marker.done(ValkyrieAST.DeclareClass)
+                marker.done(DeclareClass)
             }
 
             return true
@@ -67,7 +70,7 @@ class ValkyrieClassDeclareNode(node: ASTNode) : ASTWrapperPsiElement(node) {
 
 
 class ValkyrieClassInheritListNode(node: ASTNode) : ASTWrapperPsiElement(node) {
-    companion object : ParseMonad {
+    companion object : ParserMonad {
         override fun parse(builder: PsiBuilder): Boolean {
             return false
         }
@@ -75,7 +78,7 @@ class ValkyrieClassInheritListNode(node: ASTNode) : ASTWrapperPsiElement(node) {
 }
 
 class ValkyrieClassInheritItemNode(node: ASTNode) : ASTWrapperPsiElement(node) {
-    companion object : ParseMonad {
+    companion object : ParserMonad {
         /** `class A(named: BaseClass)` */
         override fun parse(builder: PsiBuilder): Boolean {
             val marker = builder.mark()
@@ -91,7 +94,7 @@ class ValkyrieClassInheritItemNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             }
             builder.advanceLexer()
 
-            marker.done(ValkyrieAST.ClassInheritItem)
+            marker.done(ClassInheritItem)
             return true
         }
     }
