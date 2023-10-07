@@ -5,9 +5,9 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import valkyrie.ast.TUPLE
 import valkyrie.ast.advanceIgnore
+import valkyrie.cst.COMMA
 import valkyrie.cst.PARENTHESIS_L
 import valkyrie.cst.PARENTHESIS_R
-import valkyrie.cst.ValkyrieCST
 
 class ValkyrieTupleNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     override fun toString(): String {
@@ -40,14 +40,14 @@ class ValkyrieTupleNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             builder.advanceIgnore()
 
             // 单元素元组 (item,)
-            if (builder.tokenType === ValkyrieCST.Companion.COMMA) {
+            if (builder.tokenType === COMMA) {
                 builder.advanceLexer() // 消费逗号
                 builder.advanceIgnore()
             }
 
             // 多元素元组 (item1, item2, ...)
             while (builder.tokenType !== PARENTHESIS_R) {
-                if (builder.tokenType !== ValkyrieCST.Companion.COMMA) {
+                if (builder.tokenType !== COMMA) {
                     builder.error("Expected comma or right parenthesis")
                     marker.drop()
                     return false

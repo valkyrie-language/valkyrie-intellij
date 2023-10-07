@@ -5,16 +5,17 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import valkyrie.ast.ANNOTATION_MANY
 import valkyrie.ast.parsePaired
+import valkyrie.cst.COMMA
 import valkyrie.cst.LBRACK
+import valkyrie.cst.OP_MACRO_LOWER
 import valkyrie.cst.RBRACK
-import valkyrie.cst.ValkyrieCST
 
 class ValkyrieAnnotationManyNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     companion object {
         // 解析多个注解
         fun parse(builder: PsiBuilder): Boolean {
             // 检查是否是 ↯ 符号
-            if (builder.tokenType !== ValkyrieCST.Companion.OP_MACRO_LOWER) {
+            if (builder.tokenType !== OP_MACRO_LOWER) {
                 return false
             }
             // 消费 ↯
@@ -28,7 +29,7 @@ class ValkyrieAnnotationManyNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 ANNOTATION_MANY,
                 LBRACK,
                 RBRACK,
-                ValkyrieCST.Companion.COMMA,
+                COMMA,
                 ValkyrieAnnotationNode.Companion
             )
         }

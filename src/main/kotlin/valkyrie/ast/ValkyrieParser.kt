@@ -6,7 +6,9 @@ import com.intellij.lang.PsiBuilder
 import com.intellij.lang.PsiParser
 import com.intellij.psi.tree.IElementType
 import valkyrie.ast.node.ValkyrieProgramNode
-import valkyrie.cst.ValkyrieCST
+import valkyrie.cst.COMMENT_BLOCK
+import valkyrie.cst.COMMENT_LINE
+import valkyrie.cst.WHITE_SPACE
 
 class ValkyrieParser : PsiParser, LightPsiParser {
     override fun parse(root: IElementType, builder: PsiBuilder): ASTNode {
@@ -91,9 +93,9 @@ fun PsiBuilder.advanceIgnore() {
     while (!this.eof()) {
         val tokenType = this.tokenType
         when {
-            tokenType === ValkyrieCST.Companion.WHITE_SPACE -> this.advanceLexer()
-            tokenType === ValkyrieCST.Companion.COMMENT_LINE -> this.advanceLexer()
-            tokenType === ValkyrieCST.Companion.COMMENT_BLOCK -> this.advanceLexer()
+            tokenType === WHITE_SPACE -> this.advanceLexer()
+            tokenType === COMMENT_LINE -> this.advanceLexer()
+            tokenType === COMMENT_BLOCK -> this.advanceLexer()
             else -> break
         }
     }

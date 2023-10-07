@@ -4,7 +4,7 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import valkyrie.ast.advanceIgnore
-import valkyrie.cst.ValkyrieCST
+import valkyrie.cst.SYMBOL
 
 class ValkyrieModifierListNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     companion object {
@@ -19,7 +19,7 @@ class ValkyrieModifierListNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 }
             }
 
-            if (builder.latestDoneMarker == ValkyrieCST.SYMBOL) {
+            if (builder.latestDoneMarker == SYMBOL) {
                 marker.rollbackTo()
             }
             marker.drop()

@@ -6,7 +6,8 @@ import com.intellij.lang.PsiBuilder
 import valkyrie.ast.DefineDomain
 import valkyrie.ast.advanceIgnore
 import valkyrie.cst.LBRACE
-import valkyrie.cst.ValkyrieCST
+import valkyrie.cst.OP_MACRO
+import valkyrie.cst.SYMBOL
 
 class ValkyrieDomainNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     override fun toString(): String {
@@ -18,8 +19,8 @@ class ValkyrieDomainNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             val marker = builder.mark()
 
             // 解析注解和修饰符
-            while (builder.tokenType === ValkyrieCST.Companion.OP_MACRO || builder.tokenType === ValkyrieCST.Companion.SYMBOL) {
-                if (builder.tokenType === ValkyrieCST.Companion.OP_MACRO) {
+            while (builder.tokenType === OP_MACRO || builder.tokenType === SYMBOL) {
+                if (builder.tokenType === OP_MACRO) {
                     // TODO: 解析注解
                     builder.advanceLexer()
                 } else {
@@ -30,7 +31,7 @@ class ValkyrieDomainNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             }
 
             // 解析域名
-            if (builder.tokenType !== ValkyrieCST.Companion.SYMBOL) {
+            if (builder.tokenType !== SYMBOL) {
                 builder.error("Expected domain name")
                 marker.drop()
                 return false

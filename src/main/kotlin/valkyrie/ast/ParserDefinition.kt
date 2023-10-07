@@ -32,7 +32,9 @@ import valkyrie.ast.node.ValkyrieStatementNode
 import valkyrie.ast.node.ValkyrieTraitDeclarationNode
 import valkyrie.ast.node.ValkyrieTupleNode
 import valkyrie.ast.node.ValkyrieValueNode
-import valkyrie.cst.ValkyrieCST
+import valkyrie.cst.COMMENT_BLOCK
+import valkyrie.cst.COMMENT_LINE
+import valkyrie.cst.STRING
 import valkyrie.cst.ValkyrieLexer
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.file.ValkyrieFileNode
@@ -42,11 +44,11 @@ class ParserDefinition : ParserDefinition {
     override fun createParser(project: Project) = ValkyrieParser()
     override fun getFileNodeType() = IFileElementType(ValkyrieLanguage)
     override fun getCommentTokens() = TokenSet.create(
-        ValkyrieCST.Companion.COMMENT_LINE, ValkyrieCST.Companion.COMMENT_BLOCK
+        COMMENT_LINE, COMMENT_BLOCK
     )
 
     override fun getStringLiteralElements(): TokenSet = TokenSet.create(
-        ValkyrieCST.Companion.STRING
+        STRING
     )
 
     override fun getWhitespaceTokens(): TokenSet = TokenSet.create(

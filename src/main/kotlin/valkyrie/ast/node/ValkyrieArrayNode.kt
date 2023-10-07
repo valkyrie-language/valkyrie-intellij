@@ -6,9 +6,9 @@ import com.intellij.lang.PsiBuilder
 import valkyrie.ast.Array
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.parsePaired
+import valkyrie.cst.COMMA
 import valkyrie.cst.LBRACK
 import valkyrie.cst.RBRACK
-import valkyrie.cst.ValkyrieCST
 
 class ValkyrieArrayNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     companion object: ParserMonad {
@@ -18,7 +18,7 @@ class ValkyrieArrayNode(node: ASTNode) : ASTWrapperPsiElement(node) {
               Array,
               LBRACK,
               RBRACK,
-                ValkyrieCST.Companion.COMMA,
+              COMMA,
               ValkyrieArrayItemNode.Companion,
             )
         }

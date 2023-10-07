@@ -6,7 +6,7 @@ import com.intellij.lang.PsiBuilder
 import valkyrie.ast.ANNOTATION_LIST
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.advanceIgnore
-import valkyrie.cst.ValkyrieCST
+import valkyrie.cst.OP_MACRO_LOWER
 
 class ValkyrieAnnotationAreaNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     companion object : ParserMonad {
@@ -16,7 +16,7 @@ class ValkyrieAnnotationAreaNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             var hasAnnotation = false
 
             // 解析所有注解
-            while (builder.tokenType === ValkyrieCST.Companion.OP_MACRO_LOWER) {
+            while (builder.tokenType === OP_MACRO_LOWER) {
                 hasAnnotation = true
                 val annotationMarker = builder.mark()
                 // 尝试解析多注解

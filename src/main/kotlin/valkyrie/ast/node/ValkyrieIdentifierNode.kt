@@ -4,7 +4,8 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import valkyrie.ast.Identifier
-import valkyrie.cst.ValkyrieCST
+import valkyrie.cst.SYMBOL
+import valkyrie.cst.SYMBOL_RAW
 
 open class ValkyrieIdentifierNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     companion object {
@@ -12,12 +13,12 @@ open class ValkyrieIdentifierNode(node: ASTNode) : ASTWrapperPsiElement(node) {
         fun parse(builder: PsiBuilder): Boolean {
             val marker = builder.mark()
             when {
-                builder.tokenType == ValkyrieCST.Companion.SYMBOL -> {
+                builder.tokenType == SYMBOL -> {
                     builder.advanceLexer()
                     marker.done(Identifier)
                     return true
                 }
-                builder.tokenType == ValkyrieCST.Companion.SYMBOL_RAW -> {
+                builder.tokenType == SYMBOL_RAW -> {
                     builder.advanceLexer()
                     marker.done(Identifier)
                     return true

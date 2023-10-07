@@ -6,9 +6,12 @@ import com.intellij.lang.PsiBuilder
 import valkyrie.ast.ObjectBody
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.advanceIgnore
+import valkyrie.cst.COMMA
 import valkyrie.cst.LBRACE
+import valkyrie.cst.OP_MACRO
 import valkyrie.cst.RBRACE
-import valkyrie.cst.ValkyrieCST
+import valkyrie.cst.SEMICOLON
+import valkyrie.cst.SYMBOL
 
 class ValkyrieObjectNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     override fun toString(): String {
@@ -31,7 +34,7 @@ class ValkyrieObjectNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 
                 // 尝试解析成员
                 val success = when (builder.tokenType) {
-                    ValkyrieCST.Companion.OP_MACRO, ValkyrieCST.Companion.SYMBOL -> {
+                    OP_MACRO, SYMBOL -> {
                         // 先标记当前位置
                         val memberMarker = builder.mark()
                         
@@ -55,8 +58,9 @@ class ValkyrieObjectNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 
                 // 处理可选的分隔符
                 builder.advanceIgnore()
-                if (builder.tokenType === ValkyrieCST.Companion.SEMICOLON || 
-                    builder.tokenType === ValkyrieCST.Companion.COMMA) {
+                if (builder.tokenType === SEMICOLON ||
+                    builder.tokenType === COMMA
+                ) {
                     builder.advanceLexer() // 消费分隔符
                 }
             }
