@@ -220,7 +220,6 @@ LOGIC_XOR  = [⊻]
 LOGIC_NOR  = [⊽]
 
 // arrow
-OP_ARROW1 = ⟶|->
 OP_ARROW2 = ⇒|=>
 OP_ARROW3 = ==>
 
@@ -306,7 +305,6 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
     {OP_REFERENCE}   { return OP_REFERENCE;}
     {OP_DEREFERENCE} { return OP_DEREFERENCE;}
 
-    {OP_ARROW1} { return OP_ARROW1; }
     {OP_ARROW2} { return OP_ARROW2; }
     {OP_ARROW3} { return OP_ARROW3; }
 
