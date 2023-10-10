@@ -46,8 +46,6 @@ val SYMBOL = ValkyrieCST("SYMBOL")
 val SYMBOL_RAW = ValkyrieCST("SYMBOL<RAW>")
 
 // 其他
-val WHITE_SPACE = ValkyrieCST("WHITE_SPACE")
-val BAD_CHARACTER = ValkyrieCST("BAD_CHARACTER")
 val COMMENT_LINE = ValkyrieCST("COMMENT<LINE>")
 val COMMENT_BLOCK = ValkyrieCST("COMMENT<BLOCK>")
 // 终止符

@@ -1,6 +1,8 @@
 package valkyrie.cst
 
 import com.intellij.lexer.LexerBase
+import com.intellij.psi.TokenType.BAD_CHARACTER
+import com.intellij.psi.TokenType.WHITE_SPACE
 import com.intellij.psi.tree.IElementType
 
 class ValkyrieLexer : LexerBase() {
