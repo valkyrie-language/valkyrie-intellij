@@ -3,13 +3,8 @@ package valkyrie.ast.node
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
-import valkyrie.ast.AnonymousClass
-import valkyrie.ast.ClassInheritItem
-import valkyrie.ast.DeclareClass
-import valkyrie.ast.ParserMonad
-import valkyrie.ast.advanceIgnore
-import valkyrie.cst.KW_CLASS
-import valkyrie.cst.SYMBOL
+import valkyrie.ast.*
+import valkyrie.cst.*
 
 class ValkyrieClassDeclareNode(node: ASTNode) : ASTWrapperPsiElement(node) {
 
@@ -35,7 +30,7 @@ class ValkyrieClassDeclareNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             }
             // 检查是否有 class 关键字
             if (builder.tokenType === KW_CLASS) {
-                builder.advanceLexer()
+                ValkyrieKeywordNode.parse(builder)
                 builder.advanceIgnore()
             } else {
                 marker.drop()
@@ -69,33 +64,3 @@ class ValkyrieClassDeclareNode(node: ASTNode) : ASTWrapperPsiElement(node) {
 }
 
 
-class ValkyrieClassInheritListNode(node: ASTNode) : ASTWrapperPsiElement(node) {
-    companion object : ParserMonad {
-        override fun parse(builder: PsiBuilder): Boolean {
-            return false
-        }
-    }
-}
-
-class ValkyrieClassInheritItemNode(node: ASTNode) : ASTWrapperPsiElement(node) {
-    companion object : ParserMonad {
-        /** `class A(named: BaseClass)` */
-        override fun parse(builder: PsiBuilder): Boolean {
-            val marker = builder.mark()
-            // 解析可选的注解列表
-            ValkyrieAnnotationAreaNode.parse(builder)
-            builder.advanceIgnore()
-
-            // 解析类名标识符
-            if (builder.tokenType !== SYMBOL) {
-                builder.error("Expected class name")
-                marker.drop()
-                return false
-            }
-            builder.advanceLexer()
-
-            marker.done(ClassInheritItem)
-            return true
-        }
-    }
-}

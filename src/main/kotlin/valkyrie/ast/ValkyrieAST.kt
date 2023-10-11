@@ -13,13 +13,24 @@ val Unknown = ValkyrieAST("UNKNOWN")
 val Program = ValkyrieAST("PROGRAM")
 val Statement = ValkyrieAST("STATEMENT")
 val DeclareClass = ValkyrieAST("DEFINE_CLASS")
-val AnonymousClass = ValkyrieAST("ANONYMOUS_OBJECT")
 val DeclareTrait = ValkyrieAST("DEFINE_TRAIT")
+val AnonymousClass = ValkyrieAST("ANONYMOUS_OBJECT")
+
+//
+val InheritList = ValkyrieAST("INHERIT_LIST")
+val InheritItem = ValkyrieAST("INHERIT_ITEM")
+val ImplementList = ValkyrieAST("IMPLEMENT_LIST")
+val ImplementItem = ValkyrieAST("IMPLEMENT_ITEM")
 val ObjectBody = ValkyrieAST("OBJECT_BODY")
 val ANNOTATION = ValkyrieAST("ANNOTATION")
 val ANNOTATION_MANY = ValkyrieAST("ANNOTATION_MANY")
+
+//
 val Identifier = ValkyrieAST("IDENTIFIER")
-val MODIFIER = ValkyrieAST("MODIFIER")
+val Modifier = ValkyrieAST("MODIFIER")
+val Keyword = ValkyrieAST("KEYWORD")
+
+//
 val EXPRESSION = ValkyrieAST("EXPRESSION")
 val BINARY = ValkyrieAST("BINARY")
 val ATOMIC = ValkyrieAST("ATOMIC")
@@ -33,9 +44,8 @@ val MacroCall = ValkyrieAST("MACRO")
 val MODIFIER_LIST = ValkyrieAST("MODIFIER_LIST")
 val TUPLE = ValkyrieAST("TUPLE")
 val ArrayItem = ValkyrieAST("ARRAY_ITEM")
-val ClassInheritItem = ValkyrieAST("INHERIT_CLASS_ITEM")
-val INHERIT_CLASS_LIST = ValkyrieAST("INHERIT_CLASS_LIST")
-val IMPLEMENT_TRAIT_LIST = ValkyrieAST("IMPLEMENT_TRAIT_LIST")
+
+//
 val AnonymousMicro = ValkyrieAST("DEFINE_LAMBDA")
 val DeclareMicro = ValkyrieAST("DEFINE_FUNCTION")
 val FunctionBody = ValkyrieAST("FUNCTION_BODY")

@@ -111,10 +111,14 @@ fun PsiBuilder.parsePaired(
     element: ParserMonad,
 ): Boolean {
     val marker = this.mark()
-    assert(this.tokenType === left)
-    // 消费左括号
-    this.advanceLexer()
-    this.advanceIgnore()
+    // 判定左括号
+    if (this.tokenType === left) {
+        this.advanceLexer()
+        this.advanceIgnore()
+    } else {
+        marker.drop()
+        return false
+    }
     // 无元素
     if (this.tokenType === right) {
         this.advanceLexer() // 消费 ']'

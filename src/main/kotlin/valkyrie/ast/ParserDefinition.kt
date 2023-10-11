@@ -1,5 +1,6 @@
 package valkyrie.ast
 
+import valkyrie.ast.node.ValkyrieClassInheritItemNode
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.ParserDefinition
@@ -9,29 +10,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
-import valkyrie.ast.node.ValkyrieAnnotationManyNode
-import valkyrie.ast.node.ValkyrieAnnotationNode
-import valkyrie.ast.node.ValkyrieAnonymousFunctionNode
-import valkyrie.ast.node.ValkyrieAnonymousObjectNode
-import valkyrie.ast.node.ValkyrieArrayItemNode
-import valkyrie.ast.node.ValkyrieArrayNode
-import valkyrie.ast.node.ValkyrieBinaryNode
-import valkyrie.ast.node.ValkyrieClassDeclareNode
-import valkyrie.ast.node.ValkyrieClassInheritItemNode
-import valkyrie.ast.node.ValkyrieDomainNode
-import valkyrie.ast.node.ValkyrieFieldNode
-import valkyrie.ast.node.ValkyrieFunctionBodyNode
-import valkyrie.ast.node.ValkyrieMacroCallNode
-import valkyrie.ast.node.ValkyrieMethodNode
-import valkyrie.ast.node.ValkyrieMicroDeclarationNode
-import valkyrie.ast.node.ValkyrieModifierListNode
-import valkyrie.ast.node.ValkyrieModifierNode
-import valkyrie.ast.node.ValkyrieObjectNode
-import valkyrie.ast.node.ValkyrieProgramNode
-import valkyrie.ast.node.ValkyrieStatementNode
-import valkyrie.ast.node.ValkyrieTraitDeclarationNode
-import valkyrie.ast.node.ValkyrieTupleNode
-import valkyrie.ast.node.ValkyrieValueNode
+import valkyrie.ast.node.*
 import valkyrie.cst.COMMENT_BLOCK
 import valkyrie.cst.COMMENT_LINE
 import valkyrie.cst.STRING
@@ -68,7 +47,7 @@ class ParserDefinition : ParserDefinition {
             ANNOTATION -> ValkyrieAnnotationNode(node)
             ANNOTATION_MANY -> ValkyrieAnnotationManyNode(node)
             MODIFIER_LIST -> ValkyrieModifierListNode(node)
-            MODIFIER -> ValkyrieModifierNode(node)
+            Modifier -> ValkyrieModifierNode(node)
             // 具名对象
             DeclareClass -> ValkyrieClassDeclareNode(node)
             DeclareTrait -> ValkyrieTraitDeclarationNode(node)
@@ -82,7 +61,7 @@ class ParserDefinition : ParserDefinition {
             DefineMethod -> ValkyrieMethodNode(node)
             DefineDomain -> ValkyrieDomainNode(node)
             // 后修饰器
-            ClassInheritItem -> ValkyrieClassInheritItemNode(node)
+            InheritItem -> ValkyrieClassInheritItemNode(node)
             // 表达式
             BINARY -> ValkyrieBinaryNode(node)
             // 调用
@@ -96,6 +75,8 @@ class ParserDefinition : ParserDefinition {
             // (...)
             TUPLE -> ValkyrieTupleNode(node)
             VALUE -> ValkyrieValueNode(node)
+            Identifier -> ValkyrieIdentifierNode(node)
+            Keyword -> ValkyrieKeywordNode(node)
             else -> ASTWrapperPsiElement(node)
         }
     }
