@@ -30,6 +30,12 @@ public class ValkyrieLoopUntilNotNode extends ValkyrieElement implements Valkyri
     }
 
     @Override
+    @Nullable
+    public ValkyrieIfCondition getIfCondition() {
+        return findChildByClass(ValkyrieIfCondition.class);
+    }
+
+    @Override
     @NotNull
     public ValkyrieTypePattern getTypePattern() {
         return findNotNullChildByClass(ValkyrieTypePattern.class);

@@ -5,15 +5,22 @@ import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 public interface ValkyrieLetStatement extends PsiElement {
+
+    @NotNull
+    List<ValkyrieAttributeBelow> getAttributeBelowList();
 
     @Nullable
     ValkyrieExpression getExpression();
 
-    @NotNull
+    @Nullable
     ValkyrieLetPattern getLetPattern();
 
     @Nullable
     ValkyrieTypeHint getTypeHint();
+
+    @NotNull PsiElement getKeyword();
 
 }

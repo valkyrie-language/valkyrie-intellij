@@ -4,6 +4,7 @@ package valkyrie.psi.node;
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import valkyrie.ide.highlight.NodeHighlighter;
 import valkyrie.psi.mixin.MixinIdentifier;
 
 import java.util.List;
@@ -21,5 +22,7 @@ public interface ValkyrieNamepathSafe extends PsiElement {
     @NotNull List<@NotNull MixinIdentifier> getNamespace();
 
     @Nullable MixinIdentifier getIdentifier();
+
+    void highlight(@NotNull NodeHighlighter highlighter);
 
 }

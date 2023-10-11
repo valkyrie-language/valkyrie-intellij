@@ -5,18 +5,18 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
-import valkyrie.psi.mixin.MixinTermExpression;
+import valkyrie.psi.ValkyrieElement;
 
 import java.util.List;
 
-public class ValkyrieExpressionInlineNode extends MixinTermExpression implements ValkyrieExpressionInline {
+public class ValkyrieLoopTemplateStartNode extends ValkyrieElement implements ValkyrieLoopTemplateStart {
 
-    public ValkyrieExpressionInlineNode(@NotNull ASTNode node) {
+    public ValkyrieLoopTemplateStartNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitExpressionInline(this);
+        visitor.visitLoopTemplateStart(this);
     }
 
     @Override
@@ -27,14 +27,14 @@ public class ValkyrieExpressionInlineNode extends MixinTermExpression implements
 
     @Override
     @NotNull
-    public List<ValkyrieInfix> getInfixList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieInfix.class);
+    public ValkyrieLoopStart getLoopStart() {
+        return findNotNullChildByClass(ValkyrieLoopStart.class);
     }
 
     @Override
     @NotNull
-    public List<ValkyrieInlineTerm> getInlineTermList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieInlineTerm.class);
+    public List<ValkyrieStatements> getStatementsList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieStatements.class);
     }
 
 }

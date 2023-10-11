@@ -3,12 +3,9 @@ package valkyrie.psi.node;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import valkyrie.psi.mixin.MixinCasePatternItem;
-
-import java.util.List;
 
 public class ValkyrieCasePatternItemNode extends MixinCasePatternItem implements ValkyrieCasePatternItem {
 
@@ -28,6 +25,12 @@ public class ValkyrieCasePatternItemNode extends MixinCasePatternItem implements
 
     @Override
     @Nullable
+    public ValkyrieAnnotations getAnnotations() {
+        return findChildByClass(ValkyrieAnnotations.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieCasePattern getCasePattern() {
         return findChildByClass(ValkyrieCasePattern.class);
     }
@@ -42,12 +45,6 @@ public class ValkyrieCasePatternItemNode extends MixinCasePatternItem implements
     @Nullable
     public ValkyrieIdentifierSafe getIdentifierSafe() {
         return findChildByClass(ValkyrieIdentifierSafe.class);
-    }
-
-    @Override
-    @NotNull
-    public List<ValkyrieModifier> getModifierList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieModifier.class);
     }
 
     @Override

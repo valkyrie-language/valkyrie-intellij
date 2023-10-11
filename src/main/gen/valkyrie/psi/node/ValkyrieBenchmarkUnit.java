@@ -5,20 +5,15 @@ import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public interface ValkyrieNewValue extends PsiElement {
-
-    @NotNull
-    ValkyrieAnnotations getAnnotations();
+public interface ValkyrieBenchmarkUnit extends PsiElement {
 
     @Nullable
     ValkyrieArgumentBody getArgumentBody();
 
+    @NotNull
+    ValkyrieIdentifierFree getIdentifierFree();
+
     @Nullable
     ValkyrieNewBody getNewBody();
-
-    @Nullable
-    ValkyrieTypeExpression getTypeExpression();
-
-    @NotNull PsiElement getKeyword();
 
 }

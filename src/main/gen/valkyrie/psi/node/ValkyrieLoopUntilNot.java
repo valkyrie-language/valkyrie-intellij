@@ -10,6 +10,9 @@ public interface ValkyrieLoopUntilNot extends PsiElement {
     @Nullable
     ValkyrieExpressionInline getExpressionInline();
 
+    @Nullable
+    ValkyrieIfCondition getIfCondition();
+
     @NotNull
     ValkyrieTypePattern getTypePattern();
 

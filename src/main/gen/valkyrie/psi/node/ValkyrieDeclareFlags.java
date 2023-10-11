@@ -22,4 +22,6 @@ public interface ValkyrieDeclareFlags extends PsiElement {
     @Nullable
     ValkyrieTypeAtomic getTypeAtomic();
 
+    @NotNull PsiElement getKeyword();
+
 }

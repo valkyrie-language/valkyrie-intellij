@@ -6,20 +6,32 @@ import com.intellij.psi.PsiElementVisitor;
 import org.jetbrains.annotations.NotNull;
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieTemplateEndNode extends ValkyrieElement implements ValkyrieTemplateEnd {
+public class ValkyrieNewBindNode extends ValkyrieElement implements ValkyrieNewBind {
 
-    public ValkyrieTemplateEndNode(@NotNull ASTNode node) {
+    public ValkyrieNewBindNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitTemplateEnd(this);
+        visitor.visitNewBind(this);
     }
 
     @Override
     public void accept(@NotNull PsiElementVisitor visitor) {
         if (visitor instanceof ValkyrieVisitor) accept((ValkyrieVisitor) visitor);
         else super.accept(visitor);
+    }
+
+    @Override
+    @NotNull
+    public ValkyrieExpression getExpression() {
+        return findNotNullChildByClass(ValkyrieExpression.class);
+    }
+
+    @Override
+    @NotNull
+    public ValkyrieIdentifierSafe getIdentifierSafe() {
+        return findNotNullChildByClass(ValkyrieIdentifierSafe.class);
     }
 
 }

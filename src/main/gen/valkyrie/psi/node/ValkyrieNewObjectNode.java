@@ -42,12 +42,6 @@ public class ValkyrieNewObjectNode extends MixinObject implements ValkyrieNewObj
     }
 
     @Override
-    @NotNull
-    public ValkyrieObjectNavigate getObjectNavigate() {
-        return findNotNullChildByClass(ValkyrieObjectNavigate.class);
-    }
-
-    @Override
     @Nullable
     public ValkyrieTypeHint getTypeHint() {
         return findChildByClass(ValkyrieTypeHint.class);

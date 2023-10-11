@@ -2,11 +2,7 @@
 package valkyrie.psi.node;
 
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.Nullable;
 
 public interface ValkyrieTemplateEnd extends PsiElement {
-
-    @Nullable
-    ValkyrieKeywords getKeywords();
 
 }

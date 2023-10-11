@@ -9,14 +9,14 @@ import valkyrie.psi.ValkyrieElement;
 
 import java.util.List;
 
-public class ValkyrieNewBodyNode extends ValkyrieElement implements ValkyrieNewBody {
+public class ValkyrieTestsBodyNode extends ValkyrieElement implements ValkyrieTestsBody {
 
-    public ValkyrieNewBodyNode(@NotNull ASTNode node) {
+    public ValkyrieTestsBodyNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitNewBody(this);
+        visitor.visitTestsBody(this);
     }
 
     @Override
@@ -27,14 +27,20 @@ public class ValkyrieNewBodyNode extends ValkyrieElement implements ValkyrieNewB
 
     @Override
     @NotNull
-    public List<ValkyrieExpressionRoot> getExpressionRootList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpressionRoot.class);
+    public List<ValkyrieDeclareTests> getDeclareTestsList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareTests.class);
     }
 
     @Override
     @NotNull
-    public List<ValkyrieNewBind> getNewBindList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNewBind.class);
+    public List<ValkyrieRunBenchmark> getRunBenchmarkList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieRunBenchmark.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieRunTestCast> getRunTestCastList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieRunTestCast.class);
     }
 
 }

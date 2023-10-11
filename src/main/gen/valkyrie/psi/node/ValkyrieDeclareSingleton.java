@@ -25,4 +25,6 @@ public interface ValkyrieDeclareSingleton extends PsiElement {
     @Nullable
     ValkyrieTypeHint getTypeHint();
 
+    @NotNull PsiElement getKeyword();
+
 }

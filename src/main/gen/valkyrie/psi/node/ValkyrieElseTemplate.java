@@ -6,12 +6,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public interface ValkyrieNewBody extends PsiElement {
+public interface ValkyrieElseTemplate extends PsiElement {
 
     @NotNull
-    List<ValkyrieExpressionRoot> getExpressionRootList();
-
-    @NotNull
-    List<ValkyrieNewBind> getNewBindList();
+    List<ValkyrieStatements> getStatementsList();
 
 }

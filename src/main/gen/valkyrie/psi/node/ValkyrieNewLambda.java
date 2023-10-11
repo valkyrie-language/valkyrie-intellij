@@ -16,13 +16,12 @@ public interface ValkyrieNewLambda extends PsiElement {
     @Nullable
     ValkyrieDeclareInfer getDeclareInfer();
 
-    @NotNull
-    ValkyrieLambdaNavigate getLambdaNavigate();
-
     @Nullable
     ValkyrieParameterBody getParameterBody();
 
     @Nullable
     ValkyrieReturnType getReturnType();
+
+    @NotNull PsiElement getKeyword();
 
 }
