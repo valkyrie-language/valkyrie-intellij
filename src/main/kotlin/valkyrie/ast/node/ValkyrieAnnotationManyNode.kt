@@ -6,9 +6,9 @@ import com.intellij.lang.PsiBuilder
 import valkyrie.ast.ANNOTATION_MANY
 import valkyrie.ast.parsePaired
 import valkyrie.cst.COMMA
-import valkyrie.cst.LBRACK
+import valkyrie.cst.BRACKET_L
 import valkyrie.cst.OP_MACRO_LOWER
-import valkyrie.cst.RBRACK
+import valkyrie.cst.BRACKET_R
 
 class ValkyrieAnnotationManyNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     companion object {
@@ -21,14 +21,14 @@ class ValkyrieAnnotationManyNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             // 消费 ↯
             builder.advanceLexer()
             // 检查是否是 [ 符号
-            if (builder.tokenType !== LBRACK) {
+            if (builder.tokenType !== BRACKET_L) {
                 return false
             }
             // 使用 parsePaired 解析多个注解
             return builder.parsePaired(
                 ANNOTATION_MANY,
-                LBRACK,
-                RBRACK,
+                BRACKET_L,
+                BRACKET_R,
                 COMMA,
                 ValkyrieAnnotationNode.Companion
             )

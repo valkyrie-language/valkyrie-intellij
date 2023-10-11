@@ -13,7 +13,7 @@ class ValkyrieStatementNode(node: ASTNode) : ASTWrapperPsiElement(node) {
 
     companion object: ParserMonad {
      override fun parse(builder: PsiBuilder): Boolean {
-         return ValkyrieClassDeclareNode.parse(builder)
+         return ValkyrieClassDeclarationNode.parse(builder)
 //            return builder.advanceChoice(
 //                ValkyrieClassDeclarationNode.Companion,
 //                ValkyrieTraitDeclarationNode.Companion,

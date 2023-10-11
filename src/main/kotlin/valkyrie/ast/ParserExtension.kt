@@ -1,7 +1,10 @@
 package valkyrie.ast
 
+import com.intellij.lang.PsiBuilder
 import com.intellij.lang.parser.GeneratedParserUtilBase
+import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
+import valkyrie.ast.node.*
 import valkyrie.cst.*
 
 class ParserExtension : GeneratedParserUtilBase() {
@@ -84,5 +87,123 @@ class ParserExtension : GeneratedParserUtilBase() {
         val CompletionWords: TokenSet = TokenSet.create(
 //            SYMBOL, SYMBOL_RAW
         )
+    }
+}
+
+fun parseClass(builder: PsiBuilder, anonymous: Boolean): Boolean {
+    val marker = builder.mark()
+    // 解析注解, 匿名对象不能使用注解
+    when {
+        anonymous -> {}
+        else -> {
+            ValkyrieAnnotationAreaNode.parse(builder)
+            builder.advanceIgnore();
+        }
+    }
+    // 检查是否有 class 关键字
+    if (builder.tokenType === KW_CLASS) {
+        ValkyrieKeywordNode.parse(builder)
+        builder.advanceIgnore()
+    } else {
+        marker.drop()
+        return false
+    }
+    // 解析类名
+    if (ValkyrieIdentifierNode.parse(builder)) {
+        builder.advanceIgnore()
+    } else {
+        builder.error("Expected class name")
+        marker.drop()
+        return false
+    }
+    // 解析继承列表
+    ValkyrieInheritListNode.parse(builder)
+    builder.advanceIgnore()
+    // 解析类体
+    if (!ValkyrieObjectNode.parse(builder)) {
+        marker.drop()
+        return false
+    }
+    if (anonymous) {
+        marker.done(AnonymousClass)
+    } else {
+        marker.done(DeclareClass)
+    }
+
+    return true
+}
+
+fun parseFunction(builder: PsiBuilder, anonymous: Boolean, type: IElementType): Boolean {
+    val marker = builder.mark()
+    // 解析注解, 匿名对象不能使用注解
+    when {
+        anonymous -> {}
+        else -> {
+            ValkyrieAnnotationAreaNode.parse(builder)
+            builder.advanceIgnore();
+        }
+    }
+    // 检查是否有 class 关键字
+    if (builder.tokenType === KW_CLASS) {
+        ValkyrieKeywordNode.parse(builder)
+        builder.advanceIgnore()
+    } else {
+        marker.drop()
+        return false
+    }
+    // 解析类名
+    if (ValkyrieIdentifierNode.parse(builder)) {
+        builder.advanceIgnore()
+    } else {
+        builder.error("Expected class name")
+        marker.drop()
+        return false
+    }
+    // 解析继承列表
+    ValkyrieInheritListNode.parse(builder)
+    builder.advanceIgnore()
+    // 解析类体
+    if (!ValkyrieObjectNode.parse(builder)) {
+        marker.drop()
+        return false
+    }
+    if (anonymous) {
+        marker.done(AnonymousClass)
+    } else {
+        marker.done(DeclareClass)
+    }
+
+    return true
+}
+
+fun parseNamedTypeExpression(builder: PsiBuilder, type: IElementType): Boolean {
+    val marker = builder.mark()
+    // 解析可选的注解列表
+    ValkyrieAnnotationAreaNode.parse(builder)
+    builder.advanceIgnore()
+
+    // 解析类名标识符
+    if (ValkyrieIdentifierNode.parse(builder)) {
+        builder.advanceIgnore()
+    } else {
+        builder.error("Expected 111 name")
+        marker.drop()
+        return false
+    }
+    if (builder.tokenType == COLON) {
+        builder.advanceLexer()
+        builder.advanceIgnore()
+    } else {
+        builder.error("Expected 222 name")
+        marker.drop()
+        return false
+    }
+    if (ValkyrieIdentifierNode.parse(builder)) {
+        marker.done(type)
+        return true
+    } else {
+        builder.error("Expected 333 name")
+        marker.drop()
+        return false
     }
 }

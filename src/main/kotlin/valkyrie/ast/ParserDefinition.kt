@@ -1,6 +1,5 @@
 package valkyrie.ast
 
-import valkyrie.ast.node.ValkyrieClassInheritItemNode
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.ParserDefinition
@@ -49,19 +48,19 @@ class ParserDefinition : ParserDefinition {
             MODIFIER_LIST -> ValkyrieModifierListNode(node)
             Modifier -> ValkyrieModifierNode(node)
             // 具名对象
-            DeclareClass -> ValkyrieClassDeclareNode(node)
+            DeclareClass -> ValkyrieClassDeclarationNode(node)
             DeclareTrait -> ValkyrieTraitDeclarationNode(node)
             DeclareMicro -> ValkyrieMicroDeclarationNode(node)
-
             // 匿名对象
             AnonymousClass -> ValkyrieAnonymousObjectNode(node)
             AnonymousMicro -> ValkyrieAnonymousFunctionNode(node)
+            // 后修饰器
+            InheritList -> ValkyrieInheritListNode(node)
+            InheritItem -> ValkyrieInheritItemNode(node)
             // 对象属性
             DefineField -> ValkyrieFieldNode(node)
             DefineMethod -> ValkyrieMethodNode(node)
             DefineDomain -> ValkyrieDomainNode(node)
-            // 后修饰器
-            InheritItem -> ValkyrieClassInheritItemNode(node)
             // 表达式
             BINARY -> ValkyrieBinaryNode(node)
             // 调用

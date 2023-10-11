@@ -5,14 +5,14 @@ import valkyrie.language.ValkyrieLanguage
 
 // leaf node of the lexer stream
 class ValkyrieCST(show: String) : IElementType(show, ValkyrieLanguage) {
-    override fun toString(): String = "${ValkyrieCST::class.simpleName}<${super.toString()}>"
+    override fun toString(): String = "CST<${super.toString()}>"
 }
 
 // 括号
 val LBRACE = ValkyrieCST("{")
 val RBRACE = ValkyrieCST("}")
-val LBRACK = ValkyrieCST("[")
-val RBRACK = ValkyrieCST("]")
+val BRACKET_L = ValkyrieCST("[")
+val BRACKET_R = ValkyrieCST("]")
 val PARENTHESIS_L = ValkyrieCST("(")
 val PARENTHESIS_R = ValkyrieCST(")")
 // 分隔符
@@ -35,6 +35,11 @@ val KW_SINGLETON = ValkyrieCST("SINGLETON")
 val KW_COMPONENT = ValkyrieCST("COMPONENT")
 val KW_ENUMERATE = ValkyrieCST("ENUMERATE")
 val KW_FLAGS = ValkyrieCST("FLAGS")
+
+
+val KW_MICRO = ValkyrieCST("MICRO")
+val KW_MEZZO = ValkyrieCST("MEZZO")
+val KW_MACRO = ValkyrieCST("MACRO")
 
 //
 val KW_FROM = ValkyrieCST("FROM")

@@ -5,7 +5,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import valkyrie.ast.ATOMIC
 import valkyrie.cst.LBRACE
-import valkyrie.cst.LBRACK
+import valkyrie.cst.BRACKET_L
 import valkyrie.cst.NUMBER
 import valkyrie.cst.STRING
 import valkyrie.cst.SYMBOL
@@ -21,7 +21,7 @@ class ValkyrieAtomicNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 LBRACE -> {
                     ValkyrieObjectNode.parse(builder)
                 }
-                LBRACK -> {
+                BRACKET_L -> {
                     ValkyrieArrayNode.parse(builder)
                 }
                 STRING,
