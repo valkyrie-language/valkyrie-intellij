@@ -3,20 +3,18 @@ package valkyrie.psi.node;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import valkyrie.psi.ValkyrieElement;
 
-import java.util.List;
+public class ValkyrieTupleArgumentNode extends ValkyrieElement implements ValkyrieTupleArgument {
 
-public class ValkyrieInferBodyNode extends ValkyrieElement implements ValkyrieInferBody {
-
-    public ValkyrieInferBodyNode(@NotNull ASTNode node) {
+    public ValkyrieTupleArgumentNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitInferBody(this);
+        visitor.visitTupleArgument(this);
     }
 
     @Override
@@ -26,9 +24,9 @@ public class ValkyrieInferBodyNode extends ValkyrieElement implements ValkyrieIn
     }
 
     @Override
-    @NotNull
-    public List<ValkyrieDeclareWhere> getDeclareWhereList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareWhere.class);
+    @Nullable
+    public ValkyrieArgument getArgument() {
+        return findChildByClass(ValkyrieArgument.class);
     }
 
 }

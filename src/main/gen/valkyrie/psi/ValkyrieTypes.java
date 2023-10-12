@@ -101,7 +101,6 @@ public interface ValkyrieTypes {
     IElementType IF_CONDITION = new ValkyrieAST("IF_CONDITION");
     IElementType IF_STATEMENT = new ValkyrieAST("IF_STATEMENT");
     IElementType INFER_BODY = new ValkyrieAST("INFER_BODY");
-    IElementType INFER_ITEM = new ValkyrieAST("INFER_ITEM");
     IElementType INFIX = new ValkyrieAST("INFIX");
     IElementType INFIX_GREATER = new ValkyrieAST("INFIX_GREATER");
     IElementType INFIX_GREATER_EQUAL = new ValkyrieAST("INFIX_GREATER_EQUAL");
@@ -193,7 +192,7 @@ public interface ValkyrieTypes {
     IElementType TRY_LET_STATEMENT = new ValkyrieAST("TRY_LET_STATEMENT");
     IElementType TRY_NOT_STATEMENT = new ValkyrieAST("TRY_NOT_STATEMENT");
     IElementType TRY_STATEMENT = new ValkyrieAST("TRY_STATEMENT");
-    IElementType TUPLE = new ValkyrieAST("TUPLE");
+    IElementType TUPLE_ARGUMENT = new ValkyrieAST("TUPLE_ARGUMENT");
     IElementType TYPE_ALIAS = new ValkyrieAST("TYPE_ALIAS");
     IElementType TYPE_ATOMIC = new ValkyrieAST("TYPE_ATOMIC");
     IElementType TYPE_EXPRESSION = new ValkyrieAST("TYPE_EXPRESSION");
@@ -577,8 +576,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieIfStatementNode(node);
             } else if (type == INFER_BODY) {
                 return new ValkyrieInferBodyNode(node);
-            } else if (type == INFER_ITEM) {
-                return new ValkyrieInferItemNode(node);
             } else if (type == INFIX) {
                 return new ValkyrieInfixNode(node);
             } else if (type == INFIX_GREATER) {
@@ -761,8 +758,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieTryNotStatementNode(node);
             } else if (type == TRY_STATEMENT) {
                 return new ValkyrieTryStatementNode(node);
-            } else if (type == TUPLE) {
-                return new ValkyrieTupleNode(node);
+            } else if (type == TUPLE_ARGUMENT) {
+                return new ValkyrieTupleArgumentNode(node);
             } else if (type == TYPE_ALIAS) {
                 return new ValkyrieTypeAliasNode(node);
             } else if (type == TYPE_ATOMIC) {

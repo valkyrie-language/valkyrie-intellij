@@ -13,11 +13,3 @@ import valkyrie.ide.highlight.HighlightColor
 fun ASTNode?.isWhitespaceOrEmpty(): Boolean {
     return this == null || textLength == 0 || elementType == TokenType.WHITE_SPACE
 }
-
-fun HighlightInfoHolder.register(element: PsiElement?, color: HighlightColor) {
-    if (element == null) return
-    val builder = HighlightInfo.newHighlightInfo(HighlightInfoType.INFORMATION)
-    builder.textAttributes(color.textAttributesKey)
-    builder.range(element.textRange)
-    this.add(builder.create())
-}

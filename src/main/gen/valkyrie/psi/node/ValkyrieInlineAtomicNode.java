@@ -79,8 +79,8 @@ public class ValkyrieInlineAtomicNode extends ValkyrieElement implements Valkyri
 
     @Override
     @Nullable
-    public ValkyrieTuple getTuple() {
-        return findChildByClass(ValkyrieTuple.class);
+    public ValkyrieTupleArgument getTupleArgument() {
+        return findChildByClass(ValkyrieTupleArgument.class);
     }
 
 }

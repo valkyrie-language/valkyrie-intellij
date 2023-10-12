@@ -379,10 +379,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitInferItem(@NotNull ValkyrieInferItem o) {
-        visitPsiElement(o);
-    }
-
     public void visitInfix(@NotNull ValkyrieInfix o) {
         visitPsiElement(o);
     }
@@ -747,7 +743,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitTuple(@NotNull ValkyrieTuple o) {
+    public void visitTupleArgument(@NotNull ValkyrieTupleArgument o) {
         visitPsiElement(o);
     }
 
