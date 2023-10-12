@@ -5,8 +5,7 @@ import com.intellij.lang.cacheBuilder.WordsScanner
 import com.intellij.lang.findUsages.FindUsagesProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.tree.TokenSet
-import valkyrie.cst.COMMENT_BLOCK
-import valkyrie.cst.COMMENT_LINE
+import valkyrie.ast.ValkyrieParserDefinition
 import valkyrie.cst.SYMBOL
 import valkyrie.cst.SYMBOL_RAW
 import valkyrie.cst.ValkyrieLexer
@@ -14,14 +13,13 @@ import valkyrie.cst.ValkyrieLexer
 
 class ValkyrieUsagesProvider : FindUsagesProvider {
     override fun getWordsScanner(): WordsScanner {
+        val def = ValkyrieParserDefinition();
         return DefaultWordsScanner(
             ValkyrieLexer(),
             TokenSet.create(
                 SYMBOL, SYMBOL_RAW
             ),
-            TokenSet.create(
-                COMMENT_LINE, COMMENT_BLOCK
-            ),
+            def.commentTokens,
             TokenSet.create(),
             TokenSet.EMPTY
         )

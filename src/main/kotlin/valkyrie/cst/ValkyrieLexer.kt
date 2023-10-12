@@ -21,9 +21,8 @@ class ValkyrieLexer : LexerBase() {
         const val IN_SINGLE_SQ = 12
         const val IN_STRING_RI = 13
         const val IN_NUMBER = 3
-        const val IN_COMMENT = 4
-        const val IN_HASH_COMMENT = 5
-        const val IN_BLOCK_COMMENT = 6
+        const val IN_COMMENT_LINE = 5
+        const val IN_COMMENT_BLOCK = 6
     }
 
     override fun start(buffer: CharSequence, startOffset: Int, endOffset: Int, initialState: Int) {
@@ -60,9 +59,8 @@ class ValkyrieLexer : LexerBase() {
             IN_STRING_DQ -> scanString()
             IN_SINGLE_SQ -> scanSingleQuoteString()
             IN_NUMBER -> scanNumber()
-            IN_COMMENT -> scanComment()
-            IN_HASH_COMMENT -> scanHashComment()
-            IN_BLOCK_COMMENT -> scanBlockComment()
+            IN_COMMENT_LINE -> scanCommentLine()
+            IN_COMMENT_BLOCK -> scanBlockComment()
             IN_STRING_RI -> scanRawIdentifier()
         }
     }
@@ -112,25 +110,21 @@ class ValkyrieLexer : LexerBase() {
                 _tokenBuffer = COMMA
             }
 
-            c == '@' -> {
-                if (tokenStart + 1 < bufferEnd) {
-                    when (buffer[tokenStart + 1]) {
-                        '^' -> {
-                            tokenEnd = tokenStart + 2
-                            _tokenBuffer = OP_MACRO_UPPER
-                        }
+            c == '@' -> when {
+                // @.
+                buffer.getOrNull(tokenStart + 1) == '.' -> {
+                    tokenEnd = tokenStart + 2
+                    _tokenBuffer = OP_MACRO_LOWER
+                }
 
-                        '.' -> {
-                            tokenEnd = tokenStart + 2
-                            _tokenBuffer = OP_MACRO_LOWER
-                        }
+                // @^
+                buffer.getOrNull(tokenStart + 1) == '^' -> {
+                    tokenEnd = tokenStart + 2
+                    _tokenBuffer = OP_MACRO_UPPER
+                }
 
-                        else -> {
-                            tokenEnd = tokenStart + 1
-                            _tokenBuffer = OP_MACRO
-                        }
-                    }
-                } else {
+                // @
+                else -> {
                     tokenEnd = tokenStart + 1
                     _tokenBuffer = OP_MACRO
                 }
@@ -156,19 +150,56 @@ class ValkyrieLexer : LexerBase() {
                 currentState = IN_STRING_RI
             }
 
-            c == '/' && tokenStart + 1 < bufferEnd && buffer[tokenStart + 1] == '/' -> {
+            c == '/' -> {
                 tokenEnd = tokenStart + 2
-                currentState = IN_COMMENT
             }
 
-            c == '#' -> {
+            c == '#' || c == '⍝' -> {
                 tokenEnd = tokenStart + 1
-                currentState = IN_HASH_COMMENT
+                currentState = IN_COMMENT_LINE
+                _tokenBuffer = COMMENT_LINE_HEAD
             }
 
-            c == '<' && tokenStart + 1 < bufferEnd && buffer[tokenStart + 1] == '#' -> {
-                tokenEnd = tokenStart + 2
-                currentState = IN_BLOCK_COMMENT
+            c == '⩽' || c == '≤' -> {
+                tokenEnd = tokenStart + 1
+                _tokenBuffer = OP_LEQ
+            }
+
+            c == '<' -> {
+                // <#
+                if (buffer.getOrNull(tokenStart + 1) == '#') {
+                    tokenEnd = tokenStart + 2
+                    currentState = IN_COMMENT_BLOCK
+                    _tokenBuffer = COMMENT_LINE_HEAD
+                }
+                // <=
+                else if (buffer.getOrNull(tokenStart + 1) == '=') {
+                    tokenEnd = tokenStart + 2
+                    _tokenBuffer = OP_LEQ
+                }
+                // <
+                else {
+                    tokenEnd = tokenStart + 1
+                    _tokenBuffer = OP_LE
+                }
+            }
+
+            c == '⩾' || c == '≥' -> {
+                tokenEnd = tokenStart + 1
+                _tokenBuffer = OP_GEQ
+            }
+
+            c == '>' -> {
+                // >=
+                if (buffer.getOrNull(tokenStart + 1) == '=') {
+                    tokenEnd = tokenStart + 2
+                    _tokenBuffer = OP_GEQ
+                }
+                // >
+                else {
+                    tokenEnd = tokenStart + 1
+                    _tokenBuffer = OP_GE
+                }
             }
 
             c == '◤' -> {
@@ -263,22 +294,7 @@ class ValkyrieLexer : LexerBase() {
         currentState = INITIAL
     }
 
-    private fun scanComment() {
-        var i = tokenEnd
-
-        while (i < bufferEnd) {
-            if (buffer[i] == '\n') {
-                break
-            }
-            i++
-        }
-
-        tokenEnd = i
-        _tokenBuffer = COMMENT_LINE
-        currentState = INITIAL
-    }
-
-    private fun scanHashComment() {
+    private fun scanCommentLine() {
         var i = tokenEnd
 
         while (i < bufferEnd) {
@@ -289,7 +305,7 @@ class ValkyrieLexer : LexerBase() {
         }
 
         tokenEnd = i
-        _tokenBuffer = COMMENT_LINE
+        _tokenBuffer = COMMENT_LINE_TEXT
         currentState = INITIAL
     }
 

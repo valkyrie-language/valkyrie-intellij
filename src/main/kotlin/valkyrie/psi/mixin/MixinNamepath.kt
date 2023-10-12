@@ -5,13 +5,12 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiQualifiedNamedElement
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.firstLeaf
+import valkyrie.ast.node.ValkyrieIdentifierNode
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.ide.reference.declaration.ValkyrieNamepathReference
 import valkyrie.psi.ValkyrieElement
 import valkyrie.psi.ValkyrieTypes
-
-import valkyrie.psi.node.ValkyrieNamepathSafe
 
 abstract class MixinNamepath : ValkyrieElement, PsiQualifiedNamedElement {
     constructor(node: ASTNode) : super(node)
@@ -24,7 +23,7 @@ abstract class MixinNamepath : ValkyrieElement, PsiQualifiedNamedElement {
             emptyList()
         }
     }
-    val identifier: MixinIdentifier? by lazy { namepath.lastOrNull() }
+    val identifier: ValkyrieIdentifierNode? by lazy { namepath.lastOrNull() as? ValkyrieIdentifierNode }
 
     override fun getName(): String {
         return namepath.lastOrNull()?.name ?: "<<Missing Namepath>>"

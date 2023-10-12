@@ -2,6 +2,7 @@ package valkyrie.psi.mixin
 
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
+import valkyrie.ast.node.ValkyrieIdentifierNode
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.ValkyrieCasePatternItem
@@ -11,10 +12,10 @@ import javax.swing.Icon
 
 abstract class MixinCasePatternItem(node: ASTNode) : ValkyrieDeclaration(node) {
     override val color = HighlightColor.SYM_ARG
-    override fun getNameIdentifier(): MixinIdentifier? {
+    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
         return when (this) {
-            is ValkyrieCasePatternItem -> this.identifierSafe as? MixinIdentifier
-            is ValkyrieCasePatternTop -> this.identifierSafe as? MixinIdentifier
+            is ValkyrieCasePatternItem -> this.identifierSafe as? ValkyrieIdentifierNode
+            is ValkyrieCasePatternTop -> this.identifierSafe as? ValkyrieIdentifierNode
             else -> null
         }
     }

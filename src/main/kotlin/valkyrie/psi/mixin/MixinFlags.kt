@@ -2,6 +2,7 @@ package valkyrie.psi.mixin
 
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
+import valkyrie.ast.node.ValkyrieIdentifierNode
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.ValkyrieTypes.KW_FLAGS
@@ -14,8 +15,8 @@ abstract class MixinFlags(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDe
         return findKeyword(KW_FLAGS)
     }
 
-    override fun getNameIdentifier(): MixinIdentifier? {
-        return this.identifierFree as? MixinIdentifier
+    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
+        return this.identifierFree as? ValkyrieIdentifierNode
     }
 
     override fun getBaseIcon(): Icon {

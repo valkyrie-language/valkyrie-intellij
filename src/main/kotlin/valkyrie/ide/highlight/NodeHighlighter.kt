@@ -8,6 +8,7 @@ import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.elementType
+import valkyrie.ast.node.ValkyrieIdentifierNode
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.childrenWithLeaves
@@ -193,7 +194,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     override fun visitCasePattern(o: ValkyrieCasePattern) {
         val names = o.namepathSafe?.namepath ?: emptyList();
         if (names.count() == 1) {
-            val head = names.firstOrNull() as? MixinIdentifier
+            val head = names.firstOrNull() as? ValkyrieIdentifierNode
             val c = head?.name?.firstOrNull()
             if (c?.isLowerCase() == true) {
                 highlight(head, HighlightColor.SYM_LOCAL)

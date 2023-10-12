@@ -7,9 +7,10 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase.pack
 import com.intellij.psi.tree.IElementType
 import valkyrie.cst.COMMENT_BLOCK
-import valkyrie.cst.COMMENT_LINE
 import valkyrie.cst.ValkyrieLexer
 import valkyrie.ast.ParserExtension
+import valkyrie.cst.COMMENT_LINE_HEAD
+import valkyrie.cst.COMMENT_LINE_TEXT
 
 
 class TokenHighlighter : SyntaxHighlighter {
@@ -42,7 +43,8 @@ class TokenHighlighter : SyntaxHighlighter {
 //                NUMBER_BASE -> HighlightColor.STRING
 //                NUMBER_EXPONENT -> HighlightColor.STRING_ESCAPED
                 // comments
-                COMMENT_LINE -> HighlightColor.COMMENT_LINE
+                COMMENT_LINE_HEAD -> HighlightColor.COMMENT_LINE
+                COMMENT_LINE_TEXT -> HighlightColor.COMMENT_LINE
                 COMMENT_BLOCK -> HighlightColor.COMMENT_BLOCK
                 // errors
 //                TokenType.BAD_CHARACTER -> BAD_CHARACTER

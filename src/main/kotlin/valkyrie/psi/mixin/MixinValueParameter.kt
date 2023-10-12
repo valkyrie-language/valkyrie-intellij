@@ -2,6 +2,7 @@ package valkyrie.psi.mixin
 
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
+import valkyrie.ast.node.ValkyrieIdentifierNode
 import valkyrie.psi.ValkyrieDeclaration
 
 import valkyrie.psi.node.ValkyrieParameterItem
@@ -9,8 +10,8 @@ import javax.swing.Icon
 
 abstract class MixinValueParameter(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieParameterItem {
 
-    override fun getNameIdentifier(): MixinIdentifier? {
-        return this.identifierFree as? MixinIdentifier
+    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
+        return this.identifierFree as? ValkyrieIdentifierNode
     }
 
     override fun getBaseIcon(): Icon {

@@ -3,6 +3,7 @@ package valkyrie.psi.mixin
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
+import valkyrie.ast.node.ValkyrieIdentifierNode
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.ValkyrieTypes.KW_CLASS
@@ -34,8 +35,8 @@ abstract class MixinClass(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDe
         return this as ValkyrieDeclareClassNode
     }
 
-    override fun getNameIdentifier(): MixinIdentifier? {
-        return this.identifierSafe as? MixinIdentifier
+    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
+        return this.identifierSafe as? ValkyrieIdentifierNode
     }
 
     override fun getBaseIcon(): Icon {

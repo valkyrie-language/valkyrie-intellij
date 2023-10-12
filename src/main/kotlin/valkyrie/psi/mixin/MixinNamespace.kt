@@ -2,6 +2,7 @@ package valkyrie.psi.mixin
 
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
+import valkyrie.ast.node.ValkyrieIdentifierNode
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.ValkyrieTypes
@@ -11,8 +12,8 @@ import valkyrie.psi.node.ValkyrieDeclareNamespace
 import javax.swing.Icon
 
 abstract class MixinNamespace(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareNamespace {
-    override fun getNameIdentifier(): MixinIdentifier? {
-        return this.namepathAuto?.lastChild as? MixinIdentifier
+    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
+        return this.namepathAuto?.lastChild as? ValkyrieIdentifierNode
     }
 
     override fun getBaseIcon(): Icon {

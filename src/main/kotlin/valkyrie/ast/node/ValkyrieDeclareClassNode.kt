@@ -1,12 +1,18 @@
 package valkyrie.ast.node
 
-import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.parseClass
+import valkyrie.psi.ValkyrieDeclaration
+import valkyrie.psi.mixin.MixinIdentifier
 
-class ValkyrieClassDeclarationNode(node: ASTNode) : ASTWrapperPsiElement(node) {
+class ValkyrieClassDeclarationNode(node: ASTNode) : ValkyrieDeclaration(node) {
+    val identifier = findChildByClass(ValkyrieIdentifierNode::class.java)
+
+    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
+        return identifier
+    }
 
     override fun toString(): String {
         return "ClassDeclaration"

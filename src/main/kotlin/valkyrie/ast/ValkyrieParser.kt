@@ -8,7 +8,8 @@ import com.intellij.psi.TokenType.WHITE_SPACE
 import com.intellij.psi.tree.IElementType
 import valkyrie.ast.node.ValkyrieProgramNode
 import valkyrie.cst.COMMENT_BLOCK
-import valkyrie.cst.COMMENT_LINE
+import valkyrie.cst.COMMENT_LINE_HEAD
+import valkyrie.cst.COMMENT_LINE_TEXT
 
 
 class ValkyrieParser : PsiParser, LightPsiParser {
@@ -93,10 +94,11 @@ fun PsiBuilder.advanceRepeat(parser: ParserMonad, min: Int = 0, max: Int = Int.M
 fun PsiBuilder.advanceIgnore() {
     while (!this.eof()) {
         val tokenType = this.tokenType
-        when {
-            tokenType === WHITE_SPACE -> this.advanceLexer()
-            tokenType === COMMENT_LINE -> this.advanceLexer()
-            tokenType === COMMENT_BLOCK -> this.advanceLexer()
+        when (tokenType) {
+            WHITE_SPACE -> this.advanceLexer()
+            COMMENT_LINE_HEAD -> this.advanceLexer()
+            COMMENT_LINE_TEXT -> this.advanceLexer()
+            COMMENT_BLOCK -> this.advanceLexer()
             else -> break
         }
     }

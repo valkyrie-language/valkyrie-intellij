@@ -2,6 +2,7 @@ package valkyrie.psi.mixin
 
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
+import valkyrie.ast.node.ValkyrieIdentifierNode
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.ValkyrieDotMatchCall
@@ -19,8 +20,8 @@ abstract class MixinMatchCall(node: ASTNode) : ValkyrieDeclaration(node), Valkyr
             return HighlightColor.SYM_LOCAL
         }
 
-    override fun getNameIdentifier(): MixinIdentifier? {
-        return this.identifierSafe as? MixinIdentifier
+    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
+        return this.identifierSafe as? ValkyrieIdentifierNode
     }
 
     override fun getBaseIcon(): Icon {
