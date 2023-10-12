@@ -631,46 +631,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitPattern(@NotNull ValkyriePattern o) {
-        visitPsiElement(o);
-    }
-
-    public void visitPatternAtomic(@NotNull ValkyriePatternAtomic o) {
-        visitPsiElement(o);
-    }
-
-    public void visitPatternLiteral(@NotNull ValkyriePatternLiteral o) {
-        visitPsiElement(o);
-    }
-
-    public void visitPatternObject(@NotNull ValkyriePatternObject o) {
-        visitPsiElement(o);
-    }
-
-    public void visitPatternObjectBody(@NotNull ValkyriePatternObjectBody o) {
-        visitPsiElement(o);
-    }
-
-    public void visitPatternPair(@NotNull ValkyriePatternPair o) {
-        visitPsiElement(o);
-    }
-
-    public void visitPatternSequence(@NotNull ValkyriePatternSequence o) {
-        visitPsiElement(o);
-    }
-
-    public void visitPatternSequenceBody(@NotNull ValkyriePatternSequenceBody o) {
-        visitPsiElement(o);
-    }
-
-    public void visitPatternUnapply(@NotNull ValkyriePatternUnapply o) {
-        visitPsiElement(o);
-    }
-
-    public void visitPatternUnapplyBody(@NotNull ValkyriePatternUnapplyBody o) {
-        visitPsiElement(o);
-    }
-
     public void visitPrefix(@NotNull ValkyriePrefix o) {
         visitPsiElement(o);
     }

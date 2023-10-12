@@ -5,6 +5,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import valkyrie.psi.ValkyrieElement;
 
 import java.util.List;
@@ -27,8 +28,14 @@ public class ValkyrieUsingExcludeNode extends ValkyrieElement implements Valkyri
 
     @Override
     @NotNull
-    public List<ValkyrieIdentifierSafe> getIdentifierSafeList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifierSafe.class);
+    public List<ValkyrieIdentifierFree> getIdentifierFreeList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieIdentifierFree.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieIdentifierSafe getIdentifierSafe() {
+        return findChildByClass(ValkyrieIdentifierSafe.class);
     }
 
 }

@@ -90,15 +90,15 @@ using-statement ::= annotations KW_USING (using-body|using-term) {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinUsing"
 }
-using-term ::= SEMICOLON | COMMA
+using-body    ::= <<brace using-term>>;
+using-term ::= SEMICOLON
     | using-any      // using
     | using-alias    // using
     | using-block    // using
     | namepath-auto  // using
 using-any     ::= (namepath-auto using-dot?) STAR using-exclude?
-using-exclude ::= KW_EXCLUDE (identifier-safe|BRACE_L (identifier-safe (COMMA identifier-safe)* COMMA?) BRACE_R)
+using-exclude ::= KW_EXCLUDE (identifier-safe| <<brace identifier-free>>)
 using-block   ::= namepath-auto using-dot? using-body
-using-body    ::= BRACE_L using-term* BRACE_R;
 using-alias   ::= identifier-safe KW_AS identifier-safe;
 private using-dot ::= DOT|NAME_SPLIT|OP_DIV
 // infer T { where T: Show }
@@ -106,7 +106,7 @@ private using-dot ::= DOT|NAME_SPLIT|OP_DIV
 declare-infer ::= annotations KW_INFER (identifier-safe (COMMA identifier-safe)* COMMA?)? infer-body {
     pin = 2
 }
-infer-body ::= BRACE_L infer-item* BRACE_R;
+infer-body ::= <<brace infer-item>>;
 infer-item ::= SEMICOLON
     | declare-where
 // where T: Show, X: Show
@@ -145,13 +145,13 @@ declare-neural ::= annotations KW_NEURAL identifier-safe declare-generic? class-
     mixin = "valkyrie.psi.mixin.MixinNeural"
     methods = [getKeyword]
 }
-class-inherit ::= PARENTHESIS_L (inherit-item (COMMA inherit-item)* COMMA?)? PARENTHESIS_R;
+class-inherit ::= <<parenthesis inherit-item>>;
 inherit-item  ::= (annotations identifier-safe COLON)? type-expression {
     mixin = "valkyrie.psi.mixin.MixinClassInherit"
 }
 // === class body ===
-class-body ::= BRACE_L class-item* BRACE_R;
-private class-item ::= SEMICOLON | COMMA
+class-body ::= <<brace class-item>>;
+private class-item ::= SEMICOLON
     | associated-type
     | declare-domain
     | declare-method
@@ -184,8 +184,8 @@ declare-flags ::= annotations KW_FLAGS identifier-free class-inherit? (EQUAL typ
     mixin = "valkyrie.psi.mixin.MixinFlags"
     methods = [getKeyword]
 }
-flags-body ::= BRACE_L flags-item* BRACE_R;
-private flags-item ::= SEMICOLON | COMMA
+flags-body ::= <<brace flags-item>>;
+private flags-item ::= SEMICOLON
     | declare-method
     | declare-domain
     | declare-semantic
@@ -204,10 +204,7 @@ declare-unite ::= declare-infer? annotations KW_UNITE identifier-safe declare-in
     mixin = "valkyrie.psi.mixin.MixinUnite"
     methods = [getKeyword]
 }
-unite-body ::= BRACE_L unite-item* BRACE_R;
-private unite-item ::= SEMICOLON | COMMA
-    | declare-method
-    | declare-variant
+unite-body ::= <<brace (declare-method|declare-variant)>>;
 declare-variant ::= annotations identifier-safe class-body? {
     mixin = "valkyrie.psi.mixin.MixinVariant"
 }
@@ -243,8 +240,8 @@ declare-imply ::= annotations KW_IMPLY declare-infer? (
 }
 // === generic statement ===
 declare-generic ::=
-    NAME_SPLIT? GENERIC_L (generic-parameter (COMMA generic-parameter)* COMMA?)? GENERIC_R
-  | NAME_SPLIT? ANGLE_L   (generic-parameter (COMMA generic-parameter)* COMMA?)? ANGLE_R
+    NAME_SPLIT? <<generic generic-parameter>>
+  | NAME_SPLIT? <<angle generic-parameter>>
 {
 
 }
@@ -266,7 +263,7 @@ declare-macro ::= annotations KW_MACRO declare-infer? identifier-safe parameter-
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinDeclareMacro"
 }
-parameter-body ::= PARENTHESIS_L (parameter-term (COMMA parameter-term)* COMMA?)? PARENTHESIS_R;
+parameter-body ::= <<parenthesis parameter-term>>;
 private parameter-term ::= ANGLE_L | ANGLE_R
     | parameter-dict
     | parameter-list
@@ -283,25 +280,19 @@ parameter-dict ::= annotations ANY_DICT identifier-free? type-hint? default-valu
 parameter-kind ::= OP_POW;
 
 return-type ::= (OP_ARROW1|COLON) type-expression;
-block-body  ::= BRACE_L block-statement* BRACE_R;
+block-body  ::= <<brace block-statement>>;
 block-bare  ::= block-statement*;
 /// === tests and benchmark ===
 declare-tests ::= annotations KW_TESTS identifier-free? tests-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinDeclareTests"
 }
-tests-body ::= BRACE_L tests-item* BRACE_R;
-private tests-item ::= SEMICOLON | COMMA
-    | declare-tests
-    | run-benchmark
-    | run-test-cast
+tests-body ::= <<brace (declare-tests|run-benchmark|run-test-cast)>>;
 run-test-cast ::= annotations identifier-safe block-body;
 run-benchmark ::= annotations identifier-safe argument-body benchmark-body {
 
 }
-benchmark-body ::= BRACE_L benchmark-item* BRACE_R;
-private benchmark-item ::= SEMICOLON | COMMA
-    | benchmark-unit // fibonacci_mut($1, true) {repeats = 100}
+benchmark-body ::= <<brace benchmark-unit>>;
 benchmark-unit ::= identifier-free argument-body? new-body? {
 
 }
@@ -437,7 +428,7 @@ dot-match-call ::= OP_AND_THEN? DOT match-kind (modifier* identifier-safe BIND)?
 }
 match-bind ::= modifier* identifier-safe BIND;
 match-kind ::= KW_MATCH|KW_CATCH;
-match-body ::= BRACE_L match-item* BRACE_R;
+match-body ::= <<brace (match-item)>>;
 private match-item ::=
       match-with
     | match-type
@@ -469,27 +460,6 @@ match-else ::= KW_ELSE (COLON|KW_THEN) block-bare {
     recoverWhile=match-recover
 }
 private match-recover ::= !(KW_WITH | KW_TYPE | KW_CASE | KW_WHEN | KW_ELSE | BRACE_R);
-// === pattern expression ===
-pattern ::=
-      pattern-unapply
-    | pattern-sequence
-    | pattern-object
-    | pattern-literal
-pattern-unapply      ::= annotations namepath-auto? pattern-unapply-body;
-pattern-unapply-body ::= PARENTHESIS_L (pattern (COMMA pattern)* COMMA?)? PARENTHESIS_R {
-    pin = 1
-}
-pattern-sequence      ::= pattern-sequence-body;
-pattern-sequence-body ::= BRACKET_L (pattern (COMMA pattern)* COMMA?)? BRACKET_R {
-    pin = 1
-}
-pattern-object      ::= annotations namepath-auto? pattern-object-body;
-pattern-object-body ::= BRACE_L (pattern-pair (COMMA pattern-pair)* COMMA?)? BRACE_R {
-    pin = 1
-}
-pattern-pair    ::= annotations identifier-safe (COLON pattern)?;
-pattern-literal ::= annotations pattern-atomic
-pattern-atomic  ::= string | number-literal | special | identifier-safe;
 // === is pattern ===
 type-pattern ::= special
     | type-pattern-object // X is Object { a: _ }
@@ -502,9 +472,9 @@ type-pattern-inline ::= special
     | string              // X is "string"
     | number-literal              // X is 1
     | type-pattern-item   // X is Integer
-type-pattern-object ::= namepath-safe? BRACE_L (type-pattern-pair (COMMA type-pattern-pair)* COMMA?)? BRACE_R
-type-pattern-tuple  ::= namepath-safe? PARENTHESIS_L (type-pattern (COMMA type-pattern)* COMMA?)? PARENTHESIS_R
-                      | namepath-safe? BRACKET_L     (type-pattern (COMMA type-pattern)* COMMA?)? BRACKET_R
+type-pattern-object ::= namepath-safe? <<brace type-pattern-pair>>
+type-pattern-tuple  ::= namepath-safe? <<parenthesis type-pattern>>
+                      | namepath-safe? <<bracket type-pattern>>
 type-pattern-pair   ::= identifier-safe (BIND|COLON) type-pattern
 type-pattern-item   ::= namepath-safe generic-call-free?
 // === case pattern ===
@@ -514,7 +484,7 @@ case-pattern ::= special
     | string               // case "text"
     | number-literal       // case 1
     | namepath-safe
-case-pattern-dict ::= namepath-safe? BRACE_L (case-pattern-pair (COMMA case-pattern-pair)* COMMA?)? BRACE_R
+case-pattern-dict ::= namepath-safe? <<brace case-pattern-pair>>
 case-pattern-pair ::= annotations (ANY_LIST|ANY_DICT)? identifier-safe (COLON type-expression)? (case-pattern-bind case-pattern)? {
     mixin = "valkyrie.psi.mixin.MixinCasePatternPair"
 }
@@ -539,11 +509,8 @@ new-value  ::= annotations KW_NEW type-expression? argument-body? new-body {
     mixin = "valkyrie.psi.mixin.MixinBuilder"
     methods = [getKeyword]
 }
-new-body ::= BRACE_L new-item* BRACE_R;
+new-body ::= <<brace (new-bind|expression-root)>>;
 new-bind ::= identifier-safe BIND expression;
-private new-item ::= SEMICOLON | COMMA
-    | new-bind
-    | expression-root
 // === object expression ===
 // object: Interface { }
 new-object ::= annotations KW_OBJECT class-inherit? type-hint? class-body {
@@ -736,13 +703,9 @@ type-tuple  ::= PARENTHESIS_L PARENTHESIS_R
     | PARENTHESIS_L generic-argument COMMA PARENTHESIS_R
     | PARENTHESIS_L generic-argument (COMMA generic-argument)+ COMMA? PARENTHESIS_R;
 // === generic statement ===
-generic-call ::=
-    NAME_SPLIT? GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R
-  | NAME_SPLIT  ANGLE_L   (generic-argument (COMMA generic-argument)* COMMA?)? ANGLE_R
-generic-call-free ::=
-    NAME_SPLIT? GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R
-  | NAME_SPLIT? ANGLE_L   (generic-argument (COMMA generic-argument)* COMMA?)? ANGLE_R
-generic-argument ::=
+generic-call      ::= NAME_SPLIT? <<generic generic-argument>> | NAME_SPLIT  <<angle generic-argument>>
+generic-call-free ::= NAME_SPLIT? <<generic generic-argument>> | NAME_SPLIT? <<angle generic-argument>>
+generic-argument  ::=
       annotations identifier-safe COLON type-expression BIND type-expression
     | annotations identifier-safe COLON type-expression
     | annotations identifier-safe BIND type-expression
@@ -779,10 +742,9 @@ atomic ::=    PARENTHESIS_L expression-root PARENTHESIS_R
     | namepath-safe
     | number-literal
 // === atomic statement ===
-ordinal-range ::= BRACKET_L (range-item (COMMA range-item)* COMMA?)? BRACKET_R;
+ordinal-range ::= <<bracket range-item>>;
 ordinal-slice ::= OP_AND_THEN? ordinal-range;
-offset-range  ::= OFFSET_L  (range-item (COMMA range-item)* COMMA?)? OFFSET_R
-    | NAME_SPLIT  BRACKET_L (range-item (COMMA range-item)* COMMA?)? BRACKET_R
+offset-range  ::= <<offset range-item>> | NAME_SPLIT <<bracket range-item>>
 offset-slice  ::= OP_AND_THEN? offset-range;
 range-item ::=
     range-lower? COLON range-upper? COLON range-step?
@@ -801,7 +763,7 @@ tuple       ::=
 {
   //    mixin = "valkyrie.psi.mixin.MixinTuple"
 }
-argument-body ::= PARENTHESIS_L (argument (COMMA argument)* COMMA?)? PARENTHESIS_R;
+argument-body ::= <<parenthesis argument>>;
 argument ::= (identifier-safe BIND)? expression-root {
 
 }
@@ -876,7 +838,12 @@ private symbol-lead ::= KW_LET
     | KW_LOOP | KW_FOR
 template-end  ::= OP_END
     | TEMPLATE_L symbol-lead? KW_END TEMPLATE_R;
+// === macros ===
+private meta brace ::= BRACE_L (COMMA|SEMICOLON|<<term>>)* BRACE_R
+private meta offset ::= OFFSET_L (<<term>> (COMMA <<term>>)* COMMA?)? OFFSET_R
 private meta bracket ::= BRACKET_L (<<term>> (COMMA <<term>>)* COMMA?)? BRACKET_R
 private meta parenthesis ::= PARENTHESIS_L (<<term>> (COMMA <<term>>)* COMMA?)? PARENTHESIS_R
+private meta generic ::= GENERIC_L (<<term>> (COMMA <<term>>)* COMMA?)? GENERIC_R
+private meta angle ::= ANGLE_L (<<term>> (COMMA <<term>>)* COMMA?)? ANGLE_R
 // === navigation ===
 unused ::= BUILDER_L BUILDER_R DOMAIN_L DOMAIN_R OP_ARROW2 OP_ARROW3
