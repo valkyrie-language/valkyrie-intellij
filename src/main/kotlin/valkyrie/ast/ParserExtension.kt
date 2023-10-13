@@ -81,9 +81,9 @@ class ParserExtension : GeneratedParserUtilBase() {
             OperatorInfix,
             OperatorSuffix,
 //            TokenSet.create(BIND)
-        );
+        )
 
-        val Comments: TokenSet = TokenSet.create();
+        val Comments: TokenSet = TokenSet.create()
         val CompletionWords: TokenSet = TokenSet.create(
 //            SYMBOL, SYMBOL_RAW
         )
@@ -97,7 +97,7 @@ fun parseClass(builder: PsiBuilder, anonymous: Boolean): Boolean {
         anonymous -> {}
         else -> {
             ValkyrieAnnotationAreaNode.parse(builder)
-            builder.advanceIgnore();
+            builder.advanceIgnore()
         }
     }
     // 检查是否有 class 关键字
@@ -140,7 +140,7 @@ fun parseFunction(builder: PsiBuilder, anonymous: Boolean, type: IElementType): 
         anonymous -> {}
         else -> {
             ValkyrieAnnotationAreaNode.parse(builder)
-            builder.advanceIgnore();
+            builder.advanceIgnore()
         }
     }
     // 检查是否有 class 关键字

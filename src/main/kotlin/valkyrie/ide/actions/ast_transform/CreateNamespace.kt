@@ -44,7 +44,7 @@ class CreateNamespace : LocalQuickFixAndIntentionActionOnPsiElement, PriorityAct
         if (element.name == "_.vk" || element.name == "index.vk") {
             createIndexNamespace()
         }
-        val indexFile = element.containingDirectory?.findFile("_.vk") as? ValkyrieFileNode;
+        val indexFile = element.containingDirectory?.findFile("_.vk") as? ValkyrieFileNode
         if (indexFile != null) {
             createElementNamespace(indexFile, editor)
         }
@@ -55,8 +55,8 @@ class CreateNamespace : LocalQuickFixAndIntentionActionOnPsiElement, PriorityAct
     }
 
     private fun createElementNamespace(indexFile: ValkyrieFileNode, editor: Editor) {
-        val sb = StringBuilder("namespace ");
-        val thisFile = element.containingFile as ValkyrieFileNode;
+        StringBuilder("namespace ")
+        element.containingFile as ValkyrieFileNode
 //        val indexName = indexFile.namespace ?: return
 //        val fileName = thisFile.namespace
 //        if (fileName == null) {

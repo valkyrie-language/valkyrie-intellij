@@ -15,11 +15,11 @@ class CompletionConfig : CodeCompletionOptionsCustomSection {
     }
 
     override fun createComponent(): JComponent? {
-        return null;
+        return null
     }
 
     override fun isModified(): Boolean {
-        return false;
+        return false
     }
 
     override fun apply() {

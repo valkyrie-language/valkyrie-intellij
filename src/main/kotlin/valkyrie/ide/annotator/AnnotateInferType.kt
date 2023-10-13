@@ -30,10 +30,10 @@ class AnnotateInferType : Annotator {
 
 private class LintInferType(holder: AnnotationHolder) : ValkyrieAnnotator(holder) {
     override fun visitDeclareFunction(o: ValkyrieDeclareFunction) {
-        var missingParameterType = false;
+        var missingParameterType = false
         for (parameter in o.parameterBody?.parameterItemList ?: listOf()) {
             if (parameter.typeHint == null) {
-                missingParameterType = true;
+                missingParameterType = true
                 holder.newAnnotation(HighlightSeverity.INFORMATION, "Infer type")
                     .range(parameter.textRange)
                     .withFix(InferFunctionParameterType(parameter, o))
@@ -41,7 +41,7 @@ private class LintInferType(holder: AnnotationHolder) : ValkyrieAnnotator(holder
             }
         }
         if (o.returnType == null) {
-            missingParameterType = true;
+            missingParameterType = true
             holder.newAnnotation(HighlightSeverity.INFORMATION, "Infer type")
                 .range(o.textRange)
                 .withFix(InferFunctionReturnType(o))

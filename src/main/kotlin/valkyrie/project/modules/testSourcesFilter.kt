@@ -10,7 +10,7 @@ import kotlin.io.path.exists
 
 class testSourcesFilter : TestSourcesFilter() {
     override fun isTestSource(file: VirtualFile, project: Project): Boolean {
-        val psi = PsiManager.getInstance(project).findFile(file) as? ValkyrieFileNode ?: return false
+        PsiManager.getInstance(project).findFile(file) as? ValkyrieFileNode ?: return false
         return false
     }
 }

@@ -14,7 +14,7 @@ class ValkyrieBookmark : BookmarkProvider {
     }
 
     override fun getWeight(): Int {
-        return 100;
+        return 100
     }
 
     override fun getProject(): Project {

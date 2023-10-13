@@ -31,15 +31,4 @@ class GenerateImplements : PresentableLanguageCodeInsightActionHandler {
     }
 
 
-    override fun startInWriteAction(): Boolean {
-        return super.startInWriteAction()
-    }
-
-    override fun getElementToMakeWritable(currentFile: PsiFile): PsiElement? {
-        return super.getElementToMakeWritable(currentFile)
-    }
-
-    override fun getFileModifierForPreview(target: PsiFile): FileModifier? {
-        return super.getFileModifierForPreview(target)
-    }
 }

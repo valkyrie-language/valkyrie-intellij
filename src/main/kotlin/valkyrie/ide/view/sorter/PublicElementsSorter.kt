@@ -6,9 +6,9 @@ import com.intellij.ide.util.treeView.smartTree.ActionPresentationData
 import com.intellij.ide.util.treeView.smartTree.Sorter
 import valkyrie.language.ValkyrieBundle
 
-private val title = ValkyrieBundle.message("view.PropertiesGrouper");
-private val text = ValkyrieBundle.message("view.PropertiesGrouper");
-private val description = ValkyrieBundle.message("view.PropertiesGrouper");
+private val title = ValkyrieBundle.message("view.PropertiesGrouper")
+private val text = ValkyrieBundle.message("view.PropertiesGrouper")
+private val description = ValkyrieBundle.message("view.PropertiesGrouper")
 
 object PublicElementsSorter : Sorter {
     override fun getPresentation(): ActionPresentation {

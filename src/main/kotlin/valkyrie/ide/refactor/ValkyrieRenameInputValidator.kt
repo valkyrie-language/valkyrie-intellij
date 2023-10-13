@@ -10,10 +10,10 @@ import valkyrie.language.ValkyrieLanguage
 
 class ValkyrieRenameInputValidator : RenameInputValidator {
     override fun getPattern(): ElementPattern<out PsiElement> {
-        return PlatformPatterns.psiElement(LeafPsiElement::class.java).withLanguage(ValkyrieLanguage);
+        return PlatformPatterns.psiElement(LeafPsiElement::class.java).withLanguage(ValkyrieLanguage)
     }
 
     override fun isInputValid(newName: String, element: PsiElement, context: ProcessingContext): Boolean {
-        return true;
+        return true
     }
 }

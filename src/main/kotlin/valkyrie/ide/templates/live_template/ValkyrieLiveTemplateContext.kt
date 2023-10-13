@@ -28,7 +28,7 @@ class ValkyrieLiveTemplateContext : LiveTemplateContextProvider {
 
 private class SnippetContextAll : TemplateContextType, LiveTemplateContext {
 
-    constructor() : super("valkyrie", ValkyrieBundle.message("live-template.scope.all"), EverywhereContextType::class.java);
+    constructor() : super("valkyrie", ValkyrieBundle.message("live-template.scope.all"), EverywhereContextType::class.java)
 
     override fun getBaseContextId(): String? {
         return null

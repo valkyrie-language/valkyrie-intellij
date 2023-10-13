@@ -8,7 +8,7 @@ import com.intellij.openapi.vfs.VirtualFile
 class LibraryRootsProvider : AdditionalLibraryRootsProvider() {
     private var dependences = mutableListOf<SyntheticLibrary>()
     override fun getAdditionalProjectLibraries(project: Project): MutableList<SyntheticLibrary> {
-        return dependences;
+        return dependences
     }
 
     override fun getRootsToWatch(project: Project): MutableCollection<VirtualFile> {

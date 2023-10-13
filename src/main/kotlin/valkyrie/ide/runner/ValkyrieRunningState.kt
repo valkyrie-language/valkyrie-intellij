@@ -27,7 +27,7 @@ class ValkyrieRunningState : RunProfileState {
             DefaultBuildDescriptor("Valkyrie", "Valkyrie", "Valkyrie", System.currentTimeMillis()),
             line
         )
-        return ValkyrieTaskBuildResult(console);
+        return ValkyrieTaskBuildResult(console)
     }
 }
 

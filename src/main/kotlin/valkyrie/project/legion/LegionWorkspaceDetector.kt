@@ -8,7 +8,7 @@ import com.intellij.openapi.startup.ProjectActivity
 
 class LegionWorkspaceDetector : ProjectActivity {
     override suspend fun execute(project: Project) {
-        val root = project.guessProjectDir()?.path ?: return
+        project.guessProjectDir()?.path ?: return
         WriteCommandAction.runWriteCommandAction(project) {
 //            val mm = ModuleManager.getInstance(project).getModifiableModel()
 //            val iml = "$root/.idea/modules/test.iml";

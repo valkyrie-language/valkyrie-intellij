@@ -60,14 +60,6 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
         }
     }
 
-    override fun visitUsingTerm(o: ValkyrieUsingTerm) {
-        super.visitUsingTerm(o)
-    }
-
-    override fun visitUsingBlock(o: ValkyrieUsingBlock) {
-        super.visitUsingBlock(o)
-    }
-
     override fun visitDeclareGeneric(o: ValkyrieDeclareGeneric) {
         fixGenericBracket(o)
     }

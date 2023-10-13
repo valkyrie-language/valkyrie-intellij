@@ -6,7 +6,7 @@ import java.awt.Color
 data class RGBA(val r: Float, val g: Float, val b: Float, val a: Float) {
     companion object {
         fun parse(text: String): Color? {
-            if (text.contains(Regex("[^0-9A-Fa-f]"))) return null;
+            if (text.contains(Regex("[^0-9A-Fa-f]"))) return null
             when (text.length) {
                 0 -> {
                     return JBColor.BLACK

@@ -31,8 +31,8 @@ open class ValkyrieLookupElement : LookupElement() {
     }
 
     fun setIcon(itemIcon: Icon, typeIcon: Icon? = null) {
-        this.itemIcon = itemIcon;
-        this.typeIcon = typeIcon;
+        this.itemIcon = itemIcon
+        this.typeIcon = typeIcon
     }
 
     fun setText(itemText: String, typeText: String = "") {
@@ -44,7 +44,7 @@ open class ValkyrieLookupElement : LookupElement() {
         presentation.icon = itemIcon
         presentation.setTypeText(typeText, typeIcon)
         presentation.isTypeGrayed = true
-        presentation.isTypeIconRightAligned = true;
+        presentation.isTypeIconRightAligned = true
         presentation.itemText = itemText
     }
 

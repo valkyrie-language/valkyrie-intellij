@@ -70,7 +70,7 @@ abstract class ValkyrieInspection : LocalQuickFix, IntentionActionWithOptions, C
             output.add(ValkyrieInspectionSuppose(tool.shortName))
         }
         output.add(ValkyrieInspectionBatch(_icon, tool.displayName, AnalysisScope(psi.project)))
-        val module = ModuleUtilCore.findModuleForFile(psi.containingFile);
+        val module = ModuleUtilCore.findModuleForFile(psi.containingFile)
         if (module != null) {
             output.add(ValkyrieInspectionBatch(_icon, tool.displayName, AnalysisScope(module)))
         }

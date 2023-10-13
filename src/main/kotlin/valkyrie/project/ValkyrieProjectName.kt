@@ -16,7 +16,7 @@ class ValkyrieProjectName : ProjectNameProvider {
     companion object {
         fun getRoot(project: Project): Path? {
             val root = project.basePath?.let { Paths.get(it) } ?: return null
-            val ws = root.resolve("legions.json5");
+            val ws = root.resolve("legions.json5")
             if (ws.exists()) {
                 return ws
             } else {

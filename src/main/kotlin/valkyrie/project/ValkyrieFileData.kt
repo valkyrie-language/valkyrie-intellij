@@ -6,13 +6,13 @@ import java.io.DataInput
 import java.io.DataOutput
 
 class ValkyrieFileData {
-    var path = "";
-    var namespace: Array<String> = arrayOf();
-    var errors: List<String> = listOf();
+    var path = ""
+    var namespace: Array<String> = arrayOf()
+    var errors: List<String> = listOf()
 
 
     constructor(file: ValkyrieFileNode) {
-        path = file.virtualFile.path;
+        path = file.virtualFile.path
         for (child in file.children) {
             if (child is ValkyrieDeclareNamespace) {
                 if (namespace.isEmpty()) {
@@ -48,7 +48,4 @@ class ValkyrieFileData {
         path = data.readUTF()
     }
 
-    override fun toString(): String {
-        return super.toString()
-    }
 }

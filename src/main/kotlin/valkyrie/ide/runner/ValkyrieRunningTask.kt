@@ -92,10 +92,6 @@ class ValkyrieRunningTask(project: Project, factory: ValkyrieConfigurationFactor
         return true
     }
 
-    override fun checkConfiguration() {
-        super.checkConfiguration()
-    }
-
     override fun getConfigurationEditor(): SettingsEditor<out ValkyrieRunningTask> {
         return object : SettingsEditor<ValkyrieRunningTask>() {
             override fun resetEditorFrom(s: ValkyrieRunningTask) {

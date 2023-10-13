@@ -23,12 +23,8 @@ class ValkyrieSdkType : SdkType("ValkyrieSDK") {
         return roles.toString()
     }
 
-    override fun suggestHomePaths(project: Project?): @Unmodifiable Collection<String?> {
-        return super.suggestHomePaths(project)
-    }
-
     override fun isValidSdkHome(path: String): Boolean {
-        val role = path.toNioPathOrNull()?.resolve("role.json");
+        val role = path.toNioPathOrNull()?.resolve("role.json")
         return role != null && role.exists()
     }
 

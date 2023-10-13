@@ -39,10 +39,6 @@ class AsgardFrameworkProvider : FacetType<AsgardFacet, AsgardConfig> {
         return "getHelpTopic"
     }
 
-    override fun getPresentableName(): String {
-        return super.getPresentableName()
-    }
-
     override fun isOnlyOneFacetAllowed(): Boolean {
         return true
     }

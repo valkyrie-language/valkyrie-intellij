@@ -5,7 +5,7 @@ import java.awt.Color
 data class CMYK(val c: Float, val m: Float, val y: Float, val k: Float) {
     companion object {
         fun parse(text: String): CMYK? {
-            if (text.contains(Regex("[^0-9A-Fa-f]"))) return null;
+            if (text.contains(Regex("[^0-9A-Fa-f]"))) return null
             when (text.length) {
                 //
                 0 -> {

@@ -16,9 +16,7 @@ abstract class MixinString : ValkyrieElement, PsiLanguageInjectionHost, Valkyrie
     var stringBody: PsiElement? = this.findChildByType(ValkyrieTypes.STRING_TEXT)
     var stringTail: PsiElement = this.findChildByType(ValkyrieTypes.STRING_R)!!
 
-    constructor(node: ASTNode) : super(node) {
-
-    }
+    constructor(node: ASTNode) : super(node)
 
     override fun isValidHost(): Boolean {
         return identifierSafe != null

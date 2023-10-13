@@ -17,7 +17,7 @@ import valkyrie.psi.node.ValkyrieDeclareTraitNode
 class GenerateOverrides : LanguageCodeInsightActionHandler {
     private var _current: PsiElement? = null
     override fun isValidFor(editor: Editor?, file: PsiFile?): Boolean {
-        val here = file.caretElement(editor) ?: return false;
+        val here = file.caretElement(editor) ?: return false
 
         for (parent in here.parents(true)) {
             when (parent) {
@@ -25,7 +25,7 @@ class GenerateOverrides : LanguageCodeInsightActionHandler {
                 is ValkyrieDeclareTraitNode -> true
                 is ValkyrieDeclareImplyNode -> true
                 else -> {
-                    _current = parent;
+                    _current = parent
                     return true
                 }
             }
@@ -34,21 +34,17 @@ class GenerateOverrides : LanguageCodeInsightActionHandler {
     }
 
 
-    override fun startInWriteAction(): Boolean {
-        return super.startInWriteAction()
-    }
-
     override fun invoke(project: Project, editor: Editor, file: PsiFile) {
         when (_current) {
             is ValkyrieDeclareClassNode -> {
-                val here = _current as ValkyrieDeclareClassNode;
+                val here = _current as ValkyrieDeclareClassNode
 
 
                 val ui = GenerateClassFieldChooser(
                     here, project
-                );
-                ui.pack();
-                ui.show();
+                )
+                ui.pack()
+                ui.show()
                 println(ui.selectedElements)
             }
         }
@@ -57,14 +53,11 @@ class GenerateOverrides : LanguageCodeInsightActionHandler {
     }
 
     override fun getFileModifierForPreview(target: PsiFile): FileModifier? {
-        val mods = super.getFileModifierForPreview(target);
+        val mods = super.getFileModifierForPreview(target)
         println("getFileModifierForPreview: ${mods}")
         return mods
     }
 
-    override fun getElementToMakeWritable(currentFile: PsiFile): PsiElement? {
-        return super.getElementToMakeWritable(currentFile)
-    }
 }
 
 

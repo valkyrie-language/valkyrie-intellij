@@ -29,10 +29,6 @@ class ChainHintVisitor : ValkyrieVisitor {
         }
     }
 
-    override fun visitDotCallInline(o: ValkyrieDotCallInline) {
-        super.visitDotCallInline(o)
-    }
-
     fun hint(start: Int, text: String) {
         sink.addInlineElement(
             start,

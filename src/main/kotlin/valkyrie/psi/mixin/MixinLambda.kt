@@ -17,7 +17,7 @@ abstract class MixinLambda(node: ASTNode) : ValkyrieElement(node), ValkyrieNewLa
     }
 
     override fun getNavigationElement(): PsiElement {
-        return this.getKeyword()
+        return this.keyword
     }
 
 

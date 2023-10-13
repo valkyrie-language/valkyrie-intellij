@@ -20,7 +20,7 @@ class ValkyrieTraitDeclarationNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             anonymous -> {}
             else -> {
                 ValkyrieAnnotationAreaNode.parse(builder)
-                builder.advanceIgnore();
+                builder.advanceIgnore()
             }
         }
         // 检查是否有 class 关键字

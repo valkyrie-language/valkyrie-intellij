@@ -98,7 +98,7 @@ class ValkyrieIndentVisitor(val child: ASTNode) : ValkyrieVisitor() {
     }
 
     private fun ASTNode.indentInRange(child: ASTNode, head: Int, tail: Int): Indent {
-        val children = this.getChildren(null);
+        val children = this.getChildren(null)
         val index = children.indexOf(child)
         val last = children.size - tail
         return when {

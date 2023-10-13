@@ -10,7 +10,7 @@ import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.*
 
 class GotoSuperSymbol : GotoTargetHandler() {
-    override fun getFeatureUsedKey() = "valkyrie.goto.super";
+    override fun getFeatureUsedKey() = "valkyrie.goto.super"
     override fun getSourceAndTargetElements(editor: Editor, file: PsiFile): GotoData? {
         val element = ValkyrieDeclaration.getCaretDeclaration(editor, file)
         val visitor = GotoSuperVisitor()
@@ -85,7 +85,7 @@ private class GotoSuperVisitor : ValkyrieVisitor() {
     }
 
     override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
-        o as ValkyrieDeclareMethodNode;
+        o as ValkyrieDeclareMethodNode
         target = GotoData(o, arrayOf(o, o.parent), listOf())
     }
 }

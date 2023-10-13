@@ -9,23 +9,5 @@ import com.intellij.platform.lsp.api.customization.LspDiagnosticsSupport
 import org.eclipse.lsp4j.Diagnostic
 
 class VspDiagnosticsAdaptor : LspDiagnosticsSupport() {
-    override fun getHighlightSeverity(diagnostic: Diagnostic): HighlightSeverity? {
-        return super.getHighlightSeverity(diagnostic)
-    }
 
-    override fun getSpecialHighlightType(diagnostic: Diagnostic): ProblemHighlightType? {
-        return super.getSpecialHighlightType(diagnostic)
-    }
-
-    override fun getTooltip(diagnostic: Diagnostic): String {
-        return super.getTooltip(diagnostic)
-    }
-
-    override fun createAnnotation(holder: AnnotationHolder, diagnostic: Diagnostic, textRange: TextRange, quickFixes: List<IntentionAction>) {
-        super.createAnnotation(holder, diagnostic, textRange, quickFixes)
-    }
-
-    override fun getMessage(diagnostic: Diagnostic): String {
-        return super.getMessage(diagnostic)
-    }
 }

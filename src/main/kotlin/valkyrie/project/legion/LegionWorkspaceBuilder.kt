@@ -28,15 +28,6 @@ class LegionWorkspaceBuilder : ModuleBuilder() {
     }
 
 
-    override fun validateModuleName(moduleName: String): Boolean {
-        return super.validateModuleName(moduleName)
-    }
-
-    override fun getModuleFileDirectory(): String? {
-        return super.getModuleFileDirectory()
-    }
-
-
     override fun getPresentableName(): String {
         return "Valkyrie Module"
     }
@@ -61,20 +52,12 @@ class LegionWorkspaceBuilder : ModuleBuilder() {
         return false
     }
 
-    override fun addModuleConfigurationUpdater(updater: ModuleConfigurationUpdater?) {
-        super.addModuleConfigurationUpdater(updater)
-    }
-
     override fun modifyProjectTypeStep(settingsStep: SettingsStep): ModuleWizardStep? {
         return ValkyrieModuleWizardStep("modifyProjectTypeStep")
     }
 
     override fun modifyStep(settingsStep: SettingsStep?): ModuleWizardStep {
         return ValkyrieModuleWizardStep("modifyStep")
-    }
-
-    override fun getContentEntryPath(): String? {
-        return super.getContentEntryPath()
     }
 
     override fun getBuilderId(): String? {
@@ -174,7 +157,7 @@ class LegionWorkspaceBuilder : ModuleBuilder() {
 
 private fun LegionWorkspaceBuilder.configProjectRoot(project: Project) {
     name = project.name
-    val dotIdea = project.projectFile?.findChild(Project.DIRECTORY_STORE_FOLDER);
+    val dotIdea = project.projectFile?.findChild(Project.DIRECTORY_STORE_FOLDER)
     moduleFilePath = when (dotIdea) {
         null -> {
             project.basePath + File.separator + name + ModuleFileType.DOT_DEFAULT_EXTENSION

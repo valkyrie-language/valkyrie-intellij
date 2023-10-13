@@ -16,11 +16,4 @@ class ImplicitUsage : ImplicitUsageProvider {
         return true
     }
 
-    override fun isClassWithCustomizedInitialization(element: PsiElement): Boolean {
-        return super.isClassWithCustomizedInitialization(element)
-    }
-
-    override fun isImplicitlyNotNullInitialized(element: PsiElement): Boolean {
-        return super.isImplicitlyNotNullInitialized(element)
-    }
 }

@@ -26,14 +26,6 @@ class LegionProvider : ProjectImportProvider {
         return false
     }
 
-    override fun canImport(fileOrDirectory: VirtualFile, project: Project?): Boolean {
-        return super.canImport(fileOrDirectory, project)
-    }
-
-
-    override fun getName(): String {
-        return super.getName()
-    }
 
     override fun createSteps(context: WizardContext?): Array<ModuleWizardStep> {
         return arrayOf(ConfigPath())
@@ -43,9 +35,6 @@ class LegionProvider : ProjectImportProvider {
         return JavaUiBundle.message("intellij.idea.module.file.iml")
     }
 
-    override fun getPathToBeImported(file: VirtualFile?): String {
-        return super.getPathToBeImported(file)
-    }
 }
 
 private class ConfigPath : ModuleWizardStep() {
@@ -67,10 +56,6 @@ private class ConfigPath : ModuleWizardStep() {
 
     override fun getIcon(): Icon? {
         return ValkyrieIconProvider.Instance.Enumeration
-    }
-
-    override fun getName(): String {
-        return super.getName()
     }
 
     override fun getHelpId(): String {

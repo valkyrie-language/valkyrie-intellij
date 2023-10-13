@@ -24,10 +24,6 @@ class ValkyrieProjectGenerator : LanguageGeneratorNewProjectWizard {
         return ValkyrieProjectGeneratorPanel(parent, "NewProjectWizard.ValkyrieState")
     }
 
-    override fun isEnabled(context: WizardContext): Boolean {
-        return super.isEnabled(context)
-    }
-
 
 }
 
@@ -52,8 +48,5 @@ private class ValkyrieProjectGeneratorPanel(parentStep: NewProjectWizardStep, st
         }
     }
 
-    override fun setupProject(project: Project) {
-        super.setupProject(project)
-    }
 }
 

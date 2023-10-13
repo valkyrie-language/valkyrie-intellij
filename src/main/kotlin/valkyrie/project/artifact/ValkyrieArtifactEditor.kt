@@ -26,11 +26,4 @@ class ValkyrieArtifactEditor(context: ArtifactEditorContext) : ArtifactPropertie
         return "ArtifactEditorContext"
     }
 
-    override fun getHelpId(): String? {
-        return super.getHelpId()
-    }
-
-    override fun getPreferredFocusedComponent(): JComponent? {
-        return super.getPreferredFocusedComponent()
-    }
 }

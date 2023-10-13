@@ -31,9 +31,5 @@ class ValkyrieArtifactType : ArtifactType("wasm", { "ArtifactType" }) {
         return "GetPresentableName1231"
     }
 
-    override fun getNewArtifactTemplates(context: PackagingElementResolvingContext): MutableList<out ArtifactTemplate> {
-        return super.getNewArtifactTemplates(context)
-    }
-
 
 }

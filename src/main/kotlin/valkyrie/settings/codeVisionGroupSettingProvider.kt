@@ -10,11 +10,4 @@ class codeVisionGroupSettingProvider : CodeVisionGroupSettingProvider {
     override val groupName = super.groupName
     override val description = super.description
 
-    override fun createModel(project: Project): CodeVisionGroupSettingModel {
-        return super.createModel(project)
-    }
-
-    override fun createSettingsModel(isEnabled: Boolean, providers: List<CodeVisionProvider<*>>): CodeVisionGroupSettingModel {
-        return super.createSettingsModel(isEnabled, providers)
-    }
 }

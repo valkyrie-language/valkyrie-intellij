@@ -16,7 +16,7 @@ class TypeHintProvider : InlayHintsProvider<TypeHintSetting> {
     override val description = ValkyrieBundle.message("inlay.type.detail")
     override val group = InlayGroup.TYPES_GROUP
     override val key: SettingsKey<TypeHintSetting> = SettingsKey("type")
-    override val previewText = null;
+    override val previewText = null
     override fun isLanguageSupported(language: Language): Boolean {
         return language is ValkyrieLanguage
     }

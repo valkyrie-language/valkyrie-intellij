@@ -10,11 +10,4 @@ class generatedSourcesFilter : GeneratedSourcesFilter() {
         return false
     }
 
-    override fun getOriginalElements(element: PsiElement): List<PsiElement> {
-        return super.getOriginalElements(element)
-    }
-
-    override fun getNotificationText(file: VirtualFile, project: Project): String? {
-        return super.getNotificationText(file, project)
-    }
 }

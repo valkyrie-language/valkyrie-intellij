@@ -192,7 +192,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitCasePattern(o: ValkyrieCasePattern) {
-        val names = o.namepathSafe?.namepath ?: emptyList();
+        val names = o.namepathSafe?.namepath ?: emptyList()
         if (names.count() == 1) {
             val head = names.firstOrNull() as? ValkyrieIdentifierNode
             val c = head?.name?.firstOrNull()

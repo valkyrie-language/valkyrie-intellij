@@ -42,24 +42,8 @@ class ValkyrieBreadcrumbsProvider : BreadcrumbsProvider {
         }
     }
 
-    override fun getChildren(element: PsiElement): MutableList<PsiElement> {
-        return super.getChildren(element)
-    }
-
-    override fun getParent(element: PsiElement): PsiElement? {
-        return super.getParent(element)
-    }
-
     override fun getElementIcon(element: PsiElement): Icon? {
         return element.getIcon(0)
-    }
-
-    override fun getContextActions(element: PsiElement): MutableList<out Action> {
-        return super.getContextActions(element)
-    }
-
-    override fun getElementTooltip(element: PsiElement): String? {
-        return super.getElementTooltip(element)
     }
 
 }

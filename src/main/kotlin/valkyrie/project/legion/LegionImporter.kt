@@ -18,7 +18,7 @@ class LegionImporter : ProjectImportBuilder<LegionImporterConfig>() {
         modulesProvider: ModulesProvider,
         artifactModel: ModifiableArtifactModel,
     ): MutableList<Module> {
-        val analyzer = LegionStructureAnalyzer(project)
+        LegionStructureAnalyzer(project)
 //        ApplicationManager.getApplication().runWriteAction {
 //            analyzer.markWorkspace(model)
 //        }
@@ -46,39 +46,12 @@ class LegionImporter : ProjectImportBuilder<LegionImporterConfig>() {
         return false
     }
 
-    override fun createProject(name: String, path: String): Project? {
-        return super.createProject(name, path)
-    }
-
 
     override fun getTitle(): String {
         return super.getTitle()
     }
 
 
-    override fun getFileToImport(): String {
-        return super.getFileToImport()
-    }
-
-    override fun setList(list: MutableList<LegionImporterConfig>?) {
-        super.setList(list)
-    }
-
-    override fun cleanup() {
-        super.cleanup()
-    }
-
-    override fun getList(): MutableList<LegionImporterConfig>? {
-        return super.getList()
-    }
-
-    override fun setFileToImport(path: String) {
-        super.setFileToImport(path)
-    }
-
-    override fun isSuitableSdkType(sdkType: SdkTypeId): Boolean {
-        return super.isSuitableSdkType(sdkType)
-    }
 }
 
 

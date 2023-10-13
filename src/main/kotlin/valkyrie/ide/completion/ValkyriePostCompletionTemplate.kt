@@ -30,7 +30,7 @@ open class ValkyriePostCompletionTemplate : ValkyrieLookupElement {
     }
 
     private fun expandTemplate(editor: Editor, file: PsiFile) {
-        val provider = ValkyriePostfixTemplateProvider();
+        val provider = ValkyriePostfixTemplateProvider()
         PostfixLiveTemplate.expandTemplate(
             postfixTemplate.key,
             CustomTemplateCallback(editor, file),

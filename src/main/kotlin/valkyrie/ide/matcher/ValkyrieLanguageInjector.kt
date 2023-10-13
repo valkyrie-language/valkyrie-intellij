@@ -50,19 +50,19 @@ private class LanguageInjectorVisitor(val registrar: MultiHostRegistrar) : Valky
 //            }
 //
             "re" -> {
-                val range = TextRange(o.stringHead.endOffset - o.startOffset, o.stringTail.startOffset - o.startOffset);
+                val range = TextRange(o.stringHead.endOffset - o.startOffset, o.stringTail.startOffset - o.startOffset)
                 registrar.startInjecting(RegExpLanguage.INSTANCE).addPlace(null, null, o, range).doneInjecting()
             }
 
             "regex" -> {
-                val range = TextRange(o.stringHead.endOffset - o.startOffset, o.stringTail.startOffset - o.startOffset);
+                val range = TextRange(o.stringHead.endOffset - o.startOffset, o.stringTail.startOffset - o.startOffset)
                 registrar.startInjecting(RegExpLanguage.INSTANCE).addPlace("(?x)", null, o, range).doneInjecting()
             }
 
             else -> {
                 val language = LanguageUtil.findRegisteredLanguage(id)
                 if (language != null) {
-                    val range = TextRange(o.stringHead.endOffset - o.startOffset, o.stringTail.startOffset - o.startOffset);
+                    val range = TextRange(o.stringHead.endOffset - o.startOffset, o.stringTail.startOffset - o.startOffset)
                     registrar.startInjecting(language).addPlace(null, null, o, range).doneInjecting()
                 }
             }

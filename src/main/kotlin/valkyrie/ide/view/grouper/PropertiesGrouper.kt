@@ -6,9 +6,9 @@ import com.intellij.ide.util.treeView.smartTree.*
 import com.intellij.util.PlatformIcons.ABSTRACT_CLASS_ICON
 import valkyrie.language.ValkyrieBundle
 
-private val title = ValkyrieBundle.message("view.PropertiesGrouper");
-private val text = ValkyrieBundle.message("view.PropertiesGrouper");
-private val description = ValkyrieBundle.message("view.PropertiesGrouper");
+private val title = ValkyrieBundle.message("view.PropertiesGrouper")
+private val text = ValkyrieBundle.message("view.PropertiesGrouper")
+private val description = ValkyrieBundle.message("view.PropertiesGrouper")
 
 object PropertiesGrouper : Grouper {
     override fun getPresentation(): ActionPresentation {

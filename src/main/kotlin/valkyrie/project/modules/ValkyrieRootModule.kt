@@ -9,7 +9,7 @@ import kotlin.io.path.exists
 class ValkyrieRootModule : PrimaryModuleManager() {
     override fun getPrimaryModule(project: Project): Module? {
         val root = project.basePath?.let { Paths.get(it) } ?: return null
-        val ws = root.resolve("legions.json5");
+        val ws = root.resolve("legions.json5")
         return when {
             ws.exists() -> {
 //                ValkyrieModule(project)

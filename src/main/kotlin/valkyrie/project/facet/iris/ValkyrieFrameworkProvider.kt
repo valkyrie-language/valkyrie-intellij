@@ -36,11 +36,6 @@ class ValkyrieFrameworkProvider : FacetType<ValkyrieFacet, ValkyrieFacetConfig> 
         return "getHelpTopic"
     }
 
-    /** Facet save name */
-    override fun getDefaultFacetName(): String {
-        return super.getDefaultFacetName()
-    }
-
     /** Facet display name */
     override fun getPresentableName(): String {
         return ValkyrieBundle.message("facet.name")
@@ -54,14 +49,6 @@ class ValkyrieFrameworkProvider : FacetType<ValkyrieFacet, ValkyrieFacetConfig> 
     override fun isSuitableModuleType(moduleType: ModuleType<*>?): Boolean {
         println("isSuitableModuleType: $moduleType(${moduleType?.name})")
         return true
-    }
-
-    override fun createDefaultConfigurationEditor(project: Project, configuration: ValkyrieFacetConfig): DefaultFacetSettingsEditor? {
-        return super.createDefaultConfigurationEditor(project, configuration)
-    }
-
-    override fun createMultipleConfigurationsEditor(project: Project, editors: Array<out FacetEditor>): MultipleFacetSettingsEditor? {
-        return super.createMultipleConfigurationsEditor(project, editors)
     }
 
     override fun setPluginDescriptor(pluginDescriptor: PluginDescriptor) {

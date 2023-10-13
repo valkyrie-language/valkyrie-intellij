@@ -11,10 +11,7 @@ class ValkyrieConfigurationFactory(type: ValkyrieConfigurationType) : Configurat
     }
 
     override fun getId(): String {
-        return "valkyrie.running";
+        return "valkyrie.running"
     }
 
-    override fun createConfiguration(name: String?, template: RunConfiguration): RunConfiguration {
-        return super.createConfiguration(name, template)
-    }
 }

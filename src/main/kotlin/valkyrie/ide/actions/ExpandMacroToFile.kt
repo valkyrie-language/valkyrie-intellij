@@ -13,9 +13,7 @@ private val name = ValkyrieBundle.message("action.macro.expand_file")
 private val description = ValkyrieBundle.message("action.convert_prop.description")
 
 class ExpandMacroToFile : AnAction {
-    constructor() : super(name, description, AllIcons.Actions.Preview) {
-
-    }
+    constructor() : super(name, description, AllIcons.Actions.Preview)
 
     override fun actionPerformed(e: AnActionEvent) {
 //        val src = LangDataKeys.PSI_FILE.getData(e.dataContext) ?: return
@@ -35,7 +33,7 @@ class ExpandMacroToFile : AnAction {
     }
 
     private fun createFile(dir: PsiDirectory, fileName: String, text: String): PsiFile? {
-        val builder = PsiFileFactory.getInstance(dir.project);
+        val builder = PsiFileFactory.getInstance(dir.project)
         for (child in dir.files) {
             if (child.name == fileName) {
                 child.delete()
@@ -44,6 +42,6 @@ class ExpandMacroToFile : AnAction {
         }
         val file = builder.createFileFromText(fileName, ValkyrieLanguage, text)
         dir.add(file)
-        return file;
+        return file
     }
 }

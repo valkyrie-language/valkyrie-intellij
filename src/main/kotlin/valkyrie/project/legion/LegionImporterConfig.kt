@@ -1,5 +1,3 @@
 package valkyrie.project.legion
 
-class LegionImporterConfig {
-
-}
+class LegionImporterConfig

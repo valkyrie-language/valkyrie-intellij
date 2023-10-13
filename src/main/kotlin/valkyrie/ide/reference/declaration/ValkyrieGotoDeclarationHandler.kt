@@ -20,7 +20,4 @@ class ValkyrieGotoDeclarationHandler : GotoDeclarationHandler {
         }
     }
 
-    override fun getActionText(context: DataContext): String? {
-        return super.getActionText(context)
-    }
 }
