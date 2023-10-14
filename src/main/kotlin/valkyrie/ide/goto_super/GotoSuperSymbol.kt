@@ -68,7 +68,7 @@ class GotoSuperSymbol : GotoTargetHandler() {
 }
 
 
-private class GotoSuperVisitor : ValkyrieVisitor() {
+private class GotoSuperVisitor : ValkyrieVisitor2() {
     var target: GotoData? = null
 
     override fun visitDeclareClass(o: ValkyrieDeclareClass) {

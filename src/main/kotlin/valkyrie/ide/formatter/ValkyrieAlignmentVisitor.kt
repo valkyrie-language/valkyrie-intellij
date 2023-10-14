@@ -4,9 +4,9 @@ import com.intellij.formatting.Alignment
 import com.intellij.lang.ASTNode
 import valkyrie.psi.node.ValkyrieDeclareEnums
 import valkyrie.psi.node.ValkyrieDeclareSemantic
-import valkyrie.psi.node.ValkyrieVisitor
+import valkyrie.psi.node.ValkyrieVisitor2
 
-class ValkyrieAlignmentVisitor(val child: ASTNode) : ValkyrieVisitor() {
+class ValkyrieAlignmentVisitor(val child: ASTNode) : ValkyrieVisitor2() {
     var alignment: Alignment? = null
 
     override fun visitDeclareEnums(o: ValkyrieDeclareEnums) {

@@ -1,17 +1,14 @@
 package valkyrie.ide.hint
 
 import com.intellij.codeInsight.codeVision.CodeVisionEntry
-import com.intellij.codeInsight.codeVision.ui.model.TextCodeVisionEntry
-import com.intellij.icons.AllIcons
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieBundle
-import valkyrie.psi.mixin.keyword
 import valkyrie.psi.node.ValkyrieDeclareClass
 import valkyrie.psi.node.ValkyrieDeclareMethod
 import valkyrie.psi.node.ValkyrieDeclareTrait
-import valkyrie.psi.node.ValkyrieVisitor
+import valkyrie.psi.node.ValkyrieVisitor2
 
 class VisionMonomorphism : ValkyrieCodeVision() {
     override val id: String = "hint.vision.monomorphism.name"
@@ -26,7 +23,7 @@ class VisionMonomorphism : ValkyrieCodeVision() {
     }
 }
 
-private class MonomorphismVisitor : ValkyrieVisitor {
+private class MonomorphismVisitor : ValkyrieVisitor2 {
     private val id: String
     var entry: MutableList<Pair<TextRange, CodeVisionEntry>>
 

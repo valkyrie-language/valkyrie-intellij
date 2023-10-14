@@ -6,7 +6,7 @@ import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.*
 
 
-class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
+class ValkyrieStructureItemVisitor : ValkyrieVisitor2() {
     val items: MutableList<TreeElement> = mutableListOf()
     override fun visitFile(file: PsiFile) {
         for (child in file.children) {

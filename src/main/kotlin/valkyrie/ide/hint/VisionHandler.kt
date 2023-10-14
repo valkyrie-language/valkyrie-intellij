@@ -9,7 +9,7 @@ import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.node.ValkyrieControlRaise
-import valkyrie.psi.node.ValkyrieVisitor
+import valkyrie.psi.node.ValkyrieVisitor2
 
 
 class VisionHandler : ValkyrieCodeVision() {
@@ -22,7 +22,7 @@ class VisionHandler : ValkyrieCodeVision() {
     }
 }
 
-private class HandlerVisitor : ValkyrieVisitor {
+private class HandlerVisitor : ValkyrieVisitor2 {
     private val id: String
     var entry: MutableList<Pair<TextRange, CodeVisionEntry>>
 

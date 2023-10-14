@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.node.ValkyrieDeclareMethod
-import valkyrie.psi.node.ValkyrieVisitor
+import valkyrie.psi.node.ValkyrieVisitor2
 
 class VisionEffects : ValkyrieCodeVision() {
     override val id: String = "hint.vision.effect.name"
@@ -24,7 +24,7 @@ class VisionEffects : ValkyrieCodeVision() {
 }
 
 
-private class EffectVisitor : ValkyrieVisitor {
+private class EffectVisitor : ValkyrieVisitor2 {
     private val id: String
     var entry: MutableList<Pair<TextRange, CodeVisionEntry>>
 

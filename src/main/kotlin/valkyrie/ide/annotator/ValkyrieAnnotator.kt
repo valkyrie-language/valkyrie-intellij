@@ -7,9 +7,9 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.tree.IElementType
 import valkyrie.ide.actions.ast_transform.DeleteThis
 import valkyrie.ide.actions.ast_transform.ReplaceLeafText
-import valkyrie.psi.node.ValkyrieVisitor
+import valkyrie.psi.node.ValkyrieVisitor2
 
-open class ValkyrieAnnotator : ValkyrieVisitor {
+open class ValkyrieAnnotator : ValkyrieVisitor2 {
     protected val holder: AnnotationHolder
 
     constructor(holder: AnnotationHolder) : super() {

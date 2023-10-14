@@ -36,7 +36,7 @@ class ValkyrieBeforeFormat : PreFormatProcessor {
 }
 
 
-private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
+private class BeforeFormatFixer : ValkyrieVisitor2, PsiRecursiveVisitor {
     val settings: ValkyrieCodeStyleSettings
     val factory: ValkyrieFactory
 

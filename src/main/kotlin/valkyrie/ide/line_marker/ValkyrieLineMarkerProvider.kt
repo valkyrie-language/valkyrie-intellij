@@ -83,7 +83,7 @@ class ValkyrieLineMarkerProvider : RelatedItemLineMarkerProvider() {
     }
 }
 
-private class ValkyrieMarkerVisitor : ValkyrieVisitor {
+private class ValkyrieMarkerVisitor : ValkyrieVisitor2 {
     val config: ValkyrieLineMarkerProvider
     var result: MutableCollection<in RelatedItemLineMarkerInfo<*>>
 

@@ -8,7 +8,7 @@ import com.intellij.psi.util.endOffset
 import valkyrie.psi.node.*
 
 
-class TypeHintVisitor : ValkyrieVisitor {
+class TypeHintVisitor : ValkyrieVisitor2 {
     private val sink: InlayHintsSink
     private val factory: PresentationFactory
     private val setting: TypeHintSetting

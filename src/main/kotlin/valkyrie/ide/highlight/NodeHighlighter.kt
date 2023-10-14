@@ -8,11 +8,12 @@ import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.elementType
+import valkyrie.ast.ValkyrieVisitor
+import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import valkyrie.ast.node.ValkyrieIdentifierNode
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.childrenWithLeaves
-import valkyrie.psi.mixin.MixinIdentifier
 import valkyrie.psi.node.*
 
 
@@ -42,8 +43,8 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         }
     }
 
-    override fun visitDeclareClass(o: ValkyrieDeclareClass) {
-        highlight(o.identifierSafe, HighlightColor.SYM_CLASS)
+    override fun visitDeclareClass(o: ValkyrieClassDeclarationNode) {
+        highlight(o.identifier, HighlightColor.SYM_CLASS)
     }
 
     override fun visitDeclareSingleton(o: ValkyrieDeclareSingleton) {
@@ -172,7 +173,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     override fun visitMatchBind(o: ValkyrieMatchBind) {
         highlight(o.identifierSafe, HighlightColor.SYM_LOCAL)
     }
-
 
 
     override fun visitTypePatternTuple(o: ValkyrieTypePatternTuple) {

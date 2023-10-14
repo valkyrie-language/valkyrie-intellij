@@ -7,13 +7,14 @@ import com.intellij.icons.AllIcons
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
+import valkyrie.ast.node.ValkyrieIdentifierNode
 import valkyrie.psi.mixin.MixinIdentifier
 import valkyrie.psi.node.ValkyrieDeclareClassNode
 
 import javax.swing.Icon
 
 class SubtypeMarker : RelatedItemLineMarkerInfo<PsiElement> {
-    constructor(leaf: MixinIdentifier, descendant: NavigatablePsiElement) : super(
+    constructor(leaf: ValkyrieIdentifierNode, descendant: NavigatablePsiElement) : super(
         leaf.firstChild,
         leaf.textRange,
         AllIcons.Gutter.OverridenMethod,

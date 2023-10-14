@@ -5,7 +5,7 @@ import com.intellij.navigation.GotoRelatedProvider
 import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.psi.PsiElement
 import valkyrie.psi.node.ValkyrieDeclareMethod
-import valkyrie.psi.node.ValkyrieVisitor
+import valkyrie.psi.node.ValkyrieVisitor2
 
 /** Ctrl + Alt + Home */
 class GotoRelatedSymbol : GotoRelatedProvider() {
@@ -20,7 +20,7 @@ class GotoRelatedSymbol : GotoRelatedProvider() {
     }
 }
 
-private class GotoRelatedVisitor : ValkyrieVisitor() {
+private class GotoRelatedVisitor : ValkyrieVisitor2() {
     val targets: MutableList<GotoRelatedItem> = mutableListOf()
     override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
         targets.add(GotoRelatedItem(o, "a"))
