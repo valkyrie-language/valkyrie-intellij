@@ -2,14 +2,10 @@ package valkyrie.project.facet.iris
 
 import com.intellij.facet.Facet
 import com.intellij.facet.FacetType
-import com.intellij.facet.ui.DefaultFacetSettingsEditor
-import com.intellij.facet.ui.FacetEditor
-import com.intellij.facet.ui.MultipleFacetSettingsEditor
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.extensions.PluginDescriptor
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.module.ModuleType
-import com.intellij.openapi.project.Project
 import valkyrie.language.ValkyrieBundle
 import javax.swing.Icon
 

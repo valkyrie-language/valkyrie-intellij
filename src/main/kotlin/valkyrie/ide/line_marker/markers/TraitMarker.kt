@@ -5,8 +5,6 @@ import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER
 import com.intellij.psi.PsiElement
 import valkyrie.language.file.ValkyrieIconProvider.Instance.Trait
-import valkyrie.psi.ensureLeaf
-import valkyrie.psi.mixin.keyword
 import valkyrie.psi.node.ValkyrieDeclareTraitNode
 import valkyrie.psi.node.ValkyrieTraitAliasNode
 import javax.swing.Icon

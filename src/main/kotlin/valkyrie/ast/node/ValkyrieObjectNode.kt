@@ -6,23 +6,18 @@ import com.intellij.lang.PsiBuilder
 import valkyrie.ast.ObjectBody
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.advanceIgnore
-import valkyrie.cst.COMMA
-import valkyrie.cst.LBRACE
-import valkyrie.cst.OP_MACRO
-import valkyrie.cst.RBRACE
-import valkyrie.cst.SEMICOLON
-import valkyrie.cst.SYMBOL
+import valkyrie.cst.*
 
 class ValkyrieObjectNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     override fun toString(): String {
         return "ValkyrieObjectBody"
     }
 
-    companion object: ParserMonad {
-       override fun parse(builder: PsiBuilder): Boolean {
+    companion object : ParserMonad {
+        override fun parse(builder: PsiBuilder): Boolean {
             // 检查是否有左大括号
             if (builder.tokenType !== LBRACE) {
-                builder.error("Expected '{'") 
+                builder.error("Expected '{'")
                 return false
             }
             val marker = builder.mark()
@@ -31,31 +26,32 @@ class ValkyrieObjectNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             // 解析大括号内的内容
             while (builder.tokenType !== RBRACE && !builder.eof()) {
                 builder.advanceIgnore()
-                
+
                 // 尝试解析成员
                 val success = when (builder.tokenType) {
                     OP_MACRO, SYMBOL -> {
                         // 先标记当前位置
                         val memberMarker = builder.mark()
-                        
+
                         // 尝试解析field、method或domain
                         val result = ValkyrieFieldNode.parse(builder) ||
-                                    ValkyrieMethodNode.parse(builder) ||
-                                    ValkyrieDomainNode.parse(builder)
-                        
+                            ValkyrieMethodNode.parse(builder) ||
+                            ValkyrieDomainNode.parse(builder)
+
                         if (!result) {
                             memberMarker.drop()
                         }
                         result
                     }
+
                     else -> false
                 }
-                
+
                 if (!success) {
                     builder.error("Expected field, method or domain declaration")
                     builder.advanceLexer() // 跳过无法解析的token
                 }
-                
+
                 // 处理可选的分隔符
                 builder.advanceIgnore()
                 if (builder.tokenType === SEMICOLON ||
@@ -67,7 +63,7 @@ class ValkyrieObjectNode(node: ASTNode) : ASTWrapperPsiElement(node) {
 
             // 检查是否有右大括号
             if (builder.tokenType !== RBRACE) {
-                builder.error("Expected '}'") 
+                builder.error("Expected '}'")
                 marker.drop()
                 return false
             }

@@ -6,10 +6,10 @@ import com.intellij.codeInsight.codeVision.settings.PlatformCodeVisionIds
 import com.intellij.codeInsight.codeVision.ui.model.TextCodeVisionEntry
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
+import valkyrie.ast.ValkyrieVisitor
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.node.ValkyrieControlRaise
-import valkyrie.psi.node.ValkyrieVisitor2
 
 
 class VisionHandler : ValkyrieCodeVision() {
@@ -22,7 +22,7 @@ class VisionHandler : ValkyrieCodeVision() {
     }
 }
 
-private class HandlerVisitor : ValkyrieVisitor2 {
+private class HandlerVisitor : ValkyrieVisitor {
     private val id: String
     var entry: MutableList<Pair<TextRange, CodeVisionEntry>>
 

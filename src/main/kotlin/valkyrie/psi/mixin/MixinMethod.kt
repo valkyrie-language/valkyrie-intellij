@@ -4,7 +4,6 @@ import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import valkyrie.ast.node.ValkyrieIdentifierNode
 import valkyrie.psi.ValkyrieDeclaration
-import valkyrie.psi.node.ValkyrieDeclareDomain
 import valkyrie.psi.node.ValkyrieDeclareMethod
 import javax.swing.Icon
 

@@ -3,9 +3,9 @@ package valkyrie.ide.hint
 import com.intellij.lang.ExpressionTypeProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
+import valkyrie.ast.ValkyrieVisitor
 import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.node.ValkyrieNamepathSafe
-import valkyrie.psi.node.ValkyrieVisitor2
 
 /** Ctrl + Shift + P */
 class TypeInfoHint : ExpressionTypeProvider<PsiElement>() {
@@ -46,7 +46,7 @@ class TypeInfoHint : ExpressionTypeProvider<PsiElement>() {
     }
 }
 
-private class TypeInfoHintVisitor : ValkyrieVisitor2() {
+private class TypeInfoHintVisitor : ValkyrieVisitor() {
     var type: String = "TypeInfoHint.getInformationHint"
 
 

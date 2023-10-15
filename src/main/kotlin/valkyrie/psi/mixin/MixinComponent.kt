@@ -15,6 +15,7 @@ abstract class MixinComponent(node: ASTNode) : ValkyrieDeclaration(node), Valkyr
     override fun getKeyword(): PsiElement {
         return findKeyword(KW_COMPONENT)
     }
+
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
         return this.identifierSafe as? ValkyrieIdentifierNode
     }

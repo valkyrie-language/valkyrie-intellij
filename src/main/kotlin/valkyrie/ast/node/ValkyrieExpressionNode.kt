@@ -7,8 +7,8 @@ import valkyrie.ast.EXPRESSION
 import valkyrie.ast.ParserMonad
 
 class ValkyrieExpressionNode(node: ASTNode) : ASTWrapperPsiElement(node) {
-    companion object:ParserMonad {
-      override fun parse(builder: PsiBuilder): Boolean {
+    companion object : ParserMonad {
+        override fun parse(builder: PsiBuilder): Boolean {
             val marker = builder.mark()
 
             // 尝试解析二元表达式

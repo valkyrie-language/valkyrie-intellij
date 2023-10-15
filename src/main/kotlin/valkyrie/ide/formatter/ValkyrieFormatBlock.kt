@@ -79,16 +79,19 @@ class ValkyrieFormatBlock : ASTBlock {
     override fun getChildAttributes(newChildIndex: Int): ChildAttributes {
         return ChildAttributes(Indent.getNoneIndent(), null)
     }
+
     private fun computeWrap(child: ASTNode): Wrap? {
         val builder = ValkyrieWrapVisitor(child)
         _node.psi.accept(builder)
         return builder.wrap
     }
+
     private fun computeIndent(child: ASTNode): Indent? {
         val builder = ValkyrieIndentVisitor(child)
         _node.psi.accept(builder)
         return builder.indent
     }
+
     private fun computeAlignment(child: ASTNode): Alignment? {
         val builder = ValkyrieAlignmentVisitor(child)
         _node.psi.accept(builder)

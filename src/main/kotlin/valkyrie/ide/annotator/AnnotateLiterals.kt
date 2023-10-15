@@ -11,8 +11,10 @@ import valkyrie.ast.node.ValkyrieIdentifierNode
 import valkyrie.ide.line_marker.ValkyrieMarkColor
 import valkyrie.language.ValkyrieBundle
 import valkyrie.psi.ValkyrieTypes
-import valkyrie.psi.mixin.MixinIdentifier
-import valkyrie.psi.node.*
+import valkyrie.psi.node.ValkyrieDeclareClassNode
+import valkyrie.psi.node.ValkyrieDeclareUnionNode
+import valkyrie.psi.node.ValkyrieSpecial
+import valkyrie.psi.node.ValkyrieTypePattern
 
 /** Static, literal level lightweight analysis */
 class AnnotateLiterals : Annotator {

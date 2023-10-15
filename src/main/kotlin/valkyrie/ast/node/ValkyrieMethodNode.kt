@@ -5,14 +5,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import valkyrie.ast.DefineMethod
 import valkyrie.ast.advanceIgnore
-import valkyrie.cst.COLON
-import valkyrie.cst.COMMA
-import valkyrie.cst.LBRACE
-import valkyrie.cst.OP_MACRO
-import valkyrie.cst.PARENTHESIS_L
-import valkyrie.cst.PARENTHESIS_R
-import valkyrie.cst.SEMICOLON
-import valkyrie.cst.SYMBOL
+import valkyrie.cst.*
 
 class ValkyrieMethodNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     override fun toString(): String {

@@ -8,10 +8,9 @@ import com.intellij.codeInsight.hints.presentation.PresentationFactory
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.endOffset
+import valkyrie.ast.ValkyrieVisitor
 
-import valkyrie.psi.node.ValkyrieVisitor2
-
-abstract class InlayHintVisitor : ValkyrieVisitor2 {
+abstract class InlayHintVisitor : ValkyrieVisitor {
     protected val sink: InlayTreeSink
     protected val editor: Editor
     protected val factory: PresentationFactory

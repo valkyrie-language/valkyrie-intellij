@@ -11,10 +11,7 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.util.startOffset
 import valkyrie.ast.node.ValkyrieIdentifierNode
-
 import valkyrie.ide.highlight.HighlightColor
-import valkyrie.psi.mixin.MixinIdentifier
-
 
 
 abstract class ValkyrieDeclaration : ValkyrieElement, PsiNameIdentifierOwner {

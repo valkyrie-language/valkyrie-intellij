@@ -1,10 +1,8 @@
 package valkyrie.project.sdk
 
-import com.intellij.openapi.project.Project
 import com.intellij.openapi.projectRoots.*
 import com.intellij.openapi.util.io.toNioPathOrNull
 import org.jdom.Element
-import org.jetbrains.annotations.Unmodifiable
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieIconProvider
 import java.nio.file.Path

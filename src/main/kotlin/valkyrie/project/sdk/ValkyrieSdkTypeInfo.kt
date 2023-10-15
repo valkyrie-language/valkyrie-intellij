@@ -12,7 +12,6 @@ class ValkyrieSdkTypeInfo : AdditionalDataConfigurable {
     constructor(sdk: SdkModel, modifier: SdkModificator)
 
 
-
     override fun createComponent(): JComponent? {
         return panel {
             row("ValkyrieSdkTypeInfo") {

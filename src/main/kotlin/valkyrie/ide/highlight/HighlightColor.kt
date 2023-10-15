@@ -12,6 +12,7 @@ import com.intellij.openapi.editor.DefaultLanguageHighlighterColors as Default
 enum class HighlightColor(humanName: Supplier<@AttributeDescriptor String>, default: TextAttributesKey? = null) {
     // 特殊关键词
     KEYWORD(OptionsBundle.messagePointer("options.language.defaults.keyword"), Default.KEYWORD),
+
     // 字面量
     NULL(ValkyrieBundle.messagePointer("color.token.null"), Default.KEYWORD),
     BOOLEAN(ValkyrieBundle.messagePointer("color.token.boolean"), Default.KEYWORD),
@@ -22,6 +23,7 @@ enum class HighlightColor(humanName: Supplier<@AttributeDescriptor String>, defa
     TEXT(ValkyrieBundle.messagePointer("color.token.text"), STRING.textAttributesKey),
     STRING_ESCAPED(ValkyrieBundle.messagePointer("color.token.text"), Default.VALID_STRING_ESCAPE),
     STRING_BAD(ValkyrieBundle.messagePointer("color.token.text"), Default.INVALID_STRING_ESCAPE),
+
     // 标识符
     IDENTIFIER(OptionsBundle.messagePointer("options.language.defaults.identifier"), Default.IDENTIFIER),
     SYM_MACRO(ValkyrieBundle.messagePointer("color.token.symbol.macro"), Default.METADATA),
@@ -53,6 +55,7 @@ enum class HighlightColor(humanName: Supplier<@AttributeDescriptor String>, defa
 
 
     SYM_CONSTANT(ValkyrieBundle.messagePointer("color.token.symbol.constant"), Default.CONSTANT),
+
     //
     TYPE_HINT(ValkyrieBundle.messagePointer("color.token.type"), Default.CLASS_NAME),
 

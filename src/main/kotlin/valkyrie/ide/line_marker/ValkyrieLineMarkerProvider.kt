@@ -12,6 +12,8 @@ import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.firstLeaf
+import valkyrie.ast.ValkyrieVisitor
+import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import valkyrie.ide.line_marker.markers.*
 import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
 import valkyrie.language.file.ValkyrieIconProvider
@@ -83,7 +85,7 @@ class ValkyrieLineMarkerProvider : RelatedItemLineMarkerProvider() {
     }
 }
 
-private class ValkyrieMarkerVisitor : ValkyrieVisitor2 {
+private class ValkyrieMarkerVisitor : ValkyrieVisitor {
     val config: ValkyrieLineMarkerProvider
     var result: MutableCollection<in RelatedItemLineMarkerInfo<*>>
 
@@ -92,7 +94,7 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor2 {
         this.result = result
     }
 
-    override fun visitDeclareClass(o: ValkyrieDeclareClass) {
+    override fun visitDeclareClass(o: ValkyrieClassDeclarationNode) {
         if (!config.class_declaration.isEnabled) return
         o as ValkyrieDeclareClassNode
         val leaf = o.nameIdentifier ?: return

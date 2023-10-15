@@ -9,6 +9,7 @@ import com.intellij.psi.PsiRecursiveVisitor
 import com.intellij.psi.impl.source.codeStyle.PreFormatProcessor
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.firstLeaf
+import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
 import valkyrie.language.psi.ValkyrieFactory
 import valkyrie.psi.ValkyrieTypes.*
@@ -36,7 +37,7 @@ class ValkyrieBeforeFormat : PreFormatProcessor {
 }
 
 
-private class BeforeFormatFixer : ValkyrieVisitor2, PsiRecursiveVisitor {
+private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
     val settings: ValkyrieCodeStyleSettings
     val factory: ValkyrieFactory
 

@@ -8,13 +8,14 @@ import com.intellij.psi.PsiRecursiveVisitor
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.endOffset
 import com.intellij.psi.util.startOffset
+import valkyrie.ast.ValkyrieVisitor
 
 
 import valkyrie.psi.findPair
 import valkyrie.psi.node.*
 
 
-class ValkyrieFoldingVisitor : ValkyrieVisitor2, PsiRecursiveVisitor {
+class ValkyrieFoldingVisitor : ValkyrieVisitor, PsiRecursiveVisitor {
 
     private val descriptors: MutableList<FoldingDescriptor>
 

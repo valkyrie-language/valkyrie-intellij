@@ -6,8 +6,8 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
-import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.ValkyrieBundle
+import valkyrie.language.ValkyrieLanguage
 
 private val name = ValkyrieBundle.message("action.macro.expand_file")
 private val description = ValkyrieBundle.message("action.convert_prop.description")

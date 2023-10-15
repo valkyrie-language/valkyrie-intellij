@@ -1,8 +1,9 @@
 package valkyrie.ide.folding
 
+import valkyrie.ast.ValkyrieVisitor
 import valkyrie.psi.node.*
 
-class ValkyriePlaceholderVisitor : ValkyrieVisitor2() {
+class ValkyriePlaceholderVisitor : ValkyrieVisitor() {
     var placeholder = "..."
 
     override fun visitUsingBody(o: ValkyrieUsingBody) {

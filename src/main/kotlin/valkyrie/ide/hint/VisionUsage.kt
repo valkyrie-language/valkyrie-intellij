@@ -6,8 +6,8 @@ import com.intellij.codeInsight.codeVision.CodeVisionEntry
 import com.intellij.codeInsight.codeVision.settings.PlatformCodeVisionIds
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
+import valkyrie.ast.ValkyrieVisitor
 import valkyrie.psi.node.ValkyrieDeclareMethod
-import valkyrie.psi.node.ValkyrieVisitor2
 
 
 class VisionUsage : ValkyrieCodeVision() {
@@ -19,7 +19,7 @@ class VisionUsage : ValkyrieCodeVision() {
     }
 }
 
-private class UsageVisitor : ValkyrieVisitor2 {
+private class UsageVisitor : ValkyrieVisitor {
     private val id: String
     var entry: MutableList<Pair<TextRange, CodeVisionEntry>>
 
