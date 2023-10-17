@@ -96,14 +96,13 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
 
     override fun visitDeclareClass(o: ValkyrieClassDeclarationNode) {
         if (!config.class_declaration.isEnabled) return
-        o as ValkyrieDeclareClassNode
         val leaf = o.nameIdentifier ?: return
         if (o.superClasses.isEmpty()) {
             result.add(ClassMarker(o))
         } else {
             for (definition in o.containingFile.definitions) {
                 when (definition) {
-                    is ValkyrieDeclareClassNode -> {
+                    is ValkyrieClassDeclarationNode -> {
                         result.add(SubtypeMarker(leaf, definition))
                     }
 

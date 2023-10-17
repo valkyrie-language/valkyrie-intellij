@@ -4,6 +4,8 @@ import com.intellij.openapi.progress.ProgressIndicatorProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
 import valkyrie.ast.node.ValkyrieClassDeclarationNode
+import valkyrie.ast.node.ValkyrieInheritItemNode
+import valkyrie.ast.node.ValkyrieInheritListNode
 import valkyrie.psi.node.*
 
 open class ValkyrieVisitor : PsiElementVisitor() {
@@ -407,7 +409,11 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitInheritItem(o: ValkyrieInheritItem) {
+    open fun visitInheritList(o: ValkyrieInheritListNode) {
+        visitElement(o)
+    }
+
+    open fun visitInheritItem(o: ValkyrieInheritItemNode) {
         visitElement(o)
     }
 

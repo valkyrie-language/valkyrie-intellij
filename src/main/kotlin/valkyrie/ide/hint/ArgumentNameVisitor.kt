@@ -3,6 +3,7 @@ package valkyrie.ide.hint
 import com.intellij.codeInsight.hints.InlayInfo
 import com.intellij.psi.util.startOffset
 import valkyrie.ast.ValkyrieVisitor
+import valkyrie.ast.node.ValkyrieInheritItemNode
 import valkyrie.psi.node.ValkyrieArgumentBody
 import valkyrie.psi.node.ValkyrieInheritItem
 
@@ -10,10 +11,10 @@ import valkyrie.psi.node.ValkyrieInheritItem
 class ArgumentNameVisitor : ValkyrieVisitor() {
     var info: MutableList<InlayInfo> = mutableListOf()
 
-    override fun visitInheritItem(o: ValkyrieInheritItem) {
-        if (o.identifierSafe == null) {
-            val id = o.typeExpression.text.lowercase()
-            hint(o.startOffset, "$id:")
+    override fun visitInheritItem(o: ValkyrieInheritItemNode) {
+        if (o.identifier == null) {
+//            val id = o.typeExpression.text.lowercase()
+//            hint(o.startOffset, "$id:")
         }
     }
 
