@@ -229,6 +229,11 @@ class ValkyrieLexer : LexerBase() {
                 _tokenBuffer = OP_DIVIDE
             }
 
+            c == '^' -> {
+                tokenEnd = tokenStart + 1
+                _tokenBuffer = OP_POWER
+            }
+
             c.isDigit() -> {
                 tokenEnd = tokenStart + 1
                 currentState = IN_NUMBER
