@@ -110,7 +110,7 @@ class ValkyrieMethodNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             // 解析方法体或分号
             if (builder.tokenType === SEMICOLON) {
                 builder.advanceLexer() // 消费分号
-            } else if (builder.tokenType === LBRACE) {
+            } else if (builder.tokenType === BRACE_L) {
                 // TODO: 解析方法体
                 ValkyrieObjectNode.parse(builder)
             } else {
