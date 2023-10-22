@@ -13,6 +13,7 @@ import valkyrie.ast.node.*
 import valkyrie.cst.*
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.file.ValkyrieFileNode
+import valkyrie.psi.node.ValkyrieAtomicNode
 
 class ValkyrieParserDefinition : ParserDefinition {
     override fun createLexer(project: Project) = ValkyrieLexer()
@@ -60,7 +61,10 @@ class ValkyrieParserDefinition : ParserDefinition {
             DefineMethod -> ValkyrieMethodNode(node)
             DefineDomain -> ValkyrieDomainNode(node)
             // 表达式
-            Binary -> ValkyrieTermExpressionNode(node)
+            Operator -> ValkyrieOperatorNode(node)
+            TermBinary -> ValkyrieTermBinaryNode(node)
+            TermUnary -> ValkyrieTermUnaryNode(node)
+            TermAtomic -> ValkyrieTermAtomicNode(node)
             // 调用
             MacroCall -> ValkyrieMacroCallNode(node)
             // {...}

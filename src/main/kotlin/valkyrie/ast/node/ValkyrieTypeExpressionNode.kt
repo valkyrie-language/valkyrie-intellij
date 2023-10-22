@@ -8,7 +8,7 @@ import valkyrie.ast.ParserMonad
 class ValkyrieTypeExpressionNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     companion object : ParserMonad {
         override fun parse(builder: PsiBuilder): Boolean {
-            return false
+
         }
     }
 }
