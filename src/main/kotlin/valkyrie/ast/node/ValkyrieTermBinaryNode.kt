@@ -2,15 +2,28 @@ package valkyrie.ast.node
 
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
+import com.intellij.psi.PsiElementVisitor
+import valkyrie.ast.ParserMonad
 import valkyrie.ast.TermAtomic
 import valkyrie.ast.TermBinary
-import valkyrie.ast.ParserMonad
+import valkyrie.ast.ValkyrieVisitor
 import valkyrie.cst.*
 
 class ValkyrieTermBinaryNode(node: ASTNode) : ValkyrieTermExpressionNode(node) {
     val operator = findChildByClass(ValkyrieOperatorNode::class.java)
     val lhs = findChildByClass(ValkyrieTermExpressionNode::class.java)
     val rhs = findChildByClass(ValkyrieTermExpressionNode::class.java)
+
+    override fun getName(): String {
+        return "BinaryTerm<${operator?.text}>"
+    }
+
+    override fun accept(visitor: PsiElementVisitor) {
+        when (visitor) {
+            is ValkyrieVisitor -> visitor.visitTermBinary(this)
+            else -> visitor.visitElement(this)
+        }
+    }
 
     companion object : ParserMonad {
         override fun parse(builder: PsiBuilder): Boolean {
