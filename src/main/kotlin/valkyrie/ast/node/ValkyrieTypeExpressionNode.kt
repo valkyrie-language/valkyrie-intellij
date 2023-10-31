@@ -20,7 +20,7 @@ open class ValkyrieTypeExpressionNode(node: ASTNode) : ValkyrieElement(node) {
 
     companion object : ParserMonad {
         override fun parse(builder: PsiBuilder): Boolean {
-            return ValkyrieTypeUnaryNode.parse(builder)
+            return parseUnionIntersection(builder)
         }
     }
 }

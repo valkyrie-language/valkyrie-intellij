@@ -6,7 +6,7 @@ import com.intellij.lang.PsiBuilder
 import valkyrie.ast.advanceIgnore
 import valkyrie.cst.SYMBOL
 
-class ValkyrieMicroDeclarationNode(node: ASTNode) : ASTWrapperPsiElement(node) {
+class ValkyrieDeclareMicroNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     // 命名函数定义节点
     // 语法: @.annotations modifiers function name(args): returnType { functionBody }
     // 或者: @.annotations modifiers function name(args) -> returnType { functionBody }
