@@ -7,7 +7,7 @@ import valkyrie.ast.ParserMonad
 import valkyrie.ast.TypeBinary
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.cst.OP_ARROW
-import valkyrie.cst.OP_UNION
+import valkyrie.cst.OP_OR
 
 class ValkyrieTypeBinaryNode(node: ASTNode) : ValkyrieTypeExpressionNode(node) {
     val left = findChildByClass(ValkyrieTypeExpressionNode::class.java)
@@ -35,7 +35,7 @@ class ValkyrieTypeBinaryNode(node: ASTNode) : ValkyrieTypeExpressionNode(node) {
 
             while (!builder.eof()) {
                 when (builder.tokenType) {
-                    OP_ARROW, OP_UNION -> {
+                    OP_ARROW, OP_OR -> {
                         builder.advanceLexer() // 消费运算符
                         if (!ValkyrieTypeAtomicNode.parse(builder)) {
                             marker.error("Expected type after operator")

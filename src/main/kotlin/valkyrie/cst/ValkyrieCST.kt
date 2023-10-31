@@ -45,8 +45,16 @@ val OP_POW = ValkyrieCST("^")
 val OP_POW_ASSIGN = ValkyrieCST("^=")
 
 val OP_ARROW = ValkyrieCST("⟶")
-val OP_UNION = ValkyrieCST("|")
+val OP_OR = ValkyrieCST("|")
+val OP_AND = ValkyrieCST("&")
 
+val OP_NOT = ValkyrieCST("!")
+val LOGIC_AND = ValkyrieCST("∧")
+val LOGIC_XAND = ValkyrieCST("⩟")
+val LOGIC_NAND = ValkyrieCST("⊼")
+val LOGIC_OR = ValkyrieCST("∨")
+val LOGIC_XOR = ValkyrieCST("⊻")
+val LOGIC_NOR = ValkyrieCST("⊽")
 
 // 软关键字
 val KW_CLASS = ValkyrieCST("CLASS")
