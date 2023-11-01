@@ -1,6 +1,7 @@
 package valkyrie.ide.folding
 
 import valkyrie.ast.ValkyrieVisitor
+import valkyrie.ast.node.ValkyrieObjectNode
 import valkyrie.psi.node.*
 
 class ValkyriePlaceholderVisitor : ValkyrieVisitor() {
@@ -10,11 +11,11 @@ class ValkyriePlaceholderVisitor : ValkyrieVisitor() {
         placeholder = "${o.usingTermList.size} items"
     }
 
-    override fun visitClassBody(o: ValkyrieClassBody) {
+    override fun visitClassBody(o: ValkyrieObjectNode) {
         val text = PluralJoiner()
-        text.add(o.declareFieldList.count(), "field", "fields")
-        text.add(o.declareMethodList.count(), "method", "methods")
-        text.add(o.declareDomainList.count(), "domain", "domains")
+        text.add(o.fields.count(), "field", "fields")
+        text.add(o.methods.count(), "method", "methods")
+        text.add(o.domains.count(), "domain", "domains")
         placeholder = text.finish()
     }
 

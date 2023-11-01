@@ -3,7 +3,9 @@ package valkyrie.ide.view
 import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.psi.PsiFile
 import valkyrie.ast.ValkyrieVisitor
+import valkyrie.ast.node.ValkyrieObjectDomainNode
 import valkyrie.ast.node.ValkyrieObjectFieldNode
+import valkyrie.ast.node.ValkyrieObjectMethodNode
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.*
 
@@ -63,12 +65,12 @@ class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
 //        o.annotations.pushChildrenTo(this)
     }
 
-    override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
-        o.annotations.pushChildrenTo(this)
+    override fun visitDeclareMethod(o: ValkyrieObjectMethodNode) {
+//        o.annotations.pushChildrenTo(this)
     }
 
-    override fun visitDeclareDomain(o: ValkyrieDeclareDomain) {
-        o.annotations.pushChildrenTo(this)
+    override fun visitDeclareDomain(o: ValkyrieObjectDomainNode) {
+//        o.annotations.pushChildrenTo(this)
     }
 }
 
@@ -97,9 +99,9 @@ private fun ValkyrieFlagsBody.pushChildrenTo(visitor: ValkyrieStructureItemVisit
 }
 
 private fun ValkyrieClassBody.pushChildrenTo(visitor: ValkyrieStructureItemVisitor) {
-    for (item in this.declareFieldList) {
-        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareFieldNode))
-    }
+//    for (item in this.declareFieldList) {
+//        visitor.items.add(ValkyrieStructureItem(item as ValkyrieObjectFieldNode))
+//    }
     for (item in this.declareMethodList) {
         visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareMethodNode))
     }

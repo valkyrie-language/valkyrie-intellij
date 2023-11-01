@@ -14,7 +14,9 @@ import com.intellij.psi.util.elementType
 import com.intellij.psi.util.firstLeaf
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieClassDeclarationNode
+import valkyrie.ast.node.ValkyrieObjectDomainNode
 import valkyrie.ast.node.ValkyrieObjectFieldNode
+import valkyrie.ast.node.ValkyrieObjectMethodNode
 import valkyrie.ide.line_marker.markers.*
 import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
 import valkyrie.language.file.ValkyrieIconProvider
@@ -181,17 +183,16 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
 
     override fun visitObjectField(o: ValkyrieObjectFieldNode) {
         if (!config.field_declaration.isEnabled) return
-        result.add(ValkyrieMarkField(o as ValkyrieDeclareFieldNode))
+        result.add(ValkyrieMarkField(o))
     }
 
-    override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
-        o as ValkyrieDeclareMethodNode
+    override fun visitDeclareMethod(o: ValkyrieObjectMethodNode) {
         if (!config.method_declaration.isEnabled) return
         mark(o.nameIdentifier, o.name, Method)
-        createFunctionTest(o, o.annotations)
+//        createFunctionTest(o, o.annotations)
     }
 
-    override fun visitDeclareDomain(o: ValkyrieDeclareDomain) {
+    override fun visitDeclareDomain(o: ValkyrieObjectDomainNode) {
         if (!config.domain_declaration.isEnabled) return
     }
 

@@ -58,7 +58,7 @@ class ValkyrieParserDefinition : ParserDefinition {
             // 对象属性
             DefineField -> ValkyrieObjectFieldNode(node)
             DefineMethod -> ValkyrieObjectMethodNode(node)
-            DefineDomain -> ValkyrieDomainNode(node)
+            DefineDomain -> ValkyrieObjectDomainNode(node)
             // 表达式
             Operator -> ValkyrieOperatorNode(node)
             TermBinary -> ValkyrieTermBinaryNode(node)

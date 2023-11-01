@@ -10,6 +10,7 @@ import com.intellij.usages.UsageTarget
 import com.intellij.usages.UsageTargetProvider
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieClassDeclarationNode
+import valkyrie.ast.node.ValkyrieObjectMethodNode
 import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
 import valkyrie.psi.node.ValkyrieDeclareMethod
 import valkyrie.psi.node.ValkyrieDeclareMethodNode
@@ -29,8 +30,7 @@ class ValkyrieUsageTargetProvider : UsageTargetProvider {
 
 private class ValkyrieUsageTargetVisitor : ValkyrieVisitor() {
     val targets: MutableList<UsageTarget> = mutableListOf()
-    override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
-        o as ValkyrieDeclareMethodNode
+    override fun visitDeclareMethod(o: ValkyrieObjectMethodNode) {
         for (item in o.containingFile.definitions) {
             targets.add(object : PsiElementUsageTarget {
                 override fun getName(): String? {

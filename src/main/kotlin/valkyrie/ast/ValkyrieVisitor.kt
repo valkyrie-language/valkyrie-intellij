@@ -122,7 +122,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitClassBody(o: ValkyrieClassBody) {
+    open fun visitClassBody(o: ValkyrieObjectNode) {
         visitElement(o)
     }
 
@@ -186,11 +186,12 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitDeclareDomain(o: ValkyrieDeclareDomain) {
+
+    open fun visitDeclareEnums(o: ValkyrieDeclareEnums) {
         visitElement(o)
     }
 
-    open fun visitDeclareEnums(o: ValkyrieDeclareEnums) {
+    open fun visitDeclareDomain(o: ValkyrieObjectDomainNode) {
         visitElement(o)
     }
 
@@ -222,7 +223,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
+    open fun visitDeclareMethod(o: ValkyrieObjectMethodNode) {
         visitElement(o)
     }
 

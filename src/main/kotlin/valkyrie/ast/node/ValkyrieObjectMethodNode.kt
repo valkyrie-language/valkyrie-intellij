@@ -1,13 +1,35 @@
 package valkyrie.ast.node
 
-import com.intellij.extapi.psi.ASTWrapperPsiElement
+import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
+import com.intellij.psi.PsiElementVisitor
 import valkyrie.ast.DefineMethod
 import valkyrie.ast.ParserMonad
+import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.advanceIgnore
+import valkyrie.psi.ValkyrieDeclaration
+import javax.swing.Icon
 
-class ValkyrieObjectMethodNode(node: ASTNode) : ASTWrapperPsiElement(node) {
+class ValkyrieObjectMethodNode(node: ASTNode) : ValkyrieDeclaration(node) {
+    val identifier = findChildByClass(ValkyrieIdentifierNode::class.java)!!
+
+    override fun getNameIdentifier(): ValkyrieIdentifierNode {
+        return this.identifier
+    }
+
+    override fun getBaseIcon(): Icon {
+        return AllIcons.Nodes.Function
+    }
+
+    override fun accept(visitor: PsiElementVisitor) {
+        when (visitor) {
+            is ValkyrieVisitor -> visitor.visitDeclareMethod(this)
+            else -> visitor.visitElement(this)
+        }
+    }
+
+
     override fun toString(): String {
         return "ObjectMethod"
     }

@@ -6,10 +6,10 @@ import com.intellij.ui.SimpleColoredComponent
 import com.intellij.ui.SimpleTextAttributes
 import com.intellij.ui.speedSearch.SpeedSearchUtil
 import valkyrie.ast.node.ValkyrieClassDeclarationNode
-import valkyrie.psi.node.ValkyrieDeclareFieldNode
+import valkyrie.ast.node.ValkyrieObjectFieldNode
 import javax.swing.JTree
 
-class GenerateClassFieldMember(val field: ValkyrieDeclareFieldNode, val parent: ValkyrieClassDeclarationNode) :
+class GenerateClassFieldMember(val field: ValkyrieObjectFieldNode, val parent: ValkyrieClassDeclarationNode) :
     ClassMemberWithElement {
     override fun renderTreeNode(component: SimpleColoredComponent, tree: JTree) {
         SpeedSearchUtil.appendFragmentsForSpeedSearch(

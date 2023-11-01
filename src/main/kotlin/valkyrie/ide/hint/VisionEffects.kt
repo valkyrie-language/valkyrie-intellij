@@ -6,6 +6,7 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import valkyrie.ast.ValkyrieVisitor
+import valkyrie.ast.node.ValkyrieObjectMethodNode
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.node.ValkyrieDeclareMethod
@@ -33,7 +34,7 @@ private class EffectVisitor : ValkyrieVisitor {
         this.entry = entry
     }
 
-    override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
+    override fun visitDeclareMethod(o: ValkyrieObjectMethodNode) {
         entry.add(
             o.textRange to TextCodeVisionEntry(
                 ValkyrieBundle.message(id, '?'),
@@ -45,4 +46,5 @@ private class EffectVisitor : ValkyrieVisitor {
             )
         )
     }
+
 }

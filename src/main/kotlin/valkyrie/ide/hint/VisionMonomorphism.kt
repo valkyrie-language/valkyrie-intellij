@@ -6,8 +6,8 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieClassDeclarationNode
+import valkyrie.ast.node.ValkyrieObjectMethodNode
 import valkyrie.language.ValkyrieBundle
-import valkyrie.psi.node.ValkyrieDeclareMethod
 import valkyrie.psi.node.ValkyrieDeclareTrait
 
 class VisionMonomorphism : ValkyrieCodeVision() {
@@ -63,7 +63,7 @@ private class MonomorphismVisitor : ValkyrieVisitor {
 //        }
     }
 
-    override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
+    override fun visitDeclareMethod(o: ValkyrieObjectMethodNode) {
 //        if (o.declareGeneric != null) {
 //            entry.add(
 //                o.identifierSafeFree.textRange to TextCodeVisionEntry(
