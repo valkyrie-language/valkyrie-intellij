@@ -6,10 +6,12 @@ import com.intellij.lang.PsiBuilder
 import com.intellij.lang.PsiParser
 import com.intellij.psi.TokenType.WHITE_SPACE
 import com.intellij.psi.tree.IElementType
+import com.intellij.psi.tree.TokenSet
 import valkyrie.ast.node.ValkyrieProgramNode
 import valkyrie.cst.COMMENT_BLOCK
 import valkyrie.cst.COMMENT_LINE_HEAD
 import valkyrie.cst.COMMENT_LINE_TEXT
+import valkyrie.cst.ValkyrieCST
 
 
 class ValkyrieParser : PsiParser, LightPsiParser {
@@ -57,7 +59,7 @@ fun PsiBuilder.advanceChoice(vararg parsers: ParserMonad): Boolean {
             marker.drop()
             return true
         } else if (parser == parsers.last()) {
-            marker.error("Expected ${parser}")
+            marker.drop()
             return false
         } else {
             marker.drop()
@@ -106,10 +108,10 @@ fun PsiBuilder.advanceIgnore() {
 
 
 fun PsiBuilder.parsePaired(
-    type: IElementType,
-    left: IElementType,
-    right: IElementType,
-    split: IElementType,
+    type: ValkyrieAST,
+    left: ValkyrieCST,
+    right: ValkyrieCST,
+    split: TokenSet,
     element: ParserMonad,
 ): Boolean {
     val marker = this.mark()
@@ -132,7 +134,7 @@ fun PsiBuilder.parsePaired(
     while (!this.eof() && this.tokenType !== right) {
         if (!first) {
             // 检查是否有逗号分隔符
-            if (this.tokenType !== split) {
+            if (this.tokenType !in split) {
                 // 如果下一个token是右括号，则允许省略逗号
                 this.advanceIgnore()
                 if (this.tokenType === right) {

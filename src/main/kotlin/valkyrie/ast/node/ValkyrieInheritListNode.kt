@@ -4,6 +4,7 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.PsiElementVisitor
+import com.intellij.psi.tree.TokenSet
 import valkyrie.ast.InheritList
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.ValkyrieVisitor
@@ -15,15 +16,15 @@ import valkyrie.cst.PARENTHESIS_R
 class ValkyrieInheritListNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     val items = findChildrenByClass(ValkyrieInheritItemNode::class.java);
 
-    override fun getName(): String? {
-        return "InheritList"
-    }
-
     override fun accept(visitor: PsiElementVisitor) {
         when (visitor) {
             is ValkyrieVisitor -> visitor.visitInheritList(this)
             else -> visitor.visitElement(this)
         }
+    }
+
+    override fun toString(): String {
+        return "InheritList"
     }
 
     companion object : ParserMonad {
@@ -32,8 +33,8 @@ class ValkyrieInheritListNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 InheritList,
                 PARENTHESIS_L,
                 PARENTHESIS_R,
-                COMMA,
-                ValkyrieInheritItemNode.Companion,
+                TokenSet.create(COMMA),
+                ValkyrieInheritItemNode,
             )
         }
     }

@@ -5,72 +5,59 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import valkyrie.ast.ObjectBody
 import valkyrie.ast.ParserMonad
+import valkyrie.ast.advanceChoice
 import valkyrie.ast.advanceIgnore
-import valkyrie.cst.*
+import valkyrie.cst.BRACE_L
+import valkyrie.cst.RBRACE
 
 class ValkyrieObjectNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     override fun toString(): String {
-        return "ValkyrieObjectBody"
+        return "ObjectBody"
     }
 
     companion object : ParserMonad {
+        //
         override fun parse(builder: PsiBuilder): Boolean {
-            // 检查是否有左大括号
-            if (builder.tokenType !== BRACE_L) {
-                builder.error("Expected '{'")
+            val marker = builder.mark()
+            // 检查左括号
+            if (builder.tokenType == BRACE_L) {
+                builder.advanceLexer()
+                builder.advanceIgnore()
+            } else {
+                marker.drop()
                 return false
             }
-            val marker = builder.mark()
-            builder.advanceLexer() // 消费左大括号
-
             // 解析大括号内的内容
             while (builder.tokenType !== RBRACE && !builder.eof()) {
-                builder.advanceIgnore()
-
-                // 尝试解析成员
-                val success = when (builder.tokenType) {
-                    OP_MACRO, SYMBOL -> {
-                        // 先标记当前位置
-                        val memberMarker = builder.mark()
-
-                        // 尝试解析field、method或domain
-                        val result = ValkyrieFieldNode.parse(builder) ||
-                            ValkyrieMethodNode.parse(builder) ||
-                            ValkyrieDomainNode.parse(builder)
-
-                        if (!result) {
-                            memberMarker.drop()
-                        }
-                        result
-                    }
-
-                    else -> false
-                }
-
-                if (!success) {
+                val inner = builder.mark()
+                val success = builder.advanceChoice(
+                    ValkyrieObjectFieldNode.Companion,
+                    SkipComma
+                )
+//                val success = ValkyrieFieldNode.parse(builder)
+                if (success) {
+                    builder.advanceIgnore()
+                    inner.drop()
+//                    builder.advanceIgnore()
+                } else {
+                    inner.drop()
                     builder.error("Expected field, method or domain declaration")
-                    builder.advanceLexer() // 跳过无法解析的token
-                }
-
-                // 处理可选的分隔符
-                builder.advanceIgnore()
-                if (builder.tokenType === SEMICOLON ||
-                    builder.tokenType === COMMA
-                ) {
-                    builder.advanceLexer() // 消费分隔符
+                    // 跳过无法解析的token
+                    builder.advanceLexer()
                 }
             }
 
-            // 检查是否有右大括号
-            if (builder.tokenType !== RBRACE) {
+            // 消费右大括号
+            if (builder.tokenType === RBRACE) {
+                builder.advanceLexer()
+                marker.done(ObjectBody)
+                return true
+            } else {
                 builder.error("Expected '}'")
                 marker.drop()
                 return false
             }
-            builder.advanceLexer() // 消费右大括号
-
-            marker.done(ObjectBody)
-            return true
         }
     }
 }
+

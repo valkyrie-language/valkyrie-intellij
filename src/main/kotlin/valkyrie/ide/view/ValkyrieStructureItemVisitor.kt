@@ -3,6 +3,7 @@ package valkyrie.ide.view
 import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.psi.PsiFile
 import valkyrie.ast.ValkyrieVisitor
+import valkyrie.ast.node.ValkyrieObjectFieldNode
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.*
 
@@ -58,8 +59,8 @@ class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
         o.classBody?.pushChildrenTo(this)
     }
 
-    override fun visitDeclareField(o: ValkyrieDeclareField) {
-        o.annotations.pushChildrenTo(this)
+    override fun visitObjectField(o: ValkyrieObjectFieldNode) {
+//        o.annotations.pushChildrenTo(this)
     }
 
     override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {

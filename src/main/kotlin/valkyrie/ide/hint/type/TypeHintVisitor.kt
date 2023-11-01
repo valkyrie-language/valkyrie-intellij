@@ -5,6 +5,7 @@ import com.intellij.codeInsight.hints.presentation.PresentationFactory
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.util.endOffset
 import valkyrie.ast.ValkyrieVisitor
+import valkyrie.ast.node.ValkyrieObjectFieldNode
 
 import valkyrie.psi.node.*
 
@@ -20,14 +21,14 @@ class TypeHintVisitor : ValkyrieVisitor {
         this.setting = setting
     }
 
-    override fun visitDeclareField(o: ValkyrieDeclareField) {
+    override fun visitObjectField(o: ValkyrieObjectFieldNode) {
         if (!setting.show_class_field_type) {
             return
         }
 
-        if (o.typeHint == null) {
-            hint(o.identifierFree.endOffset, ": Any")
-        }
+//        if (o.typeHint == null) {
+//            hint(o.identifierFree.endOffset, ": Any")
+//        }
     }
 
 

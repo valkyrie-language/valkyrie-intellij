@@ -3,6 +3,7 @@ package valkyrie.ast.node
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
+import com.intellij.psi.tree.TokenSet
 import valkyrie.ast.ANNOTATION_MANY
 import valkyrie.ast.parsePaired
 import valkyrie.cst.BRACKET_L
@@ -29,8 +30,8 @@ class ValkyrieAnnotationManyNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 ANNOTATION_MANY,
                 BRACKET_L,
                 BRACKET_R,
-                COMMA,
-                ValkyrieAnnotationNode.Companion
+                TokenSet.create(COMMA),
+                ValkyrieAnnotationNode
             )
         }
     }

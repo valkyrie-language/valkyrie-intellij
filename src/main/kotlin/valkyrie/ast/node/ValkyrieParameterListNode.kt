@@ -4,26 +4,27 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.tree.TokenSet
-import valkyrie.ast.Array
+import valkyrie.ast.ParameterList
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.parsePaired
-import valkyrie.cst.BRACKET_L
-import valkyrie.cst.BRACKET_R
 import valkyrie.cst.COMMA
+import valkyrie.cst.PARENTHESIS_L
+import valkyrie.cst.PARENTHESIS_R
 
-class ValkyrieArrayNode(node: ASTNode) : ASTWrapperPsiElement(node) {
+class ValkyrieParameterListNode(node: ASTNode) : ASTWrapperPsiElement(node) {
+    override fun toString(): String {
+        return "ParameterList"
+    }
+
     companion object : ParserMonad {
-        // 解析数组，支持结尾逗号可选
         override fun parse(builder: PsiBuilder): Boolean {
             return builder.parsePaired(
-                Array,
-                BRACKET_L,
-                BRACKET_R,
+                ParameterList,
+                PARENTHESIS_L,
+                PARENTHESIS_R,
                 TokenSet.create(COMMA),
-                ValkyrieArrayItemNode,
+                ValkyrieParameterItemNode
             )
         }
     }
 }
-
-

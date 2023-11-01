@@ -56,8 +56,8 @@ class ValkyrieParserDefinition : ParserDefinition {
             InheritList -> ValkyrieInheritListNode(node)
             InheritItem -> ValkyrieInheritItemNode(node)
             // 对象属性
-            DefineField -> ValkyrieFieldNode(node)
-            DefineMethod -> ValkyrieMethodNode(node)
+            DefineField -> ValkyrieObjectFieldNode(node)
+            DefineMethod -> ValkyrieObjectMethodNode(node)
             DefineDomain -> ValkyrieDomainNode(node)
             // 表达式
             Operator -> ValkyrieOperatorNode(node)
