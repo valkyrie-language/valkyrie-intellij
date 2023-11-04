@@ -9,6 +9,7 @@ import com.intellij.psi.PsiFile
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import valkyrie.ast.node.ValkyrieObjectMethodNode
+import valkyrie.ast.node.ValkyrieTraitDeclarationNode
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.*
 
@@ -80,7 +81,7 @@ private class GotoSuperVisitor : ValkyrieVisitor() {
     }
 
 
-    override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {
+    override fun visitDeclareTrait(o: ValkyrieTraitDeclarationNode) {
 //        target = GotoData(o, arrayOf(o.typeHint), listOf())
     }
 

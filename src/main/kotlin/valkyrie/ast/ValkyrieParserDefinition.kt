@@ -41,9 +41,8 @@ class ValkyrieParserDefinition : ParserDefinition {
             Program -> ValkyrieProgramNode(node)
             Statement -> ValkyrieStatementNode(node)
             // 修饰器
-            ANNOTATION -> ValkyrieAnnotationNode(node)
-            ANNOTATION_MANY -> ValkyrieAnnotationManyNode(node)
-            MODIFIER_LIST -> ValkyrieModifierListNode(node)
+            AnnotationArea -> ValkyrieAnnotationAreaNode(node)
+            Annotation -> ValkyrieAnnotationNode(node)
             Modifier -> ValkyrieModifierNode(node)
             // 具名对象
             DeclareClass -> ValkyrieClassDeclarationNode(node)

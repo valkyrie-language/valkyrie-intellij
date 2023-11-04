@@ -77,7 +77,7 @@ class ValkyrieLexer : LexerBase() {
 
             c == '}' -> {
                 tokenEnd = tokenStart + 1
-                _tokenBuffer = RBRACE
+                _tokenBuffer = BRACE_R
             }
 
             c == '[' -> {

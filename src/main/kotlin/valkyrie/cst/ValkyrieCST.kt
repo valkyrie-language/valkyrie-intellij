@@ -10,7 +10,7 @@ class ValkyrieCST(show: String) : IElementType(show, ValkyrieLanguage) {
 
 // 括号
 val BRACE_L = ValkyrieCST("{")
-val RBRACE = ValkyrieCST("}")
+val BRACE_R = ValkyrieCST("}")
 val BRACKET_L = ValkyrieCST("[")
 val BRACKET_R = ValkyrieCST("]")
 val PARENTHESIS_L = ValkyrieCST("(")
