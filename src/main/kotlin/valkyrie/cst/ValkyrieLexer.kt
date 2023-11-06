@@ -100,9 +100,23 @@ class ValkyrieLexer : LexerBase() {
                 _tokenBuffer = PARENTHESIS_R
             }
 
-            c == ':' -> {
+            c.isColon() -> {
+                when {
+                    buffer.getOrNull(tokenStart + 1).isColon() -> {
+                        tokenEnd = tokenStart + 2
+                        _tokenBuffer = NAME_JOIN
+                    }
+
+                    else -> {
+                        tokenEnd = tokenStart + 1
+                        _tokenBuffer = COLON
+                    }
+                }
+            }
+
+            c == '∷' -> {
                 tokenEnd = tokenStart + 1
-                _tokenBuffer = COLON
+                _tokenBuffer = NAME_JOIN
             }
 
             c == ';' -> {
@@ -113,6 +127,11 @@ class ValkyrieLexer : LexerBase() {
             c == ',' -> {
                 tokenEnd = tokenStart + 1
                 _tokenBuffer = COMMA
+            }
+
+            c == '.' || c == '。' -> {
+                tokenEnd = tokenStart + 1
+                _tokenBuffer = DOT
             }
 
             c == '@' -> when {
@@ -133,11 +152,6 @@ class ValkyrieLexer : LexerBase() {
                     tokenEnd = tokenStart + 1
                     _tokenBuffer = OP_MACRO
                 }
-            }
-
-            c == '.' -> {
-                tokenEnd = tokenStart + 1
-                _tokenBuffer = DOT
             }
 
             c == '\'' -> {
@@ -546,5 +560,15 @@ class ValkyrieLexer : LexerBase() {
         tokenEnd = bufferEnd
         _tokenBuffer = BAD_CHARACTER
         currentState = INITIAL
+    }
+}
+
+
+private fun Char?.isColon(): Boolean {
+    return when {
+        this == ':' -> true
+        this == '：' -> true
+        this == null -> false
+        else -> false
     }
 }

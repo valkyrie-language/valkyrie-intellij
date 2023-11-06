@@ -24,6 +24,7 @@ val ImplementItem = ValkyrieAST("IMPLEMENT_ITEM")
 val ObjectBody = ValkyrieAST("OBJECT_BODY")
 
 //
+val NamePath = ValkyrieAST("NAME_PATH")
 val Identifier = ValkyrieAST("IDENTIFIER")
 
 val Keyword = ValkyrieAST("KEYWORD")

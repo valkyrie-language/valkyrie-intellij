@@ -18,6 +18,7 @@ val PARENTHESIS_R = ValkyrieCST(")")
 
 // 分隔符
 val COLON = ValkyrieCST(":")
+val NAME_JOIN = ValkyrieCST("∷")
 val SEMICOLON = ValkyrieCST(";")
 val COMMA = ValkyrieCST(",")
 val QUESTION = ValkyrieCST("?")
