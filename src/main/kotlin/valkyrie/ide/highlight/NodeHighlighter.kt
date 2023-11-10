@@ -22,17 +22,12 @@ import valkyrie.psi.node.*
 class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
 
-    override fun visitAttributeBelow(o: ValkyrieAttributeBelow) {
+    override fun visitAttribute(o: ValkyrieAttributeNode) {
         highlight(o.firstChild, HighlightColor.SYM_MACRO)
     }
 
-    override fun visitAttributeAbove(o: ValkyrieAttributeAbove) {
-        highlight(o.firstChild, HighlightColor.SYM_MACRO)
-    }
-
-
-    override fun visitAttributeItem(o: ValkyrieAttributeItem) {
-        highlight(o.namepathFree, HighlightColor.SYM_MACRO)
+    override fun visitAnnotation(o: ValkyrieAnnotationNode) {
+        highlight(o.namepath, HighlightColor.SYM_MACRO)
     }
 
     override fun visitModifier(o: ValkyrieModifierNode) {

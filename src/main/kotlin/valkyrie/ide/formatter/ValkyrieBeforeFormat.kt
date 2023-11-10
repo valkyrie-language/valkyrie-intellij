@@ -10,6 +10,7 @@ import com.intellij.psi.impl.source.codeStyle.PreFormatProcessor
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.firstLeaf
 import valkyrie.ast.ValkyrieVisitor
+import valkyrie.ast.node.ValkyrieAttributeNode
 import valkyrie.ast.node.ValkyrieObjectNode
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
 import valkyrie.language.psi.ValkyrieFactory
@@ -104,7 +105,7 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
 //        }
     }
 
-    override fun visitAttributeBelow(o: ValkyrieAttributeBelow) {
+    override fun visitAttribute(o: ValkyrieAttributeNode) {
         o.firstChild.replace(factory.operatorMacroLower)
     }
 

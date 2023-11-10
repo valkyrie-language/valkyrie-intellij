@@ -19,7 +19,7 @@ class ValkyrieParserDefinition : ParserDefinition {
     override fun createParser(project: Project) = ValkyrieParser()
     override fun getFileNodeType() = IFileElementType(ValkyrieLanguage)
     override fun getCommentTokens() = TokenSet.create(
-        COMMENT_LINE_HEAD, COMMENT_LINE_TEXT,
+        COMMENT_LINE, COMMENT_LINE_HEAD, COMMENT_LINE_TEXT,
         COMMENT_BLOCK
     )
 
@@ -74,6 +74,7 @@ class ValkyrieParserDefinition : ParserDefinition {
             // (...)
             TUPLE -> ValkyrieTupleNode(node)
             VALUE -> ValkyrieValueNode(node)
+            NamePath -> ValkyrieNamePathNode(node)
             Identifier -> ValkyrieIdentifierNode(node)
             Keyword -> ValkyrieKeywordNode(node)
             else -> ASTWrapperPsiElement(node)

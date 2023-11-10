@@ -10,9 +10,14 @@ import valkyrie.ast.node.ValkyrieTypeExpressionNode
 import valkyrie.psi.node.*
 
 open class ValkyrieVisitor : PsiElementVisitor() {
-    open fun visitAnnotations(o: ValkyrieAnnotations) {
+    open fun visitAnnotationArea(o: ValkyrieAnnotationAreaNode) {
         visitElement(o)
     }
+
+    open fun visitModifier(o: valkyrie.ast.node.ValkyrieModifierNode) {
+        visitElement(o)
+    }
+
 
     open fun visitArgument(o: ValkyrieArgument) {
         visitElement(o)
@@ -26,11 +31,11 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitAttributeAbove(o: ValkyrieAttributeAbove) {
+    open fun visitAnnotation(o: ValkyrieAnnotationNode) {
         visitElement(o)
     }
 
-    open fun visitAttributeBelow(o: ValkyrieAttributeBelow) {
+    open fun visitAttribute(o: ValkyrieAttributeNode) {
         visitElement(o)
     }
 
@@ -504,7 +509,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
     }
 
     open fun visitMacroPath(o: ValkyrieMacroPath) {
-        visitNamepathSafe(o)
+        visitElement(o)
     }
 
     open fun visitMatchBind(o: ValkyrieMatchBind) {
@@ -555,9 +560,6 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitModifier(o:  valkyrie.ast.node.ValkyrieModifierNode) {
-        visitElement(o)
-    }
 
     open fun visitNamepathAuto(o: ValkyrieNamepathAuto) {
         visitElement(o)
@@ -567,7 +569,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitNamepathSafe(o: ValkyrieNamepathSafe) {
+    open fun visitNamePath(o: ValkyrieNamePathNode) {
         visitElement(o)
     }
 
