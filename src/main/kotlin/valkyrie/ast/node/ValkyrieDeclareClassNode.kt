@@ -60,8 +60,7 @@ fun parseClass(builder: PsiBuilder, anonymous: Boolean): Boolean {
         }
     }
     // 检查是否有 class 关键字
-    if (builder.tokenType === KW_CLASS) {
-        ValkyrieKeywordNode.parse(builder)
+    if (ValkyrieKeyword(KW_CLASS).parse(builder)) {
         builder.advanceIgnore()
     } else {
         marker.drop()

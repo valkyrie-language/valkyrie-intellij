@@ -227,9 +227,6 @@ OP_ARROW3 = ==>
 OP_DOT2 = [‥]|{DOT}{2}
 OP_DOT3 = […]|{DOT}{3}
 
-
-OP_L10N = ⸿|\\L
-
 OP_CELSIUS    = ℃
 OP_FAHRENHEIT = ℉
 
@@ -238,7 +235,7 @@ OP_FAHRENHEIT = ℉
 OP_REFERENCE = [❡¶]
 OP_DEREFERENCE = [⁋]
 
-RESERVED = [߷⸖↯⍼♯⟀⟁]
+RESERVED = [߷⸖⍼♯⟀⟁]
 %%
 <YYINITIAL> {
     {WHITE_SPACE}+     { return WHITE_SPACE; }
@@ -310,7 +307,8 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
 
     "|"   { return OP_OR;}
     &     { return OP_AND;}
-	@\^   { return OP_MACRO_UPPER; }
+    @#|⸿  { return OP_L10N; }
+	@\^|◤ { return OP_MACRO_UPPER; }
 	@     { return OP_MACRO; }
     @\.|↯ { return OP_MACRO_LOWER;}
     "$"   { return DOLLAR; }
@@ -381,8 +379,6 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
     {OP_UNWRAP_ELSE}  { return OP_UNWRAP_ELSE; }
 
     {OP_UNTIL}      { return OP_UNTIL; }
-    // Localization
-    {OP_L10N}       { return OP_L10N; }
     // Temperature
     {OP_CELSIUS}    { return OP_CELSIUS; }
     {OP_FAHRENHEIT} { return OP_FAHRENHEIT; }

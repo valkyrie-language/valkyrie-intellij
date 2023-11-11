@@ -39,8 +39,6 @@ val PARENTHESIS_R = ValkyrieCST(")")
 val COLON = ValkyrieCST(":")
 
 
-
-
 @JvmField
 val SEMICOLON = ValkyrieCST(";")
 
@@ -383,7 +381,7 @@ val KW_LOOP: IElementType = ValkyrieCST("KW_LOOP")
 val KW_MATCH: IElementType = ValkyrieCST("KW_MATCH")
 
 @JvmField
-val KW_NAMESPACE: IElementType = ValkyrieCST("KW_NAMESPACE")
+val KW_NAMESPACE = ValkyrieCST("KW_NAMESPACE")
 
 @JvmField
 val KW_NEW: IElementType = ValkyrieCST("KW_NEW")

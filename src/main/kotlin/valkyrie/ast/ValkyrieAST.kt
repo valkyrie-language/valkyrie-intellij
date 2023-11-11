@@ -12,6 +12,7 @@ class ValkyrieAST(show: String) : IElementType(show, ValkyrieLanguage) {
 val Unknown = ValkyrieAST("UNKNOWN")
 val Program = ValkyrieAST("PROGRAM")
 val Statement = ValkyrieAST("STATEMENT")
+val DeclareNamespace = ValkyrieAST("DEFINE_NAMESPACE")
 val DeclareClass = ValkyrieAST("DEFINE_CLASS")
 val DeclareTrait = ValkyrieAST("DEFINE_TRAIT")
 val AnonymousClass = ValkyrieAST("ANONYMOUS_OBJECT")

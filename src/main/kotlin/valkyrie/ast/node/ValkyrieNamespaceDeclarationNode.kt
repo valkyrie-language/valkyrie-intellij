@@ -1,0 +1,54 @@
+package valkyrie.ast.node
+
+import com.intellij.lang.ASTNode
+import com.intellij.lang.PsiBuilder
+import com.intellij.psi.PsiElementVisitor
+import valkyrie.ast.DeclareNamespace
+import valkyrie.ast.ParserMonad
+import valkyrie.ast.ValkyrieVisitor
+import valkyrie.cst.KW_NAMESPACE
+import valkyrie.cst.SEMICOLON
+import valkyrie.psi.ValkyrieElement
+
+class ValkyrieNamespaceDeclarationNode(node: ASTNode) : ValkyrieElement(node) {
+    val keyword = findChildByClass(ValkyrieKeywordNode::class.java)!!
+
+    override fun accept(visitor: PsiElementVisitor) {
+        when (visitor) {
+            is ValkyrieVisitor -> visitor.visitDeclareNamespace(this)
+            else -> visitor.visitElement(this)
+        }
+    }
+
+    override fun toString(): String {
+        return "NamespaceDeclaration"
+    }
+
+    companion object : ParserMonad {
+        /**
+        ```vk
+        using a;
+        using a.@b;
+        using a.{a};
+        ```
+         */
+        override fun parse(builder: PsiBuilder): Boolean {
+            val marker = builder.mark()
+            ValkyrieAnnotationAreaNode.parse(builder)
+            if (ValkyrieKeyword(KW_NAMESPACE).parse(builder)) {
+
+            } else {
+                marker.rollbackTo()
+                return false
+            }
+            if (!ValkyrieNamePathNode.parse(builder)) {
+                builder.error("Expect namespace name")
+            }
+            SkipSeparator(SEMICOLON).parse(builder)
+            marker.done(DeclareNamespace)
+            return true
+
+        }
+    }
+}
+
