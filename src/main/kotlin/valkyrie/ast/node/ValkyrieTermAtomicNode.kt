@@ -28,7 +28,8 @@ class ValkyrieTermAtomicNode(node: ASTNode) : ValkyrieTermExpressionNode(node) {
             val success = builder.advanceChoice(
 //                ValkyrieObjectNode,
 //                ValkyrieArrayNode,
-                ValkyrieNamePathNode
+                ValkyrieNamePathNode,
+                ValkyrieNumberNode
             )
             if (success) {
                 marker.done(TermAtomic)

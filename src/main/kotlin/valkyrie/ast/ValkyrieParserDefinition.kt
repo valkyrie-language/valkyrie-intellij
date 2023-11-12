@@ -74,6 +74,8 @@ class ValkyrieParserDefinition : ParserDefinition {
             // (...)
             TUPLE -> ValkyrieTupleNode(node)
             VALUE -> ValkyrieValueNode(node)
+            NumberLiteral -> ValkyrieNumberNode(node)
+            NumberUnit -> ValkyrieNumberUnitNode(node)
             NamePath -> ValkyrieNamePathNode(node)
             Identifier -> ValkyrieIdentifierNode(node)
             Keyword -> ValkyrieKeywordNode(node)

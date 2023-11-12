@@ -258,12 +258,16 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         }
     }
 
-    override fun visitSlot(o: ValkyrieSlot) {
+    override fun visitSlot(o: ValkyrieSlotNode) {
         highlight(o, HighlightColor.KEYWORD)
     }
 
     override fun visitString(o: ValkyrieString) {
         highlight(o.identifierSafe, HighlightColor.SYM_MACRO)
+    }
+
+    override fun visitNumberUnit(o: ValkyrieNumberUnitNode) {
+        highlight(o, HighlightColor.SYM_MACRO)
     }
 
 
