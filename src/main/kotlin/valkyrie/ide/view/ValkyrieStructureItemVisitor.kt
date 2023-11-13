@@ -3,6 +3,7 @@ package valkyrie.ide.view
 import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.psi.PsiFile
 import valkyrie.ast.ValkyrieVisitor
+import valkyrie.ast.node.ValkyrieDeclareEnumerateNode
 import valkyrie.ast.node.ValkyrieDeclareVariantNode
 import valkyrie.ast.node.ValkyrieNamespaceDeclarationNode
 import valkyrie.ast.node.ValkyrieObjectDomainNode
@@ -33,9 +34,9 @@ class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
         o.flagsBody?.pushChildrenTo(this)
     }
 
-    override fun visitDeclareEnums(o: ValkyrieDeclareEnums) {
-        o.annotations.pushChildrenTo(this)
-        o.flagsBody?.pushChildrenTo(this)
+    override fun visitDeclareEnums(o: ValkyrieDeclareEnumerateNode) {
+//        o.annotations.pushChildrenTo(this)
+//        o.flagsBody?.pushChildrenTo(this)
     }
 
 //    override fun visitDeclareClass(o: ValkyrieClassDeclarationNode) {
@@ -114,9 +115,9 @@ private fun ValkyrieClassBody.pushChildrenTo(visitor: ValkyrieStructureItemVisit
 }
 
 private fun ValkyrieUniteBody.pushChildrenTo(visitor: ValkyrieStructureItemVisitor) {
-    for (item in this.declareVariantList) {
-        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareVariantNode))
-    }
+//    for (item in this.declareVariantList) {
+//        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareVariantNode))
+//    }
     for (item in this.declareMethodList) {
         visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareMethodNode))
     }

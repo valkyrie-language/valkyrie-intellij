@@ -14,6 +14,7 @@ import com.intellij.psi.util.elementType
 import com.intellij.psi.util.firstLeaf
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieClassDeclarationNode
+import valkyrie.ast.node.ValkyrieDeclareEnumerateNode
 import valkyrie.ast.node.ValkyrieDeclareVariantNode
 import valkyrie.ast.node.ValkyrieObjectDomainNode
 import valkyrie.ast.node.ValkyrieObjectFieldNode
@@ -173,9 +174,9 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
 //        result.add(ValkyrieMarkAny(o))
     }
 
-    override fun visitDeclareEnums(o: ValkyrieDeclareEnums) {
+    override fun visitDeclareEnums(o: ValkyrieDeclareEnumerateNode) {
         if (!config.enums_declaration.isEnabled) return
-        result.add(EnumerationMarker(o as ValkyrieDeclareEnumsNode))
+        result.add(EnumerationMarker(o))
     }
 
     override fun visitDeclareFlags(o: ValkyrieDeclareFlags) {

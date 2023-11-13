@@ -87,8 +87,8 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifierSafe, HighlightColor.SYM_FIELD)
     }
 
-    override fun visitDeclareEnums(o: ValkyrieDeclareEnums) {
-        highlight(o.identifierSafe, HighlightColor.SYM_CONSTANT)
+    override fun visitDeclareEnums(o: ValkyrieDeclareEnumerateNode) {
+        highlight(o.identifier, HighlightColor.SYM_CONSTANT)
     }
 
     override fun visitDeclareUnite(o: ValkyrieDeclareUnite) {

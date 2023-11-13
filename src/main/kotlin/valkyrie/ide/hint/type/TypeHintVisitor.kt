@@ -5,6 +5,7 @@ import com.intellij.codeInsight.hints.presentation.PresentationFactory
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.util.endOffset
 import valkyrie.ast.ValkyrieVisitor
+import valkyrie.ast.node.ValkyrieDeclareEnumerateNode
 import valkyrie.ast.node.ValkyrieObjectFieldNode
 
 import valkyrie.psi.node.*
@@ -77,11 +78,11 @@ class TypeHintVisitor : ValkyrieVisitor {
         }
     }
 
-    override fun visitDeclareEnums(o: ValkyrieDeclareEnums) {
+    override fun visitDeclareEnums(o: ValkyrieDeclareEnumerateNode) {
         if (setting.show_enumeration_type) {
-            if (o.typeAtomic == null) {
-                o.identifierSafe?.endOffset?.let { hint(it, "= 32") }
-            }
+//            if (o.typeAtomic == null) {
+//                o.identifierSafe?.endOffset?.let { hint(it, "= 32") }
+//            }
         }
     }
 

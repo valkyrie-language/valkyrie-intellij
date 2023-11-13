@@ -1,6 +1,7 @@
 package valkyrie.ide.folding
 
 import valkyrie.ast.ValkyrieVisitor
+import valkyrie.ast.node.ValkyrieDeclareEnumerateNode
 import valkyrie.ast.node.ValkyrieObjectNode
 import valkyrie.ast.node.ValkyrieUsingBodyNode
 import valkyrie.psi.node.*
@@ -22,7 +23,7 @@ class ValkyriePlaceholderVisitor : ValkyrieVisitor() {
 
     override fun visitFlagsBody(o: ValkyrieFlagsBody) {
         val text = PluralJoiner()
-        if (o.parent is ValkyrieDeclareEnums) {
+        if (o.parent is ValkyrieDeclareEnumerateNode) {
             text.add(o.declareSemanticList.count(), "enumerate", "enumerates")
         } else {
             text.add(o.declareSemanticList.count(), "flag", "flags")
@@ -35,7 +36,7 @@ class ValkyriePlaceholderVisitor : ValkyrieVisitor() {
 
     override fun visitUniteBody(o: ValkyrieUniteBody) {
         val text = PluralJoiner()
-        text.add(o.declareVariantList.count(), "variant", "variants")
+//        text.add(o.declareVariantList.count(), "variant", "variants")
         text.add(o.declareMethodList.count(), "method", "methods")
         placeholder = text.finish()
     }

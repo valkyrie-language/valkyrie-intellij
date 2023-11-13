@@ -4,13 +4,13 @@ import com.intellij.codeInsight.daemon.MergeableLineMarkerInfo
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER
 import com.intellij.psi.PsiElement
+import valkyrie.ast.node.ValkyrieDeclareEnumerateNode
 import valkyrie.language.file.ValkyrieIconProvider.Instance.Enumeration
-import valkyrie.psi.node.ValkyrieDeclareEnumsNode
 import javax.swing.Icon
 
 class EnumerationMarker : RelatedItemLineMarkerInfo<PsiElement> {
-    constructor(element: ValkyrieDeclareEnumsNode) : super(
-        element.navigationElement,
+    constructor(element: ValkyrieDeclareEnumerateNode) : super(
+        element.keyword.firstChild,
         element.keyword.textRange,
         Enumeration,
         { "tooltipProvider" },
