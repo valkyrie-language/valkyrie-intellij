@@ -14,6 +14,7 @@ import com.intellij.psi.util.elementType
 import com.intellij.psi.util.firstLeaf
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieClassDeclarationNode
+import valkyrie.ast.node.ValkyrieDeclareVariantNode
 import valkyrie.ast.node.ValkyrieObjectDomainNode
 import valkyrie.ast.node.ValkyrieObjectFieldNode
 import valkyrie.ast.node.ValkyrieObjectMethodNode
@@ -202,9 +203,9 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
         result.add(UniteMarker(o as ValkyrieDeclareUniteNode))
     }
 
-    override fun visitDeclareVariant(o: ValkyrieDeclareVariant) {
+    override fun visitDeclareVariant(o: ValkyrieDeclareVariantNode) {
         if (!config.variant_declaration.isEnabled) return
-        result.add(VariantMarker(o as ValkyrieDeclareVariantNode))
+        result.add(VariantMarker(o))
     }
 
     override fun visitDeclareFunction(o: ValkyrieDeclareFunction) {

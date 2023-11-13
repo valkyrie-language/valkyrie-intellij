@@ -95,8 +95,8 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifierSafe, HighlightColor.SYM_CLASS)
     }
 
-    override fun visitDeclareVariant(o: ValkyrieDeclareVariant) {
-        highlight(o.identifierSafe, HighlightColor.SYM_VARIANT)
+    override fun visitDeclareVariant(o: ValkyrieDeclareVariantNode) {
+        highlight(o.identifier, HighlightColor.SYM_VARIANT)
     }
 
     override fun visitDeclareTrait(o: ValkyrieTraitDeclarationNode) {

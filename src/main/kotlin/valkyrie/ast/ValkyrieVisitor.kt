@@ -192,8 +192,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-
-    open fun visitDeclareEnums(o: ValkyrieDeclareEnums) {
+    open fun visitDeclareEnums(o: ValkyrieDeclareEnumerateNode) {
         visitElement(o)
     }
 
@@ -273,7 +272,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitDeclareVariant(o: ValkyrieDeclareVariant) {
+    open fun visitDeclareVariant(o: ValkyrieDeclareVariantNode) {
         visitElement(o)
     }
 
