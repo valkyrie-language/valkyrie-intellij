@@ -30,8 +30,8 @@ class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
     }
 
     override fun visitDeclareFlags(o: ValkyrieDeclareFlags) {
-        o.annotations.pushChildrenTo(this)
-        o.flagsBody?.pushChildrenTo(this)
+//        o.annotations.pushChildrenTo(this)
+//        o.flagsBody?.pushChildrenTo(this)
     }
 
     override fun visitDeclareEnums(o: ValkyrieDeclareEnumerateNode) {
@@ -46,8 +46,8 @@ class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
 
 
     override fun visitDeclareUnion(o: ValkyrieDeclareUnion) {
-        o.annotations.pushChildrenTo(this)
-        o.classBody?.pushChildrenTo(this)
+//        o.annotations.pushChildrenTo(this)
+//        o.classBody?.pushChildrenTo(this)
     }
 
     override fun visitDeclareTrait(o: ValkyrieTraitDeclarationNode) {
@@ -56,8 +56,8 @@ class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
     }
 
     override fun visitDeclareUnite(o: ValkyrieDeclareUnite) {
-        o.annotations.pushChildrenTo(this)
-        o.uniteBody?.pushChildrenTo(this)
+//        o.annotations.pushChildrenTo(this)
+//        o.uniteBody?.pushChildrenTo(this)
     }
 
     override fun visitDeclareVariant(o: ValkyrieDeclareVariantNode) {
@@ -114,11 +114,11 @@ private fun ValkyrieClassBody.pushChildrenTo(visitor: ValkyrieStructureItemVisit
     }
 }
 
-private fun ValkyrieUniteBody.pushChildrenTo(visitor: ValkyrieStructureItemVisitor) {
-//    for (item in this.declareVariantList) {
-//        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareVariantNode))
+//private fun ValkyrieUniteBody.pushChildrenTo(visitor: ValkyrieStructureItemVisitor) {
+////    for (item in this.declareVariantList) {
+////        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareVariantNode))
+////    }
+//    for (item in this.declareMethodList) {
+//        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareMethodNode))
 //    }
-    for (item in this.declareMethodList) {
-        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareMethodNode))
-    }
-}
+//}

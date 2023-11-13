@@ -10,6 +10,9 @@ import valkyrie.ast.advanceRepeat
 import valkyrie.psi.ValkyrieElement
 
 class ValkyrieNamePathNode(node: ASTNode) : ValkyrieElement(node) {
+    val identifiers by lazy { findChildrenByClass(ValkyrieIdentifierNode::class.java) }
+    val identifier = identifiers.lastOrNull()
+    val namespace = identifiers.take(identifiers.size - 1)
 
     override fun accept(visitor: PsiElementVisitor) {
         when (visitor) {

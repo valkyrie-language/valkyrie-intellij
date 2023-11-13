@@ -841,7 +841,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitUniteBody(o: ValkyrieUniteBody) {
+    open fun visitUniteBody(o: ValkyrieUniteBodyNode) {
         visitElement(o)
     }
 

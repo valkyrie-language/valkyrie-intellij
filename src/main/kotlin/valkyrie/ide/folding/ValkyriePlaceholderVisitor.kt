@@ -3,6 +3,7 @@ package valkyrie.ide.folding
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieDeclareEnumerateNode
 import valkyrie.ast.node.ValkyrieObjectNode
+import valkyrie.ast.node.ValkyrieUniteBodyNode
 import valkyrie.ast.node.ValkyrieUsingBodyNode
 import valkyrie.psi.node.*
 
@@ -34,10 +35,10 @@ class ValkyriePlaceholderVisitor : ValkyrieVisitor() {
     }
 
 
-    override fun visitUniteBody(o: ValkyrieUniteBody) {
+    override fun visitUniteBody(o: ValkyrieUniteBodyNode) {
         val text = PluralJoiner()
-//        text.add(o.declareVariantList.count(), "variant", "variants")
-        text.add(o.declareMethodList.count(), "method", "methods")
+        text.add(o.fields.count(), "variant", "variants")
+        text.add(o.methods.count(), "method", "methods")
         placeholder = text.finish()
     }
 
