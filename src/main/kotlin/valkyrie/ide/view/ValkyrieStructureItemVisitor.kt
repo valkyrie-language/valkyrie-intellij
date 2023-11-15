@@ -97,9 +97,9 @@ private fun ValkyrieFlagsBody.pushChildrenTo(visitor: ValkyrieStructureItemVisit
     for (item in this.declareMethodList) {
         visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareMethodNode))
     }
-    for (item in this.declareDomainList) {
-        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareDomainNode))
-    }
+//    for (item in this.declareDomainList) {
+//        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareDomainNode))
+//    }
 }
 
 private fun ValkyrieClassBody.pushChildrenTo(visitor: ValkyrieStructureItemVisitor) {
@@ -109,9 +109,9 @@ private fun ValkyrieClassBody.pushChildrenTo(visitor: ValkyrieStructureItemVisit
     for (item in this.declareMethodList) {
         visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareMethodNode))
     }
-    for (item in this.declareDomainList) {
-        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareDomainNode))
-    }
+//    for (item in this.declareDomainList) {
+//        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareDomainNode))
+//    }
 }
 
 //private fun ValkyrieUniteBody.pushChildrenTo(visitor: ValkyrieStructureItemVisitor) {

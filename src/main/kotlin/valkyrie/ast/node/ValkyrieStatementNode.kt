@@ -21,7 +21,10 @@ class ValkyrieStatementNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 SkipSeparator(SEMICOLON),
                 ValkyrieClassDeclarationNode,
                 ValkyrieTraitDeclarationNode,
-                ValkyrieNamespaceDeclarationNode
+                ValkyrieNamespaceDeclarationNode,
+                ValkyrieSingletonDeclarationNode,
+                ValkyrieWidgetDeclarationNode,
+                ValkyrieNeuralDeclarationNode,
             )
         }
     }

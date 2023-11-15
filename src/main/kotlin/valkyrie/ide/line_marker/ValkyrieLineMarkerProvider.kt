@@ -16,9 +16,11 @@ import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import valkyrie.ast.node.ValkyrieDeclareEnumerateNode
 import valkyrie.ast.node.ValkyrieDeclareVariantNode
+import valkyrie.ast.node.ValkyrieNeuralDeclarationNode
 import valkyrie.ast.node.ValkyrieObjectDomainNode
 import valkyrie.ast.node.ValkyrieObjectFieldNode
 import valkyrie.ast.node.ValkyrieObjectMethodNode
+import valkyrie.ast.node.ValkyrieSingletonDeclarationNode
 import valkyrie.ast.node.ValkyrieTraitDeclarationNode
 import valkyrie.ide.line_marker.markers.*
 import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
@@ -123,15 +125,16 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
         }
     }
 
-    override fun visitDeclareNeural(o: ValkyrieDeclareNeural) {
+
+    override fun visitDeclareNeural(o: ValkyrieNeuralDeclarationNode) {
         if (config.class_declaration.isEnabled) {
-            result.add(NeuralMarker(o as ValkyrieDeclareNeuralNode))
+            result.add(NeuralMarker(o))
         }
     }
 
-    override fun visitDeclareSingleton(o: ValkyrieDeclareSingleton) {
+    override fun visitDeclareSingleton(o: ValkyrieSingletonDeclarationNode) {
         if (config.class_declaration.isEnabled) {
-            result.add(SingletonMarker(o as ValkyrieDeclareSingletonNode))
+            result.add(SingletonMarker(o))
         }
     }
 

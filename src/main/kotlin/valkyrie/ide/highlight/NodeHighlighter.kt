@@ -45,16 +45,16 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifier, HighlightColor.SYM_CLASS)
     }
 
-    override fun visitDeclareSingleton(o: ValkyrieDeclareSingleton) {
-        highlight(o.identifierSafe, HighlightColor.SYM_CONSTANT)
+    override fun visitDeclareSingleton(o: ValkyrieSingletonDeclarationNode) {
+        highlight(o.identifier, HighlightColor.SYM_CONSTANT)
     }
 
-    override fun visitDeclareNeural(o: ValkyrieDeclareNeural) {
-        highlight(o.identifierSafe, HighlightColor.SYM_CLASS)
+    override fun visitDeclareNeural(o: ValkyrieNeuralDeclarationNode) {
+        highlight(o.identifier, HighlightColor.SYM_CLASS)
     }
 
-    override fun visitDeclareComponent(o: ValkyrieDeclareComponent) {
-        highlight(o.identifierSafe, HighlightColor.SYM_CLASS)
+    override fun visitDeclareWidget(o: ValkyrieWidgetDeclarationNode) {
+        highlight(o.identifier, HighlightColor.SYM_CLASS)
     }
 
 

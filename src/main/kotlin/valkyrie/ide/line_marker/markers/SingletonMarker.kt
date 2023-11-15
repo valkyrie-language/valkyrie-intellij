@@ -4,14 +4,14 @@ import com.intellij.codeInsight.daemon.MergeableLineMarkerInfo
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
+import valkyrie.ast.node.ValkyrieSingletonDeclarationNode
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.psi.node.ValkyrieDeclareSingletonNode
 import javax.swing.Icon
 
 class SingletonMarker : RelatedItemLineMarkerInfo<PsiElement> {
-    constructor(element: ValkyrieDeclareSingletonNode) : super(
-        element.navigationElement,
-        element.navigationElement.textRange,
+    constructor(element: ValkyrieSingletonDeclarationNode) : super(
+        element.keyword.firstChild,
+        element.keyword.textRange,
         ValkyrieIconProvider.Instance.Singleton,
         null,
         null,
