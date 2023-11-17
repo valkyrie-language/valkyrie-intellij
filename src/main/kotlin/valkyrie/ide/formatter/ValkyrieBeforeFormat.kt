@@ -109,7 +109,7 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
         o.firstChild.replace(factory.operatorMacroLower)
     }
 
-    override fun visitClassBody(o: ValkyrieObjectNode) {
+    override fun visitObjectBody(o: ValkyrieObjectNode) {
         when (settings.class_field_trailing) {
             ValkyrieCodeStyleSettings.CommaOrSemicolon.Ignore -> {
 

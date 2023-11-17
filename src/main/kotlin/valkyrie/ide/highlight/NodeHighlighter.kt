@@ -111,7 +111,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifier, HighlightColor.SYM_FUNCTION_FREE)
     }
 
-    override fun visitDeclareMacro(o: ValkyrieMacroDeclareNode) {
+    override fun visitDeclareMacro(o: ValkyrieMacroDeclarationNode) {
         highlight(o.identifier, HighlightColor.SYM_MACRO)
     }
 

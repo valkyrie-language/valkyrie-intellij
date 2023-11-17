@@ -128,7 +128,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitClassBody(o: ValkyrieObjectNode) {
+    open fun visitObjectBody(o: ValkyrieObjectNode) {
         visitElement(o)
     }
 
@@ -212,15 +212,15 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitDeclareMicro(o: ValkyrieMicroDeclareNode) {
+    open fun visitDeclareMicro(o: ValkyrieMicroDeclarationNode) {
         visitElement(o)
     }
 
-    open fun visitDeclareMacro(o: ValkyrieMacroDeclareNode) {
+    open fun visitDeclareMacro(o: ValkyrieMacroDeclarationNode) {
         visitElement(o)
     }
 
-    open fun visitDeclareMezzo(o: ValkyrieMezzoDeclareNode) {
+    open fun visitDeclareMezzo(o: ValkyrieMezzoDeclarationNode) {
         visitElement(o)
     }
 
@@ -587,11 +587,11 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitNewLambda(o: ValkyrieNewLambda) {
+    open fun visitNewLambda(o: ValkyrieMicroAnonymousNode) {
         visitElement(o)
     }
 
-    open fun visitNewObject(o: ValkyrieNewObject) {
+    open fun visitNewObject(o: ValkyrieClassAnonymousNode) {
         visitElement(o)
     }
 

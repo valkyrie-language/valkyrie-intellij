@@ -7,8 +7,7 @@ import com.intellij.psi.util.endOffset
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieDeclareEnumerateNode
 import valkyrie.ast.node.ValkyrieFunctionDeclareNode
-import valkyrie.ast.node.ValkyrieMacroDeclareNode
-import valkyrie.ast.node.ValkyrieMicroDeclareNode
+import valkyrie.ast.node.ValkyrieMacroDeclarationNode
 import valkyrie.ast.node.ValkyrieObjectFieldNode
 
 import valkyrie.psi.node.*
@@ -64,7 +63,7 @@ class TypeHintVisitor : ValkyrieVisitor {
         }
     }
 
-    override fun visitDeclareMacro(o: ValkyrieMacroDeclareNode) {
+    override fun visitDeclareMacro(o: ValkyrieMacroDeclarationNode) {
         if (setting.show_define_parameter_type) {
             for (parameterItem in o.parameters) {
                 if (parameterItem.typeHint == null) {
