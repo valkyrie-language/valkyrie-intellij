@@ -45,11 +45,16 @@ class ValkyrieParserDefinition : ParserDefinition {
             Annotation -> ValkyrieAnnotationNode(node)
             Modifier -> ValkyrieModifierNode(node)
             // 具名对象
+            DeclareNamespace -> ValkyrieNamespaceDeclarationNode(node)
+            DeclareEnumerate -> ValkyrieDeclareEnumerateNode(node)
             DeclareClass -> ValkyrieClassDeclarationNode(node)
+            DeclareSingleton -> ValkyrieSingletonDeclarationNode(node)
+            DeclareNeural -> ValkyrieNeuralDeclarationNode(node)
+            DeclareWidget -> ValkyrieWidgetDeclarationNode(node)
             DeclareTrait -> ValkyrieTraitDeclarationNode(node)
             DeclareMicro -> ValkyrieDeclareMicroNode(node)
             // 匿名对象
-            AnonymousClass -> ValkyrieAnonymousObjectNode(node)
+            AnonymousClass -> ValkyrieClassAnonymousNode(node)
             AnonymousMicro -> ValkyrieAnonymousFunctionNode(node)
             // 后修饰器
             InheritList -> ValkyrieInheritListNode(node)

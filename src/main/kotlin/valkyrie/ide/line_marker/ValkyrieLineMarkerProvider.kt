@@ -13,15 +13,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.firstLeaf
 import valkyrie.ast.ValkyrieVisitor
-import valkyrie.ast.node.ValkyrieClassDeclarationNode
-import valkyrie.ast.node.ValkyrieDeclareEnumerateNode
-import valkyrie.ast.node.ValkyrieDeclareVariantNode
-import valkyrie.ast.node.ValkyrieNeuralDeclarationNode
-import valkyrie.ast.node.ValkyrieObjectDomainNode
-import valkyrie.ast.node.ValkyrieObjectFieldNode
-import valkyrie.ast.node.ValkyrieObjectMethodNode
-import valkyrie.ast.node.ValkyrieSingletonDeclarationNode
-import valkyrie.ast.node.ValkyrieTraitDeclarationNode
+import valkyrie.ast.node.*
 import valkyrie.ide.line_marker.markers.*
 import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
 import valkyrie.language.file.ValkyrieIconProvider
@@ -38,6 +30,7 @@ import valkyrie.language.file.ValkyrieIconProvider.Instance.Variant
 import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.childrenWithLeaves
 import valkyrie.psi.node.*
+import valkyrie.psi.node.ValkyrieModifierNode
 import javax.swing.Icon
 
 class ValkyrieLineMarkerProvider : RelatedItemLineMarkerProvider() {
@@ -113,7 +106,6 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
                     is ValkyrieClassDeclarationNode -> {
                         result.add(SubtypeMarker(leaf, definition))
                     }
-
                 }
             }
             for (child in o.containingFile?.children ?: arrayOf()) {
@@ -125,16 +117,21 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
         }
     }
 
-
-    override fun visitDeclareNeural(o: ValkyrieNeuralDeclarationNode) {
+    override fun visitDeclareSingleton(o: ValkyrieSingletonDeclarationNode) {
         if (config.class_declaration.isEnabled) {
-            result.add(NeuralMarker(o))
+            result.add(ClassMarker(o))
         }
     }
 
-    override fun visitDeclareSingleton(o: ValkyrieSingletonDeclarationNode) {
+    override fun visitDeclareNeural(o: ValkyrieNeuralDeclarationNode) {
         if (config.class_declaration.isEnabled) {
-            result.add(SingletonMarker(o))
+            result.add(ClassMarker(o))
+        }
+    }
+
+    override fun visitDeclareWidget(o: ValkyrieWidgetDeclarationNode) {
+        if (config.class_declaration.isEnabled) {
+            result.add(ClassMarker(o))
         }
     }
 
