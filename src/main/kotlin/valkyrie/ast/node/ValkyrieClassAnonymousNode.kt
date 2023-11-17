@@ -10,7 +10,7 @@ import valkyrie.cst.KW_CLASS
 class ValkyrieClassAnonymousNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     companion object {
         fun parse(builder: PsiBuilder): Boolean {
-            return parseClass(builder, ValkyrieKeyword(KW_CLASS), DeclareClass, true)
+            return parseClass(builder, ParseKeywords(KW_CLASS), DeclareClass, true)
         }
     }
 }

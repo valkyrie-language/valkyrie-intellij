@@ -4,11 +4,11 @@ import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.psi.PsiElement
+import valkyrie.ast.node.ValkyrieFunctionDeclareNode
 import valkyrie.ide.actions.InferFunctionParameterType
 import valkyrie.ide.actions.InferFunctionReturnType
 import valkyrie.ide.actions.InferFunctionTypeAll
 import valkyrie.ide.actions.InferVariableType
-import valkyrie.psi.node.ValkyrieDeclareFunction
 import valkyrie.psi.node.ValkyrieLetStatement
 
 class AnnotateInferType : Annotator {
@@ -32,9 +32,9 @@ class AnnotateInferType : Annotator {
 }
 
 private class LintInferType(holder: AnnotationHolder) : ValkyrieAnnotator(holder) {
-    override fun visitDeclareFunction(o: ValkyrieDeclareFunction) {
+    override fun visitDeclareFunction(o: ValkyrieFunctionDeclareNode) {
         var missingParameterType = false
-        for (parameter in o.parameterBody?.parameterItemList ?: listOf()) {
+        for (parameter in o.parameters) {
             if (parameter.typeHint == null) {
                 missingParameterType = true
                 holder.newAnnotation(HighlightSeverity.INFORMATION, "Infer type")

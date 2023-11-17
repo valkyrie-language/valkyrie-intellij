@@ -52,7 +52,7 @@ class ValkyrieParserDefinition : ParserDefinition {
             DeclareNeural -> ValkyrieNeuralDeclarationNode(node)
             DeclareWidget -> ValkyrieWidgetDeclarationNode(node)
             DeclareTrait -> ValkyrieTraitDeclarationNode(node)
-            DeclareMicro -> ValkyrieDeclareMicroNode(node)
+            DeclareMicro -> ValkyrieMicroDeclareNode(node)
             // 匿名对象
             AnonymousClass -> ValkyrieClassAnonymousNode(node)
             AnonymousMicro -> ValkyrieAnonymousFunctionNode(node)

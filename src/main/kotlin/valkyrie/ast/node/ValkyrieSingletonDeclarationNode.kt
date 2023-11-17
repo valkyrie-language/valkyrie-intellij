@@ -1,6 +1,5 @@
 package valkyrie.ast.node
 
-import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.PsiElementVisitor
@@ -29,7 +28,7 @@ class ValkyrieSingletonDeclarationNode(node: ASTNode) : ValkyrieClassDeclaration
 
     companion object : ParserMonad {
         override fun parse(builder: PsiBuilder): Boolean {
-            return parseClass(builder, ValkyrieKeyword(KW_SINGLETON), DeclareSingleton, false)
+            return parseClass(builder, ParseKeywords(KW_SINGLETON), DeclareSingleton, false)
         }
     }
 }

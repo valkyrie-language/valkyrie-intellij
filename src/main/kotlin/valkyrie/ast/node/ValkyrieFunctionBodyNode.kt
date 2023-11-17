@@ -1,6 +1,5 @@
 package valkyrie.ast.node
 
-import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import valkyrie.ast.FunctionBody
@@ -10,8 +9,9 @@ import valkyrie.ast.advanceIgnore
 import valkyrie.cst.BRACE_L
 import valkyrie.cst.BRACE_R
 import valkyrie.cst.SEMICOLON
+import valkyrie.psi.ValkyrieElement
 
-class ValkyrieFunctionBodyNode(node: ASTNode) : ASTWrapperPsiElement(node) {
+class ValkyrieFunctionBodyNode(node: ASTNode) : ValkyrieElement(node) {
     // 函数体节点，包含函数的具体实现代码
     // 可以被 MethodNode 和 LambdaNode 复用
 

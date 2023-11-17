@@ -5,12 +5,12 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiFile
+import valkyrie.ast.node.ValkyrieFunctionDeclareNode
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.psi.node.ValkyrieDeclareFunctionNode
 //import valkyrie.language.psi_node.ValkyrieDefineItemNode
 import javax.swing.Icon
 
-class InferDefineAllType(private val element: ValkyrieDeclareFunctionNode) : HintAction, Iconable {
+class InferDefineAllType(private val element: ValkyrieFunctionDeclareNode) : HintAction, Iconable {
     override fun startInWriteAction(): Boolean {
         return true
     }

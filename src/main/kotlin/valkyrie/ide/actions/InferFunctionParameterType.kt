@@ -7,21 +7,19 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import valkyrie.ast.node.ValkyrieFunctionDeclareNode
+import valkyrie.ast.node.ValkyrieParameterItemNode
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.psi.node.ValkyrieDeclareFunction
-import valkyrie.psi.node.ValkyrieDeclareFunctionNode
-import valkyrie.psi.node.ValkyrieParameterItem
-import valkyrie.psi.node.ValkyrieParameterItemNode
 import javax.swing.Icon
 
 class InferFunctionParameterType : LocalQuickFixAndIntentionActionOnPsiElement, PriorityAction, Iconable {
-    val context: ValkyrieDeclareFunctionNode
+    val context: ValkyrieFunctionDeclareNode
     val element: ValkyrieParameterItemNode
 
-    constructor(element: ValkyrieParameterItem, context: ValkyrieDeclareFunction) : super(element) {
-        this.context = context as ValkyrieDeclareFunctionNode
-        this.element = element as ValkyrieParameterItemNode
+    constructor(element: ValkyrieParameterItemNode, context: ValkyrieFunctionDeclareNode) : super(element) {
+        this.context = context
+        this.element = element
     }
 
     override fun startInWriteAction(): Boolean {

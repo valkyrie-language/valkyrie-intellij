@@ -9,7 +9,6 @@ import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieObjectMethodNode
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.psi.node.ValkyrieDeclareMethod
 
 class VisionEffects : ValkyrieCodeVision() {
     override val id: String = "hint.vision.effect.name"

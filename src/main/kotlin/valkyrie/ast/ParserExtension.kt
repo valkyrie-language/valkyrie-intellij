@@ -103,7 +103,7 @@ fun parseFunction(builder: PsiBuilder, anonymous: Boolean, type: IElementType): 
         }
     }
     // 检查是否有 class 关键字
-    if (ValkyrieKeyword(KW_CLASS).parse(builder)) {
+    if (ParseKeywords(KW_CLASS).parse(builder)) {
 
         builder.advanceIgnore()
     } else {

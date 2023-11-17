@@ -5,17 +5,16 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiFile
+import valkyrie.ast.node.ValkyrieFunctionDeclareNode
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.psi.node.ValkyrieDeclareFunction
-import valkyrie.psi.node.ValkyrieDeclareFunctionNode
 import javax.swing.Icon
 
 class InferFunctionReturnEffect : HintAction, Iconable {
-    private val element: ValkyrieDeclareFunctionNode
+    private val element: ValkyrieFunctionDeclareNode
 
-    constructor(element: ValkyrieDeclareFunction) {
-        this.element = element as ValkyrieDeclareFunctionNode
+    constructor(element: ValkyrieFunctionDeclareNode) {
+        this.element = element
     }
 
     override fun startInWriteAction(): Boolean {

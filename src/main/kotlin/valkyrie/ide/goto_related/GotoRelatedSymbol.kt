@@ -6,7 +6,6 @@ import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.psi.PsiElement
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieObjectMethodNode
-import valkyrie.psi.node.ValkyrieDeclareMethod
 
 /** Ctrl + Alt + Home */
 class GotoRelatedSymbol : GotoRelatedProvider() {

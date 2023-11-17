@@ -209,16 +209,13 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
         result.add(VariantMarker(o))
     }
 
-    override fun visitDeclareFunction(o: ValkyrieDeclareFunction) {
-        o as ValkyrieDeclareFunctionNode
+    override fun visitDeclareFunction(o: ValkyrieFunctionDeclareNode) {
 //        result.add(ValkyrieMarkAny(o))
     }
 
-    override fun visitDeclareMacro(o: ValkyrieDeclareMacro) {
-        o as ValkyrieDeclareMacroNode
+    override fun visitDeclareMacro(o: ValkyrieMacroDeclareNode) {
 //        result.add(ValkyrieMarkAny(o))
     }
-
 
     override fun visitNewObject(o: ValkyrieNewObject) {
 
@@ -328,19 +325,6 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
         }
 
         return null
-    }
-
-    private fun findTest(body: ValkyrieClassBody?): Boolean {
-        body ?: return false
-        for (item in body.declareMethodList) {
-            val child = item.firstChild
-            if (child is ValkyrieDeclareMethodNode) {
-                if (findTest(child.annotations) != null) {
-                    return true
-                }
-            }
-        }
-        return false
     }
 }
 

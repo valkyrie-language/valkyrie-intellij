@@ -1,6 +1,5 @@
 package valkyrie.ast.node
 
-import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.PsiElementVisitor
@@ -33,7 +32,7 @@ class ValkyrieWidgetDeclarationNode(node: ASTNode) : ValkyrieClassDeclarationNod
 
     companion object : ParserMonad {
         override fun parse(builder: PsiBuilder): Boolean {
-            return parseClass(builder, ValkyrieKeyword(KW_COMPONENT), DeclareWidget, false)
+            return parseClass(builder, ParseKeywords(KW_COMPONENT), DeclareWidget, false)
         }
     }
 }
