@@ -11,7 +11,9 @@ import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import valkyrie.ast.node.ValkyrieObjectMethodNode
 import valkyrie.ast.node.ValkyrieTraitDeclarationNode
 import valkyrie.psi.ValkyrieDeclaration
-import valkyrie.psi.node.*
+import valkyrie.psi.node.ValkyrieDeclareTraitNode
+import valkyrie.psi.node.ValkyrieTraitAlias
+import valkyrie.psi.node.ValkyrieTraitAliasNode
 
 class GotoSuperSymbol : GotoTargetHandler() {
     override fun getFeatureUsedKey() = "valkyrie.goto.super"

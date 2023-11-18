@@ -23,12 +23,15 @@ val DeclareTrait = ValkyrieAST("DEFINE_TRAIT")
 //
 val DeclareMezzo = ValkyrieAST("DEFINE_MEZZO")
 val DeclareMacro = ValkyrieAST("DEFINE_MACRO")
+
 //
 val DeclareMicro = ValkyrieAST("DEFINE_FUNCTION")
 val FunctionBody = ValkyrieAST("FUNCTION_BODY")
+
 //
 val AnonymousClass = ValkyrieAST("ANONYMOUS_OBJECT")
 val AnonymousMicro = ValkyrieAST("ANONYMOUS_LAMBDA")
+
 //
 val InheritList = ValkyrieAST("INHERIT_LIST")
 val InheritItem = ValkyrieAST("INHERIT_ITEM")

@@ -19,6 +19,7 @@ class ValkyrieModifierNode(node: ASTNode) : ValkyrieIdentifierNode(node) {
     override fun toString(): String {
         return "Modifier"
     }
+
     companion object {
         // 解析修饰符
         fun parse(builder: PsiBuilder): Boolean {

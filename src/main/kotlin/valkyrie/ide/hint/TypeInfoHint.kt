@@ -6,7 +6,6 @@ import com.intellij.psi.util.elementType
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieNamePathNode
 import valkyrie.psi.ValkyrieTypes
-import valkyrie.psi.node.ValkyrieNamepathSafe
 
 /** Ctrl + Shift + P */
 class TypeInfoHint : ExpressionTypeProvider<PsiElement>() {

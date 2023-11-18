@@ -5,7 +5,6 @@ import com.intellij.psi.util.startOffset
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieInheritItemNode
 import valkyrie.psi.node.ValkyrieArgumentBody
-import valkyrie.psi.node.ValkyrieInheritItem
 
 
 class ArgumentNameVisitor : ValkyrieVisitor() {

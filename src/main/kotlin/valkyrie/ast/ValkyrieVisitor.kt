@@ -250,7 +250,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitDeclareSemantic(o: ValkyrieDeclareSemantic) {
+    open fun visitDeclareSemantic(o: ValkyrieDeclareSemanticNode) {
         visitElement(o)
     }
 

@@ -5,7 +5,8 @@ import valkyrie.ast.node.ValkyrieDeclareEnumerateNode
 import valkyrie.ast.node.ValkyrieObjectNode
 import valkyrie.ast.node.ValkyrieUniteBodyNode
 import valkyrie.ast.node.ValkyrieUsingBodyNode
-import valkyrie.psi.node.*
+import valkyrie.psi.node.ValkyrieFlagsBody
+import valkyrie.psi.node.ValkyrieMatchBody
 
 class ValkyriePlaceholderVisitor : ValkyrieVisitor() {
     var placeholder = "..."
@@ -24,11 +25,11 @@ class ValkyriePlaceholderVisitor : ValkyrieVisitor() {
 
     override fun visitFlagsBody(o: ValkyrieFlagsBody) {
         val text = PluralJoiner()
-        if (o.parent is ValkyrieDeclareEnumerateNode) {
-            text.add(o.declareSemanticList.count(), "enumerate", "enumerates")
-        } else {
-            text.add(o.declareSemanticList.count(), "flag", "flags")
-        }
+//        if (o.parent is ValkyrieDeclareEnumerateNode) {
+//            text.add(o.declareSemanticList.count(), "enumerate", "enumerates")
+//        } else {
+//            text.add(o.declareSemanticList.count(), "flag", "flags")
+//        }
 //        text.add(o.declareMethodList.count(), "method", "methods")
 //        text.add(o.declareDomainList.count(), "domain", "domains")
         placeholder = text.finish()

@@ -9,8 +9,8 @@ import valkyrie.ast.node.ValkyrieDeclareEnumerateNode
 import valkyrie.ast.node.ValkyrieFunctionDeclareNode
 import valkyrie.ast.node.ValkyrieMacroDeclarationNode
 import valkyrie.ast.node.ValkyrieObjectFieldNode
-
-import valkyrie.psi.node.*
+import valkyrie.psi.node.ValkyrieDeclareFlags
+import valkyrie.psi.node.ValkyrieLoopStatement
 
 
 class TypeHintVisitor : ValkyrieVisitor {

@@ -19,9 +19,16 @@ class ValkyrieStatementNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             return builder.advanceChoice(
                 ValkyrieTermExpressionNode,
                 SkipSeparator(SEMICOLON),
+                //
+                ValkyrieMicroDeclarationNode,
+                ValkyrieMacroDeclarationNode,
+                ValkyrieMezzoDeclarationNode,
+                //
                 ValkyrieClassDeclarationNode,
                 ValkyrieTraitDeclarationNode,
+                //
                 ValkyrieNamespaceDeclarationNode,
+                //
                 ValkyrieSingletonDeclarationNode,
                 ValkyrieWidgetDeclarationNode,
                 ValkyrieNeuralDeclarationNode,

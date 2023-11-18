@@ -3,15 +3,10 @@ package valkyrie.ide.view
 import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.psi.PsiFile
 import valkyrie.ast.ValkyrieVisitor
-import valkyrie.ast.node.ValkyrieDeclareEnumerateNode
-import valkyrie.ast.node.ValkyrieDeclareVariantNode
-import valkyrie.ast.node.ValkyrieNamespaceDeclarationNode
-import valkyrie.ast.node.ValkyrieObjectDomainNode
-import valkyrie.ast.node.ValkyrieObjectFieldNode
-import valkyrie.ast.node.ValkyrieObjectMethodNode
-import valkyrie.ast.node.ValkyrieTraitDeclarationNode
+import valkyrie.ast.node.*
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.*
+import valkyrie.psi.node.ValkyrieModifierNode
 
 
 class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
@@ -91,9 +86,9 @@ private fun ValkyrieAnnotations.pushChildrenTo(visitor: ValkyrieStructureItemVis
 }
 
 private fun ValkyrieFlagsBody.pushChildrenTo(visitor: ValkyrieStructureItemVisitor) {
-    for (item in this.declareSemanticList) {
-        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareSemanticNode))
-    }
+//    for (item in this.declareSemanticList) {
+//        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareSemanticNode))
+//    }
 //    for (item in this.declareMethodList) {
 //        visitor.items.add(ValkyrieStructureItem(item as ValkyrieDeclareMethodNode))
 //    }

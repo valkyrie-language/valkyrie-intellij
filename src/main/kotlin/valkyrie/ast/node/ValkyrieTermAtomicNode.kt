@@ -3,8 +3,8 @@ package valkyrie.ast.node
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.PsiElementVisitor
-import valkyrie.ast.TermAtomic
 import valkyrie.ast.ParserMonad
+import valkyrie.ast.TermAtomic
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.advanceChoice
 
@@ -34,8 +34,7 @@ class ValkyrieTermAtomicNode(node: ASTNode) : ValkyrieTermExpressionNode(node) {
             if (success) {
                 marker.done(TermAtomic)
                 return true
-            }
-            else {
+            } else {
                 marker.rollbackTo()
                 return false
             }

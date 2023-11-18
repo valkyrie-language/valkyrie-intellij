@@ -3,10 +3,10 @@ package valkyrie.ast.node
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.PsiElementVisitor
-import valkyrie.ast.DeclareMicro
+import valkyrie.ast.DeclareMezzo
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.ValkyrieVisitor
-import valkyrie.cst.KW_MICRO
+import valkyrie.cst.KW_MEZZO
 
 class ValkyrieMezzoDeclarationNode(node: ASTNode) : ValkyrieFunctionDeclareNode(node) {
     override fun accept(visitor: PsiElementVisitor) {
@@ -20,7 +20,7 @@ class ValkyrieMezzoDeclarationNode(node: ASTNode) : ValkyrieFunctionDeclareNode(
     companion object : ParserMonad {
         // 解析修饰符列表
         override fun parse(builder: PsiBuilder): Boolean {
-            return parseFunction(builder, ParseKeywords(KW_MICRO), DeclareMicro, false)
+            return parseFunction(builder, ParseKeywords(KW_MEZZO), DeclareMezzo, false)
         }
     }
 }

@@ -9,7 +9,6 @@ import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import valkyrie.ast.node.ValkyrieObjectMethodNode
 import valkyrie.ast.node.ValkyrieTraitDeclarationNode
 import valkyrie.language.ValkyrieBundle
-import valkyrie.psi.node.ValkyrieDeclareTrait
 
 class VisionMonomorphism : ValkyrieCodeVision() {
     override val id: String = "hint.vision.monomorphism.name"
