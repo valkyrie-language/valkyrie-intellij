@@ -5,7 +5,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.search.searches.DefinitionsScopedSearch.SearchParameters
 import com.intellij.util.Processor
 import valkyrie.ast.ValkyrieVisitor
-import valkyrie.ast.node.ValkyrieClassDeclarationNode
+import valkyrie.ast.node.ValkyrieClassNode
 import valkyrie.ast.node.ValkyrieNamePathNode
 import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
 
@@ -57,8 +57,8 @@ class ValkyrieAllOverridingMethodsSearch : QueryExecutorBase<PsiElement, Valkyri
     class SearchParameters
 }
 
-class ValkyrieClassInheritorsSearch : QueryExecutorBase<ValkyrieClassDeclarationNode, ValkyrieClassInheritorsSearch.SearchParameters>(true) {
-    override fun processQuery(queryParameters: SearchParameters, consumer: Processor<in ValkyrieClassDeclarationNode>) {
+class ValkyrieClassInheritorsSearch : QueryExecutorBase<ValkyrieClassNode, ValkyrieClassInheritorsSearch.SearchParameters>(true) {
+    override fun processQuery(queryParameters: SearchParameters, consumer: Processor<in ValkyrieClassNode>) {
         println("classInheritorsSearch : $queryParameters")
     }
 

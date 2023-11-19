@@ -19,6 +19,25 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
+    open fun visitDeclareMixture(o: ValkyrieMixtureNode) {
+        visitElement(o)
+    }
+
+    open fun visitDeclareEnums(o: ValkyrieEnumsNode) {
+        visitElement(o)
+    }
+
+    open fun visitDeclareFlags(o: ValkyrieFlagsNode) {
+        visitElement(o)
+    }
+
+    open fun visitDeclareUnite(o: ValkyrieUniteNode) {
+        visitElement(o)
+    }
+
+    open fun visitDeclareVariant(o: ValkyrieDeclareVariantNode) {
+        visitElement(o)
+    }
 
     open fun visitArgument(o: ValkyrieArgument) {
         visitElement(o)
@@ -128,7 +147,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitObjectBody(o: ValkyrieObjectNode) {
+    open fun visitObjectBody(o: ValkyrieObjectBodyNode) {
         visitElement(o)
     }
 
@@ -184,17 +203,14 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitDeclareClass(o: ValkyrieClassDeclarationNode) {
+    open fun visitDeclareClass(o: ValkyrieClassNode) {
         visitElement(o)
     }
 
-    open fun visitDeclareWidget(o: ValkyrieWidgetDeclarationNode) {
+    open fun visitDeclareWidget(o: ValkyrieWidgetNode) {
         visitElement(o)
     }
 
-    open fun visitDeclareEnums(o: ValkyrieDeclareEnumerateNode) {
-        visitElement(o)
-    }
 
     open fun visitDeclareDomain(o: ValkyrieObjectDomainNode) {
         visitElement(o)
@@ -204,23 +220,20 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitDeclareFlags(o: ValkyrieDeclareFlags) {
-        visitElement(o)
-    }
 
     open fun visitDeclareFunction(o: ValkyrieFunctionDeclareNode) {
         visitElement(o)
     }
 
-    open fun visitDeclareMicro(o: ValkyrieMicroDeclarationNode) {
+    open fun visitDeclareMicro(o: ValkyrieMicroNode) {
         visitElement(o)
     }
 
-    open fun visitDeclareMacro(o: ValkyrieMacroDeclarationNode) {
+    open fun visitDeclareMacro(o: ValkyrieMacroNode) {
         visitElement(o)
     }
 
-    open fun visitDeclareMezzo(o: ValkyrieMezzoDeclarationNode) {
+    open fun visitDeclareMezzo(o: ValkyrieMezzoNode) {
         visitElement(o)
     }
 
@@ -242,11 +255,11 @@ open class ValkyrieVisitor : PsiElementVisitor() {
     }
 
 
-    open fun visitDeclareNamespace(o: ValkyrieNamespaceDeclarationNode) {
+    open fun visitDeclareNamespace(o: ValkyrieNamespaceNode) {
         visitElement(o)
     }
 
-    open fun visitDeclareNeural(o: ValkyrieNeuralDeclarationNode) {
+    open fun visitDeclareNeural(o: ValkyrieNeuralNode) {
         visitElement(o)
     }
 
@@ -254,7 +267,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitDeclareSingleton(o: ValkyrieSingletonDeclarationNode) {
+    open fun visitDeclareSingleton(o: ValkyrieSingletonNode) {
         visitElement(o)
     }
 
@@ -262,7 +275,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitDeclareTrait(o: ValkyrieTraitDeclarationNode) {
+    open fun visitDeclareTrait(o: ValkyrieTraitNode) {
         visitElement(o)
     }
 
@@ -270,17 +283,6 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitDeclareUnion(o: ValkyrieDeclareUnion) {
-        visitElement(o)
-    }
-
-    open fun visitDeclareUnite(o: ValkyrieDeclareUnite) {
-        visitElement(o)
-    }
-
-    open fun visitDeclareVariant(o: ValkyrieDeclareVariantNode) {
-        visitElement(o)
-    }
 
     open fun visitDeclareWhere(o: ValkyrieDeclareWhere) {
         visitElement(o)
@@ -847,7 +849,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitUniteBody(o: ValkyrieUniteBodyNode) {
+    open fun visitMixtureBody(o: ValkyrieMixtureBodyNode) {
         visitElement(o)
     }
 

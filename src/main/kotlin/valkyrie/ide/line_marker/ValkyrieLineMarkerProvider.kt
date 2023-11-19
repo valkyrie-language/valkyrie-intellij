@@ -95,7 +95,7 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
         this.result = result
     }
 
-    override fun visitDeclareClass(o: ValkyrieClassDeclarationNode) {
+    override fun visitDeclareClass(o: ValkyrieClassNode) {
         if (!config.class_declaration.isEnabled) return
         val leaf = o.nameIdentifier ?: return
         if (o.superClasses.isEmpty()) {
@@ -103,7 +103,7 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
         } else {
             for (definition in o.containingFile.definitions) {
                 when (definition) {
-                    is ValkyrieClassDeclarationNode -> {
+                    is ValkyrieClassNode -> {
                         result.add(SubtypeMarker(leaf, definition))
                     }
                 }
@@ -117,25 +117,25 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
         }
     }
 
-    override fun visitDeclareSingleton(o: ValkyrieSingletonDeclarationNode) {
+    override fun visitDeclareSingleton(o: ValkyrieSingletonNode) {
         if (config.class_declaration.isEnabled) {
             result.add(ClassMarker(o))
         }
     }
 
-    override fun visitDeclareNeural(o: ValkyrieNeuralDeclarationNode) {
+    override fun visitDeclareNeural(o: ValkyrieNeuralNode) {
         if (config.class_declaration.isEnabled) {
             result.add(ClassMarker(o))
         }
     }
 
-    override fun visitDeclareWidget(o: ValkyrieWidgetDeclarationNode) {
+    override fun visitDeclareWidget(o: ValkyrieWidgetNode) {
         if (config.class_declaration.isEnabled) {
             result.add(ClassMarker(o))
         }
     }
 
-    override fun visitDeclareTrait(o: ValkyrieTraitDeclarationNode) {
+    override fun visitDeclareTrait(o: ValkyrieTraitNode) {
 //        if (!config.trait_declaration.isEnabled) return
 //        o as ValkyrieDeclareTraitNode
 //        val leaf = o.nameIdentifier ?: return
@@ -169,19 +169,19 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
         result.add(TraitMarker(o as ValkyrieTraitAliasNode))
     }
 
-    override fun visitDeclareUnion(o: ValkyrieDeclareUnion) {
-        o as ValkyrieDeclareUnionNode
-//        result.add(ValkyrieMarkAny(o))
+    override fun visitDeclareUnite(o: ValkyrieUniteNode) {
+        if (!config.unite_declaration.isEnabled) return
+        result.add(MixtureMarker(o))
     }
 
-    override fun visitDeclareEnums(o: ValkyrieDeclareEnumerateNode) {
+    override fun visitDeclareEnums(o: ValkyrieEnumsNode) {
         if (!config.enums_declaration.isEnabled) return
-        result.add(EnumerationMarker(o))
+        result.add(MixtureMarker(o))
     }
 
-    override fun visitDeclareFlags(o: ValkyrieDeclareFlags) {
+    override fun visitDeclareFlags(o: ValkyrieFlagsNode) {
         if (!config.flags_declaration.isEnabled) return
-        result.add(FlagsMarker(o as ValkyrieDeclareFlagsNode))
+        result.add(MixtureMarker(o))
     }
 
     override fun visitObjectField(o: ValkyrieObjectFieldNode) {
@@ -199,11 +199,6 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
         if (!config.domain_declaration.isEnabled) return
     }
 
-    override fun visitDeclareUnite(o: ValkyrieDeclareUnite) {
-        if (!config.unite_declaration.isEnabled) return
-        result.add(UniteMarker(o as ValkyrieDeclareUniteNode))
-    }
-
     override fun visitDeclareVariant(o: ValkyrieDeclareVariantNode) {
         if (!config.variant_declaration.isEnabled) return
         result.add(VariantMarker(o))
@@ -213,7 +208,7 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
 //        result.add(ValkyrieMarkAny(o))
     }
 
-    override fun visitDeclareMacro(o: ValkyrieMacroDeclarationNode) {
+    override fun visitDeclareMacro(o: ValkyrieMacroNode) {
 //        result.add(ValkyrieMarkAny(o))
     }
 

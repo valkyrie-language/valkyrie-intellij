@@ -45,16 +45,19 @@ class ValkyrieParserDefinition : ParserDefinition {
             Annotation -> ValkyrieAnnotationNode(node)
             Modifier -> ValkyrieModifierNode(node)
             // 具名对象
-            DeclareNamespace -> ValkyrieNamespaceDeclarationNode(node)
-            DeclareEnumerate -> ValkyrieDeclareEnumerateNode(node)
-            DeclareClass -> ValkyrieClassDeclarationNode(node)
-            DeclareSingleton -> ValkyrieSingletonDeclarationNode(node)
-            DeclareNeural -> ValkyrieNeuralDeclarationNode(node)
-            DeclareWidget -> ValkyrieWidgetDeclarationNode(node)
-            DeclareTrait -> ValkyrieTraitDeclarationNode(node)
-            DeclareMicro -> ValkyrieMicroDeclarationNode(node)
-            DeclareMezzo -> ValkyrieMezzoDeclarationNode(node)
-            DeclareMacro -> ValkyrieMacroDeclarationNode(node)
+            DeclareNamespace -> ValkyrieNamespaceNode(node)
+            DeclareEnums -> ValkyrieEnumsNode(node)
+            DeclareFlags -> ValkyrieFlagsNode(node)
+            DeclareUnite -> ValkyrieUniteNode(node)
+            //
+            DeclareClass -> ValkyrieClassNode(node)
+            DeclareSingleton -> ValkyrieSingletonNode(node)
+            DeclareNeural -> ValkyrieNeuralNode(node)
+            DeclareWidget -> ValkyrieWidgetNode(node)
+            DeclareTrait -> ValkyrieTraitNode(node)
+            DeclareMicro -> ValkyrieMicroNode(node)
+            DeclareMezzo -> ValkyrieMezzoNode(node)
+            DeclareMacro -> ValkyrieMacroNode(node)
             // 匿名对象
             AnonymousClass -> ValkyrieClassAnonymousNode(node)
             AnonymousMicro -> ValkyrieAnonymousFunctionNode(node)
@@ -74,7 +77,7 @@ class ValkyrieParserDefinition : ParserDefinition {
             MacroCall -> ValkyrieMacroCallNode(node)
             // {...}
             FunctionBody -> ValkyrieFunctionBodyNode(node)
-            ObjectBody -> ValkyrieObjectNode(node)
+            ObjectBody -> ValkyrieObjectBodyNode(node)
             // [...]
             Array -> ValkyrieArrayNode(node)
             ArrayItem -> ValkyrieArrayItemNode(node)

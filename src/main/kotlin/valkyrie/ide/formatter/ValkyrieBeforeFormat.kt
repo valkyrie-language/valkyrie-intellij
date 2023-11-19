@@ -11,7 +11,7 @@ import com.intellij.psi.util.elementType
 import com.intellij.psi.util.firstLeaf
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieAttributeNode
-import valkyrie.ast.node.ValkyrieObjectNode
+import valkyrie.ast.node.ValkyrieObjectBodyNode
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
 import valkyrie.language.psi.ValkyrieFactory
 import valkyrie.psi.ValkyrieTypes.*
@@ -109,7 +109,7 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
         o.firstChild.replace(factory.operatorMacroLower)
     }
 
-    override fun visitObjectBody(o: ValkyrieObjectNode) {
+    override fun visitObjectBody(o: ValkyrieObjectBodyNode) {
         when (settings.class_field_trailing) {
             ValkyrieCodeStyleSettings.CommaOrSemicolon.Ignore -> {
 

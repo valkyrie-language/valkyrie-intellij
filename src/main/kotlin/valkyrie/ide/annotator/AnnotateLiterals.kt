@@ -7,12 +7,12 @@ import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
-import valkyrie.ast.node.ValkyrieClassDeclarationNode
+import valkyrie.ast.node.ValkyrieClassNode
 import valkyrie.ast.node.ValkyrieIdentifierNode
+import valkyrie.ast.node.ValkyrieUniteNode
 import valkyrie.ide.line_marker.ValkyrieMarkColor
 import valkyrie.language.ValkyrieBundle
 import valkyrie.psi.ValkyrieTypes
-import valkyrie.psi.node.ValkyrieDeclareUnionNode
 import valkyrie.psi.node.ValkyrieSpecial
 import valkyrie.psi.node.ValkyrieTypePattern
 
@@ -69,13 +69,13 @@ private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) 
 
 
     // element.text can't start with lowercase
-    private fun checkValidClassName(element: ValkyrieClassDeclarationNode, holder: AnnotationHolder) {
+    private fun checkValidClassName(element: ValkyrieClassNode, holder: AnnotationHolder) {
 //        val id = element.nameIdentifier ?: return;
 //        checkNeedEscape(id, holder)
 //        checkCamelCase(id, holder)
     }
 
-    private fun checkValidUnionName(element: ValkyrieDeclareUnionNode, holder: AnnotationHolder) {
+    private fun checkValidUnionName(element: ValkyrieUniteNode, holder: AnnotationHolder) {
         checkNeedEscape(element.nameIdentifier, holder)
         checkCamelCase(element.nameIdentifier, holder)
     }

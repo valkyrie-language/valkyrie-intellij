@@ -4,17 +4,16 @@ import com.intellij.codeInsight.daemon.MergeableLineMarkerInfo
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER
 import com.intellij.psi.PsiElement
-import valkyrie.language.file.ValkyrieIconProvider.Instance.Unite
-import valkyrie.psi.node.ValkyrieDeclareUniteNode
+import valkyrie.ast.node.ValkyrieMixtureNode
 import javax.swing.Icon
 
-class UniteMarker : RelatedItemLineMarkerInfo<PsiElement> {
-    constructor(element: ValkyrieDeclareUniteNode) : super(
-        element.navigationElement,
-        element.textRange,
-        Unite,
-        null,
-        null,
+class MixtureMarker : RelatedItemLineMarkerInfo<PsiElement> {
+    constructor(element: ValkyrieMixtureNode) : super(
+        element.keyword.firstChild,
+        element.keyword.textRange,
+        element.getIcon(0),
+        { "tooltipProvider" },
+        { "PresentationProvider" },
         null,
         CENTER,
         { mutableListOf() },
@@ -22,10 +21,12 @@ class UniteMarker : RelatedItemLineMarkerInfo<PsiElement> {
     )
 
     override fun canMergeWith(info: MergeableLineMarkerInfo<*>): Boolean {
+        // there is only one enumeration marker
         return false
     }
 
     override fun getCommonIcon(infos: MutableList<out MergeableLineMarkerInfo<*>>): Icon {
-        return myIcon
+        return super.getCommonIcon(infos)
     }
 }
+

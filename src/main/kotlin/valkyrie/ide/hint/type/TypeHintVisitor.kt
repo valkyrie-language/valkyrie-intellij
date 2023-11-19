@@ -5,11 +5,12 @@ import com.intellij.codeInsight.hints.presentation.PresentationFactory
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.util.endOffset
 import valkyrie.ast.ValkyrieVisitor
-import valkyrie.ast.node.ValkyrieDeclareEnumerateNode
+import valkyrie.ast.node.ValkyrieEnumsNode
+import valkyrie.ast.node.ValkyrieFlagsNode
+
 import valkyrie.ast.node.ValkyrieFunctionDeclareNode
-import valkyrie.ast.node.ValkyrieMacroDeclarationNode
+import valkyrie.ast.node.ValkyrieMacroNode
 import valkyrie.ast.node.ValkyrieObjectFieldNode
-import valkyrie.psi.node.ValkyrieDeclareFlags
 import valkyrie.psi.node.ValkyrieLoopStatement
 
 
@@ -63,7 +64,7 @@ class TypeHintVisitor : ValkyrieVisitor {
         }
     }
 
-    override fun visitDeclareMacro(o: ValkyrieMacroDeclarationNode) {
+    override fun visitDeclareMacro(o: ValkyrieMacroNode) {
         if (setting.show_define_parameter_type) {
             for (parameterItem in o.parameters) {
                 if (parameterItem.typeHint == null) {
@@ -79,7 +80,7 @@ class TypeHintVisitor : ValkyrieVisitor {
         }
     }
 
-    override fun visitDeclareEnums(o: ValkyrieDeclareEnumerateNode) {
+    override fun visitDeclareEnums(o: ValkyrieEnumsNode) {
         if (setting.show_enumeration_type) {
 //            if (o.typeAtomic == null) {
 //                o.identifierSafe?.endOffset?.let { hint(it, "= 32") }
@@ -87,11 +88,11 @@ class TypeHintVisitor : ValkyrieVisitor {
         }
     }
 
-    override fun visitDeclareFlags(o: ValkyrieDeclareFlags) {
+    override fun visitDeclareFlags(o: ValkyrieFlagsNode) {
         if (setting.show_bitflags_type) {
-            if (o.typeAtomic == null) {
-                o.identifierFree?.endOffset?.let { hint(it, "= 32") }
-            }
+//            if (o.typeAtomic == null) {
+//                o.identifier?.endOffset?.let { hint(it, "= 32") }
+//            }
         }
     }
 

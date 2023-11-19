@@ -10,11 +10,11 @@ import valkyrie.ide.highlight.HighlightColor
 import valkyrie.psi.ValkyrieDeclaration
 import javax.swing.Icon
 
-class ValkyrieTraitDeclarationNode(node: ASTNode) : ValkyrieDeclaration(node) {
+class ValkyrieTraitNode(node: ASTNode) : ValkyrieDeclaration(node) {
     val keyword = findChildByClass(ValkyrieKeywordNode::class.java)!!
     val identifier = findChildByClass(ValkyrieIdentifierNode::class.java)
     val superTraits = findChildByClass(ValkyrieInheritListNode::class.java)?.items ?: arrayOf()
-    val body = findChildByClass(ValkyrieObjectNode::class.java)
+    val body = findChildByClass(ValkyrieObjectBodyNode::class.java)
 
     override val color: HighlightColor?
         get() = HighlightColor.SYM_TRAIT
@@ -73,7 +73,7 @@ fun parseTrait(builder: PsiBuilder, anonymous: Boolean): Boolean {
     ValkyrieInheritListNode.parse(builder)
     builder.advanceIgnore()
     // 解析类体
-    if (!ValkyrieObjectNode.parse(builder)) {
+    if (!ValkyrieObjectBodyNode.parse(builder)) {
         marker.drop()
         return false
     }

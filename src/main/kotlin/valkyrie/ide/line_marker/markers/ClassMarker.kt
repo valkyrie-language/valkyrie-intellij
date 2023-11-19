@@ -4,11 +4,11 @@ import com.intellij.codeInsight.daemon.MergeableLineMarkerInfo
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER
 import com.intellij.psi.PsiElement
-import valkyrie.ast.node.ValkyrieClassDeclarationNode
+import valkyrie.ast.node.ValkyrieClassNode
 import javax.swing.Icon
 
 class ClassMarker : RelatedItemLineMarkerInfo<PsiElement> {
-    constructor(element: ValkyrieClassDeclarationNode) : super(
+    constructor(element: ValkyrieClassNode) : super(
         element.keyword.firstChild,
         element.keyword.textRange,
         element.getIcon(0),

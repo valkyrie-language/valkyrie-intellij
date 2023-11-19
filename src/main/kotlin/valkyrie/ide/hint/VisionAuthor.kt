@@ -4,12 +4,12 @@ import com.intellij.codeInsight.hints.VcsCodeVisionLanguageContext
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import valkyrie.ast.node.ValkyrieClassDeclarationNode
-import valkyrie.ast.node.ValkyrieDeclareEnumerateNode
-import valkyrie.psi.node.ValkyrieDeclareFlags
+import valkyrie.ast.node.ValkyrieClassNode
+import valkyrie.ast.node.ValkyrieEnumsNode
+import valkyrie.ast.node.ValkyrieFlagsNode
+import valkyrie.ast.node.ValkyrieUniteNode
+
 import valkyrie.psi.node.ValkyrieDeclareTrait
-import valkyrie.psi.node.ValkyrieDeclareUnion
-import valkyrie.psi.node.ValkyrieDeclareUnite
 import java.awt.event.MouseEvent
 
 
@@ -21,11 +21,10 @@ class VisionAuthor : VcsCodeVisionLanguageContext {
     }
 
     override fun isAccepted(element: PsiElement): Boolean {
-        return element is ValkyrieClassDeclarationNode
-            || element is ValkyrieDeclareEnumerateNode
-            || element is ValkyrieDeclareFlags
-            || element is ValkyrieDeclareUnion
-            || element is ValkyrieDeclareUnite
+        return element is ValkyrieClassNode
+            || element is ValkyrieEnumsNode
+            || element is ValkyrieFlagsNode
+            || element is ValkyrieUniteNode
             || element is ValkyrieDeclareTrait
     }
 

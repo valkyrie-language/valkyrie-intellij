@@ -122,7 +122,7 @@ fun parseFunction(builder: PsiBuilder, anonymous: Boolean, type: IElementType): 
     ValkyrieInheritListNode.parse(builder)
     builder.advanceIgnore()
     // 解析类体
-    if (!ValkyrieObjectNode.parse(builder)) {
+    if (!ValkyrieObjectBodyNode.parse(builder)) {
         marker.drop()
         return false
     }

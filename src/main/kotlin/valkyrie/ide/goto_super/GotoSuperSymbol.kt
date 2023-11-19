@@ -7,9 +7,9 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import valkyrie.ast.ValkyrieVisitor
-import valkyrie.ast.node.ValkyrieClassDeclarationNode
+import valkyrie.ast.node.ValkyrieClassNode
 import valkyrie.ast.node.ValkyrieObjectMethodNode
-import valkyrie.ast.node.ValkyrieTraitDeclarationNode
+import valkyrie.ast.node.ValkyrieTraitNode
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.ValkyrieDeclareTraitNode
 import valkyrie.psi.node.ValkyrieTraitAlias
@@ -33,7 +33,7 @@ class GotoSuperSymbol : GotoTargetHandler() {
         }
 
         when (sourceElement) {
-            is ValkyrieClassDeclarationNode -> {
+            is ValkyrieClassNode -> {
                 sb.append("super classes")
             }
 
@@ -58,7 +58,7 @@ class GotoSuperSymbol : GotoTargetHandler() {
 
     override fun getNotFoundMessage(project: Project, editor: Editor, file: PsiFile): String {
         return when (val element = ValkyrieDeclaration.getCaretDeclaration(editor, file)) {
-            is ValkyrieClassDeclarationNode -> {
+            is ValkyrieClassNode -> {
                 "`${element.name}` has no super class"
             }
 
@@ -77,13 +77,13 @@ class GotoSuperSymbol : GotoTargetHandler() {
 private class GotoSuperVisitor : ValkyrieVisitor() {
     var target: GotoData? = null
 
-    override fun visitDeclareClass(o: ValkyrieClassDeclarationNode) {
+    override fun visitDeclareClass(o: ValkyrieClassNode) {
 //        target = GotoData(o, o.superClasses.toTypedArray(), listOf())
         target = GotoData(o, arrayOf(), listOf())
     }
 
 
-    override fun visitDeclareTrait(o: ValkyrieTraitDeclarationNode) {
+    override fun visitDeclareTrait(o: ValkyrieTraitNode) {
 //        target = GotoData(o, arrayOf(o.typeHint), listOf())
     }
 
