@@ -9,9 +9,9 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.parents
 import valkyrie.ast.node.ValkyrieClassNode
+import valkyrie.ast.node.ValkyrieTraitNode
 import valkyrie.psi.caretElement
 import valkyrie.psi.node.ValkyrieDeclareImplyNode
-import valkyrie.psi.node.ValkyrieDeclareTraitNode
 
 
 class GenerateOverrides : LanguageCodeInsightActionHandler {
@@ -22,7 +22,7 @@ class GenerateOverrides : LanguageCodeInsightActionHandler {
         for (parent in here.parents(true)) {
             when (parent) {
                 is ValkyrieClassNode -> true
-                is ValkyrieDeclareTraitNode -> true
+                is ValkyrieTraitNode -> true
                 is ValkyrieDeclareImplyNode -> true
                 else -> {
                     _current = parent

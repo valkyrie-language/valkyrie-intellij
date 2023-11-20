@@ -6,8 +6,8 @@ import com.intellij.icons.AllIcons
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
 import valkyrie.ast.node.ValkyrieClassNode
+import valkyrie.ast.node.ValkyrieTraitNode
 import valkyrie.psi.mixin.MixinIdentifier
-import valkyrie.psi.node.ValkyrieDeclareTraitNode
 import javax.swing.Icon
 
 class ValkyrieMarkAncestor : RelatedItemLineMarkerInfo<PsiElement> {
@@ -23,7 +23,7 @@ class ValkyrieMarkAncestor : RelatedItemLineMarkerInfo<PsiElement> {
         { "AccessibleNameProvider" }
     )
 
-    constructor(leaf: MixinIdentifier, trait: ValkyrieDeclareTraitNode) : super(
+    constructor(leaf: MixinIdentifier, trait: ValkyrieTraitNode) : super(
         leaf.firstChild,
         leaf.textRange,
         AllIcons.Gutter.ImplementingMethod,

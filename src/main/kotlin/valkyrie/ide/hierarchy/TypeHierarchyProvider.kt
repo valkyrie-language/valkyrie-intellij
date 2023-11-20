@@ -7,7 +7,7 @@ import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.parents
 import valkyrie.ast.node.ValkyrieClassNode
-import valkyrie.psi.node.ValkyrieDeclareTraitNode
+import valkyrie.ast.node.ValkyrieTraitNode
 import java.text.MessageFormat
 import java.util.*
 import javax.swing.JPanel
@@ -68,7 +68,7 @@ private class TypeHierarchyBrowser : TypeHierarchyBrowserBase {
                     return TypeHierarchyTree(HierarchyClassNode(node))
                 }
 
-                is ValkyrieDeclareTraitNode -> {
+                is ValkyrieTraitNode -> {
                     return TypeHierarchyTree(HierarchyTraitNode(node))
                 }
             }
@@ -83,7 +83,7 @@ private class TypeHierarchyBrowser : TypeHierarchyBrowserBase {
                     return MessageFormat.format(typeName, node.name)
                 }
 
-                is ValkyrieDeclareTraitNode -> {
+                is ValkyrieTraitNode -> {
                     return MessageFormat.format(typeName, node.name)
                 }
             }

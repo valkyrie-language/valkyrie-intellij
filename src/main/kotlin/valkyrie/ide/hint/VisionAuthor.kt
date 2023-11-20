@@ -7,9 +7,9 @@ import com.intellij.psi.PsiFile
 import valkyrie.ast.node.ValkyrieClassNode
 import valkyrie.ast.node.ValkyrieEnumsNode
 import valkyrie.ast.node.ValkyrieFlagsNode
+import valkyrie.ast.node.ValkyrieTraitNode
 import valkyrie.ast.node.ValkyrieUniteNode
 
-import valkyrie.psi.node.ValkyrieDeclareTrait
 import java.awt.event.MouseEvent
 
 
@@ -25,7 +25,7 @@ class VisionAuthor : VcsCodeVisionLanguageContext {
             || element is ValkyrieEnumsNode
             || element is ValkyrieFlagsNode
             || element is ValkyrieUniteNode
-            || element is ValkyrieDeclareTrait
+            || element is ValkyrieTraitNode
     }
 
     override fun isCustomFileAccepted(file: PsiFile): Boolean {
