@@ -3,12 +3,12 @@ package valkyrie.ide.line_marker
 import com.intellij.openapi.editor.ElementColorProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
-import valkyrie.psi.ValkyrieTypes
+import valkyrie.cst.COLOR
 import java.awt.Color
 
 class ValkyrieMarkColor : ElementColorProvider {
     override fun getColorFrom(element: PsiElement): Color? {
-        if (element.elementType != ValkyrieTypes.COLOR) {
+        if (element.elementType != COLOR) {
             return null
         }
         val head = element.text.first()

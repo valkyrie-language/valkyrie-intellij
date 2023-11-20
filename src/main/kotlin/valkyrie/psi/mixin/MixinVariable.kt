@@ -5,8 +5,8 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieIdentifierNode
+import valkyrie.cst.KW_LET
 import valkyrie.psi.ValkyrieElement
-import valkyrie.psi.ValkyrieTypes.KW_LET
 import valkyrie.psi.findKeyword
 import valkyrie.psi.node.ValkyrieBarePattern
 import valkyrie.psi.node.ValkyrieCasePatternList

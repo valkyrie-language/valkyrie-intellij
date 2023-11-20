@@ -4,7 +4,8 @@ import com.intellij.lang.CodeDocumentationAwareCommenter
 import com.intellij.psi.PsiComment
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.elementType
-import valkyrie.psi.ValkyrieTypes
+import valkyrie.cst.COMMENT_BLOCK
+import valkyrie.cst.COMMENT_LINE
 
 
 class ValkyrieCommenter : CodeDocumentationAwareCommenter {
@@ -15,11 +16,11 @@ class ValkyrieCommenter : CodeDocumentationAwareCommenter {
     }
 
     override fun getLineCommentTokenType(): IElementType {
-        return ValkyrieTypes.COMMENT_LINE
+        return COMMENT_LINE
     }
 
     override fun getLineCommentTokenTypes(): MutableList<IElementType> {
-        return mutableListOf(ValkyrieTypes.COMMENT_LINE)
+        return mutableListOf(COMMENT_LINE)
     }
 
     override fun getBlockCommentPrefix() = "<#"
@@ -34,7 +35,7 @@ class ValkyrieCommenter : CodeDocumentationAwareCommenter {
 
 
     override fun getBlockCommentTokenType(): IElementType {
-        return ValkyrieTypes.COMMENT_BLOCK
+        return COMMENT_BLOCK
     }
 
     override fun getDocumentationCommentTokenType(): IElementType? = null
@@ -42,7 +43,7 @@ class ValkyrieCommenter : CodeDocumentationAwareCommenter {
     override fun getDocumentationCommentSuffix() = "#>"
 
     override fun isDocumentationComment(element: PsiComment?): Boolean {
-        if (element == null || element.elementType != ValkyrieTypes.COMMENT_BLOCK) {
+        if (element == null || element.elementType != COMMENT_BLOCK) {
             return false
         }
         return element.text.startsWith(documentationCommentLinePrefix)
@@ -50,7 +51,7 @@ class ValkyrieCommenter : CodeDocumentationAwareCommenter {
 
 
     fun extractDocumentText(element: PsiComment): String? {
-        if (element.elementType == ValkyrieTypes.COMMENT_LINE && element.text.startsWith(documentationCommentLinePrefix)) {
+        if (element.elementType == COMMENT_LINE && element.text.startsWith(documentationCommentLinePrefix)) {
             return element.text.substring(documentationCommentLinePrefix.length).trim()
         }
 //        if (element.elementType == ValkyrieLexer.CommentBlock && element.text.startsWith(documentationCommentLinePrefix)) {

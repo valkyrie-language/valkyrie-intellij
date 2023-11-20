@@ -13,8 +13,8 @@ import valkyrie.ast.node.*
 import valkyrie.ast.node.ValkyrieInheritItemNode
 import valkyrie.ast.node.ValkyrieModifierNode
 import valkyrie.ast.node.ValkyrieTypeAtomicNode
+import valkyrie.cst.NAME_SPLIT
 import valkyrie.language.file.ValkyrieFileNode
-import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.childrenWithLeaves
 import valkyrie.psi.node.*
 
@@ -238,7 +238,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     override fun visitRangeItem(o: ValkyrieRangeItem) {
         for (child in o.childrenWithLeaves) {
-            if (child.elementType == ValkyrieTypes.NAME_SPLIT) {
+            if (child.elementType == NAME_SPLIT) {
                 highlight(child, HighlightColor.OPERATION)
                 break
             }

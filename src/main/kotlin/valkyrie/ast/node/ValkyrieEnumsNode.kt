@@ -8,7 +8,7 @@ import valkyrie.ast.DeclareMicro
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.cst.KW_ENUMERATE
-import valkyrie.cst.KW_UNITE
+import valkyrie.cst.KW_UNION
 
 class ValkyrieEnumsNode(node: ASTNode) : ValkyrieMixtureNode(node) {
     override fun accept(visitor: PsiElementVisitor) {

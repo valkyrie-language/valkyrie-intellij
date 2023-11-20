@@ -5,17 +5,18 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieNamePathNode
-import valkyrie.psi.ValkyrieTypes
+import valkyrie.cst.SYMBOL
+import valkyrie.cst.SYMBOL_RAW
 
 /** Ctrl + Shift + P */
 class TypeInfoHint : ExpressionTypeProvider<PsiElement>() {
     override fun getExpressionsAt(elementAt: PsiElement): MutableList<PsiElement> {
         when (elementAt.elementType) {
-            ValkyrieTypes.SYMBOL -> {
+            SYMBOL -> {
                 return mutableListOf(elementAt)
             }
 
-            ValkyrieTypes.SYMBOL_RAW -> {
+            SYMBOL_RAW -> {
                 return mutableListOf(elementAt)
             }
 

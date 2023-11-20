@@ -22,7 +22,7 @@ class ValkyrieFactory(project: Project) {
 
 
 //    fun createSymbol(kind: IElementType, text: String): LeafElement {
-//        return createLeaf(ValkyrieTypes.SYMBOL, text)
+//        return createLeaf(SYMBOL, text)
 //    }
 
 //    fun createLeaf(kind: IElementType, text: String): LeafElement {

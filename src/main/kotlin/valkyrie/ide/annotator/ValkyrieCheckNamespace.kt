@@ -63,7 +63,7 @@ class ValkyrieCheckNamespace : Annotator {
 private fun PsiElement?.endSemicolon(): PsiElement? {
     val next = PsiTreeUtil.skipWhitespacesAndCommentsForward(this)
     return when (next.elementType) {
-//        ValkyrieTypes.SEMICOLON -> next
+//        SEMICOLON -> next
         else -> null
     }
 }
@@ -71,7 +71,7 @@ private fun PsiElement?.endSemicolon(): PsiElement? {
 private fun PsiElement?.endComma(): PsiElement? {
     val next = PsiTreeUtil.skipWhitespacesAndCommentsForward(this)
     return when (next.elementType) {
-//        ValkyrieTypes.COMMA -> next
+//        COMMA -> next
         else -> null
     }
 }

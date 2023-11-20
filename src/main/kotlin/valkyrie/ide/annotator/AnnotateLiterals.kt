@@ -10,9 +10,9 @@ import com.intellij.psi.util.elementType
 import valkyrie.ast.node.ValkyrieClassNode
 import valkyrie.ast.node.ValkyrieIdentifierNode
 import valkyrie.ast.node.ValkyrieUnionNode
+import valkyrie.cst.COLOR
 import valkyrie.ide.line_marker.ValkyrieMarkColor
 import valkyrie.language.ValkyrieBundle
-import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.node.ValkyrieSpecial
 import valkyrie.psi.node.ValkyrieTypePattern
 
@@ -34,7 +34,7 @@ private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) 
 
     override fun visitSpecial(o: ValkyrieSpecial) {
         val leaf = o.firstChild
-        if (leaf.elementType == ValkyrieTypes.COLOR) {
+        if (leaf.elementType == COLOR) {
             if (ValkyrieMarkColor().getColorFrom(leaf) == null) {
                 val info = when {
                     leaf.text.startsWith('®') -> ValkyrieBundle.message("annotator.color.rgb")
