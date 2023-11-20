@@ -44,12 +44,12 @@ class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
 //        o.classBody?.pushChildrenTo(this)
     }
 
-    override fun visitDeclareUnite(o: ValkyrieUniteNode) {
+    override fun visitDeclareUnion(o: ValkyrieUnionNode) {
 //        o.annotations.pushChildrenTo(this)
 //        o.uniteBody?.pushChildrenTo(this)
     }
 
-    override fun visitDeclareVariant(o: ValkyrieDeclareVariantNode) {
+    override fun visitDeclareVariant(o: ValkyrieVariantNode) {
 //        o.annotations.pushChildrenTo(this)
 //        o.classBody?.pushChildrenTo(this)
     }

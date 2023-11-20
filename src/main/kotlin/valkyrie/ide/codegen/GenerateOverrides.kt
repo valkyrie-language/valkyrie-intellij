@@ -9,9 +9,9 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.parents
 import valkyrie.ast.node.ValkyrieClassNode
+import valkyrie.ast.node.ValkyrieDeclareImplyNode
 import valkyrie.ast.node.ValkyrieTraitNode
 import valkyrie.psi.caretElement
-import valkyrie.psi.node.ValkyrieDeclareImplyNode
 
 
 class GenerateOverrides : LanguageCodeInsightActionHandler {

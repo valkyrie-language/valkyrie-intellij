@@ -12,6 +12,7 @@ import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.ValkyrieDeclaration
 import javax.swing.Icon
 
+
 class ValkyrieTraitNode(node: ASTNode) : ValkyrieDeclaration(node) {
     val keyword = findChildByClass(ValkyrieKeywordNode::class.java)!!
     val identifier = findChildByClass(ValkyrieIdentifierNode::class.java)

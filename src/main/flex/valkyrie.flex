@@ -58,9 +58,8 @@ KW_EXCLUDE   = exclude
 
 KW_TYPE      = typus|type
 KW_CLASS     = class|struct|structure|interface
-KW_UNION     = union
-KW_UNITE     = unity|unite|inductive|unity
-KW_ENUMERATE = enums?|enumerate
+KW_UNION     = enum|union|inductive
+KW_ENUMERATE = enums|enumerate
 KW_FLAGS     = flags
 KW_TRAIT     = trait
 KW_INFER     = infer|forall|exists
@@ -428,7 +427,6 @@ RESERVED = [߷⸖⍼♯⟀⟁]
     {KW_TYPE}      { return KW_TYPE; }
     {KW_FLAGS}     { return KW_FLAGS; }
     {KW_ENUMERATE} { return KW_ENUMERATE; }
-    {KW_UNITE}     { return KW_UNITE; }
     {KW_UNION}     { return KW_UNION; }
     {KW_CLASS}     { return KW_CLASS; }
     {KW_TRAIT}     { return KW_TRAIT; }

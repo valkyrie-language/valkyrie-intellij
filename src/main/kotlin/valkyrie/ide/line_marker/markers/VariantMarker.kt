@@ -4,12 +4,12 @@ import com.intellij.codeInsight.daemon.MergeableLineMarkerInfo
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER
 import com.intellij.psi.PsiElement
-import valkyrie.ast.node.ValkyrieDeclareVariantNode
+import valkyrie.ast.node.ValkyrieVariantNode
 import valkyrie.language.file.ValkyrieIconProvider.Instance.Variant
 import javax.swing.Icon
 
 class VariantMarker : RelatedItemLineMarkerInfo<PsiElement> {
-    constructor(element: ValkyrieDeclareVariantNode) : super(
+    constructor(element: ValkyrieVariantNode) : super(
         element.navigationElement,
         element.textRange,
         Variant,

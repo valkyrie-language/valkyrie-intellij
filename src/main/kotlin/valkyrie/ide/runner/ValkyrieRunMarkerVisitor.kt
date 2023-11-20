@@ -6,9 +6,9 @@ import com.intellij.execution.lineMarker.RunLineMarkerProvider
 import com.intellij.openapi.actionSystem.AnAction
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieClassNode
+import valkyrie.ast.node.ValkyrieDeclareImplyNode
 import valkyrie.ast.node.ValkyrieKeywordNode
 import valkyrie.ast.node.ValkyrieNamespaceNode
-import valkyrie.psi.node.ValkyrieDeclareImply
 
 class ValkyrieRunMarkerVisitor : ValkyrieVisitor {
     private val config: ValkyrieRunMarkerProvider
@@ -27,8 +27,8 @@ class ValkyrieRunMarkerVisitor : ValkyrieVisitor {
         RunClass(listOf("element"), true).registerRunner(o.keyword)
     }
 
-    override fun visitDeclareImply(o: ValkyrieDeclareImply) {
-//        RunClassGroup().registerRunner(o.keyword)
+    override fun visitDeclareImply(o: ValkyrieDeclareImplyNode) {
+        RunClassGroup().registerRunner(o.keyword)
     }
 
     private fun AnAction.registerRunner(leaf: ValkyrieKeywordNode) {

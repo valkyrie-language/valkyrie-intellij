@@ -26,9 +26,12 @@ class ValkyrieStatementNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 //
                 ValkyrieClassNode,
                 ValkyrieTraitNode,
+                ValkyrieUnionNode,
+                ValkyrieEnumsNode,
                 //
                 ValkyrieNamespaceNode,
                 //
+                ValkyrieFlagsNode,
                 ValkyrieSingletonNode,
                 ValkyrieWidgetNode,
                 ValkyrieNeuralNode,

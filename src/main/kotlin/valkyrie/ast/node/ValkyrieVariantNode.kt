@@ -7,9 +7,8 @@ import com.intellij.psi.PsiElementVisitor
 import valkyrie.ast.DefineDomain
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.ValkyrieVisitor
-import valkyrie.ast.advanceIgnore
 
-class ValkyrieDeclareVariantNode(node: ASTNode) : ASTWrapperPsiElement(node) {
+class ValkyrieVariantNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     val identifier = findChildByClass(ValkyrieIdentifierNode::class.java)!!
 
     override fun accept(visitor: PsiElementVisitor) {
@@ -20,29 +19,22 @@ class ValkyrieDeclareVariantNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     }
 
     override fun toString(): String {
-        return "ObjectDomain"
+        return "Variant"
     }
 
     companion object : ParserMonad {
         override fun parse(builder: PsiBuilder): Boolean {
             val marker = builder.mark()
             ValkyrieAnnotationAreaNode.parse(builder)
-            builder.advanceIgnore()
             // 解析字段名
-            if (ValkyrieIdentifierNode.parse(builder)) {
-                builder.advanceIgnore()
-            } else {
-                marker.drop()
+            if (!ValkyrieIdentifierNode.parse(builder)) {
+                marker.rollbackTo()
                 return false
             }
-            // 解析形式参数
-            if (ValkyrieObjectBodyNode.parse(builder)) {
-                marker.done(DefineDomain)
-                return true
-            } else {
-                marker.drop()
-                return false
-            }
+            // 解析结构体
+            ValkyrieObjectBodyNode.parse(builder)
+            marker.done(DefineDomain)
+            return true
         }
     }
 }

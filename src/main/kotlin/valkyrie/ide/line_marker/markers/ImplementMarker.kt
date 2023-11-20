@@ -7,8 +7,8 @@ import com.intellij.icons.AllIcons.Gutter.ImplementedMethod
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
+import valkyrie.ast.node.ValkyrieDeclareImplyNode
 import valkyrie.ast.node.ValkyrieIdentifierNode
-import valkyrie.psi.node.ValkyrieDeclareImplyNode
 import javax.swing.Icon
 
 class ImplementMarker : RelatedItemLineMarkerInfo<PsiElement> {

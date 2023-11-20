@@ -81,7 +81,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifier, HighlightColor.SYM_CLASS)
     }
 
-    override fun visitDeclareUnite(o: ValkyrieUniteNode) {
+    override fun visitDeclareUnion(o: ValkyrieUnionNode) {
         highlight(o.identifier, HighlightColor.SYM_CLASS)
     }
 
@@ -89,7 +89,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifier, HighlightColor.SYM_FIELD)
     }
 
-    override fun visitDeclareVariant(o: ValkyrieDeclareVariantNode) {
+    override fun visitDeclareVariant(o: ValkyrieVariantNode) {
         highlight(o.identifier, HighlightColor.SYM_VARIANT)
     }
 
@@ -97,8 +97,8 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifier, HighlightColor.SYM_TRAIT)
     }
 
-    override fun visitDeclareImply(o: ValkyrieDeclareImply) {
-        o.namepathSafe?.highlight(this)
+    override fun visitDeclareImply(o: ValkyrieDeclareImplyNode) {
+//        o.namepath?.highlight(this)
     }
 
     override fun visitDeclareFunction(o: ValkyrieFunctionDeclareNode) {

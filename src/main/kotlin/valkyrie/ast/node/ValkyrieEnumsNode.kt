@@ -3,9 +3,11 @@ package valkyrie.ast.node
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.PsiElementVisitor
+import valkyrie.ast.DeclareEnums
 import valkyrie.ast.DeclareMicro
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.ValkyrieVisitor
+import valkyrie.cst.KW_ENUMERATE
 import valkyrie.cst.KW_UNITE
 
 class ValkyrieEnumsNode(node: ASTNode) : ValkyrieMixtureNode(node) {
@@ -18,7 +20,7 @@ class ValkyrieEnumsNode(node: ASTNode) : ValkyrieMixtureNode(node) {
 
     companion object : ParserMonad {
         override fun parse(builder: PsiBuilder): Boolean {
-            return parseMixture(builder, ParseKeywords(KW_UNITE), DeclareMicro, false)
+            return parseMixture(builder, ParseKeywords(KW_ENUMERATE), DeclareEnums, false)
         }
     }
 }
