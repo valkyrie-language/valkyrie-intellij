@@ -2,7 +2,7 @@ package valkyrie.ast.node
 
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
-import valkyrie.ast.ParserMonad
+import valkyrie.ast.parser.ParserMonad
 import valkyrie.psi.ValkyrieDeclaration
 
 class ValkyrieParameterItemNode(node: ASTNode) : ValkyrieDeclaration(node) {

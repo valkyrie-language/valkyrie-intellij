@@ -4,6 +4,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.PsiElementVisitor
 import valkyrie.ast.*
+import valkyrie.ast.parser.parseBraceItems
 import valkyrie.cst.COMMA
 import valkyrie.cst.SEMICOLON
 import valkyrie.psi.ValkyrieDeclaration

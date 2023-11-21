@@ -4,14 +4,14 @@ import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.PsiElementVisitor
-import valkyrie.ast.DefineMethod
+import valkyrie.ast.DefineField
 import valkyrie.ast.parser.ParserMonad
 import valkyrie.ast.ValkyrieVisitor
-import valkyrie.ast.advanceIgnore
+import valkyrie.ast.parser.parseDefaultValue
 import valkyrie.psi.ValkyrieDeclaration
 import javax.swing.Icon
 
-class ValkyrieObjectMethodNode(node: ASTNode) : ValkyrieDeclaration(node) {
+class ValkyrieDeclareSemanticNode(node: ASTNode) : ValkyrieDeclaration(node) {
     val identifier = findChildByClass(ValkyrieIdentifierNode::class.java)!!
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode {
@@ -19,43 +19,33 @@ class ValkyrieObjectMethodNode(node: ASTNode) : ValkyrieDeclaration(node) {
     }
 
     override fun getBaseIcon(): Icon {
-        return AllIcons.Nodes.Function
+        return AllIcons.Nodes.Field
     }
 
     override fun accept(visitor: PsiElementVisitor) {
         when (visitor) {
-            is ValkyrieVisitor -> visitor.visitDeclareMethod(this)
+            is ValkyrieVisitor -> visitor.visitDeclareSemantic(this)
             else -> visitor.visitElement(this)
         }
     }
 
-
     override fun toString(): String {
-        return "ObjectMethod"
+        return "ObjectField"
     }
 
     companion object : ParserMonad {
         override fun parse(builder: PsiBuilder): Boolean {
             val marker = builder.mark()
             ValkyrieAnnotationAreaNode.parse(builder)
-            builder.advanceIgnore()
             // 解析字段名
-            if (ValkyrieIdentifierNode.parse(builder)) {
-                builder.advanceIgnore()
-            } else {
-                marker.drop()
+            if (!ValkyrieIdentifierNode.parse(builder)) {
+                marker.rollbackTo()
                 return false
             }
-            // 解析形式参数
-            if (ValkyrieParameterListNode.parse(builder)) {
-                builder.advanceIgnore()
-            } else {
-                marker.drop()
-                return false
-            }
-            ValkyrieFunctionBodyNode.parse(builder)
-            marker.done(DefineMethod)
+            parseDefaultValue(builder)
+            marker.done(DefineField)
             return true
         }
     }
 }
+

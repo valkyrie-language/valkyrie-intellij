@@ -2,7 +2,7 @@ package valkyrie.ast.node
 
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.tree.TokenSet
-import valkyrie.ast.ParserMonad
+import valkyrie.ast.parser.ParserMonad
 import valkyrie.cst.DOT
 import valkyrie.cst.NAME_SPLIT
 

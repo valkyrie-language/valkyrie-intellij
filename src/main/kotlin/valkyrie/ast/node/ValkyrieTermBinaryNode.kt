@@ -3,7 +3,7 @@ package valkyrie.ast.node
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.PsiElementVisitor
-import valkyrie.ast.ParserMonad
+import valkyrie.ast.parser.ParserMonad
 import valkyrie.ast.TermAtomic
 import valkyrie.ast.TermBinary
 import valkyrie.ast.ValkyrieVisitor

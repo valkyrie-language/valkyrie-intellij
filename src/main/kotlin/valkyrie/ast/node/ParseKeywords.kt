@@ -3,7 +3,7 @@ package valkyrie.ast.node
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.tree.TokenSet
 import valkyrie.ast.Keyword
-import valkyrie.ast.ParserMonad
+import valkyrie.ast.parser.ParserMonad
 import valkyrie.cst.ValkyrieCST
 
 class ParseKeywords(vararg val tokens: ValkyrieCST) : ParserMonad {

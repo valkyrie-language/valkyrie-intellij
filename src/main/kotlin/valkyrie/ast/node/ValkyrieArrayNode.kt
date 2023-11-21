@@ -5,7 +5,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.tree.TokenSet
 import valkyrie.ast.Array
-import valkyrie.ast.ParserMonad
+import valkyrie.ast.parser.ParserMonad
 import valkyrie.ast.parsePaired
 import valkyrie.cst.BRACKET_L
 import valkyrie.cst.BRACKET_R
