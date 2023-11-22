@@ -5,6 +5,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.PsiElementVisitor
 import valkyrie.ast.DefineDomain
+import valkyrie.ast.DefineVariant
 import valkyrie.ast.parser.ParserMonad
 import valkyrie.ast.ValkyrieVisitor
 
@@ -33,7 +34,7 @@ class ValkyrieVariantNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             }
             // 解析结构体
             ValkyrieObjectBodyNode.parse(builder)
-            marker.done(DefineDomain)
+            marker.done(DefineVariant)
             return true
         }
     }

@@ -4,9 +4,8 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.PsiElementVisitor
 import valkyrie.ast.AnnotationArea
-import valkyrie.ast.parser.ParserMonad
 import valkyrie.ast.ValkyrieVisitor
-import valkyrie.ast.advanceIgnore
+import valkyrie.ast.parser.ParserMonad
 import valkyrie.psi.ValkyrieElement
 
 class ValkyrieAnnotationAreaNode(node: ASTNode) : ValkyrieElement(node) {
@@ -26,7 +25,6 @@ class ValkyrieAnnotationAreaNode(node: ASTNode) : ValkyrieElement(node) {
         override fun parse(builder: PsiBuilder): Boolean {
             val marker = builder.mark()
             ValkyrieAnnotationList.parse(builder)
-            builder.advanceIgnore()
             ValkyrieModifierListNode.parse(builder)
             marker.done(AnnotationArea)
             return true

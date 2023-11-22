@@ -82,9 +82,8 @@ val OP_GE = ValkyrieCST(">")
 @JvmField
 val DOT = ValkyrieCST(".")
 
-
 @JvmField
-val EQ = ValkyrieCST("=")
+val BIND = ValkyrieCST("=")
 
 
 // 基本运算符
@@ -265,8 +264,6 @@ val ASSIGN_L: IElementType = ValkyrieCST("ASSIGN_L")
 @JvmField
 val ASSIGN_R: IElementType = ValkyrieCST("ASSIGN_R")
 
-@JvmField
-val BIND: IElementType = ValkyrieCST("=")
 
 @JvmField
 val BUILDER_L: IElementType = ValkyrieCST("BUILDER_L")

@@ -1,17 +1,17 @@
 package valkyrie.ast.node
 
-import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.PsiElementVisitor
-import valkyrie.ast.DefineField
-import valkyrie.ast.parser.ParserMonad
+import valkyrie.ast.DefineSemantic
 import valkyrie.ast.ValkyrieVisitor
+import valkyrie.ast.parser.ParserMonad
 import valkyrie.ast.parser.parseDefaultValue
+import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.ValkyrieDeclaration
 import javax.swing.Icon
 
-class ValkyrieDeclareSemanticNode(node: ASTNode) : ValkyrieDeclaration(node) {
+class ValkyrieSemanticNode(node: ASTNode) : ValkyrieDeclaration(node) {
     val identifier = findChildByClass(ValkyrieIdentifierNode::class.java)!!
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode {
@@ -19,7 +19,7 @@ class ValkyrieDeclareSemanticNode(node: ASTNode) : ValkyrieDeclaration(node) {
     }
 
     override fun getBaseIcon(): Icon {
-        return AllIcons.Nodes.Field
+        return ValkyrieIconProvider.Instance.Semantic
     }
 
     override fun accept(visitor: PsiElementVisitor) {
@@ -30,7 +30,7 @@ class ValkyrieDeclareSemanticNode(node: ASTNode) : ValkyrieDeclaration(node) {
     }
 
     override fun toString(): String {
-        return "ObjectField"
+        return "Semantic"
     }
 
     companion object : ParserMonad {
@@ -43,7 +43,7 @@ class ValkyrieDeclareSemanticNode(node: ASTNode) : ValkyrieDeclaration(node) {
                 return false
             }
             parseDefaultValue(builder)
-            marker.done(DefineField)
+            marker.done(DefineSemantic)
             return true
         }
     }

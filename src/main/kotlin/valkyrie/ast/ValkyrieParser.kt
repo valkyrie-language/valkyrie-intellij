@@ -64,14 +64,6 @@ fun PsiBuilder.advanceChoice(vararg parsers: ParserMonad): Boolean {
     return false
 }
 
-// 尝试解析, 无论是否成功都返回 true
-fun PsiBuilder.advanceOption(parser: ParserMonad): Boolean {
-    val marker = mark()
-    parser.parse(this)
-    marker.drop()
-    return true
-}
-
 // 循环解析，直到失败, 最终解析个数必须在 min, max 之间
 fun PsiBuilder.advanceRepeat(parser: ParserMonad, min: Int = 0, max: Int = Int.MAX_VALUE): Boolean {
     val marker = mark()

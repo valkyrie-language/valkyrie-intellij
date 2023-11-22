@@ -302,13 +302,13 @@ class ValkyrieLexer2 : LexerBase() {
                     // ==
                     buffer.getOrNull(tokenStart + 1) == '=' -> {
                         tokenEnd = tokenStart + 2
-                        _tokenBuffer = EQ
+                        _tokenBuffer = BIND
                     }
 
                     // =
                     else -> {
                         tokenEnd = tokenStart + 1
-                        _tokenBuffer = EQ
+                        _tokenBuffer = BIND
                     }
                 }
             }

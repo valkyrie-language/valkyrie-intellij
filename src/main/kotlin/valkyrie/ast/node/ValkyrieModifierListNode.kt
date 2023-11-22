@@ -2,7 +2,6 @@ package valkyrie.ast.node
 
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.tree.TokenSet
-import valkyrie.ast.advanceIgnore
 import valkyrie.cst.*
 
 class ValkyrieModifierListNode {
@@ -13,7 +12,6 @@ class ValkyrieModifierListNode {
 
             // 吃掉所有的 id
             while (true) {
-                builder.advanceIgnore()
                 val stop = TokenSet.create(
                     COMMA,
                     COLON,

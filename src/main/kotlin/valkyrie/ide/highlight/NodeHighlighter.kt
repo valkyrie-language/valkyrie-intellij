@@ -85,7 +85,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifier, HighlightColor.SYM_CLASS)
     }
 
-    override fun visitDeclareSemantic(o: ValkyrieDeclareSemanticNode) {
+    override fun visitDeclareSemantic(o: ValkyrieSemanticNode) {
         highlight(o.identifier, HighlightColor.SYM_FIELD)
     }
 
