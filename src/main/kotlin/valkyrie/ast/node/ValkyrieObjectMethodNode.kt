@@ -38,17 +38,17 @@ class ValkyrieObjectMethodNode(node: ASTNode) : ValkyrieDeclaration(node) {
         override fun parse(builder: PsiBuilder): Boolean {
             val marker = builder.mark()
             ValkyrieAnnotationAreaNode.parse(builder)
-            builder.advanceIgnore()
+            
             // 解析字段名
             if (ValkyrieIdentifierNode.parse(builder)) {
-                builder.advanceIgnore()
+                
             } else {
                 marker.drop()
                 return false
             }
             // 解析形式参数
             if (ValkyrieParameterListNode.parse(builder)) {
-                builder.advanceIgnore()
+                
             } else {
                 marker.drop()
                 return false

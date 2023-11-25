@@ -30,11 +30,11 @@ fun parseNamedTermExpression(builder: PsiBuilder, type: IElementType): Boolean {
     val marker = builder.mark()
     // 解析可选的注解列表
     ValkyrieAnnotationAreaNode.parse(builder)
-    builder.advanceIgnore()
+    
 
     // 解析类名标识符
     if (ValkyrieIdentifierNode.parse(builder)) {
-        builder.advanceIgnore()
+        
     } else {
         builder.error("Expected 111 name")
         marker.drop()
@@ -42,7 +42,7 @@ fun parseNamedTermExpression(builder: PsiBuilder, type: IElementType): Boolean {
     }
     if (builder.tokenType == COLON) {
         builder.advanceLexer()
-        builder.advanceIgnore()
+        
     } else {
         builder.error("Expected 222 name")
         marker.drop()

@@ -19,7 +19,7 @@ class ValkyrieMacroCallNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             }
             val marker = builder.mark()
             builder.advanceLexer() // 消费@符号
-            builder.advanceIgnore()
+            
 
             // 检查是否是macro关键字
             if (builder.tokenType !== SYMBOL || builder.tokenText != "macro") {
@@ -27,7 +27,7 @@ class ValkyrieMacroCallNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 return false
             }
             builder.advanceLexer() // 消费macro关键字
-            builder.advanceIgnore()
+            
 
             // 解析宏名称
             if (builder.tokenType !== SYMBOL) {
