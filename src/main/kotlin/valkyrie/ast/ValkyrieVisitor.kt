@@ -83,7 +83,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitBarePattern(o: ValkyrieBarePattern) {
+    open fun visitTermBarePattern(o: ValkyrieTermBarePatternNode) {
         visitElement(o)
     }
 
@@ -107,7 +107,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitCasePattern(o: ValkyrieCasePattern) {
+    open fun visitCasePattern(o: ValkyrieCasePatternNode) {
         visitElement(o)
     }
 
@@ -452,11 +452,11 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitLetPattern(o: ValkyrieLetPattern) {
+    open fun visitTermPattern(o: ValkyrieTermPatternNode) {
         visitElement(o)
     }
 
-    open fun visitLetStatement(o: ValkyrieLetNode) {
+    open fun visitLetStatement(o: ValkyrieLetStatementNode) {
         visitElement(o)
     }
 
@@ -826,7 +826,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitTypePatternTuple(o: ValkyrieTypePatternTuple) {
+    open fun visitTermTuplePattern(o: ValkyrieTermTuplePatternNode) {
         visitElement(o)
     }
 

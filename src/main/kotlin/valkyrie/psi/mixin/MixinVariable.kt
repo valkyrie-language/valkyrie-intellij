@@ -1,29 +1,10 @@
 package valkyrie.psi.mixin
 
-import com.intellij.icons.AllIcons
-import com.intellij.lang.ASTNode
-import com.intellij.psi.PsiElement
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieIdentifierNode
-import valkyrie.cst.KW_LET
-import valkyrie.psi.ValkyrieElement
-import valkyrie.psi.findKeyword
 import valkyrie.psi.node.ValkyrieBarePattern
 import valkyrie.psi.node.ValkyrieCasePatternList
-import valkyrie.psi.node.ValkyrieLetStatement
 import valkyrie.psi.node.ValkyrieMatchBind
-import javax.swing.Icon
-
-abstract class MixinVariable(node: ASTNode) : ValkyrieElement(node), ValkyrieLetStatement {
-    override fun getKeyword(): PsiElement {
-        return findKeyword(KW_LET)
-    }
-
-    override fun getBaseIcon(): Icon {
-        return AllIcons.Nodes.Variable
-    }
-}
-
 
 class ValkyrieVariableCollector : ValkyrieVisitor() {
     private var list = mutableListOf<MixinIdentifier>()
@@ -35,7 +16,7 @@ class ValkyrieVariableCollector : ValkyrieVisitor() {
 //    }
 
 
-    override fun visitBarePattern(o: ValkyrieBarePattern) {
+    override fun visitTermBarePattern(o: ValkyrieBarePattern) {
         for (item in o.barePatternItemList) {
             list.add(item.identifierSafe as MixinIdentifier)
         }

@@ -90,6 +90,8 @@ val MatchExpression = ValkyrieAST("MATCH")
 
 val LetStatement = ValkyrieAST("LET")
 
+val TermTuplePattern = ValkyrieAST("TermTuplePattern")
+
 val AnnotationArea = ValkyrieAST("ANNOTATION_AREA")
 val Annotation = ValkyrieAST("ANNOTATION")
 val Modifier = ValkyrieAST("MODIFIER")
