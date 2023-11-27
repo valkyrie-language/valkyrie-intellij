@@ -8,11 +8,11 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import valkyrie.ast.node.ValkyrieMatchNode
 import valkyrie.language.ValkyrieBundle
-import valkyrie.psi.node.ValkyrieMatchStatementNode
 import javax.swing.Icon
 
-class ToLegacyIf(element: ValkyrieMatchStatementNode) : LocalQuickFixAndIntentionActionOnPsiElement(element), PriorityAction, Iconable {
+class ToLegacyIf(element: ValkyrieMatchNode) : LocalQuickFixAndIntentionActionOnPsiElement(element), PriorityAction, Iconable {
     override fun startInWriteAction(): Boolean {
         return true
     }

@@ -18,7 +18,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.refactoring.IntroduceTargetChooser
 import com.intellij.util.containers.ContainerUtil
-import valkyrie.ast.node.ValkyrieLoopInfinityNode
+import valkyrie.ast.node.ValkyrieLoopStatementNode
 import valkyrie.ast.node.ValkyrieLoopWhileNode
 import valkyrie.ide.completion.ValkyrieLookupElement
 import valkyrie.psi.ancestors
@@ -51,7 +51,7 @@ open class PostfixTemplateSlotSelector : PostfixTemplate {
                     expressions[ancestor.textRange] = ancestor
                 }
 
-                is ValkyrieLoopInfinityNode,
+                is ValkyrieLoopStatementNode,
                 is ValkyrieIfStatementNode,
                     -> {
                     return mutableListOf(ancestor)
@@ -152,7 +152,7 @@ open class PostfixTemplateSlotSelector : PostfixTemplate {
         fun conditionTemplate(replace: PsiElement): String {
             return when (replace) {
                 is ValkyrieIfStatement,
-                is ValkyrieLoopInfinityNode,
+                is ValkyrieLoopStatementNode,
                 is ValkyrieLoopWhileNode,
                     -> {
                     "slot"

@@ -3,10 +3,10 @@ package valkyrie.ast.node
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.PsiElementVisitor
-import valkyrie.ast.parser.ParserMonad
 import valkyrie.ast.TermAtomic
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.advanceChoice
+import valkyrie.ast.parser.ParserMonad
 
 class ValkyrieTermAtomicNode(node: ASTNode) : ValkyrieTermExpressionNode(node) {
 
@@ -29,7 +29,9 @@ class ValkyrieTermAtomicNode(node: ASTNode) : ValkyrieTermExpressionNode(node) {
 //                ValkyrieObjectNode,
 //                ValkyrieArrayNode,
                 ValkyrieNamePathNode,
-                ValkyrieNumberNode
+                ValkyrieNumberNode,
+                ValkyrieLoopStatementNode,
+                ValkyrieLoopTemplateNode,
             )
             if (success) {
                 marker.done(TermAtomic)

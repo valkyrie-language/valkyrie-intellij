@@ -47,7 +47,7 @@ private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) 
         }
     }
 
-    override fun visitTypePattern(o: ValkyrieTypePattern) {
+//    override fun visitTypePattern(o: ValkyrieTypePattern) {
 //        for (parent in o.parents(false)) {
 //            when (parent) {
 //                is ValkyrieIsStatement -> {
@@ -64,7 +64,7 @@ private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) 
 //                .range(o.textRange)
 //                .create()
 //        }
-    }
+//    }
 
 
     // element.text can't start with lowercase

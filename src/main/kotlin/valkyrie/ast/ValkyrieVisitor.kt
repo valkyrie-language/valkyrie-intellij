@@ -484,15 +484,11 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitLoopStatement(o: ValkyrieLoopInfinityNode) {
+    open fun visitLoopStatement(o: ValkyrieLoopStatementNode) {
         visitElement(o)
     }
 
-    open fun visitLoopTemplate(o: ValkyrieLoopTemplate) {
-        visitElement(o)
-    }
-
-    open fun visitLoopTemplateStart(o: ValkyrieLoopTemplateStart) {
+    open fun visitLoopTemplate(o: ValkyrieLoopTemplateNode) {
         visitElement(o)
     }
 
@@ -521,10 +517,6 @@ open class ValkyrieVisitor : PsiElementVisitor() {
     }
 
     open fun visitMacroPath(o: ValkyrieMacroPath) {
-        visitElement(o)
-    }
-
-    open fun visitMatchBind(o: ValkyrieMatchBind) {
         visitElement(o)
     }
 
@@ -806,25 +798,6 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitTypePattern(o: ValkyrieTypePattern) {
-        visitElement(o)
-    }
-
-    open fun visitTypePatternInline(o: ValkyrieTypePatternInline) {
-        visitElement(o)
-    }
-
-    open fun visitTypePatternItem(o: ValkyrieTypePatternItem) {
-        visitElement(o)
-    }
-
-    open fun visitTypePatternObject(o: ValkyrieTypePatternObject) {
-        visitElement(o)
-    }
-
-    open fun visitTypePatternPair(o: ValkyrieTypePatternPair) {
-        visitElement(o)
-    }
 
     open fun visitTermTuplePattern(o: ValkyrieTermTuplePatternNode) {
         visitElement(o)

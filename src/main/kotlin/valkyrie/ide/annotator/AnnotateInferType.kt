@@ -65,14 +65,12 @@ private class LintInferType(holder: AnnotationHolder) : ValkyrieAnnotator(holder
     }
 
     override fun visitLetStatement(o: ValkyrieLetStatementNode) {
-        if (o.typeHint == null) {
-            holder.newAnnotation(HighlightSeverity.INFORMATION, "Infer type")
-                .range(o.textRange)
-                .withFix(InferVariableType(o))
-                .create()
-
-
-        }
+//        if (o.typeHint == null) {
+//            holder.newAnnotation(HighlightSeverity.INFORMATION, "Infer type")
+//                .range(o.textRange)
+//                .withFix(InferVariableType(o))
+//                .create()
+//        }
     }
 }
 

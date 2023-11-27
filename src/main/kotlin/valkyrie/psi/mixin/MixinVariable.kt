@@ -4,7 +4,6 @@ import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieIdentifierNode
 import valkyrie.psi.node.ValkyrieBarePattern
 import valkyrie.psi.node.ValkyrieCasePatternList
-import valkyrie.psi.node.ValkyrieMatchBind
 
 class ValkyrieVariableCollector : ValkyrieVisitor() {
     private var list = mutableListOf<MixinIdentifier>()
@@ -16,15 +15,15 @@ class ValkyrieVariableCollector : ValkyrieVisitor() {
 //    }
 
 
-    override fun visitTermBarePattern(o: ValkyrieBarePattern) {
-        for (item in o.barePatternItemList) {
-            list.add(item.identifierSafe as MixinIdentifier)
-        }
-    }
-
-    override fun visitMatchBind(o: ValkyrieMatchBind) {
-        list.add(o.identifierSafe as MixinIdentifier)
-    }
+//    override fun visitTermBarePattern(o: ValkyrieBarePattern) {
+//        for (item in o.barePatternItemList) {
+//            list.add(item.identifierSafe as MixinIdentifier)
+//        }
+//    }
+//
+//    override fun visitMatchBind(o: ValkyrieMatchBind) {
+//        list.add(o.identifierSafe as MixinIdentifier)
+//    }
 
     override fun visitCasePatternList(o: ValkyrieCasePatternList) {
 

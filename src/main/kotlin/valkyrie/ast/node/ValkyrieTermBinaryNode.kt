@@ -34,7 +34,7 @@ class ValkyrieTermBinaryNode(node: ASTNode) : ValkyrieTermExpressionNode(node) {
 
 
 // 解析加法表达式
-private fun parseAdditive(builder: PsiBuilder): Boolean {
+fun parseAdditive(builder: PsiBuilder,): Boolean {
     var marker = builder.mark()
 
     if (!parseMultiplicative(builder)) {
