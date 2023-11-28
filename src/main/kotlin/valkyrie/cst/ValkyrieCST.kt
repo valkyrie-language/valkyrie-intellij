@@ -330,7 +330,7 @@ val KW_CONTINUE: IElementType = ValkyrieCST("KW_CONTINUE")
 val KW_EACH: IElementType = ValkyrieCST("KW_EACH")
 
 @JvmField
-val KW_ELSE: IElementType = ValkyrieCST("KW_ELSE")
+val KW_ELSE = ValkyrieCST("KW_ELSE")
 
 @JvmField
 val KW_END: IElementType = ValkyrieCST("KW_END")
@@ -345,7 +345,7 @@ val KW_FOR: IElementType = ValkyrieCST("KW_FOR")
 val KW_FUNCTION: IElementType = ValkyrieCST("KW_FUNCTION")
 
 @JvmField
-val KW_IF: IElementType = ValkyrieCST("KW_IF")
+val KW_IF = ValkyrieCST("KW_IF")
 
 @JvmField
 val KW_IMPLY: IElementType = ValkyrieCST("KW_IMPLY")
@@ -366,10 +366,10 @@ val KW_LAMBDA: IElementType = ValkyrieCST("KW_LAMBDA")
 val KW_LET: IElementType = ValkyrieCST("KW_LET")
 
 @JvmField
-val KW_LOOP: IElementType = ValkyrieCST("KW_LOOP")
+val KW_LOOP = ValkyrieCST("KW_LOOP")
 
 @JvmField
-val KW_MATCH: IElementType = ValkyrieCST("KW_MATCH")
+val KW_MATCH = ValkyrieCST("KW_MATCH")
 
 @JvmField
 val KW_NAMESPACE = ValkyrieCST("KW_NAMESPACE")

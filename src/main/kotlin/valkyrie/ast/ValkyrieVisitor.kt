@@ -332,7 +332,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitElseTemplate(o: ValkyrieElseTemplate) {
+    open fun visitElseTemplate(o: ValkyrieTemplateElseNode) {
         visitElement(o)
     }
 
@@ -721,7 +721,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitTemplateEnd(o: ValkyrieTemplateEnd) {
+    open fun visitTemplateEnd(o: ValkyrieTemplateEndNode) {
         visitElement(o)
     }
 
