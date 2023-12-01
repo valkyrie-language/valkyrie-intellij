@@ -1,0 +1,396 @@
+<idea-plugin>
+	<id>Valkyrie</id>
+	<name>Valkyrie Language</name>
+	<vendor>voml</vendor>
+	<depends>com.intellij.modules.lang</depends>
+	<depends>com.intellij.modules.platform</depends>
+	<depends>com.intellij.modules.json</depends>
+	<depends optional="true" config-file="plugin-with-java.xml">com.intellij.java</depends>
+	<depends optional="true" config-file="plugin-with-ultimate.xml">com.intellij.modules.ultimate</depends>
+	<depends optional="true" config-file="plugin-with-toml.xml">org.toml.lang</depends>
+	<depends optional="true" config-file="plugin-with-markdown.xml">org.intellij.plugins.markdown</depends>
+	<resource-bundle>messages.ValkyrieBundle</resource-bundle>
+	<extensions defaultExtensionNs="com.intellij">
+		<!-- Language -->
+		<fileType
+			name="valkyrie"
+			language="valkyrie"
+			extensions="vk;valkyrie;"
+			implementationClass="valkyrie.language.file.ValkyrieFileType"
+			fieldName="INSTANCE"
+		/>
+		<fileTypeDetector implementation="valkyrie.language.file.ValkyrieFileTypeDetector"/>
+		<vfs.asyncListener implementation="valkyrie.ide.project.crate.FileTypeRecast"/>
+		<!-- Project -->
+		<newProjectWizard.languageGenerator implementation="valkyrie.project.ValkyrieProjectGenerator"/>
+		<directoryProjectGenerator implementation="valkyrie.project.DirectoryProjectGenerator"/>
+		<projectNameProvider implementation="valkyrie.project.ValkyrieProjectName"/>
+		<postStartupActivity implementation="valkyrie.project.legion.LegionWorkspaceDetector"/>
+		<!-- Project SDK (Valkyrie Runtime) -->
+		<sdkType implementation="valkyrie.project.sdk.ValkyrieSdkType"/>
+		<sdkFinder implementation="valkyrie.project.sdk.ValkyrieSdkFinder"/>
+		<sdkDownload implementation="valkyrie.project.sdk.ValkyrieSdkDownload"/>
+		<unknownSdkContributor implementation="valkyrie.project.sdk.ValkyrieSdkUnknownContributor"/>
+		<unknownSdkResolver implementation="valkyrie.project.sdk.ValkyrieSdkUnknownResolver"/>
+		<projectSdkSetupValidator implementation="valkyrie.project.sdk.ValkyrieSdkValidator"/>
+		<!-- Project Facet (Valkyrie Framework) -->
+		<!--		<facetType implementation="valkyrie.project.facet.kami.KamiFrameworkProvider"/>-->
+		<facetType implementation="valkyrie.project.facet.iris.ValkyrieFrameworkProvider"/>
+		<!--		<facetType implementation="valkyrie.project.facet.asgard.AsgardFrameworkProvider"/>-->
+		<!-- Project Library -->
+		<library.type implementation="valkyrie.project.library.ValkyrieLibraryType"/>
+		<librarySettingsProvider implementation="valkyrie.project.library.ValkyrieLibrarySettings"/>
+		<packageDependencies.visitor
+			language="valkyrie"
+			implementationClass="valkyrie.project.ValkyrieDependencyResolver"
+		/>
+		<additionalLibraryRootsProvider implementation="valkyrie.project.library.LibraryRootsProvider"/>
+		<!-- Project Module (Valkyrie Package) -->
+		<!--		<moduleType implementationClass="valkyrie.project.modules.ValkyrieModuleType"/>-->
+		<moduleConfigurationEditorProvider
+			implementation="valkyrie.project.modules.config_editor.ValkyrieModuleConfiguration"
+		/>
+		<externalSystem.modifiableModelsProvider
+			order="last"
+			implementation="valkyrie.project.legion.LegionModelProvider"
+		/>
+		<moduleNameGenerator implementation="valkyrie.project.modules.ValkyrieModuleNameGenerator"/>
+		<moduleBuilder builderClass="valkyrie.project.legion.LegionWorkspaceBuilder"/>
+		<module.workingDirectoryProvider implementation="valkyrie.project.modules.ValkyrieWorkingDirectoryProvider"/>
+		<primaryModuleManager implementation="valkyrie.project.modules.ValkyrieRootModule"/>
+		<moduleContextProvider implementation="valkyrie.project.ValkyriePackageContext"/>
+		<moduleExtension implementation="valkyrie.project.moduleExtension"/>
+		<!--		<packageGroupRuleProvider implementation="valkyrie.project.ValkyriePackageGroupRuleProvider"/>-->
+		<!-- Project Module (Valkyrie Package) -->
+		<generatedSourcesFilter implementation="valkyrie.project.modules.generatedSourcesFilter"/>
+		<testSourcesFilter implementation="valkyrie.project.modules.testSourcesFilter"/>
+		<generatedSourceUsageFilter implementation="valkyrie.project.modules.generatedSourceUsageFilter"/>
+		<directoryIndexExcludePolicy implementation="valkyrie.project.modules.directoryIndexExcludePolicy"/>
+		<!-- Project Index (Valkyrie Namespace) -->
+		<!--		<fileBasedIndex implementation="valkyrie.project.ValkyrieFileIndex"/>-->
+		<indexedRootsProvider implementation="valkyrie.project.ExtraIndexContributor"/>
+		<generatedSourcesFilter implementation="valkyrie.project.ValkyrieGeneratedSource"/>
+
+		<!-- StructureView -->
+		<iconProvider implementation="valkyrie.language.file.ValkyrieIconProvider"/>
+		<gutterMarkPreprocessor implementation="valkyrie.ide.gutter.ValkyrieGutterMarkPreprocessor"/>
+		<projectViewNestingRulesProvider implementation="valkyrie.language.file.ValkyrieFileGroup"/>
+		<treeStructureProvider implementation="valkyrie.ide.view.ProjectViewModifier"/>
+
+
+		<typeHierarchyProvider language="valkyrie" implementationClass="valkyrie.ide.hierarchy.TypeHierarchyProvider"/>
+		<callHierarchyProvider language="valkyrie" implementationClass="valkyrie.ide.hierarchy.CallHierarchyProvider"/>
+		<!-- Highlight -->
+		<colorSettingsPage implementation="valkyrie.ide.highlight.HighlightSetting"/>
+		<highlightVisitor
+			implementation="valkyrie.ide.highlight.NodeHighlighter"
+		/>
+
+		<colorProvider implementation="valkyrie.ide.line_marker.ValkyrieMarkColor"/>
+		<!-- Formatter -->
+		<langCodeStyleSettingsProvider implementation="valkyrie.ide.codeStyle.ValkyrieCodeStyleProvider"/>
+		<formattingService implementation="valkyrie.ide.formatter.ValkyrieNativeFormat"/>
+		<preFormatProcessor implementation="valkyrie.ide.formatter.ValkyrieBeforeFormat"/>
+		<postFormatProcessor implementation="valkyrie.ide.formatter.ValkyrieAfterFormat"/>
+		<!-- Inspection -->
+		<globalInspection
+			language="valkyrie"
+			groupPath="Valkyrie"
+			groupKey="inspection.duplicate.group"
+			key="inspection.duplicate.method"
+			implementationClass="valkyrie.ide.lint.FindDuplicateMethod"
+			enabledByDefault="true"
+			level="WARNING"
+		/>
+		<inspectionToolProvider implementation="valkyrie.ide.lint.LocalInspectionFactory"/>
+
+
+		<!-- Tests -->
+		<configurationType implementation="valkyrie.ide.runner.ValkyrieConfigurationType"/>
+		<!--		<runConfigurationsSettings implementation="valkyrie.ide.runner.ValkyrieRunnerSettings"/>-->
+		<!--		<runConfigurationProducer implementation="valkyrie.ide.runner.ValkyrieRunConfigurationProducer"/>-->
+		<!--		<runConfigurationTemplateProvider implementation="valkyrie.ide.runner.ValkyrieRunningTemplateProvider"/>-->
+		<!--		<importTestOutput implementation="valkyrie.ide.runner.TestOutput"/>-->
+		<testFinder implementation="valkyrie.ide.runner.ValkyrieFindTests"/>
+		<testActionProvider implementation="valkyrie.ide.runner.VTestActionProvider"/>
+		<testStatusListener implementation="valkyrie.ide.runner.VTestStatusListener"/>
+		<testDiffProvider language="valkyrie" implementationClass="valkyrie.ide.runner.VTestDiffProvider"/>
+		<!-- Debugger -->
+		<!--		<xdebugger.breakpointType implementation="valkyrie.ide.runner.breakpointType"/>-->
+		<!--		<xdebugger.breakpointGroupingRule implementation="valkyrie.ide.runner.breakpointGroupingRule"/>-->
+		<!--		<xdebugger.attachDebuggerProvider implementation="valkyrie.ide.runner.attachDebuggerProvider"/>-->
+		<!--		<xdebugger.attachHostProvider implementation="valkyrie.ide.runner.ValkyrieAttachProvider"/>-->
+		<!--		<xdebugger.attachHostSettingsProvider implementation="valkyrie.ide.runner.attachHostSettingsProvider"/>-->
+		<!-- Goto -->
+		<navbar implementation="valkyrie.ide.goto.VNavigationBarExtension"/>
+
+		<breadcrumbsInfoProvider implementation="valkyrie.ide.navigation.ValkyrieBreadcrumbsProvider"/>
+		<breadcrumbsPresentationProvider implementation="valkyrie.ide.navigation.ValkyrieBreadcrumbsPresentation"/>
+		<symbolNavigation
+			forClass="valkyrie.language.symbol.ValkyrieSymbolTemplate"
+			implementationClass="valkyrie.ide.navigation.ValkyrieSymbolNavigationProvider"
+		/>
+
+		<gotoRelatedProvider implementation="valkyrie.ide.goto_related.GotoRelatedSymbol"/>
+		<importFilteringRule implementation="valkyrie.ide.navigation.ValkyrieImportFilter"/>
+		<gotoClassContributor implementation="valkyrie.ide.navigation.gotoClassContributor"/>
+		<gotoSymbolContributor implementation="valkyrie.ide.navigation.gotoSymbolContributor"/>
+		<!--		<gotoPrimeSymbolContributor implementation="valkyrie.ide.navigation.gotoPrimeSymbolContributor"/>-->
+		<gotoFileContributor implementation="valkyrie.ide.navigation.gotoFileContributor"/>
+
+		<bookmarkProvider implementation="valkyrie.ide.navigation.ValkyrieBookmark"/>
+		<bookmarksListProvider implementation="valkyrie.ide.goto.ValkyrieBookmarkList"/>
+
+		<runLineMarkerContributor language="valkyrie"
+								  implementationClass="valkyrie.ide.runner.ValkyrieRunMarkerContributor"/>
+		<!-- Hint Above -->
+		<vcs.codeVisionLanguageContext
+			language="valkyrie"
+			implementationClass="valkyrie.ide.hint.VisionAuthor"
+		/>
+
+
+		<!-- Lint -->
+
+		<qualifiedNameProvider implementation="valkyrie.ide.lint.ValkyrieNameQualifier"/>
+		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.ValkyrieCheckNamespace"/>
+		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.AnnotateControlFlow"/>
+		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.AnnotateLiterals"/>
+		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.AnnotateInferType"/>
+		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.LegacyExpression"/>
+		<!-- Declaration -->
+		<typeDeclarationProvider implementation="valkyrie.ide.reference.declaration.ValkyrieDeclarationProvider"/>
+		<gotoDeclarationHandler implementation="valkyrie.ide.reference.declaration.ValkyrieGotoDeclarationHandler"/>
+		<declarationRangeHandler
+			key="org.rust.lang.core.psi.ValkyrieClass"
+			implementationClass="valkyrie.ide.reference.declaration.ClassDeclarationHandler"
+		/>
+		<definitionsScopedSearch implementation="valkyrie.ide.annotator.SearchDefinitions"/>
+		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.LegacyExpression"/>
+		<!-- Usage -->
+		<usageFilteringRuleProvider implementation="valkyrie.ide.navigation.ValkyrieUsageFiltering"/>
+		<usageGroupingRuleProvider implementation="valkyrie.ide.navigation.ValkyrieUsageGroupingRuleProvider"/>
+		<usageTargetProvider implementation="valkyrie.ide.reference.declaration.ValkyrieUsageTargetProvider"/>
+		<implicitUsageProvider implementation="valkyrie.ide.hint.ImplicitUsage"/>
+		<findUsagesHandlerFactory implementation="valkyrie.ide.usages.ValkyrieUsagesFactory"/>
+
+		<!-- Injection -->
+		<languageInjectionContributor
+			language="valkyrie"
+			implementationClass="valkyrie.ide.matcher.ValkyrieLanguageInjectionContributor"
+		/>
+		<languageInjectionPerformer
+			language="valkyrie"
+			implementationClass="valkyrie.ide.matcher.ValkyrieLanguageInjectionPerformer"
+		/>
+		<multiHostInjector implementation="valkyrie.ide.matcher.ValkyrieLanguageInjector"/>
+
+		<!-- Rename -->
+		<renameHandler implementation="valkyrie.ide.refactor.ValkyrieRenameHandler"/>
+		<rename.inplace.resolveSnapshotProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.refactor.ValkyrieRenameInPlace"
+		/>
+		<renameInputValidator implementation="valkyrie.ide.refactor.ValkyrieRenameInputValidator"/>
+		<renameRefactoringDialogProvider implementation="valkyrie.ide.refactor.ValkyrieRenameDialog"/>
+		<renameFileActionProvider implementation="valkyrie.ide.refactor.ValkyrieRenameFileActionProvider"/>
+		<!-- Completion -->
+		<typedHandler implementation="valkyrie.ide.completion.AutoInsertBrace"/>
+		<backspaceHandlerDelegate implementation="valkyrie.ide.completion.AutoDeleteBrace"/>
+		<lookup.charFilter implementation="valkyrie.ide.completion.CompletionCharacterTrigger"/>
+
+		<codeBlockSupportHandler
+			language="valkyrie"
+			implementationClass="valkyrie.ide.matcher.ValkyrieCodeBlockSupport"
+		/>
+
+		<codeCompletionConfigurable instance="valkyrie.ide.completion.CompletionConfig"/>
+		<completion.contributor
+			language="valkyrie"
+			implementationClass="valkyrie.ide.completion.CompletionRegistrar"
+		/>
+		<controlFlowProvider implementation="valkyrie.ide.completion.ValkyrieControlFlowProvider"/>
+		<nameSuggestionProvider implementation="valkyrie.ide.completion.CompletionSuggestion"/>
+		<!-- Folding -->
+		<codeFoldingOptionsProvider instance="valkyrie.ide.folding.ValkyrieFoldingOptions"/>
+
+		<customFoldingProvider implementation="valkyrie.ide.completion.ValkyrieFoldingRegion"/>
+		<!-- codeBlockProvider -->
+		<codeBlockProvider language="valkyrie" implementationClass="valkyrie.ide.matcher.ValkyrieCodeBlockProvider"/>
+		<referenceImporter implementation="valkyrie.ide.completion.ValkyrieImportInsert"/>
+
+
+		<!-- Methods -->
+
+
+		<methodHierarchyProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.hierarchy.MethodHierarchyProvider"
+		/>
+
+		<!-- Methods -->
+		<testCreator language="valkyrie" implementationClass="valkyrie.ide.codegen.GenerateTests"/>
+		<!-- Live Template -->
+		<liveTemplateContextProvider implementation="valkyrie.ide.templates.live_template.ValkyrieLiveTemplateContext"/>
+		<defaultLiveTemplates file="templates/liveTemplate.xml"/>
+		<defaultTemplatePropertiesProvider
+			implementation="valkyrie.ide.templates.live_template.ValkyrieDefaultTemplatePropertiesProvider"
+		/>
+		<customLiveTemplate implementation="valkyrie.ide.templates.live_template.ValkyrieLiveTemplate"/>
+		<liveTemplateMacro implementation="valkyrie.ide.templates.live_template.LiveTemplateSafeIdentifier"/>
+		<liveTemplateMacro implementation="valkyrie.ide.templates.live_template.LiveTemplateSafeExpression"/>
+		<fileTemplateGroup
+			implementation="valkyrie.ide.templates.file_template.ValkyrieFileTemplateGroupDescriptorFactory"
+		/>
+
+		<!-- Document -->
+		<indexPatternBuilder
+			implementation="valkyrie.ide.lint.ValkyrieTodoIndexPatternBuilder"
+		/>
+		<todoIndexer
+			filetype="Fluent"
+			implementationClass="valkyrie.ide.lint.ValkyrieTodoIndexer"
+		/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij.lang">
+		<parserDefinition
+			language="valkyrie"
+			implementationClass="valkyrie.ast.ValkyrieParserDefinition"
+		/>
+		<substitutor
+			language="JSON"
+			implementationClass="valkyrie.project.legion.LegionFileTypeReinterpret"
+		/>
+		<structureViewExtension implementation="valkyrie.ide.view.ValkyrieStructureViewExtension"/>
+		<psiStructureViewFactory
+			language="valkyrie"
+			implementationClass="valkyrie.ide.view.ValkyrieStructureView"
+		/>
+		<syntaxHighlighter
+			language="valkyrie"
+			implementationClass="valkyrie.ide.highlight.TokenHighlighter"
+		/>
+		<formatter language="valkyrie" implementationClass="valkyrie.ide.formatter.ValkyrieFormatBuilder"/>
+		<smartEnterProcessor language="valkyrie" implementationClass="valkyrie.ide.formatter.SmartEnter"/>
+		<directNavigationProvider implementation="valkyrie.ide.navigation.ValkyrieDirectNavigationProvider"/>
+		<namesValidator language="valkyrie" implementationClass="valkyrie.ide.lint.ValkyrieNameValidator"/>
+		<findUsagesProvider language="valkyrie" implementationClass="valkyrie.ide.usages.ValkyrieUsagesProvider"/>
+		<commenter language="valkyrie" implementationClass="valkyrie.ide.formatter.ValkyrieCommenter"/>
+		<!--		<lang.braceMatcher-->
+		<!--			language="valkyrie"-->
+		<!--			implementationClass="valkyrie.ide.matcher.ValkyrieBraceMatchAdapter"-->
+		<!--		/>-->
+		<quoteHandler
+			language="valkyrie"
+			implementationClass="valkyrie.ide.matcher.ValkyrieQuoteHandler"
+		/>
+		<foldingBuilder language="valkyrie" implementationClass="valkyrie.ide.folding.ValkyrieFoldingBuilder"/>
+		<importOptimizer
+			language="valkyrie"
+			implementationClass="valkyrie.ide.completion.ValkyrieImportOptimizer"
+		/>
+		<documentationProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.doc.DocumentationProvider"
+		/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij.psi">
+		<!--		<psi.fileReferenceHelper implementation="valkyrie.ide.reference.ValkyrieFileReference"/>-->
+		<!--		<psi.treeChangeListener implementation="valkyrie.ide.project.crate.ValkyrieFileListener"/>-->
+		<!--		<referenceContributor-->
+		<!--			language="valkyrie"-->
+		<!--			implementation="valkyrie.ide.reference.ValkyrieReferenceContributor"-->
+		<!--		/>-->
+		<!--		<referenceProvider language="valkyrie" providerClass="valkyrie.ide.reference.ValkyrieReferenceProvider"/>-->
+		<!--		<symbolReferenceProvider-->
+		<!--			anyReferenceClass="true"-->
+		<!--			implementationClass="valkyrie.ide.reference.symbolReferenceProvider"-->
+		<!--			hostLanguage="valkyrie"-->
+		<!--			hostElementClass="com.intellij.psi.xml.XmlAttributeValue"-->
+		<!--			targetClass="valkyrie.language.symbol.ValkyrieSymbolTemplate"-->
+		<!--		/>-->
+		<!--		<declarationProvider implementation="valkyrie.ide.reference.declaration.SymbolDeclarationProvider"/>-->
+	</extensions>
+
+	<extensions defaultExtensionNs="com.intellij.codeInsight">
+		<!-- Code Vision -->
+		<codeVisionProviderFactory implementation="valkyrie.ide.hint.codeVisionProviderFactory"/>
+		<daemonBoundCodeVisionProvider implementation="valkyrie.ide.hint.VisionUsage"/>
+		<daemonBoundCodeVisionProvider implementation="valkyrie.ide.hint.VisionHandler"/>
+		<daemonBoundCodeVisionProvider implementation="valkyrie.ide.hint.VisionMonomorphism"/>
+		<daemonBoundCodeVisionProvider implementation="valkyrie.ide.hint.VisionEffects"/>
+		<!-- Inlay Hint -->
+		<declarativeInlayProviderFactory implementation="valkyrie.ide.hint.ValkyrieInlayHintsProvider"/>
+		<inlayProviderFactory implementation="valkyrie.ide.hint.ValkyrieInlayHintsFactory"/>
+		<inlayProvider language="valkyrie" implementationClass="valkyrie.ide.hint.type.TypeHintProvider"/>
+		<inlayProvider language="valkyrie" implementationClass="valkyrie.ide.hint.chain.ChainHintProvider"/>
+		<!-- Line Marker -->
+		<lineMarkerProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.line_marker.ValkyrieLineMarkerProvider"
+		/>
+		<lineMarkerProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.runner.ValkyrieRunMarkerProvider"
+		/>
+		<template.postfixTemplateProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.templates.post_template.ValkyriePostfixTemplateProvider"
+		/>
+		<!-- Methods Info -->
+		<implementMethod language="valkyrie" implementationClass="valkyrie.ide.codegen.GenerateImplements"/>
+		<overrideMethod language="valkyrie" implementationClass="valkyrie.ide.codegen.GenerateOverrides"/>
+		<delegateMethods language="valkyrie" implementationClass="valkyrie.ide.codegen.GenerateDelegates"/>
+		<!-- Parameters Info -->
+		<parameterInfo language="valkyrie" implementationClass="valkyrie.ide.hint.ParameterInfoHint"/>
+		<parameterInfo.listener implementation="valkyrie.ide.hint.ParameterInfoListener"/>
+		<parameterInfo.controller.provider implementation="valkyrie.ide.hint.ParameterInfoController"/>
+		<parameterNameHints
+			language="valkyrie"
+			implementationClass="valkyrie.ide.hint.ArgumentNameProvider"
+		/>
+		<!-- Todo -->
+		<gotoSuper language="valkyrie" implementationClass="valkyrie.ide.goto_super.GotoSuperSymbol"/>
+		<declarativeInlayProvider
+			providerId="valkyrie.inlay.lambda"
+			language="valkyrie"
+			group="LAMBDAS_GROUP"
+			nameKey="inlay.lambda"
+			descriptionKey="inlay.lambda.description"
+			isEnabledByDefault="true"
+			implementationClass="valkyrie.ide.hint.lambda.LambdaHintProvider">
+			<option
+				optionId="valkyrie.inlay.lambda.obvious"
+				bundle="messages.ValkyrieBundle"
+				nameKey="inlay.lambda.obvious"
+				descriptionKey="inlay.lambda.obvious.description"
+				enabledByDefault="true"
+			/>
+		</declarativeInlayProvider>
+		<typeInfo language="valkyrie" implementationClass="valkyrie.ide.hint.TypeInfoHint"/>
+		<unresolvedReferenceQuickFixProvider implementation="valkyrie.ide.hint.unresolvedReferenceQuickFixProvider"/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij.config">
+		<codeVisionGroupSettingProvider implementation="valkyrie.settings.codeVisionGroupSettingProvider"/>
+		<inlaySettingsProvider implementation="valkyrie.settings.inlaySettingsProvider"/>
+	</extensions>
+	<actions>
+		<action id="valkyrie.create.file" class="valkyrie.ide.actions.ValkyrieCreateFile">
+			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewHtmlFile"/>
+		</action>
+		<!--		<action id="jss.JssConvertJson" class="valkyrie.ide.actions.FluentConvertMo"/>-->
+		<action id="valkyrie.macro.expand-to-file" class="valkyrie.ide.actions.ExpandMacroToFile">
+			<keyboard-shortcut keymap="$default" first-keystroke="control shift G"/>
+		</action>
+		<!-- Generated	-->
+		<action id="valkyrie.generate.operators" class="valkyrie.ide.codegen.GenerateOperators">
+			<add-to-group group-id="GenerateGroup" anchor="first"/>
+		</action>
+		<action id="valkyrie.generate.properties" class="valkyrie.ide.codegen.GenerateProperties">
+			<add-to-group group-id="GenerateGroup"/>
+		</action>
+		<action id="valkyrie.macro.expand" class="valkyrie.ide.codegen.ExpandMacro">
+			<add-to-group group-id="GenerateGroup" anchor="last"/>
+		</action>
+	</actions>
+</idea-plugin>
