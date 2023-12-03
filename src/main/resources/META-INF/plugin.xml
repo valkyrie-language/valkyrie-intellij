@@ -47,5 +47,15 @@
 			language="valkyrie"
 			implementationClass="valkyrie.reference.ValkyrieFindUsagesProvider"
 		/>
+		
+		<!-- Project Service -->
+		<projectService
+			serviceImplementation="valkyrie.index.ValkyrieProjectService"
+		/>
+		
+		<!-- Startup Activity -->
+		<postStartupActivity
+			implementation="valkyrie.index.ValkyrieStartupActivity"
+		/>
 	</extensions>
 </idea-plugin>

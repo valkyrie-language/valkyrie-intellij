@@ -88,23 +88,32 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
     override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> {
         return when (tokenType) {
             // 关键字
-            ValkyrieTokenTypes.KW_LET,
-            ValkyrieTokenTypes.KW_IF,
-            ValkyrieTokenTypes.KW_ELSE,
-            ValkyrieTokenTypes.KW_WHILE,
-            ValkyrieTokenTypes.KW_FOR,
-            ValkyrieTokenTypes.KW_FUNCTION,
-            ValkyrieTokenTypes.KW_RETURN,
-            ValkyrieTokenTypes.KW_TRUE,
-            ValkyrieTokenTypes.KW_FALSE,
-            ValkyrieTokenTypes.KW_NULL -> arrayOf(KEYWORD)
+            ValkyrieTokenTypes.LET,
+            ValkyrieTokenTypes.MUT,
+            ValkyrieTokenTypes.REF,
+            ValkyrieTokenTypes.IF,
+            ValkyrieTokenTypes.ELSE,
+            ValkyrieTokenTypes.WHILE,
+            ValkyrieTokenTypes.FOR,
+            ValkyrieTokenTypes.FUNCTION,
+            ValkyrieTokenTypes.CLASS,
+            ValkyrieTokenTypes.TRAIT,
+            ValkyrieTokenTypes.RETURN,
+            ValkyrieTokenTypes.BREAK,
+            ValkyrieTokenTypes.CONTINUE,
+            ValkyrieTokenTypes.NAMESPACE,
+            ValkyrieTokenTypes.USING -> arrayOf(KEYWORD)
             
             // 字符串
             ValkyrieTokenTypes.STRING -> arrayOf(STRING)
             
             // 数字
             ValkyrieTokenTypes.INTEGER,
-            ValkyrieTokenTypes.DECIMAL -> arrayOf(NUMBER)
+            ValkyrieTokenTypes.FLOAT -> arrayOf(NUMBER)
+            
+            // 字符串和布尔值
+            ValkyrieTokenTypes.STRING,
+            ValkyrieTokenTypes.BOOLEAN -> arrayOf(STRING)
             
             // 注释
             ValkyrieTokenTypes.LINE_COMMENT,
@@ -122,25 +131,25 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.ASSIGN,
             ValkyrieTokenTypes.EQUAL,
             ValkyrieTokenTypes.NOT_EQUAL,
-            ValkyrieTokenTypes.LESS_THAN,
-            ValkyrieTokenTypes.GREATER_THAN,
+            ValkyrieTokenTypes.LESS,
+            ValkyrieTokenTypes.GREATER,
             ValkyrieTokenTypes.LESS_EQUAL,
             ValkyrieTokenTypes.GREATER_EQUAL,
-            ValkyrieTokenTypes.LOGICAL_AND,
-            ValkyrieTokenTypes.LOGICAL_OR,
-            ValkyrieTokenTypes.LOGICAL_NOT -> arrayOf(OPERATOR)
+            ValkyrieTokenTypes.AND,
+            ValkyrieTokenTypes.OR,
+            ValkyrieTokenTypes.NOT -> arrayOf(OPERATOR)
             
             // 括号
-            ValkyrieTokenTypes.LEFT_PAREN,
-            ValkyrieTokenTypes.RIGHT_PAREN -> arrayOf(PARENTHESES)
+            ValkyrieTokenTypes.LPAREN,
+            ValkyrieTokenTypes.RPAREN -> arrayOf(PARENTHESES)
             
             // 大括号
-            ValkyrieTokenTypes.LEFT_BRACE,
-            ValkyrieTokenTypes.RIGHT_BRACE -> arrayOf(BRACES)
+            ValkyrieTokenTypes.LBRACE,
+            ValkyrieTokenTypes.RBRACE -> arrayOf(BRACES)
             
             // 方括号
-            ValkyrieTokenTypes.LEFT_BRACKET,
-            ValkyrieTokenTypes.RIGHT_BRACKET -> arrayOf(BRACKETS)
+            ValkyrieTokenTypes.LBRACKET,
+            ValkyrieTokenTypes.RBRACKET -> arrayOf(BRACKETS)
             
             // 分号
             ValkyrieTokenTypes.SEMICOLON -> arrayOf(SEMICOLON)

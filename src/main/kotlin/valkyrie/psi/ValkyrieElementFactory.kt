@@ -14,6 +14,8 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.FILE -> ValkyrieElementImpl(node)
             ValkyrieElementTypes.STATEMENT -> ValkyrieElementImpl(node)
             ValkyrieElementTypes.LET_STATEMENT -> ValkyrieLetStatementImpl(node)
+            ValkyrieElementTypes.NAMESPACE_STATEMENT -> ValkyrieNamespaceStatementImpl(node)
+            ValkyrieElementTypes.USING_STATEMENT -> ValkyrieUsingStatementImpl(node)
             ValkyrieElementTypes.EXPRESSION_STATEMENT -> ValkyrieExpressionStatementImpl(node)
             ValkyrieElementTypes.BLOCK_STATEMENT -> ValkyrieBlockStatementImpl(node)
             ValkyrieElementTypes.EXPRESSION -> ValkyrieElementImpl(node)
@@ -25,6 +27,7 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.PATTERN -> ValkyrieElementImpl(node)
             ValkyrieElementTypes.IDENTIFIER_PATTERN -> ValkyrieIdentifierPatternImpl(node)
             ValkyrieElementTypes.TYPE_REFERENCE -> ValkyrieTypeReferenceImpl(node)
+            ValkyrieElementTypes.QUALIFIED_NAME -> ValkyrieQualifiedNameImpl(node)
             else -> ValkyrieElementImpl(node)
         }
     }

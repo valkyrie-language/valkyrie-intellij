@@ -30,6 +30,8 @@ class ValkyrieLexer : LexerBase() {
         "return" to RETURN,
         "break" to BREAK,
         "continue" to CONTINUE,
+        "namespace" to NAMESPACE,
+        "using" to USING,
         "true" to BOOLEAN,
         "false" to BOOLEAN
     )
