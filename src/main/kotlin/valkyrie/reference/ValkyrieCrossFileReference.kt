@@ -8,17 +8,17 @@ import com.intellij.psi.PsiReferenceProvider
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.ProcessingContext
 import valkyrie.index.ValkyrieSymbolIndex
-import valkyrie.psi.impl.ValkyrieIdentifierExpressionImpl
-import valkyrie.psi.impl.ValkyrieLetStatementImpl
-import valkyrie.psi.impl.ValkyrieNamespaceStatementImpl
+import valkyrie.psi.impl.ValkyrieIdentifierExpressionNode
+import valkyrie.psi.impl.ValkyrieLetStatementNode
+import valkyrie.psi.impl.ValkyrieNamespaceStatementNode
 
 /**
  * 跨文件引用解析器
  */
 class ValkyrieCrossFileReference(
-    element: ValkyrieIdentifierExpressionImpl,
+    element: ValkyrieIdentifierExpressionNode,
     textRange: TextRange
-) : PsiReferenceBase<ValkyrieIdentifierExpressionImpl>(element, textRange) {
+) : PsiReferenceBase<ValkyrieIdentifierExpressionNode>(element, textRange) {
 
     override fun resolve(): PsiElement? {
         val symbolName = element.text
@@ -46,7 +46,7 @@ class ValkyrieCrossFileReference(
         val file = element.containingFile
 
         // 查找所有 let 语句
-        val letStatements = PsiTreeUtil.findChildrenOfType(file, ValkyrieLetStatementImpl::class.java)
+        val letStatements = PsiTreeUtil.findChildrenOfType(file, ValkyrieLetStatementNode::class.java)
 
         for (letStatement in letStatements) {
             val identifier = letStatement.getIdentifier()
@@ -68,7 +68,7 @@ class ValkyrieCrossFileReference(
         // 获取当前命名空间
         val currentNamespace = PsiTreeUtil.findChildOfType(
             element.containingFile,
-            ValkyrieNamespaceStatementImpl::class.java
+            ValkyrieNamespaceStatementNode::class.java
         )?.getNamespaceName() ?: "default"
 
         // 添加当前命名空间的符号
@@ -97,7 +97,7 @@ class ValkyrieCrossFileReferenceProvider : PsiReferenceProvider() {
         element: PsiElement,
         context: ProcessingContext
     ): Array<out PsiReference?> {
-        if (element is ValkyrieIdentifierExpressionImpl) {
+        if (element is ValkyrieIdentifierExpressionNode) {
             val textRange = TextRange(0, element.textLength)
             return arrayOf(ValkyrieCrossFileReference(element, textRange))
         }

@@ -8,17 +8,17 @@ import valkyrie.psi.ValkyrieTokenTypes
 /**
  * Let 语句实现
  */
-class ValkyrieLetStatementImpl(node: ASTNode) : ValkyrieElementImpl(node) {
+class ValkyrieLetStatementNode(node: ASTNode) : ValkyrieElementNode(node) {
     
     fun getIdentifier(): PsiElement? {
-        return findChildByType(ValkyrieTokenTypes.IDENTIFIER)
+        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)
     }
     
     fun getExpression(): PsiElement? {
         // 找到 = 后面的表达式
-        val assign = findChildByType(ValkyrieTokenTypes.ASSIGN)
+        val assign = findChildByType<PsiElement>(ValkyrieTokenTypes.ASSIGN)
         return assign?.let { assignElement ->
-            PsiTreeUtil.getNextSiblingOfType(assignElement, ValkyrieElementImpl::class.java)
+            PsiTreeUtil.getNextSiblingOfType(assignElement, ValkyrieElementNode::class.java)
         }
     }
 }
@@ -26,20 +26,20 @@ class ValkyrieLetStatementImpl(node: ASTNode) : ValkyrieElementImpl(node) {
 /**
  * 表达式语句实现
  */
-class ValkyrieExpressionStatementImpl(node: ASTNode) : ValkyrieElementImpl(node)
+class ValkyrieExpressionStatementNode(node: ASTNode) : ValkyrieElementNode(node)
 
 /**
  * 块语句实现
  */
-class ValkyrieBlockStatementImpl(node: ASTNode) : ValkyrieElementImpl(node)
+class ValkyrieBlockStatementNode(node: ASTNode) : ValkyrieElementNode(node)
 
 /**
  * Namespace 语句实现
  */
-class ValkyrieNamespaceStatementImpl(node: ASTNode) : ValkyrieElementImpl(node) {
+class ValkyrieNamespaceStatementNode(node: ASTNode) : ValkyrieElementNode(node) {
     
     fun getNamespaceIdentifier(): PsiElement? {
-        return findChildByType(ValkyrieTokenTypes.IDENTIFIER)
+        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)
     }
     
     fun getNamespaceName(): String? {
@@ -50,10 +50,10 @@ class ValkyrieNamespaceStatementImpl(node: ASTNode) : ValkyrieElementImpl(node) 
 /**
  * Using 语句实现
  */
-class ValkyrieUsingStatementImpl(node: ASTNode) : ValkyrieElementImpl(node) {
+class ValkyrieUsingStatementNode(node: ASTNode) : ValkyrieElementNode(node) {
     
-    fun getQualifiedName(): ValkyrieQualifiedNameImpl? {
-        return findChildByClass(ValkyrieQualifiedNameImpl::class.java)
+    fun getQualifiedName(): ValkyrieQualifiedNameNode? {
+        return findChildByClass(ValkyrieQualifiedNameNode::class.java)
     }
     
     fun getImportedName(): String? {
@@ -64,10 +64,10 @@ class ValkyrieUsingStatementImpl(node: ASTNode) : ValkyrieElementImpl(node) {
 /**
  * 限定名实现
  */
-class ValkyrieQualifiedNameImpl(node: ASTNode) : ValkyrieElementImpl(node) {
+class ValkyrieQualifiedNameNode(node: ASTNode) : ValkyrieElementNode(node) {
     
     fun getIdentifiers(): List<PsiElement> {
-        return findChildrenByType(ValkyrieTokenTypes.IDENTIFIER)
+        return findChildrenByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)
     }
     
     fun getQualifier(): String? {

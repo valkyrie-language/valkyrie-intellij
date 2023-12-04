@@ -11,8 +11,7 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.psi.ValkyrieTokenTypes
-import valkyrie.psi.impl.ValkyrieFileImpl
+import valkyrie.psi.impl.ValkyrieFileNode
 
 /**
  * Valkyrie 语言解析器定义
@@ -44,6 +43,6 @@ class ValkyrieParserDefinition : ParserDefinition {
     }
     
     override fun createFile(viewProvider: FileViewProvider): PsiFile {
-        return ValkyrieFileImpl(viewProvider)
+        return ValkyrieFileNode(viewProvider)
     }
 }

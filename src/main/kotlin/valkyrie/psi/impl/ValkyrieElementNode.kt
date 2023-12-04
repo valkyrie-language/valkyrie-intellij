@@ -7,4 +7,4 @@ import valkyrie.psi.ValkyrieElement
 /**
  * Valkyrie PSI 元素基础实现
  */
-open class ValkyrieElementImpl(node: ASTNode) : ASTWrapperPsiElement(node), ValkyrieElement
+open class ValkyrieElementNode(node: ASTNode) : ASTWrapperPsiElement(node), ValkyrieElement
