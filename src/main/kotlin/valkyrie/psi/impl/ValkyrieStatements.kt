@@ -17,8 +17,8 @@ class ValkyrieLetStatementImpl(node: ASTNode) : ValkyrieElementImpl(node) {
     fun getExpression(): PsiElement? {
         // 找到 = 后面的表达式
         val assign = findChildByType(ValkyrieTokenTypes.ASSIGN)
-        return assign?.nextSibling?.let { sibling ->
-            PsiTreeUtil.getNextSiblingOfType(sibling, ValkyrieElementImpl::class.java)
+        return assign?.let { assignElement ->
+            PsiTreeUtil.getNextSiblingOfType(assignElement, ValkyrieElementImpl::class.java)
         }
     }
 }

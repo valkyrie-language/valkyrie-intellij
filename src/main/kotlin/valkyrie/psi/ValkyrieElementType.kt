@@ -17,6 +17,11 @@ object ValkyrieElementTypes {
     // 文件根节点
     @JvmField val FILE = ValkyrieElementType("FILE")
     
+    // 通用类型
+    @JvmField val STATEMENT = ValkyrieElementType("STATEMENT")
+    @JvmField val EXPRESSION = ValkyrieElementType("EXPRESSION")
+    @JvmField val PATTERN = ValkyrieElementType("PATTERN")
+    
     // 语句
     @JvmField val LET_STATEMENT = ValkyrieElementType("LET_STATEMENT")
     @JvmField val NAMESPACE_STATEMENT = ValkyrieElementType("NAMESPACE_STATEMENT")

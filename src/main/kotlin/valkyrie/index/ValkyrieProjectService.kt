@@ -5,16 +5,18 @@ import com.intellij.openapi.components.Service
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.startup.StartupActivity
 import com.intellij.openapi.vfs.VirtualFileManager
+import valkyrie.project.ValkyrieProjectManager
 
 /**
  * Valkyrie 项目服务
- * 管理符号索引的生命周期
+ * 管理符号索引的生命周期和项目结构
  */
 @Service(Service.Level.PROJECT)
 class ValkyrieProjectService(private val project: Project) : Disposable {
     
     private val symbolIndex = ValkyrieSymbolIndex(project)
     private val fileListener = ValkyrieFileListener(project)
+    private val projectManager = ValkyrieProjectManager.getInstance(project)
     
     init {
         // 注册文件监听器
@@ -28,8 +30,13 @@ class ValkyrieProjectService(private val project: Project) : Disposable {
         return symbolIndex
     }
     
+    fun getProjectManager(): ValkyrieProjectManager {
+        return projectManager
+    }
+    
     override fun dispose() {
         // 清理资源
+        projectManager.clearAllCache()
     }
     
     companion object {

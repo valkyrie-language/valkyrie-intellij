@@ -11,7 +11,7 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.psi.ValkyrieTokenTypes.*
+import valkyrie.psi.ValkyrieTokenTypes
 import valkyrie.psi.impl.ValkyrieFileImpl
 
 /**
@@ -22,9 +22,9 @@ class ValkyrieParserDefinition : ParserDefinition {
     companion object {
         val FILE = IFileElementType(ValkyrieLanguage.INSTANCE)
         
-        val WHITESPACE_TOKENS = TokenSet.create(WHITESPACE, NEWLINE)
-        val COMMENT_TOKENS = TokenSet.create(LINE_COMMENT, BLOCK_COMMENT)
-        val STRING_LITERALS = TokenSet.create(STRING)
+        val WHITESPACE_TOKENS = TokenSet.create(ValkyrieTokenTypes.WHITESPACE, ValkyrieTokenTypes.NEWLINE)
+        val COMMENT_TOKENS = TokenSet.create(ValkyrieTokenTypes.LINE_COMMENT, ValkyrieTokenTypes.BLOCK_COMMENT)
+        val STRING_LITERALS = TokenSet.create(ValkyrieTokenTypes.STRING)
     }
     
     override fun createLexer(project: Project?): Lexer = ValkyrieLexer()

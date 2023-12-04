@@ -9,6 +9,8 @@ import com.intellij.json.psi.JsonObject
 import com.intellij.json.psi.JsonProperty
 import com.intellij.json.psi.JsonStringLiteral
 import com.intellij.json.psi.JsonArray
+import valkyrie.project.ValkyrieProjectParser.Companion.ENTRY_FILE
+import valkyrie.project.ValkyrieProjectParser.Companion.ENTRY_FILE_ALT
 
 /**
  * Valkyrie Project 解析器

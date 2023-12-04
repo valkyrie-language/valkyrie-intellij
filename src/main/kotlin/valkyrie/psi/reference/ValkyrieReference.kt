@@ -54,7 +54,7 @@ class ValkyrieReference(private val element: ValkyrieIdentifierExpressionImpl) :
     }
     
     override fun getRangeInElement(): TextRange {
-        val nameIdentifier = element.nameIdentifier ?: return TextRange.EMPTY_RANGE
+        val nameIdentifier = element.getNameIdentifier() ?: return TextRange.EMPTY_RANGE
         val startOffset = nameIdentifier.startOffsetInParent
         return TextRange(startOffset, startOffset + nameIdentifier.textLength)
     }

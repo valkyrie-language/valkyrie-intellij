@@ -29,7 +29,7 @@ class ValkyrieColorSettingsPage : ColorSettingsPage {
             AttributesDescriptor("Dot", ValkyrieSyntaxHighlighter.DOT)
         )
         
-        private const val DEMO_TEXT = """
+        private val DEMO_TEXT = """
             // Valkyrie 语言示例
             let x = 42;
             let name = "Valkyrie";
