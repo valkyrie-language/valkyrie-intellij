@@ -62,6 +62,34 @@ class ValkyrieUsingStatementNode(node: ASTNode) : ValkyrieElementNode(node) {
 }
 
 /**
+ * Class 语句实现
+ */
+class ValkyrieClassStatementNode(node: ASTNode) : ValkyrieElementNode(node) {
+    
+    fun getClassName(): String? {
+        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)?.text
+    }
+    
+    fun getClassBody(): ValkyrieBlockStatementNode? {
+        return findChildByClass(ValkyrieBlockStatementNode::class.java)
+    }
+}
+
+/**
+ * Union 语句实现
+ */
+class ValkyrieUnionStatementNode(node: ASTNode) : ValkyrieElementNode(node) {
+    
+    fun getUnionName(): String? {
+        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)?.text
+    }
+    
+    fun getUnionBody(): ValkyrieBlockStatementNode? {
+        return findChildByClass(ValkyrieBlockStatementNode::class.java)
+    }
+}
+
+/**
  * 限定名实现
  */
 class ValkyrieQualifiedNameNode(node: ASTNode) : ValkyrieElementNode(node) {

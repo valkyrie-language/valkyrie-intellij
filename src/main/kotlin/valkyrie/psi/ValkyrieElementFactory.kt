@@ -14,6 +14,8 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.FILE -> ValkyrieElementNode(node)
             ValkyrieElementTypes.STATEMENT -> ValkyrieElementNode(node)
             ValkyrieElementTypes.LET_STATEMENT -> ValkyrieLetStatementNode(node)
+            ValkyrieElementTypes.CLASS_STATEMENT -> ValkyrieClassStatementNode(node)
+            ValkyrieElementTypes.UNION_STATEMENT -> ValkyrieUnionStatementNode(node)
             ValkyrieElementTypes.NAMESPACE_STATEMENT -> ValkyrieNamespaceStatementNode(node)
             ValkyrieElementTypes.USING_STATEMENT -> ValkyrieUsingStatementNode(node)
             ValkyrieElementTypes.EXPRESSION_STATEMENT -> ValkyrieExpressionStatementNode(node)
