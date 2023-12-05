@@ -1,5 +1,6 @@
 package valkyrie.index
 
+import com.intellij.openapi.components.Service
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiManager
@@ -129,15 +130,31 @@ class ValkyrieSymbolIndex(private val project: Project) {
      * 查找符号定义
      */
     fun findSymbolDefinition(symbolName: String, currentFile: VirtualFile): SymbolInfo? {
-        // 首先在当前文件的命名空间中查找
         val currentPsiFile = PsiManager.getInstance(project).findFile(currentFile)
         val currentNamespace = PsiTreeUtil.findChildOfType(currentPsiFile, ValkyrieNamespaceStatementNode::class.java)
             ?.getNamespaceName() ?: "default"
         
-        // 在当前命名空间中查找
-        symbolCache[symbolName]?.find { it.namespace == currentNamespace }?.let { return it }
+        // 首先在当前文件中直接查找（优先级最高）
+        if (currentPsiFile != null) {
+            val letStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieLetStatementNode::class.java)
+            for (letStatement in letStatements) {
+                val identifier = letStatement.getIdentifier()
+                if (identifier?.text == symbolName) {
+                    // 返回当前文件中找到的符号信息
+                    return SymbolInfo(
+                        name = symbolName,
+                        namespace = currentNamespace,
+                        file = currentFile,
+                        element = letStatement
+                    )
+                }
+            }
+        }
         
-        // 在 using 导入中查找
+        // 然后在当前命名空间的其他文件中查找
+        symbolCache[symbolName]?.find { it.namespace == currentNamespace && it.file != currentFile }?.let { return it }
+        
+        // 最后在 using 导入中查找
         val usingList = usingCache[currentFile] ?: emptyList()
         for (usingInfo in usingList) {
             if (usingInfo.symbolName == symbolName) {
@@ -171,7 +188,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
     
     companion object {
         fun getInstance(project: Project): ValkyrieSymbolIndex {
-            return ValkyrieProjectService.getInstance(project).getSymbolIndex()
+            return project.getService(ValkyrieSymbolIndex::class.java)
         }
     }
 }

@@ -34,6 +34,8 @@ object ValkyrieTokenTypes {
     @JvmField
     val CLASS = ValkyrieTokenType("CLASS")
     @JvmField
+    val UNION = ValkyrieTokenType("UNION")
+    @JvmField
     val TRAIT = ValkyrieTokenType("TRAIT")
     @JvmField
     val RETURN = ValkyrieTokenType("RETURN")
@@ -121,6 +123,8 @@ object ValkyrieTokenTypes {
     val LINE_COMMENT = ValkyrieTokenType("LINE_COMMENT")
     @JvmField
     val BLOCK_COMMENT = ValkyrieTokenType("BLOCK_COMMENT")
+    @JvmField
+    val DOC_COMMENT = ValkyrieTokenType("DOC_COMMENT")
     @JvmField
     val WHITESPACE = ValkyrieTokenType("WHITESPACE")
     @JvmField

@@ -26,6 +26,7 @@ class ValkyrieLexer : LexerBase() {
         "for" to ValkyrieTokenTypes.FOR,
         "function" to ValkyrieTokenTypes.FUNCTION,
         "class" to ValkyrieTokenTypes.CLASS,
+        "union" to ValkyrieTokenTypes.UNION,
         "trait" to ValkyrieTokenTypes.TRAIT,
         "return" to ValkyrieTokenTypes.RETURN,
         "break" to ValkyrieTokenTypes.BREAK,
@@ -73,11 +74,15 @@ class ValkyrieLexer : LexerBase() {
                     tokenType = ValkyrieTokenTypes.WHITESPACE
                 }
             }
-            ch == '/' && peek() == '/' -> {
+            ch == '#' && peek() == '?' -> {
+                skipDocComment()
+                tokenType = ValkyrieTokenTypes.DOC_COMMENT
+            }
+            ch == '#' -> {
                 skipLineComment()
                 tokenType = ValkyrieTokenTypes.LINE_COMMENT
             }
-            ch == '/' && peek() == '*' -> {
+            ch == '<' && peek() == '#' -> {
                 skipBlockComment()
                 tokenType = ValkyrieTokenTypes.BLOCK_COMMENT
             }
@@ -117,19 +122,26 @@ class ValkyrieLexer : LexerBase() {
     }
     
     private fun skipLineComment() {
-        currentOffset += 2 // skip //
+        currentOffset++ // skip #
         while (currentOffset < endOffset && buffer[currentOffset] != '\n') {
             currentOffset++
         }
     }
     
     private fun skipBlockComment() {
-        currentOffset += 2 // skip /*
+        currentOffset += 2 // skip <#
         while (currentOffset < endOffset - 1) {
-            if (buffer[currentOffset] == '*' && buffer[currentOffset + 1] == '/') {
+            if (buffer[currentOffset] == '#' && buffer[currentOffset + 1] == '>') {
                 currentOffset += 2
                 break
             }
+            currentOffset++
+        }
+    }
+    
+    private fun skipDocComment() {
+        currentOffset += 2 // skip #?
+        while (currentOffset < endOffset && buffer[currentOffset] != '\n') {
             currentOffset++
         }
     }

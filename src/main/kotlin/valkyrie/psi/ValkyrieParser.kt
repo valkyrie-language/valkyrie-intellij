@@ -26,6 +26,8 @@ class ValkyrieParser : PsiParser {
     private fun parseStatement(builder: PsiBuilder) {
         when (builder.tokenType) {
             ValkyrieTokenTypes.LET -> parseLetStatement(builder)
+            ValkyrieTokenTypes.CLASS -> parseClassStatement(builder)
+            ValkyrieTokenTypes.UNION -> parseUnionStatement(builder)
             ValkyrieTokenTypes.NAMESPACE -> parseNamespaceStatement(builder)
             ValkyrieTokenTypes.USING -> parseUsingStatement(builder)
             ValkyrieTokenTypes.LBRACE -> parseBlockStatement(builder)
@@ -272,5 +274,61 @@ class ValkyrieParser : PsiParser {
         }
         
         marker.done(ValkyrieElementTypes.QUALIFIED_NAME)
+    }
+    
+    private fun parseClassStatement(builder: PsiBuilder) {
+        val marker = builder.mark()
+        
+        // 'class' keyword
+        if (builder.tokenType == ValkyrieTokenTypes.CLASS) {
+            builder.advanceLexer()
+        } else {
+            marker.drop()
+            return
+        }
+        
+        // class name
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected class name")
+        }
+        
+        // class body
+        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+            parseBlockStatement(builder)
+        } else {
+            builder.error("Expected '{'")
+        }
+        
+        marker.done(ValkyrieElementTypes.CLASS_STATEMENT)
+    }
+    
+    private fun parseUnionStatement(builder: PsiBuilder) {
+        val marker = builder.mark()
+        
+        // 'union' keyword
+        if (builder.tokenType == ValkyrieTokenTypes.UNION) {
+            builder.advanceLexer()
+        } else {
+            marker.drop()
+            return
+        }
+        
+        // union name
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected union name")
+        }
+        
+        // union body
+        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+            parseBlockStatement(builder)
+        } else {
+            builder.error("Expected '{'")
+        }
+        
+        marker.done(ValkyrieElementTypes.UNION_STATEMENT)
     }
 }

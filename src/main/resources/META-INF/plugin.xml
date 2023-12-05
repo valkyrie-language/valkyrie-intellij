@@ -19,50 +19,57 @@
 			implementationClass="valkyrie.language.file.ValkyrieFileType"
 			fieldName="INSTANCE"
 		/>
-		
+
+
 		<!-- Parser Definition -->
 		<lang.parserDefinition
 			language="valkyrie"
 			implementationClass="valkyrie.psi.ValkyrieParserDefinition"
 		/>
-		
+
 		<!-- Syntax Highlighter -->
 		<lang.syntaxHighlighterFactory
 			language="valkyrie"
 			implementationClass="valkyrie.highlighting.ValkyrieSyntaxHighlighterFactory"
 		/>
-		
+
 		<!-- Color Settings -->
 		<colorSettingsPage
 			implementation="valkyrie.highlighting.ValkyrieColorSettingsPage"
 		/>
-		
+
 		<!-- Reference Contributor -->
 		<psi.referenceContributor
+			language="valkyrie"
 			implementation="valkyrie.reference.ValkyrieReferenceContributor"
 		/>
-		
+
 		<!-- Find Usages Provider -->
 		<lang.findUsagesProvider
 			language="valkyrie"
 			implementationClass="valkyrie.reference.ValkyrieFindUsagesProvider"
 		/>
-		
+
 		<!-- Project Service -->
 		<projectService
 			serviceImplementation="valkyrie.index.ValkyrieProjectService"
 		/>
-		
+
+		<!-- Symbol Index Service -->
+		<projectService
+			serviceImplementation="valkyrie.index.ValkyrieSymbolIndex"
+		/>
+
 		<!-- Project Manager Service -->
 		<projectService
 			serviceImplementation="valkyrie.project.ValkyrieProjectManager"
 		/>
-		
+
 		<!-- Project View Provider -->
 		<treeStructureProvider
 			implementation="valkyrie.project.ValkyrieProjectViewProvider"
 		/>
-		
+
 		<!-- Startup Activity -->
 		<postStartupActivity
 			implementation="valkyrie.index.ValkyrieStartupActivity"
