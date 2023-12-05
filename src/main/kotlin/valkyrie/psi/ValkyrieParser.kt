@@ -59,6 +59,7 @@ class ValkyrieParser : PsiParser {
             patternMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
         } else {
             builder.error("Expected identifier")
+            builder.advanceLexer() // 推进词法分析器避免死循环
         }
         
         // optional type annotation
@@ -72,6 +73,7 @@ class ValkyrieParser : PsiParser {
             builder.advanceLexer()
         } else {
             builder.error("Expected '='")
+            builder.advanceLexer() // 推进词法分析器避免死循环
         }
         
         // expression
@@ -179,6 +181,7 @@ class ValkyrieParser : PsiParser {
             }
             else -> {
                 builder.error("Expected expression")
+                builder.advanceLexer() // 推进词法分析器避免死循环
                 null
             }
         }
@@ -191,6 +194,7 @@ class ValkyrieParser : PsiParser {
             builder.advanceLexer()
         } else {
             builder.error("Expected type name")
+            builder.advanceLexer() // 推进词法分析器避免死循环
         }
         
         marker.done(ValkyrieElementTypes.TYPE_REFERENCE)
@@ -224,6 +228,7 @@ class ValkyrieParser : PsiParser {
             builder.advanceLexer()
         } else {
             builder.error("Expected namespace identifier")
+            builder.advanceLexer() // 推进词法分析器避免死循环
         }
         
         marker.done(ValkyrieElementTypes.NAMESPACE_STATEMENT)
@@ -258,6 +263,7 @@ class ValkyrieParser : PsiParser {
                     builder.advanceLexer()
                 } else {
                     builder.error("Expected identifier after '.'")
+                    builder.advanceLexer() // 推进词法分析器避免死循环
                     break
                 }
             }
