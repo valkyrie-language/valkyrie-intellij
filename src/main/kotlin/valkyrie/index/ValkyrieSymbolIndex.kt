@@ -11,6 +11,9 @@ import valkyrie.language.file.ValkyrieFileType
 import valkyrie.psi.impl.ValkyrieNamespaceStatementNode
 import valkyrie.psi.impl.ValkyrieUsingStatementNode
 import valkyrie.psi.impl.ValkyrieLetStatementNode
+import valkyrie.psi.impl.ValkyrieClassStatementNode
+import valkyrie.psi.impl.ValkyrieUnionStatementNode
+import com.intellij.psi.PsiElement
 
 /**
  * Valkyrie 符号索引服务
@@ -25,7 +28,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
         val name: String,
         val namespace: String,
         val file: VirtualFile,
-        val element: ValkyrieLetStatementNode
+        val element: PsiElement // 改为 PsiElement 以支持多种类型的符号定义
     )
     
     /**
@@ -84,7 +87,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
             NamespaceInfo(namespace, file)
         }
         
-        // 查找所有 let 语句（符号定义）
+        // 查找所有 let 语句（变量定义）
         val letStatements = PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieLetStatementNode::class.java)
         for (letStatement in letStatements) {
             val symbolName = letStatement.getIdentifier()?.text ?: continue
@@ -94,6 +97,38 @@ class ValkyrieSymbolIndex(private val project: Project) {
                 namespace = namespace,
                 file = file,
                 element = letStatement
+            )
+            
+            symbolCache.getOrPut(symbolName) { mutableListOf() }.add(symbolInfo)
+            namespaceInfo.symbols.add(symbolName)
+        }
+        
+        // 查找所有 class 语句（类型定义）
+        val classStatements = PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieClassStatementNode::class.java)
+        for (classStatement in classStatements) {
+            val symbolName = classStatement.getClassName() ?: continue
+            
+            val symbolInfo = SymbolInfo(
+                name = symbolName,
+                namespace = namespace,
+                file = file,
+                element = classStatement
+            )
+            
+            symbolCache.getOrPut(symbolName) { mutableListOf() }.add(symbolInfo)
+            namespaceInfo.symbols.add(symbolName)
+        }
+        
+        // 查找所有 union 语句（联合类型定义）
+        val unionStatements = PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieUnionStatementNode::class.java)
+        for (unionStatement in unionStatements) {
+            val symbolName = unionStatement.getUnionName() ?: continue
+            
+            val symbolInfo = SymbolInfo(
+                name = symbolName,
+                namespace = namespace,
+                file = file,
+                element = unionStatement
             )
             
             symbolCache.getOrPut(symbolName) { mutableListOf() }.add(symbolInfo)
@@ -136,17 +171,30 @@ class ValkyrieSymbolIndex(private val project: Project) {
         
         // 首先在当前文件中直接查找（优先级最高）
         if (currentPsiFile != null) {
+            // 查找 let 语句中的变量定义
             val letStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieLetStatementNode::class.java)
             for (letStatement in letStatements) {
-                val identifier = letStatement.getIdentifier()
-                if (identifier?.text == symbolName) {
-                    // 返回当前文件中找到的符号信息
-                    return SymbolInfo(
-                        name = symbolName,
-                        namespace = currentNamespace,
-                        file = currentFile,
-                        element = letStatement
-                    )
+                val name = letStatement.getIdentifier()?.text
+                if (name == symbolName) {
+                    return SymbolInfo(name, currentNamespace, currentFile, letStatement)
+                }
+            }
+            
+            // 查找 class 语句中的类型定义
+            val classStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieClassStatementNode::class.java)
+            for (classStatement in classStatements) {
+                val name = classStatement.getClassName()
+                if (name == symbolName) {
+                    return SymbolInfo(name, currentNamespace, currentFile, classStatement)
+                }
+            }
+            
+            // 查找 union 语句中的联合类型定义
+            val unionStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieUnionStatementNode::class.java)
+            for (unionStatement in unionStatements) {
+                val name = unionStatement.getUnionName()
+                if (name == symbolName) {
+                    return SymbolInfo(name, currentNamespace, currentFile, unionStatement)
                 }
             }
         }

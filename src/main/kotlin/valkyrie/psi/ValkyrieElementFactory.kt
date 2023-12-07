@@ -26,10 +26,17 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.BINARY_EXPRESSION -> ValkyrieBinaryExpressionNode(node)
             ValkyrieElementTypes.UNARY_EXPRESSION -> ValkyrieUnaryExpressionNode(node)
             ValkyrieElementTypes.PARENTHESIZED_EXPRESSION -> ValkyrieParenthesizedExpressionNode(node)
+            ValkyrieElementTypes.FIELD_DECLARATION -> ValkyrieFieldDeclarationNode(node)
+            ValkyrieElementTypes.METHOD_DECLARATION -> ValkyrieMethodDeclarationNode(node)
+            ValkyrieElementTypes.DOMAIN_DECLARATION -> ValkyrieDomainDeclarationNode(node)
+            ValkyrieElementTypes.UNION_VARIANT -> ValkyrieUnionVariantNode(node)
+            ValkyrieElementTypes.MODIFIER_LIST -> ValkyrieModifierListNode(node)
             ValkyrieElementTypes.PATTERN -> ValkyrieElementNode(node)
             ValkyrieElementTypes.IDENTIFIER_PATTERN -> ValkyrieIdentifierPatternNode(node)
             ValkyrieElementTypes.TYPE_REFERENCE -> ValkyrieTypeReferenceNode(node)
             ValkyrieElementTypes.QUALIFIED_NAME -> ValkyrieQualifiedNameNode(node)
+            ValkyrieElementTypes.PARAMETER_LIST -> ValkyrieParameterListNode(node)
+            ValkyrieElementTypes.PARAMETER -> ValkyrieParameterNode(node)
             else -> ValkyrieElementNode(node)
         }
     }
