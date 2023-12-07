@@ -8,9 +8,8 @@ import com.intellij.psi.PsiReferenceProvider
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.ProcessingContext
 import valkyrie.index.ValkyrieSymbolIndex
-import valkyrie.psi.impl.ValkyrieIdentifierExpressionNode
-import valkyrie.psi.impl.ValkyrieLetStatementNode
-import valkyrie.psi.impl.ValkyrieNamespaceStatementNode
+import valkyrie.psi.nodes.ValkyrieIdentifierExpressionNode
+import valkyrie.psi.nodes.ValkyrieNamespaceDeclaration
 
 /**
  * 跨文件引用解析器
@@ -46,7 +45,7 @@ class ValkyrieCrossFileReference(
         // 获取当前命名空间
         val currentNamespace = PsiTreeUtil.findChildOfType(
             element.containingFile,
-            ValkyrieNamespaceStatementNode::class.java
+            ValkyrieNamespaceDeclaration::class.java
         )?.getNamespaceName() ?: "default"
 
         // 添加当前命名空间的符号

@@ -4,8 +4,8 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.IncorrectOperationException
-import valkyrie.psi.impl.ValkyrieIdentifierPatternNode
-import valkyrie.psi.impl.ValkyrieIdentifierExpressionNode
+import valkyrie.psi.nodes.ValkyrieIdentifierPatternNode
+import valkyrie.psi.nodes.ValkyrieIdentifierExpressionNode
 
 /**
  * Valkyrie 变量引用解析

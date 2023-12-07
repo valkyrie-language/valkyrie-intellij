@@ -1,6 +1,5 @@
 package valkyrie.index
 
-import com.intellij.openapi.components.Service
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiManager
@@ -8,11 +7,11 @@ import com.intellij.psi.search.FileTypeIndex
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.language.file.ValkyrieFileType
-import valkyrie.psi.impl.ValkyrieNamespaceStatementNode
-import valkyrie.psi.impl.ValkyrieUsingStatementNode
-import valkyrie.psi.impl.ValkyrieLetStatementNode
-import valkyrie.psi.impl.ValkyrieClassStatementNode
-import valkyrie.psi.impl.ValkyrieUnionStatementNode
+import valkyrie.psi.nodes.ValkyrieNamespaceDeclaration
+import valkyrie.psi.nodes.ValkyrieUsingStatementNode
+import valkyrie.psi.nodes.ValkyrieLetStatementNode
+import valkyrie.psi.nodes.ValkyrieClassStatementNode
+import valkyrie.psi.nodes.ValkyrieUnionStatementNode
 import com.intellij.psi.PsiElement
 
 /**
@@ -79,7 +78,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
         val psiFile = PsiManager.getInstance(project).findFile(file) ?: return
         
         // 查找 namespace 声明
-        val namespaceStatement = PsiTreeUtil.findChildOfType(psiFile, ValkyrieNamespaceStatementNode::class.java)
+        val namespaceStatement = PsiTreeUtil.findChildOfType(psiFile, ValkyrieNamespaceDeclaration::class.java)
         val namespace = namespaceStatement?.getNamespaceName() ?: "default"
         
         // 记录命名空间信息
@@ -166,7 +165,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
      */
     fun findSymbolDefinition(symbolName: String, currentFile: VirtualFile): SymbolInfo? {
         val currentPsiFile = PsiManager.getInstance(project).findFile(currentFile)
-        val currentNamespace = PsiTreeUtil.findChildOfType(currentPsiFile, ValkyrieNamespaceStatementNode::class.java)
+        val currentNamespace = PsiTreeUtil.findChildOfType(currentPsiFile, ValkyrieNamespaceDeclaration::class.java)
             ?.getNamespaceName() ?: "default"
         
         // 首先在当前文件中直接查找（优先级最高）

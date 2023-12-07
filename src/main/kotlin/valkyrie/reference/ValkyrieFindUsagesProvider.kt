@@ -8,7 +8,7 @@ import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.tree.TokenSet
 import valkyrie.psi.ValkyrieLexer
 import valkyrie.psi.ValkyrieTokenTypes
-import valkyrie.psi.impl.ValkyrieIdentifierPatternNode
+import valkyrie.psi.nodes.ValkyrieIdentifierPatternNode
 
 /**
  * Valkyrie 查找使用处提供者

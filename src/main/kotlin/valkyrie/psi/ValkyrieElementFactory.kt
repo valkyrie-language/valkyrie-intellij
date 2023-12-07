@@ -2,7 +2,7 @@ package valkyrie.psi
 
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
-import valkyrie.psi.impl.*
+import valkyrie.psi.nodes.*
 
 /**
  * Valkyrie PSI 元素工厂
@@ -16,7 +16,7 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.LET_STATEMENT -> ValkyrieLetStatementNode(node)
             ValkyrieElementTypes.CLASS_STATEMENT -> ValkyrieClassStatementNode(node)
             ValkyrieElementTypes.UNION_STATEMENT -> ValkyrieUnionStatementNode(node)
-            ValkyrieElementTypes.NAMESPACE_STATEMENT -> ValkyrieNamespaceStatementNode(node)
+            ValkyrieElementTypes.NAMESPACE_STATEMENT -> ValkyrieNamespaceDeclaration(node)
             ValkyrieElementTypes.USING_STATEMENT -> ValkyrieUsingStatementNode(node)
             ValkyrieElementTypes.EXPRESSION_STATEMENT -> ValkyrieExpressionStatementNode(node)
             ValkyrieElementTypes.BLOCK_STATEMENT -> ValkyrieBlockStatementNode(node)
@@ -26,9 +26,9 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.BINARY_EXPRESSION -> ValkyrieBinaryExpressionNode(node)
             ValkyrieElementTypes.UNARY_EXPRESSION -> ValkyrieUnaryExpressionNode(node)
             ValkyrieElementTypes.PARENTHESIZED_EXPRESSION -> ValkyrieParenthesizedExpressionNode(node)
-            ValkyrieElementTypes.FIELD_DECLARATION -> ValkyrieFieldDeclarationNode(node)
-            ValkyrieElementTypes.METHOD_DECLARATION -> ValkyrieMethodDeclarationNode(node)
-            ValkyrieElementTypes.DOMAIN_DECLARATION -> ValkyrieDomainDeclarationNode(node)
+            ValkyrieElementTypes.FIELD_DECLARATION -> ValkyrieFieldDeclaration(node)
+            ValkyrieElementTypes.METHOD_DECLARATION -> ValkyrieMethodDeclaration(node)
+            ValkyrieElementTypes.DOMAIN_DECLARATION -> ValkyrieDomainDeclaration(node)
             ValkyrieElementTypes.UNION_VARIANT -> ValkyrieUnionVariantNode(node)
             ValkyrieElementTypes.MODIFIER_LIST -> ValkyrieModifierListNode(node)
             ValkyrieElementTypes.PATTERN -> ValkyrieElementNode(node)

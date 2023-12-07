@@ -411,31 +411,43 @@ class ValkyrieParser : PsiParser {
     }
     
     private fun parseClassMember(builder: PsiBuilder) {
-        // 解析修饰符
-        val modifiers = parseModifiers(builder)
+        // 收集所有标识符，然后根据最后的符号判断类型
+        val identifiers = mutableListOf<String>()
+        val startPos = builder.currentOffset
         
-        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER) {
-            val lookahead = builder.lookAhead(1)
-            when {
-                lookahead == ValkyrieTokenTypes.LPAREN -> {
-                    // method: identifier()
-                    parseMethodDeclaration(builder, modifiers)
-                }
-                lookahead == ValkyrieTokenTypes.LBRACE -> {
-                    // domain: identifier {}
-                    parseDomainDeclaration(builder, modifiers)
-                }
-                lookahead == ValkyrieTokenTypes.SEMICOLON || lookahead == ValkyrieTokenTypes.COLON -> {
-                    // field: identifier; 或 identifier: type;
-                    parseFieldDeclaration(builder, modifiers)
-                }
-                else -> {
-                    // 默认当作 field 处理
-                    parseFieldDeclaration(builder, modifiers)
-                }
-            }
-        } else {
+        // 收集连续的标识符
+        while (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER) {
+            identifiers.add(builder.tokenText ?: "")
+            builder.advanceLexer()
+        }
+        
+        if (identifiers.isEmpty()) {
             builder.error("Expected identifier")
+            return
+        }
+        
+        // 根据后续符号判断最后一个标识符的类型
+        when (builder.tokenType) {
+            ValkyrieTokenTypes.LPAREN -> {
+                // method: modifiers... methodName()
+                parseMethodDeclarationWithIdentifiers(builder, identifiers)
+            }
+            ValkyrieTokenTypes.LBRACE -> {
+                // domain: modifiers... domainName {}
+                parseDomainDeclarationWithIdentifiers(builder, identifiers)
+            }
+            ValkyrieTokenTypes.SEMICOLON, ValkyrieTokenTypes.COLON, ValkyrieTokenTypes.ASSIGN -> {
+                // field: modifiers... fieldName; 或 fieldName: type; 或 fieldName = value;
+                parseFieldDeclarationWithIdentifiers(builder, identifiers)
+            }
+            null -> {
+                // EOF - 对象体不完整
+                builder.error("Incomplete object body")
+            }
+            else -> {
+                // 默认当作 field 处理
+                parseFieldDeclarationWithIdentifiers(builder, identifiers)
+            }
         }
     }
     
@@ -467,6 +479,43 @@ class ValkyrieParser : PsiParser {
         return builder.tokenType == ValkyrieTokenTypes.IDENTIFIER
     }
     
+    private fun parseFieldDeclarationWithIdentifiers(builder: PsiBuilder, identifiers: List<String>) {
+        val marker = builder.mark()
+        
+        // 创建修饰符列表（除了最后一个标识符）
+        if (identifiers.size > 1) {
+            val modifierMarker = builder.mark()
+            // 修饰符已经被消费了，这里只是标记
+            modifierMarker.done(ValkyrieElementTypes.MODIFIER_LIST)
+        }
+        
+        // field name（最后一个标识符）
+        val nameMarker = builder.mark()
+        // 名称已经被消费了，这里只是标记
+        nameMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
+        
+        // optional type annotation
+        if (builder.tokenType == ValkyrieTokenTypes.COLON) {
+            builder.advanceLexer()
+            parseTypeReference(builder)
+        }
+        
+        // optional assignment
+        if (builder.tokenType == ValkyrieTokenTypes.ASSIGN) {
+            builder.advanceLexer()
+            parseExpression(builder)
+        }
+        
+        // semicolon
+        if (builder.tokenType == ValkyrieTokenTypes.SEMICOLON) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected ';'")
+        }
+        
+        marker.done(ValkyrieElementTypes.FIELD_DECLARATION)
+    }
+    
     private fun parseFieldDeclaration(builder: PsiBuilder, modifiers: PsiBuilder.Marker?) {
         val marker = builder.mark()
         
@@ -493,6 +542,36 @@ class ValkyrieParser : PsiParser {
         marker.done(ValkyrieElementTypes.FIELD_DECLARATION)
     }
     
+    private fun parseMethodDeclarationWithIdentifiers(builder: PsiBuilder, identifiers: List<String>) {
+        val marker = builder.mark()
+        
+        // 创建修饰符列表（除了最后一个标识符）
+        if (identifiers.size > 1) {
+            val modifierMarker = builder.mark()
+            // 修饰符已经被消费了，这里只是标记
+            modifierMarker.done(ValkyrieElementTypes.MODIFIER_LIST)
+        }
+        
+        // method name（最后一个标识符）
+        val nameMarker = builder.mark()
+        // 名称已经被消费了，这里只是标记
+        nameMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
+        
+        // parameter list
+        if (builder.tokenType == ValkyrieTokenTypes.LPAREN) {
+            parseParameterList(builder)
+        }
+        
+        // method body
+        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+            parseBlockStatement(builder)
+        } else {
+            builder.error("Expected method body")
+        }
+        
+        marker.done(ValkyrieElementTypes.METHOD_DECLARATION)
+    }
+    
     private fun parseMethodDeclaration(builder: PsiBuilder, modifiers: PsiBuilder.Marker?) {
         val marker = builder.mark()
         
@@ -516,6 +595,31 @@ class ValkyrieParser : PsiParser {
         }
         
         marker.done(ValkyrieElementTypes.METHOD_DECLARATION)
+    }
+    
+    private fun parseDomainDeclarationWithIdentifiers(builder: PsiBuilder, identifiers: List<String>) {
+        val marker = builder.mark()
+        
+        // 创建修饰符列表（除了最后一个标识符）
+        if (identifiers.size > 1) {
+            val modifierMarker = builder.mark()
+            // 修饰符已经被消费了，这里只是标记
+            modifierMarker.done(ValkyrieElementTypes.MODIFIER_LIST)
+        }
+        
+        // domain name（最后一个标识符）
+        val nameMarker = builder.mark()
+        // 名称已经被消费了，这里只是标记
+        nameMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
+        
+        // domain body
+        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+            parseBlockStatement(builder)
+        } else {
+            builder.error("Expected domain body")
+        }
+        
+        marker.done(ValkyrieElementTypes.DOMAIN_DECLARATION)
     }
     
     private fun parseDomainDeclaration(builder: PsiBuilder, modifiers: PsiBuilder.Marker?) {
