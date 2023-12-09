@@ -544,6 +544,10 @@ class ValkyrieParser : PsiParser {
         
         if (identifiers.isEmpty()) {
             builder.error("Expected identifier")
+            // 强制推进以避免无限循环
+            if (!builder.eof()) {
+                builder.advanceLexer()
+            }
             return
         }
         
@@ -566,8 +570,14 @@ class ValkyrieParser : PsiParser {
                 builder.error("Incomplete object body")
             }
             else -> {
-                // 默认当作 field 处理
+                // 默认当作 field 处理，但如果无法处理则跳过当前 token
+                val currentOffset = builder.currentOffset
                 parseFieldDeclarationWithIdentifiers(builder, identifiers)
+                // 如果解析后位置没有变化，强制推进以避免无限循环
+                if (builder.currentOffset == currentOffset && !builder.eof()) {
+                    builder.error("Unexpected token: ${builder.tokenType}")
+                    builder.advanceLexer()
+                }
             }
         }
     }
