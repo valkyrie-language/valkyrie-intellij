@@ -6,4 +6,4 @@ import valkyrie.psi.ValkyrieElementNode
 /**
  * 一元表达式实现
  */
-class ValkyrieUnaryExpressionNode(node: ASTNode) : ValkyrieElementNode(node)
+class ValkyrieUnaryTerm(node: ASTNode) : ValkyrieTermExpression(node)

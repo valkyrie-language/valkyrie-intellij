@@ -6,15 +6,15 @@ import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
 
 /**
- * Class 语句实现
+ * Parameter 实现
  */
-class ValkyrieClassStatementNode(node: ASTNode) : ValkyrieElementNode(node) {
+class ValkyrieParameterNode(node: ASTNode) : ValkyrieElementNode(node) {
 
-    fun getClassName(): String? {
+    fun getParameterName(): String? {
         return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)?.text
     }
 
-    fun getClassBody(): ValkyrieObjectBodyNode? {
-        return findChildByClass(ValkyrieObjectBodyNode::class.java)
+    fun getTypeReference(): ValkyrieTypeReferenceNode? {
+        return findChildByClass(ValkyrieTypeReferenceNode::class.java)
     }
 }

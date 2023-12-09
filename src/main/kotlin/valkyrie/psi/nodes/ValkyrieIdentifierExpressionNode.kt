@@ -10,7 +10,7 @@ import valkyrie.psi.ValkyrieTokenTypes
 /**
  * 标识符表达式实现 - 支持引用解析
  */
-class ValkyrieIdentifierExpressionNode(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner {
+class ValkyrieIdentifierExpressionNode(node: ASTNode) : ValkyrieTermExpression(node), PsiNameIdentifierOwner {
 
     override fun getName(): String? {
         return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)?.text

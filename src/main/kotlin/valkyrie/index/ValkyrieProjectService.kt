@@ -1,6 +1,8 @@
 package valkyrie.index
 
 import com.intellij.openapi.Disposable
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.startup.ProjectActivity
@@ -22,7 +24,9 @@ class ValkyrieProjectService(private val project: Project) : Disposable {
         VirtualFileManager.getInstance().addVirtualFileListener(fileListener, this)
         
         // 初始化时构建索引
-        ValkyrieSymbolIndex.getInstance(project).rebuildIndex()
+        ReadAction.run<RuntimeException> {
+            ValkyrieSymbolIndex.getInstance(project).rebuildIndex()
+        }
     }
     
     fun getSymbolIndex(): ValkyrieSymbolIndex {

@@ -26,6 +26,7 @@ object ValkyrieElementTypes {
     @JvmField val LET_STATEMENT = ValkyrieElementType("LET_STATEMENT")
     @JvmField val CLASS_STATEMENT = ValkyrieElementType("CLASS_STATEMENT")
     @JvmField val UNION_STATEMENT = ValkyrieElementType("UNION_STATEMENT")
+    @JvmField val TRAIT_STATEMENT = ValkyrieElementType("TRAIT_STATEMENT")
     @JvmField val NAMESPACE_STATEMENT = ValkyrieElementType("NAMESPACE_STATEMENT")
     @JvmField val USING_STATEMENT = ValkyrieElementType("USING_STATEMENT")
     @JvmField val EXPRESSION_STATEMENT = ValkyrieElementType("EXPRESSION_STATEMENT")
@@ -57,4 +58,5 @@ object ValkyrieElementTypes {
     @JvmField val PARAMETER = ValkyrieElementType("PARAMETER")
     @JvmField val ARGUMENT_LIST = ValkyrieElementType("ARGUMENT_LIST")
     @JvmField val QUALIFIED_NAME = ValkyrieElementType("QUALIFIED_NAME")
+    @JvmField val GENERIC_PARAMETER_LIST = ValkyrieElementType("GENERIC_PARAMETER_LIST")
 }

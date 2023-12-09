@@ -8,13 +8,13 @@ import valkyrie.psi.ValkyrieTokenTypes
 /**
  * Union 语句实现
  */
-class ValkyrieUnionStatementNode(node: ASTNode) : ValkyrieElementNode(node) {
+class ValkyrieUnionDeclaration(node: ASTNode) : ValkyrieElementNode(node) {
 
     fun getUnionName(): String? {
         return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)?.text
     }
 
-    fun getUnionBody(): ValkyrieBlockStatementNode? {
-        return findChildByClass(ValkyrieBlockStatementNode::class.java)
+    fun getUnionBody(): ValkyrieObjectBodyNode? {
+        return findChildByClass(ValkyrieObjectBodyNode::class.java)
     }
 }

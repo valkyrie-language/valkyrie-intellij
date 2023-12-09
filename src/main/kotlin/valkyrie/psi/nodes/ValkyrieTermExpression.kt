@@ -4,6 +4,8 @@ import com.intellij.lang.ASTNode
 import valkyrie.psi.ValkyrieElementNode
 
 /**
- * 二元表达式实现
+ * 表达式语句实现
  */
-class ValkyrieBinaryExpressionNode(node: ASTNode) : ValkyrieElementNode(node)
+open class ValkyrieTermExpression(node: ASTNode) : ValkyrieElementNode(node)
+
+

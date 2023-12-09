@@ -6,4 +6,4 @@ import valkyrie.psi.ValkyrieElementNode
 /**
  * 括号表达式实现
  */
-class ValkyrieParenthesizedExpressionNode(node: ASTNode) : ValkyrieElementNode(node)
+class ValkyrieParenthesizedExpressionNode(node: ASTNode) : ValkyrieTermExpression(node)

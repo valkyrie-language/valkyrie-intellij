@@ -11,7 +11,7 @@ import valkyrie.psi.nodes.ValkyrieNamespaceDeclaration
 import valkyrie.psi.nodes.ValkyrieUsingStatementNode
 import valkyrie.psi.nodes.ValkyrieLetStatementNode
 import valkyrie.psi.nodes.ValkyrieClassStatementNode
-import valkyrie.psi.nodes.ValkyrieUnionStatementNode
+import valkyrie.psi.nodes.ValkyrieUnionDeclaration
 import com.intellij.psi.PsiElement
 
 /**
@@ -119,7 +119,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
         }
         
         // 查找所有 union 语句（联合类型定义）
-        val unionStatements = PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieUnionStatementNode::class.java)
+        val unionStatements = PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieUnionDeclaration::class.java)
         for (unionStatement in unionStatements) {
             val symbolName = unionStatement.getUnionName() ?: continue
             
@@ -189,7 +189,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
             }
             
             // 查找 union 语句中的联合类型定义
-            val unionStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieUnionStatementNode::class.java)
+            val unionStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieUnionDeclaration::class.java)
             for (unionStatement in unionStatements) {
                 val name = unionStatement.getUnionName()
                 if (name == symbolName) {

@@ -6,5 +6,5 @@ import valkyrie.psi.ValkyrieElementNode
 /**
  * 字面量表达式实现
  */
-class ValkyrieLiteralExpressionNode(node: ASTNode) : ValkyrieElementNode(node)
+class ValkyrieLiteralExpressionNode(node: ASTNode) : ValkyrieTermExpression(node)
 

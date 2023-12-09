@@ -1,6 +1,4 @@
 import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
-import org.jetbrains.intellij.platform.gradle.extensions.IntelliJPlatformDependenciesExtension
-import org.jetbrains.intellij.platform.gradle.extensions.IntelliJPlatformDependencyConfiguration
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 fun properties(key: String) = providers.gradleProperty(key)
@@ -43,6 +41,9 @@ dependencies {
         plugin("PsiViewer", "252.23892.248")
 //        plugin("com.github.voml.neo_theme", "0.4.3")
     }
+
+    // JUnit 测试依赖
+    testImplementation("junit:junit:4.13.2")
 }
 
 idea {

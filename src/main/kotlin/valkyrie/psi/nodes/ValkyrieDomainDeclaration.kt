@@ -18,7 +18,7 @@ class ValkyrieDomainDeclaration(node: ASTNode) : ValkyrieElementNode(node) {
         return findChildByClass(ValkyrieModifierListNode::class.java)
     }
 
-    fun getDomainBody(): ValkyrieBlockStatementNode? {
-        return findChildByClass(ValkyrieBlockStatementNode::class.java)
+    fun getDomainBody(): ValkyrieObjectBodyNode? {
+        return findChildByClass(ValkyrieObjectBodyNode::class.java)
     }
 }

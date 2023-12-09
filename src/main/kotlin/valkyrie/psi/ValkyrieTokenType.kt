@@ -117,8 +117,16 @@ object ValkyrieTokenTypes {
     val LBRACKET = ValkyrieTokenType("[")
     @JvmField
     val RBRACKET = ValkyrieTokenType("]")
+    
+    // 泛型符号
+    @JvmField
+    val LANGLE = ValkyrieTokenType("⟨")  // ⟨
+    @JvmField
+    val RANGLE = ValkyrieTokenType("⟩")  // ⟩
+    @JvmField
+    val DOUBLE_COLON = ValkyrieTokenType("::")  // ::
 
-    // 注释和空白
+    // 注释
     @JvmField
     val LINE_COMMENT = ValkyrieTokenType("LINE_COMMENT")
     @JvmField
