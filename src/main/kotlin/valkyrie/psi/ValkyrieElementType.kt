@@ -15,51 +15,84 @@ class ValkyrieElementType(debugName: String) : IElementType(debugName, ValkyrieL
  */
 object ValkyrieElementTypes {
     // 文件根节点
-    @JvmField val FILE = ValkyrieElementType("FILE")
-    
+    @JvmField
+    val FILE = ValkyrieElementType("FILE")
+
     // 通用类型
-    @JvmField val STATEMENT = ValkyrieElementType("STATEMENT")
-    @JvmField val EXPRESSION = ValkyrieElementType("EXPRESSION")
-    @JvmField val PATTERN = ValkyrieElementType("PATTERN")
-    
+    @JvmField
+    val STATEMENT = ValkyrieElementType("STATEMENT")
+    @JvmField
+    val EXPRESSION = ValkyrieElementType("EXPRESSION")
+    @JvmField
+    val PATTERN = ValkyrieElementType("PATTERN")
+
     // 语句
-    @JvmField val LET_STATEMENT = ValkyrieElementType("LET_STATEMENT")
-    @JvmField val CLASS_STATEMENT = ValkyrieElementType("CLASS_STATEMENT")
-    @JvmField val UNION_STATEMENT = ValkyrieElementType("UNION_STATEMENT")
-    @JvmField val TRAIT_STATEMENT = ValkyrieElementType("TRAIT_STATEMENT")
-    @JvmField val NAMESPACE_STATEMENT = ValkyrieElementType("NAMESPACE_STATEMENT")
-    @JvmField val USING_STATEMENT = ValkyrieElementType("USING_STATEMENT")
-    @JvmField val EXPRESSION_STATEMENT = ValkyrieElementType("EXPRESSION_STATEMENT")
-    @JvmField val OBJECT_BODY = ValkyrieElementType("OBJECT_BODY")
-    @JvmField val BLOCK_STATEMENT = ValkyrieElementType("BLOCK_STATEMENT")
-    
+    @JvmField
+    val LET_STATEMENT = ValkyrieElementType("LET_STATEMENT")
+    @JvmField
+    val CLASS_STATEMENT = ValkyrieElementType("CLASS_STATEMENT")
+    @JvmField
+    val UNION_STATEMENT = ValkyrieElementType("UNION_STATEMENT")
+    @JvmField
+    val TRAIT_STATEMENT = ValkyrieElementType("TRAIT_STATEMENT")
+    @JvmField
+    val NAMESPACE_STATEMENT = ValkyrieElementType("NAMESPACE_STATEMENT")
+    @JvmField
+    val USING_STATEMENT = ValkyrieElementType("USING_STATEMENT")
+    @JvmField
+    val EXPRESSION_STATEMENT = ValkyrieElementType("EXPRESSION_STATEMENT")
+    @JvmField
+    val OBJECT_BODY = ValkyrieElementType("OBJECT_BODY")
+    @JvmField
+    val BLOCK_STATEMENT = ValkyrieElementType("BLOCK_STATEMENT")
+
     // 表达式
-    @JvmField val IDENTIFIER_EXPRESSION = ValkyrieElementType("IDENTIFIER_EXPRESSION")
-    @JvmField val LITERAL_EXPRESSION = ValkyrieElementType("LITERAL_EXPRESSION")
-    @JvmField val BINARY_EXPRESSION = ValkyrieElementType("BINARY_EXPRESSION")
-    @JvmField val UNARY_EXPRESSION = ValkyrieElementType("UNARY_EXPRESSION")
-    @JvmField val PARENTHESIZED_EXPRESSION = ValkyrieElementType("PARENTHESIZED_EXPRESSION")
-    
+    @JvmField
+    val IDENTIFIER_EXPRESSION = ValkyrieElementType("IDENTIFIER_EXPRESSION")
+    @JvmField
+    val LITERAL_EXPRESSION = ValkyrieElementType("LITERAL_EXPRESSION")
+    @JvmField
+    val BINARY_EXPRESSION = ValkyrieElementType("BINARY_EXPRESSION")
+    @JvmField
+    val UNARY_EXPRESSION = ValkyrieElementType("UNARY_EXPRESSION")
+    @JvmField
+    val PARENTHESIZED_EXPRESSION = ValkyrieElementType("PARENTHESIZED_EXPRESSION")
+
     // 模式
-    @JvmField val IDENTIFIER_PATTERN = ValkyrieElementType("IDENTIFIER_PATTERN")
-    @JvmField val MUTABLE_PATTERN = ValkyrieElementType("MUTABLE_PATTERN")
-    
+    @JvmField
+    val IDENTIFIER_PATTERN = ValkyrieElementType("IDENTIFIER_PATTERN")
+    @JvmField
+    val MUTABLE_PATTERN = ValkyrieElementType("MUTABLE_PATTERN")
+
     // 类型
-    @JvmField val TYPE_REFERENCE = ValkyrieElementType("TYPE_REFERENCE")
-    
+    @JvmField
+    val TYPE_REFERENCE = ValkyrieElementType("TYPE_REFERENCE")
+
     // Class 和 Union 内部结构
-    @JvmField val FIELD_DECLARATION = ValkyrieElementType("FIELD_DECLARATION")
-    @JvmField val METHOD_DECLARATION = ValkyrieElementType("METHOD_DECLARATION")
-    @JvmField val INSTANCE_METHOD_DECLARATION = ValkyrieElementType("INSTANCE_METHOD_DECLARATION")
-    @JvmField val STATIC_METHOD_DECLARATION = ValkyrieElementType("STATIC_METHOD_DECLARATION")
-    @JvmField val DOMAIN_DECLARATION = ValkyrieElementType("DOMAIN_DECLARATION")
-    @JvmField val UNION_VARIANT = ValkyrieElementType("UNION_VARIANT")
-    @JvmField val MODIFIER_LIST = ValkyrieElementType("MODIFIER_LIST")
-    
+    @JvmField
+    val FIELD_DECLARATION = ValkyrieElementType("FIELD_DECLARATION")
+    @JvmField
+    val METHOD_DECLARATION = ValkyrieElementType("METHOD_DECLARATION")
+    @JvmField
+    val INSTANCE_METHOD_DECLARATION = ValkyrieElementType("INSTANCE_METHOD_DECLARATION")
+    @JvmField
+    val STATIC_METHOD_DECLARATION = ValkyrieElementType("STATIC_METHOD_DECLARATION")
+    @JvmField
+    val DOMAIN_DECLARATION = ValkyrieElementType("DOMAIN_DECLARATION")
+    @JvmField
+    val UNION_VARIANT = ValkyrieElementType("UNION_VARIANT")
+    @JvmField
+    val MODIFIER_LIST = ValkyrieElementType("MODIFIER_LIST")
+
     // 其他
-    @JvmField val PARAMETER_LIST = ValkyrieElementType("PARAMETER_LIST")
-    @JvmField val PARAMETER = ValkyrieElementType("PARAMETER")
-    @JvmField val ARGUMENT_LIST = ValkyrieElementType("ARGUMENT_LIST")
-    @JvmField val QUALIFIED_NAME = ValkyrieElementType("QUALIFIED_NAME")
-    @JvmField val GENERIC_PARAMETER_LIST = ValkyrieElementType("GENERIC_PARAMETER_LIST")
+    @JvmField
+    val PARAMETER_LIST = ValkyrieElementType("PARAMETER_LIST")
+    @JvmField
+    val PARAMETER = ValkyrieElementType("PARAMETER")
+    @JvmField
+    val ARGUMENT_LIST = ValkyrieElementType("ARGUMENT_LIST")
+    @JvmField
+    val QUALIFIED_NAME = ValkyrieElementType("QUALIFIED_NAME")
+    @JvmField
+    val GENERIC_PARAMETER_LIST = ValkyrieElementType("GENERIC_PARAMETER_LIST")
 }
