@@ -38,6 +38,12 @@
 			implementation="valkyrie.highlighting.ValkyrieColorSettingsPage"
 		/>
 
+		<!-- Annotator -->
+		<annotator
+			language="valkyrie"
+			implementationClass="valkyrie.highlighting.ValkyrieAnnotator"
+		/>
+
 		<!-- Reference Contributor -->
 		<psi.referenceContributor
 			language="valkyrie"

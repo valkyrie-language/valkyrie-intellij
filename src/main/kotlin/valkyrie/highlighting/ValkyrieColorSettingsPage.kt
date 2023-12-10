@@ -26,7 +26,16 @@ class ValkyrieColorSettingsPage : ColorSettingsPage {
             AttributesDescriptor("Brackets", ValkyrieSyntaxHighlighter.BRACKETS),
             AttributesDescriptor("Semicolon", ValkyrieSyntaxHighlighter.SEMICOLON),
             AttributesDescriptor("Comma", ValkyrieSyntaxHighlighter.COMMA),
-            AttributesDescriptor("Dot", ValkyrieSyntaxHighlighter.DOT)
+            AttributesDescriptor("Dot", ValkyrieSyntaxHighlighter.DOT),
+            // 语义高亮
+            AttributesDescriptor("Class Name", ValkyrieAnnotator.CLASS_NAME),
+            AttributesDescriptor("Trait Name", ValkyrieAnnotator.TRAIT_NAME),
+            AttributesDescriptor("Union Name", ValkyrieAnnotator.UNION_NAME),
+            AttributesDescriptor("Variant Name", ValkyrieAnnotator.VARIANT_NAME),
+            AttributesDescriptor("Field Name", ValkyrieAnnotator.FIELD_NAME),
+            AttributesDescriptor("Method Name", ValkyrieAnnotator.METHOD_NAME),
+            AttributesDescriptor("Static Method Name", ValkyrieAnnotator.STATIC_METHOD_NAME),
+            AttributesDescriptor("Domain Name", ValkyrieAnnotator.DOMAIN_NAME)
         )
         
         private val DEMO_TEXT = """
