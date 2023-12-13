@@ -41,6 +41,13 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.PARAMETER_LIST -> ValkyrieParameterListNode(node)
             ValkyrieElementTypes.PARAMETER -> ValkyrieParameterNode(node)
             ValkyrieElementTypes.GENERIC_PARAMETER_LIST -> ValkyrieElementNode(node)
+            ValkyrieElementTypes.ANNOTATION_NODE -> ValkyrieElementNode(node)
+            ValkyrieElementTypes.MODIFIER -> ValkyrieElementNode(node)
+            ValkyrieElementTypes.MODIFIER_LIST -> ValkyrieElementNode(node)
+            ValkyrieElementTypes.ATTRIBUTE -> ValkyrieElementNode(node)
+            ValkyrieElementTypes.ATTRIBUTE_LIST -> ValkyrieElementNode(node)
+            ValkyrieElementTypes.MACRO_CALL -> ValkyrieElementNode(node)
+            ValkyrieElementTypes.ATTRIBUTE_ARGS -> ValkyrieElementNode(node)
             else -> ValkyrieElementNode(node)
         }
     }

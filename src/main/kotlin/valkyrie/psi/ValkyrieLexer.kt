@@ -184,7 +184,7 @@ class ValkyrieLexer : LexerBase() {
             }
         }
 
-        tokenType = if (hasDecimalPoint) ValkyrieTokenTypes.FLOAT else ValkyrieTokenTypes.INTEGER
+        tokenType = if (hasDecimalPoint) ValkyrieTokenTypes.DECIMAL else ValkyrieTokenTypes.INTEGER
     }
 
     private fun readString() {
@@ -357,6 +357,20 @@ class ValkyrieLexer : LexerBase() {
 
             '⟩' -> {
                 currentOffset++; tokenType = ValkyrieTokenTypes.RANGLE
+            }
+
+            '@' -> {
+                currentOffset++
+                if (peek(0) == '.') {
+                    currentOffset++
+                    tokenType = ValkyrieTokenTypes.AT_DOT
+                } else {
+                    tokenType = ValkyrieTokenTypes.AT
+                }
+            }
+
+            '↯' -> {
+                currentOffset++; tokenType = ValkyrieTokenTypes.ATTRIBUTE_UNICODE
             }
 
             else -> {

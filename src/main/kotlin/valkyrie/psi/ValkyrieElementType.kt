@@ -81,18 +81,31 @@ object ValkyrieElementTypes {
     val DOMAIN_DECLARATION = ValkyrieElementType("DOMAIN_DECLARATION")
     @JvmField
     val UNION_VARIANT = ValkyrieElementType("UNION_VARIANT")
+
+    // 注解节点（统一管理attributes和modifiers）
+    @JvmField
+    val ANNOTATION_NODE = ValkyrieElementType("ANNOTATION_NODE")
+    
+    // 修饰符
+    @JvmField
+    val MODIFIER = ValkyrieElementType("MODIFIER")
     @JvmField
     val MODIFIER_LIST = ValkyrieElementType("MODIFIER_LIST")
-
+    
     // 其他
     @JvmField
-    val PARAMETER_LIST = ValkyrieElementType("PARAMETER_LIST")
+    val ATTRIBUTE = ValkyrieElementType("ATTRIBUTE")
     @JvmField
-    val PARAMETER = ValkyrieElementType("PARAMETER")
+    val ATTRIBUTE_LIST = ValkyrieElementType("ATTRIBUTE_LIST")
     @JvmField
-    val ARGUMENT_LIST = ValkyrieElementType("ARGUMENT_LIST")
+    val MACRO_CALL = ValkyrieElementType("MACRO_CALL")
     @JvmField
-    val QUALIFIED_NAME = ValkyrieElementType("QUALIFIED_NAME")
-    @JvmField
-    val GENERIC_PARAMETER_LIST = ValkyrieElementType("GENERIC_PARAMETER_LIST")
+    val ATTRIBUTE_ARGS = ValkyrieElementType("ATTRIBUTE_ARGS")
+    
+    // 其他
+    @JvmField val PARAMETER_LIST = ValkyrieElementType("PARAMETER_LIST")
+    @JvmField val PARAMETER = ValkyrieElementType("PARAMETER")
+    @JvmField val ARGUMENT_LIST = ValkyrieElementType("ARGUMENT_LIST")
+    @JvmField val QUALIFIED_NAME = ValkyrieElementType("QUALIFIED_NAME")
+    @JvmField val GENERIC_PARAMETER_LIST = ValkyrieElementType("GENERIC_PARAMETER_LIST")
 }

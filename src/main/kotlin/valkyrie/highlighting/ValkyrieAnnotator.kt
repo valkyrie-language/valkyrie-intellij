@@ -9,6 +9,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.psi.ValkyrieTokenTypes
 import valkyrie.psi.nodes.*
+import valkyrie.psi.ValkyrieElementNode
 
 /**
  * Valkyrie 语义注解器，用于提供语义级别的语法高亮
@@ -123,15 +124,10 @@ class ValkyrieAnnotator : Annotator {
                 val identifierPattern = element.children.find { it is ValkyrieIdentifierPatternNode } as? ValkyrieIdentifierPatternNode
                 val nameElement = identifierPattern?.children?.find { it.node.elementType == ValkyrieTokenTypes.IDENTIFIER }
                 nameElement?.let {
-                    // 根据方法类型选择不同的高亮颜色
-                    val attributesKey = when (element.node.elementType.toString()) {
-                        "STATIC_METHOD_DECLARATION" -> STATIC_METHOD_NAME
-                        else -> METHOD_NAME
-                    }
-                    
+                    // 基础方法名高亮，静态方法检测由 ValkyrieHighlightVisitor 处理
                     holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
                         .range(it.textRange)
-                        .textAttributes(attributesKey)
+                        .textAttributes(METHOD_NAME)
                         .create()
                 }
             }

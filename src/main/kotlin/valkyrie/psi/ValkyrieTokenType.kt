@@ -14,127 +14,195 @@ class ValkyrieTokenType(debugName: String) : IElementType(debugName, ValkyrieLan
  * Valkyrie 所有 Token 类型
  */
 object ValkyrieTokenTypes {
+    @JvmField
+    val NAMESPACE = ValkyrieTokenType("namespace")
+
+    @JvmField
+    val USING = ValkyrieTokenType("using")
+
     // 关键字
     @JvmField
-    val LET = ValkyrieTokenType("LET")
+    val LET = ValkyrieTokenType("let")
+
     @JvmField
     val MUT = ValkyrieTokenType("MUT")
+
     @JvmField
     val REF = ValkyrieTokenType("REF")
+
     @JvmField
-    val IF = ValkyrieTokenType("IF")
+    val IF = ValkyrieTokenType("if")
+
     @JvmField
-    val ELSE = ValkyrieTokenType("ELSE")
+    val ELSE = ValkyrieTokenType("else")
+
     @JvmField
-    val WHILE = ValkyrieTokenType("WHILE")
+    val WHILE = ValkyrieTokenType("while")
+
     @JvmField
-    val FOR = ValkyrieTokenType("FOR")
+    val FOR = ValkyrieTokenType("for")
+
     @JvmField
-    val FUNCTION = ValkyrieTokenType("FUNCTION")
+    val FUNCTION = ValkyrieTokenType("micro")
+
     @JvmField
-    val CLASS = ValkyrieTokenType("CLASS")
+    val CLASS = ValkyrieTokenType("class")
+
     @JvmField
-    val UNION = ValkyrieTokenType("UNION")
+    val UNION = ValkyrieTokenType("union")
+
     @JvmField
-    val TRAIT = ValkyrieTokenType("TRAIT")
+    val TRAIT = ValkyrieTokenType("trait")
+
     @JvmField
-    val RETURN = ValkyrieTokenType("RETURN")
+    val BREAK = ValkyrieTokenType("break")
+
     @JvmField
-    val BREAK = ValkyrieTokenType("BREAK")
+    val CONTINUE = ValkyrieTokenType("continue")
+
     @JvmField
-    val CONTINUE = ValkyrieTokenType("CONTINUE")
+    val YIELD = ValkyrieTokenType("yield")
+
     @JvmField
-    val NAMESPACE = ValkyrieTokenType("NAMESPACE")
+    val RAISE = ValkyrieTokenType("raise")
+
     @JvmField
-    val USING = ValkyrieTokenType("USING")
+    val RETURN = ValkyrieTokenType("return")
 
     // 标识符和字面量
     @JvmField
     val IDENTIFIER = ValkyrieTokenType("IDENTIFIER")
+
     @JvmField
     val INTEGER = ValkyrieTokenType("INTEGER")
+
     @JvmField
-    val FLOAT = ValkyrieTokenType("FLOAT")
+    val DECIMAL = ValkyrieTokenType("DECIMAL")
+
     @JvmField
     val STRING = ValkyrieTokenType("STRING")
+
     @JvmField
     val BOOLEAN = ValkyrieTokenType("BOOLEAN")
 
     // 操作符
     @JvmField
     val ASSIGN = ValkyrieTokenType("=")  // =
+
     @JvmField
     val PLUS = ValkyrieTokenType("+")    // +
+
     @JvmField
     val MINUS = ValkyrieTokenType("-")  // -
+
     @JvmField
     val MULTIPLY = ValkyrieTokenType("MULTIPLY") // *
+
     @JvmField
     val DIVIDE = ValkyrieTokenType("DIVIDE") // /
+
     @JvmField
     val MODULO = ValkyrieTokenType("MODULO") // %
+
     @JvmField
     val EQUAL = ValkyrieTokenType("EQUAL")  // ==
+
     @JvmField
     val NOT_EQUAL = ValkyrieTokenType("NOT_EQUAL") // !=
+
     @JvmField
     val LESS = ValkyrieTokenType("LESS")    // <
+
     @JvmField
     val GREATER = ValkyrieTokenType("GREATER") // >
+
     @JvmField
     val LESS_EQUAL = ValkyrieTokenType("LESS_EQUAL") // <=
+
     @JvmField
     val GREATER_EQUAL = ValkyrieTokenType("GREATER_EQUAL") // >=
+
     @JvmField
     val AND = ValkyrieTokenType("AND")      // &&
+
     @JvmField
     val OR = ValkyrieTokenType("OR")        // ||
+
     @JvmField
     val NOT = ValkyrieTokenType("NOT")      // !
 
     // 分隔符
     @JvmField
-    val SEMICOLON = ValkyrieTokenType(";") // ;
+    val SEMICOLON = ValkyrieTokenType(";")
+
     @JvmField
     val COMMA = ValkyrieTokenType(",")
+
     @JvmField
     val DOT = ValkyrieTokenType(".")
+
     @JvmField
     val COLON = ValkyrieTokenType(":")
+
     @JvmField
-    val ARROW = ValkyrieTokenType("ARROW")   // ->
+    val ARROW = ValkyrieTokenType("->")
 
     // 括号
     @JvmField
     val LPAREN = ValkyrieTokenType("(")
+
     @JvmField
     val RPAREN = ValkyrieTokenType(")")
+
     @JvmField
     val LBRACE = ValkyrieTokenType("{")
+
     @JvmField
     val RBRACE = ValkyrieTokenType("}")
+
     @JvmField
     val LBRACKET = ValkyrieTokenType("[")
+
     @JvmField
     val RBRACKET = ValkyrieTokenType("]")
-    
+
     // 泛型符号
     @JvmField
-    val LANGLE = ValkyrieTokenType("⟨")  // ⟨
+    val LANGLE = ValkyrieTokenType("⟨")
+
     @JvmField
-    val RANGLE = ValkyrieTokenType("⟩")  // ⟩
+    val RANGLE = ValkyrieTokenType("⟩")
+
     @JvmField
-    val DOUBLE_COLON = ValkyrieTokenType("::")  // ::
+    val DOUBLE_COLON = ValkyrieTokenType("::")
 
     // 注释
     @JvmField
-    val LINE_COMMENT = ValkyrieTokenType("LINE_COMMENT")
+    val LINE_COMMENT = ValkyrieTokenType("#")
+
     @JvmField
-    val BLOCK_COMMENT = ValkyrieTokenType("BLOCK_COMMENT")
+    val BLOCK_COMMENT = ValkyrieTokenType("<# #>")
+
     @JvmField
-    val DOC_COMMENT = ValkyrieTokenType("DOC_COMMENT")
+    val DOC_COMMENT = ValkyrieTokenType("#?")
+
+
+    // Attributes 和 Macro 调用
+    @JvmField
+    val AT = ValkyrieTokenType("@")           // @
+
+    @JvmField
+    val AT_DOT = ValkyrieTokenType("@.")       // @.
+
+    @JvmField
+    val ATTRIBUTE_UNICODE = ValkyrieTokenType("↯") // ↯
+
+    @JvmField
+    val HASH = ValkyrieTokenType("#")         // #
+
     @JvmField
     val WHITESPACE = ValkyrieTokenType("WHITESPACE")
+
     @JvmField
     val NEWLINE = ValkyrieTokenType("NEWLINE")
 
