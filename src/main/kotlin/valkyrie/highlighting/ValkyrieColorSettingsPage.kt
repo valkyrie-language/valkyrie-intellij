@@ -32,6 +32,7 @@ class ValkyrieColorSettingsPage : ColorSettingsPage {
             AttributesDescriptor("Trait Name", ValkyrieAnnotator.TRAIT_NAME),
             AttributesDescriptor("Union Name", ValkyrieAnnotator.UNION_NAME),
             AttributesDescriptor("Variant Name", ValkyrieAnnotator.VARIANT_NAME),
+            AttributesDescriptor("Modifier", ValkyrieAnnotator.MODIFIER),
             AttributesDescriptor("Field Name", ValkyrieAnnotator.FIELD_NAME),
             AttributesDescriptor("Method Name", ValkyrieAnnotator.METHOD_NAME),
             AttributesDescriptor("Static Method Name", ValkyrieAnnotator.STATIC_METHOD_NAME),

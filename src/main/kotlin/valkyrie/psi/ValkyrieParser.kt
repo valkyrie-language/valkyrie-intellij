@@ -38,7 +38,7 @@ class ValkyrieParser : PsiParser {
             ValkyrieTokenTypes.USING -> parseUsingStatement(builder)
             ValkyrieTokenTypes.LBRACE -> parseBlockStatement(builder)
             ValkyrieTokenTypes.WHITESPACE, ValkyrieTokenTypes.NEWLINE -> builder.advanceLexer()
-            ValkyrieTokenTypes.LINE_COMMENT, ValkyrieTokenTypes.BLOCK_COMMENT -> builder.advanceLexer()
+            ValkyrieTokenTypes.COMMENT_REST, ValkyrieTokenTypes.COMMENT_RANGE -> builder.advanceLexer()
             ValkyrieTokenTypes.AT -> parseMacroCall(builder)
             null -> return
             else -> parseExpressionStatement(builder)
@@ -116,7 +116,7 @@ class ValkyrieParser : PsiParser {
             builder.error("Expected '}'")
         }
 
-        marker.done(ValkyrieElementTypes.OBJECT_BODY)
+        marker.done(ValkyrieElementTypes.BLOCK_BODY)
     }
 
     private fun parseExpressionStatement(builder: PsiBuilder) {
@@ -453,7 +453,7 @@ class ValkyrieParser : PsiParser {
         while (builder.tokenType != ValkyrieTokenTypes.RBRACE && !builder.eof()) {
             when (builder.tokenType) {
                 ValkyrieTokenTypes.WHITESPACE, ValkyrieTokenTypes.NEWLINE -> builder.advanceLexer()
-                ValkyrieTokenTypes.LINE_COMMENT, ValkyrieTokenTypes.BLOCK_COMMENT -> builder.advanceLexer()
+                ValkyrieTokenTypes.COMMENT_REST, ValkyrieTokenTypes.COMMENT_RANGE -> builder.advanceLexer()
                 else -> parseClassMember(builder) // 复用 class member 解析逻辑
             }
         }
@@ -487,7 +487,7 @@ class ValkyrieParser : PsiParser {
                     builder.advanceLexer()
                 }
 
-                builder.tokenType == ValkyrieTokenTypes.LINE_COMMENT || builder.tokenType == ValkyrieTokenTypes.BLOCK_COMMENT -> {
+                builder.tokenType == ValkyrieTokenTypes.COMMENT_REST || builder.tokenType == ValkyrieTokenTypes.COMMENT_RANGE -> {
                     builder.advanceLexer()
                 }
 
@@ -527,7 +527,7 @@ class ValkyrieParser : PsiParser {
                     builder.advanceLexer()
                 }
 
-                builder.tokenType == ValkyrieTokenTypes.LINE_COMMENT || builder.tokenType == ValkyrieTokenTypes.BLOCK_COMMENT -> {
+                builder.tokenType == ValkyrieTokenTypes.COMMENT_REST || builder.tokenType == ValkyrieTokenTypes.COMMENT_RANGE -> {
                     builder.advanceLexer()
                 }
 
@@ -549,82 +549,126 @@ class ValkyrieParser : PsiParser {
     }
 
     private fun parseClassMember(builder: PsiBuilder) {
-        // 先解析attributes
-        val attributeMarkers = mutableListOf<PsiBuilder.Marker>()
-        while (builder.tokenType == ValkyrieTokenTypes.ATTRIBUTE_LOWER) {
-            when (builder.tokenType) {
-                ValkyrieTokenTypes.AT -> {
-                    val attrMarker = builder.mark()
-                    builder.advanceLexer() // consume '@'
-                    if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER) {
-                        builder.advanceLexer() // consume macro name
-                        attrMarker.done(ValkyrieElementTypes.MACRO_CALL)
-                        attributeMarkers.add(attrMarker)
-                    } else {
-                        attrMarker.error("Expected macro name after '@'")
-                    }
-                }
-
-                ValkyrieTokenTypes.ATTRIBUTE_LOWER -> {
-                    val attrMarker = builder.mark()
-                    parseAttributeList(builder)
-                    attrMarker.done(ValkyrieElementTypes.ATTRIBUTE_LIST)
-                    attributeMarkers.add(attrMarker)
-                }
-            }
-        }
-
-        // 收集所有连续的标识符及其marker
-        val identifierData = mutableListOf<Pair<String, PsiBuilder.Marker>>()
-        while (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER) {
-            val marker = builder.mark()
-            val text = builder.tokenText ?: ""
-            builder.advanceLexer()
-            identifierData.add(Pair(text, marker))
-        }
-
-        if (identifierData.isEmpty()) {
-            builder.error("Expected identifier")
+        // 检查是否是宏调用 - 宏调用是完全独立的类成员
+        if (builder.tokenType == ValkyrieTokenTypes.AT) {
+            parseMacroCallMember(builder)
             return
         }
 
-        // 根据后续符号进行回溯解析
+        // 开始解析成员声明
+        val memberMarker = builder.mark()
+        
+        // 解析attributes并创建annotation node
+        val annotationMarker = builder.mark()
+        
+        // 解析attributes
+        while (builder.tokenType == ValkyrieTokenTypes.ATTRIBUTE_LOWER) {
+            parseAttributeList(builder)
+        }
+
+        // 解析modifiers
+        val modifierTexts = mutableListOf<String>()
+        while (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER) {
+            val nextToken = builder.lookAhead(1)
+            // 如果下一个token是声明分隔符，当前是声明名称，停止解析modifiers
+            if (nextToken == ValkyrieTokenTypes.LPAREN ||
+                nextToken == ValkyrieTokenTypes.LBRACE ||
+                nextToken == ValkyrieTokenTypes.SEMICOLON ||
+                nextToken == ValkyrieTokenTypes.COLON ||
+                nextToken == ValkyrieTokenTypes.ASSIGN) {
+                break
+            }
+            
+            // 当前是modifier
+            val modifierMarker = builder.mark()
+            modifierTexts.add(builder.tokenText ?: "")
+            builder.advanceLexer()
+            modifierMarker.done(ValkyrieElementTypes.MODIFIER)
+        }
+        
+        annotationMarker.done(ValkyrieElementTypes.ANNOTATION_NODE)
+
+        // 解析声明名称
+        if (builder.tokenType != ValkyrieTokenTypes.IDENTIFIER) {
+            builder.error("Expected identifier")
+            memberMarker.drop()
+            if (!builder.eof()) {
+                builder.advanceLexer()
+            }
+            return
+        }
+        
+        val nameMarker = builder.mark()
+        val declarationName = builder.tokenText ?: ""
+        builder.advanceLexer()
+        nameMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
+
+        // 根据后续符号确定成员类型
         when (builder.tokenType) {
             ValkyrieTokenTypes.LPAREN -> {
-                // method: [modifiers] methodName()
-                val (methodName, nameMarker) = identifierData.last()
-                val modifierData = identifierData.dropLast(1)
-                parseMethodDeclarationWithBacktrack(builder, attributeMarkers, modifierData, methodName, nameMarker)
+                // method declaration
+                parseMethodRest(builder)
+                memberMarker.done(ValkyrieElementTypes.METHOD_DECLARATION)
             }
 
             ValkyrieTokenTypes.LBRACE -> {
-                // domain: [modifiers] domainName {}
-                val (domainName, nameMarker) = identifierData.last()
-                val modifierData = identifierData.dropLast(1)
-                parseDomainDeclarationWithBacktrack(builder, attributeMarkers, modifierData, domainName, nameMarker)
+                // domain declaration
+                parseClassBody(builder)
+                memberMarker.done(ValkyrieElementTypes.DOMAIN_DECLARATION)
             }
 
             ValkyrieTokenTypes.SEMICOLON, ValkyrieTokenTypes.COLON, ValkyrieTokenTypes.ASSIGN, ValkyrieTokenTypes.COMMA -> {
-                // field: [modifiers] fieldName; 或 fieldName: type; 或 fieldName = value;
-                val (fieldName, nameMarker) = identifierData.last()
-                val modifierData = identifierData.dropLast(1)
-                parseFieldDeclarationWithBacktrack(builder, attributeMarkers, modifierData, fieldName, nameMarker)
+                // field declaration
+                parseFieldRest(builder)
+                memberMarker.done(ValkyrieElementTypes.FIELD_DECLARATION)
             }
 
             null -> {
-                // EOF - 对象体不完整
-                builder.error("Incomplete object body")
-                // 清理未完成的marker
-                identifierData.forEach { it.second.drop() }
+                builder.error("Incomplete member declaration")
+                memberMarker.drop()
+                return
             }
 
             else -> {
-                // 默认当作 field 处理
-                val (fieldName, nameMarker) = identifierData.last()
-                val modifierData = identifierData.dropLast(1)
-                parseFieldDeclarationWithBacktrack(builder, attributeMarkers, modifierData, fieldName, nameMarker)
+                builder.error("Unexpected token: ${builder.tokenType}")
+                memberMarker.drop()
+                if (!builder.eof()) {
+                    builder.advanceLexer()
+                }
             }
         }
+    }
+
+    /**
+     * 解析宏调用作为独立的类成员
+     * 宏调用只能有attributes，不能有modifiers
+     */
+    private fun parseMacroCallMember(builder: PsiBuilder) {
+        val memberMarker = builder.mark()
+        
+        // 解析可能的attributes
+        val attributeMarkers = mutableListOf<PsiBuilder.Marker>()
+        while (builder.tokenType == ValkyrieTokenTypes.ATTRIBUTE_LOWER) {
+            val attrMarker = builder.mark()
+            parseAttributeList(builder)
+            attrMarker.done(ValkyrieElementTypes.ATTRIBUTE_LIST)
+            attributeMarkers.add(attrMarker)
+        }
+        
+        // 创建annotation_node包含attributes（如果有的话）
+        if (attributeMarkers.isNotEmpty()) {
+            val annotationMarker = builder.mark()
+            annotationMarker.done(ValkyrieElementTypes.ANNOTATION_NODE)
+        }
+        
+        // 解析宏调用
+        if (builder.tokenType == ValkyrieTokenTypes.AT) {
+            parseMacroCall(builder)
+        } else {
+            builder.error("Expected macro call")
+        }
+        
+        memberMarker.done(ValkyrieElementTypes.MACRO_CALL)
     }
 
     private fun parseAnnotationsAndModifiers(builder: PsiBuilder): PsiBuilder.Marker? {
@@ -736,35 +780,7 @@ class ValkyrieParser : PsiParser {
         return builder.tokenType == ValkyrieTokenTypes.IDENTIFIER
     }
 
-    private fun parseFieldDeclarationWithBacktrack(
-        builder: PsiBuilder,
-        attributeMarkers: List<PsiBuilder.Marker>,
-        modifierData: List<Pair<String, PsiBuilder.Marker>>,
-        name: String,
-        nameMarker: PsiBuilder.Marker
-    ) {
-        val fieldMarker = builder.mark()
-
-        // 创建annotation_node包含attributes和modifiers
-        if (attributeMarkers.isNotEmpty() || modifierData.isNotEmpty()) {
-            val annotationMarker = builder.mark()
-
-            // 添加modifiers作为nodes
-            modifierData.forEach { (modifierText, modifierMarker) ->
-                modifierMarker.done(ValkyrieElementTypes.MODIFIER)
-            }
-
-            // attributes已经在parseClassMember中done了，这里不需要再处理
-
-            annotationMarker.done(ValkyrieElementTypes.ANNOTATION_NODE)
-        } else {
-            // 如果没有annotations，清理modifier markers
-            modifierData.forEach { it.second.drop() }
-        }
-
-        // 处理字段名称
-        nameMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
-
+    private fun parseFieldRest(builder: PsiBuilder) {
         // 解析字段声明的其余部分
         when (builder.tokenType) {
             ValkyrieTokenTypes.COLON -> {
@@ -785,8 +801,6 @@ class ValkyrieParser : PsiParser {
         if (builder.tokenType == ValkyrieTokenTypes.SEMICOLON) {
             builder.advanceLexer() // consume ';'
         }
-
-        fieldMarker.done(ValkyrieElementTypes.FIELD_DECLARATION)
     }
 
     private fun parseFieldDeclarationWithAnnotations(builder: PsiBuilder, annotationMarker: PsiBuilder.Marker?, name: String) {
@@ -865,39 +879,10 @@ class ValkyrieParser : PsiParser {
         marker.done(ValkyrieElementTypes.FIELD_DECLARATION)
     }
 
-    private fun parseMethodDeclarationWithBacktrack(
-        builder: PsiBuilder,
-        attributeMarkers: List<PsiBuilder.Marker>,
-        modifierData: List<Pair<String, PsiBuilder.Marker>>,
-        name: String,
-        nameMarker: PsiBuilder.Marker
-    ) {
-        val methodMarker = builder.mark()
-
-        // 创建annotation_node包含attributes和modifiers
-        if (attributeMarkers.isNotEmpty() || modifierData.isNotEmpty()) {
-            val annotationMarker = builder.mark()
-
-            // 添加modifiers作为nodes
-            modifierData.forEach { (modifierText, modifierMarker) ->
-                modifierMarker.done(ValkyrieElementTypes.MODIFIER)
-            }
-
-            // attributes已经在parseClassMember中done了，这里不需要再处理
-
-            annotationMarker.done(ValkyrieElementTypes.ANNOTATION_NODE)
-        } else {
-            // 如果没有annotations，清理modifier markers
-            modifierData.forEach { it.second.drop() }
-        }
-
-        // 处理方法名称
-        nameMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
-
+    private fun parseMethodRest(builder: PsiBuilder) {
         // 解析方法参数列表
         if (builder.tokenType == ValkyrieTokenTypes.LPAREN) {
-            val hasStaticSelf = parseParameterListWithSelfDetection(builder)
-            // 这里可以根据hasStaticSelf来标记静态方法，但按照之前的讨论，这个逻辑应该在HighlightVisitor中处理
+            parseParameterListWithSelfDetection(builder)
         }
 
         // 解析返回类型
@@ -912,8 +897,6 @@ class ValkyrieParser : PsiParser {
         } else if (builder.tokenType == ValkyrieTokenTypes.SEMICOLON) {
             builder.advanceLexer() // consume ';' for abstract methods
         }
-
-        methodMarker.done(ValkyrieElementTypes.METHOD_DECLARATION)
     }
 
     private fun parseMethodDeclarationWithAnnotations(builder: PsiBuilder, annotationMarker: PsiBuilder.Marker?, name: String) {
@@ -976,44 +959,7 @@ class ValkyrieParser : PsiParser {
         marker.done(ValkyrieElementTypes.METHOD_DECLARATION)
     }
 
-    private fun parseDomainDeclarationWithBacktrack(
-        builder: PsiBuilder,
-        attributeMarkers: List<PsiBuilder.Marker>,
-        modifierData: List<Pair<String, PsiBuilder.Marker>>,
-        name: String,
-        nameMarker: PsiBuilder.Marker
-    ) {
-        val domainMarker = builder.mark()
 
-        // 创建annotation_node包含attributes和modifiers
-        if (attributeMarkers.isNotEmpty() || modifierData.isNotEmpty()) {
-            val annotationMarker = builder.mark()
-
-            // 添加modifiers作为nodes
-            modifierData.forEach { (modifierText, modifierMarker) ->
-                modifierMarker.done(ValkyrieElementTypes.MODIFIER)
-            }
-
-            // attributes已经在parseClassMember中done了，这里不需要再处理
-
-            annotationMarker.done(ValkyrieElementTypes.ANNOTATION_NODE)
-        } else {
-            // 如果没有annotations，清理modifier markers
-            modifierData.forEach { it.second.drop() }
-        }
-
-        // 处理域名称
-        nameMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
-
-        // 解析域体
-        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
-            parseClassBody(builder) // 域体和类体结构相同
-        } else {
-            builder.error("Expected '{' for domain body")
-        }
-
-        domainMarker.done(ValkyrieElementTypes.DOMAIN_DECLARATION)
-    }
 
     private fun parseDomainDeclarationWithAnnotations(builder: PsiBuilder, annotationMarker: PsiBuilder.Marker?, name: String) {
         val marker = builder.mark()
@@ -1098,7 +1044,7 @@ class ValkyrieParser : PsiParser {
                     builder.advanceLexer()
                 }
 
-                builder.tokenType == ValkyrieTokenTypes.LINE_COMMENT || builder.tokenType == ValkyrieTokenTypes.BLOCK_COMMENT -> {
+                builder.tokenType == ValkyrieTokenTypes.COMMENT_REST || builder.tokenType == ValkyrieTokenTypes.COMMENT_RANGE -> {
                     builder.advanceLexer()
                 }
 

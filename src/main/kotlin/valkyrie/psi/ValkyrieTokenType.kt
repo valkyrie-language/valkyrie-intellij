@@ -178,21 +178,30 @@ object ValkyrieTokenTypes {
 
     // 注释
     @JvmField
-    val LINE_COMMENT = ValkyrieTokenType("#")
+    val COMMENT_REST = ValkyrieTokenType("#")
+
+    // alias = #?
+    @JvmField
+    val COMMENT_DOCUMENT = ValkyrieTokenType("⍝")
 
     @JvmField
-    val BLOCK_COMMENT = ValkyrieTokenType("<# #>")
-
-    @JvmField
-    val DOC_COMMENT = ValkyrieTokenType("#?")
-
+    val COMMENT_RANGE = ValkyrieTokenType("<# #>")
 
     // Attributes 和 Macro 调用
     @JvmField
-    val AT = ValkyrieTokenType("@")           // @
+    val AT = ValkyrieTokenType("@")
 
+    // alias = @^
     @JvmField
-    val ATTRIBUTE_LOWER = ValkyrieTokenType("↯") // ↯
+    val ATTRIBUTE_UPPER = ValkyrieTokenType("◤")
+
+    // alias = @.
+    @JvmField
+    val ATTRIBUTE_LOWER = ValkyrieTokenType("↯")
+
+    // alias = @$
+    @JvmField
+    val INTERNATIONAL_MARK = ValkyrieTokenType("⸿")
 
     @JvmField
     val WHITESPACE = ValkyrieTokenType("WHITESPACE")

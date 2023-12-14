@@ -27,26 +27,21 @@
 			implementationClass="valkyrie.psi.ValkyrieParserDefinition"
 		/>
 
-		<!-- Syntax Highlighter -->
-		<lang.syntaxHighlighterFactory
+		<!-- 高亮模块 -->
+		<lang.syntaxHighlighter
 			language="valkyrie"
-			implementationClass="valkyrie.highlighting.ValkyrieSyntaxHighlighterFactory"
+			implementationClass="valkyrie.highlighting.ValkyrieSyntaxHighlighter"
 		/>
-
-		<!-- Color Settings -->
+		<highlightVisitor
+			implementation="valkyrie.highlighting.ValkyrieSemanticHighlighter"
+		/>
 		<colorSettingsPage
 			implementation="valkyrie.highlighting.ValkyrieColorSettingsPage"
 		/>
-
 		<!-- Annotator -->
 		<annotator
 			language="valkyrie"
 			implementationClass="valkyrie.highlighting.ValkyrieAnnotator"
-		/>
-
-		<!-- Highlight Visitor -->
-		<highlightVisitor
-			implementation="valkyrie.highlighting.ValkyrieHighlightVisitor"
 		/>
 
 		<!-- Reference Contributor -->

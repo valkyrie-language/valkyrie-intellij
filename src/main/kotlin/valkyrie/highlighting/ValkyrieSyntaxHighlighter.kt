@@ -122,9 +122,9 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.BOOLEAN -> arrayOf(STRING)
             
             // 注释
-            ValkyrieTokenTypes.LINE_COMMENT,
-            ValkyrieTokenTypes.BLOCK_COMMENT,
-            ValkyrieTokenTypes.DOC_COMMENT -> arrayOf(COMMENT)
+            ValkyrieTokenTypes.COMMENT_REST,
+            ValkyrieTokenTypes.COMMENT_RANGE,
+            ValkyrieTokenTypes.COMMENT_DOCUMENT -> arrayOf(COMMENT)
             
             // 标识符
             ValkyrieTokenTypes.IDENTIFIER -> arrayOf(IDENTIFIER)

@@ -42,9 +42,21 @@ object ValkyrieElementTypes {
     @JvmField
     val EXPRESSION_STATEMENT = ValkyrieElementType("EXPRESSION_STATEMENT")
     @JvmField
-    val OBJECT_BODY = ValkyrieElementType("OBJECT_BODY")
+    val OBJECT_BODY = ValkyrieElementType("OBJECT_BODY") // 已弃用，将被替换
     @JvmField
     val BLOCK_STATEMENT = ValkyrieElementType("BLOCK_STATEMENT")
+    
+    // 专用的body类型
+    @JvmField
+    val CLASS_BODY = ValkyrieElementType("CLASS_BODY")
+    @JvmField
+    val TRAIT_BODY = ValkyrieElementType("TRAIT_BODY")
+    @JvmField
+    val UNION_BODY = ValkyrieElementType("UNION_BODY")
+    @JvmField
+    val VARIANT_BODY = ValkyrieElementType("VARIANT_BODY")
+    @JvmField
+    val BLOCK_BODY = ValkyrieElementType("BLOCK_BODY")
 
     // 表达式
     @JvmField

@@ -55,7 +55,12 @@ class ValkyrieAnnotator : Annotator {
         
         val DOMAIN_NAME = TextAttributesKey.createTextAttributesKey(
             "VALKYRIE_DOMAIN_NAME",
-            DefaultLanguageHighlighterColors.CLASS_NAME
+            DefaultLanguageHighlighterColors.METADATA
+        )
+        
+        val MODIFIER = TextAttributesKey.createTextAttributesKey(
+            "VALKYRIE_MODIFIER",
+            DefaultLanguageHighlighterColors.KEYWORD
         )
     }
     
@@ -83,14 +88,22 @@ class ValkyrieAnnotator : Annotator {
                  }
              }
             
-            // Trait 声明中的特征名
+            // Trait 声明中的特征名和 Modifier 高亮
              is ValkyrieElementNode -> {
-                 if (element.node.elementType.toString() == "TRAIT_STATEMENT") {
-                     val nameElement = element.children.find { it.node.elementType == ValkyrieTokenTypes.IDENTIFIER }
-                     nameElement?.let {
+                 when (element.node.elementType.toString()) {
+                     "TRAIT_STATEMENT" -> {
+                         val nameElement = element.children.find { it.node.elementType == ValkyrieTokenTypes.IDENTIFIER }
+                         nameElement?.let {
+                             holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
+                                 .range(it.textRange)
+                                 .textAttributes(TRAIT_NAME)
+                                 .create()
+                         }
+                     }
+                     "MODIFIER" -> {
                          holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
-                             .range(it.textRange)
-                             .textAttributes(TRAIT_NAME)
+                             .range(element.textRange)
+                             .textAttributes(MODIFIER)
                              .create()
                      }
                  }
@@ -143,6 +156,7 @@ class ValkyrieAnnotator : Annotator {
                         .create()
                 }
             }
+
         }
     }
 }

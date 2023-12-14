@@ -14,7 +14,7 @@ import valkyrie.psi.nodes.ValkyrieMethodDeclaration
  * Valkyrie 语义高亮访问器
  * 用于提供更精确的语义分析和高亮，特别是静态方法检测
  */
-class ValkyrieHighlightVisitor : HighlightVisitor {
+class ValkyrieSemanticHighlighter : HighlightVisitor {
     
     companion object {
         val STATIC_METHOD = TextAttributesKey.createTextAttributesKey(
@@ -82,6 +82,6 @@ class ValkyrieHighlightVisitor : HighlightVisitor {
     }
     
     override fun clone(): HighlightVisitor {
-        return ValkyrieHighlightVisitor()
+        return ValkyrieSemanticHighlighter()
     }
 }
