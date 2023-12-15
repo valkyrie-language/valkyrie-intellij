@@ -105,7 +105,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
         // 查找所有 class 语句（类型定义）
         val classStatements = PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieClassStatementNode::class.java)
         for (classStatement in classStatements) {
-            val symbolName = classStatement.getClassName() ?: continue
+            val symbolName = classStatement.name ?: continue
             
             val symbolInfo = SymbolInfo(
                 name = symbolName,
@@ -182,7 +182,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
             // 查找 class 语句中的类型定义
             val classStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieClassStatementNode::class.java)
             for (classStatement in classStatements) {
-                val name = classStatement.getClassName()
+                val name = classStatement.name
                 if (name == symbolName) {
                     return SymbolInfo(name, currentNamespace, currentFile, classStatement)
                 }
