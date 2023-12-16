@@ -10,7 +10,7 @@ import valkyrie.language.file.ValkyrieFileType
 import valkyrie.psi.nodes.ValkyrieNamespaceDeclaration
 import valkyrie.psi.nodes.ValkyrieUsingStatementNode
 import valkyrie.psi.nodes.ValkyrieLetStatementNode
-import valkyrie.psi.nodes.ValkyrieClassStatementNode
+import valkyrie.psi.nodes.ValkyrieClassDeclaration
 import valkyrie.psi.nodes.ValkyrieUnionDeclaration
 import com.intellij.psi.PsiElement
 
@@ -103,7 +103,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
         }
         
         // 查找所有 class 语句（类型定义）
-        val classStatements = PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieClassStatementNode::class.java)
+        val classStatements = PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieClassDeclaration::class.java)
         for (classStatement in classStatements) {
             val symbolName = classStatement.name ?: continue
             
@@ -180,7 +180,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
             }
             
             // 查找 class 语句中的类型定义
-            val classStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieClassStatementNode::class.java)
+            val classStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieClassDeclaration::class.java)
             for (classStatement in classStatements) {
                 val name = classStatement.name
                 if (name == symbolName) {

@@ -7,10 +7,7 @@ import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
 
-/**
- * Class 语句实现
- */
-class ValkyrieClassStatementNode(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner {
+class ValkyrieTraitDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner {
     override fun getNameIdentifier(): PsiElement? {
         return findChildByType(ValkyrieTokenTypes.IDENTIFIER)
     }
@@ -23,11 +20,11 @@ class ValkyrieClassStatementNode(node: ASTNode) : ValkyrieElementNode(node), Psi
         return nameIdentifier?.text
     }
 
-    override fun setName(p0: @NlsSafe String): PsiElement? {
+    override fun setName(name: @NlsSafe String): PsiElement? {
         TODO("Not yet implemented")
     }
 
-    fun getClassBody(): ValkyrieObjectBodyNode? {
+    fun getTraitBody(): ValkyrieObjectBodyNode? {
         return findChildByClass(ValkyrieObjectBodyNode::class.java)
     }
 }

@@ -80,7 +80,7 @@ class ValkyrieSemanticHighlighter : HighlightVisitor {
     override fun visit(element: PsiElement) {
         when (element) {
             // Class 声明中的类名
-            is ValkyrieClassStatementNode -> {
+            is ValkyrieClassDeclaration -> {
                 val nameElement = element.children.find { it.node.elementType == ValkyrieTokenTypes.IDENTIFIER }
                 nameElement?.let {
                     addHighlight(it, CLASS_NAME)
