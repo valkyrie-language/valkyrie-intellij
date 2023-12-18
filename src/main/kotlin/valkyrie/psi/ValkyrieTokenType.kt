@@ -203,6 +203,10 @@ object ValkyrieTokenTypes {
     @JvmField
     val INTERNATIONAL_MARK = ValkyrieTokenType("⸿")
 
+    // 特殊标识符
+    @JvmField
+    val BACKTICK = ValkyrieTokenType("`")
+
     @JvmField
     val WHITESPACE = ValkyrieTokenType("WHITESPACE")
 

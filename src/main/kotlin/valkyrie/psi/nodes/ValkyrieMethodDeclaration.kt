@@ -28,8 +28,8 @@ class ValkyrieMethodDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiN
         TODO("Not yet implemented")
     }
 
-    fun getMethodName(): String? {
-        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)?.text
+    fun isStatic(): Boolean {
+        return false
     }
 
     fun getModifiers(): ValkyrieModifierListNode? {

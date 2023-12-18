@@ -71,3 +71,45 @@ union Triple::<A, B, C> {
 micro zip<A, B, C>(a: A, b: B, c: C) -> (A, B, C) {
     (a, b, c)
 }
+
+// 测试尾随逗号支持
+class TrailingCommaTest⟨T, U,⟩ {
+    field: T
+}
+
+trait TrailingCommaTrait<A, B,> {
+    micro test(self) -> String
+}
+
+union TrailingCommaUnion::<X, Y,> {
+    First { value: X }
+    Second { value: Y }
+}
+
+micro trailing_comma_func<T, U,>(a: T, b: U,) -> (T, U) {
+    (a, b)
+}
+
+// 测试表达式中的泛型调用语法
+micro test_generic_calls() {
+    // 合法的泛型调用形式
+    let result1 = call⟨String⟩("hello")
+    let result2 = call::<i32>(42)
+    let result3 = func⟨T, U⟩(a, b)
+    let result4 = transform::<String, i32>("123", parse)
+    
+    // 特殊名称标识符测试
+    let `special name` = 100
+    let `another special` = "test"
+    let `function with spaces` = 42
+    let normal_id = `special name` + 50
+    
+    // 泛型调用与特殊名称结合
+    let result5 = `special function`⟨T⟩()
+    let result6 = `another func`::<String>("param")
+    let result7 = `generic method`⟨i32, String⟩(123, "abc")
+    
+    // 嵌套泛型调用
+    let result8 = outer⟨T⟩(inner::<U>(value))
+    let result9 = `complex call`⟨A⟩(`nested func`::<B>(param))
+}
