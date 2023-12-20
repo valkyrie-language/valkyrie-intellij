@@ -2,48 +2,35 @@ package valkyrie.psi.nodes
 
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
-import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.ValkyrieElementNode
 
 /**
  * 泛型函数调用表达式节点
- * 支持 call⟨T⟩ 和 call::<T> 形式
+ * 支持 call⟨T⟩(args) 和 call::<T>(args) 两种形式
  */
 class ValkyrieGenericCallExpressionNode(node: ASTNode) : ValkyrieElementNode(node) {
     
     /**
-     * 获取被调用的表达式（函数名）
+     * 获取被调用的表达式
      */
     fun getCallee(): PsiElement? {
-        return firstChild
+        return this.firstChild
     }
     
     /**
      * 获取泛型参数列表
      */
     fun getGenericArguments(): List<PsiElement> {
-        val args = mutableListOf<PsiElement>()
-        var child = firstChild?.nextSibling
+        val result = mutableListOf<PsiElement>()
+        var child = this.firstChild?.nextSibling
         
-        // 查找泛型参数开始标记（⟨ 或 ::< ）
         while (child != null) {
-            if (child.node.elementType == ValkyrieTokenTypes.LANGLE || 
-                (child.node.elementType == ValkyrieTokenTypes.DOUBLE_COLON && 
-                 child.nextSibling?.node?.elementType == ValkyrieTokenTypes.LESS)) {
-                
-                // 跳过开始标记
-                if (child.node.elementType == ValkyrieTokenTypes.DOUBLE_COLON) {
-                    child = child.nextSibling // 跳过 ::
-                }
-                child = child.nextSibling // 跳过 ⟨ 或 <
-                
-                // 收集泛型参数
-                while (child != null && 
-                       child.node.elementType != ValkyrieTokenTypes.RANGLE && 
-                       child.node.elementType != ValkyrieTokenTypes.GREATER) {
-                    if (child.node.elementType != ValkyrieTokenTypes.COMMA && 
-                        child.node.elementType != ValkyrieTokenTypes.WHITESPACE &&
-                        child.node.elementType != ValkyrieTokenTypes.NEWLINE) {
-                        args.add(child)
+            if (child.text == "⟨" || child.text == "<") {
+                // 找到泛型参数开始
+                child = child.nextSibling
+                while (child != null && child.text != "⟩" && child.text != ">") {
+                    if (child.text != "," && child.text.trim().isNotEmpty()) {
+                        result.add(child)
                     }
                     child = child.nextSibling
                 }
@@ -52,52 +39,76 @@ class ValkyrieGenericCallExpressionNode(node: ASTNode) : ValkyrieElementNode(nod
             child = child.nextSibling
         }
         
-        return args
+        return result
     }
     
     /**
-     * 获取函数参数列表
+     * 获取参数列表
      */
-    fun getArgumentList(): List<PsiElement> {
-        val args = mutableListOf<PsiElement>()
-        var child = firstChild
-        
-        // 跳过到左括号
-        while (child != null && child.node.elementType != ValkyrieTokenTypes.LPAREN) {
+    fun getArgumentList(): PsiElement? {
+        var child = this.firstChild
+        while (child != null) {
+            if (child.text == "(") {
+                return child.parent
+            }
             child = child.nextSibling
         }
-        
-        if (child != null) {
-            child = child.nextSibling // 跳过左括号
-            
-            while (child != null && child.node.elementType != ValkyrieTokenTypes.RPAREN) {
-                if (child.node.elementType != ValkyrieTokenTypes.COMMA && 
-                    child.node.elementType != ValkyrieTokenTypes.WHITESPACE &&
-                    child.node.elementType != ValkyrieTokenTypes.NEWLINE) {
-                    args.add(child)
-                }
-                child = child.nextSibling
-            }
-        }
-        
-        return args
+        return null
     }
     
     /**
-     * 判断是否使用双冒号语法 (call::<T>)
+     * 检查是否使用双冒号语法 (call::<T>)
      */
     fun isDoubleColonSyntax(): Boolean {
-        var child = firstChild?.nextSibling
+        var child = this.firstChild
         while (child != null) {
-            if (child.node.elementType == ValkyrieTokenTypes.DOUBLE_COLON) {
+            if (child.text == "::") {
                 return true
-            }
-            if (child.node.elementType == ValkyrieTokenTypes.LANGLE) {
-                return false
             }
             child = child.nextSibling
         }
         return false
+    }
+    
+    /**
+     * 检查是否使用角括号语法 (call⟨T⟩)
+     */
+    fun isAngleBracketSyntax(): Boolean {
+        var child = this.firstChild
+        while (child != null) {
+            if (child.text == "⟨") {
+                return true
+            }
+            child = child.nextSibling
+        }
+        return false
+    }
+    
+    /**
+     * 获取泛型语法类型
+     */
+    fun getGenericSyntaxType(): String {
+        return when {
+            isDoubleColonSyntax() -> "double_colon"
+            isAngleBracketSyntax() -> "angle_bracket"
+            else -> "unknown"
+        }
+    }
+    
+    /**
+     * 检查语法是否合法
+     * 只允许 call⟨T⟩ 和 call::<T> 形式，不允许 call<T>
+     */
+    fun isValidSyntax(): Boolean {
+        var child = this.firstChild
+        while (child != null) {
+            // 检查是否有非法的 < 符号（不是 :: 后面的）
+            if (child.text == "<" && child.prevSibling?.text != "::") {
+                return false
+            }
+            child = child.nextSibling
+        }
+        return true
     }
     
     override fun toString(): String = "ValkyrieGenericCallExpression"
