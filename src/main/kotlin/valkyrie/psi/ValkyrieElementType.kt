@@ -60,7 +60,7 @@ object ValkyrieElementTypes {
 
     // 表达式
     @JvmField
-    val IDENTIFIER_EXPRESSION = ValkyrieElementType("IDENTIFIER_EXPRESSION")
+    val IDENTIFIER_NODE = ValkyrieElementType("IDENTIFIER_NODE")
     @JvmField
     val LITERAL_EXPRESSION = ValkyrieElementType("LITERAL_EXPRESSION")
     @JvmField
@@ -76,9 +76,6 @@ object ValkyrieElementTypes {
     @JvmField
     val POSTFIX_EXPRESSION = ValkyrieElementType("POSTFIX_EXPRESSION")
 
-    // 模式
-    @JvmField
-    val IDENTIFIER_PATTERN = ValkyrieElementType("IDENTIFIER_PATTERN")
     @JvmField
     val MUTABLE_PATTERN = ValkyrieElementType("MUTABLE_PATTERN")
 

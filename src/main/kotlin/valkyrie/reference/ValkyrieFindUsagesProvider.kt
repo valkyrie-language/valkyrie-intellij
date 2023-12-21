@@ -8,7 +8,7 @@ import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.tree.TokenSet
 import valkyrie.psi.ValkyrieLexer
 import valkyrie.psi.ValkyrieTokenTypes
-import valkyrie.psi.nodes.ValkyrieIdentifierPatternNode
+import valkyrie.psi.nodes.ValkyrieIdentifierNode
 
 /**
  * Valkyrie 查找使用处提供者
@@ -25,7 +25,7 @@ class ValkyrieFindUsagesProvider : FindUsagesProvider {
     }
     
     override fun canFindUsagesFor(psiElement: PsiElement): Boolean {
-        return psiElement is ValkyrieIdentifierPatternNode
+        return psiElement is ValkyrieIdentifierNode
     }
     
     override fun getHelpId(psiElement: PsiElement): String? {
@@ -34,7 +34,7 @@ class ValkyrieFindUsagesProvider : FindUsagesProvider {
     
     override fun getType(element: PsiElement): String {
         return when (element) {
-            is ValkyrieIdentifierPatternNode -> "variable"
+            is ValkyrieIdentifierNode -> "variable"
             else -> ""
         }
     }

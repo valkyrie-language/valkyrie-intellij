@@ -4,13 +4,12 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.IncorrectOperationException
-import valkyrie.psi.nodes.ValkyrieIdentifierPatternNode
-import valkyrie.psi.nodes.ValkyrieIdentifierExpressionNode
+import valkyrie.psi.nodes.ValkyrieIdentifierNode
 
 /**
  * Valkyrie 变量引用解析
  */
-class ValkyrieReference(private val element: ValkyrieIdentifierExpressionNode) : PsiReferenceBase<ValkyrieIdentifierExpressionNode>(element) {
+class ValkyrieReference(private val element: ValkyrieIdentifierNode) : PsiReferenceBase<ValkyrieIdentifierNode>(element) {
     
     override fun resolve(): PsiElement? {
         val name = element.name ?: return null
@@ -19,7 +18,7 @@ class ValkyrieReference(private val element: ValkyrieIdentifierExpressionNode) :
         var context: PsiElement? = element.parent
         while (context != null) {
             // 查找 let 语句中的变量定义
-            val definitions = PsiTreeUtil.findChildrenOfType(context, ValkyrieIdentifierPatternNode::class.java)
+            val definitions = PsiTreeUtil.findChildrenOfType(context, ValkyrieIdentifierNode::class.java)
             for (definition in definitions) {
                 if (definition.name == name && definition.textOffset < element.textOffset) {
                     return definition
@@ -37,7 +36,7 @@ class ValkyrieReference(private val element: ValkyrieIdentifierExpressionNode) :
         // 收集当前作用域中的所有变量定义
         var context: PsiElement? = element.parent
         while (context != null) {
-            val definitions = PsiTreeUtil.findChildrenOfType(context, ValkyrieIdentifierPatternNode::class.java)
+            val definitions = PsiTreeUtil.findChildrenOfType(context, ValkyrieIdentifierNode::class.java)
             for (definition in definitions) {
                 if (definition.textOffset < element.textOffset) {
                     variants.add(definition)
@@ -54,7 +53,7 @@ class ValkyrieReference(private val element: ValkyrieIdentifierExpressionNode) :
     }
     
     override fun getRangeInElement(): TextRange {
-        val nameIdentifier = element.getNameIdentifier() ?: return TextRange.EMPTY_RANGE
+        val nameIdentifier = element ?: return TextRange.EMPTY_RANGE
         val startOffset = nameIdentifier.startOffsetInParent
         return TextRange(startOffset, startOffset + nameIdentifier.textLength)
     }

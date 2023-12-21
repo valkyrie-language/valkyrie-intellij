@@ -66,7 +66,7 @@ class ValkyrieParser : PsiParser {
         if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER) {
             val patternMarker = builder.mark()
             builder.advanceLexer()
-            patternMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
+            patternMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
         } else {
             builder.error("Expected identifier")
             builder.advanceLexer() // 推进词法分析器避免死循环
@@ -278,14 +278,14 @@ class ValkyrieParser : PsiParser {
             ValkyrieTokenTypes.IDENTIFIER -> {
                 val marker = builder.mark()
                 parseIdentifier(builder)
-                marker.done(ValkyrieElementTypes.IDENTIFIER_EXPRESSION)
+                marker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
                 marker
             }
 
             ValkyrieTokenTypes.BACKTICK -> {
                 val marker = builder.mark()
                 parseSpecialIdentifier(builder)
-                marker.done(ValkyrieElementTypes.IDENTIFIER_EXPRESSION)
+                marker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
                 marker
             }
 
@@ -427,7 +427,7 @@ class ValkyrieParser : PsiParser {
         if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER) {
             val nameMarker = builder.mark()
             builder.advanceLexer()
-            nameMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
+            nameMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
 
             // optional generic parameters
             parseOptionalGenericParameters(builder)
@@ -527,7 +527,7 @@ class ValkyrieParser : PsiParser {
         if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER) {
             val nameMarker = builder.mark()
             builder.advanceLexer()
-            nameMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
+            nameMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
 
             // optional generic parameters
             parseOptionalGenericParameters(builder)
@@ -560,7 +560,7 @@ class ValkyrieParser : PsiParser {
         if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER) {
             val nameMarker = builder.mark()
             builder.advanceLexer()
-            nameMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
+            nameMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
 
             // optional generic parameters
             parseOptionalGenericParameters(builder)
@@ -593,7 +593,7 @@ class ValkyrieParser : PsiParser {
         if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER) {
             val nameMarker = builder.mark()
             builder.advanceLexer()
-            nameMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
+            nameMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
 
             // optional generic parameters
             parseOptionalGenericParameters(builder)
@@ -780,7 +780,7 @@ class ValkyrieParser : PsiParser {
         val nameMarker = builder.mark()
         val declarationName = builder.tokenText ?: ""
         builder.advanceLexer()
-        nameMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
+        nameMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
 
         // 根据后续符号确定成员类型
         when (builder.tokenType) {
@@ -906,7 +906,7 @@ class ValkyrieParser : PsiParser {
         if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER) {
             val nameMarker = builder.mark()
             builder.advanceLexer()
-            nameMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
+            nameMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
         }
 
         // variant body

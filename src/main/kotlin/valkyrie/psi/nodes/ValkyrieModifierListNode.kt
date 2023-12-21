@@ -15,3 +15,7 @@ class ValkyrieModifierListNode(node: ASTNode) : ValkyrieElementNode(node) {
             .mapNotNull { it.text }
     }
 }
+
+class ValkyrieModifierNode(node: ASTNode) : ValkyrieElementNode(node) {
+
+}
