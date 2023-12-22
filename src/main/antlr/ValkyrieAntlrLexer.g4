@@ -14,6 +14,9 @@ FAKE_COLON: '⁏' | ';;';
 OP_PROPORTION: '∷' | '::';
 COLON:         ':' | '∶';
 
+// internationalization
+OP_L10N:       '⸿';
+
 // brackets
 PARENTHESES_L: '(';
 PARENTHESES_R: ')';
