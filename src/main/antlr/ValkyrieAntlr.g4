@@ -14,6 +14,7 @@ program_term
     | define_extension
     | define_class
     | define_union
+    | define_enum
     | define_flags
     | define_trait
     | define_extends
@@ -99,6 +100,11 @@ union_block:      BRACE_L union_statements* BRACE_R;
 union_statements: class_method | define_variant | eos_free;
 define_variant:   attribute* identifier variant_block?;
 variant_block:    BRACE_L (class_field | class_method | eos_free)* BRACE_R;
+// ===========================================================================
+define_enum:     attribute* modifiers KW_ENUM identifier base_layout? type_hint? enum_block;
+enum_block:      BRACE_L enum_statement* BRACE_R;
+enum_statement:  class_method | enum_item | eos_free;
+enum_item:       attribute* identifier (OP_ASSIGN main_expression)?;
 // ===========================================================================
 define_flags:    attribute* modifiers KW_FLAGS identifier base_layout? type_hint? flags_block;
 flags_block:     BRACE_L flags_statement* BRACE_R;
@@ -296,7 +302,6 @@ type_expression
     : op_prefix type_expression                                                            # TPrefix
     | type_expression OP_AND_THEN                                                          # TOptional
     | type_expression OP_BANG                                                              # TMust
-    | type_expression generic_call_in_type                                                 # TGeneric
     | type_expression op_pattern type_expression                                           # TPattern
     | type_expression infix_arrows type_expression                                         # TArrows
     | type_expression OP_ADD type_expression                                               # TAdd
@@ -304,7 +309,7 @@ type_expression
     | PARENTHESES_L type_pair COMMA PARENTHESES_R                                          # TTupleSingle
     | function_block                                                                       # TBlock
     | OP_MUL                                                                               # TKind
-    | leading_expression                                                                   # TAtom
+    | leading_expression generic_call_in_type?                                             # TAtom
     ;
 leading_expression
     : string_literal   # AString

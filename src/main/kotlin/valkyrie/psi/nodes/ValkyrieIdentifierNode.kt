@@ -2,8 +2,10 @@ package valkyrie.psi.nodes
 
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiReference
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.reference.ValkyrieReference
 
 /**
  * 标识符节点
@@ -44,4 +46,11 @@ class ValkyrieIdentifierNode(node: ASTNode) : ValkyrieElementNode(node) {
     }
     
     override fun toString(): String = "ValkyrieIdentifier(${getName()})"
+    
+    /**
+     * 获取引用对象，用于支持 find usage 和 goto definition
+     */
+    override fun getReference(): PsiReference? {
+        return ValkyrieReference(this)
+    }
 }

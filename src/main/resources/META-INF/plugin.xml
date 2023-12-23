@@ -80,5 +80,14 @@
 		<postStartupActivity
 			implementation="valkyrie.index.ValkyrieStartupActivity"
 		/>
+
+		<!-- Formatter -->
+		<lang.formatter
+			language="valkyrie"
+			implementationClass="valkyrie.ide.formatter.ValkyrieFormatBuilder"
+		/>
+		<langCodeStyleSettingsProvider
+			implementation="valkyrie.ide.formatter.ValkyrieCodeStyleProvider"
+		/>
 	</extensions>
 </idea-plugin>

@@ -148,6 +148,7 @@ KW_EXTENSION: 'extension';
 // 
 KW_CLASS: 'class' | 'structure' | 'vague' | 'fluid';
 KW_TRAIT: 'trait' | 'interface';
+KW_ENUM:  'enum' | 'enums';
 KW_FLAGS: 'flags' | 'enumerate';
 KW_UNION: 'unite' | 'union' | 'variant' | 'inductive';
 KW_TYPE:  'typus';
