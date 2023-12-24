@@ -18,7 +18,7 @@ class ValkyrieFindUsagesProvider : FindUsagesProvider {
     override fun getWordsScanner(): WordsScanner? {
         return DefaultWordsScanner(
             ValkyrieLexer(),
-            TokenSet.create(ValkyrieTokenTypes.IDENTIFIER),
+            TokenSet.create(ValkyrieTokenTypes.IDENTIFIER_STD),
             TokenSet.create(ValkyrieTokenTypes.COMMENT_REST, ValkyrieTokenTypes.COMMENT_RANGE),
             TokenSet.create(ValkyrieTokenTypes.STRING)
         )

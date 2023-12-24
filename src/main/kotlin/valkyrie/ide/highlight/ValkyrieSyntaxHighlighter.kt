@@ -51,7 +51,7 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.STRING -> ValkyrieColor.STRING
             ValkyrieTokenTypes.BOOLEAN -> ValkyrieColor.KEYWORD
 
-            ValkyrieTokenTypes.IDENTIFIER -> ValkyrieColor.IDENTIFIER
+            ValkyrieTokenTypes.IDENTIFIER_STD -> ValkyrieColor.IDENTIFIER
             // 注释
             ValkyrieTokenTypes.COMMENT_REST -> ValkyrieColor.LINE_COMMENT
             ValkyrieTokenTypes.COMMENT_RANGE -> ValkyrieColor.BLOCK_COMMENT

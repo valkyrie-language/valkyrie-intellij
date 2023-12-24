@@ -11,7 +11,7 @@ import valkyrie.psi.ValkyrieTokenTypes
 class ValkyrieModifierListNode(node: ASTNode) : ValkyrieElementNode(node) {
 
     fun getModifiers(): List<String> {
-        return findChildrenByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)
+        return findChildrenByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER_STD)
             .mapNotNull { it.text }
     }
 }

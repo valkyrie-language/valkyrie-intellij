@@ -38,6 +38,8 @@ object ValkyrieElementTypes {
     @JvmField
     val NAMESPACE_STATEMENT = ValkyrieElementType("NAMESPACE_STATEMENT")
     @JvmField
+    val NAMESPACE_PATH = ValkyrieElementType("NAMESPACE_PATH")
+    @JvmField
     val USING_STATEMENT = ValkyrieElementType("USING_STATEMENT")
     @JvmField
     val EXPRESSION_STATEMENT = ValkyrieElementType("EXPRESSION_STATEMENT")

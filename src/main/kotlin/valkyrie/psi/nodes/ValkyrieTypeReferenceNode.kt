@@ -10,6 +10,6 @@ import valkyrie.psi.ValkyrieTokenTypes
 class ValkyrieTypeReferenceNode(node: ASTNode) : ValkyrieTypeExpression(node) {
     
     fun getTypeName(): String? {
-        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)?.text
+        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER_STD)?.text
     }
 }

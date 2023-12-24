@@ -13,7 +13,7 @@ import valkyrie.psi.ValkyrieTokenTypes
 class ValkyrieFieldDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner {
 
     override fun getNameIdentifier(): PsiElement? {
-        return findChildByType(ValkyrieTokenTypes.IDENTIFIER)
+        return findChildByType(ValkyrieTokenTypes.IDENTIFIER_STD)
     }
 
     override fun getNavigationElement(): PsiElement {
@@ -29,7 +29,7 @@ class ValkyrieFieldDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNa
     }
 
     fun getFieldName(): String? {
-        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)?.text
+        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER_STD)?.text
     }
 
     fun getModifiers(): ValkyrieModifierListNode? {

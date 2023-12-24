@@ -11,7 +11,7 @@ import valkyrie.psi.ValkyrieTokenTypes
 class ValkyrieParameterNode(node: ASTNode) : ValkyrieElementNode(node) {
 
     fun getParameterName(): String? {
-        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)?.text
+        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER_STD)?.text
     }
 
     fun getTypeReference(): ValkyrieTypeReferenceNode? {
