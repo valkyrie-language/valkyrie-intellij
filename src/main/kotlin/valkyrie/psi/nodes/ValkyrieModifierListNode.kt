@@ -16,6 +16,3 @@ class ValkyrieModifierListNode(node: ASTNode) : ValkyrieElementNode(node) {
     }
 }
 
-class ValkyrieModifierNode(node: ASTNode) : ValkyrieElementNode(node) {
-
-}
