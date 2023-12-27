@@ -35,7 +35,10 @@ class ValkyrieParser : PsiParser {
             ValkyrieTokenTypes.UNION -> parseUnionStatement(builder)
             ValkyrieTokenTypes.TRAIT -> parseTraitStatement(builder)
             ValkyrieTokenTypes.FUNCTION -> parseFunctionStatement(builder)
-            ValkyrieTokenTypes.NAMESPACE -> parseNamespaceStatement(builder)
+            ValkyrieTokenTypes.NAMESPACE,
+            ValkyrieTokenTypes.NAMESPACE_MAIN,
+            ValkyrieTokenTypes.NAMESPACE_TEST,
+            ValkyrieTokenTypes.NAMESPACE_HIDE -> parseNamespaceStatement(builder)
             ValkyrieTokenTypes.USING -> parseUsingStatement(builder)
             ValkyrieTokenTypes.LBRACE -> parseBlockStatement(builder)
             ValkyrieTokenTypes.WHITESPACE, ValkyrieTokenTypes.NEWLINE -> builder.advanceLexer()
@@ -355,11 +358,17 @@ class ValkyrieParser : PsiParser {
         val marker = builder.mark()
 
         // 'namespace' keyword (支持不同类型: namespace, namespace!, namespace?, namespace*)
-        if (builder.tokenType == ValkyrieTokenTypes.NAMESPACE) {
-            builder.advanceLexer()
-        } else {
-            marker.drop()
-            return
+        when (builder.tokenType) {
+            ValkyrieTokenTypes.NAMESPACE,
+            ValkyrieTokenTypes.NAMESPACE_MAIN,
+            ValkyrieTokenTypes.NAMESPACE_TEST,
+            ValkyrieTokenTypes.NAMESPACE_HIDE -> {
+                builder.advanceLexer()
+            }
+            else -> {
+                marker.drop()
+                return
+            }
         }
 
         // 解析namespace路径，支持多种格式
@@ -705,7 +714,7 @@ class ValkyrieParser : PsiParser {
             builder.error("Expected '}'")
         }
 
-        marker.done(ValkyrieElementTypes.OBJECT_BODY)
+        marker.done(ValkyrieElementTypes.UNION_BODY)
     }
 
     private fun parseObjectBody(builder: PsiBuilder) {

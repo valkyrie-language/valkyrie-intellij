@@ -32,6 +32,9 @@ class ValkyrieLexer : LexerBase() {
         "break" to ValkyrieTokenTypes.BREAK,
         "continue" to ValkyrieTokenTypes.CONTINUE,
         "namespace" to ValkyrieTokenTypes.NAMESPACE,
+        "namespace!" to ValkyrieTokenTypes.NAMESPACE_MAIN,
+        "namespace?" to ValkyrieTokenTypes.NAMESPACE_TEST,
+        "namespace*" to ValkyrieTokenTypes.NAMESPACE_HIDE,
         "using" to ValkyrieTokenTypes.USING,
         "true" to ValkyrieTokenTypes.BOOLEAN,
         "false" to ValkyrieTokenTypes.BOOLEAN
