@@ -301,7 +301,7 @@ class ValkyrieLexer : LexerBase() {
                     currentOffset++
                     tokenType = ValkyrieTokenTypes.OR
                 } else {
-                    tokenType = ValkyrieTokenTypes.BAD_CHARACTER
+                    tokenType = ValkyrieTokenTypes.PIPE
                 }
             }
 
@@ -324,7 +324,17 @@ class ValkyrieLexer : LexerBase() {
             }
 
             '/' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.DIVIDE
+                currentOffset++
+                if (peek(0) == '/') {
+                    currentOffset++
+                    tokenType = ValkyrieTokenTypes.INTEGER_DIVIDE
+                } else {
+                    tokenType = ValkyrieTokenTypes.DIVIDE
+                }
+            }
+
+            '^' -> {
+                currentOffset++; tokenType = ValkyrieTokenTypes.POWER
             }
 
             '%' -> {

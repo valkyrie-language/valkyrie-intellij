@@ -117,6 +117,12 @@ object ValkyrieTokenTypes {
     val MODULO = ValkyrieTokenType("MODULO") // %
 
     @JvmField
+    val INTEGER_DIVIDE = ValkyrieTokenType("INTEGER_DIVIDE") // //
+
+    @JvmField
+    val POWER = ValkyrieTokenType("POWER") // ^
+
+    @JvmField
     val EQUAL = ValkyrieTokenType("EQUAL")  // ==
 
     @JvmField
@@ -139,6 +145,9 @@ object ValkyrieTokenTypes {
 
     @JvmField
     val OR = ValkyrieTokenType("OR")        // ||
+
+    @JvmField
+    val PIPE = ValkyrieTokenType("PIPE")    // |
 
     @JvmField
     val WOW = ValkyrieTokenType("!")

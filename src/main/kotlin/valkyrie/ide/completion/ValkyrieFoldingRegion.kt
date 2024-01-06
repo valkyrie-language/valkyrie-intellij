@@ -1,6 +1,7 @@
 package valkyrie.ide.completion
 
 import com.intellij.lang.folding.CustomFoldingProvider
+import com.intellij.lang.folding.FoldingDescriptor
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.TextRange
@@ -15,111 +16,33 @@ import valkyrie.psi.nodes.*
  */
 class ValkyrieFoldingRegion : CustomFoldingProvider() {
 
-    override fun buildLanguageFoldRegions(
-        descriptors: MutableList<CustomFoldingProvider.FoldingDescriptor>,
-        root: PsiElement,
-        document: Document,
-        quick: Boolean
-    ) {
-        if (root !is ValkyrieFileNode) return
-        
-        // 折叠连续的导入语句
-        addImportFolding(root, descriptors, document)
-        
-        // 折叠文档注释
-        addDocumentationCommentFolding(root, descriptors, document)
-        
-        // 折叠多行注释
-        addMultiLineCommentFolding(root, descriptors, document)
+    // CustomFoldingProvider不需要buildLanguageFoldRegions方法
+
+    override fun isCustomRegionStart(elementText: String): Boolean {
+        return elementText.startsWith("<#") || elementText.startsWith("using")
     }
 
-    private fun addImportFolding(
-        file: ValkyrieFileNode,
-        descriptors: MutableList<CustomFoldingProvider.FoldingDescriptor>,
-        document: Document
-    ) {
-        val usingStatements = PsiTreeUtil.getChildrenOfType(file, ValkyrieUsingStatementNode::class.java)
-        if (usingStatements != null && usingStatements.size > 1) {
-            val first = usingStatements.first()
-            val last = usingStatements.last()
-            val range = TextRange(first.textRange.startOffset, last.textRange.endOffset)
-            
-            if (range.length > 0) {
-                descriptors.add(
-                    CustomFoldingProvider.FoldingDescriptor(
-                        first.node,
-                        range,
-                        null,
-                        "using ...",
-                        false
-                    )
-                )
-            }
-        }
+    override fun isCustomRegionEnd(elementText: String): Boolean {
+        return elementText.endsWith("#>") || elementText.startsWith("using")
     }
 
-    private fun addDocumentationCommentFolding(
-        file: ValkyrieFileNode,
-        descriptors: MutableList<CustomFoldingProvider.FoldingDescriptor>,
-        document: Document
-    ) {
-        // 查找文档注释并添加折叠
-        PsiTreeUtil.processElements(file) { element ->
-            if (element.text.startsWith("/**") && element.text.endsWith("*/")) {
-                val lines = element.text.split("\n")
-                if (lines.size > 2) {
-                    descriptors.add(
-                        CustomFoldingProvider.FoldingDescriptor(
-                            element.node,
-                            element.textRange,
-                            null,
-                            "/**...*/",
-                            false
-                        )
-                    )
-                }
-            }
-            true
-        }
-    }
-
-    private fun addMultiLineCommentFolding(
-        file: ValkyrieFileNode,
-        descriptors: MutableList<CustomFoldingProvider.FoldingDescriptor>,
-        document: Document
-    ) {
-        // 查找多行注释并添加折叠
-        PsiTreeUtil.processElements(file) { element ->
-            if (element.text.startsWith("/*") && element.text.endsWith("*/") && !element.text.startsWith("/**")) {
-                val lines = element.text.split("\n")
-                if (lines.size > 2) {
-                    descriptors.add(
-                        CustomFoldingProvider.FoldingDescriptor(
-                            element.node,
-                            element.textRange,
-                            null,
-                            "/*...*/",
-                            false
-                        )
-                    )
-                }
-            }
-            true
-        }
-    }
-
-    override fun getLanguagePlaceholderText(node: com.intellij.lang.ASTNode, range: TextRange): String {
-        val text = node.text
+    override fun getPlaceholderText(elementText: String): String {
         return when {
-            text.startsWith("using") -> "using ..."
-            text.startsWith("/**") -> "/**...*/"
-            text.startsWith("/*") -> "/*...*/"
+            elementText.startsWith("using") -> "using ..."
+            elementText.startsWith("<#") -> "<#...#>"
             else -> "..."
         }
     }
 
-    override fun isRegionCollapsedByDefault(node: com.intellij.lang.ASTNode): Boolean {
-        // 默认折叠导入语句
-        return node.text.startsWith("using")
+    override fun getDescription(): String {
+        return "Valkyrie Custom Folding"
+    }
+
+    override fun getStartString(): String {
+        return "<#"
+    }
+
+    override fun getEndString(): String {
+        return "#>"
     }
 }

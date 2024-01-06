@@ -4,6 +4,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.NlsSafe
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
+import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
 
@@ -29,18 +30,41 @@ class ValkyrieMethodDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiN
     }
 
     fun isStatic(): Boolean {
-        return false
+        // 检查参数列表中是否有self参数
+        val parameterList = getParameterList()
+        val parameters = parameterList?.getParameters() ?: return true
+        
+        // 如果第一个参数是self或mut self，则不是静态方法
+        val firstParam = parameters.firstOrNull()
+        val firstParamName = firstParam?.getParameterName()
+        
+        return firstParamName != "self"
+    }
+    
+    fun isMutable(): Boolean {
+        // 检查第一个参数是否为mut self
+        val parameterList = getParameterList()
+        val parameters = parameterList?.getParameters() ?: return false
+        
+        val firstParam = parameters.firstOrNull()
+        val firstParamName = firstParam?.getParameterName()
+        
+        if (firstParamName != "self") return false
+        
+        // 检查self参数是否有mut修饰符
+        val modifiers = firstParam?.let { PsiTreeUtil.findChildOfType(it, ValkyrieModifierListNode::class.java) }
+        return modifiers?.isMutable() == true
     }
 
     fun getModifiers(): ValkyrieModifierListNode? {
-        return findChildByClass(ValkyrieModifierListNode::class.java)
+        return PsiTreeUtil.findChildOfType(this, ValkyrieModifierListNode::class.java)
     }
 
     fun getParameterList(): ValkyrieParameterListNode? {
-        return findChildByClass(ValkyrieParameterListNode::class.java)
+        return PsiTreeUtil.findChildOfType(this, ValkyrieParameterListNode::class.java)
     }
 
     fun getMethodBody(): ValkyrieBlockNode? {
-        return findChildByClass(ValkyrieBlockNode::class.java)
+        return PsiTreeUtil.findChildOfType(this, ValkyrieBlockNode::class.java)
     }
 }
