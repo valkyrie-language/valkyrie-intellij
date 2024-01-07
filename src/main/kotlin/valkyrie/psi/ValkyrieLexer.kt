@@ -289,7 +289,7 @@ class ValkyrieLexer : LexerBase() {
                 currentOffset++
                 if (peek(0) == '&') {
                     currentOffset++
-                    tokenType = ValkyrieTokenTypes.AND
+                    tokenType = ValkyrieTokenTypes.LOGIC_AND
                 } else {
                     tokenType = ValkyrieTokenTypes.BAD_CHARACTER
                 }
@@ -299,7 +299,7 @@ class ValkyrieLexer : LexerBase() {
                 currentOffset++
                 if (peek(0) == '|') {
                     currentOffset++
-                    tokenType = ValkyrieTokenTypes.OR
+                    tokenType = ValkyrieTokenTypes.LOGIC_OR
                 } else {
                     tokenType = ValkyrieTokenTypes.PIPE
                 }
