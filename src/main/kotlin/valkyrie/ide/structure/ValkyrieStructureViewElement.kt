@@ -58,6 +58,12 @@ class ValkyrieStructureViewElement(
                 namespaceDeclarations.forEach { nsDecl ->
                     children.add(ValkyrieStructureViewElement(nsDecl))
                 }
+                
+                // 查找所有let语句
+                val letStatements = PsiTreeUtil.findChildrenOfType(element, ValkyrieLetStatementNode::class.java)
+                letStatements.forEach { letStmt ->
+                    children.add(ValkyrieStructureViewElement(letStmt))
+                }
             }
             
             // 类声明 - 显示字段和方法
@@ -88,6 +94,33 @@ class ValkyrieStructureViewElement(
                 val methods = PsiTreeUtil.findChildrenOfType(element, ValkyrieMethodDeclaration::class.java)
                 methods.forEach { method ->
                     children.add(ValkyrieStructureViewElement(method))
+                }
+            }
+            
+            // Domain声明 - 显示嵌套的domain和其他声明
+            is ValkyrieDomainDeclaration -> {
+                // 查找嵌套的domain声明
+                val nestedDomains = PsiTreeUtil.findChildrenOfType(element, ValkyrieDomainDeclaration::class.java)
+                nestedDomains.forEach { domain ->
+                    children.add(ValkyrieStructureViewElement(domain))
+                }
+                
+                // 查找类声明
+                val classes = PsiTreeUtil.findChildrenOfType(element, ValkyrieClassDeclaration::class.java)
+                classes.forEach { cls ->
+                    children.add(ValkyrieStructureViewElement(cls))
+                }
+                
+                // 查找union声明
+                val unions = PsiTreeUtil.findChildrenOfType(element, ValkyrieUnionDeclaration::class.java)
+                unions.forEach { union ->
+                    children.add(ValkyrieStructureViewElement(union))
+                }
+                
+                // 查找trait声明
+                val traits = PsiTreeUtil.findChildrenOfType(element, ValkyrieTraitDeclaration::class.java)
+                traits.forEach { trait ->
+                    children.add(ValkyrieStructureViewElement(trait))
                 }
             }
         }
@@ -130,12 +163,9 @@ class ValkyrieStructureViewElement(
         return when (element) {
             is ValkyrieFieldDeclaration,
             is ValkyrieVariantDeclaration,
-            is ValkyrieNamespaceDeclaration -> true
-            is ValkyrieDomainDeclaration,
-            is ValkyrieMethodDeclaration -> {
-                // Domain和方法通常是叶子节点，除非有嵌套声明
-                true
-            }
+            is ValkyrieNamespaceDeclaration,
+            is ValkyrieLetStatementNode,
+            is ValkyrieMethodDeclaration -> true
             else -> false
         }
     }
