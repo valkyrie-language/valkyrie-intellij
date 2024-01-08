@@ -32,8 +32,20 @@ class ValkyrieFieldDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNa
         return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER_STD)?.text
     }
 
-    fun getModifiers(): ValkyrieModifierListNode? {
-        return findChildByClass(ValkyrieModifierListNode::class.java)
+    fun getModifierNodes(): List<ValkyrieModifierNode> {
+        return findChildrenByClass(ValkyrieModifierNode::class.java).toList()
+    }
+    
+    fun hasModifier(name: String): Boolean {
+        return getModifierNodes().any { it.isModifier(name) }
+    }
+    
+    fun isStatic(): Boolean {
+        return hasModifier("static")
+    }
+    
+    fun isMutable(): Boolean {
+        return hasModifier("mut")
     }
 
     fun getTypeReference(): ValkyrieTypeReferenceNode? {

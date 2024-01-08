@@ -109,9 +109,9 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
     
     private fun getModifiersText(element: PsiElement): String {
         return when (element) {
-            is ValkyrieClassDeclaration -> ""
-            is ValkyrieMethodDeclaration -> element.getModifiers()?.text ?: ""
-            is ValkyrieFieldDeclaration -> element.getModifiers()?.text ?: ""
+            is ValkyrieClassDeclaration -> element.getModifierNodes().mapNotNull { it.getModifierName() }.joinToString(" ")
+            is ValkyrieMethodDeclaration -> element.getModifierNodes().mapNotNull { it.getModifierName() }.joinToString(" ")
+            is ValkyrieFieldDeclaration -> element.getModifierNodes().mapNotNull { it.getModifierName() }.joinToString(" ")
             else -> ""
         }
     }

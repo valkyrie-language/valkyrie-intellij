@@ -36,6 +36,12 @@ class ValkyrieLexer : LexerBase() {
         "namespace?" to ValkyrieTokenTypes.NAMESPACE_TEST,
         "namespace*" to ValkyrieTokenTypes.NAMESPACE_HIDE,
         "using" to ValkyrieTokenTypes.USING,
+        "until" to ValkyrieTokenTypes.UNTIL,
+        "match" to ValkyrieTokenTypes.MATCH,
+        "case" to ValkyrieTokenTypes.CASE,
+        "catch" to ValkyrieTokenTypes.CATCH,
+        "try" to ValkyrieTokenTypes.TRY,
+        "when" to ValkyrieTokenTypes.WHEN,
         "true" to ValkyrieTokenTypes.BOOLEAN,
         "false" to ValkyrieTokenTypes.BOOLEAN
     )
@@ -407,6 +413,30 @@ class ValkyrieLexer : LexerBase() {
 
             '↯' -> {
                 currentOffset++; tokenType = ValkyrieTokenTypes.ATTRIBUTE_LOWER
+            }
+
+            '∧' -> {
+                currentOffset++; tokenType = ValkyrieTokenTypes.LOGIC_AND
+            }
+
+            '∨' -> {
+                currentOffset++; tokenType = ValkyrieTokenTypes.LOGIC_OR
+            }
+
+            '⩟' -> {
+                currentOffset++; tokenType = ValkyrieTokenTypes.LOGIC_XAND
+            }
+
+            '⊼' -> {
+                currentOffset++; tokenType = ValkyrieTokenTypes.LOGIC_NAND
+            }
+
+            '⊻' -> {
+                currentOffset++; tokenType = ValkyrieTokenTypes.LOGIC_XOR
+            }
+
+            '⊽' -> {
+                currentOffset++; tokenType = ValkyrieTokenTypes.LOGIC_NOR
             }
 
             '?' -> {
