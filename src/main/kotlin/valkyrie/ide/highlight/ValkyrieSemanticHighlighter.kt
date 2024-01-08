@@ -43,16 +43,16 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
                 } else if (element.isStatic()) {
                     highlight(element.nameIdentifier, ValkyrieColor.SYM_METHOD)
                 } else {
-                    highlight(element.nameIdentifier, ValkyrieColor.SYM_FUNCTION)
+                    highlight(element.nameIdentifier, ValkyrieColor.SYM_FUNCTION_FREE)
                 }
             }
 
             is ValkyrieDomainDeclaration -> {
-                highlight(element.nameIdentifier, ValkyrieColor.SYM_VARIANT)
+                highlight(element.nameIdentifier, ValkyrieColor.SYM_DOMAIN)
             }
 
             is ValkyrieModifierNode -> {
-                highlight(element, ValkyrieColor.SYM_CLASS)
+                highlight(element, ValkyrieColor.SYM_MODIFIER)
             }
         }
     }

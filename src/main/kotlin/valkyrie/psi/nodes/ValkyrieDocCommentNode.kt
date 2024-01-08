@@ -57,19 +57,7 @@ class ValkyrieDocCommentNode(node: ASTNode) : ValkyrieElementNode(node) {
         return comments.joinToString("\n")
     }
     
-    /**
-     * 渲染为HTML格式用于显示
-     */
-    fun renderToHtml(): String {
-        val content = getMergedDocComment()
-        
-        // 简单的Markdown到HTML转换
-        return content
-            .replace(Regex("\\*\\*(.*?)\\*\\*"), "<b>$1</b>") // 粗体
-            .replace(Regex("\\*(.*?)\\*"), "<i>$1</i>")       // 斜体
-            .replace(Regex("`(.*?)`"), "<code>$1</code>")     // 代码
-            .replace("\n", "<br>")                            // 换行
-    }
+    // 移除自定义HTML渲染方法，使用IntelliJ内置文档功能
     
     /**
      * 获取关联的声明元素

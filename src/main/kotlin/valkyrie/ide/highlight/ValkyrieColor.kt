@@ -37,12 +37,13 @@ enum class ValkyrieColor(humanName: Supplier<@AttributeDescriptor String>, defau
 
     //    SYM_ATTRIBUTE(WitBundle.messagePointer("color.token.symbol.attribute"), Default.STATIC_METHOD),
 //    SYM_VARIABLE(WitBundle.messagePointer("color.token.symbol.variable"), Default.REASSIGNED_PARAMETER),
-    SYM_FUNCTION(ValkyrieBundle.messagePointer("color.token.symbol.function"), Default.STATIC_METHOD),
+    SYM_FUNCTION_FREE(ValkyrieBundle.messagePointer("color.token.symbol.function"), Default.STATIC_METHOD),
     SYM_METHOD(ValkyrieBundle.messagePointer("color.token.symbol.function"), Default.INSTANCE_METHOD),
     SYM_METHOD_MUT(ValkyrieBundle.messagePointer("color.token.symbol.function"), Default.INSTANCE_METHOD),
 
     SYMBOL_GENERIC(ValkyrieBundle.messagePointer("color.token.symbol.generic"), Default.PREDEFINED_SYMBOL),
-    SYM_BUILTIN(ValkyrieBundle.messagePointer("color.token.symbol.builtin"), Default.PREDEFINED_SYMBOL),
+    SYM_DOMAIN(ValkyrieBundle.messagePointer("color.token.symbol.builtin"), Default.PREDEFINED_SYMBOL),
+    SYM_MODIFIER(ValkyrieBundle.messagePointer("color.token.symbol.builtin"), Default.KEYWORD),
 
     // 标点符号
     PARENTHESES(OptionsBundle.messagePointer("options.language.defaults.parentheses"), Default.PARENTHESES),
