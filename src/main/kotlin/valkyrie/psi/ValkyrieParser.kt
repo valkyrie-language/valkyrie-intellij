@@ -1032,7 +1032,7 @@ class ValkyrieParser : PsiParser {
             builder.error("Expected '}'")
         }
 
-        marker.done(ValkyrieElementTypes.DOMAIN_BODY)
+        marker.done(ValkyrieElementTypes.OBJECT_BODY)
     }
 
     private fun parseUnionBody(builder: PsiBuilder) {

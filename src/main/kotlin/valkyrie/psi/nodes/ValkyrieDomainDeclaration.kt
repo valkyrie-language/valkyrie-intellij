@@ -47,7 +47,7 @@ class ValkyrieDomainDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiN
         return hasModifier("mut")
     }
 
-    fun getDomainBody(): ValkyrieDomainBodyNode? {
-        return findChildByClass(ValkyrieDomainBodyNode::class.java)
+    fun getDomainBody(): ValkyrieObjectBodyNode? {
+        return findChildByClass(ValkyrieObjectBodyNode::class.java)
     }
 }

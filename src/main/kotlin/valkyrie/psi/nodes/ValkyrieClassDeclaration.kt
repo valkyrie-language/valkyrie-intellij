@@ -46,9 +46,8 @@ class ValkyrieClassDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNa
         return hasModifier("mut")
     }
 
-    fun getAnnotations(): List<ValkyrieElementNode> {
-        return findChildrenByClass(ValkyrieElementNode::class.java)
-            .filter { it.node.elementType.toString() == "ANNOTATION_NODE" }
+    fun getAnnotations(): List<ValkyrieAnnotationNode> {
+        return findChildrenByClass(ValkyrieAnnotationNode::class.java).toList()
     }
 }
 
