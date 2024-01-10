@@ -5,10 +5,12 @@ import com.intellij.ide.projectView.ViewSettings
 import com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode
 import com.intellij.ide.util.treeView.AbstractTreeNode
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.IconLoader
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiManager
 import valkyrie.index.ValkyrieProjectService
+import javax.swing.Icon
 
 /**
  * Valkyrie 项目视图提供器
@@ -193,8 +195,7 @@ class ValkyriePackagesNode(
  * Valkyrie 图标定义
  */
 object ValkyrieIcons {
-    // 这里应该定义实际的图标，暂时使用 null
-    val WORKSPACE = null // AllIcons.Nodes.ModuleGroup
-    val PROJECT = null   // AllIcons.Nodes.Module
-    val PACKAGES = null  // AllIcons.Nodes.Package
+    val WORKSPACE: Icon = IconLoader.getIcon("/icons/workspace.svg", ValkyrieIcons::class.java)
+    val PROJECT: Icon = IconLoader.getIcon("/icons/project.svg", ValkyrieIcons::class.java)
+    val PACKAGES: Icon = IconLoader.getIcon("/icons/packages.svg", ValkyrieIcons::class.java)
 }

@@ -1,6 +1,7 @@
 package valkyrie.ide.structure
 
 import com.intellij.navigation.ItemPresentation
+import com.intellij.openapi.util.IconLoader
 import com.intellij.psi.PsiElement
 import valkyrie.psi.nodes.*
 import javax.swing.Icon
@@ -37,14 +38,16 @@ class ValkyrieItemPresentation(private val element: PsiElement) : ItemPresentati
     override fun getIcon(unused: Boolean): Icon? {
         // 根据元素类型返回相应的图标
         return when (element) {
-            is ValkyrieClassDeclaration -> null // 可以添加类图标
-            is ValkyrieUnionDeclaration -> null // 可以添加union图标
-            is ValkyrieTraitDeclaration -> null // 可以添加trait图标
-            is ValkyrieDomainDeclaration -> null // 可以添加domain图标
-            is ValkyrieFieldDeclaration -> null // 可以添加字段图标
-            is ValkyrieMethodDeclaration -> null // 可以添加方法图标
-            is ValkyrieVariantDeclaration -> null // 可以添加变体图标
-            is ValkyrieNamespaceDeclaration -> null // 可以添加namespace图标
+            is ValkyrieClassDeclaration -> IconLoader.getIcon("/icons/class.svg", ValkyrieItemPresentation::class.java)
+            is ValkyrieUnionDeclaration -> IconLoader.getIcon("/icons/union.svg", ValkyrieItemPresentation::class.java)
+            is ValkyrieTraitDeclaration -> IconLoader.getIcon("/icons/trait.svg", ValkyrieItemPresentation::class.java)
+            is ValkyrieDomainDeclaration -> IconLoader.getIcon("/icons/domain.svg", ValkyrieItemPresentation::class.java)
+            is ValkyrieFieldDeclaration -> IconLoader.getIcon("/icons/field.svg", ValkyrieItemPresentation::class.java)
+            is ValkyrieMethodDeclaration -> IconLoader.getIcon("/icons/method.svg", ValkyrieItemPresentation::class.java)
+            is ValkyrieVariantDeclaration -> IconLoader.getIcon("/icons/variant.svg", ValkyrieItemPresentation::class.java)
+            is ValkyrieNamespaceDeclaration -> IconLoader.getIcon("/icons/namespace.svg", ValkyrieItemPresentation::class.java)
+            is ValkyrieLetStatementNode -> IconLoader.getIcon("/icons/variable.svg", ValkyrieItemPresentation::class.java)
+            is ValkyrieFileNode -> IconLoader.getIcon("/icons/vk.svg", ValkyrieItemPresentation::class.java)
             else -> null
         }
     }
