@@ -27,7 +27,6 @@ enum class ValkyrieColor(humanName: Supplier<@AttributeDescriptor String>, defau
     IDENTIFIER(OptionsBundle.messagePointer("options.language.defaults.identifier"), Default.IDENTIFIER),
     SYM_CLASS(ValkyrieBundle.messagePointer("color.token.type.class"), Default.CLASS_NAME),
     SYM_TRAIT(ValkyrieBundle.messagePointer("color.token.type.trait"), Default.INTERFACE_NAME),
-    SYM_TYPE(ValkyrieBundle.messagePointer("color.token.type"), Default.CLASS_NAME),
     SYM_UNION(ValkyrieBundle.messagePointer("color.token.type.union"), Default.CLASS_REFERENCE),
     SYM_VARIANT(ValkyrieBundle.messagePointer("color.token.type.variant"), Default.STATIC_FIELD),
 
@@ -36,10 +35,17 @@ enum class ValkyrieColor(humanName: Supplier<@AttributeDescriptor String>, defau
     SYM_LOCAL(ValkyrieBundle.messagePointer("color.token.symbol.local"), Default.LOCAL_VARIABLE),
     SYM_LOCAL_MUT(ValkyrieBundle.messagePointer("color.token.symbol.local"), Default.REASSIGNED_LOCAL_VARIABLE),
     SYM_ARG(ValkyrieBundle.messagePointer("color.token.symbol.builtin"), Default.PARAMETER),
+    SYM_ARG_MUT(ValkyrieBundle.messagePointer("color.token.symbol.builtin"), Default.PARAMETER),
+    SYM_SELF(ValkyrieBundle.messagePointer("color.token.symbol.builtin"), Default.KEYWORD),
+    SYM_SELF_MUT(ValkyrieBundle.messagePointer("color.token.symbol.builtin"), Default.KEYWORD),
+
+    SYM_MICRO(ValkyrieBundle.messagePointer("color.token.symbol.function"), Default.STATIC_METHOD),
+    SYM_MEZZO(ValkyrieBundle.messagePointer("color.token.type"), Default.CLASS_NAME),
+    SYM_MACRO(ValkyrieBundle.messagePointer("color.token.symbol.builtin"), Default.KEYWORD),
 
     //    SYM_ATTRIBUTE(WitBundle.messagePointer("color.token.symbol.attribute"), Default.STATIC_METHOD),
 //    SYM_VARIABLE(WitBundle.messagePointer("color.token.symbol.variable"), Default.REASSIGNED_PARAMETER),
-    SYM_FUNCTION_FREE(ValkyrieBundle.messagePointer("color.token.symbol.function"), Default.STATIC_METHOD),
+
     SYM_FUNCTION_SELF(ValkyrieBundle.messagePointer("color.token.symbol.function"), Default.INSTANCE_METHOD),
     SYM_METHOD_MUT(ValkyrieBundle.messagePointer("color.token.symbol.function"), Default.INSTANCE_METHOD),
 

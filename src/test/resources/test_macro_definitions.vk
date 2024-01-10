@@ -1,0 +1,94 @@
+// 测试 macro 定义语法支持
+
+// 基本宏定义
+macro debug_print(expr: AnyNode) {
+    @.cfg(debug_assertions)
+    println("DEBUG: {} = {}", stringify!(expr), expr)
+}
+
+// 带参数的宏
+macro create_class(name: IdentifierNode, fields: FieldListNode) {
+    class name {
+        fields,
+        
+        new(fields) -> Self {
+            Self {
+                fields
+            }
+        }
+    }
+}
+
+// 数值宏
+numeric macro mm(number: NumberLiteralNode): AnyNode {
+    20mm
+}
+
+// 文本宏
+textual macro mm(text: TextLiteralNode): AnyNode {
+    mm'text'
+}
+
+// 函数式宏
+functional macro mm(args: AnyNode, domain: LambdaNode?): AnyNode {
+    mm(args) {}
+}
+
+// 属性宏
+attributive macro mm(receiver: AnyNode, args: AnyNode, domain: LambdaNode?): AnyNode {
+    
+}
+
+// 域宏
+domainal macro mm(node: DomainNode): Iterator<Item=AnyNode> {
+    
+}
+
+// 复杂宏定义
+macro vec_of {
+    (elem: expr; n: expr) => {
+        {
+            let mut v = Vec::new()
+            for _ in 0..n {
+                v.push(elem)
+            }
+            v
+        }
+    }
+    (x: expr, ...) => {
+        @vec(x, ...)
+    }
+}
+
+// 编译时计算宏
+macro const_eval(expr: ExprNode) -> AnyNode {
+    // 编译时计算表达式
+    @compile_time_eval(expr)
+}
+
+// 条件编译宏
+macro cfg_if(condition: BoolNode, then_block: BlockNode, else_block: BlockNode?) {
+    @.cfg(condition)
+    then_block
+    @.cfg(not(condition))
+    else_block
+}
+
+// 代码生成宏
+macro generate_crud(entity: TypeNode, key: TypeNode) {
+    micro create(entity: entity) -> Result<key, Error> {
+        // 创建实体的通用逻辑
+    }
+    
+    micro read(key: key) -> Result<entity, Error> {
+        // 读取实体的通用逻辑
+    }
+    
+    micro update(key: key, entity: entity) -> Result<(), Error> {
+        // 更新实体的通用逻辑
+    }
+    
+    micro delete(key: key) -> Result<(), Error> {
+        // 删除实体的通用逻辑
+    }
+}

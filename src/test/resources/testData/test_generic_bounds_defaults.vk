@@ -1,0 +1,120 @@
+// 测试泛型参数的 bound 和 default 语法
+
+// 基本泛型约束语法测试
+class Container<T: Display> {
+    value: T
+}
+
+trait Comparable<T: Ord> {
+    micro compare(self, other: T) -> i32
+}
+
+union Result<T: Clone, E: Debug> {
+    Ok { value: T }
+    Err { error: E }
+}
+
+// 泛型默认值语法测试
+class DefaultContainer<T = String> {
+    value: T
+}
+
+trait DefaultTrait<T = i32> {
+    micro process(self, value: T) -> T
+}
+
+union DefaultUnion<T = (), E = String> {
+    Success { value: T }
+    Failure { error: E }
+}
+
+// 组合约束和默认值
+class BoundedDefault<T: Display = String> {
+    value: T
+}
+
+trait ComplexTrait<T: Clone + Debug = Vec<i32>> {
+    micro handle(self, data: T) -> T
+}
+
+// 多个约束
+class MultiConstraint<T: Display + Clone + Debug> {
+    items: [T]
+}
+
+// 函数中的泛型约束和默认值
+micro process_with_bound<T: Display>(value: T) -> String {
+    value.to_string()
+}
+
+micro process_with_default<T = i32>(value: T) -> T {
+    value
+}
+
+micro process_complex<T: Clone + Debug = String, U: Display = i32>(a: T, b: U) -> (T, U) {
+    (a.clone(), b)
+}
+
+// where 子句测试
+class WhereClause<T, U> 
+where 
+    T: Display + Clone,
+    U: Debug
+{
+    first: T,
+    second: U
+}
+
+trait WhereClauseTrait<T, U>
+where
+    T: Clone,
+    U: Display + Debug
+{
+    micro combine(self, a: T, b: U) -> String
+}
+
+micro where_function<T, U>(a: T, b: U) -> String
+where
+    T: Display,
+    U: Debug
+{
+    format!("{} {:?}", a, b)
+}
+
+// 嵌套泛型约束
+class Nested<T: Container<U>, U: Display> {
+    data: T
+}
+
+// 生命周期和约束组合（如果支持）
+class LifetimeAndBound<'a, T: Display + 'a> {
+    reference: &'a T
+}
+
+// 高阶类型约束
+trait HigherKinded<F<_>> 
+where
+    F<_>: Functor
+{
+    micro map_over<A, B>(self, f: A -> B, fa: F<A>) -> F<B>
+}
+
+// 关联类型约束
+trait AssociatedType {
+    type Output: Display + Clone
+    
+    micro produce(self) -> Self::Output
+}
+
+// 测试表达式中的约束泛型调用
+micro test_constrained_calls() {
+    let container = Container::<String>::new("hello")
+    let result = process_with_bound::<i32>(42)
+    let default_result = process_with_default(100)
+    
+    // 复杂约束调用
+    let complex = process_complex::<Vec<String>, f64>(vec!["a".to_string()], 3.14)
+    
+    // where 子句函数调用
+    let where_result = where_function("test", 42)
+}

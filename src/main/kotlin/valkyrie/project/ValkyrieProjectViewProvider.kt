@@ -10,6 +10,7 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiManager
 import valkyrie.index.ValkyrieProjectService
+import valkyrie.language.ValkyrieIcons
 import javax.swing.Icon
 
 /**
@@ -189,13 +190,4 @@ class ValkyriePackagesNode(
         data.presentableText = "Packages (${workspace.packages.size})"
         data.setIcon(ValkyrieIcons.PACKAGES)
     }
-}
-
-/**
- * Valkyrie 图标定义
- */
-object ValkyrieIcons {
-    val WORKSPACE: Icon = IconLoader.getIcon("/icons/workspace.svg", ValkyrieIcons::class.java)
-    val PROJECT: Icon = IconLoader.getIcon("/icons/project.svg", ValkyrieIcons::class.java)
-    val PACKAGES: Icon = IconLoader.getIcon("/icons/packages.svg", ValkyrieIcons::class.java)
 }
