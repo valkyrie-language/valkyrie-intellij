@@ -326,7 +326,7 @@ class ValkyrieLexer : LexerBase() {
             }
 
             '*' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.MULTIPLY
+                currentOffset++; tokenType = ValkyrieTokenTypes.STAR
             }
 
             '/' -> {
@@ -437,6 +437,10 @@ class ValkyrieLexer : LexerBase() {
 
             '⊽' -> {
                 currentOffset++; tokenType = ValkyrieTokenTypes.LOGIC_NOR
+            }
+
+            '×' -> {
+                currentOffset++; tokenType = ValkyrieTokenTypes.MULTIPLY
             }
 
             '?' -> {

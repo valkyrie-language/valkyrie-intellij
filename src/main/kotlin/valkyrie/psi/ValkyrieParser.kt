@@ -261,11 +261,32 @@ class ValkyrieParser : PsiParser {
 
         while (!builder.eof()) {
             when (builder.tokenType) {
+                ValkyrieTokenTypes.DOT -> {
+                    // 点调用 a.b
+                    val marker = left?.precede()
+                    builder.advanceLexer() // consume '.'
+                    if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                        val nameMarker = builder.mark()
+                        builder.advanceLexer()
+                        nameMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
+                    } else {
+                        builder.error("Expected identifier after '.'")
+                    }
+                    marker?.done(ValkyrieElementTypes.DOT_EXPRESSION)
+                    left = marker
+                }
                 ValkyrieTokenTypes.LPAREN -> {
                     // 普通函数调用 call(args)
                     val marker = left?.precede()
                     parseArgumentList(builder)
                     marker?.done(ValkyrieElementTypes.CALL_EXPRESSION)
+                    left = marker
+                }
+                ValkyrieTokenTypes.LBRACE -> {
+                    // 尾随闭包 call {}
+                    val marker = left?.precede()
+                    parseBlockStatement(builder)
+                    marker?.done(ValkyrieElementTypes.TRAILING_CLOSURE_EXPRESSION)
                     left = marker
                 }
                 ValkyrieTokenTypes.LANGLE -> {
@@ -525,9 +546,30 @@ class ValkyrieParser : PsiParser {
             ValkyrieTokenTypes.IDENTIFIER_STD -> {
                 builder.advanceLexer()
                 
-                // 支持泛型参数
-                if (builder.tokenType == ValkyrieTokenTypes.LESS) {
-                    parseGenericArguments(builder, ValkyrieTokenTypes.LESS, ValkyrieTokenTypes.GREATER)
+                // 支持复杂路径表达式，如 C::<D>::<E>
+                while (true) {
+                    // 支持泛型参数
+                    if (builder.tokenType == ValkyrieTokenTypes.LESS) {
+                        parseGenericArguments(builder, ValkyrieTokenTypes.LESS, ValkyrieTokenTypes.GREATER)
+                    }
+                    
+                    // 检查是否有路径分隔符
+                    if (builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON) {
+                        builder.advanceLexer() // consume '::'
+                        
+                        // 检查 :: 后面是否跟泛型参数 ::<T>
+                        if (builder.tokenType == ValkyrieTokenTypes.LESS) {
+                            parseGenericArguments(builder, ValkyrieTokenTypes.LESS, ValkyrieTokenTypes.GREATER)
+                        } else if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                            // 普通路径继续，如 A::B
+                            builder.advanceLexer()
+                        } else {
+                            builder.error("Expected identifier or generic arguments after '::'")
+                            break
+                        }
+                    } else {
+                        break
+                    }
                 }
             }
             ValkyrieTokenTypes.LPAREN -> {
@@ -581,6 +623,7 @@ class ValkyrieParser : PsiParser {
         ValkyrieTokenTypes.GREATER_EQUAL to 4,
         ValkyrieTokenTypes.PLUS to 5,
         ValkyrieTokenTypes.MINUS to 5,
+        ValkyrieTokenTypes.STAR to 6,
         ValkyrieTokenTypes.MULTIPLY to 6,
         ValkyrieTokenTypes.DIVIDE to 6,
         ValkyrieTokenTypes.INTEGER_DIVIDE to 6,
@@ -915,6 +958,12 @@ class ValkyrieParser : PsiParser {
             parseParameterList(builder)
         }
 
+        // 解析返回类型 - 支持 : T 和 -> T 两种形式
+        if (builder.tokenType == ValkyrieTokenTypes.COLON || builder.tokenType == ValkyrieTokenTypes.ARROW) {
+            builder.advanceLexer() // consume ':' or '->'
+            parseTypeReference(builder)
+        }
+
         // function body
         if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
             parseBlockStatement(builder)
@@ -1232,9 +1281,9 @@ class ValkyrieParser : PsiParser {
             parseParameterListWithSelfDetection(builder)
         }
 
-        // 解析返回类型
-        if (builder.tokenType == ValkyrieTokenTypes.COLON) {
-            builder.advanceLexer() // consume ':'
+        // 解析返回类型 - 支持 : T 和 -> T 两种形式
+        if (builder.tokenType == ValkyrieTokenTypes.COLON || builder.tokenType == ValkyrieTokenTypes.ARROW) {
+            builder.advanceLexer() // consume ':' or '->'
             parseTypeReference(builder)
         }
 

@@ -126,7 +126,13 @@ object ValkyrieTokenTypes {
     val MINUS = ValkyrieTokenType("-")  // -
 
     @JvmField
-    val MULTIPLY = ValkyrieTokenType("MULTIPLY") // *
+    val STAR = ValkyrieTokenType("STAR") // *
+    
+    @JvmField
+    val MULTIPLY = ValkyrieTokenType("MULTIPLY") // ×
+    
+    @JvmField
+    val TIMES = ValkyrieTokenType("TIMES") // × (alias for MULTIPLY)
 
     @JvmField
     val DIVIDE = ValkyrieTokenType("DIVIDE") // /

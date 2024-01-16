@@ -58,9 +58,6 @@
 
 		<!-- Goto Declaration Handler -->
         <gotoDeclarationHandler implementation="valkyrie.reference.ValkyrieGotoDeclarationHandler"/>
-        
-        <!-- Type Hierarchy Provider -->
-        <typeHierarchyProvider language="valkyrie" implementationClass="valkyrie.ide.hierarchy.ValkyrieTypeHierarchyProvider"/>
 
 		<!-- Project Service -->
 		<projectService
