@@ -233,6 +233,57 @@ class ValkyrieSymbolIndex(private val project: Project) {
         return usingCache[file] ?: emptyList()
     }
     
+    /**
+     * 根据名称查找类声明
+     */
+    fun findClassByName(className: String): ValkyrieClassDeclaration? {
+        val symbolInfo = symbolCache[className]?.firstOrNull { it.element is ValkyrieClassDeclaration }
+        return symbolInfo?.element as? ValkyrieClassDeclaration
+    }
+    
+    /**
+     * 查找继承自指定类的所有子类
+     */
+    fun findClassesThatInheritFrom(parentClassName: String): List<ValkyrieClassDeclaration> {
+        val result = mutableListOf<ValkyrieClassDeclaration>()
+        
+        // 遍历所有类符号
+        symbolCache.values.flatten()
+            .filter { it.element is ValkyrieClassDeclaration }
+            .forEach { symbolInfo ->
+                val classDecl = symbolInfo.element as ValkyrieClassDeclaration
+                if (classDecl.getParentClasses().contains(parentClassName)) {
+                    result.add(classDecl)
+                }
+            }
+        
+        return result
+    }
+    
+    /**
+     * 获取类的完整继承链
+     */
+    fun getInheritanceChain(classDecl: ValkyrieClassDeclaration): List<ValkyrieClassDeclaration> {
+        val chain = mutableListOf<ValkyrieClassDeclaration>()
+        val visited = mutableSetOf<String>()
+        
+        fun collectParents(current: ValkyrieClassDeclaration) {
+            val className = current.name ?: return
+            if (className in visited) return // 避免循环继承
+            
+            visited.add(className)
+            current.getParentClasses().forEach { parentName ->
+                findClassByName(parentName)?.let { parentClass ->
+                    chain.add(parentClass)
+                    collectParents(parentClass)
+                }
+            }
+        }
+        
+        collectParents(classDecl)
+        return chain.distinct()
+    }
+    
     companion object {
         fun getInstance(project: Project): ValkyrieSymbolIndex {
             return project.getService(ValkyrieSymbolIndex::class.java)

@@ -49,5 +49,40 @@ class ValkyrieClassDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNa
     fun getAnnotations(): List<ValkyrieAnnotationNode> {
         return findChildrenByClass(ValkyrieAnnotationNode::class.java).toList()
     }
+    
+    /**
+     * 获取类继承信息
+     */
+    fun getClassInherit(): ValkyrieClassInheritNode? {
+        return findChildByClass(ValkyrieClassInheritNode::class.java)
+    }
+    
+    /**
+     * 获取所有父类
+     */
+    fun getParentClasses(): List<String> {
+        return getClassInherit()?.getParentClassNames() ?: emptyList()
+    }
+    
+    /**
+     * 获取重命名继承映射
+     */
+    fun getRenameMapping(): Map<String, String> {
+        return getClassInherit()?.getRenameMapping() ?: emptyMap()
+    }
+    
+    /**
+     * 是否有继承
+     */
+    fun hasInheritance(): Boolean {
+        return getClassInherit() != null
+    }
+    
+    /**
+     * 是否有重命名继承
+     */
+    fun hasRenamedInheritance(): Boolean {
+        return getClassInherit()?.hasRenamedInheritance() ?: false
+    }
 }
 
