@@ -135,6 +135,9 @@ object ValkyrieTokenTypes {
     val TIMES = ValkyrieTokenType("TIMES") // × (alias for MULTIPLY)
 
     @JvmField
+    val LABEL = ValkyrieTokenType("LABEL") // ※
+
+    @JvmField
     val DIVIDE = ValkyrieTokenType("DIVIDE") // /
 
     @JvmField
@@ -186,6 +189,9 @@ object ValkyrieTokenTypes {
 
     @JvmField
     val PIPE = ValkyrieTokenType("|")
+
+    @JvmField
+    val AMPERSAND = ValkyrieTokenType("&")
 
     @JvmField
     val WOW = ValkyrieTokenType("!")

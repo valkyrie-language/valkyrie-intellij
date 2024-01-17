@@ -31,6 +31,8 @@ class ValkyrieLexer : LexerBase() {
         "return" to ValkyrieTokenTypes.RETURN,
         "break" to ValkyrieTokenTypes.BREAK,
         "continue" to ValkyrieTokenTypes.CONTINUE,
+        "yield" to ValkyrieTokenTypes.YIELD,
+        "raise" to ValkyrieTokenTypes.RAISE,
         "namespace" to ValkyrieTokenTypes.NAMESPACE,
         "namespace!" to ValkyrieTokenTypes.NAMESPACE_MAIN,
         "namespace?" to ValkyrieTokenTypes.NAMESPACE_TEST,
@@ -297,7 +299,7 @@ class ValkyrieLexer : LexerBase() {
                     currentOffset++
                     tokenType = ValkyrieTokenTypes.LOGIC_AND
                 } else {
-                    tokenType = ValkyrieTokenTypes.BAD_CHARACTER
+                    tokenType = ValkyrieTokenTypes.AMPERSAND
                 }
             }
 
@@ -441,6 +443,10 @@ class ValkyrieLexer : LexerBase() {
 
             '×' -> {
                 currentOffset++; tokenType = ValkyrieTokenTypes.MULTIPLY
+            }
+
+            '※' -> {
+                currentOffset++; tokenType = ValkyrieTokenTypes.LABEL
             }
 
             '?' -> {

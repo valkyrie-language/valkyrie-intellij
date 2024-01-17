@@ -131,9 +131,15 @@ class ValkyrieParser : PsiParser {
                 ValkyrieTokenTypes.MATCH -> parseMatchStatement(builder)
                 ValkyrieTokenTypes.TRY -> parseTryStatement(builder)
                 ValkyrieTokenTypes.CATCH -> parseCatchStatement(builder)
+                ValkyrieTokenTypes.RETURN -> parseReturnStatement(builder)
+                ValkyrieTokenTypes.BREAK -> parseBreakStatement(builder)
+                ValkyrieTokenTypes.CONTINUE -> parseContinueStatement(builder)
+                ValkyrieTokenTypes.YIELD -> parseYieldStatement(builder)
+                ValkyrieTokenTypes.RAISE -> parseRaiseStatement(builder)
                 ValkyrieTokenTypes.LBRACE -> parseBlockStatement(builder)
                 ValkyrieTokenTypes.COMMENT_DOCUMENT -> parseDocComment(builder)
                 ValkyrieTokenTypes.AT -> parseMacroCall(builder)
+                ValkyrieTokenTypes.LABEL -> parseLabelStatement(builder)
                 null -> return
                 else -> parseExpressionStatement(builder)
             }
@@ -509,7 +515,34 @@ class ValkyrieParser : PsiParser {
     }
 
     private fun parseTypeReference(builder: PsiBuilder) {
+        parseIntersectionType(builder)
+    }
+
+    private fun parseIntersectionType(builder: PsiBuilder) {
+        val marker = builder.mark()
+        
+        // 支持开头的可选 & 符号（&A&B 语法，第一个&无意义）
+        var hasIntersection = false
+        if (builder.tokenType == ValkyrieTokenTypes.AMPERSAND) {
+            hasIntersection = true
+            builder.advanceLexer() // consume leading '&'
+        }
+        
+        // 解析第一个类型（可能是联合类型）
         parseUnionType(builder)
+        
+        // 检查是否有交集类型操作符 &
+        while (builder.tokenType == ValkyrieTokenTypes.AMPERSAND) {
+            hasIntersection = true
+            builder.advanceLexer() // consume '&'
+            parseUnionType(builder)
+        }
+        
+        if (hasIntersection) {
+            marker.done(ValkyrieElementTypes.INTERSECTION_TYPE)
+        } else {
+            marker.drop()
+        }
     }
 
     private fun parseUnionType(builder: PsiBuilder) {
@@ -1840,5 +1873,133 @@ class ValkyrieParser : PsiParser {
         }
 
         marker.done(ValkyrieElementTypes.PATTERN)
+    }
+
+    private fun parseLabelStatement(builder: PsiBuilder) {
+        val marker = builder.mark()
+
+        // consume '※'
+        if (builder.tokenType == ValkyrieTokenTypes.LABEL) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected '※'")
+        }
+
+        // parse label name (identifier)
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected label name after '※'")
+        }
+
+        marker.done(ValkyrieElementTypes.LABEL_STATEMENT)
+    }
+
+    private fun parseReturnStatement(builder: PsiBuilder) {
+        val marker = builder.mark()
+        builder.advanceLexer() // consume 'return'
+        
+        // Check for optional label
+        if (builder.tokenType == ValkyrieTokenTypes.LABEL) {
+            builder.advanceLexer() // consume ※
+            if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                builder.advanceLexer() // consume label name
+            } else {
+                builder.error("Expected label name after ※")
+            }
+        }
+        
+        // Parse optional expression
+        if (builder.tokenType != ValkyrieTokenTypes.SEMICOLON && 
+            builder.tokenType != ValkyrieTokenTypes.NEWLINE && 
+            !builder.eof()) {
+            parseExpression(builder)
+        }
+        
+        marker.done(ValkyrieElementTypes.RETURN_STATEMENT)
+    }
+
+    private fun parseBreakStatement(builder: PsiBuilder) {
+        val marker = builder.mark()
+        builder.advanceLexer() // consume 'break'
+        
+        // Check for optional label
+        if (builder.tokenType == ValkyrieTokenTypes.LABEL) {
+            builder.advanceLexer() // consume ※
+            if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                builder.advanceLexer() // consume label name
+            } else {
+                builder.error("Expected label name after ※")
+            }
+        }
+        
+        marker.done(ValkyrieElementTypes.BREAK_STATEMENT)
+    }
+
+    private fun parseContinueStatement(builder: PsiBuilder) {
+        val marker = builder.mark()
+        builder.advanceLexer() // consume 'continue'
+        
+        // Check for optional label
+        if (builder.tokenType == ValkyrieTokenTypes.LABEL) {
+            builder.advanceLexer() // consume ※
+            if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                builder.advanceLexer() // consume label name
+            } else {
+                builder.error("Expected label name after ※")
+            }
+        }
+        
+        marker.done(ValkyrieElementTypes.CONTINUE_STATEMENT)
+    }
+
+    private fun parseYieldStatement(builder: PsiBuilder) {
+        val marker = builder.mark()
+        builder.advanceLexer() // consume 'yield'
+        
+        // Check for optional label
+        if (builder.tokenType == ValkyrieTokenTypes.LABEL) {
+            builder.advanceLexer() // consume ※
+            if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                builder.advanceLexer() // consume label name
+            } else {
+                builder.error("Expected label name after ※")
+            }
+        }
+        
+        // Parse optional expression
+        if (builder.tokenType != ValkyrieTokenTypes.SEMICOLON && 
+            builder.tokenType != ValkyrieTokenTypes.NEWLINE && 
+            !builder.eof()) {
+            parseExpression(builder)
+        }
+        
+        marker.done(ValkyrieElementTypes.YIELD_STATEMENT)
+    }
+
+    private fun parseRaiseStatement(builder: PsiBuilder) {
+        val marker = builder.mark()
+        builder.advanceLexer() // consume 'raise'
+        
+        // Check for optional label
+        if (builder.tokenType == ValkyrieTokenTypes.LABEL) {
+            builder.advanceLexer() // consume ※
+            if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                builder.advanceLexer() // consume label name
+            } else {
+                builder.error("Expected label name after ※")
+            }
+        }
+        
+        // Parse required expression for raise
+        if (builder.tokenType != ValkyrieTokenTypes.SEMICOLON && 
+            builder.tokenType != ValkyrieTokenTypes.NEWLINE && 
+            !builder.eof()) {
+            parseExpression(builder)
+        } else {
+            builder.error("Expected expression after 'raise'")
+        }
+        
+        marker.done(ValkyrieElementTypes.RAISE_STATEMENT)
     }
 }

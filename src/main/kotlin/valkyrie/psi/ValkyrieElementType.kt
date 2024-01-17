@@ -92,6 +92,20 @@ object ValkyrieElementTypes {
     val TRAILING_CLOSURE_EXPRESSION = ValkyrieElementType("TRAILING_CLOSURE_EXPRESSION")
 
     @JvmField
+    val LABEL_STATEMENT = ValkyrieElementType("LABEL_STATEMENT")
+
+    @JvmField
+    val RETURN_STATEMENT = ValkyrieElementType("RETURN_STATEMENT")
+    @JvmField
+    val BREAK_STATEMENT = ValkyrieElementType("BREAK_STATEMENT")
+    @JvmField
+    val CONTINUE_STATEMENT = ValkyrieElementType("CONTINUE_STATEMENT")
+    @JvmField
+    val YIELD_STATEMENT = ValkyrieElementType("YIELD_STATEMENT")
+    @JvmField
+    val RAISE_STATEMENT = ValkyrieElementType("RAISE_STATEMENT")
+
+    @JvmField
     val MUTABLE_PATTERN = ValkyrieElementType("MUTABLE_PATTERN")
 
     // 类型
@@ -99,6 +113,8 @@ object ValkyrieElementTypes {
     val TYPE_REFERENCE = ValkyrieElementType("TYPE_REFERENCE")
     @JvmField
     val UNION_TYPE = ValkyrieElementType("UNION_TYPE")
+    @JvmField
+    val INTERSECTION_TYPE = ValkyrieElementType("INTERSECTION_TYPE")
 
     // Class 和 Union 内部结构
     @JvmField
