@@ -44,6 +44,8 @@ class ValkyrieLexer : LexerBase() {
         "catch" to ValkyrieTokenTypes.CATCH,
         "try" to ValkyrieTokenTypes.TRY,
         "when" to ValkyrieTokenTypes.WHEN,
+        "in" to ValkyrieTokenTypes.IN,
+        "is" to ValkyrieTokenTypes.IS,
         "true" to ValkyrieTokenTypes.BOOLEAN,
         "false" to ValkyrieTokenTypes.BOOLEAN
     )
@@ -185,6 +187,37 @@ class ValkyrieLexer : LexerBase() {
         }
 
         val text = buffer.subSequence(startOffset, currentOffset).toString()
+        
+        // 检查复合关键字
+        when (text) {
+            "not" -> {
+                // 检查是否是 "not in"
+                val savedOffset = currentOffset
+                skipWhitespace()
+                if (currentOffset + 2 <= endOffset && 
+                    buffer.subSequence(currentOffset, currentOffset + 2).toString() == "in") {
+                    currentOffset += 2
+                    tokenType = ValkyrieTokenTypes.NOT_IN
+                    return
+                } else {
+                    currentOffset = savedOffset
+                }
+            }
+            "is" -> {
+                // 检查是否是 "is not"
+                val savedOffset = currentOffset
+                skipWhitespace()
+                if (currentOffset + 3 <= endOffset && 
+                    buffer.subSequence(currentOffset, currentOffset + 3).toString() == "not") {
+                    currentOffset += 3
+                    tokenType = ValkyrieTokenTypes.IS_NOT
+                    return
+                } else {
+                    currentOffset = savedOffset
+                }
+            }
+        }
+        
         tokenType = keywords[text] ?: ValkyrieTokenTypes.IDENTIFIER_STD
     }
 
