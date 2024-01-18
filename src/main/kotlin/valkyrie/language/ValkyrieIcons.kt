@@ -55,4 +55,26 @@ object ValkyrieIcons {
 
     @JvmStatic
     val MACRO: Icon = IconLoader.getIcon("/icons/codeAssistantMacro.svg", ValkyrieIcons::class.java)
+
+    // 控制流图标
+    @JvmStatic
+    val LOOP: Icon = IconLoader.getIcon("/icons/loop.svg", ValkyrieIcons::class.java)
+
+    @JvmStatic
+    val RETURN: Icon = IconLoader.getIcon("/icons/return.svg", ValkyrieIcons::class.java)
+
+    @JvmStatic
+    val BREAK: Icon = IconLoader.getIcon("/icons/break.svg", ValkyrieIcons::class.java)
+
+    @JvmStatic
+    val CONTINUE: Icon = IconLoader.getIcon("/icons/continue.svg", ValkyrieIcons::class.java)
+
+    @JvmStatic
+    val YIELD: Icon = IconLoader.getIcon("/icons/yield.svg", ValkyrieIcons::class.java)
+
+    @JvmStatic
+    val RAISE: Icon = IconLoader.getIcon("/icons/raise.svg", ValkyrieIcons::class.java)
+
+    @JvmStatic
+    val CATCH: Icon = IconLoader.getIcon("/icons/catch.svg", ValkyrieIcons::class.java)
 }
