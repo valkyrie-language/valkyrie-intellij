@@ -25,6 +25,9 @@ class ValkyrieLexer : LexerBase() {
         "for" to ValkyrieTokenTypes.FOR,
         "loop" to ValkyrieTokenTypes.LOOP,
         "function" to ValkyrieTokenTypes.FUNCTION,
+        "micro" to ValkyrieTokenTypes.MICRO,
+        "mezzo" to ValkyrieTokenTypes.MEZZO,
+        "macro" to ValkyrieTokenTypes.MACRO,
         "class" to ValkyrieTokenTypes.CLASS,
         "struct" to ValkyrieTokenTypes.CLASS,
         "union" to ValkyrieTokenTypes.UNION,
@@ -311,11 +314,22 @@ class ValkyrieLexer : LexerBase() {
 
             '<' -> {
                 currentOffset++
-                if (peek(0) == '=') {
-                    currentOffset++
-                    tokenType = ValkyrieTokenTypes.LESS_EQUAL
-                } else {
-                    tokenType = ValkyrieTokenTypes.LESS
+                when (peek(0)) {
+                    '=' -> {
+                        currentOffset++
+                        tokenType = ValkyrieTokenTypes.LESS_EQUAL
+                    }
+                    '{' -> {
+                        currentOffset++
+                        tokenType = ValkyrieTokenTypes.COMPILE_TIME_BLOCK_START
+                    }
+                    '$' -> {
+                        currentOffset++
+                        tokenType = ValkyrieTokenTypes.TEMPLATE_START
+                    }
+                    else -> {
+                        tokenType = ValkyrieTokenTypes.LESS
+                    }
                 }
             }
 
@@ -326,6 +340,27 @@ class ValkyrieLexer : LexerBase() {
                     tokenType = ValkyrieTokenTypes.GREATER_EQUAL
                 } else {
                     tokenType = ValkyrieTokenTypes.GREATER
+                }
+            }
+
+            '}' -> {
+                currentOffset++
+                if (peek(0) == '>') {
+                    currentOffset++
+                    tokenType = ValkyrieTokenTypes.COMPILE_TIME_BLOCK_END
+                } else {
+                    tokenType = ValkyrieTokenTypes.RBRACE
+                }
+            }
+
+            '$' -> {
+                currentOffset++
+                if (peek(0) == '>') {
+                    currentOffset++
+                    tokenType = ValkyrieTokenTypes.TEMPLATE_END
+                } else {
+                    // $ 作为普通字符处理
+                    tokenType = ValkyrieTokenTypes.BAD_CHARACTER
                 }
             }
 
@@ -419,9 +454,7 @@ class ValkyrieLexer : LexerBase() {
                 currentOffset++; tokenType = ValkyrieTokenTypes.LBRACE
             }
 
-            '}' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.RBRACE
-            }
+            // '}' case is handled above for '}>' template syntax
 
             '[' -> {
                 currentOffset++; tokenType = ValkyrieTokenTypes.LBRACKET

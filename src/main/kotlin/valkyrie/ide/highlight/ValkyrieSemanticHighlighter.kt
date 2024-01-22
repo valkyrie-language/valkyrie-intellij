@@ -90,6 +90,44 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
                     highlight(nameIdentifier, ValkyrieColor.SYM_FUNCTION_SELF)
                 }
             }
+
+            is ValkyrieMetaStatement -> {
+                // 高亮元编程函数的名称标识符
+                val nameIdentifier = element.nameIdentifier
+                if (nameIdentifier != null) {
+                    val color = when (element.getMetaType()) {
+                        MetaType.MICRO -> ValkyrieColor.SYM_FUNCTION_SELF
+                        MetaType.MEZZO -> ValkyrieColor.SYM_MICRO
+                        MetaType.MACRO -> ValkyrieColor.SYM_MACRO
+                        else -> ValkyrieColor.SYM_FUNCTION_SELF
+                    }
+                    highlight(nameIdentifier, color)
+                }
+            }
+
+            is ValkyrieCompileTimeBlock -> {
+                // 高亮编译期表达式块的边界
+                val startToken = element.getStartToken()
+                val endToken = element.getEndToken()
+                if (startToken != null) {
+                    highlight(startToken, ValkyrieColor.BRACES)
+                }
+                if (endToken != null) {
+                    highlight(endToken, ValkyrieColor.BRACES)
+                }
+            }
+
+            is ValkyrieTemplateBlock -> {
+                // 高亮模板语法块的边界
+                val startToken = element.getStartToken()
+                val endToken = element.getEndToken()
+                if (startToken != null) {
+                    highlight(startToken, ValkyrieColor.BRACES)
+                }
+                if (endToken != null) {
+                    highlight(endToken, ValkyrieColor.BRACES)
+                }
+            }
         }
         
         // 处理泛型参数列表（如 class A<T, U> 中的 T, U）

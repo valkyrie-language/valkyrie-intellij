@@ -66,6 +66,37 @@ object ValkyrieElementTypes {
     @JvmField
     val DECLARE_TEST_METHOD = ValkyrieElementType("DECLARE_TEST_METHOD")
 
+    // 元编程相关元素类型
+    @JvmField
+    val DECLARE_MICRO = ValkyrieElementType("DECLARE_MICRO")
+
+    @JvmField
+    val DECLARE_MEZZO = ValkyrieElementType("DECLARE_MEZZO")
+
+    @JvmField
+    val DECLARE_MACRO = ValkyrieElementType("DECLARE_MACRO")
+
+    @JvmField
+    val COMPILE_TIME_BLOCK = ValkyrieElementType("COMPILE_TIME_BLOCK")
+
+    @JvmField
+    val TEMPLATE_BLOCK = ValkyrieElementType("TEMPLATE_BLOCK")
+
+    @JvmField
+    val TEMPLATE_IF = ValkyrieElementType("TEMPLATE_IF")
+
+    @JvmField
+    val TEMPLATE_FOR = ValkyrieElementType("TEMPLATE_FOR")
+
+    @JvmField
+    val TEMPLATE_WHILE = ValkyrieElementType("TEMPLATE_WHILE")
+
+    @JvmField
+    val TEMPLATE_MATCH = ValkyrieElementType("TEMPLATE_MATCH")
+
+    @JvmField
+    val TEMPLATE_INTERPOLATION = ValkyrieElementType("TEMPLATE_INTERPOLATION")
+
     @JvmField
     val BLOCK_STATEMENT = ValkyrieElementType("BLOCK_STATEMENT")
     

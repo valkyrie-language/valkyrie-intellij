@@ -11,6 +11,9 @@ import valkyrie.language.ValkyrieLanguage
 import valkyrie.psi.nodes.ValkyrieFileNode
 import valkyrie.psi.nodes.*
 import valkyrie.psi.nodes.ValkyrieTestStatement
+import valkyrie.psi.nodes.ValkyrieMetaStatement
+import valkyrie.psi.nodes.ValkyrieCompileTimeBlock
+import valkyrie.psi.nodes.ValkyrieTemplateBlock
 
 /**
  * Valkyrie PSI 元素工厂
@@ -87,6 +90,12 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.ELSE_CLAUSE -> ValkyrieElseClauseNode(node)
             ValkyrieElementTypes.DECLARE_TESTS -> ValkyrieTestStatement(node)
             ValkyrieElementTypes.DECLARE_TEST_METHOD -> ValkyrieTestStatement(node)
+            // 元编程节点
+            ValkyrieElementTypes.DECLARE_MICRO -> ValkyrieMetaStatement(node)
+            ValkyrieElementTypes.DECLARE_MEZZO -> ValkyrieMetaStatement(node)
+            ValkyrieElementTypes.DECLARE_MACRO -> ValkyrieMetaStatement(node)
+            ValkyrieElementTypes.COMPILE_TIME_BLOCK -> ValkyrieCompileTimeBlock(node)
+            ValkyrieElementTypes.TEMPLATE_BLOCK -> ValkyrieTemplateBlock(node)
             else -> ValkyrieElementNode(node)
         }
     }
