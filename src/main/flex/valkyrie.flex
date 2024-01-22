@@ -70,6 +70,7 @@ KW_MICRO     = micro|function|func|fun|fn|def
 KW_MEZZO     = mezzo|mecro
 KW_MACRO     = macro|template
 KW_TESTS     = tests
+KW_TEST      = test
 KW_SINGLETON = singleton
 KW_COMPONENT = widget
 KW_NEURAL    = neural
@@ -437,6 +438,7 @@ RESERVED = [߷⸖⍼♯⟀⟁]
     {KW_MEZZO}     { return KW_MEZZO; }
     {KW_MACRO}     { return KW_MACRO; }
     {KW_TESTS}     { return KW_TESTS; }
+    {KW_TEST}      { return KW_TEST; }
     {KW_COMPONENT} { return KW_COMPONENT; }
     {KW_SINGLETON} { return KW_SINGLETON; }
     {KW_NEURAL}    { return KW_NEURAL; }

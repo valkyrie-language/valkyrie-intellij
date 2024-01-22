@@ -82,6 +82,14 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
                     }
                 }
             }
+
+            is ValkyrieTestStatement -> {
+                // 高亮测试语句的名称标识符
+                val nameIdentifier = element.nameIdentifier
+                if (nameIdentifier != null) {
+                    highlight(nameIdentifier, ValkyrieColor.SYM_FUNCTION_SELF)
+                }
+            }
         }
         
         // 处理泛型参数列表（如 class A<T, U> 中的 T, U）

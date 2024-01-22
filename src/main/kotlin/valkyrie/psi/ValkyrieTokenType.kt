@@ -85,6 +85,12 @@ object ValkyrieTokenTypes {
     val RETURN = ValkyrieTokenType("return")
 
     @JvmField
+    val TESTS = ValkyrieTokenType("tests")
+
+    @JvmField
+    val TEST = ValkyrieTokenType("test")
+
+    @JvmField
     val MATCH = ValkyrieTokenType("match")
 
     @JvmField

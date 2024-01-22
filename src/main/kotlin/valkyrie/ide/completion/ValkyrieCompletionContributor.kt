@@ -42,7 +42,8 @@ class ValkyrieCompletionContributor : CompletionContributor() {
                 "if", "else", "let", "mut", "fn", "class", "trait", "union",
                 "namespace", "import", "export", "return", "break", "continue",
                 "match", "case", "default", "for", "while", "until", "try",
-                "catch", "finally", "throw", "yield", "async", "await"
+                "catch", "finally", "throw", "yield", "async", "await",
+                "tests", "test"
             )
             
             keywords.forEach { keyword ->

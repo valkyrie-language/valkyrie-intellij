@@ -10,6 +10,7 @@ import valkyrie.language.ValkyrieLanguage
 
 import valkyrie.psi.nodes.ValkyrieFileNode
 import valkyrie.psi.nodes.*
+import valkyrie.psi.nodes.ValkyrieTestStatement
 
 /**
  * Valkyrie PSI 元素工厂
@@ -84,6 +85,8 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.IF_STATEMENT -> ValkyrieIfStatementNode(node)
             ValkyrieElementTypes.IF_LET_STATEMENT -> ValkyrieIfLetStatementNode(node)
             ValkyrieElementTypes.ELSE_CLAUSE -> ValkyrieElseClauseNode(node)
+            ValkyrieElementTypes.DECLARE_TESTS -> ValkyrieTestStatement(node)
+            ValkyrieElementTypes.DECLARE_TEST_METHOD -> ValkyrieTestStatement(node)
             else -> ValkyrieElementNode(node)
         }
     }
