@@ -879,40 +879,39 @@ class ValkyrieParser : PsiParser {
             val startToken = builder.tokenType
             builder.advanceLexer()
 
-            // 解析泛型参数列表
-            if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
-                parseGenericParameter(builder)
-
-                // 处理多个泛型参数
-                while (builder.tokenType == ValkyrieTokenTypes.COMMA) {
-                    builder.advanceLexer()
-                    // 支持尾随逗号：如果逗号后面直接是结束符号，则跳出循环
-                    val expectedEndToken = if (startToken == ValkyrieTokenTypes.LANGLE) {
-                        ValkyrieTokenTypes.RANGLE
-                    } else {
-                        ValkyrieTokenTypes.GREATER
-                    }
-                    if (builder.tokenType == expectedEndToken) {
-                        break
-                    }
-                    if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
-                        parseGenericParameter(builder)
-                    } else {
-                        builder.error("Expected generic parameter name")
-                        break
-                    }
-                }
-            } else {
-                builder.error("Expected generic parameter name")
-            }
-
-            // 结束符号 (⟩ 或 >)
+            // 解析泛型参数列表 (支持空泛型列表)
             val expectedEndToken = if (startToken == ValkyrieTokenTypes.LANGLE) {
                 ValkyrieTokenTypes.RANGLE
             } else {
                 ValkyrieTokenTypes.GREATER
             }
+            
+            // 检查是否为空泛型列表
+            if (builder.tokenType != expectedEndToken) {
+                // 解析第一个泛型参数
+                if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                    parseGenericParameter(builder)
 
+                    // 处理多个泛型参数
+                    while (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+                        builder.advanceLexer()
+                        // 支持尾随逗号：如果逗号后面直接是结束符号，则跳出循环
+                        if (builder.tokenType == expectedEndToken) {
+                            break
+                        }
+                        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                            parseGenericParameter(builder)
+                        } else {
+                            builder.error("Expected generic parameter name")
+                            break
+                        }
+                    }
+                } else {
+                    builder.error("Expected generic parameter name")
+                }
+            }
+
+            // 结束符号 (⟩ 或 >)
             if (builder.tokenType == expectedEndToken) {
                 builder.advanceLexer()
             } else {
@@ -931,7 +930,18 @@ class ValkyrieParser : PsiParser {
             // 检查是否有泛型约束 (冒号后跟类型)
             if (builder.tokenType == ValkyrieTokenTypes.COLON) {
                 builder.advanceLexer()
-                // 解析约束类型
+                // 解析约束类型，支持多个约束用 + 连接
+                parseTypeReference(builder)
+                while (builder.tokenType == ValkyrieTokenTypes.PLUS) {
+                    builder.advanceLexer()
+                    parseTypeReference(builder)
+                }
+            }
+            
+            // 检查是否有默认值 (等号后跟类型表达式)
+            if (builder.tokenType == ValkyrieTokenTypes.ASSIGN) {
+                builder.advanceLexer()
+                // 解析默认类型表达式
                 parseTypeReference(builder)
             }
         } else {
@@ -1505,21 +1515,89 @@ class ValkyrieParser : PsiParser {
         // parameters
         var isFirstParameter = true
         while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RPAREN) {
-            if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+            // 处理省略参数语法 .. 和 ...
+            if (builder.tokenType == ValkyrieTokenTypes.DOT) {
+                // 检查是否是连续的点号
+                val nextToken = builder.lookAhead(1)
+                if (nextToken == ValkyrieTokenTypes.DOT) {
+                    val paramMarker = builder.mark()
+                    builder.advanceLexer() // consume first '.'
+                    builder.advanceLexer() // consume second '.'
+                    
+                    // 检查是否是 ... (三个点)
+                    if (builder.tokenType == ValkyrieTokenTypes.DOT) {
+                        builder.advanceLexer() // consume third '.'
+                    }
+                    
+                    // 解析省略参数名称和类型
+                    if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                        builder.advanceLexer()
+                        if (builder.tokenType == ValkyrieTokenTypes.COLON) {
+                            builder.advanceLexer()
+                            parseTypeReference(builder)
+                        }
+                    }
+                    
+                    paramMarker.done(ValkyrieElementTypes.PARAMETER)
+                    if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+                        builder.advanceLexer()
+                    }
+                } else {
+                    // 单个点号，按普通标识符处理
+                    builder.error("Unexpected '.' in parameter list")
+                    builder.advanceLexer()
+                }
+            }
+            // 处理位置限定符 < 和 >
+            else if (builder.tokenType == ValkyrieTokenTypes.LESS || builder.tokenType == ValkyrieTokenTypes.GREATER) {
                 val paramMarker = builder.mark()
-                val paramName = builder.tokenText ?: ""
+                builder.advanceLexer() // consume '<' or '>'
+                paramMarker.done(ValkyrieElementTypes.PARAMETER)
+                if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+                    builder.advanceLexer()
+                }
+            }
+            else if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                val paramMarker = builder.mark()
+                
+                // 检查是否有注解修饰符（如 readonly）
+                var paramName = builder.tokenText ?: ""
+                var hasAnnotation = false
+                
+                // 如果当前标识符是注解关键字，解析注解
+                if (paramName == "readonly" || paramName == "mut" || paramName == "const") {
+                    hasAnnotation = true
+                    builder.advanceLexer() // 跳过注解关键字
+                    
+                    // 解析实际的参数名
+                    if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                        paramName = builder.tokenText ?: ""
+                        builder.advanceLexer()
+                    } else {
+                        builder.error("Expected parameter name after annotation")
+                    }
+                } else {
+                    builder.advanceLexer()
+                }
 
-                // 检测第一个参数是否为self
+                // 检测第一个参数是否为self（不考虑注解）
                 if (isFirstParameter && paramName == "self") {
                     hasSelfParameter = true
                 }
                 isFirstParameter = false
 
-                builder.advanceLexer()
+                // 解析类型注解
                 if (builder.tokenType == ValkyrieTokenTypes.COLON) {
                     builder.advanceLexer()
                     parseTypeReference(builder)
                 }
+                
+                // 解析默认值
+                if (builder.tokenType == ValkyrieTokenTypes.ASSIGN) {
+                    builder.advanceLexer()
+                    parseExpression(builder) // 解析默认值表达式
+                }
+                
                 paramMarker.done(ValkyrieElementTypes.PARAMETER)
                 if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
                     builder.advanceLexer()
