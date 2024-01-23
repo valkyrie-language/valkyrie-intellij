@@ -512,6 +512,12 @@ class ValkyrieParser : PsiParser {
                 marker
             }
 
+            ValkyrieTokenTypes.COMPILE_TIME_BLOCK_START -> {
+                val marker = builder.mark()
+                parseCompileTimeBlock(builder)
+                marker
+            }
+
             else -> {
                 builder.error("Expected expression")
                 builder.advanceLexer() // 推进词法分析器避免死循环
@@ -587,18 +593,22 @@ class ValkyrieParser : PsiParser {
                 
                 // 支持复杂路径表达式，如 C::<D>::<E>
                 while (true) {
-                    // 支持泛型参数
+                    // 支持泛型参数 - 同时支持 <T> 和 ⟨T⟩ 语法
                     if (builder.tokenType == ValkyrieTokenTypes.LESS) {
                         parseGenericArguments(builder, ValkyrieTokenTypes.LESS, ValkyrieTokenTypes.GREATER)
+                    } else if (builder.tokenType == ValkyrieTokenTypes.LANGLE) {
+                        parseGenericArguments(builder, ValkyrieTokenTypes.LANGLE, ValkyrieTokenTypes.RANGLE)
                     }
                     
                     // 检查是否有路径分隔符
                     if (builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON) {
                         builder.advanceLexer() // consume '::'
                         
-                        // 检查 :: 后面是否跟泛型参数 ::<T>
+                        // 检查 :: 后面是否跟泛型参数 ::<T> 或 ::⟨T⟩
                         if (builder.tokenType == ValkyrieTokenTypes.LESS) {
                             parseGenericArguments(builder, ValkyrieTokenTypes.LESS, ValkyrieTokenTypes.GREATER)
+                        } else if (builder.tokenType == ValkyrieTokenTypes.LANGLE) {
+                            parseGenericArguments(builder, ValkyrieTokenTypes.LANGLE, ValkyrieTokenTypes.RANGLE)
                         } else if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
                             // 普通路径继续，如 A::B
                             builder.advanceLexer()
@@ -1174,6 +1184,12 @@ class ValkyrieParser : PsiParser {
             return
         }
 
+        // 检查是否是mezzo关键字 - trait中的关联类型声明
+        if (builder.tokenType == ValkyrieTokenTypes.MEZZO) {
+            parseMezzoDeclaration(builder)
+            return
+        }
+
         // 开始解析成员声明
         val memberMarker = builder.mark()
 
@@ -1316,6 +1332,52 @@ class ValkyrieParser : PsiParser {
         if (builder.tokenType == ValkyrieTokenTypes.SEMICOLON) {
             builder.advanceLexer() // consume ';'
         }
+    }
+
+    /**
+     * 解析mezzo关联类型声明
+     * 格式: mezzo TypeName [: Bounds] [= DefaultType],
+     */
+    private fun parseMezzoDeclaration(builder: PsiBuilder) {
+        val marker = builder.mark()
+
+        // consume 'mezzo'
+        if (builder.tokenType == ValkyrieTokenTypes.MEZZO) {
+            builder.advanceLexer()
+        } else {
+            marker.drop()
+            return
+        }
+
+        // 解析类型名称
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+            val nameMarker = builder.mark()
+            builder.advanceLexer()
+            nameMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
+        } else {
+            builder.error("Expected type name after 'mezzo'")
+            marker.drop()
+            return
+        }
+
+        // 可选的类型约束 ': Bounds'
+        if (builder.tokenType == ValkyrieTokenTypes.COLON) {
+            builder.advanceLexer() // consume ':'
+            parseTypeReference(builder)
+        }
+
+        // 可选的默认类型 '= DefaultType'
+        if (builder.tokenType == ValkyrieTokenTypes.ASSIGN) {
+            builder.advanceLexer() // consume '='
+            parseTypeReference(builder)
+        }
+
+        // 处理结尾的逗号或分号
+        if (builder.tokenType == ValkyrieTokenTypes.COMMA || builder.tokenType == ValkyrieTokenTypes.SEMICOLON) {
+            builder.advanceLexer()
+        }
+
+        marker.done(ValkyrieElementTypes.MEZZO_DECLARATION)
     }
 
     private fun parseMethodRest(builder: PsiBuilder) {

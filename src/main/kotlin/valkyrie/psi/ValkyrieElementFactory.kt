@@ -70,8 +70,9 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.STATIC_METHOD_DECLARATION -> ValkyrieMethodDeclaration(node)
             ValkyrieElementTypes.DOMAIN_DECLARATION -> ValkyrieDomainDeclaration(node)
             ValkyrieElementTypes.UNION_VARIANT -> ValkyrieVariantDeclaration(node)
-            // ValkyrieElementTypes.MODIFIER_LIST -> ValkyrieModifierListNode(node) // 已移除
-            ValkyrieElementTypes.PATTERN -> ValkyrieElementNode(node)
+        ValkyrieElementTypes.MEZZO_DECLARATION -> ValkyrieElementNode(node)
+        // ValkyrieElementTypes.MODIFIER_LIST -> ValkyrieModifierListNode(node) // 已移除
+        ValkyrieElementTypes.PATTERN -> ValkyrieElementNode(node)
             ValkyrieElementTypes.IDENTIFIER_NODE -> ValkyrieIdentifierNode(node)
             ValkyrieElementTypes.TYPE_REFERENCE -> ValkyrieTypeReferenceNode(node)
             ValkyrieElementTypes.QUALIFIED_NAME -> ValkyrieQualifiedNameNode(node)
