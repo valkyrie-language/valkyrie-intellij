@@ -27,6 +27,8 @@ object ValkyrieElementTypes {
     val PATTERN = ValkyrieElementType("PATTERN")
     @JvmField
     val TUPLE_PATTERN = ValkyrieElementType("TUPLE_PATTERN")
+    @JvmField
+    val NAMED_TUPLE_PATTERN = ValkyrieElementType("NAMED_TUPLE_PATTERN")
 
     // 语句
     @JvmField
@@ -38,6 +40,8 @@ object ValkyrieElementTypes {
     @JvmField
     val TRAIT_STATEMENT = ValkyrieElementType("TRAIT_STATEMENT")
     @JvmField
+    val STRUCTURE_STATEMENT = ValkyrieElementType("STRUCTURE_STATEMENT")
+    @JvmField
     val NAMESPACE_STATEMENT = ValkyrieElementType("NAMESPACE_STATEMENT")
     @JvmField
     val NAMESPACE_PATH = ValkyrieElementType("NAMESPACE_PATH")
@@ -47,6 +51,8 @@ object ValkyrieElementTypes {
     val EXPRESSION_STATEMENT = ValkyrieElementType("EXPRESSION_STATEMENT")
     @JvmField
     val UNTIL_STATEMENT = ValkyrieElementType("UNTIL_STATEMENT")
+    @JvmField
+    val WHILE_STATEMENT = ValkyrieElementType("WHILE_STATEMENT")
     @JvmField
     val MATCH_STATEMENT = ValkyrieElementType("MATCH_STATEMENT")
     @JvmField
@@ -124,6 +130,12 @@ object ValkyrieElementTypes {
     @JvmField
     val PARENTHESIZED_EXPRESSION = ValkyrieElementType("PARENTHESIZED_EXPRESSION")
     @JvmField
+    val TUPLE_EXPRESSION = ValkyrieElementType("TUPLE_EXPRESSION")
+    @JvmField
+    val NAMED_TUPLE_EXPRESSION = ValkyrieElementType("NAMED_TUPLE_EXPRESSION")
+    @JvmField
+    val AS_EXPRESSION = ValkyrieElementType("AS_EXPRESSION")
+    @JvmField
     val CALL_EXPRESSION = ValkyrieElementType("CALL_EXPRESSION")
     @JvmField
     val GENERIC_CALL_EXPRESSION = ValkyrieElementType("GENERIC_CALL_EXPRESSION")
@@ -165,9 +177,15 @@ object ValkyrieElementTypes {
     @JvmField
     val INTERSECTION_TYPE = ValkyrieElementType("INTERSECTION_TYPE")
     @JvmField
+    val FUNCTION_TYPE = ValkyrieElementType("FUNCTION_TYPE")
+    @JvmField
     val OPTIONAL_TYPE = ValkyrieElementType("OPTIONAL_TYPE")
 
     // Class 和 Union 内部结构
+    @JvmField
+    val CLASS_INHERIT = ValkyrieElementType("CLASS_INHERIT")
+    @JvmField
+    val INHERIT_ITEM = ValkyrieElementType("INHERIT_ITEM")
     @JvmField
     val FIELD_DECLARATION = ValkyrieElementType("FIELD_DECLARATION")
     @JvmField

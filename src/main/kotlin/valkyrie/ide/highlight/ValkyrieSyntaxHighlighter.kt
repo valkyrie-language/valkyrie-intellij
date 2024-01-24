@@ -31,7 +31,9 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.FUNCTION,
             ValkyrieTokenTypes.CLASS,
             ValkyrieTokenTypes.UNION,
+            ValkyrieTokenTypes.UNITY,
             ValkyrieTokenTypes.TRAIT,
+            ValkyrieTokenTypes.STRUCTURE,
             ValkyrieTokenTypes.BREAK,
             ValkyrieTokenTypes.CONTINUE,
             ValkyrieTokenTypes.YIELD,
@@ -41,16 +43,23 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.TEST,
             ValkyrieTokenTypes.MICRO,
             ValkyrieTokenTypes.MEZZO,
-            ValkyrieTokenTypes.MACRO
+            ValkyrieTokenTypes.MACRO,
+            ValkyrieTokenTypes.MATCH,
+            ValkyrieTokenTypes.CASE,
+            ValkyrieTokenTypes.WHEN,
+            ValkyrieTokenTypes.FALLTHROUGH,
+            ValkyrieTokenTypes.TRY,
+            ValkyrieTokenTypes.CATCH
                 -> ValkyrieColor.KEYWORD
 
             ValkyrieTokenTypes.LPAREN, ValkyrieTokenTypes.RPAREN -> ValkyrieColor.PARENTHESES
             ValkyrieTokenTypes.LBRACKET, ValkyrieTokenTypes.RBRACKET -> ValkyrieColor.BRACKETS
             ValkyrieTokenTypes.LBRACE, ValkyrieTokenTypes.RBRACE -> ValkyrieColor.BRACES
-            ValkyrieTokenTypes.COMPILE_TIME_BLOCK_START, ValkyrieTokenTypes.COMPILE_TIME_BLOCK_END -> ValkyrieColor.BRACES
-            ValkyrieTokenTypes.TEMPLATE_START, ValkyrieTokenTypes.TEMPLATE_END -> ValkyrieColor.BRACES
+            ValkyrieTokenTypes.COMPILE_TIME_BLOCK_START, ValkyrieTokenTypes.COMPILE_TIME_BLOCK_END -> ValkyrieColor.COMPILE_TIME_BLOCK
+            ValkyrieTokenTypes.TEMPLATE_START, ValkyrieTokenTypes.TEMPLATE_END -> ValkyrieColor.TEMPLATE_BLOCK
             ValkyrieTokenTypes.COLON, ValkyrieTokenTypes.ASSIGN -> ValkyrieColor.OPERATION
             ValkyrieTokenTypes.AT -> ValkyrieColor.OPERATION
+            ValkyrieTokenTypes.LABEL_MARK -> ValkyrieColor.OPERATION
 
             ValkyrieTokenTypes.COMMA -> ValkyrieColor.COMMA
             // 数字和字面量

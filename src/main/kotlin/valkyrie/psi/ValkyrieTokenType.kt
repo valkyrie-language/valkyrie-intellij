@@ -76,7 +76,13 @@ object ValkyrieTokenTypes {
     val UNION = ValkyrieTokenType("union")
 
     @JvmField
+    val UNITY = ValkyrieTokenType("unity")
+
+    @JvmField
     val TRAIT = ValkyrieTokenType("trait")
+
+    @JvmField
+    val STRUCTURE = ValkyrieTokenType("structure")
 
     @JvmField
     val BREAK = ValkyrieTokenType("break")
@@ -117,6 +123,9 @@ object ValkyrieTokenTypes {
     @JvmField
     val WHEN = ValkyrieTokenType("when")
 
+    @JvmField
+    val FALLTHROUGH = ValkyrieTokenType("fallthrough")
+
     // 中缀运算符
     @JvmField
     val IN = ValkyrieTokenType("in")
@@ -129,6 +138,9 @@ object ValkyrieTokenTypes {
 
     @JvmField
     val IS_NOT = ValkyrieTokenType("is not")
+
+    @JvmField
+    val AS = ValkyrieTokenType("as")
 
     // 标识符和字面量
     @JvmField
@@ -168,8 +180,6 @@ object ValkyrieTokenTypes {
     @JvmField
     val TIMES = ValkyrieTokenType("TIMES") // × (alias for MULTIPLY)
 
-    @JvmField
-    val LABEL = ValkyrieTokenType("LABEL") // ※
 
     @JvmField
     val DIVIDE = ValkyrieTokenType("DIVIDE") // /
@@ -268,6 +278,9 @@ object ValkyrieTokenTypes {
     @JvmField
     val ARROW = ValkyrieTokenType("->")
 
+    @JvmField
+    val DOUBLE_ARROW = ValkyrieTokenType("=>")
+
     // 括号
     @JvmField
     val LPAREN = ValkyrieTokenType("(")
@@ -324,6 +337,11 @@ object ValkyrieTokenTypes {
     // alias = @$
     @JvmField
     val INTERNATIONAL_MARK = ValkyrieTokenType("⸿")
+
+    // alias = @*
+    @JvmField
+    val LABEL_MARK = ValkyrieTokenType("※")
+
 
     // 特殊标识符
     @JvmField
