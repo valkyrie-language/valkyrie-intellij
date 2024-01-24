@@ -37,6 +37,7 @@ class ValkyrieLexer : LexerBase() {
         "continue" to ValkyrieTokenTypes.CONTINUE,
         "yield" to ValkyrieTokenTypes.YIELD,
         "raise" to ValkyrieTokenTypes.RAISE,
+        "resume" to ValkyrieTokenTypes.RESUME,
         "tests" to ValkyrieTokenTypes.TESTS,
         "test" to ValkyrieTokenTypes.TEST,
         "namespace" to ValkyrieTokenTypes.NAMESPACE,
@@ -386,38 +387,76 @@ class ValkyrieLexer : LexerBase() {
 
             '-' -> {
                 currentOffset++
-                if (peek(0) == '>') {
-                    currentOffset++
-                    tokenType = ValkyrieTokenTypes.ARROW
-                } else {
-                    tokenType = ValkyrieTokenTypes.MINUS
+                when (peek(0)) {
+                    '>' -> {
+                        currentOffset++
+                        tokenType = ValkyrieTokenTypes.ARROW
+                    }
+                    '=' -> {
+                        currentOffset++
+                        tokenType = ValkyrieTokenTypes.MINUS_ASSIGN
+                    }
+                    else -> {
+                        tokenType = ValkyrieTokenTypes.MINUS
+                    }
                 }
             }
 
             '+' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.PLUS
+                currentOffset++
+                if (peek(0) == '=') {
+                    currentOffset++
+                    tokenType = ValkyrieTokenTypes.PLUS_ASSIGN
+                } else {
+                    tokenType = ValkyrieTokenTypes.PLUS
+                }
             }
 
             '*' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.STAR
+                currentOffset++
+                if (peek(0) == '=') {
+                    currentOffset++
+                    tokenType = ValkyrieTokenTypes.MULTIPLY_ASSIGN
+                } else {
+                    tokenType = ValkyrieTokenTypes.STAR
+                }
             }
 
             '/' -> {
                 currentOffset++
-                if (peek(0) == '/') {
-                    currentOffset++
-                    tokenType = ValkyrieTokenTypes.INTEGER_DIVIDE
-                } else {
-                    tokenType = ValkyrieTokenTypes.DIVIDE
+                when (peek(0)) {
+                    '/' -> {
+                        currentOffset++
+                        tokenType = ValkyrieTokenTypes.INTEGER_DIVIDE
+                    }
+                    '=' -> {
+                        currentOffset++
+                        tokenType = ValkyrieTokenTypes.DIVIDE_ASSIGN
+                    }
+                    else -> {
+                        tokenType = ValkyrieTokenTypes.DIVIDE
+                    }
                 }
             }
 
             '^' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.POWER
+                currentOffset++
+                if (peek(0) == '=') {
+                    currentOffset++
+                    tokenType = ValkyrieTokenTypes.POWER_ASSIGN
+                } else {
+                    tokenType = ValkyrieTokenTypes.POWER
+                }
             }
 
             '%' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.MODULO
+                currentOffset++
+                if (peek(0) == '=') {
+                    currentOffset++
+                    tokenType = ValkyrieTokenTypes.MODULO_ASSIGN
+                } else {
+                    tokenType = ValkyrieTokenTypes.MODULO
+                }
             }
 
             ';' -> {

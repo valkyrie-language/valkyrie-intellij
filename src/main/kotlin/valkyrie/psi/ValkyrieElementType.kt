@@ -25,6 +25,8 @@ object ValkyrieElementTypes {
     val EXPRESSION = ValkyrieElementType("EXPRESSION")
     @JvmField
     val PATTERN = ValkyrieElementType("PATTERN")
+    @JvmField
+    val TUPLE_PATTERN = ValkyrieElementType("TUPLE_PATTERN")
 
     // 语句
     @JvmField
@@ -145,6 +147,12 @@ object ValkyrieElementTypes {
     val YIELD_STATEMENT = ValkyrieElementType("YIELD_STATEMENT")
     @JvmField
     val RAISE_STATEMENT = ValkyrieElementType("RAISE_STATEMENT")
+    @JvmField
+    val RESUME_STATEMENT = ValkyrieElementType("RESUME_STATEMENT")
+    @JvmField
+    val LOOP_STATEMENT = ValkyrieElementType("LOOP_STATEMENT")
+    @JvmField
+    val ASSIGN_STATEMENT = ValkyrieElementType("ASSIGN_STATEMENT")
 
     @JvmField
     val MUTABLE_PATTERN = ValkyrieElementType("MUTABLE_PATTERN")
@@ -156,6 +164,8 @@ object ValkyrieElementTypes {
     val UNION_TYPE = ValkyrieElementType("UNION_TYPE")
     @JvmField
     val INTERSECTION_TYPE = ValkyrieElementType("INTERSECTION_TYPE")
+    @JvmField
+    val OPTIONAL_TYPE = ValkyrieElementType("OPTIONAL_TYPE")
 
     // Class 和 Union 内部结构
     @JvmField
