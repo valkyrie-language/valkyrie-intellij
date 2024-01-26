@@ -1,0 +1,65 @@
+// 测试is操作符使用pattern expression，as操作符使用type expression
+
+// is操作符 - 右侧是pattern expression
+let value = getValue()
+
+if value is Some(x) {
+    // 模式匹配，x被绑定
+    println(x)
+}
+
+if value is None {
+    // 简单模式
+    println("No value")
+}
+
+if value is (a, b) {
+    // 元组模式
+    println(a, b)
+}
+
+if value is Person { name, age } {
+    // 结构体模式
+    println(name, age)
+}
+
+if value is [first, ...rest] {
+    // 数组模式
+    println(first, rest)
+}
+
+// is not操作符 - 同样使用pattern expression
+if value is not None {
+    println("Has value")
+}
+
+if value is not (0, 0) {
+    println("Not origin point")
+}
+
+// as操作符 - 右侧是type expression
+let stringValue = value as String
+let optionalValue = value as Option<String>
+let functionValue = value as (Int) -> String
+let tupleValue = value as (String, Int)
+
+// 复杂的type expression
+let complexValue = value as Map<String, List<Option<Person>>>
+let functionType = value as <T>(T) -> Result<T, Error>
+
+// 组合使用
+if value is Some(x) {
+    let processed = x as ProcessedData
+    handleProcessed(processed)
+}
+
+match value {
+    case x if x is Pattern1 => {
+        let typed = x as Type1
+        process(typed)
+    }
+    case y if y is Pattern2 => {
+        let typed = y as Type2
+        process(typed)
+    }
+}

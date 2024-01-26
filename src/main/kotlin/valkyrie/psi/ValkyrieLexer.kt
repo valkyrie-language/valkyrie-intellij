@@ -128,8 +128,13 @@ class ValkyrieLexer : LexerBase() {
             }
 
             ch == '"' -> {
-                readString()
-                tokenType = ValkyrieTokenTypes.STRING
+                if (peek(0) == '"' && peek(1) == '"') {
+                    readMultiQuoteString()
+                    tokenType = ValkyrieTokenTypes.MULTI_QUOTE_STRING
+                } else {
+                    readString()
+                    tokenType = ValkyrieTokenTypes.STRING
+                }
             }
 
             ch == '\'' -> {
@@ -288,7 +293,24 @@ class ValkyrieLexer : LexerBase() {
             }
         }
 
-        tokenType = if (hasDecimalPoint) ValkyrieTokenTypes.DECIMAL else ValkyrieTokenTypes.INTEGER
+        // 检查数字后是否有单位宏
+        val numberTokenType = if (hasDecimalPoint) ValkyrieTokenTypes.DECIMAL else ValkyrieTokenTypes.INTEGER
+
+        // 检查是否有单位后缀（字母开头的标识符）
+        if (currentOffset < endOffset && (buffer[currentOffset].isLetter() || buffer[currentOffset] == 'μ' || buffer[currentOffset] == '`')) {
+            // 读取单位标识符
+            while (currentOffset < endOffset) {
+                val ch = buffer[currentOffset]
+                if (ch.isLetterOrDigit() || ch == '_' || ch == 'μ' || ch == '/' || ch == '`') {
+                    currentOffset++
+                } else {
+                    break
+                }
+            }
+            tokenType = ValkyrieTokenTypes.UNIT_NUMBER
+        } else {
+            tokenType = numberTokenType
+        }
     }
 
     private fun readString() {
@@ -300,6 +322,20 @@ class ValkyrieLexer : LexerBase() {
                 break
             } else if (ch == '\\') {
                 currentOffset += 2 // skip escape sequence
+            } else {
+                currentOffset++
+            }
+        }
+    }
+
+    private fun readMultiQuoteString() {
+        currentOffset += 3 // skip opening triple quotes
+        while (currentOffset + 2 < endOffset) {
+            if (buffer[currentOffset] == '"' && 
+                buffer[currentOffset + 1] == '"' && 
+                buffer[currentOffset + 2] == '"') {
+                currentOffset += 3 // skip closing triple quotes
+                break
             } else {
                 currentOffset++
             }
@@ -344,10 +380,12 @@ class ValkyrieLexer : LexerBase() {
                         currentOffset++
                         tokenType = ValkyrieTokenTypes.EQUAL
                     }
+
                     '>' -> {
                         currentOffset++
                         tokenType = ValkyrieTokenTypes.DOUBLE_ARROW
                     }
+
                     else -> {
                         tokenType = ValkyrieTokenTypes.ASSIGN
                     }
@@ -518,7 +556,13 @@ class ValkyrieLexer : LexerBase() {
             }
 
             ';' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.SEMICOLON
+                currentOffset++
+                if (currentOffset < bufferEnd && buffer[currentOffset] == ';') {
+                    currentOffset++
+                    tokenType = ValkyrieTokenTypes.DOUBLE_SEMICOLON
+                } else {
+                    tokenType = ValkyrieTokenTypes.SEMICOLON
+                }
             }
 
             ',' -> {
@@ -526,7 +570,29 @@ class ValkyrieLexer : LexerBase() {
             }
 
             '.' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.DOT
+                currentOffset++
+                if (peek(0) == '.') {
+                    currentOffset++
+                    when (peek(0)) {
+                        '.' -> {
+                            currentOffset++
+                            tokenType = ValkyrieTokenTypes.ELLIPSIS
+                        }
+                        '=' -> {
+                            currentOffset++
+                            tokenType = ValkyrieTokenTypes.DOT_DOT_EQUAL
+                        }
+                        '<' -> {
+                            currentOffset++
+                            tokenType = ValkyrieTokenTypes.DOT_DOT_LESS
+                        }
+                        else -> {
+                            tokenType = ValkyrieTokenTypes.DOT_DOT
+                        }
+                    }
+                } else {
+                    tokenType = ValkyrieTokenTypes.DOT
+                }
             }
 
             ':' -> {
@@ -581,12 +647,10 @@ class ValkyrieLexer : LexerBase() {
                 } else if (peek(0) == '*') {
                     currentOffset++
                     tokenType = ValkyrieTokenTypes.LABEL_MARK
-                }
-                else if (peek(0) == '$') {
+                } else if (peek(0) == '$') {
                     currentOffset++
                     tokenType = ValkyrieTokenTypes.INTERNATIONAL_MARK
-                }
-                else {
+                } else {
                     tokenType = ValkyrieTokenTypes.AT
                 }
             }
@@ -629,6 +693,10 @@ class ValkyrieLexer : LexerBase() {
 
             '?' -> {
                 currentOffset++; tokenType = ValkyrieTokenTypes.WHAT
+            }
+
+            '_' -> {
+                currentOffset++; tokenType = ValkyrieTokenTypes.UNDERSCORE
             }
 
             '⸿' -> {

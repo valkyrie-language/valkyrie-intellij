@@ -1,0 +1,19 @@
+// 测试双分号语法支持
+
+// 标准namespace语法
+namespace package.collections;
+
+// REPL独有的双分号语法
+namespace package.collections;;
+
+// 不同类型的namespace with 双分号
+namespace! package.main;;
+namespace? package.test;;
+namespace* package.hidden;;
+
+// 多路径namespace with 双分号
+namespace package.math, package.utils;;
+
+// 简单测试代码
+let x = 42;
+let y = "hello world";

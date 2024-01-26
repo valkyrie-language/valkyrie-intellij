@@ -1,0 +1,32 @@
+// 测试元组解析问题
+
+// 基本元组表达式
+let tuple1 = (1, 2, 3);
+let tuple2 = ("hello", "world");
+
+// 空元组
+let empty = ();
+
+// 单元素元组（需要尾随逗号）
+let single = (42,);
+
+// 嵌套元组
+let nested = ((1, 2), (3, 4));
+
+// 带尾随逗号的元组
+let trailing = (1, 2, 3,);
+
+// 问题语句：value is (true, false) - 这里的逗号和括号可能报错
+let value = some_value;
+if value is (true, false) {
+    // 处理逻辑
+}
+
+// 其他is表达式测试
+if value is true {
+    // 单值匹配
+}
+
+if value is (x, y) {
+    // 元组模式匹配
+}

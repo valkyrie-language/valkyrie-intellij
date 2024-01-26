@@ -1,0 +1,92 @@
+// 测试time level前缀语法
+
+// micro前缀的控制流语句（默认time level）
+micro for i in range(10) {
+    println(i)
+}
+
+micro while condition {
+    doSomething()
+}
+
+micro loop {
+    if (shouldBreak) break
+}
+
+micro match value {
+    case 1: handleOne()
+    case 2: handleTwo()
+    else: handleDefault()
+}
+
+micro try String {
+    riskyOperation()
+}
+
+// mezzo前缀的控制流语句（编译期类型查询）
+mezzo for type in typeList {
+    analyzeType(type)
+}
+
+mezzo while hasMoreTypes {
+    processNextType()
+}
+
+mezzo match typeKind {
+    case Primitive: handlePrimitive()
+    case Complex: handleComplex()
+}
+
+mezzo try* {
+    compileTimeCheck()
+}
+
+// macro前缀的控制流语句（编译期代码生成）
+macro for item in codeTemplates {
+    generateCode(item)
+}
+
+macro while needsExpansion {
+    expandMacro()
+}
+
+macro match pattern {
+    case Simple: generateSimple()
+    case Complex: generateComplex()
+}
+
+macro try ErrorType {
+    generateErrorHandler()
+}
+
+// 简化的try语法测试
+try {
+    // 无类型注解
+    basicOperation()
+}
+
+try String {
+    // 带类型注解
+    stringOperation()
+}
+
+try* {
+    // 编译期通配符
+    compileTimeOperation()
+}
+
+// time level函数声明
+micro processData(data: Data) {
+    // 运行期函数
+    return data.process()
+}
+
+mezzo analyzeType(type: Type) {
+    // 编译期类型查询
+    return type.getMetadata()
+}
+
+macro generateCode(template: Template) {
+    // 编译期代码生成
+    return template.expand()
+}
