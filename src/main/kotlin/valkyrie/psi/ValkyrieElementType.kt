@@ -36,9 +36,13 @@ object ValkyrieElementTypes {
     @JvmField
     val CLASS_STATEMENT = ValkyrieElementType("CLASS_STATEMENT")
     @JvmField
+    val SINGLETON_STATEMENT = ValkyrieElementType("SINGLETON_STATEMENT")
+    @JvmField
     val UNION_STATEMENT = ValkyrieElementType("UNION_STATEMENT")
     @JvmField
     val TRAIT_STATEMENT = ValkyrieElementType("TRAIT_STATEMENT")
+    @JvmField
+    val IMPLY_STATEMENT = ValkyrieElementType("IMPLY_STATEMENT")
     @JvmField
     val STRUCTURE_STATEMENT = ValkyrieElementType("STRUCTURE_STATEMENT")
     @JvmField
@@ -145,6 +149,8 @@ object ValkyrieElementTypes {
     val DOT_EXPRESSION = ValkyrieElementType("DOT_EXPRESSION")
     @JvmField
     val TRAILING_CLOSURE_EXPRESSION = ValkyrieElementType("TRAILING_CLOSURE_EXPRESSION")
+    @JvmField
+    val ARRAY_EXPRESSION = ValkyrieElementType("ARRAY_EXPRESSION")
 
     @JvmField
     val LABEL_STATEMENT = ValkyrieElementType("LABEL_STATEMENT")

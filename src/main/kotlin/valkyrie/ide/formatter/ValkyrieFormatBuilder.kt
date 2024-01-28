@@ -36,6 +36,7 @@ class ValkyrieFormatBuilder : FormattingModelBuilder {
     }
     
     private fun createSpacingBuilder(settings: CodeStyleSettings): SpacingBuilder {
+        val valkyrieSettings = settings.getCustomSettings(ValkyrieCodeStyleSettings::class.java)
         return SpacingBuilder(settings, ValkyrieLanguage.INSTANCE)
             // 大括号前后的空格
             .before(ValkyrieTokenTypes.LBRACE).spaces(1)
@@ -43,19 +44,75 @@ class ValkyrieFormatBuilder : FormattingModelBuilder {
             .before(ValkyrieTokenTypes.RBRACE).lineBreakInCode()
             .after(ValkyrieTokenTypes.RBRACE).lineBreakInCode()
             
+            // 小括号的空格
+            .before(ValkyrieTokenTypes.LPAREN).spaces(0)
+            .after(ValkyrieTokenTypes.LPAREN).spaces(0)
+            .before(ValkyrieTokenTypes.RPAREN).spaces(0)
+            .after(ValkyrieTokenTypes.RPAREN).spaces(0)
+            
+            // 方括号的空格
+            .before(ValkyrieTokenTypes.LBRACKET).spaces(0)
+            .after(ValkyrieTokenTypes.LBRACKET).spaces(0)
+            .before(ValkyrieTokenTypes.RBRACKET).spaces(0)
+            .after(ValkyrieTokenTypes.RBRACKET).spaces(0)
+            
             // 冒号前后的空格
             .before(ValkyrieTokenTypes.COLON).spaces(0)
             .after(ValkyrieTokenTypes.COLON).spaces(1)
             
+            // 分号前后的空格
+            .before(ValkyrieTokenTypes.SEMICOLON).spaces(0)
+            .after(ValkyrieTokenTypes.SEMICOLON).lineBreakInCode()
+            
             // 逗号后的空格
+            .before(ValkyrieTokenTypes.COMMA).spaces(0)
             .after(ValkyrieTokenTypes.COMMA).spaces(1)
             
-            // 操作符前后的空格
+            // 点号前后不加空格
+            .around(ValkyrieTokenTypes.DOT).spaces(0)
+            
+            // 箭头前后的空格
+            .around(ValkyrieTokenTypes.ARROW).spaces(1)
+            
+            // 赋值操作符前后的空格
             .around(ValkyrieTokenTypes.ASSIGN).spaces(1)
+            .around(ValkyrieTokenTypes.PLUS_ASSIGN).spaces(1)
+            .around(ValkyrieTokenTypes.MINUS_ASSIGN).spaces(1)
+            .around(ValkyrieTokenTypes.MULTIPLY_ASSIGN).spaces(1)
+            .around(ValkyrieTokenTypes.DIVIDE_ASSIGN).spaces(1)
+            
+            // 算术操作符前后的空格
             .around(ValkyrieTokenTypes.PLUS).spaces(1)
             .around(ValkyrieTokenTypes.MINUS).spaces(1)
             .around(ValkyrieTokenTypes.MULTIPLY).spaces(1)
             .around(ValkyrieTokenTypes.DIVIDE).spaces(1)
+            .around(ValkyrieTokenTypes.MODULO).spaces(1)
+            .around(ValkyrieTokenTypes.POWER).spaces(1)
+            
+            // 比较操作符
+            .around(ValkyrieTokenTypes.EQUAL).spaces(1)
+            .around(ValkyrieTokenTypes.NOT_EQUAL).spaces(1)
+            .around(ValkyrieTokenTypes.LESS).spaces(1)
+            .around(ValkyrieTokenTypes.LESS_EQUAL).spaces(1)
+            .around(ValkyrieTokenTypes.GREATER).spaces(1)
+            .around(ValkyrieTokenTypes.GREATER_EQUAL).spaces(1)
+            
+            // 逻辑操作符
+            .around(ValkyrieTokenTypes.LOGIC_AND).spaces(1)
+            .around(ValkyrieTokenTypes.LOGIC_OR).spaces(1)
+            .around(ValkyrieTokenTypes.WOW).spaces(1)
+            
+            // 关键字后的空格
+            .after(ValkyrieTokenTypes.IF).spaces(1)
+            .after(ValkyrieTokenTypes.FOR).spaces(1)
+            .after(ValkyrieTokenTypes.WHILE).spaces(1)
+            .after(ValkyrieTokenTypes.MATCH).spaces(1)
+            .after(ValkyrieTokenTypes.RETURN).spaces(1)
+            .after(ValkyrieTokenTypes.LET).spaces(1)
+            .after(ValkyrieTokenTypes.FUNCTION).spaces(1)
+            .after(ValkyrieTokenTypes.CLASS).spaces(1)
+            .after(ValkyrieTokenTypes.UNION).spaces(1)
+            .after(ValkyrieTokenTypes.NAMESPACE).spaces(1)
     }
     
     override fun getRangeAffectingIndent(file: PsiFile, offset: Int, elementAtOffset: ASTNode): TextRange? {
@@ -107,12 +164,20 @@ class ValkyrieBlock(
     private fun getChildIndent(child: ASTNode): Indent {
         return when (child.elementType) {
             ValkyrieTokenTypes.LBRACE, ValkyrieTokenTypes.RBRACE -> Indent.getNoneIndent()
+            ValkyrieTokenTypes.LPAREN, ValkyrieTokenTypes.RPAREN -> Indent.getNoneIndent()
+            ValkyrieTokenTypes.LBRACKET, ValkyrieTokenTypes.RBRACKET -> Indent.getNoneIndent()
             else -> {
                 when (node.elementType) {
                     ValkyrieElementTypes.OBJECT_BODY,
                     ValkyrieElementTypes.UNION_BODY,
                     ValkyrieElementTypes.VARIANT_BODY,
-                    ValkyrieElementTypes.BLOCK_BODY -> Indent.getNormalIndent()
+                    ValkyrieElementTypes.BLOCK_BODY,
+                    ValkyrieElementTypes.IF_STATEMENT,
+                    ValkyrieElementTypes.ELSE_CLAUSE,
+                    ValkyrieElementTypes.FOR_STATEMENT,
+                    ValkyrieElementTypes.WHILE_STATEMENT,
+                    ValkyrieElementTypes.MATCH_STATEMENT,
+                    ValkyrieElementTypes.LOOP_STATEMENT -> Indent.getNormalIndent()
                     else -> Indent.getNoneIndent()
                 }
             }
@@ -121,10 +186,18 @@ class ValkyrieBlock(
     
     private fun getChildAlignment(child: ASTNode): Alignment? {
         return when (node.elementType) {
-            ValkyrieElementTypes.OBJECT_BODY -> {
+            ValkyrieElementTypes.OBJECT_BODY,
+            ValkyrieElementTypes.UNION_BODY -> {
                 when (child.elementType) {
                     ValkyrieElementTypes.FIELD_DECLARATION,
-                    ValkyrieElementTypes.METHOD_DECLARATION -> Alignment.createAlignment()
+                    ValkyrieElementTypes.METHOD_DECLARATION,
+                    ValkyrieElementTypes.DOMAIN_DECLARATION -> Alignment.createAlignment()
+                    else -> null
+                }
+            }
+            ValkyrieElementTypes.PARAMETER_LIST -> {
+                when (child.elementType) {
+                    ValkyrieElementTypes.PARAMETER -> Alignment.createAlignment()
                     else -> null
                 }
             }
@@ -152,6 +225,13 @@ class ValkyrieBlock(
             ValkyrieElementTypes.UNION_BODY,
             ValkyrieElementTypes.VARIANT_BODY,
             ValkyrieElementTypes.BLOCK_BODY -> ChildAttributes(Indent.getNormalIndent(), null)
+            ValkyrieElementTypes.PARAMETER_LIST -> {
+                if (newChildIndex > 0) {
+                    ChildAttributes(Indent.getContinuationIndent(), Alignment.createAlignment())
+                } else {
+                    ChildAttributes(Indent.getNoneIndent(), null)
+                }
+            }
             else -> ChildAttributes(Indent.getNoneIndent(), null)
         }
     }

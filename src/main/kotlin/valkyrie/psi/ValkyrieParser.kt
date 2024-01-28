@@ -17,6 +17,7 @@ class ValkyrieParser : PsiParser {
         ValkyrieTokenTypes.CLASS,
         ValkyrieTokenTypes.UNION,
         ValkyrieTokenTypes.TRAIT,
+        ValkyrieTokenTypes.IMPLY,
         ValkyrieTokenTypes.FUNCTION,
         ValkyrieTokenTypes.NAMESPACE,
         ValkyrieTokenTypes.NAMESPACE_MAIN,
@@ -36,6 +37,7 @@ class ValkyrieParser : PsiParser {
         parseStartTime = System.currentTimeMillis()
         statementCount = 0
         
+        // marker 不平衡问题已修复，调试模式已关闭
         val rootMarker = builder.mark()
         
         // 性能优化：预分配错误计数器
@@ -119,9 +121,11 @@ class ValkyrieParser : PsiParser {
             when (builder.tokenType) {
                 ValkyrieTokenTypes.LET -> parseLetStatement(builder)
                 ValkyrieTokenTypes.CLASS -> parseClassStatement(builder)
+                ValkyrieTokenTypes.SINGLETON -> parseSingletonStatement(builder)
                 ValkyrieTokenTypes.UNION -> parseUnionStatement(builder)
                 ValkyrieTokenTypes.UNITY -> parseUnityStatement(builder)
                 ValkyrieTokenTypes.TRAIT -> parseTraitStatement(builder)
+            ValkyrieTokenTypes.IMPLY -> parseImplyStatement(builder)
                 ValkyrieTokenTypes.STRUCTURE -> parseStructureStatement(builder)
                 ValkyrieTokenTypes.FUNCTION -> parseFunctionStatement(builder)
                 ValkyrieTokenTypes.MICRO -> parseTimeLevelStatement(builder, "micro")
@@ -180,14 +184,21 @@ class ValkyrieParser : PsiParser {
             builder.advanceLexer()
         }
 
-        // pattern (identifier for now)
-        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
-            val patternMarker = builder.mark()
-            builder.advanceLexer()
-            patternMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
-        } else {
-            builder.error("Expected identifier")
-            builder.advanceLexer() // 推进词法分析器避免死循环
+        // pattern - 支持标识符和元组模式（包括 raw identifier）
+        when (builder.tokenType) {
+            ValkyrieTokenTypes.IDENTIFIER_STD, ValkyrieTokenTypes.IDENTIFIER_RAW -> {
+                val patternMarker = builder.mark()
+                builder.advanceLexer()
+                patternMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
+            }
+            ValkyrieTokenTypes.LPAREN -> {
+                // 解析元组模式 (a, b)
+                parseTuplePattern(builder)
+            }
+            else -> {
+                builder.error("Expected identifier or pattern")
+                builder.advanceLexer() // 推进词法分析器避免死循环
+            }
         }
 
         // optional type annotation
@@ -280,26 +291,26 @@ class ValkyrieParser : PsiParser {
     private fun parseBinaryExpression(builder: PsiBuilder, minPrec: Int) {
         var left = parsePostfixExpression(builder)
 
-        while (!builder.eof()) {
+        while (!builder.eof() && left != null) {
             val op = builder.tokenType
             val prec = getOperatorPrecedence(op)
 
             if (prec < minPrec) break
 
-            val marker = left?.precede()
+            val marker = left.precede()
             builder.advanceLexer() // consume operator
 
             if (op == ValkyrieTokenTypes.AS) {
                 // AS操作符右侧是类型表达式
                 parseTypeReference(builder)
-                marker?.done(ValkyrieElementTypes.AS_EXPRESSION)
+                marker.done(ValkyrieElementTypes.AS_EXPRESSION)
             } else if (op == ValkyrieTokenTypes.IS || op == ValkyrieTokenTypes.IS_NOT) {
                 // IS操作符右侧是模式表达式
                 parsePattern(builder)
-                marker?.done(ValkyrieElementTypes.BINARY_EXPRESSION)
+                marker.done(ValkyrieElementTypes.BINARY_EXPRESSION)
             } else {
                 parseBinaryExpression(builder, prec + 1)
-                marker?.done(ValkyrieElementTypes.BINARY_EXPRESSION)
+                marker.done(ValkyrieElementTypes.BINARY_EXPRESSION)
             }
             left = marker
         }
@@ -308,11 +319,11 @@ class ValkyrieParser : PsiParser {
     private fun parsePostfixExpression(builder: PsiBuilder): PsiBuilder.Marker? {
         var left = parsePrimaryExpression(builder)
 
-        while (!builder.eof()) {
+        while (!builder.eof() && left != null) {
             when (builder.tokenType) {
                 ValkyrieTokenTypes.DOT -> {
                     // 点调用 a.b
-                    val marker = left?.precede()
+                    val marker = left.precede()
                     builder.advanceLexer() // consume '.'
                     if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
                         val nameMarker = builder.mark()
@@ -321,47 +332,54 @@ class ValkyrieParser : PsiParser {
                     } else {
                         builder.error("Expected identifier after '.'")
                     }
-                    marker?.done(ValkyrieElementTypes.DOT_EXPRESSION)
+                    marker.done(ValkyrieElementTypes.DOT_EXPRESSION)
                     left = marker
                 }
                 ValkyrieTokenTypes.LPAREN -> {
                     // 普通函数调用 call(args)
-                    val marker = left?.precede()
+                    val marker = left.precede()
                     parseArgumentList(builder)
-                    marker?.done(ValkyrieElementTypes.CALL_EXPRESSION)
+                    marker.done(ValkyrieElementTypes.CALL_EXPRESSION)
                     left = marker
                 }
                 ValkyrieTokenTypes.LBRACE -> {
                     // 尾随闭包 call {}
-                    val marker = left?.precede()
+                    val marker = left.precede()
                     parseBlockStatement(builder)
-                    marker?.done(ValkyrieElementTypes.TRAILING_CLOSURE_EXPRESSION)
+                    marker.done(ValkyrieElementTypes.TRAILING_CLOSURE_EXPRESSION)
                     left = marker
                 }
                 ValkyrieTokenTypes.LANGLE -> {
                     // 泛型调用 call⟨T⟩(args)
-                    val marker = left?.precede()
+                    val marker = left.precede()
                     parseGenericArguments(builder, ValkyrieTokenTypes.LANGLE, ValkyrieTokenTypes.RANGLE)
                     if (builder.tokenType == ValkyrieTokenTypes.LPAREN) {
                         parseArgumentList(builder)
                     }
-                    marker?.done(ValkyrieElementTypes.GENERIC_CALL_EXPRESSION)
+                    marker.done(ValkyrieElementTypes.GENERIC_CALL_EXPRESSION)
                     left = marker
                 }
                 ValkyrieTokenTypes.DOUBLE_COLON -> {
                     // 检查是否为 call::<T> 形式
                     if (builder.lookAhead(1) == ValkyrieTokenTypes.LESS) {
-                        val marker = left?.precede()
+                        val marker = left.precede()
                         builder.advanceLexer() // consume '::'
                         parseGenericArguments(builder, ValkyrieTokenTypes.LESS, ValkyrieTokenTypes.GREATER)
                         if (builder.tokenType == ValkyrieTokenTypes.LPAREN) {
                             parseArgumentList(builder)
                         }
-                        marker?.done(ValkyrieElementTypes.GENERIC_CALL_EXPRESSION)
+                        marker.done(ValkyrieElementTypes.GENERIC_CALL_EXPRESSION)
                         left = marker
                     } else {
                         break
                     }
+                }
+                ValkyrieTokenTypes.WHAT -> {
+                    // 错误处理操作符 expr?
+                    val marker = left.precede()
+                    builder.advanceLexer() // consume '?'
+                    marker.done(ValkyrieElementTypes.POSTFIX_EXPRESSION)
+                    left = marker
                 }
                 else -> break
             }
@@ -445,13 +463,60 @@ class ValkyrieParser : PsiParser {
                 
                 val beforeType = builder.currentOffset
                 
-                // 支持泛型参数中的字面量（数字和字符串）
+                // 支持泛型参数中的字面量（数字和字符串）、命名参数语法和tuple
                 when (builder.tokenType) {
                     ValkyrieTokenTypes.INTEGER, ValkyrieTokenTypes.DECIMAL, ValkyrieTokenTypes.UNIT_NUMBER -> {
                         builder.advanceLexer() // 消费数字字面量
                     }
                     ValkyrieTokenTypes.STRING -> {
                         builder.advanceLexer() // 消费字符串字面量
+                    }
+                    ValkyrieTokenTypes.LPAREN -> {
+                        // 解析tuple语法 (1, 2, 3)
+                        val tupleMarker = builder.mark()
+                        builder.advanceLexer() // consume '('
+                        
+                        // 解析tuple元素
+                        if (builder.tokenType != ValkyrieTokenTypes.RPAREN) {
+                            // 解析第一个元素
+                            when (builder.tokenType) {
+                                ValkyrieTokenTypes.INTEGER, ValkyrieTokenTypes.DECIMAL, ValkyrieTokenTypes.UNIT_NUMBER -> {
+                                    builder.advanceLexer()
+                                }
+                                else -> parseTypeReference(builder)
+                            }
+                            
+                            // 解析后续元素
+                            while (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+                                builder.advanceLexer() // consume ','
+                                if (builder.tokenType == ValkyrieTokenTypes.RPAREN) break // 允许尾随逗号
+                                
+                                when (builder.tokenType) {
+                                    ValkyrieTokenTypes.INTEGER, ValkyrieTokenTypes.DECIMAL, ValkyrieTokenTypes.UNIT_NUMBER -> {
+                                        builder.advanceLexer()
+                                    }
+                                    else -> parseTypeReference(builder)
+                                }
+                            }
+                        }
+                        
+                        if (builder.tokenType == ValkyrieTokenTypes.RPAREN) {
+                            builder.advanceLexer() // consume ')'
+                        } else {
+                            builder.error("Expected ')'")
+                        }
+                        tupleMarker.done(ValkyrieElementTypes.TUPLE_EXPRESSION)
+                    }
+                    ValkyrieTokenTypes.IDENTIFIER_STD -> {
+                        // 检查是否是命名参数语法 (如 Item: AnyNode)
+                        val nextToken = builder.lookAhead(1)
+                        if (nextToken == ValkyrieTokenTypes.COLON) {
+                            builder.advanceLexer() // consume identifier
+                            builder.advanceLexer() // consume ':'
+                            parseTypeReference(builder) // parse the type after colon
+                        } else {
+                            parseTypeReference(builder)
+                        }
                     }
                     else -> {
                         parseTypeReference(builder)
@@ -633,12 +698,50 @@ class ValkyrieParser : PsiParser {
             ValkyrieTokenTypes.COMPILE_TIME_BLOCK_START -> {
                 val marker = builder.mark()
                 parseCompileTimeBlock(builder)
+                marker.done(ValkyrieElementTypes.COMPILE_TIME_BLOCK)
                 marker
             }
 
             ValkyrieTokenTypes.TEMPLATE_START -> {
                 val marker = builder.mark()
                 parseTemplateBlock(builder)
+                marker.done(ValkyrieElementTypes.TEMPLATE_BLOCK)
+                marker
+            }
+
+            ValkyrieTokenTypes.LBRACKET -> {
+                // 数组字面量 [1, 2, 3]
+                val marker = builder.mark()
+                builder.advanceLexer() // consume '['
+                
+                // 检查是否为空数组
+                if (builder.tokenType == ValkyrieTokenTypes.RBRACKET) {
+                    builder.advanceLexer() // consume ']'
+                    marker.done(ValkyrieElementTypes.ARRAY_EXPRESSION)
+                    return marker
+                }
+                
+                // 解析数组元素
+                parseExpression(builder)
+                
+                while (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+                    builder.advanceLexer() // consume ','
+                    
+                    // 允许尾随逗号
+                    if (builder.tokenType == ValkyrieTokenTypes.RBRACKET) {
+                        break
+                    }
+                    
+                    parseExpression(builder)
+                }
+                
+                if (builder.tokenType == ValkyrieTokenTypes.RBRACKET) {
+                    builder.advanceLexer() // consume ']'
+                } else {
+                    builder.error("Expected ']'")
+                }
+                
+                marker.done(ValkyrieElementTypes.ARRAY_EXPRESSION)
                 marker
             }
 
@@ -667,10 +770,10 @@ class ValkyrieParser : PsiParser {
         // 解析第一个类型（可能是联合类型）
         parseUnionType(builder)
         
-        // 检查是否有交集类型操作符 &
-        while (builder.tokenType == ValkyrieTokenTypes.AMPERSAND) {
+        // 检查是否有交集类型操作符 & 或 + (用于接口实现)
+        while (builder.tokenType == ValkyrieTokenTypes.AMPERSAND || builder.tokenType == ValkyrieTokenTypes.PLUS) {
             hasIntersection = true
-            builder.advanceLexer() // consume '&'
+            builder.advanceLexer() // consume '&' or '+'
             parseUnionType(builder)
         }
         
@@ -910,7 +1013,8 @@ class ValkyrieParser : PsiParser {
                     nextIdentifierMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
                 } else {
                     builder.error("Expected identifier after path separator")
-                    break
+                    pathMarker.drop() // 在错误情况下 drop pathMarker
+                    return
                 }
             }
 
@@ -937,18 +1041,20 @@ class ValkyrieParser : PsiParser {
                             pathIdentifierMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
                         } else {
                             builder.error("Expected identifier after path separator")
-                            break
+                            nextPathMarker.drop() // 在错误情况下 drop nextPathMarker
+                            return
                         }
                     }
 
                     nextPathMarker.done(ValkyrieElementTypes.NAMESPACE_PATH)
                 } else {
                     builder.error("Expected identifier after comma")
-                    break
+                    return
                 }
             }
         } else {
             builder.error("Expected namespace identifier")
+            pathMarker.drop() // 当没有找到标识符时，需要 drop marker
         }
     }
 
@@ -1039,10 +1145,14 @@ class ValkyrieParser : PsiParser {
             return
         }
 
-        // class name (optional for anonymous classes)
-        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+        // class name (optional for anonymous classes) - 支持 raw identifier
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW) {
             val nameMarker = builder.mark()
-            builder.advanceLexer()
+            if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW) {
+                builder.advanceLexer() // consume raw identifier
+            } else {
+                builder.advanceLexer() // consume standard identifier
+            }
             nameMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
 
             // optional generic parameters
@@ -1068,6 +1178,54 @@ class ValkyrieParser : PsiParser {
         }
 
         marker.done(ValkyrieElementTypes.CLASS_STATEMENT)
+    }
+
+    private fun parseSingletonStatement(builder: PsiBuilder) {
+        val marker = builder.mark()
+
+        // 'singleton' keyword
+        if (builder.tokenType == ValkyrieTokenTypes.SINGLETON) {
+            builder.advanceLexer()
+        } else {
+            marker.drop()
+            return
+        }
+
+        // singleton name (required) - 支持 raw identifier
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW) {
+            val nameMarker = builder.mark()
+            if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW) {
+                builder.advanceLexer() // consume raw identifier
+            } else {
+                builder.advanceLexer() // consume standard identifier
+            }
+            nameMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
+
+            // optional generic parameters
+            parseOptionalGenericParameters(builder)
+        } else {
+            builder.error("Expected singleton name")
+        }
+
+        // optional inheritance (singleton A(B, C) or singleton A() {})
+        if (builder.tokenType == ValkyrieTokenTypes.LPAREN) {
+            parseClassInheritance(builder)
+        }
+
+        // optional trait constraints (singleton A: Trait)
+        if (builder.tokenType == ValkyrieTokenTypes.COLON) {
+            builder.advanceLexer() // consume ':'
+            parseTypeReference(builder) // 解析trait约束
+        }
+
+        // singleton body (required)
+        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+            parseObjectBody(builder)
+        } else {
+            builder.error("Expected '{'")
+        }
+
+        marker.done(ValkyrieElementTypes.SINGLETON_STATEMENT)
     }
 
     private fun parseStructureStatement(builder: PsiBuilder) {
@@ -1138,7 +1296,7 @@ class ValkyrieParser : PsiParser {
             // 检查是否为空泛型列表
             if (builder.tokenType != expectedEndToken) {
                 // 解析第一个泛型参数
-                if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW) {
                     parseGenericParameter(builder)
 
                     // 处理多个泛型参数
@@ -1148,7 +1306,7 @@ class ValkyrieParser : PsiParser {
                         if (builder.tokenType == expectedEndToken) {
                             break
                         }
-                        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW) {
                             parseGenericParameter(builder)
                         } else {
                             builder.error("Expected generic parameter name")
@@ -1177,9 +1335,9 @@ class ValkyrieParser : PsiParser {
             parseMacroCall(builder)
         }
         
-        // 解析修饰符（如 readonly T）
+        // 解析修饰符（如 readonly T）- 支持 raw identifier
         var hasModifier = false
-        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW) {
             val currentText = builder.tokenText ?: ""
             if (currentText == "readonly" || currentText == "const" || currentText == "mut") {
                 hasModifier = true
@@ -1189,8 +1347,8 @@ class ValkyrieParser : PsiParser {
             }
         }
         
-        // 解析泛型参数名称
-        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+        // 解析泛型参数名称 - 支持 raw identifier
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW) {
             builder.advanceLexer()
             
             // 检查是否有泛型约束 (冒号后跟类型)
@@ -1323,6 +1481,42 @@ class ValkyrieParser : PsiParser {
         marker.done(ValkyrieElementTypes.TRAIT_STATEMENT)
     }
 
+    private fun parseImplyStatement(builder: PsiBuilder) {
+        val marker = builder.mark()
+
+        // 'imply' keyword
+        if (builder.tokenType == ValkyrieTokenTypes.IMPLY) {
+            builder.advanceLexer()
+        } else {
+            marker.drop()
+            return
+        }
+
+        // imply name - 支持 raw identifier
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW) {
+            val nameMarker = builder.mark()
+            builder.advanceLexer()
+            nameMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
+        } else {
+            builder.error("Expected imply name")
+        }
+
+        // 可选的类型表达式 : Type
+        if (builder.tokenType == ValkyrieTokenTypes.COLON) {
+            builder.advanceLexer() // consume ':'
+            parseTypeReference(builder)
+        }
+
+        // imply body
+        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+            parseObjectBody(builder)
+        } else {
+            builder.error("Expected imply body")
+        }
+
+        marker.done(ValkyrieElementTypes.IMPLY_STATEMENT)
+    }
+
     private fun parseFunctionStatement(builder: PsiBuilder) {
         val marker = builder.mark()
 
@@ -1334,8 +1528,8 @@ class ValkyrieParser : PsiParser {
             return
         }
 
-        // function name
-        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+        // function name - 支持 raw identifier
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW) {
             val nameMarker = builder.mark()
             builder.advanceLexer()
             nameMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
@@ -1499,11 +1693,19 @@ class ValkyrieParser : PsiParser {
             builder.advanceLexer()
         }
 
-        // union variants
+        // union variants and methods
         while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
             when {
                 builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD -> {
-                    parseUnionVariant(builder)
+                    // 前瞻判断是方法还是 variant
+                    val nextToken = builder.lookAhead(1)
+                    if (nextToken == ValkyrieTokenTypes.LPAREN) {
+                        // 解析方法声明
+                        parseObjectMember(builder)
+                    } else {
+                        // 解析 variant
+                        parseUnionVariant(builder)
+                    }
                 }
 
                 builder.tokenType == ValkyrieTokenTypes.WHITESPACE || builder.tokenType == ValkyrieTokenTypes.NEWLINE -> {
@@ -1515,7 +1717,7 @@ class ValkyrieParser : PsiParser {
                 }
 
                 else -> {
-                    builder.error("Expected union variant")
+                    builder.error("Expected union variant or method")
                     builder.advanceLexer()
                 }
             }
@@ -1555,16 +1757,30 @@ class ValkyrieParser : PsiParser {
             parseAttributeList(builder)
         }
 
-        // 直接解析modifiers到annotation节点下
-        while (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+        // 直接解析modifiers到annotation节点下 - 支持关键字修饰符
+        while (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || 
+               builder.tokenType == ValkyrieTokenTypes.MUT || 
+               builder.tokenType == ValkyrieTokenTypes.REF) {
+            val currentText = builder.tokenText
             val nextToken = builder.lookAhead(1)
-            // 如果下一个token是声明分隔符，当前是声明名称，停止解析modifiers
-            if (nextToken == ValkyrieTokenTypes.LPAREN ||
-                nextToken == ValkyrieTokenTypes.LBRACE ||
-                nextToken == ValkyrieTokenTypes.SEMICOLON ||
-                nextToken == ValkyrieTokenTypes.COLON ||
-                nextToken == ValkyrieTokenTypes.ASSIGN
-            ) {
+            
+            // 检查是否是修饰符关键字
+            val isModifier = when (builder.tokenType) {
+                ValkyrieTokenTypes.MUT, ValkyrieTokenTypes.REF -> true
+                ValkyrieTokenTypes.IDENTIFIER_STD -> {
+                    currentText in setOf("public", "private", "protected", "internal", "readonly", "mutable", "const")
+                }
+                else -> false
+            }
+            
+            // 如果不是修饰符，或者下一个token是声明分隔符，停止解析modifiers
+            if (!isModifier || (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && 
+                (nextToken == ValkyrieTokenTypes.LPAREN ||
+                 nextToken == ValkyrieTokenTypes.LBRACE ||
+                 nextToken == ValkyrieTokenTypes.SEMICOLON ||
+                 nextToken == ValkyrieTokenTypes.COLON ||
+                 nextToken == ValkyrieTokenTypes.ASSIGN)
+            )) {
                 break
             }
 
@@ -1576,8 +1792,8 @@ class ValkyrieParser : PsiParser {
 
         annotationMarker.done(ValkyrieElementTypes.ANNOTATION_NODE)
 
-        // 解析声明名称
-        if (builder.tokenType != ValkyrieTokenTypes.IDENTIFIER_STD) {
+        // 解析声明名称 - 支持普通标识符和 raw identifier
+        if (builder.tokenType != ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenType != ValkyrieTokenTypes.BACKTICK) {
             builder.error("Expected identifier")
             memberMarker.drop()
             if (!builder.eof()) {
@@ -1587,8 +1803,24 @@ class ValkyrieParser : PsiParser {
         }
 
         val nameMarker = builder.mark()
-        val declarationName = builder.tokenText ?: ""
-        builder.advanceLexer()
+        if (builder.tokenType == ValkyrieTokenTypes.BACKTICK) {
+            // 处理 raw identifier
+            builder.advanceLexer() // consume '`'
+            if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                builder.advanceLexer() // consume identifier
+            } else {
+                builder.error("Expected identifier after backtick")
+            }
+            if (builder.tokenType == ValkyrieTokenTypes.BACKTICK) {
+                builder.advanceLexer() // consume closing '`'
+            } else {
+                builder.error("Expected closing backtick")
+            }
+        } else {
+            // 处理普通标识符
+            val declarationName = builder.tokenText ?: ""
+            builder.advanceLexer()
+        }
         nameMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
 
         // 根据后续符号确定成员类型
@@ -1717,8 +1949,8 @@ class ValkyrieParser : PsiParser {
             return
         }
 
-        // 解析类型名称
-        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+        // 解析类型名称 - 支持 raw identifier
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW) {
             val nameMarker = builder.mark()
             builder.advanceLexer()
             nameMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
@@ -1734,10 +1966,10 @@ class ValkyrieParser : PsiParser {
             parseTypeReference(builder)
         }
 
-        // 可选的默认类型 '= DefaultType'
+        // 可选的默认类型 '= DefaultType' - 支持联合类型语法 A | B
         if (builder.tokenType == ValkyrieTokenTypes.ASSIGN) {
             builder.advanceLexer() // consume '='
-            parseTypeReference(builder)
+            parseUnionType(builder)
         }
 
         // 处理结尾的逗号或分号
@@ -1847,30 +2079,21 @@ class ValkyrieParser : PsiParser {
         var isFirstParameter = true
         while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RPAREN) {
             // 处理省略参数语法 .. 和 ...
-            if (builder.tokenType == ValkyrieTokenTypes.DOT) {
-                // 检查是否是连续的点号
-                val nextToken = builder.lookAhead(1)
-                if (nextToken == ValkyrieTokenTypes.DOT) {
-                    val paramMarker = builder.mark()
-                    builder.advanceLexer() // consume first '.'
-                    builder.advanceLexer() // consume second '.'
-                    
-                    // 检查是否是 ... (三个点)
-                    if (builder.tokenType == ValkyrieTokenTypes.DOT) {
-                        builder.advanceLexer() // consume third '.'
-                    }
-                    
-                    // 解析省略参数名称和类型
-                    if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
-                        builder.advanceLexer()
-                        if (builder.tokenType == ValkyrieTokenTypes.COLON) {
-                            builder.advanceLexer()
-                            parseTypeReference(builder)
-                        }
-                    }
-                    
-                    paramMarker.done(ValkyrieElementTypes.PARAMETER)
+            if (builder.tokenType == ValkyrieTokenTypes.DOT_DOT || builder.tokenType == ValkyrieTokenTypes.ELLIPSIS) {
+                val paramMarker = builder.mark()
+                builder.advanceLexer() // consume .. or ...
                 
+                // 解析省略参数名称和类型
+                if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                    builder.advanceLexer()
+                    if (builder.tokenType == ValkyrieTokenTypes.COLON) {
+                        builder.advanceLexer()
+                        parseTypeReference(builder)
+                    }
+                }
+                
+                paramMarker.done(ValkyrieElementTypes.PARAMETER)
+            
                 // 处理逗号分隔符，允许尾随逗号
                 if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
                     builder.advanceLexer()
@@ -1879,11 +2102,7 @@ class ValkyrieParser : PsiParser {
                         break // 允许尾随逗号，直接退出循环
                     }
                 }
-                } else {
-                    // 单个点号，按普通标识符处理
-                    builder.error("Unexpected '.' in parameter list")
-                    builder.advanceLexer()
-                }
+                continue
             }
             // 处理位置限定符 < 和 >
             else if (builder.tokenType == ValkyrieTokenTypes.LESS || builder.tokenType == ValkyrieTokenTypes.GREATER) {
@@ -1900,7 +2119,7 @@ class ValkyrieParser : PsiParser {
                     }
                 }
             }
-            else if (builder.tokenType == ValkyrieTokenTypes.MUT || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+            else if (builder.tokenType == ValkyrieTokenTypes.MUT || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.BACKTICK) {
                 val paramMarker = builder.mark()
                 
                 // 检查是否有修饰符（如 mut）
@@ -1914,14 +2133,21 @@ class ValkyrieParser : PsiParser {
                     builder.advanceLexer() // 跳过 mut 关键字
                     modifierMarker.done(ValkyrieElementTypes.MODIFIER_NODE)
                     
-                    // 解析实际的参数名
-                    if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                    // 解析实际的参数名（支持 raw identifier）
+                    if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW) {
                         paramName = builder.tokenText ?: ""
                         builder.advanceLexer()
+                    } else if (builder.tokenType == ValkyrieTokenTypes.BACKTICK) {
+                        parseSpecialIdentifier(builder)
+                        paramName = "raw_identifier" // 占位符，实际名称由 parseSpecialIdentifier 处理
                     } else {
                         builder.error("Expected parameter name after 'mut'")
                     }
-                } else if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                } else if (builder.tokenType == ValkyrieTokenTypes.BACKTICK) {
+                    // 处理 raw identifier 参数名
+                    parseSpecialIdentifier(builder)
+                    paramName = "raw_identifier" // 占位符，实际名称由 parseSpecialIdentifier 处理
+                } else if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW) {
                     // 检查是否是其他修饰符关键字
                     val currentText = builder.tokenText ?: ""
                     if (currentText == "readonly" || currentText == "const") {
@@ -1930,10 +2156,13 @@ class ValkyrieParser : PsiParser {
                         builder.advanceLexer() // 跳过修饰符关键字
                         modifierMarker.done(ValkyrieElementTypes.MODIFIER_NODE)
                         
-                        // 解析实际的参数名
-                        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                        // 解析实际的参数名（支持 raw identifier）
+                        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW) {
                             paramName = builder.tokenText ?: ""
                             builder.advanceLexer()
+                        } else if (builder.tokenType == ValkyrieTokenTypes.BACKTICK) {
+                            parseSpecialIdentifier(builder)
+                            paramName = "raw_identifier" // 占位符，实际名称由 parseSpecialIdentifier 处理
                         } else {
                             builder.error("Expected parameter name after modifier")
                         }
