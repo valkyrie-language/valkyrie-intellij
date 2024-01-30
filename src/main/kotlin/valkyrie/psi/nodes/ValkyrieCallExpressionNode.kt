@@ -1,9 +1,13 @@
 package valkyrie.psi.nodes
 
 import com.intellij.lang.ASTNode
+import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiReference
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.nodes.ValkyrieIdentifierNode
+import valkyrie.reference.ValkyrieFunctionCallReference
 
 /**
  * 函数调用表达式节点
@@ -43,6 +47,19 @@ class ValkyrieCallExpressionNode(node: ASTNode) : ValkyrieElementNode(node) {
         }
         
         return args
+    }
+    
+    /**
+     * 获取函数调用的引用
+     * 支持跳转到函数定义
+     */
+    override fun getReference(): PsiReference? {
+        val callee = getCallee()
+        if (callee is ValkyrieIdentifierNode) {
+            val textRange = TextRange(callee.startOffsetInParent, callee.startOffsetInParent + callee.textLength)
+            return ValkyrieFunctionCallReference(callee, textRange)
+        }
+        return null
     }
     
     override fun toString(): String = "ValkyrieCallExpression"

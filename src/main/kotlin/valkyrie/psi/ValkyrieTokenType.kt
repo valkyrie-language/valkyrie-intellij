@@ -73,6 +73,9 @@ object ValkyrieTokenTypes {
     val CLASS = ValkyrieTokenType("class")
 
     @JvmField
+    val SINGLETON = ValkyrieTokenType("singleton")
+
+    @JvmField
     val UNION = ValkyrieTokenType("union")
 
     @JvmField
@@ -80,6 +83,9 @@ object ValkyrieTokenTypes {
 
     @JvmField
     val TRAIT = ValkyrieTokenType("trait")
+
+    @JvmField
+    val IMPLY = ValkyrieTokenType("imply")
 
     @JvmField
     val STRUCTURE = ValkyrieTokenType("structure")

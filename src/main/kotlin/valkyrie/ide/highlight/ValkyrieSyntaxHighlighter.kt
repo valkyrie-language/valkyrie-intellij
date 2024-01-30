@@ -27,6 +27,7 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.IF,
             ValkyrieTokenTypes.ELSE,
             ValkyrieTokenTypes.WHILE,
+            ValkyrieTokenTypes.UNTIL,
             ValkyrieTokenTypes.FOR,
             ValkyrieTokenTypes.LOOP,
             ValkyrieTokenTypes.FUNCTION,
@@ -34,7 +35,9 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.UNION,
             ValkyrieTokenTypes.UNITY,
             ValkyrieTokenTypes.TRAIT,
+            ValkyrieTokenTypes.IMPLY,
             ValkyrieTokenTypes.STRUCTURE,
+            ValkyrieTokenTypes.SINGLETON,
             ValkyrieTokenTypes.BREAK,
             ValkyrieTokenTypes.CONTINUE,
             ValkyrieTokenTypes.YIELD,
@@ -51,12 +54,15 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.WHEN,
             ValkyrieTokenTypes.FALLTHROUGH,
             ValkyrieTokenTypes.TRY,
-            ValkyrieTokenTypes.CATCH
+            ValkyrieTokenTypes.CATCH,
+            ValkyrieTokenTypes.IN,
+            ValkyrieTokenTypes.AS
                 -> ValkyrieColor.KEYWORD
 
             // 操作符
             ValkyrieTokenTypes.IS,
-            ValkyrieTokenTypes.IS_NOT
+            ValkyrieTokenTypes.IS_NOT,
+            ValkyrieTokenTypes.NOT_IN
                 -> ValkyrieColor.OPERATION
 
             ValkyrieTokenTypes.LPAREN, ValkyrieTokenTypes.RPAREN -> ValkyrieColor.PARENTHESES

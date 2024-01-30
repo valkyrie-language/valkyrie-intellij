@@ -20,7 +20,12 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
     override fun visit(element: PsiElement) {
         when (element) {
             is ValkyrieClassDeclaration -> {
-                highlight(element.nameIdentifier, ValkyrieColor.SYM_CLASS)
+                // 检查是否为singleton声明
+                if (element.node.elementType == ValkyrieElementTypes.SINGLETON_STATEMENT) {
+                    highlight(element.nameIdentifier, ValkyrieColor.SYM_CLASS)
+                } else {
+                    highlight(element.nameIdentifier, ValkyrieColor.SYM_CLASS)
+                }
             }
 
             is ValkyrieTraitDeclaration -> {
