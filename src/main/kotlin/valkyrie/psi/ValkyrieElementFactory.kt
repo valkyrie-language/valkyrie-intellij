@@ -41,6 +41,20 @@ object ValkyrieElementFactory {
         }
     }
     
+    /**
+     * 创建标识符节点
+     */
+    fun createIdentifier(project: Project, name: String): ValkyrieIdentifierNode {
+        val fileText = "let $name = 1"
+        val file = PsiFileFactory.getInstance(project)
+            .createFileFromText("dummy.vk", ValkyrieLanguage.INSTANCE, fileText) as ValkyrieFileNode
+        
+        // 查找标识符节点
+        val identifiers = PsiTreeUtil.findChildrenOfType(file, ValkyrieIdentifierNode::class.java)
+        return identifiers.firstOrNull { it.getName() == name }
+            ?: throw IllegalStateException("Could not create identifier: $name")
+    }
+    
     fun createElement(node: ASTNode): PsiElement {
         return when (node.elementType) {
             ValkyrieElementTypes.FILE -> ValkyrieElementNode(node)

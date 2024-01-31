@@ -2,8 +2,11 @@ package valkyrie.psi.nodes
 
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.PsiReference
+import com.intellij.util.IncorrectOperationException
 import valkyrie.psi.ValkyrieElementNode
+import valkyrie.psi.ValkyrieElementFactory
 import valkyrie.psi.ValkyrieTokenTypes
 import valkyrie.psi.reference.ValkyrieReference
 
@@ -11,7 +14,7 @@ import valkyrie.psi.reference.ValkyrieReference
  * 标识符节点
  * 支持常规标识符和特殊名称标识符（用反引号包围）
  */
-class ValkyrieIdentifierNode(node: ASTNode) : ValkyrieElementNode(node) {
+class ValkyrieIdentifierNode(node: ASTNode) : ValkyrieElementNode(node), PsiNamedElement {
     
     /**
      * 获取标识符的真实名称
@@ -52,5 +55,27 @@ class ValkyrieIdentifierNode(node: ASTNode) : ValkyrieElementNode(node) {
      */
     override fun getReference(): PsiReference? {
         return ValkyrieReference(this)
+    }
+    
+    /**
+     * 设置新的名称（用于重命名重构）
+     */
+    override fun setName(name: String): PsiElement {
+        val newText = if (isSpecialName()) {
+            "`$name`"
+        } else {
+            name
+        }
+        
+        // 创建新的标识符节点
+        val newElement = ValkyrieElementFactory.createIdentifier(project, newText)
+        return replace(newElement)
+    }
+    
+    /**
+     * 获取名称标识符元素（用于重命名）
+     */
+    fun getNameIdentifier(): PsiElement? {
+        return this
     }
 }
