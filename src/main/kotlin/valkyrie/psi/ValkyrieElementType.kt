@@ -29,6 +29,10 @@ object ValkyrieElementTypes {
     val TUPLE_PATTERN = ValkyrieElementType("TUPLE_PATTERN")
     @JvmField
     val NAMED_TUPLE_PATTERN = ValkyrieElementType("NAMED_TUPLE_PATTERN")
+    @JvmField
+    val STRUCT_PATTERN = ValkyrieElementType("STRUCT_PATTERN")
+    @JvmField
+    val DICT_PATTERN = ValkyrieElementType("DICT_PATTERN")
 
     // 语句
     @JvmField
@@ -36,9 +40,15 @@ object ValkyrieElementTypes {
     @JvmField
     val CLASS_STATEMENT = ValkyrieElementType("CLASS_STATEMENT")
     @JvmField
+    val NEURAL_STATEMENT = ValkyrieElementType("NEURAL_STATEMENT")
+    @JvmField
+    val WIDGET_STATEMENT = ValkyrieElementType("WIDGET_STATEMENT")
+    @JvmField
     val SINGLETON_STATEMENT = ValkyrieElementType("SINGLETON_STATEMENT")
     @JvmField
     val UNION_STATEMENT = ValkyrieElementType("UNION_STATEMENT")
+    @JvmField
+    val FLAGS_STATEMENT = ValkyrieElementType("FLAGS_STATEMENT")
     @JvmField
     val TRAIT_STATEMENT = ValkyrieElementType("TRAIT_STATEMENT")
     @JvmField
@@ -206,6 +216,8 @@ object ValkyrieElementTypes {
     val DOMAIN_DECLARATION = ValkyrieElementType("DOMAIN_DECLARATION")
     @JvmField
     val UNION_VARIANT = ValkyrieElementType("UNION_VARIANT")
+    @JvmField
+    val FLAGS_ITEM = ValkyrieElementType("FLAGS_ITEM")
     @JvmField
     val MEZZO_DECLARATION = ValkyrieElementType("MEZZO_DECLARATION")
 

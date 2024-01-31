@@ -30,9 +30,12 @@ class ValkyrieLexer : LexerBase() {
         "macro" to ValkyrieTokenTypes.MACRO,
         "class" to ValkyrieTokenTypes.CLASS,
         "struct" to ValkyrieTokenTypes.CLASS,
+        "neural" to ValkyrieTokenTypes.NEURAL,
+        "widget" to ValkyrieTokenTypes.WIDGET,
         "singleton" to ValkyrieTokenTypes.SINGLETON,
         "union" to ValkyrieTokenTypes.UNION,
         "unity" to ValkyrieTokenTypes.UNITY,
+        "flags" to ValkyrieTokenTypes.FLAGS,
         "trait" to ValkyrieTokenTypes.TRAIT,
         "imply" to ValkyrieTokenTypes.IMPLY,
         "structure" to ValkyrieTokenTypes.STRUCTURE,
@@ -298,18 +301,27 @@ class ValkyrieLexer : LexerBase() {
         // 检查数字后是否有单位宏
         val numberTokenType = if (hasDecimalPoint) ValkyrieTokenTypes.DECIMAL else ValkyrieTokenTypes.INTEGER
 
-        // 检查是否有单位后缀（字母开头的标识符）
-        if (currentOffset < endOffset && (buffer[currentOffset].isLetter() || buffer[currentOffset] == 'μ' || buffer[currentOffset] == '`')) {
-            // 读取单位标识符
-            while (currentOffset < endOffset) {
-                val ch = buffer[currentOffset]
-                if (ch.isLetterOrDigit() || ch == '_' || ch == 'μ' || ch == '/' || ch == '`') {
-                    currentOffset++
-                } else {
-                    break
+        // 检查是否有单位后缀（标识符）
+        if (currentOffset < endOffset) {
+            val ch = buffer[currentOffset]
+            if (ch == '`') {
+                // Raw identifier as unit
+                readRawIdentifier()
+                tokenType = ValkyrieTokenTypes.UNIT_NUMBER
+            } else if (ch.isLetter() || ch == '_') {
+                // Standard identifier as unit
+                while (currentOffset < endOffset) {
+                    val unitCh = buffer[currentOffset]
+                    if (unitCh.isLetterOrDigit() || unitCh == '_') {
+                        currentOffset++
+                    } else {
+                        break
+                    }
                 }
+                tokenType = ValkyrieTokenTypes.UNIT_NUMBER
+            } else {
+                tokenType = numberTokenType
             }
-            tokenType = ValkyrieTokenTypes.UNIT_NUMBER
         } else {
             tokenType = numberTokenType
         }
@@ -686,7 +698,13 @@ class ValkyrieLexer : LexerBase() {
             }
 
             '×' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.MULTIPLY
+                currentOffset++
+                if (peek(0) == '=') {
+                    currentOffset++
+                    tokenType = ValkyrieTokenTypes.MULTIPLY_ASSIGN
+                } else {
+                    tokenType = ValkyrieTokenTypes.MULTIPLY
+                }
             }
 
             '※' -> {
@@ -703,6 +721,26 @@ class ValkyrieLexer : LexerBase() {
 
             '⸿' -> {
                 currentOffset++; tokenType = ValkyrieTokenTypes.INTERNATIONAL_MARK
+            }
+
+            '⅟' -> {
+                currentOffset++; tokenType = ValkyrieTokenTypes.RECIPROCAL
+            }
+
+            '℃' -> {
+                currentOffset++; tokenType = ValkyrieTokenTypes.CELSIUS
+            }
+
+            '℉' -> {
+                currentOffset++; tokenType = ValkyrieTokenTypes.FAHRENHEIT
+            }
+
+            '‰' -> {
+                currentOffset++; tokenType = ValkyrieTokenTypes.PERMILLE
+            }
+
+            '‱' -> {
+                currentOffset++; tokenType = ValkyrieTokenTypes.PERMYRIAD
             }
 
             else -> {

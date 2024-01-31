@@ -61,8 +61,11 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.STATEMENT -> ValkyrieElementNode(node)
             ValkyrieElementTypes.LET_STATEMENT -> ValkyrieLetStatementNode(node)
             ValkyrieElementTypes.CLASS_STATEMENT -> ValkyrieClassDeclaration(node)
+            ValkyrieElementTypes.NEURAL_STATEMENT -> ValkyrieClassDeclaration(node) // 复用ClassDeclaration
+            ValkyrieElementTypes.WIDGET_STATEMENT -> ValkyrieClassDeclaration(node) // 复用ClassDeclaration
             ValkyrieElementTypes.SINGLETON_STATEMENT -> ValkyrieClassDeclaration(node) // 复用ClassDeclaration
             ValkyrieElementTypes.UNION_STATEMENT -> ValkyrieUnionDeclaration(node)
+            ValkyrieElementTypes.FLAGS_STATEMENT -> ValkyrieUnionDeclaration(node) // 复用UnionDeclaration
             ValkyrieElementTypes.TRAIT_STATEMENT -> ValkyrieTraitDeclaration(node)
         ValkyrieElementTypes.IMPLY_STATEMENT -> ValkyrieElementNode(node)
             ValkyrieElementTypes.NAMESPACE_STATEMENT -> ValkyrieNamespaceDeclaration(node)
@@ -87,6 +90,7 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.STATIC_METHOD_DECLARATION -> ValkyrieMethodDeclaration(node)
             ValkyrieElementTypes.DOMAIN_DECLARATION -> ValkyrieDomainDeclaration(node)
             ValkyrieElementTypes.UNION_VARIANT -> ValkyrieVariantDeclaration(node)
+            ValkyrieElementTypes.FLAGS_ITEM -> ValkyrieVariantDeclaration(node) // 复用VariantDeclaration
         ValkyrieElementTypes.MEZZO_DECLARATION -> ValkyrieElementNode(node)
         // ValkyrieElementTypes.MODIFIER_LIST -> ValkyrieModifierListNode(node) // 已移除
         ValkyrieElementTypes.PATTERN -> ValkyrieElementNode(node)
