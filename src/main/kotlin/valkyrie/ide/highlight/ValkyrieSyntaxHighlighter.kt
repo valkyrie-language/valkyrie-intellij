@@ -22,8 +22,6 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.NAMESPACE,
             ValkyrieTokenTypes.USING,
             ValkyrieTokenTypes.LET,
-            ValkyrieTokenTypes.MUT,
-            ValkyrieTokenTypes.REF,
             ValkyrieTokenTypes.IF,
             ValkyrieTokenTypes.ELSE,
             ValkyrieTokenTypes.WHILE,

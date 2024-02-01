@@ -34,12 +34,6 @@ object ValkyrieTokenTypes {
     val LET = ValkyrieTokenType("let")
 
     @JvmField
-    val MUT = ValkyrieTokenType("MUT")
-
-    @JvmField
-    val REF = ValkyrieTokenType("REF")
-
-    @JvmField
     val IF = ValkyrieTokenType("if")
 
     @JvmField
