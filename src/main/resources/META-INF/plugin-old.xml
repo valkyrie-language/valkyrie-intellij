@@ -12,13 +12,6 @@
 	<resource-bundle>messages.ValkyrieBundle</resource-bundle>
 	<extensions defaultExtensionNs="com.intellij">
 		<!-- Language -->
-		<fileType
-			name="valkyrie"
-			language="valkyrie"
-			extensions="vk;valkyrie;"
-			implementationClass="valkyrie.language.file.ValkyrieFileType"
-			fieldName="INSTANCE"
-		/>
 		<fileTypeDetector implementation="valkyrie.language.file.ValkyrieFileTypeDetector"/>
 		<vfs.asyncListener implementation="valkyrie.ide.project.crate.FileTypeRecast"/>
 		<!-- Project -->

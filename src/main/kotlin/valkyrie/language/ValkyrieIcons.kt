@@ -14,7 +14,7 @@ object ValkyrieIcons {
     val VARIABLE: Icon = IconLoader.getIcon("/icons/variable.svg", ValkyrieIcons::class.java)
 
     @JvmStatic
-    val FUNCTION: Icon = IconLoader.getIcon("/icons/valkyrie-function.svg", ValkyrieIcons::class.java)
+    val MICRO: Icon = IconLoader.getIcon("/icons/valkyrie-function.svg", ValkyrieIcons::class.java)
 
     @JvmStatic
     val WORKSPACE: Icon = IconLoader.getIcon("/icons/vk.svg", ValkyrieIcons::class.java)

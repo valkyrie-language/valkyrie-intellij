@@ -1,16 +1,12 @@
 package valkyrie.project
 
-import com.intellij.json.JsonFileType
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiManager
 import com.intellij.json.psi.JsonFile
 import com.intellij.json.psi.JsonObject
-import com.intellij.json.psi.JsonProperty
 import com.intellij.json.psi.JsonStringLiteral
 import com.intellij.json.psi.JsonArray
-import valkyrie.project.ValkyrieProjectParser.Companion.ENTRY_FILE
-import valkyrie.project.ValkyrieProjectParser.Companion.ENTRY_FILE_ALT
 
 /**
  * Valkyrie Project 解析器
@@ -22,7 +18,7 @@ class ValkyrieProjectParser {
         const val LEGION_JSON = "legion.json"
         const val LIBRARY_DIR = "library"
         const val BINARY_DIR = "binary"
-        const val TESTS_DIR = "tests"
+        const val TESTS_DIR = "test"
         const val ENTRY_FILE = "_.vk"
         const val ENTRY_FILE_ALT = "_.valkyrie"
     }
@@ -209,66 +205,3 @@ class ValkyrieProjectParser {
     }
 }
 
-/**
- * Valkyrie 项目数据类
- */
-data class ValkyrieProject(
-    val root: VirtualFile,
-    val packageInfo: ValkyriePackageInfo,
-    val projectType: String,
-    val features: Map<String, List<String>>,
-    val dependencies: Map<String, String>,
-    val buildDependencies: Map<String, String>,
-    val devDependencies: Map<String, String>,
-    val entryPoints: ValkyrieEntryPoints
-) {
-    
-    /**
-     * 检查是否为库项目
-     */
-    fun isLibrary(): Boolean = projectType == "library" || entryPoints.library != null
-    
-    /**
-     * 检查是否为应用项目
-     */
-    fun isApplication(): Boolean = projectType == "application" || entryPoints.binaries.isNotEmpty()
-    
-    /**
-     * 获取所有二进制目标名称
-     */
-    fun getBinaryNames(): List<String> {
-        return entryPoints.binaries.map { binary ->
-            when {
-                binary.name == ENTRY_FILE || binary.name == ENTRY_FILE_ALT -> 
-                    binary.parent?.name ?: "main"
-                binary.name.endsWith(".vk") -> 
-                    binary.name.removeSuffix(".vk")
-                else -> binary.name
-            }
-        }
-    }
-}
-
-/**
- * 包信息数据类
- */
-data class ValkyriePackageInfo(
-    val name: String,
-    val version: String,
-    val description: String?,
-    val authors: List<String>,
-    val repository: String?,
-    val documentation: String?,
-    val edition: String?,
-    val license: String?,
-    val readme: String?,
-    val publish: Boolean
-)
-
-/**
- * 入口点数据类
- */
-data class ValkyrieEntryPoints(
-    val library: VirtualFile?,
-    val binaries: List<VirtualFile>
-)
