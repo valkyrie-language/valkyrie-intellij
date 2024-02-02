@@ -563,7 +563,7 @@ class ValkyrieLexer : LexerBase() {
                     currentOffset++
                     tokenType = ValkyrieTokenTypes.MODULO_ASSIGN
                 } else {
-                    tokenType = ValkyrieTokenTypes.MODULO
+                    tokenType = ValkyrieTokenTypes.PERCENT
                 }
             }
 
@@ -644,11 +644,11 @@ class ValkyrieLexer : LexerBase() {
             }
 
             '⟨' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.LANGLE
+                currentOffset++; tokenType = ValkyrieTokenTypes.ANGLE_L
             }
 
             '⟩' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.RANGLE
+                currentOffset++; tokenType = ValkyrieTokenTypes.ANGLE_R
             }
 
             '@' -> {

@@ -187,51 +187,44 @@ object ValkyrieTokenTypes {
     val MINUS = ValkyrieTokenType("-")  // -
 
     @JvmField
-    val STAR = ValkyrieTokenType("STAR") // *
+    val STAR = ValkyrieTokenType("*") // *
     
     @JvmField
-    val MULTIPLY = ValkyrieTokenType("MULTIPLY") // ×
-    
-    @JvmField
-    val TIMES = ValkyrieTokenType("TIMES") // × (alias for MULTIPLY)
-
+    val MULTIPLY = ValkyrieTokenType("×") // ×
 
     @JvmField
     val DIVIDE = ValkyrieTokenType("DIVIDE") // /
 
     @JvmField
-    val MODULO = ValkyrieTokenType("MODULO") // %
+    val RECIPROCAL = ValkyrieTokenType("⅟") // ⅟
 
     @JvmField
-    val RECIPROCAL = ValkyrieTokenType("RECIPROCAL") // ⅟
-
-    @JvmField
-    val INTEGER_DIVIDE = ValkyrieTokenType("INTEGER_DIVIDE") // //
+    val INTEGER_DIVIDE = ValkyrieTokenType("//")
 
     // 后缀运算符
     @JvmField
-    val CELSIUS = ValkyrieTokenType("CELSIUS") // ℃
+    val CELSIUS = ValkyrieTokenType("℃")
 
     @JvmField
-    val FAHRENHEIT = ValkyrieTokenType("FAHRENHEIT") // ℉
+    val FAHRENHEIT = ValkyrieTokenType("℉")
 
     @JvmField
-    val PERCENT = ValkyrieTokenType("PERCENT") // %
+    val PERCENT = ValkyrieTokenType("%")
 
     @JvmField
-    val PERMILLE = ValkyrieTokenType("PERMILLE") // ‰
+    val PERMILLE = ValkyrieTokenType("‰")
 
     @JvmField
-    val PERMYRIAD = ValkyrieTokenType("PERMYRIAD") // ‱
+    val PERMYRIAD = ValkyrieTokenType("‱")
 
     @JvmField
-    val POWER = ValkyrieTokenType("POWER") // ^
+    val POWER = ValkyrieTokenType("^")
 
     @JvmField
-    val EQUAL = ValkyrieTokenType("EQUAL")  // ==
+    val EQUAL = ValkyrieTokenType("==")
 
     @JvmField
-    val NOT_EQUAL = ValkyrieTokenType("NOT_EQUAL") // !=
+    val NOT_EQUAL = ValkyrieTokenType("!=")
 
     @JvmField
     val LESS = ValkyrieTokenType("LESS")    // <
@@ -357,10 +350,10 @@ object ValkyrieTokenTypes {
 
     // 泛型符号
     @JvmField
-    val LANGLE = ValkyrieTokenType("⟨")
+    val ANGLE_L = ValkyrieTokenType("⟨")
 
     @JvmField
-    val RANGLE = ValkyrieTokenType("⟩")
+    val ANGLE_R = ValkyrieTokenType("⟩")
 
     @JvmField
     val DOUBLE_COLON = ValkyrieTokenType("::")

@@ -60,27 +60,26 @@ class ValkyrieWorkspaceNode(
 ) : PsiDirectoryNode(project, value, viewSettings) {
     
     override fun getChildrenImpl(): Collection<AbstractTreeNode<*>> {
-        val children = super.getChildrenImpl()?.toMutableList() ?: mutableListOf()
-        val projectManager = ValkyrieProjectService.getInstance(project!!).getProjectManager()
-        
-        val workspace = projectManager.getWorkspace(value.virtualFile)
-        if (workspace != null) {
-            // 添加特殊的包节点
-            val packagesNode = ValkyriePackagesNode(project!!, workspace, settings)
-            children.add(0, packagesNode)
-        }
-        
-        return children
+        // 不再添加自定义的 Packages 节点，外部包现在显示在 External Libraries 中
+        return super.getChildrenImpl() ?: emptyList()
     }
     
     override fun updateImpl(data: com.intellij.ide.projectView.PresentationData) {
         super.updateImpl(data)
         data.setIcon(ValkyrieIcons.WORKSPACE)
         
-        val projectManager = ValkyrieProjectService.getInstance(project!!).getProjectManager()
-        val workspace = projectManager.getWorkspace(value.virtualFile)
-        if (workspace != null) {
-            data.presentableText = "${workspace.name} (Workspace)"
+        val currentProject = project
+        if (currentProject != null) {
+            try {
+                val projectManager = ValkyrieProjectService.getInstance(currentProject).getProjectManager()
+                val workspace = projectManager.getWorkspace(value.virtualFile)
+                if (workspace != null) {
+                    data.presentableText = "${workspace.name} (Workspace)"
+                }
+            } catch (e: Exception) {
+                // 如果服务获取失败，使用默认显示
+                data.presentableText = "Workspace"
+            }
         }
     }
 }
@@ -152,42 +151,26 @@ class ValkyrieProjectNode(
         super.updateImpl(data)
         data.setIcon(ValkyrieIcons.PROJECT)
         
-        val projectManager = ValkyrieProjectService.getInstance(project!!).getProjectManager()
-        val valkyrieProject = projectManager.getProject(value.virtualFile)
-        if (valkyrieProject != null) {
-            val projectType = when {
-                valkyrieProject.isLibrary() && valkyrieProject.isApplication() -> "Lib+App"
-                valkyrieProject.isLibrary() -> "Library"
-                valkyrieProject.isApplication() -> "Application"
-                else -> "Project"
+        val currentProject = project
+        if (currentProject != null) {
+            try {
+                val projectManager = ValkyrieProjectService.getInstance(currentProject).getProjectManager()
+                val valkyrieProject = projectManager.getProject(value.virtualFile)
+                if (valkyrieProject != null) {
+                    val projectType = when {
+                        valkyrieProject.isLibrary() && valkyrieProject.isApplication() -> "Lib+App"
+                        valkyrieProject.isLibrary() -> "Library"
+                        valkyrieProject.isApplication() -> "Application"
+                        else -> "Project"
+                    }
+                    data.presentableText = "${valkyrieProject.packageInfo.name} ($projectType)"
+                }
+            } catch (e: Exception) {
+                // 如果服务获取失败，使用默认显示
+                data.presentableText = "Project"
             }
-            data.presentableText = "${valkyrieProject.packageInfo.name} ($projectType)"
         }
     }
 }
 
-/**
- * Valkyrie Packages 节点
- */
-class ValkyriePackagesNode(
-    private val project: Project,
-    private val workspace: ValkyrieWorkspace,
-    private val viewSettings: ViewSettings?
-) : AbstractTreeNode<ValkyrieWorkspace>(project, workspace) {
-    
-    override fun getChildren(): Collection<AbstractTreeNode<*>> {
-        val psiManager = PsiManager.getInstance(project)
-        
-        return workspace.packages.mapNotNull { packageDir ->
-            val psiDir = psiManager.findDirectory(packageDir)
-            if (psiDir != null) {
-                ValkyrieProjectNode(project, psiDir, viewSettings)
-            } else null
-        }
-    }
-    
-    override fun update(data: com.intellij.ide.projectView.PresentationData) {
-        data.presentableText = "Packages (${workspace.packages.size})"
-        data.setIcon(ValkyrieIcons.PACKAGES)
-    }
-}
+// ValkyriePackagesNode 已移除，外部包现在通过 AdditionalLibraryRootsProvider 显示在 External Libraries 中

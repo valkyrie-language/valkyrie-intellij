@@ -5,6 +5,7 @@ import com.intellij.psi.*
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.IncorrectOperationException
 import valkyrie.psi.nodes.ValkyrieIdentifierNode
+import valkyrie.index.ValkyrieSymbolIndex
 
 /**
  * Valkyrie 变量引用解析
@@ -14,7 +15,7 @@ class ValkyrieReference(private val element: ValkyrieIdentifierNode) : PsiRefere
     override fun resolve(): PsiElement? {
         val name = element.name ?: return null
         
-        // 在当前作用域中查找变量定义
+        // 首先在当前作用域中查找局部变量定义
         var context: PsiElement? = element.parent
         while (context != null) {
             // 查找 let 语句中的变量定义
@@ -27,7 +28,13 @@ class ValkyrieReference(private val element: ValkyrieIdentifierNode) : PsiRefere
             context = context.parent
         }
         
-        return null
+        // 如果在局部作用域中没有找到，使用符号索引查找全局定义（类、函数等）
+        val currentFile = element.containingFile.virtualFile ?: return null
+        val project = element.project
+        val symbolIndex = ValkyrieSymbolIndex.getInstance(project)
+        
+        val symbolInfo = symbolIndex.findSymbolDefinition(name, currentFile)
+        return symbolInfo?.element
     }
     
     override fun getVariants(): Array<Any> {
