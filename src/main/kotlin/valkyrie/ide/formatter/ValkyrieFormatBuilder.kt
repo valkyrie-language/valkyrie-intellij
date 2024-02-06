@@ -108,7 +108,7 @@ class ValkyrieFormatBuilder : FormattingModelBuilder {
             .after(ValkyrieTokenTypes.MATCH).spaces(1)
             .after(ValkyrieTokenTypes.RETURN).spaces(1)
             .after(ValkyrieTokenTypes.LET).spaces(1)
-            .after(ValkyrieTokenTypes.FUNCTION).spaces(1)
+            .after(ValkyrieTokenTypes.MICRO).spaces(1)
             .after(ValkyrieTokenTypes.CLASS).spaces(1)
             .after(ValkyrieTokenTypes.UNION).spaces(1)
             .after(ValkyrieTokenTypes.NAMESPACE).spaces(1)

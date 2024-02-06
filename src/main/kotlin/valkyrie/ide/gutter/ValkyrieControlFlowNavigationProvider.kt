@@ -8,7 +8,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.language.ValkyrieIcons
 import valkyrie.psi.nodes.*
-import valkyrie.ide.gutter.ValkyrieEffectAnalyzer
 
 /**
  * 控制流语句的导航提供器
@@ -20,7 +19,7 @@ class ValkyrieControlFlowNavigationProvider : LineMarkerProvider {
 
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? {
         return when (element) {
-            is ValkyrieLoopStatement -> createLoopMarker(element)
+            is ValkyrieControlFlowNodes -> createLoopMarker(element)
             is ValkyrieReturnStatement -> createReturnMarker(element)
             is ValkyrieBreakStatement -> createBreakMarker(element)
             is ValkyrieContinueStatement -> createContinueMarker(element)
@@ -31,7 +30,7 @@ class ValkyrieControlFlowNavigationProvider : LineMarkerProvider {
         }
     }
 
-    private fun createLoopMarker(element: ValkyrieLoopStatement): LineMarkerInfo<PsiElement> {
+    private fun createLoopMarker(element: ValkyrieControlFlowNodes): LineMarkerInfo<PsiElement> {
         val relatedElements = findRelatedControlFlowElements(element)
         return NavigationGutterIconBuilder
             .create(ValkyrieIcons.LOOP)
@@ -114,7 +113,7 @@ class ValkyrieControlFlowNavigationProvider : LineMarkerProvider {
     /**
      * 查找与循环相关的控制流元素（break/continue）
      */
-    private fun findRelatedControlFlowElements(loopElement: ValkyrieLoopStatement): List<PsiElement> {
+    private fun findRelatedControlFlowElements(loopElement: ValkyrieControlFlowNodes): List<PsiElement> {
         val relatedElements = mutableListOf<PsiElement>()
         
         // 查找循环体内的 break 和 continue 语句
@@ -142,7 +141,7 @@ class ValkyrieControlFlowNavigationProvider : LineMarkerProvider {
      */
     private fun findTargetLoop(element: PsiElement): PsiElement? {
         // 简单实现：查找最近的包含循环
-        return PsiTreeUtil.getParentOfType(element, ValkyrieLoopStatement::class.java)
+        return PsiTreeUtil.getParentOfType(element, ValkyrieControlFlowNodes::class.java)
     }
 
     /**

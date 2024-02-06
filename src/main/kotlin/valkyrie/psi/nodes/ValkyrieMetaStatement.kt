@@ -3,6 +3,7 @@ package valkyrie.psi.nodes
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.PsiElement
+import valkyrie.ide.navigation.MetaType
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
 
@@ -31,7 +32,7 @@ class ValkyrieMetaStatement(node: ASTNode) : ValkyrieElementNode(node), PsiNameI
     fun getMetaType(): MetaType {
         return when {
             hasKeyword("micro") -> MetaType.MICRO
-            hasKeyword("mezzo") -> MetaType.MEZZO  
+            hasKeyword("mezzo") -> MetaType.MEZZO
             hasKeyword("macro") -> MetaType.MACRO
             else -> MetaType.UNKNOWN
         }
@@ -116,12 +117,3 @@ class ValkyrieMetaStatement(node: ASTNode) : ValkyrieElementNode(node), PsiNameI
     }
 }
 
-/**
- * 元编程类型枚举
- */
-enum class MetaType {
-    MICRO,    // 计算层 - 运行期执行
-    MEZZO,    // 内省层 - 编译期类型查询
-    MACRO,    // 构造层 - 编译期代码生成
-    UNKNOWN   // 未知类型
-}

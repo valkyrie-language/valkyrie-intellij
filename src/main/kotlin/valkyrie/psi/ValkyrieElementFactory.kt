@@ -4,7 +4,6 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
-import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.language.ValkyrieLanguage
 
@@ -119,7 +118,7 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.DECLARE_MACRO -> ValkyrieMetaStatement(node)
             ValkyrieElementTypes.COMPILE_TIME_BLOCK -> ValkyrieCompileTimeBlock(node)
             ValkyrieElementTypes.TEMPLATE_BLOCK -> ValkyrieTemplateBlock(node)
-            ValkyrieElementTypes.LOOP_STATEMENT -> ValkyrieLoopStatement(node)
+            ValkyrieElementTypes.LOOP_STATEMENT -> ValkyrieControlFlowNodes(node)
             ValkyrieElementTypes.WHILE_STATEMENT -> ValkyrieWhileStatement(node)
             ValkyrieElementTypes.ASSIGN_STATEMENT -> ValkyrieAssignStatement(node)
             ValkyrieElementTypes.RESUME_STATEMENT -> ValkyrieResumeStatement(node)

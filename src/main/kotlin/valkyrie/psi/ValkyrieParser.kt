@@ -18,7 +18,7 @@ class ValkyrieParser : PsiParser {
         ValkyrieTokenTypes.UNION,
         ValkyrieTokenTypes.TRAIT,
         ValkyrieTokenTypes.IMPLY,
-        ValkyrieTokenTypes.FUNCTION,
+        ValkyrieTokenTypes.MICRO,
         ValkyrieTokenTypes.NAMESPACE,
         ValkyrieTokenTypes.NAMESPACE_MAIN,
         ValkyrieTokenTypes.NAMESPACE_TEST,
@@ -131,7 +131,7 @@ class ValkyrieParser : PsiParser {
                 ValkyrieTokenTypes.TRAIT -> parseTraitStatement(builder)
                 ValkyrieTokenTypes.IMPLY -> parseImplyStatement(builder)
                 ValkyrieTokenTypes.STRUCTURE -> parseStructureStatement(builder)
-                ValkyrieTokenTypes.FUNCTION -> parseFunctionStatement(builder)
+                ValkyrieTokenTypes.MICRO -> parseFunctionStatement(builder)
                 ValkyrieTokenTypes.MICRO -> parseTimeLevelStatement(builder, "micro")
                 ValkyrieTokenTypes.MEZZO -> parseTimeLevelStatement(builder, "mezzo")
                 ValkyrieTokenTypes.MACRO -> parseTimeLevelStatement(builder, "macro")
@@ -1687,7 +1687,7 @@ class ValkyrieParser : PsiParser {
         val marker = builder.mark()
 
         // 'micro' keyword
-        if (builder.tokenType == ValkyrieTokenTypes.FUNCTION) {
+        if (builder.tokenType == ValkyrieTokenTypes.MICRO) {
             builder.advanceLexer()
         } else {
             marker.drop()

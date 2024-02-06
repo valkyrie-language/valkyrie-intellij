@@ -93,25 +93,6 @@ tasks {
     publishPlugin {
         token = environment("PUBLISH_TOKEN")
     }
-
-    // 配置IntelliJ平台任务以解决缓存问题
-    runIde {
-        // 设置固定的sandbox目录，避免频繁清理
-        sandboxDirectory = layout.buildDirectory.dir("idea-sandbox-stable")
-        // 禁用自动重载以减少缓存冲突
-        autoReloadPlugins = false
-    }
-    
-    prepareSandbox {
-        // 设置固定的sandbox目录
-        sandboxDirectory = layout.buildDirectory.dir("idea-sandbox-stable")
-    }
-    
-    buildSearchableOptions {
-        // 设置固定的sandbox目录
-        sandboxDirectory = layout.buildDirectory.dir("idea-sandbox-stable")
-    }
-
 }
 
 // Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin

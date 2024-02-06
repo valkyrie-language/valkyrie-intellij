@@ -2,6 +2,7 @@ package valkyrie.psi.nodes
 
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
+import valkyrie.ide.navigation.CompileTimeContext
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
 
@@ -105,8 +106,8 @@ class ValkyrieCompileTimeBlock(node: ASTNode) : ValkyrieElementNode(node) {
      */
     fun getCompileTimeContext(): CompileTimeContext {
         return CompileTimeContext(
-            variables = getVariableDeclarations().associate { 
-                it.text to "unknown" 
+            variables = getVariableDeclarations().associate {
+                it.text to "unknown"
             },
             returnExpression = getReturnExpression(),
             isPure = isPureExpression()
@@ -114,11 +115,3 @@ class ValkyrieCompileTimeBlock(node: ASTNode) : ValkyrieElementNode(node) {
     }
 }
 
-/**
- * 编译期上下文信息
- */
-data class CompileTimeContext(
-    val variables: Map<String?, String?>,
-    val returnExpression: ValkyrieElementNode?,
-    val isPure: Boolean
-)
