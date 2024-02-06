@@ -181,12 +181,20 @@ class ValkyrieLexer : LexerBase() {
 
     private fun skipBlockComment() {
         currentOffset += 2 // skip <#
-        while (currentOffset < endOffset - 1) {
-            if (buffer[currentOffset] == '#' && buffer[currentOffset + 1] == '>') {
+        var depth = 1
+        
+        while (currentOffset < endOffset - 1 && depth > 0) {
+            if (buffer[currentOffset] == '<' && buffer[currentOffset + 1] == '#') {
+                // 嵌套块注释开始
+                depth++
                 currentOffset += 2
-                break
+            } else if (buffer[currentOffset] == '#' && buffer[currentOffset + 1] == '>') {
+                // 块注释结束
+                depth--
+                currentOffset += 2
+            } else {
+                currentOffset++
             }
-            currentOffset++
         }
     }
 

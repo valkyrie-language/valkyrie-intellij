@@ -2,6 +2,8 @@ package valkyrie.psi.nodes
 
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
+import valkyrie.ide.navigation.TemplateContext
+import valkyrie.ide.navigation.TemplateType
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
 
@@ -58,8 +60,8 @@ class ValkyrieTemplateBlock(node: ASTNode) : ValkyrieElementNode(node) {
      */
     fun isControlFlow(): Boolean {
         val type = getTemplateType()
-        return type == TemplateType.CONDITIONAL || 
-               type == TemplateType.LOOP || 
+        return type == TemplateType.CONDITIONAL ||
+               type == TemplateType.LOOP ||
                type == TemplateType.WHILE_LOOP ||
                type == TemplateType.MATCH
     }

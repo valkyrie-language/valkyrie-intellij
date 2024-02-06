@@ -49,6 +49,12 @@
 			implementation="valkyrie.reference.ValkyrieReferenceContributor"
 		/>
 
+		<!-- Commenter -->
+		<lang.commenter
+			language="valkyrie"
+			implementationClass="valkyrie.ide.formatter.ValkyrieCommenter"
+		/>
+
 		<!-- Find Usages Provider -->
 		<lang.findUsagesProvider
 			language="valkyrie"
