@@ -47,6 +47,8 @@ class ValkyrieTypeReference(
         return className.contains("Class") || 
                className.contains("Union") || 
                className.contains("Type") ||
-               className.contains("Struct")
+               className.contains("Struct") ||
+               className.contains("Generic") ||
+               className.contains("Parameter")
     }
 }
