@@ -7,6 +7,7 @@ import com.intellij.openapi.vfs.VirtualFileListener
 import com.intellij.openapi.vfs.VirtualFileMoveEvent
 import com.intellij.openapi.vfs.newvfs.events.VFileEvent
 import valkyrie.language.file.ValkyrieFileType
+import com.intellij.openapi.application.ApplicationManager
 
 /**
  * Valkyrie 文件监听器
@@ -25,29 +26,37 @@ class ValkyrieFileListener(private val project: Project) : VirtualFileListener {
     
     override fun contentsChanged(event: VirtualFileEvent) {
         if (isValkyrieFile(event.file)) {
-            // 文件内容变化时重建索引
-            getSymbolIndex().rebuildIndex()
+            // 文件内容变化时重建索引（放到后台线程，避免在读锁/事件线程中直接执行）
+            ApplicationManager.getApplication().executeOnPooledThread {
+                getSymbolIndex().rebuildIndex()
+            }
         }
     }
     
     override fun fileCreated(event: VirtualFileEvent) {
         if (isValkyrieFile(event.file)) {
-            // 新建 Valkyrie 文件时重建索引
-            getSymbolIndex().rebuildIndex()
+            // 新建 Valkyrie 文件时重建索引（后台线程）
+            ApplicationManager.getApplication().executeOnPooledThread {
+                getSymbolIndex().rebuildIndex()
+            }
         }
     }
     
     override fun fileDeleted(event: VirtualFileEvent) {
         if (isValkyrieFile(event.file)) {
-            // 删除 Valkyrie 文件时重建索引
-            getSymbolIndex().rebuildIndex()
+            // 删除 Valkyrie 文件时重建索引（后台线程）
+            ApplicationManager.getApplication().executeOnPooledThread {
+                getSymbolIndex().rebuildIndex()
+            }
         }
     }
     
     override fun fileMoved(event: VirtualFileMoveEvent) {
         if (isValkyrieFile(event.file)) {
-            // 移动 Valkyrie 文件时重建索引
-            getSymbolIndex().rebuildIndex()
+            // 移动 Valkyrie 文件时重建索引（后台线程）
+            ApplicationManager.getApplication().executeOnPooledThread {
+                getSymbolIndex().rebuildIndex()
+            }
         }
     }
     
@@ -70,7 +79,10 @@ class ValkyrieFileListener(private val project: Project) : VirtualFileListener {
         }
         
         if (needRebuild) {
-            getSymbolIndex().rebuildIndex()
+            // 批量事件触发的重建放到后台线程，避免在 VFS 回调读锁中执行
+            ApplicationManager.getApplication().executeOnPooledThread {
+                getSymbolIndex().rebuildIndex()
+            }
         }
     }
     
