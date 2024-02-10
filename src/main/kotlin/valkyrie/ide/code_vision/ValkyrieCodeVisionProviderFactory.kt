@@ -6,7 +6,8 @@ import com.intellij.openapi.project.Project
 
 class ValkyrieCodeVisionProviderFactory : CodeVisionProviderFactory {
     override fun createProviders(project: Project): Sequence<CodeVisionProvider<*>> {
-        // 暂时返回空的 Provider 列表，后续可在此处注册实际的 Code Vision Provider 实现
+        // DaemonBoundCodeVisionProvider 不通过工厂注册，而是通过扩展点直接注册
+        // 返回空序列，实际的 DaemonBoundCodeVisionProvider 通过 plugin.xml 注册
         return emptySequence()
     }
 }
