@@ -37,3 +37,4 @@ class ValkyrieImplementerVisionProvider : DaemonBoundCodeVisionProvider {
         super.handleClick(editor, textRange, entry)
     }
 }
+
