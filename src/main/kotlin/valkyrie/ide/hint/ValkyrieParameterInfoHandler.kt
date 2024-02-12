@@ -1,7 +1,6 @@
 package valkyrie.ide.hint
 
 import com.intellij.lang.parameterInfo.*
-import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.psi.nodes.*
@@ -105,7 +104,7 @@ class ValkyrieParameterInfoHandler : ParameterInfoHandler<ValkyrieCallExpression
     }
     
     private fun getMethodParameters(method: ValkyrieMethodDeclaration): List<ParameterInfo> {
-        val parameters = PsiTreeUtil.findChildrenOfType(method, ValkyrieParameterNode::class.java)
+        val parameters = PsiTreeUtil.findChildrenOfType(method, ValkyrieTermParameterItem::class.java)
         return parameters.map { param ->
             ParameterInfo(
                 name = param.name ?: "<unnamed>",
@@ -115,12 +114,12 @@ class ValkyrieParameterInfoHandler : ParameterInfoHandler<ValkyrieCallExpression
         }
     }
     
-    private fun getParameterType(param: ValkyrieParameterNode): String {
+    private fun getParameterType(param: ValkyrieTermParameterItem): String {
         val typeElement = PsiTreeUtil.findChildOfType(param, ValkyrieTypeExpression::class.java)
         return typeElement?.text ?: "Unknown"
     }
     
-    private fun getParameterDefaultValue(param: ValkyrieParameterNode): String? {
+    private fun getParameterDefaultValue(param: ValkyrieTermParameterItem): String? {
         // 查找参数的默认值
         val children = param.children
         for (i in children.indices) {

@@ -66,9 +66,9 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
                 highlight(element, ValkyrieColor.SYM_MODIFIER)
             }
 
-            is ValkyrieParameterNode -> {
+            is ValkyrieTermParameterItem -> {
                 // 高亮参数名称
-                val paramName = element.getParameterName()
+                val paramName = element.name
                 if (paramName != null) {
                     // 查找标识符节点
                     var child = element.firstChild

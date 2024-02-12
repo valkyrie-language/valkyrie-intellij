@@ -122,6 +122,12 @@
 		<codeInsight.inlayProvider
 			language="valkyrie"
 			implementationClass="valkyrie.ide.hint.ValkyrieInlayHintsProvider"/>
+		<codeInsight.inlayProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.hint.type.TypeHintProvider"/>
+		<codeInsight.inlayProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.hint.chain.ChainHintProvider"/>
 
 		<!-- Parameter Info -->
 		<codeInsight.parameterInfo

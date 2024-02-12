@@ -6,24 +6,18 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.language.ValkyrieLanguage
-
-import valkyrie.psi.nodes.ValkyrieFileNode
 import valkyrie.psi.nodes.*
-import valkyrie.psi.nodes.ValkyrieTestStatement
-import valkyrie.psi.nodes.ValkyrieMetaStatement
-import valkyrie.psi.nodes.ValkyrieCompileTimeBlock
-import valkyrie.psi.nodes.ValkyrieTemplateBlock
 
 /**
  * Valkyrie PSI 元素工厂
  */
 object ValkyrieElementFactory {
-    
+
     /**
      * 获取工厂实例
      */
     fun getInstance(project: Project): ValkyrieElementFactory = this
-    
+
     /**
      * 从文本创建表达式
      */
@@ -34,12 +28,12 @@ object ValkyrieElementFactory {
                 ValkyrieLanguage.INSTANCE,
                 "let dummy = $text"
             ) as? ValkyrieFileNode
-        
+
         return dummyFile?.let { file ->
             PsiTreeUtil.findChildOfType(file, PsiElement::class.java)
         }
     }
-    
+
     /**
      * 创建标识符节点
      */
@@ -47,13 +41,13 @@ object ValkyrieElementFactory {
         val fileText = "let $name = 1"
         val file = PsiFileFactory.getInstance(project)
             .createFileFromText("dummy.vk", ValkyrieLanguage.INSTANCE, fileText) as ValkyrieFileNode
-        
+
         // 查找标识符节点
         val identifiers = PsiTreeUtil.findChildrenOfType(file, ValkyrieIdentifierNode::class.java)
         return identifiers.firstOrNull { it.getName() == name }
             ?: throw IllegalStateException("Could not create identifier: $name")
     }
-    
+
     fun createElement(node: ASTNode): PsiElement {
         return when (node.elementType) {
             ValkyrieElementTypes.FILE -> ValkyrieElementNode(node)
@@ -66,7 +60,7 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.UNION_STATEMENT -> ValkyrieUnionDeclaration(node)
             ValkyrieElementTypes.FLAGS_STATEMENT -> ValkyrieUnionDeclaration(node) // 复用UnionDeclaration
             ValkyrieElementTypes.TRAIT_STATEMENT -> ValkyrieTraitDeclaration(node)
-        ValkyrieElementTypes.IMPLY_STATEMENT -> ValkyrieElementNode(node)
+            ValkyrieElementTypes.IMPLY_STATEMENT -> ValkyrieImplyStatement(node)
             ValkyrieElementTypes.NAMESPACE_STATEMENT -> ValkyrieNamespaceDeclaration(node)
             ValkyrieElementTypes.NAMESPACE_PATH -> ValkyrieElementNode(node)
             ValkyrieElementTypes.USING_STATEMENT -> ValkyrieUsingStatementNode(node)
@@ -82,7 +76,7 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.CALL_EXPRESSION -> ValkyrieCallExpressionNode(node)
             ValkyrieElementTypes.GENERIC_CALL_EXPRESSION -> ValkyrieGenericCallExpressionNode(node)
             ValkyrieElementTypes.POSTFIX_EXPRESSION -> ValkyriePostfixExpressionNode(node)
-        ValkyrieElementTypes.ARRAY_EXPRESSION -> ValkyrieElementNode(node)
+            ValkyrieElementTypes.ARRAY_EXPRESSION -> ValkyrieElementNode(node)
             ValkyrieElementTypes.FIELD_DECLARATION -> ValkyrieFieldDeclaration(node)
             ValkyrieElementTypes.METHOD_DECLARATION -> ValkyrieMethodDeclaration(node)
             ValkyrieElementTypes.INSTANCE_METHOD_DECLARATION -> ValkyrieMethodDeclaration(node)
@@ -90,15 +84,15 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.DOMAIN_DECLARATION -> ValkyrieDomainDeclaration(node)
             ValkyrieElementTypes.UNION_VARIANT -> ValkyrieVariantDeclaration(node)
             ValkyrieElementTypes.FLAGS_ITEM -> ValkyrieVariantDeclaration(node) // 复用VariantDeclaration
-        ValkyrieElementTypes.MEZZO_DECLARATION -> ValkyrieElementNode(node)
-        // ValkyrieElementTypes.MODIFIER_LIST -> ValkyrieModifierListNode(node) // 已移除
-        ValkyrieElementTypes.PATTERN -> ValkyrieElementNode(node)
-        ValkyrieElementTypes.TUPLE_PATTERN -> ValkyrieElementNode(node)
+            ValkyrieElementTypes.MEZZO_DECLARATION -> ValkyrieElementNode(node)
+            // ValkyrieElementTypes.MODIFIER_LIST -> ValkyrieModifierListNode(node) // 已移除
+            ValkyrieElementTypes.PATTERN -> ValkyrieElementNode(node)
+            ValkyrieElementTypes.TUPLE_PATTERN -> ValkyrieElementNode(node)
             ValkyrieElementTypes.IDENTIFIER_NODE -> ValkyrieIdentifierNode(node)
             ValkyrieElementTypes.TYPE_REFERENCE -> ValkyrieTypeReferenceNode(node)
             ValkyrieElementTypes.QUALIFIED_NAME -> ValkyrieQualifiedNameNode(node)
-            ValkyrieElementTypes.PARAMETER_LIST -> ValkyrieParameterListNode(node)
-            ValkyrieElementTypes.PARAMETER -> ValkyrieParameterNode(node)
+            ValkyrieElementTypes.TERM_PARAMETER_LIST -> ValkyrieTermParameterList(node)
+            ValkyrieElementTypes.TERM_PARAMETER_ITEM -> ValkyrieTermParameterItem(node)
             ValkyrieElementTypes.GENERIC_PARAMETER_LIST -> ValkyrieElementNode(node)
             ValkyrieElementTypes.ANNOTATION_NODE -> ValkyrieAnnotationNode(node)
             ValkyrieElementTypes.MODIFIER_NODE -> ValkyrieModifierNode(node)
@@ -120,6 +114,7 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.TEMPLATE_BLOCK -> ValkyrieTemplateBlock(node)
             ValkyrieElementTypes.LOOP_STATEMENT -> ValkyrieControlFlowNodes(node)
             ValkyrieElementTypes.WHILE_STATEMENT -> ValkyrieWhileStatement(node)
+            ValkyrieElementTypes.CATCH_STATEMENT -> ValkyrieCatchStatement(node)
             ValkyrieElementTypes.ASSIGN_STATEMENT -> ValkyrieAssignStatement(node)
             ValkyrieElementTypes.RESUME_STATEMENT -> ValkyrieResumeStatement(node)
             else -> ValkyrieElementNode(node)

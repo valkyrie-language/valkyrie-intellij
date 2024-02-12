@@ -194,9 +194,9 @@ class ValkyrieBlock(
                     else -> null
                 }
             }
-            ValkyrieElementTypes.PARAMETER_LIST -> {
+            ValkyrieElementTypes.TERM_PARAMETER_LIST -> {
                 when (child.elementType) {
-                    ValkyrieElementTypes.PARAMETER -> Alignment.createAlignment()
+                    ValkyrieElementTypes.TERM_PARAMETER_ITEM -> Alignment.createAlignment()
                     else -> null
                 }
             }
@@ -224,7 +224,7 @@ class ValkyrieBlock(
             ValkyrieElementTypes.UNION_BODY,
             ValkyrieElementTypes.VARIANT_BODY,
             ValkyrieElementTypes.BLOCK_BODY -> ChildAttributes(Indent.getNormalIndent(), null)
-            ValkyrieElementTypes.PARAMETER_LIST -> {
+            ValkyrieElementTypes.TERM_PARAMETER_LIST -> {
                 if (newChildIndex > 0) {
                     ChildAttributes(Indent.getContinuationIndent(), Alignment.createAlignment())
                 } else {
