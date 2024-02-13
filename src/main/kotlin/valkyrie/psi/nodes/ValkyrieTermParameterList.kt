@@ -8,7 +8,7 @@ import valkyrie.psi.ValkyrieElementNode
  */
 class ValkyrieTermParameterList(node: ASTNode) : ValkyrieElementNode(node) {
 
-    fun getParameters(): Array<out ValkyrieTermParameterItem?> {
-        return findChildrenByClass(ValkyrieTermParameterItem::class.java)
+    fun getParameters(): List<ValkyrieTermParameterItem> {
+        return findChildrenByClass(ValkyrieTermParameterItem::class.java).filterNotNull()
     }
 }
