@@ -8,6 +8,7 @@ import com.intellij.psi.PsiManager
 import com.intellij.psi.search.FileTypeIndex
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.openapi.application.ReadAction
 import valkyrie.language.file.ValkyrieFileType
 import valkyrie.psi.nodes.ValkyrieNamespaceDeclaration
 import valkyrie.psi.nodes.ValkyrieUsingStatementNode
@@ -161,7 +162,9 @@ class ValkyrieSymbolIndex(private val project: Project) {
             val packageFile = findPackageFile(packageName, relativePath)
             if (packageFile != null) {
                 // 解析文件中的类定义
-                val psiFile = PsiManager.getInstance(project).findFile(packageFile)
+                val psiFile = ReadAction.compute<com.intellij.psi.PsiFile?, RuntimeException> {
+                    PsiManager.getInstance(project).findFile(packageFile)
+                }
                 if (psiFile != null) {
                     val classDeclarations = PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieClassDeclaration::class.java)
                     for (classDecl in classDeclarations) {
@@ -248,7 +251,9 @@ class ValkyrieSymbolIndex(private val project: Project) {
      * 索引单个文件
      */
     private fun indexFile(file: VirtualFile) {
-        val psiFile = PsiManager.getInstance(project).findFile(file) ?: return
+        val psiFile = ReadAction.compute<com.intellij.psi.PsiFile?, RuntimeException> {
+            PsiManager.getInstance(project).findFile(file)
+        } ?: return
         
         // 查找 namespace 声明
         val namespaceStatement = PsiTreeUtil.findChildOfType(psiFile, ValkyrieNamespaceDeclaration::class.java)

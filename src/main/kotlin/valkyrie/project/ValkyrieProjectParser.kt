@@ -7,6 +7,7 @@ import com.intellij.json.psi.JsonFile
 import com.intellij.json.psi.JsonObject
 import com.intellij.json.psi.JsonStringLiteral
 import com.intellij.json.psi.JsonArray
+import com.intellij.openapi.application.ReadAction
 
 /**
  * Valkyrie Project 解析器
@@ -44,8 +45,10 @@ class ValkyrieProjectParser {
     fun parseProject(project: Project, projectRoot: VirtualFile): ValkyrieProject? {
         val legionJsonFile = projectRoot.findChild(LEGION_JSON) ?: return null
         
-        val psiManager = PsiManager.getInstance(project)
-        val jsonFile = psiManager.findFile(legionJsonFile) as? JsonFile ?: return null
+        val jsonFile = ReadAction.compute<JsonFile?, RuntimeException> {
+            val psiManager = PsiManager.getInstance(project)
+            psiManager.findFile(legionJsonFile) as? JsonFile
+        } ?: return null
         
         val rootObject = jsonFile.topLevelValue as? JsonObject ?: return null
         
