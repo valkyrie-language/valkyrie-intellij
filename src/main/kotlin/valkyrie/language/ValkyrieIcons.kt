@@ -77,4 +77,11 @@ object ValkyrieIcons {
 
     @JvmStatic
     val CATCH: Icon = IconLoader.getIcon("/icons/catch.svg", ValkyrieIcons::class.java)
+
+    // 测试图标
+    @JvmStatic
+    val TEST: Icon = IconLoader.getIcon("/icons/test.svg", ValkyrieIcons::class.java)
+
+    @JvmStatic
+    val TEST_RUN: Icon = IconLoader.getIcon("/icons/testRun.svg", ValkyrieIcons::class.java)
 }

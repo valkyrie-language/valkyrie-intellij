@@ -2439,7 +2439,35 @@ class ValkyrieParser : PsiParser {
      * 解析单个属性
      */
     private fun parseAttribute(builder: PsiBuilder) {
+        parseAnnotation(builder, withModifiers = false)
+    }
+
+    /**
+     * 解析注解（重构后的独立方法）
+     * @param builder PsiBuilder 实例
+     * @param withModifiers 是否包含修饰符解析
+     */
+    private fun parseAnnotation(builder: PsiBuilder, withModifiers: Boolean) {
         val marker = builder.mark()
+
+        // 如果启用修饰符解析，先解析可能的修饰符
+        if (withModifiers) {
+            // 解析修饰符（如 public, private 等）
+            while (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                val currentText = builder.tokenText ?: ""
+                if (currentText in setOf(
+                    "public", "private", "protected", "internal",
+                    "static", "final", "abstract", "override",
+                    "mut", "const", "readonly"
+                )) {
+                    val modifierMarker = builder.mark()
+                    builder.advanceLexer()
+                    modifierMarker.done(ValkyrieElementTypes.MODIFIER_NODE)
+                } else {
+                    break
+                }
+            }
+        }
 
         // 属性前缀: ↯
         when (builder.tokenType) {

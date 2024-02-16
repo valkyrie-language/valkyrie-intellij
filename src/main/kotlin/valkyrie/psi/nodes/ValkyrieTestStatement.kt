@@ -6,60 +6,14 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.ide.navigation.TestType
 import valkyrie.psi.ValkyrieElementNode
+import valkyrie.psi.traits.HasAnnotation
+import valkyrie.psi.traits.HasObjectBody
 
 /**
  * Tests 语句实现
- * 支持 tests { } 和 test function() { } 两种形式
+ * 支持 tests { }
  */
-class ValkyrieTestStatement(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner {
-    override fun getNameIdentifier(): PsiElement? {
-        return findChildByClass(ValkyrieIdentifierNode::class.java)
-    }
-
-    override fun getNavigationElement(): PsiElement {
-        return nameIdentifier ?: this
-    }
-
-    override fun getName(): String? {
-        return nameIdentifier?.text
-    }
-
-    override fun setName(name: String): PsiElement {
-        val nameIdentifier = getNameIdentifier()
-        if (nameIdentifier is ValkyrieIdentifierNode) {
-            return nameIdentifier.setName(name)
-        }
-        return this
-    }
-
-    /**
-     * 获取测试体（object body）
-     */
-    fun getTestBody(): ValkyrieObjectBodyNode? {
-        return findChildByClass(ValkyrieObjectBodyNode::class.java)
-    }
-
-    /**
-     * 获取修饰符节点列表
-     */
-    fun getModifierNodes(): List<ValkyrieModifierNode> {
-        return findChildrenByClass(ValkyrieModifierNode::class.java).toList()
-    }
-    
-    /**
-     * 检查是否有指定修饰符
-     */
-    fun hasModifier(name: String): Boolean {
-        return getModifierNodes().any { it.isModifier(name) }
-    }
-    
-    /**
-     * 获取注解列表
-     */
-    fun getAnnotations(): List<ValkyrieAnnotationNode> {
-        return findChildrenByClass(ValkyrieAnnotationNode::class.java).toList()
-    }
-    
+class ValkyrieTestStatement(node: ASTNode) : ValkyrieElementNode(node), HasObjectBody, HasAnnotation {
     /**
      * 判断是否为 tests 块形式
      */
@@ -78,7 +32,7 @@ class ValkyrieTestStatement(node: ASTNode) : ValkyrieElementNode(node), PsiNameI
      * 获取测试类型（benchmark、unit test 等）
      */
     fun getTestType(): TestType {
-        val bodyText = getTestBody()?.text ?: ""
+        val bodyText = getObjectBody()?.text ?: ""
         return when {
             bodyText.contains("benchmark") -> TestType.BENCHMARK
             bodyText.contains("prepare") || bodyText.contains("before") || bodyText.contains("after") -> TestType.INTEGRATION
@@ -90,7 +44,7 @@ class ValkyrieTestStatement(node: ASTNode) : ValkyrieElementNode(node), PsiNameI
      * 获取所有 benchmark 块
      */
     fun getBenchmarkBlocks(): List<PsiElement> {
-        val body = getTestBody() ?: return emptyList()
+        val body = getObjectBody() ?: return emptyList()
         return body.children.filter { 
             it.text.trimStart().startsWith("benchmark")
         }
@@ -100,7 +54,7 @@ class ValkyrieTestStatement(node: ASTNode) : ValkyrieElementNode(node), PsiNameI
      * 获取所有生命周期钩子（prepare, before, after, clean）
      */
     fun getLifecycleHooks(): Map<String, PsiElement> {
-        val body = getTestBody() ?: return emptyMap()
+        val body = getObjectBody() ?: return emptyMap()
         val hooks = mutableMapOf<String, PsiElement>()
         
         for (child in body.children) {
