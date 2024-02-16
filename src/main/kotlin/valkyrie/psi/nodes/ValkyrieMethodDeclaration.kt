@@ -1,12 +1,11 @@
 package valkyrie.psi.nodes
 
 import com.intellij.lang.ASTNode
-import com.intellij.openapi.util.NlsSafe
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.psi.traits.HasTermParameter
 import valkyrie.psi.ValkyrieElementNode
+import valkyrie.psi.traits.HasTermParameter
 
 
 /**
@@ -41,9 +40,8 @@ class ValkyrieMethodDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiN
             }
         }
 
-    override fun getParameters(): List<ValkyrieTermParameterItem> {
-        return getParameterList()?.getParameters() ?: emptyList()
-    }
+    override val parameters: List<ValkyrieTermParameterItem>
+        get() = getParameterList()?.getParameters() ?: emptyList()
 
     fun hasModifier(name: String): Boolean {
         return modifiers.any { it.isModifier(name) }

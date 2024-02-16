@@ -32,7 +32,7 @@ class ValkyrieClassDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNa
     }
 
     fun getClassBody(): ValkyrieObjectBodyNode? {
-        return objectBody
+        return getObjectBody()
     }
 
     fun isStatic(): Boolean {
