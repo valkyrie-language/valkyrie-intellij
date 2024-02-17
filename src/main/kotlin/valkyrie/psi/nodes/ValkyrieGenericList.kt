@@ -6,5 +6,5 @@ import valkyrie.psi.traits.HasTypeParameter
 
 class ValkyrieGenericList(node: ASTNode) : ValkyrieElementNode(node), HasTypeParameter {
     override val typeParameters: List<ValkyrieTypeParameterItem>
-        get() = TODO("Not yet implemented")
+        get() = findChildrenByClass(ValkyrieTypeParameterItem::class.java).toList()
 }

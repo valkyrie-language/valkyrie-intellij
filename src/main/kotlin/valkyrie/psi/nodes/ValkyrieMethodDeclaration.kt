@@ -40,7 +40,7 @@ class ValkyrieMethodDeclaration(node: ASTNode) : ValkyrieElementNode(node),
     }
 
     override val typeParameters: List<ValkyrieTypeParameterItem>
-        get() = getGenericParameterList()?.getTypeParameters() ?: emptyList()
+        get() = getGenericParameterList()?.typeParameters ?: emptyList()
     override val termParameters: List<ValkyrieTermParameterItem>
         get() = getParameterList()?.getParameters() ?: emptyList()
 

@@ -40,9 +40,9 @@ class ValkyrieClassDeclaration(node: ASTNode) : ValkyrieElementNode(node),
     }
 
     override val typeParameters: List<ValkyrieTypeParameterItem>
-        get() = TODO("Not yet implemented")
+        get() = findChildByClass(ValkyrieGenericList::class.java)?.typeParameters ?: emptyList()
     override val inheritParameters: List<ValkyrieTermParameterItem>
-        get() = getClassInherit().getInheritItems().filterNotNull() ?: emptyList()
+        get() = getClassInherit()?.getInheritItems()?.mapNotNull { it as? ValkyrieTermParameterItem } ?: emptyList()
 
     /**
      * 获取类继承信息
