@@ -8,6 +8,7 @@ import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.psi.nodes.*
+import valkyrie.index.ValkyrieSymbolIndex
 
 /**
  * Valkyrie 行标记提供者
@@ -179,24 +180,35 @@ class ValkyrieLineMarkerProvider : LineMarkerProvider {
      * 查找父类
      */
     private fun findParentClasses(classElement: ValkyrieClassDeclaration): List<PsiElement> {
-        // TODO: 实现查找父类的逻辑
-        return emptyList()
+        val symbolIndex = ValkyrieSymbolIndex.getInstance(classElement.project)
+        val parentClassNames = classElement.getParentClasses()
+        val parentClasses = mutableListOf<PsiElement>()
+        
+        for (parentName in parentClassNames) {
+            val parentClass = symbolIndex.findClassByName(parentName)
+            if (parentClass != null) {
+                parentClasses.add(parentClass)
+            }
+        }
+        
+        return parentClasses
     }
     
     /**
      * 查找子类
      */
     private fun findSubClasses(classElement: ValkyrieClassDeclaration): List<PsiElement> {
-        // TODO: 实现查找子类的逻辑
-        return emptyList()
+        val symbolIndex = ValkyrieSymbolIndex.getInstance(classElement.project)
+        val className = classElement.name ?: return emptyList()
+        return symbolIndex.findClassesThatInheritFrom(className).map { it as PsiElement }
     }
     
     /**
      * 查找实现
      */
     private fun findImplementations(classElement: ValkyrieClassDeclaration): List<PsiElement> {
-        // TODO: 实现查找实现的逻辑
-        return emptyList()
+        // 对于类，实现就是子类
+        return findSubClasses(classElement)
     }
     
     /**
@@ -220,6 +232,44 @@ class ValkyrieLineMarkerProvider : LineMarkerProvider {
      */
     private fun findImplementedClasses(implyElement: ValkyrieImplyStatement): List<PsiElement> {
         // TODO: 实现查找被实现的类的逻辑
+        return emptyList()
+    }
+    
+    /**
+     * 查找 namespace 相关声明
+     */
+    private fun findNamespaceDeclarations(namespaceElement: ValkyrieNamespaceDeclaration): List<PsiElement> {
+        val symbolIndex = ValkyrieSymbolIndex.getInstance(namespaceElement.project)
+        val namespaceName = namespaceElement.name ?: return emptyList()
+        
+        // 查找在此 namespace 中定义的所有符号
+        val declarations = mutableListOf<PsiElement>()
+        
+        // 查找类
+        declarations.addAll(symbolIndex.findClassesInNamespace(namespaceName).map { it as PsiElement })
+        
+        // 查找函数
+        declarations.addAll(symbolIndex.findFunctionsInNamespace(namespaceName).map { it as PsiElement })
+        
+        return declarations
+    }
+    
+    /**
+     * 查找 imply 相关声明
+     */
+    private fun findImplyDeclarations(implyElement: ValkyrieImplyStatement): List<PsiElement> {
+        val symbolIndex = ValkyrieSymbolIndex.getInstance(implyElement.project)
+        
+        // 获取 imply 的目标类型
+        val targetTypeNode = implyElement.getTargetType() ?: return emptyList()
+        val targetType = targetTypeNode.text
+        
+        // 查找相关的类或接口定义
+        val targetClass = symbolIndex.findClassByName(targetType)
+        if (targetClass != null) {
+            return listOf(targetClass)
+        }
+        
         return emptyList()
     }
 }

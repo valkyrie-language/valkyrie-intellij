@@ -64,16 +64,6 @@
 		<!-- Goto Declaration Handler -->
 		<gotoDeclarationHandler implementation="valkyrie.reference.ValkyrieGotoDeclarationHandler"/>
 
-		<!-- Project Service -->
-		<projectService
-			serviceImplementation="valkyrie.index.ValkyrieProjectService"
-		/>
-
-		<!-- Symbol Index Service -->
-		<projectService
-			serviceImplementation="valkyrie.index.ValkyrieSymbolIndex"
-		/>
-
 		<!-- Project Manager Service -->
 		<projectService
 			serviceImplementation="valkyrie.project.ValkyrieProjectManager"
@@ -139,14 +129,15 @@
 			language="valkyrie"
 			implementationClass="valkyrie.ide.gutter.ValkyrieControlFlowNavigationProvider"
 		/>
-		
 
 
 		<!-- Test Framework -->
 		<configurationType implementation="valkyrie.ide.test.ValkyrieTestConfigurationType"/>
-		<runLineMarkerContributor language="valkyrie" implementationClass="valkyrie.ide.test.ValkyrieTestRunLineMarkerProvider"/>
-		<codeInsight.lineMarkerProvider language="valkyrie" implementationClass="valkyrie.ide.marker.ValkyrieLineMarkerProvider"/>
-		
+		<runLineMarkerContributor language="valkyrie"
+								  implementationClass="valkyrie.ide.test.ValkyrieTestRunLineMarkerProvider"/>
+		<codeInsight.lineMarkerProvider language="valkyrie"
+										implementationClass="valkyrie.ide.marker.ValkyrieLineMarkerProvider"/>
+
 		<!-- Code Completion -->
 		<completion.contributor
 			language="valkyrie"

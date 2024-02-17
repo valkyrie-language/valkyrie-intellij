@@ -7,18 +7,22 @@ import com.intellij.openapi.vfs.newvfs.BulkFileListener
 import com.intellij.openapi.vfs.newvfs.events.VFileEvent
 import valkyrie.project.ValkyrieProjectManager
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.components.Service
 
 /**
  * Valkyrie 项目服务
  * 管理符号索引的生命周期和项目结构
  */
 
+@Service(Service.Level.PROJECT)
 class ValkyrieProjectService(private val project: Project) : Disposable {
     
     private val fileListener = ValkyrieFileListener(project)
-    private val projectManager = ValkyrieProjectManager.getInstance(project)
+    private lateinit var projectManager: ValkyrieProjectManager
     
     init {
+        // 延迟初始化 projectManager，确保所有服务都已注册
+        projectManager = ValkyrieProjectManager.getInstance(project)
         // 注册文件监听器
         project.messageBus.connect(this).subscribe(VirtualFileManager.VFS_CHANGES, object : BulkFileListener {
             override fun after(events: List<VFileEvent>) {

@@ -41,21 +41,7 @@ class ValkyrieGenericCallExpressionNode(node: ASTNode) : ValkyrieElementNode(nod
         
         return result
     }
-    
-    /**
-     * 获取参数列表
-     */
-    fun getArgumentList(): PsiElement? {
-        var child = this.firstChild
-        while (child != null) {
-            if (child.text == "(") {
-                return child.parent
-            }
-            child = child.nextSibling
-        }
-        return null
-    }
-    
+
     /**
      * 检查是否使用双冒号语法 (call::<T>)
      */
@@ -83,33 +69,6 @@ class ValkyrieGenericCallExpressionNode(node: ASTNode) : ValkyrieElementNode(nod
         }
         return false
     }
-    
-    /**
-     * 获取泛型语法类型
-     */
-    fun getGenericSyntaxType(): String {
-        return when {
-            isDoubleColonSyntax() -> "double_colon"
-            isAngleBracketSyntax() -> "angle_bracket"
-            else -> "unknown"
-        }
-    }
-    
-    /**
-     * 检查语法是否合法
-     * 只允许 call⟨T⟩ 和 call::<T> 形式，不允许 call<T>
-     */
-    fun isValidSyntax(): Boolean {
-        var child = this.firstChild
-        while (child != null) {
-            // 检查是否有非法的 < 符号（不是 :: 后面的）
-            if (child.text == "<" && child.prevSibling?.text != "::") {
-                return false
-            }
-            child = child.nextSibling
-        }
-        return true
-    }
-    
+
     override fun toString(): String = "ValkyrieGenericCallExpression"
 }

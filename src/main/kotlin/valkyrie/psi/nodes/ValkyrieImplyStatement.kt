@@ -1,10 +1,13 @@
 package valkyrie.psi.nodes
 
+import com.intellij.codeInsight.daemon.impl.IdentifierUtil.getNameIdentifier
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
+import com.intellij.psi.PsiQualifiedNamedElement
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.psi.ValkyrieElementNode
+import valkyrie.psi.traits.HasTypeParameter
 
 /**
  * Imply 语句实现
@@ -14,24 +17,24 @@ import valkyrie.psi.ValkyrieElementNode
  * imply module::Class { }
  * ```
  */
-class ValkyrieImplyStatement(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner {
-    override fun getNameIdentifier(): PsiElement? {
-        return findChildByClass(ValkyrieIdentifierNode::class.java)
-    }
+class ValkyrieImplyStatement(node: ASTNode) : ValkyrieElementNode(node),
+    PsiQualifiedNamedElement,
+    HasTypeParameter  {
+
 
     override fun getNavigationElement(): PsiElement {
-        return nameIdentifier ?: this
+        return super.getNavigationElement()
+    }
+
+    override fun getQualifiedName(): String? {
+        TODO("Not yet implemented")
     }
 
     override fun getName(): String? {
-        return nameIdentifier?.text
+        return super.getName()
     }
 
     override fun setName(name: String): PsiElement {
-        val nameIdentifier = getNameIdentifier()
-        if (nameIdentifier is ValkyrieIdentifierNode) {
-            return nameIdentifier.setName(name)
-        }
         return this
     }
 
@@ -71,4 +74,7 @@ class ValkyrieImplyStatement(node: ASTNode) : ValkyrieElementNode(node), PsiName
     fun hasGenericParameters(): Boolean {
         return getGenericParameters() != null
     }
+
+    override val typeParameters: List<ValkyrieTypeParameterItem>
+        get() = TODO("Not yet implemented")
 }

@@ -77,7 +77,7 @@ class ValkyrieInlayHintsProvider : InlayHintsProvider<ValkyrieInlayHintsProvider
             // 尝试解析函数定义
             val function = call.resolveFunction()
             if (function != null) {
-                collectParameterHintsWithFunction(arguments, function.parameters)
+                collectParameterHintsWithFunction(arguments, function.termParameters)
             } else {
                 // 如果无法解析函数，尝试基于常见模式推断参数名
                 collectParameterHintsWithoutFunction(call, arguments)

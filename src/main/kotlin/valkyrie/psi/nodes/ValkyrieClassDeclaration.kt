@@ -5,12 +5,20 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.traits.HasAnnotation
+import valkyrie.psi.traits.HasInheritParameter
 import valkyrie.psi.traits.HasObjectBody
+import valkyrie.psi.traits.HasTypeParameter
 
 /**
  * Class 语句实现
  */
-class ValkyrieClassDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner, HasAnnotation, HasObjectBody {
+class ValkyrieClassDeclaration(node: ASTNode) : ValkyrieElementNode(node),
+    PsiNameIdentifierOwner,
+    HasAnnotation,       // ↯attribute class X { }
+    HasTypeParameter,    // class X<T> { }
+    HasInheritParameter, // class X(A) { }
+    HasObjectBody        // class X { object_body }
+{
     override fun getNameIdentifier(): PsiElement? {
         return findChildByClass(ValkyrieIdentifierNode::class.java)
     }
@@ -31,23 +39,16 @@ class ValkyrieClassDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNa
         return this
     }
 
-    fun getClassBody(): ValkyrieObjectBodyNode? {
-        return getObjectBody()
-    }
-
-    fun isStatic(): Boolean {
-        return hasModifier("static")
-    }
-
-    fun isMutable(): Boolean {
-        return hasModifier("mut")
-    }
+    override val typeParameters: List<ValkyrieTypeParameterItem>
+        get() = TODO("Not yet implemented")
+    override val inheritParameters: List<ValkyrieTermParameterItem>
+        get() = getClassInherit().getInheritItems().filterNotNull() ?: emptyList()
 
     /**
      * 获取类继承信息
      */
-    fun getClassInherit(): ValkyrieClassInheritNode? {
-        return findChildByClass(ValkyrieClassInheritNode::class.java)
+    fun getClassInherit(): ValkyrieInheritList? {
+        return findChildByClass(ValkyrieInheritList::class.java)
     }
 
     /**
@@ -55,27 +56,6 @@ class ValkyrieClassDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNa
      */
     fun getParentClasses(): List<String> {
         return getClassInherit()?.getParentClassNames() ?: emptyList()
-    }
-
-    /**
-     * 获取重命名继承映射
-     */
-    fun getRenameMapping(): Map<String, String> {
-        return getClassInherit()?.getRenameMapping() ?: emptyMap()
-    }
-
-    /**
-     * 是否有继承
-     */
-    fun hasInheritance(): Boolean {
-        return getClassInherit() != null
-    }
-
-    /**
-     * 是否有重命名继承
-     */
-    fun hasRenamedInheritance(): Boolean {
-        return getClassInherit()?.hasRenamedInheritance() ?: false
     }
 }
 

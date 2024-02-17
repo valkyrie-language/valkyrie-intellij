@@ -9,7 +9,7 @@ import valkyrie.psi.ValkyrieTokenTypes
  * 继承项节点实现
  * 支持重命名继承语法: renamed: ParentClass
  */
-class ValkyrieInheritItemNode(node: ASTNode) : ValkyrieElementNode(node) {
+class ValkyrieInheritItem(node: ASTNode) : ValkyrieElementNode(node) {
     
     /**
      * 获取重命名标识符（如果存在）
