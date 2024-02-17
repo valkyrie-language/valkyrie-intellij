@@ -60,6 +60,9 @@ object ValkyrieElementTypes {
     val UNION_STATEMENT = ValkyrieElementType("UNION_STATEMENT")
 
     @JvmField
+    val UNITY_STATEMENT = ValkyrieElementType("UNITY_STATEMENT")
+
+    @JvmField
     val FLAGS_STATEMENT = ValkyrieElementType("FLAGS_STATEMENT")
 
     @JvmField
@@ -260,7 +263,7 @@ object ValkyrieElementTypes {
 
     // Class 和 Union 内部结构
     @JvmField
-    val CLASS_INHERIT = ValkyrieElementType("CLASS_INHERIT")
+    val INHERIT_LIST = ValkyrieElementType("CLASS_INHERIT")
 
     @JvmField
     val INHERIT_ITEM = ValkyrieElementType("INHERIT_ITEM")

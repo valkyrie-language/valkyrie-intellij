@@ -184,7 +184,7 @@ class ValkyrieReference(private val element: ValkyrieIdentifierNode) : PsiRefere
                 return true
             }
             // 检查是否在继承声明中
-            if (parent.node?.elementType == ValkyrieElementTypes.CLASS_INHERIT ||
+            if (parent.node?.elementType == ValkyrieElementTypes.INHERIT_LIST ||
                 parent.node?.elementType == ValkyrieElementTypes.INHERIT_ITEM) {
                 return true
             }
