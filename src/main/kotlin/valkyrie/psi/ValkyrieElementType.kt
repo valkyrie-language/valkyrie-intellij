@@ -66,6 +66,10 @@ object ValkyrieElementTypes {
     val FLAGS_STATEMENT = ValkyrieElementType("FLAGS_STATEMENT")
 
     @JvmField
+    val ENUMS_STATEMENT = ValkyrieElementType("ENUMS_STATEMENT")
+
+
+    @JvmField
     val TRAIT_STATEMENT = ValkyrieElementType("TRAIT_STATEMENT")
 
     @JvmField
@@ -260,6 +264,18 @@ object ValkyrieElementTypes {
 
     @JvmField
     val OPTIONAL_TYPE = ValkyrieElementType("OPTIONAL_TYPE")
+
+    @JvmField
+    val ARRAY_TYPE = ValkyrieElementType("ARRAY_TYPE")
+
+    @JvmField
+    val TUPLE_TYPE = ValkyrieElementType("TUPLE_TYPE")
+
+    @JvmField
+    val PARENTHESIZED_TYPE = ValkyrieElementType("PARENTHESIZED_TYPE")
+
+    @JvmField
+    val PRIMITIVE_TYPE = ValkyrieElementType("PRIMITIVE_TYPE")
 
     // Class 和 Union 内部结构
     @JvmField
