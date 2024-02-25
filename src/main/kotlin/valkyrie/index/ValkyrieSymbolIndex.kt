@@ -257,115 +257,161 @@ class ValkyrieSymbolIndex(private val project: Project) {
      * 索引单个文件
      */
     private fun indexFile(file: VirtualFile) {
-        ReadAction.run<RuntimeException> {
-            val psiFile = PsiManager.getInstance(project).findFile(file) ?: return@run
+        try {
+            // 使用非阻塞的ReadAction，避免死锁
+            val psiFile = ReadAction.compute<com.intellij.psi.PsiFile?, RuntimeException> {
+                PsiManager.getInstance(project).findFile(file)
+            } ?: return
             
+            // 在ReadAction外部进行数据处理，减少锁定时间
+            val (namespace, symbols) = ReadAction.compute<Pair<String, IndexData>, RuntimeException> {
+                extractSymbolsFromFile(psiFile, file)
+            }
+            
+            // 在ReadAction外部更新缓存，避免长时间持有锁
+            updateCacheWithSymbols(file, namespace, symbols)
+            
+        } catch (e: Exception) {
+            // 记录错误但不中断程序执行
+            com.intellij.openapi.diagnostic.Logger.getInstance(ValkyrieSymbolIndex::class.java)
+                .warn("Error indexing file ${file.path}: ${e.message}", e)
+        }
+    }
+    
+    private data class IndexData(
+        val letStatements: List<ValkyrieLetStatementNode>,
+        val classStatements: List<ValkyrieClassDeclaration>,
+        val unionStatements: List<ValkyrieUnionDeclaration>,
+        val functionStatements: List<ValkyrieMethodDeclaration>,
+        val usingStatements: List<ValkyrieUsingStatementNode>
+    )
+    
+    private fun extractSymbolsFromFile(psiFile: com.intellij.psi.PsiFile, file: VirtualFile): Pair<String, IndexData> {
+        try {
             // 查找 namespace 声明
             val namespaceStatement = PsiTreeUtil.findChildOfType(psiFile, ValkyrieNamespaceDeclaration::class.java)
-            var namespace = namespaceStatement?.getNamespaceName() ?: "default"
+            var namespace = try {
+                namespaceStatement?.getNamespaceName() ?: "default"
+            } catch (e: Exception) {
+                "default"
+            }
             
             // 处理package关键词，将其替换为legion.json中的实际包名
             if (namespace.startsWith("package.")) {
-                val packageName = getPackageNameFromLegionJson(file)
-                if (packageName != null) {
-                    namespace = namespace.replace("package", packageName)
+                try {
+                    val packageName = getPackageNameFromLegionJson(file)
+                    if (packageName != null) {
+                        namespace = namespace.replace("package", packageName)
+                    }
+                } catch (e: Exception) {
+                    // 如果获取包名失败，保持原namespace
                 }
             }
             
-            // 记录命名空间信息
-            val namespaceInfo = namespaceCache.getOrPut(namespace) {
-                NamespaceInfo(namespace, file)
-            }
+            val indexData = IndexData(
+                letStatements = try { PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieLetStatementNode::class.java).toList() } catch (e: Exception) { emptyList() },
+                classStatements = try { PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieClassDeclaration::class.java).toList() } catch (e: Exception) { emptyList() },
+                unionStatements = try { PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieUnionDeclaration::class.java).toList() } catch (e: Exception) { emptyList() },
+                functionStatements = try { PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieMethodDeclaration::class.java).toList() } catch (e: Exception) { emptyList() },
+                usingStatements = try { PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieUsingStatementNode::class.java).toList() } catch (e: Exception) { emptyList() }
+            )
             
-            // 查找所有 let 语句（变量定义）
-            val letStatements = PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieLetStatementNode::class.java)
-            for (letStatement in letStatements) {
-                val symbolName = letStatement.getIdentifier()?.text ?: continue
-                
-                val symbolInfo = SymbolInfo(
-                    name = symbolName,
-                    namespace = namespace,
-                    file = file,
-                    element = letStatement
-                )
-                
-                symbolCache.getOrPut(symbolName) { mutableListOf() }.add(symbolInfo)
-                namespaceInfo.symbols.add(symbolName)
-            }
-            
-            // 查找所有 class 语句（类型定义）
-            val classStatements = PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieClassDeclaration::class.java)
-            for (classStatement in classStatements) {
-                val symbolName = classStatement.name ?: continue
-                
-                val symbolInfo = SymbolInfo(
-                    name = symbolName,
-                    namespace = namespace,
-                    file = file,
-                    element = classStatement
-                )
-                
-                symbolCache.getOrPut(symbolName) { mutableListOf() }.add(symbolInfo)
-                namespaceInfo.symbols.add(symbolName)
-            }
-            
-            // 查找所有 union 语句（联合类型定义）
-            val unionStatements = PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieUnionDeclaration::class.java)
-            for (unionStatement in unionStatements) {
-                val symbolName = unionStatement.name ?: continue
-                
-                val symbolInfo = SymbolInfo(
-                    name = symbolName,
-                    namespace = namespace,
-                    file = file,
-                    element = unionStatement
-                )
-                
-                symbolCache.getOrPut(symbolName) { mutableListOf() }.add(symbolInfo)
-                namespaceInfo.symbols.add(symbolName)
-            }
-            
-            // 查找所有函数定义（micro函数）
-            val functionStatements = PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieMethodDeclaration::class.java)
-            for (functionStatement in functionStatements) {
-                val symbolName = functionStatement.name ?: continue
-                
-                val symbolInfo = SymbolInfo(
-                    name = symbolName,
-                    namespace = namespace,
-                    file = file,
-                    element = functionStatement
-                )
-                
-                symbolCache.getOrPut(symbolName) { mutableListOf() }.add(symbolInfo)
-                namespaceInfo.symbols.add(symbolName)
-            }
-            
-            // 查找所有 using 语句
-            val usingStatements = PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieUsingStatementNode::class.java)
-            val fileUsingList = mutableListOf<UsingInfo>()
-            
-            for (usingStatement in usingStatements) {
-                val qualifiedName = usingStatement.getImportedName() ?: continue
-                val parts = qualifiedName.split(".")
-                
-                if (parts.size >= 2) {
-                    val targetNamespace = parts.dropLast(1).joinToString(".")
-                    val symbolName = parts.last()
-                    
-                    val usingInfo = UsingInfo(
-                        qualifiedName = qualifiedName,
-                        namespace = targetNamespace,
-                        symbolName = symbolName,
-                        file = file
-                    )
-                    
-                    fileUsingList.add(usingInfo)
-                }
-            }
-            
-            usingCache[file] = fileUsingList
+            return namespace to indexData
+        } catch (e: Exception) {
+            // 如果整个方法失败，返回默认值
+            return "default" to IndexData(emptyList(), emptyList(), emptyList(), emptyList(), emptyList())
         }
+    }
+    
+    private fun updateCacheWithSymbols(file: VirtualFile, namespace: String, symbols: IndexData) {
+        // 记录命名空间信息
+        val namespaceInfo = namespaceCache.getOrPut(namespace) {
+            NamespaceInfo(namespace, file)
+        }
+        
+        // 处理 let 语句（变量定义）
+        for (letStatement in symbols.letStatements) {
+            val symbolName = letStatement.getIdentifier()?.text ?: continue
+            
+            val symbolInfo = SymbolInfo(
+                name = symbolName,
+                namespace = namespace,
+                file = file,
+                element = letStatement
+            )
+            
+            symbolCache.getOrPut(symbolName) { mutableListOf() }.add(symbolInfo)
+            namespaceInfo.symbols.add(symbolName)
+        }
+        
+        // 处理 class 语句（类型定义）
+        for (classStatement in symbols.classStatements) {
+            val symbolName = classStatement.name ?: continue
+            
+            val symbolInfo = SymbolInfo(
+                name = symbolName,
+                namespace = namespace,
+                file = file,
+                element = classStatement
+            )
+            
+            symbolCache.getOrPut(symbolName) { mutableListOf() }.add(symbolInfo)
+            namespaceInfo.symbols.add(symbolName)
+        }
+        
+        // 处理 union 语句（联合类型定义）
+        for (unionStatement in symbols.unionStatements) {
+            val symbolName = unionStatement.name ?: continue
+            
+            val symbolInfo = SymbolInfo(
+                name = symbolName,
+                namespace = namespace,
+                file = file,
+                element = unionStatement
+            )
+            
+            symbolCache.getOrPut(symbolName) { mutableListOf() }.add(symbolInfo)
+            namespaceInfo.symbols.add(symbolName)
+        }
+        
+        // 处理函数定义（micro函数）
+        for (functionStatement in symbols.functionStatements) {
+            val symbolName = functionStatement.name ?: continue
+            
+            val symbolInfo = SymbolInfo(
+                name = symbolName,
+                namespace = namespace,
+                file = file,
+                element = functionStatement
+            )
+            
+            symbolCache.getOrPut(symbolName) { mutableListOf() }.add(symbolInfo)
+            namespaceInfo.symbols.add(symbolName)
+        }
+        
+        // 处理 using 语句
+        val fileUsingList = mutableListOf<UsingInfo>()
+        
+        for (usingStatement in symbols.usingStatements) {
+            val qualifiedName = usingStatement.getImportedName() ?: continue
+            val parts = qualifiedName.split(".")
+            
+            if (parts.size >= 2) {
+                val targetNamespace = parts.dropLast(1).joinToString(".")
+                val symbolName = parts.last()
+                
+                val usingInfo = UsingInfo(
+                    qualifiedName = qualifiedName,
+                    namespace = targetNamespace,
+                    symbolName = symbolName,
+                    file = file
+                )
+                
+                fileUsingList.add(usingInfo)
+            }
+        }
+        
+        usingCache[file] = fileUsingList
     }
     
     /**
