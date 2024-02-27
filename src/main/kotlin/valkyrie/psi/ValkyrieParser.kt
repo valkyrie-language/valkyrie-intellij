@@ -609,7 +609,15 @@ class ValkyrieParser : PsiParser {
                 marker
             }
 
-            else -> null
+            else -> {
+                // 对于无法识别的 token，创建错误节点并消费该 token
+                // 这确保解析器始终前进，避免 tokens 超出根元素范围
+                val marker = builder.mark()
+                builder.error("Unexpected token: ${builder.tokenType}")
+                builder.advanceLexer() // 关键：消费无法识别的 token
+                marker.done(ValkyrieElementTypes.ERROR_ELEMENT)
+                marker
+            }
         }
     }
 
@@ -904,7 +912,7 @@ class ValkyrieParser : PsiParser {
         }
 
         // qualified name (e.g., file_b.b)
-        parseQualifiedName(builder)
+        parseNamePath(builder, free = true)
 
         // 支持嵌套using语法: using package.collections.{ hashmap.HashMap }
         if (builder.tokenType == ValkyrieTokenTypes.DOT) {
@@ -915,7 +923,7 @@ class ValkyrieParser : PsiParser {
 
                 // 解析导入列表
                 while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
-                    parseQualifiedName(builder)
+                    parseNamePath(builder, free = true)
 
                     // 处理逗号分隔
                     if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
@@ -1374,9 +1382,10 @@ class ValkyrieParser : PsiParser {
             }
 
             else -> {
-                // 未知token，尝试解析为字段
-                parseField(builder)
-                marker.done(ValkyrieElementTypes.FIELD_DECLARATION)
+                // 未知token，创建错误节点并消费该token
+                builder.error("Unexpected token in class body: ${builder.tokenType}")
+                builder.advanceLexer() // 关键：消费无法识别的token
+                marker.done(ValkyrieElementTypes.ERROR_ELEMENT)
             }
         }
     }
@@ -1503,7 +1512,7 @@ class ValkyrieParser : PsiParser {
         }
 
         // 宏名称或路径
-        if (!parseQualifiedName(builder)) {
+        if (!parseNamePath(builder, free = false)) {
             builder.error("Expected macro name")
         }
 
@@ -2325,75 +2334,42 @@ class ValkyrieParser : PsiParser {
         }
     }
 
-    private fun parseNamePath(builder: PsiBuilder, free: Boolean) {
+    private fun parseNamePath(builder: PsiBuilder, free: Boolean): Boolean {
         val pathMarker = builder.mark()
 
-        // 解析第一个标识符
+        // 解析第一个标识符 - 使用 isIdentifier 优化性能
         val identifierMarker = builder.mark()
-        if (!parseIdentifier(builder)) {
-            identifierMarker.error("Expected identifier")
+        if (isIdentifier(builder)) {
+            builder.advanceLexer()
+            identifierMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
+        } else {
+            identifierMarker.error("Expected namepath")
             pathMarker.drop()
-            return
+            return false
         }
-        identifierMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
 
         // 解析路径分隔符和后续标识符, free 模式下允许 a.b.c, 否则必须 a::b::c;
         while (builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON || (free && builder.tokenType == ValkyrieTokenTypes.DOT)) {
             builder.advanceLexer() // 消费分隔符
 
             val nextIdentifierMarker = builder.mark()
-            if (!parseIdentifier(builder)) {
+            if (isIdentifier(builder)) {
+                builder.advanceLexer()
+                nextIdentifierMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
+            } else {
                 nextIdentifierMarker.error("Expected identifier after path separator")
-                pathMarker.drop() // 在错误情况下 drop pathMarker
-                return
+                pathMarker.drop()
+                return false
             }
-            nextIdentifierMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
         }
 
         pathMarker.done(ValkyrieElementTypes.NAMESPACE_PATH)
-    }
-
-
-    private fun parseQualifiedName(builder: PsiBuilder): Boolean {
-        val marker = builder.mark()
-        var hasValidContent = false
-
-        // 支持包路径前缀 ⸿
-        if (builder.tokenType == ValkyrieTokenTypes.INTERNATIONAL_MARK) {
-            builder.advanceLexer() // consume ⸿
-        }
-
-        if (parseIdentifier(builder)) {
-            hasValidContent = true
-
-            // 支持点号和双冒号分隔符
-            while (builder.tokenType == ValkyrieTokenTypes.DOT || builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON) {
-                val separator = builder.tokenType
-                builder.advanceLexer()
-                if (!parseIdentifier(builder)) {
-                    val separatorText = if (separator == ValkyrieTokenTypes.DOT) "." else "::"
-                    builder.error("Expected identifier after '$separatorText'")
-                    builder.advanceLexer() // 推进词法分析器避免死循环
-                    break
-                }
-            }
-        } else {
-            builder.error("Expected identifier")
-        }
-
-        if (hasValidContent) {
-            marker.done(ValkyrieElementTypes.QUALIFIED_NAME)
-        } else {
-            marker.drop()
-        }
-
-        return hasValidContent
+        return true
     }
 
     private fun parseIdentifier(builder: PsiBuilder): Boolean {
         val marker = builder.mark()
-
-        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW) {
+        if (isIdentifier(builder)) {
             builder.advanceLexer()
             marker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
             return true
@@ -2401,6 +2377,10 @@ class ValkyrieParser : PsiParser {
             marker.drop()
             return false
         }
+    }
+
+    inline fun isIdentifier(builder: PsiBuilder): Boolean {
+        return builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW
     }
 
     /**

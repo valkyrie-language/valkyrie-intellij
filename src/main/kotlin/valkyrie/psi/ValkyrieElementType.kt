@@ -349,4 +349,8 @@ object ValkyrieElementTypes {
     // 注释
     @JvmField
     val DOC_COMMENT = ValkyrieElementType("DOC_COMMENT")
+
+    // 错误元素
+    @JvmField
+    val ERROR_ELEMENT = ValkyrieElementType("ERROR_ELEMENT")
 }
