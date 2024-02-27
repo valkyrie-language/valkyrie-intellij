@@ -257,8 +257,14 @@ class ValkyrieParser : PsiParser {
         // 解析泛型参数（如果有）
         parseGenericParameterList(builder)
 
-        // tests { }
-        parseClassLikeBody(builder)
+        // tests { } - 使用class-like body解析
+        if (!parseClassLikeBody(builder)) {
+            marker.error("Expected tests body")
+            recoverToSyncPoint(builder)
+            marker.done(ValkyrieElementTypes.ERROR_ELEMENT)
+            return
+        }
+        
         marker.done(ValkyrieElementTypes.DECLARE_TESTS)
     }
 
@@ -1016,6 +1022,8 @@ class ValkyrieParser : PsiParser {
     }
 
 
+
+
     private fun parseUnionLikeStatement(builder: PsiBuilder, node: ValkyrieElementType) {
         val marker = builder.mark()
 
@@ -1353,26 +1361,47 @@ class ValkyrieParser : PsiParser {
             return
         }
 
-        // 根据token类型选择合适的解析方法
+        val initialPos = builder.currentOffset
+        
+        // 所有item都以annotation开头
+        val annotationsResult = parseAnnotations(builder, withModifiers = true)
+        
+        // 根据annotation后的token类型选择合适的解析方法
         when (builder.tokenType) {
             ValkyrieTokenTypes.AT -> {
-                parseMacroCall(builder)
-                marker.done(ValkyrieElementTypes.MACRO_CALL)
+                parseMacroCallMember(builder)
+                if (builder.currentOffset > initialPos) {
+                    marker.done(ValkyrieElementTypes.MACRO_CALL)
+                } else {
+                    marker.error("Failed to parse macro call")
+                }
             }
 
             ValkyrieTokenTypes.MICRO, ValkyrieTokenTypes.MEZZO, ValkyrieTokenTypes.MACRO -> {
                 parseMethod(builder)
-                marker.done(ValkyrieElementTypes.METHOD_DECLARATION)
+                if (builder.currentOffset > initialPos) {
+                    marker.done(ValkyrieElementTypes.METHOD_DECLARATION)
+                } else {
+                    marker.error("Failed to parse method")
+                }
             }
 
             ValkyrieTokenTypes.IDENTIFIER_STD, ValkyrieTokenTypes.IDENTIFIER_RAW -> {
                 // 可能是字段或方法，需要前瞻判断
                 if (isMethodDeclaration(builder)) {
                     parseMethod(builder)
-                    marker.done(ValkyrieElementTypes.METHOD_DECLARATION)
+                    if (builder.currentOffset > initialPos) {
+                        marker.done(ValkyrieElementTypes.METHOD_DECLARATION)
+                    } else {
+                        marker.error("Failed to parse method")
+                    }
                 } else {
                     parseField(builder)
-                    marker.done(ValkyrieElementTypes.FIELD_DECLARATION)
+                    if (builder.currentOffset > initialPos) {
+                        marker.done(ValkyrieElementTypes.FIELD_DECLARATION)
+                    } else {
+                        marker.error("Failed to parse field")
+                    }
                 }
             }
 
@@ -2301,7 +2330,7 @@ class ValkyrieParser : PsiParser {
                 // 解析 mod id
                 val modMarker = builder.mark()
                 if (!parseIdentifier(builder)) {
-                    modMarker.error("Expected modifier identifier")
+                    modMarker.error("expected modifier identifier")
                     break
                 }
                 modMarker.done(ValkyrieElementTypes.MODIFIER_NODE)
@@ -2343,7 +2372,7 @@ class ValkyrieParser : PsiParser {
             builder.advanceLexer()
             identifierMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
         } else {
-            identifierMarker.error("Expected namepath")
+            identifierMarker.error("expected namepath")
             pathMarker.drop()
             return false
         }
@@ -2357,7 +2386,7 @@ class ValkyrieParser : PsiParser {
                 builder.advanceLexer()
                 nextIdentifierMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
             } else {
-                nextIdentifierMarker.error("Expected identifier after path separator")
+                nextIdentifierMarker.error("expected identifier after path separator")
                 pathMarker.drop()
                 return false
             }
