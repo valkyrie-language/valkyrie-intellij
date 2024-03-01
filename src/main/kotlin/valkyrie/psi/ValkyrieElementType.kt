@@ -88,6 +88,12 @@ object ValkyrieElementTypes {
     val USING_STATEMENT = ValkyrieElementType("USING_STATEMENT")
 
     @JvmField
+    val USING_BODY = ValkyrieElementType("USING_BODY")
+
+    @JvmField
+    val USING_ITEM = ValkyrieElementType("USING_ITEM")
+
+    @JvmField
     val EXPRESSION_STATEMENT = ValkyrieElementType("EXPRESSION_STATEMENT")
 
     @JvmField
