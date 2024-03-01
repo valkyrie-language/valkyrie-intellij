@@ -86,6 +86,7 @@ class ValkyrieParser : PsiParser {
         when {
             parseNamespaceStatement(builder) -> return
             parseUsingStatement(builder) -> return
+            parseTestsStatement(builder) -> return
 //            parseClassStatement(builder) -> return
 //            parseNeuralStatement(builder) -> return
 //            parseWidgetStatement(builder) -> return
@@ -100,7 +101,6 @@ class ValkyrieParser : PsiParser {
 //            parseMicroStatement(builder) -> return
 //            parseMezzoStatement(builder) -> return
 //            parseMacroStatement(builder) -> return
-//            parseTestsStatement(builder) -> return
 //            parseLetStatement(builder) -> return
 //            parseCompileTimeBlock(builder) -> return
 //            parseTemplateBlock(builder) -> return
@@ -180,165 +180,28 @@ class ValkyrieParser : PsiParser {
         val marker = builder.mark()
         parseAnnotations(builder, withModifiers = false)
 
-        // 'using' keyword
+        // 检查 using 关键字
         if (builder.tokenType != ValkyrieTokenTypes.USING) {
             marker.drop()
             return false
         }
-        builder.advanceLexer()
 
-        // 支持多种using语法变体
-        when (builder.tokenType) {
-            ValkyrieTokenTypes.LBRACE -> {
-                // using { a, b, c } - 直接大括号语法
-                builder.advanceLexer() // consume '{'
-                
-                while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
-                    // 解析名称路径
-                    parseNamePath(builder, free = true)
-                    
-                    // 处理别名
-                    if (builder.tokenType == ValkyrieTokenTypes.AS) {
-                        builder.advanceLexer() // consume 'as'
-                        parseIdentifier(builder)
-                    }
-                    
-                    // 处理分隔符
-                    if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
-                        builder.advanceLexer()
-                    } else if (builder.tokenType != ValkyrieTokenTypes.RBRACE) {
-                        break
-                    }
-                }
-                
-                if (builder.tokenType == ValkyrieTokenTypes.RBRACE) {
-                    builder.advanceLexer() // consume '}'
-                } else {
-                    builder.error("Expected '}'")
+        builder.advanceLexer() // consume 'using'
+
+        // 解析 using 语句的不同格式
+        when {
+            // using { ... }
+            builder.tokenType == ValkyrieTokenTypes.LBRACE -> {
+                if (!parseUsingBody(builder)) {
+                    marker.error("Expected using body")
+                    return false
                 }
             }
-
+            // using a.b.c ... (可能带 as, {}, *, 等)
             else -> {
-                // qualified name (e.g., file_b.b)
-                parseNamePath(builder, free = true)
-
-                // 继续处理路径后的语法
-                when (builder.tokenType) {
-                    ValkyrieTokenTypes.DOT -> {
-                        builder.advanceLexer() // consume '.'
-
-                        when (builder.tokenType) {
-                            ValkyrieTokenTypes.STAR -> {
-                                // using a.*
-                                builder.advanceLexer()
-                            }
-
-                            ValkyrieTokenTypes.LBRACE -> {
-                                // using a.{ b, c }
-                                builder.advanceLexer() // consume '{'
-                                
-                                while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
-                                    parseNamePath(builder, free = true)
-                                    
-                                    if (builder.tokenType == ValkyrieTokenTypes.AS) {
-                                        builder.advanceLexer() // consume 'as'
-                                        parseIdentifier(builder)
-                                    }
-                                    
-                                    if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
-                                        builder.advanceLexer()
-                                    } else if (builder.tokenType != ValkyrieTokenTypes.RBRACE) {
-                                        break
-                                    }
-                                }
-                                
-                                if (builder.tokenType == ValkyrieTokenTypes.RBRACE) {
-                                    builder.advanceLexer() // consume '}'
-                                } else {
-                                    builder.error("Expected '}'")
-                                }
-                            }
-
-                            else -> {
-                                // 继续解析路径 using a.b.c
-                                parseNamePath(builder, free = true)
-                            }
-                        }
-                    }
-
-                    ValkyrieTokenTypes.DOUBLE_COLON -> {
-                        builder.advanceLexer() // consume '::'
-
-                        when (builder.tokenType) {
-                            ValkyrieTokenTypes.STAR -> {
-                                // using a::*
-                                builder.advanceLexer()
-                            }
-
-                            ValkyrieTokenTypes.LBRACE -> {
-                                // using a::{ b, c }
-                                builder.advanceLexer() // consume '{'
-                                
-                                while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
-                                    parseNamePath(builder, free = true)
-                                    
-                                    if (builder.tokenType == ValkyrieTokenTypes.AS) {
-                                        builder.advanceLexer() // consume 'as'
-                                        parseIdentifier(builder)
-                                    }
-                                    
-                                    if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
-                                        builder.advanceLexer()
-                                    } else if (builder.tokenType != ValkyrieTokenTypes.RBRACE) {
-                                        break
-                                    }
-                                }
-                                
-                                if (builder.tokenType == ValkyrieTokenTypes.RBRACE) {
-                                    builder.advanceLexer() // consume '}'
-                                } else {
-                                    builder.error("Expected '}'")
-                                }
-                            }
-
-                            else -> {
-                                // 继续解析路径 using a::b.c::d
-                                parseNamePath(builder, free = true)
-                            }
-                        }
-                    }
-
-                    ValkyrieTokenTypes.LBRACE -> {
-                        // using a { b, c }
-                        builder.advanceLexer() // consume '{'
-                        
-                        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
-                            parseNamePath(builder, free = true)
-                            
-                            if (builder.tokenType == ValkyrieTokenTypes.AS) {
-                                builder.advanceLexer() // consume 'as'
-                                parseIdentifier(builder)
-                            }
-                            
-                            if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
-                                builder.advanceLexer()
-                            } else if (builder.tokenType != ValkyrieTokenTypes.RBRACE) {
-                                break
-                            }
-                        }
-                        
-                        if (builder.tokenType == ValkyrieTokenTypes.RBRACE) {
-                            builder.advanceLexer() // consume '}'
-                        } else {
-                            builder.error("Expected '}'")
-                        }
-                    }
-
-                    ValkyrieTokenTypes.AS -> {
-                        // using a as b
-                        builder.advanceLexer() // consume 'as'
-                        parseIdentifier(builder)
-                    }
+                if (!parseUsingItem(builder)) {
+                    marker.error("Expected using item")
+                    return false
                 }
             }
         }
@@ -352,7 +215,236 @@ class ValkyrieParser : PsiParser {
         return true
     }
 
+    private fun parseUsingItem(builder: PsiBuilder): Boolean {
+        val marker = builder.mark()
 
+        // 解析基础路径 (a.b.c 或 a::b::c) - 使用专门的using路径解析
+        if (!parseUsingNamePath(builder)) {
+            marker.drop()
+            return false
+        }
+
+        // 检查后续的修饰符
+        when (builder.tokenType) {
+            // using a.*
+            ValkyrieTokenTypes.DOT -> {
+                builder.advanceLexer() // consume '.'
+                if (builder.tokenType == ValkyrieTokenTypes.STAR) {
+                    builder.advanceLexer() // consume '*'
+                } else if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+                    // using a.{}
+                    if (!parseUsingBody(builder)) {
+                        marker.error("Expected using body")
+                        return false
+                    }
+                } else {
+                    // 对于 a.c { } 这种情况，parseUsingNamePath已经解析了完整路径
+                    // 这里不应该再有DOT，说明解析有问题
+                    marker.error("Expected '*' or '{' after '.'")
+                    return false
+                }
+            }
+            // using a::*
+            ValkyrieTokenTypes.DOUBLE_COLON -> {
+                builder.advanceLexer() // consume '::'
+                if (builder.tokenType == ValkyrieTokenTypes.STAR) {
+                    builder.advanceLexer() // consume '*'
+                } else if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+                    // using a::{}
+                    if (!parseUsingBody(builder)) {
+                        marker.error("Expected using body")
+                        return false
+                    }
+                } else {
+                    // 对于 a::b { } 这种情况，parseUsingNamePath已经解析了完整路径
+                    // 这里不应该再有DOUBLE_COLON，说明解析有问题
+                    marker.error("Expected '*' or '{' after '::'")
+                    return false
+                }
+            }
+            // using a as b
+            ValkyrieTokenTypes.AS -> {
+                builder.advanceLexer() // consume 'as'
+                if (!parseIdentifier(builder)) {
+                    marker.error("Expected identifier after 'as'")
+                    return false
+                }
+            }
+            // using a {} 或 using a.c {} 或 using a::b {}
+            ValkyrieTokenTypes.LBRACE -> {
+                if (!parseUsingBody(builder)) {
+                    marker.error("Expected using body")
+                    return false
+                }
+            }
+            // using a; (简单导入)
+            else -> {
+                // 不需要额外处理
+            }
+        }
+
+        marker.done(ValkyrieElementTypes.USING_ITEM)
+        return true
+    }
+
+    private fun parseUsingBody(builder: PsiBuilder): Boolean {
+        val marker = builder.mark()
+
+        if (builder.tokenType != ValkyrieTokenTypes.LBRACE) {
+            marker.drop()
+            return false
+        }
+
+        builder.advanceLexer() // consume '{'
+
+        // 解析 body 内容 - 使用简化的解析逻辑避免递归
+        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
+            val initialPosition = builder.currentOffset
+
+            // 解析简单的标识符路径，避免递归调用parseUsingItem
+            if (!parseSimpleUsingItemInBody(builder)) {
+                // 跳过无法解析的 token
+                builder.error("Expected using item")
+                builder.advanceLexer()
+            }
+
+            // 处理分隔符: , ; 或空格
+            when (builder.tokenType) {
+                ValkyrieTokenTypes.COMMA, ValkyrieTokenTypes.SEMICOLON -> {
+                    builder.advanceLexer()
+                }
+                // 结束符，不需要处理
+                ValkyrieTokenTypes.RBRACE -> {
+                    break
+                }
+                // 其他情况继续解析下一个 item
+            }
+
+            // 防止无限循环
+            if (builder.currentOffset == initialPosition) {
+                builder.error("Unable to parse using body item")
+                builder.advanceLexer()
+            }
+        }
+
+        if (builder.tokenType == ValkyrieTokenTypes.RBRACE) {
+            builder.advanceLexer() // consume '}'
+        } else {
+            marker.error("Expected '}'")
+            return false
+        }
+
+        marker.done(ValkyrieElementTypes.USING_BODY)
+        return true
+    }
+
+    // 简化的using item解析，专门用于body内部，避免递归
+    private fun parseSimpleUsingItemInBody(builder: PsiBuilder): Boolean {
+        val marker = builder.mark()
+
+        // 解析基础路径 (a.b.c 或 a::b::c) - 使用专门的using路径解析
+        if (!parseUsingNamePath(builder)) {
+            marker.drop()
+            return false
+        }
+
+        // 检查后续修饰符，支持嵌套body
+        when (builder.tokenType) {
+            // using a.*
+            ValkyrieTokenTypes.DOT -> {
+                builder.advanceLexer() // consume '.'
+                if (builder.tokenType == ValkyrieTokenTypes.STAR) {
+                    builder.advanceLexer() // consume '*'
+                } else if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+                    // using a.{} - 支持嵌套body
+                    if (!parseUsingBody(builder)) {
+                        marker.error("Expected using body")
+                        return false
+                    }
+                } else {
+                    // 不是 .* 或 .{} 的情况，回退并作为简单路径处理
+                    marker.done(ValkyrieElementTypes.USING_ITEM)
+                    return true
+                }
+            }
+            // using a::*
+            ValkyrieTokenTypes.DOUBLE_COLON -> {
+                builder.advanceLexer() // consume '::'
+                if (builder.tokenType == ValkyrieTokenTypes.STAR) {
+                    builder.advanceLexer() // consume '*'
+                } else if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+                    // using a::{} - 支持嵌套body
+                    if (!parseUsingBody(builder)) {
+                        marker.error("Expected using body")
+                        return false
+                    }
+                } else {
+                    // 不是 ::* 或 ::{} 的情况，回退并作为简单路径处理
+                    marker.done(ValkyrieElementTypes.USING_ITEM)
+                    return true
+                }
+            }
+            // using a as b
+            ValkyrieTokenTypes.AS -> {
+                builder.advanceLexer() // consume 'as'
+                if (!parseIdentifier(builder)) {
+                    marker.error("Expected identifier after 'as'")
+                    return false
+                }
+            }
+            // using a {} - 支持嵌套body
+            ValkyrieTokenTypes.LBRACE -> {
+                if (!parseUsingBody(builder)) {
+                    marker.error("Expected using body")
+                    return false
+                }
+            }
+            // 简单导入或分隔符
+            else -> {
+                // 不需要额外处理
+            }
+        }
+
+        marker.done(ValkyrieElementTypes.USING_ITEM)
+        return true
+    }
+
+    // 专门用于using语句的路径解析，允许不完整路径如 a. 或 a::
+    private fun parseUsingNamePath(builder: PsiBuilder): Boolean {
+        val pathMarker = builder.mark()
+
+        // 解析第一个标识符
+        val identifierMarker = builder.mark()
+        if (isIdentifier(builder)) {
+            builder.advanceLexer()
+            identifierMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
+        } else {
+            identifierMarker.error("expected identifier")
+            pathMarker.drop()
+            return false
+        }
+
+        // 解析路径分隔符和后续标识符，允许不完整路径
+        while (builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON || builder.tokenType == ValkyrieTokenTypes.DOT) {
+            // 检查分隔符后是否有标识符
+            val separator = builder.tokenType
+            val nextToken = builder.lookAhead(1)
+
+            // 如果分隔符后是标识符，正常解析
+            if (nextToken == ValkyrieTokenTypes.IDENTIFIER_STD || nextToken == ValkyrieTokenTypes.IDENTIFIER_RAW) {
+                builder.advanceLexer() // 消费分隔符
+                val nextIdentifierMarker = builder.mark()
+                builder.advanceLexer() // 消费标识符
+                nextIdentifierMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
+            } else {
+                // 分隔符后不是标识符，停止解析路径，让上层处理
+                break
+            }
+        }
+
+        pathMarker.done(ValkyrieElementTypes.NAMESPACE_PATH)
+        return true
+    }
 
     private fun parseClassStatement(builder: PsiBuilder): Boolean {
         return parseClassLikeStatement(builder, ValkyrieElementTypes.CLASS_STATEMENT)
@@ -1155,11 +1247,11 @@ class ValkyrieParser : PsiParser {
 
         // guard 模式逐个尝试解析不同类型的成员
         when {
-            parseMacroCall(builder) -> return
+//            parseMacroCall(builder) -> return
             parseTestsStatement(builder) -> return
-            parseMethod(builder) -> return
+//            parseMethod(builder) -> return
             parseDomain(builder) -> return
-            parseField(builder) -> return
+//            parseField(builder) -> return
         }
 
 
@@ -1590,6 +1682,7 @@ class ValkyrieParser : PsiParser {
     }
 
     private fun parseDomain(builder: PsiBuilder): Boolean {
+        parseAnnotations(builder, withModifiers = true)
         parseIdentifier(builder)
         parseObjectBody(builder)
         return true

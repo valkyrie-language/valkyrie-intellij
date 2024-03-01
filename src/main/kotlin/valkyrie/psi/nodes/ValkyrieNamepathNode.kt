@@ -8,10 +8,10 @@ import valkyrie.psi.ValkyrieTokenTypes
 /**
  * 限定名实现
  */
-class ValkyrieQualifiedNameNode(node: ASTNode) : ValkyrieElementNode(node) {
+class ValkyrieNamepathNode(node: ASTNode) : ValkyrieElementNode(node) {
 
     fun getIdentifiers(): List<PsiElement> {
-        return findChildrenByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER_STD)
+        return findChildrenByType(ValkyrieTokenTypes.IDENTIFIER_STD)
     }
 
     fun getQualifier(): String? {

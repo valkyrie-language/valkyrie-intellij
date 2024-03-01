@@ -146,7 +146,7 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
                 highlightTypeReference(element)
             }
 
-            is ValkyrieQualifiedNameNode -> {
+            is ValkyrieNamepathNode -> {
                 // 处理限定名表达式的颜色传播
                 highlightQualifiedName(element)
             }
@@ -252,7 +252,7 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
     /**
      * 高亮限定名表达式，如 package::module::Union::Variant::method
      */
-    private fun highlightQualifiedName(element: ValkyrieQualifiedNameNode) {
+    private fun highlightQualifiedName(element: ValkyrieNamepathNode) {
         val identifiers = element.getIdentifiers()
         
         // 对限定名的每个部分尝试解析引用
