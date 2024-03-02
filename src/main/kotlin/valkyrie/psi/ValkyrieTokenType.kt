@@ -73,6 +73,9 @@ object ValkyrieTokenTypes {
     val FLAGS = ValkyrieTokenType("flags")
 
     @JvmField
+    val SLATE = ValkyrieTokenType("slate")
+
+    @JvmField
     val TRAIT = ValkyrieTokenType("trait")
 
     @JvmField
