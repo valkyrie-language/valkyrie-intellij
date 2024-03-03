@@ -78,7 +78,7 @@ class ValkyrieParser : PsiParser {
 //            parseUnityStatement(builder) -> return
 //            parseFlagsStatement(builder) -> return
 //            parseEnumsStatement(builder) -> return
-//            parseTraitStatement(builder) -> return
+            parseTraitStatement(builder) -> return
 //            parseImplyStatement(builder) -> return
 //            parseStructureStatement(builder) -> return
 //            parseMicroStatement(builder) -> return
@@ -430,27 +430,27 @@ class ValkyrieParser : PsiParser {
     }
 
     private fun parseClassStatement(builder: PsiBuilder): Boolean {
-        return parseClassLikeStatement(builder, ValkyrieElementTypes.CLASS_STATEMENT)
+        return parseTraitLikeStatement(builder, ValkyrieTokenTypes.CLASS, ValkyrieElementTypes.CLASS_STATEMENT)
     }
 
     private fun parseTraitStatement(builder: PsiBuilder): Boolean {
-        return parseClassLikeStatement(builder, ValkyrieElementTypes.CLASS_STATEMENT)
+        return parseTraitLikeStatement(builder, ValkyrieTokenTypes.TRAIT, ValkyrieElementTypes.TRAIT_STATEMENT)
     }
 
     private fun parseNeuralStatement(builder: PsiBuilder): Boolean {
-        return parseClassLikeStatement(builder, ValkyrieElementTypes.NEURAL_STATEMENT)
+        return parseTraitLikeStatement(builder, ValkyrieTokenTypes.NEURAL, ValkyrieElementTypes.NEURAL_STATEMENT)
     }
 
     private fun parseWidgetStatement(builder: PsiBuilder): Boolean {
-        return parseClassLikeStatement(builder, ValkyrieElementTypes.WIDGET_STATEMENT)
+        return parseTraitLikeStatement(builder, ValkyrieTokenTypes.WIDGET, ValkyrieElementTypes.WIDGET_STATEMENT)
     }
 
     private fun parseSingletonStatement(builder: PsiBuilder): Boolean {
-        return parseClassLikeStatement(builder, ValkyrieElementTypes.SINGLETON_STATEMENT)
+        return parseTraitLikeStatement(builder, ValkyrieTokenTypes.SINGLETON, ValkyrieElementTypes.SINGLETON_STATEMENT)
     }
 
     private fun parseStructureStatement(builder: PsiBuilder): Boolean {
-        return parseClassLikeStatement(builder, ValkyrieElementTypes.STRUCTURE_STATEMENT)
+        return parseTraitLikeStatement(builder, ValkyrieTokenTypes.STRUCTURE, ValkyrieElementTypes.STRUCTURE_STATEMENT)
     }
 
     private fun parseUnionStatement(builder: PsiBuilder): Boolean {
@@ -529,7 +529,7 @@ class ValkyrieParser : PsiParser {
         }
 
         // 解析tests body
-        if (!parseTestBody(builder)) {
+        if (!parseTraitBody(builder)) {
             marker.error("Expected object body")
             marker.drop()
             return false
@@ -780,7 +780,7 @@ class ValkyrieParser : PsiParser {
 
     private fun isTermInfixOperator(tokenType: IElementType?): Boolean {
         return when (tokenType) {
-            ValkyrieTokenTypes.PLUS, ValkyrieTokenTypes.MINUS, ValkyrieTokenTypes.STAR, ValkyrieTokenTypes.MULTIPLY, ValkyrieTokenTypes.DIVIDE, ValkyrieTokenTypes.INTEGER_DIVIDE, ValkyrieTokenTypes.PERCENT, ValkyrieTokenTypes.POWER, ValkyrieTokenTypes.EQUAL, ValkyrieTokenTypes.NOT_EQUAL, ValkyrieTokenTypes.LESS, ValkyrieTokenTypes.GREATER, ValkyrieTokenTypes.LESS_EQUAL, ValkyrieTokenTypes.GREATER_EQUAL, ValkyrieTokenTypes.LOGIC_AND, ValkyrieTokenTypes.LOGIC_OR, ValkyrieTokenTypes.LOGIC_XOR, ValkyrieTokenTypes.LOGIC_NAND, ValkyrieTokenTypes.LOGIC_NOR, ValkyrieTokenTypes.LOGIC_XAND, ValkyrieTokenTypes.PIPE, ValkyrieTokenTypes.AMPERSAND, ValkyrieTokenTypes.AS, ValkyrieTokenTypes.IN, ValkyrieTokenTypes.NOT_IN, ValkyrieTokenTypes.IS, ValkyrieTokenTypes.IS_NOT -> true
+            ValkyrieTokenTypes.PLUS, ValkyrieTokenTypes.MINUS, ValkyrieTokenTypes.STAR, ValkyrieTokenTypes.MULTIPLY, ValkyrieTokenTypes.SLASH, ValkyrieTokenTypes.INTEGER_DIVIDE, ValkyrieTokenTypes.PERCENT, ValkyrieTokenTypes.POWER, ValkyrieTokenTypes.EQUAL, ValkyrieTokenTypes.NOT_EQUAL, ValkyrieTokenTypes.LESS, ValkyrieTokenTypes.GREATER, ValkyrieTokenTypes.LESS_EQUAL, ValkyrieTokenTypes.GREATER_EQUAL, ValkyrieTokenTypes.LOGIC_AND, ValkyrieTokenTypes.LOGIC_OR, ValkyrieTokenTypes.LOGIC_XOR, ValkyrieTokenTypes.LOGIC_NAND, ValkyrieTokenTypes.LOGIC_NOR, ValkyrieTokenTypes.LOGIC_XAND, ValkyrieTokenTypes.PIPE, ValkyrieTokenTypes.AMPERSAND, ValkyrieTokenTypes.AS, ValkyrieTokenTypes.IN, ValkyrieTokenTypes.NOT_IN, ValkyrieTokenTypes.IS, ValkyrieTokenTypes.IS_NOT -> true
 
             else -> false
         }
@@ -1142,14 +1142,19 @@ class ValkyrieParser : PsiParser {
     }
 
 
-    private fun parseClassLikeStatement(builder: PsiBuilder, node: ValkyrieElementType): Boolean {
+    private fun parseTraitLikeStatement(builder: PsiBuilder, keyword: ValkyrieTokenType, node: ValkyrieElementType): Boolean {
         val marker = builder.mark()
-
-        // Parse annotations with modifiers
-        val annotationsResult = parseAnnotations(builder, withModifiers = true)
-
-        // Parse identifier (required)
-        if (!parseIdentifier(builder)) {
+        parseAnnotations(builder, withModifiers = true)
+        if (builder.tokenType == keyword) {
+            // consume keyword
+            builder.advanceLexer()
+        } else {
+            marker.drop();
+            return false
+        }
+        if (parseIdentifier(builder)) {
+            // continue
+        } else {
             marker.error("Expected class name")
             recoverToSyncPoint(builder)
             return false
@@ -1160,18 +1165,17 @@ class ValkyrieParser : PsiParser {
         parseInheritanceList(builder) // optional
         parseImplementation(builder) // optional
 
-        // Parse class body (required)
-        if (!parseTestBody(builder)) {
-            marker.error("Expected class body")
+        if (parseTraitBody(builder)) {
+            marker.done(node)
+            return true
+        } else {
+            marker.error("Expected object body")
             recoverToSyncPoint(builder)
             return false
         }
-
-        marker.done(node)
-        return true
     }
 
-    private fun parseTestBody(builder: PsiBuilder): Boolean {
+    private fun parseTraitBody(builder: PsiBuilder): Boolean {
         val marker = builder.mark()
         // Expect opening brace
         if (builder.tokenType != ValkyrieTokenTypes.LBRACE) {
@@ -1293,7 +1297,7 @@ class ValkyrieParser : PsiParser {
 
     private fun parseVariant(builder: PsiBuilder) {
         parseIdentifier(builder)
-        parseTestBody(builder) // optional
+        parseTraitBody(builder) // optional
     }
 
     private fun parseFlagsStatement(builder: PsiBuilder): Boolean {
@@ -1379,7 +1383,7 @@ class ValkyrieParser : PsiParser {
         parseAnnotations(builder, withModifiers = false)
         parseNamePath(builder, free = false) // impl module::Type
         parseImplementation(builder) // impl module::Type: Trait
-        parseTestBody(builder)
+        parseTraitBody(builder)
 
         marker.done(ValkyrieElementTypes.IMPLY_STATEMENT)
         return true
@@ -1607,10 +1611,17 @@ class ValkyrieParser : PsiParser {
             marker.drop()
             return false
         }
-        parseIdentifier(builder)
-        parseTypeHint(builder)
-        parseDefaultType(builder)
-        return false
+        if (parseIdentifier(builder)) {
+            // continue
+        } else {
+            marker.error("Expected mezzo name")
+            recoverToSyncPoint(builder)
+            return false
+        }
+        parseTypeHint(builder) // optional
+        parseDefaultType(builder) // optional
+        marker.done(ValkyrieElementTypes.MEZZO_DECLARATION)
+        return true
     }
 
     private fun parseField(builder: PsiBuilder): Boolean {
@@ -1652,23 +1663,21 @@ class ValkyrieParser : PsiParser {
         if (parseIdentifier(builder)) {
             // continue
         } else {
-            marker.error("Expected domain name")
             marker.drop()
             return false
         }
-        if (parseTestBody(builder)) {
+        if (parseTraitBody(builder)) {
             marker.done(ValkyrieElementTypes.DOMAIN_DECLARATION)
             return true
         } else {
-            marker.error("Expected object body")
             marker.drop()
             return false
         }
     }
 
     private fun parseEffect(builder: PsiBuilder) {
-        if (builder.tokenType == ValkyrieTokenTypes.DIVIDE) {
-            builder.advanceLexer() // consume ':'
+        if (builder.tokenType == ValkyrieTokenTypes.SLASH) {
+            builder.advanceLexer() // consume '/'
             parseTypeExpression(builder, true)
         }
     }
@@ -2541,7 +2550,7 @@ class ValkyrieParser : PsiParser {
         parseIdentifier(builder)
         parseTermArgumentList(builder)
         if (allowBody) {
-            parseTestBody(builder)
+            parseTraitBody(builder)
         }
     }
 
@@ -2673,7 +2682,7 @@ private val operatorPrecedenceCache = mapOf(
     ValkyrieTokenTypes.MINUS to 7,
     ValkyrieTokenTypes.STAR to 8,
     ValkyrieTokenTypes.MULTIPLY to 8,
-    ValkyrieTokenTypes.DIVIDE to 8,
+    ValkyrieTokenTypes.SLASH to 8,
     ValkyrieTokenTypes.INTEGER_DIVIDE to 8,
     ValkyrieTokenTypes.PERCENT to 8,
     ValkyrieTokenTypes.POWER to 9

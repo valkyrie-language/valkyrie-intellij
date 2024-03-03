@@ -181,7 +181,7 @@ object ValkyrieTokenTypes {
     val MULTIPLY = ValkyrieTokenType("×") // ×
 
     @JvmField
-    val DIVIDE = ValkyrieTokenType("DIVIDE") // /
+    val SLASH = ValkyrieTokenType("DIVIDE") // /
 
     @JvmField
     val RECIPROCAL = ValkyrieTokenType("⅟") // ⅟
