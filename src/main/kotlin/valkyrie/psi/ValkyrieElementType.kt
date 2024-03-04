@@ -174,10 +174,7 @@ object ValkyrieElementTypes {
     val UNION_BODY = ValkyrieElementType("UNION_BODY")
 
     @JvmField
-    val VARIANT_BODY = ValkyrieElementType("VARIANT_BODY")
-
-    @JvmField
-    val BLOCK_BODY = ValkyrieElementType("BLOCK_BODY")
+    val FUNCTION_BODY = ValkyrieElementType("FUNCTION_BODY")
 
     // 表达式
     @JvmField
