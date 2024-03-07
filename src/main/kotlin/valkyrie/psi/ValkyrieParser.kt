@@ -2630,7 +2630,7 @@ class ValkyrieParser : PsiParser {
                     ValkyrieTokenTypes.MICRO, ValkyrieTokenTypes.MEZZO, ValkyrieTokenTypes.MACRO,
                     ValkyrieTokenTypes.CLASS, ValkyrieTokenTypes.STRUCTURE, ValkyrieTokenTypes.SINGLETON,
                     ValkyrieTokenTypes.UNION, ValkyrieTokenTypes.UNITY,
-                    ValkyrieTokenTypes.FLAGS, ValkyrieTokenTypes.UNITY,
+                    ValkyrieTokenTypes.FLAGS, ValkyrieTokenTypes.SLATE,
                     ValkyrieTokenTypes.TESTS -> {
                         val modMarker = builder.mark()
                         builder.advanceLexer()

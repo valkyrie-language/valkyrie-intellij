@@ -70,5 +70,17 @@ class ValkyrieAnnotationNode(node: ASTNode) : ValkyrieElementNode(node) {
             .filter { it.node.elementType.toString() == "ATTRIBUTE_ARGS" }
     }
 
-    override fun toString(): String = "ValkyrieAnnotation(${getAnnotationName()})"
+    override fun toString(): String {
+        val name = getAnnotationName()
+        return if (name != null) {
+            "ValkyrieAnnotation($name)"
+        } else {
+            // 检查是否有任何子节点
+            if (children.isEmpty()) {
+                "ValkyrieAnnotation(empty)"
+            } else {
+                "ValkyrieAnnotation(null)"
+            }
+        }
+    }
 }

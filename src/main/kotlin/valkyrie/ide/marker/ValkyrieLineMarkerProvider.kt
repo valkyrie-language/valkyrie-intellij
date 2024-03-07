@@ -8,6 +8,7 @@ import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.psi.nodes.*
+import valkyrie.psi.ValkyrieTokenTypes
 import valkyrie.index.ValkyrieSymbolIndex
 
 /**
@@ -17,71 +18,50 @@ import valkyrie.index.ValkyrieSymbolIndex
 class ValkyrieLineMarkerProvider : LineMarkerProvider {
     
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? {
+        // 只处理叶子节点
+        if (element.firstChild != null) return null
+        
+        val parent = element.parent ?: return null
+        
         return when {
-            isOverrideMethod(element) -> createOverrideMarker(element)
-            isImplementMethod(element) -> createImplementMarker(element)
-            isInheritedMethod(element) -> createInheritedMarker(element)
-            isClassDeclaration(element) -> createClassNavigationMarker(element)
-            isNamespaceDeclaration(element) -> createNamespaceNavigationMarker(element)
-            isImplyDeclaration(element) -> createImplyNavigationMarker(element)
+            element.node?.elementType == ValkyrieTokenTypes.CLASS && parent is ValkyrieClassDeclaration -> 
+                createClassNavigationMarker(element)
+            element.node?.elementType == ValkyrieTokenTypes.NAMESPACE && parent is ValkyrieNamespaceDeclaration -> 
+                createNamespaceNavigationMarker(element)
+            element.node?.elementType == ValkyrieTokenTypes.IMPLY && parent is ValkyrieImplyStatement -> 
+                createImplyNavigationMarker(element)
+            isOverrideKeyword(element) -> createOverrideMarker(element)
+            isImplementKeyword(element) -> createImplementMarker(element)
             else -> null
         }
     }
     
     /**
-     * 检查是否为重写方法
+     * 检查是否为 override 关键字
      */
-    private fun isOverrideMethod(element: PsiElement): Boolean {
-        if (element !is ValkyrieMethodDeclaration) return false
+    private fun isOverrideKeyword(element: PsiElement): Boolean {
+        if (element.text != "override") return false
         
-        // 检查是否有 override 修饰符
-        val modifiers = PsiTreeUtil.findChildrenOfType(element, ValkyrieModifierNode::class.java)
-        return modifiers.any { it.text == "override" }
+        // 检查父节点是否为方法声明
+        val methodDeclaration = PsiTreeUtil.getParentOfType(element, ValkyrieMethodDeclaration::class.java)
+        return methodDeclaration != null
     }
     
     /**
-     * 检查是否为实现方法
+     * 检查是否为实现关键字（在 imply 块中的方法）
      */
-    private fun isImplementMethod(element: PsiElement): Boolean {
-        if (element !is ValkyrieMethodDeclaration) return false
+    private fun isImplementKeyword(element: PsiElement): Boolean {
+        // 检查是否为方法名标识符且在 imply 块中
+        val methodDeclaration = PsiTreeUtil.getParentOfType(element, ValkyrieMethodDeclaration::class.java)
+        if (methodDeclaration == null) return false
         
-        // 检查是否在 imply 块中
-        val implyBlock = PsiTreeUtil.getParentOfType(element, ValkyrieImplyStatement::class.java)
-        return implyBlock != null
+        val implyBlock = PsiTreeUtil.getParentOfType(methodDeclaration, ValkyrieImplyStatement::class.java)
+        return implyBlock != null && element.parent == methodDeclaration
     }
     
-    /**
-     * 检查是否为继承方法
-     */
-    private fun isInheritedMethod(element: PsiElement): Boolean {
-        if (element !is ValkyrieMethodDeclaration) return false
-        
-        // 检查是否在 trait 或 class 中定义
-        val parent = PsiTreeUtil.getParentOfType(element, ValkyrieTraitDeclaration::class.java)
-            ?: PsiTreeUtil.getParentOfType(element, ValkyrieClassDeclaration::class.java)
-        return parent != null
-    }
+
     
-    /**
-     * 检查是否为类声明
-     */
-    private fun isClassDeclaration(element: PsiElement): Boolean {
-        return element is ValkyrieClassDeclaration
-    }
-    
-    /**
-     * 检查是否为 namespace 声明
-     */
-    private fun isNamespaceDeclaration(element: PsiElement): Boolean {
-        return element is ValkyrieNamespaceDeclaration
-    }
-    
-    /**
-     * 检查是否为 imply 声明
-     */
-    private fun isImplyDeclaration(element: PsiElement): Boolean {
-        return element is ValkyrieImplyStatement
-    }
+
     
     /**
      * 创建重写标记

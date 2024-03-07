@@ -1,9 +1,7 @@
 package valkyrie.psi.nodes
 
 import com.intellij.lang.ASTNode
-import com.intellij.openapi.util.NlsSafe
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.ide.navigation.TestType
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.traits.HasAnnotation
@@ -15,20 +13,6 @@ import valkyrie.psi.traits.HasObjectBody
  */
 class ValkyrieTestStatement(node: ASTNode) : ValkyrieElementNode(node), HasObjectBody, HasAnnotation {
     /**
-     * 判断是否为 tests 块形式
-     */
-    fun isTestsBlock(): Boolean {
-        return text.trimStart().startsWith("tests")
-    }
-    
-    /**
-     * 判断是否为 test 函数形式
-     */
-    fun isTestFunction(): Boolean {
-        return hasModifier("test") && text.contains("function")
-    }
-    
-    /**
      * 获取测试类型（benchmark、unit test 等）
      */
     fun getTestType(): TestType {
@@ -39,24 +23,24 @@ class ValkyrieTestStatement(node: ASTNode) : ValkyrieElementNode(node), HasObjec
             else -> TestType.UNIT
         }
     }
-    
+
     /**
      * 获取所有 benchmark 块
      */
     fun getBenchmarkBlocks(): List<PsiElement> {
         val body = getObjectBody() ?: return emptyList()
-        return body.children.filter { 
+        return body.children.filter {
             it.text.trimStart().startsWith("benchmark")
         }
     }
-    
+
     /**
      * 获取所有生命周期钩子（prepare, before, after, clean）
      */
     fun getLifecycleHooks(): Map<String, PsiElement> {
         val body = getObjectBody() ?: return emptyMap()
         val hooks = mutableMapOf<String, PsiElement>()
-        
+
         for (child in body.children) {
             val text = child.text.trimStart()
             when {
@@ -67,7 +51,7 @@ class ValkyrieTestStatement(node: ASTNode) : ValkyrieElementNode(node), HasObjec
                 text.startsWith("config") -> hooks["config"] = child
             }
         }
-        
+
         return hooks
     }
 }
