@@ -531,7 +531,6 @@ class ValkyrieParser : PsiParser {
         // 解析tests body
         if (!parseObjectBody(builder)) {
             marker.error("Expected object body")
-            marker.drop()
             return false
         }
         marker.done(ValkyrieElementTypes.DECLARE_TESTS)
@@ -1230,7 +1229,6 @@ class ValkyrieParser : PsiParser {
             return true
         } else {
             marker.error("Expected '}'")
-            marker.drop()
             return false
         }
     }
@@ -1630,11 +1628,11 @@ class ValkyrieParser : PsiParser {
         parseAnnotations(builder, withModifiers = true) // never fail
 
         if (!parseIdentifier(builder)) {
-            marker.drop()
+            marker.rollbackTo()
             return false
         }
         if (!parseTermParameterList(builder)) {
-            marker.drop()
+            marker.rollbackTo()
             return false
         }
 
@@ -1652,14 +1650,14 @@ class ValkyrieParser : PsiParser {
         if (parseIdentifier(builder)) {
             // continue
         } else {
-            marker.drop()
+            marker.rollbackTo()
             return false
         }
         if (parseObjectBody(builder)) {
             marker.done(ValkyrieElementTypes.DOMAIN_DECLARATION)
             return true
         } else {
-            marker.drop()
+            marker.rollbackTo()
             return false
         }
     }
@@ -1674,23 +1672,23 @@ class ValkyrieParser : PsiParser {
 
     private fun parseTermParameterList(builder: PsiBuilder): Boolean {
         if (builder.tokenType != ValkyrieTokenTypes.LPAREN) return false
-        
+
         val marker = builder.mark()
         builder.advanceLexer() // consume '('
-        
+
         var hasError = false
-        
+
         // 解析参数列表
         while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RPAREN) {
             val safePoint = builder.currentOffset
-            
+
             // 解析单个参数项
             if (!parseParameterItem(builder)) {
                 builder.error("Expected parameter")
                 hasError = true
                 break
             }
-            
+
             // 检查是否有逗号分隔符
             if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
                 builder.advanceLexer() // consume ','
@@ -1707,21 +1705,21 @@ class ValkyrieParser : PsiParser {
                     break
                 }
             }
-            
+
             // 防止死循环
             if (builder.currentOffset == safePoint) {
                 builder.error("Parser stuck at position $safePoint")
                 builder.advanceLexer()
             }
         }
-        
+
         if (builder.tokenType == ValkyrieTokenTypes.RPAREN) {
             builder.advanceLexer() // consume ')'
         } else {
             builder.error("Expected ')'")
             hasError = true
         }
-        
+
         if (hasError) {
             marker.drop()
             return false
@@ -1733,14 +1731,14 @@ class ValkyrieParser : PsiParser {
 
     private fun parseParameterItem(builder: PsiBuilder): Boolean {
         val marker = builder.mark()
-        
+
         // 解析注解
         parseAnnotations(builder, withModifiers = true)
-        
+
         // 检查是否是可变参数 ..list 或任意参数 ...
         if (builder.tokenType == ValkyrieTokenTypes.DOT_DOT) {
             builder.advanceLexer() // consume '..'
-            
+
             if (builder.tokenType == ValkyrieTokenTypes.DOT) {
                 // 任意参数 ...
                 builder.advanceLexer() // consume '.'
@@ -1757,14 +1755,14 @@ class ValkyrieParser : PsiParser {
                 return true
             }
         }
-        
+
         // 解析参数名
         if (!parseIdentifier(builder)) {
             builder.error("Expected parameter name")
             marker.rollbackTo()
             return false
         }
-        
+
         // 解析类型注解 : Type
         if (builder.tokenType == ValkyrieTokenTypes.COLON) {
             builder.advanceLexer() // consume ':'
@@ -1774,7 +1772,7 @@ class ValkyrieParser : PsiParser {
                 return false
             }
         }
-        
+
         // 解析默认值 = value
         if (builder.tokenType == ValkyrieTokenTypes.ASSIGN) {
             builder.advanceLexer() // consume '='
@@ -1784,7 +1782,7 @@ class ValkyrieParser : PsiParser {
                 return false
             }
         }
-        
+
         marker.done(ValkyrieElementTypes.TERM_PARAMETER_ITEM)
         return true
     }
@@ -2705,44 +2703,6 @@ class ValkyrieParser : PsiParser {
     inline fun isIdentifier(builder: PsiBuilder): Boolean {
         return builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW
     }
-
-    /**
-     * 判断当前位置是否为方法声明
-     * 通过前瞻判断是否有参数列表
-     */
-    private fun isMethodDeclaration(builder: PsiBuilder): Boolean {
-        var lookahead = 1
-
-        // 跳过标识符
-        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW) {
-
-            // 检查是否有泛型参数 <T>
-            if (builder.lookAhead(lookahead) == ValkyrieTokenTypes.ANGLE_L) {
-                lookahead++
-                var depth = 1
-                val maxLookahead = 20 // 增加前瞻深度限制
-                while (depth > 0 && lookahead < maxLookahead) {
-                    val token = builder.lookAhead(lookahead)
-                    when (token) {
-                        ValkyrieTokenTypes.ANGLE_L -> depth++
-                        ValkyrieTokenTypes.ANGLE_R -> depth--
-                        null -> return false // 遇到文件结尾，不是方法声明
-                        // 遇到不可能在泛型中出现的token，提前退出
-                        ValkyrieTokenTypes.SEMICOLON, ValkyrieTokenTypes.LBRACE, ValkyrieTokenTypes.RBRACE, ValkyrieTokenTypes.NEWLINE -> return false
-                    }
-                    lookahead++
-                }
-                // 如果超过最大前瞻深度仍未找到匹配的>，认为不是方法声明
-                if (depth > 0) return false
-            }
-
-            // 检查是否有参数列表 ()
-            return builder.lookAhead(lookahead) == ValkyrieTokenTypes.LPAREN
-        }
-
-        return false
-    }
-
 }
 
 // 错误恢复同步点
