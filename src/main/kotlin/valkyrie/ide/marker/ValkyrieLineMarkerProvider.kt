@@ -103,7 +103,12 @@ class ValkyrieLineMarkerProvider : LineMarkerProvider {
      * 创建类导航标记
      */
     private fun createClassNavigationMarker(element: PsiElement): LineMarkerInfo<PsiElement> {
-        val classElement = element as ValkyrieClassDeclaration
+        val classElement = element.parent as? ValkyrieClassDeclaration ?: return NavigationGutterIconBuilder
+            .create(AllIcons.Gutter.ImplementedMethod)
+            .setTargets(emptyList())
+            .setTooltipText("Navigate to parent classes, subclasses, and implementations")
+            .setAlignment(GutterIconRenderer.Alignment.LEFT)
+            .createLineMarkerInfo(element)
         val parentClasses = findParentClasses(classElement)
         val subClasses = findSubClasses(classElement)
         val implementations = findImplementations(classElement)
@@ -125,7 +130,12 @@ class ValkyrieLineMarkerProvider : LineMarkerProvider {
      * 创建 namespace 导航标记
      */
     private fun createNamespaceNavigationMarker(element: PsiElement): LineMarkerInfo<PsiElement> {
-        val namespaceElement = element as ValkyrieNamespaceDeclaration
+        val namespaceElement = element.parent as? ValkyrieNamespaceDeclaration ?: return NavigationGutterIconBuilder
+            .create(AllIcons.Nodes.Package)
+            .setTargets(emptyList())
+            .setTooltipText("Navigate to parent and child namespaces")
+            .setAlignment(GutterIconRenderer.Alignment.LEFT)
+            .createLineMarkerInfo(element)
         val parentNamespaces = findParentNamespaces(namespaceElement)
         val childNamespaces = findChildNamespaces(namespaceElement)
         
