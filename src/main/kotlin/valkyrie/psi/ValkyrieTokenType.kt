@@ -73,7 +73,7 @@ object ValkyrieTokenTypes {
     val FLAGS = ValkyrieTokenType("flags")
 
     @JvmField
-    val SLATE = ValkyrieTokenType("slate")
+    val EIDOS = ValkyrieTokenType("enums")
 
     @JvmField
     val TRAIT = ValkyrieTokenType("trait")

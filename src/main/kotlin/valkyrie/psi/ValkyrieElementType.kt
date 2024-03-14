@@ -66,7 +66,7 @@ object ValkyrieElementTypes {
     val FLAGS_STATEMENT = ValkyrieElementType("FLAGS_STATEMENT")
 
     @JvmField
-    val ENUMS_STATEMENT = ValkyrieElementType("ENUMS_STATEMENT")
+    val EIDOS_STATEMENT = ValkyrieElementType("ENUMS_STATEMENT")
 
 
     @JvmField
