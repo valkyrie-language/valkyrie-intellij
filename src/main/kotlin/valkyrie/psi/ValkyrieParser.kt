@@ -36,7 +36,6 @@ class ValkyrieParser : PsiParser {
 
     private fun parseStatement(builder: PsiBuilder) {
         val safePoint = builder.currentOffset
-
         when {
             parseNamespaceStatement(builder) -> return
             parseUsingStatement(builder) -> return
@@ -48,19 +47,23 @@ class ValkyrieParser : PsiParser {
             parseNeuralStatement(builder) -> return
             parseTraitStatement(builder) -> return
             parseImplyStatement(builder) -> return
-//            parseUnionStatement(builder) -> return
-//            parseUnityStatement(builder) -> return
-//            parseFlagsStatement(builder) -> return
-//            parseEnumsStatement(builder) -> return
+            parseUnionStatement(builder) -> return
+            parseUnityStatement(builder) -> return
+            parseFlagsStatement(builder) -> return
+            parseEnumsStatement(builder) -> return
             parseMicroStatement(builder) -> return
             parseMezzoStatement(builder) -> return
             parseMacroStatement(builder) -> return
 //            parseLetStatement(builder) -> return
+
+//            parseLoopStatement(builder) -> return
+//            parseForStatement(builder) -> return
+//            parseUntilStatement(builder) -> return
+
+
 //            parseCompileTimeBlock(builder) -> return
 //            parseTemplateBlock(builder) -> return
 
-//            parseUntilStatement(builder) -> return
-//            parseForStatement(builder) -> return
 //            parseWhileStatement(builder) -> return
 //            parseMatchStatement(builder) -> return
 //            parseIfStatement(builder) -> return
@@ -72,12 +75,10 @@ class ValkyrieParser : PsiParser {
 //            parseYieldStatement(builder) -> return
 //            parseRaiseStatement(builder) -> return
 //            parseResumeStatement(builder) -> return
-//            parseLoopStatement(builder) -> return
-//            parseFunctionLikeBody(builder) -> return
+
 //            parseDocComment(builder) -> return
 //            parseMacroCall(builder) -> return
-//            parseLabelMark(builder) -> return
-//            builder.tokenType == null -> return
+            builder.tokenType == null -> return
 //            else -> parseExpressionStatement(builder)
         }
         if (builder.currentOffset == safePoint) {
@@ -425,15 +426,11 @@ class ValkyrieParser : PsiParser {
     }
 
     private fun parseUnionStatement(builder: PsiBuilder): Boolean {
-        if (builder.tokenType != ValkyrieTokenTypes.UNION) return false
-        parseUnionLikeStatement(builder, ValkyrieElementTypes.UNION_STATEMENT)
-        return true
+        return parseUnionLikeStatement(builder, ValkyrieTokenTypes.UNION, ValkyrieElementTypes.UNION_STATEMENT)
     }
 
     private fun parseUnityStatement(builder: PsiBuilder): Boolean {
-        if (builder.tokenType != ValkyrieTokenTypes.UNITY) return false
-        parseUnionLikeStatement(builder, ValkyrieElementTypes.UNITY_STATEMENT)
-        return true
+        return parseUnionLikeStatement(builder, ValkyrieTokenTypes.UNITY, ValkyrieElementTypes.UNITY_STATEMENT)
     }
 
     private fun parseLetStatement(builder: PsiBuilder): Boolean {
@@ -1108,11 +1105,6 @@ class ValkyrieParser : PsiParser {
     }
 
 
-    private fun getOperatorPrecedence(tokenType: IElementType?): Int {
-        return operatorPrecedenceCache[tokenType] ?: -1
-    }
-
-
     private fun parseClassLikeStatements(builder: PsiBuilder, keyword: ValkyrieTokenType, node: ValkyrieElementType): Boolean {
         val marker = builder.mark()
         parseAnnotations(builder, withModifiers = true)
@@ -1120,7 +1112,7 @@ class ValkyrieParser : PsiParser {
             // consume keyword
             builder.advanceLexer()
         } else {
-            marker.drop();
+            marker.drop()
             return false
         }
         if (parseIdentifier(builder)) {
@@ -1204,145 +1196,135 @@ class ValkyrieParser : PsiParser {
         }
     }
 
-    private fun parseUnionLikeStatement(builder: PsiBuilder, node: ValkyrieElementType) {
+    private fun parseUnionLikeStatement(builder: PsiBuilder, keyword: ValkyrieTokenType, node: ValkyrieElementType): Boolean {
         val marker = builder.mark()
-
-        parseAnnotations(builder, withModifiers = false)
-        parseIdentifier(builder)
+        parseAnnotations(builder, withModifiers = true)
+        if (!parseIdentifier(builder)) {
+            marker.rollbackTo()
+            return false
+        }
         parseGenericParameterList(builder) // optional
-        parseInheritanceList(builder)       // optional
-        parseImplementationType(builder)        // optional
-        parseUnionLikeBody(builder)
-
+        parseInheritanceList(builder)      // optional
+        parseImplementationType(builder)   // optional
+        if (!parseUnionBody(builder)) {
+            marker.rollbackTo()
+            return false
+        }
         marker.done(node)
+        return true
     }
 
-    private fun parseUnionLikeBody(builder: PsiBuilder) {
+    private fun parseUnionBody(builder: PsiBuilder): Boolean {
+        if (builder.tokenType != ValkyrieTokenTypes.LBRACE) {
+            return false
+        }
         val marker = builder.mark()
-
-        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
-            builder.advanceLexer()
-
-            while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
-                val initialPosition = builder.currentOffset
-                parseUnionLikeItem(builder)
-
-                // 防止无限循环：确保解析器前进
-                if (builder.currentOffset == initialPosition) {
-                    builder.error("Unable to parse union member")
-                    builder.advanceLexer()
-                }
+        builder.advanceLexer()
+        while (!builder.eof()) {
+            val safePoint = builder.currentOffset
+            when {
+                parseVariant(builder) -> continue
+                parseMethod(builder) -> continue
+                builder.tokenType == ValkyrieTokenTypes.RBRACE -> break
             }
 
-            if (builder.tokenType == ValkyrieTokenTypes.RBRACE) {
+            // 防止无限循环：确保解析器前进
+            if (builder.currentOffset == safePoint) {
+                builder.error("Unable to parse union member")
                 builder.advanceLexer()
-            } else {
-                builder.error("Expected '}'")
             }
+        }
 
+        if (builder.tokenType == ValkyrieTokenTypes.RBRACE) {
+            builder.advanceLexer()
             marker.done(ValkyrieElementTypes.UNION_BODY)
+            return true
         } else {
-            marker.drop()
+            builder.error("Expected '}'")
+            return false
         }
     }
 
-    private fun parseUnionLikeItem(builder: PsiBuilder) {
+
+    private fun parseVariant(builder: PsiBuilder): Boolean {
         val marker = builder.mark()
-
         parseAnnotations(builder, withModifiers = false)
-
-        when (builder.tokenType) {
-            ValkyrieTokenTypes.IDENTIFIER_STD -> {
-                parseVariant(builder)
-                marker.done(ValkyrieElementTypes.UNION_VARIANT)
-            }
-
-            else -> {
-                parseMethod(builder)
-                marker.done(ValkyrieElementTypes.METHOD_DECLARATION)
-            }
+        if (!parseIdentifier(builder)) {
+            marker.rollbackTo()
+            return false
         }
-    }
-
-    private fun parseVariant(builder: PsiBuilder) {
-        parseIdentifier(builder)
         parseObjectBody(builder) // optional
+        marker.done(ValkyrieElementTypes.UNION_VARIANT)
+        return true
     }
 
     private fun parseFlagsStatement(builder: PsiBuilder): Boolean {
-        if (builder.tokenType != ValkyrieTokenTypes.FLAGS) return false
-        parseEnumerateLikeStatement(builder, ValkyrieElementTypes.FLAGS_STATEMENT)
-        return true
+        return parseEnumerateLikeStatement(builder, ValkyrieTokenTypes.FLAGS, ValkyrieElementTypes.FLAGS_STATEMENT)
     }
 
     private fun parseEnumsStatement(builder: PsiBuilder): Boolean {
-        if (builder.tokenType != ValkyrieTokenTypes.FLAGS) return false
-        parseEnumerateLikeStatement(builder, ValkyrieElementTypes.ENUMS_STATEMENT)
+        return parseEnumerateLikeStatement(builder, ValkyrieTokenTypes.FLAGS, ValkyrieElementTypes.ENUMS_STATEMENT)
+    }
+
+    private fun parseEnumerateLikeStatement(builder: PsiBuilder, keyword: ValkyrieTokenType, node: ValkyrieElementType): Boolean {
+        val marker = builder.mark()
+        parseAnnotations(builder, withModifiers = false)
+        if (!parseIdentifier(builder)) {
+            marker.rollbackTo()
+            return false
+        }
+        parseGenericParameterList(builder) // optional
+        parseInheritanceList(builder)       // optional
+        if (!parseFlagsBody(builder)) {
+            marker.rollbackTo()
+            return false
+        }
+        marker.done(node)
         return true
     }
 
-    private fun parseEnumerateLikeStatement(builder: PsiBuilder, node: ValkyrieElementType) {
+    private fun parseFlagsBody(builder: PsiBuilder): Boolean {
+        if (builder.tokenType != ValkyrieTokenTypes.LBRACE) {
+            return false
+        }
         val marker = builder.mark()
+        builder.advanceLexer()
 
-        parseAnnotations(builder, withModifiers = false)
-        parseIdentifier(builder)
-        parseGenericParameterList(builder) // optional
-        parseInheritanceList(builder)       // optional
-        parseEnumerateLikeBody(builder)
-
-        marker.done(node)
-    }
-
-    private fun parseEnumerateLikeBody(builder: PsiBuilder) {
-        val marker = builder.mark()
-
-        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
-            builder.advanceLexer()
-
-            while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
-                val initialPosition = builder.currentOffset
-                parseEnumerateLikeItem(builder)
-
-                // 防止无限循环：确保解析器前进
-                if (builder.currentOffset == initialPosition) {
-                    builder.error("Unable to parse enumerate member")
-                    builder.advanceLexer()
-                }
+        while (!builder.eof()) {
+            val safePoint = builder.currentOffset
+            when {
+                builder.tokenType == ValkyrieTokenTypes.RBRACE -> break
+                parseSemanticItem(builder) -> continue
             }
 
-            if (builder.tokenType == ValkyrieTokenTypes.RBRACE) {
+            // 防止无限循环：确保解析器前进
+            if (builder.currentOffset == safePoint) {
+                builder.error("Unable to parse enumerate member")
                 builder.advanceLexer()
-            } else {
-                builder.error("Expected '}'")
             }
+        }
 
-            marker.done(ValkyrieElementTypes.OBJECT_BODY)
+        if (builder.tokenType == ValkyrieTokenTypes.RBRACE) {
+            builder.advanceLexer()
         } else {
-            marker.drop()
+            builder.error("Expected '}'")
+            return false
         }
+
+        marker.done(ValkyrieElementTypes.OBJECT_BODY)
+        return true
     }
 
-    private fun parseEnumerateLikeItem(builder: PsiBuilder) {
+    private fun parseSemanticItem(builder: PsiBuilder): Boolean {
         val marker = builder.mark()
-
         parseAnnotations(builder, withModifiers = false)
-
-        when (builder.tokenType) {
-            ValkyrieTokenTypes.IDENTIFIER_STD -> {
-                parseSemantic(builder)
-                marker.done(ValkyrieElementTypes.FLAGS_ITEM)
-            }
-
-            else -> {
-                parseMethod(builder)
-                marker.done(ValkyrieElementTypes.METHOD_DECLARATION)
-            }
+        if (!parseIdentifier(builder)) {
+            marker.rollbackTo()
+            return false
         }
-    }
-
-    private fun parseSemantic(builder: PsiBuilder) {
-        parseIdentifier(builder)
         parseDefaultValue(builder) // optional
+        marker.done(ValkyrieElementTypes.FLAGS_ITEM)
+        return true
     }
 
     private fun parseImplyStatement(builder: PsiBuilder): Boolean {
@@ -1512,7 +1494,7 @@ class ValkyrieParser : PsiParser {
             return false
         }
         marker.done(node)
-        return true;
+        return true
     }
 
     private fun parseFnBody(builder: PsiBuilder): Boolean {
