@@ -54,9 +54,9 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.STATEMENT -> ValkyrieElementNode(node)
             ValkyrieElementTypes.LET_STATEMENT -> ValkyrieLetStatementNode(node)
             ValkyrieElementTypes.CLASS_STATEMENT -> ValkyrieClassDeclaration(node)
-            ValkyrieElementTypes.NEURAL_STATEMENT -> ValkyrieClassDeclaration(node) // 复用ClassDeclaration
-            ValkyrieElementTypes.WIDGET_STATEMENT -> ValkyrieClassDeclaration(node) // 复用ClassDeclaration
-            ValkyrieElementTypes.SINGLETON_STATEMENT -> ValkyrieClassDeclaration(node) // 复用ClassDeclaration
+            ValkyrieElementTypes.NEURAL_STATEMENT -> ValkyrieNeuralDeclaration(node)
+            ValkyrieElementTypes.WIDGET_STATEMENT -> ValkyrieWidgetDeclaration(node)
+            ValkyrieElementTypes.SINGLETON_STATEMENT -> ValkyrieSingletonDeclaration(node)
             ValkyrieElementTypes.UNION_STATEMENT -> ValkyrieUnionDeclaration(node)
             ValkyrieElementTypes.FLAGS_STATEMENT -> ValkyrieUnionDeclaration(node) // 复用UnionDeclaration
             ValkyrieElementTypes.TRAIT_STATEMENT -> ValkyrieTraitDeclaration(node)

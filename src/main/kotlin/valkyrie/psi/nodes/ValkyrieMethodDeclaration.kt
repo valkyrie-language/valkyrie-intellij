@@ -67,4 +67,5 @@ class ValkyrieMethodDeclaration(node: ASTNode) : ValkyrieElementNode(node),
     fun getMethodBody(): ValkyrieBlockNode? {
         return PsiTreeUtil.findChildOfType(this, ValkyrieBlockNode::class.java)
     }
+
 }
