@@ -214,11 +214,6 @@ object ValkyrieTokenTypes {
     @JvmField
     val NOT_EQUAL = ValkyrieTokenType("!=")
 
-    @JvmField
-    val LESS = ValkyrieTokenType("LESS")    // <
-
-    @JvmField
-    val GREATER = ValkyrieTokenType("GREATER") // >
 
     @JvmField
     val LESS_EQUAL = ValkyrieTokenType("LESS_EQUAL") // <=
@@ -316,37 +311,42 @@ object ValkyrieTokenTypes {
 
     // 括号
     @JvmField
-    val LPAREN = ValkyrieTokenType("(")
+    val PARENTHESES_L = ValkyrieTokenType("(")
 
     @JvmField
-    val RPAREN = ValkyrieTokenType(")")
+    val PARENTHESES_R = ValkyrieTokenType(")")
 
     @JvmField
-    val LBRACE = ValkyrieTokenType("{")
+    val BRACE_L = ValkyrieTokenType("{")
 
     @JvmField
-    val RBRACE = ValkyrieTokenType("}")
+    val BRACE_R = ValkyrieTokenType("}")
 
     @JvmField
-    val LBRACKET = ValkyrieTokenType("[")
+    val ARRAY_L = ValkyrieTokenType("[")
 
     @JvmField
-    val RBRACKET = ValkyrieTokenType("]")
+    val ARRAY_R = ValkyrieTokenType("]")
+
+    @JvmField
+    val ANGLE_L = ValkyrieTokenType("<")
+
+    @JvmField
+    val ANGLE_R = ValkyrieTokenType(">")
 
     // 泛型符号
     @JvmField
-    val ANGLE_L = ValkyrieTokenType("⟨")
+    val GENERIC_L = ValkyrieTokenType("⟨")
 
     @JvmField
-    val ANGLE_R = ValkyrieTokenType("⟩")
+    val GENERIC_R = ValkyrieTokenType("⟩")
 
     @JvmField
     val DOUBLE_COLON = ValkyrieTokenType("::")
 
     // 注释
     @JvmField
-    val COMMENT_REST = ValkyrieTokenType("#")
-
+    val COMMENT_LINE = ValkyrieTokenType("#")
 
     // alias = #?
     @JvmField
@@ -374,11 +374,6 @@ object ValkyrieTokenTypes {
     // alias = @*
     @JvmField
     val LABEL_MARK = ValkyrieTokenType("※")
-
-
-    // 特殊标识符
-    @JvmField
-    val BACKTICK = ValkyrieTokenType("`")
 
     // 元编程模板语法 tokens
     @JvmField

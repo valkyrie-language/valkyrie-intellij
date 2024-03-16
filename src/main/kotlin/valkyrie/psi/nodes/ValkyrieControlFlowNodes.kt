@@ -12,7 +12,7 @@ import valkyrie.psi.ValkyrieTokenTypes
 class ValkyrieControlFlowNodes(node: ASTNode) : ValkyrieElementNode(node) {
     
     fun getBody(): PsiElement? {
-        return findChildByType<PsiElement>(ValkyrieTokenTypes.LBRACE)?.let { lbrace ->
+        return findChildByType<PsiElement>(ValkyrieTokenTypes.BRACE_L)?.let { lbrace ->
             PsiTreeUtil.getNextSiblingOfType(lbrace, ValkyrieElementNode::class.java)
         }
     }

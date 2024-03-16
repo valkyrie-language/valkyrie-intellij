@@ -5,7 +5,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
-import valkyrie.psi.ValkyrieElementTypes
 
 /**
  * While 语句节点
@@ -26,7 +25,7 @@ class ValkyrieWhileStatement(node: ASTNode) : ValkyrieElementNode(node) {
      * 获取循环体
      */
     fun getBody(): PsiElement? {
-        return findChildByType<PsiElement>(ValkyrieTokenTypes.LBRACE)?.let { lbrace ->
+        return findChildByType<PsiElement>(ValkyrieTokenTypes.BRACE_L)?.let { lbrace ->
             PsiTreeUtil.getNextSiblingOfType(lbrace, ValkyrieElementNode::class.java)
         }
     }

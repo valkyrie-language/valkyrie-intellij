@@ -6,7 +6,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiReference
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
-import valkyrie.psi.nodes.ValkyrieIdentifierNode
 import valkyrie.reference.ValkyrieFunctionCallReference
 
 /**
@@ -29,14 +28,14 @@ class ValkyrieCallExpressionNode(node: ASTNode) : ValkyrieElementNode(node) {
         var child = this.firstChild?.nextSibling
         
         // 跳过左括号
-        while (child != null && child.node.elementType != ValkyrieTokenTypes.LPAREN) {
+        while (child != null && child.node.elementType != ValkyrieTokenTypes.PARENTHESES_L) {
             child = child.nextSibling
         }
         
         if (child != null) {
             child = child.nextSibling // 跳过左括号
             
-            while (child != null && child.node.elementType != ValkyrieTokenTypes.RPAREN) {
+            while (child != null && child.node.elementType != ValkyrieTokenTypes.PARENTHESES_R) {
                 if (child.node.elementType != ValkyrieTokenTypes.COMMA && 
                     child.node.elementType != ValkyrieTokenTypes.WHITESPACE &&
                     child.node.elementType != ValkyrieTokenTypes.NEWLINE) {

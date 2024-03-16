@@ -115,7 +115,7 @@ class ValkyrieLexer : LexerBase() {
 
             ch == '#' -> {
                 skipLineComment()
-                tokenType = ValkyrieTokenTypes.COMMENT_REST
+                tokenType = ValkyrieTokenTypes.COMMENT_LINE
             }
 
             ch == '<' && peek() == '#' -> {
@@ -443,7 +443,7 @@ class ValkyrieLexer : LexerBase() {
                     }
 
                     else -> {
-                        tokenType = ValkyrieTokenTypes.LESS
+                        tokenType = ValkyrieTokenTypes.ANGLE_L
                     }
                 }
             }
@@ -454,7 +454,7 @@ class ValkyrieLexer : LexerBase() {
                     currentOffset++
                     tokenType = ValkyrieTokenTypes.GREATER_EQUAL
                 } else {
-                    tokenType = ValkyrieTokenTypes.GREATER
+                    tokenType = ValkyrieTokenTypes.ANGLE_R
                 }
             }
 
@@ -464,7 +464,7 @@ class ValkyrieLexer : LexerBase() {
                     currentOffset++
                     tokenType = ValkyrieTokenTypes.COMPILE_TIME_BLOCK_END
                 } else {
-                    tokenType = ValkyrieTokenTypes.RBRACE
+                    tokenType = ValkyrieTokenTypes.BRACE_R
                 }
             }
 
@@ -635,33 +635,33 @@ class ValkyrieLexer : LexerBase() {
             }
 
             '(' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.LPAREN
+                currentOffset++; tokenType = ValkyrieTokenTypes.PARENTHESES_L
             }
 
             ')' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.RPAREN
+                currentOffset++; tokenType = ValkyrieTokenTypes.PARENTHESES_R
             }
 
             '{' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.LBRACE
+                currentOffset++; tokenType = ValkyrieTokenTypes.BRACE_L
             }
 
             // '}' case is handled above for '}>' template syntax
 
             '[' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.LBRACKET
+                currentOffset++; tokenType = ValkyrieTokenTypes.ARRAY_L
             }
 
             ']' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.RBRACKET
+                currentOffset++; tokenType = ValkyrieTokenTypes.ARRAY_R
             }
 
             '⟨' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.ANGLE_L
+                currentOffset++; tokenType = ValkyrieTokenTypes.GENERIC_L
             }
 
             '⟩' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.ANGLE_R
+                currentOffset++; tokenType = ValkyrieTokenTypes.GENERIC_R
             }
 
             '@' -> {

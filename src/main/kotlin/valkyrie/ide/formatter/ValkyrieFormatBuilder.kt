@@ -38,22 +38,22 @@ class ValkyrieFormatBuilder : FormattingModelBuilder {
         val valkyrieSettings = settings.getCustomSettings(ValkyrieCodeStyleSettings::class.java)
         return SpacingBuilder(settings, ValkyrieLanguage.INSTANCE)
             // 大括号前后的空格
-            .before(ValkyrieTokenTypes.LBRACE).spaces(1)
-            .after(ValkyrieTokenTypes.LBRACE).lineBreakInCode()
-            .before(ValkyrieTokenTypes.RBRACE).lineBreakInCode()
-            .after(ValkyrieTokenTypes.RBRACE).lineBreakInCode()
+            .before(ValkyrieTokenTypes.BRACE_L).spaces(1)
+            .after(ValkyrieTokenTypes.BRACE_L).lineBreakInCode()
+            .before(ValkyrieTokenTypes.BRACE_R).lineBreakInCode()
+            .after(ValkyrieTokenTypes.BRACE_R).lineBreakInCode()
             
             // 小括号的空格
-            .before(ValkyrieTokenTypes.LPAREN).spaces(0)
-            .after(ValkyrieTokenTypes.LPAREN).spaces(0)
-            .before(ValkyrieTokenTypes.RPAREN).spaces(0)
-            .after(ValkyrieTokenTypes.RPAREN).spaces(0)
+            .before(ValkyrieTokenTypes.PARENTHESES_L).spaces(0)
+            .after(ValkyrieTokenTypes.PARENTHESES_L).spaces(0)
+            .before(ValkyrieTokenTypes.PARENTHESES_R).spaces(0)
+            .after(ValkyrieTokenTypes.PARENTHESES_R).spaces(0)
             
             // 方括号的空格
-            .before(ValkyrieTokenTypes.LBRACKET).spaces(0)
-            .after(ValkyrieTokenTypes.LBRACKET).spaces(0)
-            .before(ValkyrieTokenTypes.RBRACKET).spaces(0)
-            .after(ValkyrieTokenTypes.RBRACKET).spaces(0)
+            .before(ValkyrieTokenTypes.ARRAY_L).spaces(0)
+            .after(ValkyrieTokenTypes.ARRAY_L).spaces(0)
+            .before(ValkyrieTokenTypes.ARRAY_R).spaces(0)
+            .after(ValkyrieTokenTypes.ARRAY_R).spaces(0)
             
             // 冒号前后的空格
             .before(ValkyrieTokenTypes.COLON).spaces(0)
@@ -91,9 +91,9 @@ class ValkyrieFormatBuilder : FormattingModelBuilder {
             // 比较操作符
             .around(ValkyrieTokenTypes.EQUAL).spaces(1)
             .around(ValkyrieTokenTypes.NOT_EQUAL).spaces(1)
-            .around(ValkyrieTokenTypes.LESS).spaces(1)
+            .around(ValkyrieTokenTypes.ANGLE_L).spaces(1)
             .around(ValkyrieTokenTypes.LESS_EQUAL).spaces(1)
-            .around(ValkyrieTokenTypes.GREATER).spaces(1)
+            .around(ValkyrieTokenTypes.ANGLE_R).spaces(1)
             .around(ValkyrieTokenTypes.GREATER_EQUAL).spaces(1)
             
             // 逻辑操作符
@@ -162,9 +162,9 @@ class ValkyrieBlock(
     
     private fun getChildIndent(child: ASTNode): Indent {
         return when (child.elementType) {
-            ValkyrieTokenTypes.LBRACE, ValkyrieTokenTypes.RBRACE -> Indent.getNoneIndent()
-            ValkyrieTokenTypes.LPAREN, ValkyrieTokenTypes.RPAREN -> Indent.getNoneIndent()
-            ValkyrieTokenTypes.LBRACKET, ValkyrieTokenTypes.RBRACKET -> Indent.getNoneIndent()
+            ValkyrieTokenTypes.BRACE_L, ValkyrieTokenTypes.BRACE_R -> Indent.getNoneIndent()
+            ValkyrieTokenTypes.PARENTHESES_L, ValkyrieTokenTypes.PARENTHESES_R -> Indent.getNoneIndent()
+            ValkyrieTokenTypes.ARRAY_L, ValkyrieTokenTypes.ARRAY_R -> Indent.getNoneIndent()
             else -> {
                 when (node.elementType) {
                     ValkyrieElementTypes.OBJECT_BODY,
