@@ -12,6 +12,7 @@ import valkyrie.ide.navigation.MetaType
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.ValkyrieTokenTypes
 import valkyrie.psi.nodes.*
+import valkyrie.psi.traits.HasHighlighter
 
 class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
     private var infoHolder: HighlightInfoHolder? = null
@@ -21,14 +22,7 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
 
     override fun visit(element: PsiElement) {
         when (element) {
-            is ValkyrieClassDeclaration -> element.highlightRender(this)
-            is ValkyrieNeuralDeclaration -> highlight(element.nameIdentifier, ValkyrieColor.SYM_CLASS)
-            is ValkyrieWidgetDeclaration -> highlight(element.nameIdentifier, ValkyrieColor.SYM_CLASS)
-            is ValkyrieSingletonDeclaration -> highlight(element.nameIdentifier, ValkyrieColor.SYM_CLASS)
-            is ValkyrieTraitDeclaration -> highlight(element.nameIdentifier, ValkyrieColor.SYM_TRAIT)
-            is ValkyrieUnionDeclaration -> highlight(element.nameIdentifier, ValkyrieColor.SYM_VARIANT)
-            is ValkyrieVariantDeclaration -> highlight(element.nameIdentifier, ValkyrieColor.SYM_VARIANT)
-            is ValkyrieFieldDeclaration -> highlight(element.nameIdentifier, ValkyrieColor.SYM_FIELD)
+            is HasHighlighter -> element.highlightRender(this)
             is ValkyrieMethodDeclaration -> {
                 if (element.isMutable()) {
                     highlight(element.nameIdentifier, ValkyrieColor.SYM_METHOD_MUT)
@@ -38,10 +32,6 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
                     highlight(element.nameIdentifier, ValkyrieColor.SYM_MICRO)
                 }
             }
-
-            is ValkyrieDomainDeclaration -> highlight(element.nameIdentifier, ValkyrieColor.SYM_DOMAIN)
-
-            is ValkyrieModifierNode -> highlight(element, ValkyrieColor.SYM_MODIFIER)
 
             is ValkyrieTermParameterItem -> {
                 // 高亮参数名称

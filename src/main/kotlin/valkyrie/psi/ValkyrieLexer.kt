@@ -48,6 +48,7 @@ class ValkyrieLexer : LexerBase() {
         "yield" to ValkyrieTokenTypes.YIELD,
         "raise" to ValkyrieTokenTypes.RAISE,
         "resume" to ValkyrieTokenTypes.RESUME,
+        "scope" to ValkyrieTokenTypes.SCOPE,
         "tests" to ValkyrieTokenTypes.TESTS,
         "namespace" to ValkyrieTokenTypes.NAMESPACE,
         "using" to ValkyrieTokenTypes.USING,

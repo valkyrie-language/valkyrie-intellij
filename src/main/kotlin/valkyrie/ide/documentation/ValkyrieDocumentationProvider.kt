@@ -26,6 +26,12 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
     override fun generateDoc(element: PsiElement?, originalElement: PsiElement?): String? {
         if (element == null) return null
         
+        // 检查是否为关键词
+        val keywordDoc = getKeywordDocumentation(element)
+        if (keywordDoc != null) {
+            return keywordDoc
+        }
+        
         // 查找关联的doc comment
         val docComment = findDocComment(element)
         if (docComment != null) {
@@ -127,5 +133,70 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
         return null
     }
     
+    /**
+     * 获取关键词文档
+     */
+    private fun getKeywordDocumentation(element: PsiElement): String? {
+        val elementType = element.node?.elementType
+        
+        return when (elementType) {
+            ValkyrieTokenTypes.SCOPE -> {
+                buildString {
+                    append(DocumentationMarkup.DEFINITION_START)
+                    append("<b>scope</b> keyword")
+                    append(DocumentationMarkup.DEFINITION_END)
+                    append(DocumentationMarkup.CONTENT_START)
+                    append("<p>定义一个作用域块，用于限制变量的生命周期和可见性。</p>")
+                    append("<p><b>语法:</b></p>")
+                    append("<pre>scope { ... }</pre>")
+                    append("<pre>scope&lt;T&gt; { ... }</pre>")
+                    append("<p><b>示例:</b></p>")
+                    append("<pre>scope {\n    let temp = calculate()\n    // temp 只在此作用域内有效\n}</pre>")
+                    append("<p><b>泛型支持:</b></p>")
+                    append("<pre>scope&lt;String&gt; {\n    // 返回 String 类型\n    \"result\"\n}</pre>")
+                    append(DocumentationMarkup.CONTENT_END)
+                }
+            }
+            ValkyrieTokenTypes.IF -> {
+                buildString {
+                    append(DocumentationMarkup.DEFINITION_START)
+                    append("<b>if</b> keyword")
+                    append(DocumentationMarkup.DEFINITION_END)
+                    append(DocumentationMarkup.CONTENT_START)
+                    append("<p>条件语句，根据条件执行不同的代码分支。</p>")
+                    append("<p><b>语法:</b></p>")
+                    append("<pre>if condition { ... }</pre>")
+                    append("<pre>if condition { ... } else { ... }</pre>")
+                    append(DocumentationMarkup.CONTENT_END)
+                }
+            }
+            ValkyrieTokenTypes.LET -> {
+                buildString {
+                    append(DocumentationMarkup.DEFINITION_START)
+                    append("<b>let</b> keyword")
+                    append(DocumentationMarkup.DEFINITION_END)
+                    append(DocumentationMarkup.CONTENT_START)
+                    append("<p>声明一个不可变变量。</p>")
+                    append("<p><b>语法:</b></p>")
+                    append("<pre>let name = value</pre>")
+                    append("<pre>let name: Type = value</pre>")
+                    append(DocumentationMarkup.CONTENT_END)
+                }
+            }
+            ValkyrieTokenTypes.FN -> {
+                buildString {
+                    append(DocumentationMarkup.DEFINITION_START)
+                    append("<b>fn</b> keyword")
+                    append(DocumentationMarkup.DEFINITION_END)
+                    append(DocumentationMarkup.CONTENT_START)
+                    append("<p>定义一个函数。</p>")
+                    append("<p><b>语法:</b></p>")
+                    append("<pre>fn name(params) -> ReturnType { ... }</pre>")
+                    append(DocumentationMarkup.CONTENT_END)
+                }
+            }
+            else -> null
+        }
+    }
 
 }

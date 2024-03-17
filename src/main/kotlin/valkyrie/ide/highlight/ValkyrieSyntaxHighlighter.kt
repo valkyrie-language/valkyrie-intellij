@@ -43,6 +43,7 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.YIELD,
             ValkyrieTokenTypes.RAISE,
             ValkyrieTokenTypes.RESUME,
+            ValkyrieTokenTypes.SCOPE,
             ValkyrieTokenTypes.RETURN,
             ValkyrieTokenTypes.TESTS,
             ValkyrieTokenTypes.MICRO,

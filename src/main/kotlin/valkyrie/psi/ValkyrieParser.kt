@@ -75,6 +75,7 @@ class ValkyrieParser : PsiParser {
 //            parseYieldStatement(builder) -> return
 //            parseRaiseStatement(builder) -> return
 //            parseResumeStatement(builder) -> return
+            parseScopeStatement(builder) -> return
 
 //            parseDocComment(builder) -> return
 //            parseMacroCall(builder) -> return
@@ -418,7 +419,6 @@ class ValkyrieParser : PsiParser {
         
         if (!parseIdentifier(builder)) {
             marker.error("Expected trait name")
-            recoverToSyncPoint(builder)
             return false
         }
         
@@ -431,7 +431,6 @@ class ValkyrieParser : PsiParser {
             // Parse trait expression (A + B)
             if (!parseTraitExpression(builder)) {
                 marker.error("Expected trait expression after '='")
-                recoverToSyncPoint(builder)
                 return false
             }
             
@@ -452,7 +451,6 @@ class ValkyrieParser : PsiParser {
                 return true
             } else {
                 marker.error("Expected object body")
-                recoverToSyncPoint(builder)
                 return false
             }
         }
@@ -511,7 +509,6 @@ class ValkyrieParser : PsiParser {
         // Parse pattern (supports bare pattern, tuple pattern, array pattern, object pattern)
         if (!parsePattern(builder, true)) {
             marker.error("Expected pattern after 'let'")
-            recoverToSyncPoint(builder)
             return true
         }
 
@@ -523,7 +520,6 @@ class ValkyrieParser : PsiParser {
             builder.advanceLexer() // consume '='
             if (!parseTermExpression(builder, false)) {
                 marker.error("Expected expression after '='")
-                recoverToSyncPoint(builder)
                 return true
             }
         }
@@ -774,7 +770,6 @@ class ValkyrieParser : PsiParser {
             // 解析右操作数
             if (!parseTermExpressionWithPrecedence(builder, precedence + 1, inline)) {
                 marker.error("Expected right operand")
-                recoverToSyncPoint(builder)
                 return false
             }
 
@@ -3103,3 +3098,26 @@ private val operatorPrecedenceCache = mapOf(
     ValkyrieTokenTypes.PERCENT to 8,
     ValkyrieTokenTypes.POWER to 9
 )
+
+    private fun parseScopeStatement(builder: PsiBuilder): Boolean {
+        if (builder.tokenType != ValkyrieTokenTypes.SCOPE) return false
+        val marker = builder.mark()
+        builder.advanceLexer() // consume 'scope'
+        
+        // Parse optional generic parameters: scope::<T>
+        if (builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON) {
+            builder.advanceLexer() // consume '::'
+            if (builder.tokenType == ValkyrieTokenTypes.ANGLE_L) {
+                parseGenericParameterList(builder)
+            }
+        }
+        
+        // Parse the block body
+        if (!parseFnBody(builder)) {
+            marker.error("Expected block after 'scope'")
+            return false
+        }
+        
+        marker.done(ValkyrieElementTypes.SCOPE_STATEMENT)
+        return true
+    }
