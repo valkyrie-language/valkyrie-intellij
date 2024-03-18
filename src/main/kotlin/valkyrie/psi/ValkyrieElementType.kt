@@ -40,6 +40,12 @@ object ValkyrieElementTypes {
     @JvmField
     val DICT_PATTERN = ValkyrieElementType("DICT_PATTERN")
 
+    @JvmField
+    val ARRAY_PATTERN = ValkyrieElementType("ARRAY_PATTERN")
+
+    @JvmField
+    val OBJECT_PATTERN = ValkyrieElementType("OBJECT_PATTERN")
+
     // 语句
     @JvmField
     val LET_STATEMENT = ValkyrieElementType("LET_STATEMENT")
@@ -73,7 +79,7 @@ object ValkyrieElementTypes {
     val TRAIT_STATEMENT = ValkyrieElementType("TRAIT_STATEMENT")
 
     @JvmField
-    val TRAIT_ALIAS_STATEMENT = ValkyrieElementType("TRAIT_ALIAS_STATEMENT")
+    val TRAIT_ALIAS = ValkyrieElementType("TRAIT_ALIAS")
 
     @JvmField
     val IMPLY_STATEMENT = ValkyrieElementType("IMPLY_STATEMENT")
@@ -132,18 +138,24 @@ object ValkyrieElementTypes {
     @JvmField
     val DECLARE_TESTS = ValkyrieElementType("DECLARE_TESTS")
 
-    @JvmField
-    val DECLARE_TEST_METHOD = ValkyrieElementType("DECLARE_TEST_METHOD")
-
     // 元编程相关元素类型
     @JvmField
     val DECLARE_MICRO = ValkyrieElementType("DECLARE_MICRO")
 
     @JvmField
+    val ASSIGN_MICRO = ValkyrieElementType("DECLARE_MICRO")
+
+    @JvmField
     val DECLARE_MEZZO = ValkyrieElementType("DECLARE_MEZZO")
 
     @JvmField
+    val ASSIGN_MEZZO = ValkyrieElementType("MEZZO_DECLARATION")
+
+    @JvmField
     val DECLARE_MACRO = ValkyrieElementType("DECLARE_MACRO")
+
+    @JvmField
+    val ASSIGN_MACRO = ValkyrieElementType("ASSIGN_MACRO")
 
     @JvmField
     val COMPILE_TIME_BLOCK = ValkyrieElementType("COMPILE_TIME_BLOCK")
@@ -333,8 +345,6 @@ object ValkyrieElementTypes {
     @JvmField
     val FLAGS_ITEM = ValkyrieElementType("FLAGS_ITEM")
 
-    @JvmField
-    val MEZZO_DECLARATION = ValkyrieElementType("MEZZO_DECLARATION")
 
     // 注解节点（统一管理attributes和modifiers）
     @JvmField
@@ -360,12 +370,16 @@ object ValkyrieElementTypes {
     // 其他
     @JvmField
     val TERM_PARAMETER_LIST = ValkyrieElementType("PARAMETER_LIST")
+
     @JvmField
     val TERM_PARAMETER_ITEM = ValkyrieElementType("PARAMETER")
+
     @JvmField
     val ARGUMENT_LIST = ValkyrieElementType("ARGUMENT_LIST")
+
     @JvmField
     val GENERIC_PARAMETER_LIST = ValkyrieElementType("GENERIC_PARAMETER_LIST")
+
     @JvmField
     val GENERIC_PARAMETER = ValkyrieElementType("GENERIC_PARAMETER")
 

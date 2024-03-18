@@ -54,6 +54,7 @@ class ValkyrieParser : PsiParser {
             parseMicroStatement(builder) -> return
             parseMezzoStatement(builder) -> return
             parseMacroStatement(builder) -> return
+            parseMacroAssignment(builder) -> return
             parseLetStatement(builder) -> return
 
 //            parseLoopStatement(builder) -> return
@@ -409,43 +410,43 @@ class ValkyrieParser : PsiParser {
     private fun parseTraitStatement(builder: PsiBuilder): Boolean {
         val marker = builder.mark()
         parseAnnotations(builder, withModifiers = true)
-        
+
         if (builder.tokenType != ValkyrieTokenTypes.TRAIT) {
             marker.drop()
             return false
         }
-        
+
         builder.advanceLexer() // consume 'trait'
-        
+
         if (!parseIdentifier(builder)) {
             marker.error("Expected trait name")
             return false
         }
-        
+
         parseGenericParameterList(builder) // optional
-        
+
         // Check for trait alias (trait C = A + B;)
         if (builder.tokenType == ValkyrieTokenTypes.ASSIGN) {
             builder.advanceLexer() // consume '='
-            
+
             // Parse trait expression (A + B)
             if (!parseTraitExpression(builder)) {
                 marker.error("Expected trait expression after '='")
                 return false
             }
-            
+
             // Expect semicolon
             if (builder.tokenType == ValkyrieTokenTypes.SEMICOLON) {
                 builder.advanceLexer()
             }
-            
-            marker.done(ValkyrieElementTypes.TRAIT_ALIAS_STATEMENT)
+
+            marker.done(ValkyrieElementTypes.TRAIT_ALIAS)
             return true
         } else {
             // Regular trait declaration
             parseInheritanceList(builder) // optional
             parseImplementationType(builder) // optional
-            
+
             if (parseObjectBody(builder)) {
                 marker.done(ValkyrieElementTypes.TRAIT_STATEMENT)
                 return true
@@ -461,7 +462,7 @@ class ValkyrieParser : PsiParser {
         if (!parseTypeExpression(builder, false)) {
             return false
         }
-        
+
         // Parse additional traits with '+' operator
         while (builder.tokenType == ValkyrieTokenTypes.PLUS) {
             builder.advanceLexer() // consume '+'
@@ -469,7 +470,7 @@ class ValkyrieParser : PsiParser {
                 return false
             }
         }
-        
+
         return true
     }
 
@@ -534,68 +535,57 @@ class ValkyrieParser : PsiParser {
     }
 
     private fun parseMezzoStatement(builder: PsiBuilder): Boolean {
-        val marker = builder.mark()
-        parseAnnotations(builder, withModifiers = true)
-        
-        if (builder.tokenType != ValkyrieTokenTypes.MEZZO) {
-            marker.drop()
-            return false
-        }
-        
-        builder.advanceLexer() // consume 'mezzo'
-        
-        if (!parseIdentifier(builder)) {
-            marker.error("Expected mezzo name")
-            recoverToSyncPoint(builder)
-            return false
-        }
-        
-        parseGenericParameterList(builder) // optional
-        
-        // Check for union type alias (mezzo U = A | B;)
-        if (builder.tokenType == ValkyrieTokenTypes.ASSIGN) {
-            builder.advanceLexer() // consume '='
-            
-            // Parse union type expression (A | B)
-            if (!parseUnionTypeExpression(builder)) {
-                marker.error("Expected union type expression after '='")
-                recoverToSyncPoint(builder)
-                return false
-            }
-            
-            // Expect semicolon
-            if (builder.tokenType == ValkyrieTokenTypes.SEMICOLON) {
-                builder.advanceLexer()
-            }
-            
-            marker.done(ValkyrieElementTypes.DECLARE_MEZZO)
-            return true
-        } else {
-            // Regular mezzo declaration - use original function
-            marker.drop()
-            return parseFnLikeStatement(builder, ValkyrieTokenTypes.MEZZO, ValkyrieElementTypes.DECLARE_MEZZO)
-        }
-    }
-
-    private fun parseUnionTypeExpression(builder: PsiBuilder): Boolean {
-        // Parse union type expression like A | B | C
-        if (!parseTypeExpression(builder, false)) {
-            return false
-        }
-        
-        // Parse additional types with '|' operator
-        while (builder.tokenType == ValkyrieTokenTypes.PIPE) {
-            builder.advanceLexer() // consume '|'
-            if (!parseTypeExpression(builder, false)) {
-                return false
-            }
-        }
-        
-        return true
+        return parseFnLikeStatement(builder, ValkyrieTokenTypes.MEZZO, ValkyrieElementTypes.DECLARE_MEZZO)
     }
 
     private fun parseMacroStatement(builder: PsiBuilder): Boolean {
         return parseFnLikeStatement(builder, ValkyrieTokenTypes.MACRO, ValkyrieElementTypes.DECLARE_MACRO)
+    }
+
+    private fun parseMacroAssignment(builder: PsiBuilder): Boolean {
+        val marker = builder.mark()
+        parseAnnotations(builder, withModifiers = true)
+
+        // Consume 'macro' keyword
+        builder.advanceLexer()
+
+        // Parse identifier with error recovery
+        if (!parseIdentifier(builder)) {
+            marker.error("Expected macro name")
+            // Try to recover by skipping to next statement
+            recoverToNextStatement(builder)
+            return true
+        }
+
+        // Optional generic parameters
+        if (builder.tokenType == ValkyrieTokenTypes.GENERIC_L) {
+            if (!parseGenericParameterList(builder)) {
+                marker.error("Invalid generic parameters")
+                recoverToNextStatement(builder)
+                return true
+            }
+        }
+
+        // Expect assignment with error recovery
+        if (builder.tokenType != ValkyrieTokenTypes.ASSIGN) {
+            marker.error("Expected '=' in macro assignment")
+            // Try to recover by looking for assignment or next statement
+            if (!recoverToToken(builder, ValkyrieTokenTypes.ASSIGN)) {
+                recoverToNextStatement(builder)
+                return true
+            }
+        }
+        builder.advanceLexer() // consume '='
+
+        // Parse expression with error recovery
+        if (!parseTermExpression(builder, false)) {
+            marker.error("Expected expression after '='")
+            recoverToNextStatement(builder)
+            return true
+        }
+
+        marker.done(ValkyrieElementTypes.ASSIGN_MACRO)
+        return true
     }
 
     private fun parseTestsStatement(builder: PsiBuilder): Boolean {
@@ -689,11 +679,11 @@ class ValkyrieParser : PsiParser {
         val hasDoubleColon = builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON
         val nextIsAngle = builder.lookAhead(1) == ValkyrieTokenTypes.ANGLE_L
         val nextIsGeneric = builder.lookAhead(1) == ValkyrieTokenTypes.GENERIC_L
-        
+
         if (hasDoubleColon && (nextIsAngle || nextIsGeneric)) {
             builder.advanceLexer() // consume '::'
             builder.advanceLexer() // consume '<' or '⟨'
-            
+
             val closingToken = if (nextIsAngle) ValkyrieTokenTypes.ANGLE_R else ValkyrieTokenTypes.GENERIC_R
 
             while (!builder.eof() && builder.tokenType != closingToken) {
@@ -751,13 +741,13 @@ class ValkyrieParser : PsiParser {
         // 解析中缀表达式和后缀表达式
         while (true) {
             val tokenType = builder.tokenType
-            
+
             // 先检查后缀操作符
             if (isTermPostfixOperator(tokenType)) {
                 left = parsePostfixTermExpression(builder, left)
                 continue
             }
-            
+
             // 再检查中缀操作符
             val precedence = getTermOperatorPrecedence(tokenType)
             if (precedence < minPrecedence || !isTermInfixOperator(tokenType)) {
@@ -1205,14 +1195,14 @@ class ValkyrieParser : PsiParser {
                 // 处理路径分隔符和后续的泛型路径
                 while (builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON) {
                     builder.advanceLexer() // 消费 ::
-                    
+
                     // 检查是否是泛型调用语法 ::<T> 或 ::⟨T⟩
                     if (builder.tokenType == ValkyrieTokenTypes.GENERIC_L || builder.tokenType == ValkyrieTokenTypes.ANGLE_L) {
                         parseGenericParameterList(builder)
                     } else if (isIdentifier(builder)) {
                         // 普通路径分隔符后的标识符
                         builder.advanceLexer()
-                        
+
                         // 检查该标识符后是否有泛型参数
                         if (builder.tokenType == ValkyrieTokenTypes.GENERIC_L || builder.tokenType == ValkyrieTokenTypes.ANGLE_L) {
                             parseGenericParameterList(builder)
@@ -1243,12 +1233,12 @@ class ValkyrieParser : PsiParser {
                 while (builder.tokenType == ValkyrieTokenTypes.COMMA) {
                     isTuple = true
                     builder.advanceLexer() // 消费逗号
-                    
+
                     // 允许尾随逗号
                     if (builder.tokenType == ValkyrieTokenTypes.PARENTHESES_R) {
                         break
                     }
-                    
+
                     if (!parseTypeExpression(builder, false)) {
                         marker.error("Expected type expression after ','")
                         recoverToSyncPoint(builder)
@@ -1493,12 +1483,12 @@ class ValkyrieParser : PsiParser {
             return false
         }
         parseObjectBody(builder) // optional
-        
+
         // 处理可选的分隔符（逗号或分号）
         if (builder.tokenType == ValkyrieTokenTypes.COMMA || builder.tokenType == ValkyrieTokenTypes.SEMICOLON) {
             builder.advanceLexer()
         }
-        
+
         marker.done(ValkyrieElementTypes.UNION_VARIANT)
         return true
     }
@@ -1577,12 +1567,12 @@ class ValkyrieParser : PsiParser {
             return false
         }
         parseDefaultValue(builder) // optional
-        
+
         // 处理可选的分号
         if (builder.tokenType == ValkyrieTokenTypes.SEMICOLON) {
             builder.advanceLexer()
         }
-        
+
         marker.done(ValkyrieElementTypes.FLAGS_ITEM)
         return true
     }
@@ -1681,10 +1671,10 @@ class ValkyrieParser : PsiParser {
         // 支持两种泛型括号：< > 和 ⟨ ⟩
         val isAngleBrackets = builder.tokenType == ValkyrieTokenTypes.ANGLE_L
         val isGenericBrackets = builder.tokenType == ValkyrieTokenTypes.GENERIC_L
-        
+
         if (isAngleBrackets || isGenericBrackets) {
             builder.advanceLexer() // consume '<' or '⟨'
-            
+
             val closingToken = if (isAngleBrackets) ValkyrieTokenTypes.ANGLE_R else ValkyrieTokenTypes.GENERIC_R
 
             // 允许空的泛型参数列表
@@ -1882,7 +1872,7 @@ class ValkyrieParser : PsiParser {
         }
         parseTypeHint(builder) // optional
         parseDefaultType(builder) // optional
-        marker.done(ValkyrieElementTypes.MEZZO_DECLARATION)
+        marker.done(ValkyrieElementTypes.ASSIGN_MEZZO)
         return true
     }
 
@@ -1956,12 +1946,12 @@ class ValkyrieParser : PsiParser {
             // 解析后续参数 (, param)*
             while (builder.tokenType == ValkyrieTokenTypes.COMMA) {
                 builder.advanceLexer() // consume ','
-                
+
                 // 检查是否是尾随逗号（可选）
                 if (builder.tokenType == ValkyrieTokenTypes.PARENTHESES_R) {
                     break // 允许尾随逗号
                 }
-                
+
                 if (!parseFunctionParameterItem(builder)) {
                     marker.error("Expected parameter after ','")
                     return false
@@ -2222,9 +2212,9 @@ class ValkyrieParser : PsiParser {
     private fun parseTuplePattern(builder: PsiBuilder): Boolean {
         if (builder.tokenType != ValkyrieTokenTypes.PARENTHESES_L) return false
         val marker = builder.mark()
-        
+
         builder.advanceLexer() // consume '('
-        
+
         // Parse pattern list
         while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.PARENTHESES_R) {
             if (!parsePattern(builder, true)) {
@@ -2233,7 +2223,7 @@ class ValkyrieParser : PsiParser {
                     return false
                 }
             }
-            
+
             if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
                 builder.advanceLexer()
             } else if (builder.tokenType != ValkyrieTokenTypes.PARENTHESES_R) {
@@ -2241,14 +2231,14 @@ class ValkyrieParser : PsiParser {
                 return false
             }
         }
-        
+
         if (builder.tokenType == ValkyrieTokenTypes.PARENTHESES_R) {
             builder.advanceLexer() // consume ')'
         } else {
             marker.error("Expected ')'")
             return false
         }
-        
+
         marker.done(ValkyrieElementTypes.TUPLE_PATTERN)
         return true
     }
@@ -2287,9 +2277,9 @@ class ValkyrieParser : PsiParser {
     private fun parseTablePattern(builder: PsiBuilder): Boolean {
         if (builder.tokenType != ValkyrieTokenTypes.ARRAY_L) return false
         val marker = builder.mark()
-        
+
         builder.advanceLexer() // consume '['
-        
+
         // Parse pattern list
         while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.ARRAY_R) {
             // Handle rest pattern ..rest
@@ -2305,7 +2295,7 @@ class ValkyrieParser : PsiParser {
                     return false
                 }
             }
-            
+
             if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
                 builder.advanceLexer()
             } else if (builder.tokenType != ValkyrieTokenTypes.ARRAY_R) {
@@ -2313,14 +2303,14 @@ class ValkyrieParser : PsiParser {
                 return false
             }
         }
-        
+
         if (builder.tokenType == ValkyrieTokenTypes.ARRAY_R) {
             builder.advanceLexer() // consume ']'
         } else {
             marker.error("Expected ']'")
             return false
         }
-        
+
         marker.done(ValkyrieElementTypes.ARRAY_PATTERN)
         return true
     }
@@ -2346,9 +2336,9 @@ class ValkyrieParser : PsiParser {
     private fun parseObjectPattern(builder: PsiBuilder): Boolean {
         if (builder.tokenType != ValkyrieTokenTypes.BRACE_L) return false
         val marker = builder.mark()
-        
+
         builder.advanceLexer() // consume '{'
-        
+
         // Parse pattern fields
         while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.BRACE_R) {
             // Handle rest pattern ..rest or ..
@@ -2362,7 +2352,7 @@ class ValkyrieParser : PsiParser {
                     marker.error("Expected field name")
                     return false
                 }
-                
+
                 // Optional type annotation or pattern
                 if (builder.tokenType == ValkyrieTokenTypes.COLON) {
                     builder.advanceLexer() // consume ':'
@@ -2374,7 +2364,7 @@ class ValkyrieParser : PsiParser {
                     }
                 }
             }
-            
+
             if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
                 builder.advanceLexer()
             } else if (builder.tokenType != ValkyrieTokenTypes.BRACE_R) {
@@ -2382,14 +2372,14 @@ class ValkyrieParser : PsiParser {
                 return false
             }
         }
-        
+
         if (builder.tokenType == ValkyrieTokenTypes.BRACE_R) {
             builder.advanceLexer() // consume '}'
         } else {
             marker.error("Expected '}'")
             return false
         }
-        
+
         marker.done(ValkyrieElementTypes.OBJECT_PATTERN)
         return true
     }
@@ -3051,6 +3041,29 @@ class ValkyrieParser : PsiParser {
     inline fun isIdentifier(builder: PsiBuilder): Boolean {
         return builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW
     }
+
+    private fun parseScopeStatement(builder: PsiBuilder): Boolean {
+        if (builder.tokenType != ValkyrieTokenTypes.SCOPE) return false
+        val marker = builder.mark()
+        builder.advanceLexer() // consume 'scope'
+
+        // Parse optional generic parameters: scope::<T>
+        if (builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON) {
+            builder.advanceLexer() // consume '::'
+            if (builder.tokenType == ValkyrieTokenTypes.ANGLE_L) {
+                parseGenericParameterList(builder)
+            }
+        }
+
+        // Parse the block body
+        if (!parseFnBody(builder)) {
+            marker.error("Expected block after 'scope'")
+            return false
+        }
+
+        marker.done(ValkyrieElementTypes.SCOPE_STATEMENT)
+        return true
+    }
 }
 
 // 错误恢复同步点
@@ -3099,25 +3112,60 @@ private val operatorPrecedenceCache = mapOf(
     ValkyrieTokenTypes.POWER to 9
 )
 
-    private fun parseScopeStatement(builder: PsiBuilder): Boolean {
-        if (builder.tokenType != ValkyrieTokenTypes.SCOPE) return false
-        val marker = builder.mark()
-        builder.advanceLexer() // consume 'scope'
-        
-        // Parse optional generic parameters: scope::<T>
-        if (builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON) {
-            builder.advanceLexer() // consume '::'
-            if (builder.tokenType == ValkyrieTokenTypes.ANGLE_L) {
-                parseGenericParameterList(builder)
-            }
-        }
-        
-        // Parse the block body
-        if (!parseFnBody(builder)) {
-            marker.error("Expected block after 'scope'")
-            return false
-        }
-        
-        marker.done(ValkyrieElementTypes.SCOPE_STATEMENT)
-        return true
+// Error recovery methods
+private fun recoverToNextStatement(builder: PsiBuilder) {
+    // Skip tokens until we find a statement boundary
+    while (!builder.eof() && !isStatementBoundary(builder.tokenType)) {
+        builder.advanceLexer()
     }
+}
+
+private fun recoverToToken(builder: PsiBuilder, targetToken: IElementType): Boolean {
+    var depth = 0
+    val maxLookahead = 10 // Limit lookahead to avoid infinite loops
+    var count = 0
+
+    while (!builder.eof() && count < maxLookahead) {
+        val currentToken = builder.tokenType
+
+        if (currentToken == targetToken && depth == 0) {
+            return true
+        }
+
+        // Track nesting depth for balanced tokens
+        when (currentToken) {
+            ValkyrieTokenTypes.PARENTHESES_L, ValkyrieTokenTypes.BRACE_L, ValkyrieTokenTypes.ARRAY_L -> depth++
+            ValkyrieTokenTypes.PARENTHESES_R, ValkyrieTokenTypes.BRACE_R, ValkyrieTokenTypes.ARRAY_R -> depth--
+        }
+
+        // Stop at statement boundaries if we're not nested
+        if (depth == 0 && isStatementBoundary(currentToken)) {
+            break
+        }
+
+        builder.advanceLexer()
+        count++
+    }
+
+    return false
+}
+
+private fun isStatementBoundary(tokenType: IElementType?): Boolean {
+    return when (tokenType) {
+        ValkyrieTokenTypes.SEMICOLON,
+        ValkyrieTokenTypes.NEWLINE,
+        ValkyrieTokenTypes.CLASS,
+        ValkyrieTokenTypes.FUNCTION,
+        ValkyrieTokenTypes.MICRO,
+        ValkyrieTokenTypes.LET,
+        ValkyrieTokenTypes.VAR,
+        ValkyrieTokenTypes.IF,
+        ValkyrieTokenTypes.FOR,
+        ValkyrieTokenTypes.WHILE,
+        ValkyrieTokenTypes.RETURN,
+        ValkyrieTokenTypes.BRACE_R,
+        null -> true
+
+        else -> false
+    }
+}

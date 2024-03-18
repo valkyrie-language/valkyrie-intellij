@@ -60,7 +60,7 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.UNION_STATEMENT -> ValkyrieUnionDeclaration(node)
             ValkyrieElementTypes.FLAGS_STATEMENT -> ValkyrieUnionDeclaration(node) // 复用UnionDeclaration
             ValkyrieElementTypes.TRAIT_STATEMENT -> ValkyrieTraitDeclaration(node)
-            ValkyrieElementTypes.TRAIT_ALIAS_STATEMENT -> ValkyrieTraitAliasDeclaration(node)
+            ValkyrieElementTypes.TRAIT_ALIAS -> ValkyrieTraitAliasDeclaration(node)
             ValkyrieElementTypes.IMPLY_STATEMENT -> ValkyrieImplyStatement(node)
             ValkyrieElementTypes.NAMESPACE_STATEMENT -> ValkyrieNamespaceDeclaration(node)
             ValkyrieElementTypes.NAMESPACE_PATH -> ValkyrieElementNode(node)
@@ -85,7 +85,6 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.DOMAIN_DECLARATION -> ValkyrieDomainDeclaration(node)
             ValkyrieElementTypes.UNION_VARIANT -> ValkyrieVariantDeclaration(node)
             ValkyrieElementTypes.FLAGS_ITEM -> ValkyrieVariantDeclaration(node) // 复用VariantDeclaration
-            ValkyrieElementTypes.MEZZO_DECLARATION -> ValkyrieElementNode(node)
             // ValkyrieElementTypes.MODIFIER_LIST -> ValkyrieModifierListNode(node) // 已移除
             ValkyrieElementTypes.PATTERN -> ValkyrieElementNode(node)
             ValkyrieElementTypes.TUPLE_PATTERN -> ValkyrieElementNode(node)
@@ -110,11 +109,13 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.IF_LET_STATEMENT -> ValkyrieIfLetStatementNode(node)
             ValkyrieElementTypes.ELSE_CLAUSE -> ValkyrieElseClauseNode(node)
             ValkyrieElementTypes.DECLARE_TESTS -> ValkyrieTestStatement(node)
-            ValkyrieElementTypes.DECLARE_TEST_METHOD -> ValkyrieTestStatement(node)
             // 元编程节点
             ValkyrieElementTypes.DECLARE_MICRO -> ValkyrieMetaStatement(node)
+            ValkyrieElementTypes.ASSIGN_MICRO -> ValkyrieMetaStatement(node)
             ValkyrieElementTypes.DECLARE_MEZZO -> ValkyrieMetaStatement(node)
+            ValkyrieElementTypes.ASSIGN_MEZZO -> ValkyrieElementNode(node)
             ValkyrieElementTypes.DECLARE_MACRO -> ValkyrieMetaStatement(node)
+            ValkyrieElementTypes.ASSIGN_MACRO -> ValkyrieAssignStatement(node)
             ValkyrieElementTypes.COMPILE_TIME_BLOCK -> ValkyrieCompileTimeBlock(node)
             ValkyrieElementTypes.TEMPLATE_BLOCK -> ValkyrieTemplateBlock(node)
             ValkyrieElementTypes.LOOP_STATEMENT -> ValkyrieControlFlowNodes(node)
