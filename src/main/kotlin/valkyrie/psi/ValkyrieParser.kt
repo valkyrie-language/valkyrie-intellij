@@ -716,17 +716,18 @@ class ValkyrieParser : PsiParser {
 
 
     // term expression with optional semicolon
-    private fun parseExpressionStatement(builder: PsiBuilder) {
+    private fun parseExpressionStatement(builder: PsiBuilder): Boolean {
         val marker = builder.mark()
 
         // 解析表达式
         if (!parseTermExpression(builder, false)) {
             marker.error("Expected expression")
             recoverToSyncPoint(builder)
-            return
+            return false
         }
 
         marker.done(ValkyrieElementTypes.EXPRESSION_STATEMENT)
+        return true
     }
 
     // inline 则不能使用 { } 尾随闭包
@@ -1769,7 +1770,7 @@ class ValkyrieParser : PsiParser {
             val safePoint = builder.currentOffset
             when {
                 builder.tokenType == ValkyrieTokenTypes.BRACE_R -> break
-//            builder.tokenType == null -> return
+                parseExpressionStatement(builder) -> continue
                 else -> {
 //                    parseExpressionStatement(builder)
                     // 未知token，创建错误节点并消费该token
@@ -3155,10 +3156,8 @@ private fun isStatementBoundary(tokenType: IElementType?): Boolean {
         ValkyrieTokenTypes.SEMICOLON,
         ValkyrieTokenTypes.NEWLINE,
         ValkyrieTokenTypes.CLASS,
-        ValkyrieTokenTypes.FUNCTION,
         ValkyrieTokenTypes.MICRO,
         ValkyrieTokenTypes.LET,
-        ValkyrieTokenTypes.VAR,
         ValkyrieTokenTypes.IF,
         ValkyrieTokenTypes.FOR,
         ValkyrieTokenTypes.WHILE,
