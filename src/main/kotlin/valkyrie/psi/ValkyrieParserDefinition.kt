@@ -24,7 +24,7 @@ class ValkyrieParserDefinition : ParserDefinition {
         val WHITESPACE_TOKENS = TokenSet.create(ValkyrieTokenTypes.WHITESPACE, ValkyrieTokenTypes.NEWLINE)
         val COMMENT_TOKENS =
             TokenSet.create(ValkyrieTokenTypes.COMMENT_LINE, ValkyrieTokenTypes.COMMENT_RANGE, ValkyrieTokenTypes.COMMENT_DOCUMENT)
-        val STRING_LITERALS = TokenSet.create(ValkyrieTokenTypes.STRING)
+        val STRING_LITERALS = TokenSet.create(ValkyrieTokenTypes.STRING_DQ)
     }
 
     override fun createLexer(project: Project?): Lexer = ValkyrieLexer()

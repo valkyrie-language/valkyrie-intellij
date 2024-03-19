@@ -552,8 +552,6 @@ class ValkyrieParser : PsiParser {
         // Parse identifier with error recovery
         if (!parseIdentifier(builder)) {
             marker.error("Expected macro name")
-            // Try to recover by skipping to next statement
-            recoverToNextStatement(builder)
             return true
         }
 
@@ -561,7 +559,6 @@ class ValkyrieParser : PsiParser {
         if (builder.tokenType == ValkyrieTokenTypes.GENERIC_L) {
             if (!parseGenericParameterList(builder)) {
                 marker.error("Invalid generic parameters")
-                recoverToNextStatement(builder)
                 return true
             }
         }
@@ -569,18 +566,13 @@ class ValkyrieParser : PsiParser {
         // Expect assignment with error recovery
         if (builder.tokenType != ValkyrieTokenTypes.ASSIGN) {
             marker.error("Expected '=' in macro assignment")
-            // Try to recover by looking for assignment or next statement
-            if (!recoverToToken(builder, ValkyrieTokenTypes.ASSIGN)) {
-                recoverToNextStatement(builder)
-                return true
-            }
+            return true
         }
         builder.advanceLexer() // consume '='
 
         // Parse expression with error recovery
         if (!parseTermExpression(builder, false)) {
             marker.error("Expected expression after '='")
-            recoverToNextStatement(builder)
             return true
         }
 
@@ -963,7 +955,7 @@ class ValkyrieParser : PsiParser {
             }
 
             // 字面量
-            ValkyrieTokenTypes.INTEGER, ValkyrieTokenTypes.DECIMAL, ValkyrieTokenTypes.BOOLEAN, ValkyrieTokenTypes.STRING, ValkyrieTokenTypes.MULTI_QUOTE_STRING, ValkyrieTokenTypes.UNIT_NUMBER -> {
+            ValkyrieTokenTypes.INTEGER, ValkyrieTokenTypes.DECIMAL, ValkyrieTokenTypes.BOOLEAN, ValkyrieTokenTypes.STRING_DQ, ValkyrieTokenTypes.STRING_MQ, ValkyrieTokenTypes.UNIT_NUMBER -> {
                 val marker = builder.mark()
                 builder.advanceLexer()
                 marker.done(ValkyrieElementTypes.LITERAL_EXPRESSION)
@@ -1190,7 +1182,7 @@ class ValkyrieParser : PsiParser {
 
                 // 检查是否有泛型参数
                 if (builder.tokenType == ValkyrieTokenTypes.GENERIC_L || builder.tokenType == ValkyrieTokenTypes.ANGLE_L) {
-                    parseGenericParameterList(builder)
+                    parseGenericArgumentList(builder, true)
                 }
 
                 // 处理路径分隔符和后续的泛型路径
@@ -1199,14 +1191,14 @@ class ValkyrieParser : PsiParser {
 
                     // 检查是否是泛型调用语法 ::<T> 或 ::⟨T⟩
                     if (builder.tokenType == ValkyrieTokenTypes.GENERIC_L || builder.tokenType == ValkyrieTokenTypes.ANGLE_L) {
-                        parseGenericParameterList(builder)
+                        parseGenericArgumentList(builder, true)
                     } else if (isIdentifier(builder)) {
                         // 普通路径分隔符后的标识符
                         builder.advanceLexer()
 
                         // 检查该标识符后是否有泛型参数
                         if (builder.tokenType == ValkyrieTokenTypes.GENERIC_L || builder.tokenType == ValkyrieTokenTypes.ANGLE_L) {
-                            parseGenericParameterList(builder)
+                            parseGenericArgumentList(builder, true)
                         }
                     } else {
                         // 错误：:: 后应该跟标识符或泛型参数
@@ -1318,7 +1310,7 @@ class ValkyrieParser : PsiParser {
             }
 
             // 基本类型关键字
-            ValkyrieTokenTypes.BOOLEAN, ValkyrieTokenTypes.INTEGER, ValkyrieTokenTypes.DECIMAL, ValkyrieTokenTypes.STRING -> {
+            ValkyrieTokenTypes.BOOLEAN, ValkyrieTokenTypes.INTEGER, ValkyrieTokenTypes.DECIMAL, ValkyrieTokenTypes.STRING_DQ -> {
                 val marker = builder.mark()
                 builder.advanceLexer()
                 marker.done(ValkyrieElementTypes.PRIMITIVE_TYPE)
@@ -1607,11 +1599,16 @@ class ValkyrieParser : PsiParser {
         // type level 额外支持一种 <T>
         val marker = builder.mark()
 
-        val startToken = when {
-            builder.tokenType == ValkyrieTokenTypes.GENERIC_L -> ValkyrieTokenTypes.GENERIC_L
+        val (startToken, endToken) = when {
+            builder.tokenType == ValkyrieTokenTypes.GENERIC_L -> ValkyrieTokenTypes.GENERIC_L to ValkyrieTokenTypes.GENERIC_R
+            typeLevel && builder.tokenType == ValkyrieTokenTypes.ANGLE_L -> ValkyrieTokenTypes.ANGLE_L to ValkyrieTokenTypes.ANGLE_R
             builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON && builder.lookAhead(1) == ValkyrieTokenTypes.GENERIC_L -> {
                 builder.advanceLexer() // consume '::'
-                ValkyrieTokenTypes.GENERIC_L
+                ValkyrieTokenTypes.GENERIC_L to ValkyrieTokenTypes.GENERIC_R
+            }
+            typeLevel && builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON && builder.lookAhead(1) == ValkyrieTokenTypes.ANGLE_L -> {
+                builder.advanceLexer() // consume '::'
+                ValkyrieTokenTypes.ANGLE_L to ValkyrieTokenTypes.ANGLE_R
             }
 
             else -> {
@@ -1620,11 +1617,11 @@ class ValkyrieParser : PsiParser {
             }
         }
 
-        if (builder.tokenType == ValkyrieTokenTypes.GENERIC_L) {
-            builder.advanceLexer() // consume '<'
+        if (builder.tokenType == startToken) {
+            builder.advanceLexer() // consume opening bracket
 
             // 允许空的泛型参数列表
-            if (builder.tokenType != ValkyrieTokenTypes.GENERIC_R) {
+            if (builder.tokenType != endToken) {
                 // Parse first argument
                 if (!parseGenericArgumentItem(builder)) {
                     marker.error("Expected generic argument")
@@ -1641,11 +1638,12 @@ class ValkyrieParser : PsiParser {
                 }
             }
 
-            // Expect closing '>'
-            if (builder.tokenType == ValkyrieTokenTypes.GENERIC_R) {
-                builder.advanceLexer() // consume '>'
+            // Expect closing bracket
+            if (builder.tokenType == endToken) {
+                builder.advanceLexer() // consume closing bracket
             } else {
-                marker.error("Expected '>' to close generic argument list")
+                val expectedSymbol = if (endToken == ValkyrieTokenTypes.GENERIC_R) ">" else ">"
+                marker.error("Expected '$expectedSymbol' to close generic argument list")
                 return
             }
         }
@@ -2783,7 +2781,7 @@ class ValkyrieParser : PsiParser {
     }
 
     private fun parseForStatement(builder: PsiBuilder): Boolean {
-        if (builder.tokenType != ValkyrieTokenTypes.FOR) return false
+        if (builder.tokenType != ValkyrieTokenTypes.LOOP) return false
         val marker = builder.mark()
         builder.advanceLexer() // consume 'for'
 
@@ -3159,7 +3157,7 @@ private fun isStatementBoundary(tokenType: IElementType?): Boolean {
         ValkyrieTokenTypes.MICRO,
         ValkyrieTokenTypes.LET,
         ValkyrieTokenTypes.IF,
-        ValkyrieTokenTypes.FOR,
+        ValkyrieTokenTypes.LOOP,
         ValkyrieTokenTypes.WHILE,
         ValkyrieTokenTypes.RETURN,
         ValkyrieTokenTypes.BRACE_R,

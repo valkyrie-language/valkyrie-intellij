@@ -37,9 +37,6 @@ object ValkyrieTokenTypes {
     val UNTIL = ValkyrieTokenType("until")
 
     @JvmField
-    val FOR = ValkyrieTokenType("for")
-
-    @JvmField
     val LOOP = ValkyrieTokenType("loop")
 
     @JvmField
@@ -73,7 +70,7 @@ object ValkyrieTokenTypes {
     val FLAGS = ValkyrieTokenType("flags")
 
     @JvmField
-    val EIDOS = ValkyrieTokenType("enums")
+    val EIDOS = ValkyrieTokenType("eidos")
 
     @JvmField
     val TRAIT = ValkyrieTokenType("trait")
@@ -162,10 +159,10 @@ object ValkyrieTokenTypes {
     val UNIT_NUMBER = ValkyrieTokenType("NUMBER_UNIT")
 
     @JvmField
-    val STRING = ValkyrieTokenType("STRING")
+    val STRING_DQ = ValkyrieTokenType("STRING")
 
     @JvmField
-    val MULTI_QUOTE_STRING = ValkyrieTokenType("MULTI_QUOTE_STRING")
+    val STRING_MQ = ValkyrieTokenType("MULTI_QUOTE_STRING")
 
     // 操作符
     @JvmField

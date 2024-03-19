@@ -20,8 +20,8 @@ class DebugLexerTest {
             println("Token start: ${lexer.tokenStart}")
             println("Token end: ${lexer.tokenEnd}")
         }
-        println("Expected: ${ValkyrieTokenTypes.STRING}")
-        println("Actual equals expected: ${lexer.tokenType == ValkyrieTokenTypes.STRING}")
+        println("Expected: ${ValkyrieTokenTypes.STRING_DQ}")
+        println("Actual equals expected: ${lexer.tokenType == ValkyrieTokenTypes.STRING_DQ}")
     }
 
     @Test
