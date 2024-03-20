@@ -106,16 +106,17 @@ object ValkyrieTokenTypes {
     val TESTS = ValkyrieTokenType("tests")
 
     @JvmField
-    val MATCH = ValkyrieTokenType("match")
+    val TRY = ValkyrieTokenType("try")
 
     @JvmField
-    val CASE = ValkyrieTokenType("case")
-
+    val MATCH = ValkyrieTokenType("match")
     @JvmField
     val CATCH = ValkyrieTokenType("catch")
 
     @JvmField
-    val TRY = ValkyrieTokenType("try")
+    val CASE = ValkyrieTokenType("case")
+
+
 
     @JvmField
     val WHEN = ValkyrieTokenType("when")

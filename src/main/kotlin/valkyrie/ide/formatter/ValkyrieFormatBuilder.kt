@@ -103,7 +103,7 @@ class ValkyrieFormatBuilder : FormattingModelBuilder {
             
             // 关键字后的空格
             .after(ValkyrieTokenTypes.IF).spaces(1)
-            .after(ValkyrieTokenTypes.FOR).spaces(1)
+            .after(ValkyrieTokenTypes.LOOP).spaces(1)
             .after(ValkyrieTokenTypes.WHILE).spaces(1)
             .after(ValkyrieTokenTypes.MATCH).spaces(1)
             .after(ValkyrieTokenTypes.RETURN).spaces(1)
