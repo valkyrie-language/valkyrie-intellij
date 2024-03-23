@@ -22,6 +22,7 @@ class ValkyrieTypeReferenceNode(node: ASTNode) : ValkyrieTypeExpression(node) {
     override fun getReference(): PsiReference? {
         val identifier = findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER_STD)
         if (identifier != null) {
+            // 使用相对于identifier在当前节点中的范围
             val textRange = TextRange(identifier.startOffsetInParent, identifier.startOffsetInParent + identifier.textLength)
             return ValkyrieTypeReference(this, textRange)
         }

@@ -98,6 +98,9 @@
 		<codeStyleSettingsProvider
 			implementation="valkyrie.ide.formatter.ValkyrieCodeStyleProvider"
 		/>
+		<postFormatProcessor
+			implementation="valkyrie.ide.formatter.ValkyriePostFormatProcessor"
+		/>
 
 		<!-- Documentation Provider -->
 		<lang.documentationProvider

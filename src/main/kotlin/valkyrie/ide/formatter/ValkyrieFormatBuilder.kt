@@ -39,9 +39,12 @@ class ValkyrieFormatBuilder : FormattingModelBuilder {
         return SpacingBuilder(settings, ValkyrieLanguage.INSTANCE)
             // 大括号前后的空格
             .before(ValkyrieTokenTypes.BRACE_L).spaces(1)
-            .after(ValkyrieTokenTypes.BRACE_L).spaces(0)
-            .before(ValkyrieTokenTypes.BRACE_R).spaces(0)
+            .after(ValkyrieTokenTypes.BRACE_L).lineBreakInCode()
+            .before(ValkyrieTokenTypes.BRACE_R).lineBreakInCode()
             .after(ValkyrieTokenTypes.BRACE_R).spaces(0)
+            
+            // using body 特殊处理
+            .withinPair(ValkyrieTokenTypes.BRACE_L, ValkyrieTokenTypes.BRACE_R).lineBreakInCode()
             
             // 小括号的空格
             .before(ValkyrieTokenTypes.PARENTHESES_L).spaces(0)
@@ -74,7 +77,7 @@ class ValkyrieFormatBuilder : FormattingModelBuilder {
             .around(ValkyrieTokenTypes.ARROW).spaces(1)
             
             // 赋值操作符前后的空格
-            .around(ValkyrieTokenTypes.ASSIGN).spaces(0)
+            .around(ValkyrieTokenTypes.ASSIGN).spaces(1)
             .around(ValkyrieTokenTypes.PLUS_ASSIGN).spaces(1)
             .around(ValkyrieTokenTypes.MINUS_ASSIGN).spaces(1)
             .around(ValkyrieTokenTypes.MULTIPLY_ASSIGN).spaces(1)
@@ -101,17 +104,18 @@ class ValkyrieFormatBuilder : FormattingModelBuilder {
             .around(ValkyrieTokenTypes.LOGIC_OR).spaces(1)
             .around(ValkyrieTokenTypes.WOW).spaces(1)
             
-            // 关键字后的空格
-            .after(ValkyrieTokenTypes.IF).spaces(1)
-            .after(ValkyrieTokenTypes.LOOP).spaces(1)
-            .after(ValkyrieTokenTypes.WHILE).spaces(1)
-            .after(ValkyrieTokenTypes.MATCH).spaces(1)
-            .after(ValkyrieTokenTypes.RETURN).spaces(1)
-            .after(ValkyrieTokenTypes.LET).spaces(1)
-            .after(ValkyrieTokenTypes.MICRO).spaces(1)
-            .after(ValkyrieTokenTypes.CLASS).spaces(1)
-            .after(ValkyrieTokenTypes.UNION).spaces(1)
-            .after(ValkyrieTokenTypes.NAMESPACE).spaces(1)
+            // 关键字后的空格 - 使用spaceIf避免重复添加空格
+            .after(ValkyrieTokenTypes.IF).spaceIf(true)
+            .after(ValkyrieTokenTypes.LOOP).spaceIf(true)
+            .after(ValkyrieTokenTypes.WHILE).spaceIf(true)
+            .after(ValkyrieTokenTypes.MATCH).spaceIf(true)
+            .after(ValkyrieTokenTypes.RETURN).spaceIf(true)
+            .after(ValkyrieTokenTypes.LET).spaceIf(true)
+            .after(ValkyrieTokenTypes.MICRO).spaceIf(true)
+            .after(ValkyrieTokenTypes.MACRO).spaceIf(true)
+            .after(ValkyrieTokenTypes.CLASS).spaceIf(true)
+            .after(ValkyrieTokenTypes.UNION).spaceIf(true)
+            .after(ValkyrieTokenTypes.NAMESPACE).spaceIf(true)
     }
     
     override fun getRangeAffectingIndent(file: PsiFile, offset: Int, elementAtOffset: ASTNode): TextRange? {
@@ -170,6 +174,13 @@ class ValkyrieBlock(
                     ValkyrieElementTypes.OBJECT_BODY,
                     ValkyrieElementTypes.UNION_BODY,
                     ValkyrieElementTypes.FUNCTION_BODY,
+                    ValkyrieElementTypes.USING_BODY -> {
+                        // 对于object body、union body、function body和using body中的子元素，需要缩进
+                        when (child.elementType) {
+                            ValkyrieTokenTypes.BRACE_L, ValkyrieTokenTypes.BRACE_R -> Indent.getNoneIndent()
+                            else -> Indent.getNormalIndent()
+                        }
+                    }
                     ValkyrieElementTypes.IF_STATEMENT,
                     ValkyrieElementTypes.ELSE_CLAUSE,
                     ValkyrieElementTypes.FOR_STATEMENT,
@@ -192,11 +203,13 @@ class ValkyrieBlock(
     private fun getChildAlignment(child: ASTNode): Alignment? {
         return when (node.elementType) {
             ValkyrieElementTypes.OBJECT_BODY,
-            ValkyrieElementTypes.UNION_BODY -> {
+            ValkyrieElementTypes.UNION_BODY,
+            ValkyrieElementTypes.USING_BODY -> {
                 when (child.elementType) {
                     ValkyrieElementTypes.FIELD_DECLARATION,
                     ValkyrieElementTypes.METHOD_DECLARATION,
-                    ValkyrieElementTypes.DOMAIN_DECLARATION -> Alignment.createAlignment()
+                    ValkyrieElementTypes.DOMAIN_DECLARATION,
+                    ValkyrieElementTypes.USING_ITEM -> Alignment.createAlignment()
                     else -> null
                 }
             }

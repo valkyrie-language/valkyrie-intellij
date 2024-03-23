@@ -6,18 +6,18 @@ import valkyrie.psi.nodes.ValkyrieAnnotationNode
 import valkyrie.psi.nodes.ValkyrieModifierNode
 
 interface HasAnnotation {
-    fun getAnnotation(): ValkyrieAnnotationNode {
+    fun getAnnotation(): ValkyrieAnnotationNode? {
         return PsiTreeUtil.findChildOfType(
             this as PsiElement,
             ValkyrieAnnotationNode::class.java
-        )!!
+        )
     }
 
     val modifiers: List<ValkyrieModifierNode>
-        get() = this.getAnnotation().getModifiers()
+        get() = this.getAnnotation()?.getModifiers() ?: emptyList()
 
     fun hasModifier(name: String): Boolean {
-        return this.getAnnotation().hasModifier(name)
+        return this.getAnnotation()?.hasModifier(name) ?: false
     }
 }
 

@@ -105,8 +105,8 @@ class ValkyrieReference(private val element: ValkyrieIdentifierNode) : PsiRefere
     
     override fun getRangeInElement(): TextRange {
         val nameIdentifier = element ?: return TextRange.EMPTY_RANGE
-        val startOffset = nameIdentifier.startOffsetInParent
-        return TextRange(startOffset, startOffset + nameIdentifier.textLength)
+        // 使用相对于element自身的范围，而不是相对于父元素的偏移量
+        return TextRange(0, nameIdentifier.textLength)
     }
     
     /**

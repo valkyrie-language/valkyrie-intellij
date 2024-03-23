@@ -55,7 +55,8 @@ class ValkyrieCallExpressionNode(node: ASTNode) : ValkyrieElementNode(node) {
     override fun getReference(): PsiReference? {
         val callee = getCallee()
         if (callee is ValkyrieIdentifierNode) {
-            val textRange = TextRange(callee.startOffsetInParent, callee.startOffsetInParent + callee.textLength)
+            // 使用相对于callee元素自身的范围，而不是相对于父元素的偏移量
+            val textRange = TextRange(0, callee.textLength)
             return ValkyrieFunctionCallReference(callee, textRange)
         }
         return null
