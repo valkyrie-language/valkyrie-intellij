@@ -26,6 +26,20 @@ class ValkyrieClassDeclaration(node: ASTNode) : ValkyrieElementNode(node),
 
 
     override fun getNameIdentifier(): PsiElement? {
+        // 根据语法定义 declare-class ::= annotations KW_CLASS identifier-safe
+        // class 关键词和标识符是同级子节点，需要找到 KW_CLASS 后面的标识符
+        val children = node.getChildren(null)
+        var foundClass = false
+        for (child in children) {
+            if (child.elementType.toString() == "KW_CLASS") {
+                foundClass = true
+                continue
+            }
+            if (foundClass && child.psi is ValkyrieIdentifierNode) {
+                return child.psi
+            }
+        }
+        // 备用方案：查找第一个标识符节点
         return findChildByClass(ValkyrieIdentifierNode::class.java)
     }
 

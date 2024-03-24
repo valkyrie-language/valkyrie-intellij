@@ -1,6 +1,7 @@
 package valkyrie.psi
 
 import com.intellij.psi.tree.IElementType
+import com.intellij.psi.tree.TokenSet
 import valkyrie.language.ValkyrieLanguage
 
 /**
@@ -129,16 +130,12 @@ object ValkyrieTokenTypes {
     val IN = ValkyrieTokenType("in")
 
     @JvmField
-    val NOT_IN = ValkyrieTokenType("not in")
-
-    @JvmField
     val IS = ValkyrieTokenType("is")
 
     @JvmField
-    val IS_NOT = ValkyrieTokenType("is not")
-
-    @JvmField
     val AS = ValkyrieTokenType("as")
+
+    val IDENTIFIER by lazy { TokenSet.create(IDENTIFIER_STD, IDENTIFIER_RAW) }
 
     // 标识符和字面量
     @JvmField
@@ -215,6 +212,8 @@ object ValkyrieTokenTypes {
     @JvmField
     val NOT_EQUAL = ValkyrieTokenType("!=")
 
+    @JvmField
+    val NOT = ValkyrieTokenType("not")
 
     @JvmField
     val LESS_EQUAL = ValkyrieTokenType("LESS_EQUAL") // <=
@@ -390,12 +389,5 @@ object ValkyrieTokenTypes {
     val TEMPLATE_END = ValkyrieTokenType("$>")
 
     @JvmField
-    val WHITESPACE = ValkyrieTokenType("WHITESPACE")
-
-    @JvmField
-    val NEWLINE = ValkyrieTokenType("NEWLINE")
-
-    // 错误 token
-    @JvmField
-    val BAD_CHARACTER = ValkyrieTokenType("BAD_CHARACTER")
+    val END = ValkyrieTokenType("end")
 }

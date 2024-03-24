@@ -91,7 +91,7 @@ class EmptyStringTest {
         lexer.start("let x = \"\"", 0, 10, 0)
 
         // 跳过可能的前导空白
-        while (lexer.tokenType == ValkyrieTokenTypes.WHITESPACE) {
+        while (lexer.tokenType == WHITE_SPACE) {
             lexer.advance()
         }
 
@@ -101,7 +101,7 @@ class EmptyStringTest {
 
         // 继续到下一个非空白 token
         lexer.advance()
-        while (lexer.tokenType == ValkyrieTokenTypes.WHITESPACE) {
+        while (lexer.tokenType == WHITE_SPACE) {
             lexer.advance()
         }
 

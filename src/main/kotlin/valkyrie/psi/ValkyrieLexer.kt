@@ -1,6 +1,8 @@
 package valkyrie.psi
 
 import com.intellij.lexer.LexerBase
+import com.intellij.psi.TokenType.BAD_CHARACTER
+import com.intellij.psi.TokenType.WHITE_SPACE
 import com.intellij.psi.tree.IElementType
 
 /**
@@ -99,13 +101,10 @@ class ValkyrieLexer : LexerBase() {
 
         when {
             ch.isWhitespace() -> {
-                if (ch == '\n') {
+                while (currentOffset < endOffset && buffer[currentOffset].isWhitespace()) {
                     currentOffset++
-                    tokenType = ValkyrieTokenTypes.NEWLINE
-                } else {
-                    skipWhitespace()
-                    tokenType = ValkyrieTokenTypes.WHITESPACE
                 }
+                tokenType = WHITE_SPACE
             }
 
             ch == '⍝' -> {
@@ -171,12 +170,6 @@ class ValkyrieLexer : LexerBase() {
         return if (pos < endOffset) buffer[pos] else null
     }
 
-    private fun skipWhitespace() {
-        while (currentOffset < endOffset && buffer[currentOffset].isWhitespace() && buffer[currentOffset] != '\n') {
-            currentOffset++
-        }
-    }
-
     private fun skipLineComment() {
         currentOffset++ // skip #
         while (currentOffset < endOffset && buffer[currentOffset] != '\n') {
@@ -222,35 +215,8 @@ class ValkyrieLexer : LexerBase() {
 
         val text = buffer.subSequence(startOffset, currentOffset).toString()
 
-        // 检查复合关键字
-        when (text) {
-            "not" -> {
-                // 检查是否是 "not in"
-                val savedOffset = currentOffset
-                skipWhitespace()
-                if (currentOffset + 2 <= endOffset && buffer.subSequence(currentOffset, currentOffset + 2).toString() == "in") {
-                    currentOffset += 2
-                    tokenType = ValkyrieTokenTypes.NOT_IN
-                    return
-                } else {
-                    currentOffset = savedOffset
-                }
-            }
-
-            "is" -> {
-                // 检查是否是 "is not"
-                val savedOffset = currentOffset
-                skipWhitespace()
-                if (currentOffset + 3 <= endOffset && buffer.subSequence(currentOffset, currentOffset + 3).toString() == "not") {
-                    currentOffset += 3
-                    tokenType = ValkyrieTokenTypes.IS_NOT
-                    return
-                } else {
-                    currentOffset = savedOffset
-                }
-            }
-        }
-
+        // 直接查找关键字，不处理复合关键字（如"not in"、"is not"）
+        // 复合关键字应在parser阶段处理，以避免格式化问题
         tokenType = keywords[text] ?: ValkyrieTokenTypes.IDENTIFIER_STD
     }
 
@@ -474,7 +440,7 @@ class ValkyrieLexer : LexerBase() {
                     tokenType = ValkyrieTokenTypes.TEMPLATE_END
                 } else {
                     // $ 作为普通字符处理
-                    tokenType = ValkyrieTokenTypes.BAD_CHARACTER
+                    tokenType = BAD_CHARACTER
                 }
             }
 
@@ -769,7 +735,7 @@ class ValkyrieLexer : LexerBase() {
 
             else -> {
                 currentOffset++
-                tokenType = ValkyrieTokenTypes.BAD_CHARACTER
+                tokenType = BAD_CHARACTER
             }
         }
     }

@@ -20,11 +20,7 @@ class ValkyrieParserDefinition : ParserDefinition {
 
     companion object {
         val FILE = IFileElementType(ValkyrieLanguage.INSTANCE)
-
-        val WHITESPACE_TOKENS = TokenSet.create(ValkyrieTokenTypes.WHITESPACE, ValkyrieTokenTypes.NEWLINE)
-        val COMMENT_TOKENS =
-            TokenSet.create(ValkyrieTokenTypes.COMMENT_LINE, ValkyrieTokenTypes.COMMENT_RANGE, ValkyrieTokenTypes.COMMENT_DOCUMENT)
-        val STRING_LITERALS = TokenSet.create(ValkyrieTokenTypes.STRING_DQ)
+        val STRING_LITERALS = TokenSet.create(ValkyrieTokenTypes.STRING_DQ, ValkyrieTokenTypes.STRING_MQ)
     }
 
     override fun createLexer(project: Project?): Lexer = ValkyrieLexer()
@@ -33,9 +29,7 @@ class ValkyrieParserDefinition : ParserDefinition {
 
     override fun getFileNodeType(): IFileElementType = FILE
 
-    override fun getCommentTokens(): TokenSet = COMMENT_TOKENS
-
-    override fun getWhitespaceTokens(): TokenSet = WHITESPACE_TOKENS
+    override fun getCommentTokens(): TokenSet = TokenSet.create(ValkyrieTokenTypes.COMMENT_LINE, ValkyrieTokenTypes.COMMENT_RANGE, ValkyrieTokenTypes.COMMENT_DOCUMENT)
 
     override fun getStringLiteralElements(): TokenSet = STRING_LITERALS
 

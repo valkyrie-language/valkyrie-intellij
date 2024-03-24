@@ -4,6 +4,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiReference
+import com.intellij.psi.TokenType.WHITE_SPACE
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
 import valkyrie.reference.ValkyrieFunctionCallReference
@@ -37,8 +38,7 @@ class ValkyrieCallExpressionNode(node: ASTNode) : ValkyrieElementNode(node) {
             
             while (child != null && child.node.elementType != ValkyrieTokenTypes.PARENTHESES_R) {
                 if (child.node.elementType != ValkyrieTokenTypes.COMMA && 
-                    child.node.elementType != ValkyrieTokenTypes.WHITESPACE &&
-                    child.node.elementType != ValkyrieTokenTypes.NEWLINE) {
+                    child.node.elementType != WHITE_SPACE) {
                     args.add(child)
                 }
                 child = child.nextSibling

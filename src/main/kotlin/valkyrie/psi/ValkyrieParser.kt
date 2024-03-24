@@ -741,7 +741,31 @@ class ValkyrieParser : PsiParser {
                 continue
             }
 
-            // 再检查中缀操作符
+            // 检查复合操作符 "is not" 和 "not in"
+            val isCompoundOperator = checkCompoundOperator(builder)
+            if (isCompoundOperator != null) {
+                val precedence = getCompoundOperatorPrecedence(isCompoundOperator)
+                if (precedence >= minPrecedence) {
+                    val marker = left.precede()
+                    
+                    // 消费复合操作符的两个token
+                    builder.advanceLexer() // 消费第一个token (is/not)
+                    builder.advanceLexer() // 消费第二个token (not/in)
+                    
+                    // 解析右操作数
+                    if (!parseTermExpressionWithPrecedence(builder, precedence + 1, inline)) {
+                        marker.error("Expected right operand")
+                        recoverToSyncPoint(builder)
+                        return false
+                    }
+                    
+                    marker.done(ValkyrieElementTypes.BINARY_EXPRESSION)
+                    left = marker
+                    continue
+                }
+            }
+            
+            // 再检查单个token中缀操作符
             val precedence = getTermOperatorPrecedence(tokenType)
             if (precedence < minPrecedence || !isTermInfixOperator(tokenType)) {
                 break
@@ -930,7 +954,7 @@ class ValkyrieParser : PsiParser {
 
     private fun isTermInfixOperator(tokenType: IElementType?): Boolean {
         return when (tokenType) {
-            ValkyrieTokenTypes.PLUS, ValkyrieTokenTypes.MINUS, ValkyrieTokenTypes.STAR, ValkyrieTokenTypes.MULTIPLY, ValkyrieTokenTypes.SLASH, ValkyrieTokenTypes.INTEGER_DIVIDE, ValkyrieTokenTypes.PERCENT, ValkyrieTokenTypes.POWER, ValkyrieTokenTypes.EQUAL, ValkyrieTokenTypes.NOT_EQUAL, ValkyrieTokenTypes.ANGLE_L, ValkyrieTokenTypes.ANGLE_R, ValkyrieTokenTypes.LESS_EQUAL, ValkyrieTokenTypes.GREATER_EQUAL, ValkyrieTokenTypes.LOGIC_AND, ValkyrieTokenTypes.LOGIC_OR, ValkyrieTokenTypes.LOGIC_XOR, ValkyrieTokenTypes.LOGIC_NAND, ValkyrieTokenTypes.LOGIC_NOR, ValkyrieTokenTypes.LOGIC_XAND, ValkyrieTokenTypes.PIPE, ValkyrieTokenTypes.AMPERSAND, ValkyrieTokenTypes.AS, ValkyrieTokenTypes.IN, ValkyrieTokenTypes.NOT_IN, ValkyrieTokenTypes.IS, ValkyrieTokenTypes.IS_NOT -> true
+            ValkyrieTokenTypes.PLUS, ValkyrieTokenTypes.MINUS, ValkyrieTokenTypes.STAR, ValkyrieTokenTypes.MULTIPLY, ValkyrieTokenTypes.SLASH, ValkyrieTokenTypes.INTEGER_DIVIDE, ValkyrieTokenTypes.PERCENT, ValkyrieTokenTypes.POWER, ValkyrieTokenTypes.EQUAL, ValkyrieTokenTypes.NOT_EQUAL, ValkyrieTokenTypes.ANGLE_L, ValkyrieTokenTypes.ANGLE_R, ValkyrieTokenTypes.LESS_EQUAL, ValkyrieTokenTypes.GREATER_EQUAL, ValkyrieTokenTypes.LOGIC_AND, ValkyrieTokenTypes.LOGIC_OR, ValkyrieTokenTypes.LOGIC_XOR, ValkyrieTokenTypes.LOGIC_NAND, ValkyrieTokenTypes.LOGIC_NOR, ValkyrieTokenTypes.LOGIC_XAND, ValkyrieTokenTypes.PIPE, ValkyrieTokenTypes.AMPERSAND, ValkyrieTokenTypes.AS, ValkyrieTokenTypes.IN, ValkyrieTokenTypes.IS -> true
 
             else -> false
         }
@@ -946,6 +970,32 @@ class ValkyrieParser : PsiParser {
 
     private fun getTermOperatorPrecedence(tokenType: IElementType?): Int {
         return operatorPrecedenceCache[tokenType] ?: 0
+    }
+    
+    /**
+     * 检查当前位置是否是复合操作符 "is not" 或 "not in"
+     * @return 复合操作符类型，如果不是复合操作符则返回null
+     */
+    private fun checkCompoundOperator(builder: PsiBuilder): String? {
+        val currentToken = builder.tokenType
+        val nextToken = builder.lookAhead(1)
+        
+        return when {
+            currentToken == ValkyrieTokenTypes.IS && nextToken == ValkyrieTokenTypes.NOT -> "is_not"
+            currentToken == ValkyrieTokenTypes.NOT && nextToken == ValkyrieTokenTypes.IN -> "not_in"
+            else -> null
+        }
+    }
+    
+    /**
+     * 获取复合操作符的优先级
+     */
+    private fun getCompoundOperatorPrecedence(compoundOperator: String): Int {
+        return when (compoundOperator) {
+            "is_not" -> operatorPrecedenceCache[ValkyrieTokenTypes.IS] ?: 0
+            "not_in" -> operatorPrecedenceCache[ValkyrieTokenTypes.IN] ?: 0
+            else -> 0
+        }
     }
 
     private fun parsePrimaryTerm(builder: PsiBuilder): PsiBuilder.Marker? {
@@ -2440,7 +2490,7 @@ class ValkyrieParser : PsiParser {
         parseLabelMark(builder)
 
         // Parse optional expression
-        if (builder.tokenType != ValkyrieTokenTypes.SEMICOLON && builder.tokenType != ValkyrieTokenTypes.NEWLINE && !builder.eof()) {
+        if (builder.tokenType != ValkyrieTokenTypes.SEMICOLON && !builder.eof()) {
             parseTermExpression(builder, false)
         }
 
@@ -2496,7 +2546,7 @@ class ValkyrieParser : PsiParser {
         }
 
         // Parse optional expression
-        if (builder.tokenType != ValkyrieTokenTypes.SEMICOLON && builder.tokenType != ValkyrieTokenTypes.NEWLINE && !builder.eof()) {
+        if (builder.tokenType != ValkyrieTokenTypes.SEMICOLON && !builder.eof()) {
             parseTermExpression(builder, false)
         }
 
@@ -2518,7 +2568,7 @@ class ValkyrieParser : PsiParser {
         }
 
         // Parse required expression for raise
-        if (builder.tokenType != ValkyrieTokenTypes.SEMICOLON && builder.tokenType != ValkyrieTokenTypes.NEWLINE && !builder.eof()) {
+        if (builder.tokenType != ValkyrieTokenTypes.SEMICOLON  && !builder.eof()) {
             parseTermExpression(builder, false)
         } else {
             builder.error("Expected expression after 'raise'")
@@ -2828,7 +2878,7 @@ class ValkyrieParser : PsiParser {
         builder.advanceLexer() // consume 'resume'
 
         // Parse optional expression
-        if (builder.tokenType != ValkyrieTokenTypes.SEMICOLON && builder.tokenType != ValkyrieTokenTypes.NEWLINE && !builder.eof()) {
+        if (builder.tokenType != ValkyrieTokenTypes.SEMICOLON && !builder.eof()) {
             parseTermExpression(builder, false)
         }
 
@@ -3110,9 +3160,7 @@ private val operatorPrecedenceCache = mapOf(
     ValkyrieTokenTypes.EQUAL to 5,
     ValkyrieTokenTypes.NOT_EQUAL to 5,
     ValkyrieTokenTypes.IN to 5,
-    ValkyrieTokenTypes.NOT_IN to 5,
     ValkyrieTokenTypes.IS to 5,
-    ValkyrieTokenTypes.IS_NOT to 5,
     ValkyrieTokenTypes.ANGLE_L to 6,
     ValkyrieTokenTypes.ANGLE_R to 6,
     ValkyrieTokenTypes.LESS_EQUAL to 6,
@@ -3168,7 +3216,6 @@ private fun recoverToToken(builder: PsiBuilder, targetToken: IElementType): Bool
 private fun isStatementBoundary(tokenType: IElementType?): Boolean {
     return when (tokenType) {
         ValkyrieTokenTypes.SEMICOLON,
-        ValkyrieTokenTypes.NEWLINE,
         ValkyrieTokenTypes.CLASS,
         ValkyrieTokenTypes.MICRO,
         ValkyrieTokenTypes.LET,

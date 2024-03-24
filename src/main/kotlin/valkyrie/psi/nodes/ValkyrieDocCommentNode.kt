@@ -2,6 +2,7 @@ package valkyrie.psi.nodes
 
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
+import com.intellij.psi.TokenType.WHITE_SPACE
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
@@ -31,8 +32,7 @@ class ValkyrieDocCommentNode(node: ASTNode) : ValkyrieElementNode(node) {
         while (current != null) {
             if (current is ValkyrieDocCommentNode) {
                 comments.add(0, current.getCommentText())
-            } else if (current.node.elementType == ValkyrieTokenTypes.WHITESPACE || 
-                      current.node.elementType == ValkyrieTokenTypes.NEWLINE) {
+            } else if (current.node.elementType == WHITE_SPACE) {
                 // 跳过空白字符
             } else {
                 break
@@ -45,8 +45,7 @@ class ValkyrieDocCommentNode(node: ASTNode) : ValkyrieElementNode(node) {
         while (current != null) {
             if (current is ValkyrieDocCommentNode) {
                 comments.add(current.getCommentText())
-            } else if (current.node.elementType == ValkyrieTokenTypes.WHITESPACE || 
-                      current.node.elementType == ValkyrieTokenTypes.NEWLINE) {
+            } else if (current.node.elementType == WHITE_SPACE) {
                 // 跳过空白字符
             } else {
                 break
@@ -71,8 +70,7 @@ class ValkyrieDocCommentNode(node: ASTNode) : ValkyrieElementNode(node) {
                 next is ValkyrieDocCommentNode -> {
                     next = PsiTreeUtil.getNextSiblingOfType(next, PsiElement::class.java)
                 }
-                next.node.elementType == ValkyrieTokenTypes.WHITESPACE ||
-                next.node.elementType == ValkyrieTokenTypes.NEWLINE -> {
+                next.node.elementType == WHITE_SPACE -> {
                     next = PsiTreeUtil.getNextSiblingOfType(next, PsiElement::class.java)
                 }
                 next is ValkyrieClassDeclaration ||

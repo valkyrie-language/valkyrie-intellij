@@ -125,7 +125,7 @@ class LiteralSupportTest {
         
         expectedTokens.forEachIndexed { index, expectedToken ->
             // 跳过空白字符
-            while (lexer.tokenType == ValkyrieTokenTypes.WHITESPACE) {
+            while (lexer.tokenType == WHITE_SPACE) {
                 lexer.advance()
             }
             
