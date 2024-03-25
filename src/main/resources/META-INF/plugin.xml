@@ -187,6 +187,12 @@
 		<config.codeVisionGroupSettingProvider
 			implementation="valkyrie.ide.code_vision.ValkyrieImplementerVisionSettings"
 		/>
+		<!-- Target Element Evaluator -->
+		<targetElementEvaluator
+			language="valkyrie"
+			implementationClass="valkyrie.ide.documentation.ValkyrieTargetElementEvaluator"
+		/>
+
 		<!-- Intention Actions -->
 		<intentionAction>
 			<language>valkyrie</language>

@@ -30,10 +30,7 @@ class ValkyrieProjectService(private val project: Project) : Disposable {
             }
         })
         
-        // 初始化时构建索引（后台线程执行，避免在项目启动读锁/EDT中阻塞）
-        ApplicationManager.getApplication().executeOnPooledThread {
-            ValkyrieSymbolIndex.getInstance(project).rebuildIndex()
-        }
+        // 移除重复的索引初始化，由ValkyrieStartupActivity负责
     }
     
     fun getSymbolIndex(): ValkyrieSymbolIndex {
