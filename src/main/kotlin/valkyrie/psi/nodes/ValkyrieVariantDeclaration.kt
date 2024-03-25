@@ -1,6 +1,8 @@
 package valkyrie.psi.nodes
 
+import com.intellij.ide.projectView.PresentationData
 import com.intellij.lang.ASTNode
+import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.util.NlsSafe
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
@@ -8,6 +10,7 @@ import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
 import valkyrie.psi.traits.HasHighlighter
 import valkyrie.ide.highlight.ValkyrieColor
+import valkyrie.language.ValkyrieIcons
 
 /**
  * Union Variant 实现
@@ -40,5 +43,17 @@ class ValkyrieVariantDeclaration(node: ASTNode) : ValkyrieElementNode(node), Psi
 
     fun getVariantBody(): ValkyrieObjectBodyNode? {
         return findChildByClass(ValkyrieObjectBodyNode::class.java)
+    }
+
+    override fun getPresentation(): ItemPresentation {
+        val hasBody = getVariantBody() != null
+        val locationText = if (hasBody) "with body" else "simple variant"
+        
+        return PresentationData(
+            "${name ?: "<anonymous-variant>"}",
+            locationText,
+            ValkyrieIcons.VARIANT,
+            ValkyrieColor.VARIANT_DECLARATION.textAttributesKey
+        )
     }
 }

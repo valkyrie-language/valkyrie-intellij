@@ -377,10 +377,10 @@ object ValkyrieTokenTypes {
 
     // 元编程模板语法 tokens
     @JvmField
-    val COMPILE_TIME_BLOCK_START = ValkyrieTokenType("<{")
+    val COMPILE_L = ValkyrieTokenType("<{")
 
     @JvmField
-    val COMPILE_TIME_BLOCK_END = ValkyrieTokenType("}>")
+    val COMPILE_R = ValkyrieTokenType("}>")
 
     @JvmField
     val TEMPLATE_START = ValkyrieTokenType("<$")

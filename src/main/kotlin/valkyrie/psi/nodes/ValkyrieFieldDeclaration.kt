@@ -1,9 +1,12 @@
 package valkyrie.psi.nodes
 
+import com.intellij.ide.projectView.PresentationData
 import com.intellij.lang.ASTNode
+import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.ide.highlight.ValkyrieColor
+import valkyrie.language.ValkyrieIcons
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
 import valkyrie.psi.traits.HasHighlighter
@@ -63,5 +66,18 @@ class ValkyrieFieldDeclaration(node: ASTNode) : ValkyrieElementNode(node),
 
     fun getTypeReference(): ValkyrieTypeReferenceNode? {
         return findChildByClass(ValkyrieTypeReferenceNode::class.java)
+    }
+
+    override fun getPresentation(): ItemPresentation {
+        val typeText = getTypeReference()?.text ?: "unknown"
+        val modifiers = getModifierNodes().joinToString(" ") { it.text }
+        val locationText = if (modifiers.isNotEmpty()) "$modifiers: $typeText" else typeText
+        
+        return PresentationData(
+            "${name ?: "<anonymous-field>"}",
+            locationText,
+            ValkyrieIcons.FIELD,
+            ValkyrieColor.FIELD_DECLARATION.textAttributesKey
+        )
     }
 }

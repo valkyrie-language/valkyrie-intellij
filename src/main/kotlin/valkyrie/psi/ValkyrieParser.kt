@@ -2633,14 +2633,14 @@ class ValkyrieParser : PsiParser {
      * 解析编译期表达式块 <{ ... }>
      */
     private fun parseCompileTimeBlock(builder: PsiBuilder): Boolean {
-        if (builder.tokenType != ValkyrieTokenTypes.COMPILE_TIME_BLOCK_START) return false
+        if (builder.tokenType != ValkyrieTokenTypes.COMPILE_L) return false
         val marker = builder.mark()
 
         // 消费 '<{'
         builder.advanceLexer()
 
         // 解析块内容
-        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.COMPILE_TIME_BLOCK_END) {
+        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.COMPILE_R) {
             val initialPosition = builder.currentOffset
             parseStatement(builder)
 
@@ -2652,7 +2652,7 @@ class ValkyrieParser : PsiParser {
         }
 
         // 消费 '}>'
-        if (builder.tokenType == ValkyrieTokenTypes.COMPILE_TIME_BLOCK_END) {
+        if (builder.tokenType == ValkyrieTokenTypes.COMPILE_R) {
             builder.advanceLexer()
         } else {
             builder.error("Expected '}>'")

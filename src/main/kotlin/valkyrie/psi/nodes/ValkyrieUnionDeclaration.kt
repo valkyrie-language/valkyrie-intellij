@@ -1,13 +1,16 @@
 package valkyrie.psi.nodes
 
+import com.intellij.ide.projectView.PresentationData
 import com.intellij.lang.ASTNode
+import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.util.NlsSafe
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
+import valkyrie.ide.highlight.ValkyrieColor
+import valkyrie.language.ValkyrieIcons
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
 import valkyrie.psi.traits.HasHighlighter
-import valkyrie.ide.highlight.ValkyrieColor
 
 /**
  * Union 语句实现
@@ -40,5 +43,14 @@ class ValkyrieUnionDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNa
 
     fun getUnionBody(): ValkyrieUnionBodyNode? {
         return findChildByClass(ValkyrieUnionBodyNode::class.java)
+    }
+
+    override fun getPresentation(): ItemPresentation {
+        return PresentationData(
+            "${name ?: "<anonymous-union>"}",
+            null,
+            ValkyrieIcons.UNION,
+            ValkyrieColor.UNION_DECLARATION.textAttributesKey
+        )
     }
 }
