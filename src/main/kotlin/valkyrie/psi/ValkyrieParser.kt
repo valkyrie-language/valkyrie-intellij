@@ -63,11 +63,11 @@ class ValkyrieParser : PsiParser {
 
 
 //            parseCompileTimeBlock(builder) -> return
-//            parseTemplateBlock(builder) -> return
+            parseTemplateBlock(builder) -> return
 
 //            parseWhileStatement(builder) -> return
 //            parseMatchStatement(builder) -> return
-//            parseIfStatement(builder) -> return
+            parseIfStatement(builder) -> return
 //            parseTryStatement(builder) -> return
 //            parseCatchStatement(builder) -> return
 //            parseReturnStatement(builder) -> return
@@ -81,7 +81,14 @@ class ValkyrieParser : PsiParser {
 //            parseDocComment(builder) -> return
 //            parseMacroCall(builder) -> return
             builder.tokenType == null -> return
-            else -> parseExpressionStatement(builder)
+            else -> {
+                // 检查是否在模板文件中
+                if (isInTemplateFile(builder)) {
+                    parseTemplateText(builder)
+                } else {
+                    parseExpressionStatement(builder)
+                }
+            }
         }
         if (builder.currentOffset == safePoint) {
             builder.error("Unexpected token: ${builder.tokenType}")
@@ -543,6 +550,7 @@ class ValkyrieParser : PsiParser {
     }
 
     private fun parseMacroAssignment(builder: PsiBuilder): Boolean {
+        if (builder.tokenType != ValkyrieTokenTypes.MACRO) return false
         val marker = builder.mark()
         parseAnnotations(builder, withModifiers = true)
 
@@ -2582,9 +2590,51 @@ class ValkyrieParser : PsiParser {
         if (builder.tokenType != ValkyrieTokenTypes.IF) return false
         val marker = builder.mark()
         builder.advanceLexer() // consume 'if'
-        // Parse optional else/else if clauses
-        parseTermExpression(builder, inline = true)
-        parseFnBody(builder)
+        
+        // 解析条件表达式
+        if (!parseTermExpression(builder, inline = true)) {
+            marker.error("Expected condition expression after 'if'")
+            return false
+        }
+        
+        // 解析 then 块
+        if (!parseFnBody(builder)) {
+            marker.error("Expected block after if condition")
+            return false
+        }
+        
+        // 解析 else if 和 else 子句
+        while (builder.tokenType == ValkyrieTokenTypes.ELSE) {
+            val elseMarker = builder.mark()
+            builder.advanceLexer() // consume 'else'
+            
+            if (builder.tokenType == ValkyrieTokenTypes.IF) {
+                // else if 子句
+                builder.advanceLexer() // consume 'if'
+                
+                if (!parseTermExpression(builder, inline = true)) {
+                    elseMarker.error("Expected condition expression after 'else if'")
+                    return false
+                }
+                
+                if (!parseFnBody(builder)) {
+                    elseMarker.error("Expected block after else if condition")
+                    return false
+                }
+                
+                elseMarker.done(ValkyrieElementTypes.ELSE_CLAUSE)
+            } else {
+                // else 子句
+                if (!parseFnBody(builder)) {
+                    elseMarker.error("Expected block after 'else'")
+                    return false
+                }
+                
+                elseMarker.done(ValkyrieElementTypes.ELSE_CLAUSE)
+                break // else 子句后不能再有其他子句
+            }
+        }
+        
         marker.done(ValkyrieElementTypes.IF_STATEMENT)
         return true
     }
@@ -2673,7 +2723,9 @@ class ValkyrieParser : PsiParser {
         builder.advanceLexer()
 
         // 解析模板内容
-        parseTemplateContent(builder)
+        if (!parseTemplateContent(builder)) {
+            builder.error("Failed to parse template content")
+        }
 
         // 消费 '$>'
         if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_END) {
@@ -2690,102 +2742,157 @@ class ValkyrieParser : PsiParser {
      * 解析模板内容
      */
     private fun parseTemplateContent(builder: PsiBuilder): Boolean {
-        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.TEMPLATE_END) {
-            val initialPosition = builder.currentOffset
-
-            when {
-                builder.tokenText == "if" -> {
-                    parseTemplateIf(builder)
-                }
-
-                builder.tokenText == "for" -> {
-                    parseTemplateFor(builder)
-                }
-
-                builder.tokenText == "while" -> {
-                    parseTemplateWhile(builder)
-                }
-
-                builder.tokenText == "match" -> {
-                    parseTemplateMatch(builder)
-                }
-
-                else -> {
-                    // 解析插值表达式
-                    if (!parseTermExpression(builder, false)) {
-                        builder.error("Unable to parse template expression")
-                        builder.advanceLexer()
-                    }
-                    break
-                }
+        // 处理模板控制结构的关键字
+        when (builder.tokenType) {
+            ValkyrieTokenTypes.IF -> {
+                // 对于模板if，只解析条件表达式，不处理完整的if-else-end结构
+                // 因为else和end在不同的模板块中
+                builder.advanceLexer() // consume 'if'
+                return parseTermExpression(builder, false)
             }
 
-            // 防止无限循环：确保解析器前进
-            if (builder.currentOffset == initialPosition) {
-                builder.error("Unable to parse template content")
-                builder.advanceLexer()
+            ValkyrieTokenTypes.ELSE -> {
+                // 处理else关键字
+                builder.advanceLexer() // consume 'else'
+                // 检查是否是else if
+                if (builder.tokenType == ValkyrieTokenTypes.IF) {
+                    builder.advanceLexer() // consume 'if'
+                    return parseTermExpression(builder, false)
+                }
+                return true
+            }
+
+            ValkyrieTokenTypes.END -> {
+                // 处理end关键字
+                builder.advanceLexer() // consume 'end'
+                return true
+            }
+
+            ValkyrieTokenTypes.LOOP -> {
+                return parseTemplateFor(builder)
+            }
+
+            ValkyrieTokenTypes.WHILE -> {
+                return parseTemplateWhile(builder)
+            }
+
+            ValkyrieTokenTypes.MATCH -> {
+                return parseTemplateMatch(builder)
+            }
+
+            else -> {
+                // 解析插值表达式
+                return parseTermExpression(builder, false)
             }
         }
-        return true
     }
 
     /**
      * 解析模板条件语句 <$ if ... $>
      */
     private fun parseTemplateIf(builder: PsiBuilder): Boolean {
-        if (builder.tokenText != "if") return false
+        if (builder.tokenType != ValkyrieTokenTypes.IF) return false
         val marker = builder.mark()
 
         // 消费 'if'
-        if (!parseIdentifier(builder)) {
-            builder.error("Expected 'if' keyword")
-        }
+        builder.advanceLexer()
 
         // 解析条件表达式
-        parseTermExpression(builder, false)
-
-        // 解析 then 部分（这里简化处理）
-        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.TEMPLATE_END && builder.tokenText != "else" && builder.tokenText != "end") {
-            parseStatement(builder)
+        if (!parseTermExpression(builder, false)) {
+            marker.error("Expected condition expression after template 'if'")
+            return false
         }
 
-        // 处理 else 分支
-        if (builder.tokenText == "else") {
-            if (!parseIdentifier(builder)) {
-                builder.error("Expected 'else' keyword")
+        // 解析 then 部分内容（直到遇到 else、else if 或 end）
+        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.TEMPLATE_END && 
+               builder.tokenType != ValkyrieTokenTypes.ELSE && builder.tokenType != ValkyrieTokenTypes.END) {
+            val initialPos = builder.currentOffset
+            // 如果遇到模板开始标记，需要跳过整个模板块
+            if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_START) {
+                parseTemplateBlock(builder)
+            } else {
+                // 跳过模板内的文本内容
+                builder.advanceLexer()
             }
-            while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.TEMPLATE_END && builder.tokenText != "end") {
-                parseStatement(builder)
+            if (builder.currentOffset == initialPos) {
+                break // 防止无限循环
+            }
+        }
+
+        // 处理 else if 和 else 分支
+        while (builder.tokenType == ValkyrieTokenTypes.ELSE) {
+            val elseMarker = builder.mark()
+            builder.advanceLexer() // consume 'else'
+            
+            if (builder.tokenType == ValkyrieTokenTypes.IF) {
+                // else if 分支
+                builder.advanceLexer() // consume 'if'
+                
+                if (!parseTermExpression(builder, false)) {
+                    elseMarker.error("Expected condition expression after template 'else if'")
+                    return false
+                }
+                
+                // 解析 else if 内容
+                while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.TEMPLATE_END && 
+                       builder.tokenType != ValkyrieTokenTypes.ELSE && builder.tokenType != ValkyrieTokenTypes.END) {
+                    val initialPos = builder.currentOffset
+                    // 如果遇到模板开始标记，需要跳过整个模板块
+                    if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_START) {
+                        parseTemplateBlock(builder)
+                    } else {
+                        // 跳过模板内的文本内容
+                        builder.advanceLexer()
+                    }
+                    if (builder.currentOffset == initialPos) {
+                        break // 防止无限循环
+                    }
+                }
+                
+                elseMarker.done(ValkyrieElementTypes.TEMPLATE_ELSE_IF)
+            } else {
+                // else 分支
+                while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.TEMPLATE_END && 
+                       builder.tokenType != ValkyrieTokenTypes.END) {
+                    val initialPos = builder.currentOffset
+                    // 如果遇到模板开始标记，需要跳过整个模板块
+                    if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_START) {
+                        parseTemplateBlock(builder)
+                    } else {
+                        // 跳过模板内的文本内容
+                        builder.advanceLexer()
+                    }
+                    if (builder.currentOffset == initialPos) {
+                        break // 防止无限循环
+                    }
+                }
+                
+                elseMarker.done(ValkyrieElementTypes.TEMPLATE_ELSE)
+                break // else 后不能再有其他分支
             }
         }
 
         // 消费 'end'
-        if (builder.tokenText == "end") {
-            if (!parseIdentifier(builder)) {
-                builder.error("Expected 'end' keyword")
-            }
-            // 可选的 'if'
-            if (builder.tokenText == "if") {
-                if (!parseIdentifier(builder)) {
-                    builder.error("Expected 'if' keyword")
-                }
-            }
+        if (builder.tokenType == ValkyrieTokenTypes.END) {
+            builder.advanceLexer()
+            marker.done(ValkyrieElementTypes.TEMPLATE_IF)
+        } else {
+            marker.error("Expected 'end' to close template if statement")
         }
-
-        marker.done(ValkyrieElementTypes.TEMPLATE_IF)
         return true
     }
 
     /**
-     * 解析模板循环语句 <$ for ... $>
+     * 解析模板循环语句 <$ for ... $> 或 <$ loop ... $>
      */
     private fun parseTemplateFor(builder: PsiBuilder): Boolean {
-        if (builder.tokenText != "for") return false
+        if (builder.tokenType != ValkyrieTokenTypes.FOR && builder.tokenType != ValkyrieTokenTypes.LOOP) return false
         val marker = builder.mark()
+        val isLoop = builder.tokenType == ValkyrieTokenTypes.LOOP
 
-        // 消费 'for'
+        // 消费 'for' 或 'loop'
         if (!parseIdentifier(builder)) {
-            builder.error("Expected 'for' keyword")
+            builder.error("Expected '${if (isLoop) "loop" else "for"}' keyword")
         }
 
         // 解析循环变量
@@ -2802,19 +2909,19 @@ class ValkyrieParser : PsiParser {
         parseTermExpression(builder, false)
 
         // 解析循环体
-        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.TEMPLATE_END && builder.tokenText != "end") {
+        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.TEMPLATE_END && builder.tokenType != ValkyrieTokenTypes.END) {
             parseStatement(builder)
         }
 
         // 消费 'end'
-        if (builder.tokenText == "end") {
+        if (builder.tokenType == ValkyrieTokenTypes.END) {
             if (!parseIdentifier(builder)) {
                 builder.error("Expected 'end' keyword")
             }
-            // 可选的 'for'
-            if (builder.tokenText == "for") {
+            // 可选的 'for' 或 'loop'
+            if (builder.tokenType == ValkyrieTokenTypes.FOR || builder.tokenType == ValkyrieTokenTypes.LOOP) {
                 if (!parseIdentifier(builder)) {
-                    builder.error("Expected 'for' keyword")
+                    builder.error("Expected '${if (builder.tokenType == ValkyrieTokenTypes.LOOP) "loop" else "for"}' keyword")
                 }
             }
         }
@@ -3228,4 +3335,29 @@ private fun isStatementBoundary(tokenType: IElementType?): Boolean {
 
         else -> false
     }
+}
+
+/**
+ * 检查是否在模板文件中
+ */
+private fun isInTemplateFile(builder: PsiBuilder): Boolean {
+    // 简单检查：如果遇到模板开始标记，说明是模板文件
+    // 或者检查当前文件是否包含模板相关内容
+    return true // 暂时返回true，让所有.val文件都按模板处理
+}
+
+/**
+ * 解析模板文本内容
+ */
+private fun parseTemplateText(builder: PsiBuilder) {
+    val marker = builder.mark()
+    
+    // 收集连续的非模板块token作为模板文本
+    while (!builder.eof() && 
+           builder.tokenType != ValkyrieTokenTypes.TEMPLATE_START &&
+           builder.tokenType != null) {
+        builder.advanceLexer()
+    }
+    
+    marker.done(ValkyrieElementTypes.TEMPLATE_TEXT)
 }

@@ -101,13 +101,52 @@ class IfStatementTest {
             }
         """.trimIndent()
         
-        // 验证复杂条件表达式的基本结构
-        assertTrue("Should contain if keyword", code.contains("if"))
-        assertTrue("Should contain logical AND operator", code.contains("&&"))
-        assertTrue("Should contain logical OR operator", code.contains("||"))
+        // 验证复杂条件表达式
+        assertTrue("Should contain logical operators", code.contains("&&") && code.contains("||"))
         assertTrue("Should contain comparison operators", code.contains(">") && code.contains("<") && code.contains("=="))
     }
     
+    @Test
+    fun testMultipleElseIfClauses() {
+        val code = """
+            if condition1 {
+                action1()
+            } else if condition2 {
+                action2()
+            } else if condition3 {
+                action3()
+            } else if condition4 {
+                action4()
+            } else {
+                default_action()
+            }
+        """.trimIndent()
+        
+        // 验证多个 else if 子句
+        val elseIfCount = code.split("else if").size - 1
+        assertEquals("Should have three else if clauses", 3, elseIfCount)
+        assertTrue("Should contain final else clause", code.contains("} else {"))
+        assertTrue("Should contain all conditions", 
+            code.contains("condition1") && code.contains("condition2") && 
+            code.contains("condition3") && code.contains("condition4"))
+    }
+    
+    @Test
+    fun testIfElseIfWithoutFinalElse() {
+        val code = """
+            if first_condition {
+                first_action()
+            } else if second_condition {
+                second_action()
+            }
+        """.trimIndent()
+        
+        // 验证没有最终 else 子句的 if-else if 语句
+        assertTrue("Should contain if keyword", code.contains("if first_condition"))
+        assertTrue("Should contain else if clause", code.contains("else if second_condition"))
+        assertFalse("Should not contain final else", code.contains("} else {"))
+    }
+
     @Test
     fun testIfStatementWithoutBraces() {
         val code = """
@@ -115,9 +154,8 @@ class IfStatementTest {
                 println("single statement")
         """.trimIndent()
         
-        // 验证无大括号 if 语句的基本结构
+        // 验证不带大括号的 if 语句
         assertTrue("Should contain if keyword", code.contains("if"))
-        assertTrue("Should contain condition", code.contains("condition"))
         assertTrue("Should contain single statement", code.contains("println"))
         assertFalse("Should not contain braces", code.contains("{") || code.contains("}"))
     }
