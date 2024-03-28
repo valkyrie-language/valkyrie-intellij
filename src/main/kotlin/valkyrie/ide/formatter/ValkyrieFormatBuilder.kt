@@ -191,7 +191,7 @@ class ValkyrieBlock(
 
             ValkyrieElementTypes.IF_STATEMENT,
             ValkyrieElementTypes.ELSE_CLAUSE,
-            ValkyrieElementTypes.FOR_STATEMENT,
+            ValkyrieElementTypes.EACH_STATEMENT,
             ValkyrieElementTypes.WHILE_STATEMENT,
             ValkyrieElementTypes.MATCH_STATEMENT,
             ValkyrieElementTypes.LOOP_STATEMENT -> Indent.getNormalIndent()

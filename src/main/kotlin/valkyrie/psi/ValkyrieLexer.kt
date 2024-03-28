@@ -15,6 +15,14 @@ class ValkyrieLexer : LexerBase() {
     private var currentOffset = 0
     private var currentState = 0
     private var tokenType: IElementType? = null
+    
+    // 模板模式状态
+    private var inTemplateMode = false
+    
+    companion object {
+        const val NORMAL_STATE = 0
+        const val TEMPLATE_STATE = 1
+    }
 
     // 关键字映射
     private val keywords = mapOf(
@@ -78,6 +86,7 @@ class ValkyrieLexer : LexerBase() {
         this.endOffset = endOffset
         this.currentOffset = startOffset
         this.currentState = initialState
+        this.inTemplateMode = (initialState == TEMPLATE_STATE)
         this.tokenType = null
         advance()
     }
@@ -98,6 +107,20 @@ class ValkyrieLexer : LexerBase() {
 
         startOffset = currentOffset
         val ch = buffer[currentOffset]
+
+        // 在模板模式下，优先检查模板结束标记
+        if (inTemplateMode) {
+            if (ch == '$' && peek() == '>') {
+                currentOffset += 2
+                tokenType = ValkyrieTokenTypes.TEMPLATE_END
+                inTemplateMode = false
+                currentState = NORMAL_STATE
+                return
+            }
+            // 在模板模式下，读取模板文本
+            readTemplateText()
+            return
+        }
 
         when {
             ch.isWhitespace() -> {
@@ -405,6 +428,8 @@ class ValkyrieLexer : LexerBase() {
                     '$' -> {
                         currentOffset++
                         tokenType = ValkyrieTokenTypes.TEMPLATE_START
+                        inTemplateMode = true
+                        currentState = TEMPLATE_STATE
                     }
 
                     else -> {
@@ -737,6 +762,33 @@ class ValkyrieLexer : LexerBase() {
                 currentOffset++
                 tokenType = BAD_CHARACTER
             }
+        }
+    }
+    
+    /**
+     * 读取模板文本，直到遇到模板结束标记
+     */
+    private fun readTemplateText() {
+        val start = currentOffset
+        
+        while (currentOffset < endOffset) {
+            val ch = buffer[currentOffset]
+            
+            // 检查是否遇到模板结束标记
+            if (ch == '$' && currentOffset + 1 < endOffset && buffer[currentOffset + 1] == '>') {
+                break
+            }
+            
+            currentOffset++
+        }
+        
+        // 如果没有读取到任何字符，说明遇到了模板结束标记
+        if (currentOffset == start) {
+            // 这种情况应该由advance方法中的模板结束标记处理逻辑处理
+            currentOffset++
+            tokenType = BAD_CHARACTER
+        } else {
+            tokenType = ValkyrieTokenTypes.TEMPLATE_TEXT
         }
     }
 }
