@@ -108,7 +108,7 @@ abstract class ValkyrieLexerTestCase : LexerTestCase() {
      * @param identifier 标识符
      */
     protected fun testIdentifier(identifier: String) {
-        testSingleToken(identifier, ValkyrieTokenTypes.IDENTIFIER)
+        testSingleToken(identifier, ValkyrieTokenTypes.IDENTIFIER_STD)
     }
     
     /**

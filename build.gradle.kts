@@ -12,16 +12,14 @@ plugins {
     alias(libs.plugins.qodana)
     alias(libs.plugins.kover)
     id("org.jetbrains.intellij.platform") version "2.9.0"
-//    id("org.jetbrains.intellij.platform.module") version "2.9.0"
+    id("org.jetbrains.intellij.platform.module") version "2.9.0"
 }
-repositories {
-    intellijPlatform {
-        defaultRepositories()
-    }
-}
-
 repositories {
     mavenCentral()
+    intellijPlatform {
+        defaultRepositories()
+        jetbrainsRuntime()
+    }
 }
 
 group = properties("pluginGroup").get()
@@ -30,10 +28,10 @@ version = properties("pluginVersion").get()
 
 dependencies {
     intellijPlatform {
-        // https://youtrack.jetbrains.com/articles/IDEA-A-2100662347/IntelliJ-IDEA-2025.1-Latest-Builds
+        // 使用2025.2版本，使用installer
         create(IntelliJPlatformType.IntellijIdeaUltimate, "2025.2") {
-            // 配置为不使用installer，解决依赖解析问题
-            useInstaller = false
+            // 使用installer版本
+            useInstaller = true
         }
 //        create(IntelliJPlatformType.IntellijIdea, "2025.3") { useInstaller = true }
 
@@ -44,15 +42,12 @@ dependencies {
 //        // https://plugins.jetbrains.com/plugin/227-psiviewer/versions
 //        plugin("PsiViewer", "252.23892.248")
 //        plugin("com.github.voml.neo_theme", "0.4.3")
-        
-        // 测试框架依赖
+
         testFramework(TestFrameworkType.Platform)
     }
 
-    // JUnit 测试依赖
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
-    // 解决TestFrameworkType.Platform的依赖问题
     testImplementation("org.opentest4j:opentest4j:1.3.0")
 }
 

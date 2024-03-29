@@ -40,7 +40,7 @@ class ValkyrieBasicHighlightingTest : ValkyrieTestCase() {
     @Test
     fun testCommentHighlighting() {
         // 测试注释高亮
-        val code = "// line comment"
+        val code = "# line comment"
         val psiFile = myFixture.configureByText("test.vk", code)
         val highlights = myFixture.doHighlighting()
         assertNotNull("Should have highlighting", highlights)

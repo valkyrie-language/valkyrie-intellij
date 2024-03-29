@@ -2289,7 +2289,7 @@ class ValkyrieParser : PsiParser {
             marker.rollbackTo()
             return false
         }
-//        marker.done(ValkyrieElementTypes.BARE_PATTERN)
+        marker.done(ValkyrieElementTypes.BARE_PATTERN)
         return true
     }
 
