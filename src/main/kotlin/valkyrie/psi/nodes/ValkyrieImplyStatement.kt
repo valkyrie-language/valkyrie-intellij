@@ -27,7 +27,8 @@ class ValkyrieImplyStatement(node: ASTNode) : ValkyrieElementNode(node),
     }
 
     override fun getQualifiedName(): String? {
-        TODO("Not yet implemented")
+        val targetType = getTargetType()
+        return targetType?.text
     }
 
     override fun getName(): String? {
@@ -76,5 +77,12 @@ class ValkyrieImplyStatement(node: ASTNode) : ValkyrieElementNode(node),
     }
 
     override val typeParameters: List<ValkyrieTypeParameterItem>
-        get() = TODO("Not yet implemented")
+        get() {
+            val genericParams = getGenericParameters()
+            return if (genericParams != null) {
+                PsiTreeUtil.findChildrenOfType(genericParams, ValkyrieTypeParameterItem::class.java).toList()
+            } else {
+                emptyList()
+            }
+        }
 }

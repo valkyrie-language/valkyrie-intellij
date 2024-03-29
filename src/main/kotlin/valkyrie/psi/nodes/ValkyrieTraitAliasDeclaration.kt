@@ -43,5 +43,7 @@ class ValkyrieTraitAliasDeclaration(node: ASTNode) : ValkyrieElementNode(node), 
     }
 
     override val typeParameters: List<ValkyrieTypeParameterItem>
-        get() = TODO("Not yet implemented")
+        get() {
+            return PsiTreeUtil.findChildrenOfType(this, ValkyrieTypeParameterItem::class.java).toList()
+        }
 }

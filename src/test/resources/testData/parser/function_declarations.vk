@@ -1,0 +1,398 @@
+// Test file for function declaration parsing
+
+// Basic function declarations
+fn simple_function() {
+    // Empty function body
+}
+
+fn function_with_return() -> i32 {
+    return 42
+}
+
+fn function_with_params(x: i32, y: i32) {
+    let sum = x + y
+}
+
+fn function_with_params_and_return(a: i32, b: i32) -> i32 {
+    a + b
+}
+
+// Function with various parameter types
+fn mixed_params(int_param: i32, string_param: string, bool_param: bool, float_param: f64) -> string {
+    format!("Values: {}, {}, {}, {}", int_param, string_param, bool_param, float_param)
+}
+
+// Function with mutable parameters
+fn mutable_params(mut x: i32, mut y: string) {
+    x += 10
+    y += " modified"
+}
+
+// Function with reference parameters
+fn reference_params(x: &i32, y: &mut string) {
+    println!("x = {}", x)
+    y.push_str(" appended")
+}
+
+// Function with default parameters (if supported)
+fn default_params(x: i32, y: i32 = 10, z: string = "default") -> i32 {
+    x + y
+}
+
+// Function with variadic parameters (if supported)
+fn variadic_function(first: i32, ...rest: i32) -> i32 {
+    let mut sum = first
+    for value in rest {
+        sum += value
+    }
+    sum
+}
+
+// Generic functions
+fn generic_function<T>(value: T) -> T {
+    value
+}
+
+fn multiple_generics<T, U>(first: T, second: U) -> (T, U) {
+    (first, second)
+}
+
+fn constrained_generic<T>(value: T) -> T 
+where 
+    T: Clone + Debug {
+    value.clone()
+}
+
+// Function with complex generic constraints
+fn complex_generic<T, U, V>(a: T, b: U) -> V 
+where 
+    T: Into<V> + Clone,
+    U: AsRef<str>,
+    V: Default + Debug {
+    a.into()
+}
+
+// Async functions (if supported)
+async fn async_function() {
+    // Async body
+}
+
+async fn async_with_params(x: i32) -> Result<string, Error> {
+    let result = await some_async_operation(x)
+    Ok(result.to_string())
+}
+
+// Unsafe functions (if supported)
+unsafe fn unsafe_function(ptr: *const i32) -> i32 {
+    *ptr
+}
+
+// External functions (if supported)
+extern "C" fn c_function(x: i32) -> i32 {
+    x * 2
+}
+
+extern {
+    fn external_function(x: i32) -> i32
+}
+
+// Function with attributes (if supported)
+#[inline]
+fn inlined_function(x: i32) -> i32 {
+    x * x
+}
+
+#[no_mangle]
+pub extern "C" fn exported_function() {
+    // Implementation
+}
+
+#[deprecated("Use new_function instead")]
+fn old_function() {
+    // Legacy implementation
+}
+
+// Functions with visibility modifiers
+pub fn public_function() {
+    // Public function
+}
+
+pub(crate) fn crate_public_function() {
+    // Crate-public function
+}
+
+pub(super) fn super_public_function() {
+    // Super-public function
+}
+
+priv fn private_function() {
+    // Private function (if explicit private keyword exists)
+}
+
+// Functions with complex return types
+fn return_tuple() -> (i32, string, bool) {
+    (42, "hello".to_string(), true)
+}
+
+fn return_array() -> [i32; 5] {
+    [1, 2, 3, 4, 5]
+}
+
+fn return_option() -> Option<i32> {
+    Some(42)
+}
+
+fn return_result() -> Result<string, Error> {
+    Ok("success".to_string())
+}
+
+fn return_closure() -> impl Fn(i32) -> i32 {
+    |x| x * 2
+}
+
+fn return_generic<T>() -> Vec<T> {
+    Vec::new()
+}
+
+// Functions with complex parameter patterns
+fn destructure_tuple((x, y): (i32, i32)) -> i32 {
+    x + y
+}
+
+fn destructure_struct(Point { x, y }: Point) -> f64 {
+    (x * x + y * y).sqrt()
+}
+
+fn pattern_match_param(option: Option<i32>) -> i32 {
+    match option {
+        Some(value) => value,
+        None => 0
+    }
+}
+
+// Higher-order functions
+fn higher_order(f: fn(i32) -> i32, x: i32) -> i32 {
+    f(x)
+}
+
+fn closure_param<F>(f: F, x: i32) -> i32 
+where 
+    F: Fn(i32) -> i32 {
+    f(x)
+}
+
+fn return_function() -> fn(i32) -> i32 {
+    |x| x * x
+}
+
+// Recursive functions
+fn factorial(n: i32) -> i32 {
+    if n <= 1 {
+        1
+    } else {
+        n * factorial(n - 1)
+    }
+}
+
+fn fibonacci(n: i32) -> i32 {
+    match n {
+        0 => 0,
+        1 => 1,
+        _ => fibonacci(n - 1) + fibonacci(n - 2)
+    }
+}
+
+// Mutually recursive functions
+fn is_even(n: i32) -> bool {
+    if n == 0 {
+        true
+    } else {
+        is_odd(n - 1)
+    }
+}
+
+fn is_odd(n: i32) -> bool {
+    if n == 0 {
+        false
+    } else {
+        is_even(n - 1)
+    }
+}
+
+// Functions with complex bodies
+fn complex_function(data: Vec<i32>) -> Result<f64, string> {
+    if data.is_empty() {
+        return Err("Empty data".to_string())
+    }
+    
+    let mut sum = 0
+    let mut count = 0
+    
+    for value in data {
+        if value > 0 {
+            sum += value
+            count += 1
+        }
+    }
+    
+    if count == 0 {
+        Err("No positive values".to_string())
+    } else {
+        Ok(sum as f64 / count as f64)
+    }
+}
+
+// Function with nested functions (if supported)
+fn outer_function(x: i32) -> i32 {
+    fn inner_function(y: i32) -> i32 {
+        y * 2
+    }
+    
+    let result = inner_function(x)
+    result + 1
+}
+
+// Function with closures
+fn function_with_closures() {
+    let add = |x, y| x + y
+    let multiply = |a: i32, b: i32| -> i32 { a * b }
+    
+    let complex_closure = |data: Vec<i32>| {
+        data.iter()
+            .filter(|&&x| x > 0)
+            .map(|&x| x * 2)
+            .collect::<Vec<i32>>()
+    }
+    
+    let result = add(5, 3)
+    let product = multiply(4, 6)
+}
+
+// Method definitions (if supported)
+impl MyStruct {
+    fn new(value: i32) -> Self {
+        Self { field: value }
+    }
+    
+    fn method(&self) -> i32 {
+        self.field
+    }
+    
+    fn mutable_method(&mut self, new_value: i32) {
+        self.field = new_value
+    }
+    
+    fn consuming_method(self) -> i32 {
+        self.field
+    }
+    
+    fn static_method() -> string {
+        "static".to_string()
+    }
+}
+
+// Trait method definitions (if supported)
+trait MyTrait {
+    fn required_method(&self) -> i32
+    
+    fn default_method(&self) -> string {
+        "default implementation".to_string()
+    }
+    
+    fn generic_method<T>(&self, value: T) -> T {
+        value
+    }
+}
+
+// Function with lifetime parameters (if supported)
+fn lifetime_function<'a>(x: &'a str, y: &'a str) -> &'a str {
+    if x.len() > y.len() { x } else { y }
+}
+
+fn multiple_lifetimes<'a, 'b>(x: &'a str, y: &'b str) -> &'a str {
+    x
+}
+
+fn static_lifetime_function(x: &'static str) -> &'static str {
+    x
+}
+
+// Function with const generics (if supported)
+fn const_generic_function<const N: usize>(arr: [i32; N]) -> i32 {
+    arr.iter().sum()
+}
+
+// Function with associated types (if supported)
+fn associated_type_function<T>() -> T::Output 
+where 
+    T: Iterator {
+    // Implementation
+}
+
+// Function with macro usage in signature (if supported)
+fn macro_in_signature(x: vec![i32]) -> format_args!("Result: {}", i32) {
+    // Implementation
+}
+
+// Functions with documentation comments
+/// Calculates the sum of two integers
+/// 
+/// # Arguments
+/// 
+/// * `a` - The first integer
+/// * `b` - The second integer
+/// 
+/// # Returns
+/// 
+/// The sum of `a` and `b`
+/// 
+/// # Examples
+/// 
+/// ```
+/// let result = add(2, 3)
+/// assert_eq!(result, 5)
+/// ```
+fn documented_function(a: i32, b: i32) -> i32 {
+    a + b
+}
+
+// Function with conditional compilation (if supported)
+#[cfg(target_os = "windows")]
+fn windows_specific_function() {
+    // Windows implementation
+}
+
+#[cfg(not(target_os = "windows"))]
+fn non_windows_function() {
+    // Non-Windows implementation
+}
+
+// Function with test attribute (if supported)
+#[test]
+fn test_function() {
+    assert_eq!(add(2, 3), 5)
+}
+
+#[bench]
+fn benchmark_function(b: &mut Bencher) {
+    b.iter(|| {
+        // Benchmark code
+    })
+}
+
+// Main function
+fn main() {
+    println!("Hello, world!")
+    
+    let result = add(10, 20)
+    println!("Result: {}", result)
+}
+
+// Error cases for testing error recovery
+// fn incomplete_function(  // Missing closing parenthesis
+// fn missing_body()  // Missing function body
+// fn -> i32 { 42 }  // Missing function name
+// fn bad_params(x: , y: i32) {}  // Missing parameter type
+// fn bad_return() -> { }  // Missing return type
+
+// End of function declarations test file

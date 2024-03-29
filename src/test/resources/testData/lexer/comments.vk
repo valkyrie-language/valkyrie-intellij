@@ -1,0 +1,223 @@
+// Test file for comment lexing
+
+// Single line comments
+// This is a basic single line comment
+// Another comment line
+//This comment has no space after slashes
+//   This comment has extra spaces
+
+// Comments with various content
+// Comment with numbers: 123, 456, 789
+// Comment with symbols: !@#$%^&*()_+-=[]{}|;':",./<>?
+// Comment with unicode: 中文注释 🚀 ñáéíóú
+// Comment with code-like content: let x = 42; function() { return true; }
+
+/* Multi-line comments */
+/* This is a basic multi-line comment */
+/*
+ * Multi-line comment
+ * with multiple lines
+ * and asterisks
+ */
+
+/*
+Multi-line comment
+without asterisks
+on each line
+*/
+
+/* Single line multi-line comment */
+
+/* Multi-line comment with various content:
+   - Numbers: 123, 456
+   - Symbols: !@#$%^&*()
+   - Code: let x = y + z;
+   - Unicode: 测试 🎉
+*/
+
+// Nested comments (if supported)
+/* Outer comment /* inner comment */ still outer */
+/* Another /* nested /* deeply nested */ comment */ example */
+
+// Documentation comments
+/// This is a documentation comment for the following item
+/// It can span multiple lines
+/// and typically uses triple slashes
+
+/** 
+ * JavaDoc style documentation comment
+ * @param parameter Description of parameter
+ * @return Description of return value
+ */
+
+//! Module level documentation comment
+//! This documents the entire module or crate
+
+/*!
+ * Block style module documentation
+ * with multiple lines
+ */
+
+// Comments in different positions
+let variable = 42; // End of line comment
+let another = /* inline comment */ 123;
+let complex = 1 + /* comment */ 2 * /* another */ 3;
+
+// Comments before code elements
+// Function documentation
+fn example_function() {
+    // Comment inside function
+    let x = 10; // Variable comment
+    
+    /* Block comment
+       inside function */
+    return x;
+}
+
+// Class/struct documentation
+/// Represents a point in 2D space
+struct Point {
+    /// X coordinate
+    x: f64,
+    /// Y coordinate  
+    y: f64, // Inline comment
+}
+
+// Comments with special formatting
+//==================================================
+// Section header comment
+//==================================================
+
+//--------------------------------------------------
+// Subsection comment
+//--------------------------------------------------
+
+// TODO: This is a todo comment
+// FIXME: This needs to be fixed
+// NOTE: Important note here
+// WARNING: Be careful with this
+// HACK: Temporary workaround
+// XXX: Problematic code
+// BUG: Known issue
+
+/* TODO: Multi-line todo
+   with additional details
+   and multiple lines */
+
+// Comments that look like code
+// let commented_out = "This looks like code but it's a comment";
+// function commentedFunction() { return false; }
+// if (condition) { doSomething(); }
+
+/*
+let also_commented = {
+    property: "value",
+    method: function() {
+        return "commented";
+    }
+};
+*/
+
+// Comments with URLs and references
+// See: https://example.com/documentation
+// Reference: RFC 1234 section 5.2
+// Bug report: https://github.com/project/issues/123
+// Documentation: file:///path/to/docs.html
+
+// Comments with markdown-like formatting
+// # Header comment
+// ## Subheader comment
+// - List item 1
+// - List item 2
+// **Bold text** in comment
+// *Italic text* in comment
+// `code snippet` in comment
+
+// Comments with escape sequences
+// Comment with \n newline escape
+// Comment with \t tab escape
+// Comment with \" quote escape
+// Comment with \\ backslash escape
+
+// Very long comments
+// This is a very long comment that spans across what would normally be multiple lines if it were wrapped, containing lots of text to test how the lexer handles longer comment content with various words, punctuation marks, numbers like 12345, symbols like !@#$%, and other characters that might appear in real-world comments including references to code elements, URLs, and detailed explanations of complex algorithms or business logic.
+
+/*
+ * Very long multi-line comment that contains extensive documentation
+ * about a complex system or algorithm, including detailed explanations,
+ * code examples, mathematical formulas, references to external resources,
+ * and comprehensive usage instructions that developers might need to
+ * understand the implementation details and proper usage patterns.
+ */
+
+// Comments with different languages
+// English comment
+// Comentario en español
+// Commentaire en français
+// Kommentar auf Deutsch
+// コメント in Japanese
+// 中文注释
+// Комментарий на русском
+// تعليق باللغة العربية
+
+// Comments at different indentation levels
+if condition {
+    // Indented comment level 1
+    if nested_condition {
+        // Indented comment level 2
+        let value = 42; // End of line at level 2
+        
+        /* Multi-line comment
+         * at indentation level 2
+         */
+    }
+}
+
+// Comments with special characters
+// Comment with emoji: 🚀 🎉 💻 🔥 ⭐
+// Comment with math symbols: ∑ ∏ ∫ ∆ ∇ ∞ ≤ ≥ ≠ ≈
+// Comment with currency: $ € £ ¥ ₹ ₿
+// Comment with arrows: → ← ↑ ↓ ↔ ⇒ ⇐ ⇔
+
+// Commented out code blocks
+/*
+fn commented_function() {
+    let x = 10;
+    let y = 20;
+    return x + y;
+}
+
+struct CommentedStruct {
+    field1: String,
+    field2: i32,
+}
+
+impl CommentedStruct {
+    fn new() -> Self {
+        Self {
+            field1: String::new(),
+            field2: 0,
+        }
+    }
+}
+*/
+
+// Comments that might confuse the lexer
+// Comment with /* inside single line comment
+// Comment with */ inside single line comment
+// Comment with // inside single line comment
+/* Comment with // inside multi-line comment */
+/* Comment with /* inside but not nested */
+
+// Comments with string-like content
+// "This looks like a string but it's in a comment"
+// 'Single quoted string-like content in comment'
+// `Backtick quoted content in comment`
+
+// Comments with regex-like patterns
+// Pattern: /\d+\.\d+/g
+// Regex: ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$
+// Match: \b\w+\b
+
+// Comments at end of file without newline
+// This is the last comment in the file

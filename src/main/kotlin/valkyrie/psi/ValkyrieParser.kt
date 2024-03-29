@@ -69,6 +69,7 @@ class ValkyrieParser : PsiParser {
             parseCatchStatement(builder) -> return
             parseControlStatement(builder) -> return
             parseScopeStatement(builder) -> return
+            parseTemplateBlock(builder) -> return
             builder.tokenType == null -> return
             else -> parseExpressionStatement(builder)
         }
@@ -904,12 +905,8 @@ class ValkyrieParser : PsiParser {
             }
 
             ValkyrieTokenTypes.ARRAY_L -> {
-                // 数组访问
-                if (!parseTermExpression(builder, false)) {
-                    marker.error("Expected index expression")
-                    recoverToSyncPoint(builder)
-                    return left
-                }
+                // 索引访问或slice访问
+                parseSliceList(builder)
                 if (!builder.eof() && builder.tokenType == ValkyrieTokenTypes.ARRAY_R) {
                     builder.advanceLexer()
                 } else {
@@ -917,7 +914,7 @@ class ValkyrieParser : PsiParser {
                     recoverToSyncPoint(builder)
                     return left
                 }
-                marker.done(ValkyrieElementTypes.POSTFIX_EXPRESSION)
+                marker.done(ValkyrieElementTypes.INDEX_EXPRESSION)
                 return marker
             }
 
@@ -1036,15 +1033,31 @@ class ValkyrieParser : PsiParser {
                 marker
             }
 
-            // 数组表达式
+            // 数组表达式或table表达式
             ValkyrieTokenTypes.ARRAY_L -> {
                 val marker = builder.mark()
                 builder.advanceLexer() // 消费 '['
 
-                // 解析数组元素
+                var isTable = false
+                // 解析数组/table元素
                 while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.ARRAY_R) {
-                    if (!parseTermExpression(builder, false)) {
-                        marker.error("Expected expression")
+                    // 检查是否是table pair (key: value)
+                    val elementMarker = builder.mark()
+                    if (parseTermExpression(builder, false)) {
+                        if (builder.tokenType == ValkyrieTokenTypes.COLON) {
+                            // 这是一个table pair
+                            isTable = true
+                            builder.advanceLexer() // 消费 ':'
+                            if (!parseTermExpression(builder, false)) {
+                                elementMarker.error("Expected value expression after ':'")
+                                return null
+                            }
+                            elementMarker.done(ValkyrieElementTypes.TABLE_PAIR)
+                        } else {
+                            elementMarker.drop()
+                        }
+                    } else {
+                        elementMarker.error("Expected expression")
                         return null
                     }
 
@@ -1063,7 +1076,7 @@ class ValkyrieParser : PsiParser {
                     return null
                 }
 
-                marker.done(ValkyrieElementTypes.ARRAY_EXPRESSION)
+                marker.done(if (isTable) ValkyrieElementTypes.TABLE_EXPRESSION else ValkyrieElementTypes.ARRAY_EXPRESSION)
                 marker
             }
 
@@ -1312,7 +1325,7 @@ class ValkyrieParser : PsiParser {
             }
 
             ValkyrieTokenTypes.ARRAY_L -> {
-                // 数组类型 [T]
+                // 数组类型 [T] 或 table类型 [K:V]
                 val marker = builder.mark()
                 builder.advanceLexer() // 消费 [
 
@@ -1322,6 +1335,18 @@ class ValkyrieParser : PsiParser {
                     return null
                 }
 
+                var isTable = false
+                if (builder.tokenType == ValkyrieTokenTypes.COLON) {
+                    // 这是table类型 [K:V]
+                    isTable = true
+                    builder.advanceLexer() // 消费 ':'
+                    if (!parseTypeExpression(builder, false)) {
+                        marker.error("Expected value type")
+                        recoverToSyncPoint(builder)
+                        return null
+                    }
+                }
+
                 if (builder.tokenType != ValkyrieTokenTypes.ARRAY_R) {
                     marker.error("Expected ']'")
                     recoverToSyncPoint(builder)
@@ -1329,7 +1354,11 @@ class ValkyrieParser : PsiParser {
                 }
 
                 builder.advanceLexer() // 消费 ]
-                marker.done(ValkyrieElementTypes.ARRAY_TYPE)
+                if (isTable) {
+                    marker.done(ValkyrieElementTypes.TABLE_TYPE)
+                } else {
+                    marker.done(ValkyrieElementTypes.ARRAY_TYPE)
+                }
                 marker
             }
 
@@ -2334,12 +2363,7 @@ class ValkyrieParser : PsiParser {
         parseTermExpression(builder, inline = false)
     }
 
-    // [T; N]
-    private fun parseTableType(builder: PsiBuilder) {
-        parseTypeExpression(builder, inline = false)
-        // optional
-        parseTypeExpression(builder, inline = false)
-    }
+    // [T; N] - removed duplicate, keeping the Boolean version below
 
     // [a, b, c]
     // [a: b, b: c]
@@ -2384,19 +2408,87 @@ class ValkyrieParser : PsiParser {
         return true
     }
 
-    private fun parseTableList(builder: PsiBuilder) {
-        // one of
-        parseTablePair(builder)
-        parseTableItem(builder)
+    private fun parseTableType(builder: PsiBuilder): Boolean {
+        if (builder.tokenType != ValkyrieTokenTypes.ARRAY_L) return false
+        val marker = builder.mark()
+        
+        builder.advanceLexer() // 消费 '['
+        
+        // 解析key类型
+        if (!parseTypeExpression(builder, false)) {
+            marker.error("Expected key type")
+            return false
+        }
+        
+        if (builder.tokenType != ValkyrieTokenTypes.COLON) {
+            marker.error("Expected ':' in table type")
+            return false
+        }
+        builder.advanceLexer() // 消费 ':'
+        
+        // 解析value类型
+        if (!parseTypeExpression(builder, false)) {
+            marker.error("Expected value type")
+            return false
+        }
+        
+        if (builder.tokenType != ValkyrieTokenTypes.ARRAY_R) {
+            marker.error("Expected ']'")
+            return false
+        }
+        builder.advanceLexer() // 消费 ']'
+        
+        marker.done(ValkyrieElementTypes.TABLE_TYPE)
+        return true
     }
 
-    private fun parseTablePair(builder: PsiBuilder) {
-        // a: b
-        parseAnnotations(builder, withModifiers = true)
-        parseIdentifier(builder)
-        // :
-        parseTermExpression(builder, inline = false)
+    private fun parseTableList(builder: PsiBuilder): Boolean {
+        val marker = builder.mark()
+        
+        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.ARRAY_R) {
+            if (!parseTablePair(builder)) {
+                marker.drop()
+                return false
+            }
+            
+            if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+                builder.advanceLexer()
+            } else if (builder.tokenType != ValkyrieTokenTypes.ARRAY_R) {
+                marker.error("Expected ',' or ']'")
+                return false
+            }
+        }
+        
+        marker.done(ValkyrieElementTypes.TABLE_EXPRESSION)
+        return true
     }
+
+    private fun parseTablePair(builder: PsiBuilder): Boolean {
+        val marker = builder.mark()
+        
+        // 解析key表达式
+        if (!parseTermExpression(builder, false)) {
+            marker.error("Expected key expression")
+            return false
+        }
+        
+        if (builder.tokenType != ValkyrieTokenTypes.COLON) {
+            marker.error("Expected ':' in table pair")
+            return false
+        }
+        builder.advanceLexer() // 消费 ':'
+        
+        // 解析value表达式
+        if (!parseTermExpression(builder, false)) {
+            marker.error("Expected value expression")
+            return false
+        }
+        
+        marker.done(ValkyrieElementTypes.TABLE_PAIR)
+         return true
+    }
+
+    // Removed duplicate parseTablePair function - keeping the Boolean version above
 
     private fun parseTableItem(builder: PsiBuilder) {
         parseTermExpression(builder, inline = false)
@@ -2470,18 +2562,79 @@ class ValkyrieParser : PsiParser {
     // a[:]
     // a[::]
     // a[1:-1:1]
-    private fun parseSliceList(builder: PsiBuilder) {
-        // optional
-        parseSliceItem(builder)
+    private fun parseSliceList(builder: PsiBuilder): Boolean {
+        val marker = builder.mark()
+        
+        // 解析slice项列表，用逗号分隔
+        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.ARRAY_R) {
+            if (!parseSliceItem(builder)) {
+                marker.drop()
+                return false
+            }
+            
+            if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+                builder.advanceLexer()
+            } else if (builder.tokenType != ValkyrieTokenTypes.ARRAY_R) {
+                marker.error("Expected ',' or ']'")
+                return false
+            }
+        }
+        
+        marker.done(ValkyrieElementTypes.SLICE_EXPRESSION)
+        return true
     }
 
-    private fun parseSliceItem(builder: PsiBuilder) {
-        // optional
-        parseTermExpression(builder, inline = false)
-        // optional
-        parseTermExpression(builder, inline = false)
-        // optional
-        parseTermExpression(builder, inline = false)
+    private fun parseSliceItem(builder: PsiBuilder): Boolean {
+        val marker = builder.mark()
+        
+        // 解析slice项: [start:end:step] 或 [index] 或 [:] 或 [::]
+        var hasStart = false
+        var hasEnd = false
+        var hasStep = false
+        
+        // 解析start (可选)
+        if (builder.tokenType != ValkyrieTokenTypes.COLON && builder.tokenType != ValkyrieTokenTypes.ARRAY_R && builder.tokenType != ValkyrieTokenTypes.COMMA) {
+            if (parseTermExpression(builder, false)) {
+                hasStart = true
+            }
+        }
+        
+        // 检查第一个冒号或双冒号
+        if (builder.tokenType == ValkyrieTokenTypes.COLON) {
+            builder.advanceLexer() // 消费 ':'
+            
+            // 解析end (可选)
+            if (builder.tokenType != ValkyrieTokenTypes.COLON && builder.tokenType != ValkyrieTokenTypes.DOUBLE_COLON && builder.tokenType != ValkyrieTokenTypes.ARRAY_R && builder.tokenType != ValkyrieTokenTypes.COMMA) {
+                if (parseTermExpression(builder, false)) {
+                    hasEnd = true
+                }
+            }
+            
+            // 检查第二个冒号
+            if (builder.tokenType == ValkyrieTokenTypes.COLON) {
+                builder.advanceLexer() // 消费 ':'
+                
+                // 解析step (可选)
+                if (builder.tokenType != ValkyrieTokenTypes.ARRAY_R && builder.tokenType != ValkyrieTokenTypes.COMMA) {
+                    if (parseTermExpression(builder, false)) {
+                        hasStep = true
+                    }
+                }
+            }
+        } else if (builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON) {
+            // 处理 :: 语法 (等价于 :step)
+            builder.advanceLexer() // 消费 '::'
+            
+            // 解析step (可选)
+            if (builder.tokenType != ValkyrieTokenTypes.ARRAY_R && builder.tokenType != ValkyrieTokenTypes.COMMA) {
+                if (parseTermExpression(builder, false)) {
+                    hasStep = true
+                }
+            }
+        }
+        
+        marker.done(ValkyrieElementTypes.SLICE_ITEM)
+         return true
     }
 
 
@@ -2502,12 +2655,35 @@ class ValkyrieParser : PsiParser {
                 parseTermExpression(builder, false)
                 marker.done(ValkyrieElementTypes.RESUME_STATEMENT)
             }
-            // todo
-            // break
-            // continue
-            // raise
-            // yield
-            // yield from
+
+            ValkyrieTokenTypes.BREAK -> {
+                builder.advanceLexer()
+                parseLabelMark(builder)
+                parseTermExpression(builder, false)
+                marker.done(ValkyrieElementTypes.BREAK_STATEMENT)
+            }
+
+            ValkyrieTokenTypes.CONTINUE -> {
+                builder.advanceLexer()
+                parseLabelMark(builder)
+                parseTermExpression(builder, false)
+                marker.done(ValkyrieElementTypes.CONTINUE_STATEMENT)
+            }
+
+            ValkyrieTokenTypes.RAISE -> {
+                builder.advanceLexer()
+                parseLabelMark(builder)
+                parseTermExpression(builder, false)
+                marker.done(ValkyrieElementTypes.RAISE_STATEMENT)
+            }
+
+            ValkyrieTokenTypes.YIELD -> {
+                builder.advanceLexer()
+                parseLabelMark(builder)
+                parseTermExpression(builder, false)
+                marker.done(ValkyrieElementTypes.YIELD_STATEMENT)
+            }
+
             else -> {
                 marker.rollbackTo()
                 return false
@@ -2562,13 +2738,9 @@ class ValkyrieParser : PsiParser {
         return true
     }
     private fun parseIfTemplate(builder: PsiBuilder): Boolean {
-        val marker = builder.mark()
-        parseTemplateIfMark(builder)
-        parseTemplateElseIfMark(builder)
-        parseTemplateElseMark(builder)
-        parseTemplateEndMark(builder)
-        marker.done(ValkyrieElementTypes.TEMPLATE_IF)
-        return true
+        // 这个函数应该由parseTemplateBlock调用，不需要单独处理TEMPLATE_START
+        // 因为模板if-else-end结构是分布在多个独立的模板块中的
+        return false
     }
 
     private fun parseIfMainPart(builder: PsiBuilder): Boolean {
@@ -2605,25 +2777,41 @@ class ValkyrieParser : PsiParser {
     }
 
     private fun parseTemplateIfMark(builder: PsiBuilder): Boolean {
+        if (builder.tokenType != ValkyrieTokenTypes.TEMPLATE_START) return false
         val marker = builder.mark()
-        // TODO: <$ if
-        // TODO: let
+
+        // 消费 '<$'
+        builder.advanceLexer()
+
+        // 检查是否是 'if'
+        if (builder.tokenType != ValkyrieTokenTypes.IF) {
+            marker.rollbackTo()
+            return false
+        }
+        builder.advanceLexer() // consume 'if'
+
         // <$ if let pat = expr
         if (builder.tokenType == ValkyrieTokenTypes.LET) {
-            if (parseLetStatement(builder, true)) {
-                marker.rollbackTo()
+            if (!parseLetStatement(builder, true)) {
+                marker.error("Expected let statement after 'if let'")
                 return false
             }
         }
         // <$ if conditional
         else {
-            if (!parseTermExpression(builder, inline = true)) {
+            if (!parseTermExpression(builder, false)) {
                 marker.error("Expected condition expression after 'if'")
                 return false
             }
         }
-        // TODO: $>
-        // TODO: template text
+
+        // 消费 '$>'
+        if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_END) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected '$>'")
+        }
+
         marker.done(ValkyrieElementTypes.TEMPLATE_IF_MARK)
         return true
     }
@@ -2652,7 +2840,39 @@ class ValkyrieParser : PsiParser {
     }
 
     private fun parseTemplateElseIfMark(builder: PsiBuilder): Boolean {
-        return false
+        if (builder.tokenType != ValkyrieTokenTypes.TEMPLATE_START) return false
+        val marker = builder.mark()
+
+        // 消费 '<$'
+        builder.advanceLexer()
+
+        // 检查是否是 'else'
+        if (builder.tokenType != ValkyrieTokenTypes.ELSE) {
+            marker.rollbackTo()
+            return false
+        }
+        builder.advanceLexer() // consume 'else'
+
+        // 检查是否是 'else if'
+        if (builder.tokenType == ValkyrieTokenTypes.IF) {
+            builder.advanceLexer() // consume 'if'
+            
+            // 解析条件表达式
+            if (!parseTermExpression(builder, false)) {
+                marker.error("Expected condition expression after 'else if'")
+                return false
+            }
+        }
+
+        // 消费 '$>'
+        if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_END) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected '$>'")
+        }
+
+        marker.done(ValkyrieElementTypes.TEMPLATE_ELSE_IF)
+        return true
     }
 
     private fun parseElseStatement(builder: PsiBuilder): Boolean {
@@ -2675,7 +2895,55 @@ class ValkyrieParser : PsiParser {
     }
 
     private fun parseTemplateElseMark(builder: PsiBuilder): Boolean {
-        return false
+        if (builder.tokenType != ValkyrieTokenTypes.TEMPLATE_START) return false
+        val marker = builder.mark()
+
+        // 消费 '<$'
+        builder.advanceLexer()
+
+        // 检查是否是 'else'
+        if (builder.tokenType != ValkyrieTokenTypes.ELSE) {
+            marker.rollbackTo()
+            return false
+        }
+        builder.advanceLexer() // consume 'else'
+
+        // 消费 '$>'
+        if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_END) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected '$>'")
+        }
+
+        marker.done(ValkyrieElementTypes.TEMPLATE_ELSE)
+        return true
+    }
+
+    /**
+     * 解析模板块 <$ ... $>
+     */
+    private fun parseTemplateBlock(builder: PsiBuilder): Boolean {
+        if (builder.tokenType != ValkyrieTokenTypes.TEMPLATE_START) return false
+        val marker = builder.mark()
+
+        // 消费 '<$'
+        builder.advanceLexer()
+
+        // 解析模板内容
+        if (!parseTemplateContent(builder)) {
+            marker.error("Expected template content")
+            return false
+        }
+
+        // 消费 '$>'
+        if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_END) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected '$>'")
+        }
+
+        marker.done(ValkyrieElementTypes.TEMPLATE_BLOCK)
+        return true
     }
 
     /**
@@ -2718,26 +2986,61 @@ class ValkyrieParser : PsiParser {
         // 处理模板控制结构的关键字
         when (builder.tokenType) {
             ValkyrieTokenTypes.IF -> {
-                // 对于模板if，只解析条件表达式，不处理完整的if-else-end结构
-                // 因为else和end在不同的模板块中
+                // 对于模板if，创建IF_MARK节点并解析条件表达式
+                val marker = builder.mark()
                 builder.advanceLexer() // consume 'if'
-                return parseTermExpression(builder, false)
+                
+                // 检查是否是 if let 模式
+                if (builder.tokenType == ValkyrieTokenTypes.LET) {
+                    builder.advanceLexer() // consume 'let'
+                    parsePattern(builder, true) // 解析模式
+                    if (builder.tokenType == ValkyrieTokenTypes.ASSIGN) {
+                        builder.advanceLexer() // consume '='
+                        parseTermExpression(builder, false) // 解析表达式
+                    }
+                } else {
+                    // 普通条件表达式
+                    parseTermExpression(builder, false)
+                }
+                
+                marker.done(ValkyrieElementTypes.TEMPLATE_IF_MARK)
+                return true
             }
 
             ValkyrieTokenTypes.ELSE -> {
                 // 处理else关键字
+                val marker = builder.mark()
                 builder.advanceLexer() // consume 'else'
+                
                 // 检查是否是else if
                 if (builder.tokenType == ValkyrieTokenTypes.IF) {
                     builder.advanceLexer() // consume 'if'
-                    return parseTermExpression(builder, false)
+                    
+                    // 检查是否是 else if let 模式
+                    if (builder.tokenType == ValkyrieTokenTypes.LET) {
+                        builder.advanceLexer() // consume 'let'
+                        parsePattern(builder, true) // 解析模式
+                        if (builder.tokenType == ValkyrieTokenTypes.ASSIGN) {
+                            builder.advanceLexer() // consume '='
+                            parseTermExpression(builder, false) // 解析表达式
+                        }
+                    } else {
+                        // 普通条件表达式
+                        parseTermExpression(builder, false)
+                    }
+                    
+                    marker.done(ValkyrieElementTypes.TEMPLATE_ELSE_IF_MARK)
+                } else {
+                    marker.done(ValkyrieElementTypes.TEMPLATE_ELSE_MARK)
                 }
                 return true
             }
 
             ValkyrieTokenTypes.END -> {
                 // 处理end关键字
+                val marker = builder.mark()
                 builder.advanceLexer() // consume 'end'
+                marker.done(ValkyrieElementTypes.TEMPLATE_END_MARK)
                 return true
             }
 
@@ -2801,13 +3104,26 @@ class ValkyrieParser : PsiParser {
 
     // <$ end $>
     private fun parseTemplateEndMark(builder: PsiBuilder): Boolean {
+        if (builder.tokenType != ValkyrieTokenTypes.TEMPLATE_START) return false
         val marker = builder.mark()
-        // TODO: <$
-        if (!builder.consumeKeyword(ValkyrieTokenTypes.END)) {
+
+        // 消费 '<$'
+        builder.advanceLexer()
+
+        // 检查是否是 'end'
+        if (builder.tokenType != ValkyrieTokenTypes.END) {
             marker.rollbackTo()
             return false
         }
-        // TODO: $>
+        builder.advanceLexer() // consume 'end'
+
+        // 消费 '$>'
+        if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_END) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected '$>'")
+        }
+
         marker.done(ValkyrieElementTypes.TEMPLATE_END_MARK)
         return true
     }

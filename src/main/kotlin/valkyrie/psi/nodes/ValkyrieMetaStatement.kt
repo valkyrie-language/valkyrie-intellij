@@ -22,7 +22,10 @@ class ValkyrieMetaStatement(node: ASTNode) : ValkyrieElementNode(node), PsiNameI
     }
     
     override fun setName(name: String): PsiElement {
-        // TODO: 实现名称设置逻辑
+        val nameIdentifier = getNameIdentifier()
+        if (nameIdentifier is ValkyrieIdentifierNode) {
+            return nameIdentifier.setName(name)
+        }
         return this
     }
     
