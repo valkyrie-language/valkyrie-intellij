@@ -4,7 +4,6 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.ValkyrieElementTypes
 
 /**
  * If 语句 PSI 节点

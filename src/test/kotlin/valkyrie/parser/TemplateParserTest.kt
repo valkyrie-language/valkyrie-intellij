@@ -7,8 +7,7 @@ import org.junit.Test
 import org.junit.Assert.*
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.ValkyrieLexer
-import valkyrie.psi.ValkyrieParser
-import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieParser
 
 class TemplateParserTest {
 

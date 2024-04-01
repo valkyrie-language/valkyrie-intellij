@@ -1,19 +1,9 @@
 package valkyrie.test
 
-import com.intellij.lang.ASTNode
-import com.intellij.lang.PsiBuilder
-import com.intellij.lang.PsiParser
-import com.intellij.lexer.Lexer
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import com.intellij.psi.tree.IElementType
 import com.intellij.testFramework.ParsingTestCase
 import valkyrie.psi.ValkyrieParserDefinition
-import valkyrie.psi.ValkyrieLexer
-import valkyrie.psi.ValkyrieParser
-import java.io.File
-import org.junit.Assert.*
-import kotlin.test.fail
 
 /**
  * Valkyrie 解析测试基类
