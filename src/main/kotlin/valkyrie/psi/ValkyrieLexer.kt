@@ -631,11 +631,11 @@ class ValkyrieLexer : LexerBase() {
             }
 
             '(' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.PARENTHESES_L
+                currentOffset++; tokenType = ValkyrieTokenTypes.PARENTHESIS_L
             }
 
             ')' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.PARENTHESES_R
+                currentOffset++; tokenType = ValkyrieTokenTypes.PARENTHESIS_R
             }
 
             '{' -> {
