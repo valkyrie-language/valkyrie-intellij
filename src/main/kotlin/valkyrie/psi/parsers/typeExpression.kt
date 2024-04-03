@@ -1,9 +1,11 @@
 import com.intellij.lang.PsiBuilder
+import com.intellij.psi.tree.TokenSet
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.ValkyrieTokenTypes
 import valkyrie.psi.parsers.ValkyrieParser
 
-fun ValkyrieParser.parseGenericParameterList(builder: PsiBuilder): Boolean {
+
+fun parseGenericParameterList(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
     if (builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON) {
         builder.advanceLexer()
@@ -11,11 +13,11 @@ fun ValkyrieParser.parseGenericParameterList(builder: PsiBuilder): Boolean {
     // <T, U,>
     if (builder.tokenType == ValkyrieTokenTypes.ANGLE_L) {
         builder.advanceLexer() // consume '<'
-        if (parseGenericParameterItem(builder)) {
+        if (parseGenericParameterItem(valkyrieParser, builder)) {
             while (builder.tokenType != ValkyrieTokenTypes.ANGLE_R) {
                 if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
                     builder.advanceLexer() // consume ','
-                } else if (parseGenericParameterItem(builder)) {
+                } else if (parseGenericParameterItem(valkyrieParser, builder)) {
 
                 } else {
                     marker.error("Expected parameter name")
@@ -36,11 +38,11 @@ fun ValkyrieParser.parseGenericParameterList(builder: PsiBuilder): Boolean {
     // ⟨T, U, ⟩
     else if (builder.tokenType == ValkyrieTokenTypes.GENERIC_L) {
         builder.advanceLexer() // consume '⟨'
-        if (parseGenericParameterItem(builder)) {
+        if (parseGenericParameterItem(valkyrieParser, builder)) {
             while (builder.tokenType != ValkyrieTokenTypes.ANGLE_R) {
                 if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
                     builder.advanceLexer() // consume ','
-                } else if (parseGenericParameterItem(builder)) {
+                } else if (parseGenericParameterItem(valkyrieParser, builder)) {
                     continue
                 } else {
                     marker.error("Expected parameter name")
@@ -62,23 +64,23 @@ fun ValkyrieParser.parseGenericParameterList(builder: PsiBuilder): Boolean {
     return true
 }
 
-fun ValkyrieParser.parseGenericParameterItem(builder: PsiBuilder): Boolean {
+fun parseGenericParameterItem(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
 
     // Parse annotations and modifiers
-    parseAnnotations(builder, withModifiers = true)
+    valkyrieParser.parseAnnotations(builder, withModifiers = true)
 
     // Parse identifier
-    if (!parseIdentifier(builder)) {
+    if (!valkyrieParser.parseIdentifier(builder)) {
         marker.error("Expected parameter name")
         return false
     }
 
     // Parse optional type constraint
-    parseTypeHint(builder)
+    valkyrieParser.parseTypeHint(builder)
 
     // Parse optional default type
-    parseDefaultType(builder)
+    valkyrieParser.parseDefaultType(builder)
 
     marker.done(ValkyrieElementTypes.GENERIC_PARAMETER)
     return true
@@ -86,7 +88,7 @@ fun ValkyrieParser.parseGenericParameterItem(builder: PsiBuilder): Boolean {
 
 // term level 支持两种泛型语法 ⟨T⟩ 和 ::<T>
 // type level 额外支持一种 <T>
-fun ValkyrieParser.parseGenericArgumentList(builder: PsiBuilder, typeLevel: Boolean): Boolean {
+fun parseGenericArgumentList(valkyrieParser: ValkyrieParser, builder: PsiBuilder, typeLevel: Boolean): Boolean {
     val marker = builder.mark()
     // term level must have double colon
     var unicodeMode = false;
@@ -121,7 +123,7 @@ fun ValkyrieParser.parseGenericArgumentList(builder: PsiBuilder, typeLevel: Bool
     }
 
     // argument (, + argument)*
-    if (parseGenericArgumentItem(builder)) {
+    if (parseGenericArgumentItem(valkyrieParser, builder)) {
         // (, + argument)*
         while (builder.tokenType != ValkyrieTokenTypes.ANGLE_R) {
             if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
@@ -129,7 +131,7 @@ fun ValkyrieParser.parseGenericArgumentList(builder: PsiBuilder, typeLevel: Bool
             } else {
                 break
             }
-            if (parseGenericArgumentItem(builder)) {
+            if (parseGenericArgumentItem(valkyrieParser, builder)) {
                 continue
             }
             // unknown
@@ -160,12 +162,10 @@ fun ValkyrieParser.parseGenericArgumentList(builder: PsiBuilder, typeLevel: Bool
     }
 }
 
-
-private fun ValkyrieParser.parseGenericArgumentItem(builder: PsiBuilder): Boolean {
+fun parseGenericArgumentItem(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
-
     // Parse type expression as generic argument
-    if (parseTypeExpression(builder, true)) {
+    if (parseTypeExpression(valkyrieParser, builder, true)) {
         marker.done(ValkyrieElementTypes.EXPRESSION)
         return true
     } else {
@@ -173,3 +173,47 @@ private fun ValkyrieParser.parseGenericArgumentItem(builder: PsiBuilder): Boolea
         return false
     }
 }
+
+// inline 表示允许 { } 表达式
+fun parseTypeExpression(valkyrieParser: ValkyrieParser, builder: PsiBuilder, inline: Boolean): Boolean {
+    return parseTypeExpressionWithPrecedence(valkyrieParser, builder, 0, inline)
+}
+
+fun parseTypeExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: PsiBuilder, minPrecedence: Int, inline: Boolean): Boolean {
+    TODO()
+}
+
+
+fun parsePrefixTypeExpression(valkyrieParser: ValkyrieParser, builder: PsiBuilder) {
+    // +T
+    // -T
+    TODO()
+}
+
+fun parsePostfixTypeExpression(valkyrieParser: ValkyrieParser, builder: PsiBuilder) {
+    // a<T> parseGenericArgumentList(valkyrieParser, builder, true)
+    // T?
+    // T!
+    TODO()
+}
+
+fun parsePrimaryType(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    return valkyrieParser.parseIdentifier(builder)
+}
+
+val prefixOperators = TokenSet.create(
+    ValkyrieTokenTypes.PLUS,
+    ValkyrieTokenTypes.MINUS,
+)
+val infixPrecedences = mapOf(
+    ValkyrieTokenTypes.PIPE to 1, // T | U
+    ValkyrieTokenTypes.AMPERSAND to 2, // T & U
+    ValkyrieTokenTypes.PLUS to 3, // T + U
+    ValkyrieTokenTypes.MINUS to 3, // T - U
+    ValkyrieTokenTypes.ARROW to 4, // T -> U
+)
+
+val postfixOperators = TokenSet.create(
+    ValkyrieTokenTypes.WOW,  // T!
+    ValkyrieTokenTypes.WHAT, // T?
+)
