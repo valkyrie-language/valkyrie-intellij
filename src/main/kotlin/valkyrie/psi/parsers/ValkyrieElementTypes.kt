@@ -4,26 +4,16 @@ package valkyrie.psi
  * Valkyrie PSI 元素类型定义
  */
 object ValkyrieElementTypes {
-
-    @JvmField
+    val VECTOR_TYPE = ValkyrieElementType("VECTOR_TYPE")
+    val TABLE_ITEM = ValkyrieElementType("TABLE_ITEM")
+    val GROUP_TYPE = ValkyrieElementType("GROUP_TYPE")
+    val TUPLE_ITEM = ValkyrieElementType("TUPLE_ITEM")
     val TYPE_EXPRESSION = ValkyrieElementType("TYPE_EXPRESSION")
-
-    @JvmField
     val PREFIX_TYPE_EXPRESSION = ValkyrieElementType("PREFIX_TYPE_EXPRESSION")
-
-    @JvmField
     val POSTFIX_TYPE_EXPRESSION = ValkyrieElementType("POSTFIX_TYPE_EXPRESSION")
-
-    @JvmField
     val GENERIC_APPLICATION_TYPE = ValkyrieElementType("GENERIC_APPLICATION_TYPE")
-
-    @JvmField
     val INFIX_TYPE = ValkyrieElementType("INFIX_TYPE")
-
-    @JvmField
     val SUBTRACTION_TYPE = ValkyrieElementType("SUBTRACTION_TYPE")
-
-    @JvmField
     val SUM_TYPE = ValkyrieElementType("SUM_TYPE")
 
     // 文件根节点
