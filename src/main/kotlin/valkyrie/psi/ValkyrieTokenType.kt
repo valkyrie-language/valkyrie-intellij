@@ -329,10 +329,10 @@ object ValkyrieTokenTypes {
     val BRACE_R = ValkyrieTokenType("}")
 
     @JvmField
-    val ARRAY_L = ValkyrieTokenType("[")
+    val BRACKET_L = ValkyrieTokenType("[")
 
     @JvmField
-    val ARRAY_R = ValkyrieTokenType("]")
+    val BRACKET_R = ValkyrieTokenType("]")
 
     @JvmField
     val ANGLE_L = ValkyrieTokenType("<")
@@ -340,7 +340,7 @@ object ValkyrieTokenTypes {
     @JvmField
     val ANGLE_R = ValkyrieTokenType(">")
 
-    // 泛型符号
+    /** 泛型符号 ⟨T⟩ */
     @JvmField
     val GENERIC_L = ValkyrieTokenType("⟨")
 
