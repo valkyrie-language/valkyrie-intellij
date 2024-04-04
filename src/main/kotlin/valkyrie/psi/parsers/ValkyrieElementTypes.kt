@@ -6,15 +6,23 @@ package valkyrie.psi
 object ValkyrieElementTypes {
 
     @JvmField
+    val TYPE_EXPRESSION = ValkyrieElementType("TYPE_EXPRESSION")
+
+    @JvmField
     val PREFIX_TYPE_EXPRESSION = ValkyrieElementType("PREFIX_TYPE_EXPRESSION")
+
     @JvmField
     val POSTFIX_TYPE_EXPRESSION = ValkyrieElementType("POSTFIX_TYPE_EXPRESSION")
+
     @JvmField
     val GENERIC_APPLICATION_TYPE = ValkyrieElementType("GENERIC_APPLICATION_TYPE")
+
     @JvmField
     val INFIX_TYPE = ValkyrieElementType("INFIX_TYPE")
+
     @JvmField
     val SUBTRACTION_TYPE = ValkyrieElementType("SUBTRACTION_TYPE")
+
     @JvmField
     val SUM_TYPE = ValkyrieElementType("SUM_TYPE")
 
