@@ -1,3 +1,4 @@
+import org.gradle.kotlin.dsl.version
 import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -9,7 +10,7 @@ plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "2.2.10"
     alias(libs.plugins.changelog)
-    alias(libs.plugins.qodana)
+    id("org.jetbrains.qodana") version "2025.2.1"
     alias(libs.plugins.kover)
     id("org.jetbrains.intellij.platform") version "2.9.0"
     id("org.jetbrains.intellij.platform.module") version "2.9.0"
@@ -30,17 +31,18 @@ dependencies {
     intellijPlatform {
         // 使用2025.2版本，使用installer
         create(IntelliJPlatformType.IntellijIdeaUltimate, "2025.2") {
-            // 使用installer版本
             useInstaller = true
         }
-//        create(IntelliJPlatformType.IntellijIdea, "2025.3") { useInstaller = true }
+//        create(IntelliJPlatformType.IntellijIdea, "2025.3") {
+//            useInstaller = true
+//        }
 
         bundledPlugin("com.intellij.java")
         bundledPlugin("com.intellij.modules.json")
         bundledPlugin("org.toml.lang")
         bundledPlugin("org.intellij.plugins.markdown")
 //        // https://plugins.jetbrains.com/plugin/227-psiviewer/versions
-        plugin("PsiViewer", "252.23892.248")
+//        plugin("PsiViewer", "252.23892.248")
 //        plugin("com.github.voml.neo_theme", "0.4.3")
 
         testFramework(TestFrameworkType.Platform)

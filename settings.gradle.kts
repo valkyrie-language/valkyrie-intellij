@@ -1,12 +1,5 @@
 rootProject.name = "Valkyrie Intellij"
 
-pluginManagement {
-    repositories {
-        maven("https://maven.aliyun.com/repository/gradle-plugin")
-        gradlePluginPortal()
-    }
-}
-
 dependencyResolutionManagement {
     repositories {
         // 优先使用国内镜像
