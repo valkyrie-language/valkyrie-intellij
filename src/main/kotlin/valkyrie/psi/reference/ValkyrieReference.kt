@@ -123,7 +123,7 @@ class ValkyrieReference(private val element: ValkyrieIdentifierNode) : PsiRefere
             for (genericList in genericParameterLists) {
                 // 在泛型参数列表中查找匹配的参数
                 val genericParameters = PsiTreeUtil.findChildrenOfType(genericList, ValkyrieElementNode::class.java)
-                    .filter { it.node.elementType == ValkyrieElementTypes.GENERIC_PARAMETER }
+                    .filter { it.node.elementType == ValkyrieElementTypes.GENERIC_PARAMETER_ITEM }
                 
                 for (genericParam in genericParameters) {
                     val identifiers = PsiTreeUtil.findChildrenOfType(genericParam, ValkyrieIdentifierNode::class.java)

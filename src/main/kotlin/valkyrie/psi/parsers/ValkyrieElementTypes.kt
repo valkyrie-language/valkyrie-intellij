@@ -6,8 +6,8 @@ package valkyrie.psi
 object ValkyrieElementTypes {
     val VECTOR_TYPE = ValkyrieElementType("VECTOR_TYPE")
     val TABLE_ITEM = ValkyrieElementType("TABLE_ITEM")
-    val GROUP_TYPE = ValkyrieElementType("GROUP_TYPE")
-    val TUPLE_ITEM = ValkyrieElementType("TUPLE_ITEM")
+    val TYPE_GROUP = ValkyrieElementType("GROUP_TYPE")
+    val TYPE_TUPLE_ITEM = ValkyrieElementType("TUPLE_ITEM")
     val TYPE_EXPRESSION = ValkyrieElementType("TYPE_EXPRESSION")
     val PREFIX_TYPE_EXPRESSION = ValkyrieElementType("PREFIX_TYPE_EXPRESSION")
     val POSTFIX_TYPE_EXPRESSION = ValkyrieElementType("POSTFIX_TYPE_EXPRESSION")
@@ -347,7 +347,7 @@ object ValkyrieElementTypes {
     val TABLE_TYPE = ValkyrieElementType("TABLE_TYPE")
 
     @JvmField
-    val TUPLE_TYPE = ValkyrieElementType("TUPLE_TYPE")
+    val TYPE_TUPLE_LIST = ValkyrieElementType("TUPLE_TYPE")
 
     @JvmField
     val PARENTHESIZED_TYPE = ValkyrieElementType("PARENTHESIZED_TYPE")
@@ -435,7 +435,7 @@ object ValkyrieElementTypes {
     val GENERIC_PARAMETER_LIST = ValkyrieElementType("GENERIC_PARAMETER_LIST")
 
     @JvmField
-    val GENERIC_PARAMETER = ValkyrieElementType("GENERIC_PARAMETER")
+    val GENERIC_PARAMETER_ITEM = ValkyrieElementType("GENERIC_PARAMETER")
 
 
     @JvmField
