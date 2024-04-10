@@ -27,9 +27,7 @@ import valkyrie.project.ValkyrieProjectManager
 @Service(Service.Level.PROJECT)
 class ValkyrieSymbolIndex(private val project: Project) {
     
-    /**
-     * 符号信息
-     */
+    // 符号信息数据类
     data class SymbolInfo(
         val name: String,
         val namespace: String,
@@ -37,28 +35,42 @@ class ValkyrieSymbolIndex(private val project: Project) {
         val element: PsiElement? // 允许为 null，用于内置类型
     )
     
-    /**
-     * 命名空间信息
-     */
+    // 命名空间信息数据类
     data class NamespaceInfo(
         val name: String,
         val file: VirtualFile,
         val symbols: MutableSet<String> = mutableSetOf()
     )
     
-    /**
-     * Using 导入信息
-     */
+    // Using 语句信息数据类
     data class UsingInfo(
         val qualifiedName: String,
         val namespace: String,
         val symbolName: String,
         val file: VirtualFile
     )
-    
+
     private val symbolCache = mutableMapOf<String, MutableList<SymbolInfo>>()
     private val namespaceCache = mutableMapOf<String, NamespaceInfo>()
     private val usingCache = mutableMapOf<VirtualFile, MutableList<UsingInfo>>()
+    
+    // 延迟初始化标志
+    @Volatile
+    private var isIndexBuilt = false
+    
+    /**
+     * 确保索引已构建，如果未构建则构建索引
+     */
+    private fun ensureIndexBuilt() {
+        if (!isIndexBuilt) {
+            synchronized(this) {
+                if (!isIndexBuilt) {
+                    rebuildIndex()
+                    isIndexBuilt = true
+                }
+            }
+        }
+    }
     
     /**
      * 重建索引
@@ -437,14 +449,15 @@ class ValkyrieSymbolIndex(private val project: Project) {
      * 查找符号定义
      */
     fun findSymbolDefinition(symbolName: String, currentFile: VirtualFile): SymbolInfo? {
-        val allDefinitions = findAllSymbolDefinitions(symbolName, currentFile)
-        return allDefinitions.firstOrNull()
+        ensureIndexBuilt()
+        return findAllSymbolDefinitions(symbolName, currentFile).firstOrNull()
     }
     
     /**
-     * 查找所有符号定义（用于处理多个同名符号的情况）
+     * 查找所有符号定义
      */
     fun findAllSymbolDefinitions(symbolName: String, currentFile: VirtualFile): List<SymbolInfo> {
+        ensureIndexBuilt()
         val results = mutableListOf<SymbolInfo>()
         val currentPsiFile = PsiManager.getInstance(project).findFile(currentFile)
         val currentNamespace = PsiTreeUtil.findChildOfType(currentPsiFile, ValkyrieNamespaceDeclaration::class.java)
@@ -537,6 +550,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
      * 获取符号的所有引用
      */
     fun findSymbolReferences(symbolName: String, namespace: String): List<SymbolInfo> {
+        ensureIndexBuilt()
         return symbolCache[symbolName]?.filter { it.namespace == namespace } ?: emptyList()
     }
     
@@ -544,6 +558,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
      * 获取命名空间中的所有符号
      */
     fun getNamespaceSymbols(namespace: String): Set<String> {
+        ensureIndexBuilt()
         return namespaceCache[namespace]?.symbols ?: emptySet()
     }
     
@@ -551,6 +566,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
      * 获取文件的 using 导入
      */
     fun getFileUsings(file: VirtualFile): List<UsingInfo> {
+        ensureIndexBuilt()
         return usingCache[file] ?: emptyList()
     }
     
@@ -558,6 +574,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
      * 根据名称查找类声明
      */
     fun findClassByName(className: String): ValkyrieClassDeclaration? {
+        ensureIndexBuilt()
         val symbolInfo = symbolCache[className]?.firstOrNull { it.element is ValkyrieClassDeclaration }
         return symbolInfo?.element as? ValkyrieClassDeclaration
     }
@@ -566,6 +583,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
      * 查找继承自指定类的所有子类
      */
     fun findClassesThatInheritFrom(parentClassName: String): List<ValkyrieClassDeclaration> {
+        ensureIndexBuilt()
         val result = mutableListOf<ValkyrieClassDeclaration>()
         
         // 遍历所有类符号
@@ -585,6 +603,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
      * 获取类的完整继承链
      */
     fun getInheritanceChain(classDecl: ValkyrieClassDeclaration): List<ValkyrieClassDeclaration> {
+        ensureIndexBuilt()
         val chain = mutableListOf<ValkyrieClassDeclaration>()
         val visited = mutableSetOf<String>()
         
@@ -609,6 +628,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
      * 查找指定命名空间中的所有类
      */
     fun findClassesInNamespace(namespace: String): List<ValkyrieClassDeclaration> {
+        ensureIndexBuilt()
         return symbolCache.values.flatten()
             .filter { it.namespace == namespace && it.element is ValkyrieClassDeclaration }
             .mapNotNull { it.element as? ValkyrieClassDeclaration }
@@ -618,6 +638,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
      * 查找指定命名空间中的所有函数
      */
     fun findFunctionsInNamespace(namespace: String): List<ValkyrieMethodDeclaration> {
+        ensureIndexBuilt()
         return symbolCache.values.flatten()
             .filter { it.namespace == namespace && it.element is ValkyrieMethodDeclaration }
             .mapNotNull { it.element as? ValkyrieMethodDeclaration }

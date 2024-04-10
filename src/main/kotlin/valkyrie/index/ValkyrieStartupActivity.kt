@@ -14,11 +14,8 @@ class ValkyrieStartupActivity : ProjectActivity {
         // 确保项目服务被初始化
         ValkyrieProjectService.getInstance(project)
         
-        // 初始化符号索引服务并在后台线程重建索引
-        // 避免在项目启动时阻塞 EDT 线程
-        ApplicationManager.getApplication().executeOnPooledThread {
-            val symbolIndex = ValkyrieSymbolIndex.getInstance(project)
-            symbolIndex.rebuildIndex()
-        }
+        // 只初始化符号索引服务，不立即重建索引
+        // 索引将在首次需要时延迟构建，避免启动时的性能开销
+        ValkyrieSymbolIndex.getInstance(project)
     }
 }
