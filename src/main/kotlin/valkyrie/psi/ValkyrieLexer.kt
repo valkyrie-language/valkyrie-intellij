@@ -4,27 +4,31 @@ import com.intellij.lexer.LexerBase
 import com.intellij.psi.TokenType.BAD_CHARACTER
 import com.intellij.psi.TokenType.WHITE_SPACE
 import com.intellij.psi.tree.IElementType
+import java.lang.Integer.max
 
 /**
- * Valkyrie 手写词法分析器
+ * Valkyrie 手写词法分析器 (修复版)
  */
 class ValkyrieLexer : LexerBase() {
     private var buffer: CharSequence = ""
     private var startOffset = 0
     private var endOffset = 0
     private var currentOffset = 0
-    private var currentState = 0
     private var tokenType: IElementType? = null
-    
-    // 模板模式状态
-    private var inTemplateMode = false
-    
-    companion object {
-        const val NORMAL_STATE = 0
-        const val TEMPLATE_STATE = 1
-    }
 
-    // 关键字映射
+    // 状态量
+    // 0: Normal, >0: Template Depth
+    private var templateDepth = 0
+
+    // 字符串解析状态
+    private var stringDelimiter: Char? = null
+    private var stringDelimiterWidth = 0
+
+    // 数字宏解析状态
+    private var pendingNumberMacro = false
+
+
+    // 关键字映射 (保持不变)
     private val keywords = mapOf(
         "let" to ValkyrieTokenTypes.LET,
         "if" to ValkyrieTokenTypes.IF,
@@ -85,13 +89,16 @@ class ValkyrieLexer : LexerBase() {
         this.startOffset = startOffset
         this.endOffset = endOffset
         this.currentOffset = startOffset
-        this.currentState = initialState
-        this.inTemplateMode = (initialState == TEMPLATE_STATE)
+        // 恢复状态
+        this.templateDepth = initialState
+        this.stringDelimiter = null
+        this.stringDelimiterWidth = 0
+        this.pendingNumberMacro = false
         this.tokenType = null
         advance()
     }
 
-    override fun getState(): Int = currentState
+    override fun getState(): Int = templateDepth
 
     override fun getTokenType(): IElementType? = tokenType
 
@@ -106,95 +113,246 @@ class ValkyrieLexer : LexerBase() {
         }
 
         startOffset = currentOffset
-        val ch = buffer[currentOffset]
 
-        // 在模板模式下，优先检查模板结束标记
-        if (inTemplateMode) {
-            if (ch == '$' && peek() == '>') {
-                currentOffset += 2
-                tokenType = ValkyrieTokenTypes.TEMPLATE_END
-                inTemplateMode = false
-                currentState = NORMAL_STATE
-                return
-            }
-            // 在模板模式下，读取模板文本
-            readTemplateText()
+        // 优先处理多-token 状态
+        if (stringDelimiter != null) {
+            processStringToken()
+            return
+        }
+        if (pendingNumberMacro) {
+            readNumberMacro()
+            return
+        }
+        if (templateDepth > 0) {
+            processTemplateToken()
             return
         }
 
+        // 常规状态解析
+        val ch = buffer[currentOffset]
         when {
-            ch.isWhitespace() -> {
-                while (currentOffset < endOffset && buffer[currentOffset].isWhitespace()) {
-                    currentOffset++
-                }
-                tokenType = WHITE_SPACE
-            }
-
+            ch.isWhitespace() -> readWhitespace()
             ch == '⍝' -> {
-                skipLineComment()
-                tokenType = ValkyrieTokenTypes.COMMENT_DOCUMENT
+                skipLineComment(); tokenType = ValkyrieTokenTypes.COMMENT_DOCUMENT
             }
 
             ch == '#' && peek() == '?' -> {
-                skipDocComment()
-                tokenType = ValkyrieTokenTypes.COMMENT_DOCUMENT
+                skipDocComment(); tokenType = ValkyrieTokenTypes.COMMENT_DOCUMENT
             }
 
             ch == '#' -> {
-                skipLineComment()
-                tokenType = ValkyrieTokenTypes.COMMENT_LINE
+                skipLineComment(); tokenType = ValkyrieTokenTypes.COMMENT_LINE
             }
 
             ch == '<' && peek() == '#' -> {
-                skipBlockComment()
-                tokenType = ValkyrieTokenTypes.COMMENT_RANGE
+                skipBlockComment(); tokenType = ValkyrieTokenTypes.COMMENT_RANGE
             }
 
-            ch.isLetter() || ch == '_' -> {
-                readIdentifier()
-            }
-
-            ch.isDigit() -> {
-                readNumber()
-            }
-
-            ch == '"' -> {
-                // 检查是否是三引号字符串：需要连续三个引号
-                if (currentOffset + 2 < endOffset && buffer[currentOffset + 1] == '"' && buffer[currentOffset + 2] == '"') {
-                    readMultiQuoteString()
-                    tokenType = ValkyrieTokenTypes.STRING_MQ
-                } else {
-                    readString()
-                    tokenType = ValkyrieTokenTypes.STRING_DQ
-                }
-            }
-
-            ch == '\'' -> {
-                readCharLiteral()
-                tokenType = ValkyrieTokenTypes.STRING_DQ
-            }
-
-            ch == '`' -> {
-                readRawIdentifier()
-            }
-
-            else -> {
-                readOperatorOrPunctuation(ch)
-            }
+            ch.isLetter() || ch == '_' -> readIdentifier()
+            ch.isDigit() -> readNumber()
+            ch == '"' || ch == '\'' -> startString()
+            ch == '`' -> readRawIdentifier()
+            else -> readOperatorOrPunctuation(ch)
         }
     }
 
+    private fun readWhitespace() {
+        while (currentOffset < endOffset && buffer[currentOffset].isWhitespace()) {
+            currentOffset++
+        }
+        tokenType = WHITE_SPACE
+    }
+
     override fun getBufferSequence(): CharSequence = buffer
-
     override fun getBufferEnd(): Int = endOffset
-
     private fun peek(offset: Int = 1): Char? {
         val pos = currentOffset + offset
         return if (pos < endOffset) buffer[pos] else null
     }
 
+    private fun startString() {
+        val delimiter = buffer[currentOffset]
+        var width = 0
+        while (currentOffset + width < endOffset && buffer[currentOffset + width] == delimiter) {
+            width++
+        }
+
+        stringDelimiter = delimiter
+        stringDelimiterWidth = width
+        currentOffset += width
+        tokenType = ValkyrieTokenTypes.STRING_START
+    }
+
+    private fun processStringToken() {
+        if (isAtStringEnd()) {
+            currentOffset += stringDelimiterWidth
+            tokenType = ValkyrieTokenTypes.STRING_END
+            // Reset state
+            stringDelimiter = null
+            stringDelimiterWidth = 0
+        } else {
+            val contentStart = currentOffset
+            while (currentOffset < endOffset && !isAtStringEnd()) {
+                currentOffset++
+            }
+            if (currentOffset > contentStart) {
+                tokenType = ValkyrieTokenTypes.STRING_TEXT
+            } else {
+                // Should not happen if buffer is not empty
+                tokenType = null
+            }
+        }
+    }
+
+    private fun isAtStringEnd(): Boolean {
+        if (currentOffset + stringDelimiterWidth > endOffset) return false
+        for (i in 0 until stringDelimiterWidth) {
+            if (buffer[currentOffset + i] != stringDelimiter) {
+                return false
+            }
+        }
+        return true
+    }
+
+    private fun readIdentifier() {
+        val idStart = currentOffset
+        while (currentOffset < endOffset) {
+            val ch = buffer[currentOffset]
+            if (ch.isLetterOrDigit() || ch == '_') {
+                currentOffset++
+            } else {
+                break
+            }
+        }
+
+        // 问题 1: 检查是否为 string macro
+        val nextChar = peek(0)
+        if (nextChar == '\'' || nextChar == '"') {
+            tokenType = ValkyrieTokenTypes.MACRO_STRING
+            return
+        }
+
+        val text = buffer.subSequence(idStart, currentOffset).toString()
+        tokenType = keywords[text] ?: ValkyrieTokenTypes.IDENTIFIER_STD
+    }
+
+    private fun readNumber() {
+        var hasDecimalPoint = false
+        val numberStart = currentOffset
+
+        // Prefixes (0b, 0x)
+        if (buffer[currentOffset] == '0' && peek()?.lowercaseChar() in listOf('b', 'x')) {
+            val prefix = peek()!!.lowercaseChar()
+            currentOffset += 2
+            val validChars = if (prefix == 'b') "01" else "0123456789abcdefABCDEF"
+            while (currentOffset < endOffset && buffer[currentOffset] in validChars) {
+                currentOffset++
+            }
+            tokenType = ValkyrieTokenTypes.INTEGER
+        } else {
+            // Decimal/Integer
+            while (currentOffset < endOffset) {
+                val ch = buffer[currentOffset]
+                if (ch.isDigit()) {
+                    currentOffset++
+                } else if (ch == '.' && !hasDecimalPoint && peek()?.isDigit() == true) {
+                    hasDecimalPoint = true
+                    currentOffset++
+                } else {
+                    break
+                }
+            }
+            tokenType = if (hasDecimalPoint) ValkyrieTokenTypes.DECIMAL else ValkyrieTokenTypes.INTEGER
+        }
+
+        // 检查数字后是否有宏
+        if (currentOffset > numberStart && currentOffset < endOffset) {
+            val nextChar = buffer[currentOffset]
+            // 不允许有空格
+            if (nextChar.isLetter() || nextChar == '_') {
+                pendingNumberMacro = true
+            }
+        }
+    }
+
+    private fun readNumberMacro() {
+        pendingNumberMacro = false
+        val macroStart = currentOffset
+        while (currentOffset < endOffset) {
+            val ch = buffer[currentOffset]
+            if (ch.isLetterOrDigit() || ch == '_') {
+                currentOffset++
+            } else {
+                break
+            }
+        }
+        if (currentOffset > macroStart) {
+            tokenType = ValkyrieTokenTypes.MACRO_NUMBER
+        } else {
+            // Should not happen, but as a fallback
+            advance()
+        }
+    }
+
+    // =================================================================
+    // 问题 3: 模板解析
+    // =================================================================
+    private fun processTemplateToken() {
+        // 优先匹配特殊标记
+        if (currentOffset + 1 < endOffset) {
+            val ch1 = buffer[currentOffset]
+            val ch2 = buffer[currentOffset + 1]
+
+            when {
+                // 嵌套模板开始
+                ch1 == '<' && ch2 == '$' -> {
+                    currentOffset += 2
+                    templateDepth++
+                    tokenType = ValkyrieTokenTypes.TEMPLATE_START
+                    return
+                }
+                // 模板结束
+                ch1 == '$' && ch2 == '>' -> {
+                    currentOffset += 2
+                    templateDepth = max(0, templateDepth - 1)
+                    tokenType = ValkyrieTokenTypes.TEMPLATE_END
+                    return
+                }
+                // 模板内注释
+                ch1 == '<' && ch2 == '#' -> {
+                    skipBlockComment()
+                    tokenType = ValkyrieTokenTypes.COMMENT_RANGE
+                    return
+                }
+            }
+        }
+
+        // 如果不是特殊标记, 就是模板文本
+        val textStart = currentOffset
+        while (currentOffset < endOffset) {
+            if (currentOffset + 1 < endOffset) {
+                val ch1 = buffer[currentOffset]
+                val ch2 = buffer[currentOffset + 1]
+                if ((ch1 == '<' && ch2 == '$') || (ch1 == '$' && ch2 == '>') || (ch1 == '<' && ch2 == '#')) {
+                    break
+                }
+            }
+            currentOffset++
+        }
+
+        if (currentOffset > textStart) {
+            tokenType = ValkyrieTokenTypes.TEMPLATE_TEXT
+        } else {
+            // We must be at the end of the buffer.
+            tokenType = null
+        }
+    }
+
+    // =================================================================
+    // 其他辅助函数 (大部分保持不变或微调)
+    // =================================================================
     private fun skipLineComment() {
-        currentOffset++ // skip #
+        currentOffset++ // skip # or ⍝
         while (currentOffset < endOffset && buffer[currentOffset] != '\n') {
             currentOffset++
         }
@@ -203,14 +361,11 @@ class ValkyrieLexer : LexerBase() {
     private fun skipBlockComment() {
         currentOffset += 2 // skip <#
         var depth = 1
-
-        while (currentOffset < endOffset - 1 && depth > 0) {
-            if (buffer[currentOffset] == '<' && buffer[currentOffset + 1] == '#') {
-                // 嵌套块注释开始
+        while (currentOffset < endOffset && depth > 0) {
+            if (peek(0) == '<' && peek(1) == '#') {
                 depth++
                 currentOffset += 2
-            } else if (buffer[currentOffset] == '#' && buffer[currentOffset + 1] == '>') {
-                // 块注释结束
+            } else if (peek(0) == '#' && peek(1) == '>') {
                 depth--
                 currentOffset += 2
             } else {
@@ -226,163 +381,56 @@ class ValkyrieLexer : LexerBase() {
         }
     }
 
-    private fun readIdentifier() {
-        while (currentOffset < endOffset) {
-            val ch = buffer[currentOffset]
-            if (ch.isLetterOrDigit() || ch == '_') {
-                currentOffset++
-            } else {
-                break
-            }
-        }
-
-        val text = buffer.subSequence(startOffset, currentOffset).toString()
-
-        // 直接查找关键字，不处理复合关键字（如"not in"、"is not"）
-        // 复合关键字应在parser阶段处理，以避免格式化问题
-        tokenType = keywords[text] ?: ValkyrieTokenTypes.IDENTIFIER_STD
-    }
-
-    private fun readNumber() {
-        var hasDecimalPoint = false
-
-        // Check for binary (0b) or hexadecimal (0x) prefixes
-        if (buffer[currentOffset] == '0' && currentOffset + 1 < endOffset) {
-            val nextChar = buffer[currentOffset + 1]
-            when (nextChar) {
-                'b', 'B' -> {
-                    // Binary number
-                    currentOffset += 2 // skip "0b"
-                    while (currentOffset < endOffset) {
-                        val ch = buffer[currentOffset]
-                        if (ch == '0' || ch == '1') {
-                            currentOffset++
-                        } else {
-                            break
-                        }
-                    }
-                    tokenType = ValkyrieTokenTypes.INTEGER
-                    return
-                }
-
-                'x', 'X' -> {
-                    // Hexadecimal number
-                    currentOffset += 2 // skip "0x"
-                    while (currentOffset < endOffset) {
-                        val ch = buffer[currentOffset]
-                        if (ch.isDigit() || ch in 'a'..'f' || ch in 'A'..'F') {
-                            currentOffset++
-                        } else {
-                            break
-                        }
-                    }
-                    tokenType = ValkyrieTokenTypes.INTEGER
-                    return
-                }
-            }
-        }
-
-        // Regular decimal number parsing
-        while (currentOffset < endOffset) {
-            val ch = buffer[currentOffset]
-            when {
-                ch.isDigit() -> currentOffset++
-                ch == '.' && !hasDecimalPoint && peek()?.isDigit() == true -> {
-                    hasDecimalPoint = true
-                    currentOffset++
-                }
-
-                else -> break
-            }
-        }
-
-        // 检查数字后是否有单位宏
-        val numberTokenType = if (hasDecimalPoint) ValkyrieTokenTypes.DECIMAL else ValkyrieTokenTypes.INTEGER
-
-        // 检查是否有单位后缀（标识符）
-        if (currentOffset < endOffset) {
-            val ch = buffer[currentOffset]
-            if (ch == '`') {
-                // Raw identifier as unit
-                readRawIdentifier()
-                tokenType = ValkyrieTokenTypes.UNIT_NUMBER
-            } else if (ch.isLetter() || ch == '_') {
-                // Standard identifier as unit
-                while (currentOffset < endOffset) {
-                    val unitCh = buffer[currentOffset]
-                    if (unitCh.isLetterOrDigit() || unitCh == '_') {
-                        currentOffset++
-                    } else {
-                        break
-                    }
-                }
-                tokenType = ValkyrieTokenTypes.UNIT_NUMBER
-            } else {
-                tokenType = numberTokenType
-            }
-        } else {
-            tokenType = numberTokenType
-        }
-    }
-
-    private fun readString() {
-        currentOffset++ // skip opening quote
-        while (currentOffset < endOffset) {
-            val ch = buffer[currentOffset]
-            if (ch == '"') {
-                currentOffset++ // skip closing quote
-                break
-            } else if (ch == '\\') {
-                currentOffset += 2 // skip escape sequence
-            } else {
-                currentOffset++
-            }
-        }
-    }
-
-    private fun readMultiQuoteString() {
-        currentOffset += 3 // skip opening triple quotes
-        while (currentOffset + 2 < endOffset) {
-            if (buffer[currentOffset] == '"' && buffer[currentOffset + 1] == '"' && buffer[currentOffset + 2] == '"') {
-                currentOffset += 3 // skip closing triple quotes
-                break
-            } else {
-                currentOffset++
-            }
-        }
-    }
-
-    private fun readCharLiteral() {
-        currentOffset++ // skip opening quote
-        while (currentOffset < endOffset) {
-            val ch = buffer[currentOffset]
-            if (ch == '\'') {
-                currentOffset++ // skip closing quote
-                break
-            } else if (ch == '\\') {
-                currentOffset += 2 // skip escape sequence
-            } else {
-                currentOffset++
-            }
-        }
-    }
-
     private fun readRawIdentifier() {
         currentOffset++ // skip opening backtick
-        while (currentOffset < endOffset) {
-            val ch = buffer[currentOffset]
-            if (ch == '`') {
-                currentOffset++ // skip closing backtick
-                break
-            } else {
-                currentOffset++
-            }
+        val contentStart = currentOffset
+        while (currentOffset < endOffset && buffer[currentOffset] != '`') {
+            currentOffset++
         }
-        tokenType = ValkyrieTokenTypes.IDENTIFIER_RAW
+        if (currentOffset < endOffset) {
+            currentOffset++ // skip closing backtick
+        }
+        tokenType = if (currentOffset > contentStart + 1) ValkyrieTokenTypes.IDENTIFIER_RAW else BAD_CHARACTER
     }
 
+    // readOperatorOrPunctuation 经过微调以处理模板启动
     private fun readOperatorOrPunctuation(ch: Char) {
         when (ch) {
+            '<' -> {
+                currentOffset++
+                when (peek(0)) {
+                    '=' -> {
+                        currentOffset++; tokenType = ValkyrieTokenTypes.LESS_EQUAL
+                    }
+
+                    '{' -> {
+                        currentOffset++; tokenType = ValkyrieTokenTypes.COMPILE_L
+                    }
+                    // 进入模板模式
+                    '$' -> {
+                        currentOffset++
+                        templateDepth++
+                        tokenType = ValkyrieTokenTypes.TEMPLATE_START
+                    }
+
+                    else -> {
+                        tokenType = ValkyrieTokenTypes.ANGLE_L
+                    }
+                }
+            }
+
+            '$' -> {
+                currentOffset++
+                if (peek(0) == '>') {
+                    currentOffset++
+                    // 在正常模式下遇到 $>，安全地减少深度
+                    templateDepth = max(0, templateDepth - 1)
+                    tokenType = ValkyrieTokenTypes.TEMPLATE_END
+                } else {
+                    tokenType = BAD_CHARACTER
+                }
+            }
+
             '=' -> {
                 currentOffset++
                 when (peek(0)) {
@@ -412,32 +460,6 @@ class ValkyrieLexer : LexerBase() {
                 }
             }
 
-            '<' -> {
-                currentOffset++
-                when (peek(0)) {
-                    '=' -> {
-                        currentOffset++
-                        tokenType = ValkyrieTokenTypes.LESS_EQUAL
-                    }
-
-                    '{' -> {
-                        currentOffset++
-                        tokenType = ValkyrieTokenTypes.COMPILE_L
-                    }
-
-                    '$' -> {
-                        currentOffset++
-                        tokenType = ValkyrieTokenTypes.TEMPLATE_START
-                        inTemplateMode = true
-                        currentState = TEMPLATE_STATE
-                    }
-
-                    else -> {
-                        tokenType = ValkyrieTokenTypes.ANGLE_L
-                    }
-                }
-            }
-
             '>' -> {
                 currentOffset++
                 if (peek(0) == '=') {
@@ -455,17 +477,6 @@ class ValkyrieLexer : LexerBase() {
                     tokenType = ValkyrieTokenTypes.COMPILE_R
                 } else {
                     tokenType = ValkyrieTokenTypes.BRACE_R
-                }
-            }
-
-            '$' -> {
-                currentOffset++
-                if (peek(0) == '>') {
-                    currentOffset++
-                    tokenType = ValkyrieTokenTypes.TEMPLATE_END
-                } else {
-                    // $ 作为普通字符处理
-                    tokenType = BAD_CHARACTER
                 }
             }
 
@@ -762,33 +773,6 @@ class ValkyrieLexer : LexerBase() {
                 currentOffset++
                 tokenType = BAD_CHARACTER
             }
-        }
-    }
-    
-    /**
-     * 读取模板文本，直到遇到模板结束标记
-     */
-    private fun readTemplateText() {
-        val start = currentOffset
-        
-        while (currentOffset < endOffset) {
-            val ch = buffer[currentOffset]
-            
-            // 检查是否遇到模板结束标记
-            if (ch == '$' && currentOffset + 1 < endOffset && buffer[currentOffset + 1] == '>') {
-                break
-            }
-            
-            currentOffset++
-        }
-        
-        // 如果没有读取到任何字符，说明遇到了模板结束标记
-        if (currentOffset == start) {
-            // 这种情况应该由advance方法中的模板结束标记处理逻辑处理
-            currentOffset++
-            tokenType = BAD_CHARACTER
-        } else {
-            tokenType = ValkyrieTokenTypes.TEMPLATE_TEXT
         }
     }
 }
