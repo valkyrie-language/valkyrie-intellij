@@ -13,7 +13,7 @@ class TemplateLexerTest {
         lexer.start("<$", 0, 2, 0)
         
         assertEquals("Template start should be recognized as TEMPLATE_START", 
-                    ValkyrieTokenTypes.TEMPLATE_START, lexer.tokenType)
+                    ValkyrieTokenTypes.TEMPLATE_L, lexer.tokenType)
         assertEquals("Token text should be '<$'", "<$", lexer.tokenText)
         assertEquals("Token start should be 0", 0, lexer.tokenStart)
         assertEquals("Token end should be 2", 2, lexer.tokenEnd)
@@ -25,7 +25,7 @@ class TemplateLexerTest {
         lexer.start("$>", 0, 2, 0)
         
         assertEquals("Template end should be recognized as TEMPLATE_END", 
-                    ValkyrieTokenTypes.TEMPLATE_END, lexer.tokenType)
+                    ValkyrieTokenTypes.TEMPLATE_R, lexer.tokenType)
         assertEquals("Token text should be '$>'", "$>", lexer.tokenText)
         assertEquals("Token start should be 0", 0, lexer.tokenStart)
         assertEquals("Token end should be 2", 2, lexer.tokenEnd)
@@ -38,7 +38,7 @@ class TemplateLexerTest {
         
         // 第一个 token 应该是 TEMPLATE_START
         assertEquals("First token should be TEMPLATE_START", 
-                    ValkyrieTokenTypes.TEMPLATE_START, lexer.tokenType)
+                    ValkyrieTokenTypes.TEMPLATE_L, lexer.tokenType)
         assertEquals("First token text should be '<$'", "<$", lexer.tokenText)
         
         // 前进到下一个 token

@@ -43,9 +43,6 @@ object ValkyrieTokenTypes {
     val LOOP = ValkyrieTokenType("loop")
 
     @JvmField
-    val FOR = ValkyrieTokenType("for")
-
-    @JvmField
     val MICRO = ValkyrieTokenType("micro")
 
     @JvmField
@@ -163,6 +160,7 @@ object ValkyrieTokenTypes {
 
     @JvmField
     val STRING_DQ = ValkyrieTokenType("STRING")
+
     @JvmField
     val STRING_MQ = ValkyrieTokenType("MULTI_QUOTE_STRING")
     val STRING_START = ValkyrieTokenType("STRING.START")
@@ -383,18 +381,11 @@ object ValkyrieTokenTypes {
     @JvmField
     val LABEL_MARK = ValkyrieTokenType("※")
 
-    // 元编程模板语法 tokens
     @JvmField
-    val COMPILE_L = ValkyrieTokenType("<{")
+    val TEMPLATE_L = ValkyrieTokenType("<$")
 
     @JvmField
-    val COMPILE_R = ValkyrieTokenType("}>")
-
-    @JvmField
-    val TEMPLATE_START = ValkyrieTokenType("<$")
-
-    @JvmField
-    val TEMPLATE_END = ValkyrieTokenType("$>")
+    val TEMPLATE_R = ValkyrieTokenType("$>")
 
     @JvmField
     val TEMPLATE_TEXT = ValkyrieTokenType("TEMPLATE_TEXT")
