@@ -28,8 +28,14 @@ public class ValkyrieUniteBodyNode extends ValkyrieElement implements ValkyrieUn
 
     @Override
     @NotNull
-    public List<ValkyrieUniteItem> getUniteItemList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieUniteItem.class);
+    public List<ValkyrieDeclareMethod> getDeclareMethodList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareMethod.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieDeclareVariant> getDeclareVariantList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieDeclareVariant.class);
     }
 
 }

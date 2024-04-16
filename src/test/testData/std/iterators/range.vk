@@ -24,22 +24,40 @@ micro range(min: i32, max: i32, step: i32)-> Range {
 \\
 
 \\render(() => <Counter />, document.getElementById('app'));
+
+class ThemeConfig {
+
+}
+
 #component
-class Range {
+class ThemeProvider {
+    #react(provider)
+    theme: ThemeConfig
+
+    render() {
+        Text {}
+    }
+}
+
+#component
+class Counter {
+    #react(read, write, provider)
+    count: i32
+    #react(context, read)
+    theme: ThemeConfig
 
 
-
-    from: Integer,
-    till: Integer,
-    step: Integer,
-    _current: Integer,
-
-
-
-    constructor() {
+    render() {
+        Text {
+            if theme.red {
+                "red"
+            }
+            else {
+                "green"
+            }
+        }
 
     }
-
 
 }
 

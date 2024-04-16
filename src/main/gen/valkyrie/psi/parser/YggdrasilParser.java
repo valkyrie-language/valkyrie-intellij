@@ -3024,15 +3024,13 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     //   | match-case
     //   | match-when
     //   | match-else
-    public static boolean match_item(PsiBuilder b, int l) {
+    static boolean match_item(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "match_item")) return false;
         boolean r;
-        Marker m = enter_section_(b, l, _NONE_, MATCH_ITEM, "<match item>");
         r = match_with(b, l + 1);
         if (!r) r = match_case(b, l + 1);
         if (!r) r = match_when(b, l + 1);
         if (!r) r = match_else(b, l + 1);
-        exit_section_(b, l, m, r, false, null);
         return r;
     }
 
@@ -3241,17 +3239,14 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // inline-statement
-    //   | COLON
-    //   | COMMA
-    public static boolean new_item(PsiBuilder b, int l) {
+    // SEMICOLON | COMMA
+    //   | inline-statement
+    static boolean new_item(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "new_item")) return false;
         boolean r;
-        Marker m = enter_section_(b, l, _NONE_, NEW_ITEM, "<new item>");
-        r = inline_statement(b, l + 1);
-        if (!r) r = consumeToken(b, COLON);
+        r = consumeToken(b, SEMICOLON);
         if (!r) r = consumeToken(b, COMMA);
-        exit_section_(b, l, m, r, false, null);
+        if (!r) r = inline_statement(b, l + 1);
         return r;
     }
 
@@ -4272,16 +4267,51 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // TEXT_SINGLE | TEXT_DOUBLE
+    // identifier? TEXT_SINGLE |  identifier? TEXT_DOUBLE
     public static boolean string(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "string")) return false;
-        if (!nextTokenIs(b, "<string>", TEXT_DOUBLE, TEXT_SINGLE)) return false;
         boolean r;
         Marker m = enter_section_(b, l, _NONE_, STRING, "<string>");
-        r = consumeToken(b, TEXT_SINGLE);
-        if (!r) r = consumeToken(b, TEXT_DOUBLE);
+        r = string_0(b, l + 1);
+        if (!r) r = string_1(b, l + 1);
         exit_section_(b, l, m, r, false, null);
         return r;
+    }
+
+    // identifier? TEXT_SINGLE
+    private static boolean string_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "string_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = string_0_0(b, l + 1);
+        r = r && consumeToken(b, TEXT_SINGLE);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // identifier?
+    private static boolean string_0_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "string_0_0")) return false;
+        identifier(b, l + 1);
+        return true;
+    }
+
+    // identifier? TEXT_DOUBLE
+    private static boolean string_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "string_1")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = string_1_0(b, l + 1);
+        r = r && consumeToken(b, TEXT_DOUBLE);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // identifier?
+    private static boolean string_1_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "string_1_0")) return false;
+        identifier(b, l + 1);
+        return true;
     }
 
     /* ********************************************************** */

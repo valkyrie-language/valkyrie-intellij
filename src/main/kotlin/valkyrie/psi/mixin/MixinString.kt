@@ -5,16 +5,16 @@ import com.intellij.lang.injection.MultiHostRegistrar
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.LiteralTextEscaper
 import com.intellij.psi.PsiLanguageInjectionHost
-import org.intellij.lang.regexp.RegExpLanguage
 import valkyrie.psi.ValkyrieElement
 import valkyrie.psi.node.ValkyrieString
 import valkyrie.psi.node.ValkyrieStringNode
 
 
-abstract class MixinString(node: ASTNode) : ValkyrieElement(node), PsiLanguageInjectionHost, ValkyrieString {
+abstract class MixinString : ValkyrieElement, PsiLanguageInjectionHost, ValkyrieString {
+    constructor(node: ASTNode) : super(node)
 
     override fun isValidHost(): Boolean {
-        return true
+        return identifier != null
     }
 
     override fun updateText(text: String): PsiLanguageInjectionHost {
@@ -26,13 +26,13 @@ abstract class MixinString(node: ASTNode) : ValkyrieElement(node), PsiLanguageIn
     }
 
     fun injectPerform(r: MultiHostRegistrar) {
-        if (text.startsWith('\'')) {
-            val range = TextRange(1, textLength - 1);
-            r.startInjecting(RegExpLanguage.INSTANCE).addPlace("(?x)", null, this, range).doneInjecting()
-        } else {
-            val range = TextRange(0, textLength);
-            r.startInjecting(RegExpLanguage.INSTANCE).addPlace(null, null, this, range).doneInjecting()
-        }
+//        if (text.startsWith('\'')) {
+//            val range = TextRange(1, textLength - 1);
+//            r.startInjecting(RegExpLanguage.INSTANCE).addPlace("(?x)", null, this, range).doneInjecting()
+//        } else {
+//            val range = TextRange(0, textLength);
+//            r.startInjecting(RegExpLanguage.INSTANCE).addPlace(null, null, this, range).doneInjecting()
+//        }
     }
 }
 

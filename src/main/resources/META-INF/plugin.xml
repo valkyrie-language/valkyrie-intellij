@@ -183,7 +183,6 @@
 		<annotator language="valkyrie" implementationClass="valkyrie.ide.annotator.LegacyExpression"/>
 		<!-- Declaration -->
 		<typeDeclarationProvider implementation="valkyrie.ide.reference.declaration.ValkyrieDeclarationProvider"/>
-
 		<psi.declarationProvider implementation="valkyrie.ide.reference.declaration.SymbolDeclarationProvider"/>
 		<gotoDeclarationHandler implementation="valkyrie.ide.reference.declaration.ValkyrieGotoDeclarationHandler"/>
 		<codeInsight.declarativeInlayProviderFactory implementation="valkyrie.ide.hint.ValkyrieInlayProviderFactory"/>
