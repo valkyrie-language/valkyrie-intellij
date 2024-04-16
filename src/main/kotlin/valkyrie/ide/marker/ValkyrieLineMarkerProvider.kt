@@ -8,7 +8,7 @@ import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.psi.nodes.*
-import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.lexers.ValkyrieTokenTypes
 import valkyrie.index.ValkyrieSymbolIndex
 
 /**

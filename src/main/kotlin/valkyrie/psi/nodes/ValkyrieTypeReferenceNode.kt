@@ -4,7 +4,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiReference
-import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.lexers.ValkyrieTokenTypes
 import valkyrie.reference.ValkyrieTypeReference
 
 /**

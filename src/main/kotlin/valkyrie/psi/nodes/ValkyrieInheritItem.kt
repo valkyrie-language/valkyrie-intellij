@@ -3,7 +3,7 @@ package valkyrie.psi.nodes
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 /**
  * 继承项节点实现

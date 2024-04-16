@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.language.ValkyrieIcons
 import valkyrie.psi.nodes.*
-import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 /**
  * 控制流语句的导航提供器

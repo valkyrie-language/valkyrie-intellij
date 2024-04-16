@@ -6,7 +6,7 @@ import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieIcons
 import valkyrie.psi.nodes.ValkyrieTestStatement
-import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.lexers.ValkyrieTokenTypes
 import valkyrie.ide.runner.ValkyrieTestRunner
 
 /**

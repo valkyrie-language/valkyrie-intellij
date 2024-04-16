@@ -4,7 +4,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieElementTypes
-import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 /**
  * 赋值语句节点

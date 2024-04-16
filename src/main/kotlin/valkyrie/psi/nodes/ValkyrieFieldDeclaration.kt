@@ -8,7 +8,7 @@ import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.ide.highlight.ValkyrieColor
 import valkyrie.language.ValkyrieIcons
 import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.lexers.ValkyrieTokenTypes
 import valkyrie.psi.traits.HasHighlighter
 
 /**

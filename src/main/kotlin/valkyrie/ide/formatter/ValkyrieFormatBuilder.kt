@@ -7,7 +7,7 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.psi.ValkyrieElementTypes
-import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 /**
  * Valkyrie 代码格式化构建器

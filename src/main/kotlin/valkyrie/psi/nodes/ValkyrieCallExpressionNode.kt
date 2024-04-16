@@ -6,7 +6,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiReference
 import com.intellij.psi.TokenType.WHITE_SPACE
 import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.lexers.ValkyrieTokenTypes
 import valkyrie.reference.ValkyrieFunctionCallReference
 
 /**

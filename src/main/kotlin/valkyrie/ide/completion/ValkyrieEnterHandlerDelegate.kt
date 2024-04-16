@@ -7,7 +7,6 @@ import com.intellij.openapi.editor.actionSystem.EditorActionHandler
 import com.intellij.openapi.util.Ref
 import com.intellij.psi.PsiFile
 import valkyrie.psi.nodes.ValkyrieFileNode
-import valkyrie.psi.ValkyrieTokenTypes
 
 /**
  * Valkyrie 语言的 Enter 键处理器

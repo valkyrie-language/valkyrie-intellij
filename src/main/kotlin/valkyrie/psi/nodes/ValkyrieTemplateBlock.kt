@@ -5,7 +5,7 @@ import com.intellij.psi.PsiElement
 import valkyrie.ide.navigation.TemplateContext
 import valkyrie.ide.navigation.TemplateType
 import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 /**
  * 模板语法块实现 <$ ... $>

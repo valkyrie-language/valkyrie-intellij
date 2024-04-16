@@ -4,10 +4,8 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.PsiReference
-import com.intellij.util.IncorrectOperationException
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieElementFactory
-import valkyrie.psi.ValkyrieTokenTypes
 import valkyrie.psi.reference.ValkyrieReference
 
 /**

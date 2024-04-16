@@ -5,7 +5,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.TokenType.WHITE_SPACE
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.ValkyrieTokenTypes
 
 /**
  * Doc Comment 节点实现

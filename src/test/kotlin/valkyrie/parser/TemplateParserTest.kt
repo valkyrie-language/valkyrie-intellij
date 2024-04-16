@@ -6,7 +6,7 @@ import com.intellij.psi.tree.IElementType
 import org.junit.Test
 import org.junit.Assert.*
 import valkyrie.psi.ValkyrieElementTypes
-import valkyrie.psi.ValkyrieLexer
+import valkyrie.psi.lexers.ValkyrieLexer
 import valkyrie.psi.parsers.ValkyrieParser
 
 class TemplateParserTest {

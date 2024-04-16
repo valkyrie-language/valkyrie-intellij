@@ -2,8 +2,6 @@ package valkyrie.ide.test
 
 import com.intellij.execution.RunManager
 import com.intellij.execution.RunnerAndConfigurationSettings
-import com.intellij.execution.configurations.ConfigurationFactory
-import com.intellij.execution.configurations.RunConfiguration
 import com.intellij.execution.lineMarker.ExecutorAction
 import com.intellij.execution.lineMarker.RunLineMarkerContributor
 import com.intellij.icons.AllIcons
@@ -11,7 +9,7 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import valkyrie.psi.nodes.ValkyrieTestStatement
-import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 /**
  * Valkyrie 测试运行支持

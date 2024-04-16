@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieIcons
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieElementTypes
-import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 /**
  * Namespace 语句实现

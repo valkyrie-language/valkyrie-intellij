@@ -2,7 +2,7 @@ package valkyrie.psi.parsers
 
 import com.intellij.lang.PsiBuilder
 import valkyrie.psi.ValkyrieElementTypes
-import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 // 解析泛型参数列表, 例如 `fn foo<T, U>()` 中的 `<T, U>`
 fun parseGenericParameterList(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
