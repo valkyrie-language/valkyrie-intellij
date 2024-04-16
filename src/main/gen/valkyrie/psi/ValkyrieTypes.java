@@ -150,7 +150,6 @@ public interface ValkyrieTypes {
     IElementType TYPE_SUFFIX = new ValkyrieElementType("TYPE_SUFFIX");
     IElementType TYPE_TERM = new ValkyrieElementType("TYPE_TERM");
     IElementType UNITE_BODY = new ValkyrieElementType("UNITE_BODY");
-    IElementType UNITE_ITEM = new ValkyrieElementType("UNITE_ITEM");
     IElementType UNUSED = new ValkyrieElementType("UNUSED");
     IElementType USING = new ValkyrieElementType("USING");
     IElementType USING_ALIAS = new ValkyrieElementType("USING_ALIAS");
@@ -563,8 +562,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieTypeTermNode(node);
             } else if (type == UNITE_BODY) {
                 return new ValkyrieUniteBodyNode(node);
-            } else if (type == UNITE_ITEM) {
-                return new ValkyrieUniteItemNode(node);
             } else if (type == UNUSED) {
                 return new ValkyrieUnusedNode(node);
             } else if (type == USING) {

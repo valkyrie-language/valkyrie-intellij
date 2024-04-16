@@ -18,10 +18,23 @@ micro range(min: i32, max: i32, step: i32)-> Range {
 }
 
 class Range {
+
+    domain {
+
+    }
+
     from: Integer,
     till: Integer,
     step: Integer,
     _current: Integer,
+
+
+
+    constructor() {
+
+    }
+
+
 }
 
 trait Iterator {

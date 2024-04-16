@@ -6,8 +6,6 @@ import com.intellij.ide.util.treeView.smartTree.ActionPresentation
 import com.intellij.ide.util.treeView.smartTree.ActionPresentationData
 import com.intellij.ide.util.treeView.smartTree.Filter
 import com.intellij.ide.util.treeView.smartTree.TreeElement
-import valkyrie.ide.view.ValkyrieStructureItem
-import valkyrie.ide.view.ValkyrieVisibility
 import valkyrie.language.ValkyrieBundle
 
 
@@ -23,6 +21,6 @@ object PublicElementsFilter : Filter {
     )
 
     override fun isVisible(node: TreeElement): Boolean {
-        return (node as? ValkyrieStructureItem)?.visibility == ValkyrieVisibility.Public
+        return true
     }
 }
