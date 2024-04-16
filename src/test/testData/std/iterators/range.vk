@@ -50,10 +50,10 @@ class Counter {
     render() {
         Text {
             if theme.red {
-                "red"
+                regex"d[ijk]star*"
             }
             else {
-                "green"
+                re"d[ijk]star*"
             }
         }
 
