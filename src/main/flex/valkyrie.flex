@@ -116,6 +116,9 @@ OP_ARROW3 = ==>
 
 OP_L10N = ⸿|\\L
 
+OP_CELSIUS    = ℃
+OP_FAHRENHEIT = ℉
+
 SYMBOL=[\p{XID_Start}_][\p{XID_Continue}]*
 SYMBOW_RAW = `[^`]*`
 ESCAPED = \\.
@@ -204,16 +207,16 @@ W2 = ※
     {OP_EE} { return OP_EE;}
     {OP_NE} { return OP_NE; }
 
-
-
-
     {OP_PLUS}     { return OP_PLUS; }
     {OP_MINUS}    { return OP_MINUS; }
     {OP_BANG}     { return OP_BANG; }
     {OP_AND_THEN} { return OP_AND_THEN; }
     {OP_UNTIL}    { return OP_UNTIL; }
-
+    // Localization
     {OP_L10N}    { return OP_L10N; }
+    // Temperature
+    {OP_CELSIUS}    { return OP_CELSIUS; }
+    {OP_FAHRENHEIT} { return OP_FAHRENHEIT; }
 }
 
 
