@@ -33,7 +33,8 @@ class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvide
     }
 
     fun isIndexFile(): Boolean {
-        return this.name == "index.ygg"
+        val index = setOf("_.vk", "_.valkyrie", "index.vk", "index.valkyrie")
+        return index.contains(this.name)
     }
 
     override fun getBaseIcon(): Icon? {

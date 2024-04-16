@@ -24,7 +24,6 @@ public interface ValkyrieTypes {
     IElementType CASE_ITEM = new ValkyrieElementType("CASE_ITEM");
     IElementType CLASS_BODY = new ValkyrieElementType("CLASS_BODY");
     IElementType CLASS_INHERIT = new ValkyrieElementType("CLASS_INHERIT");
-    IElementType CLASS_ITEM = new ValkyrieElementType("CLASS_ITEM");
     IElementType CONTROL_BREAK = new ValkyrieElementType("CONTROL_BREAK");
     IElementType CONTROL_CONTINUE = new ValkyrieElementType("CONTROL_CONTINUE");
     IElementType CONTROL_LABEL = new ValkyrieElementType("CONTROL_LABEL");
@@ -313,8 +312,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieClassBodyNode(node);
             } else if (type == CLASS_INHERIT) {
                 return new ValkyrieClassInheritNode(node);
-            } else if (type == CLASS_ITEM) {
-                return new ValkyrieClassItemNode(node);
             } else if (type == CONTROL_BREAK) {
                 return new ValkyrieControlBreakNode(node);
             } else if (type == CONTROL_CONTINUE) {

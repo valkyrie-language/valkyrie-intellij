@@ -135,7 +135,7 @@ inherit-item  ::= (annotations identifier EQUAL)? type-expression {
 }
 // === class body ===
 class-body ::= BRACE_L class-item* BRACE_R;
-class-item ::= SEMICOLON | COMMA
+private class-item ::= SEMICOLON | COMMA
   | declare-domain
   | declare-method
   | declare-field
