@@ -7,14 +7,12 @@ import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 
-class ValkyrieStructureItem<T : NavigatablePsiElement> : SearchableTextProvider, SortableTreeElement {
-    private val psi: T
-    var visibility: ValkyrieVisibility = ValkyrieVisibility.Public
+class ValkyrieStructureItem : SearchableTextProvider, SortableTreeElement {
+    private val psi: NavigatablePsiElement
 
-    constructor(psi: T) {
+    constructor(psi: NavigatablePsiElement) {
         this.psi = psi
     }
-
 
     override fun getValue(): NavigatablePsiElement = psi
 
@@ -37,5 +35,9 @@ class ValkyrieStructureItem<T : NavigatablePsiElement> : SearchableTextProvider,
         val visitor = ValkyrieStructureItemVisitor()
         psi.accept(visitor)
         return visitor.items.toTypedArray()
+    }
+
+    fun getVisibility(): ValkyrieVisibility {
+        return ValkyrieVisibility.Public
     }
 }

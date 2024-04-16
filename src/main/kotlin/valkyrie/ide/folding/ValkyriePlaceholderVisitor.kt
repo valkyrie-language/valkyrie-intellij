@@ -34,23 +34,10 @@ class ValkyriePlaceholderVisitor : ValkyrieVisitor() {
     }
 
     override fun visitMatchBody(o: ValkyrieMatchBody) {
-        var counter = 0;
-        for (item in o.matchItemList) {
-            when (item.firstChild) {
-                is ValkyrieMatchWith, is ValkyrieMatchCase, is ValkyrieMatchElse -> {
-                    counter += 1
-                }
-            }
-        }
-        placeholder = when (counter) {
-            0, 1 -> {
-                "$counter branch"
-            }
-
-            else -> {
-                "$counter branches"
-            }
-        }
+        val text = PluralJoiner()
+        val branches = o.matchCaseList.count() + o.matchWhenList.count() + o.matchWhenList.count() + o.matchElseList.count();
+        text.add(branches, "branch", "branches")
+        placeholder = text.finish()
     }
 
 }
