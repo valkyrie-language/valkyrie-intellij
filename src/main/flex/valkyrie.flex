@@ -21,10 +21,6 @@ import static valkyrie.psi.ValkyrieTypes.*;
 WHITE_SPACE        = [\s\t]
 COMMENT_LINE       = (⍝|[\\]{2})[^\r\n]*
 COMMENT_BLOCK      = [/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]
-TEXT_CAPTURE1      = \'([^\'])*\'
-TEXT_CAPTURE2      = \"([^\"])*\"
-TEXT_CAPTURE3      = \'\'\'(!(\'\'\')|.)+\'\'\'
-TEXT_CAPTURE6      = \"\"\"(!(\"\"\")|.)+\"\"\"
 
 KW_NAMESPACE = namespace[!?]?
 KW_USING     = using[!?]?

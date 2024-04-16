@@ -78,14 +78,53 @@ new Range {
 
 }
 
+
+
 regex"""
 d[ijk]star*
 """
 
+
+
+
+
 re"d[ijk]star*"
+
+
 
 json"""
 {
 a: 2
 }
 """
+
+
+
+
+
+xml"""
+<tag/>
+"""
+
+
+
+
+
+
+
+
+java"""
+public static void main(String[] args){
+
+}
+"""
+
+
+
+kotlin"""
+"2"
+"""
+
+
+
+

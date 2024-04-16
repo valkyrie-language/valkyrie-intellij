@@ -12,9 +12,9 @@ import valkyrie.psi.node.ValkyrieStringNode
 
 
 abstract class MixinString : ValkyrieElement, PsiLanguageInjectionHost, ValkyrieString {
-    var stringHead: PsiElement? = this.findChildByType(ValkyrieTypes.STRING_L)
+    var stringHead: PsiElement = this.findChildByType(ValkyrieTypes.STRING_L)!!
     var stringBody: PsiElement? = this.findChildByType(ValkyrieTypes.STRING_TEXT)
-    var stringTail: PsiElement? = this.findChildByType(ValkyrieTypes.STRING_R)
+    var stringTail: PsiElement = this.findChildByType(ValkyrieTypes.STRING_R)!!
 
     constructor(node: ASTNode) : super(node) {
 
@@ -33,9 +33,9 @@ abstract class MixinString : ValkyrieElement, PsiLanguageInjectionHost, Valkyrie
     }
 
     override fun subtreeChanged() {
-        stringHead = this.findChildByType(ValkyrieTypes.STRING_L)
+        stringHead = this.findChildByType(ValkyrieTypes.STRING_L)!!
         stringBody = this.findChildByType(ValkyrieTypes.STRING_TEXT)
-        stringTail = this.findChildByType(ValkyrieTypes.STRING_R)
+        stringTail = this.findChildByType(ValkyrieTypes.STRING_R)!!
     }
 }
 
