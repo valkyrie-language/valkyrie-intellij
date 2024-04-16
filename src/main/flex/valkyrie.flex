@@ -13,13 +13,18 @@ import static valkyrie.psi.ValkyrieTypes.*;
 %type com.intellij.psi.tree.IElementType
 %unicode
 
-//%state TextContextIndent
+%state TextCapture6
+%state TextCapture3
+%state TextCapture2
+%state TextCapture1
 
 WHITE_SPACE        = [\s\t]
 COMMENT_LINE       = (⍝|[\\]{2})[^\r\n]*
 COMMENT_BLOCK      = [/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]
-TEXT_SINGLE        = '([^'])*'
-TEXT_DOUBLE        = \"([^\"]|\\.)*\"
+TEXT_CAPTURE1      = \'([^\'])*\'
+TEXT_CAPTURE2      = \"([^\"])*\"
+TEXT_CAPTURE3      = \'\'\'(!(\'\'\')|.)+\'\'\'
+TEXT_CAPTURE6      = \"\"\"(!(\"\"\")|.)+\"\"\"
 
 KW_NAMESPACE = namespace[!?]?
 KW_USING     = using[!?]?
@@ -218,10 +223,24 @@ W2 = ※
 
 
 <YYINITIAL> {
-    {COLOR}       { return COLOR; }
-    {INTEGER}     { return INTEGER; }
-    {TEXT_SINGLE} { return TEXT_SINGLE; }
-    {TEXT_DOUBLE} { return TEXT_DOUBLE; }
+    [\"]{3} {
+          yybegin(TextCapture6);
+          return STRING_L;
+    }
+    [\']{3} {
+          yybegin(TextCapture3);
+          return STRING_L;
+    }
+    [\"]{1} {
+          yybegin(TextCapture2);
+          return STRING_L;
+    }
+    [\']{1} {
+          yybegin(TextCapture1);
+          return STRING_L;
+    }
+    {COLOR}    { return COLOR; }
+    {INTEGER}  { return INTEGER; }
 }
 
 <YYINITIAL> {
@@ -282,6 +301,39 @@ W2 = ※
     {KW_NOT}     { return KW_NOT; }
     {SYMBOW_RAW} { return SYMBOW_RAW; }
     {SYMBOL}     { return SYMBOL; }
+}
+// =====================================================================================================================
+<TextCapture6> {
+    [\"]{3} {
+        yybegin(YYINITIAL);
+        return STRING_R;
+    }
+    [^\"]+ { return STRING_TEXT; }
+    \" { return STRING_TEXT; }
+}
+<TextCapture3> {
+    [\']{3} {
+        yybegin(YYINITIAL);
+        return STRING_R;
+    }
+    [^\']+ { return STRING_TEXT; }
+    \' { return STRING_TEXT; }
+}
+<TextCapture2> {
+    [\"]{1} {
+        yybegin(YYINITIAL);
+        return STRING_R;
+    }
+    [^\"]+ { return STRING_TEXT; }
+    \" { return STRING_TEXT; }
+}
+<TextCapture1> {
+    [\']{1} {
+        yybegin(YYINITIAL);
+        return STRING_R;
+    }
+    [^\']+ { return STRING_TEXT; }
+    \' { return STRING_TEXT; }
 }
 // =====================================================================================================================
 [^] { return BAD_CHARACTER; }
