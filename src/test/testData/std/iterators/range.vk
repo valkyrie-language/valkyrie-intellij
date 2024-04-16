@@ -122,6 +122,8 @@ xml"""
 3℉
 
 
+f"{slot a b c}"
+
 java"""
 public static void main(String[] args){
 
