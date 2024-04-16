@@ -44,16 +44,4 @@ public class ValkyrieNewItemNode extends ValkyrieElement implements ValkyrieNewI
         return findChildByClass(ValkyrieIfStatement.class);
     }
 
-    @Override
-    @Nullable
-    public ValkyrieNewObject getNewObject() {
-        return findChildByClass(ValkyrieNewObject.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieNewValue getNewValue() {
-        return findChildByClass(ValkyrieNewValue.class);
-    }
-
 }

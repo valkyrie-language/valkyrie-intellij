@@ -82,6 +82,18 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
 
     @Override
     @Nullable
+    public ValkyrieNewObject getNewObject() {
+        return findChildByClass(ValkyrieNewObject.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieNewValue getNewValue() {
+        return findChildByClass(ValkyrieNewValue.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieOffsetRange getOffsetRange() {
         return findChildByClass(ValkyrieOffsetRange.class);
     }
