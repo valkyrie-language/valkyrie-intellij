@@ -27,14 +27,14 @@ private class ValkyrieUsageTargetVisitor : ValkyrieVisitor() {
     val targets: MutableList<UsageTarget> = mutableListOf()
     override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
         o as ValkyrieDeclareMethodNode
-        for ((key, value) in o.containingFile.definitions.getCache()) {
+        for (item in o.containingFile.definitions) {
             targets.add(object : PsiElementUsageTarget {
                 override fun getName(): String? {
-                    return value.name
+                    return item.name
                 }
 
                 override fun getPresentation(): ItemPresentation? {
-                    return PresentationData(value.name, null, value.getIcon(0), null)
+                    return PresentationData(item.name, null, item.getIcon(0), null)
                 }
 
                 override fun isValid(): Boolean {
@@ -46,7 +46,7 @@ private class ValkyrieUsageTargetVisitor : ValkyrieVisitor() {
                 }
 
                 override fun getElement(): PsiElement {
-                    return value
+                    return item
                 }
             })
         }
@@ -54,14 +54,14 @@ private class ValkyrieUsageTargetVisitor : ValkyrieVisitor() {
 
     override fun visitDeclareClass(o: ValkyrieDeclareClass) {
         o as ValkyrieDeclareClassNode
-        for ((key, value) in o.containingFile.definitions.getCache()) {
+        for (item in o.containingFile.definitions) {
             targets.add(object : PsiElementUsageTarget {
                 override fun getName(): String? {
-                    return value.name
+                    return item.name
                 }
 
-                override fun getPresentation(): ItemPresentation? {
-                    return PresentationData(value.name, null, value.getIcon(0), null)
+                override fun getPresentation(): ItemPresentation {
+                    return PresentationData(item.name, null, item.getIcon(0), null)
                 }
 
                 override fun isValid(): Boolean {
@@ -73,7 +73,7 @@ private class ValkyrieUsageTargetVisitor : ValkyrieVisitor() {
                 }
 
                 override fun getElement(): PsiElement {
-                    return value
+                    return item
                 }
             })
         }

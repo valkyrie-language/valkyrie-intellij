@@ -14,7 +14,6 @@ public interface ValkyrieTypeExpression extends PsiElement {
     @NotNull
     List<ValkyrieTypeTerm> getTypeTermList();
 
-    void highlight_trait(@NotNull NodeHighlighter visitor);
 
     void highlight_class(@NotNull NodeHighlighter visitor);
 

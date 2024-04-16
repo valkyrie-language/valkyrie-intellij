@@ -52,9 +52,9 @@ private class ValkyrieDeclarationVisitor : ValkyrieVisitor() {
 
     override fun visitModifier(o: ValkyrieModifier) {
         o as ValkyrieModifierNode
-        for ((key, value) in o.containingFile.definitions.getCache()) {
-            if (key == o.name) {
-                declarations.add(value)
+        for (item in o.containingFile.definitions) {
+            if (item.name == o.name) {
+                declarations.add(item)
             }
         }
     }
