@@ -198,6 +198,10 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifier, HighlightColor.SYM_MACRO)
     }
 
+    override fun visitString(o: ValkyrieString) {
+        highlight(o.identifier, HighlightColor.SYM_MACRO)
+    }
+
 
     fun highlight(element: PsiElement?, color: HighlightColor) {
         element ?: return
