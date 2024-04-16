@@ -41,7 +41,7 @@ class ValkyrieRunningTask(project: Project, factory: ValkyrieConfigurationFactor
     }
 
     override fun getIcon(): Icon {
-        return ValkyrieIconProvider.Instance.File
+        return ValkyrieIconProvider.Instance.Valkyrie
     }
 
     override fun clone(): RunConfiguration {
