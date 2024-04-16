@@ -6,6 +6,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.refactoring.rename.RenamePsiElementProcessorBase
 import com.intellij.refactoring.rename.RenameRefactoringDialog
 import com.intellij.refactoring.rename.RenameRefactoringDialogProvider
+import com.intellij.refactoring.rename.RenameWithOptionalReferencesDialog
 
 class ValkyrieRenameDialog : RenameRefactoringDialogProvider() {
     override fun createDialog(
@@ -14,7 +15,7 @@ class ValkyrieRenameDialog : RenameRefactoringDialogProvider() {
         nameSuggestionContext: PsiElement?,
         editor: Editor?,
     ): RenameRefactoringDialog {
-        TODO("Not yet implemented")
+        return ValkyrieRenameRefactoringDialog(project, element, nameSuggestionContext, editor)
     }
 
     override fun isApplicable(processor: RenamePsiElementProcessorBase?): Boolean {
@@ -22,3 +23,23 @@ class ValkyrieRenameDialog : RenameRefactoringDialogProvider() {
         return true
     }
 }
+
+private class ValkyrieRenameRefactoringDialog : RenameWithOptionalReferencesDialog {
+    private var searchForReferences = false
+
+    constructor(project: Project, psiElement: PsiElement, nameSuggestionContext: PsiElement?, editor: Editor?) : super(
+        project,
+        psiElement,
+        nameSuggestionContext,
+        editor
+    )
+
+    override fun getSearchForReferences(): Boolean {
+        return searchForReferences
+    }
+
+    override fun setSearchForReferences(value: Boolean) {
+        searchForReferences = value
+    }
+}
+
