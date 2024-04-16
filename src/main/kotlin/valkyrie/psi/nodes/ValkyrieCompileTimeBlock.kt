@@ -11,21 +11,21 @@ import valkyrie.psi.ValkyrieTokenTypes
  * 用于在编译期执行代码并返回值
  */
 class ValkyrieCompileTimeBlock(node: ASTNode) : ValkyrieElementNode(node) {
-    
+
     /**
      * 获取开始标记 <{
      */
     fun getStartToken(): PsiElement? {
-        return findChildByType(ValkyrieTokenTypes.COMPILE_L)
+        return findChildByType(ValkyrieTokenTypes.TEMPLATE_L)
     }
-    
+
     /**
      * 获取结束标记 }>
      */
     fun getEndToken(): PsiElement? {
-        return findChildByType(ValkyrieTokenTypes.COMPILE_R)
+        return findChildByType(ValkyrieTokenTypes.TEMPLATE_R)
     }
-    
+
     /**
      * 获取块内的所有语句
      */
@@ -33,16 +33,17 @@ class ValkyrieCompileTimeBlock(node: ASTNode) : ValkyrieElementNode(node) {
         val statements = mutableListOf<ValkyrieElementNode>()
         var child = firstChild
         while (child != null) {
-            if (child is ValkyrieElementNode && 
-                child.node.elementType != ValkyrieTokenTypes.COMPILE_L &&
-                child.node.elementType != ValkyrieTokenTypes.COMPILE_R) {
+            if (child is ValkyrieElementNode &&
+                child.node.elementType != ValkyrieTokenTypes.TEMPLATE_L &&
+                child.node.elementType != ValkyrieTokenTypes.TEMPLATE_R
+            ) {
                 statements.add(child)
             }
             child = child.nextSibling
         }
         return statements
     }
-    
+
     /**
      * 获取最后一个表达式（作为返回值）
      */
@@ -50,21 +51,21 @@ class ValkyrieCompileTimeBlock(node: ASTNode) : ValkyrieElementNode(node) {
         val statements = getStatements()
         return statements.lastOrNull()
     }
-    
+
     /**
      * 获取所有变量声明
      */
     fun getVariableDeclarations(): List<PsiElement> {
         return children.filter { it.text.contains("let ") }
     }
-    
+
     /**
      * 检查是否为空块
      */
     fun isEmpty(): Boolean {
         return getStatements().isEmpty()
     }
-    
+
     /**
      * 检查是否只包含表达式（无副作用）
      */
@@ -72,35 +73,35 @@ class ValkyrieCompileTimeBlock(node: ASTNode) : ValkyrieElementNode(node) {
         val statements = getStatements()
         return statements.size == 1
     }
-    
+
     /**
      * 获取块的文本内容（不包括 <{ 和 }>）
      */
     fun getInnerText(): String {
         val startToken = getStartToken()
         val endToken = getEndToken()
-        
+
         if (startToken == null || endToken == null) {
             return text
         }
-        
+
         val startOffset = startToken.textRange.endOffset - textRange.startOffset
         val endOffset = endToken.textRange.startOffset - textRange.startOffset
-        
+
         return if (startOffset < endOffset) {
             text.substring(startOffset, endOffset).trim()
         } else {
             ""
         }
     }
-    
+
     /**
      * 检查语法是否完整
      */
     fun isComplete(): Boolean {
         return getStartToken() != null && getEndToken() != null
     }
-    
+
     /**
      * 获取编译期求值的上下文信息
      */
