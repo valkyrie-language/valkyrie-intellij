@@ -8,6 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieEnumerateBody extends PsiElement {
 
     @NotNull
-    List<ValkyrieEnumerateItem> getEnumerateItemList();
+    List<ValkyrieDeclareDomain> getDeclareDomainList();
+
+    @NotNull
+    List<ValkyrieDeclareMethod> getDeclareMethodList();
+
+    @NotNull
+    List<ValkyrieDeclareSemantic> getDeclareSemanticList();
 
 }
