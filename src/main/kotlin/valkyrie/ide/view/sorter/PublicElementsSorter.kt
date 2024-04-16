@@ -28,7 +28,7 @@ object PublicElementsSorter : Sorter {
     }
 
     override fun isVisible(): Boolean {
-        TODO("Not yet implemented")
+        return true
     }
 
     class Sort : Comparator<Any> {

@@ -23,7 +23,7 @@ object MainInfoFilter : Filter {
 
     override fun isVisible(node: TreeElement): Boolean {
         if (node is ValkyrieStructureItem) {
-            when (node.node) {
+            when (node.psi) {
                 // class
                 is ValkyrieDeclareClassNode -> return true
 //                is ValkyrieClassFieldNode -> return true

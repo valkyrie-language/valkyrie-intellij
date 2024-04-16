@@ -7,6 +7,7 @@ import com.intellij.openapi.fileTypes.FileType
 import com.intellij.psi.FileViewProvider
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.SearchScope
+import valkyrie.ide.view.ValkyrieStructureItem
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.psi.ValkyrieDeclaration
 import javax.swing.Icon
@@ -61,5 +62,7 @@ class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvide
     }
 
     override fun toString(): String = "ValkyrieFileNode"
+
+
 }
 
