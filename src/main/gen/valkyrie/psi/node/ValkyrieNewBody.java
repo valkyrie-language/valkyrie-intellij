@@ -10,10 +10,4 @@ public interface ValkyrieNewBody extends PsiElement {
     @NotNull
     List<ValkyrieExpressionRoot> getExpressionRootList();
 
-    @NotNull
-    List<ValkyrieIfCaseStatement> getIfCaseStatementList();
-
-    @NotNull
-    List<ValkyrieIfStatement> getIfStatementList();
-
 }

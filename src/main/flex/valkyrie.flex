@@ -40,7 +40,7 @@ KW_TEMPLATE  = template|generic|constraint|forall
 KW_IMPLEMENT = implement
 KW_MICRO     = micro|function|func|fun|fn|def
 KW_MACRO     = macro
-KW_COMPONENT = component
+KW_COMPONENT = widget
 KW_LET       = let
 KW_NEW       = new
 KW_OBJECT    = object
@@ -80,12 +80,17 @@ PROPORTION   = ∷|::
 
 
 
-OP_BANG      = [!]
-OP_AND_THEN  = [?]
+OP_BANG        = [!]
+OP_AND_THEN    = [?]
+OP_UNWRAP_OR   = [?]{2}
+OP_UNWRAP_ELSE = :[?]|[?]:
+
 
 
 OP_PLUS      = [+]
+OP_PLUS_EQ   = [+][=]
 OP_MINUS     = [-]
+OP_MINUS_EQ  = [-][=]
 OP_DIV       = [/⁄∕]
 OP_POW       = \^
 OP_REM       = ⁒|%
@@ -125,7 +130,7 @@ ESCAPED = \\.
 
 BIN = [0-1]
 HEX = [0-9a-fA-F]
-COLOR = [©®][0-9a-zA-Z]*
+COLOR = (©|®|\\#)[0-9a-zA-Z]*
 INTEGER = 0|[1-9][_0-9]*
 DECIMAL = {INTEGER}(\.[0-9]+)?
 
@@ -208,9 +213,15 @@ W2 = ※
     {OP_NE} { return OP_NE; }
 
     {OP_PLUS}     { return OP_PLUS; }
+    {OP_PLUS_EQ}     { return OP_PLUS_EQ; }
     {OP_MINUS}    { return OP_MINUS; }
+    {OP_MINUS_EQ}     { return OP_MINUS_EQ; }
+
     {OP_BANG}     { return OP_BANG; }
     {OP_AND_THEN} { return OP_AND_THEN; }
+    {OP_UNWRAP_OR}  { return OP_UNWRAP_OR; }
+          {OP_UNWRAP_ELSE}  { return OP_UNWRAP_ELSE; }
+
     {OP_UNTIL}    { return OP_UNTIL; }
     // Localization
     {OP_L10N}    { return OP_L10N; }

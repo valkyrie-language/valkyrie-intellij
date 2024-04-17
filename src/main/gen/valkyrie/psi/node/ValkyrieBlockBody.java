@@ -20,12 +20,6 @@ public interface ValkyrieBlockBody extends PsiElement {
     List<ValkyrieExpressionRoot> getExpressionRootList();
 
     @NotNull
-    List<ValkyrieIfCaseStatement> getIfCaseStatementList();
-
-    @NotNull
-    List<ValkyrieIfStatement> getIfStatementList();
-
-    @NotNull
     List<ValkyrieNewLambda> getNewLambdaList();
 
 }

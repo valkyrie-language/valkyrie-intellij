@@ -20,6 +20,12 @@ public interface ValkyrieAtomic extends PsiElement {
     ValkyrieFunctionCall getFunctionCall();
 
     @Nullable
+    ValkyrieIfCaseStatement getIfCaseStatement();
+
+    @Nullable
+    ValkyrieIfStatement getIfStatement();
+
+    @Nullable
     ValkyrieLambdaBlock getLambdaBlock();
 
     @Nullable
