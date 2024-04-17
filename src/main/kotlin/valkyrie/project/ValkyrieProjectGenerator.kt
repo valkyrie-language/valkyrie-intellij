@@ -19,7 +19,7 @@ class ValkyrieProjectGenerator : LanguageGeneratorNewProjectWizard {
     override val name: String = "Valkyrie Project"
 
     override fun createStep(parent: NewProjectWizardStep): NewProjectWizardStep {
-        return A(parent, "NewProjectWizard.ValkyrieState")
+        return ValkyrieProjectGeneratorPanel(parent, "NewProjectWizard.ValkyrieState")
     }
 
     override fun isEnabled(context: WizardContext): Boolean {
@@ -29,7 +29,7 @@ class ValkyrieProjectGenerator : LanguageGeneratorNewProjectWizard {
 
 }
 
-private class A(parentStep: NewProjectWizardStep, store: String) : NewProjectWizardStep {
+private class ValkyrieProjectGeneratorPanel(parentStep: NewProjectWizardStep, store: String) : NewProjectWizardStep {
     override val context = parentStep.context
     override val data = parentStep.context
     override val keywords = parentStep.keywords
