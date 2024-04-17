@@ -7,17 +7,24 @@ import com.intellij.openapi.fileTypes.FileType
 import com.intellij.psi.FileViewProvider
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.SearchScope
-import valkyrie.ide.view.ValkyrieStructureItem
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.psi.ValkyrieDeclaration
+import valkyrie.psi.node.ValkyrieDeclareNamespaceNode
 import javax.swing.Icon
 
 
 /**
 ValkyrieFile 是个 PsiElement
  */
-class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ValkyrieLanguage) {
+class ValkyrieFileNode : PsiFileBase {
+    var namespace: ValkyrieDeclareNamespaceNode? = null
     val definitions: MutableList<ValkyrieDeclaration> = mutableListOf()
+
+    constructor(viewProvider: FileViewProvider) : super(viewProvider, ValkyrieLanguage) {
+
+    }
+
+
     override fun getName(): String {
         return super.getName()
     }
@@ -55,7 +62,10 @@ class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvide
     override fun subtreeChanged() {
         definitions.clear()
         for (child in this.children) {
-            if (child is ValkyrieDeclaration) {
+            if (child is ValkyrieDeclareNamespaceNode) {
+                namespace = child
+                definitions.add(child)
+            } else if (child is ValkyrieDeclaration) {
                 definitions.add(child)
             }
         }

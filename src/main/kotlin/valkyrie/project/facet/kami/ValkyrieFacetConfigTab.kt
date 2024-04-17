@@ -1,4 +1,4 @@
-package valkyrie.project.facet
+package valkyrie.project.facet.kami
 
 import com.intellij.facet.ui.FacetEditorTab
 import com.intellij.ui.dsl.builder.panel
