@@ -15,7 +15,7 @@ import valkyrie.psi.lexers.ValkyrieTokenTypes
 class ValkyrieLetStatementNode(node: ASTNode) : ValkyrieElementNode(node) {
     
     fun getIdentifier(): PsiElement? {
-        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER_STD)
+        return findChildByType<PsiElement>(ValkyrieTokenTypes.SYMBOL_XID)
     }
     
     fun getExpression(): PsiElement? {

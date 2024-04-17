@@ -1,0 +1,51 @@
+<!-- Test VKC component file with HTML void tags -->
+<template>
+    <div class="container">
+        <h1>Test Component</h1>
+        
+        <!-- HTML void tags that should be properly handled -->
+        <img src="test.jpg" alt="Test image" />
+        <hr />
+        <input type="text" placeholder="Enter text" />
+        <br />
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="style.css" />
+        
+        <!-- Nested components -->
+        <div class="content">
+            <p>This is a test paragraph with <strong>bold text</strong>.</p>
+            
+            <!-- More void tags -->
+            <area shape="rect" coords="0,0,100,100" href="test.html" />
+            <base href="/" />
+            <col span="2" />
+            <embed src="test.swf" />
+            <source src="test.mp4" type="video/mp4" />
+            <track kind="subtitles" src="test.vtt" />
+            <wbr />
+        </div>
+        
+        <!-- Embedded expressions -->
+        <div>{{ message }}</div>
+        <span v-if="showText">{{ dynamicText }}</span>
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'TestComponent',
+    data() {
+        return {
+            message: 'Hello VKC!',
+            showText: true,
+            dynamicText: 'Dynamic content'
+        }
+    }
+}
+</script>
+
+<style scoped>
+.container {
+    padding: 20px;
+}
+</style>

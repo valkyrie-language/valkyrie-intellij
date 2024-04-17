@@ -34,7 +34,7 @@ class ValkyrieWhileStatement(node: ASTNode) : ValkyrieElementNode(node) {
      * 获取标签（如果有）
      */
     fun getLabel(): PsiElement? {
-        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER_STD)
+        return findChildByType<PsiElement>(ValkyrieTokenTypes.SYMBOL_XID)
     }
     
     override fun toString(): String = "ValkyrieWhileStatement"

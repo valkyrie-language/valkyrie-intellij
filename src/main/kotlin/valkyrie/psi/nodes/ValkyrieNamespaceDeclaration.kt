@@ -35,7 +35,7 @@ class ValkyrieNamespaceDeclaration(node: ASTNode) : ValkyrieElementNode(node) {
             var child = namespacePath.firstChild
             while (child != null) {
                 when (child.node.elementType) {
-                    ValkyrieTokenTypes.IDENTIFIER_STD -> {
+                    ValkyrieTokenTypes.SYMBOL_XID -> {
                         pathBuilder.append(child.text)
                     }
                     ValkyrieTokenTypes.DOT -> {

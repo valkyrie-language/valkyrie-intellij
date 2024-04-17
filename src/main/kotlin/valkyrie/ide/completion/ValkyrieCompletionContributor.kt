@@ -18,14 +18,14 @@ class ValkyrieCompletionContributor : CompletionContributor() {
         // 关键字补全
         extend(
             CompletionType.BASIC,
-            PlatformPatterns.psiElement().withLanguage(ValkyrieLanguage.INSTANCE),
+            PlatformPatterns.psiElement().withLanguage(ValkyrieLanguage),
             KeywordCompletionProvider()
         )
         
         // 语句补全
         extend(
             CompletionType.BASIC,
-            PlatformPatterns.psiElement().withLanguage(ValkyrieLanguage.INSTANCE),
+            PlatformPatterns.psiElement().withLanguage(ValkyrieLanguage),
             StatementCompletionProvider()
         )
         

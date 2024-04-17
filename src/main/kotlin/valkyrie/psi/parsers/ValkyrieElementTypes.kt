@@ -18,6 +18,9 @@ object ValkyrieElementTypes {
 
     // 文件根节点
     @JvmField
+    val STRING_LITERAL = ValkyrieElementType("STRING_LITERAL")
+
+    @JvmField
     val FILE = ValkyrieElementType("FILE")
 
     // 通用类型
@@ -312,10 +315,24 @@ object ValkyrieElementTypes {
     @JvmField
     val SCOPE_STATEMENT = ValkyrieElementType("SCOPE_STATEMENT")
 
+    // XML 和 Slot 相关节点
     @JvmField
-    val EACH_STATEMENT = ValkyrieElementType("FOR_STATEMENT")
+    val XML_SLOT_EXPRESSION = ValkyrieElementType("XML_SLOT_EXPRESSION")
 
     @JvmField
+    val XML_TEXT_NODE = ValkyrieElementType("XML_TEXT_NODE")
+
+    @JvmField
+    val XML_ELEMENT = ValkyrieElementType("XML_ELEMENT")
+
+    @JvmField
+    val XML_ATTRIBUTE = ValkyrieElementType("XML_ATTRIBUTE")
+
+    @JvmField
+    val SLOT_STATEMENT = ValkyrieElementType("SLOT_STATEMENT")
+
+    @JvmField
+    val EACH_STATEMENT = ValkyrieElementType("FOR_STATEMENT")
     val LOOP_STATEMENT = ValkyrieElementType("LOOP_STATEMENT")
 
     @JvmField

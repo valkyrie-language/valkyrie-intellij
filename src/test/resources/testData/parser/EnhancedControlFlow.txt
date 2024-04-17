@@ -1,0 +1,175 @@
+Valkyrie File
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiElement(ValkyrieTokenType.//)('//')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.IDENTIFIER.STD)('Enhanced')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.IDENTIFIER.STD)('control')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.IDENTIFIER.STD)('flow')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.IDENTIFIER.STD)('test')
+  PsiWhiteSpace('\n')
+  PsiElement(ValkyrieTokenType.if)('if')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.IDENTIFIER.STD)('condition')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.{)('{')
+  PsiWhiteSpace('\n    ')
+  PsiElement(ValkyrieTokenType.IDENTIFIER.STD)('do_something')
+  PsiElement(ValkyrieTokenType.()('(')
+  PsiElement(ValkyrieTokenType.))(')')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
+    <empty list>
+  PsiWhiteSpace('\n')
+  PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.else)('else')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.if)('if')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.IDENTIFIER.STD)('other_condition')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.{)('{')
+  PsiWhiteSpace('\n    ')
+  PsiElement(ValkyrieTokenType.IDENTIFIER.STD)('do_other')
+  PsiElement(ValkyrieTokenType.()('(')
+  PsiElement(ValkyrieTokenType.))(')')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
+    <empty list>
+  PsiWhiteSpace('\n')
+  PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.else)('else')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.{)('{')
+  PsiWhiteSpace('\n    ')
+  PsiElement(ValkyrieTokenType.IDENTIFIER.STD)('do_default')
+  PsiElement(ValkyrieTokenType.()('(')
+  PsiElement(ValkyrieTokenType.))(')')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
+    <empty list>
+  PsiWhiteSpace('\n')
+  PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiWhiteSpace('\n\n')
+  PsiElement(ValkyrieTokenType.//)('//')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.IDENTIFIER.STD)('While')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.loop)('loop')
+  PsiWhiteSpace('\n')
+  PsiElement(ValkyrieTokenType.while)('while')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.IDENTIFIER.STD)('x')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.>)('>')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.INTEGER)('0')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.{)('{')
+  PsiWhiteSpace('\n    ')
+  PsiElement(ValkyrieTokenType.IDENTIFIER.STD)('x')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.=)('=')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.IDENTIFIER.STD)('x')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.-)('-')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.INTEGER)('1')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
+    <empty list>
+  PsiWhiteSpace('\n')
+  PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiWhiteSpace('\n\n')
+  PsiElement(ValkyrieTokenType.//)('//')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.IDENTIFIER.STD)('For')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.loop)('loop')
+  PsiWhiteSpace('\n')
+  PsiElement(ValkyrieTokenType.loop)('for')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.IDENTIFIER.STD)('i')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.in)('in')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.INTEGER)('0')
+  PsiElement(ValkyrieTokenType...)('..')
+  PsiElement(ValkyrieTokenType.INTEGER)('10')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.{)('{')
+  PsiWhiteSpace('\n    ')
+  PsiElement(ValkyrieTokenType.IDENTIFIER.STD)('println')
+  PsiElement(ValkyrieTokenType.()('(')
+  PsiElement(ValkyrieTokenType.IDENTIFIER.STD)('i')
+  PsiElement(ValkyrieTokenType.))(')')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
+    <empty list>
+  PsiWhiteSpace('\n')
+  PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiWhiteSpace('\n\n')
+  PsiElement(ValkyrieTokenType.//)('//')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.IDENTIFIER.STD)('Match')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.IDENTIFIER.STD)('expression')
+  PsiWhiteSpace('\n')
+  PsiElement(ValkyrieTokenType.match)('match')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.IDENTIFIER.STD)('value')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.{)('{')
+  PsiWhiteSpace('\n    ')
+  PsiElement(ValkyrieTokenType.INTEGER)('1')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.=>)('=>')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.STRING.START)('"')
+  PsiElement(ValkyrieTokenType.STRING.TEXT)('one')
+  PsiElement(ValkyrieTokenType.STRING.END)('"')
+  PsiElement(ValkyrieTokenType.,)(',')
+  PsiWhiteSpace('\n    ')
+  PsiElement(ValkyrieTokenType.INTEGER)('2')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.=>)('=>')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.STRING.START)('"')
+  PsiElement(ValkyrieTokenType.STRING.TEXT)('two')
+  PsiElement(ValkyrieTokenType.STRING.END)('"')
+  PsiElement(ValkyrieTokenType.,)(',')
+  PsiWhiteSpace('\n    ')
+  PsiElement(ValkyrieTokenType.IDENTIFIER.STD)('_')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.=>)('=>')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.STRING.START)('"')
+  PsiElement(ValkyrieTokenType.STRING.TEXT)('other')
+  PsiElement(ValkyrieTokenType.STRING.END)('"')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
+    <empty list>
+  PsiWhiteSpace('\n')
+  PsiElement(ValkyrieTokenType.})('}')

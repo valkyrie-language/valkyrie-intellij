@@ -36,7 +36,7 @@ class ValkyrieFormatBuilder : FormattingModelBuilder {
 
     private fun createSpacingBuilder(settings: CodeStyleSettings): SpacingBuilder {
         val valkyrieSettings = settings.getCustomSettings(ValkyrieCodeStyleSettings::class.java)
-        return SpacingBuilder(settings, ValkyrieLanguage.INSTANCE)
+        return SpacingBuilder(settings, ValkyrieLanguage)
             // 大括号前后的空格
             .between(ValkyrieTokenTypes.BRACE_L, ValkyrieTokenTypes.BRACE_R)
             .spacing(0, 0, 0, false, 0)

@@ -379,7 +379,7 @@ class ValkyrieParser : PsiParser {
             val nextToken = builder.lookAhead(1)
 
             // 如果分隔符后是标识符，正常解析
-            if (nextToken == ValkyrieTokenTypes.IDENTIFIER_STD || nextToken == ValkyrieTokenTypes.IDENTIFIER_RAW) {
+            if (nextToken == ValkyrieTokenTypes.SYMBOL_XID || nextToken == ValkyrieTokenTypes.SYMBOL_RAW) {
                 builder.advanceLexer() // 消费分隔符
                 val nextIdentifierMarker = builder.mark()
                 builder.advanceLexer() // 消费标识符
@@ -611,6 +611,23 @@ class ValkyrieParser : PsiParser {
             return false
         }
 
+        marker.done(ValkyrieElementTypes.EXPRESSION_STATEMENT)
+        return true
+    }
+
+    /**
+     * 解析表达式根节点 (expression-root)
+     * 用于模板插值表达式 {expression}
+     */
+    fun parseExpressionRoot(builder: PsiBuilder): Boolean {
+        val marker = builder.mark()
+        
+        // 在插值上下文中，直接解析表达式，不需要语句结构
+        if (!parseTermExpression(this, builder, false)) {
+            marker.error("Expected expression in interpolation")
+            return false
+        }
+        
         marker.done(ValkyrieElementTypes.EXPRESSION_STATEMENT)
         return true
     }
@@ -1966,7 +1983,7 @@ class ValkyrieParser : PsiParser {
         // 吃掉所有的 identifier
         while (isIdentifier(builder)) {
             when (builder.lookAhead(1)) {
-                ValkyrieTokenTypes.IDENTIFIER_STD, ValkyrieTokenTypes.IDENTIFIER_STD,
+                ValkyrieTokenTypes.SYMBOL_XID, ValkyrieTokenTypes.SYMBOL_XID,
                 ValkyrieTokenTypes.MICRO, ValkyrieTokenTypes.MEZZO, ValkyrieTokenTypes.MACRO,
                 ValkyrieTokenTypes.CLASS, ValkyrieTokenTypes.STRUCTURE, ValkyrieTokenTypes.SINGLETON,
                 ValkyrieTokenTypes.UNION, ValkyrieTokenTypes.UNITY,
@@ -2056,6 +2073,94 @@ class ValkyrieParser : PsiParser {
             return false
         }
     }
+
+    /**
+     * 解析字符串字面量
+     */
+    fun parseString(builder: PsiBuilder): Boolean {
+        if (builder.tokenType != ValkyrieTokenTypes.STRING_L) return false
+        val marker = builder.mark()
+        builder.advanceLexer() // consume STRING_L
+        marker.done(ValkyrieElementTypes.STRING_LITERAL)
+        return true
+    }
+
+    /**
+     * 解析数组表达式
+     */
+    fun parseArrayExpression(builder: PsiBuilder): Boolean {
+        if (builder.tokenType != ValkyrieTokenTypes.BRACKET_L) return false
+        val marker = builder.mark()
+        builder.advanceLexer() // consume '['
+        
+        // 解析数组元素
+        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.BRACKET_R) {
+            if (!parseTermExpression(this, builder, false)) {
+                builder.error("Expected expression")
+                break
+            }
+            if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+                builder.advanceLexer()
+            } else if (builder.tokenType != ValkyrieTokenTypes.BRACKET_R) {
+                builder.error("Expected ',' or ']'")
+                break
+            }
+        }
+        
+        if (builder.tokenType == ValkyrieTokenTypes.BRACKET_R) {
+            builder.advanceLexer() // consume ']'
+        } else {
+            builder.error("Expected ']'")
+        }
+        
+        marker.done(ValkyrieElementTypes.ARRAY_EXPRESSION)
+        return true
+    }
+
+    /**
+     * 解析对象表达式
+     */
+    fun parseObjectExpression(builder: PsiBuilder): Boolean {
+        if (builder.tokenType != ValkyrieTokenTypes.BRACE_L) return false
+        val marker = builder.mark()
+        builder.advanceLexer() // consume '{'
+        
+        // 解析对象字段
+        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.BRACE_R) {
+            // 解析键
+            if (!parseIdentifier(builder) && builder.tokenType != ValkyrieTokenTypes.STRING_L) {
+                builder.error("Expected field name")
+                break
+            }
+            if (builder.tokenType == ValkyrieTokenTypes.STRING_L) {
+                builder.advanceLexer()
+            }
+            
+            if (builder.tokenType == ValkyrieTokenTypes.COLON) {
+                builder.advanceLexer() // consume ':'
+                if (!parseTermExpression(this, builder, false)) {
+                    builder.error("Expected expression")
+                    break
+                }
+            }
+            
+            if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+                builder.advanceLexer()
+            } else if (builder.tokenType != ValkyrieTokenTypes.BRACE_R) {
+                builder.error("Expected ',' or '}'")
+                break
+            }
+        }
+        
+        if (builder.tokenType == ValkyrieTokenTypes.BRACE_R) {
+            builder.advanceLexer() // consume '}'
+        } else {
+            builder.error("Expected '}'")
+        }
+        
+        marker.done(ValkyrieElementTypes.TABLE_EXPRESSION)
+        return true
+    }
 }
 
 
@@ -2088,7 +2193,7 @@ fun isIdentifier(builder: PsiBuilder): Boolean {
 }
 
 fun isIdentifier(token: IElementType?): Boolean {
-    return token == ValkyrieTokenTypes.IDENTIFIER_STD || token == ValkyrieTokenTypes.IDENTIFIER_RAW
+    return token == ValkyrieTokenTypes.SYMBOL_XID || token == ValkyrieTokenTypes.SYMBOL_RAW
 }
 
 

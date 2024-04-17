@@ -25,7 +25,7 @@ object ValkyrieElementFactory {
         val dummyFile = PsiFileFactory.getInstance(project)
             .createFileFromText(
                 "dummy.vk",
-                ValkyrieLanguage.INSTANCE,
+                ValkyrieLanguage,
                 "let dummy = $text"
             ) as? ValkyrieFileNode
 
@@ -40,7 +40,7 @@ object ValkyrieElementFactory {
     fun createIdentifier(project: Project, name: String): ValkyrieIdentifierNode {
         val fileText = "let $name = 1"
         val file = PsiFileFactory.getInstance(project)
-            .createFileFromText("dummy.vk", ValkyrieLanguage.INSTANCE, fileText) as ValkyrieFileNode
+            .createFileFromText("dummy.vk", ValkyrieLanguage, fileText) as ValkyrieFileNode
 
         // 查找标识符节点
         val identifiers = PsiTreeUtil.findChildrenOfType(file, ValkyrieIdentifierNode::class.java)

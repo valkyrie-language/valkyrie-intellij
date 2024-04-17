@@ -45,9 +45,6 @@ class ValkyrieProjectService(private val project: Project) : Disposable {
         // 清理文件监听器资源
         fileListener.dispose()
         
-        // 清理索引优化器
-        ValkyrieIndexOptimizer.getInstance(project).dispose()
-        
         // 清理项目管理器资源
         projectManager.clearAllCache()
     }

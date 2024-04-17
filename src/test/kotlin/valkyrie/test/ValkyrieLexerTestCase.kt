@@ -3,7 +3,7 @@ package valkyrie.test
 import com.intellij.lexer.Lexer
 import com.intellij.psi.tree.IElementType
 import com.intellij.testFramework.LexerTestCase
-import valkyrie.psi.lexers.ValkyrieLexer
+import valkyrie.psi.lexers.ValkyrieStandardLexer
 import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 /**
@@ -13,7 +13,7 @@ import valkyrie.psi.lexers.ValkyrieTokenTypes
 abstract class ValkyrieLexerTestCase : LexerTestCase() {
     
     override fun createLexer(): Lexer {
-        return ValkyrieLexer()
+        return ValkyrieStandardLexer()
     }
     
     override fun getDirPath(): String {
@@ -108,7 +108,7 @@ abstract class ValkyrieLexerTestCase : LexerTestCase() {
      * @param identifier 标识符
      */
     protected fun testIdentifier(identifier: String) {
-        testSingleToken(identifier, ValkyrieTokenTypes.IDENTIFIER_STD)
+        testSingleToken(identifier, ValkyrieTokenTypes.SYMBOL_XID)
     }
     
     /**

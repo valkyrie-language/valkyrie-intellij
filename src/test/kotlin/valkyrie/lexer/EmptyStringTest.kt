@@ -3,23 +3,23 @@ package valkyrie.lexer
 import com.intellij.psi.TokenType.WHITE_SPACE
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import valkyrie.psi.lexers.ValkyrieLexer
+import valkyrie.psi.lexers.ValkyrieStandardLexer
 import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 class EmptyStringTest {
 
     @Test
-    fun testEmptyStringLiteral() {
-        val lexer = ValkyrieLexer()
+    fun testEmptyStringFixed() {
+        val lexer = ValkyrieStandardLexer()
 
         // 测试空字符串
         lexer.start("\"\"", 0, 2, 0)
         // 不需要调用 advance()，start() 已经识别了第一个 token
 
-        // 空字符串应该被识别为普通的 STRING token
+        // 空字符串应该被识别为 STRING_START token
         assertEquals(
-            "Empty string should be recognized as STRING token",
-            ValkyrieTokenTypes.STRING_DQ, lexer.tokenType
+            "Empty string should be recognized as STRING_START token",
+            ValkyrieTokenTypes.STRING_START, lexer.tokenType
         )
 
         // 检查 tokenEnd 是否在有效范围内再获取 tokenText
@@ -31,13 +31,13 @@ class EmptyStringTest {
 
     @Test
     fun testEmptyCharLiteral() {
-        val lexer = ValkyrieLexer()
+        val lexer = ValkyrieStandardLexer()
         lexer.start("''", 0, 2, 0)
         // 不需要调用 advance()，start() 已经识别了第一个 token
-        // 字符字面量应该被识别为 STRING token
+        // 字符字面量应该被识别为 STRING_START token
         assertEquals(
-            "Empty char literal should be recognized as STRING token",
-            ValkyrieTokenTypes.STRING_DQ, lexer.tokenType
+            "Empty char literal should be recognized as STRING_START token",
+            ValkyrieTokenTypes.STRING_START, lexer.tokenType
         )
 
         // 检查 tokenEnd 是否在有效范围内再获取 tokenText
@@ -50,26 +50,26 @@ class EmptyStringTest {
 
     @Test
     fun testStringWithContent() {
-        val lexer = ValkyrieLexer()
+        val lexer = ValkyrieStandardLexer()
         lexer.start("\"hello\"", 0, 7, 0)
         // 不需要调用 advance()，start() 已经识别了第一个 token
-        // 有内容的字符串应该被识别为 STRING token
+        // 有内容的字符串应该被识别为 STRING_START token
         assertEquals(
-            "String with content should be recognized as STRING token",
-            ValkyrieTokenTypes.STRING_DQ, lexer.tokenType
+            "String with content should be recognized as STRING_START token",
+            ValkyrieTokenTypes.STRING_START, lexer.tokenType
         )
 
         // 检查 tokenEnd 是否在有效范围内再获取 tokenText
         if (lexer.tokenEnd <= 7) {
-            assertEquals("Token text should be \"hello\"", "\"hello\"", lexer.tokenText)
+            assertEquals("Token text should be \"", "\"", lexer.tokenText)
         }
         assertEquals("Token start should be 0", 0, lexer.tokenStart)
-        assertEquals("Token end should be 7", 7, lexer.tokenEnd)
+        assertEquals("Token end should be 1", 1, lexer.tokenEnd)
     }
 
     @Test
     fun testMultipleTokens() {
-        val lexer = ValkyrieLexer()
+        val lexer = ValkyrieStandardLexer()
         lexer.start("let x = \"\"", 0, 10, 0)
 
         // 第一个 token: start() 已经识别了第一个 token
@@ -107,7 +107,7 @@ class EmptyStringTest {
         }
 
         // 验证 x
-        assertEquals("Second identifier should be 'x'", ValkyrieTokenTypes.IDENTIFIER_STD, lexer.tokenType)
+        assertEquals("Second identifier should be 'x'", ValkyrieTokenTypes.SYMBOL_XID, lexer.tokenType)
         assertEquals("x", lexer.tokenText)
     }
 }
