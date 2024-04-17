@@ -20,8 +20,8 @@ abstract class ValkyrieDeclaration : ValkyrieElement, PsiNameIdentifierOwner {
 
     abstract override fun getNameIdentifier(): ValkyrieIdentifierNode?;
 
-    override fun getName(): String? {
-        return nameIdentifier?.name
+    override fun getName(): String {
+        return nameIdentifier?.name ?: super.getName()
     }
 
     override fun setName(name: String): PsiElement {
