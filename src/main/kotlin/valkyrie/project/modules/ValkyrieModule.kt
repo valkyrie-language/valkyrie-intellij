@@ -11,20 +11,22 @@ import com.intellij.openapi.util.Key
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.messages.MessageBus
+import valkyrie.ide.view.scope.ValkyrieProjectScope
 import java.nio.file.Path
 
-class ValkyrieModule : ModuleEx {
+class ValkyrieModule(val _project: Project) : ModuleEx {
     override fun <T : Any?> getUserData(key: Key<T>): T? {
-        TODO("Not yet implemented")
+        return null
     }
 
     override fun <T : Any?> putUserData(key: Key<T>, value: T?) {
-        TODO("Not yet implemented")
+
     }
 
     override fun dispose() {
-        TODO("Not yet implemented")
+
     }
+
 
     override fun getExtensionArea(): ExtensionsArea {
         TODO("Not yet implemented")
@@ -35,11 +37,11 @@ class ValkyrieModule : ModuleEx {
     }
 
     override fun hasComponent(interfaceClass: Class<*>): Boolean {
-        TODO("Not yet implemented")
+        return false
     }
 
     override fun isInjectionForExtensionSupported(): Boolean {
-        TODO("Not yet implemented")
+        return false
     }
 
     override fun getMessageBus(): MessageBus {
@@ -47,7 +49,7 @@ class ValkyrieModule : ModuleEx {
     }
 
     override fun isDisposed(): Boolean {
-        TODO("Not yet implemented")
+        return false
     }
 
     override fun getDisposed(): Condition<*> {
@@ -96,7 +98,7 @@ class ValkyrieModule : ModuleEx {
     }
 
     override fun getModuleFile(): VirtualFile? {
-        TODO("Not yet implemented")
+        return null
     }
 
     override fun getModuleNioFile(): Path {
@@ -104,55 +106,55 @@ class ValkyrieModule : ModuleEx {
     }
 
     override fun getProject(): Project {
-        TODO("Not yet implemented")
+        return _project
     }
 
     override fun getName(): String {
-        TODO("Not yet implemented")
+        return "getName"
     }
 
     override fun isLoaded(): Boolean {
-        TODO("Not yet implemented")
+        return true
     }
 
     override fun setOption(key: String, value: String?) {
-        TODO("Not yet implemented")
+
     }
 
     override fun getOptionValue(key: String): String? {
-        TODO("Not yet implemented")
+        return "getOptionValue 232"
     }
 
     override fun getModuleScope(): GlobalSearchScope {
-        TODO("Not yet implemented")
+        return ValkyrieProjectScope(_project)
     }
 
     override fun getModuleScope(includeTests: Boolean): GlobalSearchScope {
-        TODO("Not yet implemented")
+        return ValkyrieProjectScope(_project)
     }
 
     override fun getModuleWithLibrariesScope(): GlobalSearchScope {
-        TODO("Not yet implemented")
+        return ValkyrieProjectScope(_project)
     }
 
     override fun getModuleWithDependenciesScope(): GlobalSearchScope {
-        TODO("Not yet implemented")
+        return ValkyrieProjectScope(_project)
     }
 
     override fun getModuleContentScope(): GlobalSearchScope {
-        TODO("Not yet implemented")
+        return ValkyrieProjectScope(_project)
     }
 
     override fun getModuleContentWithDependenciesScope(): GlobalSearchScope {
-        TODO("Not yet implemented")
+        return ValkyrieProjectScope(_project)
     }
 
     override fun getModuleWithDependenciesAndLibrariesScope(includeTests: Boolean): GlobalSearchScope {
-        TODO("Not yet implemented")
+        return ValkyrieProjectScope(_project)
     }
 
     override fun getModuleWithDependentsScope(): GlobalSearchScope {
-        TODO("Not yet implemented")
+        return ValkyrieProjectScope(_project)
     }
 
     override fun getModuleTestsWithDependentsScope(): GlobalSearchScope {
