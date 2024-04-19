@@ -23,7 +23,7 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
 
     companion object {
         // 词法分析器状态常量
-        protected const val STATE_LANGUAGE = 0
+        protected const val STATE_LANGUAGE = 0 // 用于解析 Valkyrie 语言代码的默认状态
     }
 
     // 状态变量
@@ -99,7 +99,6 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
         this.currentOffset = startOffset
         this.currentTokenType = null
 
-        // 移除了 mask 机制。
         this.lexerState = STATE_LANGUAGE
         this.braceDepth = initialState
 
@@ -149,6 +148,7 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
     /**
      * 处理 Valkyrie 语言代码
      * 这是所有方言共享的核心解析逻辑
+     * 子类可以覆盖此方法，在特定状态下调用不同的处理逻辑
      */
     protected open fun processLanguage() {
         // 优先处理多-token 状态 (字符串和数字宏)
@@ -168,7 +168,7 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
                 skipLineComment(); currentTokenType = ValkyrieTokenTypes.COMMENT_DOCUMENT
             }
 
-            ch == '#' && peek() == '?' -> {
+            ch == '#' && peek(0) == '?' -> {
                 skipDocComment(); currentTokenType = ValkyrieTokenTypes.COMMENT_DOCUMENT
             }
 
@@ -194,7 +194,7 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
         currentTokenType = WHITE_SPACE
     }
 
-    protected fun readIdentifier() {
+    protected open fun readIdentifier() {
         val idStart = currentOffset
         while (currentOffset < endOffset) {
             val ch = buffer[currentOffset]
@@ -205,7 +205,6 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
             }
         }
 
-        // peek(0) 获取当前 currentOffset 指向的字符，即标识符后面的第一个字符
         val nextChar = peek(0)
         if (nextChar == '\'' || nextChar == '"') {
             currentTokenType = ValkyrieTokenTypes.MACRO_STRING
@@ -250,7 +249,9 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
                 val ch = buffer[currentOffset]
                 if (ch.isDigit()) {
                     currentOffset++
-                } else if (ch == '.' && !hasDecimalPoint && peek()?.isDigit() == true) {
+                }
+                // Make sure it's not ".."
+                else if (ch == '.' && !hasDecimalPoint && peek(0)?.isDigit() == true) {
                     hasDecimalPoint = true
                     currentOffset++
                 } else {
@@ -321,6 +322,8 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
     }
 
     private fun isAtStringEnd(): Boolean {
+        // should not happen if stringDelimiter is set
+        if (stringDelimiter == null) return false
         if (currentOffset + stringDelimiterWidth > endOffset) return false
         for (i in 0 until stringDelimiterWidth) {
             if (buffer[currentOffset + i] != stringDelimiter) {
@@ -338,12 +341,15 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
         }
     }
 
-    protected fun skipBlockComment() {
-
+    // 开放以供子类覆盖，例如处理 XML 块注释
+    protected open fun skipBlockComment() {
+        // 默认实现为空，将当前字符标记为错误
+        currentOffset++
+        currentTokenType = BAD_CHARACTER
     }
 
     protected fun skipDocComment() {
-        currentOffset += 2
+        currentOffset += 2 // Skip #?
         while (currentOffset < endOffset && buffer[currentOffset] != '\n') {
             currentOffset++
         }
@@ -356,63 +362,10 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
         return if (pos < endOffset) buffer[pos] else null
     }
 
-    protected fun peekNextKeyword(): String {
-        var tempOffset = currentOffset
-        // 跳过空格
-        while (tempOffset < endOffset && buffer[tempOffset].isWhitespace()) {
-            tempOffset++
-        }
-
-        // 读取单词
-        val keywordStart = tempOffset
-        while (tempOffset < endOffset) {
-            val ch = buffer[tempOffset]
-            if (ch.isLetterOrDigit() || ch == '_') {
-                tempOffset++
-            } else {
-                break
-            }
-        }
-
-        return if (tempOffset > keywordStart) {
-            buffer.subSequence(keywordStart, tempOffset).toString()
-        } else {
-            ""
-        }
-    }
-
-    protected fun peekNextWord(): String {
-        var tempOffset = currentOffset
-        // 跳过空格
-        while (tempOffset < endOffset && buffer[tempOffset].isWhitespace()) {
-            tempOffset++
-        }
-
-        // 读取单词
-        val wordStart = tempOffset
-        while (tempOffset < endOffset) {
-            val ch = buffer[tempOffset]
-            if (ch.isLetterOrDigit() || ch == '_') {
-                tempOffset++
-            } else {
-                break
-            }
-        }
-
-        return if (tempOffset > wordStart) {
-            buffer.subSequence(wordStart, tempOffset).toString()
-        } else {
-            ""
-        }
-    }
-
-    protected fun isAtStartOfLine(): Boolean {
-        if (currentOffset == 0) return true
-        var pos = currentOffset - 1
-        while (pos >= 0 && buffer[pos].isWhitespace() && buffer[pos] != '\n') {
-            pos--
-        }
-        return pos < 0 || buffer[pos] == '\n'
+    protected fun peekAhead(length: Int): CharSequence? {
+        val start = currentOffset
+        val end = minOf(endOffset, currentOffset + length)
+        return if (start < end) buffer.subSequence(start, end) else null
     }
 
     protected fun isValkyrieKeyword(word: String): Boolean {
@@ -422,8 +375,9 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
     /**
      * 读取操作符和标点符号
      * 这个方法包含了现有 ValkyrieLexer 中的所有操作符解析逻辑
+     * 开放以供子类覆盖，以处理特殊字符（例如 XML 的 < > { }）
      */
-    protected fun readOperatorOrPunctuation(ch: Char) {
+    protected open fun readOperatorOrPunctuation(ch: Char) {
         when (ch) {
             '<' -> {
                 currentOffset++
@@ -736,5 +690,4 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
             }
         }
     }
-
 }
