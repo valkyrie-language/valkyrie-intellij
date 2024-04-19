@@ -444,11 +444,13 @@ is-statement ::= (KW_IS |KW_IS KW_NOT | OP_BANG KW_IS) (
   | pattern-sequence
   | pattern-literal
   | pattern-object
+  | type-expression
 )
 is-expression ::= (KW_IS |KW_IS KW_NOT | OP_BANG KW_IS) (
     pattern-unapply
   | pattern-sequence
   | pattern-literal
+  | type-expression
 )
 
 inline-suffix ::= OP_BANG
