@@ -1,6 +1,7 @@
 package valkyrie.psi.parsers
 
 import com.intellij.lang.PsiBuilder
+import com.intellij.psi.xml.XmlTokenType
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.lexers.ValkyrieTokenTypes
 
@@ -354,14 +355,19 @@ fun parsePrimaryTerm(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolea
                 false
             }
         }
-
         // 特殊值
         ValkyrieTokenTypes.NIL, ValkyrieTokenTypes.NULL -> {
             builder.advanceLexer()
             true
         }
 
+        XmlTokenType.XML_START_TAG_START -> {
+            print("!!! XML 元素")
+            parseXmlElement(builder)
+        }
+
         else -> {
+            print("非表达式元素 ${builder.tokenType}")
             false
         }
     }

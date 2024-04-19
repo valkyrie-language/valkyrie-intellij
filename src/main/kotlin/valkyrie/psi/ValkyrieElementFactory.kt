@@ -136,6 +136,11 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.RESUME_STATEMENT -> ValkyrieResumeStatement(node)
             ValkyrieElementTypes.SCOPE_STATEMENT -> ValkyrieElementNode(node)
             ValkyrieElementTypes.ERROR_ELEMENT -> ValkyrieElementNode(node)
+            // XML 相关节点
+            ValkyrieElementTypes.XML_ELEMENT -> ValkyrieXmlElementNode(node)
+            ValkyrieElementTypes.XML_ATTRIBUTE -> ValkyrieXmlAttributeNode(node)
+            ValkyrieElementTypes.XML_TEXT_NODE -> ValkyrieXmlTextNode(node)
+            ValkyrieElementTypes.XML_SLOT_EXPRESSION -> ValkyrieXmlSlotExpressionNode(node)
             else -> ValkyrieElementNode(node)
         }
     }

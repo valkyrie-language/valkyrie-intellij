@@ -1,0 +1,7 @@
+<div>
+    Text before element
+    <span class="highlight">{dynamicText}</span>
+    Text after element
+    <br/>
+    More text with {variable}
+</div>

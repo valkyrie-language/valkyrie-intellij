@@ -4,6 +4,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.lang.PsiParser
 import com.intellij.psi.tree.IElementType
+import com.intellij.psi.xml.XmlTokenType
 import valkyrie.psi.ValkyrieElementType
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.lexers.ValkyrieTokenType
@@ -610,6 +611,10 @@ class ValkyrieParser : PsiParser {
             recoverToSyncPoint(builder)
             return false
         }
+        // 吃掉可选的 `;`
+        if (builder.tokenType == ValkyrieTokenTypes.SEMICOLON) {
+            builder.advanceLexer()
+        }
 
         marker.done(ValkyrieElementTypes.EXPRESSION_STATEMENT)
         return true
@@ -621,13 +626,13 @@ class ValkyrieParser : PsiParser {
      */
     fun parseExpressionRoot(builder: PsiBuilder): Boolean {
         val marker = builder.mark()
-        
+
         // 在插值上下文中，直接解析表达式，不需要语句结构
         if (!parseTermExpression(this, builder, false)) {
             marker.error("Expected expression in interpolation")
             return false
         }
-        
+
         marker.done(ValkyrieElementTypes.EXPRESSION_STATEMENT)
         return true
     }
@@ -2092,7 +2097,7 @@ class ValkyrieParser : PsiParser {
         if (builder.tokenType != ValkyrieTokenTypes.BRACKET_L) return false
         val marker = builder.mark()
         builder.advanceLexer() // consume '['
-        
+
         // 解析数组元素
         while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.BRACKET_R) {
             if (!parseTermExpression(this, builder, false)) {
@@ -2106,13 +2111,13 @@ class ValkyrieParser : PsiParser {
                 break
             }
         }
-        
+
         if (builder.tokenType == ValkyrieTokenTypes.BRACKET_R) {
             builder.advanceLexer() // consume ']'
         } else {
             builder.error("Expected ']'")
         }
-        
+
         marker.done(ValkyrieElementTypes.ARRAY_EXPRESSION)
         return true
     }
@@ -2124,7 +2129,7 @@ class ValkyrieParser : PsiParser {
         if (builder.tokenType != ValkyrieTokenTypes.BRACE_L) return false
         val marker = builder.mark()
         builder.advanceLexer() // consume '{'
-        
+
         // 解析对象字段
         while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.BRACE_R) {
             // 解析键
@@ -2135,7 +2140,7 @@ class ValkyrieParser : PsiParser {
             if (builder.tokenType == ValkyrieTokenTypes.STRING_L) {
                 builder.advanceLexer()
             }
-            
+
             if (builder.tokenType == ValkyrieTokenTypes.COLON) {
                 builder.advanceLexer() // consume ':'
                 if (!parseTermExpression(this, builder, false)) {
@@ -2143,7 +2148,7 @@ class ValkyrieParser : PsiParser {
                     break
                 }
             }
-            
+
             if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
                 builder.advanceLexer()
             } else if (builder.tokenType != ValkyrieTokenTypes.BRACE_R) {
@@ -2151,13 +2156,13 @@ class ValkyrieParser : PsiParser {
                 break
             }
         }
-        
+
         if (builder.tokenType == ValkyrieTokenTypes.BRACE_R) {
             builder.advanceLexer() // consume '}'
         } else {
             builder.error("Expected '}'")
         }
-        
+
         marker.done(ValkyrieElementTypes.TABLE_EXPRESSION)
         return true
     }
@@ -2195,5 +2200,3 @@ fun isIdentifier(builder: PsiBuilder): Boolean {
 fun isIdentifier(token: IElementType?): Boolean {
     return token == ValkyrieTokenTypes.SYMBOL_XID || token == ValkyrieTokenTypes.SYMBOL_RAW
 }
-
-
