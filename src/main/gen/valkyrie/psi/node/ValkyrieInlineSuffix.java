@@ -13,4 +13,7 @@ public interface ValkyrieInlineSuffix extends PsiElement {
     @Nullable
     ValkyrieGenericCall getGenericCall();
 
+    @Nullable
+    ValkyrieIsExpression getIsExpression();
+
 }

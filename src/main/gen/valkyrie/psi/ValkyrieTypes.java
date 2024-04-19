@@ -84,7 +84,8 @@ public interface ValkyrieTypes {
     IElementType INLINE_ATOMIC = new ValkyrieElementType("INLINE_ATOMIC");
     IElementType INLINE_SUFFIX = new ValkyrieElementType("INLINE_SUFFIX");
     IElementType INLINE_TERM = new ValkyrieElementType("INLINE_TERM");
-    IElementType IS_NOT = new ValkyrieElementType("IS_NOT");
+    IElementType IS_EXPRESSION = new ValkyrieElementType("IS_EXPRESSION");
+    IElementType IS_STATEMENT = new ValkyrieElementType("IS_STATEMENT");
     IElementType LAMBDA_BLOCK = new ValkyrieElementType("LAMBDA_BLOCK");
     IElementType LET_PATTERN = new ValkyrieElementType("LET_PATTERN");
     IElementType LOCALIZE_CALL = new ValkyrieElementType("LOCALIZE_CALL");
@@ -109,6 +110,7 @@ public interface ValkyrieTypes {
     IElementType PARAMETER_BODY = new ValkyrieElementType("PARAMETER_BODY");
     IElementType PARAMETER_ITEM = new ValkyrieElementType("PARAMETER_ITEM");
     IElementType PATTERN = new ValkyrieElementType("PATTERN");
+    IElementType PATTERN_ATOMIC = new ValkyrieElementType("PATTERN_ATOMIC");
     IElementType PATTERN_BARE = new ValkyrieElementType("PATTERN_BARE");
     IElementType PATTERN_LITERAL = new ValkyrieElementType("PATTERN_LITERAL");
     IElementType PATTERN_OBJECT = new ValkyrieElementType("PATTERN_OBJECT");
@@ -433,8 +435,10 @@ public interface ValkyrieTypes {
                 return new ValkyrieInlineSuffixNode(node);
             } else if (type == INLINE_TERM) {
                 return new ValkyrieInlineTermNode(node);
-            } else if (type == IS_NOT) {
-                return new ValkyrieIsNotNode(node);
+            } else if (type == IS_EXPRESSION) {
+                return new ValkyrieIsExpressionNode(node);
+            } else if (type == IS_STATEMENT) {
+                return new ValkyrieIsStatementNode(node);
             } else if (type == LAMBDA_BLOCK) {
                 return new ValkyrieLambdaBlockNode(node);
             } else if (type == LET_PATTERN) {
@@ -483,6 +487,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieParameterItemNode(node);
             } else if (type == PATTERN) {
                 return new ValkyriePatternNode(node);
+            } else if (type == PATTERN_ATOMIC) {
+                return new ValkyriePatternAtomicNode(node);
             } else if (type == PATTERN_BARE) {
                 return new ValkyriePatternBareNode(node);
             } else if (type == PATTERN_LITERAL) {

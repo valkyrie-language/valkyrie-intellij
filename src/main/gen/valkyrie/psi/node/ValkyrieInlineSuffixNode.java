@@ -38,4 +38,10 @@ public class ValkyrieInlineSuffixNode extends ValkyrieElement implements Valkyri
         return findChildByClass(ValkyrieGenericCall.class);
     }
 
+    @Override
+    @Nullable
+    public ValkyrieIsExpression getIsExpression() {
+        return findChildByClass(ValkyrieIsExpression.class);
+    }
+
 }
