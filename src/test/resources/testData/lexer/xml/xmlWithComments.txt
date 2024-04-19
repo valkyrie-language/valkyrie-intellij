@@ -1,0 +1,1 @@
+XML_COMMENT_CHARACTERS ('<!-- This is a comment -->')

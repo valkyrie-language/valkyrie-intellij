@@ -1,0 +1,3 @@
+ValkyrieTokenType.LESS_EQUAL ('<=')
+WHITE_SPACE (' ')
+ValkyrieTokenType.GREATER_EQUAL ('>=')

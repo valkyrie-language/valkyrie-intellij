@@ -1,0 +1,3 @@
+ValkyrieTokenType.STRING.START ('"')
+ValkyrieTokenType.STRING.TEXT ('Multi\nline: {value}')
+ValkyrieTokenType.STRING.END ('"')

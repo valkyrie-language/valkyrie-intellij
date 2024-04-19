@@ -1,0 +1,7 @@
+ValkyrieTokenType.STRING.START ('"')
+ValkyrieTokenType.STRING.TEXT ('Result: {users.find(|u| u.id == {target_id}).map(|u| u.name).unwrap_or(')
+ValkyrieTokenType.STRING.END ('"')
+ValkyrieTokenType.MACRO.STRING ('Unknown')
+ValkyrieTokenType.STRING.START ('"')
+ValkyrieTokenType.STRING.TEXT (')}')
+ValkyrieTokenType.STRING.END ('"')

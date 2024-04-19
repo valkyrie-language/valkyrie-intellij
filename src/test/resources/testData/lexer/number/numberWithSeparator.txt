@@ -1,0 +1,2 @@
+ValkyrieTokenType.INTEGER ('1')
+ValkyrieTokenType.MACRO.NUMBER ('_000_000')

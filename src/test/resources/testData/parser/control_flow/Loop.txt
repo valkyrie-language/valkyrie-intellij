@@ -1,0 +1,157 @@
+Valkyrie File
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiComment(ValkyrieTokenType.#)('# 测试简单 loop 语句')
+  PsiWhiteSpace('\n')
+  PsiElement(ValkyrieTokenType.loop)('loop')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.{)('{')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
+    <empty list>
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+    <empty list>
+  PsiElement(ValkyrieTokenType.;)(';')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiWhiteSpace('\n\n')
+  PsiComment(ValkyrieTokenType.#)('# 测试带标签的 loop 语句')
+  PsiWhiteSpace('\n')
+  PsiElement(ValkyrieTokenType.loop)('loop')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.※)('※')
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('label')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.{)('{')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
+    <empty list>
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+    <empty list>
+  PsiElement(ValkyrieTokenType.;)(';')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiWhiteSpace('\n\n')
+  PsiComment(ValkyrieTokenType.#)('# 测试嵌套 loop 的语句')
+  PsiWhiteSpace('\n')
+  PsiElement(ValkyrieTokenType.loop)('loop')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.{)('{')
+  PsiWhiteSpace('\n    ')
+  PsiElement(ValkyrieTokenType.loop)('loop')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.{)('{')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
+    <empty list>
+  PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+    <empty list>
+  PsiElement(ValkyrieTokenType.;)(';')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
+    <empty list>
+  PsiWhiteSpace(' \n')
+  PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+    <empty list>
+  PsiElement(ValkyrieTokenType.;)(';')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiWhiteSpace('\n\n')
+  PsiComment(ValkyrieTokenType.#)('# 测试带标签的嵌套 loop 语句')
+  PsiWhiteSpace('\n')
+  PsiElement(ValkyrieTokenType.loop)('loop')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.※)('※')
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('outer')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.{)('{')
+  PsiWhiteSpace('\n    ')
+  PsiElement(ValkyrieTokenType.※)('※')
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('inner')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.loop)('loop')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.{)('{')
+  PsiWhiteSpace('\n        ')
+  PsiElement(ValkyrieTokenType.break)('break')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.※)('※')
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('outer')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+    <empty list>
+  PsiElement(ValkyrieTokenType.;)(';')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiWhiteSpace('\n        ')
+  PsiElement(ValkyrieTokenType.continue)('continue')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.※)('※')
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('inner')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+    <empty list>
+  PsiElement(ValkyrieTokenType.;)(';')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
+    <empty list>
+  PsiWhiteSpace('\n    ')
+  PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
+    <empty list>
+  PsiWhiteSpace('\n')
+  PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiWhiteSpace('\n\n')
+  PsiComment(ValkyrieTokenType.#)('# 测试 loop-else 语句')
+  PsiWhiteSpace('\n')
+  PsiElement(ValkyrieTokenType.loop)('loop')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.{)('{')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
+    <empty list>
+  PsiWhiteSpace('\n\n')
+  PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiWhiteSpace('\n')
+  PsiElement(ValkyrieTokenType.else)('else')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.{)('{')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
+    <empty list>
+  PsiWhiteSpace('\n\n')
+  PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+    <empty list>
+  PsiElement(ValkyrieTokenType.;)(';')

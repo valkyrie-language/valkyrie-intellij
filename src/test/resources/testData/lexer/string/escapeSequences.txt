@@ -1,0 +1,4 @@
+ValkyrieTokenType.STRING.START ('"')
+ValkyrieTokenType.STRING.TEXT ('\n\t\r\\\')
+ValkyrieTokenType.STRING.END ('"')
+ValkyrieTokenType.STRING.START ('"')

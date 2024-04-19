@@ -1,0 +1,4 @@
+ValkyrieTokenType.MACRO.STRING ('r')
+ValkyrieTokenType.STRING.START ('"')
+ValkyrieTokenType.STRING.TEXT ('Raw string with {value}')
+ValkyrieTokenType.STRING.END ('"')

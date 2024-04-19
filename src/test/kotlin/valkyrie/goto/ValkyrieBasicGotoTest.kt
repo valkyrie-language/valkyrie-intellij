@@ -1,14 +1,14 @@
 package valkyrie.goto
 
 import com.intellij.codeInsight.navigation.actions.GotoDeclarationAction
+import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import org.junit.Test
-import valkyrie.test.ValkyrieTestCase
 
 /**
  * Valkyrie 基础跳转功能测试
  * 测试基本的跳转到定义功能
  */
-class ValkyrieBasicGotoTest : ValkyrieTestCase() {
+class ValkyrieBasicGotoTest : BasePlatformTestCase() {
 
     @Test
     fun testVariableGoto() {

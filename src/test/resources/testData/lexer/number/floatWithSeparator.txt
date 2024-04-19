@@ -1,0 +1,4 @@
+ValkyrieTokenType.INTEGER ('3')
+ValkyrieTokenType.. ('.')
+ValkyrieTokenType.INTEGER ('141')
+ValkyrieTokenType.MACRO.NUMBER ('_592')

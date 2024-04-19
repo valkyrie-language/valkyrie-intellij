@@ -1,0 +1,3 @@
+ValkyrieTokenType.STRING.START (''')
+ValkyrieTokenType.STRING.TEXT ('Single quote: {value}')
+ValkyrieTokenType.STRING.END (''')

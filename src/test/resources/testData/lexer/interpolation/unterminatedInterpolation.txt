@@ -1,0 +1,3 @@
+ValkyrieTokenType.STRING.START ('"')
+ValkyrieTokenType.STRING.TEXT ('Unterminated: {value')
+ValkyrieTokenType.STRING.END ('"')

@@ -1,0 +1,5 @@
+ValkyrieTokenType.# ('# comment 1')
+WHITE_SPACE ('\n')
+ValkyrieTokenType.# ('# comment 2')
+WHITE_SPACE ('\n')
+ValkyrieTokenType.# ('# comment 3')

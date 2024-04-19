@@ -1,6 +1,0 @@
-
-union U {
-    variant1 { field1: i32 },
-    variant2 { field2: String },
-    variant3
-}

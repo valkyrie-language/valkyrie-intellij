@@ -1,0 +1,2 @@
+ValkyrieTokenType.STRING.START ('"""""""')
+ValkyrieTokenType.STRING.TEXT ('This is a quadruple double quote string""""""')

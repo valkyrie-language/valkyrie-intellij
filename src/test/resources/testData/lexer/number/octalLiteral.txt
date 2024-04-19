@@ -1,0 +1,2 @@
+ValkyrieTokenType.INTEGER ('0')
+ValkyrieTokenType.MACRO.NUMBER ('o777')

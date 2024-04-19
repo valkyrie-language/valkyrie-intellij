@@ -1,0 +1,25 @@
+class {
+    # 简单字段声明
+    field1;
+
+    # 带有类型注解的字段声明
+    field2: Typing;
+
+    # 带有类型注解和默认值的字段声明
+    field3: Type = default_value;
+
+    # 带有修饰符的领域声明
+    modifier field4;
+
+    # 带有属性的领域声明
+    ↯attribute field5;
+
+    # 带有属性和修饰符的字段
+    ↯attribute1
+    ↯[attribute2, attribute3]
+    ↯attribute4
+    modifier1 
+    modifier2 modifier3
+    modifier4
+    field999: ComplexType = default_value;
+}

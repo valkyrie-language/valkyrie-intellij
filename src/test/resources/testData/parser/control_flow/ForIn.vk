@@ -1,0 +1,17 @@
+# 测试带模式匹配的 for 语句
+for pattern in expression {
+
+};
+
+# 测试带标签和条件的 for 语句
+for pattern in expression if condition ※label {
+
+};
+
+# 测试 for-else 语句
+for pattern in expression if condition {
+
+}
+else {
+
+};

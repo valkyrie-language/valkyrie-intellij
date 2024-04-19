@@ -1,0 +1,5 @@
+ValkyrieTokenType.# ('# regular comment')
+WHITE_SPACE ('\n')
+ValkyrieTokenType.# ('#? doc comment')
+WHITE_SPACE ('\n')
+ValkyrieTokenType.⍝ ('⍝ APL comment')

@@ -1,0 +1,3 @@
+ValkyrieTokenType.STRING.START ('"')
+ValkyrieTokenType.STRING.TEXT ('Result: {data.process().format()}')
+ValkyrieTokenType.STRING.END ('"')

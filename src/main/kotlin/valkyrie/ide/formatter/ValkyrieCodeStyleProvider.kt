@@ -10,11 +10,15 @@ import valkyrie.language.ValkyrieLanguage
  */
 class ValkyrieCodeStyleProvider : LanguageCodeStyleSettingsProvider() {
     override fun getLanguage(): Language = ValkyrieLanguage
-    
+
     override fun createCustomSettings(settings: CodeStyleSettings): CustomCodeStyleSettings {
         return ValkyrieCodeStyleSettings(settings)
     }
-    
+
+    override fun createConfigurable(baseSettings: CodeStyleSettings, modelSettings: CodeStyleSettings): CodeStyleConfigurable {
+        return ValkyrieCodeStyleConfigurable(baseSettings, modelSettings)
+    }
+
     override fun getCodeSample(settingsType: SettingsType): String {
         return when (settingsType) {
             SettingsType.SPACING_SETTINGS -> SPACING_SAMPLE
@@ -23,7 +27,7 @@ class ValkyrieCodeStyleProvider : LanguageCodeStyleSettingsProvider() {
             else -> DEFAULT_SAMPLE
         }
     }
-    
+
     override fun customizeSettings(consumer: CodeStyleSettingsCustomizable, settingsType: SettingsType) {
         when (settingsType) {
             SettingsType.SPACING_SETTINGS -> {
@@ -42,6 +46,7 @@ class ValkyrieCodeStyleProvider : LanguageCodeStyleSettingsProvider() {
                     "SPACE_AFTER_SEMICOLON"
                 )
             }
+
             SettingsType.WRAPPING_AND_BRACES_SETTINGS -> {
                 consumer.showStandardOptions(
                     "KEEP_LINE_BREAKS",
@@ -51,6 +56,7 @@ class ValkyrieCodeStyleProvider : LanguageCodeStyleSettingsProvider() {
                     "METHOD_BRACE_STYLE"
                 )
             }
+
             SettingsType.INDENT_SETTINGS -> {
                 consumer.showStandardOptions(
                     "INDENT_SIZE",
@@ -59,14 +65,15 @@ class ValkyrieCodeStyleProvider : LanguageCodeStyleSettingsProvider() {
                     "USE_TAB_CHARACTER"
                 )
             }
+
             else -> {}
         }
     }
-    
+
     override fun getIndentOptionsEditor(): IndentOptionsEditor? {
         return ValkyrieIndentOptionsEditor()
     }
-    
+
     companion object {
         private const val DEFAULT_SAMPLE = """
 namespace example {
@@ -82,13 +89,13 @@ namespace example {
     }
 }
 """
-        
+
         private const val SPACING_SAMPLE = """
 let x = 1 + 2 * 3
 let result = calculate(a, b, c)
 let point: Point = Point { x: 0.0, y: 0.0 }
 """
-        
+
         private const val WRAPPING_SAMPLE = """
 class LongClassName {
     very_long_field_name: VeryLongTypeName,
@@ -103,7 +110,7 @@ micro long_function_name(
     // function body
 }
 """
-        
+
         private const val INDENT_SAMPLE = """
 class Example {
     field: Type,
@@ -120,9 +127,3 @@ class Example {
     }
 }
 
-/**
- * Valkyrie 缩进选项编辑器
- */
-class ValkyrieIndentOptionsEditor : IndentOptionsEditor() {
-    // 使用默认实现
-}

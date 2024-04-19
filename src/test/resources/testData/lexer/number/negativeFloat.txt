@@ -1,0 +1,4 @@
+ValkyrieTokenType.- ('-')
+ValkyrieTokenType.INTEGER ('2')
+ValkyrieTokenType.. ('.')
+ValkyrieTokenType.INTEGER ('71')

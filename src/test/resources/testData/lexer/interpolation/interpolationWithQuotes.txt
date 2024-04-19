@@ -1,0 +1,7 @@
+ValkyrieTokenType.STRING.START ('"')
+ValkyrieTokenType.STRING.TEXT ('Message: {get_message(')
+ValkyrieTokenType.STRING.END ('"')
+ValkyrieTokenType.MACRO.STRING ('hello')
+ValkyrieTokenType.STRING.START ('"')
+ValkyrieTokenType.STRING.TEXT (')}')
+ValkyrieTokenType.STRING.END ('"')

@@ -1,0 +1,3 @@
+ValkyrieTokenType.INTEGER ('3')
+ValkyrieTokenType.. ('.')
+ValkyrieTokenType.INTEGER ('14')

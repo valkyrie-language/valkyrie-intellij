@@ -1,0 +1,3 @@
+ValkyrieTokenType.STRING.START ('"')
+ValkyrieTokenType.STRING.TEXT ('\u0041')
+ValkyrieTokenType.STRING.END ('"')

@@ -1,0 +1,32 @@
+# 测试简单的 yield 语句
+yield;
+
+# 测试带值的 yield 语句
+yield value;
+
+# 测试 yield from 语句
+yield from;
+
+# 测试带生成器的 yield from 语句
+yield from generator;
+
+# 测试带标签和生成器的 yield from 语句
+yield ※label from generator;
+
+# 测试 yield return 语句
+yield return;
+
+# 测试带值的 yield return 语句
+yield return value;
+
+# 测试带标签和值的 yield return 语句
+yield return ※label value;
+
+# 测试 yield return from 语句
+yield return from;
+
+# 测试带生成器的 yield return from 语句
+yield return from generator;
+
+# 测试带标签和生成器的 yield return from 语句
+yield return ※label from generator;

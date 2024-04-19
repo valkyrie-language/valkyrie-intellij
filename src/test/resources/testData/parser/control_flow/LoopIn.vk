@@ -1,0 +1,16 @@
+# 测试带模式匹配的 loop 语句
+loop pattern in expression {
+
+};
+
+loop pattern in expression if condition ※label {
+
+};
+
+# 测试 loop-else 语句
+loop pattern in expression if condition {
+
+}
+else {
+
+};

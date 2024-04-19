@@ -1,0 +1,3 @@
+ValkyrieTokenType.STRING.START ('"')
+ValkyrieTokenType.STRING.TEXT ('Result: {x + y * 2}')
+ValkyrieTokenType.STRING.END ('"')

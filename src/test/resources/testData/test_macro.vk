@@ -1,7 +1,0 @@
-macro f() {
-    println("Hello from macro")
-}
-
-macro add(a, b) {
-    a + b
-}

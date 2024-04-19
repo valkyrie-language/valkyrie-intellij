@@ -6,7 +6,7 @@ import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 
-fun parseFunctionParameterList(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {
+fun parseFunctionParameterList(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     if (builder.tokenType != ValkyrieTokenTypes.PARENTHESIS_L) {
         return false
     }
@@ -17,7 +17,7 @@ fun parseFunctionParameterList(valkyrieParser: ValkyrieParser, builder: PsiBuild
     // 允许空参数列表
     if (builder.tokenType != ValkyrieTokenTypes.PARENTHESIS_R) {
         // 解析第一个参数
-        if (!parseFunctionParameterItem(valkyrieParser, builder)) {
+        if (!parseFunctionParameterItem(parser, builder)) {
             // FIX: 在出错时不要 drop marker，而是报告错误并继续，以便正确关闭节点
             builder.error("Expected parameter")
             // 不再 drop，让函数末尾的逻辑来关闭 marker
@@ -31,7 +31,7 @@ fun parseFunctionParameterList(valkyrieParser: ValkyrieParser, builder: PsiBuild
                     break // 允许尾随逗号
                 }
 
-                if (!parseFunctionParameterItem(valkyrieParser, builder)) {
+                if (!parseFunctionParameterItem(parser, builder)) {
                     builder.error("Expected parameter after ','")
                     break // 出错时跳出循环，尝试关闭列表
                 }
@@ -362,12 +362,10 @@ fun parsePrimaryTerm(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolea
         }
 
         XmlTokenType.XML_START_TAG_START -> {
-            print("!!! XML 元素")
             parseXmlElement(builder)
         }
 
         else -> {
-            print("非表达式元素 ${builder.tokenType}")
             false
         }
     }

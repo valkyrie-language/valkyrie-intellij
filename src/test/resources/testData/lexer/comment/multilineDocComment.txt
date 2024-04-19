@@ -1,0 +1,3 @@
+ValkyrieTokenType.# ('#? First line')
+WHITE_SPACE ('\n')
+ValkyrieTokenType.# ('#? Second line')

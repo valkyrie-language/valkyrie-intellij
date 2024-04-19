@@ -1,0 +1,8 @@
+ValkyrieTokenType.SYMBOL.STD ('object')
+ValkyrieTokenType.. ('.')
+ValkyrieTokenType.SYMBOL.STD ('array')
+ValkyrieTokenType.[ ('[')
+ValkyrieTokenType.INTEGER ('0')
+ValkyrieTokenType.] (']')
+ValkyrieTokenType.. ('.')
+ValkyrieTokenType.SYMBOL.STD ('property')

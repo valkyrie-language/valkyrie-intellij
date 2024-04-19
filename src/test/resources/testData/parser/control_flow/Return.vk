@@ -1,0 +1,11 @@
+# 测试简单的 return 语句
+return;
+
+# 测试带值的 return 语句
+return value;
+
+# 测试带标签的 return 语句
+return ※label;
+
+# 测试带标签和值的 return 语句
+return ※label value;

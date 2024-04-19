@@ -1,0 +1,26 @@
+# 测试简单 loop 语句
+loop { };
+
+# 测试带标签的 loop 语句
+loop ※label { };
+
+# 测试嵌套 loop 的语句
+loop {
+    loop {}; 
+};
+
+# 测试带标签的嵌套 loop 语句
+loop ※outer {
+    ※inner loop {
+        break ※outer;
+        continue ※inner;
+    }
+}
+
+# 测试 loop-else 语句
+loop {
+
+}
+else {
+
+};

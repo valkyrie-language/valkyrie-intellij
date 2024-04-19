@@ -1,0 +1,5 @@
+ValkyrieTokenType.< ('<')
+BAD_CHARACTER ('$')
+WHITE_SPACE (' ')
+BAD_CHARACTER ('$')
+ValkyrieTokenType.> ('>')

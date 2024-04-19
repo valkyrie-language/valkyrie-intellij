@@ -1,0 +1,3 @@
+ValkyrieTokenType.STRING.START ('"')
+ValkyrieTokenType.STRING.TEXT ('Number: {42}')
+ValkyrieTokenType.STRING.END ('"')

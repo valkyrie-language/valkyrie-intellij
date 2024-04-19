@@ -1,0 +1,3 @@
+ValkyrieTokenType.STRING.START ('"')
+ValkyrieTokenType.STRING.TEXT ('This # is not a comment')
+ValkyrieTokenType.STRING.END ('"')

@@ -1,0 +1,8 @@
+ValkyrieTokenType.STRING.START ('"')
+ValkyrieTokenType.STRING.TEXT ('Data: {items.filter(|x| x > 0).map(|x| x * 2).join(')
+ValkyrieTokenType.STRING.END ('"')
+ValkyrieTokenType., (',')
+WHITE_SPACE (' ')
+ValkyrieTokenType.STRING.START ('"')
+ValkyrieTokenType.STRING.TEXT (')}')
+ValkyrieTokenType.STRING.END ('"')
