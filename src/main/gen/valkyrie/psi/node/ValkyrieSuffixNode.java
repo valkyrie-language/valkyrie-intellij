@@ -50,4 +50,22 @@ public class ValkyrieSuffixNode extends ValkyrieElement implements ValkyrieSuffi
         return findChildByClass(ValkyrieGenericCall.class);
     }
 
+    @Override
+    @Nullable
+    public ValkyrieIsNot getIsNot() {
+        return findChildByClass(ValkyrieIsNot.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyriePattern getPattern() {
+        return findChildByClass(ValkyriePattern.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieTypeExpression getTypeExpression() {
+        return findChildByClass(ValkyrieTypeExpression.class);
+    }
+
 }

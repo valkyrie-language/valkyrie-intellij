@@ -19,7 +19,4 @@ public interface ValkyrieInfix extends PsiElement {
     @Nullable
     ValkyrieBadRrr getBadRrr();
 
-    @Nullable
-    ValkyrieIsNot getIsNot();
-
 }

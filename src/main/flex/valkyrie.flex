@@ -220,7 +220,7 @@ W2 = ※
     {OP_BANG}     { return OP_BANG; }
     {OP_AND_THEN} { return OP_AND_THEN; }
     {OP_UNWRAP_OR}  { return OP_UNWRAP_OR; }
-          {OP_UNWRAP_ELSE}  { return OP_UNWRAP_ELSE; }
+    {OP_UNWRAP_ELSE}  { return OP_UNWRAP_ELSE; }
 
     {OP_UNTIL}    { return OP_UNTIL; }
     // Localization
