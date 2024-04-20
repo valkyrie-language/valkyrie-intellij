@@ -46,12 +46,14 @@ class SfcLexerTest : LexerTestCase() {
     }
 
     fun testSfcWithBlockComments() {
-        doTest("""
+        doTest(
+            """
             <template>
                 <!-- This is a multi-line\n                     block comment in SFC -->
                 <div>Hello</div>
             </template>
-        """.trimIndent())
+        """.trimIndent()
+        )
     }
 
     fun testComponentWithScript() {

@@ -1,0 +1,12 @@
+# 字符串字面量测试用例
+"hello";
+'world';
+"escaped \" quote";
+'escaped \' quote';
+"""multi
+line
+string""";
+'''another
+multi
+line
+string''';

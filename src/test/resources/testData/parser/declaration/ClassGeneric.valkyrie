@@ -1,0 +1,4 @@
+class G0⟨⟩ {}
+class G1⟨T⟩ {}
+class G2⟨T: Bound, V = Integer⟩ {}
+class G3⟨readonly T: Bound = Type⟩ {}

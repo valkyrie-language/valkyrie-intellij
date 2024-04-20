@@ -1,0 +1,5 @@
+trait Applicative: Functor {
+    @.functional
+    apply<A, B>(self, other: Self<A -> B>): Self<B>
+    left_a2<A, B>(f: (A, A) -> B, a: Self<A>, b: Self<B>): Self<B>
+}

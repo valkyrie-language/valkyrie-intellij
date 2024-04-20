@@ -2,7 +2,8 @@ package valkyrie.lexer
 
 import com.intellij.lexer.Lexer
 import com.intellij.testFramework.LexerTestCase
-import valkyrie.psi.lexers.ValkyrieStandardLexer
+import valkyrie.language.ValkyrieLanguageConfig
+import valkyrie.psi.lexers.ValkyrieLexer
 
 /**
  * 关键字词法分析测试
@@ -10,7 +11,7 @@ import valkyrie.psi.lexers.ValkyrieStandardLexer
  */
 class KeywordTest : LexerTestCase() {
     override fun createLexer(): Lexer {
-        return ValkyrieStandardLexer()
+        return ValkyrieLexer(ValkyrieLanguageConfig())
     }
 
     override fun getDirPath(): String {
@@ -140,6 +141,14 @@ class KeywordTest : LexerTestCase() {
 
     fun testScopeKeyword() {
         doTest("scope")
+    }
+
+    fun testAssertKeyword() {
+        doTest("assert")
+    }
+
+    fun testDebugKeyword() {
+        doTest("debug")
     }
 
     // 异常处理关键字

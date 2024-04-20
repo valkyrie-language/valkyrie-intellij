@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.TokenType.WHITE_SPACE
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.psi.nodes.*
-import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieTypes
 import javax.swing.Icon
 
 /**
@@ -286,7 +286,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
         
         return when (elementType) {
             // 命名空间和导入
-            ValkyrieTokenTypes.NAMESPACE -> {
+            ValkyrieTypes.NAMESPACE -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>namespace</b> keyword")
@@ -298,7 +298,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.USING -> {
+            ValkyrieTypes.USING -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>using</b> keyword")
@@ -313,7 +313,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
             }
             
             // 变量声明
-            ValkyrieTokenTypes.LET -> {
+            ValkyrieTypes.LET -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>let</b> keyword")
@@ -328,7 +328,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
             }
             
             // 控制流
-            ValkyrieTokenTypes.IF -> {
+            ValkyrieTypes.IF -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>if</b> keyword")
@@ -341,7 +341,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.ELSE -> {
+            ValkyrieTypes.ELSE -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>else</b> keyword")
@@ -353,7 +353,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.WHILE -> {
+            ValkyrieTypes.WHILE -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>while</b> keyword")
@@ -365,7 +365,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.UNTIL -> {
+            ValkyrieTypes.UNTIL -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>until</b> keyword")
@@ -377,7 +377,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.LOOP -> {
+            ValkyrieTypes.LOOP -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>loop</b> keyword")
@@ -389,7 +389,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.BREAK -> {
+            ValkyrieTypes.BREAK -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>break</b> keyword")
@@ -402,7 +402,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.CONTINUE -> {
+            ValkyrieTypes.CONTINUE -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>continue</b> keyword")
@@ -414,7 +414,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.RETURN -> {
+            ValkyrieTypes.RETURN -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>return</b> keyword")
@@ -429,7 +429,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
             }
             
             // 函数定义
-            ValkyrieTokenTypes.MICRO -> {
+            ValkyrieTypes.MICRO -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>micro</b> keyword")
@@ -441,7 +441,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.MEZZO -> {
+            ValkyrieTypes.MEZZO -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>mezzo</b> keyword")
@@ -453,7 +453,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.MACRO -> {
+            ValkyrieTypes.MACRO -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>macro</b> keyword")
@@ -467,7 +467,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
             }
             
             // 类型定义
-            ValkyrieTokenTypes.CLASS -> {
+            ValkyrieTypes.CLASS -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>class</b> keyword")
@@ -480,7 +480,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.NEURAL -> {
+            ValkyrieTypes.NEURAL -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>neural</b> keyword")
@@ -492,7 +492,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.WIDGET -> {
+            ValkyrieTypes.WIDGET -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>widget</b> keyword")
@@ -504,7 +504,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.UNION -> {
+            ValkyrieTypes.UNION -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>union</b> keyword")
@@ -516,7 +516,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.UNITY -> {
+            ValkyrieTypes.UNITY -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>unity</b> keyword")
@@ -528,7 +528,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.FLAGS -> {
+            ValkyrieTypes.FLAGS -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>flags</b> keyword")
@@ -540,7 +540,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.TRAIT -> {
+            ValkyrieTypes.TRAIT -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>trait</b> keyword")
@@ -552,7 +552,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.IMPLY -> {
+            ValkyrieTypes.IMPLY -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>imply</b> keyword")
@@ -564,7 +564,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.STRUCTURE -> {
+            ValkyrieTypes.STRUCTURE -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>structure</b> keyword")
@@ -576,7 +576,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.SINGLETON -> {
+            ValkyrieTypes.SINGLETON -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>singleton</b> keyword")
@@ -590,7 +590,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
             }
             
             // 模式匹配
-            ValkyrieTokenTypes.MATCH -> {
+            ValkyrieTypes.MATCH -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>match</b> keyword")
@@ -602,7 +602,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.CASE -> {
+            ValkyrieTypes.CASE -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>case</b> keyword")
@@ -614,7 +614,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.WHEN -> {
+            ValkyrieTypes.WHEN -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>when</b> keyword")
@@ -628,7 +628,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
             }
             
             // 异常处理
-            ValkyrieTokenTypes.TRY -> {
+            ValkyrieTypes.TRY -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>try</b> keyword")
@@ -640,7 +640,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.CATCH -> {
+            ValkyrieTypes.CATCH -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>catch</b> keyword")
@@ -652,7 +652,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.RAISE -> {
+            ValkyrieTypes.RAISE -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>raise</b> keyword")
@@ -666,7 +666,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
             }
             
             // 作用域和生成器
-            ValkyrieTokenTypes.SCOPE -> {
+            ValkyrieTypes.SCOPE -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>scope</b> keyword")
@@ -679,7 +679,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.YIELD -> {
+            ValkyrieTypes.YIELD -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>yield</b> keyword")
@@ -691,7 +691,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.RESUME -> {
+            ValkyrieTypes.RESUME -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>resume</b> keyword")
@@ -705,7 +705,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
             }
             
             // 运算符
-            ValkyrieTokenTypes.IN -> {
+            ValkyrieTypes.IN -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>in</b> operator")
@@ -717,7 +717,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.IS -> {
+            ValkyrieTypes.IS -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>is</b> operator")
@@ -729,7 +729,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.AS -> {
+            ValkyrieTypes.AS -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>as</b> operator")
@@ -743,7 +743,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
             }
             
             // 测试
-            ValkyrieTokenTypes.TESTS -> {
+            ValkyrieTypes.TESTS -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>tests</b> keyword")

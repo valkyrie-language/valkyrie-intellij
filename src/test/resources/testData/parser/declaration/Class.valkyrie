@@ -1,0 +1,5 @@
+value class Class {
+    field,
+    method(),
+    domain {},
+}

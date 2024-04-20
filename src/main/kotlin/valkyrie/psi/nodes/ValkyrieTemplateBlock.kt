@@ -4,8 +4,8 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import valkyrie.ide.navigation.TemplateContext
 import valkyrie.ide.navigation.TemplateType
-import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieTypes
 
 /**
  * 模板语法块实现 <$ ... $>
@@ -17,14 +17,14 @@ class ValkyrieTemplateBlock(node: ASTNode) : ValkyrieElementNode(node) {
      * 获取开始标记 <$
      */
     fun getStartToken(): PsiElement? {
-        return findChildByType(ValkyrieTokenTypes.TEMPLATE_L)
+        return findChildByType(ValkyrieTypes.TEMPLATE_L)
     }
     
     /**
      * 获取结束标记 $>
      */
     fun getEndToken(): PsiElement? {
-        return findChildByType(ValkyrieTokenTypes.TEMPLATE_R)
+        return findChildByType(ValkyrieTypes.TEMPLATE_R)
     }
     
     /**

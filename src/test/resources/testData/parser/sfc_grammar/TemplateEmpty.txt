@@ -1,0 +1,9 @@
+SfcFileNode
+  SFC Template
+    PsiElement(ValkyrieToken.<)('<')
+    PsiElement(ValkyrieToken.SYMBOL.XID)('template')
+    PsiElement(ValkyrieToken.>)('>')
+    PsiElement(ValkyrieToken.<)('\n\n<')
+    PsiElement(ValkyrieToken.DIVIDE)('/')
+    PsiElement(ValkyrieToken.SYMBOL.XID)('template')
+    PsiElement(ValkyrieToken.>)('>')

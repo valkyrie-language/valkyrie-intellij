@@ -1,0 +1,13 @@
+# 测试 while let 语句
+while let pattern = expression { };
+
+# 测试带标签的 while let 语句
+while let pattern = expression ※label { };
+
+# 测试 while let-else 语句
+while let pattern = expression {
+
+}
+else {
+
+};

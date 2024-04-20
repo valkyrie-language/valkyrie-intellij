@@ -1,0 +1,4 @@
+imply IoError {
+    @.import(wasm32, "wasi:io/error", "[method]to-debug-string")
+    private to_debug_string(self) -> String { }
+}

@@ -1,0 +1,4 @@
+structure Duration { 
+     seconds: u64, 
+     nanoseconds: u32, 
+ } 

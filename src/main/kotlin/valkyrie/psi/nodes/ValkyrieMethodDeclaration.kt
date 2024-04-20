@@ -6,9 +6,8 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.ide.highlight.ValkyrieColor
 import valkyrie.language.ValkyrieIcons
-import valkyrie.psi.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieElementNode
 import valkyrie.psi.traits.HasAnnotation
 import valkyrie.psi.traits.HasTermParameter
 import valkyrie.psi.traits.HasTypeParameter

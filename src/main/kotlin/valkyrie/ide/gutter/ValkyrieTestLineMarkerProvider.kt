@@ -6,7 +6,7 @@ import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieIcons
 import valkyrie.psi.nodes.ValkyrieTestStatement
-import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieTypes
 import valkyrie.ide.runner.ValkyrieTestRunner
 
 /**
@@ -17,7 +17,7 @@ class ValkyrieTestLineMarkerProvider : LineMarkerProvider {
 
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? {
         // 只对 tests 关键字的叶子节点注册 LineMarker
-        if (element.node?.elementType != ValkyrieTokenTypes.TESTS) return null
+        if (element.node?.elementType != ValkyrieTypes.TESTS) return null
         
         // 确保父节点是 ValkyrieTestStatement
         val testStatement = element.parent as? ValkyrieTestStatement ?: return null

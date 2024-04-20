@@ -4,6 +4,10 @@
 [![Version](https://img.shields.io/jetbrains/plugin/v/20594.svg)](https://plugins.jetbrains.com/plugin/20594)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/20594.svg)](https://plugins.jetbrains.com/plugin/20594)
 
+<!-- Plugin description -->
+Valkyrie Intellij is a plugin for IntelliJ IDEA that provides support for the Valkyrie programming language. It includes features such as semantic highlighting, code formatting, and structured view.
+<!-- Plugin description end -->
+
 ![](./src/main/design/SVG/title.svg)
 
 ## Features
@@ -19,3 +23,10 @@
 
 ![](https://github.com/oovm/WIT-Intellij/assets/17541209/d4e851e3-f55f-4f0d-82b2-b587abefffd2)
 
+## 包管理
+
+关于 Valkyrie 的包管理机制，请参阅 [包管理机制文档](docs/package-management.md)。
+
+## 模块管理
+
+关于 Valkyrie 的模块管理系统，请参阅 [模块管理文档](docs/module-management.md)。

@@ -1,0 +1,24 @@
+using {};
+using a as b;
+using a.*;
+using a::*;
+using a {};
+using a.{};
+using a::{};
+using {
+    a.a as aa,
+    a::b as ab;
+    a.c {
+        a.a,
+        a::b;
+    }
+    a.d.{
+        a.a as aa,
+        a::b as ab;
+    }
+    a.e::{
+        a.a { }
+        a.b.{ }
+        a.c::{}
+    }
+}

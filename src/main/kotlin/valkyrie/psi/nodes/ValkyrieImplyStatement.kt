@@ -1,12 +1,10 @@
 package valkyrie.psi.nodes
 
-import com.intellij.codeInsight.daemon.impl.IdentifierUtil.getNameIdentifier
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.PsiQualifiedNamedElement
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.psi.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieElementNode
 import valkyrie.psi.traits.HasTypeParameter
 
 /**

@@ -1,168 +1,97 @@
 Valkyrie File
-  PsiErrorElement:Expected expression
-    <empty list>
   PsiComment(ValkyrieTokenType.#)('# 测试简单的 yield 语句')
-  PsiWhiteSpace('\n')
-  PsiElement(ValkyrieTokenType.yield)('yield')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiWhiteSpace('\n\n')
+  ValkyrieElementNode(ValkyrieElementType.YIELD_STATEMENT)
+    PsiElement(ValkyrieTokenType.yield)('yield')
+    PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 测试带值的 yield 语句')
-  PsiWhiteSpace('\n')
-  PsiElement(ValkyrieTokenType.yield)('yield')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('value')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiWhiteSpace('\n\n')
+  ValkyrieElementNode(ValkyrieElementType.YIELD_STATEMENT)
+    PsiElement(ValkyrieTokenType.yield)('yield')
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+        ValkyrieIdentifier(value)
+          PsiElement(ValkyrieTokenType.SYMBOL.XID)('value')
+    PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 测试 yield from 语句')
-  PsiWhiteSpace('\n')
-  PsiElement(ValkyrieTokenType.yield)('yield')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('from')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiWhiteSpace('\n\n')
+  ValkyrieElementNode(ValkyrieElementType.YIELD_STATEMENT)
+    PsiElement(ValkyrieTokenType.yield)('yield')
+    PsiElement(ValkyrieTokenType.SYMBOL.XID)('from')
+    PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 测试带生成器的 yield from 语句')
-  PsiWhiteSpace('\n')
-  PsiElement(ValkyrieTokenType.yield)('yield')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('from')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('generator')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiWhiteSpace('\n\n')
+  ValkyrieElementNode(ValkyrieElementType.YIELD_STATEMENT)
+    PsiElement(ValkyrieTokenType.yield)('yield')
+    PsiElement(ValkyrieTokenType.SYMBOL.XID)('from')
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+        ValkyrieIdentifier(generator)
+          PsiElement(ValkyrieTokenType.SYMBOL.XID)('generator')
+    PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 测试带标签和生成器的 yield from 语句')
-  PsiWhiteSpace('\n')
-  PsiElement(ValkyrieTokenType.yield)('yield')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.※)('※')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('label')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('from')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('generator')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiWhiteSpace('\n\n')
+  ValkyrieElementNode(ValkyrieElementType.YIELD_STATEMENT)
+    PsiElement(ValkyrieTokenType.yield)('yield')
+    ValkyrieElementNode(ValkyrieElementType.LABEL_STATEMENT)
+      PsiElement(ValkyrieTokenType.※)('※')
+      ValkyrieIdentifier(label)
+        PsiElement(ValkyrieTokenType.SYMBOL.XID)('label')
+    PsiElement(ValkyrieTokenType.SYMBOL.XID)('from')
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+        ValkyrieIdentifier(generator)
+          PsiElement(ValkyrieTokenType.SYMBOL.XID)('generator')
+    PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 测试 yield return 语句')
-  PsiWhiteSpace('\n')
-  PsiElement(ValkyrieTokenType.yield)('yield')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.return)('return')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiWhiteSpace('\n\n')
+  ValkyrieElementNode(ValkyrieElementType.YIELD_STATEMENT)
+    PsiElement(ValkyrieTokenType.yield)('yield')
+    PsiElement(ValkyrieTokenType.return)('return')
+    PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 测试带值的 yield return 语句')
-  PsiWhiteSpace('\n')
-  PsiElement(ValkyrieTokenType.yield)('yield')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.return)('return')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('value')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiWhiteSpace('\n\n')
+  ValkyrieElementNode(ValkyrieElementType.YIELD_STATEMENT)
+    PsiElement(ValkyrieTokenType.yield)('yield')
+    PsiElement(ValkyrieTokenType.return)('return')
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+        ValkyrieIdentifier(value)
+          PsiElement(ValkyrieTokenType.SYMBOL.XID)('value')
+    PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 测试带标签和值的 yield return 语句')
-  PsiWhiteSpace('\n')
-  PsiElement(ValkyrieTokenType.yield)('yield')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.return)('return')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.※)('※')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('label')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('value')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiWhiteSpace('\n\n')
+  ValkyrieElementNode(ValkyrieElementType.YIELD_STATEMENT)
+    PsiElement(ValkyrieTokenType.yield)('yield')
+    PsiElement(ValkyrieTokenType.return)('return')
+    ValkyrieElementNode(ValkyrieElementType.LABEL_STATEMENT)
+      PsiElement(ValkyrieTokenType.※)('※')
+      ValkyrieIdentifier(label)
+        PsiElement(ValkyrieTokenType.SYMBOL.XID)('label')
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+        ValkyrieIdentifier(value)
+          PsiElement(ValkyrieTokenType.SYMBOL.XID)('value')
+    PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 测试 yield return from 语句')
-  PsiWhiteSpace('\n')
-  PsiElement(ValkyrieTokenType.yield)('yield')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.return)('return')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('from')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiWhiteSpace('\n\n')
+  ValkyrieElementNode(ValkyrieElementType.YIELD_STATEMENT)
+    PsiElement(ValkyrieTokenType.yield)('yield')
+    PsiElement(ValkyrieTokenType.return)('return')
+    PsiElement(ValkyrieTokenType.SYMBOL.XID)('from')
+    PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 测试带生成器的 yield return from 语句')
-  PsiWhiteSpace('\n')
-  PsiElement(ValkyrieTokenType.yield)('yield')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.return)('return')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('from')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('generator')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiWhiteSpace('\n\n')
+  ValkyrieElementNode(ValkyrieElementType.YIELD_STATEMENT)
+    PsiElement(ValkyrieTokenType.yield)('yield')
+    PsiElement(ValkyrieTokenType.return)('return')
+    PsiElement(ValkyrieTokenType.SYMBOL.XID)('from')
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+        ValkyrieIdentifier(generator)
+          PsiElement(ValkyrieTokenType.SYMBOL.XID)('generator')
+    PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 测试带标签和生成器的 yield return from 语句')
-  PsiWhiteSpace('\n')
-  PsiElement(ValkyrieTokenType.yield)('yield')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.return)('return')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.※)('※')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('label')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('from')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('generator')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieElementNode(ValkyrieElementType.YIELD_STATEMENT)
+    PsiElement(ValkyrieTokenType.yield)('yield')
+    PsiElement(ValkyrieTokenType.return)('return')
+    ValkyrieElementNode(ValkyrieElementType.LABEL_STATEMENT)
+      PsiElement(ValkyrieTokenType.※)('※')
+      ValkyrieIdentifier(label)
+        PsiElement(ValkyrieTokenType.SYMBOL.XID)('label')
+    PsiElement(ValkyrieTokenType.SYMBOL.XID)('from')
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+        ValkyrieIdentifier(generator)
+          PsiElement(ValkyrieTokenType.SYMBOL.XID)('generator')
+    PsiElement(ValkyrieTokenType.;)(';')

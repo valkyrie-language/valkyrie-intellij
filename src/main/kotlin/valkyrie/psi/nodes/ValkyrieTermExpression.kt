@@ -1,7 +1,7 @@
 package valkyrie.psi.nodes
 
 import com.intellij.lang.ASTNode
-import valkyrie.psi.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieElementNode
 
 /**
  * 表达式语句实现

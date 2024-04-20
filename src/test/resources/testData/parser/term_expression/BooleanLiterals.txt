@@ -1,0 +1,10 @@
+Valkyrie File
+  PsiComment(ValkyrieTokenType.#)('# 布尔值测试用例')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      PsiElement(ValkyrieTokenType.BOOLEAN)('true')
+    PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      PsiElement(ValkyrieTokenType.BOOLEAN)('false')
+    PsiElement(ValkyrieTokenType.;)(';')

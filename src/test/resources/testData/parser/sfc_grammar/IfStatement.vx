@@ -1,0 +1,9 @@
+<template>
+<if condition>
+    <p>条件为真时显示</p>
+<else if condition/>
+    <p>其他条件</p>
+<else/>
+    <p>默认情况</p>
+</if>
+</template>

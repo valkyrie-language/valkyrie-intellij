@@ -1,0 +1,12 @@
+# namespace simple
+namespace package;
+namespace! package.a;
+namespace? package::a;
+namespace* a::b.c::d;
+
+# namespace nested
+namespace inline {
+    namespace nested {
+
+    }
+}

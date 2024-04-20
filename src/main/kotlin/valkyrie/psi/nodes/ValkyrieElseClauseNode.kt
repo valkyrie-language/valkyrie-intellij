@@ -3,8 +3,8 @@ package valkyrie.psi.nodes
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieTypes
 
 /**
  * Else 子句 PSI 节点
@@ -16,7 +16,7 @@ class ValkyrieElseClauseNode(node: ASTNode) : ValkyrieElementNode(node) {
      */
     fun isElseIf(): Boolean {
         // 检查是否包含 if token
-        return findChildByType<PsiElement>(ValkyrieTokenTypes.IF) != null
+        return findChildByType<PsiElement>(ValkyrieTypes.IF) != null
     }
     
     /**
@@ -32,7 +32,7 @@ class ValkyrieElseClauseNode(node: ASTNode) : ValkyrieElementNode(node) {
             if (foundIf && child.node.elementType.toString().contains("EXPRESSION")) {
                 return child
             }
-            if (child.node.elementType == ValkyrieTokenTypes.IF) {
+            if (child.node.elementType == ValkyrieTypes.IF) {
                 foundIf = true
             }
         }

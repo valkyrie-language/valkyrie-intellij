@@ -6,7 +6,7 @@ import com.intellij.openapi.vfs.VirtualFileEvent
 import com.intellij.openapi.vfs.VirtualFileListener
 import com.intellij.openapi.vfs.VirtualFileMoveEvent
 import com.intellij.openapi.vfs.newvfs.events.VFileEvent
-import valkyrie.language.file.ValkyrieFileType
+import valkyrie.language.ValkyrieFileType
 import com.intellij.openapi.application.ApplicationManager
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.Executors

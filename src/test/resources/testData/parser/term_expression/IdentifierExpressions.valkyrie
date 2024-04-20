@@ -1,0 +1,4 @@
+# 标识符表达式测试用例
+myVariable;
+_anotherVariable;
+`raw identifier`;

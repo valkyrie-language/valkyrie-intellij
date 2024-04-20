@@ -5,20 +5,17 @@ import com.intellij.ide.projectView.PresentationData
 import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.psi.FileViewProvider
-import valkyrie.ide.highlight.ValkyrieColor
 import valkyrie.language.ValkyrieIcons
+import valkyrie.language.ValkyrieFileType
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.file.ValkyrieFileType
 
 /**
  * Valkyrie 文件 PSI 实现
  */
-class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ValkyrieLanguage) {
-    
+class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ValkyrieLanguage.INSTANCE) {
+
     override fun getFileType(): FileType = ValkyrieFileType.INSTANCE
-    
-    override fun toString(): String = "Valkyrie File"
-    
+
     override fun getPresentation(): ItemPresentation {
         val fileName = name ?: "<unnamed>"
         return PresentationData(
@@ -28,4 +25,6 @@ class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvide
             null
         )
     }
+
+    override fun toString(): String = "ValkyrieFileNode"
 }

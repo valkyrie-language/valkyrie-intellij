@@ -1,0 +1,1 @@
+class Array⟨T, L: usize? = None⟩ { }

@@ -8,8 +8,7 @@ import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.psi.ValkyrieElementTypes
-import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieTypes
 import valkyrie.psi.nodes.*
 
 /**
@@ -56,8 +55,8 @@ class ValkyrieFoldingBuilder : FoldingBuilderEx(), DumbAware {
     }
 
     private fun addUnionBodyFolding(union: ValkyrieUnionDeclaration, descriptors: MutableList<FoldingDescriptor>) {
-        val lbrace = findChildOfType(union, ValkyrieTokenTypes.BRACE_L)
-        val rbrace = findChildOfType(union, ValkyrieTokenTypes.BRACE_R)
+        val lbrace = findChildOfType(union, ValkyrieTypes.BRACE_L)
+        val rbrace = findChildOfType(union, ValkyrieTypes.BRACE_R)
         
         if (lbrace != null && rbrace != null) {
             val range = TextRange(lbrace.textRange.startOffset, rbrace.textRange.endOffset)
@@ -68,8 +67,8 @@ class ValkyrieFoldingBuilder : FoldingBuilderEx(), DumbAware {
     }
 
     private fun addClassBodyFolding(clazz: ValkyrieClassDeclaration, descriptors: MutableList<FoldingDescriptor>) {
-        val lbrace = findChildOfType(clazz, ValkyrieTokenTypes.BRACE_L)
-        val rbrace = findChildOfType(clazz, ValkyrieTokenTypes.BRACE_R)
+        val lbrace = findChildOfType(clazz, ValkyrieTypes.BRACE_L)
+        val rbrace = findChildOfType(clazz, ValkyrieTypes.BRACE_R)
         
         if (lbrace != null && rbrace != null) {
             val range = TextRange(lbrace.textRange.startOffset, rbrace.textRange.endOffset)
@@ -80,8 +79,8 @@ class ValkyrieFoldingBuilder : FoldingBuilderEx(), DumbAware {
     }
 
     private fun addTraitBodyFolding(trait: ValkyrieTraitDeclaration, descriptors: MutableList<FoldingDescriptor>) {
-        val lbrace = findChildOfType(trait, ValkyrieTokenTypes.BRACE_L)
-        val rbrace = findChildOfType(trait, ValkyrieTokenTypes.BRACE_R)
+        val lbrace = findChildOfType(trait, ValkyrieTypes.BRACE_L)
+        val rbrace = findChildOfType(trait, ValkyrieTypes.BRACE_R)
         
         if (lbrace != null && rbrace != null) {
             val range = TextRange(lbrace.textRange.startOffset, rbrace.textRange.endOffset)
@@ -92,8 +91,8 @@ class ValkyrieFoldingBuilder : FoldingBuilderEx(), DumbAware {
     }
 
     private fun addDomainBodyFolding(domain: ValkyrieDomainDeclaration, descriptors: MutableList<FoldingDescriptor>) {
-        val lbrace = findChildOfType(domain, ValkyrieTokenTypes.BRACE_L)
-        val rbrace = findChildOfType(domain, ValkyrieTokenTypes.BRACE_R)
+        val lbrace = findChildOfType(domain, ValkyrieTypes.BRACE_L)
+        val rbrace = findChildOfType(domain, ValkyrieTypes.BRACE_R)
         
         if (lbrace != null && rbrace != null) {
             val range = TextRange(lbrace.textRange.startOffset, rbrace.textRange.endOffset)
@@ -104,8 +103,8 @@ class ValkyrieFoldingBuilder : FoldingBuilderEx(), DumbAware {
     }
 
     private fun addMethodBodyFolding(method: ValkyrieMethodDeclaration, descriptors: MutableList<FoldingDescriptor>) {
-        val lbrace = findChildOfType(method, ValkyrieTokenTypes.BRACE_L)
-        val rbrace = findChildOfType(method, ValkyrieTokenTypes.BRACE_R)
+        val lbrace = findChildOfType(method, ValkyrieTypes.BRACE_L)
+        val rbrace = findChildOfType(method, ValkyrieTypes.BRACE_R)
         
         if (lbrace != null && rbrace != null) {
             val range = TextRange(lbrace.textRange.startOffset, rbrace.textRange.endOffset)
@@ -116,8 +115,8 @@ class ValkyrieFoldingBuilder : FoldingBuilderEx(), DumbAware {
     }
 
     private fun addBlockFolding(block: ValkyrieBlockStatementNode, descriptors: MutableList<FoldingDescriptor>) {
-        val lbrace = findChildOfType(block, ValkyrieTokenTypes.BRACE_L)
-        val rbrace = findChildOfType(block, ValkyrieTokenTypes.BRACE_R)
+        val lbrace = findChildOfType(block, ValkyrieTypes.BRACE_L)
+        val rbrace = findChildOfType(block, ValkyrieTypes.BRACE_R)
         
         if (lbrace != null && rbrace != null) {
             val range = TextRange(lbrace.textRange.startOffset, rbrace.textRange.endOffset)
@@ -133,12 +132,12 @@ class ValkyrieFoldingBuilder : FoldingBuilderEx(), DumbAware {
 
     override fun getPlaceholderText(node: ASTNode): String? {
         return when (node.elementType) {
-            ValkyrieElementTypes.UNION_STATEMENT -> "{...}"
-            ValkyrieElementTypes.CLASS_STATEMENT -> "{...}"
-            ValkyrieElementTypes.TRAIT_STATEMENT -> "{...}"
-            ValkyrieElementTypes.DOMAIN_DECLARATION -> "{...}"
-            ValkyrieElementTypes.METHOD_DECLARATION -> "{...}"
-            ValkyrieElementTypes.BLOCK_STATEMENT -> "{...}"
+            ValkyrieTypes.UNION_STATEMENT -> "{...}"
+            ValkyrieTypes.CLASS_STATEMENT -> "{...}"
+            ValkyrieTypes.TRAIT_STATEMENT -> "{...}"
+            ValkyrieTypes.DOMAIN_DECLARATION -> "{...}"
+            ValkyrieTypes.METHOD_DECLARATION -> "{...}"
+            ValkyrieTypes.BLOCK_STATEMENT -> "{...}"
             else -> "{...}"
         }
     }

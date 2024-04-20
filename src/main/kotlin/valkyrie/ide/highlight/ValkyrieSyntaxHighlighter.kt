@@ -4,7 +4,7 @@ import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
 import com.intellij.psi.tree.IElementType
-import valkyrie.psi.ValkyrieParserDefinition
+import valkyrie.psi.parsers.ValkyrieParserDefinition
 
 class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
     override fun getHighlightingLexer(): Lexer {

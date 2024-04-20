@@ -4,7 +4,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.TokenType.WHITE_SPACE
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.psi.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieElementNode
 
 /**
  * Doc Comment 节点实现

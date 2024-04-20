@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.ide.highlight.ValkyrieColor
 import valkyrie.language.ValkyrieIcons
-import valkyrie.psi.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieElementNode
 import valkyrie.psi.traits.HasHighlighter
 
 /**

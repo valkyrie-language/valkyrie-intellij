@@ -1,0 +1,9 @@
+ ⍝? The type of a filesystem object referenced by a descriptor. 
+ enums DescriptorType { 
+     ⍝? The type of the descriptor or file is unknown or is different from 
+     Unknown, 
+     ⍝? The descriptor refers to a block device inode. 
+     BlockDevice, 
+     ⍝? The descriptor refers to a character device inode. 
+     CharacterDevice, 
+ } 

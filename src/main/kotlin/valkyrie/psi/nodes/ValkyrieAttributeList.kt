@@ -1,7 +1,7 @@
 package valkyrie.psi.nodes
 
 import com.intellij.lang.ASTNode
-import valkyrie.psi.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieElementNode
 
 /**
  * Attribute 节点实现

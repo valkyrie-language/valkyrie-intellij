@@ -1,0 +1,8 @@
+class Complex⟨T⟩ { 
+    re: T, 
+    im: T, 
+    constructor(real: T, imaginary: T) { 
+        this.re = real; 
+        this.im = imaginary; 
+    } 
+} 

@@ -1,0 +1,21 @@
+SfcFileNode
+  SFC Template
+    PsiElement(ValkyrieToken.<)('<')
+    PsiElement(ValkyrieToken.SYMBOL.XID)('template')
+    PsiElement(ValkyrieToken.>)('>')
+    ValkyrieSfcComponentNode
+      PsiElement(ValkyrieToken.<)('\n    <')
+      PsiElement(ValkyrieToken.SYMBOL.XID)('div')
+      PsiElement(ValkyrieToken.>)('>')
+      PsiWhiteSpace('\n        ')
+      PsiElement(ValkyrieToken.SYMBOL.XID)('content')
+      PsiWhiteSpace('\n    ')
+      PsiElement(ValkyrieToken.<)('<')
+      PsiElement(ValkyrieToken.DIVIDE)('/')
+      PsiElement(ValkyrieToken.SYMBOL.XID)('div')
+      PsiElement(ValkyrieToken.>)('>')
+    PsiWhiteSpace('\n')
+    PsiElement(ValkyrieToken.<)('<')
+    PsiElement(ValkyrieToken.DIVIDE)('/')
+    PsiElement(ValkyrieToken.SYMBOL.XID)('template')
+    PsiElement(ValkyrieToken.>)('>')
