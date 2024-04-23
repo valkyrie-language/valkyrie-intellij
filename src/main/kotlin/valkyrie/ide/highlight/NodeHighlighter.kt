@@ -119,10 +119,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
 
-    override fun visitDeclareVariable(o: ValkyrieDeclareVariable) {
-        super.visitDeclareVariable(o)
-    }
-
     override fun visitParameterItem(o: ValkyrieParameterItem) {
         highlight(o.identifier, HighlightColor.SYM_ARG)
         o.typeHint?.typeExpression?.highlight_class(this)

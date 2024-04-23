@@ -6,7 +6,7 @@ import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.psi.PsiElement
 import valkyrie.ide.actions.*
 import valkyrie.psi.node.ValkyrieDeclareFunction
-import valkyrie.psi.node.ValkyrieDeclareVariable
+import valkyrie.psi.node.ValkyrieLetStatement
 
 class AnnotateInferType : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
@@ -61,7 +61,7 @@ private class LintInferType(holder: AnnotationHolder) : ValkyrieAnnotator(holder
         }
     }
 
-    override fun visitDeclareVariable(o: ValkyrieDeclareVariable) {
+    override fun visitLetStatement(o: ValkyrieLetStatement) {
         if (o.typeHint == null) {
             holder.newAnnotation(HighlightSeverity.INFORMATION, "Infer type")
                 .range(o.textRange)
@@ -71,7 +71,6 @@ private class LintInferType(holder: AnnotationHolder) : ValkyrieAnnotator(holder
 
         }
     }
-
 }
 
 

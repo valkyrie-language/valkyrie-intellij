@@ -2,7 +2,7 @@
 //
 //import com.intellij.ide.projectWizard.ProjectCategory
 //import com.intellij.ide.util.projectWizard.ModuleBuilder
-//import valkyrie.project.facet.ValkyrieModuleBuilder
+//import valkyrie.project.modules.ValkyrieModuleBuilder
 //import javax.swing.Icon
 //
 //class ValkyrieProjectCategory : ProjectCategory() {

@@ -24,7 +24,8 @@
 		<!--		<projectWizard.projectCategory implementation="valkyrie.project.ValkyrieProjectCategory"/>-->
 		<directoryProjectGenerator implementation="valkyrie.project.DirectoryProjectGenerator"/>
 		<projectNameProvider implementation="valkyrie.project.ValkyrieProjectName"/>
-		<projectOpenProcessor implementation="valkyrie.project.projectOpenProcessor"/>
+		<!--		<projectOpenProcessor implementation="valkyrie.project.projectOpenProcessor"/>-->
+		<postStartupActivity implementation="valkyrie.project.modules.ValkyrieProjectActivityListener"/>
 		<!--		<vfs.asyncListener implementation="valkyrie.ide.project.crate.CrateUpdateListener"/>-->
 		<!-- Project SDK (Valkyrie Runtime) -->
 		<sdkType implementation="valkyrie.project.sdk.ValkyrieSdkType"/>
@@ -46,10 +47,11 @@
 		/>
 		<additionalLibraryRootsProvider implementation="valkyrie.project.library.LibraryRootsProvider"/>
 		<!-- Project Module (Valkyrie Package) -->
+		<moduleType implementationClass="valkyrie.project.modules.ValkyrieModuleType"/>
 		<moduleConfigurationEditorProvider implementation="valkyrie.project.facet.ValkyrieExtraModuleConfigEditors"/>
 		<moduleNameGenerator implementation="valkyrie.project.facet.ValkyrieModuleNameGenerator"/>
-		<moduleBuilder builderClass="valkyrie.project.facet.ValkyrieModuleBuilder"/>
-		<module.workingDirectoryProvider implementation="valkyrie.project.facet.workingDirectoryProvider"/>
+		<moduleBuilder builderClass="valkyrie.project.modules.ValkyrieModuleBuilder"/>
+		<module.workingDirectoryProvider implementation="valkyrie.project.modules.ValkyrieWorkingDirectoryProvider"/>
 		<primaryModuleManager implementation="valkyrie.project.modules.ValkyrieRootModule"/>
 		<moduleContextProvider implementation="valkyrie.project.ValkyriePackageContext"/>
 		<moduleExtension implementation="valkyrie.project.moduleExtension"/>
