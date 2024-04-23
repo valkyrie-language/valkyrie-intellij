@@ -7,6 +7,7 @@ import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
+import valkyrie.ide.actions.ast_transform.DeleteThis
 import valkyrie.ide.line_marker.ValkyrieMarkColor
 import valkyrie.language.ValkyrieBundle
 import valkyrie.psi.ValkyrieTypes
@@ -56,10 +57,34 @@ private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) 
         }
     }
 
-    override fun visitLetPattern(o: ValkyrieLetPattern) {
-        o.patternBare?.checkInvalidPattern()
-        o.patternSequence?.patternSequenceBody?.checkInvalidPattern()
-        o.patternUnapply?.patternUnapplyBody?.checkInvalidPattern()
+    override fun visitTypePattern(o: ValkyrieTypePattern) {
+//        for (parent in o.parents(false)) {
+//            when (parent) {
+//                is ValkyrieIsStatement -> {
+//                    return
+//                }
+//
+//                is ValkyrieIsExpression -> {
+//                    return
+//                }
+//            }
+//        }
+//        if (o.genericCallFree != null || o.namepath.identifierList.count() != 1) {
+//            holder.newAnnotation(HighlightSeverity.ERROR, ValkyrieBundle.message("lint.invalid.invalid-type-pattern"))
+//                .range(o.textRange)
+//                .create()
+//        }
+    }
+
+
+    override fun visitCasePatternArray(o: ValkyrieCasePatternArray) {
+        val ns = o.namepath;
+        if (ns != null && ns.containingFile != null) {
+            holder.newAnnotation(HighlightSeverity.ERROR, ValkyrieBundle.message("lint.invalid.invalid-array-type"))
+                .range(ns.textRange)
+                .withFix(DeleteThis(ns))
+                .create()
+        }
     }
 
     override fun visitDeclareClass(o: ValkyrieDeclareClass) {
@@ -139,38 +164,6 @@ private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) 
             }
         }
     }
-
-    private fun ValkyriePattern.checkInvalidPattern() {
-        this.patternLiteral?.checkInvalidPattern()
-        this.patternSequence?.patternSequenceBody?.checkInvalidPattern()
-        this.patternUnapply?.patternUnapplyBody?.checkInvalidPattern()
-    }
-
-    private fun ValkyriePatternUnapplyBody.checkInvalidPattern() {
-        for (pattern in this.patternList) {
-            pattern.checkInvalidPattern()
-        }
-    }
-
-    private fun ValkyriePatternSequenceBody.checkInvalidPattern() {
-        for (pattern in this.patternList) {
-            pattern.checkInvalidPattern()
-        }
-    }
-
-    private fun ValkyriePatternBare.checkInvalidPattern() {
-        for (literal in this.patternLiteralList) {
-            literal.checkInvalidPattern()
-        }
-    }
-
-    private fun ValkyriePatternLiteral?.checkInvalidPattern() {
-        val path = this?.patternAtomic?.namepath ?: return
-        holder.newAnnotation(HighlightSeverity.ERROR, ValkyrieBundle.message("lint.invalid.invalid-type-pattern"))
-            .range(path.textRange)
-            .create()
-    }
-
 }
 
 private fun checkNeedEscape(element: ValkyrieIdentifierNode?, holder: AnnotationHolder) {

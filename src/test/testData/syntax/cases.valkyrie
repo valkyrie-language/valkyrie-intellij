@@ -1,0 +1,28 @@
+match tuple {
+    case ():
+    case (a, ):
+    case (a, b):
+    case Some(a):
+    case Some(Some(a)):
+    case a = Some(b = Some(c)):
+}
+
+
+match tuple {
+    case []:
+    case [a, ]:
+    case [a, b]:
+    case Some[a]:
+    case Some[Some[a]]:
+    case a = [b = [c]]:
+}
+
+
+match `object` {
+    case {}:
+    case {a, }:
+    case {a, b}:
+    case Object {a}:
+    case Object {a: Some {b}}:
+    case a = Object {b = Object {c}}:
+}

@@ -1,0 +1,17 @@
+for a in b {
+
+}
+
+for mut a in b {
+
+}
+
+
+for a, b in c {
+
+}
+
+for (a, mut b) in c {
+
+}
+

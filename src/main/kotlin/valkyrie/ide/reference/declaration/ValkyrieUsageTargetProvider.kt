@@ -8,6 +8,7 @@ import com.intellij.psi.PsiFile
 import com.intellij.usages.PsiElementUsageTarget
 import com.intellij.usages.UsageTarget
 import com.intellij.usages.UsageTargetProvider
+import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
 import valkyrie.psi.node.*
 
 class ValkyrieUsageTargetProvider : UsageTargetProvider {

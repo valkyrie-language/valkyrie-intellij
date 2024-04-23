@@ -199,7 +199,7 @@ declare-trait ::= annotations KW_TRAIT identifier declare-generic? type-hint? cl
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinTrait"
 }
-declare-imply ::= annotations KW_IMPLY declare-generic? namepath generic-call-free? type-hint class-body {
+declare-imply ::= annotations KW_IMPLY declare-generic? namepath generic-call-free? type-hint? class-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinImply"
 }
@@ -236,11 +236,7 @@ declare-variable ::= KW_LET let-pattern type-hint? EQUAL expression-root {
     pin = 1
     mixin = "valkyrie.psi.mixin.MixinVariable"
 }
-let-pattern ::=
-    pattern-bare
-  | pattern-unapply
-  | pattern-sequence
-  | pattern-object
+
 // === function statement ===
 function-call ::=
     namepath argument-body? block-body
@@ -261,10 +257,12 @@ dot-call-inline ::= OP_AND_THEN? DOT namepath argument-body?
 dot-call-match ::= OP_AND_THEN? DOT KW_MATCH match-body {
     pin = 3
 }
+// === if let statement ===
+// hard to read: KW_IF PARENTHESIS_L (KW_LET|KW_NOT) case-pattern EQUAL expression PARENTHESIS_R block-body
+if-case-statement ::=
+    KW_IF KW_LET case-pattern EQUAL expression-inline block-body else-statement?
+  | KW_IF KW_NOT type-pattern EQUAL expression-inline block-body else-statement?
 // === if statement ===
-if-case-statement ::= KW_IF (KW_LET|KW_CASE) pattern EQUAL expression-inline block-body {
-    pin=2
-}
 if-statement ::= if-condition block-body else-if-statement* else-statement? {
 
 }
@@ -284,13 +282,9 @@ while-statement ::= attribute-below* KW_WHILE expression-inline block-body {
 for-statement ::= attribute-below* KW_FOR let-pattern KW_IN expression-inline if-condition? block-body {
     pin = 2
 }
-dot-call-for    ::= OP_AND_THEN? DOT KW_FOR for-pattern-dot expression-inline if-condition? block-body {
+dot-call-for    ::= OP_AND_THEN? DOT KW_FOR let-pattern expression-inline if-condition? block-body {
     pin = 3
 }
-for-pattern-dot ::=
-    pattern-bare
-  | pattern-unapply
-  | pattern-sequence
 // === if statement ===
 try-statement ::= KW_TRY type-expression? block-body {
     pin = 1
@@ -307,9 +301,10 @@ private match-item ::=
 match-with ::= KW_WITH pattern COLON block-bare {
     pin = 1
 }
-match-case ::= KW_CASE pattern if-condition? COLON block-bare {
+match-case ::= KW_CASE (identifier EQUAL)? case-pattern-root if-condition? COLON block-bare {
     pin = 1
 }
+
 
 match-when ::= KW_WHEN expression-inline COLON block-bare {
     pin = 1
@@ -339,8 +334,59 @@ pattern-object-body ::= BRACE_L (pattern-pair (COMMA pattern-pair)* COMMA?)? BRA
 }
 pattern-pair    ::= annotations identifier (COLON pattern)?;
 pattern-literal ::= annotations pattern-atomic
-pattern-atomic  ::= string | number | special | pattern-type | identifier;
-pattern-type    ::= namepath generic-call-free | namepath
+pattern-atomic  ::= string | number | special | identifier;
+// === let pattern ===
+let-pattern ::=
+    PARENTHESIS_L (let-pattern-item (COMMA let-pattern-item)? COMMA?)? PARENTHESIS_R
+  |                let-pattern-item (COMMA let-pattern-item)? COMMA?
+let-pattern-item ::= modifier* identifier {
+    mixin = "valkyrie.psi.mixin.MixinLetPatternItem"
+}
+// === is pattern ===
+type-pattern ::= special
+    | type-pattern-object
+    | type-pattern-tuple
+    | type-pattern-array
+    | string
+    | number
+    | type-pattern-item
+type-pattern-inline ::= special
+    | type-pattern-tuple
+    | type-pattern-array
+    | string
+    | number
+    | type-pattern-item
+type-pattern-object ::= namepath? BRACE_L (type-pattern-pair (COMMA type-pattern-pair)* COMMA?)? BRACE_R
+type-pattern-pair   ::= identifier (EQUAL|COLON) type-pattern
+type-pattern-tuple  ::= namepath? PARENTHESIS_L (type-pattern-item (COMMA type-pattern-item)* COMMA?)? PARENTHESIS_R
+type-pattern-array  ::= namepath? BRACKET_L (type-pattern-item (COMMA type-pattern-item)* COMMA?)? BRACKET_R
+type-pattern-item   ::= namepath generic-call-free?
+// === case pattern ===
+case-pattern-root ::= special
+    | case-pattern-tuple
+    | case-pattern-array
+    | case-pattern-object
+    | string
+    | number
+    | namepath
+    | case-pattern
+case-pattern ::= special
+    | case-pattern-tuple
+    | case-pattern-array
+    | case-pattern-object
+    | string
+    | number
+    | namepath
+    | identifier
+case-pattern-object ::= namepath? BRACE_L (case-pattern-pair (COMMA case-pattern-pair)* COMMA?)? BRACE_R
+case-pattern-pair   ::= identifier ((EQUAL|COLON) case-pattern)? {
+    mixin = "valkyrie.psi.mixin.MixinCasePatternPair"
+}
+case-pattern-tuple  ::= namepath? PARENTHESIS_L (case-pattern-item (COMMA case-pattern-item)* COMMA?)? PARENTHESIS_R
+case-pattern-array  ::= namepath? BRACKET_L (case-pattern-item (COMMA case-pattern-item)* COMMA?)? BRACKET_R
+case-pattern-item   ::= (identifier (EQUAL|COLON))? case-pattern {
+    mixin = "valkyrie.psi.mixin.MixinCasePatternItem"
+}
 // === new expression ===
 // new Self { r: red, g: green, b: blue, a: alpha}
 new-value  ::= KW_NEW modifier* type-expression? argument-body? new-body {
@@ -439,17 +485,8 @@ suffix ::= OP_BANG
     | KW_AS type-expression
     | is-statement
     | generic-call;
-is-statement ::= (KW_IS |KW_IS KW_NOT | OP_BANG KW_IS) (
-    pattern-unapply
-  | pattern-sequence
-  | pattern-literal
-  | pattern-object
-)
-is-expression ::= (KW_IS |KW_IS KW_NOT | OP_BANG KW_IS) (
-    pattern-unapply
-  | pattern-sequence
-  | pattern-literal
-)
+is-statement ::= (KW_IS KW_NOT | OP_BANG KW_IS | KW_IS) type-pattern
+is-expression ::= (KW_IS KW_NOT | OP_BANG KW_IS | KW_IS) type-pattern-inline
 inline-suffix ::= OP_BANG
     | dot-call-inline
     | generic-call
@@ -482,8 +519,10 @@ type-prefix ::= OP_PLUS | OP_MINUS | OP_BANG;
 type-infix  ::= OP_PLUS | OP_ARROW1 | OP_OR;
 type-suffix ::= OP_AND_THEN | generic-call-free;
 type-atomic ::=
-    namepath
+    type-tuple
+  | namepath
   | string
+type-tuple  ::= PARENTHESIS_L (type-expression (COMMA type-expression)* COMMA?)? PARENTHESIS_R;
 // === generic statement ===
 generic-call ::=
     PROPORTION? GENERIC_L (generic-argument (COMMA generic-argument)* COMMA?)? GENERIC_R

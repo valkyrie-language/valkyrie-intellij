@@ -11,10 +11,10 @@ import com.intellij.psi.util.elementType
 import valkyrie.ide.reference.declaration.ValkyrieNamepathReference
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ValkyrieTypes
+import valkyrie.psi.childrenWithLeaves
+import valkyrie.psi.mixin.getHighlightColor
 import valkyrie.psi.node.*
 
-val PsiElement.childrenWithLeaves: Sequence<PsiElement>
-    get() = generateSequence(this.firstChild) { it.nextSibling }
 
 class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
@@ -146,6 +146,41 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         }
     }
 
+    override fun visitLetPatternItem(o: ValkyrieLetPatternItem) {
+        highlight(o.identifier, o.getHighlightColor())
+    }
+
+    override fun visitTypePatternTuple(o: ValkyrieTypePatternTuple) {
+        o.namepath.highlight(this)
+    }
+
+    override fun visitTypePatternObject(o: ValkyrieTypePatternObject) {
+        o.namepath.highlight(this)
+    }
+
+    override fun visitPatternPair(o: ValkyriePatternPair) {
+        highlight(o.identifier, HighlightColor.SYM_ARG)
+    }
+
+    override fun visitTypePatternItem(o: ValkyrieTypePatternItem) {
+        o.namepath.highlight(this)
+    }
+
+    override fun visitCasePatternTuple(o: ValkyrieCasePatternTuple) {
+        o.namepath.highlight(this)
+    }
+
+    override fun visitCasePatternObject(o: ValkyrieCasePatternObject) {
+        o.namepath.highlight(this)
+    }
+
+    override fun visitCasePatternPair(o: ValkyrieCasePatternPair) {
+        highlight(o.identifier, HighlightColor.SYM_ARG)
+    }
+
+    override fun visitCasePatternItem(o: ValkyrieCasePatternItem) {
+        highlight(o.identifier, HighlightColor.SYM_ARG)
+    }
 
     override fun visitDefaultType(o: ValkyrieDefaultType) {
         o.typeExpression.highlight_class(this)
@@ -216,7 +251,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
 
     override fun analyze(file: PsiFile, updateWholeFile: Boolean, holder: HighlightInfoHolder, action: Runnable): Boolean {
         infoHolder = holder
-//        action.run()
+        action.run()
         return true
     }
 

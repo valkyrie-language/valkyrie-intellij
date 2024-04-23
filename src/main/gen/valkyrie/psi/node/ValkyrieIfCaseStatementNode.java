@@ -27,21 +27,33 @@ public class ValkyrieIfCaseStatementNode extends ValkyrieElement implements Valk
     }
 
     @Override
-    @Nullable
+    @NotNull
     public ValkyrieBlockBody getBlockBody() {
-        return findChildByClass(ValkyrieBlockBody.class);
+        return findNotNullChildByClass(ValkyrieBlockBody.class);
     }
 
     @Override
     @Nullable
+    public ValkyrieCasePattern getCasePattern() {
+        return findChildByClass(ValkyrieCasePattern.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieElseStatement getElseStatement() {
+        return findChildByClass(ValkyrieElseStatement.class);
+    }
+
+    @Override
+    @NotNull
     public ValkyrieExpressionInline getExpressionInline() {
-        return findChildByClass(ValkyrieExpressionInline.class);
+        return findNotNullChildByClass(ValkyrieExpressionInline.class);
     }
 
     @Override
     @Nullable
-    public ValkyriePattern getPattern() {
-        return findChildByClass(ValkyriePattern.class);
+    public ValkyrieTypePattern getTypePattern() {
+        return findChildByClass(ValkyrieTypePattern.class);
     }
 
 }

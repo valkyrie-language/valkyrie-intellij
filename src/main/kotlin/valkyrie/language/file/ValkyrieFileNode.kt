@@ -18,7 +18,7 @@ ValkyrieFile 是个 PsiElement
  */
 class ValkyrieFileNode : PsiFileBase {
     var namespace: ValkyrieDeclareNamespaceNode? = null
-    val definitions: MutableList<ValkyrieDeclaration> = mutableListOf()
+    private val _definitions: MutableList<ValkyrieDeclaration> = mutableListOf()
 
     constructor(viewProvider: FileViewProvider) : super(viewProvider, ValkyrieLanguage) {
 
@@ -60,19 +60,24 @@ class ValkyrieFileNode : PsiFileBase {
     }
 
     override fun subtreeChanged() {
-        definitions.clear()
+        _definitions.clear()
         for (child in this.children) {
             if (child is ValkyrieDeclareNamespaceNode) {
                 namespace = child
-                definitions.add(child)
+                _definitions.add(child)
             } else if (child is ValkyrieDeclaration) {
-                definitions.add(child)
+                _definitions.add(child)
             }
         }
     }
 
     override fun toString(): String = "ValkyrieFileNode"
 
-
+    companion object {
+        val ValkyrieFileNode?.definitions: List<ValkyrieDeclaration>
+            get() {
+                return this?._definitions ?: listOf()
+            }
+    }
 }
 
