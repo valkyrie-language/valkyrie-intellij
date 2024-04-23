@@ -337,10 +337,10 @@ pattern-object      ::= annotations namepath-free? pattern-object-body;
 pattern-object-body ::= BRACE_L (pattern-pair (COMMA pattern-pair)* COMMA?)? BRACE_R {
     pin = 1
 }
-pattern-pair      ::= annotations identifier (COLON pattern)?;
-pattern-literal   ::= annotations pattern-atomic
-pattern-atomic    ::= string | number | special|identifier;
-
+pattern-pair    ::= annotations identifier (COLON pattern)?;
+pattern-literal ::= annotations pattern-atomic
+pattern-atomic  ::= string | number | special | pattern-type | identifier;
+pattern-type    ::= namepath generic-call-free | namepath
 // === new expression ===
 // new Self { r: red, g: green, b: blue, a: alpha}
 new-value  ::= KW_NEW modifier* type-expression? argument-body? new-body {
@@ -399,7 +399,7 @@ control-raise ::= KW_RAISE expression-root
 control-resume ::= KW_RESUME control-label? expression-root
 control-through ::= KW_THROUGH control-label?
 // === common expression ===
-expression-root ::= expression OP_AND_THEN? {
+expression-root ::= expression OP_AND_THEN? SEMICOLON? {
 
 };
 expression ::= term (infix term)*;
@@ -444,15 +444,12 @@ is-statement ::= (KW_IS |KW_IS KW_NOT | OP_BANG KW_IS) (
   | pattern-sequence
   | pattern-literal
   | pattern-object
-  | type-expression
 )
 is-expression ::= (KW_IS |KW_IS KW_NOT | OP_BANG KW_IS) (
     pattern-unapply
   | pattern-sequence
   | pattern-literal
-  | type-expression
 )
-
 inline-suffix ::= OP_BANG
     | dot-call-inline
     | generic-call

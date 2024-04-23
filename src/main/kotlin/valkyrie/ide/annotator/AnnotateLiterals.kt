@@ -56,6 +56,12 @@ private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) 
         }
     }
 
+    override fun visitLetPattern(o: ValkyrieLetPattern) {
+        o.patternBare?.checkInvalidPattern()
+        o.patternSequence?.patternSequenceBody?.checkInvalidPattern()
+        o.patternUnapply?.patternUnapplyBody?.checkInvalidPattern()
+    }
+
     override fun visitDeclareClass(o: ValkyrieDeclareClass) {
         super.visitDeclareClass(o)
     }
@@ -81,6 +87,7 @@ private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) 
 //                .range(element.textRange)
 //                .create()
     }
+
 
     private fun annotateUnit(number: PsiElement, unit: String, holder: AnnotationHolder, range: TextRange) {
         holder.newAnnotation(HighlightSeverity.WARNING, "Out of range")
@@ -110,6 +117,7 @@ private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) 
             .create()
     }
 
+
     private fun fixKeywordType(children: Sequence<PsiElement>) {
         for (kw in children) {
             if (kw.elementType == ValkyrieTypes.KW_TYPE) {
@@ -131,6 +139,38 @@ private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) 
             }
         }
     }
+
+    private fun ValkyriePattern.checkInvalidPattern() {
+        this.patternLiteral?.checkInvalidPattern()
+        this.patternSequence?.patternSequenceBody?.checkInvalidPattern()
+        this.patternUnapply?.patternUnapplyBody?.checkInvalidPattern()
+    }
+
+    private fun ValkyriePatternUnapplyBody.checkInvalidPattern() {
+        for (pattern in this.patternList) {
+            pattern.checkInvalidPattern()
+        }
+    }
+
+    private fun ValkyriePatternSequenceBody.checkInvalidPattern() {
+        for (pattern in this.patternList) {
+            pattern.checkInvalidPattern()
+        }
+    }
+
+    private fun ValkyriePatternBare.checkInvalidPattern() {
+        for (literal in this.patternLiteralList) {
+            literal.checkInvalidPattern()
+        }
+    }
+
+    private fun ValkyriePatternLiteral?.checkInvalidPattern() {
+        val path = this?.patternAtomic?.namepath ?: return
+        holder.newAnnotation(HighlightSeverity.ERROR, ValkyrieBundle.message("lint.invalid.invalid-type-pattern"))
+            .range(path.textRange)
+            .create()
+    }
+
 }
 
 private fun checkNeedEscape(element: ValkyrieIdentifierNode?, holder: AnnotationHolder) {

@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieIsExpressionNode extends ValkyrieElement implements ValkyrieIsExpression {
+public class ValkyriePatternTypeNode extends ValkyrieElement implements ValkyriePatternType {
 
-    public ValkyrieIsExpressionNode(@NotNull ASTNode node) {
+    public ValkyriePatternTypeNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitIsExpression(this);
+        visitor.visitPatternType(this);
     }
 
     @Override
@@ -28,20 +31,14 @@ public class ValkyrieIsExpressionNode extends ValkyrieElement implements Valkyri
 
     @Override
     @Nullable
-    public ValkyriePatternLiteral getPatternLiteral() {
-        return findChildByClass(ValkyriePatternLiteral.class);
+    public ValkyrieGenericCallFree getGenericCallFree() {
+        return findChildByClass(ValkyrieGenericCallFree.class);
     }
 
     @Override
-    @Nullable
-    public ValkyriePatternSequence getPatternSequence() {
-        return findChildByClass(ValkyriePatternSequence.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyriePatternUnapply getPatternUnapply() {
-        return findChildByClass(ValkyriePatternUnapply.class);
+    @NotNull
+    public ValkyrieNamepath getNamepath() {
+        return findNotNullChildByClass(ValkyrieNamepath.class);
     }
 
 }

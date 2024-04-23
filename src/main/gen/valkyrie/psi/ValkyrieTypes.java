@@ -118,6 +118,7 @@ public interface ValkyrieTypes {
     IElementType PATTERN_PAIR = new ValkyrieElementType("PATTERN_PAIR");
     IElementType PATTERN_SEQUENCE = new ValkyrieElementType("PATTERN_SEQUENCE");
     IElementType PATTERN_SEQUENCE_BODY = new ValkyrieElementType("PATTERN_SEQUENCE_BODY");
+    IElementType PATTERN_TYPE = new ValkyrieElementType("PATTERN_TYPE");
     IElementType PATTERN_UNAPPLY = new ValkyrieElementType("PATTERN_UNAPPLY");
     IElementType PATTERN_UNAPPLY_BODY = new ValkyrieElementType("PATTERN_UNAPPLY_BODY");
     IElementType PREFIX = new ValkyrieElementType("PREFIX");
@@ -503,6 +504,8 @@ public interface ValkyrieTypes {
                 return new ValkyriePatternSequenceNode(node);
             } else if (type == PATTERN_SEQUENCE_BODY) {
                 return new ValkyriePatternSequenceBodyNode(node);
+            } else if (type == PATTERN_TYPE) {
+                return new ValkyriePatternTypeNode(node);
             } else if (type == PATTERN_UNAPPLY) {
                 return new ValkyriePatternUnapplyNode(node);
             } else if (type == PATTERN_UNAPPLY_BODY) {

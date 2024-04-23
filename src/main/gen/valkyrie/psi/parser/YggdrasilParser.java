@@ -1959,7 +1959,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // expression OP_AND_THEN? {
+    // expression OP_AND_THEN? SEMICOLON? {
     // }
     public static boolean expression_root(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "expression_root")) return false;
@@ -1968,6 +1968,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = expression(b, l + 1);
         r = r && expression_root_1(b, l + 1);
         r = r && expression_root_2(b, l + 1);
+        r = r && expression_root_3(b, l + 1);
         exit_section_(b, l, m, r, false, null);
         return r;
     }
@@ -1979,9 +1980,16 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return true;
     }
 
+    // SEMICOLON?
+    private static boolean expression_root_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "expression_root_2")) return false;
+        consumeToken(b, SEMICOLON);
+        return true;
+    }
+
     // {
     // }
-    private static boolean expression_root_2(PsiBuilder b, int l) {
+    private static boolean expression_root_3(PsiBuilder b, int l) {
         return true;
     }
 
@@ -2732,7 +2740,6 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     //     pattern-unapply
     //   | pattern-sequence
     //   | pattern-literal
-    //   | type-expression
     // )
     public static boolean is_expression(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "is_expression")) return false;
@@ -2760,14 +2767,12 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     // pattern-unapply
     //   | pattern-sequence
     //   | pattern-literal
-    //   | type-expression
     private static boolean is_expression_1(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "is_expression_1")) return false;
         boolean r;
         r = pattern_unapply(b, l + 1);
         if (!r) r = pattern_sequence(b, l + 1);
         if (!r) r = pattern_literal(b, l + 1);
-        if (!r) r = type_expression(b, l + 1);
         return r;
     }
 
@@ -2777,7 +2782,6 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     //   | pattern-sequence
     //   | pattern-literal
     //   | pattern-object
-    //   | type-expression
     // )
     public static boolean is_statement(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "is_statement")) return false;
@@ -2806,7 +2810,6 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     //   | pattern-sequence
     //   | pattern-literal
     //   | pattern-object
-    //   | type-expression
     private static boolean is_statement_1(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "is_statement_1")) return false;
         boolean r;
@@ -2814,7 +2817,6 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!r) r = pattern_sequence(b, l + 1);
         if (!r) r = pattern_literal(b, l + 1);
         if (!r) r = pattern_object(b, l + 1);
-        if (!r) r = type_expression(b, l + 1);
         return r;
     }
 
@@ -3714,7 +3716,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // string | number | special|identifier
+    // string | number | special | pattern-type | identifier
     public static boolean pattern_atomic(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "pattern_atomic")) return false;
         boolean r;
@@ -3722,6 +3724,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = string(b, l + 1);
         if (!r) r = number(b, l + 1);
         if (!r) r = special(b, l + 1);
+        if (!r) r = pattern_type(b, l + 1);
         if (!r) r = identifier(b, l + 1);
         exit_section_(b, l, m, r, false, null);
         return r;
@@ -3989,6 +3992,29 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!recursion_guard_(b, l, "pattern_sequence_body_1_0_2")) return false;
         consumeToken(b, COMMA);
         return true;
+    }
+
+    /* ********************************************************** */
+    // namepath generic-call-free | namepath
+    public static boolean pattern_type(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "pattern_type")) return false;
+        boolean r;
+        Marker m = enter_section_(b, l, _NONE_, PATTERN_TYPE, "<pattern type>");
+        r = pattern_type_0(b, l + 1);
+        if (!r) r = namepath(b, l + 1);
+        exit_section_(b, l, m, r, false, null);
+        return r;
+    }
+
+    // namepath generic-call-free
+    private static boolean pattern_type_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "pattern_type_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = namepath(b, l + 1);
+        r = r && generic_call_free(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
     }
 
     /* ********************************************************** */
