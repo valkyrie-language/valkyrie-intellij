@@ -35,8 +35,8 @@
 		<sdkFinder implementation="valkyrie.project.sdk.ValkyrieSdkFinder"/>
 		<projectSdkSetupValidator implementation="valkyrie.project.sdk.ValkyrieSdkValidator"/>
 		<sdkDownload implementation="valkyrie.project.sdk.ValkyrieSdkDownload"/>
-		<unknownSdkContributor implementation="valkyrie.project.sdk.unknownSdkContributor"/>
-		<unknownSdkResolver implementation="valkyrie.project.sdk.unknownSdkResolver"/>
+		<unknownSdkContributor implementation="valkyrie.project.sdk.ValkyrieUnknownSdkContributor"/>
+		<unknownSdkResolver implementation="valkyrie.project.sdk.ValkyrieUnknownSdkResolver"/>
 		<!-- Project Facet (Valkyrie Framework) -->
 		<facetType implementation="valkyrie.project.facet.kami.KamiFrameworkProvider"/>
 		<facetType implementation="valkyrie.project.facet.iris.IrisFrameworkProvider"/>
@@ -51,19 +51,19 @@
 		<additionalLibraryRootsProvider implementation="valkyrie.project.library.LibraryRootsProvider"/>
 		<!-- Project Module (Valkyrie Package) -->
 		<!--		<moduleType implementationClass="valkyrie.project.modules.ValkyrieModuleType"/>-->
-		<moduleConfigurationEditorProvider implementation="valkyrie.project.facet.ValkyrieExtraModuleConfigEditors"/>
+		<moduleConfigurationEditorProvider implementation="valkyrie.project.modules.ValkyrieModuleConfiguration"/>
 		<moduleNameGenerator implementation="valkyrie.project.facet.ValkyrieModuleNameGenerator"/>
 		<moduleBuilder builderClass="valkyrie.project.legion.LegionWorkspaceBuilder"/>
 		<module.workingDirectoryProvider implementation="valkyrie.project.modules.ValkyrieWorkingDirectoryProvider"/>
 		<primaryModuleManager implementation="valkyrie.project.modules.ValkyrieRootModule"/>
 		<moduleContextProvider implementation="valkyrie.project.ValkyriePackageContext"/>
 		<moduleExtension implementation="valkyrie.project.moduleExtension"/>
-		<packageGroupRuleProvider implementation="valkyrie.project.packageGroupRuleProvider"/>
+		<packageGroupRuleProvider implementation="valkyrie.project.ValkyriePackageGroupRuleProvider"/>
 		<!-- Project Module (Valkyrie Package) -->
-		<generatedSourcesFilter implementation="valkyrie.project.facet.generatedSourcesFilter"/>
-		<testSourcesFilter implementation="valkyrie.project.facet.testSourcesFilter"/>
-		<generatedSourceUsageFilter implementation="valkyrie.project.facet.generatedSourceUsageFilter"/>
-		<directoryIndexExcludePolicy implementation="valkyrie.project.facet.directoryIndexExcludePolicy"/>
+		<generatedSourcesFilter implementation="valkyrie.project.modules.generatedSourcesFilter"/>
+		<testSourcesFilter implementation="valkyrie.project.modules.testSourcesFilter"/>
+		<generatedSourceUsageFilter implementation="valkyrie.project.modules.generatedSourceUsageFilter"/>
+		<directoryIndexExcludePolicy implementation="valkyrie.project.modules.directoryIndexExcludePolicy"/>
 		<!-- Project Index (Valkyrie Namespace) -->
 		<fileBasedIndex implementation="valkyrie.project.ValkyrieFileIndex"/>
 		<indexedRootsProvider implementation="valkyrie.project.ExtraIndexContributor"/>

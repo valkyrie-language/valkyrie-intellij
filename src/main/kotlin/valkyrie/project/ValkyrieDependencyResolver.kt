@@ -13,7 +13,7 @@ class ValkyrieDependencyResolver : DependencyVisitorFactory() {
     }
 }
 
-class Visitor(val processor: DependencyProcessor, val options: VisitorOptions) : ValkyrieVisitor() {
+private class Visitor(val processor: DependencyProcessor, val options: VisitorOptions) : ValkyrieVisitor() {
     override fun visitFile(file: PsiFile) {
         println("ValkyrieDependencyResolver: ${file}")
         super.visitFile(file)

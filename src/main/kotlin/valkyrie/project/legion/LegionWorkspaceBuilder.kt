@@ -1,8 +1,8 @@
 package valkyrie.project.legion
 
 import com.intellij.ide.highlighter.ModuleFileType
-import com.intellij.ide.util.frameworkSupport.FrameworkRole
 import com.intellij.ide.util.projectWizard.*
+import com.intellij.openapi.Disposable
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.module.ModifiableModuleModel
 import com.intellij.openapi.module.Module
@@ -17,7 +17,6 @@ import com.intellij.openapi.vfs.resolveFromRootOrRelative
 import com.intellij.ui.dsl.builder.panel
 import valkyrie.project.modules.ValkyrieModuleType
 import java.io.File
-import javax.swing.Icon
 import javax.swing.JComponent
 import javax.swing.JLabel
 
@@ -89,25 +88,12 @@ class LegionWorkspaceBuilder : ModuleBuilder() {
         return super.getBuilderId()
     }
 
-    override fun getNodeIcon(): Icon {
-        return super.getNodeIcon()
-    }
-
-    override fun getDefaultAcceptableRole(): FrameworkRole {
-        return super.getDefaultAcceptableRole()
-    }
-
-
     override fun createWizardSteps(wizardContext: WizardContext, modulesProvider: ModulesProvider): Array<ModuleWizardStep> {
         return arrayOf(ValkyrieModuleWizardStep("createWizardSteps"))
     }
 
     override fun createFinishingSteps(wizardContext: WizardContext, modulesProvider: ModulesProvider): Array<ModuleWizardStep> {
         return arrayOf(ValkyrieModuleWizardStep("createFinishingSteps"))
-    }
-
-    override fun createProject(name: String?, path: String?): Project? {
-        return super.createProject(name, path)
     }
 
     override fun modifySettingsStep(settingsStep: SettingsStep): ModuleWizardStep {
@@ -185,6 +171,12 @@ class LegionWorkspaceBuilder : ModuleBuilder() {
             }
         }
     }
+
+    override fun getCustomOptionsStep(context: WizardContext?, parentDisposable: Disposable?): ModuleWizardStep? {
+        return ValkyrieModuleWizardStep("getCustomOptionsStep")
+    }
+
+
 }
 
 private fun LegionWorkspaceBuilder.configProjectRoot(project: Project) {

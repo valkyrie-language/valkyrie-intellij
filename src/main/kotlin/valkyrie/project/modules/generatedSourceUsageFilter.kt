@@ -1,4 +1,4 @@
-package valkyrie.project.facet
+package valkyrie.project.modules
 
 import com.intellij.openapi.project.Project
 import com.intellij.usages.Usage
