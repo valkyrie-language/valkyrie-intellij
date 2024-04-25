@@ -16,7 +16,7 @@ import javax.swing.Icon
 import javax.swing.JComponent
 
 class ValkyrieLibraryType : LibraryType<ValkyrieLibraryProperty>(ValkyrieLibraryKind()) {
-    override fun getIcon(properties: ValkyrieLibraryProperty?): Icon? {
+    override fun getIcon(properties: ValkyrieLibraryProperty?): Icon {
         return ValkyrieIconProvider.Instance.Valkyrie
     }
 

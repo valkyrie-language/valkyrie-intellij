@@ -4,15 +4,21 @@ import com.intellij.openapi.projectRoots.AdditionalDataConfigurable
 import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.openapi.projectRoots.SdkModel
 import com.intellij.openapi.projectRoots.SdkModificator
+import com.intellij.ui.dsl.builder.panel
 import javax.swing.JComponent
 
-class ValkyrieSdkTypeInfo(sdk: SdkModel, modifier: SdkModificator) : AdditionalDataConfigurable {
+class ValkyrieSdkTypeInfo : AdditionalDataConfigurable {
+
+    constructor(sdk: SdkModel, modifier: SdkModificator)
+
+
+
     override fun createComponent(): JComponent? {
-//        return panel {
-//            row("ValkyrieAdditionalDataConfigurable") {
-//                text("???")
-//            }
-//        }
+        return panel {
+            row("ValkyrieSdkTypeInfo") {
+                text("???")
+            }
+        }
         return null
     }
 

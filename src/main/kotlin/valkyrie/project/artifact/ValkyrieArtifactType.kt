@@ -10,7 +10,7 @@ import com.intellij.packaging.ui.PackagingSourceItem
 import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
-class ValkyrieArtifactType : ArtifactType("artifactType", { "ArtifactType" }) {
+class ValkyrieArtifactType : ArtifactType("wasm", { "ArtifactType" }) {
     override fun getIcon(): Icon {
         return ValkyrieIconProvider.Instance.Valkyrie
     }
