@@ -207,10 +207,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitDeclareVariable(@NotNull ValkyrieDeclareVariable o) {
-        visitPsiElement(o);
-    }
-
     public void visitDeclareVariant(@NotNull ValkyrieDeclareVariant o) {
         visitPsiElement(o);
     }
@@ -352,6 +348,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitLetPatternItem(@NotNull ValkyrieLetPatternItem o) {
+        visitPsiElement(o);
+    }
+
+    public void visitLetStatement(@NotNull ValkyrieLetStatement o) {
         visitPsiElement(o);
     }
 
