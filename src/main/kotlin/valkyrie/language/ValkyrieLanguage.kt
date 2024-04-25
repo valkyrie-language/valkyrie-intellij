@@ -12,7 +12,7 @@ object ValkyrieLanguage : Language(LANGUAGE_ID) {
         return LANGUAGE_ID
     }
 
-    val moduleID: String = "VALKYRIE_MODULE"
+    val moduleID: String = "VALKYRIE_MODULE_TYPE"
     val libiaryID: String = "valkyrie.source"
 
     override fun getDisplayName(): String {
