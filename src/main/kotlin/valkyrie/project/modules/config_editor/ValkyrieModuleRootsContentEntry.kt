@@ -9,7 +9,7 @@ import com.intellij.openapi.roots.ui.configuration.ModuleSourceRootEditHandler
 import com.intellij.openapi.roots.ui.configuration.ProjectStructureConfigurable
 import com.intellij.openapi.vfs.VirtualFile
 
-class ValkyrieContentEntryEditor : ContentEntryEditor {
+class ValkyrieModuleRootsContentEntry : ContentEntryEditor {
     private val myCompilerExtension: CompilerModuleExtension
     private val modifiableModel: ModifiableRootModel
 
@@ -29,7 +29,7 @@ class ValkyrieContentEntryEditor : ContentEntryEditor {
     override fun createContentRootPane(): ContentRootPanel {
 
 
-        return ValkyrieContentRootPanel(this, editHandlers, contentEntry)
+        return ValkyrieModuleRootsContentRoot(this, editHandlers, contentEntry)
     }
 
     override fun doAddExcludeFolder(file: VirtualFile): ExcludeFolder? {
