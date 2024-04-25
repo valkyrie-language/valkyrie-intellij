@@ -2,10 +2,11 @@ package valkyrie.project.sdk
 
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.projectRoots.Sdk
+import com.intellij.openapi.roots.ui.configuration.UnknownSdk
 import com.intellij.openapi.roots.ui.configuration.UnknownSdkDownloadableSdkFix
 import com.intellij.openapi.roots.ui.configuration.projectRoot.SdkDownloadTask
 
-class ValkyrieUnknownSdkDownloadableSdkFix : UnknownSdkDownloadableSdkFix {
+class ValkyrieSdkUnknownRemoteFix(sdk: UnknownSdk, indicator: ProgressIndicator) : UnknownSdkDownloadableSdkFix {
     override fun configureSdk(sdk: Sdk) {
 
     }

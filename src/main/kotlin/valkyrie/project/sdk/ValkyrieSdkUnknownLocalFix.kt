@@ -1,9 +1,11 @@
 package valkyrie.project.sdk
 
+import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.projectRoots.Sdk
+import com.intellij.openapi.roots.ui.configuration.UnknownSdk
 import com.intellij.openapi.roots.ui.configuration.UnknownSdkLocalSdkFix
 
-class ValkyrieUnknownSdkLocalSdkFix : UnknownSdkLocalSdkFix {
+class ValkyrieSdkUnknownLocalFix(sdk: UnknownSdk, indicator: ProgressIndicator) : UnknownSdkLocalSdkFix {
     override fun configureSdk(sdk: Sdk) {
 
     }
