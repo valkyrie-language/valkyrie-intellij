@@ -53,7 +53,7 @@
 		<!--		<moduleType implementationClass="valkyrie.project.modules.ValkyrieModuleType"/>-->
 		<moduleConfigurationEditorProvider implementation="valkyrie.project.facet.ValkyrieExtraModuleConfigEditors"/>
 		<moduleNameGenerator implementation="valkyrie.project.facet.ValkyrieModuleNameGenerator"/>
-		<moduleBuilder builderClass="valkyrie.project.legion.LegionBuilder"/>
+		<moduleBuilder builderClass="valkyrie.project.legion.LegionWorkspaceBuilder"/>
 		<module.workingDirectoryProvider implementation="valkyrie.project.modules.ValkyrieWorkingDirectoryProvider"/>
 		<primaryModuleManager implementation="valkyrie.project.modules.ValkyrieRootModule"/>
 		<moduleContextProvider implementation="valkyrie.project.ValkyriePackageContext"/>
