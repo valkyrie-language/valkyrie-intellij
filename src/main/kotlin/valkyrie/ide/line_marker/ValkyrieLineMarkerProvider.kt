@@ -1,6 +1,7 @@
 package valkyrie.ide.line_marker
 
 import com.intellij.codeInsight.daemon.LineMarkerInfo
+import com.intellij.codeInsight.daemon.LineMarkerProvider
 import com.intellij.execution.lineMarker.RunLineMarkerContributor
 import com.intellij.execution.lineMarker.RunLineMarkerProvider
 import com.intellij.icons.AllIcons
@@ -17,7 +18,22 @@ import valkyrie.psi.node.*
 import javax.swing.Icon
 import kotlin.random.Random
 
-class ValkyrieMarkerVisitor : ValkyrieVisitor {
+class ValkyrieLineMarkerProvider : LineMarkerProvider {
+    override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? {
+        return null
+    }
+
+    override fun collectSlowLineMarkers(elements: MutableList<out PsiElement>, result: MutableCollection<in LineMarkerInfo<*>>) {
+        val visitor = ValkyrieMarkerVisitor(result)
+        for (element in elements) {
+            element.accept(visitor)
+        }
+    }
+
+}
+
+
+private class ValkyrieMarkerVisitor : ValkyrieVisitor {
     var result: MutableCollection<in LineMarkerInfo<*>>
 
     constructor(result: MutableCollection<in LineMarkerInfo<*>>) : super() {
@@ -80,19 +96,9 @@ class ValkyrieMarkerVisitor : ValkyrieVisitor {
         createFunctionTest(o, o.annotations)
     }
 
-    override fun visitNewObject(o: ValkyrieNewObject) {
-        o as ValkyrieNewObjectNode
-        result.add(ValkyrieMarkAny(o.firstChild, o.getIcon(0)))
-    }
-
     override fun visitDeclareUnite(o: ValkyrieDeclareUnite) {
         o as ValkyrieDeclareUniteNode
         result.add(ValkyrieMarkAny(o))
-    }
-
-    override fun visitNewValue(o: ValkyrieNewValue) {
-        o as ValkyrieNewValueNode
-        result.add(ValkyrieMarkAny(o.firstChild, o.getIcon(0)))
     }
 
     override fun visitDeclareFunction(o: ValkyrieDeclareFunction) {

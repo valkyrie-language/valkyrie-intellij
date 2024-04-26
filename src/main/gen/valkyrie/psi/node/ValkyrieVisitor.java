@@ -63,10 +63,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitCasePatternArray(@NotNull ValkyrieCasePatternArray o) {
-        visitPsiElement(o);
-    }
-
     public void visitCasePatternItem(@NotNull ValkyrieCasePatternItem o) {
         visitPsiElement(o);
     }
@@ -684,6 +680,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitWhereBody(@NotNull ValkyrieWhereBody o) {
+        visitPsiElement(o);
+    }
+
+    public void visitWhileKind(@NotNull ValkyrieWhileKind o) {
         visitPsiElement(o);
     }
 
