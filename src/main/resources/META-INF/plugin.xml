@@ -31,7 +31,7 @@
 		<directoryProjectGenerator implementation="valkyrie.project.DirectoryProjectGenerator"/>
 		<projectNameProvider implementation="valkyrie.project.ValkyrieProjectName"/>
 		<projectOpenProcessor implementation="valkyrie.project.ValkyrieProjectOpenProcessor"/>
-		<postStartupActivity implementation="valkyrie.project.modules.LegionWorkspaceDetector"/>
+		<postStartupActivity implementation="valkyrie.project.legion.LegionWorkspaceDetector"/>
 		<projectImportProvider implementation="valkyrie.project.legion.LegionProvider"/>
 		<projectImportBuilder implementation="valkyrie.project.legion.LegionImporter"/>
 		<!-- Project SDK (Valkyrie Runtime) -->
@@ -60,7 +60,8 @@
 			implementation="valkyrie.project.modules.config_editor.ValkyrieModuleConfiguration"
 		/>
 		<externalSystem.modifiableModelsProvider
-			implementation="valkyrie.project.modules.config_editor.ValkyrieModifiableModelsProvider"
+			order="last"
+			implementation="valkyrie.project.legion.LegionModelProvider"
 		/>
 		<moduleNameGenerator implementation="valkyrie.project.modules.ValkyrieModuleNameGenerator"/>
 		<moduleBuilder builderClass="valkyrie.project.legion.LegionWorkspaceBuilder"/>
