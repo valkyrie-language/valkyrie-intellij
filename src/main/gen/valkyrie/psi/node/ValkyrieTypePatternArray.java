@@ -11,6 +11,6 @@ public interface ValkyrieTypePatternArray extends PsiElement {
     ValkyrieNamepath getNamepath();
 
     @NotNull
-    List<ValkyrieTypePatternItem> getTypePatternItemList();
+    List<ValkyrieTypePattern> getTypePatternList();
 
 }

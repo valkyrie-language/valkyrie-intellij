@@ -50,4 +50,28 @@ public class ValkyrieInfixNode extends ValkyrieElement implements ValkyrieInfix 
         return findChildByClass(ValkyrieBadRrr.class);
     }
 
+    @Override
+    @Nullable
+    public ValkyrieInfixGreater getInfixGreater() {
+        return findChildByClass(ValkyrieInfixGreater.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieInfixGreaterEqual getInfixGreaterEqual() {
+        return findChildByClass(ValkyrieInfixGreaterEqual.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieInfixLess getInfixLess() {
+        return findChildByClass(ValkyrieInfixLess.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieInfixLessEqual getInfixLessEqual() {
+        return findChildByClass(ValkyrieInfixLessEqual.class);
+    }
+
 }

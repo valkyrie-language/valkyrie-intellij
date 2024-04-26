@@ -7,4 +7,13 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyriePrefix extends PsiElement {
 
+    @Nullable
+    ValkyriePrefixDeref getPrefixDeref();
+
+    @Nullable
+    ValkyriePrefixNot getPrefixNot();
+
+    @Nullable
+    ValkyriePrefixRef getPrefixRef();
+
 }

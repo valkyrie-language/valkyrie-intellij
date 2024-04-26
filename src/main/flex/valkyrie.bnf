@@ -276,11 +276,11 @@ else-statement ::= KW_ELSE block-body {
     pin = 1
 }
 // === if statement ===
-while-statement ::= attribute-below* KW_WHILE expression-inline block-body {
-    pin = 2
+while-statement ::= attribute-below* control-label? KW_WHILE expression-inline block-body {
+    pin = 3
 }
-for-statement ::= attribute-below* KW_FOR let-pattern KW_IN expression-inline if-condition? block-body {
-    pin = 2
+for-statement ::= attribute-below* control-label? KW_FOR let-pattern KW_IN expression-inline if-condition? block-body {
+    pin = 3
 }
 dot-call-for    ::= OP_AND_THEN? DOT KW_FOR let-pattern expression-inline if-condition? block-body {
     pin = 3
@@ -318,8 +318,6 @@ pattern ::=
   | pattern-sequence
   | pattern-object
   | pattern-literal
-
-pattern-bare         ::= pattern-literal (COMMA pattern-literal)* COMMA? !(PARENTHESIS_L|BRACKET_L|BRACE_L)
 pattern-unapply      ::= annotations namepath-free? pattern-unapply-body;
 pattern-unapply-body ::= PARENTHESIS_L (pattern (COMMA pattern)* COMMA?)? PARENTHESIS_R {
     pin = 1
@@ -344,22 +342,22 @@ let-pattern-item ::= modifier* identifier {
 }
 // === is pattern ===
 type-pattern ::= special
-    | type-pattern-object
-    | type-pattern-tuple
-    | type-pattern-array
-    | string
-    | number
-    | type-pattern-item
+    | type-pattern-object // X is Object { a: _ }
+    | type-pattern-tuple  // X is Tuple()
+    | type-pattern-array  // X is [_]
+    | string              // X is "string"
+    | number              // X is 1
+    | type-pattern-item   // X is Integer
 type-pattern-inline ::= special
-    | type-pattern-tuple
-    | type-pattern-array
-    | string
-    | number
-    | type-pattern-item
+    | type-pattern-tuple  // X is Tuple()
+    | type-pattern-array  // X is [_]
+    | string              // X is "string"
+    | number              // X is 1
+    | type-pattern-item   // X is Integer
 type-pattern-object ::= namepath? BRACE_L (type-pattern-pair (COMMA type-pattern-pair)* COMMA?)? BRACE_R
+type-pattern-tuple  ::= namepath? PARENTHESIS_L (type-pattern (COMMA type-pattern)* COMMA?)? PARENTHESIS_R
+type-pattern-array  ::= namepath? BRACKET_L     (type-pattern (COMMA type-pattern)* COMMA?)? BRACKET_R
 type-pattern-pair   ::= identifier (EQUAL|COLON) type-pattern
-type-pattern-tuple  ::= namepath? PARENTHESIS_L (type-pattern-item (COMMA type-pattern-item)* COMMA?)? PARENTHESIS_R
-type-pattern-array  ::= namepath? BRACKET_L (type-pattern-item (COMMA type-pattern-item)* COMMA?)? BRACKET_R
 type-pattern-item   ::= namepath generic-call-free?
 // === case pattern ===
 case-pattern-root ::= special
@@ -440,7 +438,7 @@ control-yield-stop ::=
 control-yield-from ::=
     KW_YIELD KW_WITH KW_FROM expression-root
   | KW_YIELD KW_FROM control-label? expression-root;
-control-label ::= OP_POW (identifier| INTEGER|KW_MACRO|KW_FOR|KW_WHILE);
+control-label ::= OP_LABEL (SYMBOL|SYMBOW_RAW|INTEGER|KW_MACRO|KW_FOR|KW_WHILE);
 control-raise ::= KW_RAISE expression-root
 control-resume ::= KW_RESUME control-label? expression-root
 control-through ::= KW_THROUGH control-label?
@@ -452,26 +450,39 @@ expression ::= term (infix term)*;
 term ::= prefix* atomic suffix* {
 
 }
-prefix ::= OP_PLUS | OP_MINUS | OP_BANG | prefix-ref | prefix-deref;
+// prefix operators
+prefix ::= OP_PLUS | OP_MINUS
+    | prefix-not
+    | prefix-ref   // &p
+    | prefix-deref // *p
 // pointer prefix
-prefix-ref   ::= OP_REFERENCE | OP_AND // &p
-prefix-deref ::= OP_DEREFERENCE | STAR // *p
+prefix-ref   ::= OP_REFERENCE | OP_AND
+prefix-deref ::= OP_DEREFERENCE | STAR
+prefix-not   ::= OP_NOT | OP_BANG
+// infix operators
+infix  ::= OP_PLUS  | OP_PLUS_EQ
+    | OP_MINUS | OP_MINUS_EQ
+    | STAR | OP_DIV | OP_REM | OP_DIV_REM
+    | OP_OR
+    | OP_AND
+    | OP_LLL | bad-lll  // <<<
+    | OP_GGG | bad-rrr  // >>>
+    | OP_LL  | bad-ll   // <<
+    | OP_GG  | bad-rr   // >>
+    // compare
+    | infix-less           // <
+    | infix-less-equal     // <=
+    | infix-greater        // >
+    | infix-greater-equal  // >=
+    // range
+    | OP_UNTIL
+    | EQUAL | OP_EE | OP_NE
+    | OP_UNWRAP_OR | OP_UNWRAP_ELSE // ??
+infix-less          ::= ANGLE_L;
+infix-less-equal    ::= OP_LEQ;
+infix-greater       ::= ANGLE_R;
+infix-greater-equal ::= OP_GEQ;
 
-infix  ::=
-    OP_PLUS  | OP_PLUS_EQ
-  | OP_MINUS | OP_MINUS_EQ
-  | STAR | OP_DIV | OP_REM | OP_DIV_REM
-  | OP_OR
-  | OP_AND
-  | OP_LLL | bad-lll  // <<<
-  | OP_GGG | bad-rrr  // >>>
-  | OP_LL  | bad-ll   // <<
-  | OP_GG  | bad-rr   // >>
-  | OP_LEQ | ANGLE_L  // <, <=
-  | OP_GEQ | ANGLE_R  // >, >=
-  | OP_UNTIL
-  | EQUAL | OP_EE | OP_NE
-  | OP_UNWRAP_OR | OP_UNWRAP_ELSE // ??
 bad-lll ::= ANGLE_L ANGLE_L ANGLE_L
   | OP_LL ANGLE_L
   | ANGLE_L OP_LL
