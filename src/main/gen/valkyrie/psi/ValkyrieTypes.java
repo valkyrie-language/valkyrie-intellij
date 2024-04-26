@@ -245,6 +245,8 @@ public interface ValkyrieTypes {
     IElementType KW_WHILE = new ValkyrieTokenType("KW_WHILE");
     IElementType KW_WITH = new ValkyrieTokenType("KW_WITH");
     IElementType KW_YIELD = new ValkyrieTokenType("KW_YIELD");
+    IElementType NAME_SCOPE = new ValkyrieTokenType("NAME_SCOPE");
+    IElementType NAME_SPLIT = new ValkyrieTokenType("∷");
     IElementType OFFSET_L = new ValkyrieTokenType("OFFSET_L");
     IElementType OFFSET_R = new ValkyrieTokenType("OFFSET_R");
     IElementType OP_AND = new ValkyrieTokenType("OP_AND");
@@ -282,7 +284,6 @@ public interface ValkyrieTypes {
     IElementType PARENTHESIS_L = new ValkyrieTokenType("(");
     IElementType PARENTHESIS_R = new ValkyrieTokenType(")");
     IElementType PLACE_HOLDER = new ValkyrieTokenType("_");
-    IElementType PROPORTION = new ValkyrieTokenType("∷");
     IElementType REFERENCE = new ValkyrieTokenType("$Symbol");
     IElementType SELECTION_LINE = new ValkyrieTokenType("SELECTION_LINE");
     IElementType SEMICOLON = new ValkyrieTokenType(";");

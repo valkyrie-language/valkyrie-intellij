@@ -8,6 +8,7 @@ import com.intellij.openapi.util.Pair
 
 class LegionModelProvider : ModifiableModelsProviderExtension<LegionModel> {
     override fun create(project: Project, modelsProvider: IdeModifiableModelsProvider): Pair<Class<LegionModel>, LegionModel> {
+        println("LegionModelProvider.create")
         return Pair.create(LegionModel::class.java, LegionModel(project, modelsProvider))
     }
 }

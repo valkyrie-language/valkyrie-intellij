@@ -73,10 +73,10 @@ KW_NIL     = nil|∅
 KW_NULL    = null
 KW_BOOLEAN = true|false
 
-STAR         = \*
-COLON        = :|∶
-PROPORTION   = ∷|::
-
+STAR       = \*
+COLON      = :|∶
+NAME_SPLIT = [⸬∷]|::
+NAME_SCOPE = [⸭]|\\N
 
 
 
@@ -175,7 +175,8 @@ W2 = ※
 <YYINITIAL> {
 	; { return SEMICOLON; }
 
-    {PROPORTION} { return PROPORTION; }
+    {NAME_SPLIT} { return NAME_SPLIT; }
+    {NAME_SCOPE} { return NAME_SCOPE; }
 	{COLON}      { return COLON; }
     {STAR}       { return STAR; }
 
