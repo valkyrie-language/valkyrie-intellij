@@ -322,6 +322,8 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
 
     {KW_IF}        { return KW_IF; }
     {KW_ELSE}      { return KW_ELSE; }
+
+    {KW_LOOP}      { return KW_LOOP; }
     {KW_WHILE}     { return KW_WHILE; }
     {KW_UNTIL}     { return KW_UNTIL; }
     {OP_LABEL}     { return OP_LABEL; }

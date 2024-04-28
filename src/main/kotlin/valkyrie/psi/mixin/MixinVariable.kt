@@ -20,6 +20,6 @@ abstract class MixinVariable(node: ASTNode) : ValkyrieElement(node) {
 }
 
 fun ValkyrieLetStatement.getVariableList(): List<ValkyrieLetPatternItemNode> {
-    return this.letPattern?.letPatternItemList?.map { it as ValkyrieLetPatternItemNode } ?: emptyList()
+    return emptyList()
 }
 

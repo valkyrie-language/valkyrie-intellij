@@ -7,9 +7,6 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieWhileStatement extends PsiElement {
 
-    @NotNull
-    List<ValkyrieAttributeBelow> getAttributeBelowList();
-
     @Nullable
     ValkyrieBlockBody getBlockBody();
 
@@ -18,8 +15,5 @@ public interface ValkyrieWhileStatement extends PsiElement {
 
     @Nullable
     ValkyrieExpressionInline getExpressionInline();
-
-    @NotNull
-    ValkyrieWhileKind getWhileKind();
 
 }

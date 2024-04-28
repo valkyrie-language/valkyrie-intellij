@@ -76,7 +76,6 @@ open class ValkyrieCompletionProvider(val parameters: CompletionParameters, val 
         createOperatorMethod("offset-index", mutableSetOf("off"), ValkyrieBundle.message("completion.constructor"))
         createOperatorMethod("ordinal-index", mutableSetOf("ord"), ValkyrieBundle.message("completion.constructor"))
         createOperatorMethod("minus", mutableSetOf("sub"), ValkyrieBundle.message("completion.constructor"))
-
     }
 
 
