@@ -200,8 +200,8 @@ private fun rewritePatternType(o: PsiElement) {
 private fun rewritePatternTerm(o: PsiElement) {
     for (child in o.childrenWithLeaves) {
         when (child.elementType) {
-            ValkyrieTypes.AT, ValkyrieTypes.COLON -> {
-                child.replaceLeaf(ValkyrieTypes.EQUAL, "=")
+            ValkyrieTypes.AT, ValkyrieTypes.COLON, ValkyrieTypes.EQUAL -> {
+                child.replaceLeaf(ValkyrieTypes.BIND, "←")
                 break
             }
         }

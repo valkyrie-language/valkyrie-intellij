@@ -8,7 +8,7 @@ import com.intellij.openapi.vfs.isFile
 import com.intellij.psi.LanguageSubstitutor
 
 /** Make legion configuration file compatible with json5 standard */
-class LegionFileTypeRecast : LanguageSubstitutor() {
+class LegionFileTypeReinterpret : LanguageSubstitutor() {
     override fun getLanguage(file: VirtualFile, project: Project): Language? {
         return when {
             file.isFile -> when (file.name) {
