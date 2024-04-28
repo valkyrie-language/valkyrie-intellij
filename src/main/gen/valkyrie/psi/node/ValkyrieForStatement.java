@@ -7,17 +7,11 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieForStatement extends PsiElement {
 
-    @NotNull
-    List<ValkyrieAttributeBelow> getAttributeBelowList();
-
     @Nullable
     ValkyrieBlockBody getBlockBody();
 
     @Nullable
     ValkyrieCasePattern getCasePattern();
-
-    @Nullable
-    ValkyrieControlLabel getControlLabel();
 
     @Nullable
     ValkyrieExpressionInline getExpressionInline();

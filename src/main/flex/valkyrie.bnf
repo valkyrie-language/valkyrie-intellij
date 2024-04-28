@@ -269,34 +269,45 @@ else-statement ::= KW_ELSE block-body {
     pin = 1
 }
 // === while statement ===
-loop-statement ::= control-label? KW_LOOP loop-condition block-body {
-    pin = 3
-}
-loop-condition ::= KW_WHILE expression-inline {
+loop-statement ::= KW_LOOP control-label? attribute-below* loop-condition? block-body {
     pin = 1
 }
-while-let-statement ::= control-label? KW_LOOP KW_WHILE KW_LET case-pattern EQUAL expression-inline if-condition? block-body {
+dot-loop-call  ::= OP_AND_THEN? DOT KW_LOOP control-label? attribute-below* KW_EACH? case-pattern if-condition? block-body {
     pin = 3
 }
-while-statement ::= control-label? KW_LOOP KW_WHILE expression-inline block-body {
+loop-condition ::=
+      loop-while-let // while let
+    | loop-while     // while {...}
+    | loop-until-not // until not
+    | loop-until     // while {...}
+    | loop-each     // match x in ...
+{
+    pin = 1
+}
+loop-while-let ::= KW_WHILE case-pattern EQUAL expression-inline if-condition? {
     pin = 3
 }
-// === until statement ===
-until-not-statement ::= control-label? KW_LOOP KW_UNTIL KW_NOT type-pattern EQUAL expression-inline block-body {
+loop-while     ::= KW_WHILE expression-inline {
+    pin = 1
+}
+loop-until-not ::= KW_UNTIL type-pattern EQUAL expression-inline {
     pin = 3
 }
-until-statement ::= control-label? KW_LOOP KW_UNTIL expression-inline block-body {
+loop-until     ::= KW_UNTIL expression-inline {
+    pin = 1
+}
+loop-each      ::= KW_EACH? case-pattern KW_IN expression-inline if-condition? {
     pin = 3
 }
-// === while statement ===
-for-statement ::= attribute-below* control-label? KW_FOR case-pattern KW_IN expression-inline if-condition? block-body {
-    pin = 3
-}
-dot-call-for    ::= OP_AND_THEN? DOT KW_FOR case-pattern expression-inline if-condition? block-body {
-    pin = 3
+// === for statement ===
+for-statement ::= KW_FOR case-pattern KW_IN expression-inline if-condition? block-body {
+    pin = 1
 }
 // === try let statement ===
 try-let-statement ::= KW_TRY KW_LET case-pattern EQUAL expression-inline if-condition? block-body else-statement? {
+    pin = 2
+}
+try-not-statement ::= KW_TRY KW_NOT type-pattern EQUAL expression-inline block-body else-statement? {
     pin = 2
 }
 // === try statement ===
@@ -507,7 +518,7 @@ bad-rr  ::= ANGLE_R ANGLE_R
 
 suffix ::= OP_BANG
     | dot-call
-    | dot-call-for
+    | dot-loop-call
     | dot-match-call
     | KW_AS type-expression
     | is-statement
@@ -570,12 +581,9 @@ atomic ::=
   | slot                // $id
   | localize-call       // ⸿scope.path
   | if-statement        // if ...
-  | for-statement       // for ... {...}
-  | while-let-statement // while let
-  | while-statement     // while {...}
-  | until-not-statement // until not
-  | until-statement     // while {...}
+  | loop-statement      // loop {...}
   | try-let-statement   // if case ...
+  | try-not-statement
   | try-statement       // try T {...}
   | control-raise       // raise T
   | match-statement     // match ... { ... }
@@ -634,9 +642,9 @@ private modifier-stop ::= KW_IN | KW_IF
     | PARENTHESIS_L | PARENTHESIS_R
     | BRACE_L | BRACE_R
     | ANGLE_L | GENERIC_L
-attribute-below ::= HASH attribute-item
-attribute-above ::= HASH OP_POW attribute-item;
-attribute-item  ::= namepath argument-body? class-body? {
+attribute-below  ::= HASH attribute-item
+attribute-above  ::= HASH OP_POW attribute-item;
+attribute-item   ::= namepath argument-body? class-body? {
     mixin = "valkyrie.psi.mixin.MixinAttribute"
 }
 // === identifiers ===

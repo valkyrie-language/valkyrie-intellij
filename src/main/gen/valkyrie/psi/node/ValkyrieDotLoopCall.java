@@ -2,10 +2,14 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieDotCallFor extends PsiElement {
+public interface ValkyrieDotLoopCall extends PsiElement {
+
+    @NotNull
+    List<ValkyrieAttributeBelow> getAttributeBelowList();
 
     @Nullable
     ValkyrieBlockBody getBlockBody();
@@ -14,7 +18,7 @@ public interface ValkyrieDotCallFor extends PsiElement {
     ValkyrieCasePattern getCasePattern();
 
     @Nullable
-    ValkyrieExpressionInline getExpressionInline();
+    ValkyrieControlLabel getControlLabel();
 
     @Nullable
     ValkyrieIfCondition getIfCondition();
