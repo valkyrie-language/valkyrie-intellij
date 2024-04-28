@@ -5,10 +5,10 @@ import com.intellij.lang.ASTNode
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.ValkyrieIdentifierNode
-import valkyrie.psi.node.ValkyrieLetPatternItem
+import valkyrie.psi.node.ValkyrieMatchStatement
 import javax.swing.Icon
 
-abstract class MixinLetPatternItem(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieLetPatternItem {
+abstract class MixinMatchStatement(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieMatchStatement {
     override val color: HighlightColor
         get() {
             for (modifier in this.modifierList) {
@@ -27,4 +27,3 @@ abstract class MixinLetPatternItem(node: ASTNode) : ValkyrieDeclaration(node), V
         return AllIcons.Nodes.Field
     }
 }
-
