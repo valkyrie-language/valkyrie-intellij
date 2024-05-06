@@ -1,5 +1,6 @@
 package valkyrie.language.file
 
+import com.intellij.icons.AllIcons
 import com.intellij.icons.ExpUiIcons
 import com.intellij.ide.IconProvider
 import com.intellij.openapi.util.IconLoader
@@ -21,6 +22,8 @@ class ValkyrieIconProvider : IconProvider() {
         val Namespace = IconLoader.getIcon("/icons/actionQualifiedNames.svg", ValkyrieIconProvider::class.java)
         val Trait = IconLoader.getIcon("/icons/trait.svg", ValkyrieIconProvider::class.java)
         val Enumeration = IconLoader.getIcon("/icons/codeAssistantEnum.svg", ValkyrieIconProvider::class.java)
+        val Field = AllIcons.Nodes.Field
+        val Method = AllIcons.Nodes.Function
         val Flags = IconLoader.getIcon("/icons/codeAssistantField.svg", ValkyrieIconProvider::class.java)
         val Attribute = IconLoader.getIcon("/icons/codeAssistantMacro.svg", ValkyrieIconProvider::class.java)
         val Object = IconLoader.getIcon("/icons/objectScala.svg", ValkyrieIconProvider::class.java)
@@ -29,7 +32,5 @@ class ValkyrieIconProvider : IconProvider() {
         val MultipleType = IconLoader.getIcon("/icons/multipleTypeDefinitions.svg", ValkyrieIconProvider::class.java)
         val Stop = ExpUiIcons.Actions.ShowWriteAccess
         val Then = IconLoader.getIcon("/icons/goto.svg", ValkyrieIconProvider::class.java)
-
-
     }
 }

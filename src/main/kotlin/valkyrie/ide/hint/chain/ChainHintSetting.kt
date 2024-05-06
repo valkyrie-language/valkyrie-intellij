@@ -1,6 +1,6 @@
+@file:Suppress("PropertyName")
 package valkyrie.ide.hint.chain
 
-@Suppress("PropertyName")
 data class ChainHintSetting(
     var show_obvious: Boolean = false,
     // .for i j { } ^
@@ -11,4 +11,5 @@ data class ChainHintSetting(
     var show_dot_for: Boolean = true,
     var show_dot_match: Boolean = true,
     var show_dot_catch: Boolean = true,
-)
+
+    )

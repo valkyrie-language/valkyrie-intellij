@@ -4,11 +4,11 @@ import com.intellij.codeInsight.hints.InlayHintsSink
 import com.intellij.codeInsight.hints.presentation.PresentationFactory
 import com.intellij.openapi.editor.Editor
 import com.intellij.refactoring.suggested.endOffset
+import valkyrie.psi.lineNumber
 import valkyrie.psi.node.ValkyrieDotCall
 import valkyrie.psi.node.ValkyrieDotCallInline
 import valkyrie.psi.node.ValkyrieVisitor
 
-@Suppress("UnstableApiUsage")
 class ChainHintVisitor : ValkyrieVisitor {
     private val sink: InlayHintsSink
     private val factory: PresentationFactory
@@ -22,7 +22,10 @@ class ChainHintVisitor : ValkyrieVisitor {
 
     override fun visitDotCall(o: ValkyrieDotCall) {
         // 如果该行后面没有文字
-        hint(o.endOffset, "Iterator<Item=Any>")
+        if (
+            o.nextSibling == null || o.lineNumber != o.nextSibling?.lineNumber) {
+            hint(o.endOffset, "Iterator<Item=Any>")
+        }
     }
 
     override fun visitDotCallInline(o: ValkyrieDotCallInline) {
@@ -33,7 +36,7 @@ class ChainHintVisitor : ValkyrieVisitor {
         sink.addInlineElement(
             start, true,
             // click then replace
-            factory.roundWithBackgroundAndSmallInset(factory.smallTextWithoutBackground(text)), false
+            factory.roundWithBackgroundAndSmallInset(factory.smallTextWithoutBackground(text)), true
         )
     }
 }

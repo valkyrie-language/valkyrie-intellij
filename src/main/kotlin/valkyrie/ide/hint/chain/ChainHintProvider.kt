@@ -1,15 +1,12 @@
 package valkyrie.ide.hint.chain
 
+import com.intellij.codeInsight.hints.*
 import com.intellij.codeInsight.hints.ImmediateConfigurable.Case
-import com.intellij.codeInsight.hints.InlayGroup
-import com.intellij.codeInsight.hints.InlayHintsProvider
-import com.intellij.codeInsight.hints.InlayHintsSink
-import com.intellij.codeInsight.hints.SettingsKey
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiFile
 import valkyrie.language.ValkyrieBundle
 
-@Suppress("UnstableApiUsage")
+
 class ChainHintProvider : InlayHintsProvider<ChainHintSetting> {
     private val rootKey = "v.chain.hints";
     override val name: String = ValkyrieBundle.message("inlay.type.group.name")
@@ -30,6 +27,15 @@ class ChainHintProvider : InlayHintsProvider<ChainHintSetting> {
 
     override fun getCaseDescription(case: Case): String {
         return "getCaseDescription: ${case.id}"
+    }
+
+    override fun getPlaceholdersCollectorFor(
+        file: PsiFile,
+        editor: Editor,
+        settings: ChainHintSetting,
+        sink: InlayHintsSink,
+    ): InlayHintsCollector? {
+        return null
     }
 
     override fun getProperty(key: String): String {
