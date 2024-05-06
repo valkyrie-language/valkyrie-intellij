@@ -46,14 +46,14 @@ public class ValkyrieDotLoopCallNode extends ValkyrieElement implements Valkyrie
 
     @Override
     @Nullable
-    public ValkyrieForInline getForInline() {
-        return findChildByClass(ValkyrieForInline.class);
+    public ValkyrieIfCondition getIfCondition() {
+        return findChildByClass(ValkyrieIfCondition.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieIfCondition getIfCondition() {
-        return findChildByClass(ValkyrieIfCondition.class);
+    public ValkyrieLoopInline getLoopInline() {
+        return findChildByClass(ValkyrieLoopInline.class);
     }
 
 }

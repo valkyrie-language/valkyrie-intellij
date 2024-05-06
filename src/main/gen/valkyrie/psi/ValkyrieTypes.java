@@ -73,7 +73,6 @@ public interface ValkyrieTypes {
     IElementType EXPRESSION = new ValkyrieElementType("EXPRESSION");
     IElementType EXPRESSION_INLINE = new ValkyrieElementType("EXPRESSION_INLINE");
     IElementType EXPRESSION_ROOT = new ValkyrieElementType("EXPRESSION_ROOT");
-    IElementType FOR_INLINE = new ValkyrieElementType("FOR_INLINE");
     IElementType FOR_STATEMENT = new ValkyrieElementType("FOR_STATEMENT");
     IElementType FUNCTION_CALL = new ValkyrieElementType("FUNCTION_CALL");
     IElementType FUNCTION_CALL_INLINE = new ValkyrieElementType("FUNCTION_CALL_INLINE");
@@ -103,6 +102,7 @@ public interface ValkyrieTypes {
     IElementType LOCALIZE_CALL = new ValkyrieElementType("LOCALIZE_CALL");
     IElementType LOOP_CONDITION = new ValkyrieElementType("LOOP_CONDITION");
     IElementType LOOP_EACH = new ValkyrieElementType("LOOP_EACH");
+    IElementType LOOP_INLINE = new ValkyrieElementType("LOOP_INLINE");
     IElementType LOOP_STATEMENT = new ValkyrieElementType("LOOP_STATEMENT");
     IElementType LOOP_UNTIL = new ValkyrieElementType("LOOP_UNTIL");
     IElementType LOOP_UNTIL_NOT = new ValkyrieElementType("LOOP_UNTIL_NOT");
@@ -466,8 +466,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieExpressionInlineNode(node);
             } else if (type == EXPRESSION_ROOT) {
                 return new ValkyrieExpressionRootNode(node);
-            } else if (type == FOR_INLINE) {
-                return new ValkyrieForInlineNode(node);
             } else if (type == FOR_STATEMENT) {
                 return new ValkyrieForStatementNode(node);
             } else if (type == FUNCTION_CALL) {
@@ -526,6 +524,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieLoopConditionNode(node);
             } else if (type == LOOP_EACH) {
                 return new ValkyrieLoopEachNode(node);
+            } else if (type == LOOP_INLINE) {
+                return new ValkyrieLoopInlineNode(node);
             } else if (type == LOOP_STATEMENT) {
                 return new ValkyrieLoopStatementNode(node);
             } else if (type == LOOP_UNTIL) {

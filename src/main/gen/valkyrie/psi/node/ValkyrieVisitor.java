@@ -267,10 +267,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitForInline(@NotNull ValkyrieForInline o) {
-        visitPsiElement(o);
-    }
-
     public void visitForStatement(@NotNull ValkyrieForStatement o) {
         visitPsiElement(o);
     }
@@ -384,6 +380,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitLoopEach(@NotNull ValkyrieLoopEach o) {
+        visitPsiElement(o);
+    }
+
+    public void visitLoopInline(@NotNull ValkyrieLoopInline o) {
         visitPsiElement(o);
     }
 

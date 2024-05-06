@@ -17,9 +17,9 @@ public interface ValkyrieDotLoopCall extends PsiElement {
     ValkyrieControlLabel getControlLabel();
 
     @Nullable
-    ValkyrieForInline getForInline();
+    ValkyrieIfCondition getIfCondition();
 
     @Nullable
-    ValkyrieIfCondition getIfCondition();
+    ValkyrieLoopInline getLoopInline();
 
 }
