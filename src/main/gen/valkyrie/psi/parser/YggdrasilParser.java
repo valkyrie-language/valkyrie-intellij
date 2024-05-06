@@ -2030,7 +2030,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // declare-template? annotations KW_UNITE identifier unite-body
+    // declare-template? annotations KW_UNITE identifier class-inherit unite-body
     public static boolean declare_unite(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "declare_unite")) return false;
         boolean r, p;
@@ -2040,6 +2040,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = r && consumeToken(b, KW_UNITE);
         p = r; // pin = 3
         r = r && report_error_(b, identifier(b, l + 1));
+        r = p && report_error_(b, class_inherit(b, l + 1)) && r;
         r = p && unite_body(b, l + 1) && r;
         exit_section_(b, l, m, r, p, null);
         return r || p;
