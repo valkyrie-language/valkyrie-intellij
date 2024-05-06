@@ -51,6 +51,14 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitBarePattern(@NotNull ValkyrieBarePattern o) {
+        visitPsiElement(o);
+    }
+
+    public void visitBarePatternItem(@NotNull ValkyrieBarePatternItem o) {
+        visitPsiElement(o);
+    }
+
     public void visitBlockBare(@NotNull ValkyrieBlockBare o) {
         visitPsiElement(o);
     }
@@ -259,6 +267,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitForInline(@NotNull ValkyrieForInline o) {
+        visitPsiElement(o);
+    }
+
     public void visitForStatement(@NotNull ValkyrieForStatement o) {
         visitPsiElement(o);
     }
@@ -323,6 +335,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitInfixMultiple(@NotNull ValkyrieInfixMultiple o) {
+        visitPsiElement(o);
+    }
+
     public void visitInheritItem(@NotNull ValkyrieInheritItem o) {
         visitPsiElement(o);
     }
@@ -352,10 +368,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitLetPattern(@NotNull ValkyrieLetPattern o) {
-        visitPsiElement(o);
-    }
-
-    public void visitLetPatternItem(@NotNull ValkyrieLetPatternItem o) {
         visitPsiElement(o);
     }
 
@@ -400,6 +412,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitMacroCallInline(@NotNull ValkyrieMacroCallInline o) {
+        visitPsiElement(o);
+    }
+
+    public void visitMatchBind(@NotNull ValkyrieMatchBind o) {
         visitPsiElement(o);
     }
 
@@ -479,7 +495,19 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitParameterDict(@NotNull ValkyrieParameterDict o) {
+        visitPsiElement(o);
+    }
+
     public void visitParameterItem(@NotNull ValkyrieParameterItem o) {
+        visitPsiElement(o);
+    }
+
+    public void visitParameterKind(@NotNull ValkyrieParameterKind o) {
+        visitPsiElement(o);
+    }
+
+    public void visitParameterList(@NotNull ValkyrieParameterList o) {
         visitPsiElement(o);
     }
 

@@ -2,14 +2,9 @@ package valkyrie.ide.line_marker
 
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.LineMarkerProvider
-import com.intellij.execution.lineMarker.RunLineMarkerContributor
-import com.intellij.execution.lineMarker.RunLineMarkerProvider
-import com.intellij.icons.AllIcons
 import com.intellij.icons.ExpUiIcons
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
-import valkyrie.ide.runner.RunTest
-import valkyrie.ide.runner.RunTestDebugMode
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.childrenWithLeaves
@@ -168,14 +163,14 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
     }
 
     private fun createFunctionTest(source: PsiElement?, annotations: ValkyrieAnnotations?) {
-        val leaf = findTest(annotations)
-        if (source == null || leaf == null) {
-            return
-        }
-        val info =
-            RunLineMarkerContributor.Info(AllIcons.RunConfigurations.TestState.Run_run, { "te" }, RunTest(source), RunTestDebugMode(source));
-
-        result.add(RunLineMarkerProvider.createLineMarker(leaf, info.icon, mutableListOf(info)))
+//        val leaf = findTest(annotations)
+//        if (source == null || leaf == null) {
+//            return
+//        }
+//        val info =
+//            RunLineMarkerContributor.Info(AllIcons.RunConfigurations.TestState.Run_run, { "te" }, RunTest(source), RunTestDebugMode(source));
+//
+//        result.add(RunLineMarkerProvider.createLineMarker(leaf, info.icon, mutableListOf(info)))
     }
 
     private fun findTest(annotations: ValkyrieAnnotations?): PsiElement? {

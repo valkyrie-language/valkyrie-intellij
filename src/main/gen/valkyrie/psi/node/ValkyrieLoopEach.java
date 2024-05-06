@@ -2,13 +2,15 @@
 package valkyrie.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
 public interface ValkyrieLoopEach extends PsiElement {
 
-    @NotNull
+    @Nullable
+    ValkyrieBarePattern getBarePattern();
+
+    @Nullable
     ValkyrieCasePattern getCasePattern();
 
     @Nullable
@@ -16,5 +18,8 @@ public interface ValkyrieLoopEach extends PsiElement {
 
     @Nullable
     ValkyrieIfCondition getIfCondition();
+
+    @Nullable
+    ValkyrieMatchBind getMatchBind();
 
 }

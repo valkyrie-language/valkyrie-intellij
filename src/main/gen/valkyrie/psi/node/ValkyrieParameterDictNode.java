@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
-import valkyrie.psi.mixin.MixinValueParameter;
 
-public class ValkyrieParameterItemNode extends MixinValueParameter implements ValkyrieParameterItem {
+import valkyrie.psi.ValkyrieElement;
 
-    public ValkyrieParameterItemNode(@NotNull ASTNode node) {
+public class ValkyrieParameterDictNode extends ValkyrieElement implements ValkyrieParameterDict {
+
+    public ValkyrieParameterDictNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitParameterItem(this);
+        visitor.visitParameterDict(this);
     }
 
     @Override
@@ -39,15 +42,9 @@ public class ValkyrieParameterItemNode extends MixinValueParameter implements Va
     }
 
     @Override
-    @NotNull
-    public ValkyrieIdentifier getIdentifier() {
-        return findNotNullChildByClass(ValkyrieIdentifier.class);
-    }
-
-    @Override
     @Nullable
-    public ValkyrieParameterKind getParameterKind() {
-        return findChildByClass(ValkyrieParameterKind.class);
+    public ValkyrieIdentifier getIdentifier() {
+        return findChildByClass(ValkyrieIdentifier.class);
     }
 
     @Override
