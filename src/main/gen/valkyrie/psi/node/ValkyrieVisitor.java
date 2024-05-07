@@ -187,7 +187,15 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitDeclareNeural(@NotNull ValkyrieDeclareNeural o) {
+        visitPsiElement(o);
+    }
+
     public void visitDeclareSemantic(@NotNull ValkyrieDeclareSemantic o) {
+        visitPsiElement(o);
+    }
+
+    public void visitDeclareSingleton(@NotNull ValkyrieDeclareSingleton o) {
         visitPsiElement(o);
     }
 
