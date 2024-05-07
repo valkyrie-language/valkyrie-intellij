@@ -109,6 +109,17 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
         }
     }
 
+    override fun visitDeclareNeural(o: ValkyrieDeclareNeural) {
+        if (config.class_declaration.isEnabled) {
+            result.add(NeuralMarker(o as ValkyrieDeclareNeuralNode))
+        }
+    }
+
+    override fun visitDeclareSingleton(o: ValkyrieDeclareSingleton) {
+        if (config.class_declaration.isEnabled) {
+            result.add(SingletonMarker(o as ValkyrieDeclareSingletonNode))
+        }
+    }
     override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {
         if (!config.trait_declaration.isEnabled) return
         o as ValkyrieDeclareTraitNode

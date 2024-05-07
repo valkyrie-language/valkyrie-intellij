@@ -9,7 +9,7 @@ import com.intellij.platform.lang.lsWidget.LanguageServiceWidgetItem
 //import com.intellij.platform.lsp.api.LspServerSupportProvider.LspServerStarter
 //import com.intellij.platform.lsp.api.lsWidget.LspServerWidgetItem
 //
-//@Suppress("UnstableApiUsage")
+//
 //class ValkyrieLanguageProtocol : LspServerSupportProvider {
 //    override fun fileOpened(project: Project, file: VirtualFile, serverStarter: LspServerStarter) {
 //
