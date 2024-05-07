@@ -1,8 +1,9 @@
 package valkyrie.ide.codegen
 
 //import valkyrie.language.psi_node.ValkyrieClassStatementNode
+import com.intellij.codeInsight.generation.actions.PresentableLanguageCodeInsightActionHandler
 import com.intellij.codeInsight.intention.FileModifier
-import com.intellij.lang.LanguageCodeInsightActionHandler
+import com.intellij.openapi.actionSystem.Presentation
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
@@ -13,7 +14,7 @@ import valkyrie.psi.node.ValkyrieDeclareImplyNode
 import valkyrie.psi.node.ValkyrieDeclareTraitNode
 
 
-class GenerateImplements : LanguageCodeInsightActionHandler {
+class GenerateImplements : PresentableLanguageCodeInsightActionHandler {
     override fun isValidFor(editor: Editor?, file: PsiFile?) = when (file.caretElement(editor)?.context) {
         is ValkyrieDeclareClassNode -> true
         is ValkyrieDeclareTraitNode -> true
@@ -23,6 +24,10 @@ class GenerateImplements : LanguageCodeInsightActionHandler {
 
     override fun invoke(project: Project, editor: Editor, file: PsiFile) {
         println("ValkyrieImplementMark.invoke($editor, $file)")
+    }
+
+    override fun update(editor: Editor, file: PsiFile, presentation: Presentation?) {
+
     }
 
 

@@ -3,9 +3,10 @@ package valkyrie.ide.hint
 import com.intellij.codeInsight.hints.declarative.InlayHintsProviderFactory
 import com.intellij.codeInsight.hints.declarative.InlayProviderInfo
 import com.intellij.lang.Language
+import valkyrie.language.ValkyrieLanguage
 
 /** use LambdaHintProvider instead */
-class ValkyrieInlayProviderFactory : InlayHintsProviderFactory {
+class ValkyrieInlayHintsProvider : InlayHintsProviderFactory {
     override fun getProviderInfo(language: Language, providerId: String): InlayProviderInfo? {
         return null
     }
@@ -15,6 +16,6 @@ class ValkyrieInlayProviderFactory : InlayHintsProviderFactory {
     }
 
     override fun getSupportedLanguages(): Set<Language> {
-        return setOf()
+        return setOf(ValkyrieLanguage)
     }
 }
