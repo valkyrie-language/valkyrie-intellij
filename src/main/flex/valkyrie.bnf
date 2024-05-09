@@ -61,7 +61,7 @@
 root ::= statements*
 private statements ::= declare-namespace
     | using-statement
-    | type-alias
+    | alias-type
     | trait-alias
     | declare-flags
     | declare-enumerate
@@ -111,7 +111,10 @@ template-body ::= BRACE_L template-item* BRACE_R;
 template-item ::= SEMICOLON
   | declare-where
 // === class statement ===
-type-alias ::= annotations KW_TYPE identifier EQUAL type-expression {
+alias-type ::= annotations KW_TYPE identifier EQUAL type-expression {
+    pin = 2
+}
+associated-type ::= annotations KW_TYPE identifier (EQUAL type-expression)? {
     pin = 2
 }
 declare-where ::= KW_WHERE where-body;
@@ -142,7 +145,7 @@ inherit-item  ::= (annotations identifier COLON)? type-expression {
 // === class body ===
 class-body ::= BRACE_L class-item* BRACE_R;
 private class-item ::= SEMICOLON | COMMA
-    | type-alias
+    | associated-type
     | declare-domain
     | declare-method
     | declare-field
@@ -570,8 +573,8 @@ suffix ::= OP_BANG
     | OP_FAHRENHEIT
     | dot-call-macro         // .@macro() { }
     | dot-call               // .method
-    | dot-loop-call          // ,loop { }
-    | dot-match-call
+    | dot-loop-call          // .loop { }
+    | dot-match-call         // .match { }
     | KW_AS type-expression
     | is-statement
     | generic-call
@@ -604,7 +607,7 @@ inline-atomic ::= PARENTHESIS_L expression-root PARENTHESIS_R
     | macro-call-inline     // @macro()
     | offset-range          // ⁅1:2:3⁆
     | ordinal-range         // [1:2:3]
-    | number-literal                // 1
+    | number-literal        // 1
     | string                // "text"
     | special               // true, false, null, ...
     | function-call-inline  // function()

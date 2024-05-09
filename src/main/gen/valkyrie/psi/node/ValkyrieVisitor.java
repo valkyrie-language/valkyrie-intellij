@@ -7,6 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public class ValkyrieVisitor extends PsiElementVisitor {
 
+    public void visitAliasType(@NotNull ValkyrieAliasType o) {
+        visitPsiElement(o);
+    }
+
     public void visitAnnotations(@NotNull ValkyrieAnnotations o) {
         visitPsiElement(o);
     }
@@ -16,6 +20,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitArgumentBody(@NotNull ValkyrieArgumentBody o) {
+        visitPsiElement(o);
+    }
+
+    public void visitAssociatedType(@NotNull ValkyrieAssociatedType o) {
         visitPsiElement(o);
     }
 
@@ -672,10 +680,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitTuple(@NotNull ValkyrieTuple o) {
-        visitPsiElement(o);
-    }
-
-    public void visitTypeAlias(@NotNull ValkyrieTypeAlias o) {
         visitPsiElement(o);
     }
 
