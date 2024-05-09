@@ -8,6 +8,7 @@ import com.intellij.psi.*
 import com.intellij.psi.stubs.StubElement
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.util.elementType
 import valkyrie.language.psi.ValkyrieFactory
 
 val PsiElement.ancestors: Sequence<PsiElement>
@@ -122,10 +123,20 @@ fun PsiFile?.caretElement(editor: Editor?): PsiElement? {
 
 
 fun PsiElement.replaceLeaf(kind: IElementType, text: String) {
-    val builder = ValkyrieFactory(this)
-    this.replace(builder.createLeaf(kind, text))
+    val leaf = ValkyrieFactory(this).createLeaf(kind, text)
+    this.node.treeParent.replaceChild(this.node, leaf)
+    // `this.replace` have too much checks which makes it very slow
+    // this.replace(leaf.psi)
 }
 
+fun PsiElement.findKeyword(target: IElementType): PsiElement {
+    for (leaf in this.childrenWithLeaves) {
+        if (leaf.elementType == target) {
+            return leaf
+        }
+    }
+    throw Exception("No keyword found")
+}
 fun PsiElement.findPair(lhs: IElementType, rhs: IElementType): Pair<PsiElement, PsiElement>? {
     var head: PsiElement? = null;
     var tail: PsiElement? = null;

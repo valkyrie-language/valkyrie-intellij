@@ -6,6 +6,7 @@ import valkyrie.ide.highlight.HighlightColor
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.ValkyrieTypes.KW_TRAIT
+import valkyrie.psi.findKeyword
 import valkyrie.psi.node.ValkyrieIdentifierNode
 import valkyrie.psi.node.ValkyrieTraitAlias
 import javax.swing.Icon

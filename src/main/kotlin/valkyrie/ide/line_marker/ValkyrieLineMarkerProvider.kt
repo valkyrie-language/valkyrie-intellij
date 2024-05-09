@@ -76,8 +76,11 @@ class ValkyrieLineMarkerProvider : RelatedItemLineMarkerProvider() {
         val visitor = ValkyrieMarkerVisitor(this, result)
         element.accept(visitor)
     }
-}
 
+    override fun getLineMarkerInfo(element: PsiElement): RelatedItemLineMarkerInfo<*>? {
+        return null
+    }
+}
 
 private class ValkyrieMarkerVisitor : ValkyrieVisitor {
     val config: ValkyrieLineMarkerProvider
