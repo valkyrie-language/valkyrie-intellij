@@ -175,32 +175,40 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
 
     /* ********************************************************** */
     // PARENTHESIS_L expression-root PARENTHESIS_R
-    //   | tuple               // ( )
-    //   | lambda-block        // { }
-    //   | ordinal-range       // [ ]
-    //   | offset-range        // ⁅ ⁆
-    //   | macro-call          // @path::id() { }
-    //   | slot                // $id
-    //   | localize-call       // ⸿scope.path
-    //   | if-statement        // if ...
-    //   | loop-statement      // loop {...}
-    //   | try-let-statement   // if case ...
-    //   | try-not-statement
-    //   | try-statement       // try T {...}
-    //   | control-raise       // raise T
-    //   | match-statement     // match ... { ... }
-    //   | new-value           // new T { ... }
-    //   | new-object          // object(base): Interface { }
-    //   | string              // handler"..."
-    //   | special             // true false
-    //   | function-call       // path::id() { }
-    //   | namepath
-    //   | number
+    //     | FLOOR_L expression-root FLOOR_R // ⌊5/2.0⌋
+    //     | FLOOR_L expression-root CEIL_R  // ⌊5/2.0⌉
+    //     | CEIL_L expression-root FLOOR_R  // ⌈5/2.0⌋
+    //     | CEIL_L expression-root CEIL_R   // ⌈5/2.0⌉
+    //     | tuple               // ( )
+    //     | lambda-block        // { }
+    //     | ordinal-range       // [ ]
+    //     | offset-range        // ⁅ ⁆
+    //     | macro-call          // @path::id() { }
+    //     | slot                // $id
+    //     | localize-call       // ⸿scope.path
+    //     | if-statement        // if ...
+    //     | loop-statement      // loop {...}
+    //     | try-let-statement   // if case ...
+    //     | try-not-statement
+    //     | try-statement       // try T {...}
+    //     | control-raise       // raise T
+    //     | match-statement     // match ... { ... }
+    //     | new-value           // new T { ... }
+    //     | new-object          // object(base): Interface { }
+    //     | string              // handler"..."
+    //     | special             // true false
+    //     | function-call       // path::id() { }
+    //     | namepath
+    //     | number
     public static boolean atomic(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "atomic")) return false;
         boolean r;
         Marker m = enter_section_(b, l, _NONE_, ATOMIC, "<atomic>");
         r = atomic_0(b, l + 1);
+        if (!r) r = atomic_1(b, l + 1);
+        if (!r) r = atomic_2(b, l + 1);
+        if (!r) r = atomic_3(b, l + 1);
+        if (!r) r = atomic_4(b, l + 1);
         if (!r) r = tuple(b, l + 1);
         if (!r) r = lambda_block(b, l + 1);
         if (!r) r = ordinal_range(b, l + 1);
@@ -234,6 +242,54 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = consumeToken(b, PARENTHESIS_L);
         r = r && expression_root(b, l + 1);
         r = r && consumeToken(b, PARENTHESIS_R);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // FLOOR_L expression-root FLOOR_R
+    private static boolean atomic_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "atomic_1")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, FLOOR_L);
+        r = r && expression_root(b, l + 1);
+        r = r && consumeToken(b, FLOOR_R);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // FLOOR_L expression-root CEIL_R
+    private static boolean atomic_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "atomic_2")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, FLOOR_L);
+        r = r && expression_root(b, l + 1);
+        r = r && consumeToken(b, CEIL_R);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // CEIL_L expression-root FLOOR_R
+    private static boolean atomic_3(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "atomic_3")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, CEIL_L);
+        r = r && expression_root(b, l + 1);
+        r = r && consumeToken(b, FLOOR_R);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // CEIL_L expression-root CEIL_R
+    private static boolean atomic_4(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "atomic_4")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, CEIL_L);
+        r = r && expression_root(b, l + 1);
+        r = r && consumeToken(b, CEIL_R);
         exit_section_(b, m, null, r);
         return r;
     }
@@ -305,8 +361,8 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
 
     /* ********************************************************** */
     // ANGLE_L ANGLE_L ANGLE_L
-    //   | OP_LL ANGLE_L
-    //   | ANGLE_L OP_LL
+    //     | OP_LL ANGLE_L
+    //     | ANGLE_L OP_LL
     public static boolean bad_lll(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "bad_lll")) return false;
         if (!nextTokenIs(b, "<bad lll>", ANGLE_L, OP_LL)) return false;
@@ -333,8 +389,8 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
 
     /* ********************************************************** */
     // ANGLE_R ANGLE_R ANGLE_R
-    //   | OP_RR ANGLE_R
-    //   | ANGLE_R OP_RR
+    //     | OP_RR ANGLE_R
+    //     | ANGLE_R OP_RR
     public static boolean bad_rrr(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "bad_rrr")) return false;
         if (!nextTokenIs(b, "<bad rrr>", ANGLE_R, OP_RR)) return false;
@@ -976,14 +1032,16 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
 
     /* ********************************************************** */
     // SEMICOLON | COMMA
-    //   | declare-domain
-    //   | declare-method
-    //   | declare-field
+    //     | type-alias
+    //     | declare-domain
+    //     | declare-method
+    //     | declare-field
     static boolean class_item(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "class_item")) return false;
         boolean r;
         r = consumeToken(b, SEMICOLON);
         if (!r) r = consumeToken(b, COMMA);
+        if (!r) r = type_alias(b, l + 1);
         if (!r) r = declare_domain(b, l + 1);
         if (!r) r = declare_method(b, l + 1);
         if (!r) r = declare_field(b, l + 1);
@@ -2277,7 +2335,94 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // OP_AND_THEN? DOT KW_LOOP control-label? attribute-below* KW_EACH? loop-inline if-condition? block-body
+    // OP_AND_THEN? DOT AT namepath (argument-body? class-body|argument-body)?
+    public static boolean dot_call_macro(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "dot_call_macro")) return false;
+        if (!nextTokenIs(b, "<dot call macro>", DOT, OP_AND_THEN)) return false;
+        boolean r;
+        Marker m = enter_section_(b, l, _NONE_, DOT_CALL_MACRO, "<dot call macro>");
+        r = dot_call_macro_0(b, l + 1);
+        r = r && consumeTokens(b, 0, DOT, AT);
+        r = r && namepath(b, l + 1);
+        r = r && dot_call_macro_4(b, l + 1);
+        exit_section_(b, l, m, r, false, null);
+        return r;
+    }
+
+    // OP_AND_THEN?
+    private static boolean dot_call_macro_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "dot_call_macro_0")) return false;
+        consumeToken(b, OP_AND_THEN);
+        return true;
+    }
+
+    // (argument-body? class-body|argument-body)?
+    private static boolean dot_call_macro_4(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "dot_call_macro_4")) return false;
+        dot_call_macro_4_0(b, l + 1);
+        return true;
+    }
+
+    // argument-body? class-body|argument-body
+    private static boolean dot_call_macro_4_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "dot_call_macro_4_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = dot_call_macro_4_0_0(b, l + 1);
+        if (!r) r = argument_body(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // argument-body? class-body
+    private static boolean dot_call_macro_4_0_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "dot_call_macro_4_0_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = dot_call_macro_4_0_0_0(b, l + 1);
+        r = r && class_body(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // argument-body?
+    private static boolean dot_call_macro_4_0_0_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "dot_call_macro_4_0_0_0")) return false;
+        argument_body(b, l + 1);
+        return true;
+    }
+
+    /* ********************************************************** */
+    // OP_AND_THEN? DOT AT namepath argument-body?
+    public static boolean dot_call_macro_inline(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "dot_call_macro_inline")) return false;
+        if (!nextTokenIs(b, "<dot call macro inline>", DOT, OP_AND_THEN)) return false;
+        boolean r;
+        Marker m = enter_section_(b, l, _NONE_, DOT_CALL_MACRO_INLINE, "<dot call macro inline>");
+        r = dot_call_macro_inline_0(b, l + 1);
+        r = r && consumeTokens(b, 0, DOT, AT);
+        r = r && namepath(b, l + 1);
+        r = r && dot_call_macro_inline_4(b, l + 1);
+        exit_section_(b, l, m, r, false, null);
+        return r;
+    }
+
+    // OP_AND_THEN?
+    private static boolean dot_call_macro_inline_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "dot_call_macro_inline_0")) return false;
+        consumeToken(b, OP_AND_THEN);
+        return true;
+    }
+
+    // argument-body?
+    private static boolean dot_call_macro_inline_4(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "dot_call_macro_inline_4")) return false;
+        argument_body(b, l + 1);
+        return true;
+    }
+
+    /* ********************************************************** */
+    // OP_AND_THEN? DOT KW_LOOP control-label? attribute-below* KW_EACH? loop-inline? if-condition? block-body
     public static boolean dot_loop_call(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "dot_loop_call")) return false;
         if (!nextTokenIs(b, "<dot loop call>", DOT, OP_AND_THEN)) return false;
@@ -2289,7 +2434,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = r && report_error_(b, dot_loop_call_3(b, l + 1));
         r = p && report_error_(b, dot_loop_call_4(b, l + 1)) && r;
         r = p && report_error_(b, dot_loop_call_5(b, l + 1)) && r;
-        r = p && report_error_(b, loop_inline(b, l + 1)) && r;
+        r = p && report_error_(b, dot_loop_call_6(b, l + 1)) && r;
         r = p && report_error_(b, dot_loop_call_7(b, l + 1)) && r;
         r = p && block_body(b, l + 1) && r;
         exit_section_(b, l, m, r, p, null);
@@ -2325,6 +2470,13 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     private static boolean dot_loop_call_5(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "dot_loop_call_5")) return false;
         consumeToken(b, KW_EACH);
+        return true;
+    }
+
+    // loop-inline?
+    private static boolean dot_loop_call_6(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "dot_loop_call_6")) return false;
+        loop_inline(b, l + 1);
         return true;
     }
 
@@ -2609,46 +2761,44 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // namepath argument-body? block-body
-    //   | namepath argument-body
+    // namepath (argument-body? block-body | argument-body)
     public static boolean function_call(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "function_call")) return false;
         boolean r;
         Marker m = enter_section_(b, l, _NONE_, FUNCTION_CALL, "<function call>");
-        r = function_call_0(b, l + 1);
-        if (!r) r = function_call_1(b, l + 1);
+        r = namepath(b, l + 1);
+        r = r && function_call_1(b, l + 1);
         exit_section_(b, l, m, r, false, null);
         return r;
     }
 
-    // namepath argument-body? block-body
-    private static boolean function_call_0(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "function_call_0")) return false;
+    // argument-body? block-body | argument-body
+    private static boolean function_call_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "function_call_1")) return false;
         boolean r;
         Marker m = enter_section_(b);
-        r = namepath(b, l + 1);
-        r = r && function_call_0_1(b, l + 1);
+        r = function_call_1_0(b, l + 1);
+        if (!r) r = argument_body(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // argument-body? block-body
+    private static boolean function_call_1_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "function_call_1_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = function_call_1_0_0(b, l + 1);
         r = r && block_body(b, l + 1);
         exit_section_(b, m, null, r);
         return r;
     }
 
     // argument-body?
-    private static boolean function_call_0_1(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "function_call_0_1")) return false;
+    private static boolean function_call_1_0_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "function_call_1_0_0")) return false;
         argument_body(b, l + 1);
         return true;
-    }
-
-    // namepath argument-body
-    private static boolean function_call_1(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "function_call_1")) return false;
-        boolean r;
-        Marker m = enter_section_(b);
-        r = namepath(b, l + 1);
-        r = r && argument_body(b, l + 1);
-        exit_section_(b, m, null, r);
-        return r;
     }
 
     /* ********************************************************** */
@@ -3096,13 +3246,17 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     /* ********************************************************** */
     // OP_ADD  | OP_ADD_ASSIGN
     //     | OP_SUB | OP_SUB_ASSIGN
-    //     | OP_DIV_REM
     //     | OP_OR
     //     | OP_AND
     //     | infix-multiple | OP_MUL_ASSIGN
     //     | OP_DIV | OP_DIV_ASSIGN
-    //     | OP_REM
-    //     | OP_POW | OP_POW_ASSIGN
+    //     | OP_DIV_ROUND
+    //     | OP_DIV_FLOOR
+    //     | OP_DIV_CEIL
+    //     | OP_DIV_REM
+    //     | OP_REM | OP_REM_ASSIGN
+    //     | OP_POW
+    //     | OP_SQRT
     //     | OP_LLL | bad-lll  // <<<
     //     | OP_GGG | bad-rrr  // >>>
     //     | OP_LL  | bad-ll   // <<
@@ -3116,6 +3270,8 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     //     | OP_UNTIL
     //     | EQUAL | OP_EE | OP_NE
     //     | infix-logical
+    //     // sequence
+    //     | OP_MAP // f /@ x
     //     | OP_UNWRAP_OR | OP_UNWRAP_ELSE
     public static boolean infix(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "infix")) return false;
@@ -3125,16 +3281,20 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!r) r = consumeToken(b, OP_ADD_ASSIGN);
         if (!r) r = consumeToken(b, OP_SUB);
         if (!r) r = consumeToken(b, OP_SUB_ASSIGN);
-        if (!r) r = consumeToken(b, OP_DIV_REM);
         if (!r) r = consumeToken(b, OP_OR);
         if (!r) r = consumeToken(b, OP_AND);
         if (!r) r = infix_multiple(b, l + 1);
         if (!r) r = consumeToken(b, OP_MUL_ASSIGN);
         if (!r) r = consumeToken(b, OP_DIV);
         if (!r) r = consumeToken(b, OP_DIV_ASSIGN);
+        if (!r) r = consumeToken(b, OP_DIV_ROUND);
+        if (!r) r = consumeToken(b, OP_DIV_FLOOR);
+        if (!r) r = consumeToken(b, OP_DIV_CEIL);
+        if (!r) r = consumeToken(b, OP_DIV_REM);
         if (!r) r = consumeToken(b, OP_REM);
+        if (!r) r = consumeToken(b, OP_REM_ASSIGN);
         if (!r) r = consumeToken(b, OP_POW);
-        if (!r) r = consumeToken(b, OP_POW_ASSIGN);
+        if (!r) r = consumeToken(b, OP_SQRT);
         if (!r) r = consumeToken(b, OP_LLL);
         if (!r) r = bad_lll(b, l + 1);
         if (!r) r = consumeToken(b, OP_GGG);
@@ -3152,6 +3312,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!r) r = consumeToken(b, OP_EE);
         if (!r) r = consumeToken(b, OP_NE);
         if (!r) r = infix_logical(b, l + 1);
+        if (!r) r = consumeToken(b, OP_MAP);
         if (!r) r = consumeToken(b, OP_UNWRAP_OR);
         if (!r) r = consumeToken(b, OP_UNWRAP_ELSE);
         exit_section_(b, l, m, r, false, null);
@@ -3268,6 +3429,10 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
 
     /* ********************************************************** */
     // PARENTHESIS_L expression-root PARENTHESIS_R
+    //     | FLOOR_L expression-root FLOOR_R // ⌊5/2.0⌋
+    //     | FLOOR_L expression-root CEIL_R  // ⌊5/2.0⌉
+    //     | CEIL_L expression-root FLOOR_R  // ⌈5/2.0⌋
+    //     | CEIL_L expression-root CEIL_R   // ⌈5/2.0⌉
     //     | tuple                 // (1, 2, 3)
     //     | macro-call-inline     // @macro()
     //     | ordinal-range         // [1:2:3]
@@ -3282,6 +3447,10 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         boolean r;
         Marker m = enter_section_(b, l, _NONE_, INLINE_ATOMIC, "<inline atomic>");
         r = inline_atomic_0(b, l + 1);
+        if (!r) r = inline_atomic_1(b, l + 1);
+        if (!r) r = inline_atomic_2(b, l + 1);
+        if (!r) r = inline_atomic_3(b, l + 1);
+        if (!r) r = inline_atomic_4(b, l + 1);
         if (!r) r = tuple(b, l + 1);
         if (!r) r = macro_call_inline(b, l + 1);
         if (!r) r = ordinal_range(b, l + 1);
@@ -3307,9 +3476,60 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
+    // FLOOR_L expression-root FLOOR_R
+    private static boolean inline_atomic_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "inline_atomic_1")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, FLOOR_L);
+        r = r && expression_root(b, l + 1);
+        r = r && consumeToken(b, FLOOR_R);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // FLOOR_L expression-root CEIL_R
+    private static boolean inline_atomic_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "inline_atomic_2")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, FLOOR_L);
+        r = r && expression_root(b, l + 1);
+        r = r && consumeToken(b, CEIL_R);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // CEIL_L expression-root FLOOR_R
+    private static boolean inline_atomic_3(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "inline_atomic_3")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, CEIL_L);
+        r = r && expression_root(b, l + 1);
+        r = r && consumeToken(b, FLOOR_R);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // CEIL_L expression-root CEIL_R
+    private static boolean inline_atomic_4(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "inline_atomic_4")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, CEIL_L);
+        r = r && expression_root(b, l + 1);
+        r = r && consumeToken(b, CEIL_R);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
     /* ********************************************************** */
     // OP_BANG
-    //     | dot-call-inline
+    //     | OP_CELSIUS
+    //     | OP_FAHRENHEIT
+    //     | dot-call-macro-inline  // .@macro
+    //     | dot-call-inline        // .@function
     //     | generic-call
     //     | is-expression
     public static boolean inline_suffix(PsiBuilder b, int l) {
@@ -3317,6 +3537,9 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         boolean r;
         Marker m = enter_section_(b, l, _NONE_, INLINE_SUFFIX, "<inline suffix>");
         r = consumeToken(b, OP_BANG);
+        if (!r) r = consumeToken(b, OP_CELSIUS);
+        if (!r) r = consumeToken(b, OP_FAHRENHEIT);
+        if (!r) r = dot_call_macro_inline(b, l + 1);
         if (!r) r = dot_call_inline(b, l + 1);
         if (!r) r = generic_call(b, l + 1);
         if (!r) r = is_expression(b, l + 1);
@@ -4554,6 +4777,22 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
+    // KW_NEW expression-inline KW_WITH new-body
+    public static boolean new_copy(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "new_copy")) return false;
+        if (!nextTokenIs(b, KW_NEW)) return false;
+        boolean r, p;
+        Marker m = enter_section_(b, l, _NONE_, NEW_COPY, null);
+        r = consumeToken(b, KW_NEW);
+        r = r && expression_inline(b, l + 1);
+        r = r && consumeToken(b, KW_WITH);
+        p = r; // pin = 3
+        r = r && new_body(b, l + 1);
+        exit_section_(b, l, m, r, p, null);
+        return r || p;
+    }
+
+    /* ********************************************************** */
     // SEMICOLON | COMMA
     //   | expression-root
     static boolean new_item(PsiBuilder b, int l) {
@@ -4676,8 +4915,8 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // DECIMAL number-suffix?
-    //   | INTEGER number-suffix?
+    // DECIMAL NUMBER_SUFFIX?
+    //   | INTEGER NUMBER_SUFFIX?
     public static boolean number(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "number")) return false;
         if (!nextTokenIs(b, "<number>", DECIMAL, INTEGER)) return false;
@@ -4689,7 +4928,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // DECIMAL number-suffix?
+    // DECIMAL NUMBER_SUFFIX?
     private static boolean number_0(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "number_0")) return false;
         boolean r;
@@ -4700,14 +4939,14 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // number-suffix?
+    // NUMBER_SUFFIX?
     private static boolean number_0_1(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "number_0_1")) return false;
-        number_suffix(b, l + 1);
+        consumeToken(b, NUMBER_SUFFIX);
         return true;
     }
 
-    // INTEGER number-suffix?
+    // INTEGER NUMBER_SUFFIX?
     private static boolean number_1(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "number_1")) return false;
         boolean r;
@@ -4718,24 +4957,11 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // number-suffix?
+    // NUMBER_SUFFIX?
     private static boolean number_1_1(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "number_1_1")) return false;
-        number_suffix(b, l + 1);
+        consumeToken(b, NUMBER_SUFFIX);
         return true;
-    }
-
-    /* ********************************************************** */
-    // identifier
-    //   | OP_CELSIUS
-    //   | OP_FAHRENHEIT
-    static boolean number_suffix(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "number_suffix")) return false;
-        boolean r;
-        r = identifier(b, l + 1);
-        if (!r) r = consumeToken(b, OP_CELSIUS);
-        if (!r) r = consumeToken(b, OP_FAHRENHEIT);
-        return r;
     }
 
     /* ********************************************************** */
@@ -5392,7 +5618,11 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // OP_ADD | OP_SUB
+    // OP_ADD
+    //     | OP_SUB
+    //     | OP_SQRT
+    //     | OP_SURD3
+    //     | OP_SURD4
     //     | prefix-not
     //     | prefix-ref   // &p
     //     | prefix-deref // *p
@@ -5404,6 +5634,9 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         Marker m = enter_section_(b, l, _NONE_, PREFIX, "<prefix>");
         r = consumeToken(b, OP_ADD);
         if (!r) r = consumeToken(b, OP_SUB);
+        if (!r) r = consumeToken(b, OP_SQRT);
+        if (!r) r = consumeToken(b, OP_SURD3);
+        if (!r) r = consumeToken(b, OP_SURD4);
         if (!r) r = prefix_not(b, l + 1);
         if (!r) r = prefix_ref(b, l + 1);
         if (!r) r = prefix_deref(b, l + 1);
@@ -5689,7 +5922,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
 
     /* ********************************************************** */
     // declare-namespace
-    //     | using
+    //     | using-statement
     //     | type-alias
     //     | trait-alias
     //     | declare-flags
@@ -5709,7 +5942,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!recursion_guard_(b, l, "statements")) return false;
         boolean r;
         r = declare_namespace(b, l + 1);
-        if (!r) r = using(b, l + 1);
+        if (!r) r = using_statement(b, l + 1);
         if (!r) r = type_alias(b, l + 1);
         if (!r) r = trait_alias(b, l + 1);
         if (!r) r = declare_flags(b, l + 1);
@@ -5762,8 +5995,11 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
 
     /* ********************************************************** */
     // OP_BANG
-    //     | dot-call
-    //     | dot-loop-call
+    //     | OP_CELSIUS
+    //     | OP_FAHRENHEIT
+    //     | dot-call-macro         // .@macro() { }
+    //     | dot-call               // .method
+    //     | dot-loop-call          // ,loop { }
     //     | dot-match-call
     //     | KW_AS type-expression
     //     | is-statement
@@ -5773,10 +6009,13 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         boolean r;
         Marker m = enter_section_(b, l, _NONE_, SUFFIX, "<suffix>");
         r = consumeToken(b, OP_BANG);
+        if (!r) r = consumeToken(b, OP_CELSIUS);
+        if (!r) r = consumeToken(b, OP_FAHRENHEIT);
+        if (!r) r = dot_call_macro(b, l + 1);
         if (!r) r = dot_call(b, l + 1);
         if (!r) r = dot_loop_call(b, l + 1);
         if (!r) r = dot_match_call(b, l + 1);
-        if (!r) r = suffix_4(b, l + 1);
+        if (!r) r = suffix_7(b, l + 1);
         if (!r) r = is_statement(b, l + 1);
         if (!r) r = generic_call(b, l + 1);
         exit_section_(b, l, m, r, false, null);
@@ -5784,8 +6023,8 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     // KW_AS type-expression
-    private static boolean suffix_4(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "suffix_4")) return false;
+    private static boolean suffix_7(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "suffix_7")) return false;
         boolean r;
         Marker m = enter_section_(b);
         r = consumeToken(b, KW_AS);
@@ -6650,29 +6889,6 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // annotations KW_USING (using-body|using-term)
-    public static boolean using(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "using")) return false;
-        boolean r, p;
-        Marker m = enter_section_(b, l, _NONE_, USING, "<using>");
-        r = annotations(b, l + 1);
-        r = r && consumeToken(b, KW_USING);
-        p = r; // pin = 2
-        r = r && using_2(b, l + 1);
-        exit_section_(b, l, m, r, p, null);
-        return r || p;
-    }
-
-    // using-body|using-term
-    private static boolean using_2(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "using_2")) return false;
-        boolean r;
-        r = using_body(b, l + 1);
-        if (!r) r = using_term(b, l + 1);
-        return r;
-    }
-
-    /* ********************************************************** */
     // identifier KW_AS identifier
     public static boolean using_alias(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "using_alias")) return false;
@@ -6854,6 +7070,29 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!recursion_guard_(b, l, "using_exclude_1_1_1_2")) return false;
         consumeToken(b, COMMA);
         return true;
+    }
+
+    /* ********************************************************** */
+    // annotations KW_USING (using-body|using-term)
+    public static boolean using_statement(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "using_statement")) return false;
+        boolean r, p;
+        Marker m = enter_section_(b, l, _NONE_, USING_STATEMENT, "<using statement>");
+        r = annotations(b, l + 1);
+        r = r && consumeToken(b, KW_USING);
+        p = r; // pin = 2
+        r = r && using_statement_2(b, l + 1);
+        exit_section_(b, l, m, r, p, null);
+        return r || p;
+    }
+
+    // using-body|using-term
+    private static boolean using_statement_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "using_statement_2")) return false;
+        boolean r;
+        r = using_body(b, l + 1);
+        if (!r) r = using_term(b, l + 1);
+        return r;
     }
 
     /* ********************************************************** */

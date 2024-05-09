@@ -11,6 +11,9 @@ public interface ValkyrieSuffix extends PsiElement {
     ValkyrieDotCall getDotCall();
 
     @Nullable
+    ValkyrieDotCallMacro getDotCallMacro();
+
+    @Nullable
     ValkyrieDotLoopCall getDotLoopCall();
 
     @Nullable

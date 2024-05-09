@@ -34,6 +34,12 @@ public class ValkyrieInlineSuffixNode extends ValkyrieElement implements Valkyri
 
     @Override
     @Nullable
+    public ValkyrieDotCallMacroInline getDotCallMacroInline() {
+        return findChildByClass(ValkyrieDotCallMacroInline.class);
+    }
+
+    @Override
+    @Nullable
     public ValkyrieGenericCall getGenericCall() {
         return findChildByClass(ValkyrieGenericCall.class);
     }

@@ -6,15 +6,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieLoopFor extends PsiElement {
+public interface ValkyrieDotCallMacro extends PsiElement {
+
+    @Nullable
+    ValkyrieArgumentBody getArgumentBody();
+
+    @Nullable
+    ValkyrieClassBody getClassBody();
 
     @NotNull
-    ValkyrieCasePattern getCasePattern();
-
-    @Nullable
-    ValkyrieExpressionInline getExpressionInline();
-
-    @Nullable
-    ValkyrieIfCondition getIfCondition();
+    ValkyrieNamepath getNamepath();
 
 }
