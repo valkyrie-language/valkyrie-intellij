@@ -100,8 +100,8 @@ public class ValkyrieAtomicNode extends ValkyrieElement implements ValkyrieAtomi
 
     @Override
     @Nullable
-    public ValkyrieNumber getNumber() {
-        return findChildByClass(ValkyrieNumber.class);
+    public ValkyrieNumberLiteral getNumberLiteral() {
+        return findChildByClass(ValkyrieNumberLiteral.class);
     }
 
     @Override

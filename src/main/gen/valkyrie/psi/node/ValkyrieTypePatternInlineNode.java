@@ -28,8 +28,8 @@ public class ValkyrieTypePatternInlineNode extends ValkyrieElement implements Va
 
     @Override
     @Nullable
-    public ValkyrieNumber getNumber() {
-        return findChildByClass(ValkyrieNumber.class);
+    public ValkyrieNumberLiteral getNumberLiteral() {
+        return findChildByClass(ValkyrieNumberLiteral.class);
     }
 
     @Override

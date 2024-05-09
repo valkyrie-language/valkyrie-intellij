@@ -8,7 +8,7 @@ import com.intellij.psi.impl.PsiManagerEx
 import com.intellij.psi.impl.source.DummyHolderFactory
 import com.intellij.psi.tree.IElementType
 import valkyrie.psi.ValkyrieTypes
-import valkyrie.psi.node.ValkyrieNumberNode
+import valkyrie.psi.node.ValkyrieNumberLiteralNode
 
 class ValkyrieFactory {
     private val project: Project
@@ -22,7 +22,7 @@ class ValkyrieFactory {
         this.project = element.project
     }
 
-    fun createNumberLiteral(number: String, unit: String?): ValkyrieNumberNode {
+    fun createNumberLiteral(number: String, unit: String?): ValkyrieNumberLiteralNode {
 //        return letDefineAtom(number)!!.number as ValkyrieNumberNode
         throw Exception("unreachable: ValkyrieFactory::createNumberLiteral")
     }

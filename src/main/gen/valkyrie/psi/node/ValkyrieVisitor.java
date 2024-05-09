@@ -499,7 +499,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitNumber(@NotNull ValkyrieNumber o) {
+    public void visitNumberLiteral(@NotNull ValkyrieNumberLiteral o) {
         visitPsiElement(o);
     }
 
@@ -507,7 +507,15 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitOffsetSlice(@NotNull ValkyrieOffsetSlice o) {
+        visitPsiElement(o);
+    }
+
     public void visitOrdinalRange(@NotNull ValkyrieOrdinalRange o) {
+        visitPsiElement(o);
+    }
+
+    public void visitOrdinalSlice(@NotNull ValkyrieOrdinalSlice o) {
         visitPsiElement(o);
     }
 
