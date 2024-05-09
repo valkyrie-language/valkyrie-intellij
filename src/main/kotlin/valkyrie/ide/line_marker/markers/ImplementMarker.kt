@@ -7,6 +7,7 @@ import com.intellij.icons.AllIcons.Gutter.ImplementedMethod
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
+import valkyrie.psi.node.ValkyrieDeclareImplyNode
 import valkyrie.psi.node.ValkyrieIdentifier
 import javax.swing.Icon
 
@@ -15,8 +16,8 @@ class ImplementMarker : RelatedItemLineMarkerInfo<PsiElement> {
         leaf.firstChild,
         leaf.textRange,
         ImplementedMethod,
-        { "Valkyrie Class" },
-        { "PresentationProvider" },
+        { "Implements" },
+        { implementType(implement) },
         DefaultGutterIconNavigationHandler(mutableListOf(implement), "ClassDescendantMarker"),
         CENTER,
         { mutableListOf() },
@@ -30,4 +31,14 @@ class ImplementMarker : RelatedItemLineMarkerInfo<PsiElement> {
     override fun getCommonIcon(infos: MutableList<out MergeableLineMarkerInfo<*>>): Icon {
         return myIcon
     }
+
+    companion object {
+        fun implementType(descendant: PsiElement): String {
+            if (descendant is ValkyrieDeclareImplyNode) {
+                return descendant.name
+            }
+            return "implementType"
+        }
+    }
+
 }

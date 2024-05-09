@@ -28,6 +28,9 @@ class InsertElseBlock(element: PsiElement) : LocalQuickFixAndIntentionActionOnPs
         return ValkyrieBundle.message("action.insert.else.help")
     }
 
+    override fun applyFix() {
+        super.applyFix()
+    }
     override fun invoke(project: Project, file: PsiFile, editor: Editor?, startElement: PsiElement, endElement: PsiElement) {
 
     }
