@@ -2,15 +2,15 @@
 	<id>Valkyrie</id>
 	<name>Valkyrie Language</name>
 	<vendor>voml</vendor>
-	<depends>com.intellij.java</depends>
 	<depends>com.intellij.modules.lang</depends>
 	<depends>com.intellij.modules.platform</depends>
-	<depends optional="true" config-file="plugin-for-idea.xml">com.intellij.modules.ultimate</depends>
+	<depends optional="true" config-file="plugin-with-java.xml">com.intellij.java</depends>
+	<depends optional="true" config-file="plugin-with-ultimate.xml">com.intellij.modules.ultimate</depends>
 	<depends optional="true" config-file="plugin-with-toml.xml">org.toml.lang</depends>
+	<depends optional="true" config-file="plugin-with-markdown.xml">org.intellij.plugins.markdown</depends>
 	<resource-bundle>messages.ValkyrieBundle</resource-bundle>
 	<extensions defaultExtensionNs="com.intellij">
 		<!-- Language -->
-
 		<fileType
 			name="valkyrie"
 			language="valkyrie"
@@ -19,22 +19,16 @@
 			fieldName="INSTANCE"
 		/>
 		<fileTypeDetector implementation="valkyrie.language.file.ValkyrieFileTypeDetector"/>
-
 		<vfs.asyncListener implementation="valkyrie.ide.project.crate.FileTypeRecast"/>
 		<!-- Project -->
 		<newProjectWizard.languageGenerator implementation="valkyrie.project.ValkyrieProjectGenerator"/>
-		<projectWizard.projectCategory implementation="valkyrie.project.ValkyrieProjectCategory"/>
 		<directoryProjectGenerator implementation="valkyrie.project.DirectoryProjectGenerator"/>
 		<projectNameProvider implementation="valkyrie.project.ValkyrieProjectName"/>
-		<projectOpenProcessor implementation="valkyrie.project.ValkyrieProjectOpenProcessor"/>
 		<postStartupActivity implementation="valkyrie.project.legion.LegionWorkspaceDetector"/>
-		<projectImportProvider implementation="valkyrie.project.legion.LegionProvider"/>
-		<projectImportBuilder implementation="valkyrie.project.legion.LegionImporter"/>
 		<!-- Project SDK (Valkyrie Runtime) -->
 		<sdkType implementation="valkyrie.project.sdk.ValkyrieSdkType"/>
 		<sdkFinder implementation="valkyrie.project.sdk.ValkyrieSdkFinder"/>
 		<sdkDownload implementation="valkyrie.project.sdk.ValkyrieSdkDownload"/>
-		<sdkEditorAdditionalOptionsProvider implementation="valkyrie.project.sdk.ValkyrieSdkAdditionalOptions"/>
 		<unknownSdkContributor implementation="valkyrie.project.sdk.ValkyrieSdkUnknownContributor"/>
 		<unknownSdkResolver implementation="valkyrie.project.sdk.ValkyrieSdkUnknownResolver"/>
 		<projectSdkSetupValidator implementation="valkyrie.project.sdk.ValkyrieSdkValidator"/>
@@ -75,11 +69,7 @@
 		<!--		<fileBasedIndex implementation="valkyrie.project.ValkyrieFileIndex"/>-->
 		<indexedRootsProvider implementation="valkyrie.project.ExtraIndexContributor"/>
 		<generatedSourcesFilter implementation="valkyrie.project.ValkyrieGeneratedSource"/>
-		<!-- Project Artifact -->
-		<packaging.artifactType implementation="valkyrie.project.artifact.ValkyrieArtifactType"/>
-		<packaging.artifactPropertiesProvider
-			implementation="valkyrie.project.artifact.ValkyrieArtifactPropertiesProvider"
-		/>
+
 		<!-- StructureView -->
 		<iconProvider implementation="valkyrie.language.file.ValkyrieIconProvider"/>
 		<gutterMarkPreprocessor implementation="valkyrie.ide.gutter.ValkyrieGutterMarkPreprocessor"/>
@@ -100,9 +90,7 @@
 		<langCodeStyleSettingsProvider implementation="valkyrie.ide.codeStyle.ValkyrieCodeStyleProvider"/>
 		<formattingService implementation="valkyrie.ide.formatter.ValkyrieNativeFormat"/>
 		<preFormatProcessor implementation="valkyrie.ide.formatter.ValkyrieBeforeFormat"/>
-
 		<postFormatProcessor implementation="valkyrie.ide.formatter.ValkyrieAfterFormat"/>
-
 		<!-- Inspection -->
 		<globalInspection
 			language="valkyrie"
@@ -122,7 +110,6 @@
 		<!--		<runConfigurationProducer implementation="valkyrie.ide.runner.ValkyrieRunConfigurationProducer"/>-->
 		<!--		<runConfigurationTemplateProvider implementation="valkyrie.ide.runner.ValkyrieRunningTemplateProvider"/>-->
 		<!--		<importTestOutput implementation="valkyrie.ide.runner.TestOutput"/>-->
-
 		<testFinder implementation="valkyrie.ide.runner.ValkyrieFindTests"/>
 		<testActionProvider implementation="valkyrie.ide.runner.VTestActionProvider"/>
 		<testStatusListener implementation="valkyrie.ide.runner.VTestStatusListener"/>
@@ -234,16 +221,12 @@
 
 		<!-- Methods -->
 
-		<methodImplementor implementation="valkyrie.ide.codegen.methodImplementor"/>
+
 		<methodHierarchyProvider
 			language="valkyrie"
 			implementationClass="valkyrie.ide.hierarchy.MethodHierarchyProvider"
 		/>
-		<superMethodsSearch implementation="valkyrie.ide.codegen.superMethodsSearch"/>
-		<deepestSuperMethodsSearch implementation="valkyrie.ide.codegen.deepestSuperMethodsSearch"/>
-		<overridingMethodsSearch implementation="valkyrie.ide.codegen.overridingMethodsSearch"/>
-		<allOverridingMethodsSearch implementation="valkyrie.ide.codegen.allOverridingMethodsSearch"/>
-		<methodReferencesSearch implementation="valkyrie.ide.codegen.methodReferencesSearch"/>
+
 		<!-- Methods -->
 		<!-- Methods -->
 		<testCreator language="valkyrie" implementationClass="valkyrie.ide.codegen.GenerateTests"/>
@@ -386,9 +369,7 @@
 			/>
 		</declarativeInlayProvider>
 		<typeInfo language="valkyrie" implementationClass="valkyrie.ide.hint.TypeInfoHint"/>
-		<implicitSubclassProvider implementation="valkyrie.ide.hint.implicitSubclassProvider"/>
 		<unresolvedReferenceQuickFixProvider implementation="valkyrie.ide.hint.unresolvedReferenceQuickFixProvider"/>
-		<changeVariableTypeQuickFixProvider implementation="valkyrie.ide.hint.changeVariableTypeQuickFixProvider"/>
 	</extensions>
 	<extensions defaultExtensionNs="com.intellij.config">
 		<codeVisionGroupSettingProvider implementation="valkyrie.settings.codeVisionGroupSettingProvider"/>
