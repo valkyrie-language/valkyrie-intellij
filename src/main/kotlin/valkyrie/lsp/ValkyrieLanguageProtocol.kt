@@ -25,6 +25,5 @@ class ValkyrieLanguageProtocol : LspServerSupportProvider {
             ValkyrieLanguageServerConfiguration::class.java
         )
     }
-
 }
 
