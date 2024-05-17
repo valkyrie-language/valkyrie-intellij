@@ -88,6 +88,7 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
             }
         }
     }
+
     override fun visitOffsetRange(o: ValkyrieOffsetRange) {
         for (child in o.childrenWithLeaves) {
             when (child.elementType) {
@@ -97,6 +98,7 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
             }
         }
     }
+
     override fun visitReturnType(o: ValkyrieReturnType) {
         when (settings.return_type) {
             ReturnType.Ignore -> return
@@ -156,6 +158,14 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
         o.replaceLeaf(ValkyrieTypes.INFIX_GREATER_EQUAL, ">=")
     }
 
+    override fun visitPrefixRef(o: ValkyriePrefixRef) {
+        o.replaceLeaf(ValkyrieTypes.PREFIX_REF, "⁋")
+    }
+
+    override fun visitPrefixDeref(o: ValkyriePrefixDeref) {
+        o.replaceLeaf(ValkyrieTypes.PREFIX_DEREF, "❡")
+    }
+
     override fun visitBadLll(o: ValkyrieBadLll) {
         o.replaceLeaf(ValkyrieTypes.OP_LLL, "⋘")
     }
@@ -184,7 +194,7 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
 private fun rewritePatternType(o: PsiElement) {
     for (child in o.childrenWithLeaves) {
         when (child.elementType) {
-            ValkyrieTypes.AT, ValkyrieTypes.EQUAL -> {
+            ValkyrieTypes.OP_MACRO_FREE, ValkyrieTypes.EQUAL -> {
                 child.replaceLeaf(ValkyrieTypes.COLON, ":")
                 break
             }
@@ -195,7 +205,7 @@ private fun rewritePatternType(o: PsiElement) {
 private fun rewritePatternTerm(o: PsiElement) {
     for (child in o.childrenWithLeaves) {
         when (child.elementType) {
-            ValkyrieTypes.AT, ValkyrieTypes.COLON, ValkyrieTypes.EQUAL -> {
+            ValkyrieTypes.OP_MACRO_FREE, ValkyrieTypes.COLON, ValkyrieTypes.EQUAL -> {
                 child.replaceLeaf(ValkyrieTypes.BIND, "←")
                 break
             }

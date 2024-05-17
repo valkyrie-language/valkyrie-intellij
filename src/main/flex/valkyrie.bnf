@@ -271,12 +271,12 @@ function-call-inline ::= namepath argument-body;
 dot-call        ::= OP_AND_THEN? DOT namepath (argument-body | argument-body? block-body)?;
 dot-call-inline ::= OP_AND_THEN? DOT namepath argument-body?
 // === macro call statement ===
-macro-call    ::= AT namepath (argument-body? class-body|argument-body)? {
+macro-call    ::= OP_MACRO_FREE namepath (argument-body? class-body|argument-body)? {
     pin = 1
 }
-dot-call-macro        ::= OP_AND_THEN? DOT AT namepath (argument-body? class-body|argument-body)?
-macro-call-inline     ::= AT namepath argument-body?
-dot-call-macro-inline ::= OP_AND_THEN? DOT AT namepath argument-body?
+dot-call-macro        ::= OP_AND_THEN? DOT OP_MACRO_FREE namepath (argument-body? class-body|argument-body)?
+macro-call-inline     ::= OP_MACRO_FREE namepath argument-body?
+dot-call-macro-inline ::= OP_AND_THEN? DOT OP_MACRO_FREE namepath argument-body?
 
 
 
@@ -364,19 +364,19 @@ private match-item ::=
   | match-case
   | match-when
   | match-else
-match-with ::= KW_WITH OP_OR? pattern (OP_OR pattern)* COLON block-bare {
+match-with ::= KW_WITH OP_OR? pattern (OP_OR pattern)* OP_ARROW1 block-bare {
     pin = 1
 }
-match-type ::= KW_TYPE OP_OR? type-pattern (OP_OR type-pattern)* COLON block-bare {
+match-type ::= KW_TYPE OP_OR? type-pattern (OP_OR type-pattern)* OP_ARROW1 block-bare {
     pin = 1
 }
-match-case ::= KW_CASE OP_OR? case-pattern (OP_OR case-pattern)* if-condition? COLON block-bare {
+match-case ::= KW_CASE OP_OR? case-pattern (OP_OR case-pattern)* if-condition? OP_ARROW1 block-bare {
     pin = 1
 }
-match-when ::= KW_WHEN infix-logical? expression COLON block-bare {
+match-when ::= KW_WHEN infix-logical? expression OP_ARROW1 block-bare {
     pin = 1
 }
-match-else ::= KW_ELSE COLON block-bare {
+match-else ::= KW_ELSE OP_ARROW1 block-bare {
     pin = 1
 }
 // === pattern expression ===
@@ -427,12 +427,12 @@ case-pattern ::= special
     | case-pattern-item    // mut id
 
 case-pattern-object ::= namepath? BRACE_L (case-pattern-pair (COMMA case-pattern-pair)* COMMA?)? BRACE_R
-case-pattern-pair   ::= (modifier|KW_LET)* identifier (COLON type-expression)? ((EQUAL|AT|BIND) case-pattern)? {
+case-pattern-pair   ::= (modifier|KW_LET)* identifier (COLON type-expression)? ((EQUAL|OP_MACRO_FREE|BIND|OP_ARROW1) case-pattern)? {
     mixin = "valkyrie.psi.mixin.MixinCasePatternPair"
 }
 case-pattern-tuple  ::= namepath? PARENTHESIS_L (case-pattern (COMMA case-pattern)* COMMA?)? PARENTHESIS_R
                       | namepath? BRACKET_L (case-pattern (COMMA case-pattern)* COMMA?)? BRACKET_R
-case-pattern-item   ::= (modifier|KW_LET)* identifier ((EQUAL|AT|COLON|BIND) case-pattern)? {
+case-pattern-item   ::= (modifier|KW_LET)* identifier ((EQUAL|OP_MACRO_FREE|COLON|BIND|OP_ARROW1) case-pattern)? {
     mixin = "valkyrie.psi.mixin.MixinCasePatternItem"
 }
 bare-pattern ::= bare-pattern-item (COMMA bare-pattern-item)* COMMA?
@@ -712,8 +712,8 @@ private modifier-stop ::= KW_IN | KW_IF
     | BRACKET_L | BRACKET_R
     | ANGLE_L | ANGLE_R
     | GENERIC_L | GENERIC_R
-attribute-below  ::= HASH attribute-item
-attribute-above  ::= HASH OP_POW attribute-item;
+attribute-below  ::= OP_MACRO_BIND attribute-item
+attribute-above  ::= OP_MACRO_BIND OP_POW attribute-item;
 attribute-item   ::= namepath argument-body? class-body? {
     mixin = "valkyrie.psi.mixin.MixinAttribute"
 }

@@ -206,7 +206,6 @@ public interface ValkyrieTypes {
     IElementType ANGLE_R = new ValkyrieTokenType(">");
     IElementType ANY_DICT = new ValkyrieTokenType("…");
     IElementType ANY_LIST = new ValkyrieTokenType("‥");
-    IElementType AT = new ValkyrieTokenType("AT");
     IElementType BIND = new ValkyrieTokenType("BIND");
     IElementType BRACE_L = new ValkyrieTokenType("{");
     IElementType BRACE_R = new ValkyrieTokenType("}");
@@ -232,7 +231,6 @@ public interface ValkyrieTypes {
     IElementType FLOOR_R = new ValkyrieTokenType("FLOOR_R");
     IElementType GENERIC_L = new ValkyrieTokenType("GENERIC_L");
     IElementType GENERIC_R = new ValkyrieTokenType("GENERIC_R");
-    IElementType HASH = new ValkyrieTokenType("HASH");
     IElementType INTEGER = new ValkyrieTokenType("<<INTEGER>>");
     IElementType KW_AS = new ValkyrieTokenType("KW_AS");
     IElementType KW_BOOLEAN = new ValkyrieTokenType("KW_BOOLEAN");
@@ -326,6 +324,8 @@ public interface ValkyrieTypes {
     IElementType OP_LEQ = new ValkyrieTokenType("OP_LEQ");
     IElementType OP_LL = new ValkyrieTokenType("≪");
     IElementType OP_LLL = new ValkyrieTokenType("⋘");
+    IElementType OP_MACRO_BIND = new ValkyrieTokenType("OP_MACRO_BIND");
+    IElementType OP_MACRO_FREE = new ValkyrieTokenType("OP_MACRO_FREE");
     IElementType OP_MAP = new ValkyrieTokenType("OP_MAP");
     IElementType OP_MUL = new ValkyrieTokenType("OP_MUL");
     IElementType OP_MUL_ASSIGN = new ValkyrieTokenType("OP_MUL_ASSIGN");
