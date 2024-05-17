@@ -183,19 +183,15 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         }
     }
 
-    override fun visitCasePatternTuple(o: ValkyrieCasePatternTuple) {
+    override fun visitCasePatternDict(o: ValkyrieCasePatternDict) {
         o.namepath?.highlight(this)
     }
 
-    override fun visitCasePatternObject(o: ValkyrieCasePatternObject) {
+    override fun visitCasePatternList(o: ValkyrieCasePatternList) {
         o.namepath?.highlight(this)
     }
 
     override fun visitCasePatternPair(o: ValkyrieCasePatternPair) {
-        highlight(o.identifier, HighlightColor.SYM_LOCAL)
-    }
-
-    override fun visitCasePatternItem(o: ValkyrieCasePatternItem) {
         highlight(o.identifier, HighlightColor.SYM_LOCAL)
     }
 

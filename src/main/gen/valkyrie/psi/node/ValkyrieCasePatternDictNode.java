@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
+
 import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieLetPatternNode extends ValkyrieElement implements ValkyrieLetPattern {
+public class ValkyrieCasePatternDictNode extends ValkyrieElement implements ValkyrieCasePatternDict {
 
-    public ValkyrieLetPatternNode(@NotNull ASTNode node) {
+    public ValkyrieCasePatternDictNode(@NotNull ASTNode node) {
         super(node);
     }
 
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitLetPattern(this);
+        visitor.visitCasePatternDict(this);
     }
 
     @Override
@@ -27,27 +30,15 @@ public class ValkyrieLetPatternNode extends ValkyrieElement implements ValkyrieL
     }
 
     @Override
-    @Nullable
-    public ValkyrieBarePattern getBarePattern() {
-        return findChildByClass(ValkyrieBarePattern.class);
+    @NotNull
+    public List<ValkyrieCasePatternPair> getCasePatternPairList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieCasePatternPair.class);
     }
 
     @Override
     @Nullable
-    public ValkyrieCasePatternDict getCasePatternDict() {
-        return findChildByClass(ValkyrieCasePatternDict.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieCasePatternList getCasePatternList() {
-        return findChildByClass(ValkyrieCasePatternList.class);
-    }
-
-    @Override
-    @Nullable
-    public ValkyrieMatchBind getMatchBind() {
-        return findChildByClass(ValkyrieMatchBind.class);
+    public ValkyrieNamepath getNamepath() {
+        return findChildByClass(ValkyrieNamepath.class);
     }
 
 }

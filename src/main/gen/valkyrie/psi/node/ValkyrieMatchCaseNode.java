@@ -34,8 +34,14 @@ public class ValkyrieMatchCaseNode extends ValkyrieElement implements ValkyrieMa
 
     @Override
     @NotNull
-    public List<ValkyrieCasePattern> getCasePatternList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieCasePattern.class);
+    public List<ValkyrieCasePatternKind> getCasePatternKindList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieCasePatternKind.class);
+    }
+
+    @Override
+    @NotNull
+    public List<ValkyrieCasePatternTop> getCasePatternTopList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieCasePatternTop.class);
     }
 
     @Override

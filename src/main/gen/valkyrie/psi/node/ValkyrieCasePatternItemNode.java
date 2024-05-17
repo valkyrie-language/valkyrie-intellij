@@ -33,15 +33,21 @@ public class ValkyrieCasePatternItemNode extends MixinCasePatternItem implements
     }
 
     @Override
-    @NotNull
+    @Nullable
     public ValkyrieIdentifier getIdentifier() {
-        return findNotNullChildByClass(ValkyrieIdentifier.class);
+        return findChildByClass(ValkyrieIdentifier.class);
     }
 
     @Override
     @NotNull
     public List<ValkyrieModifier> getModifierList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieModifier.class);
+    }
+
+    @Override
+    @Nullable
+    public ValkyrieTypeExpression getTypeExpression() {
+        return findChildByClass(ValkyrieTypeExpression.class);
     }
 
 }

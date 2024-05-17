@@ -32,8 +32,8 @@ class ValkyrieIndentVisitor(val child: ASTNode) : ValkyrieVisitor() {
         indent = Indent.getNormalIndent()
     }
 
-    override fun visitCasePatternObject(o: ValkyrieCasePatternObject) {
-        super.visitCasePatternObject(o)
+    override fun visitCasePatternDict(o: ValkyrieCasePatternDict) {
+        byCorner(o.node)
     }
 
     override fun visitTypePatternObject(o: ValkyrieTypePatternObject) {
