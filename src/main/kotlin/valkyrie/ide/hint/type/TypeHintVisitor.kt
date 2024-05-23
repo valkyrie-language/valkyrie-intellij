@@ -29,7 +29,7 @@ class TypeHintVisitor : ValkyrieVisitor {
     }
 
 
-    override fun visitForStatement(o: ValkyrieForStatement) {
+    override fun visitLoopStatement(o: ValkyrieLoopStatement) {
         if (setting.show_loop_each_types) {
 //                inline(element.identifier.textRange.endOffset, "Unknown")
         }

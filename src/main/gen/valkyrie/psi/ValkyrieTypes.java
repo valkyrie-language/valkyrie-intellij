@@ -84,7 +84,6 @@ public interface ValkyrieTypes {
     IElementType EXPRESSION = new ValkyrieElementType("EXPRESSION");
     IElementType EXPRESSION_INLINE = new ValkyrieElementType("EXPRESSION_INLINE");
     IElementType EXPRESSION_ROOT = new ValkyrieElementType("EXPRESSION_ROOT");
-    IElementType FOR_STATEMENT = new ValkyrieElementType("FOR_STATEMENT");
     IElementType FUNCTION_CALL = new ValkyrieElementType("FUNCTION_CALL");
     IElementType FUNCTION_CALL_INLINE = new ValkyrieElementType("FUNCTION_CALL_INLINE");
     IElementType GENERIC_ARGUMENT = new ValkyrieElementType("GENERIC_ARGUMENT");
@@ -519,8 +518,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieExpressionInlineNode(node);
             } else if (type == EXPRESSION_ROOT) {
                 return new ValkyrieExpressionRootNode(node);
-            } else if (type == FOR_STATEMENT) {
-                return new ValkyrieForStatementNode(node);
             } else if (type == FUNCTION_CALL) {
                 return new ValkyrieFunctionCallNode(node);
             } else if (type == FUNCTION_CALL_INLINE) {

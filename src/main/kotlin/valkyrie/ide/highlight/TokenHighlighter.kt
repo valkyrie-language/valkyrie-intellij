@@ -28,7 +28,7 @@ class TokenHighlighter : SyntaxHighlighter {
             return when (tokenType) {
                 OP_BASE, OP_EXPONENT -> HighlightColor.KEYWORD
                 // operations
-                COLON, EQUAL, BIND, STAR -> HighlightColor.OPERATION
+                COLON, EQUAL, BIND, STAR, KW_THEN -> HighlightColor.OPERATION
                 // literals
                 STRING_L, STRING_TEXT, STRING_R -> HighlightColor.STRING
                 ESCAPED -> HighlightColor.STRING_ESCAPED
