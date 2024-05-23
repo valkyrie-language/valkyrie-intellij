@@ -148,8 +148,9 @@ OP_SURD4      = [∜]
 OP_REV = [⅟]
 OP_HALF = [½]
 
-OP_MACRO_BIND = [↯]|@@
-OP_MACRO_FREE = [@]
+OP_MACRO_LOWER = [↯]|@[.]
+OP_MACRO_UPPER = [↸]|@\^
+OP_MACRO  = [@]
 
 OP_UNTIL      = {DOT}{2}[<=]
 
@@ -260,8 +261,9 @@ RESERVED = [⸎߷⸖⍼♯⟀⟁]
 
     "|" { return OP_OR;}
     & { return OP_AND;}
-	{OP_MACRO_BIND} { return OP_MACRO_BIND; }
-	{OP_MACRO_FREE} { return OP_MACRO_FREE; }
+	{OP_MACRO_LOWER} { return OP_MACRO_LOWER; }
+	{OP_MACRO_UPPER} { return OP_MACRO_UPPER; }
+	{OP_MACRO}  { return OP_MACRO; }
     "$" { return DOLLAR; }
 
 
