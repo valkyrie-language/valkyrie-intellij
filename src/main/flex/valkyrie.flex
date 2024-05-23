@@ -53,6 +53,7 @@ KW_MACRO     = macro|template
 KW_SINGLETON = singleton
 KW_COMPONENT = widget
 KW_NEURAL    = neural
+KW_MAY_LET   = let[?]
 KW_LET       = let
 KW_NEW       = new
 KW_OBJECT    = object
@@ -404,7 +405,6 @@ RESERVED = [⸎߷⸖⍼♯⟀⟁]
     {KW_COMPONENT} { return KW_COMPONENT; }
     {KW_SINGLETON} { return KW_SINGLETON; }
     {KW_NEURAL}    { return KW_NEURAL; }
-
 
     {KW_LET}       { return KW_LET; }
     {KW_NEW}       { return KW_NEW; }
