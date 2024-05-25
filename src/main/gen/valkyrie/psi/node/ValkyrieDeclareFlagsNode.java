@@ -52,8 +52,8 @@ public class ValkyrieDeclareFlagsNode extends MixinFlags implements ValkyrieDecl
 
     @Override
     @Nullable
-    public ValkyrieTypeHint getTypeHint() {
-        return findChildByClass(ValkyrieTypeHint.class);
+    public ValkyrieTypeAtomic getTypeAtomic() {
+        return findChildByClass(ValkyrieTypeAtomic.class);
     }
 
 }

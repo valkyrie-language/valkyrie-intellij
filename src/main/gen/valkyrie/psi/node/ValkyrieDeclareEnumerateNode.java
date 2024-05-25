@@ -52,8 +52,8 @@ public class ValkyrieDeclareEnumerateNode extends MixinEnumerate implements Valk
 
     @Override
     @Nullable
-    public ValkyrieTypeHint getTypeHint() {
-        return findChildByClass(ValkyrieTypeHint.class);
+    public ValkyrieTypeAtomic getTypeAtomic() {
+        return findChildByClass(ValkyrieTypeAtomic.class);
     }
 
 }
