@@ -2,16 +2,9 @@
 package valkyrie.psi.node;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieMatchCaseItem extends PsiElement {
-
-    @NotNull
-    List<ValkyrieCasePattern> getCasePatternList();
-
-    @Nullable
-    ValkyrieIfCondition getIfCondition();
+public interface ValkyrieIdentifierField extends ValkyrieIdentifier {
 
 }
