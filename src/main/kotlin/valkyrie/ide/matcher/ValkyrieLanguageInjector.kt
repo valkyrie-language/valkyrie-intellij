@@ -7,8 +7,10 @@ import com.intellij.lang.injection.MultiHostInjector
 import com.intellij.lang.injection.MultiHostRegistrar
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import com.intellij.refactoring.suggested.endOffset
-import com.intellij.refactoring.suggested.startOffset
+import com.intellij.psi.util.endOffset
+import com.intellij.psi.util.startOffset
+
+
 import org.intellij.lang.regexp.RegExpLanguage
 import valkyrie.psi.mixin.MixinString
 import valkyrie.psi.node.ValkyrieIdentifierNode
