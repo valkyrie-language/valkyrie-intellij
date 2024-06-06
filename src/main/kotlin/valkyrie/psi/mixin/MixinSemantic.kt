@@ -9,7 +9,7 @@ import javax.swing.Icon
 
 abstract class MixinSemantic(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareSemantic {
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.identifier as? ValkyrieIdentifierNode
+        return this.identifierList.last() as? ValkyrieIdentifierNode
     }
 
     override fun getBaseIcon(): Icon {
