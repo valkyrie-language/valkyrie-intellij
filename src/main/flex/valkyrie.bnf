@@ -148,7 +148,7 @@ private class-item ::= SEMICOLON | COMMA
     | declare-method
     | declare-field
 // === class field statement ===
-declare-field ::= annotations identifier-tail type-hint? default-value? {
+declare-field ::= annotations identifier-free type-hint? default-value? {
     mixin = "valkyrie.psi.mixin.MixinField"
 }
 type-hint     ::= COLON type-expression {
@@ -157,7 +157,7 @@ type-hint     ::= COLON type-expression {
 default-value ::= EQUAL expression-root;
 default-type  ::= EQUAL type-expression;
 // === class method statement ===
-declare-method ::= annotations identifier-tail declare-generic? parameter-body return-type? effect-type? block-body? {
+declare-method ::= annotations identifier-free declare-generic? parameter-body return-type? effect-type? block-body? {
     mixin = "valkyrie.psi.mixin.MixinMethod"
 }
 // === class domain statement ===
@@ -373,10 +373,13 @@ private match-item ::=
     | match-case
     | match-when
     | match-else
-match-with ::= KW_WITH OP_OR? pattern (OP_OR pattern)* (COLON|KW_THEN) block-bare {
+match-with ::= KW_WITH (match-with-provide|match-with-control) {
     pin = 1
     recoverWhile=match-recover
 }
+match-with-provide ::= BRACKET_L     (type-expression (COMMA type-expression)? COMMA?)? BRACKET_R
+match-with-control ::= PARENTHESIS_L (identifier-free (COMMA identifier-free)? COMMA?)? PARENTHESIS_R
+
 match-type ::= KW_TYPE OP_OR? type-pattern (OP_OR type-pattern)* (COLON|KW_THEN) block-bare {
     pin = 1
     recoverWhile=match-recover
@@ -492,14 +495,14 @@ slot-named ::= DOLLAR identifier;
 slot-index ::= DOLLAR INTEGER;
 // === control expression ===
 control-statement ::=
-    control-return
-  | control-yield-send    // generator<Yield=T, Return=()>
-  | control-yield-stop    // generator<Yield=R, Return=()>
-  | control-yield-from
-  | control-continue
-  | control-break
-  | control-through
-  | control-resume
+      control-return
+    | control-yield-send    // generator<Yield=T, Return=()>
+    | control-yield-stop    // generator<Yield=R, Return=()>
+    | control-yield-from
+    | control-continue
+    | control-break
+    | control-through
+    | control-resume
 control-break  ::= KW_BREAK control-label?
 control-return ::= KW_RETURN control-label? expression-root?;
 control-continue ::= KW_CONTINUE control-label?
@@ -517,6 +520,8 @@ control-yield-from ::=
   | KW_YIELD KW_FROM control-label? expression-root;
 control-label ::= OP_LABEL (SYMBOL|SYMBOW_RAW|INTEGER|KW_MACRO|KW_FOR|KW_WHILE);
 control-raise ::= KW_RAISE expression-root
+    | KW_RAISE KW_USING expression-root
+    | KW_RAISE KW_TYPE type-expression
 control-resume ::= KW_RESUME control-label? expression-root
 control-through ::= KW_THROUGH control-label?
 // === common expression ===
@@ -724,7 +729,7 @@ number-literal ::=
 string ::= identifier? STRING_L STRING_TEXT* STRING_R {
     mixin = "valkyrie.psi.mixin.MixinString"
 }
-special ::= KW_NULL | KW_NIL | COLOR;
+special ::= KW_NIL | COLOR;
 
 // === annotation statement ===
 annotations ::= attribute-below* modifier*
@@ -739,9 +744,11 @@ private modifier-stop ::= KW_IN | KW_IF
     | BRACKET_L | BRACKET_R
     | ANGLE_L | ANGLE_R
     | GENERIC_L | GENERIC_R
+// ↯attribute.kind::<Type>(arg) { domain }
 attribute-below  ::= OP_MACRO_LOWER attribute-item
+// ↯attribute.kind::<Type>(arg) { domain }
 attribute-above  ::= OP_MACRO_UPPER attribute-item;
-attribute-item   ::= namepath generic-call? argument-body? class-body? {
+attribute-item   ::= namepath (DOT identifier-free)? generic-call? argument-body? class-body? {
     mixin = "valkyrie.psi.mixin.MixinAttribute"
 }
 // === identifiers ===
@@ -754,12 +761,13 @@ namepath-free ::= identifier ((NAME_SPLIT|DOT) identifier)* {
 identifier ::= symbol-safe | symbol {
     mixin = "valkyrie.psi.mixin.MixinIdentifier"
 }
-identifier-tail ::=  symbol-lead | symbol-safe | symbol {
+identifier-free ::=  symbol-lead | symbol-safe | symbol {
     extends = identifier
     mixin = "valkyrie.psi.mixin.MixinIdentifier"
 }
 private symbol      ::= SYMBOL | SYMBOW_RAW;
 private symbol-safe ::= KW_FROM | KW_AS;
-private symbol-lead ::= KW_CLASS | KW_TRAIT | KW_OBJECT;
-
+private symbol-lead ::= KW_LET
+    | KW_CLASS | KW_TRAIT | KW_OBJECT
+    | KW_CATCH | KW_MATCH | KW_CASE
 unused ::= BUILDER_L BUILDER_R DOMAIN_L DOMAIN_R OP_ARROW2 OP_ARROW3

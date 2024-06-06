@@ -9,7 +9,7 @@ class ValkyrieCodeStyleSettings(container: CodeStyleSettings) : CustomCodeStyleS
     val class_field_trailing: CommaOrSemicolon = CommaOrSemicolon.Comma
     val flags_trailing: CommaOrSemicolon = CommaOrSemicolon.Comma
     val variant_trailing: CommaOrSemicolon = CommaOrSemicolon.Comma
-    val return_type: ReturnType = ReturnType.Arrow
+    val return_type: ReturnType = ReturnType.Colon
     val namespace_delimiter: NamespaceDelimiter = NamespaceDelimiter.Dot
     val namespace_colon: Triplet = Triplet.Always
 
