@@ -1,6 +1,6 @@
 package valkyrie.ide.runner
 
-import com.intellij.icons.ExpUiIcons
+import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
@@ -14,7 +14,7 @@ class RunTestDebugMode : AnAction {
 
     constructor(element: PsiElement) : super() {
         this.element = element
-        templatePresentation.icon = ExpUiIcons.Run.Debug
+        templatePresentation.icon = AllIcons.Run.Restart
         templatePresentation.text = ValkyrieBundle.message("action.run.class.full.name")
         templatePresentation.description = ValkyrieBundle.message("action.run.class.full.help")
     }

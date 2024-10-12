@@ -1,7 +1,7 @@
 class i32 {};
 
 
-\\ literal
+-- literal
 scope {
     _ is nil;
     _ is null;
@@ -12,7 +12,7 @@ scope {
     _ is '';
 }
 
-\\ tuple
+-- tuple
 scope {
     _ is ();
     _ is (i32);
@@ -22,7 +22,7 @@ scope {
     _ is Some(_)
 }
 
-\\ array
+-- array
 scope {
     _ is [];
     _ is [i32];

@@ -5,7 +5,7 @@ import com.intellij.codeInsight.lookup.LookupElementPresentation
 import com.intellij.codeInsight.template.CustomTemplateCallback
 import com.intellij.codeInsight.template.postfix.templates.PostfixLiveTemplate
 import com.intellij.codeInsight.template.postfix.templates.PostfixTemplate
-import com.intellij.icons.ExpUiIcons
+import com.intellij.icons.AllIcons
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiFile
 import valkyrie.ide.templates.post_template.ValkyriePostfixTemplateProvider
@@ -20,7 +20,7 @@ open class ValkyriePostCompletionTemplate : ValkyrieLookupElement {
 
     override fun renderElement(presentation: LookupElementPresentation) {
         super.renderElement(presentation)
-        presentation.icon = ExpUiIcons.Nodes.Template
+        presentation.icon = AllIcons.Nodes.Template
     }
 
 
