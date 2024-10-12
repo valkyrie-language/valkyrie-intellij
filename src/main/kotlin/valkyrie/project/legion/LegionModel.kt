@@ -40,7 +40,8 @@ class LegionModel : PackagingModifiableModel {
             else -> {
                 ReadAction.compute<ModifiableArtifactModel, RuntimeException> {
                     val artifactManager = ArtifactManager.getInstance(_project)
-                    if (artifactManager != null) artifactManager.createModifiableModel() else LegionArtifactProvider()
+//                    if (artifactManager != null) artifactManager.createModifiableModel() else LegionArtifactProvider()
+                    artifactManager.createModifiableModel()
                 }
             }
         }
