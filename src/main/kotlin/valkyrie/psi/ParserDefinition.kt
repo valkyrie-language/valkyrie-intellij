@@ -17,8 +17,7 @@ import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.parser.YggdrasilParser
 
 class ParserDefinition : ParserDefinition {
-
-    override fun createLexer(project: Project): Lexer = FlexAdapter(_ValkyrieLexer(null))
+    override fun createLexer(project: Project): Lexer = Instance.lexer()
     override fun createParser(project: Project): PsiParser = YggdrasilParser()
     override fun getFileNodeType(): IFileElementType = IFileElementType(ValkyrieLanguage)
     override fun getCommentTokens(): TokenSet =
@@ -33,7 +32,10 @@ class ParserDefinition : ParserDefinition {
     }
 
     object Instance {
-        fun lexer(): Lexer = FlexAdapter(_ValkyrieLexer(null))
+        fun lexer(): Lexer {
+            var lexer = _ValkyrieLexer(null);
+            lexer.nest_comment = 0
+            return FlexAdapter(lexer)
+        }
     }
-
 }
