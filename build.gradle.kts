@@ -30,7 +30,7 @@ repositories {
 dependencies {
     intellijPlatform {
         // https://youtrack.jetbrains.com/articles/IDEA-A-2100662189/IntelliJ-IDEA-2024.3-Latest-Builds
-        intellijIdeaUltimate("243.19420.21", useInstaller = true)
+        intellijIdeaUltimate("2024.3", useInstaller = true)
         bundledPlugin("com.intellij.modules.json")
         bundledPlugin("org.toml.lang")
         bundledPlugin("org.intellij.plugins.markdown")
@@ -43,7 +43,7 @@ dependencies {
 
 // Set the JVM language level used to build the project.
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 // Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin

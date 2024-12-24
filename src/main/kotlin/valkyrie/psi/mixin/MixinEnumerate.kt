@@ -21,3 +21,13 @@ abstract class MixinEnumerate(node: ASTNode) : ValkyrieDeclaration(node), Valkyr
     }
 }
 
+//
+//fun ValkyrieDeclareEnumerate.items(): List<ValkyrieDeclareEnumerate.Item> {
+//    sequence {
+//        for (child in childrenWithLeaves) {
+//            if (child.elementType == ValkyrieTypes.ENUMERATE_ITEM) {
+//                yield(child as ValkyrieDeclareEnumerate.Item)
+//            }
+//        }
+//    }
+//}

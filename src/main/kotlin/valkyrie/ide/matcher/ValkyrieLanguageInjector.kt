@@ -1,17 +1,16 @@
 package valkyrie.ide.matcher
 
-import com.intellij.json.json5.Json5Language
+
 import com.intellij.lang.LanguageUtil
 import com.intellij.lang.injection.MultiHostInjector
 import com.intellij.lang.injection.MultiHostRegistrar
-import com.intellij.lang.xml.XMLLanguage
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.endOffset
 import com.intellij.psi.util.startOffset
-
-
 import org.intellij.lang.regexp.RegExpLanguage
+import org.intellij.plugins.markdown.lang.MarkdownLanguage
+import org.toml.lang.TomlLanguage
 import valkyrie.psi.mixin.MixinString
 import valkyrie.psi.node.ValkyrieIdentifierNode
 import valkyrie.psi.node.ValkyrieString
@@ -43,11 +42,11 @@ private class LanguageInjectorVisitor(val registrar: MultiHostRegistrar) : Valky
 //                DefaultInjectedLanguageBlockBuilder().createInjectedBlock()
             }
 
-            "json" -> {
-                val range = TextRange(o.stringHead.endOffset - o.startOffset, o.stringTail.startOffset - o.startOffset);
-                registrar.startInjecting(Json5Language.INSTANCE).addPlace(null, null, o, range).doneInjecting()
-            }
-
+//            "json" -> {
+//                val range = TextRange(o.stringHead.endOffset - o.startOffset, o.stringTail.startOffset - o.startOffset);
+//                registrar.startInjecting(Json5Language.INSTANCE).addPlace(null, null, o, range).doneInjecting()
+//            }
+//
             "re" -> {
                 val range = TextRange(o.stringHead.endOffset - o.startOffset, o.stringTail.startOffset - o.startOffset);
                 registrar.startInjecting(RegExpLanguage.INSTANCE).addPlace(null, null, o, range).doneInjecting()
@@ -59,8 +58,6 @@ private class LanguageInjectorVisitor(val registrar: MultiHostRegistrar) : Valky
             }
 
             else -> {
-
-
                 val language = LanguageUtil.findRegisteredLanguage(id)
                 if (language != null) {
                     val range = TextRange(o.stringHead.endOffset - o.startOffset, o.stringTail.startOffset - o.startOffset);
