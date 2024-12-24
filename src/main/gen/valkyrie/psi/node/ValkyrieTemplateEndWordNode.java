@@ -2,22 +2,25 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+
 import static valkyrie.psi.ValkyrieTypes.*;
 
-public class ValkyrieNamepathAutoNode extends ValkyrieNamepathNode implements ValkyrieNamepathAuto {
+import valkyrie.psi.ValkyrieElement;
 
-    public ValkyrieNamepathAutoNode(@NotNull ASTNode node) {
+public class ValkyrieTemplateEndWordNode extends ValkyrieElement implements ValkyrieTemplateEndWord {
+
+    public ValkyrieTemplateEndWordNode(@NotNull ASTNode node) {
         super(node);
     }
 
-    @Override
     public void accept(@NotNull ValkyrieVisitor visitor) {
-        visitor.visitNamepathAuto(this);
+        visitor.visitTemplateEndWord(this);
     }
 
     @Override

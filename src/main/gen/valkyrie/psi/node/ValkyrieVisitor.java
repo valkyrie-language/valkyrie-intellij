@@ -7,10 +7,6 @@ import com.intellij.psi.PsiElement;
 
 public class ValkyrieVisitor extends PsiElementVisitor {
 
-    public void visitAliasType(@NotNull ValkyrieAliasType o) {
-        visitPsiElement(o);
-    }
-
     public void visitAnnotations(@NotNull ValkyrieAnnotations o) {
         visitPsiElement(o);
     }
@@ -443,6 +439,14 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitLoopTemplate(@NotNull ValkyrieLoopTemplate o) {
+        visitPsiElement(o);
+    }
+
+    public void visitLoopTemplateStart(@NotNull ValkyrieLoopTemplateStart o) {
+        visitPsiElement(o);
+    }
+
     public void visitLoopUntil(@NotNull ValkyrieLoopUntil o) {
         visitPsiElement(o);
     }
@@ -465,6 +469,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
 
     public void visitMacroCallInline(@NotNull ValkyrieMacroCallInline o) {
         visitPsiElement(o);
+    }
+
+    public void visitMacroPath(@NotNull ValkyrieMacroPath o) {
+        visitNamepath(o);
     }
 
     public void visitMatchBind(@NotNull ValkyrieMatchBind o) {
@@ -523,7 +531,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitNamepathFree(@NotNull ValkyrieNamepathFree o) {
+    public void visitNamepathAuto(@NotNull ValkyrieNamepathAuto o) {
         visitNamepath(o);
     }
 
@@ -691,6 +699,14 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitTemplateEnd(@NotNull ValkyrieTemplateEnd o) {
+        visitPsiElement(o);
+    }
+
+    public void visitTemplateEndWord(@NotNull ValkyrieTemplateEndWord o) {
+        visitPsiElement(o);
+    }
+
     public void visitTemplateItem(@NotNull ValkyrieTemplateItem o) {
         visitPsiElement(o);
     }
@@ -720,6 +736,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitTuple(@NotNull ValkyrieTuple o) {
+        visitPsiElement(o);
+    }
+
+    public void visitTypeAlias(@NotNull ValkyrieTypeAlias o) {
         visitPsiElement(o);
     }
 
