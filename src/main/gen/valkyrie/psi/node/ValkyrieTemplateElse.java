@@ -2,12 +2,13 @@
 package valkyrie.psi.node;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieLoopTemplateStart extends PsiElement {
+public interface ValkyrieTemplateElse extends PsiElement {
 
-    @NotNull
-    ValkyrieLoopStart getLoopStart();
+    @Nullable
+    ValkyrieKeywords getKeywords();
 
 }
