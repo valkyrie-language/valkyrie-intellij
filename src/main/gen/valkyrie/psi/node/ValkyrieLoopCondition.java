@@ -12,6 +12,9 @@ public interface ValkyrieLoopCondition extends PsiElement {
     ValkyrieLoopEach getLoopEach();
 
     @Nullable
+    ValkyrieLoopMatch getLoopMatch();
+
+    @Nullable
     ValkyrieLoopUntil getLoopUntil();
 
     @Nullable

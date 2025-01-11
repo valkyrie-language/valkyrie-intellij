@@ -119,6 +119,7 @@ public interface ValkyrieTypes {
     IElementType LOOP_CONDITION = new ValkyrieElementType("LOOP_CONDITION");
     IElementType LOOP_EACH = new ValkyrieElementType("LOOP_EACH");
     IElementType LOOP_INLINE = new ValkyrieElementType("LOOP_INLINE");
+    IElementType LOOP_MATCH = new ValkyrieElementType("LOOP_MATCH");
     IElementType LOOP_START = new ValkyrieElementType("LOOP_START");
     IElementType LOOP_STATEMENT = new ValkyrieElementType("LOOP_STATEMENT");
     IElementType LOOP_TEMPLATE = new ValkyrieElementType("LOOP_TEMPLATE");
@@ -608,6 +609,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieLoopEachNode(node);
             } else if (type == LOOP_INLINE) {
                 return new ValkyrieLoopInlineNode(node);
+            } else if (type == LOOP_MATCH) {
+                return new ValkyrieLoopMatchNode(node);
             } else if (type == LOOP_START) {
                 return new ValkyrieLoopStartNode(node);
             } else if (type == LOOP_STATEMENT) {

@@ -65,7 +65,7 @@ KW_UNITE     = unity|unite|inductive|unity
 KW_ENUMERATE = enums|enum|enumerate
 KW_FLAGS     = flags
 KW_TRAIT     = trait
-KW_EXTENDS   = imply|impliments?|extends?
+KW_EXTENDS   = imply|impliments?|impls?|extends?
 KW_WHERE     = where
 KW_TEMPLATE  = generic|constraint|forall
 KW_IMPLEMENT = implement
@@ -88,7 +88,8 @@ KW_CASE  = case
 KW_WHEN  = when
 KW_FROM  = from
 
-KW_LOOP  = loop|for
+KW_FOR   = for
+KW_LOOP  = loop
 KW_WHILE = while
 KW_UNTIL = until
 OP_LABEL = [※]|\\l
@@ -466,6 +467,7 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
     {KW_WHILE}     { return KW_WHILE; }
     {KW_UNTIL}     { return KW_UNTIL; }
     {OP_LABEL}     { return OP_LABEL; }
+    {KW_FOR}       { return KW_FOR; }
     {KW_EACH}      { return KW_EACH; }
     {KW_IN}        { return KW_IN; }
 

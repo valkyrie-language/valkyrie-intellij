@@ -7,7 +7,7 @@ import valkyrie.psi.node.ValkyrieDeclareFunction
 import valkyrie.psi.node.ValkyrieIdentifierNode
 import javax.swing.Icon
 
-abstract class MixinFunction(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareFunction {
+abstract class MixinDeclareMezzo(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareFunction {
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
         return this.identifier as? ValkyrieIdentifierNode
     }
@@ -16,4 +16,3 @@ abstract class MixinFunction(node: ASTNode) : ValkyrieDeclaration(node), Valkyri
         return AllIcons.Nodes.Function
     }
 }
-
