@@ -15,7 +15,7 @@ public interface ValkyrieDeclareFunction extends PsiElement {
     ValkyrieBlockBody getBlockBody();
 
     @Nullable
-    ValkyrieDeclareGeneric getDeclareGeneric();
+    ValkyrieDeclareDepends getDeclareDepends();
 
     @Nullable
     ValkyrieEffectType getEffectType();

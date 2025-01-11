@@ -1,13 +1,19 @@
 // This is a generated file. Not intended for manual editing.
 package valkyrie.psi.node;
 
+import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
+import com.intellij.psi.util.PsiTreeUtil;
 
-import valkyrie.psi.mixin.MixinDeclareMicro;
+import static valkyrie.psi.ValkyrieTypes.*;
 
-public class ValkyrieDeclareFunctionNode extends MixinDeclareMicro implements ValkyrieDeclareFunction {
+import valkyrie.psi.mixin.MixinDeclareFunction;
+
+public class ValkyrieDeclareFunctionNode extends MixinDeclareFunction implements ValkyrieDeclareFunction {
 
     public ValkyrieDeclareFunctionNode(@NotNull ASTNode node) {
         super(node);
@@ -37,8 +43,8 @@ public class ValkyrieDeclareFunctionNode extends MixinDeclareMicro implements Va
 
     @Override
     @Nullable
-    public ValkyrieDeclareGeneric getDeclareGeneric() {
-        return findChildByClass(ValkyrieDeclareGeneric.class);
+    public ValkyrieDeclareDepends getDeclareDepends() {
+        return findChildByClass(ValkyrieDeclareDepends.class);
     }
 
     @Override

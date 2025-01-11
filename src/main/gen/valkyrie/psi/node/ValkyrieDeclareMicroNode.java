@@ -1,19 +1,13 @@
 // This is a generated file. Not intended for manual editing.
 package valkyrie.psi.node;
 
-import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.util.PsiTreeUtil;
 
-import static valkyrie.psi.ValkyrieTypes.*;
+import valkyrie.psi.mixin.MixinDeclareFunction;
 
-import valkyrie.psi.mixin.MixinDeclareMicro;
-
-public class ValkyrieDeclareMicroNode extends MixinDeclareMicro implements ValkyrieDeclareMicro {
+public class ValkyrieDeclareMicroNode extends MixinDeclareFunction implements ValkyrieDeclareMicro {
 
     public ValkyrieDeclareMicroNode(@NotNull ASTNode node) {
         super(node);

@@ -62,13 +62,13 @@ KW_TYPE      = typus|type
 KW_CLASS     = class|struct|structure|interface
 KW_UNION     = union
 KW_UNITE     = unity|unite|inductive|unity
-KW_ENUMERATE = enums|enum|enumerate
+KW_ENUMERATE = enums?|enumerate
 KW_FLAGS     = flags
 KW_TRAIT     = trait
-KW_EXTENDS   = imply|impliments?|impls?|extends?
+KW_DEPENDS   = depends?|dependent|generic|constraint|forall|exists
+KW_EXTENDS   = impls?|extends?
 KW_WHERE     = where
-KW_TEMPLATE  = generic|constraint|forall
-KW_IMPLEMENT = implement
+KW_IMPLEMENT = implements?
 KW_MICRO     = micro|function|func|fun|fn|def
 KW_MEZZO     = mezzo
 KW_MACRO     = macro|template
@@ -434,7 +434,7 @@ RESERVED = [߷⸖↯⍼♯⟀⟁]
     {KW_EXCLUDE}   { return KW_EXCLUDE; }
 
 
-    {KW_TEMPLATE}  { return KW_TEMPLATE; }
+    {KW_DEPENDS}   { return KW_DEPENDS; }
     {KW_WHERE}     { return KW_WHERE; }
 
 

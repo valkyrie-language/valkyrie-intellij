@@ -179,6 +179,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitDeclareDepends(@NotNull ValkyrieDeclareDepends o) {
+        visitPsiElement(o);
+    }
+
     public void visitDeclareDomain(@NotNull ValkyrieDeclareDomain o) {
         visitPsiElement(o);
     }
@@ -192,6 +196,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitDeclareFlags(@NotNull ValkyrieDeclareFlags o) {
+        visitPsiElement(o);
+    }
+
+    public void visitDeclareFunction(@NotNull ValkyrieDeclareFunction o) {
         visitPsiElement(o);
     }
 
@@ -215,10 +223,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitDeclareMicro(@NotNull ValkyrieDeclareMicro o) {
-        visitPsiElement(o);
-    }
-
     public void visitDeclareNamespace(@NotNull ValkyrieDeclareNamespace o) {
         visitPsiElement(o);
     }
@@ -235,11 +239,11 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitDeclareTemplate(@NotNull ValkyrieDeclareTemplate o) {
+    public void visitDeclareTrait(@NotNull ValkyrieDeclareTrait o) {
         visitPsiElement(o);
     }
 
-    public void visitDeclareTrait(@NotNull ValkyrieDeclareTrait o) {
+    public void visitDeclareType(@NotNull ValkyrieDeclareType o) {
         visitPsiElement(o);
     }
 
@@ -756,10 +760,6 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitTuple(@NotNull ValkyrieTuple o) {
-        visitPsiElement(o);
-    }
-
-    public void visitTypeAlias(@NotNull ValkyrieTypeAlias o) {
         visitPsiElement(o);
     }
 
