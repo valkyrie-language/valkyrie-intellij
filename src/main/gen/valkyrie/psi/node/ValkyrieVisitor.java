@@ -747,6 +747,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitTraitDefine(@NotNull ValkyrieTraitDefine o) {
+        visitPsiElement(o);
+    }
+
     public void visitTryLetStatement(@NotNull ValkyrieTryLetStatement o) {
         visitPsiElement(o);
     }

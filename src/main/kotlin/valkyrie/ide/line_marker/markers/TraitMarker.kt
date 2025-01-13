@@ -23,7 +23,7 @@ class TraitMarker : RelatedItemLineMarkerInfo<PsiElement> {
     )
 
     constructor(element: ValkyrieTraitAliasNode) : super(
-        element.keyword,
+        element.identifier,
         element.textRange,
         Trait,
         { "Valkyrie Trait" },

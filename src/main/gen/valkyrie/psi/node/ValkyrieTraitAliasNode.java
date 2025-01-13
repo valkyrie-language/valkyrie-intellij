@@ -11,9 +11,9 @@ import com.intellij.psi.util.PsiTreeUtil;
 
 import static valkyrie.psi.ValkyrieTypes.*;
 
-import valkyrie.psi.mixin.MixinTraitAlias;
+import valkyrie.psi.ValkyrieElement;
 
-public class ValkyrieTraitAliasNode extends MixinTraitAlias implements ValkyrieTraitAlias {
+public class ValkyrieTraitAliasNode extends ValkyrieElement implements ValkyrieTraitAlias {
 
     public ValkyrieTraitAliasNode(@NotNull ASTNode node) {
         super(node);
@@ -27,12 +27,6 @@ public class ValkyrieTraitAliasNode extends MixinTraitAlias implements ValkyrieT
     public void accept(@NotNull PsiElementVisitor visitor) {
         if (visitor instanceof ValkyrieVisitor) accept((ValkyrieVisitor) visitor);
         else super.accept(visitor);
-    }
-
-    @Override
-    @NotNull
-    public ValkyrieAnnotations getAnnotations() {
-        return findNotNullChildByClass(ValkyrieAnnotations.class);
     }
 
     @Override

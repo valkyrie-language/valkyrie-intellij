@@ -44,7 +44,7 @@ class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
 
     override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {
         o.annotations.pushChildrenTo(this)
-        o.classBody?.pushChildrenTo(this)
+//        o.classBody?.pushChildrenTo(this)
     }
 
     override fun visitDeclareSemantic(o: ValkyrieDeclareSemantic) {

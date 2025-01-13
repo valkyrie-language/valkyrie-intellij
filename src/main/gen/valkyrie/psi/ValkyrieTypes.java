@@ -193,6 +193,7 @@ public interface ValkyrieTypes {
     IElementType TERM = new ValkyrieElementType("TERM");
     IElementType THEN_STATEMENT = new ValkyrieElementType("THEN_STATEMENT");
     IElementType TRAIT_ALIAS = new ValkyrieElementType("TRAIT_ALIAS");
+    IElementType TRAIT_DEFINE = new ValkyrieElementType("TRAIT_DEFINE");
     IElementType TRY_LET_STATEMENT = new ValkyrieElementType("TRY_LET_STATEMENT");
     IElementType TRY_NOT_STATEMENT = new ValkyrieElementType("TRY_NOT_STATEMENT");
     IElementType TRY_STATEMENT = new ValkyrieElementType("TRY_STATEMENT");
@@ -760,6 +761,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieThenStatementNode(node);
             } else if (type == TRAIT_ALIAS) {
                 return new ValkyrieTraitAliasNode(node);
+            } else if (type == TRAIT_DEFINE) {
+                return new ValkyrieTraitDefineNode(node);
             } else if (type == TRY_LET_STATEMENT) {
                 return new ValkyrieTryLetStatementNode(node);
             } else if (type == TRY_NOT_STATEMENT) {

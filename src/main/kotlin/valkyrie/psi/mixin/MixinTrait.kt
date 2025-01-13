@@ -18,7 +18,8 @@ abstract class MixinTrait(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDe
     override val color: HighlightColor = HighlightColor.SYM_TRAIT
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.identifier as? ValkyrieIdentifierNode
+//        return this.identifier as? ValkyrieIdentifierNode
+        return null
     }
 
     override fun getBaseIcon(): Icon {
