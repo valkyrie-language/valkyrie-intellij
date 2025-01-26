@@ -6392,7 +6392,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // annotations ANY_DICT identifier? type-hint? default-value? {
+    // annotations ANY_DICT identifier-free? type-hint? default-value? {
     // }
     public static boolean parameter_dict(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "parameter_dict")) return false;
@@ -6408,10 +6408,10 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // identifier?
+    // identifier-free?
     private static boolean parameter_dict_2(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "parameter_dict_2")) return false;
-        identifier(b, l + 1);
+        identifier_free(b, l + 1);
         return true;
     }
 
@@ -6484,7 +6484,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // annotations ANY_LIST identifier? type-hint? default-value? {
+    // annotations ANY_LIST identifier-free? type-hint? default-value? {
     // }
     public static boolean parameter_list(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "parameter_list")) return false;
@@ -6500,10 +6500,10 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         return r;
     }
 
-    // identifier?
+    // identifier-free?
     private static boolean parameter_list_2(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "parameter_list_2")) return false;
-        identifier(b, l + 1);
+        identifier_free(b, l + 1);
         return true;
     }
 
@@ -7329,13 +7329,13 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // KW_FROM | KW_AS
+    // KW_FROM | KW_AS | KW_END
     static boolean symbol_safe(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "symbol_safe")) return false;
-        if (!nextTokenIs(b, "", KW_AS, KW_FROM)) return false;
         boolean r;
         r = consumeToken(b, KW_FROM);
         if (!r) r = consumeToken(b, KW_AS);
+        if (!r) r = consumeToken(b, KW_END);
         return r;
     }
 
