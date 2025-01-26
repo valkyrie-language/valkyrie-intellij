@@ -1,17 +1,16 @@
 // This is a generated file. Not intended for manual editing.
 package valkyrie.psi.parser;
 
+import com.intellij.lang.ASTNode;
+import com.intellij.lang.LightPsiParser;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiBuilder.Marker;
-
-import static valkyrie.psi.ValkyrieTypes.*;
-import static valkyrie.psi.ParserExtension.*;
-
-import com.intellij.psi.tree.IElementType;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.tree.TokenSet;
 import com.intellij.lang.PsiParser;
-import com.intellij.lang.LightPsiParser;
+import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.TokenSet;
+
+import static valkyrie.psi.ParserExtension.*;
+import static valkyrie.psi.ValkyrieTypes.*;
 
 @SuppressWarnings({"SimplifiableIfStatement", "UnusedAssignment"})
 public class YggdrasilParser implements PsiParser, LightPsiParser {
@@ -7199,6 +7198,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     /* ********************************************************** */
     // slot-named
     //   | slot-index
+    //   | slot-first
     public static boolean slot(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "slot")) return false;
         if (!nextTokenIs(b, DOLLAR)) return false;
@@ -7206,7 +7206,20 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         Marker m = enter_section_(b);
         r = slot_named(b, l + 1);
         if (!r) r = slot_index(b, l + 1);
+        if (!r) r = slot_first(b, l + 1);
         exit_section_(b, m, SLOT, r);
+        return r;
+    }
+
+    /* ********************************************************** */
+    // DOLLAR
+    public static boolean slot_first(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "slot_first")) return false;
+        if (!nextTokenIs(b, DOLLAR)) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, DOLLAR);
+        exit_section_(b, m, SLOT_FIRST, r);
         return r;
     }
 
