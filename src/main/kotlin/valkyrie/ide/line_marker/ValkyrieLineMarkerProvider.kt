@@ -216,9 +216,8 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
 //        result.add(ValkyrieMarkAny(o))
     }
 
-    override fun visitNewLambda(o: ValkyrieNewLambda) {
-        o as ValkyrieNewLambdaNode
-//        result.add(ValkyrieMarkAny(o.firstChild, o.getIcon(0)))
+    override fun visitLambdaBlock(o: ValkyrieLambdaBlock) {
+//        super.visitLambdaBlock(o)
     }
 
     override fun visitControlYieldSend(o: ValkyrieControlYieldSend) {

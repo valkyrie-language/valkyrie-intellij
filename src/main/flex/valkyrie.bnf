@@ -685,7 +685,7 @@ type-term ::= type-prefix* type-atomic type-suffix* {
 
 }
 type-prefix ::= OP_ADD | OP_SUB | OP_BANG | OP_AND | STAR;
-type-infix  ::= OP_ADD | OP_ARROW1 | OP_OR;
+type-infix  ::= OP_ADD | OP_ARROW1 | OP_OR | OP_MUL | OP_DIV ;
 type-suffix ::= OP_AND_THEN
     | generic-call-free;
 type-atomic ::= PARENTHESIS_L type-expression PARENTHESIS_R

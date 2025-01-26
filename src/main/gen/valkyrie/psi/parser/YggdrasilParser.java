@@ -7812,7 +7812,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // OP_ADD | OP_ARROW1 | OP_OR
+    // OP_ADD | OP_ARROW1 | OP_OR | OP_MUL | OP_DIV
     public static boolean type_infix(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "type_infix")) return false;
         boolean r;
@@ -7820,6 +7820,8 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         r = consumeToken(b, OP_ADD);
         if (!r) r = consumeToken(b, OP_ARROW1);
         if (!r) r = consumeToken(b, OP_OR);
+        if (!r) r = consumeToken(b, OP_MUL);
+        if (!r) r = consumeToken(b, OP_DIV);
         exit_section_(b, l, m, r, false, null);
         return r;
     }
