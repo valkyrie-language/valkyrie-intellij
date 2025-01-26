@@ -76,7 +76,6 @@ private statements ::= declare-namespace
     | block-statement
 private block-statement ::= SEMICOLON
     | let-statement
-    | new-lambda
     | attribute-above
     | control-statement
     | expression-root
@@ -518,7 +517,7 @@ new-object ::= KW_OBJECT class-inherit? type-hint? class-body {
 }
 // === lambda expression ===
 // lambda(x, y) -> u32 { }
-lambda-block  ::= annotations KW_LAMBDA declare-infer? parameter-body return-type? block-body {
+lambda-statement ::= annotations KW_LAMBDA declare-infer? parameter-body return-type? block-body {
     pin = 2
     mixin = "valkyrie.psi.mixin.MixinLambda"
 }
@@ -716,7 +715,7 @@ atomic ::=    PARENTHESIS_L expression-root PARENTHESIS_R
     | CEIL_L expression-root FLOOR_R  // ⌈5/2.0⌋
     | CEIL_L expression-root CEIL_R   // ⌈5/2.0⌉
     | tuple               // ( )
-    | lambda-block        // { }
+    | lambda-statement        // { }
     | offset-range        // ⁅ ⁆
     | ordinal-range       // [ ]
     | macro-call          // @path::id() { }

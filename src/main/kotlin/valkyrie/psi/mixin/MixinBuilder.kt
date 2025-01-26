@@ -6,6 +6,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import valkyrie.psi.ValkyrieElement
+import valkyrie.psi.node.ValkyrieLambdaStatement
 import valkyrie.psi.node.ValkyrieNewLambda
 import valkyrie.psi.node.ValkyrieNewValue
 import javax.swing.Icon
@@ -30,7 +31,7 @@ abstract class MixinBuilder(node: ASTNode) : ValkyrieElement(node), ValkyrieNewV
 }
 
 
-abstract class MixinLambda(node: ASTNode) : ValkyrieElement(node), ValkyrieNewLambda {
+abstract class MixinLambda(node: ASTNode) : ValkyrieElement(node), ValkyrieLambdaStatement {
     override fun getNavigationElement(): PsiElement {
         return this.firstChild
     }

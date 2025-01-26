@@ -431,7 +431,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
-    public void visitLambdaBlock(@NotNull ValkyrieLambdaBlock o) {
+    public void visitLambdaStatement(@NotNull ValkyrieLambdaStatement o) {
         visitPsiElement(o);
     }
 

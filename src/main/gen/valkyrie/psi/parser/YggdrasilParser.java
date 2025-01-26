@@ -215,7 +215,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     //     | CEIL_L expression-root FLOOR_R  // ⌈5/2.0⌋
     //     | CEIL_L expression-root CEIL_R   // ⌈5/2.0⌉
     //     | tuple               // ( )
-    //     | lambda-block        // { }
+    //     | lambda-statement        // { }
     //     | offset-range        // ⁅ ⁆
     //     | ordinal-range       // [ ]
     //     | macro-call          // @path::id() { }
@@ -249,7 +249,7 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         if (!r) r = atomic_4(b, l + 1);
         if (!r) r = atomic_5(b, l + 1);
         if (!r) r = tuple(b, l + 1);
-        if (!r) r = lambda_block(b, l + 1);
+        if (!r) r = lambda_statement(b, l + 1);
         if (!r) r = offset_range(b, l + 1);
         if (!r) r = ordinal_range(b, l + 1);
         if (!r) r = macro_call(b, l + 1);
@@ -649,7 +649,6 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
     /* ********************************************************** */
     // SEMICOLON
     //     | let-statement
-    //     | new-lambda
     //     | attribute-above
     //     | control-statement
     //     | expression-root
@@ -658,7 +657,6 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
         boolean r;
         r = consumeToken(b, SEMICOLON);
         if (!r) r = let_statement(b, l + 1);
-        if (!r) r = consumeToken(b, NEW_LAMBDA);
         if (!r) r = attribute_above(b, l + 1);
         if (!r) r = control_statement(b, l + 1);
         if (!r) r = expression_root(b, l + 1);
@@ -4340,31 +4338,31 @@ public class YggdrasilParser implements PsiParser, LightPsiParser {
 
     /* ********************************************************** */
     // annotations KW_LAMBDA declare-infer? parameter-body return-type? block-body
-    public static boolean lambda_block(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "lambda_block")) return false;
+    public static boolean lambda_statement(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "lambda_statement")) return false;
         boolean r, p;
-        Marker m = enter_section_(b, l, _NONE_, LAMBDA_BLOCK, "<lambda block>");
+        Marker m = enter_section_(b, l, _NONE_, LAMBDA_STATEMENT, "<lambda statement>");
         r = annotations(b, l + 1);
         r = r && consumeToken(b, KW_LAMBDA);
         p = r; // pin = 2
-        r = r && report_error_(b, lambda_block_2(b, l + 1));
+        r = r && report_error_(b, lambda_statement_2(b, l + 1));
         r = p && report_error_(b, parameter_body(b, l + 1)) && r;
-        r = p && report_error_(b, lambda_block_4(b, l + 1)) && r;
+        r = p && report_error_(b, lambda_statement_4(b, l + 1)) && r;
         r = p && block_body(b, l + 1) && r;
         exit_section_(b, l, m, r, p, null);
         return r || p;
     }
 
     // declare-infer?
-    private static boolean lambda_block_2(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "lambda_block_2")) return false;
+    private static boolean lambda_statement_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "lambda_statement_2")) return false;
         declare_infer(b, l + 1);
         return true;
     }
 
     // return-type?
-    private static boolean lambda_block_4(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "lambda_block_4")) return false;
+    private static boolean lambda_statement_4(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "lambda_statement_4")) return false;
         return_type(b, l + 1);
         return true;
     }

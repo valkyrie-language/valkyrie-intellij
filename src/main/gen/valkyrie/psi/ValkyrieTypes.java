@@ -114,7 +114,7 @@ public interface ValkyrieTypes {
     IElementType IS_EXPRESSION = new ValkyrieElementType("IS_EXPRESSION");
     IElementType IS_STATEMENT = new ValkyrieElementType("IS_STATEMENT");
     IElementType KEYWORDS = new ValkyrieElementType("KEYWORDS");
-    IElementType LAMBDA_BLOCK = new ValkyrieElementType("LAMBDA_BLOCK");
+    IElementType LAMBDA_STATEMENT = new ValkyrieElementType("LAMBDA_STATEMENT");
     IElementType LET_PATTERN = new ValkyrieElementType("LET_PATTERN");
     IElementType LET_STATEMENT = new ValkyrieElementType("LET_STATEMENT");
     IElementType LOCALIZE_CALL = new ValkyrieElementType("LOCALIZE_CALL");
@@ -318,7 +318,6 @@ public interface ValkyrieTypes {
     IElementType LOGIC_XOR = new ValkyrieTokenType("LOGIC_XOR");
     IElementType NAME_SCOPE = new ValkyrieTokenType("NAME_SCOPE");
     IElementType NAME_SPLIT = new ValkyrieTokenType("∷");
-    IElementType NEW_LAMBDA = new ValkyrieTokenType("new-lambda");
     IElementType NUMBER_BASE = new ValkyrieTokenType("NUMBER_BASE");
     IElementType NUMBER_EXPONENT = new ValkyrieTokenType("NUMBER_EXPONENT");
     IElementType NUMBER_SUFFIX = new ValkyrieTokenType("NUMBER_SUFFIX");
@@ -605,8 +604,8 @@ public interface ValkyrieTypes {
                 return new ValkyrieIsStatementNode(node);
             } else if (type == KEYWORDS) {
                 return new ValkyrieKeywordsNode(node);
-            } else if (type == LAMBDA_BLOCK) {
-                return new ValkyrieLambdaBlockNode(node);
+            } else if (type == LAMBDA_STATEMENT) {
+                return new ValkyrieLambdaStatementNode(node);
             } else if (type == LET_PATTERN) {
                 return new ValkyrieLetPatternNode(node);
             } else if (type == LET_STATEMENT) {
