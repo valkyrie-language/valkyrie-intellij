@@ -77,7 +77,9 @@ class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
 
 private fun ValkyrieAnnotations.pushChildrenTo(visitor: ValkyrieStructureItemVisitor) {
     for (attribute in this.attributeBelowList) {
-        visitor.items.add(ValkyrieStructureItem(attribute.attributeItem as ValkyrieAttributeItemNode))
+        attribute.attributeList?.attributeItemList?.forEach {
+            visitor.items.add(ValkyrieStructureItem(it as ValkyrieAttributeItemNode))
+        }
     }
     for (child in this.modifierList) {
         visitor.items.add(ValkyrieStructureItem(child as ValkyrieModifierNode))

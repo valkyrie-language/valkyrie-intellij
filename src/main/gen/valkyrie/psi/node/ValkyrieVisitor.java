@@ -7,10 +7,6 @@ import com.intellij.psi.PsiElement;
 
 public class ValkyrieVisitor extends PsiElementVisitor {
 
-    public void visitKwFunction(@NotNull ValkyrieKwFunction o) {
-        visitPsiElement(o);
-    }
-
     public void visitAnnotations(@NotNull ValkyrieAnnotations o) {
         visitPsiElement(o);
     }
@@ -40,6 +36,10 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitAttributeItem(@NotNull ValkyrieAttributeItem o) {
+        visitPsiElement(o);
+    }
+
+    public void visitAttributeList(@NotNull ValkyrieAttributeList o) {
         visitPsiElement(o);
     }
 
@@ -360,7 +360,7 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitIdentifierFree(@NotNull ValkyrieIdentifierFree o) {
-        visitIdentifier(o);
+        visitPsiElement(o);
     }
 
     public void visitIfCondition(@NotNull ValkyrieIfCondition o) {
@@ -564,7 +564,11 @@ public class ValkyrieVisitor extends PsiElementVisitor {
     }
 
     public void visitNamepathAuto(@NotNull ValkyrieNamepathAuto o) {
-        visitNamepath(o);
+        visitPsiElement(o);
+    }
+
+    public void visitNamepathFree(@NotNull ValkyrieNamepathFree o) {
+        visitPsiElement(o);
     }
 
     public void visitNewBody(@NotNull ValkyrieNewBody o) {

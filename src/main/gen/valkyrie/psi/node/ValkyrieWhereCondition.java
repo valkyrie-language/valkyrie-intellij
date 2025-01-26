@@ -9,6 +9,15 @@ import com.intellij.psi.PsiElement;
 public interface ValkyrieWhereCondition extends PsiElement {
 
     @NotNull
-    ValkyrieGenericParameter getGenericParameter();
+    ValkyrieAnnotations getAnnotations();
+
+    @Nullable
+    ValkyrieDefaultType getDefaultType();
+
+    @Nullable
+    ValkyrieTypeHint getTypeHint();
+
+    @NotNull
+    ValkyrieTypeTerm getTypeTerm();
 
 }

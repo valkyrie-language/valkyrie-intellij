@@ -6,9 +6,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ValkyrieNamepathFree extends PsiElement {
+public interface ValkyrieAttributeList extends PsiElement {
 
     @NotNull
-    List<ValkyrieIdentifierFree> getIdentifierFreeList();
+    List<ValkyrieAttributeItem> getAttributeItemList();
 
 }

@@ -55,8 +55,8 @@ public class ValkyrieAttributeItemNode extends MixinAttribute implements Valkyri
 
     @Override
     @NotNull
-    public ValkyrieNamepath getNamepath() {
-        return findNotNullChildByClass(ValkyrieNamepath.class);
+    public ValkyrieNamepathFree getNamepathFree() {
+        return findNotNullChildByClass(ValkyrieNamepathFree.class);
     }
 
 }

@@ -25,7 +25,7 @@ abstract class MixinAttribute(node: ASTNode) : ValkyrieElement(node), ValkyrieAt
 
 val ValkyrieAttributeItem.identifiers: List<ValkyrieIdentifierNode>
     get() {
-        return this.namepathFree.identifierList.map { it as ValkyrieIdentifierNode }
+        return this.namepathFree.identifierFreeList.map { it as ValkyrieIdentifierNode }
     }
 
 

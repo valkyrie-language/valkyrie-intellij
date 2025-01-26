@@ -15,7 +15,7 @@ public interface ValkyrieParameterItem extends PsiElement {
     ValkyrieDefaultValue getDefaultValue();
 
     @NotNull
-    ValkyrieIdentifier getIdentifier();
+    ValkyrieIdentifierFree getIdentifierFree();
 
     @Nullable
     ValkyrieParameterKind getParameterKind();

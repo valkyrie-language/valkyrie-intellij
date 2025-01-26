@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 
 public interface ValkyrieDeclareMethod extends PsiElement {
 
-    @Nullable
-    ValkyrieKwFunction getKwFunction();
-
     @NotNull
     ValkyrieAnnotations getAnnotations();
 
