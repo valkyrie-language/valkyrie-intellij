@@ -3,24 +3,23 @@ package valkyrie.psi.node;
 
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
+import org.jetbrains.annotations.Nullable;
 
 public interface ValkyrieLambdaBlock extends PsiElement {
 
     @NotNull
-    List<ValkyrieAttributeAbove> getAttributeAboveList();
+    ValkyrieAnnotations getAnnotations();
 
-    @NotNull
-    List<ValkyrieControlStatement> getControlStatementList();
+    @Nullable
+    ValkyrieBlockBody getBlockBody();
 
-    @NotNull
-    List<ValkyrieExpressionRoot> getExpressionRootList();
+    @Nullable
+    ValkyrieDeclareInfer getDeclareInfer();
 
-    @NotNull
-    List<ValkyrieLetStatement> getLetStatementList();
+    @Nullable
+    ValkyrieParameterBody getParameterBody();
 
-    @NotNull
-    List<ValkyrieNewLambda> getNewLambdaList();
+    @Nullable
+    ValkyrieReturnType getReturnType();
 
 }

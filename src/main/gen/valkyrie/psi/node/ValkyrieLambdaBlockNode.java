@@ -3,13 +3,11 @@ package valkyrie.psi.node;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
-import valkyrie.psi.ValkyrieElement;
+import org.jetbrains.annotations.Nullable;
+import valkyrie.psi.mixin.MixinLambda;
 
-import java.util.List;
-
-public class ValkyrieLambdaBlockNode extends ValkyrieElement implements ValkyrieLambdaBlock {
+public class ValkyrieLambdaBlockNode extends MixinLambda implements ValkyrieLambdaBlock {
 
     public ValkyrieLambdaBlockNode(@NotNull ASTNode node) {
         super(node);
@@ -27,32 +25,32 @@ public class ValkyrieLambdaBlockNode extends ValkyrieElement implements Valkyrie
 
     @Override
     @NotNull
-    public List<ValkyrieAttributeAbove> getAttributeAboveList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieAttributeAbove.class);
+    public ValkyrieAnnotations getAnnotations() {
+        return findNotNullChildByClass(ValkyrieAnnotations.class);
     }
 
     @Override
-    @NotNull
-    public List<ValkyrieControlStatement> getControlStatementList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieControlStatement.class);
+    @Nullable
+    public ValkyrieBlockBody getBlockBody() {
+        return findChildByClass(ValkyrieBlockBody.class);
     }
 
     @Override
-    @NotNull
-    public List<ValkyrieExpressionRoot> getExpressionRootList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieExpressionRoot.class);
+    @Nullable
+    public ValkyrieDeclareInfer getDeclareInfer() {
+        return findChildByClass(ValkyrieDeclareInfer.class);
     }
 
     @Override
-    @NotNull
-    public List<ValkyrieLetStatement> getLetStatementList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieLetStatement.class);
+    @Nullable
+    public ValkyrieParameterBody getParameterBody() {
+        return findChildByClass(ValkyrieParameterBody.class);
     }
 
     @Override
-    @NotNull
-    public List<ValkyrieNewLambda> getNewLambdaList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, ValkyrieNewLambda.class);
+    @Nullable
+    public ValkyrieReturnType getReturnType() {
+        return findChildByClass(ValkyrieReturnType.class);
     }
 
 }

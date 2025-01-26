@@ -80,7 +80,6 @@ public interface ValkyrieTypes {
     IElementType DOT_CALL_MACRO_INLINE = new ValkyrieElementType("DOT_CALL_MACRO_INLINE");
     IElementType DOT_LOOP_CALL = new ValkyrieElementType("DOT_LOOP_CALL");
     IElementType DOT_MATCH_CALL = new ValkyrieElementType("DOT_MATCH_CALL");
-    IElementType EFFECT_TYPE = new ValkyrieElementType("EFFECT_TYPE");
     IElementType ELSE_IF_STATEMENT = new ValkyrieElementType("ELSE_IF_STATEMENT");
     IElementType ELSE_STATEMENT = new ValkyrieElementType("ELSE_STATEMENT");
     IElementType ENUMERATE_BODY = new ValkyrieElementType("ENUMERATE_BODY");
@@ -150,7 +149,6 @@ public interface ValkyrieTypes {
     IElementType NAMEPATH_AUTO = new ValkyrieElementType("NAMEPATH_AUTO");
     IElementType NAMEPATH_FREE = new ValkyrieElementType("NAMEPATH_FREE");
     IElementType NEW_BODY = new ValkyrieElementType("NEW_BODY");
-    IElementType NEW_LAMBDA = new ValkyrieElementType("NEW_LAMBDA");
     IElementType NEW_OBJECT = new ValkyrieElementType("NEW_OBJECT");
     IElementType NEW_VALUE = new ValkyrieElementType("NEW_VALUE");
     IElementType NUMBER_LITERAL = new ValkyrieElementType("NUMBER_LITERAL");
@@ -320,6 +318,7 @@ public interface ValkyrieTypes {
     IElementType LOGIC_XOR = new ValkyrieTokenType("LOGIC_XOR");
     IElementType NAME_SCOPE = new ValkyrieTokenType("NAME_SCOPE");
     IElementType NAME_SPLIT = new ValkyrieTokenType("∷");
+    IElementType NEW_LAMBDA = new ValkyrieTokenType("new-lambda");
     IElementType NUMBER_BASE = new ValkyrieTokenType("NUMBER_BASE");
     IElementType NUMBER_EXPONENT = new ValkyrieTokenType("NUMBER_EXPONENT");
     IElementType NUMBER_SUFFIX = new ValkyrieTokenType("NUMBER_SUFFIX");
@@ -538,8 +537,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieDotLoopCallNode(node);
             } else if (type == DOT_MATCH_CALL) {
                 return new ValkyrieDotMatchCallNode(node);
-            } else if (type == EFFECT_TYPE) {
-                return new ValkyrieEffectTypeNode(node);
             } else if (type == ELSE_IF_STATEMENT) {
                 return new ValkyrieElseIfStatementNode(node);
             } else if (type == ELSE_STATEMENT) {
@@ -678,8 +675,6 @@ public interface ValkyrieTypes {
                 return new ValkyrieNamepathFreeNode(node);
             } else if (type == NEW_BODY) {
                 return new ValkyrieNewBodyNode(node);
-            } else if (type == NEW_LAMBDA) {
-                return new ValkyrieNewLambdaNode(node);
             } else if (type == NEW_OBJECT) {
                 return new ValkyrieNewObjectNode(node);
             } else if (type == NEW_VALUE) {
