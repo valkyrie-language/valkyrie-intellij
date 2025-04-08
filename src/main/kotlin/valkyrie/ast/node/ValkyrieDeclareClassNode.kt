@@ -9,7 +9,7 @@ import valkyrie.ast.DeclareClass
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.advanceIgnore
 import valkyrie.cst.KW_CLASS
-import valkyrie.cst.ValkyrieCST
+import valkyrie.cst.SYMBOL
 
 class ValkyrieClassDeclareNode(node: ASTNode) : ASTWrapperPsiElement(node) {
 
@@ -87,7 +87,7 @@ class ValkyrieClassInheritItemNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             builder.advanceIgnore()
 
             // 解析类名标识符
-            if (builder.tokenType !== ValkyrieCST.Companion.SYMBOL) {
+            if (builder.tokenType !== SYMBOL) {
                 builder.error("Expected class name")
                 marker.drop()
                 return false

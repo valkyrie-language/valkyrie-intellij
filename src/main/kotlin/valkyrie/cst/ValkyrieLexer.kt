@@ -90,11 +90,11 @@ class ValkyrieLexer : LexerBase() {
             }
             c == ':' -> {
                 tokenEnd = tokenStart + 1
-                currentToken = ValkyrieCST.COLON
+                currentToken = COLON
             }
             c == ',' -> {
                 tokenEnd = tokenStart + 1
-                currentToken = ValkyrieCST.COMMA
+                currentToken = COMMA
             }
 
             c == '@' -> {
@@ -102,33 +102,33 @@ class ValkyrieLexer : LexerBase() {
                     when (buffer[tokenStart + 1]) {
                         '^' -> {
                             tokenEnd = tokenStart + 2
-                            currentToken = ValkyrieCST.OP_MACRO_UPPER
+                            currentToken = OP_MACRO_UPPER
                         }
                         '.' -> {
                             tokenEnd = tokenStart + 2
-                            currentToken = ValkyrieCST.OP_MACRO_LOWER
+                            currentToken = OP_MACRO_LOWER
                         }
                         else -> {
                             tokenEnd = tokenStart + 1
-                            currentToken = ValkyrieCST.OP_MACRO
+                            currentToken = OP_MACRO
                         }
                     }
                 } else {
                     tokenEnd = tokenStart + 1
-                    currentToken = ValkyrieCST.OP_MACRO
+                    currentToken = OP_MACRO
                 }
             }
             c == '◤' -> {
                 tokenEnd = tokenStart + 1
-                currentToken = ValkyrieCST.OP_MACRO_UPPER
+                currentToken = OP_MACRO_UPPER
             }
             c == '↯' -> {
                 tokenEnd = tokenStart + 1
-                currentToken = ValkyrieCST.OP_MACRO_LOWER
+                currentToken = OP_MACRO_LOWER
             }
             c == '.' -> {
                 tokenEnd = tokenStart + 1
-                currentToken = ValkyrieCST.DOT
+                currentToken = DOT
             }
             c == '"' -> {
                 tokenEnd = tokenStart + 1
@@ -161,7 +161,7 @@ class ValkyrieLexer : LexerBase() {
             }
             else -> {
                 tokenEnd = tokenStart + 1
-                currentToken = ValkyrieCST.BAD_CHARACTER
+                currentToken = BAD_CHARACTER
             }
         }
     }
@@ -172,7 +172,7 @@ class ValkyrieLexer : LexerBase() {
             i++
         }
         tokenEnd = i
-        currentToken = ValkyrieCST.WHITE_SPACE
+        currentToken = WHITE_SPACE
     }
 
     private fun scanString() {
@@ -188,7 +188,7 @@ class ValkyrieLexer : LexerBase() {
                 escaped = true
             } else if (c == '"') {
                 tokenEnd = i + 1
-                currentToken = ValkyrieCST.STRING
+                currentToken = STRING
                 currentState = INITIAL
                 return
             }
@@ -198,7 +198,7 @@ class ValkyrieLexer : LexerBase() {
 
         // 未闭合的字符串
         tokenEnd = bufferEnd
-        currentToken = ValkyrieCST.BAD_CHARACTER
+        currentToken = BAD_CHARACTER
         currentState = INITIAL
     }
 
@@ -229,7 +229,7 @@ class ValkyrieLexer : LexerBase() {
         }
 
         tokenEnd = i
-        currentToken = ValkyrieCST.NUMBER
+        currentToken = NUMBER
         currentState = INITIAL
     }
 
@@ -244,7 +244,7 @@ class ValkyrieLexer : LexerBase() {
         }
 
         tokenEnd = i
-        currentToken = ValkyrieCST.COMMENT_LINE
+        currentToken = COMMENT_LINE
         currentState = INITIAL
     }
 
@@ -259,7 +259,7 @@ class ValkyrieLexer : LexerBase() {
         }
 
         tokenEnd = i
-        currentToken = ValkyrieCST.COMMENT_LINE
+        currentToken = COMMENT_LINE
         currentState = INITIAL
     }
 
@@ -280,7 +280,7 @@ class ValkyrieLexer : LexerBase() {
         }
 
         tokenEnd = i
-        currentToken = ValkyrieCST.COMMENT_BLOCK
+        currentToken = COMMENT_BLOCK
         currentState = INITIAL
     }
 
@@ -297,7 +297,7 @@ class ValkyrieLexer : LexerBase() {
                 escaped = true
             } else if (c == '\'') {
                 tokenEnd = i + 1
-                currentToken = ValkyrieCST.STRING
+                currentToken = STRING
                 currentState = INITIAL
                 return
             }
@@ -307,7 +307,7 @@ class ValkyrieLexer : LexerBase() {
 
         // 未闭合的字符串
         tokenEnd = bufferEnd
-        currentToken = ValkyrieCST.BAD_CHARACTER
+        currentToken = BAD_CHARACTER
         currentState = INITIAL
     }
 
@@ -325,8 +325,7 @@ class ValkyrieLexer : LexerBase() {
         currentToken = when (text) {
             "class", "structure", "struct" -> KW_CLASS
             "trait",  "interface" -> KW_TRAIT
-            "object" -> ValkyrieCST.OBJECT
-            else -> ValkyrieCST.SYMBOL
+            else -> SYMBOL
         }
         currentState = INITIAL
     }
@@ -362,7 +361,7 @@ class ValkyrieLexer : LexerBase() {
                 i++
             } else if (c == '`') {
                 tokenEnd = i + 1
-                currentToken = ValkyrieCST.SYMBOL_RAW
+                currentToken = SYMBOL_RAW
                 currentState = INITIAL
                 return
             } else {
@@ -372,7 +371,7 @@ class ValkyrieLexer : LexerBase() {
 
         // 未闭合的原始标识符
         tokenEnd = bufferEnd
-        currentToken = ValkyrieCST.BAD_CHARACTER
+        currentToken = BAD_CHARACTER
         currentState = INITIAL
     }
 }

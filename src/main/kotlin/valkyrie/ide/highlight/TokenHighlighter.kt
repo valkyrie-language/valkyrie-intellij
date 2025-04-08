@@ -3,14 +3,12 @@ package valkyrie.ide.highlight
 
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.colors.TextAttributesKey
-import com.intellij.openapi.externalSystem.model.project.ModuleNameDeduplicationStrategy
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase.pack
 import com.intellij.psi.tree.IElementType
-import valkyrie.cst.ValkyrieCST.Companion.COMMENT_BLOCK
-import valkyrie.cst.ValkyrieCST.Companion.COMMENT_LINE
+import valkyrie.cst.COMMENT_BLOCK
+import valkyrie.cst.COMMENT_LINE
 import valkyrie.cst.ValkyrieLexer
-import valkyrie.ast.ParserDefinition
 import valkyrie.ast.ParserExtension
 
 

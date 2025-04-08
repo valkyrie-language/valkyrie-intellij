@@ -6,7 +6,9 @@ import com.intellij.lang.PsiBuilder
 import valkyrie.ast.ATOMIC
 import valkyrie.cst.LBRACE
 import valkyrie.cst.LBRACK
-import valkyrie.cst.ValkyrieCST
+import valkyrie.cst.NUMBER
+import valkyrie.cst.STRING
+import valkyrie.cst.SYMBOL
 
 class ValkyrieAtomicNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     companion object {
@@ -22,9 +24,10 @@ class ValkyrieAtomicNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 LBRACK -> {
                     ValkyrieArrayNode.parse(builder)
                 }
-                ValkyrieCST.Companion.STRING,
-                ValkyrieCST.Companion.NUMBER,
-                ValkyrieCST.Companion.SYMBOL -> {
+                STRING,
+                NUMBER,
+                SYMBOL
+                    -> {
                     builder.advanceLexer() // 消费值
                 }
                 else -> {

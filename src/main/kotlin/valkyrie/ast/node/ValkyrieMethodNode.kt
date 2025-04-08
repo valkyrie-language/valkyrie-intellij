@@ -5,10 +5,14 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import valkyrie.ast.DefineMethod
 import valkyrie.ast.advanceIgnore
+import valkyrie.cst.COLON
+import valkyrie.cst.COMMA
 import valkyrie.cst.LBRACE
+import valkyrie.cst.OP_MACRO
 import valkyrie.cst.PARENTHESIS_L
 import valkyrie.cst.PARENTHESIS_R
-import valkyrie.cst.ValkyrieCST
+import valkyrie.cst.SEMICOLON
+import valkyrie.cst.SYMBOL
 
 class ValkyrieMethodNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     override fun toString(): String {
@@ -20,8 +24,8 @@ class ValkyrieMethodNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             val marker = builder.mark()
 
             // 解析注解和修饰符
-            while (builder.tokenType === ValkyrieCST.Companion.OP_MACRO || builder.tokenType === ValkyrieCST.Companion.SYMBOL) {
-                if (builder.tokenType === ValkyrieCST.Companion.OP_MACRO) {
+            while (builder.tokenType === OP_MACRO || builder.tokenType === SYMBOL) {
+                if (builder.tokenType === OP_MACRO) {
                     // TODO: 解析注解
                     builder.advanceLexer()
                 } else {
@@ -32,7 +36,7 @@ class ValkyrieMethodNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             }
 
             // 解析方法名
-            if (builder.tokenType !== ValkyrieCST.Companion.SYMBOL) {
+            if (builder.tokenType !== SYMBOL) {
                 builder.error("Expected method name")
                 marker.drop()
                 return false
@@ -53,7 +57,7 @@ class ValkyrieMethodNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             var first = true
             while (builder.tokenType !== PARENTHESIS_R && !builder.eof()) {
                 if (!first) {
-                    if (builder.tokenType !== ValkyrieCST.Companion.COMMA) {
+                    if (builder.tokenType !== COMMA) {
                         builder.error("Expected ','")
                         break
                     }
@@ -62,7 +66,7 @@ class ValkyrieMethodNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 }
 
                 // 解析参数名
-                if (builder.tokenType !== ValkyrieCST.Companion.SYMBOL) {
+                if (builder.tokenType !== SYMBOL) {
                     builder.error("Expected parameter name")
                     break
                 }
@@ -70,7 +74,7 @@ class ValkyrieMethodNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 builder.advanceIgnore()
 
                 // 解析参数类型
-                if (builder.tokenType !== ValkyrieCST.Companion.COLON) {
+                if (builder.tokenType !== COLON) {
                     builder.error("Expected ':'")
                     break
                 }
@@ -78,7 +82,7 @@ class ValkyrieMethodNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 builder.advanceIgnore()
 
                 // TODO: 解析类型表达式
-                if (builder.tokenType !== ValkyrieCST.Companion.SYMBOL) {
+                if (builder.tokenType !== SYMBOL) {
                     builder.error("Expected type expression")
                     break
                 }
@@ -97,11 +101,11 @@ class ValkyrieMethodNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             builder.advanceIgnore()
 
             // 解析返回类型
-            if (builder.tokenType === ValkyrieCST.Companion.COLON) {
+            if (builder.tokenType === COLON) {
                 builder.advanceLexer() // 消费冒号
                 builder.advanceIgnore()
                 // TODO: 解析类型表达式
-                if (builder.tokenType !== ValkyrieCST.Companion.SYMBOL) {
+                if (builder.tokenType !== SYMBOL) {
                     builder.error("Expected return type")
                     marker.drop()
                     return false
@@ -111,7 +115,7 @@ class ValkyrieMethodNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             }
 
             // 解析方法体或分号
-            if (builder.tokenType === ValkyrieCST.Companion.SEMICOLON) {
+            if (builder.tokenType === SEMICOLON) {
                 builder.advanceLexer() // 消费分号
             } else if (builder.tokenType === LBRACE) {
                 // TODO: 解析方法体

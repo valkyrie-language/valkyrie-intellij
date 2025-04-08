@@ -6,14 +6,15 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement
 import valkyrie.ast.ArrayItem
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.advanceIgnore
-import valkyrie.cst.ValkyrieCST
+import valkyrie.cst.COLON
+import valkyrie.cst.SYMBOL
 
 class ValkyrieArrayItemNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     companion object: ParserMonad {
       override  fun parse(builder: PsiBuilder): Boolean {
             val marker = builder.mark()
             // 检查是否有键值对形式
-            val hasKey = builder.tokenType === ValkyrieCST.Companion.SYMBOL
+            val hasKey = builder.tokenType === SYMBOL
             if (hasKey) {
                 // 解析可选的注解列表
                 ValkyrieAnnotationAreaNode.parse(builder)
@@ -27,7 +28,7 @@ class ValkyrieArrayItemNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 builder.advanceIgnore()
                 
                 // 检查并消费冒号
-                if (builder.tokenType !== ValkyrieCST.Companion.COLON) {
+                if (builder.tokenType !== COLON) {
                     builder.error("Expected colon")
                     marker.drop()
                     return false
