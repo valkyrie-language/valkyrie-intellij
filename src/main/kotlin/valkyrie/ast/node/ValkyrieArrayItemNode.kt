@@ -13,7 +13,7 @@ class ValkyrieArrayItemNode(node: ASTNode) : ASTWrapperPsiElement(node) {
       override  fun parse(builder: PsiBuilder): Boolean {
             val marker = builder.mark()
             // 检查是否有键值对形式
-            val hasKey = builder.tokenType === ValkyrieCST.Companion.IDENTIFIER
+            val hasKey = builder.tokenType === ValkyrieCST.Companion.SYMBOL
             if (hasKey) {
                 // 解析可选的注解列表
                 ValkyrieAnnotationAreaNode.parse(builder)

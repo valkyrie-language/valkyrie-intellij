@@ -29,7 +29,7 @@ class ValkyrieObjectNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 
                 // 尝试解析成员
                 val success = when (builder.tokenType) {
-                    ValkyrieCST.Companion.OP_MACRO, ValkyrieCST.Companion.IDENTIFIER -> {
+                    ValkyrieCST.Companion.OP_MACRO, ValkyrieCST.Companion.SYMBOL -> {
                         // 先标记当前位置
                         val memberMarker = builder.mark()
                         

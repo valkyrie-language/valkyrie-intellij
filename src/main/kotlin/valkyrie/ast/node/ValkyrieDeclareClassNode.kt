@@ -1,14 +1,12 @@
 package valkyrie.ast.node
 
 import com.intellij.extapi.psi.ASTWrapperPsiElement
-import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import valkyrie.ast.ParseMonad
 import valkyrie.ast.ValkyrieAST
 import valkyrie.ast.advanceIgnore
 import valkyrie.cst.ValkyrieCST
-import javax.swing.Icon
 
 class ValkyrieClassDeclareNode(node: ASTNode) : ASTWrapperPsiElement(node) {
 
@@ -86,7 +84,7 @@ class ValkyrieClassInheritItemNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             builder.advanceIgnore()
 
             // 解析类名标识符
-            if (builder.tokenType !== ValkyrieCST.Companion.IDENTIFIER) {
+            if (builder.tokenType !== ValkyrieCST.Companion.SYMBOL) {
                 builder.error("Expected class name")
                 marker.drop()
                 return false

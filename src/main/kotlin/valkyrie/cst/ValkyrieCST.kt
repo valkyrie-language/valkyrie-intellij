@@ -2,7 +2,7 @@ package valkyrie.cst
 
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
-import valkyrie.ValkyrieLanguage
+import valkyrie.language.ValkyrieLanguage
 
 // leaf node of the lexer stream
 class ValkyrieCST(show: String) : IElementType(show, ValkyrieLanguage) {
@@ -27,8 +27,8 @@ class ValkyrieCST(show: String) : IElementType(show, ValkyrieLanguage) {
         // 基本类型
         val STRING = ValkyrieCST("STRING")
         val NUMBER = ValkyrieCST("NUMBER")
-        val IDENTIFIER = ValkyrieCST("IDENTIFIER")
-        val IDENTIFIER_RAW = ValkyrieCST("IDENTIFIER<RAW>")
+        val SYMBOL = ValkyrieCST("SYMBOL")
+        val SYMBOL_RAW = ValkyrieCST("SYMBOL<RAW>")
 
         // 其他
         val WHITE_SPACE = ValkyrieCST("WHITE_SPACE")
@@ -47,7 +47,7 @@ class ValkyrieCST(show: String) : IElementType(show, ValkyrieLanguage) {
         val Comments = TokenSet.create(COMMENT_LINE, COMMENT_BLOCK)
         val WhiteSpaces = TokenSet.create(WHITE_SPACE)
         val STRING_LITERALS = TokenSet.create(STRING)
-        val IDENTIFIERS = TokenSet.create(IDENTIFIER, IDENTIFIER_RAW)
+        val IDENTIFIERS = TokenSet.create(SYMBOL, SYMBOL_RAW)
         val KEYWORDS = TokenSet.create(TRAIT, KW_CLASS, OBJECT) // 软关键字集合
     }
 }

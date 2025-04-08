@@ -22,7 +22,7 @@ class ValkyrieMacroCallNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             builder.advanceIgnore()
 
             // 检查是否是macro关键字
-            if (builder.tokenType !== ValkyrieCST.Companion.IDENTIFIER || builder.tokenText != "macro") {
+            if (builder.tokenType !== ValkyrieCST.Companion.SYMBOL || builder.tokenText != "macro") {
                 marker.drop()
                 return false
             }
@@ -30,7 +30,7 @@ class ValkyrieMacroCallNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             builder.advanceIgnore()
 
             // 解析宏名称
-            if (builder.tokenType !== ValkyrieCST.Companion.IDENTIFIER) {
+            if (builder.tokenType !== ValkyrieCST.Companion.SYMBOL) {
                 builder.error("Expected macro name")
                 marker.drop()
                 return false
