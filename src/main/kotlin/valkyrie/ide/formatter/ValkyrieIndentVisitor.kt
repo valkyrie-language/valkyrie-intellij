@@ -4,6 +4,7 @@ import com.intellij.formatting.Indent
 import com.intellij.lang.ASTNode
 import valkyrie.psi.node.*
 
+
 class ValkyrieIndentVisitor(val child: ASTNode) : ValkyrieVisitor() {
     var indent: Indent? = Indent.getNoneIndent()
 
@@ -75,9 +76,10 @@ class ValkyrieIndentVisitor(val child: ASTNode) : ValkyrieVisitor() {
         byCorner(o.node)
     }
 
-    override fun visitTupleArgument(o: ValkyrieTupleArgument?) {
-        byCorner(o.node)
-    }
+//    override fun visitTupleArgument(o: ValkyrieTupleArgument?) {
+//        byCorner(o.node)
+//    }
+
 
     private fun byCorner(parent: ASTNode) {
         val isCorner = parent.firstChildNode == child || parent.lastChildNode == child

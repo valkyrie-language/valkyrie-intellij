@@ -274,7 +274,7 @@
 		<smartEnterProcessor language="valkyrie" implementationClass="valkyrie.ide.formatter.SmartEnter"/>
 		<directNavigationProvider implementation="valkyrie.ide.navigation.ValkyrieDirectNavigationProvider"/>
 		<namesValidator language="valkyrie" implementationClass="valkyrie.ide.lint.ValkyrieNameValidator"/>
-		<findUsagesProvider language="valkyrie" implementationClass="valkyrie.ide.usages.findUsagesProvider"/>
+		<findUsagesProvider language="valkyrie" implementationClass="valkyrie.ide.usages.ValkyrieUsagesProvider"/>
 		<commenter language="valkyrie" implementationClass="valkyrie.ide.formatter.ValkyrieCommenter"/>
 		<!--		<lang.braceMatcher-->
 		<!--			language="valkyrie"-->
