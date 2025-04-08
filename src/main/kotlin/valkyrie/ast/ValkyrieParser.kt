@@ -4,11 +4,12 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.LightPsiParser
 import com.intellij.lang.PsiBuilder
 import com.intellij.lang.PsiParser
+import com.intellij.psi.TokenType.WHITE_SPACE
 import com.intellij.psi.tree.IElementType
 import valkyrie.ast.node.ValkyrieProgramNode
 import valkyrie.cst.COMMENT_BLOCK
 import valkyrie.cst.COMMENT_LINE
-import valkyrie.cst.WHITE_SPACE
+
 
 class ValkyrieParser : PsiParser, LightPsiParser {
     override fun parse(root: IElementType, builder: PsiBuilder): ASTNode {
