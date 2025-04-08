@@ -6,7 +6,7 @@ import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import com.intellij.psi.tree.TokenSet
 import valkyrie.ide.matcher.ValkyrieBraceMatch
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.psi.ParserExtension
+import valkyrie.ast.ParserExtension
 import valkyrie.psi.ValkyrieTypes.*
 
 private val removeSpaceNewlineBefore = TokenSet.orSet(

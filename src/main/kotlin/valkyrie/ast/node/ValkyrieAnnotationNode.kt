@@ -3,12 +3,14 @@ package valkyrie.ast.node
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
-import valkyrie.ast.ParseMonad
-import valkyrie.ast.ValkyrieAST
+import valkyrie.ast.ANNOTATION
+import valkyrie.ast.ParserMonad
+import valkyrie.cst.PARENTHESIS_L
+import valkyrie.cst.PARENTHESIS_R
 import valkyrie.cst.ValkyrieCST
 
 class ValkyrieAnnotationNode(node: ASTNode) : ASTWrapperPsiElement(node) {
-    companion object: ParseMonad {
+    companion object: ParserMonad {
         // 解析注解
       override  fun parse(builder: PsiBuilder): Boolean {
             // 检查是否是 ↯ 符号，如果在多注解中调用时已经消费了 ↯
@@ -36,20 +38,20 @@ class ValkyrieAnnotationNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 builder.advanceLexer() // 消费标识符
             }
             // 检查是否有参数
-            if (builder.tokenType === ValkyrieCST.Companion.PARENTHESIS_L) {
+            if (builder.tokenType === PARENTHESIS_L) {
                 builder.advanceLexer() // 消费 (
                 // TODO: 解析参数列表
-                while (!builder.eof() && builder.tokenType !== ValkyrieCST.Companion.PARENTHESIS_R) {
+                while (!builder.eof() && builder.tokenType !== PARENTHESIS_R) {
                     builder.advanceLexer()
                 }
-                if (builder.tokenType === ValkyrieCST.Companion.PARENTHESIS_R) {
+                if (builder.tokenType === PARENTHESIS_R) {
                     builder.advanceLexer() // 消费 )
                 } else {
                     marker.error("Expected )")
                     return true
                 }
             }
-            marker.done(ValkyrieAST.Companion.ANNOTATION)
+            marker.done(ANNOTATION)
             return true
         }
     }

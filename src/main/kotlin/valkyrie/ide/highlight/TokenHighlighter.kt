@@ -10,8 +10,8 @@ import com.intellij.psi.tree.IElementType
 import valkyrie.cst.ValkyrieCST.Companion.COMMENT_BLOCK
 import valkyrie.cst.ValkyrieCST.Companion.COMMENT_LINE
 import valkyrie.cst.ValkyrieLexer
-import valkyrie.psi.ParserDefinition
-import valkyrie.psi.ParserExtension
+import valkyrie.ast.ParserDefinition
+import valkyrie.ast.ParserExtension
 
 
 class TokenHighlighter : SyntaxHighlighter {

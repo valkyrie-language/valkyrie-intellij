@@ -3,17 +3,17 @@ package valkyrie.ast.node
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
-import valkyrie.ast.ParseMonad
-import valkyrie.ast.ValkyrieAST
+import valkyrie.ast.EXPRESSION
+import valkyrie.ast.ParserMonad
 
 class ValkyrieExpressionNode(node: ASTNode) : ASTWrapperPsiElement(node) {
-    companion object:ParseMonad {
+    companion object:ParserMonad {
       override fun parse(builder: PsiBuilder): Boolean {
             val marker = builder.mark()
 
             // 尝试解析二元表达式
             if (ValkyrieBinaryNode.parse(builder)) {
-                marker.done(ValkyrieAST.Companion.EXPRESSION)
+                marker.done(EXPRESSION)
                 return true
             }
 
@@ -23,7 +23,7 @@ class ValkyrieExpressionNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 return false
             }
 
-            marker.done(ValkyrieAST.Companion.EXPRESSION)
+            marker.done(EXPRESSION)
             return true
         }
     }
