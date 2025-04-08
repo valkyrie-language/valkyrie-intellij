@@ -5,7 +5,7 @@ import com.intellij.lang.LightPsiParser
 import com.intellij.lang.PsiBuilder
 import com.intellij.lang.PsiParser
 import com.intellij.psi.tree.IElementType
-import valkyrie.ast.node.ValkyrieRootNode
+import valkyrie.ast.node.ValkyrieProgramNode
 import valkyrie.cst.ValkyrieCST
 
 class ValkyrieParser : PsiParser, LightPsiParser {
@@ -17,18 +17,18 @@ class ValkyrieParser : PsiParser, LightPsiParser {
     override fun parseLight(root: IElementType?, builder: PsiBuilder?) {
         if (root == null || builder == null) return
         val rootMarker = builder.mark()
-        ValkyrieRootNode.parse(builder)
+        ValkyrieProgramNode.parse(builder)
         val unknown = builder.mark();
         while (!builder.eof()) {
             builder.advanceLexer()
         }
-        unknown.done(ValkyrieAST.Unknown)
+        unknown.done(Unknown)
         rootMarker.done(root)
     }
 }
 
 // 按顺序解析全部节点, 中间有一个失败就都失败
-fun PsiBuilder.advanceSequence(vararg parsers: ParseMonad, ignore: Boolean): Boolean {
+fun PsiBuilder.advanceSequence(vararg parsers: ParserMonad, ignore: Boolean): Boolean {
     val marker = mark()
     for (parser in parsers) {
         if (parser.parse(this)) {
@@ -46,7 +46,7 @@ fun PsiBuilder.advanceSequence(vararg parsers: ParseMonad, ignore: Boolean): Boo
 }
 
 // 尝试多个解析函数，选择第一个匹配的
-fun PsiBuilder.advanceChoice(vararg parsers: ParseMonad): Boolean {
+fun PsiBuilder.advanceChoice(vararg parsers: ParserMonad): Boolean {
     for (parser in parsers) {
         val marker = mark()
         if (parser.parse(this)) {
@@ -63,7 +63,7 @@ fun PsiBuilder.advanceChoice(vararg parsers: ParseMonad): Boolean {
 }
 
 // 尝试解析, 无论是否成功都返回 true
-fun PsiBuilder.advanceOption(parser: ParseMonad): Boolean {
+fun PsiBuilder.advanceOption(parser: ParserMonad): Boolean {
     val marker = mark()
     parser.parse(this)
     marker.drop()
@@ -71,7 +71,7 @@ fun PsiBuilder.advanceOption(parser: ParseMonad): Boolean {
 }
 
 // 循环解析，直到失败, 最终解析个数必须在 min, max 之间
-fun PsiBuilder.advanceRepeat(parser: ParseMonad, min: Int = 0, max: Int = Int.MAX_VALUE): Boolean {
+fun PsiBuilder.advanceRepeat(parser: ParserMonad, min: Int = 0, max: Int = Int.MAX_VALUE): Boolean {
     val marker = mark()
     var count = 0
     while (count < max && parser.parse(this)) {
@@ -105,7 +105,7 @@ fun PsiBuilder.parsePaired(
     left: IElementType,
     right: IElementType,
     split: IElementType,
-    element: ParseMonad,
+    element: ParserMonad,
 ): Boolean {
     val marker = this.mark()
     assert(this.tokenType === left)

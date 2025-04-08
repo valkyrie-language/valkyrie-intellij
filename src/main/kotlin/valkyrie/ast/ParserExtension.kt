@@ -1,19 +1,20 @@
-package valkyrie.psi
+package valkyrie.ast
 
 import com.intellij.lang.parser.GeneratedParserUtilBase
 import com.intellij.psi.tree.TokenSet
-import valkyrie.psi.ValkyrieTypes.*
+import valkyrie.cst.*
 
 class ParserExtension : GeneratedParserUtilBase() {
     companion object {
         val Keywords = TokenSet.create(
 //            KW_NAMESPACE, KW_USING, KW_AS, KW_EXCLUDE,
 //            KW_TYPE,
-//            KW_ENUMERATE, KW_FLAGS,
-//            KW_CLASS, KW_COMPONENT, KW_SINGLETON, KW_NEURAL,
-//            KW_UNION,
-//            KW_UNITE,
-//            KW_TRAIT, KW_FROM,
+            KW_ENUMERATE, KW_FLAGS,
+
+            KW_CLASS, KW_COMPONENT, KW_SINGLETON, KW_NEURAL,
+            KW_UNION,
+            KW_UNITE,
+            KW_TRAIT, KW_FROM,
 //
 //            KW_INFER, KW_WHERE,
 //            KW_IMPLY,
@@ -43,9 +44,7 @@ class ParserExtension : GeneratedParserUtilBase() {
 //            OP_SQRT,
 //            OP_SURD3,
 //            OP_SURD4,
-
-
-            )
+        )
         val OperatorInfix = TokenSet.create(
 //            OP_ADD, OP_ADD_ASSIGN,
 //            OP_SUB, OP_SUB_ASSIGN,
@@ -87,4 +86,3 @@ class ParserExtension : GeneratedParserUtilBase() {
         )
     }
 }
-

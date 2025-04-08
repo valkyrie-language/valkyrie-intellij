@@ -3,7 +3,9 @@ package valkyrie.ast.node
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
-import valkyrie.ast.ValkyrieAST
+import valkyrie.ast.ATOMIC
+import valkyrie.cst.LBRACE
+import valkyrie.cst.LBRACK
 import valkyrie.cst.ValkyrieCST
 
 class ValkyrieAtomicNode(node: ASTNode) : ASTWrapperPsiElement(node) {
@@ -14,10 +16,10 @@ class ValkyrieAtomicNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             val marker = builder.mark()
 
             when (builder.tokenType) {
-                ValkyrieCST.Companion.LBRACE -> {
+                LBRACE -> {
                     ValkyrieObjectNode.parse(builder)
                 }
-                ValkyrieCST.Companion.LBRACK -> {
+                LBRACK -> {
                     ValkyrieArrayNode.parse(builder)
                 }
                 ValkyrieCST.Companion.STRING,
@@ -31,7 +33,7 @@ class ValkyrieAtomicNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 }
             }
 
-            marker.done(ValkyrieAST.Companion.ATOMIC)
+            marker.done(ATOMIC)
             return true
         }
     }

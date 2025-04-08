@@ -74,19 +74,19 @@ class ValkyrieLexer : LexerBase() {
             c.isWhitespace() -> scanWhitespace()
             c == '{' -> {
                 tokenEnd = tokenStart + 1
-                currentToken = ValkyrieCST.LBRACE
+                currentToken = LBRACE
             }
             c == '}' -> {
                 tokenEnd = tokenStart + 1
-                currentToken = ValkyrieCST.RBRACE
+                currentToken = RBRACE
             }
             c == '[' -> {
                 tokenEnd = tokenStart + 1
-                currentToken = ValkyrieCST.LBRACK
+                currentToken = LBRACK
             }
             c == ']' -> {
                 tokenEnd = tokenStart + 1
-                currentToken = ValkyrieCST.RBRACK
+                currentToken = RBRACK
             }
             c == ':' -> {
                 tokenEnd = tokenStart + 1
@@ -323,8 +323,8 @@ class ValkyrieLexer : LexerBase() {
         // 检查是否是软关键字
         val text = buffer.subSequence(tokenStart, tokenEnd).toString()
         currentToken = when (text) {
-            "class", "structure", "struct" -> ValkyrieCST.KW_CLASS
-            "trait",  "interface" -> ValkyrieCST.TRAIT
+            "class", "structure", "struct" -> KW_CLASS
+            "trait",  "interface" -> KW_TRAIT
             "object" -> ValkyrieCST.OBJECT
             else -> ValkyrieCST.SYMBOL
         }

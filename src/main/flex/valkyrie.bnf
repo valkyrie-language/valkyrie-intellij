@@ -1,6 +1,6 @@
 {
     parserClass = "valkyrie.psi.parser.YggdrasilParser"
-    parserUtilClass = "valkyrie.psi.ParserExtension"
+    parserUtilClass = "valkyrie.ast.ParserExtension"
 
     extends = "valkyrie.psi.ValkyrieElement"
 

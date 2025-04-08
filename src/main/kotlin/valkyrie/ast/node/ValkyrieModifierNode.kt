@@ -2,7 +2,7 @@ package valkyrie.ast.node
 
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
-import valkyrie.ast.ValkyrieAST
+import valkyrie.ast.MODIFIER
 import valkyrie.cst.ValkyrieCST
 
 class ValkyrieModifierNode(node: ASTNode) : ValkyrieIdentifierNode(node) {
@@ -13,13 +13,13 @@ class ValkyrieModifierNode(node: ASTNode) : ValkyrieIdentifierNode(node) {
             when {
                 builder.tokenType == ValkyrieCST.Companion.SYMBOL -> {
                     builder.advanceLexer()
-                    marker.done(ValkyrieAST.Companion.MODIFIER)
+                    marker.done(MODIFIER)
                     return true
                 }
 
                 builder.tokenType == ValkyrieCST.Companion.SYMBOL_RAW -> {
                     builder.advanceLexer()
-                    marker.done(ValkyrieAST.Companion.MODIFIER)
+                    marker.done(MODIFIER)
                     return true
                 }
 
