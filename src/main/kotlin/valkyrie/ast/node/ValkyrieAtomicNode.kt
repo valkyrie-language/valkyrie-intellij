@@ -22,7 +22,7 @@ class ValkyrieAtomicNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 }
                 ValkyrieCST.Companion.STRING,
                 ValkyrieCST.Companion.NUMBER,
-                ValkyrieCST.Companion.IDENTIFIER -> {
+                ValkyrieCST.Companion.SYMBOL -> {
                     builder.advanceLexer() // 消费值
                 }
                 else -> {

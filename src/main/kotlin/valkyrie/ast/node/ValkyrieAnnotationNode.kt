@@ -5,7 +5,6 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import valkyrie.ast.ParseMonad
 import valkyrie.ast.ValkyrieAST
-import valkyrie.ast.advanceIgnore
 import valkyrie.cst.ValkyrieCST
 
 class ValkyrieAnnotationNode(node: ASTNode) : ASTWrapperPsiElement(node) {
@@ -18,7 +17,7 @@ class ValkyrieAnnotationNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             }
             val marker = builder.mark()
             // 解析名称路径
-            if (builder.tokenType !== ValkyrieCST.Companion.IDENTIFIER) {
+            if (builder.tokenType !== ValkyrieCST.Companion.SYMBOL) {
                 marker.error("Expected identifier")
                 return true
             }
@@ -30,7 +29,7 @@ class ValkyrieAnnotationNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 if (builder.tokenType === ValkyrieCST.Companion.COLON) {
                     builder.advanceLexer() // 消费第二个冒号
                 }
-                if (builder.tokenType !== ValkyrieCST.Companion.IDENTIFIER) {
+                if (builder.tokenType !== ValkyrieCST.Companion.SYMBOL) {
                     marker.error("Expected identifier")
                     return true
                 }

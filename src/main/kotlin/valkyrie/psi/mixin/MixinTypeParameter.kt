@@ -3,7 +3,7 @@ package valkyrie.psi.mixin
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import valkyrie.psi.ValkyrieDeclaration
-import valkyrie.psi.node.ValkyrieGenericParameter
+import valkyrie.ast.node.ValkyrieGenericParameter
 
 import javax.swing.Icon
 
