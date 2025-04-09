@@ -4,13 +4,13 @@ import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.icons.AllIcons
+import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import valkyrie.psi.node.ValkyrieClassBody
-import valkyrie.psi.node.ValkyrieDeclareClassNode
 
 class CompletionInClass : ValkyrieCompletionProvider {
-    val node: ValkyrieDeclareClassNode
+    val node: ValkyrieClassDeclarationNode
 
-    constructor(node: ValkyrieDeclareClassNode, parameters: CompletionParameters, result: CompletionResultSet) : super(parameters, result) {
+    constructor(node: ValkyrieClassDeclarationNode, parameters: CompletionParameters, result: CompletionResultSet) : super(parameters, result) {
         this.node = node
     }
 

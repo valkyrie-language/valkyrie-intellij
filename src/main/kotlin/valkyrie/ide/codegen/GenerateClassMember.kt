@@ -4,10 +4,10 @@ import com.intellij.codeInsight.generation.MemberChooserObject
 import com.intellij.ui.SimpleColoredComponent
 import com.intellij.ui.SimpleTextAttributes
 import com.intellij.ui.speedSearch.SpeedSearchUtil
-import valkyrie.psi.node.ValkyrieDeclareClassNode
+import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import javax.swing.JTree
 
-class GenerateClassMember(val parent: ValkyrieDeclareClassNode) : MemberChooserObject {
+class GenerateClassMember(val parent: ValkyrieClassDeclarationNode) : MemberChooserObject {
     override fun renderTreeNode(component: SimpleColoredComponent, tree: JTree) {
         SpeedSearchUtil.appendFragmentsForSpeedSearch(
             tree,

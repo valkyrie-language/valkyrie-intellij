@@ -4,6 +4,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
+import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.psi.node.*
 
@@ -11,7 +12,7 @@ class ValkyrieFactory(project: Project) {
     private val factory: PsiFileFactory = project.getService(PsiFileFactory::class.java)
 
     /** ↯macro */
-    val operatorMacroLower: PsiElement by lazy { createAttributeBelow("↯m class C{}").firstChild }
+    val operatorMacroLower: PsiElement by lazy { createAttributeBelow("↯m class C{}")!!.firstChild }
 
     /** a × b */
     val operatorMultiplication: PsiElement by lazy { createInfix("×") }
@@ -49,14 +50,15 @@ class ValkyrieFactory(project: Project) {
     }
 
 
-    fun createClass(text: String): ValkyrieDeclareClassNode {
+    fun createClass(text: String): ValkyrieClassDeclarationNode? {
         val root = createStatement(text)
-        return root.declareClass as ValkyrieDeclareClassNode
+        return null
     }
 
-    fun createAttributeBelow(text: String): ValkyrieAttributeBelowNode {
-        val root = createClass(text)
-        return root.annotations.attributeBelowList.first() as ValkyrieAttributeBelowNode
+    fun createAttributeBelow(text: String): ValkyrieAttributeBelowNode? {
+//        val root = createClass(text)
+//        return root.annotations.attributeBelowList.first() as ValkyrieAttributeBelowNode
+        return null
     }
 
     fun createTermExpression(text: String): ValkyrieExpressionNode {

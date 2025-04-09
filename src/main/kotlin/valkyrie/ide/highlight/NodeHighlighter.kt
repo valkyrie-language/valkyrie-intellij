@@ -11,6 +11,7 @@ import com.intellij.psi.util.elementType
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import valkyrie.ast.node.ValkyrieIdentifierNode
+import valkyrie.ast.node.ValkyrieInheritItemNode
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.childrenWithLeaves
@@ -60,8 +61,9 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifierSafe, HighlightColor.SYM_CLASS)
     }
 
-    override fun visitInheritItem(o: ValkyrieInheritItem) {
-        highlight(o.identifierSafe, HighlightColor.SYM_FIELD)
+
+    override fun visitInheritItem(o: ValkyrieInheritItemNode) {
+        highlight(o.identifier, HighlightColor.SYM_FIELD)
     }
 
     override fun visitDeclareField(o: ValkyrieDeclareField) {

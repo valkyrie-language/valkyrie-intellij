@@ -29,7 +29,7 @@ class GotoSuperSymbol : GotoTargetHandler() {
         }
 
         when (sourceElement) {
-            is ValkyrieDeclareClassNode -> {
+            is ValkyrieClassDeclarationNode -> {
                 sb.append("super classes")
             }
 
@@ -54,7 +54,7 @@ class GotoSuperSymbol : GotoTargetHandler() {
 
     override fun getNotFoundMessage(project: Project, editor: Editor, file: PsiFile): String {
         return when (val element = ValkyrieDeclaration.getCaretDeclaration(editor, file)) {
-            is ValkyrieDeclareClassNode -> {
+            is ValkyrieClassDeclarationNode -> {
                 "`${element.name}` has no super class"
             }
 

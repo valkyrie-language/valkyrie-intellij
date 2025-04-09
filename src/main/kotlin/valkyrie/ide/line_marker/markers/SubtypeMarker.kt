@@ -7,8 +7,8 @@ import com.intellij.icons.AllIcons
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
+import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import valkyrie.ast.node.ValkyrieIdentifierNode
-import valkyrie.psi.node.ValkyrieDeclareClassNode
 import javax.swing.Icon
 
 class SubtypeMarker : RelatedItemLineMarkerInfo<PsiElement> {
@@ -34,7 +34,7 @@ class SubtypeMarker : RelatedItemLineMarkerInfo<PsiElement> {
 
     companion object {
         fun decentType(descendant: PsiElement): String {
-            if (descendant is ValkyrieDeclareClassNode) {
+            if (descendant is ValkyrieClassDeclarationNode) {
                 return descendant.name
             }
             return "decentTypeName"
