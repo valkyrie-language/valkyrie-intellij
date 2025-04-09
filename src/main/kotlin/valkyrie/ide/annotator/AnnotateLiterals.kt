@@ -7,6 +7,7 @@ import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
+import valkyrie.ast.node.ValkyrieIdentifierNode
 import valkyrie.ide.line_marker.ValkyrieMarkColor
 import valkyrie.language.ValkyrieBundle
 import valkyrie.psi.ValkyrieTypes
@@ -85,7 +86,7 @@ private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) 
         checkCamelCase(element.nameIdentifier, holder)
     }
 
-    private fun checkCamelCase(element: MixinIdentifier?, holder: AnnotationHolder) {
+    private fun checkCamelCase(element: ValkyrieIdentifierNode?, holder: AnnotationHolder) {
         element ?: return
         val name = element.name;
 //        val fixer = CamelCaseFixer();
@@ -125,7 +126,7 @@ private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) 
     }
 }
 
-private fun checkNeedEscape(element: MixinIdentifier?, holder: AnnotationHolder) {
+private fun checkNeedEscape(element: ValkyrieIdentifierNode?, holder: AnnotationHolder) {
     element ?: return
     val rawName = element.text;
     if (!rawName.startsWith('`')) return

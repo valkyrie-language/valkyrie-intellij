@@ -10,19 +10,17 @@ import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import valkyrie.ast.node.*
-import valkyrie.cst.COMMENT_BLOCK
-import valkyrie.cst.COMMENT_LINE
-import valkyrie.cst.STRING
-import valkyrie.cst.ValkyrieLexer
+import valkyrie.cst.*
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.file.ValkyrieFileNode
 
-class ParserDefinition : ParserDefinition {
+class ValkyrieParserDefinition : ParserDefinition {
     override fun createLexer(project: Project) = ValkyrieLexer()
     override fun createParser(project: Project) = ValkyrieParser()
     override fun getFileNodeType() = IFileElementType(ValkyrieLanguage)
     override fun getCommentTokens() = TokenSet.create(
-        COMMENT_LINE, COMMENT_BLOCK
+        COMMENT_LINE_HEAD, COMMENT_LINE_TEXT,
+        COMMENT_BLOCK
     )
 
     override fun getStringLiteralElements(): TokenSet = TokenSet.create(
