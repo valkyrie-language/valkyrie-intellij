@@ -7,7 +7,6 @@ import com.intellij.psi.PsiElementVisitor
 import valkyrie.ast.InheritItem
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.ValkyrieVisitor
-import valkyrie.ast.parseNamedTypeExpression
 
 class ValkyrieInheritItemNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     val identifier = findChildByClass(ValkyrieIdentifierNode::class.java)

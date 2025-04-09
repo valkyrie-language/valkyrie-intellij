@@ -6,6 +6,7 @@ import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import valkyrie.ast.node.*
 import valkyrie.cst.*
+import valkyrie.psi.node.ValkyrieTypeExpression
 
 class ParserExtension : GeneratedParserUtilBase() {
     companion object {
@@ -176,34 +177,3 @@ fun parseFunction(builder: PsiBuilder, anonymous: Boolean, type: IElementType): 
     return true
 }
 
-fun parseNamedTypeExpression(builder: PsiBuilder, type: IElementType): Boolean {
-    val marker = builder.mark()
-    // 解析可选的注解列表
-    ValkyrieAnnotationAreaNode.parse(builder)
-    builder.advanceIgnore()
-
-    // 解析类名标识符
-    if (ValkyrieIdentifierNode.parse(builder)) {
-        builder.advanceIgnore()
-    } else {
-        builder.error("Expected 111 name")
-        marker.drop()
-        return false
-    }
-    if (builder.tokenType == COLON) {
-        builder.advanceLexer()
-        builder.advanceIgnore()
-    } else {
-        builder.error("Expected 222 name")
-        marker.drop()
-        return false
-    }
-    if (ValkyrieTermExpressionNode.parse(builder)) {
-        marker.done(type)
-        return true
-    } else {
-        builder.error("Expected 333 name")
-        marker.drop()
-        return false
-    }
-}
