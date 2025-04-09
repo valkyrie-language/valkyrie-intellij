@@ -35,6 +35,11 @@ val Operator = ValkyrieAST("OPERATOR")
 val TermBinary = ValkyrieAST("BINARY")
 val TermUnary = ValkyrieAST("UNARY")
 val TermAtomic = ValkyrieAST("ATOMIC")
+val TypeBinary = ValkyrieAST("BINARY")
+val TypeUnary = ValkyrieAST("UNARY")
+val TypeAtomic = ValkyrieAST("ATOMIC")
+
+//
 val Array = ValkyrieAST("ARRAY")
 val VALUE = ValkyrieAST("VALUE")
 val DefineDomain = ValkyrieAST("DOMAIN")

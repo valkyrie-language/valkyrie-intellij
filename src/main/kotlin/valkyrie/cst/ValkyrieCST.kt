@@ -19,6 +19,8 @@ val PARENTHESIS_R = ValkyrieCST(")")
 // 分隔符
 val COLON = ValkyrieCST(":")
 val COMMA = ValkyrieCST(",")
+val QUESTION = ValkyrieCST("?")
+//
 val OP_MACRO_UPPER = ValkyrieCST("◤")
 val OP_MACRO_LOWER = ValkyrieCST("↯")
 val OP_MACRO = ValkyrieCST("@")
@@ -41,6 +43,10 @@ val OP_DIV = ValkyrieCST("/")
 val OP_DIV_ASSIGN = ValkyrieCST("/=")
 val OP_POW = ValkyrieCST("^")
 val OP_POW_ASSIGN = ValkyrieCST("^=")
+
+val OP_ARROW = ValkyrieCST("⟶")
+val OP_UNION = ValkyrieCST("|")
+
 
 // 软关键字
 val KW_CLASS = ValkyrieCST("CLASS")
