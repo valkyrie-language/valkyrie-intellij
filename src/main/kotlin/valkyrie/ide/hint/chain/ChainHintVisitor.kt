@@ -7,10 +7,9 @@ import com.intellij.psi.util.endOffset
 
 import valkyrie.psi.lineNumber
 import valkyrie.psi.node.ValkyrieDotCall
-import valkyrie.psi.node.ValkyrieDotCallInline
-import valkyrie.psi.node.ValkyrieVisitor
+import valkyrie.psi.node.ValkyrieVisitor2
 
-class ChainHintVisitor : ValkyrieVisitor {
+class ChainHintVisitor : ValkyrieVisitor2 {
     private val sink: InlayHintsSink
     private val factory: PresentationFactory
     private val setting: ChainHintSetting

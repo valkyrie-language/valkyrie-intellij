@@ -22,7 +22,7 @@ class ValkyrieDeclarationProvider : TypeDeclarationProvider {
 }
 
 
-private class ValkyrieDeclarationVisitor : ValkyrieVisitor() {
+private class ValkyrieDeclarationVisitor : ValkyrieVisitor2() {
     var declarations: MutableList<PsiElement> = mutableListOf()
 
     override fun visitDeclareClass(o: ValkyrieDeclareClass) {

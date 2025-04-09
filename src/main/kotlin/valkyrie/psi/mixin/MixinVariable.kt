@@ -4,7 +4,6 @@ import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import valkyrie.ast.node.ValkyrieIdentifierNode
-import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.ValkyrieElement
 import valkyrie.psi.ValkyrieTypes.KW_LET
 import valkyrie.psi.findKeyword
@@ -22,7 +21,7 @@ abstract class MixinVariable(node: ASTNode) : ValkyrieElement(node), ValkyrieLet
 }
 
 
-class ValkyrieVariableCollector : ValkyrieVisitor() {
+class ValkyrieVariableCollector : ValkyrieVisitor2() {
     private var list = mutableListOf<MixinIdentifier>()
 //    override fun visitLetPattern(o: ValkyrieLetPattern) {
 //        o.barePattern?.let { visitBarePattern(it) }

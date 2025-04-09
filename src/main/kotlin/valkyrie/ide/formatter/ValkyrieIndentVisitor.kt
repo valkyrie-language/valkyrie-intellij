@@ -5,7 +5,7 @@ import com.intellij.lang.ASTNode
 import valkyrie.psi.node.*
 
 
-class ValkyrieIndentVisitor(val child: ASTNode) : ValkyrieVisitor() {
+class ValkyrieIndentVisitor(val child: ASTNode) : ValkyrieVisitor2() {
     var indent: Indent? = Indent.getNoneIndent()
 
     override fun visitInferBody(o: ValkyrieInferBody) {
