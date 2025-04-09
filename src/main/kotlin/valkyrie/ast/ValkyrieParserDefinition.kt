@@ -60,7 +60,7 @@ class ValkyrieParserDefinition : ParserDefinition {
             DefineMethod -> ValkyrieMethodNode(node)
             DefineDomain -> ValkyrieDomainNode(node)
             // 表达式
-            BINARY -> ValkyrieBinaryNode(node)
+            Binary -> ValkyrieTermExpressionNode(node)
             // 调用
             MacroCall -> ValkyrieMacroCallNode(node)
             // {...}

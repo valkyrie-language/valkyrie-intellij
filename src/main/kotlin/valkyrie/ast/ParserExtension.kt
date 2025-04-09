@@ -198,7 +198,7 @@ fun parseNamedTypeExpression(builder: PsiBuilder, type: IElementType): Boolean {
         marker.drop()
         return false
     }
-    if (ValkyrieIdentifierNode.parse(builder)) {
+    if (ValkyrieTermExpressionNode.parse(builder)) {
         marker.done(type)
         return true
     } else {

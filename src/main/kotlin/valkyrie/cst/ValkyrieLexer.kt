@@ -72,7 +72,7 @@ class ValkyrieLexer : LexerBase() {
             c.isWhitespace() -> scanWhitespace()
             c == '{' -> {
                 tokenEnd = tokenStart + 1
-                _tokenBuffer = LBRACE
+                _tokenBuffer = BRACE_L
             }
 
             c == '}' -> {
@@ -150,9 +150,6 @@ class ValkyrieLexer : LexerBase() {
                 currentState = IN_STRING_RI
             }
 
-            c == '/' -> {
-                tokenEnd = tokenStart + 2
-            }
 
             c == '#' || c == '⍝' -> {
                 tokenEnd = tokenStart + 1
@@ -210,6 +207,26 @@ class ValkyrieLexer : LexerBase() {
             c == '↯' -> {
                 tokenEnd = tokenStart + 1
                 _tokenBuffer = OP_MACRO_LOWER
+            }
+
+            c == '+' -> {
+                tokenEnd = tokenStart + 1
+                _tokenBuffer = OP_PLUS
+            }
+
+            c == '-' -> {
+                tokenEnd = tokenStart + 1
+                _tokenBuffer = OP_MINUS
+            }
+
+            c == '*' || c == '×' -> {
+                tokenEnd = tokenStart + 1
+                _tokenBuffer = OP_TIMES
+            }
+
+            c == '/' -> {
+                tokenEnd = tokenStart + 1
+                _tokenBuffer = OP_DIVIDE
             }
 
             c.isDigit() -> {

@@ -16,7 +16,7 @@ class ValkyrieObjectNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     companion object : ParserMonad {
         override fun parse(builder: PsiBuilder): Boolean {
             // 检查是否有左大括号
-            if (builder.tokenType !== LBRACE) {
+            if (builder.tokenType !== BRACE_L) {
                 builder.error("Expected '{'")
                 return false
             }

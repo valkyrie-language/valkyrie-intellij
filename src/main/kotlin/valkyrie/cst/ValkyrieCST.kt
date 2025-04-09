@@ -9,7 +9,7 @@ class ValkyrieCST(show: String) : IElementType(show, ValkyrieLanguage) {
 }
 
 // 括号
-val LBRACE = ValkyrieCST("{")
+val BRACE_L = ValkyrieCST("{")
 val RBRACE = ValkyrieCST("}")
 val BRACKET_L = ValkyrieCST("[")
 val BRACKET_R = ValkyrieCST("]")
@@ -29,6 +29,13 @@ val OP_GE = ValkyrieCST(">")
 val DOT = ValkyrieCST(".")
 val EQ = ValkyrieCST("=")
 val SEMICOLON = ValkyrieCST(";")
+
+// 基本运算符
+val OP_PLUS = ValkyrieCST("+")
+val OP_MINUS = ValkyrieCST("-")
+val OP_TIMES = ValkyrieCST("×")
+val OP_DIVIDE = ValkyrieCST("/")
+val OP_POWER = ValkyrieCST("^")
 
 // 软关键字
 val KW_CLASS = ValkyrieCST("CLASS")
