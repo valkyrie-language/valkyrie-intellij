@@ -211,27 +211,27 @@ class ValkyrieLexer : LexerBase() {
 
             c == '+' -> {
                 tokenEnd = tokenStart + 1
-                _tokenBuffer = OP_PLUS
+                _tokenBuffer = OP_ADD
             }
 
             c == '-' -> {
                 tokenEnd = tokenStart + 1
-                _tokenBuffer = OP_MINUS
+                _tokenBuffer = OP_SUB
             }
 
             c == '*' || c == '×' -> {
                 tokenEnd = tokenStart + 1
-                _tokenBuffer = OP_TIMES
+                _tokenBuffer = OP_MUL
             }
 
             c == '/' -> {
                 tokenEnd = tokenStart + 1
-                _tokenBuffer = OP_DIVIDE
+                _tokenBuffer = OP_DIV
             }
 
             c == '^' -> {
                 tokenEnd = tokenStart + 1
-                _tokenBuffer = OP_POWER
+                _tokenBuffer = OP_POW
             }
 
             c.isDigit() -> {
