@@ -32,8 +32,9 @@ val Keyword = ValkyrieAST("KEYWORD")
 
 //
 val EXPRESSION = ValkyrieAST("EXPRESSION")
-val BINARY = ValkyrieAST("BINARY")
-val ATOMIC = ValkyrieAST("ATOMIC")
+val Binary = ValkyrieAST("BINARY")
+val Unary = ValkyrieAST("UNARY")
+val Atomic = ValkyrieAST("ATOMIC")
 val Array = ValkyrieAST("ARRAY")
 val VALUE = ValkyrieAST("VALUE")
 val DefineDomain = ValkyrieAST("DOMAIN")

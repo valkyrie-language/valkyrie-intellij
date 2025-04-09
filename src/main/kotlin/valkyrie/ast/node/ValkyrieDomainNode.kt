@@ -5,7 +5,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import valkyrie.ast.DefineDomain
 import valkyrie.ast.advanceIgnore
-import valkyrie.cst.LBRACE
+import valkyrie.cst.BRACE_L
 import valkyrie.cst.OP_MACRO
 import valkyrie.cst.SYMBOL
 
@@ -40,7 +40,7 @@ class ValkyrieDomainNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             builder.advanceIgnore()
 
             // 解析域体
-            if (builder.tokenType !== LBRACE) {
+            if (builder.tokenType !== BRACE_L) {
                 builder.error("Expected '{'")
                 marker.drop()
                 return false
