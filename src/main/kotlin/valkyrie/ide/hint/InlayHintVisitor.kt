@@ -9,9 +9,9 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.endOffset
 
-import valkyrie.psi.node.ValkyrieVisitor
+import valkyrie.psi.node.ValkyrieVisitor2
 
-abstract class InlayHintVisitor : ValkyrieVisitor {
+abstract class InlayHintVisitor : ValkyrieVisitor2 {
     protected val sink: InlayTreeSink
     protected val editor: Editor
     protected val factory: PresentationFactory

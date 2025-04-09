@@ -24,7 +24,7 @@ class ValkyrieUsageTargetProvider : UsageTargetProvider {
 }
 
 
-private class ValkyrieUsageTargetVisitor : ValkyrieVisitor() {
+private class ValkyrieUsageTargetVisitor : ValkyrieVisitor2() {
     val targets: MutableList<UsageTarget> = mutableListOf()
     override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
         o as ValkyrieDeclareMethodNode

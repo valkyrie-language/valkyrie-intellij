@@ -8,10 +8,7 @@ import valkyrie.ide.highlight.HighlightColor
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.ValkyrieTypes.KW_CLASS
 import valkyrie.psi.findKeyword
-import valkyrie.psi.node.ValkyrieDeclareClass
-import valkyrie.psi.node.ValkyrieDeclareClassNode
-import valkyrie.psi.node.ValkyrieDeclareFieldNode
-import valkyrie.psi.node.ValkyrieInheritItemNode
+import valkyrie.psi.node.*
 import javax.swing.Icon
 
 

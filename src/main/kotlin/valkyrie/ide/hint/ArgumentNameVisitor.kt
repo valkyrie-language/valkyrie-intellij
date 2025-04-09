@@ -5,10 +5,10 @@ import com.intellij.psi.util.startOffset
 
 import valkyrie.psi.node.ValkyrieArgumentBody
 import valkyrie.psi.node.ValkyrieInheritItem
-import valkyrie.psi.node.ValkyrieVisitor
+import valkyrie.psi.node.ValkyrieVisitor2
 
 
-class ArgumentNameVisitor : ValkyrieVisitor() {
+class ArgumentNameVisitor : ValkyrieVisitor2() {
     var info: MutableList<InlayInfo> = mutableListOf()
 
     override fun visitInheritItem(o: ValkyrieInheritItem) {

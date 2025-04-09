@@ -14,7 +14,7 @@ import valkyrie.psi.findPair
 import valkyrie.psi.node.*
 
 
-class ValkyrieFoldingVisitor : ValkyrieVisitor, PsiRecursiveVisitor {
+class ValkyrieFoldingVisitor : ValkyrieVisitor2, PsiRecursiveVisitor {
 
     private val descriptors: MutableList<FoldingDescriptor>
 

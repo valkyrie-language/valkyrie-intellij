@@ -8,7 +8,7 @@ import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
 import valkyrie.psi.node.ValkyrieDeclareClassNode
 import valkyrie.psi.node.ValkyrieNamepathSafe
 import valkyrie.psi.node.ValkyrieNamepathSafeNode
-import valkyrie.psi.node.ValkyrieVisitor
+import valkyrie.psi.node.ValkyrieVisitor2
 
 class SearchDefinitions : QueryExecutorBase<PsiElement, SearchParameters>(true) {
     override fun processQuery(queryParameters: SearchParameters, consumer: Processor<in PsiElement>) {
@@ -18,7 +18,7 @@ class SearchDefinitions : QueryExecutorBase<PsiElement, SearchParameters>(true) 
 }
 
 
-private class SearchDefinitionsVisitor : ValkyrieVisitor {
+private class SearchDefinitionsVisitor : ValkyrieVisitor2 {
     private var consumer: Processor<in PsiElement>
 
     constructor(consumer: Processor<in PsiElement>) : super() {

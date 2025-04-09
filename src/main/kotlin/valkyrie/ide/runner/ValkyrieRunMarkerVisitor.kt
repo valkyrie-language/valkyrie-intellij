@@ -9,9 +9,9 @@ import valkyrie.psi.mixin.keyword
 import valkyrie.psi.node.ValkyrieDeclareClass
 import valkyrie.psi.node.ValkyrieDeclareImply
 import valkyrie.psi.node.ValkyrieDeclareNamespace
-import valkyrie.psi.node.ValkyrieVisitor
+import valkyrie.psi.node.ValkyrieVisitor2
 
-class ValkyrieRunMarkerVisitor : ValkyrieVisitor {
+class ValkyrieRunMarkerVisitor : ValkyrieVisitor2 {
     private val config: ValkyrieRunMarkerProvider
     private val result: MutableCollection<in LineMarkerInfo<*>>
 
