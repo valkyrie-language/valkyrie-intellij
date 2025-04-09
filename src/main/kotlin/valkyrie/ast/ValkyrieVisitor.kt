@@ -3,9 +3,10 @@ package valkyrie.ast
 import com.intellij.openapi.progress.ProgressIndicatorProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
-import valkyrie.ast.node.ValkyrieClassDeclarationNode
+import valkyrie.ast.node.*
 import valkyrie.ast.node.ValkyrieInheritItemNode
-import valkyrie.ast.node.ValkyrieInheritListNode
+import valkyrie.ast.node.ValkyrieTypeAtomicNode
+import valkyrie.ast.node.ValkyrieTypeExpressionNode
 import valkyrie.psi.node.*
 
 open class ValkyrieVisitor : PsiElementVisitor() {
@@ -22,10 +23,6 @@ open class ValkyrieVisitor : PsiElementVisitor() {
     }
 
     open fun visitAssociatedType(o: ValkyrieAssociatedType) {
-        visitElement(o)
-    }
-
-    open fun visitAtomic(o: ValkyrieAtomic) {
         visitElement(o)
     }
 
@@ -717,7 +714,19 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitTerm(o: ValkyrieTerm) {
+    open fun visitTermExpression(o: ValkyrieTermExpressionNode) {
+        visitElement(o)
+    }
+
+    open fun visitTermBinary(o: ValkyrieTermBinaryNode) {
+        visitElement(o)
+    }
+
+    open fun visitTermUnary(o: ValkyrieTermUnaryNode) {
+        visitElement(o)
+    }
+
+    open fun visitTermAtomic(o: ValkyrieTermAtomicNode) {
         visitElement(o)
     }
 
@@ -757,11 +766,19 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitTypeAtomic(o: ValkyrieTypeAtomic) {
+    open fun visitTypeExpression(o: ValkyrieTypeExpressionNode) {
         visitElement(o)
     }
 
-    open fun visitTypeExpression(o: ValkyrieTypeExpression) {
+    open fun visitTypeBinary(o: ValkyrieTypeBinaryNode) {
+        visitElement(o)
+    }
+
+    open fun visitTypeUnary(o: ValkyrieTypeUnaryNode) {
+        visitElement(o)
+    }
+
+    open fun visitTypeAtomic(o: ValkyrieTypeAtomicNode) {
         visitElement(o)
     }
 

@@ -12,6 +12,8 @@ import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import valkyrie.ast.node.ValkyrieIdentifierNode
 import valkyrie.ast.node.ValkyrieInheritItemNode
+import valkyrie.ast.node.ValkyrieTypeAtomicNode
+import valkyrie.ast.node.ValkyrieTypeExpressionNode
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.childrenWithLeaves
@@ -162,10 +164,8 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifierSafe, HighlightColor.SYM_CLASS)
     }
 
-    override fun visitTypeExpression(o: ValkyrieTypeExpression) {
-        for (term in o.typeTermList) {
-            term.typeAtomic.namepathSafe?.highlight(this)
-        }
+    override fun visitTypeAtomic(o: ValkyrieTypeAtomicNode) {
+//        term.typeAtomic.namepathSafe?.highlight(this)
     }
 
 
@@ -225,10 +225,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifierSafe, HighlightColor.SYM_LOCAL)
     }
 
-    override fun visitTypeAtomic(o: ValkyrieTypeAtomic) {
-        o.namepathSafe?.highlight(this)
-    }
-
     override fun visitArgument(o: ValkyrieArgument) {
         highlight(o.identifierSafe, HighlightColor.SYM_ARG)
     }
@@ -245,9 +241,6 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.namepathSafe.lastChild, HighlightColor.SYM_FUNCTION_SELF)
     }
 
-    override fun visitAtomic(o: ValkyrieAtomic) {
-        o.namepathSafe?.highlight(this)
-    }
 
     override fun visitNewValue(o: ValkyrieNewValue) {
 
