@@ -31,11 +31,16 @@ val EQ = ValkyrieCST("=")
 val SEMICOLON = ValkyrieCST(";")
 
 // 基本运算符
-val OP_PLUS = ValkyrieCST("+")
-val OP_MINUS = ValkyrieCST("-")
-val OP_TIMES = ValkyrieCST("×")
-val OP_DIVIDE = ValkyrieCST("/")
-val OP_POWER = ValkyrieCST("^")
+val OP_ADD = ValkyrieCST("+")
+val OP_ADD_ASSIGN = ValkyrieCST("+=")
+val OP_SUB = ValkyrieCST("-")
+val OP_SUB_ASSIGN = ValkyrieCST("-=")
+val OP_MUL = ValkyrieCST("×")
+val OP_MUL_ASSIGN = ValkyrieCST("×=")
+val OP_DIV = ValkyrieCST("/")
+val OP_DIV_ASSIGN = ValkyrieCST("/=")
+val OP_POW = ValkyrieCST("^")
+val OP_POW_ASSIGN = ValkyrieCST("^=")
 
 // 软关键字
 val KW_CLASS = ValkyrieCST("CLASS")

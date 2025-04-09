@@ -49,14 +49,14 @@ class ParserExtension : GeneratedParserUtilBase() {
 //            OP_SURD4,
         )
         val OperatorInfix = TokenSet.create(
-//            OP_ADD, OP_ADD_ASSIGN,
-//            OP_SUB, OP_SUB_ASSIGN,
-//            OP_MUL, OP_MUL_ASSIGN,
-//            OP_DIV, OP_DIV_ASSIGN,
+            OP_ADD, OP_ADD_ASSIGN,
+            OP_SUB, OP_SUB_ASSIGN,
+            OP_MUL, OP_MUL_ASSIGN,
+            OP_DIV, OP_DIV_ASSIGN,
 //            OP_DIV_FLOOR, OP_DIV_CEIL, OP_DIV_ROUND,
 //            OP_REM, OP_REM_ASSIGN,
 //            OP_DIV_REM,
-//            OP_POW,
+            OP_POW, OP_POW_ASSIGN
 //            OP_AND,
 //            OP_OR,
 //            OP_UNTIL,
