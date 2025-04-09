@@ -209,14 +209,114 @@ class ValkyrieLexer : LexerBase() {
                 _tokenBuffer = OP_MACRO_LOWER
             }
 
+
+            c == '|' -> {
+                when {
+                    // ||
+                    buffer.getOrNull(tokenStart + 1) == '|' -> {
+                        tokenEnd = tokenStart + 2
+                        _tokenBuffer = LOGIC_OR
+                    }
+
+                    // |
+                    else -> {
+                        tokenEnd = tokenStart + 1
+                        _tokenBuffer = OP_OR
+                    }
+                }
+            }
+
+            c == '⊽' -> {
+                tokenEnd = tokenStart + 1
+                _tokenBuffer = LOGIC_NOR
+            }
+
+            c == '∨' -> {
+                tokenEnd = tokenStart + 1
+                _tokenBuffer = LOGIC_OR
+            }
+
+            c == '⊻' -> {
+                tokenEnd = tokenStart + 1
+                _tokenBuffer = LOGIC_XOR
+            }
+
+            c == '&' -> {
+                when {
+                    // &&
+                    buffer.getOrNull(tokenStart + 1) == '&' -> {
+                        tokenEnd = tokenStart + 2
+                        _tokenBuffer = LOGIC_AND
+                    }
+
+                    // &
+                    else -> {
+                        tokenEnd = tokenStart + 1
+                        _tokenBuffer = OP_AND
+                    }
+                }
+            }
+
+            c == '∧' -> {
+                tokenEnd = tokenStart + 1
+                _tokenBuffer = LOGIC_AND
+            }
+
+            c == '⊼' -> {
+                tokenEnd = tokenStart + 1
+                _tokenBuffer = LOGIC_NAND
+            }
+
+            c == '⩟' -> {
+                tokenEnd = tokenStart + 1
+                _tokenBuffer = LOGIC_XAND
+            }
+
+            c == '?' -> {
+                tokenEnd = tokenStart + 1
+                _tokenBuffer = QUESTION
+            }
+
+            c == '=' -> {
+                when {
+                    // ==
+                    buffer.getOrNull(tokenStart + 1) == '=' -> {
+                        tokenEnd = tokenStart + 2
+                        _tokenBuffer = EQ
+                    }
+
+                    // =
+                    else -> {
+                        tokenEnd = tokenStart + 1
+                        _tokenBuffer = EQ
+                    }
+                }
+            }
+
             c == '+' -> {
                 tokenEnd = tokenStart + 1
                 _tokenBuffer = OP_ADD
             }
 
             c == '-' -> {
-                tokenEnd = tokenStart + 1
-                _tokenBuffer = OP_SUB
+                when {
+                    // -=
+                    buffer.getOrNull(tokenStart + 1) == '=' -> {
+                        tokenEnd = tokenStart + 2
+                        _tokenBuffer = OP_SUB_ASSIGN
+                    }
+
+                    // ->
+                    buffer.getOrNull(tokenStart + 1) == '>' -> {
+                        tokenEnd = tokenStart + 2
+                        _tokenBuffer = OP_ARROW
+                    }
+
+                    // -
+                    else -> {
+                        tokenEnd = tokenStart + 1
+                    }
+                }
             }
 
             c == '*' || c == '×' -> {
