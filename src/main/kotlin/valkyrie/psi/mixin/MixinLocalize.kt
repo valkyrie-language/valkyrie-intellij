@@ -2,13 +2,14 @@ package valkyrie.psi.mixin
 
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
+import valkyrie.ast.node.ValkyrieIdentifierNode
 import valkyrie.ide.reference.declaration.ValkyrieNamepathReference
 import valkyrie.psi.ValkyrieElement
 
 import valkyrie.psi.node.ValkyrieLocalizeCall
 
 abstract class MixinLocalize(node: ASTNode) : ValkyrieElement(node), ValkyrieLocalizeCall {
-    val identifier: MixinIdentifier? = identifierSafeList.lastOrNull() as? MixinIdentifier;
+    val identifier: ValkyrieIdentifierNode? = identifierSafeList.lastOrNull() as? ValkyrieIdentifierNode;
 
 
     override fun getNavigationElement(): PsiElement {

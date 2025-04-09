@@ -3,6 +3,7 @@ package valkyrie.psi.mixin
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
+import valkyrie.ast.node.ValkyrieIdentifierNode
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.ValkyrieElement
 import valkyrie.psi.ValkyrieTypes.KW_LET
@@ -45,7 +46,7 @@ class ValkyrieVariableCollector : ValkyrieVisitor() {
 
     }
 
-    fun finish(): List<MixinIdentifier> {
-        return list.filterNotNull().mapNotNull { it as? MixinIdentifier }
+    fun finish(): List<ValkyrieIdentifierNode> {
+        return list.filterNotNull().mapNotNull { it as? ValkyrieIdentifierNode }
     }
 }
