@@ -12,18 +12,18 @@ class ValkyrieLexer : LexerBase() {
     private var tokenStart: Int = 0
     private var tokenEnd: Int = 0
     private var currentState: Int = 0
-    private var currentToken: IElementType? = null
+    private var _tokenBuffer: MutableList<IElementType> = mutableListOf()
 
     // 词法分析状态
     companion object {
         const val INITIAL = 0
-        const val IN_STRING = 1
-        const val IN_SINGLE_QUOTE_STRING = 2
+        const val IN_STRING_DQ = 11
+        const val IN_SINGLE_SQ = 12
+        const val IN_STRING_RI = 13
         const val IN_NUMBER = 3
         const val IN_COMMENT = 4
         const val IN_HASH_COMMENT = 5
         const val IN_BLOCK_COMMENT = 6
-        const val IN_IDENTIFIER_RAW = 8
     }
 
     override fun start(buffer: CharSequence, startOffset: Int, endOffset: Int, initialState: Int) {
@@ -33,13 +33,14 @@ class ValkyrieLexer : LexerBase() {
         this.tokenStart = startOffset
         this.tokenEnd = startOffset
         this.currentState = initialState
-        this.currentToken = null
         advance()
     }
 
     override fun getState(): Int = currentState
 
-    override fun getTokenType(): IElementType? = currentToken
+    override fun getTokenType(): IElementType? {
+        return _tokenBuffer.getOrNull(0)
+    }
 
     override fun getTokenStart(): Int = tokenStart
 
@@ -50,22 +51,26 @@ class ValkyrieLexer : LexerBase() {
     override fun getBufferEnd(): Int = bufferEnd
 
     override fun advance() {
-        tokenStart = tokenEnd
-
-        if (tokenStart >= bufferEnd) {
-            currentToken = null
+        // 还有很多未返回的 token
+        if (!_tokenBuffer.isEmpty()) {
+            _tokenBuffer.removeAt(0)
+            return;
+        }
+        // 非法状态
+        else if (tokenStart >= bufferEnd) {
+            _tokenBuffer.clear()
             return
         }
-
+        tokenStart = tokenEnd
         when (currentState) {
             INITIAL -> scanInitial()
-            IN_STRING -> scanString()
-            IN_SINGLE_QUOTE_STRING -> scanSingleQuoteString()
+            IN_STRING_DQ -> scanString()
+            IN_SINGLE_SQ -> scanSingleQuoteString()
             IN_NUMBER -> scanNumber()
             IN_COMMENT -> scanComment()
             IN_HASH_COMMENT -> scanHashComment()
             IN_BLOCK_COMMENT -> scanBlockComment()
-            IN_IDENTIFIER_RAW -> scanRawIdentifier()
+            IN_STRING_RI -> scanRawIdentifier()
         }
     }
 
@@ -76,27 +81,42 @@ class ValkyrieLexer : LexerBase() {
             c.isWhitespace() -> scanWhitespace()
             c == '{' -> {
                 tokenEnd = tokenStart + 1
-                currentToken = LBRACE
+                _tokenBuffer.add(LBRACE)
             }
+
             c == '}' -> {
                 tokenEnd = tokenStart + 1
-                currentToken = RBRACE
+                _tokenBuffer.add(RBRACE)
             }
+
             c == '[' -> {
                 tokenEnd = tokenStart + 1
-                currentToken = LBRACK
+                _tokenBuffer.add(LBRACK)
             }
+
             c == ']' -> {
                 tokenEnd = tokenStart + 1
-                currentToken = RBRACK
+                _tokenBuffer.add(RBRACK)
             }
+
+            c == '(' -> {
+                tokenEnd = tokenStart + 1
+                _tokenBuffer.add(PARENTHESIS_L)
+            }
+
+            c == ')' -> {
+                tokenEnd = tokenStart + 1
+                _tokenBuffer.add(PARENTHESIS_R)
+            }
+
             c == ':' -> {
                 tokenEnd = tokenStart + 1
-                currentToken = COLON
+                _tokenBuffer.add(COLON)
             }
+
             c == ',' -> {
                 tokenEnd = tokenStart + 1
-                currentToken = COMMA
+                _tokenBuffer.add(COMMA)
             }
 
             c == '@' -> {
@@ -104,66 +124,79 @@ class ValkyrieLexer : LexerBase() {
                     when (buffer[tokenStart + 1]) {
                         '^' -> {
                             tokenEnd = tokenStart + 2
-                            currentToken = OP_MACRO_UPPER
+                            _tokenBuffer.add(OP_MACRO_UPPER)
                         }
+
                         '.' -> {
                             tokenEnd = tokenStart + 2
-                            currentToken = OP_MACRO_LOWER
+                            _tokenBuffer.add(OP_MACRO_LOWER)
                         }
+
                         else -> {
                             tokenEnd = tokenStart + 1
-                            currentToken = OP_MACRO
+                            _tokenBuffer.add(OP_MACRO)
                         }
                     }
                 } else {
                     tokenEnd = tokenStart + 1
-                    currentToken = OP_MACRO
+                    _tokenBuffer.add(OP_MACRO)
                 }
             }
-            c == '◤' -> {
-                tokenEnd = tokenStart + 1
-                currentToken = OP_MACRO_UPPER
-            }
-            c == '↯' -> {
-                tokenEnd = tokenStart + 1
-                currentToken = OP_MACRO_LOWER
-            }
+
             c == '.' -> {
                 tokenEnd = tokenStart + 1
-                currentToken = DOT
+                _tokenBuffer.add(DOT)
             }
+
             c == '"' -> {
                 tokenEnd = tokenStart + 1
-                currentState = IN_STRING
+                currentState = IN_STRING_DQ
             }
+
             c == '\'' -> {
                 tokenEnd = tokenStart + 1
-                currentState = IN_SINGLE_QUOTE_STRING
+                currentState = IN_SINGLE_SQ
             }
+
+            c == '`' -> {
+                tokenEnd = tokenStart + 1
+                currentState = IN_STRING_RI
+            }
+
             c == '/' && tokenStart + 1 < bufferEnd && buffer[tokenStart + 1] == '/' -> {
                 tokenEnd = tokenStart + 2
                 currentState = IN_COMMENT
             }
+
             c == '#' -> {
                 tokenEnd = tokenStart + 1
                 currentState = IN_HASH_COMMENT
             }
+
             c == '<' && tokenStart + 1 < bufferEnd && buffer[tokenStart + 1] == '#' -> {
                 tokenEnd = tokenStart + 2
                 currentState = IN_BLOCK_COMMENT
             }
-            c.isDigit() || c == '-' -> {
+
+            c == '◤' -> {
+                tokenEnd = tokenStart + 1
+                _tokenBuffer.add(OP_MACRO_UPPER)
+            }
+
+            c == '↯' -> {
+                tokenEnd = tokenStart + 1
+                _tokenBuffer.add(OP_MACRO_LOWER)
+            }
+
+            c.isDigit() -> {
                 tokenEnd = tokenStart + 1
                 currentState = IN_NUMBER
             }
+
             c.isJavaIdentifierStart() -> scanIdentifier()
-            c == '`' -> {
-                tokenEnd = tokenStart + 1
-                currentState = IN_IDENTIFIER_RAW
-            }
             else -> {
                 tokenEnd = tokenStart + 1
-                currentToken = BAD_CHARACTER
+                _tokenBuffer.add(BAD_CHARACTER)
             }
         }
     }
@@ -174,7 +207,7 @@ class ValkyrieLexer : LexerBase() {
             i++
         }
         tokenEnd = i
-        currentToken = WHITE_SPACE
+        _tokenBuffer.add(WHITE_SPACE)
     }
 
     private fun scanString() {
@@ -190,7 +223,7 @@ class ValkyrieLexer : LexerBase() {
                 escaped = true
             } else if (c == '"') {
                 tokenEnd = i + 1
-                currentToken = STRING
+                _tokenBuffer.add(STRING)
                 currentState = INITIAL
                 return
             }
@@ -200,7 +233,7 @@ class ValkyrieLexer : LexerBase() {
 
         // 未闭合的字符串
         tokenEnd = bufferEnd
-        currentToken = BAD_CHARACTER
+        _tokenBuffer.add(BAD_CHARACTER)
         currentState = INITIAL
     }
 
@@ -218,6 +251,7 @@ class ValkyrieLexer : LexerBase() {
                     dotSeen = true
                     i++
                 }
+
                 (c == 'e' || c == 'E') && !eSeen -> {
                     eSeen = true
                     if (i + 1 < bufferEnd && (buffer[i + 1] == '+' || buffer[i + 1] == '-')) {
@@ -226,12 +260,13 @@ class ValkyrieLexer : LexerBase() {
                         i++
                     }
                 }
+
                 else -> break
             }
         }
 
         tokenEnd = i
-        currentToken = NUMBER
+        _tokenBuffer.add(NUMBER)
         currentState = INITIAL
     }
 
@@ -246,7 +281,7 @@ class ValkyrieLexer : LexerBase() {
         }
 
         tokenEnd = i
-        currentToken = COMMENT_LINE
+        _tokenBuffer.add(COMMENT_LINE)
         currentState = INITIAL
     }
 
@@ -261,7 +296,7 @@ class ValkyrieLexer : LexerBase() {
         }
 
         tokenEnd = i
-        currentToken = COMMENT_LINE
+        _tokenBuffer.add(COMMENT_LINE)
         currentState = INITIAL
     }
 
@@ -282,7 +317,7 @@ class ValkyrieLexer : LexerBase() {
         }
 
         tokenEnd = i
-        currentToken = COMMENT_BLOCK
+        _tokenBuffer.add(COMMENT_BLOCK)
         currentState = INITIAL
     }
 
@@ -299,7 +334,7 @@ class ValkyrieLexer : LexerBase() {
                 escaped = true
             } else if (c == '\'') {
                 tokenEnd = i + 1
-                currentToken = STRING
+                _tokenBuffer.add(STRING)
                 currentState = INITIAL
                 return
             }
@@ -309,7 +344,7 @@ class ValkyrieLexer : LexerBase() {
 
         // 未闭合的字符串
         tokenEnd = bufferEnd
-        currentToken = BAD_CHARACTER
+        _tokenBuffer.add(BAD_CHARACTER)
         currentState = INITIAL
     }
 
@@ -324,11 +359,13 @@ class ValkyrieLexer : LexerBase() {
 
         // 检查是否是软关键字
         val text = buffer.subSequence(tokenStart, tokenEnd).toString()
-        currentToken = when (text) {
-            "class", "structure", "struct" -> KW_CLASS
-            "trait",  "interface" -> KW_TRAIT
-            else -> SYMBOL
-        }
+        _tokenBuffer.add(
+            when (text) {
+                "class", "structure", "struct" -> KW_CLASS
+                "trait", "interface" -> KW_TRAIT
+                else -> SYMBOL
+            }
+        )
         currentState = INITIAL
     }
 
@@ -363,7 +400,7 @@ class ValkyrieLexer : LexerBase() {
                 i++
             } else if (c == '`') {
                 tokenEnd = i + 1
-                currentToken = SYMBOL_RAW
+                _tokenBuffer.add(SYMBOL_RAW)
                 currentState = INITIAL
                 return
             } else {
@@ -373,7 +410,7 @@ class ValkyrieLexer : LexerBase() {
 
         // 未闭合的原始标识符
         tokenEnd = bufferEnd
-        currentToken = BAD_CHARACTER
+        _tokenBuffer.add(BAD_CHARACTER)
         currentState = INITIAL
     }
 }

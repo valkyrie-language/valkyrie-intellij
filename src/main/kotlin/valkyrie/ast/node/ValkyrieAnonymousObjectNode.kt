@@ -7,7 +7,7 @@ import com.intellij.lang.PsiBuilder
 class ValkyrieAnonymousObjectNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     companion object {
         fun parse(builder: PsiBuilder): Boolean {
-            return ValkyrieClassDeclareNode.parse(builder = builder, anonymous = true)
+            return parseClass(builder = builder, anonymous = true)
         }
     }
 }

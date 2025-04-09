@@ -6,7 +6,7 @@ import valkyrie.language.ValkyrieLanguage
 // non-leaf node of the parse tree
 class ValkyrieAST(show: String) : IElementType(show, ValkyrieLanguage) {
 
-    override fun toString(): String = "${ValkyrieAST::class.simpleName}<${super.toString()}>"
+    override fun toString(): String = "AST<${super.toString()}>"
 }
 
 val Unknown = ValkyrieAST("UNKNOWN")
