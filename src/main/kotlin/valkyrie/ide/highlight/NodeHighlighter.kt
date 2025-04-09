@@ -44,6 +44,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
     override fun visitDeclareClass(o: ValkyrieClassDeclarationNode) {
+        println("高亮 class")
         highlight(o.identifier, HighlightColor.SYM_CLASS)
     }
 

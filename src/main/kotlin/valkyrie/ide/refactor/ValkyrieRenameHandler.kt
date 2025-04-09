@@ -8,8 +8,8 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.refactoring.rename.RenameHandler
+import valkyrie.ast.ValkyrieVisitor
 import valkyrie.language.file.ValkyrieFileNode
-import valkyrie.psi.node.ValkyrieVisitor2
 
 
 class ValkyrieRenameHandler : RenameHandler {
@@ -55,5 +55,5 @@ class ValkyrieRenameHandler : RenameHandler {
 
 }
 
-class ValkyrieRenameVisitor(val project: Project, val dataContext: DataContext?) : ValkyrieVisitor2() {
+class ValkyrieRenameVisitor(val project: Project, val dataContext: DataContext?) : ValkyrieVisitor() {
 }

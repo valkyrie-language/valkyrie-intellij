@@ -15,6 +15,7 @@ val BRACKET_L = ValkyrieCST("[")
 val BRACKET_R = ValkyrieCST("]")
 val PARENTHESIS_L = ValkyrieCST("(")
 val PARENTHESIS_R = ValkyrieCST(")")
+
 // 分隔符
 val COLON = ValkyrieCST(":")
 val COMMA = ValkyrieCST(",")
@@ -58,5 +59,6 @@ val SYMBOL_RAW = ValkyrieCST("SYMBOL<RAW>")
 val COMMENT_LINE_HEAD = ValkyrieCST("COMMENT_#")
 val COMMENT_LINE_TEXT = ValkyrieCST("COMMENT_LINE_TEXT")
 val COMMENT_BLOCK = ValkyrieCST("COMMENT<BLOCK>")
+
 // 终止符
 val EOF = ValkyrieCST("EOF")

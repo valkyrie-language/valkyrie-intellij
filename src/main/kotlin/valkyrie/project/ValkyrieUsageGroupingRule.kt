@@ -1,8 +1,5 @@
 package valkyrie.project
 
-import com.intellij.usages.Usage
-import com.intellij.usages.UsageGroup
-import com.intellij.usages.UsageTarget
 import com.intellij.usages.rules.UsageGroupingRule
 
 class ValkyrieUsageGroupingRule : UsageGroupingRule {

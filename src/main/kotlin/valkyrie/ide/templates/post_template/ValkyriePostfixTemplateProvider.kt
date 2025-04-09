@@ -2,7 +2,6 @@ package valkyrie.ide.templates.post_template
 
 import com.intellij.codeInsight.template.postfix.templates.PostfixTemplate
 import com.intellij.codeInsight.template.postfix.templates.PostfixTemplateProvider
-import com.intellij.codeInsight.template.postfix.templates.editable.PostfixTemplateEditor
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiFile
 import org.jdom.Element

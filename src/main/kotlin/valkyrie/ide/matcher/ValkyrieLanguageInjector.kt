@@ -9,12 +9,11 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.endOffset
 import com.intellij.psi.util.startOffset
 import org.intellij.lang.regexp.RegExpLanguage
+import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieIdentifierNode
 import valkyrie.psi.mixin.MixinString
-
 import valkyrie.psi.node.ValkyrieString
 import valkyrie.psi.node.ValkyrieStringNode
-import valkyrie.psi.node.ValkyrieVisitor2
 
 
 class ValkyrieLanguageInjector : MultiHostInjector {
@@ -27,7 +26,7 @@ class ValkyrieLanguageInjector : MultiHostInjector {
     }
 }
 
-private class LanguageInjectorVisitor(val registrar: MultiHostRegistrar) : ValkyrieVisitor2() {
+private class LanguageInjectorVisitor(val registrar: MultiHostRegistrar) : ValkyrieVisitor() {
 
 
     override fun visitString(o: ValkyrieString) {

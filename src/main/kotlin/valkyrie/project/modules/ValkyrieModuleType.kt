@@ -1,13 +1,10 @@
 package valkyrie.project.modules
 
-import com.intellij.ide.util.frameworkSupport.FrameworkRole
 import com.intellij.ide.util.projectWizard.ModuleBuilder
 import com.intellij.ide.util.projectWizard.ModuleWizardStep
 import com.intellij.ide.util.projectWizard.SettingsStep
 import com.intellij.ide.util.projectWizard.WizardContext
-import com.intellij.openapi.module.Module
 import com.intellij.openapi.module.ModuleType
-import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider
 import com.intellij.ui.dsl.builder.panel
 import org.jetbrains.jps.model.module.JpsModuleSourceRootType

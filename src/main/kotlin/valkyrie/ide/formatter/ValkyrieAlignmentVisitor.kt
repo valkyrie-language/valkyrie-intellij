@@ -2,11 +2,11 @@ package valkyrie.ide.formatter
 
 import com.intellij.formatting.Alignment
 import com.intellij.lang.ASTNode
+import valkyrie.ast.ValkyrieVisitor
 import valkyrie.psi.node.ValkyrieDeclareEnums
 import valkyrie.psi.node.ValkyrieDeclareSemantic
-import valkyrie.psi.node.ValkyrieVisitor2
 
-class ValkyrieAlignmentVisitor(val child: ASTNode) : ValkyrieVisitor2() {
+class ValkyrieAlignmentVisitor(val child: ASTNode) : ValkyrieVisitor() {
     var alignment: Alignment? = null
 
     override fun visitDeclareEnums(o: ValkyrieDeclareEnums) {

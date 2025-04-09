@@ -2,11 +2,12 @@ package valkyrie.ide.view
 
 import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.psi.PsiFile
+import valkyrie.ast.ValkyrieVisitor
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.*
 
 
-class ValkyrieStructureItemVisitor : ValkyrieVisitor2() {
+class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
     val items: MutableList<TreeElement> = mutableListOf()
     override fun visitFile(file: PsiFile) {
         for (child in file.children) {
@@ -31,10 +32,10 @@ class ValkyrieStructureItemVisitor : ValkyrieVisitor2() {
         o.flagsBody?.pushChildrenTo(this)
     }
 
-    override fun visitDeclareClass(o: ValkyrieDeclareClass) {
-        o.annotations.pushChildrenTo(this)
-        o.classBody?.pushChildrenTo(this)
-    }
+//    override fun visitDeclareClass(o: ValkyrieClassDeclarationNode) {
+//        o.annotations.pushChildrenTo(this)
+//        o.classBody?.pushChildrenTo(this)
+//    }
 
 
     override fun visitDeclareUnion(o: ValkyrieDeclareUnion) {

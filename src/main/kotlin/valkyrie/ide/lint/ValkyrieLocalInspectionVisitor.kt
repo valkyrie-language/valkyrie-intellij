@@ -4,9 +4,9 @@ import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElement
-import valkyrie.psi.node.ValkyrieVisitor2
+import valkyrie.ast.ValkyrieVisitor
 
-abstract class ValkyrieLocalInspectionVisitor : ValkyrieVisitor2 {
+abstract class ValkyrieLocalInspectionVisitor : ValkyrieVisitor {
     private val _holder: ProblemsHolder
     protected val tool: LocalInspectionTool
 

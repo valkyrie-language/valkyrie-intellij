@@ -5,13 +5,13 @@ import com.intellij.execution.lineMarker.RunLineMarkerContributor
 import com.intellij.execution.lineMarker.RunLineMarkerProvider
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.psi.PsiElement
+import valkyrie.ast.ValkyrieVisitor
+import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import valkyrie.psi.mixin.keyword
-import valkyrie.psi.node.ValkyrieDeclareClass
 import valkyrie.psi.node.ValkyrieDeclareImply
 import valkyrie.psi.node.ValkyrieDeclareNamespace
-import valkyrie.psi.node.ValkyrieVisitor2
 
-class ValkyrieRunMarkerVisitor : ValkyrieVisitor2 {
+class ValkyrieRunMarkerVisitor : ValkyrieVisitor {
     private val config: ValkyrieRunMarkerProvider
     private val result: MutableCollection<in LineMarkerInfo<*>>
 
@@ -24,7 +24,7 @@ class ValkyrieRunMarkerVisitor : ValkyrieVisitor2 {
         RunNamespaceGroup(o).registerRunner(o.keyword)
     }
 
-    override fun visitDeclareClass(o: ValkyrieDeclareClass) {
+    override fun visitDeclareClass(o: ValkyrieClassDeclarationNode) {
         RunClass(listOf("element"), true).registerRunner(o.keyword)
     }
 

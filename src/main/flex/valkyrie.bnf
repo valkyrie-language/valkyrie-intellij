@@ -125,7 +125,7 @@ type-function ::= declare-infer? identifier-safe parameter-body return-type? blo
 // === class statement ===
 declare-class ::= declare-infer? annotations KW_CLASS (class-definition|class-alias) {
     pin = 3
-    mixin = "valkyrie.psi.mixin.MixinClass"
+    mixin = "valkyrie.ast.node.MixinClass"
     methods = [getKeyword getSuperClasses getFields]
 }
 private class-definition ::= identifier-safe declare-generic? class-inherit? type-hint? class-body;

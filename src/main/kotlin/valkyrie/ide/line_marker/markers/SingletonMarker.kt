@@ -5,7 +5,6 @@ import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.psi.ensureLeaf
 import valkyrie.psi.node.ValkyrieDeclareSingletonNode
 import javax.swing.Icon
 

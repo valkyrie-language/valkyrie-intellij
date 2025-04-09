@@ -6,6 +6,8 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import valkyrie.ast.ValkyrieVisitor
+import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.*
 
@@ -68,13 +70,14 @@ class GotoSuperSymbol : GotoTargetHandler() {
 }
 
 
-private class GotoSuperVisitor : ValkyrieVisitor2() {
+private class GotoSuperVisitor : ValkyrieVisitor() {
     var target: GotoData? = null
 
-    override fun visitDeclareClass(o: ValkyrieDeclareClass) {
-
-        target = GotoData(o, o.superClasses.toTypedArray(), listOf())
+    override fun visitDeclareClass(o: ValkyrieClassDeclarationNode) {
+//        target = GotoData(o, o.superClasses.toTypedArray(), listOf())
+        target = GotoData(o, arrayOf(), listOf())
     }
+
 
     override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {
 //        target = GotoData(o, arrayOf(o.typeHint), listOf())

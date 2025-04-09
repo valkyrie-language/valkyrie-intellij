@@ -3,7 +3,6 @@ package valkyrie.project.legion
 import com.intellij.ide.JavaUiBundle
 import com.intellij.ide.util.projectWizard.ModuleWizardStep
 import com.intellij.ide.util.projectWizard.WizardContext
-import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.projectImport.ProjectImportProvider
 import com.intellij.ui.dsl.builder.panel

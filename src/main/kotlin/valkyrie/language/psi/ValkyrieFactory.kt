@@ -49,7 +49,6 @@ class ValkyrieFactory(project: Project) {
     }
 
 
-
     fun createClass(text: String): ValkyrieDeclareClassNode {
         val root = createStatement(text)
         return root.declareClass as ValkyrieDeclareClassNode
@@ -59,6 +58,7 @@ class ValkyrieFactory(project: Project) {
         val root = createClass(text)
         return root.annotations.attributeBelowList.first() as ValkyrieAttributeBelowNode
     }
+
     fun createTermExpression(text: String): ValkyrieExpressionNode {
         return createStatement(text).expressionRoot!!.expression as ValkyrieExpressionNode
     }

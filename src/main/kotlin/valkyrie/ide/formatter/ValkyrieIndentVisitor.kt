@@ -2,10 +2,11 @@ package valkyrie.ide.formatter
 
 import com.intellij.formatting.Indent
 import com.intellij.lang.ASTNode
+import valkyrie.ast.ValkyrieVisitor
 import valkyrie.psi.node.*
 
 
-class ValkyrieIndentVisitor(val child: ASTNode) : ValkyrieVisitor2() {
+class ValkyrieIndentVisitor(val child: ASTNode) : ValkyrieVisitor() {
     var indent: Indent? = Indent.getNoneIndent()
 
     override fun visitInferBody(o: ValkyrieInferBody) {

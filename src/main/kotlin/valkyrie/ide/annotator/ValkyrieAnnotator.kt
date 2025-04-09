@@ -5,11 +5,11 @@ import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.psi.PsiElement
 import com.intellij.psi.tree.IElementType
+import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ide.actions.ast_transform.DeleteThis
 import valkyrie.ide.actions.ast_transform.ReplaceLeafText
-import valkyrie.psi.node.ValkyrieVisitor2
 
-open class ValkyrieAnnotator : ValkyrieVisitor2 {
+open class ValkyrieAnnotator : ValkyrieVisitor {
     protected val holder: AnnotationHolder
 
     constructor(holder: AnnotationHolder) : super() {

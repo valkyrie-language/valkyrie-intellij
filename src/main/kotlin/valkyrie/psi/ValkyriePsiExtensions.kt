@@ -9,7 +9,6 @@ import com.intellij.psi.stubs.StubElement
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
-import valkyrie.language.psi.ValkyrieFactory
 
 val PsiElement.ancestors: Sequence<PsiElement>
     get() = generateSequence(this) {

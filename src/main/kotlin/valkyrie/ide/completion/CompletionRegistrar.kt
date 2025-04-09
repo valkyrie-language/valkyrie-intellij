@@ -37,6 +37,7 @@ class CompletionRegistrar : CompletionContributor() {
                     }
                     return
                 }
+
                 is ValkyrieMatchBody -> {
                     // type, case, when, else
                     return
@@ -45,6 +46,7 @@ class CompletionRegistrar : CompletionContributor() {
                 is ValkyrieArgumentBody -> {
                     return
                 }
+
                 is ValkyrieBlockBody -> {
                     return
                 }

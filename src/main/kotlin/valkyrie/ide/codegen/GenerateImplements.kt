@@ -2,11 +2,9 @@ package valkyrie.ide.codegen
 
 //import valkyrie.language.psi_node.ValkyrieClassStatementNode
 import com.intellij.codeInsight.generation.actions.PresentableLanguageCodeInsightActionHandler
-import com.intellij.codeInsight.intention.FileModifier
 import com.intellij.openapi.actionSystem.Presentation
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import valkyrie.psi.caretElement
 import valkyrie.psi.node.ValkyrieDeclareClassNode

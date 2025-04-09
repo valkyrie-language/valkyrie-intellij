@@ -4,7 +4,10 @@ import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.psi.PsiElement
-import valkyrie.ide.actions.*
+import valkyrie.ide.actions.InferFunctionParameterType
+import valkyrie.ide.actions.InferFunctionReturnType
+import valkyrie.ide.actions.InferFunctionTypeAll
+import valkyrie.ide.actions.InferVariableType
 import valkyrie.psi.node.ValkyrieDeclareFunction
 import valkyrie.psi.node.ValkyrieLetStatement
 
