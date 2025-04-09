@@ -1,10 +1,8 @@
 package valkyrie.project.legion
 
-import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.module.ModifiableModuleModel
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.projectRoots.SdkTypeId
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider
 import com.intellij.packaging.artifacts.ModifiableArtifactModel
 import com.intellij.projectImport.ProjectImportBuilder
@@ -35,7 +33,6 @@ class LegionImporter : ProjectImportBuilder<LegionImporterConfig>() {
     override fun getIcon(): Icon {
         return ValkyrieIconProvider.Instance.Valkyrie
     }
-
 
 
     override fun setOpenProjectSettingsAfter(on: Boolean) {

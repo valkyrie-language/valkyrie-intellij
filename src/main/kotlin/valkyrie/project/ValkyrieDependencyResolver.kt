@@ -5,7 +5,7 @@ import com.intellij.packageDependencies.DependencyVisitorFactory
 import com.intellij.packageDependencies.DependencyVisitorFactory.VisitorOptions
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiFile
-import valkyrie.psi.node.ValkyrieVisitor2
+import valkyrie.ast.ValkyrieVisitor
 
 class ValkyrieDependencyResolver : DependencyVisitorFactory() {
     override fun getVisitor(processor: DependencyProcessor, options: VisitorOptions): PsiElementVisitor {
@@ -13,7 +13,7 @@ class ValkyrieDependencyResolver : DependencyVisitorFactory() {
     }
 }
 
-private class Visitor(val processor: DependencyProcessor, val options: VisitorOptions) : ValkyrieVisitor2() {
+private class Visitor(val processor: DependencyProcessor, val options: VisitorOptions) : ValkyrieVisitor() {
     override fun visitFile(file: PsiFile) {
         println("ValkyrieDependencyResolver: ${file}")
         super.visitFile(file)

@@ -9,7 +9,6 @@ import com.intellij.ui.breadcrumbs.BreadcrumbsProvider
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.ValkyrieLoopStatementNode
-import javax.swing.Action
 import javax.swing.Icon
 
 class ValkyrieBreadcrumbsProvider : BreadcrumbsProvider {
@@ -23,7 +22,7 @@ class ValkyrieBreadcrumbsProvider : BreadcrumbsProvider {
         }
 
         is ValkyrieLoopStatementNode,
-        -> {
+            -> {
             true
         }
 

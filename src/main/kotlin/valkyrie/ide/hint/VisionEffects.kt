@@ -5,10 +5,10 @@ import com.intellij.codeInsight.codeVision.ui.model.TextCodeVisionEntry
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
+import valkyrie.ast.ValkyrieVisitor
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.node.ValkyrieDeclareMethod
-import valkyrie.psi.node.ValkyrieVisitor2
 
 class VisionEffects : ValkyrieCodeVision() {
     override val id: String = "hint.vision.effect.name"
@@ -24,7 +24,7 @@ class VisionEffects : ValkyrieCodeVision() {
 }
 
 
-private class EffectVisitor : ValkyrieVisitor2 {
+private class EffectVisitor : ValkyrieVisitor {
     private val id: String
     var entry: MutableList<Pair<TextRange, CodeVisionEntry>>
 

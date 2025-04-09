@@ -3,7 +3,6 @@ package valkyrie.ast.node
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
-import valkyrie.ast.ValkyrieAST
 
 class ValkyrieBinaryNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     companion object {

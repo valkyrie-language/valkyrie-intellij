@@ -5,10 +5,10 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import valkyrie.ast.ANNOTATION_MANY
 import valkyrie.ast.parsePaired
-import valkyrie.cst.COMMA
 import valkyrie.cst.BRACKET_L
-import valkyrie.cst.OP_MACRO_LOWER
 import valkyrie.cst.BRACKET_R
+import valkyrie.cst.COMMA
+import valkyrie.cst.OP_MACRO_LOWER
 
 class ValkyrieAnnotationManyNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     companion object {

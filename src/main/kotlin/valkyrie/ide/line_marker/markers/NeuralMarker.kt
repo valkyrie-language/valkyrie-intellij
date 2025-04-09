@@ -5,7 +5,6 @@ import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER
 import com.intellij.psi.PsiElement
 import valkyrie.language.file.ValkyrieIconProvider.Instance.Neural
-import valkyrie.psi.ensureLeaf
 import valkyrie.psi.node.ValkyrieDeclareNeuralNode
 import javax.swing.Icon
 

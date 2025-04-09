@@ -3,11 +3,15 @@ package valkyrie.psi.mixin
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
+import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieIdentifierNode
 import valkyrie.psi.ValkyrieElement
 import valkyrie.psi.ValkyrieTypes.KW_LET
 import valkyrie.psi.findKeyword
-import valkyrie.psi.node.*
+import valkyrie.psi.node.ValkyrieBarePattern
+import valkyrie.psi.node.ValkyrieCasePatternList
+import valkyrie.psi.node.ValkyrieLetStatement
+import valkyrie.psi.node.ValkyrieMatchBind
 import javax.swing.Icon
 
 abstract class MixinVariable(node: ASTNode) : ValkyrieElement(node), ValkyrieLetStatement {
@@ -21,7 +25,7 @@ abstract class MixinVariable(node: ASTNode) : ValkyrieElement(node), ValkyrieLet
 }
 
 
-class ValkyrieVariableCollector : ValkyrieVisitor2() {
+class ValkyrieVariableCollector : ValkyrieVisitor() {
     private var list = mutableListOf<MixinIdentifier>()
 //    override fun visitLetPattern(o: ValkyrieLetPattern) {
 //        o.barePattern?.let { visitBarePattern(it) }

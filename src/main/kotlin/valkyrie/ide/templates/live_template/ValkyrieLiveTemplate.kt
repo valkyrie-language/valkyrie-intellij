@@ -2,8 +2,6 @@ package valkyrie.ide.templates.live_template
 
 import com.intellij.codeInsight.template.CustomLiveTemplate
 import com.intellij.codeInsight.template.CustomTemplateCallback
-import com.intellij.codeInsight.template.impl.TemplateImpl
-import com.intellij.codeInsight.template.impl.TemplateSettings
 
 class ValkyrieLiveTemplate : CustomLiveTemplate {
     override fun computeTemplateKey(callback: CustomTemplateCallback): String? {

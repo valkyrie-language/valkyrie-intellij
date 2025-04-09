@@ -4,9 +4,9 @@ import com.intellij.formatting.SpacingBuilder
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import com.intellij.psi.tree.TokenSet
+import valkyrie.ast.ParserExtension
 import valkyrie.ide.matcher.ValkyrieBraceMatch
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.ast.ParserExtension
 import valkyrie.psi.ValkyrieTypes.*
 
 private val removeSpaceNewlineBefore = TokenSet.orSet(

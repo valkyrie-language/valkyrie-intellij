@@ -1,7 +1,6 @@
 package valkyrie.ide.lint
 
 import com.intellij.analysis.AnalysisScope
-import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.GlobalInspectionContext
 import com.intellij.codeInspection.GlobalInspectionTool
 import com.intellij.codeInspection.InspectionManager

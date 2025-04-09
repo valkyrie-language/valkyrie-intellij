@@ -15,8 +15,6 @@ import valkyrie.psi.mixin.MixinIdentifier
 import valkyrie.psi.mixin.MixinNamepath
 
 
-
-
 class ValkyrieNamepathReference : PsiPolyVariantReference, EmptyResolveMessageProvider {
     private var origin: MixinNamepath
     private var index: Int = 0

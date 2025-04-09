@@ -4,11 +4,11 @@ import com.intellij.openapi.application.QueryExecutorBase
 import com.intellij.psi.PsiElement
 import com.intellij.psi.search.searches.DefinitionsScopedSearch.SearchParameters
 import com.intellij.util.Processor
+import valkyrie.ast.ValkyrieVisitor
 import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
 import valkyrie.psi.node.ValkyrieDeclareClassNode
 import valkyrie.psi.node.ValkyrieNamepathSafe
 import valkyrie.psi.node.ValkyrieNamepathSafeNode
-import valkyrie.psi.node.ValkyrieVisitor2
 
 class SearchDefinitions : QueryExecutorBase<PsiElement, SearchParameters>(true) {
     override fun processQuery(queryParameters: SearchParameters, consumer: Processor<in PsiElement>) {
@@ -18,7 +18,7 @@ class SearchDefinitions : QueryExecutorBase<PsiElement, SearchParameters>(true) 
 }
 
 
-private class SearchDefinitionsVisitor : ValkyrieVisitor2 {
+private class SearchDefinitionsVisitor : ValkyrieVisitor {
     private var consumer: Processor<in PsiElement>
 
     constructor(consumer: Processor<in PsiElement>) : super() {

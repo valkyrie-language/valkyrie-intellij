@@ -36,6 +36,7 @@ class InferFunctionTypeAll : LocalQuickFixAndIntentionActionOnPsiElement, Priori
     override fun getPriority(): PriorityAction.Priority {
         return PriorityAction.Priority.LOW
     }
+
     override fun getIcon(flags: Int): Icon {
         return ValkyrieIconProvider.Instance.MultipleType
     }

@@ -8,8 +8,11 @@ import com.intellij.psi.PsiFile
 import com.intellij.usages.PsiElementUsageTarget
 import com.intellij.usages.UsageTarget
 import com.intellij.usages.UsageTargetProvider
+import valkyrie.ast.ValkyrieVisitor
+import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
-import valkyrie.psi.node.*
+import valkyrie.psi.node.ValkyrieDeclareMethod
+import valkyrie.psi.node.ValkyrieDeclareMethodNode
 
 class ValkyrieUsageTargetProvider : UsageTargetProvider {
     override fun getTargets(psiElement: PsiElement): Array<UsageTarget> {
@@ -24,7 +27,7 @@ class ValkyrieUsageTargetProvider : UsageTargetProvider {
 }
 
 
-private class ValkyrieUsageTargetVisitor : ValkyrieVisitor2() {
+private class ValkyrieUsageTargetVisitor : ValkyrieVisitor() {
     val targets: MutableList<UsageTarget> = mutableListOf()
     override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
         o as ValkyrieDeclareMethodNode
@@ -53,8 +56,7 @@ private class ValkyrieUsageTargetVisitor : ValkyrieVisitor2() {
         }
     }
 
-    override fun visitDeclareClass(o: ValkyrieDeclareClass) {
-        o as ValkyrieDeclareClassNode
+    override fun visitDeclareClass(o: ValkyrieClassDeclarationNode) {
         for (item in o.containingFile.definitions) {
             targets.add(object : PsiElementUsageTarget {
                 override fun getName(): String? {
@@ -79,7 +81,5 @@ private class ValkyrieUsageTargetVisitor : ValkyrieVisitor2() {
             })
         }
     }
-
-
 }
 

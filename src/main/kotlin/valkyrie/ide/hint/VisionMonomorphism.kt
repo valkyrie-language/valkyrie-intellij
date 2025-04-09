@@ -4,11 +4,11 @@ import com.intellij.codeInsight.codeVision.CodeVisionEntry
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
+import valkyrie.ast.ValkyrieVisitor
+import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import valkyrie.language.ValkyrieBundle
-import valkyrie.psi.node.ValkyrieDeclareClass
 import valkyrie.psi.node.ValkyrieDeclareMethod
 import valkyrie.psi.node.ValkyrieDeclareTrait
-import valkyrie.psi.node.ValkyrieVisitor2
 
 class VisionMonomorphism : ValkyrieCodeVision() {
     override val id: String = "hint.vision.monomorphism.name"
@@ -23,7 +23,7 @@ class VisionMonomorphism : ValkyrieCodeVision() {
     }
 }
 
-private class MonomorphismVisitor : ValkyrieVisitor2 {
+private class MonomorphismVisitor : ValkyrieVisitor {
     private val id: String
     var entry: MutableList<Pair<TextRange, CodeVisionEntry>>
 
@@ -33,7 +33,7 @@ private class MonomorphismVisitor : ValkyrieVisitor2 {
     }
 
 
-    override fun visitDeclareClass(o: ValkyrieDeclareClass) {
+    override fun visitDeclareClass(o: ValkyrieClassDeclarationNode) {
 //        if (o.declareGeneric != null) {
 //            entry.add(
 //                o.keyword.textRange to TextCodeVisionEntry(

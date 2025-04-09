@@ -1,10 +1,8 @@
 package valkyrie.project.artifact
 
-import com.intellij.packaging.artifacts.ArtifactTemplate
 import com.intellij.packaging.artifacts.ArtifactType
 import com.intellij.packaging.elements.CompositePackagingElement
 import com.intellij.packaging.elements.PackagingElementOutputKind
-import com.intellij.packaging.elements.PackagingElementResolvingContext
 import com.intellij.packaging.impl.elements.ArtifactRootElementImpl
 import com.intellij.packaging.ui.PackagingSourceItem
 import valkyrie.language.file.ValkyrieIconProvider

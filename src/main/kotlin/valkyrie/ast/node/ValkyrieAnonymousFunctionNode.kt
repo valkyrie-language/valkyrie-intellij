@@ -1,7 +1,7 @@
 package valkyrie.ast.node
 
-import com.intellij.lang.ASTNode
 import com.intellij.extapi.psi.ASTWrapperPsiElement
+import com.intellij.lang.ASTNode
 
 class ValkyrieAnonymousFunctionNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     // Lambda 函数定义节点

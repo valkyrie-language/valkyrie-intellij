@@ -6,11 +6,11 @@ import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase.pack
 import com.intellij.psi.tree.IElementType
-import valkyrie.cst.COMMENT_BLOCK
-import valkyrie.cst.ValkyrieLexer
 import valkyrie.ast.ParserExtension
+import valkyrie.cst.COMMENT_BLOCK
 import valkyrie.cst.COMMENT_LINE_HEAD
 import valkyrie.cst.COMMENT_LINE_TEXT
+import valkyrie.cst.ValkyrieLexer
 
 
 class TokenHighlighter : SyntaxHighlighter {

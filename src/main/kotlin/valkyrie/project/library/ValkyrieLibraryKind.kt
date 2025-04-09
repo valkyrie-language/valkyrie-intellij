@@ -1,6 +1,5 @@
 package valkyrie.project.library
 
-import com.intellij.openapi.roots.OrderRootType
 import com.intellij.openapi.roots.libraries.PersistentLibraryKind
 import valkyrie.language.ValkyrieLanguage
 
