@@ -30,7 +30,7 @@ object DeclarationFilter : Filter {
             }
 
             else -> {
-                true;
+                true
             }
         }
     }

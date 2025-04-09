@@ -6,14 +6,14 @@ import com.intellij.psi.search.GlobalSearchScope
 
 object ValkyrieWorkspaceScope : GlobalSearchScope() {
     override fun contains(file: VirtualFile): Boolean {
-        return true;
+        return true
     }
 
     override fun isSearchInModuleContent(aModule: Module): Boolean {
-        return true;
+        return true
     }
 
     override fun isSearchInLibraries(): Boolean {
-        return true;
+        return true
     }
 }

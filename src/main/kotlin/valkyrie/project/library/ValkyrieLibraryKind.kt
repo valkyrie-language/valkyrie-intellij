@@ -9,7 +9,4 @@ class ValkyrieLibraryKind : PersistentLibraryKind<ValkyrieLibraryProperty>(Valky
         return ValkyrieLibraryProperty()
     }
 
-    override fun getAdditionalRootTypes(): Array<OrderRootType> {
-        return super.getAdditionalRootTypes()
-    }
 }

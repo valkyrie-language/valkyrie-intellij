@@ -18,7 +18,7 @@ class DocumentationRenderer(var element: PsiElement, private var original: PsiEl
     /// get the path relative to the project root
     /// FIXME: get real declare module
     private fun appendNamespace() {
-        val file = element.containingFile;
+        val file = element.containingFile
         // fake module path
         val path = file.virtualFile.path.substringAfter("src/").replace("/", "::").replace(".vk", "")
         append(path)

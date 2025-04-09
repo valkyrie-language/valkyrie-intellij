@@ -103,10 +103,6 @@ class ValkyrieFacetConfigDependency(val context: FacetEditorContext?) : FacetEdi
         return "getHelpTopic"
     }
 
-    override fun reset() {
-        super.reset()
-    }
-
     override fun apply() {
         super.apply()
     }

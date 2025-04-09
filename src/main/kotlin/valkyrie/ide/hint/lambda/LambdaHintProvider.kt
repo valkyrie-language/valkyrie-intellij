@@ -21,14 +21,8 @@ private class LambdaHintCollector(val editor: Editor) : SharedBypassCollector {
         element.accept(LambdaHintVisitor(sink, editor))
     }
 
-    override fun collectFromElementForActions(element: PsiElement, sink: InlayTreeSink) {
-        super.collectFromElementForActions(element, sink)
-    }
 }
 
 private class LambdaHintVisitor(sink: InlayTreeSink, editor: Editor) : InlayHintVisitor(sink, editor) {
-    override fun visitNewLambda(o: ValkyrieNewLambda) {
-        super.visitNewLambda(o)
-    }
 }
 

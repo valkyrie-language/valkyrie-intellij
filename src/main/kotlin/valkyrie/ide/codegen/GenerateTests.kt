@@ -11,10 +11,7 @@ import javax.swing.Icon
 
 class GenerateTests : TestCreator, ItemPresentation {
     override fun isAvailable(project: Project?, editor: Editor?, file: PsiFile?): Boolean {
-        if (file !is ValkyrieFileNode || editor == null) {
-            return false
-        }
-        return true
+        return !(file !is ValkyrieFileNode || editor == null)
     }
 
     override fun createTest(project: Project?, editor: Editor?, file: PsiFile?) {

@@ -36,7 +36,7 @@ abstract class ValkyrieCodeVision : DaemonBoundCodeVisionProvider {
         return lenses
     }
 
-    abstract fun addCodeVision(element: PsiElement, entry: MutableList<Pair<TextRange, CodeVisionEntry>>);
+    abstract fun addCodeVision(element: PsiElement, entry: MutableList<Pair<TextRange, CodeVisionEntry>>)
     override fun handleClick(editor: Editor, textRange: TextRange, entry: CodeVisionEntry) {
 
     }

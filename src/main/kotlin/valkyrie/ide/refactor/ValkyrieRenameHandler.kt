@@ -33,7 +33,7 @@ class ValkyrieRenameHandler : RenameHandler {
     }
 
     override fun invoke(project: Project, elements: Array<out PsiElement>, dataContext: DataContext?) {
-        val visitor = ValkyrieRenameVisitor(project, dataContext)
+        ValkyrieRenameVisitor(project, dataContext)
         for (el in elements) {
             println("invoke2($el, $dataContext)")
         }
@@ -53,13 +53,7 @@ class ValkyrieRenameHandler : RenameHandler {
         }
     }
 
-    override fun isRenaming(dataContext: DataContext): Boolean {
-        return super.isRenaming(dataContext)
-    }
 }
 
 class ValkyrieRenameVisitor(val project: Project, val dataContext: DataContext?) : ValkyrieVisitor() {
-    override fun visitFile(file: PsiFile) {
-        super.visitFile(file)
-    }
 }

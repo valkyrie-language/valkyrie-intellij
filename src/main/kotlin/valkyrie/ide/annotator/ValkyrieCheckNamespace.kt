@@ -20,7 +20,7 @@ class ValkyrieCheckNamespace : Annotator {
     }
 
     private fun annotateFile(element: ValkyrieFileNode, holder: AnnotationHolder) {
-        val child = PsiTreeUtil.getChildrenOfTypeAsList(element, ValkyrieDeclareNamespaceNode::class.java);
+        val child = PsiTreeUtil.getChildrenOfTypeAsList(element, ValkyrieDeclareNamespaceNode::class.java)
         if (child.isEmpty()) {
 //            val fixer = CreateNamespace(element)
 //            holder.newAnnotation(HighlightSeverity.WEAK_WARNING, fixer.getDescription())
@@ -42,7 +42,7 @@ class ValkyrieCheckNamespace : Annotator {
     private fun annotateNamespace(element: ValkyrieDeclareNamespaceNode, holder: AnnotationHolder) {
         for (parent in element.parents(false)) {
             if (parent is ValkyrieFileNode) {
-                break;
+                break
             } else {
 //                holder.newAnnotation(HighlightSeverity.ERROR, ValkyrieBundle.message("annotator.namespace.non-top"))
 //                    .range(element.textRange)

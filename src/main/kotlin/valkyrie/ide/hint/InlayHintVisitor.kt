@@ -23,7 +23,7 @@ abstract class InlayHintVisitor : ValkyrieVisitor {
     }
 
     protected fun PsiElement.hintEndOfLine(text: String, tooltip: String? = null, actionData: InlayActionData? = null) {
-        val eol = EndOfLinePosition(editor.document.getLineNumber(this.endOffset));
+        val eol = EndOfLinePosition(editor.document.getLineNumber(this.endOffset))
         sink.addPresentation(eol, null, tooltip, HintFormat.default) {
             this.text(text, actionData)
         }

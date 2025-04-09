@@ -22,7 +22,7 @@ class ValkyrieParser : PsiParser, LightPsiParser {
         if (root == null || builder == null) return
         val rootMarker = builder.mark()
         ValkyrieProgramNode.parse(builder)
-        val unknown = builder.mark();
+        val unknown = builder.mark()
         while (!builder.eof()) {
             builder.advanceLexer()
         }
@@ -57,7 +57,7 @@ fun PsiBuilder.advanceChoice(vararg parsers: ParserMonad): Boolean {
             marker.drop()
             return true
         } else if (parser == parsers.last()) {
-            marker.error("Expected ${parser}");
+            marker.error("Expected ${parser}")
             return false
         } else {
             marker.drop()

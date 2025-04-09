@@ -33,7 +33,7 @@ class ValkyrieStructureView : PsiStructureViewFactory {
         }
 
         override fun isRootNodeShown(): Boolean {
-            return true;
+            return true
         }
     }
 

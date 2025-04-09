@@ -11,7 +11,7 @@ import yggdrasil.language.symbol.ValkyrieSymbol
 
 
 class ValkyrieDeclared(val target: ValkyrieDeclareClass) : PsiSymbolDeclaration, PsiReference {
-    val source: PsiElement? = null;
+    val source: PsiElement? = null
     override fun getDeclaringElement(): PsiElement {
         return target
     }

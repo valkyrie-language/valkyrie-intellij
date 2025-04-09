@@ -10,7 +10,7 @@ import valkyrie.language.ValkyrieBundle
 
 class RunTestDebugMode : AnAction {
     val element: PsiElement
-    private var path: String = "";
+    private var path: String = ""
 
     constructor(element: PsiElement) : super() {
         this.element = element
@@ -34,7 +34,4 @@ class RunTestDebugMode : AnAction {
         )
     }
 
-    override fun update(e: AnActionEvent) {
-        super.update(e)
-    }
 }

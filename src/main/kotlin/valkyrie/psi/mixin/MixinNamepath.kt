@@ -61,9 +61,9 @@ abstract class MixinNamepath : ValkyrieElement, PsiQualifiedNamedElement {
 }
 
 private fun highlightFake(highlighter: NodeHighlighter, namepath: MixinNamepath) {
-    val last = namepath.identifier;
-    if (last == null) return;
-    val second = namepath.namespace.lastOrNull();
+    val last = namepath.identifier
+    if (last == null) return
+    val second = namepath.namespace.lastOrNull()
     if (second != null) {
         if (second.name.first().isUpperCase()) {
             highlighter.highlight(second, HighlightColor.SYM_CLASS)
@@ -72,7 +72,7 @@ private fun highlightFake(highlighter: NodeHighlighter, namepath: MixinNamepath)
             }
         }
     } else {
-        val keywords = setOf("loop", "async", "await", "sequence", "scope");
+        val keywords = setOf("loop", "async", "await", "sequence", "scope")
         val builtin = setOf(
             "_",
             "u8", "u16", "u32", "u64", "u128", "u256", "usize",
@@ -81,7 +81,7 @@ private fun highlightFake(highlighter: NodeHighlighter, namepath: MixinNamepath)
             "d128", "dec",
             "bool", "char",
             "string", "str"
-        );
+        )
         if (keywords.contains(last.name)) {
             highlighter.highlight(last, HighlightColor.KEYWORD)
             return

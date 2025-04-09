@@ -30,10 +30,6 @@ private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) 
 //            .withFix(ConvertNumberBase(2))
 //            .create()
 
-    override fun visitNumberLiteral(o: ValkyrieNumberLiteral) {
-        super.visitNumberLiteral(o)
-    }
-
     override fun visitSpecial(o: ValkyrieSpecial) {
         val leaf = o.firstChild
         if (leaf.elementType == ValkyrieTypes.COLOR) {
@@ -70,10 +66,6 @@ private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) 
     }
 
 
-    override fun visitDeclareClass(o: ValkyrieDeclareClass) {
-        super.visitDeclareClass(o)
-    }
-
     // element.text can't start with lowercase
     private fun checkValidClassName(element: ValkyrieDeclareClassNode, holder: AnnotationHolder) {
 //        val id = element.nameIdentifier ?: return;
@@ -88,7 +80,7 @@ private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) 
 
     private fun checkCamelCase(element: ValkyrieIdentifierNode?, holder: AnnotationHolder) {
         element ?: return
-        val name = element.name;
+        element.name
 //        val fixer = CamelCaseFixer();
 //        if (name[0].isLowerCase()) {
 //            holder.newAnnotation(HighlightSeverity.WEAK_WARNING, "Name must start with uppercase")
@@ -128,7 +120,7 @@ private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) 
 
 private fun checkNeedEscape(element: ValkyrieIdentifierNode?, holder: AnnotationHolder) {
     element ?: return
-    val rawName = element.text;
+    val rawName = element.text
     if (!rawName.startsWith('`')) return
 //     if raw name contains non xid_continue, then need escape
 //        if (rawName.substring(1, rawName.length - 1).any { !it.isJavaIdentifierPart() }) {

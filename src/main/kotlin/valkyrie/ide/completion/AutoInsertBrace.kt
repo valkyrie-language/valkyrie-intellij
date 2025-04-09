@@ -21,13 +21,13 @@ class AutoInsertBrace : TypedHandlerDelegate() {
 
             '[' -> {
                 editor.document.insertString(caretOffset, "]")
-                editor.caretModel.moveToOffset(caretOffset);
+                editor.caretModel.moveToOffset(caretOffset)
                 return Result.STOP
             }
 
             '{' -> {
                 editor.document.insertString(caretOffset, "}")
-                editor.caretModel.moveToOffset(caretOffset);
+                editor.caretModel.moveToOffset(caretOffset)
                 return Result.STOP
             }
         }

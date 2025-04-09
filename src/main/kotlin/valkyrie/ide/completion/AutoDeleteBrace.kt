@@ -13,9 +13,9 @@ class AutoDeleteBrace : BackspaceHandlerDelegate() {
     override fun charDeleted(c: Char, file: PsiFile, editor: Editor): Boolean {
 
         if (file.fileType !is ValkyrieFileType) {
-            return false;
+            return false
         }
-        return false;
+        return false
 //        val caretOffset = editor.caretModel.offset
 //        val deltaOffset = editor.document.charsSequence.indexOfFirst { !it.isWhitespace() }
 //        if (deltaOffset == -1) {

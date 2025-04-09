@@ -24,7 +24,7 @@ class ValkyrieMarkTraitAncestor : RelatedItemLineMarkerInfo<PsiElement> {
     )
 
     override fun canMergeWith(info: MergeableLineMarkerInfo<*>): Boolean {
-        return info.icon == myIcon;
+        return info.icon == myIcon
     }
 
     override fun getCommonIcon(infos: MutableList<out MergeableLineMarkerInfo<*>>): Icon {

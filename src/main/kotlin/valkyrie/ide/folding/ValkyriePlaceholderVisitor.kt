@@ -39,7 +39,7 @@ class ValkyriePlaceholderVisitor : ValkyrieVisitor() {
 
     override fun visitMatchBody(o: ValkyrieMatchBody) {
         val text = PluralJoiner()
-        val branches = o.matchCaseList.count() + o.matchWhenList.count() + o.matchWhenList.count() + o.matchElseList.count();
+        val branches = o.matchCaseList.count() + o.matchWhenList.count() + o.matchWhenList.count() + o.matchElseList.count()
         text.add(branches, "branch", "branches")
         placeholder = text.finish()
     }

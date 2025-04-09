@@ -20,9 +20,7 @@ class ValkyrieFileNode : PsiFileBase {
     var namespace: ValkyrieDeclareNamespaceNode? = null
     private val _definitions: MutableList<ValkyrieDeclaration> = mutableListOf()
 
-    constructor(viewProvider: FileViewProvider) : super(viewProvider, ValkyrieLanguage) {
-
-    }
+    constructor(viewProvider: FileViewProvider) : super(viewProvider, ValkyrieLanguage)
 
 
     override fun getName(): String {

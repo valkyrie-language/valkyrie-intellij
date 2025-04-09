@@ -14,7 +14,7 @@ class ValkyrieTaskBuildResult : ExecutionResult {
     }
 
     override fun getExecutionConsole(): ExecutionConsole {
-        return view;
+        return view
     }
 
     override fun getActions(): Array<AnAction> {

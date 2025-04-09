@@ -104,10 +104,6 @@ class ValkyrieFacetConfigFramework(val context: FacetEditorContext?) : FacetEdit
     }
 
 
-    override fun reset() {
-        super.reset()
-    }
-
     override fun apply() {
         super.apply()
     }
