@@ -13,9 +13,6 @@ import valkyrie.project.modules.ValkyrieModuleType
 
 
 class FindDuplicateMethod : GlobalInspectionTool() {
-    override fun getDefaultLevel(): HighlightDisplayLevel {
-        return super.getDefaultLevel()
-    }
 
     override fun runInspection(
         scope: AnalysisScope,
@@ -57,7 +54,7 @@ open class ValkyrieInspectionVisitor : RefVisitor {
         if (!scope.containsModule(module.module)) return
         if (ModuleType.get(module.module) !is ValkyrieModuleType) return
         val rootManager = ModuleRootManager.getInstance(module.module)
-        val sources = rootManager.sourceRoots
+        rootManager.sourceRoots
 
 
     }
@@ -79,7 +76,7 @@ open class ValkyrieInspectionVisitor : RefVisitor {
                 val virtualFile = pointer.virtualFile
                 if (virtualFile != null && !scope.contains(virtualFile)) return true
             } else {
-                val owner = refEntity.getOwner()
+                val owner = refEntity.owner
                 return owner != null && !stopProgress(owner)
             }
         }

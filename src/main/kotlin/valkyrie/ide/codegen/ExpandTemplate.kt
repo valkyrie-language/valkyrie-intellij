@@ -31,7 +31,7 @@ class ExpandTemplate : AnAction(name, description, AllIcons.Actions.GroupByMetho
     }
 
     private fun createFile(dir: PsiDirectory, fileName: String, text: String): PsiFile? {
-        val builder = PsiFileFactory.getInstance(dir.project);
+        val builder = PsiFileFactory.getInstance(dir.project)
         for (child in dir.files) {
             if (child.name == fileName) {
                 child.delete()
@@ -40,6 +40,6 @@ class ExpandTemplate : AnAction(name, description, AllIcons.Actions.GroupByMetho
         }
         val file = builder.createFileFromText(fileName, ValkyrieLanguage, text)
         dir.add(file)
-        return file;
+        return file
     }
 }

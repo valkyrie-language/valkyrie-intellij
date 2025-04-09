@@ -7,16 +7,6 @@ import java.util.function.BooleanSupplier
 
 
 class ValkyrieImportInsert : ReferenceImporter {
-    override fun computeAutoImportAtOffset(editor: Editor, file: PsiFile, offset: Int, allowCaretNearReference: Boolean): BooleanSupplier {
-        return super.computeAutoImportAtOffset(editor, file, offset, allowCaretNearReference)
-    }
 
-    override fun isAddUnambiguousImportsOnTheFlyEnabled(file: PsiFile): Boolean {
-        return super.isAddUnambiguousImportsOnTheFlyEnabled(file)
-    }
-
-    override fun autoImportReferenceAtCursor(editor: Editor, file: PsiFile): Boolean {
-        return super.autoImportReferenceAtCursor(editor, file)
-    }
 }
 

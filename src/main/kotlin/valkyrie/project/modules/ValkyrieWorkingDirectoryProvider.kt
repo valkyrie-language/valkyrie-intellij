@@ -6,7 +6,7 @@ import org.jetbrains.annotations.SystemIndependent
 
 class ValkyrieWorkingDirectoryProvider : WorkingDirectoryProvider {
     override fun getWorkingDirectoryPath(module: Module): @SystemIndependent String? {
-        println("ValkyrieWorkingDirectoryProvider: $module");
+        println("ValkyrieWorkingDirectoryProvider: $module")
         return "workingDirectoryProvider"
     }
 }

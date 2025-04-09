@@ -278,7 +278,7 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
         if (node == null) {
             return
         }
-        val leaf = node.firstLeaf();
+        val leaf = node.firstLeaf()
         result.add(
             RelatedItemLineMarkerInfo(
                 leaf,
@@ -308,14 +308,14 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
     private fun findTest(annotations: ValkyrieAnnotations?): PsiElement? {
         annotations ?: return null
         for (attr in annotations.attributeBelowList) {
-            attr as ValkyrieAttributeBelowNode;
+            attr as ValkyrieAttributeBelowNode
             if (attr.name == "test") {
                 return attr.firstChild
             }
         }
 
         for (mod in annotations.modifierList) {
-            mod as ValkyrieModifierNode;
+            mod as ValkyrieModifierNode
             if (mod.name == "test") {
                 return mod.firstChild
             }
@@ -327,7 +327,7 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
     private fun findTest(body: ValkyrieClassBody?): Boolean {
         body ?: return false
         for (item in body.declareMethodList) {
-            val child = item.firstChild;
+            val child = item.firstChild
             if (child is ValkyrieDeclareMethodNode) {
                 if (findTest(child.annotations) != null) {
                     return true

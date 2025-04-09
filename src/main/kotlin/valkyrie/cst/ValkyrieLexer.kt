@@ -299,7 +299,7 @@ class ValkyrieLexer : LexerBase() {
 
         while (i < bufferEnd) {
             if (buffer[i] == '\n') {
-                break;
+                break
             }
             i++
         }

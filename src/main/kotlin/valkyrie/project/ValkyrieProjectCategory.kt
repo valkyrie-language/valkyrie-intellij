@@ -26,7 +26,4 @@ class ValkyrieProjectCategory : ProjectCategory() {
         return "Valkyrie Category"
     }
 
-    override fun getIcon(): Icon {
-        return super.getIcon()
-    }
 }

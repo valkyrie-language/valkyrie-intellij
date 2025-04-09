@@ -21,7 +21,7 @@ class HierarchyClassNode : HierarchyNodeDescriptor {
     }
 
     override fun update(): Boolean {
-        myName = node.name;
+        myName = node.name
         myHighlightedText = CompositeAppearance()
         myHighlightedText.beginning.addText(node.name, SimpleTextAttributes.REGULAR_ATTRIBUTES)
         myHighlightedText.ending.addText(" (std.test)", SimpleTextAttributes.GRAY_ATTRIBUTES)

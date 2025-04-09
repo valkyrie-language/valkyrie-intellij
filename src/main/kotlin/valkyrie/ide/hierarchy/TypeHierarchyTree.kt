@@ -4,12 +4,10 @@ import com.intellij.ide.hierarchy.HierarchyNodeDescriptor
 import com.intellij.ide.hierarchy.HierarchyTreeStructure
 
 class TypeHierarchyTree : HierarchyTreeStructure {
-    constructor(descriptor: HierarchyNodeDescriptor) : super(descriptor.project, descriptor) {
-
-    }
+    constructor(descriptor: HierarchyNodeDescriptor) : super(descriptor.project, descriptor)
 
     override fun buildChildren(parent: HierarchyNodeDescriptor): Array<Any> {
-        println("buildChildren ${parent.toString()}")
+        println("buildChildren $parent")
         println("buildChildren: ${parent.highlightedText}")
         return parent.cachedChildren
     }

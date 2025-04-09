@@ -42,10 +42,6 @@ class ValkyrieLibraryType : LibraryType<ValkyrieLibraryProperty>(ValkyrieLibrary
         return null
     }
 
-    override fun getExternalRootTypes(): Array<OrderRootType> {
-        return super.getExternalRootTypes()
-    }
-
     override fun detect(classesRoots: MutableList<VirtualFile>): ValkyrieLibraryProperty? {
         return ValkyrieLibraryProperty()
     }

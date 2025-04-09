@@ -47,10 +47,6 @@ class KamiFrameworkProvider : FacetType<KamiFacet, KamiConfigPanel> {
         return "getHelpTopic"
     }
 
-    override fun getPresentableName(): String {
-        return super.getPresentableName()
-    }
-
     override fun isOnlyOneFacetAllowed(): Boolean {
         return true
     }

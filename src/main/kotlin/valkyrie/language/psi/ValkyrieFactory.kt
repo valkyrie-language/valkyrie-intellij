@@ -41,7 +41,7 @@ class ValkyrieFactory(project: Project) {
     }
 
     fun createFile(text: String): PsiFile {
-        return factory.createFileFromText("factory.valkyrie", ValkyrieLanguage, text);
+        return factory.createFileFromText("factory.valkyrie", ValkyrieLanguage, text)
     }
 
     fun createStatement(text: String): ValkyrieStatementsNode {
@@ -68,10 +68,10 @@ class ValkyrieFactory(project: Project) {
     }
 
     fun createNamepath(vararg name: String) {
-        val root = createStatement(name.joinToString("⸬") { it })
+        createStatement(name.joinToString("⸬") { it })
     }
 
-    fun createNumberLiteral(number: String, unit: String?): ValkyrieNumberLiteralNode {;
+    fun createNumberLiteral(number: String, unit: String?): ValkyrieNumberLiteralNode {
         val atom: ValkyrieAtomicNode = if (unit == null) {
             createTermAtomic(number)
         } else {

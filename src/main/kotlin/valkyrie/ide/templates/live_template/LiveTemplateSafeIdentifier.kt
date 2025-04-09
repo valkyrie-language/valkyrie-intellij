@@ -20,14 +20,6 @@ class LiveTemplateSafeIdentifier : Macro() {
         return null
     }
 
-    override fun getDefaultValue(): String {
-        return super.getDefaultValue()
-    }
-
-    override fun getLookupFocusDegree(): LookupFocusDegree {
-        return super.getLookupFocusDegree()
-    }
-
 
 }
 

@@ -105,12 +105,12 @@ inline val <T : StubElement<*>> StubBasedPsiElement<T>.greenStub: T?
 
 /** true = continue, false = break */
 fun PsiElement.traversal(filter: (PsiElement) -> Boolean) {
-    var needSearch = children.toList();
+    var needSearch = children.toList()
     while (needSearch.isNotEmpty()) {
-        val nextSearch = mutableListOf<PsiElement>();
+        val nextSearch = mutableListOf<PsiElement>()
         for (node in needSearch) {
             if (filter(node)) {
-                nextSearch.addAll(node.children);
+                nextSearch.addAll(node.children)
             }
         }
         needSearch = nextSearch
@@ -133,13 +133,13 @@ fun PsiElement.findKeyword(target: IElementType): PsiElement {
 }
 
 fun PsiElement.findPair(lhs: IElementType, rhs: IElementType): Pair<PsiElement, PsiElement>? {
-    var head: PsiElement? = null;
-    var tail: PsiElement? = null;
+    var head: PsiElement? = null
+    var tail: PsiElement? = null
     for (child in this.childrenWithLeaves) {
         if (child.node.elementType == lhs) {
-            head = child;
+            head = child
         } else if (child.node.elementType == rhs) {
-            tail = child;
+            tail = child
         }
     }
     if (head != null && tail != null) {

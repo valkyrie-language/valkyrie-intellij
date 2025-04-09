@@ -5,7 +5,4 @@ import com.intellij.usages.UsageView
 import com.intellij.usages.rules.UsageGroupingRuleProvider
 
 class ValkyrieUsageGroupingRuleProvider : UsageGroupingRuleProvider {
-    override fun createGroupingActions(view: UsageView): Array<AnAction> {
-        return super.createGroupingActions(view)
-    }
 }

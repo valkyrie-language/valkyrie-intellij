@@ -39,10 +39,6 @@ class ValkyrieModuleType : ModuleType<LegionWorkspaceBuilder>(ValkyrieLanguage.m
         return ValkyrieIconProvider.Instance.Effect
     }
 
-    override fun getDefaultAcceptableRole(): FrameworkRole {
-        return super.getDefaultAcceptableRole()
-    }
-
     override fun createWizardSteps(
         wizardContext: WizardContext,
         moduleBuilder: LegionWorkspaceBuilder,
@@ -53,14 +49,6 @@ class ValkyrieModuleType : ModuleType<LegionWorkspaceBuilder>(ValkyrieLanguage.m
 
     override fun isSupportedRootType(type: JpsModuleSourceRootType<*>?): Boolean {
         return true
-    }
-
-    override fun isValidSdk(module: Module, projectSdk: Sdk?): Boolean {
-        return super.isValidSdk(module, projectSdk)
-    }
-
-    override fun isMarkInnerSupportedFor(type: JpsModuleSourceRootType<*>?): Boolean {
-        return super.isMarkInnerSupportedFor(type)
     }
 
     override fun modifyProjectTypeStep(settingsStep: SettingsStep, moduleBuilder: ModuleBuilder): ModuleWizardStep? {
@@ -88,14 +76,6 @@ class AA(private val name: String) : ModuleWizardStep() {
 
     override fun getIcon(): Icon? {
         return super.getIcon()
-    }
-
-    override fun getName(): String {
-        return super.getName()
-    }
-
-    override fun getHelpId(): String {
-        return super.getHelpId()
     }
 
     override fun updateDataModel() {

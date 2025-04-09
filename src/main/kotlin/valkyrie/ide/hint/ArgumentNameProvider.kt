@@ -18,19 +18,15 @@ class ArgumentNameProvider : InlayParameterHintsProvider {
 
     /// 函数里面的东西
     override fun getParameterHints(element: PsiElement): MutableList<InlayInfo> {
-        val visitor = ArgumentNameVisitor();
+        val visitor = ArgumentNameVisitor()
         element.accept(visitor)
-        return visitor.info;
+        return visitor.info
     }
 
 
     override fun getInlayPresentation(inlayText: String): String {
         // 取消 inlay 的后处理
         return inlayText
-    }
-
-    override fun getProperty(key: String?): String? {
-        return super.getProperty(key)
     }
 
     override fun getMainCheckboxText(): String {

@@ -23,7 +23,7 @@ class ValkyrieFacet : Facet<ValkyrieFacetConfig> {
         const val SAVE_NAME = "Valkyrie Framework"
 
         /** recommend name for JetBrains users */
-        const val ID = "VALKYRIE_FACET_TYPE";
+        const val ID = "VALKYRIE_FACET_TYPE"
         val TYPE_ID = FacetTypeId<ValkyrieFacet>("ValkyrieFacet debug name")
     }
 }

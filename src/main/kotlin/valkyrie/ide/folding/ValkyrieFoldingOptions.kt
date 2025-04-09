@@ -10,7 +10,7 @@ class ValkyrieFoldingOptions : CodeFoldingOptionsProvider {
     }
 
     override fun isModified(): Boolean {
-        return false;
+        return false
     }
 
     override fun apply() {

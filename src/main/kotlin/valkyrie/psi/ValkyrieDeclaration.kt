@@ -22,7 +22,7 @@ abstract class ValkyrieDeclaration : ValkyrieElement, PsiNameIdentifierOwner {
 
     constructor(node: ASTNode) : super(node)
 
-    abstract override fun getNameIdentifier(): ValkyrieIdentifierNode?;
+    abstract override fun getNameIdentifier(): ValkyrieIdentifierNode?
 
     override fun getName(): String {
         return nameIdentifier?.name ?: super.getName()

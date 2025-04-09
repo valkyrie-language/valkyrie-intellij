@@ -1,9 +1,7 @@
 package valkyrie.language.symbol
 
 enum class ValkyrieSymbolKind {
-    ValkyrieClass {
-
-    },
+    ValkyrieClass,
     ValkyrieTrait {
         override fun isTrait(): Boolean {
             return true

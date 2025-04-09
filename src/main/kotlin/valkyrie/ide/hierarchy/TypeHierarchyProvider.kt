@@ -30,7 +30,7 @@ class TypeHierarchyProvider : HierarchyProvider {
 }
 
 private class TypeHierarchyBrowser : TypeHierarchyBrowserBase {
-    private var _descriptor: HierarchyNodeDescriptor? = null;
+    private var _descriptor: HierarchyNodeDescriptor? = null
     private val _target: PsiElement
 
     constructor(target: PsiElement) : super(target.project, target) {
@@ -38,7 +38,7 @@ private class TypeHierarchyBrowser : TypeHierarchyBrowserBase {
     }
 
     override fun createLegendPanel(): JPanel? {
-        return null;
+        return null
     }
 
     override fun getAvailableElements(): Array<PsiElement> {
@@ -52,18 +52,13 @@ private class TypeHierarchyBrowser : TypeHierarchyBrowserBase {
         trees["Subtypes of {0}"] = createTree(false)
     }
 
-    override fun changeView(typeName: String, requestFocus: Boolean) {
-//        println("changeView:$typeName")
-        super.changeView(typeName, requestFocus)
-    }
-
     override fun isApplicableElement(element: PsiElement): Boolean {
         return true
     }
 
     override fun getElementFromDescriptor(descriptor: HierarchyNodeDescriptor): PsiElement? {
-        _descriptor = descriptor;
-        return _descriptor?.psiElement;
+        _descriptor = descriptor
+        return _descriptor?.psiElement
     }
 
     override fun createHierarchyTreeStructure(type: String, pointer: PsiElement): HierarchyTreeStructure? {
@@ -116,7 +111,7 @@ private class TypeHierarchyBrowser : TypeHierarchyBrowserBase {
     }
 
     override fun canBeDeleted(psiElement: PsiElement?): Boolean {
-        return false;
+        return false
     }
 
 

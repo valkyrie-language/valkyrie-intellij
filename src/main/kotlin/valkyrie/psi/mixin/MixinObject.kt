@@ -17,7 +17,7 @@ abstract class MixinObject(node: ASTNode) : ValkyrieElement(node), ValkyrieNewOb
         return findKeyword(KW_CLASS)
     }
     override fun getNavigationElement(): PsiElement {
-        return this.getKeyword()
+        return this.keyword
     }
 
     override fun getName(): String {

@@ -8,7 +8,7 @@ import javax.swing.JComponent
 
 class ValkyrieBookmarkList : BookmarksListProvider {
     override fun getWeight(): Int {
-        return 20;
+        return 20
     }
 
     override fun getProject(): Project {

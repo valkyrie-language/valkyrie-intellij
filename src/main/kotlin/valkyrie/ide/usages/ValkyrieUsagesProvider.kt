@@ -13,7 +13,7 @@ import valkyrie.cst.ValkyrieLexer
 
 class ValkyrieUsagesProvider : FindUsagesProvider {
     override fun getWordsScanner(): WordsScanner {
-        val def = ValkyrieParserDefinition();
+        val def = ValkyrieParserDefinition()
         return DefaultWordsScanner(
             ValkyrieLexer(),
             TokenSet.create(

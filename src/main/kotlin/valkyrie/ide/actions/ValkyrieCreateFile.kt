@@ -14,7 +14,7 @@ class ValkyrieCreateFile :
         private val description = ValkyrieBundle.message("action.create_file.description")
 
         // See [resources/colors/fileTemplate]
-        private const val templatePath = "Valkyrie File";
+        private const val templatePath = "Valkyrie File"
     }
 
     override fun buildDialog(project: Project, directory: PsiDirectory, builder: Builder) {

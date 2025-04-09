@@ -5,7 +5,7 @@ import org.jdom.Element
 
 class ValkyrieLibraryProperty : LibraryProperties<Element>() {
     override fun equals(other: Any?): Boolean {
-        if (other !is ValkyrieLibraryProperty) return false;
+        if (other !is ValkyrieLibraryProperty) return false
         return this.hashCode() == other.hashCode()
     }
 

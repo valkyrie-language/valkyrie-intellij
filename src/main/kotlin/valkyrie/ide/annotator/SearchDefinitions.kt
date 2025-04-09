@@ -39,9 +39,7 @@ class DirectClassInheritorsSearch : QueryExecutorBase<PsiElement, DirectClassInh
         println("DirectClassInheritorsSearch : $queryParameters")
     }
 
-    class SearchParameters {
-
-    }
+    class SearchParameters
 }
 
 class OverridingMethodsSearch : QueryExecutorBase<PsiElement, OverridingMethodsSearch.SearchParameters>(true) {
@@ -49,9 +47,7 @@ class OverridingMethodsSearch : QueryExecutorBase<PsiElement, OverridingMethodsS
         println("overridingMethodsSearch : $queryParameters")
     }
 
-    class SearchParameters {
-
-    }
+    class SearchParameters
 }
 
 
@@ -60,9 +56,7 @@ class ValkyrieAllOverridingMethodsSearch : QueryExecutorBase<PsiElement, Valkyri
         println("ValkyrieAllOverridingMethodsSearch : $queryParameters")
     }
 
-    class SearchParameters {
-
-    }
+    class SearchParameters
 }
 
 class ValkyrieClassInheritorsSearch : QueryExecutorBase<ValkyrieDeclareClassNode, ValkyrieClassInheritorsSearch.SearchParameters>(true) {
@@ -70,7 +64,5 @@ class ValkyrieClassInheritorsSearch : QueryExecutorBase<ValkyrieDeclareClassNode
         println("classInheritorsSearch : $queryParameters")
     }
 
-    class SearchParameters {
-
-    }
+    class SearchParameters
 }
