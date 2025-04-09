@@ -11,8 +11,8 @@ class ValkyrieCST(show: String) : IElementType(show, ValkyrieLanguage) {
 // 括号
 val LBRACE = ValkyrieCST("{")
 val RBRACE = ValkyrieCST("}")
-val LBRACK = ValkyrieCST("[")
-val RBRACK = ValkyrieCST("]")
+val BRACKET_L = ValkyrieCST("[")
+val BRACKET_R = ValkyrieCST("]")
 val PARENTHESIS_L = ValkyrieCST("(")
 val PARENTHESIS_R = ValkyrieCST(")")
 // 分隔符

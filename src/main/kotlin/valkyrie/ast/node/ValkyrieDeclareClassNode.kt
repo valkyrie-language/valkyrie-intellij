@@ -3,11 +3,8 @@ package valkyrie.ast.node
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
-import valkyrie.ast.AnonymousClass
-import valkyrie.ast.DeclareClass
 import valkyrie.ast.ParserMonad
-import valkyrie.ast.advanceIgnore
-import valkyrie.cst.KW_CLASS
+import valkyrie.ast.parseClass
 
 class ValkyrieClassDeclarationNode(node: ASTNode) : ASTWrapperPsiElement(node) {
 
