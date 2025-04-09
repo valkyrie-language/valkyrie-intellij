@@ -8,8 +8,8 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.parents
+import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import valkyrie.psi.caretElement
-import valkyrie.psi.node.ValkyrieDeclareClassNode
 import valkyrie.psi.node.ValkyrieDeclareImplyNode
 import valkyrie.psi.node.ValkyrieDeclareTraitNode
 
@@ -21,7 +21,7 @@ class GenerateOverrides : LanguageCodeInsightActionHandler {
 
         for (parent in here.parents(true)) {
             when (parent) {
-                is ValkyrieDeclareClassNode -> true
+                is ValkyrieClassDeclarationNode -> true
                 is ValkyrieDeclareTraitNode -> true
                 is ValkyrieDeclareImplyNode -> true
                 else -> {
@@ -36,8 +36,8 @@ class GenerateOverrides : LanguageCodeInsightActionHandler {
 
     override fun invoke(project: Project, editor: Editor, file: PsiFile) {
         when (_current) {
-            is ValkyrieDeclareClassNode -> {
-                val here = _current as ValkyrieDeclareClassNode
+            is ValkyrieClassDeclarationNode -> {
+                val here = _current as ValkyrieClassDeclarationNode
 
 
                 val ui = GenerateClassFieldChooser(

@@ -4,13 +4,13 @@ import com.intellij.ide.hierarchy.HierarchyNodeDescriptor
 import com.intellij.ide.util.treeView.NodeDescriptor
 import com.intellij.openapi.roots.ui.util.CompositeAppearance
 import com.intellij.ui.SimpleTextAttributes
-import valkyrie.psi.node.ValkyrieDeclareClassNode
+import valkyrie.ast.node.ValkyrieClassDeclarationNode
 
 
 class HierarchyClassNode : HierarchyNodeDescriptor {
-    val node: ValkyrieDeclareClassNode
+    val node: ValkyrieClassDeclarationNode
 
-    constructor(node: ValkyrieDeclareClassNode) : super(node.project, null, node, false) {
+    constructor(node: ValkyrieClassDeclarationNode) : super(node.project, null, node, false) {
         this.node = node
         cachedChildren = arrayOf(this, this)
     }

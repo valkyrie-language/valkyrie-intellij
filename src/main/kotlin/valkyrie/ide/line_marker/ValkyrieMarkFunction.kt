@@ -3,7 +3,7 @@ package valkyrie.ide.line_marker
 import com.intellij.codeInsight.daemon.MergeableLineMarkerInfo
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment
 import com.intellij.psi.PsiElement
-import valkyrie.psi.node.ValkyrieDeclareClassNode
+import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import java.util.function.Supplier
 import javax.swing.Icon
 
@@ -27,19 +27,19 @@ class ValkyrieMarkFunction : MergeableLineMarkerInfo<PsiElement> {
     }
 
     companion object {
-        fun standalone(node: ValkyrieDeclareClassNode): ValkyrieMarkFunction? {
+        fun standalone(node: ValkyrieClassDeclarationNode): ValkyrieMarkFunction? {
 //            val leaf = node.nameIdentifier?.firstChild ?: return null;
 //            return ValkyrieMarkFunction(leaf, node.getIcon(0))
             return null
         }
 
-        fun ancestor(node: ValkyrieDeclareClassNode): ValkyrieMarkFunction? {
+        fun ancestor(node: ValkyrieClassDeclarationNode): ValkyrieMarkFunction? {
 //            val leaf = node.nameIdentifier?.firstChild ?: return null;
 //            return ValkyrieMarkFunction(leaf, AllIcons.Gutter.OverridingMethod)
             return null
         }
 
-        fun descendant(node: ValkyrieDeclareClassNode): ValkyrieMarkFunction? {
+        fun descendant(node: ValkyrieClassDeclarationNode): ValkyrieMarkFunction? {
 //            val leaf = node.nameIdentifier?.firstChild ?: return null;
 //            return ValkyrieMarkFunction(leaf, AllIcons.Gutter.OverridenMethod)
             return null

@@ -3,23 +3,18 @@ package valkyrie.ast.node
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
-import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.parseClass
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.psi.ValkyrieDeclaration
-import valkyrie.psi.ValkyrieTypes
-import valkyrie.psi.findKeyword
-import valkyrie.psi.node.ValkyrieDeclareClass
-import valkyrie.psi.node.ValkyrieDeclareFieldNode
-import valkyrie.psi.node.ValkyrieInheritItemNode
 import javax.swing.Icon
 
 class ValkyrieClassDeclarationNode(node: ASTNode) : ValkyrieDeclaration(node) {
     val keyword = findChildByClass(ValkyrieKeywordNode::class.java)!!
     val identifier = findChildByClass(ValkyrieIdentifierNode::class.java)
+    val superClasses = findChildByClass(ValkyrieInheritListNode::class.java)?.items ?: arrayOf()
 
     override val color: HighlightColor?
         get() = HighlightColor.SYM_CLASS
@@ -49,22 +44,4 @@ class ValkyrieClassDeclarationNode(node: ASTNode) : ValkyrieDeclaration(node) {
             return parseClass(builder = builder, anonymous = false)
         }
     }
-}
-
-abstract class MixinClass(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieDeclareClass {
-    override fun getKeyword(): PsiElement {
-        return findKeyword(ValkyrieTypes.KW_CLASS)
-    }
-
-    override fun getSuperClasses(): List<ValkyrieInheritItemNode> {
-        return this.classInherit?.inheritItemList?.map { it as ValkyrieInheritItemNode } ?: listOf()
-    }
-
-    override fun getFields(): List<ValkyrieDeclareFieldNode> {
-        return mutableListOf()
-    }
-
-    override val color: HighlightColor
-        get() = HighlightColor.SYM_CLASS
-
 }
