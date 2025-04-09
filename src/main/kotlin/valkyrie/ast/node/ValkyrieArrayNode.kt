@@ -7,8 +7,8 @@ import valkyrie.ast.Array
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.parsePaired
 import valkyrie.cst.COMMA
-import valkyrie.cst.LBRACK
-import valkyrie.cst.RBRACK
+import valkyrie.cst.BRACKET_L
+import valkyrie.cst.BRACKET_R
 
 class ValkyrieArrayNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     companion object: ParserMonad {
@@ -16,8 +16,8 @@ class ValkyrieArrayNode(node: ASTNode) : ASTWrapperPsiElement(node) {
         override fun parse(builder: PsiBuilder): Boolean {
           return  builder.parsePaired(
               Array,
-              LBRACK,
-              RBRACK,
+              BRACKET_L,
+              BRACKET_R,
               COMMA,
               ValkyrieArrayItemNode.Companion,
             )
