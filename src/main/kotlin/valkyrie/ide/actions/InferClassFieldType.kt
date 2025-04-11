@@ -6,11 +6,11 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiFile
+import valkyrie.ast.node.ValkyrieObjectFieldNode
 import valkyrie.language.file.ValkyrieIconProvider
-import valkyrie.psi.node.ValkyrieDeclareFieldNode
 import javax.swing.Icon
 
-class InferClassFieldType(private val element: ValkyrieDeclareFieldNode) : HintAction, Iconable {
+class InferClassFieldType(private val element: ValkyrieObjectFieldNode) : HintAction, Iconable {
     override fun startInWriteAction(): Boolean {
         return true
     }

@@ -7,6 +7,7 @@ import com.intellij.codeInsight.codeVision.settings.PlatformCodeVisionIds
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import valkyrie.ast.ValkyrieVisitor
+import valkyrie.ast.node.ValkyrieObjectMethodNode
 import valkyrie.psi.node.ValkyrieDeclareMethod
 
 
@@ -28,7 +29,7 @@ private class UsageVisitor : ValkyrieVisitor {
         this.entry = entry
     }
 
-    override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
+    override fun visitDeclareMethod(o: ValkyrieObjectMethodNode) {
 //        entry.add(
 //            o.textRange to TextCodeVisionEntry(
 //                ValkyrieBundle.message(id, '?'),

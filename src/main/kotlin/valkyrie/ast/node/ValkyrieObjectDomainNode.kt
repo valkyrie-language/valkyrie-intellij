@@ -1,45 +1,43 @@
 package valkyrie.ast.node
 
-import com.intellij.icons.AllIcons
+import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.PsiElementVisitor
-import valkyrie.ast.DefineField
+import valkyrie.ast.DefineDomain
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.ValkyrieVisitor
-import valkyrie.psi.ValkyrieDeclaration
-import javax.swing.Icon
+import valkyrie.ast.advanceIgnore
 
-class ValkyrieObjectFieldNode(node: ASTNode) : ValkyrieDeclaration(node) {
+class ValkyrieObjectDomainNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     val identifier = findChildByClass(ValkyrieIdentifierNode::class.java)!!
-
-    override fun getNameIdentifier(): ValkyrieIdentifierNode {
-        return this.identifier
-    }
-
-    override fun getBaseIcon(): Icon {
-        return AllIcons.Nodes.Field
-    }
 
     override fun accept(visitor: PsiElementVisitor) {
         when (visitor) {
-            is ValkyrieVisitor -> visitor.visitObjectField(this)
+            is ValkyrieVisitor -> visitor.visitDeclareDomain(this)
             else -> visitor.visitElement(this)
         }
     }
 
     override fun toString(): String {
-        return "ObjectField"
+        return "ObjectDomain"
     }
 
     companion object : ParserMonad {
         override fun parse(builder: PsiBuilder): Boolean {
             val marker = builder.mark()
             ValkyrieAnnotationAreaNode.parse(builder)
-
+            builder.advanceIgnore()
             // 解析字段名
             if (ValkyrieIdentifierNode.parse(builder)) {
-                marker.done(DefineField)
+                builder.advanceIgnore()
+            } else {
+                marker.drop()
+                return false
+            }
+            // 解析形式参数
+            if (ValkyrieObjectNode.parse(builder)) {
+                marker.done(DefineDomain)
                 return true
             } else {
                 marker.drop()

@@ -13,6 +13,8 @@ import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import valkyrie.ast.node.ValkyrieObjectFieldNode
 import valkyrie.ast.node.ValkyrieIdentifierNode
 import valkyrie.ast.node.ValkyrieInheritItemNode
+import valkyrie.ast.node.ValkyrieObjectDomainNode
+import valkyrie.ast.node.ValkyrieObjectMethodNode
 import valkyrie.ast.node.ValkyrieTypeAtomicNode
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ValkyrieTypes
@@ -72,13 +74,14 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifier, HighlightColor.SYM_FIELD)
     }
 
-    override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
-        highlight(o.identifierFree, HighlightColor.SYM_FUNCTION_FREE)
+    override fun visitDeclareMethod(o: ValkyrieObjectMethodNode) {
+        highlight(o.identifier, HighlightColor.SYM_FUNCTION_FREE)
     }
 
-    override fun visitDeclareDomain(o: ValkyrieDeclareDomain) {
-        highlight(o.identifierSafe, HighlightColor.SYM_MACRO)
+    override fun visitDeclareDomain(o: ValkyrieObjectDomainNode) {
+        highlight(o.identifier, HighlightColor.SYM_MACRO)
     }
+
 
     override fun visitDeclareUnion(o: ValkyrieDeclareUnion) {
         highlight(o.identifierSafe, HighlightColor.SYM_MACRO)
