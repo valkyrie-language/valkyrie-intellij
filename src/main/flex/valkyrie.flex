@@ -2,7 +2,7 @@ package valkyrie.psi;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
-import static valkyrie.psi.ValkyrieTypes.*;
+import static valkyrie.cst.ValkyrieCSTKt.*;
 import java.util.LinkedList;
 %%
 

@@ -91,7 +91,6 @@ class ParserExtension : GeneratedParserUtilBase() {
 }
 
 
-
 fun parseFunction(builder: PsiBuilder, anonymous: Boolean, type: IElementType): Boolean {
     val marker = builder.mark()
     // 解析注解, 匿名对象不能使用注解
