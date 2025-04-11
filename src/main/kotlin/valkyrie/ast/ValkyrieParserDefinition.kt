@@ -13,7 +13,6 @@ import valkyrie.ast.node.*
 import valkyrie.cst.*
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.language.file.ValkyrieFileNode
-import valkyrie.psi.node.ValkyrieAtomicNode
 
 class ValkyrieParserDefinition : ParserDefinition {
     override fun createLexer(project: Project) = ValkyrieLexer()
@@ -49,7 +48,7 @@ class ValkyrieParserDefinition : ParserDefinition {
             // 具名对象
             DeclareClass -> ValkyrieClassDeclarationNode(node)
             DeclareTrait -> ValkyrieTraitDeclarationNode(node)
-            DeclareMicro -> ValkyrieMicroDeclarationNode(node)
+            DeclareMicro -> ValkyrieDeclareMicroNode(node)
             // 匿名对象
             AnonymousClass -> ValkyrieAnonymousObjectNode(node)
             AnonymousMicro -> ValkyrieAnonymousFunctionNode(node)
