@@ -9,6 +9,11 @@ import valkyrie.cst.SYMBOL_RAW
 import valkyrie.psi.ValkyrieElement
 
 open class ValkyrieIdentifierNode(node: ASTNode) : ValkyrieElement(node) {
+
+    override fun toString(): String {
+        return "Identifier"
+    }
+
     companion object : ParserMonad {
         override fun parse(builder: PsiBuilder): Boolean {
             val marker = builder.mark()

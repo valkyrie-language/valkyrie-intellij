@@ -10,10 +10,10 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.util.elementType
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieClassDeclarationNode
+import valkyrie.ast.node.ValkyrieObjectFieldNode
 import valkyrie.ast.node.ValkyrieIdentifierNode
 import valkyrie.ast.node.ValkyrieInheritItemNode
 import valkyrie.ast.node.ValkyrieTypeAtomicNode
-import valkyrie.ast.node.ValkyrieTypeExpressionNode
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.childrenWithLeaves
@@ -68,8 +68,8 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifier, HighlightColor.SYM_FIELD)
     }
 
-    override fun visitDeclareField(o: ValkyrieDeclareField) {
-        highlight(o.identifierFree, HighlightColor.SYM_FIELD)
+    override fun visitObjectField(o: ValkyrieObjectFieldNode) {
+        highlight(o.identifier, HighlightColor.SYM_FIELD)
     }
 
     override fun visitDeclareMethod(o: ValkyrieDeclareMethod) {
