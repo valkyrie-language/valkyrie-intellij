@@ -105,6 +105,11 @@ class ValkyrieLexer : LexerBase() {
                 _tokenBuffer = COLON
             }
 
+            c == ';' -> {
+                tokenEnd = tokenStart + 1
+                _tokenBuffer = SEMICOLON
+            }
+
             c == ',' -> {
                 tokenEnd = tokenStart + 1
                 _tokenBuffer = COMMA
