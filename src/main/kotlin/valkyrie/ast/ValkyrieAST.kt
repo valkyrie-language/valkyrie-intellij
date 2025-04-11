@@ -22,12 +22,10 @@ val InheritItem = ValkyrieAST("INHERIT_ITEM")
 val ImplementList = ValkyrieAST("IMPLEMENT_LIST")
 val ImplementItem = ValkyrieAST("IMPLEMENT_ITEM")
 val ObjectBody = ValkyrieAST("OBJECT_BODY")
-val ANNOTATION = ValkyrieAST("ANNOTATION")
-val ANNOTATION_MANY = ValkyrieAST("ANNOTATION_MANY")
 
 //
 val Identifier = ValkyrieAST("IDENTIFIER")
-val Modifier = ValkyrieAST("MODIFIER")
+
 val Keyword = ValkyrieAST("KEYWORD")
 
 //
@@ -47,9 +45,12 @@ val DefineField = ValkyrieAST("FIELD")
 val DefineMethod = ValkyrieAST("METHOD")
 val ParameterList = ValkyrieAST("PARAMETER_LIST")
 val ParameterItem = ValkyrieAST("PARAMETER_ITEM")
-val ANNOTATION_LIST = ValkyrieAST("ANNOTATION_LIST")
+
+val AnnotationArea = ValkyrieAST("ANNOTATION_AREA")
+val Annotation = ValkyrieAST("ANNOTATION")
+val Modifier = ValkyrieAST("MODIFIER")
+
 val MacroCall = ValkyrieAST("MACRO")
-val MODIFIER_LIST = ValkyrieAST("MODIFIER_LIST")
 val TUPLE = ValkyrieAST("TUPLE")
 val ArrayItem = ValkyrieAST("ARRAY_ITEM")
 

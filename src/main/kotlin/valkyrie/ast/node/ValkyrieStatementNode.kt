@@ -4,6 +4,8 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import valkyrie.ast.ParserMonad
+import valkyrie.ast.advanceChoice
+import valkyrie.psi.node.ValkyrieExpressionNode
 
 class ValkyrieStatementNode(node: ASTNode) : ASTWrapperPsiElement(node) {
 
@@ -13,12 +15,12 @@ class ValkyrieStatementNode(node: ASTNode) : ASTWrapperPsiElement(node) {
 
     companion object : ParserMonad {
         override fun parse(builder: PsiBuilder): Boolean {
-            return ValkyrieClassDeclarationNode.parse(builder)
-//            return builder.advanceChoice(
-//                ValkyrieClassDeclarationNode.Companion,
-//                ValkyrieTraitDeclarationNode.Companion,
-//                ValkyrieExpressionNode.Companion
-//            )
+
+            return builder.advanceChoice(
+                ValkyrieClassDeclarationNode,
+                ValkyrieTraitDeclarationNode,
+                ValkyrieTermExpressionNode
+            )
         }
     }
 }

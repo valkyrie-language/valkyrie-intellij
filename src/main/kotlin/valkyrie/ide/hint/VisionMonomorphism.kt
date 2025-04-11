@@ -7,6 +7,7 @@ import com.intellij.psi.PsiElement
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import valkyrie.ast.node.ValkyrieObjectMethodNode
+import valkyrie.ast.node.ValkyrieTraitDeclarationNode
 import valkyrie.language.ValkyrieBundle
 import valkyrie.psi.node.ValkyrieDeclareTrait
 
@@ -48,7 +49,7 @@ private class MonomorphismVisitor : ValkyrieVisitor {
 //        }
     }
 
-    override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {
+    override fun visitDeclareTrait(o: ValkyrieTraitDeclarationNode) {
 //        if (o.declareGeneric != null) {
 //            entry.add(
 //                o.keyword.textRange to TextCodeVisionEntry(

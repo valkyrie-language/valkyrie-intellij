@@ -9,12 +9,9 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.elementType
 import valkyrie.ast.ValkyrieVisitor
-import valkyrie.ast.node.ValkyrieClassDeclarationNode
-import valkyrie.ast.node.ValkyrieObjectFieldNode
-import valkyrie.ast.node.ValkyrieIdentifierNode
+import valkyrie.ast.node.*
 import valkyrie.ast.node.ValkyrieInheritItemNode
-import valkyrie.ast.node.ValkyrieObjectDomainNode
-import valkyrie.ast.node.ValkyrieObjectMethodNode
+import valkyrie.ast.node.ValkyrieModifierNode
 import valkyrie.ast.node.ValkyrieTypeAtomicNode
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ValkyrieTypes
@@ -38,7 +35,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.namepathFree, HighlightColor.SYM_MACRO)
     }
 
-    override fun visitModifier(o: ValkyrieModifier) {
+    override fun visitModifier(o: ValkyrieModifierNode) {
         highlight(o, HighlightColor.KEYWORD)
     }
 
@@ -107,8 +104,8 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifierSafe, HighlightColor.SYM_VARIANT)
     }
 
-    override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {
-        highlight(o.identifierSafe, HighlightColor.SYM_TRAIT)
+    override fun visitDeclareTrait(o: ValkyrieTraitDeclarationNode) {
+        highlight(o.identifier, HighlightColor.SYM_TRAIT)
     }
 
     override fun visitDeclareImply(o: ValkyrieDeclareImply) {
