@@ -17,6 +17,7 @@ import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import valkyrie.ast.node.ValkyrieObjectDomainNode
 import valkyrie.ast.node.ValkyrieObjectFieldNode
 import valkyrie.ast.node.ValkyrieObjectMethodNode
+import valkyrie.ast.node.ValkyrieTraitDeclarationNode
 import valkyrie.ide.line_marker.markers.*
 import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
 import valkyrie.language.file.ValkyrieIconProvider
@@ -132,7 +133,7 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
         }
     }
 
-    override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {
+    override fun visitDeclareTrait(o: ValkyrieTraitDeclarationNode) {
 //        if (!config.trait_declaration.isEnabled) return
 //        o as ValkyrieDeclareTraitNode
 //        val leaf = o.nameIdentifier ?: return

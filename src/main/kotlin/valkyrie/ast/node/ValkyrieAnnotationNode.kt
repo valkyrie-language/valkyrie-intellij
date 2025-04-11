@@ -3,11 +3,15 @@ package valkyrie.ast.node
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
-import valkyrie.ast.ANNOTATION
+import valkyrie.ast.Annotation
 import valkyrie.ast.ParserMonad
 import valkyrie.cst.*
 
 class ValkyrieAnnotationNode(node: ASTNode) : ASTWrapperPsiElement(node) {
+    override fun toString(): String {
+        return "AnnotationItem"
+    }
+
     companion object : ParserMonad {
         // 解析注解
         override fun parse(builder: PsiBuilder): Boolean {
@@ -50,7 +54,7 @@ class ValkyrieAnnotationNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                     return true
                 }
             }
-            marker.done(ANNOTATION)
+            marker.done(Annotation)
             return true
         }
     }

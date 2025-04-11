@@ -6,6 +6,7 @@ import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieObjectDomainNode
 import valkyrie.ast.node.ValkyrieObjectFieldNode
 import valkyrie.ast.node.ValkyrieObjectMethodNode
+import valkyrie.ast.node.ValkyrieTraitDeclarationNode
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.*
 
@@ -46,7 +47,7 @@ class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
         o.classBody?.pushChildrenTo(this)
     }
 
-    override fun visitDeclareTrait(o: ValkyrieDeclareTrait) {
+    override fun visitDeclareTrait(o: ValkyrieTraitDeclarationNode) {
 //        o.annotations.pushChildrenTo(this)
 //        o.classBody?.pushChildrenTo(this)
     }

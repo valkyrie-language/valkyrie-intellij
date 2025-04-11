@@ -58,11 +58,9 @@ fun PsiBuilder.advanceChoice(vararg parsers: ParserMonad): Boolean {
         if (parser.parse(this)) {
             marker.drop()
             return true
-        } else if (parser == parsers.last()) {
-            marker.drop()
-            return false
         } else {
-            marker.drop()
+            marker.rollbackTo()
+//            marker.drop()
         }
     }
     return false

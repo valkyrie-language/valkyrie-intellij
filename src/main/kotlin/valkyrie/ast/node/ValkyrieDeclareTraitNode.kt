@@ -1,58 +1,94 @@
 package valkyrie.ast.node
 
 import com.intellij.extapi.psi.ASTWrapperPsiElement
+import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
+import com.intellij.psi.PsiElementVisitor
 import valkyrie.ast.AnonymousClass
 import valkyrie.ast.DeclareClass
+import valkyrie.ast.DeclareTrait
+import valkyrie.ast.ParserMonad
+import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.advanceIgnore
 import valkyrie.cst.KW_TRAIT
+import valkyrie.ide.highlight.HighlightColor
+import valkyrie.psi.ValkyrieDeclaration
+import javax.swing.Icon
 
-class ValkyrieTraitDeclarationNode(node: ASTNode) : ASTWrapperPsiElement(node) {
+class ValkyrieTraitDeclarationNode(node: ASTNode) : ValkyrieDeclaration(node) {
+    val keyword = findChildByClass(ValkyrieKeywordNode::class.java)!!
+    val identifier = findChildByClass(ValkyrieIdentifierNode::class.java)
+    val superTraits = findChildByClass(ValkyrieInheritListNode::class.java)?.items ?: arrayOf()
+    val body = findChildByClass(ValkyrieObjectNode::class.java)
+
+    override val color: HighlightColor?
+        get() = HighlightColor.SYM_TRAIT
+
+    override fun getBaseIcon(): Icon {
+        return AllIcons.Nodes.Interface
+    }
+
+    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
+        return identifier
+    }
+
+    override fun accept(visitor: PsiElementVisitor) {
+        when (visitor) {
+            is ValkyrieVisitor -> visitor.visitDeclareTrait(this)
+            else -> visitor.visitElement(this)
+        }
+    }
+
     override fun toString(): String {
         return "TraitDeclaration"
     }
 
-    fun parse(builder: PsiBuilder, anonymous: Boolean): Boolean {
-        val marker = builder.mark()
-        // 解析注解, 匿名对象不能使用注解
-        when {
-            anonymous -> {}
-            else -> {
-                ValkyrieAnnotationAreaNode.parse(builder)
-                builder.advanceIgnore()
-            }
+    companion object : ParserMonad {
+        override fun parse(builder: PsiBuilder): Boolean {
+            return parse(builder, false)
         }
-        // 检查是否有 class 关键字
-        if (builder.tokenType === KW_TRAIT) {
-            ValkyrieKeywordNode.parse(builder)
-            builder.advanceIgnore()
-        } else {
-            marker.drop()
-            return false
-        }
-        // 解析类名
-        if (ValkyrieIdentifierNode.parse(builder)) {
-            builder.advanceIgnore()
-        } else {
-            builder.error("Expected class name")
-            marker.drop()
-            return false
-        }
-        // 解析继承列表
-        ValkyrieInheritListNode.parse(builder)
-        builder.advanceIgnore()
-        // 解析类体
-        if (!ValkyrieObjectNode.parse(builder)) {
-            marker.drop()
-            return false
-        }
-        if (anonymous) {
-            marker.done(AnonymousClass)
-        } else {
-            marker.done(DeclareClass)
-        }
-
-        return true
     }
+}
+
+fun parse(builder: PsiBuilder, anonymous: Boolean): Boolean {
+    val marker = builder.mark()
+    // 解析注解, 匿名对象不能使用注解
+    when {
+        anonymous -> {}
+        else -> {
+            ValkyrieAnnotationAreaNode.parse(builder)
+            builder.advanceIgnore()
+        }
+    }
+    // 检查是否有 class 关键字
+    if (builder.tokenType === KW_TRAIT) {
+        ValkyrieKeywordNode.parse(builder)
+        builder.advanceIgnore()
+    } else {
+        marker.drop()
+        return false
+    }
+    // 解析类名
+    if (ValkyrieIdentifierNode.parse(builder)) {
+        builder.advanceIgnore()
+    } else {
+        marker.drop()
+        return false
+    }
+    // 解析继承列表
+    ValkyrieInheritListNode.parse(builder)
+    builder.advanceIgnore()
+    // 解析类体
+    if (!ValkyrieObjectNode.parse(builder)) {
+        marker.drop()
+        return false
+    }
+    if (anonymous) {
+        marker.done(AnonymousClass)
+    } else {
+        marker.done(DeclareTrait)
+    }
+
+    return true
 }

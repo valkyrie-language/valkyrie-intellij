@@ -251,7 +251,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitDeclareTrait(o: ValkyrieDeclareTrait) {
+    open fun visitDeclareTrait(o: ValkyrieTraitDeclarationNode) {
         visitElement(o)
     }
 
@@ -555,7 +555,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitModifier(o: ValkyrieModifier) {
+    open fun visitModifier(o:  valkyrie.ast.node.ValkyrieModifierNode) {
         visitElement(o)
     }
 
