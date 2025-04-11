@@ -7,15 +7,6 @@ import valkyrie.ast.TermAtomic
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.advanceChoice
-import valkyrie.cst.BRACE_L
-import valkyrie.cst.BRACKET_L
-import valkyrie.cst.COMMA
-import valkyrie.cst.DOT
-import valkyrie.cst.NUMBER
-import valkyrie.cst.PARENTHESIS_L
-import valkyrie.cst.PARENTHESIS_R
-import valkyrie.cst.STRING
-import valkyrie.cst.SYMBOL
 
 class ValkyrieTermAtomicNode(node: ASTNode) : ValkyrieTermExpressionNode(node) {
 
