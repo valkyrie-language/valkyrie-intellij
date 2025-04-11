@@ -18,6 +18,7 @@ val PARENTHESIS_R = ValkyrieCST(")")
 
 // 分隔符
 val COLON = ValkyrieCST(":")
+val SEMICOLON = ValkyrieCST(";")
 val COMMA = ValkyrieCST(",")
 val QUESTION = ValkyrieCST("?")
 //
@@ -30,7 +31,7 @@ val OP_GEQ = ValkyrieCST("⩾")
 val OP_GE = ValkyrieCST(">")
 val DOT = ValkyrieCST(".")
 val EQ = ValkyrieCST("=")
-val SEMICOLON = ValkyrieCST(";")
+
 
 // 基本运算符
 val OP_ADD = ValkyrieCST("+")
