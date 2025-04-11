@@ -7,6 +7,8 @@ import valkyrie.ast.Identifier
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.TypeAtomic
 import valkyrie.ast.ValkyrieVisitor
+import valkyrie.cst.PARENTHESIS_L
+import valkyrie.cst.PARENTHESIS_R
 import valkyrie.cst.SYMBOL
 
 class ValkyrieTypeAtomicNode(node: ASTNode) : ValkyrieTypeExpressionNode(node) {
@@ -32,6 +34,24 @@ class ValkyrieTypeAtomicNode(node: ASTNode) : ValkyrieTypeExpressionNode(node) {
                     marker.done(Identifier)
                     return true
                 }
+
+                PARENTHESIS_L -> {
+                    // 消费左括号
+                    builder.advanceLexer()
+                    if (!ValkyrieTypeExpressionNode.parse(builder)) {
+                        marker.error("Expected type expression inside parenthesis")
+                        return false
+                    }
+                    if (builder.tokenType != PARENTHESIS_R) {
+                        marker.error("Expected closing parenthesis")
+                        return false
+                    }
+                    // 消费右括号
+                    builder.advanceLexer()
+                    marker.done(TypeAtomic)
+                    return true
+                }
+
                 else -> {
                     marker.drop()
                     return false
