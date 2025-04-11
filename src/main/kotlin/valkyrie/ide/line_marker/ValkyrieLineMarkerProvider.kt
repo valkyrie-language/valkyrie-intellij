@@ -14,6 +14,7 @@ import com.intellij.psi.util.elementType
 import com.intellij.psi.util.firstLeaf
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieClassDeclarationNode
+import valkyrie.ast.node.ValkyrieObjectFieldNode
 import valkyrie.ide.line_marker.markers.*
 import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
 import valkyrie.language.file.ValkyrieIconProvider
@@ -178,7 +179,7 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
         result.add(FlagsMarker(o as ValkyrieDeclareFlagsNode))
     }
 
-    override fun visitDeclareField(o: ValkyrieDeclareField) {
+    override fun visitObjectField(o: ValkyrieObjectFieldNode) {
         if (!config.field_declaration.isEnabled) return
         result.add(ValkyrieMarkField(o as ValkyrieDeclareFieldNode))
     }

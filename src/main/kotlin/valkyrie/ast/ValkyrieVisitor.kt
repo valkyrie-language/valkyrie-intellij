@@ -194,7 +194,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitDeclareField(o: ValkyrieDeclareField) {
+    open fun visitObjectField(o: ValkyrieObjectFieldNode) {
         visitElement(o)
     }
 
