@@ -5,14 +5,14 @@ import com.intellij.codeInsight.daemon.MergeableLineMarkerInfo
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER
 import com.intellij.psi.PsiElement
+import valkyrie.ast.node.ValkyrieObjectFieldNode
 import valkyrie.language.file.ValkyrieIconProvider.Instance.Field
-import valkyrie.psi.node.ValkyrieDeclareFieldNode
 import javax.swing.Icon
 
 class ValkyrieMarkField : RelatedItemLineMarkerInfo<PsiElement> {
-    constructor(element: ValkyrieDeclareFieldNode) : super(
-        element.nameIdentifier!!.firstChild,
-        element.nameIdentifier!!.firstChild.textRange,
+    constructor(element: ValkyrieObjectFieldNode) : super(
+        element.identifier.firstChild,
+        element.identifier.firstChild.textRange,
         Field,
         { "Valkyrie Field" },
         { "PresentationProvider" },
