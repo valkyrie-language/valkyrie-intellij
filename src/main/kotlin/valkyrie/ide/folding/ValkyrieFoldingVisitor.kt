@@ -10,6 +10,7 @@ import com.intellij.psi.util.endOffset
 import com.intellij.psi.util.startOffset
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieObjectNode
+import valkyrie.ast.node.ValkyrieUsingBodyNode
 
 
 import valkyrie.psi.findPair
@@ -29,7 +30,7 @@ class ValkyrieFoldingVisitor : ValkyrieVisitor, PsiRecursiveVisitor {
         element.acceptChildren(this)
     }
 
-    override fun visitUsingBody(o: ValkyrieUsingBody) {
+    override fun visitUsingBody(o: ValkyrieUsingBodyNode) {
         fold(o, o.firstChild.endOffset, o.lastChild.startOffset)
     }
 
