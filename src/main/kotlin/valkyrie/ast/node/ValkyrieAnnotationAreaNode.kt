@@ -1,14 +1,22 @@
 package valkyrie.ast.node
 
-import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
+import com.intellij.psi.PsiElementVisitor
 import valkyrie.ast.AnnotationArea
 import valkyrie.ast.ParserMonad
+import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.advanceIgnore
 import valkyrie.psi.ValkyrieElement
 
 class ValkyrieAnnotationAreaNode(node: ASTNode) : ValkyrieElement(node) {
+    override fun accept(visitor: PsiElementVisitor) {
+        when (visitor) {
+            is ValkyrieVisitor -> visitor.visitAnnotationArea(this)
+            else -> visitor.visitElement(this)
+        }
+    }
+
     override fun toString(): String {
         return "AnnotationArea"
     }
@@ -17,7 +25,7 @@ class ValkyrieAnnotationAreaNode(node: ASTNode) : ValkyrieElement(node) {
         // 解析注解列表
         override fun parse(builder: PsiBuilder): Boolean {
             val marker = builder.mark()
-            ValkyrieAnnotationListNode.parse(builder)
+            ValkyrieAnnotationList.parse(builder)
             builder.advanceIgnore()
             ValkyrieModifierListNode.parse(builder)
             marker.done(AnnotationArea)
