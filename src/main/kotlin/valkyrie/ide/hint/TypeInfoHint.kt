@@ -4,6 +4,7 @@ import com.intellij.lang.ExpressionTypeProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
 import valkyrie.ast.ValkyrieVisitor
+import valkyrie.ast.node.ValkyrieNamePathNode
 import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.node.ValkyrieNamepathSafe
 
@@ -50,7 +51,7 @@ private class TypeInfoHintVisitor : ValkyrieVisitor() {
     var type: String = "TypeInfoHint.getInformationHint"
 
 
-    override fun visitNamepathSafe(o: ValkyrieNamepathSafe) {
+    override fun visitNamePath(o: ValkyrieNamePathNode) {
         type = "visitNamepath: ${o.text}"
     }
 }

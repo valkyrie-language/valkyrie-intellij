@@ -39,8 +39,6 @@ val PARENTHESIS_R = ValkyrieCST(")")
 val COLON = ValkyrieCST(":")
 
 
-@JvmField
-val NAME_JOIN = ValkyrieCST("∷")
 
 
 @JvmField
@@ -448,10 +446,10 @@ val KW_WITH: IElementType = ValkyrieCST("KW_WITH")
 val KW_YIELD: IElementType = ValkyrieCST("KW_YIELD")
 
 @JvmField
-val NAME_SCOPE: IElementType = ValkyrieCST("NAME_SCOPE")
+val NAME_SCOPE = ValkyrieCST("NAME_SCOPE")
 
 @JvmField
-val NAME_SPLIT: IElementType = ValkyrieCST("∷")
+val NAME_SPLIT = ValkyrieCST("∷")
 
 @JvmField
 val NUMBER_BASE: IElementType = ValkyrieCST("NUMBER_BASE")

@@ -8,27 +8,27 @@ import valkyrie.ast.Annotation
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.advanceIgnore
-import valkyrie.cst.OP_MACRO_LOWER
+import valkyrie.cst.OP_MACRO_UPPER
 
-class ValkyrieAnnotationNode(node: ASTNode) : ASTWrapperPsiElement(node) {
+class ValkyrieAttributeNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     val namepath = findChildByClass(ValkyrieNamePathNode::class.java)
 
     override fun accept(visitor: PsiElementVisitor) {
         when (visitor) {
-            is ValkyrieVisitor -> visitor.visitAnnotation(this)
+            is ValkyrieVisitor -> visitor.visitAttribute(this)
             else -> visitor.visitElement(this)
         }
     }
 
     override fun toString(): String {
-        return "AnnotationItem"
+        return "AttributeItem"
     }
 
     companion object : ParserMonad {
         override fun parse(builder: PsiBuilder): Boolean {
             val marker = builder.mark()
             // 匹配 ↯
-            if (builder.tokenType === OP_MACRO_LOWER) {
+            if (builder.tokenType === OP_MACRO_UPPER) {
                 builder.advanceLexer()
                 builder.advanceIgnore()
             } else {
@@ -51,5 +51,3 @@ class ValkyrieAnnotationNode(node: ASTNode) : ASTWrapperPsiElement(node) {
         }
     }
 }
-
-

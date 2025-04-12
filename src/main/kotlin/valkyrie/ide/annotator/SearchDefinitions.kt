@@ -6,6 +6,7 @@ import com.intellij.psi.search.searches.DefinitionsScopedSearch.SearchParameters
 import com.intellij.util.Processor
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieClassDeclarationNode
+import valkyrie.ast.node.ValkyrieNamePathNode
 import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
 import valkyrie.psi.node.ValkyrieNamepathSafe
 import valkyrie.psi.node.ValkyrieNamepathSafeNode
@@ -25,8 +26,7 @@ private class SearchDefinitionsVisitor : ValkyrieVisitor {
         this.consumer = consumer
     }
 
-    override fun visitNamepathSafe(o: ValkyrieNamepathSafe) {
-        o as ValkyrieNamepathSafeNode
+    override fun visitNamePath(o: ValkyrieNamePathNode) {
         for (value in o.containingFile.definitions) {
             consumer.process(value)
         }

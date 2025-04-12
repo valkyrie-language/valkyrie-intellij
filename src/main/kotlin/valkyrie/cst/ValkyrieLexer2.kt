@@ -105,7 +105,7 @@ class ValkyrieLexer2 : LexerBase() {
                 when {
                     buffer.getOrNull(tokenStart + 1).isColon() -> {
                         tokenEnd = tokenStart + 2
-                        _tokenBuffer = NAME_JOIN
+                        _tokenBuffer = NAME_SPLIT
                     }
 
                     else -> {
@@ -117,7 +117,7 @@ class ValkyrieLexer2 : LexerBase() {
 
             c == '∷' -> {
                 tokenEnd = tokenStart + 1
-                _tokenBuffer = NAME_JOIN
+                _tokenBuffer = NAME_SPLIT
             }
 
             c == ';' -> {

@@ -6,6 +6,7 @@ import com.intellij.psi.PsiElement
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import valkyrie.ast.node.ValkyrieModifierNode
+import valkyrie.ast.node.ValkyrieNamePathNode
 import valkyrie.ast.node.ValkyrieTraitDeclarationNode
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
@@ -38,8 +39,7 @@ private class ValkyrieDeclarationVisitor : ValkyrieVisitor() {
         o.identifier?.let { declarations.add(o) }
     }
 
-    override fun visitNamepathSafe(o: ValkyrieNamepathSafe) {
-        o as ValkyrieNamepathSafeNode
+    override fun visitNamePath(o: ValkyrieNamePathNode) {
 
         for (element in o.containingFile?.children ?: arrayOf()) {
             if (element is ValkyrieDeclaration) {
