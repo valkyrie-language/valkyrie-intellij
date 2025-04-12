@@ -27,6 +27,8 @@ val ObjectBody = ValkyrieAST("OBJECT_BODY")
 //
 val NamePath = ValkyrieAST("NAME_PATH")
 val Identifier = ValkyrieAST("IDENTIFIER")
+val NumberLiteral = ValkyrieAST("NUMBER_LITERAL")
+val NumberUnit = ValkyrieAST("NUMBER_UNIT")
 
 val Keyword = ValkyrieAST("KEYWORD")
 

@@ -594,7 +594,11 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitNumberLiteral(o: ValkyrieNumberLiteral) {
+    open fun visitNumberLiteral(o: ValkyrieNumberNode) {
+        visitElement(o)
+    }
+
+    open fun visitNumberUnit(o: ValkyrieNumberUnitNode) {
         visitElement(o)
     }
 
@@ -682,7 +686,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitSlot(o: ValkyrieSlot) {
+    open fun visitSlot(o: ValkyrieSlotNode) {
         visitElement(o)
     }
 
