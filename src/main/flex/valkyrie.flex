@@ -30,9 +30,6 @@ import java.util.LinkedList;
 %state TextCapture3
 %state TextCapture2
 %state TextCapture1
-%state AfterNumber
-%state AfterNumberBase
-%state AfterNumberExp
 
 %eof{
     return;
@@ -407,24 +404,14 @@ RESERVED = [߷⸖⍼♯⟀⟁]
 }
 // Parsing number with suffix
 <YYINITIAL> {
-    {DECIMAL} { yybegin(AfterNumber);return DECIMAL; }
-    {INTEGER} { yybegin(AfterNumber);return INTEGER; }
-}
-<AfterNumber> {
-    {O_BASE}{NUMBER_BASE}         { yybegin(AfterNumberBase);yypushback(yylength()); }
-    {O_EXPONENT}{NUMBER_EXPONENT} { yybegin(AfterNumberExp);yypushback(yylength()); }
-
-    {SYMBOL_RAW} { yybegin(YYINITIAL);return NUMBER_SUFFIX; }
-    {SYMBOL}     { yybegin(YYINITIAL);return NUMBER_SUFFIX; }
-    [^]          { yybegin(YYINITIAL);yypushback(yylength()); }
-}
-<AfterNumberBase> {
-    {O_BASE}      { return OP_BASE; }
-    {NUMBER_BASE} { yybegin(AfterNumber); return NUMBER_BASE;}
-}
-<AfterNumberExp> {
-    {O_EXPONENT}      { return OP_EXPONENT; }
-    {NUMBER_EXPONENT} { yybegin(AfterNumber); return NUMBER_EXPONENT;}
+    {DECIMAL} { return DECIMAL; }
+    {INTEGER} { return INTEGER; }
+//    {O_BASE}{NUMBER_BASE}         { yypushback(yylength()); }
+//    {O_EXPONENT}{NUMBER_EXPONENT} { yypushback(yylength()); }
+//    {O_BASE}      { return OP_BASE; }
+//    {NUMBER_BASE} { return NUMBER_BASE;}
+//    {O_EXPONENT}      { return OP_EXPONENT; }
+//    {NUMBER_EXPONENT} { return NUMBER_EXPONENT; }
 }
 
 <YYINITIAL> {

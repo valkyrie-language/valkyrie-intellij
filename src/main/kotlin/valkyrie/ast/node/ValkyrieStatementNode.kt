@@ -5,7 +5,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.advanceChoice
-import valkyrie.psi.node.ValkyrieExpressionNode
+import valkyrie.cst.SEMICOLON
 
 class ValkyrieStatementNode(node: ASTNode) : ASTWrapperPsiElement(node) {
 
@@ -17,9 +17,10 @@ class ValkyrieStatementNode(node: ASTNode) : ASTWrapperPsiElement(node) {
         override fun parse(builder: PsiBuilder): Boolean {
 
             return builder.advanceChoice(
+                ValkyrieTermExpressionNode,
+                SkipSeparator(SEMICOLON),
                 ValkyrieClassDeclarationNode,
                 ValkyrieTraitDeclarationNode,
-                ValkyrieTermExpressionNode,
                 ValkyrieNamespaceDeclarationNode
             )
         }
