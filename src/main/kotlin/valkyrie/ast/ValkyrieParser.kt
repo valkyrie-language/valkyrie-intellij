@@ -9,6 +9,7 @@ import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import valkyrie.ast.node.ValkyrieProgramNode
 import valkyrie.cst.COMMENT_BLOCK
+import valkyrie.cst.COMMENT_LINE
 import valkyrie.cst.COMMENT_LINE_HEAD
 import valkyrie.cst.COMMENT_LINE_TEXT
 import valkyrie.cst.ValkyrieCST
@@ -96,6 +97,7 @@ fun PsiBuilder.advanceIgnore() {
         val tokenType = this.tokenType
         when (tokenType) {
             WHITE_SPACE -> this.advanceLexer()
+            COMMENT_LINE -> this.advanceLexer()
             COMMENT_LINE_HEAD -> this.advanceLexer()
             COMMENT_LINE_TEXT -> this.advanceLexer()
             COMMENT_BLOCK -> this.advanceLexer()

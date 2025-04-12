@@ -248,10 +248,11 @@ val SYMBOL_RAW = ValkyrieCST("SYMBOL<RAW>")
 @JvmField
 val COMMENT_LINE_HEAD = ValkyrieCST("COMMENT_#")
 
+@JvmField
+val COMMENT_LINE = ValkyrieCST("Comment Line")
 
 @JvmField
 val COMMENT_LINE_TEXT = ValkyrieCST("COMMENT_LINE_TEXT")
-
 
 @JvmField
 val COMMENT_BLOCK = ValkyrieCST("COMMENT<BLOCK>")
@@ -292,8 +293,6 @@ val CEIL_R: IElementType = ValkyrieCST("CEIL_R")
 @JvmField
 val COLOR: IElementType = ValkyrieCST("COLOR")
 
-@JvmField
-val COMMENT_LINE: IElementType = ValkyrieCST("Comment Line")
 
 @JvmField
 val DECIMAL: IElementType = ValkyrieCST("DECIMAL")
