@@ -1,12 +1,12 @@
 package valkyrie.ast.node
 
-import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.PsiElementVisitor
 import valkyrie.ast.*
 import valkyrie.cst.KW_TRAIT
 import valkyrie.ide.highlight.HighlightColor
+import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.ValkyrieDeclaration
 import javax.swing.Icon
 
@@ -20,7 +20,7 @@ class ValkyrieDeclareEnumerateNode(node: ASTNode) : ValkyrieDeclaration(node) {
         get() = HighlightColor.SYM_TRAIT
 
     override fun getBaseIcon(): Icon {
-        return AllIcons.Nodes.Variable
+        return ValkyrieIconProvider.Instance.Enumeration
     }
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {

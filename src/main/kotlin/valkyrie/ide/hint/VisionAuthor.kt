@@ -5,6 +5,7 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import valkyrie.ast.node.ValkyrieClassDeclarationNode
+import valkyrie.ast.node.ValkyrieDeclareEnumerateNode
 import valkyrie.psi.node.*
 import java.awt.event.MouseEvent
 
@@ -18,7 +19,7 @@ class VisionAuthor : VcsCodeVisionLanguageContext {
 
     override fun isAccepted(element: PsiElement): Boolean {
         return element is ValkyrieClassDeclarationNode
-            || element is ValkyrieDeclareEnums
+            || element is ValkyrieDeclareEnumerateNode
             || element is ValkyrieDeclareFlags
             || element is ValkyrieDeclareUnion
             || element is ValkyrieDeclareUnite
