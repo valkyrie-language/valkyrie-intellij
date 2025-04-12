@@ -7,6 +7,7 @@ import valkyrie.ast.node.*
 import valkyrie.ast.node.ValkyrieInheritItemNode
 import valkyrie.ast.node.ValkyrieTypeAtomicNode
 import valkyrie.ast.node.ValkyrieTypeExpressionNode
+import valkyrie.ast.node.ValkyrieUsingBodyNode
 import valkyrie.psi.node.*
 
 open class ValkyrieVisitor : PsiElementVisitor() {
@@ -236,7 +237,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitDeclareNamespace(o: ValkyrieDeclareNamespace) {
+    open fun visitDeclareNamespace(o: ValkyrieNamespaceDeclarationNode) {
         visitElement(o)
     }
 
@@ -857,7 +858,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitUsingBody(o: ValkyrieUsingBody) {
+    open fun visitUsingBody(o: ValkyrieUsingBodyNode) {
         visitElement(o)
     }
 

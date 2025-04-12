@@ -1,16 +1,10 @@
 package valkyrie.ast.node
 
-import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.PsiElementVisitor
-import valkyrie.ast.AnonymousClass
-import valkyrie.ast.DeclareClass
-import valkyrie.ast.DeclareTrait
-import valkyrie.ast.ParserMonad
-import valkyrie.ast.ValkyrieVisitor
-import valkyrie.ast.advanceIgnore
+import valkyrie.ast.*
 import valkyrie.cst.KW_TRAIT
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.psi.ValkyrieDeclaration
@@ -46,12 +40,12 @@ class ValkyrieTraitDeclarationNode(node: ASTNode) : ValkyrieDeclaration(node) {
 
     companion object : ParserMonad {
         override fun parse(builder: PsiBuilder): Boolean {
-            return parse(builder, false)
+            return parseTrait(builder, false)
         }
     }
 }
 
-fun parse(builder: PsiBuilder, anonymous: Boolean): Boolean {
+fun parseTrait(builder: PsiBuilder, anonymous: Boolean): Boolean {
     val marker = builder.mark()
     // 解析注解, 匿名对象不能使用注解
     when {
@@ -62,8 +56,7 @@ fun parse(builder: PsiBuilder, anonymous: Boolean): Boolean {
         }
     }
     // 检查是否有 class 关键字
-    if (builder.tokenType === KW_TRAIT) {
-        ValkyrieKeywordNode.parse(builder)
+    if (ValkyrieKeyword(KW_TRAIT).parse(builder)) {
         builder.advanceIgnore()
     } else {
         marker.drop()

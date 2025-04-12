@@ -4,12 +4,11 @@ import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.execution.lineMarker.RunLineMarkerContributor
 import com.intellij.execution.lineMarker.RunLineMarkerProvider
 import com.intellij.openapi.actionSystem.AnAction
-import com.intellij.psi.PsiElement
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieClassDeclarationNode
-import valkyrie.psi.mixin.keyword
+import valkyrie.ast.node.ValkyrieKeywordNode
+import valkyrie.ast.node.ValkyrieNamespaceDeclarationNode
 import valkyrie.psi.node.ValkyrieDeclareImply
-import valkyrie.psi.node.ValkyrieDeclareNamespace
 
 class ValkyrieRunMarkerVisitor : ValkyrieVisitor {
     private val config: ValkyrieRunMarkerProvider
@@ -20,7 +19,7 @@ class ValkyrieRunMarkerVisitor : ValkyrieVisitor {
         this.result = result
     }
 
-    override fun visitDeclareNamespace(o: ValkyrieDeclareNamespace) {
+    override fun visitDeclareNamespace(o: ValkyrieNamespaceDeclarationNode) {
         RunNamespaceGroup(o).registerRunner(o.keyword)
     }
 
@@ -29,12 +28,12 @@ class ValkyrieRunMarkerVisitor : ValkyrieVisitor {
     }
 
     override fun visitDeclareImply(o: ValkyrieDeclareImply) {
-        RunClassGroup().registerRunner(o.keyword)
+//        RunClassGroup().registerRunner(o.keyword)
     }
 
-    private fun AnAction.registerRunner(leaf: PsiElement) {
+    private fun AnAction.registerRunner(leaf: ValkyrieKeywordNode) {
         val info = RunLineMarkerContributor.Info(this)
-        val marker = RunLineMarkerProvider.createLineMarker(leaf, info.icon, mutableListOf(info))
+        val marker = RunLineMarkerProvider.createLineMarker(leaf.firstChild, info.icon, mutableListOf(info))
         result.add(marker)
     }
 }
