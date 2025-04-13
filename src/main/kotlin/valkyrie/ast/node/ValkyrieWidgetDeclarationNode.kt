@@ -8,11 +8,12 @@ import valkyrie.ast.DeclareWidget
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.cst.KW_COMPONENT
+import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
 class ValkyrieWidgetDeclarationNode(node: ASTNode) : ValkyrieClassDeclarationNode(node) {
     override fun getBaseIcon(): Icon {
-        return AllIcons.Nodes.Word
+        return ValkyrieIconProvider.Instance.Widget
     }
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {

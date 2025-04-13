@@ -24,6 +24,7 @@ class ValkyrieIconProvider : IconProvider() {
         val Class = AllIcons.Nodes.Class
         val Singleton = IconLoader.getIcon("/icons/slim.svg", ValkyrieIconProvider::class.java)
         val Neural = IconLoader.getIcon("/icons/showCacheable.svg", ValkyrieIconProvider::class.java)
+        val Widget = AllIcons.FileTypes.Html
         val Field = AllIcons.Nodes.Field
         val Method = AllIcons.Nodes.Method
         val Unite = IconLoader.getIcon("/icons/codeAssistantUnion.svg", ValkyrieIconProvider::class.java)
