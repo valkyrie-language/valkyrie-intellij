@@ -213,15 +213,15 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
 //        result.add(ValkyrieMarkAny(o))
     }
 
-    override fun visitDeclareMacro(o: ValkyrieMacroDeclareNode) {
+    override fun visitDeclareMacro(o: ValkyrieMacroDeclarationNode) {
 //        result.add(ValkyrieMarkAny(o))
     }
 
-    override fun visitNewObject(o: ValkyrieNewObject) {
+    override fun visitNewObject(o: ValkyrieClassAnonymousNode) {
 
     }
 
-    override fun visitNewLambda(o: ValkyrieNewLambda) {
+    override fun visitNewLambda(o: ValkyrieMicroAnonymousNode) {
 
     }
 
