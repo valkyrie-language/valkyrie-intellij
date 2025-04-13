@@ -12,16 +12,9 @@ import valkyrie.ide.highlight.HighlightColor
 import valkyrie.psi.ValkyrieDeclaration
 import javax.swing.Icon
 
-class ValkyrieNeuralDeclarationNode(node: ASTNode) : ValkyrieDeclaration(node) {
-    val keyword = findChildByClass(ValkyrieKeywordNode::class.java)!!
-    val identifier = findChildByClass(ValkyrieIdentifierNode::class.java)
-    val superClasses = findChildByClass(ValkyrieInheritListNode::class.java)?.items ?: arrayOf()
-
-    override val color: HighlightColor?
-        get() = HighlightColor.SYM_CLASS
-
+class ValkyrieNeuralDeclarationNode(node: ASTNode) : ValkyrieClassDeclarationNode(node) {
     override fun getBaseIcon(): Icon {
-        return AllIcons.Nodes.Class
+        return AllIcons.Nodes.NewParameter
     }
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {

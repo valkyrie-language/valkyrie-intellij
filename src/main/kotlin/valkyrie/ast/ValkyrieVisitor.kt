@@ -188,7 +188,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitDeclareComponent(o: ValkyrieWidgetDeclarationNode) {
+    open fun visitDeclareWidget(o: ValkyrieWidgetDeclarationNode) {
         visitElement(o)
     }
 

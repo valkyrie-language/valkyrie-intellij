@@ -13,7 +13,7 @@ import valkyrie.ide.highlight.HighlightColor
 import valkyrie.psi.ValkyrieDeclaration
 import javax.swing.Icon
 
-class ValkyrieClassDeclarationNode(node: ASTNode) : ValkyrieDeclaration(node) {
+open class ValkyrieClassDeclarationNode(node: ASTNode) : ValkyrieDeclaration(node) {
     val keyword = findChildByClass(ValkyrieKeywordNode::class.java)!!
     val identifier = findChildByClass(ValkyrieIdentifierNode::class.java)
     val superClasses = findChildByClass(ValkyrieInheritListNode::class.java)?.items ?: arrayOf()
