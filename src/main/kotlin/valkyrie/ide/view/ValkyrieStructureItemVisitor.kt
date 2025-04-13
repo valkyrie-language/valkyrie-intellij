@@ -20,16 +20,16 @@ class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
         }
     }
 
-    override fun visitDeclareNamespace(o: ValkyrieNamespaceDeclarationNode) {
+    override fun visitDeclareNamespace(o: ValkyrieNamespaceNode) {
 //        o.annotations.pushChildrenTo(this)
     }
 
-    override fun visitDeclareFlags(o: ValkyrieDeclareFlags) {
+    override fun visitDeclareFlags(o: ValkyrieFlagsNode) {
 //        o.annotations.pushChildrenTo(this)
 //        o.flagsBody?.pushChildrenTo(this)
     }
 
-    override fun visitDeclareEnums(o: ValkyrieDeclareEnumerateNode) {
+    override fun visitDeclareEnums(o: ValkyrieEnumsNode) {
 //        o.annotations.pushChildrenTo(this)
 //        o.flagsBody?.pushChildrenTo(this)
     }
@@ -39,18 +39,12 @@ class ValkyrieStructureItemVisitor : ValkyrieVisitor() {
 //        o.classBody?.pushChildrenTo(this)
 //    }
 
-
-    override fun visitDeclareUnion(o: ValkyrieDeclareUnion) {
+    override fun visitDeclareTrait(o: ValkyrieTraitNode) {
 //        o.annotations.pushChildrenTo(this)
 //        o.classBody?.pushChildrenTo(this)
     }
 
-    override fun visitDeclareTrait(o: ValkyrieTraitDeclarationNode) {
-//        o.annotations.pushChildrenTo(this)
-//        o.classBody?.pushChildrenTo(this)
-    }
-
-    override fun visitDeclareUnite(o: ValkyrieDeclareUnite) {
+    override fun visitDeclareUnite(o: ValkyrieUniteNode) {
 //        o.annotations.pushChildrenTo(this)
 //        o.uniteBody?.pushChildrenTo(this)
     }

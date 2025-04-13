@@ -4,7 +4,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
-import valkyrie.ast.node.ValkyrieClassDeclarationNode
+import valkyrie.ast.node.ValkyrieClassNode
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.psi.node.*
 
@@ -50,7 +50,7 @@ class ValkyrieFactory(project: Project) {
     }
 
 
-    fun createClass(text: String): ValkyrieClassDeclarationNode? {
+    fun createClass(text: String): ValkyrieClassNode? {
         val root = createStatement(text)
         return null
     }

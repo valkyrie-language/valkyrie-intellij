@@ -10,7 +10,7 @@ import valkyrie.cst.KW_SINGLETON
 import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
-class ValkyrieSingletonDeclarationNode(node: ASTNode) : ValkyrieClassDeclarationNode(node) {
+class ValkyrieSingletonNode(node: ASTNode) : ValkyrieClassNode(node) {
     override fun getBaseIcon(): Icon {
         return ValkyrieIconProvider.Instance.Singleton
     }

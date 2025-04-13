@@ -13,7 +13,7 @@ import valkyrie.ide.highlight.HighlightColor
 import valkyrie.psi.ValkyrieDeclaration
 import javax.swing.Icon
 
-open class ValkyrieClassDeclarationNode(node: ASTNode) : ValkyrieDeclaration(node) {
+open class ValkyrieClassNode(node: ASTNode) : ValkyrieDeclaration(node) {
     val keyword = findChildByClass(ValkyrieKeywordNode::class.java)!!
     val identifier = findChildByClass(ValkyrieIdentifierNode::class.java)
     val superClasses = findChildByClass(ValkyrieInheritListNode::class.java)?.items ?: arrayOf()
@@ -68,7 +68,7 @@ fun parseClass(builder: PsiBuilder, cst: ParseKeywords, ast: ValkyrieAST, anonym
     // 解析继承列表
     ValkyrieInheritListNode.parse(builder)
     // 解析类体
-    if (!ValkyrieObjectNode.parse(builder)) {
+    if (!ValkyrieObjectBodyNode.parse(builder)) {
         marker.drop()
         return false
     }

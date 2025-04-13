@@ -5,9 +5,9 @@ import com.intellij.execution.lineMarker.RunLineMarkerContributor
 import com.intellij.execution.lineMarker.RunLineMarkerProvider
 import com.intellij.openapi.actionSystem.AnAction
 import valkyrie.ast.ValkyrieVisitor
-import valkyrie.ast.node.ValkyrieClassDeclarationNode
+import valkyrie.ast.node.ValkyrieClassNode
 import valkyrie.ast.node.ValkyrieKeywordNode
-import valkyrie.ast.node.ValkyrieNamespaceDeclarationNode
+import valkyrie.ast.node.ValkyrieNamespaceNode
 import valkyrie.psi.node.ValkyrieDeclareImply
 
 class ValkyrieRunMarkerVisitor : ValkyrieVisitor {
@@ -19,11 +19,11 @@ class ValkyrieRunMarkerVisitor : ValkyrieVisitor {
         this.result = result
     }
 
-    override fun visitDeclareNamespace(o: ValkyrieNamespaceDeclarationNode) {
+    override fun visitDeclareNamespace(o: ValkyrieNamespaceNode) {
         RunNamespaceGroup(o).registerRunner(o.keyword)
     }
 
-    override fun visitDeclareClass(o: ValkyrieClassDeclarationNode) {
+    override fun visitDeclareClass(o: ValkyrieClassNode) {
         RunClass(listOf("element"), true).registerRunner(o.keyword)
     }
 

@@ -9,7 +9,7 @@ import com.intellij.usages.PsiElementUsageTarget
 import com.intellij.usages.UsageTarget
 import com.intellij.usages.UsageTargetProvider
 import valkyrie.ast.ValkyrieVisitor
-import valkyrie.ast.node.ValkyrieClassDeclarationNode
+import valkyrie.ast.node.ValkyrieClassNode
 import valkyrie.ast.node.ValkyrieObjectMethodNode
 import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
 
@@ -54,7 +54,7 @@ private class ValkyrieUsageTargetVisitor : ValkyrieVisitor() {
         }
     }
 
-    override fun visitDeclareClass(o: ValkyrieClassDeclarationNode) {
+    override fun visitDeclareClass(o: ValkyrieClassNode) {
         for (item in o.containingFile.definitions) {
             targets.add(object : PsiElementUsageTarget {
                 override fun getName(): String? {

@@ -20,18 +20,18 @@ class ValkyrieStatementNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 ValkyrieTermExpressionNode,
                 SkipSeparator(SEMICOLON),
                 //
-                ValkyrieMicroDeclarationNode,
-                ValkyrieMacroDeclarationNode,
-                ValkyrieMezzoDeclarationNode,
+                ValkyrieMicroNode,
+                ValkyrieMacroNode,
+                ValkyrieMezzoNode,
                 //
-                ValkyrieClassDeclarationNode,
-                ValkyrieTraitDeclarationNode,
+                ValkyrieClassNode,
+                ValkyrieTraitNode,
                 //
-                ValkyrieNamespaceDeclarationNode,
+                ValkyrieNamespaceNode,
                 //
-                ValkyrieSingletonDeclarationNode,
-                ValkyrieWidgetDeclarationNode,
-                ValkyrieNeuralDeclarationNode,
+                ValkyrieSingletonNode,
+                ValkyrieWidgetNode,
+                ValkyrieNeuralNode,
             )
         }
     }
