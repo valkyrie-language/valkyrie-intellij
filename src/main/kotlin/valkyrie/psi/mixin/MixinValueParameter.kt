@@ -5,13 +5,12 @@ import com.intellij.lang.ASTNode
 import valkyrie.ast.node.ValkyrieIdentifierNode
 import valkyrie.psi.ValkyrieDeclaration
 
-import valkyrie.psi.node.ValkyrieParameterItem
 import javax.swing.Icon
 
-abstract class MixinValueParameter(node: ASTNode) : ValkyrieDeclaration(node), ValkyrieParameterItem {
+abstract class MixinValueParameter(node: ASTNode) : ValkyrieDeclaration(node) {
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        return this.identifierFree as? ValkyrieIdentifierNode
+        return this.identifyingElement as? ValkyrieIdentifierNode
     }
 
     override fun getBaseIcon(): Icon {

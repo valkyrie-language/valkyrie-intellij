@@ -19,6 +19,13 @@ val DeclareWidget = ValkyrieAST("DEFINE_WIDGET")
 val DeclareSingleton = ValkyrieAST("DEFINE_SINGLETON")
 val DeclareEnumerate = ValkyrieAST("DEFINE_ENUM")
 val DeclareTrait = ValkyrieAST("DEFINE_TRAIT")
+
+//
+val DefineMicro = ValkyrieAST("DEFINE_MICRO")
+val DefineMezzo = ValkyrieAST("DEFINE_MEZZO")
+val DefineMacro = ValkyrieAST("DEFINE_MACRO")
+
+//
 val AnonymousClass = ValkyrieAST("ANONYMOUS_OBJECT")
 
 //

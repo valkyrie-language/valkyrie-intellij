@@ -6,6 +6,9 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.psi.util.endOffset
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieDeclareEnumerateNode
+import valkyrie.ast.node.ValkyrieFunctionDeclareNode
+import valkyrie.ast.node.ValkyrieMacroDeclareNode
+import valkyrie.ast.node.ValkyrieMicroDeclareNode
 import valkyrie.ast.node.ValkyrieObjectFieldNode
 
 import valkyrie.psi.node.*
@@ -39,12 +42,12 @@ class TypeHintVisitor : ValkyrieVisitor {
         }
     }
 
-    override fun visitDeclareFunction(o: ValkyrieDeclareFunction) {
+    override fun visitDeclareFunction(o: ValkyrieFunctionDeclareNode) {
         if (setting.show_define_parameter_type) {
-            val parameter = o.parameterBody?.parameterItemList ?: listOf()
+            val parameter = o.parameters
             for (parameterItem in parameter) {
                 if (parameterItem.typeHint == null) {
-                    parameterItem.identifierFree.endOffset.let { hint(it, ": Any") }
+                    parameterItem.identifier?.endOffset?.let { hint(it, ": Any") }
                 }
             }
         }
@@ -55,18 +58,17 @@ class TypeHintVisitor : ValkyrieVisitor {
             return
         }
         if (setting.show_define_effect_type) {
-//            if (o.effectType == null) {
-//                o.parameterBody?.endOffset?.let { hint(it, "/ Pure") }
-//            }
+            if (o.effectType == null) {
+                o.parameterBody?.endOffset?.let { hint(it, "/ Pure") }
+            }
         }
     }
 
-    override fun visitDeclareMacro(o: ValkyrieDeclareMacro) {
+    override fun visitDeclareMacro(o: ValkyrieMacroDeclareNode) {
         if (setting.show_define_parameter_type) {
-            val parameter = o.parameterBody?.parameterItemList ?: listOf()
-            for (parameterItem in parameter) {
+            for (parameterItem in o.parameters) {
                 if (parameterItem.typeHint == null) {
-                    parameterItem.identifierFree.endOffset.let { hint(it, ": AnyNode") }
+                    parameterItem.identifier?.endOffset?.let { hint(it, ": AnyNode") }
                 }
             }
         }

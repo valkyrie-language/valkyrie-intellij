@@ -12,6 +12,8 @@ import valkyrie.cst.PARENTHESIS_L
 import valkyrie.cst.PARENTHESIS_R
 
 class ValkyrieParameterListNode(node: ASTNode) : ASTWrapperPsiElement(node) {
+    val items = findChildrenByClass(ValkyrieParameterItemNode::class.java)
+
     override fun toString(): String {
         return "ParameterList"
     }

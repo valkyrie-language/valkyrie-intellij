@@ -56,7 +56,7 @@ fun parseEnumerate(builder: PsiBuilder, anonymous: Boolean): Boolean {
         }
     }
     // 检查是否有 class 关键字
-    if (ValkyrieKeyword(KW_TRAIT).parse(builder)) {
+    if (ParseKeywords(KW_TRAIT).parse(builder)) {
         builder.advanceIgnore()
     } else {
         marker.drop()
