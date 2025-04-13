@@ -6,7 +6,7 @@ import valkyrie.ast.Keyword
 import valkyrie.ast.ParserMonad
 import valkyrie.cst.ValkyrieCST
 
-class ValkyrieKeyword(vararg val tokens: ValkyrieCST) : ParserMonad {
+class ParseKeywords(vararg val tokens: ValkyrieCST) : ParserMonad {
     override fun parse(builder: PsiBuilder): Boolean {
         val marker = builder.mark()
         val set = TokenSet.create(*tokens)

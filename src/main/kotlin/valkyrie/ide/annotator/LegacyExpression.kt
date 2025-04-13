@@ -4,7 +4,7 @@ import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.psi.PsiElement
 import valkyrie.ast.node.ValkyrieClassDeclarationNode
-import valkyrie.psi.node.ValkyrieDeclareFunctionNode
+import valkyrie.ast.node.ValkyrieFunctionDeclareNode
 
 class LegacyExpression : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
@@ -32,7 +32,7 @@ class LegacyExpression : Annotator {
                 modernClass(element, holder)
             }
 
-            is ValkyrieDeclareFunctionNode -> {
+            is ValkyrieFunctionDeclareNode -> {
                 modernFunction(element, holder)
             }
         }
@@ -43,7 +43,7 @@ class LegacyExpression : Annotator {
 
     }
 
-    private fun modernFunction(element: ValkyrieDeclareFunctionNode, holder: AnnotationHolder) {
+    private fun modernFunction(element: ValkyrieFunctionDeclareNode, holder: AnnotationHolder) {
 
     }
 

@@ -46,7 +46,7 @@ class ValkyrieNamespaceDeclarationNode(node: ASTNode) : ValkyrieDeclaration(node
         override fun parse(builder: PsiBuilder): Boolean {
             val marker = builder.mark()
             ValkyrieAnnotationAreaNode.parse(builder)
-            if (ValkyrieKeyword(KW_NAMESPACE).parse(builder)) {
+            if (ParseKeywords(KW_NAMESPACE).parse(builder)) {
 
             } else {
                 marker.rollbackTo()

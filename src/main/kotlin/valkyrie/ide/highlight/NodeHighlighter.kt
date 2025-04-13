@@ -107,12 +107,12 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         o.namepathSafe?.highlight(this)
     }
 
-    override fun visitDeclareFunction(o: ValkyrieDeclareFunction) {
-        highlight(o.identifierSafe, HighlightColor.SYM_FUNCTION_FREE)
+    override fun visitDeclareFunction(o: ValkyrieFunctionDeclareNode) {
+        highlight(o.identifier, HighlightColor.SYM_FUNCTION_FREE)
     }
 
-    override fun visitDeclareMacro(o: ValkyrieDeclareMacro) {
-        highlight(o.identifierSafe, HighlightColor.SYM_MACRO)
+    override fun visitDeclareMacro(o: ValkyrieMacroDeclareNode) {
+        highlight(o.identifier, HighlightColor.SYM_MACRO)
     }
 
     override fun visitDeclareTests(o: ValkyrieDeclareTests) {
@@ -137,8 +137,8 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
 
-    override fun visitParameterItem(o: ValkyrieParameterItem) {
-        highlight(o.identifierFree, HighlightColor.SYM_ARG)
+    override fun visitParameterItem(o: ValkyrieParameterItemNode) {
+        highlight(o.identifier, HighlightColor.SYM_ARG)
     }
 
     override fun visitParameterList(o: ValkyrieParameterList) {

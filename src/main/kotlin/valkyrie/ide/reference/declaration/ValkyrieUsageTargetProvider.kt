@@ -12,8 +12,6 @@ import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import valkyrie.ast.node.ValkyrieObjectMethodNode
 import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
-import valkyrie.psi.node.ValkyrieDeclareMethod
-import valkyrie.psi.node.ValkyrieDeclareMethodNode
 
 class ValkyrieUsageTargetProvider : UsageTargetProvider {
     override fun getTargets(psiElement: PsiElement): Array<UsageTarget> {

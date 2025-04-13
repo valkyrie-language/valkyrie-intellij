@@ -8,7 +8,6 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieObjectMethodNode
-import valkyrie.psi.node.ValkyrieDeclareMethod
 
 
 class VisionUsage : ValkyrieCodeVision() {
