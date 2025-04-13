@@ -8,8 +8,6 @@ import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import valkyrie.ast.node.ValkyrieNamePathNode
 import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
-import valkyrie.psi.node.ValkyrieNamepathSafe
-import valkyrie.psi.node.ValkyrieNamepathSafeNode
 
 class SearchDefinitions : QueryExecutorBase<PsiElement, SearchParameters>(true) {
     override fun processQuery(queryParameters: SearchParameters, consumer: Processor<in PsiElement>) {

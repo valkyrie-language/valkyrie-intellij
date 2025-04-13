@@ -11,7 +11,6 @@ import valkyrie.ast.node.ValkyrieTraitDeclarationNode
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
 import valkyrie.psi.ValkyrieDeclaration
-import valkyrie.psi.node.*
 
 /** Ctrl + Shift + B */
 class ValkyrieDeclarationProvider : TypeDeclarationProvider {

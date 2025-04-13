@@ -8,11 +8,7 @@ import com.intellij.psi.TokenType.WHITE_SPACE
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import valkyrie.ast.node.ValkyrieProgramNode
-import valkyrie.cst.COMMENT_BLOCK
-import valkyrie.cst.COMMENT_LINE
-import valkyrie.cst.COMMENT_LINE_HEAD
-import valkyrie.cst.COMMENT_LINE_TEXT
-import valkyrie.cst.ValkyrieCST
+import valkyrie.cst.*
 
 
 class ValkyrieParser : PsiParser, LightPsiParser {

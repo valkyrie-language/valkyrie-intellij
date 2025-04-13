@@ -6,10 +6,10 @@ import com.intellij.psi.PsiElementVisitor
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.TypeUnary
 import valkyrie.ast.ValkyrieVisitor
-import valkyrie.cst.QUESTION
-import valkyrie.cst.OP_NOT
 import valkyrie.cst.OP_ADD
+import valkyrie.cst.OP_NOT
 import valkyrie.cst.OP_SUB
+import valkyrie.cst.QUESTION
 
 class ValkyrieTypeUnaryNode(node: ASTNode) : ValkyrieTypeExpressionNode(node) {
     val operator = findChildByClass(ValkyrieOperatorNode::class.java)
@@ -39,6 +39,7 @@ class ValkyrieTypeUnaryNode(node: ASTNode) : ValkyrieTypeExpressionNode(node) {
                     marker.error("Expected type after unary operator")
                     return false
                 }
+
                 else -> {
                     marker.drop()
                     return parseTypeExpression(builder)

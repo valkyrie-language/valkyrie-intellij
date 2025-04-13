@@ -20,9 +20,9 @@ open class ValkyrieFunctionDeclareNode(node: ASTNode) : ValkyrieDeclaration(node
     val parameters = parameterBody?.items ?: arrayOf()
     val returnType = findChildByClass(ValkyrieTypeExpressionNode::class.java)
     val effectType = findChildByClass(ValkyrieTypeExpressionNode::class.java)
-    
+
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
-        TODO("Not yet implemented")
+        return identifier
     }
 
     override fun accept(visitor: PsiElementVisitor) {
@@ -41,21 +41,26 @@ fun parseFunction(builder: PsiBuilder, cst: ParseKeywords, ast: ValkyrieAST, ano
     }
     // 检查是否有 class 关键字
     if (!cst.parse(builder)) {
-        marker.drop()
+        marker.rollbackTo()
         return false
     }
     // 解析类名
     if (!ValkyrieIdentifierNode.parse(builder)) {
-        builder.error("Expected class name")
-        marker.drop()
-        return false
+        builder.error("Expected ValkyrieIdentifierNode name")
+        marker.done(ast)
+        return true
     }
     // 解析继承列表
-    ValkyrieInheritListNode.parse(builder)
+    if (!ValkyrieParameterListNode.parse(builder)) {
+        builder.error("Expected ValkyrieParameterListNode body")
+        marker.done(ast)
+        return true
+    }
     // 解析类体
     if (!ValkyrieFunctionBodyNode.parse(builder)) {
-        marker.drop()
-        return false
+        builder.error("Expected ValkyrieFunctionBodyNode body")
+        marker.done(ast)
+        return true
     }
     marker.done(ast)
     return true

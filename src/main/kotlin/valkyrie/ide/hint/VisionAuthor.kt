@@ -6,7 +6,10 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import valkyrie.ast.node.ValkyrieClassDeclarationNode
 import valkyrie.ast.node.ValkyrieDeclareEnumerateNode
-import valkyrie.psi.node.*
+import valkyrie.psi.node.ValkyrieDeclareFlags
+import valkyrie.psi.node.ValkyrieDeclareTrait
+import valkyrie.psi.node.ValkyrieDeclareUnion
+import valkyrie.psi.node.ValkyrieDeclareUnite
 import java.awt.event.MouseEvent
 
 
