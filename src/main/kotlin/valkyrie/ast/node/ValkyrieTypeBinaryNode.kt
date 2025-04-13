@@ -6,11 +6,7 @@ import com.intellij.psi.PsiElementVisitor
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.TypeBinary
 import valkyrie.ast.ValkyrieVisitor
-import valkyrie.cst.OP_AND
-import valkyrie.cst.OP_ARROW
-import valkyrie.cst.OP_OR
-import valkyrie.cst.OP_ADD
-import valkyrie.cst.OP_SUB
+import valkyrie.cst.*
 
 class ValkyrieTypeBinaryNode(node: ASTNode) : ValkyrieTypeExpressionNode(node) {
     val left = findChildByClass(ValkyrieTypeExpressionNode::class.java)
@@ -36,7 +32,7 @@ class ValkyrieTypeBinaryNode(node: ASTNode) : ValkyrieTypeExpressionNode(node) {
 }
 
 // 解析 | 和 & 运算符，最低优先级
- fun parseUnionIntersection(builder: PsiBuilder): Boolean {
+fun parseUnionIntersection(builder: PsiBuilder): Boolean {
     var marker = builder.mark()
     if (!parseAddSub(builder)) {
         marker.drop()
