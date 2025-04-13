@@ -328,7 +328,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitElseStatement(o: ValkyrieElseStatement) {
+    open fun visitElseStatement(o: ValkyrieElseNode) {
         visitElement(o)
     }
 
@@ -468,7 +468,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitLoopEach(o: ValkyrieLoopEach) {
+    open fun visitLoopEach(o: ValkyrieLoopEachNode) {
         visitElement(o)
     }
 
@@ -476,7 +476,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitLoopMatch(o: ValkyrieLoopMatch) {
+    open fun visitLoopMatch(o: ValkyrieLoopMatchNode) {
         visitElement(o)
     }
 
@@ -484,7 +484,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitLoopStatement(o: ValkyrieLoopStatement) {
+    open fun visitLoopStatement(o: ValkyrieLoopInfinityNode) {
         visitElement(o)
     }
 
@@ -496,19 +496,19 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitLoopUntil(o: ValkyrieLoopUntil) {
+    open fun visitLoopUntil(o: ValkyrieLoopUntilNode) {
         visitElement(o)
     }
 
-    open fun visitLoopUntilNot(o: ValkyrieLoopUntilNot) {
+    open fun visitLoopUntilNot(o: ValkyrieLoopUntilNotNode) {
         visitElement(o)
     }
 
-    open fun visitLoopWhile(o: ValkyrieLoopWhile) {
+    open fun visitLoopWhile(o: ValkyrieLoopWhileNode) {
         visitElement(o)
     }
 
-    open fun visitLoopWhileLet(o: ValkyrieLoopWhileLet) {
+    open fun visitLoopWhileLet(o: ValkyrieLoopWhileLetNode) {
         visitElement(o)
     }
 

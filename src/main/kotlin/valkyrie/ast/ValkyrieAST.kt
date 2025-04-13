@@ -53,6 +53,16 @@ val NumberUnit = ValkyrieAST("NUMBER_UNIT")
 val Keyword = ValkyrieAST("KEYWORD")
 
 //
+val LoopInfinity = ValkyrieAST("LOOP_INFINITY")
+val LoopEach = ValkyrieAST("LOOP_EACH")
+val LoopMatch = ValkyrieAST("LOOP_MATCH")
+val LoopWhileLet = ValkyrieAST("LOOP_WHILE_LET")
+val LoopWhile = ValkyrieAST("LOOP_WHILE")
+val LoopUntil = ValkyrieAST("LOOP_UNTIL")
+val LoopUntilNot = ValkyrieAST("LOOP_UNTIL_NOT")
+val LoopElse = ValkyrieAST("LOOP_ELSE")
+
+//
 val Operator = ValkyrieAST("OPERATOR")
 val TermBinary = ValkyrieAST("BINARY")
 val TermUnary = ValkyrieAST("UNARY")

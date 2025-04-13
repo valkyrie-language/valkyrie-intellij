@@ -9,9 +9,9 @@ import valkyrie.ast.node.ValkyrieEnumsNode
 import valkyrie.ast.node.ValkyrieFlagsNode
 
 import valkyrie.ast.node.ValkyrieFunctionDeclareNode
+import valkyrie.ast.node.ValkyrieLoopInfinityNode
 import valkyrie.ast.node.ValkyrieMacroNode
 import valkyrie.ast.node.ValkyrieObjectFieldNode
-import valkyrie.psi.node.ValkyrieLoopStatement
 
 
 class TypeHintVisitor : ValkyrieVisitor {
@@ -36,7 +36,7 @@ class TypeHintVisitor : ValkyrieVisitor {
     }
 
 
-    override fun visitLoopStatement(o: ValkyrieLoopStatement) {
+    override fun visitLoopStatement(o: ValkyrieLoopInfinityNode) {
         if (setting.show_loop_each_types) {
 //                inline(element.identifier.textRange.endOffset, "Unknown")
         }
