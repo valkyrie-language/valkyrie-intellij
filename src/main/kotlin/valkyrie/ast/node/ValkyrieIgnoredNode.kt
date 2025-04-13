@@ -7,7 +7,7 @@ import valkyrie.ast.advanceIgnore
 class ValkyrieIgnoredNode {
     companion object : ParserMonad {
         override fun parse(builder: PsiBuilder): Boolean {
-            builder.advanceIgnore()
+            
             return true
         }
     }

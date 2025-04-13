@@ -10,7 +10,7 @@ class ValkyrieProgramNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     companion object {
         // 解析根节点，支持多个语句和EOF
         fun parse(builder: PsiBuilder): Boolean {
-            builder.advanceIgnore()
+            
             return builder.advanceRepeat(ValkyrieStatementNode.Companion)
         }
     }

@@ -27,10 +27,10 @@ class ValkyrieObjectDomainNode(node: ASTNode) : ASTWrapperPsiElement(node) {
         override fun parse(builder: PsiBuilder): Boolean {
             val marker = builder.mark()
             ValkyrieAnnotationAreaNode.parse(builder)
-            builder.advanceIgnore()
+            
             // 解析字段名
             if (ValkyrieIdentifierNode.parse(builder)) {
-                builder.advanceIgnore()
+                
             } else {
                 marker.drop()
                 return false

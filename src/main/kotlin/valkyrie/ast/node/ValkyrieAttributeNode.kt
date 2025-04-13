@@ -30,21 +30,21 @@ class ValkyrieAttributeNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             // 匹配 ↯
             if (builder.tokenType === OP_MACRO_UPPER) {
                 builder.advanceLexer()
-                builder.advanceIgnore()
+                
             } else {
                 marker.drop()
                 return false
             }
             // 解析名称路径
             if (ValkyrieNamePathNode.parse(builder)) {
-                builder.advanceIgnore()
+                
             } else {
                 builder.error("Expected identifier")
                 marker.done(Annotation)
                 return true
             }
             ValkyrieParameterListNode.parse(builder)
-            builder.advanceIgnore()
+            
             ValkyrieObjectBodyNode.parse(builder)
             marker.done(Annotation)
             return true

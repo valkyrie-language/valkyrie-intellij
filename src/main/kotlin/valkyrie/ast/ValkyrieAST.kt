@@ -84,6 +84,12 @@ val DefineSemantic = ValkyrieAST("SEMANTIC")
 val ParameterList = ValkyrieAST("PARAMETER_LIST")
 val ParameterItem = ValkyrieAST("PARAMETER_ITEM")
 
+
+val MatchExpression = ValkyrieAST("MATCH")
+
+
+val LetStatement = ValkyrieAST("LET")
+
 val AnnotationArea = ValkyrieAST("ANNOTATION_AREA")
 val Annotation = ValkyrieAST("ANNOTATION")
 val Modifier = ValkyrieAST("MODIFIER")

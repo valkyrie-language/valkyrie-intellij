@@ -21,7 +21,7 @@ class ValkyrieFunctionBodyNode(node: ASTNode) : ValkyrieElement(node) {
             // 检查左括号
             if (builder.tokenType == BRACE_L) {
                 builder.advanceLexer()
-                builder.advanceIgnore()
+                
             } else {
                 marker.drop()
                 return false
@@ -35,9 +35,9 @@ class ValkyrieFunctionBodyNode(node: ASTNode) : ValkyrieElement(node) {
                 )
 //                val success = ValkyrieFieldNode.parse(builder)
                 if (success) {
-                    builder.advanceIgnore()
+                    
                     inner.drop()
-//                    builder.advanceIgnore()
+//                    
                 } else {
                     inner.drop()
                     // 跳过无法解析的token

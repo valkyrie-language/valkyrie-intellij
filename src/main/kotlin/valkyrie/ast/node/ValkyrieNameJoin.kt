@@ -19,10 +19,10 @@ class ValkyrieNameJoin {
 
 fun parseNameJoin(builder: PsiBuilder, tokens: TokenSet): Boolean {
     val marker = builder.mark()
-    builder.advanceIgnore()
+    
     if (builder.tokenType in tokens) {
         builder.advanceLexer()
-        builder.advanceIgnore()
+        
     } else {
         marker.rollbackTo();
         return false

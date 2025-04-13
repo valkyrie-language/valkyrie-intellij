@@ -11,9 +11,9 @@ class ValkyrieOperatorNode(node: ASTNode) : ASTWrapperPsiElement(node) {
     companion object : ParserMonad {
         override fun parse(builder: PsiBuilder): Boolean {
             val mark = builder.mark()
-            builder.advanceIgnore()
+            
             builder.advanceLexer()
-            builder.advanceIgnore()
+            
             mark.done(Operator)
             return true
         }

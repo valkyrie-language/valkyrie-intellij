@@ -51,7 +51,7 @@ open class PostfixTemplateSlotSelector : PostfixTemplate {
                     expressions[ancestor.textRange] = ancestor
                 }
 
-                is ValkyrieLoopStatementNode,
+                is ValkyrieLoopInfinityNode,
                 is ValkyrieIfStatementNode,
                     -> {
                     return mutableListOf(ancestor)

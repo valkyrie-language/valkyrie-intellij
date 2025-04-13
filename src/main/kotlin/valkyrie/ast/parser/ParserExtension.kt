@@ -124,20 +124,20 @@ fun parseFunction(builder: PsiBuilder, anonymous: Boolean, type: IElementType): 
         anonymous -> {}
         else -> {
             ValkyrieAnnotationAreaNode.parse(builder)
-            builder.advanceIgnore()
+            
         }
     }
     // 检查是否有 class 关键字
     if (ParseKeywords(KW_CLASS).parse(builder)) {
 
-        builder.advanceIgnore()
+        
     } else {
         marker.drop()
         return false
     }
     // 解析类名
     if (ValkyrieIdentifierNode.parse(builder)) {
-        builder.advanceIgnore()
+        
     } else {
         builder.error("Expected class name")
         marker.drop()
@@ -145,7 +145,7 @@ fun parseFunction(builder: PsiBuilder, anonymous: Boolean, type: IElementType): 
     }
     // 解析继承列表
     ValkyrieInheritListNode.parse(builder)
-    builder.advanceIgnore()
+    
     // 解析类体
     if (!ValkyrieObjectBodyNode.parse(builder)) {
         marker.drop()

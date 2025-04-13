@@ -456,7 +456,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitLetStatement(o: ValkyrieLetStatement) {
+    open fun visitLetStatement(o: ValkyrieLetNode) {
         visitElement(o)
     }
 
@@ -544,7 +544,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitMatchStatement(o: ValkyrieMatchStatement) {
+    open fun visitMatchStatement(o: ValkyrieMatchNode) {
         visitElement(o)
     }
 

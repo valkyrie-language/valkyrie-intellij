@@ -22,7 +22,7 @@ class ValkyrieTupleNode(node: ASTNode) : ASTWrapperPsiElement(node) {
 
             val marker = builder.mark()
             builder.advanceLexer() // 消费左括号
-            builder.advanceIgnore()
+            
 
             // 空元组 ()
             if (builder.tokenType === PARENTHESIS_R) {
@@ -37,12 +37,12 @@ class ValkyrieTupleNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 return false
             }
 
-            builder.advanceIgnore()
+            
 
             // 单元素元组 (item,)
             if (builder.tokenType === COMMA) {
                 builder.advanceLexer() // 消费逗号
-                builder.advanceIgnore()
+                
             }
 
             // 多元素元组 (item1, item2, ...)
@@ -53,13 +53,13 @@ class ValkyrieTupleNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                     return false
                 }
                 builder.advanceLexer() // 消费逗号
-                builder.advanceIgnore()
+                
 
                 if (!ValkyrieArrayItemNode.parse(builder)) {
                     marker.drop()
                     return false
                 }
-                builder.advanceIgnore()
+                
             }
 
             if (builder.tokenType !== PARENTHESIS_R) {

@@ -18,14 +18,14 @@ class ValkyrieArrayItemNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             if (hasKey) {
                 // 解析可选的注解列表
                 ValkyrieAnnotationAreaNode.parse(builder)
-                builder.advanceIgnore()
+                
 
                 // 解析可选的修饰符列表
                 ValkyrieModifierListNode.parse(builder)
-                builder.advanceIgnore()
+                
                 // 消费标识符
                 builder.advanceLexer()
-                builder.advanceIgnore()
+                
 
                 // 检查并消费冒号
                 if (builder.tokenType !== COLON) {
@@ -34,7 +34,7 @@ class ValkyrieArrayItemNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                     return false
                 }
                 builder.advanceLexer()
-                builder.advanceIgnore()
+                
             }
 
             // 解析表达式值
