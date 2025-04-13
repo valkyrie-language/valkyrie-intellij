@@ -14,6 +14,7 @@ import com.intellij.psi.util.elementType
 import com.intellij.psi.util.firstLeaf
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.*
+import valkyrie.cst.KW_WITH
 import valkyrie.ide.line_marker.markers.*
 import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
 import valkyrie.language.file.ValkyrieIconProvider
@@ -27,7 +28,6 @@ import valkyrie.language.file.ValkyrieIconProvider.Instance.Then
 import valkyrie.language.file.ValkyrieIconProvider.Instance.Trait
 import valkyrie.language.file.ValkyrieIconProvider.Instance.Unite
 import valkyrie.language.file.ValkyrieIconProvider.Instance.Variant
-import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.childrenWithLeaves
 import valkyrie.psi.node.*
 import valkyrie.psi.node.ValkyrieModifierNode
@@ -264,7 +264,7 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
 
     fun markYieldWith(o: PsiElement) {
         for (child in o.childrenWithLeaves) {
-            if (child.elementType == ValkyrieTypes.KW_WITH) {
+            if (child.elementType == KW_WITH) {
                 mark(o.firstChild, "yield with", Then)
                 return
             }

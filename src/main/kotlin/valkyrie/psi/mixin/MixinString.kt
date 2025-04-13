@@ -5,16 +5,18 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.LiteralTextEscaper
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiLanguageInjectionHost
+import valkyrie.cst.STRING_L
+import valkyrie.cst.STRING_R
+import valkyrie.cst.STRING_TEXT
 import valkyrie.psi.ValkyrieElement
-import valkyrie.psi.ValkyrieTypes
 import valkyrie.psi.node.ValkyrieString
 import valkyrie.psi.node.ValkyrieStringNode
 
 
 abstract class MixinString : ValkyrieElement, PsiLanguageInjectionHost, ValkyrieString {
-    var stringHead: PsiElement = this.findChildByType(ValkyrieTypes.STRING_L)!!
-    var stringBody: PsiElement? = this.findChildByType(ValkyrieTypes.STRING_TEXT)
-    var stringTail: PsiElement = this.findChildByType(ValkyrieTypes.STRING_R)!!
+    var stringHead: PsiElement = this.findChildByType(STRING_L)!!
+    var stringBody: PsiElement? = this.findChildByType(STRING_TEXT)
+    var stringTail: PsiElement = this.findChildByType(STRING_R)!!
 
     constructor(node: ASTNode) : super(node)
 
@@ -31,9 +33,9 @@ abstract class MixinString : ValkyrieElement, PsiLanguageInjectionHost, Valkyrie
     }
 
     override fun subtreeChanged() {
-        stringHead = this.findChildByType(ValkyrieTypes.STRING_L)!!
-        stringBody = this.findChildByType(ValkyrieTypes.STRING_TEXT)
-        stringTail = this.findChildByType(ValkyrieTypes.STRING_R)!!
+        stringHead = this.findChildByType(STRING_L)!!
+        stringBody = this.findChildByType(STRING_TEXT)
+        stringTail = this.findChildByType(STRING_R)!!
     }
 }
 

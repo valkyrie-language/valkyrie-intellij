@@ -180,12 +180,6 @@ val KW_TRAIT = ValkyrieCST("TRAIT")
 
 @JvmField
 val KW_UNION = ValkyrieCST("UNION")
-
-
-@JvmField
-val KW_UNITE = ValkyrieCST("UNITE")
-
-
 @JvmField
 val KW_NEURAL = ValkyrieCST("NEURAL")
 

@@ -5,8 +5,7 @@ import com.intellij.lang.PairedBraceMatcher
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
-import valkyrie.psi.ValkyrieTypes.*
-
+import valkyrie.cst.*
 
 class ValkyrieBraceMatch : PairedBraceMatcher {
     override fun getPairs(): Array<BracePair> {

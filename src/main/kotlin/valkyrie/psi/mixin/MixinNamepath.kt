@@ -6,11 +6,11 @@ import com.intellij.psi.PsiQualifiedNamedElement
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.firstLeaf
 import valkyrie.ast.node.ValkyrieIdentifierNode
+import valkyrie.cst.NAME_SCOPE
 import valkyrie.ide.highlight.HighlightColor
 import valkyrie.ide.highlight.NodeHighlighter
 import valkyrie.ide.reference.declaration.ValkyrieNamepathReference
 import valkyrie.psi.ValkyrieElement
-import valkyrie.psi.ValkyrieTypes
 
 abstract class MixinNamepath : ValkyrieElement, PsiQualifiedNamedElement {
     constructor(node: ASTNode) : super(node)
@@ -51,7 +51,7 @@ abstract class MixinNamepath : ValkyrieElement, PsiQualifiedNamedElement {
 
     fun highlight(highlighter: NodeHighlighter) {
         highlightFake(highlighter, this)
-        if (this.firstLeaf().elementType == ValkyrieTypes.NAME_SCOPE) {
+        if (this.firstLeaf().elementType == NAME_SCOPE) {
             highlighter.highlight(this.firstChild, HighlightColor.KEYWORD)
         }
         for (reference in this.references) {

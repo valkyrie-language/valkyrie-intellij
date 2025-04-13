@@ -16,7 +16,6 @@ class ParserExtension : GeneratedParserUtilBase() {
 
             KW_CLASS, KW_COMPONENT, KW_SINGLETON, KW_NEURAL,
             KW_UNION,
-            KW_UNITE,
             KW_TRAIT, KW_FROM,
 
             KW_INFER, KW_WHERE,
