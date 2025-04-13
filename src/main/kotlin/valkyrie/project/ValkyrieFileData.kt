@@ -1,7 +1,7 @@
 package valkyrie.project
 
+import valkyrie.ast.node.ValkyrieNamespaceDeclarationNode
 import valkyrie.language.file.ValkyrieFileNode
-import valkyrie.psi.node.ValkyrieDeclareNamespace
 import java.io.DataInput
 import java.io.DataOutput
 
@@ -14,7 +14,7 @@ class ValkyrieFileData {
     constructor(file: ValkyrieFileNode) {
         path = file.virtualFile.path
         for (child in file.children) {
-            if (child is ValkyrieDeclareNamespace) {
+            if (child is ValkyrieNamespaceDeclarationNode) {
                 if (namespace.isEmpty()) {
                     // error, dup namespace
                 } else {

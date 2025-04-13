@@ -4,6 +4,7 @@ import com.intellij.formatting.Indent
 import com.intellij.lang.ASTNode
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieObjectNode
+import valkyrie.ast.node.ValkyrieUniteBodyNode
 import valkyrie.psi.node.*
 
 
@@ -22,7 +23,7 @@ class ValkyrieIndentVisitor(val child: ASTNode) : ValkyrieVisitor() {
         byCorner(o.node)
     }
 
-    override fun visitUniteBody(o: ValkyrieUniteBody) {
+    override fun visitUniteBody(o: ValkyrieUniteBodyNode) {
         byCorner(o.node)
     }
 

@@ -7,20 +7,20 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.parents
+import valkyrie.ast.node.ValkyrieNamespaceDeclarationNode
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieFileNode
-import valkyrie.psi.node.ValkyrieDeclareNamespaceNode
 
 class ValkyrieCheckNamespace : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         when (element) {
             is ValkyrieFileNode -> annotateFile(element, holder)
-            is ValkyrieDeclareNamespaceNode -> annotateNamespace(element, holder)
+            is ValkyrieNamespaceDeclarationNode -> annotateNamespace(element, holder)
         }
     }
 
     private fun annotateFile(element: ValkyrieFileNode, holder: AnnotationHolder) {
-        val child = PsiTreeUtil.getChildrenOfTypeAsList(element, ValkyrieDeclareNamespaceNode::class.java)
+        val child = PsiTreeUtil.getChildrenOfTypeAsList(element, ValkyrieNamespaceDeclarationNode::class.java)
         if (child.isEmpty()) {
 //            val fixer = CreateNamespace(element)
 //            holder.newAnnotation(HighlightSeverity.WEAK_WARNING, fixer.getDescription())
@@ -39,7 +39,7 @@ class ValkyrieCheckNamespace : Annotator {
         }
     }
 
-    private fun annotateNamespace(element: ValkyrieDeclareNamespaceNode, holder: AnnotationHolder) {
+    private fun annotateNamespace(element: ValkyrieNamespaceDeclarationNode, holder: AnnotationHolder) {
         for (parent in element.parents(false)) {
             if (parent is ValkyrieFileNode) {
                 break
