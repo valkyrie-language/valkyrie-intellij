@@ -48,7 +48,7 @@ class ValkyrieParserDefinition : ParserDefinition {
             DeclareNamespace -> ValkyrieNamespaceNode(node)
             DeclareEnums -> ValkyrieEnumsNode(node)
             DeclareFlags -> ValkyrieFlagsNode(node)
-            DeclareUnite -> ValkyrieUniteNode(node)
+            DeclareUnion -> ValkyrieUnionNode(node)
             //
             DeclareClass -> ValkyrieClassNode(node)
             DeclareSingleton -> ValkyrieSingletonNode(node)

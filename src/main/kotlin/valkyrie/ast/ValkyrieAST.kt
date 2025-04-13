@@ -17,7 +17,6 @@ val DeclareNamespace = ValkyrieAST("DEFINE_NAMESPACE")
 //
 val DeclareEnums = ValkyrieAST("DEFINE_ENUMERATE")
 val DeclareFlags = ValkyrieAST("DEFINE_FLAGS")
-val DeclareUnite = ValkyrieAST("DEFINE_UNITE")
 val DeclareUnion = ValkyrieAST("DEFINE_UNION")
 
 //
@@ -43,6 +42,7 @@ val InheritItem = ValkyrieAST("INHERIT_ITEM")
 val ImplementList = ValkyrieAST("IMPLEMENT_LIST")
 val ImplementItem = ValkyrieAST("IMPLEMENT_ITEM")
 val ObjectBody = ValkyrieAST("OBJECT_BODY")
+val MixtureBody = ValkyrieAST("MIXTURE_BODY")
 
 //
 val NamePath = ValkyrieAST("NAME_PATH")
