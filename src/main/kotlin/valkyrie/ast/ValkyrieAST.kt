@@ -67,6 +67,10 @@ val VALUE = ValkyrieAST("VALUE")
 val DefineDomain = ValkyrieAST("DOMAIN")
 val DefineField = ValkyrieAST("FIELD")
 val DefineMethod = ValkyrieAST("METHOD")
+val DefineVariant = ValkyrieAST("VARIANT")
+val DefineSemantic = ValkyrieAST("SEMANTIC")
+
+//
 val ParameterList = ValkyrieAST("PARAMETER_LIST")
 val ParameterItem = ValkyrieAST("PARAMETER_ITEM")
 
