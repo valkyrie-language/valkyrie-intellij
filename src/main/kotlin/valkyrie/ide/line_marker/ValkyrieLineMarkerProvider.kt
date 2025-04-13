@@ -164,7 +164,7 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
 //        }
     }
 
-    override fun visitTraitAlias(o: ValkyrieTraitAlias) {
+    override fun visitTraitAlias(o: ValkyrieTraitAliasNode) {
         if (!config.trait_declaration.isEnabled) return
         result.add(TraitMarker(o as ValkyrieTraitAliasNode))
     }

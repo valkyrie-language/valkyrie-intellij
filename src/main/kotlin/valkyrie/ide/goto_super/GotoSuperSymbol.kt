@@ -9,11 +9,9 @@ import com.intellij.psi.PsiFile
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieClassNode
 import valkyrie.ast.node.ValkyrieObjectMethodNode
+import valkyrie.ast.node.ValkyrieTraitAliasNode
 import valkyrie.ast.node.ValkyrieTraitNode
 import valkyrie.psi.ValkyrieDeclaration
-import valkyrie.psi.node.ValkyrieDeclareTraitNode
-import valkyrie.psi.node.ValkyrieTraitAlias
-import valkyrie.psi.node.ValkyrieTraitAliasNode
 
 class GotoSuperSymbol : GotoTargetHandler() {
     override fun getFeatureUsedKey() = "valkyrie.goto.super"
@@ -37,7 +35,7 @@ class GotoSuperSymbol : GotoTargetHandler() {
                 sb.append("super classes")
             }
 
-            is ValkyrieDeclareTraitNode -> {
+            is ValkyrieTraitNode -> {
                 sb.append("trait bounds")
             }
 
@@ -87,7 +85,7 @@ private class GotoSuperVisitor : ValkyrieVisitor() {
 //        target = GotoData(o, arrayOf(o.typeHint), listOf())
     }
 
-    override fun visitTraitAlias(o: ValkyrieTraitAlias) {
+    override fun visitTraitAlias(o: ValkyrieTraitAliasNode) {
         target = GotoData(o, arrayOf(o.typeExpression, o.typeExpression), listOf())
     }
 
