@@ -8,11 +8,12 @@ import valkyrie.ast.DeclareSingleton
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.cst.KW_SINGLETON
+import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
 class ValkyrieSingletonDeclarationNode(node: ASTNode) : ValkyrieClassDeclarationNode(node) {
     override fun getBaseIcon(): Icon {
-        return AllIcons.Nodes.Static
+        return ValkyrieIconProvider.Instance.Singleton
     }
 
     override fun accept(visitor: PsiElementVisitor) {
