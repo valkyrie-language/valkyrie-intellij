@@ -8,10 +8,21 @@ import valkyrie.ast.ParserMonad
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.cst.KW_NAMESPACE
 import valkyrie.cst.SEMICOLON
-import valkyrie.psi.ValkyrieElement
+import valkyrie.language.file.ValkyrieIconProvider
+import valkyrie.psi.ValkyrieDeclaration
+import javax.swing.Icon
 
-class ValkyrieNamespaceDeclarationNode(node: ASTNode) : ValkyrieElement(node) {
+class ValkyrieNamespaceDeclarationNode(node: ASTNode) : ValkyrieDeclaration(node) {
     val keyword = findChildByClass(ValkyrieKeywordNode::class.java)!!
+    val namepath = findChildByClass(ValkyrieNamePathNode::class.java)
+
+    override fun getNameIdentifier(): ValkyrieIdentifierNode? {
+        return this.namepath?.identifier
+    }
+
+    override fun getBaseIcon(): Icon {
+        return ValkyrieIconProvider.Instance.Namespace
+    }
 
     override fun accept(visitor: PsiElementVisitor) {
         when (visitor) {

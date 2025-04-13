@@ -7,7 +7,6 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import valkyrie.ast.node.ValkyrieNamespaceDeclarationNode
 import valkyrie.language.ValkyrieBundle
-import valkyrie.psi.node.ValkyrieDeclareNamespace
 
 class RunNamespaceGroup : ActionGroup {
     constructor(element: ValkyrieNamespaceDeclarationNode) : super() {
