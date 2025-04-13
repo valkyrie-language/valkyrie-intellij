@@ -21,13 +21,14 @@ val DeclareEnumerate = ValkyrieAST("DEFINE_ENUM")
 val DeclareTrait = ValkyrieAST("DEFINE_TRAIT")
 
 //
-val DefineMicro = ValkyrieAST("DEFINE_MICRO")
-val DefineMezzo = ValkyrieAST("DEFINE_MEZZO")
-val DefineMacro = ValkyrieAST("DEFINE_MACRO")
-
+val DeclareMezzo = ValkyrieAST("DEFINE_MEZZO")
+val DeclareMacro = ValkyrieAST("DEFINE_MACRO")
+//
+val DeclareMicro = ValkyrieAST("DEFINE_FUNCTION")
+val FunctionBody = ValkyrieAST("FUNCTION_BODY")
 //
 val AnonymousClass = ValkyrieAST("ANONYMOUS_OBJECT")
-
+val AnonymousMicro = ValkyrieAST("ANONYMOUS_LAMBDA")
 //
 val InheritList = ValkyrieAST("INHERIT_LIST")
 val InheritItem = ValkyrieAST("INHERIT_ITEM")
@@ -69,7 +70,3 @@ val MacroCall = ValkyrieAST("MACRO")
 val TUPLE = ValkyrieAST("TUPLE")
 val ArrayItem = ValkyrieAST("ARRAY_ITEM")
 
-//
-val AnonymousMicro = ValkyrieAST("DEFINE_LAMBDA")
-val DeclareMicro = ValkyrieAST("DEFINE_FUNCTION")
-val FunctionBody = ValkyrieAST("FUNCTION_BODY")

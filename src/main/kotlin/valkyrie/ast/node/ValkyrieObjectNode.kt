@@ -22,7 +22,7 @@ class ValkyrieObjectNode(node: ASTNode) : ValkyrieElement(node) {
 
     override fun accept(visitor: PsiElementVisitor) {
         when (visitor) {
-            is ValkyrieVisitor -> visitor.visitClassBody(this)
+            is ValkyrieVisitor -> visitor.visitObjectBody(this)
             else -> visitor.visitElement(this)
         }
     }

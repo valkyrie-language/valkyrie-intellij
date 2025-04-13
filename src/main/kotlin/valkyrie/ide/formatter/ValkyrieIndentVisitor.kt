@@ -19,7 +19,7 @@ class ValkyrieIndentVisitor(val child: ASTNode) : ValkyrieVisitor() {
         notFirst(o.node)
     }
 
-    override fun visitClassBody(o: ValkyrieObjectNode) {
+    override fun visitObjectBody(o: ValkyrieObjectNode) {
         byCorner(o.node)
     }
 
