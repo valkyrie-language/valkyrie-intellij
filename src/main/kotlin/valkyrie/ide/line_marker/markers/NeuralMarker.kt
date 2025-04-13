@@ -4,14 +4,14 @@ import com.intellij.codeInsight.daemon.MergeableLineMarkerInfo
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER
 import com.intellij.psi.PsiElement
+import valkyrie.ast.node.ValkyrieNeuralDeclarationNode
 import valkyrie.language.file.ValkyrieIconProvider.Instance.Neural
-import valkyrie.psi.node.ValkyrieDeclareNeuralNode
 import javax.swing.Icon
 
 class NeuralMarker : RelatedItemLineMarkerInfo<PsiElement> {
-    constructor(element: ValkyrieDeclareNeuralNode) : super(
-        element.navigationElement,
-        element.textRange,
+    constructor(element: ValkyrieNeuralDeclarationNode) : super(
+        element.keyword.firstChild,
+        element.keyword.textRange,
         Neural,
         null,
         null,

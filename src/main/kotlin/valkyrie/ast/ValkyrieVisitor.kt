@@ -240,7 +240,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitDeclareNeural(o: ValkyrieDeclareNeural) {
+    open fun visitDeclareNeural(o: ValkyrieNeuralDeclarationNode) {
         visitElement(o)
     }
 
@@ -248,7 +248,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitDeclareSingleton(o: ValkyrieDeclareSingleton) {
+    open fun visitDeclareSingleton(o: ValkyrieSingletonDeclarationNode) {
         visitElement(o)
     }
 
