@@ -6,6 +6,7 @@ import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.psi.util.parents
 import valkyrie.ast.node.ValkyrieClassNode
+import valkyrie.ast.node.ValkyrieTraitNode
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.node.*
@@ -32,7 +33,7 @@ class CompletionRegistrar : CompletionContributor() {
                             CompletionInClass(ctx, parameters, result).complete(node)
                         }
 
-                        is ValkyrieDeclareTraitNode -> {
+                        is ValkyrieTraitNode -> {
                             CompletionInTrait(ctx, parameters, result).complete(node)
                         }
                     }

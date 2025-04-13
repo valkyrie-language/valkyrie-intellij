@@ -279,6 +279,10 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
+    open fun visitTraitAlias(o: ValkyrieTraitAliasNode) {
+        visitElement(o)
+    }
+
     open fun visitDeclareType(o: ValkyrieDeclareType) {
         visitElement(o)
     }
@@ -753,13 +757,6 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitTraitAlias(o: ValkyrieTraitAlias) {
-        visitElement(o)
-    }
-
-    open fun visitTraitDefine(o: ValkyrieTraitDefine) {
-        visitElement(o)
-    }
 
     open fun visitTryLetStatement(o: ValkyrieTryLetStatement) {
         visitElement(o)

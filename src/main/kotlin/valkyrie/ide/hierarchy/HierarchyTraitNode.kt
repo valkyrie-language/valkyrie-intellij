@@ -2,12 +2,12 @@ package valkyrie.ide.hierarchy
 
 import com.intellij.ide.hierarchy.HierarchyNodeDescriptor
 import com.intellij.ide.util.treeView.NodeDescriptor
-import valkyrie.psi.node.ValkyrieDeclareTraitNode
+import valkyrie.ast.node.ValkyrieTraitNode
 
 class HierarchyTraitNode : HierarchyNodeDescriptor {
-    val node: ValkyrieDeclareTraitNode
+    val node: ValkyrieTraitNode
 
-    constructor(node: ValkyrieDeclareTraitNode) : super(node.project, null, node, false) {
+    constructor(node: ValkyrieTraitNode) : super(node.project, null, node, false) {
         this.node = node
     }
 
