@@ -30,7 +30,7 @@ class ValkyriePlaceholderVisitor : ValkyrieVisitor() {
             text.add(o.declareSemanticList.count(), "flag", "flags")
         }
         text.add(o.declareMethodList.count(), "method", "methods")
-        text.add(o.declareDomainList.count(), "domain", "domains")
+//        text.add(o.declareDomainList.count(), "domain", "domains")
         placeholder = text.finish()
     }
 
