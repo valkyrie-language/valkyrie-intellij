@@ -3,7 +3,7 @@ package valkyrie.ide.annotator
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.psi.PsiElement
-import valkyrie.ast.node.ValkyrieClassDeclarationNode
+import valkyrie.ast.node.ValkyrieClassNode
 import valkyrie.ast.node.ValkyrieFunctionDeclareNode
 
 class LegacyExpression : Annotator {
@@ -28,7 +28,7 @@ class LegacyExpression : Annotator {
 //
 //            }
 
-            is ValkyrieClassDeclarationNode -> {
+            is ValkyrieClassNode -> {
                 modernClass(element, holder)
             }
 
@@ -39,7 +39,7 @@ class LegacyExpression : Annotator {
     }
 
 
-    private fun modernClass(element: ValkyrieClassDeclarationNode, holder: AnnotationHolder) {
+    private fun modernClass(element: ValkyrieClassNode, holder: AnnotationHolder) {
 
     }
 

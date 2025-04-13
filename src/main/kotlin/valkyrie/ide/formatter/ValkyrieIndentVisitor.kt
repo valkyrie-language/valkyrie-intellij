@@ -3,8 +3,8 @@ package valkyrie.ide.formatter
 import com.intellij.formatting.Indent
 import com.intellij.lang.ASTNode
 import valkyrie.ast.ValkyrieVisitor
-import valkyrie.ast.node.ValkyrieObjectNode
-import valkyrie.ast.node.ValkyrieUniteBodyNode
+import valkyrie.ast.node.ValkyrieObjectBodyNode
+import valkyrie.ast.node.ValkyrieMixtureBodyNode
 import valkyrie.psi.node.*
 
 
@@ -19,11 +19,11 @@ class ValkyrieIndentVisitor(val child: ASTNode) : ValkyrieVisitor() {
         notFirst(o.node)
     }
 
-    override fun visitObjectBody(o: ValkyrieObjectNode) {
+    override fun visitObjectBody(o: ValkyrieObjectBodyNode) {
         byCorner(o.node)
     }
 
-    override fun visitUniteBody(o: ValkyrieUniteBodyNode) {
+    override fun visitMixtureBody(o: ValkyrieMixtureBodyNode) {
         byCorner(o.node)
     }
 

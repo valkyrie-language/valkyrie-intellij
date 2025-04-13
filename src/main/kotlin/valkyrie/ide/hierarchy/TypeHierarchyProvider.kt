@@ -6,7 +6,7 @@ import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.parents
-import valkyrie.ast.node.ValkyrieClassDeclarationNode
+import valkyrie.ast.node.ValkyrieClassNode
 import valkyrie.psi.node.ValkyrieDeclareTraitNode
 import java.text.MessageFormat
 import java.util.*
@@ -64,7 +64,7 @@ private class TypeHierarchyBrowser : TypeHierarchyBrowserBase {
     override fun createHierarchyTreeStructure(type: String, pointer: PsiElement): HierarchyTreeStructure? {
         for (node in pointer.parents(true)) {
             when (node) {
-                is ValkyrieClassDeclarationNode -> {
+                is ValkyrieClassNode -> {
                     return TypeHierarchyTree(HierarchyClassNode(node))
                 }
 
@@ -79,7 +79,7 @@ private class TypeHierarchyBrowser : TypeHierarchyBrowserBase {
     override fun getContentDisplayName(typeName: String, element: PsiElement): String {
         for (node in element.parents(true)) {
             when (node) {
-                is ValkyrieClassDeclarationNode -> {
+                is ValkyrieClassNode -> {
                     return MessageFormat.format(typeName, node.name)
                 }
 

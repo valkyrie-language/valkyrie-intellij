@@ -13,18 +13,23 @@ val Unknown = ValkyrieAST("UNKNOWN")
 val Program = ValkyrieAST("PROGRAM")
 val Statement = ValkyrieAST("STATEMENT")
 val DeclareNamespace = ValkyrieAST("DEFINE_NAMESPACE")
+
+//
+val DeclareEnums = ValkyrieAST("DEFINE_ENUMERATE")
+val DeclareFlags = ValkyrieAST("DEFINE_FLAGS")
+val DeclareUnite = ValkyrieAST("DEFINE_UNITE")
+val DeclareUnion = ValkyrieAST("DEFINE_UNION")
+
+//
 val DeclareClass = ValkyrieAST("DEFINE_CLASS")
 val DeclareNeural = ValkyrieAST("DEFINE_NEURAL")
 val DeclareWidget = ValkyrieAST("DEFINE_WIDGET")
 val DeclareSingleton = ValkyrieAST("DEFINE_SINGLETON")
-val DeclareEnumerate = ValkyrieAST("DEFINE_ENUM")
 val DeclareTrait = ValkyrieAST("DEFINE_TRAIT")
 
 //
 val DeclareMezzo = ValkyrieAST("DEFINE_MEZZO")
 val DeclareMacro = ValkyrieAST("DEFINE_MACRO")
-
-//
 val DeclareMicro = ValkyrieAST("DEFINE_FUNCTION")
 val FunctionBody = ValkyrieAST("FUNCTION_BODY")
 

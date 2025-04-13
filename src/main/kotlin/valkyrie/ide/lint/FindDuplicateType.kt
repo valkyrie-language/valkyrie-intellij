@@ -7,7 +7,7 @@ import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiFile
-import valkyrie.ast.node.ValkyrieSingletonDeclarationNode
+import valkyrie.ast.node.ValkyrieSingletonNode
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.ValkyrieLanguage
 
@@ -54,7 +54,7 @@ class FindDuplicateType : LocalInspectionTool() {
 }
 
 private class FindDuplicateTypeVisitor(tool: LocalInspectionTool, holder: ProblemsHolder) : ValkyrieLocalInspectionVisitor(tool, holder) {
-    override fun visitDeclareSingleton(o: ValkyrieSingletonDeclarationNode) {
+    override fun visitDeclareSingleton(o: ValkyrieSingletonNode) {
 //        o.registerProblem(
 //            ValkyrieBundle.message("${tool.id}.detail", o.identifierSafe?.text ?: ""),
 //            FindDuplicateTypeFixer(tool, AllIcons.Actions.DependencyAnalyzer, o, mutableListOf()),

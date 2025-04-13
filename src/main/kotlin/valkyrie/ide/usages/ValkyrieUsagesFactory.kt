@@ -4,7 +4,7 @@ import com.intellij.find.findUsages.FindUsagesHandler
 import com.intellij.find.findUsages.FindUsagesHandlerFactory
 import com.intellij.openapi.extensions.PluginDescriptor
 import com.intellij.psi.PsiElement
-import valkyrie.ast.node.ValkyrieNamespaceDeclarationNode
+import valkyrie.ast.node.ValkyrieNamespaceNode
 import valkyrie.language.file.ValkyrieFileNode
 import valkyrie.psi.ValkyrieDeclaration
 import valkyrie.psi.mixin.MixinNamepath
@@ -18,7 +18,7 @@ class ValkyrieUsagesFactory : FindUsagesHandlerFactory() {
             is ValkyrieFileNode -> true
             is ValkyrieModifier -> false
             is MixinNamepath -> false
-            is ValkyrieNamespaceDeclarationNode -> true
+            is ValkyrieNamespaceNode -> true
             is ValkyrieDeclaration -> true
             else -> {
 //                println("canFindUsages: $element")

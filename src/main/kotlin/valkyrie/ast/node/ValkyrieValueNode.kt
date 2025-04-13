@@ -12,7 +12,7 @@ class ValkyrieValueNode(node: ASTNode) : ASTWrapperPsiElement(node) {
         override fun parse(builder: PsiBuilder): Boolean {
             val marker = builder.mark()
             builder.advanceChoice(
-                ValkyrieObjectNode.Companion,
+                ValkyrieObjectBodyNode.Companion,
                 ValkyrieArrayNode.Companion,
             )
             marker.done(valkyrie.ast.VALUE)

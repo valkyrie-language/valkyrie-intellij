@@ -6,7 +6,7 @@ import com.intellij.openapi.actionSystem.Presentation
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFile
-import valkyrie.ast.node.ValkyrieClassDeclarationNode
+import valkyrie.ast.node.ValkyrieClassNode
 import valkyrie.psi.caretElement
 import valkyrie.psi.node.ValkyrieDeclareImplyNode
 import valkyrie.psi.node.ValkyrieDeclareTraitNode
@@ -14,7 +14,7 @@ import valkyrie.psi.node.ValkyrieDeclareTraitNode
 
 class GenerateImplements : PresentableLanguageCodeInsightActionHandler {
     override fun isValidFor(editor: Editor?, file: PsiFile?) = when (file.caretElement(editor)?.context) {
-        is ValkyrieClassDeclarationNode -> true
+        is ValkyrieClassNode -> true
         is ValkyrieDeclareTraitNode -> true
         is ValkyrieDeclareImplyNode -> true
         else -> false

@@ -3,16 +3,16 @@ package valkyrie.ast.node
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.PsiElementVisitor
-import valkyrie.ast.DeclareNeural
+import valkyrie.ast.DeclareWidget
 import valkyrie.ast.ParserMonad
 import valkyrie.ast.ValkyrieVisitor
-import valkyrie.cst.KW_NEURAL
+import valkyrie.cst.KW_COMPONENT
 import valkyrie.language.file.ValkyrieIconProvider
 import javax.swing.Icon
 
-class ValkyrieNeuralDeclarationNode(node: ASTNode) : ValkyrieClassDeclarationNode(node) {
+class ValkyrieWidgetNode(node: ASTNode) : ValkyrieClassNode(node) {
     override fun getBaseIcon(): Icon {
-        return ValkyrieIconProvider.Instance.Neural
+        return ValkyrieIconProvider.Instance.Widget
     }
 
     override fun getNameIdentifier(): ValkyrieIdentifierNode? {
@@ -21,20 +21,18 @@ class ValkyrieNeuralDeclarationNode(node: ASTNode) : ValkyrieClassDeclarationNod
 
     override fun accept(visitor: PsiElementVisitor) {
         when (visitor) {
-            is ValkyrieVisitor -> visitor.visitDeclareNeural(this)
+            is ValkyrieVisitor -> visitor.visitDeclareWidget(this)
             else -> visitor.visitElement(this)
         }
     }
 
     override fun toString(): String {
-        return "NeuralDeclaration"
+        return "WidgetDeclaration"
     }
 
     companion object : ParserMonad {
         override fun parse(builder: PsiBuilder): Boolean {
-            return parseClass(builder, ParseKeywords(KW_NEURAL), DeclareNeural, false)
+            return parseClass(builder, ParseKeywords(KW_COMPONENT), DeclareWidget, false)
         }
     }
 }
-
-

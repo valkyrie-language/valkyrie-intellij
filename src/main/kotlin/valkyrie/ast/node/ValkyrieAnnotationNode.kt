@@ -45,7 +45,7 @@ class ValkyrieAnnotationNode(node: ASTNode) : ASTWrapperPsiElement(node) {
             }
             ValkyrieParameterListNode.parse(builder)
             builder.advanceIgnore()
-            ValkyrieObjectNode.parse(builder)
+            ValkyrieObjectBodyNode.parse(builder)
             marker.done(Annotation)
             return true
         }

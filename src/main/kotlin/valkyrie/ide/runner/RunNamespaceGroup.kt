@@ -5,11 +5,11 @@ import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import valkyrie.ast.node.ValkyrieNamespaceDeclarationNode
+import valkyrie.ast.node.ValkyrieNamespaceNode
 import valkyrie.language.ValkyrieBundle
 
 class RunNamespaceGroup : ActionGroup {
-    constructor(element: ValkyrieNamespaceDeclarationNode) : super() {
+    constructor(element: ValkyrieNamespaceNode) : super() {
         templatePresentation.icon = AllIcons.RunConfigurations.TestState.Run_run
         templatePresentation.text = ValkyrieBundle.message("action.run.namespace.group.name")
         templatePresentation.description = ValkyrieBundle.message("action.run.namespace.group.help")

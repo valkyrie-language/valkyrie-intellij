@@ -4,10 +4,10 @@ import com.intellij.codeInsight.navigation.actions.TypeDeclarationProvider
 import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.psi.PsiElement
 import valkyrie.ast.ValkyrieVisitor
-import valkyrie.ast.node.ValkyrieClassDeclarationNode
+import valkyrie.ast.node.ValkyrieClassNode
 import valkyrie.ast.node.ValkyrieModifierNode
 import valkyrie.ast.node.ValkyrieNamePathNode
-import valkyrie.ast.node.ValkyrieTraitDeclarationNode
+import valkyrie.ast.node.ValkyrieTraitNode
 import valkyrie.language.ValkyrieBundle
 import valkyrie.language.file.ValkyrieFileNode.Companion.definitions
 import valkyrie.psi.ValkyrieDeclaration
@@ -29,12 +29,12 @@ class ValkyrieDeclarationProvider : TypeDeclarationProvider {
 private class ValkyrieDeclarationVisitor : ValkyrieVisitor() {
     var declarations: MutableList<PsiElement> = mutableListOf()
 
-    override fun visitDeclareClass(o: ValkyrieClassDeclarationNode) {
+    override fun visitDeclareClass(o: ValkyrieClassNode) {
         // jump to symbol start
         o.identifier?.let { declarations.add(o) }
     }
 
-    override fun visitDeclareTrait(o: ValkyrieTraitDeclarationNode) {
+    override fun visitDeclareTrait(o: ValkyrieTraitNode) {
         o.identifier?.let { declarations.add(o) }
     }
 

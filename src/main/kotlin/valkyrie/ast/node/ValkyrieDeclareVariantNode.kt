@@ -36,7 +36,7 @@ class ValkyrieDeclareVariantNode(node: ASTNode) : ASTWrapperPsiElement(node) {
                 return false
             }
             // 解析形式参数
-            if (ValkyrieObjectNode.parse(builder)) {
+            if (ValkyrieObjectBodyNode.parse(builder)) {
                 marker.done(DefineDomain)
                 return true
             } else {
