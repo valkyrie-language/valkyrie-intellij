@@ -4,7 +4,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.PsiElementVisitor
 import valkyrie.ast.Identifier
-import valkyrie.ast.ParserMonad
+import valkyrie.ast.parser.ParserMonad
 import valkyrie.ast.TypeAtomic
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.cst.PARENTHESIS_L
