@@ -4,7 +4,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.PsiElementVisitor
 import valkyrie.ast.DeclareUnion
-import valkyrie.ast.ParserMonad
+import valkyrie.ast.parser.ParserMonad
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.cst.KW_UNION
 

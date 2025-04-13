@@ -1,4 +1,4 @@
-package valkyrie.ast
+package valkyrie.ast.parser
 
 import com.intellij.lang.PsiBuilder
 

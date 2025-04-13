@@ -6,7 +6,7 @@ import com.intellij.lang.PsiBuilder
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.tree.TokenSet
 import valkyrie.ast.InheritList
-import valkyrie.ast.ParserMonad
+import valkyrie.ast.parser.ParserMonad
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.parsePaired
 import valkyrie.cst.COMMA

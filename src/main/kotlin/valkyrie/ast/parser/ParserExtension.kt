@@ -1,9 +1,14 @@
-package valkyrie.ast
+package valkyrie.ast.parser
 
 import com.intellij.lang.PsiBuilder
 import com.intellij.lang.parser.GeneratedParserUtilBase
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
+import valkyrie.ast.AnonymousClass
+import valkyrie.ast.DeclareClass
+import valkyrie.ast.ValkyrieAST
+import valkyrie.ast.advanceChoice
+import valkyrie.ast.advanceIgnore
 import valkyrie.ast.node.*
 import valkyrie.cst.*
 
@@ -162,3 +167,17 @@ fun parseFunction(builder: PsiBuilder, anonymous: Boolean, type: IElementType): 
     return true
 }
 
+fun parseDefaultValue(builder: PsiBuilder): Boolean {
+    val marker = builder.mark()
+    if (builder.tokenType != EQ) {
+        marker.drop()
+        return false
+    }
+    if (ValkyrieTermExpressionNode.parse(builder)) {
+        marker.drop()
+        return true
+    } else {
+        marker.rollbackTo()
+        return false
+    }
+}

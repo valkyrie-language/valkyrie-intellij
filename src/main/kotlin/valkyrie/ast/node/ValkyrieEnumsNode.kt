@@ -4,11 +4,9 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.PsiElementVisitor
 import valkyrie.ast.DeclareEnums
-import valkyrie.ast.DeclareMicro
-import valkyrie.ast.ParserMonad
+import valkyrie.ast.parser.ParserMonad
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.cst.KW_ENUMERATE
-import valkyrie.cst.KW_UNION
 
 class ValkyrieEnumsNode(node: ASTNode) : ValkyrieMixtureNode(node) {
     override fun accept(visitor: PsiElementVisitor) {

@@ -4,7 +4,7 @@ import com.intellij.formatting.SpacingBuilder
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import com.intellij.psi.tree.TokenSet
-import valkyrie.ast.ParserExtension
+import valkyrie.ast.parser.ParserExtension
 import valkyrie.cst.*
 import valkyrie.ide.matcher.ValkyrieBraceMatch
 import valkyrie.language.ValkyrieLanguage
