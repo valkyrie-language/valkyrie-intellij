@@ -3,7 +3,10 @@ package valkyrie.ast.node
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.PsiElementVisitor
-import valkyrie.ast.*
+import valkyrie.ast.DeclareUnion
+import valkyrie.ast.MixtureBody
+import valkyrie.ast.ValkyrieAST
+import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.parser.parseBraceItems
 import valkyrie.cst.COMMA
 import valkyrie.cst.SEMICOLON
@@ -44,23 +47,24 @@ fun parseMixture(builder: PsiBuilder, cst: ParseKeywords, ast: ValkyrieAST, anon
     }
     // 解析继承列表
     ValkyrieInheritListNode.parse(builder)
+    println("aaa: ${ast}")
     // 解析类体
     val success = when (ast) {
         DeclareUnion -> parseBraceItems(
             builder,
             MixtureBody,
             SkipSeparator(COMMA, SEMICOLON),
+            ValkyrieObjectMethodNode,
             ValkyrieVariantNode,
-            ValkyrieObjectMethodNode
         )
 
         else -> parseBraceItems(
             builder,
             MixtureBody,
             SkipSeparator(COMMA, SEMICOLON),
-            ValkyrieDeclareSemanticNode,
             ValkyrieObjectMethodNode,
             ValkyrieObjectDomainNode,
+            ValkyrieSemanticNode,
         )
     }
     if (!success) {

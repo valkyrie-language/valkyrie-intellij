@@ -29,6 +29,7 @@ class ValkyrieIconProvider : IconProvider() {
         val Method = AllIcons.Nodes.Method
         val Unite = IconLoader.getIcon("/icons/codeAssistantUnion.svg", ValkyrieIconProvider::class.java)
         val Variant = IconLoader.getIcon("/icons/fieldValue.svg", ValkyrieIconProvider::class.java)
+        val Semantic = AllIcons.Nodes.Constant
         val Flags = IconLoader.getIcon("/icons/codeAssistantField.svg", ValkyrieIconProvider::class.java)
         val Attribute = IconLoader.getIcon("/icons/codeAssistantMacro.svg", ValkyrieIconProvider::class.java)
         val Object = IconLoader.getIcon("/icons/objectScala.svg", ValkyrieIconProvider::class.java)

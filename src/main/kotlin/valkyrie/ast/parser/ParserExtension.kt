@@ -4,11 +4,7 @@ import com.intellij.lang.PsiBuilder
 import com.intellij.lang.parser.GeneratedParserUtilBase
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
-import valkyrie.ast.AnonymousClass
-import valkyrie.ast.DeclareClass
-import valkyrie.ast.ValkyrieAST
-import valkyrie.ast.advanceChoice
-import valkyrie.ast.advanceIgnore
+import valkyrie.ast.*
 import valkyrie.ast.node.*
 import valkyrie.cst.*
 
@@ -82,10 +78,7 @@ class ParserExtension : GeneratedParserUtilBase() {
             OP_CELSIUS, OP_FAHRENHEIT,
         )
         val Operators = TokenSet.orSet(
-            OperatorPrefix,
-            OperatorInfix,
-            OperatorSuffix,
-            TokenSet.create(BIND)
+            OperatorPrefix, OperatorInfix, OperatorSuffix, TokenSet.create(BIND)
         )
 
         val Comments: TokenSet = TokenSet.create()
@@ -168,11 +161,11 @@ fun parseFunction(builder: PsiBuilder, anonymous: Boolean, type: IElementType): 
 }
 
 fun parseDefaultValue(builder: PsiBuilder): Boolean {
-    val marker = builder.mark()
-    if (builder.tokenType != EQ) {
-        marker.drop()
+    if (builder.tokenType != BIND) {
         return false
     }
+    val marker = builder.mark()
+    builder.advanceLexer()
     if (ValkyrieTermExpressionNode.parse(builder)) {
         marker.drop()
         return true
