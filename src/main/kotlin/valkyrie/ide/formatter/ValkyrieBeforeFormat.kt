@@ -12,9 +12,11 @@ import com.intellij.psi.util.firstLeaf
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.node.ValkyrieAttributeNode
 import valkyrie.ast.node.ValkyrieObjectBodyNode
+import valkyrie.cst.COMMA
+import valkyrie.cst.NAME_SPLIT
+import valkyrie.cst.SEMICOLON
 import valkyrie.ide.codeStyle.ValkyrieCodeStyleSettings
 import valkyrie.language.psi.ValkyrieFactory
-import valkyrie.psi.ValkyrieTypes.*
 import valkyrie.psi.childrenWithLeaves
 import valkyrie.psi.node.*
 
@@ -52,7 +54,7 @@ private class BeforeFormatFixer : ValkyrieVisitor, PsiRecursiveVisitor {
         ProgressManager.checkCanceled()
         when (element.elementType) {
 //            BIND -> element.replaceToken(BIND, "←")
-            INFIX_MULTIPLE -> element.replace(factory.operatorMultiplication)
+//            INFIX_MULTIPLE -> element.replace(factory.operatorMultiplication)
 //            OP_MUL_ASSIGN -> element.replaceToken(OP_MUL_ASSIGN, "<×=")
 //            NAME_SCOPE -> element.replaceToken(NAME_SCOPE, "⁜")
             NAME_SPLIT -> element.replace(factory.nameSplit)

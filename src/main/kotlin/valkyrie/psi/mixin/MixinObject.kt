@@ -4,9 +4,9 @@ import com.intellij.ide.projectView.PresentationData
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
+import valkyrie.cst.KW_CLASS
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.ValkyrieElement
-import valkyrie.psi.ValkyrieTypes.KW_CLASS
 import valkyrie.psi.findKeyword
 import valkyrie.psi.node.ValkyrieNewObject
 import javax.swing.Icon

@@ -190,7 +190,7 @@ declare-enums ::= annotations KW_ENUMERATE identifier-safe class-inherit? (BIND 
     methods = [getKeyword]
 }
 // === union statement ===
-declare-unite ::= declare-infer? annotations KW_UNITE identifier-safe declare-infer? unite-body {
+declare-unite ::= declare-infer? annotations KW_UNION identifier-safe declare-infer? unite-body {
     pin = 3
     mixin = "valkyrie.psi.mixin.MixinUnite"
     methods = [getKeyword]
