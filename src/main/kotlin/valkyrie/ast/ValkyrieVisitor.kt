@@ -31,11 +31,11 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitDeclareUnite(o: ValkyrieUniteNode) {
+    open fun visitDeclareUnion(o: ValkyrieUnionNode) {
         visitElement(o)
     }
 
-    open fun visitDeclareVariant(o: ValkyrieDeclareVariantNode) {
+    open fun visitDeclareVariant(o: ValkyrieVariantNode) {
         visitElement(o)
     }
 
@@ -241,7 +241,7 @@ open class ValkyrieVisitor : PsiElementVisitor() {
         visitElement(o)
     }
 
-    open fun visitDeclareImply(o: ValkyrieDeclareImply) {
+    open fun visitDeclareImply(o: ValkyrieDeclareImplyNode) {
         visitElement(o)
     }
 

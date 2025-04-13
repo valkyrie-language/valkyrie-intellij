@@ -6,10 +6,10 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFile
 import valkyrie.ast.node.ValkyrieClassNode
+import valkyrie.ast.node.ValkyrieDeclareImplyNode
 import valkyrie.ast.node.ValkyrieTraitNode
 import valkyrie.language.file.ValkyrieIconProvider
 import valkyrie.psi.caretElement
-import valkyrie.psi.node.ValkyrieDeclareImplyNode
 import javax.swing.Icon
 
 class GenerateDelegates : LanguageCodeInsightActionHandler, ItemPresentation {

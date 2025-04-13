@@ -8,7 +8,7 @@ import valkyrie.ast.node.ValkyrieClassNode
 import valkyrie.ast.node.ValkyrieEnumsNode
 import valkyrie.ast.node.ValkyrieFlagsNode
 import valkyrie.ast.node.ValkyrieTraitNode
-import valkyrie.ast.node.ValkyrieUniteNode
+import valkyrie.ast.node.ValkyrieUnionNode
 
 import java.awt.event.MouseEvent
 
@@ -24,7 +24,7 @@ class VisionAuthor : VcsCodeVisionLanguageContext {
         return element is ValkyrieClassNode
             || element is ValkyrieEnumsNode
             || element is ValkyrieFlagsNode
-            || element is ValkyrieUniteNode
+            || element is ValkyrieUnionNode
             || element is ValkyrieTraitNode
     }
 

@@ -9,7 +9,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
 import valkyrie.ast.node.ValkyrieClassNode
 import valkyrie.ast.node.ValkyrieIdentifierNode
-import valkyrie.ast.node.ValkyrieUniteNode
+import valkyrie.ast.node.ValkyrieUnionNode
 import valkyrie.ide.line_marker.ValkyrieMarkColor
 import valkyrie.language.ValkyrieBundle
 import valkyrie.psi.ValkyrieTypes
@@ -75,7 +75,7 @@ private class LintLiteral(holder: AnnotationHolder) : ValkyrieAnnotator(holder) 
 //        checkCamelCase(id, holder)
     }
 
-    private fun checkValidUnionName(element: ValkyrieUniteNode, holder: AnnotationHolder) {
+    private fun checkValidUnionName(element: ValkyrieUnionNode, holder: AnnotationHolder) {
         checkNeedEscape(element.nameIdentifier, holder)
         checkCamelCase(element.nameIdentifier, holder)
     }

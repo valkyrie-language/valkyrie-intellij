@@ -92,6 +92,34 @@ class ParserExtension : GeneratedParserUtilBase() {
 }
 
 
+fun parseBraceItems(builder: PsiBuilder, ast: ValkyrieAST, vararg parsers: ParserMonad): Boolean {
+    // 检查左括号
+    if (builder.tokenType != BRACE_L) {
+        return false
+    }
+    val marker = builder.mark()
+    builder.advanceLexer()
+    // 解析大括号内的内容
+    while (!builder.eof() && builder.tokenType !== BRACE_R) {
+        if (!builder.advanceChoice(*parsers)) {
+            builder.error("Invalid token in `{...}`")
+            // 跳过无法解析的 token, 避免死循环
+            builder.advanceLexer()
+        }
+    }
+
+    // 检查右括号
+    if (builder.tokenType === BRACE_R) {
+        builder.advanceLexer()
+        marker.done(ast)
+        return true
+    } else {
+        builder.error("Expected '}'")
+        marker.done(ast)
+        return false
+    }
+}
+
 fun parseFunction(builder: PsiBuilder, anonymous: Boolean, type: IElementType): Boolean {
     val marker = builder.mark()
     // 解析注解, 匿名对象不能使用注解

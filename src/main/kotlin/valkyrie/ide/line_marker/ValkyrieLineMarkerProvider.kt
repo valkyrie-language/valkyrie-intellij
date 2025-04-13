@@ -169,7 +169,7 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
         result.add(TraitMarker(o as ValkyrieTraitAliasNode))
     }
 
-    override fun visitDeclareUnite(o: ValkyrieUniteNode) {
+    override fun visitDeclareUnion(o: ValkyrieUnionNode) {
         if (!config.unite_declaration.isEnabled) return
         result.add(MixtureMarker(o))
     }
@@ -199,7 +199,7 @@ private class ValkyrieMarkerVisitor : ValkyrieVisitor {
         if (!config.domain_declaration.isEnabled) return
     }
 
-    override fun visitDeclareVariant(o: ValkyrieDeclareVariantNode) {
+    override fun visitDeclareVariant(o: ValkyrieVariantNode) {
         if (!config.variant_declaration.isEnabled) return
         result.add(VariantMarker(o))
     }
