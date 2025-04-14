@@ -93,7 +93,9 @@ val LetStatement = ValkyrieAST("LET")
 val TermTuplePattern = ValkyrieAST("TermTuplePattern")
 val CasePattern = ValkyrieAST("CAST_PATTERN")
 
+val TemplateElse = ValkyrieAST("TEMPLATE_ELSE")
 
+val TemplateEnd = ValkyrieAST("TEMPLATE_END")
 
 val AnnotationArea = ValkyrieAST("ANNOTATION_AREA")
 val Annotation = ValkyrieAST("ANNOTATION")
