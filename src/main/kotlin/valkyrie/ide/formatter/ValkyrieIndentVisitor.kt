@@ -55,9 +55,6 @@ class ValkyrieIndentVisitor(val child: ASTNode) : ValkyrieVisitor() {
         byCorner(o.node)
     }
 
-    override fun visitTypePatternObject(o: ValkyrieTypePatternObject) {
-        byCorner(o.node)
-    }
 
     override fun visitNewBody(o: ValkyrieNewBody) {
         byCorner(o.node)

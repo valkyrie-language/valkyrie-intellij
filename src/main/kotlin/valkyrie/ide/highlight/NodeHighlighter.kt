@@ -162,41 +162,28 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         highlight(o.identifierSafe, HighlightColor.SYM_LOCAL)
     }
 
-    override fun visitMatchBind(o: ValkyrieMatchBind) {
-        highlight(o.identifierSafe, HighlightColor.SYM_LOCAL)
-    }
+//    override fun visitMatchBind(o: ValkyrieMatchBind) {
+//        highlight(o.identifierSafe, HighlightColor.SYM_LOCAL)
+//    }
+//
+//    override fun visitTypePatternPair(o: ValkyrieTypePatternPair) {
+//        highlight(o.identifierSafe, HighlightColor.SYM_LOCAL)
+//    }
 
-
-    override fun visitTermTuplePattern(o: ValkyrieTypePatternTuple) {
-        o.namepathSafe?.highlight(this)
-    }
-
-    override fun visitTypePatternObject(o: ValkyrieTypePatternObject) {
-        o.namepathSafe?.highlight(this)
-    }
-
-    override fun visitTypePatternPair(o: ValkyrieTypePatternPair) {
-        highlight(o.identifierSafe, HighlightColor.SYM_LOCAL)
-    }
-
-    override fun visitTypePatternItem(o: ValkyrieTypePatternItem) {
-        o.namepathSafe.highlight(this)
-    }
-
-    override fun visitCasePattern(o: ValkyrieCasePatternNode) {
-        val names = o.namepathSafe?.namepath ?: emptyList()
-        if (names.count() == 1) {
-            val head = names.firstOrNull() as? ValkyrieIdentifierNode
-            val c = head?.name?.firstOrNull()
-            if (c?.isLowerCase() == true) {
-                highlight(head, HighlightColor.SYM_LOCAL)
-            } else if (c?.isUpperCase() == true) {
-                highlight(head, HighlightColor.SYM_VARIANT)
-            }
-        } else {
-            o.namepathSafe?.highlight(this)
-        }
-    }
+//    override fun visitCasePattern(o: ValkyrieCasePatternNode) {
+//        val names = o.namepathSafe?.namepath ?: emptyList()
+//        if (names.count() == 1) {
+//            val head = names.firstOrNull() as? ValkyrieIdentifierNode
+//            val c = head?.name?.firstOrNull()
+//            if (c?.isLowerCase() == true) {
+//                highlight(head, HighlightColor.SYM_LOCAL)
+//            } else if (c?.isUpperCase() == true) {
+//                highlight(head, HighlightColor.SYM_VARIANT)
+//            }
+//        } else {
+//            o.namepathSafe?.highlight(this)
+//        }
+//    }
 
     override fun visitCasePatternDict(o: ValkyrieCasePatternDict) {
         o.namepathSafe?.highlight(this)
