@@ -5,11 +5,11 @@ import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.psi.PsiElement
 import valkyrie.ast.node.ValkyrieFunctionDeclareNode
+import valkyrie.ast.node.ValkyrieLetStatementNode
 import valkyrie.ide.actions.InferFunctionParameterType
 import valkyrie.ide.actions.InferFunctionReturnType
 import valkyrie.ide.actions.InferFunctionTypeAll
 import valkyrie.ide.actions.InferVariableType
-import valkyrie.psi.node.ValkyrieLetStatement
 
 class AnnotateInferType : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
@@ -64,7 +64,7 @@ private class LintInferType(holder: AnnotationHolder) : ValkyrieAnnotator(holder
         }
     }
 
-    override fun visitLetStatement(o: ValkyrieLetStatement) {
+    override fun visitLetStatement(o: ValkyrieLetStatementNode) {
         if (o.typeHint == null) {
             holder.newAnnotation(HighlightSeverity.INFORMATION, "Infer type")
                 .range(o.textRange)

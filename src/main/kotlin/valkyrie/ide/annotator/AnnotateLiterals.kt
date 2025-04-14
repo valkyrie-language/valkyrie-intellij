@@ -14,7 +14,6 @@ import valkyrie.cst.COLOR
 import valkyrie.ide.line_marker.ValkyrieMarkColor
 import valkyrie.language.ValkyrieBundle
 import valkyrie.psi.node.ValkyrieSpecial
-import valkyrie.psi.node.ValkyrieTypePattern
 
 /** Static, literal level lightweight analysis */
 class AnnotateLiterals : Annotator {
