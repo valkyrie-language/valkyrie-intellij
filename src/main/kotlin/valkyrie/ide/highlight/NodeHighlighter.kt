@@ -167,7 +167,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
     }
 
 
-    override fun visitTypePatternTuple(o: ValkyrieTypePatternTuple) {
+    override fun visitTermTuplePattern(o: ValkyrieTypePatternTuple) {
         o.namepathSafe?.highlight(this)
     }
 
@@ -183,7 +183,7 @@ class NodeHighlighter : ValkyrieVisitor(), HighlightVisitor {
         o.namepathSafe.highlight(this)
     }
 
-    override fun visitCasePattern(o: ValkyrieCasePattern) {
+    override fun visitCasePattern(o: ValkyrieCasePatternNode) {
         val names = o.namepathSafe?.namepath ?: emptyList()
         if (names.count() == 1) {
             val head = names.firstOrNull() as? ValkyrieIdentifierNode

@@ -8,8 +8,11 @@ import valkyrie.ast.LoopEach
 import valkyrie.ast.LoopInfinity
 import valkyrie.ast.ValkyrieVisitor
 import valkyrie.ast.parser.ParserMonad
+import valkyrie.cst.KW_EACH
+import valkyrie.cst.KW_IN
 import valkyrie.cst.KW_LOOP
 import valkyrie.cst.KW_MEZZO
+import valkyrie.cst.SYMBOL
 import valkyrie.psi.ValkyrieElement
 
 class ValkyrieLoopEachNode(node: ASTNode) : ValkyrieElement(node) {
