@@ -1,0 +1,28 @@
+// Valkyrie 语言测试文件
+// 测试变量定义和引用
+
+let a = b;
+let b = a;
+
+// 测试数字和字符串
+let x = 42;
+let name = "Valkyrie";
+
+// 测试表达式
+let result = x + 10;
+let greeting = "Hello, " + name;
+
+// 测试条件语句
+if (x > 0) {
+    let y = x * 2;
+} else {
+    let y = 0;
+}
+
+// 测试函数定义
+function add(a, b) {
+    return a + b;
+}
+
+// 测试函数调用
+let sum = add(x, 5);
