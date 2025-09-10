@@ -19,4 +19,5 @@
 			implementationClass="valkyrie.language.file.ValkyrieFileType"
 			fieldName="INSTANCE"
 		/>
+	</extensions>
 </idea-plugin>
