@@ -44,6 +44,11 @@
 			implementationClass="valkyrie.highlighting.ValkyrieAnnotator"
 		/>
 
+		<!-- Highlight Visitor -->
+		<highlightVisitor
+			implementation="valkyrie.highlighting.ValkyrieHighlightVisitor"
+		/>
+
 		<!-- Reference Contributor -->
 		<psi.referenceContributor
 			language="valkyrie"

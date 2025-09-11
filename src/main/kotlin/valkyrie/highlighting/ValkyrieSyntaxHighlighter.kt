@@ -47,6 +47,11 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             DefaultLanguageHighlighterColors.OPERATION_SIGN
         )
         
+        val METADATA = TextAttributesKey.createTextAttributesKey(
+            "VALKYRIE_METADATA",
+            DefaultLanguageHighlighterColors.METADATA
+        )
+        
         val PARENTHESES = TextAttributesKey.createTextAttributesKey(
             "VALKYRIE_PARENTHESES",
             DefaultLanguageHighlighterColors.PARENTHESES
@@ -110,7 +115,7 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             
             // 数字
             ValkyrieTokenTypes.INTEGER,
-            ValkyrieTokenTypes.FLOAT -> arrayOf(NUMBER)
+            ValkyrieTokenTypes.DECIMAL -> arrayOf(NUMBER)
             
             // 字符串和布尔值
             ValkyrieTokenTypes.STRING,
@@ -125,12 +130,12 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.IDENTIFIER -> arrayOf(IDENTIFIER)
             
             // 操作符
+            ValkyrieTokenTypes.ASSIGN,
             ValkyrieTokenTypes.PLUS,
             ValkyrieTokenTypes.MINUS,
             ValkyrieTokenTypes.MULTIPLY,
             ValkyrieTokenTypes.DIVIDE,
             ValkyrieTokenTypes.MODULO,
-            ValkyrieTokenTypes.ASSIGN,
             ValkyrieTokenTypes.EQUAL,
             ValkyrieTokenTypes.NOT_EQUAL,
             ValkyrieTokenTypes.LESS,
@@ -140,6 +145,11 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.AND,
             ValkyrieTokenTypes.OR,
             ValkyrieTokenTypes.NOT -> arrayOf(OPERATOR)
+            
+            // Attributes 和 Macro 调用
+            ValkyrieTokenTypes.AT,
+            ValkyrieTokenTypes.AT_DOT,
+            ValkyrieTokenTypes.ATTRIBUTE_UNICODE -> arrayOf(METADATA)
             
             // 括号
             ValkyrieTokenTypes.LPAREN,
