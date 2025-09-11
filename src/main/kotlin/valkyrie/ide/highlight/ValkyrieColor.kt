@@ -27,13 +27,14 @@ enum class ValkyrieColor(humanName: Supplier<@AttributeDescriptor String>, defau
     IDENTIFIER(OptionsBundle.messagePointer("options.language.defaults.identifier"), Default.IDENTIFIER),
     SYM_CLASS(ValkyrieBundle.messagePointer("color.token.type.class"), Default.CLASS_NAME),
     SYM_TRAIT(ValkyrieBundle.messagePointer("color.token.type.trait"), Default.INTERFACE_NAME),
-    SYM_TYPE(ValkyrieBundle.messagePointer("color.token.symbol.type"), Default.CLASS_NAME),
+    SYM_TYPE(ValkyrieBundle.messagePointer("color.token.type"), Default.CLASS_NAME),
     SYM_UNION(ValkyrieBundle.messagePointer("color.token.type.union"), Default.CLASS_REFERENCE),
-    SYM_VARIANT(ValkyrieBundle.messagePointer("color.token.symbol.variant"), Default.STATIC_FIELD),
+    SYM_VARIANT(ValkyrieBundle.messagePointer("color.token.type.variant"), Default.STATIC_FIELD),
 
     SYM_FIELD(ValkyrieBundle.messagePointer("color.token.symbol.field"), Default.INSTANCE_FIELD),
-    SYM_FIELD_SUPER(ValkyrieBundle.messagePointer("color.token.symbol.field"), Default.PREDEFINED_SYMBOL),
+    SYM_FIELD_SUPER(ValkyrieBundle.messagePointer("color.token.symbol.field.super"), Default.PREDEFINED_SYMBOL),
     SYM_LOCAL(ValkyrieBundle.messagePointer("color.token.symbol.local"), Default.LOCAL_VARIABLE),
+    SYM_LOCAL_MUT(ValkyrieBundle.messagePointer("color.token.symbol.local"), Default.REASSIGNED_LOCAL_VARIABLE),
     SYM_ARG(ValkyrieBundle.messagePointer("color.token.symbol.builtin"), Default.PARAMETER),
 
     //    SYM_ATTRIBUTE(WitBundle.messagePointer("color.token.symbol.attribute"), Default.STATIC_METHOD),
@@ -42,9 +43,9 @@ enum class ValkyrieColor(humanName: Supplier<@AttributeDescriptor String>, defau
     SYM_FUNCTION_SELF(ValkyrieBundle.messagePointer("color.token.symbol.function"), Default.INSTANCE_METHOD),
     SYM_METHOD_MUT(ValkyrieBundle.messagePointer("color.token.symbol.function"), Default.INSTANCE_METHOD),
 
-    SYM_GENERIC(ValkyrieBundle.messagePointer("color.token.type.generic"), Default.PREDEFINED_SYMBOL),
-    SYM_DOMAIN(ValkyrieBundle.messagePointer("color.token.symbol.builtin"), Default.PREDEFINED_SYMBOL),
-    SYM_MODIFIER(ValkyrieBundle.messagePointer("color.token.symbol.builtin"), Default.KEYWORD),
+    SYM_GENERIC(ValkyrieBundle.messagePointer("color.token.type.generic"), Default.METADATA),
+    SYM_DOMAIN(ValkyrieBundle.messagePointer("color.token.symbol.modifier"), Default.METADATA),
+    SYM_MODIFIER(ValkyrieBundle.messagePointer("color.token.symbol.domain"), Default.KEYWORD),
 
 
     // 标点符号

@@ -101,6 +101,9 @@
 			language="valkyrie"
 			implementationClass="valkyrie.ide.documentation.ValkyrieDocumentationProvider"
 		/>
+		
+		<!-- Breadcrumbs Navigation -->
+		<breadcrumbsInfoProvider implementation="valkyrie.ide.navigation.ValkyrieBreadcrumbsProvider"/>
 	</extensions>
 	
 	<!-- Actions -->
