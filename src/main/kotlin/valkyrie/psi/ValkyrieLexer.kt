@@ -2,7 +2,7 @@ package valkyrie.psi
 
 import com.intellij.lexer.LexerBase
 import com.intellij.psi.tree.IElementType
-import valkyrie.psi.ValkyrieTokenTypes.*
+import valkyrie.psi.ValkyrieTokenTypes
 
 /**
  * Valkyrie 手写词法分析器
@@ -17,23 +17,23 @@ class ValkyrieLexer : LexerBase() {
     
     // 关键字映射
     private val keywords = mapOf(
-        "let" to LET,
-        "mut" to MUT,
-        "ref" to REF,
-        "if" to IF,
-        "else" to ELSE,
-        "while" to WHILE,
-        "for" to FOR,
-        "function" to FUNCTION,
-        "class" to CLASS,
-        "trait" to TRAIT,
-        "return" to RETURN,
-        "break" to BREAK,
-        "continue" to CONTINUE,
-        "namespace" to NAMESPACE,
-        "using" to USING,
-        "true" to BOOLEAN,
-        "false" to BOOLEAN
+        "let" to ValkyrieTokenTypes.LET,
+        "mut" to ValkyrieTokenTypes.MUT,
+        "ref" to ValkyrieTokenTypes.REF,
+        "if" to ValkyrieTokenTypes.IF,
+        "else" to ValkyrieTokenTypes.ELSE,
+        "while" to ValkyrieTokenTypes.WHILE,
+        "for" to ValkyrieTokenTypes.FOR,
+        "function" to ValkyrieTokenTypes.FUNCTION,
+        "class" to ValkyrieTokenTypes.CLASS,
+        "trait" to ValkyrieTokenTypes.TRAIT,
+        "return" to ValkyrieTokenTypes.RETURN,
+        "break" to ValkyrieTokenTypes.BREAK,
+        "continue" to ValkyrieTokenTypes.CONTINUE,
+        "namespace" to ValkyrieTokenTypes.NAMESPACE,
+        "using" to ValkyrieTokenTypes.USING,
+        "true" to ValkyrieTokenTypes.BOOLEAN,
+        "false" to ValkyrieTokenTypes.BOOLEAN
     )
     
     override fun start(buffer: CharSequence, startOffset: Int, endOffset: Int, initialState: Int) {
@@ -67,19 +67,19 @@ class ValkyrieLexer : LexerBase() {
             ch.isWhitespace() -> {
                 if (ch == '\n') {
                     currentOffset++
-                    tokenType = NEWLINE
+                    tokenType = ValkyrieTokenTypes.NEWLINE
                 } else {
                     skipWhitespace()
-                    tokenType = WHITESPACE
+                    tokenType = ValkyrieTokenTypes.WHITESPACE
                 }
             }
             ch == '/' && peek() == '/' -> {
                 skipLineComment()
-                tokenType = LINE_COMMENT
+                tokenType = ValkyrieTokenTypes.LINE_COMMENT
             }
             ch == '/' && peek() == '*' -> {
                 skipBlockComment()
-                tokenType = BLOCK_COMMENT
+                tokenType = ValkyrieTokenTypes.BLOCK_COMMENT
             }
             ch.isLetter() || ch == '_' -> {
                 readIdentifier()
@@ -89,11 +89,11 @@ class ValkyrieLexer : LexerBase() {
             }
             ch == '"' -> {
                 readString()
-                tokenType = STRING
+                tokenType = ValkyrieTokenTypes.STRING
             }
             ch == '\'' -> {
                 readCharLiteral()
-                tokenType = STRING
+                tokenType = ValkyrieTokenTypes.STRING
             }
             else -> {
                 readOperatorOrPunctuation(ch)
@@ -145,7 +145,7 @@ class ValkyrieLexer : LexerBase() {
         }
         
         val text = buffer.subSequence(startOffset, currentOffset).toString()
-        tokenType = keywords[text] ?: IDENTIFIER
+        tokenType = keywords[text] ?: ValkyrieTokenTypes.IDENTIFIER
     }
     
     private fun readNumber() {
@@ -163,7 +163,7 @@ class ValkyrieLexer : LexerBase() {
             }
         }
         
-        tokenType = if (hasDecimalPoint) FLOAT else INTEGER
+        tokenType = if (hasDecimalPoint) ValkyrieTokenTypes.FLOAT else ValkyrieTokenTypes.INTEGER
     }
     
     private fun readString() {
@@ -202,82 +202,82 @@ class ValkyrieLexer : LexerBase() {
                 currentOffset++
                 if (peek(0) == '=') {
                     currentOffset++
-                    tokenType = EQUAL
+                    tokenType = ValkyrieTokenTypes.EQUAL
                 } else {
-                    tokenType = ASSIGN
+                    tokenType = ValkyrieTokenTypes.ASSIGN
                 }
             }
             '!' -> {
                 currentOffset++
                 if (peek(0) == '=') {
                     currentOffset++
-                    tokenType = NOT_EQUAL
+                    tokenType = ValkyrieTokenTypes.NOT_EQUAL
                 } else {
-                    tokenType = NOT
+                    tokenType = ValkyrieTokenTypes.NOT
                 }
             }
             '<' -> {
                 currentOffset++
                 if (peek(0) == '=') {
                     currentOffset++
-                    tokenType = LESS_EQUAL
+                    tokenType = ValkyrieTokenTypes.LESS_EQUAL
                 } else {
-                    tokenType = LESS
+                    tokenType = ValkyrieTokenTypes.LESS
                 }
             }
             '>' -> {
                 currentOffset++
                 if (peek(0) == '=') {
                     currentOffset++
-                    tokenType = GREATER_EQUAL
+                    tokenType = ValkyrieTokenTypes.GREATER_EQUAL
                 } else {
-                    tokenType = GREATER
+                    tokenType = ValkyrieTokenTypes.GREATER
                 }
             }
             '&' -> {
                 currentOffset++
                 if (peek(0) == '&') {
                     currentOffset++
-                    tokenType = AND
+                    tokenType = ValkyrieTokenTypes.AND
                 } else {
-                    tokenType = BAD_CHARACTER
+                    tokenType = ValkyrieTokenTypes.BAD_CHARACTER
                 }
             }
             '|' -> {
                 currentOffset++
                 if (peek(0) == '|') {
                     currentOffset++
-                    tokenType = OR
+                    tokenType = ValkyrieTokenTypes.OR
                 } else {
-                    tokenType = BAD_CHARACTER
+                    tokenType = ValkyrieTokenTypes.BAD_CHARACTER
                 }
             }
             '-' -> {
                 currentOffset++
                 if (peek(0) == '>') {
                     currentOffset++
-                    tokenType = ARROW
+                    tokenType = ValkyrieTokenTypes.ARROW
                 } else {
-                    tokenType = MINUS
+                    tokenType = ValkyrieTokenTypes.MINUS
                 }
             }
-            '+' -> { currentOffset++; tokenType = PLUS }
-            '*' -> { currentOffset++; tokenType = MULTIPLY }
-            '/' -> { currentOffset++; tokenType = DIVIDE }
-            '%' -> { currentOffset++; tokenType = MODULO }
-            ';' -> { currentOffset++; tokenType = SEMICOLON }
-            ',' -> { currentOffset++; tokenType = COMMA }
-            '.' -> { currentOffset++; tokenType = DOT }
-            ':' -> { currentOffset++; tokenType = COLON }
-            '(' -> { currentOffset++; tokenType = LPAREN }
-            ')' -> { currentOffset++; tokenType = RPAREN }
-            '{' -> { currentOffset++; tokenType = LBRACE }
-            '}' -> { currentOffset++; tokenType = RBRACE }
-            '[' -> { currentOffset++; tokenType = LBRACKET }
-            ']' -> { currentOffset++; tokenType = RBRACKET }
+            '+' -> { currentOffset++; tokenType = ValkyrieTokenTypes.PLUS }
+            '*' -> { currentOffset++; tokenType = ValkyrieTokenTypes.MULTIPLY }
+            '/' -> { currentOffset++; tokenType = ValkyrieTokenTypes.DIVIDE }
+            '%' -> { currentOffset++; tokenType = ValkyrieTokenTypes.MODULO }
+            ';' -> { currentOffset++; tokenType = ValkyrieTokenTypes.SEMICOLON }
+            ',' -> { currentOffset++; tokenType = ValkyrieTokenTypes.COMMA }
+            '.' -> { currentOffset++; tokenType = ValkyrieTokenTypes.DOT }
+            ':' -> { currentOffset++; tokenType = ValkyrieTokenTypes.COLON }
+            '(' -> { currentOffset++; tokenType = ValkyrieTokenTypes.LPAREN }
+            ')' -> { currentOffset++; tokenType = ValkyrieTokenTypes.RPAREN }
+            '{' -> { currentOffset++; tokenType = ValkyrieTokenTypes.LBRACE }
+            '}' -> { currentOffset++; tokenType = ValkyrieTokenTypes.RBRACE }
+            '[' -> { currentOffset++; tokenType = ValkyrieTokenTypes.LBRACKET }
+            ']' -> { currentOffset++; tokenType = ValkyrieTokenTypes.RBRACKET }
             else -> {
                 currentOffset++
-                tokenType = BAD_CHARACTER
+                tokenType = ValkyrieTokenTypes.BAD_CHARACTER
             }
         }
     }

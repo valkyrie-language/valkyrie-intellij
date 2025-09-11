@@ -2,6 +2,7 @@ package valkyrie.language.file
 
 import com.intellij.openapi.fileTypes.LanguageFileType
 import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.ValkyrieIcons
 import javax.swing.Icon
 
 /**

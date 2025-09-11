@@ -32,7 +32,7 @@ version = properties("pluginVersion").get()
 dependencies {
     intellijPlatform {
         // https://youtrack.jetbrains.com/articles/IDEA-A-2100662347/IntelliJ-IDEA-2025.1-Latest-Builds
-        create(IntelliJPlatformType.IntellijIdeaUltimate, "2025.2") { useInstaller = true }
+        create(IntelliJPlatformType.IntellijIdeaUltimate, "2025.2")
 //        create(IntelliJPlatformType.IntellijIdea, "2025.3") { useInstaller = true }
 
         bundledPlugin("com.intellij.java")

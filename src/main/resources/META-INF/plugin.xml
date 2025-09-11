@@ -53,6 +53,16 @@
 			serviceImplementation="valkyrie.index.ValkyrieProjectService"
 		/>
 		
+		<!-- Project Manager Service -->
+		<projectService
+			serviceImplementation="valkyrie.project.ValkyrieProjectManager"
+		/>
+		
+		<!-- Project View Provider -->
+		<treeStructureProvider
+			implementation="valkyrie.project.ValkyrieProjectViewProvider"
+		/>
+		
 		<!-- Startup Activity -->
 		<postStartupActivity
 			implementation="valkyrie.index.ValkyrieStartupActivity"

@@ -10,7 +10,7 @@ import com.intellij.openapi.vfs.VirtualFile
  */
 class ValkyrieSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
     
-    fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?): SyntaxHighlighter {
+    override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?): SyntaxHighlighter {
         return ValkyrieSyntaxHighlighter()
     }
 }
