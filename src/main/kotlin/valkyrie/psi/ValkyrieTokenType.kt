@@ -71,10 +71,13 @@ object ValkyrieTokenTypes {
 
     // 标识符和字面量
     @JvmField
-    val IDENTIFIER = ValkyrieTokenType("IDENTIFIER")
+    val IDENTIFIER_STD = ValkyrieTokenType("IDENTIFIER.STD")
 
     @JvmField
-    val ID_RAW = ValkyrieTokenType("ID_RAW")
+    val IDENTIFIER_RAW = ValkyrieTokenType("IDENTIFIER.RAW")
+
+    @JvmField
+    val BOOLEAN = ValkyrieTokenType("BOOLEAN")
 
     @JvmField
     val INTEGER = ValkyrieTokenType("INTEGER")
@@ -84,9 +87,6 @@ object ValkyrieTokenTypes {
 
     @JvmField
     val STRING = ValkyrieTokenType("STRING")
-
-    @JvmField
-    val BOOLEAN = ValkyrieTokenType("BOOLEAN")
 
     // 操作符
     @JvmField
@@ -132,7 +132,10 @@ object ValkyrieTokenTypes {
     val OR = ValkyrieTokenType("OR")        // ||
 
     @JvmField
-    val NOT = ValkyrieTokenType("NOT")      // !
+    val WOW = ValkyrieTokenType("!")
+
+    @JvmField
+    val WHAT = ValkyrieTokenType("?")
 
     // 分隔符
     @JvmField
@@ -182,6 +185,7 @@ object ValkyrieTokenTypes {
     // 注释
     @JvmField
     val COMMENT_REST = ValkyrieTokenType("#")
+
 
     // alias = #?
     @JvmField

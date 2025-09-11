@@ -11,7 +11,7 @@ import valkyrie.psi.ValkyrieTokenTypes
 class ValkyrieNamespaceDeclaration(node: ASTNode) : ValkyrieElementNode(node) {
 
     fun getNamespaceIdentifier(): PsiElement? {
-        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)
+        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER_STD)
     }
 
     fun getNamespaceName(): String? {

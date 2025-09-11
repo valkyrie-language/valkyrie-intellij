@@ -13,7 +13,7 @@ import valkyrie.psi.ValkyrieTokenTypes
 class ValkyrieMethodDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner {
 
     override fun getNameIdentifier(): PsiElement? {
-        return findChildByType(ValkyrieTokenTypes.IDENTIFIER)
+        return findChildByType(ValkyrieTokenTypes.IDENTIFIER_STD)
     }
 
     override fun getNavigationElement(): PsiElement {

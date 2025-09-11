@@ -12,7 +12,7 @@ import valkyrie.psi.ValkyrieTokenTypes
  */
 class ValkyrieDomainDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner {
     override fun getNameIdentifier(): PsiElement? {
-        return findChildByType(ValkyrieTokenTypes.IDENTIFIER)
+        return findChildByType(ValkyrieTokenTypes.IDENTIFIER_STD)
     }
 
     override fun getNavigationElement(): PsiElement {
@@ -28,7 +28,7 @@ class ValkyrieDomainDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiN
     }
 
     fun getDomainName(): String? {
-        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)?.text
+        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER_STD)?.text
     }
 
     fun getModifiers(): ValkyrieModifierListNode? {

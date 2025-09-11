@@ -11,7 +11,7 @@ import valkyrie.psi.ValkyrieTokenTypes
 class ValkyrieQualifiedNameNode(node: ASTNode) : ValkyrieElementNode(node) {
 
     fun getIdentifiers(): List<PsiElement> {
-        return findChildrenByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)
+        return findChildrenByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER_STD)
     }
 
     fun getQualifier(): String? {

@@ -174,7 +174,7 @@ class ValkyrieLexer : LexerBase() {
         }
 
         val text = buffer.subSequence(startOffset, currentOffset).toString()
-        tokenType = keywords[text] ?: ValkyrieTokenTypes.IDENTIFIER
+        tokenType = keywords[text] ?: ValkyrieTokenTypes.IDENTIFIER_STD
     }
 
     private fun readNumber() {
@@ -237,7 +237,7 @@ class ValkyrieLexer : LexerBase() {
                 currentOffset++
             }
         }
-        tokenType = ValkyrieTokenTypes.ID_RAW
+        tokenType = ValkyrieTokenTypes.IDENTIFIER_RAW
     }
 
     private fun readOperatorOrPunctuation(ch: Char) {
@@ -258,7 +258,7 @@ class ValkyrieLexer : LexerBase() {
                     currentOffset++
                     tokenType = ValkyrieTokenTypes.NOT_EQUAL
                 } else {
-                    tokenType = ValkyrieTokenTypes.NOT
+                    tokenType = ValkyrieTokenTypes.WOW
                 }
             }
 
@@ -394,6 +394,10 @@ class ValkyrieLexer : LexerBase() {
 
             '↯' -> {
                 currentOffset++; tokenType = ValkyrieTokenTypes.ATTRIBUTE_LOWER
+            }
+
+            '?' -> {
+                currentOffset++; tokenType = ValkyrieTokenTypes.WHAT
             }
 
             else -> {

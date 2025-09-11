@@ -81,6 +81,12 @@
 			implementation="valkyrie.index.ValkyrieStartupActivity"
 		/>
 
+		<!-- Structure View -->
+		<lang.psiStructureViewFactory
+			language="valkyrie"
+			implementationClass="valkyrie.ide.structure.ValkyrieStructureViewProvider"
+		/>
+
 		<!-- Formatter -->
 		<lang.formatter
 			language="valkyrie"
