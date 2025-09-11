@@ -1,0 +1,44 @@
+// 测试单位宏语法支持
+
+// 基础单位宏
+let time1 = 1s
+let time2 = -1.0ms
+let time3 = 0x01us
+let time4 = +1μs
+let time5 = 0x01`m/s`
+
+// 更多单位示例
+let distance = 100m
+let speed = 60km/h
+let frequency = 2.4GHz
+let memory = 8GB
+let temperature = 25°C
+
+// 复杂单位
+let acceleration = 9.8`m/s²`
+let force = 100N
+let energy = 1000J
+let power = 500W
+
+// 二进制和十六进制带单位
+let binary_time = 0b1010ms
+let hex_memory = 0xFFMB
+let octal_size = 0o777KB
+
+// 浮点数带单位
+let precise_time = 3.14159s
+let voltage = -12.5V
+let current = +2.5A
+
+// 函数中使用单位宏
+function delay(duration: Time) {
+    sleep(duration)
+}
+
+delay(500ms)
+delay(2s)
+delay(0.1s)
+
+// 表达式中的单位宏
+let total_time = 1s + 500ms + 0.1s
+let speed_calc = 100m / 10s

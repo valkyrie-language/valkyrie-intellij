@@ -159,7 +159,13 @@ object ValkyrieTokenTypes {
     val DECIMAL = ValkyrieTokenType("DECIMAL")
 
     @JvmField
+    val UNIT_NUMBER = ValkyrieTokenType("UNIT_NUMBER")
+
+    @JvmField
     val STRING = ValkyrieTokenType("STRING")
+
+    @JvmField
+    val MULTI_QUOTE_STRING = ValkyrieTokenType("MULTI_QUOTE_STRING")
 
     // 操作符
     @JvmField
@@ -260,17 +266,38 @@ object ValkyrieTokenTypes {
     val WOW = ValkyrieTokenType("!")
 
     @JvmField
+    val EXCLAMATION = ValkyrieTokenType("!")
+
+    @JvmField
     val WHAT = ValkyrieTokenType("?")
+
+    @JvmField
+    val UNDERSCORE = ValkyrieTokenType("_")
 
     // 分隔符
     @JvmField
     val SEMICOLON = ValkyrieTokenType(";")
 
     @JvmField
+    val DOUBLE_SEMICOLON = ValkyrieTokenType(";;")
+
+    @JvmField
     val COMMA = ValkyrieTokenType(",")
 
     @JvmField
     val DOT = ValkyrieTokenType(".")
+
+    @JvmField
+    val DOT_DOT = ValkyrieTokenType("..")
+
+    @JvmField
+    val ELLIPSIS = ValkyrieTokenType("...")
+
+    @JvmField
+    val DOT_DOT_EQUAL = ValkyrieTokenType("..=")
+
+    @JvmField
+    val DOT_DOT_LESS = ValkyrieTokenType("..<")
 
     @JvmField
     val COLON = ValkyrieTokenType(":")

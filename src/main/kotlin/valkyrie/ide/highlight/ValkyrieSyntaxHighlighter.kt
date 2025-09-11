@@ -28,6 +28,7 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.ELSE,
             ValkyrieTokenTypes.WHILE,
             ValkyrieTokenTypes.FOR,
+            ValkyrieTokenTypes.LOOP,
             ValkyrieTokenTypes.FUNCTION,
             ValkyrieTokenTypes.CLASS,
             ValkyrieTokenTypes.UNION,
@@ -38,6 +39,7 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.CONTINUE,
             ValkyrieTokenTypes.YIELD,
             ValkyrieTokenTypes.RAISE,
+            ValkyrieTokenTypes.RESUME,
             ValkyrieTokenTypes.RETURN,
             ValkyrieTokenTypes.TESTS,
             ValkyrieTokenTypes.TEST,
@@ -52,19 +54,25 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.CATCH
                 -> ValkyrieColor.KEYWORD
 
+            // 操作符
+            ValkyrieTokenTypes.IS,
+            ValkyrieTokenTypes.IS_NOT
+                -> ValkyrieColor.OPERATION
+
             ValkyrieTokenTypes.LPAREN, ValkyrieTokenTypes.RPAREN -> ValkyrieColor.PARENTHESES
             ValkyrieTokenTypes.LBRACKET, ValkyrieTokenTypes.RBRACKET -> ValkyrieColor.BRACKETS
             ValkyrieTokenTypes.LBRACE, ValkyrieTokenTypes.RBRACE -> ValkyrieColor.BRACES
             ValkyrieTokenTypes.COMPILE_TIME_BLOCK_START, ValkyrieTokenTypes.COMPILE_TIME_BLOCK_END -> ValkyrieColor.COMPILE_TIME_BLOCK
             ValkyrieTokenTypes.TEMPLATE_START, ValkyrieTokenTypes.TEMPLATE_END -> ValkyrieColor.TEMPLATE_BLOCK
             ValkyrieTokenTypes.COLON, ValkyrieTokenTypes.ASSIGN -> ValkyrieColor.OPERATION
+            ValkyrieTokenTypes.DOT_DOT, ValkyrieTokenTypes.ELLIPSIS, ValkyrieTokenTypes.DOT_DOT_EQUAL, ValkyrieTokenTypes.DOT_DOT_LESS -> ValkyrieColor.OPERATION
             ValkyrieTokenTypes.AT -> ValkyrieColor.OPERATION
             ValkyrieTokenTypes.LABEL_MARK -> ValkyrieColor.OPERATION
 
             ValkyrieTokenTypes.COMMA -> ValkyrieColor.COMMA
             // 数字和字面量
-            ValkyrieTokenTypes.INTEGER, ValkyrieTokenTypes.DECIMAL -> ValkyrieColor.NUMBER
-            ValkyrieTokenTypes.STRING -> ValkyrieColor.STRING
+            ValkyrieTokenTypes.INTEGER, ValkyrieTokenTypes.DECIMAL, ValkyrieTokenTypes.UNIT_NUMBER -> ValkyrieColor.NUMBER
+            ValkyrieTokenTypes.STRING, ValkyrieTokenTypes.MULTI_QUOTE_STRING -> ValkyrieColor.STRING
             ValkyrieTokenTypes.BOOLEAN -> ValkyrieColor.KEYWORD
 
             ValkyrieTokenTypes.IDENTIFIER_STD -> ValkyrieColor.IDENTIFIER

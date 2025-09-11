@@ -162,6 +162,8 @@ object ValkyrieElementTypes {
     @JvmField
     val RESUME_STATEMENT = ValkyrieElementType("RESUME_STATEMENT")
     @JvmField
+    val FOR_STATEMENT = ValkyrieElementType("FOR_STATEMENT")
+    @JvmField
     val LOOP_STATEMENT = ValkyrieElementType("LOOP_STATEMENT")
     @JvmField
     val ASSIGN_STATEMENT = ValkyrieElementType("ASSIGN_STATEMENT")

@@ -1,0 +1,45 @@
+// 测试is操作符高亮
+
+// 基础is操作符使用
+let value = 42
+let result1 = value is Integer
+let result2 = value is not String
+
+// 在条件语句中使用
+if obj is String {
+    println("It's a string")
+} else if obj is not Integer {
+    println("It's not an integer")
+}
+
+// 在match表达式中使用
+match value {
+    x if x is Integer => println("Integer: " + x),
+    x if x is not String => println("Not a string"),
+    _ => println("Unknown type")
+}
+
+// 复杂类型检查
+let array = [1, 2, 3]
+let is_array = array is Array<Integer>
+let is_not_string = array is not String
+
+// 泛型类型检查
+function check_type<T>(value: T) -> Boolean {
+    return value is T
+}
+
+// 类型守卫
+function process_value(value: Any) {
+    if value is String {
+        // 这里value被推断为String类型
+        println(value.length())
+    } else if value is Integer {
+        // 这里value被推断为Integer类型
+        println(value + 1)
+    }
+}
+
+// 否定形式
+let not_string = value is not String
+let not_array = obj is not Array<Any>
