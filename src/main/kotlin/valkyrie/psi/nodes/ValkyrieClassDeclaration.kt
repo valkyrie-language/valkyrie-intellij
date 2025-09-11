@@ -8,9 +8,9 @@ import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
 
 /**
- * Union Variant 实现
+ * Class 语句实现
  */
-class ValkyrieVariantDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner {
+class ValkyrieClassDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner {
     override fun getNameIdentifier(): PsiElement? {
         return findChildByType(ValkyrieTokenTypes.IDENTIFIER)
     }
@@ -27,11 +27,8 @@ class ValkyrieVariantDeclaration(node: ASTNode) : ValkyrieElementNode(node), Psi
         TODO("Not yet implemented")
     }
 
-    fun getVariantName(): String? {
-        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)?.text
-    }
-
-    fun getVariantBody(): ValkyrieObjectBodyNode? {
+    fun getClassBody(): ValkyrieObjectBodyNode? {
         return findChildByClass(ValkyrieObjectBodyNode::class.java)
     }
 }
+

@@ -1,0 +1,73 @@
+// 测试所有三种泛型语法的解析
+
+// Class 声明的泛型语法测试
+class A⟨T⟩ {
+    field: T
+}
+
+class B<T> {
+    field: T
+}
+
+class C::<T> {
+    field: T
+}
+
+// Trait 声明的泛型语法测试
+trait Display⟨T⟩ {
+    micro fmt(self) -> String
+}
+
+trait Clone<T> {
+    micro clone(self) -> Self
+}
+
+trait Debug::<T> {
+    micro debug_fmt(self) -> String
+}
+
+// Union 声明的泛型语法测试
+union Option⟨T⟩ {
+    Some { value: T }
+    None
+}
+
+union Result<T, E> {
+    Ok { value: T }
+    Err { error: E }
+}
+
+union Either::<L, R> {
+    Left { value: L }
+    Right { value: R }
+}
+
+// Micro 函数声明的泛型语法测试
+micro identity⟨T⟩(value: T) -> T {
+    value
+}
+
+micro compare<T>(a: T, b: T) -> bool {
+    a == b
+}
+
+micro transform::<T, U>(value: T, f: T -> U) -> U {
+    f(value)
+}
+
+// 多个泛型参数测试
+class Map⟨K, V⟩ {
+    entries: [(K, V)]
+}
+
+trait Convert<From, To> {
+    micro convert(from: From) -> To
+}
+
+union Triple::<A, B, C> {
+    Value { a: A, b: B, c: C }
+}
+
+micro zip<A, B, C>(a: A, b: B, c: C) -> (A, B, C) {
+    (a, b, c)
+}
