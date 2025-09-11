@@ -96,6 +96,19 @@ object ValkyrieTokenTypes {
     @JvmField
     val WHEN = ValkyrieTokenType("when")
 
+    // 中缀运算符
+    @JvmField
+    val IN = ValkyrieTokenType("in")
+
+    @JvmField
+    val NOT_IN = ValkyrieTokenType("not in")
+
+    @JvmField
+    val IS = ValkyrieTokenType("is")
+
+    @JvmField
+    val IS_NOT = ValkyrieTokenType("is not")
+
     // 标识符和字面量
     @JvmField
     val IDENTIFIER_STD = ValkyrieTokenType("IDENTIFIER.STD")
