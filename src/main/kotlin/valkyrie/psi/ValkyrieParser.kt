@@ -129,6 +129,7 @@ class ValkyrieParser : PsiParser {
                 ValkyrieTokenTypes.USING -> parseUsingStatement(builder)
                 ValkyrieTokenTypes.UNTIL -> parseUntilStatement(builder)
                 ValkyrieTokenTypes.MATCH -> parseMatchStatement(builder)
+                ValkyrieTokenTypes.IF -> parseIfStatement(builder)
                 ValkyrieTokenTypes.TRY -> parseTryStatement(builder)
                 ValkyrieTokenTypes.CATCH -> parseCatchStatement(builder)
                 ValkyrieTokenTypes.RETURN -> parseReturnStatement(builder)
@@ -2005,5 +2006,103 @@ class ValkyrieParser : PsiParser {
         }
         
         marker.done(ValkyrieElementTypes.RAISE_STATEMENT)
+    }
+
+    private fun parseIfStatement(builder: PsiBuilder) {
+        val marker = builder.mark()
+        builder.advanceLexer() // consume 'if'
+        
+        // Check for 'let' pattern (if let-else)
+        if (builder.tokenType == ValkyrieTokenTypes.LET) {
+            parseIfLetStatement(builder, marker)
+            return
+        }
+        
+        // Parse condition expression
+        parseExpression(builder)
+        
+        // Parse then block
+        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+            parseBlockStatement(builder)
+        } else {
+            builder.error("Expected '{' after if condition")
+        }
+        
+        // Parse optional else/else if clauses
+        while (builder.tokenType == ValkyrieTokenTypes.ELSE) {
+            val elseMarker = builder.mark()
+            builder.advanceLexer() // consume 'else'
+            
+            if (builder.tokenType == ValkyrieTokenTypes.IF) {
+                // else if
+                builder.advanceLexer() // consume 'if'
+                parseExpression(builder) // condition
+                
+                if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+                    parseBlockStatement(builder)
+                } else {
+                    builder.error("Expected '{' after else if condition")
+                }
+            } else if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+                // else
+                parseBlockStatement(builder)
+                elseMarker.done(ValkyrieElementTypes.ELSE_CLAUSE)
+                break // else clause is final
+            } else {
+                builder.error("Expected 'if' or '{' after 'else'")
+            }
+            
+            elseMarker.done(ValkyrieElementTypes.ELSE_CLAUSE)
+        }
+        
+        marker.done(ValkyrieElementTypes.IF_STATEMENT)
+    }
+    
+    private fun parseIfLetStatement(builder: PsiBuilder, marker: PsiBuilder.Marker) {
+        builder.advanceLexer() // consume 'let'
+        
+        // Parse pattern
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+            val patternMarker = builder.mark()
+            builder.advanceLexer()
+            patternMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
+        } else {
+            builder.error("Expected pattern after 'if let'")
+        }
+        
+        // Parse '=' assignment
+        if (builder.tokenType == ValkyrieTokenTypes.ASSIGN) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected '=' in if let statement")
+        }
+        
+        // Parse expression to match against
+        parseExpression(builder)
+        
+        // Parse then block
+        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+            parseBlockStatement(builder)
+        } else {
+            builder.error("Expected '{' after if let condition")
+        }
+        
+        // Parse required else clause for if let
+        if (builder.tokenType == ValkyrieTokenTypes.ELSE) {
+            val elseMarker = builder.mark()
+            builder.advanceLexer() // consume 'else'
+            
+            if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+                parseBlockStatement(builder)
+            } else {
+                builder.error("Expected '{' after else in if let statement")
+            }
+            
+            elseMarker.done(ValkyrieElementTypes.ELSE_CLAUSE)
+        } else {
+            builder.error("if let statement requires else clause")
+        }
+        
+        marker.done(ValkyrieElementTypes.IF_LET_STATEMENT)
     }
 }

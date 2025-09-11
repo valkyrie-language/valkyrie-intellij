@@ -122,6 +122,17 @@
 		<codeInsight.lineMarkerProvider 
 			language="valkyrie" 
 			implementationClass="valkyrie.ide.gutter.ValkyrieControlFlowNavigationProvider"/>
+		
+		<!-- Code Completion -->
+		<completion.contributor 
+			language="valkyrie" 
+			implementationClass="valkyrie.ide.completion.ValkyrieCompletionContributor"/>
+		
+		<!-- Intention Actions -->
+		<intentionAction>
+			<className>valkyrie.ide.intention.ConvertIfToMatchIntention</className>
+			<category>Valkyrie</category>
+		</intentionAction>
 	</extensions>
 	
 	<!-- Actions -->

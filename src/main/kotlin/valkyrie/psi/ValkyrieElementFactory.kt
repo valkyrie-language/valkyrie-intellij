@@ -1,13 +1,41 @@
 package valkyrie.psi
 
 import com.intellij.lang.ASTNode
+import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFileFactory
+import com.intellij.psi.tree.IElementType
+import com.intellij.psi.util.PsiTreeUtil
+import valkyrie.language.ValkyrieLanguage
+
+import valkyrie.psi.nodes.ValkyrieFileNode
 import valkyrie.psi.nodes.*
 
 /**
  * Valkyrie PSI 元素工厂
  */
 object ValkyrieElementFactory {
+    
+    /**
+     * 获取工厂实例
+     */
+    fun getInstance(project: Project): ValkyrieElementFactory = this
+    
+    /**
+     * 从文本创建表达式
+     */
+    fun createExpressionFromText(text: String, project: Project): PsiElement? {
+        val dummyFile = PsiFileFactory.getInstance(project)
+            .createFileFromText(
+                "dummy.vk",
+                ValkyrieLanguage.INSTANCE,
+                "let dummy = $text"
+            ) as? ValkyrieFileNode
+        
+        return dummyFile?.let { file ->
+            PsiTreeUtil.findChildOfType(file, PsiElement::class.java)
+        }
+    }
     
     fun createElement(node: ASTNode): PsiElement {
         return when (node.elementType) {
@@ -53,6 +81,9 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.MACRO_CALL -> ValkyrieElementNode(node)
             ValkyrieElementTypes.ATTRIBUTE_ARGS -> ValkyrieElementNode(node)
             ValkyrieElementTypes.DOC_COMMENT -> ValkyrieDocCommentNode(node)
+            ValkyrieElementTypes.IF_STATEMENT -> ValkyrieIfStatementNode(node)
+            ValkyrieElementTypes.IF_LET_STATEMENT -> ValkyrieIfLetStatementNode(node)
+            ValkyrieElementTypes.ELSE_CLAUSE -> ValkyrieElseClauseNode(node)
             else -> ValkyrieElementNode(node)
         }
     }
