@@ -22,7 +22,7 @@ class ValkyrieParserDefinition : ParserDefinition {
         val FILE = IFileElementType(ValkyrieLanguage.INSTANCE)
         
         val WHITESPACE_TOKENS = TokenSet.create(ValkyrieTokenTypes.WHITESPACE, ValkyrieTokenTypes.NEWLINE)
-        val COMMENT_TOKENS = TokenSet.create(ValkyrieTokenTypes.LINE_COMMENT, ValkyrieTokenTypes.BLOCK_COMMENT, ValkyrieTokenTypes.DOC_COMMENT)
+        val COMMENT_TOKENS = TokenSet.create(ValkyrieTokenTypes.COMMENT_REST, ValkyrieTokenTypes.COMMENT_RANGE, ValkyrieTokenTypes.COMMENT_DOCUMENT)
         val STRING_LITERALS = TokenSet.create(ValkyrieTokenTypes.STRING)
     }
     

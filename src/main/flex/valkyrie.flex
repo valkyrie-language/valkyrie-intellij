@@ -303,7 +303,7 @@ RESERVED = [߷⸖⍼♯⟀⟁]
 
     "|"   { return OP_OR;}
     &     { return OP_AND;}
-    @#|⸿  { return OP_L10N; }
+    @$|⸿  { return OP_L10N; }
 	@\^|◤ { return OP_MACRO_UPPER; }
 	@     { return OP_MACRO; }
     @\.|↯ { return OP_MACRO_LOWER;}

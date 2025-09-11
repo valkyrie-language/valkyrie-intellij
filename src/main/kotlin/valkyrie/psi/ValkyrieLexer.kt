@@ -77,17 +77,17 @@ class ValkyrieLexer : LexerBase() {
 
             ch == '#' && peek() == '?' -> {
                 skipDocComment()
-                tokenType = ValkyrieTokenTypes.DOC_COMMENT
+                tokenType = ValkyrieTokenTypes.COMMENT_DOCUMENT
             }
 
             ch == '#' -> {
                 skipLineComment()
-                tokenType = ValkyrieTokenTypes.LINE_COMMENT
+                tokenType = ValkyrieTokenTypes.COMMENT_REST
             }
 
             ch == '<' && peek() == '#' -> {
                 skipBlockComment()
-                tokenType = ValkyrieTokenTypes.BLOCK_COMMENT
+                tokenType = ValkyrieTokenTypes.COMMENT_RANGE
             }
 
             ch.isLetter() || ch == '_' -> {
