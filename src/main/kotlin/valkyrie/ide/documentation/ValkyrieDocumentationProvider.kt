@@ -8,7 +8,7 @@ import valkyrie.psi.ValkyrieTokenTypes
 
 /**
  * Valkyrie 文档提供者
- * 用于在IDE中显示文档注释
+ * 使用IntelliJ内置文档功能，移除自定义HTML渲染
  */
 class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
     
@@ -18,7 +18,8 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
         // 查找关联的doc comment
         val docComment = findDocComment(element)
         if (docComment != null) {
-            return buildDocumentation(element, docComment)
+            // 使用内置功能：直接返回纯文本内容，让IntelliJ处理格式化
+            return docComment.getMergedDocComment()
         }
         
         return null
@@ -58,71 +59,5 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
         return null
     }
     
-    /**
-     * 构建文档内容
-     */
-    private fun buildDocumentation(element: PsiElement, docComment: ValkyrieDocCommentNode): String {
-        val signature = getElementSignature(element)
-        val documentation = docComment.renderToHtml()
-        
-        return buildString {
-            append("<div class='definition'>")
-            append("<pre>$signature</pre>")
-            append("</div>")
-            
-            if (documentation.isNotEmpty()) {
-                append("<div class='content'>")
-                append(documentation)
-                append("</div>")
-            }
-        }
-    }
-    
-    /**
-     * 获取元素签名
-     */
-    private fun getElementSignature(element: PsiElement): String {
-        return when (element) {
-            is ValkyrieClassDeclaration -> {
-                val modifiers = getModifiersText(element)
-                "$modifiers class ${element.name}"
-            }
-            is ValkyrieUnionDeclaration -> {
-                "union ${element.name}"
-            }
-            is ValkyrieTraitDeclaration -> {
-                "trait ${element.name}"
-            }
-            is ValkyrieMethodDeclaration -> {
-                val modifiers = getModifiersText(element)
-                val params = getParametersText(element)
-                "$modifiers method ${element.name}($params)"
-            }
-            is ValkyrieFieldDeclaration -> {
-                val modifiers = getModifiersText(element)
-                val type = getTypeText(element)
-                "$modifiers field ${element.name}: $type"
-            }
-            else -> element.text ?: ""
-        }
-    }
-    
-    private fun getModifiersText(element: PsiElement): String {
-        return when (element) {
-            is ValkyrieClassDeclaration -> element.getModifierNodes().mapNotNull { it.getModifierName() }.joinToString(" ")
-            is ValkyrieMethodDeclaration -> element.getModifierNodes().mapNotNull { it.getModifierName() }.joinToString(" ")
-            is ValkyrieFieldDeclaration -> element.getModifierNodes().mapNotNull { it.getModifierName() }.joinToString(" ")
-            else -> ""
-        }
-    }
-    
-    private fun getParametersText(method: ValkyrieMethodDeclaration): String {
-        val paramList = method.getParameterList()
-        return paramList?.text ?: ""
-    }
-    
-    private fun getTypeText(field: ValkyrieFieldDeclaration): String {
-        val typeRef = field.getTypeReference()
-        return typeRef?.text ?: "unknown"
-    }
+
 }
