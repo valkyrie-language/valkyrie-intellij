@@ -17,9 +17,13 @@ class ValkyrieItemPresentation(private val element: PsiElement) : ItemPresentati
             is ValkyrieTraitDeclaration -> "trait ${element.name ?: "<unnamed>"}"
             is ValkyrieDomainDeclaration -> "domain ${element.name ?: "<unnamed>"}"
             is ValkyrieFieldDeclaration -> element.name ?: "<unnamed field>"
-            is ValkyrieMethodDeclaration -> "${element.name ?: "<unnamed>"}()"
+            is ValkyrieMethodDeclaration -> "${element.name ?: "<unnamed method>"}"
             is ValkyrieVariantDeclaration -> element.name ?: "<unnamed variant>"
             is ValkyrieNamespaceDeclaration -> "namespace ${element.getNamespaceName() ?: "<unnamed>"}"
+            is ValkyrieLetStatementNode -> {
+                val identifier = element.getIdentifier()
+                "let ${identifier?.text ?: "<unnamed>"}"
+            }
             is ValkyrieFileNode -> element.name
             else -> element.text?.take(50) ?: "<unknown>"
         }

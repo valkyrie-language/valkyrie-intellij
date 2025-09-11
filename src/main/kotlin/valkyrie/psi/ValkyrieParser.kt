@@ -490,11 +490,17 @@ class ValkyrieParser : PsiParser {
     private fun parseUnionType(builder: PsiBuilder) {
         val marker = builder.mark()
         
+        // 支持开头的可选 | 符号（|A|B 语法，第一个|无意义）
+        var hasUnion = false
+        if (builder.tokenType == ValkyrieTokenTypes.PIPE) {
+            hasUnion = true
+            builder.advanceLexer() // consume leading '|'
+        }
+        
         // 解析第一个类型
         parseBasicType(builder)
         
         // 检查是否有联合类型操作符 |
-        var hasUnion = false
         while (builder.tokenType == ValkyrieTokenTypes.PIPE) {
             hasUnion = true
             builder.advanceLexer() // consume '|'

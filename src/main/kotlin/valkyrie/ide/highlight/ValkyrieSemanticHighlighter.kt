@@ -39,11 +39,10 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
 
             is ValkyrieMethodDeclaration -> {
                 if (element.isMutable()) {
-                    highlight(element.nameIdentifier, ValkyrieColor.SYM_FUNCTION)
+                    highlight(element.nameIdentifier, ValkyrieColor.SYM_METHOD_MUT)
                 } else if (element.isStatic()) {
-                    highlight(element.nameIdentifier, ValkyrieColor.SYM_FUNCTION)
-                }
-                else {
+                    highlight(element.nameIdentifier, ValkyrieColor.SYM_METHOD)
+                } else {
                     highlight(element.nameIdentifier, ValkyrieColor.SYM_FUNCTION)
                 }
             }
