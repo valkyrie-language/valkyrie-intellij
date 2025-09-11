@@ -86,6 +86,10 @@ object ValkyrieElementTypes {
     val GENERIC_CALL_EXPRESSION = ValkyrieElementType("GENERIC_CALL_EXPRESSION")
     @JvmField
     val POSTFIX_EXPRESSION = ValkyrieElementType("POSTFIX_EXPRESSION")
+    @JvmField
+    val DOT_EXPRESSION = ValkyrieElementType("DOT_EXPRESSION")
+    @JvmField
+    val TRAILING_CLOSURE_EXPRESSION = ValkyrieElementType("TRAILING_CLOSURE_EXPRESSION")
 
     @JvmField
     val MUTABLE_PATTERN = ValkyrieElementType("MUTABLE_PATTERN")
