@@ -22,7 +22,7 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.USING_STATEMENT -> ValkyrieUsingStatementNode(node)
             ValkyrieElementTypes.EXPRESSION_STATEMENT -> ValkyrieTermExpression(node)
             ValkyrieElementTypes.OBJECT_BODY -> ValkyrieObjectBodyNode(node)
-            ValkyrieElementTypes.UNION_BODY -> ValkyrieElementNode(node)
+            ValkyrieElementTypes.UNION_BODY -> ValkyrieUnionBodyNode(node)
             ValkyrieElementTypes.EXPRESSION -> ValkyrieElementNode(node)
             ValkyrieElementTypes.LITERAL_EXPRESSION -> ValkyrieLiteralExpressionNode(node)
             ValkyrieElementTypes.BINARY_EXPRESSION -> ValkyrieBinaryTerm(node)

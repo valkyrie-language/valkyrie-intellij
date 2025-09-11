@@ -27,7 +27,7 @@ class ValkyrieUnionDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNa
         TODO("Not yet implemented")
     }
 
-    fun getUnionBody(): ValkyrieObjectBodyNode? {
-        return findChildByClass(ValkyrieObjectBodyNode::class.java)
+    fun getUnionBody(): ValkyrieUnionBodyNode? {
+        return findChildByClass(ValkyrieUnionBodyNode::class.java)
     }
 }

@@ -16,6 +16,15 @@ class ValkyrieTokenType(debugName: String) : IElementType(debugName, ValkyrieLan
 object ValkyrieTokenTypes {
     @JvmField
     val NAMESPACE = ValkyrieTokenType("namespace")
+    
+    @JvmField
+    val NAMESPACE_MAIN = ValkyrieTokenType("namespace!")
+    
+    @JvmField
+    val NAMESPACE_TEST = ValkyrieTokenType("namespace?")
+    
+    @JvmField
+    val NAMESPACE_HIDE = ValkyrieTokenType("namespace*")
 
     @JvmField
     val USING = ValkyrieTokenType("using")
