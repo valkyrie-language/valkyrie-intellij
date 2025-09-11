@@ -12,6 +12,7 @@ import valkyrie.psi.nodes.ValkyrieUsingStatementNode
 import valkyrie.psi.nodes.ValkyrieLetStatementNode
 import valkyrie.psi.nodes.ValkyrieClassDeclaration
 import valkyrie.psi.nodes.ValkyrieUnionDeclaration
+import valkyrie.psi.nodes.ValkyrieMethodDeclaration
 import com.intellij.psi.PsiElement
 
 /**
@@ -134,6 +135,22 @@ class ValkyrieSymbolIndex(private val project: Project) {
             namespaceInfo.symbols.add(symbolName)
         }
         
+        // 查找所有函数定义（micro函数）
+        val functionStatements = PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieMethodDeclaration::class.java)
+        for (functionStatement in functionStatements) {
+            val symbolName = functionStatement.name ?: continue
+            
+            val symbolInfo = SymbolInfo(
+                name = symbolName,
+                namespace = namespace,
+                file = file,
+                element = functionStatement
+            )
+            
+            symbolCache.getOrPut(symbolName) { mutableListOf() }.add(symbolInfo)
+            namespaceInfo.symbols.add(symbolName)
+        }
+        
         // 查找所有 using 语句
         val usingStatements = PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieUsingStatementNode::class.java)
         val fileUsingList = mutableListOf<UsingInfo>()
@@ -194,6 +211,15 @@ class ValkyrieSymbolIndex(private val project: Project) {
                 val name = unionStatement.name
                 if (name == symbolName) {
                     return SymbolInfo(name, currentNamespace, currentFile, unionStatement)
+                }
+            }
+            
+            // 查找函数定义
+            val functionStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieMethodDeclaration::class.java)
+            for (functionStatement in functionStatements) {
+                val name = functionStatement.name
+                if (name == symbolName) {
+                    return SymbolInfo(name, currentNamespace, currentFile, functionStatement)
                 }
             }
         }

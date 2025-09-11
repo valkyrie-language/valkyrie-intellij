@@ -1,11 +1,7 @@
 package valkyrie.ide.formatter
 
-import com.intellij.application.options.CodeStyleAbstractConfigurable
-import com.intellij.application.options.CodeStyleAbstractPanel
-import com.intellij.application.options.TabbedLanguageCodeStylePanel
 import com.intellij.application.options.IndentOptionsEditor
 import com.intellij.lang.Language
-import com.intellij.openapi.options.Configurable
 import com.intellij.psi.codeStyle.*
 import valkyrie.language.ValkyrieLanguage
 
@@ -14,6 +10,10 @@ import valkyrie.language.ValkyrieLanguage
  */
 class ValkyrieCodeStyleProvider : LanguageCodeStyleSettingsProvider() {
     override fun getLanguage(): Language = ValkyrieLanguage.INSTANCE
+    
+    override fun createCustomSettings(settings: CodeStyleSettings): CustomCodeStyleSettings {
+        return ValkyrieCodeStyleSettings(settings)
+    }
     
     override fun getCodeSample(settingsType: SettingsType): String {
         return when (settingsType) {

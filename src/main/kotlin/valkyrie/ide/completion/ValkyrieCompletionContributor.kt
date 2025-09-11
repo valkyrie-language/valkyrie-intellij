@@ -7,6 +7,11 @@ import com.intellij.psi.PsiElement
 import com.intellij.util.ProcessingContext
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.nodes.ValkyrieIdentifierNode
+import valkyrie.psi.nodes.ValkyrieCallExpressionNode
+import valkyrie.index.ValkyrieSymbolIndex
+import com.intellij.codeInsight.lookup.LookupElement
+import com.intellij.codeInsight.completion.InsertionContext
 
 /**
  * Valkyrie 语言代码补全贡献者
@@ -27,6 +32,20 @@ class ValkyrieCompletionContributor : CompletionContributor() {
             PlatformPatterns.psiElement().withLanguage(ValkyrieLanguage.INSTANCE),
             StatementCompletionProvider()
         )
+        
+        // 符号补全
+        extend(
+            CompletionType.BASIC,
+            PlatformPatterns.psiElement(ValkyrieIdentifierNode::class.java),
+            SymbolCompletionProvider()
+        )
+        
+        // 函数调用补全
+        extend(
+            CompletionType.BASIC,
+            PlatformPatterns.psiElement().withParent(ValkyrieCallExpressionNode::class.java),
+            FunctionCompletionProvider()
+        )
     }
     
     /**
@@ -43,7 +62,7 @@ class ValkyrieCompletionContributor : CompletionContributor() {
                 "namespace", "import", "export", "return", "break", "continue",
                 "match", "case", "default", "for", "while", "until", "try",
                 "catch", "finally", "throw", "yield", "async", "await",
-                "tests", "test", "micro", "mezzo", "macro"
+                "tests", "test", "micro", "mezzo", "macro", "singleton"
             )
             
             keywords.forEach { keyword ->
@@ -114,6 +133,50 @@ class ValkyrieCompletionContributor : CompletionContributor() {
                     .withTypeText("if let statement")
                     .withTailText(" pattern = expression { ... } else { ... }")
             )
+        }
+    }
+    
+    /**
+     * 符号补全提供者
+     */
+    private class SymbolCompletionProvider : CompletionProvider<CompletionParameters>() {
+        override fun addCompletions(
+            parameters: CompletionParameters,
+            context: ProcessingContext,
+            result: CompletionResultSet
+        ) {
+            val file = parameters.originalFile.virtualFile ?: return
+            val project = parameters.originalFile.project
+            val symbolIndex = ValkyrieSymbolIndex.getInstance(project)
+            
+            // 获取当前文件的using导入
+            val usings = symbolIndex.getFileUsings(file)
+            usings.forEach { usingInfo ->
+                val lookupElement = LookupElementBuilder.create(usingInfo.symbolName)
+                    .withTailText(" (from ${usingInfo.namespace})")
+                
+                result.addElement(lookupElement)
+            }
+        }
+    }
+    
+    /**
+     * 函数补全提供者
+     */
+    private class FunctionCompletionProvider : CompletionProvider<CompletionParameters>() {
+        override fun addCompletions(
+            parameters: CompletionParameters,
+            context: ProcessingContext,
+            result: CompletionResultSet
+        ) {
+            // 添加常用函数
+            val printFunction = LookupElementBuilder.create("print")
+                .withTailText("(value)")
+            result.addElement(printFunction)
+            
+            val printlnFunction = LookupElementBuilder.create("println")
+                .withTailText("(value)")
+            result.addElement(printlnFunction)
         }
     }
 }
