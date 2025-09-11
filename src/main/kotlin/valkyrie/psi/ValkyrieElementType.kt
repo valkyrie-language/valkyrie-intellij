@@ -19,6 +19,8 @@ object ValkyrieElementTypes {
     
     // 语句
     @JvmField val LET_STATEMENT = ValkyrieElementType("LET_STATEMENT")
+    @JvmField val NAMESPACE_STATEMENT = ValkyrieElementType("NAMESPACE_STATEMENT")
+    @JvmField val USING_STATEMENT = ValkyrieElementType("USING_STATEMENT")
     @JvmField val EXPRESSION_STATEMENT = ValkyrieElementType("EXPRESSION_STATEMENT")
     @JvmField val BLOCK_STATEMENT = ValkyrieElementType("BLOCK_STATEMENT")
     
@@ -39,4 +41,5 @@ object ValkyrieElementTypes {
     // 其他
     @JvmField val PARAMETER_LIST = ValkyrieElementType("PARAMETER_LIST")
     @JvmField val ARGUMENT_LIST = ValkyrieElementType("ARGUMENT_LIST")
+    @JvmField val QUALIFIED_NAME = ValkyrieElementType("QUALIFIED_NAME")
 }

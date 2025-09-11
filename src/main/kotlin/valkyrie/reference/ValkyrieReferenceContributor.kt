@@ -11,20 +11,10 @@ import valkyrie.psi.impl.ValkyrieIdentifierExpressionImpl
 class ValkyrieReferenceContributor : PsiReferenceContributor() {
     
     override fun registerReferenceProviders(registrar: PsiReferenceRegistrar) {
+        // 注册跨文件引用提供者
         registrar.registerReferenceProvider(
             PlatformPatterns.psiElement(ValkyrieIdentifierExpressionImpl::class.java),
-            object : PsiReferenceProvider() {
-                override fun getReferencesByElement(
-                    element: PsiElement,
-                    context: ProcessingContext
-                ): Array<PsiReference> {
-                    if (element is ValkyrieIdentifierExpressionImpl) {
-                        val reference = element.reference
-                        return if (reference != null) arrayOf(reference) else emptyArray()
-                    }
-                    return emptyArray()
-                }
-            }
+            ValkyrieCrossFileReferenceProvider()
         )
     }
 }

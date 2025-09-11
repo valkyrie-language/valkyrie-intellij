@@ -26,6 +26,8 @@ class ValkyrieParser : PsiParser {
     private fun parseStatement(builder: PsiBuilder) {
         when (builder.tokenType) {
             LET -> parseLetStatement(builder)
+            NAMESPACE -> parseNamespaceStatement(builder)
+            USING -> parseUsingStatement(builder)
             LBRACE -> parseBlockStatement(builder)
             WHITESPACE, NEWLINE -> builder.advanceLexer()
             LINE_COMMENT, BLOCK_COMMENT -> builder.advanceLexer()
@@ -204,5 +206,65 @@ class ValkyrieParser : PsiParser {
             MULTIPLY, DIVIDE, MODULO -> 6
             else -> -1
         }
+    }
+    
+    private fun parseNamespaceStatement(builder: PsiBuilder) {
+        val marker = builder.mark()
+        
+        // 'namespace' keyword
+        if (builder.tokenType == NAMESPACE) {
+            builder.advanceLexer()
+        } else {
+            marker.drop()
+            return
+        }
+        
+        // namespace identifier
+        if (builder.tokenType == IDENTIFIER) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected namespace identifier")
+        }
+        
+        marker.done(NAMESPACE_STATEMENT)
+    }
+    
+    private fun parseUsingStatement(builder: PsiBuilder) {
+        val marker = builder.mark()
+        
+        // 'using' keyword
+        if (builder.tokenType == USING) {
+            builder.advanceLexer()
+        } else {
+            marker.drop()
+            return
+        }
+        
+        // qualified name (e.g., file_b.b)
+        parseQualifiedName(builder)
+        
+        marker.done(USING_STATEMENT)
+    }
+    
+    private fun parseQualifiedName(builder: PsiBuilder) {
+        val marker = builder.mark()
+        
+        if (builder.tokenType == IDENTIFIER) {
+            builder.advanceLexer()
+            
+            while (builder.tokenType == DOT) {
+                builder.advanceLexer()
+                if (builder.tokenType == IDENTIFIER) {
+                    builder.advanceLexer()
+                } else {
+                    builder.error("Expected identifier after '.'")
+                    break
+                }
+            }
+        } else {
+            builder.error("Expected identifier")
+        }
+        
+        marker.done(QUALIFIED_NAME)
     }
 }

@@ -28,6 +28,8 @@ object ValkyrieTokenTypes {
     @JvmField val RETURN = ValkyrieTokenType("RETURN")
     @JvmField val BREAK = ValkyrieTokenType("BREAK")
     @JvmField val CONTINUE = ValkyrieTokenType("CONTINUE")
+    @JvmField val NAMESPACE = ValkyrieTokenType("NAMESPACE")
+    @JvmField val USING = ValkyrieTokenType("USING")
     
     // 标识符和字面量
     @JvmField val IDENTIFIER = ValkyrieTokenType("IDENTIFIER")
