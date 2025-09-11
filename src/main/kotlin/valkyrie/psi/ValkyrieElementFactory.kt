@@ -47,8 +47,10 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.STATEMENT -> ValkyrieElementNode(node)
             ValkyrieElementTypes.LET_STATEMENT -> ValkyrieLetStatementNode(node)
             ValkyrieElementTypes.CLASS_STATEMENT -> ValkyrieClassDeclaration(node)
+            ValkyrieElementTypes.SINGLETON_STATEMENT -> ValkyrieClassDeclaration(node) // 复用ClassDeclaration
             ValkyrieElementTypes.UNION_STATEMENT -> ValkyrieUnionDeclaration(node)
             ValkyrieElementTypes.TRAIT_STATEMENT -> ValkyrieTraitDeclaration(node)
+        ValkyrieElementTypes.IMPLY_STATEMENT -> ValkyrieElementNode(node)
             ValkyrieElementTypes.NAMESPACE_STATEMENT -> ValkyrieNamespaceDeclaration(node)
             ValkyrieElementTypes.NAMESPACE_PATH -> ValkyrieElementNode(node)
             ValkyrieElementTypes.USING_STATEMENT -> ValkyrieUsingStatementNode(node)
@@ -64,6 +66,7 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.CALL_EXPRESSION -> ValkyrieCallExpressionNode(node)
             ValkyrieElementTypes.GENERIC_CALL_EXPRESSION -> ValkyrieGenericCallExpressionNode(node)
             ValkyrieElementTypes.POSTFIX_EXPRESSION -> ValkyriePostfixExpressionNode(node)
+        ValkyrieElementTypes.ARRAY_EXPRESSION -> ValkyrieElementNode(node)
             ValkyrieElementTypes.FIELD_DECLARATION -> ValkyrieFieldDeclaration(node)
             ValkyrieElementTypes.METHOD_DECLARATION -> ValkyrieMethodDeclaration(node)
             ValkyrieElementTypes.INSTANCE_METHOD_DECLARATION -> ValkyrieMethodDeclaration(node)
