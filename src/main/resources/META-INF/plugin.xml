@@ -95,5 +95,11 @@
 		<langCodeStyleSettingsProvider
 			implementation="valkyrie.ide.formatter.ValkyrieCodeStyleProvider"
 		/>
+
+		<!-- Documentation Provider -->
+		<lang.documentationProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.documentation.ValkyrieDocumentationProvider"
+		/>
 	</extensions>
 </idea-plugin>

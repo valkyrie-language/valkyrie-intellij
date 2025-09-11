@@ -49,6 +49,9 @@ object ValkyrieTokenTypes {
     val WHILE = ValkyrieTokenType("while")
 
     @JvmField
+    val UNTIL = ValkyrieTokenType("until")
+
+    @JvmField
     val FOR = ValkyrieTokenType("for")
 
     @JvmField
@@ -141,10 +144,10 @@ object ValkyrieTokenTypes {
     val GREATER_EQUAL = ValkyrieTokenType("GREATER_EQUAL") // >=
 
     @JvmField
-    val AND = ValkyrieTokenType("AND")      // &&
+    val LOGIC_AND = ValkyrieTokenType("AND")      // &&
 
     @JvmField
-    val OR = ValkyrieTokenType("OR")        // ||
+    val LOGIC_OR = ValkyrieTokenType("OR")        // ||
 
     @JvmField
     val PIPE = ValkyrieTokenType("PIPE")    // |

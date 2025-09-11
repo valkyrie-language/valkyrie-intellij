@@ -52,8 +52,7 @@ class ValkyrieMethodDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiN
         if (firstParamName != "self") return false
         
         // 检查self参数是否有mut修饰符
-        val modifiers = firstParam?.let { PsiTreeUtil.findChildOfType(it, ValkyrieModifierListNode::class.java) }
-        return modifiers?.isMutable() == true
+        return firstParam?.isMutable() == true
     }
 
     fun getModifiers(): ValkyrieModifierListNode? {

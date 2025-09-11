@@ -563,8 +563,8 @@ class ValkyrieParser : PsiParser {
 
     // 性能优化：缓存操作符优先级
     private val operatorPrecedenceCache = mapOf(
-        ValkyrieTokenTypes.OR to 1,
-        ValkyrieTokenTypes.AND to 2,
+        ValkyrieTokenTypes.LOGIC_OR to 1,
+        ValkyrieTokenTypes.LOGIC_AND to 2,
         ValkyrieTokenTypes.EQUAL to 3,
         ValkyrieTokenTypes.NOT_EQUAL to 3,
         ValkyrieTokenTypes.LESS to 4,
@@ -1046,6 +1046,7 @@ class ValkyrieParser : PsiParser {
         }
 
         // 解析modifiers
+        val modifierListMarker = builder.mark()
         val modifierTexts = mutableListOf<String>()
         while (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
             val nextToken = builder.lookAhead(1)
@@ -1064,6 +1065,13 @@ class ValkyrieParser : PsiParser {
             modifierTexts.add(builder.tokenText ?: "")
             builder.advanceLexer()
             modifierMarker.done(ValkyrieElementTypes.MODIFIER_NODE)
+        }
+        
+        // 完成modifier list节点
+        if (modifierTexts.isNotEmpty()) {
+            modifierListMarker.done(ValkyrieElementTypes.MODIFIER_LIST)
+        } else {
+            modifierListMarker.drop()
         }
 
         annotationMarker.done(ValkyrieElementTypes.ANNOTATION_NODE)
