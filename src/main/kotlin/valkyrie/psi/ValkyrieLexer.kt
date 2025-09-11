@@ -23,6 +23,7 @@ class ValkyrieLexer : LexerBase() {
         "else" to ValkyrieTokenTypes.ELSE,
         "while" to ValkyrieTokenTypes.WHILE,
         "for" to ValkyrieTokenTypes.FOR,
+        "loop" to ValkyrieTokenTypes.LOOP,
         "function" to ValkyrieTokenTypes.FUNCTION,
         "class" to ValkyrieTokenTypes.CLASS,
         "struct" to ValkyrieTokenTypes.CLASS,

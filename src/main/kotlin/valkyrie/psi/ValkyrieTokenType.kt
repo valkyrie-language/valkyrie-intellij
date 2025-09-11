@@ -55,6 +55,9 @@ object ValkyrieTokenTypes {
     val FOR = ValkyrieTokenType("for")
 
     @JvmField
+    val LOOP = ValkyrieTokenType("loop")
+
+    @JvmField
     val FUNCTION = ValkyrieTokenType("micro")
 
     @JvmField
