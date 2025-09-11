@@ -30,6 +30,7 @@ object ValkyrieElementTypes {
     @JvmField val NAMESPACE_STATEMENT = ValkyrieElementType("NAMESPACE_STATEMENT")
     @JvmField val USING_STATEMENT = ValkyrieElementType("USING_STATEMENT")
     @JvmField val EXPRESSION_STATEMENT = ValkyrieElementType("EXPRESSION_STATEMENT")
+    @JvmField val OBJECT_BODY = ValkyrieElementType("OBJECT_BODY")
     @JvmField val BLOCK_STATEMENT = ValkyrieElementType("BLOCK_STATEMENT")
     
     // 表达式
@@ -49,6 +50,8 @@ object ValkyrieElementTypes {
     // Class 和 Union 内部结构
     @JvmField val FIELD_DECLARATION = ValkyrieElementType("FIELD_DECLARATION")
     @JvmField val METHOD_DECLARATION = ValkyrieElementType("METHOD_DECLARATION")
+    @JvmField val INSTANCE_METHOD_DECLARATION = ValkyrieElementType("INSTANCE_METHOD_DECLARATION")
+    @JvmField val STATIC_METHOD_DECLARATION = ValkyrieElementType("STATIC_METHOD_DECLARATION")
     @JvmField val DOMAIN_DECLARATION = ValkyrieElementType("DOMAIN_DECLARATION")
     @JvmField val UNION_VARIANT = ValkyrieElementType("UNION_VARIANT")
     @JvmField val MODIFIER_LIST = ValkyrieElementType("MODIFIER_LIST")
