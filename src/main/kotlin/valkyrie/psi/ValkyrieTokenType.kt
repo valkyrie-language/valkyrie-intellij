@@ -74,6 +74,9 @@ object ValkyrieTokenTypes {
     val IDENTIFIER = ValkyrieTokenType("IDENTIFIER")
 
     @JvmField
+    val ID_RAW = ValkyrieTokenType("ID_RAW")
+
+    @JvmField
     val INTEGER = ValkyrieTokenType("INTEGER")
 
     @JvmField

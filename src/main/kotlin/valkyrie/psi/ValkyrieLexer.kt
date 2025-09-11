@@ -75,6 +75,11 @@ class ValkyrieLexer : LexerBase() {
                 }
             }
 
+            ch == '⍝' -> {
+                skipLineComment()
+                tokenType = ValkyrieTokenTypes.COMMENT_DOCUMENT
+            }
+
             ch == '#' && peek() == '?' -> {
                 skipDocComment()
                 tokenType = ValkyrieTokenTypes.COMMENT_DOCUMENT
@@ -106,6 +111,10 @@ class ValkyrieLexer : LexerBase() {
             ch == '\'' -> {
                 readCharLiteral()
                 tokenType = ValkyrieTokenTypes.STRING
+            }
+
+            ch == '`' -> {
+                readRawIdentifier()
             }
 
             else -> {
@@ -215,6 +224,20 @@ class ValkyrieLexer : LexerBase() {
                 currentOffset++
             }
         }
+    }
+
+    private fun readRawIdentifier() {
+        currentOffset++ // skip opening backtick
+        while (currentOffset < endOffset) {
+            val ch = buffer[currentOffset]
+            if (ch == '`') {
+                currentOffset++ // skip closing backtick
+                break
+            } else {
+                currentOffset++
+            }
+        }
+        tokenType = ValkyrieTokenTypes.ID_RAW
     }
 
     private fun readOperatorOrPunctuation(ch: Char) {

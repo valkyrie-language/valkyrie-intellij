@@ -300,6 +300,7 @@ type_expression
     | type_expression infix_arrows type_expression                                         # TArrows
     | type_expression OP_ADD type_expression                                               # TAdd
     | PARENTHESES_L (type_pair COMMA | type_pair (COMMA type_pair)+ COMMA?)? PARENTHESES_R # TTuple
+    | PARENTHESES_L type_pair COMMA PARENTHESES_R                                          # TTupleSingle
     | function_block                                                                       # TBlock
     | OP_MUL                                                                               # TKind
     | leading_expression                                                                   # TAtom
