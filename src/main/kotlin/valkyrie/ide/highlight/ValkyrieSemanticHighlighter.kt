@@ -9,6 +9,8 @@ import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiFile
 import valkyrie.psi.nodes.ValkyrieClassDeclaration
 import valkyrie.psi.nodes.ValkyrieFileNode
+import valkyrie.psi.nodes.ValkyrieTraitDeclaration
+import valkyrie.psi.nodes.ValkyrieVariantDeclaration
 
 class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
     private var infoHolder: HighlightInfoHolder? = null
@@ -21,11 +23,19 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
             is ValkyrieClassDeclaration -> {
                 highlight(element.nameIdentifier, ValkyrieColor.SYMBOL_CLASS)
             }
+
+            is ValkyrieTraitDeclaration -> {
+                highlight(element.nameIdentifier, ValkyrieColor.SYMBOL_TRAIT)
+            }
+
+            is ValkyrieVariantDeclaration -> {
+                highlight(element.nameIdentifier, ValkyrieColor.SYM_VARIANT)
+            }
         }
     }
 
     private fun highlight(element: PsiElement?, color: ValkyrieColor) {
-        print("正在为 `${element?.text}` 添加 ${color.name}")
+        print("正在为 `${element?.text}` 添加 ${color.name}\n")
         if (element == null) {
             return
         }

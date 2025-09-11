@@ -22,6 +22,6 @@ class ValkyrieColorSettingsPage : ColorSettingsPage {
 
     override fun getAdditionalHighlightingTagToDescriptorMap() = annotatorTags
 
-    override fun getDemoText() = javaClass.getResource("/templates/color-highlight.vk")!!.readText()
+    override fun getDemoText() = javaClass.getResource("/templates/code-highlight.vk")!!.readText()
 }
 

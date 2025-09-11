@@ -12,7 +12,7 @@ import valkyrie.psi.ValkyrieTokenTypes
  */
 class ValkyrieVariantDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner {
     override fun getNameIdentifier(): PsiElement? {
-        return findChildByType(ValkyrieTokenTypes.IDENTIFIER)
+        return findChildByClass(ValkyrieIdentifierNode::class.java)
     }
 
     override fun getNavigationElement(): PsiElement {
@@ -26,7 +26,7 @@ class ValkyrieVariantDeclaration(node: ASTNode) : ValkyrieElementNode(node), Psi
     override fun setName(name: @NlsSafe String): PsiElement? {
         TODO("Not yet implemented")
     }
-    
+
     fun getVariantBody(): ValkyrieObjectBodyNode? {
         return findChildByClass(ValkyrieObjectBodyNode::class.java)
     }

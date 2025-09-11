@@ -2,22 +2,19 @@ package valkyrie.reference
 
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiReference
 import com.intellij.psi.PsiReferenceBase
-import com.intellij.psi.PsiReferenceProvider
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.util.ProcessingContext
 import valkyrie.index.ValkyrieSymbolIndex
-import valkyrie.psi.nodes.ValkyrieIdentifierExpressionNode
+import valkyrie.psi.nodes.ValkyrieIdentifierNode
 import valkyrie.psi.nodes.ValkyrieNamespaceDeclaration
 
 /**
  * 跨文件引用解析器
  */
 class ValkyrieCrossFileReference(
-    element: ValkyrieIdentifierExpressionNode,
+    element: ValkyrieIdentifierNode,
     textRange: TextRange
-) : PsiReferenceBase<ValkyrieIdentifierExpressionNode>(element, textRange) {
+) : PsiReferenceBase<ValkyrieIdentifierNode>(element, textRange) {
 
     override fun resolve(): PsiElement? {
         val symbolName = element.text
@@ -66,18 +63,3 @@ class ValkyrieCrossFileReference(
     }
 }
 
-/**
- * 跨文件引用提供者
- */
-class ValkyrieCrossFileReferenceProvider : PsiReferenceProvider() {
-    override fun getReferencesByElement(
-        element: PsiElement,
-        context: ProcessingContext
-    ): Array<out PsiReference?> {
-        if (element is ValkyrieIdentifierExpressionNode) {
-            val textRange = TextRange(0, element.textLength)
-            return arrayOf(ValkyrieCrossFileReference(element, textRange))
-        }
-        return emptyArray()
-    }
-}
