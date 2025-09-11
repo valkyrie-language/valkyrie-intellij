@@ -97,6 +97,7 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.FOR,
             ValkyrieTokenTypes.FUNCTION,
             ValkyrieTokenTypes.CLASS,
+            ValkyrieTokenTypes.UNION,
             ValkyrieTokenTypes.TRAIT,
             ValkyrieTokenTypes.RETURN,
             ValkyrieTokenTypes.BREAK,
@@ -117,7 +118,8 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             
             // 注释
             ValkyrieTokenTypes.LINE_COMMENT,
-            ValkyrieTokenTypes.BLOCK_COMMENT -> arrayOf(COMMENT)
+            ValkyrieTokenTypes.BLOCK_COMMENT,
+            ValkyrieTokenTypes.DOC_COMMENT -> arrayOf(COMMENT)
             
             // 标识符
             ValkyrieTokenTypes.IDENTIFIER -> arrayOf(IDENTIFIER)

@@ -24,6 +24,8 @@ object ValkyrieElementTypes {
     
     // 语句
     @JvmField val LET_STATEMENT = ValkyrieElementType("LET_STATEMENT")
+    @JvmField val CLASS_STATEMENT = ValkyrieElementType("CLASS_STATEMENT")
+    @JvmField val UNION_STATEMENT = ValkyrieElementType("UNION_STATEMENT")
     @JvmField val NAMESPACE_STATEMENT = ValkyrieElementType("NAMESPACE_STATEMENT")
     @JvmField val USING_STATEMENT = ValkyrieElementType("USING_STATEMENT")
     @JvmField val EXPRESSION_STATEMENT = ValkyrieElementType("EXPRESSION_STATEMENT")

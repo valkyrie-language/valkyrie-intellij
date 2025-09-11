@@ -1,5 +1,5 @@
 <idea-plugin>
 	<extensions defaultExtensionNs="com.intellij">
-		<platform.lsp.serverSupportProvider implementation="valkyrie.lsp.ValkyrieLanguageProtocol"/>
+<!--		<platform.lsp.serverSupportProvider implementation="valkyrie.lsp.ValkyrieLanguageProtocol"/>-->
 	</extensions>
 </idea-plugin>

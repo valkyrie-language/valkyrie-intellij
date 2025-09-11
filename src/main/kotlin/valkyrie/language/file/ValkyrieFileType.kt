@@ -1,8 +1,9 @@
 package valkyrie.language.file
 
 import com.intellij.openapi.fileTypes.LanguageFileType
-import valkyrie.language.ValkyrieLanguage
+import org.jetbrains.annotations.Nls
 import valkyrie.language.ValkyrieIcons
+import valkyrie.language.ValkyrieLanguage
 import javax.swing.Icon
 
 /**
@@ -14,11 +15,19 @@ class ValkyrieFileType private constructor() : LanguageFileType(ValkyrieLanguage
         val INSTANCE = ValkyrieFileType()
     }
 
-    override fun getName(): String = "Valkyrie"
-    
+    override fun getName(): String = "valkyrie"
+
+    override fun getDisplayName(): @Nls String {
+        return "Valkyrie"
+    }
+
     override fun getDescription(): String = "Valkyrie Language File"
-    
+
     override fun getDefaultExtension(): String = "vk"
-    
+
+    override fun isReadOnly(): Boolean {
+        return super.isReadOnly()
+    }
+
     override fun getIcon(): Icon? = ValkyrieIcons.FILE
 }

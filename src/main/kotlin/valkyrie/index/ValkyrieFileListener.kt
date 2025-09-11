@@ -13,33 +13,40 @@ import valkyrie.language.file.ValkyrieFileType
  */
 class ValkyrieFileListener(private val project: Project) : VirtualFileListener {
     
-    private val symbolIndex = ValkyrieSymbolIndex.getInstance(project)
+    private var symbolIndex: ValkyrieSymbolIndex? = null
+    
+    private fun getSymbolIndex(): ValkyrieSymbolIndex {
+        if (symbolIndex == null) {
+            symbolIndex = ValkyrieSymbolIndex.getInstance(project)
+        }
+        return symbolIndex!!
+    }
     
     override fun contentsChanged(event: VirtualFileEvent) {
         if (isValkyrieFile(event.file)) {
             // 文件内容变化时重建索引
-            symbolIndex.rebuildIndex()
+            getSymbolIndex().rebuildIndex()
         }
     }
     
     override fun fileCreated(event: VirtualFileEvent) {
         if (isValkyrieFile(event.file)) {
             // 新建 Valkyrie 文件时重建索引
-            symbolIndex.rebuildIndex()
+            getSymbolIndex().rebuildIndex()
         }
     }
     
     override fun fileDeleted(event: VirtualFileEvent) {
         if (isValkyrieFile(event.file)) {
             // 删除 Valkyrie 文件时重建索引
-            symbolIndex.rebuildIndex()
+            getSymbolIndex().rebuildIndex()
         }
     }
     
     override fun fileMoved(event: VirtualFileMoveEvent) {
         if (isValkyrieFile(event.file)) {
             // 移动 Valkyrie 文件时重建索引
-            symbolIndex.rebuildIndex()
+            getSymbolIndex().rebuildIndex()
         }
     }
     

@@ -28,35 +28,13 @@ class ValkyrieCrossFileReference(
         // 获取符号索引服务
         val symbolIndex = ValkyrieSymbolIndex.getInstance(project)
 
-        // 首先尝试在当前文件中查找
-        val localDefinition = findLocalDefinition(symbolName)
-        if (localDefinition != null) {
-            return localDefinition
-        }
-
-        // 然后尝试跨文件查找
+        // 使用符号索引统一查找，避免重复查找
+        // findSymbolDefinition 内部已经包含了本地查找逻辑
         val symbolInfo = symbolIndex.findSymbolDefinition(symbolName, currentFile)
         return symbolInfo?.element
     }
 
-    /**
-     * 在当前文件中查找符号定义
-     */
-    private fun findLocalDefinition(symbolName: String): PsiElement? {
-        val file = element.containingFile
-
-        // 查找所有 let 语句
-        val letStatements = PsiTreeUtil.findChildrenOfType(file, ValkyrieLetStatementNode::class.java)
-
-        for (letStatement in letStatements) {
-            val identifier = letStatement.getIdentifier()
-            if (identifier?.text == symbolName) {
-                return identifier
-            }
-        }
-
-        return null
-    }
+    // 移除 findLocalDefinition 方法，避免与 ValkyrieSymbolIndex.findSymbolDefinition 重复查找
 
     override fun getVariants(): Array<Any> {
         val currentFile = element.containingFile.virtualFile ?: return emptyArray()
