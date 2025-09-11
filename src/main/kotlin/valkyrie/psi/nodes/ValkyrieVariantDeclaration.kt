@@ -26,11 +26,7 @@ class ValkyrieVariantDeclaration(node: ASTNode) : ValkyrieElementNode(node), Psi
     override fun setName(name: @NlsSafe String): PsiElement? {
         TODO("Not yet implemented")
     }
-
-    fun getVariantName(): String? {
-        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)?.text
-    }
-
+    
     fun getVariantBody(): ValkyrieObjectBodyNode? {
         return findChildByClass(ValkyrieObjectBodyNode::class.java)
     }

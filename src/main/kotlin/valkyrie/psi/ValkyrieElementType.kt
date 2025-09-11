@@ -69,6 +69,12 @@ object ValkyrieElementTypes {
     val UNARY_EXPRESSION = ValkyrieElementType("UNARY_EXPRESSION")
     @JvmField
     val PARENTHESIZED_EXPRESSION = ValkyrieElementType("PARENTHESIZED_EXPRESSION")
+    @JvmField
+    val CALL_EXPRESSION = ValkyrieElementType("CALL_EXPRESSION")
+    @JvmField
+    val GENERIC_CALL_EXPRESSION = ValkyrieElementType("GENERIC_CALL_EXPRESSION")
+    @JvmField
+    val POSTFIX_EXPRESSION = ValkyrieElementType("POSTFIX_EXPRESSION")
 
     // 模式
     @JvmField
@@ -100,7 +106,7 @@ object ValkyrieElementTypes {
     
     // 修饰符
     @JvmField
-    val MODIFIER = ValkyrieElementType("MODIFIER")
+    val MODIFIER_NODE = ValkyrieElementType("MODIFIER_NODE")
     @JvmField
     val MODIFIER_LIST = ValkyrieElementType("MODIFIER_LIST")
     

@@ -163,6 +163,19 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.LBRACKET,
             ValkyrieTokenTypes.RBRACKET -> arrayOf(BRACKETS)
             
+            // 泛型角括号
+            ValkyrieTokenTypes.LANGLE,
+            ValkyrieTokenTypes.RANGLE -> arrayOf(BRACKETS)
+            
+            // 双冒号（用于泛型语法 ::<T>）
+            ValkyrieTokenTypes.DOUBLE_COLON -> arrayOf(OPERATOR)
+            
+            // 冒号（用于类型注解）
+            ValkyrieTokenTypes.COLON -> arrayOf(OPERATOR)
+            
+            // 箭头（用于函数返回类型）
+            ValkyrieTokenTypes.ARROW -> arrayOf(OPERATOR)
+            
             // 分号
             ValkyrieTokenTypes.SEMICOLON -> arrayOf(SEMICOLON)
             
