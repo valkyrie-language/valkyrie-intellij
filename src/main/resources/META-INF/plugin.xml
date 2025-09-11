@@ -56,6 +56,11 @@
 			implementationClass="valkyrie.reference.ValkyrieFindUsagesProvider"
 		/>
 
+		<!-- Goto Declaration Handler -->
+		<gotoDeclarationHandler
+			implementation="valkyrie.reference.ValkyrieGotoDeclarationHandler"
+		/>
+
 		<!-- Project Service -->
 		<projectService
 			serviceImplementation="valkyrie.index.ValkyrieProjectService"
@@ -104,6 +109,16 @@
 		
 		<!-- Breadcrumbs Navigation -->
 		<breadcrumbsInfoProvider implementation="valkyrie.ide.navigation.ValkyrieBreadcrumbsProvider"/>
+		
+		<!-- Inlay Hints -->
+		<codeInsight.inlayProvider 
+			language="valkyrie" 
+			implementationClass="valkyrie.ide.hint.ValkyrieInlayHintsProvider"/>
+		
+		<!-- Parameter Info -->
+		<codeInsight.parameterInfo 
+			language="valkyrie" 
+			implementationClass="valkyrie.ide.hint.ValkyrieParameterInfoHandler"/>
 	</extensions>
 	
 	<!-- Actions -->

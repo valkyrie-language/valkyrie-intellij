@@ -14,7 +14,7 @@ object ValkyrieIcons {
     val VARIABLE: Icon = IconLoader.getIcon("/icons/variable.svg", ValkyrieIcons::class.java)
 
     @JvmStatic
-    val FUNCTION: Icon = IconLoader.getIcon("/icons/fieldValue.svg", ValkyrieIcons::class.java)
+    val FUNCTION: Icon = IconLoader.getIcon("/icons/valkyrie-function.svg", ValkyrieIcons::class.java)
 
     @JvmStatic
     val WORKSPACE: Icon = IconLoader.getIcon("/icons/vk.svg", ValkyrieIcons::class.java)
@@ -24,4 +24,35 @@ object ValkyrieIcons {
 
     @JvmStatic
     val PACKAGES: Icon = IconLoader.getIcon("/icons/vk.svg", ValkyrieIcons::class.java)
+
+    // Structure View 图标
+    @JvmStatic
+    val CLASS: Icon = IconLoader.getIcon("/icons/c.svg", ValkyrieIcons::class.java)
+
+    @JvmStatic
+    val UNION: Icon = IconLoader.getIcon("/icons/codeAssistantUnion.svg", ValkyrieIcons::class.java)
+
+    @JvmStatic
+    val TRAIT: Icon = IconLoader.getIcon("/icons/trait.svg", ValkyrieIcons::class.java)
+
+    @JvmStatic
+    val DOMAIN: Icon = IconLoader.getIcon("/icons/module.svg", ValkyrieIcons::class.java)
+
+    @JvmStatic
+    val NAMESPACE: Icon = IconLoader.getIcon("/icons/codeAssistantNamespace.svg", ValkyrieIcons::class.java)
+
+    @JvmStatic
+    val FIELD: Icon = IconLoader.getIcon("/icons/codeAssistantField.svg", ValkyrieIcons::class.java)
+
+    @JvmStatic
+    val METHOD: Icon = IconLoader.getIcon("/icons/valkyrie-function.svg", ValkyrieIcons::class.java)
+
+    @JvmStatic
+    val VARIANT: Icon = IconLoader.getIcon("/icons/codeAssistantEnum.svg", ValkyrieIcons::class.java)
+
+    @JvmStatic
+    val LET_STATEMENT: Icon = IconLoader.getIcon("/icons/valkyrie-variable.svg", ValkyrieIcons::class.java)
+
+    @JvmStatic
+    val MACRO: Icon = IconLoader.getIcon("/icons/codeAssistantMacro.svg", ValkyrieIcons::class.java)
 }

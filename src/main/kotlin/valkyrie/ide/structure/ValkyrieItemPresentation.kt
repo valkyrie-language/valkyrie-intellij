@@ -42,6 +42,15 @@ class ValkyrieItemPresentation(private val element: PsiElement) : ItemPresentati
         // 根据元素类型返回相应的图标
         return when (element) {
             is ValkyrieFileNode -> ValkyrieIcons.FILE
+            is ValkyrieClassDeclaration -> ValkyrieIcons.CLASS
+            is ValkyrieUnionDeclaration -> ValkyrieIcons.UNION
+            is ValkyrieTraitDeclaration -> ValkyrieIcons.TRAIT
+            is ValkyrieDomainDeclaration -> ValkyrieIcons.DOMAIN
+            is ValkyrieNamespaceDeclaration -> ValkyrieIcons.NAMESPACE
+            is ValkyrieFieldDeclaration -> ValkyrieIcons.FIELD
+            is ValkyrieMethodDeclaration -> ValkyrieIcons.METHOD
+            is ValkyrieVariantDeclaration -> ValkyrieIcons.VARIANT
+            is ValkyrieLetStatementNode -> ValkyrieIcons.LET_STATEMENT
             else -> null
         }
     }
