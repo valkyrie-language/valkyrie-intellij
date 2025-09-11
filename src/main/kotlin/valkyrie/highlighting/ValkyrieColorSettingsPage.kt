@@ -15,28 +15,37 @@ class ValkyrieColorSettingsPage : ColorSettingsPage {
     
     companion object {
         private val DESCRIPTORS = arrayOf(
+            // 词法级别高亮
             AttributesDescriptor("Keyword", ValkyrieSyntaxHighlighter.KEYWORD),
             AttributesDescriptor("String", ValkyrieSyntaxHighlighter.STRING),
             AttributesDescriptor("Number", ValkyrieSyntaxHighlighter.NUMBER),
             AttributesDescriptor("Comment", ValkyrieSyntaxHighlighter.COMMENT),
             AttributesDescriptor("Identifier", ValkyrieSyntaxHighlighter.IDENTIFIER),
             AttributesDescriptor("Operator", ValkyrieSyntaxHighlighter.OPERATOR),
+            AttributesDescriptor("Metadata", ValkyrieSyntaxHighlighter.METADATA),
             AttributesDescriptor("Parentheses", ValkyrieSyntaxHighlighter.PARENTHESES),
             AttributesDescriptor("Braces", ValkyrieSyntaxHighlighter.BRACES),
             AttributesDescriptor("Brackets", ValkyrieSyntaxHighlighter.BRACKETS),
             AttributesDescriptor("Semicolon", ValkyrieSyntaxHighlighter.SEMICOLON),
             AttributesDescriptor("Comma", ValkyrieSyntaxHighlighter.COMMA),
             AttributesDescriptor("Dot", ValkyrieSyntaxHighlighter.DOT),
-            // 语义高亮
-            AttributesDescriptor("Class Name", ValkyrieAnnotator.CLASS_NAME),
-            AttributesDescriptor("Trait Name", ValkyrieAnnotator.TRAIT_NAME),
-            AttributesDescriptor("Union Name", ValkyrieAnnotator.UNION_NAME),
-            AttributesDescriptor("Variant Name", ValkyrieAnnotator.VARIANT_NAME),
-            AttributesDescriptor("Modifier", ValkyrieAnnotator.MODIFIER),
-            AttributesDescriptor("Field Name", ValkyrieAnnotator.FIELD_NAME),
-            AttributesDescriptor("Method Name", ValkyrieAnnotator.METHOD_NAME),
-            AttributesDescriptor("Static Method Name", ValkyrieAnnotator.STATIC_METHOD_NAME),
-            AttributesDescriptor("Domain Name", ValkyrieAnnotator.DOMAIN_NAME)
+            AttributesDescriptor("Bad Character", ValkyrieSyntaxHighlighter.BAD_CHARACTER),
+            
+            // 语义级别高亮
+            AttributesDescriptor("Class Name", ValkyrieSemanticHighlighter.CLASS_NAME),
+            AttributesDescriptor("Trait Name", ValkyrieSemanticHighlighter.TRAIT_NAME),
+            AttributesDescriptor("Union Name", ValkyrieSemanticHighlighter.UNION_NAME),
+            AttributesDescriptor("Variant Name", ValkyrieSemanticHighlighter.VARIANT_NAME),
+            AttributesDescriptor("Field Name", ValkyrieSemanticHighlighter.FIELD_NAME),
+            AttributesDescriptor("Method Name", ValkyrieSemanticHighlighter.METHOD_NAME),
+            AttributesDescriptor("Static Method", ValkyrieSemanticHighlighter.STATIC_METHOD),
+            AttributesDescriptor("Instance Method", ValkyrieSemanticHighlighter.INSTANCE_METHOD),
+            AttributesDescriptor("Domain Name", ValkyrieSemanticHighlighter.DOMAIN_NAME),
+            AttributesDescriptor("Modifier", ValkyrieSemanticHighlighter.MODIFIER),
+            
+            // 特殊染色
+            AttributesDescriptor("Dead Code", ValkyrieAnnotator.DEAD_CODE),
+            AttributesDescriptor("Unused Symbol", ValkyrieAnnotator.UNUSED_SYMBOL)
         )
         
         private val DEMO_TEXT = """

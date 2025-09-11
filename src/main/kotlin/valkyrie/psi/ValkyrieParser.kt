@@ -34,6 +34,7 @@ class ValkyrieParser : PsiParser {
             ValkyrieTokenTypes.CLASS -> parseClassStatement(builder)
             ValkyrieTokenTypes.UNION -> parseUnionStatement(builder)
             ValkyrieTokenTypes.TRAIT -> parseTraitStatement(builder)
+            ValkyrieTokenTypes.FUNCTION -> parseFunctionStatement(builder)
             ValkyrieTokenTypes.NAMESPACE -> parseNamespaceStatement(builder)
             ValkyrieTokenTypes.USING -> parseUsingStatement(builder)
             ValkyrieTokenTypes.LBRACE -> parseBlockStatement(builder)
@@ -394,6 +395,9 @@ class ValkyrieParser : PsiParser {
             val nameMarker = builder.mark()
             builder.advanceLexer()
             nameMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
+            
+            // optional generic parameters
+            parseOptionalGenericParameters(builder)
         } else {
             builder.error("Expected union name")
         }
@@ -424,6 +428,9 @@ class ValkyrieParser : PsiParser {
             val nameMarker = builder.mark()
             builder.advanceLexer()
             nameMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
+            
+            // optional generic parameters
+            parseOptionalGenericParameters(builder)
         } else {
             builder.error("Expected trait name")
         }
@@ -436,6 +443,44 @@ class ValkyrieParser : PsiParser {
         }
 
         marker.done(ValkyrieElementTypes.TRAIT_STATEMENT)
+    }
+
+    private fun parseFunctionStatement(builder: PsiBuilder) {
+        val marker = builder.mark()
+
+        // 'micro' keyword
+        if (builder.tokenType == ValkyrieTokenTypes.FUNCTION) {
+            builder.advanceLexer()
+        } else {
+            marker.drop()
+            return
+        }
+
+        // function name
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER) {
+            val nameMarker = builder.mark()
+            builder.advanceLexer()
+            nameMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
+            
+            // optional generic parameters
+            parseOptionalGenericParameters(builder)
+        } else {
+            builder.error("Expected function name")
+        }
+
+        // parameter list
+        if (builder.tokenType == ValkyrieTokenTypes.LPAREN) {
+            parseParameterList(builder)
+        }
+
+        // function body
+        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+            parseBlockStatement(builder)
+        } else {
+            builder.error("Expected function body")
+        }
+
+        marker.done(ValkyrieElementTypes.METHOD_DECLARATION)
     }
 
     private fun parseTraitBody(builder: PsiBuilder) {
