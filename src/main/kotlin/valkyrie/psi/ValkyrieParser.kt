@@ -289,14 +289,16 @@ class ValkyrieParser : PsiParser {
         
         // class name
         if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER) {
+            val nameMarker = builder.mark()
             builder.advanceLexer()
+            nameMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
         } else {
             builder.error("Expected class name")
         }
         
         // class body
         if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
-            parseBlockStatement(builder)
+            parseClassBody(builder)
         } else {
             builder.error("Expected '{'")
         }
@@ -317,18 +319,318 @@ class ValkyrieParser : PsiParser {
         
         // union name
         if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER) {
+            val nameMarker = builder.mark()
             builder.advanceLexer()
+            nameMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
         } else {
             builder.error("Expected union name")
         }
         
         // union body
         if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
-            parseBlockStatement(builder)
+            parseUnionBody(builder)
         } else {
             builder.error("Expected '{'")
         }
         
         marker.done(ValkyrieElementTypes.UNION_STATEMENT)
+    }
+    
+    private fun parseClassBody(builder: PsiBuilder) {
+        val marker = builder.mark()
+        
+        // '{'
+        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+            builder.advanceLexer()
+        }
+        
+        // class members
+        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
+            when {
+                isModifierOrIdentifier(builder) -> {
+                    parseClassMember(builder)
+                }
+                builder.tokenType == ValkyrieTokenTypes.WHITESPACE || builder.tokenType == ValkyrieTokenTypes.NEWLINE -> {
+                    builder.advanceLexer()
+                }
+                builder.tokenType == ValkyrieTokenTypes.LINE_COMMENT || builder.tokenType == ValkyrieTokenTypes.BLOCK_COMMENT -> {
+                    builder.advanceLexer()
+                }
+                else -> {
+                    builder.error("Expected class member")
+                    builder.advanceLexer()
+                }
+            }
+        }
+        
+        // '}'
+        if (builder.tokenType == ValkyrieTokenTypes.RBRACE) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected '}'")
+        }
+        
+        marker.done(ValkyrieElementTypes.BLOCK_STATEMENT)
+    }
+    
+    private fun parseUnionBody(builder: PsiBuilder) {
+        val marker = builder.mark()
+        
+        // '{'
+        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+            builder.advanceLexer()
+        }
+        
+        // union variants
+        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
+            when {
+                builder.tokenType == ValkyrieTokenTypes.IDENTIFIER -> {
+                    parseUnionVariant(builder)
+                }
+                builder.tokenType == ValkyrieTokenTypes.WHITESPACE || builder.tokenType == ValkyrieTokenTypes.NEWLINE -> {
+                    builder.advanceLexer()
+                }
+                builder.tokenType == ValkyrieTokenTypes.LINE_COMMENT || builder.tokenType == ValkyrieTokenTypes.BLOCK_COMMENT -> {
+                    builder.advanceLexer()
+                }
+                else -> {
+                    builder.error("Expected union variant")
+                    builder.advanceLexer()
+                }
+            }
+        }
+        
+        // '}'
+        if (builder.tokenType == ValkyrieTokenTypes.RBRACE) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected '}'")
+        }
+        
+        marker.done(ValkyrieElementTypes.BLOCK_STATEMENT)
+    }
+    
+    private fun parseClassMember(builder: PsiBuilder) {
+        // 解析修饰符
+        val modifiers = parseModifiers(builder)
+        
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER) {
+            val lookahead = builder.lookAhead(1)
+            when {
+                lookahead == ValkyrieTokenTypes.LPAREN -> {
+                    // method: identifier()
+                    parseMethodDeclaration(builder, modifiers)
+                }
+                lookahead == ValkyrieTokenTypes.LBRACE -> {
+                    // domain: identifier {}
+                    parseDomainDeclaration(builder, modifiers)
+                }
+                lookahead == ValkyrieTokenTypes.SEMICOLON || lookahead == ValkyrieTokenTypes.COLON -> {
+                    // field: identifier; 或 identifier: type;
+                    parseFieldDeclaration(builder, modifiers)
+                }
+                else -> {
+                    // 默认当作 field 处理
+                    parseFieldDeclaration(builder, modifiers)
+                }
+            }
+        } else {
+            builder.error("Expected identifier")
+        }
+    }
+    
+    private fun parseModifiers(builder: PsiBuilder): PsiBuilder.Marker? {
+        var modifierMarker: PsiBuilder.Marker? = null
+        
+        while (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER) {
+            val text = builder.tokenText
+            // 检查是否是修饰符关键字（这里简化处理，实际应该有专门的修饰符 token）
+            if (isModifierKeyword(text)) {
+                if (modifierMarker == null) {
+                    modifierMarker = builder.mark()
+                }
+                builder.advanceLexer()
+            } else {
+                break
+            }
+        }
+        
+        modifierMarker?.done(ValkyrieElementTypes.MODIFIER_LIST)
+        return modifierMarker
+    }
+    
+    private fun isModifierKeyword(text: String?): Boolean {
+        return text in setOf("public", "private", "protected", "static", "final", "abstract", "override")
+    }
+    
+    private fun isModifierOrIdentifier(builder: PsiBuilder): Boolean {
+        return builder.tokenType == ValkyrieTokenTypes.IDENTIFIER
+    }
+    
+    private fun parseFieldDeclaration(builder: PsiBuilder, modifiers: PsiBuilder.Marker?) {
+        val marker = builder.mark()
+        
+        // field name
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER) {
+            val nameMarker = builder.mark()
+            builder.advanceLexer()
+            nameMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
+        }
+        
+        // optional type annotation
+        if (builder.tokenType == ValkyrieTokenTypes.COLON) {
+            builder.advanceLexer()
+            parseTypeReference(builder)
+        }
+        
+        // semicolon
+        if (builder.tokenType == ValkyrieTokenTypes.SEMICOLON) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected ';'")
+        }
+        
+        marker.done(ValkyrieElementTypes.FIELD_DECLARATION)
+    }
+    
+    private fun parseMethodDeclaration(builder: PsiBuilder, modifiers: PsiBuilder.Marker?) {
+        val marker = builder.mark()
+        
+        // method name
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER) {
+            val nameMarker = builder.mark()
+            builder.advanceLexer()
+            nameMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
+        }
+        
+        // parameter list
+        if (builder.tokenType == ValkyrieTokenTypes.LPAREN) {
+            parseParameterList(builder)
+        }
+        
+        // method body
+        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+            parseBlockStatement(builder)
+        } else {
+            builder.error("Expected method body")
+        }
+        
+        marker.done(ValkyrieElementTypes.METHOD_DECLARATION)
+    }
+    
+    private fun parseDomainDeclaration(builder: PsiBuilder, modifiers: PsiBuilder.Marker?) {
+        val marker = builder.mark()
+        
+        // domain name
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER) {
+            val nameMarker = builder.mark()
+            builder.advanceLexer()
+            nameMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
+        }
+        
+        // domain body
+        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+            parseBlockStatement(builder)
+        } else {
+            builder.error("Expected domain body")
+        }
+        
+        marker.done(ValkyrieElementTypes.DOMAIN_DECLARATION)
+    }
+    
+    private fun parseUnionVariant(builder: PsiBuilder) {
+        val marker = builder.mark()
+        
+        // variant name
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER) {
+            val nameMarker = builder.mark()
+            builder.advanceLexer()
+            nameMarker.done(ValkyrieElementTypes.IDENTIFIER_PATTERN)
+        }
+        
+        // variant body
+        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+            parseVariantBody(builder)
+        } else {
+            builder.error("Expected variant body")
+        }
+        
+        marker.done(ValkyrieElementTypes.UNION_VARIANT)
+    }
+    
+    private fun parseVariantBody(builder: PsiBuilder) {
+        val marker = builder.mark()
+        
+        // '{'
+        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+            builder.advanceLexer()
+        }
+        
+        // variant members (fields, methods, domains)
+        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
+            when {
+                isModifierOrIdentifier(builder) -> {
+                    parseClassMember(builder) // 复用 class member 解析逻辑
+                }
+                builder.tokenType == ValkyrieTokenTypes.WHITESPACE || builder.tokenType == ValkyrieTokenTypes.NEWLINE -> {
+                    builder.advanceLexer()
+                }
+                builder.tokenType == ValkyrieTokenTypes.LINE_COMMENT || builder.tokenType == ValkyrieTokenTypes.BLOCK_COMMENT -> {
+                    builder.advanceLexer()
+                }
+                else -> {
+                    builder.error("Expected variant member")
+                    builder.advanceLexer()
+                }
+            }
+        }
+        
+        // '}'
+        if (builder.tokenType == ValkyrieTokenTypes.RBRACE) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected '}'")
+        }
+        
+        marker.done(ValkyrieElementTypes.BLOCK_STATEMENT)
+    }
+    
+    private fun parseParameterList(builder: PsiBuilder) {
+        val marker = builder.mark()
+        
+        // '('
+        if (builder.tokenType == ValkyrieTokenTypes.LPAREN) {
+            builder.advanceLexer()
+        }
+        
+        // parameters
+        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RPAREN) {
+            if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER) {
+                val paramMarker = builder.mark()
+                builder.advanceLexer()
+                if (builder.tokenType == ValkyrieTokenTypes.COLON) {
+                    builder.advanceLexer()
+                    parseTypeReference(builder)
+                }
+                paramMarker.done(ValkyrieElementTypes.PARAMETER)
+                if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+                    builder.advanceLexer()
+                }
+            } else if (builder.tokenType == ValkyrieTokenTypes.WHITESPACE || builder.tokenType == ValkyrieTokenTypes.NEWLINE) {
+                builder.advanceLexer()
+            } else {
+                builder.error("Expected parameter")
+                builder.advanceLexer()
+            }
+        }
+        
+        // ')'
+        if (builder.tokenType == ValkyrieTokenTypes.RPAREN) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected ')'")
+        }
+        
+        marker.done(ValkyrieElementTypes.PARAMETER_LIST)
     }
 }

@@ -90,6 +90,113 @@ class ValkyrieUnionStatementNode(node: ASTNode) : ValkyrieElementNode(node) {
 }
 
 /**
+ * Field 声明实现
+ */
+class ValkyrieFieldDeclarationNode(node: ASTNode) : ValkyrieElementNode(node) {
+    
+    fun getFieldName(): String? {
+        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)?.text
+    }
+    
+    fun getModifiers(): ValkyrieModifierListNode? {
+        return findChildByClass(ValkyrieModifierListNode::class.java)
+    }
+    
+    fun getTypeReference(): ValkyrieTypeReferenceNode? {
+        return findChildByClass(ValkyrieTypeReferenceNode::class.java)
+    }
+}
+
+/**
+ * Method 声明实现
+ */
+class ValkyrieMethodDeclarationNode(node: ASTNode) : ValkyrieElementNode(node) {
+    
+    fun getMethodName(): String? {
+        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)?.text
+    }
+    
+    fun getModifiers(): ValkyrieModifierListNode? {
+        return findChildByClass(ValkyrieModifierListNode::class.java)
+    }
+    
+    fun getParameterList(): ValkyrieParameterListNode? {
+        return findChildByClass(ValkyrieParameterListNode::class.java)
+    }
+    
+    fun getMethodBody(): ValkyrieBlockStatementNode? {
+        return findChildByClass(ValkyrieBlockStatementNode::class.java)
+    }
+}
+
+/**
+ * Domain 声明实现
+ */
+class ValkyrieDomainDeclarationNode(node: ASTNode) : ValkyrieElementNode(node) {
+    
+    fun getDomainName(): String? {
+        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)?.text
+    }
+    
+    fun getModifiers(): ValkyrieModifierListNode? {
+        return findChildByClass(ValkyrieModifierListNode::class.java)
+    }
+    
+    fun getDomainBody(): ValkyrieBlockStatementNode? {
+        return findChildByClass(ValkyrieBlockStatementNode::class.java)
+    }
+}
+
+/**
+ * Union Variant 实现
+ */
+class ValkyrieUnionVariantNode(node: ASTNode) : ValkyrieElementNode(node) {
+    
+    fun getVariantName(): String? {
+        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)?.text
+    }
+    
+    fun getVariantBody(): ValkyrieBlockStatementNode? {
+        return findChildByClass(ValkyrieBlockStatementNode::class.java)
+    }
+}
+
+/**
+ * Modifier List 实现
+ */
+class ValkyrieModifierListNode(node: ASTNode) : ValkyrieElementNode(node) {
+    
+    fun getModifiers(): List<String> {
+        return findChildrenByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)
+            .mapNotNull { it.text }
+    }
+}
+
+/**
+ * Parameter List 实现
+ */
+class ValkyrieParameterListNode(node: ASTNode) : ValkyrieElementNode(node) {
+    
+    fun getParameters(): List<ValkyrieParameterNode> {
+        return findChildrenByClass(ValkyrieParameterNode::class.java)
+    }
+}
+
+/**
+ * Parameter 实现
+ */
+class ValkyrieParameterNode(node: ASTNode) : ValkyrieElementNode(node) {
+    
+    fun getParameterName(): String? {
+        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)?.text
+    }
+    
+    fun getTypeReference(): ValkyrieTypeReferenceNode? {
+        return findChildByClass(ValkyrieTypeReferenceNode::class.java)
+    }
+}
+
+/**
  * 限定名实现
  */
 class ValkyrieQualifiedNameNode(node: ASTNode) : ValkyrieElementNode(node) {

@@ -45,8 +45,16 @@ object ValkyrieElementTypes {
     // 类型
     @JvmField val TYPE_REFERENCE = ValkyrieElementType("TYPE_REFERENCE")
     
+    // Class 和 Union 内部结构
+    @JvmField val FIELD_DECLARATION = ValkyrieElementType("FIELD_DECLARATION")
+    @JvmField val METHOD_DECLARATION = ValkyrieElementType("METHOD_DECLARATION")
+    @JvmField val DOMAIN_DECLARATION = ValkyrieElementType("DOMAIN_DECLARATION")
+    @JvmField val UNION_VARIANT = ValkyrieElementType("UNION_VARIANT")
+    @JvmField val MODIFIER_LIST = ValkyrieElementType("MODIFIER_LIST")
+    
     // 其他
     @JvmField val PARAMETER_LIST = ValkyrieElementType("PARAMETER_LIST")
+    @JvmField val PARAMETER = ValkyrieElementType("PARAMETER")
     @JvmField val ARGUMENT_LIST = ValkyrieElementType("ARGUMENT_LIST")
     @JvmField val QUALIFIED_NAME = ValkyrieElementType("QUALIFIED_NAME")
 }
