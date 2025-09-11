@@ -68,8 +68,6 @@ object ValkyrieElementTypes {
     val VARIANT_BODY = ValkyrieElementType("VARIANT_BODY")
     @JvmField
     val BLOCK_BODY = ValkyrieElementType("BLOCK_BODY")
-    @JvmField
-    val DOMAIN_BODY = ValkyrieElementType("DOMAIN_BODY")
 
     // 表达式
     @JvmField

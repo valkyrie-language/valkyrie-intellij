@@ -102,4 +102,15 @@
 			implementationClass="valkyrie.ide.documentation.ValkyrieDocumentationProvider"
 		/>
 	</extensions>
+	
+	<!-- Actions -->
+	<actions>
+		<action
+			id="valkyrie.ToggleDocumentRenderMode"
+			class="valkyrie.ide.documentation.ToggleDocumentRenderModeAction"
+			text="Toggle Document Render Mode"
+			description="Toggle between rendered and text mode for documentation">
+			<add-to-group group-id="ToolbarRunGroup" anchor="after" relative-to-action="RunConfiguration"/>
+		</action>
+	</actions>
 </idea-plugin>
