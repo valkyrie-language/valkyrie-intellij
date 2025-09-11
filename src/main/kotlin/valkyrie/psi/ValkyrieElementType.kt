@@ -170,6 +170,8 @@ object ValkyrieElementTypes {
     val DOMAIN_DECLARATION = ValkyrieElementType("DOMAIN_DECLARATION")
     @JvmField
     val UNION_VARIANT = ValkyrieElementType("UNION_VARIANT")
+    @JvmField
+    val MEZZO_DECLARATION = ValkyrieElementType("MEZZO_DECLARATION")
 
     // 注解节点（统一管理attributes和modifiers）
     @JvmField
