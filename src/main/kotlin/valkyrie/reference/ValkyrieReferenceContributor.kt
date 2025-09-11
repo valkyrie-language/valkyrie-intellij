@@ -2,7 +2,7 @@ package valkyrie.reference
 
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.*
-import valkyrie.psi.impl.ValkyrieIdentifierExpressionNode
+import valkyrie.psi.nodes.ValkyrieIdentifierExpressionNode
 
 /**
  * Valkyrie 引用贡献者
