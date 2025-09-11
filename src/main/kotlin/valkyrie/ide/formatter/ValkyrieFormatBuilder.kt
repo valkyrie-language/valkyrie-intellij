@@ -112,7 +112,8 @@ class ValkyrieBlock(
                     ValkyrieElementTypes.OBJECT_BODY,
                     ValkyrieElementTypes.UNION_BODY,
                     ValkyrieElementTypes.VARIANT_BODY,
-                    ValkyrieElementTypes.BLOCK_BODY -> Indent.getNormalIndent()
+                    ValkyrieElementTypes.BLOCK_BODY,
+                    ValkyrieElementTypes.DOMAIN_BODY -> Indent.getNormalIndent()
                     else -> Indent.getNoneIndent()
                 }
             }
@@ -151,7 +152,8 @@ class ValkyrieBlock(
             ValkyrieElementTypes.OBJECT_BODY,
             ValkyrieElementTypes.UNION_BODY,
             ValkyrieElementTypes.VARIANT_BODY,
-            ValkyrieElementTypes.BLOCK_BODY -> ChildAttributes(Indent.getNormalIndent(), null)
+            ValkyrieElementTypes.BLOCK_BODY,
+            ValkyrieElementTypes.DOMAIN_BODY -> ChildAttributes(Indent.getNormalIndent(), null)
             else -> ChildAttributes(Indent.getNoneIndent(), null)
         }
     }

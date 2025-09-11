@@ -16,13 +16,13 @@ class ValkyrieTokenType(debugName: String) : IElementType(debugName, ValkyrieLan
 object ValkyrieTokenTypes {
     @JvmField
     val NAMESPACE = ValkyrieTokenType("namespace")
-    
+
     @JvmField
     val NAMESPACE_MAIN = ValkyrieTokenType("namespace!")
-    
+
     @JvmField
     val NAMESPACE_TEST = ValkyrieTokenType("namespace?")
-    
+
     @JvmField
     val NAMESPACE_HIDE = ValkyrieTokenType("namespace*")
 
@@ -80,6 +80,21 @@ object ValkyrieTokenTypes {
 
     @JvmField
     val RETURN = ValkyrieTokenType("return")
+
+    @JvmField
+    val MATCH = ValkyrieTokenType("match")
+
+    @JvmField
+    val CASE = ValkyrieTokenType("case")
+
+    @JvmField
+    val CATCH = ValkyrieTokenType("catch")
+
+    @JvmField
+    val TRY = ValkyrieTokenType("try")
+
+    @JvmField
+    val WHEN = ValkyrieTokenType("when")
 
     // 标识符和字面量
     @JvmField
@@ -143,14 +158,28 @@ object ValkyrieTokenTypes {
     @JvmField
     val GREATER_EQUAL = ValkyrieTokenType("GREATER_EQUAL") // >=
 
+    // alias = &&
     @JvmField
-    val LOGIC_AND = ValkyrieTokenType("AND")      // &&
+    val LOGIC_AND = ValkyrieTokenType("∧")
+
+    // alias = ||
+    @JvmField
+    val LOGIC_OR = ValkyrieTokenType("∨")
 
     @JvmField
-    val LOGIC_OR = ValkyrieTokenType("OR")        // ||
+    val LOGIC_XAND = ValkyrieTokenType("⩟")
 
     @JvmField
-    val PIPE = ValkyrieTokenType("PIPE")    // |
+    val LOGIC_NAND = ValkyrieTokenType("⊼")
+
+    @JvmField
+    val LOGIC_XOR = ValkyrieTokenType("⊻")
+
+    @JvmField
+    val LOGIC_NOR = ValkyrieTokenType("⊽")
+
+    @JvmField
+    val PIPE = ValkyrieTokenType("|")
 
     @JvmField
     val WOW = ValkyrieTokenType("!")

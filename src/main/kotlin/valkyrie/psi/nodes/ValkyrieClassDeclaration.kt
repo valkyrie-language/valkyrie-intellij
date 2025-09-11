@@ -5,7 +5,6 @@ import com.intellij.openapi.util.NlsSafe
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.nodes.ValkyrieModifierListNode
 
 /**
  * Class 语句实现
@@ -31,8 +30,20 @@ class ValkyrieClassDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNa
         return findChildByClass(ValkyrieObjectBodyNode::class.java)
     }
 
-    fun getModifiers(): ValkyrieModifierListNode? {
-        return findChildByClass(ValkyrieModifierListNode::class.java)
+    fun getModifierNodes(): List<ValkyrieModifierNode> {
+        return findChildrenByClass(ValkyrieModifierNode::class.java).toList()
+    }
+    
+    fun hasModifier(name: String): Boolean {
+        return getModifierNodes().any { it.isModifier(name) }
+    }
+    
+    fun isStatic(): Boolean {
+        return hasModifier("static")
+    }
+    
+    fun isMutable(): Boolean {
+        return hasModifier("mut")
     }
 
     fun getAnnotations(): List<ValkyrieElementNode> {

@@ -43,6 +43,18 @@ object ValkyrieElementTypes {
     val USING_STATEMENT = ValkyrieElementType("USING_STATEMENT")
     @JvmField
     val EXPRESSION_STATEMENT = ValkyrieElementType("EXPRESSION_STATEMENT")
+    @JvmField
+    val UNTIL_STATEMENT = ValkyrieElementType("UNTIL_STATEMENT")
+    @JvmField
+    val MATCH_STATEMENT = ValkyrieElementType("MATCH_STATEMENT")
+    @JvmField
+    val MATCH_CASE = ValkyrieElementType("MATCH_CASE")
+    @JvmField
+    val CATCH_STATEMENT = ValkyrieElementType("CATCH_STATEMENT")
+    @JvmField
+    val TRY_STATEMENT = ValkyrieElementType("TRY_STATEMENT")
+    @JvmField
+    val WHEN_CLAUSE = ValkyrieElementType("WHEN_CLAUSE")
 
     @JvmField
     val BLOCK_STATEMENT = ValkyrieElementType("BLOCK_STATEMENT")
@@ -56,6 +68,8 @@ object ValkyrieElementTypes {
     val VARIANT_BODY = ValkyrieElementType("VARIANT_BODY")
     @JvmField
     val BLOCK_BODY = ValkyrieElementType("BLOCK_BODY")
+    @JvmField
+    val DOMAIN_BODY = ValkyrieElementType("DOMAIN_BODY")
 
     // 表达式
     @JvmField

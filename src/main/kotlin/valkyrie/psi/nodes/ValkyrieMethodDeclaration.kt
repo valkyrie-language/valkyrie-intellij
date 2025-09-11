@@ -29,34 +29,22 @@ class ValkyrieMethodDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiN
         TODO("Not yet implemented")
     }
 
+
+
+    fun getModifierNodes(): List<ValkyrieModifierNode> {
+        return findChildrenByClass(ValkyrieModifierNode::class.java).toList()
+    }
+    
+    fun hasModifier(name: String): Boolean {
+        return getModifierNodes().any { it.isModifier(name) }
+    }
+    
     fun isStatic(): Boolean {
-        // 检查参数列表中是否有self参数
-        val parameterList = getParameterList()
-        val parameters = parameterList?.getParameters() ?: return true
-        
-        // 如果第一个参数是self或mut self，则不是静态方法
-        val firstParam = parameters.firstOrNull()
-        val firstParamName = firstParam?.getParameterName()
-        
-        return firstParamName != "self"
+        return hasModifier("static")
     }
     
     fun isMutable(): Boolean {
-        // 检查第一个参数是否为mut self
-        val parameterList = getParameterList()
-        val parameters = parameterList?.getParameters() ?: return false
-        
-        val firstParam = parameters.firstOrNull()
-        val firstParamName = firstParam?.getParameterName()
-        
-        if (firstParamName != "self") return false
-        
-        // 检查self参数是否有mut修饰符
-        return firstParam?.isMutable() == true
-    }
-
-    fun getModifiers(): ValkyrieModifierListNode? {
-        return PsiTreeUtil.findChildOfType(this, ValkyrieModifierListNode::class.java)
+        return hasModifier("mut")
     }
 
     fun getParameterList(): ValkyrieParameterListNode? {

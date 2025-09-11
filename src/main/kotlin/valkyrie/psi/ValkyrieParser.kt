@@ -127,6 +127,10 @@ class ValkyrieParser : PsiParser {
                 ValkyrieTokenTypes.NAMESPACE_TEST,
                 ValkyrieTokenTypes.NAMESPACE_HIDE -> parseNamespaceStatement(builder)
                 ValkyrieTokenTypes.USING -> parseUsingStatement(builder)
+                ValkyrieTokenTypes.UNTIL -> parseUntilStatement(builder)
+                ValkyrieTokenTypes.MATCH -> parseMatchStatement(builder)
+                ValkyrieTokenTypes.TRY -> parseTryStatement(builder)
+                ValkyrieTokenTypes.CATCH -> parseCatchStatement(builder)
                 ValkyrieTokenTypes.LBRACE -> parseBlockStatement(builder)
                 ValkyrieTokenTypes.COMMENT_DOCUMENT -> parseDocComment(builder)
                 ValkyrieTokenTypes.AT -> parseMacroCall(builder)
@@ -564,7 +568,11 @@ class ValkyrieParser : PsiParser {
     // 性能优化：缓存操作符优先级
     private val operatorPrecedenceCache = mapOf(
         ValkyrieTokenTypes.LOGIC_OR to 1,
+        ValkyrieTokenTypes.LOGIC_NOR to 1,
+        ValkyrieTokenTypes.LOGIC_XOR to 1,
         ValkyrieTokenTypes.LOGIC_AND to 2,
+        ValkyrieTokenTypes.LOGIC_NAND to 2,
+        ValkyrieTokenTypes.LOGIC_XAND to 2,
         ValkyrieTokenTypes.EQUAL to 3,
         ValkyrieTokenTypes.NOT_EQUAL to 3,
         ValkyrieTokenTypes.LESS to 4,
@@ -987,6 +995,46 @@ class ValkyrieParser : PsiParser {
         marker.done(ValkyrieElementTypes.OBJECT_BODY)
     }
 
+    private fun parseDomainBody(builder: PsiBuilder) {
+        val marker = builder.mark()
+
+        // '{'
+        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+            builder.advanceLexer()
+        }
+
+        // domain members
+        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
+            when {
+                isModifierOrIdentifier(builder) -> {
+                    parseObjectMember(builder)
+                }
+
+                builder.tokenType == ValkyrieTokenTypes.WHITESPACE || builder.tokenType == ValkyrieTokenTypes.NEWLINE -> {
+                    builder.advanceLexer()
+                }
+
+                builder.tokenType == ValkyrieTokenTypes.COMMENT_REST || builder.tokenType == ValkyrieTokenTypes.COMMENT_RANGE -> {
+                    builder.advanceLexer()
+                }
+
+                else -> {
+                    builder.error("Expected domain member")
+                    builder.advanceLexer()
+                }
+            }
+        }
+
+        // '}'
+        if (builder.tokenType == ValkyrieTokenTypes.RBRACE) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected '}'")
+        }
+
+        marker.done(ValkyrieElementTypes.DOMAIN_BODY)
+    }
+
     private fun parseUnionBody(builder: PsiBuilder) {
         val marker = builder.mark()
 
@@ -1045,9 +1093,7 @@ class ValkyrieParser : PsiParser {
             parseAttributeList(builder)
         }
 
-        // 解析modifiers
-        val modifierListMarker = builder.mark()
-        val modifierTexts = mutableListOf<String>()
+        // 直接解析modifiers到annotation节点下
         while (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
             val nextToken = builder.lookAhead(1)
             // 如果下一个token是声明分隔符，当前是声明名称，停止解析modifiers
@@ -1060,18 +1106,10 @@ class ValkyrieParser : PsiParser {
                 break
             }
 
-            // 当前是modifier
+            // 当前是modifier，直接添加到annotation下
             val modifierMarker = builder.mark()
-            modifierTexts.add(builder.tokenText ?: "")
             builder.advanceLexer()
             modifierMarker.done(ValkyrieElementTypes.MODIFIER_NODE)
-        }
-        
-        // 完成modifier list节点
-        if (modifierTexts.isNotEmpty()) {
-            modifierListMarker.done(ValkyrieElementTypes.MODIFIER_LIST)
-        } else {
-            modifierListMarker.drop()
         }
 
         annotationMarker.done(ValkyrieElementTypes.ANNOTATION_NODE)
@@ -1101,7 +1139,7 @@ class ValkyrieParser : PsiParser {
 
             // 域 `domain { }`
             ValkyrieTokenTypes.LBRACE -> {
-                parseObjectBody(builder)
+                parseDomainBody(builder)
                 memberMarker.done(ValkyrieElementTypes.DOMAIN_DECLARATION)
             }
 
@@ -1490,5 +1528,268 @@ class ValkyrieParser : PsiParser {
         } else {
             marker.drop()
         }
+    }
+
+    private fun parseUntilStatement(builder: PsiBuilder) {
+        val marker = builder.mark()
+
+        // 'until' keyword
+        if (builder.tokenType == ValkyrieTokenTypes.UNTIL) {
+            builder.advanceLexer()
+        } else {
+            marker.drop()
+            return
+        }
+
+        // condition expression
+        parseExpression(builder)
+
+        // body block
+        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+            parseBlockStatement(builder)
+        } else {
+            builder.error("Expected '{' after until condition")
+        }
+
+        marker.done(ValkyrieElementTypes.UNTIL_STATEMENT)
+    }
+
+    private fun parseMatchStatement(builder: PsiBuilder) {
+        val marker = builder.mark()
+
+        // 'match' keyword
+        if (builder.tokenType == ValkyrieTokenTypes.MATCH) {
+            builder.advanceLexer()
+        } else {
+            marker.drop()
+            return
+        }
+
+        // expression to match
+        parseExpression(builder)
+
+        // match body
+        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+            builder.advanceLexer() // consume '{'
+
+            // parse match cases
+            while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
+                when (builder.tokenType) {
+                    ValkyrieTokenTypes.CASE -> parseMatchCase(builder)
+                    ValkyrieTokenTypes.WHEN -> parseWhenClause(builder)
+                    ValkyrieTokenTypes.ELSE -> parseElseClause(builder)
+                    else -> {
+                        builder.error("Expected 'case', 'when', or 'else'")
+                        builder.advanceLexer()
+                    }
+                }
+            }
+
+            if (builder.tokenType == ValkyrieTokenTypes.RBRACE) {
+                builder.advanceLexer() // consume '}'
+            } else {
+                builder.error("Expected '}'")
+            }
+        } else {
+            builder.error("Expected '{' after match expression")
+        }
+
+        marker.done(ValkyrieElementTypes.MATCH_STATEMENT)
+    }
+
+    private fun parseMatchCase(builder: PsiBuilder) {
+        val marker = builder.mark()
+
+        // 'case' keyword
+        if (builder.tokenType == ValkyrieTokenTypes.CASE) {
+            builder.advanceLexer()
+        } else {
+            marker.drop()
+            return
+        }
+
+        // pattern
+        parsePattern(builder)
+
+        // optional guard condition
+        if (builder.tokenType == ValkyrieTokenTypes.IF) {
+            builder.advanceLexer()
+            parseExpression(builder)
+        }
+
+        // ':' or '=>'
+        if (builder.tokenType == ValkyrieTokenTypes.COLON || builder.tokenType == ValkyrieTokenTypes.ARROW) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected ':' or '=>' after case pattern")
+        }
+
+        // case body
+        parseExpression(builder)
+
+        marker.done(ValkyrieElementTypes.MATCH_CASE)
+    }
+
+    private fun parseWhenClause(builder: PsiBuilder) {
+        val marker = builder.mark()
+
+        // 'when' keyword
+        if (builder.tokenType == ValkyrieTokenTypes.WHEN) {
+            builder.advanceLexer()
+        } else {
+            marker.drop()
+            return
+        }
+
+        // condition expression
+        parseExpression(builder)
+
+        // ':' or '=>'
+        if (builder.tokenType == ValkyrieTokenTypes.COLON || builder.tokenType == ValkyrieTokenTypes.ARROW) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected ':' or '=>' after when condition")
+        }
+
+        // when body
+        parseExpression(builder)
+
+        marker.done(ValkyrieElementTypes.WHEN_CLAUSE)
+    }
+
+    private fun parseElseClause(builder: PsiBuilder) {
+        val marker = builder.mark()
+
+        // 'else' keyword
+        if (builder.tokenType == ValkyrieTokenTypes.ELSE) {
+            builder.advanceLexer()
+        } else {
+            marker.drop()
+            return
+        }
+
+        // ':' or '=>'
+        if (builder.tokenType == ValkyrieTokenTypes.COLON || builder.tokenType == ValkyrieTokenTypes.ARROW) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected ':' or '=>' after else")
+        }
+
+        // else body
+        parseExpression(builder)
+
+        marker.done(ValkyrieElementTypes.WHEN_CLAUSE) // reuse WHEN_CLAUSE for else
+    }
+
+    private fun parseTryStatement(builder: PsiBuilder) {
+        val marker = builder.mark()
+
+        // 'try' keyword
+        if (builder.tokenType == ValkyrieTokenTypes.TRY) {
+            builder.advanceLexer()
+        } else {
+            marker.drop()
+            return
+        }
+
+        // optional type annotation
+        if (builder.tokenType == ValkyrieTokenTypes.LANGLE) {
+            parseTypeReference(builder)
+        }
+
+        // try body
+        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+            parseBlockStatement(builder)
+        } else {
+            builder.error("Expected '{' after try")
+        }
+
+        marker.done(ValkyrieElementTypes.TRY_STATEMENT)
+    }
+
+    private fun parseCatchStatement(builder: PsiBuilder) {
+        val marker = builder.mark()
+
+        // 'catch' keyword
+        if (builder.tokenType == ValkyrieTokenTypes.CATCH) {
+            builder.advanceLexer()
+        } else {
+            marker.drop()
+            return
+        }
+
+        // optional error variable
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+            val identifierMarker = builder.mark()
+            builder.advanceLexer()
+            identifierMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
+        }
+
+        // catch body
+        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+            builder.advanceLexer() // consume '{'
+
+            // parse catch cases (similar to match)
+            while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
+                when (builder.tokenType) {
+                    ValkyrieTokenTypes.CASE -> parseMatchCase(builder)
+                    ValkyrieTokenTypes.ELSE -> parseElseClause(builder)
+                    else -> {
+                        builder.error("Expected 'case' or 'else' in catch block")
+                        builder.advanceLexer()
+                    }
+                }
+            }
+
+            if (builder.tokenType == ValkyrieTokenTypes.RBRACE) {
+                builder.advanceLexer() // consume '}'
+            } else {
+                builder.error("Expected '}'")
+            }
+        } else {
+            builder.error("Expected '{' after catch")
+        }
+
+        marker.done(ValkyrieElementTypes.CATCH_STATEMENT)
+    }
+
+    private fun parsePattern(builder: PsiBuilder) {
+        val marker = builder.mark()
+
+        when (builder.tokenType) {
+            ValkyrieTokenTypes.IDENTIFIER_STD -> {
+                builder.advanceLexer()
+            }
+            ValkyrieTokenTypes.INTEGER, ValkyrieTokenTypes.DECIMAL -> {
+                builder.advanceLexer()
+            }
+            ValkyrieTokenTypes.STRING -> {
+                builder.advanceLexer()
+            }
+            ValkyrieTokenTypes.BOOLEAN -> {
+                builder.advanceLexer()
+            }
+            ValkyrieTokenTypes.LPAREN -> {
+                builder.advanceLexer() // consume '('
+                // parse tuple pattern
+                while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RPAREN) {
+                    parsePattern(builder)
+                    if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+                        builder.advanceLexer()
+                    }
+                }
+                if (builder.tokenType == ValkyrieTokenTypes.RPAREN) {
+                    builder.advanceLexer() // consume ')'
+                } else {
+                    builder.error("Expected ')'")
+                }
+            }
+            else -> {
+                builder.error("Expected pattern")
+                builder.advanceLexer()
+            }
+        }
+
+        marker.done(ValkyrieElementTypes.PATTERN)
     }
 }

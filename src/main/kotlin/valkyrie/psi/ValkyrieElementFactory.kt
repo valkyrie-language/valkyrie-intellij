@@ -24,6 +24,7 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.BLOCK_STATEMENT -> ValkyrieBlockStatementNode(node)
             ValkyrieElementTypes.OBJECT_BODY -> ValkyrieObjectBodyNode(node)
             ValkyrieElementTypes.UNION_BODY -> ValkyrieUnionBodyNode(node)
+            ValkyrieElementTypes.DOMAIN_BODY -> ValkyrieDomainBodyNode(node)
             ValkyrieElementTypes.EXPRESSION -> ValkyrieElementNode(node)
             ValkyrieElementTypes.LITERAL_EXPRESSION -> ValkyrieLiteralExpressionNode(node)
             ValkyrieElementTypes.BINARY_EXPRESSION -> ValkyrieBinaryTerm(node)
@@ -38,7 +39,7 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.STATIC_METHOD_DECLARATION -> ValkyrieMethodDeclaration(node)
             ValkyrieElementTypes.DOMAIN_DECLARATION -> ValkyrieDomainDeclaration(node)
             ValkyrieElementTypes.UNION_VARIANT -> ValkyrieVariantDeclaration(node)
-            ValkyrieElementTypes.MODIFIER_LIST -> ValkyrieModifierListNode(node)
+            // ValkyrieElementTypes.MODIFIER_LIST -> ValkyrieModifierListNode(node) // 已移除
             ValkyrieElementTypes.PATTERN -> ValkyrieElementNode(node)
             ValkyrieElementTypes.IDENTIFIER_NODE -> ValkyrieIdentifierNode(node)
             ValkyrieElementTypes.TYPE_REFERENCE -> ValkyrieTypeReferenceNode(node)

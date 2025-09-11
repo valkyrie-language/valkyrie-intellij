@@ -19,16 +19,23 @@ class ValkyrieParameterNode(node: ASTNode) : ValkyrieElementNode(node) {
     }
     
     /**
-     * 获取参数的修饰符列表
+     * 获取参数的修饰符节点
      */
-    fun getModifiers(): ValkyrieModifierListNode? {
-        return findChildByClass(ValkyrieModifierListNode::class.java)
+    fun getModifierNodes(): List<ValkyrieModifierNode> {
+        return findChildrenByClass(ValkyrieModifierNode::class.java).toList()
+    }
+    
+    /**
+     * 检查参数是否有特定修饰符
+     */
+    fun hasModifier(name: String): Boolean {
+        return getModifierNodes().any { it.isModifier(name) }
     }
     
     /**
      * 检查参数是否有mut修饰符
      */
     fun isMutable(): Boolean {
-        return getModifiers()?.hasModifier("mut") == true
+        return hasModifier("mut")
     }
 }
