@@ -7,10 +7,7 @@ import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiFile
-import valkyrie.psi.nodes.ValkyrieClassDeclaration
-import valkyrie.psi.nodes.ValkyrieFileNode
-import valkyrie.psi.nodes.ValkyrieTraitDeclaration
-import valkyrie.psi.nodes.ValkyrieVariantDeclaration
+import valkyrie.psi.nodes.*
 
 class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
     private var infoHolder: HighlightInfoHolder? = null
@@ -21,21 +18,44 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
     override fun visit(element: PsiElement) {
         when (element) {
             is ValkyrieClassDeclaration -> {
-                highlight(element.nameIdentifier, ValkyrieColor.SYMBOL_CLASS)
+                highlight(element.nameIdentifier, ValkyrieColor.SYM_CLASS)
             }
 
             is ValkyrieTraitDeclaration -> {
-                highlight(element.nameIdentifier, ValkyrieColor.SYMBOL_TRAIT)
+                highlight(element.nameIdentifier, ValkyrieColor.SYM_TRAIT)
+            }
+
+            is ValkyrieUnionDeclaration -> {
+                highlight(element.nameIdentifier, ValkyrieColor.SYM_VARIANT)
             }
 
             is ValkyrieVariantDeclaration -> {
                 highlight(element.nameIdentifier, ValkyrieColor.SYM_VARIANT)
             }
+
+            is ValkyrieFieldDeclaration -> {
+                highlight(element.nameIdentifier, ValkyrieColor.SYM_FIELD)
+            }
+
+            is ValkyrieMethodDeclaration -> {
+                if (element.isStatic()) {
+                    highlight(element.nameIdentifier, ValkyrieColor.SYMBOL_FUNCTION)
+                } else {
+                    highlight(element.nameIdentifier, ValkyrieColor.SYMBOL_FUNCTION)
+                }
+            }
+
+            is ValkyrieDomainDeclaration -> {
+                highlight(element.nameIdentifier, ValkyrieColor.SYM_VARIANT)
+            }
+
+            is ValkyrieModifierNode -> {
+                highlight(element, ValkyrieColor.SYM_CLASS)
+            }
         }
     }
 
     private fun highlight(element: PsiElement?, color: ValkyrieColor) {
-        print("正在为 `${element?.text}` 添加 ${color.name}\n")
         if (element == null) {
             return
         }

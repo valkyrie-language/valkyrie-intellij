@@ -81,6 +81,8 @@ object ValkyrieElementTypes {
     // 类型
     @JvmField
     val TYPE_REFERENCE = ValkyrieElementType("TYPE_REFERENCE")
+    @JvmField
+    val UNION_TYPE = ValkyrieElementType("UNION_TYPE")
 
     // Class 和 Union 内部结构
     @JvmField
