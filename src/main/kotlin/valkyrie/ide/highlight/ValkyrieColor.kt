@@ -39,9 +39,9 @@ enum class ValkyrieColor(humanName: Supplier<@AttributeDescriptor String>, defau
     SYM_SELF(ValkyrieBundle.messagePointer("color.token.symbol.builtin"), Default.KEYWORD),
     SYM_SELF_MUT(ValkyrieBundle.messagePointer("color.token.symbol.builtin"), Default.KEYWORD),
 
-    SYM_MICRO(ValkyrieBundle.messagePointer("color.token.symbol.function"), Default.STATIC_METHOD),
-    SYM_MEZZO(ValkyrieBundle.messagePointer("color.token.type"), Default.CLASS_NAME),
-    SYM_MACRO(ValkyrieBundle.messagePointer("color.token.symbol.builtin"), Default.KEYWORD),
+    SYM_MICRO(ValkyrieBundle.messagePointer("color.token.symbol.micro"), Default.FUNCTION_DECLARATION),
+    SYM_MEZZO(ValkyrieBundle.messagePointer("color.token.symbol.mezzo"), Default.CLASS_NAME),
+    SYM_MACRO(ValkyrieBundle.messagePointer("color.token.symbol.macro"), Default.KEYWORD),
 
     //    SYM_ATTRIBUTE(WitBundle.messagePointer("color.token.symbol.attribute"), Default.STATIC_METHOD),
 //    SYM_VARIABLE(WitBundle.messagePointer("color.token.symbol.variable"), Default.REASSIGNED_PARAMETER),
