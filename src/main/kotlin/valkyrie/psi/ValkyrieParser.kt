@@ -518,6 +518,12 @@ class ValkyrieParser : PsiParser {
                 marker
             }
 
+            ValkyrieTokenTypes.TEMPLATE_START -> {
+                val marker = builder.mark()
+                parseTemplateBlock(builder)
+                marker
+            }
+
             else -> {
                 builder.error("Expected expression")
                 builder.advanceLexer() // 推进词法分析器避免死循环
@@ -875,7 +881,7 @@ class ValkyrieParser : PsiParser {
 
             // 解析泛型参数列表
             if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
-                builder.advanceLexer()
+                parseGenericParameter(builder)
 
                 // 处理多个泛型参数
                 while (builder.tokenType == ValkyrieTokenTypes.COMMA) {
@@ -890,7 +896,7 @@ class ValkyrieParser : PsiParser {
                         break
                     }
                     if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
-                        builder.advanceLexer()
+                        parseGenericParameter(builder)
                     } else {
                         builder.error("Expected generic parameter name")
                         break
@@ -914,6 +920,22 @@ class ValkyrieParser : PsiParser {
             }
 
             marker.done(ValkyrieElementTypes.GENERIC_PARAMETER_LIST)
+        }
+    }
+
+    private fun parseGenericParameter(builder: PsiBuilder) {
+        // 解析泛型参数名称
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+            builder.advanceLexer()
+            
+            // 检查是否有泛型约束 (冒号后跟类型)
+            if (builder.tokenType == ValkyrieTokenTypes.COLON) {
+                builder.advanceLexer()
+                // 解析约束类型
+                parseTypeReference(builder)
+            }
+        } else {
+            builder.error("Expected generic parameter name")
         }
     }
 
@@ -1329,8 +1351,15 @@ class ValkyrieParser : PsiParser {
             }
         }
 
-        if (builder.tokenType == ValkyrieTokenTypes.SEMICOLON) {
-            builder.advanceLexer() // consume ';'
+        // 处理字段声明结束符
+        when (builder.tokenType) {
+            ValkyrieTokenTypes.SEMICOLON -> {
+                builder.advanceLexer() // consume ';'
+            }
+            ValkyrieTokenTypes.COMMA -> {
+                builder.advanceLexer() // consume ','
+            }
+            // 如果没有分隔符，也是合法的（在trait或class的最后一个成员）
         }
     }
 
