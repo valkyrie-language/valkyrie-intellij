@@ -22,7 +22,7 @@ class ValkyrieMethodDeclaration(node: ASTNode) : ValkyrieElementNode(node) {
         return findChildByClass(ValkyrieParameterListNode::class.java)
     }
 
-    fun getMethodBody(): ValkyrieBlockStatementNode? {
-        return findChildByClass(ValkyrieBlockStatementNode::class.java)
+    fun getMethodBody(): ValkyrieBlockNode? {
+        return findChildByClass(ValkyrieBlockNode::class.java)
     }
 }

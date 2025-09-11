@@ -6,15 +6,15 @@ import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
 
 /**
- * Class 语句实现
+ * Union Variant 实现
  */
-class ValkyrieClassStatementNode(node: ASTNode) : ValkyrieElementNode(node) {
+class ValkyrieVariantDeclaration(node: ASTNode) : ValkyrieElementNode(node) {
 
-    fun getClassName(): String? {
+    fun getVariantName(): String? {
         return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)?.text
     }
 
-    fun getClassBody(): ValkyrieObjectBodyNode? {
+    fun getVariantBody(): ValkyrieObjectBodyNode? {
         return findChildByClass(ValkyrieObjectBodyNode::class.java)
     }
 }
