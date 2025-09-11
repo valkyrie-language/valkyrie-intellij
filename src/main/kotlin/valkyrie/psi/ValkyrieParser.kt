@@ -122,6 +122,11 @@ class ValkyrieParser : PsiParser {
                 ValkyrieTokenTypes.UNION -> parseUnionStatement(builder)
                 ValkyrieTokenTypes.TRAIT -> parseTraitStatement(builder)
                 ValkyrieTokenTypes.FUNCTION -> parseFunctionStatement(builder)
+                ValkyrieTokenTypes.MICRO -> parseMetaFunctionStatement(builder, ValkyrieElementTypes.DECLARE_MICRO)
+                ValkyrieTokenTypes.MEZZO -> parseMetaFunctionStatement(builder, ValkyrieElementTypes.DECLARE_MEZZO)
+                ValkyrieTokenTypes.MACRO -> parseMetaFunctionStatement(builder, ValkyrieElementTypes.DECLARE_MACRO)
+                ValkyrieTokenTypes.COMPILE_TIME_BLOCK_START -> parseCompileTimeBlock(builder)
+                ValkyrieTokenTypes.TEMPLATE_START -> parseTemplateBlock(builder)
                 ValkyrieTokenTypes.NAMESPACE,
                 ValkyrieTokenTypes.NAMESPACE_MAIN,
                 ValkyrieTokenTypes.NAMESPACE_TEST,
@@ -2104,5 +2109,295 @@ class ValkyrieParser : PsiParser {
         }
         
         marker.done(ValkyrieElementTypes.IF_LET_STATEMENT)
+    }
+    
+    /**
+     * 解析元编程函数声明 (micro, mezzo, macro)
+     */
+    private fun parseMetaFunctionStatement(builder: PsiBuilder, elementType: IElementType) {
+        val marker = builder.mark()
+        
+        // 消费关键字 (micro/mezzo/macro)
+        builder.advanceLexer()
+        
+        // 解析函数名
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected function name")
+        }
+        
+        // 解析参数列表
+        if (builder.tokenType == ValkyrieTokenTypes.LPAREN) {
+            parseParameterList(builder)
+        }
+        
+        // 解析返回类型
+        if (builder.tokenType == ValkyrieTokenTypes.ARROW) {
+            builder.advanceLexer() // consume '->'
+            parseTypeReference(builder)
+        }
+        
+        // 解析函数体
+        if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+            parseBlockStatement(builder)
+        } else {
+            builder.error("Expected function body")
+        }
+        
+        marker.done(elementType)
+    }
+    
+    /**
+     * 解析编译期表达式块 <{ ... }>
+     */
+    private fun parseCompileTimeBlock(builder: PsiBuilder) {
+        val marker = builder.mark()
+        
+        // 消费 '<{'
+        if (builder.tokenType == ValkyrieTokenTypes.COMPILE_TIME_BLOCK_START) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected '<{'")
+            marker.drop()
+            return
+        }
+        
+        // 解析块内容
+        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.COMPILE_TIME_BLOCK_END) {
+            parseStatement(builder)
+        }
+        
+        // 消费 '}>'
+        if (builder.tokenType == ValkyrieTokenTypes.COMPILE_TIME_BLOCK_END) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected '}>'") 
+        }
+        
+        marker.done(ValkyrieElementTypes.COMPILE_TIME_BLOCK)
+    }
+    
+    /**
+     * 解析模板语法块 <$ ... $>
+     */
+    private fun parseTemplateBlock(builder: PsiBuilder) {
+        val marker = builder.mark()
+        
+        // 消费 '<$'
+        if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_START) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected '<$'")
+            marker.drop()
+            return
+        }
+        
+        // 解析模板内容
+        parseTemplateContent(builder)
+        
+        // 消费 '$>'
+        if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_END) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected '$>'") 
+        }
+        
+        marker.done(ValkyrieElementTypes.TEMPLATE_BLOCK)
+    }
+    
+    /**
+     * 解析模板内容
+     */
+    private fun parseTemplateContent(builder: PsiBuilder) {
+        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.TEMPLATE_END) {
+            when {
+                builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "if" -> {
+                    parseTemplateIf(builder)
+                }
+                builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "for" -> {
+                    parseTemplateFor(builder)
+                }
+                builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "while" -> {
+                    parseTemplateWhile(builder)
+                }
+                builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "match" -> {
+                    parseTemplateMatch(builder)
+                }
+                else -> {
+                    // 解析插值表达式
+                    parseExpression(builder)
+                    break
+                }
+            }
+        }
+    }
+    
+    /**
+     * 解析模板条件语句 <$ if ... $>
+     */
+    private fun parseTemplateIf(builder: PsiBuilder) {
+        val marker = builder.mark()
+        
+        // 消费 'if'
+        builder.advanceLexer()
+        
+        // 解析条件表达式
+        parseExpression(builder)
+        
+        // 解析 then 部分（这里简化处理）
+        while (!builder.eof() && 
+               builder.tokenType != ValkyrieTokenTypes.TEMPLATE_END &&
+               !(builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "else") &&
+               !(builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "end")) {
+            parseStatement(builder)
+        }
+        
+        // 处理 else 分支
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "else") {
+            builder.advanceLexer() // consume 'else'
+            while (!builder.eof() && 
+                   builder.tokenType != ValkyrieTokenTypes.TEMPLATE_END &&
+                   !(builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "end")) {
+                parseStatement(builder)
+            }
+        }
+        
+        // 消费 'end'
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "end") {
+            builder.advanceLexer()
+            // 可选的 'if'
+            if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "if") {
+                builder.advanceLexer()
+            }
+        }
+        
+        marker.done(ValkyrieElementTypes.TEMPLATE_IF)
+    }
+    
+    /**
+     * 解析模板循环语句 <$ for ... $>
+     */
+    private fun parseTemplateFor(builder: PsiBuilder) {
+        val marker = builder.mark()
+        
+        // 消费 'for'
+        builder.advanceLexer()
+        
+        // 解析循环变量
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+            builder.advanceLexer()
+        }
+        
+        // 消费 'in'
+        if (builder.tokenType == ValkyrieTokenTypes.IN) {
+            builder.advanceLexer()
+        }
+        
+        // 解析可迭代表达式
+        parseExpression(builder)
+        
+        // 解析循环体
+        while (!builder.eof() && 
+               builder.tokenType != ValkyrieTokenTypes.TEMPLATE_END &&
+               !(builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "end")) {
+            parseStatement(builder)
+        }
+        
+        // 消费 'end'
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "end") {
+            builder.advanceLexer()
+            // 可选的 'for'
+            if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "for") {
+                builder.advanceLexer()
+            }
+        }
+        
+        marker.done(ValkyrieElementTypes.TEMPLATE_FOR)
+    }
+    
+    /**
+     * 解析模板 while 循环 <$ while ... $>
+     */
+    private fun parseTemplateWhile(builder: PsiBuilder) {
+        val marker = builder.mark()
+        
+        // 消费 'while'
+        builder.advanceLexer()
+        
+        // 解析条件表达式
+        parseExpression(builder)
+        
+        // 解析循环体
+        while (!builder.eof() && 
+               builder.tokenType != ValkyrieTokenTypes.TEMPLATE_END &&
+               !(builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "end")) {
+            parseStatement(builder)
+        }
+        
+        // 消费 'end'
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "end") {
+            builder.advanceLexer()
+            // 可选的 'while'
+            if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "while") {
+                builder.advanceLexer()
+            }
+        }
+        
+        marker.done(ValkyrieElementTypes.TEMPLATE_WHILE)
+    }
+    
+    /**
+     * 解析模板匹配语句 <$ match ... $>
+     */
+    private fun parseTemplateMatch(builder: PsiBuilder) {
+        val marker = builder.mark()
+        
+        // 消费 'match'
+        builder.advanceLexer()
+        
+        // 解析匹配表达式
+        parseExpression(builder)
+        
+        // 解析匹配分支
+        while (!builder.eof() && 
+               builder.tokenType != ValkyrieTokenTypes.TEMPLATE_END &&
+               !(builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "end")) {
+            
+            if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "case") {
+                builder.advanceLexer() // consume 'case'
+                parsePattern(builder) // 解析模式
+                
+                // 解析分支体
+                while (!builder.eof() && 
+                       builder.tokenType != ValkyrieTokenTypes.TEMPLATE_END &&
+                       !(builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "case") &&
+                       !(builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "else") &&
+                       !(builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "end")) {
+                    parseStatement(builder)
+                }
+            } else if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "else") {
+                builder.advanceLexer() // consume 'else'
+                // 解析默认分支
+                while (!builder.eof() && 
+                       builder.tokenType != ValkyrieTokenTypes.TEMPLATE_END &&
+                       !(builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "end")) {
+                    parseStatement(builder)
+                }
+            } else {
+                break
+            }
+        }
+        
+        // 消费 'end'
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "end") {
+            builder.advanceLexer()
+            // 可选的 'match'
+            if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD && builder.tokenText == "match") {
+                builder.advanceLexer()
+            }
+        }
+        
+        marker.done(ValkyrieElementTypes.TEMPLATE_MATCH)
     }
 }

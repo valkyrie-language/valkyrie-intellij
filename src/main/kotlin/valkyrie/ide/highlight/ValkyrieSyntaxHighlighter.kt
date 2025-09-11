@@ -38,12 +38,17 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.RAISE,
             ValkyrieTokenTypes.RETURN,
             ValkyrieTokenTypes.TESTS,
-            ValkyrieTokenTypes.TEST
+            ValkyrieTokenTypes.TEST,
+            ValkyrieTokenTypes.MICRO,
+            ValkyrieTokenTypes.MEZZO,
+            ValkyrieTokenTypes.MACRO
                 -> ValkyrieColor.KEYWORD
 
             ValkyrieTokenTypes.LPAREN, ValkyrieTokenTypes.RPAREN -> ValkyrieColor.PARENTHESES
             ValkyrieTokenTypes.LBRACKET, ValkyrieTokenTypes.RBRACKET -> ValkyrieColor.BRACKETS
             ValkyrieTokenTypes.LBRACE, ValkyrieTokenTypes.RBRACE -> ValkyrieColor.BRACES
+            ValkyrieTokenTypes.COMPILE_TIME_BLOCK_START, ValkyrieTokenTypes.COMPILE_TIME_BLOCK_END -> ValkyrieColor.BRACES
+            ValkyrieTokenTypes.TEMPLATE_START, ValkyrieTokenTypes.TEMPLATE_END -> ValkyrieColor.BRACES
             ValkyrieTokenTypes.COLON, ValkyrieTokenTypes.ASSIGN -> ValkyrieColor.OPERATION
             ValkyrieTokenTypes.AT -> ValkyrieColor.OPERATION
 

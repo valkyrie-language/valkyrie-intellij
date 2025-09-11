@@ -101,3 +101,28 @@
         <SYM_FIELD>warmup</SYM_FIELD>: 100
     }
 }
+
+<COMMENT_REST># Meta-programming examples</COMMENT_REST>
+<KEYWORD>micro</KEYWORD> <SYM_FUNCTION_SELF>add</SYM_FUNCTION_SELF>(<SYM_ARG>a</SYM_ARG>: <SYM_CLASS>i32</SYM_CLASS>, <SYM_ARG>b</SYM_ARG>: <SYM_CLASS>i32</SYM_CLASS>) -> <SYM_CLASS>i32</SYM_CLASS> {
+    <SYM_ARG>a</SYM_ARG> + <SYM_ARG>b</SYM_ARG>
+}
+
+<KEYWORD>mezzo</KEYWORD> <SYM_MICRO>get_fields</SYM_MICRO>(<SYM_ARG>T</SYM_ARG>: <SYM_CLASS>Type</SYM_CLASS>) -> <SYM_CLASS>Vec</SYM_CLASS><<SYM_CLASS>String</SYM_CLASS>> {
+    <SYM_MICRO>compiler</SYM_MICRO>.<SYM_FUNCTION_SELF>get_fields_of</SYM_FUNCTION_SELF>(<SYM_ARG>T</SYM_ARG>)
+}
+
+<KEYWORD>macro</KEYWORD> <SYM_MACRO>derive_debug</SYM_MACRO>(<SYM_ARG>T</SYM_ARG>: <SYM_CLASS>Type</SYM_CLASS>) -> <SYM_CLASS>AstNode</SYM_CLASS> {
+    <COMMENT_REST># Compile-time expression block</COMMENT_REST>
+    <KEYWORD>let</KEYWORD> <SYM_FIELD>fields</SYM_FIELD> = <{ <SYM_MICRO>get_fields</SYM_MICRO>(<SYM_ARG>T</SYM_ARG>) }>
+    
+    <COMMENT_REST># Template syntax</COMMENT_REST>
+    <SYM_FUNCTION_SELF>impl</SYM_FUNCTION_SELF> <SYM_CLASS>Debug</SYM_CLASS> <SYM_FUNCTION_SELF>for</SYM_FUNCTION_SELF> <$ <SYM_ARG>T</SYM_ARG> $> {
+        <KEYWORD>micro</KEYWORD> <SYM_FUNCTION_SELF>debug</SYM_FUNCTION_SELF>(<SYM_ARG_SELF>self</SYM_ARG_SELF>) -> <SYM_CLASS>String</SYM_CLASS> {
+            <KEYWORD>let</KEYWORD> <SYM_FIELD>result</SYM_FIELD> = <SYM_CLASS>String</SYM_CLASS>::<SYM_FUNCTION_SELF>new</SYM_FUNCTION_SELF>()
+            <$ <KEYWORD>for</KEYWORD> <SYM_FIELD>field</SYM_FIELD> <KEYWORD>in</KEYWORD> <SYM_FIELD>fields</SYM_FIELD> $>
+                <SYM_FIELD>result</SYM_FIELD>.<SYM_FUNCTION_SELF>push_str</SYM_FUNCTION_SELF>(<$ <SYM_FIELD>field</SYM_FIELD>.<SYM_FIELD>name</SYM_FIELD> $>)
+            <$ <KEYWORD>end</KEYWORD> $>
+            <SYM_FIELD>result</SYM_FIELD>
+        }
+    }
+}

@@ -43,7 +43,7 @@ class ValkyrieCompletionContributor : CompletionContributor() {
                 "namespace", "import", "export", "return", "break", "continue",
                 "match", "case", "default", "for", "while", "until", "try",
                 "catch", "finally", "throw", "yield", "async", "await",
-                "tests", "test"
+                "tests", "test", "micro", "mezzo", "macro"
             )
             
             keywords.forEach { keyword ->

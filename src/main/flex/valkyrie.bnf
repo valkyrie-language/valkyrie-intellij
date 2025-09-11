@@ -80,6 +80,8 @@ private block-statement ::= SEMICOLON
     | let-statement
     | attribute-above
     | control-statement
+    | compile-time-block
+    | template-block
     | expression-root
 // === grammar statement ===
 declare-namespace ::= annotations KW_NAMESPACE namepath-auto {
@@ -819,6 +821,64 @@ private symbol-lead ::= KW_LET
     | KW_LOOP | KW_FOR
 template-end  ::= OP_END
     | TEMPLATE_L symbol-lead? KW_END TEMPLATE_R;
+
+// === 元编程语法 ===
+// 编译期表达式块 <{ ... }>
+compile-time-block ::= COMPILE_TIME_BLOCK_START block-statement* COMPILE_TIME_BLOCK_END {
+    pin = 1
+    mixin = "valkyrie.psi.nodes.ValkyrieCompileTimeBlock"
+}
+
+// 模板语法块 <$ ... $>
+template-block ::= TEMPLATE_START template-content TEMPLATE_END {
+    pin = 1
+    mixin = "valkyrie.psi.nodes.ValkyrieTemplateBlock"
+}
+
+// 模板内容
+template-content ::= template-expression
+    | template-if
+    | template-for
+    | template-while
+    | template-match
+    | template-interpolation
+
+// 模板表达式插值
+template-interpolation ::= expression-root
+
+// 模板条件语句 <$ if ... $>
+template-if ::= "if" expression-root template-then template-else? template-end-if {
+    pin = 1
+}
+template-then ::= block-statement*
+template-else ::= "else" block-statement*
+template-end-if ::= "end" "if"? | "end"
+
+// 模板循环语句 <$ for ... $>
+template-for ::= "for" identifier-safe "in" expression-root template-for-body template-for-else? template-end-for {
+    pin = 1
+}
+template-for-body ::= block-statement*
+template-for-else ::= "else" block-statement*
+template-end-for ::= "end" "for"? | "end"
+
+// 模板 while 循环 <$ while ... $>
+template-while ::= "while" expression-root template-while-body template-end-while {
+    pin = 1
+}
+template-while-body ::= block-statement*
+template-end-while ::= "end" "while"? | "end"
+
+// 模板匹配语句 <$ match ... $>
+template-match ::= "match" expression-root template-match-cases template-match-else? template-end-match {
+    pin = 1
+}
+template-match-cases ::= template-match-case+
+template-match-case ::= "case" pattern-expression template-match-guard? block-statement*
+template-match-guard ::= "if" expression-root
+template-match-else ::= "else" block-statement*
+template-end-match ::= "end" "match"? | "end"
+
 // === macros ===
 private meta brace   ::= BRACE_L (COMMA|SEMICOLON|<<term>>)* BRACE_R
 private meta offset  ::= OFFSET_L (<<term>> (COMMA <<term>>)* COMMA?)? OFFSET_R

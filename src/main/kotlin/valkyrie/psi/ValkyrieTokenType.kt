@@ -61,6 +61,15 @@ object ValkyrieTokenTypes {
     val FUNCTION = ValkyrieTokenType("micro")
 
     @JvmField
+    val MICRO = ValkyrieTokenType("micro")
+
+    @JvmField
+    val MEZZO = ValkyrieTokenType("mezzo")
+
+    @JvmField
+    val MACRO = ValkyrieTokenType("macro")
+
+    @JvmField
     val CLASS = ValkyrieTokenType("class")
 
     @JvmField
@@ -297,6 +306,19 @@ object ValkyrieTokenTypes {
     // 特殊标识符
     @JvmField
     val BACKTICK = ValkyrieTokenType("`")
+
+    // 元编程模板语法 tokens
+    @JvmField
+    val COMPILE_TIME_BLOCK_START = ValkyrieTokenType("<{")
+
+    @JvmField
+    val COMPILE_TIME_BLOCK_END = ValkyrieTokenType("}>") 
+
+    @JvmField
+    val TEMPLATE_START = ValkyrieTokenType("<$")
+
+    @JvmField
+    val TEMPLATE_END = ValkyrieTokenType("$>")
 
     @JvmField
     val WHITESPACE = ValkyrieTokenType("WHITESPACE")
