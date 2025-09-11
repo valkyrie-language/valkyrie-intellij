@@ -441,6 +441,9 @@ class ValkyrieLexer : LexerBase() {
                     tokenType = ValkyrieTokenTypes.COLON
                 }
             }
+            '⸬' -> {
+                currentOffset++; tokenType = ValkyrieTokenTypes.DOUBLE_COLON
+            }
 
             '(' -> {
                 currentOffset++; tokenType = ValkyrieTokenTypes.LPAREN
