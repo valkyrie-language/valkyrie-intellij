@@ -73,6 +73,7 @@ object ValkyrieElementFactory {
         ValkyrieElementTypes.MEZZO_DECLARATION -> ValkyrieElementNode(node)
         // ValkyrieElementTypes.MODIFIER_LIST -> ValkyrieModifierListNode(node) // 已移除
         ValkyrieElementTypes.PATTERN -> ValkyrieElementNode(node)
+        ValkyrieElementTypes.TUPLE_PATTERN -> ValkyrieElementNode(node)
             ValkyrieElementTypes.IDENTIFIER_NODE -> ValkyrieIdentifierNode(node)
             ValkyrieElementTypes.TYPE_REFERENCE -> ValkyrieTypeReferenceNode(node)
             ValkyrieElementTypes.QUALIFIED_NAME -> ValkyrieQualifiedNameNode(node)
@@ -97,6 +98,9 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.DECLARE_MACRO -> ValkyrieMetaStatement(node)
             ValkyrieElementTypes.COMPILE_TIME_BLOCK -> ValkyrieCompileTimeBlock(node)
             ValkyrieElementTypes.TEMPLATE_BLOCK -> ValkyrieTemplateBlock(node)
+            ValkyrieElementTypes.LOOP_STATEMENT -> ValkyrieLoopStatement(node)
+            ValkyrieElementTypes.ASSIGN_STATEMENT -> ValkyrieAssignStatement(node)
+            ValkyrieElementTypes.RESUME_STATEMENT -> ValkyrieResumeStatement(node)
             else -> ValkyrieElementNode(node)
         }
     }

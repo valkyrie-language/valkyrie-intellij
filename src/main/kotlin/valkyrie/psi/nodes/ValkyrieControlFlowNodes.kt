@@ -5,6 +5,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.ValkyrieElementTypes
 
 /**
  * Loop 语句节点
@@ -118,4 +119,49 @@ class ValkyrieCatchCase(node: ASTNode) : ValkyrieElementNode(node) {
     }
     
     override fun toString(): String = "ValkyrieCatchCase"
+}
+
+/**
+ * 赋值语句节点
+ */
+class ValkyrieAssignStatement(node: ASTNode) : ValkyrieElementNode(node) {
+    
+    fun getLeftExpression(): PsiElement? {
+        return children.firstOrNull { it.node.elementType == ValkyrieElementTypes.EXPRESSION }
+    }
+    
+    fun getRightExpression(): PsiElement? {
+        return children.lastOrNull { it.node.elementType == ValkyrieElementTypes.EXPRESSION }
+    }
+    
+    fun getAssignOperator(): PsiElement? {
+        return findChildByType<PsiElement>(ValkyrieTokenTypes.ASSIGN) ?:
+               findChildByType<PsiElement>(ValkyrieTokenTypes.PLUS_ASSIGN) ?:
+               findChildByType<PsiElement>(ValkyrieTokenTypes.MINUS_ASSIGN) ?:
+               findChildByType<PsiElement>(ValkyrieTokenTypes.MULTIPLY_ASSIGN) ?:
+               findChildByType<PsiElement>(ValkyrieTokenTypes.DIVIDE_ASSIGN) ?:
+               findChildByType<PsiElement>(ValkyrieTokenTypes.MODULO_ASSIGN) ?:
+               findChildByType<PsiElement>(ValkyrieTokenTypes.POWER_ASSIGN)
+    }
+    
+    override fun toString(): String = "ValkyrieAssignStatement"
+}
+
+/**
+ * Resume 语句节点
+ */
+class ValkyrieResumeStatement(node: ASTNode) : ValkyrieElementNode(node) {
+    
+    fun getLabel(): PsiElement? {
+        val resumeKeyword = findChildByType<PsiElement>(ValkyrieTokenTypes.RESUME)
+        return resumeKeyword?.let { keyword ->
+            PsiTreeUtil.getNextSiblingOfType(keyword, ValkyrieElementNode::class.java)
+        }
+    }
+    
+    fun getExpression(): PsiElement? {
+        return children.lastOrNull { it.node.elementType == ValkyrieElementTypes.EXPRESSION }
+    }
+    
+    override fun toString(): String = "ValkyrieResumeStatement"
 }

@@ -91,6 +91,9 @@ object ValkyrieTokenTypes {
     val RAISE = ValkyrieTokenType("raise")
 
     @JvmField
+    val RESUME = ValkyrieTokenType("resume")
+
+    @JvmField
     val RETURN = ValkyrieTokenType("return")
 
     @JvmField
@@ -197,6 +200,25 @@ object ValkyrieTokenTypes {
 
     @JvmField
     val GREATER_EQUAL = ValkyrieTokenType("GREATER_EQUAL") // >=
+
+    // 复合赋值运算符
+    @JvmField
+    val PLUS_ASSIGN = ValkyrieTokenType("PLUS_ASSIGN") // +=
+
+    @JvmField
+    val MINUS_ASSIGN = ValkyrieTokenType("MINUS_ASSIGN") // -=
+
+    @JvmField
+    val MULTIPLY_ASSIGN = ValkyrieTokenType("MULTIPLY_ASSIGN") // ×=
+
+    @JvmField
+    val DIVIDE_ASSIGN = ValkyrieTokenType("DIVIDE_ASSIGN") // /=
+
+    @JvmField
+    val MODULO_ASSIGN = ValkyrieTokenType("MODULO_ASSIGN") // %=
+
+    @JvmField
+    val POWER_ASSIGN = ValkyrieTokenType("POWER_ASSIGN") // ^=
 
     // alias = &&
     @JvmField
