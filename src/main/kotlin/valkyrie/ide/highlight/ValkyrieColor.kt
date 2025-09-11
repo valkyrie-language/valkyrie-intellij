@@ -31,15 +31,15 @@ enum class ValkyrieColor(humanName: Supplier<@AttributeDescriptor String>, defau
 
 
     SYM_FIELD(ValkyrieBundle.messagePointer("color.token.symbol.field"), Default.INSTANCE_FIELD),
-    SYMBOL_LOCAL(ValkyrieBundle.messagePointer("color.token.symbol.local"), Default.LOCAL_VARIABLE),
+    SYM_LOCAL(ValkyrieBundle.messagePointer("color.token.symbol.local"), Default.LOCAL_VARIABLE),
     SYM_UNION(ValkyrieBundle.messagePointer("color.token.type.union"), Default.CLASS_REFERENCE),
     SYM_VARIANT(ValkyrieBundle.messagePointer("color.token.symbol.variant"), Default.STATIC_FIELD),
 
     //    SYM_ATTRIBUTE(WitBundle.messagePointer("color.token.symbol.attribute"), Default.STATIC_METHOD),
 //    SYM_VARIABLE(WitBundle.messagePointer("color.token.symbol.variable"), Default.REASSIGNED_PARAMETER),
-    SYMBOL_FUNCTION(ValkyrieBundle.messagePointer("color.token.symbol.function"), Default.STATIC_METHOD),
-    SYMBOL_METHOD(ValkyrieBundle.messagePointer("color.token.symbol.function"), Default.INSTANCE_METHOD),
-    SYMBOL_METHOD_MUT(ValkyrieBundle.messagePointer("color.token.symbol.function"), Default.INSTANCE_METHOD),
+    SYM_FUNCTION(ValkyrieBundle.messagePointer("color.token.symbol.function"), Default.STATIC_METHOD),
+    SYM_METHOD(ValkyrieBundle.messagePointer("color.token.symbol.function"), Default.INSTANCE_METHOD),
+    SYM_METHOD_MUT(ValkyrieBundle.messagePointer("color.token.symbol.function"), Default.INSTANCE_METHOD),
 
     SYMBOL_GENERIC(ValkyrieBundle.messagePointer("color.token.symbol.generic"), Default.PREDEFINED_SYMBOL),
     SYM_BUILTIN(ValkyrieBundle.messagePointer("color.token.symbol.builtin"), Default.PREDEFINED_SYMBOL),

@@ -517,7 +517,7 @@ class ValkyrieParser : PsiParser {
                 
                 // 支持泛型参数
                 if (builder.tokenType == ValkyrieTokenTypes.LESS) {
-                    parseGenericArguments(builder)
+                    parseGenericArguments(builder, ValkyrieTokenTypes.LESS, ValkyrieTokenTypes.GREATER)
                 }
             }
             ValkyrieTokenTypes.LPAREN -> {
@@ -569,7 +569,9 @@ class ValkyrieParser : PsiParser {
         ValkyrieTokenTypes.MINUS to 5,
         ValkyrieTokenTypes.MULTIPLY to 6,
         ValkyrieTokenTypes.DIVIDE to 6,
-        ValkyrieTokenTypes.MODULO to 6
+        ValkyrieTokenTypes.INTEGER_DIVIDE to 6,
+        ValkyrieTokenTypes.MODULO to 6,
+        ValkyrieTokenTypes.POWER to 7
     )
     
     private fun getOperatorPrecedence(tokenType: IElementType?): Int {

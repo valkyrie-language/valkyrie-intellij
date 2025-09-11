@@ -133,9 +133,9 @@ class ValkyrieFoldingBuilder : FoldingBuilderEx(), DumbAware {
 
     override fun getPlaceholderText(node: ASTNode): String? {
         return when (node.elementType) {
-            ValkyrieElementTypes.UNION_DECLARATION -> "{...}"
-            ValkyrieElementTypes.CLASS_DECLARATION -> "{...}"
-            ValkyrieElementTypes.TRAIT_DECLARATION -> "{...}"
+            ValkyrieElementTypes.UNION_STATEMENT -> "{...}"
+            ValkyrieElementTypes.CLASS_STATEMENT -> "{...}"
+            ValkyrieElementTypes.TRAIT_STATEMENT -> "{...}"
             ValkyrieElementTypes.DOMAIN_DECLARATION -> "{...}"
             ValkyrieElementTypes.METHOD_DECLARATION -> "{...}"
             ValkyrieElementTypes.BLOCK_STATEMENT -> "{...}"

@@ -38,10 +38,13 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
             }
 
             is ValkyrieMethodDeclaration -> {
-                if (element.isStatic()) {
-                    highlight(element.nameIdentifier, ValkyrieColor.SYMBOL_FUNCTION)
-                } else {
-                    highlight(element.nameIdentifier, ValkyrieColor.SYMBOL_FUNCTION)
+                if (element.isMutable()) {
+                    highlight(element.nameIdentifier, ValkyrieColor.SYM_FUNCTION)
+                } else if (element.isStatic()) {
+                    highlight(element.nameIdentifier, ValkyrieColor.SYM_FUNCTION)
+                }
+                else {
+                    highlight(element.nameIdentifier, ValkyrieColor.SYM_FUNCTION)
                 }
             }
 
