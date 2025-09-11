@@ -71,6 +71,7 @@ statements ::= declare-namespace
     | declare-mezzo
     | declare-macro
     | declare-tests
+    | declare-test-method
     | declare-component
     | declare-singleton
     | declare-neural
@@ -150,7 +151,7 @@ inherit-item  ::= (annotations identifier-safe COLON)? type-expression {
     mixin = "valkyrie.psi.mixin.MixinClassInherit"
 }
 // === class body ===
-class-body ::= <<brace (associated-type|declare-domain|declare-method|declare-field)>>;
+class-body ::= <<brace (associated-type|declare-domain|declare-method|declare-field|declare-test-method)>>;
 // === class field statement ===
 declare-field ::= annotations identifier-free type-hint? default-value? {
     mixin = "valkyrie.psi.mixin.MixinField"
@@ -163,6 +164,11 @@ default-type  ::= BIND type-expression;
 // === class method statement ===
 declare-method ::= annotations KW_FUNCTION? identifier-free declare-infer? parameter-body return-type? block-body? {
     mixin = "valkyrie.psi.mixin.MixinMethod"
+}
+// === test method statement ===
+declare-test-method ::= annotations KW_TEST KW_FUNCTION? identifier-free declare-infer? parameter-body return-type? block-body? {
+    pin = 2
+    mixin = "valkyrie.psi.nodes.ValkyrieTestStatement"
 }
 // === class domain statement ===
 declare-domain ::= annotations identifier-safe class-body {
@@ -269,18 +275,20 @@ return-type ::= (OP_ARROW1|COLON) type-expression;
 block-body  ::= <<brace block-statement>>;
 block-bare  ::= block-statement*;
 /// === tests and benchmark ===
-declare-tests ::= annotations KW_TESTS identifier-free? tests-body {
+declare-tests ::= annotations KW_TESTS identifier-safe? tests-body {
     pin = 2
-    mixin = "valkyrie.psi.mixin.MixinDeclareTests"
+    mixin = "valkyrie.psi.nodes.ValkyrieTestStatement"
 }
-tests-body ::= <<brace (declare-tests|run-benchmark|run-test-cast)>>;
+tests-body ::= <<brace (declare-tests|run-benchmark|run-test-cast|benchmark-lifecycle|benchmark-config)>>;
+benchmark-lifecycle ::= benchmark-prepare | benchmark-before | benchmark-after | benchmark-clean;
+benchmark-prepare ::= annotations "prepare" parameter-body? block-body;
+benchmark-before ::= annotations "before" parameter-body? block-body;
+benchmark-after ::= annotations "after" parameter-body? block-body;
+benchmark-clean ::= annotations "clean" parameter-body? block-body;
+benchmark-config ::= annotations "config" parameter-body? block-body;
 run-test-cast ::= annotations identifier-safe block-body;
-run-benchmark ::= annotations identifier-safe argument-body benchmark-body {
-
-}
-benchmark-body ::= <<brace benchmark-unit>>;
-benchmark-unit ::= identifier-free argument-body? new-body? {
-
+run-benchmark ::= annotations "benchmark" parameter-body? block-body {
+    pin = 2
 }
 // === localize path ===
 localize-call ::= OP_L10N (identifier-safe ((DOT|NAME_SPLIT|OP_DIV) identifier-safe)*)? argument-body? {

@@ -86,3 +86,18 @@
 }
 
 <SYM_MICRO>print</SYM_MICRO>(<SYM_MACRO>@name_of</SYM_MACRO>(<SYM_CLASS>NamepathNode</SYM_CLASS>))
+
+<COMMENT_REST># Tests syntax examples</COMMENT_REST>
+<KEYWORD>tests</KEYWORD> <SYM_FUNCTION_SELF>basic_tests</SYM_FUNCTION_SELF> {
+    <KEYWORD>test</KEYWORD> <SYM_FUNCTION_SELF>should_work</SYM_FUNCTION_SELF>() {
+        <SYM_MICRO>assert</SYM_MICRO>(<KEYWORD>true</KEYWORD>)
+    }
+}
+
+<SYM_MODIFIER>@benchmark</SYM_MODIFIER>
+<KEYWORD>test</KEYWORD> <SYM_FUNCTION_SELF>performance_test</SYM_FUNCTION_SELF>() {
+    <SYM_MICRO>benchmark</SYM_MICRO> {
+        <SYM_FIELD>iterations</SYM_FIELD>: 1000
+        <SYM_FIELD>warmup</SYM_FIELD>: 100
+    }
+}

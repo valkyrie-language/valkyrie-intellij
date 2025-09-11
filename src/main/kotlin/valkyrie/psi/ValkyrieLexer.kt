@@ -34,6 +34,8 @@ class ValkyrieLexer : LexerBase() {
         "continue" to ValkyrieTokenTypes.CONTINUE,
         "yield" to ValkyrieTokenTypes.YIELD,
         "raise" to ValkyrieTokenTypes.RAISE,
+        "tests" to ValkyrieTokenTypes.TESTS,
+        "test" to ValkyrieTokenTypes.TEST,
         "namespace" to ValkyrieTokenTypes.NAMESPACE,
         "namespace!" to ValkyrieTokenTypes.NAMESPACE_MAIN,
         "namespace?" to ValkyrieTokenTypes.NAMESPACE_TEST,

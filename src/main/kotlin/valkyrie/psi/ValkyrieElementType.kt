@@ -61,6 +61,10 @@ object ValkyrieElementTypes {
     val ELSE_CLAUSE = ValkyrieElementType("ELSE_CLAUSE")
     @JvmField
     val IF_LET_STATEMENT = ValkyrieElementType("IF_LET_STATEMENT")
+    @JvmField
+    val DECLARE_TESTS = ValkyrieElementType("DECLARE_TESTS")
+    @JvmField
+    val DECLARE_TEST_METHOD = ValkyrieElementType("DECLARE_TEST_METHOD")
 
     @JvmField
     val BLOCK_STATEMENT = ValkyrieElementType("BLOCK_STATEMENT")

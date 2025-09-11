@@ -36,7 +36,9 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.CONTINUE,
             ValkyrieTokenTypes.YIELD,
             ValkyrieTokenTypes.RAISE,
-            ValkyrieTokenTypes.RETURN
+            ValkyrieTokenTypes.RETURN,
+            ValkyrieTokenTypes.TESTS,
+            ValkyrieTokenTypes.TEST
                 -> ValkyrieColor.KEYWORD
 
             ValkyrieTokenTypes.LPAREN, ValkyrieTokenTypes.RPAREN -> ValkyrieColor.PARENTHESES
