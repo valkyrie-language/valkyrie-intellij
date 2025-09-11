@@ -1,0 +1,28 @@
+// 测试元组解析问题
+
+// 基本元组表达式
+let tuple1 = (1, 2, 3);
+let tuple2 = (true, false);
+
+// 空元组
+let empty = ();
+
+// 单元素元组（需要逗号）
+let single = (42,);
+
+// 嵌套元组
+let nested = ((1, 2), (3, 4));
+
+// 带尾随逗号的元组
+let trailing = (1, 2, 3,);
+
+// 问题语句：value is (true, false)
+let value = (true, false);
+if value is (true, false) {
+    println("matched tuple");
+}
+
+// 更复杂的is表达式
+if value is (x, y) {
+    println("destructured: {}, {}", x, y);
+}

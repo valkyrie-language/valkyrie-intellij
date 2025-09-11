@@ -31,7 +31,9 @@ class ValkyrieLexer : LexerBase() {
         "class" to ValkyrieTokenTypes.CLASS,
         "struct" to ValkyrieTokenTypes.CLASS,
         "union" to ValkyrieTokenTypes.UNION,
+        "unity" to ValkyrieTokenTypes.UNITY,
         "trait" to ValkyrieTokenTypes.TRAIT,
+        "structure" to ValkyrieTokenTypes.STRUCTURE,
         "return" to ValkyrieTokenTypes.RETURN,
         "break" to ValkyrieTokenTypes.BREAK,
         "continue" to ValkyrieTokenTypes.CONTINUE,
@@ -51,8 +53,10 @@ class ValkyrieLexer : LexerBase() {
         "catch" to ValkyrieTokenTypes.CATCH,
         "try" to ValkyrieTokenTypes.TRY,
         "when" to ValkyrieTokenTypes.WHEN,
+        "fallthrough" to ValkyrieTokenTypes.FALLTHROUGH,
         "in" to ValkyrieTokenTypes.IN,
         "is" to ValkyrieTokenTypes.IS,
+        "as" to ValkyrieTokenTypes.AS,
         "true" to ValkyrieTokenTypes.BOOLEAN,
         "false" to ValkyrieTokenTypes.BOOLEAN
     )
@@ -194,15 +198,16 @@ class ValkyrieLexer : LexerBase() {
         }
 
         val text = buffer.subSequence(startOffset, currentOffset).toString()
-        
+
         // 检查复合关键字
         when (text) {
             "not" -> {
                 // 检查是否是 "not in"
                 val savedOffset = currentOffset
                 skipWhitespace()
-                if (currentOffset + 2 <= endOffset && 
-                    buffer.subSequence(currentOffset, currentOffset + 2).toString() == "in") {
+                if (currentOffset + 2 <= endOffset &&
+                    buffer.subSequence(currentOffset, currentOffset + 2).toString() == "in"
+                ) {
                     currentOffset += 2
                     tokenType = ValkyrieTokenTypes.NOT_IN
                     return
@@ -210,12 +215,14 @@ class ValkyrieLexer : LexerBase() {
                     currentOffset = savedOffset
                 }
             }
+
             "is" -> {
                 // 检查是否是 "is not"
                 val savedOffset = currentOffset
                 skipWhitespace()
-                if (currentOffset + 3 <= endOffset && 
-                    buffer.subSequence(currentOffset, currentOffset + 3).toString() == "not") {
+                if (currentOffset + 3 <= endOffset &&
+                    buffer.subSequence(currentOffset, currentOffset + 3).toString() == "not"
+                ) {
                     currentOffset += 3
                     tokenType = ValkyrieTokenTypes.IS_NOT
                     return
@@ -224,13 +231,50 @@ class ValkyrieLexer : LexerBase() {
                 }
             }
         }
-        
+
         tokenType = keywords[text] ?: ValkyrieTokenTypes.IDENTIFIER_STD
     }
 
     private fun readNumber() {
         var hasDecimalPoint = false
 
+        // Check for binary (0b) or hexadecimal (0x) prefixes
+        if (buffer[currentOffset] == '0' && currentOffset + 1 < endOffset) {
+            val nextChar = buffer[currentOffset + 1]
+            when (nextChar) {
+                'b', 'B' -> {
+                    // Binary number
+                    currentOffset += 2 // skip "0b"
+                    while (currentOffset < endOffset) {
+                        val ch = buffer[currentOffset]
+                        if (ch == '0' || ch == '1') {
+                            currentOffset++
+                        } else {
+                            break
+                        }
+                    }
+                    tokenType = ValkyrieTokenTypes.INTEGER
+                    return
+                }
+
+                'x', 'X' -> {
+                    // Hexadecimal number
+                    currentOffset += 2 // skip "0x"
+                    while (currentOffset < endOffset) {
+                        val ch = buffer[currentOffset]
+                        if (ch.isDigit() || ch in 'a'..'f' || ch in 'A'..'F') {
+                            currentOffset++
+                        } else {
+                            break
+                        }
+                    }
+                    tokenType = ValkyrieTokenTypes.INTEGER
+                    return
+                }
+            }
+        }
+
+        // Regular decimal number parsing
         while (currentOffset < endOffset) {
             val ch = buffer[currentOffset]
             when {
@@ -295,11 +339,18 @@ class ValkyrieLexer : LexerBase() {
         when (ch) {
             '=' -> {
                 currentOffset++
-                if (peek(0) == '=') {
-                    currentOffset++
-                    tokenType = ValkyrieTokenTypes.EQUAL
-                } else {
-                    tokenType = ValkyrieTokenTypes.ASSIGN
+                when (peek(0)) {
+                    '=' -> {
+                        currentOffset++
+                        tokenType = ValkyrieTokenTypes.EQUAL
+                    }
+                    '>' -> {
+                        currentOffset++
+                        tokenType = ValkyrieTokenTypes.DOUBLE_ARROW
+                    }
+                    else -> {
+                        tokenType = ValkyrieTokenTypes.ASSIGN
+                    }
                 }
             }
 
@@ -320,14 +371,17 @@ class ValkyrieLexer : LexerBase() {
                         currentOffset++
                         tokenType = ValkyrieTokenTypes.LESS_EQUAL
                     }
+
                     '{' -> {
                         currentOffset++
                         tokenType = ValkyrieTokenTypes.COMPILE_TIME_BLOCK_START
                     }
+
                     '$' -> {
                         currentOffset++
                         tokenType = ValkyrieTokenTypes.TEMPLATE_START
                     }
+
                     else -> {
                         tokenType = ValkyrieTokenTypes.LESS
                     }
@@ -392,10 +446,12 @@ class ValkyrieLexer : LexerBase() {
                         currentOffset++
                         tokenType = ValkyrieTokenTypes.ARROW
                     }
+
                     '=' -> {
                         currentOffset++
                         tokenType = ValkyrieTokenTypes.MINUS_ASSIGN
                     }
+
                     else -> {
                         tokenType = ValkyrieTokenTypes.MINUS
                     }
@@ -429,10 +485,12 @@ class ValkyrieLexer : LexerBase() {
                         currentOffset++
                         tokenType = ValkyrieTokenTypes.INTEGER_DIVIDE
                     }
+
                     '=' -> {
                         currentOffset++
                         tokenType = ValkyrieTokenTypes.DIVIDE_ASSIGN
                     }
+
                     else -> {
                         tokenType = ValkyrieTokenTypes.DIVIDE
                     }
@@ -480,6 +538,7 @@ class ValkyrieLexer : LexerBase() {
                     tokenType = ValkyrieTokenTypes.COLON
                 }
             }
+
             '⸬' -> {
                 currentOffset++; tokenType = ValkyrieTokenTypes.DOUBLE_COLON
             }
@@ -519,7 +578,15 @@ class ValkyrieLexer : LexerBase() {
                 if (peek(0) == '.') {
                     currentOffset++
                     tokenType = ValkyrieTokenTypes.ATTRIBUTE_LOWER
-                } else {
+                } else if (peek(0) == '*') {
+                    currentOffset++
+                    tokenType = ValkyrieTokenTypes.LABEL_MARK
+                }
+                else if (peek(0) == '$') {
+                    currentOffset++
+                    tokenType = ValkyrieTokenTypes.INTERNATIONAL_MARK
+                }
+                else {
                     tokenType = ValkyrieTokenTypes.AT
                 }
             }
@@ -557,11 +624,15 @@ class ValkyrieLexer : LexerBase() {
             }
 
             '※' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.LABEL
+                currentOffset++; tokenType = ValkyrieTokenTypes.LABEL_MARK
             }
 
             '?' -> {
                 currentOffset++; tokenType = ValkyrieTokenTypes.WHAT
+            }
+
+            '⸿' -> {
+                currentOffset++; tokenType = ValkyrieTokenTypes.INTERNATIONAL_MARK
             }
 
             else -> {

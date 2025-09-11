@@ -76,6 +76,10 @@ enum class ValkyrieColor(humanName: Supplier<@AttributeDescriptor String>, defau
 
     // 废弃
     EXTENSION(OptionsBundle.messagePointer("options.language.defaults.metadata"), Default.METADATA),
+    
+    // 元编程语法
+    COMPILE_TIME_BLOCK(ValkyrieBundle.messagePointer("color.token.compile.time.block"), Default.METADATA),
+    TEMPLATE_BLOCK(ValkyrieBundle.messagePointer("color.token.template.block"), Default.TEMPLATE_LANGUAGE_COLOR),
     ;
 
     val textAttributesKey: TextAttributesKey = TextAttributesKey.createTextAttributesKey("valkyrie.$name", default)

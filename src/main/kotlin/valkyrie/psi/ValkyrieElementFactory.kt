@@ -99,6 +99,7 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.COMPILE_TIME_BLOCK -> ValkyrieCompileTimeBlock(node)
             ValkyrieElementTypes.TEMPLATE_BLOCK -> ValkyrieTemplateBlock(node)
             ValkyrieElementTypes.LOOP_STATEMENT -> ValkyrieLoopStatement(node)
+            ValkyrieElementTypes.WHILE_STATEMENT -> ValkyrieWhileStatement(node)
             ValkyrieElementTypes.ASSIGN_STATEMENT -> ValkyrieAssignStatement(node)
             ValkyrieElementTypes.RESUME_STATEMENT -> ValkyrieResumeStatement(node)
             else -> ValkyrieElementNode(node)
