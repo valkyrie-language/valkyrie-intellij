@@ -109,7 +109,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
     
     private fun getModifiersText(element: PsiElement): String {
         return when (element) {
-            is ValkyrieClassDeclaration -> element.getModifiers()?.text ?: ""
+            is ValkyrieClassDeclaration -> ""
             is ValkyrieMethodDeclaration -> element.getModifiers()?.text ?: ""
             is ValkyrieFieldDeclaration -> element.getModifiers()?.text ?: ""
             else -> ""
