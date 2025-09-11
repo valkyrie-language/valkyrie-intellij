@@ -27,13 +27,7 @@ class ValkyrieUnionDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNa
         TODO("Not yet implemented")
     }
 
-    fun getUnionName(): String? {
-        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER)?.text
-    }
-
     fun getUnionBody(): ValkyrieObjectBodyNode? {
         return findChildByClass(ValkyrieObjectBodyNode::class.java)
     }
-
-
 }

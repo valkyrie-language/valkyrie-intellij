@@ -121,7 +121,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
         // 查找所有 union 语句（联合类型定义）
         val unionStatements = PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieUnionDeclaration::class.java)
         for (unionStatement in unionStatements) {
-            val symbolName = unionStatement.getUnionName() ?: continue
+            val symbolName = unionStatement.name ?: continue
             
             val symbolInfo = SymbolInfo(
                 name = symbolName,
@@ -191,7 +191,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
             // 查找 union 语句中的联合类型定义
             val unionStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieUnionDeclaration::class.java)
             for (unionStatement in unionStatements) {
-                val name = unionStatement.getUnionName()
+                val name = unionStatement.name
                 if (name == symbolName) {
                     return SymbolInfo(name, currentNamespace, currentFile, unionStatement)
                 }
