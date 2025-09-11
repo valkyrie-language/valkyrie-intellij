@@ -30,18 +30,18 @@
 		<!-- 高亮模块 -->
 		<lang.syntaxHighlighter
 			language="valkyrie"
-			implementationClass="valkyrie.highlighting.ValkyrieSyntaxHighlighter"
+			implementationClass="valkyrie.ide.highlight.ValkyrieSyntaxHighlighter"
 		/>
 		<highlightVisitor
-			implementation="valkyrie.highlighting.ValkyrieSemanticHighlighter"
+			implementation="valkyrie.ide.highlight.ValkyrieSemanticHighlighter"
 		/>
 		<colorSettingsPage
-			implementation="valkyrie.highlighting.ValkyrieColorSettingsPage"
+			implementation="valkyrie.ide.highlight.ValkyrieColorSettingsPage"
 		/>
 		<!-- Annotator -->
 		<annotator
 			language="valkyrie"
-			implementationClass="valkyrie.highlighting.ValkyrieAnnotator"
+			implementationClass="valkyrie.ide.highlight.ValkyrieAnnotator"
 		/>
 
 		<!-- Reference Contributor -->

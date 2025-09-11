@@ -15,7 +15,7 @@ class ValkyrieIdentifierNode(node: ASTNode) : ValkyrieElementNode(node) {
      * 获取标识符的真实名称
      * 对于特殊名称标识符，会去除反引号
      */
-    fun getName(): String {
+    override fun getName(): String {
         val text = this.node.text
         
         // 检查是否为特殊名称标识符（用反引号包围）

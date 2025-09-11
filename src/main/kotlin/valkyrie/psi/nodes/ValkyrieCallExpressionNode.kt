@@ -2,6 +2,7 @@ package valkyrie.psi.nodes
 
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
+import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
 
 /**
@@ -13,7 +14,7 @@ class ValkyrieCallExpressionNode(node: ASTNode) : ValkyrieElementNode(node) {
      * 获取被调用的表达式（函数名）
      */
     fun getCallee(): PsiElement? {
-        return firstChild
+        return this.firstChild
     }
     
     /**
@@ -21,7 +22,7 @@ class ValkyrieCallExpressionNode(node: ASTNode) : ValkyrieElementNode(node) {
      */
     fun getArgumentList(): List<PsiElement> {
         val args = mutableListOf<PsiElement>()
-        var child = firstChild?.nextSibling
+        var child = this.firstChild?.nextSibling
         
         // 跳过左括号
         while (child != null && child.node.elementType != ValkyrieTokenTypes.LPAREN) {
