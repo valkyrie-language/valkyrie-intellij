@@ -2,15 +2,14 @@ package valkyrie.index
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import com.intellij.psi.search.FileTypeIndex
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.language.file.ValkyrieFileType
-import valkyrie.psi.impl.ValkyrieNamespaceStatementImpl
-import valkyrie.psi.impl.ValkyrieUsingStatementImpl
-import valkyrie.psi.impl.ValkyrieLetStatementImpl
+import valkyrie.psi.impl.ValkyrieNamespaceStatementNode
+import valkyrie.psi.impl.ValkyrieUsingStatementNode
+import valkyrie.psi.impl.ValkyrieLetStatementNode
 
 /**
  * Valkyrie 符号索引服务
@@ -25,7 +24,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
         val name: String,
         val namespace: String,
         val file: VirtualFile,
-        val element: ValkyrieLetStatementImpl
+        val element: ValkyrieLetStatementNode
     )
     
     /**
@@ -76,7 +75,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
         val psiFile = PsiManager.getInstance(project).findFile(file) ?: return
         
         // 查找 namespace 声明
-        val namespaceStatement = PsiTreeUtil.findChildOfType(psiFile, ValkyrieNamespaceStatementImpl::class.java)
+        val namespaceStatement = PsiTreeUtil.findChildOfType(psiFile, ValkyrieNamespaceStatementNode::class.java)
         val namespace = namespaceStatement?.getNamespaceName() ?: "default"
         
         // 记录命名空间信息
@@ -85,7 +84,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
         }
         
         // 查找所有 let 语句（符号定义）
-        val letStatements = PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieLetStatementImpl::class.java)
+        val letStatements = PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieLetStatementNode::class.java)
         for (letStatement in letStatements) {
             val symbolName = letStatement.getIdentifier()?.text ?: continue
             
@@ -101,7 +100,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
         }
         
         // 查找所有 using 语句
-        val usingStatements = PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieUsingStatementImpl::class.java)
+        val usingStatements = PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieUsingStatementNode::class.java)
         val fileUsingList = mutableListOf<UsingInfo>()
         
         for (usingStatement in usingStatements) {
@@ -132,7 +131,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
     fun findSymbolDefinition(symbolName: String, currentFile: VirtualFile): SymbolInfo? {
         // 首先在当前文件的命名空间中查找
         val currentPsiFile = PsiManager.getInstance(project).findFile(currentFile)
-        val currentNamespace = PsiTreeUtil.findChildOfType(currentPsiFile, ValkyrieNamespaceStatementImpl::class.java)
+        val currentNamespace = PsiTreeUtil.findChildOfType(currentPsiFile, ValkyrieNamespaceStatementNode::class.java)
             ?.getNamespaceName() ?: "default"
         
         // 在当前命名空间中查找

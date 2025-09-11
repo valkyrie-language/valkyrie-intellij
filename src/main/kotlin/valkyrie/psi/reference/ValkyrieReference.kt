@@ -4,13 +4,13 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.IncorrectOperationException
-import valkyrie.psi.impl.ValkyrieIdentifierPatternImpl
-import valkyrie.psi.impl.ValkyrieIdentifierExpressionImpl
+import valkyrie.psi.impl.ValkyrieIdentifierPatternNode
+import valkyrie.psi.impl.ValkyrieIdentifierExpressionNode
 
 /**
  * Valkyrie 变量引用解析
  */
-class ValkyrieReference(private val element: ValkyrieIdentifierExpressionImpl) : PsiReferenceBase<ValkyrieIdentifierExpressionImpl>(element) {
+class ValkyrieReference(private val element: ValkyrieIdentifierExpressionNode) : PsiReferenceBase<ValkyrieIdentifierExpressionNode>(element) {
     
     override fun resolve(): PsiElement? {
         val name = element.name ?: return null
@@ -19,7 +19,7 @@ class ValkyrieReference(private val element: ValkyrieIdentifierExpressionImpl) :
         var context: PsiElement? = element.parent
         while (context != null) {
             // 查找 let 语句中的变量定义
-            val definitions = PsiTreeUtil.findChildrenOfType(context, ValkyrieIdentifierPatternImpl::class.java)
+            val definitions = PsiTreeUtil.findChildrenOfType(context, ValkyrieIdentifierPatternNode::class.java)
             for (definition in definitions) {
                 if (definition.name == name && definition.textOffset < element.textOffset) {
                     return definition
@@ -37,7 +37,7 @@ class ValkyrieReference(private val element: ValkyrieIdentifierExpressionImpl) :
         // 收集当前作用域中的所有变量定义
         var context: PsiElement? = element.parent
         while (context != null) {
-            val definitions = PsiTreeUtil.findChildrenOfType(context, ValkyrieIdentifierPatternImpl::class.java)
+            val definitions = PsiTreeUtil.findChildrenOfType(context, ValkyrieIdentifierPatternNode::class.java)
             for (definition in definitions) {
                 if (definition.textOffset < element.textOffset) {
                     variants.add(definition)

@@ -60,11 +60,11 @@ object ValkyrieTokenTypes {
 
     // 操作符
     @JvmField
-    val ASSIGN = ValkyrieTokenType("ASSIGN")  // =
+    val ASSIGN = ValkyrieTokenType("=")  // =
     @JvmField
-    val PLUS = ValkyrieTokenType("PLUS")    // +
+    val PLUS = ValkyrieTokenType("+")    // +
     @JvmField
-    val MINUS = ValkyrieTokenType("MINUS")  // -
+    val MINUS = ValkyrieTokenType("-")  // -
     @JvmField
     val MULTIPLY = ValkyrieTokenType("MULTIPLY") // *
     @JvmField
@@ -92,13 +92,13 @@ object ValkyrieTokenTypes {
 
     // 分隔符
     @JvmField
-    val SEMICOLON = ValkyrieTokenType("SEMICOLON") // ;
+    val SEMICOLON = ValkyrieTokenType(";") // ;
     @JvmField
-    val COMMA = ValkyrieTokenType("COMMA")   // ,
+    val COMMA = ValkyrieTokenType(",")
     @JvmField
-    val DOT = ValkyrieTokenType("DOT")       // .
+    val DOT = ValkyrieTokenType(".")
     @JvmField
-    val COLON = ValkyrieTokenType("COLON")   // :
+    val COLON = ValkyrieTokenType(":")
     @JvmField
     val ARROW = ValkyrieTokenType("ARROW")   // ->
 
