@@ -1,0 +1,57 @@
+// 测试 mezzo 类型函数定义语法支持
+
+// 基本类型函数定义
+mezzo IsEven(z: Type) -> bool {
+    match z {
+        i32 if z % 2 == 0 => true,
+        _ => false
+    }
+}
+
+// 带泛型参数的类型函数
+mezzo MapType<T>(input: T) -> T {
+    match input {
+        i32 => i64,
+        f32 => f64,
+        _ => input
+    }
+}
+
+// 条件类型选择
+mezzo ConditionalType<T, U>(condition: bool) -> Type {
+    if condition {
+        T
+    } else {
+        U
+    }
+}
+
+// 类型验证函数
+mezzo IsNumeric<T>(t: T) -> bool {
+    match t {
+        i8 | i16 | i32 | i64 | i128 => true,
+        u8 | u16 | u32 | u64 | u128 => true,
+        f32 | f64 => true,
+        _ => false
+    }
+}
+
+// 类型别名形式的 mezzo
+alias mezzo Duration = u64;
+alias mezzo InputStream = InputStream;
+
+// 在 trait 中使用 mezzo
+trait Dictionary {
+    mezzo Key;
+    mezzo Value;
+    mezzo Entry;
+    alias mezzo Pair = (key: Self::Key, value: Self::Value)
+}
+
+// 复杂的类型级计算
+mezzo Add<A, B>(a: A, b: B) -> Type {
+    match (a, b) {
+        (Zero, n) => n,
+        (Succ<m>, n) => Succ<Add<m, n>>
+    }
+}

@@ -8,6 +8,8 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiFile
 import valkyrie.psi.nodes.*
+import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.ValkyrieElementTypes
 
 class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
     private var infoHolder: HighlightInfoHolder? = null
@@ -43,7 +45,7 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
                 } else if (element.isStatic()) {
                     highlight(element.nameIdentifier, ValkyrieColor.SYM_FUNCTION_SELF)
                 } else {
-                    highlight(element.nameIdentifier, ValkyrieColor.SYM_FUNCTION_FREE)
+                    highlight(element.nameIdentifier, ValkyrieColor.SYM_MICRO)
                 }
             }
 
@@ -53,6 +55,43 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
 
             is ValkyrieModifierNode -> {
                 highlight(element, ValkyrieColor.SYM_MODIFIER)
+            }
+
+            is ValkyrieParameterNode -> {
+                // 高亮参数名称
+                val paramName = element.getParameterName()
+                if (paramName != null) {
+                    // 查找标识符节点
+                    var child = element.firstChild
+                    while (child != null) {
+                        if (child.node.elementType == ValkyrieTokenTypes.IDENTIFIER_STD && child.text == paramName) {
+                            highlight(child, ValkyrieColor.SYM_ARG)
+                            break
+                        }
+                        child = child.nextSibling
+                    }
+                }
+            }
+
+            is ValkyrieGenericCallExpressionNode -> {
+                // 高亮泛型参数
+                val genericArgs = element.getGenericArguments()
+                for (arg in genericArgs) {
+                    if (arg.node.elementType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                        highlight(arg, ValkyrieColor.SYM_GENERIC)
+                    }
+                }
+            }
+        }
+        
+        // 处理泛型参数列表（如 class A<T, U> 中的 T, U）
+        if (element.node.elementType == ValkyrieElementTypes.GENERIC_PARAMETER_LIST) {
+            var child = element.firstChild
+            while (child != null) {
+                if (child.node.elementType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                    highlight(child, ValkyrieColor.SYM_GENERIC)
+                }
+                child = child.nextSibling
             }
         }
     }
