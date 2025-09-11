@@ -148,8 +148,8 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             
             // Attributes 和 Macro 调用
             ValkyrieTokenTypes.AT,
-            ValkyrieTokenTypes.AT_DOT,
-            ValkyrieTokenTypes.ATTRIBUTE_UNICODE -> arrayOf(METADATA)
+            ValkyrieTokenTypes.ATTRIBUTE_LOWER,
+            ValkyrieTokenTypes.ATTRIBUTE_LOWER -> arrayOf(METADATA)
             
             // 括号
             ValkyrieTokenTypes.LPAREN,

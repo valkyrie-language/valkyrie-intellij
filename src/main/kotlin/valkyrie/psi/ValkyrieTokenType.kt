@@ -192,13 +192,7 @@ object ValkyrieTokenTypes {
     val AT = ValkyrieTokenType("@")           // @
 
     @JvmField
-    val AT_DOT = ValkyrieTokenType("@.")       // @.
-
-    @JvmField
-    val ATTRIBUTE_UNICODE = ValkyrieTokenType("↯") // ↯
-
-    @JvmField
-    val HASH = ValkyrieTokenType("#")         // #
+    val ATTRIBUTE_LOWER = ValkyrieTokenType("↯") // ↯
 
     @JvmField
     val WHITESPACE = ValkyrieTokenType("WHITESPACE")

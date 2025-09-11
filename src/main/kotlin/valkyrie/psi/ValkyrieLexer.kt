@@ -363,14 +363,14 @@ class ValkyrieLexer : LexerBase() {
                 currentOffset++
                 if (peek(0) == '.') {
                     currentOffset++
-                    tokenType = ValkyrieTokenTypes.AT_DOT
+                    tokenType = ValkyrieTokenTypes.ATTRIBUTE_LOWER
                 } else {
                     tokenType = ValkyrieTokenTypes.AT
                 }
             }
 
             '↯' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.ATTRIBUTE_UNICODE
+                currentOffset++; tokenType = ValkyrieTokenTypes.ATTRIBUTE_LOWER
             }
 
             else -> {
