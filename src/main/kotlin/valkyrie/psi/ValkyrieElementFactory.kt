@@ -49,6 +49,7 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.ATTRIBUTE_LIST -> ValkyrieElementNode(node)
             ValkyrieElementTypes.MACRO_CALL -> ValkyrieElementNode(node)
             ValkyrieElementTypes.ATTRIBUTE_ARGS -> ValkyrieElementNode(node)
+            ValkyrieElementTypes.DOC_COMMENT -> ValkyrieDocCommentNode(node)
             else -> ValkyrieElementNode(node)
         }
     }

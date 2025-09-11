@@ -255,6 +255,7 @@ main_expression
     | define_label       # EDefine
     | tuple_literal      # ETuple
     | range_literal      # ERange
+    | localize_call      # ELocalize
     | leading_expression # EAtom
     ;
 main_dot_call
@@ -486,6 +487,7 @@ range_literal
     : BRACKET_L (range_axis (COMMA range_axis)* COMMA?)? BRACKET_R
     | OFFSET_L (range_axis (COMMA range_axis)* COMMA?)? OFFSET_R
     ;
+localize_call: OP_L10N namepath;
 range_axis
     : COLON // [:]
     | index = main_expression // [s]

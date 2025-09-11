@@ -40,6 +40,7 @@ class ValkyrieParser : PsiParser {
             ValkyrieTokenTypes.LBRACE -> parseBlockStatement(builder)
             ValkyrieTokenTypes.WHITESPACE, ValkyrieTokenTypes.NEWLINE -> builder.advanceLexer()
             ValkyrieTokenTypes.COMMENT_REST, ValkyrieTokenTypes.COMMENT_RANGE -> builder.advanceLexer()
+            ValkyrieTokenTypes.COMMENT_DOCUMENT -> parseDocComment(builder)
             ValkyrieTokenTypes.AT -> parseMacroCall(builder)
             null -> return
             else -> parseExpressionStatement(builder)
@@ -1170,5 +1171,16 @@ class ValkyrieParser : PsiParser {
         }
 
         marker.done(ValkyrieElementTypes.MACRO_CALL)
+    }
+
+    private fun parseDocComment(builder: PsiBuilder) {
+        val marker = builder.mark()
+        
+        if (builder.tokenType == ValkyrieTokenTypes.COMMENT_DOCUMENT) {
+            builder.advanceLexer()
+            marker.done(ValkyrieElementTypes.DOC_COMMENT)
+        } else {
+            marker.drop()
+        }
     }
 }
