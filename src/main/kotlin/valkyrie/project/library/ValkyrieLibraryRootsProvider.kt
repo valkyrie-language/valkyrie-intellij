@@ -1,19 +1,21 @@
 package valkyrie.project.library
 
-import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.AdditionalLibraryRootsProvider
 import com.intellij.openapi.roots.SyntheticLibrary
 import com.intellij.openapi.vfs.VirtualFile
 import valkyrie.index.ValkyrieProjectService
-import valkyrie.language.ValkyrieIcons
-import javax.swing.Icon
 
 /**
  * Valkyrie 外部库根目录提供器
  * 将 Valkyrie 外部包添加到 External Libraries 节点中
  */
 class ValkyrieLibraryRootsProvider : AdditionalLibraryRootsProvider() {
+    
+    companion object {
+        // 缓存已经显示过通知的项目，避免重复通知
+        private val notifiedProjects = mutableSetOf<String>()
+    }
     
     override fun getAdditionalProjectLibraries(project: Project): Collection<SyntheticLibrary> {
         try {
@@ -66,17 +68,21 @@ class ValkyrieLibraryRootsProvider : AdditionalLibraryRootsProvider() {
                 )
                 libraries.add(stdLibrary)
             } else {
-                // 如果找不到标准库，显示提示信息
-                try {
-                    com.intellij.notification.NotificationGroupManager.getInstance()
-                        .getNotificationGroup("Valkyrie")
-                        ?.createNotification(
-                            "Valkyrie Standard Library Not Found",
-                            "Please install Valkyrie and set VALKYRIE_HOME environment variable to enable standard library support.",
-                            com.intellij.notification.NotificationType.WARNING
-                        )?.notify(project)
-                } catch (e: Exception) {
-                    // 忽略通知错误
+                // 如果找不到标准库，显示提示信息（但只显示一次）
+                val projectPath = project.basePath ?: project.name
+                if (!notifiedProjects.contains(projectPath)) {
+                    try {
+                        com.intellij.notification.NotificationGroupManager.getInstance()
+                            .getNotificationGroup("Valkyrie")
+                            ?.createNotification(
+                                "Valkyrie Standard Library Not Found",
+                                "Please install Valkyrie and set VALKYRIE_HOME environment variable to enable standard library support.",
+                                com.intellij.notification.NotificationType.WARNING
+                            )?.notify(project)
+                        notifiedProjects.add(projectPath)
+                    } catch (e: Exception) {
+                        // 忽略通知错误
+                    }
                 }
             }
         } catch (e: Exception) {
@@ -137,30 +143,3 @@ class ValkyrieLibraryRootsProvider : AdditionalLibraryRootsProvider() {
     }
 }
 
-/**
- * Valkyrie 外部库实现
- */
-class ValkyrieExternalLibrary(
-    private val name: String,
-    private val sourceRoots: Collection<VirtualFile>
-) : SyntheticLibrary(), ItemPresentation {
-    
-    override fun getSourceRoots(): Collection<VirtualFile> = sourceRoots
-    
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is ValkyrieExternalLibrary) return false
-        return name == other.name && sourceRoots == other.sourceRoots
-    }
-    
-    override fun hashCode(): Int {
-        return name.hashCode() * 31 + sourceRoots.hashCode()
-    }
-    
-    // ItemPresentation 实现
-    override fun getPresentableText(): String = name
-    
-    override fun getLocationString(): String? = null
-    
-    override fun getIcon(unused: Boolean): Icon = ValkyrieIcons.PACKAGES
-}

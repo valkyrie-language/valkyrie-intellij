@@ -1,13 +1,12 @@
-package valkyrie.project
+package valkyrie.project.workspace
 
-import com.intellij.json.JsonFileType
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiManager
 import com.intellij.json.psi.JsonFile
 import com.intellij.json.psi.JsonObject
-import com.intellij.json.psi.JsonProperty
 import com.intellij.json.psi.JsonStringLiteral
+import valkyrie.project.ValkyrieProjectParser
 
 /**
  * Valkyrie Workspace 解析器
@@ -83,7 +82,7 @@ class ValkyrieWorkspaceParser {
         val packagesDir = workspaceRoot.findChild(PACKAGES_DIR) ?: return emptyList()
         
         return packagesDir.children.filter { child ->
-            child.isDirectory && child.findChild(ValkyrieProjectParser.LEGION_JSON) != null
+            child.isDirectory && child.findChild(ValkyrieProjectParser.Companion.LEGION_JSON) != null
         }
     }
     
@@ -100,35 +99,3 @@ class ValkyrieWorkspaceParser {
     }
 }
 
-/**
- * Valkyrie Workspace 数据类
- */
-data class ValkyrieWorkspace(
-    val root: VirtualFile,
-    val name: String,
-    val isPrivate: Boolean,
-    val scripts: Map<String, String>,
-    val packages: List<VirtualFile>
-) {
-    
-    /**
-     * 获取所有包的名称
-     */
-    fun getPackageNames(): List<String> {
-        return packages.map { it.name }
-    }
-    
-    /**
-     * 根据名称查找包
-     */
-    fun findPackage(name: String): VirtualFile? {
-        return packages.find { it.name == name }
-    }
-    
-    /**
-     * 检查是否包含指定的包
-     */
-    fun containsPackage(packageDir: VirtualFile): Boolean {
-        return packages.contains(packageDir)
-    }
-}

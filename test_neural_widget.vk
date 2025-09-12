@@ -1,0 +1,58 @@
+// 测试 neural 语法 - 和 class 语法完全一致
+neural ConvolutionLayer1D {
+    weight: NDArray,
+    bias: NDArray?,
+    padding: usize,
+    output_padding: usize,
+    stride: usize,
+    dilation: usize,
+    groups: usize,
+}
+
+// 测试 widget 语法 - 和 class 语法完全一致
+widget Button {
+    text: String,
+    onClick: () -> Unit,
+    enabled: bool,
+    style: ButtonStyle?,
+}
+
+// 测试带泛型的 neural
+neural Layer<T> {
+    input: T,
+    output: T,
+    
+    method forward(self, input: T) -> T {
+        // 前向传播逻辑
+        return input
+    }
+}
+
+// 测试带继承的 widget
+widget CustomButton(Button) {
+    customProperty: String,
+    
+    method render(self) -> String {
+        return "Custom: " + self.text
+    }
+}
+
+// 测试带 trait 约束的 neural
+neural Optimizer: Trainable {
+    learning_rate: f64,
+    momentum: f64,
+}
+
+// 测试带 trait 约束的 widget
+widget InteractiveWidget: Clickable {
+    handler: EventHandler,
+}
+
+// 对比：传统的 class 语法
+class TraditionalClass {
+    field: String,
+    
+    method doSomething(self) -> Unit {
+        // 传统类的方法
+    }
+}

@@ -19,15 +19,6 @@
 			implementationClass="valkyrie.language.file.ValkyrieFileType"
 			fieldName="INSTANCE"
 		/>
-		
-		<!-- JSON5 Language Association for legion.json and legions.json -->
-		<lang.fileViewProviderFactory
-			language="JSON5"
-			implementationClass="com.intellij.json.JsonFileViewProviderFactory"
-			order="first"
-			patterns="legion.json;legions.json"
-		/>
-
 
 		<!-- Parser Definition -->
 		<lang.parserDefinition
@@ -65,7 +56,7 @@
 		/>
 
 		<!-- Goto Declaration Handler -->
-        <gotoDeclarationHandler implementation="valkyrie.reference.ValkyrieGotoDeclarationHandler"/>
+		<gotoDeclarationHandler implementation="valkyrie.reference.ValkyrieGotoDeclarationHandler"/>
 
 		<!-- Project Service -->
 		<projectService
@@ -108,60 +99,71 @@
 			language="valkyrie"
 			implementationClass="valkyrie.ide.formatter.ValkyrieFormatBuilder"
 		/>
-		<!-- Temporarily disabled due to initialization issues -->
-		<!--
-		<langCodeStyleSettingsProvider
+		<codeStyleSettingsProvider
 			implementation="valkyrie.ide.formatter.ValkyrieCodeStyleProvider"
 		/>
-		-->
 
 		<!-- Documentation Provider -->
 		<lang.documentationProvider
 			language="valkyrie"
 			implementationClass="valkyrie.ide.documentation.ValkyrieDocumentationProvider"
 		/>
-		
+
 		<!-- Breadcrumbs Navigation -->
 		<breadcrumbsInfoProvider implementation="valkyrie.ide.navigation.ValkyrieBreadcrumbsProvider"/>
-		
+
 		<!-- Inlay Hints -->
-		<codeInsight.inlayProvider 
-			language="valkyrie" 
+		<codeInsight.inlayProvider
+			language="valkyrie"
 			implementationClass="valkyrie.ide.hint.ValkyrieInlayHintsProvider"/>
-		
+
 		<!-- Parameter Info -->
-		<codeInsight.parameterInfo 
-			language="valkyrie" 
+		<codeInsight.parameterInfo
+			language="valkyrie"
 			implementationClass="valkyrie.ide.hint.ValkyrieParameterInfoHandler"/>
-		
+
 		<!-- Control Flow Line Markers -->
-		<codeInsight.lineMarkerProvider 
-			language="valkyrie" 
-			implementationClass="valkyrie.ide.gutter.ValkyrieControlFlowNavigationProvider"/>
-		
+		<codeInsight.lineMarkerProvider
+			language="valkyrie"
+			implementationClass="valkyrie.ide.gutter.ValkyrieControlFlowNavigationProvider"
+		/>
+
 		<!-- Code Completion -->
-		<completion.contributor 
-			language="valkyrie" 
-			implementationClass="valkyrie.ide.completion.ValkyrieCompletionContributor"/>
-		
+		<completion.contributor
+			language="valkyrie"
+			implementationClass="valkyrie.ide.completion.ValkyrieCompletionContributor"
+		/>
+
 		<!-- Intention Actions -->
 		<intentionAction>
 			<className>valkyrie.ide.intention.ConvertIfToMatchIntention</className>
 			<category>Valkyrie</category>
 		</intentionAction>
-		
+
 		<!-- Refactoring Support -->
-		<lang.refactoringSupport 
-			language="valkyrie" 
-			implementationClass="valkyrie.ide.refactor.ValkyrieRefactoringProvider"/>
-		
+		<lang.refactoringSupport
+			language="valkyrie"
+			implementationClass="valkyrie.ide.refactor.ValkyrieRefactoringProvider"
+		/>
+
 		<!-- Rename Handler -->
 		<renameHandler implementation="valkyrie.ide.refactor.ValkyrieRenameHandler"/>
-		
+
 		<!-- Rename Input Validator -->
 		<renameInputValidator implementation="valkyrie.ide.refactor.ValkyrieRenameInputValidator"/>
+
+		<!-- Code Vision Provider -->
+		<codeInsight.codeVisionProvider
+			implementation="valkyrie.ide.codevision.ValkyrieCodeVisionProvider"
+		/>
+		<codeInsight.codeVisionGroupSettingProvider
+			implementation="valkyrie.ide.codevision.ValkyrieCodeVisionGroupSettingProvider"
+		/>
+
+		<!-- Notification Groups -->
+		<notificationGroup id="Valkyrie" displayType="BALLOON" key="notification.group.valkyrie"/>
 	</extensions>
-	
+
 	<!-- Actions -->
 	<actions>
 		<action

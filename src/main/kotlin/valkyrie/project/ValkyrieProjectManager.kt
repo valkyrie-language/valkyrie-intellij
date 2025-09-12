@@ -7,6 +7,8 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.VirtualFileManager
 import com.intellij.openapi.vfs.newvfs.BulkFileListener
 import com.intellij.openapi.vfs.newvfs.events.VFileEvent
+import valkyrie.project.workspace.ValkyrieWorkspace
+import valkyrie.project.workspace.ValkyrieWorkspaceParser
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -268,30 +270,3 @@ class ValkyrieProjectManager(private val project: Project) {
     }
 }
 
-/**
- * Valkyrie 文件上下文信息
- */
-data class ValkyrieFileContext(
-    val file: VirtualFile,
-    val workspace: ValkyrieWorkspace?,
-    val project: ValkyrieProject?,
-    val isInWorkspace: Boolean,
-    val isInProject: Boolean
-) {
-
-    /**
-     * 获取相对于项目根的路径
-     */
-    fun getRelativePathToProject(): String? {
-        val projectRoot = project?.root ?: return null
-        return file.path.removePrefix(projectRoot.path).removePrefix("/")
-    }
-
-    /**
-     * 获取相对于 workspace 根的路径
-     */
-    fun getRelativePathToWorkspace(): String? {
-        val workspaceRoot = workspace?.root ?: return null
-        return file.path.removePrefix(workspaceRoot.path).removePrefix("/")
-    }
-}

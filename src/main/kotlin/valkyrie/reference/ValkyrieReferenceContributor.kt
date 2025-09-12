@@ -4,6 +4,7 @@ import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.*
 import valkyrie.psi.nodes.ValkyrieIdentifierNode
 import valkyrie.psi.nodes.ValkyrieCallExpressionNode
+import valkyrie.psi.nodes.ValkyrieTypeReferenceNode
 
 /**
  * Valkyrie 引用贡献者
@@ -21,6 +22,12 @@ class ValkyrieReferenceContributor : PsiReferenceContributor() {
         registrar.registerReferenceProvider(
             PlatformPatterns.psiElement(ValkyrieCallExpressionNode::class.java),
             ValkyrieFunctionCallReferenceProvider()
+        )
+        
+        // 注册类型引用提供者
+        registrar.registerReferenceProvider(
+            PlatformPatterns.psiElement(ValkyrieTypeReferenceNode::class.java),
+            ValkyrieTypeReferenceProvider()
         )
     }
 }
