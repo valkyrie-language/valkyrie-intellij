@@ -340,17 +340,66 @@ class ValkyrieParser : PsiParser {
 
 
     private fun parseClassLikeStatement(builder: PsiBuilder, node: ValkyrieElementType) {
-        parseAnnotations(builder, withModifiers = true)
-        parseIdentifier(builder)
+        val marker = builder.mark()
+        
+        // Parse annotations with modifiers
+        val annotationsResult = parseAnnotations(builder, withModifiers = true)
+        
+        // Parse identifier (required)
+        if (!parseIdentifier(builder)) {
+            marker.error("Expected class name")
+            recoverToSyncPoint(builder)
+            return
+        }
+        
+        // Parse optional components
         parseGenericParameterList(builder) // optional
         parseInheritanceList(builder) // optional
         parseImplementation(builder) // optional
-        parseClassLikeBody(builder)
+        
+        // Parse class body (required)
+        if (!parseClassLikeBody(builder)) {
+            marker.error("Expected class body")
+            recoverToSyncPoint(builder)
+            return
+        }
+        
+        marker.done(node)
     }
 
-    private fun parseClassLikeBody(builder: PsiBuilder) {
-        // loop
-        parseProductItem(builder)
+    private fun parseClassLikeBody(builder: PsiBuilder): Boolean {
+        val marker = builder.mark()
+        
+        // Expect opening brace
+        if (builder.tokenType != ValkyrieTokenTypes.LBRACE) {
+            marker.drop()
+            return false
+        }
+        
+        builder.advanceLexer() // consume '{'
+        
+        // Parse body content
+        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
+            parseClassLikeItem(builder)
+            
+            // Skip to next valid token if parsing failed
+            if (builder.tokenType != ValkyrieTokenTypes.RBRACE && !builder.eof()) {
+                if (syncTokens.contains(builder.tokenType)) {
+                    break
+                }
+                builder.advanceLexer()
+            }
+        }
+        
+        // Expect closing brace
+        if (builder.tokenType == ValkyrieTokenTypes.RBRACE) {
+            builder.advanceLexer() // consume '}'
+            marker.done(ValkyrieElementTypes.OBJECT_BODY)
+            return true
+        } else {
+            marker.error("Expected '}'")
+            return false
+        }
     }
 
     private fun parseClasXXXsLikeItem(builder: PsiBuilder) {
@@ -407,12 +456,67 @@ class ValkyrieParser : PsiParser {
         // type level 额外支持一种 <T>
     }
 
-    private fun parseGenericParameterList(builder: PsiBuilder) {
-        parseGenericParameterItem(builder)
+    private fun parseGenericParameterList(builder: PsiBuilder): Boolean {
+        val marker = builder.mark()
+        
+        if (builder.tokenType == ValkyrieTokenTypes.ANGLE_L) {
+            builder.advanceLexer() // consume '<'
+            
+            // Parse first parameter
+            if (!parseGenericParameterItem(builder)) {
+                marker.error("Expected generic parameter")
+                return false
+            }
+            
+            // Parse additional parameters
+            while (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+                builder.advanceLexer() // consume ','
+                if (!parseGenericParameterItem(builder)) {
+                    marker.error("Expected generic parameter after ','")
+                    return false
+                }
+            }
+            
+            if (builder.tokenType == ValkyrieTokenTypes.ANGLE_R) {
+                builder.advanceLexer() // consume '>'
+                marker.done(ValkyrieElementTypes.GENERIC_PARAMETER_LIST)
+                return true
+            } else {
+                marker.error("Expected '>'")
+                return false
+            }
+        } else {
+            marker.drop()
+            return false
+        }
     }
 
-    private fun parseGenericParameterItem(builder: PsiBuilder) {
+    private fun parseGenericParameterItem(builder: PsiBuilder): Boolean {
+        val marker = builder.mark()
+        
+        // Parse annotations and modifiers
         parseAnnotations(builder, withModifiers = true)
+        
+        // Parse identifier
+        if (!parseIdentifier(builder)) {
+            marker.error("Expected parameter name")
+            return false
+        }
+        
+        // Parse optional type constraint
+        if (builder.tokenType == ValkyrieTokenTypes.COLON) {
+            builder.advanceLexer() // consume ':'
+            parseTypeExpression(builder, true)
+        }
+        
+        // Parse optional default type
+        if (builder.tokenType == ValkyrieTokenTypes.ASSIGN) {
+            builder.advanceLexer() // consume '='
+            parseTypeExpression(builder, true)
+        }
+        
+        marker.done(ValkyrieElementTypes.GENERIC_PARAMETER)
+        return true
     }
 
     private fun parseImplyStatement(builder: PsiBuilder) {
@@ -438,7 +542,7 @@ class ValkyrieParser : PsiParser {
         parseClasXXXsLikeItem(builder)
     }
 
-    private fun parseProductItem(builder: PsiBuilder) {
+    private fun parseClassLikeItem(builder: PsiBuilder) {
         // start loop
         parseMacroCall(builder)
         parseField(builder)
@@ -1490,7 +1594,7 @@ class ValkyrieParser : PsiParser {
     }
 
 
-    private fun parseInheritanceList(builder: PsiBuilder) {
+    private fun parseInheritanceList(builder: PsiBuilder): Boolean {
         val marker = builder.mark()
 
         if (builder.tokenType == ValkyrieTokenTypes.LPAREN) {
@@ -1498,50 +1602,76 @@ class ValkyrieParser : PsiParser {
 
             // 解析继承列表，允许空继承 class A() {}
             while (builder.tokenType != ValkyrieTokenTypes.RPAREN && !builder.eof()) {
-                parseInheritanceItem(builder)
+                if (!parseInheritanceItem(builder)) {
+                    marker.error("Expected inheritance item")
+                    recoverToSyncPoint(builder)
+                    return false
+                }
 
                 if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
                     builder.advanceLexer() // consume ','
                 } else if (builder.tokenType != ValkyrieTokenTypes.RPAREN) {
-                    builder.error("Expected ',' or ')'")
-                    break
+                    marker.error("Expected ',' or ')'")
+                    recoverToSyncPoint(builder)
+                    return false
                 }
             }
 
             if (builder.tokenType == ValkyrieTokenTypes.RPAREN) {
                 builder.advanceLexer() // consume ')'
+                marker.done(ValkyrieElementTypes.INHERIT_LIST)
+                return true
             } else {
-                builder.error("Expected ')'")
+                marker.error("Expected ')'")
+                return false
             }
+        } else {
+            marker.drop()
+            return false
         }
-
-        marker.done(ValkyrieElementTypes.INHERIT_LIST)
     }
 
-    private fun parseInheritanceItem(builder: PsiBuilder) {
+    private fun parseInheritanceItem(builder: PsiBuilder): Boolean {
         val marker = builder.mark()
+        
+        // Parse annotations and modifiers
         parseAnnotations(builder, withModifiers = true)
-        parseIdentifier(builder)
+        
+        // Parse identifier (required)
+        if (!parseIdentifier(builder)) {
+            marker.error("Expected type name")
+            return false
+        }
+        
+        // Parse optional type hint
         parseTypeHint(builder)
+        
+        // Parse optional default value
         parseDefaultValue(builder)
+        
         marker.done(ValkyrieElementTypes.INHERIT_ITEM)
+        return true
     }
 
-    private fun parseImplementation(builder: PsiBuilder) {
+    private fun parseImplementation(builder: PsiBuilder): Boolean {
         if (builder.tokenType == ValkyrieTokenTypes.COLON) {
             builder.advanceLexer() // consume ':'
             parseTypeExpression(builder, true)
+            return true
         }
+        return false
     }
 
     /**
      * Annotation = Attributions + Modifiers
      * */
-    private fun parseAnnotations(builder: PsiBuilder, withModifiers: Boolean): IElementType? {
+    private fun parseAnnotations(builder: PsiBuilder, withModifiers: Boolean): Boolean {
         val annotationMarker = builder.mark()
+        var hasAnnotations = false
 
         // 解析若干个 attribute node ↯attr 和 attribute list ↯[attr] 混合
         while (builder.tokenType == ValkyrieTokenTypes.ATTRIBUTE_LOWER) {
+            hasAnnotations = true
             // 解析 attribute list
             if (builder.lookAhead(1) == ValkyrieTokenTypes.LBRACKET) {
                 // ↯[attr1, attr2, ...]
@@ -1559,8 +1689,8 @@ class ValkyrieParser : PsiParser {
                         }
                         attrMarker.done(ValkyrieElementTypes.ATTRIBUTE)
                     } else {
-                        builder.error("Expected attribute name")
-                        attrMarker.drop()
+                        attrMarker.error("Expected attribute name")
+                        recoverToSyncPoint(builder)
                         break
                     }
 
@@ -1573,8 +1703,10 @@ class ValkyrieParser : PsiParser {
 
                 if (builder.tokenType == ValkyrieTokenTypes.RBRACKET) {
                     builder.advanceLexer()
+                    listMarker.done(ValkyrieElementTypes.ATTRIBUTE_LIST)
+                } else {
+                    listMarker.error("Expected ']'")
                 }
-                listMarker.done(ValkyrieElementTypes.ATTRIBUTE_LIST)
             }
             // 解析单个 attribute node
             else {
@@ -1590,59 +1722,43 @@ class ValkyrieParser : PsiParser {
                     }
                     attrMarker.done(ValkyrieElementTypes.ATTRIBUTE)
                 } else {
-                    builder.error("Expected attribute name")
-                    attrMarker.drop()
+                    attrMarker.error("Expected attribute name")
+                    recoverToSyncPoint(builder)
                     break
                 }
             }
         }
 
-        // 如果 withModifiers 为 true，解析结尾的 mod id
+        // 如果 withModifiers 为 true，解析结尾的 mod ids
         if (withModifiers) {
-            var lastNonIdToken: String? = null
+            var hasModifiers = false
 
             // 解析所有的 mod id
             while (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD ||
                 builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW
             ) {
-                val currentText = builder.tokenText ?: ""
-
-                // 检查是否是 micro, mezzo, macro 关键字
-                if (builder.tokenType == ValkyrieTokenTypes.MICRO ||
-                    builder.tokenType == ValkyrieTokenTypes.MEZZO ||
-                    builder.tokenType == ValkyrieTokenTypes.MACRO ||
-                    builder.tokenType == ValkyrieTokenTypes.CLASS ||
-                    builder.tokenType == ValkyrieTokenTypes.TRAIT ||
-                    builder.tokenType == ValkyrieTokenTypes.UNION
-//                    builder.tokenType == ValkyrieTokenTypes.MACRO||
-//                    builder.tokenType == ValkyrieTokenTypes.MACRO
-                ) {
-                    lastNonIdToken = currentText
-                }
-
-
+                hasModifiers = true
                 // 解析 mod id
                 val modMarker = builder.mark()
                 builder.advanceLexer() // consume identifier
                 modMarker.done(ValkyrieElementTypes.MODIFIER_NODE)
             }
 
-            // 根据最后一个非id节点决定返回值
-            if (lastNonIdToken != null) {
-                // 如果最后一个非id节点是 micro/mezzo/macro，返回该节点且不pop
+            if (hasAnnotations || hasModifiers) {
                 annotationMarker.done(ValkyrieElementTypes.ANNOTATION_NODE)
-                // 返回当前遇到的token类型
-                return builder.tokenType
+                return true
             } else {
-                // 其他情况 pop 并返回 null
                 annotationMarker.drop()
-                return null
+                return false
             }
         } else {
-            // 如果 mods 关了就算了, 直接打包 attrs 结束
-            annotationMarker.done(ValkyrieElementTypes.ANNOTATION_NODE)
-            // 返回当前遇到的token类型
-            return builder.tokenType
+            if (hasAnnotations) {
+                annotationMarker.done(ValkyrieElementTypes.ANNOTATION_NODE)
+                return true
+            } else {
+                annotationMarker.drop()
+                return false
+            }
         }
     }
 
@@ -1751,11 +1867,16 @@ class ValkyrieParser : PsiParser {
         marker.done(ValkyrieElementTypes.QUALIFIED_NAME)
     }
 
-    private fun parseIdentifier(builder: PsiBuilder) {
+    private fun parseIdentifier(builder: PsiBuilder): Boolean {
+        val marker = builder.mark()
+        
         if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW) {
             builder.advanceLexer()
+            marker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
+            return true
         } else {
-            builder.error("Expected identifier")
+            marker.drop()
+            return false
         }
     }
 
