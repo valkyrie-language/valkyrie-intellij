@@ -133,6 +133,17 @@
 			<className>valkyrie.ide.intention.ConvertIfToMatchIntention</className>
 			<category>Valkyrie</category>
 		</intentionAction>
+		
+		<!-- Refactoring Support -->
+		<lang.refactoringSupport 
+			language="valkyrie" 
+			implementationClass="valkyrie.ide.refactor.ValkyrieRefactoringProvider"/>
+		
+		<!-- Rename Handler -->
+		<renameHandler implementation="valkyrie.ide.refactor.ValkyrieRenameHandler"/>
+		
+		<!-- Rename Input Validator -->
+		<renameInputValidator implementation="valkyrie.ide.refactor.ValkyrieRenameInputValidator"/>
 	</extensions>
 	
 	<!-- Actions -->
