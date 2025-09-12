@@ -258,7 +258,7 @@ class ValkyrieParser : PsiParser {
         parseGenericParameterList(builder)
 
         // tests { } - 使用class-like body解析
-        if (!parseClassLikeBody(builder)) {
+        if (!parseObjectBody(builder)) {
             marker.error("Expected tests body")
             recoverToSyncPoint(builder)
             marker.done(ValkyrieElementTypes.ERROR_ELEMENT)
@@ -972,7 +972,7 @@ class ValkyrieParser : PsiParser {
         parseImplementation(builder) // optional
 
         // Parse class body (required)
-        if (!parseClassLikeBody(builder)) {
+        if (!parseObjectBody(builder)) {
             marker.error("Expected class body")
             recoverToSyncPoint(builder)
             return
@@ -981,7 +981,7 @@ class ValkyrieParser : PsiParser {
         marker.done(node)
     }
 
-    private fun parseClassLikeBody(builder: PsiBuilder): Boolean {
+    private fun parseObjectBody(builder: PsiBuilder): Boolean {
         val marker = builder.mark()
 
         // Expect opening brace
@@ -995,7 +995,7 @@ class ValkyrieParser : PsiParser {
         // Parse body content
         while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
             val initialPosition = builder.currentOffset
-            parseClassLikeItem(builder)
+            parseObjectItem(builder)
 
             // 防止无限循环：确保解析器前进
             if (builder.currentOffset == initialPosition) {
@@ -1022,7 +1022,7 @@ class ValkyrieParser : PsiParser {
         }
     }
 
-    private fun parseClassLikeItem(builder: PsiBuilder) {
+    private fun parseObjectItem(builder: PsiBuilder) {
         if (builder.eof() || builder.tokenType == ValkyrieTokenTypes.RBRACE) {
             return
         }
@@ -1131,7 +1131,7 @@ class ValkyrieParser : PsiParser {
 
     private fun parseVariant(builder: PsiBuilder) {
         parseIdentifier(builder)
-        parseClassLikeBody(builder) // optional
+        parseObjectBody(builder) // optional
     }
 
     private fun parseFlagsStatement(builder: PsiBuilder) {
@@ -1212,7 +1212,7 @@ class ValkyrieParser : PsiParser {
         parseAnnotations(builder, withModifiers = false)
         parseNamePath(builder, free = false) // impl module::Type
         parseImplementation(builder) // impl module::Type: Trait
-        parseClassLikeBody(builder)
+        parseObjectBody(builder)
 
         marker.done(ValkyrieElementTypes.IMPLY_STATEMENT)
     }
@@ -1481,7 +1481,7 @@ class ValkyrieParser : PsiParser {
 
     private fun parseDomain(builder: PsiBuilder): Boolean {
         parseIdentifier(builder)
-        parseClassLikeBody(builder)
+        parseObjectBody(builder)
         return true
     }
 
@@ -2337,7 +2337,7 @@ class ValkyrieParser : PsiParser {
         parseIdentifier(builder)
         parseTermArgumentList(builder)
         if (allowBody) {
-            parseClassLikeBody(builder)
+            parseObjectBody(builder)
         }
     }
 
