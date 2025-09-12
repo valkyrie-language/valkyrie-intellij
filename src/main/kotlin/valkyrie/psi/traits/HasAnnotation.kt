@@ -1,25 +1,23 @@
-package valkyrie.psi.traits;
+package valkyrie.psi.traits
 
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
-import valkyrie.psi.nodes.ValkyrieAnnotationNode;
-import valkyrie.psi.nodes.ValkyrieModifierNode;
-import valkyrie.psi.nodes.ValkyrieObjectBodyNode;
+import com.intellij.psi.PsiElement
+import com.intellij.psi.util.PsiTreeUtil
+import valkyrie.psi.nodes.ValkyrieAnnotationNode
+import valkyrie.psi.nodes.ValkyrieModifierNode
 
-import java.util.List;
-
-public interface HasAnnotation {
-    default @NotNull ValkyrieAnnotationNode getAnnotation() {
-        return PsiTreeUtil.findChildOfType((PsiElement) this, ValkyrieAnnotationNode.class);
+interface HasAnnotation {
+    fun getAnnotation(): ValkyrieAnnotationNode {
+        return PsiTreeUtil.findChildOfType(
+            this as PsiElement,
+            ValkyrieAnnotationNode::class.java
+        )!!
     }
 
-    default @NotNull List<@NotNull ValkyrieModifierNode> getModifiers() {
-        return getAnnotation().getModifiers();
-    }
+    val modifiers: List<ValkyrieModifierNode>
+        get() = this.getAnnotation().getModifiers()
 
-    default Boolean hasModifier(@NotNull String name) {
-        return getAnnotation().hasModifier(name);
+    fun hasModifier(name: String): Boolean {
+        return this.getAnnotation().hasModifier(name)
     }
 }
 

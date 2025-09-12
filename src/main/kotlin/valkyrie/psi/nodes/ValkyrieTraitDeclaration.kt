@@ -1,14 +1,13 @@
 package valkyrie.psi.nodes
 
 import com.intellij.lang.ASTNode
-import com.intellij.openapi.util.NlsSafe
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.ValkyrieTokenTypes
 import valkyrie.psi.traits.HasAnnotation
+import valkyrie.psi.traits.HasObjectBody
 
-class ValkyrieTraitDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner, HasAnnotation {
+class ValkyrieTraitDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner, HasAnnotation, HasObjectBody {
     override fun getNameIdentifier(): PsiElement? {
         return findChildByClass(ValkyrieIdentifierNode::class.java)
     }
@@ -27,9 +26,5 @@ class ValkyrieTraitDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNa
             return nameIdentifier.setName(name)
         }
         return this
-    }
-
-    fun getTraitBody(): ValkyrieObjectBodyNode? {
-        return findChildByClass(ValkyrieObjectBodyNode::class.java)
     }
 }
