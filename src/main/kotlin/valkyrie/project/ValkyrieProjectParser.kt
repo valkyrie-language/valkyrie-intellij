@@ -45,23 +45,24 @@ class ValkyrieProjectParser {
     fun parseProject(project: Project, projectRoot: VirtualFile): ValkyrieProject? {
         val legionJsonFile = projectRoot.findChild(LEGION_JSON) ?: return null
         
-        val jsonFile = ReadAction.compute<JsonFile?, RuntimeException> {
+        return ReadAction.compute<ValkyrieProject?, RuntimeException> {
             val psiManager = PsiManager.getInstance(project)
-            psiManager.findFile(legionJsonFile) as? JsonFile
-        } ?: return null
-        
-        val rootObject = jsonFile.topLevelValue as? JsonObject ?: return null
-        
-        return ValkyrieProject(
-            root = projectRoot,
-            packageInfo = parsePackageInfo(rootObject),
-            projectType = getStringProperty(rootObject, "type") ?: "library",
-            features = parseFeatures(rootObject),
-            dependencies = parseDependencies(rootObject),
-            buildDependencies = parseBuildDependencies(rootObject),
-            devDependencies = parseDevDependencies(rootObject),
-            entryPoints = findEntryPoints(projectRoot)
-        )
+            val jsonFile = psiManager.findFile(legionJsonFile) as? JsonFile
+            val rootObject = jsonFile?.topLevelValue as? JsonObject
+            
+            if (jsonFile == null || rootObject == null) return@compute null
+            
+            ValkyrieProject(
+                root = projectRoot,
+                packageInfo = parsePackageInfo(rootObject),
+                projectType = getStringProperty(rootObject, "type") ?: "library",
+                features = parseFeatures(rootObject),
+                dependencies = parseDependencies(rootObject),
+                buildDependencies = parseBuildDependencies(rootObject),
+                devDependencies = parseDevDependencies(rootObject),
+                entryPoints = findEntryPoints(projectRoot)
+            )
+        }
     }
     
     /**
