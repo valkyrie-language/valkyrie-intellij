@@ -1,4 +1,4 @@
-package valkyrie.psi.nodes
+package valkyrie.ide.navigation
 
 /**
  * 模板类型枚举

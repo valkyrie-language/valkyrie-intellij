@@ -17,6 +17,7 @@ import valkyrie.psi.nodes.ValkyrieUnionDeclaration
 import valkyrie.psi.nodes.ValkyrieMethodDeclaration
 import com.intellij.psi.PsiElement
 import valkyrie.project.ValkyrieProjectParser
+import valkyrie.project.ValkyrieProjectManager
 
 /**
  * Valkyrie 符号索引服务
@@ -68,13 +69,71 @@ class ValkyrieSymbolIndex(private val project: Project) {
         // 添加内置类型到符号索引
         addBuiltinTypes()
         
-        val valkyrieFiles = FileTypeIndex.getFiles(
+        // 获取项目管理器
+        val projectManager = ValkyrieProjectManager.getInstance(project)
+        
+        // 只索引workspace内的valkyrie项目文件
+        val workspaces = projectManager.getAllWorkspaces()
+        for (workspace in workspaces) {
+            val projects = projectManager.getProjectsInWorkspace(workspace)
+            for (valkyrieProject in projects) {
+                indexValkyrieProject(valkyrieProject.root)
+            }
+        }
+        
+        // 索引外部库文件（通过ValkyrieLibraryRootsProvider提供）
+         indexExternalLibraries()
+     }
+    
+    /**
+     * 索引单个valkyrie项目
+     */
+    private fun indexValkyrieProject(projectRoot: VirtualFile) {
+        projectRoot.refresh(false, true)
+        val valkyrieFiles = mutableListOf<VirtualFile>()
+        collectValkyrieFiles(projectRoot, valkyrieFiles)
+        
+        for (file in valkyrieFiles) {
+            indexFile(file)
+        }
+    }
+    
+    /**
+     * 递归收集valkyrie文件
+     */
+    private fun collectValkyrieFiles(directory: VirtualFile, result: MutableList<VirtualFile>) {
+        if (!directory.isDirectory) {
+            if (directory.extension == "vk" || directory.extension == "valkyrie") {
+                result.add(directory)
+            }
+            return
+        }
+        
+        for (child in directory.children) {
+            collectValkyrieFiles(child, result)
+        }
+    }
+    
+    /**
+     * 索引外部库文件
+     */
+    private fun indexExternalLibraries() {
+        // 通过FileTypeIndex获取所有valkyrie文件，但只处理不在workspace内的文件
+        val projectManager = ValkyrieProjectManager.getInstance(project)
+        val allValkyrieFiles = FileTypeIndex.getFiles(
             ValkyrieFileType.INSTANCE,
             GlobalSearchScope.projectScope(project)
         )
         
-        for (file in valkyrieFiles) {
-            indexFile(file)
+        for (file in allValkyrieFiles) {
+            // 检查文件是否在workspace内
+            val workspace = projectManager.findWorkspaceForFile(file)
+            val valkyrieProject = projectManager.findProjectForFile(file)
+            
+            // 只索引不在workspace内的文件（外部库）
+            if (workspace == null && valkyrieProject == null) {
+                indexFile(file)
+            }
         }
     }
     

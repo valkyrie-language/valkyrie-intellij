@@ -136,8 +136,11 @@ class ValkyrieCodeVisionProvider : CodeVisionProvider<Unit> {
             // 过滤掉自身声明
             references.count { reference ->
                 val refElement = reference.element
-                refElement != element && refElement.containingFile != element.containingFile ||
-                refElement.textOffset != element.textOffset
+                // 排除自身声明：不同文件或者同文件但不同位置
+                refElement != element && (
+                    refElement.containingFile != element.containingFile ||
+                    refElement.textOffset != element.textOffset
+                )
             }
         } catch (e: Exception) {
             // 如果搜索失败，返回0

@@ -1476,7 +1476,9 @@ class ValkyrieParser : PsiParser {
 
         // 解析泛型参数名称 - 支持 raw identifier
         if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW) {
+            val identifierMarker = builder.mark()
             builder.advanceLexer()
+            identifierMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
 
             // 检查是否有泛型约束 (冒号后跟类型)
             if (builder.tokenType == ValkyrieTokenTypes.COLON) {
@@ -2005,8 +2007,11 @@ class ValkyrieParser : PsiParser {
         }
 
 
-        // 直接解析modifiers到annotation节点下 - 支持关键字修饰符
-        while (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+        // 直接解析modifiers到annotation节点下 - 支持关键字修饰符和元编程前缀
+        while (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || 
+               builder.tokenType == ValkyrieTokenTypes.MICRO ||
+               builder.tokenType == ValkyrieTokenTypes.MEZZO ||
+               builder.tokenType == ValkyrieTokenTypes.MACRO) {
             val nextToken = builder.lookAhead(1)
 
             // 如果下一个token是声明分隔符，停止解析modifiers
@@ -2019,10 +2024,20 @@ class ValkyrieParser : PsiParser {
                 break
             }
 
-            // 当前是modifier，使用parseIdentifier解析
+            // 当前是modifier，解析为modifier节点
             val modifierMarker = builder.mark()
             val identifierMarker = builder.mark()
-            parseIdentifier(builder)
+            
+            if (builder.tokenType == ValkyrieTokenTypes.MICRO ||
+                builder.tokenType == ValkyrieTokenTypes.MEZZO ||
+                builder.tokenType == ValkyrieTokenTypes.MACRO) {
+                // 元编程关键字作为modifier
+                builder.advanceLexer()
+            } else {
+                // 普通标识符modifier
+                parseIdentifier(builder)
+            }
+            
             identifierMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
             modifierMarker.done(ValkyrieElementTypes.MODIFIER_NODE)
         }
