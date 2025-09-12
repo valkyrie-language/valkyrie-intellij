@@ -12,7 +12,7 @@ import valkyrie.psi.ValkyrieElementNode
  *
  * 示例：
  * ```valkyrie
- * micro foo(↯attribute modifier name: i32 = 0, <, b: String = "hello", >, kw, ..list, ...) {
+ * micro foo<↯attribute modifier name: i32 = 0, <, b: String = "hello", >, kw, ..list, ...>() {
  *     # ...
  * }
  * ```
@@ -27,7 +27,7 @@ import valkyrie.psi.ValkyrieElementNode
  *
  * 原则上不能同时存在可变参数列表和任意参数对象
  */
-class ValkyrieTermParameterItem(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner {
+class ValkyrieTypeParameterItem(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner {
 
     override fun getNameIdentifier(): PsiElement? {
         return findChildByClass(ValkyrieIdentifierNode::class.java)
@@ -107,5 +107,3 @@ class ValkyrieTermParameterItem(node: ASTNode) : ValkyrieElementNode(node), PsiN
 
 
 }
-
-

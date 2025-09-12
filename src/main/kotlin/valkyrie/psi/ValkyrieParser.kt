@@ -2439,7 +2439,7 @@ class ValkyrieParser : PsiParser {
      * 解析单个属性
      */
     private fun parseAttribute(builder: PsiBuilder) {
-        parseAnnotation(builder, withModifiers = false)
+        parseAnnotations(builder, withModifiers = false)
     }
 
     /**
@@ -2447,7 +2447,7 @@ class ValkyrieParser : PsiParser {
      * @param builder PsiBuilder 实例
      * @param withModifiers 是否包含修饰符解析
      */
-    private fun parseAnnotation(builder: PsiBuilder, withModifiers: Boolean) {
+    private fun parseAnnotations(builder: PsiBuilder, withModifiers: Boolean) {
         val marker = builder.mark()
 
         // 如果启用修饰符解析，先解析可能的修饰符
