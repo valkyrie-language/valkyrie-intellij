@@ -6,6 +6,7 @@ import com.intellij.psi.PsiManager
 import com.intellij.json.psi.JsonFile
 import com.intellij.json.psi.JsonObject
 import com.intellij.json.psi.JsonStringLiteral
+import com.intellij.openapi.application.ReadAction
 import valkyrie.project.ValkyrieProjectParser
 
 /**
@@ -43,18 +44,20 @@ class ValkyrieWorkspaceParser {
     fun parseWorkspace(project: Project, workspaceRoot: VirtualFile): ValkyrieWorkspace? {
         val legionsJsonFile = workspaceRoot.findChild(LEGIONS_JSON) ?: return null
         
-        val psiManager = PsiManager.getInstance(project)
-        val jsonFile = psiManager.findFile(legionsJsonFile) as? JsonFile ?: return null
-        
-        val rootObject = jsonFile.topLevelValue as? JsonObject ?: return null
-        
-        return ValkyrieWorkspace(
-            root = workspaceRoot,
-            name = workspaceRoot.name,
-            isPrivate = getBooleanProperty(rootObject, "private") ?: false,
-            scripts = parseScripts(rootObject),
-            packages = findPackages(workspaceRoot)
-        )
+        return ReadAction.compute<ValkyrieWorkspace?, RuntimeException> {
+            val psiManager = PsiManager.getInstance(project)
+            val jsonFile = psiManager.findFile(legionsJsonFile) as? JsonFile ?: return@compute null
+            
+            val rootObject = jsonFile.topLevelValue as? JsonObject ?: return@compute null
+            
+            ValkyrieWorkspace(
+                root = workspaceRoot,
+                name = workspaceRoot.name,
+                isPrivate = getBooleanProperty(rootObject, "private") ?: false,
+                scripts = parseScripts(rootObject),
+                packages = findPackages(workspaceRoot)
+            )
+        }
     }
     
     /**
