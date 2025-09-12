@@ -15,6 +15,7 @@ import valkyrie.psi.nodes.ValkyrieLetStatementNode
 import valkyrie.psi.nodes.ValkyrieClassDeclaration
 import valkyrie.psi.nodes.ValkyrieUnionDeclaration
 import valkyrie.psi.nodes.ValkyrieMethodDeclaration
+import valkyrie.psi.nodes.ValkyrieIdentifierNode
 import com.intellij.psi.PsiElement
 import valkyrie.project.ValkyrieProjectParser
 import valkyrie.project.ValkyrieProjectManager
@@ -412,12 +413,21 @@ class ValkyrieSymbolIndex(private val project: Project) {
                 }
             }
             
-            // 最后查找变量定义（let 语句）
+            // 然后查找变量定义（let 语句）
             val letStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieLetStatementNode::class.java)
             for (letStatement in letStatements) {
                 val name = letStatement.getIdentifier()?.text
                 if (name == symbolName) {
                     results.add(SymbolInfo(name, currentNamespace, currentFile, letStatement))
+                }
+            }
+            
+            // 最后查找泛型参数定义
+            val identifierNodes = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieIdentifierNode::class.java)
+            for (identifierNode in identifierNodes) {
+                val name = identifierNode.text
+                if (name == symbolName && isGenericParameterContext(identifierNode)) {
+                    results.add(SymbolInfo(name, currentNamespace, currentFile, identifierNode))
                 }
             }
         }
@@ -436,6 +446,18 @@ class ValkyrieSymbolIndex(private val project: Project) {
         return results
     }
     
+    /**
+     * 判断标识符是否在泛型参数上下文中
+     */
+    private fun isGenericParameterContext(identifierNode: ValkyrieIdentifierNode): Boolean {
+        val parent = identifierNode.parent
+        val grandParent = parent?.parent
+        
+        // 检查是否在泛型参数列表中
+        return parent?.node?.elementType?.toString()?.contains("GENERIC_PARAMETER") == true ||
+               grandParent?.node?.elementType?.toString()?.contains("GENERIC_PARAMETER") == true
+    }
+
     /**
      * 获取符号的所有引用
      */
