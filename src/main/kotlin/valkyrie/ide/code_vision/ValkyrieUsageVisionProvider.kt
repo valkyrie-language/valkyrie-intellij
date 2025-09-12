@@ -1,7 +1,9 @@
 package valkyrie.ide.code_vision
 
 import com.intellij.codeInsight.codeVision.*
+import com.intellij.codeInsight.codeVision.settings.PlatformCodeVisionIds
 import com.intellij.codeInsight.codeVision.ui.model.ClickableTextCodeVisionEntry
+import com.intellij.codeInsight.hints.codeVision.DaemonBoundCodeVisionProvider
 import com.intellij.find.actions.ShowUsagesAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange
@@ -17,12 +19,12 @@ import valkyrie.psi.nodes.ValkyrieUnionDeclaration
 /**
  * Valkyrie Code Vision Provider
  * 为类、方法等声明显示引用数
+ * 使用 DaemonBoundCodeVisionProvider 因为信息依赖于 PSI
  */
-class ValkyrieCodeVisionProvider : CodeVisionProvider<Unit> {
+class ValkyrieUsageVisionProvider : DaemonBoundCodeVisionProvider {
 
     companion object {
         const val ID = "valkyrie.usages"
-        const val GROUP_ID = "valkyrie.references"
     }
 
     override val defaultAnchor: CodeVisionAnchorKind = CodeVisionAnchorKind.Top
@@ -33,27 +35,7 @@ class ValkyrieCodeVisionProvider : CodeVisionProvider<Unit> {
 
     override val relativeOrderings: List<CodeVisionRelativeOrdering> = emptyList()
 
-    override val groupId: String = GROUP_ID
-
-    override fun precomputeOnUiThread(editor: Editor): Unit = Unit
-
-    override fun computeCodeVision(editor: Editor, uiData: Unit): CodeVisionState {
-        val file = editor.document.let { document ->
-            com.intellij.psi.PsiDocumentManager.getInstance(editor.project ?: return CodeVisionState.READY_EMPTY)
-                .getPsiFile(document)
-        } ?: return CodeVisionState.READY_EMPTY
-
-        val entries = computeForFile(file)
-        return if (entries.isEmpty()) {
-            CodeVisionState.READY_EMPTY
-        } else {
-            CodeVisionState.Ready(entries)
-        }
-    }
-
-    override fun getPlaceholderCollector(editor: Editor, psiFile: PsiFile?): CodeVisionPlaceholderCollector? {
-        return super.getPlaceholderCollector(editor, psiFile)
-    }
+    override val groupId: String = PlatformCodeVisionIds.USAGES.key
 
     override fun handleClick(editor: Editor, textRange: TextRange, entry: CodeVisionEntry) {
         // 点击时显示查找使用处窗口
@@ -77,13 +59,6 @@ class ValkyrieCodeVisionProvider : CodeVisionProvider<Unit> {
             dataContext
         )
         ShowUsagesAction().actionPerformed(event)
-    }
-
-    override fun preparePreview(editor: Editor, file: PsiFile): Unit = Unit
-
-
-    override fun handleExtraAction(editor: Editor, textRange: TextRange, actionId: String) {
-        super.handleExtraAction(editor, textRange, actionId)
     }
 
     private fun computeForFile(file: PsiFile): List<Pair<TextRange, CodeVisionEntry>> {

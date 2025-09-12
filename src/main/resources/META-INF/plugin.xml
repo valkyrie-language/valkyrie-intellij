@@ -153,12 +153,26 @@
 		<renameInputValidator implementation="valkyrie.ide.refactor.ValkyrieRenameInputValidator"/>
 
 		<!-- Code Vision Provider -->
-		<codeInsight.codeVisionProviderFactory implementation="valkyrie.ide.code_vision.ValkyrieCodeVisionProviderFactory"/>
+		<codeInsight.codeVisionProviderFactory
+			implementation="valkyrie.ide.code_vision.ValkyrieCodeVisionProviderFactory"/>
 		<config.codeVisionGroupSettingProvider
 			implementation="valkyrie.ide.code_vision.ValkyrieCodeVisionGroupSettingProvider"
 		/>
+		<vcs.codeVisionLanguageContext
+			language="valkyrie"
+			implementationClass="valkyrie.ide.code_vision.ValkyrieAuthorVisionProvider"
+		/>
 		<codeInsight.daemonBoundCodeVisionProvider
-			implementation="valkyrie.ide.code_vision.EffectVisionProvider"
+			implementation="valkyrie.ide.code_vision.ValkyrieEffectVisionProvider"
+		/>
+		<codeInsight.daemonBoundCodeVisionProvider
+			implementation="valkyrie.ide.code_vision.ValkyrieInheritorVisionProvider"
+		/>
+		<codeInsight.daemonBoundCodeVisionProvider
+			implementation="valkyrie.ide.code_vision.ValkyrieImplementerVisionProvider"
+		/>
+		<codeInsight.daemonBoundCodeVisionProvider
+			implementation="valkyrie.ide.code_vision.ValkyrieUsageVisionProvider"
 		/>
 		<!-- Intention Actions -->
 		<intentionAction>
