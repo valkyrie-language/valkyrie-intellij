@@ -272,9 +272,6 @@ object ValkyrieTokenTypes {
     val WOW = ValkyrieTokenType("!")
 
     @JvmField
-    val EXCLAMATION = ValkyrieTokenType("!")
-
-    @JvmField
     val WHAT = ValkyrieTokenType("?")
 
     @JvmField
