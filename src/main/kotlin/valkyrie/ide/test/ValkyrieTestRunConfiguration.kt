@@ -21,7 +21,13 @@ class ValkyrieTestRunConfiguration(
 ) : RunConfigurationBase<ValkyrieTestRunConfigurationOptions>(project, factory, name) {
     
     public override fun getOptions(): ValkyrieTestRunConfigurationOptions {
-        return super.getOptions() as ValkyrieTestRunConfigurationOptions
+        val options = super.getOptions()
+        return if (options is ValkyrieTestRunConfigurationOptions) {
+            options
+        } else {
+            // 如果类型不匹配，创建新的选项对象
+            ValkyrieTestRunConfigurationOptions()
+        }
     }
     
     override fun getConfigurationEditor(): SettingsEditor<out RunConfiguration> {
