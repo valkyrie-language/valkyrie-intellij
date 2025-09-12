@@ -5,12 +5,14 @@ import com.intellij.openapi.util.NlsSafe
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.util.PsiTreeUtil
+import valkyrie.psi.traits.HasTermParameter
 import valkyrie.psi.ValkyrieElementNode
+
 
 /**
  * Method 声明实现
  */
-class ValkyrieMethodDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner {
+class ValkyrieMethodDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner, HasTermParameter {
 
     override fun getNameIdentifier(): PsiElement? {
         return findChildByClass(ValkyrieIdentifierNode::class.java)
@@ -24,26 +26,39 @@ class ValkyrieMethodDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiN
         return nameIdentifier?.text
     }
 
-    override fun setName(name: @NlsSafe String): PsiElement? {
-        TODO("Not yet implemented")
+    override fun setName(name: String): PsiElement {
+        val nameIdentifier = getNameIdentifier()
+        if (nameIdentifier is ValkyrieIdentifierNode) {
+            return nameIdentifier.setName(name)
+        }
+        return this
     }
 
+    val modifiers: Sequence<ValkyrieModifierNode>
+        get() = sequence {
+            for (modifier in getModifierList()) {
+                modifier?.let { yield(it) }
+            }
+        }
 
-
-    fun getModifierNodes(): List<ValkyrieModifierNode> {
-        return findChildrenByClass(ValkyrieModifierNode::class.java).toList()
+    override fun getParameters(): List<ValkyrieTermParameterItem> {
+        return getParameterList()?.getParameters() ?: emptyList()
     }
-    
+
     fun hasModifier(name: String): Boolean {
-        return getModifierNodes().any { it.isModifier(name) }
+        return modifiers.any { it.isModifier(name) }
     }
-    
+
     fun isStatic(): Boolean {
         return hasModifier("static")
     }
-    
+
     fun isMutable(): Boolean {
         return hasModifier("mut")
+    }
+
+    fun getModifierList(): Array<out ValkyrieModifierNode?> {
+        return findChildrenByClass(ValkyrieModifierNode::class.java)
     }
 
     fun getParameterList(): ValkyrieTermParameterList? {
@@ -53,4 +68,6 @@ class ValkyrieMethodDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiN
     fun getMethodBody(): ValkyrieBlockNode? {
         return PsiTreeUtil.findChildOfType(this, ValkyrieBlockNode::class.java)
     }
+
+
 }

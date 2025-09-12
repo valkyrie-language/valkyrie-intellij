@@ -16,13 +16,13 @@ import javax.swing.JPanel
  */
 @Suppress("UnstableApiUsage")
 class ValkyrieInlayHintsProvider : InlayHintsProvider<ValkyrieInlayHintsProvider.Settings> {
-    
+
     data class Settings(
         var showParameterNames: Boolean = true,
         var showDefaultValues: Boolean = true,
         var showTypeHints: Boolean = true
     )
-    
+
     override val key: SettingsKey<Settings> = SettingsKey("valkyrie.inlay.hints")
     override val name: String = "Valkyrie"
     override val previewText: String = """
@@ -32,9 +32,9 @@ class ValkyrieInlayHintsProvider : InlayHintsProvider<ValkyrieInlayHintsProvider
         
         example("hello", 10)
     """.trimIndent()
-    
+
     override fun createSettings(): Settings = Settings()
-    
+
     override fun getCollectorFor(
         file: PsiFile,
         editor: Editor,
@@ -44,7 +44,7 @@ class ValkyrieInlayHintsProvider : InlayHintsProvider<ValkyrieInlayHintsProvider
         if (file.language != ValkyrieLanguage.INSTANCE) return null
         return ValkyrieInlayHintsCollector(editor, settings, sink)
     }
-    
+
     override fun createConfigurable(settings: Settings): ImmediateConfigurable {
         return object : ImmediateConfigurable {
             override fun createComponent(listener: ChangeListener): JComponent {
@@ -54,13 +54,13 @@ class ValkyrieInlayHintsProvider : InlayHintsProvider<ValkyrieInlayHintsProvider
             }
         }
     }
-    
+
     private class ValkyrieInlayHintsCollector(
         private val editor: Editor,
         private val settings: Settings,
         private val sink: InlayHintsSink
     ) : FactoryInlayHintsCollector(editor) {
-        
+
         override fun collect(element: PsiElement, editor: Editor, sink: InlayHintsSink): Boolean {
             when (element) {
                 is ValkyrieCallExpressionNode -> collectFunctionCallHints(element)
@@ -68,23 +68,22 @@ class ValkyrieInlayHintsProvider : InlayHintsProvider<ValkyrieInlayHintsProvider
             }
             return true
         }
-        
+
         private fun collectFunctionCallHints(call: ValkyrieCallExpressionNode) {
             if (!settings.showParameterNames) return
-            
+
             val arguments = call.getArguments()
-            
+
             // 尝试解析函数定义
             val function = call.resolveFunction()
             if (function != null) {
-                val parameters = function.getParameters()
-                collectParameterHintsWithFunction(arguments, parameters)
+                collectParameterHintsWithFunction(arguments, function.parameters)
             } else {
                 // 如果无法解析函数，尝试基于常见模式推断参数名
                 collectParameterHintsWithoutFunction(call, arguments)
             }
         }
-        
+
         private fun collectParameterHintsWithFunction(
             arguments: List<PsiElement>,
             parameters: List<ValkyrieTermParameterItem>
@@ -100,7 +99,7 @@ class ValkyrieInlayHintsProvider : InlayHintsProvider<ValkyrieInlayHintsProvider
                 }
             }
         }
-        
+
         private fun collectParameterHintsWithoutFunction(
             call: ValkyrieCallExpressionNode,
             arguments: List<PsiElement>
@@ -119,13 +118,13 @@ class ValkyrieInlayHintsProvider : InlayHintsProvider<ValkyrieInlayHintsProvider
                 }
             }
         }
-        
+
         private fun getFunctionName(call: ValkyrieCallExpressionNode): String? {
             // 从调用表达式中提取函数名
             val identifier = PsiTreeUtil.findChildOfType(call, ValkyrieIdentifierNode::class.java)
             return identifier?.text
         }
-        
+
         private fun suggestParameterNames(functionName: String, argCount: Int): List<String> {
             // 基于函数名和参数数量推断常见的参数名
             return when (functionName.lowercase()) {
@@ -137,6 +136,7 @@ class ValkyrieInlayHintsProvider : InlayHintsProvider<ValkyrieInlayHintsProvider
                     2 -> listOf("start", "end")
                     else -> listOf("start", "end")
                 }
+
                 "replace" -> listOf("old", "new")
                 "split" -> listOf("delimiter")
                 "contains" -> listOf("element")
@@ -152,12 +152,12 @@ class ValkyrieInlayHintsProvider : InlayHintsProvider<ValkyrieInlayHintsProvider
                 else -> (1..argCount).map { "arg$it" }
             }
         }
-        
+
         private fun collectVariableTypeHints(letStatement: ValkyrieLetStatementNode) {
             if (!settings.showTypeHints) return
-            
+
             val identifier = letStatement.getIdentifier() ?: return
-            
+
             // 尝试推断类型
             val inferredType = inferVariableType(letStatement)
             if (inferredType != null && inferredType != "Unknown") {
@@ -165,13 +165,13 @@ class ValkyrieInlayHintsProvider : InlayHintsProvider<ValkyrieInlayHintsProvider
                 sink.addInlineElement(identifier.textRange.endOffset, false, presentation, false)
             }
         }
-        
+
         private fun collectDefaultValueHints(letStatement: ValkyrieLetStatementNode) {
             if (!settings.showDefaultValues) return
-            
+
             val identifier = letStatement.getIdentifier() ?: return
             val expression = letStatement.getExpression()
-            
+
             if (expression != null) {
                 val defaultValue = expression.text
                 if (defaultValue.isNotEmpty()) {
@@ -180,18 +180,18 @@ class ValkyrieInlayHintsProvider : InlayHintsProvider<ValkyrieInlayHintsProvider
                 }
             }
         }
-        
+
         private fun isObviousParameterName(argument: PsiElement, parameterName: String): Boolean {
             val argText = argument.text.lowercase()
             val paramText = parameterName.lowercase()
-            
+
             // 如果参数名和实参文本相似，则认为是明显的
             return argText.contains(paramText) || paramText.contains(argText)
         }
-        
+
         private fun inferVariableType(letStatement: ValkyrieLetStatementNode): String? {
             val expression = letStatement.getExpression() ?: return null
-            
+
             return when {
                 expression.text.matches(Regex("\".*\"")) -> "String"
                 expression.text.matches(Regex("\\d+")) -> "Integer"

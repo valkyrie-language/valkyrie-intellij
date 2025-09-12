@@ -3,20 +3,29 @@ package valkyrie.psi.nodes
 import com.intellij.lang.ASTNode
 import valkyrie.psi.ValkyrieElementNode
 
+
 /**
  * Annotation 节点实现
  * 提供注解相关的接口方法
  */
 class ValkyrieAnnotationNode(node: ASTNode) : ValkyrieElementNode(node) {
-    
+
     /**
      * 获取注解
      * @return 注解节点列表
      */
-    fun getAnnotation(): List<ValkyrieAnnotationNode> {
-        return findChildrenByClass(ValkyrieAnnotationNode::class.java).toList()
+    fun getAttributeLists(): List<ValkyrieAttributeList> {
+        return findChildrenByClass(ValkyrieAttributeList::class.java).toList()
     }
-    
+
+    /**
+     * 获取注解
+     * @return 注解节点列表
+     */
+    fun getAttributeNodes(): List<ValkyrieAttributeNode> {
+        return findChildrenByClass(ValkyrieAttributeNode::class.java).toList()
+    }
+
     /**
      * 获取修饰符索引
      * @param modifierName 修饰符名称
@@ -26,7 +35,7 @@ class ValkyrieAnnotationNode(node: ASTNode) : ValkyrieElementNode(node) {
         val modifiers = getModifiers()
         return modifiers.indexOfFirst { it.isModifier(modifierName) }
     }
-    
+
     /**
      * 获取修饰符列表
      * @return 修饰符节点列表
@@ -34,7 +43,7 @@ class ValkyrieAnnotationNode(node: ASTNode) : ValkyrieElementNode(node) {
     fun getModifiers(): List<ValkyrieModifierNode> {
         return findChildrenByClass(ValkyrieModifierNode::class.java).toList()
     }
-    
+
     /**
      * 检查是否有特定修饰符
      * @param modifierName 修饰符名称
@@ -43,7 +52,7 @@ class ValkyrieAnnotationNode(node: ASTNode) : ValkyrieElementNode(node) {
     fun hasModifier(modifierName: String): Boolean {
         return getModifiers().any { it.isModifier(modifierName) }
     }
-    
+
     /**
      * 获取注解名称
      * @return 注解名称，如果没有则返回null
@@ -51,7 +60,7 @@ class ValkyrieAnnotationNode(node: ASTNode) : ValkyrieElementNode(node) {
     fun getAnnotationName(): String? {
         return findChildByClass(ValkyrieIdentifierNode::class.java)?.name
     }
-    
+
     /**
      * 获取注解参数
      * @return 注解参数列表
@@ -60,6 +69,6 @@ class ValkyrieAnnotationNode(node: ASTNode) : ValkyrieElementNode(node) {
         return findChildrenByClass(ValkyrieElementNode::class.java)
             .filter { it.node.elementType.toString() == "ATTRIBUTE_ARGS" }
     }
-    
+
     override fun toString(): String = "ValkyrieAnnotation(${getAnnotationName()})"
 }

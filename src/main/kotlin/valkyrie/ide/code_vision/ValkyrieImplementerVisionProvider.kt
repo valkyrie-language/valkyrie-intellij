@@ -59,7 +59,7 @@ class ValkyrieImplementerVisionProvider : DaemonBoundCodeVisionProvider {
                         id,
                         onClick = { _, _ ->
                             // 显示详细的实现信息
-                            val traitNames = implementations.mapNotNull { it.getTraitName() }
+                            val traitNames = implementations.mapNotNull { it.name }
                             val message = "Trait implementations: ${traitNames.joinToString(", ")}"
                             Messages.showInfoMessage(file.project, message, "Implementation Information")
                         }

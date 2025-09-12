@@ -24,8 +24,12 @@ class ValkyrieFieldDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNa
         return nameIdentifier?.text
     }
 
-    override fun setName(name: @NlsSafe String): PsiElement? {
-        TODO("Not yet implemented")
+    override fun setName(name: String): PsiElement {
+        val nameIdentifier = getNameIdentifier()
+        if (nameIdentifier is ValkyrieIdentifierNode) {
+            return nameIdentifier.setName(name)
+        }
+        return this
     }
 
     fun getFieldName(): String? {

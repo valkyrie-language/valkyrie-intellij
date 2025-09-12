@@ -1,7 +1,6 @@
 package valkyrie.psi.nodes
 
 import com.intellij.lang.ASTNode
-import com.intellij.openapi.util.NlsSafe
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.util.PsiTreeUtil
@@ -10,9 +9,12 @@ import valkyrie.psi.ValkyrieElementNode
 /**
  * Imply 语句实现
  * 用于 trait 实现声明
+ *
+ * ```valkyrie
+ * imply module::Class { }
+ * ```
  */
 class ValkyrieImplyStatement(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner {
-    
     override fun getNameIdentifier(): PsiElement? {
         return findChildByClass(ValkyrieIdentifierNode::class.java)
     }
@@ -25,16 +27,14 @@ class ValkyrieImplyStatement(node: ASTNode) : ValkyrieElementNode(node), PsiName
         return nameIdentifier?.text
     }
 
-    override fun setName(name: @NlsSafe String): PsiElement? {
-        TODO("Not yet implemented")
+    override fun setName(name: String): PsiElement {
+        val nameIdentifier = getNameIdentifier()
+        if (nameIdentifier is ValkyrieIdentifierNode) {
+            return nameIdentifier.setName(name)
+        }
+        return this
     }
 
-    /**
-     * 获取实现的 trait 名称
-     */
-    fun getTraitName(): String? {
-        return nameIdentifier?.text
-    }
 
     /**
      * 获取目标类型（冒号后的类型）

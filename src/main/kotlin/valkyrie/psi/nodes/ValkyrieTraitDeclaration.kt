@@ -6,8 +6,9 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.traits.HasAnnotation
 
-class ValkyrieTraitDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner {
+class ValkyrieTraitDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner, HasAnnotation {
     override fun getNameIdentifier(): PsiElement? {
         return findChildByClass(ValkyrieIdentifierNode::class.java)
     }
@@ -20,8 +21,12 @@ class ValkyrieTraitDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNa
         return nameIdentifier?.text
     }
 
-    override fun setName(name: @NlsSafe String): PsiElement? {
-        TODO("Not yet implemented")
+    override fun setName(name: String): PsiElement {
+        val nameIdentifier = getNameIdentifier()
+        if (nameIdentifier is ValkyrieIdentifierNode) {
+            return nameIdentifier.setName(name)
+        }
+        return this
     }
 
     fun getTraitBody(): ValkyrieObjectBodyNode? {
