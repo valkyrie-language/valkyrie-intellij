@@ -136,10 +136,27 @@ class ValkyrieParser : PsiParser {
     private fun parseNamespaceStatement(builder: PsiBuilder): Boolean {
         val marker = builder.mark()
         parseAnnotations(builder, withModifiers = false)
-        // TODO (支持不同类型: namespace, namespace!, namespace?, namespace*)
+
+        // 支持不同类型: namespace, namespace!, namespace?, namespace*
         when (builder.tokenType) {
             ValkyrieTokenTypes.NAMESPACE -> {
                 builder.advanceLexer()
+
+                // 检查namespace变体: !, ?, *
+                when (builder.tokenType) {
+                    ValkyrieTokenTypes.WOW -> {
+                        builder.advanceLexer() // 主命名空间
+                    }
+
+                    ValkyrieTokenTypes.WHAT -> {
+                        builder.advanceLexer() // 仅文档空间
+                    }
+
+                    ValkyrieTokenTypes.STAR -> {
+                        builder.advanceLexer() // 仅测试空间
+                    }
+                    // 默认情况下不需要额外处理
+                }
             }
 
             else -> {
@@ -147,9 +164,7 @@ class ValkyrieParser : PsiParser {
                 return false
             }
         }
-
         parseNamePath(builder, free = true)
-
         // 可选的分号或双分号（REPL语法）
         if (builder.tokenType == ValkyrieTokenTypes.SEMICOLON) {
             builder.advanceLexer()
@@ -162,46 +177,182 @@ class ValkyrieParser : PsiParser {
     }
 
     private fun parseUsingStatement(builder: PsiBuilder): Boolean {
-        if (builder.tokenType != ValkyrieTokenTypes.USING) return false
         val marker = builder.mark()
+        parseAnnotations(builder, withModifiers = false)
 
         // 'using' keyword
+        if (builder.tokenType != ValkyrieTokenTypes.USING) {
+            marker.drop()
+            return false
+        }
         builder.advanceLexer()
 
-        // qualified name (e.g., file_b.b)
-        parseNamePath(builder, free = true)
-
-        // 支持嵌套using语法: using package.collections.{ hashmap.HashMap }
-        if (builder.tokenType == ValkyrieTokenTypes.DOT) {
-            builder.advanceLexer() // consume '.'
-
-            if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
+        // 支持多种using语法变体
+        when (builder.tokenType) {
+            ValkyrieTokenTypes.LBRACE -> {
+                // using { a, b, c } - 直接大括号语法
                 builder.advanceLexer() // consume '{'
-
-                // 解析导入列表
+                
                 while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
+                    // 解析名称路径
                     parseNamePath(builder, free = true)
-
-                    // 处理逗号分隔
+                    
+                    // 处理别名
+                    if (builder.tokenType == ValkyrieTokenTypes.AS) {
+                        builder.advanceLexer() // consume 'as'
+                        parseIdentifier(builder)
+                    }
+                    
+                    // 处理分隔符
                     if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
                         builder.advanceLexer()
                     } else if (builder.tokenType != ValkyrieTokenTypes.RBRACE) {
-                        builder.error("Expected ',' or '}'")
                         break
                     }
                 }
-
+                
                 if (builder.tokenType == ValkyrieTokenTypes.RBRACE) {
                     builder.advanceLexer() // consume '}'
                 } else {
                     builder.error("Expected '}'")
                 }
             }
+
+            else -> {
+                // qualified name (e.g., file_b.b)
+                parseNamePath(builder, free = true)
+
+                // 继续处理路径后的语法
+                when (builder.tokenType) {
+                    ValkyrieTokenTypes.DOT -> {
+                        builder.advanceLexer() // consume '.'
+
+                        when (builder.tokenType) {
+                            ValkyrieTokenTypes.STAR -> {
+                                // using a.*
+                                builder.advanceLexer()
+                            }
+
+                            ValkyrieTokenTypes.LBRACE -> {
+                                // using a.{ b, c }
+                                builder.advanceLexer() // consume '{'
+                                
+                                while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
+                                    parseNamePath(builder, free = true)
+                                    
+                                    if (builder.tokenType == ValkyrieTokenTypes.AS) {
+                                        builder.advanceLexer() // consume 'as'
+                                        parseIdentifier(builder)
+                                    }
+                                    
+                                    if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+                                        builder.advanceLexer()
+                                    } else if (builder.tokenType != ValkyrieTokenTypes.RBRACE) {
+                                        break
+                                    }
+                                }
+                                
+                                if (builder.tokenType == ValkyrieTokenTypes.RBRACE) {
+                                    builder.advanceLexer() // consume '}'
+                                } else {
+                                    builder.error("Expected '}'")
+                                }
+                            }
+
+                            else -> {
+                                // 继续解析路径 using a.b.c
+                                parseNamePath(builder, free = true)
+                            }
+                        }
+                    }
+
+                    ValkyrieTokenTypes.DOUBLE_COLON -> {
+                        builder.advanceLexer() // consume '::'
+
+                        when (builder.tokenType) {
+                            ValkyrieTokenTypes.STAR -> {
+                                // using a::*
+                                builder.advanceLexer()
+                            }
+
+                            ValkyrieTokenTypes.LBRACE -> {
+                                // using a::{ b, c }
+                                builder.advanceLexer() // consume '{'
+                                
+                                while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
+                                    parseNamePath(builder, free = true)
+                                    
+                                    if (builder.tokenType == ValkyrieTokenTypes.AS) {
+                                        builder.advanceLexer() // consume 'as'
+                                        parseIdentifier(builder)
+                                    }
+                                    
+                                    if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+                                        builder.advanceLexer()
+                                    } else if (builder.tokenType != ValkyrieTokenTypes.RBRACE) {
+                                        break
+                                    }
+                                }
+                                
+                                if (builder.tokenType == ValkyrieTokenTypes.RBRACE) {
+                                    builder.advanceLexer() // consume '}'
+                                } else {
+                                    builder.error("Expected '}'")
+                                }
+                            }
+
+                            else -> {
+                                // 继续解析路径 using a::b.c::d
+                                parseNamePath(builder, free = true)
+                            }
+                        }
+                    }
+
+                    ValkyrieTokenTypes.LBRACE -> {
+                        // using a { b, c }
+                        builder.advanceLexer() // consume '{'
+                        
+                        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
+                            parseNamePath(builder, free = true)
+                            
+                            if (builder.tokenType == ValkyrieTokenTypes.AS) {
+                                builder.advanceLexer() // consume 'as'
+                                parseIdentifier(builder)
+                            }
+                            
+                            if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+                                builder.advanceLexer()
+                            } else if (builder.tokenType != ValkyrieTokenTypes.RBRACE) {
+                                break
+                            }
+                        }
+                        
+                        if (builder.tokenType == ValkyrieTokenTypes.RBRACE) {
+                            builder.advanceLexer() // consume '}'
+                        } else {
+                            builder.error("Expected '}'")
+                        }
+                    }
+
+                    ValkyrieTokenTypes.AS -> {
+                        // using a as b
+                        builder.advanceLexer() // consume 'as'
+                        parseIdentifier(builder)
+                    }
+                }
+            }
+        }
+
+        // 可选的分号
+        if (builder.tokenType == ValkyrieTokenTypes.SEMICOLON) {
+            builder.advanceLexer()
         }
 
         marker.done(ValkyrieElementTypes.USING_STATEMENT)
         return true
     }
+
+
 
     private fun parseClassStatement(builder: PsiBuilder): Boolean {
         return parseClassLikeStatement(builder, ValkyrieElementTypes.CLASS_STATEMENT)
@@ -312,27 +463,7 @@ class ValkyrieParser : PsiParser {
         builder.advanceLexer() // consume '{'
 
         // Parse body content
-        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
-            val initialPosition = builder.currentOffset
-            parseObjectItem(builder)
-
-            // 防止无限循环：确保解析器前进
-            if (builder.currentOffset == initialPosition) {
-                builder.error("Unable to parse tests member")
-                builder.advanceLexer()
-            }
-
-            // Skip to next valid token if parsing failed
-            if (builder.tokenType != ValkyrieTokenTypes.RBRACE && !builder.eof()) {
-                if (syncTokens.contains(builder.tokenType)) {
-                    break
-                }
-            }
-        }
-
-        // Expect closing brace
-        if (builder.tokenType == ValkyrieTokenTypes.RBRACE) {
-            builder.advanceLexer() // consume '}'
+        if (parseObjectBody(builder)) {
             marker.done(ValkyrieElementTypes.DECLARE_TESTS)
             return true
         } else {
@@ -517,7 +648,7 @@ class ValkyrieParser : PsiParser {
             builder.advanceLexer() // 消费后缀操作符
 
             when (tokenType) {
-                ValkyrieTokenTypes.EXCLAMATION, ValkyrieTokenTypes.WOW -> {
+                ValkyrieTokenTypes.WOW, ValkyrieTokenTypes.WOW -> {
                     marker.done(ValkyrieElementTypes.UNARY_EXPRESSION)
                     current = marker
                 }
@@ -575,7 +706,7 @@ class ValkyrieParser : PsiParser {
 
     private fun isTermPrefixOperator(tokenType: IElementType?): Boolean {
         return when (tokenType) {
-            ValkyrieTokenTypes.PLUS, ValkyrieTokenTypes.MINUS, ValkyrieTokenTypes.EXCLAMATION, ValkyrieTokenTypes.WOW, ValkyrieTokenTypes.STAR, ValkyrieTokenTypes.AMPERSAND -> true
+            ValkyrieTokenTypes.PLUS, ValkyrieTokenTypes.MINUS, ValkyrieTokenTypes.WOW, ValkyrieTokenTypes.WOW, ValkyrieTokenTypes.STAR, ValkyrieTokenTypes.AMPERSAND -> true
 
             else -> false
         }
@@ -591,7 +722,7 @@ class ValkyrieParser : PsiParser {
 
     private fun isTermPostfixOperator(tokenType: IElementType?): Boolean {
         return when (tokenType) {
-            ValkyrieTokenTypes.EXCLAMATION, ValkyrieTokenTypes.WOW, ValkyrieTokenTypes.WHAT, ValkyrieTokenTypes.LPAREN, ValkyrieTokenTypes.LBRACKET, ValkyrieTokenTypes.DOT -> true
+            ValkyrieTokenTypes.WOW, ValkyrieTokenTypes.WOW, ValkyrieTokenTypes.WHAT, ValkyrieTokenTypes.LPAREN, ValkyrieTokenTypes.LBRACKET, ValkyrieTokenTypes.DOT -> true
 
             else -> false
         }
@@ -777,7 +908,7 @@ class ValkyrieParser : PsiParser {
             builder.advanceLexer() // 消费后缀操作符
 
             when (tokenType) {
-                ValkyrieTokenTypes.EXCLAMATION, ValkyrieTokenTypes.WOW -> {
+                ValkyrieTokenTypes.WOW, ValkyrieTokenTypes.WOW -> {
                     // 非空类型 T!
                     marker.done(ValkyrieElementTypes.UNARY_EXPRESSION)
                 }
@@ -816,7 +947,7 @@ class ValkyrieParser : PsiParser {
 
     private fun isTypePostfixOperator(tokenType: IElementType?): Boolean {
         return when (tokenType) {
-            ValkyrieTokenTypes.EXCLAMATION, // 非空类型 T!
+            ValkyrieTokenTypes.WOW, // 非空类型 T!
             ValkyrieTokenTypes.WOW,         // 非空类型 T!
             ValkyrieTokenTypes.WHAT -> true // 可选类型 T?
             else -> false
@@ -943,7 +1074,6 @@ class ValkyrieParser : PsiParser {
     private fun getOperatorPrecedence(tokenType: IElementType?): Int {
         return operatorPrecedenceCache[tokenType] ?: -1
     }
-
 
 
     private fun parseClassLikeStatement(builder: PsiBuilder, node: ValkyrieElementType): Boolean {
