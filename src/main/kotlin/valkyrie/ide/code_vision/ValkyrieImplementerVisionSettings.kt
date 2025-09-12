@@ -5,13 +5,10 @@ import com.intellij.codeInsight.codeVision.settings.CodeVisionGroupSettingModel
 import com.intellij.codeInsight.codeVision.settings.CodeVisionGroupSettingProvider
 import com.intellij.openapi.project.Project
 
-/**
- * Code Vision 设置提供者
- */
-class ValkyrieCodeVisionGroupSettingProvider : CodeVisionGroupSettingProvider {
-    override val groupId: String = ValkyrieUsageVisionProvider.GROUP_ID
-    override val description: String = "Show usage count for Valkyrie declarations"
-    override val groupName: String = "Valkyrie"
+class ValkyrieImplementerVisionSettings : CodeVisionGroupSettingProvider {
+    override val groupId: String = "implements"
+    override val description: String = "Trace trait implements"
+    override val groupName: String = "Implements"
 
     override fun createModel(project: Project): CodeVisionGroupSettingModel {
         return super.createModel(project)
