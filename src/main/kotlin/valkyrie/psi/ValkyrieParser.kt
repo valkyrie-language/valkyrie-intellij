@@ -2448,52 +2448,94 @@ class ValkyrieParser : PsiParser {
      * @param withModifiers 是否包含修饰符解析
      */
     private fun parseAnnotations(builder: PsiBuilder, withModifiers: Boolean) {
-        val marker = builder.mark()
+        val annotationMarker = builder.mark()
 
-        // 如果启用修饰符解析，先解析可能的修饰符
-        if (withModifiers) {
-            // 解析修饰符（如 public, private 等）
-            while (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
-                val currentText = builder.tokenText ?: ""
-                if (currentText in setOf(
-                    "public", "private", "protected", "internal",
-                    "static", "final", "abstract", "override",
-                    "mut", "const", "readonly"
-                )) {
-                    val modifierMarker = builder.mark()
+        // 解析若干个 attribute node ↯attr 和 attribute list ↯[attr] 混合
+        while (builder.tokenType == ValkyrieTokenTypes.ATTRIBUTE_LOWER) {
+            if (builder.lookAhead(1) == ValkyrieTokenTypes.LBRACKET) {
+                // 解析 attribute list: ↯[attr1, attr2, ...]
+                val listMarker = builder.mark()
+                builder.advanceLexer() // 消费 ↯
+                builder.advanceLexer() // 消费 [
+                
+                while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACKET) {
+                    val attrMarker = builder.mark()
+                    if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                        parseQualifiedName(builder)
+                        // 可选的参数列表
+                        if (builder.tokenType == ValkyrieTokenTypes.LPAREN) {
+                            parseAttributeArgs(builder)
+                        }
+                        attrMarker.done(ValkyrieElementTypes.ATTRIBUTE)
+                    } else {
+                        builder.error("Expected attribute name")
+                        attrMarker.drop()
+                        break
+                    }
+                    
+                    if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+                        builder.advanceLexer()
+                    } else if (builder.tokenType != ValkyrieTokenTypes.RBRACKET) {
+                        break
+                    }
+                }
+                
+                if (builder.tokenType == ValkyrieTokenTypes.RBRACKET) {
                     builder.advanceLexer()
-                    modifierMarker.done(ValkyrieElementTypes.MODIFIER_NODE)
+                }
+                listMarker.done(ValkyrieElementTypes.ATTRIBUTE_LIST)
+            } else {
+                // 解析单个 attribute node: ↯attr
+                val attrMarker = builder.mark()
+                builder.advanceLexer() // 消费 ↯
+                
+                if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                    parseQualifiedName(builder)
+                    // 可选的参数列表
+                    if (builder.tokenType == ValkyrieTokenTypes.LPAREN) {
+                        parseAttributeArgs(builder)
+                    }
+                    attrMarker.done(ValkyrieElementTypes.ATTRIBUTE)
                 } else {
+                    builder.error("Expected attribute name")
+                    attrMarker.drop()
                     break
                 }
             }
         }
 
-        // 属性前缀: ↯
-        when (builder.tokenType) {
-            ValkyrieTokenTypes.ATTRIBUTE_LOWER -> builder.advanceLexer()
-            else -> {
-                builder.error("Expected attribute prefix")
-                marker.drop()
-                return
+        // 如果 withModifiers 为 true，解析结尾的 mod id
+        if (withModifiers) {
+            var lastNonIdToken: String? = null
+            
+            // 解析所有的 mod id
+            while (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || 
+                   builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW) {
+                val currentText = builder.tokenText ?: ""
+                
+                // 检查是否是 micro, mezzo, macro 关键字
+                if (currentText == "micro" || currentText == "mezzo" || currentText == "macro") {
+                    lastNonIdToken = currentText
+                }
+                
+                // 解析 mod id
+                val modMarker = builder.mark()
+                builder.advanceLexer() // consume identifier
+                modMarker.done(ValkyrieElementTypes.MODIFIER_NODE)
             }
-        }
-
-        // 属性名称或路径 (支持 module_path::macro_name)
-        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
-            parseQualifiedName(builder)
+            
+            // 根据最后一个非id节点决定返回值
+            if (lastNonIdToken != null) {
+                // 如果最后一个非id节点是 micro/mezzo/macro，返回该节点且不pop
+                annotationMarker.done(ValkyrieElementTypes.ANNOTATION_NODE)
+            } else {
+                // 其他情况 pop 并返回 null
+                annotationMarker.drop()
+            }
         } else {
-            builder.error("Expected attribute name")
+            // 如果 mods 关了就算了, 直接打包 attrs 结束
+            annotationMarker.done(ValkyrieElementTypes.ANNOTATION_NODE)
         }
-
-        // 可选的参数列表
-        if (builder.tokenType == ValkyrieTokenTypes.LPAREN) {
-            parseAttributeArgs(builder)
-        } else if (builder.tokenType == ValkyrieTokenTypes.LBRACKET) {
-            parseAttributeArrayArgs(builder)
-        }
-
-        marker.done(ValkyrieElementTypes.ATTRIBUTE)
     }
 
     /**
