@@ -11,19 +11,6 @@ import com.intellij.psi.tree.IElementType
  */
 class ValkyrieParser : PsiParser {
 
-    // 错误恢复同步点
-    private val syncTokens = setOf(
-        ValkyrieTokenTypes.LET,
-        ValkyrieTokenTypes.CLASS,
-        ValkyrieTokenTypes.UNION,
-        ValkyrieTokenTypes.TRAIT,
-        ValkyrieTokenTypes.IMPLY,
-        ValkyrieTokenTypes.MICRO,
-        ValkyrieTokenTypes.NAMESPACE,
-        ValkyrieTokenTypes.USING,
-        ValkyrieTokenTypes.SEMICOLON,
-        ValkyrieTokenTypes.RBRACE
-    )
 
     // 性能监控
     private var parseStartTime: Long = 0
@@ -94,92 +81,83 @@ class ValkyrieParser : PsiParser {
     }
 
     private fun parseStatement(builder: PsiBuilder) {
-        // 性能优化：快速跳过空白和注释
-        while (builder.tokenType in setOf(
-                ValkyrieTokenTypes.WHITESPACE, ValkyrieTokenTypes.NEWLINE, ValkyrieTokenTypes.COMMENT_REST, ValkyrieTokenTypes.COMMENT_RANGE
-            )
-        ) {
-            builder.advanceLexer()
-        }
-
-        if (builder.eof()) return
-
         val initialOffset = builder.currentOffset
 
-        try {
-            when (builder.tokenType) {
-                ValkyrieTokenTypes.NAMESPACE -> parseNamespaceStatement(builder)
-                ValkyrieTokenTypes.CLASS -> parseClassStatement(builder)
-                ValkyrieTokenTypes.NEURAL -> parseNeuralStatement(builder)
-                ValkyrieTokenTypes.WIDGET -> parseWidgetStatement(builder)
-                ValkyrieTokenTypes.SINGLETON -> parseSingletonStatement(builder)
-                ValkyrieTokenTypes.UNION -> parseUnionStatement(builder)
-                ValkyrieTokenTypes.UNITY -> parseUnityStatement(builder)
-                ValkyrieTokenTypes.FLAGS -> parseFlagsStatement(builder)
-                ValkyrieTokenTypes.FLAGS -> parseEnumsStatement(builder)
-                ValkyrieTokenTypes.TRAIT -> parseTraitStatement(builder)
-                ValkyrieTokenTypes.IMPLY -> parseImplyStatement(builder)
-                ValkyrieTokenTypes.STRUCTURE -> parseStructureStatement(builder)
-                ValkyrieTokenTypes.MICRO -> parseMicroStatement(builder)
-                ValkyrieTokenTypes.MEZZO -> parseMezzoStatement(builder)
-                ValkyrieTokenTypes.MACRO -> parseMacroStatement(builder)
-                ValkyrieTokenTypes.TESTS -> parseTestsStatement(builder)
-                ValkyrieTokenTypes.LET -> parseLetStatement(builder)
-                ValkyrieTokenTypes.COMPILE_TIME_BLOCK_START -> parseCompileTimeBlock(builder)
-                ValkyrieTokenTypes.TEMPLATE_START -> parseTemplateBlock(builder)
-                ValkyrieTokenTypes.USING -> parseUsingStatement(builder)
-                ValkyrieTokenTypes.UNTIL -> parseUntilStatement(builder)
-                ValkyrieTokenTypes.FOR -> parseForStatement(builder)
-                ValkyrieTokenTypes.WHILE -> parseWhileStatement(builder)
-                ValkyrieTokenTypes.MATCH -> parseMatchStatement(builder)
-                ValkyrieTokenTypes.IF -> parseIfStatement(builder)
-                ValkyrieTokenTypes.TRY -> parseTryStatement(builder)
-                ValkyrieTokenTypes.CATCH -> parseCatchStatement(builder)
-                ValkyrieTokenTypes.RETURN -> parseReturnStatement(builder)
-                ValkyrieTokenTypes.BREAK -> parseBreakStatement(builder)
-                ValkyrieTokenTypes.CONTINUE -> parseContinueStatement(builder)
-                ValkyrieTokenTypes.YIELD -> parseYieldStatement(builder)
-                ValkyrieTokenTypes.RAISE -> parseRaiseStatement(builder)
-                ValkyrieTokenTypes.RESUME -> parseResumeStatement(builder)
-                ValkyrieTokenTypes.LOOP -> parseLoopStatement(builder)
-                ValkyrieTokenTypes.LBRACE -> parseFunctionLikeBody(builder)
-                ValkyrieTokenTypes.COMMENT_DOCUMENT -> parseDocComment(builder)
-                ValkyrieTokenTypes.AT -> parseMacroCall(builder)
-                ValkyrieTokenTypes.LABEL_MARK -> parseLabelMark(builder)
-                null -> return
-                else -> parseExpressionStatement(builder)
-            }
-        } catch (e: Exception) {
-            // 错误恢复：确保解析器前进
-            if (builder.currentOffset == initialOffset) {
-                builder.error("Unexpected token: ${builder.tokenType}")
-                builder.advanceLexer()
-            }
+        when {
+            parseNamespaceStatement(builder) -> return
+            parseClassStatement(builder) -> return
+        }
+
+//        when (builder.tokenType) {
+//            ValkyrieTokenTypes.NAMESPACE -> parseNamespaceStatement(builder)
+//                ValkyrieTokenTypes.CLASS -> parseClassStatement(builder)
+//                ValkyrieTokenTypes.NEURAL -> parseNeuralStatement(builder)
+//                ValkyrieTokenTypes.WIDGET -> parseWidgetStatement(builder)
+//                ValkyrieTokenTypes.SINGLETON -> parseSingletonStatement(builder)
+//                ValkyrieTokenTypes.UNION -> parseUnionStatement(builder)
+//                ValkyrieTokenTypes.UNITY -> parseUnityStatement(builder)
+//                ValkyrieTokenTypes.FLAGS -> parseFlagsStatement(builder)
+//                ValkyrieTokenTypes.FLAGS -> parseEnumsStatement(builder)
+//                ValkyrieTokenTypes.TRAIT -> parseTraitStatement(builder)
+//                ValkyrieTokenTypes.IMPLY -> parseImplyStatement(builder)
+//                ValkyrieTokenTypes.STRUCTURE -> parseStructureStatement(builder)
+//                ValkyrieTokenTypes.MICRO -> parseMicroStatement(builder)
+//                ValkyrieTokenTypes.MEZZO -> parseMezzoStatement(builder)
+//                ValkyrieTokenTypes.MACRO -> parseMacroStatement(builder)
+//                ValkyrieTokenTypes.TESTS -> parseTestsStatement(builder)
+//                ValkyrieTokenTypes.LET -> parseLetStatement(builder)
+//                ValkyrieTokenTypes.COMPILE_TIME_BLOCK_START -> parseCompileTimeBlock(builder)
+//                ValkyrieTokenTypes.TEMPLATE_START -> parseTemplateBlock(builder)
+//                ValkyrieTokenTypes.USING -> parseUsingStatement(builder)
+//                ValkyrieTokenTypes.UNTIL -> parseUntilStatement(builder)
+//                ValkyrieTokenTypes.FOR -> parseForStatement(builder)
+//                ValkyrieTokenTypes.WHILE -> parseWhileStatement(builder)
+//                ValkyrieTokenTypes.MATCH -> parseMatchStatement(builder)
+//                ValkyrieTokenTypes.IF -> parseIfStatement(builder)
+//                ValkyrieTokenTypes.TRY -> parseTryStatement(builder)
+//                ValkyrieTokenTypes.CATCH -> parseCatchStatement(builder)
+//                ValkyrieTokenTypes.RETURN -> parseReturnStatement(builder)
+//                ValkyrieTokenTypes.BREAK -> parseBreakStatement(builder)
+//                ValkyrieTokenTypes.CONTINUE -> parseContinueStatement(builder)
+//                ValkyrieTokenTypes.YIELD -> parseYieldStatement(builder)
+//                ValkyrieTokenTypes.RAISE -> parseRaiseStatement(builder)
+//                ValkyrieTokenTypes.RESUME -> parseResumeStatement(builder)
+//                ValkyrieTokenTypes.LOOP -> parseLoopStatement(builder)
+//                ValkyrieTokenTypes.LBRACE -> parseFunctionLikeBody(builder)
+//                ValkyrieTokenTypes.COMMENT_DOCUMENT -> parseDocComment(builder)
+//                ValkyrieTokenTypes.AT -> parseMacroCall(builder)
+//                ValkyrieTokenTypes.LABEL_MARK -> parseLabelMark(builder)
+//            null -> return
+//                else -> parseExpressionStatement(builder)
+//        }
+        if (builder.currentOffset == initialOffset) {
+            builder.error("Unexpected token: ${builder.tokenType}")
+            builder.advanceLexer()
         }
     }
 
-    private fun parseClassStatement(builder: PsiBuilder) {
-        parseClassLikeStatement(builder, ValkyrieElementTypes.CLASS_STATEMENT)
+    private fun parseClassStatement(builder: PsiBuilder): Boolean {
+        return parseClassLikeStatement(builder, ValkyrieElementTypes.CLASS_STATEMENT)
     }
 
-    private fun parseTraitStatement(builder: PsiBuilder) {
-        parseClassLikeStatement(builder, ValkyrieElementTypes.CLASS_STATEMENT)
+    private fun parseTraitStatement(builder: PsiBuilder): Boolean {
+        return parseClassLikeStatement(builder, ValkyrieElementTypes.CLASS_STATEMENT)
     }
 
-    private fun parseNeuralStatement(builder: PsiBuilder) {
-        parseClassLikeStatement(builder, ValkyrieElementTypes.NEURAL_STATEMENT)
+    private fun parseNeuralStatement(builder: PsiBuilder): Boolean {
+        return parseClassLikeStatement(builder, ValkyrieElementTypes.NEURAL_STATEMENT)
     }
 
-    private fun parseWidgetStatement(builder: PsiBuilder) {
-        parseClassLikeStatement(builder, ValkyrieElementTypes.WIDGET_STATEMENT)
+    private fun parseWidgetStatement(builder: PsiBuilder): Boolean {
+        return parseClassLikeStatement(builder, ValkyrieElementTypes.WIDGET_STATEMENT)
     }
 
-    private fun parseSingletonStatement(builder: PsiBuilder) {
-        parseClassLikeStatement(builder, ValkyrieElementTypes.SINGLETON_STATEMENT)
+    private fun parseSingletonStatement(builder: PsiBuilder): Boolean {
+        return parseClassLikeStatement(builder, ValkyrieElementTypes.SINGLETON_STATEMENT)
     }
 
-    private fun parseStructureStatement(builder: PsiBuilder) {
-        parseClassLikeStatement(builder, ValkyrieElementTypes.STRUCTURE_STATEMENT)
+    private fun parseStructureStatement(builder: PsiBuilder): Boolean {
+        return parseClassLikeStatement(builder, ValkyrieElementTypes.STRUCTURE_STATEMENT)
     }
 
     private fun parseUnionStatement(builder: PsiBuilder) {
@@ -886,10 +864,10 @@ class ValkyrieParser : PsiParser {
         return operatorPrecedenceCache[tokenType] ?: -1
     }
 
-    private fun parseNamespaceStatement(builder: PsiBuilder) {
+    private fun parseNamespaceStatement(builder: PsiBuilder): Boolean {
         val marker = builder.mark()
 
-        // 'namespace' keyword (支持不同类型: namespace, namespace!, namespace?, namespace*)
+        // TODO (支持不同类型: namespace, namespace!, namespace?, namespace*)
         when (builder.tokenType) {
             ValkyrieTokenTypes.NAMESPACE -> {
                 builder.advanceLexer()
@@ -897,7 +875,7 @@ class ValkyrieParser : PsiParser {
 
             else -> {
                 marker.drop()
-                return
+                return false
             }
         }
 
@@ -911,6 +889,7 @@ class ValkyrieParser : PsiParser {
         }
 
         marker.done(ValkyrieElementTypes.NAMESPACE_STATEMENT)
+        return true
     }
 
     private fun parseUsingStatement(builder: PsiBuilder) {
@@ -959,7 +938,7 @@ class ValkyrieParser : PsiParser {
     }
 
 
-    private fun parseClassLikeStatement(builder: PsiBuilder, node: ValkyrieElementType) {
+    private fun parseClassLikeStatement(builder: PsiBuilder, node: ValkyrieElementType): Boolean {
         val marker = builder.mark()
 
         // Parse annotations with modifiers
@@ -969,7 +948,7 @@ class ValkyrieParser : PsiParser {
         if (!parseIdentifier(builder)) {
             marker.error("Expected class name")
             recoverToSyncPoint(builder)
-            return
+            return false
         }
 
         // Parse optional components
@@ -981,10 +960,11 @@ class ValkyrieParser : PsiParser {
         if (!parseObjectBody(builder)) {
             marker.error("Expected class body")
             recoverToSyncPoint(builder)
-            return
+            return false
         }
 
         marker.done(node)
+        return true
     }
 
     private fun parseObjectBody(builder: PsiBuilder): Boolean {
@@ -1036,22 +1016,12 @@ class ValkyrieParser : PsiParser {
         val initialPos = builder.currentOffset
 
         // guard 模式逐个尝试解析不同类型的成员
-        if (parseMacroCall(builder)) {
-            return
-        }
-
-        if (parseTestsStatement(builder)) {
-            return
-        }
-
-        if (parseMethod(builder)) {
-            return
-        }
-        if (parseDomain(builder)) {
-            return
-        }
-        if (parseField(builder)) {
-            return
+        when {
+            parseMacroCall(builder) -> return
+            parseTestsStatement(builder) -> return
+            parseMethod(builder) -> return
+            parseDomain(builder) -> return
+            parseField(builder) -> return
         }
 
 
@@ -2427,6 +2397,20 @@ class ValkyrieParser : PsiParser {
     }
 
 }
+
+// 错误恢复同步点
+private val syncTokens = setOf(
+    ValkyrieTokenTypes.LET,
+    ValkyrieTokenTypes.CLASS,
+    ValkyrieTokenTypes.UNION,
+    ValkyrieTokenTypes.TRAIT,
+    ValkyrieTokenTypes.IMPLY,
+    ValkyrieTokenTypes.MICRO,
+    ValkyrieTokenTypes.NAMESPACE,
+    ValkyrieTokenTypes.USING,
+    ValkyrieTokenTypes.SEMICOLON,
+    ValkyrieTokenTypes.RBRACE
+)
 
 
 // 性能优化：缓存操作符优先级
