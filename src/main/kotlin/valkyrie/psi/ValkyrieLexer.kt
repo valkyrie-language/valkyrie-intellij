@@ -17,8 +17,6 @@ class ValkyrieLexer : LexerBase() {
     // 关键字映射
     private val keywords = mapOf(
         "let" to ValkyrieTokenTypes.LET,
-        "mut" to ValkyrieTokenTypes.MUT,
-        "ref" to ValkyrieTokenTypes.REF,
         "if" to ValkyrieTokenTypes.IF,
         "else" to ValkyrieTokenTypes.ELSE,
         "while" to ValkyrieTokenTypes.WHILE,

@@ -247,6 +247,7 @@ object ValkyrieElementTypes {
     @JvmField val ARGUMENT_LIST = ValkyrieElementType("ARGUMENT_LIST")
     @JvmField val QUALIFIED_NAME = ValkyrieElementType("QUALIFIED_NAME")
     @JvmField val GENERIC_PARAMETER_LIST = ValkyrieElementType("GENERIC_PARAMETER_LIST")
+    @JvmField val GENERIC_PARAMETER = ValkyrieElementType("GENERIC_PARAMETER")
     
     // 注释
     @JvmField val DOC_COMMENT = ValkyrieElementType("DOC_COMMENT")
