@@ -1972,10 +1972,11 @@ class ValkyrieParser : PsiParser {
 
 
         // 直接解析modifiers到annotation节点下 - 支持关键字修饰符和元编程前缀
-        while (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || 
-               builder.tokenType == ValkyrieTokenTypes.MICRO ||
-               builder.tokenType == ValkyrieTokenTypes.MEZZO ||
-               builder.tokenType == ValkyrieTokenTypes.MACRO) {
+        while (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD ||
+            builder.tokenType == ValkyrieTokenTypes.MICRO ||
+            builder.tokenType == ValkyrieTokenTypes.MEZZO ||
+            builder.tokenType == ValkyrieTokenTypes.MACRO
+        ) {
             val nextToken = builder.lookAhead(1)
 
             // 如果下一个token是声明分隔符，停止解析modifiers
@@ -1991,17 +1992,18 @@ class ValkyrieParser : PsiParser {
             // 当前是modifier，解析为modifier节点
             val modifierMarker = builder.mark()
             val identifierMarker = builder.mark()
-            
+
             if (builder.tokenType == ValkyrieTokenTypes.MICRO ||
                 builder.tokenType == ValkyrieTokenTypes.MEZZO ||
-                builder.tokenType == ValkyrieTokenTypes.MACRO) {
+                builder.tokenType == ValkyrieTokenTypes.MACRO
+            ) {
                 // 元编程关键字作为modifier
                 builder.advanceLexer()
             } else {
                 // 普通标识符modifier
                 parseIdentifier(builder)
             }
-            
+
             identifierMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
             modifierMarker.done(ValkyrieElementTypes.MODIFIER_NODE)
         }
@@ -2309,7 +2311,7 @@ class ValkyrieParser : PsiParser {
                     }
                 }
 
-                paramMarker.done(ValkyrieElementTypes.PARAMETER)
+                paramMarker.done(ValkyrieElementTypes.TERM_PARAMETER_ITEM)
 
                 // 处理逗号分隔符，允许尾随逗号
                 if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
@@ -2325,7 +2327,7 @@ class ValkyrieParser : PsiParser {
             else if (builder.tokenType == ValkyrieTokenTypes.LESS || builder.tokenType == ValkyrieTokenTypes.GREATER) {
                 val paramMarker = builder.mark()
                 builder.advanceLexer() // consume '<' or '>'
-                paramMarker.done(ValkyrieElementTypes.PARAMETER)
+                paramMarker.done(ValkyrieElementTypes.TERM_PARAMETER_ITEM)
 
                 // 处理逗号分隔符，允许尾随逗号
                 if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
@@ -2390,7 +2392,7 @@ class ValkyrieParser : PsiParser {
                     parseExpression(builder) // 解析默认值表达式
                 }
 
-                paramMarker.done(ValkyrieElementTypes.PARAMETER)
+                paramMarker.done(ValkyrieElementTypes.TERM_PARAMETER_ITEM)
 
                 // 处理逗号分隔符，允许尾随逗号
                 if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
@@ -2415,7 +2417,7 @@ class ValkyrieParser : PsiParser {
             builder.error("Expected ')'")
         }
 
-        marker.done(ValkyrieElementTypes.PARAMETER_LIST)
+        marker.done(ValkyrieElementTypes.TERM_PARAMETER_LIST)
         return hasSelfParameter
     }
 

@@ -18,15 +18,6 @@ object ValkyrieTokenTypes {
     val NAMESPACE = ValkyrieTokenType("namespace")
 
     @JvmField
-    val NAMESPACE_MAIN = ValkyrieTokenType("namespace!")
-
-    @JvmField
-    val NAMESPACE_TEST = ValkyrieTokenType("namespace?")
-
-    @JvmField
-    val NAMESPACE_HIDE = ValkyrieTokenType("namespace*")
-
-    @JvmField
     val USING = ValkyrieTokenType("using")
 
     // 关键字
@@ -182,7 +173,7 @@ object ValkyrieTokenTypes {
 
     @JvmField
     val STAR = ValkyrieTokenType("*") // *
-    
+
     @JvmField
     val MULTIPLY = ValkyrieTokenType("×") // ×
 
@@ -394,7 +385,7 @@ object ValkyrieTokenTypes {
     val COMPILE_TIME_BLOCK_START = ValkyrieTokenType("<{")
 
     @JvmField
-    val COMPILE_TIME_BLOCK_END = ValkyrieTokenType("}>") 
+    val COMPILE_TIME_BLOCK_END = ValkyrieTokenType("}>")
 
     @JvmField
     val TEMPLATE_START = ValkyrieTokenType("<$")

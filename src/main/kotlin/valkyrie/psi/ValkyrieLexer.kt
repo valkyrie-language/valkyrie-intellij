@@ -48,9 +48,6 @@ class ValkyrieLexer : LexerBase() {
         "resume" to ValkyrieTokenTypes.RESUME,
         "tests" to ValkyrieTokenTypes.TESTS,
         "namespace" to ValkyrieTokenTypes.NAMESPACE,
-        "namespace!" to ValkyrieTokenTypes.NAMESPACE_MAIN,
-        "namespace?" to ValkyrieTokenTypes.NAMESPACE_TEST,
-        "namespace*" to ValkyrieTokenTypes.NAMESPACE_HIDE,
         "using" to ValkyrieTokenTypes.USING,
         "until" to ValkyrieTokenTypes.UNTIL,
         "match" to ValkyrieTokenTypes.MATCH,
@@ -182,7 +179,7 @@ class ValkyrieLexer : LexerBase() {
     private fun skipBlockComment() {
         currentOffset += 2 // skip <#
         var depth = 1
-        
+
         while (currentOffset < endOffset - 1 && depth > 0) {
             if (buffer[currentOffset] == '<' && buffer[currentOffset + 1] == '#') {
                 // 嵌套块注释开始
@@ -353,9 +350,10 @@ class ValkyrieLexer : LexerBase() {
     private fun readMultiQuoteString() {
         currentOffset += 3 // skip opening triple quotes
         while (currentOffset + 2 < endOffset) {
-            if (buffer[currentOffset] == '"' && 
-                buffer[currentOffset + 1] == '"' && 
-                buffer[currentOffset + 2] == '"') {
+            if (buffer[currentOffset] == '"' &&
+                buffer[currentOffset + 1] == '"' &&
+                buffer[currentOffset + 2] == '"'
+            ) {
                 currentOffset += 3 // skip closing triple quotes
                 break
             } else {
@@ -600,14 +598,17 @@ class ValkyrieLexer : LexerBase() {
                             currentOffset++
                             tokenType = ValkyrieTokenTypes.ELLIPSIS
                         }
+
                         '=' -> {
                             currentOffset++
                             tokenType = ValkyrieTokenTypes.DOT_DOT_EQUAL
                         }
+
                         '<' -> {
                             currentOffset++
                             tokenType = ValkyrieTokenTypes.DOT_DOT_LESS
                         }
+
                         else -> {
                             tokenType = ValkyrieTokenTypes.DOT_DOT
                         }

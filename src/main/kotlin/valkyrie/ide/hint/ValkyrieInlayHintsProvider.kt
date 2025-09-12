@@ -1,8 +1,6 @@
 package valkyrie.ide.hint
 
 import com.intellij.codeInsight.hints.*
-import com.intellij.codeInsight.hints.presentation.InlayPresentation
-import com.intellij.codeInsight.hints.presentation.PresentationFactory
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
@@ -75,9 +73,22 @@ class ValkyrieInlayHintsProvider : InlayHintsProvider<ValkyrieInlayHintsProvider
             if (!settings.showParameterNames) return
             
             val arguments = call.getArguments()
-            val function = call.resolveFunction() ?: return
-            val parameters = function.getParameters()
             
+            // 尝试解析函数定义
+            val function = call.resolveFunction()
+            if (function != null) {
+                val parameters = function.getParameters()
+                collectParameterHintsWithFunction(arguments, parameters)
+            } else {
+                // 如果无法解析函数，尝试基于常见模式推断参数名
+                collectParameterHintsWithoutFunction(call, arguments)
+            }
+        }
+        
+        private fun collectParameterHintsWithFunction(
+            arguments: List<PsiElement>,
+            parameters: List<ValkyrieTermParameterItem>
+        ) {
             arguments.forEachIndexed { index, arg ->
                 if (index < parameters.size) {
                     val param = parameters[index]
@@ -87,6 +98,58 @@ class ValkyrieInlayHintsProvider : InlayHintsProvider<ValkyrieInlayHintsProvider
                         sink.addInlineElement(arg.textRange.startOffset, true, presentation, false)
                     }
                 }
+            }
+        }
+        
+        private fun collectParameterHintsWithoutFunction(
+            call: ValkyrieCallExpressionNode,
+            arguments: List<PsiElement>
+        ) {
+            val functionName = getFunctionName(call)
+            if (functionName != null) {
+                val suggestedNames = suggestParameterNames(functionName, arguments.size)
+                arguments.forEachIndexed { index, arg ->
+                    if (index < suggestedNames.size) {
+                        val paramName = suggestedNames[index]
+                        if (!isObviousParameterName(arg, paramName)) {
+                            val presentation = factory.smallText("$paramName: ")
+                            sink.addInlineElement(arg.textRange.startOffset, true, presentation, false)
+                        }
+                    }
+                }
+            }
+        }
+        
+        private fun getFunctionName(call: ValkyrieCallExpressionNode): String? {
+            // 从调用表达式中提取函数名
+            val identifier = PsiTreeUtil.findChildOfType(call, ValkyrieIdentifierNode::class.java)
+            return identifier?.text
+        }
+        
+        private fun suggestParameterNames(functionName: String, argCount: Int): List<String> {
+            // 基于函数名和参数数量推断常见的参数名
+            return when (functionName.lowercase()) {
+                "print", "println" -> listOf("message")
+                "max", "min" -> listOf("a", "b")
+                "pow", "power" -> listOf("base", "exponent")
+                "substring" -> when (argCount) {
+                    1 -> listOf("start")
+                    2 -> listOf("start", "end")
+                    else -> listOf("start", "end")
+                }
+                "replace" -> listOf("old", "new")
+                "split" -> listOf("delimiter")
+                "contains" -> listOf("element")
+                "indexOf" -> listOf("element")
+                "get" -> listOf("index")
+                "set" -> listOf("index", "value")
+                "add" -> listOf("element")
+                "remove" -> listOf("element")
+                "map" -> listOf("transform")
+                "filter" -> listOf("predicate")
+                "reduce" -> listOf("operation")
+                "forEach" -> listOf("action")
+                else -> (1..argCount).map { "arg$it" }
             }
         }
         
@@ -153,6 +216,6 @@ private fun ValkyrieCallExpressionNode.resolveFunction(): ValkyrieMethodDeclarat
 }
 
 // 扩展函数，用于获取方法参数
-private fun ValkyrieMethodDeclaration.getParameters(): List<ValkyrieParameterNode> {
-    return PsiTreeUtil.findChildrenOfType(this, ValkyrieParameterNode::class.java).toList()
+private fun ValkyrieMethodDeclaration.getParameters(): List<ValkyrieTermParameterItem> {
+    return PsiTreeUtil.findChildrenOfType(this, ValkyrieTermParameterItem::class.java).toList()
 }
