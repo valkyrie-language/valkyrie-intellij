@@ -73,6 +73,12 @@ object ValkyrieTokenTypes {
     val CLASS = ValkyrieTokenType("class")
 
     @JvmField
+    val NEURAL = ValkyrieTokenType("neural")
+
+    @JvmField
+    val WIDGET = ValkyrieTokenType("widget")
+
+    @JvmField
     val SINGLETON = ValkyrieTokenType("singleton")
 
     @JvmField
@@ -80,6 +86,9 @@ object ValkyrieTokenTypes {
 
     @JvmField
     val UNITY = ValkyrieTokenType("unity")
+
+    @JvmField
+    val FLAGS = ValkyrieTokenType("flags")
 
     @JvmField
     val TRAIT = ValkyrieTokenType("trait")
@@ -200,7 +209,26 @@ object ValkyrieTokenTypes {
     val MODULO = ValkyrieTokenType("MODULO") // %
 
     @JvmField
+    val RECIPROCAL = ValkyrieTokenType("RECIPROCAL") // ⅟
+
+    @JvmField
     val INTEGER_DIVIDE = ValkyrieTokenType("INTEGER_DIVIDE") // //
+
+    // 后缀运算符
+    @JvmField
+    val CELSIUS = ValkyrieTokenType("CELSIUS") // ℃
+
+    @JvmField
+    val FAHRENHEIT = ValkyrieTokenType("FAHRENHEIT") // ℉
+
+    @JvmField
+    val PERCENT = ValkyrieTokenType("PERCENT") // %
+
+    @JvmField
+    val PERMILLE = ValkyrieTokenType("PERMILLE") // ‰
+
+    @JvmField
+    val PERMYRIAD = ValkyrieTokenType("PERMYRIAD") // ‱
 
     @JvmField
     val POWER = ValkyrieTokenType("POWER") // ^

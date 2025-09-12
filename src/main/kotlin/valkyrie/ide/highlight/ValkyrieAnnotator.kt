@@ -36,6 +36,11 @@ class ValkyrieAnnotator : Annotator {
             return
         }
         
+        // 如果是raw identifier（以反引号包围），跳过字符检查
+        if (identifier.isSpecialName()) {
+            return
+        }
+        
         // 检查是否以数字开头
         if (name[0].isDigit()) {
             holder.newAnnotation(HighlightSeverity.ERROR, "标识符不能以数字开头")
@@ -43,12 +48,35 @@ class ValkyrieAnnotator : Annotator {
                 .create()
         }
         
-        // 检查是否包含非法字符
-        if (!name.matches(Regex("[a-zA-Z_][a-zA-Z0-9_]*"))) {
+        // 检查是否包含非法字符 - 支持Unicode XID字符
+        if (!isValidIdentifier(name)) {
             holder.newAnnotation(HighlightSeverity.ERROR, "标识符包含非法字符")
                 .range(identifier)
                 .create()
         }
+    }
+    
+    /**
+     * 检查是否为有效的标识符（支持Unicode XID字符）
+     */
+    private fun isValidIdentifier(name: String): Boolean {
+        if (name.isEmpty()) return false
+        
+        // 第一个字符必须是XID_Start字符或下划线
+        val firstChar = name[0]
+        if (!Character.isUnicodeIdentifierStart(firstChar) && firstChar != '_') {
+            return false
+        }
+        
+        // 其余字符必须是XID_Continue字符
+        for (i in 1 until name.length) {
+            val char = name[i]
+            if (!Character.isUnicodeIdentifierPart(char)) {
+                return false
+            }
+        }
+        
+        return true
     }
     
     /**
