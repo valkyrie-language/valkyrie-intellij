@@ -245,12 +245,40 @@ class ValkyrieParser : PsiParser {
             return false
         }
 
-        if (parseObjectBody(builder)) {
+        // 直接解析大括号内容，避免调用parseObjectBody导致marker嵌套
+        if (builder.tokenType != ValkyrieTokenTypes.LBRACE) {
+            marker.error("Expected '{'")
+            return false
+        }
+
+        builder.advanceLexer() // consume '{'
+
+        // Parse body content
+        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
+            val initialPosition = builder.currentOffset
+            parseObjectItem(builder)
+
+            // 防止无限循环：确保解析器前进
+            if (builder.currentOffset == initialPosition) {
+                builder.error("Unable to parse tests member")
+                builder.advanceLexer()
+            }
+
+            // Skip to next valid token if parsing failed
+            if (builder.tokenType != ValkyrieTokenTypes.RBRACE && !builder.eof()) {
+                if (syncTokens.contains(builder.tokenType)) {
+                    break
+                }
+            }
+        }
+
+        // Expect closing brace
+        if (builder.tokenType == ValkyrieTokenTypes.RBRACE) {
+            builder.advanceLexer() // consume '}'
             marker.done(ValkyrieElementTypes.DECLARE_TESTS)
             return true
         } else {
-            marker.error("Expected object body")
-            recoverToSyncPoint(builder)
+            marker.error("Expected '}'")
             return false
         }
     }
