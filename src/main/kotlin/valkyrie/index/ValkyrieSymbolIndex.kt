@@ -90,7 +90,6 @@ class ValkyrieSymbolIndex(private val project: Project) {
      * 索引单个valkyrie项目
      */
     private fun indexValkyrieProject(projectRoot: VirtualFile) {
-        projectRoot.refresh(false, true)
         val valkyrieFiles = mutableListOf<VirtualFile>()
         collectValkyrieFiles(projectRoot, valkyrieFiles)
         

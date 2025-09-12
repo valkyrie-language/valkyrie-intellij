@@ -1,12 +1,12 @@
 package valkyrie.index
 
 import com.intellij.openapi.Disposable
-import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFileManager
 import com.intellij.openapi.vfs.newvfs.BulkFileListener
 import com.intellij.openapi.vfs.newvfs.events.VFileEvent
 import valkyrie.project.ValkyrieProjectManager
+import com.intellij.openapi.application.ApplicationManager
 
 /**
  * Valkyrie 项目服务
@@ -26,8 +26,8 @@ class ValkyrieProjectService(private val project: Project) : Disposable {
             }
         })
         
-        // 初始化时构建索引
-        ReadAction.run<RuntimeException> {
+        // 初始化时构建索引（后台线程执行，避免在项目启动读锁/EDT中阻塞）
+        ApplicationManager.getApplication().executeOnPooledThread {
             ValkyrieSymbolIndex.getInstance(project).rebuildIndex()
         }
     }

@@ -855,46 +855,16 @@ class ValkyrieParser : PsiParser {
         val marker = builder.mark()
 
         when (builder.tokenType) {
-            ValkyrieTokenTypes.IDENTIFIER_STD -> {
-                // 为标识符创建 PSI 元素以支持引用和跳转
-                val identifierMarker = builder.mark()
-                builder.advanceLexer()
-                identifierMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
+            ValkyrieTokenTypes.IDENTIFIER_STD, ValkyrieTokenTypes.IDENTIFIER_RAW, ValkyrieTokenTypes.INTERNATIONAL_MARK -> {
+                // 使用parseQualifiedName来处理命名空间路径
+                parseQualifiedName(builder)
 
-                // 支持复杂路径表达式，如 C::<D>::<E> 和连续泛型 C<D><E>
-                while (true) {
-                    var hasGeneric = false
-
-                    // 支持连续泛型参数 - 同时支持 <T> 和 ⟨T⟩ 语法
-                    while (builder.tokenType == ValkyrieTokenTypes.LESS || builder.tokenType == ValkyrieTokenTypes.ANGLE_L) {
-                        hasGeneric = true
-                        if (builder.tokenType == ValkyrieTokenTypes.LESS) {
-                            parseGenericArguments(builder, ValkyrieTokenTypes.LESS, ValkyrieTokenTypes.GREATER)
-                        } else {
-                            parseGenericArguments(builder, ValkyrieTokenTypes.ANGLE_L, ValkyrieTokenTypes.ANGLE_R)
-                        }
-                    }
-
-                    // 检查是否有路径分隔符
-                    if (builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON) {
-                        builder.advanceLexer() // consume '::'
-
-                        // 检查 :: 后面是否跟泛型参数 ::<T> 或 ::⟨T⟩
-                        if (builder.tokenType == ValkyrieTokenTypes.LESS) {
-                            parseGenericArguments(builder, ValkyrieTokenTypes.LESS, ValkyrieTokenTypes.GREATER)
-                        } else if (builder.tokenType == ValkyrieTokenTypes.ANGLE_L) {
-                            parseGenericArguments(builder, ValkyrieTokenTypes.ANGLE_L, ValkyrieTokenTypes.ANGLE_R)
-                        } else if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
-                            // 普通路径继续，如 A::B
-                            val pathIdentifierMarker = builder.mark()
-                            builder.advanceLexer()
-                            pathIdentifierMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
-                        } else {
-                            builder.error("Expected identifier or generic arguments after '::'")
-                            break
-                        }
+                // 支持泛型参数 - 同时支持 <T> 和 ⟨T⟩ 语法
+                while (builder.tokenType == ValkyrieTokenTypes.LESS || builder.tokenType == ValkyrieTokenTypes.ANGLE_L) {
+                    if (builder.tokenType == ValkyrieTokenTypes.LESS) {
+                        parseGenericArguments(builder, ValkyrieTokenTypes.LESS, ValkyrieTokenTypes.GREATER)
                     } else {
-                        break
+                        parseGenericArguments(builder, ValkyrieTokenTypes.ANGLE_L, ValkyrieTokenTypes.ANGLE_R)
                     }
                 }
             }
@@ -1657,14 +1627,8 @@ class ValkyrieParser : PsiParser {
             return
         }
 
-        // imply name - 支持 raw identifier
-        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW) {
-            val nameMarker = builder.mark()
-            builder.advanceLexer()
-            nameMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
-        } else {
-            builder.error("Expected imply name")
-        }
+        // imply name - 支持命名空间路径
+        parseQualifiedName(builder)
 
         // 解析泛型参数 ⟨T⟩
         parseOptionalGenericParameters(builder)
