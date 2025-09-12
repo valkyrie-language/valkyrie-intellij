@@ -30,16 +30,12 @@ class ValkyrieParser : PsiParser {
     private var statementCount: Int = 0
     private val performanceThreshold = 1000 // 毫秒
 
-    // 递归深度控制
-    private var recursionDepth: Int = 0
-    private val maxRecursionDepth = 100
-
-
     override fun parse(root: IElementType, builder: PsiBuilder): ASTNode {
         parseStartTime = System.currentTimeMillis()
         statementCount = 0
 
-        // marker 不平衡问题已修复，调试模式已关闭
+        // 启用调试模式以定位 marker 不平衡问题
+        builder.setDebugMode(true)
         val rootMarker = builder.mark()
 
         // 性能优化：预分配错误计数器
@@ -244,29 +240,19 @@ class ValkyrieParser : PsiParser {
         if (builder.tokenType == ValkyrieTokenTypes.TESTS) {
             builder.advanceLexer()
         } else {
-            builder.error("Expected 'tests' keyword")
+            builder.error("Expected `tests` keyword")
             marker.drop()
             return false
         }
 
-        // 解析可选的标识符
-        if (!parseIdentifier(builder)) {
-            // 标识符解析失败，继续处理
-        }
-
-        // 解析泛型参数（如果有）
-        parseGenericParameterList(builder)
-
-        // tests { } - 使用class-like body解析
-        if (!parseObjectBody(builder)) {
-            marker.error("Expected tests body")
+        if (parseObjectBody(builder)) {
+            marker.done(ValkyrieElementTypes.DECLARE_TESTS)
+            return true
+        } else {
+            marker.error("Expected object body")
             recoverToSyncPoint(builder)
-            marker.done(ValkyrieElementTypes.ERROR_ELEMENT)
             return false
         }
-
-        marker.done(ValkyrieElementTypes.DECLARE_TESTS)
-        return true
     }
 
 
@@ -368,15 +354,12 @@ class ValkyrieParser : PsiParser {
     }
 
     private fun parseTermExpression(builder: PsiBuilder, inline: Boolean): Boolean {
-        return parseTermExpressionWithPrecedence(builder, 0)
+        return parseTermExpressionWithPrecedence(builder, 0, inline)
     }
 
-    private fun parseTermExpressionWithPrecedence(builder: PsiBuilder, minPrecedence: Int): Boolean {
+    private fun parseTermExpressionWithPrecedence(builder: PsiBuilder, minPrecedence: Int, inline: Boolean): Boolean {
         // 解析前缀表达式
-        var left = parsePrefixTermExpression(builder)
-        if (left == null) {
-            return false
-        }
+        var left = parsePrefixTermExpression(builder) ?: return false
 
         // 解析中缀表达式
         while (true) {
@@ -396,7 +379,7 @@ class ValkyrieParser : PsiParser {
             builder.advanceLexer() // 消费操作符
 
             // 解析右操作数
-            if (!parseTermExpressionWithPrecedence(builder, precedence + 1)) {
+            if (!parseTermExpressionWithPrecedence(builder, precedence + 1, inline)) {
                 marker.error("Expected right operand")
                 recoverToSyncPoint(builder)
                 return false
@@ -533,9 +516,7 @@ class ValkyrieParser : PsiParser {
     }
 
     private fun parsePrimaryTerm(builder: PsiBuilder): PsiBuilder.Marker? {
-        val tokenType = builder.tokenType
-
-        return when (tokenType) {
+        return when (builder.tokenType) {
             // 标识符
             ValkyrieTokenTypes.IDENTIFIER_STD, ValkyrieTokenTypes.IDENTIFIER_RAW -> {
                 val marker = builder.mark()
@@ -634,10 +615,7 @@ class ValkyrieParser : PsiParser {
 
     private fun parseTypeExpressionWithPrecedence(builder: PsiBuilder, minPrecedence: Int): Boolean {
         // 解析前缀类型表达式
-        var left = parsePrefixTypeExpression(builder)
-        if (left == null) {
-            return false
-        }
+        var left = parsePrefixTypeExpression(builder) ?: return false
 
         // 解析中缀类型表达式
         while (true) {
@@ -1242,7 +1220,6 @@ class ValkyrieParser : PsiParser {
             // Parse first argument
             if (!parseGenericArgumentItem(builder)) {
                 marker.error("Expected generic argument")
-                marker.drop()
                 return
             }
 
@@ -1251,7 +1228,6 @@ class ValkyrieParser : PsiParser {
                 builder.advanceLexer() // consume ','
                 if (!parseGenericArgumentItem(builder)) {
                     marker.error("Expected generic argument after ','")
-                    marker.drop()
                     return
                 }
             }
@@ -1261,7 +1237,6 @@ class ValkyrieParser : PsiParser {
                 builder.advanceLexer() // consume '>'
             } else {
                 marker.error("Expected '>' to close generic argument list")
-                marker.drop()
                 return
             }
         }
@@ -1291,7 +1266,6 @@ class ValkyrieParser : PsiParser {
             // Parse first parameter
             if (!parseGenericParameterItem(builder)) {
                 marker.error("Expected generic parameter")
-                marker.drop()
                 return false
             }
 
@@ -1300,7 +1274,6 @@ class ValkyrieParser : PsiParser {
                 builder.advanceLexer() // consume ','
                 if (!parseGenericParameterItem(builder)) {
                     marker.error("Expected generic parameter after ','")
-                    marker.drop()
                     return false
                 }
             }
@@ -1311,7 +1284,6 @@ class ValkyrieParser : PsiParser {
                 return true
             } else {
                 marker.error("Expected '>'")
-                marker.drop()
                 return false
             }
         } else {
@@ -1329,7 +1301,6 @@ class ValkyrieParser : PsiParser {
         // Parse identifier
         if (!parseIdentifier(builder)) {
             marker.error("Expected parameter name")
-            marker.drop()
             return false
         }
 
@@ -2398,9 +2369,7 @@ class ValkyrieParser : PsiParser {
         var lookahead = 1
 
         // 跳过标识符
-        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD ||
-            builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW
-        ) {
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW) {
 
             // 检查是否有泛型参数 <T>
             if (builder.lookAhead(lookahead) == ValkyrieTokenTypes.ANGLE_L) {
@@ -2414,10 +2383,7 @@ class ValkyrieParser : PsiParser {
                         ValkyrieTokenTypes.ANGLE_R -> depth--
                         null -> return false // 遇到文件结尾，不是方法声明
                         // 遇到不可能在泛型中出现的token，提前退出
-                        ValkyrieTokenTypes.SEMICOLON,
-                        ValkyrieTokenTypes.LBRACE,
-                        ValkyrieTokenTypes.RBRACE,
-                        ValkyrieTokenTypes.NEWLINE -> return false
+                        ValkyrieTokenTypes.SEMICOLON, ValkyrieTokenTypes.LBRACE, ValkyrieTokenTypes.RBRACE, ValkyrieTokenTypes.NEWLINE -> return false
                     }
                     lookahead++
                 }
