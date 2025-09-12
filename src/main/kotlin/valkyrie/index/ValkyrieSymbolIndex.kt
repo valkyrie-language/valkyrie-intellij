@@ -1,7 +1,9 @@
 package valkyrie.index
 
+import com.intellij.openapi.components.Service
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.psi.PsiManager
 import com.intellij.psi.search.FileTypeIndex
 import com.intellij.psi.search.GlobalSearchScope
@@ -14,6 +16,7 @@ import valkyrie.psi.nodes.ValkyrieClassDeclaration
 import valkyrie.psi.nodes.ValkyrieUnionDeclaration
 import valkyrie.psi.nodes.ValkyrieMethodDeclaration
 import com.intellij.psi.PsiElement
+import valkyrie.project.ValkyrieProjectParser
 
 /**
  * Valkyrie 符号索引服务
@@ -27,8 +30,8 @@ class ValkyrieSymbolIndex(private val project: Project) {
     data class SymbolInfo(
         val name: String,
         val namespace: String,
-        val file: VirtualFile,
-        val element: PsiElement // 改为 PsiElement 以支持多种类型的符号定义
+        val file: VirtualFile?, // 允许为 null，用于内置类型
+        val element: PsiElement? // 允许为 null，用于内置类型
     )
     
     /**
@@ -62,6 +65,9 @@ class ValkyrieSymbolIndex(private val project: Project) {
         namespaceCache.clear()
         usingCache.clear()
         
+        // 添加内置类型到符号索引
+        addBuiltinTypes()
+        
         val valkyrieFiles = FileTypeIndex.getFiles(
             ValkyrieFileType.INSTANCE,
             GlobalSearchScope.projectScope(project)
@@ -73,6 +79,113 @@ class ValkyrieSymbolIndex(private val project: Project) {
     }
     
     /**
+     * 添加内置类型到符号索引
+     */
+    private fun addBuiltinTypes() {
+        // 内置类型到包文件的映射
+        val builtinTypeFiles = mapOf(
+            "i8" to Pair("valkyrie-standard", "library/primitive/i8.valkyrie"),
+            "i16" to Pair("valkyrie-standard", "library/primitive/i16.valkyrie"),
+            "i32" to Pair("valkyrie-standard", "library/primitive/i32.valkyrie"),
+            "i64" to Pair("valkyrie-standard", "library/primitive/i64.valkyrie"),
+            "u8" to Pair("valkyrie-standard", "library/primitive/u8.valkyrie"),
+            "u16" to Pair("valkyrie-standard", "library/primitive/u16.valkyrie"),
+            "u32" to Pair("valkyrie-standard", "library/primitive/u32.valkyrie"),
+            "f32" to Pair("valkyrie-standard", "source/number/Float32.valkyrie"),
+            "Integer32" to Pair("valkyrie-standard", "source/number/Integer32.valkyrie"),
+            "Unicode" to Pair("valkyrie-standard", "source/text/Unicode.valkyrie")
+        )
+        
+        for ((typeName, packageInfo) in builtinTypeFiles) {
+            val (packageName, relativePath) = packageInfo
+            // 根据包名和相对路径查找文件
+            val packageFile = findPackageFile(packageName, relativePath)
+            if (packageFile != null) {
+                // 解析文件中的类定义
+                val psiFile = PsiManager.getInstance(project).findFile(packageFile)
+                if (psiFile != null) {
+                    val classDeclarations = PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieClassDeclaration::class.java)
+                    for (classDecl in classDeclarations) {
+                        if (classDecl.name == typeName) {
+                            // 获取包的实际名称
+                            val actualPackageName = getPackageNameFromLegionJson(packageFile) ?: packageName
+                            val symbolInfo = SymbolInfo(
+                                name = typeName,
+                                namespace = "$actualPackageName.primitive",
+                                file = packageFile,
+                                element = classDecl
+                            )
+                            symbolCache.getOrPut(typeName) { mutableListOf() }.add(symbolInfo)
+                            break
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * 根据包名和文件路径查找包文件
+     */
+    private fun findPackageFile(packageName: String, relativePath: String): VirtualFile? {
+        // 从环境变量VALKYRIE_HOME获取包路径
+        val valkyrieHome = System.getenv("VALKYRIE_HOME")
+        if (valkyrieHome != null) {
+            val packagesRoot = LocalFileSystem.getInstance().findFileByPath("$valkyrieHome/packages")
+            if (packagesRoot != null) {
+                // 在packages目录下查找匹配的包
+                val packageDir = findPackageByName(packagesRoot, packageName)
+                if (packageDir != null) {
+                    val fullPath = "${packageDir.path}/$relativePath"
+                    return LocalFileSystem.getInstance().findFileByPath(fullPath)
+                }
+            }
+        } else {
+            // 环境变量不存在时记录警告信息
+            println("警告: 未找到VALKYRIE_HOME环境变量，请安装Valkyrie环境。Valkyrie安装后会自动设置此环境变量。")
+        }
+        
+        return null
+    }
+    
+    /**
+     * 在packages目录下根据包名查找包目录
+     */
+    private fun findPackageByName(packagesRoot: VirtualFile, packageName: String): VirtualFile? {
+        for (child in packagesRoot.children) {
+            if (child.isDirectory) {
+                val legionJson = child.findChild("legion.json")
+                if (legionJson != null) {
+                    val projectParser = ValkyrieProjectParser()
+                    val valkyrieProject = projectParser.parseProject(project, child)
+                    if (valkyrieProject?.packageInfo?.name == packageName) {
+                        return child
+                    }
+                }
+            }
+        }
+        return null
+    }
+    
+    /**
+     * 从legion.json文件中获取包名
+     */
+    private fun getPackageNameFromLegionJson(file: VirtualFile): String? {
+        // 向上查找legion.json文件
+        var currentDir = file.parent
+        while (currentDir != null) {
+            val legionJson = currentDir.findChild("legion.json")
+            if (legionJson != null) {
+                val projectParser = ValkyrieProjectParser()
+                val valkyrieProject = projectParser.parseProject(project, currentDir)
+                return valkyrieProject?.packageInfo?.name
+            }
+            currentDir = currentDir.parent
+        }
+        return null
+    }
+    
+    /**
      * 索引单个文件
      */
     private fun indexFile(file: VirtualFile) {
@@ -80,7 +193,15 @@ class ValkyrieSymbolIndex(private val project: Project) {
         
         // 查找 namespace 声明
         val namespaceStatement = PsiTreeUtil.findChildOfType(psiFile, ValkyrieNamespaceDeclaration::class.java)
-        val namespace = namespaceStatement?.getNamespaceName() ?: "default"
+        var namespace = namespaceStatement?.getNamespaceName() ?: "default"
+        
+        // 处理package关键词，将其替换为legion.json中的实际包名
+        if (namespace.startsWith("package.")) {
+            val packageName = getPackageNameFromLegionJson(file)
+            if (packageName != null) {
+                namespace = namespace.replace("package", packageName)
+            }
+        }
         
         // 记录命名空间信息
         val namespaceInfo = namespaceCache.getOrPut(namespace) {
@@ -181,61 +302,79 @@ class ValkyrieSymbolIndex(private val project: Project) {
      * 查找符号定义
      */
     fun findSymbolDefinition(symbolName: String, currentFile: VirtualFile): SymbolInfo? {
+        val allDefinitions = findAllSymbolDefinitions(symbolName, currentFile)
+        return allDefinitions.firstOrNull()
+    }
+    
+    /**
+     * 查找所有符号定义（用于处理多个同名符号的情况）
+     */
+    fun findAllSymbolDefinitions(symbolName: String, currentFile: VirtualFile): List<SymbolInfo> {
+        val results = mutableListOf<SymbolInfo>()
         val currentPsiFile = PsiManager.getInstance(project).findFile(currentFile)
         val currentNamespace = PsiTreeUtil.findChildOfType(currentPsiFile, ValkyrieNamespaceDeclaration::class.java)
             ?.getNamespaceName() ?: "default"
         
-        // 首先在当前文件中直接查找（优先级最高）
+        // 首先检查是否为内置类型（在package.primitive namespace中）
+        // 需要将package替换为实际的包名
+        val packageName = getPackageNameFromLegionJson(currentFile)
+        val primitiveNamespace = if (packageName != null) {
+            "$packageName.primitive"
+        } else {
+            "package.primitive"
+        }
+        symbolCache[symbolName]?.find { it.namespace == primitiveNamespace }?.let { results.add(it) }
+        
+        // 然后在当前文件中直接查找（优先级最高）
         if (currentPsiFile != null) {
-            // 查找 let 语句中的变量定义
-            val letStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieLetStatementNode::class.java)
-            for (letStatement in letStatements) {
-                val name = letStatement.getIdentifier()?.text
-                if (name == symbolName) {
-                    return SymbolInfo(name, currentNamespace, currentFile, letStatement)
-                }
-            }
-            
-            // 查找 class 语句中的类型定义
+            // 优先查找类型定义（class, union）
             val classStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieClassDeclaration::class.java)
             for (classStatement in classStatements) {
                 val name = classStatement.name
                 if (name == symbolName) {
-                    return SymbolInfo(name, currentNamespace, currentFile, classStatement)
+                    results.add(SymbolInfo(name, currentNamespace, currentFile, classStatement))
                 }
             }
             
-            // 查找 union 语句中的联合类型定义
             val unionStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieUnionDeclaration::class.java)
             for (unionStatement in unionStatements) {
                 val name = unionStatement.name
                 if (name == symbolName) {
-                    return SymbolInfo(name, currentNamespace, currentFile, unionStatement)
+                    results.add(SymbolInfo(name, currentNamespace, currentFile, unionStatement))
                 }
             }
             
-            // 查找函数定义
+            // 然后查找函数定义
             val functionStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieMethodDeclaration::class.java)
             for (functionStatement in functionStatements) {
                 val name = functionStatement.name
                 if (name == symbolName) {
-                    return SymbolInfo(name, currentNamespace, currentFile, functionStatement)
+                    results.add(SymbolInfo(name, currentNamespace, currentFile, functionStatement))
+                }
+            }
+            
+            // 最后查找变量定义（let 语句）
+            val letStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieLetStatementNode::class.java)
+            for (letStatement in letStatements) {
+                val name = letStatement.getIdentifier()?.text
+                if (name == symbolName) {
+                    results.add(SymbolInfo(name, currentNamespace, currentFile, letStatement))
                 }
             }
         }
         
         // 然后在当前命名空间的其他文件中查找
-        symbolCache[symbolName]?.find { it.namespace == currentNamespace && it.file != currentFile }?.let { return it }
+        symbolCache[symbolName]?.filter { it.namespace == currentNamespace && it.file != currentFile }?.let { results.addAll(it) }
         
         // 最后在 using 导入中查找
         val usingList = usingCache[currentFile] ?: emptyList()
         for (usingInfo in usingList) {
             if (usingInfo.symbolName == symbolName) {
-                symbolCache[symbolName]?.find { it.namespace == usingInfo.namespace }?.let { return it }
+                symbolCache[symbolName]?.filter { it.namespace == usingInfo.namespace }?.let { results.addAll(it) }
             }
         }
         
-        return null
+        return results
     }
     
     /**

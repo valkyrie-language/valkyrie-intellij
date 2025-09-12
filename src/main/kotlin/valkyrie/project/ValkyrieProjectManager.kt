@@ -124,7 +124,50 @@ class ValkyrieProjectManager(private val project: Project) {
      * 获取所有已知的 workspace
      */
     fun getAllWorkspaces(): List<ValkyrieWorkspace> {
+        // 如果缓存为空，主动扫描项目根目录
+        if (workspaceCache.isEmpty()) {
+            scanProjectForWorkspaces()
+        }
         return workspaceCache.values.filterNotNull()
+    }
+    
+    /**
+     * 扫描项目根目录查找所有工作空间
+     */
+    private fun scanProjectForWorkspaces() {
+        val projectRoot = project.baseDir ?: return
+        
+        ApplicationManager.getApplication().runReadAction {
+            // 检查项目根目录本身是否为工作空间
+            if (isValkyrieWorkspace(projectRoot)) {
+                getWorkspace(projectRoot)
+            }
+            
+            // 递归扫描子目录（最多2层深度）
+            scanDirectoryForWorkspaces(projectRoot, 0, 2)
+        }
+    }
+    
+    /**
+     * 递归扫描目录查找工作空间
+     */
+    private fun scanDirectoryForWorkspaces(directory: VirtualFile, currentDepth: Int, maxDepth: Int) {
+        if (currentDepth >= maxDepth || !directory.isDirectory) return
+        
+        try {
+            directory.children.forEach { child ->
+                if (child.isDirectory) {
+                    if (isValkyrieWorkspace(child)) {
+                        getWorkspace(child)
+                    } else {
+                        // 继续递归扫描
+                        scanDirectoryForWorkspaces(child, currentDepth + 1, maxDepth)
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            LOG.warn("Failed to scan directory ${directory.path} for workspaces", e)
+        }
     }
 
     /**

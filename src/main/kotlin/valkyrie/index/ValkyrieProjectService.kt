@@ -4,6 +4,8 @@ import com.intellij.openapi.Disposable
 import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFileManager
+import com.intellij.openapi.vfs.newvfs.BulkFileListener
+import com.intellij.openapi.vfs.newvfs.events.VFileEvent
 import valkyrie.project.ValkyrieProjectManager
 
 /**
@@ -18,7 +20,11 @@ class ValkyrieProjectService(private val project: Project) : Disposable {
     
     init {
         // 注册文件监听器
-        VirtualFileManager.getInstance().addVirtualFileListener(fileListener, this)
+        project.messageBus.connect(this).subscribe(VirtualFileManager.VFS_CHANGES, object : BulkFileListener {
+            override fun after(events: List<VFileEvent>) {
+                fileListener.handleEvents(events)
+            }
+        })
         
         // 初始化时构建索引
         ReadAction.run<RuntimeException> {
@@ -42,6 +48,7 @@ class ValkyrieProjectService(private val project: Project) : Disposable {
     companion object {
         fun getInstance(project: Project): ValkyrieProjectService {
             return project.getService(ValkyrieProjectService::class.java)
+                ?: throw IllegalStateException("ValkyrieProjectService not found for project: ${project.name}")
         }
     }
 }

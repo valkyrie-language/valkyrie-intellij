@@ -3,7 +3,6 @@ package valkyrie.ide.formatter
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
-import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import valkyrie.language.ValkyrieLanguage
@@ -86,7 +85,7 @@ class ValkyrieFormatBuilder : FormattingModelBuilder {
             .around(ValkyrieTokenTypes.MINUS).spaces(1)
             .around(ValkyrieTokenTypes.MULTIPLY).spaces(1)
             .around(ValkyrieTokenTypes.DIVIDE).spaces(1)
-            .around(ValkyrieTokenTypes.MODULO).spaces(1)
+            .around(ValkyrieTokenTypes.PERCENT).spaces(1)
             .around(ValkyrieTokenTypes.POWER).spaces(1)
             
             // 比较操作符

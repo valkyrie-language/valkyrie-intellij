@@ -19,6 +19,14 @@
 			implementationClass="valkyrie.language.file.ValkyrieFileType"
 			fieldName="INSTANCE"
 		/>
+		
+		<!-- JSON5 Language Association for legion.json and legions.json -->
+		<lang.fileViewProviderFactory
+			language="JSON5"
+			implementationClass="com.intellij.json.JsonFileViewProviderFactory"
+			order="first"
+			patterns="legion.json;legions.json"
+		/>
 
 
 		<!-- Parser Definition -->
@@ -74,6 +82,11 @@
 			serviceImplementation="valkyrie.project.ValkyrieProjectManager"
 		/>
 
+		<!-- Additional Library Roots Provider -->
+		<additionalLibraryRootsProvider
+			implementation="valkyrie.project.library.ValkyrieLibraryRootsProvider"
+		/>
+
 		<!-- Project View Provider -->
 		<treeStructureProvider
 			implementation="valkyrie.project.ValkyrieProjectViewProvider"
@@ -95,9 +108,12 @@
 			language="valkyrie"
 			implementationClass="valkyrie.ide.formatter.ValkyrieFormatBuilder"
 		/>
+		<!-- Temporarily disabled due to initialization issues -->
+		<!--
 		<langCodeStyleSettingsProvider
 			implementation="valkyrie.ide.formatter.ValkyrieCodeStyleProvider"
 		/>
+		-->
 
 		<!-- Documentation Provider -->
 		<lang.documentationProvider

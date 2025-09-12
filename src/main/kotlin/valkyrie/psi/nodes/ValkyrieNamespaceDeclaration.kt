@@ -17,7 +17,12 @@ class ValkyrieNamespaceDeclaration(node: ASTNode) : ValkyrieElementNode(node) {
     }
 
     fun getNamespaceName(): String? {
-        return getNamespacePaths().firstOrNull()
+        val paths = getNamespacePaths()
+        return if (paths.isNotEmpty()) {
+            paths.joinToString(".")
+        } else {
+            null
+        }
     }
 
     fun getNamespacePaths(): List<String> {

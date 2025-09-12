@@ -1,0 +1,35 @@
+<html>
+<body>
+<font face="verdana" size="-1">
+<p>Converts if statements to match expressions for better pattern matching.</p>
+
+<p>This intention converts:</p>
+<ul>
+<li>Regular if statements to match expressions with true/false patterns</li>
+<li>If-let statements to match expressions with pattern matching</li>
+</ul>
+
+<p><b>Before:</b></p>
+<pre><code>
+if condition {
+    // then block
+} else {
+    // else block
+}
+</code></pre>
+
+<p><b>After:</b></p>
+<pre><code>
+match condition {
+    true => {
+        // then block
+    },
+    false => {
+        // else block
+    }
+}
+</code></pre>
+
+</font>
+</body>
+</html>
