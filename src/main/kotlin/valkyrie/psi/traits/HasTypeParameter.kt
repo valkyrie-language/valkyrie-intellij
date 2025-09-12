@@ -1,13 +1,10 @@
-package valkyrie.psi.traits;
+package valkyrie.psi.traits
 
-import org.jetbrains.annotations.NotNull;
-import valkyrie.psi.nodes.ValkyrieTermParameterItem;
+import valkyrie.psi.nodes.ValkyrieTermParameterItem
 
-import java.util.List;
-
-public interface HasTypeParameter {
+interface HasTypeParameter {
     /**
      * 惰性返回参数列表
      */
-    @NotNull List<@NotNull ValkyrieTermParameterItem> getParameters();
+    val parameters: MutableList<ValkyrieTermParameterItem>
 }
