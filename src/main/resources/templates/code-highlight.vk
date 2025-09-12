@@ -49,7 +49,65 @@
     }
 }
 
-<KEYWORD>unite</KEYWORD> <SYM_CLASS>TaggedName</SYM_CLASS> {
+// ============= 元编程示例 =============
+// 微过程 (运行时函数)
+<KEYWORD>micro</KEYWORD> <SYM_MICRO>add</SYM_MICRO>(<SYM_ARG>a</SYM_ARG>: <KEYWORD>i32</KEYWORD>, <SYM_ARG>b</SYM_ARG>: <KEYWORD>i32</KEYWORD>) -> <KEYWORD>i32</KEYWORD> {
+    <SYM_ARG>a</SYM_ARG> + <SYM_ARG>b</SYM_ARG>
+}
+
+<KEYWORD>micro</KEYWORD> <SYM_MICRO>greet</SYM_MICRO>(<SYM_ARG>name</SYM_ARG>: <SYM_CLASS>String</SYM_CLASS>) -> <SYM_CLASS>String</SYM_CLASS> {
+    "Hello, " + <SYM_ARG>name</SYM_ARG> + "!"
+}
+
+// 元过程 (编译时类型操作)
+<KEYWORD>mezzo</KEYWORD> <SYM_MEZZO>max_type</SYM_MEZZO>⟨<SYM_GENERIC>T</SYM_GENERIC>, <SYM_GENERIC>U</SYM_GENERIC>⟩() -> <KEYWORD>Type</KEYWORD>
+<KEYWORD>where</KEYWORD> <SYM_GENERIC>T</SYM_GENERIC>: <SYM_TRAIT>Comparable</SYM_TRAIT>, <SYM_GENERIC>U</SYM_GENERIC>: <SYM_TRAIT>Comparable</SYM_TRAIT> {
+    <KEYWORD>if</KEYWORD> sizeof⟨<SYM_GENERIC>T</SYM_GENERIC>⟩() > sizeof⟨<SYM_GENERIC>U</SYM_GENERIC>⟩() {
+        <SYM_GENERIC>T</SYM_GENERIC>
+    } <KEYWORD>else</KEYWORD> {
+        <SYM_GENERIC>U</SYM_GENERIC>
+    }
+}
+
+<KEYWORD>mezzo</KEYWORD> <SYM_MEZZO>is_numeric</SYM_MEZZO>⟨<SYM_GENERIC>T</SYM_GENERIC>⟩() -> <KEYWORD>bool</KEYWORD> {
+    <SYM_GENERIC>T</SYM_GENERIC> == <KEYWORD>i32</KEYWORD> || <SYM_GENERIC>T</SYM_GENERIC> == <KEYWORD>f64</KEYWORD> || <SYM_GENERIC>T</SYM_GENERIC> == <KEYWORD>u32</KEYWORD>
+}
+
+// 宏过程 (编译时代码生成)
+<KEYWORD>macro</KEYWORD> <SYM_MACRO>debug_print</SYM_MACRO>(<SYM_ARG>expr</SYM_ARG>: <KEYWORD>AnyNode</KEYWORD>) -> <KEYWORD>AnyNode</KEYWORD> {
+    <KEYWORD>let</KEYWORD> <SYM_LOCAL>expr_str</SYM_LOCAL> = <SYM_ARG>expr</SYM_ARG>.to_string()
+    @quote {
+         println!("Debug: {} = {:?}", #<SYM_LOCAL>expr_str</SYM_LOCAL>, #<SYM_ARG>expr</SYM_ARG>)
+     }
+}
+
+<KEYWORD>macro</KEYWORD> <SYM_MACRO>property</SYM_MACRO>(<SYM_ARG>name</SYM_ARG>: <KEYWORD>AnyNode</KEYWORD>, <SYM_ARG>type_name</SYM_ARG>: <KEYWORD>AnyNode</KEYWORD>) -> <KEYWORD>AnyNode</KEYWORD> {
+    <KEYWORD>let</KEYWORD> <SYM_LOCAL>getter_name</SYM_LOCAL> = format!("get_{}", <SYM_ARG>name</SYM_ARG>.to_string())
+    <KEYWORD>let</KEYWORD> <SYM_LOCAL>setter_name</SYM_LOCAL> = format!("set_{}", <SYM_ARG>name</SYM_ARG>.to_string())
+    
+    @quote {
+         <KEYWORD>micro</KEYWORD> #<SYM_LOCAL>getter_name</SYM_LOCAL>(<SYM_ARG_SELF>self</SYM_ARG_SELF>) -> #<SYM_ARG>type_name</SYM_ARG> {
+             <SYM_ARG_SELF>self</SYM_ARG_SELF>.#<SYM_ARG>name</SYM_ARG>
+         }
+         
+         <KEYWORD>micro</KEYWORD> #<SYM_LOCAL>setter_name</SYM_LOCAL>(<SYM_MODIFIER>mut</SYM_MODIFIER> <SYM_ARG_SELF_MUT>self</SYM_ARG_SELF_MUT>, <SYM_ARG>value</SYM_ARG>: #<SYM_ARG>type_name</SYM_ARG>) {
+             <SYM_ARG_SELF_MUT>self</SYM_ARG_SELF_MUT>.#<SYM_ARG>name</SYM_ARG> = <SYM_ARG>value</SYM_ARG>
+         }
+     }
+  }
+  
+  // 测试块示例
+  <KEYWORD>tests</KEYWORD> {
+      <KEYWORD>micro</KEYWORD> <SYM_MICRO>test_add</SYM_MICRO>() {
+          <SYM_ATTRIBUTE>@assert_eq</SYM_ATTRIBUTE>(<SYM_MICRO>add</SYM_MICRO>(<NUMBER>2</NUMBER>, <NUMBER>3</NUMBER>), <NUMBER>5</NUMBER>)
+      }
+      
+      <KEYWORD>micro</KEYWORD> <SYM_MICRO>test_greet</SYM_MICRO>() {
+          <SYM_ATTRIBUTE>@assert_eq</SYM_ATTRIBUTE>(<SYM_MICRO>greet</SYM_MICRO>(<STRING>"World"</STRING>), <STRING>"Hello, World!"</STRING>)
+      }
+  }
+  
+  <KEYWORD>unite</KEYWORD> <SYM_CLASS>TaggedName</SYM_CLASS> {
     <SYM_VARIANT>VariantName</SYM_VARIANT>,
     <SYM_VARIANT>VariantClass</SYM_VARIANT> {
         <SYM_FIELD>x</SYM_FIELD>: <SYM_CLASS>Type</SYM_CLASS> = <KEYWORD>default</KEYWORD>
