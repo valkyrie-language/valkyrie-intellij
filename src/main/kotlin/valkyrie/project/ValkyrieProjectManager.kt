@@ -1,6 +1,7 @@
 package valkyrie.project
 
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
@@ -145,7 +146,10 @@ class ValkyrieProjectManager(private val project: Project) {
             try {
                 // 检查项目根目录本身是否为工作空间
                 if (isValkyrieWorkspace(projectRoot)) {
-                    getWorkspace(projectRoot)
+                    // 在后台线程中使用 ReadAction 来安全访问 PSI
+                    ReadAction.run<RuntimeException> {
+                        getWorkspace(projectRoot)
+                    }
                 }
                 
                 // 递归扫描子目录（最多2层深度）
@@ -166,7 +170,10 @@ class ValkyrieProjectManager(private val project: Project) {
             directory.children.forEach { child ->
                 if (child.isDirectory) {
                     if (isValkyrieWorkspace(child)) {
-                        getWorkspace(child)
+                        // 在后台线程中使用 ReadAction 来安全访问 PSI
+                        ReadAction.run<RuntimeException> {
+                            getWorkspace(child)
+                        }
                     } else {
                         // 继续递归扫描
                         scanDirectoryForWorkspaces(child, currentDepth + 1, maxDepth)
