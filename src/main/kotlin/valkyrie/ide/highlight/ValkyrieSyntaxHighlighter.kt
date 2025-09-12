@@ -28,7 +28,6 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.UNTIL,
             ValkyrieTokenTypes.FOR,
             ValkyrieTokenTypes.LOOP,
-            ValkyrieTokenTypes.MICRO,
             ValkyrieTokenTypes.CLASS,
             ValkyrieTokenTypes.NEURAL,
             ValkyrieTokenTypes.WIDGET,

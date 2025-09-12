@@ -120,6 +120,7 @@ class ValkyrieParser : PsiParser {
                 ValkyrieTokenTypes.IMPLY -> parseImplyStatement(builder)
                 ValkyrieTokenTypes.STRUCTURE -> parseStructureStatement(builder)
                 ValkyrieTokenTypes.MICRO -> parseMicroStatement(builder)
+                ValkyrieTokenTypes.TESTS -> parseTestsStatement(builder)
                 ValkyrieTokenTypes.LET -> parseLetStatement(builder)
                 ValkyrieTokenTypes.COMPILE_TIME_BLOCK_START -> parseCompileTimeBlock(builder)
                 ValkyrieTokenTypes.TEMPLATE_START -> parseTemplateBlock(builder)
@@ -192,9 +193,9 @@ class ValkyrieParser : PsiParser {
         // Parse annotations and modifiers
         parseAnnotations(builder, withModifiers = true)
 
-        // Parse pattern (identifier or destructuring)
-        if (!parsePattern(builder)) {
-            marker.error("Expected pattern after 'let'")
+        // Parse identifier
+        if (!parseIdentifier(builder)) {
+            marker.error("Expected identifier after 'let'")
             recoverToSyncPoint(builder)
             return
         }
@@ -226,6 +227,32 @@ class ValkyrieParser : PsiParser {
 
     private fun parseMacroStatement(builder: PsiBuilder) {
         return parseFunctionLikeStatement(builder, ValkyrieElementTypes.DECLARE_MACRO)
+    }
+
+    private fun parseTestsStatement(builder: PsiBuilder) {
+        val marker = builder.mark()
+        parseAnnotations(builder, withModifiers = true)
+        
+        // 解析 tests 关键字
+        if (builder.tokenType == ValkyrieTokenTypes.TESTS) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected 'tests' keyword")
+            marker.drop()
+            return
+        }
+        
+        // 解析可选的标识符
+        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW) {
+            parseIdentifier(builder)
+        }
+        
+        // 解析泛型参数（如果有）
+        parseGenericParameterList(builder)
+        
+        // tests { }
+        parseClassLikeBody(builder)
+        marker.done(ValkyrieElementTypes.DECLARE_TESTS)
     }
 
 
