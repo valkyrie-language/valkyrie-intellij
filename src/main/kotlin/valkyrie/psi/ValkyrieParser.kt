@@ -1535,82 +1535,13 @@ class ValkyrieParser : PsiParser {
         marker.done(ValkyrieElementTypes.CATCH_STATEMENT)
     }
 
-    private fun parsePattern(builder: PsiBuilder) {
-        val marker = builder.mark()
-
-        when (builder.tokenType) {
-            ValkyrieTokenTypes.IDENTIFIER_STD -> {
-                builder.advanceLexer()
-                // Check for struct pattern: Identifier { ... }
-                if (builder.tokenType == ValkyrieTokenTypes.LBRACE) {
-                    builder.advanceLexer() // consume '{'
-
-                    // Parse struct pattern fields (if any)
-                    while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.RBRACE) {
-                        if (builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD) {
-                            builder.advanceLexer()
-                            if (builder.tokenType == ValkyrieTokenTypes.COLON) {
-                                builder.advanceLexer()
-                                parsePattern(builder)
-                            }
-                        } else {
-                            builder.error("Expected field name")
-                            builder.advanceLexer()
-                        }
-
-                        if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
-                            builder.advanceLexer()
-                        } else if (builder.tokenType != ValkyrieTokenTypes.RBRACE) {
-                            break
-                        }
-                    }
-
-                    if (builder.tokenType == ValkyrieTokenTypes.RBRACE) {
-                        builder.advanceLexer() // consume '}'
-                    } else {
-                        builder.error("Expected '}'")
-                    }
-                    marker.done(ValkyrieElementTypes.STRUCT_PATTERN)
-                } else {
-                    marker.done(ValkyrieElementTypes.PATTERN)
-                }
-            }
-
-            ValkyrieTokenTypes.INTEGER, ValkyrieTokenTypes.DECIMAL, ValkyrieTokenTypes.UNIT_NUMBER -> {
-                builder.advanceLexer()
-                marker.done(ValkyrieElementTypes.PATTERN)
-            }
-
-            ValkyrieTokenTypes.STRING -> {
-                builder.advanceLexer()
-                marker.done(ValkyrieElementTypes.PATTERN)
-            }
-
-            ValkyrieTokenTypes.BOOLEAN -> {
-                builder.advanceLexer()
-                marker.done(ValkyrieElementTypes.PATTERN)
-            }
-
-            ValkyrieTokenTypes.LPAREN -> {
-                // 使用单独的标记器处理元组模式
-                marker.drop()
-                parseTupleList(builder)
-                return
-            }
-
-            ValkyrieTokenTypes.LBRACKET -> {
-                // 使用单独的标记器处理数组/字典模式
-                marker.drop()
-                parseArrayList(builder)
-                return
-            }
-
-            else -> {
-                builder.error("Expected pattern")
-                builder.advanceLexer()
-                marker.done(ValkyrieElementTypes.PATTERN)
-            }
-        }
+    private fun parsePattern(builder: PsiBuilder): Boolean {
+        // one of
+        parseIdentifier(builder)
+        parseTuplePattern(builder)
+        parseTablePattern(builder)
+        parseObjectPattern(builder)
+        return false
     }
 
     private fun parseTupleType(builder: PsiBuilder) {
@@ -1625,6 +1556,10 @@ class ValkyrieParser : PsiParser {
         parseIdentifier(builder)
         // :
         parseTypeExpression(builder, inline = false)
+    }
+
+    private fun parseTuplePattern(builder: PsiBuilder) {
+        // (a, b, c)
     }
 
     private fun parseTupleTypeItem(builder: PsiBuilder) {
@@ -1650,20 +1585,25 @@ class ValkyrieParser : PsiParser {
     }
 
     // [T; N]
-    private fun parseArrayType(builder: PsiBuilder) {
+    private fun parseTableType(builder: PsiBuilder) {
         parseTypeExpression(builder, inline = false)
         // optional
         parseTypeExpression(builder, inline = false)
     }
 
+    // [a, b, c]
+    // [a: b, b: c]
+    private fun parseTablePattern(builder: PsiBuilder) {
 
-    private fun parseArrayList(builder: PsiBuilder) {
-        // one of
-        parseArrayPair(builder)
-        parseArrayItem(builder)
     }
 
-    private fun parseArrayPair(builder: PsiBuilder) {
+    private fun parseTableList(builder: PsiBuilder) {
+        // one of
+        parseTablePair(builder)
+        parseTableItem(builder)
+    }
+
+    private fun parseTablePair(builder: PsiBuilder) {
         // a: b
         parseAnnotations(builder, withModifiers = true)
         parseIdentifier(builder)
@@ -1671,8 +1611,12 @@ class ValkyrieParser : PsiParser {
         parseTermExpression(builder, inline = false)
     }
 
-    private fun parseArrayItem(builder: PsiBuilder) {
+    private fun parseTableItem(builder: PsiBuilder) {
         parseTermExpression(builder, inline = false)
+    }
+
+    private fun parseObjectPattern(builder: PsiBuilder) {
+        // Class { a: b}
     }
 
 
