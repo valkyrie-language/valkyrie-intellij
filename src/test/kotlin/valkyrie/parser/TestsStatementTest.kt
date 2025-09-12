@@ -2,9 +2,6 @@ package valkyrie.parser
 
 import org.junit.Test
 import org.junit.Assert.*
-import valkyrie.psi.nodes.ValkyrieTestStatement
-import valkyrie.psi.nodes.ValkyrieClassDeclaration
-import valkyrie.psi.nodes.TestType
 
 class TestsStatementTest {
     

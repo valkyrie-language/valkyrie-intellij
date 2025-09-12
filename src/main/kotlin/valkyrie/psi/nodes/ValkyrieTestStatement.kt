@@ -4,6 +4,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.NlsSafe
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
+import valkyrie.ide.navigation.TestType
 import valkyrie.psi.ValkyrieElementNode
 
 /**
@@ -113,11 +114,3 @@ class ValkyrieTestStatement(node: ASTNode) : ValkyrieElementNode(node), PsiNameI
     }
 }
 
-/**
- * 测试类型枚举
- */
-enum class TestType {
-    UNIT,        // 单元测试
-    INTEGRATION, // 集成测试
-    BENCHMARK    // 性能测试
-}

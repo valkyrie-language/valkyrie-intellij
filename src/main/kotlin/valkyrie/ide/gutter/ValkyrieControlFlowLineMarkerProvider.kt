@@ -16,7 +16,7 @@ class ValkyrieControlFlowLineMarkerProvider : LineMarkerProvider {
 
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? {
         return when (element) {
-            is ValkyrieLoopStatement -> createLoopMarker(element)
+            is ValkyrieControlFlowNodes -> createLoopMarker(element)
             is ValkyrieReturnStatement -> createReturnMarker(element)
             is ValkyrieBreakStatement -> createBreakMarker(element)
             is ValkyrieContinueStatement -> createContinueMarker(element)
@@ -27,7 +27,7 @@ class ValkyrieControlFlowLineMarkerProvider : LineMarkerProvider {
         }
     }
 
-    private fun createLoopMarker(element: ValkyrieLoopStatement): LineMarkerInfo<PsiElement> {
+    private fun createLoopMarker(element: ValkyrieControlFlowNodes): LineMarkerInfo<PsiElement> {
         return NavigationGutterIconBuilder
             .create(ValkyrieIcons.LOOP)
             .setAlignment(GutterIconRenderer.Alignment.LEFT)

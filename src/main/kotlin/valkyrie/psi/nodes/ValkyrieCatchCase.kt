@@ -7,20 +7,22 @@ import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
 
 /**
- * Loop 语句节点
+ * Catch Case 节点
  */
-class ValkyrieControlFlowNodes(node: ASTNode) : ValkyrieElementNode(node) {
-    
+class ValkyrieCatchCase(node: ASTNode) : ValkyrieElementNode(node) {
+
+    fun getPattern(): PsiElement? {
+        val catchKeyword = findChildByType<PsiElement>(ValkyrieTokenTypes.CATCH)
+        return catchKeyword?.let { keyword ->
+            PsiTreeUtil.getNextSiblingOfType(keyword, ValkyrieElementNode::class.java)
+        }
+    }
+
     fun getBody(): PsiElement? {
         return findChildByType<PsiElement>(ValkyrieTokenTypes.LBRACE)?.let { lbrace ->
             PsiTreeUtil.getNextSiblingOfType(lbrace, ValkyrieElementNode::class.java)
         }
     }
-    
-    fun getLabel(): PsiElement? {
-        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER_STD)
-    }
-    
-    override fun toString(): String = "ValkyrieLoopStatement"
-}
 
+    override fun toString(): String = "ValkyrieCatchCase"
+}

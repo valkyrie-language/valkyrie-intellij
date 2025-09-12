@@ -7,6 +7,7 @@ import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiFile
+import valkyrie.ide.navigation.MetaType
 import valkyrie.psi.nodes.*
 import valkyrie.psi.ValkyrieTokenTypes
 import valkyrie.psi.ValkyrieElementTypes

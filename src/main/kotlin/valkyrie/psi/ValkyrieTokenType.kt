@@ -52,9 +52,6 @@ object ValkyrieTokenTypes {
     val LOOP = ValkyrieTokenType("loop")
 
     @JvmField
-    val FUNCTION = ValkyrieTokenType("micro")
-
-    @JvmField
     val MICRO = ValkyrieTokenType("micro")
 
     @JvmField
@@ -115,9 +112,6 @@ object ValkyrieTokenTypes {
     val TESTS = ValkyrieTokenType("tests")
 
     @JvmField
-    val TEST = ValkyrieTokenType("test")
-
-    @JvmField
     val MATCH = ValkyrieTokenType("match")
 
     @JvmField
@@ -168,7 +162,7 @@ object ValkyrieTokenTypes {
     val DECIMAL = ValkyrieTokenType("DECIMAL")
 
     @JvmField
-    val UNIT_NUMBER = ValkyrieTokenType("UNIT_NUMBER")
+    val UNIT_NUMBER = ValkyrieTokenType("NUMBER_UNIT")
 
     @JvmField
     val STRING = ValkyrieTokenType("STRING")
