@@ -139,14 +139,20 @@ class ValkyrieProjectManager(private val project: Project) {
     private fun scanProjectForWorkspaces() {
         val projectRoot = project.baseDir ?: return
         
-        ApplicationManager.getApplication().runReadAction {
-            // 检查项目根目录本身是否为工作空间
-            if (isValkyrieWorkspace(projectRoot)) {
-                getWorkspace(projectRoot)
+        // 避免在ReadAction中执行耗时的文件系统操作
+        // 使用后台线程执行扫描，避免阻塞UI线程和造成死锁
+        ApplicationManager.getApplication().executeOnPooledThread {
+            try {
+                // 检查项目根目录本身是否为工作空间
+                if (isValkyrieWorkspace(projectRoot)) {
+                    getWorkspace(projectRoot)
+                }
+                
+                // 递归扫描子目录（最多2层深度）
+                scanDirectoryForWorkspaces(projectRoot, 0, 2)
+            } catch (e: Exception) {
+                LOG.warn("Error scanning project for workspaces: ${e.message}", e)
             }
-            
-            // 递归扫描子目录（最多2层深度）
-            scanDirectoryForWorkspaces(projectRoot, 0, 2)
         }
     }
     
