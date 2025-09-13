@@ -550,7 +550,7 @@ class ValkyrieLexer : LexerBase() {
                     }
 
                     else -> {
-                        tokenType = ValkyrieTokenTypes.DIVIDE
+                        tokenType = ValkyrieTokenTypes.SLASH
                     }
                 }
             }
