@@ -1,8 +1,12 @@
 package valkyrie.psi.nodes
 
+import com.intellij.ide.projectView.PresentationData
 import com.intellij.lang.ASTNode
+import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
+import valkyrie.ide.highlight.ValkyrieColor
+import valkyrie.language.ValkyrieIcons
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.ValkyrieTokenTypes
@@ -52,5 +56,15 @@ class ValkyrieNamespaceDeclaration(node: ASTNode) : ValkyrieElementNode(node) {
         }
         
         return paths
+    }
+
+    override fun getPresentation(): ItemPresentation {
+        val namespaceName = getNamespaceName() ?: "<unnamed>"
+        return PresentationData(
+            namespaceName,
+            "namespace",
+            ValkyrieIcons.NAMESPACE,
+            null
+        )
     }
 }

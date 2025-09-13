@@ -1,18 +1,21 @@
 package valkyrie.psi.nodes
 
+import com.intellij.ide.projectView.PresentationData
 import com.intellij.lang.ASTNode
+import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
+import com.intellij.psi.PsiReference
 import valkyrie.ide.highlight.ValkyrieColor
+import valkyrie.language.ValkyrieIcons
 import valkyrie.psi.ValkyrieElementNode
+import valkyrie.psi.reference.ValkyrieReference
 import valkyrie.psi.traits.*
 
 /**
  * Class 语句实现
  */
-class ValkyrieClassDeclaration(node: ASTNode) : ValkyrieElementNode(node),
-    PsiNameIdentifierOwner,
-    HasHighlighter,
+class ValkyrieClassDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner, HasHighlighter,
     HasAnnotation,       // ↯attribute class X { }
     HasTypeParameter,    // class X<T> { }
     HasInheritParameter, // class X(A) { }
@@ -26,21 +29,11 @@ class ValkyrieClassDeclaration(node: ASTNode) : ValkyrieElementNode(node),
 
 
     override fun getNameIdentifier(): PsiElement? {
-        // 根据语法定义 declare-class ::= annotations KW_CLASS identifier-safe
-        // class 关键词和标识符是同级子节点，需要找到 KW_CLASS 后面的标识符
-        val children = node.getChildren(null)
-        var foundClass = false
-        for (child in children) {
-            if (child.elementType.toString() == "KW_CLASS") {
-                foundClass = true
-                continue
-            }
-            if (foundClass && child.psi is ValkyrieIdentifierNode) {
-                return child.psi
-            }
-        }
-        // 备用方案：查找第一个标识符节点
         return findChildByClass(ValkyrieIdentifierNode::class.java)
+    }
+
+    override fun getIdentifyingElement(): PsiElement? {
+        return super.getIdentifyingElement()
     }
 
     override fun getNavigationElement(): PsiElement {
@@ -78,11 +71,28 @@ class ValkyrieClassDeclaration(node: ASTNode) : ValkyrieElementNode(node),
         return getClassInherit()?.getParentClassNames() ?: emptyList()
     }
 
-
-    override fun toString(): String {
-        return "ValkyrieClassDeclaration(${name ?: "<anonymous>"})";
+    /**
+     * 获取引用对象，用于支持 Ctrl+Click 导航
+     */
+    override fun getReference(): PsiReference? {
+        val nameIdentifier = getNameIdentifier()
+        if (nameIdentifier is ValkyrieIdentifierNode) {
+            return ValkyrieReference(nameIdentifier)
+        }
+        return null
     }
 
+    override fun getPresentation(): ItemPresentation {
+        return PresentationData(
+            "${name ?: "<anonymous-class>"}",
+            "${typeParameters.joinToString(",")}",
+            ValkyrieIcons.CLASS,
+            highlightColor.textAttributesKey
+        )
+    }
 
+    override fun toString(): String {
+        return "ValkyrieClassDeclaration(${name ?: "<anonymous>"})"
+    }
 }
 
