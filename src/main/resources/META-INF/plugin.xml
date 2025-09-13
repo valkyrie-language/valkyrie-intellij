@@ -144,6 +144,9 @@
 			implementationClass="valkyrie.ide.completion.ValkyrieCompletionContributor"
 		/>
 
+		<!-- Enter Handler -->
+		<enterHandlerDelegate implementation="valkyrie.ide.completion.ValkyrieEnterHandlerDelegate"/>
+
 		<!-- Refactoring Support -->
 		<lang.refactoringSupport
 			language="valkyrie"

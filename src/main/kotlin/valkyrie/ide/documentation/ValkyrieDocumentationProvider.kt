@@ -183,7 +183,7 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
                     append(DocumentationMarkup.CONTENT_END)
                 }
             }
-            ValkyrieTokenTypes.FN -> {
+            ValkyrieTokenTypes.MICRO -> {
                 buildString {
                     append(DocumentationMarkup.DEFINITION_START)
                     append("<b>fn</b> keyword")
