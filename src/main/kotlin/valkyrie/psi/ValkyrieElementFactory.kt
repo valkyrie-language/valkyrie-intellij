@@ -84,8 +84,7 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.STATIC_METHOD_DECLARATION -> ValkyrieMethodDeclaration(node)
             ValkyrieElementTypes.DOMAIN_DECLARATION -> ValkyrieDomainDeclaration(node)
             ValkyrieElementTypes.UNION_VARIANT -> ValkyrieVariantDeclaration(node)
-            ValkyrieElementTypes.FLAGS_ITEM -> ValkyrieVariantDeclaration(node) // 复用VariantDeclaration
-            // ValkyrieElementTypes.MODIFIER_LIST -> ValkyrieModifierListNode(node) // 已移除
+            ValkyrieElementTypes.FLAGS_ITEM -> ValkyrieVariantDeclaration(node)
             ValkyrieElementTypes.PATTERN -> ValkyrieElementNode(node)
             ValkyrieElementTypes.TUPLE_PATTERN -> ValkyrieElementNode(node)
             ValkyrieElementTypes.IDENTIFIER_NODE -> ValkyrieIdentifierNode(node)
