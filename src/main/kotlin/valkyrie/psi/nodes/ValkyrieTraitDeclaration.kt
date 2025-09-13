@@ -6,8 +6,15 @@ import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.traits.HasAnnotation
 import valkyrie.psi.traits.HasObjectBody
+import valkyrie.psi.traits.HasHighlighter
+import valkyrie.ide.highlight.ValkyrieColor
 
-class ValkyrieTraitDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner, HasAnnotation, HasObjectBody {
+class ValkyrieTraitDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner, HasAnnotation, HasObjectBody, HasHighlighter {
+    override val highlightColor: ValkyrieColor
+        get() = ValkyrieColor.TRAIT_DECLARATION
+    
+    override val highlightElement: PsiElement?
+        get() = nameIdentifier
     override fun getNameIdentifier(): PsiElement? {
         return findChildByClass(ValkyrieIdentifierNode::class.java)
     }

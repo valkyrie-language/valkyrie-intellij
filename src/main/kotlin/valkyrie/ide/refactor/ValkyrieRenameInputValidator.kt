@@ -68,7 +68,7 @@ class ValkyrieRenameInputValidator : RenameInputValidator {
             "return", "yield", "async", "await", "try", "catch", "finally",
             "true", "false", "null", "undefined", "this", "super",
             "public", "private", "protected", "static", "abstract", "final",
-            "type", "interface", "trait", "enum", "struct", "union"
+            "type", "interface", "trait", "enum", "struct", "union", "scope"
         )
         return keywords.contains(name)
     }

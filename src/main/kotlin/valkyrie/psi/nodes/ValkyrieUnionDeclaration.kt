@@ -6,11 +6,18 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.traits.HasHighlighter
+import valkyrie.ide.highlight.ValkyrieColor
 
 /**
  * Union 语句实现
  */
-class ValkyrieUnionDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner {
+class ValkyrieUnionDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner, HasHighlighter {
+    override val highlightColor: ValkyrieColor
+        get() = ValkyrieColor.UNION_DECLARATION
+    
+    override val highlightElement: PsiElement?
+        get() = nameIdentifier
     override fun getNameIdentifier(): PsiElement? {
         return findChildByClass(ValkyrieIdentifierNode::class.java)
     }

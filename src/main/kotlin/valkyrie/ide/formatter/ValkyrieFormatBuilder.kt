@@ -176,6 +176,13 @@ class ValkyrieBlock(
                     ValkyrieElementTypes.WHILE_STATEMENT,
                     ValkyrieElementTypes.MATCH_STATEMENT,
                     ValkyrieElementTypes.LOOP_STATEMENT -> Indent.getNormalIndent()
+                    // FLAGS 相关的缩进处理
+                    ValkyrieElementTypes.FLAGS_STATEMENT -> {
+                        when (child.elementType) {
+                            ValkyrieElementTypes.FLAGS_ITEM -> Indent.getNormalIndent()
+                            else -> Indent.getNoneIndent()
+                        }
+                    }
                     else -> Indent.getNoneIndent()
                 }
             }
@@ -196,6 +203,13 @@ class ValkyrieBlock(
             ValkyrieElementTypes.TERM_PARAMETER_LIST -> {
                 when (child.elementType) {
                     ValkyrieElementTypes.TERM_PARAMETER_ITEM -> Alignment.createAlignment()
+                    else -> null
+                }
+            }
+            // FLAGS 相关的对齐处理
+            ValkyrieElementTypes.FLAGS_STATEMENT -> {
+                when (child.elementType) {
+                    ValkyrieElementTypes.FLAGS_ITEM -> Alignment.createAlignment()
                     else -> null
                 }
             }
@@ -229,6 +243,8 @@ class ValkyrieBlock(
                     ChildAttributes(Indent.getNoneIndent(), null)
                 }
             }
+            // FLAGS 相关的子属性处理
+            ValkyrieElementTypes.FLAGS_STATEMENT -> ChildAttributes(Indent.getNormalIndent(), Alignment.createAlignment())
             else -> ChildAttributes(Indent.getNoneIndent(), null)
         }
     }
