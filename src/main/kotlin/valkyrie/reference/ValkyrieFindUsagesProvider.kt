@@ -20,7 +20,7 @@ class ValkyrieFindUsagesProvider : FindUsagesProvider {
             ValkyrieLexer(),
             TokenSet.create(ValkyrieTokenTypes.IDENTIFIER_STD),
             TokenSet.create(ValkyrieTokenTypes.COMMENT_LINE, ValkyrieTokenTypes.COMMENT_RANGE),
-            TokenSet.create(ValkyrieTokenTypes.STRING)
+            TokenSet.create(ValkyrieTokenTypes.STRING_DQ)
         )
     }
     

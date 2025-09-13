@@ -26,7 +26,6 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.ELSE,
             ValkyrieTokenTypes.WHILE,
             ValkyrieTokenTypes.UNTIL,
-            ValkyrieTokenTypes.FOR,
             ValkyrieTokenTypes.LOOP,
             ValkyrieTokenTypes.CLASS,
             ValkyrieTokenTypes.NEURAL,
@@ -78,7 +77,7 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.COMMA -> ValkyrieColor.COMMA
             // 数字和字面量
             ValkyrieTokenTypes.INTEGER, ValkyrieTokenTypes.DECIMAL, ValkyrieTokenTypes.UNIT_NUMBER -> ValkyrieColor.NUMBER
-            ValkyrieTokenTypes.STRING, ValkyrieTokenTypes.MULTI_QUOTE_STRING -> ValkyrieColor.STRING
+            ValkyrieTokenTypes.STRING_DQ, ValkyrieTokenTypes.STRING_MQ -> ValkyrieColor.STRING
             ValkyrieTokenTypes.BOOLEAN -> ValkyrieColor.KEYWORD
 
             ValkyrieTokenTypes.IDENTIFIER_STD -> ValkyrieColor.IDENTIFIER

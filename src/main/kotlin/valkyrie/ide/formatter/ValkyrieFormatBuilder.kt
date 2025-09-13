@@ -39,9 +39,9 @@ class ValkyrieFormatBuilder : FormattingModelBuilder {
         return SpacingBuilder(settings, ValkyrieLanguage.INSTANCE)
             // 大括号前后的空格
             .before(ValkyrieTokenTypes.BRACE_L).spaces(1)
-            .after(ValkyrieTokenTypes.BRACE_L).lineBreakInCode()
-            .before(ValkyrieTokenTypes.BRACE_R).lineBreakInCode()
-            .after(ValkyrieTokenTypes.BRACE_R).lineBreakInCode()
+            .after(ValkyrieTokenTypes.BRACE_L).spaces(0)
+            .before(ValkyrieTokenTypes.BRACE_R).spaces(0)
+            .after(ValkyrieTokenTypes.BRACE_R).spaces(0)
             
             // 小括号的空格
             .before(ValkyrieTokenTypes.PARENTHESES_L).spaces(0)
@@ -74,7 +74,7 @@ class ValkyrieFormatBuilder : FormattingModelBuilder {
             .around(ValkyrieTokenTypes.ARROW).spaces(1)
             
             // 赋值操作符前后的空格
-            .around(ValkyrieTokenTypes.ASSIGN).spaces(1)
+            .around(ValkyrieTokenTypes.ASSIGN).spaces(0)
             .around(ValkyrieTokenTypes.PLUS_ASSIGN).spaces(1)
             .around(ValkyrieTokenTypes.MINUS_ASSIGN).spaces(1)
             .around(ValkyrieTokenTypes.MULTIPLY_ASSIGN).spaces(1)

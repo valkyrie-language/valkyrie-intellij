@@ -20,14 +20,18 @@ class ValkyrieLexer : LexerBase() {
         "if" to ValkyrieTokenTypes.IF,
         "else" to ValkyrieTokenTypes.ELSE,
         "while" to ValkyrieTokenTypes.WHILE,
-        "for" to ValkyrieTokenTypes.FOR,
         "loop" to ValkyrieTokenTypes.LOOP,
-        "fn" to ValkyrieTokenTypes.MICRO,
-        "fun" to ValkyrieTokenTypes.MICRO,
-        "function" to ValkyrieTokenTypes.MICRO,
+        "for" to ValkyrieTokenTypes.LOOP,
+        // fn
         "micro" to ValkyrieTokenTypes.MICRO,
-        "type" to ValkyrieTokenTypes.MEZZO,
+        "function" to ValkyrieTokenTypes.MICRO,
+        "func" to ValkyrieTokenTypes.MICRO,
+        "fun" to ValkyrieTokenTypes.MICRO,
+        "fn" to ValkyrieTokenTypes.MICRO,
+        // type
         "mezzo" to ValkyrieTokenTypes.MEZZO,
+        "type" to ValkyrieTokenTypes.MEZZO,
+        // macro
         "macro" to ValkyrieTokenTypes.MACRO,
         "class" to ValkyrieTokenTypes.CLASS,
         "struct" to ValkyrieTokenTypes.STRUCTURE,
@@ -133,18 +137,22 @@ class ValkyrieLexer : LexerBase() {
             }
 
             ch == '"' -> {
-                if (peek(0) == '"' && peek(1) == '"') {
+                // 检查是否是三引号字符串：需要连续三个引号
+                if (currentOffset + 2 < endOffset &&
+                    buffer[currentOffset + 1] == '"' &&
+                    buffer[currentOffset + 2] == '"'
+                ) {
                     readMultiQuoteString()
-                    tokenType = ValkyrieTokenTypes.MULTI_QUOTE_STRING
+                    tokenType = ValkyrieTokenTypes.STRING_MQ
                 } else {
                     readString()
-                    tokenType = ValkyrieTokenTypes.STRING
+                    tokenType = ValkyrieTokenTypes.STRING_DQ
                 }
             }
 
             ch == '\'' -> {
                 readCharLiteral()
-                tokenType = ValkyrieTokenTypes.STRING
+                tokenType = ValkyrieTokenTypes.STRING_DQ
             }
 
             ch == '`' -> {
