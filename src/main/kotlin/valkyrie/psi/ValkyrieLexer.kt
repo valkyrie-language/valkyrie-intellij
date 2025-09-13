@@ -138,10 +138,7 @@ class ValkyrieLexer : LexerBase() {
 
             ch == '"' -> {
                 // 检查是否是三引号字符串：需要连续三个引号
-                if (currentOffset + 2 < endOffset &&
-                    buffer[currentOffset + 1] == '"' &&
-                    buffer[currentOffset + 2] == '"'
-                ) {
+                if (currentOffset + 2 < endOffset && buffer[currentOffset + 1] == '"' && buffer[currentOffset + 2] == '"') {
                     readMultiQuoteString()
                     tokenType = ValkyrieTokenTypes.STRING_MQ
                 } else {
@@ -231,9 +228,7 @@ class ValkyrieLexer : LexerBase() {
                 // 检查是否是 "not in"
                 val savedOffset = currentOffset
                 skipWhitespace()
-                if (currentOffset + 2 <= endOffset &&
-                    buffer.subSequence(currentOffset, currentOffset + 2).toString() == "in"
-                ) {
+                if (currentOffset + 2 <= endOffset && buffer.subSequence(currentOffset, currentOffset + 2).toString() == "in") {
                     currentOffset += 2
                     tokenType = ValkyrieTokenTypes.NOT_IN
                     return
@@ -246,9 +241,7 @@ class ValkyrieLexer : LexerBase() {
                 // 检查是否是 "is not"
                 val savedOffset = currentOffset
                 skipWhitespace()
-                if (currentOffset + 3 <= endOffset &&
-                    buffer.subSequence(currentOffset, currentOffset + 3).toString() == "not"
-                ) {
+                if (currentOffset + 3 <= endOffset && buffer.subSequence(currentOffset, currentOffset + 3).toString() == "not") {
                     currentOffset += 3
                     tokenType = ValkyrieTokenTypes.IS_NOT
                     return
@@ -361,10 +354,7 @@ class ValkyrieLexer : LexerBase() {
     private fun readMultiQuoteString() {
         currentOffset += 3 // skip opening triple quotes
         while (currentOffset + 2 < endOffset) {
-            if (buffer[currentOffset] == '"' &&
-                buffer[currentOffset + 1] == '"' &&
-                buffer[currentOffset + 2] == '"'
-            ) {
+            if (buffer[currentOffset] == '"' && buffer[currentOffset + 1] == '"' && buffer[currentOffset + 2] == '"') {
                 currentOffset += 3 // skip closing triple quotes
                 break
             } else {
@@ -605,35 +595,41 @@ class ValkyrieLexer : LexerBase() {
                 if (peek(0) == '.') {
                     currentOffset++
                     when (peek(0)) {
+                        // ...
                         '.' -> {
                             currentOffset++
                             tokenType = ValkyrieTokenTypes.ELLIPSIS
                         }
-
+                        // ..=
                         '=' -> {
                             currentOffset++
                             tokenType = ValkyrieTokenTypes.DOT_DOT_EQUAL
                         }
-
+                        // ..<
                         '<' -> {
                             currentOffset++
                             tokenType = ValkyrieTokenTypes.DOT_DOT_LESS
                         }
-
+                        // ..
                         else -> {
                             tokenType = ValkyrieTokenTypes.DOT_DOT
                         }
                     }
-                } else {
+                }
+                // .
+                else {
                     tokenType = ValkyrieTokenTypes.DOT
                 }
             }
 
             ':' -> {
+                // ::
                 if (currentOffset + 1 < buffer.length && buffer[currentOffset + 1] == ':') {
                     currentOffset += 2
                     tokenType = ValkyrieTokenTypes.DOUBLE_COLON
-                } else {
+                }
+                // :
+                else {
                     currentOffset++
                     tokenType = ValkyrieTokenTypes.COLON
                 }
@@ -655,8 +651,6 @@ class ValkyrieLexer : LexerBase() {
                 currentOffset++; tokenType = ValkyrieTokenTypes.BRACE_L
             }
 
-            // '}' case is handled above for '}>' template syntax
-
             '[' -> {
                 currentOffset++; tokenType = ValkyrieTokenTypes.ARRAY_L
             }
@@ -675,16 +669,23 @@ class ValkyrieLexer : LexerBase() {
 
             '@' -> {
                 currentOffset++
+                // ↯
                 if (peek(0) == '.') {
                     currentOffset++
                     tokenType = ValkyrieTokenTypes.ATTRIBUTE_LOWER
-                } else if (peek(0) == '*') {
+                }
+                // ※
+                else if (peek(0) == '*') {
                     currentOffset++
                     tokenType = ValkyrieTokenTypes.LABEL_MARK
-                } else if (peek(0) == '$') {
+                }
+                // ⸿
+                else if (peek(0) == '$') {
                     currentOffset++
                     tokenType = ValkyrieTokenTypes.INTERNATIONAL_MARK
-                } else {
+                }
+                // @
+                else {
                     tokenType = ValkyrieTokenTypes.AT
                 }
             }
@@ -692,6 +693,15 @@ class ValkyrieLexer : LexerBase() {
             '↯' -> {
                 currentOffset++; tokenType = ValkyrieTokenTypes.ATTRIBUTE_LOWER
             }
+
+            '※' -> {
+                currentOffset++; tokenType = ValkyrieTokenTypes.LABEL_MARK
+            }
+
+            '⸿' -> {
+                currentOffset++; tokenType = ValkyrieTokenTypes.INTERNATIONAL_MARK
+            }
+
 
             '∧' -> {
                 currentOffset++; tokenType = ValkyrieTokenTypes.LOGIC_AND
@@ -727,9 +737,6 @@ class ValkyrieLexer : LexerBase() {
                 }
             }
 
-            '※' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.LABEL_MARK
-            }
 
             '?' -> {
                 currentOffset++; tokenType = ValkyrieTokenTypes.WHAT
@@ -739,9 +746,6 @@ class ValkyrieLexer : LexerBase() {
                 currentOffset++; tokenType = ValkyrieTokenTypes.UNDERSCORE
             }
 
-            '⸿' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.INTERNATIONAL_MARK
-            }
 
             '⅟' -> {
                 currentOffset++; tokenType = ValkyrieTokenTypes.RECIPROCAL
