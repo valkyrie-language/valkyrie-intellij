@@ -16,14 +16,14 @@ class ValkyrieCompileTimeBlock(node: ASTNode) : ValkyrieElementNode(node) {
      * 获取开始标记 <{
      */
     fun getStartToken(): PsiElement? {
-        return findChildByType(ValkyrieTokenTypes.COMPILE_TIME_BLOCK_START)
+        return findChildByType(ValkyrieTokenTypes.COMPILE_L)
     }
     
     /**
      * 获取结束标记 }>
      */
     fun getEndToken(): PsiElement? {
-        return findChildByType(ValkyrieTokenTypes.COMPILE_TIME_BLOCK_END)
+        return findChildByType(ValkyrieTokenTypes.COMPILE_R)
     }
     
     /**
@@ -34,8 +34,8 @@ class ValkyrieCompileTimeBlock(node: ASTNode) : ValkyrieElementNode(node) {
         var child = firstChild
         while (child != null) {
             if (child is ValkyrieElementNode && 
-                child.node.elementType != ValkyrieTokenTypes.COMPILE_TIME_BLOCK_START &&
-                child.node.elementType != ValkyrieTokenTypes.COMPILE_TIME_BLOCK_END) {
+                child.node.elementType != ValkyrieTokenTypes.COMPILE_L &&
+                child.node.elementType != ValkyrieTokenTypes.COMPILE_R) {
                 statements.add(child)
             }
             child = child.nextSibling

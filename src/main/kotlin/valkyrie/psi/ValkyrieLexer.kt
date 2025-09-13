@@ -399,7 +399,7 @@ class ValkyrieLexer : LexerBase() {
 
                     '{' -> {
                         currentOffset++
-                        tokenType = ValkyrieTokenTypes.COMPILE_TIME_BLOCK_START
+                        tokenType = ValkyrieTokenTypes.COMPILE_L
                     }
 
                     '$' -> {
@@ -427,7 +427,7 @@ class ValkyrieLexer : LexerBase() {
                 currentOffset++
                 if (peek(0) == '>') {
                     currentOffset++
-                    tokenType = ValkyrieTokenTypes.COMPILE_TIME_BLOCK_END
+                    tokenType = ValkyrieTokenTypes.COMPILE_R
                 } else {
                     tokenType = ValkyrieTokenTypes.BRACE_R
                 }

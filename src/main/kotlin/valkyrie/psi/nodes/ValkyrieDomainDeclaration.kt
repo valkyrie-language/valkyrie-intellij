@@ -1,6 +1,8 @@
 package valkyrie.psi.nodes
 
+import com.intellij.ide.projectView.PresentationData
 import com.intellij.lang.ASTNode
+import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.util.NlsSafe
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
@@ -8,6 +10,7 @@ import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
 import valkyrie.psi.traits.HasHighlighter
 import valkyrie.ide.highlight.ValkyrieColor
+import valkyrie.language.ValkyrieIcons
 
 /**
  * Domain 声明实现
@@ -60,5 +63,14 @@ class ValkyrieDomainDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiN
 
     fun getDomainBody(): ValkyrieObjectBodyNode? {
         return findChildByClass(ValkyrieObjectBodyNode::class.java)
+    }
+
+    override fun getPresentation(): ItemPresentation {
+        return PresentationData(
+            "${name ?: "<anonymous-domain>"}",
+            null,
+            ValkyrieIcons.DOMAIN,
+            ValkyrieColor.DOMAIN_DECLARATION.textAttributesKey
+        )
     }
 }
