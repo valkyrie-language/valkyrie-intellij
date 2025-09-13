@@ -1741,25 +1741,21 @@ class ValkyrieParser : PsiParser {
         val marker = builder.mark()
         builder.advanceLexer() // consume '('
 
-        var first = true;
-        // 解析参数列表
-        while (!builder.eof()) {
-            val safePoint = builder.currentOffset
-
-            when {
-                builder.tokenType == ValkyrieTokenTypes.RPAREN -> break
-                first && parseParameterItem(builder, false) -> {
-                    first = false
-                    continue
-                }
-
-                parseParameterItem(builder, true) -> continue
-                builder.tokenType == ValkyrieTokenTypes.LESS -> continue
-                builder.tokenType == ValkyrieTokenTypes.GREATER -> continue
+        // 允许空参数列表
+        if (builder.tokenType != ValkyrieTokenTypes.RPAREN) {
+            // 解析第一个参数
+            if (!parseParameterItem(builder, false)) {
+                marker.error("Expected parameter")
+                return false
             }
-            if (builder.currentOffset == safePoint) {
-                builder.error("Parser stuck at position $safePoint")
-                builder.advanceLexer()
+
+            // 解析后续参数 (, param)*
+            while (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+                builder.advanceLexer() // consume ','
+                if (!parseParameterItem(builder, false)) {
+                    marker.error("Expected parameter after ','")
+                    return false
+                }
             }
         }
 
@@ -1774,11 +1770,6 @@ class ValkyrieParser : PsiParser {
     }
 
     private fun parseParameterItem(builder: PsiBuilder, allowComma: Boolean): Boolean {
-        val withComma = builder.mark()
-        if (allowComma && builder.tokenType == ValkyrieTokenTypes.COMMA) {
-            builder.advanceLexer()
-        }
-
         val marker = builder.mark()
 
         // 解析注解
@@ -1800,7 +1791,6 @@ class ValkyrieParser : PsiParser {
         parseDefaultValue(builder)
 
         marker.done(ValkyrieElementTypes.TERM_PARAMETER_ITEM)
-        withComma.drop()
         return true
     }
 
