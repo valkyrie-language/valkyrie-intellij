@@ -195,7 +195,3 @@ private fun ValkyrieMethodDeclaration.hasExplicitReturnType(): Boolean {
 private fun ValkyrieMethodDeclaration.getBody(): PsiElement? {
     return PsiTreeUtil.findChildOfType(this, ValkyrieBlockNode::class.java)
 }
-
-private fun ValkyrieMethodDeclaration.getNameIdentifier(): PsiElement? {
-    return PsiTreeUtil.findChildOfType(this, ValkyrieIdentifierNode::class.java)
-}
