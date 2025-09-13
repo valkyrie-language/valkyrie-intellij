@@ -280,6 +280,22 @@ object ValkyrieElementTypes {
     @JvmField
     val PRIMITIVE_TYPE = ValkyrieElementType("PRIMITIVE_TYPE")
 
+    // 类型提示和默认值相关
+    @JvmField
+    val TYPE_HINT = ValkyrieElementType("TYPE_HINT")
+
+    @JvmField
+    val RETURN_TYPE = ValkyrieElementType("RETURN_TYPE")
+
+    @JvmField
+    val EFFECT_TYPE = ValkyrieElementType("EFFECT_TYPE")
+
+    @JvmField
+    val DEFAULT_TYPE = ValkyrieElementType("DEFAULT_TYPE")
+
+    @JvmField
+    val DEFAULT_VALUE = ValkyrieElementType("DEFAULT_VALUE")
+
     // Class 和 Union 内部结构
     @JvmField
     val INHERIT_LIST = ValkyrieElementType("CLASS_INHERIT")
