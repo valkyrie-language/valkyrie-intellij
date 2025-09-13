@@ -1262,6 +1262,7 @@ class ValkyrieParser : PsiParser {
             marker.rollbackTo()
             return false
         }
+        builder.advanceLexer() // consume the keyword token
         if (!parseIdentifier(builder)) {
             marker.rollbackTo()
             return false
@@ -1332,13 +1333,22 @@ class ValkyrieParser : PsiParser {
     private fun parseEnumerateLikeStatement(builder: PsiBuilder, keyword: ValkyrieTokenType, node: ValkyrieElementType): Boolean {
         val marker = builder.mark()
         parseAnnotations(builder, withModifiers = false)
+        if (builder.tokenType != keyword) {
+            marker.rollbackTo()
+            return false
+        }
+        // consume `enum`
+        else {
+            builder.advanceLexer()
+        }
+        /// enum Enumerate { }
         if (!parseIdentifier(builder)) {
             marker.rollbackTo()
             return false
         }
-        parseGenericParameterList(builder) // optional
-        parseInheritanceList(builder)       // optional
-        if (!parseFlagsBody(builder)) {
+//        parseGenericParameterList(builder)
+        parseInheritanceList(builder)
+        if (!parseEnumerateBody(builder)) {
             marker.rollbackTo()
             return false
         }
@@ -1346,7 +1356,7 @@ class ValkyrieParser : PsiParser {
         return true
     }
 
-    private fun parseFlagsBody(builder: PsiBuilder): Boolean {
+    private fun parseEnumerateBody(builder: PsiBuilder): Boolean {
         if (builder.tokenType != ValkyrieTokenTypes.LBRACE) {
             return false
         }
@@ -2579,9 +2589,11 @@ class ValkyrieParser : PsiParser {
      * Annotation = Attributions + Modifiers
      * */
     private fun parseAnnotations(builder: PsiBuilder, withModifiers: Boolean): Boolean {
+        var hasAnnotations = false
         val annotationMarker = builder.mark()
         // 解析若干个 attribute node ↯attr 和 attribute list ↯[attr] 混合
         while (builder.tokenType == ValkyrieTokenTypes.ATTRIBUTE_LOWER) {
+            hasAnnotations = true
             // 解析 attribute list
             if (builder.lookAhead(1) == ValkyrieTokenTypes.LBRACKET) {
                 // ↯[attr1, attr2, ...]
@@ -2638,14 +2650,18 @@ class ValkyrieParser : PsiParser {
         }
 
         // 如果 withModifiers 为 true，解析结尾的 mod ids
+        var hasModifiers = false
         if (withModifiers) {
-            parseModifierList(builder)
-            annotationMarker.done(ValkyrieElementTypes.ANNOTATION_NODE)
-            return true
-        } else {
-            annotationMarker.done(ValkyrieElementTypes.ANNOTATION_NODE)
-            return true
+            hasModifiers = parseModifierList(builder)
         }
+
+        // 只有在有注解或修饰符时才创建节点
+        if (hasAnnotations || hasModifiers) {
+            annotationMarker.done(ValkyrieElementTypes.ANNOTATION_NODE)
+        } else {
+            annotationMarker.drop()
+        }
+        return true
     }
 
     // attribute() {}
@@ -2657,7 +2673,8 @@ class ValkyrieParser : PsiParser {
         }
     }
 
-    private fun parseModifierList(builder: PsiBuilder) {
+    private fun parseModifierList(builder: PsiBuilder): Boolean {
+        var hasModifiers = false
         // 吃掉所有的 identifier
         while (isIdentifier(builder)) {
             when (builder.lookAhead(1)) {
@@ -2670,11 +2687,13 @@ class ValkyrieParser : PsiParser {
                     val modMarker = builder.mark()
                     builder.advanceLexer()
                     modMarker.done(ValkyrieElementTypes.MODIFIER_NODE)
+                    hasModifiers = true
                 }
 
                 else -> break
             }
         }
+        return hasModifiers
     }
 
     private fun parseNamePath(builder: PsiBuilder, free: Boolean): Boolean {
