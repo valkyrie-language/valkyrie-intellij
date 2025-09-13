@@ -5,8 +5,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.psi.PsiManager
-import com.intellij.psi.search.FileTypeIndex
-import com.intellij.psi.search.GlobalSearchScope
+// 移除了 FileTypeIndex 和 GlobalSearchScope 的导入以避免索引冲突
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.openapi.application.ReadAction
 import valkyrie.language.file.ValkyrieFileType
@@ -120,22 +119,42 @@ class ValkyrieSymbolIndex(private val project: Project) {
      * 索引外部库文件
      */
     private fun indexExternalLibraries() {
+        // 避免使用 FileTypeIndex 以防止与 IntelliJ 索引系统冲突
+        // 改为通过项目根目录遍历查找 .vk 文件
         ReadAction.compute<Unit, RuntimeException> {
-            // 通过FileTypeIndex获取所有valkyrie文件，但只处理不在workspace内的文件
             val projectManager = ValkyrieProjectManager.getInstance(project)
-            val allValkyrieFiles = FileTypeIndex.getFiles(
-                ValkyrieFileType.INSTANCE,
-                GlobalSearchScope.projectScope(project)
-            )
+            val projectBaseDir = project.baseDir ?: return@compute
+            
+            val externalValkyrieFiles = mutableListOf<VirtualFile>()
+            collectExternalValkyrieFiles(projectBaseDir, projectManager, externalValkyrieFiles)
+            
+            for (file in externalValkyrieFiles) {
+                indexFile(file)
+            }
+        }
+    }
+    
+    /**
+     * 收集外部库的 Valkyrie 文件
+     */
+    private fun collectExternalValkyrieFiles(
+        directory: VirtualFile, 
+        projectManager: ValkyrieProjectManager, 
+        result: MutableList<VirtualFile>
+    ) {
+        if (!directory.isDirectory) return
         
-            for (file in allValkyrieFiles) {
+        for (child in directory.children) {
+            if (child.isDirectory) {
+                collectExternalValkyrieFiles(child, projectManager, result)
+            } else if (child.extension == "vk") {
                 // 检查文件是否在workspace内
-                val workspace = projectManager.findWorkspaceForFile(file)
-                val valkyrieProject = projectManager.findProjectForFile(file)
+                val workspace = projectManager.findWorkspaceForFile(child)
+                val valkyrieProject = projectManager.findProjectForFile(child)
                 
-                // 只索引不在workspace内的文件（外部库）
+                // 只收集不在workspace内的文件（外部库）
                 if (workspace == null && valkyrieProject == null) {
-                    indexFile(file)
+                    result.add(child)
                 }
             }
         }

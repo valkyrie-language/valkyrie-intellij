@@ -26,27 +26,30 @@ class ValkyrieFileListener(private val project: Project) : VirtualFileListener {
     
     override fun contentsChanged(event: VirtualFileEvent) {
         if (isValkyrieFile(event.file)) {
-            // 文件内容变化时重建索引（放到后台线程，避免在读锁/事件线程中直接执行）
+            // 文件内容变化时只重新索引该文件，避免重建整个索引
             ApplicationManager.getApplication().executeOnPooledThread {
-                getSymbolIndex().rebuildIndex()
+                // TODO: 实现增量索引更新，暂时禁用以避免频繁重建
+                // getSymbolIndex().indexFile(event.file)
             }
         }
     }
     
     override fun fileCreated(event: VirtualFileEvent) {
         if (isValkyrieFile(event.file)) {
-            // 新建 Valkyrie 文件时重建索引（后台线程）
+            // 新建 Valkyrie 文件时只索引新文件，避免重建整个索引
             ApplicationManager.getApplication().executeOnPooledThread {
-                getSymbolIndex().rebuildIndex()
+                // TODO: 实现增量索引更新，暂时禁用以避免频繁重建
+                // getSymbolIndex().indexFile(event.file)
             }
         }
     }
     
     override fun fileDeleted(event: VirtualFileEvent) {
         if (isValkyrieFile(event.file)) {
-            // 删除 Valkyrie 文件时重建索引（后台线程）
+            // 删除 Valkyrie 文件时只清理该文件的索引，避免重建整个索引
             ApplicationManager.getApplication().executeOnPooledThread {
-                getSymbolIndex().rebuildIndex()
+                // TODO: 实现增量索引更新，暂时禁用以避免频繁重建
+                // getSymbolIndex().removeFileFromIndex(event.file)
             }
         }
     }
