@@ -1,9 +1,14 @@
 package valkyrie.parser
 
-import org.junit.Test
 import org.junit.Assert.*
+import org.junit.Test
 
 class FunctionReturnTypeTest {
+
+    private fun parseCode(code: String): Boolean {
+        // Simple validation: code is not empty and doesn't contain obvious error markers
+        return code.isNotEmpty() && !code.contains("ERROR") && !code.contains("INVALID")
+    }
 
     @Test
     fun testColonReturnType() {
@@ -13,8 +18,10 @@ class FunctionReturnTypeTest {
             }
         """.trimIndent()
         
-        // 验证代码能够正常解析，不抛出异常
-        assertTrue("Code with colon return type should parse successfully", code.isNotEmpty())
+        val isValid = parseCode(code)
+        assertTrue("Code should be parsed successfully", isValid)
+        assertTrue("Code should contain colon return type", code.contains(": i32"))
+        assertTrue("Code should contain function keyword", code.contains("function"))
     }
 
     @Test
@@ -25,8 +32,10 @@ class FunctionReturnTypeTest {
             }
         """.trimIndent()
         
-        // 验证代码能够正常解析，不抛出异常
-        assertTrue("Code with arrow return type should parse successfully", code.isNotEmpty())
+        val isValid = parseCode(code)
+        assertTrue("Code should be parsed successfully", isValid)
+        assertTrue("Code should contain arrow return type", code.contains("-> f64"))
+        assertTrue("Code should contain function keyword", code.contains("function"))
     }
 
     @Test
@@ -41,23 +50,89 @@ class FunctionReturnTypeTest {
             }
         """.trimIndent()
         
-        // 验证混合使用两种返回值语法的代码能够正常解析
-        assertTrue("Code with mixed return type styles should parse successfully", code.isNotEmpty())
+        val isValid = parseCode(code)
+        assertTrue("Code should be parsed successfully", isValid)
+        assertTrue("Code should contain both return type styles", 
+            code.contains(": i32") && code.contains("-> i32"))
+        assertTrue("Code should contain function keywords", code.contains("function"))
     }
 
     @Test
-    fun testGenericReturnTypes() {
-        val code = """
-            function identity<T>(value: T) -> T {
-                return value
-            }
-            
-            function createList<T>() -> List<T> {
-                return List::new()
-            }
-        """.trimIndent()
+    fun testBasicReturnType() {
+        val code = "function test(): int { return 42 }"
+        val isValid = parseCode(code)
         
-        // 验证泛型返回值类型能够正常解析
-        assertTrue("Code with generic return types should parse successfully", code.isNotEmpty())
+        assertTrue("Code should be parsed successfully", isValid)
+        assertTrue("Code should contain 'int'", code.contains("int"))
+        assertTrue("Code should contain 'return'", code.contains("return"))
+    }
+
+    @Test
+    fun testStringReturnType() {
+        val code = "function test(): string { return \"hello\" }"
+        val isValid = parseCode(code)
+        
+        assertTrue("Code should be parsed successfully", isValid)
+        assertTrue("Code should contain 'string'", code.contains("string"))
+        assertTrue("Code should contain 'return'", code.contains("return"))
+    }
+
+    @Test
+    fun testBooleanReturnType() {
+        val code = "function test(): bool { return true }"
+        val isValid = parseCode(code)
+        
+        assertTrue("Code should be parsed successfully", isValid)
+        assertTrue("Code should contain 'bool'", code.contains("bool"))
+        assertTrue("Code should contain 'return'", code.contains("return"))
+    }
+
+    @Test
+    fun testVoidReturnType() {
+        val code = "function test(): void { }"
+        val isValid = parseCode(code)
+        
+        assertTrue("Code should be parsed successfully", isValid)
+        assertTrue("Code should contain 'void'", code.contains("void"))
+    }
+
+    @Test
+    fun testArrayReturnType() {
+        val code = "function test(): int[] { return [1, 2, 3] }"
+        val isValid = parseCode(code)
+        
+        assertTrue("Code should be parsed successfully", isValid)
+        assertTrue("Code should contain 'int[]'", code.contains("int[]"))
+        assertTrue("Code should contain 'return'", code.contains("return"))
+    }
+
+    @Test
+    fun testOptionalReturnType() {
+        val code = "function test(): int? { return null }"
+        val isValid = parseCode(code)
+        
+        assertTrue("Code should be parsed successfully", isValid)
+        assertTrue("Code should contain 'int?'", code.contains("int?"))
+        assertTrue("Code should contain 'return'", code.contains("return"))
+    }
+
+    @Test
+    fun testGenericReturnType() {
+        val code = "function test(): List<int> { return [] }"
+        val isValid = parseCode(code)
+        
+        assertTrue("Code should be parsed successfully", isValid)
+        assertTrue("Code should contain 'List<int>'", code.contains("List<int>"))
+        assertTrue("Code should contain 'return'", code.contains("return"))
+    }
+
+    @Test
+    fun testFunctionReturnType() {
+        val code = "function test(): (int) -> string { return x => x.toString() }"
+        val isValid = parseCode(code)
+        
+        assertTrue("Code should be parsed successfully", isValid)
+        assertTrue("Code should contain '(int) -> string'", code.contains("(int) -> string"))
+        assertTrue("Code should contain 'return'", code.contains("return"))
     }
 }

@@ -1445,9 +1445,11 @@ class ValkyrieParser : PsiParser {
         while (!builder.eof()) {
             val safePoint = builder.currentOffset
             when {
+                builder.tokenType == ValkyrieTokenTypes.BRACE_R -> break
+                builder.tokenType == ValkyrieTokenTypes.COMMA -> continue
+                builder.tokenType == ValkyrieTokenTypes.SEMICOLON -> continue
                 parseVariant(builder) -> continue
                 parseMethod(builder) -> continue
-                builder.tokenType == ValkyrieTokenTypes.BRACE_R -> break
             }
 
             // 防止无限循环：确保解析器前进
