@@ -217,6 +217,9 @@ object ValkyrieElementTypes {
     val DOT_EXPRESSION = ValkyrieElementType("DOT_EXPRESSION")
 
     @JvmField
+    val PATH_EXPRESSION = ValkyrieElementType("PATH_EXPRESSION")
+
+    @JvmField
     val TRAILING_CLOSURE_EXPRESSION = ValkyrieElementType("TRAILING_CLOSURE_EXPRESSION")
 
     @JvmField
@@ -337,9 +340,6 @@ object ValkyrieElementTypes {
     // 修饰符
     @JvmField
     val MODIFIER_NODE = ValkyrieElementType("MODIFIER_NODE")
-
-    @JvmField
-    val MODIFIER_LIST = ValkyrieElementType("MODIFIER_LIST")
 
     // 其他
     @JvmField
