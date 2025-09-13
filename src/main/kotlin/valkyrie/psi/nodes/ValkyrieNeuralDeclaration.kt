@@ -3,28 +3,22 @@ package valkyrie.psi.nodes
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import valkyrie.ide.highlight.ValkyrieColor
 import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.traits.*
+import valkyrie.psi.traits.HasAnnotation
+import valkyrie.psi.traits.HasInheritParameter
+import valkyrie.psi.traits.HasObjectBody
+import valkyrie.psi.traits.HasTypeParameter
 
 /**
- * Class 语句实现
+ * Neural 语句实现
  */
-class ValkyrieClassDeclaration(node: ASTNode) : ValkyrieElementNode(node),
+class ValkyrieNeuralDeclaration(node: ASTNode) : ValkyrieElementNode(node),
     PsiNameIdentifierOwner,
-    HasHighlighter,
-    HasAnnotation,       // ↯attribute class X { }
-    HasTypeParameter,    // class X<T> { }
-    HasInheritParameter, // class X(A) { }
-    HasObjectBody        // class X { object_body }
+    HasAnnotation,       // ↯attribute neural X { }
+    HasTypeParameter,    // neural X<T> { }
+    HasInheritParameter, // neural X(A) { }
+    HasObjectBody        // neural X { object_body }
 {
-    override val highlightColor: ValkyrieColor
-        get() = ValkyrieColor.SYM_CLASS
-
-    override val highlightElement: PsiElement?
-        get() = nameIdentifier
-
-
     override fun getNameIdentifier(): PsiElement? {
         return findChildByClass(ValkyrieIdentifierNode::class.java)
     }
@@ -64,11 +58,7 @@ class ValkyrieClassDeclaration(node: ASTNode) : ValkyrieElementNode(node),
         return getClassInherit()?.getParentClassNames() ?: emptyList()
     }
 
-
     override fun toString(): String {
-        return "ValkyrieClassDeclaration(${name ?: "<anonymous>"})";
+        return "ValkyrieNeuralDeclaration(${name ?: "<anonymous>"})"
     }
-
-
 }
-

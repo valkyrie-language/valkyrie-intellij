@@ -9,9 +9,9 @@ import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.ide.navigation.MetaType
-import valkyrie.psi.nodes.*
-import valkyrie.psi.ValkyrieTokenTypes
 import valkyrie.psi.ValkyrieElementTypes
+import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.nodes.*
 
 class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
     private var infoHolder: HighlightInfoHolder? = null
@@ -21,34 +21,14 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
 
     override fun visit(element: PsiElement) {
         when (element) {
-            is ValkyrieClassDeclaration -> {
-                // 检查元素类型并应用相应的高亮
-                when (element.node.elementType) {
-                    ValkyrieElementTypes.CLASS_STATEMENT,
-                    ValkyrieElementTypes.NEURAL_STATEMENT,
-                    ValkyrieElementTypes.WIDGET_STATEMENT,
-                    ValkyrieElementTypes.SINGLETON_STATEMENT -> {
-                        highlight(element.nameIdentifier, ValkyrieColor.SYM_CLASS)
-                    }
-                }
-            }
-
-            is ValkyrieTraitDeclaration -> {
-                highlight(element.nameIdentifier, ValkyrieColor.SYM_TRAIT)
-            }
-
-            is ValkyrieUnionDeclaration -> {
-                highlight(element.nameIdentifier, ValkyrieColor.SYM_VARIANT)
-            }
-
-            is ValkyrieVariantDeclaration -> {
-                highlight(element.nameIdentifier, ValkyrieColor.SYM_VARIANT)
-            }
-
-            is ValkyrieFieldDeclaration -> {
-                highlight(element.nameIdentifier, ValkyrieColor.SYM_FIELD)
-            }
-
+            is ValkyrieClassDeclaration -> element.highlightRender(this)
+            is ValkyrieNeuralDeclaration -> highlight(element.nameIdentifier, ValkyrieColor.SYM_CLASS)
+            is ValkyrieWidgetDeclaration -> highlight(element.nameIdentifier, ValkyrieColor.SYM_CLASS)
+            is ValkyrieSingletonDeclaration -> highlight(element.nameIdentifier, ValkyrieColor.SYM_CLASS)
+            is ValkyrieTraitDeclaration -> highlight(element.nameIdentifier, ValkyrieColor.SYM_TRAIT)
+            is ValkyrieUnionDeclaration -> highlight(element.nameIdentifier, ValkyrieColor.SYM_VARIANT)
+            is ValkyrieVariantDeclaration -> highlight(element.nameIdentifier, ValkyrieColor.SYM_VARIANT)
+            is ValkyrieFieldDeclaration -> highlight(element.nameIdentifier, ValkyrieColor.SYM_FIELD)
             is ValkyrieMethodDeclaration -> {
                 if (element.isMutable()) {
                     highlight(element.nameIdentifier, ValkyrieColor.SYM_METHOD_MUT)
@@ -59,13 +39,9 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
                 }
             }
 
-            is ValkyrieDomainDeclaration -> {
-                highlight(element.nameIdentifier, ValkyrieColor.SYM_DOMAIN)
-            }
+            is ValkyrieDomainDeclaration -> highlight(element.nameIdentifier, ValkyrieColor.SYM_DOMAIN)
 
-            is ValkyrieModifierNode -> {
-                highlight(element, ValkyrieColor.SYM_MODIFIER)
-            }
+            is ValkyrieModifierNode -> highlight(element, ValkyrieColor.SYM_MODIFIER)
 
             is ValkyrieTermParameterItem -> {
                 // 高亮参数名称
@@ -156,7 +132,7 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
                 highlightPostfixExpression(element)
             }
         }
-        
+
         // 处理泛型参数列表（如 class A<T, U> 中的 T, U）
         if (element.node.elementType == ValkyrieElementTypes.GENERIC_PARAMETER_LIST) {
             var child = element.firstChild
@@ -169,7 +145,7 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
         }
     }
 
-    private fun highlight(element: PsiElement?, color: ValkyrieColor) {
+    fun highlight(element: PsiElement?, color: ValkyrieColor) {
         if (element == null) {
             return
         }
@@ -201,10 +177,8 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
         if (isInDeclarationContext(element)) {
             return
         }
+        val resolved = element.reference?.resolve()
 
-        val reference = element.getReference()
-        val resolved = reference?.resolve()
-        
         if (resolved != null) {
             val color = getColorForResolvedElement(resolved)
             if (color != null) {
@@ -221,7 +195,7 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
         if (callee is ValkyrieIdentifierNode) {
             val reference = element.getReference()
             val resolved = reference?.resolve()
-            
+
             if (resolved != null) {
                 val color = getColorForResolvedElement(resolved)
                 if (color != null) {
@@ -237,7 +211,7 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
     private fun highlightTypeReference(element: ValkyrieTypeReferenceNode) {
         val reference = element.getReference()
         val resolved = reference?.resolve()
-        
+
         if (resolved != null) {
             val color = getColorForResolvedElement(resolved)
             if (color != null) {
@@ -254,13 +228,13 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
      */
     private fun highlightQualifiedName(element: ValkyrieNamepathNode) {
         val identifiers = element.getIdentifiers()
-        
+
         // 对限定名的每个部分尝试解析引用
         for (identifier in identifiers) {
             if (identifier is ValkyrieIdentifierNode) {
                 val reference = identifier.getReference()
                 val resolved = reference?.resolve()
-                
+
                 if (resolved != null) {
                     val color = getColorForResolvedElement(resolved)
                     if (color != null) {
@@ -280,7 +254,7 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
         if (methodIdentifier != null) {
             val reference = methodIdentifier.getReference()
             val resolved = reference?.resolve()
-            
+
             if (resolved != null) {
                 val color = getColorForResolvedElement(resolved)
                 if (color != null) {
@@ -325,6 +299,7 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
                     else -> ValkyrieColor.SYM_MICRO
                 }
             }
+
             is ValkyrieDomainDeclaration -> ValkyrieColor.SYM_DOMAIN
             is ValkyrieMetaStatement -> {
                 when (resolved.getMetaType()) {
@@ -334,6 +309,7 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
                     else -> ValkyrieColor.SYM_FUNCTION_SELF
                 }
             }
+
             is ValkyrieTermParameterItem -> ValkyrieColor.SYM_ARG
             is ValkyrieLetStatementNode -> ValkyrieColor.SYM_LOCAL
             else -> {
