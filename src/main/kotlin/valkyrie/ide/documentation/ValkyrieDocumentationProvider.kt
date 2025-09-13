@@ -251,7 +251,6 @@ class ValkyrieDocumentationProvider : AbstractDocumentationProvider() {
     
     override fun getQuickNavigateInfo(element: PsiElement?, originalElement: PsiElement?): String? {
         if (element == null) return null
-        
         return when (element) {
             is ValkyrieClassDeclaration -> "class1 ${element.name}"
             is ValkyrieUnionDeclaration -> "union ${element.name}"
