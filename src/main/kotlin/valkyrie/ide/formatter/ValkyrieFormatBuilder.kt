@@ -84,7 +84,7 @@ class ValkyrieFormatBuilder : FormattingModelBuilder {
             .around(ValkyrieTokenTypes.PLUS).spaces(1)
             .around(ValkyrieTokenTypes.MINUS).spaces(1)
             .around(ValkyrieTokenTypes.MULTIPLY).spaces(1)
-            .around(ValkyrieTokenTypes.DIVIDE).spaces(1)
+            .around(ValkyrieTokenTypes.SLASH).spaces(1)
             .around(ValkyrieTokenTypes.PERCENT).spaces(1)
             .around(ValkyrieTokenTypes.POWER).spaces(1)
             
