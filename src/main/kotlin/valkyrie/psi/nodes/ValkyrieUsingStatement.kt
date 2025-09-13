@@ -6,10 +6,10 @@ import valkyrie.psi.ValkyrieElementNode
 /**
  * Using 语句实现
  */
-class ValkyrieUsingStatementNode(node: ASTNode) : ValkyrieElementNode(node) {
+class ValkyrieUsingStatement(node: ASTNode) : ValkyrieElementNode(node) {
 
-    fun getQualifiedName(): ValkyrieQualifiedNameNode? {
-        return findChildByClass(ValkyrieQualifiedNameNode::class.java)
+    fun getQualifiedName(): ValkyrieNamepathNode? {
+        return findChildByClass(ValkyrieNamepathNode::class.java)
     }
 
     fun getImportedName(): String? {

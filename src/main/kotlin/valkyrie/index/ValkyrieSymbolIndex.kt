@@ -11,7 +11,7 @@ import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.openapi.application.ReadAction
 import valkyrie.language.file.ValkyrieFileType
 import valkyrie.psi.nodes.ValkyrieNamespaceDeclaration
-import valkyrie.psi.nodes.ValkyrieUsingStatementNode
+import valkyrie.psi.nodes.ValkyrieUsingStatement
 import valkyrie.psi.nodes.ValkyrieLetStatementNode
 import valkyrie.psi.nodes.ValkyrieClassDeclaration
 import valkyrie.psi.nodes.ValkyrieUnionDeclaration
@@ -283,7 +283,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
         val classStatements: List<ValkyrieClassDeclaration>,
         val unionStatements: List<ValkyrieUnionDeclaration>,
         val functionStatements: List<ValkyrieMethodDeclaration>,
-        val usingStatements: List<ValkyrieUsingStatementNode>
+        val usingStatements: List<ValkyrieUsingStatement>
     )
     
     private fun extractSymbolsFromFile(psiFile: com.intellij.psi.PsiFile, file: VirtualFile): Pair<String, IndexData> {
@@ -313,7 +313,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
                 classStatements = try { PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieClassDeclaration::class.java).toList() } catch (e: Exception) { emptyList() },
                 unionStatements = try { PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieUnionDeclaration::class.java).toList() } catch (e: Exception) { emptyList() },
                 functionStatements = try { PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieMethodDeclaration::class.java).toList() } catch (e: Exception) { emptyList() },
-                usingStatements = try { PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieUsingStatementNode::class.java).toList() } catch (e: Exception) { emptyList() }
+                usingStatements = try { PsiTreeUtil.findChildrenOfType(psiFile, ValkyrieUsingStatement::class.java).toList() } catch (e: Exception) { emptyList() }
             )
             
             return namespace to indexData
