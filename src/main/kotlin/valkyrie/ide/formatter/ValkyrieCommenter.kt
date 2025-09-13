@@ -1,6 +1,5 @@
 package valkyrie.ide.formatter
 
-import com.intellij.lang.Commenter
 import com.intellij.lang.CodeDocumentationAwareCommenter
 import com.intellij.psi.PsiComment
 import com.intellij.psi.tree.IElementType
@@ -70,7 +69,7 @@ class ValkyrieCommenter : CodeDocumentationAwareCommenter {
     }
     
     override fun getLineCommentTokenType(): IElementType? {
-        return ValkyrieTokenTypes.COMMENT_REST
+        return ValkyrieTokenTypes.COMMENT_LINE
     }
     
     override fun getBlockCommentTokenType(): IElementType? {
