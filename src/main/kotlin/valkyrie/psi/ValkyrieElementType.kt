@@ -167,6 +167,12 @@ object ValkyrieElementTypes {
     val TEMPLATE_IF = ValkyrieElementType("TEMPLATE_IF")
 
     @JvmField
+    val TEMPLATE_ELSE_IF = ValkyrieElementType("TEMPLATE_ELSE_IF")
+
+    @JvmField
+    val TEMPLATE_ELSE = ValkyrieElementType("TEMPLATE_ELSE")
+
+    @JvmField
     val TEMPLATE_FOR = ValkyrieElementType("TEMPLATE_FOR")
 
     @JvmField
@@ -177,6 +183,9 @@ object ValkyrieElementTypes {
 
     @JvmField
     val TEMPLATE_INTERPOLATION = ValkyrieElementType("TEMPLATE_INTERPOLATION")
+
+    @JvmField
+    val TEMPLATE_TEXT = ValkyrieElementType("TEMPLATE_TEXT")
 
     @JvmField
     val BLOCK_STATEMENT = ValkyrieElementType("BLOCK_STATEMENT")

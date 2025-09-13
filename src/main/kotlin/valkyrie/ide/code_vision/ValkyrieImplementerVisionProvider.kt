@@ -66,7 +66,9 @@ class ValkyrieImplementerVisionProvider : DaemonBoundCodeVisionProvider {
                     )
                     
                     val range = classDecl.textRange
-                    results.add(Pair(range, entry))
+                    if (range != null) {
+                        results.add(Pair(range, entry))
+                    }
                 }
             }
         }

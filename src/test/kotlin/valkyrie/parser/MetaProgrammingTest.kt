@@ -1,6 +1,7 @@
 package valkyrie.parser
 
 import org.junit.Assert.assertTrue
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 /**
@@ -109,7 +110,7 @@ class MetaProgrammingTest {
                         micro debug(self) -> String {
                             "Debug disabled"
                         }
-                    <$ end if $>
+                    <$ end $>
                 }
             }
         """.trimIndent()
@@ -117,8 +118,46 @@ class MetaProgrammingTest {
         // 验证模板条件语句
         assertTrue("Code should contain template if", code.contains("<$ if"))
         assertTrue("Code should contain template else", code.contains("<$ else $>"))
-        assertTrue("Code should contain template end", code.contains("<$ end if $>"))
+        assertTrue("Code should contain template end", code.contains("<$ end $>"))
         assertTrue("Code should contain conditional logic", code.contains("debug_enabled"))
+    }
+    
+    @Test
+    fun testTemplateElseIfConditional() {
+        val code = """
+            macro multi_conditional_impl(T: Type, level: i32) -> AstNode {
+                impl Logger for <$ T $> {
+                    <$ if level == 0 $>
+                        micro log(self, msg: String) {
+                            // No logging
+                        }
+                    <$ else if level == 1 $>
+                        micro log(self, msg: String) {
+                            println!("INFO: {}", msg)
+                        }
+                    <$ else if level == 2 $>
+                        micro log(self, msg: String) {
+                            println!("DEBUG: {}", msg)
+                        }
+                    <$ else $>
+                        micro log(self, msg: String) {
+                            println!("TRACE: {}", msg)
+                        }
+                    <$ end $>
+                }
+            }
+        """.trimIndent()
+        
+        // 验证模板 else if 条件语句
+        assertTrue("Code should contain template if", code.contains("<$ if level == 0 $>"))
+        assertTrue("Code should contain template else if", code.contains("<$ else if level == 1 $>"))
+        assertTrue("Code should contain multiple else if clauses", code.contains("<$ else if level == 2 $>"))
+        assertTrue("Code should contain template else", code.contains("<$ else $>"))
+        assertTrue("Code should contain template end", code.contains("<$ end $>"))
+        
+        // 计算 else if 子句数量
+        val elseIfCount = code.split("<$ else if").size - 1
+        assertEquals("Should have two else if clauses", 2, elseIfCount)
     }
     
     @Test

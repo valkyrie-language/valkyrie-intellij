@@ -24,15 +24,12 @@ open class ValkyrieElementNode(node: ASTNode) : ASTWrapperPsiElement(node), Valk
     override fun getNavigationElement(): PsiElement {
         return super.getNavigationElement()
     }
+//
+//    // Ctrl 可显示的方法
+//    override fun getTextOffset(): Int {
+//        return navigationElement.startOffset
+//    }
 
-    // Ctrl 可显示的方法
-    override fun getTextOffset(): Int {
-        return navigationElement.startOffset
-    }
-
-    override fun getPresentation(): ItemPresentation? {
-        return super.getPresentation()
-    }
 
     override fun getElementIcon(flags: Int): Icon? {
         return super.getElementIcon(flags)
