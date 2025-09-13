@@ -8,6 +8,7 @@ interface HasHighlighter {
     val highlightColor: ValkyrieColor
     val highlightElement: PsiElement?
     fun highlightRender(highlighter: ValkyrieSemanticHighlighter) {
+        println("正在高亮 ${highlightElement}")
         highlighter.highlight(highlightElement, highlightColor)
     }
 }

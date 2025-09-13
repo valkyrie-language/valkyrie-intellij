@@ -753,6 +753,7 @@ class ValkyrieParser : PsiParser {
             // 解析右操作数
             if (!parseTermExpressionWithPrecedence(builder, precedence + 1, inline)) {
                 marker.error("Expected right operand")
+                recoverToSyncPoint(builder)
                 return false
             }
 
@@ -796,7 +797,7 @@ class ValkyrieParser : PsiParser {
         builder.advanceLexer() // 消费后缀操作符
 
         when (tokenType) {
-            ValkyrieTokenTypes.WOW, ValkyrieTokenTypes.WOW -> {
+            ValkyrieTokenTypes.WOW -> {
                 marker.done(ValkyrieElementTypes.UNARY_EXPRESSION)
                 return marker
             }
@@ -813,6 +814,7 @@ class ValkyrieParser : PsiParser {
                     builder.advanceLexer()
                 } else {
                     marker.error("Expected ')'")
+                    recoverToSyncPoint(builder)
                     return left
                 }
                 marker.done(ValkyrieElementTypes.CALL_EXPRESSION)
@@ -833,6 +835,7 @@ class ValkyrieParser : PsiParser {
                             builder.advanceLexer()
                         } else {
                             callMarker.error("Expected ')'")
+                            recoverToSyncPoint(builder)
                             return left
                         }
                         callMarker.done(ValkyrieElementTypes.CALL_EXPRESSION)
@@ -846,6 +849,7 @@ class ValkyrieParser : PsiParser {
                     // 路径访问 a::b
                     if (!parseIdentifier(builder)) {
                         marker.error("Expected identifier after '::'")
+                        recoverToSyncPoint(builder)
                         return left
                     }
                     marker.done(ValkyrieElementTypes.PATH_EXPRESSION)
@@ -868,6 +872,7 @@ class ValkyrieParser : PsiParser {
                         builder.advanceLexer()
                     } else {
                         callMarker.error("Expected ')'")
+                        recoverToSyncPoint(builder)
                         return left
                     }
                     callMarker.done(ValkyrieElementTypes.CALL_EXPRESSION)
@@ -883,12 +888,14 @@ class ValkyrieParser : PsiParser {
                 // 数组访问
                 if (!parseTermExpression(builder, false)) {
                     marker.error("Expected index expression")
+                    recoverToSyncPoint(builder)
                     return left
                 }
                 if (!builder.eof() && builder.tokenType == ValkyrieTokenTypes.ARRAY_R) {
                     builder.advanceLexer()
                 } else {
                     marker.error("Expected ']'")
+                    recoverToSyncPoint(builder)
                     return left
                 }
                 marker.done(ValkyrieElementTypes.POSTFIX_EXPRESSION)
@@ -899,6 +906,7 @@ class ValkyrieParser : PsiParser {
                 // 成员访问
                 if (!parseIdentifier(builder)) {
                     marker.error("Expected identifier after '.'")
+                    recoverToSyncPoint(builder)
                     return left
                 }
                 marker.done(ValkyrieElementTypes.DOT_EXPRESSION)
@@ -1446,8 +1454,14 @@ class ValkyrieParser : PsiParser {
             val safePoint = builder.currentOffset
             when {
                 builder.tokenType == ValkyrieTokenTypes.BRACE_R -> break
-                builder.tokenType == ValkyrieTokenTypes.COMMA -> continue
-                builder.tokenType == ValkyrieTokenTypes.SEMICOLON -> continue
+                builder.tokenType == ValkyrieTokenTypes.COMMA -> {
+                    builder.advanceLexer()
+                    continue
+                }
+                builder.tokenType == ValkyrieTokenTypes.SEMICOLON -> {
+                    builder.advanceLexer()
+                    continue
+                }
                 parseVariant(builder) -> continue
                 parseMethod(builder) -> continue
             }
