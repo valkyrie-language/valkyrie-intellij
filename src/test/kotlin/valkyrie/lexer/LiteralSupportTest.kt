@@ -1,5 +1,6 @@
 package valkyrie.lexer
 
+import com.intellij.psi.TokenType.WHITE_SPACE
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import valkyrie.psi.ValkyrieLexer
