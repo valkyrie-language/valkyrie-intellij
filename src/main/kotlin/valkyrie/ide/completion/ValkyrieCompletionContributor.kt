@@ -133,6 +133,97 @@ class ValkyrieCompletionContributor : CompletionContributor() {
                     .withTypeText("if let statement")
                     .withTailText(" pattern = expression { ... } else { ... }")
             )
+            
+            // class 模板补全
+            result.addElement(
+                LookupElementBuilder.create("class")
+                    .withInsertHandler { context, item ->
+                        val document = context.document
+                        val startOffset = context.startOffset
+                        val tailOffset = context.tailOffset
+                        
+                        document.replaceString(startOffset, tailOffset, "class ClassName {\n    \n}")
+                        context.editor.caretModel.moveToOffset(startOffset + 6)
+                    }
+                    .withTypeText("class declaration")
+                    .withTailText(" ClassName { ... }")
+            )
+            
+            // trait 模板补全
+            result.addElement(
+                LookupElementBuilder.create("trait")
+                    .withInsertHandler { context, item ->
+                        val document = context.document
+                        val startOffset = context.startOffset
+                        val tailOffset = context.tailOffset
+                        
+                        document.replaceString(startOffset, tailOffset, "trait TraitName {\n    \n}")
+                        context.editor.caretModel.moveToOffset(startOffset + 6)
+                    }
+                    .withTypeText("trait declaration")
+                    .withTailText(" TraitName { ... }")
+            )
+            
+            // function 模板补全
+            result.addElement(
+                LookupElementBuilder.create("fn")
+                    .withPresentableText("function")
+                    .withInsertHandler { context, item ->
+                        val document = context.document
+                        val startOffset = context.startOffset
+                        val tailOffset = context.tailOffset
+                        
+                        document.replaceString(startOffset, tailOffset, "function functionName() {\n    \n}")
+                        context.editor.caretModel.moveToOffset(startOffset + 9)
+                    }
+                    .withTypeText("function declaration")
+                    .withTailText(" functionName() { ... }")
+            )
+            
+            // namespace 模板补全
+            result.addElement(
+                LookupElementBuilder.create("namespace")
+                    .withInsertHandler { context, item ->
+                        val document = context.document
+                        val startOffset = context.startOffset
+                        val tailOffset = context.tailOffset
+                        
+                        document.replaceString(startOffset, tailOffset, "namespace NamespaceName {\n    \n}")
+                        context.editor.caretModel.moveToOffset(startOffset + 10)
+                    }
+                    .withTypeText("namespace declaration")
+                    .withTailText(" NamespaceName { ... }")
+            )
+            
+            // macro 模板补全
+            result.addElement(
+                LookupElementBuilder.create("macro")
+                    .withInsertHandler { context, item ->
+                        val document = context.document
+                        val startOffset = context.startOffset
+                        val tailOffset = context.tailOffset
+                        
+                        document.replaceString(startOffset, tailOffset, "macro macroName() {\n    \n}")
+                        context.editor.caretModel.moveToOffset(startOffset + 6)
+                    }
+                    .withTypeText("macro declaration")
+                    .withTailText(" macroName() { ... }")
+            )
+            
+            // tests 模板补全
+            result.addElement(
+                LookupElementBuilder.create("tests")
+                    .withInsertHandler { context, item ->
+                        val document = context.document
+                        val startOffset = context.startOffset
+                        val tailOffset = context.tailOffset
+                        
+                        document.replaceString(startOffset, tailOffset, "tests TestSuite {\n    test testName() {\n        \n    }\n}")
+                        context.editor.caretModel.moveToOffset(startOffset + 6)
+                    }
+                    .withTypeText("tests declaration")
+                    .withTailText(" TestSuite { ... }")
+            )
         }
     }
     
