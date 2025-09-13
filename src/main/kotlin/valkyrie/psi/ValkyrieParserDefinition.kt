@@ -23,7 +23,7 @@ class ValkyrieParserDefinition : ParserDefinition {
 
         val WHITESPACE_TOKENS = TokenSet.create(ValkyrieTokenTypes.WHITESPACE, ValkyrieTokenTypes.NEWLINE)
         val COMMENT_TOKENS =
-            TokenSet.create(ValkyrieTokenTypes.COMMENT_REST, ValkyrieTokenTypes.COMMENT_RANGE, ValkyrieTokenTypes.COMMENT_DOCUMENT)
+            TokenSet.create(ValkyrieTokenTypes.COMMENT_LINE, ValkyrieTokenTypes.COMMENT_RANGE, ValkyrieTokenTypes.COMMENT_DOCUMENT)
         val STRING_LITERALS = TokenSet.create(ValkyrieTokenTypes.STRING)
     }
 

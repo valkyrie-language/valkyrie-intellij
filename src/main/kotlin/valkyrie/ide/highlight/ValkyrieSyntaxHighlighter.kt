@@ -64,9 +64,9 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.NOT_IN
                 -> ValkyrieColor.OPERATION
 
-            ValkyrieTokenTypes.LPAREN, ValkyrieTokenTypes.RPAREN -> ValkyrieColor.PARENTHESES
-            ValkyrieTokenTypes.LBRACKET, ValkyrieTokenTypes.RBRACKET -> ValkyrieColor.BRACKETS
-            ValkyrieTokenTypes.LBRACE, ValkyrieTokenTypes.RBRACE -> ValkyrieColor.BRACES
+            ValkyrieTokenTypes.PARENTHESES_L, ValkyrieTokenTypes.PARENTHESES_R -> ValkyrieColor.PARENTHESES
+            ValkyrieTokenTypes.ARRAY_L, ValkyrieTokenTypes.ARRAY_R -> ValkyrieColor.BRACKETS
+            ValkyrieTokenTypes.BRACE_L, ValkyrieTokenTypes.BRACE_R -> ValkyrieColor.BRACES
             ValkyrieTokenTypes.COMPILE_TIME_BLOCK_START, ValkyrieTokenTypes.COMPILE_TIME_BLOCK_END -> ValkyrieColor.COMPILE_TIME_BLOCK
             ValkyrieTokenTypes.TEMPLATE_START, ValkyrieTokenTypes.TEMPLATE_END -> ValkyrieColor.TEMPLATE_BLOCK
             ValkyrieTokenTypes.COLON, ValkyrieTokenTypes.ASSIGN -> ValkyrieColor.OPERATION
@@ -82,7 +82,7 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
 
             ValkyrieTokenTypes.IDENTIFIER_STD -> ValkyrieColor.IDENTIFIER
             // 注释
-            ValkyrieTokenTypes.COMMENT_REST -> ValkyrieColor.LINE_COMMENT
+            ValkyrieTokenTypes.COMMENT_LINE -> ValkyrieColor.LINE_COMMENT
             ValkyrieTokenTypes.COMMENT_RANGE -> ValkyrieColor.BLOCK_COMMENT
             ValkyrieTokenTypes.COMMENT_DOCUMENT -> ValkyrieColor.DOC_COMMENT
             // 错误
