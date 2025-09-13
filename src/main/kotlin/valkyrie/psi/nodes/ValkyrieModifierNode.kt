@@ -4,11 +4,18 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.traits.HasHighlighter
+import valkyrie.ide.highlight.ValkyrieColor
 
 /**
  * Modifier 节点实现
  */
-class ValkyrieModifierNode(node: ASTNode) : ValkyrieElementNode(node) {
+class ValkyrieModifierNode(node: ASTNode) : ValkyrieElementNode(node), HasHighlighter {
+    override val highlightColor: ValkyrieColor
+        get() = ValkyrieColor.MODIFIER_NODE
+    
+    override val highlightElement: PsiElement?
+        get() = findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER_STD)
     
     /**
      * 获取修饰符名称

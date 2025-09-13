@@ -100,6 +100,9 @@ object ValkyrieTokenTypes {
     val RESUME = ValkyrieTokenType("resume")
 
     @JvmField
+    val SCOPE = ValkyrieTokenType("scope")
+
+    @JvmField
     val RETURN = ValkyrieTokenType("return")
 
     @JvmField

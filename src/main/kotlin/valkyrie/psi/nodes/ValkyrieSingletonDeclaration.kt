@@ -5,9 +5,11 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.traits.HasAnnotation
+import valkyrie.psi.traits.HasHighlighter
 import valkyrie.psi.traits.HasInheritParameter
 import valkyrie.psi.traits.HasObjectBody
 import valkyrie.psi.traits.HasTypeParameter
+import valkyrie.ide.highlight.ValkyrieColor
 
 /**
  * Singleton 语句实现
@@ -17,7 +19,8 @@ class ValkyrieSingletonDeclaration(node: ASTNode) : ValkyrieElementNode(node),
     HasAnnotation,       // ↯attribute singleton X { }
     HasTypeParameter,    // singleton X<T> { }
     HasInheritParameter, // singleton X(A) { }
-    HasObjectBody        // singleton X { object_body }
+    HasObjectBody,       // singleton X { object_body }
+    HasHighlighter
 {
     override fun getNameIdentifier(): PsiElement? {
         return findChildByClass(ValkyrieIdentifierNode::class.java)
@@ -57,6 +60,12 @@ class ValkyrieSingletonDeclaration(node: ASTNode) : ValkyrieElementNode(node),
     fun getParentClasses(): List<String> {
         return getClassInherit()?.getParentClassNames() ?: emptyList()
     }
+
+    override val highlightColor: ValkyrieColor
+        get() = ValkyrieColor.SINGLETON_DECLARATION
+    
+    override val highlightElement: PsiElement?
+        get() = nameIdentifier
 
     override fun toString(): String {
         return "ValkyrieSingletonDeclaration(${name ?: "<anonymous>"})"

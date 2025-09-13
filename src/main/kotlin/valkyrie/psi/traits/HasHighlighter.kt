@@ -11,3 +11,5 @@ interface HasHighlighter {
         highlighter.highlight(highlightElement, highlightColor)
     }
 }
+
+
