@@ -15,10 +15,10 @@ class EmptyStringTest {
         lexer.start("\"\"", 0, 2, 0)
         // 不需要调用 advance()，start() 已经识别了第一个 token
 
-        // 根据实际测试结果，空字符串被识别为 MULTI_QUOTE_STRING
+        // 空字符串应该被识别为普通的 STRING token
         assertEquals(
-            "Empty string should be recognized as MULTI_QUOTE_STRING token",
-            ValkyrieTokenTypes.MULTI_QUOTE_STRING, lexer.tokenType
+            "Empty string should be recognized as STRING token",
+            ValkyrieTokenTypes.STRING_DQ, lexer.tokenType
         )
 
         // 检查 tokenEnd 是否在有效范围内再获取 tokenText
@@ -36,7 +36,7 @@ class EmptyStringTest {
         // 字符字面量应该被识别为 STRING token
         assertEquals(
             "Empty char literal should be recognized as STRING token",
-            ValkyrieTokenTypes.STRING, lexer.tokenType
+            ValkyrieTokenTypes.STRING_DQ, lexer.tokenType
         )
 
         // 检查 tokenEnd 是否在有效范围内再获取 tokenText
@@ -55,7 +55,7 @@ class EmptyStringTest {
         // 有内容的字符串应该被识别为 STRING token
         assertEquals(
             "String with content should be recognized as STRING token",
-            ValkyrieTokenTypes.STRING, lexer.tokenType
+            ValkyrieTokenTypes.STRING_DQ, lexer.tokenType
         )
 
         // 检查 tokenEnd 是否在有效范围内再获取 tokenText
