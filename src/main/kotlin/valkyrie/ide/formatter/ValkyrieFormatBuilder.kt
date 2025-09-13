@@ -169,8 +169,7 @@ class ValkyrieBlock(
                 when (node.elementType) {
                     ValkyrieElementTypes.OBJECT_BODY,
                     ValkyrieElementTypes.UNION_BODY,
-                    ValkyrieElementTypes.VARIANT_BODY,
-                    ValkyrieElementTypes.BLOCK_BODY,
+                    ValkyrieElementTypes.FUNCTION_BODY,
                     ValkyrieElementTypes.IF_STATEMENT,
                     ValkyrieElementTypes.ELSE_CLAUSE,
                     ValkyrieElementTypes.FOR_STATEMENT,
@@ -222,8 +221,7 @@ class ValkyrieBlock(
         return when (node.elementType) {
             ValkyrieElementTypes.OBJECT_BODY,
             ValkyrieElementTypes.UNION_BODY,
-            ValkyrieElementTypes.VARIANT_BODY,
-            ValkyrieElementTypes.BLOCK_BODY -> ChildAttributes(Indent.getNormalIndent(), null)
+            ValkyrieElementTypes.FUNCTION_BODY -> ChildAttributes(Indent.getNormalIndent(), null)
             ValkyrieElementTypes.TERM_PARAMETER_LIST -> {
                 if (newChildIndex > 0) {
                     ChildAttributes(Indent.getContinuationIndent(), Alignment.createAlignment())
