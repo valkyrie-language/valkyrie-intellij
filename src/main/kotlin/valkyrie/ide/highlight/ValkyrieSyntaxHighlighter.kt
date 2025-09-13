@@ -59,9 +59,7 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
                 -> ValkyrieColor.KEYWORD
 
             // 操作符
-            ValkyrieTokenTypes.IS,
-            ValkyrieTokenTypes.IS_NOT,
-            ValkyrieTokenTypes.NOT_IN
+            ValkyrieTokenTypes.IS
                 -> ValkyrieColor.OPERATION
 
             ValkyrieTokenTypes.PARENTHESES_L, ValkyrieTokenTypes.PARENTHESES_R -> ValkyrieColor.PARENTHESES
