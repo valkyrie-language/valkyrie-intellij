@@ -10,43 +10,14 @@ import com.intellij.psi.tree.IElementType
  * 包含性能优化和错误恢复机制
  */
 class ValkyrieParser : PsiParser {
-
-
-    // 性能监控
-    private var statementCount: Int = 0
-    private val performanceThreshold = 1000 // 毫秒
-
     override fun parse(root: IElementType, builder: PsiBuilder): ASTNode {
-        statementCount = 0
-
-        // 启用调试模式以定位 marker 不平衡问题
         builder.setDebugMode(true)
         val rootMarker = builder.mark()
-
-        // 性能优化：预分配错误计数器
-        var consecutiveErrors = 0
-        val maxConsecutiveErrors = 10
-
         while (!builder.eof()) {
             val initialPosition = builder.currentOffset
-
-            try {
-                parseStatement(builder)
-                consecutiveErrors = 0 // 重置错误计数
-                statementCount++
-            } catch (e: Exception) {
-                consecutiveErrors++
-
-                // 错误恢复：如果连续错误过多，跳到同步点
-                if (consecutiveErrors >= maxConsecutiveErrors) {
-                    recoverToSyncPoint(builder)
-                    consecutiveErrors = 0
-                }
-
-                // 确保解析器前进，避免死循环
-                if (builder.currentOffset == initialPosition) {
-                    builder.advanceLexer()
-                }
+            parseStatement(builder)
+            if (builder.currentOffset == initialPosition) {
+                builder.advanceLexer()
             }
         }
 
@@ -1553,10 +1524,15 @@ class ValkyrieParser : PsiParser {
             val safePoint = builder.currentOffset
             when {
                 builder.tokenType == ValkyrieTokenTypes.RBRACE -> break
-//            parseMacroCall(builder) -> return
-//            parseLabelMark(builder) -> return
 //            builder.tokenType == null -> return
-                else -> parseExpressionStatement(builder)
+                else -> {
+//                    parseExpressionStatement(builder)
+                    // 未知token，创建错误节点并消费该token
+                    val marker = builder.mark()
+                    builder.error("Unexpected token in object body: ${builder.tokenType}")
+                    builder.advanceLexer()
+                    marker.done(ValkyrieElementTypes.ERROR_ELEMENT)
+                }
             }
 
             // 防止死循环：确保解析器位置有前进
