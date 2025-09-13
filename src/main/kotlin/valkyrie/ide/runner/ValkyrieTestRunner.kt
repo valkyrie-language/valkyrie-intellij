@@ -87,11 +87,7 @@ object ValkyrieTestRunner {
     }
 
     private fun getTestName(testStatement: ValkyrieTestStatement): String {
-        return when {
-            testStatement.isTestsBlock() -> "Tests Block"
-            testStatement.isTestFunction() -> "Test Function"
-            else -> "Unknown Test"
-        }
+        return "Tests Block"
     }
 
     private fun getOrCreateConsoleView(project: Project): ConsoleView {
