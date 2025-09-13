@@ -1381,6 +1381,7 @@ class ValkyrieParser : PsiParser {
             marker.rollbackTo()
             return false
         }
+        parseGenericParameterList(builder)
         // impl module::Type
         if (!parseNamePath(builder, free = true)) {
             marker.rollbackTo()
@@ -1660,7 +1661,7 @@ class ValkyrieParser : PsiParser {
         if (parseIdentifier(builder)) {
             // continue
         } else {
-            marker.drop()
+            marker.rollbackTo()
             return false
         }
         parseReturnType(builder)
@@ -1693,21 +1694,17 @@ class ValkyrieParser : PsiParser {
     private fun parseDomain(builder: PsiBuilder): Boolean {
         val marker = builder.mark()
         parseAnnotations(builder, withModifiers = true)
-        if (parseIdentifier(builder)) {
-            // continue
-        } else {
+        if (!parseIdentifier(builder)) {
             marker.rollbackTo()
             return false
         }
-        if (parseObjectBody(builder)) {
-            marker.done(ValkyrieElementTypes.DOMAIN_DECLARATION)
-            return true
-        } else {
+        if (!parseObjectBody(builder)) {
             marker.rollbackTo()
             return false
         }
+        marker.done(ValkyrieElementTypes.DOMAIN_DECLARATION)
+        return true
     }
-
 
     private fun parseTermParameterList(builder: PsiBuilder): Boolean {
         if (builder.tokenType != ValkyrieTokenTypes.LPAREN) return false
