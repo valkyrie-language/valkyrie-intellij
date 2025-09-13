@@ -11,6 +11,7 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import valkyrie.psi.nodes.ValkyrieTestStatement
+import valkyrie.psi.ValkyrieTokenTypes
 
 /**
  * Valkyrie 测试运行支持
@@ -19,10 +20,16 @@ import valkyrie.psi.nodes.ValkyrieTestStatement
 class ValkyrieTestRunLineMarkerProvider : RunLineMarkerContributor() {
     
     override fun getInfo(element: PsiElement): Info? {
-        if (element !is ValkyrieTestStatement) return null
-        if (!element.isTestFunction() && !element.isTestsBlock()) return null
+        // 只处理叶子节点
+        if (element.firstChild != null) return null
         
-        val actions = createTestActions(element)
+        // 检查是否为 tests 关键字
+        if (element.node?.elementType != ValkyrieTokenTypes.TESTS) return null
+        
+        // 确保父节点是 ValkyrieTestStatement
+        val testStatement = element.parent as? ValkyrieTestStatement ?: return null
+        
+        val actions = createTestActions(testStatement)
         return Info(
             AllIcons.RunConfigurations.TestState.Run,
             { "Run test" },
@@ -57,11 +64,7 @@ class ValkyrieTestRunLineMarkerProvider : RunLineMarkerContributor() {
     }
     
     private fun getTestName(testElement: ValkyrieTestStatement): String {
-        return when {
-            testElement.isTestsBlock() -> "Tests Block"
-            testElement.isTestFunction() -> "Test Function"
-            else -> "Unknown Test"
-        }
+        return "Tests Block"
     }
 }
 
@@ -92,11 +95,7 @@ class ValkyrieTestConfigurationProducer {
         }
         
         private fun getTestDisplayName(testElement: ValkyrieTestStatement): String {
-            return when {
-                testElement.isTestsBlock() -> "Tests Block"
-                testElement.isTestFunction() -> "Test Function"
-                else -> "Unknown Test"
-            }
+            return "Tests Block"
         }
     }
 }

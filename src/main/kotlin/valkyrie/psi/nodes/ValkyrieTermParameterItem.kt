@@ -12,7 +12,7 @@ import valkyrie.psi.ValkyrieElementNode
  *
  * 示例：
  * ```valkyrie
- * micro foo(↯attribute modifier name: i32 = 0, <, b: String = "hello", >, kw, ..list, ...) {
+ * micro foo(↯annotation name: i32 = 0, <, b: String = "hello", >, kw, ..list, ...) {
  *     # ...
  * }
  * ```
@@ -52,40 +52,82 @@ class ValkyrieTermParameterItem(node: ASTNode) : ValkyrieElementNode(node), PsiN
     /**
      * 检查参数是否为仅位置参数
      */
-    val isPositionalOnly: Boolean
-        get() {
-            return hasModifier("positional")
-        }
+    fun getIsPositionalOnly(): Boolean {
+        return hasModifier("positional")
+    }
+
+    /**
+     * 检查参数是否为关键字参数
+     */
+    fun getIsKeywordOnly(): Boolean {
+        return hasModifier("named")
+    }
 
     /**
      * 检查参数是否为自由参数
      */
-    val isFreeParameter: Boolean
-        get() {
-            return hasModifier("free")
-        }
-
-
-    val isNamedOnly: Boolean
-        get() {
-            return hasModifier("named")
-        }
+    fun getIsFreeParameter(): Boolean {
+        return hasModifier("free")
+    }
 
     /**
      * 检查参数是否为 self 参数
      */
-    val isSelf: Boolean
-        get() {
-            return hasModifier("self")
-        }
+    fun getIsSelf(): Boolean {
+        return hasModifier("self")
+    }
 
     /**
      * 检查参数是否有mut修饰符
      */
-    val isMutable: Boolean
-        get() {
-            return hasModifier("mut")
-        }
+    fun getIsMutable(): Boolean {
+        return hasModifier("mut")
+    }
+
+    /**
+     * 检查参数是否有ref修饰符
+     */
+    fun getIsReference(): Boolean {
+        return hasModifier("ref")
+    }
+
+    /**
+     * 检查参数是否为可变参数列表 (varargs)
+     * 形如 ..list
+     */
+    fun getIsVarargs(): Boolean {
+        val text = this.text
+        return text.startsWith("..") && !text.startsWith("...")
+    }
+
+    /**
+     * 检查参数是否为任意参数对象 (varkws)
+     * 形如 ...
+     */
+    fun getIsVarkws(): Boolean {
+        return this.text.startsWith("...")
+    }
+
+    /**
+     * 检查参数是否为左分隔符 <
+     */
+    fun getIsLeftSeparator(): Boolean {
+        return this.text.trim() == "<"
+    }
+
+    /**
+     * 检查参数是否为右分隔符 >
+     */
+    fun getIsRightSeparator(): Boolean {
+        return this.text.trim() == ">"
+    }
+
+    /**
+     * 检查参数是否为分隔符（< 或 >）
+     */
+    fun getIsSeparator(): Boolean {
+        return getIsLeftSeparator() || getIsRightSeparator()
+    }
 
     fun getTypeReference(): ValkyrieTypeReferenceNode? {
         return findChildByClass(ValkyrieTypeReferenceNode::class.java)

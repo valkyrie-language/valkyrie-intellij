@@ -8,6 +8,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.language.ValkyrieIcons
 import valkyrie.psi.nodes.*
+import valkyrie.psi.ValkyrieTokenTypes
 
 /**
  * 控制流语句的导航提供器
@@ -18,20 +19,36 @@ class ValkyrieControlFlowNavigationProvider : LineMarkerProvider {
     private val effectAnalyzer = ValkyrieEffectAnalyzer()
 
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? {
-        return when (element) {
-            is ValkyrieControlFlowNodes -> createLoopMarker(element)
-            is ValkyrieReturnStatement -> createReturnMarker(element)
-            is ValkyrieBreakStatement -> createBreakMarker(element)
-            is ValkyrieContinueStatement -> createContinueMarker(element)
-            is ValkyrieYieldStatement -> createYieldMarker(element)
-            is ValkyrieRaiseStatement -> createRaiseMarker(element)
-            is ValkyrieCatchCase -> createCatchMarker(element)
+        // 只处理叶子节点
+        if (element.firstChild != null) return null
+        
+        val parent = element.parent ?: return null
+        
+        return when {
+            element.node?.elementType == ValkyrieTokenTypes.LOOP && parent is ValkyrieControlFlowNodes -> 
+                createLoopMarker(parent)
+            element.node?.elementType == ValkyrieTokenTypes.RETURN && parent is ValkyrieReturnStatement -> 
+                createReturnMarker(parent)
+            element.node?.elementType == ValkyrieTokenTypes.BREAK && parent is ValkyrieBreakStatement -> 
+                createBreakMarker(parent)
+            element.node?.elementType == ValkyrieTokenTypes.CONTINUE && parent is ValkyrieContinueStatement -> 
+                createContinueMarker(parent)
+            element.node?.elementType == ValkyrieTokenTypes.YIELD && parent is ValkyrieYieldStatement -> 
+                createYieldMarker(parent)
+            element.node?.elementType == ValkyrieTokenTypes.RAISE && parent is ValkyrieRaiseStatement -> 
+                createRaiseMarker(parent)
+            element.node?.elementType == ValkyrieTokenTypes.CATCH && parent is ValkyrieCatchCase -> 
+                createCatchMarker(parent)
             else -> null
         }
     }
 
-    private fun createLoopMarker(element: ValkyrieControlFlowNodes): LineMarkerInfo<PsiElement> {
-        val relatedElements = findRelatedControlFlowElements(element)
+    private fun createLoopMarker(element: PsiElement): LineMarkerInfo<PsiElement> {
+        val relatedElements = if (element is ValkyrieControlFlowNodes) {
+            findRelatedControlFlowElements(element)
+        } else {
+            emptyList()
+        }
         return NavigationGutterIconBuilder
             .create(ValkyrieIcons.LOOP)
             .setAlignment(GutterIconRenderer.Alignment.LEFT)
@@ -40,7 +57,7 @@ class ValkyrieControlFlowNavigationProvider : LineMarkerProvider {
             .createLineMarkerInfo(element)
     }
 
-    private fun createReturnMarker(element: ValkyrieReturnStatement): LineMarkerInfo<PsiElement> {
+    private fun createReturnMarker(element: PsiElement): LineMarkerInfo<PsiElement> {
         val functionElement = findContainingFunction(element)
         val targets = if (functionElement != null) listOf(functionElement) else emptyList()
         
@@ -52,7 +69,7 @@ class ValkyrieControlFlowNavigationProvider : LineMarkerProvider {
             .createLineMarkerInfo(element)
     }
 
-    private fun createBreakMarker(element: ValkyrieBreakStatement): LineMarkerInfo<PsiElement> {
+    private fun createBreakMarker(element: PsiElement): LineMarkerInfo<PsiElement> {
         val loopElement = findTargetLoop(element)
         val targets = if (loopElement != null) listOf(loopElement) else emptyList()
         
@@ -64,7 +81,7 @@ class ValkyrieControlFlowNavigationProvider : LineMarkerProvider {
             .createLineMarkerInfo(element)
     }
 
-    private fun createContinueMarker(element: ValkyrieContinueStatement): LineMarkerInfo<PsiElement> {
+    private fun createContinueMarker(element: PsiElement): LineMarkerInfo<PsiElement> {
         val loopElement = findTargetLoop(element)
         val targets = if (loopElement != null) listOf(loopElement) else emptyList()
         
@@ -76,7 +93,7 @@ class ValkyrieControlFlowNavigationProvider : LineMarkerProvider {
             .createLineMarkerInfo(element)
     }
 
-    private fun createYieldMarker(element: ValkyrieYieldStatement): LineMarkerInfo<PsiElement> {
+    private fun createYieldMarker(element: PsiElement): LineMarkerInfo<PsiElement> {
         val functionElement = findContainingFunction(element)
         val targets = if (functionElement != null) listOf(functionElement) else emptyList()
         
@@ -88,8 +105,12 @@ class ValkyrieControlFlowNavigationProvider : LineMarkerProvider {
             .createLineMarkerInfo(element)
     }
 
-    private fun createRaiseMarker(element: ValkyrieRaiseStatement): LineMarkerInfo<PsiElement> {
-        val relatedCatches = findRelatedCatchCases(element)
+    private fun createRaiseMarker(element: PsiElement): LineMarkerInfo<PsiElement> {
+        val relatedCatches = if (element is ValkyrieRaiseStatement) {
+            findRelatedCatchCases(element)
+        } else {
+            emptyList()
+        }
         val targets = relatedCatches.map { it as PsiElement }
         
         return NavigationGutterIconBuilder.create(ValkyrieIcons.RAISE)
@@ -99,8 +120,12 @@ class ValkyrieControlFlowNavigationProvider : LineMarkerProvider {
             .createLineMarkerInfo(element)
     }
 
-    private fun createCatchMarker(element: ValkyrieCatchCase): LineMarkerInfo<PsiElement> {
-        val relatedRaises = effectAnalyzer.findRelatedRaiseStatements(element)
+    private fun createCatchMarker(element: PsiElement): LineMarkerInfo<PsiElement> {
+        val relatedRaises = if (element is ValkyrieCatchCase) {
+            effectAnalyzer.findRelatedRaiseStatements(element)
+        } else {
+            emptyList()
+        }
         val targets = relatedRaises.map { it as PsiElement }
         
         return NavigationGutterIconBuilder.create(ValkyrieIcons.CATCH)
