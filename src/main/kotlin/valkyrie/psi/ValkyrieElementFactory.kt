@@ -60,6 +60,7 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.UNION_STATEMENT -> ValkyrieUnionDeclaration(node)
             ValkyrieElementTypes.FLAGS_STATEMENT -> ValkyrieUnionDeclaration(node) // 复用UnionDeclaration
             ValkyrieElementTypes.TRAIT_STATEMENT -> ValkyrieTraitDeclaration(node)
+            ValkyrieElementTypes.TRAIT_ALIAS_STATEMENT -> ValkyrieTraitAliasDeclaration(node)
             ValkyrieElementTypes.IMPLY_STATEMENT -> ValkyrieImplyStatement(node)
             ValkyrieElementTypes.NAMESPACE_STATEMENT -> ValkyrieNamespaceDeclaration(node)
             ValkyrieElementTypes.NAMESPACE_PATH -> ValkyrieElementNode(node)

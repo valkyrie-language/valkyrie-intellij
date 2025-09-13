@@ -73,6 +73,9 @@ object ValkyrieElementTypes {
     val TRAIT_STATEMENT = ValkyrieElementType("TRAIT_STATEMENT")
 
     @JvmField
+    val TRAIT_ALIAS_STATEMENT = ValkyrieElementType("TRAIT_ALIAS_STATEMENT")
+
+    @JvmField
     val IMPLY_STATEMENT = ValkyrieElementType("IMPLY_STATEMENT")
 
     @JvmField
