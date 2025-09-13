@@ -1748,12 +1748,12 @@ class ValkyrieParser : PsiParser {
 
             when {
                 builder.tokenType == ValkyrieTokenTypes.RPAREN -> break
-                first && parseParameterItem(builder, true) -> {
+                first && parseParameterItem(builder, false) -> {
                     first = false
                     continue
                 }
 
-                parseParameterItem(builder, false) -> continue
+                parseParameterItem(builder, true) -> continue
                 builder.tokenType == ValkyrieTokenTypes.LESS -> continue
                 builder.tokenType == ValkyrieTokenTypes.GREATER -> continue
             }
@@ -1773,9 +1773,9 @@ class ValkyrieParser : PsiParser {
         return true
     }
 
-    private fun parseParameterItem(builder: PsiBuilder, isFirst: Boolean): Boolean {
+    private fun parseParameterItem(builder: PsiBuilder, allowComma: Boolean): Boolean {
         val withComma = builder.mark()
-        if (!isFirst && builder.tokenType == ValkyrieTokenTypes.COMMA) {
+        if (allowComma && builder.tokenType == ValkyrieTokenTypes.COMMA) {
             builder.advanceLexer()
         }
 
