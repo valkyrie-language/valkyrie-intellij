@@ -75,7 +75,7 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.UNARY_EXPRESSION -> ValkyrieUnaryTerm(node)
             ValkyrieElementTypes.PARENTHESIZED_EXPRESSION -> ValkyrieParenthesizedExpressionNode(node)
             ValkyrieElementTypes.CALL_EXPRESSION -> ValkyrieCallExpressionNode(node)
-            ValkyrieElementTypes.GENERIC_CALL_EXPRESSION -> ValkyrieGenericCallExpressionNode(node)
+            ValkyrieElementTypes.CALL_TYPE_ARGUMENT -> ValkyrieGenericCallExpressionNode(node)
             ValkyrieElementTypes.POSTFIX_EXPRESSION -> ValkyriePostfixExpressionNode(node)
             ValkyrieElementTypes.ARRAY_EXPRESSION -> ValkyrieElementNode(node)
             ValkyrieElementTypes.TABLE_EXPRESSION -> ValkyrieElementNode(node)

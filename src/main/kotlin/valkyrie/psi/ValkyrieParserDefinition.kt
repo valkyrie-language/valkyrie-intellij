@@ -12,6 +12,7 @@ import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import valkyrie.language.ValkyrieLanguage
 import valkyrie.psi.nodes.ValkyrieFileNode
+import valkyrie.psi.parsers.ValkyrieParser
 
 /**
  * Valkyrie 语言解析器定义
