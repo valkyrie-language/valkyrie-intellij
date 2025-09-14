@@ -1,0 +1,143 @@
+// Test file for number literal lexing
+
+// Integer literals
+let zero = 0
+let positive = 123
+let large = 999999999
+let single_digit = 7
+
+// Negative numbers (unary minus + number)
+let negative = -42
+let negative_zero = -0
+let negative_large = -123456789
+
+// Hexadecimal literals
+let hex_zero = 0x0
+let hex_small = 0xA
+let hex_large = 0xFF
+let hex_mixed = 0x1A2B3C
+let hex_lowercase = 0xabcdef
+let hex_uppercase = 0xABCDEF
+let hex_long = 0x123456789ABCDEF
+
+// Binary literals
+let bin_zero = 0b0
+let bin_one = 0b1
+let bin_small = 0b1010
+let bin_large = 0b11111111
+let bin_mixed = 0b10101010
+let bin_long = 0b1111000011110000
+
+// Octal literals
+let oct_zero = 0o0
+let oct_small = 0o7
+let oct_medium = 0o123
+let oct_large = 0o777
+let oct_mixed = 0o12345670
+
+// Floating point literals
+let float_zero = 0.0
+let float_simple = 3.14
+let float_long = 123.456789
+let float_small = 0.001
+let float_no_leading = .5
+let float_no_trailing = 42.
+
+// Scientific notation
+let sci_simple = 1e10
+let sci_positive = 1e+10
+let sci_negative = 1e-10
+let sci_float = 3.14e5
+let sci_float_neg = 2.5e-3
+let sci_uppercase = 1E10
+let sci_complex = 1.23E+45
+let sci_very_small = 1.0e-100
+let sci_very_large = 9.99e+99
+
+// Edge cases
+let leading_zeros = 000123  // Should be treated as decimal 123
+let float_leading_zeros = 000.123
+let sci_leading_zeros = 001e10
+
+// Type suffixes (if supported)
+let int8 = 42i8
+let int16 = 42i16
+let int32 = 42i32
+let int64 = 42i64
+let uint8 = 42u8
+let uint16 = 42u16
+let uint32 = 42u32
+let uint64 = 42u64
+let float32 = 3.14f32
+let float64 = 3.14f64
+
+// Underscores for readability (if supported)
+let readable_int = 1_000_000
+let readable_hex = 0xFF_FF_FF
+let readable_bin = 0b1111_0000_1111_0000
+let readable_oct = 0o123_456_789
+let readable_float = 123_456.789_012
+let readable_sci = 1.234_567e+12
+
+// Complex expressions with numbers
+let arithmetic = 42 + 3.14 - 0xFF + 0b1010
+let comparison = 123 > 456 && 3.14 < 2.71
+let array_access = array[0] + array[42] + array[0xFF]
+let function_call = calculate(42, 3.14, 0b1010)
+
+// Numbers in different contexts
+if x > 0 { return 1 } else { return -1 }
+for i in 0..100 { process(i) }
+while counter < 1000 { counter += 1 }
+match value { 0 => "zero", 1 => "one", _ => "other" }
+
+// Very large numbers
+let max_int = 9223372036854775807
+let very_large_float = 1.7976931348623157e+308
+let very_small_float = 2.2250738585072014e-308
+
+// Special float values (if supported as literals)
+let infinity = inf
+let negative_infinity = -inf
+let not_a_number = nan
+
+// Numbers with various operations
+let addition = 123 + 456
+let subtraction = 999 - 111
+let multiplication = 12 * 34
+let division = 100 / 25
+let modulo = 17 % 5
+let power = 2 ** 8
+let bitwise_and = 0xFF & 0x0F
+let bitwise_or = 0xF0 | 0x0F
+let bitwise_xor = 0xFF ^ 0xAA
+let left_shift = 1 << 8
+let right_shift = 256 >> 4
+
+// Numbers in string interpolation (if supported)
+let message = "The answer is ${42}"
+let complex_message = "Result: ${123 + 456} (hex: ${0xFF})"
+
+// Array and object literals with numbers
+let number_array = [1, 2, 3, 4, 5]
+let mixed_array = [42, 3.14, 0xFF, 0b1010]
+let number_object = { x: 10, y: 20, z: 3.14 }
+
+// Function parameters and return values
+fn number_function(a: i32, b: f64) -> f64 {
+    a as f64 + b
+}
+
+let result = number_function(42, 3.14)
+
+// Type annotations with numbers
+let typed_int: i32 = 42
+let typed_float: f64 = 3.14159265359
+let typed_array: [i32; 5] = [1, 2, 3, 4, 5]
+
+// Constants with numbers
+const MAX_SIZE: usize = 1024
+const PI: f64 = 3.14159265359
+const BUFFER_SIZE: usize = 4096
+
+// End of number test file

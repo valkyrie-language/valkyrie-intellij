@@ -307,6 +307,9 @@ object ValkyrieTokenTypes {
     val COLON = ValkyrieTokenType(":")
 
     @JvmField
+    val DOUBLE_COLON = ValkyrieTokenType("::")
+
+    @JvmField
     val ARROW = ValkyrieTokenType("->")
 
     @JvmField
@@ -343,9 +346,6 @@ object ValkyrieTokenTypes {
 
     @JvmField
     val GENERIC_R = ValkyrieTokenType("⟩")
-
-    @JvmField
-    val DOUBLE_COLON = ValkyrieTokenType("::")
 
     // 注释
     @JvmField

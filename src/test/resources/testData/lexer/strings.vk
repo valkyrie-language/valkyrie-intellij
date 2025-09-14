@@ -1,0 +1,181 @@
+// Test file for string and character literal lexing
+
+// Basic string literals
+let empty_string = ""
+let simple_string = "hello"
+let world_string = "world"
+let sentence = "Hello, world!"
+let long_string = "This is a longer string with multiple words and punctuation."
+
+// String with spaces and special characters
+let spaced_string = "   spaces   "
+let punctuation = "!@#$%^&*()_+-=[]{}|;':,.<>?"
+let mixed_case = "MiXeD cAsE sTrInG"
+let numbers_in_string = "String with numbers: 123, 456, 789"
+
+// Escape sequences
+let newline = "Line 1\nLine 2"
+let tab = "Column 1\tColumn 2"
+let carriage_return = "Before\rAfter"
+let backslash = "Path\\to\\file"
+let quote = "She said \"Hello\""
+let single_quote = "It's a string with single quote"
+let null_char = "String with null\0char"
+let bell = "Bell sound\a"
+let backspace = "Backspace\b"
+let form_feed = "Form feed\f"
+let vertical_tab = "Vertical\vtab"
+
+// Unicode escape sequences (if supported)
+let unicode_basic = "Unicode: \u{41}"  // 'A'
+let unicode_emoji = "Emoji: \u{1F600}"  // 😀
+let unicode_chinese = "Chinese: \u{4E2D}\u{6587}"  // 中文
+let unicode_math = "Math: \u{03C0}"  // π
+
+// Hexadecimal escape sequences (if supported)
+let hex_escape = "Hex: \x41\x42\x43"  // ABC
+let hex_special = "Special: \x00\xFF"
+
+// Raw strings (if supported)
+let raw_string = r"Raw string with \n no escapes"
+let raw_multiline = r"
+Raw multiline
+string with \t tabs
+and \n newlines
+"
+let raw_quotes = r"Raw string with "quotes" inside"
+
+// Multi-line strings
+let multiline = "First line
+Second line
+Third line"
+let multiline_with_escapes = "Line 1\n\tIndented line 2\n\t\tDouble indented line 3"
+
+// String interpolation (if supported)
+let name = "Alice"
+let age = 30
+let interpolated = "Hello, ${name}! You are ${age} years old."
+let complex_interpolation = "Result: ${2 + 3} * ${4 + 5} = ${(2 + 3) * (4 + 5)}"
+let nested_interpolation = "Outer ${"Inner ${42}"} string"
+
+// Character literals
+let char_a = 'a'
+let char_z = 'Z'
+let char_digit = '5'
+let char_space = ' '
+let char_punctuation = '!'
+let char_symbol = '@'
+
+// Character escape sequences
+let char_newline = '\n'
+let char_tab = '\t'
+let char_carriage_return = '\r'
+let char_backslash = '\\'
+let char_single_quote = '\''
+let char_double_quote = '\"'
+let char_null = '\0'
+
+// Unicode characters
+let char_unicode = '\u{41}'  // 'A'
+let char_emoji = '\u{1F600}'  // 😀
+let char_chinese = '\u{4E2D}'  // 中
+
+// Hexadecimal character escapes
+let char_hex = '\x41'  // 'A'
+let char_hex_special = '\xFF'
+
+// String concatenation
+let concatenated = "Hello, " + "world!"
+let multi_concat = "Part 1" + " " + "Part 2" + " " + "Part 3"
+
+// Strings in different contexts
+if message == "success" {
+    print("Operation completed")
+}
+
+for char in "hello" {
+    process(char)
+}
+
+match status {
+    "ok" => continue,
+    "error" => break,
+    _ => return
+}
+
+// Function calls with strings
+let result = process_string("input data")
+let formatted = format("Template: {}", "value")
+let parsed = parse_int("123")
+
+// Array of strings
+let string_array = ["first", "second", "third"]
+let mixed_quotes = ["double", 'single', "mixed"]
+
+// Object with string keys and values
+let string_object = {
+    "name": "John",
+    "city": "New York",
+    "country": "USA"
+}
+
+// String methods (if supported)
+let length = "hello".length()
+let uppercase = "hello".to_upper()
+let lowercase = "HELLO".to_lower()
+let substring = "hello world".substring(0, 5)
+let contains = "hello world".contains("world")
+
+// Regular expressions (if supported as string literals)
+let regex_pattern = r"\d+\.\d+"
+let email_regex = r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+
+// Documentation strings
+/// This is a documentation comment with "quotes"
+/// and multiple lines with 'various' quote types
+fn documented_function() {
+    // Implementation
+}
+
+// Strings with various quote combinations
+let single_in_double = "String with 'single' quotes"
+let double_in_single = 'String with "double" quotes'
+let mixed_quotes_complex = "Complex 'string' with \"escaped\" quotes"
+
+// Very long strings
+let very_long_string = "This is a very long string that contains many words and characters to test how the lexer handles longer string literals that might span multiple lines or contain various types of content including numbers like 123 and symbols like !@#$%^&*() and even some unicode characters if supported by the language implementation."
+
+// Empty and whitespace strings
+let empty = ""
+let just_space = " "
+let just_tab = "\t"
+let just_newline = "\n"
+let whitespace_mix = " \t\n\r "
+
+// Strings with control characters
+let control_chars = "\x01\x02\x03\x04\x05"
+let printable_range = "\x20\x21\x7E\x7F"
+
+// Binary data as strings (if supported)
+let binary_string = "\x00\x01\x02\xFF\xFE\xFD"
+
+// String literals in expressions
+let comparison = "abc" < "def"
+let equality = "test" == "test"
+let inequality = "hello" != "world"
+
+// Function definitions with string parameters
+fn string_function(param: string) -> string {
+    "Processed: " + param
+}
+
+fn multi_string_function(a: string, b: string, c: string) -> string {
+    a + " " + b + " " + c
+}
+
+// Constants with strings
+const DEFAULT_MESSAGE: string = "Default message"
+const ERROR_PREFIX: string = "ERROR: "
+const SUCCESS_MESSAGE: string = "Operation completed successfully"
+
+// End of string test file

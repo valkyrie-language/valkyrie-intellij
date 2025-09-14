@@ -1,5 +1,13 @@
-<$ if a > 0 $>
- if any text
+<$ if a $>
+if any text
 <$ else $>
- any else text
+any else text
+<$ end $>
+
+<$ if condition > 0 $>
+some content
+<$ else if other_condition $>
+else if content
+<$ else $>
+final else content
 <$ end $>
