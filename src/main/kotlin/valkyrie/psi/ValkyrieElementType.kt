@@ -36,16 +36,7 @@ object ValkyrieElementTypes {
     val TUPLE_PATTERN = ValkyrieElementType("TUPLE_PATTERN")
 
     @JvmField
-    val NAMED_TUPLE_PATTERN = ValkyrieElementType("NAMED_TUPLE_PATTERN")
-
-    @JvmField
-    val STRUCT_PATTERN = ValkyrieElementType("STRUCT_PATTERN")
-
-    @JvmField
-    val DICT_PATTERN = ValkyrieElementType("DICT_PATTERN")
-
-    @JvmField
-    val ARRAY_PATTERN = ValkyrieElementType("ARRAY_PATTERN")
+    val TABLE_PATTERN = ValkyrieElementType("TABLE_PATTERN")
 
     @JvmField
     val OBJECT_PATTERN = ValkyrieElementType("OBJECT_PATTERN")
