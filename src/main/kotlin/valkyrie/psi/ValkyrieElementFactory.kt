@@ -117,7 +117,7 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.ASSIGN_MACRO -> ValkyrieAssignStatement(node)
             ValkyrieElementTypes.COMPILE_TIME_BLOCK -> ValkyrieCompileTimeBlock(node)
             ValkyrieElementTypes.TEMPLATE_BLOCK -> ValkyrieTemplateBlock(node)
-            ValkyrieElementTypes.TEMPLATE_IF -> ValkyrieElementNode(node)
+            ValkyrieElementTypes.TEMPLATE_IF_MARK -> ValkyrieElementNode(node)
             ValkyrieElementTypes.TEMPLATE_ELSE_IF -> ValkyrieElementNode(node)
             ValkyrieElementTypes.TEMPLATE_ELSE -> ValkyrieElementNode(node)
             ValkyrieElementTypes.LOOP_STATEMENT -> ValkyrieControlFlowNodes(node)
