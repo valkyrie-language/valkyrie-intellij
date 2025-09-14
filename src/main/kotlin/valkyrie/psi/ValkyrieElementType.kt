@@ -130,6 +130,16 @@ object ValkyrieElementTypes {
     val IF_STATEMENT = ValkyrieElementType("IF_STATEMENT")
 
     @JvmField
+    val IF_MAIN_PART = ValkyrieElementType("IF_MAIN_PART")
+
+    @JvmField
+    val ELSE_IF_PART = ValkyrieElementType("ELSE_IF_PART")
+
+
+    @JvmField
+    val ELSE_PART = ValkyrieElementType("ELSE_PART")
+
+    @JvmField
     val ELSE_CLAUSE = ValkyrieElementType("ELSE_CLAUSE")
 
     @JvmField
@@ -167,6 +177,9 @@ object ValkyrieElementTypes {
     val TEMPLATE_IF = ValkyrieElementType("TEMPLATE_IF")
 
     @JvmField
+    val TEMPLATE_IF_MARK = ValkyrieElementType("TEMPLATE_IF")
+
+    @JvmField
     val TEMPLATE_ELSE_IF = ValkyrieElementType("TEMPLATE_ELSE_IF")
 
     @JvmField
@@ -182,7 +195,7 @@ object ValkyrieElementTypes {
     val TEMPLATE_MATCH = ValkyrieElementType("TEMPLATE_MATCH")
 
     @JvmField
-    val TEMPLATE_INTERPOLATION = ValkyrieElementType("TEMPLATE_INTERPOLATION")
+    val TEMPLATE_END_MARK = ValkyrieElementType("TEMPLATE_END_MARK")
 
     @JvmField
     val TEMPLATE_TEXT = ValkyrieElementType("TEMPLATE_TEXT")
@@ -271,7 +284,7 @@ object ValkyrieElementTypes {
     val SCOPE_STATEMENT = ValkyrieElementType("SCOPE_STATEMENT")
 
     @JvmField
-    val FOR_STATEMENT = ValkyrieElementType("FOR_STATEMENT")
+    val EACH_STATEMENT = ValkyrieElementType("FOR_STATEMENT")
 
     @JvmField
     val LOOP_STATEMENT = ValkyrieElementType("LOOP_STATEMENT")

@@ -392,5 +392,8 @@ object ValkyrieTokenTypes {
     val TEMPLATE_END = ValkyrieTokenType("$>")
 
     @JvmField
+    val TEMPLATE_TEXT = ValkyrieTokenType("TEMPLATE_TEXT")
+
+    @JvmField
     val END = ValkyrieTokenType("end")
 }
