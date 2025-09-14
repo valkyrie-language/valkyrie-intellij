@@ -183,7 +183,13 @@ object ValkyrieElementTypes {
     val TEMPLATE_ELSE_IF = ValkyrieElementType("TEMPLATE_ELSE_IF")
 
     @JvmField
+    val TEMPLATE_ELSE_IF_MARK = ValkyrieElementType("TEMPLATE_ELSE_IF_MARK")
+
+    @JvmField
     val TEMPLATE_ELSE = ValkyrieElementType("TEMPLATE_ELSE")
+
+    @JvmField
+    val TEMPLATE_ELSE_MARK = ValkyrieElementType("TEMPLATE_ELSE_MARK")
 
     @JvmField
     val TEMPLATE_FOR = ValkyrieElementType("TEMPLATE_FOR")
@@ -260,6 +266,21 @@ object ValkyrieElementTypes {
     val ARRAY_EXPRESSION = ValkyrieElementType("ARRAY_EXPRESSION")
 
     @JvmField
+    val TABLE_EXPRESSION = ValkyrieElementType("TABLE_EXPRESSION")
+
+    @JvmField
+    val TABLE_PAIR = ValkyrieElementType("TABLE_PAIR")
+
+    @JvmField
+    val SLICE_EXPRESSION = ValkyrieElementType("SLICE_EXPRESSION")
+
+    @JvmField
+    val SLICE_ITEM = ValkyrieElementType("SLICE_ITEM")
+
+    @JvmField
+    val INDEX_EXPRESSION = ValkyrieElementType("INDEX_EXPRESSION")
+
+    @JvmField
     val LABEL_STATEMENT = ValkyrieElementType("LABEL_STATEMENT")
 
     @JvmField
@@ -313,6 +334,9 @@ object ValkyrieElementTypes {
 
     @JvmField
     val ARRAY_TYPE = ValkyrieElementType("ARRAY_TYPE")
+
+    @JvmField
+    val TABLE_TYPE = ValkyrieElementType("TABLE_TYPE")
 
     @JvmField
     val TUPLE_TYPE = ValkyrieElementType("TUPLE_TYPE")

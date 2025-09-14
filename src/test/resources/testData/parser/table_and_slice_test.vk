@@ -1,0 +1,63 @@
+// Table literal expressions
+let simple_table = [a: 1, b: 2, c: 3]
+let string_table = ["name": "Alice", "age": "30", "city": "New York"]
+let mixed_table = [id: 123, name: "Bob", active: true, score: 95.5]
+let empty_table = [:]
+let nested_table = [user: [name: "Charlie", details: [age: 25, email: "charlie@example.com"]]]
+
+// Array expressions (for comparison)
+let simple_array = [1, 2, 3, 4, 5]
+let string_array = ["apple", "banana", "cherry"]
+let mixed_array = [1, "two", true, 4.0]
+let empty_array = []
+
+// Slice expressions
+let basic_slice = arr[1:5]
+let start_only = arr[3:]
+let end_only = arr[:7]
+let full_slice = arr[:]
+let step_slice = arr[1:10:2]
+let reverse_slice = arr[::-1]
+let negative_indices = arr[-5:-1]
+let step_only = arr[::3]
+
+// Multi-dimensional slicing
+let matrix_slice = matrix[1:3, 2:4]
+let tensor_slice = tensor[0:2, 1:3, ::2]
+
+// Complex expressions combining tables and slices
+let table_access = users["active"][0:10]
+let nested_access = data["results"]["items"][1:5]
+let chained_slice = matrix[1:5][2:4][::2]
+
+// Table types
+let typed_table: [String: i32] = ["one": 1, "two": 2]
+let nested_type: [String: [String: i32]] = ["group1": ["a": 1, "b": 2]]
+
+// Function with table parameters
+function process_table(data: [String: Any]) -> void {
+    let subset = data["items"][0:5]
+    let filtered = data["users"][name: "admin"]
+}
+
+// Array types (for comparison)
+let typed_array: [i32] = [1, 2, 3, 4, 5]
+let nested_array_type: [[String]] = [["a", "b"], ["c", "d"]]
+
+// Edge cases
+let single_element_table = [key: "value"]
+let single_element_array = [42]
+let table_with_array_values = ["numbers": [1, 2, 3], "letters": ["a", "b", "c"]]
+let array_with_table_elements = [{name: "Alice", age: 30}, {name: "Bob", age: 25}]
+
+// Complex slice patterns
+let multi_step = arr[1:20:3][::2]
+let conditional_slice = if condition { arr[0:5] } else { arr[5:10] }
+let function_result_slice = get_data()["results"][0:limit]
+
+// Table pattern matching (if supported)
+match value {
+    [a: x, b: y] => process(x, y),
+    [name: n, ..rest] => handle_user(n, rest),
+    _ => default_case()
+}

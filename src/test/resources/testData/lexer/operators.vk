@@ -1,0 +1,232 @@
+// Test file for operators and punctuation lexing
+
+// Arithmetic operators
+let addition = a + b
+let subtraction = a - b
+let multiplication = a * b
+let division = a / b
+let modulo = a % b
+let power = a ** b
+let unary_plus = +a
+let unary_minus = -a
+
+// Assignment operators
+let simple_assign = a = b
+let add_assign = a += b
+let sub_assign = a -= b
+let mul_assign = a *= b
+let div_assign = a /= b
+let mod_assign = a %= b
+let pow_assign = a **= b
+
+// Comparison operators
+let equal = a == b
+let not_equal = a != b
+let less_than = a < b
+let less_equal = a <= b
+let greater_than = a > b
+let greater_equal = a >= b
+let spaceship = a <=> b  // Three-way comparison (if supported)
+
+// Logical operators
+let logical_and = a && b
+let logical_or = a || b
+let logical_not = !a
+let logical_xor = a ^^ b  // Logical XOR (if supported)
+
+// Bitwise operators
+let bitwise_and = a & b
+let bitwise_or = a | b
+let bitwise_xor = a ^ b
+let bitwise_not = ~a
+let left_shift = a << b
+let right_shift = a >> b
+let unsigned_right_shift = a >>> b  // (if supported)
+
+// Bitwise assignment operators
+let and_assign = a &= b
+let or_assign = a |= b
+let xor_assign = a ^= b
+let left_shift_assign = a <<= b
+let right_shift_assign = a >>= b
+let unsigned_right_shift_assign = a >>>= b  // (if supported)
+
+// Increment and decrement (if supported)
+let pre_increment = ++a
+let post_increment = a++
+let pre_decrement = --a
+let post_decrement = a--
+
+// Range operators
+let inclusive_range = 1..10
+let exclusive_range = 1..<10  // or 1..=10 depending on syntax
+let unbounded_range = 1..
+let full_range = ..
+
+// Member access operators
+let dot_access = object.property
+let method_call = object.method()
+let chained_access = object.property.method().field
+let optional_access = object?.property  // Safe navigation (if supported)
+let force_unwrap = optional!  // Force unwrap (if supported)
+
+// Index operators
+let array_index = array[0]
+let multi_index = matrix[i][j]
+let slice_access = array[1..5]
+let negative_index = array[-1]  // (if supported)
+
+// Function call operators
+let function_call = func()
+let function_with_args = func(a, b, c)
+let method_call_op = object.method(arg1, arg2)
+let chained_calls = func1().func2().func3()
+
+// Ternary operator (if supported)
+let ternary = condition ? true_value : false_value
+
+// Null coalescing (if supported)
+let null_coalesce = value ?? default_value
+let null_assign = value ??= default_value
+
+// Pipeline operator (if supported)
+let pipeline = value |> transform |> process
+
+// Composition operator (if supported)
+let compose = func1 >> func2 >> func3
+
+// Pattern matching operators
+let match_op = value match {
+    pattern1 => result1,
+    pattern2 => result2,
+    _ => default_result
+}
+
+// Type operators
+let type_check = value is Type
+let type_cast = value as Type
+let safe_cast = value as? Type  // Safe cast (if supported)
+let type_annotation = value: Type
+
+// Punctuation - Brackets
+let parentheses = (expression)
+let square_brackets = [array, elements]
+let curly_braces = { key: value }
+let angle_brackets = <generic, types>  // (if used for generics)
+
+// Punctuation - Separators
+let comma_sep = a, b, c
+let semicolon_end = statement;
+let colon_type = variable: type
+let double_colon = namespace::item  // (if supported)
+
+// Punctuation - Special
+let question_mark = optional?
+let exclamation = force!
+let at_symbol = @annotation  // (if supported)
+let hash_symbol = #directive  // (if supported)
+let dollar_sign = $variable  // (if supported for interpolation)
+
+// Arrow operators
+let thin_arrow = ->
+let fat_arrow = =>
+let left_arrow = <-  // (if supported)
+let double_arrow = <->  // (if supported)
+
+// Compound operators in expressions
+let complex_expr1 = (a + b) * (c - d) / (e % f)
+let complex_expr2 = !flag && (x > 0) || (y < 100)
+let complex_expr3 = array[index] + object.field * function(arg)
+let complex_expr4 = value?.property ?? default_value
+
+// Operators with different precedence
+let precedence1 = a + b * c  // Should be a + (b * c)
+let precedence2 = a * b + c  // Should be (a * b) + c
+let precedence3 = a && b || c  // Should be (a && b) || c
+let precedence4 = !a && b  // Should be (!a) && b
+
+// Operators in different contexts
+if x > 0 && y < 100 {
+    result = x + y
+}
+
+while counter < limit {
+    counter += step
+}
+
+for i in 0..count {
+    process(array[i])
+}
+
+// Function definitions with operators
+fn add(a: i32, b: i32) -> i32 {
+    a + b
+}
+
+fn compare<T>(a: T, b: T) -> bool where T: Ord {
+    a < b
+}
+
+// Operator overloading (if supported)
+impl Add for MyType {
+    fn add(self, other: MyType) -> MyType {
+        // Implementation
+    }
+}
+
+// Macro operators (if supported)
+let macro_call = macro!(args)
+let attribute = #[derive(Debug)]
+
+// String interpolation operators
+let interpolated = "Value: ${expression + 1}"
+let formatted = f"Formatted: {value:02d}"
+
+// Lambda/closure operators
+let closure = |x, y| x + y
+let lambda = (x, y) => x * y  // Alternative syntax
+
+// Spread/rest operators (if supported)
+let spread_array = [first, ...rest]
+let spread_object = { base, ...additional }
+let rest_params = function(...args)
+
+// Destructuring operators
+let [first, second, ...rest] = array
+let { name, age, ...other } = object
+
+// Async/await operators (if supported)
+let awaited = await async_function()
+let async_closure = async |x| await process(x)
+
+// Reference operators (if supported)
+let reference = &value
+let mutable_ref = &mut value
+let dereference = *pointer
+
+// Lifetime operators (if supported)
+let lifetime_ref = &'a value
+let static_ref = &'static CONSTANT
+
+// Unsafe operators (if supported)
+let unsafe_op = unsafe { *raw_pointer }
+
+// Complex operator combinations
+let complex1 = a?.b?.c ?? d.e.f
+let complex2 = (x + y) * z >> shift_amount
+let complex3 = !flag && array[index]?.method() == expected
+let complex4 = base_value |> transform |> validate ?? fallback
+
+// Operators in type definitions
+type UnionType = TypeA | TypeB | TypeC  // (if supported)
+type IntersectionType = TypeA & TypeB & TypeC  // (if supported)
+type FunctionType = (A, B) -> C
+type GenericType<T> = Container<T>
+
+// Operators with whitespace variations
+let no_space = a+b*c
+let with_spaces = a + b * c
+let mixed_spacing = a+ b *c
+let extra_spaces = a  +  b  *  c
+
+// End of operators test file
