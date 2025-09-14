@@ -14,6 +14,8 @@ class ValkyrieElementType(debugName: String) : IElementType(debugName, ValkyrieL
  * Valkyrie PSI 元素类型定义
  */
 object ValkyrieElementTypes {
+
+
     // 文件根节点
     @JvmField
     val FILE = ValkyrieElementType("FILE")
@@ -28,6 +30,8 @@ object ValkyrieElementTypes {
     @JvmField
     val PATTERN = ValkyrieElementType("PATTERN")
 
+    @JvmField
+    val BARE_PATTERN= ValkyrieElementType("BARE_PATTERN")
     @JvmField
     val TUPLE_PATTERN = ValkyrieElementType("TUPLE_PATTERN")
 
