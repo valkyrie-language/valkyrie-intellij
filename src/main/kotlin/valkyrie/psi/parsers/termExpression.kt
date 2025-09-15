@@ -1,7 +1,6 @@
 package valkyrie.psi.parsers
 
 import com.intellij.lang.PsiBuilder
-import com.intellij.psi.tree.IElementType
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.ValkyrieTokenTypes
 
@@ -182,6 +181,11 @@ val termInfixPrecedences = mapOf(
 )
 
 val termPostfixPrecedences = mapOf(
-    ValkyrieTokenTypes.WOW to 5, // not null
-    ValkyrieTokenTypes.WHAT to 5, // 可选链
+    ValkyrieTokenTypes.WOW to 20, // not null
+    ValkyrieTokenTypes.WHAT to 20, // nullable, ?(), ?[]
+    ValkyrieTokenTypes.PARENTHESIS_L to 20, // a(), a?.()
+    ValkyrieTokenTypes.BRACKET_L to 20, // a[], a?[]
+    ValkyrieTokenTypes.BRACE_L to 20, // a { }, a?{ }, a(){ }, a?(){}
+    ValkyrieTokenTypes.DOUBLE_COLON to 20, // a::<>
+    ValkyrieTokenTypes.DOT to 20, // a.b, a?.b, a?.b(){ }, a.match { }
 )
