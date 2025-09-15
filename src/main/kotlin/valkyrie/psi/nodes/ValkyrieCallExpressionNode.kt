@@ -29,14 +29,14 @@ class ValkyrieCallExpressionNode(node: ASTNode) : ValkyrieElementNode(node) {
         var child = this.firstChild?.nextSibling
         
         // 跳过左括号
-        while (child != null && child.node.elementType != ValkyrieTokenTypes.PARENTHESES_L) {
+        while (child != null && child.node.elementType != ValkyrieTokenTypes.PARENTHESIS_L) {
             child = child.nextSibling
         }
         
         if (child != null) {
             child = child.nextSibling // 跳过左括号
             
-            while (child != null && child.node.elementType != ValkyrieTokenTypes.PARENTHESES_R) {
+            while (child != null && child.node.elementType != ValkyrieTokenTypes.PARENTHESIS_R) {
                 if (child.node.elementType != ValkyrieTokenTypes.COMMA && 
                     child.node.elementType != WHITE_SPACE) {
                     args.add(child)

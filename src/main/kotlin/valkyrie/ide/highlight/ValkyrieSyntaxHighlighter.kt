@@ -62,7 +62,7 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.IS
                 -> ValkyrieColor.OPERATION
 
-            ValkyrieTokenTypes.PARENTHESES_L, ValkyrieTokenTypes.PARENTHESES_R -> ValkyrieColor.PARENTHESES
+            ValkyrieTokenTypes.PARENTHESIS_L, ValkyrieTokenTypes.PARENTHESIS_R -> ValkyrieColor.PARENTHESES
             ValkyrieTokenTypes.ARRAY_L, ValkyrieTokenTypes.ARRAY_R -> ValkyrieColor.BRACKETS
             ValkyrieTokenTypes.BRACE_L, ValkyrieTokenTypes.BRACE_R -> ValkyrieColor.BRACES
             ValkyrieTokenTypes.COMPILE_L, ValkyrieTokenTypes.COMPILE_R -> ValkyrieColor.COMPILE_TIME_BLOCK

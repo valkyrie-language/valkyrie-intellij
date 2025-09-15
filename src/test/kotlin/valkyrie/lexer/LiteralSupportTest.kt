@@ -39,7 +39,7 @@ class LiteralSupportTest {
             lexer.start(input, 0, input.length, 0)
             
             // 第一个 token 应该是左括号
-            assertEquals("$description should start with PARENTHESES_L", ValkyrieTokenTypes.PARENTHESES_L, lexer.tokenType)
+            assertEquals("$description should start with PARENTHESES_L", ValkyrieTokenTypes.PARENTHESIS_L, lexer.tokenType)
             
             // 验证可以正确解析整个输入
             var tokenCount = 0
@@ -116,11 +116,11 @@ class LiteralSupportTest {
             ValkyrieTokenTypes.COMMA,        // ,
             ValkyrieTokenTypes.IDENTIFIER_STD, // b
             ValkyrieTokenTypes.COLON,        // :
-            ValkyrieTokenTypes.PARENTHESES_L, // (
+            ValkyrieTokenTypes.PARENTHESIS_L, // (
             ValkyrieTokenTypes.INTEGER,      // 3
             ValkyrieTokenTypes.COMMA,        // ,
             ValkyrieTokenTypes.INTEGER,      // 4
-            ValkyrieTokenTypes.PARENTHESES_R, // )
+            ValkyrieTokenTypes.PARENTHESIS_R, // )
             ValkyrieTokenTypes.BRACE_R       // }
         )
         
