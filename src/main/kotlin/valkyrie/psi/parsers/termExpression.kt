@@ -5,6 +5,74 @@ import com.intellij.psi.tree.IElementType
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.ValkyrieTokenTypes
 
+
+fun parseFunctionParameterList(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    if (builder.tokenType != ValkyrieTokenTypes.PARENTHESES_L) {
+        return false
+    }
+
+    val marker = builder.mark()
+    builder.advanceLexer() // consume '('
+
+    // 允许空参数列表
+    if (builder.tokenType != ValkyrieTokenTypes.PARENTHESES_R) {
+        // 解析第一个参数
+        if (!parseFunctionParameterItem(valkyrieParser, builder)) {
+            marker.error("Expected parameter")
+            return false
+        }
+
+        // 解析后续参数 (, param)*
+        while (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+            builder.advanceLexer() // consume ','
+
+            // 检查是否是尾随逗号（可选）
+            if (builder.tokenType == ValkyrieTokenTypes.PARENTHESES_R) {
+                break // 允许尾随逗号
+            }
+
+            if (!parseFunctionParameterItem(valkyrieParser, builder)) {
+                marker.error("Expected parameter after ','")
+                return false
+            }
+        }
+    }
+
+    if (builder.tokenType == ValkyrieTokenTypes.PARENTHESES_R) {
+        builder.advanceLexer() // consume ')'
+    } else {
+        builder.error("Expected ')'")
+        return false
+    }
+    marker.done(ValkyrieElementTypes.TERM_PARAMETER_LIST)
+    return true
+}
+
+fun parseFunctionParameterItem(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    val marker = builder.mark()
+
+    // 解析注解
+    valkyrieParser.parseAnnotations(builder, withModifiers = true)
+
+    // 检查是否是可变参数 ..list 或任意参数 ...
+    if (builder.tokenType == ValkyrieTokenTypes.DOT_DOT || builder.tokenType == ValkyrieTokenTypes.ELLIPSIS) {
+        builder.advanceLexer()
+    }
+
+    // 解析参数名
+    if (!valkyrieParser.parseIdentifier(builder)) {
+        builder.error("Expected parameter name")
+        marker.rollbackTo()
+        return false
+    }
+
+    valkyrieParser.parseTypeHint(builder)
+    valkyrieParser.parseDefaultValue(builder, false)
+
+    marker.done(ValkyrieElementTypes.TERM_PARAMETER_ITEM)
+    return true
+}
+
 // f(t, u) 中的 (t, u)
 fun parseTermArgumentList(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {
     if (builder.tokenType != ValkyrieTokenTypes.PARENTHESES_L) {
