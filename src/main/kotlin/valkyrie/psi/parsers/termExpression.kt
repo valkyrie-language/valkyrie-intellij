@@ -145,41 +145,11 @@ fun parseTermExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
     return false
 }
 
-fun parsePrimaryTerm(builder: PsiBuilder): Boolean {
-    TODO()
-}
-
-fun isTermPrefixOperator(tokenType: IElementType?): Boolean {
-    return when (tokenType) {
-        ValkyrieTokenTypes.PLUS, ValkyrieTokenTypes.MINUS, ValkyrieTokenTypes.WOW, ValkyrieTokenTypes.WOW, ValkyrieTokenTypes.STAR, ValkyrieTokenTypes.AMPERSAND -> true
-
-        else -> false
-    }
-}
-
-fun isTermInfixOperator(tokenType: IElementType?): Boolean {
-    return when (tokenType) {
-        ValkyrieTokenTypes.PLUS, ValkyrieTokenTypes.MINUS, ValkyrieTokenTypes.STAR, ValkyrieTokenTypes.MULTIPLY, ValkyrieTokenTypes.SLASH, ValkyrieTokenTypes.INTEGER_DIVIDE, ValkyrieTokenTypes.PERCENT, ValkyrieTokenTypes.POWER, ValkyrieTokenTypes.EQUAL, ValkyrieTokenTypes.NOT_EQUAL, ValkyrieTokenTypes.ANGLE_L, ValkyrieTokenTypes.ANGLE_R, ValkyrieTokenTypes.LESS_EQUAL, ValkyrieTokenTypes.GREATER_EQUAL, ValkyrieTokenTypes.LOGIC_AND, ValkyrieTokenTypes.LOGIC_OR, ValkyrieTokenTypes.LOGIC_XOR, ValkyrieTokenTypes.LOGIC_NAND, ValkyrieTokenTypes.LOGIC_NOR, ValkyrieTokenTypes.LOGIC_XAND, ValkyrieTokenTypes.PIPE, ValkyrieTokenTypes.AMPERSAND, ValkyrieTokenTypes.AS, ValkyrieTokenTypes.IN, ValkyrieTokenTypes.IS -> true
-
-        else -> false
-    }
-}
-
-fun isTermPostfixOperator(tokenType: IElementType?): Boolean {
-    return when (tokenType) {
-        ValkyrieTokenTypes.WOW, ValkyrieTokenTypes.WOW, ValkyrieTokenTypes.WHAT, ValkyrieTokenTypes.PARENTHESIS_L, ValkyrieTokenTypes.BRACKET_L, ValkyrieTokenTypes.DOT, ValkyrieTokenTypes.DOUBLE_COLON, ValkyrieTokenTypes.GENERIC_L -> true
-
-        else -> false
-    }
-}
-
-fun parsePostfixTermExpression(valkyrieParser: ValkyrieParser, builder: PsiBuilder, left: PsiBuilder.Marker): PsiBuilder.Marker {
-    TODO()
-}
-
-fun parsePrefixTermExpression(valkyrieParser: ValkyrieParser, builder: PsiBuilder): PsiBuilder.Marker? {
-    TODO()
-}
+val termPrefixPrecedences = mapOf(
+    ValkyrieTokenTypes.PLUS to 5,
+    ValkyrieTokenTypes.MINUS to 5,
+    ValkyrieTokenTypes.WOW to 5, // not
+)
 
 
 // 性能优化：缓存操作符优先级
@@ -195,8 +165,8 @@ val termInfixPrecedences = mapOf(
     ValkyrieTokenTypes.AS to 4,  // 类型转换
     ValkyrieTokenTypes.EQUAL to 5,
     ValkyrieTokenTypes.NOT_EQUAL to 5,
-    ValkyrieTokenTypes.IN to 5,
-    ValkyrieTokenTypes.IS to 5,
+    ValkyrieTokenTypes.IN to 5, // 包括 not in
+    ValkyrieTokenTypes.IS to 5, // 模式判断, 包括 is not
     ValkyrieTokenTypes.ANGLE_L to 6,
     ValkyrieTokenTypes.ANGLE_R to 6,
     ValkyrieTokenTypes.LESS_EQUAL to 6,
@@ -209,4 +179,9 @@ val termInfixPrecedences = mapOf(
     ValkyrieTokenTypes.INTEGER_DIVIDE to 8,
     ValkyrieTokenTypes.PERCENT to 8,
     ValkyrieTokenTypes.POWER to 9
+)
+
+val termPostfixPrecedences = mapOf(
+    ValkyrieTokenTypes.WOW to 5, // not null
+    ValkyrieTokenTypes.WHAT to 5, // 可选链
 )
