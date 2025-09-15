@@ -328,6 +328,7 @@ private fun parseParenthesisType(parser: ValkyrieParser, builder: PsiBuilder): B
     return true
 }
 
+// []
 // [T]
 // [T; N] 数组
 // [name: T] 具名元组/记录
@@ -335,9 +336,8 @@ private fun parseBracketType(parser: ValkyrieParser, builder: PsiBuilder): Boole
     val marker = builder.mark()
     builder.advanceLexer() // 吃掉 '['
 
-    // 检查右方括号 BRACKET_R
+    // 返回空对象
     if (builder.tokenType == ValkyrieTokenTypes.BRACKET_R) {
-        builder.error("向量、数组或记录类型不能为空")
         builder.advanceLexer()
         marker.done(ValkyrieElementTypes.TABLE_TYPE)
         return true
@@ -424,18 +424,17 @@ private fun parseBracketType(parser: ValkyrieParser, builder: PsiBuilder): Boole
 }
 
 private val typePrefixPrecedences = mapOf(
-    ValkyrieTokenTypes.PLUS to 5, // +T
-    ValkyrieTokenTypes.MINUS to 5, // -T
+    ValkyrieTokenTypes.PLUS to 5,  // +T 协变类型
+    ValkyrieTokenTypes.MINUS to 5, // -T 逆变类型
 )
 
 private val typeInfixPrecedences = mapOf(
-    ValkyrieTokenTypes.PIPE to 1, // T | U
-    ValkyrieTokenTypes.AMPERSAND to 2, // T & U
-    ValkyrieTokenTypes.PLUS to 3, // T + U
-    ValkyrieTokenTypes.MINUS to 3, // T - U
-    ValkyrieTokenTypes.ARROW to 4, // T -> U (右结合)
-    // `::` 将作为高优先级的左结合中缀运算符, 用于处理路径, 例如 A<B>::C
-    ValkyrieTokenTypes.DOUBLE_COLON to 8,
+    ValkyrieTokenTypes.PIPE to 1,         // T | U  交类型
+    ValkyrieTokenTypes.AMPERSAND to 2,    // T & U
+    ValkyrieTokenTypes.AS to 3,           // T as U
+    ValkyrieTokenTypes.PLUS to 4,         // T + U
+    ValkyrieTokenTypes.MINUS to 4,        // T - U
+    ValkyrieTokenTypes.ARROW to 5,        // T -> U
 )
 
 private val typePostfixPrecedences = mapOf(
