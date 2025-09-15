@@ -1,8 +1,8 @@
+package valkyrie.psi.parsers
+
 import com.intellij.lang.PsiBuilder
-import com.intellij.psi.tree.TokenSet
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.ValkyrieTokenTypes
-import valkyrie.psi.parsers.ValkyrieParser
 
 
 fun parseGenericParameterList(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {
@@ -201,11 +201,11 @@ fun parsePrimaryType(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boole
     return valkyrieParser.parseIdentifier(builder)
 }
 
-val prefixOperators = TokenSet.create(
-    ValkyrieTokenTypes.PLUS,
-    ValkyrieTokenTypes.MINUS,
+val typePrefixPrecedences = mapOf(
+    ValkyrieTokenTypes.PLUS to 5, // +T
+    ValkyrieTokenTypes.MINUS to 5, // -T
 )
-val infixPrecedences = mapOf(
+val typeInfixPrecedences = mapOf(
     ValkyrieTokenTypes.PIPE to 1, // T | U
     ValkyrieTokenTypes.AMPERSAND to 2, // T & U
     ValkyrieTokenTypes.PLUS to 3, // T + U
@@ -213,7 +213,7 @@ val infixPrecedences = mapOf(
     ValkyrieTokenTypes.ARROW to 4, // T -> U
 )
 
-val postfixOperators = TokenSet.create(
-    ValkyrieTokenTypes.WOW,  // T!
-    ValkyrieTokenTypes.WHAT, // T?
+val typePostfixPrecedences = mapOf(
+    ValkyrieTokenTypes.WOW to 6,  // T!
+    ValkyrieTokenTypes.WHAT to 6, // T?
 )
