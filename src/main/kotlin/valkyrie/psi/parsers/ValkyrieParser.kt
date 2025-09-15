@@ -1423,40 +1423,6 @@ class ValkyrieParser : PsiParser {
         return true
     }
 
-    fun parseTableType(builder: PsiBuilder): Boolean {
-        if (builder.tokenType != ValkyrieTokenTypes.ARRAY_L) return false
-        val marker = builder.mark()
-
-        builder.advanceLexer() // 消费 '['
-
-        // 解析key类型
-        if (!parseTypeExpression(this, builder, false)) {
-            marker.error("Expected key type")
-            return false
-        }
-
-        if (builder.tokenType != ValkyrieTokenTypes.COLON) {
-            marker.error("Expected ':' in table type")
-            return false
-        }
-        builder.advanceLexer() // 消费 ':'
-
-        // 解析value类型
-        if (!parseTypeExpression(this, builder, false)) {
-            marker.error("Expected value type")
-            return false
-        }
-
-        if (builder.tokenType != ValkyrieTokenTypes.ARRAY_R) {
-            marker.error("Expected ']'")
-            return false
-        }
-        builder.advanceLexer() // 消费 ']'
-
-        marker.done(ValkyrieElementTypes.TABLE_TYPE)
-        return true
-    }
-
     fun parseTableList(builder: PsiBuilder): Boolean {
         val marker = builder.mark()
 
