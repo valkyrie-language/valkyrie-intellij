@@ -190,7 +190,7 @@ fun parsePrefixTypeExpression(valkyrieParser: ValkyrieParser, builder: PsiBuilde
     TODO()
 }
 
-fun parsePostfixTypeExpression(valkyrieParser: ValkyrieParser, builder: PsiBuilder, left: PsiBuilder.Marker) {
+fun parsePostfixTypeExpression(valkyrieParser: ValkyrieParser, builder: PsiBuilder) {
     // a<T> parseGenericArgumentList(valkyrieParser, builder, true)
     // T?
     // T!
