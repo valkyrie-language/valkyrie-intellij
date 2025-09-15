@@ -184,7 +184,7 @@ fun parseTypeExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
         }
         lhs_marker.done(ValkyrieElementTypes.TYPE_EXPRESSION)
     } else if (parsePrimaryType(valkyrieParser, builder)) {
-        // 解析基础类型, 通常是一个标识符
+        // 解析基础类型
         lhs_marker.done(ValkyrieElementTypes.TYPE_EXPRESSION)
     } else {
         // 如果连基础类型都无法解析, 说明这不是一个有效的类型表达式的开头
@@ -221,13 +221,11 @@ fun parseTypeExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
             // 处理中缀表达式, 例如 `T | U`
             lhs_marker = lhs_marker.precede()
             builder.advanceLexer() // 吃掉运算符
-
             // 根据运算符的结合性调整下一次递归的最小优先级
             val next_min_precedence = when (current_token) {
                 ValkyrieTokenTypes.ARROW -> infix_precedence // 右结合
                 else -> infix_precedence + 1 // 左结合
             }
-
             if (!parseTypeExpressionWithPrecedence(valkyrieParser, builder, next_min_precedence, inline)) {
                 builder.error("在二元运算符后需要一个类型表达式")
             }
@@ -235,39 +233,176 @@ fun parseTypeExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
             // 继续循环, 处理链式操作, 如 `A + B + C`
             continue
         }
-
         // 没有更多可处理的运算符, 退出循环
         break
     }
     return true
 }
 
-// 解析基础类型，目前仅支持标识符
+// 解析基础类型，是构成类型表达式的基本单元
 fun parsePrimaryType(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
-    // TODO: GROUP, TUPLE, TABLE, OBJECT
-    return when {
-        parser.parseNamePath(builder, free = false) -> {true}
-        else-> {false}
+    return when (builder.tokenType) {
+        // 圆括号包裹的类型: (T) (元组) 或 (T) (分组)
+        ValkyrieTokenTypes.PARENTHESIS_L -> parseParenthesisType(parser, builder)
+        // 方括号包裹的类型: [T] (向量), [T; N] (数组), 或 [name: T] (具名元组/记录)
+        ValkyrieTokenTypes.BRACE_L -> parseBracketType(parser, builder)
+        else -> parser.parseNamePath(builder, false)
     }
 }
 
-// (T)
-private fun parseGroupType(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
-    TODO()
+// () unit 类型, tuple 的一种
+// (T) group 表达式
+// (T,) tuple 表达式
+// (named: T, U) 具名元组
+private fun parseParenthesisType(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    val marker = builder.mark()
+    builder.advanceLexer() // 吃掉 '('
+
+    // 空元组 `()`
+    if (builder.tokenType == ValkyrieTokenTypes.PARENTHESIS_L) {
+        builder.advanceLexer()
+        marker.done(ValkyrieElementTypes.TUPLE_TYPE)
+        return true
+    }
+
+    // 解析第一个元素
+    val firstItemMarker = builder.mark()
+    val isNamed = isIdentifier(builder) && builder.lookAhead(1) == ValkyrieTokenTypes.COLON
+    if (isNamed) {
+        parser.parseIdentifier(builder)
+        // 吃掉 ':'
+        builder.advanceLexer()
+    }
+    if (!parseTypeExpression(parser, builder, true)) {
+        builder.error("需要一个类型表达式")
+        firstItemMarker.drop()
+        marker.done(ValkyrieElementTypes.TUPLE_TYPE)          // 标记为错误的元组
+        return true
+    }
+    firstItemMarker.done(ValkyrieElementTypes.TUPLE_ITEM)
+
+    // 根据接下来的符号判断是分组还是元组
+    // `(T)` 是分组, `(T,)` 和 `(name: T)` 是单元元组
+    if (builder.tokenType == ValkyrieTokenTypes.PARENTHESIS_R && !isNamed) {
+        builder.advanceLexer() // 吃掉 ')'
+        marker.done(ValkyrieElementTypes.GROUP_TYPE)
+        return true
+    }
+
+    // 剩下的情况都是元组
+    while (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+        builder.advanceLexer() // 吃掉 ','
+        if (builder.tokenType == ValkyrieTokenTypes.PARENTHESIS_R) break // 处理末尾逗号
+
+        val itemMarker = builder.mark()
+        if (isIdentifier(builder) && builder.lookAhead(1) == ValkyrieTokenTypes.COLON) {
+            parser.parseIdentifier(builder)
+            builder.advanceLexer() // 吃掉 ':'
+        }
+        if (!parseTypeExpression(parser, builder, true)) {
+            builder.error("元组中需要一个类型表达式")
+            itemMarker.drop()
+            break
+        }
+        itemMarker.done(ValkyrieElementTypes.TUPLE_ITEM)
+    }
+
+    if (builder.tokenType == ValkyrieTokenTypes.PARENTHESIS_R) {
+        builder.advanceLexer()
+    } else {
+        builder.error("需要 ')' 来闭合元组类型")
+    }
+
+    marker.done(ValkyrieElementTypes.TUPLE_TYPE)
+    return true
 }
 
-// ()
-// (T, )
-// (named: T, U,  ...)
-private fun parseTupleType(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
-    TODO()
+// 解析方括号包裹的类型，可能是向量、数组或记录
+private fun parseBracketType(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    val marker = builder.mark()
+    builder.advanceLexer() // 吃掉 '['
+
+    if (builder.tokenType == ValkyrieTokenTypes.BRACE_L) {
+        builder.error("向量、数组或记录类型不能为空")
+        marker.done(ValkyrieElementTypes.TABLE_TYPE)
+        return true
+    }
+
+    // 解析第一个元素，并检查它是否具名
+    val firstItemMarker = builder.mark()
+    val isNamed = isIdentifier(builder) && builder.lookAhead(1) == ValkyrieTokenTypes.COLON
+    if (isNamed) {
+        parser.parseIdentifier(builder)
+        builder.advanceLexer() // 吃掉 ':'
+    }
+    if (!parseTypeExpression(parser, builder, true)) {
+        builder.error("需要一个类型表达式")
+        firstItemMarker.drop()
+        marker.done(ValkyrieElementTypes.TABLE_TYPE)
+        return true
+    }
+    firstItemMarker.done(ValkyrieElementTypes.TABLE_ITEM)
+
+    // 根据后续符号区分不同类型
+    when (builder.tokenType) {
+        // 向量类型 `[T]`
+        ValkyrieTokenTypes.BRACE_R -> {
+            if (isNamed) {
+                // `[name: T]` 是单元记录类型
+                marker.done(ValkyrieElementTypes.TABLE_TYPE)
+            } else {
+                marker.done(ValkyrieElementTypes.VECTOR_TYPE)
+            }
+            builder.advanceLexer()
+        }
+        // 数组类型 `[T; N]`
+        ValkyrieTokenTypes.SEMICOLON -> {
+            if (isNamed) builder.error("数组类型元素不能具名")
+            builder.advanceLexer() // 吃掉 ';'
+            if (!parseTermExpression(parser, builder, false)) { // 数组长度是一个值表达式
+                builder.error("需要一个表示数组长度的表达式")
+            }
+            if (builder.tokenType == ValkyrieTokenTypes.BRACE_R) {
+                builder.advanceLexer()
+            } else {
+                builder.error("需要 ']' 来闭合数组类型")
+            }
+            marker.done(ValkyrieElementTypes.ARRAY_TYPE)
+        }
+        // 记录类型 `[T, U]` 或 `[name: T, age: U]`
+        ValkyrieTokenTypes.COMMA -> {
+            while (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+                builder.advanceLexer()
+                if (builder.tokenType == ValkyrieTokenTypes.BRACE_R) break
+
+                val itemMarker = builder.mark()
+                if (isIdentifier(builder) && builder.lookAhead(1) == ValkyrieTokenTypes.COLON) {
+                    parser.parseIdentifier(builder)
+                    builder.advanceLexer()
+                }
+                if (!parseTypeExpression(parser, builder, true)) {
+                    builder.error("记录类型中需要一个类型表达式")
+                    itemMarker.drop()
+                    break
+                }
+                itemMarker.done(ValkyrieElementTypes.TABLE_ITEM)
+            }
+            if (builder.tokenType == ValkyrieTokenTypes.BRACE_R) {
+                builder.advanceLexer()
+            } else {
+                builder.error("需要 ']' 来闭合记录类型")
+            }
+            marker.done(ValkyrieElementTypes.TABLE_TYPE)
+        }
+
+        else -> {
+            builder.error("在类型后需要 ']', ';', 或 ','")
+            marker.done(ValkyrieElementTypes.TABLE_TYPE) // 标记为错误的记录类型
+        }
+    }
+    return true
 }
-// [T]     mark vector type
-// [T; N]  mark array type
-// [named: T, U, ...] mark table type
-private fun parseTableType(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
-    TODO()
-}
+
 
 // 定义前缀运算符的优先级
 private val typePrefixPrecedences = mapOf(
