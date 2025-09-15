@@ -643,11 +643,11 @@ class ValkyrieLexer : LexerBase() {
             }
 
             '[' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.ARRAY_L
+                currentOffset++; tokenType = ValkyrieTokenTypes.BRACKET_L
             }
 
             ']' -> {
-                currentOffset++; tokenType = ValkyrieTokenTypes.ARRAY_R
+                currentOffset++; tokenType = ValkyrieTokenTypes.BRACKET_R
             }
 
             '⟨' -> {
