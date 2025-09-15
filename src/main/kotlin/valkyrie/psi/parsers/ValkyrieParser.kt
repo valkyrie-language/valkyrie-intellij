@@ -1323,13 +1323,13 @@ class ValkyrieParser : PsiParser {
     }
 
     fun parseTuplePattern(builder: PsiBuilder): Boolean {
-        if (builder.tokenType != ValkyrieTokenTypes.PARENTHESES_L) return false
+        if (builder.tokenType != ValkyrieTokenTypes.PARENTHESIS_L) return false
         val marker = builder.mark()
 
         builder.advanceLexer() // consume '('
 
         // Parse pattern list
-        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.PARENTHESES_R) {
+        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.PARENTHESIS_R) {
             if (!parsePattern(builder, true)) {
                 if (!parseIdentifier(builder)) {
                     marker.error("Expected pattern or identifier")
@@ -1339,13 +1339,13 @@ class ValkyrieParser : PsiParser {
 
             if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
                 builder.advanceLexer()
-            } else if (builder.tokenType != ValkyrieTokenTypes.PARENTHESES_R) {
+            } else if (builder.tokenType != ValkyrieTokenTypes.PARENTHESIS_R) {
                 marker.error("Expected ',' or ')'")
                 return false
             }
         }
 
-        if (builder.tokenType == ValkyrieTokenTypes.PARENTHESES_R) {
+        if (builder.tokenType == ValkyrieTokenTypes.PARENTHESIS_R) {
             builder.advanceLexer() // consume ')'
         } else {
             marker.error("Expected ')'")
@@ -2198,11 +2198,11 @@ class ValkyrieParser : PsiParser {
     fun parseInheritanceList(builder: PsiBuilder): Boolean {
         val marker = builder.mark()
 
-        if (builder.tokenType == ValkyrieTokenTypes.PARENTHESES_L) {
+        if (builder.tokenType == ValkyrieTokenTypes.PARENTHESIS_L) {
             builder.advanceLexer() // consume '('
 
             // 解析继承列表，允许空继承 class A() {}
-            while (builder.tokenType != ValkyrieTokenTypes.PARENTHESES_R && !builder.eof()) {
+            while (builder.tokenType != ValkyrieTokenTypes.PARENTHESIS_R && !builder.eof()) {
                 if (!parseInheritanceItem(builder)) {
                     marker.error("Expected inheritance item")
                     recoverToSyncPoint(builder)
@@ -2211,14 +2211,14 @@ class ValkyrieParser : PsiParser {
 
                 if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
                     builder.advanceLexer() // consume ','
-                } else if (builder.tokenType != ValkyrieTokenTypes.PARENTHESES_R) {
+                } else if (builder.tokenType != ValkyrieTokenTypes.PARENTHESIS_R) {
                     marker.error("Expected ',' or ')'")
                     recoverToSyncPoint(builder)
                     return false
                 }
             }
 
-            if (builder.tokenType == ValkyrieTokenTypes.PARENTHESES_R) {
+            if (builder.tokenType == ValkyrieTokenTypes.PARENTHESIS_R) {
                 builder.advanceLexer() // consume ')'
                 marker.done(ValkyrieElementTypes.INHERIT_LIST)
                 return true
@@ -2279,7 +2279,7 @@ class ValkyrieParser : PsiParser {
                         break
                     } else {
                         // 可选的参数列表
-                        if (builder.tokenType == ValkyrieTokenTypes.PARENTHESES_L) {
+                        if (builder.tokenType == ValkyrieTokenTypes.PARENTHESIS_L) {
                             parseAttributeNode(builder, true)
                         }
                         attrMarker.done(ValkyrieElementTypes.ATTRIBUTE)
@@ -2311,7 +2311,7 @@ class ValkyrieParser : PsiParser {
                     break
                 } else {
                     // 可选的参数列表
-                    if (builder.tokenType == ValkyrieTokenTypes.PARENTHESES_L) {
+                    if (builder.tokenType == ValkyrieTokenTypes.PARENTHESIS_L) {
                         parseAttributeNode(builder, false)
                     }
                     attrMarker.done(ValkyrieElementTypes.ATTRIBUTE)
@@ -2337,7 +2337,7 @@ class ValkyrieParser : PsiParser {
     // attribute() {}
     fun parseAttributeNode(builder: PsiBuilder, allowBody: Boolean) {
         parseIdentifier(builder)
-        parseTermArgumentList(this, builder)
+        parseFunctionArgumentList(this, builder)
         if (allowBody) {
             parseObjectBody(builder)
         }

@@ -317,10 +317,10 @@ object ValkyrieTokenTypes {
 
     // 括号
     @JvmField
-    val PARENTHESES_L = ValkyrieTokenType("(")
+    val PARENTHESIS_L = ValkyrieTokenType("(")
 
     @JvmField
-    val PARENTHESES_R = ValkyrieTokenType(")")
+    val PARENTHESIS_R = ValkyrieTokenType(")")
 
     @JvmField
     val BRACE_L = ValkyrieTokenType("{")

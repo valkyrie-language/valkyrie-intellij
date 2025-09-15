@@ -47,10 +47,10 @@ class ValkyrieFormatBuilder : FormattingModelBuilder {
             .before(ValkyrieTokenTypes.BRACE_R).lineBreakInCode()
 
             // 小括号的空格
-            .before(ValkyrieTokenTypes.PARENTHESES_L).spaces(0)
-            .after(ValkyrieTokenTypes.PARENTHESES_L).spaces(0)
-            .before(ValkyrieTokenTypes.PARENTHESES_R).spaces(0)
-            .after(ValkyrieTokenTypes.PARENTHESES_R).spaces(0)
+            .before(ValkyrieTokenTypes.PARENTHESIS_L).spaces(0)
+            .after(ValkyrieTokenTypes.PARENTHESIS_L).spaces(0)
+            .before(ValkyrieTokenTypes.PARENTHESIS_R).spaces(0)
+            .after(ValkyrieTokenTypes.PARENTHESIS_R).spaces(0)
 
             // 方括号的空格
             .before(ValkyrieTokenTypes.ARRAY_L).spaces(0)

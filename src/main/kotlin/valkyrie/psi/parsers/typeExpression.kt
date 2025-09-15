@@ -183,20 +183,6 @@ fun parseTypeExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
     TODO()
 }
 
-
-fun parsePrefixTypeExpression(valkyrieParser: ValkyrieParser, builder: PsiBuilder) {
-    // +T
-    // -T
-    TODO()
-}
-
-fun parsePostfixTypeExpression(valkyrieParser: ValkyrieParser, builder: PsiBuilder) {
-    // a<T> parseGenericArgumentList(valkyrieParser, builder, true)
-    // T?
-    // T!
-    TODO()
-}
-
 fun parsePrimaryType(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {
     return valkyrieParser.parseIdentifier(builder)
 }
@@ -216,4 +202,6 @@ val typeInfixPrecedences = mapOf(
 val typePostfixPrecedences = mapOf(
     ValkyrieTokenTypes.WOW to 6,  // T!
     ValkyrieTokenTypes.WHAT to 6, // T?
+    ValkyrieTokenTypes.ANGLE_L to 7, // parseGenericArgumentList  A<T>
+    ValkyrieTokenTypes.DOUBLE_COLON to 7, // parseGenericArgumentList  A::<T>
 )
