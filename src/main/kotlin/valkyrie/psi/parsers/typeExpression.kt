@@ -243,8 +243,30 @@ fun parseTypeExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
 }
 
 // 解析基础类型，目前仅支持标识符
-fun parsePrimaryType(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {
-    return valkyrieParser.parseIdentifier(builder)
+fun parsePrimaryType(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    // TODO: GROUP, TUPLE, TABLE, OBJECT
+    return when {
+        parser.parseNamePath(builder, free = false) -> {true}
+        else-> {false}
+    }
+}
+
+// (T)
+private fun parseGroupType(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    TODO()
+}
+
+// ()
+// (T, )
+// (named: T, U,  ...)
+private fun parseTupleType(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    TODO()
+}
+// [T]     mark vector type
+// [T; N]  mark array type
+// [named: T, U, ...] mark table type
+private fun parseTableType(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    TODO()
 }
 
 // 定义前缀运算符的优先级
