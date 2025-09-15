@@ -1,5 +1,5 @@
 import com.intellij.lang.PsiBuilder
-import com.intellij.psi.tree.IElementType
+import com.intellij.psi.tree.TokenSet
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.ValkyrieTokenTypes
 import valkyrie.psi.parsers.ValkyrieParser
@@ -183,54 +183,37 @@ fun parseTypeExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
     TODO()
 }
 
+
+fun parsePrefixTypeExpression(valkyrieParser: ValkyrieParser, builder: PsiBuilder) {
+    // +T
+    // -T
+    TODO()
+}
+
+fun parsePostfixTypeExpression(valkyrieParser: ValkyrieParser, builder: PsiBuilder, left: PsiBuilder.Marker) {
+    // a<T> parseGenericArgumentList(valkyrieParser, builder, true)
+    // T?
+    // T!
+    TODO()
+}
+
 fun parsePrimaryType(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {
     return valkyrieParser.parseIdentifier(builder)
 }
 
-fun parsePrefixTypeExpression(valkyrieParser: ValkyrieParser, builder: PsiBuilder): PsiBuilder.Marker? {
-    TODO("+T, -T")
-}
+val prefixOperators = TokenSet.create(
+    ValkyrieTokenTypes.PLUS,
+    ValkyrieTokenTypes.MINUS,
+)
+val infixPrecedences = mapOf(
+    ValkyrieTokenTypes.PIPE to 1, // T | U
+    ValkyrieTokenTypes.AMPERSAND to 2, // T & U
+    ValkyrieTokenTypes.PLUS to 3, // T + U
+    ValkyrieTokenTypes.MINUS to 3, // T - U
+    ValkyrieTokenTypes.ARROW to 4, // T -> U
+)
 
-fun parsePostfixTypeExpression(valkyrieParser: ValkyrieParser, builder: PsiBuilder, left: PsiBuilder.Marker): PsiBuilder.Marker {
-    // a<T>
-    // parseGenericArgumentList(valkyrieParser, builder, true)
-    TODO()
-}
-
-
-fun isTypePrefixOperator(tokenType: IElementType?): Boolean {
-    return when (tokenType) {
-        ValkyrieTokenTypes.PLUS, ValkyrieTokenTypes.MINUS -> true
-
-        else -> false
-    }
-}
-
-fun isTypeInfixOperator(tokenType: IElementType?): Boolean {
-    return when (tokenType) {
-        ValkyrieTokenTypes.PIPE,      // 联合类型 T | U
-        ValkyrieTokenTypes.AMPERSAND, // 交集类型 T & U
-        ValkyrieTokenTypes.PLUS,      // 类型加法 T + U
-        ValkyrieTokenTypes.MINUS -> true // 类型减法 T - U
-        else -> false
-    }
-}
-
-fun getTypeOperatorPrecedence(tokenType: IElementType?): Int {
-    return when (tokenType) {
-        ValkyrieTokenTypes.PIPE -> 1      // 联合类型优先级最低
-        ValkyrieTokenTypes.AMPERSAND -> 2 // 交集类型
-        ValkyrieTokenTypes.PLUS -> 3      // 类型加法
-        ValkyrieTokenTypes.MINUS -> 3     // 类型减法
-        else -> 0
-    }
-}
-
-fun isTypePostfixOperator(tokenType: IElementType?): Boolean {
-    return when (tokenType) {
-        ValkyrieTokenTypes.WOW, // 非空类型 T!
-        ValkyrieTokenTypes.WOW,         // 非空类型 T!
-        ValkyrieTokenTypes.WHAT -> true // 可选类型 T?
-        else -> false
-    }
-}
+val postfixOperators = TokenSet.create(
+    ValkyrieTokenTypes.WOW,  // T!
+    ValkyrieTokenTypes.WHAT, // T?
+)
