@@ -53,10 +53,10 @@ class ValkyrieFormatBuilder : FormattingModelBuilder {
             .after(ValkyrieTokenTypes.PARENTHESIS_R).spaces(0)
 
             // 方括号的空格
-            .before(ValkyrieTokenTypes.ARRAY_L).spaces(0)
-            .after(ValkyrieTokenTypes.ARRAY_L).spaces(0)
-            .before(ValkyrieTokenTypes.ARRAY_R).spaces(0)
-            .after(ValkyrieTokenTypes.ARRAY_R).spaces(0)
+            .before(ValkyrieTokenTypes.BRACKET_L).spaces(0)
+            .after(ValkyrieTokenTypes.BRACKET_L).spaces(0)
+            .before(ValkyrieTokenTypes.BRACKET_R).spaces(0)
+            .after(ValkyrieTokenTypes.BRACKET_R).spaces(0)
 
             // 冒号前后的空格
             .before(ValkyrieTokenTypes.COLON).spaces(0)

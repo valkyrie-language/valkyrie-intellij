@@ -63,7 +63,7 @@ class LiteralSupportTest {
             lexer.start(input, 0, input.length, 0)
             
             // 第一个 token 应该是左方括号
-            assertEquals("$description should start with ARRAY_L", ValkyrieTokenTypes.ARRAY_L, lexer.tokenType)
+            assertEquals("$description should start with ARRAY_L", ValkyrieTokenTypes.BRACKET_L, lexer.tokenType)
             
             // 验证可以正确解析整个输入
             var tokenCount = 0
@@ -108,11 +108,11 @@ class LiteralSupportTest {
             ValkyrieTokenTypes.BRACE_L,      // {
             ValkyrieTokenTypes.IDENTIFIER_STD, // a
             ValkyrieTokenTypes.COLON,        // :
-            ValkyrieTokenTypes.ARRAY_L,      // [
+            ValkyrieTokenTypes.BRACKET_L,      // [
             ValkyrieTokenTypes.INTEGER,      // 1
             ValkyrieTokenTypes.COMMA,        // ,
             ValkyrieTokenTypes.INTEGER,      // 2
-            ValkyrieTokenTypes.ARRAY_R,      // ]
+            ValkyrieTokenTypes.BRACKET_R,      // ]
             ValkyrieTokenTypes.COMMA,        // ,
             ValkyrieTokenTypes.IDENTIFIER_STD, // b
             ValkyrieTokenTypes.COLON,        // :
