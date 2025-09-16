@@ -96,6 +96,9 @@ fun parseGenericArgumentList(valkyrieParser: ValkyrieParser, builder: PsiBuilder
     val marker = builder.mark()
     var unicodeMode = false
 
+    if (builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON) {
+        builder.advanceLexer()
+    }
     // 确定并消费起始符号
     when (builder.tokenType) {
         // <T, U>
@@ -200,16 +203,19 @@ fun parseTypeExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
                     val lookAhead = builder.lookAhead(1)
                     // 情况 1: A::<B>, 是一个 turbofish
                     if (lookAhead == ValkyrieTokenTypes.ANGLE_L || lookAhead == ValkyrieTokenTypes.GENERIC_L) {
-                        // 调用专门的函数来解析 `::<B>` 部分
+                        // parseGenericArgumentList 会吃掉 '::'
                         parseGenericArgumentList(valkyrieParser, builder)
                     }
                     // 情况 2: A::C, 是一个路径段
-                    else {
-                        // 我们只消费 `::` 和后面的标识符
-                        builder.advanceLexer() // 消费 '::'
+                    else if (isIdentifier(lookAhead)) {
+                        builder.advanceLexer() // 吃掉 '::' 再解析 id
                         if (!valkyrieParser.parseIdentifier(builder)) {
                             builder.error("在 '::' 后需要一个路径标识符")
                         }
+                    }
+                    // 非正常情况
+                    else {
+                        builder.error("非正常情况")
                     }
                 }
                 // 对于泛型参数列表, 调用专门的解析函数
