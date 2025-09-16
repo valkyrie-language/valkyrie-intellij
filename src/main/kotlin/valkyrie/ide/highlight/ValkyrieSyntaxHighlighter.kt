@@ -74,7 +74,7 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
 
             ValkyrieTokenTypes.COMMA -> ValkyrieColor.COMMA
             // 数字和字面量
-            ValkyrieTokenTypes.INTEGER, ValkyrieTokenTypes.DECIMAL, ValkyrieTokenTypes.UNIT_NUMBER -> ValkyrieColor.NUMBER
+            ValkyrieTokenTypes.INTEGER, ValkyrieTokenTypes.DECIMAL, ValkyrieTokenTypes.MACRO_NUMBER -> ValkyrieColor.NUMBER
             ValkyrieTokenTypes.STRING_DQ, ValkyrieTokenTypes.STRING_MQ -> ValkyrieColor.STRING
             ValkyrieTokenTypes.BOOLEAN -> ValkyrieColor.KEYWORD
 

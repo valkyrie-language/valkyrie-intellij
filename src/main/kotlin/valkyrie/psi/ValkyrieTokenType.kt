@@ -15,6 +15,8 @@ class ValkyrieTokenType(debugName: String) : IElementType(debugName, ValkyrieLan
  * Valkyrie 所有 Token 类型
  */
 object ValkyrieTokenTypes {
+
+
     @JvmField
     val NAMESPACE = ValkyrieTokenType("namespace")
 
@@ -114,12 +116,12 @@ object ValkyrieTokenTypes {
 
     @JvmField
     val MATCH = ValkyrieTokenType("match")
+
     @JvmField
     val CATCH = ValkyrieTokenType("catch")
 
     @JvmField
     val CASE = ValkyrieTokenType("case")
-
 
 
     @JvmField
@@ -156,14 +158,17 @@ object ValkyrieTokenTypes {
     @JvmField
     val DECIMAL = ValkyrieTokenType("DECIMAL")
 
-    @JvmField
-    val UNIT_NUMBER = ValkyrieTokenType("NUMBER_UNIT")
+
+    val MACRO_NUMBER = ValkyrieTokenType("MACRO.NUMBER")
 
     @JvmField
     val STRING_DQ = ValkyrieTokenType("STRING")
-
     @JvmField
     val STRING_MQ = ValkyrieTokenType("MULTI_QUOTE_STRING")
+    val STRING_START = ValkyrieTokenType("STRING.START")
+    val STRING_END = ValkyrieTokenType("STRING.END")
+    val STRING_TEXT = ValkyrieTokenType("STRING.TEXT")
+    val MACRO_STRING = ValkyrieTokenType("MACRO.STRING")
 
     // 操作符
     @JvmField
