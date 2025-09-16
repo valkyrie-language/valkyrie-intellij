@@ -18,7 +18,7 @@ class ValkyrieControlFlowNodes(node: ASTNode) : ValkyrieElementNode(node) {
     }
     
     fun getLabel(): PsiElement? {
-        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER_STD)
+        return findChildByType<PsiElement>(ValkyrieTokenTypes.SYMBOL_XID)
     }
     
     override fun toString(): String = "ValkyrieLoopStatement"

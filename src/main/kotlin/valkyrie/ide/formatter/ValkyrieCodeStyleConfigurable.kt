@@ -23,7 +23,7 @@ class ValkyrieCodeStyleConfigurable(settings: CodeStyleSettings, cloneSettings: 
  * Valkyrie 代码样式主面板
  */
 class ValkyrieCodeStyleMainPanel(currentSettings: CodeStyleSettings, settings: CodeStyleSettings) :
-    TabbedLanguageCodeStylePanel(ValkyrieLanguage.INSTANCE, currentSettings, settings) {
+    TabbedLanguageCodeStylePanel(ValkyrieLanguage, currentSettings, settings) {
     
     override fun initTabs(settings: CodeStyleSettings) {
         addIndentOptionsTab(settings)

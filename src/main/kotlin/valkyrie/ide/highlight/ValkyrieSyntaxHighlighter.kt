@@ -77,7 +77,7 @@ class ValkyrieSyntaxHighlighter : SyntaxHighlighterBase() {
             ValkyrieTokenTypes.STRING_DQ, ValkyrieTokenTypes.STRING_MQ -> ValkyrieColor.STRING
             ValkyrieTokenTypes.BOOLEAN -> ValkyrieColor.KEYWORD
 
-            ValkyrieTokenTypes.IDENTIFIER_STD -> ValkyrieColor.IDENTIFIER
+            ValkyrieTokenTypes.SYMBOL_XID -> ValkyrieColor.IDENTIFIER
             // 注释
             ValkyrieTokenTypes.COMMENT_LINE -> ValkyrieColor.LINE_COMMENT
             ValkyrieTokenTypes.COMMENT_RANGE -> ValkyrieColor.BLOCK_COMMENT

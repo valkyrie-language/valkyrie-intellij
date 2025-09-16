@@ -1,13 +1,13 @@
 package valkyrie.lexer
 
 import org.junit.Test
-import valkyrie.psi.lexers.ValkyrieLexer
+import valkyrie.psi.lexers.ValkyrieStandardLexer
 
 class DetailedDebugTest {
     
     @Test
-    fun debugLexerState() {
-        val lexer = ValkyrieLexer()
+    fun detailedDebugEmptyString() {
+        val lexer = ValkyrieStandardLexer()
         val text = "\"\""
         
         println("Testing text: '$text'")
@@ -38,8 +38,8 @@ class DetailedDebugTest {
     }
     
     @Test
-    fun debugCharLiteral() {
-        val lexer = ValkyrieLexer()
+    fun detailedDebugStringWithContent() {
+        val lexer = ValkyrieStandardLexer()
         val text = "''"
         
         println("Testing char literal: '$text'")

@@ -294,7 +294,7 @@ fun parsePrimaryTerm(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolea
             true
         }
 
-        ValkyrieTokenTypes.IDENTIFIER_STD, ValkyrieTokenTypes.IDENTIFIER_RAW -> {
+        ValkyrieTokenTypes.SYMBOL_XID, ValkyrieTokenTypes.SYMBOL_RAW -> {
             // parseNamePath 内部会创建自己的 marker，这与我们的新设计冲突。
             // 为简单起见，这里假设它只解析一个标识符路径。
             // 在实际项目中，需要确保 parseNamePath 也遵循一致的 marker 管理策略。
@@ -302,7 +302,65 @@ fun parsePrimaryTerm(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolea
             parser.parseNamePath(builder, false) // 假设 parseNamePath 返回 Boolean
             true
         }
-        // ... 其他原子表达式情况 ...
+
+        // XML Slot 表达式
+        ValkyrieTokenTypes.XML_SLOT_L -> {
+            val marker = builder.mark()
+            builder.advanceLexer() // consume XML_SLOT_L
+            if (!parseTermExpression(parser, builder, inline)) {
+                builder.error("Expected expression in slot")
+            }
+            if (builder.tokenType == ValkyrieTokenTypes.XML_SLOT_R) {
+                builder.advanceLexer() // consume XML_SLOT_R
+            } else {
+                builder.error("Expected '}'")
+            }
+            marker.done(ValkyrieElementTypes.XML_SLOT_EXPRESSION)
+            true
+        }
+
+        // 字符串字面量
+        ValkyrieTokenTypes.STRING_L -> {
+            parser.parseString(builder)
+            true
+        }
+
+        // 括号表达式
+        ValkyrieTokenTypes.PARENTHESIS_L -> {
+            builder.advanceLexer() // consume '('
+            if (!parseTermExpression(parser, builder, inline)) {
+                builder.error("Expected expression")
+            }
+            if (builder.tokenType == ValkyrieTokenTypes.PARENTHESIS_R) {
+                builder.advanceLexer() // consume ')'
+            } else {
+                builder.error("Expected ')'")
+            }
+            true
+        }
+
+        // 数组表达式
+        ValkyrieTokenTypes.BRACKET_L -> {
+            parser.parseArrayExpression(builder)
+            true
+        }
+
+        // 对象表达式 (如果不是内联模式)
+        ValkyrieTokenTypes.BRACE_L -> {
+            if (!inline) {
+                parser.parseObjectExpression(builder)
+                true
+            } else {
+                false
+            }
+        }
+
+        // 特殊值
+        ValkyrieTokenTypes.NIL, ValkyrieTokenTypes.NULL -> {
+            builder.advanceLexer()
+            true
+        }
+
         else -> {
             false
         }

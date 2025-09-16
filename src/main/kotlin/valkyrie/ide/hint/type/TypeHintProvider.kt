@@ -45,7 +45,7 @@ class TypeHintProvider : InlayHintsProvider<TypeHintProvider.Settings> {
         settings: Settings,
         sink: InlayHintsSink
     ): InlayHintsCollector? {
-        if (file.language != ValkyrieLanguage.INSTANCE) return null
+        if (file.language != ValkyrieLanguage) return null
         return TypeHintsCollector(editor, settings, sink)
     }
     

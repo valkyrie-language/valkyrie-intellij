@@ -19,16 +19,77 @@
 			implementationClass="valkyrie.language.file.ValkyrieFileType"
 			fieldName="INSTANCE"
 		/>
+		<fileType
+			name="valkyrie-template"
+			language="valkyrie-template"
+			extensions="vkt;"
+			implementationClass="valkyrie.language.file.ValkyrieTemplateFileType"
+			fieldName="INSTANCE"
+		/>
+		<fileType
+			name="valkyrie-xml"
+			language="valkyrie-xml"
+			extensions="vkx;"
+			implementationClass="valkyrie.language.file.ValkyrieXmlFileType"
+			fieldName="INSTANCE"
+		/>
+		<fileType
+			name="valkyrieMark"
+			language="ValkyrieMark"
+			extensions="vkm;"
+			implementationClass="valkyrie.language.file.ValkyrieMarkFileType"
+			fieldName="INSTANCE"
+		/>
+		<fileType
+			name="valkyrie-component"
+			language="valkyrie-component"
+			extensions="vkc;"
+			implementationClass="valkyrie.language.file.ValkyrieComponentFileType"
+			fieldName="INSTANCE"
+		/>
 
 		<!-- Parser Definition -->
 		<lang.parserDefinition
 			language="valkyrie"
 			implementationClass="valkyrie.psi.ValkyrieParserDefinition"
 		/>
+		<lang.parserDefinition
+			language="valkyrie-template"
+			implementationClass="valkyrie.psi.ValkyrieTemplateParserDefinition"
+		/>
+		<lang.parserDefinition
+			language="valkyrie-xml"
+			implementationClass="valkyrie.psi.ValkyrieXmlParserDefinition"
+		/>
+		<lang.parserDefinition
+			language="ValkyrieMark"
+			implementationClass="valkyrie.psi.ValkyrieMarkParserDefinition"
+		/>
+		<lang.parserDefinition
+			language="valkyrie-component"
+			implementationClass="valkyrie.psi.ValkyrieComponentParserDefinition"
+		/>
+
 
 		<!-- 高亮模块 -->
 		<lang.syntaxHighlighter
 			language="valkyrie"
+			implementationClass="valkyrie.ide.highlight.ValkyrieSyntaxHighlighter"
+		/>
+		<lang.syntaxHighlighter
+			language="valkyrie-xml"
+			implementationClass="valkyrie.ide.highlight.ValkyrieSyntaxHighlighter"
+		/>
+		<lang.syntaxHighlighter
+			language="valkyrie-component"
+			implementationClass="valkyrie.ide.highlight.ValkyrieSyntaxHighlighter"
+		/>
+		<lang.syntaxHighlighter
+			language="valkyrie-template"
+			implementationClass="valkyrie.ide.highlight.ValkyrieSyntaxHighlighter"
+		/>
+		<lang.syntaxHighlighter
+			language="ValkyrieMark"
 			implementationClass="valkyrie.ide.highlight.ValkyrieSyntaxHighlighter"
 		/>
 		<highlightVisitor
@@ -40,6 +101,22 @@
 		<!-- Annotator -->
 		<annotator
 			language="valkyrie"
+			implementationClass="valkyrie.ide.highlight.ValkyrieAnnotator"
+		/>
+		<annotator
+			language="valkyrie-xml"
+			implementationClass="valkyrie.ide.highlight.ValkyrieAnnotator"
+		/>
+		<annotator
+			language="valkyrie-component"
+			implementationClass="valkyrie.ide.highlight.ValkyrieAnnotator"
+		/>
+		<annotator
+			language="valkyrie-template"
+			implementationClass="valkyrie.ide.highlight.ValkyrieAnnotator"
+		/>
+		<annotator
+			language="ValkyrieMark"
 			implementationClass="valkyrie.ide.highlight.ValkyrieAnnotator"
 		/>
 
@@ -135,7 +212,7 @@
 
 
 		<!-- Startup Activity for delayed indexing -->
-		<postStartupActivity implementation="valkyrie.index.ValkyrieDelayedIndexingActivity"/>
+		<projectService serviceImplementation="valkyrie.index.ValkyrieStartupActivity"/>
 
 		<!-- Test Framework -->
 		<configurationType implementation="valkyrie.ide.test.ValkyrieTestConfigurationType"/>

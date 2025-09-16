@@ -14,7 +14,7 @@ import valkyrie.psi.lexers.ValkyrieTokenTypes
 class ValkyrieMetaStatement(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner {
     
     override fun getNameIdentifier(): PsiElement? {
-        return findChildByType(ValkyrieTokenTypes.IDENTIFIER_STD)
+        return findChildByType(ValkyrieTokenTypes.SYMBOL_XID)
     }
     
     override fun getName(): String? {

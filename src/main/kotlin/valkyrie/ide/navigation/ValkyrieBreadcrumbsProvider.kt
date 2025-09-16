@@ -13,7 +13,7 @@ import valkyrie.psi.nodes.*
 class ValkyrieBreadcrumbsProvider : BreadcrumbsProvider {
     
     override fun getLanguages(): Array<Language> {
-        return arrayOf(ValkyrieLanguage.INSTANCE)
+        return arrayOf(ValkyrieLanguage)
     }
     
     override fun acceptElement(element: PsiElement): Boolean {

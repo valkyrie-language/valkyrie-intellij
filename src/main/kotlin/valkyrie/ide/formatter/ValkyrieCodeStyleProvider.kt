@@ -9,7 +9,7 @@ import valkyrie.language.ValkyrieLanguage
  * Valkyrie 代码样式设置提供者
  */
 class ValkyrieCodeStyleProvider : LanguageCodeStyleSettingsProvider() {
-    override fun getLanguage(): Language = ValkyrieLanguage.INSTANCE
+    override fun getLanguage(): Language = ValkyrieLanguage
     
     override fun createCustomSettings(settings: CodeStyleSettings): CustomCodeStyleSettings {
         return ValkyrieCodeStyleSettings(settings)

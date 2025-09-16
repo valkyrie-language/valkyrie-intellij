@@ -11,7 +11,7 @@ import valkyrie.psi.lexers.ValkyrieTokenTypes
 class ValkyrieNamepathNode(node: ASTNode) : ValkyrieElementNode(node) {
 
     fun getIdentifiers(): List<PsiElement> {
-        return findChildrenByType(ValkyrieTokenTypes.IDENTIFIER_STD)
+        return findChildrenByType(ValkyrieTokenTypes.SYMBOL_XID)
     }
 
     fun getQualifier(): String? {

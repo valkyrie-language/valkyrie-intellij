@@ -1,0 +1,18 @@
+// Function declarations test
+function add(a: i32, b: i32) -> i32 {
+    return a + b
+}
+
+function greet(name: String) -> String {
+    return "Hello, " + name
+}
+
+// Function with no return type
+function print_message(msg: String) {
+    println(msg)
+}
+
+// Generic function
+function identity<T>(value: T) -> T {
+    return value
+}

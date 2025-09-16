@@ -1,13 +1,13 @@
 package valkyrie.lexer
 
 import org.junit.Test
-import valkyrie.psi.lexers.ValkyrieLexer
+import valkyrie.psi.lexers.ValkyrieStandardLexer
 
 class DebugEmptyStringTest {
 
     @Test
-    fun debugEmptyStringTokenization() {
-        val lexer = ValkyrieLexer()
+    fun debugEmptyString() {
+        val lexer = ValkyrieStandardLexer()
         
         // 测试空字符串 ""
         lexer.start("\"\"", 0, 2, 0)
@@ -28,7 +28,7 @@ class DebugEmptyStringTest {
         println("Token end: ${lexer.tokenEnd}")
         
         // 检查 peek 行为
-        val testLexer = ValkyrieLexer()
+        val testLexer = ValkyrieStandardLexer()
         testLexer.start("\"\"", 0, 2, 0)
         
         // 模拟 lexer 内部逻辑
@@ -73,7 +73,7 @@ class DebugEmptyStringTest {
     
     @Test
     fun debugTripleQuoteString() {
-        val lexer = ValkyrieLexer()
+        val lexer = ValkyrieStandardLexer()
         
         // 测试三引号字符串
         lexer.start("\"\"\"\"\"\"", 0, 6, 0)

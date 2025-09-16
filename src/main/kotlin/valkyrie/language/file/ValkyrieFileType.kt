@@ -9,7 +9,7 @@ import javax.swing.Icon
 /**
  * Valkyrie 文件类型定义
  */
-class ValkyrieFileType private constructor() : LanguageFileType(ValkyrieLanguage.INSTANCE) {
+class ValkyrieFileType private constructor() : LanguageFileType(ValkyrieLanguage) {
     companion object {
         @JvmStatic
         val INSTANCE = ValkyrieFileType()

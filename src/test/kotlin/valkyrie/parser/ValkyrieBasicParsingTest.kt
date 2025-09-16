@@ -10,29 +10,23 @@ import valkyrie.test.ValkyrieParsingTestCase
 class ValkyrieBasicParsingTest : ValkyrieParsingTestCase("parser") {
     
     @Test
-    fun testVariableDeclaration() {
-        // 测试变量声明解析
-        doParsingTest("variable_declarations")
+    fun testVariableDeclarations() {
+        doTest(true)
     }
     
     @Test
-    fun testFunctionDeclaration() {
-        // 测试函数声明解析
-        doParsingTest("function_declarations")
+    fun testFunctionDeclarations() {
+        doTest(true)
     }
     
     @Test
     fun testExpressions() {
-        // 测试基本表达式
-        doParsingTest("expressions")
+        doTest(true)
     }
     
     @Test
-    fun testControlFlow() {
-        // 测试控制流语句解析
-        val code = "if x > 0 { println(\"positive\") }"
-        val psiFile = createFile("test.vk", code)
-        assertNotNull("PSI file should be created", psiFile)
+    fun testEnhancedControlFlow() {
+        doTest(true)
     }
     
     @Test
@@ -62,7 +56,7 @@ class ValkyrieBasicParsingTest : ValkyrieParsingTestCase("parser") {
     @Test
     fun testComments() {
         // 测试注释不影响解析
-        val code = "// This is a comment\nlet x = 42"
+        val code = "# This is a comment\nlet x = 42"
         val psiFile = createPsiFile("test.vk", code)
         assertNotNull("PSI file should be created", psiFile)
     }
@@ -112,7 +106,7 @@ class ValkyrieBasicParsingTest : ValkyrieParsingTestCase("parser") {
     @Test
     fun testTemplateExpressions() {
         // 测试模板表达式（如果支持）
-        val code = "\"Hello, ${name}!\""
+        val code = "\"Hello, \${name}!\""
         val psiFile = createPsiFile("test.vk", code)
         assertNotNull("PSI file should be created", psiFile)
     }

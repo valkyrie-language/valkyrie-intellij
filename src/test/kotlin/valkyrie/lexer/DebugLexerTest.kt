@@ -1,14 +1,32 @@
 package valkyrie.lexer
 
 import org.junit.Test
-import valkyrie.psi.lexers.ValkyrieLexer
+import valkyrie.psi.lexers.ValkyrieStandardLexer
 import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 class DebugLexerTest {
 
     @Test
-    fun debugEmptyString() {
-        val lexer = ValkyrieLexer()
+    fun testDebugEmptyString() {
+        val lexer = ValkyrieStandardLexer()
+
+        // 测试空字符串
+        lexer.start("\"\"", 0, 2, 0)
+        lexer.advance()
+
+        println("Token type: ${lexer.tokenType}")
+        if (lexer.tokenType != null) {
+            println("Token text: '${lexer.tokenText}'")
+            println("Token start: ${lexer.tokenStart}")
+            println("Token end: ${lexer.tokenEnd}")
+        }
+        println("Expected: ${ValkyrieTokenTypes.STRING_DQ}")
+        println("Actual equals expected: ${lexer.tokenType == ValkyrieTokenTypes.STRING_DQ}")
+    }
+
+    @Test
+    fun testDebugStringWithContent() {
+        val lexer = ValkyrieStandardLexer()
 
         // 测试空字符串
         lexer.start("\"\"", 0, 2, 0)
@@ -27,7 +45,7 @@ class DebugLexerTest {
     @Test
     fun debugMultipleTokens() {
         val text = "let empty = \"\""
-        val lexer = ValkyrieLexer()
+        val lexer = ValkyrieStandardLexer()
         lexer.start(text, 0, text.length, 0)
 
         var tokenCount = 0
