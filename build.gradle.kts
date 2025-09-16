@@ -42,7 +42,7 @@ dependencies {
         bundledPlugin("org.toml.lang")
         bundledPlugin("org.intellij.plugins.markdown")
 //        // https://plugins.jetbrains.com/plugin/227-psiviewer/versions
-        plugin("PsiViewer", "252.23892.248")
+//        plugin("PsiViewer", "252.23892.248")
 //        plugin("com.github.voml.neo_theme", "0.4.3")
 
         testFramework(TestFrameworkType.Platform)

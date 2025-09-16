@@ -92,36 +92,24 @@ fun parseGenericParameterItem(valkyrieParser: ValkyrieParser, builder: PsiBuilde
 }
 
 // 解析泛型参数的应用列表, 例如 `Vec<String, i32>`
-fun parseGenericArgumentList(valkyrieParser: ValkyrieParser, builder: PsiBuilder, typeLevel: Boolean): Boolean {
+fun parseGenericArgumentList(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
     var unicodeMode = false
 
     // 确定并消费起始符号
-    when {
-        // <T as Iterator>::Item
-        builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON && isIdentifier(builder.lookAhead(1)) -> {
-            builder.advanceLexer()
-            builder.advanceLexer()
-            marker.done(ValkyrieElementTypes.TYPE_EXPRESSION)
-            return true
-        }
-        // <T as Iterator>::<T
-        builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON && builder.lookAhead(1) == ValkyrieTokenTypes.ANGLE_L -> {
-            builder.advanceLexer()
+    when (builder.tokenType) {
+        // <T, U>
+        ValkyrieTokenTypes.ANGLE_L -> {
             builder.advanceLexer()
         }
-        // <T as Iterator><T
-        typeLevel && builder.tokenType == ValkyrieTokenTypes.ANGLE_L -> {
-            builder.advanceLexer()
-        }
-        // <T as Iterator>⟨T
-        builder.tokenType == ValkyrieTokenTypes.GENERIC_L -> {
-            builder.advanceLexer()
+        // ⟨T, U⟩
+        ValkyrieTokenTypes.GENERIC_L -> {
             unicodeMode = true
+            builder.advanceLexer()
         }
 
         else -> {
-            marker.rollbackTo()
+            marker.drop() // drop 而不是 rollback，因为我们不应该进入这个函数
             return false
         }
     }
@@ -146,9 +134,7 @@ fun parseGenericArgumentList(valkyrieParser: ValkyrieParser, builder: PsiBuilder
                 if (builder.tokenType == closingBracket) {
                     break
                 }
-            }
-            // 既不是 '>' 也不是 ',', 说明缺少逗号
-            else {
+            } else {
                 builder.error("在泛型参数之间需要一个逗号")
                 break
             }
@@ -162,7 +148,6 @@ fun parseGenericArgumentList(valkyrieParser: ValkyrieParser, builder: PsiBuilder
         builder.error("需要 '${if (unicodeMode) "⟩" else ">"}' 来闭合泛型参数列表")
     }
 
-    // 此时 marker 肯定没有被完成过，可以安全调用 done
     marker.done(ValkyrieElementTypes.GENERIC_ARGUMENT_LIST)
     return true
 }
@@ -180,11 +165,11 @@ fun parseTypeExpression(valkyrieParser: ValkyrieParser, builder: PsiBuilder, inl
 // Pratt 解析器的核心, 带优先级的递归下降解析
 fun parseTypeExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: PsiBuilder, minPrecedence: Int, inline: Boolean): Boolean {
     var lhs_marker = builder.mark()
-    // 首先, 我们需要处理前缀运算符或一个基础类型
+    // 解析前缀或基础类型
     val token = builder.tokenType
     val prefix_precedence = typePrefixPrecedences[token]
     if (prefix_precedence != null && prefix_precedence >= minPrecedence) {
-        // 解析前缀表达式, 例如 `+Trait`
+        // 吃掉前缀, 例如 `+Trait`
         builder.advanceLexer()
         if (!parseTypeExpressionWithPrecedence(valkyrieParser, builder, prefix_precedence, inline)) {
             builder.error("在前缀运算符后需要一个类型表达式")
@@ -212,51 +197,49 @@ fun parseTypeExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
             lhs_marker = lhs_marker.precede()
             when (current_token) {
                 ValkyrieTokenTypes.DOUBLE_COLON -> {
-                    if (!parseGenericArgumentList(valkyrieParser, builder, true)) {
-                        lhs_marker.drop()
-                        return true
+                    val lookAhead = builder.lookAhead(1)
+                    // 情况 1: A::<B>, 是一个 turbofish
+                    if (lookAhead == ValkyrieTokenTypes.ANGLE_L || lookAhead == ValkyrieTokenTypes.GENERIC_L) {
+                        // 调用专门的函数来解析 `::<B>` 部分
+                        parseGenericArgumentList(valkyrieParser, builder)
+                    }
+                    // 情况 2: A::C, 是一个路径段
+                    else {
+                        // 我们只消费 `::` 和后面的标识符
+                        builder.advanceLexer() // 消费 '::'
+                        if (!valkyrieParser.parseIdentifier(builder)) {
+                            builder.error("在 '::' 后需要一个路径标识符")
+                        }
                     }
                 }
-
                 // 对于泛型参数列表, 调用专门的解析函数
                 ValkyrieTokenTypes.ANGLE_L, ValkyrieTokenTypes.GENERIC_L -> {
-                    if (!parseGenericArgumentList(valkyrieParser, builder, true)) {
-                        lhs_marker.drop()
-                        return true
-                    }
+                    parseGenericArgumentList(valkyrieParser, builder)
                 }
-                // 普通后缀运算符, 因为都是单个的, 直接吃掉
+                // 普通后缀运算符, 都是单 token, 直接消费
                 else -> builder.advanceLexer()
             }
             lhs_marker.done(ValkyrieElementTypes.TYPE_EXPRESSION)
-            // 继续循环, 因为一个后缀表达式后可能还有其他运算符, 如 `A<T>?`
+            // 继续循环, 因为一个后缀表达式后可能还有其他运算符
             continue
         }
 
         if (infix_precedence != null && infix_precedence >= minPrecedence) {
-            // 处理中缀表达式, 例如 `T | U`
             lhs_marker = lhs_marker.precede()
-            // 吃掉运算符
             builder.advanceLexer()
-            // 根据运算符的结合性调整下一次递归的最小优先级
-            val next_min_precedence = when (current_token) {
-                // 右结合
-                ValkyrieTokenTypes.ARROW -> infix_precedence
-                // 左结合
-                else -> infix_precedence + 1
-            }
+            val next_min_precedence = if (current_token == ValkyrieTokenTypes.ARROW) infix_precedence else infix_precedence + 1
             if (!parseTypeExpressionWithPrecedence(valkyrieParser, builder, next_min_precedence, inline)) {
                 builder.error("在二元运算符后需要一个类型表达式")
             }
             lhs_marker.done(ValkyrieElementTypes.TYPE_EXPRESSION)
-            // 继续循环, 处理链式操作, 如 `A + B + C`
-            continue
+            continue // 继续循环, 处理链式操作
         }
-        // 没有更多可处理的运算符, 退出循环
-        break
+
+        break // 没有更多可处理的运算符, 退出循环
     }
     return true
 }
+
 
 // 解析基础类型，是构成类型表达式的基本单元
 fun parsePrimaryType(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
@@ -286,7 +269,7 @@ fun parsePrimaryType(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
 // <T as U>
 private fun parseGenericGroup(parser: ValkyrieParser, builder: PsiBuilder, unicodeMode: Boolean): Boolean {
     when (builder.tokenType) {
-        ValkyrieTokenTypes.ANGLE_L -> {}
+        ValkyrieTokenTypes.ANGLE_L if !unicodeMode -> {}
         ValkyrieTokenTypes.GENERIC_L if unicodeMode -> {}
         else -> return false
     }
@@ -294,7 +277,7 @@ private fun parseGenericGroup(parser: ValkyrieParser, builder: PsiBuilder, unico
     builder.advanceLexer()
     parseTypeExpression(parser, builder, true)
     when (builder.tokenType) {
-        ValkyrieTokenTypes.ANGLE_R -> builder.advanceLexer()
+        ValkyrieTokenTypes.ANGLE_R if !unicodeMode -> builder.advanceLexer()
         ValkyrieTokenTypes.GENERIC_R if unicodeMode -> builder.advanceLexer()
         else -> {
             marker.rollbackTo()
