@@ -204,16 +204,42 @@ fun parseTypeExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
     // 循环处理中缀和后缀运算符
     while (true) {
         val current_token = builder.tokenType
-        // FIX: 解决 `::` 的歧义性。`::` 可能是路径分隔符 (中缀), 也可能是 `::<...>` 的一部分 (后缀)。
-        // 我们需要通过向前看(lookAhead)来区分这两种情况。
-        // 如果是 `::<`, 我们将其作为特殊的后缀操作符处理。
-        if (current_token == ValkyrieTokenTypes.DOUBLE_COLON && builder.lookAhead(1) == ValkyrieTokenTypes.ANGLE_L) {
-            val turbofishPrecedence = 7 // 给予和 `<...>` 相同的后缀优先级
-            if (turbofishPrecedence < minPrecedence) break
-            lhs_marker = lhs_marker.precede()
-            parseGenericArgumentList(valkyrieParser, builder, true)
-            lhs_marker.done(ValkyrieElementTypes.TYPE_EXPRESSION)
-            continue
+
+        // 对 `::` 进行特殊处理
+        if (current_token == ValkyrieTokenTypes.DOUBLE_COLON) {
+            val pathPrecedence = 25 // 路径操作符具有最高优先级
+            if (pathPrecedence < minPrecedence) break
+
+            val nextToken = builder.lookAhead(1)
+            // 情况 1: `A::B` (路径分隔符)
+            if (isIdentifier(nextToken)) {
+                lhs_marker = lhs_marker.precede()
+                builder.advanceLexer() // 消费 '::'
+                if (!valkyrieParser.parseIdentifier(builder)) {
+                    // 理论上 isIdentifier 检查后不会失败, 但为了健壮性
+                    builder.error("在 '::' 后需要一个标识符")
+                }
+                lhs_marker.done(ValkyrieElementTypes.TYPE_EXPRESSION)
+                // 继续循环以处理 A::B::C
+                continue
+            }
+            // 情况 2: `A::<B>` (Turbofish)
+            else if (nextToken == ValkyrieTokenTypes.ANGLE_L || nextToken == ValkyrieTokenTypes.GENERIC_L) {
+                lhs_marker = lhs_marker.precede()
+                // parseGenericArgumentList 会负责消费 '::' 和 '<...>'
+                if (!parseGenericArgumentList(valkyrieParser, builder, true)) {
+                    // 如果失败, 撤销标记并退出
+                    lhs_marker.drop()
+                    break
+                }
+                lhs_marker.done(ValkyrieElementTypes.TYPE_EXPRESSION)
+                // 继续循环以处理 A::<B>::C
+                continue
+            }
+            // 如果 `::` 后面跟了其他东西, 则它不是一个合法的路径操作, 退出循环
+            else {
+                break
+            }
         }
 
         val postfix_precedence = typePostfixPrecedences[current_token]
@@ -265,12 +291,56 @@ fun parseTypeExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
 
 // 解析基础类型，是构成类型表达式的基本单元
 fun parsePrimaryType(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    val typeLevel = true;
     return when (builder.tokenType) {
         // 圆括号包裹的类型: (T) (元组) 或 (T) (分组)
         ValkyrieTokenTypes.PARENTHESIS_L -> parseParenthesisType(parser, builder)
         // 方括号包裹的类型: [T] (向量), [T; N] (数组), 或 [name: T] (具名元组/记录)
         ValkyrieTokenTypes.BRACKET_L -> parseBracketType(parser, builder)
+        // <T as U>::Item
+        ValkyrieTokenTypes.ANGLE_L if typeLevel -> parseGenericGroup(
+            parser,
+            builder,
+            false
+        )
+        // <T as U>::Item
+        ValkyrieTokenTypes.GENERIC_L, ValkyrieTokenTypes.DOUBLE_COLON -> parseGenericGroup(
+            parser,
+            builder,
+            true
+        )
+
         else -> parser.parseNamePath(builder, false)
+    }
+}
+
+// <T as U>
+private fun parseGenericGroup(parser: ValkyrieParser, builder: PsiBuilder, unicodeMode: Boolean): Boolean {
+    when (builder.tokenType) {
+        ValkyrieTokenTypes.ANGLE_L -> {}
+        ValkyrieTokenTypes.GENERIC_L if unicodeMode -> {}
+        else -> return false
+    }
+    val marker = builder.mark()
+    builder.advanceLexer()
+    parseTypeExpression(parser, builder, true)
+    when (builder.tokenType) {
+        ValkyrieTokenTypes.ANGLE_R -> {
+            builder.advanceLexer()
+            marker.done(ValkyrieElementTypes.TYPE_EXPRESSION)
+            return true
+        }
+
+        ValkyrieTokenTypes.GENERIC_R if unicodeMode -> {
+            builder.advanceLexer()
+            marker.done(ValkyrieElementTypes.TYPE_EXPRESSION)
+            return true
+        }
+
+        else -> {
+            marker.rollbackTo()
+            return false
+        }
     }
 }
 
