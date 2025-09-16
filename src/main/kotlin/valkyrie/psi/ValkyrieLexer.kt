@@ -7,7 +7,7 @@ import com.intellij.psi.tree.IElementType
 import java.lang.Integer.max
 
 /**
- * Valkyrie 手写词法分析器 (修复版)
+ * Valkyrie 手写词法分析器
  */
 class ValkyrieLexer : LexerBase() {
     private var buffer: CharSequence = ""
@@ -35,7 +35,7 @@ class ValkyrieLexer : LexerBase() {
         "else" to ValkyrieTokenTypes.ELSE,
         "while" to ValkyrieTokenTypes.WHILE,
         "loop" to ValkyrieTokenTypes.LOOP,
-        "for" to ValkyrieTokenTypes.FOR,
+        "for" to ValkyrieTokenTypes.LOOP,
         // fn
         "micro" to ValkyrieTokenTypes.MICRO,
         "function" to ValkyrieTokenTypes.MICRO,
@@ -308,14 +308,14 @@ class ValkyrieLexer : LexerBase() {
                 ch1 == '<' && ch2 == '$' -> {
                     currentOffset += 2
                     templateDepth++
-                    tokenType = ValkyrieTokenTypes.TEMPLATE_START
+                    tokenType = ValkyrieTokenTypes.TEMPLATE_L
                     return
                 }
                 // 模板结束
                 ch1 == '$' && ch2 == '>' -> {
                     currentOffset += 2
                     templateDepth = max(0, templateDepth - 1)
-                    tokenType = ValkyrieTokenTypes.TEMPLATE_END
+                    tokenType = ValkyrieTokenTypes.TEMPLATE_R
                     return
                 }
                 // 模板内注释
@@ -403,14 +403,11 @@ class ValkyrieLexer : LexerBase() {
                         currentOffset++; tokenType = ValkyrieTokenTypes.LESS_EQUAL
                     }
 
-                    '{' -> {
-                        currentOffset++; tokenType = ValkyrieTokenTypes.COMPILE_L
-                    }
                     // 进入模板模式
                     '$' -> {
                         currentOffset++
                         templateDepth++
-                        tokenType = ValkyrieTokenTypes.TEMPLATE_START
+                        tokenType = ValkyrieTokenTypes.TEMPLATE_L
                     }
 
                     else -> {
@@ -425,7 +422,7 @@ class ValkyrieLexer : LexerBase() {
                     currentOffset++
                     // 在正常模式下遇到 $>，安全地减少深度
                     templateDepth = max(0, templateDepth - 1)
-                    tokenType = ValkyrieTokenTypes.TEMPLATE_END
+                    tokenType = ValkyrieTokenTypes.TEMPLATE_R
                 } else {
                     tokenType = BAD_CHARACTER
                 }
@@ -472,12 +469,7 @@ class ValkyrieLexer : LexerBase() {
 
             '}' -> {
                 currentOffset++
-                if (peek(0) == '>') {
-                    currentOffset++
-                    tokenType = ValkyrieTokenTypes.COMPILE_R
-                } else {
-                    tokenType = ValkyrieTokenTypes.BRACE_R
-                }
+                tokenType = ValkyrieTokenTypes.BRACE_R
             }
 
             '&' -> {

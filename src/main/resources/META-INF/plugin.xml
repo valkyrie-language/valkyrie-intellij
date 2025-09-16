@@ -5,8 +5,8 @@
 	<depends>com.intellij.modules.lang</depends>
 	<depends>com.intellij.modules.platform</depends>
 	<depends>com.intellij.modules.json</depends>
+	<!-- 移除可选的Ultimate依赖，避免插件被自动卸载 -->
 	<depends optional="true" config-file="plugin-with-java.xml">com.intellij.java</depends>
-	<depends optional="true" config-file="plugin-with-ultimate.xml">com.intellij.modules.ultimate</depends>
 	<depends optional="true" config-file="plugin-with-toml.xml">org.toml.lang</depends>
 	<depends optional="true" config-file="plugin-with-markdown.xml">org.intellij.plugins.markdown</depends>
 	<resource-bundle>messages.ValkyrieBundle</resource-bundle>
@@ -133,6 +133,9 @@
 			implementationClass="valkyrie.ide.gutter.ValkyrieControlFlowNavigationProvider"
 		/>
 
+
+		<!-- Startup Activity for delayed indexing -->
+		<postStartupActivity implementation="valkyrie.index.ValkyrieDelayedIndexingActivity"/>
 
 		<!-- Test Framework -->
 		<configurationType implementation="valkyrie.ide.test.ValkyrieTestConfigurationType"/>
