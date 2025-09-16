@@ -860,7 +860,7 @@ class ValkyrieParser : PsiParser {
         val marker = builder.mark()
         parseAnnotations(builder, withModifiers = false)
         if (!parseIdentifier(builder)) {
-            marker.rollbackTo()
+            marker.drop()
             return false
         }
         parseDefaultValue(builder, false) // optional
@@ -881,6 +881,7 @@ class ValkyrieParser : PsiParser {
             marker.rollbackTo()
             return false
         }
+        builder.advanceLexer() // consume 'imply'
         parseGenericParameterList(this, builder)
         // impl module::Type
         if (!parseNamePath(builder, free = true)) {
@@ -1009,7 +1010,10 @@ class ValkyrieParser : PsiParser {
         if (builder.tokenType == ValkyrieTokenTypes.ASSIGN) {
             val marker = builder.mark()
             builder.advanceLexer()
-            parseTermExpression(this, builder, inline)
+            if (!parseTermExpression(this, builder, inline)) {
+                marker.error("Expected expression after '='")
+                return false
+            }
             marker.done(ValkyrieElementTypes.DEFAULT_VALUE)
             return true
         }
@@ -1990,7 +1994,7 @@ class ValkyrieParser : PsiParser {
             identifierMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
         } else {
             identifierMarker.error("expected namepath")
-            pathMarker.drop()
+            pathMarker.error("expected namepath")
             return false
         }
 
@@ -2004,7 +2008,7 @@ class ValkyrieParser : PsiParser {
                 nextIdentifierMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
             } else {
                 nextIdentifierMarker.error("expected identifier after path separator")
-                pathMarker.drop()
+                pathMarker.error("expected identifier after path separator")
                 return false
             }
         }
