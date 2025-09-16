@@ -155,9 +155,12 @@ fun parseTermExpression(parser: ValkyrieParser, builder: PsiBuilder, inline: Boo
  *
  * @param minPrecedence 当前递归层级需要处理的最小运算符优先级。
  */
-fun parseTermExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: PsiBuilder, minPrecedence: Int, inline: Boolean): Boolean {
-    // 表达式的起点必须是一个 "NUD" (Null Denotation)，
-    // 它可以是一个原子表达式（如字面量、变量）或一个前缀表达式。
+fun parseTermExpressionWithPrecedence(
+    valkyrieParser: ValkyrieParser,
+    builder: PsiBuilder,
+    minPrecedence: Int,
+    inline: Boolean,
+): Boolean {
     var lhs_marker = builder.mark()
 
     val token = builder.tokenType
@@ -168,13 +171,14 @@ fun parseTermExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
         builder.advanceLexer()
         // 递归调用，传入前缀运算符自身的优先级，以处理右结合性或更高优先级的运算符
         if (!parseTermExpressionWithPrecedence(valkyrieParser, builder, prefix_precedence, inline)) {
-            builder.error("在前缀运算符后需要一个表达式")
+            lhs_marker.drop()
+            return false
         }
-        lhs_marker.done(ValkyrieElementTypes.EXPRESSION)
+        // lhs_marker.done(ValkyrieElementTypes.EXPRESSION) // 移除此行
     } else if (parsePrimaryTerm(valkyrieParser, builder, inline)) {
         // 成功解析了一个原子表达式（如变量、字面量、if/match 表达式等）。
         // parsePrimaryTerm 已经创建了相应的节点，所以这里的 marker 只是一个临时的包装。
-        lhs_marker.drop()
+        // lhs_marker.drop() // 移除此行，让 marker 保持活动状态
     } else {
         // 既不是前缀表达式，也不是原子表达式的开头，说明这里不是一个有效的表达式。
         lhs_marker.drop()
@@ -235,19 +239,11 @@ fun parseTermExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
                 }
                 // 索引访问: a[] 或 a?[]
 //                ValkyrieTokenTypes.BRACKET_L -> {
-//                    valkyrieParser.parseIndex(builder)
+//                    builder.advanceLexer() // 吃掉 '['
+//                    valkyrieParser.parseIndexExpression(builder)
+//                    valkyrieParser.expect(builder, ValkyrieTokenTypes.BRACKET_R, "期待一个 ']'")
 //                    lhs_marker.done(ValkyrieElementTypes.INDEX_EXPRESSION)
 //                }
-                // 尾随闭包: f {} 或 f?{}
-                ValkyrieTokenTypes.BRACE_L -> {
-                    if (inline) {
-                        builder.error("在此上下文中不允许使用尾随闭包")
-                        lhs_marker.drop()
-                        return true // 尽早退出以避免级联错误
-                    }
-                    valkyrieParser.parseFnBody(builder)
-                    lhs_marker.done(ValkyrieElementTypes.EXPRESSION)
-                }
                 // 成员访问: a.b 或 a?.b
                 ValkyrieTokenTypes.DOT -> {
                     builder.advanceLexer() // 吃掉 '.'
@@ -258,12 +254,12 @@ fun parseTermExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
                 // 它本身是一个完整的表达式，但通常后面紧跟 .、( 或 [
                 ValkyrieTokenTypes.WHAT -> {
                     builder.advanceLexer() // 吃掉 '?'
-                    lhs_marker.done(ValkyrieElementTypes.EXPRESSION)
+                    lhs_marker.done(ValkyrieElementTypes.POSTFIX_EXPRESSION) // Using a general postfix expression type
                 }
                 // 泛型参数: a::<T>
                 ValkyrieTokenTypes.DOUBLE_COLON -> {
                     parseGenericArgumentList(valkyrieParser, builder, false)
-                    lhs_marker.done(ValkyrieElementTypes.EXPRESSION)
+                    lhs_marker.done(ValkyrieElementTypes.POSTFIX_EXPRESSION) // Using a general postfix expression type
                 }
                 // 其他单 token 后缀运算符
                 else -> {
@@ -300,9 +296,10 @@ fun parseTermExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
             continue
         }
 
-        // 没有更多可处理的、具有足够优先级的运算符，退出循环
-        break
+        break // No more operators with sufficient precedence
     }
+
+    lhs_marker.done(ValkyrieElementTypes.EXPRESSION) // Finalize the entire expression
     return true
 }
 
