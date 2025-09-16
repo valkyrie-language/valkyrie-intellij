@@ -4,10 +4,10 @@ import com.intellij.lexer.LexerBase
 import com.intellij.psi.TokenType.BAD_CHARACTER
 import com.intellij.psi.TokenType.WHITE_SPACE
 import com.intellij.psi.tree.IElementType
-import java.lang.Integer.max
+import java.util.*
 
 /**
- * Valkyrie 手写词法分析器
+ * Valkyrie 手写词法分析器 (支持模板语法)
  */
 class ValkyrieLexer : LexerBase() {
     private var buffer: CharSequence = ""
@@ -16,36 +16,42 @@ class ValkyrieLexer : LexerBase() {
     private var currentOffset = 0
     private var tokenType: IElementType? = null
 
-    // 状态量
-    // 0: Normal, >0: Template Depth
-    private var templateDepth = 0
+    // =================================================================
+    // 状态管理
+    // =================================================================
+    companion object {
+        private const val STATE_LANGUAGE = 0
+        private const val STATE_TEMPLATE_BODY = 1
+    }
 
-    // 字符串解析状态
+    private var lexerState = STATE_LANGUAGE
+
+    // 用于辅助判断标签类型的栈。我们只需要知道当前是否在标签内即可。
+    private var tagDepth = 0
+
+    // 字符串解析状态 (保持不变)
     private var stringDelimiter: Char? = null
     private var stringDelimiterWidth = 0
 
-    // 数字宏解析状态
+    // 数字宏解析状态 (保持不变)
     private var pendingNumberMacro = false
 
-
-    // 关键字映射 (保持不变)
+    // 关键字映射
     private val keywords = mapOf(
         "let" to ValkyrieTokenTypes.LET,
         "if" to ValkyrieTokenTypes.IF,
         "else" to ValkyrieTokenTypes.ELSE,
+        "end" to ValkyrieTokenTypes.END, // 添加 'end' 关键字
         "while" to ValkyrieTokenTypes.WHILE,
         "loop" to ValkyrieTokenTypes.LOOP,
         "for" to ValkyrieTokenTypes.LOOP,
-        // fn
         "micro" to ValkyrieTokenTypes.MICRO,
         "function" to ValkyrieTokenTypes.MICRO,
         "func" to ValkyrieTokenTypes.MICRO,
         "fun" to ValkyrieTokenTypes.MICRO,
         "fn" to ValkyrieTokenTypes.MICRO,
-        // type
         "mezzo" to ValkyrieTokenTypes.MEZZO,
         "type" to ValkyrieTokenTypes.MEZZO,
-        // macro
         "macro" to ValkyrieTokenTypes.MACRO,
         "class" to ValkyrieTokenTypes.CLASS,
         "struct" to ValkyrieTokenTypes.STRUCTURE,
@@ -84,13 +90,19 @@ class ValkyrieLexer : LexerBase() {
         "false" to ValkyrieTokenTypes.BOOLEAN
     )
 
+    // 用于帮助 Lexer 判断标签类型的关键字
+    private val blockOpeningKeywords = setOf("if", "for", "while", "loop", "match", "scope")
+
     override fun start(buffer: CharSequence, startOffset: Int, endOffset: Int, initialState: Int) {
         this.buffer = buffer
         this.startOffset = startOffset
         this.endOffset = endOffset
         this.currentOffset = startOffset
+
         // 恢复状态
-        this.templateDepth = initialState
+        this.lexerState = initialState
+        this.tagDepth = 0 // 重置 tag 深度
+
         this.stringDelimiter = null
         this.stringDelimiterWidth = 0
         this.pendingNumberMacro = false
@@ -98,7 +110,7 @@ class ValkyrieLexer : LexerBase() {
         advance()
     }
 
-    override fun getState(): Int = templateDepth
+    override fun getState(): Int = lexerState
 
     override fun getTokenType(): IElementType? = tokenType
 
@@ -111,10 +123,49 @@ class ValkyrieLexer : LexerBase() {
             tokenType = null
             return
         }
-
         startOffset = currentOffset
 
-        // 优先处理多-token 状态
+        // 根据当前状态分发任务
+        when (lexerState) {
+            STATE_LANGUAGE -> processLanguage()
+            STATE_TEMPLATE_BODY -> processTemplateBody()
+            else -> { // Fallback
+                lexerState = STATE_LANGUAGE
+                processLanguage()
+            }
+        }
+    }
+
+    /**
+     * 处理模板主体部分。
+     * 在这个模式下，所有内容都是 TEMPLATE_TEXT，直到遇到 '<$'。
+     */
+    private fun processTemplateBody() {
+        val textStart = currentOffset
+        while (currentOffset < endOffset) {
+            if (peek(0) == '<' && peek(1) == '$') {
+                break
+            }
+            currentOffset++
+        }
+
+        if (currentOffset > textStart) {
+            // 我们找到了文本内容，在 '<$' 之前结束
+            tokenType = ValkyrieTokenTypes.TEMPLATE_TEXT
+        } else {
+            // 没有文本内容，直接遇到了 '<$' 或文件末尾
+            // 切换回 LANGUAGE 模式来处理 '<$' 标签
+            lexerState = STATE_LANGUAGE
+            processLanguage()
+        }
+    }
+
+    /**
+     * 处理语言代码部分。
+     * 这包括文件顶层代码和 `<$...$>` 标签内部的代码。
+     */
+    private fun processLanguage() {
+        // 优先处理多-token 状态 (字符串和数字宏)
         if (stringDelimiter != null) {
             processStringToken()
             return
@@ -123,12 +174,7 @@ class ValkyrieLexer : LexerBase() {
             readNumberMacro()
             return
         }
-        if (templateDepth > 0) {
-            processTemplateToken()
-            return
-        }
 
-        // 常规状态解析
         val ch = buffer[currentOffset]
         when {
             ch.isWhitespace() -> readWhitespace()
@@ -152,7 +198,87 @@ class ValkyrieLexer : LexerBase() {
             ch.isDigit() -> readNumber()
             ch == '"' || ch == '\'' -> startString()
             ch == '`' -> readRawIdentifier()
+            ch == '<' && peek() == '$' -> readTemplateTagStart()
+            ch == '$' && peek() == '>' -> readTemplateTagEnd()
             else -> readOperatorOrPunctuation(ch)
+        }
+    }
+
+    /**
+     * 智能地处理模板开始标签 '<$'。
+     * 它会预读标签内的第一个关键字，以决定这个标签是否会开启一个模板主体。
+     */
+    private fun readTemplateTagStart() {
+        currentOffset += 2
+        tagDepth++
+        tokenType = ValkyrieTokenTypes.TEMPLATE_L
+
+        // 预读（Lookahead）来判断标签类型
+        val keyword = peekNextKeyword()
+        if (blockOpeningKeywords.contains(keyword)) {
+            // 这是一个块级开始标签，标记一下，在遇到对应的 `>` 后切换到 TEMPLATE_BODY 状态
+            pushStateTransition(STATE_TEMPLATE_BODY)
+        } else {
+            // 这是一个表达式或块级结束标签，保持在 LANGUAGE 状态
+            pushStateTransition(STATE_LANGUAGE)
+        }
+    }
+
+    /**
+     * 处理模板结束标签 '$>'。
+     * 它会根据之前 `readTemplateTagStart` 的决定来切换状态。
+     */
+    private fun readTemplateTagEnd() {
+        currentOffset += 2
+        tagDepth = (tagDepth - 1).coerceAtLeast(0)
+        tokenType = ValkyrieTokenTypes.TEMPLATE_R
+        // 应用之前预读时决定的状态
+        popAndApplyStateTransition()
+    }
+
+    // 状态转换栈，用于解决 Lexer 的“记忆”问题
+    // 当遇到 '<$' 时，我们推入一个目标状态；当遇到 '$>' 时，我们弹出并应用它。
+    private val stateTransitionStack = Stack<Int>()
+    private fun pushStateTransition(nextState: Int) {
+        stateTransitionStack.push(nextState)
+    }
+
+    private fun popAndApplyStateTransition() {
+        if (stateTransitionStack.isNotEmpty()) {
+            lexerState = stateTransitionStack.pop()
+        } else {
+            // 如果栈为空（例如，一个不匹配的 `>`），安全地回到 LANGUAGE 状态
+            lexerState = STATE_LANGUAGE
+        }
+    }
+
+
+    /**
+     * 预读函数：从当前位置向后看，找到第一个非空格的单词。
+     * @return 返回找到的单词，如果没找到则返回空字符串。
+     */
+    private fun peekNextKeyword(): String {
+        var tempOffset = currentOffset
+        // 跳过空格
+        while (tempOffset < endOffset && buffer[tempOffset].isWhitespace()) {
+            tempOffset++
+        }
+
+        // 读取单词
+        val keywordStart = tempOffset
+        while (tempOffset < endOffset) {
+            val ch = buffer[tempOffset]
+            if (ch.isLetterOrDigit() || ch == '_') {
+                tempOffset++
+            } else {
+                break
+            }
+        }
+
+        return if (tempOffset > keywordStart) {
+            buffer.subSequence(keywordStart, tempOffset).toString()
+        } else {
+            ""
         }
     }
 
@@ -187,7 +313,6 @@ class ValkyrieLexer : LexerBase() {
         if (isAtStringEnd()) {
             currentOffset += stringDelimiterWidth
             tokenType = ValkyrieTokenTypes.STRING_END
-            // Reset state
             stringDelimiter = null
             stringDelimiterWidth = 0
         } else {
@@ -198,7 +323,6 @@ class ValkyrieLexer : LexerBase() {
             if (currentOffset > contentStart) {
                 tokenType = ValkyrieTokenTypes.STRING_TEXT
             } else {
-                // Should not happen if buffer is not empty
                 tokenType = null
             }
         }
@@ -225,7 +349,6 @@ class ValkyrieLexer : LexerBase() {
             }
         }
 
-        // 问题 1: 检查是否为 string macro
         val nextChar = peek(0)
         if (nextChar == '\'' || nextChar == '"') {
             tokenType = ValkyrieTokenTypes.MACRO_STRING
@@ -240,7 +363,6 @@ class ValkyrieLexer : LexerBase() {
         var hasDecimalPoint = false
         val numberStart = currentOffset
 
-        // Prefixes (0b, 0x)
         if (buffer[currentOffset] == '0' && peek()?.lowercaseChar() in listOf('b', 'x')) {
             val prefix = peek()!!.lowercaseChar()
             currentOffset += 2
@@ -250,7 +372,6 @@ class ValkyrieLexer : LexerBase() {
             }
             tokenType = ValkyrieTokenTypes.INTEGER
         } else {
-            // Decimal/Integer
             while (currentOffset < endOffset) {
                 val ch = buffer[currentOffset]
                 if (ch.isDigit()) {
@@ -265,10 +386,8 @@ class ValkyrieLexer : LexerBase() {
             tokenType = if (hasDecimalPoint) ValkyrieTokenTypes.DECIMAL else ValkyrieTokenTypes.INTEGER
         }
 
-        // 检查数字后是否有宏
         if (currentOffset > numberStart && currentOffset < endOffset) {
             val nextChar = buffer[currentOffset]
-            // 不允许有空格
             if (nextChar.isLetter() || nextChar == '_') {
                 pendingNumberMacro = true
             }
@@ -289,77 +408,19 @@ class ValkyrieLexer : LexerBase() {
         if (currentOffset > macroStart) {
             tokenType = ValkyrieTokenTypes.MACRO_NUMBER
         } else {
-            // Should not happen, but as a fallback
             advance()
         }
     }
 
-    // =================================================================
-    // 问题 3: 模板解析
-    // =================================================================
-    private fun processTemplateToken() {
-        // 优先匹配特殊标记
-        if (currentOffset + 1 < endOffset) {
-            val ch1 = buffer[currentOffset]
-            val ch2 = buffer[currentOffset + 1]
-
-            when {
-                // 嵌套模板开始
-                ch1 == '<' && ch2 == '$' -> {
-                    currentOffset += 2
-                    templateDepth++
-                    tokenType = ValkyrieTokenTypes.TEMPLATE_L
-                    return
-                }
-                // 模板结束
-                ch1 == '$' && ch2 == '>' -> {
-                    currentOffset += 2
-                    templateDepth = max(0, templateDepth - 1)
-                    tokenType = ValkyrieTokenTypes.TEMPLATE_R
-                    return
-                }
-                // 模板内注释
-                ch1 == '<' && ch2 == '#' -> {
-                    skipBlockComment()
-                    tokenType = ValkyrieTokenTypes.COMMENT_RANGE
-                    return
-                }
-            }
-        }
-
-        // 如果不是特殊标记, 就是模板文本
-        val textStart = currentOffset
-        while (currentOffset < endOffset) {
-            if (currentOffset + 1 < endOffset) {
-                val ch1 = buffer[currentOffset]
-                val ch2 = buffer[currentOffset + 1]
-                if ((ch1 == '<' && ch2 == '$') || (ch1 == '$' && ch2 == '>') || (ch1 == '<' && ch2 == '#')) {
-                    break
-                }
-            }
-            currentOffset++
-        }
-
-        if (currentOffset > textStart) {
-            tokenType = ValkyrieTokenTypes.TEMPLATE_TEXT
-        } else {
-            // We must be at the end of the buffer.
-            tokenType = null
-        }
-    }
-
-    // =================================================================
-    // 其他辅助函数 (大部分保持不变或微调)
-    // =================================================================
     private fun skipLineComment() {
-        currentOffset++ // skip # or ⍝
+        currentOffset++
         while (currentOffset < endOffset && buffer[currentOffset] != '\n') {
             currentOffset++
         }
     }
 
     private fun skipBlockComment() {
-        currentOffset += 2 // skip <#
+        currentOffset += 2
         var depth = 1
         while (currentOffset < endOffset && depth > 0) {
             if (peek(0) == '<' && peek(1) == '#') {
@@ -375,56 +436,32 @@ class ValkyrieLexer : LexerBase() {
     }
 
     private fun skipDocComment() {
-        currentOffset += 2 // skip #?
+        currentOffset += 2
         while (currentOffset < endOffset && buffer[currentOffset] != '\n') {
             currentOffset++
         }
     }
 
     private fun readRawIdentifier() {
-        currentOffset++ // skip opening backtick
+        currentOffset++
         val contentStart = currentOffset
         while (currentOffset < endOffset && buffer[currentOffset] != '`') {
             currentOffset++
         }
         if (currentOffset < endOffset) {
-            currentOffset++ // skip closing backtick
+            currentOffset++
         }
         tokenType = if (currentOffset > contentStart + 1) ValkyrieTokenTypes.IDENTIFIER_RAW else BAD_CHARACTER
     }
 
-    // readOperatorOrPunctuation 经过微调以处理模板启动
     private fun readOperatorOrPunctuation(ch: Char) {
         when (ch) {
             '<' -> {
                 currentOffset++
-                when (peek(0)) {
-                    '=' -> {
-                        currentOffset++; tokenType = ValkyrieTokenTypes.LESS_EQUAL
-                    }
-
-                    // 进入模板模式
-                    '$' -> {
-                        currentOffset++
-                        templateDepth++
-                        tokenType = ValkyrieTokenTypes.TEMPLATE_L
-                    }
-
-                    else -> {
-                        tokenType = ValkyrieTokenTypes.ANGLE_L
-                    }
-                }
-            }
-
-            '$' -> {
-                currentOffset++
-                if (peek(0) == '>') {
-                    currentOffset++
-                    // 在正常模式下遇到 $>，安全地减少深度
-                    templateDepth = max(0, templateDepth - 1)
-                    tokenType = ValkyrieTokenTypes.TEMPLATE_R
+                if (peek(0) == '=') {
+                    currentOffset++; tokenType = ValkyrieTokenTypes.LESS_EQUAL
                 } else {
-                    tokenType = BAD_CHARACTER
+                    tokenType = ValkyrieTokenTypes.ANGLE_L
                 }
             }
 
@@ -432,21 +469,18 @@ class ValkyrieLexer : LexerBase() {
                 currentOffset++
                 when (peek(0)) {
                     '=' -> {
-                        currentOffset++
-                        tokenType = ValkyrieTokenTypes.EQUAL
+                        currentOffset++; tokenType = ValkyrieTokenTypes.EQUAL
                     }
 
                     '>' -> {
-                        currentOffset++
-                        tokenType = ValkyrieTokenTypes.DOUBLE_ARROW
+                        currentOffset++; tokenType = ValkyrieTokenTypes.DOUBLE_ARROW
                     }
 
-                    else -> {
-                        tokenType = ValkyrieTokenTypes.ASSIGN
-                    }
+                    else -> tokenType = ValkyrieTokenTypes.ASSIGN
                 }
             }
-
+            // ... (rest of your operator/punctuation logic remains the same)
+            // Note: I have removed '<$' and '$>' from here.
             '!' -> {
                 currentOffset++
                 if (peek(0) == '=') {
