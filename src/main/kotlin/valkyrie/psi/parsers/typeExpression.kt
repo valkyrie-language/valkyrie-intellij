@@ -87,7 +87,7 @@ fun parseGenericParameterItem(valkyrieParser: ValkyrieParser, builder: PsiBuilde
     // 解析可选的默认类型
     valkyrieParser.parseDefaultType(builder)
 
-    marker.done(ValkyrieElementTypes.GENERIC_PARAMETER)
+    marker.done(ValkyrieElementTypes.GENERIC_PARAMETER_ITEM)
     return true
 }
 
@@ -214,7 +214,8 @@ fun parseTypeExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
             // 情况 1: `A::B` (路径分隔符)
             if (isIdentifier(nextToken)) {
                 lhs_marker = lhs_marker.precede()
-                builder.advanceLexer() // 消费 '::'
+                // 消费 '::'
+                builder.advanceLexer()
                 if (!valkyrieParser.parseIdentifier(builder)) {
                     // 理论上 isIdentifier 检查后不会失败, 但为了健壮性
                     builder.error("在 '::' 后需要一个标识符")
@@ -325,23 +326,15 @@ private fun parseGenericGroup(parser: ValkyrieParser, builder: PsiBuilder, unico
     builder.advanceLexer()
     parseTypeExpression(parser, builder, true)
     when (builder.tokenType) {
-        ValkyrieTokenTypes.ANGLE_R -> {
-            builder.advanceLexer()
-            marker.done(ValkyrieElementTypes.TYPE_EXPRESSION)
-            return true
-        }
-
-        ValkyrieTokenTypes.GENERIC_R if unicodeMode -> {
-            builder.advanceLexer()
-            marker.done(ValkyrieElementTypes.TYPE_EXPRESSION)
-            return true
-        }
-
+        ValkyrieTokenTypes.ANGLE_R -> builder.advanceLexer()
+        ValkyrieTokenTypes.GENERIC_R if unicodeMode -> builder.advanceLexer()
         else -> {
             marker.rollbackTo()
             return false
         }
     }
+    marker.done(ValkyrieElementTypes.TYPE_GROUP)
+    return true
 }
 
 // () unit 类型, tuple 的一种
@@ -354,7 +347,7 @@ private fun parseParenthesisType(parser: ValkyrieParser, builder: PsiBuilder): B
     // 空元组 `()`
     if (builder.tokenType == ValkyrieTokenTypes.PARENTHESIS_R) {
         builder.advanceLexer()
-        marker.done(ValkyrieElementTypes.TUPLE_TYPE)
+        marker.done(ValkyrieElementTypes.TYPE_TUPLE_LIST)
         return true
     }
 
@@ -372,16 +365,16 @@ private fun parseParenthesisType(parser: ValkyrieParser, builder: PsiBuilder): B
         if (builder.tokenType == ValkyrieTokenTypes.PARENTHESIS_R) {
             builder.advanceLexer()
         }
-        marker.done(ValkyrieElementTypes.TUPLE_TYPE)
+        marker.done(ValkyrieElementTypes.TYPE_TUPLE_LIST)
         return true
     }
-    firstItemMarker.done(ValkyrieElementTypes.TUPLE_ITEM)
+    firstItemMarker.done(ValkyrieElementTypes.TYPE_TUPLE_ITEM)
 
     // 根据接下来的符号判断是分组还是元组
     // `(T)` 是分组, `(T,)` 和 `(name: T)` 是单元元组
     if (builder.tokenType == ValkyrieTokenTypes.PARENTHESIS_R && !isNamed) {
         builder.advanceLexer() // 吃掉 ')'
-        marker.done(ValkyrieElementTypes.GROUP_TYPE)
+        marker.done(ValkyrieElementTypes.TYPE_GROUP)
         return true
     }
 
@@ -403,7 +396,7 @@ private fun parseParenthesisType(parser: ValkyrieParser, builder: PsiBuilder): B
             itemMarker.drop()
             break
         }
-        itemMarker.done(ValkyrieElementTypes.TUPLE_ITEM)
+        itemMarker.done(ValkyrieElementTypes.TYPE_TUPLE_ITEM)
     }
 
     if (builder.tokenType == ValkyrieTokenTypes.PARENTHESIS_R) {
@@ -412,7 +405,7 @@ private fun parseParenthesisType(parser: ValkyrieParser, builder: PsiBuilder): B
         builder.error("需要 ')' 来闭合元组类型")
     }
 
-    marker.done(ValkyrieElementTypes.TUPLE_TYPE)
+    marker.done(ValkyrieElementTypes.TYPE_TUPLE_LIST)
     return true
 }
 
