@@ -17,13 +17,13 @@ class ValkyrieModifierNode(node: ASTNode) : ValkyrieElementNode(node), HasHighli
         get() = ValkyrieColor.MODIFIER_NODE
 
     override val highlightElement: PsiElement?
-        get() = findChildByType(ValkyrieTokenTypes.IDENTIFIER_STD)
+        get() = findChildByType(ValkyrieTokenTypes.SYMBOL_XID)
 
     /**
      * 获取修饰符名称
      */
     fun getModifierName(): String? {
-        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER_STD)?.text
+        return findChildByType<PsiElement>(ValkyrieTokenTypes.SYMBOL_XID)?.text
     }
 
     /**

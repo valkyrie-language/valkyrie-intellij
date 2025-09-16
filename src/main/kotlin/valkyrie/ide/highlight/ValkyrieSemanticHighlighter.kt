@@ -40,7 +40,7 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
                     // 查找标识符节点
                     var child = element.firstChild
                     while (child != null) {
-                        if (child.node.elementType == ValkyrieTokenTypes.IDENTIFIER_STD && child.text == paramName) {
+                        if (child.node.elementType == ValkyrieTokenTypes.SYMBOL_XID && child.text == paramName) {
                             highlight(child, ValkyrieColor.SYM_ARG)
                             break
                         }
@@ -53,7 +53,7 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
                 // 高亮泛型参数
                 val genericArgs = element.getGenericArguments()
                 for (arg in genericArgs) {
-                    if (arg.node.elementType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                    if (arg.node.elementType == ValkyrieTokenTypes.SYMBOL_XID) {
                         highlight(arg, ValkyrieColor.SYM_GENERIC)
                     }
                 }
@@ -127,7 +127,7 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
         if (element.node.elementType == ValkyrieElementTypes.GENERIC_PARAMETER_LIST) {
             var child = element.firstChild
             while (child != null) {
-                if (child.node.elementType == ValkyrieTokenTypes.IDENTIFIER_STD) {
+                if (child.node.elementType == ValkyrieTokenTypes.SYMBOL_XID) {
                     highlight(child, ValkyrieColor.SYM_GENERIC)
                 }
                 child = child.nextSibling

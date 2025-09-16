@@ -41,7 +41,7 @@ class ValkyrieDomainDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiN
     }
 
     fun getDomainName(): String? {
-        return findChildByType<PsiElement>(ValkyrieTokenTypes.IDENTIFIER_STD)?.text
+        return findChildByType<PsiElement>(ValkyrieTokenTypes.SYMBOL_XID)?.text
     }
 
     fun getModifierNodes(): List<ValkyrieModifierNode> {

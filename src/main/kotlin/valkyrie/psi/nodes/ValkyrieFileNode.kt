@@ -13,7 +13,7 @@ import valkyrie.language.file.ValkyrieFileType
 /**
  * Valkyrie 文件 PSI 实现
  */
-class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ValkyrieLanguage.INSTANCE) {
+class ValkyrieFileNode(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ValkyrieLanguage) {
     
     override fun getFileType(): FileType = ValkyrieFileType.INSTANCE
     
