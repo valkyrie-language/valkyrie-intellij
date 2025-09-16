@@ -7,7 +7,7 @@ import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieIcons
 import valkyrie.psi.nodes.*
-import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 /**
  * 控制流语句的行标记提供器

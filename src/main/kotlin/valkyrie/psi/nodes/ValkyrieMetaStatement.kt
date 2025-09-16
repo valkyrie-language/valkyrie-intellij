@@ -5,7 +5,7 @@ import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.PsiElement
 import valkyrie.ide.navigation.MetaType
 import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 /**
  * 元编程语句实现

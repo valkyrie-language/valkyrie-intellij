@@ -6,8 +6,8 @@ import com.intellij.lang.PsiParser
 import com.intellij.psi.tree.IElementType
 import valkyrie.psi.ValkyrieElementType
 import valkyrie.psi.ValkyrieElementTypes
-import valkyrie.psi.ValkyrieTokenType
-import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.lexers.ValkyrieTokenType
+import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 
 /**

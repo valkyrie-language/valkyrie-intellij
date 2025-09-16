@@ -3,8 +3,8 @@ package valkyrie.lexer
 import com.intellij.psi.TokenType.WHITE_SPACE
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import valkyrie.psi.ValkyrieLexer
-import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.lexers.ValkyrieLexer
+import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 class EmptyStringTest {
 

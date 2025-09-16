@@ -2,7 +2,7 @@ package valkyrie.psi.parsers
 
 import com.intellij.lang.PsiBuilder
 import valkyrie.psi.ValkyrieElementTypes
-import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 
 fun parseFunctionParameterList(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {

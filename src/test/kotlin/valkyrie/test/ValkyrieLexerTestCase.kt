@@ -3,8 +3,8 @@ package valkyrie.test
 import com.intellij.lexer.Lexer
 import com.intellij.psi.tree.IElementType
 import com.intellij.testFramework.LexerTestCase
-import valkyrie.psi.ValkyrieLexer
-import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.lexers.ValkyrieLexer
+import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 /**
  * Valkyrie 词法分析器测试基类

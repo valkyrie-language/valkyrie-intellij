@@ -1,4 +1,4 @@
-package valkyrie.psi
+package valkyrie.psi.lexers
 
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
