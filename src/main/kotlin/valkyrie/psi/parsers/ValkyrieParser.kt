@@ -1987,29 +1987,24 @@ class ValkyrieParser : PsiParser {
     fun parseNamePath(builder: PsiBuilder, free: Boolean): Boolean {
         val pathMarker = builder.mark()
 
-        // 解析第一个标识符 - 使用 isIdentifier 优化性能
-        val identifierMarker = builder.mark()
-        if (isIdentifier(builder)) {
-            builder.advanceLexer()
-            identifierMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
-        } else {
-            identifierMarker.error("expected namepath")
-            pathMarker.error("expected namepath")
+        // 解析第一个标识符
+        if (!parseIdentifier(builder)) {
+            // 如果连第一个标识符都没有，这不是一个 namepath
+            pathMarker.drop()
             return false
         }
 
-        // 解析路径分隔符和后续标识符, free 模式下允许 a.b.c, 否则必须 a::b::c;
-        while (builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON || (free && builder.tokenType == ValkyrieTokenTypes.DOT)) {
-            builder.advanceLexer() // 消费分隔符
-
-            val nextIdentifierMarker = builder.mark()
-            if (isIdentifier(builder)) {
+        // 循环解析后续路径段
+        while (true) {
+            val separator = builder.tokenType
+            val isSeparator = separator == ValkyrieTokenTypes.DOUBLE_COLON || (free && separator == ValkyrieTokenTypes.DOT)
+            // 【非贪婪检查】只有当 "分隔符" 后面跟着 "标识符" 时，才继续解析
+            if (isSeparator && isIdentifier(builder.lookAhead(1))) {
                 builder.advanceLexer()
-                nextIdentifierMarker.done(ValkyrieElementTypes.IDENTIFIER_NODE)
+                parseIdentifier(builder)
             } else {
-                nextIdentifierMarker.error("expected identifier after path separator")
-                pathMarker.error("expected identifier after path separator")
-                return false
+                // 如果不是 `Separator + Identifier` 的组合，路径到此结束
+                break
             }
         }
 
@@ -2089,6 +2084,11 @@ fun PsiBuilder.consumeSemicolon(): Boolean {
 }
 
 fun isIdentifier(builder: PsiBuilder): Boolean {
-    return builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW
+    return isIdentifier(builder.tokenType)
 }
+
+fun isIdentifier(token: IElementType?): Boolean {
+    return token == ValkyrieTokenTypes.IDENTIFIER_STD || token == ValkyrieTokenTypes.IDENTIFIER_RAW
+}
+
 
