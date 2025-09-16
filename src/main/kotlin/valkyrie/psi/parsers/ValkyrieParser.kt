@@ -2089,6 +2089,11 @@ fun PsiBuilder.consumeSemicolon(): Boolean {
 }
 
 fun isIdentifier(builder: PsiBuilder): Boolean {
-    return builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_STD || builder.tokenType == ValkyrieTokenTypes.IDENTIFIER_RAW
+    return isIdentifier(builder.tokenType)
 }
+
+fun isIdentifier(token: IElementType?): Boolean {
+    return token == ValkyrieTokenTypes.IDENTIFIER_STD || token == ValkyrieTokenTypes.IDENTIFIER_RAW
+}
+
 

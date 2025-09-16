@@ -5,7 +5,7 @@ import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.ValkyrieTokenTypes
 
 // 解析泛型参数列表, 例如 `fn foo<T, U>()` 中的 `<T, U>`
-fun parseGenericParameterList(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {
+fun parseGenericParameterList(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     var unicodeMode = false
     val marker = builder.mark()
 
@@ -22,8 +22,8 @@ fun parseGenericParameterList(valkyrieParser: ValkyrieParser, builder: PsiBuilde
         }
         // ⟨T, U, ⟩
         ValkyrieTokenTypes.GENERIC_L -> {
-            builder.advanceLexer()
             unicodeMode = true
+            builder.advanceLexer()
         }
         // 非泛型定义
         else -> {
@@ -36,7 +36,7 @@ fun parseGenericParameterList(valkyrieParser: ValkyrieParser, builder: PsiBuilde
     val closingBracket = if (unicodeMode) ValkyrieTokenTypes.GENERIC_R else ValkyrieTokenTypes.ANGLE_R
     if (builder.tokenType != closingBracket) {
         while (true) {
-            if (!parseGenericParameterItem(valkyrieParser, builder)) {
+            if (!parseGenericParameterItem(parser, builder)) {
                 // 如果解析失败，可能是列表结束了但有语法错误，先报错然后跳出
                 builder.error("需要一个泛型参数名")
                 break
@@ -98,16 +98,23 @@ fun parseGenericArgumentList(valkyrieParser: ValkyrieParser, builder: PsiBuilder
 
     // 确定并消费起始符号
     when {
-        // A::<T>
+        // <T as Iterator>::Item
+        builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON && isIdentifier(builder.lookAhead(1)) -> {
+            builder.advanceLexer()
+            builder.advanceLexer()
+            marker.done(ValkyrieElementTypes.TYPE_EXPRESSION)
+            return true
+        }
+        // <T as Iterator>::<T
         builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON && builder.lookAhead(1) == ValkyrieTokenTypes.ANGLE_L -> {
             builder.advanceLexer()
             builder.advanceLexer()
         }
-        // A<T>
+        // <T as Iterator><T
         typeLevel && builder.tokenType == ValkyrieTokenTypes.ANGLE_L -> {
             builder.advanceLexer()
         }
-        // ⟨T⟩
+        // <T as Iterator>⟨T
         builder.tokenType == ValkyrieTokenTypes.GENERIC_L -> {
             builder.advanceLexer()
             unicodeMode = true
@@ -139,8 +146,9 @@ fun parseGenericArgumentList(valkyrieParser: ValkyrieParser, builder: PsiBuilder
                 if (builder.tokenType == closingBracket) {
                     break
                 }
-            } else {
-                // 既不是 '>' 也不是 ',', 说明缺少逗号
+            }
+            // 既不是 '>' 也不是 ',', 说明缺少逗号
+            else {
                 builder.error("在泛型参数之间需要一个逗号")
                 break
             }
@@ -439,12 +447,13 @@ private val typePrefixPrecedences = mapOf(
 )
 
 private val typeInfixPrecedences = mapOf(
-    ValkyrieTokenTypes.PIPE to 1,         // T | U  交类型
-    ValkyrieTokenTypes.AMPERSAND to 2,    // T & U
-    ValkyrieTokenTypes.AS to 3,           // T as U
-    ValkyrieTokenTypes.PLUS to 4,         // T + U
-    ValkyrieTokenTypes.MINUS to 4,        // T - U
-    ValkyrieTokenTypes.ARROW to 5,        // T -> U
+    ValkyrieTokenTypes.PIPE to 1,          // T | U  交类型
+    ValkyrieTokenTypes.AMPERSAND to 2,     // T & U
+    ValkyrieTokenTypes.AS to 3,            // T as U
+    ValkyrieTokenTypes.PLUS to 4,          // T + U
+    ValkyrieTokenTypes.MINUS to 4,         // T - U
+    ValkyrieTokenTypes.ARROW to 5,         // T -> U
+    ValkyrieTokenTypes.DOUBLE_COLON to 25, // <T as Iterator>::Item
 )
 
 private val typePostfixPrecedences = mapOf(
