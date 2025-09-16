@@ -204,45 +204,6 @@ fun parseTypeExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
     // 循环处理中缀和后缀运算符
     while (true) {
         val current_token = builder.tokenType
-
-        // 对 `::` 进行特殊处理
-        if (current_token == ValkyrieTokenTypes.DOUBLE_COLON) {
-            val pathPrecedence = 25 // 路径操作符具有最高优先级
-            if (pathPrecedence < minPrecedence) break
-
-            val nextToken = builder.lookAhead(1)
-            // 情况 1: `A::B` (路径分隔符)
-            if (isIdentifier(nextToken)) {
-                lhs_marker = lhs_marker.precede()
-                // 消费 '::'
-                builder.advanceLexer()
-                if (!valkyrieParser.parseIdentifier(builder)) {
-                    // 理论上 isIdentifier 检查后不会失败, 但为了健壮性
-                    builder.error("在 '::' 后需要一个标识符")
-                }
-                lhs_marker.done(ValkyrieElementTypes.TYPE_EXPRESSION)
-                // 继续循环以处理 A::B::C
-                continue
-            }
-            // 情况 2: `A::<B>` (Turbofish)
-            else if (nextToken == ValkyrieTokenTypes.ANGLE_L || nextToken == ValkyrieTokenTypes.GENERIC_L) {
-                lhs_marker = lhs_marker.precede()
-                // parseGenericArgumentList 会负责消费 '::' 和 '<...>'
-                if (!parseGenericArgumentList(valkyrieParser, builder, true)) {
-                    // 如果失败, 撤销标记并退出
-                    lhs_marker.drop()
-                    break
-                }
-                lhs_marker.done(ValkyrieElementTypes.TYPE_EXPRESSION)
-                // 继续循环以处理 A::<B>::C
-                continue
-            }
-            // 如果 `::` 后面跟了其他东西, 则它不是一个合法的路径操作, 退出循环
-            else {
-                break
-            }
-        }
-
         val postfix_precedence = typePostfixPrecedences[current_token]
         val infix_precedence = typeInfixPrecedences[current_token]
 
@@ -250,6 +211,13 @@ fun parseTypeExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
             // 处理后缀表达式, 例如 `T?` 或 `A<T>`
             lhs_marker = lhs_marker.precede()
             when (current_token) {
+                ValkyrieTokenTypes.DOUBLE_COLON -> {
+                    if (!parseGenericArgumentList(valkyrieParser, builder, true)) {
+                        lhs_marker.drop()
+                        return true
+                    }
+                }
+
                 // 对于泛型参数列表, 调用专门的解析函数
                 ValkyrieTokenTypes.ANGLE_L, ValkyrieTokenTypes.GENERIC_L -> {
                     if (!parseGenericArgumentList(valkyrieParser, builder, true)) {
@@ -516,7 +484,6 @@ private val typeInfixPrecedences = mapOf(
     ValkyrieTokenTypes.PLUS to 4,          // T + U
     ValkyrieTokenTypes.MINUS to 4,         // T - U
     ValkyrieTokenTypes.ARROW to 5,         // T -> U
-    ValkyrieTokenTypes.DOUBLE_COLON to 25, // <T as Iterator>::Item
 )
 
 private val typePostfixPrecedences = mapOf(
@@ -524,4 +491,5 @@ private val typePostfixPrecedences = mapOf(
     ValkyrieTokenTypes.WHAT to 6, // T?
     ValkyrieTokenTypes.ANGLE_L to 7, // 泛型应用 A<T>
     ValkyrieTokenTypes.GENERIC_L to 7,  // 泛型应用 A⟨T⟩
+    ValkyrieTokenTypes.DOUBLE_COLON to 25, // A::<T as Iterator>::Item
 )
