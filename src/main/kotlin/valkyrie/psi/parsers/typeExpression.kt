@@ -6,59 +6,49 @@ import valkyrie.psi.ValkyrieTokenTypes
 
 // 解析泛型参数列表, 例如 `<T, U>`
 fun parseGenericParameterList(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    var unicodeMode = false;
     val marker = builder.mark()
-    if (builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON) {
-        builder.advanceLexer()
-    }
     // 处理 <T, U,> 形式
     if (builder.tokenType == ValkyrieTokenTypes.ANGLE_L) {
-        builder.advanceLexer() // 吃掉 '<'
-        if (parseGenericParameterItem(valkyrieParser, builder)) {
-            while (builder.tokenType != ValkyrieTokenTypes.ANGLE_R) {
-                if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
-                    builder.advanceLexer() // 吃掉 ','
-                } else if (parseGenericParameterItem(valkyrieParser, builder)) {
-                    // 成功解析了一个参数项
-                } else {
-                    marker.error("需要一个泛型参数名")
-                    return false
-                }
-            }
-            if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
-                builder.advanceLexer() // 处理末尾的可选逗号
-            }
-        }
-        if (builder.tokenType == ValkyrieTokenTypes.ANGLE_R) {
-            builder.advanceLexer() // 吃掉 '>'
-        } else {
-            marker.error("需要 '>' 来闭合泛型参数列表")
-            return false
-        }
+        builder.advanceLexer()
+    }
+    // 处理 ::<T, U,> 形式
+    else if (builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON && builder.lookAhead(1) == ValkyrieTokenTypes.ANGLE_L) {
+        builder.advanceLexer()
+        builder.advanceLexer()
     }
     // 处理 ⟨T, U, ⟩ 形式
     else if (builder.tokenType == ValkyrieTokenTypes.GENERIC_L) {
-        builder.advanceLexer() // 吃掉 '⟨'
-        if (parseGenericParameterItem(valkyrieParser, builder)) {
-            while (builder.tokenType != ValkyrieTokenTypes.GENERIC_R) {
-                if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
-                    builder.advanceLexer() // 吃掉 ','
-                } else if (parseGenericParameterItem(valkyrieParser, builder)) {
-                    continue
-                } else {
-                    marker.error("需要一个泛型参数名")
-                    return false
-                }
-            }
+        builder.advanceLexer()
+        unicodeMode = true
+    }
+    // 非泛型定义式
+    else {
+        marker.drop()
+        return false
+    }
+    if (parseGenericParameterItem(valkyrieParser, builder)) {
+        while (builder.tokenType != ValkyrieTokenTypes.ANGLE_R) {
             if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
-                builder.advanceLexer()
+                builder.advanceLexer() // 吃掉 ','
+            } else if (parseGenericParameterItem(valkyrieParser, builder)) {
+                // 成功解析了一个参数项
+            } else {
+                marker.error("需要一个泛型参数名")
+                return false
             }
         }
-        if (builder.tokenType == ValkyrieTokenTypes.GENERIC_R) {
-            builder.advanceLexer() // 吃掉 '⟩'
-        } else {
-            marker.error("需要 '⟩' 来闭合泛型参数列表")
-            return false
+        if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+            builder.advanceLexer() // 处理末尾的可选逗号
         }
+    }
+    if (builder.tokenType == ValkyrieTokenTypes.ANGLE_R) {
+        builder.advanceLexer() // 吃掉 '>'
+    } else if (unicodeMode && builder.tokenType == ValkyrieTokenTypes.ANGLE_R) {
+        builder.advanceLexer() // 吃掉 '>'
+    } else {
+        marker.error("需要 '>' 来闭合泛型参数列表")
+        return false
     }
     marker.done(ValkyrieElementTypes.GENERIC_PARAMETER_LIST)
     return true
