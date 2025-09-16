@@ -4,52 +4,70 @@ import com.intellij.lang.PsiBuilder
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.ValkyrieTokenTypes
 
-// 解析泛型参数列表, 例如 `<T, U>`
+// 解析泛型参数列表, 例如 `fn foo<T, U>()` 中的 `<T, U>`
 fun parseGenericParameterList(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {
-    var unicodeMode = false;
+    var unicodeMode = false
     val marker = builder.mark()
-    // 处理 <T, U,> 形式
-    if (builder.tokenType == ValkyrieTokenTypes.ANGLE_L) {
-        builder.advanceLexer()
+
+    // 确定并消费起始符号
+    when (builder.tokenType) {
+        // <T, U,>
+        ValkyrieTokenTypes.ANGLE_L -> {
+            builder.advanceLexer()
+        }
+        // ::<T, U,>
+        ValkyrieTokenTypes.DOUBLE_COLON if builder.lookAhead(1) == ValkyrieTokenTypes.ANGLE_L -> {
+            builder.advanceLexer()
+            builder.advanceLexer()
+        }
+        // ⟨T, U, ⟩
+        ValkyrieTokenTypes.GENERIC_L -> {
+            builder.advanceLexer()
+            unicodeMode = true
+        }
+        // 非泛型定义
+        else -> {
+            marker.drop()
+            return false
+        }
     }
-    // 处理 ::<T, U,> 形式
-    else if (builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON && builder.lookAhead(1) == ValkyrieTokenTypes.ANGLE_L) {
-        builder.advanceLexer()
-        builder.advanceLexer()
-    }
-    // 处理 ⟨T, U, ⟩ 形式
-    else if (builder.tokenType == ValkyrieTokenTypes.GENERIC_L) {
-        builder.advanceLexer()
-        unicodeMode = true
-    }
-    // 非泛型定义式
-    else {
-        marker.drop()
-        return false
-    }
-    if (parseGenericParameterItem(valkyrieParser, builder)) {
-        while (builder.tokenType != ValkyrieTokenTypes.ANGLE_R) {
+
+    // 健壮的列表解析逻辑
+    val closingBracket = if (unicodeMode) ValkyrieTokenTypes.GENERIC_R else ValkyrieTokenTypes.ANGLE_R
+    if (builder.tokenType != closingBracket) {
+        while (true) {
+            if (!parseGenericParameterItem(valkyrieParser, builder)) {
+                // 如果解析失败，可能是列表结束了但有语法错误，先报错然后跳出
+                builder.error("需要一个泛型参数名")
+                break
+            }
+            // 解析完一个 item 后，如果下一个是 '>', 则列表结束
+            if (builder.tokenType == closingBracket) {
+                break
+            }
+            // 如果下一个是 ',', 则消费掉它，准备解析下一个 item
             if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
-                builder.advanceLexer() // 吃掉 ','
-            } else if (parseGenericParameterItem(valkyrieParser, builder)) {
-                // 成功解析了一个参数项
+                builder.advanceLexer()
+                // 支持可选的末尾逗号
+                if (builder.tokenType == closingBracket) {
+                    break
+                }
             } else {
-                marker.error("需要一个泛型参数名")
-                return false
+                // 既不是 '>' 也不是 ',', 说明缺少逗号
+                builder.error("在泛型参数之间需要一个逗号")
+                break
             }
         }
-        if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
-            builder.advanceLexer() // 处理末尾的可选逗号
-        }
     }
-    if (builder.tokenType == ValkyrieTokenTypes.ANGLE_R) {
-        builder.advanceLexer() // 吃掉 '>'
-    } else if (unicodeMode && builder.tokenType == ValkyrieTokenTypes.ANGLE_R) {
-        builder.advanceLexer() // 吃掉 '>'
+
+    // 消费闭合符号
+    if (builder.tokenType == closingBracket) {
+        builder.advanceLexer()
     } else {
-        marker.error("需要 '>' 来闭合泛型参数列表")
-        return false
+        // 即使之前报过错，这里再报一次闭合错误有助于恢复
+        builder.error("需要 '${if (unicodeMode) "⟩" else ">"}' 来闭合泛型参数列表")
     }
+
     marker.done(ValkyrieElementTypes.GENERIC_PARAMETER_LIST)
     return true
 }
@@ -73,68 +91,70 @@ fun parseGenericParameterItem(valkyrieParser: ValkyrieParser, builder: PsiBuilde
     return true
 }
 
-// 解析泛型参数的应用列表, 例如 `::<String, i32>`
+// 解析泛型参数的应用列表, 例如 `Vec<String, i32>`
 fun parseGenericArgumentList(valkyrieParser: ValkyrieParser, builder: PsiBuilder, typeLevel: Boolean): Boolean {
     val marker = builder.mark()
     var unicodeMode = false
-    // ⟨T⟩
-    if (builder.tokenType == ValkyrieTokenTypes.GENERIC_L) {
-        builder.advanceLexer()
-        unicodeMode = true
-    }
-    // A<T>
-    else if (builder.tokenType == ValkyrieTokenTypes.ANGLE_L) {
-        if (!typeLevel) {
+
+    // 确定并消费起始符号
+    when {
+        // A::<T>
+        builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON && builder.lookAhead(1) == ValkyrieTokenTypes.ANGLE_L -> {
+            builder.advanceLexer()
+            builder.advanceLexer()
+        }
+        // A<T>
+        typeLevel && builder.tokenType == ValkyrieTokenTypes.ANGLE_L -> {
+            builder.advanceLexer()
+        }
+        // ⟨T⟩
+        builder.tokenType == ValkyrieTokenTypes.GENERIC_L -> {
+            builder.advanceLexer()
+            unicodeMode = true
+        }
+
+        else -> {
             marker.rollbackTo()
             return false
         }
-        builder.advanceLexer()
-        unicodeMode = false
-    }
-    // A::<T>
-    else if (builder.tokenType == ValkyrieTokenTypes.DOUBLE_COLON) {
-        // ::< >
-        if (builder.lookAhead(1) == ValkyrieTokenTypes.ANGLE_L) {
-            builder.advanceLexer()
-            builder.advanceLexer()
-            unicodeMode = false
-        } else {
-            marker.rollbackTo()
-            return false
-        }
-    } else {
-        marker.rollbackTo()
-        return false
     }
 
-    // 解析参数项 (argument (, argument)*)?
-    if (parseGenericArgumentItem(valkyrieParser, builder)) {
-        while (builder.tokenType != ValkyrieTokenTypes.ANGLE_R && builder.tokenType != ValkyrieTokenTypes.GENERIC_R) {
+    // 健壮的列表解析逻辑
+    val closingBracket = if (unicodeMode) ValkyrieTokenTypes.GENERIC_R else ValkyrieTokenTypes.ANGLE_R
+    if (builder.tokenType != closingBracket) {
+        while (true) {
+            if (!parseGenericArgumentItem(valkyrieParser, builder)) {
+                // 如果一个参数都解析不了，可能是空列表但有其他符号，报错并退出
+                builder.error("需要一个泛型参数项")
+                break
+            }
+            // 解析完一个 item 后，如果下一个是 '>', 则列表结束
+            if (builder.tokenType == closingBracket) {
+                break
+            }
+            // 如果下一个是 ',', 则消费掉它，准备解析下一个 item
             if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
-                builder.advanceLexer() // 吃掉 ','
-                // 允许末尾逗号
-                if (builder.tokenType == ValkyrieTokenTypes.ANGLE_R || builder.tokenType == ValkyrieTokenTypes.GENERIC_R) {
+                builder.advanceLexer()
+                // 支持可选的末尾逗号
+                if (builder.tokenType == closingBracket) {
                     break
                 }
             } else {
-                marker.error("在泛型参数间需要一个逗号")
-                break // 出错时跳出循环
-            }
-            if (!parseGenericArgumentItem(valkyrieParser, builder)) {
-                marker.error("需要一个泛型参数项")
+                // 既不是 '>' 也不是 ',', 说明缺少逗号
+                builder.error("在泛型参数之间需要一个逗号")
                 break
             }
         }
     }
 
-    // 吃掉闭合括号
-    if (unicodeMode && builder.tokenType == ValkyrieTokenTypes.GENERIC_R) {
-        builder.advanceLexer()
-    } else if (!unicodeMode && builder.tokenType == ValkyrieTokenTypes.ANGLE_R) {
+    // 消费闭合符号
+    if (builder.tokenType == closingBracket) {
         builder.advanceLexer()
     } else {
-        marker.error("需要 '>' 或 '⟩' 来闭合泛型参数列表")
+        builder.error("需要 '${if (unicodeMode) "⟩" else ">"}' 来闭合泛型参数列表")
     }
+
+    // 此时 marker 肯定没有被完成过，可以安全调用 done
     marker.done(ValkyrieElementTypes.GENERIC_ARGUMENT_LIST)
     return true
 }
