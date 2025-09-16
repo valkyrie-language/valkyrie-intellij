@@ -17,14 +17,14 @@ class ValkyrieTemplateBlock(node: ASTNode) : ValkyrieElementNode(node) {
      * 获取开始标记 <$
      */
     fun getStartToken(): PsiElement? {
-        return findChildByType(ValkyrieTokenTypes.TEMPLATE_START)
+        return findChildByType(ValkyrieTokenTypes.TEMPLATE_L)
     }
     
     /**
      * 获取结束标记 $>
      */
     fun getEndToken(): PsiElement? {
-        return findChildByType(ValkyrieTokenTypes.TEMPLATE_END)
+        return findChildByType(ValkyrieTokenTypes.TEMPLATE_R)
     }
     
     /**

@@ -1448,7 +1448,7 @@ class ValkyrieParser : PsiParser {
     }
 
     fun parseTemplateIfMark(builder: PsiBuilder): Boolean {
-        if (builder.tokenType != ValkyrieTokenTypes.TEMPLATE_START) return false
+        if (builder.tokenType != ValkyrieTokenTypes.TEMPLATE_L) return false
         val marker = builder.mark()
 
         // 消费 '<$'
@@ -1477,7 +1477,7 @@ class ValkyrieParser : PsiParser {
         }
 
         // 消费 '$>'
-        if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_END) {
+        if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_R) {
             builder.advanceLexer()
         } else {
             builder.error("Expected '$>'")
@@ -1511,7 +1511,7 @@ class ValkyrieParser : PsiParser {
     }
 
     fun parseTemplateElseIfMark(builder: PsiBuilder): Boolean {
-        if (builder.tokenType != ValkyrieTokenTypes.TEMPLATE_START) return false
+        if (builder.tokenType != ValkyrieTokenTypes.TEMPLATE_L) return false
         val marker = builder.mark()
 
         // 消费 '<$'
@@ -1536,7 +1536,7 @@ class ValkyrieParser : PsiParser {
         }
 
         // 消费 '$>'
-        if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_END) {
+        if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_R) {
             builder.advanceLexer()
         } else {
             builder.error("Expected '$>'")
@@ -1566,7 +1566,7 @@ class ValkyrieParser : PsiParser {
     }
 
     fun parseTemplateElseMark(builder: PsiBuilder): Boolean {
-        if (builder.tokenType != ValkyrieTokenTypes.TEMPLATE_START) return false
+        if (builder.tokenType != ValkyrieTokenTypes.TEMPLATE_L) return false
         val marker = builder.mark()
 
         // 消费 '<$'
@@ -1580,7 +1580,7 @@ class ValkyrieParser : PsiParser {
         builder.advanceLexer() // consume 'else'
 
         // 消费 '$>'
-        if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_END) {
+        if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_R) {
             builder.advanceLexer()
         } else {
             builder.error("Expected '$>'")
@@ -1594,7 +1594,7 @@ class ValkyrieParser : PsiParser {
      * 解析模板块 <$ ... $>
      */
     fun parseTemplateBlock(builder: PsiBuilder): Boolean {
-        if (builder.tokenType != ValkyrieTokenTypes.TEMPLATE_START) return false
+        if (builder.tokenType != ValkyrieTokenTypes.TEMPLATE_L) return false
         val marker = builder.mark()
 
         // 消费 '<$'
@@ -1607,7 +1607,7 @@ class ValkyrieParser : PsiParser {
         }
 
         // 消费 '$>'
-        if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_END) {
+        if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_R) {
             builder.advanceLexer()
         } else {
             builder.error("Expected '$>'")
@@ -1706,7 +1706,7 @@ class ValkyrieParser : PsiParser {
      * 解析模板循环语句 <$ loop ... $>
      */
     fun parseTemplateLoopEach(builder: PsiBuilder): Boolean {
-        if (builder.tokenType != ValkyrieTokenTypes.FOR && builder.tokenType != ValkyrieTokenTypes.LOOP) return false
+        if (builder.tokenType != ValkyrieTokenTypes.LOOP && builder.tokenType != ValkyrieTokenTypes.LOOP) return false
         val marker = builder.mark()
         val isLoop = builder.tokenType == ValkyrieTokenTypes.LOOP
 
@@ -1729,7 +1729,7 @@ class ValkyrieParser : PsiParser {
         parseTermExpression(this, builder, false)
 
         //
-        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.TEMPLATE_END && builder.tokenType != ValkyrieTokenTypes.END) {
+        while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.TEMPLATE_R && builder.tokenType != ValkyrieTokenTypes.END) {
             parseStatement(builder)
         }
 
@@ -1742,7 +1742,7 @@ class ValkyrieParser : PsiParser {
 
     // <$ end $>
     fun parseTemplateEndMark(builder: PsiBuilder): Boolean {
-        if (builder.tokenType != ValkyrieTokenTypes.TEMPLATE_START) return false
+        if (builder.tokenType != ValkyrieTokenTypes.TEMPLATE_L) return false
         val marker = builder.mark()
 
         // 消费 '<$'
@@ -1756,7 +1756,7 @@ class ValkyrieParser : PsiParser {
         builder.advanceLexer() // consume 'end'
 
         // 消费 '$>'
-        if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_END) {
+        if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_R) {
             builder.advanceLexer()
         } else {
             builder.error("Expected '$>'")
