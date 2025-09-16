@@ -2,7 +2,7 @@ package valkyrie.lexer
 
 import org.junit.Test
 import valkyrie.test.ValkyrieLexerTestCase
-import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 /**
  * Valkyrie 基础词法分析器测试

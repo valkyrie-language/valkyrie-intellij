@@ -3,15 +3,11 @@ package valkyrie.ide.completion
 import com.intellij.codeInsight.completion.*
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.patterns.PlatformPatterns
-import com.intellij.psi.PsiElement
 import com.intellij.util.ProcessingContext
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.psi.ValkyrieTokenTypes
 import valkyrie.psi.nodes.ValkyrieIdentifierNode
 import valkyrie.psi.nodes.ValkyrieCallExpressionNode
 import valkyrie.index.ValkyrieSymbolIndex
-import com.intellij.codeInsight.lookup.LookupElement
-import com.intellij.codeInsight.completion.InsertionContext
 
 /**
  * Valkyrie 语言代码补全贡献者

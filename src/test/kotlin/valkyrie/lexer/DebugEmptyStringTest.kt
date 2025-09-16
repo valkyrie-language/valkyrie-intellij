@@ -1,8 +1,7 @@
 package valkyrie.lexer
 
 import org.junit.Test
-import valkyrie.psi.ValkyrieLexer
-import valkyrie.psi.ValkyrieTokenTypes
+import valkyrie.psi.lexers.ValkyrieLexer
 
 class DebugEmptyStringTest {
 
