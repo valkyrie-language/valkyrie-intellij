@@ -1,6 +1,6 @@
 package valkyrie.psi.lexers
 
-import com.intellij.psi.TokenType.BAD_CHARACTER
+import com.intellij.psi.TokenType
 import com.intellij.psi.xml.XmlTokenType
 
 /**
@@ -136,7 +136,7 @@ class ValkyrieXmlLexer : ValkyrieLexerBase(LexerFlavor.XML) {
             else -> {
                 // 避免回退到 `super.readOperatorOrPunctuation`，那会导致错误
                 currentOffset++
-                currentTokenType = BAD_CHARACTER
+                currentTokenType = TokenType.BAD_CHARACTER
             }
         }
     }
