@@ -141,7 +141,7 @@ class ValkyrieSfcLexer : ValkyrieLexerBase(LexerFlavor.COMPONENT) {
             // 标签名或属性名
             ch.isLetter() || ch == '_' -> readXmlName()
             ch == '=' -> {
-                currentOffset++; currentTokenType = ValkyrieTokenTypes.ASSIGN
+                currentOffset++; currentTokenType = XmlTokenType.XML_EQ
             }
 
             ch == '"' || ch == '\'' -> startAttributeValue(ch)
