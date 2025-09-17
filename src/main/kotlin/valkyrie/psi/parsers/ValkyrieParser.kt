@@ -71,6 +71,8 @@ class ValkyrieParser : PsiParser {
             parseMezzoAssign(builder) -> return
             parseMacroStatement(builder) -> return
             parseMacroAssignment(builder) -> return
+            // SFC components
+            parseSfcComponentStatement(builder) -> return
             // xml elements
             parseXmlTextStatement(builder) -> return
             parseXmlTemplateStatement(builder) -> return
@@ -2205,6 +2207,63 @@ fun isIdentifier(builder: PsiBuilder): Boolean {
 /**
  * 解析 XML text 语句
  */
+/**
+ * 解析 SFC 组件语句
+ */
+fun parseSfcComponentStatement(builder: PsiBuilder): Boolean {
+    // 检查是否是 SFC 组件的开始（template、script、style 标签）
+    if (builder.tokenType !in setOf(ValkyrieTokenTypes.XML_TEMPLATE, ValkyrieTokenTypes.XML_SCRIPT, ValkyrieTokenTypes.XML_STYLE)) {
+        return false
+    }
+    
+    val marker = builder.mark()
+    var hasTemplate = false
+    var hasScript = false
+    var hasStyle = false
+    
+    // 解析多个 SFC 节点
+    while (!builder.eof() && builder.tokenType in setOf(ValkyrieTokenTypes.XML_TEMPLATE, ValkyrieTokenTypes.XML_SCRIPT, ValkyrieTokenTypes.XML_STYLE)) {
+        when (builder.tokenType) {
+            ValkyrieTokenTypes.XML_TEMPLATE -> {
+                if (!hasTemplate) {
+                    parseXmlTemplateStatement(builder)
+                    hasTemplate = true
+                } else {
+                    builder.error("Duplicate template section")
+                    builder.advanceLexer()
+                }
+            }
+            ValkyrieTokenTypes.XML_SCRIPT -> {
+                if (!hasScript) {
+                    parseXmlScriptStatement(builder)
+                    hasScript = true
+                } else {
+                    builder.error("Duplicate script section")
+                    builder.advanceLexer()
+                }
+            }
+            ValkyrieTokenTypes.XML_STYLE -> {
+                if (!hasStyle) {
+                    parseXmlStyleStatement(builder)
+                    hasStyle = true
+                } else {
+                    builder.error("Duplicate style section")
+                    builder.advanceLexer()
+                }
+            }
+        }
+    }
+    
+    // 如果至少有一个 SFC 节点，则标记为 SFC 组件
+    if (hasTemplate || hasScript || hasStyle) {
+        marker.done(ValkyrieElementTypes.SFC_COMPONENT)
+        return true
+    } else {
+        marker.drop()
+        return false
+    }
+}
+
 fun parseXmlTextStatement(builder: PsiBuilder): Boolean {
     if (builder.tokenType != ValkyrieTokenTypes.XML_TEXT) {
         return false
@@ -2224,7 +2283,7 @@ fun parseXmlTextStatement(builder: PsiBuilder): Boolean {
 }
 
 /**
- * 解析 XML template 语句
+ * 解析 SFC template 语句
  */
 fun parseXmlTemplateStatement(builder: PsiBuilder): Boolean {
     if (builder.tokenType != ValkyrieTokenTypes.XML_TEMPLATE) {
@@ -2240,12 +2299,12 @@ fun parseXmlTemplateStatement(builder: PsiBuilder): Boolean {
     }
     
     builder.consumeSemicolon()
-    marker.done(ValkyrieElementTypes.XML_ELEMENT)
+    marker.done(ValkyrieElementTypes.SFC_TEMPLATE)
     return true
 }
 
 /**
- * 解析 XML style 语句
+ * 解析 SFC style 语句
  */
 fun parseXmlStyleStatement(builder: PsiBuilder): Boolean {
     if (builder.tokenType != ValkyrieTokenTypes.XML_STYLE) {
@@ -2261,12 +2320,12 @@ fun parseXmlStyleStatement(builder: PsiBuilder): Boolean {
     }
     
     builder.consumeSemicolon()
-    marker.done(ValkyrieElementTypes.XML_ELEMENT)
+    marker.done(ValkyrieElementTypes.SFC_STYLE)
     return true
 }
 
 /**
- * 解析 XML script 语句
+ * 解析 SFC script 语句
  */
 fun parseXmlScriptStatement(builder: PsiBuilder): Boolean {
     if (builder.tokenType != ValkyrieTokenTypes.XML_SCRIPT) {
@@ -2282,7 +2341,7 @@ fun parseXmlScriptStatement(builder: PsiBuilder): Boolean {
     }
     
     builder.consumeSemicolon()
-    marker.done(ValkyrieElementTypes.XML_ELEMENT)
+    marker.done(ValkyrieElementTypes.SFC_SCRIPT)
     return true
 }
 

@@ -1,0 +1,36 @@
+<template>
+    <div 
+        class="attributes-component" 
+        id="main-container"
+        data-testid="test-component"
+        :style="dynamicStyle"
+        v-show="isVisible"
+    >
+        <h1 :class="titleClass" @click="handleTitleClick">{{ title }}</h1>
+        <input 
+            type="text"
+            v-model="inputValue"
+            :placeholder="placeholderText"
+            :disabled="isDisabled"
+            @input="handleInput"
+            @focus="handleFocus"
+            @blur="handleBlur"
+        />
+        <button 
+            :type="buttonType"
+            :class="['btn', buttonClass]"
+            :aria-label="buttonLabel"
+            @click="handleButtonClick"
+            v-bind="buttonAttrs"
+        >
+            {{ buttonText }}
+        </button>
+        <img 
+            :src="imageSource"
+            :alt="imageAlt"
+            :width="imageWidth"
+            :height="imageHeight"
+            loading="lazy"
+        />
+    </div>
+</template>

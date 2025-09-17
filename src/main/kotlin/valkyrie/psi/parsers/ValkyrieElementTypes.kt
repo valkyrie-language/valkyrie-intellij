@@ -328,6 +328,19 @@ object ValkyrieElementTypes {
     @JvmField
     val XML_ATTRIBUTE = ValkyrieElementType("XML_ATTRIBUTE")
 
+    // SFC (Single File Component) 相关节点
+    @JvmField
+    val SFC_TEMPLATE = ValkyrieElementType("SFC_TEMPLATE")
+
+    @JvmField
+    val SFC_SCRIPT = ValkyrieElementType("SFC_SCRIPT")
+
+    @JvmField
+    val SFC_STYLE = ValkyrieElementType("SFC_STYLE")
+
+    @JvmField
+    val SFC_COMPONENT = ValkyrieElementType("SFC_COMPONENT")
+
     @JvmField
     val SLOT_STATEMENT = ValkyrieElementType("SLOT_STATEMENT")
 

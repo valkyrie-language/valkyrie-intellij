@@ -1,0 +1,16 @@
+<script>
+export default {
+    name: 'ScriptOnlyComponent',
+    data() {
+        return {
+            message: 'Hello from script!',
+            count: 0
+        }
+    },
+    methods: {
+        increment() {
+            this.count++
+        }
+    }
+}
+</script>

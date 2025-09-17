@@ -4,6 +4,7 @@ import org.junit.Test
 import org.junit.Assert.assertEquals
 import valkyrie.psi.lexers.ValkyrieXmlLexer
 import valkyrie.psi.lexers.ValkyrieTokenTypes
+import com.intellij.psi.xml.XmlTokenType
 
 class ValkyrieXmlLexerTest {
     
@@ -14,43 +15,43 @@ class ValkyrieXmlLexerTest {
         
         // <
         assertEquals("First token should be TAG_START", 
-                    ValkyrieTokenTypes.TAG_START, lexer.tokenType)
+                    XmlTokenType.XML_START_TAG_START, lexer.tokenType)
         assertEquals("Tag start should be '<'", "<", lexer.tokenText)
         
         // div
         lexer.advance()
         assertEquals("Second token should be TAG_NAME", 
-                    ValkyrieTokenTypes.TAG_NAME, lexer.tokenType)
+                    XmlTokenType.XML_TAG_NAME, lexer.tokenType)
         assertEquals("Tag name should be 'div'", "div", lexer.tokenText)
         
         // >
         lexer.advance()
         assertEquals("Third token should be TAG_END", 
-                    ValkyrieTokenTypes.TAG_END, lexer.tokenType)
+                    XmlTokenType.XML_TAG_END, lexer.tokenType)
         assertEquals("Tag end should be '>'", ">", lexer.tokenText)
         
         // content
         lexer.advance()
         assertEquals("Fourth token should be XML_DATA_CHARACTERS", 
-                    ValkyrieTokenTypes.XML_DATA_CHARACTERS, lexer.tokenType)
+                    XmlTokenType.XML_DATA_CHARACTERS, lexer.tokenType)
         assertEquals("Content should be 'content'", "content", lexer.tokenText)
         
         // </
         lexer.advance()
         assertEquals("Fifth token should be END_TAG_START", 
-                    ValkyrieTokenTypes.END_TAG_START, lexer.tokenType)
+                    XmlTokenType.XML_END_TAG_START, lexer.tokenType)
         assertEquals("End tag start should be '</'", "</", lexer.tokenText)
         
         // div
         lexer.advance()
         assertEquals("Sixth token should be TAG_NAME", 
-                    ValkyrieTokenTypes.TAG_NAME, lexer.tokenType)
+                    XmlTokenType.XML_TAG_NAME, lexer.tokenType)
         assertEquals("Closing tag name should be 'div'", "div", lexer.tokenText)
         
         // >
         lexer.advance()
         assertEquals("Seventh token should be TAG_END", 
-                    ValkyrieTokenTypes.TAG_END, lexer.tokenType)
+                    XmlTokenType.XML_TAG_END, lexer.tokenType)
         assertEquals("Closing tag end should be '>'", ">", lexer.tokenText)
     }
     
@@ -61,12 +62,12 @@ class ValkyrieXmlLexerTest {
         
         // <
         assertEquals("First token should be TAG_START", 
-                    ValkyrieTokenTypes.TAG_START, lexer.tokenType)
+                    XmlTokenType.XML_START_TAG_START, lexer.tokenType)
         
         // div
         lexer.advance()
         assertEquals("Second token should be TAG_NAME", 
-                    ValkyrieTokenTypes.TAG_NAME, lexer.tokenType)
+                    XmlTokenType.XML_TAG_NAME, lexer.tokenType)
         assertEquals("Tag name should be 'div'", "div", lexer.tokenText)
         
         // 空白符
@@ -77,19 +78,19 @@ class ValkyrieXmlLexerTest {
         // class
         lexer.advance()
         assertEquals("Fourth token should be XML_ATTRIBUTE_NAME", 
-                    ValkyrieTokenTypes.XML_ATTRIBUTE_NAME, lexer.tokenType)
+                    XmlTokenType.XML_ATTRIBUTE_NAME, lexer.tokenType)
         assertEquals("Attribute name should be 'class'", "class", lexer.tokenText)
         
         // =
         lexer.advance()
         assertEquals("Fifth token should be XML_EQ", 
-                    ValkyrieTokenTypes.XML_EQ, lexer.tokenType)
+                    XmlTokenType.XML_EQ, lexer.tokenType)
         assertEquals("Equals sign should be '='", "=", lexer.tokenText)
         
         // "container"
         lexer.advance()
         assertEquals("Sixth token should be XML_ATTRIBUTE_VALUE", 
-                    ValkyrieTokenTypes.XML_ATTRIBUTE_VALUE, lexer.tokenType)
+                    XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN, lexer.tokenType)
         assertEquals("Attribute value should be '\"container\"'", "\"container\"", lexer.tokenText)
         
         // 空白符
@@ -100,24 +101,24 @@ class ValkyrieXmlLexerTest {
         // id
         lexer.advance()
         assertEquals("Eighth token should be XML_ATTRIBUTE_NAME", 
-                    ValkyrieTokenTypes.XML_ATTRIBUTE_NAME, lexer.tokenType)
+                    XmlTokenType.XML_ATTRIBUTE_NAME, lexer.tokenType)
         assertEquals("Second attribute name should be 'id'", "id", lexer.tokenText)
         
         // =
         lexer.advance()
         assertEquals("Ninth token should be XML_EQ", 
-                    ValkyrieTokenTypes.XML_EQ, lexer.tokenType)
+                    XmlTokenType.XML_EQ, lexer.tokenType)
         
         // "main"
         lexer.advance()
         assertEquals("Tenth token should be XML_ATTRIBUTE_VALUE", 
-                    ValkyrieTokenTypes.XML_ATTRIBUTE_VALUE, lexer.tokenType)
+                    XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN, lexer.tokenType)
         assertEquals("Second attribute value should be '\"main\"'", "\"main\"", lexer.tokenText)
         
         // >
         lexer.advance()
         assertEquals("Eleventh token should be TAG_END", 
-                    ValkyrieTokenTypes.TAG_END, lexer.tokenType)
+                    XmlTokenType.XML_TAG_END, lexer.tokenType)
     }
     
     @Test
@@ -127,12 +128,12 @@ class ValkyrieXmlLexerTest {
         
         // <
         assertEquals("First token should be TAG_START", 
-                    ValkyrieTokenTypes.TAG_START, lexer.tokenType)
+                    XmlTokenType.XML_START_TAG_START, lexer.tokenType)
         
         // img
         lexer.advance()
         assertEquals("Second token should be TAG_NAME", 
-                    ValkyrieTokenTypes.TAG_NAME, lexer.tokenType)
+                    XmlTokenType.XML_TAG_NAME, lexer.tokenType)
         assertEquals("Tag name should be 'img'", "img", lexer.tokenText)
         
         // 空白符
@@ -143,18 +144,18 @@ class ValkyrieXmlLexerTest {
         // src
         lexer.advance()
         assertEquals("Fourth token should be XML_ATTRIBUTE_NAME", 
-                    ValkyrieTokenTypes.XML_ATTRIBUTE_NAME, lexer.tokenType)
+                    XmlTokenType.XML_ATTRIBUTE_NAME, lexer.tokenType)
         assertEquals("Attribute name should be 'src'", "src", lexer.tokenText)
         
         // =
         lexer.advance()
         assertEquals("Fifth token should be XML_EQ", 
-                    ValkyrieTokenTypes.XML_EQ, lexer.tokenType)
+                    XmlTokenType.XML_EQ, lexer.tokenType)
         
         // "image.jpg"
         lexer.advance()
         assertEquals("Sixth token should be XML_ATTRIBUTE_VALUE", 
-                    ValkyrieTokenTypes.XML_ATTRIBUTE_VALUE, lexer.tokenType)
+                    XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN, lexer.tokenType)
         assertEquals("Attribute value should be '\"image.jpg\"'", "\"image.jpg\"", lexer.tokenText)
         
         // 空白符
@@ -165,7 +166,7 @@ class ValkyrieXmlLexerTest {
         // />
         lexer.advance()
         assertEquals("Eighth token should be EMPTY_ELEMENT_END", 
-                    ValkyrieTokenTypes.EMPTY_ELEMENT_END, lexer.tokenType)
+                    XmlTokenType.XML_EMPTY_ELEMENT_END, lexer.tokenType)
         assertEquals("Self-closing end should be '/>'", "/>", lexer.tokenText)
     }
     
@@ -176,64 +177,70 @@ class ValkyrieXmlLexerTest {
         
         // <div>
         assertEquals("First token should be TAG_START", 
-                    ValkyrieTokenTypes.TAG_START, lexer.tokenType)
+                    XmlTokenType.XML_START_TAG_START, lexer.tokenType)
         
         lexer.advance()
         assertEquals("Second token should be TAG_NAME", 
-                    ValkyrieTokenTypes.TAG_NAME, lexer.tokenType)
+                    XmlTokenType.XML_TAG_NAME, lexer.tokenType)
         assertEquals("Outer tag name should be 'div'", "div", lexer.tokenText)
         
         lexer.advance()
         assertEquals("Third token should be TAG_END", 
-                    ValkyrieTokenTypes.TAG_END, lexer.tokenType)
+                    XmlTokenType.XML_TAG_END, lexer.tokenType)
         
         // <span>
         lexer.advance()
         assertEquals("Fourth token should be TAG_START", 
-                    ValkyrieTokenTypes.TAG_START, lexer.tokenType)
+                    XmlTokenType.XML_START_TAG_START, lexer.tokenType)
         
         lexer.advance()
-        assertEquals("Fifth token should be TAG_NAME", 
-                    ValkyrieTokenTypes.TAG_NAME, lexer.tokenType)
+        assertEquals("Sixth token should be TAG_NAME", 
+                    XmlTokenType.XML_TAG_NAME, lexer.tokenType)
         assertEquals("Inner tag name should be 'span'", "span", lexer.tokenText)
         
         lexer.advance()
-        assertEquals("Sixth token should be TAG_END", 
-                    ValkyrieTokenTypes.TAG_END, lexer.tokenType)
+        assertEquals("Seventh token should be TAG_END", 
+                    XmlTokenType.XML_TAG_END, lexer.tokenType)
         
         // text
         lexer.advance()
-        assertEquals("Seventh token should be XML_DATA_CHARACTERS", 
-                    ValkyrieTokenTypes.XML_DATA_CHARACTERS, lexer.tokenType)
-        assertEquals("Text content should be 'text'", "text", lexer.tokenText)
+        assertEquals("Eighth token should be XML_DATA_CHARACTERS", 
+                    XmlTokenType.XML_DATA_CHARACTERS, lexer.tokenType)
+        assertEquals("Text should be 'text'", "text", lexer.tokenText)
         
         // </span>
         lexer.advance()
-        assertEquals("Eighth token should be END_TAG_START", 
-                    ValkyrieTokenTypes.END_TAG_START, lexer.tokenType)
+        assertEquals("Ninth token should be END_TAG_START", 
+                    XmlTokenType.XML_END_TAG_START, lexer.tokenType)
         
         lexer.advance()
-        assertEquals("Ninth token should be TAG_NAME", 
-                    ValkyrieTokenTypes.TAG_NAME, lexer.tokenType)
-        assertEquals("Closing inner tag name should be 'span'", "span", lexer.tokenText)
+        assertEquals("Tenth token should be TAG_NAME", 
+                    XmlTokenType.XML_TAG_NAME, lexer.tokenType)
+        assertEquals("Closing tag name should be 'span'", "span", lexer.tokenText)
         
         lexer.advance()
-        assertEquals("Tenth token should be TAG_END", 
-                    ValkyrieTokenTypes.TAG_END, lexer.tokenType)
+        assertEquals("Eleventh token should be TAG_END", 
+                    XmlTokenType.XML_TAG_END, lexer.tokenType)
+        
+        // 换行
+        lexer.advance()
+        assertEquals("Twelfth token should be XML_DATA_CHARACTERS", 
+                    XmlTokenType.XML_DATA_CHARACTERS, lexer.tokenType)
+        assertEquals("Final whitespace should be newline", "\n", lexer.tokenText)
         
         // </div>
         lexer.advance()
-        assertEquals("Eleventh token should be END_TAG_START", 
-                    ValkyrieTokenTypes.END_TAG_START, lexer.tokenType)
+        assertEquals("Thirteenth token should be END_TAG_START", 
+                    XmlTokenType.XML_END_TAG_START, lexer.tokenType)
         
         lexer.advance()
-        assertEquals("Twelfth token should be TAG_NAME", 
-                    ValkyrieTokenTypes.TAG_NAME, lexer.tokenType)
-        assertEquals("Closing outer tag name should be 'div'", "div", lexer.tokenText)
+        assertEquals("Fourteenth token should be TAG_NAME", 
+                    XmlTokenType.XML_TAG_NAME, lexer.tokenType)
+        assertEquals("Final tag name should be 'div'", "div", lexer.tokenText)
         
         lexer.advance()
-        assertEquals("Thirteenth token should be TAG_END", 
-                    ValkyrieTokenTypes.TAG_END, lexer.tokenType)
+        assertEquals("Fifteenth token should be TAG_END", 
+                    XmlTokenType.XML_TAG_END, lexer.tokenType)
     }
     
     @Test
@@ -243,7 +250,7 @@ class ValkyrieXmlLexerTest {
         
         // 整个注释应该被识别为一个 token
         assertEquals("Token should be XML_COMMENT", 
-                    ValkyrieTokenTypes.XML_COMMENT, lexer.tokenType)
+                    XmlTokenType.XML_COMMENT_START, lexer.tokenType)
         assertEquals("Comment text should match", 
                     "<!-- This is a comment -->", lexer.tokenText)
         assertEquals("Comment should start at 0", 0, lexer.tokenStart)
@@ -257,75 +264,75 @@ class ValkyrieXmlLexerTest {
         
         // <div>
         assertEquals("First token should be TAG_START", 
-                    ValkyrieTokenTypes.TAG_START, lexer.tokenType)
+                    XmlTokenType.XML_START_TAG_START, lexer.tokenType)
         
         lexer.advance()
         assertEquals("Second token should be TAG_NAME", 
-                    ValkyrieTokenTypes.TAG_NAME, lexer.tokenType)
+                    XmlTokenType.XML_TAG_NAME, lexer.tokenType)
         assertEquals("Tag name should be 'div'", "div", lexer.tokenText)
         
         lexer.advance()
         assertEquals("Third token should be TAG_END", 
-                    ValkyrieTokenTypes.TAG_END, lexer.tokenType)
+                    XmlTokenType.XML_TAG_END, lexer.tokenType)
         
         // 换行和空格
         lexer.advance()
         assertEquals("Fourth token should be XML_DATA_CHARACTERS", 
-                    ValkyrieTokenTypes.XML_DATA_CHARACTERS, lexer.tokenType)
+                    XmlTokenType.XML_DATA_CHARACTERS, lexer.tokenType)
         assertEquals("Whitespace should be preserved", "\n  ", lexer.tokenText)
         
         // <span>
         lexer.advance()
         assertEquals("Fifth token should be TAG_START", 
-                    ValkyrieTokenTypes.TAG_START, lexer.tokenType)
+                    XmlTokenType.XML_START_TAG_START, lexer.tokenType)
         
         lexer.advance()
         assertEquals("Sixth token should be TAG_NAME", 
-                    ValkyrieTokenTypes.TAG_NAME, lexer.tokenType)
+                    XmlTokenType.XML_TAG_NAME, lexer.tokenType)
         assertEquals("Inner tag name should be 'span'", "span", lexer.tokenText)
         
         lexer.advance()
         assertEquals("Seventh token should be TAG_END", 
-                    ValkyrieTokenTypes.TAG_END, lexer.tokenType)
+                    XmlTokenType.XML_TAG_END, lexer.tokenType)
         
         // text
         lexer.advance()
         assertEquals("Eighth token should be XML_DATA_CHARACTERS", 
-                    ValkyrieTokenTypes.XML_DATA_CHARACTERS, lexer.tokenType)
+                    XmlTokenType.XML_DATA_CHARACTERS, lexer.tokenType)
         assertEquals("Text should be 'text'", "text", lexer.tokenText)
         
         // </span>
         lexer.advance()
         assertEquals("Ninth token should be END_TAG_START", 
-                    ValkyrieTokenTypes.END_TAG_START, lexer.tokenType)
+                    XmlTokenType.XML_END_TAG_START, lexer.tokenType)
         
         lexer.advance()
         assertEquals("Tenth token should be TAG_NAME", 
-                    ValkyrieTokenTypes.TAG_NAME, lexer.tokenType)
+                    XmlTokenType.XML_TAG_NAME, lexer.tokenType)
         assertEquals("Closing tag name should be 'span'", "span", lexer.tokenText)
         
         lexer.advance()
         assertEquals("Eleventh token should be TAG_END", 
-                    ValkyrieTokenTypes.TAG_END, lexer.tokenType)
+                    XmlTokenType.XML_TAG_END, lexer.tokenType)
         
         // 换行
         lexer.advance()
         assertEquals("Twelfth token should be XML_DATA_CHARACTERS", 
-                    ValkyrieTokenTypes.XML_DATA_CHARACTERS, lexer.tokenType)
+                    XmlTokenType.XML_DATA_CHARACTERS, lexer.tokenType)
         assertEquals("Final whitespace should be newline", "\n", lexer.tokenText)
         
         // </div>
         lexer.advance()
         assertEquals("Thirteenth token should be END_TAG_START", 
-                    ValkyrieTokenTypes.END_TAG_START, lexer.tokenType)
+                    XmlTokenType.XML_END_TAG_START, lexer.tokenType)
         
         lexer.advance()
         assertEquals("Fourteenth token should be TAG_NAME", 
-                    ValkyrieTokenTypes.TAG_NAME, lexer.tokenType)
+                    XmlTokenType.XML_TAG_NAME, lexer.tokenType)
         assertEquals("Final tag name should be 'div'", "div", lexer.tokenText)
         
         lexer.advance()
         assertEquals("Fifteenth token should be TAG_END", 
-                    ValkyrieTokenTypes.TAG_END, lexer.tokenType)
+                    XmlTokenType.XML_TAG_END, lexer.tokenType)
     }
 }
