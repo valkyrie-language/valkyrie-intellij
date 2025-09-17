@@ -357,7 +357,7 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
 
     // ========== 辅助方法 ==========
 
-    protected fun peek(offset: Int = 1): Char? {
+    protected open fun peek(offset: Int = 1): Char? {
         val pos = currentOffset + offset
         return if (pos < endOffset) buffer[pos] else null
     }

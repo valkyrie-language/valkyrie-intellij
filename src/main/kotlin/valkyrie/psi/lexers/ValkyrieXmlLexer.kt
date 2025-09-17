@@ -7,19 +7,8 @@ import com.intellij.psi.xml.XmlTokenType
  *
  * 用于解析声明式 UI 文件 (.vkx)。采用一个清晰的三状态机模型：
  * 1. STATE_LANGUAGE: 解析顶层 Valkyrie 代码或嵌入在 {} 中的代码。这是初始状态。
- * 2. STATE_XML_TAG:   解析 XML 标签内部的元素，如 <div class="foo">。
- * 3. STATE_XML_TEXT:  解析 XML 标签之间的内容，如 >...<。
- *
- * 示例：
- * ```
- * <div class="container">
- *   <h1>{ title }</h1>
- *   <p>Welcome, { user.name }!</p>
- *   <button on:click={ handleClick }>
- *     Click me
- *   </button>
- * </div>
- * ```
+ * 2. STATE_XML_TEXT:  解析 XML 标签之间的内容，如 >...<。
+ * 3. STATE_XML_TAG:   解析 XML 标签内部的元素，如 <div class="foo">。
  */
 class ValkyrieXmlLexer : ValkyrieLexerBase(LexerFlavor.XML) {
 
@@ -42,7 +31,11 @@ class ValkyrieXmlLexer : ValkyrieLexerBase(LexerFlavor.XML) {
             STATE_LANGUAGE -> processValkyrieOrTopLevel()
             STATE_XML_TAG -> processXmlTag()
             STATE_XML_TEXT -> processXmlText()
-            else -> lexerState = STATE_LANGUAGE // 安全回退
+            else -> {
+                // 安全回退
+                lexerState = STATE_LANGUAGE
+                processValkyrieOrTopLevel()
+            }
         }
     }
 
@@ -57,18 +50,17 @@ class ValkyrieXmlLexer : ValkyrieLexerBase(LexerFlavor.XML) {
         }
 
         when (val ch = buffer[currentOffset]) {
-            '<' -> handleXmlTagStart()
-            '{' -> { // 通常在嵌入代码中遇到嵌套大括号
-                if (braceDepth > 0) {
-                    super.readOperatorOrPunctuation(ch)
+            // Context-sensitive check for '<' ---
+            '<' -> {
+                if (isStartOfTag()) {
+                    handleXmlTagStart()
                 } else {
-                    // 顶层代码中的 '{' 是普通代码块
-                    super.processLanguage()
+                    // It's a comparison operator, delegate to base class
+                    super.readOperatorOrPunctuation(ch)
                 }
             }
-
+            // '{' in top-level or nested code is handled by the base class
             else -> {
-                // 对于所有其他字符 (如 'n' in namespace)，委托给基类处理
                 super.processLanguage()
             }
         }
@@ -79,18 +71,27 @@ class ValkyrieXmlLexer : ValkyrieLexerBase(LexerFlavor.XML) {
      */
     private fun processXmlText() {
         when (val ch = buffer[currentOffset]) {
-            '<' -> handleXmlTagStart()
+            '<' -> handleXmlTagStart() // `isStartOfTag` check is inside `handleXmlTagStart`
             '{' -> handleBraceStart()
+            // Handle Valkyrie-style comments within XML text ---
+            '#' -> {
+                skipLineComment()
+                currentTokenType = ValkyrieTokenTypes.COMMENT_LINE
+            }
+
             else -> {
-                // 读取直到下一个 '<' 或 '{'
+                // 读取直到下一个 '<', '{', 或 '#'
                 val contentStart = currentOffset
-                while (currentOffset < endOffset && buffer[currentOffset] != '<' && buffer[currentOffset] != '{') {
+                while (currentOffset < endOffset && buffer[currentOffset].let { it != '<' && it != '{' && it != '#' }) {
                     currentOffset++
                 }
+
                 if (currentOffset > contentStart) {
                     currentTokenType = XmlTokenType.XML_DATA_CHARACTERS
-                } else {
-                    // 如果没有内容，则让 advance 循环继续，而不是返回 null token
+                } else if (currentTokenType == null) {
+                    // 如果没有内容（例如，文件以 '<div>#' 开头），
+                    // 我们需要确保 advance() 继续进行，而不是卡住。
+                    // 再次调用 advance() 将会命中上面 '#' 的 case。
                     advance()
                 }
             }
@@ -103,8 +104,11 @@ class ValkyrieXmlLexer : ValkyrieLexerBase(LexerFlavor.XML) {
     private fun processXmlTag() {
         val ch = buffer[currentOffset]
         when {
-            ch.isWhitespace() -> readWhitespace()
-            ch.isLetter() || ch == '_' -> readXmlTagNameOrAttrName()
+            ch.isWhitespace() -> {
+                readWhitespace(); currentTokenType = XmlTokenType.XML_WHITE_SPACE
+            }
+
+            ch.isLetter() || ch == '_' || ch == ':' -> readXmlTagNameOrAttrName()
             ch == '=' -> {
                 currentOffset++; currentTokenType = XmlTokenType.XML_EQ
             }
@@ -113,7 +117,7 @@ class ValkyrieXmlLexer : ValkyrieLexerBase(LexerFlavor.XML) {
             ch == '>' -> {
                 currentOffset++
                 currentTokenType = XmlTokenType.XML_TAG_END
-                // 如果标签是非自闭合的，并且内部还有内容，则进入文本模式
+                // 如果标签是非自闭合的，进入文本模式
                 lexerState = STATE_XML_TEXT
             }
 
@@ -124,18 +128,41 @@ class ValkyrieXmlLexer : ValkyrieLexerBase(LexerFlavor.XML) {
                 // 自闭合标签结束后，根据标签深度决定返回顶层还是文本模式
                 lexerState = if (tagDepth == 0) STATE_LANGUAGE else STATE_XML_TEXT
             }
-
+            // 支持在标签内部的嵌入代码，例如 `<div class={my_class}>`
+            ch == '{' -> handleBraceStart()
+            ch == '}' -> handleBraceEnd()
             else -> {
-                // 处理标签内的其他 Valkyrie 标点符号（例如，在属性中）
-                // 这是一个高级用例，暂时简化处理
-                currentOffset++
-                currentTokenType = com.intellij.psi.TokenType.BAD_CHARACTER
+                // 处理标签内的其他 Valkyrie 标点符号
+                super.readOperatorOrPunctuation(ch)
             }
         }
     }
 
+    /**
+     * 检查当前位置是否是 XML 标签的开始。
+     * - `<tag`
+     * - `</tag`
+     * - `<!--`
+     * @return true 如果是标签的开始，否则 false。
+     */
+    private fun isStartOfTag(): Boolean {
+        val next = peek(0) ?: return false
+        if (next.isLetter() || next == '_') {
+            return true // <tag
+        }
+        if (next == '/') {
+            val afterSlash = peek(1)
+            return afterSlash != null && (afterSlash.isLetter() || afterSlash == '_') // </tag
+        }
+        if (next == '!') {
+            return peek(1) == '-' && peek(2) == '-' // <!--
+        }
+        return false
+    }
+
     private fun handleXmlTagStart() {
-        if (peekAhead(3) == "!--") {
+        // 检查 XML 注释
+        if (peek(0) == '!' && peek(1) == '-' && peek(2) == '-') {
             skipXmlComment()
             return
         }
@@ -143,13 +170,21 @@ class ValkyrieXmlLexer : ValkyrieLexerBase(LexerFlavor.XML) {
         if (peek(0) == '/') { // 结束标签: </
             currentOffset += 2
             currentTokenType = XmlTokenType.XML_END_TAG_START
-            tagDepth = (tagDepth - 1).coerceAtLeast(0)
+            // 结束标签不应该减少深度，直到 '>' 或 '/>' 被解析
             lexerState = STATE_XML_TAG // 切换到标签模式以解析标签名
         } else { // 开始标签: <
             currentOffset++
             currentTokenType = XmlTokenType.XML_START_TAG_START
             tagDepth++
             lexerState = STATE_XML_TAG // 切换到标签模式以解析标签名
+        }
+    }
+
+    override fun readOperatorOrPunctuation(ch: Char) {
+        if (ch == '}' && lexerState == STATE_XML_TAG && braceDepth > 0) {
+            handleBraceEnd()
+        } else {
+            super.readOperatorOrPunctuation(ch)
         }
     }
 
@@ -164,66 +199,54 @@ class ValkyrieXmlLexer : ValkyrieLexerBase(LexerFlavor.XML) {
         currentOffset++
         braceDepth = (braceDepth - 1).coerceAtLeast(0)
         currentTokenType = ValkyrieTokenTypes.XML_SLOT_R
-        // 嵌入代码结束，返回到 XML 文本模式
+        // 嵌入代码结束，返回到之前的 XML 模式
         if (braceDepth == 0) {
-            lexerState = STATE_XML_TEXT
+            // 如果我们是从标签内部进入的 (如 on:click={...})，应该返回 STATE_XML_TAG
+            // TDOD: 使用一个状态栈。
+            lexerState = if (tagDepth > 0) STATE_XML_TEXT else STATE_LANGUAGE
         }
     }
 
     private fun readXmlTagNameOrAttrName() {
         val nameStart = currentOffset
-        // XML 名称可以包含字母、数字、下划线、连字符
-        while (currentOffset < endOffset && buffer[currentOffset].let { it.isLetterOrDigit() || it == '_' || it == '-' }) {
+        // XML 名称可以包含字母、数字、下划线、连字符、冒号
+        while (currentOffset < endOffset && buffer[currentOffset].let { it.isLetterOrDigit() || it == '_' || it == '-' || it == ':' }) {
             currentOffset++
         }
-        // 解析器将根据上下文决定这是 XML_TAG_NAME 还是 XML_ATTRIBUTE_NAME
-        // 为了简化词法分析器，我们统一使用一个 token
+        // TODO: 根据上下文决定这是 XML_TAG_NAME 还是 XML_ATTRIBUTE_NAME
         currentTokenType = XmlTokenType.XML_NAME
     }
 
     private fun readAttributeValue() {
         val quote = buffer[currentOffset]
+        currentTokenType = XmlTokenType.XML_ATTRIBUTE_VALUE_START_DELIMITER
         currentOffset++ // consume opening quote
-        // 为了支持嵌入表达式，如 class="prefix-{someVar}-suffix"
-        // 我们需要将属性值分解为多个 token。
-        // 为简化，这里暂时只处理简单字符串值。
+
+        // 我们将属性值简化为单个 token，但一个完整的实现会在这里处理嵌入的 {}
         val valueStart = currentOffset
         while (currentOffset < endOffset && buffer[currentOffset] != quote) {
             currentOffset++
         }
-        if (currentOffset > valueStart) {
-            currentTokenType = XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN
-        }
+        // 这里可以进一步细分为 XML_ATTRIBUTE_VALUE_TOKEN
+        // 为简单起见，我们跳过这步，直接找结束符
 
         if (currentOffset < endOffset && buffer[currentOffset] == quote) {
-            currentOffset++ // consume closing quote
+            // 在这里什么都不做，让下一个 advance() 来处理结束符
         }
     }
 
+    // Refined XML comment handling ---
     private fun skipXmlComment() {
-        currentOffset += 4 // "<!--"
         val commentStart = currentOffset
-        var endFound = false
+        // 寻找 "-->"
         while (currentOffset + 2 < endOffset) {
             if (buffer[currentOffset] == '-' && buffer[currentOffset + 1] == '-' && buffer[currentOffset + 2] == '>') {
-                endFound = true
+                currentOffset += 3 // Consume "-->"
                 break
             }
             currentOffset++
         }
-
-        val commentText = buffer.subSequence(commentStart, currentOffset).toString()
-        // 为了与 IntelliJ 的 XML 解析器兼容，通常会将注释分解为多个部分
-        // 这里为了简单起见，我们将其视为一个大的注释块
+        // 如果没有找到结束符，则将整个剩余部分作为注释
         currentTokenType = XmlTokenType.XML_COMMENT_CHARACTERS
-
-        if (endFound) {
-            currentOffset += 3 // "-->"
-        }
-    }
-
-    override fun peekAhead(count: Int): CharSequence? {
-        if (currentOffset + count > endOffset) return null
-        return buffer.subSequence(currentOffset + 1, currentOffset + 1 + count).toString()
     }
 }
