@@ -7,6 +7,7 @@ import com.intellij.psi.tree.TokenSet
  */
 object ValkyrieTokenTypes {
 
+
     @JvmField
     val NAMESPACE = ValkyrieTokenType("namespace")
 
@@ -429,4 +430,8 @@ object ValkyrieTokenTypes {
 
     @JvmField
     val XML_TEMPLATE = ValkyrieTokenType("XML_KEYWORD_TEMPLATE")
+
+
+    val SFC_PROPS = ValkyrieTokenType("SFC_PROPS")
+    val SFC_EMITS = ValkyrieTokenType("SFC_EMITS")
 }

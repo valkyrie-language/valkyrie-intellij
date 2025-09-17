@@ -1,33 +1,29 @@
 package valkyrie.psi.lexers
 
-import com.intellij.psi.TokenType
+import com.intellij.psi.TokenType.BAD_CHARACTER
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.xml.XmlTokenType
-import java.util.*
 
 /**
- * Component Valkyrie 词法分析器
+ * Valkyrie Single File Component (.vkc) 词法分析器
  *
- * 用于解析组件定义文件 (.vkc)。
+ * 经过重构，以简化状态管理并生成更精确的 Token 流，借鉴了标准 HTML/XML 词法分析器的设计。
+ *
  * 核心设计变更：
- * 1. 默认状态是 XML 文本解析，而不是 Valkyrie 语言解析。
- * 2. 将 <template>, <script>, <style> 视为特殊的 XML 关键字标签。
- * 3. 简化了标签和属性名称的解析，不再过度解析为 Valkyrie token。
- * 4. 移除了关闭标签的匹配逻辑，遵循 Lexer 的职责。
+ * 1.  **移除了复杂的标签匹配堆栈**：Lexer 不再尝试匹配开闭标签。它只识别标签的各个部分。
+ * 2.  **简化状态**：引入一个简单的 `currentForeignTag` 变量来管理 <script> 和 <style> 块，而不是依赖堆栈。
+ * 3.  **更细粒度的 Token**：使用类似 XmlTokenType 的 Token（如 START_TAG_START, TAG_END），为 Parser 提供更清晰的结构。
+ * 4.  **明确的职责分离**：Lexer 负责识别 Token，Parser 负责构建语法树和报告结构错误（如标签未闭合）。
  */
 class ValkyrieSfcLexer : ValkyrieLexerBase(LexerFlavor.COMPONENT) {
     private companion object {
-        // STATE_LANGUAGE (0) 继承自基类, 用于 { ... } 和 <script> 内部
+        // STATE_LANGUAGE (0) 继承自基类, 用于 { ... }
         private const val STATE_XML_TEXT = 1         // 默认状态：标签之间的内容
         private const val STATE_XML_TAG = 2          // 标签 <...> 内部
         private const val STATE_SCRIPT_CONTENT = 3   // <script> 标签内的内容
         private const val STATE_STYLE_CONTENT = 4    // <style> 标签内的内容
 
-        val VOID_TAGS = setOf(
-            "area", "base", "br", "col", "embed", "hr", "img", "input",
-            "link", "meta", "param", "source", "track", "wbr"
-        )
-
+        // 特殊的顶层标签，它们的内容需要被特殊处理
         val SPECIAL_TAGS = mapOf(
             "template" to ValkyrieTokenTypes.XML_TEMPLATE,
             "script" to ValkyrieTokenTypes.XML_SCRIPT,
@@ -35,21 +31,26 @@ class ValkyrieSfcLexer : ValkyrieLexerBase(LexerFlavor.COMPONENT) {
         )
     }
 
-    private val tagStack: Deque<String> = ArrayDeque()
-    private var isExpectingTagName = false
-    private var attributeQuote: Char? = null
+    // 用于在 { ... } 块之间保存和恢复状态
     private var storedLexerState: Int = STATE_XML_TEXT
+    // 跟踪当前是否在属性值的引号内
+    private var attributeQuote: Char? = null
+    // 跟踪当前正在处理的特殊标签（"script" 或 "style"），用于状态转换
+    private var currentForeignTag: String? = null
+
+    // 为 SFC 的 <script> 块添加额外的关键字
+    override val keywords = super.keywords.toMutableMap().apply {
+        put("props", ValkyrieTokenTypes.SFC_PROPS)
+        put("emits", ValkyrieTokenTypes.SFC_EMITS)
+    }
 
     override fun start(buffer: CharSequence, startOffset: Int, endOffset: Int, initialState: Int) {
-        // 注意：这里的 initialState 仍然来自 ValkyrieLexerBase 的 braceDepth，但对于 SFC 文件，
-        // 我们总是从 XML 文本状态开始，除非 IntelliJ 恢复了某个特定状态。
         super.start(buffer, startOffset, endOffset, initialState)
-        tagStack.clear()
-        // *** 核心变更：默认状态是 STATE_XML_TEXT ***
+        // SFC 文件总是从 XML 文本状态开始
         lexerState = STATE_XML_TEXT
-        isExpectingTagName = false
-        attributeQuote = null
         storedLexerState = STATE_XML_TEXT
+        attributeQuote = null
+        currentForeignTag = null
     }
 
     override fun advance() {
@@ -62,26 +63,13 @@ class ValkyrieSfcLexer : ValkyrieLexerBase(LexerFlavor.COMPONENT) {
         when (lexerState) {
             STATE_XML_TEXT -> processXmlText()
             STATE_XML_TAG -> processXmlTag()
-            STATE_SCRIPT_CONTENT -> processForeignContent("script", ValkyrieTokenTypes.SCRIPT_CONTENT)
-            STATE_STYLE_CONTENT -> processForeignContent("style", ValkyrieTokenTypes.STYLE_CONTENT)
-            // STATE_LANGUAGE 由嵌入代码块 { ... } 触发
+            STATE_SCRIPT_CONTENT -> processForeignContent("script", ValkyrieTokenTypes.SCRIPT_CONTENT, STATE_XML_TEXT)
+            STATE_STYLE_CONTENT -> processForeignContent("style", ValkyrieTokenTypes.STYLE_CONTENT, STATE_XML_TEXT)
             STATE_LANGUAGE -> processEmbeddedValkyrie()
             else -> { // 安全回退
                 lexerState = STATE_XML_TEXT
                 processXmlText()
             }
-        }
-    }
-
-    /**
-     * 处理嵌入的 Valkyrie 代码块，例如 { ... }
-     */
-    private fun processEmbeddedValkyrie() {
-        if (buffer[currentOffset] == '}') {
-            handleBraceEnd()
-        } else {
-            // 使用基类的 Valkyrie 解析逻辑
-            super.processLanguage()
         }
     }
 
@@ -94,34 +82,51 @@ class ValkyrieSfcLexer : ValkyrieLexerBase(LexerFlavor.COMPONENT) {
             return
         }
 
-        when (buffer[currentOffset]) {
-            '<' -> if (isStartOfTag()) handleXmlTagStart() else readTextContent()
-            '{' -> handleBraceStart()
+        val ch = buffer[currentOffset]
+        when {
+            ch == '<' -> {
+                when (peek()) {
+                    '/' -> { // 结束标签
+                        currentOffset += 2; currentTokenType = XmlTokenType.XML_END_TAG_START
+                    }
+                    '!', '?' -> { // 注释或其他指令
+                        if (peekAhead(3) == "!--") {
+                            skipXmlComment()
+                            return
+                        }
+                        // 其他如 <!DOCTYPE> 等可以作为普通标签处理
+                        currentOffset++; currentTokenType = XmlTokenType.XML_START_TAG_START
+                    }
+                    else -> { // 开始标签
+                        currentOffset++; currentTokenType = XmlTokenType.XML_START_TAG_START
+                    }
+                }
+                lexerState = STATE_XML_TAG
+            }
+            ch == '{' -> handleBraceStart(STATE_XML_TEXT)
             else -> readTextContent()
         }
     }
 
+    /**
+     * 读取纯文本内容，直到遇到下一个标签或嵌入块的开始
+     */
     private fun readTextContent() {
         val contentStart = currentOffset
         while (currentOffset < endOffset) {
+            val c = buffer[currentOffset]
             // 查找下一个有意义的分隔符
-            if (buffer[currentOffset] == '<' && isStartOfTag()) break
-            if (buffer[currentOffset] == '{') break
-            if (peekAhead(4) == "<!--") break
+            if (c == '<' || c == '{') break
             currentOffset++
         }
 
-        if (currentOffset > contentStart) {
-            // 所有非标签、非注释、非嵌入块的文本都是 XML_TEXT
-            currentTokenType = ValkyrieTokenTypes.XML_TEXT
+        currentTokenType = if (currentOffset > contentStart) {
+            XmlTokenType.XML_DATA_CHARACTERS
         } else {
-            // 如果没有内容可读（例如在 '<div></div>' 的中间），则必须推进状态机
-            // 这种情况通常由 `processXmlText` 的调用者处理，所以我们再次调用 advance
-            if (currentOffset < endOffset) {
-                advance()
-            } else {
-                currentTokenType = null
-            }
+            // 如果没有内容可读，意味着我们正处于文件末尾或下一个 Token 的开头。
+            // 再次调用 advance() 来处理下一个 Token。
+            advance()
+            return
         }
     }
 
@@ -129,7 +134,6 @@ class ValkyrieSfcLexer : ValkyrieLexerBase(LexerFlavor.COMPONENT) {
      * 状态 2: 处理 XML 标签内部 (<...>)。
      */
     private fun processXmlTag() {
-        // 优先处理属性字符串值
         if (attributeQuote != null) {
             processAttributeValue()
             return
@@ -138,91 +142,81 @@ class ValkyrieSfcLexer : ValkyrieLexerBase(LexerFlavor.COMPONENT) {
         val ch = buffer[currentOffset]
         when {
             ch.isWhitespace() -> readWhitespace()
-            // 标签名或属性名
-            ch.isLetter() || ch == '_' -> readXmlName()
+            ch == '>' -> {
+                currentOffset++; currentTokenType = XmlTokenType.XML_TAG_END
+                // 根据刚刚解析的标签名决定下一个状态
+                lexerState = when (currentForeignTag) {
+                    "script" -> STATE_SCRIPT_CONTENT
+                    "style" -> STATE_STYLE_CONTENT
+                    else -> STATE_XML_TEXT
+                }
+                currentForeignTag = null // 清除标记，因为它只对开标签的 `>` 有效
+            }
+            ch == '/' && peek() == '>' -> {
+                currentOffset += 2; currentTokenType = XmlTokenType.XML_EMPTY_ELEMENT_END
+                lexerState = STATE_XML_TEXT
+                currentForeignTag = null
+            }
             ch == '=' -> {
                 currentOffset++; currentTokenType = XmlTokenType.XML_EQ
             }
-
             ch == '"' || ch == '\'' -> startAttributeValue(ch)
-            ch == '>' -> handleTagClose()
-            ch == '/' && peek() == '>' -> handleSelfClosingTag()
-            ch == '{' -> handleBraceStart() // 支持 <div class={my_class}>
-            // 支持 package::name 这样的属性名
-            ch == ':' || ch == '-' -> readXmlName() // 允许以 : 或 - 开头的名称部分
+            ch == '{' -> handleBraceStart(STATE_XML_TAG) // 支持 <div class={my_class}>
+            // 标签名或属性名
+            ch.isLetter() || ch == '_' || ch == ':' -> readXmlNameInTag()
             else -> {
-                lexerState = STATE_XML_TEXT
-                currentOffset++
-                currentTokenType = TokenType.BAD_CHARACTER
+                currentOffset++; currentTokenType = BAD_CHARACTER
             }
         }
-    }
-
-    private fun handleTagClose() {
-        currentOffset++
-        currentTokenType = ValkyrieTokenTypes.ANGLE_R
-        val tagName = tagStack.peek()?.lowercase()
-
-        when {
-            isVoidTag(tagName) -> {
-                tagStack.pop() // 自闭合，立即出栈
-                lexerState = if (tagStack.isEmpty()) STATE_XML_TEXT else STATE_XML_TEXT
-            }
-
-            tagName == "script" -> lexerState = STATE_SCRIPT_CONTENT
-            tagName == "style" -> lexerState = STATE_STYLE_CONTENT
-            else -> lexerState = STATE_XML_TEXT
-        }
-    }
-
-    private fun handleSelfClosingTag() {
-        currentOffset += 2
-        currentTokenType = XmlTokenType.XML_EMPTY_ELEMENT_END
-        if (tagStack.isNotEmpty()) {
-            tagStack.pop()
-        }
-        lexerState = STATE_XML_TEXT
     }
 
     /**
-     * 状态 3 & 4: 处理 <script> 或 <style> 的内容
+     * 读取标签名或属性名
      */
-    private fun processForeignContent(tagName: String, tokenType: IElementType) {
-        val endTag = "</$tagName"
-        val contentStart = currentOffset
-        var endPos = -1
-        var searchPos = currentOffset
-        while (searchPos < endOffset) {
-            val potentialPos = buffer.indexOf(endTag, searchPos, ignoreCase = true)
-            if (potentialPos == -1) break
-
-            val charAfter = peek(potentialPos + endTag.length - currentOffset)
-            if (charAfter == null || charAfter.isWhitespace() || charAfter == '>') {
-                endPos = potentialPos
-                break
+    private fun readXmlNameInTag() {
+        val nameStart = currentOffset
+        // XML 属性和标签名可以包含更多字符
+        while (currentOffset < endOffset) {
+            when (buffer[currentOffset]) {
+                in 'a'..'z', in 'A'..'Z', in '0'..'9', '_', '-', '.' -> currentOffset++
+                // 支持命名空间
+                ':' -> if (peek()?.isLetterOrDigit() == true) currentOffset++ else break
+                else -> break
             }
-            searchPos = potentialPos + 1
         }
 
-        currentOffset = if (endPos != -1) endPos else endOffset
+        if (currentOffset > nameStart) {
+            val name = buffer.subSequence(nameStart, currentOffset).toString()
+            val lastToken = getTokenType()
 
-        if (currentOffset > contentStart) {
-            currentTokenType = tokenType
+            // 判断是标签名还是属性名
+            if (lastToken == XmlTokenType.XML_START_TAG_START || lastToken == XmlTokenType.XML_END_TAG_START) {
+                val lowerName = name.lowercase()
+                currentTokenType = SPECIAL_TAGS[lowerName] ?: XmlTokenType.XML_TAG_NAME
+
+                // 如果是特殊的开标签，记录下来
+                if (lastToken == XmlTokenType.XML_START_TAG_START && SPECIAL_TAGS.containsKey(lowerName)) {
+                    currentForeignTag = lowerName
+                }
+            } else {
+                currentTokenType = XmlTokenType.XML_NAME
+            }
         } else {
-            // 空内容块，直接处理结束标签
-            handleXmlTagStart()
+            currentOffset++; currentTokenType = BAD_CHARACTER
         }
     }
 
+    /**
+     * 处理属性值
+     */
     private fun processAttributeValue() {
-        when (buffer[currentOffset]) {
-            attributeQuote -> {
-                currentOffset++
-                currentTokenType = ValkyrieTokenTypes.STRING_END
+        val ch = buffer[currentOffset]
+        when {
+            ch == attributeQuote -> {
+                currentOffset++; currentTokenType = XmlTokenType.XML_ATTRIBUTE_VALUE_END_DELIMITER
                 attributeQuote = null
             }
-
-            '{' -> handleBraceStart()
+            ch == '{' -> handleBraceStart(STATE_XML_TAG)
             else -> {
                 val valueStart = currentOffset
                 while (currentOffset < endOffset) {
@@ -231,106 +225,80 @@ class ValkyrieSfcLexer : ValkyrieLexerBase(LexerFlavor.COMPONENT) {
                     currentOffset++
                 }
                 if (currentOffset > valueStart) {
-                    currentTokenType = ValkyrieTokenTypes.STRING_TEXT
+                    currentTokenType = XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN
                 } else {
-                    // 空属性值 " " 或 ""，会导致死循环，所以要推进
+                    // 空属性值，必须消费掉结束引号
                     advance()
                 }
             }
         }
     }
 
-    // -- 辅助方法 --
-
-    private fun isStartOfTag(): Boolean {
-        if (currentOffset + 1 >= endOffset) return false
-        val next = buffer[currentOffset + 1]
-        // <tag, </tag, <!--
-        return next.isLetter() || next == '_' || next == '/' || (next == '!' && peek(2) == '-' && peek(3) == '-')
-    }
-
-    private fun isVoidTag(tagName: String?): Boolean = tagName != null && VOID_TAGS.contains(tagName)
-
-    private fun handleXmlTagStart() {
-        isExpectingTagName = true
-        if (peek() == '/') {
-            currentOffset += 2 // Consume '</'
-            currentTokenType = XmlTokenType.XML_END_TAG_START
-        } else {
-            currentOffset++ // Consume '<'
-            currentTokenType = ValkyrieTokenTypes.ANGLE_L
-        }
-        lexerState = STATE_XML_TAG
-    }
-
-    private fun handleBraceStart() {
-        storedLexerState = lexerState
+    private fun startAttributeValue(delimiter: Char) {
+        attributeQuote = delimiter
         currentOffset++
-        braceDepth++
+        currentTokenType = XmlTokenType.XML_ATTRIBUTE_VALUE_START_DELIMITER
+    }
+
+    /**
+     * 状态 3 & 4: 处理 <script> 或 <style> 的内容
+     * 使用高效的 indexOf 查找结束标签
+     */
+    private fun processForeignContent(tagName: String, tokenType: IElementType, nextState: Int) {
+        val endTag = "</$tagName"
+        val contentStart = currentOffset
+
+        // 忽略大小写查找结束标签
+        val endPos = buffer.toString().indexOf(endTag, startIndex = currentOffset, ignoreCase = true)
+
+        currentOffset = if (endPos != -1) endPos else endOffset
+
+        if (currentOffset > contentStart) {
+            currentTokenType = tokenType
+        } else {
+            // 如果没有内容（例如 <script></script>），直接切换到 XML 文本状态去处理 `</script>`
+            lexerState = nextState
+            advance()
+        }
+    }
+
+    /**
+     * 处理嵌入的 Valkyrie 代码块 { ... }
+     */
+    private fun processEmbeddedValkyrie() {
+        // 遇到 '}' 并且嵌套深度为 1，则准备退出 Valkyrie 模式
+        if (buffer[currentOffset] == '}' && braceDepth == 1) {
+            handleBraceEnd()
+        } else {
+            // 使用基类的 Valkyrie 解析逻辑
+            super.processLanguage()
+            // 在Valkyrie代码中也可能出现嵌套的大括号
+            when (currentTokenType) {
+                ValkyrieTokenTypes.BRACE_L -> braceDepth++
+                ValkyrieTokenTypes.BRACE_R -> braceDepth--
+                else -> {}
+            }
+        }
+    }
+
+    private fun handleBraceStart(returnState: Int) {
+        storedLexerState = returnState
+        currentOffset++
+        braceDepth = 1
         currentTokenType = ValkyrieTokenTypes.BRACE_L
         lexerState = STATE_LANGUAGE
     }
 
     private fun handleBraceEnd() {
         currentOffset++
-        braceDepth = (braceDepth - 1).coerceAtLeast(0)
+        braceDepth = 0
         currentTokenType = ValkyrieTokenTypes.BRACE_R
         // 恢复到进入 { 之前的状态
-        lexerState = if (braceDepth == 0) storedLexerState else STATE_LANGUAGE
-    }
-
-    private fun startAttributeValue(delimiter: Char) {
-        attributeQuote = delimiter
-        currentOffset++
-        currentTokenType = ValkyrieTokenTypes.STRING_START
-    }
-
-    private fun readXmlName() {
-        val idStart = currentOffset
-        // XML 属性和标签名可以包含更多字符
-        while (currentOffset < endOffset) {
-            val ch = buffer[currentOffset]
-            if (ch.isLetterOrDigit() || ch in "_-.:") {
-                currentOffset++
-            } else {
-                break
-            }
-        }
-
-        if (currentOffset > idStart) {
-            val name = buffer.subSequence(idStart, currentOffset).toString()
-            if (isExpectingTagName) {
-                // *** 核心变更：识别特殊标签 ***
-                currentTokenType = SPECIAL_TAGS[name.lowercase()] ?: XmlTokenType.XML_TAG_NAME
-
-                val isClosingTag = startOffset > 0 && buffer[startOffset - 1] == '/'
-                if (isClosingTag) {
-                    // *** 核心变更：不进行匹配，仅出栈 ***
-                    if (tagStack.isNotEmpty()) {
-                        tagStack.pop()
-                    }
-                } else {
-                    tagStack.push(name)
-                }
-                isExpectingTagName = false
-            } else {
-                // 这是一个属性名
-                currentTokenType = XmlTokenType.XML_NAME
-            }
-        } else {
-            // 无法读取名称，这是一个错误
-            currentOffset++
-            currentTokenType = TokenType.BAD_CHARACTER
-        }
+        lexerState = storedLexerState
     }
 
     private fun skipXmlComment() {
-        // 使用 XmlTokenType 以便获得更好的 IDE 高亮
-        val commentStart = startOffset
-        currentOffset += 4 // "<!--"
-        val endPos = buffer.indexOf("-->", currentOffset)
-
-        startOffset = commentStart
+        val endPos = buffer.indexOf("-->", currentOffset + 4)
         if (endPos != -1) {
             currentOffset = endPos + 3
             currentTokenType = XmlTokenType.XML_COMMENT_CHARACTERS

@@ -74,8 +74,9 @@ class ValkyrieXmlLexer : ValkyrieLexerBase(LexerFlavor.XML) {
         // 只有当不在嵌入代码块中时，才将 '<' 视为潜在的 XML 标签起始
         if (ch == '<' && braceDepth == 0 && isStartOfTag()) {
             handleXmlTagStart()
-        } else {
-            // 否则，它只是一个比较运算符或泛型，由基类处理
+        }
+        // 否则，它只是一个比较运算符或泛型，由基类处理
+        else {
             super.processLanguage()
         }
     }
@@ -216,7 +217,7 @@ class ValkyrieXmlLexer : ValkyrieLexerBase(LexerFlavor.XML) {
             skipXmlComment()
             return
         }
-// 置特殊状态：下一个标识符将是标签名
+        // 置特殊状态：下一个标识符将是标签名
         isExpectingTagName = true
         if (peek() == '/') {
             currentOffset += 2
