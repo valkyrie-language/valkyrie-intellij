@@ -1,0 +1,7 @@
+ValkyrieTokenType.== ('==')
+WHITE_SPACE (' ')
+ValkyrieTokenType.!= ('!=')
+WHITE_SPACE (' ')
+ValkyrieTokenType.< ('<')
+WHITE_SPACE (' ')
+ValkyrieTokenType.> ('>')

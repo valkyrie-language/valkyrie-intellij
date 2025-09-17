@@ -1,2 +1,0 @@
-Valkyrie Component File(0,51)
-  PsiElement(XML_COMMENT_CHARACTERS)('<!-- Empty SFC component for testing edge cases -->')(0,51)

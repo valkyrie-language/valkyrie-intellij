@@ -1,5 +1,0 @@
-class TestClass {
-    modifier1 modifier2 field;
-    modifier3 modifier4 method() { }
-    modifier5 modifier6 domain { }
-}

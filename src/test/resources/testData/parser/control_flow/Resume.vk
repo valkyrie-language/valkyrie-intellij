@@ -1,0 +1,9 @@
+# 测试简单的 resume 语句
+resume;
+
+# 测试带值的 resume 语句
+resume value;
+
+# 你无法指定 effect 回到哪个位置
+resume ※label;
+resume ※label value;

@@ -1,0 +1,3 @@
+ValkyrieTokenType.# ('## double hash')
+WHITE_SPACE ('\n')
+ValkyrieTokenType.# ('### triple hash')

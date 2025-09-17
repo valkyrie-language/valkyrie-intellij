@@ -1,0 +1,3 @@
+ValkyrieTokenType.STRING.START ('"')
+ValkyrieTokenType.STRING.TEXT ('Hello, {name}!')
+ValkyrieTokenType.STRING.END ('"')

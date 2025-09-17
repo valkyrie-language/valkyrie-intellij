@@ -1,31 +1,31 @@
 package valkyrie.parser
 
+import com.intellij.testFramework.ParsingTestCase
 import org.junit.Test
-import org.junit.Assert.*
+import valkyrie.psi.ValkyrieParserDefinition
 
-class MultiplyOperatorTest {
+class MultiplyOperatorTest : ParsingTestCase("testData/parser/multiply_operator", "vk", ValkyrieParserDefinition()) {
 
-    @Test
-    fun testStarOperator() {
-        val code = "a * b"
-        assertTrue(code.isNotEmpty())
+    override fun getTestDataPath(): String = "src/test/resources"
+
+
+    override fun skipSpaces(): Boolean {
+        return false
+    }
+
+    override fun includeRanges(): Boolean {
+        return true
     }
 
     @Test
-    fun testMultiplyOperator() {
-        val code = "a × b"
-        assertTrue(code.isNotEmpty())
-    }
+    fun testStarOperator() = doTest(true, true)
 
     @Test
-    fun testMixedOperators() {
-        val code = "a * b × c"
-        assertTrue(code.isNotEmpty())
-    }
+    fun testMultiplyOperator() = doTest(true, true)
 
     @Test
-    fun testComplexExpression() {
-        val code = "(a * b) + (c × d)"
-        assertTrue(code.isNotEmpty())
-    }
+    fun testMixedOperators() = doTest(true, true)
+
+    @Test
+    fun testComplexExpression() = doTest(true, true)
 }

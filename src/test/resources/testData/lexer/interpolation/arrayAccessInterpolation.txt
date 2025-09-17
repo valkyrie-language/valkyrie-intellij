@@ -1,0 +1,3 @@
+ValkyrieTokenType.STRING.START ('"')
+ValkyrieTokenType.STRING.TEXT ('First: {items[0]}')
+ValkyrieTokenType.STRING.END ('"')

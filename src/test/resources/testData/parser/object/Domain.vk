@@ -1,0 +1,14 @@
+class {
+    # 简单领域声明
+    domain1 { }
+    # 带有泛型的领域声明
+    domain2 { }
+    # 带有继承的领域声明
+    domain3 {}
+    # 带有泛型和继承的领域声明
+    domain4 {}
+    # 带有修饰符的领域声明
+    modifier domain6 {}
+    # 带有属性的领域声明
+    ↯attribute domain5 {}
+}

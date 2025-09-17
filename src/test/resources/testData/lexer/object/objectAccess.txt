@@ -1,0 +1,3 @@
+ValkyrieTokenType.SYMBOL.STD ('object')
+ValkyrieTokenType.. ('.')
+ValkyrieTokenType.SYMBOL.STD ('property')

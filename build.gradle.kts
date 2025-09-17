@@ -1,10 +1,13 @@
-import org.gradle.kotlin.dsl.version
 import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 fun properties(key: String) = providers.gradleProperty(key)
 fun environment(key: String) = providers.environmentVariable(key)
+
+
+group = properties("pluginGroup").get()
+version = properties("pluginVersion").get()
 
 plugins {
     id("java")
@@ -22,10 +25,6 @@ repositories {
         jetbrainsRuntime()
     }
 }
-
-group = properties("pluginGroup").get()
-version = properties("pluginVersion").get()
-
 
 dependencies {
     intellijPlatform {
@@ -71,11 +70,8 @@ kotlin {
     jvmToolchain(21)
 }
 
-// Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
-changelog {
-    groups.empty()
-    repositoryUrl = properties("pluginRepositoryUrl")
-}
+
+
 tasks {
     // Set the JVM compatibility versions
     withType<JavaCompile> {

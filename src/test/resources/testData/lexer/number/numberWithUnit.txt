@@ -1,0 +1,2 @@
+ValkyrieTokenType.INTEGER ('123')
+ValkyrieTokenType.MACRO.NUMBER ('mm')

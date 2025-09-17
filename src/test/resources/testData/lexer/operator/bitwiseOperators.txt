@@ -1,0 +1,5 @@
+ValkyrieTokenType.& ('&')
+WHITE_SPACE (' ')
+ValkyrieTokenType.| ('|')
+WHITE_SPACE (' ')
+ValkyrieTokenType.SYMBOL.STD ('_')
