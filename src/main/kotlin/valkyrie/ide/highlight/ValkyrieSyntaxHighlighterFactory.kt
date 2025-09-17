@@ -97,13 +97,12 @@ class ValkyrieSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
     ): SyntaxHighlighter {
         return object : SyntaxHighlighterBase() {
             override fun getHighlightingLexer(): Lexer {
-                println("getHighlightingLexer: ${virtualFile?.fileType}")
                 return when (virtualFile?.fileType) {
-                    ValkyrieXmlFileType -> {
+                    ValkyrieXmlFileType.INSTANCE -> {
                         ValkyrieXmlLexer()
                     }
 
-                    ValkyrieComponentFileType -> {
+                    ValkyrieComponentFileType.INSTANCE -> {
                         ValkyrieSfcLexer()
                     }
 

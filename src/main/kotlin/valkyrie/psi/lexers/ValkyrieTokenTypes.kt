@@ -421,8 +421,12 @@ object ValkyrieTokenTypes {
     @JvmField
     val END = ValkyrieTokenType("end")
 
-
+    @JvmField
     val XML_STYLE = ValkyrieTokenType("XML_KEYWORD_STYLE")
-    val XML_SCRIPT = ValkyrieTokenType("XML_KEYWORD_STYLE")
+
+    @JvmField
+    val XML_SCRIPT = ValkyrieTokenType("XML_KEYWORD_SCRIPT")
+
+    @JvmField
     val XML_TEMPLATE = ValkyrieTokenType("XML_KEYWORD_TEMPLATE")
 }

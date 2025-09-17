@@ -71,6 +71,11 @@ class ValkyrieParser : PsiParser {
             parseMezzoAssign(builder) -> return
             parseMacroStatement(builder) -> return
             parseMacroAssignment(builder) -> return
+            // xml elements
+            parseXmlTextStatement(builder) -> return
+            parseXmlTemplateStatement(builder) -> return
+            parseXmlStyleStatement(builder) -> return
+            parseXmlScriptStatement(builder) -> return
             //
             builder.tokenType == null -> return
             else -> parseExpressionStatement(builder)
@@ -2195,6 +2200,90 @@ fun PsiBuilder.consumeSemicolon(): Boolean {
 
 fun isIdentifier(builder: PsiBuilder): Boolean {
     return isIdentifier(builder.tokenType)
+}
+
+/**
+ * 解析 XML text 语句
+ */
+fun parseXmlTextStatement(builder: PsiBuilder): Boolean {
+    if (builder.tokenType != ValkyrieTokenTypes.XML_TEXT) {
+        return false
+    }
+    
+    val marker = builder.mark()
+    builder.advanceLexer() // consume XML_TEXT
+    
+    // 解析文本内容
+    while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.SEMICOLON) {
+        builder.advanceLexer()
+    }
+    
+    builder.consumeSemicolon()
+    marker.done(ValkyrieElementTypes.XML_TEXT_NODE)
+    return true
+}
+
+/**
+ * 解析 XML template 语句
+ */
+fun parseXmlTemplateStatement(builder: PsiBuilder): Boolean {
+    if (builder.tokenType != ValkyrieTokenTypes.XML_TEMPLATE) {
+        return false
+    }
+    
+    val marker = builder.mark()
+    builder.advanceLexer() // consume XML_TEMPLATE
+    
+    // 解析模板内容
+    while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.SEMICOLON) {
+        builder.advanceLexer()
+    }
+    
+    builder.consumeSemicolon()
+    marker.done(ValkyrieElementTypes.XML_ELEMENT)
+    return true
+}
+
+/**
+ * 解析 XML style 语句
+ */
+fun parseXmlStyleStatement(builder: PsiBuilder): Boolean {
+    if (builder.tokenType != ValkyrieTokenTypes.XML_STYLE) {
+        return false
+    }
+    
+    val marker = builder.mark()
+    builder.advanceLexer() // consume XML_STYLE
+    
+    // 解析样式内容
+    while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.SEMICOLON) {
+        builder.advanceLexer()
+    }
+    
+    builder.consumeSemicolon()
+    marker.done(ValkyrieElementTypes.XML_ELEMENT)
+    return true
+}
+
+/**
+ * 解析 XML script 语句
+ */
+fun parseXmlScriptStatement(builder: PsiBuilder): Boolean {
+    if (builder.tokenType != ValkyrieTokenTypes.XML_SCRIPT) {
+        return false
+    }
+    
+    val marker = builder.mark()
+    builder.advanceLexer() // consume XML_SCRIPT
+    
+    // 解析脚本内容
+    while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.SEMICOLON) {
+        builder.advanceLexer()
+    }
+    
+    builder.consumeSemicolon()
+    marker.done(ValkyrieElementTypes.XML_ELEMENT)
+    return true
 }
 
 fun isIdentifier(token: IElementType?): Boolean {
