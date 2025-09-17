@@ -1,0 +1,2 @@
+ValkyrieTokenType.INTEGER ('5')
+ValkyrieTokenType.. ('.')

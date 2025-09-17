@@ -1,0 +1,1 @@
+ValkyrieTokenType.# ('# single line comment')

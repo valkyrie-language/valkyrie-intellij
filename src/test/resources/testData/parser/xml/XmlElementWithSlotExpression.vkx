@@ -1,4 +1,0 @@
-<div class={className} onClick={handleClick}>
-    {message}
-    <span>{count}</span>
-</div>

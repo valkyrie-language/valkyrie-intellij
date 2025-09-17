@@ -1,0 +1,4 @@
+ValkyrieTokenType.SYMBOL.STD ('array')
+ValkyrieTokenType.[ ('[')
+ValkyrieTokenType.INTEGER ('0')
+ValkyrieTokenType.] (']')

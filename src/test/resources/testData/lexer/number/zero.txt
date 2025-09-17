@@ -1,0 +1,1 @@
+ValkyrieTokenType.INTEGER ('0')

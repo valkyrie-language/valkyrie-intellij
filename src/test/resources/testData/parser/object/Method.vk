@@ -1,0 +1,15 @@
+class {
+    # 简单微方法声明
+    micro myMethod1() {}
+    # 带有参数的微方法
+    micro myMethod2(param1: Type1, param2: Type2) {}
+    # 带有返回类型的微方法
+    micro myMethod3(): ReturnType {}
+    # 带有参数和返回类型的微方法
+    micro myMethod4(param: Type): ReturnType {}
+    # 带有单个属性的微方法
+    ↯attribute micro myMethod5() {}
+    # 带有多个属性的微方法
+    ↯[attribute2, attribute3] micro myMethod6() {}
+    modifier micro myMethod7() {}
+}

@@ -1,0 +1,6 @@
+ValkyrieTokenType.INTEGER ('1')
+ValkyrieTokenType.. ('.')
+ValkyrieTokenType.INTEGER ('23')
+ValkyrieTokenType.MACRO.NUMBER ('e')
+ValkyrieTokenType.- ('-')
+ValkyrieTokenType.INTEGER ('4')

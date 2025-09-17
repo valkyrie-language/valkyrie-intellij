@@ -1,0 +1,3 @@
+ValkyrieTokenType.STRING.START ('"')
+ValkyrieTokenType.STRING.TEXT ('String with 中文 and émojis 🎉')
+ValkyrieTokenType.STRING.END ('"')

@@ -4,7 +4,6 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.lang.PsiParser
 import com.intellij.psi.tree.IElementType
-import com.intellij.psi.xml.XmlTokenType
 import valkyrie.psi.ValkyrieElementType
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.lexers.ValkyrieTokenType
@@ -40,47 +39,61 @@ class ValkyrieParser : PsiParser {
         }
     }
 
-    fun parseStatement(builder: PsiBuilder) {
+    fun parseStatement(builder: PsiBuilder): Boolean {
         val safePoint = builder.currentOffset
         when {
             // modules
-            parseNamespaceStatement(builder) -> return
-            parseUsingStatement(builder) -> return
+            parseNamespaceStatement(builder) -> return true
+            parseUsingStatement(builder) -> return true
             // tests
-            parseTestsStatement(builder) -> return
+            parseTestsStatement(builder) -> return true
             // product types
-            parseClassStatement(builder) -> return
-            parseStructureStatement(builder) -> return
-            parseSingletonStatement(builder) -> return
-            parseWidgetStatement(builder) -> return
-            parseNeuralStatement(builder) -> return
+            parseClassStatement(builder) -> return true
+            parseStructureStatement(builder) -> return true
+            parseSingletonStatement(builder) -> return true
+            parseWidgetStatement(builder) -> return true
+            parseNeuralStatement(builder) -> return true
             // traits
-            parseTraitStatement(builder) -> return
-            parseImplyStatement(builder) -> return
+            parseTraitStatement(builder) -> return true
+            parseImplyStatement(builder) -> return true
             // sum types
-            parseUnionStatement(builder) -> return
-            parseUnityStatement(builder) -> return
+            parseUnionStatement(builder) -> return true
+            parseUnityStatement(builder) -> return true
             // number types
-            parseFlagsStatement(builder) -> return
-            parseEnumsStatement(builder) -> return
+            parseFlagsStatement(builder) -> return true
+            parseEnumsStatement(builder) -> return true
             // variables
-            parseLetStatement(builder, inline = false) -> return
+            parseLetStatement(builder, inline = false) -> return true
             // functions
-            parseMicroStatement(builder) -> return
-            parseMezzoStatement(builder) -> return
-            parseMezzoAssign(builder) -> return
-            parseMacroStatement(builder) -> return
-            parseMacroAssignment(builder) -> return
+            parseMicroStatement(builder) -> return true
+            parseMezzoStatement(builder) -> return true
+            parseMezzoAssign(builder) -> return true
+            parseMacroStatement(builder) -> return true
+            parseMacroAssignment(builder) -> return true
+            // sfc elements - 必须在XML文本解析之前
+            parseSfcTemplateStatement(this, builder) -> return true
+            parseSfcStyleStatement(this, builder) -> return true
+            parseSfcScriptStatement(this, builder) -> return true
+            // xml elements
+            parseXmlTextStatement(builder) -> return true
             //
-            builder.tokenType == null -> return
-            else -> parseExpressionStatement(builder)
+            builder.tokenType == null -> return true
+            else -> {
+                // 对于SFC文件中template结束标签后的内容，不应该尝试解析为表达式
+                // 直接跳过未识别的token，避免"Expected expression"错误
+                if (builder.tokenType != null) {
+                    builder.advanceLexer()
+                    return true
+                }
+                return false
+            }
         }
         if (builder.currentOffset == safePoint) {
             builder.error("Unexpected token: ${builder.tokenType}")
             builder.advanceLexer()
         }
+        return true
     }
-
 
     fun parseNamespaceStatement(builder: PsiBuilder): Boolean {
         val marker = builder.mark()
@@ -2196,6 +2209,26 @@ fun PsiBuilder.consumeSemicolon(): Boolean {
 fun isIdentifier(builder: PsiBuilder): Boolean {
     return isIdentifier(builder.tokenType)
 }
+
+
+fun parseXmlTextStatement(builder: PsiBuilder): Boolean {
+    if (builder.tokenType != ValkyrieTokenTypes.XML_TEXT) {
+        return false
+    }
+
+    val marker = builder.mark()
+    builder.advanceLexer() // consume XML_TEXT
+
+    // 解析文本内容
+    while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.SEMICOLON) {
+        builder.advanceLexer()
+    }
+
+    builder.consumeSemicolon()
+    marker.done(ValkyrieElementTypes.XML_TEXT_NODE)
+    return true
+}
+
 
 fun isIdentifier(token: IElementType?): Boolean {
     return token == ValkyrieTokenTypes.SYMBOL_XID || token == ValkyrieTokenTypes.SYMBOL_RAW

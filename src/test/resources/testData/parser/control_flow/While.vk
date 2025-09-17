@@ -1,0 +1,13 @@
+# 测试简单 while 语句
+while true { };
+
+# 测试带标签的 while 语句
+while true ※label { };
+
+# 测试 while-else 语句
+while true {
+
+}
+else {
+
+};
