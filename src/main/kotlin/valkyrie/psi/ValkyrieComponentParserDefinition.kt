@@ -11,7 +11,7 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import valkyrie.language.ValkyrieComponentLanguage
-import valkyrie.psi.lexers.ValkyrieComponentLexer
+import valkyrie.psi.lexers.ValkyrieSfcLexer
 import valkyrie.psi.lexers.ValkyrieTokenTypes
 import valkyrie.psi.nodes.ValkyrieComponentFileNode
 import valkyrie.psi.parsers.ValkyrieParser
@@ -26,7 +26,7 @@ class ValkyrieComponentParserDefinition : ParserDefinition {
         val STRING_LITERALS = TokenSet.create(ValkyrieTokenTypes.STRING_DQ, ValkyrieTokenTypes.STRING_MQ)
     }
 
-    override fun createLexer(project: Project?): Lexer = ValkyrieComponentLexer()
+    override fun createLexer(project: Project?): Lexer = ValkyrieSfcLexer()
 
     override fun createParser(project: Project?): PsiParser = ValkyrieParser()
 

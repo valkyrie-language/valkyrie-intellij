@@ -20,8 +20,7 @@ package valkyrie.psi.lexers
  * </div>
  * ```
  */
-class ValkyrieComponentLexer : ValkyrieLexerBase(LexerFlavor.COMPONENT) {
-    
+class ValkyrieSfcLexer : ValkyrieLexerBase(LexerFlavor.COMPONENT) {
     companion object {
         private const val STATE_XML_TEXT = 4        // 解析 XML 标签间文本
         private const val COMPONENT_DEPTH_SHIFT = 16
