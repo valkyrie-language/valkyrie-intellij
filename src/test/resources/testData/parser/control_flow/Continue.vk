@@ -1,0 +1,11 @@
+# 测试简单的 continue 语句
+continue;
+
+# 测试带值的 continue 语句
+continue value;
+
+# 测试带标签的 continue 语句
+continue ※label;
+
+# 测试带标签和值的 continue 语句
+continue ※label value;

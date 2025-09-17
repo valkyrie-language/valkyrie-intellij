@@ -1,0 +1,3 @@
+ValkyrieTokenType.STRING.START ('"')
+ValkyrieTokenType.STRING.TEXT ('Version 1.2.3')
+ValkyrieTokenType.STRING.END ('"')

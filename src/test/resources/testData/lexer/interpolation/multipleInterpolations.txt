@@ -1,0 +1,3 @@
+ValkyrieTokenType.STRING.START ('"')
+ValkyrieTokenType.STRING.TEXT ('User {id}: {name}')
+ValkyrieTokenType.STRING.END ('"')

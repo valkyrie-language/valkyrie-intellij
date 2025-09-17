@@ -128,14 +128,14 @@ object ValkyrieTokenTypes {
     @JvmField
     val AS = ValkyrieTokenType("as")
 
-    val IDENTIFIER by lazy { TokenSet.create(SYMBOL_XID, SYMBOL_RAW) }
+    val SYMBOL by lazy { TokenSet.create(SYMBOL_XID, SYMBOL_RAW) }
 
     // 标识符和字面量
     @JvmField
-    val SYMBOL_XID = ValkyrieTokenType("IDENTIFIER.STD")
+    val SYMBOL_XID = ValkyrieTokenType("SYMBOL.STD")
 
     @JvmField
-    val SYMBOL_RAW = ValkyrieTokenType("IDENTIFIER.RAW")
+    val SYMBOL_RAW = ValkyrieTokenType("SYMBOL.RAW")
 
     @JvmField
     val BOOLEAN = ValkyrieTokenType("BOOLEAN")
