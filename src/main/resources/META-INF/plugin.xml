@@ -80,6 +80,10 @@
 			language="valkyrie-xml"
 			implementationClass="valkyrie.ide.highlight.ValkyrieSyntaxHighlighterFactory"
 		/>
+		<lang.syntaxHighlighterFactory
+			language="valkyrie-component"
+			implementationClass="valkyrie.ide.highlight.ValkyrieSyntaxHighlighterFactory"
+		/>
 		<highlightVisitor
 			implementation="valkyrie.ide.highlight.ValkyrieSemanticHighlighter"
 		/>

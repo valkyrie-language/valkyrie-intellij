@@ -10,6 +10,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
+import com.intellij.psi.xml.XmlTokenType
 import valkyrie.language.ValkyrieComponentLanguage
 import valkyrie.psi.lexers.ValkyrieSfcLexer
 import valkyrie.psi.lexers.ValkyrieTokenTypes
@@ -32,7 +33,14 @@ class ValkyrieSfcParserDefinition : ParserDefinition {
 
     override fun getFileNodeType(): IFileElementType = FILE
 
-    override fun getCommentTokens(): TokenSet = TokenSet.create(ValkyrieTokenTypes.COMMENT_LINE, ValkyrieTokenTypes.COMMENT_RANGE, ValkyrieTokenTypes.COMMENT_DOCUMENT)
+    override fun getCommentTokens(): TokenSet = TokenSet.create(
+        ValkyrieTokenTypes.COMMENT_LINE,
+        ValkyrieTokenTypes.COMMENT_RANGE,
+        ValkyrieTokenTypes.COMMENT_DOCUMENT,
+        XmlTokenType.XML_COMMENT_START,
+        XmlTokenType.XML_COMMENT_CHARACTERS,
+        XmlTokenType.XML_COMMENT_END,
+    )
 
     override fun getStringLiteralElements(): TokenSet = STRING_LITERALS
 
