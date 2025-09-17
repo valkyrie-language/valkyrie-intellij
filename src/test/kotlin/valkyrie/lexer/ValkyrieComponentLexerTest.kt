@@ -2,14 +2,14 @@ package valkyrie.lexer
 
 import org.junit.Test
 import org.junit.Assert.assertEquals
-import valkyrie.psi.lexers.ValkyrieComponentLexer
+import valkyrie.psi.lexers.ValkyrieSfcLexer
 import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 class ValkyrieComponentLexerTest {
     
     @Test
     fun testBasicXmlTag() {
-        val lexer = ValkyrieComponentLexer()
+        val lexer = ValkyrieSfcLexer()
         lexer.start("<div>", 0, 5, 0)
         
         // 第一个 token 应该是 ANGLE_L
@@ -36,7 +36,7 @@ class ValkyrieComponentLexerTest {
     
     @Test
     fun testVoidTag() {
-        val lexer = ValkyrieComponentLexer()
+        val lexer = ValkyrieSfcLexer()
         lexer.start("<br/>", 0, 5, 0)
         
         // 第一个 token 应该是 ANGLE_L
@@ -62,7 +62,7 @@ class ValkyrieComponentLexerTest {
     
     @Test
     fun testTagWithAttributes() {
-        val lexer = ValkyrieComponentLexer()
+        val lexer = ValkyrieSfcLexer()
         lexer.start("<div class=\"container\">", 0, 23, 0)
         
         // <
@@ -94,7 +94,7 @@ class ValkyrieComponentLexerTest {
         // "container"
         lexer.advance()
         assertEquals("Sixth token should be STRING", 
-                    ValkyrieTokenTypes.STRING, lexer.tokenType)
+                    ValkyrieTokenTypes.STRING_TEXT, lexer.tokenType)
         assertEquals("String value should be '\"container\"'", "\"container\"", lexer.tokenText)
         
         // >
@@ -105,7 +105,7 @@ class ValkyrieComponentLexerTest {
     
     @Test
     fun testTagWithInterpolation() {
-        val lexer = ValkyrieComponentLexer()
+        val lexer = ValkyrieSfcLexer()
         lexer.start("<div>{title}</div>", 0, 18, 0)
         
         // <div>
@@ -158,7 +158,7 @@ class ValkyrieComponentLexerTest {
     
     @Test
     fun testNestedTags() {
-        val lexer = ValkyrieComponentLexer()
+        val lexer = ValkyrieSfcLexer()
         lexer.start("<div><span>text</span></div>", 0, 28, 0)
         
         // <div>

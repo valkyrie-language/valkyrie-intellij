@@ -208,7 +208,7 @@ class ValkyrieStringLexerTest {
         // "Item: {item.name}"
         lexer.advance()
         assertEquals("Eleventh token should be STRING", 
-                    ValkyrieTokenTypes.STRING, lexer.tokenType)
+                    ValkyrieTokenTypes.STRING_TEXT, lexer.tokenType)
         assertEquals("String literal should contain nested interpolation", 
                     "\"Item: {item.name}\"", lexer.tokenText)
     }
