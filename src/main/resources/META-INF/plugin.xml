@@ -20,17 +20,17 @@
 			fieldName="INSTANCE"
 		/>
 		<fileType
-			name="valkyrie-template"
-			language="valkyrie-template"
-			extensions="vkt;"
-			implementationClass="valkyrie.language.file.ValkyrieTemplateFileType"
-			fieldName="INSTANCE"
-		/>
-		<fileType
 			name="valkyrie-xml"
 			language="valkyrie-xml"
 			extensions="vkx;"
 			implementationClass="valkyrie.language.file.ValkyrieXmlFileType"
+			fieldName="INSTANCE"
+		/>
+		<fileType
+			name="valkyrie-template"
+			language="valkyrie-template"
+			extensions="vkt;"
+			implementationClass="valkyrie.language.file.ValkyrieTemplateFileType"
 			fieldName="INSTANCE"
 		/>
 		<fileType
@@ -78,19 +78,7 @@
 		/>
 		<lang.syntaxHighlighterFactory
 			language="valkyrie-xml"
-			implementationClass="valkyrie.ide.highlight.ValkyrieFactoryClass"
-		/>
-		<lang.syntaxHighlighter
-			language="valkyrie-component"
-			implementationClass="valkyrie.ide.highlight.ValkyrieSyntaxHighlighter"
-		/>
-		<lang.syntaxHighlighter
-			language="valkyrie-template"
-			implementationClass="valkyrie.ide.highlight.ValkyrieSyntaxHighlighter"
-		/>
-		<lang.syntaxHighlighter
-			language="ValkyrieMark"
-			implementationClass="valkyrie.ide.highlight.ValkyrieSyntaxHighlighter"
+			implementationClass="valkyrie.ide.highlight.ValkyrieSyntaxHighlighterFactory"
 		/>
 		<highlightVisitor
 			implementation="valkyrie.ide.highlight.ValkyrieSemanticHighlighter"
