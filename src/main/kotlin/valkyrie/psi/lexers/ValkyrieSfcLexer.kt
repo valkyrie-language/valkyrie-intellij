@@ -151,8 +151,6 @@ class ValkyrieSfcLexer : ValkyrieLexerBase(LexerFlavor.COMPONENT) {
             // 支持 package::name 这样的属性名
             ch == ':' || ch == '-' -> readXmlName() // 允许以 : 或 - 开头的名称部分
             else -> {
-                // 如果遇到无法识别的字符，例如在 `let node = <hr> + <hr/>` 中的 `+`
-                // 将其视为 BAD_CHARACTER 并切换回 XML_TEXT 状态，让 parser 决定如何处理
                 lexerState = STATE_XML_TEXT
                 currentOffset++
                 currentTokenType = TokenType.BAD_CHARACTER
