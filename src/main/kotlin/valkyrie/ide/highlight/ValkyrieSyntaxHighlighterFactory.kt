@@ -16,7 +16,6 @@ import valkyrie.psi.lexers.ValkyrieSfcLexer
 import valkyrie.psi.lexers.ValkyrieStandardLexer
 import valkyrie.psi.lexers.ValkyrieTokenTypes
 import valkyrie.psi.lexers.ValkyrieXmlLexer
-import valkyrie.psi.nodes.ValkyrieXmlFileNode
 
 class ValkyrieSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
     companion object {
@@ -98,13 +97,13 @@ class ValkyrieSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
     ): SyntaxHighlighter {
         return object : SyntaxHighlighterBase() {
             override fun getHighlightingLexer(): Lexer {
-                println("getHighlightingLexer: ${virtualFile}")
-                return when (virtualFile) {
-                    is ValkyrieXmlFileType -> {
+                println("getHighlightingLexer: ${virtualFile?.fileType}")
+                return when (virtualFile?.fileType) {
+                    ValkyrieXmlFileType -> {
                         ValkyrieXmlLexer()
                     }
 
-                    is ValkyrieComponentFileType -> {
+                    ValkyrieComponentFileType -> {
                         ValkyrieSfcLexer()
                     }
 

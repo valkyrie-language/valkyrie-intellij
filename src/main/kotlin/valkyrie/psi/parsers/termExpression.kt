@@ -367,7 +367,7 @@ fun parsePrimaryTerm(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolea
         }
 
         else -> {
-            print("非表达式元素 ${builder.tokenType}")
+            println("非表达式元素 ${builder.tokenType}")
             false
         }
     }
