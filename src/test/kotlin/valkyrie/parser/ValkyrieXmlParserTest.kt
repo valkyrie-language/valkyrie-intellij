@@ -1,12 +1,12 @@
 package valkyrie.parser
 
 import com.intellij.testFramework.ParsingTestCase
-import valkyrie.language.ValkyrieParserDefinition
+import valkyrie.psi.ValkyrieXmlParserDefinition
 
 /**
  * XML 解析器测试
  */
-class ValkyrieXmlParserTest : ParsingTestCase("testData/parser/xml", "vkx", ValkyrieParserDefinition()) {
+class ValkyrieXmlParserTest : ParsingTestCase("testData/parser/xml", "vk", ValkyrieXmlParserDefinition()) {
 
     fun testSimpleXmlElement() {
         doTest(true)

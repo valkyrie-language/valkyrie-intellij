@@ -1,0 +1,50 @@
+<template>
+    <div class="full-component">
+        <h1>{{ title }}</h1>
+        <p>{{ description }}</p>
+        <button @click="handleClick">Click me</button>
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'FullComponent',
+    data() {
+        return {
+            title: 'Complete SFC Component',
+            description: 'This component has template, script, and style sections.'
+        }
+    },
+    methods: {
+        handleClick() {
+            console.log('Button clicked!')
+        }
+    }
+}
+</script>
+
+<style scoped>
+.full-component {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+</style>

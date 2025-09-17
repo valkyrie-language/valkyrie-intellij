@@ -2,6 +2,7 @@ package valkyrie.ide.highlight
 
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.editor.HighlighterColors
+import com.intellij.openapi.editor.XmlHighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.options.OptionsBundle
 import com.intellij.openapi.options.colors.AttributesDescriptor
@@ -89,6 +90,8 @@ enum class ValkyrieColor(humanName: Supplier<@AttributeDescriptor String>, defau
     // 元编程语法
     COMPILE_TIME_BLOCK(ValkyrieBundle.messagePointer("color.token.compile.time.block"), Default.METADATA),
     TEMPLATE_BLOCK(ValkyrieBundle.messagePointer("color.token.template.block"), Default.TEMPLATE_LANGUAGE_COLOR),
+    XML_TAG_NAME(ValkyrieBundle.messagePointer("color.token.template.block"), XmlHighlighterColors.HTML_TAG_NAME),
+    XML_ATTRIBUTE_NAME(ValkyrieBundle.messagePointer("color.token.template.block"), XmlHighlighterColors.HTML_ATTRIBUTE_NAME),
     ;
 
     val textAttributesKey: TextAttributesKey = TextAttributesKey.createTextAttributesKey("valkyrie.$name", default)

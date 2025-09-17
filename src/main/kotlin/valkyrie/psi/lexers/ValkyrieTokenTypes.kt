@@ -154,10 +154,10 @@ object ValkyrieTokenTypes {
 
     @JvmField
     val STRING_MQ = ValkyrieTokenType("MULTI_QUOTE_STRING")
-    
+
     @JvmField
     val STRING_L = ValkyrieTokenType("STRING_L")
-    
+
     val STRING_START = ValkyrieTokenType("STRING.START")
     val STRING_END = ValkyrieTokenType("STRING.END")
     val STRING_TEXT = ValkyrieTokenType("STRING.TEXT")
@@ -421,4 +421,17 @@ object ValkyrieTokenTypes {
 
     @JvmField
     val END = ValkyrieTokenType("end")
+
+    @JvmField
+    val XML_STYLE = ValkyrieTokenType("XML_KEYWORD_STYLE")
+
+    @JvmField
+    val XML_SCRIPT = ValkyrieTokenType("XML_KEYWORD_SCRIPT")
+
+    @JvmField
+    val XML_TEMPLATE = ValkyrieTokenType("XML_KEYWORD_TEMPLATE")
+
+
+    val SFC_PROPS = ValkyrieTokenType("SFC_PROPS")
+    val SFC_EMITS = ValkyrieTokenType("SFC_EMITS")
 }

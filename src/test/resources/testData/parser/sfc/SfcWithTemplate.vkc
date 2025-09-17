@@ -1,0 +1,9 @@
+<template>
+    <div class="container">
+        <h1>Template Only Component</h1>
+        <p>This component only has a template section.</p>
+        <div class="content">
+            <span>{{ message }}</span>
+        </div>
+    </div>
+</template>

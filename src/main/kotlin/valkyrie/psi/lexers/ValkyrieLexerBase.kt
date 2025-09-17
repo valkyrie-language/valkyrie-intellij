@@ -38,7 +38,7 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
     protected var pendingNumberMacro = false
 
     // 关键字映射
-    protected val keywords = mapOf(
+    protected open val keywords = mapOf(
         "let" to ValkyrieTokenTypes.LET,
         "if" to ValkyrieTokenTypes.IF,
         "else" to ValkyrieTokenTypes.ELSE,

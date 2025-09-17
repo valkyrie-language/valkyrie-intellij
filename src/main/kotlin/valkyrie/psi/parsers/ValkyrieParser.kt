@@ -71,6 +71,12 @@ class ValkyrieParser : PsiParser {
             parseMezzoAssign(builder) -> return
             parseMacroStatement(builder) -> return
             parseMacroAssignment(builder) -> return
+            // xml elements
+            parseXmlTextStatement(builder) -> return
+            // sfc elements
+            parseSfcTemplateStatement(builder) -> return
+            parseSfcStyleStatement(builder) -> return
+            parseSfcScriptStatement(builder) -> return
             //
             builder.tokenType == null -> return
             else -> parseExpressionStatement(builder)
@@ -2196,6 +2202,27 @@ fun PsiBuilder.consumeSemicolon(): Boolean {
 fun isIdentifier(builder: PsiBuilder): Boolean {
     return isIdentifier(builder.tokenType)
 }
+
+
+fun parseXmlTextStatement(builder: PsiBuilder): Boolean {
+    if (builder.tokenType != ValkyrieTokenTypes.XML_TEXT) {
+        return false
+    }
+
+    val marker = builder.mark()
+    builder.advanceLexer() // consume XML_TEXT
+
+    // 解析文本内容
+    while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.SEMICOLON) {
+        builder.advanceLexer()
+    }
+
+    builder.consumeSemicolon()
+    marker.done(ValkyrieElementTypes.XML_TEXT_NODE)
+    return true
+}
+
+
 
 fun isIdentifier(token: IElementType?): Boolean {
     return token == ValkyrieTokenTypes.SYMBOL_XID || token == ValkyrieTokenTypes.SYMBOL_RAW
