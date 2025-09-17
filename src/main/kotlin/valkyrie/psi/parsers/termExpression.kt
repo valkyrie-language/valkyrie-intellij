@@ -362,12 +362,10 @@ fun parsePrimaryTerm(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolea
         }
 
         XmlTokenType.XML_START_TAG_START -> {
-            print("!!! XML 元素")
             parseXmlElement(builder)
         }
 
         else -> {
-            println("非表达式元素 ${builder.tokenType}")
             false
         }
     }
