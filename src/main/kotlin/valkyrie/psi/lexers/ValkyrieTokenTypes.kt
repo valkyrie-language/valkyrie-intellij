@@ -7,7 +7,6 @@ import com.intellij.psi.tree.TokenSet
  */
 object ValkyrieTokenTypes {
 
-
     @JvmField
     val NAMESPACE = ValkyrieTokenType("namespace")
 
@@ -154,10 +153,10 @@ object ValkyrieTokenTypes {
 
     @JvmField
     val STRING_MQ = ValkyrieTokenType("MULTI_QUOTE_STRING")
-    
+
     @JvmField
     val STRING_L = ValkyrieTokenType("STRING_L")
-    
+
     val STRING_START = ValkyrieTokenType("STRING.START")
     val STRING_END = ValkyrieTokenType("STRING.END")
     val STRING_TEXT = ValkyrieTokenType("STRING.TEXT")
@@ -421,4 +420,9 @@ object ValkyrieTokenTypes {
 
     @JvmField
     val END = ValkyrieTokenType("end")
+
+
+    val XML_STYLE = ValkyrieTokenType("XML_KEYWORD_STYLE")
+    val XML_SCRIPT = ValkyrieTokenType("XML_KEYWORD_STYLE")
+    val XML_TEMPLATE = ValkyrieTokenType("XML_KEYWORD_TEMPLATE")
 }
