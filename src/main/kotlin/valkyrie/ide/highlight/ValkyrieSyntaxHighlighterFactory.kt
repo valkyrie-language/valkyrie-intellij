@@ -84,6 +84,10 @@ class ValkyrieSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
                 ValkyrieTokenTypes.COMMENT_RANGE -> ValkyrieColor.BLOCK_COMMENT
                 ValkyrieTokenTypes.COMMENT_DOCUMENT -> ValkyrieColor.DOC_COMMENT
                 XmlTokenType.XML_COMMENT_CHARACTERS -> ValkyrieColor.BLOCK_COMMENT
+                // XML 染色
+                XmlTokenType.XML_TAG_NAME -> ValkyrieColor.XML_TAG_NAME
+                XmlTokenType.XML_NAME -> ValkyrieColor.XML_ATTRIBUTE_NAME
+                XmlTokenType.XML_EQ -> ValkyrieColor.OPERATION
                 // 错误
                 TokenType.BAD_CHARACTER -> ValkyrieColor.BAD_CHARACTER
                 else -> null
