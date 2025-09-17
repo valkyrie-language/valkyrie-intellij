@@ -357,12 +357,12 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
 
     // ========== 辅助方法 ==========
 
-    protected fun peek(offset: Int = 1): Char? {
+    protected open fun peek(offset: Int = 1): Char? {
         val pos = currentOffset + offset
         return if (pos < endOffset) buffer[pos] else null
     }
 
-    protected fun peekAhead(length: Int): CharSequence? {
+    protected open fun peekAhead(length: Int): CharSequence? {
         val start = currentOffset
         val end = minOf(endOffset, currentOffset + length)
         return if (start < end) buffer.subSequence(start, end) else null
