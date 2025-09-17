@@ -1,0 +1,11 @@
+a < b;
+a > b;
+a < b > c;
+
+# 行注释
+<div attr:name={slot}>
+# 非注释
+text {slot} text
+<!-- 内部注释 -->
+</div>
+<!-- 外部注释 -->

@@ -4,6 +4,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.lang.PsiParser
 import com.intellij.psi.tree.IElementType
+import com.intellij.psi.xml.XmlTokenType
 import valkyrie.psi.ValkyrieElementType
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.lexers.ValkyrieTokenType
@@ -2199,5 +2200,3 @@ fun isIdentifier(builder: PsiBuilder): Boolean {
 fun isIdentifier(token: IElementType?): Boolean {
     return token == ValkyrieTokenTypes.SYMBOL_XID || token == ValkyrieTokenTypes.SYMBOL_RAW
 }
-
-
