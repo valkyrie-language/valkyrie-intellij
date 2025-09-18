@@ -3,7 +3,7 @@ package valkyrie.ide.formatter
 import com.intellij.application.options.IndentOptionsEditor
 import com.intellij.lang.Language
 import com.intellij.psi.codeStyle.*
-import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.dialect_std.ValkyrieLanguage
 
 /**
  * Valkyrie 代码样式设置提供者

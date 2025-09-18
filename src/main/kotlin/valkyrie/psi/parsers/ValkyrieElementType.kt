@@ -1,7 +1,7 @@
 package valkyrie.psi
 
 import com.intellij.psi.tree.IElementType
-import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.dialect_std.ValkyrieLanguage
 
 /**
  * Valkyrie PSI 元素类型

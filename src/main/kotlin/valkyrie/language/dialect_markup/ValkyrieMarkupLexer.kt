@@ -1,4 +1,7 @@
-package valkyrie.psi.lexers
+package valkyrie.language.dialect_markup
+
+import valkyrie.psi.lexers.LexerFlavor
+import valkyrie.psi.lexers.ValkyrieLexerBase
 
 /**
  * Mark Valkyrie 词法分析器

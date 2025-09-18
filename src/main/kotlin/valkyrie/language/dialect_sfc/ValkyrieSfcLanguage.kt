@@ -1,4 +1,4 @@
-package valkyrie.language
+package valkyrie.language.dialect_sfc
 
 import com.intellij.lang.Language
 
@@ -8,7 +8,7 @@ import com.intellij.lang.Language
  * 用于 .vkc 文件，支持组件定义语法
  * 完全兼容 HTML void tags，支持任意 HTML 复制粘贴
  */
-object ValkyrieComponentLanguage : Language("valkyrie-component", "text/html") {
+object ValkyrieSfcLanguage : Language("valkyrie-component", "text/html") {
     
     override fun getDisplayName(): String = "Valkyrie Component"
     

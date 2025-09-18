@@ -1,7 +1,10 @@
-package valkyrie.psi.lexers
+package valkyrie.language.dialect_xml
 
 import com.intellij.psi.TokenType
 import com.intellij.psi.xml.XmlTokenType
+import valkyrie.psi.lexers.LexerFlavor
+import valkyrie.psi.lexers.ValkyrieLexerBase
+import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 /**
  * XML Valkyrie 词法分析器

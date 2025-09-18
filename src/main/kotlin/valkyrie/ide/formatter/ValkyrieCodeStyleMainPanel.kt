@@ -3,8 +3,8 @@ package valkyrie.ide.formatter
 import com.intellij.application.options.TabbedLanguageCodeStylePanel
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.psi.codeStyle.CodeStyleSettings
-import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.file.ValkyrieFileType
+import valkyrie.language.dialect_std.ValkyrieLanguage
+import valkyrie.language.dialect_std.ValkyrieFileType
 
 /**
  * Valkyrie 代码样式主面板

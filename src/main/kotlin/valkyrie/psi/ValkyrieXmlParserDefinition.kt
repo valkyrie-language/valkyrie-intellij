@@ -11,10 +11,10 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import com.intellij.psi.xml.XmlTokenType
-import valkyrie.language.ValkyrieXmlLanguage
+import valkyrie.language.dialect_xml.ValkyrieXmlLanguage
 import valkyrie.psi.lexers.ValkyrieTokenTypes
-import valkyrie.psi.lexers.ValkyrieXmlLexer
-import valkyrie.psi.nodes.ValkyrieXmlFileNode
+import valkyrie.language.dialect_xml.ValkyrieXmlLexer
+import valkyrie.language.dialect_xml.ValkyrieXmlFileNode
 import valkyrie.psi.parsers.ValkyrieParser
 
 /**

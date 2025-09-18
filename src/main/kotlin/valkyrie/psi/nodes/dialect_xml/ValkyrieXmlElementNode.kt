@@ -1,4 +1,4 @@
-package valkyrie.psi.nodes
+package valkyrie.psi.nodes.dialect_xml
 
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement

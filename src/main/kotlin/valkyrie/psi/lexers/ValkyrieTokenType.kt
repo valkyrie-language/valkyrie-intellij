@@ -1,7 +1,7 @@
 package valkyrie.psi.lexers
 
 import com.intellij.psi.tree.IElementType
-import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.dialect_std.ValkyrieLanguage
 
 /**
  * Valkyrie Token 类型定义

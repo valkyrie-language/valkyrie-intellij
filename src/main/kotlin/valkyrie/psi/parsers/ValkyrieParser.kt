@@ -5,6 +5,9 @@ import com.intellij.lang.PsiBuilder
 import com.intellij.lang.PsiParser
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.xml.XmlTokenType
+import valkyrie.language.dialect_sfc.parseSfcScriptStatement
+import valkyrie.language.dialect_sfc.parseSfcStyleStatement
+import valkyrie.language.dialect_sfc.parseSfcTemplateStatement
 import valkyrie.psi.ValkyrieElementType
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.lexers.ValkyrieTokenType

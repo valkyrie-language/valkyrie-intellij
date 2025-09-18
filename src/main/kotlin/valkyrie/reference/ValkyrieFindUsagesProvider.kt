@@ -6,7 +6,7 @@ import com.intellij.lang.findUsages.FindUsagesProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.tree.TokenSet
-import valkyrie.psi.lexers.ValkyrieStandardLexer
+import valkyrie.language.dialect_std.ValkyrieStandardLexer
 import valkyrie.psi.lexers.ValkyrieTokenTypes
 import valkyrie.psi.nodes.ValkyrieIdentifierNode
 

@@ -1,9 +1,11 @@
-package valkyrie.psi.parsers
+package valkyrie.language.dialect_sfc
 
 import com.intellij.lang.PsiBuilder
+import com.intellij.psi.tree.IElementType
 import com.intellij.psi.xml.XmlTokenType
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieParser
 
 /**
  * 解析 SFC template 语句
@@ -101,7 +103,7 @@ fun parseSfcScriptStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolea
 /**
  * 解析XML标签的通用方法
  */
-private fun parseXmlTag(parser: ValkyrieParser, builder: PsiBuilder, elementType: com.intellij.psi.tree.IElementType) {
+private fun parseXmlTag(parser: ValkyrieParser, builder: PsiBuilder, elementType: IElementType) {
     val marker = builder.mark()
     
     // 解析开始标签

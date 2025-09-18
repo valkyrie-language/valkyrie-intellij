@@ -1,7 +1,10 @@
-package valkyrie.psi.lexers
+package valkyrie.language.dialect_sfc
 
 import com.intellij.psi.TokenType.BAD_CHARACTER
 import com.intellij.psi.xml.XmlTokenType
+import valkyrie.psi.lexers.LexerFlavor
+import valkyrie.psi.lexers.ValkyrieLexerBase
+import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 /**
  * Valkyrie Single File Component (.vkc) 词法分析器
