@@ -78,7 +78,7 @@ fun parseGenericParameterItem(valkyrieParser: ValkyrieParser, builder: PsiBuilde
     // 解析注解和修饰符
     valkyrieParser.parseAnnotations(builder, withModifiers = true)
     // 解析标识符
-    if (!valkyrieParser.parseIdentifier(builder)) {
+    if (!parseIdentifier(builder)) {
         marker.error("Expected type parameter name")
         return false
     }
@@ -209,7 +209,7 @@ fun parseTypeExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
                     // 情况 2: A::C, 是一个路径段
                     else if (isIdentifier(lookAhead)) {
                         builder.advanceLexer() // 吃掉 '::' 再解析 id
-                        if (!valkyrieParser.parseIdentifier(builder)) {
+                        if (!parseIdentifier(builder)) {
                             builder.error("在 '::' 后需要一个路径标识符")
                         }
                     }
@@ -312,7 +312,7 @@ private fun parseParenthesisType(parser: ValkyrieParser, builder: PsiBuilder): B
     val firstItemMarker = builder.mark()
     val isNamed = isIdentifier(builder) && builder.lookAhead(1) == ValkyrieTokenTypes.COLON
     if (isNamed) {
-        parser.parseIdentifier(builder)
+        parseIdentifier(builder)
         // 吃掉 ':'
         builder.advanceLexer()
     }
@@ -344,7 +344,7 @@ private fun parseParenthesisType(parser: ValkyrieParser, builder: PsiBuilder): B
 
         val itemMarker = builder.mark()
         if (isIdentifier(builder) && builder.lookAhead(1) == ValkyrieTokenTypes.COLON) {
-            parser.parseIdentifier(builder)
+            parseIdentifier(builder)
             // 吃掉 ':'
             builder.advanceLexer()
         }
@@ -385,7 +385,7 @@ private fun parseBracketType(parser: ValkyrieParser, builder: PsiBuilder): Boole
     val firstItemMarker = builder.mark()
     val isNamed = isIdentifier(builder) && builder.lookAhead(1) == ValkyrieTokenTypes.COLON
     if (isNamed) {
-        parser.parseIdentifier(builder)
+        parseIdentifier(builder)
         // 吃掉 ':'
         builder.advanceLexer()
     }
@@ -434,7 +434,7 @@ private fun parseBracketType(parser: ValkyrieParser, builder: PsiBuilder): Boole
 
                 val itemMarker = builder.mark()
                 if (isIdentifier(builder) && builder.lookAhead(1) == ValkyrieTokenTypes.COLON) {
-                    parser.parseIdentifier(builder)
+                    parseIdentifier(builder)
                     builder.advanceLexer()
                 }
                 if (!parseTypeExpression(parser, builder, true)) {

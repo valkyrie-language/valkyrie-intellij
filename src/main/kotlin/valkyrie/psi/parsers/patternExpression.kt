@@ -18,7 +18,7 @@ fun parsePattern(valkyrieParser: ValkyrieParser, builder: PsiBuilder, allowBare:
 fun parseBarePattern(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
     valkyrieParser.parseModifierList(builder)
-    if (!valkyrieParser.parseIdentifier(builder)) {
+    if (!parseIdentifier(builder)) {
         marker.rollbackTo()
         return false
     }
@@ -40,12 +40,12 @@ fun parseTablePattern(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Bool
         // Handle rest pattern ..rest
         if (builder.tokenType == ValkyrieTokenTypes.DOT_DOT) {
             builder.advanceLexer() // consume '..'
-            if (!valkyrieParser.parseIdentifier(builder)) {
+            if (!parseIdentifier(builder)) {
                 marker.error("Expected identifier after '..'")
                 return false
             }
         } else if (!parsePattern(valkyrieParser, builder, true)) {
-            if (!valkyrieParser.parseIdentifier(builder)) {
+            if (!parseIdentifier(builder)) {
                 marker.error("Expected pattern or identifier")
                 return false
             }
@@ -79,7 +79,7 @@ fun parseTuplePattern(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Bool
     // Parse pattern list
     while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.PARENTHESIS_R) {
         if (!parsePattern(valkyrieParser, builder, true)) {
-            if (!valkyrieParser.parseIdentifier(builder)) {
+            if (!parseIdentifier(builder)) {
                 marker.error("Expected pattern or identifier")
                 return false
             }
@@ -116,10 +116,10 @@ fun parseObjectPattern(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boo
         if (builder.tokenType == ValkyrieTokenTypes.DOT_DOT) {
             builder.advanceLexer() // consume '..'
             // Optional identifier after ..
-            valkyrieParser.parseIdentifier(builder)
+            parseIdentifier(builder)
         } else {
             // Parse field pattern: identifier or identifier: pattern
-            if (!valkyrieParser.parseIdentifier(builder)) {
+            if (!parseIdentifier(builder)) {
                 marker.error("Expected field name")
                 return false
             }
@@ -128,7 +128,7 @@ fun parseObjectPattern(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boo
             if (builder.tokenType == ValkyrieTokenTypes.COLON) {
                 builder.advanceLexer() // consume ':'
                 if (!parsePattern(valkyrieParser, builder, true)) {
-                    if (!valkyrieParser.parseIdentifier(builder)) {
+                    if (!parseIdentifier(builder)) {
                         marker.error("Expected pattern after ':'")
                         return false
                     }

@@ -19,11 +19,11 @@ class ValkyrieSfcParser : ValkyrieParser() {
     override fun parse(root: IElementType, builder: PsiBuilder): ASTNode {
         builder.setDebugMode(true)
         val rootMarker = builder.mark()
-        
+
         // 专门处理SFC文件的解析逻辑
         while (!builder.eof()) {
             val initialPosition = builder.currentOffset
-            
+
             // 尝试解析SFC特定的语句
             val parsed = when {
                 // 解析template标签
@@ -50,15 +50,20 @@ class ValkyrieSfcParser : ValkyrieParser() {
                 }
                 // 处理其他XML内容
                 builder.tokenType == XmlTokenType.XML_DATA_CHARACTERS -> {
+                    val marker = builder.mark()
                     builder.advanceLexer()
+                    marker.done(ValkyrieElementTypes.XML_TEXT_NODE)
                     true
                 }
                 // 尝试使用父类的parseStatement方法
                 else -> {
-                    parseStatement(builder)
+                    val marker = builder.mark()
+                    builder.advanceLexer()
+                    marker.error("Unexpected token")
+                    true
                 }
             }
-            
+
             // 如果没有任何进展，强制前进一个token避免无限循环
             if (builder.currentOffset == initialPosition) {
                 if (!builder.eof()) {
@@ -66,7 +71,7 @@ class ValkyrieSfcParser : ValkyrieParser() {
                 }
             }
         }
-        
+
         rootMarker.done(root)
         return builder.treeBuilt
     }
@@ -116,11 +121,11 @@ class ValkyrieSfcParser : ValkyrieParser() {
         if (builder.tokenType != XmlTokenType.XML_START_TAG_START) {
             return false
         }
-        
+
         val nextToken = builder.lookAhead(1)
         return when (nextToken) {
             ValkyrieTokenTypes.XML_TEMPLATE -> true
-            XmlTokenType.XML_NAME -> {
+            XmlTokenType.XML_TAG_NAME -> {
                 // 检查标签名是否为"template"
                 val marker = builder.mark()
                 builder.advanceLexer() // 跳过 '<'
@@ -139,11 +144,11 @@ class ValkyrieSfcParser : ValkyrieParser() {
         if (builder.tokenType != XmlTokenType.XML_START_TAG_START) {
             return false
         }
-        
+
         val nextToken = builder.lookAhead(1)
         return when (nextToken) {
             ValkyrieTokenTypes.XML_SCRIPT -> true
-            XmlTokenType.XML_NAME -> {
+            XmlTokenType.XML_TAG_NAME -> {
                 val marker = builder.mark()
                 builder.advanceLexer() // 跳过 '<'
                 val tagName = builder.tokenText
@@ -161,11 +166,11 @@ class ValkyrieSfcParser : ValkyrieParser() {
         if (builder.tokenType != XmlTokenType.XML_START_TAG_START) {
             return false
         }
-        
+
         val nextToken = builder.lookAhead(1)
         return when (nextToken) {
             ValkyrieTokenTypes.XML_STYLE -> true
-            XmlTokenType.XML_NAME -> {
+            XmlTokenType.XML_TAG_NAME -> {
                 val marker = builder.mark()
                 builder.advanceLexer() // 跳过 '<'
                 val tagName = builder.tokenText

@@ -11,6 +11,7 @@ import valkyrie.psi.nodes.dialect_xml.ValkyrieXmlAttributeNode
 import valkyrie.psi.nodes.dialect_xml.ValkyrieXmlElementNode
 import valkyrie.psi.nodes.dialect_xml.ValkyrieXmlSlotExpressionNode
 import valkyrie.psi.nodes.dialect_xml.ValkyrieXmlTextNode
+import valkyrie.psi.nodes.dialect_sfc.ValkyrieSfcTemplateNode
 
 /**
  * Valkyrie PSI 元素工厂
@@ -115,7 +116,7 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.XML_TEXT_NODE -> ValkyrieXmlTextNode(node)
             ValkyrieElementTypes.XML_SLOT_EXPRESSION -> ValkyrieXmlSlotExpressionNode(node)
             // SFC 相关节点
-            ValkyrieElementTypes.SFC_TEMPLATE -> ValkyrieElementNode(node)
+            ValkyrieElementTypes.SFC_TEMPLATE -> ValkyrieSfcTemplateNode(node)
             ValkyrieElementTypes.SFC_SCRIPT -> ValkyrieElementNode(node)
             ValkyrieElementTypes.SFC_STYLE -> ValkyrieElementNode(node)
             ValkyrieElementTypes.SFC_COMPONENT -> ValkyrieElementNode(node)

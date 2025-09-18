@@ -15,8 +15,7 @@ plugins {
     alias(libs.plugins.changelog)
     id("org.jetbrains.qodana") version "2025.2.1"
     alias(libs.plugins.kover)
-    id("org.jetbrains.intellij.platform") version "2.9.0"
-    id("org.jetbrains.intellij.platform.module") version "2.9.0"
+    id("org.jetbrains.intellij.platform")
 }
 repositories {
     mavenCentral()

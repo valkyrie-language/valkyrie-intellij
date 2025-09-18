@@ -304,6 +304,9 @@ object ValkyrieElementTypes {
     val CONTINUE_STATEMENT = ValkyrieElementType("CONTINUE_STATEMENT")
 
     @JvmField
+    val FALLTHROUGH_STATEMENT = ValkyrieElementType("FALLTHROUGH_STATEMENT")
+
+    @JvmField
     val YIELD_STATEMENT = ValkyrieElementType("YIELD_STATEMENT")
 
     @JvmField

@@ -62,7 +62,7 @@ fun parseFunctionParameterItem(valkyrieParser: ValkyrieParser, builder: PsiBuild
     }
 
     // 解析参数名
-    if (!valkyrieParser.parseIdentifier(builder)) {
+    if (!parseIdentifier(builder)) {
         builder.error("Expected parameter name")
         marker.rollbackTo()
         return false
@@ -116,7 +116,7 @@ fun parseFunctionArgumentItem(valkyrieParser: ValkyrieParser, builder: PsiBuilde
 
     // 可选的参数名
     val rollbackMarker = builder.mark()
-    if (valkyrieParser.parseIdentifier(builder) && builder.tokenType == ValkyrieTokenTypes.COLON) {
+    if (parseIdentifier(builder) && builder.tokenType == ValkyrieTokenTypes.COLON) {
         rollbackMarker.drop()
         // consume ':'
         builder.advanceLexer()
@@ -243,7 +243,7 @@ fun parseTermExpressionWithPrecedence(
 
                 ValkyrieTokenTypes.DOT -> {
                     builder.advanceLexer() // consume '.'
-                    valkyrieParser.parseIdentifier(builder)
+                    parseIdentifier(builder)
                     lhs.done(ValkyrieElementTypes.EXPRESSION) // 或者更具体的 MEMBER_ACCESS_EXPRESSION
                 }
                 // ... 其他后缀情况 ...
@@ -367,7 +367,7 @@ fun parsePrimaryTerm(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolea
         }
 
         else -> {
-            false
+            parseLoopStatement(parser, builder)
         }
     }
 }
