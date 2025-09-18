@@ -9,22 +9,20 @@ class DetailedSfcParsingTest : ParsingTestCase("", "vkc", ValkyrieSfcParserDefin
 
     fun testDetailedSfcStructure() {
         val code = """
-            <template>
-                <div class="container">
-                    <h1>{{ title }}</h1>
-                    <p>Hello World</p>
-                </div>
-            </template>
-            
-            <script>
+<template>
+    <div class="container">
+        <h1>{{ title }}</h1>
+        <p>Hello World</p>
+    </div>
+</template>
+<style>
+    .container {
+        padding: 20px;
+    }
+</style>
+<script>
 
-            </script>
-            
-            <style>
-                .container {
-                    padding: 20px;
-                }
-            </style>
+</script>
         """.trimIndent()
         
         val psiFile = createPsiFile("detailed_test.vkc", code)
