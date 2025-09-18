@@ -1,4 +1,7 @@
-package valkyrie.psi.lexers
+package valkyrie.language.dialect_std
+
+import valkyrie.psi.lexers.LexerFlavor
+import valkyrie.psi.lexers.ValkyrieLexerBase
 
 /**
  * 标准 Valkyrie 词法分析器

@@ -8,7 +8,6 @@ import com.intellij.psi.PsiManager
 // 移除了 FileTypeIndex 和 GlobalSearchScope 的导入以避免索引冲突
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.openapi.application.ReadAction
-import valkyrie.language.file.ValkyrieFileType
 import valkyrie.psi.nodes.ValkyrieNamespaceDeclaration
 import valkyrie.psi.nodes.ValkyrieUsingStatement
 import valkyrie.psi.nodes.ValkyrieLetStatementNode

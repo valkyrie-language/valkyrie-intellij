@@ -10,8 +10,8 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
-import valkyrie.language.ValkyrieMarkLanguage
-import valkyrie.psi.lexers.ValkyrieMarkupLexer
+import valkyrie.language.dialect_markup.ValkyrieMarkLanguage
+import valkyrie.language.dialect_markup.ValkyrieMarkupLexer
 import valkyrie.psi.lexers.ValkyrieTokenTypes
 import valkyrie.psi.nodes.ValkyrieFileNode
 import valkyrie.psi.parsers.ValkyrieParser

@@ -11,10 +11,10 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import com.intellij.psi.xml.XmlTokenType
-import valkyrie.language.ValkyrieComponentLanguage
-import valkyrie.psi.lexers.ValkyrieSfcLexer
+import valkyrie.language.dialect_sfc.ValkyrieSfcLanguage
+import valkyrie.language.dialect_sfc.ValkyrieSfcLexer
 import valkyrie.psi.lexers.ValkyrieTokenTypes
-import valkyrie.psi.nodes.ValkyrieSfcFileNode
+import valkyrie.language.dialect_sfc.ValkyrieSfcFileNode
 import valkyrie.psi.parsers.ValkyrieSfcParser
 
 /**
@@ -23,7 +23,7 @@ import valkyrie.psi.parsers.ValkyrieSfcParser
 class ValkyrieSfcParserDefinition : ParserDefinition {
 
     companion object {
-        val FILE = IFileElementType("Valkyrie Component File", ValkyrieComponentLanguage)
+        val FILE = IFileElementType("Valkyrie Component File", ValkyrieSfcLanguage)
         val STRING_LITERALS = TokenSet.create(ValkyrieTokenTypes.STRING_DQ, ValkyrieTokenTypes.STRING_MQ)
     }
 

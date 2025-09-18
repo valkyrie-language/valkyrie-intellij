@@ -5,7 +5,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiFile
 import com.intellij.psi.codeStyle.CodeStyleSettings
-import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.dialect_std.ValkyrieLanguage
 import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 /**

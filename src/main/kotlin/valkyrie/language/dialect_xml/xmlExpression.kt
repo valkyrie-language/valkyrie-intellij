@@ -1,9 +1,11 @@
-package valkyrie.psi.parsers
+package valkyrie.language.dialect_xml
 
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.xml.XmlTokenType
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieParser
+import valkyrie.psi.parsers.parseTermExpression
 
 /**
  * 解析XML元素

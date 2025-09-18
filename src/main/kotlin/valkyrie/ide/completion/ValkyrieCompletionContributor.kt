@@ -4,7 +4,7 @@ import com.intellij.codeInsight.completion.*
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.util.ProcessingContext
-import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.dialect_std.ValkyrieLanguage
 import valkyrie.psi.nodes.ValkyrieIdentifierNode
 import valkyrie.psi.nodes.ValkyrieCallExpressionNode
 import valkyrie.index.ValkyrieSymbolIndex

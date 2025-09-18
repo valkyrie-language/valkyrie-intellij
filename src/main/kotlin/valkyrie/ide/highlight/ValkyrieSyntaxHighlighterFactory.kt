@@ -10,12 +10,12 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.xml.XmlTokenType
-import valkyrie.language.file.ValkyrieSfcFileType
-import valkyrie.language.file.ValkyrieXmlFileType
-import valkyrie.psi.lexers.ValkyrieSfcLexer
-import valkyrie.psi.lexers.ValkyrieStandardLexer
+import valkyrie.language.dialect_sfc.ValkyrieSfcFileType
+import valkyrie.language.dialect_xml.ValkyrieXmlFileType
+import valkyrie.language.dialect_sfc.ValkyrieSfcLexer
+import valkyrie.language.dialect_std.ValkyrieStandardLexer
 import valkyrie.psi.lexers.ValkyrieTokenTypes
-import valkyrie.psi.lexers.ValkyrieXmlLexer
+import valkyrie.language.dialect_xml.ValkyrieXmlLexer
 
 class ValkyrieSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
     companion object {
