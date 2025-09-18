@@ -22,8 +22,4 @@ class SfcParserTest : ParsingTestCase("testData/parser/sfc", "vkc", ValkyrieSfcP
     override fun skipSpaces(): Boolean {
         return false
     }
-
-    override fun includeRanges(): Boolean {
-        return true
-    }
 }

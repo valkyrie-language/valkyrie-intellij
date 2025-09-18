@@ -27,8 +27,4 @@ class ControlFlowTest : ParsingTestCase("testData/parser/control_flow", "vk", Va
     override fun skipSpaces(): Boolean {
         return true
     }
-
-    override fun includeRanges(): Boolean {
-        return true
-    }
 }

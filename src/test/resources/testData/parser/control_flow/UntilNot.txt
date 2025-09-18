@@ -1,69 +1,69 @@
-Valkyrie File(0,191)
-  PsiErrorElement:Expected expression(0,0)
+Valkyrie File
+  PsiErrorElement:Expected expression
     <empty list>
-  PsiComment(ValkyrieTokenType.#)('# 测试简单 until not 语句')(0,19)
-  PsiElement(ValkyrieTokenType.until)('until')(20,25)
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('not')(26,29)
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('pattern')(30,37)
-  PsiElement(ValkyrieTokenType.=)('=')(38,39)
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')(40,50)
-  PsiElement(ValkyrieTokenType.{)('{')(51,52)
-  PsiErrorElement:Expected expression(52,52)
+  PsiComment(ValkyrieTokenType.#)('# 测试简单 until not 语句')
+  PsiElement(ValkyrieTokenType.until)('until')
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('not')
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('pattern')
+  PsiElement(ValkyrieTokenType.=)('=')
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')
+  PsiElement(ValkyrieTokenType.{)('{')
+  PsiErrorElement:Expected expression
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}(52,52)
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
     <empty list>
-  PsiElement(ValkyrieTokenType.})('}')(52,53)
-  PsiErrorElement:Expected expression(53,53)
+  PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Expected expression
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;(53,53)
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
     <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')(53,54)
-  PsiErrorElement:Expected expression(54,54)
+  PsiElement(ValkyrieTokenType.;)(';')
+  PsiErrorElement:Expected expression
     <empty list>
-  PsiComment(ValkyrieTokenType.#)('# 测试带标签的 until not 语句')(56,77)
-  PsiElement(ValkyrieTokenType.until)('until')(78,83)
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('not')(84,87)
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('pattern')(88,95)
-  PsiElement(ValkyrieTokenType.=)('=')(96,97)
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')(98,108)
-  PsiElement(ValkyrieTokenType.※)('※')(109,110)
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('label')(110,115)
-  PsiElement(ValkyrieTokenType.{)('{')(116,117)
-  PsiErrorElement:Expected expression(117,117)
+  PsiComment(ValkyrieTokenType.#)('# 测试带标签的 until not 语句')
+  PsiElement(ValkyrieTokenType.until)('until')
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('not')
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('pattern')
+  PsiElement(ValkyrieTokenType.=)('=')
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')
+  PsiElement(ValkyrieTokenType.※)('※')
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('label')
+  PsiElement(ValkyrieTokenType.{)('{')
+  PsiErrorElement:Expected expression
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}(117,117)
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
     <empty list>
-  PsiElement(ValkyrieTokenType.})('}')(118,119)
-  PsiErrorElement:Expected expression(119,119)
+  PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Expected expression
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;(119,119)
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
     <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')(119,120)
-  PsiErrorElement:Expected expression(120,120)
+  PsiElement(ValkyrieTokenType.;)(';')
+  PsiErrorElement:Expected expression
     <empty list>
-  PsiComment(ValkyrieTokenType.#)('# 测试 until not-else 语句')(122,144)
-  PsiElement(ValkyrieTokenType.until)('until')(145,150)
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('not')(151,154)
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('pattern')(155,162)
-  PsiElement(ValkyrieTokenType.=)('=')(163,164)
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')(165,175)
-  PsiElement(ValkyrieTokenType.{)('{')(176,177)
-  PsiErrorElement:Expected expression(177,177)
+  PsiComment(ValkyrieTokenType.#)('# 测试 until not-else 语句')
+  PsiElement(ValkyrieTokenType.until)('until')
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('not')
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('pattern')
+  PsiElement(ValkyrieTokenType.=)('=')
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')
+  PsiElement(ValkyrieTokenType.{)('{')
+  PsiErrorElement:Expected expression
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}(177,177)
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
     <empty list>
-  PsiElement(ValkyrieTokenType.})('}')(179,180)
-  PsiErrorElement:Expected expression(180,180)
+  PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Expected expression
     <empty list>
-  PsiElement(ValkyrieTokenType.else)('else')(181,185)
-  PsiElement(ValkyrieTokenType.{)('{')(186,187)
-  PsiErrorElement:Expected expression(187,187)
+  PsiElement(ValkyrieTokenType.else)('else')
+  PsiElement(ValkyrieTokenType.{)('{')
+  PsiErrorElement:Expected expression
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}(187,187)
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
     <empty list>
-  PsiElement(ValkyrieTokenType.})('}')(189,190)
-  PsiErrorElement:Expected expression(190,190)
+  PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Expected expression
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;(190,190)
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
     <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')(190,191)
+  PsiElement(ValkyrieTokenType.;)(';')
