@@ -1,12 +1,14 @@
 package valkyrie.psi
 
 import com.intellij.lang.ASTNode
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.language.dialect_std.ValkyrieLanguage
 import valkyrie.psi.nodes.*
+import valkyrie.psi.nodes.dialect_sfc.ValkyrieSfcTemplateNode
 import valkyrie.psi.nodes.dialect_xml.ValkyrieXmlAttributeNode
 import valkyrie.psi.nodes.dialect_xml.ValkyrieXmlElementNode
 import valkyrie.psi.nodes.dialect_xml.ValkyrieXmlSlotExpressionNode
@@ -16,12 +18,42 @@ import valkyrie.psi.nodes.dialect_xml.ValkyrieXmlTextNode
  * Valkyrie PSI 元素工厂
  */
 object ValkyrieElementFactory {
+    private val LOG = Logger.getInstance(ValkyrieElementFactory::class.java)
+
     /**
      * 获取工厂实例
      */
     fun getInstance(project: Project): ValkyrieElementFactory = this
 
+
+    /**
+     * 从文本创建表达式
+     */
+    fun createExpressionFromText(text: String, project: Project): PsiElement? {
+        val dummyFile = PsiFileFactory.getInstance(project)
+            .createFileFromText("dummy.vk", ValkyrieLanguage, "let dummy = $text") as? ValkyrieFileNode
+
+        return dummyFile?.let { file ->
+            PsiTreeUtil.findChildOfType(file, PsiElement::class.java)
+        }
+    }
+
+    /**
+     * 创建标识符节点
+     */
+    fun createIdentifier(project: Project, name: String): ValkyrieIdentifierNode {
+        val fileText = "let $name = 1"
+        val file = PsiFileFactory.getInstance(project)
+            .createFileFromText("dummy.vk", ValkyrieLanguage, fileText) as ValkyrieFileNode
+
+        // 查找标识符节点
+        val identifiers = PsiTreeUtil.findChildrenOfType(file, ValkyrieIdentifierNode::class.java)
+        return identifiers.firstOrNull { it.getName() == name }
+            ?: throw IllegalStateException("Could not create identifier: $name")
+    }
+
     fun createElement(node: ASTNode): PsiElement {
+        LOG.info("ValkyrieElementFactory.createElement: ${node.elementType}")
         return when (node.elementType) {
             ValkyrieElementTypes.FILE -> ValkyrieElementNode(node)
             ValkyrieElementTypes.STATEMENT -> ValkyrieElementNode(node)
@@ -115,7 +147,7 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.XML_TEXT_NODE -> ValkyrieXmlTextNode(node)
             ValkyrieElementTypes.XML_SLOT_EXPRESSION -> ValkyrieXmlSlotExpressionNode(node)
             // SFC 相关节点
-            ValkyrieElementTypes.SFC_TEMPLATE -> ValkyrieElementNode(node)
+            ValkyrieElementTypes.SFC_TEMPLATE -> ValkyrieSfcTemplateNode(node)
             ValkyrieElementTypes.SFC_SCRIPT -> ValkyrieElementNode(node)
             ValkyrieElementTypes.SFC_STYLE -> ValkyrieElementNode(node)
             ValkyrieElementTypes.SFC_COMPONENT -> ValkyrieElementNode(node)
@@ -123,33 +155,4 @@ object ValkyrieElementFactory {
         }
     }
 
-    /**
-     * 从文本创建表达式
-     */
-    fun createExpressionFromText(text: String, project: Project): PsiElement? {
-        val dummyFile = PsiFileFactory.getInstance(project)
-            .createFileFromText(
-                "dummy.vk",
-                ValkyrieLanguage,
-                "let dummy = $text"
-            ) as? ValkyrieFileNode
-
-        return dummyFile?.let { file ->
-            PsiTreeUtil.findChildOfType(file, PsiElement::class.java)
-        }
-    }
-
-    /**
-     * 创建标识符节点
-     */
-    fun createIdentifier(project: Project, name: String): ValkyrieIdentifierNode {
-        val fileText = "let $name = 1"
-        val file = PsiFileFactory.getInstance(project)
-            .createFileFromText("dummy.vk", ValkyrieLanguage, fileText) as ValkyrieFileNode
-
-        // 查找标识符节点
-        val identifiers = PsiTreeUtil.findChildrenOfType(file, ValkyrieIdentifierNode::class.java)
-        return identifiers.firstOrNull { it.getName() == name }
-            ?: throw IllegalStateException("Could not create identifier: $name")
-    }
 }
