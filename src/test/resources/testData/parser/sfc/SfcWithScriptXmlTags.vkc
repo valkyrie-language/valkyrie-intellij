@@ -1,0 +1,23 @@
+<template package::module::ComName>
+  <div>
+    test {slots} text
+  </div>
+  <br>
+  # 模板无效行注释
+  <!-- 模板有效块注释 -->
+</template>
+<style lang="scss">
+div {
+
+}
+</style>
+# 内部无效行注释
+<!-- 内部有效块注释 -->
+<script content="server" lang="tsx">
+# 有效行注释
+code
+let node = <hr> + <hr/>
+<!-- 内部有效块注释 -->
+</script>
+
+bad text

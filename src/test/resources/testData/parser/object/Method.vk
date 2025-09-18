@@ -1,5 +1,4 @@
-# 这是一个类定义
-class MyClass {
+class {
     # 简单微方法声明
     micro myMethod1() {}
     # 带有参数的微方法
@@ -12,6 +11,5 @@ class MyClass {
     ↯attribute micro myMethod5() {}
     # 带有多个属性的微方法
     ↯[attribute2, attribute3] micro myMethod6() {}
-    # 带有修饰符的微方法
     modifier micro myMethod7() {}
 }

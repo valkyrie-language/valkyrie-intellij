@@ -44,7 +44,7 @@
 			name="valkyrie-component"
 			language="valkyrie-component"
 			extensions="vkc;"
-			implementationClass="valkyrie.language.file.ValkyrieComponentFileType"
+			implementationClass="valkyrie.language.file.ValkyrieSfcFileType"
 			fieldName="INSTANCE"
 		/>
 
