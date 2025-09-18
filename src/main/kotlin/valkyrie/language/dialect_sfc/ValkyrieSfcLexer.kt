@@ -25,7 +25,8 @@ class ValkyrieSfcLexer : ValkyrieLexerBase(LexerFlavor.COMPONENT) {
     private var currentForeignTag: String? = null
 
     private val sfcKeywords = super.keywords.toMutableMap().apply {
-        put("props", ValkyrieTokenTypes.SFC_PROPS)
+        put("properties", ValkyrieTokenTypes.SFC_PROPERTY)
+        put("props", ValkyrieTokenTypes.SFC_PROPERTY)
         put("emits", ValkyrieTokenTypes.SFC_EMITS)
     }
 
