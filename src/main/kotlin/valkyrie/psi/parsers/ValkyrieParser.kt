@@ -1144,7 +1144,12 @@ open class ValkyrieParser : PsiParser {
     fun parseUntilStatement(builder: PsiBuilder): Boolean {
         if (builder.tokenType != ValkyrieTokenTypes.UNTIL) return false
         val marker = builder.mark()
-
+        builder.advanceLexer() // consume 'until'
+        
+        // 解析条件表达式
+        parseTermExpression(this, builder, inline = false)
+        
+        // 解析循环体
         parseFnBody(builder)
         marker.done(ValkyrieElementTypes.UNTIL_STATEMENT)
         return true
@@ -1153,7 +1158,12 @@ open class ValkyrieParser : PsiParser {
     fun parseWhileStatement(builder: PsiBuilder): Boolean {
         if (builder.tokenType != ValkyrieTokenTypes.WHILE) return false
         val marker = builder.mark()
+        builder.advanceLexer() // consume 'while'
+        
+        // 解析条件表达式
+        parseTermExpression(this, builder, inline = false)
 
+        // 解析循环体
         parseFnBody(builder)
 
         marker.done(ValkyrieElementTypes.WHILE_STATEMENT)

@@ -7,7 +7,7 @@ import valkyrie.psi.lexers.ValkyrieTokenTypes
 fun parseLoopStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
     if (builder.tokenType == ValkyrieTokenTypes.LOOP) {
-        builder.advanceLexer() // consume 'loop'
+        builder.advanceLexer() // consume 'loop' or 'for'
     } else {
         marker.rollbackTo()
         return false
@@ -15,22 +15,23 @@ fun parseLoopStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
 
     var hasPattern = false;
     if (parsePattern(parser, builder, true)) {
-        builder.consumeKeyword(ValkyrieTokenTypes.IN) // must
-        parseTermExpression(parser, builder, inline = false) // must
-
-        hasPattern = true
+        if (builder.tokenType == ValkyrieTokenTypes.IN) {
+            builder.advanceLexer() // consume 'in'
+            parseTermExpression(parser, builder, inline = false) // must
+            hasPattern = true
+        }
     }
     // 可选 label
     parseLabelMark(builder)
     // 解析循环体 - 必须是块语句
     if (!parser.parseFnBody(builder)) {
-        builder.error("Expected '{' after 'loop'")
+        builder.error("Expected '{' after loop keyword")
     }
     parser.parseElseStatement(builder)
     if (hasPattern) {
-        marker.done(ValkyrieElementTypes.LOOP_STATEMENT)
-    } else {
         marker.done(ValkyrieElementTypes.EACH_STATEMENT)
+    } else {
+        marker.done(ValkyrieElementTypes.LOOP_STATEMENT)
     }
     return true
 }

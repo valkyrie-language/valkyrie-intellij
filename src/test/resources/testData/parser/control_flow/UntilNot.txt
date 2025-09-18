@@ -1,95 +1,69 @@
-Valkyrie File
-  PsiErrorElement:Expected expression
+Valkyrie File(0,191)
+  PsiErrorElement:Expected expression(0,0)
     <empty list>
-  PsiComment(ValkyrieTokenType.#)('# 测试简单 until not 语句')
-  PsiWhiteSpace('\n')
-  PsiElement(ValkyrieTokenType.until)('until')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('not')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('pattern')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.=)('=')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.{)('{')
-  PsiErrorElement:Expected expression
+  PsiComment(ValkyrieTokenType.#)('# 测试简单 until not 语句')(0,19)
+  PsiElement(ValkyrieTokenType.until)('until')(20,25)
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('not')(26,29)
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('pattern')(30,37)
+  PsiElement(ValkyrieTokenType.=)('=')(38,39)
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')(40,50)
+  PsiElement(ValkyrieTokenType.{)('{')(51,52)
+  PsiErrorElement:Expected expression(52,52)
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}(52,52)
     <empty list>
-  PsiElement(ValkyrieTokenType.})('}')
-  PsiErrorElement:Expected expression
+  PsiElement(ValkyrieTokenType.})('}')(52,53)
+  PsiErrorElement:Expected expression(53,53)
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;(53,53)
     <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
+  PsiElement(ValkyrieTokenType.;)(';')(53,54)
+  PsiErrorElement:Expected expression(54,54)
     <empty list>
-  PsiWhiteSpace('\n\n')
-  PsiComment(ValkyrieTokenType.#)('# 测试带标签的 until not 语句')
-  PsiWhiteSpace('\n')
-  PsiElement(ValkyrieTokenType.until)('until')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('not')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('pattern')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.=)('=')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.※)('※')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('label')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.{)('{')
-  PsiErrorElement:Expected expression
+  PsiComment(ValkyrieTokenType.#)('# 测试带标签的 until not 语句')(56,77)
+  PsiElement(ValkyrieTokenType.until)('until')(78,83)
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('not')(84,87)
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('pattern')(88,95)
+  PsiElement(ValkyrieTokenType.=)('=')(96,97)
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')(98,108)
+  PsiElement(ValkyrieTokenType.※)('※')(109,110)
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('label')(110,115)
+  PsiElement(ValkyrieTokenType.{)('{')(116,117)
+  PsiErrorElement:Expected expression(117,117)
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}(117,117)
     <empty list>
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.})('}')
-  PsiErrorElement:Expected expression
+  PsiElement(ValkyrieTokenType.})('}')(118,119)
+  PsiErrorElement:Expected expression(119,119)
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;(119,119)
     <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
+  PsiElement(ValkyrieTokenType.;)(';')(119,120)
+  PsiErrorElement:Expected expression(120,120)
     <empty list>
-  PsiWhiteSpace('\n\n')
-  PsiComment(ValkyrieTokenType.#)('# 测试 until not-else 语句')
-  PsiWhiteSpace('\n')
-  PsiElement(ValkyrieTokenType.until)('until')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('not')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('pattern')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.=)('=')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.{)('{')
-  PsiErrorElement:Expected expression
+  PsiComment(ValkyrieTokenType.#)('# 测试 until not-else 语句')(122,144)
+  PsiElement(ValkyrieTokenType.until)('until')(145,150)
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('not')(151,154)
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('pattern')(155,162)
+  PsiElement(ValkyrieTokenType.=)('=')(163,164)
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')(165,175)
+  PsiElement(ValkyrieTokenType.{)('{')(176,177)
+  PsiErrorElement:Expected expression(177,177)
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}(177,177)
     <empty list>
-  PsiWhiteSpace('\n\n')
-  PsiElement(ValkyrieTokenType.})('}')
-  PsiErrorElement:Expected expression
+  PsiElement(ValkyrieTokenType.})('}')(179,180)
+  PsiErrorElement:Expected expression(180,180)
     <empty list>
-  PsiWhiteSpace('\n')
-  PsiElement(ValkyrieTokenType.else)('else')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.{)('{')
-  PsiErrorElement:Expected expression
+  PsiElement(ValkyrieTokenType.else)('else')(181,185)
+  PsiElement(ValkyrieTokenType.{)('{')(186,187)
+  PsiErrorElement:Expected expression(187,187)
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}(187,187)
     <empty list>
-  PsiWhiteSpace('\n\n')
-  PsiElement(ValkyrieTokenType.})('}')
-  PsiErrorElement:Expected expression
+  PsiElement(ValkyrieTokenType.})('}')(189,190)
+  PsiErrorElement:Expected expression(190,190)
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;(190,190)
     <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
+  PsiElement(ValkyrieTokenType.;)(';')(190,191)
