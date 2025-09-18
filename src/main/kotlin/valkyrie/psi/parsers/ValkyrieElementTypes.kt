@@ -1,9 +1,15 @@
 package valkyrie.psi
 
+import com.intellij.psi.tree.IElementType
+
 /**
  * Valkyrie PSI 元素类型定义
  */
 object ValkyrieElementTypes {
+    val SFC_SCRIPT_CONTENT = ValkyrieElementType("SFC_SCRIPT_CONTENT")
+    val SFC_STYLE_CONTENT = ValkyrieElementType("SFC_STYLE_CONTENT")
+    val XML_END_TAG: IElementType = ValkyrieElementType("XML_END_TAG")
+    val XML_START_TAG: IElementType = ValkyrieElementType("XML_START_TAG")
     val XML_TAG_CONTENT = ValkyrieElementType("XML_TAG_CONTENT")
     val XML_STYLE = ValkyrieElementType("XML_STYLE")
     val XML_SCRIPT = ValkyrieElementType("XML_SCRIPT")
@@ -331,12 +337,6 @@ object ValkyrieElementTypes {
 
     @JvmField
     val XML_ELEMENT = ValkyrieElementType("XML_ELEMENT")
-
-    @JvmField
-    val XML_ATTRIBUTE = ValkyrieElementType("XML_ATTRIBUTE")
-
-    @JvmField
-    val XML_ATTRIBUTE_VALUE = ValkyrieElementType("XML_ATTRIBUTE_VALUE")
 
     // SFC (Single File Component) 相关节点
     @JvmField

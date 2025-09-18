@@ -6,6 +6,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.xml.XmlElementType
 import valkyrie.language.dialect_std.ValkyrieLanguage
 import valkyrie.psi.nodes.*
 import valkyrie.psi.nodes.dialect_sfc.ValkyrieSfcTemplateNode
@@ -143,7 +144,7 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.ERROR_ELEMENT -> ValkyrieElementNode(node)
             // XML 相关节点
             ValkyrieElementTypes.XML_ELEMENT -> ValkyrieXmlElementNode(node)
-            ValkyrieElementTypes.XML_ATTRIBUTE -> ValkyrieXmlAttributeNode(node)
+            XmlElementType.XML_ATTRIBUTE -> ValkyrieXmlAttributeNode(node)
             ValkyrieElementTypes.XML_TEXT_NODE -> ValkyrieXmlTextNode(node)
             ValkyrieElementTypes.XML_SLOT_EXPRESSION -> ValkyrieXmlSlotExpressionNode(node)
             // SFC 相关节点
