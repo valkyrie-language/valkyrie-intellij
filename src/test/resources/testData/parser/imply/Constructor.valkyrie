@@ -1,0 +1,13 @@
+unity Option⟨V⟩ { 
+    Some { 
+        value: V 
+    }; 
+    None { 
+    } 
+} 
+
+imply Option⸬Some { 
+    constructor(value: V) { 
+        this.value = value 
+    } 
+}

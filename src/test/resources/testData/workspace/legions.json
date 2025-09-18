@@ -1,0 +1,21 @@
+{
+  "packages": [
+    "packages/core",
+    "packages/utils",
+    "packages/web"
+  ],
+  "dependencies": {
+    "core": {
+      "path": "./packages/core",
+      "alias": "core_lib"
+    },
+    "utils": {
+      "path": "./packages/utils",
+      "alias": "util"
+    }
+  },
+  "scripts": {
+    "build": "vcc build",
+    "test": "vcc test"
+  }
+}

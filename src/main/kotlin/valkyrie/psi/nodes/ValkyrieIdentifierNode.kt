@@ -4,8 +4,8 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.PsiReference
-import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.ValkyrieElementFactory
+import valkyrie.psi.parsers.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieFactory
 import valkyrie.psi.reference.ValkyrieReference
 
 /**
@@ -66,7 +66,7 @@ class ValkyrieIdentifierNode(node: ASTNode) : ValkyrieElementNode(node), PsiName
         }
         
         // 创建新的标识符节点
-        val newElement = ValkyrieElementFactory.createIdentifier(project, newText)
+        val newElement = ValkyrieFactory.createIdentifier(project, newText)
         return replace(newElement)
     }
     

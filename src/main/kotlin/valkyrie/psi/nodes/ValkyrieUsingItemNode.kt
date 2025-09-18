@@ -3,8 +3,8 @@ package valkyrie.psi.nodes
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.ValkyrieElementTypes
+import valkyrie.psi.parsers.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieTypes
 
 /**
  * Using 语句中的单个项目节点
@@ -25,7 +25,7 @@ class ValkyrieUsingItemNode(node: ASTNode) : ValkyrieElementNode(node) {
      */
     fun getBasicPath(): List<String> {
         val paths = mutableListOf<String>()
-        val namespacePath = findChildByType<PsiElement>(ValkyrieElementTypes.NAMESPACE_PATH)
+        val namespacePath = findChildByType<PsiElement>(ValkyrieTypes.NAMESPACE_PATH)
         
         namespacePath?.let { path ->
             val identifiers = PsiTreeUtil.findChildrenOfType(path, ValkyrieIdentifierNode::class.java)

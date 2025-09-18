@@ -5,8 +5,8 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiReference
 import com.intellij.psi.TokenType.WHITE_SPACE
-import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieTypes
 import valkyrie.reference.ValkyrieFunctionCallReference
 
 /**
@@ -29,15 +29,15 @@ class ValkyrieCallExpressionNode(node: ASTNode) : ValkyrieElementNode(node) {
         var child = this.firstChild?.nextSibling
         
         // 跳过左括号
-        while (child != null && child.node.elementType != ValkyrieTokenTypes.PARENTHESIS_L) {
+        while (child != null && child.node.elementType != ValkyrieTypes.PARENTHESIS_L) {
             child = child.nextSibling
         }
         
         if (child != null) {
             child = child.nextSibling // 跳过左括号
             
-            while (child != null && child.node.elementType != ValkyrieTokenTypes.PARENTHESIS_R) {
-                if (child.node.elementType != ValkyrieTokenTypes.COMMA && 
+            while (child != null && child.node.elementType != ValkyrieTypes.PARENTHESIS_R) {
+                if (child.node.elementType != ValkyrieTypes.COMMA &&
                     child.node.elementType != WHITE_SPACE) {
                     args.add(child)
                 }

@@ -34,8 +34,8 @@ data class ValkyrieProject(
             when {
                 binary.name == ValkyrieProjectParser.Companion.ENTRY_FILE || binary.name == ValkyrieProjectParser.Companion.ENTRY_FILE_ALT ->
                     binary.parent?.name ?: "main"
-                binary.name.endsWith(".vk") ->
-                    binary.name.removeSuffix(".vk")
+                binary.name.endsWith(".valkyrie") ->
+                    binary.name.removeSuffix(".valkyrie")
                 else -> binary.name
             }
         }

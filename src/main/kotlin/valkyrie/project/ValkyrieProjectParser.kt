@@ -20,7 +20,7 @@ class ValkyrieProjectParser {
         const val LIBRARY_DIR = "library"
         const val BINARY_DIR = "binary"
         const val TESTS_DIR = "test"
-        const val ENTRY_FILE = "_.vk"
+        const val ENTRY_FILE = "_.valkyrie"
         const val ENTRY_FILE_ALT = "_.valkyrie"
     }
     
@@ -67,6 +67,7 @@ class ValkyrieProjectParser {
     
     /**
      * 解析包信息
+     * 支持命名空间和导出配置
      */
     private fun parsePackageInfo(rootObject: JsonObject): ValkyriePackageInfo {
         val packageProperty = rootObject.findProperty("package")
@@ -82,7 +83,16 @@ class ValkyrieProjectParser {
             edition = getStringProperty(packageObject, "edition"),
             license = getStringProperty(packageObject, "license"),
             readme = getStringProperty(packageObject, "readme"),
-            publish = getBooleanProperty(packageObject, "publish") ?: true
+            publish = getBooleanProperty(packageObject, "publish") ?: true,
+            
+            // 新增：命名空间配置
+            namespace = getStringProperty(packageObject, "namespace"),
+            
+            // 新增：导出模块列表
+            exports = parseStringArray(packageObject, "exports"),
+            
+            // 新增：包别名（默认为null，由工作空间设置）
+            alias = null
         )
     }
     
@@ -160,7 +170,7 @@ class ValkyrieProjectParser {
         val binaryEntries = mutableListOf<VirtualFile>()
         binaryDir?.children?.forEach { child ->
             when {
-                child.name.endsWith(".vk") -> binaryEntries.add(child)
+                child.name.endsWith(".valkyrie") -> binaryEntries.add(child)
                 child.isDirectory -> {
                     val entryFile = child.findChild(ENTRY_FILE) ?: child.findChild(ENTRY_FILE_ALT)
                     if (entryFile != null) {

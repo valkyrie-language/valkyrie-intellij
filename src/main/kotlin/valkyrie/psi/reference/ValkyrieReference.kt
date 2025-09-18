@@ -9,8 +9,8 @@ import valkyrie.psi.nodes.ValkyrieMethodDeclaration
 import valkyrie.psi.nodes.ValkyrieLetStatementNode
 import valkyrie.psi.nodes.ValkyrieClassDeclaration
 import valkyrie.psi.nodes.ValkyrieTraitDeclaration
-import valkyrie.psi.ValkyrieElementTypes
-import valkyrie.psi.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieTypes
+import valkyrie.psi.parsers.ValkyrieElementNode
 import valkyrie.index.ValkyrieSymbolIndex
 
 /**
@@ -118,12 +118,12 @@ class ValkyrieReference(private val element: ValkyrieIdentifierNode) : PsiRefere
         while (context != null) {
             // 查找泛型参数列表
             val genericParameterLists = PsiTreeUtil.findChildrenOfType(context, ValkyrieElementNode::class.java)
-                .filter { it.node.elementType == ValkyrieElementTypes.GENERIC_PARAMETER_LIST }
+                .filter { it.node.elementType == ValkyrieTypes.GENERIC_PARAMETER_LIST }
             
             for (genericList in genericParameterLists) {
                 // 在泛型参数列表中查找匹配的参数
                 val genericParameters = PsiTreeUtil.findChildrenOfType(genericList, ValkyrieElementNode::class.java)
-                    .filter { it.node.elementType == ValkyrieElementTypes.GENERIC_PARAMETER_ITEM }
+                    .filter { it.node.elementType == ValkyrieTypes.GENERIC_PARAMETER_ITEM }
                 
                 for (genericParam in genericParameters) {
                     val identifiers = PsiTreeUtil.findChildrenOfType(genericParam, ValkyrieIdentifierNode::class.java)
@@ -180,16 +180,16 @@ class ValkyrieReference(private val element: ValkyrieIdentifierNode) : PsiRefere
         var parent = element.parent
         while (parent != null) {
             // 检查是否在类型引用节点中
-            if (parent.node?.elementType == ValkyrieElementTypes.TYPE_REFERENCE) {
+            if (parent.node?.elementType == ValkyrieTypes.TYPE_REFERENCE) {
                 return true
             }
             // 检查是否在继承声明中
-            if (parent.node?.elementType == ValkyrieElementTypes.INHERIT_LIST ||
-                parent.node?.elementType == ValkyrieElementTypes.INHERIT_ITEM) {
+            if (parent.node?.elementType == ValkyrieTypes.INHERIT_LIST ||
+                parent.node?.elementType == ValkyrieTypes.INHERIT_ITEM) {
                 return true
             }
             // 检查是否在泛型参数中
-            if (parent.node?.elementType == ValkyrieElementTypes.GENERIC_PARAMETER_LIST) {
+            if (parent.node?.elementType == ValkyrieTypes.GENERIC_PARAMETER_LIST) {
                 return true
             }
             parent = parent.parent

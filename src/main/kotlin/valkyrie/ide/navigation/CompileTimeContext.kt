@@ -1,6 +1,6 @@
 package valkyrie.ide.navigation
 
-import valkyrie.psi.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieElementNode
 
 /**
  * 编译期上下文信息

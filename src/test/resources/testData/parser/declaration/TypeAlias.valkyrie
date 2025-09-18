@@ -1,0 +1,2 @@
+typus Matrix⟨T⟩ = NDArray⟨T, (2, )⟩
+type Vector⟨T⟩ = NDArray⟨T, (1, )⟩

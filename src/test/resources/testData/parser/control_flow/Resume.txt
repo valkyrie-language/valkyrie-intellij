@@ -1,52 +1,32 @@
 Valkyrie File
-  PsiErrorElement:Expected expression
-    <empty list>
   PsiComment(ValkyrieTokenType.#)('# 测试简单的 resume 语句')
-  PsiWhiteSpace('\n')
-  PsiElement(ValkyrieTokenType.resume)('resume')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiWhiteSpace('\n\n')
+  ValkyrieResumeStatement
+    PsiElement(ValkyrieTokenType.resume)('resume')
+    PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 测试带值的 resume 语句')
-  PsiWhiteSpace('\n')
-  PsiElement(ValkyrieTokenType.resume)('resume')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('value')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiWhiteSpace('\n\n')
+  ValkyrieResumeStatement
+    PsiElement(ValkyrieTokenType.resume)('resume')
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+        ValkyrieIdentifier(value)
+          PsiElement(ValkyrieTokenType.SYMBOL.XID)('value')
+    PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 你无法指定 effect 回到哪个位置')
-  PsiWhiteSpace('\n')
-  PsiElement(ValkyrieTokenType.resume)('resume')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.※)('※')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('label')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiWhiteSpace('\n')
-  PsiElement(ValkyrieTokenType.resume)('resume')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.※)('※')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('label')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('value')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieResumeStatement
+    PsiElement(ValkyrieTokenType.resume)('resume')
+    ValkyrieElementNode(ValkyrieElementType.LABEL_STATEMENT)
+      PsiElement(ValkyrieTokenType.※)('※')
+      ValkyrieIdentifier(label)
+        PsiElement(ValkyrieTokenType.SYMBOL.XID)('label')
+    PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieResumeStatement
+    PsiElement(ValkyrieTokenType.resume)('resume')
+    ValkyrieElementNode(ValkyrieElementType.LABEL_STATEMENT)
+      PsiElement(ValkyrieTokenType.※)('※')
+      ValkyrieIdentifier(label)
+        PsiElement(ValkyrieTokenType.SYMBOL.XID)('label')
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+        ValkyrieIdentifier(value)
+          PsiElement(ValkyrieTokenType.SYMBOL.XID)('value')
+    PsiElement(ValkyrieTokenType.;)(';')

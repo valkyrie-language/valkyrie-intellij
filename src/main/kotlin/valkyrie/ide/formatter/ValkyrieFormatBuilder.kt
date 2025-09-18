@@ -6,7 +6,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiFile
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import valkyrie.language.ValkyrieLanguage
-import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieTypes
 
 /**
  * Valkyrie 代码格式化构建器
@@ -35,97 +35,97 @@ class ValkyrieFormatBuilder : FormattingModelBuilder {
 
     private fun createSpacingBuilder(settings: CodeStyleSettings): SpacingBuilder {
         val valkyrieSettings = settings.getCustomSettings(ValkyrieCodeStyleSettings::class.java)
-        return SpacingBuilder(settings, ValkyrieLanguage)
+        return SpacingBuilder(settings, ValkyrieLanguage.INSTANCE)
             // 大括号前后的空格
-            .between(ValkyrieTokenTypes.BRACE_L, ValkyrieTokenTypes.BRACE_R)
+            .between(ValkyrieTypes.BRACE_L, ValkyrieTypes.BRACE_R)
             .spacing(0, 0, 0, false, 0)
             // 【保留】处理非空的大括号
             // 当 { 和 } 不直接相邻时（因为中间有其他代码），上面的规则不生效，
             // 下面这两条通用规则就会生效。
-            .after(ValkyrieTokenTypes.BRACE_L).lineBreakInCode()
-            .before(ValkyrieTokenTypes.BRACE_R).lineBreakInCode()
+            .after(ValkyrieTypes.BRACE_L).lineBreakInCode()
+            .before(ValkyrieTypes.BRACE_R).lineBreakInCode()
 
             // 小括号的空格
-            .before(ValkyrieTokenTypes.PARENTHESIS_L).spaces(0)
-            .after(ValkyrieTokenTypes.PARENTHESIS_L).spaces(0)
-            .before(ValkyrieTokenTypes.PARENTHESIS_R).spaces(0)
-            .after(ValkyrieTokenTypes.PARENTHESIS_R).spaces(0)
+            .before(ValkyrieTypes.PARENTHESIS_L).spaces(0)
+            .after(ValkyrieTypes.PARENTHESIS_L).spaces(0)
+            .before(ValkyrieTypes.PARENTHESIS_R).spaces(0)
+            .after(ValkyrieTypes.PARENTHESIS_R).spaces(0)
 
             // 方括号的空格
-            .before(ValkyrieTokenTypes.BRACKET_L).spaces(0)
-            .after(ValkyrieTokenTypes.BRACKET_L).spaces(0)
-            .before(ValkyrieTokenTypes.BRACKET_R).spaces(0)
-            .after(ValkyrieTokenTypes.BRACKET_R).spaces(0)
+            .before(ValkyrieTypes.BRACKET_L).spaces(0)
+            .after(ValkyrieTypes.BRACKET_L).spaces(0)
+            .before(ValkyrieTypes.BRACKET_R).spaces(0)
+            .after(ValkyrieTypes.BRACKET_R).spaces(0)
 
             // 冒号前后的空格
-            .before(ValkyrieTokenTypes.COLON).spaces(0)
-            .after(ValkyrieTokenTypes.COLON).spaces(1)
+            .before(ValkyrieTypes.COLON).spaces(0)
+            .after(ValkyrieTypes.COLON).spaces(1)
 
             // 分号前后的空格
-            .before(ValkyrieTokenTypes.SEMICOLON).spaces(0)
-            .after(ValkyrieTokenTypes.SEMICOLON).lineBreakInCode()
+            .before(ValkyrieTypes.SEMICOLON).spaces(0)
+            .after(ValkyrieTypes.SEMICOLON).lineBreakInCode()
 
             // 逗号后的空格
-            .before(ValkyrieTokenTypes.COMMA).spaces(0)
-            .after(ValkyrieTokenTypes.COMMA).spaces(1)
+            .before(ValkyrieTypes.COMMA).spaces(0)
+            .after(ValkyrieTypes.COMMA).spaces(1)
 
             // 点号前后不加空格
-            .around(ValkyrieTokenTypes.DOT).spaces(0)
+            .around(ValkyrieTypes.DOT).spaces(0)
 
             // 箭头前后的空格
-            .around(ValkyrieTokenTypes.ARROW).spaces(1)
+            .around(ValkyrieTypes.ARROW).spaces(1)
 
             // 赋值操作符前后的空格
-            .around(ValkyrieTokenTypes.ASSIGN).spaces(1)
-            .around(ValkyrieTokenTypes.PLUS_ASSIGN).spaces(1)
-            .around(ValkyrieTokenTypes.MINUS_ASSIGN).spaces(1)
-            .around(ValkyrieTokenTypes.MULTIPLY_ASSIGN).spaces(1)
-            .around(ValkyrieTokenTypes.DIVIDE_ASSIGN).spaces(1)
+            .around(ValkyrieTypes.ASSIGN).spaces(1)
+            .around(ValkyrieTypes.PLUS_ASSIGN).spaces(1)
+            .around(ValkyrieTypes.MINUS_ASSIGN).spaces(1)
+            .around(ValkyrieTypes.MULTIPLY_ASSIGN).spaces(1)
+            .around(ValkyrieTypes.DIVIDE_ASSIGN).spaces(1)
 
             // 算术操作符前后的空格
-            .around(ValkyrieTokenTypes.PLUS).spaces(1)
-            .around(ValkyrieTokenTypes.MINUS).spaces(1)
-            .around(ValkyrieTokenTypes.MULTIPLY).spaces(1)
-            .around(ValkyrieTokenTypes.SLASH).spaces(1)
-            .around(ValkyrieTokenTypes.PERCENT).spaces(1)
-            .around(ValkyrieTokenTypes.POWER).spaces(1)
+            .around(ValkyrieTypes.PLUS).spaces(1)
+            .around(ValkyrieTypes.MINUS).spaces(1)
+            .around(ValkyrieTypes.MULTIPLY).spaces(1)
+            .around(ValkyrieTypes.SLASH).spaces(1)
+            .around(ValkyrieTypes.PERCENT).spaces(1)
+            .around(ValkyrieTypes.POWER).spaces(1)
 
             // 比较操作符
-            .around(ValkyrieTokenTypes.EQUAL).spaces(1)
-            .around(ValkyrieTokenTypes.NOT_EQUAL).spaces(1)
-            .around(ValkyrieTokenTypes.ANGLE_L).spaces(1)
-            .around(ValkyrieTokenTypes.LESS_EQUAL).spaces(1)
-            .around(ValkyrieTokenTypes.ANGLE_R).spaces(1)
-            .around(ValkyrieTokenTypes.GREATER_EQUAL).spaces(1)
+            .around(ValkyrieTypes.EQUAL).spaces(1)
+            .around(ValkyrieTypes.NOT_EQUAL).spaces(1)
+            .around(ValkyrieTypes.ANGLE_L).spaces(1)
+            .around(ValkyrieTypes.LESS_EQUAL).spaces(1)
+            .around(ValkyrieTypes.ANGLE_R).spaces(1)
+            .around(ValkyrieTypes.GREATER_EQUAL).spaces(1)
 
             // 逻辑操作符
-            .around(ValkyrieTokenTypes.LOGIC_AND).spaces(1)
-            .around(ValkyrieTokenTypes.LOGIC_OR).spaces(1)
+            .around(ValkyrieTypes.LOGIC_AND).spaces(1)
+            .around(ValkyrieTypes.LOGIC_OR).spaces(1)
 
             // 关键字后的空格 - 使用spaceIf避免重复添加空格
-            .after(ValkyrieTokenTypes.IF).spaceIf(true)
-            .after(ValkyrieTokenTypes.LOOP).spaceIf(true)
-            .after(ValkyrieTokenTypes.WHILE).spaceIf(true)
-            .after(ValkyrieTokenTypes.MATCH).spaceIf(true)
-            .after(ValkyrieTokenTypes.RETURN).spaceIf(true)
-            .after(ValkyrieTokenTypes.LET).spaceIf(true)
-            .after(ValkyrieTokenTypes.MICRO).spaceIf(true)
-            .after(ValkyrieTokenTypes.MACRO).spaceIf(true)
-            .between(ValkyrieTokenTypes.CLASS, ValkyrieTokenTypes.SYMBOL).spacing(1, 1, 0, false, 0)
-            .after(ValkyrieTokenTypes.UNION).spaceIf(true)
+            .after(ValkyrieTypes.IF).spaceIf(true)
+            .after(ValkyrieTypes.LOOP).spaceIf(true)
+            .after(ValkyrieTypes.WHILE).spaceIf(true)
+            .after(ValkyrieTypes.MATCH).spaceIf(true)
+            .after(ValkyrieTypes.RETURN).spaceIf(true)
+            .after(ValkyrieTypes.LET).spaceIf(true)
+            .after(ValkyrieTypes.MICRO).spaceIf(true)
+            .after(ValkyrieTypes.MACRO).spaceIf(true)
+            .between(ValkyrieTypes.CLASS, ValkyrieTypes.SYMBOL).spacing(1, 1, 0, false, 0)
+            .after(ValkyrieTypes.UNION).spaceIf(true)
 // --- 【新增】为 namespace 添加具体的间距规则 ---
 
 // 规则 1: 处理 `namespace!` 的情况，强制 0 空格
-            .between(ValkyrieTokenTypes.NAMESPACE, ValkyrieTokenTypes.WOW)
+            .between(ValkyrieTypes.NAMESPACE, ValkyrieTypes.WOW)
             .spacing(0, 0, 0, false, 0)
 
 // 规则 2: 处理 `! id` 的情况，强制 1 空格
 // 假设你的 id token 类型是 IDENTIFIER，请替换成你实际的类型
-            .between(ValkyrieTokenTypes.WOW, ValkyrieTokenTypes.SYMBOL)
+            .between(ValkyrieTypes.WOW, ValkyrieTypes.SYMBOL)
             .spaces(1)
 
 // 规则 3: 处理 `namespace id` 的情况 (没有 !)，强制 1 空格
-            .between(ValkyrieTokenTypes.NAMESPACE, ValkyrieTokenTypes.SYMBOL)
+            .between(ValkyrieTypes.NAMESPACE, ValkyrieTypes.SYMBOL)
             .spaces(1)
     }
 

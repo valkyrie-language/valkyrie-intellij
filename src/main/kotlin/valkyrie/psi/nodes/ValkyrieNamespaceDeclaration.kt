@@ -5,9 +5,8 @@ import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import valkyrie.language.ValkyrieIcons
-import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.ValkyrieElementTypes
-import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieTypes
 
 /**
  * Namespace 语句实现
@@ -26,7 +25,7 @@ class ValkyrieNamespaceDeclaration(node: ASTNode) : ValkyrieElementNode(node) {
         val paths = mutableListOf<String>()
         
         // 查找所有 NAMESPACE_PATH 子元素
-        val namespacePaths = findChildrenByType<PsiElement>(ValkyrieElementTypes.NAMESPACE_PATH)
+        val namespacePaths = findChildrenByType<PsiElement>(ValkyrieTypes.NAMESPACE_PATH)
         
         for (namespacePath in namespacePaths) {
             val pathBuilder = StringBuilder()
@@ -35,13 +34,13 @@ class ValkyrieNamespaceDeclaration(node: ASTNode) : ValkyrieElementNode(node) {
             var child = namespacePath.firstChild
             while (child != null) {
                 when (child.node.elementType) {
-                    ValkyrieTokenTypes.SYMBOL_XID -> {
+                    ValkyrieTypes.SYMBOL_XID, ValkyrieTypes.SYMBOL_RAW -> {
                         pathBuilder.append(child.text)
                     }
-                    ValkyrieTokenTypes.DOT -> {
+                    ValkyrieTypes.DOT -> {
                         pathBuilder.append(".")
                     }
-                    ValkyrieTokenTypes.DOUBLE_COLON -> {
+                    ValkyrieTypes.DOUBLE_COLON -> {
                         pathBuilder.append("::")
                     }
                 }

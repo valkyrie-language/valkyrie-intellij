@@ -3,7 +3,7 @@ package valkyrie.psi.nodes
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import valkyrie.ide.navigation.TestType
-import valkyrie.psi.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieElementNode
 import valkyrie.psi.traits.HasAnnotation
 import valkyrie.psi.traits.HasObjectBody
 

@@ -1,0 +1,10 @@
+{
+  "name": "core",
+  "version": "1.0.0",
+  "description": "Core library for Valkyrie",
+  "namespace": "com.valkyrie.core",
+  "exports": ["types", "utils"],
+  "dependencies": {
+    "utils": "1.0.0"
+  }
+}

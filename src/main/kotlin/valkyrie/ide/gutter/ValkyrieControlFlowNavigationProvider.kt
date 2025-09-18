@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.language.ValkyrieIcons
 import valkyrie.psi.nodes.*
-import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieTypes
 
 /**
  * 控制流语句的导航提供器
@@ -25,19 +25,19 @@ class ValkyrieControlFlowNavigationProvider : LineMarkerProvider {
         val parent = element.parent ?: return null
         
         return when {
-            element.node?.elementType == ValkyrieTokenTypes.LOOP && parent is ValkyrieControlFlowNodes -> 
+            element.node?.elementType == ValkyrieTypes.LOOP && parent is ValkyrieControlFlowNodes ->
                 createLoopMarker(parent)
-            element.node?.elementType == ValkyrieTokenTypes.RETURN && parent is ValkyrieReturnStatement -> 
+            element.node?.elementType == ValkyrieTypes.RETURN && parent is ValkyrieReturnStatement ->
                 createReturnMarker(parent)
-            element.node?.elementType == ValkyrieTokenTypes.BREAK && parent is ValkyrieBreakStatement -> 
+            element.node?.elementType == ValkyrieTypes.BREAK && parent is ValkyrieBreakStatement ->
                 createBreakMarker(parent)
-            element.node?.elementType == ValkyrieTokenTypes.CONTINUE && parent is ValkyrieContinueStatement -> 
+            element.node?.elementType == ValkyrieTypes.CONTINUE && parent is ValkyrieContinueStatement ->
                 createContinueMarker(parent)
-            element.node?.elementType == ValkyrieTokenTypes.YIELD && parent is ValkyrieYieldStatement -> 
+            element.node?.elementType == ValkyrieTypes.YIELD && parent is ValkyrieYieldStatement ->
                 createYieldMarker(parent)
-            element.node?.elementType == ValkyrieTokenTypes.RAISE && parent is ValkyrieRaiseStatement -> 
+            element.node?.elementType == ValkyrieTypes.RAISE && parent is ValkyrieRaiseStatement ->
                 createRaiseMarker(parent)
-            element.node?.elementType == ValkyrieTokenTypes.CATCH && parent is ValkyrieCatchCase -> 
+            element.node?.elementType == ValkyrieTypes.CATCH && parent is ValkyrieCatchCase ->
                 createCatchMarker(parent)
             else -> null
         }

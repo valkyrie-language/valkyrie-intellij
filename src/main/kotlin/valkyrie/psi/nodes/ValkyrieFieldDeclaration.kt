@@ -7,8 +7,8 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import valkyrie.ide.highlight.ValkyrieColor
 import valkyrie.language.ValkyrieIcons
-import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieTypes
 import valkyrie.psi.traits.HasHighlighter
 
 /**
@@ -45,7 +45,7 @@ class ValkyrieFieldDeclaration(node: ASTNode) : ValkyrieElementNode(node),
     }
 
     fun getFieldName(): String? {
-        return findChildByType<PsiElement>(ValkyrieTokenTypes.SYMBOL_XID)?.text
+        return (findChildByType<PsiElement>(ValkyrieTypes.SYMBOL_XID) ?: findChildByType<PsiElement>(ValkyrieTypes.SYMBOL_RAW))?.text
     }
 
     fun getModifierNodes(): List<ValkyrieModifierNode> {

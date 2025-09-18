@@ -9,8 +9,7 @@ import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.ide.navigation.MetaType
-import valkyrie.psi.ValkyrieElementTypes
-import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieTypes
 import valkyrie.psi.nodes.*
 import valkyrie.psi.traits.HasHighlighter
 
@@ -40,7 +39,7 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
                     // 查找标识符节点
                     var child = element.firstChild
                     while (child != null) {
-                        if (child.node.elementType == ValkyrieTokenTypes.SYMBOL_XID && child.text == paramName) {
+                        if ((child.node.elementType == ValkyrieTypes.SYMBOL_XID || child.node.elementType == ValkyrieTypes.SYMBOL_RAW) && child.text == paramName) {
                             highlight(child, ValkyrieColor.SYM_ARG)
                             break
                         }
@@ -53,7 +52,8 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
                 // 高亮泛型参数
                 val genericArgs = element.getGenericArguments()
                 for (arg in genericArgs) {
-                    if (arg.node.elementType == ValkyrieTokenTypes.SYMBOL_XID) {
+                    val type = arg.node.elementType
+                    if (type == ValkyrieTypes.SYMBOL_XID || type == ValkyrieTypes.SYMBOL_RAW) {
                         highlight(arg, ValkyrieColor.SYM_GENERIC)
                     }
                 }
@@ -124,10 +124,11 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
         }
 
         // 处理泛型参数列表（如 class A<T, U> 中的 T, U）
-        if (element.node.elementType == ValkyrieElementTypes.GENERIC_PARAMETER_LIST) {
+        if (element.node.elementType == ValkyrieTypes.GENERIC_PARAMETER_LIST) {
             var child = element.firstChild
             while (child != null) {
-                if (child.node.elementType == ValkyrieTokenTypes.SYMBOL_XID) {
+                val type = child.node.elementType
+                if (type == ValkyrieTypes.SYMBOL_XID || type == ValkyrieTypes.SYMBOL_RAW) {
                     highlight(child, ValkyrieColor.SYM_GENERIC)
                 }
                 child = child.nextSibling
