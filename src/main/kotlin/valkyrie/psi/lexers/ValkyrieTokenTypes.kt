@@ -1,6 +1,7 @@
 package valkyrie.psi.lexers
 
 import com.intellij.psi.tree.TokenSet
+import com.intellij.psi.xml.XmlTokenType
 
 /**
  * Valkyrie 所有 Token 类型
@@ -398,15 +399,6 @@ object ValkyrieTokenTypes {
     @JvmField
     val TEMPLATE_TEXT = ValkyrieTokenType("TEMPLATE_TEXT")
 
-    // XML 方言相关 Token
-    @JvmField
-    val XML_TEXT = ValkyrieTokenType("XML_TEXT")
-
-    @JvmField
-    val XML_SLOT_L = ValkyrieTokenType("XML_SLOT_L")
-
-    @JvmField
-    val XML_SLOT_R = ValkyrieTokenType("XML_SLOT_R")
 
     // Mark 方言相关 Token
     @JvmField
@@ -420,7 +412,7 @@ object ValkyrieTokenTypes {
     val STYLE_CONTENT = ValkyrieTokenType("STYLE_CONTENT")
 
     @JvmField
-    val END = ValkyrieTokenType("end")
+    val EJS_END = ValkyrieTokenType("end")
 
     @JvmField
     val XML_STYLE = ValkyrieTokenType("XML_KEYWORD_STYLE")
@@ -431,6 +423,10 @@ object ValkyrieTokenTypes {
     @JvmField
     val XML_TEMPLATE = ValkyrieTokenType("XML_KEYWORD_TEMPLATE")
 
+    val XML_SLOT_L = XmlTokenType.XML_ATTRIBUTE_VALUE_START_DELIMITER
+    val XML_SLOT_R = XmlTokenType.XML_ATTRIBUTE_VALUE_END_DELIMITER
+
+    val XML_TEXT = ValkyrieTokenType("XML_TEXT")
 
     val SFC_PROPERTY = ValkyrieTokenType("SFC_PROPS")
     val SFC_EMITS = ValkyrieTokenType("SFC_EMITS")

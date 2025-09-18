@@ -1,4 +1,4 @@
-package valkyrie.language.dialect_template
+package valkyrie.language.dialect_asp
 
 import com.intellij.lang.Language
 
@@ -7,7 +7,7 @@ import com.intellij.lang.Language
  * 
  * 用于 .vkt 文件，支持在文本中嵌入 Valkyrie 代码块
  */
-object ValkyrieTemplateLanguage : Language("valkyrie-template", "text/html") {
+object ValkyrieAspLanguage : Language("valkyrie-template", "text/html") {
     
     override fun getDisplayName(): String = "Valkyrie Template"
     

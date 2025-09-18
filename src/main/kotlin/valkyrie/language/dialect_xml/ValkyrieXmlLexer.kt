@@ -140,7 +140,7 @@ class ValkyrieXmlLexer : ValkyrieLexerBase(LexerFlavor.XML) {
             ch == '"' || ch == '\'' -> {
                 attributeQuote = ch
                 currentOffset++
-                currentTokenType = XmlTokenType.XML_ATTRIBUTE_VALUE_START_DELIMITER
+                currentTokenType = ValkyrieTokenTypes.XML_SLOT_L
             }
 
             ch == '>' -> {
@@ -175,7 +175,7 @@ class ValkyrieXmlLexer : ValkyrieLexerBase(LexerFlavor.XML) {
         // 检查是否是结束引号
         if (ch == attributeQuote) {
             currentOffset++
-            currentTokenType = XmlTokenType.XML_ATTRIBUTE_VALUE_END_DELIMITER
+            currentTokenType = ValkyrieTokenTypes.XML_SLOT_R
             attributeQuote = null // 退出属性值模式
             return
         }

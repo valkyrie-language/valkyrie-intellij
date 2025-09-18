@@ -10,10 +10,10 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
-import valkyrie.language.dialect_template.ValkyrieTemplateLanguage
-import valkyrie.language.dialect_template.ValkyrieTemplateLexer
+import valkyrie.language.dialect_asp.ValkyrieAspLanguage
+import valkyrie.language.dialect_asp.ValkyrieTemplateLexer
 import valkyrie.psi.lexers.ValkyrieTokenTypes
-import valkyrie.language.dialect_template.ValkyrieTemplateFileNode
+import valkyrie.language.dialect_asp.ValkyrieAspFileNode
 import valkyrie.psi.parsers.ValkyrieParser
 
 /**
@@ -22,7 +22,7 @@ import valkyrie.psi.parsers.ValkyrieParser
 class ValkyrieTemplateParserDefinition : ParserDefinition {
 
     companion object {
-        val FILE = IFileElementType(ValkyrieTemplateLanguage)
+        val FILE = IFileElementType(ValkyrieAspLanguage)
         val STRING_LITERALS = TokenSet.create(ValkyrieTokenTypes.STRING_DQ, ValkyrieTokenTypes.STRING_MQ)
     }
 
@@ -41,6 +41,6 @@ class ValkyrieTemplateParserDefinition : ParserDefinition {
     }
 
     override fun createFile(viewProvider: FileViewProvider): PsiFile {
-        return ValkyrieTemplateFileNode(viewProvider)
+        return ValkyrieAspFileNode(viewProvider)
     }
 }

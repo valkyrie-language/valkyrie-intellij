@@ -1,4 +1,4 @@
-package valkyrie.language.dialect_template
+package valkyrie.language.dialect_asp
 
 import valkyrie.psi.lexers.LexerFlavor
 import valkyrie.psi.lexers.ValkyrieLexerBase
