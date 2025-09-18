@@ -1,15 +1,14 @@
-package valkyrie.language.file
+package valkyrie.language.dialect_sfc
 
 import com.intellij.openapi.fileTypes.LanguageFileType
 import org.jetbrains.annotations.Nls
 import valkyrie.language.ValkyrieIcons
-import valkyrie.language.ValkyrieComponentLanguage
 import javax.swing.Icon
 
 /**
  * Valkyrie Component 文件类型定义
  */
-class ValkyrieSfcFileType private constructor() : LanguageFileType(ValkyrieComponentLanguage) {
+class ValkyrieSfcFileType private constructor() : LanguageFileType(ValkyrieSfcLanguage) {
     companion object {
         @JvmStatic
         val INSTANCE = ValkyrieSfcFileType()

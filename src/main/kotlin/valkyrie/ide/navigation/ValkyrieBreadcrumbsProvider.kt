@@ -3,7 +3,7 @@ package valkyrie.ide.navigation
 import com.intellij.lang.Language
 import com.intellij.psi.PsiElement
 import com.intellij.ui.breadcrumbs.BreadcrumbsProvider
-import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.dialect_std.ValkyrieLanguage
 import valkyrie.psi.nodes.*
 
 /**

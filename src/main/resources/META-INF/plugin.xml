@@ -16,35 +16,35 @@
 			name="valkyrie"
 			language="valkyrie"
 			extensions="vk;valkyrie;"
-			implementationClass="valkyrie.language.file.ValkyrieFileType"
+			implementationClass="valkyrie.language.dialect_std.ValkyrieFileType"
 			fieldName="INSTANCE"
 		/>
 		<fileType
 			name="valkyrie-xml"
 			language="valkyrie-xml"
 			extensions="vkx;"
-			implementationClass="valkyrie.language.file.ValkyrieXmlFileType"
+			implementationClass="valkyrie.language.dialect_xml.ValkyrieXmlFileType"
 			fieldName="INSTANCE"
 		/>
 		<fileType
 			name="valkyrie-template"
 			language="valkyrie-template"
 			extensions="vkt;"
-			implementationClass="valkyrie.language.file.ValkyrieTemplateFileType"
+			implementationClass="valkyrie.language.dialect_template.ValkyrieTemplateFileType"
 			fieldName="INSTANCE"
 		/>
 		<fileType
 			name="valkyrieMark"
 			language="ValkyrieMark"
 			extensions="vkm;"
-			implementationClass="valkyrie.language.file.ValkyrieMarkFileType"
+			implementationClass="valkyrie.language.dialect_markup.ValkyrieMarkFileType"
 			fieldName="INSTANCE"
 		/>
 		<fileType
 			name="valkyrie-component"
 			language="valkyrie-component"
 			extensions="vkc;"
-			implementationClass="valkyrie.language.file.ValkyrieSfcFileType"
+			implementationClass="valkyrie.language.dialect_sfc.ValkyrieSfcFileType"
 			fieldName="INSTANCE"
 		/>
 

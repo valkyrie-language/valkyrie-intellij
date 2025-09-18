@@ -1,4 +1,4 @@
-package valkyrie.language
+package valkyrie.language.dialect_xml
 
 import com.intellij.lang.Language
 

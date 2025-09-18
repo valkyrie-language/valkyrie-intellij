@@ -1,9 +1,8 @@
-package valkyrie.language.file
+package valkyrie.language.dialect_std
 
 import com.intellij.openapi.fileTypes.LanguageFileType
 import org.jetbrains.annotations.Nls
 import valkyrie.language.ValkyrieIcons
-import valkyrie.language.ValkyrieLanguage
 import javax.swing.Icon
 
 /**

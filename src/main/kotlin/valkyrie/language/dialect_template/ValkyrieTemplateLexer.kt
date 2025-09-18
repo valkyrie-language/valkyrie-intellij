@@ -1,4 +1,8 @@
-package valkyrie.psi.lexers
+package valkyrie.language.dialect_template
+
+import valkyrie.psi.lexers.LexerFlavor
+import valkyrie.psi.lexers.ValkyrieLexerBase
+import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 
 // 块开启关键字（会增加嵌套深度）

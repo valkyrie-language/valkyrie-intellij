@@ -5,10 +5,9 @@ import com.intellij.ide.projectView.PresentationData
 import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.psi.FileViewProvider
-import valkyrie.ide.highlight.ValkyrieColor
 import valkyrie.language.ValkyrieIcons
-import valkyrie.language.ValkyrieLanguage
-import valkyrie.language.file.ValkyrieFileType
+import valkyrie.language.dialect_std.ValkyrieLanguage
+import valkyrie.language.dialect_std.ValkyrieFileType
 
 /**
  * Valkyrie 文件 PSI 实现

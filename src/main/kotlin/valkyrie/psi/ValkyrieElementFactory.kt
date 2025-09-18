@@ -5,8 +5,12 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.language.ValkyrieLanguage
+import valkyrie.language.dialect_std.ValkyrieLanguage
 import valkyrie.psi.nodes.*
+import valkyrie.psi.nodes.dialect_xml.ValkyrieXmlAttributeNode
+import valkyrie.psi.nodes.dialect_xml.ValkyrieXmlElementNode
+import valkyrie.psi.nodes.dialect_xml.ValkyrieXmlSlotExpressionNode
+import valkyrie.psi.nodes.dialect_xml.ValkyrieXmlTextNode
 
 /**
  * Valkyrie PSI 元素工厂

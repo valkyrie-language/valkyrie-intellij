@@ -2,6 +2,7 @@ package valkyrie.psi.parsers
 
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.xml.XmlTokenType
+import valkyrie.language.dialect_xml.parseXmlElement
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.lexers.ValkyrieTokenTypes
 

@@ -2,7 +2,7 @@ package valkyrie.lexer
 
 import com.intellij.lexer.Lexer
 import com.intellij.testFramework.LexerTestCase
-import valkyrie.psi.lexers.ValkyrieStandardLexer
+import valkyrie.language.dialect_std.ValkyrieStandardLexer
 
 /**
  * 数组词法分析测试
