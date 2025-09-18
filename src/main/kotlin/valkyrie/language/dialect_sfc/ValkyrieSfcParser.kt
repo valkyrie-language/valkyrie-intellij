@@ -6,7 +6,10 @@ import com.intellij.psi.tree.IElementType
 import com.intellij.psi.xml.XmlElementType
 import com.intellij.psi.xml.XmlTokenType
 import valkyrie.psi.ValkyrieElementTypes
-import valkyrie.psi.lexers.ValkyrieTokenTypes
+
+// 假设这些类型已经定义在你的项目中
+// import valkyrie.psi.ValkyrieElementTypes.*
+// import valkyrie.psi.ValkyrieTokenTypes.*
 
 /**
  * Valkyrie SFC (Single File Component) 专用解析器
@@ -15,54 +18,43 @@ import valkyrie.psi.lexers.ValkyrieTokenTypes
 class ValkyrieSfcParser : ValkyrieParser() {
 
     override fun parse(root: IElementType, builder: PsiBuilder): ASTNode {
-        // 在测试中启用Debug模式有助于排查问题
-        // builder.setDebugMode(true)
         val rootMarker = builder.mark()
 
-        // 专门处理SFC文件的解析逻辑
+        // 循环解析顶层SFC块
         while (!builder.eof()) {
             val initialPosition = builder.currentOffset
 
-            // 尝试解析SFC特定的语句
-            val parsed = when {
-                isSfcTag(builder, "template") -> parseSfcTag(this, builder, ValkyrieElementTypes.SFC_TEMPLATE, "template")
-                isSfcTag(builder, "script") -> parseSfcTag(this, builder, ValkyrieElementTypes.SFC_SCRIPT, "script")
-                isSfcTag(builder, "style") -> parseSfcTag(this, builder, ValkyrieElementTypes.SFC_STYLE, "style")
+            when (builder.tokenType) {
+                XmlTokenType.XML_START_TAG_START -> {
+                    // 查看下一个 token 来决定是哪个 SFC 块
+                    val tagName = peekTokenText(builder, 1)
+                    when (tagName) {
+                        "template" -> parseTag(builder, ValkyrieElementTypes.SFC_TEMPLATE)
+                        "script" -> parseTag(builder, ValkyrieElementTypes.SFC_SCRIPT)
+                        "style" -> parseTag(builder, ValkyrieElementTypes.SFC_STYLE)
+                        else -> {
+                            // 允许其他顶层标签，但标记为错误
+                            val errorMarker = builder.mark()
+                            // 使用通用的解析器来消费掉这个意外的标签，避免解析器卡住
+                            parseTag(builder, ValkyrieElementTypes.XML_ELEMENT)
+                            errorMarker.error("Only <template>, <script>, or <style> tags are allowed at the top level")
+                        }
+                    }
+                }
 
-                // 处理XML注释
-                builder.tokenType == XmlTokenType.XML_COMMENT_START -> {
-                    parseXmlComment(builder)
-                    true
-                }
-                // 处理空白字符
-                builder.tokenType == XmlTokenType.XML_WHITE_SPACE -> {
-                    builder.advanceLexer()
-                    true
-                }
-                // 处理其他XML内容
-                builder.tokenType == XmlTokenType.XML_DATA_CHARACTERS -> {
-                    val marker = builder.mark()
-                    builder.advanceLexer()
-                    // 通常顶层不应该有裸露的文本，可以标记为错误或一个特殊的 text 节点
-                    marker.error("Unexpected text content at top level")
-                    true
-                }
-                // 其他情况，标记为错误并前进
+                XmlTokenType.XML_COMMENT_START -> parseComment(builder)
+                XmlTokenType.XML_WHITE_SPACE -> builder.advanceLexer() // 忽略顶层空白
                 else -> {
-                    val marker = builder.mark()
+                    // 捕获所有其他意外的 token
+                    builder.mark().error("Unexpected token at top level")
                     builder.advanceLexer()
-                    marker.error("Unexpected token")
-                    true
                 }
             }
 
-            // 如果没有任何进展，强制前进一个token避免无限循环
-            if (!parsed || builder.currentOffset == initialPosition) {
-                if (!builder.eof()) {
-                    val errorMarker = builder.mark()
-                    builder.advanceLexer()
-                    errorMarker.error("Parser stalled: Unrecognized token")
-                }
+            // 安全机制：如果解析器没有前进，则强制前进一个token以避免无限循环
+            if (!builder.eof() && builder.currentOffset == initialPosition) {
+                builder.mark().error("Parser stalled")
+                builder.advanceLexer()
             }
         }
 
@@ -71,95 +63,162 @@ class ValkyrieSfcParser : ValkyrieParser() {
     }
 
     /**
-     * 通用的SFC标签检查方法
+     * 安全地预览未来 token 的文本，不移动解析器指针
      */
-    private fun isSfcTag(builder: PsiBuilder, tagName: String): Boolean {
-        if (builder.tokenType != XmlTokenType.XML_START_TAG_START) {
-            return false
-        }
-        // 使用 lookAhead(1) 来预览下一个 token，这比创建 marker 更高效
-        val nextToken = builder.lookAhead(1)
-        if (nextToken == XmlTokenType.XML_TAG_NAME) {
-            // 使用 n-th token text 来获取预览的 token 的文本，而不需要移动词法分析器
-            return builder.lookAhead(1)?.let {
-                builder.originalText.subSequence(builder.currentOffset + 1, builder.currentOffset + 1 + it.toString().length).toString()
-            } == tagName
-        }
-        // 支持特殊的 token 类型
-        return when (tagName) {
-            "template" -> nextToken == ValkyrieElementTypes.XML_TEMPLATE
-            "script" -> nextToken == ValkyrieElementTypes.XML_SCRIPT
-            "style" -> nextToken == ValkyrieElementTypes.XML_STYLE
-            else -> false
-        }
-    }
-
-
-    /**
-     * 解析XML注释
-     */
-    private fun parseXmlComment(builder: PsiBuilder) {
-        val marker = builder.mark()
-        if (builder.tokenType == XmlTokenType.XML_COMMENT_START) {
+    private fun peekTokenText(builder: PsiBuilder, steps: Int): String? {
+        if (steps <= 0) return builder.tokenText
+        val mark = builder.mark()
+        var currentStep = 0
+        while (currentStep < steps && !builder.eof()) {
             builder.advanceLexer()
+            currentStep++
         }
-        while (!builder.eof() && builder.tokenType != XmlTokenType.XML_COMMENT_END) {
-            builder.advanceLexer()
-        }
-        if (builder.tokenType == XmlTokenType.XML_COMMENT_END) {
-            builder.advanceLexer()
-        }
-        marker.done(XmlElementType.XML_COMMENT)
+        val text = if (!builder.eof()) builder.tokenText else null
+        mark.rollbackTo()
+        return text
     }
 
     /**
-     * 通用的 SFC 标签解析方法
+     * 包含通用XML解析逻辑的伴生对象
      */
-    fun parseSfcTag(parser: ValkyrieParser, builder: PsiBuilder, elementType: IElementType, tagName: String): Boolean {
-        if (!isSfcTag(builder, tagName)) return false
+    companion object ValkyrieXmlParser {
 
-        val tagMarker = builder.mark()
+        /**
+         * 解析一个完整的XML标签，从 '<' 开始
+         * @param builder PsiBuilder
+         * @param rootType 整个标签的根节点类型 (e.g., SFC_TEMPLATE, XML_ELEMENT)
+         */
+        fun parseTag(builder: PsiBuilder, rootType: IElementType) {
+            assert(builder.tokenType == XmlTokenType.XML_START_TAG_START)
+            val tagMarker = builder.mark()
 
-        // --- 解析开始标签 ---
-        builder.advanceLexer() // 消费 '<'
-        builder.advanceLexer() // 消费 标签名 ('template', 'script', 'style')
+            // 1. 解析开始标签
+            val tagName = parseStartTag(builder)
 
-        // 跳过属性
-        while (!builder.eof() && builder.tokenType !in listOf(XmlTokenType.XML_TAG_END, XmlTokenType.XML_EMPTY_ELEMENT_END)) {
-            // 这里可以实现完整的属性解析，为简化先跳过
-            builder.advanceLexer()
+            // 如果标签是自闭合的 (e.g., <br/>), 则直接结束
+            if (builder.tokenType == XmlTokenType.XML_EMPTY_ELEMENT_END) {
+                builder.advanceLexer() // 消费 '/>'
+                tagMarker.done(rootType)
+                return
+            }
+
+            // 消费 '>'
+            if (builder.tokenType == XmlTokenType.XML_TAG_END) {
+                builder.advanceLexer()
+            } else {
+                builder.error("Expected '>' or '/>'")
+                tagMarker.done(rootType) // 即使有错也要关闭节点
+                return
+            }
+
+            // 2. 解析标签内容
+            parseContent(builder)
+
+            // 3. 解析结束标签
+            parseEndTag(builder, tagName)
+
+            tagMarker.done(rootType)
         }
 
-        val isSelfClosing = builder.tokenType == XmlTokenType.XML_EMPTY_ELEMENT_END
-        if (isSelfClosing) {
-            builder.advanceLexer() // 消费 '/>'
-            tagMarker.done(elementType)
-            return true
+        /**
+         * 解析开始标签部分： '<' tagName attr1="val1" ...
+         * 返回标签名
+         */
+        private fun parseStartTag(builder: PsiBuilder): String? {
+            val startTagMarker = builder.mark()
+            builder.advanceLexer() // 消费 '<'
+
+            var tagName: String? = null
+            if (builder.tokenType == XmlTokenType.XML_TAG_NAME) {
+                tagName = builder.tokenText
+                builder.advanceLexer() // 消费 tagName
+            } else {
+                builder.error("Tag name expected")
+            }
+
+            // 解析属性
+            while (builder.tokenType == XmlTokenType.XML_NAME) {
+                parseAttribute(builder)
+            }
+
+            startTagMarker.done(ValkyrieElementTypes.XML_START_TAG)
+            return tagName
         }
 
-        if (builder.tokenType == XmlTokenType.XML_TAG_END) {
-            builder.advanceLexer() // 消费 '>'
-        } else {
-            builder.error("Expected '>' or '/>'")
-            tagMarker.done(elementType)
-            return true
+        /**
+         * 解析单个属性： name="value"
+         */
+        private fun parseAttribute(builder: PsiBuilder) {
+            val attrMarker = builder.mark()
+            builder.advanceLexer() // 消费属性名 (XML_NAME)
+
+            if (builder.tokenType == XmlTokenType.XML_EQ) {
+                builder.advanceLexer() // 消费 '='
+                if (builder.tokenType == XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN) {
+                    builder.advanceLexer() // 消费属性值
+                } else {
+                    builder.error("Attribute value expected")
+                }
+            }
+            attrMarker.done(ValkyrieElementTypes.XML_ATTRIBUTE)
         }
 
-        // --- ★★★ 核心修复：为标签内容创建一个节点 ★★★ ---
-        // 即使内容为空，这个 XML_TAG_CONTENT 节点也会被创建，从而保证 AST 结构的完整性。
-        val contentMarker = builder.mark()
-        parseXmlContent(parser, builder)
-        // 假设 ValkyrieElementTypes 中有一个 XML_TAG_CONTENT 类型
-        contentMarker.done(ValkyrieElementTypes.XML_TAG_CONTENT)
+        /**
+         * 解析标签内容：文本、注释、嵌套标签等
+         */
+        private fun parseContent(builder: PsiBuilder) {
+            val contentMarker = builder.mark()
+            while (!builder.eof() && builder.tokenType != XmlTokenType.XML_END_TAG_START) {
+                val initialPos = builder.currentOffset
+                when (builder.tokenType) {
+                    XmlTokenType.XML_START_TAG_START -> parseTag(builder, ValkyrieElementTypes.XML_ELEMENT)
+                    XmlTokenType.XML_COMMENT_START -> parseComment(builder)
+                    // 处理所有应被视为文本的token
+                    XmlTokenType.XML_DATA_CHARACTERS,
+                    XmlTokenType.XML_CHAR_ENTITY_REF,
+                    XmlTokenType.XML_ENTITY_REF_TOKEN -> {
+                        val textMarker = builder.mark()
+                        builder.advanceLexer()
+                        textMarker.done(ValkyrieElementTypes.XML_TEXT_NODE)
+                    }
+                    // TODO: 在这里可以添加对 `{...}` 插槽的解析
+                    // ValkyrieTokenTypes.XML_SLOT_L -> parseXmlSlot(builder)
+                    else -> {
+                        // 保护机制，防止未知token导致无限循环
+                        builder.error("Unexpected token in tag content")
+                        builder.advanceLexer()
+                    }
+                }
+                // 如果解析器没有前进，强制前进以避免死循环
+                if (builder.currentOffset == initialPos) {
+                    builder.advanceLexer()
+                }
+            }
+            contentMarker.done(ValkyrieElementTypes.XML_TAG_CONTENT)
+        }
 
-        // --- 解析结束标签 ---
-        if (builder.tokenType == XmlTokenType.XML_END_TAG_START) {
+        /**
+         * 解析结束标签： '</' tagName '>'
+         */
+        private fun parseEndTag(builder: PsiBuilder, expectedTagName: String?) {
+            if (builder.tokenType != XmlTokenType.XML_END_TAG_START) {
+                // 如果没有找到结束标签，报告错误。这对于像<template>这样的顶层块是严重错误。
+                if (expectedTagName != null) {
+                    builder.error("Expected closing tag for '<$expectedTagName>'")
+                }
+                return
+            }
+
+            val endTagMarker = builder.mark()
             builder.advanceLexer() // 消费 '</'
 
-            if (builder.tokenType == XmlTokenType.XML_TAG_NAME && builder.tokenText == tagName) {
-                builder.advanceLexer() // 消费 标签名
+            if (builder.tokenType == XmlTokenType.XML_TAG_NAME) {
+                if (expectedTagName != null && builder.tokenText != expectedTagName) {
+                    builder.error("Mismatched closing tag. Expected '</$expectedTagName>', but found '</${builder.tokenText}>'")
+                }
+                builder.advanceLexer() // 消费 tagName
             } else {
-                builder.error("Expected closing tag for '$tagName'")
+                builder.error("Tag name expected in closing tag")
             }
 
             if (builder.tokenType == XmlTokenType.XML_TAG_END) {
@@ -167,101 +226,23 @@ class ValkyrieSfcParser : ValkyrieParser() {
             } else {
                 builder.error("Expected '>' to close the tag")
             }
-        } else {
-            builder.error("Expected closing tag for '$tagName'")
+            endTagMarker.done(ValkyrieElementTypes.XML_END_TAG)
         }
 
-        tagMarker.done(elementType)
-        return true
-    }
-
-    /**
-     * 解析XML内容
-     */
-    private fun parseXmlContent(parser: ValkyrieParser, builder: PsiBuilder) {
-        while (!builder.eof() && builder.tokenType != XmlTokenType.XML_END_TAG_START) {
-            val initialPosition = builder.currentOffset
-
-            when (builder.tokenType) {
-                XmlTokenType.XML_START_TAG_START -> parseNestedXmlElement(parser, builder)
-                XmlTokenType.XML_COMMENT_START -> parseXmlComment(builder)
-                ValkyrieTokenTypes.XML_SLOT_L -> parseXmlSlot(parser, builder)
-
-                // 处理文本内容
-                XmlTokenType.XML_DATA_CHARACTERS,
-                ValkyrieTokenTypes.SCRIPT_CONTENT,
-                ValkyrieTokenTypes.STYLE_CONTENT -> {
-                    val textMarker = builder.mark()
+        /**
+         * 解析XML注释
+         */
+        fun parseComment(builder: PsiBuilder) {
+            val marker = builder.mark()
+            if (builder.tokenType == XmlTokenType.XML_COMMENT_START) {
+                while (!builder.eof() && builder.tokenType != XmlTokenType.XML_COMMENT_END) {
                     builder.advanceLexer()
-                    textMarker.done(ValkyrieElementTypes.XML_TEXT_NODE)
                 }
-
-                // 其他任何 token 都被视为内容的一部分，直到遇到结束标签
-                else -> {
-                    // 对于无法识别的 token，简单地前进以避免无限循环
-                    // 在更复杂的解析器中，这里可能会创建错误节点
+                if (builder.tokenType == XmlTokenType.XML_COMMENT_END) {
                     builder.advanceLexer()
                 }
             }
-
-            // 保护机制，防止因解析逻辑错误导致的无限循环
-            if (builder.currentOffset == initialPosition) {
-                builder.error("Parser did not advance inside XML content")
-                builder.advanceLexer()
-            }
+            marker.done(XmlElementType.XML_COMMENT)
         }
-    }
-
-    /**
-     * 解析嵌套的XML元素 (简化版)
-     */
-    private fun parseNestedXmlElement(parser: ValkyrieParser, builder: PsiBuilder) {
-        val marker = builder.mark()
-        // 调用一个更通用的XML标签解析器，这里为了演示，我们用一个简化的实现
-        // 假设我们有一个通用的 `parseXmlTag` 变体来处理任意XML元素
-        // 这里只是一个占位实现：
-        builder.advanceLexer() // <
-        if (builder.tokenType == XmlTokenType.XML_TAG_NAME) builder.advanceLexer()
-        while (!builder.eof() && builder.tokenType !in listOf(XmlTokenType.XML_TAG_END, XmlTokenType.XML_EMPTY_ELEMENT_END)) {
-            builder.advanceLexer() // attributes
-        }
-        val isSelfClosing = builder.tokenType == XmlTokenType.XML_EMPTY_ELEMENT_END
-        if (builder.tokenType in listOf(XmlTokenType.XML_TAG_END, XmlTokenType.XML_EMPTY_ELEMENT_END)) builder.advanceLexer()
-
-        if (!isSelfClosing) {
-            parseXmlContent(parser, builder)
-            if (builder.tokenType == XmlTokenType.XML_END_TAG_START) builder.advanceLexer() // </
-            if (builder.tokenType == XmlTokenType.XML_TAG_NAME) builder.advanceLexer()
-            if (builder.tokenType == XmlTokenType.XML_TAG_END) builder.advanceLexer() // >
-        }
-        marker.done(ValkyrieElementTypes.XML_ELEMENT)
-    }
-
-    /**
-     * 解析XML插槽表达式 {expression}
-     */
-    private fun parseXmlSlot(parser: ValkyrieParser, builder: PsiBuilder) {
-        val marker = builder.mark()
-        if (builder.tokenType == ValkyrieTokenTypes.XML_SLOT_L) {
-            builder.advanceLexer() // 消费 '{'
-            // 解析内部表达式
-            if (builder.tokenType != ValkyrieTokenTypes.XML_SLOT_R) {
-                parseExpression(parser, builder)
-            }
-            if (builder.tokenType == ValkyrieTokenTypes.XML_SLOT_R) {
-                builder.advanceLexer() // 消费 '}'
-            } else {
-                builder.error("Expected '}'")
-            }
-        }
-        marker.done(ValkyrieElementTypes.XML_SLOT_EXPRESSION)
-    }
-
-    /**
-     * 解析Valkyrie表达式
-     */
-    private fun parseExpression(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
-        // 确保你的父类 ValkyrieParser 有一个 parseExpressionStatement 方法
-        return parser.parseExpressionStatement(builder)
     }
 }
