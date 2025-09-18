@@ -3,6 +3,7 @@ package valkyrie.psi.parsers
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.psi.tree.IElementType
+import com.intellij.psi.xml.XmlElementType
 import com.intellij.psi.xml.XmlTokenType
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.lexers.ValkyrieTokenTypes
@@ -108,7 +109,7 @@ class ValkyrieSfcParser : ValkyrieParser() {
         if (builder.tokenType == XmlTokenType.XML_COMMENT_END) {
             builder.advanceLexer()
         }
-        marker.done(ValkyrieElementTypes.XML_COMMENT)
+        marker.done(XmlElementType.XML_COMMENT)
     }
 
     /**
