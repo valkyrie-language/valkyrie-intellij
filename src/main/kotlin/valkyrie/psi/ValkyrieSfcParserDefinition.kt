@@ -15,7 +15,7 @@ import valkyrie.language.ValkyrieComponentLanguage
 import valkyrie.psi.lexers.ValkyrieSfcLexer
 import valkyrie.psi.lexers.ValkyrieTokenTypes
 import valkyrie.psi.nodes.ValkyrieSfcFileNode
-import valkyrie.psi.parsers.ValkyrieParser
+import valkyrie.psi.parsers.ValkyrieSfcParser
 
 /**
  * Valkyrie Component 语言解析器定义
@@ -29,7 +29,7 @@ class ValkyrieSfcParserDefinition : ParserDefinition {
 
     override fun createLexer(project: Project?): Lexer = ValkyrieSfcLexer()
 
-    override fun createParser(project: Project?): PsiParser = ValkyrieParser()
+    override fun createParser(project: Project?): PsiParser = ValkyrieSfcParser()
 
     override fun getFileNodeType(): IFileElementType = FILE
 

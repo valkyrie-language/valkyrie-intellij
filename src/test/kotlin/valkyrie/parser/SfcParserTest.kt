@@ -14,9 +14,10 @@ class SfcParserTest : ParsingTestCase("testData/parser/sfc", "vkc", ValkyrieSfcP
     fun testStyleEmpty() = doTest(true, true)
     fun testStyleContent() = doTest(true, true)
     fun testStyleWithStylus() = doTest(true, true)
-    fun testEmptyScript() = doTest(true, true)
+    fun testScriptEmpty() = doTest(true, true)
     fun testSfcEmpty() = doTest(true, true)
     fun testSfcWithScriptXmlTags() = doTest(true, true)
+    fun testMinimalTest() = doTest(true, true)
 
     override fun skipSpaces(): Boolean {
         return false
