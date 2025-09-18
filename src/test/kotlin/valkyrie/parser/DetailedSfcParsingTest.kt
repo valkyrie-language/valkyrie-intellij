@@ -57,50 +57,40 @@ class DetailedSfcParsingTest : ParsingTestCase("", "vkc", ValkyrieSfcParserDefin
     
     private fun collectErrorElements(element: com.intellij.psi.PsiElement): List<com.intellij.psi.PsiErrorElement> {
         val errors = mutableListOf<com.intellij.psi.PsiErrorElement>()
+        println("Starting error collection for element: ${element.javaClass.simpleName}")
+
         try {
-            println("Starting error collection for element: ${element.javaClass.simpleName}")
             element.accept(object : com.intellij.psi.PsiRecursiveElementVisitor() {
                 override fun visitElement(element: com.intellij.psi.PsiElement) {
-                    // 检查当前元素是否为null
-                    if (element == null) {
-                        println("WARNING: Found null element during traversal")
-                        return
+                    println("Visiting element: ${element.javaClass.simpleName} - ${element.node?.elementType}")
+                    
+                    if (element is com.intellij.psi.PsiErrorElement) {
+                        println("Found error element: ${element.errorDescription}")
+                        errors.add(element)
                     }
                     
-                    // 使用更安全的方式检查子元素
+                    // 安全地访问子元素
                     try {
                         val children = element.children
-                        println("Element ${element.javaClass.simpleName} has ${children.size} children")
-                        for (i in children.indices) {
-                            val child = children[i]
-                            if (child == null) {
-                                println("WARNING: Found null child at index $i in element: ${element.javaClass.simpleName}")
-                                println("Element text: '${element.text}'")
-                                println("Element range: ${element.textRange}")
-                                println("Total children count: ${children.size}")
+                        println("Element has ${children.size} children")
+                        for (child in children) {
+                            if (child != null) {
+                                child.accept(this)
+                            } else {
+                                println("WARNING: Found null child in element: ${element.javaClass.simpleName}")
                             }
                         }
                     } catch (e: Exception) {
                         println("ERROR accessing children of ${element.javaClass.simpleName}: ${e.message}")
-                        println("Element text: '${element.text}'")
-                        println("Element range: ${element.textRange}")
-                        // 不继续遍历这个有问题的元素的子节点
-                        return
+                        // 不要重新抛出异常，继续处理其他元素
                     }
-                    
-                    super.visitElement(element)
-                }
-                
-                override fun visitErrorElement(element: com.intellij.psi.PsiErrorElement) {
-                    println("Found error element: ${element.errorDescription} at ${element.textRange}")
-                    errors.add(element)
-                    super.visitErrorElement(element)
                 }
             })
         } catch (e: Exception) {
-            println("Error collecting error elements: ${e.message}")
+            println("ERROR during error collection: ${e.message}")
             e.printStackTrace()
         }
+
         return errors
     }
 }
