@@ -1,0 +1,9 @@
+Valkyrie Component File(0,21)
+  PsiErrorElement:Expected expression(0,0)
+    <empty list>
+  PsiElement(XML_START_TAG_START)('<')(0,1)
+  PsiElement(ValkyrieTokenType.XML_KEYWORD_TEMPLATE)('template')(1,9)
+  PsiElement(XML_TAG_END)('>')(9,10)
+  PsiElement(XML_END_TAG_START)('</')(10,12)
+  PsiElement(ValkyrieTokenType.XML_KEYWORD_TEMPLATE)('template')(12,20)
+  PsiElement(XML_TAG_END)('>')(20,21)

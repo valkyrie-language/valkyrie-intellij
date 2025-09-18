@@ -1,0 +1,105 @@
+Valkyrie File
+  PsiComment(ValkyrieTokenType.#)('# 测试简单 for 语句')
+  PsiWhiteSpace('\n')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieLoopStatement
+        PsiElement(ValkyrieTokenType.loop)('for')
+        PsiWhiteSpace(' ')
+        ValkyrieElementNode(ValkyrieElementType.BARE_PATTERN)
+          ValkyrieIdentifier(i)
+            PsiElement(ValkyrieTokenType.SYMBOL.STD)('i')
+        PsiWhiteSpace(' ')
+        PsiElement(ValkyrieTokenType.in)('in')
+        PsiWhiteSpace(' ')
+        ValkyriePostfixExpression
+          ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+            ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+              ValkyrieIdentifier(expression)
+                PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')
+          PsiWhiteSpace(' ')
+          PsiElement(ValkyrieTokenType.{)('{')
+        PsiErrorElement:Expected '{' after 'loop'
+          <empty list>
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+    <empty list>
+  PsiElement(ValkyrieTokenType.;)(';')
+  PsiWhiteSpace('\n\n')
+  PsiComment(ValkyrieTokenType.#)('# 测试带标签的 for 语句')
+  PsiWhiteSpace('\n')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieLoopStatement
+        PsiElement(ValkyrieTokenType.loop)('for')
+        PsiWhiteSpace(' ')
+        ValkyrieElementNode(ValkyrieElementType.BARE_PATTERN)
+          ValkyrieIdentifier(i)
+            PsiElement(ValkyrieTokenType.SYMBOL.STD)('i')
+        PsiWhiteSpace(' ')
+        PsiElement(ValkyrieTokenType.in)('in')
+        PsiWhiteSpace(' ')
+        ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+          ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+            ValkyrieIdentifier(expression)
+              PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')
+        PsiWhiteSpace(' ')
+        ValkyrieElementNode(ValkyrieElementType.LABEL_STATEMENT)
+          PsiElement(ValkyrieTokenType.※)('※')
+          ValkyrieIdentifier(label)
+            PsiElement(ValkyrieTokenType.SYMBOL.STD)('label')
+        PsiWhiteSpace(' ')
+        ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
+          PsiElement(ValkyrieTokenType.{)('{')
+          PsiWhiteSpace(' ')
+          PsiElement(ValkyrieTokenType.})('}')
+    PsiElement(ValkyrieTokenType.;)(';')
+  PsiWhiteSpace('\n\n')
+  PsiComment(ValkyrieTokenType.#)('# 测试 for-else 语句')
+  PsiWhiteSpace('\n')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieLoopStatement
+        PsiElement(ValkyrieTokenType.loop)('for')
+        PsiWhiteSpace(' ')
+        ValkyrieElementNode(ValkyrieElementType.BARE_PATTERN)
+          ValkyrieIdentifier(i)
+            PsiElement(ValkyrieTokenType.SYMBOL.STD)('i')
+        PsiWhiteSpace(' ')
+        PsiElement(ValkyrieTokenType.in)('in')
+        PsiWhiteSpace(' ')
+        ValkyriePostfixExpression
+          ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+            ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+              ValkyrieIdentifier(expression)
+                PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')
+          PsiWhiteSpace(' ')
+          PsiElement(ValkyrieTokenType.{)('{')
+        PsiErrorElement:Expected '{' after 'loop'
+          <empty list>
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiWhiteSpace('\n\n')
+  PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiWhiteSpace('\n')
+  PsiElement(ValkyrieTokenType.else)('else')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.{)('{')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
+    <empty list>
+  PsiWhiteSpace('\n\n')
+  PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+    <empty list>
+  PsiElement(ValkyrieTokenType.;)(';')

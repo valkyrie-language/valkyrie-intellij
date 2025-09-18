@@ -1,0 +1,10 @@
+Valkyrie Component File(0,25)
+  PsiErrorElement:Expected expression(0,0)
+    <empty list>
+  PsiElement(XML_START_TAG_START)('<')(0,1)
+  PsiElement(ValkyrieTokenType.XML_KEYWORD_STYLE)('style')(1,6)
+  PsiElement(XML_TAG_END)('>')(6,7)
+  PsiElement(ValkyrieTokenType.STYLE_CONTENT)('\nscss { }\n')(7,17)
+  PsiElement(XML_END_TAG_START)('</')(17,19)
+  PsiElement(ValkyrieTokenType.XML_KEYWORD_STYLE)('style')(19,24)
+  PsiElement(XML_TAG_END)('>')(24,25)
