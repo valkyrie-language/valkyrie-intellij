@@ -4,6 +4,10 @@ package valkyrie.psi
  * Valkyrie PSI 元素类型定义
  */
 object ValkyrieElementTypes {
+    val XML_TAG_CONTENT = ValkyrieElementType("XML_TAG_CONTENT")
+    val XML_STYLE = ValkyrieElementType("XML_STYLE")
+    val XML_SCRIPT = ValkyrieElementType("XML_SCRIPT")
+    val XML_TEMPLATE = ValkyrieElementType("XML_TEMPLATE")
     val VECTOR_TYPE = ValkyrieElementType("VECTOR_TYPE")
     val TABLE_ITEM = ValkyrieElementType("TABLE_ITEM")
     val TYPE_GROUP = ValkyrieElementType("GROUP_TYPE")
