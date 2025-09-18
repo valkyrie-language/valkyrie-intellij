@@ -15,11 +15,13 @@ class DetailedSfcParsingTest : ParsingTestCase("", "vkc", ValkyrieSfcParserDefin
         <p>Hello World</p>
     </div>
 </template>
-<style>
+
+<style lang="scss">
     .container {
         padding: 20px;
     }
 </style>
+
 <script>
 
 </script>
@@ -67,15 +69,17 @@ class DetailedSfcParsingTest : ParsingTestCase("", "vkc", ValkyrieSfcParserDefin
                         errors.add(element)
                     }
                     
-                    // 安全地访问子元素
+                    // 使用node访问子元素而不是children属性
                     try {
-                        val children = element.children
-                        println("Element has ${children.size} children")
-                        for (child in children) {
-                            if (child != null) {
-                                child.accept(this)
-                            } else {
-                                println("WARNING: Found null child in element: ${element.javaClass.simpleName}")
+                        val node = element.node
+                        if (node != null) {
+                            var child = node.firstChildNode
+                            while (child != null) {
+                                val childPsi = child.psi
+                                if (childPsi != null) {
+                                    childPsi.accept(this)
+                                }
+                                child = child.treeNext
                             }
                         }
                     } catch (e: Exception) {

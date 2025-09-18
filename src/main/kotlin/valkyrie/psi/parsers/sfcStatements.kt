@@ -14,8 +14,21 @@ fun parseSfcTemplateStatement(parser: ValkyrieParser, builder: PsiBuilder): Bool
     }
 
     // 检查是否是 template 标签
-    if (builder.lookAhead(1) != ValkyrieTokenTypes.XML_TEMPLATE) {
-        return false
+    val nextToken = builder.lookAhead(1)
+    if (nextToken != ValkyrieTokenTypes.XML_TEMPLATE) {
+        // 如果不是特殊的XML_TEMPLATE token，检查是否是普通的XML_NAME且内容为"template"
+        if (nextToken == XmlTokenType.XML_NAME) {
+            // 需要临时前进到下一个token来获取文本
+            val marker = builder.mark()
+            builder.advanceLexer() // 跳过 '<'
+            val tagName = builder.tokenText
+            marker.rollbackTo() // 回滚到原位置
+            if (tagName != "template") {
+                return false
+            }
+        } else {
+            return false
+        }
     }
 
     // 解析template标签，使用SFC_TEMPLATE类型
@@ -32,8 +45,21 @@ fun parseSfcStyleStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean
     }
 
     // 检查是否是 style 标签
-    if (builder.lookAhead(1) != ValkyrieTokenTypes.XML_STYLE) {
-        return false
+    val nextToken = builder.lookAhead(1)
+    if (nextToken != ValkyrieTokenTypes.XML_STYLE) {
+        // 如果不是特殊的XML_STYLE token，检查是否是普通的XML_NAME且内容为"style"
+        if (nextToken == XmlTokenType.XML_NAME) {
+            // 需要临时前进到下一个token来获取文本
+            val marker = builder.mark()
+            builder.advanceLexer() // 跳过 '<'
+            val tagName = builder.tokenText
+            marker.rollbackTo() // 回滚到原位置
+            if (tagName != "style") {
+                return false
+            }
+        } else {
+            return false
+        }
     }
 
     // 解析style标签，使用SFC_STYLE类型
@@ -50,8 +76,21 @@ fun parseSfcScriptStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolea
     }
 
     // 检查是否是 script 标签
-    if (builder.lookAhead(1) != ValkyrieTokenTypes.XML_SCRIPT) {
-        return false
+    val nextToken = builder.lookAhead(1)
+    if (nextToken != ValkyrieTokenTypes.XML_SCRIPT) {
+        // 如果不是特殊的XML_SCRIPT token，检查是否是普通的XML_NAME且内容为"script"
+        if (nextToken == XmlTokenType.XML_NAME) {
+            // 需要临时前进到下一个token来获取文本
+            val marker = builder.mark()
+            builder.advanceLexer() // 跳过 '<'
+            val tagName = builder.tokenText
+            marker.rollbackTo() // 回滚到原位置
+            if (tagName != "script") {
+                return false
+            }
+        } else {
+            return false
+        }
     }
 
     // 解析script标签，使用SFC_SCRIPT类型
@@ -141,8 +180,9 @@ private fun parseXmlContent(parser: ValkyrieParser, builder: PsiBuilder) {
             ValkyrieTokenTypes.XML_SLOT_L -> {
                 parseXmlSlot(parser, builder)
             }
-            ValkyrieTokenTypes.STYLE_CONTENT -> {
-                // 处理style标签内的CSS内容
+            ValkyrieTokenTypes.STYLE_CONTENT,
+            ValkyrieTokenTypes.SCRIPT_CONTENT -> {
+                // 处理style和script标签内的内容
                 builder.advanceLexer()
             }
             else -> {

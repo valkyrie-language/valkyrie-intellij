@@ -70,15 +70,23 @@ class ValkyrieParser : PsiParser {
             parseMezzoAssign(builder) -> return true
             parseMacroStatement(builder) -> return true
             parseMacroAssignment(builder) -> return true
-            // xml elements
-            parseXmlTextStatement(builder) -> return true
-            // sfc elements
+            // sfc elements - 必须在XML文本解析之前
             parseSfcTemplateStatement(this, builder) -> return true
             parseSfcStyleStatement(this, builder) -> return true
             parseSfcScriptStatement(this, builder) -> return true
+            // xml elements
+            parseXmlTextStatement(builder) -> return true
             //
             builder.tokenType == null -> return true
-            else -> parseExpressionStatement(builder)
+            else -> {
+                // 对于SFC文件中template结束标签后的内容，不应该尝试解析为表达式
+                // 直接跳过未识别的token，避免"Expected expression"错误
+                if (builder.tokenType != null) {
+                    builder.advanceLexer()
+                    return true
+                }
+                return false
+            }
         }
         if (builder.currentOffset == safePoint) {
             builder.error("Unexpected token: ${builder.tokenType}")
