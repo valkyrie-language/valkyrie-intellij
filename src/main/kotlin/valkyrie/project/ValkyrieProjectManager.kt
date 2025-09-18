@@ -28,6 +28,7 @@ class ValkyrieProjectManager(private val project: Project) {
 
     private val workspaceParser = ValkyrieWorkspaceParser()
     private val projectParser = ValkyrieProjectParser()
+    private val packageManager = ValkyriePackageManager.getInstance(project)
 
     // 缓存已解析的 workspace 和 project
     private val workspaceCache = ConcurrentHashMap<VirtualFile, ValkyrieWorkspace?>()
@@ -280,6 +281,13 @@ class ValkyrieProjectManager(private val project: Project) {
             isInWorkspace = workspace != null,
             isInProject = project != null
         )
+    }
+
+    /**
+     * 获取包管理器实例
+     */
+    fun getPackageManager(): ValkyriePackageManager {
+        return packageManager
     }
 }
 

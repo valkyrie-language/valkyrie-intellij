@@ -1,0 +1,41 @@
+ValkyrieFile
+  UNITY_STATEMENT
+    IDENTIFIER_NODE: Option
+    GENERIC_PARAMETER_LIST
+      GENERIC_PARAMETER
+        IDENTIFIER_NODE: V
+    UNION_BODY
+      UNION_VARIANT
+        IDENTIFIER_NODE: Some
+        OBJECT_BODY
+          FIELD_DECLARATION
+            IDENTIFIER_NODE: value
+            TYPE_HINT
+              TYPE_EXPRESSION
+                NAMESPACE_PATH
+                  IDENTIFIER_NODE: V
+      UNION_VARIANT
+        IDENTIFIER_NODE: None
+        OBJECT_BODY
+  IMPLY_STATEMENT
+    NAMESPACE_PATH
+      IDENTIFIER_NODE: Option
+      IDENTIFIER_NODE: Some
+    CONSTRUCTOR_BODY
+      PARAMETER_LIST
+        PARAMETER
+          IDENTIFIER_NODE: value
+          TYPE_HINT
+            TYPE_EXPRESSION
+              NAMESPACE_PATH
+                IDENTIFIER_NODE: V
+      FUNCTION_BODY
+        EXPRESSION_STATEMENT
+          BINARY_EXPRESSION
+            EXPRESSION
+              DOT_EXPRESSION
+                EXPRESSION
+                  IDENTIFIER_NODE: this
+                IDENTIFIER_NODE: value
+            EXPRESSION
+              IDENTIFIER_NODE: value

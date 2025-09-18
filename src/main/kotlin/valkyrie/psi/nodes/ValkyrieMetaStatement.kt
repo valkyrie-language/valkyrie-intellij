@@ -4,8 +4,8 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.PsiElement
 import valkyrie.ide.navigation.MetaType
-import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieTypes
+import valkyrie.psi.parsers.ValkyrieElementNode
 
 /**
  * 元编程语句实现
@@ -14,13 +14,13 @@ import valkyrie.psi.lexers.ValkyrieTokenTypes
 class ValkyrieMetaStatement(node: ASTNode) : ValkyrieElementNode(node), PsiNameIdentifierOwner {
     
     override fun getNameIdentifier(): PsiElement? {
-        return findChildByType(ValkyrieTokenTypes.SYMBOL_XID)
+        return findChildByClass(ValkyrieIdentifierNode::class.java)
     }
-    
+
     override fun getName(): String? {
         return nameIdentifier?.text
     }
-    
+
     override fun setName(name: String): PsiElement {
         val nameIdentifier = getNameIdentifier()
         if (nameIdentifier is ValkyrieIdentifierNode) {
@@ -28,43 +28,44 @@ class ValkyrieMetaStatement(node: ASTNode) : ValkyrieElementNode(node), PsiNameI
         }
         return this
     }
-    
+
     /**
      * 获取元编程类型 (micro, mezzo, macro)
      */
     fun getMetaType(): MetaType {
-        return when {
-            hasKeyword("micro") -> MetaType.MICRO
-            hasKeyword("mezzo") -> MetaType.MEZZO
-            hasKeyword("macro") -> MetaType.MACRO
-            else -> MetaType.UNKNOWN
+        return when (this.node.elementType) {
+            ValkyrieTypes.DECLARE_MACRO -> MetaType.MACRO
+            ValkyrieTypes.DECLARE_MEZZO -> MetaType.MEZZO
+            else -> MetaType.MICRO
         }
     }
-    
+
     /**
      * 检查是否包含指定关键字
      */
     private fun hasKeyword(keyword: String): Boolean {
-        return text.contains(keyword)
+        return children.any { it.text == keyword }
     }
     
     /**
      * 获取参数列表
      */
-    fun getParameterList(): List<PsiElement> {
-        return children.filter { it.text.contains("(") || it.text.contains(")") }
+    fun getParameterList(): List<ValkyrieTermParameterItem> {
+        return findChildByClass(ValkyrieTermParameterList::class.java)?.getParameterItems() ?: emptyList()
     }
     
     /**
      * 获取返回类型文本
      */
     fun getReturnTypeText(): String? {
-        val text = this.text
-        val arrowIndex = text.indexOf("->")
-        if (arrowIndex != -1) {
-            return text.substring(arrowIndex + 2).trim().split("{").first().trim()
-        }
-        return null
+        return getReturnType()?.text
+    }
+    
+    /**
+     * 获取返回类型
+     */
+    fun getReturnType(): ValkyrieTypeReferenceNode? {
+        return findChildByClass(ValkyrieTypeReferenceNode::class.java)
     }
     
     /**
@@ -115,7 +116,7 @@ class ValkyrieMetaStatement(node: ASTNode) : ValkyrieElementNode(node), PsiNameI
     fun getSignature(): String {
         val metaType = getMetaType().name.lowercase()
         val name = getName() ?: "<unnamed>"
-        val returnType = getReturnTypeText() ?: "Unit"
+        val returnType = getReturnType()?.text ?: "Unit"
         return "$metaType $name(...) -> $returnType"
     }
 }

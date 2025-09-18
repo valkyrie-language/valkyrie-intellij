@@ -1,0 +1,30 @@
+Valkyrie File
+  PsiComment(ValkyrieTokenType.⍝)('⍝? The type of a filesystem object referenced by a descriptor. ')
+  ValkyrieElementNode(ValkyrieElementType.ENUMS_STATEMENT)
+    PsiElement(ValkyrieTokenType.eidos)('enums')
+    ValkyrieIdentifier(DescriptorType)
+      PsiElement(ValkyrieTokenType.SYMBOL.XID)('DescriptorType')
+    ValkyrieObjectBodyNode(ValkyrieElementType.OBJECT_BODY)
+      PsiElement(ValkyrieTokenType.{)('{')
+      PsiComment(ValkyrieTokenType.⍝)('⍝? The type of the descriptor or file is unknown or is different from ')
+      ValkyrieVariantDeclaration(ValkyrieElementType.FLAGS_ITEM)
+        ValkyrieIdentifier(Unknown)
+          PsiElement(ValkyrieTokenType.SYMBOL.XID)('Unknown')
+      PsiErrorElement:Unable to parse enumerate member
+        <empty list>
+      PsiElement(ValkyrieTokenType.,)(',')
+      PsiComment(ValkyrieTokenType.⍝)('⍝? The descriptor refers to a block device inode. ')
+      ValkyrieVariantDeclaration(ValkyrieElementType.FLAGS_ITEM)
+        ValkyrieIdentifier(BlockDevice)
+          PsiElement(ValkyrieTokenType.SYMBOL.XID)('BlockDevice')
+      PsiErrorElement:Unable to parse enumerate member
+        <empty list>
+      PsiElement(ValkyrieTokenType.,)(',')
+      PsiComment(ValkyrieTokenType.⍝)('⍝? The descriptor refers to a character device inode. ')
+      ValkyrieVariantDeclaration(ValkyrieElementType.FLAGS_ITEM)
+        ValkyrieIdentifier(CharacterDevice)
+          PsiElement(ValkyrieTokenType.SYMBOL.XID)('CharacterDevice')
+      PsiErrorElement:Unable to parse enumerate member
+        <empty list>
+      PsiElement(ValkyrieTokenType.,)(',')
+      PsiElement(ValkyrieTokenType.})('}')

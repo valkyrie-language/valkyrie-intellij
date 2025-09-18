@@ -6,8 +6,8 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.language.ValkyrieIcons
-import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieTypes
 
 /**
  * Let 语句实现
@@ -15,12 +15,12 @@ import valkyrie.psi.lexers.ValkyrieTokenTypes
 class ValkyrieLetStatementNode(node: ASTNode) : ValkyrieElementNode(node) {
     
     fun getIdentifier(): PsiElement? {
-        return findChildByType<PsiElement>(ValkyrieTokenTypes.SYMBOL_XID)
+        return findChildByType<PsiElement>(ValkyrieTypes.SYMBOL_XID) ?: findChildByType<PsiElement>(ValkyrieTypes.SYMBOL_RAW)
     }
     
     fun getExpression(): PsiElement? {
         // 找到 = 后面的表达式
-        val assign = findChildByType<PsiElement>(ValkyrieTokenTypes.ASSIGN)
+        val assign = findChildByType<PsiElement>(ValkyrieTypes.ASSIGN)
         return assign?.let { assignElement ->
             PsiTreeUtil.getNextSiblingOfType(assignElement, ValkyrieElementNode::class.java)
         }

@@ -1,0 +1,14 @@
+# 测试简单的 fallthrough 语句
+fallthrough;
+
+# 跳过 case 判定, 强制跳转进入下一个 branch
+fallthrough!;
+
+# 测试带值的 fallthrough 语句
+fallthrough value;
+
+# 测试带标签的 fallthrough 语句
+fallthrough ※label;
+
+# 测试带标签和值的 fallthrough 语句
+fallthrough ※label value;

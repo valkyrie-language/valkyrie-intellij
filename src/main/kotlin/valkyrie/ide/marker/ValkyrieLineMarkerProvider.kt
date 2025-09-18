@@ -8,7 +8,7 @@ import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.psi.nodes.*
-import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieTypes
 import valkyrie.index.ValkyrieSymbolIndex
 
 /**
@@ -24,11 +24,11 @@ class ValkyrieLineMarkerProvider : LineMarkerProvider {
         val parent = element.parent ?: return null
         
         return when {
-            element.node?.elementType == ValkyrieTokenTypes.CLASS && parent is ValkyrieClassDeclaration -> 
+            element.node?.elementType == ValkyrieTypes.CLASS && parent is ValkyrieClassDeclaration ->
                 createClassNavigationMarker(element)
-            element.node?.elementType == ValkyrieTokenTypes.NAMESPACE && parent is ValkyrieNamespaceDeclaration -> 
+            element.node?.elementType == ValkyrieTypes.NAMESPACE && parent is ValkyrieNamespaceDeclaration ->
                 createNamespaceNavigationMarker(element)
-            element.node?.elementType == ValkyrieTokenTypes.IMPLY && parent is ValkyrieImplyStatement -> 
+            element.node?.elementType == ValkyrieTypes.IMPLY && parent is ValkyrieImplyStatement ->
                 createImplyNavigationMarker(element)
             isOverrideKeyword(element) -> createOverrideMarker(element)
             isImplementKeyword(element) -> createImplementMarker(element)

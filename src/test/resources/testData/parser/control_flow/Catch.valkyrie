@@ -1,0 +1,22 @@
+# Basic empty clause
+catch value {}
+
+# Catch empty branches
+catch person {
+    type Typing:
+    when expression:
+    case pattern:
+    else:
+}
+
+# Match clause with condition
+catch person {
+    ↯attribute
+    type Typing if conditional:
+    ↯attribute
+    when expression:
+    ↯attribute
+    case pattern if conditional:
+    ↯attribute
+    else:
+}

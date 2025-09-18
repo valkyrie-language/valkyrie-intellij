@@ -1,38 +1,22 @@
 package valkyrie.parser
 
 import com.intellij.testFramework.ParsingTestCase
-import valkyrie.psi.ValkyrieParserDefinition
+import valkyrie.psi.parsers.ValkyrieParserDefinition
 
-class TypeExpressionTest : ParsingTestCase("testData/parser/complex", "vk", ValkyrieParserDefinition()) {
-
+class TypeExpressionTest : ParsingTestCase("testData/parser/type_expression", "vk", ValkyrieParserDefinition()) {
     override fun getTestDataPath(): String = "src/test/resources"
-
-
-    fun testComplexTypeExpressionParsing() = doTest(true, true)
-
-    fun testNestedGenericTypes() = doTest(true, true)
-
-    fun testGenericPathExpressions() = doTest(true, true)
-
-    fun testMultipleTypeParameters() = doTest(true, true)
-
-    fun testDeeplyNestedTypes() = doTest(true, true)
-
-    fun testGenericWithBounds() = doTest(true, true)
-
-    fun testAssociatedTypes() = doTest(true, true)
-
-    fun testHigherKindedTypes() = doTest(true, true)
-
-    fun testTypeAliasWithGenerics() = doTest(true, true)
-
-    fun testComplexFunctionTypes() = doTest(true, true)
-
-    fun testTupleTypes() = doTest(true, true)
-
-    fun testUnionTypes() = doTest(true, true)
-
-    fun testIntersectionTypes() = doTest(true, true)
-
-    fun testExistentialTypes() = doTest(true, true)
+    fun testClassTyping() = doTest(true)
+    fun testBooleanLiterals() = doTest(true)
+    fun testIdentifierExpressions() = doTest(true)
+    fun testPrefixExpressions() = doTest(true)
+    fun testInfixExpressions() = doTest(true)
+    fun testPostfixExpressions() = doTest(true)
+    fun testParenthesizedExpressions() = doTest(true)
+    fun testStringLiterals() = doTest(true)
+    fun testArrayExpressions() = doTest(true)
+    fun testObjectExpressions() = doTest(true)
+    fun testSpecialValues() = doTest(true)
+    override fun skipSpaces(): Boolean {
+        return true
+    }
 }

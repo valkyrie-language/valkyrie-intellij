@@ -8,7 +8,6 @@ import com.intellij.navigation.NavigationItem
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.psi.ValkyrieElementNode
 import valkyrie.psi.nodes.*
 
 /**
