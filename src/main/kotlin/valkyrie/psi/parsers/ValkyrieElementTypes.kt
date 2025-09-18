@@ -4,6 +4,10 @@ package valkyrie.psi
  * Valkyrie PSI 元素类型定义
  */
 object ValkyrieElementTypes {
+    val XML_TAG_CONTENT = ValkyrieElementType("XML_TAG_CONTENT")
+    val XML_STYLE = ValkyrieElementType("XML_STYLE")
+    val XML_SCRIPT = ValkyrieElementType("XML_SCRIPT")
+    val XML_TEMPLATE = ValkyrieElementType("XML_TEMPLATE")
     val VECTOR_TYPE = ValkyrieElementType("VECTOR_TYPE")
     val TABLE_ITEM = ValkyrieElementType("TABLE_ITEM")
     val TYPE_GROUP = ValkyrieElementType("GROUP_TYPE")
@@ -304,6 +308,9 @@ object ValkyrieElementTypes {
     val CONTINUE_STATEMENT = ValkyrieElementType("CONTINUE_STATEMENT")
 
     @JvmField
+    val FALLTHROUGH_STATEMENT = ValkyrieElementType("FALLTHROUGH_STATEMENT")
+
+    @JvmField
     val YIELD_STATEMENT = ValkyrieElementType("YIELD_STATEMENT")
 
     @JvmField
@@ -330,9 +337,6 @@ object ValkyrieElementTypes {
 
     @JvmField
     val XML_ATTRIBUTE_VALUE = ValkyrieElementType("XML_ATTRIBUTE_VALUE")
-
-    @JvmField
-    val XML_COMMENT = ValkyrieElementType("XML_COMMENT")
 
     // SFC (Single File Component) 相关节点
     @JvmField

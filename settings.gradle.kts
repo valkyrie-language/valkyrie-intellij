@@ -1,5 +1,10 @@
 rootProject.name = "Valkyrie Intellij"
 
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+    id("org.jetbrains.intellij.platform.settings") version "2.9.0"
+}
+
 dependencyResolutionManagement {
     repositories {
         // 优先使用国内镜像
@@ -15,8 +20,4 @@ dependencyResolutionManagement {
 
         mavenCentral()
     }
-}
-
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }

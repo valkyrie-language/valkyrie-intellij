@@ -1,54 +1,33 @@
 Valkyrie File
-  PsiErrorElement:Expected expression
-    <empty list>
   PsiComment(ValkyrieTokenType.#)('# 测试简单的 continue 语句')
-  PsiWhiteSpace('\n')
-  PsiElement(ValkyrieTokenType.continue)('continue')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiWhiteSpace('\n\n')
+  ValkyrieElementNode(ValkyrieElementType.CONTINUE_STATEMENT)
+    PsiElement(ValkyrieTokenType.continue)('continue')
+    PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 测试带值的 continue 语句')
-  PsiWhiteSpace('\n')
-  PsiElement(ValkyrieTokenType.continue)('continue')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('value')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiWhiteSpace('\n\n')
+  ValkyrieElementNode(ValkyrieElementType.CONTINUE_STATEMENT)
+    PsiElement(ValkyrieTokenType.continue)('continue')
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+        ValkyrieIdentifier(value)
+          PsiElement(ValkyrieTokenType.SYMBOL.STD)('value')
+    PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 测试带标签的 continue 语句')
-  PsiWhiteSpace('\n')
-  PsiElement(ValkyrieTokenType.continue)('continue')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.※)('※')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('label')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiWhiteSpace('\n\n')
+  ValkyrieElementNode(ValkyrieElementType.CONTINUE_STATEMENT)
+    PsiElement(ValkyrieTokenType.continue)('continue')
+    ValkyrieElementNode(ValkyrieElementType.LABEL_STATEMENT)
+      PsiElement(ValkyrieTokenType.※)('※')
+      ValkyrieIdentifier(label)
+        PsiElement(ValkyrieTokenType.SYMBOL.STD)('label')
+    PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 测试带标签和值的 continue 语句')
-  PsiWhiteSpace('\n')
-  PsiElement(ValkyrieTokenType.continue)('continue')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.※)('※')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('label')
-  PsiWhiteSpace(' ')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('value')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieElementNode(ValkyrieElementType.CONTINUE_STATEMENT)
+    PsiElement(ValkyrieTokenType.continue)('continue')
+    ValkyrieElementNode(ValkyrieElementType.LABEL_STATEMENT)
+      PsiElement(ValkyrieTokenType.※)('※')
+      ValkyrieIdentifier(label)
+        PsiElement(ValkyrieTokenType.SYMBOL.STD)('label')
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+        ValkyrieIdentifier(value)
+          PsiElement(ValkyrieTokenType.SYMBOL.STD)('value')
+    PsiElement(ValkyrieTokenType.;)(';')

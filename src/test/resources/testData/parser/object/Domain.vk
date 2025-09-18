@@ -11,4 +11,10 @@ class {
     modifier domain6 {}
     # 带有属性的领域声明
     ↯attribute domain5 {}
+    # 带有属性的领域声明
+    domain9 {
+        domain99 {
+
+        }
+    }
 }
