@@ -1,6 +1,7 @@
 package valkyrie.psi
 
 import com.intellij.lang.ASTNode
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
@@ -17,12 +18,14 @@ import valkyrie.psi.nodes.dialect_sfc.ValkyrieSfcTemplateNode
  * Valkyrie PSI 元素工厂
  */
 object ValkyrieElementFactory {
+    private val LOG = Logger.getInstance(ValkyrieElementFactory::class.java)
     /**
      * 获取工厂实例
      */
     fun getInstance(project: Project): ValkyrieElementFactory = this
 
     fun createElement(node: ASTNode): PsiElement {
+        LOG.info("ValkyrieElementFactory.createElement: ${node.elementType}")
         return when (node.elementType) {
             ValkyrieElementTypes.FILE -> ValkyrieElementNode(node)
             ValkyrieElementTypes.STATEMENT -> ValkyrieElementNode(node)
@@ -129,11 +132,7 @@ object ValkyrieElementFactory {
      */
     fun createExpressionFromText(text: String, project: Project): PsiElement? {
         val dummyFile = PsiFileFactory.getInstance(project)
-            .createFileFromText(
-                "dummy.vk",
-                ValkyrieLanguage,
-                "let dummy = $text"
-            ) as? ValkyrieFileNode
+            .createFileFromText(                "dummy.vk",                ValkyrieLanguage,                "let dummy = $text"            ) as? ValkyrieFileNode
 
         return dummyFile?.let { file ->
             PsiTreeUtil.findChildOfType(file, PsiElement::class.java)
