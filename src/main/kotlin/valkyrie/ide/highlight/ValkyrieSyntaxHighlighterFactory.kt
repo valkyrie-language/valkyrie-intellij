@@ -10,7 +10,7 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.xml.XmlTokenType
-import valkyrie.language.file.ValkyrieComponentFileType
+import valkyrie.language.file.ValkyrieSfcFileType
 import valkyrie.language.file.ValkyrieXmlFileType
 import valkyrie.psi.lexers.ValkyrieSfcLexer
 import valkyrie.psi.lexers.ValkyrieStandardLexer
@@ -104,7 +104,7 @@ class ValkyrieSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
                         ValkyrieXmlLexer()
                     }
 
-                    ValkyrieComponentFileType.INSTANCE -> {
+                    ValkyrieSfcFileType.INSTANCE -> {
                         ValkyrieSfcLexer()
                     }
 

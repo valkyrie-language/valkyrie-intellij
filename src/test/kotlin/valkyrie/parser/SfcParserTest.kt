@@ -9,27 +9,14 @@ import valkyrie.psi.ValkyrieSfcParserDefinition
 class SfcParserTest : ParsingTestCase("testData/parser/sfc", "vkc", ValkyrieSfcParserDefinition()) {
     override fun getTestDataPath(): String = "src/test/resources"
 
-
-    fun testSfcWithTemplate() = doTest(true, true)
-
-    fun testSfcWithScript() = doTest(true, true)
-
-    fun testSfcWithStyle() = doTest(true, true)
-
-    fun testSfcWithAllSections() = doTest(true, true)
-
-    fun testSfcWithMultipleStyles() = doTest(true, true)
-
-    fun testSfcWithNestedElements() = doTest(true, true)
-
-    fun testSfcWithExpressions() = doTest(true, true)
-
-    fun testSfcWithVoidTags() = doTest(true, true)
-
-    fun testSfcWithAttributes() = doTest(true, true)
-
+    fun testTemplateEmpty() = doTest(true, true)
+    fun testTemplateContent() = doTest(true, true)
+    fun testStyleEmpty() = doTest(true, true)
+    fun testStyleContent() = doTest(true, true)
+    fun testStyleWithStylus() = doTest(true, true)
+    fun testEmptyScript() = doTest(true, true)
     fun testSfcEmpty() = doTest(true, true)
-
+    fun testSfcWithScriptXmlTags() = doTest(true, true)
 
     override fun skipSpaces(): Boolean {
         return false

@@ -14,7 +14,7 @@ import com.intellij.psi.xml.XmlTokenType
 import valkyrie.language.ValkyrieComponentLanguage
 import valkyrie.psi.lexers.ValkyrieSfcLexer
 import valkyrie.psi.lexers.ValkyrieTokenTypes
-import valkyrie.psi.nodes.ValkyrieComponentFileNode
+import valkyrie.psi.nodes.ValkyrieSfcFileNode
 import valkyrie.psi.parsers.ValkyrieParser
 
 /**
@@ -23,7 +23,7 @@ import valkyrie.psi.parsers.ValkyrieParser
 class ValkyrieSfcParserDefinition : ParserDefinition {
 
     companion object {
-        val FILE = IFileElementType(ValkyrieComponentLanguage)
+        val FILE = IFileElementType("Valkyrie Component File", ValkyrieComponentLanguage)
         val STRING_LITERALS = TokenSet.create(ValkyrieTokenTypes.STRING_DQ, ValkyrieTokenTypes.STRING_MQ)
     }
 
@@ -49,6 +49,6 @@ class ValkyrieSfcParserDefinition : ParserDefinition {
     }
 
     override fun createFile(viewProvider: FileViewProvider): PsiFile {
-        return ValkyrieComponentFileNode(viewProvider)
+        return ValkyrieSfcFileNode(viewProvider)
     }
 }

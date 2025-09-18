@@ -110,6 +110,11 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.XML_ATTRIBUTE -> ValkyrieXmlAttributeNode(node)
             ValkyrieElementTypes.XML_TEXT_NODE -> ValkyrieXmlTextNode(node)
             ValkyrieElementTypes.XML_SLOT_EXPRESSION -> ValkyrieXmlSlotExpressionNode(node)
+            // SFC 相关节点
+            ValkyrieElementTypes.SFC_TEMPLATE -> ValkyrieElementNode(node)
+            ValkyrieElementTypes.SFC_SCRIPT -> ValkyrieElementNode(node)
+            ValkyrieElementTypes.SFC_STYLE -> ValkyrieElementNode(node)
+            ValkyrieElementTypes.SFC_COMPONENT -> ValkyrieElementNode(node)
             else -> ValkyrieElementNode(node)
         }
     }

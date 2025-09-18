@@ -9,10 +9,10 @@ import javax.swing.Icon
 /**
  * Valkyrie Component 文件类型定义
  */
-class ValkyrieComponentFileType private constructor() : LanguageFileType(ValkyrieComponentLanguage) {
+class ValkyrieSfcFileType private constructor() : LanguageFileType(ValkyrieComponentLanguage) {
     companion object {
         @JvmStatic
-        val INSTANCE = ValkyrieComponentFileType()
+        val INSTANCE = ValkyrieSfcFileType()
     }
 
     override fun getName(): String = "valkyrie-component"

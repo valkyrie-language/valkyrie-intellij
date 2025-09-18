@@ -4,7 +4,6 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.lang.PsiParser
 import com.intellij.psi.tree.IElementType
-import com.intellij.psi.xml.XmlTokenType
 import valkyrie.psi.ValkyrieElementType
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.lexers.ValkyrieTokenType
@@ -40,53 +39,53 @@ class ValkyrieParser : PsiParser {
         }
     }
 
-    fun parseStatement(builder: PsiBuilder) {
+    fun parseStatement(builder: PsiBuilder): Boolean {
         val safePoint = builder.currentOffset
         when {
             // modules
-            parseNamespaceStatement(builder) -> return
-            parseUsingStatement(builder) -> return
+            parseNamespaceStatement(builder) -> return true
+            parseUsingStatement(builder) -> return true
             // tests
-            parseTestsStatement(builder) -> return
+            parseTestsStatement(builder) -> return true
             // product types
-            parseClassStatement(builder) -> return
-            parseStructureStatement(builder) -> return
-            parseSingletonStatement(builder) -> return
-            parseWidgetStatement(builder) -> return
-            parseNeuralStatement(builder) -> return
+            parseClassStatement(builder) -> return true
+            parseStructureStatement(builder) -> return true
+            parseSingletonStatement(builder) -> return true
+            parseWidgetStatement(builder) -> return true
+            parseNeuralStatement(builder) -> return true
             // traits
-            parseTraitStatement(builder) -> return
-            parseImplyStatement(builder) -> return
+            parseTraitStatement(builder) -> return true
+            parseImplyStatement(builder) -> return true
             // sum types
-            parseUnionStatement(builder) -> return
-            parseUnityStatement(builder) -> return
+            parseUnionStatement(builder) -> return true
+            parseUnityStatement(builder) -> return true
             // number types
-            parseFlagsStatement(builder) -> return
-            parseEnumsStatement(builder) -> return
+            parseFlagsStatement(builder) -> return true
+            parseEnumsStatement(builder) -> return true
             // variables
-            parseLetStatement(builder, inline = false) -> return
+            parseLetStatement(builder, inline = false) -> return true
             // functions
-            parseMicroStatement(builder) -> return
-            parseMezzoStatement(builder) -> return
-            parseMezzoAssign(builder) -> return
-            parseMacroStatement(builder) -> return
-            parseMacroAssignment(builder) -> return
+            parseMicroStatement(builder) -> return true
+            parseMezzoStatement(builder) -> return true
+            parseMezzoAssign(builder) -> return true
+            parseMacroStatement(builder) -> return true
+            parseMacroAssignment(builder) -> return true
             // xml elements
-            parseXmlTextStatement(builder) -> return
+            parseXmlTextStatement(builder) -> return true
             // sfc elements
-            parseSfcTemplateStatement(builder) -> return
-            parseSfcStyleStatement(builder) -> return
-            parseSfcScriptStatement(builder) -> return
+            parseSfcTemplateStatement(this, builder) -> return true
+            parseSfcStyleStatement(this, builder) -> return true
+            parseSfcScriptStatement(this, builder) -> return true
             //
-            builder.tokenType == null -> return
+            builder.tokenType == null -> return true
             else -> parseExpressionStatement(builder)
         }
         if (builder.currentOffset == safePoint) {
             builder.error("Unexpected token: ${builder.tokenType}")
             builder.advanceLexer()
         }
+        return true
     }
-
 
     fun parseNamespaceStatement(builder: PsiBuilder): Boolean {
         val marker = builder.mark()
@@ -2221,7 +2220,6 @@ fun parseXmlTextStatement(builder: PsiBuilder): Boolean {
     marker.done(ValkyrieElementTypes.XML_TEXT_NODE)
     return true
 }
-
 
 
 fun isIdentifier(token: IElementType?): Boolean {
