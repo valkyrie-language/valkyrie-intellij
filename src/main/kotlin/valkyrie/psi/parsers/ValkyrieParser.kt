@@ -4,6 +4,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder
 import com.intellij.lang.PsiParser
 import com.intellij.psi.tree.IElementType
+import com.intellij.psi.xml.XmlTokenType
 import valkyrie.psi.ValkyrieElementType
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.lexers.ValkyrieTokenType
@@ -14,7 +15,7 @@ import valkyrie.psi.lexers.ValkyrieTokenTypes
  * Valkyrie 手写语法分析器
  * 包含性能优化和错误恢复机制
  */
-class ValkyrieParser : PsiParser {
+open class ValkyrieParser : PsiParser {
     override fun parse(root: IElementType, builder: PsiBuilder): ASTNode {
         builder.setDebugMode(true)
         val rootMarker = builder.mark()
@@ -2212,19 +2213,23 @@ fun isIdentifier(builder: PsiBuilder): Boolean {
 
 
 fun parseXmlTextStatement(builder: PsiBuilder): Boolean {
-    if (builder.tokenType != ValkyrieTokenTypes.XML_TEXT) {
+    // 处理XML文本内容，包括XML_DATA_CHARACTERS和XML_WHITE_SPACE
+    if (builder.tokenType != XmlTokenType.XML_DATA_CHARACTERS && 
+        builder.tokenType != XmlTokenType.XML_WHITE_SPACE &&
+        builder.tokenType != ValkyrieTokenTypes.XML_TEXT) {
         return false
     }
 
     val marker = builder.mark()
-    builder.advanceLexer() // consume XML_TEXT
-
-    // 解析文本内容
-    while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.SEMICOLON) {
+    
+    // 消费XML文本内容
+    while (!builder.eof() && 
+           (builder.tokenType == XmlTokenType.XML_DATA_CHARACTERS || 
+            builder.tokenType == XmlTokenType.XML_WHITE_SPACE ||
+            builder.tokenType == ValkyrieTokenTypes.XML_TEXT)) {
         builder.advanceLexer()
     }
 
-    builder.consumeSemicolon()
     marker.done(ValkyrieElementTypes.XML_TEXT_NODE)
     return true
 }

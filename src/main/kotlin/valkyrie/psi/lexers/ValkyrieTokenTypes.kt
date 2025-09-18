@@ -432,6 +432,6 @@ object ValkyrieTokenTypes {
     val XML_TEMPLATE = ValkyrieTokenType("XML_KEYWORD_TEMPLATE")
 
 
-    val SFC_PROPS = ValkyrieTokenType("SFC_PROPS")
+    val SFC_PROPERTY = ValkyrieTokenType("SFC_PROPS")
     val SFC_EMITS = ValkyrieTokenType("SFC_EMITS")
 }
