@@ -3,13 +3,8 @@ package valkyrie.parser
 import com.intellij.testFramework.ParsingTestCase
 import valkyrie.psi.ValkyrieParserDefinition
 
-class TermExpressionTest : ParsingTestCase(
-    "TermExpression",
-    "vk",
-    ValkyrieParserDefinition()
-) {
-    override fun getTestDataPath() = "src/test/resources/testData/parser"
-
+class TermExpressionTest : ParsingTestCase("testData/parser/term_expression", "vk", ValkyrieParserDefinition()) {
+    override fun getTestDataPath(): String = "src/test/resources"
     fun testNumberLiterals() = doTest(true)
     fun testBooleanLiterals() = doTest(true)
     fun testIdentifierExpressions() = doTest(true)
@@ -21,4 +16,7 @@ class TermExpressionTest : ParsingTestCase(
     fun testArrayExpressions() = doTest(true)
     fun testObjectExpressions() = doTest(true)
     fun testSpecialValues() = doTest(true)
+    override fun skipSpaces(): Boolean {
+        return true
+    }
 }

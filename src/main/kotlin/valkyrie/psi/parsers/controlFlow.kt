@@ -147,39 +147,24 @@ fun parseControlFlow(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
 fun parseLoopStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
     if (builder.tokenType == ValkyrieTokenTypes.LOOP) {
-        builder.advanceLexer() // consume 'loop'
-
-        // 检查是否是 for 语法糖 (loop pattern in expression)
-        if (isIdentifier(builder) && builder.lookAhead(1) == ValkyrieTokenTypes.IN) {
-            // 这是 for 语法糖，解析为 FOR_STATEMENT
-
-            // 解析模式 (必须)
+        builder.advanceLexer()
+        if (isIdentifier(builder)) {
             if (!parsePattern(parser, builder, true)) {
                 marker.error("Expected pattern after 'for'")
                 return true
             }
 
-            // 解析 'in' 关键字 (必须)
             if (builder.tokenType != ValkyrieTokenTypes.IN) {
                 marker.error("Expected 'in' after pattern in for statement")
                 return true
             }
-            builder.advanceLexer() // consume 'in'
-
-            // 解析表达式 (必须) - 使用inline=false允许尾随闭包
-            if (!parseTermExpression(parser, builder, false)) {
+            builder.advanceLexer()
+            if (!parseTermExpression(parser, builder, inline = true)) {
                 marker.error("Expected expression after 'in'")
                 return true
             }
 
-            // 解析可选的标签
             parseLabelMark(builder)
-
-            // 解析循环体 (必须) - 循环体不可以为空
-            if (builder.tokenType != ValkyrieTokenTypes.BRACE_L) {
-                marker.error("Expected '{' after loop keyword")
-                return true
-            }
 
             if (!parser.parseFnBody(builder)) {
                 marker.error("Expected function body after '{'")
@@ -192,23 +177,13 @@ fun parseLoopStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
             marker.done(ValkyrieElementTypes.EACH_STATEMENT)
             return true
         } else {
-            // 这是普通的 loop 语句
-
-            // 解析可选的标签
             parseLabelMark(builder)
-
-            // 解析循环体 (必须) - 循环体不可以为空
-            if (builder.tokenType != ValkyrieTokenTypes.BRACE_L) {
-                marker.error("Expected '{' after loop keyword")
-                return true
-            }
 
             if (!parser.parseFnBody(builder)) {
                 marker.error("Expected function body after '{'")
                 return true
             }
 
-            // 解析可选的 else 子句
             parser.parseElseStatement(builder)
 
             marker.done(ValkyrieElementTypes.LOOP_STATEMENT)
@@ -223,28 +198,24 @@ fun parseLoopStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
 fun parseWhileStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
     if (builder.tokenType == ValkyrieTokenTypes.WHILE) {
-        builder.advanceLexer() // consume 'while'
+        builder.advanceLexer()
     } else {
         marker.rollbackTo()
         return false
     }
 
-    // 解析条件表达式 (必须)
-    if (!parseTermExpression(parser, builder, inline = false)) {
+    if (!parseTermExpression(parser, builder, inline = true)) {
         marker.error("Expected condition after 'while'")
         return false
     }
 
-    // 可选 label
     parseLabelMark(builder)
 
-    // 解析循环体 - 必须是块语句
     if (!parser.parseFnBody(builder)) {
         builder.error("Expected '{' after while condition")
         return false
     }
 
-    // 可选 else 语句
     parser.parseElseStatement(builder)
 
     marker.done(ValkyrieElementTypes.WHILE_STATEMENT)
@@ -254,28 +225,21 @@ fun parseWhileStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
 fun parseUntilStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
     if (builder.tokenType == ValkyrieTokenTypes.UNTIL) {
-        builder.advanceLexer() // consume 'until'
+        builder.advanceLexer()
     } else {
         marker.rollbackTo()
         return false
     }
-
-    // 解析条件表达式 (必须)
-    if (!parseTermExpression(parser, builder, inline = false)) {
+    if (!parseTermExpression(parser, builder, inline = true)) {
         marker.error("Expected condition after 'until'")
         return false
     }
-
-    // 可选 label
     parseLabelMark(builder)
-
-    // 解析循环体 - 必须是块语句
     if (!parser.parseFnBody(builder)) {
         builder.error("Expected '{' after until condition")
         return false
     }
 
-    // 可选 else 语句
     parser.parseElseStatement(builder)
 
     marker.done(ValkyrieElementTypes.UNTIL_STATEMENT)
