@@ -1,0 +1,28 @@
+Valkyrie File
+  PsiComment(ValkyrieTokenType.#)('# 前缀运算符测试用例')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieUnaryTerm(ValkyrieElementType.UNARY_EXPRESSION)
+      PsiElement(ValkyrieTokenType.-)('-')
+      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+        PsiElement(ValkyrieTokenType.INTEGER)('1')
+    PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieUnaryTerm(ValkyrieElementType.UNARY_EXPRESSION)
+      PsiElement(ValkyrieTokenType.+)('+')
+      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+        PsiElement(ValkyrieTokenType.INTEGER)('2')
+    PsiElement(ValkyrieTokenType.;)(';')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(ValkyrieTokenType.!)('!')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      PsiElement(ValkyrieTokenType.BOOLEAN)('true')
+    PsiElement(ValkyrieTokenType.;)(';')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(BAD_CHARACTER)('~')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      PsiElement(ValkyrieTokenType.INTEGER)('0xFF')
+    PsiElement(ValkyrieTokenType.;)(';')

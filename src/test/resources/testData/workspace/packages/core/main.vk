@@ -1,0 +1,10 @@
+namespace package::types;
+
+export class User {
+    id: Integer32;
+    name: Unicode;
+}
+
+export class Database {
+    connection: Unicode;
+}

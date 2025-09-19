@@ -45,7 +45,7 @@ class ValkyrieFieldDeclaration(node: ASTNode) : ValkyrieElementNode(node),
     }
 
     fun getFieldName(): String? {
-        return findChildByType<PsiElement>(ValkyrieTokenTypes.SYMBOL_XID)?.text
+        return (findChildByType<PsiElement>(ValkyrieTokenTypes.SYMBOL_XID) ?: findChildByType<PsiElement>(ValkyrieTokenTypes.SYMBOL_RAW))?.text
     }
 
     fun getModifierNodes(): List<ValkyrieModifierNode> {

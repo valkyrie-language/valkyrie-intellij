@@ -11,7 +11,7 @@ loop {
 
 # 测试带标签的嵌套 loop 语句
 loop ※outer {
-    ※inner loop {
+    loop ※inner {
         break ※outer;
         continue ※inner;
     }

@@ -1,94 +1,64 @@
 Valkyrie File
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiComment(ValkyrieTokenType.#)('# 测试简单 while let 语句')
-  PsiElement(ValkyrieTokenType.while)('while')
-  ValkyrieLetStatementNode(ValkyrieElementType.LET_STATEMENT)
-    PsiElement(ValkyrieTokenType.let)('let')
-    ValkyrieElementNode(ValkyrieElementType.BARE_PATTERN)
-      ValkyrieIdentifier(pattern)
-        PsiElement(ValkyrieTokenType.SYMBOL.STD)('pattern')
-    ValkyrieElementNode(ValkyrieElementType.DEFAULT_VALUE)
-      PsiElement(ValkyrieTokenType.=)('=')
-      ValkyriePostfixExpression
+  PsiComment(ValkyrieTokenType.#)('# 测试 while let 语句')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.WHILE_LET_STATEMENT)
+        PsiElement(ValkyrieTokenType.while)('while')
+        PsiElement(ValkyrieTokenType.let)('let')
+        ValkyrieElementNode(ValkyrieElementType.BARE_PATTERN)
+          ValkyrieIdentifier(pattern)
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('pattern')
+        PsiElement(ValkyrieTokenType.=)('=')
         ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
           ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
             ValkyrieIdentifier(expression)
-              PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')
-        PsiElement(ValkyrieTokenType.{)('{')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
-    <empty list>
-  PsiElement(ValkyrieTokenType.})('}')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
+              PsiElement(ValkyrieTokenType.SYMBOL.XID)('expression')
+        ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
+          PsiElement(ValkyrieTokenType.{)('{')
+          PsiElement(ValkyrieTokenType.})('}')
+    PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 测试带标签的 while let 语句')
-  PsiElement(ValkyrieTokenType.while)('while')
-  ValkyrieLetStatementNode(ValkyrieElementType.LET_STATEMENT)
-    PsiElement(ValkyrieTokenType.let)('let')
-    ValkyrieElementNode(ValkyrieElementType.BARE_PATTERN)
-      ValkyrieIdentifier(pattern)
-        PsiElement(ValkyrieTokenType.SYMBOL.STD)('pattern')
-    ValkyrieElementNode(ValkyrieElementType.DEFAULT_VALUE)
-      PsiElement(ValkyrieTokenType.=)('=')
-      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
-        ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
-          ValkyrieIdentifier(expression)
-            PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiElement(ValkyrieTokenType.※)('※')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('label')
-  PsiElement(ValkyrieTokenType.{)('{')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
-    <empty list>
-  PsiElement(ValkyrieTokenType.})('}')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiComment(ValkyrieTokenType.#)('# 测试 while let-else 语句')
-  PsiElement(ValkyrieTokenType.while)('while')
-  ValkyrieLetStatementNode(ValkyrieElementType.LET_STATEMENT)
-    PsiElement(ValkyrieTokenType.let)('let')
-    ValkyrieElementNode(ValkyrieElementType.BARE_PATTERN)
-      ValkyrieIdentifier(pattern)
-        PsiElement(ValkyrieTokenType.SYMBOL.STD)('pattern')
-    ValkyrieElementNode(ValkyrieElementType.DEFAULT_VALUE)
-      PsiElement(ValkyrieTokenType.=)('=')
-      ValkyriePostfixExpression
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.WHILE_LET_STATEMENT)
+        PsiElement(ValkyrieTokenType.while)('while')
+        PsiElement(ValkyrieTokenType.let)('let')
+        ValkyrieElementNode(ValkyrieElementType.BARE_PATTERN)
+          ValkyrieIdentifier(pattern)
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('pattern')
+        PsiElement(ValkyrieTokenType.=)('=')
         ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
           ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
             ValkyrieIdentifier(expression)
-              PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')
-        PsiElement(ValkyrieTokenType.{)('{')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
-    <empty list>
-  PsiElement(ValkyrieTokenType.})('}')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiElement(ValkyrieTokenType.else)('else')
-  PsiElement(ValkyrieTokenType.{)('{')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
-    <empty list>
-  PsiElement(ValkyrieTokenType.})('}')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
+              PsiElement(ValkyrieTokenType.SYMBOL.XID)('expression')
+        ValkyrieElementNode(ValkyrieElementType.LABEL_STATEMENT)
+          PsiElement(ValkyrieTokenType.※)('※')
+          ValkyrieIdentifier(label)
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('label')
+        ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
+          PsiElement(ValkyrieTokenType.{)('{')
+          PsiElement(ValkyrieTokenType.})('}')
+    PsiElement(ValkyrieTokenType.;)(';')
+  PsiComment(ValkyrieTokenType.#)('# 测试 while let-else 语句')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.WHILE_LET_STATEMENT)
+        PsiElement(ValkyrieTokenType.while)('while')
+        PsiElement(ValkyrieTokenType.let)('let')
+        ValkyrieElementNode(ValkyrieElementType.BARE_PATTERN)
+          ValkyrieIdentifier(pattern)
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('pattern')
+        PsiElement(ValkyrieTokenType.=)('=')
+        ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+          ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+            ValkyrieIdentifier(expression)
+              PsiElement(ValkyrieTokenType.SYMBOL.XID)('expression')
+        ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
+          PsiElement(ValkyrieTokenType.{)('{')
+          PsiElement(ValkyrieTokenType.})('}')
+        ValkyrieElementNode(ValkyrieElementType.ELSE_PART)
+          PsiElement(ValkyrieTokenType.else)('else')
+          ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
+            PsiElement(ValkyrieTokenType.{)('{')
+            PsiElement(ValkyrieTokenType.})('}')
+    PsiElement(ValkyrieTokenType.;)(';')

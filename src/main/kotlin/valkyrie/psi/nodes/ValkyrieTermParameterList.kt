@@ -11,4 +11,8 @@ class ValkyrieTermParameterList(node: ASTNode) : ValkyrieElementNode(node) {
     fun getParameters(): List<ValkyrieTermParameterItem> {
         return findChildrenByClass(ValkyrieTermParameterItem::class.java).filterNotNull()
     }
+
+    fun getParameterItems(): List<ValkyrieTermParameterItem> {
+        return getParameters()
+    }
 }

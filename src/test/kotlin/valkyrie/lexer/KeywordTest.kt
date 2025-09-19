@@ -142,6 +142,14 @@ class KeywordTest : LexerTestCase() {
         doTest("scope")
     }
 
+    fun testAssertKeyword() {
+        doTest("assert")
+    }
+
+    fun testDebugKeyword() {
+        doTest("debug")
+    }
+
     // 异常处理关键字
     fun testTryKeyword() {
         doTest("try")

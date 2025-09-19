@@ -17,7 +17,7 @@ class ValkyrieInheritItem(node: ASTNode) : ValkyrieElementNode(node) {
      */
     fun getRenameIdentifier(): PsiElement? {
         // 查找第一个标识符，如果后面跟着冒号，则这是重命名标识符
-        val identifier = findChildByType<PsiElement>(ValkyrieTokenTypes.SYMBOL_XID)
+        val identifier = findChildByType<PsiElement>(ValkyrieTokenTypes.SYMBOL_XID) ?: findChildByType<PsiElement>(ValkyrieTokenTypes.SYMBOL_RAW)
         if (identifier != null) {
             val nextSibling = identifier.nextSibling
             if (nextSibling?.node?.elementType == ValkyrieTokenTypes.COLON) {

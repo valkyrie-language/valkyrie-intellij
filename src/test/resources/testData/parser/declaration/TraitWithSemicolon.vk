@@ -1,0 +1,3 @@
+trait Drawable {
+    draw();
+};

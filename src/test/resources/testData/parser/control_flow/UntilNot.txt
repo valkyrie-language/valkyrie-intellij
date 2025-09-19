@@ -1,69 +1,64 @@
 Valkyrie File
-  PsiErrorElement:Expected expression
-    <empty list>
   PsiComment(ValkyrieTokenType.#)('# 测试简单 until not 语句')
-  PsiElement(ValkyrieTokenType.until)('until')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('not')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('pattern')
-  PsiElement(ValkyrieTokenType.=)('=')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')
-  PsiElement(ValkyrieTokenType.{)('{')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
-    <empty list>
-  PsiElement(ValkyrieTokenType.})('}')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.UNTIL_NOT_STATEMENT)
+        PsiElement(ValkyrieTokenType.until)('until')
+        PsiElement(ValkyrieTokenType.not)('not')
+        ValkyrieElementNode(ValkyrieElementType.BARE_PATTERN)
+          ValkyrieIdentifier(pattern)
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('pattern')
+        PsiElement(ValkyrieTokenType.=)('=')
+        ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+          ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+            ValkyrieIdentifier(expression)
+              PsiElement(ValkyrieTokenType.SYMBOL.XID)('expression')
+        ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
+          PsiElement(ValkyrieTokenType.{)('{')
+          PsiElement(ValkyrieTokenType.})('}')
+    PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 测试带标签的 until not 语句')
-  PsiElement(ValkyrieTokenType.until)('until')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('not')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('pattern')
-  PsiElement(ValkyrieTokenType.=)('=')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')
-  PsiElement(ValkyrieTokenType.※)('※')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('label')
-  PsiElement(ValkyrieTokenType.{)('{')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
-    <empty list>
-  PsiElement(ValkyrieTokenType.})('}')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.UNTIL_NOT_STATEMENT)
+        PsiElement(ValkyrieTokenType.until)('until')
+        PsiElement(ValkyrieTokenType.not)('not')
+        ValkyrieElementNode(ValkyrieElementType.BARE_PATTERN)
+          ValkyrieIdentifier(pattern)
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('pattern')
+        PsiElement(ValkyrieTokenType.=)('=')
+        ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+          ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+            ValkyrieIdentifier(expression)
+              PsiElement(ValkyrieTokenType.SYMBOL.XID)('expression')
+        ValkyrieElementNode(ValkyrieElementType.LABEL_STATEMENT)
+          PsiElement(ValkyrieTokenType.※)('※')
+          ValkyrieIdentifier(label)
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('label')
+        ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
+          PsiElement(ValkyrieTokenType.{)('{')
+          PsiElement(ValkyrieTokenType.})('}')
+    PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 测试 until not-else 语句')
-  PsiElement(ValkyrieTokenType.until)('until')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('not')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('pattern')
-  PsiElement(ValkyrieTokenType.=)('=')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')
-  PsiElement(ValkyrieTokenType.{)('{')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
-    <empty list>
-  PsiElement(ValkyrieTokenType.})('}')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiElement(ValkyrieTokenType.else)('else')
-  PsiElement(ValkyrieTokenType.{)('{')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
-    <empty list>
-  PsiElement(ValkyrieTokenType.})('}')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.UNTIL_NOT_STATEMENT)
+        PsiElement(ValkyrieTokenType.until)('until')
+        PsiElement(ValkyrieTokenType.not)('not')
+        ValkyrieElementNode(ValkyrieElementType.BARE_PATTERN)
+          ValkyrieIdentifier(pattern)
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('pattern')
+        PsiElement(ValkyrieTokenType.=)('=')
+        ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+          ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+            ValkyrieIdentifier(expression)
+              PsiElement(ValkyrieTokenType.SYMBOL.XID)('expression')
+        ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
+          PsiElement(ValkyrieTokenType.{)('{')
+          PsiElement(ValkyrieTokenType.})('}')
+        ValkyrieElementNode(ValkyrieElementType.ELSE_PART)
+          PsiElement(ValkyrieTokenType.else)('else')
+          ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
+            PsiElement(ValkyrieTokenType.{)('{')
+            PsiElement(ValkyrieTokenType.})('}')
+    PsiElement(ValkyrieTokenType.;)(';')

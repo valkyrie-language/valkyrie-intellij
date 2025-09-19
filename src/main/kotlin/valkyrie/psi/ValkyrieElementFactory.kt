@@ -140,6 +140,8 @@ object ValkyrieElementFactory {
             ValkyrieElementTypes.CATCH_STATEMENT -> ValkyrieCatchStatement(node)
             ValkyrieElementTypes.ASSIGN_STATEMENT -> ValkyrieAssignStatement(node)
             ValkyrieElementTypes.RESUME_STATEMENT -> ValkyrieResumeStatement(node)
+            ValkyrieElementTypes.ASSERT_STATEMENT -> ValkyrieAssertStatement(node)
+            ValkyrieElementTypes.DEBUG_STATEMENT -> ValkyrieDebugStatement(node)
             ValkyrieElementTypes.SCOPE_STATEMENT -> ValkyrieElementNode(node)
             ValkyrieElementTypes.ERROR_ELEMENT -> ValkyrieElementNode(node)
             // XML 相关节点

@@ -19,3 +19,10 @@
 
 ![](https://github.com/oovm/WIT-Intellij/assets/17541209/d4e851e3-f55f-4f0d-82b2-b587abefffd2)
 
+## 包管理
+
+关于 Valkyrie 的包管理机制，请参阅 [包管理机制文档](docs/package-management.md)。
+
+## 模块管理
+
+关于 Valkyrie 的模块管理系统，请参阅 [模块管理文档](docs/module-management.md)。

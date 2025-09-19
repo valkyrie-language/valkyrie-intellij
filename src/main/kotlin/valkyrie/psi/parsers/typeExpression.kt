@@ -3,6 +3,8 @@ package valkyrie.psi.parsers
 import com.intellij.lang.PsiBuilder
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.isIdentifier
+import valkyrie.psi.parsers.parseIdentifier
 
 // 解析泛型参数列表, 例如 `fn foo<T, U>()` 中的 `<T, U>`
 fun parseGenericParameterList(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
@@ -16,9 +18,14 @@ fun parseGenericParameterList(parser: ValkyrieParser, builder: PsiBuilder): Bool
             builder.advanceLexer()
         }
         // ::<T, U,>
-        ValkyrieTokenTypes.DOUBLE_COLON if builder.lookAhead(1) == ValkyrieTokenTypes.ANGLE_L -> {
-            builder.advanceLexer()
-            builder.advanceLexer()
+        ValkyrieTokenTypes.DOUBLE_COLON -> {
+            if (builder.lookAhead(1) == ValkyrieTokenTypes.ANGLE_L) {
+                builder.advanceLexer()
+                builder.advanceLexer()
+            } else {
+                marker.drop()
+                return false
+            }
         }
         // ⟨T, U, ⟩
         ValkyrieTokenTypes.GENERIC_L -> {
@@ -52,8 +59,14 @@ fun parseGenericParameterList(parser: ValkyrieParser, builder: PsiBuilder): Bool
                 if (builder.tokenType == closingBracket) {
                     break
                 }
+            } else if (builder.tokenType == closingBracket) {
+                // 允许没有逗号直接结束
+                break
+            } else if (isIdentifier(builder.tokenType)) {
+                // 看到下一个标识符，说明漏了逗号，报错但继续解析下一个 item
+                builder.error("在泛型参数之间需要一个逗号")
             } else {
-                // 既不是 '>' 也不是 ',', 说明缺少逗号
+                // 既不是 '>' 也不是 ',', 也不是 identifier，说明格式完全不对
                 builder.error("在泛型参数之间需要一个逗号")
                 break
             }
@@ -256,7 +269,7 @@ fun parsePrimaryType(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
         // 方括号包裹的类型: [T] (向量), [T; N] (数组), 或 [name: T] (具名元组/记录)
         ValkyrieTokenTypes.BRACKET_L -> parseBracketType(parser, builder)
         // <T as U>::Item
-        ValkyrieTokenTypes.ANGLE_L if typeLevel -> parseGenericGroup(
+        ValkyrieTokenTypes.ANGLE_L -> parseGenericGroup(
             parser,
             builder,
             false
@@ -268,27 +281,44 @@ fun parsePrimaryType(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
             true
         )
 
+        ValkyrieTokenTypes.INTEGER, ValkyrieTokenTypes.DECIMAL, ValkyrieTokenTypes.BOOLEAN -> {
+            val marker = builder.mark()
+            builder.advanceLexer()
+            marker.done(ValkyrieElementTypes.LITERAL_EXPRESSION)
+            true
+        }
+
+        ValkyrieTokenTypes.STRING_L,
+        ValkyrieTokenTypes.STRING_START,
+        ValkyrieTokenTypes.MACRO_STRING -> {
+            parser.parseString(builder)
+        }
+
+        ValkyrieTokenTypes.NIL,
+        ValkyrieTokenTypes.NULL -> {
+            val marker = builder.mark()
+            builder.advanceLexer()
+            marker.done(ValkyrieElementTypes.LITERAL_EXPRESSION)
+            true
+        }
+
         else -> parser.parseNamePath(builder, false)
     }
 }
 
 // <T as U>
 private fun parseGenericGroup(parser: ValkyrieParser, builder: PsiBuilder, unicodeMode: Boolean): Boolean {
-    when (builder.tokenType) {
-        ValkyrieTokenTypes.ANGLE_L if !unicodeMode -> {}
-        ValkyrieTokenTypes.GENERIC_L if unicodeMode -> {}
-        else -> return false
-    }
+    val expected = if (unicodeMode) ValkyrieTokenTypes.GENERIC_L else ValkyrieTokenTypes.ANGLE_L
+    if (builder.tokenType != expected) return false
     val marker = builder.mark()
     builder.advanceLexer()
     parseTypeExpression(parser, builder, true)
-    when (builder.tokenType) {
-        ValkyrieTokenTypes.ANGLE_R if !unicodeMode -> builder.advanceLexer()
-        ValkyrieTokenTypes.GENERIC_R if unicodeMode -> builder.advanceLexer()
-        else -> {
-            marker.rollbackTo()
-            return false
-        }
+    val closingBracket = if (unicodeMode) ValkyrieTokenTypes.GENERIC_R else ValkyrieTokenTypes.ANGLE_R
+    if (builder.tokenType == closingBracket) {
+        builder.advanceLexer()
+    } else {
+        marker.rollbackTo()
+        return false
     }
     marker.done(ValkyrieElementTypes.TYPE_GROUP)
     return true
@@ -467,8 +497,8 @@ private val typePrefixPrecedences = mapOf(
 )
 
 private val typeInfixPrecedences = mapOf(
-    ValkyrieTokenTypes.PIPE to 1,          // T | U  交类型
-    ValkyrieTokenTypes.AMPERSAND to 2,     // T & U
+    ValkyrieTokenTypes.PIPE to 1,          // T | U  并类型
+    ValkyrieTokenTypes.AMPERSAND to 2,     // T & U  交类型
     ValkyrieTokenTypes.AS to 3,            // T as U
     ValkyrieTokenTypes.PLUS to 4,          // T + U
     ValkyrieTokenTypes.MINUS to 4,         // T - U
@@ -480,5 +510,5 @@ private val typePostfixPrecedences = mapOf(
     ValkyrieTokenTypes.WHAT to 6, // T?
     ValkyrieTokenTypes.ANGLE_L to 7, // 泛型应用 A<T>
     ValkyrieTokenTypes.GENERIC_L to 7,  // 泛型应用 A⟨T⟩
-    ValkyrieTokenTypes.DOUBLE_COLON to 25, // A::<T as Iterator>::Item
+    ValkyrieTokenTypes.DOUBLE_COLON to 8, // A::<T as Iterator>::Item
 )

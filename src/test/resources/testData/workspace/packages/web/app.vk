@@ -1,0 +1,14 @@
+namespace package::app;
+
+using core_lib::types::User;
+using util::math::add;
+using core_lib::Database;
+
+export func create_user(name: Unicode) -> User {
+    let id = add(1, 1000);
+    return User(id: id, name: name);
+}
+
+export func connect_db(host: Unicode) -> Database {
+    return Database(connection: host);
+}

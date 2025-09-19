@@ -6,7 +6,7 @@ import valkyrie.psi.ValkyrieParserDefinition
 class LiteralObjectDeclarationTest : ParsingTestCase("testData/parser/object", "vk", ValkyrieParserDefinition()) {
     override fun getTestDataPath(): String = "src/test/resources"
 
-    fun testDomain() = doTest(true)
-    fun testField() = doTest(true)
-    fun testMethod() = doTest(true)
+    fun testDomain() = doTest(true, true)
+    fun testField() = doTest(true, true)
+    fun testMethod() = doTest(true, true)
 }

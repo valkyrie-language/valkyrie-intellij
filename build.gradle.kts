@@ -11,10 +11,10 @@ version = properties("pluginVersion").get()
 
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "2.2.10"
-    alias(libs.plugins.changelog)
-    id("org.jetbrains.qodana") version "2025.2.1"
-    alias(libs.plugins.kover)
+    id("org.jetbrains.kotlin.jvm") version "2.3.0"
+    id("org.jetbrains.changelog") version "2.5.0"
+    id("org.jetbrains.qodana") version "2025.3.1"
+    id("org.jetbrains.kotlinx.kover") version "0.9.3"
     id("org.jetbrains.intellij.platform")
 }
 repositories {
@@ -28,7 +28,7 @@ repositories {
 dependencies {
     intellijPlatform {
         // 使用2025.2版本，使用installer
-        create(IntelliJPlatformType.IntellijIdeaUltimate, "2025.2") {
+        create(IntelliJPlatformType.IntellijIdeaUltimate, "2025.3") {
             useInstaller = true
         }
 //        create(IntelliJPlatformType.IntellijIdea, "2025.3") {
@@ -41,13 +41,15 @@ dependencies {
         bundledPlugin("org.toml.lang")
         bundledPlugin("org.intellij.plugins.markdown")
 //        // https://plugins.jetbrains.com/plugin/227-psiviewer/versions
-        plugin("PsiViewer", "252.23892.248")
+        plugin("PsiViewer", "253.7181")
 //        plugin("com.github.voml.neo_theme", "0.4.3")
 
         testFramework(TestFrameworkType.Platform)
     }
 
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:6.0.1")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.opentest4j:opentest4j:1.3.0")
 }
@@ -82,6 +84,17 @@ tasks {
             jvmTarget.set(JvmTarget.JVM_21)
         }
     }
+    
+    test {
+        maxHeapSize = "4g"
+        jvmArgs("-XX:+UseG1GC", "-XX:MaxGCPauseMillis=200")
+        testLogging {
+            events("passed", "skipped", "failed")
+        }
+        // 启用测试结果缓存
+        outputs.upToDateWhen { false }
+    }
+    
     patchPluginXml {
         sinceBuild = properties("pluginSinceBuild")
         untilBuild = properties("pluginUntilBuild")

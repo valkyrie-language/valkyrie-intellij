@@ -52,7 +52,6 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
         "fun" to ValkyrieTokenTypes.MICRO,
         "fn" to ValkyrieTokenTypes.MICRO,
         "mezzo" to ValkyrieTokenTypes.MEZZO,
-        "type" to ValkyrieTokenTypes.MEZZO,
         "macro" to ValkyrieTokenTypes.MACRO,
         "class" to ValkyrieTokenTypes.CLASS,
         "struct" to ValkyrieTokenTypes.STRUCTURE,
@@ -67,7 +66,10 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
         "eidos" to ValkyrieTokenTypes.EIDOS,
         "trait" to ValkyrieTokenTypes.TRAIT,
         "imply" to ValkyrieTokenTypes.IMPLY,
+        "constructor" to ValkyrieTokenTypes.CONSTRUCTOR,
         "return" to ValkyrieTokenTypes.RETURN,
+        "assert" to ValkyrieTokenTypes.ASSERT,
+        "debug" to ValkyrieTokenTypes.DEBUG,
         "break" to ValkyrieTokenTypes.BREAK,
         "continue" to ValkyrieTokenTypes.CONTINUE,
         "yield" to ValkyrieTokenTypes.YIELD,
@@ -79,16 +81,27 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
         "using" to ValkyrieTokenTypes.USING,
         "until" to ValkyrieTokenTypes.UNTIL,
         "match" to ValkyrieTokenTypes.MATCH,
+        "type" to ValkyrieTokenTypes.TYPE,
+        "typus" to ValkyrieTokenTypes.TYPE,
         "case" to ValkyrieTokenTypes.CASE,
         "catch" to ValkyrieTokenTypes.CATCH,
         "try" to ValkyrieTokenTypes.TRY,
         "when" to ValkyrieTokenTypes.WHEN,
         "fallthrough" to ValkyrieTokenTypes.FALLTHROUGH,
+        "not" to ValkyrieTokenTypes.NOT,
         "in" to ValkyrieTokenTypes.IN,
         "is" to ValkyrieTokenTypes.IS,
         "as" to ValkyrieTokenTypes.AS,
         "true" to ValkyrieTokenTypes.BOOLEAN,
-        "false" to ValkyrieTokenTypes.BOOLEAN
+        "false" to ValkyrieTokenTypes.BOOLEAN,
+        "nil" to ValkyrieTokenTypes.NIL,
+        "null" to ValkyrieTokenTypes.NULL,
+        "Some" to ValkyrieTokenTypes.KW_SOME,
+        "None" to ValkyrieTokenTypes.KW_NONE,
+        "self" to ValkyrieTokenTypes.KW_SELF,
+        "Self" to ValkyrieTokenTypes.KW_SELF_TYPE,
+        "value" to ValkyrieTokenTypes.KW_VALUE,
+        "V" to ValkyrieTokenTypes.KW_V
     )
 
 
@@ -168,7 +181,7 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
                 skipLineComment(); currentTokenType = ValkyrieTokenTypes.COMMENT_DOCUMENT
             }
 
-            ch == '#' && peek(0) == '?' -> {
+            ch == '#' && peek() == '?' -> {
                 skipDocComment(); currentTokenType = ValkyrieTokenTypes.COMMENT_DOCUMENT
             }
 
@@ -205,12 +218,12 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
             }
         }
 
-        val nextChar = peek(0)
+        val nextChar = peek(0) // Note: this is actually correct here as it looks at the current character after the loop
         if (nextChar == '\'' || nextChar == '"') {
             currentTokenType = ValkyrieTokenTypes.MACRO_STRING
             return
         }
-
+        
         val text = buffer.subSequence(idStart, currentOffset).toString()
         currentTokenType = keywords[text] ?: ValkyrieTokenTypes.SYMBOL_XID
     }
@@ -251,7 +264,7 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
                     currentOffset++
                 }
                 // Make sure it's not ".."
-                else if (ch == '.' && !hasDecimalPoint && peek(0)?.isDigit() == true) {
+                else if (ch == '.' && !hasDecimalPoint && peek()?.isDigit() == true) {
                     hasDecimalPoint = true
                     currentOffset++
                 } else {
@@ -263,7 +276,9 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
 
         if (currentOffset > numberStart && currentOffset < endOffset) {
             val nextChar = buffer[currentOffset]
-            if (nextChar.isLetter() || nextChar == '_') {
+            if (nextChar == '\'' || nextChar == '"') {
+                pendingNumberMacro = true
+            } else if (nextChar.isLetter() || nextChar == '_') {
                 pendingNumberMacro = true
             }
         }
@@ -273,6 +288,15 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
     protected fun readNumberMacro() {
         pendingNumberMacro = false
         val macroStart = currentOffset
+        if (currentOffset < endOffset && (buffer[currentOffset] == '\'' || buffer[currentOffset] == '"')) {
+            // It's a macro string starting with a number, e.g., 10"foo"
+            // The processLanguage will handle ch == '"' in the next iteration if we don't handle it here.
+            // But we want this to be a MACRO_STRING or similar.
+            // Actually, the current logic for MACRO_STRING is in readIdentifier.
+            // Let's just mark it as MACRO_STRING and let processLanguage handle the string part.
+            currentTokenType = ValkyrieTokenTypes.MACRO_STRING
+            return
+        }
         while (currentOffset < endOffset) {
             val ch = buffer[currentOffset]
             if (ch.isLetterOrDigit() || ch == '_') {
@@ -292,8 +316,13 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
     protected fun startString() {
         val delimiter = buffer[currentOffset]
         var width = 0
-        while (currentOffset + width < endOffset && buffer[currentOffset + width] == delimiter) {
+        while (currentOffset + width < endOffset && buffer[currentOffset + width] == delimiter && width < 3) {
             width++
+        }
+
+        // Only allow width 1 or 3
+        if (width == 2) {
+            width = 1
         }
 
         stringDelimiter = delimiter
@@ -311,13 +340,16 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
         } else {
             val contentStart = currentOffset
             while (currentOffset < endOffset && !isAtStringEnd()) {
-                currentOffset++
+                if (buffer[currentOffset] == '\\' && stringDelimiterWidth == 1) {
+                    currentOffset++
+                    if (currentOffset < endOffset) {
+                        currentOffset++
+                    }
+                } else {
+                    currentOffset++
+                }
             }
-            currentTokenType = when {
-                currentOffset > contentStart -> ValkyrieTokenTypes.STRING_TEXT
-                // 如果没有读取到文本内容，且不是字符串结束，可能是未闭合或空字符串的错误情况
-                else -> BAD_CHARACTER
-            }
+            currentTokenType = if (currentOffset > contentStart) ValkyrieTokenTypes.STRING_TEXT else BAD_CHARACTER
         }
     }
 
@@ -553,6 +585,10 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
                 } else {
                     currentTokenType = ValkyrieTokenTypes.DOT
                 }
+            }
+
+            '⸬' -> {
+                currentOffset++; currentTokenType = ValkyrieTokenTypes.DOT_CIRCLE
             }
 
             ':' -> {
