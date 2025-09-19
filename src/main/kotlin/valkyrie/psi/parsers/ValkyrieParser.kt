@@ -84,7 +84,7 @@ open class ValkyrieParser : PsiParser {
         return true
     }
 
-    protected fun parseStatementExtension(builder: PsiBuilder): Boolean {
+    protected open fun parseStatementExtension(builder: PsiBuilder): Boolean {
         return false
     }
 
@@ -535,7 +535,6 @@ open class ValkyrieParser : PsiParser {
 
     fun parseMicroStatement(builder: PsiBuilder): Boolean {
         return parseFnLikeStatement(builder, ValkyrieTokenTypes.MICRO, ValkyrieElementTypes.DECLARE_MICRO)
-
     }
 
     fun parseMezzoStatement(builder: PsiBuilder): Boolean {
@@ -626,7 +625,7 @@ open class ValkyrieParser : PsiParser {
         return true
     }
 
-    protected fun parseExpressionExtension(builder: PsiBuilder): Boolean {
+    protected open fun parseExpressionExtension(builder: PsiBuilder): Boolean {
         return false
     }
 

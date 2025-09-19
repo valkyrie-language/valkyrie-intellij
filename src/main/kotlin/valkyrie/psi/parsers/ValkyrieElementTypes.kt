@@ -6,6 +6,7 @@ import com.intellij.psi.tree.IElementType
  * Valkyrie PSI 元素类型定义
  */
 object ValkyrieElementTypes {
+    val SFC_SCRIPT_CONTENT = ValkyrieElementType("SFC_SCRIPT_CONTENT")
     val SFC_STYLE_CONTENT = ValkyrieElementType("SFC_STYLE_CONTENT")
     val XML_END_TAG: IElementType = ValkyrieElementType("XML_END_TAG")
     val XML_START_TAG: IElementType = ValkyrieElementType("XML_START_TAG")
