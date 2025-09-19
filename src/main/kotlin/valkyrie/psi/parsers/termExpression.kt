@@ -350,7 +350,7 @@ fun parsePrimaryTerm(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolea
         parseLoopStatement(parser, builder) -> return true
         parseWhileStatement(parser, builder) -> return true
         parseUntilStatement(parser, builder) -> return true
-        parseControlFlow(parser, builder) -> return true
+        parseControl(parser, builder) -> return true
         else -> return false
     }
 }

@@ -4,7 +4,7 @@ import com.intellij.lang.PsiBuilder
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.lexers.ValkyrieTokenTypes
 
-fun parseControlFlow(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+fun parseControl(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
     parser.parseAnnotations(builder, withModifiers = false);
     when (builder.tokenType) {

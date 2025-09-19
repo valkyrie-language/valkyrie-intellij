@@ -73,7 +73,7 @@ open class ValkyrieParser : PsiParser {
             parseMezzoAssign(builder) -> return true
             parseMacroStatement(builder) -> return true
             parseMacroAssignment(builder) -> return true
-            parseControlFlow(this, builder) -> return true
+            parseControl(this, builder) -> return true
             builder.tokenType == null -> return true
             else -> parseExpressionStatement(builder)
         }
