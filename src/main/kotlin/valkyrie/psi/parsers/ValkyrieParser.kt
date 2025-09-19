@@ -1645,7 +1645,7 @@ open class ValkyrieParser : PsiParser {
         }
 
         // 循环解析后续路径段
-        while (true) {
+        while (!builder.eof()) {
             val separator = builder.tokenType
             val isSeparator = separator == ValkyrieTokenTypes.DOUBLE_COLON || (free && separator == ValkyrieTokenTypes.DOT)
             // 【非贪婪检查】只有当 "分隔符" 后面跟着 "标识符" 时，才继续解析

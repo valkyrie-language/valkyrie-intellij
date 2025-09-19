@@ -14,10 +14,17 @@ fun parseLoopStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
         eatLabelMark(builder)
 
         // 检查是否是 for-in 语法糖 (loop pattern in expression)
-        if (isIdentifier(builder)) {
-            if (!parsePattern(parser, builder, true)) {
-                marker.error("Expected pattern after 'loop'")
-                return true
+        // 需要检查是否有模式（标识符、ref、元组等）
+        if (parsePattern(parser, builder, true)) {
+            // 检查是否有条件 (if condition)
+            var hasCondition = false
+            if (builder.tokenType == ValkyrieTokenTypes.IF) {
+                hasCondition = true
+                builder.advanceLexer() // consume 'if'
+                if (!parseTermExpression(parser, builder, inline = true)) {
+                    marker.error("Expected condition after 'if'")
+                    return true
+                }
             }
 
             if (builder.tokenType != ValkyrieTokenTypes.IN) {
@@ -28,6 +35,11 @@ fun parseLoopStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
             if (!parseTermExpression(parser, builder, inline = true)) {
                 marker.error("Expected expression after 'in'")
                 return true
+            }
+
+            // 如果有条件，可能还有标签
+            if (hasCondition) {
+                eatLabelMark(builder)
             }
 
             if (!parser.parseFnBody(builder)) {
@@ -72,7 +84,7 @@ fun parseWhileStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
         return false
     }
 
-    // 标签在函数体前解析
+
     eatLabelMark(builder)
 
     if (!parser.parseFnBody(builder)) {
@@ -99,7 +111,7 @@ fun parseUntilStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
         return false
     }
 
-    // 标签在函数体前解析
+
     eatLabelMark(builder)
 
     if (!parser.parseFnBody(builder)) {

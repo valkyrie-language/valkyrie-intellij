@@ -1,0 +1,14 @@
+Valkyrie XML File
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiElement(ValkyrieTokenType.#)('# [外部]有效行注释')
+  PsiElement(XML_START_TAG_START)('<')
+  PsiElement(XML_TAG_NAME)('div')
+  PsiElement(XML_TAG_END)('>')
+  PsiElement(XML_DATA_CHARACTERS)('\n    # [内部]无效行注释\n    ')
+  PsiComment(XML_COMMENT_CHARACTERS)('<!-- [内部]有效块注释 -->')
+  PsiElement(XML_DATA_CHARACTERS)('\n')
+  PsiElement(XML_END_TAG_START)('</')
+  PsiElement(XML_TAG_NAME)('div')
+  PsiElement(XML_TAG_END)('>')
+  PsiComment(XML_COMMENT_CHARACTERS)('<!-- [外部]有效块注释 -->')
