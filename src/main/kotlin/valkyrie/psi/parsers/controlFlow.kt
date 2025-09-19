@@ -7,7 +7,7 @@ import valkyrie.psi.lexers.ValkyrieTokenTypes
 fun parseLoopStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
     if (builder.tokenType == ValkyrieTokenTypes.LOOP) {
-        builder.advanceLexer() // consume 'loop' or 'for'
+        builder.advanceLexer() // consume 'loop'
     } else {
         marker.rollbackTo()
         return false
@@ -36,6 +36,112 @@ fun parseLoopStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     return true
 }
 
+fun parseForStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    val marker = builder.mark()
+    if (builder.tokenType == ValkyrieTokenTypes.LOOP) {
+        builder.advanceLexer() // consume 'for' (tokenized as 'loop')
+    } else {
+        marker.rollbackTo()
+        return false
+    }
+
+    // 解析模式 (必须)
+    if (!parsePattern(parser, builder, true)) {
+        marker.error("Expected pattern after 'for'")
+        return false
+    }
+    
+    // 解析 'in' 关键字 (必须)
+    if (builder.tokenType == ValkyrieTokenTypes.IN) {
+        builder.advanceLexer() // consume 'in'
+    } else {
+        marker.error("Expected 'in' after pattern")
+        return false
+    }
+    
+    // 解析迭代表达式 (必须)
+    if (!parseTermExpression(parser, builder, inline = false)) {
+        marker.error("Expected expression after 'in'")
+        return false
+    }
+    
+    // 可选 label
+    parseLabelMark(builder)
+    
+    // 解析循环体 - 必须是块语句
+    if (!parser.parseFnBody(builder)) {
+        builder.error("Expected '{' after for statement")
+        return false
+    }
+    
+    // 可选 else 语句
+    parser.parseElseStatement(builder)
+    
+    marker.done(ValkyrieElementTypes.EACH_STATEMENT)
+    return true
+}
+
+fun parseWhileStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    val marker = builder.mark()
+    if (builder.tokenType == ValkyrieTokenTypes.WHILE) {
+        builder.advanceLexer() // consume 'while'
+    } else {
+        marker.rollbackTo()
+        return false
+    }
+
+    // 解析条件表达式 (必须)
+    if (!parseTermExpression(parser, builder, inline = false)) {
+        marker.error("Expected condition after 'while'")
+        return false
+    }
+    
+    // 可选 label
+    parseLabelMark(builder)
+    
+    // 解析循环体 - 必须是块语句
+    if (!parser.parseFnBody(builder)) {
+        builder.error("Expected '{' after while condition")
+        return false
+    }
+    
+    // 可选 else 语句
+    parser.parseElseStatement(builder)
+    
+    marker.done(ValkyrieElementTypes.WHILE_STATEMENT)
+    return true
+}
+
+fun parseUntilStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    val marker = builder.mark()
+    if (builder.tokenType == ValkyrieTokenTypes.UNTIL) {
+        builder.advanceLexer() // consume 'until'
+    } else {
+        marker.rollbackTo()
+        return false
+    }
+
+    // 解析条件表达式 (必须)
+    if (!parseTermExpression(parser, builder, inline = false)) {
+        marker.error("Expected condition after 'until'")
+        return false
+    }
+    
+    // 可选 label
+    parseLabelMark(builder)
+    
+    // 解析循环体 - 必须是块语句
+    if (!parser.parseFnBody(builder)) {
+        builder.error("Expected '{' after until condition")
+        return false
+    }
+    
+    // 可选 else 语句
+    parser.parseElseStatement(builder)
+    
+    marker.done(ValkyrieElementTypes.UNTIL_STATEMENT)
+    return true
+}
 
 fun parseControlFlow(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
@@ -43,6 +149,26 @@ fun parseControlFlow(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     // 在插值上下文中，直接解析表达式，不需要语句结构
 
     when (builder.tokenType) {
+        ValkyrieTokenTypes.LOOP -> {
+            marker.rollbackTo()
+            return parseLoopStatement(parser, builder)
+        }
+        
+        ValkyrieTokenTypes.FOR -> {
+            marker.rollbackTo()
+            return parseForStatement(parser, builder)
+        }
+        
+        ValkyrieTokenTypes.WHILE -> {
+            marker.rollbackTo()
+            return parseWhileStatement(parser, builder)
+        }
+        
+        ValkyrieTokenTypes.UNTIL -> {
+            marker.rollbackTo()
+            return parseUntilStatement(parser, builder)
+        }
+
         ValkyrieTokenTypes.CONTINUE -> {
             builder.advanceLexer()
             parseLabelMark(builder) // optional
