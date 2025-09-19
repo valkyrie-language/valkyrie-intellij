@@ -57,17 +57,17 @@ Valkyrie File
         ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
           ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
             ValkyrieIdentifier(a)
-              PsiElement(ValkyrieTokenType.SYMBOL.STD)('a')
+              PsiElement(ValkyrieTokenType.SYMBOL.XID)('a')
         PsiErrorElement:Expected ',' or ']'
           <empty list>
-  PsiErrorElement:Expected expression
-    <empty list>
   PsiElement(ValkyrieTokenType.:)(':')
-  PsiElement(ValkyrieTokenType.INTEGER)('1')
-  PsiElement(ValkyrieTokenType.])(']')
-  PsiErrorElement:Expected expression
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      PsiElement(ValkyrieTokenType.INTEGER)('1')
+  PsiErrorElement:Parser stuck in program body
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+  PsiElement(ValkyrieTokenType.])(']')
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.;)(';')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
@@ -77,24 +77,35 @@ Valkyrie File
         ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
           ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
             ValkyrieIdentifier(a)
-              PsiElement(ValkyrieTokenType.SYMBOL.STD)('a')
+              PsiElement(ValkyrieTokenType.SYMBOL.XID)('a')
         PsiErrorElement:Expected ',' or ']'
           <empty list>
-  PsiErrorElement:Expected expression
-    <empty list>
   PsiElement(ValkyrieTokenType.:)(':')
-  PsiElement(ValkyrieTokenType.INTEGER)('1')
-  PsiElement(ValkyrieTokenType.+)('+')
-  PsiElement(ValkyrieTokenType.INTEGER)('1')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieBinaryTerm(ValkyrieElementType.BINARY_EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+        PsiElement(ValkyrieTokenType.INTEGER)('1')
+      PsiElement(ValkyrieTokenType.+)('+')
+      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+        PsiElement(ValkyrieTokenType.INTEGER)('1')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
   PsiElement(ValkyrieTokenType.,)(',')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
   PsiElement(ValkyrieTokenType.])(']')
   PsiComment(ValkyrieTokenType.#)('# index 语义')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('x')
-  PsiElement(ValkyrieTokenType.[)('[')
-  PsiElement(ValkyrieTokenType.])(']')
-  PsiErrorElement:Expected expression
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyriePostfixExpression
+      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+        ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+          ValkyrieIdentifier(x)
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('x')
+      PsiElement(ValkyrieTokenType.[)('[')
+  PsiErrorElement:Parser stuck in program body
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+  PsiElement(ValkyrieTokenType.])(']')
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.;)(';')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
@@ -102,17 +113,15 @@ Valkyrie File
       ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
         ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
           ValkyrieIdentifier(x)
-            PsiElement(ValkyrieTokenType.SYMBOL.STD)('x')
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('x')
       PsiElement(ValkyrieTokenType.[)('[')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
     ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
       PsiElement(ValkyrieTokenType.INTEGER)('0')
-  PsiErrorElement:Expected expression
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.])(']')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.;)(';')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
@@ -120,40 +129,42 @@ Valkyrie File
       ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
         ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
           ValkyrieIdentifier(x)
-            PsiElement(ValkyrieTokenType.SYMBOL.STD)('x')
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('x')
       PsiElement(ValkyrieTokenType.[)('[')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
     ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
       PsiElement(ValkyrieTokenType.INTEGER)('0')
-  PsiErrorElement:Expected expression
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.])(']')
-  PsiElement(ValkyrieTokenType.[)('[')
-  PsiElement(ValkyrieTokenType.INTEGER)('0')
-  PsiElement(ValkyrieTokenType.])(']')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.ARRAY_EXPRESSION)
+        PsiElement(ValkyrieTokenType.[)('[')
+        ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+          PsiElement(ValkyrieTokenType.INTEGER)('0')
+        PsiElement(ValkyrieTokenType.])(']')
+    PsiElement(ValkyrieTokenType.;)(';')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
     ValkyriePostfixExpression
       ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
         ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
           ValkyrieIdentifier(x)
-            PsiElement(ValkyrieTokenType.SYMBOL.STD)('x')
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('x')
       PsiElement(ValkyrieTokenType.[)('[')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
     ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
       PsiElement(ValkyrieTokenType.INTEGER)('0')
-  PsiErrorElement:Expected expression
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.,)(',')
-  PsiElement(ValkyrieTokenType.INTEGER)('0')
-  PsiElement(ValkyrieTokenType.])(']')
-  PsiErrorElement:Expected expression
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      PsiElement(ValkyrieTokenType.INTEGER)('0')
+  PsiErrorElement:Parser stuck in program body
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+  PsiElement(ValkyrieTokenType.])(']')
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# slice 语义')
@@ -162,15 +173,15 @@ Valkyrie File
       ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
         ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
           ValkyrieIdentifier(x)
-            PsiElement(ValkyrieTokenType.SYMBOL.STD)('x')
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('x')
       PsiElement(ValkyrieTokenType.[)('[')
-  PsiErrorElement:Expected expression
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.:)(':')
-  PsiElement(ValkyrieTokenType.])(']')
-  PsiErrorElement:Expected expression
+  PsiErrorElement:Parser stuck in program body
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+  PsiElement(ValkyrieTokenType.])(']')
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.;)(';')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
@@ -178,18 +189,18 @@ Valkyrie File
       ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
         ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
           ValkyrieIdentifier(x)
-            PsiElement(ValkyrieTokenType.SYMBOL.STD)('x')
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('x')
       PsiElement(ValkyrieTokenType.[)('[')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
     ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
       PsiElement(ValkyrieTokenType.INTEGER)('1')
-  PsiErrorElement:Expected expression
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.:)(':')
-  PsiElement(ValkyrieTokenType.])(']')
-  PsiErrorElement:Expected expression
+  PsiErrorElement:Parser stuck in program body
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+  PsiElement(ValkyrieTokenType.])(']')
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.;)(';')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
@@ -197,17 +208,20 @@ Valkyrie File
       ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
         ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
           ValkyrieIdentifier(x)
-            PsiElement(ValkyrieTokenType.SYMBOL.STD)('x')
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('x')
       PsiElement(ValkyrieTokenType.[)('[')
-  PsiErrorElement:Expected expression
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.:)(':')
-  PsiElement(ValkyrieTokenType.-)('-')
-  PsiElement(ValkyrieTokenType.INTEGER)('1')
-  PsiElement(ValkyrieTokenType.])(']')
-  PsiErrorElement:Expected expression
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieUnaryTerm(ValkyrieElementType.UNARY_EXPRESSION)
+      PsiElement(ValkyrieTokenType.-)('-')
+      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+        PsiElement(ValkyrieTokenType.INTEGER)('1')
+  PsiErrorElement:Parser stuck in program body
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+  PsiElement(ValkyrieTokenType.])(']')
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.;)(';')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
@@ -215,20 +229,23 @@ Valkyrie File
       ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
         ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
           ValkyrieIdentifier(x)
-            PsiElement(ValkyrieTokenType.SYMBOL.STD)('x')
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('x')
       PsiElement(ValkyrieTokenType.[)('[')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
     ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
       PsiElement(ValkyrieTokenType.INTEGER)('1')
-  PsiErrorElement:Expected expression
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.:)(':')
-  PsiElement(ValkyrieTokenType.-)('-')
-  PsiElement(ValkyrieTokenType.INTEGER)('1')
-  PsiElement(ValkyrieTokenType.])(']')
-  PsiErrorElement:Expected expression
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieUnaryTerm(ValkyrieElementType.UNARY_EXPRESSION)
+      PsiElement(ValkyrieTokenType.-)('-')
+      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+        PsiElement(ValkyrieTokenType.INTEGER)('1')
+  PsiErrorElement:Parser stuck in program body
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+  PsiElement(ValkyrieTokenType.])(']')
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 高级 slice 语义')
@@ -238,15 +255,13 @@ Valkyrie File
         ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
           ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
             ValkyrieIdentifier(x)
-              PsiElement(ValkyrieTokenType.SYMBOL.STD)('x')
+              PsiElement(ValkyrieTokenType.SYMBOL.XID)('x')
         PsiElement(ValkyrieTokenType.[)('[')
       PsiElement(ValkyrieTokenType.::)('::')
-  PsiErrorElement:Expected expression
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.])(']')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.;)(';')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
@@ -255,15 +270,13 @@ Valkyrie File
         ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
           ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
             ValkyrieIdentifier(x)
-              PsiElement(ValkyrieTokenType.SYMBOL.STD)('x')
+              PsiElement(ValkyrieTokenType.SYMBOL.XID)('x')
         PsiElement(ValkyrieTokenType.[)('[')
       PsiElement(ValkyrieTokenType.::)('::')
-  PsiErrorElement:Expected expression
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.])(']')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.;)(';')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
@@ -271,16 +284,18 @@ Valkyrie File
       ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
         ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
           ValkyrieIdentifier(x)
-            PsiElement(ValkyrieTokenType.SYMBOL.STD)('x')
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('x')
       PsiElement(ValkyrieTokenType.[)('[')
-  PsiErrorElement:Expected expression
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.:)(':')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
   PsiElement(ValkyrieTokenType.:)(':')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
   PsiElement(ValkyrieTokenType.])(']')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.;)(';')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
@@ -288,19 +303,17 @@ Valkyrie File
       ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
         ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
           ValkyrieIdentifier(x)
-            PsiElement(ValkyrieTokenType.SYMBOL.STD)('x')
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('x')
       PsiElement(ValkyrieTokenType.[)('[')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
     ValkyriePostfixExpression
       ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
         PsiElement(ValkyrieTokenType.INTEGER)('1')
       PsiElement(ValkyrieTokenType.::)('::')
-  PsiErrorElement:Expected expression
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.])(']')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.;)(';')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
@@ -308,19 +321,21 @@ Valkyrie File
       ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
         ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
           ValkyrieIdentifier(x)
-            PsiElement(ValkyrieTokenType.SYMBOL.STD)('x')
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('x')
       PsiElement(ValkyrieTokenType.[)('[')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
     ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
       PsiElement(ValkyrieTokenType.INTEGER)('1')
-  PsiErrorElement:Expected expression
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.:)(':')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
   PsiElement(ValkyrieTokenType.:)(':')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
   PsiElement(ValkyrieTokenType.])(']')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.;)(';')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
@@ -328,18 +343,23 @@ Valkyrie File
       ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
         ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
           ValkyrieIdentifier(x)
-            PsiElement(ValkyrieTokenType.SYMBOL.STD)('x')
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('x')
       PsiElement(ValkyrieTokenType.[)('[')
-  PsiErrorElement:Expected expression
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.:)(':')
-  PsiElement(ValkyrieTokenType.-)('-')
-  PsiElement(ValkyrieTokenType.INTEGER)('1')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieUnaryTerm(ValkyrieElementType.UNARY_EXPRESSION)
+      PsiElement(ValkyrieTokenType.-)('-')
+      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+        PsiElement(ValkyrieTokenType.INTEGER)('1')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
   PsiElement(ValkyrieTokenType.:)(':')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
   PsiElement(ValkyrieTokenType.])(']')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.;)(';')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
@@ -347,63 +367,82 @@ Valkyrie File
       ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
         ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
           ValkyrieIdentifier(x)
-            PsiElement(ValkyrieTokenType.SYMBOL.STD)('x')
-      PsiElement(ValkyrieTokenType.[)('[')
-  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
-    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
-      PsiElement(ValkyrieTokenType.INTEGER)('1')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiElement(ValkyrieTokenType.:)(':')
-  PsiElement(ValkyrieTokenType.-)('-')
-  PsiElement(ValkyrieTokenType.INTEGER)('1')
-  PsiElement(ValkyrieTokenType.:)(':')
-  PsiElement(ValkyrieTokenType.])(']')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
-    ValkyriePostfixExpression
-      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
-        ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
-          ValkyrieIdentifier(x)
-            PsiElement(ValkyrieTokenType.SYMBOL.STD)('x')
-      PsiElement(ValkyrieTokenType.[)('[')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiElement(ValkyrieTokenType.:)(':')
-  PsiElement(ValkyrieTokenType.-)('-')
-  PsiElement(ValkyrieTokenType.INTEGER)('1')
-  PsiElement(ValkyrieTokenType.:)(':')
-  PsiElement(ValkyrieTokenType.INTEGER)('1')
-  PsiElement(ValkyrieTokenType.])(']')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
-    ValkyriePostfixExpression
-      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
-        ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
-          ValkyrieIdentifier(x)
-            PsiElement(ValkyrieTokenType.SYMBOL.STD)('x')
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('x')
       PsiElement(ValkyrieTokenType.[)('[')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
     ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
       PsiElement(ValkyrieTokenType.INTEGER)('1')
-  PsiErrorElement:Expected expression
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.:)(':')
-  PsiElement(ValkyrieTokenType.-)('-')
-  PsiElement(ValkyrieTokenType.INTEGER)('1')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieUnaryTerm(ValkyrieElementType.UNARY_EXPRESSION)
+      PsiElement(ValkyrieTokenType.-)('-')
+      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+        PsiElement(ValkyrieTokenType.INTEGER)('1')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
   PsiElement(ValkyrieTokenType.:)(':')
-  PsiElement(ValkyrieTokenType.INTEGER)('1')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
   PsiElement(ValkyrieTokenType.])(']')
-  PsiErrorElement:Expected expression
+  PsiErrorElement:Parser stuck in program body
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+  PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyriePostfixExpression
+      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+        ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+          ValkyrieIdentifier(x)
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('x')
+      PsiElement(ValkyrieTokenType.[)('[')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(ValkyrieTokenType.:)(':')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieUnaryTerm(ValkyrieElementType.UNARY_EXPRESSION)
+      PsiElement(ValkyrieTokenType.-)('-')
+      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+        PsiElement(ValkyrieTokenType.INTEGER)('1')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(ValkyrieTokenType.:)(':')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      PsiElement(ValkyrieTokenType.INTEGER)('1')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(ValkyrieTokenType.])(']')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyriePostfixExpression
+      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+        ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+          ValkyrieIdentifier(x)
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('x')
+      PsiElement(ValkyrieTokenType.[)('[')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      PsiElement(ValkyrieTokenType.INTEGER)('1')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(ValkyrieTokenType.:)(':')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieUnaryTerm(ValkyrieElementType.UNARY_EXPRESSION)
+      PsiElement(ValkyrieTokenType.-)('-')
+      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+        PsiElement(ValkyrieTokenType.INTEGER)('1')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(ValkyrieTokenType.:)(':')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      PsiElement(ValkyrieTokenType.INTEGER)('1')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(ValkyrieTokenType.])(']')
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.;)(';')

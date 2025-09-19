@@ -24,23 +24,19 @@ Valkyrie File
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
     ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
       PsiElement(ValkyrieTokenType.INTEGER)('0')
-  PsiErrorElement:Expected expression
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.MACRO.NUMBER)('o123')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.;)(';')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
     ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
       PsiElement(ValkyrieTokenType.INTEGER)('1')
-  PsiErrorElement:Expected expression
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.MACRO.NUMBER)('e5')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.;)(';')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
@@ -51,13 +47,12 @@ Valkyrie File
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
     ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
       PsiElement(ValkyrieTokenType.INTEGER)('2')
-  PsiErrorElement:Expected expression
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.MACRO.NUMBER)('e')
-  PsiElement(ValkyrieTokenType.-)('-')
-  PsiElement(ValkyrieTokenType.INTEGER)('3')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieUnaryTerm(ValkyrieElementType.UNARY_EXPRESSION)
+      PsiElement(ValkyrieTokenType.-)('-')
+      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+        PsiElement(ValkyrieTokenType.INTEGER)('3')
+    PsiElement(ValkyrieTokenType.;)(';')
