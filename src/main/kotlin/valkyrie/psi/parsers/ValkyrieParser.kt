@@ -43,6 +43,8 @@ open class ValkyrieParser : PsiParser {
     fun parseStatement(builder: PsiBuilder): Boolean {
         val safePoint = builder.currentOffset
         when {
+            // dialect
+            parseStatementExtension(builder) -> return true
             // modules
             parseNamespaceStatement(builder) -> return true
             parseUsingStatement(builder) -> return true
@@ -80,6 +82,10 @@ open class ValkyrieParser : PsiParser {
             builder.advanceLexer()
         }
         return true
+    }
+
+    protected fun parseStatementExtension(builder: PsiBuilder): Boolean {
+        return false
     }
 
     fun parseNamespaceStatement(builder: PsiBuilder): Boolean {
@@ -620,6 +626,9 @@ open class ValkyrieParser : PsiParser {
         return true
     }
 
+    protected fun parseExpressionExtension(builder: PsiBuilder): Boolean {
+        return false
+    }
 
     fun parseClassLikeStatements(builder: PsiBuilder, keyword: ValkyrieTokenType, node: ValkyrieElementType): Boolean {
         val marker = builder.mark()
