@@ -10,31 +10,42 @@ Valkyrie File
       PsiElement(ValkyrieTokenType.{)('{')
       PsiElement(ValkyrieTokenType.})('}')
   PsiComment(ValkyrieTokenType.#)('# 测试带标签的 until 语句')
-  ValkyrieElementNode(ValkyrieElementType.UNTIL_STATEMENT)
-    PsiElement(ValkyrieTokenType.until)('until')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
     ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
-      ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
-        ValkyrieIdentifier(condition)
-          PsiElement(ValkyrieTokenType.SYMBOL.STD)('condition')
-    ValkyrieElementNode(ValkyrieElementType.LABEL_STATEMENT)
-      PsiElement(ValkyrieTokenType.※)('※')
-      ValkyrieIdentifier(label)
-        PsiElement(ValkyrieTokenType.SYMBOL.STD)('label')
-    ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
-      PsiElement(ValkyrieTokenType.{)('{')
-      PsiElement(ValkyrieTokenType.})('}')
+      ValkyrieElementNode(ValkyrieElementType.UNTIL_STATEMENT)
+        PsiElement(ValkyrieTokenType.until)('until')
+        ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+          PsiElement(ValkyrieTokenType.BOOLEAN)('true')
+        ValkyrieElementNode(ValkyrieElementType.LABEL_STATEMENT)
+          PsiElement(ValkyrieTokenType.※)('※')
+          ValkyrieIdentifier(label)
+            PsiElement(ValkyrieTokenType.SYMBOL.STD)('label')
+        ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
+          PsiElement(ValkyrieTokenType.{)('{')
+          PsiElement(ValkyrieTokenType.})('}')
+    PsiElement(ValkyrieTokenType.;)(';')
+  PsiErrorElement:Expected expression
+    <empty list>
   PsiComment(ValkyrieTokenType.#)('# 测试 until-else 语句')
-  ValkyrieElementNode(ValkyrieElementType.UNTIL_STATEMENT)
-    PsiElement(ValkyrieTokenType.until)('until')
-    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
-      ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
-        ValkyrieIdentifier(condition)
-          PsiElement(ValkyrieTokenType.SYMBOL.STD)('condition')
-    ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
-      PsiElement(ValkyrieTokenType.{)('{')
-      PsiElement(ValkyrieTokenType.})('}')
-    ValkyrieElementNode(ValkyrieElementType.ELSE_CLAUSE)
-      PsiElement(ValkyrieTokenType.else)('else')
-      ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
-        PsiElement(ValkyrieTokenType.{)('{')
-        PsiElement(ValkyrieTokenType.})('}')
+  PsiElement(ValkyrieTokenType.until)('until')
+  PsiElement(ValkyrieTokenType.BOOLEAN)('true')
+  PsiElement(ValkyrieTokenType.{)('{')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
+    <empty list>
+  PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiElement(ValkyrieTokenType.else)('else')
+  PsiElement(ValkyrieTokenType.{)('{')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
+    <empty list>
+  PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+    <empty list>
+  PsiElement(ValkyrieTokenType.;)(';')

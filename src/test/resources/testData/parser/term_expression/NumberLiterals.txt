@@ -1,0 +1,63 @@
+Valkyrie File
+  PsiComment(ValkyrieTokenType.#)('# 整数和浮点数测试用例')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      PsiElement(ValkyrieTokenType.INTEGER)('123')
+    PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+        PsiElement(ValkyrieTokenType.INTEGER)('123')
+      PsiElement(ValkyrieTokenType..)('.')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      PsiElement(ValkyrieTokenType.INTEGER)('456')
+    PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      PsiElement(ValkyrieTokenType.INTEGER)('0xABC')
+    PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      PsiElement(ValkyrieTokenType.INTEGER)('0b101')
+    PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      PsiElement(ValkyrieTokenType.INTEGER)('0')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiElement(ValkyrieTokenType.MACRO.NUMBER)('o123')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+    <empty list>
+  PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      PsiElement(ValkyrieTokenType.INTEGER)('1')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiElement(ValkyrieTokenType.MACRO.NUMBER)('e5')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+    <empty list>
+  PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+        PsiElement(ValkyrieTokenType.INTEGER)('1')
+      PsiElement(ValkyrieTokenType..)('.')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      PsiElement(ValkyrieTokenType.INTEGER)('2')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiElement(ValkyrieTokenType.MACRO.NUMBER)('e')
+  PsiElement(ValkyrieTokenType.-)('-')
+  PsiElement(ValkyrieTokenType.INTEGER)('3')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+    <empty list>
+  PsiElement(ValkyrieTokenType.;)(';')

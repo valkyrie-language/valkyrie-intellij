@@ -1,0 +1,32 @@
+Valkyrie File
+  PsiComment(ValkyrieTokenType.#)('# 前缀运算符测试用例')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieUnaryTerm(ValkyrieElementType.UNARY_EXPRESSION)
+      PsiElement(ValkyrieTokenType.-)('-')
+      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+        PsiElement(ValkyrieTokenType.INTEGER)('1')
+    PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieUnaryTerm(ValkyrieElementType.UNARY_EXPRESSION)
+      PsiElement(ValkyrieTokenType.+)('+')
+      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+        PsiElement(ValkyrieTokenType.INTEGER)('2')
+    PsiElement(ValkyrieTokenType.;)(';')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiElement(ValkyrieTokenType.!)('!')
+  PsiElement(ValkyrieTokenType.BOOLEAN)('true')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+    <empty list>
+  PsiElement(ValkyrieTokenType.;)(';')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiElement(BAD_CHARACTER)('~')
+  PsiElement(ValkyrieTokenType.INTEGER)('0xFF')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+    <empty list>
+  PsiElement(ValkyrieTokenType.;)(';')

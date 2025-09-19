@@ -1,0 +1,149 @@
+Valkyrie File
+  PsiErrorElement:Expected class name
+    PsiElement(ValkyrieTokenType.class)('class')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.{)('{')
+  PsiWhiteSpace('\n    ')
+  PsiComment(ValkyrieTokenType.#)('# 简单字段声明')
+  PsiWhiteSpace('\n    ')
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('field1')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+    <empty list>
+  PsiElement(ValkyrieTokenType.;)(';')
+  PsiWhiteSpace('\n\n    ')
+  PsiComment(ValkyrieTokenType.#)('# 带有类型注解的字段声明')
+  PsiWhiteSpace('\n    ')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+        ValkyrieIdentifier(field2)
+          PsiElement(ValkyrieTokenType.SYMBOL.STD)('field2')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiElement(ValkyrieTokenType.:)(':')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('Typing')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+    <empty list>
+  PsiElement(ValkyrieTokenType.;)(';')
+  PsiWhiteSpace('\n\n    ')
+  PsiComment(ValkyrieTokenType.#)('# 带有类型注解和默认值的字段声明')
+  PsiWhiteSpace('\n    ')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+        ValkyrieIdentifier(field3)
+          PsiElement(ValkyrieTokenType.SYMBOL.STD)('field3')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiElement(ValkyrieTokenType.:)(':')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('Type')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.=)('=')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('default_value')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+    <empty list>
+  PsiElement(ValkyrieTokenType.;)(';')
+  PsiWhiteSpace('\n\n    ')
+  PsiComment(ValkyrieTokenType.#)('# 带有修饰符的领域声明')
+  PsiWhiteSpace('\n    ')
+  ValkyrieAnnotation(null)
+    ValkyrieModifier(modifier)
+      PsiElement(ValkyrieTokenType.SYMBOL.STD)('modifier')
+  PsiWhiteSpace(' ')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+        ValkyrieIdentifier(field4)
+          PsiElement(ValkyrieTokenType.SYMBOL.STD)('field4')
+    PsiElement(ValkyrieTokenType.;)(';')
+  PsiWhiteSpace('\n\n    ')
+  PsiComment(ValkyrieTokenType.#)('# 带有属性的领域声明')
+  PsiWhiteSpace('\n    ')
+  ValkyrieAnnotation(null)
+    ValkyrieElementNode(ValkyrieElementType.ATTRIBUTE)
+      PsiElement(ValkyrieTokenType.↯)('↯')
+      ValkyrieIdentifier(attribute)
+        PsiElement(ValkyrieTokenType.SYMBOL.STD)('attribute')
+  PsiWhiteSpace(' ')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+        ValkyrieIdentifier(field5)
+          PsiElement(ValkyrieTokenType.SYMBOL.STD)('field5')
+    PsiElement(ValkyrieTokenType.;)(';')
+  PsiWhiteSpace('\n\n    ')
+  PsiComment(ValkyrieTokenType.#)('# 带有属性和修饰符的字段')
+  PsiWhiteSpace('\n    ')
+  ValkyrieAnnotation(null)
+    ValkyrieElementNode(ValkyrieElementType.ATTRIBUTE)
+      PsiElement(ValkyrieTokenType.↯)('↯')
+      ValkyrieIdentifier(attribute1)
+        PsiElement(ValkyrieTokenType.SYMBOL.STD)('attribute1')
+    PsiWhiteSpace('\n    ')
+    ValkyrieElementNode(ValkyrieElementType.ATTRIBUTE_LIST)
+      PsiElement(ValkyrieTokenType.↯)('↯')
+      PsiElement(ValkyrieTokenType.[)('[')
+      ValkyrieElementNode(ValkyrieElementType.ATTRIBUTE)
+        ValkyrieIdentifier(attribute2)
+          PsiElement(ValkyrieTokenType.SYMBOL.STD)('attribute2')
+      PsiElement(ValkyrieTokenType.,)(',')
+      PsiWhiteSpace(' ')
+      ValkyrieElementNode(ValkyrieElementType.ATTRIBUTE)
+        ValkyrieIdentifier(attribute3)
+          PsiElement(ValkyrieTokenType.SYMBOL.STD)('attribute3')
+      PsiElement(ValkyrieTokenType.])(']')
+    PsiWhiteSpace('\n    ')
+    ValkyrieElementNode(ValkyrieElementType.ATTRIBUTE)
+      PsiElement(ValkyrieTokenType.↯)('↯')
+      ValkyrieIdentifier(attribute4)
+        PsiElement(ValkyrieTokenType.SYMBOL.STD)('attribute4')
+  PsiWhiteSpace('\n    ')
+  ValkyrieAnnotation(null)
+    ValkyrieModifier(modifier1)
+      PsiElement(ValkyrieTokenType.SYMBOL.STD)('modifier1')
+    PsiWhiteSpace(' \n    ')
+    ValkyrieModifier(modifier2)
+      PsiElement(ValkyrieTokenType.SYMBOL.STD)('modifier2')
+    PsiWhiteSpace(' ')
+    ValkyrieModifier(modifier3)
+      PsiElement(ValkyrieTokenType.SYMBOL.STD)('modifier3')
+    PsiWhiteSpace('\n    ')
+    ValkyrieModifier(modifier4)
+      PsiElement(ValkyrieTokenType.SYMBOL.STD)('modifier4')
+  PsiWhiteSpace('\n    ')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+        ValkyrieIdentifier(field999)
+          PsiElement(ValkyrieTokenType.SYMBOL.STD)('field999')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiElement(ValkyrieTokenType.:)(':')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('ComplexType')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.=)('=')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieTokenType.SYMBOL.STD)('default_value')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+    <empty list>
+  PsiElement(ValkyrieTokenType.;)(';')
+  PsiErrorElement:Expected expression
+    <empty list>
+  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
+    <empty list>
+  PsiWhiteSpace('\n')
+  PsiElement(ValkyrieTokenType.})('}')

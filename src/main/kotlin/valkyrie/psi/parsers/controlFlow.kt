@@ -236,7 +236,10 @@ fun parseControl(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
             return true
         }
         // 不是控制流语句，返回false
-        else -> return false
+        else -> {
+            marker.drop()
+            return false
+        }
     }
 }
 
