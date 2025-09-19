@@ -60,6 +60,9 @@ object ValkyrieElementTypes {
     val LET_STATEMENT = ValkyrieElementType("LET_STATEMENT")
 
     @JvmField
+    val TYPE_ALIAS = ValkyrieElementType("TYPE_ALIAS")
+
+    @JvmField
     val CLASS_STATEMENT = ValkyrieElementType("CLASS_STATEMENT")
 
     @JvmField
@@ -94,6 +97,12 @@ object ValkyrieElementTypes {
     val IMPLY_STATEMENT = ValkyrieElementType("IMPLY_STATEMENT")
 
     @JvmField
+    val CONSTRUCTOR_DECLARATION = ValkyrieElementType("CONSTRUCTOR_DECLARATION")
+
+    @JvmField
+    val CONSTRUCTOR_BODY = ValkyrieElementType("CONSTRUCTOR_BODY")
+
+    @JvmField
     val STRUCTURE_STATEMENT = ValkyrieElementType("STRUCTURE_STATEMENT")
 
     @JvmField
@@ -121,13 +130,21 @@ object ValkyrieElementTypes {
     val WHILE_STATEMENT = ValkyrieElementType("WHILE_STATEMENT")
 
     @JvmField
+    val WHILE_LET_STATEMENT = ValkyrieElementType("WHILE_LET_STATEMENT")
+
+    @JvmField
+    val UNTIL_NOT_STATEMENT = ValkyrieElementType("UNTIL_NOT_STATEMENT")
+
+    @JvmField
     val MATCH_STATEMENT = ValkyrieElementType("MATCH_STATEMENT")
 
     @JvmField
-    val MATCH_CASE = ValkyrieElementType("MATCH_CASE")
-
-    @JvmField
     val MATCH_BODY = ValkyrieElementType("MATCH_BODY")
+
+    val WHEN_CLAUSE = ValkyrieElementType("WHEN_CLAUSE")
+    val TYPE_CLAUSE = ValkyrieElementType("TYPE_CLAUSE")
+    val CASE_CLAUSE = ValkyrieElementType("CASE_CLAUSE")
+    val ELSE_CLAUSE = ValkyrieElementType("ELSE_CLAUSE")
 
     @JvmField
     val INTEGER_LITERAL = ValkyrieElementType("INTEGER_LITERAL")
@@ -144,8 +161,6 @@ object ValkyrieElementTypes {
     @JvmField
     val TRY_STATEMENT = ValkyrieElementType("TRY_STATEMENT")
 
-    @JvmField
-    val WHEN_CLAUSE = ValkyrieElementType("WHEN_CLAUSE")
 
     @JvmField
     val IF_STATEMENT = ValkyrieElementType("IF_STATEMENT")
@@ -160,8 +175,6 @@ object ValkyrieElementTypes {
     @JvmField
     val ELSE_PART = ValkyrieElementType("ELSE_PART")
 
-    @JvmField
-    val ELSE_CLAUSE = ValkyrieElementType("ELSE_CLAUSE")
 
     @JvmField
     val IF_LET_STATEMENT = ValkyrieElementType("IF_LET_STATEMENT")
@@ -174,7 +187,7 @@ object ValkyrieElementTypes {
     val DECLARE_MICRO = ValkyrieElementType("DECLARE_MICRO")
 
     @JvmField
-    val ASSIGN_MICRO = ValkyrieElementType("DECLARE_MICRO")
+    val ASSIGN_MICRO = ValkyrieElementType("ASSIGN_MICRO")
 
     @JvmField
     val DECLARE_MEZZO = ValkyrieElementType("DECLARE_MEZZO")
@@ -198,7 +211,7 @@ object ValkyrieElementTypes {
     val TEMPLATE_IF = ValkyrieElementType("TEMPLATE_IF")
 
     @JvmField
-    val TEMPLATE_IF_MARK = ValkyrieElementType("TEMPLATE_IF")
+    val TEMPLATE_IF_MARK = ValkyrieElementType("TEMPLATE_IF_MARK")
 
     @JvmField
     val TEMPLATE_ELSE_IF = ValkyrieElementType("TEMPLATE_ELSE_IF")
@@ -306,6 +319,12 @@ object ValkyrieElementTypes {
 
     @JvmField
     val RETURN_STATEMENT = ValkyrieElementType("RETURN_STATEMENT")
+
+    @JvmField
+    val ASSERT_STATEMENT = ValkyrieElementType("ASSERT_STATEMENT")
+
+    @JvmField
+    val DEBUG_STATEMENT = ValkyrieElementType("DEBUG_STATEMENT")
 
     @JvmField
     val BREAK_STATEMENT = ValkyrieElementType("BREAK_STATEMENT")

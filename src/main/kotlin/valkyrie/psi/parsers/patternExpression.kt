@@ -4,20 +4,19 @@ import com.intellij.lang.PsiBuilder
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.lexers.ValkyrieTokenTypes
 
-
 fun parsePattern(valkyrieParser: ValkyrieParser, builder: PsiBuilder, allowBare: Boolean): Boolean {
     return when {
         parseTuplePattern(valkyrieParser, builder) -> true
-        parseTablePattern(valkyrieParser, builder) -> true
-        parseObjectPattern(valkyrieParser, builder) -> true
+//        parseTablePattern(valkyrieParser, builder) -> true
+//        parseObjectPattern(valkyrieParser, builder) -> true
         allowBare && parseBarePattern(valkyrieParser, builder) -> true
         else -> false
     }
 }
 
-fun parseBarePattern(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {
+fun parseBarePattern(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
-    valkyrieParser.parseModifierList(builder)
+    parser.parseModifierList(builder)
     if (!parseIdentifier(builder)) {
         marker.rollbackTo()
         return false
@@ -70,15 +69,15 @@ fun parseTablePattern(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Bool
     return true
 }
 
-fun parseTuplePattern(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {
-    if (builder.tokenType != ValkyrieTokenTypes.PARENTHESIS_L) return false
+fun parseTuplePattern(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    if (builder.tokenType != ValkyrieTokenTypes.PARENTHESIS_L) {
+        return false
+    }
     val marker = builder.mark()
-
     builder.advanceLexer() // consume '('
-
     // Parse pattern list
     while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.PARENTHESIS_R) {
-        if (!parsePattern(valkyrieParser, builder, true)) {
+        if (!parsePattern(parser, builder, true)) {
             if (!parseIdentifier(builder)) {
                 marker.error("Expected pattern or identifier")
                 return false

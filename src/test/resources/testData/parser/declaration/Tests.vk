@@ -1,0 +1,5 @@
+tests {}
+tests { tests {} }
+tests { field1; field2 }
+tests { method1(); method2() }
+tests { domain1 {} domain2 {} }

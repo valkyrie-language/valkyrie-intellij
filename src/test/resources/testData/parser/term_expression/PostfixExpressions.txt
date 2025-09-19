@@ -1,0 +1,22 @@
+Valkyrie File
+  PsiComment(ValkyrieTokenType.#)('# 后缀运算符测试用例')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieBinaryTerm(ValkyrieElementType.BINARY_EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+        ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+          ValkyrieIdentifier(myVar)
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('myVar')
+      PsiElement(ValkyrieTokenType.+)('+')
+      PsiErrorElement:Expected expression after prefix operator
+        PsiElement(ValkyrieTokenType.+)('+')
+    PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieBinaryTerm(ValkyrieElementType.BINARY_EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+        ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+          ValkyrieIdentifier(anotherVar)
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('anotherVar')
+      PsiElement(ValkyrieTokenType.-)('-')
+      PsiErrorElement:Expected expression after prefix operator
+        PsiElement(ValkyrieTokenType.-)('-')
+    PsiElement(ValkyrieTokenType.;)(';')

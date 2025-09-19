@@ -6,12 +6,16 @@ import com.intellij.psi.PsiManager
 import com.intellij.json.psi.JsonFile
 import com.intellij.json.psi.JsonObject
 import com.intellij.json.psi.JsonStringLiteral
+import com.intellij.json.psi.JsonArray
 import com.intellij.openapi.application.ReadAction
 import valkyrie.project.ValkyrieProjectParser
+import valkyrie.project.ValkyriePackageDependency
+import valkyrie.project.DependencySource
 
 /**
  * Valkyrie Workspace 解析器
  * 负责识别和解析 legions.json 文件，确定 workspace 结构
+ * 支持包别名和依赖配置
  */
 class ValkyrieWorkspaceParser {
     
@@ -50,12 +54,20 @@ class ValkyrieWorkspaceParser {
             
             val rootObject = jsonFile.topLevelValue as? JsonObject ?: return@compute null
             
+            // 解析包依赖映射
+            val packageDependencies = parsePackageDependencies(rootObject, workspaceRoot, project)
+            
+            // 解析包别名映射
+            val packageAliases = parsePackageAliases(rootObject)
+            
             ValkyrieWorkspace(
                 root = workspaceRoot,
                 name = workspaceRoot.name,
                 isPrivate = getBooleanProperty(rootObject, "private") ?: false,
                 scripts = parseScripts(rootObject),
-                packages = findPackages(workspaceRoot)
+                packages = findPackages(workspaceRoot),
+                packageDependencies = packageDependencies,
+                packageAliases = packageAliases
             )
         }
     }
@@ -87,6 +99,129 @@ class ValkyrieWorkspaceParser {
         return packagesDir.children.filter { child ->
             child.isDirectory && child.findChild(ValkyrieProjectParser.Companion.LEGION_JSON) != null
         }
+    }
+    
+    /**
+     * 解析包依赖配置
+     * 支持 dependencies 和 dev-dependencies 字段
+     */
+    private fun parsePackageDependencies(
+        rootObject: JsonObject, 
+        workspaceRoot: VirtualFile,
+        project: Project
+    ): Map<String, ValkyriePackageDependency> {
+        val dependencies = mutableMapOf<String, ValkyriePackageDependency>()
+        
+        // 解析主依赖
+        dependencies.putAll(parseDependencySection(rootObject, "dependencies", workspaceRoot, project))
+        
+        // 解析开发依赖
+        dependencies.putAll(parseDependencySection(rootObject, "dev-dependencies", workspaceRoot, project))
+        
+        return dependencies
+    }
+    
+    /**
+     * 解析指定的依赖段
+     */
+    private fun parseDependencySection(
+        rootObject: JsonObject,
+        sectionName: String,
+        workspaceRoot: VirtualFile,
+        project: Project
+    ): Map<String, ValkyriePackageDependency> {
+        val depsProperty = rootObject.findProperty(sectionName) ?: return emptyMap()
+        val depsObject = depsProperty.value as? JsonObject ?: return emptyMap()
+        
+        val dependencies = mutableMapOf<String, ValkyriePackageDependency>()
+        
+        // 正确遍历 JSON 对象的属性
+        for (property in depsObject.propertyList) {
+            val name = property.name ?: continue
+            val value = property.value
+            
+            when (value) {
+                is JsonStringLiteral -> {
+                    // 简单版本字符串： "package-name": "1.0.0"
+                    dependencies[name] = ValkyriePackageDependency(
+                        name = name,
+                        version = value.value,
+                        source = DependencySource.External()
+                    )
+                }
+                is JsonObject -> {
+                    // 复杂配置： "package-name": { "path": "./relative/path", "alias": "pkg" }
+                    val path = getStringProperty(value, "path")
+                    val alias = getStringProperty(value, "alias")
+                    val version = getStringProperty(value, "version") ?: "latest"
+                    val gitUrl = getStringProperty(value, "git")
+                    val branch = getStringProperty(value, "branch")
+                    val tag = getStringProperty(value, "tag")
+                    
+                    val source = when {
+                        gitUrl != null -> DependencySource.Git(gitUrl, branch, tag)
+                        path != null -> {
+                            // 解析相对路径为绝对路径
+                            val absolutePath = resolvePath(workspaceRoot, path)
+                            DependencySource.Local(absolutePath)
+                        }
+                        else -> DependencySource.External()
+                    }
+                    
+                    dependencies[name] = ValkyriePackageDependency(
+                        name = name,
+                        version = version,
+                        source = source,
+                        alias = alias
+                    )
+                }
+            }
+        }
+        
+        return dependencies
+    }
+    
+    /**
+     * 解析包别名映射
+     * 从 dependencies 字段中提取别名配置
+     */
+    private fun parsePackageAliases(rootObject: JsonObject): Map<String, String> {
+        val aliases = mutableMapOf<String, String>()
+        
+        val depsProperty = rootObject.findProperty("dependencies") ?: return aliases
+        val depsObject = depsProperty.value as? JsonObject ?: return aliases
+        
+        // 正确遍历 JSON 对象的属性
+        for (property in depsObject.propertyList) {
+            val name = property.name ?: continue
+            val value = property.value
+            
+            if (value is JsonObject) {
+                val alias = getStringProperty(value, "alias")
+                if (alias != null) {
+                    aliases[alias] = name
+                }
+            }
+        }
+        
+        return aliases
+    }
+    
+    /**
+     * 解析相对路径为绝对路径
+     */
+    private fun resolvePath(workspaceRoot: VirtualFile, relativePath: String): String {
+        // 处理 ./ 开头的相对路径
+        val cleanPath = relativePath.removePrefix("./")
+        return "${workspaceRoot.path}/$cleanPath"
+    }
+    
+    /**
+     * 获取字符串属性值
+     */
+    private fun getStringProperty(jsonObject: JsonObject, propertyName: String): String? {
+        val property = jsonObject.findProperty(propertyName) ?: return null
+        return (property.value as? JsonStringLiteral)?.value
     }
     
     /**

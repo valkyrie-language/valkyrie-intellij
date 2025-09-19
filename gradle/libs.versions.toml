@@ -1,9 +1,0 @@
-[versions]
-changelog = "2.4.0"
-kover = "0.9.1"
-
-[libraries]
-
-[plugins]
-changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }
-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }

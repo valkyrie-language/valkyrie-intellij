@@ -4,11 +4,9 @@ Valkyrie File
     ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
       ValkyrieLoopStatement
         PsiElement(ValkyrieTokenType.loop)('loop')
-        ValkyrieElementNode(ValkyrieElementType.OBJECT_PATTERN)
+        ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
           PsiElement(ValkyrieTokenType.{)('{')
           PsiElement(ValkyrieTokenType.})('}')
-        PsiErrorElement:Expected '{' after loop keyword
-          <empty list>
     PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 测试带标签的 loop 语句')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
@@ -18,7 +16,7 @@ Valkyrie File
         ValkyrieElementNode(ValkyrieElementType.LABEL_STATEMENT)
           PsiElement(ValkyrieTokenType.※)('※')
           ValkyrieIdentifier(label)
-            PsiElement(ValkyrieTokenType.SYMBOL.STD)('label')
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('label')
         ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
           PsiElement(ValkyrieTokenType.{)('{')
           PsiElement(ValkyrieTokenType.})('}')
@@ -28,30 +26,18 @@ Valkyrie File
     ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
       ValkyrieLoopStatement
         PsiElement(ValkyrieTokenType.loop)('loop')
-        PsiErrorElement:Expected field name
+        ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
           PsiElement(ValkyrieTokenType.{)('{')
-        PsiErrorElement:Expected '{' after loop keyword
-          <empty list>
-  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
-    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
-      ValkyrieLoopStatement
-        PsiElement(ValkyrieTokenType.loop)('loop')
-        ValkyrieElementNode(ValkyrieElementType.OBJECT_PATTERN)
-          PsiElement(ValkyrieTokenType.{)('{')
+          ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+            ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+              ValkyrieLoopStatement
+                PsiElement(ValkyrieTokenType.loop)('loop')
+                ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
+                  PsiElement(ValkyrieTokenType.{)('{')
+                  PsiElement(ValkyrieTokenType.})('}')
+            PsiElement(ValkyrieTokenType.;)(';')
           PsiElement(ValkyrieTokenType.})('}')
-        PsiErrorElement:Expected '{' after loop keyword
-          <empty list>
     PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
-    <empty list>
-  PsiElement(ValkyrieTokenType.})('}')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 测试带标签的嵌套 loop 语句')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
     ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
@@ -60,61 +46,46 @@ Valkyrie File
         ValkyrieElementNode(ValkyrieElementType.LABEL_STATEMENT)
           PsiElement(ValkyrieTokenType.※)('※')
           ValkyrieIdentifier(outer)
-            PsiElement(ValkyrieTokenType.SYMBOL.STD)('outer')
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('outer')
         ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
           PsiElement(ValkyrieTokenType.{)('{')
-          PsiErrorElement:Expected expression
-            <empty list>
-          PsiElement(ValkyrieTokenType.※)('※')
-          PsiElement(ValkyrieTokenType.SYMBOL.STD)('inner')
-          PsiElement(ValkyrieTokenType.loop)('loop')
-          PsiElement(ValkyrieTokenType.{)('{')
-          PsiElement(ValkyrieTokenType.break)('break')
-          PsiElement(ValkyrieTokenType.※)('※')
-          PsiElement(ValkyrieTokenType.SYMBOL.STD)('outer')
-          PsiErrorElement:Expected expression
-            <empty list>
-          PsiErrorElement:Parser stuck at position 173
-            <empty list>
-          PsiElement(ValkyrieTokenType.;)(';')
-          ValkyrieElementNode(ValkyrieElementType.CONTINUE_STATEMENT)
-            PsiElement(ValkyrieTokenType.continue)('continue')
-            ValkyrieElementNode(ValkyrieElementType.LABEL_STATEMENT)
-              PsiElement(ValkyrieTokenType.※)('※')
-              ValkyrieIdentifier(inner)
-                PsiElement(ValkyrieTokenType.SYMBOL.STD)('inner')
-          PsiErrorElement:Expected expression
-            <empty list>
-          PsiErrorElement:Parser stuck at position 198
-            <empty list>
-          PsiElement(ValkyrieTokenType.;)(';')
+          ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+            ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+              ValkyrieLoopStatement
+                PsiElement(ValkyrieTokenType.loop)('loop')
+                ValkyrieElementNode(ValkyrieElementType.LABEL_STATEMENT)
+                  PsiElement(ValkyrieTokenType.※)('※')
+                  ValkyrieIdentifier(inner)
+                    PsiElement(ValkyrieTokenType.SYMBOL.XID)('inner')
+                ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
+                  PsiElement(ValkyrieTokenType.{)('{')
+                  ValkyrieElementNode(ValkyrieElementType.BREAK_STATEMENT)
+                    PsiElement(ValkyrieTokenType.break)('break')
+                    ValkyrieElementNode(ValkyrieElementType.LABEL_STATEMENT)
+                      PsiElement(ValkyrieTokenType.※)('※')
+                      ValkyrieIdentifier(outer)
+                        PsiElement(ValkyrieTokenType.SYMBOL.XID)('outer')
+                    PsiElement(ValkyrieTokenType.;)(';')
+                  ValkyrieElementNode(ValkyrieElementType.CONTINUE_STATEMENT)
+                    PsiElement(ValkyrieTokenType.continue)('continue')
+                    ValkyrieElementNode(ValkyrieElementType.LABEL_STATEMENT)
+                      PsiElement(ValkyrieTokenType.※)('※')
+                      ValkyrieIdentifier(inner)
+                        PsiElement(ValkyrieTokenType.SYMBOL.XID)('inner')
+                    PsiElement(ValkyrieTokenType.;)(';')
+                  PsiElement(ValkyrieTokenType.})('}')
           PsiElement(ValkyrieTokenType.})('}')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
-    <empty list>
-  PsiElement(ValkyrieTokenType.})('}')
   PsiComment(ValkyrieTokenType.#)('# 测试 loop-else 语句')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
     ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
       ValkyrieLoopStatement
         PsiElement(ValkyrieTokenType.loop)('loop')
-        ValkyrieElementNode(ValkyrieElementType.OBJECT_PATTERN)
+        ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
           PsiElement(ValkyrieTokenType.{)('{')
           PsiElement(ValkyrieTokenType.})('}')
-        PsiErrorElement:Expected '{' after loop keyword
-          <empty list>
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiElement(ValkyrieTokenType.else)('else')
-  PsiElement(ValkyrieTokenType.{)('{')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
-    <empty list>
-  PsiElement(ValkyrieTokenType.})('}')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
+        ValkyrieElementNode(ValkyrieElementType.ELSE_PART)
+          PsiElement(ValkyrieTokenType.else)('else')
+          ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
+            PsiElement(ValkyrieTokenType.{)('{')
+            PsiElement(ValkyrieTokenType.})('}')
+    PsiElement(ValkyrieTokenType.;)(';')

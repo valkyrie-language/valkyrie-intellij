@@ -34,22 +34,11 @@ object ValkyrieTokenTypes {
     @JvmField
     val LOOP = ValkyrieTokenType("loop")
 
-    @JvmField
     val MICRO = ValkyrieTokenType("micro")
-
-    @JvmField
     val MEZZO = ValkyrieTokenType("mezzo")
-
-    @JvmField
     val MACRO = ValkyrieTokenType("macro")
-
-    @JvmField
     val CLASS = ValkyrieTokenType("class")
-
-    @JvmField
     val NEURAL = ValkyrieTokenType("neural")
-
-    @JvmField
     val WIDGET = ValkyrieTokenType("widget")
 
     @JvmField
@@ -72,6 +61,9 @@ object ValkyrieTokenTypes {
 
     @JvmField
     val IMPLY = ValkyrieTokenType("imply")
+
+    @JvmField
+    val CONSTRUCTOR = ValkyrieTokenType("constructor")
 
     @JvmField
     val STRUCTURE = ValkyrieTokenType("structure")
@@ -98,6 +90,12 @@ object ValkyrieTokenTypes {
     val RETURN = ValkyrieTokenType("return")
 
     @JvmField
+    val ASSERT = ValkyrieTokenType("assert")
+
+    @JvmField
+    val DEBUG = ValkyrieTokenType("debug")
+
+    @JvmField
     val TESTS = ValkyrieTokenType("tests")
 
     @JvmField
@@ -111,10 +109,8 @@ object ValkyrieTokenTypes {
 
     @JvmField
     val CASE = ValkyrieTokenType("case")
-
-
-    @JvmField
     val WHEN = ValkyrieTokenType("when")
+    val TYPE = ValkyrieTokenType("type")
 
     @JvmField
     val FALLTHROUGH = ValkyrieTokenType("fallthrough")
@@ -133,13 +129,31 @@ object ValkyrieTokenTypes {
 
     // 标识符和字面量
     @JvmField
-    val SYMBOL_XID = ValkyrieTokenType("SYMBOL.STD")
+    val SYMBOL_XID = ValkyrieTokenType("SYMBOL.XID")
 
     @JvmField
     val SYMBOL_RAW = ValkyrieTokenType("SYMBOL.RAW")
 
     @JvmField
     val BOOLEAN = ValkyrieTokenType("BOOLEAN")
+
+    @JvmField
+    val KW_SOME = ValkyrieTokenType("Some")
+
+    @JvmField
+    val KW_NONE = ValkyrieTokenType("None")
+
+    @JvmField
+    val KW_SELF = ValkyrieTokenType("self")
+
+    @JvmField
+    val KW_SELF_TYPE = ValkyrieTokenType("Self")
+
+    @JvmField
+    val KW_VALUE = ValkyrieTokenType("value")
+
+    @JvmField
+    val KW_V = ValkyrieTokenType("V")
 
     @JvmField
     val INTEGER = ValkyrieTokenType("INTEGER")
@@ -296,6 +310,9 @@ object ValkyrieTokenTypes {
 
     @JvmField
     val DOT = ValkyrieTokenType(".")
+
+    @JvmField
+    val DOT_CIRCLE = ValkyrieTokenType("⸬")
 
     @JvmField
     val DOT_DOT = ValkyrieTokenType("..")

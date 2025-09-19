@@ -1,25 +1,28 @@
-ValkyrieXmlFile:Comment.vkx
-  PsiComment(COMMENT)('# [外部]有效行注释')
-  PsiWhiteSpace('\n')
-  ValkyrieXmlTag:div
-    ValkyrieXmlTagStart:div
-      PsiElement(XML_START_TAG_START)('<')
-      ValkyrieXmlTagName:div
-        PsiElement(XML_NAME)('div')
-      PsiElement(XML_TAG_END)('>')
-    PsiWhiteSpace('\n    ')
-    PsiComment(COMMENT)('# [内部]无效行注释')
-    PsiWhiteSpace('\n    ')
-    PsiComment(XML_COMMENT_START)('<!--')
-    PsiComment(XML_COMMENT_CHARACTERS)(' [内部]有效块注释 ')
-    PsiComment(XML_COMMENT_END)('-->')
-    PsiWhiteSpace('\n')
-    ValkyrieXmlTagEnd:div
-      PsiElement(XML_END_TAG_START)('</')
-      ValkyrieXmlTagName:div
-        PsiElement(XML_NAME)('div')
-      PsiElement(XML_TAG_END)('>')
-  PsiWhiteSpace('\n')
-  PsiComment(XML_COMMENT_START)('<!--')
-  PsiComment(XML_COMMENT_CHARACTERS)(' [外部]有效块注释 ')
-  PsiComment(XML_COMMENT_END)('-->')
+Valkyrie XML File
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(ValkyrieTokenType.#)('# [外部]有效行注释')
+  PsiElement(XML_START_TAG_START)('<')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(XML_TAG_NAME)('div')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(XML_TAG_END)('>')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(XML_DATA_CHARACTERS)('\n    # [内部]无效行注释\n    ')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(XML_COMMENT_CHARACTERS)('<!-- [内部]有效块注释 -->')
+  PsiElement(XML_DATA_CHARACTERS)('\n')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(XML_END_TAG_START)('</')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(XML_TAG_NAME)('div')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(XML_TAG_END)('>')
+  PsiElement(XML_COMMENT_CHARACTERS)('<!-- [外部]有效块注释 -->')

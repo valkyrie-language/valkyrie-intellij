@@ -36,6 +36,7 @@ class ValkyrieSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
                 ValkyrieTokenTypes.UNITY,
                 ValkyrieTokenTypes.TRAIT,
                 ValkyrieTokenTypes.IMPLY,
+                ValkyrieTokenTypes.CONSTRUCTOR,
                 ValkyrieTokenTypes.STRUCTURE,
                 ValkyrieTokenTypes.SINGLETON,
                 ValkyrieTokenTypes.FLAGS,
@@ -46,6 +47,8 @@ class ValkyrieSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
                 ValkyrieTokenTypes.RESUME,
                 ValkyrieTokenTypes.SCOPE,
                 ValkyrieTokenTypes.RETURN,
+                ValkyrieTokenTypes.ASSERT,
+                ValkyrieTokenTypes.DEBUG,
                 ValkyrieTokenTypes.TESTS,
                 ValkyrieTokenTypes.MICRO,
                 ValkyrieTokenTypes.MEZZO,
@@ -68,17 +71,25 @@ class ValkyrieSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
                 ValkyrieTokenTypes.BRACE_L, ValkyrieTokenTypes.BRACE_R -> ValkyrieColor.BRACES
                 ValkyrieTokenTypes.TEMPLATE_L, ValkyrieTokenTypes.TEMPLATE_R -> ValkyrieColor.TEMPLATE_BLOCK
                 ValkyrieTokenTypes.COLON, ValkyrieTokenTypes.ASSIGN -> ValkyrieColor.OPERATION
-                ValkyrieTokenTypes.DOT_DOT, ValkyrieTokenTypes.ELLIPSIS, ValkyrieTokenTypes.DOT_DOT_EQUAL, ValkyrieTokenTypes.DOT_DOT_LESS -> ValkyrieColor.OPERATION
+                ValkyrieTokenTypes.DOT, ValkyrieTokenTypes.DOT_CIRCLE, ValkyrieTokenTypes.DOT_DOT, ValkyrieTokenTypes.ELLIPSIS, ValkyrieTokenTypes.DOT_DOT_EQUAL, ValkyrieTokenTypes.DOT_DOT_LESS -> ValkyrieColor.OPERATION
                 ValkyrieTokenTypes.AT -> ValkyrieColor.OPERATION
                 ValkyrieTokenTypes.LABEL_MARK -> ValkyrieColor.OPERATION
 
                 ValkyrieTokenTypes.COMMA -> ValkyrieColor.COMMA
                 // 数字和字面量
                 ValkyrieTokenTypes.INTEGER, ValkyrieTokenTypes.DECIMAL, ValkyrieTokenTypes.MACRO_NUMBER -> ValkyrieColor.NUMBER
-                ValkyrieTokenTypes.STRING_DQ, ValkyrieTokenTypes.STRING_MQ -> ValkyrieColor.STRING
+                ValkyrieTokenTypes.STRING_DQ, ValkyrieTokenTypes.STRING_MQ, ValkyrieTokenTypes.STRING_L,
+                ValkyrieTokenTypes.STRING_START, ValkyrieTokenTypes.STRING_TEXT, ValkyrieTokenTypes.STRING_END,
+                ValkyrieTokenTypes.MACRO_STRING -> ValkyrieColor.STRING
                 ValkyrieTokenTypes.BOOLEAN -> ValkyrieColor.KEYWORD
+                ValkyrieTokenTypes.NIL, ValkyrieTokenTypes.NULL -> ValkyrieColor.NULL
 
-                ValkyrieTokenTypes.SYMBOL_XID -> ValkyrieColor.IDENTIFIER
+                // 预定义符号
+                ValkyrieTokenTypes.KW_SOME, ValkyrieTokenTypes.KW_NONE -> ValkyrieColor.SYM_VARIANT
+                ValkyrieTokenTypes.KW_VALUE -> ValkyrieColor.SYM_LOCAL
+                ValkyrieTokenTypes.KW_V -> ValkyrieColor.SYM_GENERIC
+
+                ValkyrieTokenTypes.SYMBOL_XID, ValkyrieTokenTypes.SYMBOL_RAW -> ValkyrieColor.IDENTIFIER
                 // 注释
                 ValkyrieTokenTypes.COMMENT_LINE -> ValkyrieColor.LINE_COMMENT
                 ValkyrieTokenTypes.COMMENT_RANGE -> ValkyrieColor.BLOCK_COMMENT
@@ -98,7 +109,6 @@ class ValkyrieSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
     override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?): SyntaxHighlighter {
         return object : SyntaxHighlighterBase() {
             override fun getHighlightingLexer(): Lexer {
-                return ValkyrieSfcLexer()
                 return when (virtualFile?.fileType) {
                     ValkyrieXmlFileType.INSTANCE -> {
                         ValkyrieXmlLexer()
