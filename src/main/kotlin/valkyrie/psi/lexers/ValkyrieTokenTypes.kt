@@ -133,7 +133,7 @@ object ValkyrieTokenTypes {
 
     // 标识符和字面量
     @JvmField
-    val SYMBOL_XID = ValkyrieTokenType("SYMBOL.STD")
+    val SYMBOL_XID = ValkyrieTokenType("SYMBOL.XID")
 
     @JvmField
     val SYMBOL_RAW = ValkyrieTokenType("SYMBOL.RAW")

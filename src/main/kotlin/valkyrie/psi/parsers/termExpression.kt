@@ -1,8 +1,6 @@
 package valkyrie.psi.parsers
 
 import com.intellij.lang.PsiBuilder
-import com.intellij.psi.xml.XmlTokenType
-import valkyrie.language.dialect_xml.parseXmlElement
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.lexers.ValkyrieTokenTypes
 
@@ -150,12 +148,7 @@ fun parseTermExpression(parser: ValkyrieParser, builder: PsiBuilder, inline: Boo
  *
  * @param minPrecedence 当前递归层级需要处理的最小运算符优先级。
  */
-fun parseTermExpressionWithPrecedence(
-    valkyrieParser: ValkyrieParser,
-    builder: PsiBuilder,
-    minPrecedence: Int,
-    inline: Boolean,
-): Boolean {
+fun parseTermExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: PsiBuilder, minPrecedence: Int, inline: Boolean): Boolean {
     // CHANGE 1: 'lhs' 现在代表当前左侧表达式的 marker。
     var lhs: PsiBuilder.Marker
 
@@ -221,26 +214,32 @@ fun parseTermExpressionWithPrecedence(
             continue
         }
 
-        val postfixPrecedence = termPostfixPrecedences[currentToken]
+        val postfixPrecedence = if (inline && currentToken == ValkyrieTokenTypes.BRACE_L) {
+            null
+        } else {
+            termPostfixPrecedences[currentToken]
+        }
         val infixPrecedence = termInfixPrecedences[currentToken]
-
+        // 处理后缀表达式
         if (postfixPrecedence != null && postfixPrecedence >= minPrecedence) {
-            // 处理后缀表达式
-            lhs = lhs.precede() // 创建新 marker 包裹旧的 lhs
+            // 创建新 marker 包裹旧的 lhs
+            lhs = lhs.precede()
             when (currentToken) {
                 ValkyrieTokenTypes.PARENTHESIS_L -> {
                     parseFunctionArgumentList(valkyrieParser, builder)
-                    // 检查尾随闭包
+                    // f() { }
                     if (builder.tokenType == ValkyrieTokenTypes.BRACE_L && !inline) {
                         lhs.done(ValkyrieElementTypes.CALL_EXPRESSION) // 完成 f() 部分
                         lhs = lhs.precede() // 为 f() {} 创建新 marker
                         valkyrieParser.parseFnBody(builder)
                         lhs.done(ValkyrieElementTypes.CALL_EXPRESSION)
-                    } else {
+                    }
+                    // f()
+                    else {
                         lhs.done(ValkyrieElementTypes.CALL_EXPRESSION)
                     }
                 }
-
+                // data.f
                 ValkyrieTokenTypes.DOT -> {
                     builder.advanceLexer() // consume '.'
                     parseIdentifier(builder)
@@ -290,13 +289,16 @@ fun parseTermExpressionWithPrecedence(
  * marker 的创建和完成由调用者 (parseTermExpressionWithPrecedence) 处理。
  */
 fun parsePrimaryTerm(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolean): Boolean {
-    return when (builder.tokenType) {
-        ValkyrieTokenTypes.INTEGER, ValkyrieTokenTypes.DECIMAL, ValkyrieTokenTypes.BOOLEAN -> {
+    return when {
+        parser.parseExpressionExtension(builder) -> return true
+        builder.tokenType == ValkyrieTokenTypes.INTEGER ||
+            builder.tokenType == ValkyrieTokenTypes.DECIMAL ||
+            builder.tokenType == ValkyrieTokenTypes.BOOLEAN -> {
             builder.advanceLexer()
             true
         }
 
-        ValkyrieTokenTypes.SYMBOL_XID, ValkyrieTokenTypes.SYMBOL_RAW -> {
+        isIdentifier(builder) -> {
             // parseNamePath 内部会创建自己的 marker，这与我们的新设计冲突。
             // 为简单起见，这里假设它只解析一个标识符路径。
             // 在实际项目中，需要确保 parseNamePath 也遵循一致的 marker 管理策略。
@@ -305,30 +307,14 @@ fun parsePrimaryTerm(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolea
             true
         }
 
-        // XML Slot 表达式
-        ValkyrieTokenTypes.XML_SLOT_L -> {
-            val marker = builder.mark()
-            builder.advanceLexer() // consume XML_SLOT_L
-            if (!parseTermExpression(parser, builder, inline)) {
-                builder.error("Expected expression in slot")
-            }
-            if (builder.tokenType == ValkyrieTokenTypes.XML_SLOT_R) {
-                builder.advanceLexer() // consume XML_SLOT_R
-            } else {
-                builder.error("Expected '}'")
-            }
-            marker.done(ValkyrieElementTypes.XML_SLOT_EXPRESSION)
-            true
-        }
-
         // 字符串字面量
-        ValkyrieTokenTypes.STRING_L -> {
+        builder.tokenType == ValkyrieTokenTypes.STRING_L -> {
             parser.parseString(builder)
             true
         }
 
         // 括号表达式
-        ValkyrieTokenTypes.PARENTHESIS_L -> {
+        builder.tokenType == ValkyrieTokenTypes.PARENTHESIS_L -> {
             builder.advanceLexer() // consume '('
             if (!parseTermExpression(parser, builder, inline)) {
                 builder.error("Expected expression")
@@ -342,13 +328,13 @@ fun parsePrimaryTerm(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolea
         }
 
         // 数组表达式
-        ValkyrieTokenTypes.BRACKET_L -> {
+        builder.tokenType == ValkyrieTokenTypes.BRACKET_L -> {
             parser.parseArrayExpression(builder)
             true
         }
 
         // 对象表达式 (如果不是内联模式)
-        ValkyrieTokenTypes.BRACE_L -> {
+        builder.tokenType == ValkyrieTokenTypes.BRACE_L -> {
             if (!inline) {
                 parser.parseObjectExpression(builder)
                 true
@@ -357,18 +343,18 @@ fun parsePrimaryTerm(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolea
             }
         }
         // 特殊值
-        ValkyrieTokenTypes.NIL, ValkyrieTokenTypes.NULL -> {
+        builder.tokenType == ValkyrieTokenTypes.NIL || builder.tokenType == ValkyrieTokenTypes.NULL -> {
             builder.advanceLexer()
             true
         }
-
-        XmlTokenType.XML_START_TAG_START -> {
-            parseXmlElement(builder)
-        }
-
-        else -> {
-            parseLoopStatement(parser, builder)
-        }
+        // 异常控制流
+        parseTryStatement(parser, builder) -> return true
+        // 循环控制流
+        parseLoopStatement(parser, builder) -> return true
+        parseEachStatement(parser, builder) -> return true
+        parseWhileStatement(parser, builder) -> return true
+        parseUntilStatement(parser, builder) -> return true
+        else -> return false
     }
 }
 

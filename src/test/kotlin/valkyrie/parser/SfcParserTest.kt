@@ -6,7 +6,7 @@ import valkyrie.psi.ValkyrieSfcParserDefinition
 /**
  * SFC 解析器测试
  */
-class SfcParserTest : ParsingTestCase("testData/parser/sfc", "vkc", ValkyrieSfcParserDefinition()) {
+class SfcParserTest : ParsingTestCase("testData/parser/vkc", "vkc", ValkyrieSfcParserDefinition()) {
     override fun getTestDataPath(): String = "src/test/resources"
 
     fun testTemplateEmpty() = doTest(true, true)

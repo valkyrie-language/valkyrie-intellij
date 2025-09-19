@@ -121,6 +121,12 @@ object ValkyrieElementTypes {
     val WHILE_STATEMENT = ValkyrieElementType("WHILE_STATEMENT")
 
     @JvmField
+    val WHILE_LET_STATEMENT = ValkyrieElementType("WHILE_LET_STATEMENT")
+
+    @JvmField
+    val UNTIL_NOT_STATEMENT = ValkyrieElementType("UNTIL_NOT_STATEMENT")
+
+    @JvmField
     val MATCH_STATEMENT = ValkyrieElementType("MATCH_STATEMENT")
 
     @JvmField
