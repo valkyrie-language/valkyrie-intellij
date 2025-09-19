@@ -11,7 +11,7 @@ fun parseLoopStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
         builder.advanceLexer()
         
         // 标签在loop关键字后立即解析
-        parseLabelIdentifier(builder)
+        parseLabelMarker(builder)
         
         // 检查是否是 for-in 语法糖 (loop pattern in expression)
         if (isIdentifier(builder)) {
@@ -73,7 +73,7 @@ fun parseWhileStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     }
 
     // 标签在函数体前解析
-    parseLabelIdentifier(builder)
+    parseLabelMarker(builder)
 
     if (!parser.parseFnBody(builder)) {
         builder.error("Expected '{' after while condition")
@@ -100,7 +100,7 @@ fun parseUntilStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     }
     
     // 标签在函数体前解析
-    parseLabelIdentifier(builder)
+    parseLabelMarker(builder)
     
     if (!parser.parseFnBody(builder)) {
         builder.error("Expected '{' after until condition")
@@ -119,7 +119,7 @@ fun parseControl(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     when (builder.tokenType) {
         ValkyrieTokenTypes.CONTINUE -> {
             builder.advanceLexer()
-            parseLabelIdentifier(builder) // optional
+            parseLabelMarker(builder) // optional
             parseTermExpression(parser, builder, false) // optional
 
             // 处理可选的分号
@@ -139,7 +139,7 @@ fun parseControl(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
                 builder.advanceLexer() // consume '!'
             }
 
-            parseLabelIdentifier(builder) // optional
+            parseLabelMarker(builder) // optional
             parseTermExpression(parser, builder, false) // optional
 
             // 处理可选的分号
@@ -153,7 +153,7 @@ fun parseControl(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
 
         ValkyrieTokenTypes.BREAK -> {
             builder.advanceLexer()
-            parseLabelIdentifier(builder) // optional
+            parseLabelMarker(builder) // optional
             parseTermExpression(parser, builder, false) // optional
 
             // 处理可选的分号
@@ -167,7 +167,7 @@ fun parseControl(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
 
         ValkyrieTokenTypes.RAISE -> {
             builder.advanceLexer()
-            parseLabelIdentifier(builder) // optional
+            parseLabelMarker(builder) // optional
             parseTermExpression(parser, builder, false) // optional
 
             // 处理可选的分号
@@ -188,7 +188,7 @@ fun parseControl(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
             }
 
             // 可选的标签
-            parseLabelIdentifier(builder)
+            parseLabelMarker(builder)
 
             // 检查是否是 from 语法: yield (return? label)? (from generator)
             if (builder.tokenType == ValkyrieTokenTypes.SYMBOL_XID && builder.tokenText == "from") {
@@ -210,7 +210,7 @@ fun parseControl(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
 
         ValkyrieTokenTypes.RETURN -> {
             builder.advanceLexer()
-            parseLabelIdentifier(builder) // optional
+            parseLabelMarker(builder) // optional
             parseTermExpression(parser, builder, false) // optional
 
             // 处理可选的分号
@@ -224,7 +224,7 @@ fun parseControl(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
 
         ValkyrieTokenTypes.RESUME -> {
             builder.advanceLexer()
-            parseLabelIdentifier(builder) // optional
+            parseLabelMarker(builder) // optional
             parseTermExpression(parser, builder, false) // optional
 
             // 处理可选的分号
