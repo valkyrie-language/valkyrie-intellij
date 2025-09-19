@@ -4,6 +4,7 @@ import com.intellij.psi.TokenType.BAD_CHARACTER
 import com.intellij.psi.xml.XmlTokenType
 import valkyrie.psi.lexers.LexerFlavor
 import valkyrie.psi.lexers.ValkyrieLexerBase
+import valkyrie.psi.lexers.ValkyrieTokenType
 import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 /**
@@ -276,7 +277,7 @@ class ValkyrieSfcLexer : ValkyrieLexerBase(LexerFlavor.COMPONENT) {
     private fun processAttributeValue() {
         when (buffer[currentOffset]) {
             attributeQuote -> {
-                currentOffset++; currentTokenType = XmlTokenType.XML_ATTRIBUTE_VALUE_END_DELIMITER
+                currentOffset++; currentTokenType = ValkyrieTokenTypes.XML_SLOT_R
                 attributeQuote = null
             }
             '{' -> handleBraceStart(STATE_XML_TAG)
@@ -300,7 +301,7 @@ class ValkyrieSfcLexer : ValkyrieLexerBase(LexerFlavor.COMPONENT) {
     private fun startAttributeValue(delimiter: Char) {
         attributeQuote = delimiter
         currentOffset++
-        currentTokenType = XmlTokenType.XML_ATTRIBUTE_VALUE_START_DELIMITER
+        currentTokenType = ValkyrieTokenTypes.XML_SLOT_L
     }
 
     private fun skipXmlComment() {

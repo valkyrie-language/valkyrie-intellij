@@ -1,6 +1,7 @@
 package valkyrie.language.dialect_xml
 
 import com.intellij.lang.PsiBuilder
+import com.intellij.psi.xml.XmlElementType
 import com.intellij.psi.xml.XmlTokenType
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.lexers.ValkyrieTokenTypes
@@ -136,12 +137,12 @@ private fun parseXmlAttribute(builder: PsiBuilder): Boolean {
         builder.advanceLexer() // '='
 
         when (builder.tokenType) {
-            XmlTokenType.XML_ATTRIBUTE_VALUE_START_DELIMITER -> {
+            ValkyrieTokenTypes.XML_SLOT_L -> {
                 builder.advanceLexer() // '"'
                 if (builder.tokenType == XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN) {
                     builder.advanceLexer()
                 }
-                if (builder.tokenType == XmlTokenType.XML_ATTRIBUTE_VALUE_END_DELIMITER) {
+                if (builder.tokenType == ValkyrieTokenTypes.XML_SLOT_R) {
                     builder.advanceLexer() // '"'
                 }
             }
@@ -152,7 +153,7 @@ private fun parseXmlAttribute(builder: PsiBuilder): Boolean {
         }
     }
 
-    marker.done(ValkyrieElementTypes.XML_ATTRIBUTE)
+    marker.done(XmlElementType.XML_ATTRIBUTE)
     return true
 }
 
