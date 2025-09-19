@@ -1863,14 +1863,13 @@ fun isIdentifier(token: IElementType?): Boolean {
 }
 
 // ※label
-fun parseLabelMark(builder: PsiBuilder): Boolean {
-    if (builder.tokenType != ValkyrieTokenTypes.LABEL_MARK) return false
+fun parseLabel(builder: PsiBuilder): Boolean {
+    if (builder.tokenType != ValkyrieTokenTypes.LABEL_MARK) {
+        return false
+    }
     val marker = builder.mark()
-
-    // consume '※'
-    builder.advanceLexer()
-    // optional
-    parseIdentifier(builder)
+    builder.advanceLexer()   // consume '※'
+    parseIdentifier(builder) // optional
     marker.done(ValkyrieElementTypes.LABEL_STATEMENT)
     return true
 }
