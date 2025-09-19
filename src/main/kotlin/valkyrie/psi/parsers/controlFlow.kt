@@ -4,6 +4,109 @@ import com.intellij.lang.PsiBuilder
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.lexers.ValkyrieTokenTypes
 
+
+fun parseLoopStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    val marker = builder.mark()
+    if (builder.tokenType == ValkyrieTokenTypes.LOOP) {
+        builder.advanceLexer()
+        if (isIdentifier(builder)) {
+            if (!parsePattern(parser, builder, true)) {
+                marker.error("Expected pattern after 'for'")
+                return true
+            }
+
+            if (builder.tokenType != ValkyrieTokenTypes.IN) {
+                marker.error("Expected 'in' after pattern in for statement")
+                return true
+            }
+            builder.advanceLexer()
+            if (!parseTermExpression(parser, builder, inline = true)) {
+                marker.error("Expected expression after 'in'")
+                return true
+            }
+
+            parseLabelMark(builder)
+
+            if (!parser.parseFnBody(builder)) {
+                marker.error("Expected function body after '{'")
+                return true
+            }
+
+            // 解析可选的 else 子句
+            parser.parseElseStatement(builder)
+
+            marker.done(ValkyrieElementTypes.EACH_STATEMENT)
+            return true
+        } else {
+            parseLabelMark(builder)
+
+            if (!parser.parseFnBody(builder)) {
+                marker.error("Expected function body after '{'")
+                return true
+            }
+
+            parser.parseElseStatement(builder)
+
+            marker.done(ValkyrieElementTypes.LOOP_STATEMENT)
+            return true
+        }
+    } else {
+        marker.rollbackTo()
+        return false
+    }
+}
+
+fun parseWhileStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    val marker = builder.mark()
+    if (builder.tokenType == ValkyrieTokenTypes.WHILE) {
+        builder.advanceLexer()
+    } else {
+        marker.rollbackTo()
+        return false
+    }
+
+    if (!parseTermExpression(parser, builder, inline = true)) {
+        marker.error("Expected condition after 'while'")
+        return false
+    }
+
+    parseLabelMark(builder)
+
+    if (!parser.parseFnBody(builder)) {
+        builder.error("Expected '{' after while condition")
+        return false
+    }
+
+    parser.parseElseStatement(builder)
+
+    marker.done(ValkyrieElementTypes.WHILE_STATEMENT)
+    return true
+}
+
+fun parseUntilStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    val marker = builder.mark()
+    if (builder.tokenType == ValkyrieTokenTypes.UNTIL) {
+        builder.advanceLexer()
+    } else {
+        marker.rollbackTo()
+        return false
+    }
+    if (!parseTermExpression(parser, builder, inline = true)) {
+        marker.error("Expected condition after 'until'")
+        return false
+    }
+    parseLabelMark(builder)
+    if (!parser.parseFnBody(builder)) {
+        builder.error("Expected '{' after until condition")
+        return false
+    }
+
+    parser.parseElseStatement(builder)
+
+    marker.done(ValkyrieElementTypes.UNTIL_STATEMENT)
+    return true
+}
+
 fun parseControl(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
     parser.parseAnnotations(builder, withModifiers = false);
@@ -142,106 +245,4 @@ fun parseControl(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
             return false
         }
     }
-}
-
-fun parseLoopStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
-    val marker = builder.mark()
-    if (builder.tokenType == ValkyrieTokenTypes.LOOP) {
-        builder.advanceLexer()
-        if (isIdentifier(builder)) {
-            if (!parsePattern(parser, builder, true)) {
-                marker.error("Expected pattern after 'for'")
-                return true
-            }
-
-            if (builder.tokenType != ValkyrieTokenTypes.IN) {
-                marker.error("Expected 'in' after pattern in for statement")
-                return true
-            }
-            builder.advanceLexer()
-            if (!parseTermExpression(parser, builder, inline = true)) {
-                marker.error("Expected expression after 'in'")
-                return true
-            }
-
-            parseLabelMark(builder)
-
-            if (!parser.parseFnBody(builder)) {
-                marker.error("Expected function body after '{'")
-                return true
-            }
-
-            // 解析可选的 else 子句
-            parser.parseElseStatement(builder)
-
-            marker.done(ValkyrieElementTypes.EACH_STATEMENT)
-            return true
-        } else {
-            parseLabelMark(builder)
-
-            if (!parser.parseFnBody(builder)) {
-                marker.error("Expected function body after '{'")
-                return true
-            }
-
-            parser.parseElseStatement(builder)
-
-            marker.done(ValkyrieElementTypes.LOOP_STATEMENT)
-            return true
-        }
-    } else {
-        marker.rollbackTo()
-        return false
-    }
-}
-
-fun parseWhileStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
-    val marker = builder.mark()
-    if (builder.tokenType == ValkyrieTokenTypes.WHILE) {
-        builder.advanceLexer()
-    } else {
-        marker.rollbackTo()
-        return false
-    }
-
-    if (!parseTermExpression(parser, builder, inline = true)) {
-        marker.error("Expected condition after 'while'")
-        return false
-    }
-
-    parseLabelMark(builder)
-
-    if (!parser.parseFnBody(builder)) {
-        builder.error("Expected '{' after while condition")
-        return false
-    }
-
-    parser.parseElseStatement(builder)
-
-    marker.done(ValkyrieElementTypes.WHILE_STATEMENT)
-    return true
-}
-
-fun parseUntilStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
-    val marker = builder.mark()
-    if (builder.tokenType == ValkyrieTokenTypes.UNTIL) {
-        builder.advanceLexer()
-    } else {
-        marker.rollbackTo()
-        return false
-    }
-    if (!parseTermExpression(parser, builder, inline = true)) {
-        marker.error("Expected condition after 'until'")
-        return false
-    }
-    parseLabelMark(builder)
-    if (!parser.parseFnBody(builder)) {
-        builder.error("Expected '{' after until condition")
-        return false
-    }
-
-    parser.parseElseStatement(builder)
-
-    marker.done(ValkyrieElementTypes.UNTIL_STATEMENT)
-    return true
 }
