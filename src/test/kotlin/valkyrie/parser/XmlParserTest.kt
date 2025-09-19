@@ -10,6 +10,8 @@ class XmlParserTest : ParsingTestCase("testData/parser/vkx", "vkx", ValkyrieXmlP
 
     override fun getTestDataPath(): String = "src/test/resources"
 
+    fun testComment() = doTest(true, true)
+
     override fun skipSpaces(): Boolean {
         return true
     }

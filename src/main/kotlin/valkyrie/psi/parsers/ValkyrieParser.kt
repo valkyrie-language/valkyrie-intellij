@@ -1454,40 +1454,12 @@ open class ValkyrieParser : PsiParser {
             marker.rollbackTo()
             return false
         }
-        if (!parseTermExpression(this, builder, inline = true)) {
-            marker.rollbackTo()
-            return false
-        }
+        // 对于loop-else语法，else后面直接跟函数体，不需要表达式
         if (!parseFnBody(builder)) {
             marker.rollbackTo()
             return false
         }
         marker.done(ValkyrieElementTypes.ELSE_PART)
-        return true
-    }
-
-    fun parseTemplateElseMark(builder: PsiBuilder): Boolean {
-        if (builder.tokenType != ValkyrieTokenTypes.TEMPLATE_L) return false
-        val marker = builder.mark()
-
-        // 消费 '<$'
-        builder.advanceLexer()
-
-        // 检查是否是 'else'
-        if (builder.tokenType != ValkyrieTokenTypes.ELSE) {
-            marker.rollbackTo()
-            return false
-        }
-        builder.advanceLexer() // consume 'else'
-
-        // 消费 '$>'
-        if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_R) {
-            builder.advanceLexer()
-        } else {
-            builder.error("Expected '$>'")
-        }
-
-        marker.done(ValkyrieElementTypes.TEMPLATE_ELSE)
         return true
     }
 
