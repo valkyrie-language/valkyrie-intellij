@@ -242,3 +242,15 @@ fun parseControl(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
         }
     }
 }
+
+// ※label
+fun parseLabelMarker(builder: PsiBuilder): Boolean {
+    if (builder.tokenType != ValkyrieTokenTypes.LABEL_MARK) {
+        return false
+    }
+    val marker = builder.mark()
+    builder.advanceLexer()   // consume '※'
+    parseIdentifier(builder) // optional
+    marker.done(ValkyrieElementTypes.LABEL_STATEMENT)
+    return true
+}
