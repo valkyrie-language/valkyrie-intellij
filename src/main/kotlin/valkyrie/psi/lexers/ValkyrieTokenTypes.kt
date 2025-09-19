@@ -412,7 +412,7 @@ object ValkyrieTokenTypes {
     val STYLE_CONTENT = ValkyrieTokenType("STYLE_CONTENT")
 
     @JvmField
-    val END = ValkyrieTokenType("end")
+    val EJS_END = ValkyrieTokenType("end")
 
     @JvmField
     val XML_STYLE = ValkyrieTokenType("XML_KEYWORD_STYLE")

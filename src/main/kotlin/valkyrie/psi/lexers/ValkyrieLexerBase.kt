@@ -42,7 +42,7 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
         "let" to ValkyrieTokenTypes.LET,
         "if" to ValkyrieTokenTypes.IF,
         "else" to ValkyrieTokenTypes.ELSE,
-        "end" to ValkyrieTokenTypes.END,
+        "end" to ValkyrieTokenTypes.EJS_END,
         "while" to ValkyrieTokenTypes.WHILE,
         "loop" to ValkyrieTokenTypes.LOOP,
         "for" to ValkyrieTokenTypes.LOOP,
