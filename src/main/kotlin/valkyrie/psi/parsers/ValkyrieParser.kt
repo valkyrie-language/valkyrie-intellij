@@ -952,7 +952,7 @@ open class ValkyrieParser : PsiParser {
                 // variables
                 parseLetStatement(builder, inline = false) -> continue
                 // controls
-                parseControlStatement(builder) -> continue
+                parseControl(this, builder) -> continue
                 // term expressions
                 else -> parseExpressionStatement(builder)
             }
@@ -1313,115 +1313,6 @@ open class ValkyrieParser : PsiParser {
 
         marker.done(ValkyrieElementTypes.CATCH_STATEMENT)
         return true
-    }
-
-    fun parseControlStatement(builder: PsiBuilder): Boolean {
-        val marker = builder.mark()
-        parseAnnotations(builder, false)
-        when (builder.tokenType) {
-
-            ValkyrieTokenTypes.BREAK -> {
-                builder.advanceLexer()
-                parseLabelMark(builder)
-                parseTermExpression(this, builder, false)
-                marker.done(ValkyrieElementTypes.BREAK_STATEMENT)
-            }
-
-            ValkyrieTokenTypes.CONTINUE -> {
-                builder.advanceLexer()
-                parseLabelMark(builder)
-                parseTermExpression(this, builder, false)
-                marker.done(ValkyrieElementTypes.CONTINUE_STATEMENT)
-            }
-            // return ※label term
-            ValkyrieTokenTypes.RETURN -> {
-                builder.advanceLexer()
-                parseLabelMark(builder)
-                parseTermExpression(this, builder, false)
-                marker.done(ValkyrieElementTypes.RETURN_STATEMENT)
-            }
-            // resume term
-            ValkyrieTokenTypes.RESUME -> {
-                builder.advanceLexer()
-//                parseLabelMark(builder)
-                parseTermExpression(this, builder, false)
-                marker.done(ValkyrieElementTypes.RESUME_STATEMENT)
-            }
-
-
-            ValkyrieTokenTypes.RAISE -> {
-                builder.advanceLexer()
-                parseLabelMark(builder)
-                parseTermExpression(this, builder, false)
-                marker.done(ValkyrieElementTypes.RAISE_STATEMENT)
-            }
-
-            ValkyrieTokenTypes.YIELD -> {
-                builder.advanceLexer()
-                parseLabelMark(builder)
-                parseTermExpression(this, builder, false)
-                marker.done(ValkyrieElementTypes.YIELD_STATEMENT)
-            }
-
-            else -> {
-                marker.rollbackTo()
-                return false
-            }
-        }
-        return true
-    }
-
-    fun parseIfExpression(builder: PsiBuilder): Boolean {
-        val marker = builder.mark()
-        parseAnnotations(builder, false)
-        if (builder.consumeKeyword(ValkyrieTokenTypes.IF)) {
-            marker.rollbackTo()
-            return false
-        } else {
-            builder.advanceLexer()
-        }
-        // if let pat = expr { }
-        if (builder.tokenType == ValkyrieTokenTypes.LET) {
-            if (parseLetStatement(builder, true)) {
-                marker.rollbackTo()
-                return false
-            }
-        }
-        // if conditional { }
-        else {
-            if (!parseTermExpression(this, builder, inline = true)) {
-                marker.error("Expected condition expression after 'if'")
-                return false
-            }
-        }
-
-        // 解析 then 块
-        if (!parseFnBody(builder)) {
-            marker.error("Expected block after if condition")
-            return false
-        }
-
-        // 解析 else if 和 else 子句
-        parseElseIfStatement(builder)
-        parseElseStatement(builder)
-
-        marker.done(ValkyrieElementTypes.IF_STATEMENT)
-        return true
-    }
-
-    fun parseIfStatement(builder: PsiBuilder): Boolean {
-        val marker = builder.mark()
-        parseIfMainPart(builder)
-        parseElseIfStatement(builder)
-        parseElseStatement(builder)
-        marker.done(ValkyrieElementTypes.IF_STATEMENT)
-        return true
-    }
-
-    fun parseIfTemplate(builder: PsiBuilder): Boolean {
-        // 这个函数应该由parseTemplateBlock调用，不需要单独处理TEMPLATE_START
-        // 因为模板if-else-end结构是分布在多个独立的模板块中的
-        return false
     }
 
     fun parseIfMainPart(builder: PsiBuilder): Boolean {
