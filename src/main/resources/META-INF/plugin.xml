@@ -271,7 +271,14 @@
 			<className>valkyrie.ide.intention.ConvertIfToMatchIntention</className>
 			<category>Valkyrie</category>
 		</intentionAction>
-		<!-- Notification Groups -->
+		<!-- Language Injection Contributors -->
+        <languageInjectionContributor language="valkyrie-component" implementationClass="valkyrie.ide.injection.ValkyrieSfcLanguageInjectionContributor"/>
+        <languageInjectionContributor language="valkyrie" implementationClass="valkyrie.ide.injection.ValkyrieStringInterpolationInjectionContributor"/>
+        
+        <!-- Multi-Host Injectors -->
+        <multiHostInjector implementation="valkyrie.ide.injection.ValkyrieStringInterpolationProcessor"/>
+
+        <!-- Notification Groups -->
 		<notificationGroup id="Valkyrie" displayType="BALLOON" key="notification.group.valkyrie"/>
 	</extensions>
 

@@ -1,0 +1,25 @@
+ValkyrieXmlFile:Comment.vkx
+  PsiComment(COMMENT)('# [外部]有效行注释')
+  PsiWhiteSpace('\n')
+  ValkyrieXmlTag:div
+    ValkyrieXmlTagStart:div
+      PsiElement(XML_START_TAG_START)('<')
+      ValkyrieXmlTagName:div
+        PsiElement(XML_NAME)('div')
+      PsiElement(XML_TAG_END)('>')
+    PsiWhiteSpace('\n    ')
+    PsiComment(COMMENT)('# [内部]无效行注释')
+    PsiWhiteSpace('\n    ')
+    PsiComment(XML_COMMENT_START)('<!--')
+    PsiComment(XML_COMMENT_CHARACTERS)(' [内部]有效块注释 ')
+    PsiComment(XML_COMMENT_END)('-->')
+    PsiWhiteSpace('\n')
+    ValkyrieXmlTagEnd:div
+      PsiElement(XML_END_TAG_START)('</')
+      ValkyrieXmlTagName:div
+        PsiElement(XML_NAME)('div')
+      PsiElement(XML_TAG_END)('>')
+  PsiWhiteSpace('\n')
+  PsiComment(XML_COMMENT_START)('<!--')
+  PsiComment(XML_COMMENT_CHARACTERS)(' [外部]有效块注释 ')
+  PsiComment(XML_COMMENT_END)('-->')
