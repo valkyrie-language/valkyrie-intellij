@@ -1,11 +1,11 @@
-# 测试简单 until 语句
-until true { };
+# 测试简单的 until 语句
+until condition { };
 
 # 测试带标签的 until 语句
 until true ※label { };
 
 # 测试 until-else 语句
-until true {
+until condition {
 
 }
 else {

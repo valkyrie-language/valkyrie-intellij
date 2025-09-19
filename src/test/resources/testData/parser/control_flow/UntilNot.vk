@@ -1,11 +1,11 @@
-# 测试简单 until not 语句
-until not pattern = expression {};
+# 测试简单的 until not 语句
+until not condition { };
 
 # 测试带标签的 until not 语句
-until not pattern = expression ※label { };
+until not condition ※label { };
 
 # 测试 until not-else 语句
-until not pattern = expression {
+until not condition {
 
 }
 else {

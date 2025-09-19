@@ -79,23 +79,60 @@ fun parseWhileStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
         return false
     }
 
-    if (!parseTermExpression(parser, builder, inline = true)) {
-        marker.error("Expected condition after 'while'")
-        return false
+    // 检查是否是 while let 语法
+    if (builder.tokenType == ValkyrieTokenTypes.LET) {
+        builder.advanceLexer() // consume 'let'
+        
+        // 解析模式
+        if (!parsePattern(parser, builder, true)) {
+            marker.error("Expected pattern after 'let'")
+            return false
+        }
+        
+        // 期望 '=' 符号
+        if (builder.tokenType != ValkyrieTokenTypes.ASSIGN) {
+            marker.error("Expected '=' after pattern")
+            return false
+        }
+        builder.advanceLexer() // consume '='
+        
+        // 解析表达式
+        if (!parseTermExpression(parser, builder, inline = true)) {
+            marker.error("Expected expression after '='")
+            return false
+        }
+        
+        // 可选的标签
+        eatLabelMark(builder)
+        
+        if (!parser.parseFnBody(builder)) {
+            builder.error("Expected '{' after while let condition")
+            return false
+        }
+
+        parser.parseElseStatement(builder)
+
+        marker.done(ValkyrieElementTypes.WHILE_LET_STATEMENT)
+        return true
+    } else {
+        // 普通 while 语句
+        if (!parseTermExpression(parser, builder, inline = true)) {
+            marker.error("Expected condition after 'while'")
+            return false
+        }
+
+        eatLabelMark(builder)
+
+        if (!parser.parseFnBody(builder)) {
+            builder.error("Expected '{' after while condition")
+            return false
+        }
+
+        parser.parseElseStatement(builder)
+
+        marker.done(ValkyrieElementTypes.WHILE_STATEMENT)
+        return true
     }
-
-
-    eatLabelMark(builder)
-
-    if (!parser.parseFnBody(builder)) {
-        builder.error("Expected '{' after while condition")
-        return false
-    }
-
-    parser.parseElseStatement(builder)
-
-    marker.done(ValkyrieElementTypes.WHILE_STATEMENT)
-    return true
 }
 
 fun parseUntilStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
@@ -106,23 +143,47 @@ fun parseUntilStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
         marker.rollbackTo()
         return false
     }
-    if (!parseTermExpression(parser, builder, inline = true)) {
-        marker.error("Expected condition after 'until'")
-        return false
+    
+    // 检查是否是 until not 语法
+    if (builder.tokenType == ValkyrieTokenTypes.NOT) {
+        builder.advanceLexer() // consume 'not'
+        
+        // 解析表达式
+        if (!parseTermExpression(parser, builder, inline = true)) {
+            marker.error("Expected expression after 'not'")
+            return false
+        }
+        
+        eatLabelMark(builder)
+
+        if (!parser.parseFnBody(builder)) {
+            builder.error("Expected '{' after until not condition")
+            return false
+        }
+
+        parser.parseElseStatement(builder)
+
+        marker.done(ValkyrieElementTypes.UNTIL_NOT_STATEMENT)
+        return true
+    } else {
+        // 普通 until 语句
+        if (!parseTermExpression(parser, builder, inline = true)) {
+            marker.error("Expected condition after 'until'")
+            return false
+        }
+
+        eatLabelMark(builder)
+
+        if (!parser.parseFnBody(builder)) {
+            builder.error("Expected '{' after until condition")
+            return false
+        }
+
+        parser.parseElseStatement(builder)
+
+        marker.done(ValkyrieElementTypes.UNTIL_STATEMENT)
+        return true
     }
-
-
-    eatLabelMark(builder)
-
-    if (!parser.parseFnBody(builder)) {
-        builder.error("Expected '{' after until condition")
-        return false
-    }
-
-    parser.parseElseStatement(builder)
-
-    marker.done(ValkyrieElementTypes.UNTIL_STATEMENT)
-    return true
 }
 
 fun parseControl(parser: ValkyrieParser, builder: PsiBuilder): Boolean {

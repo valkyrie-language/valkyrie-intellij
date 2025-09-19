@@ -347,9 +347,10 @@ fun parsePrimaryTerm(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolea
             true
         }
 
-        parseLoopStatement(parser, builder) -> return true
-        parseWhileStatement(parser, builder) -> return true
-        parseUntilStatement(parser, builder) -> return true
+        // 控制流语句已在parseStatement中处理，不在表达式中重复解析
+        // parseLoopStatement(parser, builder) -> return true
+        // parseWhileStatement(parser, builder) -> return true
+        // parseUntilStatement(parser, builder) -> return true
         else -> return false
     }
 }

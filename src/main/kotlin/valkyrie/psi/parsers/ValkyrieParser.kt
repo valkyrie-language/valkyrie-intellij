@@ -1163,21 +1163,6 @@ open class ValkyrieParser : PsiParser {
         return true
     }
 
-    fun parseWhileStatement(builder: PsiBuilder): Boolean {
-        if (builder.tokenType != ValkyrieTokenTypes.WHILE) return false
-        val marker = builder.mark()
-        builder.advanceLexer() // consume 'while'
-
-        // 解析条件表达式
-        parseTermExpression(this, builder, inline = false)
-
-        // 解析循环体
-        parseFnBody(builder)
-
-        marker.done(ValkyrieElementTypes.WHILE_STATEMENT)
-        return true
-    }
-
     fun parseMatchStatement(builder: PsiBuilder): Boolean {
         val marker = builder.mark()
         if (builder.tokenType != ValkyrieTokenTypes.MATCH) return false
@@ -1348,46 +1333,6 @@ open class ValkyrieParser : PsiParser {
         return true
     }
 
-    fun parseTemplateIfMark(builder: PsiBuilder): Boolean {
-        if (builder.tokenType != ValkyrieTokenTypes.TEMPLATE_L) return false
-        val marker = builder.mark()
-
-        // 消费 '<$'
-        builder.advanceLexer()
-
-        // 检查是否是 'if'
-        if (builder.tokenType != ValkyrieTokenTypes.IF) {
-            marker.rollbackTo()
-            return false
-        }
-        builder.advanceLexer() // consume 'if'
-
-        // <$ if let pat = expr
-        if (builder.tokenType == ValkyrieTokenTypes.LET) {
-            if (!parseLetStatement(builder, true)) {
-                marker.error("Expected let statement after 'if let'")
-                return false
-            }
-        }
-        // <$ if conditional
-        else {
-            if (!parseTermExpression(this, builder, false)) {
-                marker.error("Expected condition expression after 'if'")
-                return false
-            }
-        }
-
-        // 消费 '$>'
-        if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_R) {
-            builder.advanceLexer()
-        } else {
-            builder.error("Expected '$>'")
-        }
-
-        marker.done(ValkyrieElementTypes.TEMPLATE_IF_MARK)
-        return true
-    }
-
     fun parseElseIfStatement(builder: PsiBuilder): Boolean {
         val marker = builder.mark()
         parseAnnotations(builder, withModifiers = false)
@@ -1408,42 +1353,6 @@ open class ValkyrieParser : PsiParser {
             return false
         }
         marker.done(ValkyrieElementTypes.ELSE_IF_PART)
-        return true
-    }
-
-    fun parseTemplateElseIfMark(builder: PsiBuilder): Boolean {
-        if (builder.tokenType != ValkyrieTokenTypes.TEMPLATE_L) return false
-        val marker = builder.mark()
-
-        // 消费 '<$'
-        builder.advanceLexer()
-
-        // 检查是否是 'else'
-        if (builder.tokenType != ValkyrieTokenTypes.ELSE) {
-            marker.rollbackTo()
-            return false
-        }
-        builder.advanceLexer() // consume 'else'
-
-        // 检查是否是 'else if'
-        if (builder.tokenType == ValkyrieTokenTypes.IF) {
-            builder.advanceLexer() // consume 'if'
-
-            // 解析条件表达式
-            if (!parseTermExpression(this, builder, false)) {
-                marker.error("Expected condition expression after 'else if'")
-                return false
-            }
-        }
-
-        // 消费 '$>'
-        if (builder.tokenType == ValkyrieTokenTypes.TEMPLATE_R) {
-            builder.advanceLexer()
-        } else {
-            builder.error("Expected '$>'")
-        }
-
-        marker.done(ValkyrieElementTypes.TEMPLATE_ELSE_IF)
         return true
     }
 
