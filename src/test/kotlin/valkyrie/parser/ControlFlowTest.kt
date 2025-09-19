@@ -15,7 +15,6 @@ class ControlFlowTest : ParsingTestCase("testData/parser/control_flow", "vk", Va
     fun testResume() = doTest(true, true)
     fun testReturn() = doTest(true, true)
     fun testYield() = doTest(true, true)
-
     fun testLoop() = doTest(true, true)
     fun testForIn() = doTest(true, true)
     fun testWhile() = doTest(true, true)

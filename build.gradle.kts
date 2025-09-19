@@ -48,6 +48,8 @@ dependencies {
     }
 
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.opentest4j:opentest4j:1.3.0")
 }
@@ -84,7 +86,6 @@ tasks {
     }
     
     test {
-        useJUnitPlatform()
         maxHeapSize = "4g"
         jvmArgs("-XX:+UseG1GC", "-XX:MaxGCPauseMillis=200")
         testLogging {
