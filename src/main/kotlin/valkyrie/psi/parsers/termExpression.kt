@@ -347,13 +347,18 @@ fun parsePrimaryTerm(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolea
             builder.advanceLexer()
             true
         }
-        // 异常控制流
-        parseTryStatement(parser, builder) -> return true
+
+        // 条件控制流
+        parseIfStatement(parser, builder) -> return true
+        parseMatchStatement(parser, builder) -> return true
         // 循环控制流
         parseLoopStatement(parser, builder) -> return true
         parseEachStatement(parser, builder) -> return true
         parseWhileStatement(parser, builder) -> return true
         parseUntilStatement(parser, builder) -> return true
+        // 异常控制流
+        parseTryStatement(parser, builder) -> return true
+        parseCatchStatement(parser, builder) -> return true
         else -> return false
     }
 }

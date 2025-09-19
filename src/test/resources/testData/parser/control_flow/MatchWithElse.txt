@@ -1,0 +1,206 @@
+Valkyrie File
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(ValkyrieTokenType.//)('//')
+  ValkyrieAnnotation(null)
+    ValkyrieModifier(Match)
+      PsiElement(ValkyrieTokenType.SYMBOL.XID)('Match')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+        ValkyrieIdentifier(with)
+          PsiElement(ValkyrieTokenType.SYMBOL.XID)('with')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(ValkyrieTokenType.else)('else')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+        ValkyrieIdentifier(clause)
+          PsiElement(ValkyrieTokenType.SYMBOL.XID)('clause')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.MATCH_STATEMENT)
+        PsiElement(ValkyrieTokenType.match)('match')
+        ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+          ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+            ValkyrieIdentifier(status)
+              PsiElement(ValkyrieTokenType.SYMBOL.XID)('status')
+        ValkyrieElementNode(ValkyrieElementType.MATCH_BODY)
+          PsiElement(ValkyrieTokenType.{)('{')
+          ValkyrieElementNode(ValkyrieElementType.MATCH_CASE)
+            PsiElement(ValkyrieTokenType.case)('case')
+            ValkyrieElementNode(ValkyrieElementType.BARE_PATTERN)
+              ValkyrieIdentifier(Success)
+                PsiElement(ValkyrieTokenType.SYMBOL.XID)('Success')
+            PsiErrorElement:Expected ':' after case pattern
+              <empty list>
+            ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+              PsiElement(ValkyrieTokenType.()('(')
+              ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+                ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+                  ValkyrieIdentifier(data)
+                    PsiElement(ValkyrieTokenType.SYMBOL.XID)('data')
+              PsiElement(ValkyrieTokenType.))(')')
+          PsiErrorElement:Expected 'case', 'when', or 'else'
+            <empty list>
+          PsiElement(ValkyrieTokenType.:)(':')
+          PsiErrorElement:Expected 'case', 'when', or 'else'
+            <empty list>
+          PsiElement(ValkyrieTokenType.SYMBOL.XID)('handleSuccess')
+          PsiErrorElement:Expected 'case', 'when', or 'else'
+            <empty list>
+          PsiElement(ValkyrieTokenType.()('(')
+          PsiErrorElement:Expected 'case', 'when', or 'else'
+            <empty list>
+          PsiElement(ValkyrieTokenType.SYMBOL.XID)('data')
+          PsiErrorElement:Expected 'case', 'when', or 'else'
+            <empty list>
+          PsiElement(ValkyrieTokenType.))(')')
+          ValkyrieElementNode(ValkyrieElementType.MATCH_CASE)
+            PsiElement(ValkyrieTokenType.case)('case')
+            ValkyrieElementNode(ValkyrieElementType.BARE_PATTERN)
+              ValkyrieIdentifier(Error)
+                PsiElement(ValkyrieTokenType.SYMBOL.XID)('Error')
+            PsiErrorElement:Expected ':' after case pattern
+              <empty list>
+            ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+              PsiElement(ValkyrieTokenType.()('(')
+              ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+                ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+                  ValkyrieIdentifier(msg)
+                    PsiElement(ValkyrieTokenType.SYMBOL.XID)('msg')
+              PsiElement(ValkyrieTokenType.))(')')
+          PsiErrorElement:Expected 'case', 'when', or 'else'
+            <empty list>
+          PsiElement(ValkyrieTokenType.:)(':')
+          PsiErrorElement:Expected 'case', 'when', or 'else'
+            <empty list>
+          PsiElement(ValkyrieTokenType.SYMBOL.XID)('logError')
+          PsiErrorElement:Expected 'case', 'when', or 'else'
+            <empty list>
+          PsiElement(ValkyrieTokenType.()('(')
+          PsiErrorElement:Expected 'case', 'when', or 'else'
+            <empty list>
+          PsiElement(ValkyrieTokenType.SYMBOL.XID)('msg')
+          PsiErrorElement:Expected 'case', 'when', or 'else'
+            <empty list>
+          PsiElement(ValkyrieTokenType.))(')')
+          ValkyrieElementNode(ValkyrieElementType.WHEN_CLAUSE)
+            PsiElement(ValkyrieTokenType.else)('else')
+            PsiElement(ValkyrieTokenType.:)(':')
+            ValkyrieCallExpression
+              ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+                ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+                  ValkyrieIdentifier(handleDefault)
+                    PsiElement(ValkyrieTokenType.SYMBOL.XID)('handleDefault')
+              ValkyrieElementNode(ValkyrieElementType.ARGUMENT_LIST)
+                PsiElement(ValkyrieTokenType.()('(')
+                PsiElement(ValkyrieTokenType.))(')')
+          PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(ValkyrieTokenType.//)('//')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+        ValkyrieIdentifier(Nested)
+          PsiElement(ValkyrieTokenType.SYMBOL.XID)('Nested')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.MATCH_STATEMENT)
+        PsiElement(ValkyrieTokenType.match)('match')
+        ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+          ValkyrieElementNode(ValkyrieElementType.MATCH_STATEMENT)
+            PsiElement(ValkyrieTokenType.match)('match')
+            ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+              ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+                ValkyrieIdentifier(outer)
+                  PsiElement(ValkyrieTokenType.SYMBOL.XID)('outer')
+            ValkyrieElementNode(ValkyrieElementType.MATCH_BODY)
+              PsiElement(ValkyrieTokenType.{)('{')
+              ValkyrieElementNode(ValkyrieElementType.MATCH_CASE)
+                PsiElement(ValkyrieTokenType.case)('case')
+                ValkyrieElementNode(ValkyrieElementType.BARE_PATTERN)
+                  ValkyrieIdentifier(Some)
+                    PsiElement(ValkyrieTokenType.SYMBOL.XID)('Some')
+                PsiErrorElement:Expected ':' after case pattern
+                  <empty list>
+                ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+                  PsiElement(ValkyrieTokenType.()('(')
+                  ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+                    ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+                      ValkyrieIdentifier(inner)
+                        PsiElement(ValkyrieTokenType.SYMBOL.XID)('inner')
+                  PsiElement(ValkyrieTokenType.))(')')
+              PsiErrorElement:Expected 'case', 'when', or 'else'
+                <empty list>
+              PsiElement(ValkyrieTokenType.:)(':')
+              PsiErrorElement:Expected 'case', 'when', or 'else'
+                <empty list>
+              PsiElement(ValkyrieTokenType.match)('match')
+              PsiErrorElement:Expected 'case', 'when', or 'else'
+                <empty list>
+              PsiElement(ValkyrieTokenType.SYMBOL.XID)('inner')
+              PsiErrorElement:Expected 'case', 'when', or 'else'
+                <empty list>
+              PsiElement(ValkyrieTokenType.{)('{')
+              ValkyrieElementNode(ValkyrieElementType.MATCH_CASE)
+                PsiElement(ValkyrieTokenType.case)('case')
+                ValkyrieElementNode(ValkyrieElementType.BARE_PATTERN)
+                  ValkyrieIdentifier(Valid)
+                    PsiElement(ValkyrieTokenType.SYMBOL.XID)('Valid')
+                PsiErrorElement:Expected ':' after case pattern
+                  <empty list>
+                ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+                  PsiElement(ValkyrieTokenType.()('(')
+                  ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+                    ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+                      ValkyrieIdentifier(x)
+                        PsiElement(ValkyrieTokenType.SYMBOL.XID)('x')
+                  PsiElement(ValkyrieTokenType.))(')')
+              PsiErrorElement:Expected 'case', 'when', or 'else'
+                <empty list>
+              PsiElement(ValkyrieTokenType.:)(':')
+              PsiErrorElement:Expected 'case', 'when', or 'else'
+                <empty list>
+              PsiElement(ValkyrieTokenType.SYMBOL.XID)('processValid')
+              PsiErrorElement:Expected 'case', 'when', or 'else'
+                <empty list>
+              PsiElement(ValkyrieTokenType.()('(')
+              PsiErrorElement:Expected 'case', 'when', or 'else'
+                <empty list>
+              PsiElement(ValkyrieTokenType.SYMBOL.XID)('x')
+              PsiErrorElement:Expected 'case', 'when', or 'else'
+                <empty list>
+              PsiElement(ValkyrieTokenType.))(')')
+              ValkyrieElementNode(ValkyrieElementType.WHEN_CLAUSE)
+                PsiElement(ValkyrieTokenType.else)('else')
+                PsiElement(ValkyrieTokenType.:)(':')
+                ValkyrieCallExpression
+                  ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+                    ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+                      ValkyrieIdentifier(processInvalid)
+                        PsiElement(ValkyrieTokenType.SYMBOL.XID)('processInvalid')
+                  ValkyrieElementNode(ValkyrieElementType.ARGUMENT_LIST)
+                    PsiElement(ValkyrieTokenType.()('(')
+                    PsiElement(ValkyrieTokenType.))(')')
+              PsiElement(ValkyrieTokenType.})('}')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(ValkyrieTokenType.else)('else')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(ValkyrieTokenType.:)(':')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieCallExpression
+      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+        ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+          ValkyrieIdentifier(processNone)
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('processNone')
+      ValkyrieElementNode(ValkyrieElementType.ARGUMENT_LIST)
+        PsiElement(ValkyrieTokenType.()('(')
+        PsiElement(ValkyrieTokenType.))(')')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(ValkyrieTokenType.})('}')

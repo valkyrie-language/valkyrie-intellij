@@ -1368,6 +1368,32 @@ open class ValkyrieParser : PsiParser {
     }
 
     /**
+     * 解析多部分字符串 (STRING_START, STRING_TEXT, STRING_END)
+     */
+    fun parseMultiPartString(builder: PsiBuilder): Boolean {
+        if (builder.tokenType != ValkyrieTokenTypes.STRING_START) return false
+        val marker = builder.mark()
+        
+        // 消费 STRING_START
+        builder.advanceLexer()
+        
+        // 消费 STRING_TEXT (如果存在)
+        if (builder.tokenType == ValkyrieTokenTypes.STRING_TEXT) {
+            builder.advanceLexer()
+        }
+        
+        // 消费 STRING_END
+        if (builder.tokenType == ValkyrieTokenTypes.STRING_END) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected string end")
+        }
+        
+        marker.done(ValkyrieElementTypes.STRING_LITERAL)
+        return true
+    }
+
+    /**
      * 解析数组表达式
      */
     fun parseArrayExpression(builder: PsiBuilder): Boolean {

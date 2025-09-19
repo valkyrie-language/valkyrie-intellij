@@ -84,6 +84,7 @@ abstract class ValkyrieLexerBase(protected val flavor: LexerFlavor) : Lexer() {
         "try" to ValkyrieTokenTypes.TRY,
         "when" to ValkyrieTokenTypes.WHEN,
         "fallthrough" to ValkyrieTokenTypes.FALLTHROUGH,
+        "not" to ValkyrieTokenTypes.NOT,
         "in" to ValkyrieTokenTypes.IN,
         "is" to ValkyrieTokenTypes.IS,
         "as" to ValkyrieTokenTypes.AS,

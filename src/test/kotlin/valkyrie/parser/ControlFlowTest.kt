@@ -8,6 +8,19 @@ import valkyrie.psi.ValkyrieParserDefinition
  */
 class ControlFlowTest : ParsingTestCase("testData/parser/control_flow", "vk", ValkyrieParserDefinition()) {
     override fun getTestDataPath(): String = "src/test/resources"
+    
+    // If statement tests
+    fun testIf() = doTest(true, true)
+    fun testIfElse() = doTest(true, true)
+    fun testIfElseIf() = doTest(true, true)
+    fun testIfLet() = doTest(true, true)
+    
+    // Match statement tests
+    fun testMatch() = doTest(true, true)
+    fun testMatchWithElse() = doTest(true, true)
+    fun testMatchMultipleExpressions() = doTest(true, true)
+    
+    // Control flow tests
     fun testContinue() = doTest(true, true)
     fun testBreak() = doTest(true, true)
     fun testFallthrough() = doTest(true, true)
@@ -21,6 +34,8 @@ class ControlFlowTest : ParsingTestCase("testData/parser/control_flow", "vk", Va
     fun testWhileLet() = doTest(true, true)
     fun testUntil() = doTest(true, true)
     fun testUntilNot() = doTest(true, true)
+
+    fun testTry() = doTest(true, true)
 
     override fun skipSpaces(): Boolean {
         return true

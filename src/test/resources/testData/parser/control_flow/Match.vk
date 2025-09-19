@@ -1,0 +1,12 @@
+# Basic match statement
+match value {
+    case 1: result1
+    case 2: result2
+    else: defaultResult
+}
+
+# Match with pattern
+match person {
+    case Person(name, age): processUser(name, age)
+    else: handleUnknown()
+}

@@ -1,0 +1,42 @@
+Valkyrie File
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(ValkyrieTokenType.if)('if')
+  ValkyrieLetStatementNode(ValkyrieElementType.LET_STATEMENT)
+    PsiElement(ValkyrieTokenType.let)('let')
+    ValkyrieElementNode(ValkyrieElementType.BARE_PATTERN)
+      ValkyrieIdentifier(Some)
+        PsiElement(ValkyrieTokenType.SYMBOL.XID)('Some')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieBinaryTerm(ValkyrieElementType.BINARY_EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+        PsiElement(ValkyrieTokenType.()('(')
+        ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+          ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+            ValkyrieIdentifier(value)
+              PsiElement(ValkyrieTokenType.SYMBOL.XID)('value')
+        PsiElement(ValkyrieTokenType.))(')')
+      PsiElement(ValkyrieTokenType.=)('=')
+      ValkyriePostfixExpression
+        ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+          ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+            ValkyrieIdentifier(option)
+              PsiElement(ValkyrieTokenType.SYMBOL.XID)('option')
+        PsiElement(ValkyrieTokenType.{)('{')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieCallExpression
+      ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+        ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+          ValkyrieIdentifier(print)
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('print')
+      ValkyrieElementNode(ValkyrieElementType.ARGUMENT_LIST)
+        PsiElement(ValkyrieTokenType.()('(')
+        ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+          ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+            ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+              ValkyrieIdentifier(value)
+                PsiElement(ValkyrieTokenType.SYMBOL.XID)('value')
+        PsiElement(ValkyrieTokenType.))(')')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
+  PsiElement(ValkyrieTokenType.})('}')

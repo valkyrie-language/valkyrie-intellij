@@ -1,0 +1,15 @@
+# Match with else clause
+match status {
+    case Success(data): handleSuccess(data)
+    case Error(msg): logError(msg)
+    else: handleDefault()
+}
+
+# Nested match
+match outer {
+    case Some(inner): match inner {
+        case Valid(x): processValid(x)
+        else: processInvalid()
+    }
+    else: processNone()
+}
