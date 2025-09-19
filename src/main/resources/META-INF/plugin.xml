@@ -30,7 +30,7 @@
 			name="valkyrie-template"
 			language="valkyrie-template"
 			extensions="vkt;"
-			implementationClass="valkyrie.language.dialect_template.ValkyrieTemplateFileType"
+			implementationClass="valkyrie.language.dialect_asp.ValkyrieAspFileType"
 			fieldName="INSTANCE"
 		/>
 		<fileType
