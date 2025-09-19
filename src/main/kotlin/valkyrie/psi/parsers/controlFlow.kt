@@ -4,6 +4,82 @@ import com.intellij.lang.PsiBuilder
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.lexers.ValkyrieTokenTypes
 
+fun parseIfStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    return parseIfMainPart(parser, builder) || parseElseIfStatement(parser, builder) || parseElseStatement(parser, builder)
+}
+
+fun parseIfMainPart(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    val marker = builder.mark()
+    parser.parseAnnotations(builder, false)
+    if (builder.consumeKeyword(ValkyrieTokenTypes.IF)) {
+        marker.rollbackTo()
+        return false
+    } else {
+        builder.advanceLexer()
+    }
+    // if let pat = expr { }
+    if (builder.tokenType == ValkyrieTokenTypes.LET) {
+        if (parser.parseLetStatement(builder, true)) {
+            marker.rollbackTo()
+            return false
+        }
+    }
+    // if conditional { }
+    else {
+        if (!parseTermExpression(parser, builder, inline = true)) {
+            marker.error("Expected condition expression after 'if'")
+            return false
+        }
+    }
+
+    // 解析 then 块
+    if (!parser.parseFnBody(builder)) {
+        marker.error("Expected block after if condition")
+        return false
+    }
+    marker.done(ValkyrieElementTypes.IF_MAIN_PART)
+    return true
+}
+
+fun parseElseIfStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    val marker = builder.mark()
+    parser.parseAnnotations(builder, withModifiers = false)
+    if (!builder.consumeKeyword(ValkyrieTokenTypes.ELSE)) {
+        marker.rollbackTo()
+        return false
+    }
+    if (!builder.consumeKeyword(ValkyrieTokenTypes.IF)) {
+        marker.rollbackTo()
+        return false
+    }
+    if (!parseTermExpression(parser, builder, inline = true)) {
+        marker.rollbackTo()
+        return false
+    }
+    if (!parser.parseFnBody(builder)) {
+        marker.rollbackTo()
+        return false
+    }
+    marker.done(ValkyrieElementTypes.ELSE_IF_PART)
+    return true
+}
+
+fun parseElseStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    val marker = builder.mark()
+    parser.parseAnnotations(builder, withModifiers = false)
+    if (!builder.consumeKeyword(ValkyrieTokenTypes.ELSE)) {
+        marker.rollbackTo()
+        return false
+    }
+    // 对于loop-else语法，else后面直接跟函数体，不需要表达式
+    if (!parser.parseFnBody(builder)) {
+        marker.rollbackTo()
+        return false
+    }
+    marker.done(ValkyrieElementTypes.ELSE_PART)
+    return true
+}
+
 // loop ※label { }
 fun parseLoopStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     if (builder.tokenType != ValkyrieTokenTypes.LOOP) {
@@ -16,7 +92,7 @@ fun parseLoopStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
         marker.error("Expected function body after '{'")
         return false
     }
-    parser.parseElseStatement(builder) // optional
+    parseElseStatement(parser, builder) // optional
     marker.done(ValkyrieElementTypes.LOOP_STATEMENT)
     return true
 }
@@ -48,7 +124,7 @@ fun parseEachStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
         marker.error("Expected function body after '{'")
         return false
     }
-    parser.parseElseStatement(builder) // optional
+    parseElseStatement(parser, builder) // optional
     marker.done(ValkyrieElementTypes.EACH_STATEMENT)
     return true
 }
@@ -87,7 +163,7 @@ fun parseWhileStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
             marker.done(ValkyrieElementTypes.WHILE_STATEMENT)
             return false
         }
-        parser.parseElseStatement(builder)
+        parseElseStatement(parser, builder)
         marker.done(ValkyrieElementTypes.WHILE_LET_STATEMENT)
         return true
     }
@@ -105,7 +181,7 @@ fun parseWhileStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
             marker.done(ValkyrieElementTypes.WHILE_STATEMENT)
             return false
         }
-        parser.parseElseStatement(builder)
+        parseElseStatement(parser, builder)
         marker.done(ValkyrieElementTypes.WHILE_STATEMENT)
         return true
     }
@@ -137,7 +213,7 @@ fun parseUntilStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
             return false
         }
 
-        parser.parseElseStatement(builder)
+        parseElseStatement(parser, builder)
 
         marker.done(ValkyrieElementTypes.UNTIL_NOT_STATEMENT)
         return true
@@ -155,7 +231,7 @@ fun parseUntilStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
             return false
         }
 
-        parser.parseElseStatement(builder)
+        parseElseStatement(parser, builder)
 
         marker.done(ValkyrieElementTypes.UNTIL_STATEMENT)
         return true
