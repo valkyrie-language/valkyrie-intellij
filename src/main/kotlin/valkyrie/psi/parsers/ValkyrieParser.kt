@@ -625,7 +625,7 @@ open class ValkyrieParser : PsiParser {
         return true
     }
 
-    protected open fun parseExpressionExtension(builder: PsiBuilder): Boolean {
+    public open fun parseExpressionExtension(builder: PsiBuilder): Boolean {
         return false
     }
 
@@ -1153,10 +1153,10 @@ open class ValkyrieParser : PsiParser {
         if (builder.tokenType != ValkyrieTokenTypes.UNTIL) return false
         val marker = builder.mark()
         builder.advanceLexer() // consume 'until'
-        
+
         // 解析条件表达式
         parseTermExpression(this, builder, inline = false)
-        
+
         // 解析循环体
         parseFnBody(builder)
         marker.done(ValkyrieElementTypes.UNTIL_STATEMENT)
@@ -1167,7 +1167,7 @@ open class ValkyrieParser : PsiParser {
         if (builder.tokenType != ValkyrieTokenTypes.WHILE) return false
         val marker = builder.mark()
         builder.advanceLexer() // consume 'while'
-        
+
         // 解析条件表达式
         parseTermExpression(this, builder, inline = false)
 

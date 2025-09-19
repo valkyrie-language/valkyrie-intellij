@@ -1,8 +1,6 @@
 package valkyrie.psi.parsers
 
 import com.intellij.lang.PsiBuilder
-import com.intellij.psi.xml.XmlTokenType
-import valkyrie.language.dialect_xml.parseXmlElement
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.lexers.ValkyrieTokenTypes
 
@@ -290,13 +288,16 @@ fun parseTermExpressionWithPrecedence(
  * marker 的创建和完成由调用者 (parseTermExpressionWithPrecedence) 处理。
  */
 fun parsePrimaryTerm(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolean): Boolean {
-    return when (builder.tokenType) {
-        ValkyrieTokenTypes.INTEGER, ValkyrieTokenTypes.DECIMAL, ValkyrieTokenTypes.BOOLEAN -> {
+    return when {
+        parser.parseExpressionExtension(builder) -> return true
+        builder.tokenType == ValkyrieTokenTypes.INTEGER ||
+            builder.tokenType == ValkyrieTokenTypes.DECIMAL ||
+            builder.tokenType == ValkyrieTokenTypes.BOOLEAN -> {
             builder.advanceLexer()
             true
         }
 
-        ValkyrieTokenTypes.SYMBOL_XID, ValkyrieTokenTypes.SYMBOL_RAW -> {
+        isIdentifier(builder) -> {
             // parseNamePath 内部会创建自己的 marker，这与我们的新设计冲突。
             // 为简单起见，这里假设它只解析一个标识符路径。
             // 在实际项目中，需要确保 parseNamePath 也遵循一致的 marker 管理策略。
@@ -305,30 +306,14 @@ fun parsePrimaryTerm(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolea
             true
         }
 
-        // XML Slot 表达式
-        ValkyrieTokenTypes.XML_SLOT_L -> {
-            val marker = builder.mark()
-            builder.advanceLexer() // consume XML_SLOT_L
-            if (!parseTermExpression(parser, builder, inline)) {
-                builder.error("Expected expression in slot")
-            }
-            if (builder.tokenType == ValkyrieTokenTypes.XML_SLOT_R) {
-                builder.advanceLexer() // consume XML_SLOT_R
-            } else {
-                builder.error("Expected '}'")
-            }
-            marker.done(ValkyrieElementTypes.XML_SLOT_EXPRESSION)
-            true
-        }
-
         // 字符串字面量
-        ValkyrieTokenTypes.STRING_L -> {
+        builder.tokenType == ValkyrieTokenTypes.STRING_L -> {
             parser.parseString(builder)
             true
         }
 
         // 括号表达式
-        ValkyrieTokenTypes.PARENTHESIS_L -> {
+        builder.tokenType == ValkyrieTokenTypes.PARENTHESIS_L -> {
             builder.advanceLexer() // consume '('
             if (!parseTermExpression(parser, builder, inline)) {
                 builder.error("Expected expression")
@@ -342,13 +327,13 @@ fun parsePrimaryTerm(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolea
         }
 
         // 数组表达式
-        ValkyrieTokenTypes.BRACKET_L -> {
+        builder.tokenType == ValkyrieTokenTypes.BRACKET_L -> {
             parser.parseArrayExpression(builder)
             true
         }
 
         // 对象表达式 (如果不是内联模式)
-        ValkyrieTokenTypes.BRACE_L -> {
+        builder.tokenType == ValkyrieTokenTypes.BRACE_L -> {
             if (!inline) {
                 parser.parseObjectExpression(builder)
                 true
@@ -357,18 +342,16 @@ fun parsePrimaryTerm(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolea
             }
         }
         // 特殊值
-        ValkyrieTokenTypes.NIL, ValkyrieTokenTypes.NULL -> {
+        builder.tokenType == ValkyrieTokenTypes.NIL || builder.tokenType == ValkyrieTokenTypes.NULL -> {
             builder.advanceLexer()
             true
         }
 
-        XmlTokenType.XML_START_TAG_START -> {
-            parseXmlElement(builder)
-        }
-
-        else -> {
-            parseLoopStatement(parser, builder)
-        }
+        parseLoopStatement(parser, builder) -> return true
+        parseWhileStatement(parser, builder) -> return true
+        parseUntilStatement(parser, builder) -> return true
+        parseControlFlow(parser, builder) -> return true
+        else -> return false
     }
 }
 
