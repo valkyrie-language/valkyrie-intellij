@@ -509,7 +509,7 @@ open class ValkyrieParser : PsiParser {
         // Parse pattern (supports bare pattern, tuple pattern, array pattern, object pattern)
         if (!parsePattern(this, builder, true)) {
             marker.error("Expected pattern after 'let'")
-            return true
+            return false
         }
         // Parse optional type annotation
         parseTypeHint(builder)
@@ -556,28 +556,28 @@ open class ValkyrieParser : PsiParser {
         // Parse identifier with error recovery
         if (!parseIdentifier(builder)) {
             marker.error("Expected macro name")
-            return true
+            return false
         }
 
         // Optional generic parameters
         if (builder.tokenType == ValkyrieTokenTypes.GENERIC_L) {
             if (!parseGenericParameterList(this, builder)) {
                 marker.error("Invalid generic parameters")
-                return true
+                return false
             }
         }
 
         // Expect assignment with error recovery
         if (builder.tokenType != ValkyrieTokenTypes.ASSIGN) {
             marker.error("Expected '=' in macro assignment")
-            return true
+            return false
         }
         builder.advanceLexer() // consume '='
 
         // Parse expression with error recovery
         if (!parseTermExpression(this, builder, false)) {
             marker.error("Expected expression after '='")
-            return true
+            return false
         }
 
         marker.done(ValkyrieElementTypes.ASSIGN_MACRO)

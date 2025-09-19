@@ -23,18 +23,18 @@ fun parseLoopStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
                 builder.advanceLexer() // consume 'if'
                 if (!parseTermExpression(parser, builder, inline = true)) {
                     marker.error("Expected condition after 'if'")
-                    return true
+                    return false
                 }
             }
 
             if (builder.tokenType != ValkyrieTokenTypes.IN) {
                 marker.error("Expected 'in' after pattern in for statement")
-                return true
+                return false
             }
             builder.advanceLexer()
             if (!parseTermExpression(parser, builder, inline = true)) {
                 marker.error("Expected expression after 'in'")
-                return true
+                return false
             }
 
             // 如果有条件，可能还有标签
@@ -44,7 +44,7 @@ fun parseLoopStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
 
             if (!parser.parseFnBody(builder)) {
                 marker.error("Expected function body after '{'")
-                return true
+                return false
             }
 
             // 解析可选的 else 子句
@@ -56,7 +56,7 @@ fun parseLoopStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
             // 普通 loop 语句
             if (!parser.parseFnBody(builder)) {
                 marker.error("Expected function body after '{'")
-                return true
+                return false
             }
 
             parser.parseElseStatement(builder)

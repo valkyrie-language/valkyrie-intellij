@@ -82,6 +82,18 @@ tasks {
             jvmTarget.set(JvmTarget.JVM_21)
         }
     }
+    
+    test {
+        useJUnitPlatform()
+        maxHeapSize = "4g"
+        jvmArgs("-XX:+UseG1GC", "-XX:MaxGCPauseMillis=200")
+        testLogging {
+            events("passed", "skipped", "failed")
+        }
+        // 启用测试结果缓存
+        outputs.upToDateWhen { false }
+    }
+    
     patchPluginXml {
         sinceBuild = properties("pluginSinceBuild")
         untilBuild = properties("pluginUntilBuild")
