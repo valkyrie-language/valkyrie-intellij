@@ -1863,7 +1863,7 @@ fun isIdentifier(token: IElementType?): Boolean {
 }
 
 // ※label
-fun parseLabel(builder: PsiBuilder): Boolean {
+fun parseLabelIdentifier(builder: PsiBuilder): Boolean {
     if (builder.tokenType != ValkyrieTokenTypes.LABEL_MARK) {
         return false
     }
