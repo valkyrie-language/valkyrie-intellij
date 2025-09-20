@@ -148,12 +148,7 @@ fun parseTermExpression(parser: ValkyrieParser, builder: PsiBuilder, inline: Boo
  *
  * @param minPrecedence 当前递归层级需要处理的最小运算符优先级。
  */
-fun parseTermExpressionWithPrecedence(
-    valkyrieParser: ValkyrieParser,
-    builder: PsiBuilder,
-    minPrecedence: Int,
-    inline: Boolean,
-): Boolean {
+fun parseTermExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: PsiBuilder, minPrecedence: Int, inline: Boolean): Boolean {
     // CHANGE 1: 'lhs' 现在代表当前左侧表达式的 marker。
     var lhs: PsiBuilder.Marker
 
@@ -219,26 +214,32 @@ fun parseTermExpressionWithPrecedence(
             continue
         }
 
-        val postfixPrecedence = termPostfixPrecedences[currentToken]
+        val postfixPrecedence = if (inline && currentToken == ValkyrieTokenTypes.BRACE_L) {
+            null
+        } else {
+            termPostfixPrecedences[currentToken]
+        }
         val infixPrecedence = termInfixPrecedences[currentToken]
-
+        // 处理后缀表达式
         if (postfixPrecedence != null && postfixPrecedence >= minPrecedence) {
-            // 处理后缀表达式
-            lhs = lhs.precede() // 创建新 marker 包裹旧的 lhs
+            // 创建新 marker 包裹旧的 lhs
+            lhs = lhs.precede()
             when (currentToken) {
                 ValkyrieTokenTypes.PARENTHESIS_L -> {
                     parseFunctionArgumentList(valkyrieParser, builder)
-                    // 检查尾随闭包
+                    // f() { }
                     if (builder.tokenType == ValkyrieTokenTypes.BRACE_L && !inline) {
                         lhs.done(ValkyrieElementTypes.CALL_EXPRESSION) // 完成 f() 部分
                         lhs = lhs.precede() // 为 f() {} 创建新 marker
                         valkyrieParser.parseFnBody(builder)
                         lhs.done(ValkyrieElementTypes.CALL_EXPRESSION)
-                    } else {
+                    }
+                    // f()
+                    else {
                         lhs.done(ValkyrieElementTypes.CALL_EXPRESSION)
                     }
                 }
-
+                // data.f
                 ValkyrieTokenTypes.DOT -> {
                     builder.advanceLexer() // consume '.'
                     parseIdentifier(builder)
@@ -347,10 +348,17 @@ fun parsePrimaryTerm(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolea
             true
         }
 
-        // 控制流语句已在parseStatement中处理，不在表达式中重复解析
-        // parseLoopStatement(parser, builder) -> return true
-        // parseWhileStatement(parser, builder) -> return true
-        // parseUntilStatement(parser, builder) -> return true
+        // 条件控制流
+        parseIfStatement(parser, builder) -> return true
+        parseMatchStatement(parser, builder) -> return true
+        // 循环控制流
+        parseLoopStatement(parser, builder) -> return true
+        parseEachStatement(parser, builder) -> return true
+        parseWhileStatement(parser, builder) -> return true
+        parseUntilStatement(parser, builder) -> return true
+        // 异常控制流
+        parseTryStatement(parser, builder) -> return true
+        parseCatchStatement(parser, builder) -> return true
         else -> return false
     }
 }

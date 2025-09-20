@@ -1,0 +1,8 @@
+class TestField {
+    field,
+    readonly field,
+    field: Type,
+    field = value,
+    ↯macroes
+    readonly field: Type = Value,
+}

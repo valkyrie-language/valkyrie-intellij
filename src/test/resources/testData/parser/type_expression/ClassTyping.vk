@@ -1,0 +1,27 @@
+class TestTyping {
+    typing: T,
+    unit: (),
+    group: (G),
+    tuple: (T,)
+    named_tuple: (a: T, U),
+    table0: [],
+    vector: [V],
+    table1: [T,],
+    array: [A; N],
+    named_table: [a: T, U],
+    generic1: A<B><C>::D,
+    generic2: A::<B>::<C>::D,
+    assert: A as (A as B),
+    associate: <T as Iterator>::Item,
+}
+
+class TestTypeExpression {
+    covariant: +A,
+    contravariant: -A,
+    nullable: B?,
+    never: B!,
+    or: A | B,
+    and: A & B,
+    plus: A + B,
+    minus: A - B,
+}

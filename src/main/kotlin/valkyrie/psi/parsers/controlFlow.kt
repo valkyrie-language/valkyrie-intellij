@@ -4,189 +4,236 @@ import com.intellij.lang.PsiBuilder
 import valkyrie.psi.ValkyrieElementTypes
 import valkyrie.psi.lexers.ValkyrieTokenTypes
 
-
-fun parseLoopStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+fun parseIfStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    if (builder.tokenType != ValkyrieTokenTypes.IF) {
+        return false
+    }
     val marker = builder.mark()
-    if (builder.tokenType == ValkyrieTokenTypes.LOOP) {
-        builder.advanceLexer()
-
-        // 标签在loop关键字后立即解析
-        eatLabelMark(builder)
-
-        // 检查是否是 for-in 语法糖 (loop pattern in expression)
-        // 需要检查是否有模式（标识符、ref、元组等）
-        if (parsePattern(parser, builder, true)) {
-            // 检查是否有条件 (if condition)
-            var hasCondition = false
+    // if let pattern = expression { }
+    if (builder.tokenType == ValkyrieTokenTypes.LET) {
+        builder.advanceLexer(); // eat 'if'
+        builder.advanceLexer(); // eat 'let'
+        if (!parsePattern(parser, builder, allowBare = false)) {
+            builder.error("xxxx")
+            return false
+        }
+        builder.advanceLexer(); // eat '='
+        if (!parseTermExpression(parser, builder, inline = true)) {
+            return false
+        }
+        if (!parser.parseFnBody(builder)) {
+            return false
+        }
+        marker.done(ValkyrieElementTypes.IF_STATEMENT)
+        return true
+    }
+    // if condition { } else if condition {} else { }
+    else {
+        if (!eatIfCondition(parser, builder)) {
+            return false
+        }
+        while (builder.tokenType == ValkyrieTokenTypes.ELSE) {
             if (builder.tokenType == ValkyrieTokenTypes.IF) {
-                hasCondition = true
-                builder.advanceLexer() // consume 'if'
-                if (!parseTermExpression(parser, builder, inline = true)) {
-                    marker.error("Expected condition after 'if'")
+                val elsePartMarker = builder.mark()
+                builder.advanceLexer(); // eat 'else'
+                if (eatIfCondition(parser, builder)) {
+                    elsePartMarker.done(ValkyrieElementTypes.ELSE_IF_PART)
+                } else {
+                    elsePartMarker.error("incomplete if")
+                    return false
+                }
+                // else continue
+            } else {
+                if (!eatElseStatement(parser, builder)) {
+                    marker.rollbackTo()
                     return false
                 }
             }
-
-            if (builder.tokenType != ValkyrieTokenTypes.IN) {
-                marker.error("Expected 'in' after pattern in for statement")
-                return false
-            }
-            builder.advanceLexer()
-            if (!parseTermExpression(parser, builder, inline = true)) {
-                marker.error("Expected expression after 'in'")
-                return false
-            }
-
-            // 如果有条件，可能还有标签
-            if (hasCondition) {
-                eatLabelMark(builder)
-            }
-
-            if (!parser.parseFnBody(builder)) {
-                marker.error("Expected function body after '{'")
-                return false
-            }
-
-            // 解析可选的 else 子句
-            parser.parseElseStatement(builder)
-
-            marker.done(ValkyrieElementTypes.EACH_STATEMENT)
-            return true
-        } else {
-            // 普通 loop 语句
-            if (!parser.parseFnBody(builder)) {
-                marker.error("Expected function body after '{'")
-                return false
-            }
-
-            parser.parseElseStatement(builder)
-
-            marker.done(ValkyrieElementTypes.LOOP_STATEMENT)
-            return true
         }
-    } else {
-        marker.rollbackTo()
-        return false
+        marker.done(ValkyrieElementTypes.IF_STATEMENT)
+        return true
     }
 }
 
-fun parseWhileStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+private fun eatElseStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
-    if (builder.tokenType == ValkyrieTokenTypes.WHILE) {
-        builder.advanceLexer()
-    } else {
+    parser.parseAnnotations(builder, withModifiers = false)
+    if (!builder.consumeKeyword(ValkyrieTokenTypes.ELSE)) {
         marker.rollbackTo()
         return false
     }
+    // 对于loop-else语法，else后面直接跟函数体，不需要表达式
+    if (!parser.parseFnBody(builder)) {
+        marker.rollbackTo()
+        return false
+    }
+    marker.done(ValkyrieElementTypes.ELSE_PART)
+    return true
+}
 
-    // 检查是否是 while let 语法
+fun parseLoopStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    if (builder.tokenType != ValkyrieTokenTypes.LOOP) {
+        return false
+    }
+    val marker = builder.mark()
+    builder.advanceLexer() // eat 'loop'
+    // loop pattern in expression if condition ※label { }
+    if (parsePattern(parser, builder, true)) {
+        if (builder.tokenType == ValkyrieTokenTypes.IN) {
+            builder.advanceLexer()
+        } else {
+            marker.error("Expected 'in' after 'pattern' in `loop-each` statement")
+            return false
+        }
+        if (!parseTermExpression(parser, builder, inline = true)) {
+            marker.error("Expected 'expression' after 'in' in `loop-each` statement")
+            return false
+        }
+        eatIfCondition(parser, builder)
+        eatLabelMark(builder)
+        if (!parser.parseFnBody(builder)) {
+            marker.error("Expected function body after '{'")
+            return false
+        }
+        eatElseStatement(parser, builder) // optional
+        marker.done(ValkyrieElementTypes.EACH_STATEMENT)
+        return true
+    }
+    // loop ※label { }
+    else {
+        eatLabelMark(builder)
+        if (!parser.parseFnBody(builder)) {
+            marker.error("Expected function body after '{'")
+            return false
+        }
+        eatElseStatement(parser, builder) // optional
+        marker.done(ValkyrieElementTypes.LOOP_STATEMENT)
+        return true
+    }
+}
+
+
+fun parseEachStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    return false
+}
+
+fun parseWhileStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    if (builder.tokenType != ValkyrieTokenTypes.WHILE) {
+        return false
+    }
+    val marker = builder.mark()
+    builder.advanceLexer() // eat 'while'
+    // while let pattern = expression if condition ※label { }
     if (builder.tokenType == ValkyrieTokenTypes.LET) {
-        builder.advanceLexer() // consume 'let'
-        
-        // 解析模式
+        builder.advanceLexer() // eat 'let'
         if (!parsePattern(parser, builder, true)) {
             marker.error("Expected pattern after 'let'")
-            return false
+            marker.done(ValkyrieElementTypes.WHILE_LET_STATEMENT)
+            return true
         }
-        
-        // 期望 '=' 符号
-        if (builder.tokenType != ValkyrieTokenTypes.ASSIGN) {
+        if (builder.tokenType == ValkyrieTokenTypes.ASSIGN) {
+            builder.advanceLexer() // eat '='
+        } else {
             marker.error("Expected '=' after pattern")
-            return false
+            marker.done(ValkyrieElementTypes.WHILE_LET_STATEMENT)
+            return true
         }
-        builder.advanceLexer() // consume '='
-        
         // 解析表达式
         if (!parseTermExpression(parser, builder, inline = true)) {
             marker.error("Expected expression after '='")
-            return false
+            marker.done(ValkyrieElementTypes.WHILE_LET_STATEMENT)
+            return true
         }
-        
-        // 可选的标签
+        eatIfCondition(parser, builder)
         eatLabelMark(builder)
-        
         if (!parser.parseFnBody(builder)) {
             builder.error("Expected '{' after while let condition")
-            return false
+            marker.done(ValkyrieElementTypes.WHILE_LET_STATEMENT)
+            return true
         }
-
-        parser.parseElseStatement(builder)
-
+        eatElseStatement(parser, builder)
         marker.done(ValkyrieElementTypes.WHILE_LET_STATEMENT)
         return true
-    } else {
-        // 普通 while 语句
+    }
+    // while expression if condition ※label { }
+    else {
         if (!parseTermExpression(parser, builder, inline = true)) {
-            marker.error("Expected condition after 'while'")
-            return false
+            marker.error("Expected 'condition-expression' after `while`")
+            marker.done(ValkyrieElementTypes.WHILE_STATEMENT)
+            return true
         }
-
+        eatIfCondition(parser, builder)
         eatLabelMark(builder)
-
         if (!parser.parseFnBody(builder)) {
             builder.error("Expected '{' after while condition")
-            return false
+            marker.done(ValkyrieElementTypes.WHILE_STATEMENT)
+            return true
         }
-
-        parser.parseElseStatement(builder)
-
+        eatElseStatement(parser, builder)
         marker.done(ValkyrieElementTypes.WHILE_STATEMENT)
         return true
     }
 }
 
 fun parseUntilStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
-    val marker = builder.mark()
-    if (builder.tokenType == ValkyrieTokenTypes.UNTIL) {
-        builder.advanceLexer()
-    } else {
-        marker.rollbackTo()
+    if (builder.tokenType != ValkyrieTokenTypes.UNTIL) {
         return false
     }
-    
-    // 检查是否是 until not 语法
+    val marker = builder.mark()
+    builder.advanceLexer()
+    // until not pattern = expression if condition { }
     if (builder.tokenType == ValkyrieTokenTypes.NOT) {
-        builder.advanceLexer() // consume 'not'
-        
+        builder.advanceLexer() // eat 'not'
+        if (!parsePattern(parser, builder, true)) {
+            marker.error("Expected pattern after 'not'")
+            marker.done(ValkyrieElementTypes.UNTIL_NOT_STATEMENT)
+            return true
+        }
+        if (builder.tokenType == ValkyrieTokenTypes.ASSIGN) {
+            builder.advanceLexer() // eat '='
+        } else {
+            marker.error("Expected '=' after pattern")
+            marker.done(ValkyrieElementTypes.UNTIL_NOT_STATEMENT)
+            return true
+        }
         // 解析表达式
         if (!parseTermExpression(parser, builder, inline = true)) {
-            marker.error("Expected expression after 'not'")
-            return false
+            marker.error("Expected expression after '='")
+            marker.done(ValkyrieElementTypes.UNTIL_NOT_STATEMENT)
+            return true
         }
-        
+        eatIfCondition(parser, builder)
         eatLabelMark(builder)
-
         if (!parser.parseFnBody(builder)) {
             builder.error("Expected '{' after until not condition")
-            return false
+            marker.done(ValkyrieElementTypes.UNTIL_NOT_STATEMENT)
+            return true
         }
-
-        parser.parseElseStatement(builder)
-
+        eatElseStatement(parser, builder)
         marker.done(ValkyrieElementTypes.UNTIL_NOT_STATEMENT)
         return true
-    } else {
-        // 普通 until 语句
+    }
+    // until expression if condition { }
+    else {
         if (!parseTermExpression(parser, builder, inline = true)) {
-            marker.error("Expected condition after 'until'")
-            return false
+            marker.error("Expected 'condition-expression' after `until`")
+            marker.done(ValkyrieElementTypes.UNTIL_STATEMENT)
+            return true
         }
-
+        eatIfCondition(parser, builder)
         eatLabelMark(builder)
-
         if (!parser.parseFnBody(builder)) {
             builder.error("Expected '{' after until condition")
-            return false
+            marker.done(ValkyrieElementTypes.UNTIL_STATEMENT)
+            return true
         }
-
-        parser.parseElseStatement(builder)
-
+        eatElseStatement(parser, builder)
         marker.done(ValkyrieElementTypes.UNTIL_STATEMENT)
         return true
     }
 }
 
-fun parseControl(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+fun parseControlStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
     parser.parseAnnotations(builder, withModifiers = false);
     when (builder.tokenType) {
@@ -325,5 +372,187 @@ fun eatLabelMark(builder: PsiBuilder): Boolean {
     builder.advanceLexer()   // consume '※'
     parseIdentifier(builder) // optional
     marker.done(ValkyrieElementTypes.LABEL_STATEMENT)
+    return true
+}
+
+fun eatIfCondition(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    if (builder.tokenType != ValkyrieTokenTypes.IF) {
+        return false
+    }
+    val marker = builder.mark()
+    builder.advanceLexer()   // consume '※'
+    if (!parseTermExpression(parser, builder, inline = true)) {
+        marker.error("Expected expression after `if-guard`")
+        return false
+    }
+    marker.done(ValkyrieElementTypes.IF_MAIN_PART)
+    return true
+}
+
+
+// try {}
+// try type { }
+fun parseTryStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    if (builder.tokenType != ValkyrieTokenTypes.TRY) {
+        return false
+    }
+    val marker = builder.mark()
+    builder.advanceLexer()
+    when (builder.tokenType) {
+        // try?
+        ValkyrieTokenTypes.WHAT -> builder.advanceLexer()
+        // try!
+        ValkyrieTokenTypes.WOW -> builder.advanceLexer()
+    }
+    parseTypeExpression(parser, builder, true) // optional
+    if (!parser.parseFnBody(builder)) {
+        marker.drop()
+        return false
+    }
+    marker.done(ValkyrieElementTypes.TRY_STATEMENT)
+    return true
+}
+
+fun parseCatchStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    if (builder.tokenType != ValkyrieTokenTypes.CATCH) {
+        return false
+    }
+    val marker = builder.mark()
+    builder.advanceLexer() // eat 'catch'
+    parseTermExpression(parser, builder, inline = true)
+    parseMatchBody(parser, builder)
+    marker.done(ValkyrieElementTypes.CATCH_STATEMENT)
+    return true
+}
+
+fun parseMatchStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    if (builder.tokenType != ValkyrieTokenTypes.MATCH) {
+        return false
+    }
+    val marker = builder.mark()
+    builder.advanceLexer() // eat 'match'
+    parseTermExpression(parser, builder, inline = true)
+    parseMatchBody(parser, builder)
+    marker.done(ValkyrieElementTypes.MATCH_STATEMENT)
+    return true
+}
+
+
+fun parseMatchBody(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    if (builder.tokenType != ValkyrieTokenTypes.BRACE_L) {
+        return false
+    }
+    val marker = builder.mark()
+    builder.advanceLexer()
+
+    // parse match cases
+    while (!builder.eof()) {
+        val safePoint = builder.currentOffset
+        when {
+            builder.tokenType == ValkyrieTokenTypes.BRACE_R -> break
+            parseCaseClause(parser, builder) -> continue
+            parseWhenClause(parser, builder) -> continue
+            parseTypeClause(parser, builder) -> continue
+            parseElseClause(parser, builder) -> continue
+        }
+        if (builder.currentOffset == safePoint) {
+            builder.error("Unable to parse union member")
+            builder.advanceLexer()
+        }
+    }
+
+    if (builder.tokenType == ValkyrieTokenTypes.BRACE_R) {
+        builder.advanceLexer()
+    } else {
+        builder.error("Expected '}' for match body")
+    }
+    marker.done(ValkyrieElementTypes.MATCH_BODY) // Assuming a new element type for match body
+    return true
+}
+
+private fun parseCaseClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    val marker = builder.mark()
+    parser.parseAnnotations(builder, withModifiers = false)
+    if (builder.tokenType == ValkyrieTokenTypes.CASE) {
+        builder.advanceLexer()     // eat 'case'
+    } else {
+        marker.rollbackTo()
+        return false
+    }
+    // case pattern if condition:
+    parsePattern(parser, builder, true)
+    eatIfCondition(parser, builder)
+    // ':'
+    if (builder.tokenType == ValkyrieTokenTypes.COLON) {
+        builder.advanceLexer()
+    } else {
+        builder.error("Expected ':' after case pattern")
+    }
+
+    marker.done(ValkyrieElementTypes.CASE_CLAUSE)
+    return true
+}
+
+private fun parseWhenClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    val marker = builder.mark()
+    parser.parseAnnotations(builder, withModifiers = false)
+    if (builder.tokenType == ValkyrieTokenTypes.WHEN) {
+        builder.advanceLexer()     // eat 'case'
+    } else {
+        marker.rollbackTo()
+        return false
+    }
+    // pattern
+    parseTermExpression(parser, builder, false)
+    // ':'
+    if (builder.tokenType == ValkyrieTokenTypes.COLON) {
+        builder.advanceLexer()
+    } else {
+        builder.error("Expected ':' after when pattern")
+    }
+
+    marker.done(ValkyrieElementTypes.WHEN_CLAUSE)
+    return true
+}
+
+private fun parseTypeClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    val marker = builder.mark()
+    parser.parseAnnotations(builder, withModifiers = false)
+    if (builder.tokenType == ValkyrieTokenTypes.TYPE) {
+        builder.advanceLexer()     // eat 'case'
+    } else {
+        marker.rollbackTo()
+        return false
+    }
+    // typing
+    parseTypeExpression(parser, builder, false)
+    // ':'
+    if (builder.tokenType == ValkyrieTokenTypes.COLON) {
+        builder.advanceLexer()
+    } else {
+        builder.error("Expected ':' after type pattern")
+    }
+
+    marker.done(ValkyrieElementTypes.TYPE_CLAUSE)
+    return true
+}
+
+private fun parseElseClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    val marker = builder.mark()
+    parser.parseAnnotations(builder, withModifiers = false)
+    if (builder.tokenType == ValkyrieTokenTypes.ELSE) {
+        builder.advanceLexer()     // eat 'case'
+    } else {
+        marker.rollbackTo()
+        return false
+    }
+    // ':'
+    if (builder.tokenType == ValkyrieTokenTypes.COLON) {
+        builder.advanceLexer()
+    } else {
+        builder.error("Expected ':' after case pattern")
+    }
+
+    marker.done(ValkyrieElementTypes.ELSE_CLAUSE)
     return true
 }

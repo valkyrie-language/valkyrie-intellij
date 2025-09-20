@@ -129,9 +129,7 @@ class ValkyrieSfcParser : ValkyrieParser() {
         val contentMarker = builder.mark()
         while (!builder.eof() && !isAtEndTag(builder) && !isAtTopLevelBlockStart(builder)) {
             val initialPos = builder.currentOffset
-            if (!parseStatement(builder)) {
-                builder.advanceLexer()
-            }
+            parseProgram(builder)
             if (builder.currentOffset == initialPos) {
                 builder.mark().error("Parser stalled inside <script> block"); builder.advanceLexer()
             }
