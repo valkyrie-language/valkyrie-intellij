@@ -12,21 +12,17 @@ Valkyrie File
       ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
         PsiElement(ValkyrieTokenType.INTEGER)('2')
     PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.!)('!')
-  PsiElement(ValkyrieTokenType.BOOLEAN)('true')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      PsiElement(ValkyrieTokenType.BOOLEAN)('true')
+    PsiElement(ValkyrieTokenType.;)(';')
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(BAD_CHARACTER)('~')
-  PsiElement(ValkyrieTokenType.INTEGER)('0xFF')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      PsiElement(ValkyrieTokenType.INTEGER)('0xFF')
+    PsiElement(ValkyrieTokenType.;)(';')

@@ -72,7 +72,7 @@ private fun parseXmlStartTag(builder: PsiBuilder): Boolean {
     builder.advanceLexer() // consume '<'
 
     // 解析标签名
-    if (builder.tokenType == XmlTokenType.XML_TAG_NAME) {
+    if (builder.tokenType == XmlTokenType.XML_NAME) {
         builder.advanceLexer()
     } else {
         marker.rollbackTo()
@@ -110,7 +110,7 @@ private fun parseXmlEndTag(builder: PsiBuilder): Boolean {
     val marker = builder.mark()
     builder.advanceLexer() // consume '</'
 
-    if (builder.tokenType == XmlTokenType.XML_TAG_NAME) {
+    if (builder.tokenType == XmlTokenType.XML_NAME) {
         builder.advanceLexer()
     }
 

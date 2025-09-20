@@ -1,109 +1,114 @@
 Valkyrie File
-  PsiErrorElement:Expected expression
-    <empty list>
   PsiComment(ValkyrieTokenType.#)('# 测试带模式匹配的 for 语句')
-  PsiElement(ValkyrieTokenType.loop)('for')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('pattern')
-  PsiElement(ValkyrieTokenType.in)('in')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')
-  PsiElement(ValkyrieTokenType.{)('{')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
-    <empty list>
-  PsiElement(ValkyrieTokenType.})('}')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiElement(ValkyrieTokenType.loop)('for')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('ref')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('value')
-  PsiElement(ValkyrieTokenType.in)('in')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')
-  PsiElement(ValkyrieTokenType.{)('{')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
-    <empty list>
-  PsiElement(ValkyrieTokenType.})('}')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiElement(ValkyrieTokenType.loop)('for')
-  PsiElement(ValkyrieTokenType.()('(')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('k')
-  PsiElement(ValkyrieTokenType.,)(',')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('v')
-  PsiElement(ValkyrieTokenType.))(')')
-  PsiElement(ValkyrieTokenType.in)('in')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')
-  PsiElement(ValkyrieTokenType.{)('{')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
-    <empty list>
-  PsiElement(ValkyrieTokenType.})('}')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.FOR_STATEMENT)
+        PsiElement(ValkyrieTokenType.loop)('for')
+        ValkyrieElementNode(ValkyrieElementType.BARE_PATTERN)
+          ValkyrieIdentifier(pattern)
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('pattern')
+        PsiElement(ValkyrieTokenType.in)('in')
+        ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+          ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+            ValkyrieIdentifier(expression)
+              PsiElement(ValkyrieTokenType.SYMBOL.XID)('expression')
+        ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
+          PsiElement(ValkyrieTokenType.{)('{')
+          PsiElement(ValkyrieTokenType.})('}')
+    PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.FOR_STATEMENT)
+        PsiElement(ValkyrieTokenType.loop)('for')
+        ValkyrieElementNode(ValkyrieElementType.BARE_PATTERN)
+          ValkyrieModifier(ref)
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('ref')
+          ValkyrieIdentifier(value)
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('value')
+        PsiElement(ValkyrieTokenType.in)('in')
+        ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+          ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+            ValkyrieIdentifier(expression)
+              PsiElement(ValkyrieTokenType.SYMBOL.XID)('expression')
+        ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
+          PsiElement(ValkyrieTokenType.{)('{')
+          PsiElement(ValkyrieTokenType.})('}')
+    PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.FOR_STATEMENT)
+        PsiElement(ValkyrieTokenType.loop)('for')
+        ValkyrieElementNode(ValkyrieElementType.TUPLE_PATTERN)
+          PsiElement(ValkyrieTokenType.()('(')
+          ValkyrieElementNode(ValkyrieElementType.BARE_PATTERN)
+            ValkyrieIdentifier(k)
+              PsiElement(ValkyrieTokenType.SYMBOL.XID)('k')
+          PsiElement(ValkyrieTokenType.,)(',')
+          ValkyrieElementNode(ValkyrieElementType.BARE_PATTERN)
+            ValkyrieIdentifier(v)
+              PsiElement(ValkyrieTokenType.SYMBOL.XID)('v')
+          PsiElement(ValkyrieTokenType.))(')')
+        PsiElement(ValkyrieTokenType.in)('in')
+        ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+          ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+            ValkyrieIdentifier(expression)
+              PsiElement(ValkyrieTokenType.SYMBOL.XID)('expression')
+        ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
+          PsiElement(ValkyrieTokenType.{)('{')
+          PsiElement(ValkyrieTokenType.})('}')
+    PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 测试带标签和条件的 for 语句')
-  PsiElement(ValkyrieTokenType.loop)('for')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('pattern')
-  PsiElement(ValkyrieTokenType.in)('in')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')
-  PsiElement(ValkyrieTokenType.if)('if')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('condition')
-  PsiElement(ValkyrieTokenType.※)('※')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('label')
-  PsiElement(ValkyrieTokenType.{)('{')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
-    <empty list>
-  PsiElement(ValkyrieTokenType.})('}')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
-  PsiErrorElement:Expected expression
-    <empty list>
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.FOR_STATEMENT)
+        PsiElement(ValkyrieTokenType.loop)('for')
+        ValkyrieElementNode(ValkyrieElementType.BARE_PATTERN)
+          ValkyrieIdentifier(pattern)
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('pattern')
+        PsiElement(ValkyrieTokenType.in)('in')
+        ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+          ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+            ValkyrieIdentifier(expression)
+              PsiElement(ValkyrieTokenType.SYMBOL.XID)('expression')
+        ValkyrieElementNode(ValkyrieElementType.IF_MAIN_PART)
+          PsiElement(ValkyrieTokenType.if)('if')
+          ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+            ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+              ValkyrieIdentifier(condition)
+                PsiElement(ValkyrieTokenType.SYMBOL.XID)('condition')
+        ValkyrieElementNode(ValkyrieElementType.LABEL_STATEMENT)
+          PsiElement(ValkyrieTokenType.※)('※')
+          ValkyrieIdentifier(label)
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('label')
+        ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
+          PsiElement(ValkyrieTokenType.{)('{')
+          PsiElement(ValkyrieTokenType.})('}')
+    PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 测试 for-else 语句')
-  PsiElement(ValkyrieTokenType.loop)('for')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('pattern')
-  PsiElement(ValkyrieTokenType.in)('in')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('expression')
-  PsiElement(ValkyrieTokenType.if)('if')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('condition')
-  PsiElement(ValkyrieTokenType.{)('{')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
-    <empty list>
-  PsiElement(ValkyrieTokenType.})('}')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiElement(ValkyrieTokenType.else)('else')
-  PsiElement(ValkyrieTokenType.{)('{')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.}
-    <empty list>
-  PsiElement(ValkyrieTokenType.})('}')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.FOR_STATEMENT)
+        PsiElement(ValkyrieTokenType.loop)('for')
+        ValkyrieElementNode(ValkyrieElementType.BARE_PATTERN)
+          ValkyrieIdentifier(pattern)
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('pattern')
+        PsiElement(ValkyrieTokenType.in)('in')
+        ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+          ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+            ValkyrieIdentifier(expression)
+              PsiElement(ValkyrieTokenType.SYMBOL.XID)('expression')
+        ValkyrieElementNode(ValkyrieElementType.IF_MAIN_PART)
+          PsiElement(ValkyrieTokenType.if)('if')
+          ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+            ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+              ValkyrieIdentifier(condition)
+                PsiElement(ValkyrieTokenType.SYMBOL.XID)('condition')
+        ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
+          PsiElement(ValkyrieTokenType.{)('{')
+          PsiElement(ValkyrieTokenType.})('}')
+        ValkyrieElementNode(ValkyrieElementType.ELSE_PART)
+          PsiElement(ValkyrieTokenType.else)('else')
+          ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
+            PsiElement(ValkyrieTokenType.{)('{')
+            PsiElement(ValkyrieTokenType.})('}')
+    PsiElement(ValkyrieTokenType.;)(';')

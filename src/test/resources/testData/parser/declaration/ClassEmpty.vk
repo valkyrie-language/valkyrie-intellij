@@ -1,0 +1,9 @@
+class E0 {}
+class E1() {}
+class E2<> {}
+class E3::<> {}
+class E4⟨⟩ {}
+class E5⟨⟩(){}
+
+↯serde
+value class M0 { }

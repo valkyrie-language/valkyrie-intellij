@@ -1,0 +1,4 @@
+class I1() {}
+class I2(Super) {}
+class I3(parent: Super) {}
+class I4(readonly father: Type, mother: Type) {}

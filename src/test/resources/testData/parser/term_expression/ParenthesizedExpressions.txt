@@ -23,13 +23,11 @@ Valkyrie File
         PsiElement(ValkyrieTokenType.INTEGER)('1')
       PsiErrorElement:Expected ')'
         <empty list>
-  PsiErrorElement:Expected expression
-    <empty list>
   PsiElement(ValkyrieTokenType.,)(',')
-  PsiElement(ValkyrieTokenType.))(')')
-  PsiErrorElement:Expected expression
+  PsiErrorElement:Parser stuck in program body
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+  PsiElement(ValkyrieTokenType.))(')')
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 1-元组')
@@ -40,14 +38,14 @@ Valkyrie File
         PsiElement(ValkyrieTokenType.INTEGER)('1')
       PsiErrorElement:Expected ')'
         <empty list>
-  PsiErrorElement:Expected expression
-    <empty list>
   PsiElement(ValkyrieTokenType.,)(',')
-  PsiElement(ValkyrieTokenType.INTEGER)('2')
-  PsiElement(ValkyrieTokenType.))(')')
-  PsiErrorElement:Expected expression
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      PsiElement(ValkyrieTokenType.INTEGER)('2')
+  PsiErrorElement:Parser stuck in program body
     <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
+  PsiElement(ValkyrieTokenType.))(')')
+  PsiErrorElement:Parser stuck in program body
     <empty list>
   PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 2-元组')
@@ -58,35 +56,55 @@ Valkyrie File
       ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
         ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
           ValkyrieIdentifier(key)
-            PsiElement(ValkyrieTokenType.SYMBOL.STD)('key')
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('key')
       PsiErrorElement:Expected ')'
         <empty list>
-  PsiErrorElement:Expected expression
-    <empty list>
   PsiElement(ValkyrieTokenType.:)(':')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('name')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+        ValkyrieIdentifier(name)
+          PsiElement(ValkyrieTokenType.SYMBOL.XID)('name')
+  PsiErrorElement:Parser stuck in program body
+    <empty list>
   PsiElement(ValkyrieTokenType.))(')')
   PsiComment(ValkyrieTokenType.#)('# 函数调用')
-  PsiElement(ValkyrieTokenType.SYMBOL.STD)('f')
-  PsiElement(ValkyrieTokenType.()('(')
-  PsiElement(ValkyrieTokenType.))(')')
-  PsiElement(ValkyrieTokenType.()('(')
-  PsiElement(ValkyrieTokenType.INTEGER)('1')
-  PsiElement(ValkyrieTokenType.))(')')
-  PsiElement(ValkyrieTokenType.()('(')
-  PsiElement(ValkyrieTokenType.INTEGER)('1')
-  PsiElement(ValkyrieTokenType.,)(',')
-  PsiElement(ValkyrieTokenType.))(')')
-  PsiElement(ValkyrieTokenType.()('(')
-  PsiElement(ValkyrieTokenType.INTEGER)('1')
-  PsiElement(ValkyrieTokenType.,)(',')
-  PsiElement(ValkyrieTokenType.INTEGER)('2')
-  PsiElement(ValkyrieTokenType.))(')')
-  PsiErrorElement:Expected expression
-    <empty list>
-  PsiErrorElement:Unexpected token: ValkyrieTokenType.;
-    <empty list>
-  PsiElement(ValkyrieTokenType.;)(';')
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieCallExpression
+      ValkyrieCallExpression
+        ValkyrieCallExpression
+          ValkyrieCallExpression
+            ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+              ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+                ValkyrieIdentifier(f)
+                  PsiElement(ValkyrieTokenType.SYMBOL.XID)('f')
+            ValkyrieElementNode(ValkyrieElementType.ARGUMENT_LIST)
+              PsiElement(ValkyrieTokenType.()('(')
+              PsiElement(ValkyrieTokenType.))(')')
+          ValkyrieElementNode(ValkyrieElementType.ARGUMENT_LIST)
+            PsiElement(ValkyrieTokenType.()('(')
+            ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+              ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+                PsiElement(ValkyrieTokenType.INTEGER)('1')
+            PsiElement(ValkyrieTokenType.))(')')
+        ValkyrieElementNode(ValkyrieElementType.ARGUMENT_LIST)
+          PsiElement(ValkyrieTokenType.()('(')
+          ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+            ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+              PsiElement(ValkyrieTokenType.INTEGER)('1')
+          PsiElement(ValkyrieTokenType.,)(',')
+          PsiElement(ValkyrieTokenType.))(')')
+      ValkyrieElementNode(ValkyrieElementType.ARGUMENT_LIST)
+        PsiElement(ValkyrieTokenType.()('(')
+        ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+          ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+            PsiElement(ValkyrieTokenType.INTEGER)('1')
+        PsiElement(ValkyrieTokenType.,)(',')
+        ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+          ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+            PsiElement(ValkyrieTokenType.INTEGER)('2')
+        PsiElement(ValkyrieTokenType.))(')')
+    PsiElement(ValkyrieTokenType.;)(';')
   PsiComment(ValkyrieTokenType.#)('# 括号表达式测试用例')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
     ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
@@ -105,7 +123,7 @@ Valkyrie File
       ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
         ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
           ValkyrieIdentifier(myVariable)
-            PsiElement(ValkyrieTokenType.SYMBOL.STD)('myVariable')
+            PsiElement(ValkyrieTokenType.SYMBOL.XID)('myVariable')
       PsiElement(ValkyrieTokenType.))(')')
     PsiElement(ValkyrieTokenType.;)(';')
   ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)

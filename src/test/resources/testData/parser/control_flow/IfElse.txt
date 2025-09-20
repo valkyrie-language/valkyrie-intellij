@@ -1,0 +1,65 @@
+Valkyrie File
+  ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+    ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+      ValkyrieIfStatementNode(ValkyrieElementType.IF_STATEMENT)
+        PsiElement(ValkyrieTokenType.if)('if')
+        ValkyrieBinaryTerm(ValkyrieElementType.BINARY_EXPRESSION)
+          ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+            ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+              ValkyrieIdentifier(x)
+                PsiElement(ValkyrieTokenType.SYMBOL.XID)('x')
+          PsiElement(ValkyrieTokenType.>)('>')
+          ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+            PsiElement(ValkyrieTokenType.INTEGER)('0')
+        ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
+          PsiElement(ValkyrieTokenType.{)('{')
+          ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+            ValkyrieCallExpression
+              ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+                ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+                  ValkyrieIdentifier(print)
+                    PsiElement(ValkyrieTokenType.SYMBOL.XID)('print')
+              ValkyrieElementNode(ValkyrieElementType.ARGUMENT_LIST)
+                PsiElement(ValkyrieTokenType.()('(')
+                ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+                  <empty list>
+                PsiErrorElement:Expected ',' or ')'
+                  <empty list>
+          PsiElement(ValkyrieTokenType.STRING.START)('"')
+          PsiErrorElement:Parser stuck in function body
+            <empty list>
+          PsiElement(ValkyrieTokenType.STRING.TEXT)('positive')
+          PsiErrorElement:Parser stuck in function body
+            <empty list>
+          PsiElement(ValkyrieTokenType.STRING.END)('"')
+          PsiErrorElement:Parser stuck in function body
+            <empty list>
+          PsiElement(ValkyrieTokenType.))(')')
+          PsiElement(ValkyrieTokenType.})('}')
+        ValkyrieElementNode(ValkyrieElementType.ELSE_PART)
+          PsiElement(ValkyrieTokenType.else)('else')
+          ValkyrieElementNode(ValkyrieElementType.FUNCTION_BODY)
+            PsiElement(ValkyrieTokenType.{)('{')
+            ValkyrieTermExpression(ValkyrieElementType.EXPRESSION_STATEMENT)
+              ValkyrieCallExpression
+                ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+                  ValkyrieElementNode(ValkyrieElementType.NAMESPACE_PATH)
+                    ValkyrieIdentifier(print)
+                      PsiElement(ValkyrieTokenType.SYMBOL.XID)('print')
+                ValkyrieElementNode(ValkyrieElementType.ARGUMENT_LIST)
+                  PsiElement(ValkyrieTokenType.()('(')
+                  ValkyrieElementNode(ValkyrieElementType.EXPRESSION)
+                    <empty list>
+                  PsiErrorElement:Expected ',' or ')'
+                    <empty list>
+            PsiElement(ValkyrieTokenType.STRING.START)('"')
+            PsiErrorElement:Parser stuck in function body
+              <empty list>
+            PsiElement(ValkyrieTokenType.STRING.TEXT)('not positive')
+            PsiErrorElement:Parser stuck in function body
+              <empty list>
+            PsiElement(ValkyrieTokenType.STRING.END)('"')
+            PsiErrorElement:Parser stuck in function body
+              <empty list>
+            PsiElement(ValkyrieTokenType.))(')')
+            PsiElement(ValkyrieTokenType.})('}')
