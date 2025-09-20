@@ -3,12 +3,8 @@ package valkyrie.psi.nodes
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
-import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import com.intellij.psi.PsiNameValuePair
-import com.intellij.psi.PsiNamedElementWithCustomPresentation
-import com.intellij.psi.PsiQualifiedNamedElement
 import com.intellij.psi.PsiReference
 import valkyrie.ide.highlight.ValkyrieColor
 import valkyrie.language.ValkyrieIcons
@@ -93,14 +89,6 @@ class ValkyrieClassDeclaration(node: ASTNode) : ValkyrieElementNode(node), PsiNa
             ValkyrieIcons.CLASS,
             highlightColor.textAttributesKey
         )
-    }
-
-    override fun getTextOffset(): Int {
-        return super.getTextOffset()
-    }
-
-    override fun getTextRange(): TextRange? {
-        return navigationElement.textRange
     }
 
     override fun toString(): String {
