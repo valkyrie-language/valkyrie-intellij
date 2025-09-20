@@ -130,10 +130,12 @@ object ValkyrieElementTypes {
     val MATCH_STATEMENT = ValkyrieElementType("MATCH_STATEMENT")
 
     @JvmField
-    val CASE_CLAUSE = ValkyrieElementType("MATCH_CASE")
-
-    @JvmField
     val MATCH_BODY = ValkyrieElementType("MATCH_BODY")
+
+    val WHEN_CLAUSE = ValkyrieElementType("WHEN_CLAUSE")
+    val TYPE_CLAUSE = ValkyrieElementType("TYPE_CLAUSE")
+    val CASE_CLAUSE = ValkyrieElementType("CASE_CLAUSE")
+    val ELSE_CLAUSE = ValkyrieElementType("ELSE_CLAUSE")
 
     @JvmField
     val INTEGER_LITERAL = ValkyrieElementType("INTEGER_LITERAL")
@@ -150,8 +152,6 @@ object ValkyrieElementTypes {
     @JvmField
     val TRY_STATEMENT = ValkyrieElementType("TRY_STATEMENT")
 
-    @JvmField
-    val WHEN_CLAUSE = ValkyrieElementType("WHEN_CLAUSE")
 
     @JvmField
     val IF_STATEMENT = ValkyrieElementType("IF_STATEMENT")
@@ -166,8 +166,6 @@ object ValkyrieElementTypes {
     @JvmField
     val ELSE_PART = ValkyrieElementType("ELSE_PART")
 
-    @JvmField
-    val ELSE_CLAUSE = ValkyrieElementType("ELSE_CLAUSE")
 
     @JvmField
     val IF_LET_STATEMENT = ValkyrieElementType("IF_LET_STATEMENT")

@@ -111,10 +111,8 @@ object ValkyrieTokenTypes {
 
     @JvmField
     val CASE = ValkyrieTokenType("case")
-
-
-    @JvmField
     val WHEN = ValkyrieTokenType("when")
+    val TYPE = ValkyrieTokenType("type")
 
     @JvmField
     val FALLTHROUGH = ValkyrieTokenType("fallthrough")

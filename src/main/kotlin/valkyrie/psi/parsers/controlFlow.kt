@@ -516,6 +516,28 @@ fun parseWhenClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     return true
 }
 
+fun parseTypeClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    val marker = builder.mark()
+    parser.parseAnnotations(builder, withModifiers = false)
+    if (builder.tokenType == ValkyrieTokenTypes.TYPE) {
+        builder.advanceLexer()     // eat 'case'
+    } else {
+        marker.rollbackTo()
+        return false
+    }
+    // typing
+    parseTypeExpression(parser, builder, false)
+    // ':'
+    if (builder.tokenType == ValkyrieTokenTypes.COLON) {
+        builder.advanceLexer()
+    } else {
+        builder.error("Expected ':' after type pattern")
+    }
+
+    marker.done(ValkyrieElementTypes.TYPE_CLAUSE)
+    return true
+}
+
 fun parseElseClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
     parser.parseAnnotations(builder, withModifiers = false)
