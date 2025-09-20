@@ -130,7 +130,7 @@ object ValkyrieElementTypes {
     val MATCH_STATEMENT = ValkyrieElementType("MATCH_STATEMENT")
 
     @JvmField
-    val MATCH_CASE = ValkyrieElementType("MATCH_CASE")
+    val CASE_CLAUSE = ValkyrieElementType("MATCH_CASE")
 
     @JvmField
     val MATCH_BODY = ValkyrieElementType("MATCH_BODY")

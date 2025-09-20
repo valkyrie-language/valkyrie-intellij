@@ -443,19 +443,20 @@ fun parseMatchBody(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
         return false
     }
     val marker = builder.mark()
-
     builder.advanceLexer()
 
     // parse match cases
-    while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.BRACE_R) {
-        when (builder.tokenType) {
-            ValkyrieTokenTypes.CASE -> parseMatchCase(parser, builder)
-            ValkyrieTokenTypes.WHEN -> parseWhenClause(builder)
-            ValkyrieTokenTypes.ELSE -> parseElseClause(parser, builder)
-            else -> {
-                builder.error("Expected 'case', 'when', or 'else'")
-                builder.advanceLexer()
-            }
+    while (!builder.eof()) {
+        val safePoint = builder.currentOffset
+        when {
+            builder.tokenType == ValkyrieTokenTypes.BRACE_R -> break
+            parseCaseClause(parser, builder) -> continue
+            parseWhenClause(parser, builder) -> continue
+            parseElseClause(parser, builder) -> continue
+        }
+        if (builder.currentOffset == safePoint) {
+            builder.error("Unable to parse union member")
+            builder.advanceLexer()
         }
     }
 
@@ -468,26 +469,20 @@ fun parseMatchBody(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     return true
 }
 
-fun parseMatchCase(parser: ValkyrieParser, builder: PsiBuilder) {
+fun parseCaseClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
     parser.parseAnnotations(builder, withModifiers = false)
-    // 'case' keyword
     if (builder.tokenType == ValkyrieTokenTypes.CASE) {
-        builder.advanceLexer()
+        builder.advanceLexer()     // eat 'case'
     } else {
-        marker.drop()
-        return
+        marker.rollbackTo()
+        return false
     }
 
     // pattern
     parsePattern(parser, builder, true)
 
-    // optional guard condition
-    if (builder.tokenType == ValkyrieTokenTypes.IF) {
-        builder.advanceLexer()
-        parseTermExpression(parser, builder, false)
-    }
-
+    eatIfCondition(parser, builder)
     // ':'
     if (builder.tokenType == ValkyrieTokenTypes.COLON) {
         builder.advanceLexer()
@@ -495,43 +490,48 @@ fun parseMatchCase(parser: ValkyrieParser, builder: PsiBuilder) {
         builder.error("Expected ':' after case pattern")
     }
 
-    // case body
-    parseTermExpression(parser, builder, false)
-
-    // optional fallthrough
-    if (builder.tokenType == ValkyrieTokenTypes.FALLTHROUGH) {
-        builder.advanceLexer() // consume 'fallthrough'
-    }
-
-    marker.done(ValkyrieElementTypes.MATCH_CASE)
+    marker.done(ValkyrieElementTypes.CASE_CLAUSE)
+    return true
 }
 
-fun parseWhenClause(builder: PsiBuilder) {
+fun parseWhenClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
+    parser.parseAnnotations(builder, withModifiers = false)
+    if (builder.tokenType == ValkyrieTokenTypes.WHEN) {
+        builder.advanceLexer()     // eat 'case'
+    } else {
+        marker.rollbackTo()
+        return false
+    }
+    // pattern
+    parseTermExpression(parser, builder, false)
+    // ':'
+    if (builder.tokenType == ValkyrieTokenTypes.COLON) {
+        builder.advanceLexer()
+    } else {
+        builder.error("Expected ':' after when pattern")
+    }
 
     marker.done(ValkyrieElementTypes.WHEN_CLAUSE)
+    return true
 }
 
-fun parseElseClause(parser: ValkyrieParser, builder: PsiBuilder) {
+fun parseElseClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
-
-    // 'else' keyword
+    parser.parseAnnotations(builder, withModifiers = false)
     if (builder.tokenType == ValkyrieTokenTypes.ELSE) {
+        builder.advanceLexer()     // eat 'case'
+    } else {
+        marker.rollbackTo()
+        return false
+    }
+    // ':'
+    if (builder.tokenType == ValkyrieTokenTypes.COLON) {
         builder.advanceLexer()
     } else {
-        marker.drop()
-        return
+        builder.error("Expected ':' after case pattern")
     }
 
-    // ':' or '=>'
-    if (builder.tokenType == ValkyrieTokenTypes.COLON || builder.tokenType == ValkyrieTokenTypes.ARROW) {
-        builder.advanceLexer()
-    } else {
-        builder.error("Expected ':' or '=>' after else")
-    }
-
-    // else body
-    parseTermExpression(parser, builder, false)
-
-    marker.done(ValkyrieElementTypes.WHEN_CLAUSE) // reuse WHEN_CLAUSE for else
+    marker.done(ValkyrieElementTypes.ELSE_CLAUSE)
+    return true
 }
