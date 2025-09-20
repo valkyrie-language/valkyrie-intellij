@@ -71,53 +71,50 @@ private fun eatElseStatement(parser: ValkyrieParser, builder: PsiBuilder): Boole
     return true
 }
 
-// loop ※label { }
 fun parseLoopStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     if (builder.tokenType != ValkyrieTokenTypes.LOOP) {
         return false
     }
     val marker = builder.mark()
     builder.advanceLexer() // eat 'loop'
-    eatLabelMark(builder)
-    if (!parser.parseFnBody(builder)) {
-        marker.error("Expected function body after '{'")
-        return false
+    // loop pattern in expression if condition ※label { }
+    if (parsePattern(parser, builder, true)) {
+        if (builder.tokenType == ValkyrieTokenTypes.IN) {
+            builder.advanceLexer()
+        } else {
+            marker.error("Expected 'in' after 'pattern' in `loop-each` statement")
+            return false
+        }
+        if (!parseTermExpression(parser, builder, inline = true)) {
+            marker.error("Expected 'expression' after 'in' in `loop-each` statement")
+            return false
+        }
+        eatIfCondition(parser, builder)
+        eatLabelMark(builder)
+        if (!parser.parseFnBody(builder)) {
+            marker.error("Expected function body after '{'")
+            return false
+        }
+        eatElseStatement(parser, builder) // optional
+        marker.done(ValkyrieElementTypes.EACH_STATEMENT)
+        return true
     }
-    eatElseStatement(parser, builder) // optional
-    marker.done(ValkyrieElementTypes.LOOP_STATEMENT)
-    return true
+    // loop ※label { }
+    else {
+        eatLabelMark(builder)
+        if (!parser.parseFnBody(builder)) {
+            marker.error("Expected function body after '{'")
+            return false
+        }
+        eatElseStatement(parser, builder) // optional
+        marker.done(ValkyrieElementTypes.LOOP_STATEMENT)
+        return true
+    }
 }
 
-// loop pattern in expression if condition ※label { }
+
 fun parseEachStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
-    if (builder.tokenType != ValkyrieTokenTypes.LOOP) {
-        return false
-    }
-    val marker = builder.mark()
-    builder.advanceLexer() // eat 'loop'
-    if (!parsePattern(parser, builder, true)) {
-        marker.rollbackTo()
-        return false
-    }
-    if (builder.tokenType == ValkyrieTokenTypes.IN) {
-        builder.advanceLexer()
-    } else {
-        marker.error("Expected 'in' after 'pattern' in `loop-each` statement")
-        return false
-    }
-    if (!parseTermExpression(parser, builder, inline = true)) {
-        marker.error("Expected 'expression' after 'in' in `loop-each` statement")
-        return false
-    }
-    eatIfCondition(parser, builder)
-    eatLabelMark(builder)
-    if (!parser.parseFnBody(builder)) {
-        marker.error("Expected function body after '{'")
-        return false
-    }
-    eatElseStatement(parser, builder) // optional
-    marker.done(ValkyrieElementTypes.EACH_STATEMENT)
-    return true
+    return false
 }
 
 fun parseWhileStatement(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
