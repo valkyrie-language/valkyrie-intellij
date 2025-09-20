@@ -1,9 +1,22 @@
-# Basic match statement
+# Basic empty clause
 match value {}
 
-# Match with pattern
+# Match empty branches
 match person {
+    type Typing:
     when expression:
     case pattern:
+    else:
+}
+
+# Match clause with condition
+match person {
+    ↯attribute
+    type Typing if conditional:
+    ↯attribute
+    when expression:
+    ↯attribute
+    case pattern if conditional:
+    ↯attribute
     else:
 }

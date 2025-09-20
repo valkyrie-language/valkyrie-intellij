@@ -452,6 +452,7 @@ fun parseMatchBody(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
             builder.tokenType == ValkyrieTokenTypes.BRACE_R -> break
             parseCaseClause(parser, builder) -> continue
             parseWhenClause(parser, builder) -> continue
+            parseTypeClause(parser, builder) -> continue
             parseElseClause(parser, builder) -> continue
         }
         if (builder.currentOffset == safePoint) {
@@ -469,7 +470,7 @@ fun parseMatchBody(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     return true
 }
 
-fun parseCaseClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+private fun parseCaseClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
     parser.parseAnnotations(builder, withModifiers = false)
     if (builder.tokenType == ValkyrieTokenTypes.CASE) {
@@ -478,10 +479,8 @@ fun parseCaseClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
         marker.rollbackTo()
         return false
     }
-
-    // pattern
+    // case pattern if condition:
     parsePattern(parser, builder, true)
-
     eatIfCondition(parser, builder)
     // ':'
     if (builder.tokenType == ValkyrieTokenTypes.COLON) {
@@ -494,7 +493,7 @@ fun parseCaseClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     return true
 }
 
-fun parseWhenClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+private fun parseWhenClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
     parser.parseAnnotations(builder, withModifiers = false)
     if (builder.tokenType == ValkyrieTokenTypes.WHEN) {
@@ -516,7 +515,7 @@ fun parseWhenClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     return true
 }
 
-fun parseTypeClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+private fun parseTypeClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
     parser.parseAnnotations(builder, withModifiers = false)
     if (builder.tokenType == ValkyrieTokenTypes.TYPE) {
@@ -538,7 +537,7 @@ fun parseTypeClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     return true
 }
 
-fun parseElseClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+private fun parseElseClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
     parser.parseAnnotations(builder, withModifiers = false)
     if (builder.tokenType == ValkyrieTokenTypes.ELSE) {
