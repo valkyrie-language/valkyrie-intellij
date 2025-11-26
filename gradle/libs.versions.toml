@@ -1,5 +1,5 @@
 [versions]
-changelog = "2.4.0"
+changelog = "2.5.0"
 kover = "0.9.3"
 
 [libraries]
