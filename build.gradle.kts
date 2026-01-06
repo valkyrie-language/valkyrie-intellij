@@ -11,7 +11,7 @@ version = properties("pluginVersion").get()
 
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "2.2.20"
+    id("org.jetbrains.kotlin.jvm") version "2.2.21"
     alias(libs.plugins.changelog)
     id("org.jetbrains.qodana") version "2025.2.2"
     alias(libs.plugins.kover)
