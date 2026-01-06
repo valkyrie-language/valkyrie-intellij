@@ -13,7 +13,7 @@ plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "2.2.21"
     alias(libs.plugins.changelog)
-    id("org.jetbrains.qodana") version "2025.2.2"
+    id("org.jetbrains.qodana") version "2025.3.1"
     alias(libs.plugins.kover)
     id("org.jetbrains.intellij.platform")
 }
