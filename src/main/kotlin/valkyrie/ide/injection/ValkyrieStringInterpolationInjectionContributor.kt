@@ -1,13 +1,12 @@
 package valkyrie.ide.injection
 
-import com.intellij.lang.Language
 import com.intellij.lang.injection.general.Injection
 import com.intellij.lang.injection.general.LanguageInjectionContributor
 import com.intellij.lang.injection.general.SimpleInjection
 import com.intellij.psi.PsiElement
-import valkyrie.language.dialect_std.ValkyrieLanguage
-import valkyrie.psi.ValkyrieElementTypes
-import valkyrie.psi.ValkyrieElementNode
+import valkyrie.language.ValkyrieLanguage
+import valkyrie.psi.parsers.ValkyrieTypes
+import valkyrie.psi.parsers.ValkyrieElementNode
 
 /**
  * Valkyrie 字符串插值语言注入贡献者
@@ -37,7 +36,7 @@ class ValkyrieStringInterpolationInjectionContributor : LanguageInjectionContrib
         
         // 注入 Valkyrie 语言
         return SimpleInjection(
-            ValkyrieLanguage,
+            ValkyrieLanguage.INSTANCE,
             "", // prefix - 不需要前缀
             "", // suffix - 不需要后缀
             null // support id
@@ -51,7 +50,7 @@ class ValkyrieStringInterpolationInjectionContributor : LanguageInjectionContrib
         // 检查是否为字符串字面量
         if (element is ValkyrieElementNode) {
             val elementType = element.node?.elementType
-            if (elementType == ValkyrieElementTypes.STRING_LITERAL) {
+            if (elementType == ValkyrieTypes.STRING_LITERAL) {
                 val text = element.text
                 return INTERPOLATION_PREFIXES.any { prefix -> text.startsWith(prefix) }
             }

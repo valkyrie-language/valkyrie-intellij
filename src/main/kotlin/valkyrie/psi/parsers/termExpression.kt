@@ -1,47 +1,45 @@
 package valkyrie.psi.parsers
 
 import com.intellij.lang.PsiBuilder
-import valkyrie.psi.ValkyrieElementTypes
-import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 fun getTermPrefixPrecedence(tokenType: com.intellij.psi.tree.IElementType?): Int? {
     return when (tokenType) {
-        ValkyrieTokenTypes.PLUS, ValkyrieTokenTypes.MINUS, ValkyrieTokenTypes.NOT, ValkyrieTokenTypes.STAR, ValkyrieTokenTypes.AMPERSAND -> 14
-        ValkyrieTokenTypes.DOT_DOT, ValkyrieTokenTypes.DOT_DOT_EQUAL, ValkyrieTokenTypes.DOT_DOT_LESS, ValkyrieTokenTypes.COLON -> 10
+        ValkyrieTypes.PLUS, ValkyrieTypes.MINUS, ValkyrieTypes.NOT, ValkyrieTypes.STAR, ValkyrieTypes.AMPERSAND -> 14
+        ValkyrieTypes.DOT_DOT, ValkyrieTypes.DOT_DOT_EQUAL, ValkyrieTypes.DOT_DOT_LESS, ValkyrieTypes.COLON -> 10
         else -> null
     }
 }
 
 fun getTermInfixPrecedence(tokenType: com.intellij.psi.tree.IElementType?): Int? {
     return when (tokenType) {
-        ValkyrieTokenTypes.ASSIGN -> 1
-        ValkyrieTokenTypes.LOGIC_OR -> 1
-        ValkyrieTokenTypes.LOGIC_XOR -> 2
-        ValkyrieTokenTypes.LOGIC_AND -> 3
-        ValkyrieTokenTypes.EQUAL, ValkyrieTokenTypes.NOT_EQUAL, ValkyrieTokenTypes.ANGLE_L, ValkyrieTokenTypes.ANGLE_R, ValkyrieTokenTypes.LESS_EQUAL, ValkyrieTokenTypes.GREATER_EQUAL -> 4
-        ValkyrieTokenTypes.IS, ValkyrieTokenTypes.IN -> 5
-        ValkyrieTokenTypes.AS -> 6
-        ValkyrieTokenTypes.PIPE -> 7
-        ValkyrieTokenTypes.AMPERSAND -> 9
-        ValkyrieTokenTypes.DOT_DOT, ValkyrieTokenTypes.DOT_DOT_EQUAL, ValkyrieTokenTypes.DOT_DOT_LESS, ValkyrieTokenTypes.COLON -> 10
-        ValkyrieTokenTypes.PLUS, ValkyrieTokenTypes.MINUS -> 11
-        ValkyrieTokenTypes.STAR, ValkyrieTokenTypes.SLASH, ValkyrieTokenTypes.PERCENT -> 12
-        ValkyrieTokenTypes.POWER -> 13
+        ValkyrieTypes.ASSIGN -> 1
+        ValkyrieTypes.LOGIC_OR -> 1
+        ValkyrieTypes.LOGIC_XOR -> 2
+        ValkyrieTypes.LOGIC_AND -> 3
+        ValkyrieTypes.EQUAL, ValkyrieTypes.NOT_EQUAL, ValkyrieTypes.ANGLE_L, ValkyrieTypes.ANGLE_R, ValkyrieTypes.LESS_EQUAL, ValkyrieTypes.GREATER_EQUAL -> 4
+        ValkyrieTypes.IS, ValkyrieTypes.IN -> 5
+        ValkyrieTypes.AS -> 6
+        ValkyrieTypes.PIPE -> 7
+        ValkyrieTypes.AMPERSAND -> 9
+        ValkyrieTypes.DOT_DOT, ValkyrieTypes.DOT_DOT_EQUAL, ValkyrieTypes.DOT_DOT_LESS, ValkyrieTypes.COLON -> 10
+        ValkyrieTypes.PLUS, ValkyrieTypes.MINUS -> 11
+        ValkyrieTypes.STAR, ValkyrieTypes.SLASH, ValkyrieTypes.PERCENT -> 12
+        ValkyrieTypes.POWER -> 13
         else -> null
     }
 }
 
 fun getTermPostfixPrecedence(tokenType: com.intellij.psi.tree.IElementType?): Int? {
     return when (tokenType) {
-        ValkyrieTokenTypes.WOW, ValkyrieTokenTypes.WHAT -> 14
-        ValkyrieTokenTypes.PARENTHESIS_L, ValkyrieTokenTypes.BRACKET_L, ValkyrieTokenTypes.BRACE_L -> 15
-        ValkyrieTokenTypes.DOT, ValkyrieTokenTypes.DOUBLE_COLON, ValkyrieTokenTypes.DOT_CIRCLE -> 16
+        ValkyrieTypes.WOW, ValkyrieTypes.WHAT -> 14
+        ValkyrieTypes.PARENTHESIS_L, ValkyrieTypes.BRACKET_L, ValkyrieTypes.BRACE_L -> 15
+        ValkyrieTypes.DOT, ValkyrieTypes.DOUBLE_COLON, ValkyrieTypes.DOT_CIRCLE -> 16
         else -> null
     }
 }
 
 fun parseFunctionParameterList(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
-    if (builder.tokenType != ValkyrieTokenTypes.PARENTHESIS_L) {
+    if (builder.tokenType != ValkyrieTypes.PARENTHESIS_L) {
         return false
     }
 
@@ -49,7 +47,7 @@ fun parseFunctionParameterList(parser: ValkyrieParser, builder: PsiBuilder): Boo
     builder.advanceLexer() // consume '('
 
     // 允许空参数列表
-    if (builder.tokenType != ValkyrieTokenTypes.PARENTHESIS_R) {
+    if (builder.tokenType != ValkyrieTypes.PARENTHESIS_R) {
         // 解析第一个参数
         if (!parseFunctionParameterItem(parser, builder)) {
             // FIX: 在出错时不要 drop marker，而是报告错误并继续，以便正确关闭节点
@@ -57,11 +55,11 @@ fun parseFunctionParameterList(parser: ValkyrieParser, builder: PsiBuilder): Boo
             // 不再 drop，让函数末尾的逻辑来关闭 marker
         } else {
             // 解析后续参数 (, param)*
-            while (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+            while (builder.tokenType == ValkyrieTypes.COMMA) {
                 builder.advanceLexer() // consume ','
 
                 // 检查是否是尾随逗号（可选）
-                if (builder.tokenType == ValkyrieTokenTypes.PARENTHESIS_R) {
+                if (builder.tokenType == ValkyrieTypes.PARENTHESIS_R) {
                     break // 允许尾随逗号
                 }
 
@@ -73,13 +71,13 @@ fun parseFunctionParameterList(parser: ValkyrieParser, builder: PsiBuilder): Boo
         }
     }
 
-    if (builder.tokenType == ValkyrieTokenTypes.PARENTHESIS_R) {
+    if (builder.tokenType == ValkyrieTypes.PARENTHESIS_R) {
         builder.advanceLexer() // consume ')'
     } else {
         builder.error("Expected ')'")
     }
 
-    marker.done(ValkyrieElementTypes.TERM_PARAMETER_LIST)
+    marker.done(ValkyrieTypes.TERM_PARAMETER_LIST)
     return true
 }
 
@@ -90,7 +88,7 @@ fun parseFunctionParameterItem(valkyrieParser: ValkyrieParser, builder: PsiBuild
     valkyrieParser.parseAnnotations(builder, withModifiers = true)
 
     // 检查是否是可变参数 ..list 或任意参数 ...
-    if (builder.tokenType == ValkyrieTokenTypes.DOT_DOT || builder.tokenType == ValkyrieTokenTypes.ELLIPSIS) {
+    if (builder.tokenType == ValkyrieTypes.DOT_DOT || builder.tokenType == ValkyrieTypes.ELLIPSIS) {
         builder.advanceLexer()
     }
 
@@ -104,55 +102,55 @@ fun parseFunctionParameterItem(valkyrieParser: ValkyrieParser, builder: PsiBuild
     valkyrieParser.parseTypeHint(builder)
     valkyrieParser.parseDefaultValue(builder, false)
 
-    marker.done(ValkyrieElementTypes.TERM_PARAMETER_ITEM)
+    marker.done(ValkyrieTypes.TERM_PARAMETER_ITEM)
     return true
 }
 
 // f(t, u, k: v, ...) 中的 (t, u, k: v, ...)
 fun parseFunctionArgumentList(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {
-    if (builder.tokenType != ValkyrieTokenTypes.PARENTHESIS_L) {
+    if (builder.tokenType != ValkyrieTypes.PARENTHESIS_L) {
         return false
     }
     val marker = builder.mark()
     builder.advanceLexer()
 
-    while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.PARENTHESIS_R) {
+    while (!builder.eof() && builder.tokenType != ValkyrieTypes.PARENTHESIS_R) {
         parseFunctionArgumentItem(valkyrieParser, builder)
 
-        if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+        if (builder.tokenType == ValkyrieTypes.COMMA) {
             builder.advanceLexer()
-        } else if (builder.tokenType != ValkyrieTokenTypes.PARENTHESIS_R) {
+        } else if (builder.tokenType != ValkyrieTypes.PARENTHESIS_R) {
             // 在这里中断意味着可能缺少逗号或右括号，是潜在的语法错误
             builder.error("Expected ',' or ')'")
             break
         }
     }
 
-    if (builder.tokenType == ValkyrieTokenTypes.PARENTHESIS_R) {
+    if (builder.tokenType == ValkyrieTypes.PARENTHESIS_R) {
         builder.advanceLexer()
     } else {
         builder.error("Expected ')'")
     }
 
-    marker.done(ValkyrieElementTypes.ARGUMENT_LIST)
+    marker.done(ValkyrieTypes.ARGUMENT_LIST)
     return true
 }
 
 fun isSliceOperator(tokenType: com.intellij.psi.tree.IElementType?): Boolean {
-    return tokenType == ValkyrieTokenTypes.DOT_DOT ||
-        tokenType == ValkyrieTokenTypes.DOT_DOT_EQUAL ||
-        tokenType == ValkyrieTokenTypes.DOT_DOT_LESS ||
-        tokenType == ValkyrieTokenTypes.COLON
+    return tokenType == ValkyrieTypes.DOT_DOT ||
+        tokenType == ValkyrieTypes.DOT_DOT_EQUAL ||
+        tokenType == ValkyrieTypes.DOT_DOT_LESS ||
+        tokenType == ValkyrieTypes.COLON
 }
 
 fun parseIndexArgumentList(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {
-    if (builder.tokenType != ValkyrieTokenTypes.BRACKET_L) {
+    if (builder.tokenType != ValkyrieTypes.BRACKET_L) {
         return false
     }
     val marker = builder.mark()
     builder.advanceLexer()
 
-    while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.BRACKET_R) {
+    while (!builder.eof() && builder.tokenType != ValkyrieTypes.BRACKET_R) {
         if (!parseTermExpression(valkyrieParser, builder, inline = true)) {
             // 如果解析失败，尝试跳过一个 token 以避免无限循环
             val safe = builder.currentOffset
@@ -161,9 +159,9 @@ fun parseIndexArgumentList(valkyrieParser: ValkyrieParser, builder: PsiBuilder):
             continue
         }
 
-        if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+        if (builder.tokenType == ValkyrieTypes.COMMA) {
             builder.advanceLexer()
-        } else if (builder.tokenType != ValkyrieTokenTypes.BRACKET_R) {
+        } else if (builder.tokenType != ValkyrieTypes.BRACKET_R) {
             builder.error("Expected ',' or ']'")
             val safe = builder.currentOffset
             if (builder.tokenType != null) builder.advanceLexer()
@@ -171,13 +169,13 @@ fun parseIndexArgumentList(valkyrieParser: ValkyrieParser, builder: PsiBuilder):
         }
     }
 
-    if (builder.tokenType == ValkyrieTokenTypes.BRACKET_R) {
+    if (builder.tokenType == ValkyrieTypes.BRACKET_R) {
         builder.advanceLexer()
     } else {
         builder.error("Expected ']'")
     }
 
-    marker.done(ValkyrieElementTypes.ARGUMENT_LIST)
+    marker.done(ValkyrieTypes.ARGUMENT_LIST)
     return true
 }
 
@@ -185,14 +183,14 @@ fun parseFunctionArgumentItem(valkyrieParser: ValkyrieParser, builder: PsiBuilde
     val marker = builder.mark()
 
     // 检查是否是 .. 占位符参数
-    if (builder.tokenType == ValkyrieTokenTypes.DOT_DOT) {
+    if (builder.tokenType == ValkyrieTypes.DOT_DOT) {
         // consume '..'
         builder.advanceLexer()
     }
 
     // 可选的参数名
     val rollbackMarker = builder.mark()
-    if (parseIdentifier(builder) && builder.tokenType == ValkyrieTokenTypes.COLON) {
+    if (parseIdentifier(builder) && builder.tokenType == ValkyrieTypes.COLON) {
         rollbackMarker.drop()
         // consume ':'
         builder.advanceLexer()
@@ -203,7 +201,7 @@ fun parseFunctionArgumentItem(valkyrieParser: ValkyrieParser, builder: PsiBuilde
     }
 
     parseTermExpression(valkyrieParser, builder, inline = true)
-    marker.done(ValkyrieElementTypes.EXPRESSION)
+    marker.done(ValkyrieTypes.EXPRESSION)
 }
 
 /**
@@ -247,7 +245,7 @@ fun parseTermExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
                 return true
             }
         }
-        val nodeType = if (isSliceOperator(currentToken)) ValkyrieElementTypes.SLICE_EXPRESSION else ValkyrieElementTypes.UNARY_EXPRESSION
+        val nodeType = if (isSliceOperator(currentToken)) ValkyrieTypes.SLICE_EXPRESSION else ValkyrieTypes.UNARY_EXPRESSION
         lhs.done(nodeType)
     } else {
         // 处理原子表达式
@@ -255,7 +253,7 @@ fun parseTermExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
         if (parsePrimaryTerm(valkyrieParser, builder, inline)) {
             // parsePrimaryTerm 成功消费了 token，但它不创建节点
             // 我们用 lhs marker 来包裹它
-            lhs.done(ValkyrieElementTypes.EXPRESSION) // 先完成这个原子表达式节点
+            lhs.done(ValkyrieTypes.EXPRESSION) // 先完成这个原子表达式节点
         } else {
             // 既不是前缀，也不是原子，说明这里不是一个有效的表达式。
             lhs.rollbackTo() // 回滚 marker，因为没有消费任何东西
@@ -268,8 +266,8 @@ fun parseTermExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
         val currentToken = builder.tokenType
         // builder.error("Current token: $currentToken, minPrecedence: $minPrecedence")
         if (currentToken == null) break
-        if (currentToken == ValkyrieTokenTypes.IS && builder.lookAhead(1) == ValkyrieTokenTypes.NOT) {
-            val isNotPrecedence = getTermInfixPrecedence(ValkyrieTokenTypes.IS)!!
+        if (currentToken == ValkyrieTypes.IS && builder.lookAhead(1) == ValkyrieTypes.NOT) {
+            val isNotPrecedence = getTermInfixPrecedence(ValkyrieTypes.IS)!!
             if (isNotPrecedence < minPrecedence) break
 
             // CHANGE 2: 核心修复 - 使用 precede() 创建新 marker，并将其赋值给 lhs
@@ -280,11 +278,11 @@ fun parseTermExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
                 lhs.error("Expected a pattern after 'is not'")
                 return true // 返回 true 因为我们创建了错误节点
             }
-            lhs.done(ValkyrieElementTypes.BINARY_EXPRESSION) // 使用更合适的类型
+            lhs.done(ValkyrieTypes.BINARY_EXPRESSION) // 使用更合适的类型
             continue
         }
-        if (currentToken == ValkyrieTokenTypes.NOT && builder.lookAhead(1) == ValkyrieTokenTypes.IN) {
-            val notInPrecedence = getTermInfixPrecedence(ValkyrieTokenTypes.IN)!!
+        if (currentToken == ValkyrieTypes.NOT && builder.lookAhead(1) == ValkyrieTypes.IN) {
+            val notInPrecedence = getTermInfixPrecedence(ValkyrieTypes.IN)!!
             if (notInPrecedence < minPrecedence) break
 
             lhs = lhs.precede()
@@ -294,11 +292,11 @@ fun parseTermExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
                 lhs.error("Expected an expression after 'not in'")
                 return true
             }
-            lhs.done(ValkyrieElementTypes.BINARY_EXPRESSION)
+            lhs.done(ValkyrieTypes.BINARY_EXPRESSION)
             continue
         }
 
-        val postfixPrecedence = if (inline && currentToken == ValkyrieTokenTypes.BRACE_L) {
+        val postfixPrecedence = if (inline && currentToken == ValkyrieTypes.BRACE_L) {
             null
         } else {
             getTermPostfixPrecedence(currentToken)
@@ -309,39 +307,39 @@ fun parseTermExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
             // 创建新 marker 包裹旧的 lhs
             lhs = lhs.precede()
             when (currentToken) {
-                ValkyrieTokenTypes.PARENTHESIS_L -> {
+                ValkyrieTypes.PARENTHESIS_L -> {
                     parseFunctionArgumentList(valkyrieParser, builder)
                     // f() { }
-                    if (builder.tokenType == ValkyrieTokenTypes.BRACE_L && !inline) {
-                        lhs.done(ValkyrieElementTypes.CALL_EXPRESSION) // 完成 f() 部分
+                    if (builder.tokenType == ValkyrieTypes.BRACE_L && !inline) {
+                        lhs.done(ValkyrieTypes.CALL_EXPRESSION) // 完成 f() 部分
                         lhs = lhs.precede() // 为 f() {} 创建新 marker
                         valkyrieParser.parseFnBody(builder)
-                        lhs.done(ValkyrieElementTypes.CALL_EXPRESSION)
+                        lhs.done(ValkyrieTypes.CALL_EXPRESSION)
                     }
                     // f()
                     else {
-                        lhs.done(ValkyrieElementTypes.CALL_EXPRESSION)
+                        lhs.done(ValkyrieTypes.CALL_EXPRESSION)
                     }
                 }
                 // data[0, 1]
-                ValkyrieTokenTypes.BRACKET_L -> {
+                ValkyrieTypes.BRACKET_L -> {
                     parseIndexArgumentList(valkyrieParser, builder)
-                    lhs.done(ValkyrieElementTypes.INDEX_EXPRESSION)
+                    lhs.done(ValkyrieTypes.INDEX_EXPRESSION)
                 }
                 // data.f
-                ValkyrieTokenTypes.DOT, ValkyrieTokenTypes.DOT_CIRCLE -> {
+                ValkyrieTypes.DOT, ValkyrieTypes.DOT_CIRCLE -> {
                     builder.advanceLexer() // consume '.' or '⸬'
                     parseIdentifier(builder)
-                    lhs.done(ValkyrieElementTypes.EXPRESSION)
+                    lhs.done(ValkyrieTypes.EXPRESSION)
                 }
                 // 切片运算符作为后缀 (例如 x[0..])
-                ValkyrieTokenTypes.DOT_DOT, ValkyrieTokenTypes.DOT_DOT_EQUAL, ValkyrieTokenTypes.DOT_DOT_LESS, ValkyrieTokenTypes.COLON -> {
+                ValkyrieTypes.DOT_DOT, ValkyrieTypes.DOT_DOT_EQUAL, ValkyrieTypes.DOT_DOT_LESS, ValkyrieTypes.COLON -> {
                     builder.advanceLexer()
-                    lhs.done(ValkyrieElementTypes.SLICE_EXPRESSION)
+                    lhs.done(ValkyrieTypes.SLICE_EXPRESSION)
                 }
                 else -> {
                     builder.advanceLexer()
-                    lhs.done(ValkyrieElementTypes.POSTFIX_EXPRESSION)
+                    lhs.done(ValkyrieTypes.POSTFIX_EXPRESSION)
                 }
             }
             continue // 继续循环以处理链式调用
@@ -352,20 +350,20 @@ fun parseTermExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
             lhs = lhs.precede() // 创建新 marker 包裹旧的 lhs
             builder.advanceLexer() // 消费运算符
 
-            val nextMinPrecedence = if (currentToken == ValkyrieTokenTypes.POWER) infixPrecedence else infixPrecedence + 1
+            val nextMinPrecedence = if (currentToken == ValkyrieTypes.POWER) infixPrecedence else infixPrecedence + 1
 
             val rhsParsed = when (currentToken) {
-                ValkyrieTokenTypes.AS, ValkyrieTokenTypes.IS -> parseTypeExpression(valkyrieParser, builder, true)
+                ValkyrieTypes.AS, ValkyrieTypes.IS -> parseTypeExpression(valkyrieParser, builder, true)
                 else -> parseTermExpressionWithPrecedence(valkyrieParser, builder, nextMinPrecedence, inline)
             }
             if (!rhsParsed) {
                 if (!isSliceOperator(currentToken)) {
                     lhs.error("Expected an expression after binary operator")
                 } else {
-                    lhs.done(ValkyrieElementTypes.SLICE_EXPRESSION)
+                    lhs.done(ValkyrieTypes.SLICE_EXPRESSION)
                 }
             } else {
-                val nodeType = if (isSliceOperator(currentToken)) ValkyrieElementTypes.SLICE_EXPRESSION else ValkyrieElementTypes.BINARY_EXPRESSION
+                val nodeType = if (isSliceOperator(currentToken)) ValkyrieTypes.SLICE_EXPRESSION else ValkyrieTypes.BINARY_EXPRESSION
                 lhs.done(nodeType)
             }
             continue
@@ -388,9 +386,9 @@ fun parseTermExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
 fun parsePrimaryTerm(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolean): Boolean {
     return when {
         parser.parseExpressionExtension(builder) -> return true
-        builder.tokenType == ValkyrieTokenTypes.INTEGER ||
-            builder.tokenType == ValkyrieTokenTypes.DECIMAL ||
-            builder.tokenType == ValkyrieTokenTypes.BOOLEAN -> {
+        builder.tokenType == ValkyrieTypes.INTEGER ||
+            builder.tokenType == ValkyrieTypes.DECIMAL ||
+            builder.tokenType == ValkyrieTypes.BOOLEAN -> {
             builder.advanceLexer()
             true
         }
@@ -405,20 +403,20 @@ fun parsePrimaryTerm(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolea
         }
 
         // 字符串字面量
-        builder.tokenType == ValkyrieTokenTypes.STRING_L || 
-            builder.tokenType == ValkyrieTokenTypes.STRING_START ||
-            builder.tokenType == ValkyrieTokenTypes.MACRO_STRING -> {
+        builder.tokenType == ValkyrieTypes.STRING_L ||
+            builder.tokenType == ValkyrieTypes.STRING_START ||
+            builder.tokenType == ValkyrieTypes.MACRO_STRING -> {
             parser.parseString(builder)
             true
         }
 
         // 括号表达式
-        builder.tokenType == ValkyrieTokenTypes.PARENTHESIS_L -> {
+        builder.tokenType == ValkyrieTypes.PARENTHESIS_L -> {
             builder.advanceLexer() // consume '('
             if (!parseTermExpression(parser, builder, inline)) {
                 builder.error("Expected expression")
             }
-            if (builder.tokenType == ValkyrieTokenTypes.PARENTHESIS_R) {
+            if (builder.tokenType == ValkyrieTypes.PARENTHESIS_R) {
                 builder.advanceLexer() // consume ')'
             } else {
                 builder.error("Expected ')'")
@@ -427,13 +425,13 @@ fun parsePrimaryTerm(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolea
         }
 
         // 数组表达式
-        builder.tokenType == ValkyrieTokenTypes.BRACKET_L -> {
+        builder.tokenType == ValkyrieTypes.BRACKET_L -> {
             parser.parseArrayExpression(builder)
             true
         }
 
         // 对象表达式 (如果不是内联模式)
-        builder.tokenType == ValkyrieTokenTypes.BRACE_L -> {
+        builder.tokenType == ValkyrieTypes.BRACE_L -> {
             if (!inline) {
                 parser.parseObjectExpression(builder)
                 true
@@ -442,7 +440,7 @@ fun parsePrimaryTerm(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolea
             }
         }
         // 特殊值
-        builder.tokenType == ValkyrieTokenTypes.NIL || builder.tokenType == ValkyrieTokenTypes.NULL -> {
+        builder.tokenType == ValkyrieTypes.NIL || builder.tokenType == ValkyrieTypes.NULL -> {
             builder.advanceLexer()
             true
         }

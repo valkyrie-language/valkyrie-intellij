@@ -5,10 +5,9 @@ import com.intellij.lang.injection.general.Injection
 import com.intellij.lang.injection.general.LanguageInjectionContributor
 import com.intellij.lang.injection.general.SimpleInjection
 import com.intellij.psi.PsiElement
-import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlTag
-import valkyrie.psi.ValkyrieElementTypes
-import valkyrie.psi.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieTypes
+import valkyrie.psi.parsers.ValkyrieElementNode
 
 /**
  * Valkyrie SFC 语言注入贡献者
@@ -66,15 +65,10 @@ class ValkyrieSfcLanguageInjectionContributor : LanguageInjectionContributor {
      * 检查元素是否是 style 标签的内容
      */
     private fun isStyleContent(element: PsiElement): Boolean {
-        // 检查是否是 SFC_STYLE_CONTENT 类型
-        if (element is ValkyrieElementNode) {
-            return element.node?.elementType == ValkyrieElementTypes.SFC_STYLE_CONTENT
-        }
-        
         // 检查父元素是否是 SFC_STYLE
         val parent = element.parent
         if (parent is ValkyrieElementNode) {
-            return parent.node?.elementType == ValkyrieElementTypes.SFC_STYLE
+            return parent.node?.elementType == ValkyrieTypes.SFC_STYLE
         }
         
         return false
@@ -86,7 +80,7 @@ class ValkyrieSfcLanguageInjectionContributor : LanguageInjectionContributor {
     private fun findParentStyleTag(element: PsiElement): PsiElement? {
         var current = element.parent
         while (current != null) {
-            if (current is ValkyrieElementNode && current.node?.elementType == ValkyrieElementTypes.SFC_STYLE) {
+            if (current is ValkyrieElementNode && current.node?.elementType == ValkyrieTypes.SFC_STYLE) {
                 return current
             }
             if (current is XmlTag && current.name == "style") {

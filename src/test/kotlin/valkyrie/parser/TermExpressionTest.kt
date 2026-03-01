@@ -1,7 +1,7 @@
 package valkyrie.parser
 
 import com.intellij.testFramework.ParsingTestCase
-import valkyrie.psi.ValkyrieParserDefinition
+import valkyrie.psi.parsers.ValkyrieParserDefinition
 
 class TermExpressionTest : ParsingTestCase("testData/parser/term_expression", "vk", ValkyrieParserDefinition()) {
     override fun getTestDataPath(): String = "src/test/resources"

@@ -5,9 +5,9 @@ import com.intellij.lang.injection.MultiHostRegistrar
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiLanguageInjectionHost
-import valkyrie.language.dialect_std.ValkyrieLanguage
-import valkyrie.psi.ValkyrieElementTypes
-import valkyrie.psi.ValkyrieElementNode
+import valkyrie.language.ValkyrieLanguage
+import valkyrie.psi.parsers.ValkyrieTypes
+import valkyrie.psi.parsers.ValkyrieElementNode
 
 /**
  * 字符串插值处理器
@@ -29,7 +29,7 @@ class ValkyrieStringInterpolationProcessor : MultiHostInjector {
         }
 
         // 注册语言注入
-        registrar.startInjecting(ValkyrieLanguage)
+        registrar.startInjecting(ValkyrieLanguage.INSTANCE)
         
         for (interpolation in interpolations) {
             val range = TextRange(interpolation.startOffset, interpolation.endOffset)
@@ -47,7 +47,7 @@ class ValkyrieStringInterpolationProcessor : MultiHostInjector {
      * 检查是否为字符串字面量
      */
     private fun isStringLiteral(element: PsiElement): Boolean {
-        return element.node?.elementType == ValkyrieElementTypes.STRING_LITERAL
+        return element.node?.elementType == ValkyrieTypes.STRING_LITERAL
     }
 
     /**

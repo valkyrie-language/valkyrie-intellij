@@ -1,7 +1,7 @@
 package valkyrie
 
 import com.intellij.testFramework.ParsingTestCase
-import valkyrie.psi.ValkyrieParserDefinition
+import valkyrie.psi.parsers.ValkyrieParserDefinition
 
 class SimpleConstructorTest : ParsingTestCase("testData/parser/imply", "txt", ValkyrieParserDefinition()) {
     override fun getTestDataPath(): String = "src/test/resources"

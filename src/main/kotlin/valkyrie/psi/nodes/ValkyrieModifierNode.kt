@@ -5,8 +5,8 @@ import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import valkyrie.ide.highlight.ValkyrieColor
-import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieTypes
 import valkyrie.psi.traits.HasHighlighter
 
 /**
@@ -17,13 +17,13 @@ class ValkyrieModifierNode(node: ASTNode) : ValkyrieElementNode(node), HasHighli
         get() = ValkyrieColor.MODIFIER_NODE
 
     override val highlightElement: PsiElement?
-        get() = findChildByType(ValkyrieTokenTypes.SYMBOL_XID) ?: findChildByType(ValkyrieTokenTypes.SYMBOL_RAW)
+        get() = findChildByType(ValkyrieTypes.SYMBOL_XID) ?: findChildByType(ValkyrieTypes.SYMBOL_RAW)
 
     /**
      * 获取修饰符名称
      */
     fun getModifierName(): String? {
-        return (findChildByType<PsiElement>(ValkyrieTokenTypes.SYMBOL_XID) ?: findChildByType<PsiElement>(ValkyrieTokenTypes.SYMBOL_RAW))?.text
+        return (findChildByType<PsiElement>(ValkyrieTypes.SYMBOL_XID) ?: findChildByType<PsiElement>(ValkyrieTypes.SYMBOL_RAW))?.text
     }
 
     /**

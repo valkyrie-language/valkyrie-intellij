@@ -4,7 +4,7 @@ import com.intellij.codeInsight.completion.*
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.util.ProcessingContext
-import valkyrie.language.dialect_std.ValkyrieLanguage
+import valkyrie.language.ValkyrieLanguage
 import valkyrie.psi.nodes.ValkyrieIdentifierNode
 import valkyrie.psi.nodes.ValkyrieCallExpressionNode
 import valkyrie.index.ValkyrieSymbolIndex
@@ -18,14 +18,14 @@ class ValkyrieCompletionContributor : CompletionContributor() {
         // 关键字补全
         extend(
             CompletionType.BASIC,
-            PlatformPatterns.psiElement().withLanguage(ValkyrieLanguage),
+            PlatformPatterns.psiElement().withLanguage(ValkyrieLanguage.INSTANCE),
             KeywordCompletionProvider()
         )
         
         // 语句补全
         extend(
             CompletionType.BASIC,
-            PlatformPatterns.psiElement().withLanguage(ValkyrieLanguage),
+            PlatformPatterns.psiElement().withLanguage(ValkyrieLanguage.INSTANCE),
             StatementCompletionProvider()
         )
         

@@ -2,8 +2,8 @@ package valkyrie.psi.nodes
 
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
-import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieTypes
 
 /**
  * 限定名实现
@@ -11,8 +11,8 @@ import valkyrie.psi.lexers.ValkyrieTokenTypes
 class ValkyrieNamepathNode(node: ASTNode) : ValkyrieElementNode(node) {
 
     fun getIdentifiers(): List<PsiElement> {
-        val xid = findChildrenByType<PsiElement>(ValkyrieTokenTypes.SYMBOL_XID)
-        val raw = findChildrenByType<PsiElement>(ValkyrieTokenTypes.SYMBOL_RAW)
+        val xid = findChildrenByType<PsiElement>(ValkyrieTypes.SYMBOL_XID)
+        val raw = findChildrenByType<PsiElement>(ValkyrieTypes.SYMBOL_RAW)
         return (xid + raw).sortedBy { it.textOffset }
     }
 

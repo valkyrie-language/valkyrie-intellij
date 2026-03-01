@@ -3,8 +3,8 @@ package valkyrie.psi.nodes
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.ValkyrieElementTypes
+import valkyrie.psi.parsers.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieTypes
 
 /**
  * If let 语句 PSI 节点
@@ -26,7 +26,7 @@ class ValkyrieIfLetStatementNode(node: ASTNode) : ValkyrieElementNode(node) {
         val children = this.children
         var foundAssign = false
         for (child in children) {
-            if (foundAssign && child.node.elementType == ValkyrieElementTypes.EXPRESSION) {
+            if (foundAssign && child.node.elementType == ValkyrieTypes.EXPRESSION) {
                 return child
             }
             if (child.text == "=") {

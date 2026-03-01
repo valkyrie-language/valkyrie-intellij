@@ -2,7 +2,7 @@ package valkyrie.lexer
 
 import com.intellij.lexer.Lexer
 import com.intellij.testFramework.LexerTestCase
-import valkyrie.language.dialect_sfc.ValkyrieSfcLexer
+import valkyrie.psi.lexers.ValkyrieSfcLexer
 
 /**
  * Valkyrie 组件词法分析器测试
@@ -46,12 +46,14 @@ class SfcLexerTest : LexerTestCase() {
     }
 
     fun testSfcWithBlockComments() {
-        doTest("""
+        doTest(
+            """
             <template>
                 <!-- This is a multi-line\n                     block comment in SFC -->
                 <div>Hello</div>
             </template>
-        """.trimIndent())
+        """.trimIndent()
+        )
     }
 
     fun testComponentWithScript() {

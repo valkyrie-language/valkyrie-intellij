@@ -20,7 +20,7 @@ class ValkyrieProjectParser {
         const val LIBRARY_DIR = "library"
         const val BINARY_DIR = "binary"
         const val TESTS_DIR = "test"
-        const val ENTRY_FILE = "_.vk"
+        const val ENTRY_FILE = "_.valkyrie"
         const val ENTRY_FILE_ALT = "_.valkyrie"
     }
     
@@ -170,7 +170,7 @@ class ValkyrieProjectParser {
         val binaryEntries = mutableListOf<VirtualFile>()
         binaryDir?.children?.forEach { child ->
             when {
-                child.name.endsWith(".vk") -> binaryEntries.add(child)
+                child.name.endsWith(".valkyrie") -> binaryEntries.add(child)
                 child.isDirectory -> {
                     val entryFile = child.findChild(ENTRY_FILE) ?: child.findChild(ENTRY_FILE_ALT)
                     if (entryFile != null) {

@@ -1,7 +1,7 @@
 package valkyrie.psi.nodes.dialect_sfc
 
 import com.intellij.lang.ASTNode
-import valkyrie.psi.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieElementNode
 
 /**
  * SFC Template 节点的专门实现

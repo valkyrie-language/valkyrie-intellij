@@ -7,7 +7,7 @@
 	<depends>com.intellij.modules.json</depends>
 	<!-- 移除可选的Ultimate依赖，避免插件被自动卸载 -->
 	<depends optional="true" config-file="plugin-with-java.xml">com.intellij.java</depends>
-	<depends optional="true" config-file="plugin-with-toml.xml">org.toml.lang</depends>
+	<depends config-file="plugin-with-toml.xml">org.toml.lang</depends>
 	<depends optional="true" config-file="plugin-with-markdown.xml">org.intellij.plugins.markdown</depends>
 	<resource-bundle>messages.ValkyrieBundle</resource-bundle>
 	<extensions defaultExtensionNs="com.intellij">
@@ -43,7 +43,7 @@
 		<fileType
 			name="valkyrie-component"
 			language="valkyrie-component"
-			extensions="vkc;"
+			extensions="vx;"
 			implementationClass="valkyrie.language.dialect_sfc.ValkyrieSfcFileType"
 			fieldName="INSTANCE"
 		/>
@@ -51,23 +51,23 @@
 		<!-- Parser Definition -->
 		<lang.parserDefinition
 			language="valkyrie"
-			implementationClass="valkyrie.psi.ValkyrieParserDefinition"
+			implementationClass="valkyrie.psi.parsers.ValkyrieParserDefinition"
 		/>
 		<lang.parserDefinition
 			language="valkyrie-template"
-			implementationClass="valkyrie.psi.ValkyrieTemplateParserDefinition"
+			implementationClass="valkyrie.psi.parsers.ValkyrieTemplateParserDefinition"
 		/>
 		<lang.parserDefinition
 			language="valkyrie-xml"
-			implementationClass="valkyrie.psi.ValkyrieXmlParserDefinition"
+			implementationClass="valkyrie.psi.parsers.ValkyrieXmlParserDefinition"
 		/>
 		<lang.parserDefinition
 			language="ValkyrieMark"
-			implementationClass="valkyrie.psi.ValkyrieMarkParserDefinition"
+			implementationClass="valkyrie.psi.parsers.ValkyrieMarkParserDefinition"
 		/>
 		<lang.parserDefinition
 			language="valkyrie-component"
-			implementationClass="valkyrie.psi.ValkyrieSfcParserDefinition"
+			implementationClass="valkyrie.psi.parsers.ValkyrieSfcParserDefinition"
 		/>
 
 

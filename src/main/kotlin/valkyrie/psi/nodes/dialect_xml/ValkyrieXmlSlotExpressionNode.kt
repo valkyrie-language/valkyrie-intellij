@@ -3,8 +3,8 @@ package valkyrie.psi.nodes.dialect_xml
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieTypes
 
 /**
  * XML Slot 表达式节点
@@ -16,14 +16,14 @@ class ValkyrieXmlSlotExpressionNode(node: ASTNode) : ValkyrieElementNode(node) {
      * 获取左大括号
      */
     fun getLeftBrace(): PsiElement? {
-        return findChildByType<PsiElement>(ValkyrieTokenTypes.XML_SLOT_L)
+        return findChildByType<PsiElement>(ValkyrieTypes.XML_SLOT_L)
     }
     
     /**
      * 获取右大括号
      */
     fun getRightBrace(): PsiElement? {
-        return findChildByType<PsiElement>(ValkyrieTokenTypes.XML_SLOT_R)
+        return findChildByType<PsiElement>(ValkyrieTypes.XML_SLOT_R)
     }
     
     /**

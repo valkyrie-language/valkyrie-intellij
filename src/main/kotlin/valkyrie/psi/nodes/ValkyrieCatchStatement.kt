@@ -3,8 +3,8 @@ package valkyrie.psi.nodes
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieTypes
 
 /**
  * Catch 语句 PSI 节点
@@ -17,7 +17,7 @@ class ValkyrieCatchStatement(node: ASTNode) : ValkyrieElementNode(node) {
      */
     fun getErrorVariable(): ValkyrieIdentifierNode? {
         // catch 关键字后面的第一个标识符
-        val catchKeyword = findChildByType<PsiElement>(ValkyrieTokenTypes.CATCH)
+        val catchKeyword = findChildByType<PsiElement>(ValkyrieTypes.CATCH)
         return catchKeyword?.let { keyword ->
             PsiTreeUtil.getNextSiblingOfType(keyword, ValkyrieIdentifierNode::class.java)
         }
@@ -95,7 +95,7 @@ class ValkyrieCatchStatement(node: ASTNode) : ValkyrieElementNode(node) {
      * 获取 catch 语句的文本范围（用于 code vision）
      */
     fun getCatchKeywordRange(): com.intellij.openapi.util.TextRange? {
-        val catchKeyword = findChildByType<PsiElement>(ValkyrieTokenTypes.CATCH)
+        val catchKeyword = findChildByType<PsiElement>(ValkyrieTypes.CATCH)
         return catchKeyword?.textRange
     }
 

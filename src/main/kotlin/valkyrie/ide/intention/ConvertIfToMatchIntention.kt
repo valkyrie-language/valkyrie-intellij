@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.psi.nodes.ValkyrieIfStatementNode
 import valkyrie.psi.nodes.ValkyrieIfLetStatementNode
-import valkyrie.psi.ValkyrieElementFactory
+import valkyrie.psi.parsers.ValkyrieFactory
 
 /**
  * 将 if 语句转换为 match 表达式的意图动作
@@ -52,7 +52,7 @@ class ConvertIfToMatchIntention : PsiElementBaseIntentionAction(), IntentionActi
             "match $condition {\n    true => $thenBlock,\n    false => { }\n}"
         }
         
-        val factory = ValkyrieElementFactory.getInstance(project)
+        val factory = ValkyrieFactory.getInstance(project)
         val matchExpression = factory.createExpressionFromText(matchText, project)
         
         if (matchExpression != null) {
@@ -76,7 +76,7 @@ class ConvertIfToMatchIntention : PsiElementBaseIntentionAction(), IntentionActi
             "match $expression {\n    $pattern => $thenBlock,\n    _ => { }\n}"
         }
         
-        val factory = ValkyrieElementFactory.getInstance(project)
+        val factory = ValkyrieFactory.getInstance(project)
         val matchExpression = factory.createExpressionFromText(matchText, project)
         
         if (matchExpression != null) {

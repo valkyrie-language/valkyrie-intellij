@@ -1,8 +1,6 @@
 package valkyrie.psi.parsers
 
 import com.intellij.lang.PsiBuilder
-import valkyrie.psi.ValkyrieElementTypes
-import valkyrie.psi.lexers.ValkyrieTokenTypes
 
 fun parsePattern(valkyrieParser: ValkyrieParser, builder: PsiBuilder, allowBare: Boolean): Boolean {
     return when {
@@ -21,7 +19,7 @@ fun parseBarePattern(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
         marker.rollbackTo()
         return false
     }
-    marker.done(ValkyrieElementTypes.BARE_PATTERN)
+    marker.done(ValkyrieTypes.BARE_PATTERN)
     return true
 }
 
@@ -29,15 +27,15 @@ fun parseBarePattern(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
 // [a, b, c]
 // [a: b, b: c]
 fun parseTablePattern(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {
-    if (builder.tokenType != ValkyrieTokenTypes.BRACKET_L) return false
+    if (builder.tokenType != ValkyrieTypes.BRACKET_L) return false
     val marker = builder.mark()
 
     builder.advanceLexer() // consume '['
 
     // Parse pattern list
-    while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.BRACKET_R) {
+    while (!builder.eof() && builder.tokenType != ValkyrieTypes.BRACKET_R) {
         // Handle rest pattern ..rest
-        if (builder.tokenType == ValkyrieTokenTypes.DOT_DOT) {
+        if (builder.tokenType == ValkyrieTypes.DOT_DOT) {
             builder.advanceLexer() // consume '..'
             if (!parseIdentifier(builder)) {
                 marker.error("Expected identifier after '..'")
@@ -50,33 +48,33 @@ fun parseTablePattern(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Bool
             }
         }
 
-        if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+        if (builder.tokenType == ValkyrieTypes.COMMA) {
             builder.advanceLexer()
-        } else if (builder.tokenType != ValkyrieTokenTypes.BRACKET_R) {
+        } else if (builder.tokenType != ValkyrieTypes.BRACKET_R) {
             marker.error("Expected ',' or ']'")
             return false
         }
     }
 
-    if (builder.tokenType == ValkyrieTokenTypes.BRACKET_R) {
+    if (builder.tokenType == ValkyrieTypes.BRACKET_R) {
         builder.advanceLexer() // consume ']'
     } else {
         marker.error("Expected ']'")
         return false
     }
 
-    marker.done(ValkyrieElementTypes.TABLE_PATTERN)
+    marker.done(ValkyrieTypes.TABLE_PATTERN)
     return true
 }
 
 fun parseTuplePattern(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
-    if (builder.tokenType != ValkyrieTokenTypes.PARENTHESIS_L) {
+    if (builder.tokenType != ValkyrieTypes.PARENTHESIS_L) {
         return false
     }
     val marker = builder.mark()
     builder.advanceLexer() // consume '('
     // Parse pattern list
-    while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.PARENTHESIS_R) {
+    while (!builder.eof() && builder.tokenType != ValkyrieTypes.PARENTHESIS_R) {
         if (!parsePattern(parser, builder, true)) {
             if (!parseIdentifier(builder)) {
                 marker.error("Expected pattern or identifier")
@@ -84,35 +82,35 @@ fun parseTuplePattern(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
             }
         }
 
-        if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+        if (builder.tokenType == ValkyrieTypes.COMMA) {
             builder.advanceLexer()
-        } else if (builder.tokenType != ValkyrieTokenTypes.PARENTHESIS_R) {
+        } else if (builder.tokenType != ValkyrieTypes.PARENTHESIS_R) {
             marker.error("Expected ',' or ')'")
             return false
         }
     }
 
-    if (builder.tokenType == ValkyrieTokenTypes.PARENTHESIS_R) {
+    if (builder.tokenType == ValkyrieTypes.PARENTHESIS_R) {
         builder.advanceLexer() // consume ')'
     } else {
         marker.error("Expected ')'")
         return false
     }
 
-    marker.done(ValkyrieElementTypes.TUPLE_PATTERN)
+    marker.done(ValkyrieTypes.TUPLE_PATTERN)
     return true
 }
 
 fun parseObjectPattern(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boolean {
-    if (builder.tokenType != ValkyrieTokenTypes.BRACE_L) return false
+    if (builder.tokenType != ValkyrieTypes.BRACE_L) return false
     val marker = builder.mark()
 
     builder.advanceLexer() // consume '{'
 
     // Parse pattern fields
-    while (!builder.eof() && builder.tokenType != ValkyrieTokenTypes.BRACE_R) {
+    while (!builder.eof() && builder.tokenType != ValkyrieTypes.BRACE_R) {
         // Handle rest pattern ..rest or ..
-        if (builder.tokenType == ValkyrieTokenTypes.DOT_DOT) {
+        if (builder.tokenType == ValkyrieTypes.DOT_DOT) {
             builder.advanceLexer() // consume '..'
             // Optional identifier after ..
             parseIdentifier(builder)
@@ -124,7 +122,7 @@ fun parseObjectPattern(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boo
             }
 
             // Optional type annotation or pattern
-            if (builder.tokenType == ValkyrieTokenTypes.COLON) {
+            if (builder.tokenType == ValkyrieTypes.COLON) {
                 builder.advanceLexer() // consume ':'
                 if (!parsePattern(valkyrieParser, builder, true)) {
                     if (!parseIdentifier(builder)) {
@@ -135,21 +133,21 @@ fun parseObjectPattern(valkyrieParser: ValkyrieParser, builder: PsiBuilder): Boo
             }
         }
 
-        if (builder.tokenType == ValkyrieTokenTypes.COMMA) {
+        if (builder.tokenType == ValkyrieTypes.COMMA) {
             builder.advanceLexer()
-        } else if (builder.tokenType != ValkyrieTokenTypes.BRACE_R) {
+        } else if (builder.tokenType != ValkyrieTypes.BRACE_R) {
             marker.error("Expected ',' or '}'")
             return false
         }
     }
 
-    if (builder.tokenType == ValkyrieTokenTypes.BRACE_R) {
+    if (builder.tokenType == ValkyrieTypes.BRACE_R) {
         builder.advanceLexer() // consume '}'
     } else {
         marker.error("Expected '}'")
         return false
     }
 
-    marker.done(ValkyrieElementTypes.OBJECT_PATTERN)
+    marker.done(ValkyrieTypes.OBJECT_PATTERN)
     return true
 }

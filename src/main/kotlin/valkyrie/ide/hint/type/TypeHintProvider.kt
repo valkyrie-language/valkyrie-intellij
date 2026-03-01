@@ -5,7 +5,7 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
-import valkyrie.language.dialect_std.ValkyrieLanguage
+import valkyrie.language.ValkyrieLanguage
 import valkyrie.psi.nodes.*
 import javax.swing.JComponent
 import javax.swing.JPanel
@@ -45,7 +45,7 @@ class TypeHintProvider : InlayHintsProvider<TypeHintProvider.Settings> {
         settings: Settings,
         sink: InlayHintsSink
     ): InlayHintsCollector? {
-        if (file.language != ValkyrieLanguage) return null
+        if (file.language != ValkyrieLanguage.INSTANCE) return null
         return TypeHintsCollector(editor, settings, sink)
     }
     

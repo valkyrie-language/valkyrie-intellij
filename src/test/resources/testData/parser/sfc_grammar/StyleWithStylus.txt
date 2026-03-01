@@ -1,0 +1,11 @@
+SfcFileNode
+  PsiElement(ValkyrieToken.<)('<')
+  PsiElement(ValkyrieToken.SYMBOL.XID)('style')
+  PsiWhiteSpace(' ')
+  PsiElement(ValkyrieToken.SYMBOL.XID)('lang')
+  PsiElement(ValkyrieToken.=)('=')
+  PsiElement(ValkyrieToken.STRING.START)(''')
+  PsiElement(ValkyrieToken.SYMBOL.XID)('stylus')
+  PsiElement(ValkyrieToken.STRING.START)(''')
+  PsiElement(ValkyrieToken.>)('>')
+  PsiElement(ValkyrieToken.STRING.TEXT)('\n\n</style>')

@@ -3,7 +3,7 @@ package valkyrie.ide.navigation
 import com.intellij.lang.Language
 import com.intellij.psi.PsiElement
 import com.intellij.ui.breadcrumbs.BreadcrumbsProvider
-import valkyrie.language.dialect_std.ValkyrieLanguage
+import valkyrie.language.ValkyrieLanguage
 import valkyrie.psi.nodes.*
 
 /**
@@ -13,7 +13,7 @@ import valkyrie.psi.nodes.*
 class ValkyrieBreadcrumbsProvider : BreadcrumbsProvider {
     
     override fun getLanguages(): Array<Language> {
-        return arrayOf(ValkyrieLanguage)
+        return arrayOf(ValkyrieLanguage.INSTANCE)
     }
     
     override fun acceptElement(element: PsiElement): Boolean {

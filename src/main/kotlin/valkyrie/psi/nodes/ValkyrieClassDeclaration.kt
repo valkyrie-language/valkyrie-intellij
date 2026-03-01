@@ -8,7 +8,7 @@ import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.PsiReference
 import valkyrie.ide.highlight.ValkyrieColor
 import valkyrie.language.ValkyrieIcons
-import valkyrie.psi.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieElementNode
 import valkyrie.psi.reference.ValkyrieReference
 import valkyrie.psi.traits.*
 

@@ -3,14 +3,9 @@ package valkyrie.psi.nodes
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.PsiElement
-import valkyrie.psi.nodes.ValkyrieIdentifierNode
-import valkyrie.psi.nodes.ValkyrieTermParameterItem
-import valkyrie.psi.nodes.ValkyrieTermParameterList
-import valkyrie.psi.nodes.ValkyrieTypeReferenceNode
 import valkyrie.ide.navigation.MetaType
-import valkyrie.psi.ValkyrieElementNode
-import valkyrie.psi.ValkyrieElementTypes
-import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieTypes
+import valkyrie.psi.parsers.ValkyrieElementNode
 
 /**
  * 元编程语句实现
@@ -39,8 +34,8 @@ class ValkyrieMetaStatement(node: ASTNode) : ValkyrieElementNode(node), PsiNameI
      */
     fun getMetaType(): MetaType {
         return when (this.node.elementType) {
-            valkyrie.psi.ValkyrieElementTypes.DECLARE_MACRO -> MetaType.MACRO
-            valkyrie.psi.ValkyrieElementTypes.DECLARE_MEZZO -> MetaType.MEZZO
+            ValkyrieTypes.DECLARE_MACRO -> MetaType.MACRO
+            ValkyrieTypes.DECLARE_MEZZO -> MetaType.MEZZO
             else -> MetaType.MICRO
         }
     }

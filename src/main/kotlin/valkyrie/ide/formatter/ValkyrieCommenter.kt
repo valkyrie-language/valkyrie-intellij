@@ -3,7 +3,7 @@ package valkyrie.ide.formatter
 import com.intellij.lang.CodeDocumentationAwareCommenter
 import com.intellij.psi.PsiComment
 import com.intellij.psi.tree.IElementType
-import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieTypes
 
 /**
  * Valkyrie语言注释器实现
@@ -58,21 +58,21 @@ class ValkyrieCommenter : CodeDocumentationAwareCommenter {
      * 判断是否为文档注释
      */
     override fun isDocumentationComment(element: PsiComment?): Boolean {
-        return element?.tokenType == ValkyrieTokenTypes.COMMENT_DOCUMENT
+        return element?.tokenType == ValkyrieTypes.COMMENT_DOCUMENT
     }
     
     /**
      * 获取文档注释token类型
      */
     override fun getDocumentationCommentTokenType(): IElementType? {
-        return ValkyrieTokenTypes.COMMENT_DOCUMENT
+        return ValkyrieTypes.COMMENT_DOCUMENT
     }
     
     override fun getLineCommentTokenType(): IElementType? {
-        return ValkyrieTokenTypes.COMMENT_LINE
+        return ValkyrieTypes.COMMENT_LINE
     }
     
     override fun getBlockCommentTokenType(): IElementType? {
-        return ValkyrieTokenTypes.COMMENT_RANGE
+        return ValkyrieTypes.COMMENT_RANGE
     }
 }

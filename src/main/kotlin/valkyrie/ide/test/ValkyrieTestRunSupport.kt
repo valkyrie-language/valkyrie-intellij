@@ -9,7 +9,7 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import valkyrie.psi.nodes.ValkyrieTestStatement
-import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieTypes
 
 /**
  * Valkyrie 测试运行支持
@@ -22,7 +22,7 @@ class ValkyrieTestRunLineMarkerProvider : RunLineMarkerContributor() {
         if (element.firstChild != null) return null
         
         // 检查是否为 tests 关键字
-        if (element.node?.elementType != ValkyrieTokenTypes.TESTS) return null
+        if (element.node?.elementType != ValkyrieTypes.TESTS) return null
         
         // 确保父节点是 ValkyrieTestStatement
         val testStatement = element.parent as? ValkyrieTestStatement ?: return null

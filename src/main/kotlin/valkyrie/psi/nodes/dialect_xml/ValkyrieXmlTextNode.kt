@@ -3,7 +3,7 @@ package valkyrie.psi.nodes.dialect_xml
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.xml.XmlTokenType
-import valkyrie.psi.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieElementNode
 
 /**
  * XML 文本节点

@@ -10,90 +10,87 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.xml.XmlTokenType
-import valkyrie.language.dialect_sfc.ValkyrieSfcFileType
-import valkyrie.language.dialect_xml.ValkyrieXmlFileType
-import valkyrie.language.dialect_sfc.ValkyrieSfcLexer
-import valkyrie.language.dialect_std.ValkyrieStandardLexer
-import valkyrie.psi.lexers.ValkyrieTokenTypes
-import valkyrie.language.dialect_xml.ValkyrieXmlLexer
+import valkyrie.psi.parsers.ValkyrieParserDefinition
+import valkyrie.psi.parsers.ValkyrieTypes
 
 class ValkyrieSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
     companion object {
         fun valkyrieTokenColor(tokenType: IElementType): ValkyrieColor? {
             return when (tokenType) {
-                ValkyrieTokenTypes.NAMESPACE,
-                ValkyrieTokenTypes.USING,
-                ValkyrieTokenTypes.LET,
-                ValkyrieTokenTypes.IF,
-                ValkyrieTokenTypes.ELSE,
-                ValkyrieTokenTypes.WHILE,
-                ValkyrieTokenTypes.UNTIL,
-                ValkyrieTokenTypes.LOOP,
-                ValkyrieTokenTypes.CLASS,
-                ValkyrieTokenTypes.NEURAL,
-                ValkyrieTokenTypes.WIDGET,
-                ValkyrieTokenTypes.UNION,
-                ValkyrieTokenTypes.UNITY,
-                ValkyrieTokenTypes.TRAIT,
-                ValkyrieTokenTypes.IMPLY,
-                ValkyrieTokenTypes.CONSTRUCTOR,
-                ValkyrieTokenTypes.STRUCTURE,
-                ValkyrieTokenTypes.SINGLETON,
-                ValkyrieTokenTypes.FLAGS,
-                ValkyrieTokenTypes.BREAK,
-                ValkyrieTokenTypes.CONTINUE,
-                ValkyrieTokenTypes.YIELD,
-                ValkyrieTokenTypes.RAISE,
-                ValkyrieTokenTypes.RESUME,
-                ValkyrieTokenTypes.SCOPE,
-                ValkyrieTokenTypes.RETURN,
-                ValkyrieTokenTypes.ASSERT,
-                ValkyrieTokenTypes.DEBUG,
-                ValkyrieTokenTypes.TESTS,
-                ValkyrieTokenTypes.MICRO,
-                ValkyrieTokenTypes.MEZZO,
-                ValkyrieTokenTypes.MACRO,
-                ValkyrieTokenTypes.MATCH,
-                ValkyrieTokenTypes.CASE,
-                ValkyrieTokenTypes.WHEN,
-                ValkyrieTokenTypes.FALLTHROUGH,
-                ValkyrieTokenTypes.TRY,
-                ValkyrieTokenTypes.CATCH,
-                ValkyrieTokenTypes.IN,
-                ValkyrieTokenTypes.AS
+                ValkyrieTypes.NAMESPACE,
+                ValkyrieTypes.USING,
+                ValkyrieTypes.LET,
+                ValkyrieTypes.IF,
+                ValkyrieTypes.ELSE,
+                ValkyrieTypes.WHILE,
+                ValkyrieTypes.UNTIL,
+                ValkyrieTypes.LOOP,
+                ValkyrieTypes.CLASS,
+                ValkyrieTypes.NEURAL,
+                ValkyrieTypes.WIDGET,
+                ValkyrieTypes.UNION,
+                ValkyrieTypes.UNITY,
+                ValkyrieTypes.TRAIT,
+                ValkyrieTypes.IMPLY,
+                ValkyrieTypes.CONSTRUCTOR,
+                ValkyrieTypes.STRUCTURE,
+                ValkyrieTypes.SINGLETON,
+                ValkyrieTypes.FLAGS,
+                ValkyrieTypes.BREAK,
+                ValkyrieTypes.CONTINUE,
+                ValkyrieTypes.YIELD,
+                ValkyrieTypes.RAISE,
+                ValkyrieTypes.RESUME,
+                ValkyrieTypes.SCOPE,
+                ValkyrieTypes.RETURN,
+                ValkyrieTypes.ASSERT,
+                ValkyrieTypes.DEBUG,
+                ValkyrieTypes.TESTS,
+                ValkyrieTypes.MICRO,
+                ValkyrieTypes.MEZZO,
+                ValkyrieTypes.MACRO,
+                ValkyrieTypes.MATCH,
+                ValkyrieTypes.CASE,
+                ValkyrieTypes.WHEN,
+                ValkyrieTypes.FALLTHROUGH,
+                ValkyrieTypes.TRY,
+                ValkyrieTypes.CATCH,
+                ValkyrieTypes.IN,
+                ValkyrieTypes.AS
                     -> ValkyrieColor.KEYWORD
 
                 // 操作符
-                ValkyrieTokenTypes.IS -> ValkyrieColor.OPERATION
+                ValkyrieTypes.IS -> ValkyrieColor.OPERATION
 
-                ValkyrieTokenTypes.PARENTHESIS_L, ValkyrieTokenTypes.PARENTHESIS_R -> ValkyrieColor.PARENTHESES
-                ValkyrieTokenTypes.BRACKET_L, ValkyrieTokenTypes.BRACKET_R -> ValkyrieColor.BRACKETS
-                ValkyrieTokenTypes.BRACE_L, ValkyrieTokenTypes.BRACE_R -> ValkyrieColor.BRACES
-                ValkyrieTokenTypes.TEMPLATE_L, ValkyrieTokenTypes.TEMPLATE_R -> ValkyrieColor.TEMPLATE_BLOCK
-                ValkyrieTokenTypes.COLON, ValkyrieTokenTypes.ASSIGN -> ValkyrieColor.OPERATION
-                ValkyrieTokenTypes.DOT, ValkyrieTokenTypes.DOT_CIRCLE, ValkyrieTokenTypes.DOT_DOT, ValkyrieTokenTypes.ELLIPSIS, ValkyrieTokenTypes.DOT_DOT_EQUAL, ValkyrieTokenTypes.DOT_DOT_LESS -> ValkyrieColor.OPERATION
-                ValkyrieTokenTypes.AT -> ValkyrieColor.OPERATION
-                ValkyrieTokenTypes.LABEL_MARK -> ValkyrieColor.OPERATION
+                ValkyrieTypes.PARENTHESIS_L, ValkyrieTypes.PARENTHESIS_R -> ValkyrieColor.PARENTHESES
+                ValkyrieTypes.BRACKET_L, ValkyrieTypes.BRACKET_R -> ValkyrieColor.BRACKETS
+                ValkyrieTypes.BRACE_L, ValkyrieTypes.BRACE_R -> ValkyrieColor.BRACES
+                ValkyrieTypes.TEMPLATE_L, ValkyrieTypes.TEMPLATE_R -> ValkyrieColor.TEMPLATE_BLOCK
+                ValkyrieTypes.COLON, ValkyrieTypes.ASSIGN -> ValkyrieColor.OPERATION
+                ValkyrieTypes.DOT, ValkyrieTypes.DOT_CIRCLE, ValkyrieTypes.DOT_DOT, ValkyrieTypes.ELLIPSIS, ValkyrieTypes.DOT_DOT_EQUAL, ValkyrieTypes.DOT_DOT_LESS -> ValkyrieColor.OPERATION
+                ValkyrieTypes.AT -> ValkyrieColor.OPERATION
+                ValkyrieTypes.LABEL_MARK -> ValkyrieColor.OPERATION
 
-                ValkyrieTokenTypes.COMMA -> ValkyrieColor.COMMA
+                ValkyrieTypes.COMMA -> ValkyrieColor.COMMA
                 // 数字和字面量
-                ValkyrieTokenTypes.INTEGER, ValkyrieTokenTypes.DECIMAL, ValkyrieTokenTypes.MACRO_NUMBER -> ValkyrieColor.NUMBER
-                ValkyrieTokenTypes.STRING_DQ, ValkyrieTokenTypes.STRING_MQ, ValkyrieTokenTypes.STRING_L,
-                ValkyrieTokenTypes.STRING_START, ValkyrieTokenTypes.STRING_TEXT, ValkyrieTokenTypes.STRING_END,
-                ValkyrieTokenTypes.MACRO_STRING -> ValkyrieColor.STRING
-                ValkyrieTokenTypes.BOOLEAN -> ValkyrieColor.KEYWORD
-                ValkyrieTokenTypes.NIL, ValkyrieTokenTypes.NULL -> ValkyrieColor.NULL
+                ValkyrieTypes.INTEGER, ValkyrieTypes.DECIMAL, ValkyrieTypes.MACRO_NUMBER -> ValkyrieColor.NUMBER
+                ValkyrieTypes.STRING_DQ, ValkyrieTypes.STRING_MQ, ValkyrieTypes.STRING_L,
+                ValkyrieTypes.STRING_START, ValkyrieTypes.STRING_TEXT, ValkyrieTypes.STRING_END,
+                ValkyrieTypes.MACRO_STRING -> ValkyrieColor.STRING
+
+                ValkyrieTypes.BOOLEAN -> ValkyrieColor.KEYWORD
+                ValkyrieTypes.NIL, ValkyrieTypes.NULL -> ValkyrieColor.NULL
 
                 // 预定义符号
-                ValkyrieTokenTypes.KW_SOME, ValkyrieTokenTypes.KW_NONE -> ValkyrieColor.SYM_VARIANT
-                ValkyrieTokenTypes.KW_VALUE -> ValkyrieColor.SYM_LOCAL
-                ValkyrieTokenTypes.KW_V -> ValkyrieColor.SYM_GENERIC
+                ValkyrieTypes.KW_SOME, ValkyrieTypes.KW_NONE -> ValkyrieColor.SYM_VARIANT
+                ValkyrieTypes.KW_VALUE -> ValkyrieColor.SYM_LOCAL
+                ValkyrieTypes.KW_V -> ValkyrieColor.SYM_GENERIC
 
-                ValkyrieTokenTypes.SYMBOL_XID, ValkyrieTokenTypes.SYMBOL_RAW -> ValkyrieColor.IDENTIFIER
+                ValkyrieTypes.SYMBOL_XID, ValkyrieTypes.SYMBOL_RAW -> ValkyrieColor.IDENTIFIER
                 // 注释
-                ValkyrieTokenTypes.COMMENT_LINE -> ValkyrieColor.LINE_COMMENT
-                ValkyrieTokenTypes.COMMENT_RANGE -> ValkyrieColor.BLOCK_COMMENT
-                ValkyrieTokenTypes.COMMENT_DOCUMENT -> ValkyrieColor.DOC_COMMENT
+                ValkyrieTypes.COMMENT_LINE -> ValkyrieColor.LINE_COMMENT
+                ValkyrieTypes.COMMENT_RANGE -> ValkyrieColor.BLOCK_COMMENT
+                ValkyrieTypes.COMMENT_DOCUMENT -> ValkyrieColor.DOC_COMMENT
                 XmlTokenType.XML_COMMENT_CHARACTERS -> ValkyrieColor.BLOCK_COMMENT
                 // XML 染色
                 XmlTokenType.XML_TAG_NAME -> ValkyrieColor.XML_TAG_NAME
@@ -109,19 +106,7 @@ class ValkyrieSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
     override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?): SyntaxHighlighter {
         return object : SyntaxHighlighterBase() {
             override fun getHighlightingLexer(): Lexer {
-                return when (virtualFile?.fileType) {
-                    ValkyrieXmlFileType.INSTANCE -> {
-                        ValkyrieXmlLexer()
-                    }
-
-                    ValkyrieSfcFileType.INSTANCE -> {
-                        ValkyrieSfcLexer()
-                    }
-
-                    else -> {
-                        ValkyrieStandardLexer()
-                    }
-                }
+                return ValkyrieParserDefinition().createLexer(project)
             }
 
             override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> {

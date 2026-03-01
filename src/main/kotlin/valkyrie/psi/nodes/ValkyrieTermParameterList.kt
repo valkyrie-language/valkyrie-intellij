@@ -1,7 +1,7 @@
 package valkyrie.psi.nodes
 
 import com.intellij.lang.ASTNode
-import valkyrie.psi.ValkyrieElementNode
+import valkyrie.psi.parsers.ValkyrieElementNode
 
 /**
  * Parameter List 实现

@@ -1,32 +1,19 @@
 package valkyrie.language.dialect_sfc
 
 import com.intellij.openapi.fileTypes.LanguageFileType
-import org.jetbrains.annotations.Nls
 import valkyrie.language.ValkyrieIcons
-import javax.swing.Icon
+import valkyrie.language.dialect_sfc.ValkyrieSfcLanguage
 
 /**
- * Valkyrie Component 文件类型定义
+ * Valkyrie SFC 文件类型
  */
-class ValkyrieSfcFileType private constructor() : LanguageFileType(ValkyrieSfcLanguage) {
+class ValkyrieSfcFileType private constructor() : LanguageFileType(ValkyrieSfcLanguage.INSTANCE) {
     companion object {
-        @JvmStatic
         val INSTANCE = ValkyrieSfcFileType()
     }
 
-    override fun getName(): String = "valkyrie-component"
-
-    override fun getDisplayName(): @Nls String {
-        return "Valkyrie Component"
-    }
-
-    override fun getDescription(): String = "Valkyrie Component File"
-
-    override fun getDefaultExtension(): String = "vkc"
-
-    override fun isReadOnly(): Boolean {
-        return super.isReadOnly()
-    }
-
-    override fun getIcon(): Icon? = ValkyrieIcons.FILE
+    override fun getName(): String = "Valkyrie SFC"
+    override fun getDescription(): String = "Valkyrie Single File Component"
+    override fun getDefaultExtension(): String = "vx"
+    override fun getIcon() = ValkyrieIcons.FILE
 }

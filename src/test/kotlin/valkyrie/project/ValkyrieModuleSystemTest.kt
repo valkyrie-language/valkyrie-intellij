@@ -96,7 +96,7 @@ class ValkyrieModuleSystemTest : BasePlatformTestCase() {
         assertEquals("core 的命名空间应该是 com.valkyrie.core", "com.valkyrie.core", coreNamespace)
         
         // 测试符号查找（需要在 web 文件中进行）
-        val webAppFile = workspaceRoot.findChild("packages")?.findChild("web")?.findChild("app.vk")
+        val webAppFile = workspaceRoot.findChild("packages")?.findChild("web")?.findChild("app.valkyrie")
         if (webAppFile != null) {
             // User 类应该能被找到
             val userSymbols = symbolIndex.findAllSymbolDefinitions("User", webAppFile)
@@ -154,8 +154,8 @@ class ValkyrieModuleSystemTest : BasePlatformTestCase() {
         val symbolIndex = ValkyrieEnhancedSymbolIndex.getInstance(project)
         symbolIndex.rebuildIndex()
         
-        val webAppFile = workspaceRoot.findChild("packages")?.findChild("web")?.findChild("app.vk")
-        assertNotNull("web app.vk 文件应该存在", webAppFile)
+        val webAppFile = workspaceRoot.findChild("packages")?.findChild("web")?.findChild("app.valkyrie")
+        assertNotNull("web app.valkyrie 文件应该存在", webAppFile)
         
         // 获取文件的 using 导入
         val usings = symbolIndex.getFileUsings(webAppFile!!)

@@ -3,8 +3,7 @@ package valkyrie.ide.formatter
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
-import valkyrie.psi.ValkyrieElementTypes
-import valkyrie.psi.lexers.ValkyrieTokenTypes
+import valkyrie.psi.parsers.ValkyrieTypes
 
 /**
  * Valkyrie 格式化块
@@ -31,27 +30,27 @@ class ValkyrieFormatBlock(val n: ASTNode, val a: Alignment?, val i: Indent, val 
 
     private fun getChildIndent(child: ASTNode): Indent {
         return when (n.elementType) {
-            ValkyrieElementTypes.OBJECT_BODY,
-            ValkyrieElementTypes.UNION_BODY,
-            ValkyrieElementTypes.FUNCTION_BODY,
-            ValkyrieElementTypes.USING_BODY -> {
+            ValkyrieTypes.OBJECT_BODY,
+            ValkyrieTypes.UNION_BODY,
+            ValkyrieTypes.FUNCTION_BODY,
+            ValkyrieTypes.USING_BODY -> {
                 // 对于object body、union body、function body和using body中的子元素，需要缩进
                 when (child.elementType) {
-                    ValkyrieTokenTypes.BRACE_L, ValkyrieTokenTypes.BRACE_R -> Indent.getNoneIndent()
+                    ValkyrieTypes.BRACE_L, ValkyrieTypes.BRACE_R -> Indent.getNoneIndent()
                     else -> Indent.getNormalIndent()
                 }
             }
 
-            ValkyrieElementTypes.IF_STATEMENT,
-            ValkyrieElementTypes.ELSE_CLAUSE,
-            ValkyrieElementTypes.EACH_STATEMENT,
-            ValkyrieElementTypes.WHILE_STATEMENT,
-            ValkyrieElementTypes.MATCH_STATEMENT,
-            ValkyrieElementTypes.LOOP_STATEMENT -> Indent.getNormalIndent()
+            ValkyrieTypes.IF_STATEMENT,
+            ValkyrieTypes.ELSE_CLAUSE,
+            ValkyrieTypes.EACH_STATEMENT,
+            ValkyrieTypes.WHILE_STATEMENT,
+            ValkyrieTypes.MATCH_STATEMENT,
+            ValkyrieTypes.LOOP_STATEMENT -> Indent.getNormalIndent()
 
-            ValkyrieElementTypes.FLAGS_STATEMENT -> {
+            ValkyrieTypes.FLAGS_STATEMENT -> {
                 when (child.elementType) {
-                    ValkyrieElementTypes.FLAGS_ITEM -> Indent.getNormalIndent()
+                    ValkyrieTypes.FLAGS_ITEM -> Indent.getNormalIndent()
                     else -> Indent.getNoneIndent()
                 }
             }
@@ -62,29 +61,29 @@ class ValkyrieFormatBlock(val n: ASTNode, val a: Alignment?, val i: Indent, val 
 
     private fun getChildAlignment(child: ASTNode): Alignment? {
         return when (n.elementType) {
-            ValkyrieElementTypes.OBJECT_BODY,
-            ValkyrieElementTypes.UNION_BODY,
-            ValkyrieElementTypes.USING_BODY -> {
+            ValkyrieTypes.OBJECT_BODY,
+            ValkyrieTypes.UNION_BODY,
+            ValkyrieTypes.USING_BODY -> {
                 when (child.elementType) {
-                    ValkyrieElementTypes.FIELD_DECLARATION,
-                    ValkyrieElementTypes.METHOD_DECLARATION,
-                    ValkyrieElementTypes.DOMAIN_DECLARATION,
-                    ValkyrieElementTypes.USING_ITEM -> Alignment.createAlignment()
+                    ValkyrieTypes.FIELD_DECLARATION,
+                    ValkyrieTypes.METHOD_DECLARATION,
+                    ValkyrieTypes.DOMAIN_DECLARATION,
+                    ValkyrieTypes.USING_ITEM -> Alignment.createAlignment()
 
                     else -> null
                 }
             }
 
-            ValkyrieElementTypes.TERM_PARAMETER_LIST -> {
+            ValkyrieTypes.TERM_PARAMETER_LIST -> {
                 when (child.elementType) {
-                    ValkyrieElementTypes.TERM_PARAMETER_ITEM -> Alignment.createAlignment()
+                    ValkyrieTypes.TERM_PARAMETER_ITEM -> Alignment.createAlignment()
                     else -> null
                 }
             }
             // FLAGS 相关的对齐处理
-            ValkyrieElementTypes.FLAGS_STATEMENT -> {
+            ValkyrieTypes.FLAGS_STATEMENT -> {
                 when (child.elementType) {
-                    ValkyrieElementTypes.FLAGS_ITEM -> Alignment.createAlignment()
+                    ValkyrieTypes.FLAGS_ITEM -> Alignment.createAlignment()
                     else -> null
                 }
             }
@@ -109,11 +108,11 @@ class ValkyrieFormatBlock(val n: ASTNode, val a: Alignment?, val i: Indent, val 
 
     override fun getChildAttributes(newChildIndex: Int): ChildAttributes {
         return when (n.elementType) {
-            ValkyrieElementTypes.OBJECT_BODY,
-            ValkyrieElementTypes.UNION_BODY,
-            ValkyrieElementTypes.FUNCTION_BODY -> ChildAttributes(Indent.getNormalIndent(), null)
+            ValkyrieTypes.OBJECT_BODY,
+            ValkyrieTypes.UNION_BODY,
+            ValkyrieTypes.FUNCTION_BODY -> ChildAttributes(Indent.getNormalIndent(), null)
 
-            ValkyrieElementTypes.TERM_PARAMETER_LIST -> {
+            ValkyrieTypes.TERM_PARAMETER_LIST -> {
                 if (newChildIndex > 0) {
                     ChildAttributes(Indent.getContinuationIndent(), Alignment.createAlignment())
                 } else {
@@ -121,7 +120,7 @@ class ValkyrieFormatBlock(val n: ASTNode, val a: Alignment?, val i: Indent, val 
                 }
             }
             // FLAGS 相关的子属性处理
-            ValkyrieElementTypes.FLAGS_STATEMENT -> ChildAttributes(
+            ValkyrieTypes.FLAGS_STATEMENT -> ChildAttributes(
                 Indent.getNormalIndent(),
                 Alignment.createAlignment()
             )

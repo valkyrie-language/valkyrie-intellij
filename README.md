@@ -4,6 +4,10 @@
 [![Version](https://img.shields.io/jetbrains/plugin/v/20594.svg)](https://plugins.jetbrains.com/plugin/20594)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/20594.svg)](https://plugins.jetbrains.com/plugin/20594)
 
+<!-- Plugin description -->
+Valkyrie Intellij is a plugin for IntelliJ IDEA that provides support for the Valkyrie programming language. It includes features such as semantic highlighting, code formatting, and structured view.
+<!-- Plugin description end -->
+
 ![](./src/main/design/SVG/title.svg)
 
 ## Features
