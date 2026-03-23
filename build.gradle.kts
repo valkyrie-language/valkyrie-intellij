@@ -11,7 +11,7 @@ version = properties("pluginVersion").get()
 
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "2.3.0"
+    id("org.jetbrains.kotlin.jvm") version "2.3.20"
     id("org.jetbrains.changelog") version "2.5.0"
     id("org.jetbrains.qodana") version "2025.3.1"
     id("org.jetbrains.kotlinx.kover") version "0.9.7"
