@@ -1,13 +1,15 @@
 package valkyrie.index
 
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.LocalFileSystem
+import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiManager
 // 移除了 FileTypeIndex 和 GlobalSearchScope 的导入以避免索引冲突
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.openapi.application.ReadAction
+import valkyrie.language.ValkyrieSourceFiles
 import valkyrie.psi.nodes.ValkyrieNamespaceDeclaration
 import valkyrie.psi.nodes.ValkyrieUsingStatement
 import valkyrie.psi.nodes.ValkyrieLetStatementNode
@@ -66,19 +68,45 @@ class ValkyrieSymbolIndex(private val project: Project) {
     // 延迟初始化标志
     @Volatile
     private var isIndexBuilt = false
-    
+
+    @Volatile
+    private var isIndexBuilding = false
+
+    private val indexedFiles = mutableSetOf<VirtualFile>()
+
+    private val legionPackageNameCache = mutableMapOf<String, String?>()
+
     /**
      * 确保索引已构建，如果未构建则构建索引
      */
     private fun ensureIndexBuilt() {
-        if (!isIndexBuilt) {
-            synchronized(this) {
-                if (!isIndexBuilt) {
-                    rebuildIndex()
-                    isIndexBuilt = true
+        if (isIndexBuilt || isIndexBuilding) {
+            return
+        }
+        synchronized(this) {
+            if (isIndexBuilt || isIndexBuilding) {
+                return
+            }
+            isIndexBuilding = true
+            ApplicationManager.getApplication().executeOnPooledThread {
+                ReadAction.run<RuntimeException> {
+                    try {
+                        rebuildIndex()
+                    } finally {
+                        isIndexBuilt = true
+                        isIndexBuilding = false
+                    }
                 }
             }
         }
+    }
+
+    private fun ensureFileIndexed(file: VirtualFile) {
+        if (!ValkyrieSourceFiles.isSourceFile(file) || file in indexedFiles) {
+            return
+        }
+        indexedFiles.add(file)
+        indexFile(file)
     }
     
     /**
@@ -90,6 +118,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
         usingCache.clear()
         packageAliasCache.clear()
         packageNamespaceCache.clear()
+        indexedFiles.clear()
         
         // 添加内置类型到符号索引
         addBuiltinTypes()
@@ -154,7 +183,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
      */
     private fun collectValkyrieFiles(directory: VirtualFile, result: MutableList<VirtualFile>) {
         if (!directory.isDirectory) {
-            if (directory.extension == "vk" || directory.extension == "valkyrie") {
+            if (ValkyrieSourceFiles.isSourceFile(directory)) {
                 result.add(directory)
             }
             return
@@ -203,7 +232,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
         for (child in directory.children) {
             if (child.isDirectory) {
                 collectExternalValkyrieFiles(child, projectManager, result)
-            } else if (child.extension == "vk") {
+            } else if (ValkyrieSourceFiles.isSourceFile(child)) {
                 // 检查文件是否在workspace内
                 val workspace = projectManager.findWorkspaceForFile(child)
                 val valkyrieProject = projectManager.findProjectForFile(child)
@@ -313,14 +342,16 @@ class ValkyrieSymbolIndex(private val project: Project) {
      */
     private fun getPackageNameFromLegionJson(file: VirtualFile): String? {
         return ReadAction.compute<String?, RuntimeException> {
-            // 向上查找legion.json文件
             var currentDir = file.parent
             while (currentDir != null) {
+                legionPackageNameCache[currentDir.path]?.let { return@compute it }
                 val legionJson = currentDir.findChild("legion.json")
                 if (legionJson != null) {
                     val projectParser = ValkyrieProjectParser()
                     val valkyrieProject = projectParser.parseProject(project, currentDir)
-                    return@compute valkyrieProject?.packageInfo?.name
+                    val packageName = valkyrieProject?.packageInfo?.name
+                    legionPackageNameCache[currentDir.path] = packageName
+                    return@compute packageName
                 }
                 currentDir = currentDir.parent
             }
@@ -345,7 +376,8 @@ class ValkyrieSymbolIndex(private val project: Project) {
             
             // 在ReadAction外部更新缓存，避免长时间持有锁
             updateCacheWithSymbols(file, namespace, symbols)
-            
+            indexedFiles.add(file)
+
         } catch (e: Exception) {
             // 记录错误但不中断程序执行
             com.intellij.openapi.diagnostic.Logger.getInstance(ValkyrieSymbolIndex::class.java)
@@ -543,6 +575,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
      */
     fun findAllSymbolDefinitions(symbolName: String, currentFile: VirtualFile): List<SymbolInfo> {
         ensureIndexBuilt()
+        ensureFileIndexed(currentFile)
         val results = mutableListOf<SymbolInfo>()
         val currentPsiFile = PsiManager.getInstance(project).findFile(currentFile)
         val currentNamespace = PsiTreeUtil.findChildOfType(currentPsiFile, ValkyrieNamespaceDeclaration::class.java)
@@ -579,53 +612,11 @@ class ValkyrieSymbolIndex(private val project: Project) {
         }
         symbolCache[symbolName]?.find { it.namespace == primitiveNamespace }?.let { results.add(it) }
         
-        // 3. 然后在当前文件中直接查找（优先级最高）
-        if (currentPsiFile != null) {
-            // 优先查找类型定义（class, union）
-            val classStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieClassDeclaration::class.java)
-            for (classStatement in classStatements) {
-                val name = classStatement.name
-                if (name == symbolName) {
-                    results.add(SymbolInfo(name, currentNamespace, currentFile, classStatement))
-                }
-            }
-            
-            val unionStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieUnionDeclaration::class.java)
-            for (unionStatement in unionStatements) {
-                val name = unionStatement.name
-                if (name == symbolName) {
-                    results.add(SymbolInfo(name, currentNamespace, currentFile, unionStatement))
-                }
-            }
-            
-            // 然后查找函数定义
-            val functionStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieMethodDeclaration::class.java)
-            for (functionStatement in functionStatements) {
-                val name = functionStatement.name
-                if (name == symbolName) {
-                    results.add(SymbolInfo(name, currentNamespace, currentFile, functionStatement))
-                }
-            }
-            
-            // 然后查找变量定义（let 语句）
-            val letStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieLetStatementNode::class.java)
-            for (letStatement in letStatements) {
-                val name = letStatement.getIdentifier()?.text
-                if (name == symbolName) {
-                    results.add(SymbolInfo(name, currentNamespace, currentFile, letStatement))
-                }
-            }
-            
-            // 最后查找泛型参数定义
-            val identifierNodes = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieIdentifierNode::class.java)
-            for (identifierNode in identifierNodes) {
-                val name = identifierNode.text
-                if (name == symbolName && isGenericParameterContext(identifierNode)) {
-                    results.add(SymbolInfo(name, currentNamespace, currentFile, identifierNode))
-                }
-            }
-        }
-        
+        // 3. 当前文件定义（来自按需索引缓存）
+        symbolCache[symbolName]
+            ?.filter { it.file == currentFile }
+            ?.let { results.addAll(it) }
+
         // 4. 然后在当前命名空间的其他文件中查找
         symbolCache[symbolName]?.filter { it.namespace == currentNamespace && it.file != currentFile }?.let { results.addAll(it) }
         

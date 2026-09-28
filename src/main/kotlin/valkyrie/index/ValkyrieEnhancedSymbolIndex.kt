@@ -1,16 +1,18 @@
 package valkyrie.index
 
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiManager
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.openapi.application.ReadAction
-import com.intellij.psi.PsiElement
-import valkyrie.psi.nodes.*
-import valkyrie.project.ValkyrieProjectManager
+import valkyrie.language.ValkyrieSourceFiles
 import valkyrie.project.ValkyriePackageManager
+import valkyrie.project.ValkyrieProjectManager
 import valkyrie.project.workspace.ValkyrieWorkspace
+import valkyrie.psi.nodes.*
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -67,18 +69,46 @@ class ValkyrieEnhancedSymbolIndex(private val project: Project) {
     @Volatile
     private var isIndexBuilt = false
 
+    @Volatile
+    private var isIndexBuilding = false
+
+    private val indexedFiles = ConcurrentHashMap.newKeySet<VirtualFile>()
+
+    private val legionPackageNameCache = ConcurrentHashMap<String, String?>()
+
     /**
      * 确保索引已构建
      */
     private fun ensureIndexBuilt() {
-        if (!isIndexBuilt) {
-            synchronized(this) {
-                if (!isIndexBuilt) {
-                    rebuildIndex()
-                    isIndexBuilt = true
+        if (isIndexBuilt || isIndexBuilding) {
+            return
+        }
+        synchronized(this) {
+            if (isIndexBuilt || isIndexBuilding) {
+                return
+            }
+            isIndexBuilding = true
+            ApplicationManager.getApplication().executeOnPooledThread {
+                ReadAction.run<RuntimeException> {
+                    try {
+                        rebuildIndex()
+                    } finally {
+                        isIndexBuilt = true
+                        isIndexBuilding = false
+                    }
                 }
             }
         }
+    }
+
+    private fun ensureFileIndexed(file: VirtualFile) {
+        if (!ValkyrieSourceFiles.isSourceFile(file) || !indexedFiles.add(file)) {
+            return
+        }
+        val packageName = getPackageNameFromFile(file) ?: return
+        val namespace = packageNamespaceCache[packageName]
+            ?: packageName.replace("-", "_")
+        indexFile(file, packageName, namespace, isExported = true)
     }
 
     /**
@@ -90,6 +120,8 @@ class ValkyrieEnhancedSymbolIndex(private val project: Project) {
         usingCache.clear()
         packageAliasCache.clear()
         packageNamespaceCache.clear()
+        indexedFiles.clear()
+        legionPackageNameCache.clear()
 
         // 添加内置类型
         addBuiltinTypes()
@@ -182,6 +214,7 @@ class ValkyrieEnhancedSymbolIndex(private val project: Project) {
             }
 
             updateEnhancedCacheWithSymbols(file, namespace, symbols, packageName, isExported)
+            indexedFiles.add(file)
 
         } catch (e: Exception) {
             // 记录错误但不中断执行
@@ -374,8 +407,9 @@ class ValkyrieEnhancedSymbolIndex(private val project: Project) {
      */
     fun findAllSymbolDefinitions(symbolName: String, currentFile: VirtualFile): List<EnhancedSymbolInfo> {
         ensureIndexBuilt()
+        ensureFileIndexed(currentFile)
         val results = mutableListOf<EnhancedSymbolInfo>()
-        
+
         val currentPsiFile = PsiManager.getInstance(project).findFile(currentFile)
         val currentNamespace = PsiTreeUtil.findChildOfType(currentPsiFile, ValkyrieNamespaceDeclaration::class.java)
             ?.getNamespaceName() ?: "default"
@@ -390,67 +424,10 @@ class ValkyrieEnhancedSymbolIndex(private val project: Project) {
         }
         symbolCache[symbolName]?.find { it.namespace == primitiveNamespace }?.let { results.add(it) }
 
-        // 2. 在当前文件中直接查找（优先级最高）
-        if (currentPsiFile != null) {
-            // 查找类型定义
-            val classStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieClassDeclaration::class.java)
-            for (classStatement in classStatements) {
-                if (classStatement.name == symbolName) {
-                    results.add(EnhancedSymbolInfo(
-                        name = symbolName,
-                        namespace = currentNamespace,
-                        file = currentFile,
-                        element = classStatement,
-                        packageName = packageName,
-                        isExported = true
-                    ))
-                }
-            }
-
-            val unionStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieUnionDeclaration::class.java)
-            for (unionStatement in unionStatements) {
-                if (unionStatement.name == symbolName) {
-                    results.add(EnhancedSymbolInfo(
-                        name = symbolName,
-                        namespace = currentNamespace,
-                        file = currentFile,
-                        element = unionStatement,
-                        packageName = packageName,
-                        isExported = true
-                    ))
-                }
-            }
-
-            // 查找函数定义
-            val functionStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieMethodDeclaration::class.java)
-            for (functionStatement in functionStatements) {
-                if (functionStatement.name == symbolName) {
-                    results.add(EnhancedSymbolInfo(
-                        name = symbolName,
-                        namespace = currentNamespace,
-                        file = currentFile,
-                        element = functionStatement,
-                        packageName = packageName,
-                        isExported = true
-                    ))
-                }
-            }
-
-            // 查找变量定义
-            val letStatements = PsiTreeUtil.findChildrenOfType(currentPsiFile, ValkyrieLetStatementNode::class.java)
-            for (letStatement in letStatements) {
-                if (letStatement.getIdentifier()?.text == symbolName) {
-                    results.add(EnhancedSymbolInfo(
-                        name = symbolName,
-                        namespace = currentNamespace,
-                        file = currentFile,
-                        element = letStatement,
-                        packageName = packageName,
-                        isExported = true
-                    ))
-                }
-            }
-        }
+        // 2. 当前文件定义（来自按需索引缓存）
+        symbolCache[symbolName]
+            ?.filter { it.file == currentFile }
+            ?.let { results.addAll(it) }
 
         // 3. 在当前命名空间的其他文件中查找
         symbolCache[symbolName]?.filter { 
@@ -500,14 +477,16 @@ class ValkyrieEnhancedSymbolIndex(private val project: Project) {
      * 获取文件所属的包名
      */
     private fun getPackageNameFromFile(file: VirtualFile): String? {
-        // 向上查找 legion.json 文件
         var currentDir = if (file.isDirectory) file else file.parent
         while (currentDir != null) {
+            legionPackageNameCache[currentDir.path]?.let { return it }
             val legionJson = currentDir.findChild("legion.json")
             if (legionJson != null) {
                 val projectParser = valkyrie.project.ValkyrieProjectParser()
                 val valkyrieProject = projectParser.parseProject(project, currentDir)
-                return valkyrieProject?.packageInfo?.name
+                val packageName = valkyrieProject?.packageInfo?.name
+                legionPackageNameCache[currentDir.path] = packageName
+                return packageName
             }
             currentDir = currentDir.parent
         }
@@ -571,7 +550,7 @@ class ValkyrieEnhancedSymbolIndex(private val project: Project) {
      */
     private fun collectValkyrieFiles(directory: VirtualFile, result: MutableList<VirtualFile>) {
         if (!directory.isDirectory) {
-            if (directory.extension == "vk" || directory.extension == "valkyrie") {
+            if (ValkyrieSourceFiles.isSourceFile(directory)) {
                 result.add(directory)
             }
             return
@@ -631,7 +610,7 @@ class ValkyrieEnhancedSymbolIndex(private val project: Project) {
                     // 继续递归扫描
                     collectExternalValkyrieFiles(child, packageManager, result)
                 }
-            } else if (child.extension == "vk") {
+            } else if (ValkyrieSourceFiles.isSourceFile(child)) {
                 // 检查文件是否在 workspace 内
                 val workspace = projectManager.findWorkspaceForFile(child)
                 val valkyrieProject = projectManager.findProjectForFile(child)
