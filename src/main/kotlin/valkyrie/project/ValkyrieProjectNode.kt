@@ -88,7 +88,7 @@ class ValkyrieProjectNode(
                         valkyrieProject.isApplication() -> "Application"
                         else -> "Project"
                     }
-                    data.presentableText = "${valkyrieProject.packageInfo.name} ($projectType)"
+                    data.setPresentableNameWithTypeSuffix(valkyrieProject.packageInfo.name, projectType)
                 }
             } catch (e: Exception) {
                 // 如果服务获取失败，使用默认显示

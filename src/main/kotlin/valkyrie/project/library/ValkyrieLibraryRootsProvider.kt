@@ -1,10 +1,14 @@
 package valkyrie.project.library
 
+import com.intellij.notification.NotificationGroupManager
+import com.intellij.notification.NotificationType
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.AdditionalLibraryRootsProvider
 import com.intellij.openapi.roots.SyntheticLibrary
 import com.intellij.openapi.vfs.VirtualFile
 import valkyrie.index.ValkyrieProjectService
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * Valkyrie 外部库根目录提供器
@@ -13,8 +17,7 @@ import valkyrie.index.ValkyrieProjectService
 class ValkyrieLibraryRootsProvider : AdditionalLibraryRootsProvider() {
     
     companion object {
-        // 缓存已经显示过通知的项目，避免重复通知
-        private val notifiedProjects = mutableSetOf<String>()
+        private val stdLibMissingNotified = AtomicBoolean(false)
     }
     
     override fun getAdditionalProjectLibraries(project: Project): Collection<SyntheticLibrary> {
@@ -68,28 +71,36 @@ class ValkyrieLibraryRootsProvider : AdditionalLibraryRootsProvider() {
                 )
                 libraries.add(stdLibrary)
             } else {
-                // 如果找不到标准库，显示提示信息（但只显示一次）
-                val projectPath = project.basePath ?: project.name
-                if (!notifiedProjects.contains(projectPath)) {
-                    try {
-                        com.intellij.notification.NotificationGroupManager.getInstance()
-                            .getNotificationGroup("Valkyrie")
-                            ?.createNotification(
-                                "Valkyrie Standard Library Not Found",
-                                "Please install Valkyrie and set VALKYRIE_HOME environment variable to enable standard library support.",
-                                com.intellij.notification.NotificationType.WARNING
-                            )?.notify(project)
-                        notifiedProjects.add(projectPath)
-                    } catch (e: Exception) {
-                        // 忽略通知错误
-                    }
-                }
+                notifyStdLibMissingOnce(project)
             }
         } catch (e: Exception) {
             // 忽略标准库加载错误，不影响其他库的加载
         }
     }
     
+    private fun notifyStdLibMissingOnce(project: Project) {
+        if (!stdLibMissingNotified.compareAndSet(false, true)) {
+            return
+        }
+        ApplicationManager.getApplication().invokeLater {
+            if (project.isDisposed) {
+                return@invokeLater
+            }
+            try {
+                NotificationGroupManager.getInstance()
+                    .getNotificationGroup("Valkyrie")
+                    ?.createNotification(
+                        "Valkyrie Standard Library Not Found",
+                        "Please install Valkyrie and set VALKYRIE_HOME environment variable to enable standard library support.",
+                        NotificationType.WARNING,
+                    )
+                    ?.notify(project)
+            } catch (_: Exception) {
+                // Ignore notification failures.
+            }
+        }
+    }
+
     /**
      * 查找标准库路径
      */

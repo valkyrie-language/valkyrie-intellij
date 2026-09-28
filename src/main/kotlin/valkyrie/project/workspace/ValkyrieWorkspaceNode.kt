@@ -8,6 +8,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDirectory
 import valkyrie.index.ValkyrieProjectService
 import valkyrie.language.ValkyrieIcons
+import valkyrie.project.setPresentableNameWithTypeSuffix
 
 /**
  * Valkyrie Workspace 节点
@@ -33,7 +34,7 @@ class ValkyrieWorkspaceNode(
                 val projectManager = ValkyrieProjectService.Companion.getInstance(currentProject).getProjectManager()
                 val workspace = projectManager.getWorkspace(value.virtualFile)
                 if (workspace != null) {
-                    data.presentableText = "${workspace.name} (Workspace)"
+                    data.setPresentableNameWithTypeSuffix(workspace.name, "Workspace")
                 }
             } catch (e: Exception) {
                 // 如果服务获取失败，使用默认显示
