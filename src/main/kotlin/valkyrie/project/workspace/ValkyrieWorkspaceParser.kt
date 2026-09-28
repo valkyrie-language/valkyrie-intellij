@@ -1,20 +1,16 @@
 package valkyrie.project.workspace
 
-import com.fasterxml.jackson.databind.JsonNode
+import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.openapi.application.ReadAction
 import valkyrie.project.DependencySource
 import valkyrie.project.LegionManifestDocuments
+import valkyrie.project.LegionManifestObject
 import valkyrie.project.LegionManifestReader
+import valkyrie.project.LegionManifestValue
 import valkyrie.project.ValkyriePackageDependency
 import valkyrie.project.ValkyrieProjectParser
-import valkyrie.project.booleanOrNull
-import valkyrie.project.memberPaths
-import valkyrie.project.objectFields
 import valkyrie.project.resolveMemberPath
-import valkyrie.project.stringMap
-import valkyrie.project.textOrNull
 
 /**
  * Parses `legions.von` / `legions.json` workspace manifests.
@@ -55,7 +51,7 @@ class ValkyrieWorkspaceParser {
         }
     }
 
-    private fun findPackages(workspaceRoot: VirtualFile, rootObject: JsonNode): List<VirtualFile> {
+    private fun findPackages(workspaceRoot: VirtualFile, rootObject: LegionManifestObject): List<VirtualFile> {
         val memberPackages = rootObject.memberPaths()
             .mapNotNull { member -> resolveMemberPath(workspaceRoot, member) }
             .filter { projectParser.isValkyrieProject(it) }
@@ -71,7 +67,7 @@ class ValkyrieWorkspaceParser {
     }
 
     private fun parsePackageDependencies(
-        rootObject: JsonNode,
+        rootObject: LegionManifestObject,
         workspaceRoot: VirtualFile,
     ): Map<String, ValkyriePackageDependency> {
         val dependencies = mutableMapOf<String, ValkyriePackageDependency>()
@@ -81,60 +77,62 @@ class ValkyrieWorkspaceParser {
     }
 
     private fun parseDependencySection(
-        rootObject: JsonNode,
+        rootObject: LegionManifestObject,
         sectionName: String,
         workspaceRoot: VirtualFile,
     ): Map<String, ValkyriePackageDependency> {
-        val section = rootObject.get(sectionName) ?: return emptyMap()
-        if (!section.isObject) return emptyMap()
-
+        val section = rootObject.childObject(sectionName) ?: return emptyMap()
         val dependencies = mutableMapOf<String, ValkyriePackageDependency>()
-        section.fields().forEachRemaining { entry ->
-            val name = entry.key
-            val value = entry.value
-            when {
-                value.isTextual || value.isNumber -> {
-                    dependencies[name] = ValkyriePackageDependency(
-                        name = name,
-                        version = value.asText(),
-                        source = DependencySource.External(),
-                    )
-                }
-
-                value.isObject -> {
-                    val path = value.textOrNull("path")
-                    val alias = value.textOrNull("alias")
-                    val version = value.textOrNull("version") ?: "latest"
-                    val gitUrl = value.textOrNull("git")
-                    val branch = value.textOrNull("branch")
-                    val tag = value.textOrNull("tag")
-
-                    val source = when {
-                        gitUrl != null -> DependencySource.Git(gitUrl, branch, tag)
-                        path != null -> {
-                            val absolutePath = resolveMemberPath(workspaceRoot, path)?.path ?: "${workspaceRoot.path}/$path"
-                            DependencySource.Local(absolutePath)
-                        }
-
-                        else -> DependencySource.External()
-                    }
-
-                    dependencies[name] = ValkyriePackageDependency(
-                        name = name,
-                        version = version,
-                        source = source,
-                        alias = alias,
-                    )
-                }
-            }
+        section.propertyEntries().forEach { (name, value) ->
+            dependencies[name] = parsePackageDependency(name, value, workspaceRoot)
         }
         return dependencies
     }
 
-    private fun parsePackageAliases(rootObject: JsonNode): Map<String, String> {
+    private fun parsePackageDependency(
+        name: String,
+        value: LegionManifestValue,
+        workspaceRoot: VirtualFile,
+    ): ValkyriePackageDependency {
+        val scalarVersion = value.textOrNull()
+        if (scalarVersion != null) {
+            return ValkyriePackageDependency(
+                name = name,
+                version = scalarVersion,
+                source = DependencySource.External(),
+            )
+        }
+
+        val objectValue = value.asObject()
+        val path = objectValue?.textOrNull("path")
+        val alias = objectValue?.textOrNull("alias")
+        val version = objectValue?.textOrNull("version") ?: "latest"
+        val gitUrl = objectValue?.textOrNull("git")
+        val branch = objectValue?.textOrNull("branch")
+        val tag = objectValue?.textOrNull("tag")
+
+        val source = when {
+            gitUrl != null -> DependencySource.Git(gitUrl, branch, tag)
+            path != null -> {
+                val absolutePath = resolveMemberPath(workspaceRoot, path)?.path ?: "${workspaceRoot.path}/$path"
+                DependencySource.Local(absolutePath)
+            }
+
+            else -> DependencySource.External()
+        }
+
+        return ValkyriePackageDependency(
+            name = name,
+            version = version,
+            source = source,
+            alias = alias,
+        )
+    }
+
+    private fun parsePackageAliases(rootObject: LegionManifestObject): Map<String, String> {
         val aliases = mutableMapOf<String, String>()
-        rootObject.objectFields("dependencies").forEach { (name, value) ->
-            val alias = value.textOrNull("alias")
+        rootObject.childObject("dependencies")?.propertyEntries()?.forEach { (name, value) ->
+            val alias = value.asObject()?.textOrNull("alias")
             if (alias != null) {
                 aliases[alias] = name
             }

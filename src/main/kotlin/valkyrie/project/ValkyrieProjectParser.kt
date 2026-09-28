@@ -1,9 +1,8 @@
 package valkyrie.project
 
-import com.fasterxml.jackson.databind.JsonNode
+import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.openapi.application.ReadAction
 
 /**
  * Parses `legion.von` / `legion.json` project manifests.
@@ -45,8 +44,8 @@ class ValkyrieProjectParser {
         }
     }
 
-    private fun parsePackageInfo(rootObject: JsonNode): ValkyriePackageInfo {
-        val packageObject = rootObject.get("package")?.takeIf { it.isObject } ?: rootObject
+    private fun parsePackageInfo(rootObject: LegionManifestObject): ValkyriePackageInfo {
+        val packageObject = rootObject.childObject("package") ?: rootObject
 
         return ValkyriePackageInfo(
             name = packageObject.textOrNull("name") ?: "unknown",
@@ -65,46 +64,24 @@ class ValkyrieProjectParser {
         )
     }
 
-    private fun parseFeatures(rootObject: JsonNode): Map<String, List<String>> {
-        val featuresObject = rootObject.get("features") ?: return emptyMap()
-        if (!featuresObject.isObject) return emptyMap()
-
-        val features = mutableMapOf<String, List<String>>()
-        featuresObject.fields().forEachRemaining { entry ->
-            val list = if (entry.value.isArray) {
-                entry.value.mapNotNull { element ->
-                    when {
-                        element.isTextual -> element.asText()
-                        element.isNumber -> element.asText()
-                        else -> null
-                    }
-                }
-            } else {
-                emptyList()
-            }
-            features[entry.key] = list
-        }
-        return features
+    private fun parseFeatures(rootObject: LegionManifestObject): Map<String, List<String>> {
+        val featuresObject = rootObject.childObject("features") ?: return emptyMap()
+        return featuresObject.propertyEntries().mapValues { (_, value) -> value.asStringList() }
     }
 
-    private fun parseDependencySection(rootObject: JsonNode, sectionName: String): Map<String, String> {
-        val section = rootObject.get(sectionName) ?: return emptyMap()
-        if (!section.isObject) return emptyMap()
-
+    private fun parseDependencySection(rootObject: LegionManifestObject, sectionName: String): Map<String, String> {
+        val section = rootObject.childObject(sectionName) ?: return emptyMap()
         val dependencies = mutableMapOf<String, String>()
-        section.fields().forEachRemaining { entry ->
-            when {
-                entry.value.isTextual || entry.value.isNumber ->
-                    dependencies[entry.key] = entry.value.asText()
-
-                entry.value.isObject ->
-                    entry.value.textOrNull("version")?.let { dependencies[entry.key] = it }
+        section.propertyEntries().forEach { (name, value) ->
+            val version = value.textOrNull() ?: value.asObject()?.textOrNull("version")
+            if (version != null) {
+                dependencies[name] = version
             }
         }
         return dependencies
     }
 
-    private fun findEntryPoints(projectRoot: VirtualFile, rootObject: JsonNode): ValkyrieEntryPoints {
+    private fun findEntryPoints(projectRoot: VirtualFile, rootObject: LegionManifestObject): ValkyrieEntryPoints {
         val libraryDir = projectRoot.findChild(LIBRARY_DIR) ?: projectRoot.findChild(SOURCE_DIR)
         val binaryDir = projectRoot.findChild(BINARY_DIR)
 
