@@ -19,7 +19,7 @@ import valkyrie.psi.lexers.ValkyrieLexer
 /**
  * Valkyrie 语言解析器定义
  */
-class ValkyrieParserDefinition : ParserDefinition {
+open class ValkyrieParserDefinition : ParserDefinition {
 
     companion object {
         val FILE = IFileElementType(ValkyrieLanguage.INSTANCE)

@@ -8,9 +8,7 @@ class ValkyrieFileType private constructor() : LanguageFileType(ValkyrieLanguage
         val INSTANCE = ValkyrieFileType()
     }
 
-    override fun getName(): String {
-        return "Valkyrie File"
-    }
+    override fun getName(): String = "Valkyrie File"
 
     override fun getDescription(): String {
         return "Valkyrie language file"

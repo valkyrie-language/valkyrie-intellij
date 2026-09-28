@@ -5,6 +5,8 @@
 	<depends>com.intellij.modules.lang</depends>
 	<depends>com.intellij.modules.platform</depends>
 	<depends>com.intellij.modules.json</depends>
+	<depends>com.intellij.modules.vcs</depends>
+	<depends>com.github.voml.voml_intellij</depends>
 	<!-- 移除可选的Ultimate依赖，避免插件被自动卸载 -->
 	<depends optional="true" config-file="plugin-with-java.xml">com.intellij.java</depends>
 	<depends config-file="plugin-with-toml.xml">org.toml.lang</depends>
@@ -13,35 +15,35 @@
 	<extensions defaultExtensionNs="com.intellij">
 		<!-- Language -->
 		<fileType
-			name="valkyrie"
+			name="Valkyrie File"
 			language="valkyrie"
-			extensions="vk;valkyrie;"
-			implementationClass="valkyrie.language.dialect_std.ValkyrieFileType"
+			extensions="v;vk;valkyrie;"
+			implementationClass="valkyrie.language.ValkyrieFileType"
 			fieldName="INSTANCE"
 		/>
 		<fileType
-			name="valkyrie-xml"
+			name="Valkyrie XML"
 			language="valkyrie-xml"
 			extensions="vkx;"
 			implementationClass="valkyrie.language.dialect_xml.ValkyrieXmlFileType"
 			fieldName="INSTANCE"
 		/>
 		<fileType
-			name="valkyrie-template"
+			name="Valkyrie Template"
 			language="valkyrie-template"
 			extensions="vkt;"
 			implementationClass="valkyrie.language.dialect_asp.ValkyrieAspFileType"
 			fieldName="INSTANCE"
 		/>
 		<fileType
-			name="valkyrieMark"
+			name="Valkyrie Mark"
 			language="ValkyrieMark"
 			extensions="vkm;"
 			implementationClass="valkyrie.language.dialect_markup.ValkyrieMarkFileType"
 			fieldName="INSTANCE"
 		/>
 		<fileType
-			name="valkyrie-component"
+			name="Valkyrie SFC"
 			language="valkyrie-component"
 			extensions="vx;"
 			implementationClass="valkyrie.language.dialect_sfc.ValkyrieSfcFileType"
