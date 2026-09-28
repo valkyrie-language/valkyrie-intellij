@@ -1,6 +1,6 @@
 package valkyrie.project
 
-import com.github.voml.voml_intellij.language.VonFile
+import von.language.VonFile
 import com.intellij.json.psi.JsonFile
 import com.intellij.json.psi.JsonObject
 import com.intellij.openapi.application.ReadAction

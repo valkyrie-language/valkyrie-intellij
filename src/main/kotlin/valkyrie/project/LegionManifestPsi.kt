@@ -1,10 +1,10 @@
 package valkyrie.project
 
-import com.github.voml.voml_intellij.language.von.psi.VonPairPsi
-import com.github.voml.voml_intellij.language.von.psi.VonTablePsi
-import com.github.voml.voml_intellij.language.von.psi.VonValuePsi
-import com.github.voml.voml_intellij.language.von.psi.rootTable
-import com.github.voml.voml_intellij.language.VonFile
+import von.language.psi.VonPairPsi
+import von.language.psi.VonTablePsi
+import von.language.psi.VonValuePsi
+import von.language.psi.rootTable
+import von.language.VonFile
 import com.intellij.json.psi.JsonArray
 import com.intellij.json.psi.JsonBooleanLiteral
 import com.intellij.json.psi.JsonNullLiteral
