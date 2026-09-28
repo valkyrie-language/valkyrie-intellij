@@ -37,6 +37,11 @@ class ValkyrieUsageVisionProvider : DaemonBoundCodeVisionProvider {
 
     override val groupId: String = PlatformCodeVisionIds.USAGES.key
 
+    override fun computeForEditor(editor: Editor, file: PsiFile): List<Pair<TextRange, CodeVisionEntry>> {
+        // Usage counts require project-wide reference search and block the daemon on large trees.
+        return emptyList()
+    }
+
     override fun handleClick(editor: Editor, textRange: TextRange, entry: CodeVisionEntry) {
         // 点击时显示查找使用处窗口
         val file = com.intellij.psi.PsiDocumentManager.getInstance(editor.project ?: return)
