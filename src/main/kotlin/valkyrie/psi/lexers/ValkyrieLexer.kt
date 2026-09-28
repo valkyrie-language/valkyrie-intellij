@@ -66,6 +66,7 @@ open class ValkyrieLexer(config: ValkyrieLanguageConfig) : Lexer() {
         "singleton" to ValkyrieTypes.SINGLETON,
         "union" to ValkyrieTypes.UNION,
         "unity" to ValkyrieTypes.UNITY,
+        "unite" to ValkyrieTypes.UNITY,
         "flags" to ValkyrieTypes.FLAGS,
         "enums" to ValkyrieTypes.EIDOS,
         "eidos" to ValkyrieTypes.EIDOS,

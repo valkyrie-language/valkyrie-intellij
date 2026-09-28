@@ -581,10 +581,6 @@ open class ValkyrieParser(public val config: ValkyrieLanguageConfig = ValkyrieLa
     }
 
     fun parseMicroStatement(builder: PsiBuilder): Boolean {
-        // 如果不允许旧的 function 语法，那么直接返回 false
-        if (!config.allow_legacy_function) {
-            return false
-        }
         return parseFnLikeStatement(builder, ValkyrieTypes.MICRO, ValkyrieTypes.DECLARE_MICRO)
     }
 
@@ -744,6 +740,8 @@ open class ValkyrieParser(public val config: ValkyrieLanguageConfig = ValkyrieLa
                 parseMezzoAssign(builder) -> continue
                 parseTestsStatement(builder) -> continue
                 parseMacroCall(builder, true) -> continue
+                parseMicroStatement(builder) -> continue
+                parseMezzoStatement(builder) -> continue
                 parseMethod(builder) -> continue
                 parseDomain(builder) -> continue
                 parseField(builder) -> continue
@@ -963,12 +961,12 @@ open class ValkyrieParser(public val config: ValkyrieLanguageConfig = ValkyrieLa
             return false
         }
         builder.advanceLexer() // consume 'imply'
-        parseGenericParameterList(this, builder)
-        // impl module::Type
+        // impl module::Type<T>
         if (!parseNamePath(builder, free = true)) {
             marker.rollbackTo()
             return false
         }
+        parseGenericParameterList(this, builder)
         // impl module::Type: Trait
         parseImplementationType(builder)
         
@@ -1588,7 +1586,10 @@ public fun isIdentifier(token: IElementType?): Boolean {
     return token == ValkyrieTypes.SYMBOL_XID ||
             token == ValkyrieTypes.SYMBOL_RAW ||
             token == ValkyrieTypes.KW_SELF ||
-            token == ValkyrieTypes.KW_SELF_TYPE
+            token == ValkyrieTypes.KW_SELF_TYPE ||
+            token == ValkyrieTypes.KW_SOME ||
+            token == ValkyrieTypes.KW_NONE ||
+            token == ValkyrieTypes.KW_VALUE
 }
 
 public fun parseIdentifier(builder: PsiBuilder): Boolean {
