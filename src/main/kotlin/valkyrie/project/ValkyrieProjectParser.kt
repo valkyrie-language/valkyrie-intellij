@@ -1,176 +1,125 @@
 package valkyrie.project
 
+import com.fasterxml.jackson.databind.JsonNode
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.psi.PsiManager
-import com.intellij.json.psi.JsonFile
-import com.intellij.json.psi.JsonObject
-import com.intellij.json.psi.JsonStringLiteral
-import com.intellij.json.psi.JsonArray
 import com.intellij.openapi.application.ReadAction
 
 /**
- * Valkyrie Project 解析器
- * 负责识别和解析 legion.json 文件，确定项目结构
+ * Parses `legion.von` / `legion.json` project manifests.
  */
 class ValkyrieProjectParser {
-    
+
     companion object {
-        const val LEGION_JSON = "legion.json"
+        const val LEGION_JSON = LegionManifestDocuments.LEGION_JSON
+        const val LEGION_VON = LegionManifestDocuments.LEGION_VON
         const val LIBRARY_DIR = "library"
         const val BINARY_DIR = "binary"
         const val TESTS_DIR = "test"
+        const val SOURCE_DIR = "source"
         const val ENTRY_FILE = "_.valkyrie"
-        const val ENTRY_FILE_ALT = "_.valkyrie"
+        const val ENTRY_FILE_ALT = "_.v"
     }
-    
-    /**
-     * 检查给定目录是否为 Valkyrie 项目
-     * @param directory 要检查的目录
-     * @return 如果是项目返回 true
-     */
+
     fun isValkyrieProject(directory: VirtualFile): Boolean {
-        if (!directory.isDirectory) return false
-        
-        val legionJson = directory.findChild(LEGION_JSON)
-        return legionJson != null && legionJson.exists()
+        return LegionManifestReader.findLegionManifest(directory) != null
     }
-    
-    /**
-     * 解析项目配置
-     * @param project IntelliJ 项目实例
-     * @param projectRoot 项目根目录
-     * @return ValkyrieProject 实例，如果解析失败返回 null
-     */
+
     fun parseProject(project: Project, projectRoot: VirtualFile): ValkyrieProject? {
-        val legionJsonFile = projectRoot.findChild(LEGION_JSON) ?: return null
-        
+        val manifestFile = LegionManifestReader.findLegionManifest(projectRoot) ?: return null
+
         return ReadAction.compute<ValkyrieProject?, RuntimeException> {
-            val psiManager = PsiManager.getInstance(project)
-            val jsonFile = psiManager.findFile(legionJsonFile) as? JsonFile
-            val rootObject = jsonFile?.topLevelValue as? JsonObject
-            
-            if (jsonFile == null || rootObject == null) return@compute null
-            
+            val rootObject = LegionManifestReader.readRoot(project, manifestFile) ?: return@compute null
+            if (!rootObject.isObject) return@compute null
+
             ValkyrieProject(
                 root = projectRoot,
                 packageInfo = parsePackageInfo(rootObject),
-                projectType = getStringProperty(rootObject, "type") ?: "library",
+                projectType = rootObject.textOrNull("type") ?: "library",
                 features = parseFeatures(rootObject),
-                dependencies = parseDependencies(rootObject),
-                buildDependencies = parseBuildDependencies(rootObject),
-                devDependencies = parseDevDependencies(rootObject),
-                entryPoints = findEntryPoints(projectRoot)
+                dependencies = parseDependencySection(rootObject, "dependencies"),
+                buildDependencies = parseDependencySection(rootObject, "build-dependencies"),
+                devDependencies = parseDependencySection(rootObject, "dev-dependencies"),
+                entryPoints = findEntryPoints(projectRoot, rootObject),
             )
         }
     }
-    
-    /**
-     * 解析包信息
-     * 支持命名空间和导出配置
-     */
-    private fun parsePackageInfo(rootObject: JsonObject): ValkyriePackageInfo {
-        val packageProperty = rootObject.findProperty("package")
-        val packageObject = packageProperty?.value as? JsonObject ?: rootObject
-        
+
+    private fun parsePackageInfo(rootObject: JsonNode): ValkyriePackageInfo {
+        val packageObject = rootObject.get("package")?.takeIf { it.isObject } ?: rootObject
+
         return ValkyriePackageInfo(
-            name = getStringProperty(packageObject, "name") ?: "unknown",
-            version = getStringProperty(packageObject, "version") ?: "0.0.0",
-            description = getStringProperty(packageObject, "description"),
-            authors = parseStringArray(packageObject, "authors"),
-            repository = getStringProperty(packageObject, "repository"),
-            documentation = getStringProperty(packageObject, "documentation"),
-            edition = getStringProperty(packageObject, "edition"),
-            license = getStringProperty(packageObject, "license"),
-            readme = getStringProperty(packageObject, "readme"),
-            publish = getBooleanProperty(packageObject, "publish") ?: true,
-            
-            // 新增：命名空间配置
-            namespace = getStringProperty(packageObject, "namespace"),
-            
-            // 新增：导出模块列表
-            exports = parseStringArray(packageObject, "exports"),
-            
-            // 新增：包别名（默认为null，由工作空间设置）
-            alias = null
+            name = packageObject.textOrNull("name") ?: "unknown",
+            version = packageObject.textOrNull("version") ?: "0.0.0",
+            description = packageObject.textOrNull("description"),
+            authors = packageObject.stringList("authors"),
+            repository = packageObject.textOrNull("repository"),
+            documentation = packageObject.textOrNull("documentation"),
+            edition = packageObject.textOrNull("edition"),
+            license = packageObject.textOrNull("license"),
+            readme = packageObject.textOrNull("readme"),
+            publish = packageObject.booleanOrNull("publish") ?: true,
+            namespace = packageObject.textOrNull("namespace"),
+            exports = packageObject.stringList("exports"),
+            alias = null,
         )
     }
-    
-    /**
-     * 解析特性配置
-     */
-    private fun parseFeatures(rootObject: JsonObject): Map<String, List<String>> {
-        val featuresProperty = rootObject.findProperty("features") ?: return emptyMap()
-        val featuresObject = featuresProperty.value as? JsonObject ?: return emptyMap()
-        
+
+    private fun parseFeatures(rootObject: JsonNode): Map<String, List<String>> {
+        val featuresObject = rootObject.get("features") ?: return emptyMap()
+        if (!featuresObject.isObject) return emptyMap()
+
         val features = mutableMapOf<String, List<String>>()
-        for (property in featuresObject.propertyList) {
-            val key = property.name ?: continue
-            val value = property.value as? JsonArray
-            if (value != null) {
-                val featureList = value.valueList.mapNotNull { 
-                    (it as? JsonStringLiteral)?.value 
+        featuresObject.fields().forEachRemaining { entry ->
+            val list = if (entry.value.isArray) {
+                entry.value.mapNotNull { element ->
+                    when {
+                        element.isTextual -> element.asText()
+                        element.isNumber -> element.asText()
+                        else -> null
+                    }
                 }
-                features[key] = featureList
+            } else {
+                emptyList()
             }
+            features[entry.key] = list
         }
         return features
     }
-    
-    /**
-     * 解析依赖
-     */
-    private fun parseDependencies(rootObject: JsonObject): Map<String, String> {
-        return parseDependencySection(rootObject, "dependencies")
-    }
-    
-    /**
-     * 解析构建依赖
-     */
-    private fun parseBuildDependencies(rootObject: JsonObject): Map<String, String> {
-        return parseDependencySection(rootObject, "build-dependencies")
-    }
-    
-    /**
-     * 解析开发依赖
-     */
-    private fun parseDevDependencies(rootObject: JsonObject): Map<String, String> {
-        return parseDependencySection(rootObject, "dev-dependencies")
-    }
-    
-    /**
-     * 解析依赖段
-     */
-    private fun parseDependencySection(rootObject: JsonObject, sectionName: String): Map<String, String> {
-        val depsProperty = rootObject.findProperty(sectionName) ?: return emptyMap()
-        val depsObject = depsProperty.value as? JsonObject ?: return emptyMap()
-        
+
+    private fun parseDependencySection(rootObject: JsonNode, sectionName: String): Map<String, String> {
+        val section = rootObject.get(sectionName) ?: return emptyMap()
+        if (!section.isObject) return emptyMap()
+
         val dependencies = mutableMapOf<String, String>()
-        for (property in depsObject.propertyList) {
-            val key = property.name
-            val value = (property.value as? JsonStringLiteral)?.value
-            if (key != null && value != null) {
-                dependencies[key] = value
+        section.fields().forEachRemaining { entry ->
+            when {
+                entry.value.isTextual || entry.value.isNumber ->
+                    dependencies[entry.key] = entry.value.asText()
+
+                entry.value.isObject ->
+                    entry.value.textOrNull("version")?.let { dependencies[entry.key] = it }
             }
         }
         return dependencies
     }
-    
-    /**
-     * 查找入口点
-     */
-    private fun findEntryPoints(projectRoot: VirtualFile): ValkyrieEntryPoints {
-        val libraryDir = projectRoot.findChild(LIBRARY_DIR)
+
+    private fun findEntryPoints(projectRoot: VirtualFile, rootObject: JsonNode): ValkyrieEntryPoints {
+        val libraryDir = projectRoot.findChild(LIBRARY_DIR) ?: projectRoot.findChild(SOURCE_DIR)
         val binaryDir = projectRoot.findChild(BINARY_DIR)
-        
-        val libraryEntry = libraryDir?.let { dir ->
-            dir.findChild(ENTRY_FILE) ?: dir.findChild(ENTRY_FILE_ALT)
+
+        val mainPath = rootObject.textOrNull("main")
+        val libraryEntry = when {
+            mainPath != null -> resolveMemberPath(projectRoot, mainPath)
+            else -> libraryDir?.let { dir ->
+                dir.findChild(ENTRY_FILE) ?: dir.findChild(ENTRY_FILE_ALT)
+            }
         }
-        
+
         val binaryEntries = mutableListOf<VirtualFile>()
         binaryDir?.children?.forEach { child ->
             when {
-                child.name.endsWith(".valkyrie") -> binaryEntries.add(child)
+                child.name.endsWith(".valkyrie") || child.name.endsWith(".v") -> binaryEntries.add(child)
                 child.isDirectory -> {
                     val entryFile = child.findChild(ENTRY_FILE) ?: child.findChild(ENTRY_FILE_ALT)
                     if (entryFile != null) {
@@ -179,43 +128,10 @@ class ValkyrieProjectParser {
                 }
             }
         }
-        
+
         return ValkyrieEntryPoints(
             library = libraryEntry,
-            binaries = binaryEntries
+            binaries = binaryEntries,
         )
     }
-    
-    /**
-     * 获取字符串属性值
-     */
-    private fun getStringProperty(jsonObject: JsonObject, propertyName: String): String? {
-        val property = jsonObject.findProperty(propertyName) ?: return null
-        return (property.value as? JsonStringLiteral)?.value
-    }
-    
-    /**
-     * 获取布尔属性值
-     */
-    private fun getBooleanProperty(jsonObject: JsonObject, propertyName: String): Boolean? {
-        val property = jsonObject.findProperty(propertyName) ?: return null
-        return when (val value = property.value?.text?.trim('"')) {
-            "true" -> true
-            "false" -> false
-            else -> null
-        }
-    }
-    
-    /**
-     * 解析字符串数组
-     */
-    private fun parseStringArray(jsonObject: JsonObject, propertyName: String): List<String> {
-        val property = jsonObject.findProperty(propertyName) ?: return emptyList()
-        val array = property.value as? JsonArray ?: return emptyList()
-        
-        return array.valueList.mapNotNull { 
-            (it as? JsonStringLiteral)?.value 
-        }
-    }
 }
-
