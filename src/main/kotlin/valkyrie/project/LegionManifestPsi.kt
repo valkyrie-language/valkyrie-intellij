@@ -1,9 +1,7 @@
 package valkyrie.project
 
 import com.github.voml.voml_intellij.language.VomlFile
-import com.github.voml.voml_intellij.language.psi.VomlPair
-import com.github.voml.voml_intellij.language.psi.VomlTable
-import com.github.voml.voml_intellij.language.psi.VomlValue
+import com.github.voml.voml_intellij.language.psi.VomlPsi
 import com.intellij.json.psi.JsonArray
 import com.intellij.json.psi.JsonBooleanLiteral
 import com.intellij.json.psi.JsonNullLiteral
@@ -12,14 +10,13 @@ import com.intellij.json.psi.JsonObject
 import com.intellij.json.psi.JsonStringLiteral
 import com.intellij.json.psi.JsonValue
 import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.psi.util.PsiTreeUtil
 
 /**
- * Unified manifest object view over JSON PSI (`JsonObject`) and VOML PSI (`VomlTable`).
+ * Unified manifest object view over JSON PSI (`JsonObject`) and VOML PSI (`VomlPsi.Table`).
  */
 class LegionManifestObject private constructor(
     private val json: JsonObject?,
-    private val table: VomlTable?,
+    private val table: VomlPsi.Table?,
 ) {
     val isObject: Boolean
         get() = json != null || (table?.braceL != null)
@@ -90,17 +87,15 @@ class LegionManifestObject private constructor(
     companion object {
         fun fromJson(json: JsonObject): LegionManifestObject = LegionManifestObject(json, null)
 
-        fun fromVoml(table: VomlTable): LegionManifestObject = LegionManifestObject(null, table)
+        fun fromVoml(table: VomlPsi.Table): LegionManifestObject = LegionManifestObject(null, table)
 
-        fun rootTable(file: VomlFile): VomlTable? =
-            PsiTreeUtil.findChildrenOfType(file, VomlTable::class.java)
-                .firstOrNull { it.braceL != null }
+        fun rootTable(file: VomlFile): VomlPsi.Table? = VomlPsi.rootTable(file)
     }
 }
 
 class LegionManifestValue private constructor(
     private val json: JsonValue?,
-    private val voml: VomlValue?,
+    private val voml: VomlPsi.Value?,
 ) {
     fun textOrNull(): String? =
         json?.let { jsonScalarText(it) } ?: voml?.let { vomlScalarText(it) }
@@ -126,7 +121,7 @@ class LegionManifestValue private constructor(
     companion object {
         fun fromJson(value: JsonValue): LegionManifestValue = LegionManifestValue(value, null)
 
-        fun fromVoml(value: VomlValue): LegionManifestValue = LegionManifestValue(null, value)
+        fun fromVoml(value: VomlPsi.Value): LegionManifestValue = LegionManifestValue(null, value)
     }
 }
 
@@ -145,10 +140,10 @@ internal fun resolveMemberPath(workspaceRoot: VirtualFile, member: String): Virt
     return current
 }
 
-private fun VomlTable.findPair(field: String): VomlPair? =
+private fun VomlPsi.Table.findPair(field: String): VomlPsi.Pair? =
     pairList.firstOrNull { pair -> pairKey(pair) == field }
 
-private fun pairKey(pair: VomlPair): String? {
+private fun pairKey(pair: VomlPsi.Pair): String? {
     val path = pair.symbolPath
     if (path.keySymbolList.isNotEmpty()) {
         return path.keySymbolList.joinToString(".") { it.text }
@@ -167,9 +162,9 @@ private fun jsonScalarText(value: JsonValue?): String? {
     }
 }
 
-private fun vomlScalarText(value: VomlValue): String? {
+private fun vomlScalarText(value: VomlPsi.Value): String? {
     value.annotation?.valueList?.firstOrNull()?.let { return vomlScalarText(it) }
-    if (value.getNull() != null) {
+    if (value.isNull()) {
         return null
     }
     value.boolean?.text?.let { return it }
