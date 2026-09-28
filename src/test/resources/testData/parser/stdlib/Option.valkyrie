@@ -1,0 +1,17 @@
+namespace core::types;
+
+unite Option<T> {
+    Some { value: T },
+    None,
+}
+
+imply Option<T> {
+    micro is_some(self): bool {
+        match self {
+            case Some(value):
+                true
+            case None:
+                false
+        }
+    }
+}

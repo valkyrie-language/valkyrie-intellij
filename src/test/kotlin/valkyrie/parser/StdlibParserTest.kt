@@ -1,0 +1,9 @@
+package valkyrie.parser
+
+import valkyrie.test.ValkyrieParsingTestCase
+
+class StdlibParserTest : ValkyrieParsingTestCase("testData/parser/stdlib") {
+    fun testOption() = doTest(true, true)
+
+    override fun skipSpaces(): Boolean = true
+}
