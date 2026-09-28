@@ -33,7 +33,7 @@ class ValkyrieProjectParser {
 
             ValkyrieProject(
                 root = projectRoot,
-                packageInfo = parsePackageInfo(rootObject),
+                packageInfo = parsePackageInfo(rootObject, projectRoot),
                 projectType = rootObject.textOrNull("type") ?: "library",
                 features = parseFeatures(rootObject),
                 dependencies = parseDependencySection(rootObject, "dependencies"),
@@ -44,11 +44,13 @@ class ValkyrieProjectParser {
         }
     }
 
-    private fun parsePackageInfo(rootObject: LegionManifestObject): ValkyriePackageInfo {
+    private fun parsePackageInfo(rootObject: LegionManifestObject, projectRoot: VirtualFile): ValkyriePackageInfo {
         val packageObject = rootObject.childObject("package") ?: rootObject
 
         return ValkyriePackageInfo(
-            name = packageObject.textOrNull("name") ?: "unknown",
+            name = packageObject.textOrNull("name")
+                ?: rootObject.textOrNull("name")
+                ?: projectRoot.name,
             version = packageObject.textOrNull("version") ?: "0.0.0",
             description = packageObject.textOrNull("description"),
             authors = packageObject.stringList("authors"),
