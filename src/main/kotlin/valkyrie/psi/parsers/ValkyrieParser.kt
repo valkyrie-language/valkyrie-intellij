@@ -29,7 +29,6 @@ private val syncTokens = setOf(
  */
 open class ValkyrieParser(public val config: ValkyrieLanguageConfig = ValkyrieLanguageConfig()) : PsiParser, LightPsiParser {
     override fun parse(root: IElementType, builder: PsiBuilder): ASTNode {
-        builder.setDebugMode(true)
         val rootMarker = builder.mark()
         parseProgram(builder)
         rootMarker.done(root)

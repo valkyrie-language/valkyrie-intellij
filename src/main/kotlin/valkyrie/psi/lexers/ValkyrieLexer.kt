@@ -334,7 +334,7 @@ open class ValkyrieLexer(config: ValkyrieLanguageConfig) : Lexer() {
         if (currentOffset > macroStart) {
             currentTokenType = ValkyrieTypes.MACRO_NUMBER
         } else {
-            // 如果没有读取到宏标识符，则为错误字符
+            currentOffset++
             currentTokenType = BAD_CHARACTER
         }
     }
