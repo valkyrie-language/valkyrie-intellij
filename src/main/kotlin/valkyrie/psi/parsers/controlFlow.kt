@@ -482,6 +482,21 @@ fun parseMatchBody(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     return true
 }
 
+private val matchClauseStarters = setOf(
+    ValkyrieTypes.CASE,
+    ValkyrieTypes.WHEN,
+    ValkyrieTypes.TYPE,
+    ValkyrieTypes.ELSE,
+    ValkyrieTypes.BRACE_R,
+)
+
+private fun parseMatchArmExpression(parser: ValkyrieParser, builder: PsiBuilder) {
+    if (builder.tokenType == null || builder.tokenType in matchClauseStarters) {
+        return
+    }
+    parseTermExpression(parser, builder, inline = true)
+}
+
 private fun parseCaseClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     val marker = builder.mark()
     parser.parseAnnotations(builder, withModifiers = false)
@@ -500,6 +515,8 @@ private fun parseCaseClause(parser: ValkyrieParser, builder: PsiBuilder): Boolea
     } else {
         builder.error("Expected ':' after case pattern")
     }
+
+    parseMatchArmExpression(parser, builder)
 
     marker.done(ValkyrieTypes.CASE_CLAUSE)
     return true
@@ -522,6 +539,8 @@ private fun parseWhenClause(parser: ValkyrieParser, builder: PsiBuilder): Boolea
     } else {
         builder.error("Expected ':' after when pattern")
     }
+
+    parseMatchArmExpression(parser, builder)
 
     marker.done(ValkyrieTypes.WHEN_CLAUSE)
     return true
@@ -546,6 +565,8 @@ private fun parseTypeClause(parser: ValkyrieParser, builder: PsiBuilder): Boolea
         builder.error("Expected ':' after type pattern")
     }
 
+    parseMatchArmExpression(parser, builder)
+
     marker.done(ValkyrieTypes.TYPE_CLAUSE)
     return true
 }
@@ -565,6 +586,8 @@ private fun parseElseClause(parser: ValkyrieParser, builder: PsiBuilder): Boolea
     } else {
         builder.error("Expected ':' after case pattern")
     }
+
+    parseMatchArmExpression(parser, builder)
 
     marker.done(ValkyrieTypes.ELSE_CLAUSE)
     return true
