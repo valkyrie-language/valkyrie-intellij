@@ -4,6 +4,4 @@
 .kotlin/*
 .qodana
 build/
-/src/main/gen/valkyrie/psi/_ValkyrieLexer.java~
-
 .trae/
