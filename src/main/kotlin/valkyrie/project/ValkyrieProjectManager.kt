@@ -41,7 +41,9 @@ class ValkyrieProjectManager(private val project: Project) {
                 events.forEach { event ->
                     val file = event.file
                     if (file != null && (file.name == ValkyrieWorkspaceParser.LEGIONS_JSON ||
-                            file.name == ValkyrieProjectParser.LEGION_JSON)
+                            file.name == ValkyrieWorkspaceParser.LEGIONS_VON ||
+                            file.name == ValkyrieProjectParser.LEGION_JSON ||
+                            file.name == ValkyrieProjectParser.LEGION_VON)
                     ) {
                         clearCacheForFile(file)
                     }
@@ -125,64 +127,63 @@ class ValkyrieProjectManager(private val project: Project) {
     }
 
     /**
+     * 在项目打开后预热 workspace / project 缓存，供 Project View 与索引使用。
+     */
+    fun warmUpProjectStructure() {
+        scanProjectStructure()
+    }
+
+    /**
      * 获取所有已知的 workspace
      */
     fun getAllWorkspaces(): List<ValkyrieWorkspace> {
-        // 如果缓存为空，主动扫描项目根目录
         if (workspaceCache.isEmpty()) {
-            scanProjectForWorkspaces()
+            scanProjectStructure()
         }
         return workspaceCache.values.filterNotNull()
     }
     
     /**
-     * 扫描项目根目录查找所有工作空间
+     * 扫描项目根目录查找所有 workspace 与单包 project
      */
-    private fun scanProjectForWorkspaces() {
+    private fun scanProjectStructure() {
         val projectRoot = project.baseDir ?: return
         
-        // 避免在ReadAction中执行耗时的文件系统操作
-        // 使用后台线程执行扫描，避免阻塞UI线程和造成死锁
         ApplicationManager.getApplication().executeOnPooledThread {
             try {
-                // 检查项目根目录本身是否为工作空间
-                if (isValkyrieWorkspace(projectRoot)) {
-                    // 在后台线程中使用 ReadAction 来安全访问 PSI
-                    ReadAction.run<RuntimeException> {
-                        getWorkspace(projectRoot)
-                    }
+                ReadAction.run<RuntimeException> {
+                    registerStructureAt(projectRoot)
+                    scanDirectoryForStructure(projectRoot, 0, 10)
                 }
-                
-                // 递归扫描子目录（最多2层深度）
-                scanDirectoryForWorkspaces(projectRoot, 0, 2)
             } catch (e: Exception) {
-                LOG.warn("Error scanning project for workspaces: ${e.message}", e)
+                LOG.warn("Error scanning project structure: ${e.message}", e)
             }
+        }
+    }
+
+    private fun registerStructureAt(directory: VirtualFile) {
+        when {
+            isValkyrieWorkspace(directory) -> getWorkspace(directory)
+            isValkyrieProject(directory) -> getProject(directory)
         }
     }
     
     /**
-     * 递归扫描目录查找工作空间
+     * 递归扫描目录查找 workspace / project
      */
-    private fun scanDirectoryForWorkspaces(directory: VirtualFile, currentDepth: Int, maxDepth: Int) {
+    private fun scanDirectoryForStructure(directory: VirtualFile, currentDepth: Int, maxDepth: Int) {
         if (currentDepth >= maxDepth || !directory.isDirectory) return
         
         try {
             directory.children.forEach { child ->
-                if (child.isDirectory) {
-                    if (isValkyrieWorkspace(child)) {
-                        // 在后台线程中使用 ReadAction 来安全访问 PSI
-                        ReadAction.run<RuntimeException> {
-                            getWorkspace(child)
-                        }
-                    } else {
-                        // 继续递归扫描
-                        scanDirectoryForWorkspaces(child, currentDepth + 1, maxDepth)
-                    }
+                if (!child.isDirectory) return@forEach
+                registerStructureAt(child)
+                if (!isValkyrieWorkspace(child) && !isValkyrieProject(child)) {
+                    scanDirectoryForStructure(child, currentDepth + 1, maxDepth)
                 }
             }
         } catch (e: Exception) {
-            LOG.warn("Failed to scan directory ${directory.path} for workspaces", e)
+            LOG.warn("Failed to scan directory ${directory.path} for Valkyrie structure", e)
         }
     }
 
@@ -257,9 +258,11 @@ class ValkyrieProjectManager(private val project: Project) {
 
         return when (file.name) {
             ValkyrieWorkspaceParser.LEGIONS_JSON,
-            ValkyrieProjectParser.LEGION_JSON -> true
+            ValkyrieWorkspaceParser.LEGIONS_VON,
+            ValkyrieProjectParser.LEGION_JSON,
+            ValkyrieProjectParser.LEGION_VON -> true
 
-            else -> file.extension == "vk" || file.extension == "valkyrie"
+            else -> file.extension in setOf("v", "vk", "valkyrie", "vx", "vkx", "vkt", "vkm")
         }
     }
 
