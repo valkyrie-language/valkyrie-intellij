@@ -1,15 +1,10 @@
-# GitHub Actions Workflow created for handling the release process based on the draft release prepared with the Build workflow.
-# Running the publishPlugin task requires all following secrets to be provided: PUBLISH_TOKEN, PRIVATE_KEY, PRIVATE_KEY_PASSWORD, CERTIFICATE_CHAIN.
-# See https://plugins.jetbrains.com/docs/intellij/plugin-signing.html for more information.
-
 name: Release
+
 on:
   release:
     types: [prereleased, released]
 
 jobs:
-
-  # Prepare and publish the plugin to JetBrains Marketplace repository
   release:
     name: Publish Plugin
     runs-on: ubuntu-latest
@@ -17,50 +12,54 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-
-      # Check out current repository
-      - name: Fetch Sources
-        uses: actions/checkout@v7
+      - name: Fetch valkyrie-intellij
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.event.release.tag_name }}
+          path: valkyrie-intellij
 
-      # Set up Java environment for the next steps
+      - name: Fetch voml-intellij
+        uses: actions/checkout@v4
+        with:
+          repository: oovm/voml-intellij
+          ref: dev
+          path: voml-intellij
+
       - name: Setup Java
-        uses: actions/setup-java@v6
+        uses: actions/setup-java@v4
         with:
           distribution: zulu
-          java-version: 17
+          java-version: 21
 
-      # Setup Gradle
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v6.2.0
-        with:
-          gradle-home-cache-cleanup: true
+        uses: gradle/actions/setup-gradle@v4
 
-      # Set environment variables
+      - name: Build voml plugin
+        working-directory: voml-intellij
+        run: ./gradlew buildPlugin
+
       - name: Export Properties
         id: properties
+        working-directory: valkyrie-intellij
         shell: bash
         run: |
           CHANGELOG="$(cat << 'EOM' | sed -e 's/^[[:space:]]*$//g' -e '/./,$!d'
           ${{ github.event.release.body }}
           EOM
           )"
-          
-          echo "changelog<<EOF" >> $GITHUB_OUTPUT
-          echo "$CHANGELOG" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          echo "changelog<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$CHANGELOG" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
 
-      # Update Unreleased section with the current release note
       - name: Patch Changelog
         if: ${{ steps.properties.outputs.changelog != '' }}
+        working-directory: valkyrie-intellij
         env:
           CHANGELOG: ${{ steps.properties.outputs.changelog }}
-        run: |
-          ./gradlew patchChangelog --release-note="$CHANGELOG"
+        run: ./gradlew patchChangelog --release-note="$CHANGELOG"
 
-      # Publish the plugin to JetBrains Marketplace
       - name: Publish Plugin
+        working-directory: valkyrie-intellij
         env:
           PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
           CERTIFICATE_CHAIN: ${{ secrets.CERTIFICATE_CHAIN }}
@@ -68,15 +67,15 @@ jobs:
           PRIVATE_KEY_PASSWORD: ${{ secrets.PRIVATE_KEY_PASSWORD }}
         run: ./gradlew publishPlugin
 
-      # Upload artifact as a release asset
       - name: Upload Release Asset
+        working-directory: valkyrie-intellij
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh release upload ${{ github.event.release.tag_name }} ./build/distributions/*
 
-      # Create a pull request
       - name: Create Pull Request
         if: ${{ steps.properties.outputs.changelog != '' }}
+        working-directory: valkyrie-intellij
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -87,10 +86,10 @@ jobs:
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
 
-          git checkout -b $BRANCH
+          git checkout -b "$BRANCH"
           git commit -am "Changelog update - $VERSION"
-          git push --set-upstream origin $BRANCH
-          
+          git push --set-upstream origin "$BRANCH"
+
           gh label create "$LABEL" \
             --description "Pull requests with release changelog update" \
             --force \
@@ -100,4 +99,5 @@ jobs:
             --title "Changelog update - \`$VERSION\`" \
             --body "Current pull request contains patched \`CHANGELOG.md\` file for the \`$VERSION\` version." \
             --label "$LABEL" \
-            --head $BRANCH
+            --base dev \
+            --head "$BRANCH"

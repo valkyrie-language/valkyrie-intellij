@@ -123,6 +123,12 @@ tasks {
             vomlIncludedBuild?.let { dependsOn(it.task(":buildPlugin")) }
         }
     }
+
+    register("ciVerify") {
+        group = "verification"
+        description = "CI gate: compile, compile tests, and package the plugin."
+        dependsOn("compileKotlin", "compileTestKotlin", "buildPlugin")
+    }
 }
 
 intellijPlatformTesting {
