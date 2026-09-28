@@ -1,6 +1,6 @@
 package valkyrie.project
 
-import com.github.voml.voml_intellij.language.VomlFile
+import com.github.voml.voml_intellij.language.VonFile
 import com.intellij.json.psi.JsonFile
 import com.intellij.json.psi.JsonObject
 import com.intellij.openapi.application.ReadAction
@@ -45,9 +45,9 @@ object LegionManifestReader {
                     LegionManifestObject.fromJson(root)
                 }
 
-                is VomlFile -> {
+                is VonFile -> {
                     val rootTable = LegionManifestObject.rootTable(psiFile) ?: return null
-                    LegionManifestObject.fromVoml(rootTable)
+                    LegionManifestObject.fromVon(rootTable)
                 }
 
                 else -> null

@@ -1,7 +1,10 @@
 package valkyrie.project
 
-import com.github.voml.voml_intellij.language.VomlFile
-import com.github.voml.voml_intellij.language.psi.VomlPsi
+import com.github.voml.voml_intellij.language.von.psi.VonPairPsi
+import com.github.voml.voml_intellij.language.von.psi.VonTablePsi
+import com.github.voml.voml_intellij.language.von.psi.VonValuePsi
+import com.github.voml.voml_intellij.language.von.psi.rootTable
+import com.github.voml.voml_intellij.language.VonFile
 import com.intellij.json.psi.JsonArray
 import com.intellij.json.psi.JsonBooleanLiteral
 import com.intellij.json.psi.JsonNullLiteral
@@ -12,18 +15,18 @@ import com.intellij.json.psi.JsonValue
 import com.intellij.openapi.vfs.VirtualFile
 
 /**
- * Unified manifest object view over JSON PSI (`JsonObject`) and VOML PSI (`VomlPsi.Table`).
+ * Unified manifest object view over JSON PSI (`JsonObject`) and VON PSI (`VonTablePsi`).
  */
 class LegionManifestObject private constructor(
     private val json: JsonObject?,
-    private val table: VomlPsi.Table?,
+    private val table: VonTablePsi?,
 ) {
     val isObject: Boolean
         get() = json != null || (table?.braceL != null)
 
     fun textOrNull(field: String): String? =
         json?.let { jsonScalarText(it.findProperty(field)?.value) }
-            ?: table?.findPair(field)?.let { vomlScalarText(it.value) }
+            ?: table?.findPair(field)?.let { vonScalarText(it.value) }
 
     fun booleanOrNull(field: String): Boolean? {
         val text = textOrNull(field) ?: return null
@@ -39,9 +42,9 @@ class LegionManifestObject private constructor(
         if (jsonArray != null) {
             return jsonArray.valueList.mapNotNull { jsonScalarText(it) }
         }
-        val vomlValue = table?.findPair(field)?.value ?: return emptyList()
-        val arrayTable = vomlValue.table?.takeIf { it.bracketL != null } ?: return emptyList()
-        return arrayTable.valueList.mapNotNull { vomlScalarText(it) }
+        val vonValue = table?.findPair(field)?.value ?: return emptyList()
+        val arrayTable = vonValue.table?.takeIf { it.bracketL != null } ?: return emptyList()
+        return arrayTable.valueList.mapNotNull { vonScalarText(it) }
     }
 
     fun stringMap(field: String): Map<String, String> {
@@ -55,8 +58,8 @@ class LegionManifestObject private constructor(
         if (jsonChild != null) {
             return fromJson(jsonChild)
         }
-        val vomlChild = table?.findPair(field)?.value?.table?.takeIf { it.braceL != null }
-        return vomlChild?.let { fromVoml(it) }
+        val vonChild = table?.findPair(field)?.value?.table?.takeIf { it.braceL != null }
+        return vonChild?.let { fromVon(it) }
     }
 
     fun propertyEntries(): Map<String, LegionManifestValue> {
@@ -70,7 +73,7 @@ class LegionManifestObject private constructor(
         if (table != null) {
             return table.pairList.mapNotNull { pair ->
                 val name = pairKey(pair) ?: return@mapNotNull null
-                name to LegionManifestValue.fromVoml(pair.value)
+                name to LegionManifestValue.fromVon(pair.value)
             }.toMap()
         }
         return emptyMap()
@@ -87,26 +90,26 @@ class LegionManifestObject private constructor(
     companion object {
         fun fromJson(json: JsonObject): LegionManifestObject = LegionManifestObject(json, null)
 
-        fun fromVoml(table: VomlPsi.Table): LegionManifestObject = LegionManifestObject(null, table)
+        fun fromVon(table: VonTablePsi): LegionManifestObject = LegionManifestObject(null, table)
 
-        fun rootTable(file: VomlFile): VomlPsi.Table? = VomlPsi.rootTable(file)
+        fun rootTable(file: VonFile): VonTablePsi? = file.rootTable()
     }
 }
 
 class LegionManifestValue private constructor(
     private val json: JsonValue?,
-    private val voml: VomlPsi.Value?,
+    private val von: VonValuePsi?,
 ) {
     fun textOrNull(): String? =
-        json?.let { jsonScalarText(it) } ?: voml?.let { vomlScalarText(it) }
+        json?.let { jsonScalarText(it) } ?: von?.let { vonScalarText(it) }
 
     fun asObject(): LegionManifestObject? {
         val jsonObject = json as? JsonObject
         if (jsonObject != null) {
             return LegionManifestObject.fromJson(jsonObject)
         }
-        val vomlTable = voml?.table?.takeIf { it.braceL != null }
-        return vomlTable?.let { LegionManifestObject.fromVoml(it) }
+        val vonTable = von?.table?.takeIf { it.braceL != null }
+        return vonTable?.let { LegionManifestObject.fromVon(it) }
     }
 
     fun asStringList(): List<String> {
@@ -114,14 +117,14 @@ class LegionManifestValue private constructor(
         if (jsonArray != null) {
             return jsonArray.valueList.mapNotNull { jsonScalarText(it) }
         }
-        val arrayTable = voml?.table?.takeIf { it.bracketL != null }
-        return arrayTable?.valueList?.mapNotNull { vomlScalarText(it) } ?: emptyList()
+        val arrayTable = von?.table?.takeIf { it.bracketL != null }
+        return arrayTable?.valueList?.mapNotNull { vonScalarText(it) } ?: emptyList()
     }
 
     companion object {
         fun fromJson(value: JsonValue): LegionManifestValue = LegionManifestValue(value, null)
 
-        fun fromVoml(value: VomlPsi.Value): LegionManifestValue = LegionManifestValue(null, value)
+        fun fromVon(value: VonValuePsi): LegionManifestValue = LegionManifestValue(null, value)
     }
 }
 
@@ -140,10 +143,10 @@ internal fun resolveMemberPath(workspaceRoot: VirtualFile, member: String): Virt
     return current
 }
 
-private fun VomlPsi.Table.findPair(field: String): VomlPsi.Pair? =
+private fun VonTablePsi.findPair(field: String): VonPairPsi? =
     pairList.firstOrNull { pair -> pairKey(pair) == field }
 
-private fun pairKey(pair: VomlPsi.Pair): String? {
+private fun pairKey(pair: VonPairPsi): String? {
     val path = pair.symbolPath
     if (path.keySymbolList.isNotEmpty()) {
         return path.keySymbolList.joinToString(".") { it.text }
@@ -162,8 +165,8 @@ private fun jsonScalarText(value: JsonValue?): String? {
     }
 }
 
-private fun vomlScalarText(value: VomlPsi.Value): String? {
-    value.annotation?.valueList?.firstOrNull()?.let { return vomlScalarText(it) }
+private fun vonScalarText(value: VonValuePsi): String? {
+    value.annotation?.valueList?.firstOrNull()?.let { return vonScalarText(it) }
     if (value.isNull()) {
         return null
     }
