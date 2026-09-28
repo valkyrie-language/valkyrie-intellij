@@ -1,8 +1,8 @@
 package valkyrie.project
 
-import von.language.psi.VonPairPsi
-import von.language.psi.VonTablePsi
-import von.language.psi.VonValuePsi
+import von.language.psi.VonPairNode
+import von.language.psi.VonTableNode
+import von.language.psi.VonValueNode
 import von.language.psi.rootTable
 import von.language.VonFile
 import com.intellij.json.psi.JsonArray
@@ -15,11 +15,11 @@ import com.intellij.json.psi.JsonValue
 import com.intellij.openapi.vfs.VirtualFile
 
 /**
- * Unified manifest object view over JSON PSI (`JsonObject`) and VON PSI (`VonTablePsi`).
+ * Unified manifest object view over JSON PSI (`JsonObject`) and VON PSI (`VonTableNode`).
  */
 class LegionManifestObject private constructor(
     private val json: JsonObject?,
-    private val table: VonTablePsi?,
+    private val table: VonTableNode?,
 ) {
     val isObject: Boolean
         get() = json != null || (table?.braceL != null)
@@ -90,15 +90,15 @@ class LegionManifestObject private constructor(
     companion object {
         fun fromJson(json: JsonObject): LegionManifestObject = LegionManifestObject(json, null)
 
-        fun fromVon(table: VonTablePsi): LegionManifestObject = LegionManifestObject(null, table)
+        fun fromVon(table: VonTableNode): LegionManifestObject = LegionManifestObject(null, table)
 
-        fun rootTable(file: VonFile): VonTablePsi? = file.rootTable()
+        fun rootTable(file: VonFile): VonTableNode? = file.rootTable()
     }
 }
 
 class LegionManifestValue private constructor(
     private val json: JsonValue?,
-    private val von: VonValuePsi?,
+    private val von: VonValueNode?,
 ) {
     fun textOrNull(): String? =
         json?.let { jsonScalarText(it) } ?: von?.let { vonScalarText(it) }
@@ -124,7 +124,7 @@ class LegionManifestValue private constructor(
     companion object {
         fun fromJson(value: JsonValue): LegionManifestValue = LegionManifestValue(value, null)
 
-        fun fromVon(value: VonValuePsi): LegionManifestValue = LegionManifestValue(null, value)
+        fun fromVon(value: VonValueNode): LegionManifestValue = LegionManifestValue(null, value)
     }
 }
 
@@ -143,10 +143,10 @@ internal fun resolveMemberPath(workspaceRoot: VirtualFile, member: String): Virt
     return current
 }
 
-private fun VonTablePsi.findPair(field: String): VonPairPsi? =
+private fun VonTableNode.findPair(field: String): VonPairNode? =
     pairList.firstOrNull { pair -> pairKey(pair) == field }
 
-private fun pairKey(pair: VonPairPsi): String? {
+private fun pairKey(pair: VonPairNode): String? {
     val path = pair.symbolPath
     if (path.keySymbolList.isNotEmpty()) {
         return path.keySymbolList.joinToString(".") { it.text }
@@ -165,7 +165,7 @@ private fun jsonScalarText(value: JsonValue?): String? {
     }
 }
 
-private fun vonScalarText(value: VonValuePsi): String? {
+private fun vonScalarText(value: VonValueNode): String? {
     value.annotation?.valueList?.firstOrNull()?.let { return vonScalarText(it) }
     if (value.isNull()) {
         return null
