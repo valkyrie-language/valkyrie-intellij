@@ -8,3 +8,5 @@ pluginManagement {
 }
 
 rootProject.name = "Valkyrie Intellij"
+
+includeBuild("../voml-intellij")
