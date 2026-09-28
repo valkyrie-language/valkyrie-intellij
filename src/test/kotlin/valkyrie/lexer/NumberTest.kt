@@ -1,7 +1,7 @@
 package valkyrie.lexer
 
 import com.intellij.lexer.Lexer
-import com.intellij.testFramework.LexerTestCase
+import valkyrie.test.ValkyrieLexerTestCase
 import valkyrie.language.ValkyrieLanguageConfig
 import valkyrie.psi.lexers.ValkyrieLexer
 
@@ -9,14 +9,10 @@ import valkyrie.psi.lexers.ValkyrieLexer
  * 数字词法分析测试
  * 包含所有数字相关的测试用例
  */
-class NumberTest : LexerTestCase() {
+class NumberTest : ValkyrieLexerTestCase("testData/lexer/number") {
 
     override fun createLexer(): Lexer {
         return ValkyrieLexer(ValkyrieLanguageConfig())
-    }
-
-    override fun getDirPath(): String {
-        return "testData/lexer/number"
     }
 
     // 整数测试

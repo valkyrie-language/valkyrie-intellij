@@ -1,20 +1,16 @@
 package valkyrie.lexer
 
 import com.intellij.lexer.Lexer
-import com.intellij.testFramework.LexerTestCase
+import valkyrie.test.ValkyrieLexerTestCase
 import valkyrie.psi.lexers.ValkyrieSfcLexer
 
 /**
  * Valkyrie 组件词法分析器测试
  */
-class SfcLexerTest : LexerTestCase() {
+class SfcLexerTest : ValkyrieLexerTestCase("testData/lexer/component") {
 
     override fun createLexer(): Lexer {
         return ValkyrieSfcLexer()
-    }
-
-    override fun getDirPath(): String {
-        return "testData/lexer/component"
     }
 
     fun testBasicXmlTag() {

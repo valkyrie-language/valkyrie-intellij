@@ -1,11 +1,8 @@
 package valkyrie.parser
 
-import com.intellij.testFramework.ParsingTestCase
-import valkyrie.psi.parsers.ValkyrieParserDefinition
+import valkyrie.test.ValkyrieParsingTestCase
 
-class ImplyConstructorTest : ParsingTestCase("testData/parser/imply", "txt", ValkyrieParserDefinition()) {
-    override fun getTestDataPath(): String = "src/test/resources"
-
+class ImplyConstructorTest : ValkyrieParsingTestCase("testData/parser/imply") {
     fun testConstructor() = doTest(true, true)
 
     override fun skipSpaces(): Boolean {

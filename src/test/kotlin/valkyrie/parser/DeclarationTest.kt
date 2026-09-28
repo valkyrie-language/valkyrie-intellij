@@ -1,11 +1,8 @@
 package valkyrie.parser
 
-import com.intellij.testFramework.ParsingTestCase
-import valkyrie.psi.parsers.ValkyrieParserDefinition
+import valkyrie.test.ValkyrieParsingTestCase
 
-class DeclarationTest : ParsingTestCase("testData/parser/declaration", "vk", ValkyrieParserDefinition()) {
-    override fun getTestDataPath(): String = "src/test/resources"
-
+class DeclarationTest : ValkyrieParsingTestCase("testData/parser/declaration") {
     fun testTests() = doTest(true, true)
     fun testClass() = doTest(true, true)
     fun testSingleton() = doTest(true, true)

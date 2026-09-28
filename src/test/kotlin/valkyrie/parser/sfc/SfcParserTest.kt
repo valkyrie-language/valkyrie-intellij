@@ -2,12 +2,14 @@ package valkyrie.parser
 
 import com.intellij.testFramework.ParsingTestCase
 import valkyrie.psi.parsers.ValkyrieSfcParserDefinition
+import java.nio.file.Path
 
 /**
  * SFC 解析器测试
  */
 class SfcParserTest : ParsingTestCase("testData/parser/sfc_grammar", "vx", ValkyrieSfcParserDefinition()) {
-    override fun getTestDataPath(): String = "src/test/resources"
+    override fun getTestDataPath(): String =
+        Path.of("src/test/resources").toAbsolutePath().normalize().toString()
 
     fun testTemplateEmpty() = doTest(true, false)
     fun testTemplateContent() = doTest(true, false)

@@ -1,14 +1,11 @@
 package valkyrie.parser
 
-import com.intellij.testFramework.ParsingTestCase
-import valkyrie.psi.parsers.ValkyrieParserDefinition
+import valkyrie.test.ValkyrieParsingTestCase
 
 /**
  * 控制流语法解析测试
  */
-class ControlFlowTest : ParsingTestCase("testData/parser/control_flow", "vk", ValkyrieParserDefinition()) {
-    override fun getTestDataPath(): String = "src/test/resources"
-
+class ControlFlowTest : ValkyrieParsingTestCase("testData/parser/control_flow") {
     // If statement tests
     fun testIf() = doTest(true, true)
     fun testIfLet() = doTest(true, true)

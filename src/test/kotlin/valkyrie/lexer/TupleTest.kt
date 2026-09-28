@@ -1,7 +1,7 @@
 package valkyrie.lexer
 
 import com.intellij.lexer.Lexer
-import com.intellij.testFramework.LexerTestCase
+import valkyrie.test.ValkyrieLexerTestCase
 import valkyrie.language.ValkyrieLanguageConfig
 import valkyrie.psi.lexers.ValkyrieLexer
 
@@ -9,14 +9,10 @@ import valkyrie.psi.lexers.ValkyrieLexer
  * 元组词法分析测试
  * 包含所有元组相关的测试用例
  */
-class TupleTest : LexerTestCase() {
+class TupleTest : ValkyrieLexerTestCase("testData/lexer/tuple") {
 
     override fun createLexer(): Lexer {
         return ValkyrieLexer(ValkyrieLanguageConfig())
-    }
-
-    override fun getDirPath(): String {
-        return "testData/lexer/tuple"
     }
 
     // 元组测试

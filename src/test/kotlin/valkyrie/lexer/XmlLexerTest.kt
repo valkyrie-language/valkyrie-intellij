@@ -1,20 +1,16 @@
 package valkyrie.lexer
 
 import com.intellij.lexer.Lexer
-import com.intellij.testFramework.LexerTestCase
+import valkyrie.test.ValkyrieLexerTestCase
 import valkyrie.language.dialect_xml.ValkyrieXmlLexer
 
 /**
  * XML 词法分析器测试
  */
-class XmlLexerTest : LexerTestCase() {
+class XmlLexerTest : ValkyrieLexerTestCase("testData/lexer/xml") {
 
     override fun createLexer(): Lexer {
         return ValkyrieXmlLexer()
-    }
-
-    override fun getDirPath(): String {
-        return "testData/lexer/xml"
     }
 
     fun testBasicXmlTag() {

@@ -1,7 +1,7 @@
 package valkyrie.lexer
 
 import com.intellij.lexer.Lexer
-import com.intellij.testFramework.LexerTestCase
+import valkyrie.test.ValkyrieLexerTestCase
 import valkyrie.language.ValkyrieLanguageConfig
 import valkyrie.psi.lexers.ValkyrieLexer
 
@@ -9,14 +9,10 @@ import valkyrie.psi.lexers.ValkyrieLexer
  * 操作符词法分析测试
  * 包含所有操作符相关的测试用例
  */
-class OperatorTest : LexerTestCase() {
+class OperatorTest : ValkyrieLexerTestCase("testData/lexer/operator") {
 
     override fun createLexer(): Lexer {
         return ValkyrieLexer(ValkyrieLanguageConfig())
-    }
-
-    override fun getDirPath(): String {
-        return "testData/lexer/operator"
     }
 
     // 基本算术操作符

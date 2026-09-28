@@ -1,7 +1,7 @@
 package valkyrie.lexer
 
 import com.intellij.lexer.Lexer
-import com.intellij.testFramework.LexerTestCase
+import valkyrie.test.ValkyrieLexerTestCase
 import valkyrie.language.ValkyrieLanguageConfig
 import valkyrie.psi.lexers.ValkyrieLexer
 
@@ -9,13 +9,9 @@ import valkyrie.psi.lexers.ValkyrieLexer
  * 关键字词法分析测试
  * 包含所有关键字相关的测试用例
  */
-class KeywordTest : LexerTestCase() {
+class KeywordTest : ValkyrieLexerTestCase("testData/lexer/keyword") {
     override fun createLexer(): Lexer {
         return ValkyrieLexer(ValkyrieLanguageConfig())
-    }
-
-    override fun getDirPath(): String {
-        return "testData/lexer/keyword"
     }
 
     // 命名空间关键字

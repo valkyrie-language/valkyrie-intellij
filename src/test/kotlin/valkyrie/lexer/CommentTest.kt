@@ -1,7 +1,7 @@
 package valkyrie.lexer
 
 import com.intellij.lexer.Lexer
-import com.intellij.testFramework.LexerTestCase
+import valkyrie.test.ValkyrieLexerTestCase
 import valkyrie.language.ValkyrieLanguageConfig
 import valkyrie.psi.lexers.ValkyrieLexer
 
@@ -9,14 +9,10 @@ import valkyrie.psi.lexers.ValkyrieLexer
  * 注释词法分析测试
  * 包含所有注释相关的测试用例
  */
-class CommentTest : LexerTestCase() {
+class CommentTest : ValkyrieLexerTestCase("testData/lexer/comment") {
 
     override fun createLexer(): Lexer {
         return ValkyrieLexer(ValkyrieLanguageConfig())
-    }
-
-    override fun getDirPath(): String {
-        return "testData/lexer/comment"
     }
 
     // 单行注释测试

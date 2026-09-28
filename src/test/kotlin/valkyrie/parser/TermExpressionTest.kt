@@ -1,10 +1,8 @@
 package valkyrie.parser
 
-import com.intellij.testFramework.ParsingTestCase
-import valkyrie.psi.parsers.ValkyrieParserDefinition
+import valkyrie.test.ValkyrieParsingTestCase
 
-class TermExpressionTest : ParsingTestCase("testData/parser/term_expression", "vk", ValkyrieParserDefinition()) {
-    override fun getTestDataPath(): String = "src/test/resources"
+class TermExpressionTest : ValkyrieParsingTestCase("testData/parser/term_expression") {
     fun testNumberLiterals() = doTest(true)
     fun testBooleanLiterals() = doTest(true)
     fun testIdentifierExpressions() = doTest(true)
