@@ -29,7 +29,7 @@ class ValkyrieLineMarkerProvider : LineMarkerProvider {
             element.node?.elementType == ValkyrieTypes.NAMESPACE && parent is ValkyrieNamespaceDeclaration ->
                 createNamespaceNavigationMarker(element)
             element.node?.elementType == ValkyrieTypes.IMPLY && parent is ValkyrieImplyStatement ->
-                createImplyNavigationMarker(element)
+                createImplyNavigationMarker(parent)
             isOverrideKeyword(element) -> createOverrideMarker(element)
             isImplementKeyword(element) -> createImplementMarker(element)
             else -> null
@@ -154,16 +154,16 @@ class ValkyrieLineMarkerProvider : LineMarkerProvider {
     /**
      * 创建 imply 导航标记
      */
-    private fun createImplyNavigationMarker(element: PsiElement): LineMarkerInfo<PsiElement> {
-        val implyElement = element as ValkyrieImplyStatement
+    private fun createImplyNavigationMarker(implyElement: ValkyrieImplyStatement): LineMarkerInfo<PsiElement> {
         val implementedClasses = findImplementedClasses(implyElement)
+        val anchor = implyElement.firstChild ?: implyElement
         
         return NavigationGutterIconBuilder
             .create(AllIcons.Gutter.ImplementingMethod)
             .setTargets(implementedClasses)
             .setTooltipText("Navigate to implemented classes")
             .setAlignment(GutterIconRenderer.Alignment.LEFT)
-            .createLineMarkerInfo(element)
+            .createLineMarkerInfo(anchor)
     }
     
     /**
