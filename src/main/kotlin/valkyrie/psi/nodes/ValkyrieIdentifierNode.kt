@@ -3,10 +3,8 @@ package valkyrie.psi.nodes
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
-import com.intellij.psi.PsiReference
 import valkyrie.psi.parsers.ValkyrieElementNode
 import valkyrie.psi.parsers.ValkyrieFactory
-import valkyrie.psi.reference.ValkyrieReference
 
 /**
  * 标识符节点
@@ -49,11 +47,9 @@ class ValkyrieIdentifierNode(node: ASTNode) : ValkyrieElementNode(node), PsiName
     override fun toString(): String = "ValkyrieIdentifier(${getName()})"
     
     /**
-     * 获取引用对象，用于支持 find usage 和 goto definition
+     * References are contributed by [valkyrie.reference.ValkyrieCrossFileReferenceProvider].
      */
-    override fun getReference(): PsiReference? {
-        return ValkyrieReference(this)
-    }
+    override fun getReference(): com.intellij.psi.PsiReference? = null
     
     /**
      * 设置新的名称（用于重命名重构）

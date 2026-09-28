@@ -12,6 +12,7 @@ import valkyrie.ide.navigation.MetaType
 import valkyrie.psi.parsers.ValkyrieTypes
 import valkyrie.psi.nodes.*
 import valkyrie.psi.traits.HasHighlighter
+import valkyrie.reference.ValkyrieReferenceContext
 
 class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
     private var infoHolder: HighlightInfoHolder? = null
@@ -168,7 +169,7 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
         if (isInDeclarationContext(element)) {
             return
         }
-        val resolved = element.reference?.resolve()
+        val resolved = ValkyrieReferenceContext.primaryReference(element)?.resolve()
 
         if (resolved != null) {
             val color = getColorForResolvedElement(resolved)
@@ -223,8 +224,7 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
         // 对限定名的每个部分尝试解析引用
         for (identifier in identifiers) {
             if (identifier is ValkyrieIdentifierNode) {
-                val reference = identifier.getReference()
-                val resolved = reference?.resolve()
+                val resolved = ValkyrieReferenceContext.primaryReference(identifier)?.resolve()
 
                 if (resolved != null) {
                     val color = getColorForResolvedElement(resolved)
@@ -243,8 +243,7 @@ class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
         // 查找方法名标识符
         val methodIdentifier = PsiTreeUtil.findChildOfType(element, ValkyrieIdentifierNode::class.java)
         if (methodIdentifier != null) {
-            val reference = methodIdentifier.getReference()
-            val resolved = reference?.resolve()
+            val resolved = ValkyrieReferenceContext.primaryReference(methodIdentifier)?.resolve()
 
             if (resolved != null) {
                 val color = getColorForResolvedElement(resolved)
