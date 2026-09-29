@@ -1,0 +1,5 @@
+namespace! std;
+
+using! std::iterator::{FromIterator, IntoIterator, Iterator}
+using! std::iterator::{all, any, fold}
+using! std::iterator::{collect, collect_array};

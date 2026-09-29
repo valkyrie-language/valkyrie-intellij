@@ -50,6 +50,7 @@ open class ValkyrieParser(public val config: ValkyrieLanguageConfig = ValkyrieLa
 
     fun parseProgram(builder: PsiBuilder) {
         while (!builder.eof()) {
+            skipLeadingTrivia(builder)
             val safePoint = builder.currentOffset
             when {
                 // dialect
@@ -74,6 +75,8 @@ open class ValkyrieParser(public val config: ValkyrieLanguageConfig = ValkyrieLa
                 // number types
                 parseFlagsStatement(builder) -> continue
                 parseEnumsStatement(builder) -> continue
+                // type aliases / associated types
+                parseTypeStatement(builder) -> continue
                 // variables
                 parseLetStatement(builder, inline = false) -> continue
                 // functions
@@ -84,6 +87,7 @@ open class ValkyrieParser(public val config: ValkyrieLanguageConfig = ValkyrieLa
                 parseMacroAssignment(builder) -> continue
                 // control flow
                 parseControlStatement(this, builder) -> continue
+                parseBracketAnnotationStatement(builder) -> continue
                 parseExpressionStatement(builder) -> continue
             }
             if (builder.currentOffset == safePoint) {
@@ -178,6 +182,11 @@ open class ValkyrieParser(public val config: ValkyrieLanguageConfig = ValkyrieLa
         }
 
         builder.advanceLexer() // consume 'using'
+
+        // using! 主导入 / 再导出（与 namespace! 同形）
+        if (builder.tokenType == ValkyrieTypes.WOW) {
+            builder.advanceLexer()
+        }
 
         // 解析 using 语句的不同格式
         when {
@@ -523,10 +532,7 @@ open class ValkyrieParser(public val config: ValkyrieLanguageConfig = ValkyrieLa
     }
 
     fun parseStructureStatement(builder: PsiBuilder): Boolean {
-        // 如果不允许旧的 struct 语法，那么直接返回 false
-        if (!config.allow_legacy_struct) {
-            return false
-        }
+        // `structure` 是现行关键字；旧式 `struct` 由 lexer 在 `allow_legacy_struct` 下另开
         return parseClassLikeStatements(builder, ValkyrieTypes.STRUCTURE, ValkyrieTypes.STRUCTURE_STATEMENT)
     }
 
@@ -639,7 +645,7 @@ open class ValkyrieParser(public val config: ValkyrieLanguageConfig = ValkyrieLa
         if (builder.tokenType == ValkyrieTypes.TESTS) {
             builder.advanceLexer()
         } else {
-            marker.drop()
+            marker.rollbackTo()
             return false
         }
 
@@ -737,8 +743,10 @@ open class ValkyrieParser(public val config: ValkyrieLanguageConfig = ValkyrieLa
                     continue
                 }
 
+                parseDocComments(builder) -> continue
                 parseMezzoAssign(builder) -> continue
                 parseTestsStatement(builder) -> continue
+                parseTypeStatement(builder) -> continue
                 parseMacroCall(builder, true) -> continue
                 parseMicroStatement(builder) -> continue
                 parseMezzoStatement(builder) -> continue
@@ -771,6 +779,7 @@ open class ValkyrieParser(public val config: ValkyrieLanguageConfig = ValkyrieLa
 
     fun parseUnionLikeStatement(builder: PsiBuilder, keyword: ValkyrieTokenType, node: ValkyrieElementType): Boolean {
         val marker = builder.mark()
+        parseDocComments(builder)
         parseAnnotations(builder, withModifiers = true)
         if (builder.tokenType != keyword) {
             marker.rollbackTo()
@@ -813,6 +822,7 @@ open class ValkyrieParser(public val config: ValkyrieLanguageConfig = ValkyrieLa
                     continue
                 }
 
+                parseDocComments(builder) -> continue
                 parseVariant(builder) -> continue
                 parseMethod(builder) -> continue
             }
@@ -945,12 +955,23 @@ open class ValkyrieParser(public val config: ValkyrieLanguageConfig = ValkyrieLa
         return true
     }
 
-    private fun parseDocComments(builder: PsiBuilder) {
-        while (builder.tokenType == ValkyrieTypes.COMMENT_DOCUMENT) {
-            val marker = builder.mark()
-            builder.advanceLexer()
-            marker.done(ValkyrieTypes.DOC_COMMENT)
+    fun skipLeadingTrivia(builder: PsiBuilder) {
+        while (builder.tokenType == ValkyrieTypes.COMMENT_DOCUMENT ||
+            builder.tokenType == ValkyrieTypes.COMMENT_LINE
+        ) {
+            parseDocComment(builder)
         }
+    }
+
+    fun parseDocComments(builder: PsiBuilder): Boolean {
+        var any = false
+        while (builder.tokenType == ValkyrieTypes.COMMENT_DOCUMENT ||
+            builder.tokenType == ValkyrieTypes.COMMENT_LINE
+        ) {
+            parseDocComment(builder)
+            any = true
+        }
+        return any
     }
 
     fun parseImplyStatement(builder: PsiBuilder): Boolean {
@@ -961,6 +982,7 @@ open class ValkyrieParser(public val config: ValkyrieLanguageConfig = ValkyrieLa
             return false
         }
         builder.advanceLexer() // consume 'imply'
+        parseDocComments(builder)
         // impl module::Type<T>
         if (!parseNamePath(builder, free = true)) {
             marker.rollbackTo()
@@ -1113,7 +1135,8 @@ open class ValkyrieParser(public val config: ValkyrieLanguageConfig = ValkyrieLa
         if (builder.tokenType == ValkyrieTypes.MEZZO) {
             builder.advanceLexer()
         } else {
-            marker.drop()
+            // Must rollback: annotations may already be done as children of this mark
+            marker.rollbackTo()
             return false
         }
         if (parseIdentifier(builder)) {
@@ -1225,12 +1248,68 @@ open class ValkyrieParser(public val config: ValkyrieLanguageConfig = ValkyrieLa
     }
 
     fun parseDocComment(builder: PsiBuilder): Boolean {
-        if (builder.tokenType != ValkyrieTypes.COMMENT_DOCUMENT) return false
+        if (builder.tokenType != ValkyrieTypes.COMMENT_DOCUMENT &&
+            builder.tokenType != ValkyrieTypes.COMMENT_LINE
+        ) {
+            return false
+        }
         val marker = builder.mark()
 
         builder.advanceLexer()
         marker.done(ValkyrieTypes.DOC_COMMENT)
         return true
+    }
+
+    fun parseBracketAnnotationStatement(builder: PsiBuilder): Boolean {
+        parseDocComments(builder)
+        if (builder.tokenType != ValkyrieTypes.BRACKET_L) {
+            return false
+        }
+        val marker = builder.mark()
+        if (!parseBracketAttributeList(builder)) {
+            marker.rollbackTo()
+            return false
+        }
+        marker.done(ValkyrieTypes.ANNOTATION_NODE)
+        return true
+    }
+
+    fun parseBracketAttributeList(builder: PsiBuilder): Boolean {
+        var any = false
+        while (parseSingleBracketAttribute(builder)) {
+            any = true
+        }
+        return any
+    }
+
+    private fun parseSingleBracketAttribute(builder: PsiBuilder): Boolean {
+        if (builder.tokenType != ValkyrieTypes.BRACKET_L) {
+            return false
+        }
+        if (!isIdentifier(builder.lookAhead(1))) {
+            return false
+        }
+        val closing = builder.lookAhead(2)
+        if (closing != ValkyrieTypes.PARENTHESIS_L && closing != ValkyrieTypes.BRACKET_R) {
+            return false
+        }
+
+        val attrMarker = builder.mark()
+        builder.advanceLexer()
+        if (!parseIdentifier(builder)) {
+            attrMarker.drop()
+            return false
+        }
+        if (builder.tokenType == ValkyrieTypes.PARENTHESIS_L) {
+            parseFunctionArgumentList(this, builder)
+        }
+        if (builder.tokenType == ValkyrieTypes.BRACKET_R) {
+            builder.advanceLexer()
+            attrMarker.done(ValkyrieTypes.ATTRIBUTE)
+            return true
+        }
+        attrMarker.error("Expected ']'")
+        return false
     }
 
     fun parseInheritanceList(builder: PsiBuilder): Boolean {
@@ -1299,6 +1378,9 @@ open class ValkyrieParser(public val config: ValkyrieLanguageConfig = ValkyrieLa
     fun parseAnnotations(builder: PsiBuilder, withModifiers: Boolean): Boolean {
         var hasAnnotations = false
         val annotationMarker = builder.mark()
+        if (parseBracketAttributeList(builder)) {
+            hasAnnotations = true
+        }
         // 解析若干个 attribute node ↯attr 和 attribute list ↯[attr] 混合
         while (builder.tokenType == ValkyrieTypes.ATTRIBUTE_LOWER) {
             hasAnnotations = true
@@ -1386,7 +1468,11 @@ open class ValkyrieParser(public val config: ValkyrieLanguageConfig = ValkyrieLa
         // 吃掉所有的 identifier
         while (isIdentifier(builder.tokenType)) {
             when (builder.lookAhead(1)) {
-                ValkyrieTypes.SYMBOL_XID, ValkyrieTypes.SYMBOL_XID,
+                ValkyrieTypes.SYMBOL_XID,
+                ValkyrieTypes.SYMBOL_RAW,
+                ValkyrieTypes.KW_SELF,
+                ValkyrieTypes.KW_SELF_TYPE,
+                ValkyrieTypes.KW_VALUE,
                 ValkyrieTypes.MICRO, ValkyrieTypes.MEZZO, ValkyrieTypes.MACRO,
                 ValkyrieTypes.CLASS, ValkyrieTypes.STRUCTURE, ValkyrieTypes.SINGLETON,
                 ValkyrieTypes.UNION, ValkyrieTypes.UNITY,
@@ -1460,11 +1546,16 @@ open class ValkyrieParser(public val config: ValkyrieLanguageConfig = ValkyrieLa
      * 解析字符串字面量
      */
     fun parseString(builder: PsiBuilder): Boolean {
-        if (builder.tokenType != ValkyrieTypes.STRING_L) return false
-        val marker = builder.mark()
-        builder.advanceLexer() // consume STRING_L
-        marker.done(ValkyrieTypes.STRING_LITERAL)
-        return true
+        return when (builder.tokenType) {
+            ValkyrieTypes.STRING_L -> {
+                val marker = builder.mark()
+                builder.advanceLexer()
+                marker.done(ValkyrieTypes.STRING_LITERAL)
+                true
+            }
+            ValkyrieTypes.STRING_START -> parseMultiPartString(builder)
+            else -> false
+        }
     }
 
     /**

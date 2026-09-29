@@ -1,0 +1,4 @@
+# Unicode index brackets ⁅ ⁆ alias [ ]
+micro at(items: [u8], index: usize) -> u8 {
+    return items⁅index⁆
+}

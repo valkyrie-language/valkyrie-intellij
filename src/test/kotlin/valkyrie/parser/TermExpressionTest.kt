@@ -12,6 +12,7 @@ class TermExpressionTest : ValkyrieParsingTestCase("testData/parser/term_express
     fun testIndexExpressions() = doTest(true)
     fun testParenthesizedExpressions() = doTest(true)
     fun testStringLiterals() = doTest(true)
+    fun testIndexQuillBrackets() = doTest(true, true)
     fun testArrayExpressions() = doTest(true)
     fun testObjectExpressions() = doTest(true)
     fun testSpecialValues() = doTest(true)

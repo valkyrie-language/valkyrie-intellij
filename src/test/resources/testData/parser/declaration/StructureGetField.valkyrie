@@ -1,0 +1,4 @@
+# field with [get] bracket attribute
+structure Holder {
+    [get] bytes: ArrayList<u8>
+}

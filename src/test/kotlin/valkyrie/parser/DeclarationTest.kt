@@ -26,6 +26,10 @@ class DeclarationTest : ValkyrieParsingTestCase("testData/parser/declaration") {
     fun testFunction() = doTest(true, true)
     fun testImplyMacro() = doTest(true, true)
     fun testTypeAlias() = doTest(true, true)
+    fun testImplyAssociatedType() = doTest(true, true)
+    fun testStructure() = doTest(true, true)
+    fun testStructureGetField() = doTest(true, true)
+    fun testMutSelfParameter() = doTest(true, true)
     fun testEnums() = doTest(true, true)
     fun testTraitSelf() = doTest(true, true)
 

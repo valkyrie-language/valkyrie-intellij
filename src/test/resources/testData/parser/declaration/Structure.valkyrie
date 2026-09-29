@@ -1,0 +1,4 @@
+# modern structure keyword (not legacy struct)
+structure AsciiText {
+    _bytes: [u8]
+}

@@ -648,6 +648,15 @@ open class ValkyrieLexer(config: ValkyrieLanguageConfig) : Lexer() {
                 currentOffset++; currentTokenType = ValkyrieTypes.BRACKET_R
             }
 
+            // ⁅index⁆ — Unicode index brackets (alias of [ ])
+            '⁅' -> {
+                currentOffset++; currentTokenType = ValkyrieTypes.BRACKET_L
+            }
+
+            '⁆' -> {
+                currentOffset++; currentTokenType = ValkyrieTypes.BRACKET_R
+            }
+
             '?' -> {
                 currentOffset++; currentTokenType = ValkyrieTypes.WHAT
             }

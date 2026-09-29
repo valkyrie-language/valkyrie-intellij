@@ -1,0 +1,13 @@
+# associated type bindings in imply / trait bodies
+imply AsciiText: IntoIterator {
+    type Item = char;
+    type Iter = AsciiIterator;
+
+    micro into_iterator(self): AsciiIterator {
+        self
+    }
+}
+
+imply AsciiIterator: Iterator {
+    type Item = char;
+}

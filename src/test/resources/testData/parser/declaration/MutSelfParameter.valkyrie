@@ -1,0 +1,12 @@
+# mut self / mut value parameters and let bindings
+imply Utf8Builder {
+    micro append(mut self, c: char): unit {
+        self
+    }
+
+    micro take(mut self, mut index: usize): unit {
+        index
+    }
+}
+
+let mut bytes: usize = 0
