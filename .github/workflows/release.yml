@@ -45,7 +45,7 @@ jobs:
         working-directory: valkyrie-intellij
         env:
           CHANGELOG: ${{ steps.properties.outputs.changelog }}
-        run: ./gradlew :plugins:valkyrie:patchChangelog --release-note="$CHANGELOG"
+        run: ./gradlew :plugins:intellij-valkyrie:patchChangelog --release-note="$CHANGELOG"
 
       - name: Publish Plugin
         working-directory: valkyrie-intellij
@@ -54,13 +54,13 @@ jobs:
           CERTIFICATE_CHAIN: ${{ secrets.CERTIFICATE_CHAIN }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           PRIVATE_KEY_PASSWORD: ${{ secrets.PRIVATE_KEY_PASSWORD }}
-        run: ./gradlew :plugins:valkyrie:publishPlugin
+        run: ./gradlew :plugins:intellij-valkyrie:publishPlugin
 
       - name: Upload Release Asset
         working-directory: valkyrie-intellij
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload ${{ github.event.release.tag_name }} ./projects/plugins/valkyrie/build/distributions/*
+        run: gh release upload ${{ github.event.release.tag_name }} ./projects/plugins/intellij-valkyrie/build/distributions/*
 
       - name: Create Pull Request
         if: ${{ steps.properties.outputs.changelog != '' }}
