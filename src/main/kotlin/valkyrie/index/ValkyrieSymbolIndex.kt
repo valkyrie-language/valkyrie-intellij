@@ -3,11 +3,14 @@ package valkyrie.index
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.components.Service
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiManager
-// 移除了 FileTypeIndex 和 GlobalSearchScope 的导入以避免索引冲突
+import com.intellij.psi.SmartPointerManager
+import com.intellij.psi.SmartPsiElementPointer
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.language.ValkyrieSourceFiles
 import valkyrie.psi.nodes.ValkyrieNamespaceDeclaration
@@ -17,28 +20,37 @@ import valkyrie.psi.nodes.ValkyrieClassDeclaration
 import valkyrie.psi.nodes.ValkyrieUnionDeclaration
 import valkyrie.psi.nodes.ValkyrieMethodDeclaration
 import valkyrie.psi.nodes.ValkyrieIdentifierNode
-import com.intellij.psi.PsiElement
 import valkyrie.project.ValkyrieProjectParser
 import valkyrie.project.ValkyrieProjectManager
 import valkyrie.project.ValkyriePackageManager
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * Valkyrie 符号索引服务
  * 负责管理跨文件的 namespace 和 using 关系
- * 
- * 注意：这个类现在是增强索引的兼容层，实际功能委托给 ValkyrieEnhancedSymbolIndex
- * 保持向后兼容性，同时支持新的跨包功能
  */
 @Service(Service.Level.PROJECT)
 class ValkyrieSymbolIndex(private val project: Project) {
+
+    companion object {
+        private val LOG = Logger.getInstance(ValkyrieSymbolIndex::class.java)
+        private val valkyrieHomeWarned = AtomicBoolean(false)
+
+        fun getInstance(project: Project): ValkyrieSymbolIndex {
+            return project.getService(ValkyrieSymbolIndex::class.java)
+        }
+    }
     
     // 符号信息数据类
     data class SymbolInfo(
         val name: String,
         val namespace: String,
         val file: VirtualFile?, // 允许为 null，用于内置类型
-        val element: PsiElement? // 允许为 null，用于内置类型
-    )
+        private val elementPointer: SmartPsiElementPointer<PsiElement>? = null,
+    ) {
+        val element: PsiElement?
+            get() = elementPointer?.element
+    }
     
     // 命名空间信息数据类
     data class NamespaceInfo(
@@ -107,6 +119,50 @@ class ValkyrieSymbolIndex(private val project: Project) {
         }
         indexedFiles.add(file)
         indexFile(file)
+    }
+
+    /**
+     * Incrementally refresh one source file after VFS changes.
+     */
+    fun reindexFile(file: VirtualFile) {
+        if (!ValkyrieSourceFiles.isSourceFile(file)) {
+            return
+        }
+        removeFileFromIndex(file)
+        if (file.isValid) {
+            indexFile(file)
+        }
+    }
+
+    /**
+     * Drop all cached symbols that came from [file].
+     */
+    fun removeFileFromIndex(file: VirtualFile) {
+        usingCache.remove(file)
+        indexedFiles.remove(file)
+
+        val staleNames = mutableListOf<String>()
+        for ((name, symbols) in symbolCache) {
+            symbols.removeAll { it.file == file }
+            if (symbols.isEmpty()) {
+                staleNames.add(name)
+            }
+        }
+        for (name in staleNames) {
+            symbolCache.remove(name)
+        }
+
+        val staleNamespaces = namespaceCache.values.filter { it.file == file }.map { it.name }
+        for (namespace in staleNamespaces) {
+            namespaceCache.remove(namespace)
+        }
+    }
+
+    private fun pointerOf(element: PsiElement?): SmartPsiElementPointer<PsiElement>? {
+        if (element == null || !element.isValid) {
+            return null
+        }
+        return SmartPointerManager.getInstance(project).createSmartPsiElementPointer(element)
     }
     
     /**
@@ -281,7 +337,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
                                     name = typeName,
                                     namespace = "$actualPackageName.primitive",
                                     file = packageFile,
-                                    element = classDecl
+                                    elementPointer = pointerOf(classDecl),
                                 )
                                 symbolCache.getOrPut(typeName) { mutableListOf() }.add(symbolInfo)
                             }
@@ -308,9 +364,8 @@ class ValkyrieSymbolIndex(private val project: Project) {
                     return LocalFileSystem.getInstance().findFileByPath(fullPath)
                 }
             }
-        } else {
-            // 环境变量不存在时记录警告信息
-            println("警告: 未找到VALKYRIE_HOME环境变量，请安装Valkyrie环境。Valkyrie安装后会自动设置此环境变量。")
+        } else if (valkyrieHomeWarned.compareAndSet(false, true)) {
+            LOG.warn("VALKYRIE_HOME is not set. Standard library packages will not be indexed.")
         }
         
         return null
@@ -444,7 +499,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
                 name = symbolName,
                 namespace = namespace,
                 file = file,
-                element = letStatement
+                elementPointer = pointerOf(letStatement),
             )
             
             symbolCache.getOrPut(symbolName) { mutableListOf() }.add(symbolInfo)
@@ -459,7 +514,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
                 name = symbolName,
                 namespace = namespace,
                 file = file,
-                element = classStatement
+                elementPointer = pointerOf(classStatement),
             )
             
             symbolCache.getOrPut(symbolName) { mutableListOf() }.add(symbolInfo)
@@ -474,7 +529,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
                 name = symbolName,
                 namespace = namespace,
                 file = file,
-                element = unionStatement
+                elementPointer = pointerOf(unionStatement),
             )
             
             symbolCache.getOrPut(symbolName) { mutableListOf() }.add(symbolInfo)
@@ -489,7 +544,7 @@ class ValkyrieSymbolIndex(private val project: Project) {
                 name = symbolName,
                 namespace = namespace,
                 file = file,
-                element = functionStatement
+                elementPointer = pointerOf(functionStatement),
             )
             
             symbolCache.getOrPut(symbolName) { mutableListOf() }.add(symbolInfo)
@@ -857,11 +912,5 @@ class ValkyrieSymbolIndex(private val project: Project) {
         }
         
         return aliases
-    }
-
-    companion object {
-        fun getInstance(project: Project): ValkyrieSymbolIndex {
-            return project.getService(ValkyrieSymbolIndex::class.java)
-        }
     }
 }
