@@ -220,6 +220,10 @@
 			language="valkyrie"
 			implementationClass="valkyrie.ide.completion.ValkyrieCompletionContributor"
 		/>
+		<completion.contributor
+			language="VON"
+			implementationClass="valkyrie.ide.completion.legion.LegionManifestCompletionContributor"
+		/>
 
 		<!-- Enter Handler -->
 		<enterHandlerDelegate implementation="valkyrie.ide.completion.ValkyrieEnterHandlerDelegate"/>

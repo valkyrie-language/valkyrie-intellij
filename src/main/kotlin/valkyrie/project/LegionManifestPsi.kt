@@ -26,7 +26,7 @@ class LegionManifestObject private constructor(
 
     fun textOrNull(field: String): String? =
         json?.let { jsonScalarText(it.findProperty(field)?.value) }
-            ?: table?.findPair(field)?.let { vonScalarText(it.value) }
+            ?: table?.findPair(field)?.value?.let { vonScalarText(it) }
 
     fun booleanOrNull(field: String): Boolean? {
         val text = textOrNull(field) ?: return null
@@ -73,7 +73,8 @@ class LegionManifestObject private constructor(
         if (table != null) {
             return table.pairList.mapNotNull { pair ->
                 val name = pairKey(pair) ?: return@mapNotNull null
-                name to LegionManifestValue.fromVon(pair.value)
+                val value = pair.value ?: return@mapNotNull null
+                name to LegionManifestValue.fromVon(value)
             }.toMap()
         }
         return emptyMap()

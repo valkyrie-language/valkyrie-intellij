@@ -118,7 +118,7 @@ tasks {
         enabled = false
     }
 
-    listOf("compileKotlin", "buildPlugin", "runIde").forEach { taskName ->
+    listOf("compileKotlin", "buildPlugin", "runIde", "prepareTestSandbox").forEach { taskName ->
         named(taskName) {
             vomlIncludedBuild?.let { dependsOn(it.task(":buildPlugin")) }
         }
