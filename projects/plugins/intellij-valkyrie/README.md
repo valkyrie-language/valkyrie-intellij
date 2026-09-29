@@ -3,8 +3,6 @@
 [![Version](https://img.shields.io/jetbrains/plugin/v/20594.svg)](https://plugins.jetbrains.com/plugin/20594)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/20594.svg)](https://plugins.jetbrains.com/plugin/20594)
 
-<!-- Plugin description -->
-
 A [Valkyrie Language](https://github.com/ygg-lang/project-yggdrasil) plugin for IntelliJ-based IDEs.
 
 ## Features
@@ -17,5 +15,3 @@ A [Valkyrie Language](https://github.com/ygg-lang/project-yggdrasil) plugin for 
 | Block Folding      | ✅        | [FoldingVisitor](https://github.com/oovm/WIT-Intellij/blob/main/src/main/kotlin/com/github/bytecodealliance/ide/matcher/WitFoldingVisitor.kt)         |
 | Braces Matcher     | ✅        |                                                                                                                                                       |
 | Smart Enter        | ✅        | [SmartEnter]()                                                                                                                                        |
-
-<!-- Plugin description end -->

@@ -15,4 +15,4 @@ Multi-plugin workspace for JetBrains Marketplace plugins and one shared library.
 ./gradlew ciVerify
 ```
 
-Marketplace description and changelog for each plugin are **only** under that plugin directory — not at the repo root.
+Each plugin module owns its Marketplace text: the whole `README.md` is the description, and `CHANGELOG.md` is the release notes. The repo-root README is monorepo navigation only.
