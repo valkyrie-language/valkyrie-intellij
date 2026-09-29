@@ -52,9 +52,8 @@ class ValkyrieLineMarkerProvider : LineMarkerProvider {
      */
     private fun isImplementKeyword(element: PsiElement): Boolean {
         // 检查是否为方法名标识符且在 imply 块中
-        val methodDeclaration = PsiTreeUtil.getParentOfType(element, ValkyrieMethodDeclaration::class.java)
-        if (methodDeclaration == null) return false
-        
+        val methodDeclaration = PsiTreeUtil.getParentOfType(element, ValkyrieMethodDeclaration::class.java) ?: return false
+
         val implyBlock = PsiTreeUtil.getParentOfType(methodDeclaration, ValkyrieImplyStatement::class.java)
         return implyBlock != null && element.parent == methodDeclaration
     }
