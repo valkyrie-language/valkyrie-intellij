@@ -1,0 +1,166 @@
+{
+    parserClass = "vos.intellij.language.parser.VosParser"
+    parserUtilClass = "vos.intellij.language.psi.VosParserUtil"
+
+    extends = "com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+    psiClassPrefix = "Vos"
+    psiImplClassSuffix = "Node"
+    psiPackage = "vos.intellij.language.psi"
+    psiImplPackage = "vos.intellij.language.psi_node"
+
+    elementTypeHolderClass = "vos.intellij.language.psi.VosTypes"
+    elementTypeClass = "vos.intellij.language.psi.VosElementType"
+    tokenTypeClass = "vos.intellij.language.psi.VosElementType"
+
+    psiImplUtilClass = "vos.intellij.language.mixin.NodeExtension"
+    generateTokenAccessors = false
+
+    tokens = [
+        // comment
+        COMMENT_DOCUMENT = 'DocumentComment'
+        COMMENT = 'DocumentInline'
+        COMMENT_BLOCK = 'DocumentBlock'
+        // literal
+        URL = 'Url'
+        SYMBOL = 'Symbol'
+        STRING = 'String'
+        BYTE = 'Byte'
+        INTEGER = 'Integer'
+        DECIMAL = 'Decimal'
+        SIGN = 'regexp:[+-]'
+        ANNOTATION_MARK = '#'
+
+        KW_LET = 'let'
+        KW_CLASS = 'class'
+        KW_DEFINE = "function"
+        KW_UNION = 'union'
+        KW_NAMESPACE = 'namespace'
+
+        PARENTHESIS_L = '('
+        PARENTHESIS_R = ')'
+        BRACKET_L = '['
+        BRACKET_R = ']'
+        BRACE_L = '{'
+        BRACE_R = '}'
+        ACCENT = '^'
+        EQ = '='
+        ANGLE_L = '<'
+        ANGLE_R = '>'
+        LEQ = '<='
+        GEQ = '>='
+        RANGE_LE = '..<'
+        RANGE_EQ = '..='
+        COLON = ':'
+        SEMICOLON = ';'
+        COMMA = ','
+        DOLLAR = '$'
+        DOT = '.'
+        STAR = '*'
+    ]
+}
+
+VOS ::= statement*;
+
+private statement ::=
+    schema_statement
+  | namespace_statement
+  | class_statement
+  | union_statement
+  | let_statement
+  | annotation
+//  | COMMENT_DOCUMENT
+  | ignore;
+private ignore ::= SEMICOLON | COMMA;
+// ---------------------------------------------------------------------------------------------------------------------
+// schema <ID>: <TYPE> { }
+schema_statement ::= schema identifier [type_expression] schema_block {
+    mixin = "vos.intellij.language.mixin.MixinSchema"
+};
+private schema_block ::= <<brace_block properties_inner ignore>>
+schema ::= "schema"
+// ---------------------------------------------------------------------------------------------------------------------
+namespace_statement ::= KW_NAMESPACE namespace;
+// ---------------------------------------------------------------------------------------------------------------------
+annotation ::= ANNOTATION_MARK (annotation_one | <<bracket_block annotation_one COMMA>>) {
+
+};
+annotation_one ::= identifier [annotation_block];
+annotation_block ::= PARENTHESIS_L PARENTHESIS_R;
+// ---------------------------------------------------------------------------------------------------------------------
+let_statement ::= KW_LET identifier [type_expression] [EQ] [value] {
+    mixin = "vos.intellij.language.mixin.MixinLet"
+};
+// ---------------------------------------------------------------------------------------------------------------------
+class_statement ::= KW_CLASS modifiers identifier [COLON type_expression] class_block {
+    pin = identifier
+    mixin = "vos.intellij.language.mixin.MixinClassStatement"
+};
+class_block ::= BRACE_L (class_inner|ignore)* BRACE_R;
+private class_inner ::= annotation|class_field|class_bound;
+class_field ::= identifier [COLON type_expression] [EQ value] {
+    mixin = "vos.intellij.language.mixin.MixinClassField"
+};
+class_bound ::= ACCENT identifier [(COLON|EQ) value] {
+    pin = identifier
+    mixin = "vos.intellij.language.mixin.MixinClassBound"
+};
+// ---------------------------------------------------------------------------------------------------------------------
+union_statement ::= KW_UNION modifiers identifier [COLON type_expression] union_block {
+    pin = identifier
+    mixin = "vos.intellij.language.mixin.MixinUnionStatement"
+};
+union_block ::= BRACE_L (union_inner|ignore)* BRACE_R;
+union_inner ::= annotation|union_field|class_bound;
+union_field ::= identifier [EQ integer_signed] [class_block] {
+//    mixin = "vos.intellij.language.mixin.MixinClassField"
+};
+// ---------------------------------------------------------------------------------------------------------------------
+kv_pair ::= key set value;
+key ::= identifier | string_literal {
+    mixin = "vos.intellij.language.mixin.MixinKey"
+};
+// ---------------------------------------------------------------------------------------------------------------------
+value ::= null | boolean | num | array | object | string_literal | namespace | url_maybe_valid {
+    mixin = "vos.intellij.language.mixin.MixinValue"
+};
+null ::= "null";
+boolean ::= "true" | "false";
+// used in annotation
+url_maybe_valid ::= URL;
+// ---------------------------------------------------------------------------------------------------------------------
+type_expression ::= type_symbol [BRACKET_L type_number BRACKET_R];
+type_number ::=  type_generic_bound | type_generic_compare | type_generic_range | type_generic;
+type_generic_bound ::= compare? num;
+type_generic_range ::= num (RANGE_LE|RANGE_EQ) num;
+type_generic_compare ::= num compare SYMBOL compare num;
+type_generic ::= type_symbol [COMMA type_symbol];
+
+compare ::= (ANGLE_L|ANGLE_R|LEQ|GEQ|EQ);
+type_symbol ::= SYMBOL | STRING;
+// ---------------------------------------------------------------------------------------------------------------------
+set ::= EQ | COLON;
+// ---------------------------------------------------------------------------------------------------------------------
+private num ::= [SIGN] (INTEGER | DECIMAL) | [SIGN] BYTE;
+integer_signed ::= [SIGN] INTEGER;
+// ---------------------------------------------------------------------------------------------------------------------
+string_literal ::= STRING_SQ char* STRING_SQ | STRING_DQ char* STRING_DQ;
+private char ::= CHARACTER | esc;
+private esc ::= ESCAPE_UNICODE | ESCAPE_SPECIAL;
+// ---------------------------------------------------------------------------------------------------------------------
+array ::= <<bracket_block value ignore>> {
+    mixin = "vos.intellij.language.mixin.MixinArray"
+};
+object ::= <<brace_block kv_pair ignore>>;
+// ---------------------------------------------------------------------------------------------------------------------
+namespace ::= identifier (DOT identifier)*;
+identifier ::= SYMBOL;
+modifiers ::= (identifier !(':'|'{'))*;
+// ---------------------------------------------------------------------------------------------------------------------
+// parenthesis ( )
+private meta parenthesis ::= PARENTHESIS_L <<param>> PARENTHESIS_R;
+// bracket [ ]
+meta bracket_block ::= BRACKET_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] BRACKET_R;
+// brace { }
+meta brace_block ::= BRACE_L (<<item>>|<<sp>>)* BRACE_R;
+
