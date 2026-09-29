@@ -50,7 +50,7 @@ intellijPlatform {
     pluginConfiguration {
         version = providers.gradleProperty("pluginVersion")
 
-        description = providers.fileContents(rootProject.layout.projectDirectory.file("README.md")).asText.map {
+        description = providers.fileContents(layout.projectDirectory.file("README.md")).asText.map {
             val start = "<!-- Plugin description -->"
             val end = "<!-- Plugin description end -->"
 
@@ -100,7 +100,7 @@ intellijPlatform {
 }
 
 changelog {
-    path.set(rootProject.file("CHANGELOG.md").invariantSeparatorsPath)
+    path.set(layout.projectDirectory.file("CHANGELOG.md").asFile.invariantSeparatorsPath)
     groups.empty()
     repositoryUrl = providers.gradleProperty("pluginRepositoryUrl")
 }

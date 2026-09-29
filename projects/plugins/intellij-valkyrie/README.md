@@ -1,7 +1,11 @@
+# intellij-valkyrie
+
+[![Version](https://img.shields.io/jetbrains/plugin/v/20594.svg)](https://plugins.jetbrains.com/plugin/20594)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/20594.svg)](https://plugins.jetbrains.com/plugin/20594)
+
 <!-- Plugin description -->
 
-
-A [Valkyrie Language](https://github.com/ygg-lang/project-yggdrasil) plugin for IntelliJ-based IDEs,
+A [Valkyrie Language](https://github.com/ygg-lang/project-yggdrasil) plugin for IntelliJ-based IDEs.
 
 ## Features
 

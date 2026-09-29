@@ -1,6 +1,6 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
-# Valkyrie Intellij Changelog
+# intellij-valkyrie Changelog
 
 ## [Unreleased]
 
