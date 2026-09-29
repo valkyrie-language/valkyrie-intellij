@@ -42,3 +42,4 @@ jobs:
           path: |
             valkyrie-intellij/projects/plugins/intellij-valkyrie/build/reports/tests
             valkyrie-intellij/projects/plugins/intellij-voml/build/reports/tests
+            valkyrie-intellij/projects/plugins/intellij-vos/build/reports/tests

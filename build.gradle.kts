@@ -14,13 +14,21 @@ tasks {
     register("ciVerify") {
         group = "verification"
         description = "CI gate: compile, compile tests, and package each Marketplace plugin separately."
-        dependsOn(":plugins:intellij-voml:ciVerify", ":plugins:intellij-valkyrie:ciVerify")
+        dependsOn(
+            ":plugins:intellij-voml:ciVerify",
+            ":plugins:intellij-vos:ciVerify",
+            ":plugins:intellij-valkyrie:ciVerify",
+        )
     }
 
     register("buildPlugins") {
         group = "build"
         description = "Build every Marketplace plugin zip separately for individual Marketplace upload."
-        dependsOn(":plugins:intellij-voml:buildPlugin", ":plugins:intellij-valkyrie:buildPlugin")
+        dependsOn(
+            ":plugins:intellij-voml:buildPlugin",
+            ":plugins:intellij-vos:buildPlugin",
+            ":plugins:intellij-valkyrie:buildPlugin",
+        )
     }
 
     // Host sandbox on Valkyrie (Ultimate). Sibling plugins are injected via gradle/ide-all-plugins.gradle.kts.

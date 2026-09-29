@@ -10,6 +10,7 @@
 
 - `projects/plugins/intellij-valkyrie` — Valkyrie Marketplace 插件
 - `projects/plugins/intellij-voml` — VOML/VON Marketplace 插件
+- `projects/plugins/intellij-vos` — VOS/JSS Marketplace 插件
 - `projects/packages` — 唯一共享库（代码 only，无 `resources`，工程名 `:packages`）
 - `projects/designs` — 品牌/设计素材（与 packages、plugins 平级）
 
@@ -31,7 +32,7 @@ node scripts/dev/ci-local.mjs
 |------|------|
 | `./gradlew runIde` | 一次拉起 IDE，加载全部 `:plugins/*`（共用 sandbox） |
 | `./gradlew buildPlugins` | 分别打出每个插件自己的 zip，互不合并 |
-| `:plugins:intellij-voml:publishPlugin` / `:plugins:intellij-valkyrie:publishPlugin` | 各自上传与审核 |
+| `:plugins:intellij-*:publishPlugin` | 各自上传与审核 |
 
 库模块写入本地 Maven：
 
