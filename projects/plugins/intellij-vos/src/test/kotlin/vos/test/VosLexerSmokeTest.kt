@@ -4,8 +4,8 @@ import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import com.intellij.testFramework.LightPlatformTestCase
 import com.intellij.testFramework.TestTimeout
-import vos.intellij.language.lexer.VosLexer
-import vos.intellij.language.psi.VosTypes
+import vos.surface.lexer.VosLexer
+import vos.surface.psi.VosTypes
 
 class VosLexerSmokeTest : LightPlatformTestCase() {
     fun testKeywordsLiteralsAndPunctuation() = TestTimeout.run {

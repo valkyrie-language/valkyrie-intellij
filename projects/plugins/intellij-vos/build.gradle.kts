@@ -26,9 +26,6 @@ repositories {
 
 dependencies {
     implementation(project(":packages"))
-    // Absorbed from vos-intellij: protobuf stubs under `vos.lsp` (Main.java + Kotlin DSL).
-    implementation("com.google.protobuf:protobuf-java:3.25.5")
-    implementation("com.google.protobuf:protobuf-kotlin:3.25.5")
 
     testImplementation(libs.junit)
 

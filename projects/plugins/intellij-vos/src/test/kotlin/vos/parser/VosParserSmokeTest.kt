@@ -5,7 +5,7 @@ import com.intellij.psi.impl.DebugUtil
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.testFramework.ParsingTestCase
 import com.intellij.testFramework.TestTimeout
-import vos.intellij.language.VosParserDefinition
+import vos.surface.file.VosParserDefinition
 import java.nio.file.Path
 
 class VosParserSmokeTest : ParsingTestCase("parser", "vos", VosParserDefinition()) {

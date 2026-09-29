@@ -13,70 +13,70 @@
 			name="VOS"
 			language="VOS"
 			extensions="vos"
-			implementationClass="vos.intellij.language.file.VosFileType"
+			implementationClass="vos.surface.file.VosFileType"
 			fieldName="INSTANCE"/>
 		<lang.parserDefinition
 			language="VOS"
-			implementationClass="vos.intellij.language.VosParserDefinition"/>
-		<projectViewNestingRulesProvider implementation="vos.intellij.language.file.FileGroup"/>
+			implementationClass="vos.surface.file.VosParserDefinition"/>
+		<projectViewNestingRulesProvider implementation="vos.surface.file.FileGroup"/>
 		<!-- Highlight -->
 		<additionalTextAttributes scheme="Default" file="colors/JssDefault.xml"/>
 		<additionalTextAttributes scheme="Darcula" file="colors/JssDarcula.xml"/>
-		<annotator language="VOS" implementationClass="vos.intellij.ide.annotator.EscapeAnnotator"/>
-		<colorSettingsPage implementation="vos.intellij.ide.highlight.ColorSettings"/>
-		<highlightVisitor implementation="vos.intellij.ide.highlight.HighlightAST"/>
+		<annotator language="VOS" implementationClass="vos.semantics.inspect.EscapeAnnotator"/>
+		<colorSettingsPage implementation="vos.editing.highlight.ColorSettings"/>
+		<highlightVisitor implementation="vos.editing.highlight.HighlightAST"/>
 		<lang.syntaxHighlighter
 			language="VOS"
-			implementationClass="vos.intellij.ide.highlight.HighlightToken"/>
+			implementationClass="vos.editing.highlight.HighlightToken"/>
 		<!-- View -->
 		<lang.psiStructureViewFactory
 			language="VOS"
-			implementationClass="vos.intellij.ide.view.ViewFactory"/>
+			implementationClass="vos.editing.structure.ViewFactory"/>
 		<!-- Formatter -->
 		<lang.formatter
 			language="VOS"
-			implementationClass="vos.intellij.ide.formatter.FormatBuilder"/>
+			implementationClass="vos.editing.format.FormatBuilder"/>
 		<lang.commenter
 			language="VOS"
-			implementationClass="vos.intellij.ide.formatter.Commenter"/>
+			implementationClass="vos.editing.format.Commenter"/>
 		<lang.smartEnterProcessor
 			language="VOS"
-			implementationClass="vos.intellij.ide.formatter.SmartEnter"/>
+			implementationClass="vos.editing.format.SmartEnter"/>
 		<!-- Document -->
-		<!--documentationProvider implementation="vos.intellij.ide.doc.JssDocumentationExtender"-->
-		<!--		<psi.referenceContributor implementation="vos.intellij.ide.doc.JssUrlReferenceContributor"/>-->
+		<!--documentationProvider implementation="vos.editing.documentation.JssDocumentationExtender"-->
+		<!--		<psi.referenceContributor implementation="vos.editing.documentation.JssUrlReferenceContributor"/>-->
 		<lang.documentationProvider
 			language="VOS"
-			implementationClass="vos.intellij.ide.doc.DocumentationProvider"/>
+			implementationClass="vos.editing.documentation.DocumentationProvider"/>
 		<lang.braceMatcher
 			language="VOS"
-			implementationClass="vos.intellij.ide.matcher.JssBraceMatcher"/>
+			implementationClass="vos.editing.assist.JssBraceMatcher"/>
 		<lang.quoteHandler
 			language="VOS"
-			implementationClass="vos.intellij.ide.matcher.JssQuoteHandler"/>
+			implementationClass="vos.editing.assist.JssQuoteHandler"/>
 		<lang.foldingBuilder
 			language="VOS"
-			implementationClass="vos.intellij.ide.matcher.JssFoldingBuilder"/>
+			implementationClass="vos.editing.assist.JssFoldingBuilder"/>
 		<indexPatternBuilder
-			implementation="vos.intellij.ide.todo.TodoIndexPatternBuilder"/>
+			implementation="vos.editing.todo.TodoIndexPatternBuilder"/>
 		<todoIndexer
 			filetype="JSS"
-			implementationClass="vos.intellij.ide.todo.TodoIndexer"/>
+			implementationClass="vos.editing.todo.TodoIndexer"/>
 		<completion.contributor
 			language="VOS"
-			implementationClass="vos.intellij.ide.completion.CompletionContributor"/>
+			implementationClass="vos.editing.completion.CompletionContributor"/>
 
 
 		<langCodeStyleSettingsProvider
-			implementation="vos.intellij.ide.codeStyle.CodeStyleSettingProvider"/>
+			implementation="vos.editing.format.codestyle.CodeStyleSettingProvider"/>
 
 	</extensions>
 	<actions>
-		<action id="NewJssFile" class="vos.intellij.ide.actions.CreateFile">
+		<action id="NewJssFile" class="vos.editing.actions.CreateFile">
 			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewHtmlFile"/>
 		</action>
 		<action id="jss.JssConvertJson"
-				class="vos.intellij.ide.actions.JssConvertJson"/>
+				class="vos.editing.actions.JssConvertJson"/>
 		<group id="jss.JssGenerator" popup="true" text="JssGenerator">
 			<reference ref="NewJssFile"/>
 			<reference ref="jss.JssConvertJson"/>

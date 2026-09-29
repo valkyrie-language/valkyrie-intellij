@@ -1,3 +1,0 @@
-package vos.intellij.ast
-
-
