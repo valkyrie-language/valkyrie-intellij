@@ -15,6 +15,7 @@ tasks {
         group = "verification"
         description = "CI gate: compile, compile tests, and package each Marketplace plugin separately."
         dependsOn(
+            ":plugins:intellij-awsl:ciVerify",
             ":plugins:intellij-voml:ciVerify",
             ":plugins:intellij-vos:ciVerify",
             ":plugins:intellij-valkyrie:ciVerify",
@@ -25,6 +26,7 @@ tasks {
         group = "build"
         description = "Build every Marketplace plugin zip separately for individual Marketplace upload."
         dependsOn(
+            ":plugins:intellij-awsl:buildPlugin",
             ":plugins:intellij-voml:buildPlugin",
             ":plugins:intellij-vos:buildPlugin",
             ":plugins:intellij-valkyrie:buildPlugin",

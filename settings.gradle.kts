@@ -15,11 +15,13 @@ project(":packages").projectDir = file("projects/packages")
 
 include(
     "plugins",
+    "plugins:intellij-awsl",
     "plugins:intellij-voml",
     "plugins:intellij-vos",
     "plugins:intellij-valkyrie",
 )
 project(":plugins").projectDir = file("projects/plugins")
+project(":plugins:intellij-awsl").projectDir = file("projects/plugins/intellij-awsl")
 project(":plugins:intellij-voml").projectDir = file("projects/plugins/intellij-voml")
 project(":plugins:intellij-vos").projectDir = file("projects/plugins/intellij-vos")
 project(":plugins:intellij-valkyrie").projectDir = file("projects/plugins/intellij-valkyrie")
