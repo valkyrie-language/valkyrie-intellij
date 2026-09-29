@@ -13,8 +13,8 @@ tasks {
 
     register("ciVerify") {
         group = "verification"
-        description = "CI gate: compile, compile tests, and package the Valkyrie plugin."
-        dependsOn(":plugins:valkyrie:ciVerify")
+        description = "CI gate: compile, compile tests, and package VOML and Valkyrie plugins."
+        dependsOn(":plugins:voml:ciVerify", ":plugins:valkyrie:ciVerify")
     }
 
     register("publishLibrariesToMavenLocal") {

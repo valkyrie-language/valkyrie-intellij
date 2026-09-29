@@ -25,12 +25,6 @@ repositories {
     }
 }
 
-val vomlPluginZip = rootProject.layout.projectDirectory.file(
-    providers.gradleProperty("vomlPluginDistribution").get(),
-).asFile
-
-val vomlIncludedBuild = gradle.includedBuilds.find { it.name == "voml-intellij" }
-
 dependencies {
     implementation(project(":packages:valkyrie-icons"))
     implementation(project(":packages:valkyrie-bundle"))
@@ -44,7 +38,7 @@ dependencies {
 
         bundledPlugins(providers.gradleProperty("platformBundledPlugins").map { it.split(',') })
         plugins(providers.gradleProperty("platformPlugins").map { it.split(',') })
-        localPlugin(vomlPluginZip)
+        localPlugin(project(":plugins:voml"))
 
         pluginVerifier()
         zipSigner()
@@ -118,12 +112,6 @@ tasks {
 
     named("buildSearchableOptions") {
         enabled = false
-    }
-
-    listOf("compileKotlin", "buildPlugin", "runIde", "prepareTestSandbox").forEach { taskName ->
-        named(taskName) {
-            vomlIncludedBuild?.let { dependsOn(it.task(":buildPlugin")) }
-        }
     }
 
     register("ciVerify") {

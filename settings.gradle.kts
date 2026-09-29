@@ -14,6 +14,7 @@ include(
     "packages:valkyrie-icons",
     "packages:valkyrie-bundle",
     "plugins",
+    "plugins:voml",
     "plugins:valkyrie",
 )
 
@@ -22,6 +23,5 @@ project(":packages:valkyrie-icons").projectDir = file("projects/packages/valkyri
 project(":packages:valkyrie-bundle").projectDir = file("projects/packages/valkyrie-bundle")
 
 project(":plugins").projectDir = file("projects/plugins")
+project(":plugins:voml").projectDir = file("projects/plugins/voml")
 project(":plugins:valkyrie").projectDir = file("projects/plugins/valkyrie")
-
-includeBuild("../voml-intellij")
