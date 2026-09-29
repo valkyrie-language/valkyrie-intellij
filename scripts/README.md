@@ -12,7 +12,7 @@
 - `projects/plugins/intellij-voml` — VOML/VON Marketplace 插件
 - `projects/plugins/intellij-vos` — VOS/JSS Marketplace 插件
 - `projects/packages` — 唯一共享库（代码 only，无 `resources`，工程名 `:packages`）
-- `projects/designs` — 品牌/设计素材（与 packages、plugins 平级）
+- `projects/designs` — 品牌/设计素材（`{valkyrie,voml,von,vos,awsl}/`，与 packages、plugins 平级）
 
 ## 本地 CI
 

@@ -9,7 +9,7 @@ Multi-plugin workspace for JetBrains Marketplace plugins and one shared library.
 | [`projects/plugins/intellij-vos`](projects/plugins/intellij-vos) | VOS / JSS plugin (`README.md` / `CHANGELOG.md` live here) |
 | [`projects/plugins/intellij-awsl`](projects/plugins/intellij-awsl) | AWSL plugin (`README.md` / `CHANGELOG.md` live here) |
 | [`projects/packages`](projects/packages) | Shared code-only library (`:packages`) |
-| [`projects/designs`](projects/designs) | Brand assets |
+| [`projects/designs`](projects/designs) | Brand assets (`valkyrie/`, `voml/`, `von/`, `vos/`, `awsl/`) |
 
 ```bash
 ./gradlew runIde          # load every :plugins/* together
