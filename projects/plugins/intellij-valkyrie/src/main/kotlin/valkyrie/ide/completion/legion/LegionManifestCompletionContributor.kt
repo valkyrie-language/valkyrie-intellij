@@ -1,6 +1,6 @@
 package valkyrie.ide.completion.legion
 
-import von.language.VonLanguage
+import von.surface.file.VonLanguage
 import com.intellij.codeInsight.completion.*
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.patterns.PlatformPatterns

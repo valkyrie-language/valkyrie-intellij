@@ -10,158 +10,158 @@
     <extensions defaultExtensionNs="com.intellij">
         <fileType
             name="VOML"
-            implementationClass="voml.language.VomlFileType"
+            implementationClass="voml.surface.file.VomlFileType"
             fieldName="INSTANCE"
             language="VOML"
             extensions="voml"
         />
         <lang.parserDefinition
             language="VOML"
-            implementationClass="voml.language.VomlParserDefinition"
+            implementationClass="voml.surface.file.VomlParserDefinition"
         />
         <!-- Highlight -->
-        <colorSettingsPage implementation="voml.ide.colors.VomlColorSettingsPage"/>
-        <highlightVisitor implementation="voml.ide.colors.VomlHighlightVisitor"/>
+        <colorSettingsPage implementation="voml.editing.highlight.VomlColorSettingsPage"/>
+        <highlightVisitor implementation="voml.editing.highlight.VomlHighlightVisitor"/>
         <lang.syntaxHighlighter
             language="VOML"
-            implementationClass="voml.ide.colors.VomlSyntaxHighlighter"
+            implementationClass="voml.editing.highlight.VomlSyntaxHighlighter"
         />
         <!-- commenter -->
         <lang.commenter
             language="VOML"
-            implementationClass="voml.ide.VomlCommenter"
+            implementationClass="voml.editing.assist.VomlCommenter"
         />
         <lang.braceMatcher
             language="VOML"
-            implementationClass="voml.ide.braces.VomlBraceMatcher"
+            implementationClass="voml.editing.assist.braces.VomlBraceMatcher"
         />
         <lang.quoteHandler
             language="VOML"
-            implementationClass="voml.ide.VomlQuoteHandler"
+            implementationClass="voml.editing.assist.VomlQuoteHandler"
         />
         <lang.foldingBuilder
             language="VOML"
-            implementationClass="voml.ide.folding.VomlFoldingBuilder"
+            implementationClass="voml.editing.folding.VomlFoldingBuilder"
         />
         <indexPatternBuilder
-            implementation="voml.ide.todo.VomlTodoIndexPatternBuilder"
+            implementation="voml.editing.todo.VomlTodoIndexPatternBuilder"
         />
         <todoIndexer
             filetype="VOML"
-            implementationClass="voml.ide.todo.VomlTodoIndexer"
+            implementationClass="voml.editing.todo.VomlTodoIndexer"
         />
         <completion.contributor
             language="VOML"
-            implementationClass="voml.ide.completion.VomlOptionCompletionContributor"
+            implementationClass="voml.editing.completion.VomlOptionCompletionContributor"
         />
         <annotator
             language="VOML"
-            implementationClass="voml.ide.annotator.VomlStringEscapingAnnotator"
+            implementationClass="voml.semantics.inspect.VomlStringEscapingAnnotator"
         />
         <annotator
             language="VOML"
-            implementationClass="voml.ide.annotator.VomlScopeChecker"
+            implementationClass="voml.semantics.inspect.VomlScopeChecker"
         />
         <annotator
             language="VOML"
-            implementationClass="voml.ide.annotator.VomlTableChecker"
+            implementationClass="voml.semantics.inspect.VomlTableChecker"
         />
         <additionalTextAttributes scheme="Default" file="colors/VomlDefault.xml"/>
         <additionalTextAttributes scheme="Darcula" file="colors/VomlDarcula.xml"/>
         <langCodeStyleSettingsProvider
-            implementation="voml.ide.codeStyle.VomlLanguageCodeStyleSettingsProvider"
+            implementation="voml.editing.format.codestyle.VomlLanguageCodeStyleSettingsProvider"
         />
         <lang.formatter
             language="VOML"
-            implementationClass="voml.ide.formatter.VomlFormattingModelBuilder"
+            implementationClass="voml.editing.format.VomlFormattingModelBuilder"
         />
         <lang.smartEnterProcessor
             language="VOML"
-            implementationClass="voml.ide.assist.fixers.VomlSmartEnterProcessor"
+            implementationClass="voml.editing.assist.fixers.VomlSmartEnterProcessor"
         />
 
         <fileType
             name="VON"
-            implementationClass="von.language.VonFileType"
+            implementationClass="von.surface.file.VonFileType"
             fieldName="INSTANCE"
             language="VON"
             extensions="von"
         />
         <lang.parserDefinition
             language="VON"
-            implementationClass="von.language.VonParserDefinition"
+            implementationClass="von.surface.file.VonParserDefinition"
         />
-        <colorSettingsPage implementation="von.ide.colors.VonColorSettingsPage"/>
-        <highlightVisitor implementation="von.ide.colors.VonHighlightVisitor"/>
+        <colorSettingsPage implementation="von.editing.highlight.VonColorSettingsPage"/>
+        <highlightVisitor implementation="von.editing.highlight.VonHighlightVisitor"/>
         <lang.syntaxHighlighter
             language="VON"
-            implementationClass="von.ide.colors.VonSyntaxHighlighter"
+            implementationClass="von.editing.highlight.VonSyntaxHighlighter"
         />
         <lang.commenter
             language="VON"
-            implementationClass="von.ide.VonCommenter"
+            implementationClass="von.editing.assist.VonCommenter"
         />
         <lang.braceMatcher
             language="VON"
-            implementationClass="von.ide.braces.VonBraceMatcher"
+            implementationClass="von.editing.assist.braces.VonBraceMatcher"
         />
         <lang.quoteHandler
             language="VON"
-            implementationClass="von.ide.VonQuoteHandler"
+            implementationClass="von.editing.assist.VonQuoteHandler"
         />
         <lang.foldingBuilder
             language="VON"
-            implementationClass="von.ide.folding.VonFoldingBuilder"
+            implementationClass="von.editing.folding.VonFoldingBuilder"
         />
         <indexPatternBuilder
-            implementation="von.ide.todo.VonTodoIndexPatternBuilder"
+            implementation="von.editing.todo.VonTodoIndexPatternBuilder"
         />
         <todoIndexer
             filetype="VON"
-            implementationClass="von.ide.todo.VonTodoIndexer"
+            implementationClass="von.editing.todo.VonTodoIndexer"
         />
         <completion.contributor
             language="VON"
-            implementationClass="von.ide.completion.VonOptionCompletionContributor"
+            implementationClass="von.editing.completion.VonOptionCompletionContributor"
         />
         <annotator
             language="VON"
-            implementationClass="von.ide.annotator.VonStringEscapingAnnotator"
+            implementationClass="von.semantics.inspect.VonStringEscapingAnnotator"
         />
         <annotator
             language="VON"
-            implementationClass="von.ide.annotator.VonScopeChecker"
+            implementationClass="von.semantics.inspect.VonScopeChecker"
         />
         <annotator
             language="VON"
-            implementationClass="von.ide.annotator.VonTableChecker"
+            implementationClass="von.semantics.inspect.VonTableChecker"
         />
         <additionalTextAttributes scheme="Default" file="colors/VomlDefault.xml"/>
         <additionalTextAttributes scheme="Darcula" file="colors/VomlDarcula.xml"/>
         <langCodeStyleSettingsProvider
-            implementation="von.ide.codeStyle.VonLanguageCodeStyleSettingsProvider"
+            implementation="von.editing.format.codestyle.VonLanguageCodeStyleSettingsProvider"
         />
         <lang.formatter
             language="VON"
-            implementationClass="von.ide.formatter.VonFormattingModelBuilder"
+            implementationClass="von.editing.format.VonFormattingModelBuilder"
         />
         <lang.smartEnterProcessor
             language="VON"
-            implementationClass="von.ide.assist.fixers.VonSmartEnterProcessor"
+            implementationClass="von.editing.assist.fixers.VonSmartEnterProcessor"
         />
     </extensions>
     <actions>
-        <action id="voml.ide.actions.VomlCreateFile"
-                class="voml.ide.actions.VomlCreateFile"
+        <action id="voml.editing.actions.VomlCreateFile"
+                class="voml.editing.actions.VomlCreateFile"
                 text="Voml File"
                 description="Create new Voml file">
             <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>
         </action>
-        <action id="von.ide.actions.VonCreateFile"
-                class="von.ide.actions.VonCreateFile"
+        <action id="von.editing.actions.VonCreateFile"
+                class="von.editing.actions.VonCreateFile"
                 text="Von File"
                 description="Create new Von file">
-            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="voml.ide.actions.VomlCreateFile"/>
+            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="voml.editing.actions.VomlCreateFile"/>
         </action>
     </actions>
 </idea-plugin>

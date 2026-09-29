@@ -2,7 +2,7 @@ package von.test
 
 import com.intellij.testFramework.ParsingTestCase
 import com.intellij.testFramework.TestTimeout
-import von.language.VonParserDefinition
+import von.surface.file.VonParserDefinition
 import java.nio.file.Path
 
 /**

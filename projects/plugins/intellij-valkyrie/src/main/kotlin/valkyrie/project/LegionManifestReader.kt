@@ -1,6 +1,6 @@
 package valkyrie.project
 
-import von.language.VonFile
+import von.surface.file.VonFile
 import com.intellij.json.psi.JsonFile
 import com.intellij.json.psi.JsonObject
 import com.intellij.openapi.application.ReadAction

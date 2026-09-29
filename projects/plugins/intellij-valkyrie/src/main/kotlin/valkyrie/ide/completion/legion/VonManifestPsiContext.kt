@@ -1,9 +1,9 @@
 package valkyrie.ide.completion.legion
 
-import von.language.psi.VonPairNode
-import von.language.psi.VonSymbolPathNode
-import von.language.psi.VonTableNode
-import von.language.psi.VonTypes
+import von.surface.psi.VonPairNode
+import von.surface.psi.VonSymbolPathNode
+import von.surface.psi.VonTableNode
+import von.surface.psi.VonTypes
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiWhiteSpace
