@@ -1,0 +1,16 @@
+ValkyrieFileNode
+  ValkyrieTermExpression(ValkyrieElement.EXPRESSION_STATEMENT)
+    ValkyrieCallExpression
+      ValkyrieElementNode(ValkyrieElement.EXPRESSION)
+        ValkyrieElementNode(ValkyrieElement.NAMESPACE_PATH)
+          ValkyrieIdentifier(panic)
+            PsiElement(ValkyrieToken.SYMBOL.XID)('panic')
+      ValkyrieElementNode(ValkyrieElement.ARGUMENT_LIST)
+        PsiElement(ValkyrieToken.()('(')
+        ValkyrieElementNode(ValkyrieElement.EXPRESSION)
+          ValkyrieElementNode(ValkyrieElement.EXPRESSION)
+            ValkyrieElementNode(ValkyrieElement.STRING_LITERAL)
+              PsiElement(ValkyrieToken.STRING.START)('"')
+              PsiElement(ValkyrieToken.STRING.TEXT)('unwrap on `None` value')
+              PsiElement(ValkyrieToken.STRING.END)('"')
+        PsiElement(ValkyrieToken.))(')')
