@@ -9,4 +9,19 @@ pluginManagement {
 
 rootProject.name = "Valkyrie Intellij"
 
+include(
+    "packages",
+    "packages:valkyrie-icons",
+    "packages:valkyrie-bundle",
+    "plugins",
+    "plugins:valkyrie",
+)
+
+project(":packages").projectDir = file("projects/packages")
+project(":packages:valkyrie-icons").projectDir = file("projects/packages/valkyrie-icons")
+project(":packages:valkyrie-bundle").projectDir = file("projects/packages/valkyrie-bundle")
+
+project(":plugins").projectDir = file("projects/plugins")
+project(":plugins:valkyrie").projectDir = file("projects/plugins/valkyrie")
+
 includeBuild("../voml-intellij")
