@@ -1,0 +1,6 @@
+match self {
+    case Some(value) if predicate(value):
+        Some(value)
+    else:
+        None
+}

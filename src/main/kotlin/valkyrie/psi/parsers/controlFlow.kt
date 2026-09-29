@@ -396,7 +396,7 @@ fun eatIfCondition(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
     }
     val marker = builder.mark()
     builder.advanceLexer()   // consume '※'
-    if (!parseTermExpression(parser, builder, inline = true)) {
+    if (!parseTermExpression(parser, builder, inline = true, stopAtColon = true)) {
         builder.error("Expected expression after `if-guard`")
     }
     marker.done(ValkyrieTypes.IF_MAIN_PART)
@@ -494,7 +494,9 @@ private fun parseMatchArmExpression(parser: ValkyrieParser, builder: PsiBuilder)
     if (builder.tokenType == null || builder.tokenType in matchClauseStarters) {
         return
     }
-    parseTermExpression(parser, builder, inline = true)
+    // Arm expressions may construct variants: `Success { value: x, errors: ys }`.
+    // Scrutinee still uses inline=true so `match expr {` does not eat the body brace.
+    parseTermExpression(parser, builder, inline = false)
 }
 
 private fun parseCaseClause(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
@@ -531,8 +533,8 @@ private fun parseWhenClause(parser: ValkyrieParser, builder: PsiBuilder): Boolea
         marker.rollbackTo()
         return false
     }
-    // pattern
-    parseTermExpression(parser, builder, false)
+    // when <expr>:
+    parseTermExpression(parser, builder, inline = true, stopAtColon = true)
     // ':'
     if (builder.tokenType == ValkyrieTypes.COLON) {
         builder.advanceLexer()

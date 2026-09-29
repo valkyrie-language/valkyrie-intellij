@@ -1,0 +1,40 @@
+namespace std.types;
+
+unite Validation<T, E> {
+    Success { value: T, errors: Vector<E> },
+    Failure { fatal: E, errors: Vector<E> },
+}
+
+imply Validation<T, E> {
+    micro is_success(self): bool {
+        match self {
+            case Success { value, errors }:
+                true
+            case Failure { fatal, errors }:
+                false
+        }
+    }
+
+    micro map<U>(self, f: micro(T) -> U): Validation<U, E> {
+        match self {
+            case Success { value, errors }:
+                Success { value: f(value), errors: errors }
+            case Failure { fatal, errors }:
+                Failure { fatal: fatal, errors: errors }
+        }
+    }
+
+    micro and_then<U>(self, f: micro(T) -> Validation<U, E>): Validation<U, E> {
+        match self {
+            case Success { value, errors }:
+                match f(value) {
+                    case Success { value, errors: next_errors }:
+                        Success { value: value, errors: errors.concat(next_errors) }
+                    case Failure { fatal, errors: next_errors }:
+                        Failure { fatal: fatal, errors: errors.concat(next_errors) }
+                }
+            case Failure { fatal, errors }:
+                Failure { fatal: fatal, errors: errors }
+        }
+    }
+}

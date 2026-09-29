@@ -19,8 +19,10 @@ fun parseBarePattern(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
         marker.rollbackTo()
         return false
     }
-    if (builder.tokenType == ValkyrieTypes.PARENTHESIS_L) {
-        parseTuplePattern(parser, builder)
+    when (builder.tokenType) {
+        ValkyrieTypes.PARENTHESIS_L -> parseTuplePattern(parser, builder)
+        ValkyrieTypes.BRACE_L -> parseObjectPattern(parser, builder)
+        else -> {}
     }
     marker.done(ValkyrieTypes.BARE_PATTERN)
     return true

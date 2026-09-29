@@ -12,6 +12,8 @@ class ControlFlowTest : ValkyrieParsingTestCase("testData/parser/control_flow") 
 
     // Match statement tests
     fun testMatch() = doTest(true, true)
+    fun testMatchCaseGuard() = doTest(true, true)
+    fun testMatchObjectPattern() = doTest(true, true)
 
     // Control flow tests
     fun testContinue() = doTest(true, true)

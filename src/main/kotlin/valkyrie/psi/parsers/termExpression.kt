@@ -214,8 +214,13 @@ fun parseFunctionArgumentItem(valkyrieParser: ValkyrieParser, builder: PsiBuilde
  *               以避免在如 `for i in 0..10 { ... }` 这样的结构中产生歧义。
  * @return 如果成功解析了一个表达式，则返回 true。
  */
-fun parseTermExpression(parser: ValkyrieParser, builder: PsiBuilder, inline: Boolean): Boolean {
-    return parseTermExpressionWithPrecedence(parser, builder, 0, inline)
+fun parseTermExpression(
+    parser: ValkyrieParser,
+    builder: PsiBuilder,
+    inline: Boolean,
+    stopAtColon: Boolean = false,
+): Boolean {
+    return parseTermExpressionWithPrecedence(parser, builder, 0, inline, stopAtColon)
 }
 
 /**
@@ -224,7 +229,13 @@ fun parseTermExpression(parser: ValkyrieParser, builder: PsiBuilder, inline: Boo
  *
  * @param minPrecedence 当前递归层级需要处理的最小运算符优先级。
  */
-fun parseTermExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: PsiBuilder, minPrecedence: Int, inline: Boolean): Boolean {
+fun parseTermExpressionWithPrecedence(
+    valkyrieParser: ValkyrieParser,
+    builder: PsiBuilder,
+    minPrecedence: Int,
+    inline: Boolean,
+    stopAtColon: Boolean = false,
+): Boolean {
     // CHANGE 1: 'lhs' 现在代表当前左侧表达式的 marker。
     var lhs: PsiBuilder.Marker
 
@@ -238,7 +249,7 @@ fun parseTermExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
 
         // 递归解析右侧表达式
         // 对于切片运算符，右侧是可选的 (例如 x[..10] 或 x[..])
-        if (!parseTermExpressionWithPrecedence(valkyrieParser, builder, prefixPrecedence, inline)) {
+        if (!parseTermExpressionWithPrecedence(valkyrieParser, builder, prefixPrecedence, inline, stopAtColon)) {
             // 如果不是切片运算符，则右侧缺失是错误
             if (!isSliceOperator(currentToken)) {
                 lhs.error("Expected expression after prefix operator")
@@ -266,6 +277,9 @@ fun parseTermExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
         val currentToken = builder.tokenType
         // builder.error("Current token: $currentToken, minPrecedence: $minPrecedence")
         if (currentToken == null) break
+        if (stopAtColon && currentToken == ValkyrieTypes.COLON) {
+            break
+        }
         if (currentToken == ValkyrieTypes.IS && builder.lookAhead(1) == ValkyrieTypes.NOT) {
             val isNotPrecedence = getTermInfixPrecedence(ValkyrieTypes.IS)!!
             if (isNotPrecedence < minPrecedence) break
@@ -288,7 +302,7 @@ fun parseTermExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
             lhs = lhs.precede()
             builder.advanceLexer() // not
             builder.advanceLexer() // in
-            if (!parseTermExpressionWithPrecedence(valkyrieParser, builder, notInPrecedence + 1, inline)) {
+            if (!parseTermExpressionWithPrecedence(valkyrieParser, builder, notInPrecedence + 1, inline, stopAtColon)) {
                 lhs.error("Expected an expression after 'not in'")
                 return true
             }
@@ -326,14 +340,34 @@ fun parseTermExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
                     parseIndexArgumentList(valkyrieParser, builder)
                     lhs.done(ValkyrieTypes.INDEX_EXPRESSION)
                 }
+                // Variant { field: expr, … }
+                ValkyrieTypes.BRACE_L -> {
+                    valkyrieParser.parseObjectExpression(builder)
+                    lhs.done(ValkyrieTypes.POSTFIX_EXPRESSION)
+                }
                 // data.f
                 ValkyrieTypes.DOT, ValkyrieTypes.DOT_CIRCLE -> {
                     builder.advanceLexer() // consume '.' or '⸬'
                     parseIdentifier(builder)
                     lhs.done(ValkyrieTypes.EXPRESSION)
                 }
+                ValkyrieTypes.DOUBLE_COLON -> {
+                    val lookAhead = builder.lookAhead(1)
+                    if (lookAhead == ValkyrieTypes.ANGLE_L || lookAhead == ValkyrieTypes.GENERIC_L) {
+                        parseGenericArgumentList(valkyrieParser, builder)
+                        lhs.done(ValkyrieTypes.POSTFIX_EXPRESSION)
+                    } else {
+                        builder.advanceLexer()
+                        parseIdentifier(builder)
+                        lhs.done(ValkyrieTypes.EXPRESSION)
+                    }
+                }
                 // 切片运算符作为后缀 (例如 x[0..])
                 ValkyrieTypes.DOT_DOT, ValkyrieTypes.DOT_DOT_EQUAL, ValkyrieTypes.DOT_DOT_LESS, ValkyrieTypes.COLON -> {
+                    if (stopAtColon && currentToken == ValkyrieTypes.COLON) {
+                        lhs.rollbackTo()
+                        break
+                    }
                     builder.advanceLexer()
                     lhs.done(ValkyrieTypes.SLICE_EXPRESSION)
                 }
@@ -354,7 +388,7 @@ fun parseTermExpressionWithPrecedence(valkyrieParser: ValkyrieParser, builder: P
 
             val rhsParsed = when (currentToken) {
                 ValkyrieTypes.AS, ValkyrieTypes.IS -> parseTypeExpression(valkyrieParser, builder, true)
-                else -> parseTermExpressionWithPrecedence(valkyrieParser, builder, nextMinPrecedence, inline)
+                else -> parseTermExpressionWithPrecedence(valkyrieParser, builder, nextMinPrecedence, inline, stopAtColon)
             }
             if (!rhsParsed) {
                 if (!isSliceOperator(currentToken)) {

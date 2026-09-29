@@ -1,0 +1,12 @@
+# Match object / struct patterns: case Success { fields }:
+match self {
+    case Success { value, errors }:
+        true
+    case Failure { fatal, errors }:
+        false
+}
+
+match self {
+    case Success { value, errors: next_errors }:
+        Success { value: value, errors: next_errors }
+}
