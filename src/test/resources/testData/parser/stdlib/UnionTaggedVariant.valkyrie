@@ -1,0 +1,10 @@
+# tagged union with doc comments
+⍝ variant metadata
+[tag(Kind)]
+unite Option<T> {
+    ⍝ some branch
+    [tag(0)]
+    Some { value: T },
+    [tag(1, default)]
+    None,
+}
