@@ -1,13 +1,13 @@
 package vos.intellij.ide.matcher
 
-import vos.intellij.language.psi.VosTypes
-import vos.intellij.language.psi.JssParserDefinition
 import com.intellij.lang.BracePair
 import com.intellij.lang.PairedBraceMatcher
 import com.intellij.psi.PsiFile
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
+import vos.intellij.language.VosParserDefinition
+import vos.intellij.language.psi.VosTypes
 
 class BaseBraceMatcher : PairedBraceMatcher {
     override fun getPairs(): Array<BracePair> = PAIRS
@@ -23,18 +23,17 @@ class BaseBraceMatcher : PairedBraceMatcher {
             BracePair(VosTypes.BRACE_L, VosTypes.BRACE_R, true),
             BracePair(VosTypes.BRACKET_L, VosTypes.BRACKET_R, true),
             BracePair(VosTypes.PARENTHESIS_L, VosTypes.PARENTHESIS_R, true),
-            // BracePair(VomlTypes.EXT_PREFIX, VomlTypes.BRACKETR, false)
         )
 
         private val InsertPairBraceBefore = TokenSet.orSet(
-            JssParserDefinition.commentTokens,
+            VosParserDefinition.commentTokens,
             TokenSet.create(
                 TokenType.WHITE_SPACE,
                 VosTypes.COMMA,
                 VosTypes.PARENTHESIS_R,
                 VosTypes.BRACKET_R,
                 VosTypes.BRACE_R,
-            )
+            ),
         )
     }
 }

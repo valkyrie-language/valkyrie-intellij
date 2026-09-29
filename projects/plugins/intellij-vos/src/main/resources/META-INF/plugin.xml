@@ -17,7 +17,7 @@
 			fieldName="INSTANCE"/>
 		<lang.parserDefinition
 			language="VOS"
-			implementationClass="vos.intellij.language.psi.JssParserDefinition"/>
+			implementationClass="vos.intellij.language.VosParserDefinition"/>
 		<projectViewNestingRulesProvider implementation="vos.intellij.language.file.FileGroup"/>
 		<!-- Highlight -->
 		<additionalTextAttributes scheme="Default" file="colors/JssDefault.xml"/>

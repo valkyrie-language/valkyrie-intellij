@@ -14,14 +14,14 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.SyntaxTraverser
 import vos.intellij.language.file.VosFileNode
-import vos.intellij.language.mixin.MixinClassStatement
+import vos.intellij.language.psi.VosClassStatementNode
 import java.util.function.Consumer
 
 
 class DocumentationProvider : DocumentationProvider {
     override fun generateDoc(element: PsiElement?, originalElement: PsiElement?): String? {
         return when (element) {
-            is MixinClassStatement -> {
+            is VosClassStatementNode -> {
                 "class ${element.name}"
             }
             else -> {

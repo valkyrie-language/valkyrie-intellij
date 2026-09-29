@@ -5,7 +5,6 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.formatter.FormatterUtil
-import vos.intellij.language.psi.VosClassField
 import vos.intellij.language.psi.VosTypes
 import vos.intellij.language.psi.computeSpacing
 import vos.intellij.language.psi.isWhitespaceOrEmpty

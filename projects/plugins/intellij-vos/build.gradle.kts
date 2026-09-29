@@ -17,12 +17,6 @@ kotlin {
     jvmToolchain(21)
 }
 
-sourceSets {
-    named("main") {
-        java.srcDir("src/main/gen")
-    }
-}
-
 repositories {
     maven { url = uri("https://maven.aliyun.com/repository/public") }
     intellijPlatform {
