@@ -9,19 +9,15 @@ pluginManagement {
 
 rootProject.name = "Valkyrie Intellij"
 
-include(
-    "packages",
-    "packages:valkyrie-icons",
-    "packages:valkyrie-bundle",
-    "plugins",
-    "plugins:voml",
-    "plugins:valkyrie",
-)
-
+// `:packages` is the single shared library (no nested children).
+include("packages")
 project(":packages").projectDir = file("projects/packages")
-project(":packages:valkyrie-icons").projectDir = file("projects/packages/valkyrie-icons")
-project(":packages:valkyrie-bundle").projectDir = file("projects/packages/valkyrie-bundle")
 
+include(
+    "plugins",
+    "plugins:intellij-voml",
+    "plugins:intellij-valkyrie",
+)
 project(":plugins").projectDir = file("projects/plugins")
-project(":plugins:voml").projectDir = file("projects/plugins/voml")
-project(":plugins:valkyrie").projectDir = file("projects/plugins/valkyrie")
+project(":plugins:intellij-voml").projectDir = file("projects/plugins/intellij-voml")
+project(":plugins:intellij-valkyrie").projectDir = file("projects/plugins/intellij-valkyrie")

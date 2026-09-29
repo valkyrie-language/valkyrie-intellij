@@ -19,17 +19,27 @@ kotlin {
 
 repositories {
     maven { url = uri("https://maven.aliyun.com/repository/public") }
+
     intellijPlatform {
         defaultRepositories()
     }
 }
 
 dependencies {
+    implementation(project(":packages"))
+
     testImplementation(libs.junit)
 
     intellijPlatform {
-        // Match the monorepo platform used by `:plugins:valkyrie` so both plugins share one sandbox.
         intellijIdeaUltimate(providers.gradleProperty("platformVersion"))
+
+        bundledModule("intellij.platform.vcs")
+
+        bundledPlugins(providers.gradleProperty("platformBundledPlugins").map { it.split(',') })
+        plugins(providers.gradleProperty("platformPlugins").map { it.split(',') })
+        // Runtime Marketplace dependency only (separate zip / separate review).
+        localPlugin(project(":plugins:intellij-voml"))
+
         pluginVerifier()
         zipSigner()
         testFramework(TestFrameworkType.Platform)
@@ -40,9 +50,10 @@ intellijPlatform {
     pluginConfiguration {
         version = providers.gradleProperty("pluginVersion")
 
-        description = providers.fileContents(layout.projectDirectory.file("README.md")).asText.map {
+        description = providers.fileContents(rootProject.layout.projectDirectory.file("README.md")).asText.map {
             val start = "<!-- Plugin description -->"
             val end = "<!-- Plugin description end -->"
+
             with(it.lines()) {
                 if (!containsAll(listOf(start, end))) {
                     throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
@@ -89,7 +100,7 @@ intellijPlatform {
 }
 
 changelog {
-    path.set(layout.projectDirectory.file("CHANGELOG.md").asFile.invariantSeparatorsPath)
+    path.set(rootProject.file("CHANGELOG.md").invariantSeparatorsPath)
     groups.empty()
     repositoryUrl = providers.gradleProperty("pluginRepositoryUrl")
 }
@@ -105,7 +116,32 @@ tasks {
 
     register("ciVerify") {
         group = "verification"
-        description = "CI gate: compile, compile tests, and package the VOML plugin."
+        description = "CI gate: compile, compile tests, and package the plugin."
         dependsOn("compileKotlin", "compileTestKotlin", "buildPlugin")
+    }
+}
+
+// Load every `:plugins/*` Marketplace plugin together in the IDE sandbox.
+// Packaging stays isolated: this module's `buildPlugin` / `publishPlugin` only emit this plugin's zip.
+apply(from = rootProject.file("gradle/ide-all-plugins.gradle.kts"))
+
+intellijPlatformTesting {
+    runIde {
+        register("runIdeForUiTests") {
+            task {
+                jvmArgumentProviders += CommandLineArgumentProvider {
+                    listOf(
+                        "-Drobot-server.port=8082",
+                        "-Dide.mac.message.dialogs.as.sheets=false",
+                        "-Djb.privacy.policy.text=<!--999.999-->",
+                        "-Djb.consents.confirmation.enabled=false",
+                    )
+                }
+            }
+
+            plugins {
+                robotServerPlugin()
+            }
+        }
     }
 }
