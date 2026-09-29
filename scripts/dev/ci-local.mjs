@@ -7,9 +7,9 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const vomlRoot = resolve(root, '..', 'voml-intellij');
 const gradle = process.platform === 'win32' ? 'gradlew.bat' : './gradlew';
 
-function run(label, cwd) {
+function run(label, cwd, args) {
   console.log(`\n==> ${label}`);
-  const result = spawnSync(gradle, ['ciVerify'], {
+  const result = spawnSync(gradle, args, {
     cwd,
     stdio: 'inherit',
     shell: process.platform === 'win32',
@@ -19,8 +19,8 @@ function run(label, cwd) {
   }
 }
 
-if (!existsSync(resolve(root, 'build.gradle.kts'))) {
-  console.error(`Not a plugin repo: ${root}`);
+if (!existsSync(resolve(root, 'settings.gradle.kts'))) {
+  console.error(`Not a plugin monorepo: ${root}`);
   process.exit(1);
 }
 
@@ -29,5 +29,5 @@ if (!existsSync(vomlRoot)) {
   process.exit(1);
 }
 
-run('voml-intellij buildPlugin', vomlRoot);
-run('valkyrie-intellij verify', root);
+run('voml-intellij buildPlugin', vomlRoot, ['buildPlugin']);
+run('valkyrie-intellij verify', root, ['ciVerify']);
