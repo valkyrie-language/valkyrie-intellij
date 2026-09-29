@@ -8,7 +8,7 @@
 Valkyrie Intellij is a plugin for IntelliJ IDEA that provides support for the Valkyrie programming language. It includes features such as semantic highlighting, code formatting, and structured view.
 <!-- Plugin description end -->
 
-![](./src/main/design/SVG/title.svg)
+![](./projects/designs/SVG/pluginIcon.svg)
 
 ## Features
 
