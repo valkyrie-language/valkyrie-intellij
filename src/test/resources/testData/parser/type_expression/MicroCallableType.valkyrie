@@ -1,0 +1,5 @@
+imply Option<T> {
+    micro map<U>(self, f: micro(T) -> U): Option<U> {
+        self
+    }
+}

@@ -298,8 +298,53 @@ fun parsePrimaryType(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
             true
         }
 
+        ValkyrieTypes.MICRO, ValkyrieTypes.MEZZO -> parseCallableType(parser, builder)
+
         else -> parser.parseNamePath(builder, false)
     }
+}
+
+private fun parseCallableType(parser: ValkyrieParser, builder: PsiBuilder): Boolean {
+    val marker = builder.mark()
+    when (builder.tokenType) {
+        ValkyrieTypes.MICRO, ValkyrieTypes.MEZZO -> builder.advanceLexer()
+        else -> {
+            marker.drop()
+            return false
+        }
+    }
+    if (builder.tokenType == ValkyrieTypes.PARENTHESIS_L) {
+        builder.advanceLexer()
+        if (builder.tokenType != ValkyrieTypes.PARENTHESIS_R) {
+            while (true) {
+                if (!parseTypeExpression(parser, builder, true)) {
+                    builder.error("Expected type in callable signature")
+                    break
+                }
+                if (builder.tokenType == ValkyrieTypes.COMMA) {
+                    builder.advanceLexer()
+                    if (builder.tokenType == ValkyrieTypes.PARENTHESIS_R) {
+                        break
+                    }
+                } else {
+                    break
+                }
+            }
+        }
+        if (builder.tokenType == ValkyrieTypes.PARENTHESIS_R) {
+            builder.advanceLexer()
+        } else {
+            builder.error("Expected ')'")
+        }
+    }
+    if (builder.tokenType == ValkyrieTypes.ARROW) {
+        builder.advanceLexer()
+        if (!parseTypeExpression(parser, builder, true)) {
+            builder.error("Expected return type")
+        }
+    }
+    marker.done(ValkyrieTypes.TYPE_EXPRESSION)
+    return true
 }
 
 // <T as U>
@@ -488,8 +533,9 @@ private fun parseBracketType(parser: ValkyrieParser, builder: PsiBuilder): Boole
 }
 
 private val typePrefixPrecedences = mapOf(
-    ValkyrieTypes.PLUS to 5,  // +T 协变类型
-    ValkyrieTypes.MINUS to 5, // -T 逆变类型
+    ValkyrieTypes.PLUS to 5,       // +T 协变类型
+    ValkyrieTypes.MINUS to 5,      // -T 逆变类型
+    ValkyrieTypes.AMPERSAND to 5,  // &T 引用 / 借用
 )
 
 private val typeInfixPrecedences = mapOf(

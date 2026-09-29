@@ -1,0 +1,8 @@
+# prefix &T reference / borrow types
+micro append(text: &Utf8Text): unit {
+    text
+}
+
+micro pair(a: &T, b: &U): unit {
+    a
+}
