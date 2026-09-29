@@ -22,13 +22,6 @@ jobs:
         with:
           path: valkyrie-intellij
 
-      - name: Fetch voml-intellij
-        uses: actions/checkout@v4
-        with:
-          repository: oovm/voml-intellij
-          ref: dev
-          path: voml-intellij
-
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -38,11 +31,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Build voml plugin
-        working-directory: voml-intellij
-        run: ./gradlew buildPlugin
-
-      - name: Verify valkyrie
+      - name: Verify monorepo
         run: ./gradlew ciVerify
 
       - name: Upload test report
@@ -50,4 +39,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-report
-          path: valkyrie-intellij/projects/plugins/valkyrie/build/reports/tests
+          path: |
+            valkyrie-intellij/projects/plugins/valkyrie/build/reports/tests
+            valkyrie-intellij/projects/plugins/voml/build/reports/tests
