@@ -20,6 +20,8 @@ repositories {
 }
 
 dependencies {
+    implementation(libs.junit)
+
     intellijPlatform {
         intellijIdeaUltimate(providers.gradleProperty("platformVersion"))
     }
