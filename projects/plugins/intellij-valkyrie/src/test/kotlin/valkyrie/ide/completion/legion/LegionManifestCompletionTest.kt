@@ -1,4 +1,4 @@
-package valkyrie.ide.completion.legion
+package valkyrie.editing.completion.legion
 
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import org.junit.Assert.assertEquals

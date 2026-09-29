@@ -1,9 +1,9 @@
-package valkyrie.project
+package valkyrie.workspace.project
 
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import com.intellij.openapi.vfs.VirtualFile
-import valkyrie.project.workspace.ValkyrieWorkspaceParser
-import valkyrie.index.ValkyrieEnhancedSymbolIndex
+import valkyrie.workspace.project.workspace.ValkyrieWorkspaceParser
+import valkyrie.semantics.index.ValkyrieEnhancedSymbolIndex
 
 /**
  * Valkyrie 模块系统集成测试

@@ -1,7 +1,7 @@
 package valkyrie.parser
 
 import com.intellij.testFramework.ParsingTestCase
-import valkyrie.psi.parsers.ValkyrieSfcParserDefinition
+import valkyrie.surface.parser.ValkyrieSfcParserDefinition
 import java.nio.file.Path
 
 /**

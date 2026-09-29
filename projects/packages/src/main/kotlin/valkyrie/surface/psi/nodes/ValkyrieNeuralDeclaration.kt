@@ -1,0 +1,73 @@
+package valkyrie.surface.psi.nodes
+
+import com.intellij.lang.ASTNode
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiNameIdentifierOwner
+import valkyrie.surface.parser.ValkyrieElementNode
+import valkyrie.surface.traits.HasAnnotation
+import valkyrie.surface.traits.HasHighlighter
+import valkyrie.surface.traits.HasInheritParameter
+import valkyrie.surface.traits.HasObjectBody
+import valkyrie.surface.traits.HasTypeParameter
+import valkyrie.editing.highlight.ValkyrieColor
+
+/**
+ * Neural 语句实现
+ */
+class ValkyrieNeuralDeclaration(node: ASTNode) : ValkyrieElementNode(node),
+    PsiNameIdentifierOwner,
+    HasAnnotation,       // ↯attribute neural X { }
+    HasTypeParameter,    // neural X<T> { }
+    HasInheritParameter, // neural X(A) { }
+    HasObjectBody,       // neural X { object_body }
+    HasHighlighter
+{
+    override fun getNameIdentifier(): PsiElement? {
+        return findChildByClass(ValkyrieIdentifierNode::class.java)
+    }
+
+    override fun getNavigationElement(): PsiElement {
+        return nameIdentifier ?: this
+    }
+
+    override fun getName(): String? {
+        return nameIdentifier?.text
+    }
+
+    override fun setName(name: String): PsiElement {
+        val nameIdentifier = getNameIdentifier()
+        if (nameIdentifier is ValkyrieIdentifierNode) {
+            return nameIdentifier.setName(name)
+        }
+        return this
+    }
+
+    override val typeParameters: List<ValkyrieTypeParameterItem>
+        get() = findChildByClass(ValkyrieGenericList::class.java)?.typeParameters ?: emptyList()
+    override val inheritParameters: List<ValkyrieTermParameterItem>
+        get() = getClassInherit()?.getInheritItems()?.mapNotNull { it as? ValkyrieTermParameterItem } ?: emptyList()
+
+    /**
+     * 获取类继承信息
+     */
+    fun getClassInherit(): ValkyrieInheritList? {
+        return findChildByClass(ValkyrieInheritList::class.java)
+    }
+
+    /**
+     * 获取所有父类
+     */
+    fun getParentClasses(): List<String> {
+        return getClassInherit()?.getParentClassNames() ?: emptyList()
+    }
+
+    override val highlightColor: ValkyrieColor
+        get() = ValkyrieColor.NEURAL_DECLARATION
+    
+    override val highlightElement: PsiElement?
+        get() = nameIdentifier
+
+    override fun toString(): String {
+        return "ValkyrieNeuralDeclaration(${name ?: "<anonymous>"})"
+    }
+}

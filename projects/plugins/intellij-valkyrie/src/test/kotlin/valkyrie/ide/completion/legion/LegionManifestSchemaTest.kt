@@ -1,4 +1,4 @@
-package valkyrie.ide.completion.legion
+package valkyrie.editing.completion.legion
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull

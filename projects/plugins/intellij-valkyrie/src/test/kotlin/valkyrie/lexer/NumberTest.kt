@@ -2,8 +2,8 @@ package valkyrie.lexer
 
 import com.intellij.lexer.Lexer
 import valkyrie.test.ValkyrieLexerTestCase
-import valkyrie.language.ValkyrieLanguageConfig
-import valkyrie.psi.lexers.ValkyrieLexer
+import valkyrie.surface.file.ValkyrieLanguageConfig
+import valkyrie.surface.lexer.ValkyrieLexer
 
 /**
  * 数字词法分析测试

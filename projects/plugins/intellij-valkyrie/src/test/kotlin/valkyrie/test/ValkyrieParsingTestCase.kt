@@ -2,7 +2,7 @@ package valkyrie.test
 
 import com.intellij.testFramework.ParsingTestCase
 import com.intellij.testFramework.TestTimeout
-import valkyrie.psi.parsers.ValkyrieParserDefinition
+import valkyrie.surface.parser.ValkyrieParserDefinition
 import java.nio.file.Path
 
 /**

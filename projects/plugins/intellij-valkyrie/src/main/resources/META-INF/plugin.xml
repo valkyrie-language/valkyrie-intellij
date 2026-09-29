@@ -18,271 +18,271 @@
 			name="Valkyrie File"
 			language="valkyrie"
 			extensions="v;vk;valkyrie;"
-			implementationClass="valkyrie.language.ValkyrieFileType"
+			implementationClass="valkyrie.surface.file.ValkyrieFileType"
 			fieldName="INSTANCE"
 		/>
 		<fileType
 			name="Valkyrie XML"
 			language="valkyrie-xml"
 			extensions="vkx;"
-			implementationClass="valkyrie.language.dialect_xml.ValkyrieXmlFileType"
+			implementationClass="valkyrie.surface.file.dialect_xml.ValkyrieXmlFileType"
 			fieldName="INSTANCE"
 		/>
 		<fileType
 			name="Valkyrie Template"
 			language="valkyrie-template"
 			extensions="vkt;"
-			implementationClass="valkyrie.language.dialect_asp.ValkyrieAspFileType"
+			implementationClass="valkyrie.surface.file.dialect_asp.ValkyrieAspFileType"
 			fieldName="INSTANCE"
 		/>
 		<fileType
 			name="Valkyrie Mark"
 			language="ValkyrieMark"
 			extensions="vkm;"
-			implementationClass="valkyrie.language.dialect_markup.ValkyrieMarkFileType"
+			implementationClass="valkyrie.surface.file.dialect_markup.ValkyrieMarkFileType"
 			fieldName="INSTANCE"
 		/>
 		<fileType
 			name="Valkyrie SFC"
 			language="valkyrie-component"
 			extensions="vx;"
-			implementationClass="valkyrie.language.dialect_sfc.ValkyrieSfcFileType"
+			implementationClass="valkyrie.surface.file.dialect_sfc.ValkyrieSfcFileType"
 			fieldName="INSTANCE"
 		/>
 
 		<!-- Parser Definition -->
 		<lang.parserDefinition
 			language="valkyrie"
-			implementationClass="valkyrie.psi.parsers.ValkyrieParserDefinition"
+			implementationClass="valkyrie.surface.parser.ValkyrieParserDefinition"
 		/>
 		<lang.parserDefinition
 			language="valkyrie-template"
-			implementationClass="valkyrie.psi.parsers.ValkyrieTemplateParserDefinition"
+			implementationClass="valkyrie.surface.parser.ValkyrieTemplateParserDefinition"
 		/>
 		<lang.parserDefinition
 			language="valkyrie-xml"
-			implementationClass="valkyrie.psi.parsers.ValkyrieXmlParserDefinition"
+			implementationClass="valkyrie.surface.parser.ValkyrieXmlParserDefinition"
 		/>
 		<lang.parserDefinition
 			language="ValkyrieMark"
-			implementationClass="valkyrie.psi.parsers.ValkyrieMarkParserDefinition"
+			implementationClass="valkyrie.surface.parser.ValkyrieMarkParserDefinition"
 		/>
 		<lang.parserDefinition
 			language="valkyrie-component"
-			implementationClass="valkyrie.psi.parsers.ValkyrieSfcParserDefinition"
+			implementationClass="valkyrie.surface.parser.ValkyrieSfcParserDefinition"
 		/>
 
 
 		<!-- 高亮模块 -->
 		<lang.syntaxHighlighter
 			language="valkyrie"
-			implementationClass="valkyrie.ide.highlight.ValkyrieSyntaxHighlighter"
+			implementationClass="valkyrie.editing.highlight.ValkyrieSyntaxHighlighter"
 		/>
 		<lang.syntaxHighlighterFactory
 			language="valkyrie-xml"
-			implementationClass="valkyrie.ide.highlight.ValkyrieSyntaxHighlighterFactory"
+			implementationClass="valkyrie.editing.highlight.ValkyrieSyntaxHighlighterFactory"
 		/>
 		<lang.syntaxHighlighterFactory
 			language="valkyrie-component"
-			implementationClass="valkyrie.ide.highlight.ValkyrieSyntaxHighlighterFactory"
+			implementationClass="valkyrie.editing.highlight.ValkyrieSyntaxHighlighterFactory"
 		/>
 		<highlightVisitor
-			implementation="valkyrie.ide.highlight.ValkyrieSemanticHighlighter"
+			implementation="valkyrie.editing.highlight.ValkyrieSemanticHighlighter"
 		/>
 		<colorSettingsPage
-			implementation="valkyrie.ide.highlight.ValkyrieColorSettingsPage"
+			implementation="valkyrie.editing.highlight.ValkyrieColorSettingsPage"
 		/>
 		<!-- Annotator -->
 		<annotator
 			language="valkyrie"
-			implementationClass="valkyrie.ide.highlight.ValkyrieAnnotator"
+			implementationClass="valkyrie.editing.highlight.ValkyrieAnnotator"
 		/>
 		<annotator
 			language="valkyrie-xml"
-			implementationClass="valkyrie.ide.highlight.ValkyrieAnnotator"
+			implementationClass="valkyrie.editing.highlight.ValkyrieAnnotator"
 		/>
 		<annotator
 			language="valkyrie-component"
-			implementationClass="valkyrie.ide.highlight.ValkyrieAnnotator"
+			implementationClass="valkyrie.editing.highlight.ValkyrieAnnotator"
 		/>
 		<annotator
 			language="valkyrie-template"
-			implementationClass="valkyrie.ide.highlight.ValkyrieAnnotator"
+			implementationClass="valkyrie.editing.highlight.ValkyrieAnnotator"
 		/>
 		<annotator
 			language="ValkyrieMark"
-			implementationClass="valkyrie.ide.highlight.ValkyrieAnnotator"
+			implementationClass="valkyrie.editing.highlight.ValkyrieAnnotator"
 		/>
 
 		<!-- Reference Contributor -->
 		<psi.referenceContributor
 			language="valkyrie"
-			implementation="valkyrie.reference.ValkyrieReferenceContributor"
+			implementation="valkyrie.semantics.resolve.ValkyrieReferenceContributor"
 		/>
 
 		<!-- Commenter -->
 		<lang.commenter
 			language="valkyrie"
-			implementationClass="valkyrie.ide.formatter.ValkyrieCommenter"
+			implementationClass="valkyrie.editing.format.ValkyrieCommenter"
 		/>
 
 		<!-- Find Usages Provider -->
 		<lang.findUsagesProvider
 			language="valkyrie"
-			implementationClass="valkyrie.reference.ValkyrieFindUsagesProvider"
+			implementationClass="valkyrie.semantics.resolve.ValkyrieFindUsagesProvider"
 		/>
 
 		<!-- Goto Declaration Handler -->
-		<gotoDeclarationHandler implementation="valkyrie.reference.ValkyrieGotoDeclarationHandler"/>
+		<gotoDeclarationHandler implementation="valkyrie.semantics.resolve.ValkyrieGotoDeclarationHandler"/>
 
 		<!-- Project Manager Service -->
 		<projectService
-			serviceImplementation="valkyrie.project.ValkyrieProjectManager"
+			serviceImplementation="valkyrie.workspace.project.ValkyrieProjectManager"
 		/>
 
 		<!-- Additional Library Roots Provider -->
 		<additionalLibraryRootsProvider
-			implementation="valkyrie.project.library.ValkyrieLibraryRootsProvider"
+			implementation="valkyrie.workspace.project.library.ValkyrieLibraryRootsProvider"
 		/>
 
 		<!-- Project View Provider -->
 		<treeStructureProvider
-			implementation="valkyrie.project.ValkyrieProjectViewProvider"
+			implementation="valkyrie.workspace.project.ValkyrieProjectViewProvider"
 		/>
 
 		<!-- Startup Activity -->
 		<postStartupActivity
-			implementation="valkyrie.index.ValkyrieStartupActivity"
+			implementation="valkyrie.semantics.index.ValkyrieStartupActivity"
 		/>
 
 		<!-- Structure View -->
 		<lang.psiStructureViewFactory
 			language="valkyrie"
-			implementationClass="valkyrie.ide.structure.ValkyrieStructureViewProvider"
+			implementationClass="valkyrie.editing.structure.ValkyrieStructureViewProvider"
 		/>
 
 		<!-- Formatter -->
 		<lang.formatter
 			language="valkyrie"
-			implementationClass="valkyrie.ide.formatter.ValkyrieFormatBuilder"
+			implementationClass="valkyrie.editing.format.ValkyrieFormatBuilder"
 		/>
 		<codeStyleSettingsProvider
-			implementation="valkyrie.ide.formatter.ValkyrieCodeStyleProvider"
+			implementation="valkyrie.editing.format.ValkyrieCodeStyleProvider"
 		/>
 		<postFormatProcessor
-			implementation="valkyrie.ide.formatter.ValkyriePostFormatProcessor"
+			implementation="valkyrie.editing.format.ValkyriePostFormatProcessor"
 		/>
 
 		<!-- Documentation Provider -->
 		<lang.documentationProvider
 			language="valkyrie"
-			implementationClass="valkyrie.ide.documentation.ValkyrieDocumentationProvider"
+			implementationClass="valkyrie.editing.documentation.ValkyrieDocumentationProvider"
 		/>
 
 		<!-- Breadcrumbs Navigation -->
-		<breadcrumbsInfoProvider implementation="valkyrie.ide.navigation.ValkyrieBreadcrumbsProvider"/>
+		<breadcrumbsInfoProvider implementation="valkyrie.editing.navigation.ValkyrieBreadcrumbsProvider"/>
 
 		<!-- Inlay Hints -->
 		<codeInsight.inlayProvider
 			language="valkyrie"
-			implementationClass="valkyrie.ide.hint.ValkyrieInlayHintsProvider"/>
+			implementationClass="valkyrie.editing.inlay.ValkyrieInlayHintsProvider"/>
 		<codeInsight.inlayProvider
 			language="valkyrie"
-			implementationClass="valkyrie.ide.hint.type.TypeHintProvider"/>
+			implementationClass="valkyrie.editing.inlay.type.TypeHintProvider"/>
 		<codeInsight.inlayProvider
 			language="valkyrie"
-			implementationClass="valkyrie.ide.hint.chain.ChainHintProvider"/>
+			implementationClass="valkyrie.editing.inlay.chain.ChainHintProvider"/>
 
 		<!-- Parameter Info -->
 		<codeInsight.parameterInfo
 			language="valkyrie"
-			implementationClass="valkyrie.ide.hint.ValkyrieParameterInfoHandler"/>
+			implementationClass="valkyrie.editing.inlay.ValkyrieParameterInfoHandler"/>
 
 		<!-- Control Flow Line Markers -->
 		<codeInsight.lineMarkerProvider
 			language="valkyrie"
-			implementationClass="valkyrie.ide.gutter.ValkyrieControlFlowNavigationProvider"
+			implementationClass="valkyrie.editing.gutter.ValkyrieControlFlowNavigationProvider"
 		/>
 
 
 		<!-- Startup Activity for delayed indexing -->
-		<projectService serviceImplementation="valkyrie.index.ValkyrieStartupActivity"/>
+		<projectService serviceImplementation="valkyrie.semantics.index.ValkyrieStartupActivity"/>
 
 		<!-- Test Framework -->
-		<configurationType implementation="valkyrie.ide.test.ValkyrieTestConfigurationType"/>
+		<configurationType implementation="valkyrie.workspace.run.ValkyrieTestConfigurationType"/>
 		<runLineMarkerContributor language="valkyrie"
-								  implementationClass="valkyrie.ide.test.ValkyrieTestRunLineMarkerProvider"/>
+								  implementationClass="valkyrie.workspace.run.ValkyrieTestRunLineMarkerProvider"/>
 		<codeInsight.lineMarkerProvider language="valkyrie"
-										implementationClass="valkyrie.ide.marker.ValkyrieLineMarkerProvider"/>
+										implementationClass="valkyrie.editing.marker.ValkyrieLineMarkerProvider"/>
 
 		<!-- Code Completion -->
 		<completion.contributor
 			language="valkyrie"
-			implementationClass="valkyrie.ide.completion.ValkyrieCompletionContributor"
+			implementationClass="valkyrie.editing.completion.ValkyrieCompletionContributor"
 		/>
 		<completion.contributor
 			language="VON"
-			implementationClass="valkyrie.ide.completion.legion.LegionManifestCompletionContributor"
+			implementationClass="valkyrie.editing.completion.legion.LegionManifestCompletionContributor"
 		/>
 
 		<!-- Enter Handler -->
-		<enterHandlerDelegate implementation="valkyrie.ide.completion.ValkyrieEnterHandlerDelegate"/>
+		<enterHandlerDelegate implementation="valkyrie.editing.completion.ValkyrieEnterHandlerDelegate"/>
 
 		<!-- Refactoring Support -->
 		<lang.refactoringSupport
 			language="valkyrie"
-			implementationClass="valkyrie.ide.refactor.ValkyrieRefactoringProvider"
+			implementationClass="valkyrie.editing.refactor.ValkyrieRefactoringProvider"
 		/>
 
 		<!-- Rename Handler -->
-		<renameHandler implementation="valkyrie.ide.refactor.ValkyrieRenameHandler"/>
+		<renameHandler implementation="valkyrie.editing.refactor.ValkyrieRenameHandler"/>
 
 		<!-- Rename Input Validator -->
-		<renameInputValidator implementation="valkyrie.ide.refactor.ValkyrieRenameInputValidator"/>
+		<renameInputValidator implementation="valkyrie.editing.refactor.ValkyrieRenameInputValidator"/>
 
 		<!-- Code Vision Provider -->
 		<codeInsight.codeVisionProviderFactory
-			implementation="valkyrie.ide.code_vision.ValkyrieCodeVisionProviderFactory"/>
+			implementation="valkyrie.editing.codevision.ValkyrieCodeVisionProviderFactory"/>
 		<vcs.codeVisionLanguageContext
 			language="valkyrie"
-			implementationClass="valkyrie.ide.code_vision.ValkyrieAuthorVisionProvider"
+			implementationClass="valkyrie.editing.codevision.ValkyrieAuthorVisionProvider"
 		/>
 		<codeInsight.daemonBoundCodeVisionProvider
-			implementation="valkyrie.ide.code_vision.ValkyrieEffectVisionProvider"
+			implementation="valkyrie.editing.codevision.ValkyrieEffectVisionProvider"
 		/>
 		<codeInsight.daemonBoundCodeVisionProvider
-			implementation="valkyrie.ide.code_vision.ValkyrieInheritorVisionProvider"
+			implementation="valkyrie.editing.codevision.ValkyrieInheritorVisionProvider"
 		/>
 		<codeInsight.daemonBoundCodeVisionProvider
-			implementation="valkyrie.ide.code_vision.ValkyrieImplementerVisionProvider"
+			implementation="valkyrie.editing.codevision.ValkyrieImplementerVisionProvider"
 		/>
 		<codeInsight.daemonBoundCodeVisionProvider
-			implementation="valkyrie.ide.code_vision.ValkyrieUsageVisionProvider"
+			implementation="valkyrie.editing.codevision.ValkyrieUsageVisionProvider"
 		/>
 		<config.codeVisionGroupSettingProvider
-			implementation="valkyrie.ide.code_vision.ValkyrieEffectVisionSetting"
+			implementation="valkyrie.editing.codevision.ValkyrieEffectVisionSetting"
 		/>
 		<config.codeVisionGroupSettingProvider
-			implementation="valkyrie.ide.code_vision.ValkyrieImplementerVisionSettings"
+			implementation="valkyrie.editing.codevision.ValkyrieImplementerVisionSettings"
 		/>
 		<!-- Target Element Evaluator -->
 		<targetElementEvaluator
 			language="valkyrie"
-			implementationClass="valkyrie.ide.documentation.ValkyrieTargetElementEvaluator"
+			implementationClass="valkyrie.editing.documentation.ValkyrieTargetElementEvaluator"
 		/>
 
 		<!-- Intention Actions -->
 		<intentionAction>
 			<language>valkyrie</language>
-			<className>valkyrie.ide.intention.ConvertIfToMatchIntention</className>
+			<className>valkyrie.editing.intention.ConvertIfToMatchIntention</className>
 			<category>Valkyrie</category>
 		</intentionAction>
 		<!-- Language Injection Contributors -->
-        <languageInjectionContributor language="valkyrie-component" implementationClass="valkyrie.ide.injection.ValkyrieSfcLanguageInjectionContributor"/>
-        <languageInjectionContributor language="valkyrie" implementationClass="valkyrie.ide.injection.ValkyrieStringInterpolationInjectionContributor"/>
+        <languageInjectionContributor language="valkyrie-component" implementationClass="valkyrie.editing.injection.ValkyrieSfcLanguageInjectionContributor"/>
+        <languageInjectionContributor language="valkyrie" implementationClass="valkyrie.editing.injection.ValkyrieStringInterpolationInjectionContributor"/>
         
         <!-- Multi-Host Injectors -->
-        <multiHostInjector implementation="valkyrie.ide.injection.ValkyrieStringInterpolationProcessor"/>
+        <multiHostInjector implementation="valkyrie.editing.injection.ValkyrieStringInterpolationProcessor"/>
 
         <!-- Notification Groups -->
 		<notificationGroup id="Valkyrie" displayType="BALLOON" key="notification.group.valkyrie"/>
@@ -292,7 +292,7 @@
 	<actions>
 		<action
 			id="valkyrie.ToggleDocumentRenderMode"
-			class="valkyrie.ide.documentation.ToggleDocumentRenderModeAction"
+			class="valkyrie.editing.documentation.ToggleDocumentRenderModeAction"
 			text="Toggle Document Render Mode"
 			description="Toggle between rendered and text mode for documentation">
 			<add-to-group group-id="ToolbarRunGroup" anchor="after" relative-to-action="RunConfiguration"/>

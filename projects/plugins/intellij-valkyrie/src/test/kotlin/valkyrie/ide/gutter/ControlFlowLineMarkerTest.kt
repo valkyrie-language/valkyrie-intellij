@@ -1,4 +1,4 @@
-package valkyrie.ide.gutter
+package valkyrie.editing.gutter
 
 import org.junit.Test
 import org.junit.Assert.assertTrue

@@ -1,0 +1,22 @@
+package valkyrie.surface.psi.nodes
+
+import com.intellij.lang.ASTNode
+import com.intellij.psi.PsiElement
+import com.intellij.psi.util.PsiTreeUtil
+import valkyrie.surface.parser.ValkyrieElementNode
+import valkyrie.surface.parser.ValkyrieTypes
+
+/**
+ * Continue 语句节点
+ */
+class ValkyrieContinueStatement(node: ASTNode) : ValkyrieElementNode(node) {
+
+    fun getLabel(): PsiElement? {
+        val continueKeyword = findChildByType<PsiElement>(ValkyrieTypes.CONTINUE)
+        return continueKeyword?.let { keyword ->
+            PsiTreeUtil.getNextSiblingOfType(keyword, ValkyrieElementNode::class.java)
+        }
+    }
+
+    override fun toString(): String = "ValkyrieContinueStatement"
+}

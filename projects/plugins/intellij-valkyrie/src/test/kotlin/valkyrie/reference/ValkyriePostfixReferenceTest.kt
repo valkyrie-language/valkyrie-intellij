@@ -1,4 +1,4 @@
-package valkyrie.reference
+package valkyrie.semantics.resolve
 
 import org.junit.Test
 import org.junit.Assert.*
