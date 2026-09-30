@@ -1,5 +1,0 @@
-♻️ Split VOS plugin identity from JSS naming in packages/vos
-
-Rename Jss* helpers to Vos* in the VOS language package.
-Point intellij-vos at com.github.vos_intellij, VOS resources, and .vos only.
-Add projects/designs/ecosystems/vos.yaml and remove one-shot migration scripts.
