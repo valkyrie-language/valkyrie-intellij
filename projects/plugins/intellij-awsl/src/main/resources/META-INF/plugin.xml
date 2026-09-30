@@ -1,105 +1,14 @@
-<idea-plugin>
+<idea-plugin xmlns:xi="http://www.w3.org/2001/XInclude">
 	<id>AWSL</id>
 	<name>AWSL Support</name>
 	<vendor>voml</vendor>
-
-	<!-- Product and plugin compatibility requirements -->
-	<!-- https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
 	<depends>com.intellij.modules.platform</depends>
-	<depends optional="true" config-file="plugin-with-aws.xml">org.jetbrains.plugins.sass</depends>
-	<depends optional="true" config-file="plugin-with-awt.xml">FluentLanguage</depends>
-	<depends optional="true" config-file="plugin-with-rust.xml">org.rust.lang</depends>
+	<depends optional="true" config-file="integrations/plugin-with-aws.xml">org.jetbrains.plugins.sass</depends>
+	<depends optional="true" config-file="integrations/plugin-with-awt.xml">FluentLanguage</depends>
+	<depends optional="true" config-file="integrations/plugin-with-rust.xml">org.rust.lang</depends>
 	<resource-bundle>messages.AwslBundle</resource-bundle>
 	<extensions defaultExtensionNs="com.intellij">
-		<fileType name="AWSL" language="AWSL" extensions="awsl;awc;"
-		          implementationClass="awsl.surface.file.AwslFileType"
-		          fieldName="INSTANCE"
-		/>
-		<iconProvider implementation="awsl.editing.structure.AwslIconProvider"/>
-		<projectViewNestingRulesProvider implementation="awsl.editing.structure.AwslFileGroup"/>
-
-
-		<!-- Highlight -->
-		<additionalTextAttributes scheme="Default" file="colors/AwslDefault.xml"/>
-		<additionalTextAttributes scheme="Darcula" file="colors/AwslDarcula.xml"/>
-		<colorSettingsPage implementation="awsl.editing.highlight.AwslHighlightSetting"/>
-		<highlightVisitor implementation="awsl.editing.highlight.AwslHighlightVisitor"/>
-		<lang.syntaxHighlighter
-			language="AWSL"
-			implementationClass="awsl.editing.highlight.AwslHighlightToken"
-		/>
-		<!-- Formatter -->
-		<lang.parserDefinition
-			language="AWSL"
-			implementationClass="awsl.surface.file.AwslParserDefinition"
-		/>
-		<lang.formatter
-			language="AWSL"
-			implementationClass="awsl.editing.format.AwslFormatterBuilder"
-		/>
-		<lang.commenter
-			language="AWSL"
-			implementationClass="awsl.editing.format.JssCommenter"
-		/>
-		<lang.foldingBuilder
-			language="AWSL"
-			implementationClass="awsl.editing.structure.AwslFoldingBuilder"
-		/>
-		<lang.smartEnterProcessor
-			language="AWSL"
-			implementationClass="awsl.editing.format.JssSmartEnter"
-		/>
-		<!-- Document -->
-		<!--documentationProvider implementation="awsl.editing.documentation.JssDocumentationExtender"-->
-		<psi.referenceContributor
-			implementation="awsl.editing.documentation.AwslReferenceContributor"
-		/>
-		<lang.documentationProvider
-			language="AWSL"
-			implementationClass="awsl.editing.documentation.AwslDocumentationProvider"
-		/>
-
-		<lang.braceMatcher
-			language="AWSL"
-			implementationClass="awsl.editing.assist.JssBraceMatcher"
-		/>
-		<lang.quoteHandler
-			language="AWSL"
-			implementationClass="awsl.editing.assist.JssQuoteHandler"
-		/>
-
-		<indexPatternBuilder
-			implementation="awsl.editing.todo.VomlTodoIndexPatternBuilder"
-		/>
-		<todoIndexer
-			filetype="AWSL"
-			implementationClass="awsl.editing.todo.VomlTodoIndexer"
-		/>
-		<completion.contributor
-			language="AWSL"
-			implementationClass="awsl.editing.completion.AwslCompletionContributor"
-		/>
-
-		<!--annotator language="JSS" implementationClass="awsl.semantic.inspect.LiteralChecker"-->
-
-		<langCodeStyleSettingsProvider
-			implementation="awsl.editing.format.codestyle.AwslCodeStyleSettingsProvider"
-		/>
-
+		<xi:include href="languages/awsl.xml" parse="xml"/>
 	</extensions>
-	<actions>
-		<action id="NewJssFile" class="awsl.editing.actions.JssCreateFile">
-			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewHtmlFile"/>
-		</action>
-		<action id="jss.JssConvertJson"
-		        class="awsl.editing.actions.JssConvertJson"/>
-		<!--		<group id="jss.JssGenerator" popup="true" text="JssGenerator">-->
-		<!--			<reference ref="NewJssFile"/>-->
-		<!--			<reference ref="jss.JssConvertJson"/>-->
-		<!--			<add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="Github.Create.Gist"/>-->
-		<!--			<add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="Github.Create.Gist"/>-->
-		<!--			<add-to-group group-id="EditorTabPopupMenu" anchor="after" relative-to-action="Github.Create.Gist"/>-->
-		<!--			<add-to-group group-id="ConsoleEditorPopupMenu" anchor="after" relative-to-action="Github.Create.Gist"/>-->
-		<!--		</group>-->
-	</actions>
+	<xi:include href="actions/awsl-actions.xml" parse="xml"/>
 </idea-plugin>

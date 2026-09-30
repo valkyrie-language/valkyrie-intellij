@@ -1,0 +1,63 @@
+        <fileType name="AWSL" language="AWSL" extensions="awsl;awc;"
+                  implementationClass="awsl.surface.file.AwslFileType"
+                  fieldName="INSTANCE"
+        />
+        <iconProvider implementation="awsl.editing.structure.AwslIconProvider"/>
+        <projectViewNestingRulesProvider implementation="awsl.editing.structure.AwslFileGroup"/>
+        <additionalTextAttributes scheme="Default" file="colors/AwslDefault.xml"/>
+        <additionalTextAttributes scheme="Darcula" file="colors/AwslDarcula.xml"/>
+        <colorSettingsPage implementation="awsl.editing.highlight.AwslHighlightSetting"/>
+        <highlightVisitor implementation="awsl.editing.highlight.AwslHighlightVisitor"/>
+        <lang.syntaxHighlighter
+            language="AWSL"
+            implementationClass="awsl.editing.highlight.AwslHighlightToken"
+        />
+        <lang.parserDefinition
+            language="AWSL"
+            implementationClass="awsl.surface.file.AwslParserDefinition"
+        />
+        <lang.formatter
+            language="AWSL"
+            implementationClass="awsl.editing.format.AwslFormatterBuilder"
+        />
+        <lang.commenter
+            language="AWSL"
+            implementationClass="awsl.editing.format.JssCommenter"
+        />
+        <lang.foldingBuilder
+            language="AWSL"
+            implementationClass="awsl.editing.structure.AwslFoldingBuilder"
+        />
+        <lang.smartEnterProcessor
+            language="AWSL"
+            implementationClass="awsl.editing.format.JssSmartEnter"
+        />
+        <psi.referenceContributor
+            implementation="awsl.editing.documentation.AwslReferenceContributor"
+        />
+        <lang.documentationProvider
+            language="AWSL"
+            implementationClass="awsl.editing.documentation.AwslDocumentationProvider"
+        />
+        <lang.braceMatcher
+            language="AWSL"
+            implementationClass="awsl.editing.assist.JssBraceMatcher"
+        />
+        <lang.quoteHandler
+            language="AWSL"
+            implementationClass="awsl.editing.assist.JssQuoteHandler"
+        />
+        <indexPatternBuilder
+            implementation="awsl.editing.todo.VomlTodoIndexPatternBuilder"
+        />
+        <todoIndexer
+            filetype="AWSL"
+            implementationClass="awsl.editing.todo.VomlTodoIndexer"
+        />
+        <completion.contributor
+            language="AWSL"
+            implementationClass="awsl.editing.completion.AwslCompletionContributor"
+        />
+        <langCodeStyleSettingsProvider
+            implementation="awsl.editing.format.codestyle.AwslCodeStyleSettingsProvider"
+        />
