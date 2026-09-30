@@ -62,7 +62,7 @@ enum class VosColor(humanName: Supplier<@NlsContexts.AttributeDescriptor String>
     EXTENSION(OptionsBundle.messagePointer("options.language.defaults.metadata"), Default.METADATA),
     ;
 
-    val textAttributesKey: TextAttributesKey = TextAttributesKey.createTextAttributesKey("voml.lang.$name", default)
+    val textAttributesKey: TextAttributesKey = TextAttributesKey.createTextAttributesKey("vos.lang.$name", default)
     val attributesDescriptor: AttributesDescriptor = AttributesDescriptor(humanName, textAttributesKey)
     val testSeverity: HighlightSeverity = HighlightSeverity(name, HighlightSeverity.INFORMATION.myVal)
 }

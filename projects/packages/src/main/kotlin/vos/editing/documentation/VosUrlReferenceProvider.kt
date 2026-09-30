@@ -9,7 +9,7 @@ import com.intellij.util.ProcessingContext
 
 class VosUrlReferenceProvider : PsiReferenceProvider() {
     override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<PsiReference> {
-//        val literal = element as? JssUrlMaybeValid ?: return emptyArray()
+//        val literal = element as? VosUrlMaybeValidNode ?: return emptyArray()
 //        val value = literal.url.text
 //
 //        if (value.startsWith("http://") || value.startsWith("https://")) {

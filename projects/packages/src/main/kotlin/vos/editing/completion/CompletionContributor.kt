@@ -14,7 +14,7 @@ class CompletionContributor : CompletionContributor() {
         )
 //        extend(
 //            CompletionType.BASIC,
-//            PlatformPatterns.psiElement(JssTypes.IDIOM_MARK),
+//            PlatformPatterns.psiElement(VosTypes.IDIOM_MARK),
 //            IdiomProvider()
 //        )
     }
