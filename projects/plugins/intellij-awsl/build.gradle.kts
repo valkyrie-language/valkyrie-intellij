@@ -104,3 +104,4 @@ tasks {
 }
 
 apply(from = rootProject.file("gradle/ide-all-plugins.gradle.kts"))
+apply(from = rootProject.file("gradle/plugin-xinclude.gradle.kts"))
