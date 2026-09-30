@@ -1,5 +1,0 @@
-♻️ Rename semantics layer to semantic in :packages
-
-Move inspection, resolve, and index code under semantic/ for wsl, oml, on, os, and alkyrie.
-Update plugin descriptors to reference *.semantic.* extension classes.
-Disable prepareJarSearchableOptions for intellij-valkyrie when searchable options are off.
