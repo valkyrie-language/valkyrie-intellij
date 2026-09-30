@@ -25,7 +25,10 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":packages"))
+    implementation(project(":packages")) {
+        // AWSL does not use VOS protobuf types. Do not ship `:packages` transitive deps in the plugin zip.
+        isTransitive = false
+    }
 
     testImplementation(libs.junit)
 
