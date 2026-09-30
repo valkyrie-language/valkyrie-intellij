@@ -4,7 +4,7 @@ import com.intellij.ide.projectView.TreeStructureProvider
 import com.intellij.ide.projectView.ViewSettings
 import com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode
 import com.intellij.ide.util.treeView.AbstractTreeNode
-import valkyrie.semantics.index.ValkyrieProjectService
+import valkyrie.semantic.index.ValkyrieProjectService
 import valkyrie.workspace.project.workspace.ValkyrieWorkspaceNode
 
 /**

@@ -9,7 +9,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import valkyrie.surface.psi.nodes.*
 import valkyrie.surface.parser.ValkyrieTypes
-import valkyrie.semantics.index.ValkyrieSymbolIndex
+import valkyrie.semantic.index.ValkyrieSymbolIndex
 
 /**
  * Valkyrie 行标记提供者

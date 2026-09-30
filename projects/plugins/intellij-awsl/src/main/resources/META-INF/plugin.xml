@@ -80,7 +80,7 @@
 			implementationClass="awsl.editing.completion.AwslCompletionContributor"
 		/>
 
-		<!--annotator language="JSS" implementationClass="awsl.semantics.inspect.LiteralChecker"-->
+		<!--annotator language="JSS" implementationClass="awsl.semantic.inspect.LiteralChecker"-->
 
 		<langCodeStyleSettingsProvider
 			implementation="awsl.editing.format.codestyle.AwslCodeStyleSettingsProvider"

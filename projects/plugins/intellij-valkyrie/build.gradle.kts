@@ -104,6 +104,10 @@ tasks {
         enabled = false
     }
 
+    named("prepareJarSearchableOptions") {
+        enabled = false
+    }
+
     register("ciVerify") {
         group = "verification"
         description = "CI gate: compile, compile tests, and package the plugin."

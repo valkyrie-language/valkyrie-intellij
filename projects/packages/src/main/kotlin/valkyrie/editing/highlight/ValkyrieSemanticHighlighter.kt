@@ -12,7 +12,7 @@ import valkyrie.editing.navigation.MetaType
 import valkyrie.surface.parser.ValkyrieTypes
 import valkyrie.surface.psi.nodes.*
 import valkyrie.surface.traits.HasHighlighter
-import valkyrie.semantics.resolve.ValkyrieReferenceContext
+import valkyrie.semantic.resolve.ValkyrieReferenceContext
 
 class ValkyrieSemanticHighlighter : HighlightVisitor, PsiElementVisitor() {
     private var infoHolder: HighlightInfoHolder? = null

@@ -5,7 +5,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiReference
 import valkyrie.surface.parser.ValkyrieTypes
-import valkyrie.semantics.resolve.ValkyrieTypeReference
+import valkyrie.semantic.resolve.ValkyrieTypeReference
 
 /**
  * 类型引用实现

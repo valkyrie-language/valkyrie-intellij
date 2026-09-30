@@ -7,7 +7,7 @@ import com.intellij.psi.PsiReference
 import com.intellij.psi.TokenType.WHITE_SPACE
 import valkyrie.surface.parser.ValkyrieElementNode
 import valkyrie.surface.parser.ValkyrieTypes
-import valkyrie.semantics.resolve.ValkyrieFunctionCallReference
+import valkyrie.semantic.resolve.ValkyrieFunctionCallReference
 
 /**
  * 函数调用表达式节点

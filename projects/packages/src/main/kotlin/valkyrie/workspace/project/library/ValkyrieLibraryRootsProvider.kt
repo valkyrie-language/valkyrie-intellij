@@ -7,7 +7,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.AdditionalLibraryRootsProvider
 import com.intellij.openapi.roots.SyntheticLibrary
 import com.intellij.openapi.vfs.VirtualFile
-import valkyrie.semantics.index.ValkyrieProjectService
+import valkyrie.semantic.index.ValkyrieProjectService
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**

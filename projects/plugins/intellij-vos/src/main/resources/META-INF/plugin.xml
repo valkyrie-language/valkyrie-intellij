@@ -22,7 +22,7 @@
 		<!-- Highlight -->
 		<additionalTextAttributes scheme="Default" file="colors/VosDefault.xml"/>
 		<additionalTextAttributes scheme="Darcula" file="colors/VosDarcula.xml"/>
-		<annotator language="VOS" implementationClass="vos.semantics.inspect.EscapeAnnotator"/>
+		<annotator language="VOS" implementationClass="vos.semantic.inspect.EscapeAnnotator"/>
 		<colorSettingsPage implementation="vos.editing.highlight.ColorSettings"/>
 		<highlightVisitor implementation="vos.editing.highlight.HighlightAST"/>
 		<lang.syntaxHighlighter

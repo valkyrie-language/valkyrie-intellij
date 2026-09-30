@@ -1,4 +1,5 @@
-📦 Add ecosystem manifests and split intellij-voml plugin descriptors
+♻️ Rename semantics layer to semantic in :packages
 
-Register oml, wsl, and alkyrie ecosystems under projects/designs/ecosystems.
-Split intellij-voml plugin.xml into per-language include files for oml and on.
+Move inspection, resolve, and index code under semantic/ for wsl, oml, on, os, and alkyrie.
+Update plugin descriptors to reference *.semantic.* extension classes.
+Disable prepareJarSearchableOptions for intellij-valkyrie when searchable options are off.

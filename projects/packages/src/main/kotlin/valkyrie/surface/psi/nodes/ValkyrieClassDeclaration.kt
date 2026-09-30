@@ -9,7 +9,7 @@ import com.intellij.psi.PsiReference
 import valkyrie.editing.highlight.ValkyrieColor
 import valkyrie.surface.file.ValkyrieIcons
 import valkyrie.surface.parser.ValkyrieElementNode
-import valkyrie.semantics.resolve.psi.ValkyrieReference
+import valkyrie.semantic.resolve.psi.ValkyrieReference
 import valkyrie.surface.traits.*
 
 /**

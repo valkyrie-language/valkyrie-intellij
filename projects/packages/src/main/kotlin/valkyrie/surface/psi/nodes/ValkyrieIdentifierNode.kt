@@ -47,7 +47,7 @@ class ValkyrieIdentifierNode(node: ASTNode) : ValkyrieElementNode(node), PsiName
     override fun toString(): String = "ValkyrieIdentifier(${getName()})"
     
     /**
-     * References are contributed by [valkyrie.semantics.resolve.ValkyrieCrossFileReferenceProvider].
+     * References are contributed by [valkyrie.semantic.resolve.ValkyrieCrossFileReferenceProvider].
      */
     override fun getReference(): com.intellij.psi.PsiReference? = null
     

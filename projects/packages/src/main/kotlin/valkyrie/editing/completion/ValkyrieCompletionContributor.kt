@@ -7,7 +7,7 @@ import com.intellij.util.ProcessingContext
 import valkyrie.surface.file.ValkyrieLanguage
 import valkyrie.surface.psi.nodes.ValkyrieIdentifierNode
 import valkyrie.surface.psi.nodes.ValkyrieCallExpressionNode
-import valkyrie.semantics.index.ValkyrieSymbolIndex
+import valkyrie.semantic.index.ValkyrieSymbolIndex
 
 /**
  * Valkyrie 语言代码补全贡献者

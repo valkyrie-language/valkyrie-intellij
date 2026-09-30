@@ -3,7 +3,7 @@ package valkyrie.workspace.project
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import com.intellij.openapi.vfs.VirtualFile
 import valkyrie.workspace.project.workspace.ValkyrieWorkspaceParser
-import valkyrie.semantics.index.ValkyrieEnhancedSymbolIndex
+import valkyrie.semantic.index.ValkyrieEnhancedSymbolIndex
 
 /**
  * Valkyrie 模块系统集成测试

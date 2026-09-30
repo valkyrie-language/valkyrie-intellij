@@ -44,15 +44,15 @@
         />
         <annotator
             language="VON"
-            implementationClass="von.semantics.inspect.VonStringEscapingAnnotator"
+            implementationClass="von.semantic.inspect.VonStringEscapingAnnotator"
         />
         <annotator
             language="VON"
-            implementationClass="von.semantics.inspect.VonScopeChecker"
+            implementationClass="von.semantic.inspect.VonScopeChecker"
         />
         <annotator
             language="VON"
-            implementationClass="von.semantics.inspect.VonTableChecker"
+            implementationClass="von.semantic.inspect.VonTableChecker"
         />
         <additionalTextAttributes scheme="Default" file="colors/VomlDefault.xml"/>
         <additionalTextAttributes scheme="Darcula" file="colors/VomlDarcula.xml"/>

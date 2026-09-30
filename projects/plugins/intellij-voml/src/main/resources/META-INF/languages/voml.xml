@@ -44,15 +44,15 @@
         />
         <annotator
             language="VOML"
-            implementationClass="voml.semantics.inspect.VomlStringEscapingAnnotator"
+            implementationClass="voml.semantic.inspect.VomlStringEscapingAnnotator"
         />
         <annotator
             language="VOML"
-            implementationClass="voml.semantics.inspect.VomlScopeChecker"
+            implementationClass="voml.semantic.inspect.VomlScopeChecker"
         />
         <annotator
             language="VOML"
-            implementationClass="voml.semantics.inspect.VomlTableChecker"
+            implementationClass="voml.semantic.inspect.VomlTableChecker"
         />
         <additionalTextAttributes scheme="Default" file="colors/VomlDefault.xml"/>
         <additionalTextAttributes scheme="Darcula" file="colors/VomlDarcula.xml"/>

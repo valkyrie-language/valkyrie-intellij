@@ -117,7 +117,7 @@
 		<!-- Reference Contributor -->
 		<psi.referenceContributor
 			language="valkyrie"
-			implementation="valkyrie.semantics.resolve.ValkyrieReferenceContributor"
+			implementation="valkyrie.semantic.resolve.ValkyrieReferenceContributor"
 		/>
 
 		<!-- Commenter -->
@@ -129,11 +129,11 @@
 		<!-- Find Usages Provider -->
 		<lang.findUsagesProvider
 			language="valkyrie"
-			implementationClass="valkyrie.semantics.resolve.ValkyrieFindUsagesProvider"
+			implementationClass="valkyrie.semantic.resolve.ValkyrieFindUsagesProvider"
 		/>
 
 		<!-- Goto Declaration Handler -->
-		<gotoDeclarationHandler implementation="valkyrie.semantics.resolve.ValkyrieGotoDeclarationHandler"/>
+		<gotoDeclarationHandler implementation="valkyrie.semantic.resolve.ValkyrieGotoDeclarationHandler"/>
 
 		<!-- Project Manager Service -->
 		<projectService
@@ -152,7 +152,7 @@
 
 		<!-- Startup Activity -->
 		<postStartupActivity
-			implementation="valkyrie.semantics.index.ValkyrieStartupActivity"
+			implementation="valkyrie.semantic.index.ValkyrieStartupActivity"
 		/>
 
 		<!-- Structure View -->
@@ -206,7 +206,7 @@
 
 
 		<!-- Startup Activity for delayed indexing -->
-		<projectService serviceImplementation="valkyrie.semantics.index.ValkyrieStartupActivity"/>
+		<projectService serviceImplementation="valkyrie.semantic.index.ValkyrieStartupActivity"/>
 
 		<!-- Test Framework -->
 		<configurationType implementation="valkyrie.workspace.run.ValkyrieTestConfigurationType"/>
