@@ -1,0 +1,6 @@
+id: vos
+plugin: intellij-vos
+repo: valkyrie-intellij
+languages:
+  - vos
+marketplace_id: com.github.vos_intellij

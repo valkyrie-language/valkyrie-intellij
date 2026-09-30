@@ -4,7 +4,7 @@ import com.intellij.icons.AllIcons
 import com.intellij.openapi.util.IconLoader
 
 object VosIcons {
-    val FILE = IconLoader.getIcon("/icons/jssIcon.svg", VosIcons::class.java)
+    val FILE = IconLoader.getIcon("/icons/vosIcon.svg", VosIcons::class.java)
     val SCHEMA = AllIcons.Actions.Annotate
     val CLASS = AllIcons.Nodes.Class
     val UNION = AllIcons.Nodes.Enum

@@ -5,7 +5,7 @@ import com.intellij.ide.projectView.ProjectViewNestingRulesProvider.Consumer
 import org.jetbrains.annotations.NotNull
 
 /**
- * Nests jss files created using introspection under their target JSON files.
+ * Nests vos files created using introspection under their target JSON files.
  */
 class FileGroup : ProjectViewNestingRulesProvider {
     override fun addFileNestingRules(@NotNull consumer: Consumer) {

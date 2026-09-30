@@ -11,7 +11,7 @@ import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
 
-class JssConvertJson : CreateFileAction(name, description, VosIcons.FILE) {
+class VosConvertJson : CreateFileAction(name, description, VosIcons.FILE) {
     companion object {
         private val name = MessageBundle.message("action.convert_json")
         private val description = MessageBundle.message("action.convert_json.description")

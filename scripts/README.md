@@ -3,17 +3,15 @@
 | 目录 | 用途 |
 |------|------|
 | `dev/` | 本地验证，命令与 CI 对齐 |
-| `migration/` | 一次性维护脚本 |
-| `_lib/` | Python 脚本共享路径工具 |
 
 ## 仓库布局
 
 - `projects/plugins/intellij-valkyrie` — Valkyrie Marketplace 插件
 - `projects/plugins/intellij-voml` — VOML/VON Marketplace 插件
-- `projects/plugins/intellij-vos` — VOS/JSS Marketplace 插件
+- `projects/plugins/intellij-vos` — VOS Marketplace 插件
 - `projects/plugins/intellij-awsl` — AWSL Marketplace 插件
 - `projects/packages` — 唯一共享库（代码 only，无 `resources`，工程名 `:packages`）
-- `projects/designs` — 品牌/设计素材（`{valkyrie,voml,von,vos,awsl}/`，与 packages、plugins 平级）
+- `projects/designs` — 品牌/设计素材与生态注册表（`ecosystems/`、`{valkyrie,voml,von,vos,awsl}/`）
 
 ## 本地 CI
 
@@ -39,10 +37,4 @@ node scripts/dev/ci-local.mjs
 
 ```bash
 ./gradlew publishLibrariesToMavenLocal
-```
-
-## 迁移（历史）
-
-```bash
-python scripts/migration/fix-lexer-tests.py
 ```
