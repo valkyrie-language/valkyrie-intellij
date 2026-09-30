@@ -3,6 +3,7 @@
     <name>VOML Support</name>
     <vendor>voml</vendor>
     <depends>com.intellij.modules.platform</depends>
+    <depends optional="true" config-file="integrations/plugin-with-rust.xml">org.rust.lang</depends>
     <resource-bundle>messages.VomlBundle</resource-bundle>
     <extensions defaultExtensionNs="com.intellij">
         <xi:include href="languages/voml.xml" parse="xml"/>
