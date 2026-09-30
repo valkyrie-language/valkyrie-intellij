@@ -6,3 +6,12 @@
 build/
 .trae/
 **/build/
+
+# Logs and local crash dumps
+*.log
+*.hprof
+hs_err_pid*.log
+replay_pid*.log
+
+# Local extraction scratch
+_tmp*/
