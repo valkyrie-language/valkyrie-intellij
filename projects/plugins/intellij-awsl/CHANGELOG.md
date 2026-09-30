@@ -6,6 +6,11 @@
 
 ## [0.1.4] - 2026-09-30
 
+### Fixed
+
+- Ship `:packages` as `lib/packages-*.jar` instead of `lib/modules/*.jar` so `awsl.*` extensions load at runtime
+- Stop bundling JUnit into the Marketplace plugin distribution
+
 ### Changed
 
 - Merged from `awsl-intellij` into the Valkyrie IntelliJ monorepo (`:packages` + `:plugins:intellij-awsl`)

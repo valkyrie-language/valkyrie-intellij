@@ -1,7 +1,7 @@
 plugins {
     id("java")
     alias(libs.plugins.kotlin)
-    alias(libs.plugins.intelliJPlatformModule)
+    alias(libs.plugins.intelliJPlatform)
     `maven-publish`
 }
 
@@ -20,13 +20,17 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.junit)
+    compileOnly(libs.junit)
     implementation("com.google.protobuf:protobuf-java:3.25.5")
     implementation("com.google.protobuf:protobuf-kotlin:3.25.5")
 
     intellijPlatform {
         intellijIdeaUltimate(providers.gradleProperty("platformVersion"))
-        bundledPlugins(providers.gradleProperty("platformBundledPlugins").map { it.split(',') })
+        bundledPlugins(
+            providers.gradleProperty("platformBundledPlugins").map {
+                it.split(',').map(String::trim).filter(String::isNotEmpty)
+            },
+        )
     }
 }
 
