@@ -1,7 +1,7 @@
 package awsl.semantic.inspect
 
-import com.intellij.ide.plugins.PluginManagerCore
 import com.intellij.lang.annotation.AnnotationHolder
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.lang.annotation.Annotator
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.util.Disposer
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.TestOnly
 abstract class AnnotatorBase : Annotator {
 
     final override fun annotate(element: PsiElement, holder: AnnotationHolder) {
-        if (!PluginManagerCore.isUnitTestMode || javaClass in enabledAnnotators) {
+        if (!ApplicationManager.getApplication().isUnitTestMode || javaClass in enabledAnnotators) {
             annotateInternal(element, holder)
         }
     }

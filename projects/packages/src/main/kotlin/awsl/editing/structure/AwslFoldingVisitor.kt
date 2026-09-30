@@ -3,8 +3,8 @@ package awsl.editing.structure
 import awsl.surface.psi.*
 import com.intellij.lang.folding.FoldingDescriptor
 import com.intellij.openapi.util.TextRange
+import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiElement
-import org.apache.commons.lang.StringEscapeUtils
 
 class AwslFoldingVisitor(private val descriptors: MutableList<FoldingDescriptor>) : AwslRecursiveVisitor() {
     override fun visitHtmlText(node: awsl.surface.psi.nodes.AwslHtmlTextNode) {
@@ -101,7 +101,7 @@ class AwslFoldingVisitor(private val descriptors: MutableList<FoldingDescriptor>
     }
 
     override fun visitHtmlEscape(node: awsl.surface.psi.nodes.AwslHtmlEscapeNode) {
-        val char = StringEscapeUtils.unescapeHtml(node.text)
+        val char = StringUtil.unescapeXmlEntities(node.text)
         fold(node, char, true)
         super.visitHtmlEscape(node)
     }

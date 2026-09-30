@@ -16,6 +16,7 @@
             language="AWSL"
             implementationClass="awsl.surface.file.AwslParserDefinition"
         />
+        <multiHostInjector implementation="awsl.semantic.inspect.InjectorToAWT"/>
         <lang.formatter
             language="AWSL"
             implementationClass="awsl.editing.format.AwslFormatterBuilder"
