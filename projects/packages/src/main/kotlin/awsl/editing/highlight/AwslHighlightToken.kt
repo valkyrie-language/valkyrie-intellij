@@ -22,8 +22,8 @@ class AwslHighlightToken : SyntaxHighlighterBase() {
     private fun getTokenColor(tokenType: IElementType): Color? {
         return when (tokenType) {
             //
-            // AS, SCHEMA, PROP -> JssColor.KEYWORD
-            // ANNOTATION -> JssColor.ANNOTATION
+            // AS, SCHEMA, PROP -> AwslHighlightColor.KEYWORD
+            // ANNOTATION -> AwslHighlightColor.ANNOTATION
             AwslTypes.FOR, AwslTypes.IN, AwslTypes.IF, AwslTypes.ELSE -> Color.KEYWORD
             AwslTypes.HTML_TAG_RAW, AwslTypes.HTML_TAG_SCRIPT, AwslTypes.HTML_TAG_DIRECTIVE -> Color.KEYWORD_TAG
             AwslTypes.BOOLEAN -> Color.BOOLEAN
@@ -37,7 +37,7 @@ class AwslHighlightToken : SyntaxHighlighterBase() {
             AwslTypes.INTEGER -> Color.INTEGER
             AwslTypes.DECIMAL -> Color.DECIMAL
             AwslTypes.NUMBER_UNIT -> Color.NUM_HINT
-            //URL -> JssColor.URL
+            //URL -> AwslHighlightColor.URL
             AwslTypes.STRING -> Color.STRING
             AwslTypes.SYMBOL -> Color.IDENTIFIER
             // 模板

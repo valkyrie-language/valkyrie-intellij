@@ -22,7 +22,7 @@
         />
         <lang.commenter
             language="AWSL"
-            implementationClass="awsl.editing.format.JssCommenter"
+            implementationClass="awsl.editing.format.AwslCommenter"
         />
         <lang.foldingBuilder
             language="AWSL"
@@ -30,7 +30,7 @@
         />
         <lang.smartEnterProcessor
             language="AWSL"
-            implementationClass="awsl.editing.format.JssSmartEnter"
+            implementationClass="awsl.editing.format.AwslSmartEnter"
         />
         <psi.referenceContributor
             implementation="awsl.editing.documentation.AwslReferenceContributor"
@@ -41,11 +41,11 @@
         />
         <lang.braceMatcher
             language="AWSL"
-            implementationClass="awsl.editing.assist.JssBraceMatcher"
+            implementationClass="awsl.editing.assist.AwslBraceMatcher"
         />
         <lang.quoteHandler
             language="AWSL"
-            implementationClass="awsl.editing.assist.JssQuoteHandler"
+            implementationClass="awsl.editing.assist.AwslQuoteHandler"
         />
         <indexPatternBuilder
             implementation="awsl.editing.todo.VomlTodoIndexPatternBuilder"

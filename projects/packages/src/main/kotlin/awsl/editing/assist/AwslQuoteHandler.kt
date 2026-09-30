@@ -4,4 +4,4 @@ import awsl.surface.file.AwslParserDefinition
 import awsl.surface.psi.AwslTypes
 import com.intellij.codeInsight.editorActions.SimpleTokenSetQuoteHandler
 
-class JssQuoteHandler : SimpleTokenSetQuoteHandler(AwslParserDefinition.STRING_LITERALS)
+class AwslQuoteHandler : SimpleTokenSetQuoteHandler(AwslParserDefinition.STRING_LITERALS)

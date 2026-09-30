@@ -13,7 +13,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
 
-class JssConvertJson : CreateFileAction(name, description, AwslIconProvider.AwslFile) {
+class AwslConvertJson : CreateFileAction(name, description, AwslIconProvider.AwslFile) {
     companion object {
         private val name = awsl.surface.file.AwslBundle.message("action.convert_html")
         private val description = awsl.surface.file.AwslBundle.message("action.convert_html.description")

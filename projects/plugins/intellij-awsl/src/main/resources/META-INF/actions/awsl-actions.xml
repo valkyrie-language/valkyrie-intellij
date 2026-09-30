@@ -1,7 +1,7 @@
     <actions>
-        <action id="NewJssFile" class="awsl.editing.actions.JssCreateFile">
+        <action id="NewAwslFile" class="awsl.editing.actions.AwslCreateFile">
             <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewHtmlFile"/>
         </action>
-        <action id="jss.JssConvertJson"
-                class="awsl.editing.actions.JssConvertJson"/>
+        <action id="awsl.AwslConvertJson"
+                class="awsl.editing.actions.AwslConvertJson"/>
     </actions>

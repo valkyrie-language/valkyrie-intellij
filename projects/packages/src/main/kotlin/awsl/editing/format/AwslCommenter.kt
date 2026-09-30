@@ -2,7 +2,7 @@ package awsl.editing.format
 
 import com.intellij.lang.Commenter
 
-class JssCommenter : Commenter {
+class AwslCommenter : Commenter {
     override fun getLineCommentPrefix(): String = "//"
 
     override fun getBlockCommentPrefix(): String = "/*"

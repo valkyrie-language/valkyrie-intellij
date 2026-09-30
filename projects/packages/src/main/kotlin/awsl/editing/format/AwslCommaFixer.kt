@@ -11,8 +11,8 @@ import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 
-class JssCommaFixer : SmartEnterProcessorWithFixers.Fixer<JssSmartEnter>() {
-    override fun apply(editor: Editor, processor: JssSmartEnter, element: PsiElement) {
+class AwslCommaFixer : SmartEnterProcessorWithFixers.Fixer<AwslSmartEnter>() {
+    override fun apply(editor: Editor, processor: AwslSmartEnter, element: PsiElement) {
         element.isValid
         val current = if (element is LeafPsiElement && element.parent !is PsiFile) {
             element.parent

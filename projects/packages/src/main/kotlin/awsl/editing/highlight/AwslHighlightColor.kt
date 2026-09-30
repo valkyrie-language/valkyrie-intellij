@@ -67,7 +67,7 @@ enum class AwslHighlightColor(humanName: Supplier<@NlsContexts.AttributeDescript
     EXTENSION(OptionsBundle.messagePointer("options.language.defaults.metadata"), Default.METADATA),
     ;
 
-    val textAttributesKey: TextAttributesKey = TextAttributesKey.createTextAttributesKey("voml.lang.$name", default)
+    val textAttributesKey: TextAttributesKey = TextAttributesKey.createTextAttributesKey("awsl.lang.$name", default)
     val attributesDescriptor: AttributesDescriptor = AttributesDescriptor(humanName, textAttributesKey)
     val testSeverity: HighlightSeverity = HighlightSeverity(name, HighlightSeverity.INFORMATION.myVal)
 }

@@ -11,7 +11,7 @@ import com.intellij.psi.PsiFileFactory
 import com.intellij.util.IncorrectOperationException
 
 
-class JssConvertJsonHandler : CodeInsightActionHandler {
+class AwslConvertJsonHandler : CodeInsightActionHandler {
     override fun invoke(project: Project, editor: Editor, file: PsiFile) {
         val document = tryGetJsonSchema(file) ?: return;
         val buffer = StringBuilder()
