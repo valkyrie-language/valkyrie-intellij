@@ -1,0 +1,52 @@
+        <fileType
+            name="VOS"
+            language="VOS"
+            extensions="vos"
+            implementationClass="vos.surface.file.VosFileType"
+            fieldName="INSTANCE"/>
+        <lang.parserDefinition
+            language="VOS"
+            implementationClass="vos.surface.file.VosParserDefinition"/>
+        <projectViewNestingRulesProvider implementation="vos.surface.file.FileGroup"/>
+        <additionalTextAttributes scheme="Default" file="colors/VosDefault.xml"/>
+        <additionalTextAttributes scheme="Darcula" file="colors/VosDarcula.xml"/>
+        <annotator language="VOS" implementationClass="vos.semantic.inspect.EscapeAnnotator"/>
+        <colorSettingsPage implementation="vos.editing.highlight.ColorSettings"/>
+        <highlightVisitor implementation="vos.editing.highlight.HighlightAST"/>
+        <lang.syntaxHighlighter
+            language="VOS"
+            implementationClass="vos.editing.highlight.HighlightToken"/>
+        <lang.psiStructureViewFactory
+            language="VOS"
+            implementationClass="vos.editing.structure.ViewFactory"/>
+        <lang.formatter
+            language="VOS"
+            implementationClass="vos.editing.format.FormatBuilder"/>
+        <lang.commenter
+            language="VOS"
+            implementationClass="vos.editing.format.Commenter"/>
+        <lang.smartEnterProcessor
+            language="VOS"
+            implementationClass="vos.editing.format.SmartEnter"/>
+        <lang.documentationProvider
+            language="VOS"
+            implementationClass="vos.editing.documentation.DocumentationProvider"/>
+        <lang.braceMatcher
+            language="VOS"
+            implementationClass="vos.editing.assist.VosBraceMatcher"/>
+        <lang.quoteHandler
+            language="VOS"
+            implementationClass="vos.editing.assist.VosQuoteHandler"/>
+        <lang.foldingBuilder
+            language="VOS"
+            implementationClass="vos.editing.assist.VosFoldingBuilder"/>
+        <indexPatternBuilder
+            implementation="vos.editing.todo.TodoIndexPatternBuilder"/>
+        <todoIndexer
+            filetype="VOS"
+            implementationClass="vos.editing.todo.TodoIndexer"/>
+        <completion.contributor
+            language="VOS"
+            implementationClass="vos.editing.completion.CompletionContributor"/>
+        <langCodeStyleSettingsProvider
+            implementation="vos.editing.format.codestyle.CodeStyleSettingProvider"/>
