@@ -1,0 +1,4 @@
+📦 Add ecosystem manifests and split intellij-voml plugin descriptors
+
+Register oml, wsl, and alkyrie ecosystems under projects/designs/ecosystems.
+Split intellij-voml plugin.xml into per-language include files for oml and on.

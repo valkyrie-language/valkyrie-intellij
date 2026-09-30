@@ -1,0 +1,7 @@
+id: voml
+plugin: intellij-voml
+repo: valkyrie-intellij
+languages:
+  - von
+  - voml
+marketplace_id: com.github.voml.voml_intellij

@@ -1,0 +1,9 @@
+id: valkyrie
+plugin: intellij-valkyrie
+repo: valkyrie-intellij
+type: bundle
+depends_plugins:
+  - intellij-voml
+  - intellij-vos
+  - intellij-awsl
+languages: []

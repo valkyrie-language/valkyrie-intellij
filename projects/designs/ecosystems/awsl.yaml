@@ -1,0 +1,6 @@
+id: awsl
+plugin: intellij-awsl
+repo: valkyrie-intellij
+languages:
+  - awsl
+marketplace_id: com.github.voml.awsl_intellij
