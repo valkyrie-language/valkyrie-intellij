@@ -21,8 +21,8 @@ repositories {
 
 dependencies {
     compileOnly(libs.junit)
-    implementation("com.google.protobuf:protobuf-java:3.25.5")
-    implementation("com.google.protobuf:protobuf-kotlin:3.25.5")
+    implementation("com.google.protobuf:protobuf-java:4.36.2")
+    implementation("com.google.protobuf:protobuf-kotlin:4.36.2")
 
     intellijPlatform {
         intellijIdeaUltimate(providers.gradleProperty("platformVersion"))
