@@ -2,6 +2,7 @@ plugins {
     id("java")
     alias(libs.plugins.kotlin)
     alias(libs.plugins.intelliJPlatform)
+    `java-test-fixtures`
     `maven-publish`
 }
 
@@ -20,7 +21,6 @@ repositories {
 }
 
 dependencies {
-    compileOnly(libs.junit)
     implementation("com.google.protobuf:protobuf-java:3.25.5")
     implementation("com.google.protobuf:protobuf-kotlin:3.25.5")
 

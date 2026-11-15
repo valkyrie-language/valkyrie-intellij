@@ -27,6 +27,7 @@ repositories {
 dependencies {
     implementation(project(":packages"))
 
+    testImplementation(testFixtures(project(":packages")))
     testImplementation(libs.junit)
 
     intellijPlatform {

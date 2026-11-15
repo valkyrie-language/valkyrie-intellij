@@ -5,18 +5,6 @@ import java.nio.file.Path
 
 /**
  * Unified fixture naming for Marketplace plugin tests in this monorepo.
- *
- * Preferred layout under a suite directory:
- * ```
- * Class.code.valkyrie
- * Class.expects.txt
- * ```
- *
- * Legacy IntelliJ layout is still accepted when the preferred files are missing:
- * ```
- * Class.valkyrie
- * Class.txt
- * ```
  */
 object FixtureConvention {
     const val CODE_SEGMENT = "code"
@@ -41,10 +29,6 @@ object FixtureConvention {
         val preferred: Boolean,
     )
 
-    /**
-     * Resolve code + expects paths for [testName] under [suiteDir].
-     * Prefers `*.code.*` / `*.expects.txt`, then falls back to legacy `*.ext` / `*.txt`.
-     */
     fun resolve(suiteDir: Path, testName: String, languageExtension: String): Pair {
         val preferredCode = suiteDir.resolve(codeFileName(testName, languageExtension))
         val preferredExpects = suiteDir.resolve(expectsFileName(testName))
