@@ -1,3 +1,6 @@
+import org.gradle.api.file.DuplicatesStrategy
+import org.gradle.jvm.tasks.Jar
+
 plugins {
     id("java")
     alias(libs.plugins.kotlin)
@@ -44,5 +47,18 @@ publishing {
         create<MavenPublication>("maven") {
             from(components["java"])
         }
+    }
+}
+
+tasks.register<Jar>("awslRuntimeJar") {
+    group = "build"
+    description = "Runtime subset of this library for the AWSL Marketplace plugin (awsl.* only)."
+    dependsOn(tasks.jar)
+    destinationDirectory.set(layout.buildDirectory.dir("awsl-runtime"))
+    archiveBaseName.set("packages")
+    archiveVersion.set(providers.gradleProperty("libraryVersion"))
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from(zipTree(tasks.jar.flatMap { it.archiveFile })) {
+        include("awsl/**")
     }
 }

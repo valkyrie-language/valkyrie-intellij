@@ -1,3 +1,4 @@
+import org.gradle.jvm.tasks.Jar
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
@@ -24,14 +25,13 @@ repositories {
     }
 }
 
+val awslPackagesJar = project(":packages").tasks.named<Jar>("awslRuntimeJar")
+
 dependencies {
-    implementation(project(":packages")) {
-        // AWSL does not use VOS protobuf types. Do not ship `:packages` transitive deps in the plugin zip.
-        isTransitive = false
-    }
+    compileOnly(project(":packages"))
+    implementation(files(awslPackagesJar.flatMap { it.archiveFile }))
 
     testImplementation(libs.junit)
-
     intellijPlatform {
         intellijIdeaUltimate(providers.gradleProperty("platformVersion"))
         bundledPlugins(providers.gradleProperty("platformBundledPlugins").map { it.split(',') })
@@ -104,7 +104,11 @@ tasks {
     register("ciVerify") {
         group = "verification"
         description = "CI gate: compile and package the AWSL plugin."
-        dependsOn("compileKotlin", "buildPlugin")
+        dependsOn("compileKotlin", awslPackagesJar, "buildPlugin")
+    }
+
+    named("prepareSandbox") {
+        dependsOn(awslPackagesJar)
     }
 }
 

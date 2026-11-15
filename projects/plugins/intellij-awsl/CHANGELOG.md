@@ -9,7 +9,7 @@
 ### Fixed
 
 - Ship `:packages` as `lib/packages-*.jar` instead of `lib/modules/*.jar` so `awsl.*` extensions load at runtime
-- Stop bundling JUnit and VOS protobuf dependencies into the AWSL plugin distribution
+- Ship only `awsl/**` from `:packages` in the AWSL plugin zip (no VOML/VOS/Valkyrie bytecode or protobuf)
 - Move fixture test helpers out of the main `:packages` jar so JUnit is not referenced in the Marketplace distribution
 
 ### Changed
